@@ -1,123 +1,205 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEB03BE62B
-	for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 10:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784196385; cv=pass; b=qNdJ2zpzk6s4AnkdsmYJSaEWA8NiW2IHDQ/afV/WIi8ThgsTMhIyqVx4MJXzevywTcD+bQvGk39G+SdiBK6apeoWuLLBEKd+ecXETNyG0rsLRHByW4vkOCncpdeaDf9+C8nwFdulILfzM8HcPsAyfsZzBt5BuI+4exrsOXNFE+M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784196385; c=relaxed/simple;
-	bh=dqGtg+mnG8PDzjEBYN0xjpinHAPPQz0T2s5ZOkF+58M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rtI0Ej/7sEm8ngNx4j2Be4UYLtqODeHKnqXera04Wnmh30mm8H0oTwd9eMsf6XBuCLmDF5Ru0ziKQfwRaGf2YZWQ/oyimasFnL2Ld+zUEpw6cclMWu3jkGZZfyApl7ljuzdhZmT4pnsHWOeobUuUy331Xz8cH8gJ4KKdJCsYRM0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JbAaeLDz; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FB7400985
+	for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 10:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784197378; cv=none; b=CuIbROiYCxas11zFW/2YZ6DojQabf5excBMGfsj8dLVNTZMc5Bsne4qJX++ySoyfVMmAFjAO9XRkgG6TqUryac/wLd+2NM5fQD9qbNbqg1/gWzFOo865aGkqZOL9DDw4MeDsS/3Hs+MV9f9AFZ6Pd/Yzw/HCN7ysjr+iO6hmu1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784197378; c=relaxed/simple;
+	bh=CEB7cSB5VZeuvZcE2U7qcb4DmzUSxIr4fcv6Fn/xfYs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=SUMqDD1C9x55X23f7mao2p3pqWg5cC58ntyZrE+dLsyViy6zKw1o7KPE8eIpuCWL3InSppb5Nhz95kptQq125qQDptuAqvf0QRwTEfpA4BeCwYRzJTcGRSRlu0hlQG+zjnuDuCgYMUDMy5kgjDWCZK3CTdELbmguJF/yoIlx7Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N1XWSBYE; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JbAaeLDz"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc73e322dbso78448775ad.1
-        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 03:06:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784196383; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cF3MoIl058xid/KjV2PW9h5HK7QUfPBm13VO01wqLltGpIb8FmsnfSo1wZhgqKP1O7
-         dqbAlmev7pAHLLwoX1EPZch91r872jAo02vIn3+ho9jCpZr5oNaQmtZgBR2xTox/sPkj
-         NYx4XkhCqZ29ege0B4zi5OlvnwWZOFKKQSlcjpE8PDA8yXneFw1M/w95nuKX3Kkvt1g9
-         dqyu0TlUkLa1KFKsyXC1W9L/FCehG7ls6Ey4KHod0iWL8HAUF9gwGB3iSpqg8OpjsXrl
-         IC623Q08dNKG/TTyBdPvu/jlfUatbILCWnnDxlVQaG9WharNIjDrkNVlhnKTsbTq14tR
-         S/lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dqGtg+mnG8PDzjEBYN0xjpinHAPPQz0T2s5ZOkF+58M=;
-        fh=DwYrR26p9V6CuqjWll0bAgh/f1dW8UjH3RTonltsg0A=;
-        b=SsYRl5g0B5s+00mRVVyHLjVQrINvVkuhnsRVsZD2O29Nm0CgVKwql+H95MFqupNADy
-         HMixhAa94xHYfGWKHsD3gm6itFvunTtMKOM4NpJIES7ca/GXb3xyhfRj5zFMZ+Pf1XIZ
-         /X9cdCHfLQLccwPqutQWgeUTQ7F5rd3/HKLmZQRHm3rWRnqaj6McPBkQtXulb+Ckqhio
-         gEp64x5QodlgFBUPdmwzB+zaXhCElLNPqVA68fnTcZ0kUhBU91eKvHjxrAYxjUoxHqFF
-         qUD5EoLpL6aImvxunyxRG3yfJWRTBvPkmFN60CizmtRVAgDx1LSq1HX3YDxEnG6dH3gn
-         Z1rQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N1XWSBYE"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-47f24a50f0cso5569978f8f.3
+        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 03:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784196383; x=1784801183; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dqGtg+mnG8PDzjEBYN0xjpinHAPPQz0T2s5ZOkF+58M=;
-        b=JbAaeLDzEXceX2zqrMW4y9ze1OQsNAefAkK5BRwrYAlDpJUSdedHRs39WjGOBxlMrq
-         zXMeMnm9sXz0gUBCwNcwjr7y5nM+Ye2MdBr+kcHZplf55HHFCdOVkcOsN0ZY6+GVPU8i
-         oaDWBRGl2Lio3ov8Or3eD0TVbaiEGzShhn1Lxz8NpJkB+eRM5DrV2r1SVpkA59/NZoCk
-         kC9XGw53lNDmh4e/ztCzXG5zMds28xrJ5w+vbn8s7bkxsxqnnRTrCrN3YHEjC7dS76e4
-         EPGGAhAKEemq3Dq4DY13MH2aI43xUMKDzPMkNZS8Ji+/k+oVtvYITj/Qr7sem6lUd3lm
-         zuEQ==
+        d=google.com; s=20251104; t=1784197374; x=1784802174; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=l4LZHVP1BW407EGuW6dnUL3Kfk1zeC5bbxSp3F5DgwI=;
+        b=N1XWSBYEibNc1eUQxUF/+o5AnLxVCOUJNNZjX54IZkcrUdfKw3e17tqvUNKo655xQH
+         9h/KnXk53Kg4KOOB36Sknfqbx119QIqnVAp1Cs1k7P1tZnbhD6OGDUVgVDxJCXvPnXir
+         Ixo7RDOIhuqYMcNlk5qzNoGuNPrSj7CRTQF0MrKONudnUQXi0xzG3S/3mKjJ87BlEX6e
+         tpHq/y/zd3egAy8Ogto2b91TG1C0mSTLoSXZicP2FwDdQFGAjlArIdevYfYlEo1xDM8m
+         i248h35IM7pQeqUCBxH5D1RgN8IfAGAJubeC+G2X7BpRoY6VntnbMmG1cnmsLf7XXTPb
+         9+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784196383; x=1784801183;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dqGtg+mnG8PDzjEBYN0xjpinHAPPQz0T2s5ZOkF+58M=;
-        b=XQv9s9KAgOAV2ZBZNLMQb32r9D62+KfguERVQ8AT/3AKZrTeEBVrNDtLD0sfkVhz/C
-         F9ZuC7qfo4KQLxwWP2JwpvaPZP6pWutJwwLk71yL5XivFOQCdJICOJ5ATbnxGRNCNHEh
-         RFeCiy0z3azh8Lkr3zwy3VzDeDRQkkXIZT/GUirOCvhYCq5Vv11f89x0X22DqVGolHFl
-         ELaNdNqVkxGAI2H7VW+hgZNvPv2ly/9NjQ6xkaMK152Sl0fg4eA5FDq/RTKbYnZZDDnN
-         99/ys5iHxvlGbnkC8ZlhcmI/DMgQq5PdzMOUHHJqZ/A+9GQTw4EnbmuRB/cenwDao8Zb
-         r4Qw==
-X-Forwarded-Encrypted: i=1; AHgh+RpQXB2QJcRyLwmLK4WQVZgSUYF8AvnksF4+wAcrvd48QnNButF2dvnSEqjE6jDV4OSCAL8mtAs4LeX/9w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHTdqgd4WPK0on3xpOD2E7bViPgJmkxFMp22NvTZpDF6UZrO5A
-	2RwqdDEAKINLybkh0YQdL39S6PjLfbO8eBk2JCerd2yTfh9rIJQHd4OYHzKJuKRHPpJaAP1juN1
-	X5H1FoxugDXwySLkMoW6Iz8FyTTpcrpMEJW8K
-X-Gm-Gg: AfdE7ckOIrmE6HxKTuN92ZbcjTlDSvdUPg/7TaBgEOFANqkM6ILB+r65zibMNODNkv4
-	0w5tFkaqUs7v9v8Wl6iUxp1jUZdFu6HYndC8+uZnk1s5NjFz1VKGsDB7+QudYHtiXqC1lOjw0Ov
-	L+ct6Yk2NuMXD46pVFHunEBPDUxCNbDb9J0fn/ig9qp8OpuE0FQm5W8PLiM7LjWaVAJKFX6LVTb
-	fLFp/fUizvJFNKVPYjckLBKtsW+lg/fmVedcoj9w5dmXJrhlcPhZYQMo+VYO9dsE43y4yT9j1t+
-	r9fqAAFKqMWSVSFWH3selqHBBs4=
-X-Received: by 2002:a17:903:3201:b0:2ca:d975:5bbd with SMTP id
- d9443c01a7336-2cf03cde9c8mr64272125ad.20.1784196383407; Thu, 16 Jul 2026
- 03:06:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784197374; x=1784802174;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l4LZHVP1BW407EGuW6dnUL3Kfk1zeC5bbxSp3F5DgwI=;
+        b=dJ7aC4Hiy8rEGFXn9wJEbxuJ2nZB3lvEt8bgrxcbor981KbOIh9JoBmGShEoGwSOn0
+         DnP8NnwwtCZL+Sp3zbQMUZtrT3hCHOtoszoRPdrWbWetjpiQxMWZHwmW/PN2sI39cpkY
+         wNuOfnGn2rEMsO9WdcI1qy5QkP3QHB6KGdaSWdCuIpP+dvEvrEgp2j/UIxv53i3Bi/0N
+         v66BbjFo4RF6TqJu0ztPjJv83A+R+eRKXOzd0v0rsRSrghwyD//B0N+YBM6/X1ZzlnmE
+         C6QJZE+buZCDBdyhlEaEYzmyl7pcFko+cr7QU62TK3DYKCP+gN+LV6ryYJu4uQDVcRNe
+         Ji5w==
+X-Gm-Message-State: AOJu0YyNSHusgAi5pkJZDUdX43Mv4nIiF/7uUmNO+haodI23sfn3m/Bs
+	3YEW8HSopS+UlXPNKppjxXrFeD4xq2CO4DH59J1ru6gA84WEo+oi40zrn2iz8MftXjqZCRpcK3E
+	AqO3OV7B+igQrp3UjMQ==
+X-Received: from wrwa16.prod.google.com ([2002:a5d:53d0:0:b0:478:b7dc:65f])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:64e5:0:b0:47e:81aa:3822 with SMTP id ffacd0b85a97d-47f4fd1fe44mr7437542f8f.42.1784197373274;
+ Thu, 16 Jul 2026 03:22:53 -0700 (PDT)
+Date: Thu, 16 Jul 2026 10:22:43 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260715052100.24983-1-phucduc.bui@gmail.com> <4e43250d-85eb-4019-b092-039e10e84ae1@sirena.org.uk>
-In-Reply-To: <4e43250d-85eb-4019-b092-039e10e84ae1@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 16 Jul 2026 17:06:12 +0700
-X-Gm-Features: AUfX_mzO927vZvuZ9FK8seb9ojWBWoAV9djWSoBVhydBIQTrteruMtfHlTVESSk
-Message-ID: <CAABR9nE=eYDfd8rJpOGyhC3d5E1tteUW+7vgHBBWKpU4sN8PUw@mail.gmail.com>
-Subject: Re: [PATCH] regcache: Warn if regcache_sync() is called in cache_only mode
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAPKwWGoC/x2MwQqAIBAFfyX23IJ6KOpXooNsr1ooDY0Ion9PO
+ g7MzEMZSZGprx5KuDRrDAVsXZGsPixgnQqTM64xrW14KpKAz+R144xdJW4xsBXj4Dp4KzOV+Ei Y9f7Hw/i+H7ui3LFoAAAA
+X-Change-Id: 20260716-device-trail-semicolon-1c02e29ea1cf
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4264; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=CEB7cSB5VZeuvZcE2U7qcb4DmzUSxIr4fcv6Fn/xfYs=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqWLD1ZEdWyiv8/XGg2gs9Lu+iwlm/WL70pP1cZ
+ /pV+LIAqbCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaliw9QAKCRAEWL7uWMY5
+ Rk6jEACcW8b4A/RlINCpHGoMmXGQcgHokZ8vPjmXpT9qRxwwmJE83jpOLI+MPs584bexMND7BP0
+ m4poFxC9crPBJcsIGBUepVSsjH61PFcD6nTLnP2EZTjeQY5LYrSWjq+n4uDee6kqQceqHiiq0nL
+ wk8JXBN5ijd24PXxo4tonmxfVWiwCXkuBewwDNfiBrDoFTdDxB2bl+fQYglhz+8+Re8qSYanve+
+ D1ONODxgnK6pNq1qh/hFlr1UisNsM8iuqTUdaxD1q7Szc7SkLNz/tyPiP+dmc8pZJ+OU+LHsRwF
+ jm3H/mG9xzWkxIeMhNiBvbw4lqISgpgUv9tLcyjZtYTt92XrR5gzjgCJPbxlm4mxQbQg5mCoDh6
+ 5Na2xrtLZXiziyI1t08go0olRltnhWq0tHgOrg26gw2contCSpehq0tQq5cZ1IRO0K6Zk1oIQkW
+ YQWk0Thc0GdZoYZPtcQpD5Uaew4Vb7Cm+uPK9vhbAKls/nSsAVqLtYTd6g3hJ4FnFQcuvn2R9cj
+ +PIrDAQdTywUe3s5uaupHRGQTie/QP9qhIrdv8VrLV/Coqk6jqpxshtWhHs0MHh3QdPZYUfwKza
+ t2Qrv8MVTp0jCxigYYlcWjPAr34FiF1C38Mw6d6tZEo412IAQQuuJHR40wo480sUmovZH+IF4Cl FzbB+ES4KqcHlTg==
+X-Mailer: b4 0.14.3
+Message-ID: <20260716-device-trail-semicolon-v1-1-f48e9dcfae15@google.com>
+Subject: [PATCH] rust: device: avoid trailing ; in printing macros
+From: Alice Ryhl <aliceryhl@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Hi Mark,
+These macros are used like expressions, so they should must not emit a
+semicolon. This is being turned into a hard error in a future release of
+Rust.
 
-Thank you for your review.
+error: trailing semicolon in macro used in expression position
+  --> drivers/gpu/nova-core/firmware/fsp.rs:79:34
+   |
+79 |                 .inspect_err(|_| dev_err!(dev, "FMC firmware missing '{}' section\n", name))
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #79813 <https://github.com/rust-lang/rust/issues/79813>
+   = note: this error originates in the macro `dev_err` (in Nightly builds, run with -Z macro-backtrace for more info)
 
->
-> The check needs to be done under lock otherwise some other thread could
-> come in and put the regmap into cache only mode between the check and
-> when we take the lock.
->
-> We also need a similar check in regcache_sync_region().
+Cc: stable@vger.kernel.org
+Fixes: 5c7ca6fa603f ("rust: add `dev_*` print macros.")
+Link: https://github.com/rust-lang/rust/issues/79813
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+ rust/kernel/device.rs | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-I'll move the check under the lock for v2, and add the same check to
-regcache_sync_region() as well.
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+index 645afc49a27d..1a38b3bbdfb7 100644
+--- a/rust/kernel/device.rs
++++ b/rust/kernel/device.rs
+@@ -708,9 +708,7 @@ macro_rules! impl_device_context_into_aref {
+ #[macro_export]
+ macro_rules! dev_printk {
+     ($method:ident, $dev:expr, $($f:tt)*) => {
+-        {
+-            $crate::device::Device::$method($dev.as_ref(), $crate::prelude::fmt!($($f)*))
+-        }
++        $crate::device::Device::$method($dev.as_ref(), $crate::prelude::fmt!($($f)*))
+     }
+ }
+ 
+@@ -737,7 +735,7 @@ macro_rules! dev_printk {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_emerg {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_emerg, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_emerg, $($f)*) }
+ }
+ 
+ /// Prints an alert-level message (level 1) prefixed with device information.
+@@ -763,7 +761,7 @@ macro_rules! dev_emerg {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_alert {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_alert, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_alert, $($f)*) }
+ }
+ 
+ /// Prints a critical-level message (level 2) prefixed with device information.
+@@ -789,7 +787,7 @@ macro_rules! dev_alert {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_crit {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_crit, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_crit, $($f)*) }
+ }
+ 
+ /// Prints an error-level message (level 3) prefixed with device information.
+@@ -815,7 +813,7 @@ macro_rules! dev_crit {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_err {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_err, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_err, $($f)*) }
+ }
+ 
+ /// Prints a warning-level message (level 4) prefixed with device information.
+@@ -841,7 +839,7 @@ macro_rules! dev_err {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_warn {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_warn, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_warn, $($f)*) }
+ }
+ 
+ /// Prints a notice-level message (level 5) prefixed with device information.
+@@ -867,7 +865,7 @@ macro_rules! dev_warn {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_notice {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_notice, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_notice, $($f)*) }
+ }
+ 
+ /// Prints an info-level message (level 6) prefixed with device information.
+@@ -893,7 +891,7 @@ macro_rules! dev_notice {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_info {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_info, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_info, $($f)*) }
+ }
+ 
+ /// Prints a debug-level message (level 7) prefixed with device information.
+@@ -919,5 +917,5 @@ macro_rules! dev_info {
+ /// ```
+ #[macro_export]
+ macro_rules! dev_dbg {
+-    ($($f:tt)*) => { $crate::dev_printk!(pr_dbg, $($f)*); }
++    ($($f:tt)*) => { $crate::dev_printk!(pr_dbg, $($f)*) }
+ }
 
-On top of that, I'd like to ask about a design question:
-Should regcache_sync() set map->cache_only = true again if it fails
-partway through,
-or should we leave it to the caller to call regcache_cache_only() themselves?
-
-If we leave it to the caller, should we also update the function's
-documentation
-to make clear that after a failed sync, the state of the registers is no longer
-guaranteed to match the cache, and that further register access should be
-done carefully , and that calling regcache_cache_only() is recommended to
-keep the device in a safe/consistent state?
+---
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+change-id: 20260716-device-trail-semicolon-1c02e29ea1cf
 
 Best regards,
-Phuc
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
