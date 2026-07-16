@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A9B3016E1;
-	Thu, 16 Jul 2026 19:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6A33DEDD;
+	Thu, 16 Jul 2026 20:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784229497; cv=none; b=RRid2NcTZskay+JLyRXzpwySKT4so/okrMVNd8rH4qna1pqY0NeScBYTcst3wctIXy+q67eY9qw8kbv9bugKV/ipQsWBsv4RwZtxyWV82mWtuQrzGCj2PaCzGUX71buH33BVeTubaGe5yWtDheMOqcNBjW4seaPiE8gTRIXZ8EI=
+	t=1784232749; cv=none; b=qgls6qTHNnhn/h4CC2fjZNIoSgjxH90nON0ETxj1aVD2uxzHFej4Mt1hwuJCHATghheAmPBYHtnh/9JqdYltBvNdK43nzLmpD21jBJJkNyzFdg4CF5UsHuTNSQaSjqq2Hh2hW9qWmY3Y0XBTrggYXz1Hq+MW18Mp8Dd17Gg3ulg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784229497; c=relaxed/simple;
-	bh=9hGdsbCTkZ7KSRTrLF/K6PtcT7p+1U1ItNmWf+JSwc0=;
+	s=arc-20240116; t=1784232749; c=relaxed/simple;
+	bh=m6pjdx7OA069UsE2K1J8diZEGkyScJTt3v3cFwYvzM4=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=jpFZO9/MNm8WGFnsk7epNf+sV3ul6xa9u/7sqjW5tXVed3E3XRfw17V9PY1X1g8ZgictU0WdjXjq60jJ6TN2Mp3GZh34KCTXh5oydFPhsaZd5EMiu/X7dMaE/Px7V7qS9R/DxSdMxBmH0BVBP4RQI6g/6AIXTMIyUZ9tp1Orkp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3GQPr0k; arc=none smtp.client-ip=100.103.45.18
+	 References:In-Reply-To; b=tfN8P6n5gjrje7yZj3UcUb0kEtaK5pQ/x7C3j7IIUn0QwsTASL81Sgb8dZcUs+JL9ZRuTD0d9Pb6WdyL35fjJxmJKcgas3u0X3k2Dhr9BkKniyLt88F0gUx3dWE48lD10Uq8GOqOaanCDEy5y6CPg77fkOBSjarsg+yoasSFy7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/f+cg73; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3GQPr0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190FA1F000E9;
-	Thu, 16 Jul 2026 19:18:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/f+cg73"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF601F000E9;
+	Thu, 16 Jul 2026 20:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784229496;
-	bh=mm3gd88M8vHvfDbkay5kKqa4Pt+DlNaxfY+bDClihtg=;
+	s=k20260515; t=1784232748;
+	bh=LmZlSmryCzbYZ7/Nda6gMZ4mc8FirUvt+n7RcFZr7eI=;
 	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=I3GQPr0kiybSyrJWe6zFu1hn/2Oi7ybH+Xllp0AZgCxCxtguf99L5TtUBCO7GqeGC
-	 oPQow+GJffWyt0RQ3HflSGICSMR/H6eSgmfxcTLBFGV2wH3Z4WKK3FuLIbwImGvV/l
-	 567+2xoZleLdCeeErvz7topxq9fo+m2NFlp+moZK8Qz1sKQVlxnOIuQtezVSdQvJs8
-	 QBgtsZcgmOXEfkPpllJ0h+62qI61Vn0tzV5bGj2Vt6nmD0+dxOdKB6zYVOf/vl24Co
-	 VhoGT5cKW/TorfHex+N4kkyQTcShb+vZibcozlgaxBBTdFsSlxoQ52xkgrqCfRuexM
-	 mkXK6GvaHXY4A==
+	b=Y/f+cg73nqhxWGAma0/oF9KuibA5NYDDQrSSLlNOKwbUEVxd7EVW30aofF1IGaDTR
+	 CO2cB9BKTuTBTxNMuniK3TD5/oophRrkKj9SuOr+Q8MHXzjPsC1ANamcKNEeXJ4JqW
+	 SVpMEDWCiivG/1Esy20O3IdFOcISOtAo+F1Eh7w1d1S6FdqnsIcd4Wx/O4xNr8VBvT
+	 cfuCnx8tceNJeZX40YmHYZyyrgJ0Q1j7Jz1U/5TDpFik34u2WEXu4hp19iryU7p90S
+	 L6u9gIKgp3idagqOS6ClJbBdb2tCbBx57THxvZX9FQRYaDaUauN+/yNsRkx6TyH1TP
+	 8iXwPSQXwxIEA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,77 +34,57 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Jul 2026 21:18:05 +0200
-Message-Id: <DK08KE2A3M7K.3OQDFZB94SMFC@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "FUJITA Tomonori"
- <fujita.tomonori@gmail.com>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Abdiel
- Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira
- Weiny" <iweiny@kernel.org>, "Leon Romanovsky" <leon@kernel.org>, "Len
- Brown" <lenb@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>, "Drew
- Fustini" <fustini@kernel.org>, "Guo Ren" <guoren@kernel.org>, "Fu Wei"
- <wefu@redhat.com>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <netdev@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-pci@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-usb@vger.kernel.org>
-To: "Gary Guo" <gary@garyguo.net>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Viresh Kumar" <viresh.kumar@linaro.org>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Michal Wilczynski" <m.wilczynski@samsung.com>,
- "Igor Korotin" <igor.korotin@linux.dev>, "Rob Herring" <robh@kernel.org>
+Date: Thu, 16 Jul 2026 22:12:25 +0200
+Message-Id: <DK09PZKT2YGE.37D097G2LLYTH@kernel.org>
+Cc: <gregkh@linuxfoundation.org>, <mcgrof@kernel.org>, <rafael@kernel.org>,
+ <russ.weight@linux.dev>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Corentin LABBE" <clabbe@baylibre.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/11] rust: driver: use pointers instead of indices
- for ID info
-References: <20260629-id_info-v2-0-56fccbe9c5ef@garyguo.net>
-In-Reply-To: <20260629-id_info-v2-0-56fccbe9c5ef@garyguo.net>
+Subject: Re: [PATCH] firmware: maintain a firmware list
+References: <20260715131325.26099-1-clabbe@baylibre.com>
+ <DJZBI1NIB539.2WG8TLYV4ZXDV@kernel.org> <alikeGzFw4XTIDpJ@Red>
+In-Reply-To: <alikeGzFw4XTIDpJ@Red>
 
-On Mon Jun 29, 2026 at 2:39 PM CEST, Gary Guo wrote:
->  MAINTAINERS                           |   1 -
->  drivers/acpi/bus.c                    |   6 +-
->  drivers/cpufreq/rcpufreq_dt.rs        |   1 -
->  drivers/gpu/drm/nova/driver.rs        |   1 -
->  drivers/gpu/drm/tyr/driver.rs         |   1 -
->  drivers/gpu/nova-core/driver.rs       |   3 +-
->  drivers/pwm/pwm_th1520.rs             |   1 -
->  include/acpi/acpi_bus.h               |  11 --
->  rust/helpers/acpi.c                   |  16 ---
->  rust/helpers/helpers.c                |   1 -
->  rust/kernel/acpi.rs                   |  14 +--
->  rust/kernel/auxiliary.rs              |  18 +--
->  rust/kernel/device_id.rs              | 207 +++++++++++++++++++---------=
-------
->  rust/kernel/driver.rs                 | 137 ++--------------------
->  rust/kernel/i2c.rs                    |  26 ++---
->  rust/kernel/net/phy.rs                |  66 +----------
->  rust/kernel/of.rs                     |  14 +--
->  rust/kernel/pci.rs                    |  25 ++--
->  rust/kernel/platform.rs               |   5 +-
->  rust/kernel/usb.rs                    |  24 ++--
->  samples/rust/rust_debugfs.rs          |   1 -
->  samples/rust/rust_dma.rs              |   3 +-
->  samples/rust/rust_driver_auxiliary.rs |   4 +-
->  samples/rust/rust_driver_i2c.rs       |   3 -
->  samples/rust/rust_driver_pci.rs       |  11 +-
->  samples/rust/rust_driver_platform.rs  |   2 -
->  samples/rust/rust_driver_usb.rs       |   3 +-
->  samples/rust/rust_i2c_client.rs       |   2 -
->  samples/rust/rust_soc.rs              |   2 -
->  29 files changed, 178 insertions(+), 431 deletions(-)
+On Thu Jul 16, 2026 at 11:29 AM CEST, Corentin LABBE wrote:
+> Le Wed, Jul 15, 2026 at 07:23:25PM +0200, Danilo Krummrich a =C3=A9crit :
+>> (Cc: driver-core; please make sure to Cc all relevant mailing lists)
+>>=20
+>> On Wed Jul 15, 2026 at 3:13 PM CEST, Corentin Labbe wrote:
+>> > From: Corentin LABBE <clabbe@baylibre.com>
+>> >
+>> > Checking if some firmware is missing need to check dmesg for error mes=
+sage,
+>> > and on some machine this information could be lost since dmesg uses a =
+ring buffer.
+>> > Having the list of all firmware requests is useful in many situations,
+>> > like selecting the minimal list when doing some buildroot config
+>> > or reducing the size of linux-firmware on gentoo via saveconfig.
+>>=20
+>> The proposed implementation aside, I don't see why this needs a new kern=
+el
+>> interface.
+>
+> Hello
+>
+> You miss the point that I propose an easy way to know.
+> All your proposals imply scripting, grepping in difference place.
+> I propose a unique easy way to know the list, without any requirement
 
-I plan to pick this up soon. Please let me know in case there are any conce=
-rns
-from the acpi, i2c, of, net or usb side of things.
+No, I get that, but I think that the overhead of the proposed patch is not
+justified, given that there are reasonable alternatives.
 
-Thanks,
-Danilo
+>> Untested, but something like
+>>=20
+>> 	kprobe_event=3Dp:fw_req,_request_firmware,name=3D+0(%si):string
+>>=20
+>> should work I think.
+> This imply command line hacking, something I prefer to avoid, it is bette=
+r when it just works without change.
+
+Adding a kernel command line parameter seems perfectly reasonable for your
+use-case. We could maybe consider a dedicated TRACE_EVENT for firmware bein=
+g
+loaded if this turns out to be a thing people commonly want to have, but fo=
+r now
+it seems a kprobe_event works for your case.
