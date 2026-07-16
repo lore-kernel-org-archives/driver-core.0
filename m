@@ -1,56 +1,56 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24A7345741
-	for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 02:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40E2348C51
+	for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 02:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784256113; cv=none; b=kjMKX8DdaN74Y/zKtdoSKxpQ6J3eZYjQ6qFkBnioQS3kDddnWCqSIcxGkO+fRaLIePaYnzY/WYl/6lKFun+lzwBzmEHYz9DVyyV2zt3Eo5bLrNTZYBFMW3IrhKARlR3p6NP/yEsyk7SDeSU1uRsRIy9QUA30ZFz5O8W1j4+bcPg=
+	t=1784256114; cv=none; b=WHDEIIwhxPDA+2/FqyA2qva6hjpBPJMPcmYuf5iUOQkGIW8wrTjI1O+Z6e1YQZ/BQg5YSQMC2I48YubgCnsLjxIQdDaabZROyRXn53KJMWvS2e9ikSQ0dljfYpOnWfYHzibZIZ6v6DQ9d0yl9Wai6UoSs+ouw6FHgeNKYrD3hoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784256113; c=relaxed/simple;
-	bh=DDh2GgbdI5RQMq7gxZncAkacOeotdu9Fzy33SzeLtQY=;
+	s=arc-20240116; t=1784256114; c=relaxed/simple;
+	bh=tzn/iEqTad6dQhUjU9RzDdcmlVaMSOCPaaD5tYvzKjM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=j/wVkDVFVelU39olWG4bER+RQiB9x/+lnwCSbVFJZDRgMQ5tHkG81rawEYZd++kBgGWe9fbknNzACg3w+ZTql/iPdWTUtyCJAom0Wot/On9Anmf3KzoafFxAzkTVFI58muAukdAa7Y6XooJWIztDb7ouMj3e7Bpwugfb7J6yMK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KvCiqduo; arc=none smtp.client-ip=209.85.218.73
+	 To:Cc:Content-Type; b=N9A2Z+tZmpact5w5JH+QneDo4hFMkRpgEQwnvueGL82WGEbU2QvERF2kgXO6R16iPy2pyCHSMnobIUds2FkfcCUHNFa9guu4wAZKXGyNITYxUij5dNjMGCWnMrM5RWG6DHMbnvNOKmIwOmjFcz/d/vjh82uZku8yNQbXxfqzjPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iuyNrH0M; arc=none smtp.client-ip=209.85.208.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KvCiqduo"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c15fed5653eso365628266b.2
-        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 19:41:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iuyNrH0M"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-698af52daa4so7835636a12.0
+        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 19:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784256109; x=1784860909; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1784256110; x=1784860910; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=j3nhX204PbzOZptNzEwfrJ1tihihmuj8AGndCLVcQhw=;
-        b=KvCiqduoock/RSjGwg6Wg9JiyD6XaOHt/lJ0SbAp/T4nH8e/d7FKaMoBRLNPG4IsWY
-         e8rSTG5FI+ZEyqY5vPASRAue7brR5CDYz+9gLZOPttXqRAS0A1jXviA16Xqv4a9lkvPa
-         vX6IlN69rsjISTHJgOVdKDuwpJagt3BwDAhrs6ihUilpteZPd3p1lWKdpbAqk183SEUF
-         ex2Lnj8aRqUW9mux2mF8rTBs7Iy3MeODr78aCXOb1bux+WoLjhD8MiT8/NkNinZNvCmP
-         07LFd2sdlI1FWotPY5kD+5cVOozirBopE+WI+mo9IjL8fgxatEacfyej8p0zAd8wY6WV
-         6JUw==
+        bh=hJfRBT3Ki0wq3tOrZx9x5Dfjc24sd8ItMQ1cbR5ZfR8=;
+        b=iuyNrH0MWcZJT7Y4YjhAjr4a26Qm6gRyQ1bFYRNq+77Ho2B9MurpLDZ/YphDV7Q3ir
+         Icf2HQS82wjYfxak+aNiKvne4QIlK1Tyd9Gh0V4Z18uaz4ZPOspD3oJfeW6eoBpWugwc
+         87hJYr6gWyl9uWYz8AgG3UMKNhiaQMfxT1BaKlyn+MbZno5YilLGIMLmYQchzz1ifXh1
+         gN9sTl/DQk1UVKJxoWEjnVuvDmkG1acoAcNSZc7TFrd2A4tOWU7eNi9ng2PAgeVDFqjq
+         +vaJP9ZAD4o5w1ViYMg1VXuzrvzbmwa3ymI4gKaAPuI9dZV0WcwNyzl8RCxkx/oaojTm
+         WGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784256109; x=1784860909;
+        d=1e100.net; s=20251104; t=1784256110; x=1784860910;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=j3nhX204PbzOZptNzEwfrJ1tihihmuj8AGndCLVcQhw=;
-        b=R9MbqfxCdrPIhkqwL7v/lNdVXd26si71FwBVgm+UwBqYPrvVYqKyAoJ6W+L7MWjvi8
-         vy1Y8epYkBdFEeM0ylc0amc4kALfosRtiz/MRprK053CbVu01ms3nrBRStbEGVe4PEFU
-         YpympcUoIHeIfKOASq8FNVFyK23hYVh4dc6Ko4hAfzUrC5Y8aq8WHG+kA8S3wbs1TpAE
-         NwGcZB8mytp2Lllg5Li4bbRzYowhkHKmEaqMOcDP5e6GTqYtw9o326vAHBgdUhdIweGb
-         VbjbC8rLbprUHhnQ5SYRaqkGnZ53cGkM7eo4BMNjQK9XWR5X52ob5vN4HAYE74snS/9D
-         loMQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpf3O5TlqqYtFOjYE6LFtsPOj+E2xxvAjZZlL5OOfZ3juLgQbIdTWTWCzAiWY2ntnoBsR1cBAYnBYEq1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUCLe4xqcz0bC4DOwKDrpjKhMAAABmD+PIS3AM/yGu/YI10DH+
-	HjEllRInN4q1zuFmMWGSkv+nMA6ecfViOVhGD6cihz1WVgHN0JENF9SgMG7RnDZt+aswkakx1xa
-	ZczRU9ICNCoIbM1AgzA==
-X-Received: from ejfr10.prod.google.com ([2002:a17:906:3d6a:b0:c12:5875:9cda])
+        bh=hJfRBT3Ki0wq3tOrZx9x5Dfjc24sd8ItMQ1cbR5ZfR8=;
+        b=ChQp908S7ojh5/HWRZ/FkjBL7d9jkkh4/pjmzZEkv1UsXynADj/EjczXSN7BxaJqdQ
+         dHRiRyE+9BsKD96mcHne/nLEAkGQpuPQb8AlwzPsLW9qdqDC9f8RZPeFH1T+jp8mtP3N
+         BgatdpS59Ere0bVOnCteuhN58Q5m3SWRD/jTyG0MCEb17JEVFI4pZlTOkRxz/2ktfKH3
+         c5eIujS8bJwxDDIYR/2Cy7RLq4Rw9JpTqMg6pOOysxiHumQtJZFvikY/HI8LgFDrbGjA
+         XEBtCX45oNr5NZiGc+ED1hxt0mUSQunZb8IJvVH0P/y1cGWfZOl8E08lE0i7ZGc6Xi96
+         TjUw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6MibLzkxWbc1Nf8EMaV3LzUUjJ5JJjPjlHpcCyJ45QM+Zd6oV5tIBaT1cK4KLIzSXCfFxocfido5gvw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YximAc17Fqtz42OigVpQQ04HD3KJ6isAM76g7jI53T/wDTroqbP
+	i3R/PurN+/L5QX6e1+6IzaYTeqEraMKIaOpZXa9hNsTCLivrh3Uw4rY7SwJbeWKbvhCJmeghPeo
+	JKtkMwb5a61q5gG9+wA==
+X-Received: from edvu22.prod.google.com ([2002:a05:6402:1116:b0:69a:9bdd:206f])
  (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:7203:b0:bed:19af:f89a with SMTP id a640c23a62f3a-c16b46caa65mr21546866b.7.1784256108367;
- Thu, 16 Jul 2026 19:41:48 -0700 (PDT)
-Date: Thu, 16 Jul 2026 23:04:10 +0000
+ 2002:a05:6402:11c8:b0:698:3b7c:be65 with SMTP id 4fb4d7f45d1cf-69e652c5662mr148592a12.33.1784256109719;
+ Thu, 16 Jul 2026 19:41:49 -0700 (PDT)
+Date: Thu, 16 Jul 2026 23:04:11 +0000
 In-Reply-To: <20260716230411.2767394-1-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260716230411.2767394-1-tarunsahu@google.com>
 X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
-Message-ID: <20260716230411.2767394-7-tarunsahu@google.com>
-Subject: [PATCH v19 6/7] PCI: Enable async shutdown support
+Message-ID: <20260716230411.2767394-8-tarunsahu@google.com>
+Subject: [PATCH v19 7/7] scsi: Enable async shutdown support
 From: Tarun Sahu <tarunsahu@google.com>
 To: Shuah Khan <skhan@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
 	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -79,39 +79,68 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: David Jeffery <djeffery@redhat.com>
 
-Like its async suspend support, allow PCI device shutdown to be performed
-asynchronously to reduce shutdown time.
+Like scsi's async suspend support, allow scsi devices to be shut down
+asynchronously to reduce system shutdown time.
 
 Signed-off-by: David Jeffery <djeffery@redhat.com>
 Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Tested-by: Laurence Oberman <loberman@redhat.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: John Garry <john.g.garry@oracle.com>
 ---
- drivers/pci/probe.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/scsi/hosts.c      | 2 ++
+ drivers/scsi/scsi_sysfs.c | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index dd0abbc63e18..af2381446406 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -1046,6 +1046,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
+index e047747d4ecf..bf691acc7a67 100644
+--- a/drivers/scsi/hosts.c
++++ b/drivers/scsi/hosts.c
+@@ -273,6 +273,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
+ 	pm_runtime_set_active(&shost->shost_gendev);
+ 	pm_runtime_enable(&shost->shost_gendev);
+ 	device_enable_async_suspend(&shost->shost_gendev);
++	dev_set_async_shutdown(&shost->shost_gendev);
  
- 	bus->bridge = get_device(&bridge->dev);
- 	device_enable_async_suspend(bus->bridge);
-+	dev_set_async_shutdown(bus->bridge);
- 	pci_set_bus_of_node(bus);
- 	pci_set_bus_msi_domain(bus);
- 	if (bridge->msi_domain && !dev_get_msi_domain(&bus->dev) &&
-@@ -2748,6 +2749,7 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
- 	pci_reassigndev_resource_alignment(dev);
+ 	error = device_add(&shost->shost_gendev);
+ 	if (error)
+@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
+ 	get_device(shost->shost_gendev.parent);
  
- 	pci_init_capabilities(dev);
-+	dev_set_async_shutdown(&dev->dev);
+ 	device_enable_async_suspend(&shost->shost_dev);
++	dev_set_async_shutdown(&shost->shost_dev);
  
- 	/*
- 	 * Add the device to our list of discovered devices
+ 	get_device(&shost->shost_gendev);
+ 	error = device_add(&shost->shost_dev);
+diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
+index dfc3559e7e04..8fd317aef37b 100644
+--- a/drivers/scsi/scsi_sysfs.c
++++ b/drivers/scsi/scsi_sysfs.c
+@@ -1386,6 +1386,7 @@ static int scsi_target_add(struct scsi_target *starget)
+ 	pm_runtime_set_active(&starget->dev);
+ 	pm_runtime_enable(&starget->dev);
+ 	device_enable_async_suspend(&starget->dev);
++	dev_set_async_shutdown(&starget->dev);
+ 
+ 	return 0;
+ }
+@@ -1412,6 +1413,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
+ 	transport_configure_device(&starget->dev);
+ 
+ 	device_enable_async_suspend(&sdev->sdev_gendev);
++	dev_set_async_shutdown(&sdev->sdev_gendev);
+ 	scsi_autopm_get_target(starget);
+ 	pm_runtime_set_active(&sdev->sdev_gendev);
+ 	if (!sdev->rpm_autosuspend)
+@@ -1431,6 +1433,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
+ 	}
+ 
+ 	device_enable_async_suspend(&sdev->sdev_dev);
++	dev_set_async_shutdown(&sdev->sdev_dev);
+ 	error = device_add(&sdev->sdev_dev);
+ 	if (error) {
+ 		sdev_printk(KERN_INFO, sdev,
 -- 
 2.55.0.229.g6434b31f56-goog
 
