@@ -1,99 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83CC3AEF57;
-	Fri, 17 Jul 2026 11:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFD23C3F7B;
+	Fri, 17 Jul 2026 12:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784287794; cv=none; b=liKvnSLPDdl4FX7qcBgUEbEhCF1BojjWVPtnPMfX9yAhANfZSZpinq7jVMxjsMs7jX7njcFAt1AlgF5I+dj1NxAQAXyIq4Dqde0v21tO477P74EF8qGFGWp3qCr6BD8MmQastZymgcQyqrvfwUm3QVip/sIyASPB2qXTrqDHv14=
+	t=1784289831; cv=none; b=Ksnwz+nS8wCeAVqbxkgJcopnWDqCywy/itN6rDs5sqWb0OuKyJiiQj+aIs260Y0h0VysjEmP/3nUK4H9Mwo41xquiYa4RJbnNWGuapKzvlgYSl8H19hKiv16goTutF6U6B3pMXffF9BVHb+0wnsWQ46pzZ5IOJcSB226q4LknEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784287794; c=relaxed/simple;
-	bh=FnWLjln5PPELRk5NWwP0sl/xy9K2arrQIznTBrrBoMU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=hV9S9rAuQRW/SHavhuylzA/KSM6PgXHqVJAvVFcR2e9j1I84JyxLH/14etBFt/FuwQws59FCAMrFlVsk78ax8NG82yEuFVkplgHPr/rNPmPJCNZ5Xd3hX/GzA2ImfweIbTleslXbtdLlWU8fAtVBl2o/akhCLhJSpxS+UL1eD88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/zkVzl/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784289831; c=relaxed/simple;
+	bh=hGFSSP/8JtBx4EJXP1Po/WkVp313a+sVf4Vrxri8tzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tRrHe+gD4hZ8aJz9vHz4ANd4zwcLbEqYken7hs3LlmKuc42zPLm3do6lR6zck/nTCse2PWl678tIFEHj/Rkz1dhiPQgQSH1yJ/7dRsubkQiRaPIK9wsoNucbDp+zt0Obw6EOnBrCvIDyn7CSBKc3SEDrrzQ9JzQIXzXhNOByjw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ThVR7oy/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/zkVzl/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CE01F000E9;
-	Fri, 17 Jul 2026 11:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784287792;
-	bh=UiGewS0r9/rc8lwJRZJ7aP7KEJ5JJfNIV9hsJ7UhPls=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=m/zkVzl/QiK60y0vG/BEFhqBFPN+UlcWzhabUu7vFo9qtYsotlGFUPpfIUAErvsfQ
-	 Q6WROSESwUrR+f76DLrASOXMMklJ0/q1IOGSUd4Xif8VpeGNWHFkoObNjicyRn9xBV
-	 5/pv0t1EorqE9pgEJabu5wBv5XJLhgX+n8c3oHw9ihVlqBWdBXkablDmjCs57Wi6aA
-	 IwVWHmcOZ2qJkNum8usqusZNOYcz2bopoxe3Yez9nDt6n4/CPyq+nN6Edve0SRIZgF
-	 cLbYFfPR9TFDlEsQJr6AUUo1UDJr771zxCakvu23g53U3dmVMHzW8dVk5ePkWeDVnz
-	 c/2sh4wUjCqfw==
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ThVR7oy/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7066A1F000E9;
+	Fri, 17 Jul 2026 12:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784289828;
+	bh=VSLA+rT8tjPVQ6J1CMEUPfkyicD10Zp1i6IB9Ga5VNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ThVR7oy/crZOE04QMjSmxOX/FDDGsDWp6ffjeMqsTZ8W31GV8SJ9QDwSC9IteQTAl
+	 /hgjWi0Ld3mIJvLccOfhi+zRP0rQVIi+yz0scxJ4//V/HNRfrPz1Fzj8vbCu/o8WOD
+	 Kbs49bKOY+8SncbhCPtZSvjIqlhmBDGXy/gkcCgU=
+Date: Fri, 17 Jul 2026 14:03:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Markus Probst <markus.probst@posteo.de>, Rob Herring <robh@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Kari Argillander <kari.argillander@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Boqun Feng <boqun@kernel.org>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v14 0/3] rust: add basic serial device bus abstractions
+Message-ID: <2026071719-afflicted-eleven-1be9@gregkh>
+References: <20260715-rust_serdev-v14-0-b4ed5c93606f@posteo.de>
+ <2026071747-android-overhead-c927@gregkh>
+ <6aafea3fdb0847766787dbe5c7c7dbaad606d649.camel@posteo.de>
+ <74213297-d3da-4637-8f31-8fecebd65f60@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jul 2026 13:29:47 +0200
-Message-Id: <DK0T8DPQIBSQ.Z9Y2UCXE54HU@kernel.org>
-Subject: Re: [PATCH v8 1/5] driver core: platform: amend the API contract
- for fwnode setters
-Cc: "Maximilian Luz" <luzmaximilian@gmail.com>, "Hans de Goede"
- <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, "Matthew Brost" <matthew.brost@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, <brgl@kernel.org>,
- <platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <driver-core@lists.linux.dev>
-To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260716-swnode-remove-on-dev-unreg-v8-0-5c2b8cc38c28@oss.qualcomm.com> <20260716-swnode-remove-on-dev-unreg-v8-1-5c2b8cc38c28@oss.qualcomm.com>
-In-Reply-To: <20260716-swnode-remove-on-dev-unreg-v8-1-5c2b8cc38c28@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74213297-d3da-4637-8f31-8fecebd65f60@kernel.org>
 
-On Thu Jul 16, 2026 at 2:31 PM CEST, Bartosz Golaszewski wrote:
-> @@ -723,11 +725,20 @@ EXPORT_SYMBOL_GPL(platform_device_set_of_node);
->   *
->   * Assign a firmware node to this platform device. Internally keep track=
- of the
->   * reference count. Devices created with platform_device_alloc() must us=
-e this
-> - * function instead of assigning the node manually.
-> + * function instead of assigning the node manually. This function must n=
-ot be
-> + * called for a platform device that already has a software node as its =
-primary
-> + * firmware node assigned.
->   */
->  void platform_device_set_fwnode(struct platform_device *pdev,
->  				struct fwnode_handle *fwnode)
->  {
-> +	/*
-> +	 * If we call this function for a platform device whose primary
-> +	 * firmware node is a software node, we'll never end up calling the
-> +	 * symmetric software_node_notify_remove(). There are no users for this
-> +	 * right now in the tree so just disallow it.
-> +	 */
-> +	WARN_ON(is_software_node(dev_fwnode(&pdev->dev)));
->  	fwnode_handle_put(pdev->dev.fwnode);
->  	device_set_node(&pdev->dev, fwnode_handle_get(fwnode));
->  }
+On Fri, Jul 17, 2026 at 01:22:40PM +0200, Danilo Krummrich wrote:
+> On 7/17/26 1:14 PM, Markus Probst wrote:
+> > On Fri, 2026-07-17 at 12:55 +0200, Greg Kroah-Hartman wrote:
+> >> On Wed, Jul 15, 2026 at 09:00:14PM +0000, Markus Probst wrote:
+> >>> This patch series adds the serdev device bus rust abstraction into the
+> >>> kernel.
+> >>>
+> >>> This abstraction will be used by a driver,
+> >>> which targets the MCU devices in Synology devices.
+> >>>
+> >>> Kari Argillander also messaged me, stating that he wants to write a
+> >>> watchdog driver with this abstraction (needing initial device data).
+> >>>
+> >>> This series depends on [1].
+> >>>
+> >>> [1] https://lore.kernel.org/rust-for-linux/20260530132736.3298549-1-dakr@kernel.org/
+> >>>
+> >>> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> >>
+> >> Given there are no objections, I'll go queue this up now, thanks.
+> > Thanks for merging, but I haven't seen the dependency
+> > 
+> > https://lore.kernel.org/rust-for-linux/20260530132736.3298549-1-dakr@kernel.org/
+> > 
+> > getting picked yet (its at least not in linux-next), so it might not
+> > even compile. Not sure whats holding the patch back though.
+> (Ah, saw this just after I replied to the other thread.)
+> 
+> Nothing is holding them back other than requiring a user (which is your work),
+> so I did not pick them up.
+> 
+> Also note that tty and driver-core are different trees, so picking it up in
+> driver-core would not have helped tty.
 
-When I suggested this I actually meant to never allow to replace an existin=
-g
-node (not only for swnodes), as I think there's no use-case for this anyway=
- and
-it makes the API more consistent.
+Should I drop this from the tty tree and take it through driver-core
+instead?  If so, no problem for me, just let me know.
 
-However, this can be done in a follow-up too; the patch is fine as is, as i=
-t
-addresses the problem I pointed out about software_node_notify_remove() not
-being called independently.
+thanks,
 
-So, I'll pick this up later today.
-
-Thanks,
-Danilo
+greg k-h
