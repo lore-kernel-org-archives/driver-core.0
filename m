@@ -1,107 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432FB3FF1C7;
-	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF46F3EC69C
+	for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 13:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784294827; cv=none; b=qWGDeBwyC+LQoRbqREDMFJ8mRw2veedRoYGovjn9JB+wejh0yqt3F6YtbzIOE6R4/DQy2N3ixy1n3KmsAFRiRxaJG6/TMvWB5WYsxQRyVRHtllSZt0dGweCVJXIzwOhA3NgtoOLzg3xJ+4kB/eVRpUJItrfA/tsv5pt2IxyVt9M=
+	t=1784295875; cv=none; b=trhupCEEyCC0a5no6ZTgrzmx9WGQOkvgtOAhnLZK6W7yUnl3o/icEbTA+Cog6CzxySZdz1BbR66uruD2zBPJ1SwdRbyRXMr8zlBL37+qacWLtgx80eKlYKQbmQ+oBLBfXjSXs8sjkpeCbqQ7HMowYRD/i4zWWDZp1qA55r5HFHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784294827; c=relaxed/simple;
-	bh=pwMSIzetdYB7xQjuMxJhP+mfS/rDklXO8XTBOZHhSbc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fK3+gQgK0RrHWFWxn52rOJt2/uITsJ1+g8gds0lOEtU7WB41mIGC6iwM5RZybdgg83RI+Zd2emaM8pA5yzLjfsWY3ouTIHDg82H7wut7/WQYd0v8GxXQJVPpkyreK35bR4E3/fu8ZHrB1h33eMYCeDbMYSEAjp9g53xbj7L94xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sOc9WKaY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784295875; c=relaxed/simple;
+	bh=gHM8gxxIGrtelmB4ciSq93JB3GHtaROcZU3f2k2iz0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P+fmxMOlKe4i/okAcHD3ulhqOr28Lnl2SxkMTWsS26DWxBtONkOdaIrE0vfcWgYwTHQ4xbH4iHANmcunxypF+McLH1+60g8VolLk/jgcrBwwEMTqouj6Wj/z1CyCHtjfOWD0gxXSzpOgxuQ9MGHt6ZknE0mL5g1qaQC5IPMbFTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JVzThdml; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sOc9WKaY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF011C2BCB9;
-	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784294826;
-	bh=pwMSIzetdYB7xQjuMxJhP+mfS/rDklXO8XTBOZHhSbc=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=sOc9WKaYAF30kTZX3X9GfRpDI6GvBA4pQZQAXzhu2BNIGGU2F7BoUaxP+MsDu0tu6
-	 C75P+o5Nq9ofbeE8G3+lofZN4B2V/NeyK6ebqLHPH1lQAcuqcvbwuuR6vtB+Uixu5u
-	 JyuhFi+oB4I1M5dhrVo300GCHWny5FfAXZpNT3YrBOh8ZfSAHa7yh4Co7o4eJ5/SZ5
-	 RDLAzTDfDy5UqhXcvUZJ2N+SOw0bRN27C+NbMk87krh5LMHliFrSAd9NFkCpD0Rf1M
-	 XZKsfSuR5iXgSsgA/KaSdRvRJ5F21Z6XjFMes51XguZ0IlH9DqDlJdB49m5dXk9Iuu
-	 P69MdpfU8akXQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DC1C44520;
-	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
-From: Younes Akhouayri via B4 Relay <devnull+git.younes.io@kernel.org>
-Date: Fri, 17 Jul 2026 15:26:46 +0200
-Subject: [PATCH] rust: irq: fix C header path in module docs
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JVzThdml"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47dec32798aso8062013f8f.1
+        for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 06:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784295872; x=1784900672; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IgmxxxpCItf1KZzWIsCn5rVL7exNYDJuWybs4ZYZUDY=;
+        b=JVzThdml8PbOqYAe9wGjLpPeFvvvvvdbFwjUaKQHewOxYDiIYaAb+wAiFFS+liYhbk
+         t6jSJqCR1I2PjjaTuAyb/HH+l3yL7i0ke1XDpGycBWVVcA0B0DuoMtyRFRbZQUVUhty+
+         R2GT71ruPyAM4FkQZGZL2BzyUWazwG6ZrrYWW+9aHc3mAla32g4otICSpLN6Q09Xx48T
+         +fUGldmC7BONbOVruzuJu4rIqy2e4gaZ7eCVXMj9FIkV9C7ws58y9LlPB+2K63olBVmu
+         JqvylhluktGAbl3DWodZ1JLr2hll2jqjXqgRyeGse4XxwD2QWsEy2o5d0NRKM72x98g2
+         R1iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784295872; x=1784900672;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IgmxxxpCItf1KZzWIsCn5rVL7exNYDJuWybs4ZYZUDY=;
+        b=BAI5tgF3K/G6LoiEJKFaBOZq68099EFl8uu54Sw9bdT6noKshbpU0OpJXrHajLLQnP
+         LaBfvNLbHRx/kaYtaFhd9IgzgiANkQAncYoRh4Z8/o+z2MnsMnvAmq070ZRqFx93CdxW
+         KKXVXYTIvFRTIXYeZhQ3OC1Zegi8FDODpJv/aSetFG5zGOWDy4URfxee7YWLYKlG57U9
+         SvV8PmhKU2MwdDwiTVpNQZRW04quqz5ZuipBrN9mU0PNNU/Q40KQ1lEEvMqUVH36Hgge
+         Jp4ZuxRv2WpYFpzHACKWfw9UOKCn3PbW+dacwy5Lg9cS6ET7yjSGL3mrR1CptkJqv8Sr
+         HqaA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro3cISdXcSccPoF27MrpO61Ho7KNhBv8DABaOS1WcnyFnGSA8IgATWfLpG2WnDodCAOEEAs2Q57tZufig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZ27d8uUYWRcGoN0PsB3bTstOlBeSpVCJNQvtaP17AQI9sNgp7
+	D8t6GhmL1XiigN3Ing5PthKOrF3rrOnBSs54KfYa7Azs83CG+o+zasjSVy0VoU4p2OU=
+X-Gm-Gg: AfdE7ckV93mWRLofdH7opC9doRQcr4Ju+eYPOmDfDAjrHut3GETSRxv2vYbxUIWcF0w
+	4JOQGd6GqcXt247neIOhwf8GpKfYepm08hhW2JDqZsuK5Hvqy/PmmxZJF+a/JSGGRSsB3SqoXQo
+	4CnqHZPMNVFJTuv8nVek5Xw9z+ELOFX9ZdujTn4M/IgIM0L3BZGaV2GpvRTfBJ1ozphssXyxAO2
+	8k7QYxxcQ2Llf7jbPgoHMtxndZgF3+SeMuMMUyQ+u0lvGD9zmKEExPTbhsHdxxI1NPrvyThqkO2
+	XRdDn9IJE9rY8U0ErJCTB3K+n+jgHCET6hhuEPgcMFkd/GJol234AdHsJd2HXGb97VmORT9Qld7
+	VYd7OlQ48KFR4TeULHTaAjFLqa+HvopzgfU/RLZKKMwnkHSdhfduHfmwyaWqto06T2w==
+X-Received: by 2002:a05:6000:25f0:b0:473:8f65:c978 with SMTP id ffacd0b85a97d-47f623065f7mr4074816f8f.1.1784295872194;
+        Fri, 17 Jul 2026 06:44:32 -0700 (PDT)
+Received: from [10.20.4.146] ([149.62.206.101])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f66df025csm2145172f8f.0.2026.07.17.06.44.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2026 06:44:31 -0700 (PDT)
+Message-ID: <0c2f40d1-f695-45d5-949c-cd173c641c84@suse.com>
+Date: Fri, 17 Jul 2026 16:44:30 +0300
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/15] modules: Document the global async_probe parameter
+To: Dan Williams <djbw@kernel.org>, linux-coco@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+ ankita@nvidia.com, Saravana Kannan <saravanak@google.com>,
+ Luis Chamberlain <mcgrof@kernel.org>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260705220819.2472765-8-djbw@kernel.org>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+Autocrypt: addr=nik.borisov@suse.com; keydata=
+ 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
+In-Reply-To: <20260705220819.2472765-8-djbw@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-docs-irq-rustdoc-header-v1-1-36749192aa04@younes.io>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CQAyF4VchXdvIJUL0VQyLmeEIdTFoC4aE8
- O7O6PJrev6dDCowuhU7KT5iMseE6lRQmFwcwTIkU13WbdlVHQ9zMBZ9s662JPAEN0C5QttcLx7
- ONaC0fikesv3K9/5vW/0TYcm5/OGdgb26GKZ8mlVGieec5YhtoeP4AqUwLIueAAAA
-X-Change-ID: 20260717-docs-irq-rustdoc-header-1e6395beaa3e
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Younes Akhouayri <git@younes.io>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784294825; l=1205;
- i=git@younes.io; s=20260712; h=from:subject:message-id;
- bh=DUAXmsk7k/KxOykvnIl3o8UFwBQcn84FmsrWr/BYmZ0=;
- b=b9J58TftG4SmQphTzp8LyXtKcYP/wMDXvQqNnmZYoOiUgUXgzg+IzKDUTQWc0aYp0SqhhJtmE
- hNSDOEWUYCpAa8ay1LKpF2A4P61Fnw7ZkcfSBpRvcnEDC8OT/q033ow
-X-Developer-Key: i=git@younes.io; a=ed25519;
- pk=1DRfzPrQ04RQHHgGK28t+vjIAPv5oISPiAdLMU6J5dE=
-X-Endpoint-Received: by B4 Relay for git@younes.io/20260712 with
- auth_id=866
-X-Original-From: Younes Akhouayri <git@younes.io>
-Reply-To: git@younes.io
 
-From: Younes Akhouayri <git@younes.io>
 
-The IRQ module documentation displays `include/linux/device.h`, while
-the link points to `include/linux/interrupt.h`. The module wraps the IRQ
-registration interfaces declared in `include/linux/interrupt.h`, so fix
-the displayed header path.
 
-Fixes: 1f54d5e5cd2a ("rust: irq: add irq module")
-Link: https://github.com/Rust-for-Linux/linux/issues/1246
-Signed-off-by: Younes Akhouayri <git@younes.io>
----
- rust/kernel/irq.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/6/26 01:08, Dan Williams wrote:
+> In preparation for adding another /sys/module/module/parameters entry,
+> document the existing async_probe parameter.
+> 
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> ---
+>   Documentation/ABI/stable/sysfs-module | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
+> index 41b1f16e8795..397c5c850894 100644
+> --- a/Documentation/ABI/stable/sysfs-module
+> +++ b/Documentation/ABI/stable/sysfs-module
+> @@ -45,3 +45,13 @@ Date:		Jun 2005
+>   Description:
+>   		If the module source has MODULE_VERSION, this file will contain
+>   		the version of the source code.
+> +
+> +What:		/sys/module/module/parameters/async_probe
+> +Description:
+> +		(RW) Emits "1" if drivers from loadable modules attempt async
+> +		probing by default. Emits "0" if drivers from loadable modules
 
-diff --git a/rust/kernel/irq.rs b/rust/kernel/irq.rs
-index 20abd4056655..09ef1e7f853c 100644
---- a/rust/kernel/irq.rs
-+++ b/rust/kernel/irq.rs
-@@ -8,7 +8,7 @@
- //! The current abstractions handle IRQ requests and handlers, i.e.: it allows
- //! drivers to register a handler for a given IRQ line.
- //!
--//! C header: [`include/linux/device.h`](srctree/include/linux/interrupt.h)
-+//! C header: [`include/linux/interrupt.h`](srctree/include/linux/interrupt.h)
- 
- /// Flags to be used when registering IRQ handlers.
- mod flags;
-
----
-base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
-change-id: 20260717-docs-irq-rustdoc-header-1e6395beaa3e
-
-Best regards,
---  
-Younes Akhouayri <git@younes.io>
-
+nit: I think there is some tautology happening here, i.e a module is a 
+driver, no ?  I.e perhaps just remove the driver word so this reads 
+"emits 1 if modules atempts async probing".
+> +		attempt synchronous probing by default. This value is overridden
+> +		(in priority order) by: the module's built-in "PROBE_FORCE_*"
+> +		requests, the "driver_async_probe=..." kernel command line, the
+> +		"async_probe" module option, then this default. Write a valid
+> +		boolean value to toggle this policy.
 
