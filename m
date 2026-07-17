@@ -1,163 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2129D372664;
-	Fri, 17 Jul 2026 05:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD943ABD9D
+	for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 06:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784265797; cv=none; b=bxGiLOI47f1gtSAeR1igMwjOpZtXAHWBEidaex/qiDgb8hPbi9UoevjN8FCO6TfJ7kA0UIu20As5qlfNx+Um7RyV2ZyGiM8nUaZ01i5PIZSUDWcreqBG9QvsZwks+axIH7mLd/hnFfcbIDrYJy59JqhM87VQ14D4WmjN+3BQWLg=
+	t=1784269896; cv=none; b=qMSqe9o00va2TW92rCQ61zym43hncegg2zcVmk9enqEUzPWlKEfiMlSI4h3tngbX1gQmlvPDpjYvK++FE8dwiJeeW7uRVGjQlIJ8v/szD1mq3O+f+lsICG9SZE/DVJJWTS173fkX4w4uZ8UiSYwZb5tFYhigHSaUBvzcCBcT9LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784265797; c=relaxed/simple;
-	bh=el5060I9QBGLp3EGyZqdShQ7YMVwWTcU4AAL50LWxx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmqNEiBHPtHSeiOgOkOEfcdJVPHSgBr6SBKsJjafF/M/EMAPaoVS9aIo4MQMgS3sEozXImJiJWdUpNaE3NW2YRSp7CG9pyHlzHW3MUJf2ekh5K2ArFhXoVrpKASjqZHgs6u1uDcxxyLl/KBCTN7uL0fYErypRa85LvlcJUo+5tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QX4gk/kU; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784269896; c=relaxed/simple;
+	bh=Svg2Y8wTOAGd6IPOnPBio+4QPIkpbi2qYQQnU1fR04c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oyBwQeUTQjJvPW7PYmEuoazp9MX1eKXyq77k73FvpzSTgyKXN2y6xPXe3w5ioSUIRUX8/WKR3x1Lue/mmS1Hx9cWEXWDJHpyfFpzRJ1koPHNWMJECq3P5oFBX10/GLCvL+qUl3ZbblE4UIT/tJ+pLd6him8BetD/IKRsk7bXwVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iAvO9NTL; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QX4gk/kU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784265795; x=1815801795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=el5060I9QBGLp3EGyZqdShQ7YMVwWTcU4AAL50LWxx4=;
-  b=QX4gk/kUCVXWExEFgjsbP0F5dtgzA0Tzs9aW5Li7SbhdTiVUt16I4cmp
-   rAq1R1XH/sAubN4w9ZODwE6Zda7iM1Vs72yCFUF+8ypEmI6ega5cxAMqU
-   ZplKU0Jns8PGQ3CqlPGbf24syXWBPqCrs0r2AnIngE2e+bxGwqN+aqlfO
-   fz1OUUT3mfFsHYJHSJ2MWBKvixE5Xg/LBQFYzfBBBJBI9WJd4PUJtdhf3
-   DW/qjrtO+P+B+t9K/+bfFdWPbKj31VazIf+Ro8sEJJUgOYfDcfzF+Y7mA
-   wSh9oJwGoiJbrns0i37Yjo6js7aop/uxnKvUxKWK4kTA+M7gc299GEfEJ
-   A==;
-X-CSE-ConnectionGUID: jt5gCTATQ3K6e9Ya65NbGA==
-X-CSE-MsgGUID: 6wLZrr6lS/yftWI6sbJmvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="95290537"
-X-IronPort-AV: E=Sophos;i="6.25,168,1779174000"; 
-   d="scan'208";a="95290537"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 22:23:14 -0700
-X-CSE-ConnectionGUID: QEVpwawjRX2jnsK5yWqnKA==
-X-CSE-MsgGUID: 7A1LMzjARN2Kha+Lbq+x8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,168,1779174000"; 
-   d="scan'208";a="256766663"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5a8ed462067) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 16 Jul 2026 22:23:11 -0700
-Received: from kbuild by e5a8ed462067 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wkb2S-000000005RV-08X2;
-	Fri, 17 Jul 2026 05:23:08 +0000
-Date: Fri, 17 Jul 2026 07:22:14 +0200
-From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iAvO9NTL"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784269881;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dtmAsjOZRbEJt8owf9zTbDLUylJSS4K6ysbF5XED/rI=;
+	b=iAvO9NTLFOK4wGbutvHypW4H3LqgyMz7jH7ChYnLbA1a/WW3fuZGVu8gEBVzvQ/eEJ84MB
+	MSCnUKkJxgUdDk1nIXK1SgnSg9+8ULO2/U3LtacoMyIdP9RbvNPJfbhl/aXdjrrHSK71Bg
+	CxTdNRpZVLcyW4kVejoPPvf7RBpjkrk=
+From: Ye Liu <ye.liu@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Matthew Maurer <mmaurer@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] samples: rust: debugfs: fix excessive stack use
-Message-ID: <202607170734.2N6biRuj-lkp@intel.com>
-References: <20260716144144.3665719-1-gary@kernel.org>
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: Ye Liu <liuye@kylinos.cn>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Kairui Song <kasong@tencent.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] mm/thp: expose deferred split folio memory usage in meminfo
+Date: Fri, 17 Jul 2026 14:30:22 +0800
+Message-ID: <20260717063025.168436-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260716144144.3665719-1-gary@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Gary,
+From: Ye Liu <liuye@kylinos.cn>
 
-kernel test robot noticed the following build errors:
+Folios on the deferred split list hold physical memory that is
+invisible in meminfo. When a THP becomes partially mapped, the
+unmapped pages are removed from AnonPages but remain physically
+allocated until the shrinker splits the folio. This creates a
+memory accounting gap where used memory cannot be attributed to
+any meminfo field.
 
-[auto build test ERROR on b8809969e1d7a591e0f49dd464a5d04b3cf02ab1]
+Add NR_DEFERRED_SPLIT_PAGES to track the total memory consumed by
+folios currently on the deferred_split_lru, updated via
+mod_node_page_state() at all enqueue/dequeue points. The new field
+DeferredSplitPages is visible in /proc/meminfo, /proc/vmstat, and
+per-node /sys/devices/system/node/node*/meminfo.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Guo/samples-rust-debugfs-fix-excessive-stack-use/20260717-053803
-base:   b8809969e1d7a591e0f49dd464a5d04b3cf02ab1
-patch link:    https://lore.kernel.org/r/20260716144144.3665719-1-gary%40kernel.org
-patch subject: [PATCH] samples: rust: debugfs: fix excessive stack use
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260717/202607170734.2N6biRuj-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260717/202607170734.2N6biRuj-lkp@intel.com/reproduce)
+Signed-off-by: Ye Liu <liuye@kylinos.cn>
+---
+ drivers/base/node.c    |  4 +++-
+ fs/proc/meminfo.c      |  2 ++
+ include/linux/mmzone.h |  1 +
+ mm/huge_memory.c       | 24 +++++++++++++++++++++---
+ mm/vmstat.c            |  1 +
+ 5 files changed, 28 insertions(+), 4 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607170734.2N6biRuj-lkp@intel.com/
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index 3da91929ad4e..69463438300e 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -519,6 +519,7 @@ static ssize_t node_read_meminfo(struct device *dev,
+ 			     "Node %d ShmemPmdMapped: %8lu kB\n"
+ 			     "Node %d FileHugePages:  %8lu kB\n"
+ 			     "Node %d FilePmdMapped:  %8lu kB\n"
++			     "Node %d DeferredSplitPages: %8lu kB\n"
+ #endif
+ #ifdef CONFIG_UNACCEPTED_MEMORY
+ 			     "Node %d Unaccepted:     %8lu kB\n"
+@@ -553,7 +554,8 @@ static ssize_t node_read_meminfo(struct device *dev,
+ 			     nid, K(node_page_state(pgdat, NR_SHMEM_THPS)),
+ 			     nid, K(node_page_state(pgdat, NR_SHMEM_PMDMAPPED)),
+ 			     nid, K(node_page_state(pgdat, NR_FILE_THPS)),
+-			     nid, K(node_page_state(pgdat, NR_FILE_PMDMAPPED))
++			     nid, K(node_page_state(pgdat, NR_FILE_PMDMAPPED)),
++			     nid, K(node_page_state(pgdat, NR_DEFERRED_SPLIT_PAGES))
+ #endif
+ #ifdef CONFIG_UNACCEPTED_MEMORY
+ 			     ,
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index b2813ff13cb2..76dbf51ad1e0 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -149,6 +149,8 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 		    global_node_page_state(NR_FILE_THPS));
+ 	show_val_kb(m, "FilePmdMapped:  ",
+ 		    global_node_page_state(NR_FILE_PMDMAPPED));
++	show_val_kb(m, "DeferredSplitPages: ",
++		    global_node_page_state(NR_DEFERRED_SPLIT_PAGES));
+ #endif
+ 
+ #ifdef CONFIG_CMA
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 0507193b3ae3..1e75adb73d00 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -267,6 +267,7 @@ enum node_stat_item {
+ 	NR_FILE_THPS,
+ 	NR_FILE_PMDMAPPED,
+ 	NR_ANON_THPS,
++	NR_DEFERRED_SPLIT_PAGES, /* THP/mTHP pages pending deferred split */
+ 	NR_VMSCAN_WRITE,
+ 	NR_VMSCAN_IMMEDIATE,	/* Prioritise for reclaim when writeback ends */
+ 	NR_DIRTIED,		/* page dirtyings since bootup */
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index c642bec967fa..1094b844675c 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -77,6 +77,14 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
+ 					 struct shrink_control *sc);
+ static bool split_underused_thp = true;
+ 
++#define deferred_split_pages_add(folio) \
++	mod_node_page_state(NODE_DATA(folio_nid(folio)), \
++			    NR_DEFERRED_SPLIT_PAGES, folio_nr_pages(folio))
++
++#define deferred_split_pages_del(folio) \
++	mod_node_page_state(NODE_DATA(folio_nid(folio)), \
++			    NR_DEFERRED_SPLIT_PAGES, -folio_nr_pages(folio))
++
+ static atomic_t huge_zero_refcount;
+ struct folio *huge_zero_folio __read_mostly;
+ unsigned long huge_zero_pfn __read_mostly = ~0UL;
+@@ -3913,8 +3921,10 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
+ 		struct lruvec *lruvec;
+ 
+ 		if (dequeue_deferred) {
+-			__list_lru_del(&deferred_split_lru, lru,
+-				       &folio->_deferred_list, folio_nid(folio));
++			if (__list_lru_del(&deferred_split_lru, lru,
++					  &folio->_deferred_list, folio_nid(folio)) &&
++			    folio_test_partially_mapped(folio))
++				deferred_split_pages_del(folio);
+ 			if (folio_test_partially_mapped(folio)) {
+ 				folio_clear_partially_mapped(folio);
+ 				mod_mthp_stat(old_order,
+@@ -4415,6 +4425,7 @@ bool __folio_unqueue_deferred_split(struct folio *folio)
+ 	lru = list_lru_lock_irqsave(&deferred_split_lru, nid, &memcg, &flags);
+ 	if (__list_lru_del(&deferred_split_lru, lru, &folio->_deferred_list, nid)) {
+ 		if (folio_test_partially_mapped(folio)) {
++			deferred_split_pages_del(folio);
+ 			folio_clear_partially_mapped(folio);
+ 			mod_mthp_stat(folio_order(folio),
+ 				      MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, -1);
+@@ -4473,6 +4484,8 @@ void deferred_split_folio(struct folio *folio, bool partially_mapped)
+ 		VM_WARN_ON_FOLIO(folio_test_partially_mapped(folio), folio);
+ 	}
+ 	__list_lru_add(&deferred_split_lru, lru, &folio->_deferred_list, nid, memcg);
++	if (partially_mapped)
++		deferred_split_pages_add(folio);
+ 	list_lru_unlock_irqrestore(lru, &flags);
+ 	rcu_read_unlock();
+ }
+@@ -4524,8 +4537,11 @@ static enum lru_status deferred_split_isolate(struct list_head *item,
+ {
+ 	struct folio *folio = container_of(item, struct folio, _deferred_list);
+ 	struct list_head *freeable = cb_arg;
++	bool partially_mapped = folio_test_partially_mapped(folio);
+ 
+ 	if (folio_try_get(folio)) {
++		if (partially_mapped)
++			deferred_split_pages_del(folio);
+ 		list_lru_isolate_move(lru, item, freeable);
+ 		return LRU_REMOVED;
+ 	}
+@@ -4535,7 +4551,8 @@ static enum lru_status deferred_split_isolate(struct list_head *item,
+ 	 * isolate: folio_unqueue_deferred_split() checks list_empty()
+ 	 * locklessly, so once removed the folio can be freed any time.
+ 	 */
+-	if (folio_test_partially_mapped(folio)) {
++	if (partially_mapped) {
++		deferred_split_pages_del(folio);
+ 		folio_clear_partially_mapped(folio);
+ 		mod_mthp_stat(folio_order(folio),
+ 			      MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, -1);
+@@ -4596,6 +4613,7 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
+ 					 &folio->_deferred_list,
+ 					 folio_nid(folio),
+ 					 folio_memcg(folio));
++			deferred_split_pages_add(folio);
+ 			rcu_read_unlock();
+ 		}
+ 		folio_put(folio);
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 3b5cb1031f72..ba71cc3e4c30 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1248,6 +1248,7 @@ const char * const vmstat_text[] = {
+ 	[I(NR_FILE_THPS)]			= "nr_file_hugepages",
+ 	[I(NR_FILE_PMDMAPPED)]			= "nr_file_pmdmapped",
+ 	[I(NR_ANON_THPS)]			= "nr_anon_transparent_hugepages",
++	[I(NR_DEFERRED_SPLIT_PAGES)]		= "nr_deferred_split_pages",
+ 	[I(NR_VMSCAN_WRITE)]			= "nr_vmscan_write",
+ 	[I(NR_VMSCAN_IMMEDIATE)]		= "nr_vmscan_immediate_reclaim",
+ 	[I(NR_DIRTIED)]				= "nr_dirtied",
+-- 
+2.43.0
 
-All errors (new ones prefixed by >>):
-
-   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j384 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   Diff in rust/kernel/cpufreq.rs:792:
-        }
-    
-        /// Driver's `adjust_perf` callback.
-   -    fn adjust_perf(_policy: &mut Policy, _min_perf: usize, _target_perf: usize,
-   -                   _max_perf: usize, _capacity: usize) {
-   +    fn adjust_perf(
-   +        _policy: &mut Policy,
-   +        _min_perf: usize,
-   +        _target_perf: usize,
-   +        _max_perf: usize,
-   +        _capacity: usize,
-   +    ) {
-            build_error!(VTABLE_DEFAULT_ERROR)
-        }
-    
-   Diff in rust/kernel/cpufreq.rs:792:
-        }
-    
-        /// Driver's `adjust_perf` callback.
-   -    fn adjust_perf(_policy: &mut Policy, _min_perf: usize, _target_perf: usize,
-   -                   _max_perf: usize, _capacity: usize) {
-   +    fn adjust_perf(
-   +        _policy: &mut Policy,
-   +        _min_perf: usize,
-   +        _target_perf: usize,
-   +        _max_perf: usize,
-   +        _capacity: usize,
-   +    ) {
-            build_error!(VTABLE_DEFAULT_ERROR)
-        }
-    
->> Diff in samples/rust/rust_debugfs_scoped.rs:75:
-                GFP_KERNEL,
-            )?;
-        }
-   -    let blob = KBox::pin_init(new_mutex!(pin_init::init_array_from_fn(|_| 0x42)), GFP_KERNEL)?;
-   +    let blob = KBox::pin_init(
-   +        new_mutex!(pin_init::init_array_from_fn(|_| 0x42)),
-   +        GFP_KERNEL,
-   +    )?;
-    
-        let scope = KBox::pin_init(
-            mod_data.device_dir.scope(
-   make[2]: *** [Makefile:2029: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
