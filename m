@@ -1,88 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F7830D41D;
-	Fri, 17 Jul 2026 13:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603C5429CED;
+	Fri, 17 Jul 2026 14:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784296202; cv=none; b=ld9Eoj3QXzzS1VBDNCQUeGJY2BVySs8Dtf6emnOTvSMo4lDdUqmtwhA/Tajo86W8aQDcS/DGPuJE4Lw1ydZpTr49DgEkxDLzRzQMz3VoFxtJhNTdlA/Drf4xjDUWkQx+c+j26RZ9GS49BSNhywGi3mQ6XHKyxyDstoj6ep/V0gc=
+	t=1784298104; cv=none; b=a6MXACTU6YhvBG3xOTY//6rtsiFPf70lu3QE+Hwi8Qi4LNwUzwmnoaIYk08GGYJGVMIzqXipnGEkbnPxTKxMkfPTm+tNfezeQSErydICY96CqfwTsPb01UhnTWZccdcn/fBLfOFxRXwYzn9rFf87jWmZBCBry0qPQRkyBCLn51U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784296202; c=relaxed/simple;
-	bh=kmDfF3yV5c+bsoLJV/of/MuvV5iPRqd3YMoF4otU7nw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=VHdywwAPuZo6VQ8OvutIi+SmEWvbu3xQs1/+2U4a+3S1L1REYbaK5My6dFl59zLcleGQNcAHjoKYzzttZzD3OmvQw5mW21GGqOn0GeGK++D/aQslU6okiRQIZiSVNTv9txEsAduK4PBXF/yAWwRty8cPlQSw9kprfvRDOTl+aC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfZ3lCw5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784298104; c=relaxed/simple;
+	bh=4z3c8JbkCuCvYvwvyzFaFKP9887BsFDU3BfRJc0TnkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BlzCqdVvP4HyV5UajEnHl8M6d2CX9nx1Ph6WCisWsI1+h3X5c+od+PQmqcyCNwlTaSF7fmPIDDuaDM6WEeNxHu8Q1AjrWU3XFVVVK+jS9DHSCzk2nVt4JZtpx54//G8oYBbYYF51AeH3OG8jjZm/vnz9LbxC6B9VFW+VXCZMIW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BlfyP/cR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfZ3lCw5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263A81F000E9;
-	Fri, 17 Jul 2026 13:49:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784296200;
-	bh=P8RGWqk/z7JG1c6TNKuPoPbGcG6s/ejxJ/FFxp5MzYo=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=BfZ3lCw5ruLutg6KfGd+nm23HG2177Bq80ZdVrnjOM3trOrI7mKdzj3Zx18fmEO0H
-	 bQzbrNesDyjK8EO9Hh+IOS89vjUMG5bV9z2FQtIRNqAOpfjrwpWv3kSiF1mQY6194A
-	 y0FkPlMGqn0XaHgo3psjDm3qf8ja7cLMbGYbQfyaFaV7WvewiNso/uOGAo9E/9z+Wa
-	 jJ5CLrgci/Dgx8NIacXsFSSSxMKSUeNz/FPF2RE8mXujiv0X+ykdy+bR7mIoT4agCf
-	 Pm0zB/ousu2YQOhQ3Fw17cx4791T9PkUL6yPHNYImnVVdvO05zYRx6ebatcCR7O9lj
-	 irvm16DPyWt6g==
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BlfyP/cR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F4C31F000E9;
+	Fri, 17 Jul 2026 14:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784298103;
+	bh=upV5V8B8JBZrCDKtCe/V1DhunBW+vPRYCxXvJ0ez/Oc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BlfyP/cRtLPMN9QONKagBg6Y+orjsevtHXsIPElLs1nxYdk8zJxuhjPKh6ljmVEVd
+	 8D/UkN+z8uwwlsYSLk/NEccKSiyxHjZHdMTjxvHzU6IeDv0ddukSKumac+q25KVOly
+	 dlZCJ9+JR369woyw94vkMVux6UvopGUb6324PeTs=
+Date: Fri, 17 Jul 2026 16:21:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sainath Manda <sainathmanda777@gmail.com>
+Cc: tj@kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] kernfs: fix deadlock in epoll_ctl by waking pollfree
+Message-ID: <2026071721-preseason-bagginess-055e@gregkh>
+References: <20260621104310.18486-1-sainathmanda777@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jul 2026 15:49:55 +0200
-Message-Id: <DK0W7O5C7LYK.3BJOBTN337Q52@kernel.org>
-To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: (subset) [PATCH v4 0/5] software node: provide support for
- fw_devlink
-Cc: "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
- <david@davidgow.net>, "Rae Moar" <raemoar63@gmail.com>, "Andy Shevchenko"
- <andriy.shevchenko@linux.intel.com>, "Daniel Scally" <djrscally@gmail.com>,
- "Heikki Krogerus" <heikki.krogerus@linux.intel.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Bartosz Golaszewski" <brgl@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Linus Walleij" <linusw@kernel.org>, "Dmitry Torokhov"
- <dmitry.torokhov@gmail.com>, <linux-kernel@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
- <linux-acpi@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-gpio@vger.kernel.org>
-References: <20260713-swnode-fw-devlink-v4-0-d4f2dee27ad9@oss.qualcomm.com>
- <20260715212830.3077100-1-dakr@kernel.org>
- <DJZGR6NV2WK5.2ZRW7VZIRO3LD@kernel.org>
-In-Reply-To: <DJZGR6NV2WK5.2ZRW7VZIRO3LD@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260621104310.18486-1-sainathmanda777@gmail.com>
 
-On Wed Jul 15, 2026 at 11:30 PM CEST, Danilo Krummrich wrote:
-> On Wed Jul 15, 2026 at 11:28 PM CEST, Danilo Krummrich wrote:
->> On Mon, 13 Jul 2026 13:14:43 +0200, Bartosz Golaszewski wrote:
->>> [PATCH v4 0/5] software node: provide support for fw_devlink
->>
->> Applied, thanks!
->>
->>   Branch: topic/swnode
->>   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driv=
-er-core.git
->>
->> [1/5] kunit: provide a set of fwnode-oriented helpers
->>       commit: 9fdbdb528488
->> [2/5] software node: add fw_devlink support
->>       commit: 37e586675993
->> [3/5] software node: add kunit tests for fw_devlink support
->>       commit: eecba5978729
->> [4/5] MAINTAINERS: add myself as reviewer of software node support
->>       commit: 122630406245
->>
->> The patches are in the topic/swnode topic branch and will be merged into=
- the
->> corresponding target branch soon.
->
-> I will provide a signed tag once I have the 0-day result.
+On Sun, Jun 21, 2026 at 04:13:10PM +0530, Sainath Manda wrote:
+> Syzbot reported a task hung in do_epoll_ctl_file(). This is caused by an
+> AB-BA lock inversion between epoll's ep->mtx and kernfs node teardown.
+> 
+> Thread A (epoll_ctl) acquires ep->mtx, then attempts to acquire the
+> kernfs active reference during vfs_poll().
+> Thread B (kernfs_remove) deactivates the node and attempts to unhook
+> active epoll monitors, which requires ep->mtx.
+> 
+> This patch fixes the deadlock by utilizing the existing epoll POLLFREE
+> path. By calling wake_up_pollfree(&on->poll) before the waitqueue is
+> freed, epoll users are notified to detach their wait entries without
+> requiring kernfs teardown to acquire ep->mtx.
+> 
+> Reported-by: syzbot+f83fa2cf571bd7650422@syzkaller.appspotmail.com
+> Signed-off-by: Sainath Manda <sainathmanda777@gmail.com>
+> ---
+>  fs/kernfs/file.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
-/tag/?h=3Dswnode-7.3-rc1
+What commit id does this fix?  And why isn't it for stable kernels too?
 
-The changes are also in driver-core-next now, thanks!
+thanks,
+
+greg k-h
