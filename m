@@ -1,70 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DB23FCB3D;
-	Fri, 17 Jul 2026 13:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53911AA7A6;
+	Fri, 17 Jul 2026 13:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784293662; cv=none; b=ItK5eK7PsTuq+gc39ehBMpgBOPZW9SnL/nrBtjNzYRh6AmOHuaw4xG4bqpXIQmLIqFfDnAkL/EBh43RROeCPJXty+XIFAE+x8c0J9EFE6mKpUOjeyO+XhPzSQYqf/v8hkEX89INdNFtRAXQ01eEP7iIrBsMUnZQaPW6NTeRsBQM=
+	t=1784293980; cv=none; b=MVqOntXgVFhKJHDCcnhTMqgDK1v48vE/CSVAv1Fqy3N7V3MwmcxmizZ4lQX37PhT2cabo4r+f9k0F0hFc7aNM22+iDToaxMdrbor/AKyLj0H7PZ0p1pWmHzP3IgzivqgMktZE/V6ODN97U6ShgEbRGKfqAMvoPbGHXW8taLjZ4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784293662; c=relaxed/simple;
-	bh=FK9yzES7VKd8Fftfk4CsEOxnZ30CVLaBrqab0FLOFgg=;
+	s=arc-20240116; t=1784293980; c=relaxed/simple;
+	bh=urQWHGm30hiABc3/nk3aTx4LfwS52Tqd0cKIxbID1Ps=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKiIr3DnyIFDeKR4oLByAMBG4EZkiUYCXkWqq9xKucPB4HW5dvmW1MTaiTueQnnG3Vqji6i7sQV1JEekxC04FRfZyvKREbpZw618g8ejbQPinQ0IctWqGRkjDlfLmQvdHMYAQ3G8Phyfa4S3KoIqLrvUcOFr1hdyKpOIxuSf7AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1UFaKp3K; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qqBfTo6SFyyhjJ2jt5/a0Hn69mP5nPNITewZVqzb95uzRWy2k0juVmuZJR7YGobq6SlZsDsdhSI80X1Pn0ttdov0d0RalyBkbOVyR9kMugC5XF8B5odfVqd8WlZLAsR8UVcv7H2mtXPfRFYt0br6stCEPONxr4CYrwUwH3YH2gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yoseNnns; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1UFaKp3K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129A51F000E9;
-	Fri, 17 Jul 2026 13:07:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yoseNnns"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA81D1F000E9;
+	Fri, 17 Jul 2026 13:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784293659;
-	bh=mooRlPTlUqV1sVp6NuD8rb2bN7qHo0BLIrW5P+Xgh9E=;
+	s=korg; t=1784293979;
+	bh=aZTORBupc8j640bJyMKRsjKjZo0c9CWZC4bL0TBveaw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1UFaKp3K1wugDE8JEb8ay0NtdC9vP4PtHFh0AE/O8qOH85sTTFovb+4ptE2qqLA0p
-	 L4c55q22J1kNNNzoHIBXMQiC9DTw6EM1SFK4DPR4NthzUte3gFETh0B4SOaNuMbcdW
-	 KYq2ylYlMHrAxWiMgrUYrCR/9mRDvjrWdvPQFyKo=
-Date: Fri, 17 Jul 2026 15:07:32 +0200
+	b=yoseNnnsC2njJaY5/ZVRGlc08u83ISYVVJNKWek4s3GPOnGjNLbnfb/jsPDrP3165
+	 pM+atmb4rvQcOF1S/TJcK15WMN2SRIcpo6ZltoXMFOLP5zR/zLtUGlQoESSuF3fNuY
+	 /I9LC2eAz/s2OQrd0gTc7oEMw/YbL/gE8tVdKCks=
+Date: Fri, 17 Jul 2026 15:12:52 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alvin Sun <alvin.sun@linux.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Markus Probst <markus.probst@posteo.de>, Rob Herring <robh@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Gary Guo <gary@garyguo.net>,
 	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
 	Benno Lossin <lossin@kernel.org>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
 	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
+	Kari Argillander <kari.argillander@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Boqun Feng <boqun@kernel.org>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Igor Korotin <igor.korotin@linux.dev>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
-	linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v8 06/10] rust: miscdevice: set fops.owner from driver
- module pointer
-Message-ID: <2026071725-unpiloted-bogus-f1de@gregkh>
-References: <20260713-fix-fops-owner-v8-0-2495cfa82d47@linux.dev>
- <20260713-fix-fops-owner-v8-6-2495cfa82d47@linux.dev>
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v14 0/3] rust: add basic serial device bus abstractions
+Message-ID: <2026071717-unexposed-theorize-d707@gregkh>
+References: <20260715-rust_serdev-v14-0-b4ed5c93606f@posteo.de>
+ <2026071747-android-overhead-c927@gregkh>
+ <6aafea3fdb0847766787dbe5c7c7dbaad606d649.camel@posteo.de>
+ <74213297-d3da-4637-8f31-8fecebd65f60@kernel.org>
+ <2026071719-afflicted-eleven-1be9@gregkh>
+ <DK0U1HB4RVRG.3S824JZSFIF1@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -73,21 +61,21 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713-fix-fops-owner-v8-6-2495cfa82d47@linux.dev>
+In-Reply-To: <DK0U1HB4RVRG.3S824JZSFIF1@kernel.org>
 
-On Mon, Jul 13, 2026 at 02:45:27PM +0800, Alvin Sun wrote:
-> Set the miscdevice fops owner field from the driver module pointer
-> via the `this_module::<T::OwnerModule>()` helper, instead of
-> defaulting to null.
+On Fri, Jul 17, 2026 at 02:07:48PM +0200, Danilo Krummrich wrote:
+> On Fri Jul 17, 2026 at 2:03 PM CEST, Greg Kroah-Hartman wrote:
+> > Should I drop this from the tty tree and take it through driver-core
+> > instead?  If so, no problem for me, just let me know.
 > 
-> Assisted-by: opencode:glm-5.2
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Reviewed-by: Gary Guo <gary@garyguo.net>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
->  rust/kernel/miscdevice.rs | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Either should work, you can also take [1] through the tty tree, I don't think
+> there will be any conflicts.
+> 
+> [1] https://lore.kernel.org/rust-for-linux/20260530132736.3298549-1-dakr@kernel.org/
+> 
 
+Hm, that gets messy.  I'll just add these patches to the driver core
+tree, along with the above linked ones, to keep things simple.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+thanks,
+greg k-h
