@@ -1,70 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAB93C3F48;
-	Fri, 17 Jul 2026 13:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432FB3FF1C7;
+	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784294325; cv=none; b=PRLhHEJvSo6Jyl67LhcNW49YS6L0S9IeK9dgqW0seeGBgkqnwJyeIqK8W1xd0jfpbTnFbCo/Pwptgan9v0YroI56Sk8zDebFEbIacHu5C6E5py6WTDds13IxQBcbXosTLZaCYy1X9azaGyaRyCVdNBdCY9+a5i+7DVckRuIJr/Y=
+	t=1784294827; cv=none; b=qWGDeBwyC+LQoRbqREDMFJ8mRw2veedRoYGovjn9JB+wejh0yqt3F6YtbzIOE6R4/DQy2N3ixy1n3KmsAFRiRxaJG6/TMvWB5WYsxQRyVRHtllSZt0dGweCVJXIzwOhA3NgtoOLzg3xJ+4kB/eVRpUJItrfA/tsv5pt2IxyVt9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784294325; c=relaxed/simple;
-	bh=StrZZkbkEBXkcvvDSVtBfzIXVZHk+AUFE5g7a36Y3bw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=eVzjkdqGzipU4TyCqp6MLfWg1TYyz8dEV04m4gLjFOHZjP9SWUpa4uBXSlTGKddglaPPRRkDtDCWHs05Da1+JoE2aDvpAKUgWnvHSlrJSaV8DMiTD4CoAgO1AP8z7PeD9qF1HKwTdi3N1MYps8D9GDSc6QSziCO/e3B9Ct/Nk1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFmKg2q1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784294827; c=relaxed/simple;
+	bh=pwMSIzetdYB7xQjuMxJhP+mfS/rDklXO8XTBOZHhSbc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fK3+gQgK0RrHWFWxn52rOJt2/uITsJ1+g8gds0lOEtU7WB41mIGC6iwM5RZybdgg83RI+Zd2emaM8pA5yzLjfsWY3ouTIHDg82H7wut7/WQYd0v8GxXQJVPpkyreK35bR4E3/fu8ZHrB1h33eMYCeDbMYSEAjp9g53xbj7L94xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sOc9WKaY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFmKg2q1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728721F000E9;
-	Fri, 17 Jul 2026 13:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784294324;
-	bh=qebFb9kCb19SfwfSRMp3eWIP4hxUMV2hgZ9XQ+zu9yw=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=lFmKg2q1qULxsd63TwlcA0PmzbIWkXyFruHY+D4Tn3kCtKNCZxHso18H0L+4t3b3Q
-	 D8tRK/APCjxfRt6oCOkwhHyfCzizRwAMAfHMoNJYU8NW2n3Gcx7bnX8T8l1S4nRA9H
-	 0cKD/WiF3KsjW8sdoS6Lg1gF5k74knqsSYZgYMVcrI2ABJ36Wo/kdL/Xjb+lnlStDU
-	 67tQ4z3VpDLuS53vvsYYxVJnVaXG/mkVspPtvCGa59XdR5Yj23ybe9YJ9Q8AUCYgwl
-	 EW+0JbnhPGkz+aoYlU4UKcpIo4vccUNXrIiOm3iJ+/PTL+PsRg50DI6tUNyBA6Ekl/
-	 2gmeUl0u3z+kQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sOc9WKaY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF011C2BCB9;
+	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784294826;
+	bh=pwMSIzetdYB7xQjuMxJhP+mfS/rDklXO8XTBOZHhSbc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=sOc9WKaYAF30kTZX3X9GfRpDI6GvBA4pQZQAXzhu2BNIGGU2F7BoUaxP+MsDu0tu6
+	 C75P+o5Nq9ofbeE8G3+lofZN4B2V/NeyK6ebqLHPH1lQAcuqcvbwuuR6vtB+Uixu5u
+	 JyuhFi+oB4I1M5dhrVo300GCHWny5FfAXZpNT3YrBOh8ZfSAHa7yh4Co7o4eJ5/SZ5
+	 RDLAzTDfDy5UqhXcvUZJ2N+SOw0bRN27C+NbMk87krh5LMHliFrSAd9NFkCpD0Rf1M
+	 XZKsfSuR5iXgSsgA/KaSdRvRJ5F21Z6XjFMes51XguZ0IlH9DqDlJdB49m5dXk9Iuu
+	 P69MdpfU8akXQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87DC1C44520;
+	Fri, 17 Jul 2026 13:27:06 +0000 (UTC)
+From: Younes Akhouayri via B4 Relay <devnull+git.younes.io@kernel.org>
+Date: Fri, 17 Jul 2026 15:26:46 +0200
+Subject: [PATCH] rust: irq: fix C header path in module docs
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Jul 2026 15:18:37 +0200
-Message-Id: <DK0VJPMJS1JW.1BPGK7DBODS16@kernel.org>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v14 0/3] rust: add basic serial device bus abstractions
-Cc: "Markus Probst" <markus.probst@posteo.de>, "Rob Herring"
- <robh@kernel.org>, "Jiri Slaby" <jirislaby@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Kari
- Argillander" <kari.argillander@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>, "Boqun Feng"
- <boqun@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir
- Duberstein" <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
-References: <20260715-rust_serdev-v14-0-b4ed5c93606f@posteo.de>
- <2026071747-android-overhead-c927@gregkh>
- <6aafea3fdb0847766787dbe5c7c7dbaad606d649.camel@posteo.de>
- <74213297-d3da-4637-8f31-8fecebd65f60@kernel.org>
- <2026071719-afflicted-eleven-1be9@gregkh>
- <DK0U1HB4RVRG.3S824JZSFIF1@kernel.org>
- <2026071717-unexposed-theorize-d707@gregkh>
-In-Reply-To: <2026071717-unexposed-theorize-d707@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260717-docs-irq-rustdoc-header-v1-1-36749192aa04@younes.io>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CQAyF4VchXdvIJUL0VQyLmeEIdTFoC4aE8
+ O7O6PJrev6dDCowuhU7KT5iMseE6lRQmFwcwTIkU13WbdlVHQ9zMBZ9s662JPAEN0C5QttcLx7
+ ONaC0fikesv3K9/5vW/0TYcm5/OGdgb26GKZ8mlVGieec5YhtoeP4AqUwLIueAAAA
+X-Change-ID: 20260717-docs-irq-rustdoc-header-1e6395beaa3e
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Younes Akhouayri <git@younes.io>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784294825; l=1205;
+ i=git@younes.io; s=20260712; h=from:subject:message-id;
+ bh=DUAXmsk7k/KxOykvnIl3o8UFwBQcn84FmsrWr/BYmZ0=;
+ b=b9J58TftG4SmQphTzp8LyXtKcYP/wMDXvQqNnmZYoOiUgUXgzg+IzKDUTQWc0aYp0SqhhJtmE
+ hNSDOEWUYCpAa8ay1LKpF2A4P61Fnw7ZkcfSBpRvcnEDC8OT/q033ow
+X-Developer-Key: i=git@younes.io; a=ed25519;
+ pk=1DRfzPrQ04RQHHgGK28t+vjIAPv5oISPiAdLMU6J5dE=
+X-Endpoint-Received: by B4 Relay for git@younes.io/20260712 with
+ auth_id=866
+X-Original-From: Younes Akhouayri <git@younes.io>
+Reply-To: git@younes.io
 
-On Fri Jul 17, 2026 at 3:12 PM CEST, Greg Kroah-Hartman wrote:
-> Hm, that gets messy.  I'll just add these patches to the driver core
-> tree, along with the above linked ones, to keep things simple.
+From: Younes Akhouayri <git@younes.io>
 
-Yeah, that's cleaner, thanks!
+The IRQ module documentation displays `include/linux/device.h`, while
+the link points to `include/linux/interrupt.h`. The module wraps the IRQ
+registration interfaces declared in `include/linux/interrupt.h`, so fix
+the displayed header path.
+
+Fixes: 1f54d5e5cd2a ("rust: irq: add irq module")
+Link: https://github.com/Rust-for-Linux/linux/issues/1246
+Signed-off-by: Younes Akhouayri <git@younes.io>
+---
+ rust/kernel/irq.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rust/kernel/irq.rs b/rust/kernel/irq.rs
+index 20abd4056655..09ef1e7f853c 100644
+--- a/rust/kernel/irq.rs
++++ b/rust/kernel/irq.rs
+@@ -8,7 +8,7 @@
+ //! The current abstractions handle IRQ requests and handlers, i.e.: it allows
+ //! drivers to register a handler for a given IRQ line.
+ //!
+-//! C header: [`include/linux/device.h`](srctree/include/linux/interrupt.h)
++//! C header: [`include/linux/interrupt.h`](srctree/include/linux/interrupt.h)
+ 
+ /// Flags to be used when registering IRQ handlers.
+ mod flags;
+
+---
+base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
+change-id: 20260717-docs-irq-rustdoc-header-1e6395beaa3e
+
+Best regards,
+--  
+Younes Akhouayri <git@younes.io>
+
+
