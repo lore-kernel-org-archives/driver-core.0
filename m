@@ -1,162 +1,88 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF46F3EC69C
-	for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 13:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F7830D41D;
+	Fri, 17 Jul 2026 13:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784295875; cv=none; b=trhupCEEyCC0a5no6ZTgrzmx9WGQOkvgtOAhnLZK6W7yUnl3o/icEbTA+Cog6CzxySZdz1BbR66uruD2zBPJ1SwdRbyRXMr8zlBL37+qacWLtgx80eKlYKQbmQ+oBLBfXjSXs8sjkpeCbqQ7HMowYRD/i4zWWDZp1qA55r5HFHI=
+	t=1784296202; cv=none; b=ld9Eoj3QXzzS1VBDNCQUeGJY2BVySs8Dtf6emnOTvSMo4lDdUqmtwhA/Tajo86W8aQDcS/DGPuJE4Lw1ydZpTr49DgEkxDLzRzQMz3VoFxtJhNTdlA/Drf4xjDUWkQx+c+j26RZ9GS49BSNhywGi3mQ6XHKyxyDstoj6ep/V0gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784295875; c=relaxed/simple;
-	bh=gHM8gxxIGrtelmB4ciSq93JB3GHtaROcZU3f2k2iz0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P+fmxMOlKe4i/okAcHD3ulhqOr28Lnl2SxkMTWsS26DWxBtONkOdaIrE0vfcWgYwTHQ4xbH4iHANmcunxypF+McLH1+60g8VolLk/jgcrBwwEMTqouj6Wj/z1CyCHtjfOWD0gxXSzpOgxuQ9MGHt6ZknE0mL5g1qaQC5IPMbFTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JVzThdml; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1784296202; c=relaxed/simple;
+	bh=kmDfF3yV5c+bsoLJV/of/MuvV5iPRqd3YMoF4otU7nw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=VHdywwAPuZo6VQ8OvutIi+SmEWvbu3xQs1/+2U4a+3S1L1REYbaK5My6dFl59zLcleGQNcAHjoKYzzttZzD3OmvQw5mW21GGqOn0GeGK++D/aQslU6okiRQIZiSVNTv9txEsAduK4PBXF/yAWwRty8cPlQSw9kprfvRDOTl+aC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfZ3lCw5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JVzThdml"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47dec32798aso8062013f8f.1
-        for <driver-core@lists.linux.dev>; Fri, 17 Jul 2026 06:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784295872; x=1784900672; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=IgmxxxpCItf1KZzWIsCn5rVL7exNYDJuWybs4ZYZUDY=;
-        b=JVzThdml8PbOqYAe9wGjLpPeFvvvvvdbFwjUaKQHewOxYDiIYaAb+wAiFFS+liYhbk
-         t6jSJqCR1I2PjjaTuAyb/HH+l3yL7i0ke1XDpGycBWVVcA0B0DuoMtyRFRbZQUVUhty+
-         R2GT71ruPyAM4FkQZGZL2BzyUWazwG6ZrrYWW+9aHc3mAla32g4otICSpLN6Q09Xx48T
-         +fUGldmC7BONbOVruzuJu4rIqy2e4gaZ7eCVXMj9FIkV9C7ws58y9LlPB+2K63olBVmu
-         JqvylhluktGAbl3DWodZ1JLr2hll2jqjXqgRyeGse4XxwD2QWsEy2o5d0NRKM72x98g2
-         R1iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784295872; x=1784900672;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IgmxxxpCItf1KZzWIsCn5rVL7exNYDJuWybs4ZYZUDY=;
-        b=BAI5tgF3K/G6LoiEJKFaBOZq68099EFl8uu54Sw9bdT6noKshbpU0OpJXrHajLLQnP
-         LaBfvNLbHRx/kaYtaFhd9IgzgiANkQAncYoRh4Z8/o+z2MnsMnvAmq070ZRqFx93CdxW
-         KKXVXYTIvFRTIXYeZhQ3OC1Zegi8FDODpJv/aSetFG5zGOWDy4URfxee7YWLYKlG57U9
-         SvV8PmhKU2MwdDwiTVpNQZRW04quqz5ZuipBrN9mU0PNNU/Q40KQ1lEEvMqUVH36Hgge
-         Jp4ZuxRv2WpYFpzHACKWfw9UOKCn3PbW+dacwy5Lg9cS6ET7yjSGL3mrR1CptkJqv8Sr
-         HqaA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro3cISdXcSccPoF27MrpO61Ho7KNhBv8DABaOS1WcnyFnGSA8IgATWfLpG2WnDodCAOEEAs2Q57tZufig==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZ27d8uUYWRcGoN0PsB3bTstOlBeSpVCJNQvtaP17AQI9sNgp7
-	D8t6GhmL1XiigN3Ing5PthKOrF3rrOnBSs54KfYa7Azs83CG+o+zasjSVy0VoU4p2OU=
-X-Gm-Gg: AfdE7ckV93mWRLofdH7opC9doRQcr4Ju+eYPOmDfDAjrHut3GETSRxv2vYbxUIWcF0w
-	4JOQGd6GqcXt247neIOhwf8GpKfYepm08hhW2JDqZsuK5Hvqy/PmmxZJF+a/JSGGRSsB3SqoXQo
-	4CnqHZPMNVFJTuv8nVek5Xw9z+ELOFX9ZdujTn4M/IgIM0L3BZGaV2GpvRTfBJ1ozphssXyxAO2
-	8k7QYxxcQ2Llf7jbPgoHMtxndZgF3+SeMuMMUyQ+u0lvGD9zmKEExPTbhsHdxxI1NPrvyThqkO2
-	XRdDn9IJE9rY8U0ErJCTB3K+n+jgHCET6hhuEPgcMFkd/GJol234AdHsJd2HXGb97VmORT9Qld7
-	VYd7OlQ48KFR4TeULHTaAjFLqa+HvopzgfU/RLZKKMwnkHSdhfduHfmwyaWqto06T2w==
-X-Received: by 2002:a05:6000:25f0:b0:473:8f65:c978 with SMTP id ffacd0b85a97d-47f623065f7mr4074816f8f.1.1784295872194;
-        Fri, 17 Jul 2026 06:44:32 -0700 (PDT)
-Received: from [10.20.4.146] ([149.62.206.101])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f66df025csm2145172f8f.0.2026.07.17.06.44.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Jul 2026 06:44:31 -0700 (PDT)
-Message-ID: <0c2f40d1-f695-45d5-949c-cd173c641c84@suse.com>
-Date: Fri, 17 Jul 2026 16:44:30 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfZ3lCw5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263A81F000E9;
+	Fri, 17 Jul 2026 13:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784296200;
+	bh=P8RGWqk/z7JG1c6TNKuPoPbGcG6s/ejxJ/FFxp5MzYo=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=BfZ3lCw5ruLutg6KfGd+nm23HG2177Bq80ZdVrnjOM3trOrI7mKdzj3Zx18fmEO0H
+	 bQzbrNesDyjK8EO9Hh+IOS89vjUMG5bV9z2FQtIRNqAOpfjrwpWv3kSiF1mQY6194A
+	 y0FkPlMGqn0XaHgo3psjDm3qf8ja7cLMbGYbQfyaFaV7WvewiNso/uOGAo9E/9z+Wa
+	 jJ5CLrgci/Dgx8NIacXsFSSSxMKSUeNz/FPF2RE8mXujiv0X+ykdy+bR7mIoT4agCf
+	 Pm0zB/ousu2YQOhQ3Fw17cx4791T9PkUL6yPHNYImnVVdvO05zYRx6ebatcCR7O9lj
+	 irvm16DPyWt6g==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/15] modules: Document the global async_probe parameter
-To: Dan Williams <djbw@kernel.org>, linux-coco@lists.linux.dev
-Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
- ankita@nvidia.com, Saravana Kannan <saravanak@google.com>,
- Luis Chamberlain <mcgrof@kernel.org>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <20260705220819.2472765-8-djbw@kernel.org>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- xsFNBGcrpvIBEAD5cAR5+qu30GnmPrK9veWX5RVzzbgtkk9C/EESHy9Yz0+HWgCVRoNyRQsZ
- 7DW7vE1KhioDLXjDmeu8/0A8u5nFMqv6d1Gt1lb7XzSAYw7uSWXLPEjFBtz9+fBJJLgbYU7G
- OpTKy6gRr6GaItZze+r04PGWjeyVUuHZuncTO7B2huxcwIk9tFtRX21gVSOOC96HcxSVVA7X
- N/LLM2EOL7kg4/yDWEhAdLQDChswhmdpHkp5g6ytj9TM8bNlq9I41hl/3cBEeAkxtb/eS5YR
- 88LBb/2FkcGnhxkGJPNB+4Siku7K8Mk2Y6elnkOctJcDvk29DajYbQnnW4nhfelZuLNupb1O
- M0912EvzOVI0dIVgR+xtosp66bYTOpX4Xb0fylED9kYGiuEAeoQZaDQ2eICDcHPiaLzh+6cc
- pkVTB0sXkWHUsPamtPum6/PgWLE9vGI5s+FaqBaqBYDKyvtJfLK4BdZng0Uc3ijycPs3bpbQ
- bOnK9LD8TYmYaeTenoNILQ7Ut54CCEXkP446skUMKrEo/HabvkykyWqWiIE/UlAYAx9+Ckho
- TT1d2QsmsAiYYWwjU8igXBecIbC0uRtF/cTfelNGrQwbICUT6kJjcOTpQDaVyIgRSlUMrlNZ
- XPVEQ6Zq3/aENA8ObhFxE5PLJPizJH6SC89BMKF3zg6SKx0qzQARAQABzSZOaWtvbGF5IEJv
- cmlzb3YgPG5pay5ib3Jpc292QHN1c2UuY29tPsLBkQQTAQoAOxYhBDuWB8EJLBUZCPjT3SRn
- XZEnyhfsBQJnK6byAhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJECRnXZEnyhfs
- XbIQAJxuUnelGdXbSbtovBNm+HF3LtT0XnZ0+DoR0DemUGuA1bZAlaOXGr5mvVbTgaoGUQIJ
- 3Ejx3UBEG7ZSJcfJobB34w1qHEDO0pN9orGIFT9Bic3lqhawD2r85QMcWwjsZH5FhyRx7P2o
- DTuUClLMO95GuHYQngBF2rHHl8QMJPVKsR18w4IWAhALpEApxa3luyV7pAAqKllfCNt7tmed
- uKmclf/Sz6qoP75CvEtRbfAOqYgG1Uk9A62C51iAPe35neMre3WGLsdgyMj4/15jPYi+tOUX
- Tc7AAWgc95LXyPJo8069MOU73htZmgH4OYy+S7f+ArXD7h8lTLT1niff2bCPi6eiAQq6b5CJ
- Ka4/27IiZo8tm1XjLYmoBmaCovqx5y5Xt2koibIWG3ZGD2I+qRwZ0UohKRH6kKVHGcrmCv0J
- YO8yIprxgoYmA7gq21BpTqw3D4+8xujn/6LgndLKmGESM1FuY3ymXgj5983eqaxicKpT9iq8
- /a1j31tms4azR7+6Dt8H4SagfN6VbJ0luPzobrrNFxUgpjR4ZyQQ++G7oSRdwjfIh1wuCF6/
- mDUNcb6/kA0JS9otiC3omfht47yQnvod+MxFk1lTNUu3hePJUwg1vT1te3vO5oln8lkUo9BU
- knlYpQ7QA2rDEKs+YWqUstr4pDtHzwQ6mo0rqP+zzsFNBGcrpvIBEADGYTFkNVttZkt6e7yA
- LNkv3Q39zQCt8qe7qkPdlj3CqygVXfw+h7GlcT9fuc4kd7YxFys4/Wd9icj9ZatGMwffONmi
- LnUotIq2N7+xvc4Xu76wv+QJpiuGEfCDB+VdZOmOzUPlmMkcJc/EDSH4qGogIYRu72uweKEq
- VfBI43PZIGpGJ7TjS3THX5WVI2YNSmuwqxnQF/iVqDtD2N72ObkBwIf9GnrOgxEyJ/SQq2R0
- g7hd6IYk7SOKt1a8ZGCN6hXXKzmM6gHRC8fyWeTqJcK4BKSdX8PzEuYmAJjSfx4w6DoxdK5/
- 9sVrNzaVgDHS0ThH/5kNkZ65KNR7K2nk45LT5Crjbg7w5/kKDY6/XiXDx7v/BOR/a+Ryo+lM
- MffN3XSnAex8cmIhNINl5Z8CAvDLUtItLcbDOv7hdXt6DSyb65CdyY8JwOt6CWno1tdjyDEG
- 5ANwVPYY878IFkOJLRTJuUd5ltybaSWjKIwjYJfIXuoyzE7OL63856MC/Os8PcLfY7vYY2LB
- cvKH1qOcs+an86DWX17+dkcKD/YLrpzwvRMur5+kTgVfXcC0TAl39N4YtaCKM/3ugAaVS1Mw
- MrbyGnGqVMqlCpjnpYREzapSk8XxbO2kYRsZQd8J9ei98OSqgPf8xM7NCULd/xaZLJUydql1
- JdSREId2C15jut21aQARAQABwsF2BBgBCgAgFiEEO5YHwQksFRkI+NPdJGddkSfKF+wFAmcr
- pvICGwwACgkQJGddkSfKF+xuuxAA4F9iQc61wvAOAidktv4Rztn4QKy8TAyGN3M8zYf/A5Zx
- VcGgX4J4MhRUoPQNrzmVlrrtE2KILHxQZx5eQyPgixPXri42oG5ePEXZoLU5GFRYSPjjTYmP
- ypyTPN7uoWLfw4TxJqWCGRLsjnkwvyN3R4161Dty4Uhzqp1IkNhl3ifTDYEvbnmHaNvlvvna
- 7+9jjEBDEFYDMuO/CA8UtoVQXjy5gtOhZZkEsptfwQYc+E9U99yxGofDul7xH41VdXGpIhUj
- 4wjd3IbgaCiHxxj/M9eM99ybu5asvHyMo3EFPkyWxZsBlUN/riFXGspG4sT0cwOUhG2ZnExv
- XXhOGKs/y3VGhjZeCDWZ+0ZQHPCL3HUebLxW49wwLxvXU6sLNfYnTJxdqn58Aq4sBXW5Un0Q
- vfbd9VFV/bKFfvUscYk2UKPi9vgn1hY38IfmsnoS8b0uwDq75IBvup9pYFyNyPf5SutxhFfP
- JDjakbdjBoYDWVoaPbp5KAQ2VQRiR54lir/inyqGX+dwzPX/F4OHfB5RTiAFLJliCxniKFsM
- d8eHe88jWjm6/ilx4IlLl9/MdVUGjLpBi18X7ejLz3U2quYD8DBAGzCjy49wJ4Di4qQjblb2
- pTXoEyM2L6E604NbDu0VDvHg7EXh1WwmijEu28c/hEB6DwtzslLpBSsJV0s1/jE=
-In-Reply-To: <20260705220819.2472765-8-djbw@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 17 Jul 2026 15:49:55 +0200
+Message-Id: <DK0W7O5C7LYK.3BJOBTN337Q52@kernel.org>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: (subset) [PATCH v4 0/5] software node: provide support for
+ fw_devlink
+Cc: "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <david@davidgow.net>, "Rae Moar" <raemoar63@gmail.com>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>, "Daniel Scally" <djrscally@gmail.com>,
+ "Heikki Krogerus" <heikki.krogerus@linux.intel.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Bartosz Golaszewski" <brgl@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Linus Walleij" <linusw@kernel.org>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <linux-acpi@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-gpio@vger.kernel.org>
+References: <20260713-swnode-fw-devlink-v4-0-d4f2dee27ad9@oss.qualcomm.com>
+ <20260715212830.3077100-1-dakr@kernel.org>
+ <DJZGR6NV2WK5.2ZRW7VZIRO3LD@kernel.org>
+In-Reply-To: <DJZGR6NV2WK5.2ZRW7VZIRO3LD@kernel.org>
 
+On Wed Jul 15, 2026 at 11:30 PM CEST, Danilo Krummrich wrote:
+> On Wed Jul 15, 2026 at 11:28 PM CEST, Danilo Krummrich wrote:
+>> On Mon, 13 Jul 2026 13:14:43 +0200, Bartosz Golaszewski wrote:
+>>> [PATCH v4 0/5] software node: provide support for fw_devlink
+>>
+>> Applied, thanks!
+>>
+>>   Branch: topic/swnode
+>>   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driv=
+er-core.git
+>>
+>> [1/5] kunit: provide a set of fwnode-oriented helpers
+>>       commit: 9fdbdb528488
+>> [2/5] software node: add fw_devlink support
+>>       commit: 37e586675993
+>> [3/5] software node: add kunit tests for fw_devlink support
+>>       commit: eecba5978729
+>> [4/5] MAINTAINERS: add myself as reviewer of software node support
+>>       commit: 122630406245
+>>
+>> The patches are in the topic/swnode topic branch and will be merged into=
+ the
+>> corresponding target branch soon.
+>
+> I will provide a signed tag once I have the 0-day result.
 
+https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
+/tag/?h=3Dswnode-7.3-rc1
 
-On 7/6/26 01:08, Dan Williams wrote:
-> In preparation for adding another /sys/module/module/parameters entry,
-> document the existing async_probe parameter.
-> 
-> Cc: Saravana Kannan <saravanak@google.com>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Signed-off-by: Dan Williams <djbw@kernel.org>
-> ---
->   Documentation/ABI/stable/sysfs-module | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
-> index 41b1f16e8795..397c5c850894 100644
-> --- a/Documentation/ABI/stable/sysfs-module
-> +++ b/Documentation/ABI/stable/sysfs-module
-> @@ -45,3 +45,13 @@ Date:		Jun 2005
->   Description:
->   		If the module source has MODULE_VERSION, this file will contain
->   		the version of the source code.
-> +
-> +What:		/sys/module/module/parameters/async_probe
-> +Description:
-> +		(RW) Emits "1" if drivers from loadable modules attempt async
-> +		probing by default. Emits "0" if drivers from loadable modules
-
-nit: I think there is some tautology happening here, i.e a module is a 
-driver, no ?  I.e perhaps just remove the driver word so this reads 
-"emits 1 if modules atempts async probing".
-> +		attempt synchronous probing by default. This value is overridden
-> +		(in priority order) by: the module's built-in "PROBE_FORCE_*"
-> +		requests, the "driver_async_probe=..." kernel command line, the
-> +		"async_probe" module option, then this default. Write a valid
-> +		boolean value to toggle this policy.
-
+The changes are also in driver-core-next now, thanks!
