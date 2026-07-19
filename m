@@ -1,101 +1,374 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206F52E7382
-	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 08:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E4F385D8B
+	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 10:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784450278; cv=none; b=hiLf3q7gAiQNSlxL8ED6I6JXimrnxpenzVPodrXAmujbQOi8p4MOKuw1olvrkNY3yt6wPgEGFMeDYDZb+j2Et+ZJ7pX3+gUsosSElQHwRDTGtsz8ZtUcEb75sl7z1XxRNg228t+aRURGPpf5jxea2gDSU7PZFSvLoJ33q7DUFc0=
+	t=1784455356; cv=none; b=HJNN5mg3lHhtYnY0rrM+InSXHOBHaQCF1x6Lv0hpyi00HpJx+aGxuXrR45PrhvPdCDgAet5gIw4YtHI0IZUizw4hvZHCJPUF5iFia3RMeE4azI7zVCRfz5c5K/xkCl2eZ0gB8rcHY6jouy6CcL4j5Q8qPa6b9TbWtBLL2zhWAe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784450278; c=relaxed/simple;
-	bh=6A1AAWCG1HXME5VojPiVPd/SvTC7z3zlEgixnlAcm6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t5HBcZtqZ3H4FZFpI33pXdLtfIPE2HHJNBw4+13zQgLwBRMPfoGr9bE00Ewb0aXWpkw0zC2xhWyJHfBLwYUQYFDmT7wEwUPni0aGNyBeraoEURL6Ckr607ow+teEMvAe1Sp9Xn7i49KTNAbr6ipxqJY3NKmmyBqZp7GEORokvcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SH+I4UYp; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SH+I4UYp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784450276; x=1815986276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6A1AAWCG1HXME5VojPiVPd/SvTC7z3zlEgixnlAcm6Q=;
-  b=SH+I4UYpudOFEMvcq5s9lYAIga5ByFNYb2QvXjiUZhUKD6FWvXfuKf6L
-   WeJ5638hodyClLcaG7XeOejVePLnVm6zb4c7qaRKIDpl7M6zwj3ni42q6
-   HbxvmySqG9SOgpL0FTbd5PZNUzVoGijjMIYF/eTjsOBZVfbRNN1AihFIM
-   T4JuYLq4B0fie9pk0A41b+zpMxcVeZDow61xzrWsrf9bp3pfonrGImzmR
-   CvW34/u4ciRV/tRZU9p1LHfpOoIhn/xvRhBUoFa8LLw/byFhiGH+gyhfX
-   hhdZTaPdaLjVIfyKWE/gOQhO5eVjS8Hq38KmWmPsOUR6jNflnlC8jMFPL
-   w==;
-X-CSE-ConnectionGUID: qn4jpclISZGyv0KEXXLt8Q==
-X-CSE-MsgGUID: Jl3hVKGAQdauxP1T8Whz4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="85262748"
-X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
-   d="scan'208";a="85262748"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 01:37:55 -0700
-X-CSE-ConnectionGUID: MPlDAIe7Te2ViXWmZ77pGg==
-X-CSE-MsgGUID: c7dMYrhZSzG9mcavhyURVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
-   d="scan'208";a="256610099"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.56])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 01:37:51 -0700
-Date: Sun, 19 Jul 2026 11:37:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Xu Yang <xu.yang_2@nxp.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] device property: add test cases for
- fwnode_for_each_child_node()
-Message-ID: <alyMt-ya5skHmhtx@ashevche-desk.local>
-References: <20260611203537.1786399-1-andriy.shevchenko@linux.intel.com>
- <20260611203537.1786399-4-andriy.shevchenko@linux.intel.com>
- <DK1RFV9AABBD.KP0VPMWKFYWM@kernel.org>
+	s=arc-20240116; t=1784455356; c=relaxed/simple;
+	bh=DgLVtKBYdCZ3ZSKKr+1TuSdaE16fFiCUusT4zT7eJ1Y=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JGLjrWgISyjsloULkUdjYbCrfKw5LtCNDc+szv3rOY1p+wd60Iz+3zSSioqkVt+l4IC0tLwYI0OADbRmFFpzn5iF29mu50k7FVZrTyI5GenfuQDm0aG73yIUKp5T1g6wCroC+DeEcDgQi84upvin1p44cdbBENlYFVKN7KNqAVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-49ce04870f8so15085493b6e.0
+        for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 03:02:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784455351; x=1785060151;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZPWkpjpVol+Me5ls3242hGcDbY0V8vwyU9apwdRZsZI=;
+        b=Wt53syvfqpZ+t8PQS7uQCDWND1V5Wc+K/sTjSxhTiNRn4lBAFORPyoJjPhyXGPtUon
+         /yTAWatefEHEacBlxbab4bFKrH5E3GdorGCUFaRBEG00K8SoLZwzK8wiRhXJMvkDK59r
+         3mCrGsmUvS9tjYEJzC3ifjmahxt1zwVM4V8HPBVElP0I8vckqCtyAs40c29vvJZjagEz
+         ui3FMpRacKJQUFy8Ds7nHDvE2eSRtNmdpnUaaTjTEc1dZB1X2UJEJ96T7Ye54fqyoEFp
+         3ptDf5+HSx21otF1kLeYke/ZcDvpNDE1XoLhye7zD7FUdWTRaGvjm+oofBfw++5QDq1h
+         en2g==
+X-Gm-Message-State: AOJu0YztHZ8aH7hTBkDjgQ2NbrduYlSmPZzu2/aXJmo/GwZmx2Rd0Ccu
+	LHZeGTuqZ9f+vhPXZWDLytlr+hhiBbpxLOUW5ZEvcnaFtGmcUk79BpGgT6wjq+aW46WxNu2gB0b
+	F/TqFaypMvRcYrntPTEanHolt44o+xHkeWg3rfOq+Fx7H/lKR5ewuyu4yChh5ow==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DK1RFV9AABBD.KP0VPMWKFYWM@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Received: by 2002:a05:6808:444b:b0:4a2:ca6b:4214 with SMTP id
+ 5614622812f47-4a4d0357287mr5531957b6e.29.1784455351253; Sun, 19 Jul 2026
+ 03:02:31 -0700 (PDT)
+Date: Sun, 19 Jul 2026 03:02:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a5ca0b7.f1649fcc.2a4208.03f3.GAE@google.com>
+Subject: [syzbot] [kernfs?] possible deadlock in kernfs_remove_by_name_ns (2)
+From: syzbot <syzbot+b50eba6bf6cd3f8ba7d0@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jul 18, 2026 at 04:18:12PM +0200, Danilo Krummrich wrote:
-> On Thu Jun 11, 2026 at 10:31 PM CEST, Andy Shevchenko wrote:
-> >
-> > Add test cases for fwnode_for_each_child_node() API.
-> >
-> > Test command:
-> > $ ./tools/testing/kunit/kunit.py run property-entry
-> >
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> This patch broke the build [1], hence I dropped it from the queue (but kept the
-> first two patches of this series).
-> 
-> of_node_init() can't be used from modules, either it needs EXPORT_SYMBOL_GPL()
-> itself, or of_node_ktype needs to be exported for this kunit test to work.
+Hello,
 
-Oh, thanks for pointing out.
+syzbot found the following issue on:
 
-> [1] https://lore.kernel.org/all/202607181651.RnUuV8n6-lkp@intel.com/
+HEAD commit:    56d96fededd6 mpls: fix NULL deref in mpls_valid_fib_dump_r..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=136d4746580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
+dashboard link: https://syzkaller.appspot.com/bug?extid=b50eba6bf6cd3f8ba7d0
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
--- 
-With Best Regards,
-Andy Shevchenko
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8a219d5f8172/disk-56d96fed.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bc2c4acbf659/vmlinux-56d96fed.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2f3b2152262f/bzImage-56d96fed.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b50eba6bf6cd3f8ba7d0@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+kworker/0:1/21181 is trying to acquire lock:
+ffff88801c295180 (&root->kernfs_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x4e/0x140 fs/kernfs/dir.c:1792
+
+but task is already holding lock:
+ffff88801c2952a0 (&root->kernfs_supers_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1791
+
+which lock already depends on the new lock.
 
 
+the existing dependency chain (in reverse order) is:
+
+-> #10 (&root->kernfs_supers_rwsem){++++}-{4:4}:
+       down_read+0x4a/0x330 kernel/locking/rwsem.c:1574
+       kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1791
+       kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
+       create_files fs/sysfs/group.c:66 [inline]
+       internal_create_group+0x58e/0x1180 fs/sysfs/group.c:189
+       internal_create_groups fs/sysfs/group.c:229 [inline]
+       sysfs_update_groups+0x60/0x130 fs/sysfs/group.c:273
+       pmu_dev_alloc+0x29b/0x300 kernel/events/core.c:12772
+       perf_event_sysfs_init+0x76/0x100 kernel/events/core.c:15368
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #9 (pmus_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       perf_event_init_cpu+0x1d1/0x7a0 kernel/events/core.c:15270
+       cpuhp_invoke_callback+0x434/0x810 kernel/cpu.c:194
+       cpuhp_thread_fun+0x362/0x780 kernel/cpu.c:1109
+       smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #8 (cpuhp_state-up){+.+.}-{0:0}:
+       cpuhp_lock_acquire kernel/cpu.c:103 [inline]
+       cpuhp_thread_fun+0x127/0x780 kernel/cpu.c:1086
+       smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #7 (cpu_hotplug_lock){++++}-{0:0}:
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
+       cpus_read_lock+0x42/0x160 kernel/cpu.c:490
+       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
+       nbd_reconnect_socket drivers/block/nbd.c:1379 [inline]
+       nbd_genl_reconfigure+0x1301/0x1e80 drivers/block/nbd.c:2468
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #6 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x373/0x1150 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #5 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_queue_rq+0xc1/0x1150 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #4 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:199 [inline]
+       __synchronize_srcu+0xc9/0x2f0 kernel/rcu/srcutree.c:1481
+       elevator_switch+0x1e8/0x7b0 block/elevator.c:576
+       elevator_change+0x2fa/0x480 block/elevator.c:681
+       elevator_set_default+0x375/0x440 block/elevator.c:754
+       blk_register_queue+0x3f3/0x4e0 block/blk-sysfs.c:992
+       __add_disk+0x6cb/0xe30 block/genhd.c:528
+       add_disk_fwnode+0xfb/0x4b0 block/genhd.c:597
+       add_disk include/linux/blkdev.h:800 [inline]
+       nbd_dev_add+0x733/0xb60 drivers/block/nbd.c:2021
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #3 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       elevator_change+0x1af/0x480 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5101 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5146 [inline]
+       blk_mq_update_nr_hw_queues+0x5ef/0x19f0 block/blk-mq.c:5211
+       nbd_start_device+0x189/0xb30 drivers/block/nbd.c:1526
+       nbd_genl_connect+0x1597/0x1c10 drivers/block/nbd.c:2276
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&q->q_usage_counter(io)#54){++++}-{0:0}:
+       blk_alloc_queue+0x544/0x690 block/blk-core.c:504
+       blk_mq_alloc_queue block/blk-mq.c:4420 [inline]
+       __blk_mq_alloc_disk+0x194/0x390 block/blk-mq.c:4467
+       nbd_dev_add+0x494/0xb60 drivers/block/nbd.c:1991
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #1 (fs_reclaim){+.+.}-{0:0}:
+       __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4343
+       might_alloc include/linux/sched/mm.h:317 [inline]
+       slab_pre_alloc_hook mm/slub.c:4565 [inline]
+       slab_alloc_node mm/slub.c:4925 [inline]
+       kmem_cache_alloc_lru_noprof+0x65/0x5f0 mm/slub.c:4978
+       alloc_inode+0xb8/0x1b0 fs/inode.c:340
+       iget_locked+0x131/0x6a0 fs/inode.c:1477
+       kernfs_get_inode+0x4f/0x770 fs/kernfs/inode.c:252
+       kernfs_fill_super fs/kernfs/mount.c:308 [inline]
+       kernfs_get_tree+0x5cd/0x980 fs/kernfs/mount.c:392
+       vfs_get_tree+0x92/0x2a0 fs/super.c:1694
+       fc_mount fs/namespace.c:1198 [inline]
+       do_new_mount_fc fs/namespace.c:3765 [inline]
+       do_new_mount+0x319/0xdc0 fs/namespace.c:3841
+       do_mount fs/namespace.c:4174 [inline]
+       __do_sys_mount fs/namespace.c:4390 [inline]
+       __se_sys_mount+0x31d/0x420 fs/namespace.c:4367
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&root->kernfs_rwsem){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+       down_write+0x96/0x200 kernel/locking/rwsem.c:1631
+       kernfs_remove_by_name_ns+0x4e/0x140 fs/kernfs/dir.c:1792
+       _cfg80211_unregister_wdev+0x133/0x5a0 net/wireless/core.c:1420
+       ieee80211_if_remove+0x289/0x340 net/mac80211/iface.c:2432
+       ieee80211_del_iface+0x19/0x30 net/mac80211/cfg.c:254
+       rdev_del_virtual_intf net/wireless/rdev-ops.h:62 [inline]
+       cfg80211_remove_virtual_intf+0x221/0x3f0 net/wireless/util.c:3006
+       cfg80211_destroy_ifaces+0x23f/0x300 net/wireless/core.c:436
+       cfg80211_destroy_iface_wk+0x21/0x30 net/wireless/core.c:464
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+other info that might help us debug this:
+
+Chain exists of:
+  &root->kernfs_rwsem --> pmus_lock --> &root->kernfs_supers_rwsem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&root->kernfs_supers_rwsem);
+                               lock(pmus_lock);
+                               lock(&root->kernfs_supers_rwsem);
+  lock(&root->kernfs_rwsem);
+
+ *** DEADLOCK ***
+
+5 locks held by kworker/0:1/21181:
+ #0: ffff88801b02b140 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #0: ffff88801b02b140 ((wq_completion)events){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #1: ffffc900041dfc40 ((work_completion)(&rdev->destroy_work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #1: ffffc900041dfc40 ((work_completion)(&rdev->destroy_work)){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #2: ffffffff9002c040 (rtnl_mutex){+.+.}-{4:4}, at: cfg80211_destroy_iface_wk+0x19/0x30 net/wireless/core.c:463
+ #3: ffff888088e907a0 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: class_wiphy_constructor include/net/cfg80211.h:6884 [inline]
+ #3: ffff888088e907a0 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: cfg80211_destroy_ifaces+0x233/0x300 net/wireless/core.c:434
+ #4: ffff88801c2952a0 (&root->kernfs_supers_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1791
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 21181 Comm: kworker/0:1 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+Workqueue: events cfg80211_destroy_iface_wk
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ down_write+0x96/0x200 kernel/locking/rwsem.c:1631
+ kernfs_remove_by_name_ns+0x4e/0x140 fs/kernfs/dir.c:1792
+ _cfg80211_unregister_wdev+0x133/0x5a0 net/wireless/core.c:1420
+ ieee80211_if_remove+0x289/0x340 net/mac80211/iface.c:2432
+ ieee80211_del_iface+0x19/0x30 net/mac80211/cfg.c:254
+ rdev_del_virtual_intf net/wireless/rdev-ops.h:62 [inline]
+ cfg80211_remove_virtual_intf+0x221/0x3f0 net/wireless/util.c:3006
+ cfg80211_destroy_ifaces+0x23f/0x300 net/wireless/core.c:436
+ cfg80211_destroy_iface_wk+0x21/0x30 net/wireless/core.c:464
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
