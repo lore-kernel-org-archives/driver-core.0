@@ -1,41 +1,38 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C437324B24
-	for <driver-core@lists.linux.dev>; Sat, 18 Jul 2026 15:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B304F1F938;
+	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784388803; cv=none; b=CZgXK+VB/TIuUlNuWBY/pa5gMxLu9mrkVUTbXkTC2WY3QLLtAvhIOvBWzDxuHJn0NdmcOMjsZRujVWoeQVO0jeuhyy0xtHQff9h/GRwuQ2P6BOmMFaTchrrbTZ9SJhnDPricrxg1Z8ZfFBfCbz7R/mk/xqWEf8V/JA6tzn2vFwI=
+	t=1784449743; cv=none; b=gtkGSb8yFdYl3exwgbIXC/qo18SI1yGm2sTeUYzSVxCeFFnSZa0DldcANarrXVumiYE9OBB5yuVP09oW2cseTy1KmAoGqlbWbYLTq4DDzt1pACA4VOWOxCEaOjtdBfYGmIlIjmaEE9/Qi1lOkEVydiP5rTc4Q+o5zx5eTk4w9Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784388803; c=relaxed/simple;
-	bh=DxSzaBqP43XW94Qp7LgDYVOU3VZcdc/fcMrcCLNmLR8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VQ3pLmHS2ildP4zRXsGxwRej40G3kxg8fu5EaiH9bI9cP+c+CLSb2b8YeVME2os/1hTSWQNBvmKzkpVRBssfcnHXQT8VyT3sRQHB+/A6D1dzBBdTP+gtfP9x8CYCsStj+mnddTHvN6JfGAoYUXNWR7e1zaGrA85gWCUEnMpsZ6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=HbR+yojt; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1784449743; c=relaxed/simple;
+	bh=+Y+dMqSu30++/HeilifSoYXXCl2DeneoUS6AA6C233s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MT1ieWH0j6iixx4WHKuocz/wbdVyGsadaCC/965A+odsU/PHvxwygLE5e7VkHvLrkBqAp0akie3dZbUtpQqTztfSo5fopQPlnLbgN1NyBMiyIwjNtXf/d1k5mSt0M3ituULpLmqBtJVMSvtYIbL4OAbR56OQMiho2ORSPYxXJtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pb+2Qtgm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="HbR+yojt"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id C1C6D240103
-	for <driver-core@lists.linux.dev>; Sat, 18 Jul 2026 17:33:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1784388798;
-	bh=/AgXW+UnQB7fSeYuKQh0PV4Eb/oe8ytZXjtjkC3mhq8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=HbR+yojtRz0IQvilZ++aT+ynbriYKfBtzJhZoBBSJNGJ4zgefO7p2cW4Ya8sjn6vL
-	 cD667kGDqXHu7EFxIs/PZeMm88DmOkaj0Wjz+lF2cVmvXU/d6937PDyJgmPisNGM4L
-	 rAkyY907H2vNLZLwtLq0QHm7DUGEO+mNiKHmTZ9qGnqHXT5e86x0qZw1YD9/IH/B4A
-	 ubtzadt6DOqv+yRBHixiTEmwZRNuyha8bID2HgxHl+2EB5xz+AQ/GBSIueS6+yPHwZ
-	 U8Yl37NQgFTDFOO7jLTs16AZnvcK8IynmEJeOjSB44z6nZEMWKOe3hG7GbuSi7Ij7T
-	 B1YgdWHJniITg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4h2W563nv5z6v2B;
-	Sat, 18 Jul 2026 17:33:14 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-Date: Sat, 18 Jul 2026 15:33:15 +0000
-Subject: [PATCH v16 3/3] MAINTAINERS: serdev: Add self for serdev
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pb+2Qtgm"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 37E27C19425;
+	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784449743;
+	bh=+Y+dMqSu30++/HeilifSoYXXCl2DeneoUS6AA6C233s=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Pb+2QtgmmHS3Raz5rGsfSzn+kvsXJS6B09c1TSrcHcnET7dgVazzYTrN7xyCAshwT
+	 rtLsnlTYmKH3IRiR192b/RqE9LaNAPwtN5eBR2o/0HTXSL2wv/WhnPD2FwShFFqjSV
+	 ftyrTuKTuOftNgzNEX0Xf9BBX3o6RlR00f1SRj17gcWrySzDpe+cwFZE2acydm4XkE
+	 Dm/1r7TEymawPcrgM9mDpvU+xQgDnPvfwzRiwhqwSOnsGEdT2HM+ZRGiwcYG68rmb+
+	 XvCmVNXdqDeNpeyy9mcxBSxNT6CLKzZRXEY+RnigBbw3zote/YZV07sDk1rHoymLDu
+	 1APhAjqiExJ+Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24587C4451B;
+	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
+From: Josef Ippisch via B4 Relay <devnull+josef.ippisch.dev.mailbox.org@kernel.org>
+Subject: [PATCH 0/2] rust: debugfs: migrate BinaryWriter requirements to
+ zerocopy
+Date: Sun, 19 Jul 2026 10:28:47 +0200
+Message-Id: <20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-0-27ed30512e75@mailbox.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,114 +41,87 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260718-rust_serdev-v16-3-5809384d2e1b@posteo.de>
-References: <20260718-rust_serdev-v16-0-5809384d2e1b@posteo.de>
-In-Reply-To: <20260718-rust_serdev-v16-0-5809384d2e1b@posteo.de>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNSw7CMAwA0atUXmOpKahQroK6SIJTjERSOeYTq
+ t6dAMu3mVkgkzBlODYLCD04c4oVZtOAv9g4EfK5Grq269u9GfDGk1gldBytlKewkqAmfJMkn+a
+ CHDW5opTR0CHsKAxb27dQg7NQ4Ndvdhr/znd3Ja/fA6zrByIjqcWOAAAA
+X-Change-ID: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Kari Argillander <kari.argillander@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Daniel Almeida <daniel.almeida@collabora.com>, 
  Tamir Duberstein <tamird@kernel.org>, 
  Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=885;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=DxSzaBqP43XW94Qp7LgDYVOU3VZcdc/fcMrcCLNmLR8=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqW5yzMd/0RzVfzSbzh4RxlNxtNrOTn+HyLogPV
- MguBuFOirCJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCalucsxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9LRhxAAhMOjAvNkCPiUS1l6rWLdICsbPPPZZTV
- BoxyyHNEYzRiTZl75kYTqo/tAPpdeTLjWTtIugso3iTjwxxg+vUh9lLhkQc0oh2jBWEgY/nXbKM
- qUZSb0Y0YdJ4AV1f/mYGFxzVDsjMNTH5QapsL3eXssWYRkNMx9Ugxcv46xN9Z1B4Kg6kW7goMPa
- 8/XzixMTmb8JQi9L439x1QbOaV41GsK6kOzaACNVkTg/+83weQr4IHTp0y6O0Ic4ZahhN16PWm2
- km1vJ/OglPaNP2S/T9/btt4N4A27dd0/phqUSzYgPSAYLh1DtfNZcpxd5ZUsG72J5wjmjT2KPXp
- sxsdkTm+C8nd3YVR3I3vKfD0fnuXX9ti2xmeZsAdyA7Wt2lNRwcDhfzuFxYWMK+VmGRzoQ4G7W3
- sGShBkqgi0T80QyeeQIZX7jNpGr99gJCdfZQKUKnfMaCFlW6/0eH615DZ0V7fy7+IMMzVxX6VGE
- GsuL6YmFt8zLVg5+QNIr9hfpAvplpgaazKqxMaamSRUiTBBJ3jADdc1W6bEipadsvy1Z0kq5UdZ
- 2udkVCjz0j1cVqwLHLLeUVbRW5O2fzHjnQ9vWl0TBYjLZ4Aqb+jlBYHxs8eODSq4/AWTTPvdhtY
- zI2C68gK1p62fo9iD31cwZ5R92jJ10u/no7L+vEOrSpFmnG/fgXU=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Joshua Liebow-Feeser <joshlf@google.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Josef Ippisch <josef.ippisch.dev@mailbox.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784449742; l=2110;
+ i=josef.ippisch.dev@mailbox.org; s=20260719; h=from:subject:message-id;
+ bh=+Y+dMqSu30++/HeilifSoYXXCl2DeneoUS6AA6C233s=;
+ b=4LzJukWpHx3BW3yuSqUZo97oUWqt3RybmSx+UHgmW9fomCT64PQcc9bLa7inTXeC0hIHwZBuH
+ TtdHCTFY0OPCoYiP/lFsAq2slW10wNg35UZi7EBHboiqDL8J/jSYWFx
+X-Developer-Key: i=josef.ippisch.dev@mailbox.org; a=ed25519;
+ pk=M4DnWHhz9yT9BkhXKzsmw6wTVrK2U1WBK0QiEjHoo1U=
+X-Endpoint-Received: by B4 Relay for josef.ippisch.dev@mailbox.org/20260719
+ with auth_id=884
+X-Original-From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
+Reply-To: josef.ippisch.dev@mailbox.org
 
-Rob mentioned he needs to find someone else to maintain serdev.
+Migrates the `BinaryWriter` default implementation requirements from
+`kernel::transmute::IntoBytes` to `zerocopy::Immutable` +
+`zerocopy::IntoBytes`.
 
-Link: https://lore.kernel.org/rust-for-linux/20260430195858.GA1650658-robh@kernel.org/
-Link: https://lore.kernel.org/rust-for-linux/da85ceb81f51079d4a8248a1ffde6a27d2ef24ad.camel@posteo.de/
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
+This is part of a bigger migration from rust/kernel/transmute.rs to the
+zerocopy crate, see also [1] and [2]
+
+[1] https://github.com/Rust-for-Linux/linux/issues/975
+[2] https://github.com/Rust-for-Linux/linux/issues/1241
+
+The crate zerocopy was introduced with
+
+c37398010a05 rust: zerocopy: import crate
+
+This introduced among other things the `IntoBytes` trait that, when
+derived, does better checks on the actual requirements of the types than
+the existing `kernel::transmute::AsBytes`.
+
+This is my first kernel patch so please let me know if I do anything wrong
+process wise or regarding some other aspect!
+
+There are some other points that I came across when investigating this
+
+- rust/kernel/debugfs/traits.rs still depends on
+  `kernel::transmute::AsBytes` for `BinaryReaderMut`.  Should I directly
+  migrate this also in this patch series? This would require migrating also
+  to `zerocopy::FromBytes` as the implemention for T depends on both
+  `AsBytes + FromBytes` currently.
+- I noticed that we could probably get rid of the `BinaryWriter`
+  implementation for `Vec` altogether if we implemented `Immutable` and
+  `IntoBytes` for `Vec`.  These are already implemented for [T] after
+  all. What do you think?
+
+Suggested-by: Joshua Liebow-Feeser <joshlf@google.com>
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/975
+Signed-off-by: Josef Ippisch <josef.ippisch.dev@mailbox.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Josef Ippisch (2):
+      rust: debugfs: migrate BinaryWriter requirements to zerocopy
+      rust: debugfs: remove unsafe block from BinaryWriter impl for Vec
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d32aa7f42a4..d092042fed31 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24562,7 +24562,7 @@ F:	drivers/iio/chemical/sps30_i2c.c
- F:	drivers/iio/chemical/sps30_serial.c
- 
- SERIAL DEVICE BUS
--M:	Rob Herring <robh@kernel.org>
-+M:	Markus Probst <markus.probst@posteo.de>
- L:	linux-serial@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/serial/serial.yaml
+ rust/kernel/debugfs/traits.rs | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
+---
+base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
+change-id: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
 
--- 
-2.54.0
+Best regards,
+--  
+Josef Ippisch <josef.ippisch.dev@mailbox.org>
+
 
