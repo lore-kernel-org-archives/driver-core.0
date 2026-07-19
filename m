@@ -1,113 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD83327FB18;
-	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206F52E7382
+	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 08:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784449743; cv=none; b=A0XwncOwKQkIi6Y9FEvIDbQ+BtNcgw0xOlLUTum3Hb09RNl+anCKztPH/+iIYjmkii5lKiE0yQTjeWAF0wZ3VC1N44lIapOmwU9L62BTRv1/2W23jLQ4wQgXNe6PbuKPdEjK502zbFq574iriIbhNIICGGR1rTma70NA93pwKho=
+	t=1784450278; cv=none; b=hiLf3q7gAiQNSlxL8ED6I6JXimrnxpenzVPodrXAmujbQOi8p4MOKuw1olvrkNY3yt6wPgEGFMeDYDZb+j2Et+ZJ7pX3+gUsosSElQHwRDTGtsz8ZtUcEb75sl7z1XxRNg228t+aRURGPpf5jxea2gDSU7PZFSvLoJ33q7DUFc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784449743; c=relaxed/simple;
-	bh=w356AKSVzw89G5KERF3v244xUcNjW+WbgWaw4EEcsDs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JM3A9rF1LaElTpb8Uj+afEOwnjNzFQSDPVJw4U7zwwObp4+IxSiBA7F1fTQEhRhHz8XuyXY/9qrbs5d6o63PKb0V0x7YHC/gW8z7QGxorjEyu6kxT3UO5j1WcZPUcYO/cEAWEIbiy5G8zapzKfS/GMQpS3pNboZisPxyo20xk2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L4ZezUI+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784450278; c=relaxed/simple;
+	bh=6A1AAWCG1HXME5VojPiVPd/SvTC7z3zlEgixnlAcm6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5HBcZtqZ3H4FZFpI33pXdLtfIPE2HHJNBw4+13zQgLwBRMPfoGr9bE00Ewb0aXWpkw0zC2xhWyJHfBLwYUQYFDmT7wEwUPni0aGNyBeraoEURL6Ckr607ow+teEMvAe1Sp9Xn7i49KTNAbr6ipxqJY3NKmmyBqZp7GEORokvcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SH+I4UYp; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4ZezUI+"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 609A6C2BCC7;
-	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784449743;
-	bh=w356AKSVzw89G5KERF3v244xUcNjW+WbgWaw4EEcsDs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=L4ZezUI+1Jk2AwsmSEZ/1CVQLC/57YrOYoVOUFQjaLsYKj6x+R2B2sL+vXOqlH0iy
-	 IwwVcOb/5oEe6HG3+C/wkD1ra3CkdI2WlibJ8a1uYGbTYAcOYNqZmP+BuiyEywZQhq
-	 4KqA06E/P2pkh5MjYgTpY/Fr3CZi8Loj/iBho5cZfiW/dz+Wa4yIv9Mf1ZumOm716V
-	 VOjgotv1MfvPxEaw+vKBlc1bJi1TZwRxULPhcsagU9UKoc7w0hOme2pjrYaEcoE7Ex
-	 pWRRdwwkO0b6UBDa8cwrAUFWlARfERPWH/YrYN8m7XtRgyKyOW0ErbfFTchrgG43Fo
-	 nFrAVIez7k2mg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44B8BC4450A;
-	Sun, 19 Jul 2026 08:29:03 +0000 (UTC)
-From: Josef Ippisch via B4 Relay <devnull+josef.ippisch.dev.mailbox.org@kernel.org>
-Date: Sun, 19 Jul 2026 10:28:49 +0200
-Subject: [PATCH 2/2] rust: debugfs: remove unsafe block from BinaryWriter
- impl for Vec
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SH+I4UYp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784450276; x=1815986276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6A1AAWCG1HXME5VojPiVPd/SvTC7z3zlEgixnlAcm6Q=;
+  b=SH+I4UYpudOFEMvcq5s9lYAIga5ByFNYb2QvXjiUZhUKD6FWvXfuKf6L
+   WeJ5638hodyClLcaG7XeOejVePLnVm6zb4c7qaRKIDpl7M6zwj3ni42q6
+   HbxvmySqG9SOgpL0FTbd5PZNUzVoGijjMIYF/eTjsOBZVfbRNN1AihFIM
+   T4JuYLq4B0fie9pk0A41b+zpMxcVeZDow61xzrWsrf9bp3pfonrGImzmR
+   CvW34/u4ciRV/tRZU9p1LHfpOoIhn/xvRhBUoFa8LLw/byFhiGH+gyhfX
+   hhdZTaPdaLjVIfyKWE/gOQhO5eVjS8Hq38KmWmPsOUR6jNflnlC8jMFPL
+   w==;
+X-CSE-ConnectionGUID: qn4jpclISZGyv0KEXXLt8Q==
+X-CSE-MsgGUID: Jl3hVKGAQdauxP1T8Whz4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11850"; a="85262748"
+X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
+   d="scan'208";a="85262748"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 01:37:55 -0700
+X-CSE-ConnectionGUID: MPlDAIe7Te2ViXWmZ77pGg==
+X-CSE-MsgGUID: c7dMYrhZSzG9mcavhyURVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,172,1779174000"; 
+   d="scan'208";a="256610099"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.56])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2026 01:37:51 -0700
+Date: Sun, 19 Jul 2026 11:37:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Xu Yang <xu.yang_2@nxp.com>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] device property: add test cases for
+ fwnode_for_each_child_node()
+Message-ID: <alyMt-ya5skHmhtx@ashevche-desk.local>
+References: <20260611203537.1786399-1-andriy.shevchenko@linux.intel.com>
+ <20260611203537.1786399-4-andriy.shevchenko@linux.intel.com>
+ <DK1RFV9AABBD.KP0VPMWKFYWM@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-2-27ed30512e75@mailbox.org>
-References: <20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-0-27ed30512e75@mailbox.org>
-In-Reply-To: <20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-0-27ed30512e75@mailbox.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Joshua Liebow-Feeser <joshlf@google.com>, 
- Miguel Ojeda <ojeda@kernel.org>, 
- Josef Ippisch <josef.ippisch.dev@mailbox.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784449742; l=1292;
- i=josef.ippisch.dev@mailbox.org; s=20260719; h=from:subject:message-id;
- bh=CHLkAGmhpDB+02B5seMmVd9PeGaJl3leJ/BeMIes9uQ=;
- b=GA4y8gJ9Lp+CKm1ldrBBbzxlQtX88nZkcj90Se4zx5sK2yv0jYd21V0bTE4GWsQ/6k2TgVmCH
- LdReWw0uFd9C6be6gtbKjTyAj2IvNX1IbSRclr5V3Po/bBc9SRYJDCD
-X-Developer-Key: i=josef.ippisch.dev@mailbox.org; a=ed25519;
- pk=M4DnWHhz9yT9BkhXKzsmw6wTVrK2U1WBK0QiEjHoo1U=
-X-Endpoint-Received: by B4 Relay for josef.ippisch.dev@mailbox.org/20260719
- with auth_id=884
-X-Original-From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
-Reply-To: josef.ippisch.dev@mailbox.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DK1RFV9AABBD.KP0VPMWKFYWM@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
+On Sat, Jul 18, 2026 at 04:18:12PM +0200, Danilo Krummrich wrote:
+> On Thu Jun 11, 2026 at 10:31 PM CEST, Andy Shevchenko wrote:
+> >
+> > Add test cases for fwnode_for_each_child_node() API.
+> >
+> > Test command:
+> > $ ./tools/testing/kunit/kunit.py run property-entry
+> >
+> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> This patch broke the build [1], hence I dropped it from the queue (but kept the
+> first two patches of this series).
+> 
+> of_node_init() can't be used from modules, either it needs EXPORT_SYMBOL_GPL()
+> itself, or of_node_ktype needs to be exported for this kunit test to work.
 
-The previous implementation used an `unsafe` block to manually cast Vec's
-slice to a &[u8] using `core::slice::from_raw_parts`.
+Oh, thanks for pointing out.
 
-Instead, the implementation can be implemented in safe rust using
-`IntoBytes::as_bytes()` and making use of deref coercion to implicitly cast
-Vec to &[T] as `IntoBytes` automatically is implemented on [T] when
-`IntoBytes` is implemented on T.
-
-Signed-off-by: Josef Ippisch <josef.ippisch.dev@mailbox.org>
----
- rust/kernel/debugfs/traits.rs | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/rust/kernel/debugfs/traits.rs b/rust/kernel/debugfs/traits.rs
-index ce030ff45a4c..4a24afbb8760 100644
---- a/rust/kernel/debugfs/traits.rs
-+++ b/rust/kernel/debugfs/traits.rs
-@@ -160,14 +160,7 @@ fn write_to_slice(
-         writer: &mut UserSliceWriter,
-         offset: &mut file::Offset,
-     ) -> Result<usize> {
--        let slice = self.as_slice();
--
--        // SAFETY: `T: Immutable + IntoBytes` allows us to treat `&[T]` as `&[u8]`.
--        let buffer = unsafe {
--            core::slice::from_raw_parts(slice.as_ptr().cast(), core::mem::size_of_val(slice))
--        };
--
--        writer.write_slice_file(buffer, offset)
-+        writer.write_slice_file(self.as_bytes(), offset)
-     }
- }
- 
+> [1] https://lore.kernel.org/all/202607181651.RnUuV8n6-lkp@intel.com/
 
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
 
 
