@@ -1,267 +1,359 @@
-Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC86E24E4A1
-	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 20:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128EA28BAB9
+	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 20:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784491810; cv=none; b=N17zQwQkx+qXNNA46qsIe+/KaJLZjai6fIA1Lqc4hLRE62ELgLS7aHEULL+a1AGyClJKxLcbpFPeDimD5lo4Oa0vWJtdU0dUKNBge0zL9p7S5/q4pWT6xpFt7+34BN75+zDspXf7duNQe5ct65jDkLRGg+HWyRCtNyJwOlMHsd4=
+	t=1784492310; cv=none; b=uXTHSMHSaiomuFETz7OF7hoorxwkZJ0lHD8q4Os+3dzJ4CDAZ5ptlUkrUdyf3X/N0ttPo4TZ8SjU28f6u/4WFPsZQdsnsZhLlYhI1pt4CvKZKT0MdbmOEsj4m27gug5/8xPiUZBeZ2Ehm4bADIGTBgnWA+7nLHPyWXHaNylLxQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784491810; c=relaxed/simple;
-	bh=X5iAEHz2hxjPsXMerElFIw8SISqLEikb1wSYP2eCe74=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U5HJrPRm/OK8vs6Ca8ZTXdKeXzqYv8Sr40cOZnpXbGgX7KXpu21QuoWtlXWQDOIbnRMWcfmXO7fsdU+t1pkT020CNtPxLWmMSxX9ifxV6VqDptBvmhRzGwLg7UN+sS9fEL9xVZ2QEQHnAYfYMjeJaqCsKLTYeXuzRAyooAIfa7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=XIDe5Bxp; arc=none smtp.client-ip=79.135.106.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="XIDe5Bxp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=hr7fef3m5bcb3nzwxv7hcawpkm.protonmail; t=1784491794; x=1784750994;
-	bh=YIlA/ffz+CiSppXBfyyFp/DZEaOzhgtsaIbJf8IEPJk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=XIDe5BxpOiZPwyCj4Yuh5bU57cJs5z9EkFRs7WjCxWGWBRLdSDo36yxkjjNUrKBi6
-	 BJIK8IWmBZljUseKpghmQSzhH4/YboOWW62wW9sr3Cu5eFdr9Jn//oKltxrn33U9lv
-	 a4xGmGYzXCR5dNaMXg6cVUGeUODfrhTmn+nbEHlvXSk/m2SGTW8cEt8COeG9ZU51mf
-	 YmOPeMX1gQo5pdt0oIcwI/WVx+0QkRO4jlq0Lt2S4CPyDdzNGzE72lwG5t5vfYODzE
-	 V5zl36MlUXVH2KwaWJPTmMI9Cy0FOVck8k3+jbJXoiM67leHx5XPGTApRwjgt0Skus
-	 VpyQOHmAN2ZFw==
-Date: Sun, 19 Jul 2026 20:09:49 +0000
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda <ojeda@kernel.org>
-From: Lorenzo Delgado <lnsdev@proton.me>
-Cc: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, Lorenzo Delgado <lnsdev@proton.me>
-Subject: [PATCH v2] rust: io: convert ResourceSize into a transparent newtype
-Message-ID: <20260719200945.687904-1-lnsdev@proton.me>
-In-Reply-To: <20260712113602.389060-1-lnsdev@proton.me>
-References: <20260712113602.389060-1-lnsdev@proton.me>
-Feedback-ID: 53083996:user:proton
-X-Pm-Message-ID: 81b8f77747862653e1bf7a1622bfe2725ec30257
+	s=arc-20240116; t=1784492310; c=relaxed/simple;
+	bh=6t7vWTVRCqJZgpzyZLm0OZQ+0CsBlfh9aDGfDxDNAF0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=tQODZa4Rd1X5x8JlezldcfzJVa5NuVTxPGF0hOz4n6QusHTwLHcX2h3bg6k4eZ9WhdKgYwAuJ7nP3OtDC6oHxq7GH2J0dk+ZMVdf5OWM8PcJuSdBclAdZrDoaT0xl++GFrVPdXBkaIl3mJONev3R0f/DPjtFI496wkB4wzdq094=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-48576b535b6so6472297b6e.2
+        for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 13:18:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784492308; x=1785097108;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7T1XGPTxjyOXm2x1yxEIZsJaIZKP9ZUCrWvngzfM/mo=;
+        b=BzHQKNmxrCOVppR5Ko1u7rS1YemP5Ri4+NigpgAuz/fknp2P/qgoG/5K+CuBl8ZjvH
+         PRKh0O/6NwaGtvjOEjdlGN5FU71aVv61HXwKMXFgcCJKp1Cgu06QuH9uzNvM5DLzuH4D
+         8uJ3LtD6x0psT8i7EgqyspLwlHmXZUD0ChiVamCI2kjOcSp9yL6Nh0l5g9ChRnQN5CyC
+         7+WMPcfJ9+uZQsH4ksWKpFcb3XSnHH0+xh1Bs8oW+6zM6hMUtGQqiPZjecjivCnM0G+8
+         t4W5+dl3+2SgIHHKZDIYnCqV4HipItmqVXOsJ1YXmghOnVEN39sbYXHSAtZL3BZaAAdt
+         U10g==
+X-Forwarded-Encrypted: i=1; AHgh+Rpo3wqYJwMt0ji8qROuX7gJjG5o1q/VskaBSkM4nWfO6TPV+NmPJuef1Vls69k0yl+rZDht79DBLIoh+g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDcyRrktnGAXG/1JbV3JFQ8NJ1MOTxvswqK0ZUmKP637QSMM3l
+	R/7DPL06NwenOuTBfSx1ZO308aaiIhjmze3+UUdZyiH0Nwkp8yArYRfIoRBR+0UPb5X2JnHAEqm
+	YGTE8FiUpiF4d+ozzjSYfDQua79I5sFTa2errednA7sGCv47yuLwvRNwY5CQ=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Received: by 2002:a05:6808:1910:b0:479:f7e7:4a81 with SMTP id
+ 5614622812f47-4a4d00499edmr7991367b6e.0.1784492308033; Sun, 19 Jul 2026
+ 13:18:28 -0700 (PDT)
+Date: Sun, 19 Jul 2026 13:18:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a5d3114.42649fcc.6186.007b.GAE@google.com>
+Subject: [syzbot] [pm?] possible deadlock in device_move (2)
+From: syzbot <syzbot+fe46941938f79773c2f2@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	netdev@vger.kernel.org, pavel@kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-`ResourceSize` was a bare type alias for `resource_size_t`, so it
-inherited every integer operation and `as` cast. That silently permits
-operations that are meaningless for the size of a hardware resource:
-mixing it with unrelated integers and truncating casts.
+Hello,
 
-Wrap it in a `#[repr(transparent)]` newtype so each conversion at a
-boundary becomes explicit and reviewable. The representation is
-unchanged, so this is ABI-identical; only the spelling at the FFI
-boundary changes. Provide the conversion surface `from_raw`/`into_raw`,
-`From` in both directions, and a fallible `TryFrom<ResourceSize> for
-usize` for checked narrowing. Update the two producers, `Resource::size`
-and `SGEntry::dma_len`, and the `request_region` consumer. In nova-core,
-add an `impl FromSafeCast<ResourceSize> for usize` so its page-count
-conversion keeps the infallible `usize::from_safe_cast(sg_entry.dma_len())`
-unchanged.
+syzbot found the following issue on:
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1203
-Signed-off-by: Lorenzo Delgado <lnsdev@proton.me>
+HEAD commit:    3f1f75536668 net: openvswitch: reject oversized nested act..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=11f98789580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
+dashboard link: https://syzkaller.appspot.com/bug?extid=fe46941938f79773c2f2
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/38c0534858bd/disk-3f1f7553.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3140a6e2252d/vmlinux-3f1f7553.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f8a7156a6da0/bzImage-3f1f7553.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+fe46941938f79773c2f2@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+kworker/u9:1/4940 is trying to acquire lock:
+ffffffff8ec848a0 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:317 [inline]
+ffffffff8ec848a0 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4565 [inline]
+ffffffff8ec848a0 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:4925 [inline]
+ffffffff8ec848a0 (fs_reclaim){+.+.}-{0:0}, at: __do_kmalloc_node mm/slub.c:5361 [inline]
+ffffffff8ec848a0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_noprof+0xbc/0x720 mm/slub.c:5387
+
+but task is already holding lock:
+ffffffff8f5f5880 (dpm_list_mtx){+.+.}-{4:4}, at: device_move+0x3c/0x720 drivers/base/core.c:4678
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #8 (dpm_list_mtx){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       device_pm_add+0x7d/0x350 drivers/base/power/main.c:153
+       device_add+0x4eb/0xb80 drivers/base/core.c:3720
+       device_create_groups_vargs drivers/base/core.c:4454 [inline]
+       device_create+0x269/0x300 drivers/base/core.c:4493
+       msr_device_create+0x33/0x50 arch/x86/kernel/msr.c:251
+       cpuhp_invoke_callback+0x434/0x810 kernel/cpu.c:194
+       cpuhp_thread_fun+0x362/0x780 kernel/cpu.c:1109
+       smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #7 (cpuhp_state-up){+.+.}-{0:0}:
+       cpuhp_lock_acquire kernel/cpu.c:103 [inline]
+       cpuhp_thread_fun+0x127/0x780 kernel/cpu.c:1086
+       smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #6 (cpu_hotplug_lock){++++}-{0:0}:
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
+       cpus_read_lock+0x42/0x160 kernel/cpu.c:490
+       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
+       nbd_reconnect_socket drivers/block/nbd.c:1379 [inline]
+       nbd_genl_reconfigure+0x1301/0x1e80 drivers/block/nbd.c:2468
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #5 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x373/0x1150 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #4 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_queue_rq+0xc1/0x1150 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #3 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:199 [inline]
+       __synchronize_srcu+0xc9/0x2f0 kernel/rcu/srcutree.c:1481
+       elevator_switch+0x1e8/0x7b0 block/elevator.c:576
+       elevator_change+0x2fa/0x480 block/elevator.c:681
+       elevator_set_default+0x375/0x440 block/elevator.c:754
+       blk_register_queue+0x3f3/0x4e0 block/blk-sysfs.c:992
+       __add_disk+0x6cb/0xe30 block/genhd.c:528
+       add_disk_fwnode+0xfb/0x4b0 block/genhd.c:597
+       add_disk include/linux/blkdev.h:800 [inline]
+       nbd_dev_add+0x733/0xb60 drivers/block/nbd.c:2021
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #2 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       elevator_change+0x1af/0x480 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5101 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5146 [inline]
+       blk_mq_update_nr_hw_queues+0x5ef/0x19f0 block/blk-mq.c:5211
+       nbd_start_device+0x189/0xb30 drivers/block/nbd.c:1526
+       nbd_genl_connect+0x1597/0x1c10 drivers/block/nbd.c:2276
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&q->q_usage_counter(io)#50){++++}-{0:0}:
+       blk_alloc_queue+0x544/0x690 block/blk-core.c:504
+       blk_mq_alloc_queue block/blk-mq.c:4420 [inline]
+       __blk_mq_alloc_disk+0x194/0x390 block/blk-mq.c:4467
+       nbd_dev_add+0x494/0xb60 drivers/block/nbd.c:1991
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #0 (fs_reclaim){+.+.}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+       __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4343
+       might_alloc include/linux/sched/mm.h:317 [inline]
+       slab_pre_alloc_hook mm/slub.c:4565 [inline]
+       slab_alloc_node mm/slub.c:4925 [inline]
+       __do_kmalloc_node mm/slub.c:5361 [inline]
+       __kmalloc_noprof+0xbc/0x720 mm/slub.c:5387
+       _kmalloc_noprof include/linux/slab.h:973 [inline]
+       _kzalloc_noprof include/linux/slab.h:1290 [inline]
+       kobject_get_path+0xc5/0x2f0 lib/kobject.c:161
+       kobject_move+0x2fa/0x720 lib/kobject.c:556
+       device_move+0xe0/0x720 drivers/base/core.c:4689
+       hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
+       hci_conn_cleanup net/bluetooth/hci_conn.c:170 [inline]
+       hci_conn_del+0xc3d/0x1200 net/bluetooth/hci_conn.c:1306
+       hci_abort_conn_sync+0xdd0/0x1190 net/bluetooth/hci_sync.c:5805
+       hci_cmd_sync_work+0x20b/0x3f0 net/bluetooth/hci_sync.c:332
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+other info that might help us debug this:
+
+Chain exists of:
+  fs_reclaim --> cpuhp_state-up --> dpm_list_mtx
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(dpm_list_mtx);
+                               lock(cpuhp_state-up);
+                               lock(dpm_list_mtx);
+  lock(fs_reclaim);
+
+ *** DEADLOCK ***
+
+5 locks held by kworker/u9:1/4940:
+ #0: ffff8880507ad140 ((wq_completion)hci5){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #0: ffff8880507ad140 ((wq_completion)hci5){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #1: ffffc9000fe5fc40 ((work_completion)(&hdev->cmd_sync_work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #1: ffffc9000fe5fc40 ((work_completion)(&hdev->cmd_sync_work)){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #2: ffff888064c14ea0 (&hdev->req_lock){+.+.}-{4:4}, at: hci_cmd_sync_work+0x1cb/0x3f0 net/bluetooth/hci_sync.c:331
+ #3: ffff888064c140b8 (&hdev->lock){+.+.}-{4:4}, at: hci_abort_conn_sync+0xa6f/0x1190 net/bluetooth/hci_sync.c:5786
+ #4: ffffffff8f5f5880 (dpm_list_mtx){+.+.}-{4:4}, at: device_move+0x3c/0x720 drivers/base/core.c:4678
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 4940 Comm: kworker/u9:1 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
+Workqueue: hci5 hci_cmd_sync_work
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
+ fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4343
+ might_alloc include/linux/sched/mm.h:317 [inline]
+ slab_pre_alloc_hook mm/slub.c:4565 [inline]
+ slab_alloc_node mm/slub.c:4925 [inline]
+ __do_kmalloc_node mm/slub.c:5361 [inline]
+ __kmalloc_noprof+0xbc/0x720 mm/slub.c:5387
+ _kmalloc_noprof include/linux/slab.h:973 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ kobject_get_path+0xc5/0x2f0 lib/kobject.c:161
+ kobject_move+0x2fa/0x720 lib/kobject.c:556
+ device_move+0xe0/0x720 drivers/base/core.c:4689
+ hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
+ hci_conn_cleanup net/bluetooth/hci_conn.c:170 [inline]
+ hci_conn_del+0xc3d/0x1200 net/bluetooth/hci_conn.c:1306
+ hci_abort_conn_sync+0xdd0/0x1190 net/bluetooth/hci_sync.c:5805
+ hci_cmd_sync_work+0x20b/0x3f0 net/bluetooth/hci_sync.c:332
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Bluetooth: hci4: command 0x0405 tx timeout
+
+
 ---
-v2: keep the nova-core page-count conversion infallible, per review
-    (Danilo Krummrich). v1 changed it to a fallible
-    usize::try_from(sg_entry.dma_len())?; instead of touching the call
-    site, add an impl FromSafeCast<ResourceSize> for usize in nova-core's
-    num.rs, so drivers/gpu/nova-core/firmware/gsp.rs keeps
-    usize::from_safe_cast(sg_entry.dma_len()) unchanged. FromSafeCast is
-    to move to the kernel crate subsequently. io.rs is unchanged from v1.
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-v1: https://lore.kernel.org/r/20260712113602.389060-1-lnsdev@proton.me
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- drivers/gpu/nova-core/num.rs | 10 +++++
- rust/kernel/io.rs            | 73 ++++++++++++++++++++++++++++++++++--
- rust/kernel/io/resource.rs   |  6 +--
- rust/kernel/scatterlist.rs   |  2 +-
- 4 files changed, 83 insertions(+), 8 deletions(-)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/drivers/gpu/nova-core/num.rs b/drivers/gpu/nova-core/num.rs
-index 6eb174d136ab..7c0e878bbfb2 100644
---- a/drivers/gpu/nova-core/num.rs
-+++ b/drivers/gpu/nova-core/num.rs
-@@ -6,6 +6,7 @@
- //! crate.
-=20
- use kernel::{
-+    io::ResourceSize,
-     macros::paste,
-     prelude::*, //
- };
-@@ -137,6 +138,15 @@ fn from_safe_cast(value: u64) -> Self {
-     }
- }
-=20
-+// A `resource_size_t` fits into a `usize` on 64-bit platforms, where a `u=
-size` is a `u64` and a
-+// `resource_size_t` is at most a `u64`. Delegates to the primitive impl f=
-or the underlying type.
-+#[cfg(CONFIG_64BIT)]
-+impl FromSafeCast<ResourceSize> for usize {
-+    fn from_safe_cast(value: ResourceSize) -> Self {
-+        Self::from_safe_cast(value.into_raw())
-+    }
-+}
-+
- /// Counterpart to the [`FromSafeCast`] trait, i.e. this trait is to [`Fro=
-mSafeCast`] what [`Into`]
- /// is to [`From`].
- ///
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index fcc7678fd9e3..ebf00b4536d6 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -6,9 +6,12 @@
-=20
- use crate::{
-     bindings,
-+    fmt,
-     prelude::*, //
- };
-=20
-+use core::num::TryFromIntError;
-+
- pub mod mem;
- pub mod poll;
- pub mod register;
-@@ -25,11 +28,73 @@
- /// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit archite=
-ctures.
- pub type PhysAddr =3D bindings::phys_addr_t;
-=20
--/// Resource Size type.
-+/// Resource size type.
- ///
--/// This is a type alias to either `u32` or `u64` depending on the config =
-option
--/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit archite=
-ctures.
--pub type ResourceSize =3D bindings::resource_size_t;
-+/// This wraps either `u32` or `u64` depending on the config option
-+/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a `u64` even on 32-bit archi=
-tectures.
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::io::ResourceSize;
-+///
-+/// let size =3D ResourceSize::from_raw(0x1000);
-+/// assert_eq!(size.into_raw(), 0x1000);
-+///
-+/// // Round-trips through the raw C type.
-+/// let raw: kernel::bindings::resource_size_t =3D size.into();
-+/// assert_eq!(ResourceSize::from(raw), size);
-+///
-+/// // Fallible conversion to `usize` (can truncate on 32-bit).
-+/// assert_eq!(usize::try_from(size)?, 0x1000);
-+/// # Ok::<(), core::num::TryFromIntError>(())
-+/// ```
-+#[repr(transparent)]
-+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-+pub struct ResourceSize(bindings::resource_size_t);
-+
-+impl ResourceSize {
-+    /// Creates a resource size from the raw C type.
-+    #[inline]
-+    pub const fn from_raw(value: bindings::resource_size_t) -> Self {
-+        Self(value)
-+    }
-+
-+    /// Turns this resource size into the raw C type.
-+    #[inline]
-+    pub const fn into_raw(self) -> bindings::resource_size_t {
-+        self.0
-+    }
-+}
-+
-+impl fmt::Debug for ResourceSize {
-+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-+        write!(f, "{:#x}", self.0)
-+    }
-+}
-+
-+impl From<bindings::resource_size_t> for ResourceSize {
-+    #[inline]
-+    fn from(value: bindings::resource_size_t) -> Self {
-+        Self::from_raw(value)
-+    }
-+}
-+
-+impl From<ResourceSize> for bindings::resource_size_t {
-+    #[inline]
-+    fn from(value: ResourceSize) -> Self {
-+        value.into_raw()
-+    }
-+}
-+
-+impl TryFrom<ResourceSize> for usize {
-+    type Error =3D TryFromIntError;
-+
-+    #[inline]
-+    fn try_from(value: ResourceSize) -> Result<Self, Self::Error> {
-+        Self::try_from(value.into_raw())
-+    }
-+}
-=20
- /// Raw representation of an MMIO region.
- ///
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index 17b0c174cfc5..a33a416b289a 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -58,7 +58,7 @@ fn drop(&mut self) {
-         };
-=20
-         // SAFETY: Safe as per the invariant of `Region`.
--        unsafe { release_fn(start, size) };
-+        unsafe { release_fn(start, size.into_raw()) };
-     }
- }
-=20
-@@ -114,7 +114,7 @@ pub fn request_region(
-             bindings::__request_region(
-                 self.0.get(),
-                 start,
--                size,
-+                size.into_raw(),
-                 name.as_char_ptr(),
-                 flags.0 as c_int,
-             )
-@@ -130,7 +130,7 @@ pub fn request_region(
-     pub fn size(&self) -> ResourceSize {
-         let inner =3D self.0.get();
-         // SAFETY: Safe as per the invariants of `Resource`.
--        unsafe { bindings::resource_size(inner) }
-+        ResourceSize::from_raw(unsafe { bindings::resource_size(inner) })
-     }
-=20
-     /// Returns the start address of the resource.
-diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
-index b83c468b5c63..5d67242befd8 100644
---- a/rust/kernel/scatterlist.rs
-+++ b/rust/kernel/scatterlist.rs
-@@ -93,7 +93,7 @@ pub fn dma_address(&self) -> dma::DmaAddress {
-     pub fn dma_len(&self) -> ResourceSize {
-         #[allow(clippy::useless_conversion)]
-         // SAFETY: `self.as_raw()` is a valid pointer to a `struct scatter=
-list`.
--        unsafe { bindings::sg_dma_len(self.as_raw()) }.into()
-+        ResourceSize::from_raw(unsafe { bindings::sg_dma_len(self.as_raw()=
-) }.into())
-     }
- }
-=20
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
---=20
-2.54.0
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-
+If you want to undo deduplication, reply with:
+#syz undup
