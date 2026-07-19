@@ -1,885 +1,352 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3A325B2F4;
-	Sun, 19 Jul 2026 15:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9650C3B14D4
+	for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 18:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784475418; cv=none; b=iFCWe55eAFxAnB6gdHXNNqvCLBFCdIHvJiUHitOo8UcC11vHHEC3owAhZKGo7vW4q7/76TCI3SU+HgHqKUO8hLPOyRHrANeu0CEF+A9CC7YW1f9IzZwE9l0QoC5GT8RDkdF9XgH7NsJiCBb6tOL2wNUAVb/xvORjRYwRYdf7oOo=
+	t=1784485052; cv=none; b=tegAE4OwEyxtAaix1uS45/PfuiRl4528uJp6iKKCUOCYcLyPE5OQtrHe0lEGYGUX/Xs3JVOje7V8gypqg1Pd2E8ITb4V+c5YBRvn2Uk8J7WLJp+iqmn9397W3nh+OTpQI/K01emU9d4IUnye3hNiB99uk8X1VeKlVJZKAKCSZu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784475418; c=relaxed/simple;
-	bh=VcwemHX+9GAZrDnZM1Lq0UuHa4d5kZBiVEaz1bifJtI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XGcs9gwMvAQKz6aNt/2GCT+yaIqE+nufLBSvpg36Nn07WrLMjdPed4UGlQpqUIjze2FxGsB1zcsQalEJLcWgkmqaRLWYgD+yGg8AZuuicmCpTk4Rpk8qcOVTjnF9dF/TO9/4NuQ3JEDtO32kpNaL1dPw9Q/z3EqgehZHgdBOcnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GDtcmxzH; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GDtcmxzH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB2D1F000E9;
-	Sun, 19 Jul 2026 15:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784475415;
-	bh=+/mVJl/MH/p3G67e2iKoIERsoS6mZJvGw2YlAf57gQ8=;
-	h=From:To:Cc:Subject:Date;
-	b=GDtcmxzHv5N99MvMEF8bM8Hab+pz08TdHMbNvJb/k8L6AmXz7GeEUh/3UEe8bn+Zd
-	 Y90SsMCbaOea4xImT8hAHztSkM2uyfm0MSLRaglIytKuX/2rPtJRQzJtVdwQaZj+Sx
-	 T8JMZnwyNYFeOL3rAwW1t/Xo9OyNBcSrtkMcdMwesK3UQ8Sh8yb8z56Mv2LkZsUmKZ
-	 IDxxciGdlZs4+HrkmJbxz0/ijPM+oK7ExG5yJNUvdb8a8nJk0DrSWiycIPH8EWZqhR
-	 gs5jB3vPpYzyCqEHQ1fg4cFs1EMLb5DM/CM4rL+w2BWsBxpZRfvgxYOMw1v3idziui
-	 475pqvzmSSshQ==
-From: Danilo Krummrich <dakr@kernel.org>
-To: dakr@kernel.org,
-	aliceryhl@google.com,
-	daniel.almeida@collabora.com,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	mhi@mailbox.org
-Cc: driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] rust: irq: make Registration compatible with lifetime-bound drivers
-Date: Sun, 19 Jul 2026 17:36:05 +0200
-Message-ID: <20260719153631.559341-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1784485052; c=relaxed/simple;
+	bh=crs/b9s5b0UVw901NN5FTW7P3cfzgx1JTMV1MUXbrdc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=dcfQXmX8J9xLjM9dMTwAs75vebohLwCWGGWTM641nDrnUCuCfxGcatSKG9l/O+Fnkb4HvXExq4HsKQ+Rqk+U6v6vcavHY8wTXqXMVT8FXFkLnUg91m8rmE1ZU2JAA8N9AVFuofBxMoZagHbRFaUqTbtOR0Sk1hLQXTP3PwNCwb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-49aa4525b82so13978373b6e.1
+        for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 11:17:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784485049; x=1785089849;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3IhFjGpG+Wpj3TAEbVXnnE0L77BBCG2fqqrXSAb+BVE=;
+        b=EDnG2/09knEwdx0iYqP1uaqoVwz7h26suOdLoDq10Loxbm/J6FkvbCWlHuuk/EaoDA
+         A/UVvLdWcoKHTwKhYhzgYN5i1p/DLMydP2dh9XDYmFMZCk8pyxDkCM3PyOd+d5RzrH10
+         9JWuhvncnQEJzOLCnspNoxtCZP5xQNguNwGamPazku9wMQgzlgb9g2LlT8koa0YTvTwF
+         22+JMsl9RZNDWT01zry9VLMqzjWtVYdY5+fYnsA+zecgxCXI14WVmHQdNjZN56RvZpE+
+         eMPnF+SrFEcI/scunSeyMkSwJg9onqOE5q5lgbz4KFRnrIoUYoom7D0iI2fFgrz8fluI
+         AmZA==
+X-Gm-Message-State: AOJu0Yz+lUXabKPjIGT4+Bk797ZDD2PNg/jy6p6+vYHWZ9iXVbG4UJ7g
+	Dm52c7LFSCtse2wXTvTwIGXGW7qcOczlQMmSLolZTaWVeiLgRe/IsJ51Ec5JEe67M0/qRPyBPym
+	eqgQOPaxqviWJ4sYYRFbAxVEMJTBJRk+LeVx1cHnFWMj2BFN0lSqMSwa1wwl8Mg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:19a4:b0:4a3:3108:866a with SMTP id
+ 5614622812f47-4a4d01e7283mr7419073b6e.17.1784485048961; Sun, 19 Jul 2026
+ 11:17:28 -0700 (PDT)
+Date: Sun, 19 Jul 2026 11:17:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a5d14b8.42649fcc.6186.0078.GAE@google.com>
+Subject: [syzbot] [kernfs?] possible deadlock in kernfs_iop_permission (2)
+From: syzbot <syzbot+90c39e7098489ce1def1@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Adapt the IRQ registration to work with the Higher-Ranked Lifetime Types
-(HRT) device driver architecture introduced in commit 2c7c65933600
-("Merge patch series "rust: device: Higher-Ranked Lifetime Types for
-device drivers"").
+Hello,
 
-With HRT, driver structs carry a lifetime parameter tied to the device
-binding scope, allowing device resources such as pci::Bar<'bar> to be
-held directly rather than through Devres indirection. However, the IRQ
-abstraction required Handler: Sync + 'static, preventing handlers from
-embedding lifetime-parameterized resources.
+syzbot found the following issue on:
 
-Remove the 'static bound from Handler and ThreadedHandler and replace
-the Devres<RegistrationInner> indirection with direct request_irq() /
-free_irq() calls in the constructor and PinnedDrop.  Registration<'a, T>
-stores the IrqRequest<'a>, which structurally ties it to the device
-binding scope.
+HEAD commit:    3f1f75536668 net: openvswitch: reject oversized nested act..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=108e8789580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
+dashboard link: https://syzkaller.appspot.com/bug?extid=90c39e7098489ce1def1
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Also remove the &Device<Bound> parameter from the handler callbacks,
-since handlers that need device access can embed it in their own type.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-IRQ handlers can now directly own device resources:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/38c0534858bd/disk-3f1f7553.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3140a6e2252d/vmlinux-3f1f7553.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f8a7156a6da0/bzImage-3f1f7553.xz
 
-	struct IrqHandler<'irq> {
-	    bar: pci::Bar<'irq, BAR_SIZE>,
-	}
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+90c39e7098489ce1def1@syzkaller.appspotmail.com
 
-	impl irq::Handler for IrqHandler<'_> {
-	    fn handle(&self) -> IrqReturn {
-	        let stat = self.bar.read(regs::STAT);
-	        ...
-	    }
-	}
+netlink: 'syz.3.10493': attribute type 1 has an invalid length.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.3.10493/14209 is trying to acquire lock:
+ffff88801c294210 (&root->kernfs_iattr_rwsem){++++}-{4:4}, at: kernfs_iop_permission+0x7f/0x430 fs/kernfs/inode.c:288
 
-This eliminates the indirection previously required for IRQ handlers to
-access device resources and aligns with the broader goal of expressing
-every registration scoped to a driver binding through compile-time
-lifetime bounds.
+but task is already holding lock:
+ffffffff8e9e75f0 (cpu_hotplug_lock){++++}-{0:0}, at: cgroup_attach_lock kernel/cgroup/cgroup.c:2535 [inline]
+ffffffff8e9e75f0 (cpu_hotplug_lock){++++}-{0:0}, at: cgroup_procs_write_start+0x539/0x900 kernel/cgroup/cgroup.c:3100
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #7 (cpu_hotplug_lock){++++}-{0:0}:
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
+       cpus_read_lock+0x42/0x160 kernel/cpu.c:490
+       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
+       nbd_reconnect_socket drivers/block/nbd.c:1379 [inline]
+       nbd_genl_reconfigure+0x1301/0x1e80 drivers/block/nbd.c:2468
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #6 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x373/0x1150 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #5 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       nbd_queue_rq+0xc1/0x1150 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2117
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x16c/0x300 block/blk-mq.c:2532
+       process_one_work kernel/workqueue.c:3322 [inline]
+       process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+       kthread+0x388/0x470 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #4 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:199 [inline]
+       __synchronize_srcu+0xc9/0x2f0 kernel/rcu/srcutree.c:1481
+       elevator_switch+0x1e8/0x7b0 block/elevator.c:576
+       elevator_change+0x2fa/0x480 block/elevator.c:681
+       elevator_set_default+0x375/0x440 block/elevator.c:754
+       blk_register_queue+0x3f3/0x4e0 block/blk-sysfs.c:992
+       __add_disk+0x6cb/0xe30 block/genhd.c:528
+       add_disk_fwnode+0xfb/0x4b0 block/genhd.c:597
+       add_disk include/linux/blkdev.h:800 [inline]
+       nbd_dev_add+0x733/0xb60 drivers/block/nbd.c:2021
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #3 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19d/0x1550 kernel/locking/mutex.c:821
+       elevator_change+0x1af/0x480 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5101 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5146 [inline]
+       blk_mq_update_nr_hw_queues+0x5ef/0x19f0 block/blk-mq.c:5211
+       nbd_start_device+0x189/0xb30 drivers/block/nbd.c:1526
+       nbd_genl_connect+0x1597/0x1c10 drivers/block/nbd.c:2276
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+       __sock_sendmsg net/socket.c:790 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2684
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2738
+       __sys_sendmsg net/socket.c:2770 [inline]
+       __do_sys_sendmsg net/socket.c:2775 [inline]
+       __se_sys_sendmsg net/socket.c:2773 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2773
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&q->q_usage_counter(io)#52){++++}-{0:0}:
+       blk_alloc_queue+0x544/0x690 block/blk-core.c:504
+       blk_mq_alloc_queue block/blk-mq.c:4420 [inline]
+       __blk_mq_alloc_disk+0x194/0x390 block/blk-mq.c:4467
+       nbd_dev_add+0x494/0xb60 drivers/block/nbd.c:1991
+       nbd_init+0x15f/0x1e0 drivers/block/nbd.c:2729
+       do_one_initcall+0x250/0x870 init/main.c:1347
+       do_initcall_level+0x10a/0x1a0 init/main.c:1409
+       do_initcalls+0x59/0xa0 init/main.c:1425
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+       kernel_init+0x1d/0x1d0 init/main.c:1548
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #1 (fs_reclaim){+.+.}-{0:0}:
+       __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4343
+       might_alloc include/linux/sched/mm.h:317 [inline]
+       slab_pre_alloc_hook mm/slub.c:4565 [inline]
+       slab_alloc_node mm/slub.c:4925 [inline]
+       kmem_cache_alloc_noprof+0x64/0x5f0 mm/slub.c:4959
+       __kernfs_iattrs+0xdd/0x380 fs/kernfs/inode.c:36
+       kernfs_iattrs fs/kernfs/inode.c:60 [inline]
+       __kernfs_setattr fs/kernfs/inode.c:73 [inline]
+       kernfs_iop_setattr+0xe6/0x3f0 fs/kernfs/inode.c:127
+       notify_change+0xbba/0xea0 fs/attr.c:556
+       do_truncate+0x1c2/0x250 fs/open.c:68
+       handle_truncate fs/namei.c:4305 [inline]
+       do_open fs/namei.c:4704 [inline]
+       path_openat+0x2fed/0x3830 fs/namei.c:4863
+       do_file_open+0x23e/0x4a0 fs/namei.c:4892
+       do_sys_openat2+0x115/0x200 fs/open.c:1368
+       do_sys_open fs/open.c:1374 [inline]
+       __do_sys_openat fs/open.c:1390 [inline]
+       __se_sys_openat fs/open.c:1385 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1385
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&root->kernfs_iattr_rwsem){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+       down_read+0x4a/0x330 kernel/locking/rwsem.c:1574
+       kernfs_iop_permission+0x7f/0x430 fs/kernfs/inode.c:288
+       do_inode_permission fs/namei.c:583 [inline]
+       inode_permission+0x3de/0x5f0 fs/namei.c:653
+       cgroup_may_write kernel/cgroup/cgroup.c:5325 [inline]
+       cgroup_procs_write_permission kernel/cgroup/cgroup.c:5345 [inline]
+       cgroup_attach_permissions+0x28e/0x9f0 kernel/cgroup/cgroup.c:5368
+       __cgroup_procs_write+0x24b/0x320 kernel/cgroup/cgroup.c:5411
+       cgroup_threads_write+0x24/0x50 kernel/cgroup/cgroup.c:5441
+       cgroup_file_write+0x331/0x8f0 kernel/cgroup/cgroup.c:4316
+       kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x612/0xba0 fs/read_write.c:687
+       ksys_write+0x150/0x270 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &root->kernfs_iattr_rwsem --> &nsock->tx_lock --> cpu_hotplug_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(cpu_hotplug_lock);
+                               lock(&nsock->tx_lock);
+                               lock(cpu_hotplug_lock);
+  rlock(&root->kernfs_iattr_rwsem);
+
+ *** DEADLOCK ***
+
+4 locks held by syz.3.10493/14209:
+ #0: ffff8880355be450 (sb_writers#9){.+.+}-{0:0}, at: file_start_write include/linux/fs.h:2733 [inline]
+ #0: ffff8880355be450 (sb_writers#9){.+.+}-{0:0}, at: vfs_write+0x22b/0xba0 fs/read_write.c:683
+ #1: ffff888029df8c80 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x1d8/0x540 fs/kernfs/file.c:336
+ #2: ffffffff8eb99560 (cgroup_mutex){+.+.}-{4:4}, at: cgroup_lock include/linux/cgroup.h:456 [inline]
+ #2: ffffffff8eb99560 (cgroup_mutex){+.+.}-{4:4}, at: cgroup_kn_lock_live+0x13c/0x230 kernel/cgroup/cgroup.c:1717
+ #3: ffffffff8e9e75f0 (cpu_hotplug_lock){++++}-{0:0}, at: cgroup_attach_lock kernel/cgroup/cgroup.c:2535 [inline]
+ #3: ffffffff8e9e75f0 (cpu_hotplug_lock){++++}-{0:0}, at: cgroup_procs_write_start+0x539/0x900 kernel/cgroup/cgroup.c:3100
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 14209 Comm: syz.3.10493 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x1520/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ down_read+0x4a/0x330 kernel/locking/rwsem.c:1574
+ kernfs_iop_permission+0x7f/0x430 fs/kernfs/inode.c:288
+ do_inode_permission fs/namei.c:583 [inline]
+ inode_permission+0x3de/0x5f0 fs/namei.c:653
+ cgroup_may_write kernel/cgroup/cgroup.c:5325 [inline]
+ cgroup_procs_write_permission kernel/cgroup/cgroup.c:5345 [inline]
+ cgroup_attach_permissions+0x28e/0x9f0 kernel/cgroup/cgroup.c:5368
+ __cgroup_procs_write+0x24b/0x320 kernel/cgroup/cgroup.c:5411
+ cgroup_threads_write+0x24/0x50 kernel/cgroup/cgroup.c:5441
+ cgroup_file_write+0x331/0x8f0 kernel/cgroup/cgroup.c:4316
+ kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3c8819de59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f3c890ee028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f3c88425fa0 RCX: 00007f3c8819de59
+RDX: 0000000000000012 RSI: 0000200000000c40 RDI: 000000000000000b
+RBP: 00007f3c88233e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f3c88426038 R14: 00007f3c88425fa0 R15: 00007fffbdb3ac08
+ </TASK>
+
+
 ---
-Changes in v2:
-  - Move request_irq() / request_threaded_irq() to _: blocks.
-  - Add INVARIANT missing comments and missing #[inline] annotations.
----
- rust/kernel/irq/request.rs | 432 ++++++++++++++++++-------------------
- rust/kernel/pci/irq.rs     |  26 ++-
- rust/kernel/platform.rs    |  48 +++--
- 3 files changed, 255 insertions(+), 251 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/rust/kernel/irq/request.rs b/rust/kernel/irq/request.rs
-index f425fe12f7c8..c1c6525a676a 100644
---- a/rust/kernel/irq/request.rs
-+++ b/rust/kernel/irq/request.rs
-@@ -5,16 +5,21 @@
- //! [`ThreadedRegistration`], which allow users to register handlers for a given
- //! IRQ line.
- 
--use core::marker::PhantomPinned;
--
--use crate::alloc::Allocator;
--use crate::device::{Bound, Device};
--use crate::devres::Devres;
--use crate::error::to_result;
--use crate::irq::flags::Flags;
--use crate::prelude::*;
--use crate::str::CStr;
--use crate::sync::Arc;
-+use core::marker::{
-+    PhantomData,
-+    PhantomPinned, //
-+};
-+
-+use crate::{
-+    device::{
-+        Bound,
-+        Device, //
-+    },
-+    error::to_result,
-+    irq::flags::Flags,
-+    prelude::*,
-+    str::CStr,
-+};
- 
- /// The value that can be returned from a [`Handler`] or a [`ThreadedHandler`].
- #[repr(u32)]
-@@ -27,7 +32,7 @@ pub enum IrqReturn {
- }
- 
- /// Callbacks for an IRQ handler.
--pub trait Handler: Sync + 'static {
-+pub trait Handler: Sync {
-     /// The hard IRQ handler.
-     ///
-     /// This is executed in interrupt context, hence all corresponding
-@@ -36,73 +41,20 @@ pub trait Handler: Sync + 'static {
-     /// All work that does not necessarily need to be executed from
-     /// interrupt context, should be deferred to a threaded handler.
-     /// See also [`ThreadedRegistration`].
--    fn handle(&self, device: &Device<Bound>) -> IrqReturn;
--}
--
--impl<T: ?Sized + Handler + Send> Handler for Arc<T> {
--    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
--        T::handle(self, device)
--    }
--}
--
--impl<T: ?Sized + Handler, A: Allocator + 'static> Handler for Box<T, A> {
--    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
--        T::handle(self, device)
--    }
-+    fn handle(&self) -> IrqReturn;
- }
- 
--/// # Invariants
--///
--/// - `self.irq` is the same as the one passed to `request_{threaded}_irq`.
--/// - `cookie` was passed to `request_{threaded}_irq` as the cookie. It is guaranteed to be unique
--///   by the type system, since each call to `new` will return a different instance of
--///   `Registration`.
--#[pin_data(PinnedDrop)]
--struct RegistrationInner {
--    irq: u32,
--    cookie: *mut c_void,
--}
--
--impl RegistrationInner {
--    fn synchronize(&self) {
--        // SAFETY: safe as per the invariants of `RegistrationInner`
--        unsafe { bindings::synchronize_irq(self.irq) };
--    }
--}
--
--#[pinned_drop]
--impl PinnedDrop for RegistrationInner {
--    fn drop(self: Pin<&mut Self>) {
--        // SAFETY:
--        //
--        // Safe as per the invariants of `RegistrationInner` and:
--        //
--        // - The containing struct is `!Unpin` and was initialized using
--        // pin-init, so it occupied the same memory location for the entirety of
--        // its lifetime.
--        //
--        // Notice that this will block until all handlers finish executing,
--        // i.e.: at no point will &self be invalid while the handler is running.
--        unsafe { bindings::free_irq(self.irq, self.cookie) };
--    }
--}
--
--// SAFETY: We only use `inner` on drop, which called at most once with no
--// concurrent access.
--unsafe impl Sync for RegistrationInner {}
--
--// SAFETY: It is safe to send `RegistrationInner` across threads.
--unsafe impl Send for RegistrationInner {}
--
- /// A request for an IRQ line for a given device.
- ///
- /// # Invariants
- ///
- /// - `ìrq` is the number of an interrupt source of `dev`.
--/// - `irq` has not been registered yet.
-+/// - `irq` has not been registered yet; this is consumed by [`Registration::new()`].
- pub struct IrqRequest<'a> {
--    dev: &'a Device<Bound>,
-     irq: u32,
-+    /// Proves the device is bound at registration time and ties `'a` to the device's bound
-+    /// lifetime, ensuring the [`Registration`] cannot outlive it.
-+    _dev: PhantomData<&'a Device<Bound>>,
- }
- 
- impl<'a> IrqRequest<'a> {
-@@ -111,12 +63,16 @@ impl<'a> IrqRequest<'a> {
-     /// # Safety
-     ///
-     /// - `irq` should be a valid IRQ number for `dev`.
--    pub(crate) unsafe fn new(dev: &'a Device<Bound>, irq: u32) -> Self {
-+    pub(crate) unsafe fn new(_dev: &'a Device<Bound>, irq: u32) -> Self {
-         // INVARIANT: `irq` is a valid IRQ number for `dev`.
--        IrqRequest { dev, irq }
-+        IrqRequest {
-+            irq,
-+            _dev: PhantomData,
-+        }
-     }
- 
-     /// Returns the IRQ number of an [`IrqRequest`].
-+    #[inline]
-     pub fn irq(&self) -> u32 {
-         self.irq
-     }
-@@ -139,10 +95,18 @@ pub fn irq(&self) -> u32 {
- /// [`Completion::wait_for_completion()`]: kernel::sync::Completion::wait_for_completion
- ///
- /// ```
--/// use kernel::device::{Bound, Device};
--/// use kernel::irq::{self, Flags, IrqRequest, IrqReturn, Registration};
--/// use kernel::prelude::*;
--/// use kernel::sync::{Arc, Completion};
-+/// use core::pin::Pin;
-+/// use kernel::{
-+///     irq::{
-+///         self,
-+///         Flags,
-+///         IrqRequest,
-+///         IrqReturn,
-+///         Registration,
-+///     },
-+///     prelude::*,
-+///     sync::Completion,
-+/// };
- ///
- /// // Data shared between process and IRQ context.
- /// #[pin_data]
-@@ -153,7 +117,7 @@ pub fn irq(&self) -> u32 {
- ///
- /// impl irq::Handler for Data {
- ///     // Executed in IRQ context.
--///     fn handle(&self, _dev: &Device<Bound>) -> IrqReturn {
-+///     fn handle(&self) -> IrqReturn {
- ///         self.completion.complete_all();
- ///         IrqReturn::Handled
- ///     }
-@@ -163,12 +127,21 @@ pub fn irq(&self) -> u32 {
- /// //
- /// // This runs in process context and assumes `request` was previously acquired from a device.
- /// fn register_irq(
--///     handler: impl PinInit<Data, Error>,
- ///     request: IrqRequest<'_>,
--/// ) -> Result<Arc<Registration<Data>>> {
--///     let registration = Registration::new(request, Flags::SHARED, c"my_device", handler);
-+/// ) -> Result<Pin<KBox<Registration<'_, Data>>>> {
-+///     // SAFETY: The returned Registration is not leaked.
-+///     let registration = unsafe {
-+///         Registration::new(
-+///             request,
-+///             Flags::SHARED,
-+///             c"my_device",
-+///             try_pin_init!(Data {
-+///                 completion <- Completion::new(),
-+///             }? Error),
-+///         )
-+///     };
- ///
--///     let registration = Arc::pin_init(registration, GFP_KERNEL)?;
-+///     let registration = KBox::pin_init(registration, GFP_KERNEL)?;
- ///
- ///     registration.handler().completion.wait_for_completion();
- ///
-@@ -179,11 +152,10 @@ pub fn irq(&self) -> u32 {
- ///
- /// # Invariants
- ///
--/// * We own an irq handler whose cookie is a pointer to `Self`.
--#[pin_data]
--pub struct Registration<T: Handler> {
--    #[pin]
--    inner: Devres<RegistrationInner>,
-+/// * We own an irq handler registered via `request_irq` whose cookie is a pointer to `Self`.
-+#[pin_data(PinnedDrop)]
-+pub struct Registration<'a, T: Handler> {
-+    request: IrqRequest<'a>,
- 
-     #[pin]
-     handler: T,
-@@ -194,44 +166,46 @@ pub struct Registration<T: Handler> {
-     _pin: PhantomPinned,
- }
- 
--impl<T: Handler> Registration<T> {
-+impl<'a, T: Handler> Registration<'a, T> {
-     /// Registers the IRQ handler with the system for the given IRQ number.
--    pub fn new<'a>(
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must not `mem::forget()` the returned [`Registration`] or otherwise prevent its
-+    /// [`Drop`] implementation from running.
-+    pub unsafe fn new(
-         request: IrqRequest<'a>,
-         flags: Flags,
-         name: &'static CStr,
-         handler: impl PinInit<T, Error> + 'a,
--    ) -> impl PinInit<Self, Error> + 'a {
-+    ) -> impl PinInit<Self, Error> + 'a
-+    where
-+        T: 'a,
-+    {
-+        // INVARIANT: If initialization completes successfully, we own an IRQ handler registered
-+        // via `request_irq` whose cookie is a pointer to `Self`.
-         try_pin_init!(&this in Self {
-             handler <- handler,
--            inner <- Devres::new(
--                request.dev,
--                try_pin_init!(RegistrationInner {
--                    // INVARIANT: `this` is a valid pointer to the `Registration` instance
--                    cookie: this.as_ptr().cast::<c_void>(),
--                    irq: {
--                        // SAFETY:
--                        // - The callbacks are valid for use with request_irq.
--                        // - If this succeeds, the slot is guaranteed to be valid until the
--                        //   destructor of Self runs, which will deregister the callbacks
--                        //   before the memory location becomes invalid.
--                        // - When request_irq is called, everything that handle_irq_callback will
--                        //   touch has already been initialized, so it's safe for the callback to
--                        //   be called immediately.
--                        to_result(unsafe {
--                            bindings::request_irq(
--                                request.irq,
--                                Some(handle_irq_callback::<T>),
--                                flags.into_inner(),
--                                name.as_char_ptr(),
--                                this.as_ptr().cast::<c_void>(),
--                            )
--                        })?;
--                        request.irq
--                    }
--                })
--            ),
-+            request,
-             _pin: PhantomPinned,
-+            _: {
-+                // SAFETY:
-+                // - The callbacks are valid for use with request_irq.
-+                // - If this succeeds, the slot is guaranteed to be valid until the destructor of
-+                //   Self runs, which will deregister the callbacks before the memory location
-+                //   becomes invalid.
-+                // - All fields are already initialized, so it's safe for the callback to be
-+                //   called immediately.
-+                to_result(unsafe {
-+                    bindings::request_irq(
-+                        request.irq,
-+                        Some(handle_irq_callback::<T>),
-+                        flags.into_inner(),
-+                        name.as_char_ptr(),
-+                        this.as_ptr().cast::<c_void>(),
-+                    )
-+                })?;
-+            },
-         })
-     }
- 
-@@ -241,19 +215,25 @@ pub fn handler(&self) -> &T {
-     }
- 
-     /// Wait for pending IRQ handlers on other CPUs.
--    ///
--    /// This will attempt to access the inner [`Devres`] container.
--    pub fn try_synchronize(&self) -> Result {
--        let inner = self.inner.try_access().ok_or(ENODEV)?;
--        inner.synchronize();
--        Ok(())
-+    #[inline]
-+    pub fn synchronize(&self) {
-+        // SAFETY: `self.request.irq` is a valid registered IRQ number (type invariant).
-+        unsafe { bindings::synchronize_irq(self.request.irq) };
-     }
-+}
- 
--    /// Wait for pending IRQ handlers on other CPUs.
--    pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
--        let inner = self.inner.access(dev)?;
--        inner.synchronize();
--        Ok(())
-+#[pinned_drop]
-+impl<T: Handler> PinnedDrop for Registration<'_, T> {
-+    fn drop(self: Pin<&mut Self>) {
-+        // SAFETY: The cookie was set to a pointer to `Self` in `Registration::new()`. This blocks
-+        // until all in-flight handlers complete, so no references to `self` remain after this
-+        // returns.
-+        unsafe {
-+            bindings::free_irq(
-+                self.request.irq,
-+                core::ptr::from_mut::<Self>(self.get_unchecked_mut()).cast::<c_void>(),
-+            )
-+        };
-     }
- }
- 
-@@ -261,13 +241,11 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
- ///
- /// This function should be only used as the callback in `request_irq`.
- unsafe extern "C" fn handle_irq_callback<T: Handler>(_irq: i32, ptr: *mut c_void) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `Registration<T>` set in `Registration::new`
--    let registration = unsafe { &*(ptr as *const Registration<T>) };
--    // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
--    // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let ptr = ptr.cast_const().cast::<Registration<'_, T>>();
-+    // SAFETY: `ptr` is a pointer to `Registration<'_, T>` set in `Registration::new()`.
-+    let registration = unsafe { &*ptr };
- 
--    T::handle(&registration.handler, device) as c_uint
-+    T::handle(&registration.handler) as c_uint
- }
- 
- /// The value that can be returned from [`ThreadedHandler::handle`].
-@@ -284,7 +262,7 @@ pub enum ThreadedIrqReturn {
- }
- 
- /// Callbacks for a threaded IRQ handler.
--pub trait ThreadedHandler: Sync + 'static {
-+pub trait ThreadedHandler: Sync {
-     /// The hard IRQ handler.
-     ///
-     /// This is executed in interrupt context, hence all corresponding
-@@ -293,8 +271,7 @@ pub trait ThreadedHandler: Sync + 'static {
-     /// handler, i.e. [`ThreadedHandler::handle_threaded`].
-     ///
-     /// The default implementation returns [`ThreadedIrqReturn::WakeThread`].
--    #[expect(unused_variables)]
--    fn handle(&self, device: &Device<Bound>) -> ThreadedIrqReturn {
-+    fn handle(&self) -> ThreadedIrqReturn {
-         ThreadedIrqReturn::WakeThread
-     }
- 
-@@ -302,27 +279,7 @@ fn handle(&self, device: &Device<Bound>) -> ThreadedIrqReturn {
-     ///
-     /// This is executed in process context. The kernel creates a dedicated
-     /// `kthread` for this purpose.
--    fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn;
--}
--
--impl<T: ?Sized + ThreadedHandler + Send> ThreadedHandler for Arc<T> {
--    fn handle(&self, device: &Device<Bound>) -> ThreadedIrqReturn {
--        T::handle(self, device)
--    }
--
--    fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
--        T::handle_threaded(self, device)
--    }
--}
--
--impl<T: ?Sized + ThreadedHandler, A: Allocator + 'static> ThreadedHandler for Box<T, A> {
--    fn handle(&self, device: &Device<Bound>) -> ThreadedIrqReturn {
--        T::handle(self, device)
--    }
--
--    fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
--        T::handle_threaded(self, device)
--    }
-+    fn handle_threaded(&self) -> IrqReturn;
- }
- 
- /// A registration of a threaded IRQ handler for a given IRQ line.
-@@ -339,13 +296,20 @@ fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
- /// [`Mutex`](kernel::sync::Mutex) to provide interior mutability.
- ///
- /// ```
--/// use kernel::device::{Bound, Device};
--/// use kernel::irq::{
--///   self, Flags, IrqRequest, IrqReturn, ThreadedHandler, ThreadedIrqReturn,
--///   ThreadedRegistration,
-+/// use core::pin::Pin;
-+/// use kernel::{
-+///     irq::{
-+///         self,
-+///         Flags,
-+///         IrqRequest,
-+///         IrqReturn,
-+///         ThreadedHandler,
-+///         ThreadedIrqReturn,
-+///         ThreadedRegistration,
-+///     },
-+///     prelude::*,
-+///     sync::Mutex,
- /// };
--/// use kernel::prelude::*;
--/// use kernel::sync::{Arc, Mutex};
- ///
- /// // Declare a struct that will be passed in when the interrupt fires. The u32
- /// // merely serves as an example of some internal data.
-@@ -363,7 +327,7 @@ fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
- ///     // This will run (in a separate kthread) if and only if
- ///     // [`ThreadedHandler::handle`] returns [`WakeThread`], which it does by
- ///     // default.
--///     fn handle_threaded(&self, _dev: &Device<Bound>) -> IrqReturn {
-+///     fn handle_threaded(&self) -> IrqReturn {
- ///         let mut data = self.value.lock();
- ///         *data += 1;
- ///         IrqReturn::Handled
-@@ -375,13 +339,21 @@ fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
- /// // This is executing in process context and assumes that `request` was
- /// // previously acquired from a device.
- /// fn register_threaded_irq(
--///     handler: impl PinInit<Data, Error>,
- ///     request: IrqRequest<'_>,
--/// ) -> Result<Arc<ThreadedRegistration<Data>>> {
--///     let registration =
--///         ThreadedRegistration::new(request, Flags::SHARED, c"my_device", handler);
-+/// ) -> Result<Pin<KBox<ThreadedRegistration<'_, Data>>>> {
-+///     // SAFETY: The returned Registration is not leaked.
-+///     let registration = unsafe {
-+///         ThreadedRegistration::new(
-+///             request,
-+///             Flags::SHARED,
-+///             c"my_device",
-+///             try_pin_init!(Data {
-+///                 value <- kernel::new_mutex!(0),
-+///             }? Error),
-+///         )
-+///     };
- ///
--///     let registration = Arc::pin_init(registration, GFP_KERNEL)?;
-+///     let registration = KBox::pin_init(registration, GFP_KERNEL)?;
- ///
- ///     {
- ///         // The data can be accessed from process context too.
-@@ -396,11 +368,11 @@ fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
- ///
- /// # Invariants
- ///
--/// * We own an irq handler whose cookie is a pointer to `Self`.
--#[pin_data]
--pub struct ThreadedRegistration<T: ThreadedHandler> {
--    #[pin]
--    inner: Devres<RegistrationInner>,
-+/// * We own an irq handler registered via `request_threaded_irq` whose cookie is a pointer to
-+///   `Self`.
-+#[pin_data(PinnedDrop)]
-+pub struct ThreadedRegistration<'a, T: ThreadedHandler> {
-+    request: IrqRequest<'a>,
- 
-     #[pin]
-     handler: T,
-@@ -411,45 +383,47 @@ pub struct ThreadedRegistration<T: ThreadedHandler> {
-     _pin: PhantomPinned,
- }
- 
--impl<T: ThreadedHandler> ThreadedRegistration<T> {
-+impl<'a, T: ThreadedHandler> ThreadedRegistration<'a, T> {
-     /// Registers the IRQ handler with the system for the given IRQ number.
--    pub fn new<'a>(
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must not `mem::forget()` the returned [`ThreadedRegistration`] or otherwise prevent
-+    /// its [`Drop`] implementation from running.
-+    pub unsafe fn new(
-         request: IrqRequest<'a>,
-         flags: Flags,
-         name: &'static CStr,
-         handler: impl PinInit<T, Error> + 'a,
--    ) -> impl PinInit<Self, Error> + 'a {
-+    ) -> impl PinInit<Self, Error> + 'a
-+    where
-+        T: 'a,
-+    {
-+        // INVARIANT: If initialization completes successfully, we own an IRQ handler registered
-+        // via `request_threaded_irq` whose cookie is a pointer to `Self`.
-         try_pin_init!(&this in Self {
-             handler <- handler,
--            inner <- Devres::new(
--                request.dev,
--                try_pin_init!(RegistrationInner {
--                    // INVARIANT: `this` is a valid pointer to the `ThreadedRegistration` instance.
--                    cookie: this.as_ptr().cast::<c_void>(),
--                    irq: {
--                        // SAFETY:
--                        // - The callbacks are valid for use with request_threaded_irq.
--                        // - If this succeeds, the slot is guaranteed to be valid until the
--                        //   destructor of Self runs, which will deregister the callbacks
--                        //   before the memory location becomes invalid.
--                        // - When request_threaded_irq is called, everything that the two callbacks
--                        //   will touch has already been initialized, so it's safe for the
--                        //   callbacks to be called immediately.
--                        to_result(unsafe {
--                            bindings::request_threaded_irq(
--                                request.irq,
--                                Some(handle_threaded_irq_callback::<T>),
--                                Some(thread_fn_callback::<T>),
--                                flags.into_inner(),
--                                name.as_char_ptr(),
--                                this.as_ptr().cast::<c_void>(),
--                            )
--                        })?;
--                        request.irq
--                    }
--                })
--            ),
-+            request,
-             _pin: PhantomPinned,
-+            _: {
-+                // SAFETY:
-+                // - The callbacks are valid for use with request_threaded_irq.
-+                // - If this succeeds, the slot is guaranteed to be valid until the destructor of
-+                //   Self runs, which will deregister the callbacks before the memory location
-+                //   becomes invalid.
-+                // - All fields are already initialized, so it's safe for the callbacks to be
-+                //   called immediately.
-+                to_result(unsafe {
-+                    bindings::request_threaded_irq(
-+                        request.irq,
-+                        Some(handle_threaded_irq_callback::<T>),
-+                        Some(thread_fn_callback::<T>),
-+                        flags.into_inner(),
-+                        name.as_char_ptr(),
-+                        this.as_ptr().cast::<c_void>(),
-+                    )
-+                })?;
-+            },
-         })
-     }
- 
-@@ -459,19 +433,25 @@ pub fn handler(&self) -> &T {
-     }
- 
-     /// Wait for pending IRQ handlers on other CPUs.
--    ///
--    /// This will attempt to access the inner [`Devres`] container.
--    pub fn try_synchronize(&self) -> Result {
--        let inner = self.inner.try_access().ok_or(ENODEV)?;
--        inner.synchronize();
--        Ok(())
-+    #[inline]
-+    pub fn synchronize(&self) {
-+        // SAFETY: `self.request.irq` is a valid registered IRQ number (type invariant).
-+        unsafe { bindings::synchronize_irq(self.request.irq) };
-     }
-+}
- 
--    /// Wait for pending IRQ handlers on other CPUs.
--    pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
--        let inner = self.inner.access(dev)?;
--        inner.synchronize();
--        Ok(())
-+#[pinned_drop]
-+impl<T: ThreadedHandler> PinnedDrop for ThreadedRegistration<'_, T> {
-+    fn drop(self: Pin<&mut Self>) {
-+        // SAFETY: The cookie was set to a pointer to `Self` in `ThreadedRegistration::new()`. This
-+        // blocks until all in-flight handlers complete, so no references to `self` remain after
-+        // this returns.
-+        unsafe {
-+            bindings::free_irq(
-+                self.request.irq,
-+                core::ptr::from_mut::<Self>(self.get_unchecked_mut()).cast::<c_void>(),
-+            )
-+        };
-     }
- }
- 
-@@ -482,24 +462,22 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
-     _irq: i32,
-     ptr: *mut c_void,
- ) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<T>` set in `ThreadedRegistration::new`
--    let registration = unsafe { &*(ptr as *const ThreadedRegistration<T>) };
--    // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
--    // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let ptr = ptr.cast_const().cast::<ThreadedRegistration<'_, T>>();
-+    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<'_, T>` set in
-+    // `ThreadedRegistration::new()`.
-+    let registration = unsafe { &*ptr };
- 
--    T::handle(&registration.handler, device) as c_uint
-+    T::handle(&registration.handler) as c_uint
- }
- 
- /// # Safety
- ///
- /// This function should be only used as the callback in `request_threaded_irq`.
- unsafe extern "C" fn thread_fn_callback<T: ThreadedHandler>(_irq: i32, ptr: *mut c_void) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<T>` set in `ThreadedRegistration::new`
--    let registration = unsafe { &*(ptr as *const ThreadedRegistration<T>) };
--    // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
--    // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let ptr = ptr.cast_const().cast::<ThreadedRegistration<'_, T>>();
-+    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<'_, T>` set in
-+    // `ThreadedRegistration::new()`.
-+    let registration = unsafe { &*ptr };
- 
--    T::handle_threaded(&registration.handler, device) as c_uint
-+    T::handle_threaded(&registration.handler) as c_uint
- }
-diff --git a/rust/kernel/pci/irq.rs b/rust/kernel/pci/irq.rs
-index d9230e105541..fea484dcf9cf 100644
---- a/rust/kernel/pci/irq.rs
-+++ b/rust/kernel/pci/irq.rs
-@@ -173,34 +173,44 @@ fn drop(&mut self) {
- 
- impl Device<device::Bound> {
-     /// Returns a [`kernel::irq::Registration`] for the given IRQ vector.
--    pub fn request_irq<'a, T: crate::irq::Handler + 'static>(
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must not `mem::forget()` the resulting [`irq::Registration`] or otherwise prevent
-+    /// its [`Drop`] implementation from running.
-+    pub unsafe fn request_irq<'a, T: crate::irq::Handler + 'a>(
-         &'a self,
-         vector: IrqVector<'a>,
-         flags: irq::Flags,
-         name: &'static CStr,
-         handler: impl PinInit<T, Error> + 'a,
--    ) -> impl PinInit<irq::Registration<T>, Error> + 'a {
-+    ) -> impl PinInit<irq::Registration<'a, T>, Error> + 'a {
-         pin_init::pin_init_scope(move || {
-             let request = vector.try_into()?;
- 
--            Ok(irq::Registration::<T>::new(request, flags, name, handler))
-+            // SAFETY: Caller guarantees the Registration will not be leaked.
-+            Ok(unsafe { irq::Registration::<T>::new(request, flags, name, handler) })
-         })
-     }
- 
-     /// Returns a [`kernel::irq::ThreadedRegistration`] for the given IRQ vector.
--    pub fn request_threaded_irq<'a, T: crate::irq::ThreadedHandler + 'static>(
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must not `mem::forget()` the resulting [`irq::ThreadedRegistration`] or otherwise
-+    /// prevent its [`Drop`] implementation from running.
-+    pub unsafe fn request_threaded_irq<'a, T: crate::irq::ThreadedHandler + 'a>(
-         &'a self,
-         vector: IrqVector<'a>,
-         flags: irq::Flags,
-         name: &'static CStr,
-         handler: impl PinInit<T, Error> + 'a,
--    ) -> impl PinInit<irq::ThreadedRegistration<T>, Error> + 'a {
-+    ) -> impl PinInit<irq::ThreadedRegistration<'a, T>, Error> + 'a {
-         pin_init::pin_init_scope(move || {
-             let request = vector.try_into()?;
- 
--            Ok(irq::ThreadedRegistration::<T>::new(
--                request, flags, name, handler,
--            ))
-+            // SAFETY: Caller guarantees the Registration will not be leaked.
-+            Ok(unsafe { irq::ThreadedRegistration::<T>::new(request, flags, name, handler) })
-         })
-     }
- 
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index 9b362e0495d3..a4510c68e290 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -339,22 +339,30 @@ macro_rules! define_irq_accessor_by_index {
-         $handler_trait:ident
-     ) => {
-         $(#[$meta])*
--        pub fn $fn_name<'a, T: irq::$handler_trait + 'static>(
-+        ///
-+        /// # Safety
-+        ///
-+        /// Callers must not `mem::forget()` the resulting registration or otherwise prevent its
-+        /// [`Drop`] implementation from running.
-+        pub unsafe fn $fn_name<'a, T: irq::$handler_trait + 'a>(
-             &'a self,
-             flags: irq::Flags,
-             index: u32,
-             name: &'static CStr,
-             handler: impl PinInit<T, Error> + 'a,
--        ) -> impl PinInit<irq::$reg_type<T>, Error> + 'a {
-+        ) -> impl PinInit<irq::$reg_type<'a, T>, Error> + 'a {
-             pin_init::pin_init_scope(move || {
-                 let request = self.$request_fn(index)?;
- 
--                Ok(irq::$reg_type::<T>::new(
--                    request,
--                    flags,
--                    name,
--                    handler,
--                ))
-+                // SAFETY: Caller guarantees the Registration will not be leaked.
-+                Ok(unsafe {
-+                    irq::$reg_type::<T>::new(
-+                        request,
-+                        flags,
-+                        name,
-+                        handler,
-+                    )
-+                })
-             })
-         }
-     };
-@@ -368,22 +376,30 @@ macro_rules! define_irq_accessor_by_name {
-         $handler_trait:ident
-     ) => {
-         $(#[$meta])*
--        pub fn $fn_name<'a, T: irq::$handler_trait + 'static>(
-+        ///
-+        /// # Safety
-+        ///
-+        /// Callers must not `mem::forget()` the resulting registration or otherwise prevent its
-+        /// [`Drop`] implementation from running.
-+        pub unsafe fn $fn_name<'a, T: irq::$handler_trait + 'a>(
-             &'a self,
-             flags: irq::Flags,
-             irq_name: &'a CStr,
-             name: &'static CStr,
-             handler: impl PinInit<T, Error> + 'a,
--        ) -> impl PinInit<irq::$reg_type<T>, Error> + 'a {
-+        ) -> impl PinInit<irq::$reg_type<'a, T>, Error> + 'a {
-             pin_init::pin_init_scope(move || {
-                 let request = self.$request_fn(irq_name)?;
- 
--                Ok(irq::$reg_type::<T>::new(
--                    request,
--                    flags,
--                    name,
--                    handler,
--                ))
-+                // SAFETY: Caller guarantees the Registration will not be leaked.
-+                Ok(unsafe {
-+                    irq::$reg_type::<T>::new(
-+                        request,
-+                        flags,
-+                        name,
-+                        handler,
-+                    )
-+                })
-             })
-         }
-     };
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-base-commit: 3fadfb9362cf1b7d0a775f406f011d78800d6054
--- 
-2.55.0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
