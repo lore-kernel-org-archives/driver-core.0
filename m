@@ -1,97 +1,88 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AC8312832;
-	Sun, 19 Jul 2026 22:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACEB37F8CC;
+	Sun, 19 Jul 2026 23:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784500604; cv=none; b=L55EKcr5EMpjXO80tNAnKdTO0AjRDGVhhUBSYQq4V1vAjxSz3Qpf+2fBmD88NtGq+oCV+JstbBq3C54XzWnWBFrK9clYgGUSuf8L12gXLfwHqYwUypQoQ5guzy9njM+NxTx1uiD1xU0vZIpjLfB826GDZagDf6YOJN07wckjZhc=
+	t=1784502499; cv=none; b=j4e98a6uWkiXNhQauj2GgEddgOESiiHUUdKoL3yQodJcdGsumJ1lR2DIVN1hj1/2zsT+eY85dHJZazopw2+CdpSfhg/3fl5iZzcb7IfujB0PUdjC8zv8V3gSgfNyPVYmB+XFYsEZ0xDM9ksicFubYCaHfuNeKo0w2eHUZO4CGYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784500604; c=relaxed/simple;
-	bh=VHbE/VULGnnC27oMlT0uQ00sXlkAXX2rgn7w7mnbQ7o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AEoDquB5EdaMuGDm3FEhGRO4sWXdgCKdRO2EZ9wqrM8UDPHpqoc+XPsEMGAXiS39xqs+Mju0/3IFo+wdvZNJPUcDj1higBgkmqwa9PEDVkeyeSWogTly68n/R6bXtoze5HEY3cQSUhnB7gDdOeHlwxQLG7Oe/RB62Os48uvFlOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OH9P1E7y; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1784502499; c=relaxed/simple;
+	bh=EgylTw5NtIWHwvNrWlvQ/LqiatKrymyNwPWTqf97PbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=khtFuwGuNQGnrOF0lynXx33wM5e1qwFE4Owy4IYdx0iHpCfmBjdRWYcQ7QfE3fSkaNV9Mf/aTb6D0pqjY32dEH7jUsCWrEhE8cW/AQ7K84nbpgER/wqUGdq4/+2HYtkDVhMumdH8cnaei5thrrIsTlhAxDTrJFtBQvn2+w4letc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UZxmllpa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OH9P1E7y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=wSB52/WtP6HuuvG74+GyQCPYwOqQm+vAX5uv61MDy+s=; b=OH9P1E7y34TbuJvCuHd7jHk/jp
-	XVv4N5DD0sqPg657UfVb9KOTEPQhkWvxrHoQ5WdNCZ31Hoi1raiocY1eG9ohCpu+JhEdQ0X341nUs
-	Rp2Kt1p4j6iXTGEOR4DZ7GXTdfPFjvrc3trQGwh2ztZAUPaetsAIA3+Qf54/aXRzV4Q0hgl1dybfg
-	mi4fJ+iKmSBE1ZhoaihucD/TTkF9DlcoFDofHcZqC24SArpcF+5qTnF5/XCDU62jJpAJyC2flGkB5
-	/R9F4StuWCJKgoX8DhuVdzMMLvHASxQB3DQiWkyca/lvmbyTgqMYh7cM1t/VP/+6TAvsFIvcTF5jc
-	pM4NrqMg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wla7l-00000005RRr-3XF8;
-	Sun, 19 Jul 2026 22:36:42 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UZxmllpa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77DA1F00A3D;
+	Sun, 19 Jul 2026 23:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784502497;
+	bh=K7NbXJhwT8cHjJAvRs9KohMqKpOUiXmG9r+4uV2sG9A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=UZxmllpaRjoY7Ip+XRv0P2qsFYSXZPZXKdMT158b3st9dlVPCOhGXNQBOCKBp8NjX
+	 6Qe9MfkJZq+Vp35lcdaiDb9PqTPFsah4/j5FCQ9puy4z13V/kkDdI6dFF8iB371rFt
+	 dyNtM++LopNSjUfx21NNF7oTjFAtn/TRWULO2L1mmOnDqcL2RYoG217PqIYzB2BOlW
+	 K15JDBvkq0r3adaQgN2oTslZTIh5ifXvHWNB1gbKSWXC8U4eE3+7Ev6I0v4SLERIfw
+	 AGjNXQ2rCITFMgrmJQHTo8yrz1AgKNw/svwbanWzJY/zh57snvoZpjFlfk5bh7ONUY
+	 90iobzmeZEwCw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev
-Subject: [PATCH] device property: add missing kernel-doc for property_entry
-Date: Sun, 19 Jul 2026 15:36:40 -0700
-Message-ID: <20260719223640.2864890-1-rdunlap@infradead.org>
+	brgl@kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH v8 0/5] driver core: unify the release path for dynamically allocated platform devices
+Date: Mon, 20 Jul 2026 01:08:11 +0200
+Message-ID: <20260719230811.812546-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260716-swnode-remove-on-dev-unreg-v8-0-5c2b8cc38c28@oss.qualcomm.com>
+References: <20260716-swnode-remove-on-dev-unreg-v8-0-5c2b8cc38c28@oss.qualcomm.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add kernel-doc for the missing fields in union value:
+On Thu, 16 Jul 2026 14:31:35 +0200, Bartosz Golaszewski wrote:
+> [PATCH v8 0/5] driver core: unify the release path for dynamically allocated platform devices
 
-Warning: include/linux/property.h:406 struct member 'u8_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u16_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u32_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u64_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'str' not described
- in 'property_entry'
+Applied, thanks!
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Daniel Scally <djrscally@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
- include/linux/property.h |    5 +++++
- 1 file changed, 5 insertions(+)
+[1/5] driver core: platform: amend the API contract for fwnode setters
+      commit: e6054f410c97
+[2/5] platform/surface: gpe: use platform_device_register_full()
+      commit: 1e0bd438b876
+[3/5] drm/xe/i2c: use device_create_managed_software_node()
+      commit: 0f485f88656a
+[4/5] driver core: platform: unify release path
+      commit: 7d80509ff0da
+[5/5] driver core: platform: tests: add test cases for correct swnode removal
+      commit: 397f0a3958c9
 
---- linux-next-20260717.orig/include/linux/property.h
-+++ linux-next-20260717/include/linux/property.h
-@@ -388,6 +388,11 @@ struct software_node_ref_args {
-  * @type: Type of the data in unions.
-  * @pointer: Pointer to the property when it is not stored inline.
-  * @value: Value of the property when it is stored inline.
-+ * @u8_data: @value as an array of u8 numbers
-+ * @u16_data: @value as an array of u16 numbers
-+ * @u32_data: @value as an array of u32 numbers
-+ * @u64_data: @value as an array of u64 numbers
-+ * @str: @value as an array of char pointers
-  */
- struct property_entry {
- 	const char *name;
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
