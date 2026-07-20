@@ -1,63 +1,63 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99D7480348
-	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 19:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83DD3CB2DC
+	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 19:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576123; cv=none; b=de2FMYCOiU0FHmUhHF2TvRZLMJtRiiVZ6fej29MGPb6hof6NP03wmRVlJqHrCyT3NLfsBjp2EPxXLdqly78v/1iout7jgMT6h59fz0w0fCv4gvmWKk0BIJjN1r8TqX0fTi4pMaCtYGIBrqCtQXZIsDls9Jlikjb3/rGtTEfJo6Q=
+	t=1784576125; cv=none; b=kZbsS2jj38tytp6coocncAjzoSLomkWQPgNjytkRt9cT1sjSY8tZi3nP5/9V0GdnXXeZJh1gBZjJtp9eEOY+nAgmnlnmz0JBXsIu6CX9NzAVvLjdjefoueCifLlxuFRJrZeBlNMvkymN9JZ3bS2knIp/dFhA41ySCUjTzNnif5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576123; c=relaxed/simple;
-	bh=wTYQxiwnnNn1fQlaf49KQEuG8RjOnNBI3U36p9hX2rg=;
+	s=arc-20240116; t=1784576125; c=relaxed/simple;
+	bh=rTGbsGvKQACnJtisxUC5ZLec44efZiXOSNd4OQNTaLE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qddpJe/ppTHyEBI+LqFiPLl3JatvTS8hLCTV8t6tY9N1L3WJFE/Mo+J5//INbdEnpTZhTkYcjIQbZC/UEti/JBOAfin6UR0hyQow1VpVI30BFCinbKfZILTWsfAIEtpQbzZuspgM4kkTE0bf6UrMPvchZE1M/CByA2L7lw6fJXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=AgriYbaH; arc=none smtp.client-ip=209.85.219.41
+	 MIME-Version; b=S+isVb6okgcxpKZrDspbiROhiJL922ATilFVlkHv/W4IbFjXu7pvptJuIysAUdJvxXnPZ1Ntkt08PLi6kki59fZjGfnn5mMCseQnlkj8U/tB0XM2dq/8Z3OlCZ6FdJsP+tu3AWfSkivVRBUWYh+9Uf/zfik5MPBOhK3YF4Xk5YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ZVZORhe/; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="AgriYbaH"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8ee6912d86dso50429246d6.1
-        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 12:35:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ZVZORhe/"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e54f8c051so797914985a.3
+        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 12:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784576118; x=1785180918; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1784576120; x=1785180920; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HgkUnnQve0Rn/Pvs0Z/0q3yFfFJ0c7Ckz6K5pdtr6eU=;
-        b=AgriYbaHBnCKuKppil46GYl+AEDW15Y3oDny/PSbzPTETLcNv9XA3/FOl8geHSe3lG
-         PeYJ/zO1ukox5PlUydcwRbCPCSPoxUIKKo6hoGwqpmsLw8MBY/BAic7BVPBPtui0MT5S
-         EVprFCMiCTHNTxy3xHudUmTyKr88qAsmT/gGhD0+lo0Jb5WMGKJGZoYtLjU2vfjETdc9
-         U86fJmkGZGOSgSYNLlN+sjAYvNyJoMczDPwOfboKh0nkoO2ZvGJVqssilM0Ht9bO+4WE
-         z+A/kmDet35M4HhS76XNp/4LfvI4LBUti2fbN9DOGnWgfPPPZZJy96hG85uG3oSOzNrl
-         cdzQ==
+        bh=t6FOiK4vob/RxKMxAQwNd3dgf0KAGjN7gNG/YIVjxjc=;
+        b=ZVZORhe/Ej18A3tgUGVY8r12lG5Ww1x4XOC8OFZdVzhUIkzWHXyLQCSiIvgOxJeCcK
+         Jk3KlJECv1hKwWSL04jVXb6w59uf2ZjhZYR10NLM3eLzpoxh+irQTkdEeT5HSdzZL5am
+         iWLi0wOBjQH+fQmooUWR5Ol6Ix0Gen8YMehBFOq1bUHu3z/HA/bJSIXW5dSV5qO28vc2
+         9gkSW63xQzb8gv4/iNM6BwBtskWHbtJFsLFdwmzdrGKUsbwyhGcojeqjVugP1UIRGf3k
+         l1nUmumLv3NsRTbblmzBhBRdeB/2KlShTxCYKG5bTll6DzVjDeeweJZdKUhDpXxAw+U2
+         qfaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576118; x=1785180918;
+        d=1e100.net; s=20251104; t=1784576120; x=1785180920;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HgkUnnQve0Rn/Pvs0Z/0q3yFfFJ0c7Ckz6K5pdtr6eU=;
-        b=sdSCm/9bll8/aUhHifskF/V3elIJreu5FPlH0Nm1u5w6tEcHuidvrbNzJJszM7C6m3
-         StpWUmbRAvAHVsC2EONbag7bM8zDJ3NB6kGQF+Dxn2z4VKdt81Gp02oV316WBAXYygwi
-         4mglt8JC9a2cMBbnO6euJK10HwyOOK7wyp0caquT2JG8vid1AqC+0Nu+wDmv5Y0c9rZE
-         5vokkIh16PP9bBcYxLKXnB7HXv42qrmy7GANb4l8d+40VOczlWXi1FLNhwZsqFTA1o21
-         9ABxS4AYc+Llf1e1FcK+APO3tk8ZkQSi1fkrBT7c9XLzacgMfiwhUI7adpaaYfVOcLQF
-         V5og==
-X-Forwarded-Encrypted: i=1; AHgh+RpS1Di9tkzQNGx3eJXYRQGCUpKnHkcL0PatM1JkPkS+7qtv6AbFY3PQ5tMlX05uj2ZQfocwnwnfAEB/JA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz17nMit8by5oZ8n5c9N+ZB2cXLr6jseWjhAJsBYkl/z4qmcA3j
-	z0YSspSlvkjQtgbX8D/YnJN15VF7hOABmEBoa3dJGaJDhw6HoXyETC2SmVEO/4HWGOo=
-X-Gm-Gg: AfdE7clY7lW8YUo6BlsSZHaQvXVcygZqs6Y8uBWK/ePnfHOx6LKSDBi93GbdWsiBi9t
-	575KkWDJy4AfiDKJbvqBt/4kueBewxcNPCCwyP+nllv2XaI+HnH70zqIepN/UzhCHpkAam/WAsv
-	6AJSNgXyt8PmsToLUq/1TT1VNZbGWy6HUch/A/xjhive7j9knunvftsp1/D+XO9xlO9ukLi4Sh5
-	rH4602R+F+xg8JOVLFErzHVF9nBtSKF97KLpR7SOV38C+J4jElxQW4lh7k8QXtC2Yf6dzGklVCK
-	MD+tEdyHvXzyw/DDHxSHv63XAcLXzHYnCldMORYmDgFsPBeFQQYfDAaH2O0aKek8YRQBUrn7hpJ
-	HAA6s1vt54b2munM2TFUdhtGQInwwFYAQ1a1sjWAv2tjwx4xDcLWmPLdLrIJODtCPsRtJqNAQuz
-	Vsom9oyPVFf0I0oKP6qMnHcA4jwRV6cZcAh+zI09+zE4QfnWVkAd3L0VjHcvV4PZ8=
-X-Received: by 2002:a05:620a:4007:b0:92e:c116:bef9 with SMTP id af79cd13be357-930b4315599mr1572701485a.86.1784576117793;
-        Mon, 20 Jul 2026 12:35:17 -0700 (PDT)
+        bh=t6FOiK4vob/RxKMxAQwNd3dgf0KAGjN7gNG/YIVjxjc=;
+        b=WbADs8a8kL4N0FsSgoee2Wii1lNDW68LdsEVLQB8FYWskWq4024eq8yYq7wzr73cwl
+         UsgErfKlsChWyS88JnCRKe/cmgOSeaxoyLOjJFxG4JXWrPvGf3icRqs7UJgw8QFoHw+J
+         ZtmK8BfaYjLRKT0+0UuGSvqPGqyJKdvZSlbYIOTIjQ40CtllWtZVFUVQGsP7Q5kz3WLk
+         FPjMnQZulUmqw3XSrd+5f8v19hpx4P1Qs631JC3Lilp6DNhWJXpSndaQ2lo2twNCglEO
+         YklTmqxJa+/ngxj5vPogUiSA4gcwm3pRM/kODoqEtSVusZ+D18ND2mrumy+XW539KgB4
+         D9lA==
+X-Forwarded-Encrypted: i=1; AHgh+RqOmGS00/QRRZMo7ZtQRaJEMyNbF9y/abkoxFdgvnsTTa23gQOcQ51cNC+1AfJSsQ+l9IR7hHCWXAdhEA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YySgdld6vkMyDQ5blr94XBLnwIam2J53RO8r6SslUEcPeTJ9+s9
+	8wNUi8PN2TvA7dLOZktEngERPmVgtDaCL6wpS/UpsG5RtYx5NhMXyMjwtP8SpD3GA18=
+X-Gm-Gg: AfdE7cl5Xf6e6cEU5XY1RE2/2qIbgaYBBzlAu5/M4tHXkSVSZrNHECUTvR2D3CsE+B/
+	aC5+spqOMhAVXkhFKuy6LhJODI7OKPi8zsFWHdtSf7RozEHaE92cznvD6CFjwLcpK3m5WP6osRG
+	Mfhf0hz34jNP92Km+khnBlBPZeGis89HNXuX/yL0+zT6+8f+JW0TDKSXdHXcy+i2kmJXTsjIXZO
+	V4b1myQK6T7x5imHCbBkZAj2GSDmOIT2++NVQ9QVYykfN2eIwcSlzJdWhLtIuwwbj+qsQDAph+u
+	5K3YAWbX+3Q/572Fe4eF35wBzlNsYEz4r1F+nHkX4G5CMw8KhxycZy9gyNHufso8rXgrV0voP96
+	SVpVVh1k/aFQ4V0VZ/kKdnRC9QqFmHBcTAIIZMS6GNPFcsOpyjdv0G/gzGzwCUUGcjUf0RLp3+O
+	TRL8JlUvmsuikfgU38VENIYNeDtJDrubJ2u8cx6GXedb2zxWwMI4OetnnKTphhqEE=
+X-Received: by 2002:a05:620a:290a:b0:92e:7745:9a3a with SMTP id af79cd13be357-930b3e4e1f3mr1582641285a.18.1784576120209;
+        Mon, 20 Jul 2026 12:35:20 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.16
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:35:17 -0700 (PDT)
+        Mon, 20 Jul 2026 12:35:19 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: Zhigang.Luo@amd.com,
@@ -137,9 +137,9 @@ Cc: Zhigang.Luo@amd.com,
 	damon@lists.linux.dev,
 	linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH v5 15/36] mm/ksm: skip KSM for managed-memory folios
-Date: Mon, 20 Jul 2026 15:34:09 -0400
-Message-ID: <20260720193431.3841992-16-gourry@gourry.net>
+Subject: [PATCH v5 16/36] mm/khugepaged: skip private node folios when trying to collapse.
+Date: Mon, 20 Jul 2026 15:34:10 -0400
+Message-ID: <20260720193431.3841992-17-gourry@gourry.net>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
 References: <20260720193431.3841992-1-gourry@gourry.net>
@@ -151,50 +151,47 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since private memory is intended for explicit placement, allowing
-KSM to operate on it by default would completely defeat the purpose.
+A collapse operation causes new THP allocation to occur, and may
+migrate memory from one node to another.
 
-Skip KSM merge and scan operations for private node folios using
-the same filter location as zone_device folios.
+Handle this the same as zone_device for now (disallow collapse).
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- mm/ksm.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ mm/khugepaged.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 47006f494fcb1..dcc5c46a29eac 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -827,7 +827,7 @@ static struct page *get_mergeable_page(struct ksm_rmap_item *rmap_item)
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 89ce6bcbc376b..fb4378cc17b10 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -700,7 +700,7 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 			goto out;
+ 		}
+ 		page = vm_normal_page(vma, addr, pteval);
+-		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
++		if (unlikely(!page) || unlikely(page_is_private_managed(page))) {
+ 			result = SCAN_PAGE_NULL;
+ 			goto out;
+ 		}
+@@ -1687,7 +1687,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+ 		}
  
- 	folio = folio_walk_start(&fw, vma, addr, 0);
- 	if (folio) {
--		if (!folio_is_zone_device(folio) &&
-+		if (!folio_is_private_managed(folio) &&
- 		    folio_test_anon(folio)) {
- 			folio_get(folio);
- 			page = fw.page;
-@@ -2558,7 +2558,8 @@ static int ksm_next_page_pmd_entry(pmd_t *pmdp, unsigned long addr, unsigned lon
- 				goto not_found_unlock;
- 			folio = page_folio(page);
+ 		page = vm_normal_page(vma, addr, pteval);
+-		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
++		if (unlikely(!page) || unlikely(page_is_private_managed(page))) {
+ 			result = SCAN_PAGE_NULL;
+ 			goto out_unmap;
+ 		}
+@@ -1944,7 +1944,7 @@ static enum scan_result try_collapse_pte_mapped_thp(struct mm_struct *mm, unsign
+ 		}
  
--			if (folio_is_zone_device(folio) || !folio_test_anon(folio))
-+			if (unlikely(folio_is_private_managed(folio)) ||
-+			    !folio_test_anon(folio))
- 				goto not_found_unlock;
- 
- 			page += ((addr & (PMD_SIZE - 1)) >> PAGE_SHIFT);
-@@ -2582,7 +2583,8 @@ static int ksm_next_page_pmd_entry(pmd_t *pmdp, unsigned long addr, unsigned lon
- 			continue;
- 		folio = page_folio(page);
- 
--		if (folio_is_zone_device(folio) || !folio_test_anon(folio))
-+		if (unlikely(folio_is_private_managed(folio)) ||
-+		    !folio_test_anon(folio))
- 			continue;
- 		goto found_unlock;
- 	}
+ 		page = vm_normal_page(vma, addr, ptent);
+-		if (WARN_ON_ONCE(page && is_zone_device_page(page)))
++		if (WARN_ON_ONCE(page && page_is_private_managed(page)))
+ 			page = NULL;
+ 		/*
+ 		 * Note that uprobe, debugger, or MAP_PRIVATE may change the
 -- 
 2.53.0-Meta
 
