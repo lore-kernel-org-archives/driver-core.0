@@ -1,298 +1,152 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA124D9900
-	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 19:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4943B14DE
+	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 20:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784576176; cv=none; b=ImcDfeIpXXN/YSs/L4NRYjTjj1IEbp11CxhmWc/n6btnChkoGD6VE50r/KbAwLgVQaj7ob2CROhFlZLMMFxF/DECQec5btsOw4cNpRHIDiVjB8bRjRoMJkQSt/JCUk2LlI2IwskRnp44OQqqfV0DqM00g8l0E9NuX5+fKTi+MZg=
+	t=1784577921; cv=none; b=ddMTGb5kY2zyHRLrl8fS3yC1HPt3Xvq4tSnM2uhYRfsV9TyaQyJ/yhbwqEXRw9GffJop1I49LpBdARInzu3og9jo9I++ectGhxjeURdUwvBsXJ8OcKz7m47ecFjtukqPMjYVLE9I12T0+M3UidzehPFv93C+yXTWbJXhvyGiYJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784576176; c=relaxed/simple;
-	bh=d0vgqTeVUGBqlLAIGlg3lxl0DoS6vjZ3OvWpJ8TltpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VNYQjJa8LaAx2sizC6+LSnt2dZ8Rn3EomzI9Os0lvvcIGmRKUAbZl9BaAGILctXBAQ2TeJjWrnSy0E2qnf6jiJ1hL1r0LzyGpeyvpiY1LY/xVWXtyVAL2k7Biiob6lpneXIqwqPhYzNm8YgMF/5qPEUCAWYOJ8ILXjYDQ673bqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gHIG8S2r; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784577921; c=relaxed/simple;
+	bh=1rjpSQ8mu+YON7kDziz+Eqqp4mTUxp3NIFQjmqIoKtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=njgjQ7g2kFgre1obVL4tyzxtKqc4p0xgRswqmDLZlIzmykv9KIAn16OpQIp0J8BH/VZJmB6AnIueDAMTG1IqnVZ0juN3f7pfdGaASnuzS2KOk0BMcdYiPCcD7/YOpCeHxs45sxT30pMilr7bEZAuK0czeCNNx0IdJqGtMkFPfNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com; spf=none smtp.mailfrom=osandov.com; dkim=pass (2048-bit key) header.d=osandov-com.20251104.gappssmtp.com header.i=@osandov-com.20251104.gappssmtp.com header.b=LjRpjt5U; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osandov.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gHIG8S2r"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-92e50c5d14cso756448185a.2
-        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 12:36:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=osandov-com.20251104.gappssmtp.com header.i=@osandov-com.20251104.gappssmtp.com header.b="LjRpjt5U"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38096590070so1722274a91.3
+        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 13:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784576171; x=1785180971; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=agF9dzqU876M91BxnILPGKGHMrmtsRIzpFbV5gzpkC4=;
-        b=gHIG8S2r3yMCEHoBA3mAC8ff6QJna9SEvE9J7N3XTbmXJ056z5A7rpmfF7p8Fq89G1
-         NGhtQv/rGUm8CFpxjTDKx+kWceDD+OuMDPFgFcIYGZwZB8OJa4DqArXcXgCM+3OQL0VI
-         QcsXQjxinmoygjGi1XE+AaF2Pks1lkKKzSWektGCQI8TKeOLv+lOKar3UDm30rcR4Yw3
-         PE/0ZUOIVJTe9Z50X5ro/e7/FPekKQRV3A/po0Uw09lvYAHpf9nVMZ2MC94XgxjN+waY
-         Lkuf7dGTRMvFgIVr3yjyI4bqZeCN8Rpv9FHGVQGSXbnzGQtj3M2At10JL6SDe+D1wSCg
-         hq7Q==
+        d=osandov-com.20251104.gappssmtp.com; s=20251104; t=1784577918; x=1785182718; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KYywQuRzpuUyQQKl8IkB8b6aSBOL9lUxtR3YJXQirrU=;
+        b=LjRpjt5UGCGfKpRcDg/SbzE7fTnZmYvDL/N8MqAyW3yHAuIX3vCZpxSBltfPe79xrd
+         bMMkJXVJnxvhstaRvPoJ81fSXbSMoFdCYF5LYezGEuRr4dardrT31e9cPrvGD4pSEULW
+         vPL3olF3xjEd2zKEafKIsplcPVK1yVz28PhcugMqrC3JfyFtwizgRJ2SxS8AZ4i4uY1J
+         WirIGedwHOzG8lxAUZa/ZL+fItnGTUMIcWYWGUwDUWqk+nB9yACOs3RlepmaVGMtXFa0
+         ps08dsIPbtEBG5PoafmUMQpFPq3+IhAfShOxEttgR0DP0irlgIxTldy0EISRYtnZO0EB
+         8lVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784576171; x=1785180971;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=agF9dzqU876M91BxnILPGKGHMrmtsRIzpFbV5gzpkC4=;
-        b=CoRreZvpuDFTYSLeDJQ1QJuj4d2+zG88fLH+nLOZ5pj8S4e+t1lLSyfeLDJ9Rh42po
-         TpjkUODZI3snq5KKZ8427o/Hya5HKPnEW+Lw8vNO2iwP26GudoqpMLcqpaOCiVfdx9Q+
-         RYc8mlbYAYRjjA4CPnvOEj4ACIhEVEXMNEC/iIZ/w+K0m8RjDlDxoCWUj1u6rKVfdjG1
-         4Q/RdU3gpYLgy3Je1IxbquQYrSFYbiyAIXeglNgboY5D70fn8C9ol+DrrUk2KpR5DuLE
-         h982+QXCMoJdTVFhaKYdzkDc/1h9z73GmnbfGdXZaCfvEDolaJ16/EBwkqWque0iP1iS
-         TD0w==
-X-Forwarded-Encrypted: i=1; AHgh+RpjkM4q8uslbcfe97cy/yUxuE5MyWopfWVKKlpa39g6m3oXiyY/5UMW6FGDNsz2tve04D5t6wclWWzu+A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmA13+qXNqcYp5pcunrlEevbNDDM+RP6rVgvbROKMzYIM9rbHz
-	KLdgvBdje/FfvdMc9Gyspb4o9SDD7LQyviTTgc3Q/BEYezuFo75Ne3rRp0VweppecwA=
-X-Gm-Gg: AfdE7ck6e7WN+L7wPI7W/BNUP/5MgCp5p5aZv8JP4ujHS8gJA1dEl5t/IOgDqLEZYBd
-	9G1JLeIEejo0XSsKZMCGf5Q6CyhrR8zWYpRA2UL45sxzRi8XYZ9961NtdvoqN7xeg48O8j33znW
-	QMENpZmrZjFVxxS455zL5onplZPCwo35s+yO/sXzyvwurKylF0yo7z6RlOQxae82YvImX2shIAU
-	8FS7iTV0Hz1wg2N6Ol9xKg4/yYWpAUjxkniKczf+kDAf8tOhARSJFyyGOnyag5K7CFEySNqMHl5
-	XjV3NLC894GRbDGshc0EPIZkzuiZSnU/I/NFPkSYx5HXmWkWnwCr+/zGSOi/+VrN219dz4oHnWc
-	i5PjkjvT3kEsTJUIShb+SndsPKglfoe6UU0EtfZkXCDtlCDLy5mEZMsVMOo6nXSoUeD3Z+P2Kk+
-	BoCcmq1nMrUTlrEsneHQeaaiUjQzKQwHrAJ78RcQ3Nu04WFkJgo3R/3UlopJWHJtfNaNx+NoXlq
-	w==
-X-Received: by 2002:a05:620a:4082:b0:92e:59b0:df08 with SMTP id af79cd13be357-930b3ec7086mr1655803085a.3.1784576170762;
-        Mon, 20 Jul 2026 12:36:10 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b545e47bsm957792285a.35.2026.07.20.12.36.09
+        d=1e100.net; s=20251104; t=1784577918; x=1785182718;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KYywQuRzpuUyQQKl8IkB8b6aSBOL9lUxtR3YJXQirrU=;
+        b=E0MdZaeY98aAPLPelnnx3U/qoHyREzi3QTbluz5K6O7Y+5WQIXieij0+8I1cxXRQg4
+         gnpSD8j51jIxbEItgf8TNGV9Rev1PeasnrDZ47mNls9e6yKqygInp5mZNxGEyGF9iaZY
+         +NVvIKI9ehChOMdNk5hbHergItarfsiE5LGnUmmMhaxe3QmVrBgV9c8t4Guk2DQkXHX8
+         d8NPkFcNBqSsBTJTPJB0l//rizpa+kpnUnCPlNXD0VK2jChUCI1WcWFgAKu7xBKTX6le
+         BR1SYxPYTOIhRzWELtfLTszlKTPU4X4x7CtGwRb05KbVJxIOztlBF7jtD+fR0pDMZhBw
+         5XNg==
+X-Forwarded-Encrypted: i=1; AHgh+RofoQ5aoNN3J5jqWp2Ov0Wgt+4XtmjQ+G1BNTBGPmO/1SSib/s60QvshpnJr2vzdn+YZQKBowJuZ5cy+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLhzNaKARqCfGHWIeo4GTkbh/lLH5ANGCvf9hEVOZrpZf5MDje
+	q5rfNGBPiZ9bPjCBQaMBVZOj8l4AtacreFy8hmxy5Itw2RU1gAs1uvV3Sue79Ppo3gc=
+X-Gm-Gg: AR+sD12Ep/ejd0Od8gpgH8FgaqH58Fiyg23dnO+dHwBz0n1rYsUHvkQzZjAseilG6gu
+	W5plELAsA21mQypTi88U3L23ZpQJFSs7LiKhovI6NmlLJyV3iJ/lHsc6a1zrv6BvFcO2BQu85Ft
+	6RSzuYPxPL1eH5efMETfr7xJwaPgHpQmei4Tkg7ut+2YMszb2fTnapWyodlLtwX0brnqUPZcKNh
+	Hw1bhsdCHwLR0rqQiOXias54zivyyF7gJvGsXF/vTDQcHNDQvTHL6+hs4My3GG98sTI/Ev4FKrX
+	Hj4Y6ndidqnL+cXEUn9MvSD0mbz3awwZm/1TGiOQ+cY41fTnDn1KDuPxwkt77/HlW0uVq5phGsx
+	uQdHuQQkhXd73SIBzkpK3gk31OTwphU6JYbapYGeUcMzEM5DsBjdXGH5kg3Vr7qBh8cieAJuPhz
+	jpY0YwXrGn7xjwAQLL
+X-Received: by 2002:a17:90b:58c5:b0:37f:eda5:516f with SMTP id 98e67ed59e1d1-38e9283cd0bmr318608a91.0.1784577917883;
+        Mon, 20 Jul 2026 13:05:17 -0700 (PDT)
+Received: from telecaster ([2620:10d:c090:500::5ee8])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce29e13a8sm33372118c88.4.2026.07.20.13.05.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 12:36:10 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: Zhigang.Luo@amd.com,
-	arun.george@samsung.com,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	sj@kernel.org,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH v5 35/36] KVM: guest_memfd: bind backing memory to a NUMA node at creation
-Date: Mon, 20 Jul 2026 15:34:29 -0400
-Message-ID: <20260720193431.3841992-36-gourry@gourry.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
+        Mon, 20 Jul 2026 13:05:17 -0700 (PDT)
+Date: Mon, 20 Jul 2026 13:05:11 -0700
+From: Omar Sandoval <osandov@osandov.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com,
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com,
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com,
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
+	vishal.l.verma@intel.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, jannh@google.com, pfalcato@suse.de,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com,
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev,
+	baohua@kernel.org, axelrasmussen@google.com, yuanchu@google.com,
+	weixugc@google.com, yury.norov@gmail.com, linux@rasmusvillemoes.dk,
+	longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org,
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com,
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com,
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev,
+	usama.arif@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev, muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
+	cgroups@vger.kernel.org, damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v5 21/36] proc/kcore: include private-node RAM in the
+ kcore RAM map
+Message-ID: <al5_d2XCbaRBhqdJ@telecaster>
 References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-22-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720193431.3841992-22-gourry@gourry.net>
 
-guest_memfd presently allocates its page-cache folios through a
-per-inode shared mempolicy (kvm_gmem_get_folio()).
+On Mon, Jul 20, 2026 at 03:34:15PM -0400, Gregory Price wrote:
+> The kcore_ram_list bounds its scan at the highest pfn in N_MEMORY.
+> 
+> As a result, private nodes placed above the last N_MEMORY node, which is
+> the common case for device/CXL memory - is truncated out of /proc/kcore.
+> 
+> Include N_MEMORY_PRIVATE nodes in the scan boundary.  /proc/kcore is
+> root-only (CAP_SYS_RAWIO), so this exposes nothing new - it just lets
+> a debugger read private-node memory like any other RAM.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  fs/proc/kcore.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
+> index 390547b992acd..f67194dc2a9b8 100644
+> --- a/fs/proc/kcore.c
+> +++ b/fs/proc/kcore.c
+> @@ -251,11 +251,14 @@ static int kcore_ram_list(struct list_head *list)
+>  {
+>  	int nid, ret;
+>  	unsigned long end_pfn;
+> +	nodemask_t mem;
+>  
+>  	/* Not initialized....update now */
+>  	/* find out "max pfn" */
+>  	end_pfn = 0;
+> -	for_each_node_state(nid, N_MEMORY) {
+> +	/* Include private node memory in the scan */
+> +	nodes_or(mem, node_states[N_MEMORY], node_states[N_MEMORY_PRIVATE]);
+> +	for_each_node_mask(nid, mem) {
+>  		unsigned long node_end;
+>  		node_end = node_end_pfn(nid);
+>  		if (end_pfn < node_end)
+> -- 
+> 2.53.0-Meta
+> 
 
-Today that policy can only be set after the fact, via mbind() on
-a host mmap of the fd. This requires the fd to be mmap-able and
-cannot reach folios that are only ever guest-faulted (no host VMA).
+I'm sure this is the least of your concern with this series, but FWIW:
 
-Neither holds for a non-mappable (confidential) guest_memfd.
+Acked-by: Omar Sandoval <osandov@osandov.com>
 
-Add GUEST_MEMFD_FLAG_BIND_NODE.
-
-When set, KVM builds an MPOL_BIND policy for the requested node and
-installs it over the whole inode's shared policy, so every folio
-is allocated on the requested node with no userspace mbind().
-
-The flag is advertised through KVM_CAP_GUEST_MEMFD_FLAGS only when
-CONFIG_NUMA is enabled.
-
-Suggested-by: Dave Jiang <dave.jiang@intel.com>
-Co-developed-by: Dave Jiang <dave.jiang@intel.com>
-Signed-off-by: Dave Jiang <dave.jiang@intel.com>
-Signed-off-by: Gregory Price <gourry@gourry.net>
-Assisted-by: Claude:claude-opus-4-8
----
- include/linux/kvm_host.h |  3 +++
- include/uapi/linux/kvm.h |  5 ++++-
- virt/kvm/guest_memfd.c   | 39 +++++++++++++++++++++++++++++++++++++--
- 3 files changed, 44 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index ab8cfaec82d31..f6448a73d464c 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -739,6 +739,9 @@ static inline u64 kvm_gmem_get_supported_flags(struct kvm *kvm)
- 	if (!kvm || kvm_arch_supports_gmem_init_shared(kvm))
- 		flags |= GUEST_MEMFD_FLAG_INIT_SHARED;
- 
-+	if (IS_ENABLED(CONFIG_NUMA))
-+		flags |= GUEST_MEMFD_FLAG_BIND_NODE;
-+
- 	return flags;
- }
- #endif
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 419011097fa8e..a8ff150e2cbb7 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1654,11 +1654,14 @@ struct kvm_memory_attributes {
- #define KVM_CREATE_GUEST_MEMFD	_IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
- #define GUEST_MEMFD_FLAG_MMAP		(1ULL << 0)
- #define GUEST_MEMFD_FLAG_INIT_SHARED	(1ULL << 1)
-+#define GUEST_MEMFD_FLAG_BIND_NODE	(1ULL << 2)
- 
- struct kvm_create_guest_memfd {
- 	__u64 size;
- 	__u64 flags;
--	__u64 reserved[6];
-+	__u32 node;
-+	__u32 pad;
-+	__u64 reserved[5];
- };
- 
- #define KVM_PRE_FAULT_MEMORY	_IOWR(KVMIO, 0xd5, struct kvm_pre_fault_memory)
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index f0e5da4908660..de320df08e0ff 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -456,6 +456,26 @@ static struct mempolicy *kvm_gmem_get_policy(struct vm_area_struct *vma,
- 	 */
- 	return mpol_shared_policy_lookup(&GMEM_I(inode)->policy, pgoff);
- }
-+
-+static int kvm_gmem_bind_node(struct inode *inode, int node)
-+{
-+	struct mempolicy *pol;
-+	int err;
-+
-+	pol = mpol_bind_node(node);
-+	if (IS_ERR(pol))
-+		return PTR_ERR(pol);
-+
-+	err = mpol_set_shared_policy_range(&GMEM_I(inode)->policy, 0,
-+					  MAX_LFS_FILESIZE >> PAGE_SHIFT, pol);
-+	mpol_put(pol);
-+	return err;
-+}
-+#else
-+static int kvm_gmem_bind_node(struct inode *inode, int node)
-+{
-+	return -EINVAL;
-+}
- #endif /* CONFIG_NUMA */
- 
- static const struct vm_operations_struct kvm_gmem_vm_ops = {
-@@ -557,7 +577,7 @@ bool __weak kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
- 	return true;
- }
- 
--static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
-+static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags, int node)
- {
- 	static const char *name = "[kvm-gmem]";
- 	struct gmem_file *f;
-@@ -598,6 +618,12 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
- 
- 	GMEM_I(inode)->flags = flags;
- 
-+	if (flags & GUEST_MEMFD_FLAG_BIND_NODE) {
-+		err = kvm_gmem_bind_node(inode, node);
-+		if (err)
-+			goto err_inode;
-+	}
-+
- 	file = alloc_file_pseudo(inode, kvm_gmem_mnt, name, O_RDWR, &kvm_gmem_fops);
- 	if (IS_ERR(file)) {
- 		err = PTR_ERR(file);
-@@ -630,6 +656,7 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
- {
- 	loff_t size = args->size;
- 	u64 flags = args->flags;
-+	int node = NUMA_NO_NODE;
- 
- 	if (flags & ~kvm_gmem_get_supported_flags(kvm))
- 		return -EINVAL;
-@@ -637,7 +664,15 @@ int kvm_gmem_create(struct kvm *kvm, struct kvm_create_guest_memfd *args)
- 	if (size <= 0 || !PAGE_ALIGNED(size))
- 		return -EINVAL;
- 
--	return __kvm_gmem_create(kvm, size, flags);
-+	if (flags & GUEST_MEMFD_FLAG_BIND_NODE) {
-+		if (args->pad || args->node >= MAX_NUMNODES)
-+			return -EINVAL;
-+		node = args->node;
-+	} else if (args->node || args->pad) {
-+		return -EINVAL;
-+	}
-+
-+	return __kvm_gmem_create(kvm, size, flags, node);
- }
- 
- int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
--- 
-2.53.0-Meta
-
+If everything goes well, kcore.c is quiet enough that this can probably
+just be merged through whatever tree takes the rest of this work.
