@@ -1,103 +1,97 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950B142D752;
-	Mon, 20 Jul 2026 14:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C73337A850;
+	Mon, 20 Jul 2026 15:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558642; cv=none; b=GWnqllMV7JunNieHCvxzqU2Gs9/BaSOTW/PXLwRgq8A1t5MZ6YrLv3vvFhv1VpvD5zFIutIFL/mKEaoNjkdrkNoVpi9G74ezMUyjRDkifm2XeZvpKSEg7kGYQXNEboxCD8xJsMY/+4Kup5zebdg+oa4AjWLTK+vIr0mDBPweXQU=
+	t=1784561463; cv=none; b=NNSatsPDHSBhvz2Z0pPJ3Fv7ndlTWBSCqvsLulwBslL3kSWDkZujVt5H4QaNO7qdrxRHH/cHR4xlFM+usqvbE2rhhE3ru+4bq/4/pUDwWHL+esORWJbDZii/vi7LpW/yD+5GWJ6gQ3NqjiAHmqJc/rqTBI5T3blkes+cgunHwqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558642; c=relaxed/simple;
-	bh=CQJGspfiB/NAwgT88jIh/m4ZZrG8ah3eLPy3cB4vUOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NDORlzVpDyKVc5H/Ie68JyauIXkFdy4BRRJwf/R2BfajYk4ahwvNMXu9RlIxROZViPDytNqVMPfYFcDO6p2fHh7I4ZGw+nuj79KVR7RQjMiUiaN/8my8RhNlEr1E7pobcTv2wy7ZZuURphmzXN6xmPBo4tzg6EoqPy03Xyalzmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=u87EBpi0; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784561463; c=relaxed/simple;
+	bh=1T/+fU4BOb18RNWaYZqrszIYLOLf0njFgGIRGnlW6Ko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p9D7y7u5XdmgQmbAvQt1Jjlgv4ucK2vqMvX/2Fynvov6Uh9NSI0fCvOLid9wQbUKsBBPRdFdE5Z8Nl6QiGxIEwmoOtPweHw9qN+uQR0M+EPaq1LaXol2FpokhDjKhz1m+tJloTtNLpY8C9QDT013dlD70j4xUjO1v4/s+IT+2QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tSZhNLyZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="u87EBpi0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=BXhfFoqflgF82KRwFNK0K4F+WC7W4X52vQ4MqWkibHk=; b=u87EBpi0W7PcezV9DBKXdXN4/P
-	p9UYaLCZFtgUyOGYdytHLutMvSSNyvUcIgRfwGDopHvUqq9ZIlniLUGgYPwPRrDPsFmM1fCmmLkzn
-	A985PR89vvPMIsZsJvQqT/OtMNtLd8+M4EQYIuLAiGvk2F3QoNojNtnckKSJnLpXICWU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wlpDY-00DHCs-Cz; Mon, 20 Jul 2026 16:43:40 +0200
-Date: Mon, 20 Jul 2026 16:43:40 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org,
-	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, netdev@vger.kernel.org,
-	linux-pm@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, mfd@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 7/8] net: mv643xx: use platform_device_set_fwnode()
-Message-ID: <86b2aba7-b049-47e6-bc94-6cb499b30ce4@lunn.ch>
-References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
- <20260720-pdev-set-fwnode-instead-of-of-node-v1-7-2dee93f42c54@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tSZhNLyZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=bc4NQoolZld0IsjePf8E8yoUuXGWRvYzJkp+/BpR1+E=; b=tSZhNLyZSLR0N16TD6j0J5Xsc7
+	bUF6ViVOXyVtq6y9WNjeK5D0EF86Yxfj1fC7BqJTZcNH8jPrYsbVBA0Ruxp8NyYlRAfH0qsRvmJW+
+	7ismpFu9fxJRpkjkRfWftz+LVKckjIGrIt6GDSMYB3BdolSa+M7n5Zt8P8yRB968CtOBmVdsP+2PP
+	iFN6Xhst/M4/tUVTRCNfZPqPZEjLevuCEB5Y2lk37ZGnqMzc/wItWSuAIdUxeAQEVfTom9P7vTe3/
+	a9KZUqlRsC/E9cuS+nTDsxttCKCDK8EFpFLjq942TuSSQDVj8KdlgS2Yc3nztKmTep9hX/gYnM1rf
+	zCYc4a+g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wlpxM-00000007CQ3-2FWv;
+	Mon, 20 Jul 2026 15:31:00 +0000
+Message-ID: <25e056d9-708b-4477-ac63-726e1a01fdd0@infradead.org>
+Date: Mon, 20 Jul 2026 08:30:59 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-7-2dee93f42c54@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] device property: add missing kernel-doc for
+ property_entry
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-acpi@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev
+References: <20260719223640.2864890-1-rdunlap@infradead.org>
+ <al4LwVQ8aLSlP-dk@ashevche-desk.local>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <al4LwVQ8aLSlP-dk@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 20, 2026 at 11:24:54AM +0200, Bartosz Golaszewski wrote:
-> Prefer the higher-level platform_device_set_fwnode() over the
-> OF-specific platform_device_set_of_node() for dynamically allocated
-> platform devices.
+
+
+On 7/20/26 4:51 AM, Andy Shevchenko wrote:
+> On Sun, Jul 19, 2026 at 03:36:40PM -0700, Randy Dunlap wrote:
+>> Add kernel-doc for the missing fields in union value:
+>>
+>> Warning: include/linux/property.h:406 struct member 'u8_data' not
+>>  described in 'property_entry'
+>> Warning: include/linux/property.h:406 struct member 'u16_data' not
+>>  described in 'property_entry'
+>> Warning: include/linux/property.h:406 struct member 'u32_data' not
+>>  described in 'property_entry'
+>> Warning: include/linux/property.h:406 struct member 'u64_data' not
+>>  described in 'property_entry'
+>> Warning: include/linux/property.h:406 struct member 'str' not described
+>>  in 'property_entry'
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/net/ethernet/marvell/mv643xx_eth.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> ...
 > 
-> diff --git a/drivers/net/ethernet/marvell/mv643xx_eth.c b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> index 9caa1e47c174c9d7a161b7f2e2ee12a829b813d4..2f2d6cce8d852b9ec3ab42678a04a7915d1f00cc 100644
-> --- a/drivers/net/ethernet/marvell/mv643xx_eth.c
-> +++ b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> @@ -2780,7 +2780,7 @@ static int mv643xx_eth_shared_of_add_port(struct platform_device *pdev,
->  		goto put_err;
->  	}
->  	ppdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-> -	platform_device_set_of_node(ppdev, pnp);
-> +	platform_device_set_fwnode(ppdev, of_fwnode_handle(pnp));
+>>   * @pointer: Pointer to the property when it is not stored inline.
+>>   * @value: Value of the property when it is stored inline.
+> 
+>> + * @u8_data: @value as an array of u8 numbers
+>> + * @u16_data: @value as an array of u16 numbers
+>> + * @u32_data: @value as an array of u32 numbers
+>> + * @u64_data: @value as an array of u64 numbers
+>> + * @str: @value as an array of char pointers
+> 
+> I think the proper fix is to add
+> 
+> 	/* private: internal representation of @value */
+> 
+>>   */
 
-This is definitely an OF only driver. There are no other calls to
-fwnode functions in this driver, so this is the wrong thing to do.
+OK :)
 
-Sorry, NACK.
+-- 
+~Randy
 
-       Andrew
