@@ -1,85 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4E3367B79
-	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 13:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B813F37A837;
+	Tue, 21 Jul 2026 13:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784641082; cv=none; b=gURp7oAAT7XUl3BdCMTQMA/GKtohcy3480YzmyBS2d7LeOs1ATjxeqAu4BIVevXFznNjgXbduPvsUZjWYPc+NO6qzGyCsaE5wlJDKWrYZS/xoxrH2HcVlpG7TCDjhNmHDmlW6jt3Kf63lCG3ShCntViYjJZ1Mx/a9bQ0waG3wks=
+	t=1784642090; cv=none; b=ZAsHXQJVH6JzUzwSeVAZEYkaYT8qGRBQBC37xt8ABwQmaAoLpqkBqmA4ks180RA+g50iuL2tOpSzpfgDA7BDkr1jX5fgAY7OBQJDwgNVwsqHn8mX4AbRGjJy53M6sl1Fbg6L2/I6ifBdHkNYquoNk09Cg3vzQojFEKD2nin1ukk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784641082; c=relaxed/simple;
-	bh=zYkLGz8LaHBK93YkO2Jnjj9bWsEQgkjOFUKZVT/JzAM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nfj5lTN8FAjbhmkcdhrpVz3lyBw31sv2oe6vEZ7bQsVmzv/Vvi/RK9n76TnPXXZnvDpV2NxjHoSAXGQU72iayvQ2pUglyA9rHkcObgAOvPJX9dM9yfqzHgB97aMBS+mZEqgHBROOgf3GGvP+QBYnCims4BKHoA5i/j4s54PHQi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5Lhm869; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784642090; c=relaxed/simple;
+	bh=FF9rS+ReoCXHytOSPXaCePL2FdI2VEDWyNA4Fj7nrA4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZW1m5wLLfTQKYKpgwBd/Up7p9okp3kB9H2oWnUC5YgJi5IoMwQfnqXerThB2OySs4b9zpy0fc26P93eGWcBjoRYawipP8h9MFiHamv/hwMhjjB6R5L+/tfr5ZlHj2d2maqKg4sHwVRJEi1cI/1f0y6XdaFlYpB6n+vtqOIaFjnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbebBn3b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5Lhm869"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DB91F00ACF
-	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 13:38:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbebBn3b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6445A1F00A3A;
+	Tue, 21 Jul 2026 13:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784641080;
-	bh=YP4/vqdutrGL/bIDiQeS7YoHp1gn6m6cqt5nZgLyF3U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=J5Lhm869HQu58FtN34iRc1wne6hRiuTlPgrfrWHbuo+A1mhESqvWRE0wzoc2dwGGw
-	 4X/SG7k3mLtdOcLLAWycyCnltp8wRX6Im5qtxnB8bPxwIGzGDn380nsKCAPyQqaG12
-	 yM48WMrb7qa+2yw6S/0CRJV8iOF9lgei1HSor9twe0vXJ3i+HDH1NMOdsbRLpuykEI
-	 yyX3szt9SVqwtx3ftG1x5Zan1p/NWM274YzmoARt9EdaXr/ORfR2dvtE1+5UOribjh
-	 5PiQU+eoTXzIvuWRyp/nsdOFzn9wfotul2vG1jns5mTslc8fI4xDI4b4lY/ytSIFxt
-	 xjugTvl5GjGpQ==
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-699fbcd23ccso16580957a12.1
-        for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 06:38:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro8OpXj/Mjb33iPVPeUF09bvQXDizbk/Z1xPPiwFsDSjM40TWiDMlTcWVY4DVvMOwxyboLkCTqiakUMCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLEsbb0zG92w2uWp7EP2SrRJYCVTym1KbliBsryQO01idFCOAl
-	KahZfST713qeKuQ6z38TGlx4rVxvsxB0pl52XIwb3gXY1Ko+F1IjNYyZ8izfChzNnBCJK7Ynzm+
-	vu92j1mRXiOhoTQt+A/QNWM9l2L326w==
-X-Received: by 2002:a17:906:7947:b0:c16:9043:7973 with SMTP id
- a640c23a62f3a-c16b46aa99amr711555766b.4.1784641079148; Tue, 21 Jul 2026
- 06:37:59 -0700 (PDT)
+	s=k20260515; t=1784642089;
+	bh=8s6CKK6FCeMcD+wqnsaLU2czurQavQAzB/tAK2UyUco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=QbebBn3bNEyeN14QKmNhAdESPJyF87kn5hQqFJ/I4EJn/tPKB4qALFibWrA1cpSZF
+	 H0phDl0dgWhATo9d9RmUIZGds72C88fyQPAUeB1LsFBF6Llu0YbsbIs7x5QRCTIUtg
+	 97zeK0YBzYtCSHvbPUlrvgStzNDwgxGqwCs7OholeOlPY5M9Fq6foBxw5e4A4Bv+xA
+	 dmuyqjlUJI22Jhur5k8RBZZzDMODh1fR6hKFi9tPkK2Xdwro+THrFwLUiZ4x0iH2Lw
+	 B5vxGpRLiYKJi0BvH+OG96rsVCjOcDoEU1YinsOMapAwmf5h+rxmC/D2OWq8DGhoWH
+	 1mT5Jq2rr/7BA==
+From: Mark Brown <broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
+ phucduc.bui@gmail.com
+Cc: Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev
+In-Reply-To: <20260720033238.52479-1-phucduc.bui@gmail.com>
+References: <20260720033238.52479-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v2 1/2] regcache: Warn if regcache_sync() is called in
+ cache_only mode
+Message-Id: <178456956836.8049.7756959916636897984.b4-ty@b4>
+Date: Mon, 20 Jul 2026 18:46:08 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com> <20260721105448.2109894-2-xu.yang_2@oss.nxp.com>
-In-Reply-To: <20260721105448.2109894-2-xu.yang_2@oss.nxp.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 21 Jul 2026 08:37:47 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKEUMW1UXmWJ8AEpSOjVuc5bL3wKY39Y1XXXNtk967JMg@mail.gmail.com>
-X-Gm-Features: AUfX_mw_IZ04gL-ukacdb9lC5_5_rnK0WbBMa0rF554D56JU3H8XgFjQdsZn2Bg
-Message-ID: <CAL_JsqKEUMW1UXmWJ8AEpSOjVuc5bL3wKY39Y1XXXNtk967JMg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] of: kobj: export of_node_ktype for use by modules
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	saravanak@kernel.org, andriy.shevchenko@linux.intel.com, 
-	bartosz.golaszewski@oss.qualcomm.com, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1282; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=FF9rS+ReoCXHytOSPXaCePL2FdI2VEDWyNA4Fj7nrA4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqX3onsoa24cCFWqO7K9PbGrgDWg4ePM9M6BFQz
+ T71DJJa8QqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCal96JwAKCRAk1otyXVSH
+ 0Bc4CACFS9XBoadKp6uDp9M3o1PSi9ABItcLU/vCt0MWEuhDhaSLQijSQ4dovvlcxHX/3PHiFHC
+ 8ixK7dbCqAXkka8DaTcSTksWGrLGDvwKdCzMdiVPAseYuvhBTzBPiGMgYomz5dvLVIedSvOy+Hv
+ bVfm0g57Bvlv2t0cnYxeeZ3Hmvyb74ObcjAGn8uxmV7xgrvzvXhUFwHY11vANwWjqXw0FmUcp6D
+ skNvyjZzFvotJMbl1IlF6niBY951vA37osrEM/xe/psKhLmRb2bpnI4HYh1nwyX8jcITus8F3fh
+ Icr2XbYhnggxlaEmXaxPrGbTPYuEb4PYxGY7H3NoyCZAXQyI
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Jul 21, 2026 at 5:51=E2=80=AFAM Xu Yang <xu.yang_2@oss.nxp.com> wro=
-te:
->
-> From: Xu Yang <xu.yang_2@nxp.com>
->
-> of_node_init() is a static inline that references of_node_ktype when
-> CONFIG_OF_KOBJ=3Dy. Any module that calls of_node_init() will therefore
-> have an unresolved reference to of_node_ktype at load time, because
-> the symbol is defined in drivers/of/kobj.c but was never exported.
->
-> This causes a modpost build error when CONFIG_OF_KOBJ=3Dy and
-> CONFIG_DRIVER_PE_KUNIT_TEST=3Dm:
->
->   ERROR: modpost: "of_node_ktype"
->   [drivers/base/test/property-entry-test.ko] undefined!
->
-> Add EXPORT_SYMBOL_IF_KUNIT(of_node_ktype) so that modules such as the
-> KUnit property-entry test can call of_node_init() without hitting this
-> linker error.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202607181651.RnUuV8n6-lkp@i=
-ntel.com/
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+On Mon, 20 Jul 2026 10:32:37 +0700, phucduc.bui@gmail.com wrote:
+> regcache: Warn if regcache_sync() is called in cache_only mode
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.3
+
+Thanks!
+
+[1/2] regcache: Warn if regcache_sync() is called in cache_only mode
+      https://git.kernel.org/broonie/regmap/c/86fc3483a4d6
+[2/2] regcache: Validate cache_only state in regcache_sync_region()
+      https://git.kernel.org/broonie/regmap/c/afc8e3ee8307
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
