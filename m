@@ -1,117 +1,115 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7744134CF
-	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 02:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784515002; cv=none; b=lFqS0qEN9ou+xJ8YNP1td8H1LgW1OO4UPUg6eND0ppfK8xakRg0kDZbmbiA5vybQjeEpIg3aRI311Lp+jXlsFvOzwe9HQ8nWroaZEDA1pe+pIjt0uDLFqH2Y6rg367STbKuieMlSZflmKRfNPt+KrgH4uQvkjeCdr7cXPwTLBTk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784515002; c=relaxed/simple;
-	bh=BnY1OUJgMV/YL/WyEIzD4Ylveq2RJTx0N1HyfQAyw1I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wis93neLWpHWQPhH1vE0B3CuWp9Ffkv/XeN7hMUQjx/wq1UgHIJbAdmk6WNqibw7491FGV/08fvH3PGb5BzXT+xM/f5mcx7qaLEYwxolj+MCqLGkP0BzchKUcLbIQHHMG4gQubm/2dQFH6kCrJydd0kD+2/moqQof7n440a0xg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eOkJFHgM; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FFDEEC0
+	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 02:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784515281; cv=pass; b=JhW5Poy6tD+dMi5+EFaQaJMWKusLx2MeCzAUvYUpCyM/i0Jk4LdVjMuk4SRu5vNOcy3+ONsVLk30SGRwn34ySf1BZ91k8YkWvYNUfDUixChixi3AmZEcx0vyIpOtHCFdfz8+kJF+QRB1xrw2K1OF0YuxB23ng4ZizojhvtEoUWU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784515281; c=relaxed/simple;
+	bh=ZW8ix5o3Cp6tpAdB4hsxiqJX1RClMZspckdEPlWfVqc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g9DSllGTgPf64xu+aF4bHMuFjKsr0d5VY9eU5hega549+eJkoaQ8nGkn6vjLXjjRp1K3CjsCHkxA+dcxQAfiFAXdCZkdyGvRfgjDP2xDRQZalOkl1xkbOU2zd1POpB0zdaN4Pr0LMkj3uV1fvp5f11EBisjdlh8URHIQkwIHlSs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alKkJKEF; arc=pass smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eOkJFHgM"
-Message-ID: <c0265ec9-e983-4547-a166-7c1d30237b73@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784514998;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KusPc2Cpip6sPBv9PieUVxeP0LYiRvmdBMosAeD5k90=;
-	b=eOkJFHgM6kcMlXyh79+foKL5z5ba2DkfV7iAXPTnhaKpSyAfu+A4jkqQyailvUNMc/6G4M
-	zWGbF8zey1Q6P6wxgRW81ZPZq542iHED+d3N/jM8OdRtPmCigRL/bxu5+GnNbEoTTCgObo
-	hFa9uZ3fDfD2zOrYYfaVO6DiCuPlLV4=
-Date: Mon, 20 Jul 2026 10:36:14 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alKkJKEF"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso7226996a91.1
+        for <driver-core@lists.linux.dev>; Sun, 19 Jul 2026 19:41:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784515280; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sBbCHEGZpcfc0bafF6TrEBe5FjRcAUq4pkRiEbVE51dmIW+QrDcapD8Y6oS1UL0Iyz
+         sUp7PWZ2B8aVdZiSpoiFJX8/mSn2ot9Jc83QGT1gpSOX5DaDc62WL8fS1ixD2q1Je8LZ
+         KHRYSubKQflf4MdrTXncfhtmL91k+2q3AOGVhAEdS4YDR4PzCytLxh7Y0gb11WnMjf93
+         Q1MH+L6cbOgO5qiGyvCZmYAoeryHs+bjrAGMyPiN19PlJzuMj6ZpB12lqFhWP1W7+Rzw
+         ewOVRlGsMwmBCnijVK6EceSxXm9Dkh+ycut4MYvZwFW563lmqvvAdzmQuaADA27isQFh
+         86/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZW8ix5o3Cp6tpAdB4hsxiqJX1RClMZspckdEPlWfVqc=;
+        fh=LDZ6RIfY0zAv34JHVRC/f+vAbcgBdarf52sAHGLTiJc=;
+        b=rsCucRaljENEjzakWuWkgcdbSPkh+yHkvxSwe4+Ti6WUsaR4z2sxtat9tFCG1hUFvZ
+         m6A3dGPmdlo/WxyziFC+n+7uhP2IT6TGp1t2tSzWY0cVzJYLS1EQZbiCQQBkEiw5isAp
+         8GsjvLHzCxhCDVRsG/a3S1h0UWNxVSvWhfXLV08U94I4Bl24Kw7o9qhMaYyd9+Hvu4kZ
+         T5ZpUm5BPF1Ki4sIKuYbz9i+aOZRdMDTo4pj8749FazBlnqHJHbL6nhETbk+tkAQMWaN
+         dNDxwd2pJ7jvjGt4LShVIqKKgxXYnVyAQdkbnSgMuvupylTfSsXQ6hDwRFphikAt6s4+
+         Dsbg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784515280; x=1785120080; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZW8ix5o3Cp6tpAdB4hsxiqJX1RClMZspckdEPlWfVqc=;
+        b=alKkJKEFBKChcubVwbDpMh+np630+3BUIgpgXXv0LcrPqNPz7Ah1dnwKbMrDm4JMGn
+         owgjb8jIKx2Kfuj4U6CH422foIriL0jJ84jJbGwaY9nUT5lD5t/0isF4DMtL0o6rLPG1
+         HYWXiYrHhYMYIk/9AFhwqYFzwPmRgvc88MTgg6X+uZLRy2Mqwc0EUitIef0GVybVS0cD
+         BwlWstMlhq+A9sAgDdRfWsGqqtwT9l79bkO1XaAD4SQgGBe26mi0ftTKVvUJBVrralRf
+         68daEHXClyxO+aE4DoTjA07cJ5/Ek2JlPf1aH6o7EimJiCdnuZgQjp5Y9RrvI2ywqIQf
+         DL8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784515280; x=1785120080;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZW8ix5o3Cp6tpAdB4hsxiqJX1RClMZspckdEPlWfVqc=;
+        b=aQuu3SbB/D/250g3ipkgL+T4PRUs5zM4habxn5Je4bKi8ULn7iqvnW4e2ZK3JwVPM6
+         jWskTXieSg6cqo6lwZof6moaAm6c/FxW/Q1CFFCsogJsfdFEGyNV6Phvgjfr3cUkQjiF
+         JBc1sdAZV1/6X43F7rVoaP++J89CLGPpYyZ3ModNMInN8Ykflo/OlTHtKdIgCQQgAp3k
+         0VeTiqaiugc40dC1karvvzqHNZls7VLa7n/jn1sTXPoxRu+Zr1ZNXO9TzcJob4mzj6Yi
+         jV5jWUuGjKYfBgONBJR1DDabeXZcVp3JqKE/NY8Rj/utNSqu0VQW4urid648vQHDoRnh
+         H89Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp2dVtV65Rz/g/YqNIt82H80wrOjE5rTK0JdVlv7kdxKTBlTpE+WjMNGHmaS8VV/jQoiZUNYhyTloaRTA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNyU9JT9EF7WMTDpbptuCR+fsQgx4poG0gOlTVdiJH55aocioy
+	A5VNJ/0eUtOdp2SKwvNdxX35KkrUJl0vYLhoeZyYM922OSmpBY7tBPxqJHrFK/5ZosBKbOsPU9A
+	AmlkApRu3VpVVJnrNdBMAblH+zY6xmuY=
+X-Gm-Gg: AfdE7cmDaHt6trvSkrWcADkuiCQY/nXoeflMraEIPYpNv25tjmZB537NM1ZSCGsw/55
+	7Rs8BCqXM9GiwZyLmHe9g1EZjYzxUt5pHZIC7IOBssbSh+nohsLetYTnGrXWruWwPL0zlyzToUW
+	Pt6fVS77izs1wTHEXfAzqOS/vTGoYTvoy0z3/m6ED9vSeNsO5g8xOlVc6wkTzSyCAyVYfizj1jX
+	zmvuELRKfD1qi+UNWr1LZrQBwGZRZFy+f45rKq3ueBWBvATDXzHplFWFSZoj/IVIIHfbyWWbYzx
+	WDpsBwDrM7U2Auxi
+X-Received: by 2002:a17:90b:570e:b0:38e:6c37:d95a with SMTP id
+ 98e67ed59e1d1-38e6c37dec7mr5812613a91.19.1784515279840; Sun, 19 Jul 2026
+ 19:41:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] mm/thp: expose deferred split folio memory usage in
- meminfo
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Ye Liu <liuye@kylinos.cn>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Lance Yang <lance.yang@linux.dev>,
- Usama Arif <usama.arif@linux.dev>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org
-References: <20260717063025.168436-1-ye.liu@linux.dev>
- <46017e29-48a3-4a74-8c5a-0be9d912deaa@kernel.org>
- <dd037379-cf59-468e-8b42-51546bf2e28c@linux.dev>
- <f041f1e0-8ec4-48d4-8656-a6789c8ad379@kernel.org> <aln6SBHcxBY-9Vfl@lucifer>
- <41bc5ca5-08ed-4aba-86a3-d7f44b16e6f5@linux.dev>
- <b6b04cf2-30d0-4511-9bd4-042b176c1b31@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ye Liu <ye.liu@linux.dev>
-In-Reply-To: <b6b04cf2-30d0-4511-9bd4-042b176c1b31@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260715052100.24983-1-phucduc.bui@gmail.com> <4e43250d-85eb-4019-b092-039e10e84ae1@sirena.org.uk>
+ <CAABR9nE=eYDfd8rJpOGyhC3d5E1tteUW+7vgHBBWKpU4sN8PUw@mail.gmail.com> <ce5acc9f-3447-46f7-b096-fb7eebcbd6b3@sirena.org.uk>
+In-Reply-To: <ce5acc9f-3447-46f7-b096-fb7eebcbd6b3@sirena.org.uk>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 20 Jul 2026 09:41:07 +0700
+X-Gm-Features: AUfX_mxGe-NbPS2EtJX99k8gvHDxZEw0ypDg6iwrabDqJtrzIVUgc0R4rPybtH0
+Message-ID: <CAABR9nFRhg5YE6X2QCYQ4Zu9LuQi+vgaNai1s8MF8rHQE-2PqQ@mail.gmail.com>
+Subject: Re: [PATCH] regcache: Warn if regcache_sync() is called in cache_only mode
+To: Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Mark,
 
+Thanks for the clarification.
 
-在 2026/7/17 18:29, David Hildenbrand (Arm) 写道:
-> On 7/17/26 11:54, Ye Liu wrote:
->>
->>
->> 在 2026/7/17 17:48, Lorenzo Stoakes (ARM) 写道:
->>> On Fri, Jul 17, 2026 at 11:33:05AM +0200, David Hildenbrand (Arm) wrote:
->>>>
->>>> Don't expose it to user space.
->>>
->>> Yeah please stop.
->>>
->>> We don't want this change, it exposes internal implementation details. It's a
->>> no.
->>>
->>> Next time send an RFC or a discussion thread.
->>>
->> Yes, sending an RFC would be more appropriate.                                                  
->>                                                                                                 
->> I'd also like to ask if it's possible to implement this in                                      
->> `/sys/kernel/debug/deferred_split_pages`, or are you completely against querying this statistic?
-> 
-> It's not pages. It's folios.
-> 
-> You don't know how much memory is there to reclaim. You don't know if it can
-> even be reclaimed.
-> 
-> You don't even know if there can be any memory reclaimed *at all*, because there
-> are scenarios where we add folios that are actually *not* partially mapped today.
-> 
-> You don't even know the relationship to memcgs.
-> 
->>                                                                                                 
->> How can we quickly identify this situation?                                                     
->> I believe some people will still be confused: where did the memory go?                          
-> 
-> Just like other caches that are shrunk on memory pressure.
-> 
-> We do have a "split_deferred" and a "nr_anon_partially_mapped" counter in
-> "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/", maybe that helps.
-> 
-Thank you, it really helped.
+>
+> That's for the caller.
+>
 
--- 
-Thanks,
-Ye Liu
+Understood. I'll keep the current behavior and leave the error
+handling to the caller.
 
+> I'd have hoped it'd be fairly obvious that the device is in an
+> indeterminate state after a failed sync, TBH if I/O isn't working
+> recovery options are going to be *super* limited.
+
+I won't make any documentation changes.
+
+Best regards,
+Phuc
