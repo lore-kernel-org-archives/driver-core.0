@@ -1,107 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80937405C42
-	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 11:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E145841A783
+	for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 12:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784548295; cv=none; b=a8XZQgdb7Kv/vR32o3sjpYRgxqDrWYWa2pGMVmsw/kPUgJnqqdrgFv2tygT0J7AmDQOTHbBtJs41SfMSNakLX6JDLQLDz9UOcoLdueaJJsC9MZqeckKPUdz6dnM9eVwwYLHc+Ca8jzYqipoFPCc96AHhuRqIx+ciX1GhofNveZo=
+	t=1784551874; cv=none; b=tH7ojtE4QXXKLzBRvNzGLzoy07t/80JU+ysSiyRPU3JOmIS3O+FOln6dPaiWJsQpH/UVEvY1OTzdPNw0i6H5iLSDA8tB6dgE4Fx130zCKm8i+/wi2/nMmVfebE7MiGrfZ9GU0l19Gzak4cYz4WFaSNlsa+drQF7dYqypnzhQ5ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784548295; c=relaxed/simple;
-	bh=Fp+tjSkmn/gRsigNwXnvYIho9dEMKry/pWvnQvyTz8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGvh3uSwr3tHYOFfIjKAS04cZyRxsEgkshExXR8dLzYudolFI1UfZ298pZw3xrvKqvgpk33qIAlRljtkVOImJqWKrLldaW6SKXNWn6ZDFC0xbpNgq5DYqkirOUGF15/05Eu1ixOukA9wqhP4wffPicUOCMNqHYqEcjEzPK5LRY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5yAXH3e; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5yAXH3e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784548295; x=1816084295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fp+tjSkmn/gRsigNwXnvYIho9dEMKry/pWvnQvyTz8c=;
-  b=l5yAXH3ehfL4ozWTXnIyF2OcC5e5ZvsATPRd5Uup30N1i/skRWk9PpTH
-   vWaz9lIyjbR+VKsZUiHnu46NRAYByK5B/Kb0N5yYbObJGC6onzVd06gkN
-   z3NTFcgMkA/3BdLeaiktJVyONWiYaFeelEIzm1HLlSbGfRAaUSantp9Qb
-   Nfzu788/XjMiKQeV8rXAiZOhJDfa3EyhcFpIJdJUBDDw2fen/lvLzkvkM
-   b+K1XhQheeVoQLNfevzBKqZ9OEcyGfkHq/NuuyQUJXjkxUUDpPiu5fisA
-   OdsmZsI6OwsnvTwd2dKngnGd2Qkk8N8VAdzlHpUfcB+J1HDuRHTtAc9Sz
-   w==;
-X-CSE-ConnectionGUID: P9C5n9SXR1WoyGmvXZfK9Q==
-X-CSE-MsgGUID: SYoSwtd+StGHgABIPmq8Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11851"; a="102676286"
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="102676286"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 04:51:34 -0700
-X-CSE-ConnectionGUID: /eOSUtt/RL6YXwgBQqc9bQ==
-X-CSE-MsgGUID: z7tHEYdnTZeiCUGdFZaliw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,174,1779174000"; 
-   d="scan'208";a="251093296"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.175])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2026 04:51:31 -0700
-Date: Mon, 20 Jul 2026 14:51:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-Subject: Re: [PATCH] device property: add missing kernel-doc for
- property_entry
-Message-ID: <al4LwVQ8aLSlP-dk@ashevche-desk.local>
-References: <20260719223640.2864890-1-rdunlap@infradead.org>
+	s=arc-20240116; t=1784551874; c=relaxed/simple;
+	bh=5yys8wsdRYKcUKjq+2Lxai67aVb9YbfeB/CjIRgpBmc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HmFqpK3jZqq0VOb87yBr9OXuqI6kImp7EPU/vDMFz/rcMs+6uh7DhIx9raA4QjIyLfTu4kmI/bNESIpMkk7LGEBGGMv05ZvgMJjx2OS9CWNc52Ans7hJu1huwXHjDpRwH1PWClJDCfniVodQdwLssYLJcAHrRpV2Thmj0Kl4kzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ab510f66843911f1aa26b74ffac11d73-20260720
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:dc8bd994-4ecc-41b3-8e4f-6f61092a4cb1,IP:15,
+	URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-10
+X-CID-INFO: VERSION:1.3.12,REQID:dc8bd994-4ecc-41b3-8e4f-6f61092a4cb1,IP:15,UR
+	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:27033dd4995ba192f578a49bbfc07779,BulkI
+	D:260720205104TXGZVKPI,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
+	|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:ni
+	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
+	:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ab510f66843911f1aa26b74ffac11d73-20260720
+X-User: yijiangshan@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
+	(envelope-from <yijiangshan@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 788305533; Mon, 20 Jul 2026 20:51:04 +0800
+From: Jiangshan Yi <yijiangshan@kylinos.cn>
+To: johannes@sipsolutions.net,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	13667453960@163.com,
+	Jiangshan Yi <yijiangshan@kylinos.cn>
+Subject: [PATCH] base: devcoredump: Replace simple_strtol with kstrtol
+Date: Mon, 20 Jul 2026 20:50:35 +0800
+Message-Id: <20260720125035.891018-1-yijiangshan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260719223640.2864890-1-rdunlap@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 19, 2026 at 03:36:40PM -0700, Randy Dunlap wrote:
-> Add kernel-doc for the missing fields in union value:
-> 
-> Warning: include/linux/property.h:406 struct member 'u8_data' not
->  described in 'property_entry'
-> Warning: include/linux/property.h:406 struct member 'u16_data' not
->  described in 'property_entry'
-> Warning: include/linux/property.h:406 struct member 'u32_data' not
->  described in 'property_entry'
-> Warning: include/linux/property.h:406 struct member 'u64_data' not
->  described in 'property_entry'
-> Warning: include/linux/property.h:406 struct member 'str' not described
->  in 'property_entry'
+The disabled_store() function uses simple_strtol(), which is marked
+obsolete. simple_strtol() does not provide error handling on invalid
+input - it silently returns a partial parse result or 0, which the
+'if (tmp != 1) return -EINVAL' check then accepts as a legitimate
+non-1 value.
 
-...
+Replace simple_strtol(buf, NULL, 10) with kstrtol(buf, 10, &tmp),
+which returns an error code on invalid input. This makes the write-once
+lockdown attribute stricter: malformed input (e.g. trailing garbage)
+now returns -EINVAL instead of being silently treated as a non-1 value
+that the caller wanted to reject anyway.
 
->   * @pointer: Pointer to the property when it is not stored inline.
->   * @value: Value of the property when it is stored inline.
+The behaviour for the legitimate '1' input is unchanged.
 
-> + * @u8_data: @value as an array of u8 numbers
-> + * @u16_data: @value as an array of u16 numbers
-> + * @u32_data: @value as an array of u32 numbers
-> + * @u64_data: @value as an array of u64 numbers
-> + * @str: @value as an array of char pointers
+Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+---
+ drivers/base/devcoredump.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-I think the proper fix is to add
-
-	/* private: internal representation of @value */
-
->   */
-
+diff --git a/drivers/base/devcoredump.c b/drivers/base/devcoredump.c
+index 8bb1763083dd..f346729bee1b 100644
+--- a/drivers/base/devcoredump.c
++++ b/drivers/base/devcoredump.c
+@@ -210,7 +210,12 @@ static ssize_t disabled_show(const struct class *class, const struct class_attri
+ static ssize_t disabled_store(const struct class *class, const struct class_attribute *attr,
+ 			      const char *buf, size_t count)
+ {
+-	long tmp = simple_strtol(buf, NULL, 10);
++	long tmp;
++	int ret;
++
++	ret = kstrtol(buf, 10, &tmp);
++	if (ret < 0)
++		return ret;
+ 
+ 	/*
+ 	 * This essentially makes the attribute write-once, since you can't
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
