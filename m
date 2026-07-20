@@ -1,136 +1,115 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680FF3BBFA3;
-	Mon, 20 Jul 2026 18:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8884B1A4F3C;
+	Mon, 20 Jul 2026 19:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784572154; cv=none; b=ICFez2zcg/5XExLuRs0Uz7320ULKSlFxHaLXAL7smDHTCta/twI84c18zmooLkb947/5MCOeOGEJrHs+kCFXVReG/T03ZNYa69tCWHVaA1LvL/AYoyJTPTKM4Yk+yS86Mtt5lsGsuX1/ugzRdb7RkgKtMGtBvR1S1oR2AisGrrQ=
+	t=1784575334; cv=none; b=WePM/9F3uOvWFU3/dBwc1nObZfJQpzHbr4cbGcV/PboMqqA4UdeMdt6czEk+G/56HxLDrppauhGc2KgQJA/KlYfr1Ub3jRJVJXpS15oFhCUFCPnqQPcFLazuPwh9cS9i2LeVxifO586XQpDaquwJ9ljaDnCeZvaxayH9k5cDJUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784572154; c=relaxed/simple;
-	bh=tfVWCL5gWoa3QiT5HZTS6PeE9CWbDfu6g4fGN5mDciM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IXY+/Sw+K3XP6ICabAiAnICEoU68sMmsppgZYGp+SCpJBjaxpdVMIQAEUDGRiZ2hgyrb+UxfdD36ZoBnjkBM+8XT7b0xdY3WFDuyW3pOHITxnxaD6fXf7xCz51nLyHrW7EsoF24oFCp+QA6fqL5RANDPAi0wJzM0R26W7uIgiVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=aXfSe1ax; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784575334; c=relaxed/simple;
+	bh=RLKLNwfo7o3vXrN/SD5EFpIDimBZI9C9UYFzRN+Ka6U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ajH9i98qs7jXRZR4lR1qVPHM+GcaP9dnphtP5kM42SBG6baKt+aEXWioFceBkhCfB0oLh96C/txY6VJ3CYvkeUUIvzu7iI0UAEjflJu0sYWAVUL2e0tLGkwFy0guKwkYRID3/1hIBw5iGLPQTlcCv8v/jNOIJZuL3ZqRuxsMfuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OoWI7BG5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="aXfSe1ax"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=yLMgkHL29YuNPW+/3QaUsRDGEETcaDq11JerkMxi71U=; b=aXfSe1axWn1ivOd2Cu9BO1RFeq
-	hWgF1UgIJeW3prZhNqGQBXWrgbuTuwyexLgmgUNYx2N/ldKGruFnJsUHlN1z27mAm6jFGqs2hs9gA
-	ahOJFCbMr0Yi7Jx28dCpVd/erX67Wj6OVBy/j8nQ7Y54VjyLQTQQ9WeRLH9Gg27QXLhQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wlsjH-00DJ6A-QN; Mon, 20 Jul 2026 20:28:39 +0200
-Date: Mon, 20 Jul 2026 20:28:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>, driver-core@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	mfd@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 7/8] net: mv643xx: use platform_device_set_fwnode()
-Message-ID: <3e14e41f-ecd5-432b-9f52-690a05b38a8a@lunn.ch>
-References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
- <20260720-pdev-set-fwnode-instead-of-of-node-v1-7-2dee93f42c54@oss.qualcomm.com>
- <86b2aba7-b049-47e6-bc94-6cb499b30ce4@lunn.ch>
- <CAMRc=Mduv_KiB42d4AZddTrFSHmKogd2wh6vBDXomW6ssdfq9A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OoWI7BG5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 07130C2BCB8;
+	Mon, 20 Jul 2026 19:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784575334;
+	bh=RLKLNwfo7o3vXrN/SD5EFpIDimBZI9C9UYFzRN+Ka6U=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=OoWI7BG5DyAxua4zKfNQAZQA+fzD+5bGlDglwZxjNy0Pu5MYTAeEQrcGvG9rRfefF
+	 vsa2I8qAkVjfoYfhAC/7bzHPn7YN7WdXBRKfcWlheYx6kpqypFl44zr/UlJd0DgWu+
+	 o6WwRTXq2P28W5fbb8QrM+AtTmCRBVnCY/tN2ONQUmvLYnP4xVICDmX0Urv3fbexwJ
+	 Q+ZDLQQl0tOvOat4ErgyeEsayE7KIQFzKopG2bXURPVdiDTNFoVHNt1zu1PBBJl5pD
+	 lG769TtL+CgWbJCjr5yQ6diU5o2QsDGRpY9hSxNfrUxq0axGtX2bac9qh56gpjkaU5
+	 hTX/7pgV3n6kQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D395DC44529;
+	Mon, 20 Jul 2026 19:22:13 +0000 (UTC)
+From: Younes Akhouayri via B4 Relay <devnull+git.younes.io@kernel.org>
+Date: Mon, 20 Jul 2026 21:21:39 +0200
+Subject: [PATCH] rust: dma: return zero for Coherent reads past EOF
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=Mduv_KiB42d4AZddTrFSHmKogd2wh6vBDXomW6ssdfq9A@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260720-fix-dma-coherent-eof-v1-1-d92685db8da6@younes.io>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywrCMBBFf6XM2sEkgq9fkS7ymDYjmMgkFaH03
+ 03s8lzuOSsUEqYC92EFoQ8XzqmBPgzgo00zIYfGYJQ5q4tROPEXw8uiz5GEUkXKEwYV1NXfNCl
+ 9gqa+hdrvn32MO5fFPcnX3uoPZwuhE5t87FMWnjkdZSkVd3Pbfi0LylOcAAAA
+X-Change-ID: 20260720-fix-dma-coherent-eof-d0d08c91e013
+To: Danilo Krummrich <dakr@kernel.org>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Timur Tabi <ttabi@nvidia.com>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Younes Akhouayri <git@younes.io>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784575333; l=1249;
+ i=git@younes.io; s=20260712; h=from:subject:message-id;
+ bh=ePXYrWvX1ZJHBuWoCGi8RZ5TS9lrAyqgkzIq9B/HEy0=;
+ b=NfHD8xfI5i55YLfCBe7tqm0G8oZ4a4geTGO9kWWsJ9qBfmySQKlGogGfmzkXta8XZv+0kbUQ1
+ ub/u/f6nzNoCPyTyLbgzeweY6Nz3e34MrFIC8SUBDaSWDuYPTNto0yq
+X-Developer-Key: i=git@younes.io; a=ed25519;
+ pk=1DRfzPrQ04RQHHgGK28t+vjIAPv5oISPiAdLMU6J5dE=
+X-Endpoint-Received: by B4 Relay for git@younes.io/20260712 with
+ auth_id=866
+X-Original-From: Younes Akhouayri <git@younes.io>
+Reply-To: git@younes.io
 
-On Mon, Jul 20, 2026 at 06:01:37PM +0200, Bartosz Golaszewski wrote:
-> On Mon, 20 Jul 2026 16:43:40 +0200, Andrew Lunn <andrew@lunn.ch> said:
-> > On Mon, Jul 20, 2026 at 11:24:54AM +0200, Bartosz Golaszewski wrote:
-> >> Prefer the higher-level platform_device_set_fwnode() over the
-> >> OF-specific platform_device_set_of_node() for dynamically allocated
-> >> platform devices.
-> >>
-> >> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> >> ---
-> >>  drivers/net/ethernet/marvell/mv643xx_eth.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/net/ethernet/marvell/mv643xx_eth.c b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> >> index 9caa1e47c174c9d7a161b7f2e2ee12a829b813d4..2f2d6cce8d852b9ec3ab42678a04a7915d1f00cc 100644
-> >> --- a/drivers/net/ethernet/marvell/mv643xx_eth.c
-> >> +++ b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> >> @@ -2780,7 +2780,7 @@ static int mv643xx_eth_shared_of_add_port(struct platform_device *pdev,
-> >>  		goto put_err;
-> >>  	}
-> >>  	ppdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-> >> -	platform_device_set_of_node(ppdev, pnp);
-> >> +	platform_device_set_fwnode(ppdev, of_fwnode_handle(pnp));
-> >
-> > This is definitely an OF only driver. There are no other calls to
-> > fwnode functions in this driver, so this is the wrong thing to do.
-> >
-> > Sorry, NACK.
-> >
-> 
-> I'm not going to die on this hill but drivers are OF-only until they're not.
-> For example, Qualcomm is now working on a hybrid ACPI-OF approach for
-> laptops[1] and we may end up needing to start converting drivers to fwnode
-> after all.
-> 
-> There's no real benefit to sticking to OF-specific APIs unless you need to
-> iterate over all properties of a node or use some other functionality not
-> available in fwnode. The overhead is minimal and it's never a hot path.
+From: Younes Akhouayri <git@younes.io>
 
-There is a lot of benefit to sticking to OF specific APIs, because
-within the kernel OF is well maintained, has active maintainers, there
-are tools to validate bindings, etc. ACPI is a Wild West, each driver
-is a snow flake, there is no review, no binding documentation, no
-validation tools etc.
+Coherent<T>::write_to_slice() calculates a zero-byte copy when the file
+offset is beyond the allocation, but still calls
+UserSliceWriter::write_dma(). The latter rejects offsets beyond the
+allocation even when the copy length is zero, so a debugfs read past EOF
+returns -ERANGE.
 
-I hope you allow plenty of time to convert any networking drivers,
-where Linux is driving the hardware, to ACPI. Your first stop will be
-the UEFI forum making a proposal for MDIO busses, because that
-currently is not part of ACPI. You will then need to spend time
-understanding the DT bindings, and figuring out which properties are
-deprecated so need to stay OF only, and which can be converted to dual
-OF/ACPI. I've seen too many naive attempts which blindly convert
-everything, copying all the past errors in the DT binding into the
-brand new ACPI binding. That will get NACKed.
+Return before calling write_dma() when the offset is at or beyond the
+allocation, matching simple_read_from_buffer() EOF semantics.
 
-OF != ACPI
+Fixes: 016818513936 ("rust: dma: implement BinaryWriter for Coherent<[u8]>")
+Signed-off-by: Younes Akhouayri <git@younes.io>
+---
+ rust/kernel/dma.rs | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-	Andrew
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 200def84fb69..36b72fb9ab46 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -1005,6 +1005,10 @@ fn write_to_slice(
+             return Ok(0);
+         };
+ 
++        if offset_val >= self.size() {
++            return Ok(0);
++        }
++
+         let count = self.size().saturating_sub(offset_val).min(writer.len());
+ 
+         writer.write_dma(self, offset_val, count)?;
+
+---
+base-commit: 880c43b185ca52239e75bc546cc4f4d9154d0fed
+change-id: 20260720-fix-dma-coherent-eof-d0d08c91e013
+
+Best regards,
+--  
+Younes Akhouayri <git@younes.io>
+
+
