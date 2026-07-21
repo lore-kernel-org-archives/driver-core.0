@@ -1,283 +1,347 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010048.outbound.protection.outlook.com [52.101.46.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EA23B0AE8;
-	Tue, 21 Jul 2026 05:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784612853; cv=fail; b=T+D9+tJlEAGcAAjcAMxYpZzj9gW92kRlKCYAQgX7OiZjBQfj8gdMByo2dAg7MtFtSy2+a0s7r/L0A2ZDuscNGuI4T6MhBcsBQC2snPM3+QrZ/ai+myssZM367DFlv9IT6YdkcWEbAI/OloS3GIHDQo5cSZNNqbIYkUfTWetdmmw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784612853; c=relaxed/simple;
-	bh=axxdhhsWmoHysIXLB33YAr/kI65B4J9svzETuROOAHk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NY9kQWC+MNfOZpRzXIM7CihBP7AmfUxoM98TxC0XA22w/qByPoL6+eE3yyiQQXGGtmTG7VzlzKFVu8CqrF6+2/FNJAqisU1lY0wOOcsO6Kr1AEZisKXoICARPv25knpHKYwQIDJaRtt/IDp2tdbadwRXotTGlR8XD6IZMYf8muU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Dg3RbDMe; arc=fail smtp.client-ip=52.101.46.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D186942A162
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 06:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784616880; cv=none; b=ZlkPBvuzWjjLuxazV5wE4DTJoFe2iiUN/+hexi1Xv+yLyIffYPhV7FMjwtmj/JbFZnJIGddP8+2ONVbh1xoQi1foHN7Esav4WLM8R25aPAss1mc2FvvkbExmjHmqztvaNCM4CkYjwJ3CDLhw5D1ROz/Flo+5ixyJ2FLEOv7OzCM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784616880; c=relaxed/simple;
+	bh=PToHMXgBpKzwUPxeBRood5u/R51xiyLXcBcg4n3JenA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H1heYY9rxni+atFb1Cyf/heHyPRUgL/wyrQ83GGwjLFwIiOIpeyhuZXOhuvwR3dukfcY4iYotKhe7ODSFDY7iQJCteI9TOVIX3Lmtb4OsvpicyYctwAdcCBS5uD6Gl+HK8ajdGJn+OB0opgfysWvpB0iN9UcPwa4IoqUXl7HBkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bFm90Dta; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dg3RbDMe"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w+9vkb6P082UNKB/2IpcqfU2qha2momJShcEuDH8phfbfiJ/UOPsz3F2oX/9hhcaz9ouvz2Zwq9LH78RtWrD9wLFjTtLbfW1FsYEGjif0sZZGpnEbETKJ0qrt5XzXlslgAXEMVBqpcqyRCas64kQUASlu3xHUmNJ0loHXZDc4FddASWKdtQAdP6DSqTgMo6I8zBAgzrNqUWwRCFzA4j+uK10iLaG6mJEdlkRZfOHhNSmaV7IB1kPoMyb8jypwXgeAZ/SO5i6vyjCaB8OBxLspM1maNSiLoR44n4fnWoxSwaw2riIm6WecStx6FX5uzr72oDrvu8XqhelRT2njk8UWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XX8cfeen7j81/+xnErTyWQVyuaKqlCLvSRfssHbei6w=;
- b=DScdoggeO3Bm0u6YNR4lbWhPpvSz6OVtb7yfy5GvP5nrRX4Q3NgumzU20matCe2g23SkkEE9nnJUw8U2+U9ih8PYO/mMLmx8qQRtfMabA5F59O1BoH0FPvoLkbbc/hUNpsHKXNXyMYqZ/KlKDO8nQ21/YeNDDAIO7uXnb05w4APuyPyEHFzgNazWv7ImHr2o3YcRwYOitzuS2mApB7L7f1OeqKnQA9QzJxYR8kag2aVjQC2hf0iZFAvmbmEHpluT70dtFFCsaPYxUjkUir9iWxqqm+//ErvC2MBOrKdE4XnjRqTuqFS/X/LYMVyXUsvLUxsUwgEOQtvfsfY2DrlGMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XX8cfeen7j81/+xnErTyWQVyuaKqlCLvSRfssHbei6w=;
- b=Dg3RbDMeFnApOREHRnXHnJm+SDuJ+7PP6ObrqyHlDfU6vAcj+enFpphBDABTqSA1g0FoWYH7NQKXJL6f6eqFwi1KUbD9+9V2y3kqnk4jRj4XIwkycFsdr/9BOTP25MVz5hRIyDGkxT7+cWmgd+2fkjltXfWVS4PUe/jaPmaK64NXHgVP92+cfxkbRcaVBa1Q3jmmKenB9Awc2jlhjjT20W2+u8y5DapO1cTB8ArLqDB9myVnVP6BjvZ8swOfXm39FhELhzTvWCTXd5fU2DiXhwMRKrn1KqgnbzF3aOkk8zRtOkr7q2B8q1pAHxSz9jh3+lXNwiZ3AkttKDHUnnZPdQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB4995.namprd12.prod.outlook.com (2603:10b6:208:1c7::23)
- by CH3PR12MB7593.namprd12.prod.outlook.com (2603:10b6:610:141::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 05:47:20 +0000
-Received: from BL0PR12MB4995.namprd12.prod.outlook.com
- ([fe80::dde:9068:4b1a:53e2]) by BL0PR12MB4995.namprd12.prod.outlook.com
- ([fe80::dde:9068:4b1a:53e2%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 05:47:20 +0000
-Message-ID: <62bf02dc-dab1-41bf-8204-eb3566628b93@nvidia.com>
-Date: Tue, 21 Jul 2026 15:46:53 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/36] mm: refactor find_next_best_node to
- find_next_best_node_in
-To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
-Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, brendan.jackman@linux.dev,
- yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com,
- matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org,
- ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, corbet@lwn.net,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org, rafael@kernel.org,
- dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
- dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com,
- jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
- joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
- ying.huang@linux.alibaba.com, kasong@tencent.com, qi.zheng@linux.dev,
- shakeel.butt@linux.dev, baohua@kernel.org, axelrasmussen@google.com,
- yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
- linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev,
- tj@kernel.org, mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca,
- jhubbard@nvidia.com, peterx@redhat.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
- lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn,
- chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org,
- damon@lists.linux.dev, linux-kselftest@vger.kernel.org, kernel-team@meta.com
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-2-gourry@gourry.net>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <20260720193431.3841992-2-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ME3P282CA0170.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:1cb::6) To DM6PR12MB5006.namprd12.prod.outlook.com
- (2603:10b6:5:1b8::23)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bFm90Dta"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cae1a3a744so82745205ad.3
+        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 23:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784616877; x=1785221677; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HrCRYsjG1PY5HEKfUZZYaPumYrlP5M/lr9+oAdeb1rE=;
+        b=bFm90Dtal6WemtRtwy4ks8uuj/MKXWc8tTtuZ9DAv6/t9tL0NqzXc33j52eKUe+kmZ
+         jR4gfiPuWChpPjefAVYD3nUOJFDIdvKiSilOjm3hgLZ2qmfK8nMXshd+2yvCOiIvE2tq
+         xfPeerdK1FDTXMjID3ahb1cGXFtgQbNrL5n64=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784616877; x=1785221677;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HrCRYsjG1PY5HEKfUZZYaPumYrlP5M/lr9+oAdeb1rE=;
+        b=oL+N2KRms24AfE9gj8O2NQWFRkch3DQIEnIZm4NNKHdGkPKt/27MQgWDfVpZgoZ01/
+         wrmhxtUHsbOOcdYk9OyBO2vJwSfRbXwDAN96sbVUbvfzokZe5Q3ReVTHRuqUIvkVh6w1
+         Et9hwROqN/8hsxqh2lBLQXoIKCQy6nN5Zl3lK0U47Rd5OLsmGz4Dxk4Ngqib75QkIUF5
+         oN2YQ56DwWp49ZirbUC2HwE5hkLiPSFnZCj4Od3uVZjutVrrfc6yaOzQ6zU1/2PbO2wT
+         CVuWE9DuT703g1dbL+imQzPb6NcVCoqEOdVm8NZ3akhI5LkFfJSjc0TGIdaeN/jPFETb
+         Aevg==
+X-Forwarded-Encrypted: i=1; AHgh+RqfUWLD9SXCZpmhcW7gLyueYLbjOmAujxMqHOVML4uAetPZx2UbVbp+1aIz+IvUcSPX/7RjwTngL5Asng==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxzE3AhLzi8PBFg4nFM2O6xuAnVSHkPetexUJ8i98LuAYPEm5g
+	u4euq4ZQibqUI7zzE6/3ci/90bWdEjAuk74y+VT8SWr2MOI4Z6mhCT6tKQVY4hqL2Q==
+X-Gm-Gg: AR+sD13Dmh9xxFd48SQPYa7ecafK60oPQQIf/wQgJ/cUp8PTH5oxz9/kW0wCw/Lu8Lz
+	++Qb/iu17eSgiAEMD7y/XXggnj02iXutp1GNnAqtiQgD1EjVuCqDvDLQIIBfsM2gODZ3eC+89pV
+	eKIyaG8ZiE/2bV9+obXXBp4J8e5D5sCj83fDZGASodDzSsp185a4ukxJEwN899uMeTW69u727r9
+	/HAiZc75pGFPuK68Zyrbxdycq4Z8pztlllcJaXcBQ4fdokyVCwhA4zryhZZIcVTuJc3bMrsZXUf
+	yrpdmHEdDC6LTmKQm1A6mitsWxssB+eUzOap5lmiuMY5GdPxYAn38o2C/TbZlJIHvhmYwOlOsZD
+	C2RBsyq+OPVGTxQtx/i5UJBr+B4muoExmZgfFq0FPqXE1FdNfC8Qqli/N/AcQerwu6K0dAXUY4j
+	C5FUVZh/8NBEriGilBnT4fka8w04H5k+HQ81VkVqwGAadTP/H6bjtHs8w8Azo=
+X-Received: by 2002:a17:902:ef08:b0:2ca:5970:732d with SMTP id d9443c01a7336-2cf349d0276mr182047795ad.41.1784616876890;
+        Mon, 20 Jul 2026 23:54:36 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:3916:f048:32c3:931f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448ee77sm69716005ad.4.2026.07.20.23.54.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 23:54:36 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v6 00/16] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+Date: Tue, 21 Jul 2026 14:53:55 +0800
+Message-ID: <20260721065413.2306137-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4995:EE_|CH3PR12MB7593:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfd89711-05a5-43b5-9f7f-08dee6eb873e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|366016|18002099003|22082099003|56012099006|4143699003|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	qNF1SrVAHfoLNltaNSJshYDOpjMghk1P+vnaCtM776iiQdZOGEuh4VVAgcKlJcmqZyQzs9yo83QOp4bSfqif/Ip6EFHmZ4Ap8LHTKoTiHnkXjrbt+S4DTzTOLh2iPPlpLR+s+JPmhHKK0g4Rjpy1KnDdUgRhN6gr4BbLBek4tvS1O0Z8fERqAvvVDtrUuSe4zhQEhVrZdJWk+ZVm84APcY7ABVa2JH/plKmaek8NwPCdey+KwDeyPmTrvZJyZp5nAuqBaBbBPzq/+FASMGjSwvk19+RV1PV9pDnape9M7BiniXPq3alnFCUDKxpgTEEr2wmTvvNOj704V+ZC4/lmGsgIA0P0MwraJXlHNXZLtSLS3LcjIJ46CZ3Lc/0FoJ+q9rBIlpOa16IdkKESbra/LML7XCpWMIdzG57ZVjWTwJmHtfIIHfg9sdzKngmHaW3B1QTt18nAGXXdEAPpb7xus8msZRqkfLnKhpOIb4ye4oXjEOntE8F0imAEqHnmFbv67Qux9Qykf0dPs5OoXsmgJrv0gbSVgdwAf4xNjaGHBu3DrhWlfK1v+bAyjwzhSLZBr/v+l12uPttR4ZJI2oqAAURyMqNd9im6gcE4PPK65o+BPDKV5AtRWrTASr14LuvWuvVQ24CKVKQY4pnwbXFR3ZLbAsepw4j0R9gxSM2doKk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB4995.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(366016)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SWhMUDZPZjQvVURoTlFVYUtTRmlweWpUWForUkZjZGxKR0p5NERRMlJ2ZEs4?=
- =?utf-8?B?cG1peHNIWUpVMTV6N2tsNUxHSzFjRTB3MEdHZ1hDZkRsZ0ZMa2lqWGZNT3ZD?=
- =?utf-8?B?TThOWnV2Y0N0dnpUTEszR1VaTndzSVdHbVZVZTJaMGlSOU10T1VYMEQ1RHVl?=
- =?utf-8?B?aWZXZ09CdW53NlNUZk5DbEg4MmRuY1FGemF5YmFlMEltdTVzbnBYd2FNZE05?=
- =?utf-8?B?THplaU4zUSs3citnMDhhaGdGTzR3NUh5a0NWUnloUEZ2S2ltZWVVanZsNUts?=
- =?utf-8?B?TmdpbklqTHpvNXVFbVUxamtmRE0xQzZqK3BhQXBGd293Z3BhLzdpbEsxU2h0?=
- =?utf-8?B?YUdObE1rcktzYjZiRnJDcXl3ckl3MEZOazhyeVZlYmxLOWY3aU9lNy9Oc3d0?=
- =?utf-8?B?QWsrSUNzN0JmUE1uWml0WHY1SFZWbVNkS0hicHZFckIrNjdkTWtpMWJpV0ZH?=
- =?utf-8?B?QUlLSDRRcHNuS0VkTW10Q3BrSXNOUjZuU3p5UXZKRlA3REt0Ymx6aXZwR250?=
- =?utf-8?B?S00vd0xZaXJmd2h0aEVFVkcwaEhLTUJCajBUcko1Mks5WUpVc1hNeDhNc2Iv?=
- =?utf-8?B?bmZudndjT2xBTThvNS9vN3dtWm5ob2NUbGpnUHV0TDJVUUVXV1BzZVh0OXdQ?=
- =?utf-8?B?RStNbGRLZWdLdUVNY216YlJjZHU4S1MyNThGTGcwMnFaVWUrd1VSMVZBMXNG?=
- =?utf-8?B?czJqWWRjd0I5bm9nWktoNDEwZVRxaHZSb1htN2J0aXJxS1AwckxvblJGTmkz?=
- =?utf-8?B?VFVyVlAwbmZtWkptY2FZNU1nT1p6d2pEL3g0ZmZyZHlYWEl3YjJoaVVDeGdj?=
- =?utf-8?B?aWpXNEk0UUhGTkk1QmNGWE53eEYyOWVtMWVRZjBBRG04L2wvNVZEZWhXbHJY?=
- =?utf-8?B?ZEsyd2FTelMyL29VSlZiRW9ESjBWUVBBUTAxUHYrZHhQSkYwQ2U4cUpGcCtN?=
- =?utf-8?B?Slp0ZThPNDZ5enhDNDZyWXUvbGtqRldMZVdVSDcwNlZqNENQQ2M0WVk1d0Nh?=
- =?utf-8?B?aVVNQVZNcG5Lb0s4bmpmNW9IaU1WRjVUSXB3NXYwUGZYTVcrek5aQkt5WGor?=
- =?utf-8?B?a1VLS3pJTHN2SVR3Wnp5N0RUTTYrVDZQN3orRklmbVNKaXhRaFVHVllqbGZY?=
- =?utf-8?B?dWRBdzN2RDFvek13ZmhRclM1LzNoZk1lNitJZXlyRGgzSExrbXFKS09xbnE2?=
- =?utf-8?B?aGFUc1R5ZFhBeTVBdzZqYXJ0TnB4cnRDeVhYN2NQQUFBR2syRk5qSFdEZlpp?=
- =?utf-8?B?ajlUcjRIQ0dQdDlaWlA4TFhoTzg4UzFiTndxNHFOQ3FpeHJkSDlpYmtMVCtM?=
- =?utf-8?B?RGtkbVZqaC9ER2xJN3ZRdjFYREdhS1BaRVlqVFVTSmRReVEwc29zUXRXeFRG?=
- =?utf-8?B?ekxTVU56YjkzQitvQjNibmJNY2RRZE1DNFliek1zZm15cWRXajZZQUd5SHds?=
- =?utf-8?B?MmdYWWN4VFZ2eHkxVkoyMkJ2Y29yWGhyQllsdnQvSzJnVjJRVTMyY3BIY2dQ?=
- =?utf-8?B?dTlaS1F6azhrOFlZUXk4UFViaHdSYXd4cU5XVlZ0ZUdTamVxVUdQWnA0WlEr?=
- =?utf-8?B?TUJPUnZObFpzczFFbkZBVmRUN2F2NmpwR3I4MVZHZXFBdlA4Q01qNGNUMDhJ?=
- =?utf-8?B?aGk2ZERia1hLaE1CKzZJZUpFU1hscFhNMUJzdm5Scng5akNSUzM3eFkzYTlr?=
- =?utf-8?B?Q0VVV0RXZjYrRDhGcU9pbUpUTG9KWWVqcGRPQWNVQVk3QUVJTmVlckgrODZp?=
- =?utf-8?B?OWtsQXBsMHpKTjhhaGVuRHFlaDhKL09FUWtreFNibEpHR3kvTTRxWjNZVDlJ?=
- =?utf-8?B?SW5wOFkxb1hmaCtTUWxzaXhRQzJnTEJGRUlSUHB3Wjg0YStwSTQ1KzZqM1lt?=
- =?utf-8?B?K0ljZGRqVjVYd0ZFcVQyYVRhUU52Rmx1am9GckFGaklrUFFyUmpWemlNWTZN?=
- =?utf-8?B?ckkzdkxQbTBoaGhYSnJCeFFsZCtDR1h1MkpqaXNPcy9NczBqTGZvWXBRRlZB?=
- =?utf-8?B?c2RUOVBtaHJIUGNrT0FzVS9PU1BiRFliT2wrTndhMGI3dE9IT2hpVDFSZUxy?=
- =?utf-8?B?ZUl4VjlybGM0cGREWGFXVFBLTkI0Uk4rcnd4VERvWkJucm8rNDZpWjB5UXc3?=
- =?utf-8?B?Sm11ZWN2d3pHbkNPUjF6M0sxVUZadlhiVVdveElIN2tjOGxLUGtkamZseUt6?=
- =?utf-8?B?ZU9XSE42L2xSSzlTVmtBUll3Rkk4OWdvTHpCbWY4NjRRQVhzT2Z3TDVEL0ta?=
- =?utf-8?B?QlhQR1ptN3V2MGY0WWc2dTk1SlVMdzFSalNOcGo2cDRHZ1hvRkp5UmNiN04z?=
- =?utf-8?B?QVprTnJNZ1hjSUsza203dnRBcHo2ZFBsTTJwelFmT0lqYmtzcEFoQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfd89711-05a5-43b5-9f7f-08dee6eb873e
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5006.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 05:47:20.6074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8PGwhnfB0RIaHawaLx4M7opjvQ2pmcilEVZIhdDlwi+kzJ7KWPdWTjvxr6d2kECqGzVuieNEjGufCxVX6CIA0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7593
+Content-Transfer-Encoding: 8bit
 
-On 7/21/26 5:33 AM, Gregory Price wrote:
-> find_next_best_node() picks the next-closest node for a fallback list
-> from the full N_MEMORY set. Refactor it into find_next_best_node_in(),
-> which takes an explicit candidates nodemask.
-> 
-> This enables building fallback lists with non-N_MEMORY candidates.
-> 
-> No functional change: every caller still selects from N_MEMORY.
-> 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->  mm/internal.h     |  6 ++++--
->  mm/memory-tiers.c |  7 ++++---
->  mm/page_alloc.c   | 13 ++++++++-----
->  3 files changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/internal.h b/mm/internal.h
-> index f26423de4ca28..96d78a7778e88 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1103,7 +1103,8 @@ extern int node_reclaim_mode;
->  
->  extern unsigned long node_reclaim(struct pglist_data *pgdat,
->  				  gfp_t gfp_mask, unsigned int order);
-> -extern int find_next_best_node(int node, nodemask_t *used_node_mask);
-> +extern int find_next_best_node_in(int node, nodemask_t *used_node_mask,
-> +				  const nodemask_t *candidates);
->  #else
->  #define node_reclaim_mode 0
->  
-> @@ -1112,7 +1113,8 @@ static inline unsigned long node_reclaim(struct pglist_data *pgdat,
->  {
->  	return 0;
->  }
-> -static inline int find_next_best_node(int node, nodemask_t *used_node_mask)
-> +static inline int find_next_best_node_in(int node, nodemask_t *used_node_mask,
-> +					 const nodemask_t *candidates)
->  {
->  	return NUMA_NO_NODE;
->  }
-> diff --git a/mm/memory-tiers.c b/mm/memory-tiers.c
-> index 54851d8a195b0..25e121851b586 100644
-> --- a/mm/memory-tiers.c
-> +++ b/mm/memory-tiers.c
-> @@ -370,7 +370,7 @@ int next_demotion_node(int node, const nodemask_t *allowed_mask)
->  	 * closest demotion target.
->  	 */
->  	nodes_complement(mask, *allowed_mask);
-> -	return find_next_best_node(node, &mask);
-> +	return find_next_best_node_in(node, &mask, &node_states[N_MEMORY]);
->  }
->  
->  static void disable_all_demotion_targets(void)
-> @@ -450,7 +450,7 @@ static void establish_demotion_targets(void)
->  		memtier = list_next_entry(memtier, list);
->  		tier_nodes = get_memtier_nodemask(memtier);
->  		/*
-> -		 * find_next_best_node, use 'used' nodemask as a skip list.
-> +		 * find_next_best_node_in, use 'used' nodemask as a skip list.
->  		 * Add all memory nodes except the selected memory tier
->  		 * nodelist to skip list so that we find the best node from the
->  		 * memtier nodelist.
-> @@ -463,7 +463,8 @@ static void establish_demotion_targets(void)
->  		 * in the preferred mask when allocating pages during demotion.
->  		 */
->  		do {
-> -			target = find_next_best_node(node, &tier_nodes);
-> +			target = find_next_best_node_in(node, &tier_nodes,
-> +							&node_states[N_MEMORY]);
->  			if (target == NUMA_NO_NODE)
->  				break;
->  
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index f93a6bb9a872d..acf096f525f49 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -5743,9 +5743,10 @@ static int numa_zonelist_order_handler(const struct ctl_table *table, int write,
->  static int node_load[MAX_NUMNODES];
->  
->  /**
-> - * find_next_best_node - find the next node that should appear in a given node's fallback list
-> + * find_next_best_node_in - find the next node that should appear in a given node's fallback list
->   * @node: node whose fallback list we're appending
->   * @used_node_mask: nodemask_t of already used nodes
-> + * @candidates: nodemask_t of nodes eligible for selection
->   *
->   * We use a number of factors to determine which is the next node that should
->   * appear on a given node's fallback list.  The node should not have appeared
-> @@ -5757,7 +5758,8 @@ static int node_load[MAX_NUMNODES];
->   *
->   * Return: node id of the found node or %NUMA_NO_NODE if no node is found.
->   */
-> -int find_next_best_node(int node, nodemask_t *used_node_mask)
-> +int find_next_best_node_in(int node, nodemask_t *used_node_mask,
-> +			   const nodemask_t *candidates)
->  {
->  	int n, val;
->  	int min_val = INT_MAX;
-> @@ -5767,12 +5769,12 @@ int find_next_best_node(int node, nodemask_t *used_node_mask)
->  	 * Use the local node if we haven't already, but for memoryless local
->  	 * node, we should skip it and fall back to other nodes.
->  	 */
-> -	if (!node_isset(node, *used_node_mask) && node_state(node, N_MEMORY)) {
-> +	if (!node_isset(node, *used_node_mask) && node_isset(node, *candidates)) {
->  		node_set(node, *used_node_mask);
->  		return node;
->  	}
->  
-> -	for_each_node_state(n, N_MEMORY) {
-> +	for_each_node_mask(n, *candidates) {
->  
->  		/* Don't want a node to appear more than once */
->  		if (node_isset(n, *used_node_mask))
-> @@ -5857,7 +5859,8 @@ static void build_zonelists(pg_data_t *pgdat)
->  	prev_node = local_node;
->  
->  	memset(node_order, 0, sizeof(node_order));
-> -	while ((node = find_next_best_node(local_node, &used_mask)) >= 0) {
-> +	while ((node = find_next_best_node_in(local_node, &used_mask,
-> +					      &node_states[N_MEMORY])) >= 0) {
->  		/*
->  		 * We don't want to pressure a particular node.
->  		 * So adding penalty to the first node in same
+Hi everyone,
+
+This is v6 of my attempt at integrating the power sequencing API into
+the USB core to support the USB connection on M.2 E-key slots. M.2
+E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
+Hopefully this is the last revision. However the pwrseq patches haven't
+been reviewed yet, and the fwnode patches need a review from the fwnode
+owners.
+
+As for Sashiko's comment about fwnode_get_next_*() not putting the
+reference to @prev when @node is NULL, I plan to update the kernel-doc
+for all the functions in a separate patch later.
+
+Changes since v5:
+- Patch 1 (device property: Add fwnode_graph_get_port_by_id())
+  - Dropped left-over declaration in header (Sashiko)
+- Patch 3 (power: sequencing: Add pwrseq_power_is_on())
+  - Reverted back to returning -EINVAL if descriptor is NULL (Andy /
+    Bartosz)
+- Patch 6 (usb: hub: Associate port@ fwnode with USB port device)
+  - Added extra |struct fwnode_handle *| local variables to shorten lines (Andy)
+  - Added comment about passing fwnode_graph_get_port_by_id() return value 
+    directly to device_set_node() (Andy)
+- Patch 10 ((usb hub pwrseq integration)
+  - Only assign port_dev->pwrseq if successfully retrieved pwrseq
+    descriptor (Andy)
+  - Dropped the pwrseq error pointer check in the release function
+    (Andy)
+  - Added check for port->pwrseq != NULL before calling
+    pwrseq_is_power_on() (API change from patch 3)
+
+Changes since v4:
+- Added flags parameter to fwnode_graph_get_port_by_id() so users can
+  specify whether incomplete ports are returned or not (Sashiko)
+- Made pwrseq_power_is_on() return 1 if descriptor is NULL, i.e. if
+  the descriptor is optional, matching the other pwrseq consumer APIs
+- Added patch to swap out conditional set_bit()/clear_bit() with
+  assign_bit() (split out from "usb: hub: Power on connected M.2 E-key
+  connectors with power sequencing API") (Andy)
+- Call fwnode_graph_get_port_by_id() with FWNODE_GRAPH_DEVICE_DISABLED
+  so that even incomplete ports can be connected (Sashiko)
+- Dropped unused |hdev| variable from usb_hub_remove_port_device()
+  (Greg / Sashiko)
+- Dropped 'extern' from usb_port_is_power_on() header declaration (Andy)
+
+- Patch 10 (usb hub pwrseq integration)
+  - Rewrote usb_port_is_power_on() to better express intent and
+    restrictions of pwrseq API (Andy)
+  - Switched to dev_fwnode() in port_pwrseq_is_supported() (Andy)
+  - Added blank line separating normal variable declarations and __free()
+    type declarations (Andy)
+  - Split out assign_bit() rewrite (Andy)
+  - Moved pwrseq_put() to release function to avoid UAF (Sashiko)
+  - Added back pwrseq_power_off() call in usb_hub_remove_port_device();
+    otherwise power off could be delayed to object release
+  - Don't clear hub->ports[port1 - 1] in main error path;
+    by that time the port device is registered and sysfs attributes are
+    available to userspace (Sashiko)
+
+- Dropped blank line between __free() variable declaration and
+  subsequent use of the variable in conditional (Andy)
+- Added patch to split Bluetooth pwrseq units (Wei)
+- Link to v4:
+  https://lore.kernel.org/all/20260709095726.704448-1-wenst@chromium.org/
+
+Changes since v3:
+- Added missing stub function for !POWER_SEQUENCING (patch 3) (Sashiko)
+- Added missing fwnode_handle_put() (patch 5) (Sashiko)
+- Added new patch to move |struct usb_port| related declarations to
+  separate header (patch 6) (Andy)
+- Patch 9 (usb hub pwrseq integration)
+  - Adapted to move of usb_port_is_power_on() to port.c and port.h
+  - Simplified usb_hub_set_port_pwrseq() (Andy)
+  - Renamed usb_hub_set_port_pwrseq()'s "set" parameter to "on"
+  - Dropped usb_hub_restore_port_pwrseq() (use usb_hub_set_port_pwrseq()
+    with inverted argument)
+  - Fixed off-by-one access in hub_is_port_power_switchable() (Sashiko)
+  - Assign retval from dev_err_probe() instead of the other way around (Andy)
+  - Clear hub->ports[port1 - 1] in USB port error and remove paths to
+    avoid other threads from accidental UAF while the USB hub device is
+    being unwound (Sashiko)
+  - Short-circuit out of helpers if !IS_ENABLED(CONFIG_POWER_SEQUENCING)
+    to avoid errors from stub functions (Sashiko)
+- Drop redundant device node validity check; device_match_of_node()
+  does it internally (patch 11) (Andy)
+- Link to v3:
+  https://lore.kernel.org/all/20260703110317.1283411-1-wenst@chromium.org/
+
+Major changes since v2:
+- Removed changes for MT8192 Asurada family: one of the device is
+  shipped with RTL8822CE-VR, which is PCIe + UART and needs more work.
+- Removed changes for USB A ports: VBUS one the type A ports on
+  Chromebooks are not directly controllable from the OS and VBUS is
+  modeled as always on. As such the changes I made don't actually
+  change how the system works.
+- Added new pwrseq_power_is_on() function
+- Make new pwrseq integration effectively OF only by not assigning the
+  port fwnode if the hub's fwnode is an ACPI node
+- Added patch to convert remaining instances of directly setting/clearing
+  USB_PORT_FEAT_POWER to usb_hub_set_port_power()
+- Power sequencing state removed again in favor of state tracking by
+  pwrseq subsystem
+- Power sequencing descriptor again separately requested for HS and SS
+  ports
+- Dropped pwrseq_power_off() call before pwrseq_put(); the latter calls
+  the former implicitly if the power state was left on
+- Squashed DT binding revert and addition into one patch
+- Link to v2:
+  https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
 
 
-Looks good!
+Major changes since v1:
+- No longer adding the "index" parameter the power sequencing API
+- Switched from OF graph to fwnode graph APIs
+- Tie "port@" node to usb_port device, and use this device as consumer
+  to acquire power sequencing descriptor
+- Power sequencing descriptor now only tied to USB 2.0 port to avoid
+  double reference
+- Power sequencing state tracking added
+- Link to v1
+  https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
 
-Acked-by: Balbir Singh <balbirs@nvidia.com>
+The series is based on next-20260720.
+
+
+Patch 1 and 2 add new fwnode graph helpers. These are used by the patch
+5 and 8, respectively.
+
+Patch 3 adds a new pwrseq_power_is_on() for a power sequencer consumer
+to query the current request state. Note that this is not the _actual_
+state.
+
+Patch 4 swaps out the existing conditional set_bit()/clear_bit() with
+assign_bit(), which does the same thing.
+
+Patch 5 reworks the USB hub driver to return the actual error code from
+hub_configure() in hub_probe(). This is needed in the next patch to
+correctly return -EPROBE_DEFER returned by pwrseq_get() in patch 9.
+
+Patch 6 makes the USB port device associated with a "port@" fwnode if
+available. This depends on patch 1.
+
+Patch 7 moves some |struct usb_port| related stuff from hub.c and hub.h
+to port.c and port.h. No actual code or functionality is changed.
+
+Patch 8 changes usb_port_is_power_on() so that |struct usb_port*| is
+passed in instead of |struct usb_hub*|. This patch does not change any
+functionality.
+
+Patch 9 changes some USB hub port power control code that directly
+toggles USB_PORT_FEAT_POWER to use usb_hub_set_port_power().
+
+Patch 10 lets the USB hub driver look for power sequencers for each port.
+Currently this only works for M.2 E-key connections, but it could be
+extended to cover other cases. It should also make port reset via turning
+off the port VBUS work, even when VBUS is not directly controlled by the
+hub. This depends on patch 2 and 3 for the new helpers.
+
+Patch 11 reverts an incorrectly modeled OF graph connection for the
+MediaTek XHCI controller and adds a proper representation.
+
+Patch 12 adds matching pwrseq consumer by "port@" node to the M.2 slot
+driver. This is only used for the USB target, but there is no attempt
+to differentiate the connection type. The driver simply tries matching
+the "port@" node first, then falling back to the port parent or device's
+node.
+
+Patch 13 reworks the power sequencing targets for the E-key connector in
+the pcie-m2 driver to add targets for USB and SDIO. The former is used
+later on in this series.
+
+Patch 14 splits the Bluetooth power sequencing unit so that the USB and
+serdev consumers can separately toggle the actual state of W_DISABLE#2.
+This patch is purposefully not squashed into the previous one to provide
+a clear target for discussions.
+
+Patches 15 and 16 enable the M.2 E-key slots (or slot-like integration)
+found on MT8195 and MT8188 MediaTek-based Chromebooks. 
+
+
+This series unfortunately spans multiple trees. The way I see it:
+
+  - Patches 1 and 2 go through the driver core, and an immutable tag is
+    provided to be merged together with the USB patches.
+
+  - Patch 3 has an ack from Bartosz, and goes through the USB tree. But
+    Bartosz also wants an immutable branch/tag to have a copy in the
+    pwrseq tree.
+
+  - Patches 4 through 10 (all the USB related ones) go through the USB
+    tree, along with the dependencies above.
+
+  - Patches 11 and 12 go through the power sequencing tree.
+
+  - Patches 13 and 14 (device tree only) go through the soc tree via the
+    mediatek tree.
+
+Some of us discussed v1 at Embedded Recipes, and I believe Bartosz, Mani
+and I agree on this approach. The debate is likely going to be on
+whether this should be integrated into the USB core or not. I believe it
+should, so that the power sequencing timing is tied to the USB port
+being brought up. I do have a fallback option of just enabling the USB
+power sequencing target inside the M.2 slot driver if a valid OF graph
+connection is seen. But this is less desired for the reason given above.
+
+Please have a look and share your thoughts.
+
+
+Thanks
+ChenYu
+
+
+[1] https://lore.kernel.org/all/20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com/
+
+Chen-Yu Tsai (16):
+  device property: Add fwnode_graph_get_port_by_id()
+  device property: Add fwnode_graph_get_next_port_endpoint()
+  power: sequencing: Add pwrseq_power_is_on()
+  usb: hub: Use assign_bit() in usb_hub_set_port_power()
+  usb: hub: Return actual error from hub_configure() in hub_probe()
+  usb: hub: Associate port@ fwnode with USB port device
+  usb: core: Move struct usb_port and related APIs to port.h
+  usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+  usb: hub: Use usb_hub_set_port_power() to control port power
+    everywhere
+  usb: hub: Power on connected M.2 E-key connectors with power
+    sequencing API
+  dt-bindings: usb: mediatek,mtk-xhci: Switch to ports for USB
+    connections
+  power: sequencing: pcie-m2: support matching on remote "port" node
+  power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+    connector
+  power: sequencing: pcie-m2: Split Bluetooth unit based on interface
+  arm64: dts: mediatek: mt8195-cherry: Add M.2 E-key slot
+  arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
+
+ .../bindings/usb/mediatek,mtk-xhci.yaml       |  17 ++-
+ .../boot/dts/mediatek/mt8188-geralt.dtsi      |  92 +++++++++++++++-
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |  73 ++++++++++++-
+ drivers/base/property.c                       |  54 ++++++++++
+ drivers/power/sequencing/core.c               |  18 ++++
+ drivers/power/sequencing/pwrseq-pcie-m2.c     |  64 ++++++++---
+ drivers/usb/Kconfig                           |   1 +
+ drivers/usb/core/hub.c                        |  72 ++++++-------
+ drivers/usb/core/hub.h                        |  56 ++--------
+ drivers/usb/core/port.c                       | 100 +++++++++++++++++-
+ drivers/usb/core/port.h                       |  68 ++++++++++++
+ include/linux/property.h                      |   4 +
+ include/linux/pwrseq/consumer.h               |   6 ++
+ 13 files changed, 513 insertions(+), 112 deletions(-)
+ create mode 100644 drivers/usb/core/port.h
+
+-- 
+2.55.0.229.g6434b31f56-goog
+
