@@ -1,106 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010009.outbound.protection.outlook.com [52.101.46.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA2D20E334;
-	Tue, 21 Jul 2026 11:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784632706; cv=none; b=Klu6w5l0lh9z2dn6pXDgCa/N0N4uGv4ptWsPaM+bVIgeWgl/Wv5atwp8ULZPcLuefg6q/ULbwW1Cq7kaXqkVvEzTI1Q7/31upSBV94HG0y3SxmsLev/r1bKACNsdgtrcG8npcLvVGg1OQ/mWQP0wNSPv68FH5hnYrzYMGbYyOcs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784632706; c=relaxed/simple;
-	bh=GqqMUXlNcrBAUOZxLFnrcDutk6U0N7ltLOyLmRiAQTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RmTO0D8DvQaoPNOdkIAIW0pw1Y/NXMeHzTUQhIjCc4uaLsn9wUJuDFYa5iBc67Tl3LjpzCCvwaC84zzs2wnvrM69wXKmiTYPbalC0Ro/lH8hjlBY9/isPuUGwPJze5jqE+dJWCTPA/dsLx5hkEpIWCBTPUXHytGZlLZs+n8ojQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgrMMIcb; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C6940BCD4
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 11:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784634098; cv=fail; b=eDhVyWzXru2LYYTypRZNqNIUqwSU1P09XeRK+pgLu5p6S7E24WopWa16ulMOWs/OoRvF3U7FbQ5ODRX0MfzfprRQiw+Ag6OTC/alNfe5WFzo8wADlVMByXjzMbiKUz35J2M5FxPLmqLP2oeRlA5SfegTuCnujN8j3okdk8iBwmM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784634098; c=relaxed/simple;
+	bh=EqFD411cb7qmCWg8qDTXfbn6n3oWjj2rvuIddC0oXVY=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=lt1X2p9CK05uBKqzlUstYcuy8yDmaCgZQVu0V1g4+a7dgu8cmq63V1wJ9ZoZCv/uwByiWDnboLsk2THAkPRlVzciVTz7FevD0tgvLNIz4ThVJ6/zFn3PHjZjYvb+G2TdT8AhOYtJ4lFnlaQf3e6oNUSY64kbxjoMnrVQnMzM1jA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d7tayDTc; arc=fail smtp.client-ip=52.101.46.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgrMMIcb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784632705; x=1816168705;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GqqMUXlNcrBAUOZxLFnrcDutk6U0N7ltLOyLmRiAQTQ=;
-  b=OgrMMIcbeL9titJKGcvqD0Sz//HYzx7Ao+5p7Ep+lbCFZkZvVOyUPsuw
-   C0bME9qx09knY3wUH+Y4DqiqtO8wI2Id6GcXZUwfqOctcsYRobR7yo4hB
-   VctCMe3yLuQO1SYt78TvmGS1xkDDzXDOceGoD1o2KKdEaa54kXlTgjn/0
-   mv7OKY56wpEE7+rc/dbHfbe6RkagHvVI+K87rhHVkuOGE0qwwwrpQHs25
-   C6MWHRxSa6zAI1FmHK89LSilmOqA3oyHB7K+U8bzmEGr1Gw/410G4nyqc
-   tgzbzNJ8Wj0gteV8GeUVBXJ6/kFef/IuSLwd982GE1j+GXXg99Mhy/c2A
-   w==;
-X-CSE-ConnectionGUID: vyqtOPC4RfuCygivB8ALrg==
-X-CSE-MsgGUID: uO/UF743ToOHMnUfU8t9GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="85172067"
-X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="85172067"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 04:18:25 -0700
-X-CSE-ConnectionGUID: 9Fi6F/ZhRvivX/jcwhUkTQ==
-X-CSE-MsgGUID: fTAULmApS5W6WVPIHC9noA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="287772019"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 04:18:22 -0700
-Date: Tue, 21 Jul 2026 14:18:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	robh@kernel.org, saravanak@kernel.org,
-	bartosz.golaszewski@oss.qualcomm.com, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v6 1/2] of: kobj: export of_node_ktype for use by modules
-Message-ID: <al9VfFqH_1-Rl4s4@ashevche-desk.local>
-References: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
- <20260721105448.2109894-2-xu.yang_2@oss.nxp.com>
- <al9VA_v8tcvS1hY1@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d7tayDTc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bJrdjLAre/rlcfVyRN4LrisFdmouLDpASqq3fKD6I8WmfYYEw8lvLTxufDkGBxq/xLxIqmgHTUYq6BbD+AV4ydXqowZnd5eT+jaDvSBG4yTrZN2Crx29pyW9I/Kx4VWDh/6+b+1B4iskeMIe8np7PTsja4i9Ge+SSaKBslo3/MfwdJl0CmonLLcqIz90XW+jYprdm+PVarU24EVP5gHab8h5xM4MjiEGysOxz9QFtzLB8GNmEie8Jd9xVQqpUgNXNAvS2CbtvIODZV+El0MYIhqfuGyQ1GqpVsjZDzVLsY/vc7tcBh3cIvxSmgAFfNce9i4pKutjhQ2qnJh4L7QZSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NzWX9fVt2vxfAVcMrqcjB+iULnnIjSmLAhd1MYc67uc=;
+ b=xNTXGNzxLiJW6d9QyO0cNMI6LqhRQN1IDqtxL+cf4AgEKVNqq8yhjtYe7ujNUeP78wtQlwgQQxaHJhe/8DdmypuqwtDxEWL9eWXDkbSKdo5xTqqB7xDmyTCYAnusoj3SCEZNFb3IK2/6/4XrklbU5JU3dQUDYq8NPeIxgLAFWfE9G1SgRXnbNBQMN76uDtIqMGX2rCW9gPXKzFmUiXon/ySDBCLtBiKCHCLPRXkMuS4a354M3bQ/KmZ9x8HOahHDclFDOmv8diqgoHgba43ErWHIV4uhxcrTKz9qE5R+1PvjiaGhL44hy19m4KiBFPdtYgNYkcqZr5m8YLhYBIghPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NzWX9fVt2vxfAVcMrqcjB+iULnnIjSmLAhd1MYc67uc=;
+ b=d7tayDTcYnZT7wThLjSbibNPw8MIqSeYgiEjrvIEoPAfCM5PeQ/P9b3DhWIhcDGQ04MW3kDQ4wfkEHnXXHAWmSwSaJ7E0xuBILZ8/z8gl0L5N064gh6UicxKKtdzNXfbAauxfCouyvHqOiUzcHuBgoiFEsw8gGA+GAAshqFUmM1x9f+tV+9z3QX5NPt4Nv1QjbPbSqrtbPzNyv4oLKJ/XpY/wvP2FCTtAppmWUb2ORaGBTBa0x8WtEhcJK1i/oouXdbJcCdFyk4M1Y4f+gaOIwcC0bp882FbSQIZCJ8wpCwZ/9OGstygveZy1dhzLJBxhb4HfkauTKMGJ/LbZj2+LQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DM4PR12MB5771.namprd12.prod.outlook.com (2603:10b6:8:62::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.14; Tue, 21 Jul
+ 2026 11:41:24 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 11:41:24 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Jul 2026 04:41:19 -0700
+Message-Id: <DK47ZE37V1V6.2TI766FMIXYBC@nvidia.com>
+Cc: <aliceryhl@google.com>, <daniel.almeida@collabora.com>,
+ <ojeda@kernel.org>, <boqun@kernel.org>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
+ <bhelgaas@google.com>, <kwilczynski@kernel.org>,
+ <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <mhi@mailbox.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] rust: irq: make Registration compatible with
+ lifetime-bound drivers
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260719153631.559341-1-dakr@kernel.org>
+In-Reply-To: <20260719153631.559341-1-dakr@kernel.org>
+X-ClientProxiedBy: TP0P295CA0015.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:2::13) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al9VA_v8tcvS1hY1@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB5771:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee651ebe-56e1-480a-cc36-08dee71cfe05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|18002099003|22082099003|10067099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	4mVGl0NwVPRpdHV48qhSNV/dvc+7t7Pg3OHxJ/WUvLon87GhGDLd5v/8csOhcRMJ7ij7G5Ham9zHlaM2C+gniwEdDl3y3XWs6ApOR4xM5M5B1mc40UEq4cEGF7n4CPpD2ngoXx01U3J6mP9niCn1yzwf1RtU7LS0WpEjvPBrMmbEVxxdXZUb4G1NU0gC4edPMycg8MW+evaaLhL9wa9KaCsI2Bgz+ni93XGjAnucl90cwb8IgZLIf/UvcQJe3cJp4gZrL6gSWOvWOfIBNMzOs2VPerXjogJVGYqAoQ7AvjfbFe07MGv38cNpi4IP+Fq6CrAUC8D1t2SQ4AYepFCbAIlI7EapywxY3Hw/WOWKiVhfM7TFhbHRHLvn/zbrYKZNYuV2N+6nW/p4mtWSBkHLwmrGfPTjoUY5xCNhyuBtJeUbDA4e/wvnQtTevDmR+FQJPju/nTR6qVW3vU+M5Qpaz/40nEXz00NRC5hxJQdWXx/W+O6Oc6IpTTLqDEgdbG4QVoQ1AiPAt25395f4JOWGq4gVa07dN1RoeU3yOgaWGFUV4OEIqxwnT41gXoqqaFcz/r26QUKuNaDdyZSmrwknkhGCOHoaX4CUIwA7D8SEY58SZM8LkGXWqw+0jmW+1oRvQnuMK0aYUy40MMp398WGwBdoZJwmeXUNt4Vym7ii3Ug=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(18002099003)(22082099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q2JBQk0xTmRncko3UjZDL3pseTdhckU1M1NvMzhYdVB5K0JMMkx0WXlnbWJ5?=
+ =?utf-8?B?ZGFyeGYxNlJ6N3BDRFV6Zk40akJIU25NOEdha1Znb1o1bXIvS21ZSkRzZy8y?=
+ =?utf-8?B?b2VzZHNVbVVENGZaT1FyYiswWHlCTXF0RHlMcWg4dm5IZm4xTGx1V2xuclRI?=
+ =?utf-8?B?d2l0K3liamg4bk5qWWEwemYxUFRkTStjRWNOdWRMRXJrL2V2ekg5U0ZKL0ZU?=
+ =?utf-8?B?T1k0Vkl2THlFTHBZenBKWWwrVnREUVlvcjdFK2QxUEx3NmtwNmN6Y2RYU1ZT?=
+ =?utf-8?B?M3FYclZ5YnNUNlVjSGNpSTlyaGxVZitFdzRkMTdqSW5ZaVlPK1AvK3ZsSkd6?=
+ =?utf-8?B?cmc4Zyt3OU1NOWNUSWJ3bzhPUURYUDdqbmNRdHRCYzJwWUM5dHUxcHdkU3Nq?=
+ =?utf-8?B?M2FTZjVNWFFMWmJaYlQ1T3VXV1NqaVRIQnE1aXRrczFvNU4yYTZzeEprT3cz?=
+ =?utf-8?B?TkJKbkxUcWEyWUxTcXdpY3hYUWF2c0JHSFhHNEw3MnU4cVRyNW8xb053NVI4?=
+ =?utf-8?B?eUN3Y2JJZDFTNDM2cGlOdWhNQjVva3FId21jSVZMR3NRUmhra29yQTQwWkha?=
+ =?utf-8?B?REdxSE5SOTBkRWhkRDh1MFdPUVZOK3ljOFQzUzVsRjR2MlhKTTByY0NMRGJ1?=
+ =?utf-8?B?dTIrN011RUpmdEdIdEVMRXVFWkgzcUlGbTFSNDNxMVBSNGZ2ak9TWStFRkYx?=
+ =?utf-8?B?eGNEa2UvM09RandKUFZzUHBJem9xTktUcUpnWTFTNk51TDY4Q3hSYW9tenMr?=
+ =?utf-8?B?OThCNndyTzZUaUQwK2xCWjNEZUx6RzhGZjYwZkNNMUlzdVNjRHZLUHJ4ODhT?=
+ =?utf-8?B?R1ZVc0lYMnpxcnpnWDMxdDFPWkV4eDZoV1BhNmFHUkQrTk5kMXgzM3BaL1Vn?=
+ =?utf-8?B?NlhDZndBanRvaGE4Tk5XNnMrRTNTcXBpTWhyZHUxRVgyb1BBNm16aHpReHJk?=
+ =?utf-8?B?ODVzdVJ4ZVNvU1NOZ0ZzMjFjTk55ZnVvR3k0M1pMU2ZwNmdpWGZkaUpoQ1Y1?=
+ =?utf-8?B?S3F4dTBtQnlQNmMrK08rRzJaS3BHdUU4SFdac1I5RDRuNEdWMTRCN3lJdTEz?=
+ =?utf-8?B?ZE0zNk9HeW1kd2U3TFVFMlQzMGRpTkxiaFBOaU9xR205dlBUOEU2cW5YWklz?=
+ =?utf-8?B?NFY3UkI0emc5cEJRNW1WVzJFSSt4aXpDV3FGUnNadmYzTncxbE8xcDJFT0t3?=
+ =?utf-8?B?ZHNOQzNJYmdGTlE0bEdDeWxDR3BvQldYd3BZTVNzemd4Ri9VdnUyOFhRZFdT?=
+ =?utf-8?B?WUtTMTVGZVVoZ1dJdkxkejVpTk9XZ2lxRHZDRFc5WjI5cm0yNGVjMzJrdWtQ?=
+ =?utf-8?B?ejA2aXg2SkhkUUtVb3lVNDFyTjVhMTFZeUJVRG1jZHBLOEpBQ1dFbTNoK29K?=
+ =?utf-8?B?WFBuUjJlOEgwWFhLZ2pXMGl5azc0eEhSVDIzSFNQUXNOU1dNOXE2b3k2bU5I?=
+ =?utf-8?B?YjVrbWNuSi9ZZUpwNmNUaWdKN1BhaXV4NFYwSzNDN05oVEdEUi92SVRWTW9l?=
+ =?utf-8?B?U01sa1lCRkhKUWdJT2p6dGdKNXJVcWtxODgrRzhtNWNJaElvRTZGMGVvRlZV?=
+ =?utf-8?B?UkdkVWlUdmdEMUVobDJTM3lYQkRLeENkSkdoYURFcW9kbFNHSE1zK0NwTUk1?=
+ =?utf-8?B?NDJrSisySFBPK1U0QnFrcjRyZ0J5ek1OenFIUmg2NE5teHk0d0J0MFJJZndp?=
+ =?utf-8?B?TFlYajNFdW9ZN3B0dXl2V08weW5JU2x4WnZBRXhTRG9DSWQ5bGwxR29JU3pM?=
+ =?utf-8?B?enFhL21hQ3h3czlwcVhNRThPbElrTXNlQW8vSzBOeWZCQTNJTi96Z3NKd21t?=
+ =?utf-8?B?VHdWcFJ4OTl1K1dWMk5rbVU4M0djcTMyYTQzS3Z0L20vV2RodElWZGI0WTVy?=
+ =?utf-8?B?bWVKdWFuZk11N24vVnRzZXEvR3RDRmVDU2FzbzJrK09NeHJpRXN0OFFmZXBU?=
+ =?utf-8?B?a0RjYW9IYjByUnh0cUMyclVWNDlhdnFuTHJiV2Y5OGdBcSt4SlV2YUpzUW1h?=
+ =?utf-8?B?Wk1OQjFnNUNvdG12S3FEbTA5MVQrczlxNlFsd25XVjRoUUNRWnpVRlNpRjZ0?=
+ =?utf-8?B?MXQ1WFBFd0RNcVkwdGN1WmVIV1VETW9LQzlLa1VXVWtKUUJOSTlVQ2o1SkpN?=
+ =?utf-8?B?RDFuSWp1L01wRWsrQnd6TUh2TnR3Q1pjOGFmZXlNSUtROHM2RFdITVhpWW5U?=
+ =?utf-8?B?akxWQnJxblJCQ2dBeTh1SHdMaHFiZjlhMXEyYURaUGFZbG1lRkhUY3FWRGNP?=
+ =?utf-8?B?bHB0andmRnpiZWFlRFZLbmRYd1puZVFLb2FTQVJXMDdTa1pneDVWVEU5eVhk?=
+ =?utf-8?B?UHJuR3h6TVRSaEdEMjJUTEttT1ZtQVBIZEFJWDR2dEoxS0Z0aXJudz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee651ebe-56e1-480a-cc36-08dee71cfe05
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 11:41:24.3941
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hogUoOgFAqCRJbi/6ApZ9J2NZVlRdujQUT0yMMSKaSqlN8YSjUpx5QE91Y/Oq1Wqs5s5buXo1n0Q8aKvpDNavQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5771
 
-On Tue, Jul 21, 2026 at 02:16:24PM +0300, Andy Shevchenko wrote:
-> On Tue, Jul 21, 2026 at 06:54:47PM +0800, Xu Yang wrote:
-> 
-> > of_node_init() is a static inline that references of_node_ktype when
-> > CONFIG_OF_KOBJ=y. Any module that calls of_node_init() will therefore
-> > have an unresolved reference to of_node_ktype at load time, because
-> > the symbol is defined in drivers/of/kobj.c but was never exported.
-> > 
-> > This causes a modpost build error when CONFIG_OF_KOBJ=y and
-> > CONFIG_DRIVER_PE_KUNIT_TEST=m:
-> > 
-> >   ERROR: modpost: "of_node_ktype"
-> >   [drivers/base/test/property-entry-test.ko] undefined!
-> > 
-> > Add EXPORT_SYMBOL_IF_KUNIT(of_node_ktype) so that modules such as the
-> > KUnit property-entry test can call of_node_init() without hitting this
-> > linker error.
+On Sun Jul 19, 2026 at 8:36 AM PDT, Danilo Krummrich wrote:
+> Adapt the IRQ registration to work with the Higher-Ranked Lifetime Types
+> (HRT) device driver architecture introduced in commit 2c7c65933600
+> ("Merge patch series "rust: device: Higher-Ranked Lifetime Types for
+> device drivers"").
+>
+> With HRT, driver structs carry a lifetime parameter tied to the device
+> binding scope, allowing device resources such as pci::Bar<'bar> to be
+> held directly rather than through Devres indirection. However, the IRQ
+> abstraction required Handler: Sync + 'static, preventing handlers from
+> embedding lifetime-parameterized resources.
+>
+> Remove the 'static bound from Handler and ThreadedHandler and replace
+> the Devres<RegistrationInner> indirection with direct request_irq() /
+> free_irq() calls in the constructor and PinnedDrop.  Registration<'a, T>
+> stores the IrqRequest<'a>, which structurally ties it to the device
+> binding scope.
+>
+> Also remove the &Device<Bound> parameter from the handler callbacks,
+> since handlers that need device access can embed it in their own type.
+>
+> IRQ handlers can now directly own device resources:
+>
+> 	struct IrqHandler<'irq> {
+> 	    bar: pci::Bar<'irq, BAR_SIZE>,
+> 	}
+>
+> 	impl irq::Handler for IrqHandler<'_> {
+> 	    fn handle(&self) -> IrqReturn {
+> 	        let stat =3D self.bar.read(regs::STAT);
+> 	        ...
+> 	    }
+> 	}
+>
+> This eliminates the indirection previously required for IRQ handlers to
+> access device resources and aligns with the broader goal of expressing
+> every registration scoped to a driver binding through compile-time
+> lifetime bounds.
+>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-...
-
-> >  #include <linux/of.h>
-> >  #include <linux/slab.h>
-> 
-> + blank line.
-> 
-> > +#include <kunit/visibility.h>
-> >  
-> >  #include "of_private.h"
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
