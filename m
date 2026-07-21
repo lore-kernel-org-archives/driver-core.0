@@ -1,50 +1,65 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F21235AC0E;
-	Tue, 21 Jul 2026 02:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C71258CE7
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 03:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784601143; cv=none; b=nkxSM3CRso90RU55M9s3UspWyw56t8h3dLNTO/1AliLSAVjckIWFvNr9XJqtzXbY0ZDqWfLByqNojvcqUQ+cXWWcf7DXWDMbL0xlFB/dcJRFIvN3p7JuziguE+MaIasxFLz8TwWRcoKpGeuyjNHJjtydSnLtKHL1ARSAj/4cpkg=
+	t=1784605020; cv=none; b=Lc2iBivz5fLiuCufQJjvW+DmfqWgHTMC4yuZPUVNy55zII7b/ihVhJ/dezSsGD6dC/dUA135mUzt2qQ2+Aj7LgZ54AOhu5PDiBff1u2Sfi7cfaPsDOI05OHgp7iW7mOCsygEJsvJ3SfDdZiAvz4kMawhX/oPqBorfW6NdJBvDSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784601143; c=relaxed/simple;
-	bh=23z8D54qLKkbG/v57WT4GqWPrT7MivzKwZA05QU9zgc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hUqHxzG81z29uOBeINB31IgjwASH/30HxAJ5CgmMmSemGAk5FPI4XN+MFjNI18O1xNjmCmbEFdz2uiBc/Kk45mCQgyZPcrgrP+TtsV8x6kw+DO7yls5ezNvExRZcqKF4Efu7iV7pzS5VXKzm/7xZPqAYMLTvWR7lRcmyGW6K/ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wvYd2iBp; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wvYd2iBp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=EyTpFxL5a/irb4WvY87+fBeRpKid0RSb02jd/b7ia5I=; b=wvYd2iBplQ529BS/maYmqGvwl2
-	MvcyyzjdIKMCdLk72TwipkyyCKltVFVCXJ9hFALU+tbD1awSxi8PiWo8ZyZmL2tM7Vgf3XFkcTSpY
-	OULpVaNSjfCUXtSxUdwGfGmG1Q7t93q+9LTXu/FiNBfovT6HZYvctyHz36e0wU79j0WIuYmNErmOi
-	RZWxIbd2wHegmWyd44MHWqb2GhmxW3ss287ZO2pLA+cJuXTDnkbmPbbV51aku5dDm20UIU/3fV+XJ
-	5OPcrkmNZ+9dfL7msR0EC9kQ8YESCh4lKkbJx+4gbLn2P17NfuRtROcDSnIAXEMcVeeyfmNq9ssE3
-	Bjk4n+6A==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wm0HM-00000008GNz-0wiC;
-	Tue, 21 Jul 2026 02:32:20 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev
-Subject: [PATCH v2] device property: mark internal data as private for kernel-doc
-Date: Mon, 20 Jul 2026 19:32:18 -0700
-Message-ID: <20260721023218.3490573-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1784605020; c=relaxed/simple;
+	bh=W8c2i5ZcwuT56JVlHFfPCFBpoLgoi0BlaYKksTMqxuw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Yh2gRVV7UJ89+2OY8V9pDI8mZ8PFRJcAqxvZ7aiTXokEuOvtTTklJ/G7miAFjM+NxHDfTVNc2B1Slj8XvcIex5lmg/WeomdXvjr21nBk23fshI0GqPeUqLRh6Kc1PWKBuZPOvemmWbIQpasKUtjcXbcCEthE6jD3dVXoag3Aph4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 6918b0dc84b511f1aa26b74ffac11d73-20260721
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
+	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
+	HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF
+	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:14a9b360-4d9c-4de3-8f3c-81ce759af140,IP:15,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:15
+X-CID-INFO: VERSION:1.3.12,REQID:14a9b360-4d9c-4de3-8f3c-81ce759af140,IP:15,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:15
+X-CID-META: VersionHash:e7bac3a,CLOUDID:878090dbb8ecf410c52a5242ce187c75,BulkI
+	D:260721113652U5GJ6OFM,BulkQuantity:0,Recheck:0,SF:10|64|66|78|80|81|82|83
+	|102|127|817|841|850|865|898,TC:nil,Content:-10|-8|-5|14|50,EDM:-3,IP:-2,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 6918b0dc84b511f1aa26b74ffac11d73-20260721
+X-User: yijiangshan@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
+	(envelope-from <yijiangshan@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 97395458; Tue, 21 Jul 2026 11:36:51 +0800
+From: Jiangshan Yi <yijiangshan@kylinos.cn>
+To: gregkh@linuxfoundation.org
+Cc: 13667453960@163.com,
+	dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	johannes@sipsolutions.net,
+	linux-kernel@vger.kernel.org,
+	rafael@kernel.org,
+	yijiangshan@kylinos.cn
+Subject: Re: Re: [PATCH] base: devcoredump: Replace simple_strtol with kstrtol
+Date: Tue, 21 Jul 2026 11:36:21 +0800
+Message-Id: <20260721033621.200399-1-yijiangshan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2026072024-eggbeater-strewn-87ed@gregkh>
+References: <2026072024-eggbeater-strewn-87ed@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -53,51 +68,30 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mark the @value union members as private since they are an internal
-representation of @value. This prevents kernel-doc warnings:
+> Be careful, we are rejecting ABI changes like this as there is no real
+> reason to change this at this point in time, right?
+>
+> thanks,
+>
+> greg k-h
 
-Warning: include/linux/property.h:406 struct member 'u8_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u16_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u32_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'u64_data' not
- described in 'property_entry'
-Warning: include/linux/property.h:406 struct member 'str' not described
- in 'property_entry'
+Hi Greg,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: use private: for the internal representation of @value (Andy S.).
-    drop Sakari's Ack since the patch changed.
+You're right, thanks for catching this.
 
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Daniel Scally <djrscally@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev
+The intent was only to drop the obsolete simple_strtol() call. I
+didn't properly consider that switching to kstrtol() also tightens
+the accepted input for the sysfs store path - e.g. "1<garbage>"
+currently parses as 1 and enables lockdown, while with kstrtol() it
+would return -EINVAL. That's a userspace-visible behavior change in a
+long-stable interface, which isn't justified by just cleaning up an
+obsolete helper.
 
- include/linux/property.h |    2 ++
- 1 file changed, 2 insertions(+)
+I'll drop this patch.
 
---- linux-next-20260720.orig/include/linux/property.h
-+++ linux-next-20260720/include/linux/property.h
-@@ -397,11 +397,13 @@ struct property_entry {
- 	union {
- 		const void *pointer;
- 		union {
-+			/* private: internal representation of @value */
- 			u8 u8_data[sizeof(u64) / sizeof(u8)];
- 			u16 u16_data[sizeof(u64) / sizeof(u16)];
- 			u32 u32_data[sizeof(u64) / sizeof(u32)];
- 			u64 u64_data[sizeof(u64) / sizeof(u64)];
- 			const char *str[sizeof(u64) / sizeof(char *)];
-+			/* public: */
- 		} value;
- 	};
- };
+If on the other hand you'd prefer the stricter behavior as a
+deliberate ABI change, I can resend it, but I won't unless you want
+it.
+
+thanks,
+Jiangshan Yi
