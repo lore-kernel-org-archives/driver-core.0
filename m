@@ -1,70 +1,75 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011007.outbound.protection.outlook.com [40.107.130.7])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012017.outbound.protection.outlook.com [52.101.48.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BA9337699;
-	Tue, 21 Jul 2026 10:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD69836C5BF;
+	Tue, 21 Jul 2026 11:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784631091; cv=fail; b=usOb4k6gIsQgGrkNJ1QRhE/tfVvJaeNCOE33n567S10MltQb2mefql3OFkjuj+JiptT0mmz8kTQDrrE1HU5WEaUvSxbb945IrTJeJW97UXdcixt/uflrDeSyA+AQEHefxTEy4CWMom2NH4u6aQsuWimgLm4/0jr9wf8fq4Z0Yq8=
+	t=1784631644; cv=fail; b=a2S073U5QcUUMjZG8hMMzFqGSGGl5m/80R2j6md84GyaZiC1aFJm4mEcXEKTjstYfMjS6Pt8cNOqiBdfeExmNs0hFx2nw+L/kL8MKw6EX3FA0dmbnGXs6n77XT62/7/+14O3Wvdotg8IUHHWUwg6F4VOHnD6LiBOYnod5IU4Cng=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784631091; c=relaxed/simple;
-	bh=wqULSKimgAqxPJmqZSpSS3E7Q8rD9PzIChR9sVfNI+8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=K16pDmuNxRPDpztiMc9gen7wCsc4HkhNJxwKqkiPmXdRLY3heTIZtCKw8gquv42qwhBK+jtQykh1xlG/RQxrUgua8LhvKKTGQP6UxzLeGcxR1xppBuAXrNNRbLgUtOAC2b4CIBQclYwC2LF8vnrIySC8EggAKdgb+4HRaGgQhmY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Wnbp6Dpy; arc=fail smtp.client-ip=40.107.130.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1784631644; c=relaxed/simple;
+	bh=FfRPhsTCHXxphtrDc6maKExATWmQ1XJ6z3af+ChvUz4=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=WNSwyXSdEXD/bteerw5MMDjbxlz0r8vUGgVY0Adrulj5InwsyyMvUoAym0R0udjpwD2xuRJ/09oxGxSxCqmhELiAPvkbCogbl3ILaLrQvm7ynpjXWzBActmkJbRm6FtcI/U24a4Hx5zHcPDDgtn98Wj1CVb13CdsEgSTQrCdv74=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=uMb5RrzN; arc=fail smtp.client-ip=52.101.48.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Wnbp6Dpy"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="uMb5RrzN"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V6tgxxkHUAObpgHa9+W+MUH8ljKdvrrmPnT6mbP2HXjym5Qhm2uOE7AautOGI/5F5wKXRHJVOoDKhZuQxjT+CxKjjP5FZXOj4djHOe1f1uCV858RtSj9phqzd3RbZ/mJUvQazvMhIjDOhi653Twso00gkkwM+F4ZvR/BtifmXzzcFYMif/yjQyAmShuxaD3kmdN7ABvbcc5HVOoXvmp1M0/Nbli+3iNIJFqnH2iD8B3xFqcf1TV00+Sh0fZFHpxqlb8Rc7nosqogMIuxLgb+yLQu+92jw+hasJvxiFExrs3e+nBJy8hroZU5eS7bIN+ci084QTLqXkob8eEZ5b7m+w==
+ b=QSpSYCFFcaPHFAGwMTXqsrKUz9vxTP/+7Roi319FbcZqkvivo/79g4rgqSzrVMUMrjgXDO7krdbh6v19LPN1wWItCBC/ExdOs3PbzFvQ6JpHF98B0+Uh5j+OxmgSRMp2PBiM2kjZzo02kdLd8FpYssr40McRp9H5V+DBiVuJVUe7sWwbOxjWuzPgw/Emi2cKRJ99eDG7IkahBRiNsbkR8qb1NsS2c2kdFX++OI3Xp7BLE7u/VG5kSvhkAxbNCCuyZukOWW5UCTZ6ul+fOtsaj49JmFJ+rdLnrEom8ZpGEsjoK6Y4ojbkY5HNsywoWRHxO2+sHnPQ5713Owjyd3sP5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XqDVVM64cjKdZhanKSfZIraljYYkdqUobq+kXEkZ00Q=;
- b=WNocJfCDoFueRvldM31wmAhtqpx6sZ4zECp506UZgaulK8BZLkECfaBM/fqIAWaruP2iCkDd40qcj8erfiiF/bj3yy9Syw8b1jxW+Dt6O5sp7rBQdm0KPMtro3XbH27VTxX0BzokV79X0Y+U7qzUEPUoL96yQHzDrZADX01DseCFYRMjZRKm7I0wAn36dSVwSryX3BiZmE6so8YBXruRAplHSnZjdaoqsSbtqXkwJamQ1x5nniJbSGq+VU/sZG40U6ZIEt4c1QIi9VIFLqFjMWWZgBTaLjjG9fIIs6oXNUtHSGO8gv/q33eX6XLGQG3+zshuhKGx2u9mzD5fj6dlZQ==
+ bh=jTuhCTfF5VvH8sEzlyfV2hherqbhT7NYNMYhytxcOS8=;
+ b=vXXFYKmTAVzekPtSZbmBkokFsxZEsDCUL2peIOjQWMf0m7/ymFpKOFfrwyENZe50cLlgJrWcT4TQ+YflFCm3j/On8fHDi0KTtWfedoW5TCAgFgE/yBVlZLlt5mZ0shfnMGRqxY9BPiNbJuFGm7zsfQ4MJT44QzI/pkxEALTi2vinKzVPmu+ZEZVYoViWhdanDlIZhKNPSfE2rg+YNlpRus726E6wI/W+kD4bRF9UvX/lfcJtxGH5H6FVMwknZtJHBYtTWKuqUQmmFw8KjT2wdjBFbNaejZVKPdUBueUip2iZpS5CrqZ46x/FBvpqEW8SuWqUrmKeg3aw7mRuESbngg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XqDVVM64cjKdZhanKSfZIraljYYkdqUobq+kXEkZ00Q=;
- b=Wnbp6DpyH6LrWtepfWlYkSflNRYErdf1QYGJvyLSe2Du5BPNrE0FK9vNlN3xR6SDcWTghSc1RKwioJDgkj93jVpxP96FEcjgwHz5VlD8tSpEQe7JCqR2kM8pnE5l5f2Ewzlq60ECWCyactUykwJKSyqAJOArdWzwtuNAvNfjo/d80cu3wY5zdhJcS5uF32VlJGZy3ehbbmlxO+2KHbczC30nmcrV70LcOupSg3nJ2g+mhhmAD0x+Bha8dJORQkqC3rPMzDJ2Flox9ycr4P9pOiKvdFGGPGI8NXOx0P0MND36kaHlv4MvWTOvsouYe8X8GBzEzfijVQolhw6/L1aQPg==
+ bh=jTuhCTfF5VvH8sEzlyfV2hherqbhT7NYNMYhytxcOS8=;
+ b=uMb5RrzNTLdJQ5u+Q/YQ8RMUyXI4O0v18T+pljoi6Xq5VSS4YAKuKfXRnlRj0qmNAzSOrskjPbo+aFTv6OaAtQlwPjHXyHBS3Xpc39Bm72oLZgI02BRA8Tmw4QU75Zg0lvOREhn0A3b0eF1ifBxymlZj6bDmfKtj59XCM0gV2Ias0uXotATnreFCUr4g36bCucOIQkCYXeZivWvkurYn3SuPHIywrXG4EPB27peikoky8MJtK2G7kRiGwM+EwnAAnR5tbgDvaAaYdv/YH+ZXxx2372U3JrkaCEVLn29ctRm0QhMidNPFwPMDfK/VmLUZgBLWKhS8VIhuYloPPO97tg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by GVXPR04MB12105.eurprd04.prod.outlook.com (2603:10a6:150:335::16) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CH3PR12MB7667.namprd12.prod.outlook.com (2603:10b6:610:14f::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 10:51:26 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 10:51:26 +0000
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	robh@kernel.org,
-	saravanak@kernel.org,
-	andriy.shevchenko@linux.intel.com
-Cc: bartosz.golaszewski@oss.qualcomm.com,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: [PATCH v6 2/2] device property: add test cases for fwnode_for_each_child_node()
-Date: Tue, 21 Jul 2026 18:54:48 +0800
-Message-Id: <20260721105448.2109894-3-xu.yang_2@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
-References: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0032.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:17a::10) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+ 2026 11:00:31 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 11:00:31 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH 0/8] rust: io: register: allow paths for relative register
+ bases
+Date: Tue, 21 Jul 2026 04:00:09 -0700
+Message-Id: <20260721-registers_fix-v1-0-3711b2317e1f@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDE0ML3aLU9MziktSi4vi0zApd80Qz89Sk1DTLpEQDJaCegqJUoDDYvOh
+ YCL+4NCkrNbkEZIhSbS0ABImc1nEAAAA=
+X-Change-ID: 20260418-registers_fix-7a67ebef9ba0
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: John Hubbard <jhubbard@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Eliot Courtney <ecourtney@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
+ driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: TP0P295CA0011.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:2::17) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -72,259 +77,112 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|GVXPR04MB12105:EE_
-X-MS-Office365-Filtering-Correlation-Id: 417f4c7d-6f93-4e7c-3448-08dee7160331
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB7667:EE_
+X-MS-Office365-Filtering-Correlation-Id: c40c6a05-b747-4173-165e-08dee71747cc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|19092799006|366016|7416014|376014|3023799007|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|56012099006|11063799006|10067099003|921020|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	ngfNn2TVZKXveNVv8jewQzyvATR9DnlEMuQ1emhlzKN5CJ++FPMEfaBvZ5xaAihD5F6NIy003Xnk0/StVEXYnAEKTZT1y7rbBSKH+KPG6JPKRBbGTmXAQMjPc7wdcQHDFzfKJsf3KHfwTq/HxW9fmMnXaPjzdskIiyS4AogxI3SPf71Ia7drWBoZy97+ywljDhdoQ9XPUoGSVZe/DJ64Xe02NiEYNA+4Ge4JpDnEUWg2ohgY/4vOJm0LTvmUt9/fDfr44fqhU3600z1c3h3rjBL1Qjb7XkU2C40sudNiaSk9e8SPLPoQYnWzqABqahROvUnxXrM9Y4L60uApXenczbkMNISjlNV8i5uUCOKmqGjNUlDAPHagaNjov2ST7KfccTTbEOFVsuYHvB2+rJ7uOVObtR6HayEoNZ7EzCH+8Vu1uxyhhV2/YXA/sf/GPzv/GPymYrDBpdwXmWA3AoHy+VONPQdptmsHCkeyxNYNk82svQxYcrVprDuZQioGFZgOBQEuPZ3MpISlKSbQxdV49kVqKs5d3Q7hNo2vtZf7Nay/AvHLM3EcKCac+CXLRCo+B3yUivwL/vPmGpP1cfvAYxt8VfkjABLzgK1NQu8iIGzCv1Gh1ut6K16GiD37WUDvAeD7mK9HMOoSFj5zw7o/AZ/P7z3gqq9T7wNzpzQGqmU=
+	ZkHgyojyYZJrKHeqUrqBVV0h6EHnWm/aJYgRnHYslN+c9N+fqWTezYx60znqISX3m5buF4OttbVm1EU2kmPNWpKBVRxipBgXkm6+itfcwosnacmY4y3GtB4AOQaYxepMN6Ld9U806tM2hFzq8kOP7zQkrNJsYa2xU9yflTxxmHNnZ0qxQqRRsY/qkK0F35KRYmcHW5JK/JOaG5eBushjZXzAMaFbxHXJnLaRpVUHE9MFzSwmGBZYzTDhvnisXdNW7TAPeem0t+F/bhDoB2Z23ldCne6voeyNLpY8QAx9pOOkMbLELxHr/xefz2vi8QixEXeg7toNUih0MSPsjsQwcqmeMc/bXyoJVBNE6hLtU0WagAYsPDvVUf7YRPII0B9xnzRJZ4qagfj85Amv1kWfvuCYYpCBCTbjKHWcsmHNrk6BCwiO+04yofQAewWP0j7YYkNVuByI5/RWJp64xAR5DWkXsqSIqTIh0qIgD4zcPuNPXFraY3TN2XneoP7bCHsegjHjcyhCrW2Mk9T/chcame9aoYpJXK3PNYfth26tgUp4hCz+wBHa2IXPjjXBAitpu18lxfw/9d2YFH5kib6Ju6wZut37lCSWO6gYIVuGrMZUPwCfOWgNsSWtuLL+MxCHn4dwzvtMVmRa0/w6lu95py5hpuYr6ahah7Dn6DN1LM4bgINXfMBoW+iBC404a+MdHptZWfqE8jNSdB6fEoN+zA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(19092799006)(366016)(7416014)(376014)(3023799007)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(56012099006)(11063799006)(10067099003)(921020)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aEkHJdBkRnNOUHbK4kCDnb/9qH0sbIGtOAqsLTsoerwDNmYTvuUT2TRBr0dz?=
- =?us-ascii?Q?qxA/79Lahu1faUnLC6k0ASwk/tbiltp8Sf9CRCNvTYuQAhdkMIFIaHZIpcYE?=
- =?us-ascii?Q?tCBlva8Q6T7daXJyp0DvQeg63OHST9siLKOq1PkZewd9i7btv22Wtm8x0gM6?=
- =?us-ascii?Q?+m8XtlvhCj9Q5zgRskltYWWCuCHUQDchg+PCO+HNBXIFNjcpzWrN2M0EYEqa?=
- =?us-ascii?Q?9RspHi+HwdbbuRq1wOcVFn4EaYlBguH2/f3Px0a9CwDVKI2yonNqfbRHG8jl?=
- =?us-ascii?Q?Ds2rwc/dEYPMLZVvvdsxpX058BXmslSadq3WReNZRUQXzLm4iVFT7GywyChg?=
- =?us-ascii?Q?34YhZSAD0uDHY7Ihmwj0tCvNEaRFT5OyftjuTJTBj/50JCPTFANKRWIhoP5B?=
- =?us-ascii?Q?ic/krTLW6aTS0VZUcplEpcptvmG28zmncwiwIlkPGFTMY2TuPJatHYGlT/So?=
- =?us-ascii?Q?RB+bLzPs7JC7qKPfrlrMWbvuyrdEzZsv6dlcAh9Uety/hkfla2CrBtBZzAVF?=
- =?us-ascii?Q?r3SUx5kjD1OVaPsErzEldnL3SPf1jxyHJ6h+m6F959NXNmVulHkYIgX3bpWa?=
- =?us-ascii?Q?L0UPgpZE6hjnNO/f8tgs1lHfCKNVcWQcQiZ/hvHjxycfsKerbry4aNoALpIw?=
- =?us-ascii?Q?3V3c5RTFMD98djgUYW1eACfcFPA/bGL72a5l7fypC49NUx1Ur4h/RYbziXg6?=
- =?us-ascii?Q?dKT5eDtEzWAXlYnWi5Sak1VzdbcZsIhKvjOCxMRs4Q92S1Kp/CSWXC6RWCwF?=
- =?us-ascii?Q?N3wbYVq5rJigHwcAApNJmMGNQv0Ed0+22aka+Dt7zgIMqFL7A5JwKmbleCbg?=
- =?us-ascii?Q?zdm1sv+7jjIbUo/nrjqhZBG1D8B9nxBOKnDWXPfv7ux6Qyww6ExAr+J9dH6h?=
- =?us-ascii?Q?Ps+HBguD0Tx8FzZbeuAXK8o60AVT6vueh/AAINNyIrYDeqoerxz9Udhq9p/H?=
- =?us-ascii?Q?4UHoVfE2rJt1Pe7PWu/zZF5DqFukFFl9M8cuIJT6hLbMSCPCRwMKpns5foeE?=
- =?us-ascii?Q?SW+vcGq56hC+I6Y7LfXFbJUKNYK+ixbm/raSYorfqFoV2qZhJiCs7cwLO941?=
- =?us-ascii?Q?DlRLoZKhI3Xw8NSp2kwyVCwYd62EFKe/9yDrxcRajOcDvHdnwVuoyTzIdghQ?=
- =?us-ascii?Q?lYgoTnD1HxY0DypTxrqLSPAtxmnwS1HjV8qqVstSgNy/ntCEG6n0yXHLCcrK?=
- =?us-ascii?Q?ieyr1AyvCBx4jJmwpxplWZtT/+l0VX+zFqG+fWoFA6YqnF8d/LliYoK7YxSO?=
- =?us-ascii?Q?93KplyWldiawN6XcNVCyOKC6j0M+np7zCTzZPTMcf1g/QRjCOUUvLL8NmxTw?=
- =?us-ascii?Q?Gv/sG4ZXT6N4/1ZEYD2vGOyiVNRPiX77eZi7+moDbohr2OSc0dyq9sqISNO2?=
- =?us-ascii?Q?K++rc+FlrZxw3HmazoDLm4omga4o7gPq8/1X4fdErF+UzWVafENEyZnEC7cO?=
- =?us-ascii?Q?Wnpkw+GrgJ+nRjjifCsI2BpQWdfng/sEewiWMYN7g17YL3FJ8k0LM/0rnGef?=
- =?us-ascii?Q?++BykaV0NETINJ5XNTPRYVSxm4xUEChQ/VpiViAhKhWsyXWqAAUGLaWdehAO?=
- =?us-ascii?Q?7vsgOkCTN3PRH0YdA1qect0qLw2xTHekf2RBRrhEjRxh+TE2dyyL5Z6s0qJd?=
- =?us-ascii?Q?BvQHpxfBKGyf5tBlh1eosKkNuaE/5xiBJm/t7yF7OvlAxC/ECMj+Uw8+WoZ1?=
- =?us-ascii?Q?BeCm1Mc3lnzcR7yt5ibZNAb36GPXfvf+e3RLPAdiF9D7yqqTGo2kflrHw+Or?=
- =?us-ascii?Q?rs2JO+bsPw9K4vDqH8XEz5E+t4IT8yaLqR3zD/UidzK7APffhepp?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 417f4c7d-6f93-4e7c-3448-08dee7160331
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
+	=?utf-8?B?YStMWGZhdWlpZVlJODJuZ3AxYlgyQmNndUhBTkFBRmwvcTNWUmhtc1MzMXQ3?=
+ =?utf-8?B?VXJmTWVoNXlseENwMys3dW10c3lDOElENEc5NE9sK250QUVpdTRwQklwY2F5?=
+ =?utf-8?B?TDNxNWRPUEFLdjRLcXJsYldTc2xCTHA2ZGlaREdiOXd0V0tiUUtlOW9POU5I?=
+ =?utf-8?B?em9xdDRhNGV1cTZXRGFFZVZRQVhpQlRDNGswaytPcGZieFd4VDU0cHhQbmFB?=
+ =?utf-8?B?UXhkMS9sSDJ0RHJuR0preStBTEFiODdvOHcvNFR0WnRUV2RhQmJLMS9mT0Rm?=
+ =?utf-8?B?aHc0RngvRm5Wa2M3c29VbWdUc090TmpHVkZYeFdFTldRdElpbHVmaGFzRkR3?=
+ =?utf-8?B?WFNBOWJ1K1RBZUErc1hEbjNadEQyNlIxSDZtdGdrMWdCVXUwVWNZdkxkVHVq?=
+ =?utf-8?B?djMxaCtDRlJMK3QwblQ0N0xmOWJRaXI1aUVNc0NFS3dpVDlwYUVFWW9PWnRR?=
+ =?utf-8?B?UGxhRmk2cFJmZzhhSmJEcEZZSzBRM3IwUGVCVjd6eFZiMXlraTZ2VFlqeDR0?=
+ =?utf-8?B?bHhVZUtjYkZKcEFsVWZOeFBJRVBHN2RjbmZqbzVHa2tScW9FWURMaGJmYUt2?=
+ =?utf-8?B?VlhlVTBZcnMyLzdtUEJLK0QzVDJsd2gvYTc0S3k2YjErTGRPRURoY0k4WGo5?=
+ =?utf-8?B?MFQvbEpaNXBQYVNnVTFpVVJTZzc0UWtDc0srU2NSbUw5b2FMeXZVcGlhdnMx?=
+ =?utf-8?B?dzUrT1A2WmV2THF3OG1jaUowUFh2QUpJY3Y0NllEQXN1TmNab2ozR0dHeTc5?=
+ =?utf-8?B?SjhmQmFNUU1hNTFtZ0FZNm91L20waFk5S0kzaWJDVnlqN2g0Sy9uN0Q1c3Bm?=
+ =?utf-8?B?L0JjQ2RWWGVNNS9oWmF4R0xFMXJwWGh5aGZySjVrZGxjbVQ5czFPemNzaGdG?=
+ =?utf-8?B?Y0s1cU4zLzArcTFzcCtXckZOMjhxNjBIWlNyL280S05GY3Z2eUFMT1E0bUVw?=
+ =?utf-8?B?NzkrWm5JZUc5UkJNODh0TUFRd0NtZmpPSHZZMDcxMmtUOU1YNmFjTGpXdGhj?=
+ =?utf-8?B?S1JtaHpkWWdyYVJKRTc2b0dWNStmdVFncml4RWtHeC9XcGtSWXlVQnFVYVV4?=
+ =?utf-8?B?b0pJSmRSeUtCc2UrMFQzNlUwcTUzRGNkK3NpaXZGbU5jeDVzeExaUzlkcGlO?=
+ =?utf-8?B?K1cxM0RmQkNXV3lEVTZ0SXV0MkNqNEZCSkhmdk9DWmhDSEt1K2JGWnAwUUpZ?=
+ =?utf-8?B?Mi9pRWQ4aFV0SjZsMDE5ZXV1UkZIcmJQdEsvRUpoMTh4c2hZZFN5UVowR3Zp?=
+ =?utf-8?B?MnRjcStTUE9ERW1JYU9nK2t1eHBNZjhPa3lpNnlvVCttaEJRMHpWSzk0ZVd6?=
+ =?utf-8?B?YWtkUzQzTWxJZ3hjRnllRHVxTGhDM0Q4ZVZXL2J0emtmalVyb1M0ak5pVVdP?=
+ =?utf-8?B?ajB4T3p4ZEtnNjBsNzU1YnhQbjlXWnMvRStoOEJDa011S3hpemFDWk9Xb1R4?=
+ =?utf-8?B?YkNIN0xYKzgxOUd0TWZhNmZSbmVaT2hSTC9sS0ZuQ2lKMGluUlA3bm5FV1NE?=
+ =?utf-8?B?MEdGd1F4U3FHZnlLK0FteHNTQXN3bXgvM0crbWhoWHVBdjVJaC9UdlRwcTMr?=
+ =?utf-8?B?NXNjZm5kWlZwNXF3azRFWVprbmc2SklNV1JuR1FUSTlMZml3a3RWWlZoY3V2?=
+ =?utf-8?B?a2ZGck9XZWJXMGZJamNxak9aTGorVFZZbEZtOEpPZG1mMnl4QzJ5OG1sbGsr?=
+ =?utf-8?B?cVZoOTlsNVFORzk3dElPUnJxUklGVVFzZHlzNEJKNWNtcWZPTXNvVmZ4Tjhv?=
+ =?utf-8?B?T0U1TEtqRGRNZk1QNkE0UVRnWkM0Mmd2SVB4a3Zya1dmeVZES3hQQ2tSUGlk?=
+ =?utf-8?B?YzJ5Um5Qa0RtN1BRMWwyUDgwdGlZWlhXTlQrN3R5MTdlUTRDaHlRQkd1cmUz?=
+ =?utf-8?B?ZGN2ak9jWUZnSVhkekVqSjZnUkJPY1dMUnVURjBTbVQ5bGZvODhWUHI2OG1H?=
+ =?utf-8?B?M2owM2pwbzNFYWcrSHpQUnBCMmNXN3pWb2tSUFJWelFQUTJUdVNxWWR5Mytr?=
+ =?utf-8?B?bzhMKys0a1NheFdFeFVsNzBWNnFlZjZ4amwrRXVGK056Uzhld0V1NWozbFBT?=
+ =?utf-8?B?YVg3SXUyUnNtZWJZV2xkN2RpSVB4cmR0VU1JdFBHL2xSSllnSlcwZk05ZFF4?=
+ =?utf-8?B?VFp6emNaTm5MZXY3aTJMSUNEanNWd1ljMVhUOXluSjM4RnNhTlFIVXEwcTJF?=
+ =?utf-8?B?bVFHcmp0UWhWcURIVm9YR2FFZjE1UDB6VDhqa283N2orcThuZjZjQXNOR2VN?=
+ =?utf-8?B?OHQvZG9xdzlyMGIwZmorcllLUmpkcUdhemQ1cDhJaXFJTS9ZdEVhT3dOWXZV?=
+ =?utf-8?B?dWdFSHZadVpGb1lhUlJndmovNjMyQmVKZWI4UGEzL2Jjd3JHSC9aQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c40c6a05-b747-4173-165e-08dee71747cc
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 10:51:26.3191
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 11:00:31.4813
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +vmm5RTYH9hRUSe7J2q3f1iXuAG+8enw69j6OfJcMfzUWGxyRR2DJuHS+qAU0ipYcJJJQhYfj3W97290+Lfk1IrRo6vr2OMcJBoScdjH25cr82RGGAhGpPk+hM/x+9+J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB12105
+X-MS-Exchange-CrossTenant-UserPrincipalName: xhSg6BzPDtZJstMdTwMLFrv6yPQEmHvvyDrVYwaRrgv/9Nls5nlpoLoXzI0Qf4EPoRA1ZuKFg20iWw4gryyktg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7667
 
-From: Xu Yang <xu.yang_2@nxp.com>
+The register! macro currently accepts an identifier as the base of a
+relative register. This requires base types declared in other modules to
+be imported into the module containing the register declaration, rather
+than allowing a qualified path to be used directly, which is arbitrarily
+limiting.
 
-Add test cases for fwnode_for_each_child_node() API.
+This series allows path to be used as relative register bases. Since a
+`path` fragment cannot be followed by `+` in declarative macros, the
+`Base + Offset` and `Base + Alias` forms are replaced with `Base:
+Offset` and `Base: Alias`, inducing a syntax change.
 
-Test command:
-$ ./tools/testing/kunit/kunit.py run property-entry
+The first two patches clean up the macro's internal dispatch and
+arguments in preparation for the change. Patches 3-6 gradually add
+support for the new syntax and update docs and examples, while
+preserving the old syntax. Patch 7 updates Nova to use the new syntax,
+and patch 8 removes support for the now unused old syntax.
 
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+The series is structured this way so the Nova update and deprecated
+syntax removal can be merged separately, as otherwise the whole series
+would need to go through drm-rust.
 
+Outside of the syntax update, no functional change is intended.
+
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
-Changes in v6:
- - add MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING")
- - remove Andy's tag
-Changes in v5:
- - add patch#1 to fix "of_node_ktype undefined error"
----
- drivers/base/test/Kconfig               |   1 +
- drivers/base/test/property-entry-test.c | 137 ++++++++++++++++++++++++
- 2 files changed, 138 insertions(+)
+Alexandre Courbot (8):
+      rust: io: register: dispatch fixed array shortcut internally
+      rust: io: register: remove unused rule arguments
+      rust: io: register: use path fragment for alias destination
+      rust: io: register: use path fragment in relative internal rules
+      rust: io: register: allow paths for relative register bases
+      rust: io: register: use new relative base syntax in doc and examples
+      gpu: nova-core: convert relative registers to new syntax
+      rust: io: register: remove deprecated relative register rule
 
-diff --git a/drivers/base/test/Kconfig b/drivers/base/test/Kconfig
-index 1ecf0791241a..542ce07530a1 100644
---- a/drivers/base/test/Kconfig
-+++ b/drivers/base/test/Kconfig
-@@ -17,6 +17,7 @@ config DM_KUNIT_TEST
- config DRIVER_PE_KUNIT_TEST
- 	tristate "KUnit Tests for property entry API" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-+	select OF
- 	default KUNIT_ALL_TESTS
- 
- config DRIVER_SWNODE_KUNIT_TEST
-diff --git a/drivers/base/test/property-entry-test.c b/drivers/base/test/property-entry-test.c
-index a8657eb06f94..855e73b9b21f 100644
---- a/drivers/base/test/property-entry-test.c
-+++ b/drivers/base/test/property-entry-test.c
-@@ -4,6 +4,8 @@
- // Copyright 2019 Google LLC.
- 
- #include <kunit/test.h>
-+
-+#include <linux/of.h>
- #include <linux/property.h>
- #include <linux/types.h>
- 
-@@ -489,6 +491,139 @@ static void pe_test_reference(struct kunit *test)
- 	software_node_unregister_node_group(group);
- }
- 
-+static struct fwnode_handle *create_device_node(struct kunit *test,
-+						const char *name,
-+						const char *full_name,
-+						struct device_node *parent)
-+{
-+	struct device_node *node;
-+
-+	node = kunit_kzalloc(test, sizeof(*node), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, node);
-+
-+	node->name = kunit_kstrdup(test, name, GFP_KERNEL);
-+	node->full_name = kunit_kstrdup(test, full_name, GFP_KERNEL);
-+
-+	if (parent) {
-+		node->sibling = parent->child;
-+		/* set the node as the first child of the parent */
-+		parent->child = node;
-+		node->parent = parent;
-+	}
-+
-+	of_node_init(node);
-+	return of_fwnode_handle(node);
-+}
-+
-+/* Verifies that fwnode_for_each_child_node() can output correct children */
-+static void pe_test_child_iteration(struct kunit *test)
-+{
-+	struct fwnode_handle *of_node, *of_node1;
-+	struct fwnode_handle *sw_node, *sw_node1;
-+	struct fwnode_handle *child;
-+	int error, i, num;
-+
-+	static const struct software_node node = { .name = "sw" };
-+	static const struct software_node node1 = { .name = "sw-1", .parent = &node};
-+	static const struct software_node node2 = { .name = "sw-2", .parent = &node};
-+	static const struct software_node node3 = { .name = "sw-3", .parent = &node};
-+	static const struct software_node *group[] = { &node, &node1, &node2, &node3, NULL };
-+
-+	static const char * const of_child_array[] = { "of-1", "of-2", "of-3" };
-+	static const char * const sw_child_array[] = { "sw-1", "sw-2", "sw-3" };
-+	static const char * const of_sw_child_array[] = { "of-1", "of-2", "of-3",
-+							  "sw-1", "sw-2", "sw-3" };
-+	static const char * const sw_of_child_array[] = { "sw-1", "sw-2", "sw-3",
-+							  "of-1", "of-2", "of-3" };
-+
-+	/* 1. Test OF node child iteration */
-+
-+	of_node = create_device_node(test, "of", "of", NULL);
-+	create_device_node(test, "of", "of-3", to_of_node(of_node));
-+	create_device_node(test, "of", "of-2", to_of_node(of_node));
-+	of_node1 = create_device_node(test, "of", "of-1", to_of_node(of_node));
-+
-+	i = 0;
-+	num = ARRAY_SIZE(of_child_array);
-+	fwnode_for_each_child_node(of_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, of_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	/* 2. Test SW node child iteration */
-+
-+	error = software_node_register_node_group(group);
-+	KUNIT_ASSERT_EQ(test, error, 0);
-+
-+	sw_node = software_node_fwnode(&node);
-+
-+	i = 0;
-+	num = ARRAY_SIZE(sw_child_array);
-+	fwnode_for_each_child_node(sw_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, sw_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	/* 3. Test OF (primary) + SW (secondary) node child iteration */
-+
-+	of_node->secondary = sw_node;
-+	sw_node->secondary = ERR_PTR(-ENODEV);
-+
-+	i = 0;
-+	num = ARRAY_SIZE(of_sw_child_array);
-+	fwnode_for_each_child_node(of_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, of_sw_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	/* 4. Test SW (primary) + OF (secondary) node child iteration */
-+
-+	sw_node->secondary = of_node;
-+	of_node->secondary = ERR_PTR(-ENODEV);
-+
-+	i = 0;
-+	num = ARRAY_SIZE(sw_of_child_array);
-+	fwnode_for_each_child_node(sw_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, sw_of_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	/* 5. Test OF (primary) + SW (secondary, but no children) node child iteration */
-+
-+	sw_node1 = software_node_fwnode(&node1);
-+	of_node->secondary = sw_node1;
-+	sw_node->secondary = ERR_PTR(-ENODEV);
-+
-+	i = 0;
-+	num = ARRAY_SIZE(of_child_array);
-+	fwnode_for_each_child_node(of_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, of_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	/* 6. Test SW (primary) + OF (secondary, but no children) node child iteration */
-+
-+	sw_node->secondary = of_node1;
-+	of_node->secondary = ERR_PTR(-ENODEV);
-+
-+	i = 0;
-+	num = ARRAY_SIZE(sw_child_array);
-+	fwnode_for_each_child_node(sw_node, child) {
-+		KUNIT_ASSERT_LT(test, i, num);
-+		KUNIT_EXPECT_STREQ(test, sw_child_array[i++], fwnode_get_name(child));
-+	}
-+	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
-+
-+	of_node->secondary = NULL;
-+	sw_node->secondary = NULL;
-+	software_node_unregister_node_group(group);
-+}
-+
- static struct kunit_case property_entry_test_cases[] = {
- 	KUNIT_CASE(pe_test_uints),
- 	KUNIT_CASE(pe_test_uint_arrays),
-@@ -497,6 +632,7 @@ static struct kunit_case property_entry_test_cases[] = {
- 	KUNIT_CASE(pe_test_move_inline_u8),
- 	KUNIT_CASE(pe_test_move_inline_str),
- 	KUNIT_CASE(pe_test_reference),
-+	KUNIT_CASE(pe_test_child_iteration),
- 	{ }
- };
- 
-@@ -509,4 +645,5 @@ kunit_test_suite(property_entry_test_suite);
- 
- MODULE_DESCRIPTION("Test module for the property entry API");
- MODULE_AUTHOR("Dmitry Torokhov <dtor@chromium.org>");
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
- MODULE_LICENSE("GPL");
--- 
-2.34.1
+ drivers/gpu/nova-core/regs.rs | 74 +++++++++++++++++++++---------------------
+ rust/kernel/io/register.rs    | 75 +++++++++++++++++++++----------------------
+ 2 files changed, 74 insertions(+), 75 deletions(-)
+---
+base-commit: 22e77d81d0a9ab3aee1c5538b3f2f8a66930bfa7
+change-id: 20260418-registers_fix-7a67ebef9ba0
+
+Best regards,
+--  
+Alexandre Courbot <acourbot@nvidia.com>
 
