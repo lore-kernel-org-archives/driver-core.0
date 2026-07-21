@@ -1,60 +1,60 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1F42A793
-	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 06:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7514E42F6E1
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 06:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784616897; cv=none; b=ImQESQ7VG3eA4VSF8pikyoRwNwd3ZPy3No/ZSxGTnH9ajDFyHyCeIqINFdb+sLDOUAuHtiSWqnDC3RBbDxvxjqaqwHNiiOIDm3aOEdWvh4GOFzbaoD/9xLOF4rd28f3CtvvIO/GTlGa0bg5TlRnNFBnb8h5Ntx8JZfjnZtN6QSs=
+	t=1784616902; cv=none; b=bX02UIqZIYl/klGQJVimWoHmiYshMT1stXMZB7CJN2LUDNFKX/Zom4IoehG3WhHsf1P2vYwTa2Asytgep3ayj1e/DR7b/YLyaZrAVfAhFyyI/7cICy5AqQC6EIAyOs3Qz0EZiAGFTM5c3w6AgAuXYjlLIv18+LCxxdJocq4wcTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784616897; c=relaxed/simple;
-	bh=DZukzCQ7CZkay93mS9H4jkJ+htZvTV7aL2cJyc7/2CA=;
+	s=arc-20240116; t=1784616902; c=relaxed/simple;
+	bh=a0af6mRfXl6o/3aQ3C/YjqVxExTXT9xiwTDCu1uF7Ko=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fFYX0Y/CnJIVW+HMWK6dspoL7+NkyTMjSmoiaapoK0HIenoXRGfhzkovomSePkB3V29pk1pxds9fdRlf0B9cPeylGpD4ljm+iQMonayAgqqAMvIYg3e0ifWvhGs3E14LNQMuTg0/YSyswmyEP9PdzgDY73uHKlCFDSSCV1jYZPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=c1PotzMR; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=hu3+zSSj5drPq02J6XvdbWlh806Lqan/YlVaEIoMdHRvYhzPtwICwpNK4Rf33OdbkjtwukR1lPNa4bAsbQDWV4xtzlhXb3WNZSl4vorN+het6/r6O/PzySP47paZWzgNG3HmRA1132TB0q5KYtjU9dpPcfv+Y86I4dnR/EHwBZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J535jteT; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="c1PotzMR"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so22145985ad.0
-        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 23:54:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J535jteT"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ccf2360620so68977875ad.3
+        for <driver-core@lists.linux.dev>; Mon, 20 Jul 2026 23:55:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784616895; x=1785221695; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1784616900; x=1785221700; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Xc02KBsQrd1xdK8Ho0VEf5G63Rz5XQrKjQwFcbcQ37E=;
-        b=c1PotzMRHOQCtIvKoYGIq2z/OjH1Q0lPRoXNxpNNnD5Q/6WoCl0f4+qduGMsc0MsTq
-         XtGi4AJeeGCT4XlLrtj1n6Ysc7ph/xg7RZasViy7Z9l0x0wzrM03ASqGVn0xG9JwLLyN
-         ooyTbQC252l3zjqwjDRobPDWwD1jZEdSiLruo=
+        bh=qjG3+Srh1l1zMMK/k1OHJ2IZC5GaA1LItCzYqUBfaa0=;
+        b=J535jteTRVix94VC/O1ExtR09OCgaYOms9xOnWDaJErmYx9aYHreWMSl5E2GBeJL8H
+         AL88N9q+PMlj0HNRh+ceijGuCHYu1zwi99ESk7bLFjd1ghmJaw7tI6xpv+w/Wdvp9Jd9
+         kCAK8kj6N7o2sF+f0obvWLKy9Pl1EDmAnC+Qs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784616895; x=1785221695;
+        d=1e100.net; s=20251104; t=1784616900; x=1785221700;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xc02KBsQrd1xdK8Ho0VEf5G63Rz5XQrKjQwFcbcQ37E=;
-        b=iOpXfSoN6N0+T7XWgJ4sddNPJWpqBybAG6TUiLA67Ss4fEJydMzcKZzls7xnZH2mNZ
-         S/+Jb5KNOuML/oeIzS4L5h0ogrfYwniaXc3tA0nCEHrfGNRe41K0IjGdNL2tnMOEG0Bj
-         y0fmKkFuFpKbiD3fXTvxaZuwQ/isXs/5N9pK7tXfbfeV0BNOP8MTmWJHpM5xzbVy7m/g
-         S+3ZVf5bQpD96WNV/JbXGbTxL30HynwXZ5RWPlid/a/eoHZBQa3CwJg6WQZzn90WId5d
-         AWiX0H+sB4dii6yqY3jcGItb1GpUz23BfUsG+dDe5PXJFkOUR5lfETymBYhWThVsc9Rb
-         K4fw==
-X-Forwarded-Encrypted: i=1; AHgh+RrxIoxr7Sgw90Q2XcDjoeQB2Yp8XpfR9fhZ2ivA8dQQpTiM4lx49zNKCqe0aWAvOMs5op7yNEaPYVQh1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjzconMVSdCjCwgtAJdMu3XlvpWojct332NZl6oZcew7N+r3CE
-	CJG5prubvMTqSmnaeHr59zjdi3ERykZC5CE2aghRot67wNVi650mDGncHhbVnGh9NQ==
-X-Gm-Gg: AR+sD131uvkClJSkVHgdyAVxyh5ORUWXWYHxnCApKByfH6OXYKs6/QIv9nSSaGrk0V8
-	ScOp76BxRHoDbR5RyaWFzKr+jBuWS0OjRC+rzjEGfBBa0jWCXWJPIdN0LB6KGAfqbfUS38UKjH+
-	ru54nVk0kSu+xC8XD2FkvRpoXOjylonq9b3b9mdETgFHT/QXDGfKLZXBfYa5ZWl41FjtWc5OctO
-	kPHGS8UjkXiFb/HaUl/18n19iOiJCJT7JzCzGP9gmgpFq1kPcEpONlG9Yz0FJqdJWGKJ3WhjimV
-	X05bKT7X6fGE7OLg/uffjSCYkUQmbL/3R3lMuqKogsUGaxFOqqolzEXPhbN9saG9rCjkyeloB2g
-	aNwkS0MIj0t+QcpVDlxj49Cu4lFXtdACi6OoK1/oeBFkYeUZnLS++UaVUBGn44s9gP097NL7xqW
-	35WtxldnGenTgNZgG5pmsa5CgyhMJ1QsbFRUjq1osOl/lkRhnMMJ1hU+w8VoY=
-X-Received: by 2002:a17:903:41c3:b0:2c7:1200:bd7e with SMTP id d9443c01a7336-2cf3486b0b1mr185750155ad.18.1784616895361;
-        Mon, 20 Jul 2026 23:54:55 -0700 (PDT)
+        bh=qjG3+Srh1l1zMMK/k1OHJ2IZC5GaA1LItCzYqUBfaa0=;
+        b=iDHyk5jAoOBDPFvLvoMNUeVb5nGDpNhdFLnC7VRQzcy35U5Pl3atkkPrYXIS3Q6Iap
+         dbRVPKlF5wMtRTRkRb0bRd8XXh7dDc2WC8lTnEbdauuZcK3bC7pvqNDOJKlcrFKRrXdM
+         qkPk8KOOZVr1SNz6xx/ZD0R6lmBTCnYAYKT+VuzEEjK+5X5iFlLu8xu2QIDKd0PY72C9
+         WlxesamB3eUDA6YyZIG1j4Z+XnbWhjn2DXCaeRjpkywQ+B3wpfNS0DuEwbjxY4d8sceP
+         tx00C5qdCKEiHlt+f8/rjZdtD7/FQa+lhduEdNf59QGSfKQhz6mPNsLP9XAeYZA303Oy
+         RTVg==
+X-Forwarded-Encrypted: i=1; AHgh+RovgOltI4fmm5OppiaKB+PxEoBgkrTfh9ajUazC4CoNG/StRBswiBGNKTlLCKAZfORu70y9ss9Xg4K2hw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQUvoh6BpSKURCdrwxAWL+JzIVavI82BXJsffqIYZf0AoLgw9F
+	lEgCI7DmN9Uk9Y05zIhPgbmRryCAbqGFDsELK5qNmL8t43qd5bdT5yB1f5iyIshruQ==
+X-Gm-Gg: AfdE7cmzUPbwq5tC25oNQaTXY+a5EQ8BmXoZveGbY8y/yGtV+S6GCy7Ij1sqM38745C
+	ZwLYXfBErZXiYyTmZmyQ4618gAaknWEIz9PHx3NXQMA+NIeohq9+VDb6bjRmLOZMNXtqh0STm3g
+	DMPSEKgoZnKYmQzqnnqg+kRR0UR5M6io6yhg2CgSyFFJSV7bR8c/vgbpMWgPzeRtTcVKUozjsjK
+	VDycD1Oq5K3AjZ1Cn7SfGTPLnalLjlCwKH3f7iqImF6OykLQ5LgWUX5yapb8FOJPSMnFZejH9ui
+	iwIg6PGlRDBOsGBSfI1xBQN8ZM9iIgTNuZ6+oJ4tRrhkLr/MP1B9T0AwpOSeq/+sKBNTtwK/fBl
+	c3/xw1JWNjhwrsIl2+DcamnHQfPQ5RQdV135u+Ap4ytWlsChgQcm+60R3I92iSEKWwG7GH/6Jod
+	kAKfwfjs3FByvlls/+g5yiTFZAIrR9/X2RER15dDCrFISeP3xgRT2czZ7dmsM=
+X-Received: by 2002:a17:903:1a90:b0:2cc:6b7a:dfcb with SMTP id d9443c01a7336-2cf349cc789mr186191295ad.33.1784616899938;
+        Mon, 20 Jul 2026 23:54:59 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:3916:f048:32c3:931f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448ee77sm69716005ad.4.2026.07.20.23.54.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448ee77sm69716005ad.4.2026.07.20.23.54.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 23:54:54 -0700 (PDT)
+        Mon, 20 Jul 2026 23:54:59 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Bartosz Golaszewski <brgl@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -79,10 +79,11 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v6 04/16] usb: hub: Use assign_bit() in usb_hub_set_port_power()
-Date: Tue, 21 Jul 2026 14:53:59 +0800
-Message-ID: <20260721065413.2306137-5-wenst@chromium.org>
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v6 05/16] usb: hub: Return actual error from hub_configure() in hub_probe()
+Date: Tue, 21 Jul 2026 14:54:00 +0800
+Message-ID: <20260721065413.2306137-6-wenst@chromium.org>
 X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 In-Reply-To: <20260721065413.2306137-1-wenst@chromium.org>
 References: <20260721065413.2306137-1-wenst@chromium.org>
@@ -94,50 +95,71 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-usb_hub_set_port_power() open-codes assign_bit(). Just use the
-assign_bit() macro instead. This makes subsequent additions to
-usb_hub_set_port_power() easier to read.
+The addition of power sequencing descriptor handling in the USB hub code
+requires dealing with deferred probing from pwrseq_get(). The power
+sequencing provider may not yet be available when the USB hub probes.
 
-This change does not introduce any functional changes.
+Return the actual error code from hub_configure() when it fails, so that
+the driver core can notice the deferred probe request.
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Also rewrite this section into the standard error handling pattern:
+
+    if (error) {
+        # handle error
+        return error;
+    }
+
+    # do more work
+    return 0;
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
-Attributing suggestion to Andy, since the change was originally
-requested as part of a review.
+Changes since v2:
+- Rewrite into standard error handling pattern
 
-Changes since v4:
-- New patch (split out from "usb: hub: Power on connected M.2 E-key
-  connectors with power sequencing API") (Andy)
+Changes since v1:
+- Moved "int ret" declaration in hub_configure() over here from the next
+  patch
 ---
- drivers/usb/core/hub.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/usb/core/hub.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 2cfe09a141d8..715f26f05a31 100644
+index 715f26f05a31..8f8624a0d36a 100644
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -10,6 +10,7 @@
-  * Released under the GPLv2 only.
-  */
+@@ -1875,6 +1875,7 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 	struct usb_host_interface *desc;
+ 	struct usb_device *hdev;
+ 	struct usb_hub *hub;
++	int ret;
  
-+#include <linux/bitops.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
- #include <linux/module.h>
-@@ -899,10 +900,7 @@ int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
- 	if (ret)
- 		return ret;
+ 	desc = intf->cur_altsetting;
+ 	hdev = interface_to_usbdev(intf);
+@@ -2006,14 +2007,15 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		usb_set_interface(hdev, 0, 0);
+ 	}
  
--	if (set)
--		set_bit(port1, hub->power_bits);
--	else
--		clear_bit(port1, hub->power_bits);
-+	assign_bit(port1, hub->power_bits, set);
- 	return 0;
+-	if (hub_configure(hub, &desc->endpoint[0].desc) >= 0) {
+-		onboard_dev_create_pdevs(hdev, &hub->onboard_devs);
+-
+-		return 0;
++	ret = hub_configure(hub, &desc->endpoint[0].desc);
++	if (ret < 0) {
++		hub_disconnect(intf);
++		return ret;
+ 	}
+ 
+-	hub_disconnect(intf);
+-	return -ENODEV;
++	onboard_dev_create_pdevs(hdev, &hub->onboard_devs);
++
++	return 0;
  }
  
+ static int
 -- 
 2.55.0.229.g6434b31f56-goog
 
