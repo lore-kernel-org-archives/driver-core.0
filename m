@@ -1,47 +1,47 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013058.outbound.protection.outlook.com [40.107.159.58])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011007.outbound.protection.outlook.com [40.107.130.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F31E298CC4;
-	Tue, 21 Jul 2026 10:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BA9337699;
+	Tue, 21 Jul 2026 10:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784631085; cv=fail; b=lD6BlD9iXYcEhiI1P7enIyUMHAM8gbOtFiiI7/VR7EHIhxjfM6/0Ta3mqMR+IlMjoQMoAUwhzsNw0RTJmldUsgq9Y9PKe/zw/j6LQWhvxmM/7oeuMNDcb1kUNP+o9Rpqn0UaO0hnWLobT8eNbHSLlPXdY4MQ72kZTMcpB9JLJgg=
+	t=1784631091; cv=fail; b=usOb4k6gIsQgGrkNJ1QRhE/tfVvJaeNCOE33n567S10MltQb2mefql3OFkjuj+JiptT0mmz8kTQDrrE1HU5WEaUvSxbb945IrTJeJW97UXdcixt/uflrDeSyA+AQEHefxTEy4CWMom2NH4u6aQsuWimgLm4/0jr9wf8fq4Z0Yq8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784631085; c=relaxed/simple;
-	bh=J8rCzIeNxffngXK/9QRZTABo1B/JC7Kw17bBxQYLW8w=;
+	s=arc-20240116; t=1784631091; c=relaxed/simple;
+	bh=wqULSKimgAqxPJmqZSpSS3E7Q8rD9PzIChR9sVfNI+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qL6/wRDnz5b+KaY1OfzFd8cmjBveT+c3aeHRFJ65rnQ6rH5ge5g6fwMwKTnKPZ/trqVxkfBMdYkn9ND+WHMYSMP7pZqhWuszU4b0yzX63Wu5aGlRFM7jOGIjtjX3hafCn3EuvuaBuDv1h11AHqq17Ik4w5aVlD9fkmOOQxCUi3M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=LXWpMxkq; arc=fail smtp.client-ip=40.107.159.58
+	 Content-Type:MIME-Version; b=K16pDmuNxRPDpztiMc9gen7wCsc4HkhNJxwKqkiPmXdRLY3heTIZtCKw8gquv42qwhBK+jtQykh1xlG/RQxrUgua8LhvKKTGQP6UxzLeGcxR1xppBuAXrNNRbLgUtOAC2b4CIBQclYwC2LF8vnrIySC8EggAKdgb+4HRaGgQhmY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Wnbp6Dpy; arc=fail smtp.client-ip=40.107.130.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="LXWpMxkq"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Wnbp6Dpy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pF75dUmAnll59u3ceb/ezk/OlbYqwUam065ddWhRZlaeMot6ds/j7NHGHVA81hSgR1QOB/7ux0HNX0F7/KnoSoJG8hgp3/Zx6hzrEYGJx37djfqr6t2PbClQPj1ufKxgDkFxZvQM35A952wATJIjGu0Ksu2RW50iR9HA6vZ764rb3V/+ZI+U+30G6Z+RHKUC6bgCD5Sk5mLTMyfayMnfznppMBejiOWZ56Sv3u7Y3wDR8NWkLNrounx0QhkF54g5E+W/IhICaCGIpgnpUFAKLWy/IeR2phP+GYSUBYGMyUUogBO7EcB5TSwyPAwpIa6l5HJimslyEmGdheRpekcs2A==
+ b=V6tgxxkHUAObpgHa9+W+MUH8ljKdvrrmPnT6mbP2HXjym5Qhm2uOE7AautOGI/5F5wKXRHJVOoDKhZuQxjT+CxKjjP5FZXOj4djHOe1f1uCV858RtSj9phqzd3RbZ/mJUvQazvMhIjDOhi653Twso00gkkwM+F4ZvR/BtifmXzzcFYMif/yjQyAmShuxaD3kmdN7ABvbcc5HVOoXvmp1M0/Nbli+3iNIJFqnH2iD8B3xFqcf1TV00+Sh0fZFHpxqlb8Rc7nosqogMIuxLgb+yLQu+92jw+hasJvxiFExrs3e+nBJy8hroZU5eS7bIN+ci084QTLqXkob8eEZ5b7m+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p8my5e5utQcVimemFNC3AGNHQx9xNq9RLLew8RBx6uY=;
- b=IccbYg1qD4G2eESa2UjJ01hQDCKJktF4TuDeLbZsnncpHGb0m2/aWo7XboWaVRDcZ9oG4pk/e0QtIzbFMEBDZXtCNCeFPr7cdhXi39yK6afgNowgbsF8ffL47RheCJulmsIbkNFhx+OlhGXYzZFCu+9OPXUZHdNjH2iAPCXYkhFyN/QDGt+32LFf2gSFHby/rVLE050AbHm/9wKPxIBG+IZTYm9PJUCM8ziOTMGLzIV5biz22ECWcPmiLv/J3kQgIrp5CGyaVhtbUviMztqyVlu5pJycf7IrdzjFz1BzvDua9C9gE/++cAFfa70T2JWn/ITdVLh6oR/OFHnu06nExA==
+ bh=XqDVVM64cjKdZhanKSfZIraljYYkdqUobq+kXEkZ00Q=;
+ b=WNocJfCDoFueRvldM31wmAhtqpx6sZ4zECp506UZgaulK8BZLkECfaBM/fqIAWaruP2iCkDd40qcj8erfiiF/bj3yy9Syw8b1jxW+Dt6O5sp7rBQdm0KPMtro3XbH27VTxX0BzokV79X0Y+U7qzUEPUoL96yQHzDrZADX01DseCFYRMjZRKm7I0wAn36dSVwSryX3BiZmE6so8YBXruRAplHSnZjdaoqsSbtqXkwJamQ1x5nniJbSGq+VU/sZG40U6ZIEt4c1QIi9VIFLqFjMWWZgBTaLjjG9fIIs6oXNUtHSGO8gv/q33eX6XLGQG3+zshuhKGx2u9mzD5fj6dlZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p8my5e5utQcVimemFNC3AGNHQx9xNq9RLLew8RBx6uY=;
- b=LXWpMxkqJtm8ct2GsuNx7tA+pTmvK3bKkGZLEgwPK2W7RRlwUdnmqk7WeSBinslKpSMiGxLhIw9AUR15+gMUJNaKnnp6WJEqiwxMHndJQp/oNT24W/d2frusMCWg+hsAnGGUUdALHoZDNFKXYxQuQQWSULPf9aCc97rxrSBDsZh4E80tCwQ34mLKebJ9NvIcvfn6Z0e+rkvSMPNw0b0NmOk0ZwusGnKO2oE1lPz9fatdpPXigWBECbDz1MdhwgiVctEY2PtqNdm/Hw2g6njZ+qD/Mj9kEJaYayz1xfQ9YQ9+E3t+nmywRmlIKLvhpI+php9AD9OXAbWzaQfV0bZsrQ==
+ bh=XqDVVM64cjKdZhanKSfZIraljYYkdqUobq+kXEkZ00Q=;
+ b=Wnbp6DpyH6LrWtepfWlYkSflNRYErdf1QYGJvyLSe2Du5BPNrE0FK9vNlN3xR6SDcWTghSc1RKwioJDgkj93jVpxP96FEcjgwHz5VlD8tSpEQe7JCqR2kM8pnE5l5f2Ewzlq60ECWCyactUykwJKSyqAJOArdWzwtuNAvNfjo/d80cu3wY5zdhJcS5uF32VlJGZy3ehbbmlxO+2KHbczC30nmcrV70LcOupSg3nJ2g+mhhmAD0x+Bha8dJORQkqC3rPMzDJ2Flox9ycr4P9pOiKvdFGGPGI8NXOx0P0MND36kaHlv4MvWTOvsouYe8X8GBzEzfijVQolhw6/L1aQPg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
  by GVXPR04MB12105.eurprd04.prod.outlook.com (2603:10a6:150:335::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 10:51:19 +0000
+ 2026 10:51:26 +0000
 Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
  ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
  ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 10:51:19 +0000
+ 10:51:26 +0000
 From: Xu Yang <xu.yang_2@oss.nxp.com>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -54,16 +54,16 @@ Cc: bartosz.golaszewski@oss.qualcomm.com,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	imx@lists.linux.dev
-Subject: [PATCH v6 1/2] of: kobj: export of_node_ktype for use by modules
-Date: Tue, 21 Jul 2026 18:54:47 +0800
-Message-Id: <20260721105448.2109894-2-xu.yang_2@oss.nxp.com>
+Subject: [PATCH v6 2/2] device property: add test cases for fwnode_for_each_child_node()
+Date: Tue, 21 Jul 2026 18:54:48 +0800
+Message-Id: <20260721105448.2109894-3-xu.yang_2@oss.nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
 References: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MA5PR01CA0159.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1cf::9) To PAXPR04MB9422.eurprd04.prod.outlook.com
+X-ClientProxiedBy: MA5P287CA0032.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:17a::10) To PAXPR04MB9422.eurprd04.prod.outlook.com
  (2603:10a6:102:2b4::21)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -73,109 +73,258 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|GVXPR04MB12105:EE_
-X-MS-Office365-Filtering-Correlation-Id: e62647f8-2dc5-432b-a16d-08dee715fed0
+X-MS-Office365-Filtering-Correlation-Id: 417f4c7d-6f93-4e7c-3448-08dee7160331
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|19092799006|366016|7416014|376014|11063799006|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|19092799006|366016|7416014|376014|3023799007|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	KEbkypeuwJ68ku9R1AJaqzFA7usbXBu9FHDsIUAuhOrhymL/VuFMtsutQK6dsWBHozoZRyg0JdCf2LDIaDSs0Z8tsfu9AC2NrNu8FT0scVRAQcpB5wUemxr31dHEIL49BhSoCVJWHyfUAhe62DGOz22STQiWUIeeUDj1++CSU0XteYbXM5zTPDaAEX7jorDDPYZXE1FB8nfGhl+cn/xMZPhsMY5QR8kfvQpt1NPYCtp7Vzo5D3LKdPYRZwx4ckGPLXbGWew/+i9Xbwqn6Aq2nEGstmudw4wsTCN7zt7x7IDT7Me8BIq5HMzlaxoyQ01PKoJhfbuQ5RCPmrlT7DlcbfjNPJS/GHFmaV00rhlm692HFzURFLYBr4lcLJppTmGf+/v1Nkn/z+HtUejHC7GHaGMXLJJeoT1dKnyZs3mO6UjOLV/adyv0kJ2sHJUwHzoHg4q6ESaKJ+MHDKrXqZx2PZhJ+w0TIengY/H1yba8zM6key+xrqj3Iy2bxdrb4xJEb8k48I7XtjSbZzZavo/17ZkzdmjMy+YAm4yDDcalDKhn2JgycZlYhNiTWlr8KhhXJJJ2hSfJebK7gIIRufCCPTm7Y9neJ9PZUQScrN+Ae6HLchbCFTvSaZEqCUrSDVi/9Cjd47OfGoX03nmax6v8I1sHgJjLq4rdMHyZ30T4hbA=
+	ngfNn2TVZKXveNVv8jewQzyvATR9DnlEMuQ1emhlzKN5CJ++FPMEfaBvZ5xaAihD5F6NIy003Xnk0/StVEXYnAEKTZT1y7rbBSKH+KPG6JPKRBbGTmXAQMjPc7wdcQHDFzfKJsf3KHfwTq/HxW9fmMnXaPjzdskIiyS4AogxI3SPf71Ia7drWBoZy97+ywljDhdoQ9XPUoGSVZe/DJ64Xe02NiEYNA+4Ge4JpDnEUWg2ohgY/4vOJm0LTvmUt9/fDfr44fqhU3600z1c3h3rjBL1Qjb7XkU2C40sudNiaSk9e8SPLPoQYnWzqABqahROvUnxXrM9Y4L60uApXenczbkMNISjlNV8i5uUCOKmqGjNUlDAPHagaNjov2ST7KfccTTbEOFVsuYHvB2+rJ7uOVObtR6HayEoNZ7EzCH+8Vu1uxyhhV2/YXA/sf/GPzv/GPymYrDBpdwXmWA3AoHy+VONPQdptmsHCkeyxNYNk82svQxYcrVprDuZQioGFZgOBQEuPZ3MpISlKSbQxdV49kVqKs5d3Q7hNo2vtZf7Nay/AvHLM3EcKCac+CXLRCo+B3yUivwL/vPmGpP1cfvAYxt8VfkjABLzgK1NQu8iIGzCv1Gh1ut6K16GiD37WUDvAeD7mK9HMOoSFj5zw7o/AZ/P7z3gqq9T7wNzpzQGqmU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(19092799006)(366016)(7416014)(376014)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(19092799006)(366016)(7416014)(376014)(3023799007)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?g105eQw3GWi5gZkotHaS5NWITYndrv8CFkHCEvj16Lnt0KDPhePOIRV8/8ow?=
- =?us-ascii?Q?zoy7HdPWnRB5rrewdRwLCLdwX1kLEJ+BYQT53D019UGKywlHX+U9USJ2RY3n?=
- =?us-ascii?Q?gosC6eQzLaQf17W46DxkzUULqd+QPuM1tlP5suONwyzqzDo3cv6vTWW64faP?=
- =?us-ascii?Q?pEfYECKtAmlyzDWQQR6QNE6pP3OZdvFehuHrliuq0YTESEjYLe0xbxtDLtUb?=
- =?us-ascii?Q?djbN/FcOTZ3Gv+6bDma64+x4UPqxKt7YO5wlxjxedlIy2T4SlN1L3jSjsOUV?=
- =?us-ascii?Q?yCi3MRxE0r/Yz5ZwtdV79PdQjlp7N/IB2B5a+M3kD/wSBRwDp5ZsTFEu6lHn?=
- =?us-ascii?Q?RkvrsLAjUwGd22lk5mL3v7ZuQjctHyszAfYQ78egee5KIdX63oFwcsyyeW/D?=
- =?us-ascii?Q?qgUf1drPdmMPsvvt9FnwB4hIG7bmLJBnlcunEEVFc7W7GYkZr8V1qFgZpLpW?=
- =?us-ascii?Q?zzsRcAr3keRlHl84/I/6nYnIcLOiJyTrckPigOS//xEUPSNO4F69QGpX/2q6?=
- =?us-ascii?Q?hn4eYFIs+6QONkucyktBmT4AE9TNTAUtIfhBFV1A4OnkE7K/oZKO4yt8ypaV?=
- =?us-ascii?Q?+/LDqchrSayzSExtfqTUCZaf8IJUwsYRr9zJs9jWQuaXTDuyqa3dEf+DDUWw?=
- =?us-ascii?Q?U+F0NdNfCBB4cwr2SdWsArQvQQEhC1bzSD3hPaPIuoy4chxmFW5Jx0+2Bf0Q?=
- =?us-ascii?Q?dRqix3Pe2mmt/frXCR3H2DWAt5lMxm5Pe/sKRYsODEBjyyIqpzKjR1DFCwHq?=
- =?us-ascii?Q?sBrf9GoIo6uBl87YreRnaGg9GDBZoKLzMsQWINxy3tsVIErXyhq9QhiwHDHE?=
- =?us-ascii?Q?78KjJGUr/gaCDbK7A/4eyy85fulSEfuu3ddMjaaMcaax0K/oh2uYM11elmp+?=
- =?us-ascii?Q?FpzJYthHvmROOSrr9yPe1Ibh8WGOniZl4ZMfMb1qlyZ4GJqM6I3FaCasPM15?=
- =?us-ascii?Q?Qv1U6+5Qo092Gyr8EFVXwf1FjMJTvSUP8VexSy593uOPF9adtHqAVxVEZlm5?=
- =?us-ascii?Q?SDRbAGnWUyLcIwGqA//9RZSjXbPjt4pCcmkKv+WxRCzn3sGBIxIJvCN44HV5?=
- =?us-ascii?Q?CAPYvbP2QCZhPbrE5xevH7R6MMikdbXA/Cbva0UhuYA+XUFh2SMNQ4UjJNYq?=
- =?us-ascii?Q?3l0f1gmAoaNy+3BPFGkfT9OpICfYDhiEWy5H1yC6RnhoyBbvqaDrkcI2xW6l?=
- =?us-ascii?Q?4KLvq8VBcZWqq4IOPdG6JmhQIRmNtGkj2jegxogc4hqj5muc5B2W4BIUJWU7?=
- =?us-ascii?Q?zfyBhWm6iq+mzbPxSS0d7se+mpLhreH4lUZzTiB3ogns+CV+9YM0n/z0CU6h?=
- =?us-ascii?Q?fVNuokSqYARZ2Tw0mqCHRHtK1qRJU0TxoJto03928C8pmJXo/RfLQ5xX7kdd?=
- =?us-ascii?Q?BtVwyNmINwxDPArcwsOMOUB+1N37qlAy8FsN2+ToZ4KOWCVIQXr6JqvGgOgN?=
- =?us-ascii?Q?htomU3LEGtaTFmxFu9MLoRi+vYuvlha8BwzS7PzjxMA04cbmfEQ3mi6upHoE?=
- =?us-ascii?Q?AgJSLIvlUCli77ZRrn+VcLYR+9kp4fG22yDXxCpiXmTejJlWyUECOkNsxNZI?=
- =?us-ascii?Q?NK6mrt1w9y6CRTFYratVjhCN3zxuDTy/0aBQazZuFSWjduvcxq48YglnH3tc?=
- =?us-ascii?Q?J8ELLFygQlJA70K20bFjM/lDb3emmZtG4rzwdEjpRkos1E6WEZ5JJQVzKvzW?=
- =?us-ascii?Q?ElhJyyt60+k0T/AOIeqQ5qMolUl4X6/DXcRx4PDGRDLxoevEMY3d3GNeYbzH?=
- =?us-ascii?Q?Udikl3Qzy0WrsOe1T1ESjucRuHoqoda4+Ir247BHOrqSsibpRpYl?=
+	=?us-ascii?Q?aEkHJdBkRnNOUHbK4kCDnb/9qH0sbIGtOAqsLTsoerwDNmYTvuUT2TRBr0dz?=
+ =?us-ascii?Q?qxA/79Lahu1faUnLC6k0ASwk/tbiltp8Sf9CRCNvTYuQAhdkMIFIaHZIpcYE?=
+ =?us-ascii?Q?tCBlva8Q6T7daXJyp0DvQeg63OHST9siLKOq1PkZewd9i7btv22Wtm8x0gM6?=
+ =?us-ascii?Q?+m8XtlvhCj9Q5zgRskltYWWCuCHUQDchg+PCO+HNBXIFNjcpzWrN2M0EYEqa?=
+ =?us-ascii?Q?9RspHi+HwdbbuRq1wOcVFn4EaYlBguH2/f3Px0a9CwDVKI2yonNqfbRHG8jl?=
+ =?us-ascii?Q?Ds2rwc/dEYPMLZVvvdsxpX058BXmslSadq3WReNZRUQXzLm4iVFT7GywyChg?=
+ =?us-ascii?Q?34YhZSAD0uDHY7Ihmwj0tCvNEaRFT5OyftjuTJTBj/50JCPTFANKRWIhoP5B?=
+ =?us-ascii?Q?ic/krTLW6aTS0VZUcplEpcptvmG28zmncwiwIlkPGFTMY2TuPJatHYGlT/So?=
+ =?us-ascii?Q?RB+bLzPs7JC7qKPfrlrMWbvuyrdEzZsv6dlcAh9Uety/hkfla2CrBtBZzAVF?=
+ =?us-ascii?Q?r3SUx5kjD1OVaPsErzEldnL3SPf1jxyHJ6h+m6F959NXNmVulHkYIgX3bpWa?=
+ =?us-ascii?Q?L0UPgpZE6hjnNO/f8tgs1lHfCKNVcWQcQiZ/hvHjxycfsKerbry4aNoALpIw?=
+ =?us-ascii?Q?3V3c5RTFMD98djgUYW1eACfcFPA/bGL72a5l7fypC49NUx1Ur4h/RYbziXg6?=
+ =?us-ascii?Q?dKT5eDtEzWAXlYnWi5Sak1VzdbcZsIhKvjOCxMRs4Q92S1Kp/CSWXC6RWCwF?=
+ =?us-ascii?Q?N3wbYVq5rJigHwcAApNJmMGNQv0Ed0+22aka+Dt7zgIMqFL7A5JwKmbleCbg?=
+ =?us-ascii?Q?zdm1sv+7jjIbUo/nrjqhZBG1D8B9nxBOKnDWXPfv7ux6Qyww6ExAr+J9dH6h?=
+ =?us-ascii?Q?Ps+HBguD0Tx8FzZbeuAXK8o60AVT6vueh/AAINNyIrYDeqoerxz9Udhq9p/H?=
+ =?us-ascii?Q?4UHoVfE2rJt1Pe7PWu/zZF5DqFukFFl9M8cuIJT6hLbMSCPCRwMKpns5foeE?=
+ =?us-ascii?Q?SW+vcGq56hC+I6Y7LfXFbJUKNYK+ixbm/raSYorfqFoV2qZhJiCs7cwLO941?=
+ =?us-ascii?Q?DlRLoZKhI3Xw8NSp2kwyVCwYd62EFKe/9yDrxcRajOcDvHdnwVuoyTzIdghQ?=
+ =?us-ascii?Q?lYgoTnD1HxY0DypTxrqLSPAtxmnwS1HjV8qqVstSgNy/ntCEG6n0yXHLCcrK?=
+ =?us-ascii?Q?ieyr1AyvCBx4jJmwpxplWZtT/+l0VX+zFqG+fWoFA6YqnF8d/LliYoK7YxSO?=
+ =?us-ascii?Q?93KplyWldiawN6XcNVCyOKC6j0M+np7zCTzZPTMcf1g/QRjCOUUvLL8NmxTw?=
+ =?us-ascii?Q?Gv/sG4ZXT6N4/1ZEYD2vGOyiVNRPiX77eZi7+moDbohr2OSc0dyq9sqISNO2?=
+ =?us-ascii?Q?K++rc+FlrZxw3HmazoDLm4omga4o7gPq8/1X4fdErF+UzWVafENEyZnEC7cO?=
+ =?us-ascii?Q?Wnpkw+GrgJ+nRjjifCsI2BpQWdfng/sEewiWMYN7g17YL3FJ8k0LM/0rnGef?=
+ =?us-ascii?Q?++BykaV0NETINJ5XNTPRYVSxm4xUEChQ/VpiViAhKhWsyXWqAAUGLaWdehAO?=
+ =?us-ascii?Q?7vsgOkCTN3PRH0YdA1qect0qLw2xTHekf2RBRrhEjRxh+TE2dyyL5Z6s0qJd?=
+ =?us-ascii?Q?BvQHpxfBKGyf5tBlh1eosKkNuaE/5xiBJm/t7yF7OvlAxC/ECMj+Uw8+WoZ1?=
+ =?us-ascii?Q?BeCm1Mc3lnzcR7yt5ibZNAb36GPXfvf+e3RLPAdiF9D7yqqTGo2kflrHw+Or?=
+ =?us-ascii?Q?rs2JO+bsPw9K4vDqH8XEz5E+t4IT8yaLqR3zD/UidzK7APffhepp?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e62647f8-2dc5-432b-a16d-08dee715fed0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 417f4c7d-6f93-4e7c-3448-08dee7160331
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 10:51:19.0964
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 10:51:26.3191
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sSz6xKjrUO852qptfICRbkf3JAlJ0f6gp7TWeUihsx8lmn/PoxfAoHBYLKMQ9HoHGPGwi9IKkU/qgYY5zYYgKGKL99pXp68pAHXDW8xrvC+vPdC/pwz/bIRhbCa9nTAV
+X-MS-Exchange-CrossTenant-UserPrincipalName: +vmm5RTYH9hRUSe7J2q3f1iXuAG+8enw69j6OfJcMfzUWGxyRR2DJuHS+qAU0ipYcJJJQhYfj3W97290+Lfk1IrRo6vr2OMcJBoScdjH25cr82RGGAhGpPk+hM/x+9+J
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB12105
 
 From: Xu Yang <xu.yang_2@nxp.com>
 
-of_node_init() is a static inline that references of_node_ktype when
-CONFIG_OF_KOBJ=y. Any module that calls of_node_init() will therefore
-have an unresolved reference to of_node_ktype at load time, because
-the symbol is defined in drivers/of/kobj.c but was never exported.
+Add test cases for fwnode_for_each_child_node() API.
 
-This causes a modpost build error when CONFIG_OF_KOBJ=y and
-CONFIG_DRIVER_PE_KUNIT_TEST=m:
+Test command:
+$ ./tools/testing/kunit/kunit.py run property-entry
 
-  ERROR: modpost: "of_node_ktype"
-  [drivers/base/test/property-entry-test.ko] undefined!
-
-Add EXPORT_SYMBOL_IF_KUNIT(of_node_ktype) so that modules such as the
-KUnit property-entry test can call of_node_init() without hitting this
-linker error.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202607181651.RnUuV8n6-lkp@intel.com/
 Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 
 ---
 Changes in v6:
- - use EXPORT_SYMBOL_IF_KUNIT as suggested by Andy Shevchenko
+ - add MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING")
+ - remove Andy's tag
 Changes in v5:
- - new one
+ - add patch#1 to fix "of_node_ktype undefined error"
 ---
- drivers/of/kobj.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/base/test/Kconfig               |   1 +
+ drivers/base/test/property-entry-test.c | 137 ++++++++++++++++++++++++
+ 2 files changed, 138 insertions(+)
 
-diff --git a/drivers/of/kobj.c b/drivers/of/kobj.c
-index 1bb61a2c3399..081b8fa38603 100644
---- a/drivers/of/kobj.c
-+++ b/drivers/of/kobj.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/of.h>
- #include <linux/slab.h>
-+#include <kunit/visibility.h>
+diff --git a/drivers/base/test/Kconfig b/drivers/base/test/Kconfig
+index 1ecf0791241a..542ce07530a1 100644
+--- a/drivers/base/test/Kconfig
++++ b/drivers/base/test/Kconfig
+@@ -17,6 +17,7 @@ config DM_KUNIT_TEST
+ config DRIVER_PE_KUNIT_TEST
+ 	tristate "KUnit Tests for property entry API" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
++	select OF
+ 	default KUNIT_ALL_TESTS
  
- #include "of_private.h"
+ config DRIVER_SWNODE_KUNIT_TEST
+diff --git a/drivers/base/test/property-entry-test.c b/drivers/base/test/property-entry-test.c
+index a8657eb06f94..855e73b9b21f 100644
+--- a/drivers/base/test/property-entry-test.c
++++ b/drivers/base/test/property-entry-test.c
+@@ -4,6 +4,8 @@
+ // Copyright 2019 Google LLC.
  
-@@ -27,6 +28,7 @@ static void of_node_release(struct kobject *kobj)
- const struct kobj_type of_node_ktype = {
- 	.release = of_node_release,
+ #include <kunit/test.h>
++
++#include <linux/of.h>
+ #include <linux/property.h>
+ #include <linux/types.h>
+ 
+@@ -489,6 +491,139 @@ static void pe_test_reference(struct kunit *test)
+ 	software_node_unregister_node_group(group);
+ }
+ 
++static struct fwnode_handle *create_device_node(struct kunit *test,
++						const char *name,
++						const char *full_name,
++						struct device_node *parent)
++{
++	struct device_node *node;
++
++	node = kunit_kzalloc(test, sizeof(*node), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, node);
++
++	node->name = kunit_kstrdup(test, name, GFP_KERNEL);
++	node->full_name = kunit_kstrdup(test, full_name, GFP_KERNEL);
++
++	if (parent) {
++		node->sibling = parent->child;
++		/* set the node as the first child of the parent */
++		parent->child = node;
++		node->parent = parent;
++	}
++
++	of_node_init(node);
++	return of_fwnode_handle(node);
++}
++
++/* Verifies that fwnode_for_each_child_node() can output correct children */
++static void pe_test_child_iteration(struct kunit *test)
++{
++	struct fwnode_handle *of_node, *of_node1;
++	struct fwnode_handle *sw_node, *sw_node1;
++	struct fwnode_handle *child;
++	int error, i, num;
++
++	static const struct software_node node = { .name = "sw" };
++	static const struct software_node node1 = { .name = "sw-1", .parent = &node};
++	static const struct software_node node2 = { .name = "sw-2", .parent = &node};
++	static const struct software_node node3 = { .name = "sw-3", .parent = &node};
++	static const struct software_node *group[] = { &node, &node1, &node2, &node3, NULL };
++
++	static const char * const of_child_array[] = { "of-1", "of-2", "of-3" };
++	static const char * const sw_child_array[] = { "sw-1", "sw-2", "sw-3" };
++	static const char * const of_sw_child_array[] = { "of-1", "of-2", "of-3",
++							  "sw-1", "sw-2", "sw-3" };
++	static const char * const sw_of_child_array[] = { "sw-1", "sw-2", "sw-3",
++							  "of-1", "of-2", "of-3" };
++
++	/* 1. Test OF node child iteration */
++
++	of_node = create_device_node(test, "of", "of", NULL);
++	create_device_node(test, "of", "of-3", to_of_node(of_node));
++	create_device_node(test, "of", "of-2", to_of_node(of_node));
++	of_node1 = create_device_node(test, "of", "of-1", to_of_node(of_node));
++
++	i = 0;
++	num = ARRAY_SIZE(of_child_array);
++	fwnode_for_each_child_node(of_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, of_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	/* 2. Test SW node child iteration */
++
++	error = software_node_register_node_group(group);
++	KUNIT_ASSERT_EQ(test, error, 0);
++
++	sw_node = software_node_fwnode(&node);
++
++	i = 0;
++	num = ARRAY_SIZE(sw_child_array);
++	fwnode_for_each_child_node(sw_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, sw_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	/* 3. Test OF (primary) + SW (secondary) node child iteration */
++
++	of_node->secondary = sw_node;
++	sw_node->secondary = ERR_PTR(-ENODEV);
++
++	i = 0;
++	num = ARRAY_SIZE(of_sw_child_array);
++	fwnode_for_each_child_node(of_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, of_sw_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	/* 4. Test SW (primary) + OF (secondary) node child iteration */
++
++	sw_node->secondary = of_node;
++	of_node->secondary = ERR_PTR(-ENODEV);
++
++	i = 0;
++	num = ARRAY_SIZE(sw_of_child_array);
++	fwnode_for_each_child_node(sw_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, sw_of_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	/* 5. Test OF (primary) + SW (secondary, but no children) node child iteration */
++
++	sw_node1 = software_node_fwnode(&node1);
++	of_node->secondary = sw_node1;
++	sw_node->secondary = ERR_PTR(-ENODEV);
++
++	i = 0;
++	num = ARRAY_SIZE(of_child_array);
++	fwnode_for_each_child_node(of_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, of_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	/* 6. Test SW (primary) + OF (secondary, but no children) node child iteration */
++
++	sw_node->secondary = of_node1;
++	of_node->secondary = ERR_PTR(-ENODEV);
++
++	i = 0;
++	num = ARRAY_SIZE(sw_child_array);
++	fwnode_for_each_child_node(sw_node, child) {
++		KUNIT_ASSERT_LT(test, i, num);
++		KUNIT_EXPECT_STREQ(test, sw_child_array[i++], fwnode_get_name(child));
++	}
++	KUNIT_EXPECT_PTR_EQ(test, child, NULL);
++
++	of_node->secondary = NULL;
++	sw_node->secondary = NULL;
++	software_node_unregister_node_group(group);
++}
++
+ static struct kunit_case property_entry_test_cases[] = {
+ 	KUNIT_CASE(pe_test_uints),
+ 	KUNIT_CASE(pe_test_uint_arrays),
+@@ -497,6 +632,7 @@ static struct kunit_case property_entry_test_cases[] = {
+ 	KUNIT_CASE(pe_test_move_inline_u8),
+ 	KUNIT_CASE(pe_test_move_inline_str),
+ 	KUNIT_CASE(pe_test_reference),
++	KUNIT_CASE(pe_test_child_iteration),
+ 	{ }
  };
-+EXPORT_SYMBOL_IF_KUNIT(of_node_ktype);
  
- static ssize_t of_node_property_read(struct file *filp, struct kobject *kobj,
- 				const struct bin_attribute *bin_attr, char *buf,
+@@ -509,4 +645,5 @@ kunit_test_suite(property_entry_test_suite);
+ 
+ MODULE_DESCRIPTION("Test module for the property entry API");
+ MODULE_AUTHOR("Dmitry Torokhov <dtor@chromium.org>");
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+ MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
