@@ -1,74 +1,68 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022119.outbound.protection.outlook.com [52.101.96.119])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F743B388E;
-	Tue, 21 Jul 2026 14:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1D04C9568
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784644498; cv=fail; b=A6Ph3E2QEfminfB19FYbRox3KbMambQWjnBvzosXBmyT0jU9PmtjUa7MxxUVtzYY4a71oSyfJO944eVdc7X4SW6TQClKbBd504sh7ZQbcEo9lz3OKeMoTL1+g4FrIHojeT4aml7tWqd0IeTSSBhG84WDF+Kq2yt3b9Es5A7BKN4=
+	t=1784645854; cv=fail; b=R0CRGWGHH357h3msVcz2Za67WVqxoaY0TXWIVke9KpE2z+9QooMtHiRqgH/ritaWgLjeaPs93g61DIGrIpV3qIZmlZzPL7xM2aRXO73TitK+3LRQvoZYRaiPCN0Tu4HtrxnmDzA6YRRsziI56IBDxnjhIpxwr6J4LHNd84wdW6Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784644498; c=relaxed/simple;
-	bh=r28xoxOcVXlaXZJkQxheVnB5r8NbVxWR1HsH9Ujkd9Y=;
+	s=arc-20240116; t=1784645854; c=relaxed/simple;
+	bh=X1Mx02NTqlHjzBHB+7hhbVvE2RK7dFvKGUeBhXCXVWI=;
 	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Tq8BSCo5p0iCwwTcgn0yNH6XAR1lWpUN8FG5CKD7Kw9ij2WVQTtq+NX2Nn93rwh7tNXUqSnwRaR6/J0ZzPq5DmYFmFIPRVwguxQeQTjOjLY3OhP0zMezDuPsGpGGGV3TteAsJR9YJgmaUYxdimJ6MH3itVIMYmFEJSSZZyJ2hYo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Av7Buuf3; arc=fail smtp.client-ip=52.101.96.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	 In-Reply-To:MIME-Version; b=DzqUDEWVzhS5yDnNXv0sedtl2/OupwStVs4hVeQRGBqp4pOAB6a50ddR0zUi2cghl31VVRX4N6x4HVGtKAn+hXcKOnrZJOjzVcSi8bCwhbIUNKprHclqtT+efSMO68lecPk/ltqcQxxHHb4h43j4k9bxgRc/fUv9mXdxp/nhk5s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=k8vwEFUQ; arc=fail smtp.client-ip=40.107.209.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Av7Buuf3"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="k8vwEFUQ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vp0mjKmV74+uQ/yl4m/NbNptP5/wOxxHtbF7MLlz6h08sTNoLT5fRqbDqnUwCCW6FFF0nlwi1D/+jjTYqEbVxESThSie0DqlUS39s12dfRnMH+EDMA8f20s1w9yL6ZVQEcYswvW+aIoSufTOvT9LtDGV0H5mpbSWBO+dxTLZ6QfRxEfMzcq93HgsgUEeKrtC7HA06NRwUh3lFOHQOJm6Ph5frSPPnkpJLceItUvUmpsMvoE4WkvGKlUohC86kps1kOL6IwZY1TfTajZBYatBJLC6ihykDpWScBbJ3d3/KE3fFPEdTwNqZz3nYozcta2JWHPE8ALr2uiLhdlYeLelfQ==
+ b=bWOjMLhOliFdHDds9SZ0kaTVsrcmlRgChfCmgUakA7ahtk5BT334jcsK9JaLZPgrnSwjTs5ZcV/yeEpeWt3n6vye3JMjXZI0qg8M6o37QGLHSbBLOUSoGg9w5ozumLcnglmzhXF3zvB00zwykPl6gZEnbPRcSD5TlUFWRO0uyNvrUD2tbo8sMNk4NpQe346sGoYe1WAkH6PkMtNZGxbbu9wP0/fbj8dJS0z5uHo7Q1fWm32F+9V/K1N/dlAXysJNPdW4y4dvDzMao+ZYgPGLVKvog4nnLx6d6O3xUe1bXs/y8Ek14rrU3N0nFq3cNdRYC53GrU8uT2ieyeua4KqpKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ELscFbLiplbBiG1bfTtCj9Icqrn63aGGc+JGVGbFvZQ=;
- b=YwNR6e/4mNBCvnJGy2G3VUqAaIQQUE4es0NYjmyXVpTtPOmLmFtlVdEqeKLz7RSXalK+pDe3AUf5rIx+Oxpx//mjVjsDgdV8MfJjLPObfhhQFkCMySHtfBorDqU0D7m+inlWkUZsu5pGaj2KJHB/GPQKDuCt0KIw6e3NeYVwwsd+j+sHlfbv51+p1A0zNauVIa9qm1/zz9K4Y4p3fYZQNv/5GpDB0qx04oM95UN7EYSWoXwbyn8VIImlniirhLV7jrUS7rRmk1FbKpztZggsTijS7Cw0tN2JSDt6MEG4p6hF1cJRg86ZfFXJAtWfsCWK9IeKSvNsv5QCmk2+qsUrMw==
+ bh=EoQqPqgqgU8Cv3FnzjYU/Y7H55d4YzArGyPj79gvu0c=;
+ b=yBk8HzvgNTAmfpKKKPuW/ZGMHn6kBbB/BvfEP18A7HxGokH5nan75soIT5qIBvEC0bSnguMgMlxs+SN+P35LP+ISzUI2Mb8QxZG5f0CjzeJ/fTNS7BF/0r0k6IONjkhM0FXTSulmEGNo/8y1M6r7E+S3i2r9v8F5pIxSjbe4OGftpFMrS+Gzol5ZLYhqIFxtzAow3N/WykylVCOqWQWlPpu/wzmweV5yaNiQQnF5+NXsKuOU9C+3wYHXEmyq2txaWd3Kklolid4eCGgUO7acFuxJFjiS/IybNH0w1zJsO5Edd/pcxk4aGg1IsCWMz7rEF1ErVXsaYrmLSpp5fz84tg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ELscFbLiplbBiG1bfTtCj9Icqrn63aGGc+JGVGbFvZQ=;
- b=Av7Buuf3WmzkMqx5sbpECGpGnBmp8TGnrwKEq7zdF9jAv2u1xD6CudAqTgShaqyBUACJjJXlgULYgnoWo7MP3TguIwhIiyikQlo874uGli8m7OYz3/W2r+GGbduqBclyzhdVOYUogGmJ9fIfouExUggFmNdFSs4T7a66plAKJPA=
+ bh=EoQqPqgqgU8Cv3FnzjYU/Y7H55d4YzArGyPj79gvu0c=;
+ b=k8vwEFUQBOB6tHk4bg2L09epMwiPUHYkSQbCG+C87IHQIQ1gclWpDyGefWCvLExqjSixQB5It/sNxqSu1vQcrYSmOCuCutj5L0zyjeW9v6raW69KXjkb4ZOzw0geYAR3/4ys3+/n0HMEsof1uchWlv7zifzvuLiRhtUe81q16iPtCrH2IK7sphjUnWjm4gJT7/6y9RLgNERYDuX7SCTpqoo3UMam3+u+/ZKC7Rg6p6W9XChvsgWrxJLeGfl7RIrbvj40LqzJfcLJbZ9/7yWwKCrIorVU7YUvLJneIVbIA+b0EkXG2TGaNtmGGYTVW0iY1q10yYeTfJoPUvZJt3KxqQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB2214.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:77::8) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY1PR12MB9700.namprd12.prod.outlook.com (2603:10b6:930:108::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Tue, 21 Jul
- 2026 14:34:50 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0223.017; Tue, 21 Jul 2026
- 14:34:50 +0000
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
+ 2026 14:57:26 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 14:57:26 +0000
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Jul 2026 15:34:50 +0100
-Message-Id: <DK4BO8HWCEPO.3VN9LIY5UQXKJ@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>,
+Date: Tue, 21 Jul 2026 07:57:19 -0700
+Message-Id: <DK4C5GHMXU5G.287NUJIM67T6O@nvidia.com>
+Cc: <aliceryhl@google.com>, <daniel.almeida@collabora.com>,
+ <ojeda@kernel.org>, <boqun@kernel.org>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
+ <bhelgaas@google.com>, <kwilczynski@kernel.org>,
+ <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <mhi@mailbox.org>,
  <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 0/8] rust: io: register: allow paths for relative
- register bases
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-X-Mailer: aerc 0.21.0
-References: <20260721-registers_fix-v1-0-3711b2317e1f@nvidia.com>
-In-Reply-To: <20260721-registers_fix-v1-0-3711b2317e1f@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0660.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:316::13) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+ <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] rust: irq: make Registration compatible with
+ lifetime-bound drivers
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+References: <20260719153631.559341-1-dakr@kernel.org>
+In-Reply-To: <20260719153631.559341-1-dakr@kernel.org>
+X-ClientProxiedBy: SI2PR01CA0006.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -76,127 +70,241 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2214:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6cae0bef-4bb7-4c8c-3223-08dee73538e2
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY1PR12MB9700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bf96668-03db-4356-c735-08dee738606b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|7416014|376014|1800799024|56012099006|10067099003|921020|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|18002099003|22082099003|3023799007|10067099003|56012099006|11063799006|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	YaAHMBGI3Oc/F+rWDIvgnMlwsX2PPN4ZnGSabiNYPIdbxAHLLRjSu0L5LiUbyBfsxNx1CzGTxAqDKCAQw0Qdh9eLfsYs3eesIKm/rUS9UhNKV6IXVDtZtii0hy0kYQCpl+bLBOh8CfL6F3wnOrIwRvHLvfW5RXCiFRkVB5UY02PsM5Sp+LpBaL2OJQW+ojDGtJr3abfdAUDYh7AqOQF+kxszY0FJ6HK+koc9++z9WoCXlWJeSDngc03IzV0xC/Sc6h/IMkagvkx6CB7ZdVq6ewZEWluCAqb8YvnSrryZsga5fdXGcKnL45ZDYysjuKV00aLYdvuJP4Tdf9b1cxY02O/nJZ3RC0GXflxVXndSfcOkUvbnWy2KxnKAKUl0Bjxq50FfWQhzxNk1CfzCoA8k3iqdxKX6lGhFS8rOtHBSDtYVD4zTrFzYi6Qsbm92xeYCbx9sr+9jFC/9N9jQMvAs9coiL933E447ie1FGezfGIe2WeMyml7L+5Plq/jSfgykQMZKpBg6r9h5zt4UtYnsWK6vYmKuBElfTC4w3UW0Q9NMFrd0gI7b3g4tHS/+YuH5ziKLQhIqH9l9rASPPpEZzn1+dKDkQVXFEpU2uGb5bIZBoA5zU7arAFTmkaCBv771Xc/E5XBAJKl1jfuDqAgb1NNcNjM2XNnRDTwIyyIWBw2OLYBcVUG03L1jHseC1juLBrQqtdT+HYZpmebH++3psg==
+	Yd0YwzjSo7DOKy9EwJsciVn0rMT3/8EghQhD3K9Yuzb4AmdaEtAFD5uHX9dpS4XTpiD2Ac9aa9NCEO2dAEaqyLa1b9bbj1DzJZB0U5SUDzvW2cY3OZ4yBF6J7LFFuAyy/0vutvBC0xQ6VBsE9QTUe+S8cTC8Q5KmYNcq+/XY37BiCqLqMTMLmrVjJ+EScqyvVcN7bckDO0NPqLn3nwQrdkxoECwefasyVoW8pqQ+qZ6crpp40nJTBbjVAwbSw/llDmgTx4ibFZcrrScKjBsanwm3fdj11AGESlA+kTVeCLHPj+7ItWd5Fs/ub810ZolZyHgLYYpVaLJy5KrZKzCNze+EU9ziKiLkvZTQpM3nVHX1ja8hqmitO5CE0D7D3wzxGTT4wmNepnVl8bYsI3ypOEVevaIkPCjkOctyMe+w+dvs5/AjGOxt6saXGfLab5mmAlKKGFpwueUuZ9dgqCJbJAGqGR644EX6K5/FFULiOsrMmnBpYfYkJEoKVx/9gRP0wjW2+XqXTupTkTShmejczge+dYPXHcfAexUEkChZjT5kKIyGoG/WHBLASKnUlUoegSn9Viv9vLHNzE6Oeg1HeAzhsFCfGPMy8hx01RbxUczn5xXBZuZiFvYkT/LJqVawlWnYlEkKD7Jr0SvFpdAxNgcLs+ReREVR2CgaXHmNZAU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(7416014)(376014)(1800799024)(56012099006)(10067099003)(921020)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(18002099003)(22082099003)(3023799007)(10067099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a3pJUjNJaDhSVDlwVWxrcEhqc3VHTHh6Yld0OTdYVndEM2JVdENjREo1cCs5?=
- =?utf-8?B?WUJGaHhSRGpJcmxjMnBCZGdhc3ZPemd0Q0g4YWZYYXJKMXl1Qnlya0gxQWpX?=
- =?utf-8?B?SFZydWVBa0NxNndlalA5QUhJdGc5VVFjcDJGb09VU1NHRHBRRU9Mc3IrNkRz?=
- =?utf-8?B?UUdGSzZEWFpJajlnZ0VSYzlYYUU3VzY1ZVJ0RnNqcWJsZDJMNkxhZVdRU0R0?=
- =?utf-8?B?dTNmZHF6U2gxS2dBN0hjdXp1VlBIU242OFZKVU0yUzBLMmVCb3BPMVdhQkM1?=
- =?utf-8?B?RUVBaDlFdXpsTzB3Q2NYaVA1bmpTZmFOZmxlenpFWjRQV3I3dWFzeXlKZFpS?=
- =?utf-8?B?WHh0UE5NdlJ5K3FTL3JydTdzbEhTa2tZbHpweW9EUnlWTjYwZ3FMZGtCc1Br?=
- =?utf-8?B?cmM4ZThQNG1mWnR1dThUOWF3cVY5bXVMM3JBWi9iajFwUFlSS1BHOGFucHRE?=
- =?utf-8?B?eGIwRlV1NVYyK21TTUhBOWpEVXg3ZFBtYzkwbWY2VTlOS1RXVlZMZ08rTlg4?=
- =?utf-8?B?WHJzbG1qVjJ2L2RzaFF6dDVIR3N1djMycm8rUmxHSGNaUVFyc0dzSUVnVHFq?=
- =?utf-8?B?YVZDL1FVZnlURi9qNWsrU0JNQmhQbG0zbjhLaHpOemE5eU90enNsYTZOK2lW?=
- =?utf-8?B?SDZxT3l3d2JIeXZTbDd3ck9LSThuTVRHTUZ1MTVDaDlYSnNFeUplUW1pa290?=
- =?utf-8?B?K1FMZVJpSnZDNVc3aDdSL0wrNkVtTWY2NDRFR0lEQ1hRc3hWUW1jSXRIWGtD?=
- =?utf-8?B?VGw0QjNwNEd5WmdpYXpLODJtOFJxbCtqRHFpUGp1N3kvT05Vd0hwUWlLcFBk?=
- =?utf-8?B?R3RneFFBRVZzb2NYR3lBNU04cHpWZzVKNVdCSHBMSTFYMnQ3WVJmN2pSMm5j?=
- =?utf-8?B?MDFWWWZuajVWR0F3VXlpR2R5MGdGV2ZYUmd4VkdBVXhvZGMvNVNCaUljeDVL?=
- =?utf-8?B?SlZtMUlaOU96c3FScm9BMi90M0ZvVDVGRndjcVNrS05ka0pWSGZvVDNBZThR?=
- =?utf-8?B?cmhDb0RvbkRTdzYxNHlqT3VJa2RPcnFMQVprdGhpTFJDbEpVcnBrMmVkRTZX?=
- =?utf-8?B?NjkxNTdjNlI0SXJoNmhXeW0xWWtZYnNVaEFhb1EyaU5FSE1KL3EzY0F2QmRo?=
- =?utf-8?B?WmhLTXZOTEExR3lzWmlyRklzZDhXalpZVFkzZFZPSXR0UHNpWUZlSVU4VmtJ?=
- =?utf-8?B?b0NHV0toYW5jOVJQdzJlQndjUzNIWWFQZWMrUnRFZTJ3QzJIbnh4UFhWTHZF?=
- =?utf-8?B?Z3B2akxoL2M1N0pRaWpVbmtQOEhvSXF3by9EbGxoN2NVSVFZNzJKMk5haE9V?=
- =?utf-8?B?L3JqSmFjdkpTT1VNU0Q4SmR0R0o4WmRpSHd1RkVYMlZnUG1Pc2NMUDl6eEpw?=
- =?utf-8?B?QnVYRVRXREU1a0NXRENlNzlDZm81WjdWajliUkhDVjVXQldDMGs1MHVoM3Uy?=
- =?utf-8?B?ZUpzZTdWb2h5cmRqR21ka0szNlpXZHRrTmNqL1dvMm5pK2FQMHhaUFVldUl0?=
- =?utf-8?B?enFueHJBb0R0M3JPL3J6WnRlbXRRclZIVEw5bldsOWZvVGVQalZIK1p6Y0p4?=
- =?utf-8?B?aFJqcW5LekxBbUhHU2h3dFc2YkErbDJqT09JMzd0cGtGUE45REJEWDZMSnh2?=
- =?utf-8?B?VVZQREp2WU1nUGxHUCs3VlVxdTl1ZElDeVJDalEzK1dxaytUZWFmOHY2S3U3?=
- =?utf-8?B?UVQ3bTg0a3VJQVppZGp1b0dLS2NOTTRhTlVBVjJyVldrRHp4Yk9lUmozeWdz?=
- =?utf-8?B?Mm1FRHgxUTkyclpMeUc0U21QR3pGdXJSUEVZeUovdVBYWThKVXVGUWh2OFE2?=
- =?utf-8?B?R2d1c2tRZUZjamxYNi9tZE1MZlRlTDIzVENjYXJza2VYeFkwT1Z2UVRLL3NP?=
- =?utf-8?B?elhTYlZCYllKdVFTQzRVdzB2bzVoSml4bW9HdXU2VEdySkJBU1IxSGlRS0Nk?=
- =?utf-8?B?NU5vWFdpTXRVQ05qcGppWnNUWmQ0ZXlqbFNIQXorUUpTY1lkN0RyRTlxWXVa?=
- =?utf-8?B?SjkzSitNNjFNVkdVckRCektJaTQvRDFtcVh5eVRkU2NGbGZ1eWVYVmNHTnRZ?=
- =?utf-8?B?OTc4NGE0c0l2YkJvQXZ6Nk9tS05tLzNXMnF1TWJUYzkySnl5b1RiRldQclV4?=
- =?utf-8?B?NTFpVkZoalFUU1o1MSt6VUMyTlJhVzdnR2h0VW5rY0dIb25wMkk3c2IrQnlY?=
- =?utf-8?B?VEQ0alNoK1Biek1jWjQyMFBWWmZGaEdQUk9od3FLREVQY216aVZ1VzUrem1p?=
- =?utf-8?B?ZlZqUjFzM2lqK1kvZHk0TnQ2Wit3Mk9TMllXb0hkNFNxSHNDM21IWk5XVXZt?=
- =?utf-8?B?TStnVENSNERZZnFsM3NhU1JwdytpYXp4OG4xZURxM1dPNGQyVEZzUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cae0bef-4bb7-4c8c-3223-08dee73538e2
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+	=?utf-8?B?eFZNZUdJUnBMazAzWnk4Ym92a1VvK0NSRnY3V0pOQUxmOERjWlYxK1NkWllW?=
+ =?utf-8?B?b2Y4SmhDTGpETHVRUnRDR1NCa0xmUTZXclIzRWh4bFp1UTBCRDIwL1FrYjlU?=
+ =?utf-8?B?dStOYnd6dlViaGpvcmRvOWlDMStBb3JPQkJtTmpPTDdKWWlpbW53anpLemNx?=
+ =?utf-8?B?NTRmRjVQaVpTL2JzZUdaMjllMzVWY1N1V0NGOTNvWW9ZdTJHYnRTd2pBdFQv?=
+ =?utf-8?B?RXdCL29FNWkrdWpDZ0g5SEtKb01rbWkrNllvUDBTUTdReC8yVVlUTG1LN2N5?=
+ =?utf-8?B?d0tFZjZNUm8rSFNoVHl4YUVIK053WjVvSCtWQlZzUVFhYklzYjF1Q0N0RVN5?=
+ =?utf-8?B?dWxqMUY0YTNQaVZKK2duMzdNNWQ5MkNkLzhxWGxibm9Pd200QU5abG1MTFdw?=
+ =?utf-8?B?WGUrNGJYK0RMRUJIMnZJU2RwdGxBNHYyaFZUekZUcXZlNHpHd0FLZU93MjVH?=
+ =?utf-8?B?a0F2dlNHRGpiSmlNbXBuNWRzWXVuWW5TZ3dYcll5QWFZWVNDU2t4Z0RhbHhJ?=
+ =?utf-8?B?STJDc1JURFVXNUZPUzhaUTlTU0dKUjFteDJRSEkwNkRVV3dnc3pwWnhDN2RC?=
+ =?utf-8?B?Z3c0RUlFT0JXVW5VeDlmUHRqYzZsaDVXY1E1Mk1JMWx1akNrY1R0VjAxQ0d2?=
+ =?utf-8?B?NVRFamNyZEdFL1JMUHN4VnJjcVVpVzJaWnc2MTB5Tk5oZHNYZ2JDMUpibDYr?=
+ =?utf-8?B?MDBXUG1aRmNTejZhUHJhVVdQWVFpczlGSlJnd2tCODBXQjZ6Tld6ZHRDUjR3?=
+ =?utf-8?B?dDlESjdVOFRBTUpKaG9iZjlVYkxucWtNQUllUytMU0FuMFBYWmtrUFpEMkZZ?=
+ =?utf-8?B?eG5SUXFWNURvempXN1ppTmVhK1cvSTFZc3dmQmdNYStLWXBrLzZGTWgvZ3lq?=
+ =?utf-8?B?NXBrbFpLZ3dPN0VXR0huQUo2b3UySU1CV0dCL3kzTDYvVFBXY2tPZE5VSlBH?=
+ =?utf-8?B?OXA0RFo1cDhHNENlSzFpTHZyVjk3Q2orb3oydWpoUzc1YVM4VGtMVVl6L0d1?=
+ =?utf-8?B?OU5zYmMxVDROdndaeVo0eThNaGR0V2tVNDZjdU9ybkVGdWp0c0RWRy9tU3V4?=
+ =?utf-8?B?MEwzRDREK2NOYUVxTDk2eFh4VmNVU0RFQS9XazJ3NVIrUEVIbStUaUJLRDVC?=
+ =?utf-8?B?YXQxazlBRmZnN1VpbjlBbWQ0VkNFcjFFUTJUL0pOeW9kTHZTc1dwTGFoVG5D?=
+ =?utf-8?B?VVptcGs4QjdhMDVwSzJZRkRwY1JjMGxUdGdzTnhZNzFRb21COW5hTmgySVA3?=
+ =?utf-8?B?K0J5c0pyUTA3K2ZQNUY4NGQ2b2ZmaVE5Skx5OGxvTUNGM0ZuUUZDeVFyUUZN?=
+ =?utf-8?B?L0puTWFCbFZ5UVFneHhTRHZuaXpvL3o4N0RBMjFZZDk2UGltTldhVEdGdDYy?=
+ =?utf-8?B?ZWpJMEZlNGttNjByRVlZODJCOTQ0WFRtYk94RUNtK2ttdmZoWXcxWXRFRjlY?=
+ =?utf-8?B?dzJyekJIeldtdHVrdDFTaVBjVUN2N2wrZWsxRiszN2l2Q0N6UmdSOGNJMUFH?=
+ =?utf-8?B?aitvb0lnLzZqVzdDS0tiMDJsQWVyNVpqU1ZzWk5IR1ZadHdiK3c0NGxJbUhW?=
+ =?utf-8?B?NUdUVmxuNDdaTVBBdll2aytuUEdLV0ljNVMxQ2RoOW9VNHB6N2J2NE9IUlVy?=
+ =?utf-8?B?T1RxTzZJWXo5aGgxS3Z4cXBMU1ZTNEQ0SEkrdTV3TE1QOUpsMlVBUGM5cDN0?=
+ =?utf-8?B?cEs3WWNTdEZEdzFxdDcrQi8rd283TlZqS3FZdGRoajB6SFVqSFljbTY2bEhZ?=
+ =?utf-8?B?Zjd2MDY2dkovWEs5ODFYY1R2bDNJZ0IxVGtDWnNVQnhIUWM3NlFHWURJcUlE?=
+ =?utf-8?B?dllmd2gwZVZLaHY3WnFDZ2pOTDdWY3V4aWlCNkpSUGlZT2M5MmdjZE9jYy83?=
+ =?utf-8?B?K2ozMHB2ZU1ySTNsNVBkTThzN2N1RWpOeVlwaWU4NnhOZmV3N0gzU0M1Y0dN?=
+ =?utf-8?B?NmJDY1llUlBrcVNRWW14Q1RUK0EwYTAxaExrUFJ6dHFoeGJCd0x4RVFoT1pr?=
+ =?utf-8?B?M0EvNmt3UkN0Ym84ditVOXp2Y3dLM3J3bFloc3c2U1VCQlV2WTZYZGZCblRF?=
+ =?utf-8?B?dUFDcnpieGFFVU5XTHFVK25MWTQwdWswdE5WaUhwWG10S3JPWkZHelhnaWNk?=
+ =?utf-8?B?ZzZyT1JXWHBSMHZJTFd3eUo4cXZlRlNaYnRhWTdNNExaZ20wbUJhZEpaTGlF?=
+ =?utf-8?B?empLekg4QWdZb0hqS1ZuQlp2b1ZyeFcwMDU2MWNHQXYyZzlybytheHE3TWs1?=
+ =?utf-8?B?Z3pqYllTcmpPeEFydWVuaWVTcWxOQldGVll1OHI4d0hJWmtjMmN2TUpFTGZZ?=
+ =?utf-8?B?cEc1YmhpOU9mRDl3Z0xiemJpUGpuR3g0U1RHRkwwRnVuTVlydzhoZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bf96668-03db-4356-c735-08dee738606b
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 14:34:50.8465
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 14:57:25.9262
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L2s/oVuStDVhn+BQ7p+zWXdGXvp+PMxHS3EfAgu4EjjW/4aVczzSIyfOoRCmxoqIbFWeF7C4rMV5E+9pwH17uA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2214
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7TJLwqpIKlpf8QpZN6aMvQDTpP/dx7PIwwGl+UDh2PkMmpS4FfhWNqhRS11oTIf48gkzW7FXjU18PUtkKle9Jg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9700
 
-On Tue Jul 21, 2026 at 12:00 PM BST, Alexandre Courbot wrote:
-> The register! macro currently accepts an identifier as the base of a
-> relative register. This requires base types declared in other modules to
-> be imported into the module containing the register declaration, rather
-> than allowing a qualified path to be used directly, which is arbitrarily
-> limiting.
+On Sun Jul 19, 2026 at 8:36 AM PDT, Danilo Krummrich wrote:
+> Adapt the IRQ registration to work with the Higher-Ranked Lifetime Types
+> (HRT) device driver architecture introduced in commit 2c7c65933600
+> ("Merge patch series "rust: device: Higher-Ranked Lifetime Types for
+> device drivers"").
 >
-> This series allows path to be used as relative register bases. Since a
-> `path` fragment cannot be followed by `+` in declarative macros, the
-> `Base + Offset` and `Base + Alias` forms are replaced with `Base:
-> Offset` and `Base: Alias`, inducing a syntax change.
+> With HRT, driver structs carry a lifetime parameter tied to the device
+> binding scope, allowing device resources such as pci::Bar<'bar> to be
+> held directly rather than through Devres indirection. However, the IRQ
+> abstraction required Handler: Sync + 'static, preventing handlers from
+> embedding lifetime-parameterized resources.
 >
-> The first two patches clean up the macro's internal dispatch and
-> arguments in preparation for the change. Patches 3-6 gradually add
-> support for the new syntax and update docs and examples, while
-> preserving the old syntax. Patch 7 updates Nova to use the new syntax,
-> and patch 8 removes support for the now unused old syntax.
+> Remove the 'static bound from Handler and ThreadedHandler and replace
+> the Devres<RegistrationInner> indirection with direct request_irq() /
+> free_irq() calls in the constructor and PinnedDrop.  Registration<'a, T>
+> stores the IrqRequest<'a>, which structurally ties it to the device
+> binding scope.
 >
-> The series is structured this way so the Nova update and deprecated
-> syntax removal can be merged separately, as otherwise the whole series
-> would need to go through drm-rust.
-
-I would like to avoid adding new features to relative registers as I aspire=
- to
-get rid of them entirely with typed registers.
-
-I'll work on a prototype.
-
-Best,
-Gary
-
+> Also remove the &Device<Bound> parameter from the handler callbacks,
+> since handlers that need device access can embed it in their own type.
 >
-> Outside of the syntax update, no functional change is intended.
+> IRQ handlers can now directly own device resources:
 >
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> 	struct IrqHandler<'irq> {
+> 	    bar: pci::Bar<'irq, BAR_SIZE>,
+> 	}
+>
+> 	impl irq::Handler for IrqHandler<'_> {
+> 	    fn handle(&self) -> IrqReturn {
+> 	        let stat =3D self.bar.read(regs::STAT);
+> 	        ...
+> 	    }
+> 	}
+>
+> This eliminates the indirection previously required for IRQ handlers to
+> access device resources and aligns with the broader goal of expressing
+> every registration scoped to a driver binding through compile-time
+> lifetime bounds.
+>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 > ---
-> Alexandre Courbot (8):
->       rust: io: register: dispatch fixed array shortcut internally
->       rust: io: register: remove unused rule arguments
->       rust: io: register: use path fragment for alias destination
->       rust: io: register: use path fragment in relative internal rules
->       rust: io: register: allow paths for relative register bases
->       rust: io: register: use new relative base syntax in doc and example=
-s
->       gpu: nova-core: convert relative registers to new syntax
->       rust: io: register: remove deprecated relative register rule
->
->  drivers/gpu/nova-core/regs.rs | 74 +++++++++++++++++++++----------------=
------
->  rust/kernel/io/register.rs    | 75 +++++++++++++++++++++----------------=
-------
->  2 files changed, 74 insertions(+), 75 deletions(-)
+> Changes in v2:
+>   - Move request_irq() / request_threaded_irq() to _: blocks.
+>   - Add INVARIANT missing comments and missing #[inline] annotations.
 > ---
-> base-commit: 22e77d81d0a9ab3aee1c5538b3f2f8a66930bfa7
-> change-id: 20260418-registers_fix-7a67ebef9ba0
+>  rust/kernel/irq/request.rs | 432 ++++++++++++++++++-------------------
+>  rust/kernel/pci/irq.rs     |  26 ++-
+>  rust/kernel/platform.rs    |  48 +++--
+>  3 files changed, 255 insertions(+), 251 deletions(-)
 >
-> Best regards,
-> -- =20
-> Alexandre Courbot <acourbot@nvidia.com>
+> diff --git a/rust/kernel/irq/request.rs b/rust/kernel/irq/request.rs
+> index f425fe12f7c8..c1c6525a676a 100644
+> --- a/rust/kernel/irq/request.rs
+> +++ b/rust/kernel/irq/request.rs
+> @@ -5,16 +5,21 @@
+>  //! [`ThreadedRegistration`], which allow users to register handlers for=
+ a given
+>  //! IRQ line.
+> =20
+> -use core::marker::PhantomPinned;
+> -
+> -use crate::alloc::Allocator;
+> -use crate::device::{Bound, Device};
+> -use crate::devres::Devres;
+> -use crate::error::to_result;
+> -use crate::irq::flags::Flags;
+> -use crate::prelude::*;
+> -use crate::str::CStr;
+> -use crate::sync::Arc;
+> +use core::marker::{
+> +    PhantomData,
+> +    PhantomPinned, //
+> +};
+> +
+> +use crate::{
+> +    device::{
+> +        Bound,
+> +        Device, //
+> +    },
+> +    error::to_result,
+> +    irq::flags::Flags,
+> +    prelude::*,
+> +    str::CStr,
+> +};
+> =20
+>  /// The value that can be returned from a [`Handler`] or a [`ThreadedHan=
+dler`].
+>  #[repr(u32)]
+> @@ -27,7 +32,7 @@ pub enum IrqReturn {
+>  }
+> =20
+>  /// Callbacks for an IRQ handler.
+> -pub trait Handler: Sync + 'static {
+> +pub trait Handler: Sync {
+>      /// The hard IRQ handler.
+>      ///
+>      /// This is executed in interrupt context, hence all corresponding
+> @@ -36,73 +41,20 @@ pub trait Handler: Sync + 'static {
+>      /// All work that does not necessarily need to be executed from
+>      /// interrupt context, should be deferred to a threaded handler.
+>      /// See also [`ThreadedRegistration`].
+> -    fn handle(&self, device: &Device<Bound>) -> IrqReturn;
+> -}
+> -
+> -impl<T: ?Sized + Handler + Send> Handler for Arc<T> {
+> -    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
+> -        T::handle(self, device)
+> -    }
+> -}
+> -
+> -impl<T: ?Sized + Handler, A: Allocator + 'static> Handler for Box<T, A> =
+{
+> -    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
+> -        T::handle(self, device)
+> -    }
+> +    fn handle(&self) -> IrqReturn;
+>  }
+> =20
+> -/// # Invariants
+> -///
+> -/// - `self.irq` is the same as the one passed to `request_{threaded}_ir=
+q`.
+> -/// - `cookie` was passed to `request_{threaded}_irq` as the cookie. It =
+is guaranteed to be unique
+> -///   by the type system, since each call to `new` will return a differe=
+nt instance of
+> -///   `Registration`.
+> -#[pin_data(PinnedDrop)]
+> -struct RegistrationInner {
+> -    irq: u32,
+> -    cookie: *mut c_void,
+> -}
+> -
+> -impl RegistrationInner {
+> -    fn synchronize(&self) {
+> -        // SAFETY: safe as per the invariants of `RegistrationInner`
+> -        unsafe { bindings::synchronize_irq(self.irq) };
+> -    }
+> -}
+> -
+> -#[pinned_drop]
+> -impl PinnedDrop for RegistrationInner {
+> -    fn drop(self: Pin<&mut Self>) {
+> -        // SAFETY:
+> -        //
+> -        // Safe as per the invariants of `RegistrationInner` and:
+> -        //
+> -        // - The containing struct is `!Unpin` and was initialized using
+> -        // pin-init, so it occupied the same memory location for the ent=
+irety of
+> -        // its lifetime.
+> -        //
+> -        // Notice that this will block until all handlers finish executi=
+ng,
+> -        // i.e.: at no point will &self be invalid while the handler is =
+running.
+> -        unsafe { bindings::free_irq(self.irq, self.cookie) };
 
+Not directly related to this patch, but I think it would help to add a
+comment explaining why it is ok for `drop` to own what looks like a
+mutable reference to `Self` (and thus `Self::handler`) while a handler
+might be running holding a non-mutable reference to the latter.
 
+My first reaction upon seeing this was that this breaks the Rust
+aliasing rules, but looking at the feedback for the initial patch [1]
+revealed that the issue has been discussed and dismissed.
+
+Since this is quite subtle, and to avoid this being flagged again in the
+future it would be nice to explain why this is safe (IIUC
+`PhantomPinned` combined with the fact the destructor never forms a
+`&mut handler`, but this needs to be vetted by someone more familiar
+with these matters than I am).
+
+[1] https://lore.kernel.org/all/Z5HtHVMipAdNvOcj@boqun-archlinux/#t
