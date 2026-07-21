@@ -1,153 +1,102 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED68415F2D
-	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 18:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAD12DEA74;
+	Tue, 21 Jul 2026 18:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784657790; cv=none; b=RbXPtoDrIGP4VHD8i/rG/CmeQdNIlM+n3/JjBRBr8wVMuKJlBygm2f6y2U4CEQZYBw0joeJD6Zya2At+nuFLIzyAnPnDLKs7Yf49bYhSywNPSvFcjKtmKhL9BXWdwvyVAVBdXxq/HMVcncNRYyobbVuq3vu5cKO9Z/6wNqFsnJA=
+	t=1784659979; cv=none; b=TT6JWvqFX3FmB6fP56dtM73cx8MQ2f3C92TYU3b8uU80HONMiTNN4OSdqgWh/jCWhKNmg99IP5Nl6cvj+3TWS1erpCR2hvJoqBy88+TBRwEE/tUhtkm0VmD1ff9QKo+RAoO6YhMe3qyfEyNz5vaYEi74Ln64QCQ3zv++S1wy/Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784657790; c=relaxed/simple;
-	bh=oFlvw3giOtGQsSkXQn6VVdx6osu4tro2T3RPW7SBhU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQCtezcZ/SOWCOq3rg05b7r80aRDbuJoTY/k4CY2PFHherfWHbvo/nDbEbzQi8zRjnFlT3Hgi5oFhj114l48bmBpNy9Z8RZEnLG7KrQoVO2HWMeyMmdpEftvwv/d7GeDYoi2GvFc98Mi6kHVT8cD6wJSnNn2ZScGmh7tZI8ssmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Y9ROWYwt; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1784659979; c=relaxed/simple;
+	bh=IfszOsyUj4Skr5PEi/x3RweO6tHgepG7yTpFj7PEpLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U9vXGtfeJnQjjjygbHVzUlPZexw33WJoClHK2GsDCYDNmnxwwy9ksgZBAdOKHq1EX4MvUfV6pYNwJJ2Pqur2tcV7oYKQ0W3xzLdT/5Tymjz1ikXsW6nEb49wvcTpbN3aO7ZszqAI02WeergKmgsXnNtEVRsLoT54HatFKYA5tbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MUFu4piH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Y9ROWYwt"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c2a818fc4so99165651cf.2
-        for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 11:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784657788; x=1785262588; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=Y9ROWYwtMNHw9dpr9ETmAJJLCDvgcQUO7o5EX6NlnqHqvAfxG5AKlQ3mRMO2/QxeVq
-         ZXiYSHh/Zjm0GpHvCHQk1SbIdR85N4TzIZ0IHIX6o7Tg7HfxoEwWztTIeMtehJCWEGoS
-         BsFsqta7MA+aG81sS0mtuswwr2Z4Wn24Lhvk/cTf97YdD1CtD9NBgK3+BG6zo4PuCG2a
-         1xLiFGTZLZmlcOhYo+zTeTES215teGUIdJQ4YLHn27y25oBawPpjtFMkQKu9zugpieVK
-         lSLmVGzCvqugG5Wb0jm0shrSdKodGpjJ+Lqmd5h0XBnYs1XLcxXdW/zy9UeqFupfshT2
-         +ZBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784657788; x=1785262588;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tK6CpaworNApxpcs4ZRJbHY7w08bgOkmP8ipHWd1tq8=;
-        b=fxgj9putxBVhLhSG80lwwyHIOhZiP+ExSTR7eYhMnJBmfMtGBszdDb5UzbHNOvQSG2
-         Q69PLSvsYFtvjKnksGu20/q/A6jJGhmc4ukDiHATzWczffT1s22qBUKJms30cMANmLQP
-         OcGR3YBjAHnVscJ/TMRzAer1Fy3I1wz7kRIlNcqtDd6l2AP6DKf0xYM3qhkkISSKrjSE
-         MundG0FikX85gSoo/BsL6yu52+qS0b6n7cyqf7Vj7jp7nlaR7V10dnXYCwk6F3GYO2e6
-         X4NlgTizgoy94ihPOsuM5eKr9xJODuM16/PqhOx/lp3B8CH4XaAmBU/0dPVlq1bHRQIN
-         4JHA==
-X-Forwarded-Encrypted: i=1; AHgh+RoGt+BOngy83ctTCf5o2fIqz52u2LeEWFiPtm/EeyiYvZ9ilWhDJfsRQOoOWxxyHprbg9oCEqENAWa8qA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzy2IO8vAgsSJ6082h8kIt3X76BcuHofoGscFwf3qAQL5xRnAbP
-	lnuPl5xjmi6NJem+Kr/mmNXRq0LVSLVB6x7u7WkCD9/Of7ui6zJz8xtnb9DM9ehcj0U=
-X-Gm-Gg: AfdE7cmMzg9mx+n8mLDqkyW+lD0pLVP+TAf3jtmZIb1P99e9usCW/8FLSoti7aMgz2R
-	L9gRH5+4K7aHUzjoc6ikjGQxbl9EI8IrpluDzGP6MTO9dyMFhFxHYb1GBY0MtyR0ZqE6xIU4fBW
-	NdeJKOdxL3fvZSo0OtESubtM/gF2sD8yUNNYLS5p6oHvX6jbCh2BpUpM9rrzKlRRCmFVLT9BLpK
-	olIvXPN1Z7c6KJPO5990h4Bgng1WA5Lpaxvg/f7LcpokZtfREQRrZwxIaSAk2yI0Skqbuh8sxae
-	TsbmAqkJ19zdaAwdakjJpuB3gdUOcnL3J3vsgy//q7Nc5rPxinwkdKEri6NxlqWnehTEa28JlLm
-	LY63lFLnR+RNFOvZp91uUJjxI+w3IWZTuWZCmmDMfq8l0GtPMkvDdiOxof0y4dZSWrjdWFEweqi
-	S4rVnEN94G1qW1kpqCg/sdgvCH+FokzDa076eGIHdoEVj1F5OfynBscOhB9ej1yASWyd2V
-X-Received: by 2002:ac8:5845:0:b0:51c:7b12:600a with SMTP id d75a77b69052e-5213e881e44mr171868611cf.86.1784657787636;
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d066fa6asm463921cf.6.2026.07.21.11.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 11:16:27 -0700 (PDT)
-Date: Tue, 21 Jul 2026 14:16:21 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <al-2D_7NcwMxqmsM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MUFu4piH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798051F00ACA;
+	Tue, 21 Jul 2026 18:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784659978;
+	bh=NN1+I3Y2Ia7vFPUpLF0faQvhg99ndfxvEeeB0XKXwdQ=;
+	h=From:To:Cc:Subject:Date;
+	b=MUFu4piHhUppkUXntiQYT6Fkobom+bPK7ctPPgNlmGV6RwghhCwpBxkgQU93ghRd6
+	 K0GZljyCUehHMKI0o4laqm7BoZ9GDp5pdaGp5OxZHjbXApb9PVqiDP3UNy0EvTEKtM
+	 yzBBIee22Eyyngf+lxofSq1FQwSk92yz+PZE4dFMYvGybQueunqGTD1JCicppKf0v5
+	 hM57UYv41pUR2In7TdxvLNO7+q1oDTdcJM8mJ/WDaM0pxgG0GXo5nfC+MKW0etfm9u
+	 7/qkZcW0PNvtN28vraAz28i2z7j1108o4i3upWDO2JFBPTs5FqvPeVtCbA66QnSFqE
+	 ysnu69f2QxRcA==
+From: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Dan Williams <djbw@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	linux-pci@vger.kernel.org,
+	linux-mm@kvack.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH 0/2] mm,kernfs: Fix stale userspace mappings after sysfs file removal
+Date: Tue, 21 Jul 2026 18:52:50 +0000
+Message-ID: <20260721185252.1670958-1-kwilczynski@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a7aaac3-e70d-4063-9c84-e643db1488e0@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 21, 2026 at 01:46:01PM +1000, Balbir Singh wrote:
-> On 7/21/26 5:33 AM, Gregory Price wrote:
-> > 
-> > Patch Layout
-> > ============
-> > The series is broken into two sections:
-> > 
-> > 1) N_MEMORY_PRIVATE Introduction.
-> >    Introduce the node state.
-> >    Opt those nodes out of mm/ services.
-> > 
-> > 2) NODE_PRIVATE_CAP_* features
-> >    A set of mm/ service opt-in flags that augment private
-> >    nodes to make them more useful (i.e. reclaim = overcommit).
-> > 
-> >    NODE_PRIVATE_CAP_LTPIN for private node folio pinning
-> >    NODE_PRIVATE_CAP_NUMA_BALANCING for private-node NUMA balancing
-> >    NODE_PRIVATE_CAP_DEMOTION for private-node tiering demotion
-> >    NODE_PRIVATE_CAP_HOTUNPLUG for opted-in private nodes
-> >    NODE_PRIVATE_CAP_USER_NUMA for userland numa controls
-> >    NODE_PRIVATE_CAP_RECLAIM for opted-in private node reclaim
-> > 
-> 
-> Looks reasonable, I wonder why USER_NUMA/HOTUNPUG is an opt-in?
-> 
+Hello,
 
-Ideologically: Private nodes default to fully isolated, why should any
-given feature be special?
+PCI resource sysfs files swap their f_mapping to iomem_get_mapping() at
+open time so that revoke_iomem() can hole-punch userspace mappings when
+a driver claims the BAR (636b21b50152, "PCI: Revoke mappings like
+devmem").  Their VMAs therefore live on the shared iomem address_space,
+which kernfs_drain_open_files() does not walk, unmapping the sysfs
+inode's own i_mapping instead.  Userspace thus keeps live mappings of
+PCI BARs across device removal and resizable-BAR resize, with stale
+PTEs into physical address space the kernel may have reassigned.
 
-Concretely: 
+After the device is removed, a read from a resource0 mapping returns
+the previous register value instead of faulting.
 
-User-numa
+The first patch adds unmap_mapping_file(), which zaps VMAs selected by
+the originating struct file rather than by address space window, with
+a stub for !CONFIG_MMU builds.  The second uses it in the kernfs
+drain for files with a swapped f_mapping, keeping the existing
+unmap_mapping_range() path for everything else.
 
-   Some devices don't want the user to have control over placement.
-   I have been working on compressed memory, for example, which only
-   ever wants to be used as a reclaim-demotion target.
-   
-   (The reasoning for this is another thread, i plan on publishing
-    my research on this this year)
+Before 636b21b50152 these VMAs were attached to the sysfs inode and the
+drain did zap them, so this restores the earlier teardown semantics
+while keeping the driver-claim revocation intact.  Files without an
+f_mapping swap (p2pdma, cgroup, everything else) see no change.  The
+same access now raises SIGBUS.
 
-Hot-unplug:
+BAR resize is covered by the same path, since resize removes the
+resource groups.  /dev/mem and /proc/bus/pci mappings of the same
+BAR are unaffected.
 
-   Some devices can't necessarily handle unexpected migration, and
-   hot-unplug is fundamentally a migration.  So the HOTUNPLUG cap
-   actually means "hot-unplug can execute migrations".
+Krzysztof Wilczyński (2):
+  mm: Add unmap_mapping_file() helper
+  kernfs: Unmap mmaps of removed files via file->f_mapping
 
-   If the entire device has pre-drained the memory (all memory is free)
-   then unplug works - it's just not very hot (no migrations) :]
+ fs/kernfs/file.c   |  5 ++++-
+ include/linux/mm.h |  2 ++
+ mm/memory.c        | 26 ++++++++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 1 deletion(-)
 
-   Maybe a naming issue?
-
-~Gregory
+-- 
+2.55.0
 
