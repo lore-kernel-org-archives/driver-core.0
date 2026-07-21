@@ -1,81 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486DF44AB91;
-	Tue, 21 Jul 2026 21:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173A343F4C0;
+	Tue, 21 Jul 2026 22:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784670251; cv=none; b=nRuKnbBrMbQsU4JSGgKspOX5cuxDr1q0qx/nGXZTdO0eRjGoEmTCHyhY9vMM8BErV0WEHqpJmuRE1iNlBcDlHtjGJBDhS0dEwIAs9EjrQILz2PNDEluSKHvIYsRD7a7I4+mljl2cBKKKQ5xUQx0Yvyuz8Logh3jrip+40/nzK7g=
+	t=1784673050; cv=none; b=qY0eRNDFTdn9nt/tyup6cK0cSzZIk9pg02KKOo1BRAG5Ms+BMzp448Gm1OwxFuBMAinToR1tKFgGn76hcyKvMU1bwJ7YXFz7+kPmMXnIVo1yPQkaxwGtpNM7hDon4hVMTWxUMHGwTIHhAkbG6OkUUouSmd8etbq4RqAwZQQ+ewk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784670251; c=relaxed/simple;
-	bh=KsM7zd9Fi88s8x44doaWs3Ka/jaVfDwadQ2JbX1udHE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZRmCcsQwzbp18cqiVq5ZS/k/AgbYzMpHReIsLO2R4efat+mS/l6T9yabxu1HHJMgsPppfklfHq9kacepoPdt8CToiS0qWhYH3ZHe2aaAcANRSzC2C1fifm+JHtIATfqjlh3Nn86KLMXkQkI7DSaNHd2ZFwQ7P0JlC/bVHZ7OCK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cx6fw7m1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784673050; c=relaxed/simple;
+	bh=ATKi2XAXyV80dXc2EWq6ISvVM3/3F/VDwQXheYbZ9AQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=u1yyYxzy792bKXCTlExsQXK7nIIhllx9Q421f5qyscSMjmyHRIuv7Hj8FLLGpbKp+muRY0k/WZ50b3ElON9bPCW+OH1qpMvlPX/vOwGl+YdstNWbTKK80sZPcQPd4jo6Krj8w2Otf1NgOsvGFa/PjLnT/d93vpZNJ05V7VOaLH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DtGpsbMI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cx6fw7m1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959F91F000E9;
-	Tue, 21 Jul 2026 21:44:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DtGpsbMI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67EC1F000E9;
+	Tue, 21 Jul 2026 22:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784670250;
-	bh=ULUTZrr/mwVjHAfYwrIrYF0Hs/9CnYoc1OlSztfkaJA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cx6fw7m1otOPbQUb+lf5Mn1DzCeaEKFApYin4n+pp6NADywfZfZCtUc/4cV2HrsOk
-	 Y9hrBNlv5BwLHS1BCPugQE51/f6NK9Eb6VwMobDUw9z0uKMSTjmLfqxz3WviE4FORC
-	 Tn+/Zxg14obo4Z487oxCDHbnM+wcqmSN1shLbfUG7ANV3u+sqU+lmcEGIj+vve509J
-	 WyhPJtDu738HspyBTRdVNSEmtqAfaKUu9iHZAJhX/fgroE9CvcaMs86GYAxQyyDoQP
-	 79eGaVoh6R+jYwLLFMdHDFFNjidaMQIwgEZq8eU84MKJl5hWq8usuz/ZH1CC93VDuZ
-	 HNYEhY9fQYzqg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	robh@kernel.org,
-	saravanak@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	bartosz.golaszewski@oss.qualcomm.com,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v6 0/2] device property: add test cases for fwnode_for_each_child_node()
-Date: Tue, 21 Jul 2026 23:43:46 +0200
-Message-ID: <20260721214344.1787957-3-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
-References: <20260721105448.2109894-1-xu.yang_2@oss.nxp.com>
-X-Patch-Reply: applied
+	s=k20260515; t=1784673048;
+	bh=n0ky1DYEFYEQIfECSmhtvkQAZsT3axmRZ/FY1Oisxv8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=DtGpsbMInwZaKFrcKnmjY3BR/jkGLaa8T4/I+Y3YLwngGGgLwovmu7FQmfRoZGLWe
+	 e8W2dMpmJzKf8v9Sc70V6XSymIY0MwmaNFEBGrREc5/nRZgDrM5EnYPEo5mf1qm+4u
+	 Jp/7MQAXMsznIY0loTrqvPzKCzw5y5gemX2eC8bggJj63uOB9swEu3zdTER2J3DJf2
+	 nJ6XK1iEFCi29f1gqQXhUONyPer9hWNZWIr2XN6+UgoLA6d/8v3kk5BMefYIwFAuKx
+	 4kEqhud2ywy9qxIY2rKn2GAyjrR7vD3TvvEm2INVadz63wd9dbvAUhjh515B3kWBqb
+	 yu1KbJPltS1Mg==
+Date: Tue, 21 Jul 2026 17:30:47 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	GOTO Masanori <gotom@debian.or.jp>,
+	YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	industrypack-devel@lists.sourceforge.net, netdev@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 0/7] pci: fix UAF and TOCTOU related to dynamic ID
+Message-ID: <20260721223047.GA674520@bhelgaas>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260630-pci_id_fix-v2-0-b834a98c0af2@garyguo.net>
 
-On Tue, 21 Jul 2026 18:54:46 +0800, Xu Yang wrote:=0D
-> [PATCH v6 0/2] device property: add test cases for fwnode_for_each_child_=
-node()=0D
-=0D
-Applied, thanks!=0D
-=0D
-  Branch: driver-core-testing=0D
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-=
-core.git=0D
-=0D
-[1/2] of: kobj: export of_node_ktype for use by modules=0D
-      commit: 08bc14983723=0D
-=0D
-      [ Add empty line before the kunit include. - Danilo ]=0D
-=0D
-[2/2] device property: add test cases for fwnode_for_each_child_node()=0D
-      commit: 0e6f8ccd4618=0D
-=0D
-The patches will appear in the next linux-next integration (typically withi=
-n 24=0D
-hours on weekdays).=0D
-=0D
-The patches are in the driver-core-testing branch and will be promoted to=0D
-driver-core-next after validation.=0D
+On Tue, Jun 30, 2026 at 12:09:00PM +0100, Gary Guo wrote:
+> While working on improving the Rust abstractions [1], Sashiko reported that
+> an existing UAF issue related to dynamic ID, which I find to be genuine.
+> When taking a look at the code I also find a TOCTOU issue where the
+> existence check of dynamic ID happens in a separate critical section as the
+> actual insertion. This series fix both issues.
+> 
+> There are two exported functions "pci_match_id" and "pci_add_dynid" which I
+> have to tweak to implement this cleanly; I created separate "do_xxx"
+> functions to keep the existing APIs because they all have multiple users.
+> 
+> There're a few existing users which stores their pci_device_id argument in
+> probe callback. This is a bad pattern because nothing except driver_data
+> inside pci_device_id is what they want. Actual ID information can be
+> retrieved from pci_dev instead. I've used the following coccinelle script
+> to find the cases where the argument is stored and converted them to stop
+> storing pci_device_id.
+> 
+> @store@
+> identifier fn;
+> identifier id;
+> expression E;
+> parameter list[n] ps;
+> @@
+>   fn(ps, struct pci_device_id *id, ...)
+>   {
+>     ...
+> *   E = id
+>     ...
+>   }
+> 
+> @cast@
+> identifier fn;
+> identifier id;
+> parameter list[n] ps;
+> @@
+>   fn(ps, struct pci_device_id *id, ...)
+>   {
+>     ...
+> *   (void *)id
+>     ...
+>   }
+> 
+> @in_struct@
+> identifier s, fld;
+> @@
+>   struct s {
+>     ...
+> *   struct pci_device_id *fld;
+>     ...
+>   };
+> 
+> Link: https://lore.kernel.org/all/20260618-id_info-v1-0-96af1e559ef9@garyguo.net/ [1]
+> Link: https://lore.kernel.org/all/20260619170503.518F61F00A3A@smtp.kernel.org/ [2]
+> 
+> ---
+> Changes in v2:
+> - Fix users which store pci_device_id.
+> - Clarify in probe documentation about the lifetime of pci_device_id
+>   parameter.
+> - Dynamic ID conflict check now ignores override_only. (Sashiko)
+> - Link to v1: https://patch.msgid.link/20260626-pci_id_fix-v1-0-a35c803f1b95@garyguo.net
+> 
+> ---
+> Gary Guo (7):
+>       ata: don't keep pci_device_id
+>       nsp32: don't keep pci_device_id
+>       ipack: tpci200: don't keep pci_device_id
+>       mlxsw: don't keep pci_device_id
+>       pci: make pci_match_one_device match on ID instead of device
+>       pci: fix dyn_id add TOCTOU
+>       pci: fix UAF when probe runs concurrent to dyn ID removal
+
+Run "git log --oneline drivers/pci" and match style (capitalize "PCI:"
+and first word of subject).
+
+At least in the PCI patch commit logs and comments, add "()" after
+function names.
+
+s/id/ID/ throughout (it's currently inconsistent).
+s/pci/PCI/ throughout (ditto)
