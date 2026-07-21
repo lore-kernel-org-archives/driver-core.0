@@ -1,233 +1,206 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011043.outbound.protection.outlook.com [52.101.57.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D6320E334;
-	Tue, 21 Jul 2026 11:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784634124; cv=fail; b=GQyFUK1fg7006xJPjhL8wEamIP/YZhXIVRyYehe+22h4TZ8KjLp6faMA5LPvFXar67x/t7eiOno7GAZ5acRESPao0K+VeQoCxBVaiMVbzsjZgVluBo98fGAY/mbhl9Ec3f8W+id3ims+g5zR5E48YmjoSSWunL4Ujbm8AzJZO9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784634124; c=relaxed/simple;
-	bh=A7NTFKZPivE2nlmE/+HQFoMe3Y/oQbzJEZW39mSR7pA=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=ONjuvmMx21oiUTfmqLzO8Kld2L7lNOw0zxHhjIpqMOz+qyHlLLm7bmjM2nGq8U+WSDh4cpARvqsL4aZc8waYWwpAYtiOLm/FUCGE6UMnz1nT9AF5QnULORK78b0ZUIxfY4rdgXdZYcOcBqRIZcDkDQespa17GYMTZdVPfE1XwDs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i2iewtWl; arc=fail smtp.client-ip=52.101.57.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8972341065
+	for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 13:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784639564; cv=none; b=PHmAVjxlhiko5KUkapeVaH0f9krCqC/y80vD51mZF4gT1pg73ns3AfRIyYyJwZDEaQEFLNymVNU0iPInX2j6mAzOKVFRoq/z6fCi84+Mxp0ZXhy5inZXP95jZRKUsZaDaLz3XXGNO8Bg2wdN319SL69lNdMfQDoR0eSKZGByYOM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784639564; c=relaxed/simple;
+	bh=nS5SJQmwq8NU5ulEg4x+lVkufqolSp3mR/z1Mkjawbc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WODga1VkHDQpIHm2Cb4vNOhR5SX3UHRY7S1Jeuq+yOB9uE9sQWPReH3YPX9o+lAGj7EGOJMVL40zSHPhhWAXbFL7a5FoNIWRte4NTaQfPBiZqASYMPaSIjVRE7ZJmPQi6fyMrybbssGdKFR97LeLc7sOGEcGrMtVo2Iht2kpU1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=P9Cm9uc3; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i2iewtWl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c1HV/1OqbkpWzTn4QNs6c/+4f5gsiZ00VXEd40imPsQbNtZGnQsl945duACzoGGpqPPmrFVeijzaGNjSCKC59T2sT8+SSYc2ZAlTlJ5lF7l6vMahBvubba3FTCNCosX1U7Tu3Sk0AN+2z6kT7Qu8hiAotvHY7tlS2hDAvLjlnDK/8kslicf+oKe7WAKeryUUdu3w2mMUn4xb4cxtqslp0v9IiYkscxUvalWuM73HsliugJfyg+NGZgmF+ff53yki0mT5Sn942oaXG/AnE/igRUgtPQB0dTOCsbV2fa0MfBDgMSqQ3cWdipu9TBt1kUUQpwRkwfZ1P7ISWcxKsL6nWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KMODG3hcoUX3esNJBCnlzYd/gPP6sl8gyPobkZ4dHkM=;
- b=nhiu5WkNNF7ngDQiMHUS0xa9OjIrtko8OEpPRcXvVSikSoRNdnPoxajtk+W9jgrUhodhpdLvPeIYIxBpEfkMbHRNMMblh6uqGWSUeD+CfSjPwJR6bTO7ezmb+0FE14dcQOjY+bvpnteN+wvxGORVe8I4oQdywgITOyt3qV0VRv8EfmouCSGoLb1AkxSmJV+Pnm/+jgBMIpzMLeH+bhPhPlZcJAyyh0i8v8L8tRzd8JI6AAxHmdK5gKTNduZSnrRqgYRzWY8I9g2BTlCNIyrX4aGWN/ROpljNtoxz5GSa3V2BsljRz9oh0dc8lkMm1F+3UjxwwZ5x3TW2XKEbhDa6Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KMODG3hcoUX3esNJBCnlzYd/gPP6sl8gyPobkZ4dHkM=;
- b=i2iewtWlFSXGxVm7fsn76xbGMtz3tVSGlr9CUW8jh4Qy9+tmgopHVazoZx7LTMm0z+m4gUJxDqHq1qUytTjOIkGozW71M2KKvjLd2FYIVnnrZE0SCsftAcGo/AZIfjrTwCc2XhYNyChDZUa2NUI6OvtZGU3u61CB59XhvDQGbDNm7y8tE5EleV2fxk4svG87BYHzz277ZZhqY+j3D8VLprIbTrWcd6lN5P41EZUsRQjU1fqYrIB8VE1ThWLoBc5Ohl7K6TRAHt6PO6A0vI6XQFL5BtGRZem9n+3u9HZjm2yVD+jVXC61nuj4IYCvvEHLH6Q9IVqrJzc11bmDRLU80w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DM4PR12MB5771.namprd12.prod.outlook.com (2603:10b6:8:62::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.14; Tue, 21 Jul
- 2026 11:41:53 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
- 11:41:53 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Jul 2026 04:41:49 -0700
-Message-Id: <DK47ZRUL6UBX.1V6XG5QZ2YB8W@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>
-Subject: Re: [PATCH 4/8] rust: io: register: use path fragment in relative
- internal rules
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Tamir Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>
-Content-Transfer-Encoding: quoted-printable
-References: <20260721-registers_fix-v1-0-3711b2317e1f@nvidia.com>
- <20260721-registers_fix-v1-4-3711b2317e1f@nvidia.com>
-In-Reply-To: <20260721-registers_fix-v1-4-3711b2317e1f@nvidia.com>
-X-ClientProxiedBy: TP0P295CA0034.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::19) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="P9Cm9uc3"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f81a3ccf9so409813f8f.0
+        for <driver-core@lists.linux.dev>; Tue, 21 Jul 2026 06:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784639559; x=1785244359; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vXH/AcaDYaWjD1D7W7UeWMormFqpNiZzAjn7k+W0SEQ=;
+        b=P9Cm9uc39L/181ecLD/atUjjOFSrigzTfXnAZXXvEQhQ74Zgf5SnDq1wJaLVBkMLGf
+         AtrbYLqQDVJ3c9M6Ta9b8zu+hZPi9Mhza0VIS0sZTIRltms3CHho++NsfO2EwYiUNG1r
+         r6CYNhNm/p77koiwkKFI/QXRpEZpsb5jn8+EsdiIpHp5UEzSVYYBnchhQaa0yNXDH+FT
+         5VszFaOlsZQKge3bRpQOmenr1tM7szJdIQbzZwmBUBaBLZr+HK3pE7jqaIaZRld5Mf1A
+         Pgn3Zc1cMDOLgzvZEd1oUm699+X9q6LrqShJBOPTsDT6hRpEhLMd3HvcxfzP4nlLOBEB
+         M2aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784639559; x=1785244359;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vXH/AcaDYaWjD1D7W7UeWMormFqpNiZzAjn7k+W0SEQ=;
+        b=YDOhG0h1Del4HNN3bKLKpzjYVAI1VXlJLwcD8tA+TKpoSadv/vOHQnk0/xaEHRdkhm
+         d75a0r/z1Sog7c8CKQAo1ej0doAHQdUO0fxUzeOf4AQVYZLO8/Z+kFbSLmlgJky1OqnG
+         86SGF9wEIIwSwniw7jia/pSqtFkJ74V+kZTvV0Lw6EwPX5cv8eK6onpfdvNdL9rrPJBU
+         Ft1oIxXUVJlin/9t0kiZ8o9SSuXVqeS/45oYs3pmA1sIHxKEOecYxXCa3sfDyowq/oaH
+         v76eZyJ0P5KKbCoXJi2823JxRKZ3KbH9DCd3/DtKYsvqzPn+IDzVV+qb5FEi8gsxFQ7F
+         l0Dw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrn++AfwZRG29PotgujX3/W9l+zgUZ9jjvuqzX2HDL+6p4P/0sU/3ibELpbpu6QG54wrXo+Mo3cIjillg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQZqnGJc5QQX+YsgZlHmGsDMFKZRVvCAT8ylMFaAhU17MlW48x
+	5iWFIGAcSU9PtTqTpAajFz7DHgGN3dPEDP6ZOZNkBMeVzno2utylzXxZ7GSh8gsTDO4=
+X-Gm-Gg: AR+sD13JBgkvfo3SEWjey+8mI7qdbtYp8/HpTLKF+LYBB3SQICrtOTLmZSfXQ4VVmBX
+	CaMrnxaE+d5odi0b1k05PUaWfaOy0pYBjsF7G9bxJacJ11wv2HanOZqeaa2muSZ6mNUEwDmTobI
+	3QeAJdawMtl8z0/uVxBq2JCvj2fotHO/Rxk4Z/oELqgaQyv//G7zqiLdUltTox8qi10XVc19hzZ
+	wFfQnAo50QVo5GpY7m2kBhAhReGkQCvqBdPG3T1YmjhgKScB53+CHsHm93ZlIG2XDaS1crvvvjo
+	G04dsU1IenINRJSfI7+odAO1rHd2aACYLYcnqjee6CF/OrbjZVIpI9pqyOtNmiBnlufOLXGvQT+
+	Jsp/8q0gJZ5wXdaqsSxTV67wGwFscQYI9C2Q2+v2xEIxbDVrxjxYrOLZ8VbLfU7NLB3ceYWX5eg
+	==
+X-Received: by 2002:a05:6000:2084:b0:47e:81aa:3832 with SMTP id ffacd0b85a97d-47f6230e614mr22543209f8f.16.1784639559042;
+        Tue, 21 Jul 2026 06:12:39 -0700 (PDT)
+Received: from zovi.suse.cz ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ee9281sm42070938f8f.36.2026.07.21.06.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 06:12:38 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Januszewski <spock@gentoo.org>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	cgroups@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bridge@lists.linux.dev,
+	netdev@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v2 0/3] Bring includes in linux/kmod.h up to date
+Date: Tue, 21 Jul 2026 15:11:24 +0200
+Message-ID: <20260721131207.803760-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB5771:EE_
-X-MS-Office365-Filtering-Correlation-Id: d80c63e2-a7a4-4b48-0b4f-08dee71d0f9e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|18002099003|22082099003|4143699003|10067099003|11063799006|56012099006|921020;
-X-Microsoft-Antispam-Message-Info:
-	DQSy74Ln2C7u0tGfvPRiijK0EPdUq/363ouGbfCzoZxF7nsL4pBBx6jXriuXBwT1A7z1rkR4lPwdORvTb/QmerfsZj3negIQ60xEADUepNn1D5Ux174EzdPPgIWOoCl/yGfXTV10vqkDmy945Ik5AjEqC6wX63T8OMBdePKO2x4GGRKDXzVq5/5tj0OHqJh+GY+FSWGu4LZkaIGsbD8v11kYpOpvtq9Gfjt99KxKdNPTMFdJDGKUV0RYNPsVumlY8xk6X1r6oRCEpBu0GevWlb3H91dQEIE5ySpeODUfHlVsppwQlJyp7EdpEFga3DsqfuGmNbs3KF1tvET+Ub/RT7LXGKuwkEScPA8TSUUO56iT6sMs1ZeZh4t81Ca+7m4hVIr4MdOl0kFmJwqdBFtSg7AUvxlPM3quxs3IiWFXhPll4nQbThnZF70QQ0cVOKNr1fXbbxWphXtiOdLD6h2EhnPRMoQyDAd11/LJyPlwu6r+JcvV18x4qiqpqqKxuwlhQ/617t9rSMtme2DaD53YQHuX09ofxRRopB026M+QZrSZEMkTQkKYZsjbqZf+ostUL9CvVpPaS+Y9c67FuFhZOd0KIqHmxZCou+XgLrRsw/DTAw++f6G/j8bqK+pTd3w6cN/IzgTyryKVnObKRjopXdTet23ep0ySWs++NTD5cjlJHz8NvpOCiDaA0KC2N4NCVrNqIsyuia5x45RGkERNBA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(18002099003)(22082099003)(4143699003)(10067099003)(11063799006)(56012099006)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N2tFd2JaaHVuQkZSckUzcW1ZOHpORXpDQ0JrL1Z0ZXgxRDJiMDhLL1NWK1h3?=
- =?utf-8?B?UmY3eXlzK3NKR2t3VE9pT3UzbjBFdDExMU5sMUkwNmdOb0laeFJuRTdwYUFM?=
- =?utf-8?B?aUtlR25hUGx6a2RGU3dLakRhSk9OMFpJanNxbUJ3TUloekh3NjdGc2QvcUQr?=
- =?utf-8?B?OWZkbklja25mbmlBQW9oeFM2TW1JWU1tMmpiaWVScWRzeU15a3hXeEZVb2lq?=
- =?utf-8?B?RDFIV3c0amVpSXNCRkVnWkhQdjlQTDBnNFkxdHhsRXZDL2F4UmhPR3NqMUtJ?=
- =?utf-8?B?WWt3Qkx3MXo4d2o0bWI0aWFoT09FVlhUbHRBclNBZE9GZHNCRVZqRGd6QTAx?=
- =?utf-8?B?bWlYT1NoWTBoS0tiaTR2bWliYWMwRFlBZndZNnIvZjUyRWI3amZEaTdxOUxD?=
- =?utf-8?B?bWJMbWxqUzc5M1R6cTh6Tmo0OXRDSmw2TUJEQU1UQnE4ak5EYktzVlZaR2RC?=
- =?utf-8?B?ejViSFJ3SUo2Y3IwRGd5SjlDbVYwQnVkRXpQOW5ZclZVeUVjRzdFOTcydXhX?=
- =?utf-8?B?RGc0TFZnMWNYRXF0Yi9hdzZrTUQvK25mZzdBQ2hkNTVHWEEyWkdEMHVxcFBo?=
- =?utf-8?B?YTBhK3ViMEpnUmdIdlA0czF0UEFWWVdCaExzb0tnd1NjbVJOalZvYkJnc0JD?=
- =?utf-8?B?RVhweHlpQjRDZEk4VVJYRkZSSHJYVGhJalZiV09vUXFSVUtkdmg1RUZER21k?=
- =?utf-8?B?eWFJYkZXUjJqMzQ4S1BpRDlEME9oekJ0SmcxbFg2ekFLbUthdDAwZy9CZm9V?=
- =?utf-8?B?cVFaT2tDYTVNWEhoVFJHaXJmd20rZEszaWQxUDRtSi94TmluNVN0Q2FiOXg1?=
- =?utf-8?B?TmpjVTNZdlUzSDNQSVBFMnY3VU96Z2lvR2Ywc1U3WHAyUVJkMEV5a05MTnNr?=
- =?utf-8?B?V2R0UFNUNWVKQXlsUGNjb2h6dVdVRXJRaG5LaTBpMFVSZHhlWG1WRHExR0k3?=
- =?utf-8?B?K3NsVTJjUTQvMUVTVnZGRThhNVEzMkZYamhrMThrakYyY2duM0Vndkpad2JO?=
- =?utf-8?B?TkhocEJ1SzhYVFVhY0hVT1RLS1FGVUpwRVI3Y29yZUFlcGY4eDNtbVJBYzBC?=
- =?utf-8?B?dEJEZ2lJVzBRTWI0SXc2cXJjOVJ1RHhGS2xndExGVEg4L2xoblVlRXFlQU9z?=
- =?utf-8?B?aWc1dDBqOEZBbjE2YUxwbjRaRXNoVnhrTkdYM2NGcGFFckQyN3c4ZitINGhu?=
- =?utf-8?B?NDMxWHZ2cTduZnhJK1c2ZFVzQTZkUTRvZWdXWk9rbllKVUVZbS9IOE8ra255?=
- =?utf-8?B?QjVWL1pMTVpMa3hwWVZ6M1g5QTJlNlJoQkg5U0JuVDhuaDlYdmtDcFlHSlFF?=
- =?utf-8?B?eWFTTFhvNGF6d212RGlKUkxmMTFJTGFJWW1HMEhhcnBWUzR0NHprY29VaGJ4?=
- =?utf-8?B?L1R1RlNFa1lpUDlaTSsxQ25ROHZmVHhpMTVZMkx1eThTemU4YU1valNzZUdt?=
- =?utf-8?B?YnA0TDUvVWt1dDFDdUVyT0E4ZU9DVSs3WTdRVnQ5Q2RQWWg5M1BrN1FsUzho?=
- =?utf-8?B?YVNsQVd1bUZDMzBvYmo3Uzd6Wm8rYm1UcXlYaHM1dkg5WWl2Y1JHd2MrWWNX?=
- =?utf-8?B?MXA0TjhvcVU1cE5Fc0ppVjFDMW5ROGtuWXBzK0RadDJpdEowNElOUHVORUlQ?=
- =?utf-8?B?WFNmRkFFZmVydzVRMTRJQWduMEhhV0dldVB0cllOcElEYkFLV294VHI5ZGQ5?=
- =?utf-8?B?SWhmdnNOdkxjN0N1V0JUWkJMcHpZUkJYbmc1NzBvT04zQk9lY0g3czhtZDIy?=
- =?utf-8?B?L1NBNkZWbjFEeEVCZUhzVEt0Sk1WcTYyYXRGVXRPUklYamUxMS9RVC83U0s1?=
- =?utf-8?B?Wk5FVE93NUVyT2psTFdrcTlNdGNUcU1TU1N3WitVdkovOGU2d2w2VXNpTmpr?=
- =?utf-8?B?aHRxbnBzV2dNS3ZsK0cvUkN0V2ZYMGhrTWNQUVB2ZlluajNEdTVWa2NhMzRq?=
- =?utf-8?B?a25yRm9TTk8rMnJWMXNPRFdVUnFJT2lIWnJxTlNxV0VsK2dRQXNoNnlkOFJV?=
- =?utf-8?B?VDVWWnFMQlcvM25FQ2p6NGc4anFzZm1kV2REK0piNmFydkVQRlhOYkM3S3pK?=
- =?utf-8?B?S3hUYXBtQUJHeXpBaXE1M0k0Vnp0RktLTDF4Z0puZ3c1elBHQ3NZazFFUkZs?=
- =?utf-8?B?VkVJYUtvbTRWajJCZTBHRXgxaGRyYlFYN3hEMDM0QmhIY0E4clpSa295VWNz?=
- =?utf-8?B?cVhoWkV6WS9LRFUrTk5jNmhKUUZabmxIUWFZUHhRaHhVelVDZUhoZUVSSDZD?=
- =?utf-8?B?YjJZbDA4SzRVNUtqWlR1ZzJ1bGcyRXZ5Rmx3bFdWLy81TVFFS25maFBpcEJC?=
- =?utf-8?B?NDF4dCtwdHN1a3hhQXFxVDYzOEZHbFFGZW5vSlVYQlZ2RkR3aHFnQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d80c63e2-a7a4-4b48-0b4f-08dee71d0f9e
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 11:41:53.8111
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 85SE3TlJM6iCXRf0wdv0yndncqoiy5BdglgMSbcThGCGI2oADw73Wwo49w5UF+kPG55DV++hD2RNpgIo5XK+kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5771
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 21, 2026 at 4:00 AM PDT, Alexandre Courbot wrote:
-> The base of a relative register is a type, but its current fragment is
-> `ident`. This prevents referencing bases that are e.g. declared in
-> another module.
->
-> The `path` fragment is more accurate to represent relative register
-> bases, but bases are currently followed by `+`, which is forbidden right
-> after `path` fragments.
->
-> `:` is another separator that can carry the desired semantics, and is
-> legal to follow a `path` fragment. Thus, replace the `+` separator with
-> `:` in the internal rules so we can change the fragment for relative
-> register bases to `path`.
->
-> The public rule still uses the `+` notation and an `ident` fragment, so
-> there is no user-facing change yet; only a minor replumbing of the
-> internals to better support the new syntax introduced in the next patch.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  rust/kernel/io/register.rs | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-> index 1e0e23e4233f..62208f52752a 100644
-> --- a/rust/kernel/io/register.rs
-> +++ b/rust/kernel/io/register.rs
-> @@ -816,8 +816,8 @@ macro_rules! register {
->          $(
->          $crate::register!(
->              @reg $(#[$attr])* $vis $name ($storage) $([$size $(, stride =
-=3D $stride)?])?
-> -                $(@ $($base +)? $offset)?
-> -                $(=3D> $alias $(+ $alias_offset)? $([$alias_idx])? )?
-> +                $(@ $($base :)? $offset)?
-> +                $(=3D> $alias $(: $alias_offset)? $([$alias_idx])? )?
->              { $($fields)* }
->          );
->          )*
-> @@ -850,7 +850,7 @@ macro_rules! register {
-> =20
->      // Creates a register at a relative offset from a base address provi=
-der.
->      (
-> -        @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) @ $bas=
-e:ident + $offset:literal
-> +        @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) @ $bas=
-e:path : $offset:literal
->              { $($fields:tt)* }
->      ) =3D> {
->          $crate::register!(@bitfield $(#[$attr])* $vis struct $name($stor=
-age) { $($fields)* });
-> @@ -860,7 +860,7 @@ macro_rules! register {
-> =20
->      // Creates an alias register of relative offset register `alias` wit=
-h its own fields.
->      (
-> -        @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) =3D> $=
-base:ident + $alias:path
-> +        @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) =3D> $=
-base:path : $alias:path
->              { $($fields:tt)* }
->      ) =3D> {
->          $crate::register!(@bitfield $(#[$attr])* $vis struct $name($stor=
-age) { $($fields)* });
-> @@ -916,7 +916,7 @@ macro_rules! register {
->      (
->          @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty)
->              [ $size:expr, stride =3D $stride:expr ]
-> -            @ $base:ident + $offset:literal { $($fields:tt)* }
-> +            @ $base:path : $offset:literal { $($fields:tt)* }
->      ) =3D> {
->          $crate::build_assert::static_assert!(::core::mem::size_of::<$sto=
-rage>() <=3D $stride);
-> =20
-> @@ -928,11 +928,12 @@ macro_rules! register {
->      // Shortcut for contiguous array of relative registers (stride =3D=
-=3D size of element).
->      (
->          @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) [ $siz=
-e:expr ]
-> -            @ $base:ident + $offset:literal { $($fields:tt)* }
-> +            @ $base:path : $offset:literal { $($fields:tt)* }
->      ) =3D> {
->          $crate::register!(
-> -            $(#[$attr])* $vis $name($storage) [ $size, stride =3D ::core=
-::mem::size_of::<$storage>() ]
-> -                @ $base + $offset { $($fields)* }
-> +            @reg $(#[$attr])* $vis $name($storage)
+The usermode helper declarations were previously provided by linux/kmod.h
+but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+files that use usermode helpers and remove linux/kmod.h where it is no
+longer needed.
 
-Mmm looks like this `@reg` should also have been added by the first patch.
+Also add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
+
+Finally, clean up linux/kmod.h so that it includes only the headers that it
+actually requires, importantly removing the compat linux/umh.h include.
+
+This cleanup is motivated by trying to reduce the preprocessed size of
+linux/module.h, which includes linux/kmod.h. The linux/module.h header is
+included by every *.mod.c file to provide `struct module` and other related
+definitions, so it should avoid pulling in unnecessary dependencies. Note
+that this series doesn't immediately improve the situation, since most of
+the files included by linux/kmod.h are, for now, also included by
+linux/module.h through other paths.
+
+Apologies for the wide distribution. Acked-bys are appreciated.
+
+Changes in v2:
+- Remove the linux/kmod.h include from kernel/cgroup/cgroup-v1.c.
+- Add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
+- Link to v1: https://lore.kernel.org/linux-modules/20260708154510.6794-1-petr.pavlu@suse.com/
+
+Petr Pavlu (3):
+  umh, treewide: Explicitly include linux/umh.h where needed
+  time/jiffies: Include linux/sysctl.h for proc_int_u2k_conv_uop(), ...
+  module: Bring includes in linux/kmod.h up to date
+
+ arch/x86/kernel/cpu/mce/dev-mcelog.c |  2 +-
+ drivers/block/drbd/drbd_nl.c         |  1 +
+ drivers/greybus/svc_watchdog.c       |  1 +
+ drivers/macintosh/windfarm_core.c    |  1 +
+ drivers/pnp/pnpbios/core.c           |  2 +-
+ drivers/video/fbdev/uvesafb.c        |  1 +
+ fs/coredump.c                        |  2 +-
+ fs/nfs/cache_lib.c                   |  2 +-
+ fs/nfsd/nfs4layouts.c                |  2 +-
+ fs/nfsd/nfs4recover.c                |  1 +
+ fs/ocfs2/stackglue.c                 |  1 +
+ include/linux/kmod.h                 | 12 ++----------
+ kernel/cgroup/cgroup-v1.c            |  2 +-
+ kernel/module/kmod.c                 |  1 +
+ kernel/power/process.c               |  2 +-
+ kernel/reboot.c                      |  2 +-
+ kernel/time/jiffies.c                |  1 +
+ kernel/umh.c                         |  2 +-
+ lib/kobject_uevent.c                 |  2 +-
+ net/bridge/br_stp_if.c               |  2 +-
+ security/keys/request_key.c          |  2 +-
+ security/tomoyo/common.h             |  2 +-
+ 22 files changed, 23 insertions(+), 23 deletions(-)
+
+-- 
+2.54.0
+
