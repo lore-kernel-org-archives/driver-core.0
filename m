@@ -1,97 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76BC34BA5B;
-	Wed, 22 Jul 2026 13:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66654353A6F
+	for <driver-core@lists.linux.dev>; Wed, 22 Jul 2026 14:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784728758; cv=none; b=K/NzFP7jK/Qbf/I8qgQ/OS6Txmd7o3kddcMmXO8RmKIyxIBLEUqOzUoMHeOj8JbcqkhaA26ALgEswjJqDoOxn/rrkqpglBTIQpQFYi+NXo1N8RGa2D/sWaANlv6LOJeBaoKxJaEiYd6/Tf4v007vBO6m63iPvKm0pk2tD9lCV/s=
+	t=1784729101; cv=none; b=sUP9RtaR0QF86qMyWVPb7eimKPkETba3ah1fU91FSi6BYR+8L3iH7gVhuAXbSuv8Fsh/3bKA33iGTklHT6UGsnfB8bDqDfOy8yQ9VLnvwGQiZxePmKlr5XfhN+MN947ckMcQMtLz4cx7QqAqiRmJ1zD3o8ehkole1DBLyU4iHL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784728758; c=relaxed/simple;
-	bh=ZZ0/5d+6zvPvmk7k5VKoAKANcjzAqFt7l8gQTAMH6ac=;
+	s=arc-20240116; t=1784729101; c=relaxed/simple;
+	bh=BiKsszl+35xq/ewMPZzGz30tgw5kvnsmDpEO+3lG0vE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJyO+La8L9cl03KUymDgs0RRwwIxUg2EBu3NQ9mBP892/YeYsCSxALmD+vc+Udbs9b7+JddVBlIoupCckbgYxYFspiUVKqjMqrT/xVpCWUpW6NijEpgNAIJV5lAlaU2A/TqbBj3xlJn/nmyKjBbU/X19vmqIZSwJ2BGGEsbJcE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igxovuDB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HXG8Dx0JMqfl6mqlqnBBOIsArK2pYQ5W90C0bqG1PGDBJerjJdymLdpOT68mb61nNCf8/S68S93+PHGD+TYGsMttwEnLOE+lCaGB3tPUyjyPzUEFHy1KZmRHjTlmtEQe77IGphXwJmLmZbRjp1Iz+PFnpp6nHjYRhxkw9DQ0Gi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=nqQpTSij; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igxovuDB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF621F000E9;
-	Wed, 22 Jul 2026 13:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784728757;
-	bh=djFumKZmLPhTKFBUkypeYj9o0RSbnHYax0oZu4ZoNwk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=igxovuDBKqYtBTLYTaey6oWDcn3z9NTxLnF2JZULg+9bAm5oR0mkqBOy30nPHtG6U
-	 zRAt92q93qQma0YM9dLBC3eCxDe4p4K8o4D/GzFHRX0ahIAbsojNccVlV+CMy4d9O7
-	 NXVrUEpo9Px1wwTXDF2NUiMAjz97e2Cg3PCjCSVlRI6a9KUD0PsQNnYC9/YgbcjMQo
-	 XPXvrnNti0wlwJR2ZWf/MIQknKHjKwof8EQ0ERwkZVo6p8Mg9B041pDSPq/EphBfYR
-	 /2qXwJ6e2dEOw90NRTYYz8hUZBmTnb7jHYRexixgKk+jBWhE0tU6jhehuaPecH/X8Z
-	 c6AnQNso76OEQ==
-Date: Wed, 22 Jul 2026 14:59:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
- no-sequential-read
-Message-ID: <cdd3b988-72cd-4143-9a17-ee0c57625e94@sirena.org.uk>
-References: <20260722-regmap-single-read-v1-0-aaaf31591669@linux.dev>
- <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="nqQpTSij"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e5c9211d2so1128426985a.1
+        for <driver-core@lists.linux.dev>; Wed, 22 Jul 2026 07:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1784729097; x=1785333897; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
+        b=nqQpTSijoBpCJxkc2dL1vz2F7XXyOIvVhXnUkAPC8cq4hQAUl8GnbG74SZitsy+txy
+         i9sz4jT6W9hRkpMxczVupue8sgzD0aadU+7gPR7JMb3Sz6Yx4JSSo3RcEhpJTtoRypQc
+         g+AoANGp/sqE8mLY+u1aXNC1/ngEOGsZ+ZixYffox/8LWzOkDQ0G91SJK9bxdT0hznrf
+         yDeBViyPuf4xfLULxvLMHGi/4SEBovsO3XZSAf2MUhx9P28I4UUs3MCbapX+UUA5mFVV
+         bya+iFKfGrRm57COm5TqRA+tFsAc84Sd+2U/IA6zkdwdfyVW8c/WqpYgyF/olGxUtwOg
+         p/WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784729097; x=1785333897;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wzTopji7Zl+MAyFivVnXiZLO5KABEpd5UV02S/KHUTw=;
+        b=FnInR34fy0aCGj7WD0Wd9uAl6Q1roNthL56NWGwLYUuuq51aYEYQgMtwjX5hgaiNbh
+         DgvNPBeAWbh0GlwC1jslZVuuVW2n3YF3l8z2mUeXUCYNky4sWCrwovdsnfFIon1X/cTj
+         q4CMHB+fwWhbRgQm0iC5/ScIZv/fkQU0eNwpWt3W2EhKwZnINOEdpoMYpdKvc8TYCgbf
+         46Kl3ECn1mGWGnCt9uWXhmVKdza5r3IbMNWj3p92gXmBLmjVrVBS/A0A7HHui3qijmk4
+         Sp/DPyaTGTfYfGGgTwI593FoqK/n92axJRDF31ZaPz371kiSfBsTxnd5x4q1AeJmNL/x
+         VC/Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqwP6p+aWhIwRN8TLhbcQEazdLHJviY6zDYBqkDWYlIlA34wi7o9b9t+J39veZRAQY2MP6p8lPHF3uU0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRTPvGByumLjgKj/EHBMm/+TnQuetwt/sR63o8aqYyMPIye7uH
+	F82NYeyVEpdBlSasgqcY3sRdAt3tnZWTUXyQbODtF1WLGelB2nfc2JlSy0ljB9e3SJM=
+X-Gm-Gg: AR+sD1295Dy3btADmiN0Tr461Oe+2BVdduxpirJDEgYLqz/y/9xhvu4OVLpRYQYXMcL
+	pKO8wbY1/aJ40/+VC09fYCgjsz4TwBbvhHDvkG9jANNemCM+CV9yxxEj+81OnSg/WbNlORRHSeo
+	pg6qXXMddBnFfcJxeG5Sf+NH7kMInooh0xrKFxyz1SzNibs5cCvhOV7mKwMVLkJ9igHFljPW1YW
+	ICBbpW2Ok/TUdyxrjGN4FlYBwhVKWb9KNrP19MFBvMwYl0Z8e7TLdSTdN5CuNNvOYLGsJjcJHH6
+	HcvEkWfTfdxxRSzJjL6QVddMIJUuRA33C3f9GEUN2ZVlwuiCvC5uv21csJVuCr1Er+Byw26I4FO
+	sb7W2moRplhIkHR3BeGC4G1SF+BQemrB48aAN6f93q0BnF2PoJUdsAzu0Wm4CTP3RAyC2+gNE7V
+	R8w/GxN+e7PnqRyR7rT+j3IhtBXagUyu2awhJLuj4/z6k9OQGlza3JXJTPkw==
+X-Received: by 2002:a05:620a:1992:b0:930:f7ee:2cf5 with SMTP id af79cd13be357-930f7ee3792mr215753585a.66.1784729095553;
+        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-930f68d5d6dsm171863585a.20.2026.07.22.07.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 07:04:55 -0700 (PDT)
+Date: Wed, 22 Jul 2026 10:04:49 -0400
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 28/36] mm: add NODE_PRIVATE_CAP_HOTUNPLUG for opted-in
+ private nodes
+Message-ID: <amDNMmbdE_ZhUgl1@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-29-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zMcc9TStrEJfLAr+"
-Content-Disposition: inline
-In-Reply-To: <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
-X-Cookie: Life is like an analogy.
-
-
---zMcc9TStrEJfLAr+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260720193431.3841992-29-gourry@gourry.net>
 
-On Wed, Jul 22, 2026 at 10:42:46AM +0200, Richard Leitner wrote:
-> Introduce a common regmap dt-binding schema with an optional boolean
-> property no-sequential-read to describe hardware integrations where
-> reading multiple consecutive registers in a single operation is not
-> reliable and registers must be read individually.
+On Mon, Jul 20, 2026 at 03:34:22PM -0400, Gregory Price wrote:
+> Add CAP_HOTUNPLUG, which allows memory_hotplug to migrate a private
+> node's folios for the purpose of hotunplugging memory.
+> 
+> Without this, hotunplug fails if any folio on the node is allocated.
+> 
+> Add node_allows_hotunplug() - which returns true for any normal node
+> and private nodes with CAP_HOTUNPLUG.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 
-> A typical case are imaging sensors used on vendor-provided camera
-> modules whose bus integration does not support reads that advance across
-> consecutive register addresses. In such cases, single-register reads
-> work, but bulk reads do not. This restriction is a property of the
-> concrete hardware integration, not of the chip itself. It therefore
-> cannot be identified from the device driver and duplicating firmware
-> parsing in each affected driver does not scale.
+after this question:
+https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#m5b8166212a276fece2380f2dd03d6864375a576b
 
-No, this should not be a DT property.  We should discover this through
-the bus, just like we do currently for the various I2C quirks that are
-advertied by the I2C subsystem.
+and some off-list feedback about limiting initial cap bits to active
+use cases, I realized that this CAP bit can be entirely eliminated.
 
---zMcc9TStrEJfLAr+
-Content-Type: application/pgp-signature; name="signature.asc"
+hotplug notifier callbacks already allow a driver to prevent memory
+block state transitions - so that control already exists.
 
------BEGIN PGP SIGNATURE-----
+v6 will remove both the filtering here and the cap bit.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpgzK8ACgkQJNaLcl1U
-h9Aa7Qf/R5JpFVgprbbnuaU3XoAX/nBI95XkID3JxvqORE9n/z5u85hthFQ4rORJ
-psjAZKMHJuNy3xEey4PtxjzaAgf8VQ9DLNopBdQP4oLkLjdPN4hRBlGIJP3UTc6M
-zSL/CLqmBCFlAhopF/iGMWHcpsXpu9rSGbC8Ws8C8v9Geh7cWoQeYc2w3Vxzb2jg
-Y5mKW8IKTgmqC8dSDSunXE8rGl5DCdbGp7eZ+iCdrnsqhu5cqO1O5r5K9K49Hrxq
-TvGaM2B4Qo803WKhnliVDgkNlla/dJOKYQT/kS0s7BrB00d0/B+ERa9m0TScVXo6
-DF/wSp7g3WMZ0NF1ThRx9SSC/NrbNw==
-=h6WK
------END PGP SIGNATURE-----
-
---zMcc9TStrEJfLAr+--
+~Gregory
