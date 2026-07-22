@@ -1,140 +1,97 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343C5346E47
-	for <driver-core@lists.linux.dev>; Wed, 22 Jul 2026 13:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76BC34BA5B;
+	Wed, 22 Jul 2026 13:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784728139; cv=none; b=UQCUFLcJ+jINY7kidqVmECtR0A0FzZe3dXKys7WZceJsA/AMdQcaYVVUlwNvEgMvgjI0vf8rfx5bJ/xOa+WhtpOxi4UTDdt8JMWAbx1kJEld1TMSs6EVIW1NEUAfhEeFLbdcB/E9Lgr/csSu/HAovln6KgBHn/stwmSvAkwCZy0=
+	t=1784728758; cv=none; b=K/NzFP7jK/Qbf/I8qgQ/OS6Txmd7o3kddcMmXO8RmKIyxIBLEUqOzUoMHeOj8JbcqkhaA26ALgEswjJqDoOxn/rrkqpglBTIQpQFYi+NXo1N8RGa2D/sWaANlv6LOJeBaoKxJaEiYd6/Tf4v007vBO6m63iPvKm0pk2tD9lCV/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784728139; c=relaxed/simple;
-	bh=JAIqzpQM3gUx7M+gDSziic1KcB43W58VAXiVvJF0/Hk=;
+	s=arc-20240116; t=1784728758; c=relaxed/simple;
+	bh=ZZ0/5d+6zvPvmk7k5VKoAKANcjzAqFt7l8gQTAMH6ac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gqVhgSwIExyLCiTjCF32KcYb52Abm6+pjuur7KvXjnSH/LdLPbh0SJTKQpqCGsXll0zKy2JHaWglK5NGBpVIIz4ohY+0iujwvi0P7JIRAOj/Ky/HjzLvayg9uPVZqwNDP0+TRta3i4rtYI0Ltrb+tcchltwVlVmP/KPb9O8Mx3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=YfOYZuNd; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=DJyO+La8L9cl03KUymDgs0RRwwIxUg2EBu3NQ9mBP892/YeYsCSxALmD+vc+Udbs9b7+JddVBlIoupCckbgYxYFspiUVKqjMqrT/xVpCWUpW6NijEpgNAIJV5lAlaU2A/TqbBj3xlJn/nmyKjBbU/X19vmqIZSwJ2BGGEsbJcE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igxovuDB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="YfOYZuNd"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c16ac21acso57459361cf.0
-        for <driver-core@lists.linux.dev>; Wed, 22 Jul 2026 06:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784728136; x=1785332936; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LI4otu0+1hHJyrtu/tBxz3iTtloCysub9k9iNgYv1gk=;
-        b=YfOYZuNdcixU6KFi6hihf6NZPUYPamckxNjiSQuh3Y5LDGZmjoDNVLTDxgzMG1Yo+X
-         XzZ6tvLBXsx1dQPXkSj6j/cEzn4wHJ+rOPsLcQQ+iRwfKgoIxp2JPMOX1vM89mig9szH
-         NRPwcRxuOWjCP9NiB++kCyhZ3SM1uyxeVRZFZMJS+YhORFYtVrysDDD0+gswCoVUTflH
-         XF8QvL2Wq+yCPt8ZtMOFrmHqM4uqelSiOhwa0uMVjir3ZP+mF+j1fraO+Y/Pq6Ju+p8S
-         k4TrIKc36YZgNOb7FgVzRHan5sQq754ntuXucbdZQ3c5j/r0zWt/rQUiHvWlaOqQspP8
-         mU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784728136; x=1785332936;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LI4otu0+1hHJyrtu/tBxz3iTtloCysub9k9iNgYv1gk=;
-        b=QrJF5DfGdi9Ja5+9pwolPkpviOH+0DqxP48IwOMVaZi2YSKnTwlyZkTrYusQVuk7MP
-         51ZQdhoT8j03ZZrKF/9q7MQloLBZf7j3sKwaYU9hEdm8qSaXgeRbVBhMp8rQaZ7xGJOt
-         l9bHU9uQnuyWHmzsu7ks8AFH1ID3v0Fv41oNmC80cjAJlnpHXgzOEZKO+l1LnrFtIETc
-         1M0oH3AfOJsQjqRXptLRzgEGQbtTeR8hQMvMr8xMGQAk2/3AuEf+rljKs+C99GwpphpJ
-         2kV4ctZ8nBZmD8Cc5zmvxLHFdl2ckzM7Qj24RFKCA2XZG/llGvGMnT2jqsAiITxndlb/
-         Rvfg==
-X-Forwarded-Encrypted: i=1; AHgh+RqsHfqdubZjtyI78cSyyvFbjGE8puIZp087WOGJIq5I0ZdEOFf3SVtDfQUXxA87POdX1SEtHntHhB29Lg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdshAoz5lWD2MbfsmiP+X8C8ScucKEqynLWAusNU9kS45qTi2A
-	uc4DGTVpiC1fsWwzA8awp0bH4MgFTwAe0w2sSGwMw/t8GAPobXXfDKCDtYq4un4aIKw=
-X-Gm-Gg: AR+sD13CeyWH1ht1fPgVre/RMZYyGSnY/RmE+9XusSRLuBP5tdXO0HZGfaYEml4quRm
-	Ec9opuIeGWg4L8vSspuByBSQo3xBMYjPIhDhLGrrA1/M+GoMS+Abf2pDG4bJ1ZgxR3fF+ohk2jU
-	aczFxVRDK5XCMEKR0/dGnqTKpbPtLPIwDJZj6Ig1cNF3/01sVW5lecKF/a0CqG2PRoEJfWpFWeh
-	XKaTl4KVwsb2PDfXvMsSZVj/6hzrnAuUdCvtW6UrUwehE79XdZyaUH1/izsFsnohcz3PZCZ2vb8
-	uYGLJpiZujFYtmtX+L9H3vsKAmGqoZ/iArljxM0qDyYkHjBAMviWJDqGEWdtGZYa3mc+FqXkfPm
-	NVf6MMdQinL3Czo4eCOfLlaFDEGgp+CiLnTMR60tbzQOJ/ndyjUB58hjVeS2UYspLzMRoXWyHyB
-	8KUw1J+XEe4qdKC/Fwj0uwKMopOhftZr+FdxYnD3hdG5iRMuRaNMeOKEsKNQ==
-X-Received: by 2002:a05:622a:350:b0:51c:555:7dea with SMTP id d75a77b69052e-5213cbd667cmr215415981cf.30.1784728136109;
-        Wed, 22 Jul 2026 06:48:56 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba8e2581sm21393266d6.19.2026.07.22.06.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 06:48:55 -0700 (PDT)
-Date: Wed, 22 Jul 2026 09:48:50 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 26/36] mm: add NODE_PRIVATE_CAP_RECLAIM for opted-in
- private node reclaim
-Message-ID: <amDJEbu3aQO8J8f4@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-27-gourry@gourry.net>
- <amDGXU94trqlXUgR@MWDK4CY14F>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igxovuDB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF621F000E9;
+	Wed, 22 Jul 2026 13:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784728757;
+	bh=djFumKZmLPhTKFBUkypeYj9o0RSbnHYax0oZu4ZoNwk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=igxovuDBKqYtBTLYTaey6oWDcn3z9NTxLnF2JZULg+9bAm5oR0mkqBOy30nPHtG6U
+	 zRAt92q93qQma0YM9dLBC3eCxDe4p4K8o4D/GzFHRX0ahIAbsojNccVlV+CMy4d9O7
+	 NXVrUEpo9Px1wwTXDF2NUiMAjz97e2Cg3PCjCSVlRI6a9KUD0PsQNnYC9/YgbcjMQo
+	 XPXvrnNti0wlwJR2ZWf/MIQknKHjKwof8EQ0ERwkZVo6p8Mg9B041pDSPq/EphBfYR
+	 /2qXwJ6e2dEOw90NRTYYz8hUZBmTnb7jHYRexixgKk+jBWhE0tU6jhehuaPecH/X8Z
+	 c6AnQNso76OEQ==
+Date: Wed, 22 Jul 2026 14:59:12 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
+ no-sequential-read
+Message-ID: <cdd3b988-72cd-4143-9a17-ee0c57625e94@sirena.org.uk>
+References: <20260722-regmap-single-read-v1-0-aaaf31591669@linux.dev>
+ <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zMcc9TStrEJfLAr+"
+Content-Disposition: inline
+In-Reply-To: <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
+X-Cookie: Life is like an analogy.
+
+
+--zMcc9TStrEJfLAr+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <amDGXU94trqlXUgR@MWDK4CY14F>
 
-On Wed, Jul 22, 2026 at 09:36:14PM +0800, Richard Cheng wrote:
-> On Mon, Jul 20, 2026 at 03:34:20PM +0800, Gregory Price wrote:
-> > +static struct zonelist *memcg_reclaim_zonelist(int nid, gfp_t gfp_mask)
-> > +{
-> > +	unsigned int aflags = ALLOC_DEFAULT;
-> > +
-> > +	if (unlikely(!nodes_empty(node_states[N_MEMORY_PRIVATE])))
-> > +		aflags = ALLOC_ZONELIST_PRIVATE;
-> > +
-> > +	return select_zonelist(nid, gfp_mask, aflags);
-> > +}
-> 
-> 
-> I applied this code change and notice in mem_cgroup_shrink_node(), it calls
-> shrink_lruvec() directly and never passes through shrink_node().
-> 
-> This patch makes private nodes reachable through memcg reclaim zonelist, but
-> what prevents the direct per-node memcg path from reclaiming a private node
-> that has not set NODE_PRIVATE_CAP_RECLAIM ?
-> 
+On Wed, Jul 22, 2026 at 10:42:46AM +0200, Richard Leitner wrote:
+> Introduce a common regmap dt-binding schema with an optional boolean
+> property no-sequential-read to describe hardware integrations where
+> reading multiple consecutive registers in a single operation is not
+> reliable and registers must be read individually.
 
-I legitimately missed this.
+> A typical case are imaging sensors used on vendor-provided camera
+> modules whose bus integration does not support reads that advance across
+> consecutive register addresses. In such cases, single-register reads
+> work, but bulk reads do not. This restriction is a property of the
+> concrete hardware integration, not of the chip itself. It therefore
+> cannot be identified from the device driver and duplicating firmware
+> parsing in each affected driver does not scale.
 
-Sashiko also picked it up on the filter patch:
-https://sashiko.dev/#/message/20260721183528.B4B9C1F00A3A%40smtp.kernel.org
+No, this should not be a DT property.  We should discover this through
+the bus, just like we do currently for the various I2C quirks that are
+advertied by the I2C subsystem.
 
-If nothing else - implementing this feature has taught me some
-sub-components of mm/ have very well centralized logic, and others (like
-vmscan.c) have 3 or 4 different paths in with a lot of strange quirks
-carved out.
+--zMcc9TStrEJfLAr+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I think some of the vmscan paths can be improved to simplify this
-interaction, but i will fix this particular miss in v6 and come back
-around to see whether we can clean up these different paths as a general
-improvement.
+-----BEGIN PGP SIGNATURE-----
 
-~Gregory
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpgzK8ACgkQJNaLcl1U
+h9Aa7Qf/R5JpFVgprbbnuaU3XoAX/nBI95XkID3JxvqORE9n/z5u85hthFQ4rORJ
+psjAZKMHJuNy3xEey4PtxjzaAgf8VQ9DLNopBdQP4oLkLjdPN4hRBlGIJP3UTc6M
+zSL/CLqmBCFlAhopF/iGMWHcpsXpu9rSGbC8Ws8C8v9Geh7cWoQeYc2w3Vxzb2jg
+Y5mKW8IKTgmqC8dSDSunXE8rGl5DCdbGp7eZ+iCdrnsqhu5cqO1O5r5K9K49Hrxq
+TvGaM2B4Qo803WKhnliVDgkNlla/dJOKYQT/kS0s7BrB00d0/B+ERa9m0TScVXo6
+DF/wSp7g3WMZ0NF1ThRx9SSC/NrbNw==
+=h6WK
+-----END PGP SIGNATURE-----
+
+--zMcc9TStrEJfLAr+--
