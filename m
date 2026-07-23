@@ -1,125 +1,109 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6914638E5DF
-	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 16:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684DE4908A4
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 18:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784825596; cv=none; b=sgzo45Ym3WBByDs4S/rMi2h926pkJNtqKMkS2qFCvWCEdJcUcu3pcCwWVNavns2f/2z4DorvltFNV7b+Txh7t0Y3tCa9gBs9hL3uZh+20aAQpinoFgdKKpDYA38f8ED2I0E7j2MOCFW9yt8E0Bk5HV8uYwKcmrnQPV9mpS4maQs=
+	t=1784832936; cv=none; b=dRN781Oqbvw5RY7970dnYu36LIjyJdlbZwuxfiwRnwqqs7HS89DMUm1/ts4PiQo9zHWSkjDiRaJovWoKR6Gl2PMtSmpSQ7C6cC0+Ojc+7Y9uawWkg1PFOxJSRKJe33a7x0P+TeFrUDVazsAxbLhhZqC2Q+Hh/xkbLdXT/pI0WVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784825596; c=relaxed/simple;
-	bh=z+HoEvmWYKtMfBygtPBl68CeMD6wWsLW69JzvhhpR/g=;
+	s=arc-20240116; t=1784832936; c=relaxed/simple;
+	bh=o54D70suDaw58koHq9IxtK7frBP4sFmNgJgUK0vIW0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOIoKGDVTa27kxhrWotAS8RfT7YFvqFXPwVAalvL+6jZ7S4rxPW6QqGZUdQK9gNF99s8P8Fdqn/qLmqJ4GE1+OYm8VqqL080FJQKZB6URPzOsX/vqv4+9bTeSf8ONSPyyTg1T43Whjb4mFIiMO95HHNohPOJuyrPWhMD/1GlEMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=kn/Z3F54; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSmjEuJVnrjIBuvZIMMqgMRTPhbz9J0jMnG8w14wh+dQ0dOyenjavXQu8iy/TYqdgW7JJ1N5747jSH3F5eUJG0Ho1m3eQfG1tBw7L4T0MHuM5pFdsHkufDyVht9BTf81UMLv55LLNFHlixdwDIl5ngmwMxnplCNKmBEAq11SsCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HgxdoVJi; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="kn/Z3F54"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-902e4af2d9dso7929076d6.0
-        for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 09:53:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1784825593; x=1785430393; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bqVE/c/eX9E/Cy6wFBhLLV7HBSbIhrEkmRJZ6Osn4Tc=;
-        b=kn/Z3F547ylAZcLe7JBWfcmweM6iZTuUyxLPxva4czgaq251v+oIynK8XCMufsHoCt
-         mOBLzgByyi1X3mUQYm2PI1TC92JnU8adpYjrDHOxLa6ro1vO0mXSxTlJ+a9C5ZCPqvF4
-         HuR25632kPiYUZhj4VCN4qfhyOvYyTzODpWsC+H7+1Fn9DcfkQUnSpr+sOUZkfFVEgsm
-         4eyTP3AaSLtc/+nPg9X4ukmjld3pZt9zhHrUZivXo6lcu9MIoLcPRAkw20/NjDXQLfuR
-         WMCd16rS7UNGIoAnl154Kfx5h/pubNLUqPkvsGAxs0RuG/odndB53oE6JD9+KXQRzCfB
-         j7ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784825593; x=1785430393;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bqVE/c/eX9E/Cy6wFBhLLV7HBSbIhrEkmRJZ6Osn4Tc=;
-        b=XOuV/s2g09+o5dE9lnfAfjgaNaLuQlic0Avv7gYgzZfy+oPixpAwCYppLKKhDwfywn
-         Cr+G3TdYj2Q25eJcTGzLwCIU3VhRFS4/oKOICXtK9Pf892YmDUvLxv2cJ3Kx7fyrxvVY
-         xlIwFi6i5simcCBAQXLOJy+5N0vdGbEGEW0knRsKaKZSFg0EA2qvXXKTzCztnAutjCBb
-         RKsewhfk5uJds6OKVIf6pWE9q4idTu1dVDH/VdXnlnBaJBn6nKNiSQsZ5BggnUToGp+i
-         ccwKol2oEPAR7iVW+wFD5EdfUcXh0SZF7qNYj3CtsynSpnvMJReqDLa5xqby+fUkROV3
-         LmOw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp1erZxNMvHqn5Er4QqocDTUR+YvR/uRBEnvo60ch3wlSmyNg9OAY0fDR3MEVYtBQrjbP7o1uSjAa4NAA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxA2seJv9ReDqndsmcMU/Hc4QjSOMtjFw9Il4ry0PM2Aq+stwtQ
-	P9V2DcJNl06Obl2p8R5J4atz0a1b3vJZq1isXzbpAPhTKxwaNMJhtY2NHO7km7mAMBQ=
-X-Gm-Gg: AR+sD12SRfCahTJYLXqV7U4kZBF/33dmnAa7KGCGyFLio+79ooirqKfk6xrY6be5ybv
-	Oo/E0IqrG6LPWdPWi4QP9sz7/SVt4NUziKieXq440PB1wXnXna6OpqGXiOLqe+DBsLyqocvQl7T
-	Wio0ngUoNYPyO/KbycrQD7RnmKFp5RaIno5k+kH39mf5ba4ZU/Yw8Lj1vEamgdsK/R8oAyhWLWL
-	XryWjfiY1diRU1q1Y8tVYmZnrgBIxIvuLpSHKiwfzuV/PHdVdIt9mH72hfnxhhVRXMpXiMQ+D5a
-	bc8qrvDwGFKl8gN82U9yE7hhd0fWi4zxJwEnxNJ+e0STxvHCZJjQJ2673C046d+fIkv9tx0q8na
-	7Ol/eYRrsr8qGjUePCMgAi+78jOxMTmeLYyHM03A7DTw0dovdpc3FuG7HMQzl/wANkq/gA6KWFa
-	PRCYXoDcOYmSgn9WH+Psrvyq2r3myNX1KOckZhF6xJ81rTa9p4j2IMIlIiLw==
-X-Received: by 2002:a05:620a:1729:b0:930:9533:5e32 with SMTP id af79cd13be357-9310468af9emr366578785a.7.1784825593202;
-        Thu, 23 Jul 2026 09:53:13 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907ba9e18d4sm48785446d6.23.2026.07.23.09.53.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 09:53:12 -0700 (PDT)
-Date: Thu, 23 Jul 2026 12:53:06 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Arun George/Arun George <arun.george@samsung.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, balbirs@nvidia.com, 
-	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
-	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
-	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
-	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com, cpgs@samsung.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <amJGUuBZ2857QjDB@gourry-fedora-PF4VCD3F>
-References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
- <20260720193431.3841992-1-gourry@gourry.net>
- <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HgxdoVJi"
+Date: Thu, 23 Jul 2026 20:55:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784832929;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g69XKiXRUn1mEtZau/GQ0c7YGZnvp3Nd90/6YEjeaWk=;
+	b=HgxdoVJicEbEPkRW8UJsPppvDUyg/6tYY3szfUajikFPwM/97fHBbnEsj+ZfbWehoJuboS
+	/FWQJz8wQgnKgsyNhkrs9sgsyEo46NYz6xN3ovx2+SIWx7mJxptTLKZL1O+rgo8hLuSsMa
+	NpGQZ0f0Xu5bE2nzUbVWeGQ5Swjw7cM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Conor Dooley <conor@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
+ no-sequential-read
+Message-ID: <amJiqHd6I45w_e0-@bombadil>
+References: <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
+ <cdd3b988-72cd-4143-9a17-ee0c57625e94@sirena.org.uk>
+ <amD_vkMOrtKq5NvX@bombadil>
+ <20260722201622.GD648629@killaraus.ideasonboard.com>
+ <amEvJBOE3Ja014Ap@bombadil>
+ <525338f4-cad3-4acb-94c5-a4b71cde9c02@sirena.org.uk>
+ <amHznORUaOnUFyS4@bombadil>
+ <20260723154541.GA764516@killaraus.ideasonboard.com>
+ <20260723-hamster-juniper-5697cacade96@spud>
+ <20260723161048.GC767247@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+In-Reply-To: <20260723161048.GC767247@killaraus.ideasonboard.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 23, 2026 at 02:08:31PM +0530, Arun George/Arun George wrote:
-> On 21-07-2026 01:03 am, Gregory Price wrote:
-> > Changes Since V4
-> > ================
-> >   - dropped compressed ram example from series
-> >       - will submit separately if this moves forward
+On Thu, Jul 23, 2026 at 07:10:48PM +0300, Laurent Pinchart wrote:
+> On Thu, Jul 23, 2026 at 05:02:42PM +0100, Conor Dooley wrote:
+> > On Thu, Jul 23, 2026 at 06:45:41PM +0300, Laurent Pinchart wrote:
+> > > On Thu, Jul 23, 2026 at 01:01:11PM +0200, Richard Leitner wrote:
+> > > > On Wed, Jul 22, 2026 at 11:03:09PM +0100, Mark Brown wrote:
+> > > > > On Wed, Jul 22, 2026 at 11:58:46PM +0200, Richard Leitner wrote:
+> > > > > 
+> > > > > > @Mark: I understood that if the fpga really intercepts the I2C bus, it
+> > > > > > should be modelled accordingly in device tree. But what would be the
+> > > > > > preferred implementation if both devices sit on the same I2C bus, but
+> > > > > > one is messing up some register reads on purpose?
+> > > > > 
+> > > > > I think we would need to have a coherent understanding and description
+> > > > > of the actual issue to know how to describe it.
+> > > > 
+> > > > Understood. I will try to figure out how the hardware is really wired
+> > > > and come back to you.
+> > > 
+> > > Based on the information I have received so far, the FPGA is interposed
+> > > between the host and sensor. It could therefore be modelled in DT as
+> > > child of the I2C bus and a parent of the sensor.
+> > > 
+> > > New version of some of the Vision Components modules have fixed the
+> > > multi-read bug, so we will still need a property in the FPGA DT node to
+> > > indicate if the quirk should be activated.
+> > 
+> > Or come up with a compatible for the FPGA DT node that uniquely
+> > identifies the revision of the RTL in use.
+> > That's my preference for things that use some custom RTL that aren't
+> > configuration parameters.
 > 
-> We intend to test this series on a compression capable CXL expander 
-> hardware. Since compressed ram example (cram) is not part of this 
-> series, how do you suggest to do that? Do you have a version of cram 
-> module compatible with this series?
-> 
-> ~Arun
+> I'm afraid we won't be able to get that information. We have limited
+> visibility on the ecosystem of modules and what the FPGA does in each of
+> them.
 
-Hi Arun,
+Thanks for the clarification. Should I continue working on this topic
+(i.e. modelling the FPGA as I2C controller with the sensor as a
+"subdevice")? Or do you want to take over Laurent? Do you have any other
+downstream work on the vc-mipi stuff, except the patches in your gitlab
+repo?
 
-I dropped it from the base series because i want to try to move forward
-with this without RFC.  The compressed service itself will be a separate
-submission after I get decent signal on whether this will be accepted.
+I've additionally wrote "my Vision Components contact" an email asking
+for clarification of the I2C bus layout on the modules yesterday. If I
+get any new information from that path I will of course take it into account.
 
-I plan to RFC the new setup for compressed ram this a bit later, but I
-will share my working branch with you for testing.
+Thanks a lot, Laurent!
 
-~Gregory
+regards;rl
