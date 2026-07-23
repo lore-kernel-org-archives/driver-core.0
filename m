@@ -1,102 +1,221 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022124.outbound.protection.outlook.com [52.101.101.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94AD83CF20A;
-	Thu, 23 Jul 2026 21:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784842887; cv=none; b=l+AV4/H0ykD+kUYi8brXvJ/xG/85g/RIS2DSI62Zgtz4ZgoRZIEVNFlgpyLeZULbUX8vo2XXwFDe0gIOxWFcrgTRgwReo6aLU+g7vkMQo8IPDlfn7yHoGRw5XPIQu7bhhau++v2LEiV8fZLA8u4KeGcuZbS6pbpJX9gs629EIko=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784842887; c=relaxed/simple;
-	bh=P1tY39dyn/DQRJzndxq+XUPRF22ww+jWFrPgH3hOqRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MDNgz8ZCXS1MzLVRlmw5p3XAmzhdhzNuJF3NqdzuSvv3bRhCi3Q+t4OasEKCwPsEhfLPW1XQM2IRw2ITQPB0vfjLBLMiPVbZavxDKGM70qA8I7UBf7PqGYp7eL7t/GCX+u+A27RhyCjkLLfFFK6d1jXaJvdtKo2P8IeXQaQC6lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=adLAiRxb; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873243644BC
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 22:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784844076; cv=fail; b=BkLVJarow5Lw+AVtzrSHIkl5dVWGqtdoRtVuGrm8Kh7VrX0q2x8svJmYY101ZwUdpusOfVD7Hc0G9R03zf4nsH1f0YaLKC33sQwgZ79pL7e0SLwat0sVxLTcv1UEDF5Dq69up3KWlrNhn0nWno2gdz3ZtYfVFRluVH8MYwjtL/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784844076; c=relaxed/simple;
+	bh=8gJVnailyzMYXVEeFt/Vs6x7yjYC1eVNKx3NdE39Fcg=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=LorhPYHq2KXKYwr6DP4fe+SsquREDetHUJ0I1gF6ijhe+4CwSZtw7EGIfANhj0MxqV/IlfTubnvx7wq+6KlXnJ0T5GFWO2qFwZ05caf6fhCSa5wxShgfx8konPuI1AG6OvwP5MXDvxkoPrRKIEyu3FOb3Ka9XiKuTqvpCzVySFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=LvM2Vqib; arc=fail smtp.client-ip=52.101.101.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="adLAiRxb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=sX2oIcNP5BG++ZPllpgvFglv3CiQyIdWWV9GcdkWAes=; b=adLAiRxb7Qj9iv9ijSZMpCDuBC
-	XAVfahnZkDDMhluMjQU1xCE3gUrN7yWGyuAtvBPZ76vqDx5/mPxuBaSb5QiagCUiqrbP2zOwhnyM9
-	cV6L4/60Li+omYo01lsVLm63ebuEzoY/tJj0Eh3doBtSBHP+IkOh87wr85sKA/YtTOZh+ja31txQS
-	fc+evgA7Fg/Y1bTSlJ9gXbkxDpuCKSyNonfTAEKVEaFEjUC378X+VDIhxHsjDWar7QXeMlHPqcj1T
-	jmKzg4dwEv5fZdCp/ZURU1FnsI1HQ5JzFkbM+FT3j95wwJ3G/tHeiqDNXWmA9O7M8Y+kpQOrutcqv
-	+DfEVNig==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wn1AN-0000000F8Ld-3PlR;
-	Thu, 23 Jul 2026 21:41:19 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev
-Subject: [PATCH] base: soc: fixup sys_soc.h kernel-doc warnings
-Date: Thu, 23 Jul 2026 14:41:18 -0700
-Message-ID: <20260723214118.652616-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="LvM2Vqib"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NhnNX9sXl26WB4qUfrL9QXLd0Kce6+g5da49eA+o1o5vJ1ihFtlQkRmbOL265IMYn7RWa5BGs4I0+wZu8jtPqZcfEfrigwPml2CMY/wyQZb4tzJwOcnhd0cmAhe7B95t+N78rENQb0Nylw8nJ2Nu7HA0ODniAOXXujpKC4M/uGP4Mj+C5/6y+SpC7Mfl8R2cBdcMRlxveUT32bvhzazmW4JnaPph64GNuLm1bjaYL30LBF5xDLKf+QP1tz1wkt4LPyZqvO0/b2WzriTQKymrlDcmiykQ9eik2kyLNyvFaaoHHB92cmV138S/JJUKiYQXv0kH9FA6VVzizO4wRtYqHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xq9AjxX3EhxMdox1zaGtdiqE4DTflnHv8h5VPtjrvBQ=;
+ b=vCK6ni/ihXEM9h1ZtrJgzGrbmCIuxyq6cBOoVg9B/mffKn23ZD1qgxlF59f4g0T8D129LEgMSjRLei2HEpVnsvG7vwgs/Du+vdsl08O38pnWHTXqxitLvuQVU2F8Mswzgln7vJXN8+scbpCIvhbMUu/H9nQhdImEANkTBFJNsfffnLfs4Xhk6Ucu09fRpQE+GMzKvzV6NrSwIam+Q5v8Riy2NyZHmZr1fbjp+sZWA2iyUE3wmktJOMEpeg0CyVILBxeQUjnHgW+/SbqXvFkBBH62bzCE/xX5HMsQi1+obKZY0+k/GQEVH0CD2xVVlh98HY6eZNXwOs6fCWDMbY0ZGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xq9AjxX3EhxMdox1zaGtdiqE4DTflnHv8h5VPtjrvBQ=;
+ b=LvM2VqibrDmaBZkVLKbRLphHMgzQA5A6cjWO8mUIksTESeSEnZtd8l7b//jJOmiZBkvDR5XEsgRLvdLMFDid2mJWedqrqqayeX3DbpUQ0e8KVDnqfJWMwNirlxgZ2WWK2SwJZchxqBXVcE0IksjkzZWboTpeZe927k7u9lvdkBc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB2635.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:14c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
+ 2026 22:01:08 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%2]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
+ 22:01:08 +0000
+From: Gary Guo <gary@garyguo.net>
+Date: Thu, 23 Jul 2026 23:00:41 +0100
+Subject: [PATCH v4 2/9] scsi: nsp32: don't store pci_device_id
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260723-pci_id_fix-v4-2-3580726844e1@garyguo.net>
+References: <20260723-pci_id_fix-v4-0-3580726844e1@garyguo.net>
+In-Reply-To: <20260723-pci_id_fix-v4-0-3580726844e1@garyguo.net>
+To: Bjorn Helgaas <bhelgaas@google.com>, 
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ GOTO Masanori <gotom@debian.or.jp>, 
+ YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, 
+ Jens Taprogge <jens.taprogge@taprogge.org>, 
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ David Airlie <airlied@redhat.com>
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, industrypack-devel@lists.sourceforge.net, 
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784844066; l=2148;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=8gJVnailyzMYXVEeFt/Vs6x7yjYC1eVNKx3NdE39Fcg=;
+ b=+Y+fiGQUF5x/hbvd3vvEL3to+g6aAWun5gT/qaiQ64JweWsJ3wp9j9C5yS6BaYpiuQqXRxemS
+ 6U4y96CakbKB4N5eQRmmZDdSo9vrXiJizoriNzEYw/xeztOELvxLcgS
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P123CA0115.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB2635:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a64cd77-66d5-49c8-abf1-08dee905e638
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|23010399003|10070799003|1800799024|921020|22082099003|18002099003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	btJc6/u4K18qirAM0S1yJV1b5uaM4dGG8/OAEuJ1h0D3A52vkkOuSmBsWVG88/j8nOfMXuw5eUdewsMSbN6pU/uoY4Fp/1srjPa4fbGvx7ARdnDiSs8/DcASSmm2Bxsr2tv7tGOImWTayRVVsTHkeoEdfVLVqSxHmCGm4EnMJ7yqtxCB5WS5YHNr5QsZfhdW7hFc9Ds7f6PRkL4QDHSUmam+Fbu7dAq+SqP04KcmDN37V8v1pzF/ttNAxYFcOtxzsihega+ARcnJP/qeJT/2Zr1mu9yl+fN085izilbkCEaKhch3LBpYBB2u8/njMdFylRxkgOyeHovvUjvy5x7NkFO3KucUr02jlgn9yecBxZ2alE68Z4qRkMfL6HyKQ1XYMqTAESgtgdLzX/u5fhPKHPZZhyeEd1mQN+QEHExvtQ60jWc1QtYaV6CAWsl0Vgz825/nEwybgSgBYHHqTCB9ZE5V9JbGhxlWE79ftA0Uqb856/QxZrj7PWkZCkj9NhilruP/iFViOxj2xlWL94NHK/rMF7sgmC02bbAzmScspMx4XjMeRjHtC1lCm8nJEiGMGD4IeOzyFolvds+te98F+XxrvT5aLeYqKKs4yWhYtAlWz44XfBjriiu1jgkHV8Z5hVltbVATKAozg4WU91gu/njq/R64OSBu2/NeCU08PsCgCMzbW6vf5CD62BP1Rh6DUyOUludaNSRRGqrY6Ig45A==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(10070799003)(1800799024)(921020)(22082099003)(18002099003)(56012099006)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZEVtL0R2bVdpMVBVVWJYdnZFT3hiOGZNdmhQSGFvTHRnb3VRaTR5Rk9nQ2p1?=
+ =?utf-8?B?OXE4M245eG10aG5NYjhNS3Mvd0gzZFJzNk5BREpOSlBiZFlBeU5udzFDSk03?=
+ =?utf-8?B?RFFTRU1PbWtrd3Y3ZitMb21LUGZyTGZRRTRLeHd1RHc0ckFvbGRhV2ZVV2lk?=
+ =?utf-8?B?cUp3Uit4NEIrcW14Mk1pdnRxeDUxNE93ZGhOSzRMZTI4OW93YVpDaTRkL1dy?=
+ =?utf-8?B?cFhNV0FZUDdmSzhpZDhBeGQ5OXJZUlR5TUUzbU1TaWc3R1lFZk5xRFNBTC9T?=
+ =?utf-8?B?UHpBWURRY2JrMWJPck15b05YZGNOTFdYRkp6aWd6bnhiN1ZiMFV2RTJNNVd3?=
+ =?utf-8?B?L1o5WFBjYkZ0TFd5Y1Y1QitoK3VRRXNKYzRXakVrY2xSang4T29LRllHc3ZC?=
+ =?utf-8?B?TzNWN0tZK0d2SGw3d001b1ZaOW50MkZiaGRaL29iTW93YU5xTDhxVUQvYThv?=
+ =?utf-8?B?cUpnVCtBVVlSNlZBTXVpRlpZT0dxZ0pLLytwWVBvUzdjRHJrUHM0akdydUJp?=
+ =?utf-8?B?Q0xHRHI0YlBPMGJLbXBEdmVhMlo3a0tPVVJRMDBLTlhmTTlhb0VicSt5QlUy?=
+ =?utf-8?B?cFc5MnpmSGRFeDlmZGFUVk4xMURqSE5BTnlxR1ZrVFdnTDF1RllmSG9lajhV?=
+ =?utf-8?B?ejl4eXBHS3VXRmlpNVN5SGNhTnNydFRNanZYY2dSeUFOTUtBbkpBazRtR2Nz?=
+ =?utf-8?B?Mms4K2Q0Yk1BZlpUMW1ISkJTT3pLYW5iMVNyR0loRU9FSnNRdGhzSnA1dTh2?=
+ =?utf-8?B?U3pFbDBoMmxzaEJPTVRKUjZPbGtzb3VnNFdlR2dRTXlKTUswYktZUGF5UEZ5?=
+ =?utf-8?B?aHpkaGdXZnJ6bTlBVnlYUm1mb1BBMDlvU0VZR2pTdWx2MTRVbDFCd3UrQmJ6?=
+ =?utf-8?B?S0dlZU5Rbjg4eE9rV3hENkM0YXdIZUV3bE5OdWliMERoU01XbjFiZVFQWjhj?=
+ =?utf-8?B?dENNRmNGeUR0UnRheSsycU5LQjByZ1kySWZlckdsbjN0ZFovaGVxNWI0UTZQ?=
+ =?utf-8?B?M1ltelJVV09sQUkvTjF4ZFlnNHN3c1NMbEt1WnVQZmNjSHJ1ZkVwT0lqcVR1?=
+ =?utf-8?B?YzBaWE1RZFVDbmhKTmtneWdPbXJMS2dnQkRER0NZUWl5bUZyYnRNMitrYTRx?=
+ =?utf-8?B?bWVtQ3NyQW0vR1BnN2NIcUtZTE1oMWdVbWhPeEg3cUsxLzFkdzdRNXphNTZZ?=
+ =?utf-8?B?bjIxV3RpbG1CMExNK0dLSk92OXRyd3RJa3pzQ25vazVoSTJJaE95WlA5ZW1B?=
+ =?utf-8?B?V0ZuZkp4NEtIR3d6QVplaVg5a3JkS1lDQmlORWxjcE03eE5iZFF0SW9KVStn?=
+ =?utf-8?B?QWRjLzl5djNza2FmZzN5YVRqWlFnK0VPQnU3SlFsV21ETzJjOUZQbUM2SHR0?=
+ =?utf-8?B?b0wyRnVGSkVUM2U2eTZJS012cmw1YlVNV1VOb2tPQWhiSU44Z1gyc0k4T3hU?=
+ =?utf-8?B?VU5BVC9ULzVXckpBN2sza0c2ZkZucHVCb1BxeWpXanl3N1E5akduaTVJYUtV?=
+ =?utf-8?B?anp2ajFMQ0Y5ZkROeXhFc2RUMHo2WXRkRys3SnZEL0NWRWZNdXA5Mng1UmRk?=
+ =?utf-8?B?UWxmT3BHbEZMV09ZOFhuWE5ob3E0ZzhzdDg5aVBpY2pMY1dkNVllSVJ0aFNI?=
+ =?utf-8?B?akNEY1NLQjFuRWRUeWRWWlc1QVk4WG9Ha09wQ0VJR2FSdjFCUDY2VnR1K2hk?=
+ =?utf-8?B?ZEtGWXJQODVuR2FvUHdIaGdyUC9RQ3VRbU9oWmxlVm9uYWVPYkh4YmhWaWpI?=
+ =?utf-8?B?MDZlbFp5emZDRjl6NVVUMjRnWjJwWDhsWlRHNjRuK3ZoN3g3KzJudVVSMk96?=
+ =?utf-8?B?NFppZGhTcHBTWnM5L1NnbGpqUm9sYVF5ZlpXNXpQOURLanFoN1RIblVrRzVQ?=
+ =?utf-8?B?UmxDVC96VDZXS3JXL1pKVUcrUitweUhINGZRa0tnRWdZSkZuK1lTcm5uL2Jy?=
+ =?utf-8?B?ck51SFpvT1V4MjIxLy9TaS80SE0ra3Y2YnI2OTc2SHp6cDhVRm1BaUx4aVA1?=
+ =?utf-8?B?TE9HckErRWx2M2VyMWRxRjFxZ1B1dHcvUjZCSGlxK2l5R2M4Qm5Rd1VkWUhQ?=
+ =?utf-8?B?V2p6VFhvZHJXZDg0R3djRVpPWVBnNC9tdWhWVXExRFkwSzg4ci9mL2ptYm5m?=
+ =?utf-8?B?aDNVWlNRV0NhNkkrbmpzTm9XU1lzOGJQSzZ1SVhWMXpORmgyQkRBdVNNcnhU?=
+ =?utf-8?B?UkxGa1c5TENuNkc4TUFsclRXR3UzWGg2U1ZNczVTQnlrckRabVJkenY2QkxT?=
+ =?utf-8?B?Mk92UHRPWmhtbDl1d3ZmeUxBQlVMUVQzbHdiT0lVNk1ia2t1ekRVa05ybE1H?=
+ =?utf-8?B?V2EzNGZsazN1NytLbjZkY0N2dkRuTFhXdVZnTDNTN0NRZEM0NkR2Zz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a64cd77-66d5-49c8-abf1-08dee905e638
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 22:01:08.0352
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X1mVLXb4p3g2xhuef8MsKIs+iZHx270Lv7FeHAniV3BHJAufNbubx6+M26t/Z5ax4ibP38yfdpUCP8em/f5g7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB2635
 
-- add function return values in 2 places
-- use the correct function parameter name in kernel-doc comments
+pci_device_id is not guaranteed to live longer than probe due to presence
+of dynamic ID. All information apart from driver_data can be easily
+retrieved from pci_dev, so just store driver_data.
 
-to avoid these kernel-doc warnings:
-
-Warning: include/linux/sys_soc.h:25 No description found for return value of 'soc_device_register'
-Warning: include/linux/sys_soc.h:37 No description found for return value of 'soc_device_to_device'
-Warning: include/linux/sys_soc.h:31 function parameter 'soc_dev' not described in 'soc_device_unregister'
-Warning: include/linux/sys_soc.h:31 Excess function parameter 'dev' description in 'soc_device_unregister'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev
+ drivers/scsi/nsp32.c | 8 ++++----
+ drivers/scsi/nsp32.h | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
- include/linux/sys_soc.h |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+diff --git a/drivers/scsi/nsp32.c b/drivers/scsi/nsp32.c
+index e893d5677241..9c9281222a0a 100644
+--- a/drivers/scsi/nsp32.c
++++ b/drivers/scsi/nsp32.c
+@@ -1470,7 +1470,7 @@ static int nsp32_show_info(struct seq_file *m, struct Scsi_Host *host)
+ 		   (nsp32_read2(base, INDEX_REG) >> 8) & 0xff);
+ 
+ 	mode_reg = nsp32_index_read1(base, CHIP_MODE);
+-	model    = data->pci_devid->driver_data;
++	model    = data->model;
+ 
+ #ifdef CONFIG_PM
+ 	seq_printf(m, "Power Management:      %s\n",
+@@ -2907,8 +2907,8 @@ static int nsp32_eh_host_reset(struct scsi_cmnd *SCpnt)
+  */
+ static int nsp32_getprom_param(nsp32_hw_data *data)
+ {
+-	int vendor = data->pci_devid->vendor;
+-	int device = data->pci_devid->device;
++	int vendor = data->Pci->vendor;
++	int device = data->Pci->device;
+ 	int ret, i;
+ 	int __maybe_unused val;
+ 
+@@ -3340,7 +3340,7 @@ static int nsp32_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	}
+ 
+ 	data->Pci	  = pdev;
+-	data->pci_devid   = id;
++	data->model       = id->driver_data;
+ 	data->IrqNumber   = pdev->irq;
+ 	data->BaseAddress = pci_resource_start(pdev, 0);
+ 	data->NumAddress  = pci_resource_len  (pdev, 0);
+diff --git a/drivers/scsi/nsp32.h b/drivers/scsi/nsp32.h
+index 924889f8bd37..9e65771cb592 100644
+--- a/drivers/scsi/nsp32.h
++++ b/drivers/scsi/nsp32.h
+@@ -564,10 +564,10 @@ typedef struct _nsp32_hw_data {
+ 
+ 	struct scsi_cmnd *CurrentSC;
+ 
+-	struct pci_dev             *Pci;
+-	const struct pci_device_id *pci_devid;
+-	struct Scsi_Host           *Host;
+-	spinlock_t                  Lock;
++	struct pci_dev    *Pci;
++	int                model;
++	struct Scsi_Host  *Host;
++	spinlock_t         Lock;
+ 
+ 	char info_str[100];
+ 
 
---- linux-next-20260722.orig/include/linux/sys_soc.h
-+++ linux-next-20260722/include/linux/sys_soc.h
-@@ -21,19 +21,26 @@ struct soc_device_attribute {
- /**
-  * soc_device_register - register SoC as a device
-  * @soc_plat_dev_attr: Attributes passed from platform to be attributed to a SoC
-+ *
-+ * Returns:
-+ * - %NULL if the SoC bus is not yet registered;
-+ * - on success, the newly allocated &struct soc_device pointer;
-+ * - on failure, a negative error code as an ERR_PTR().
-  */
- struct soc_device *soc_device_register(
- 	struct soc_device_attribute *soc_plat_dev_attr);
- 
- /**
-  * soc_device_unregister - unregister SoC device
-- * @dev: SoC device to be unregistered
-+ * @soc_dev: SoC device to be unregistered
-  */
- void soc_device_unregister(struct soc_device *soc_dev);
- 
- /**
-  * soc_device_to_device - helper function to fetch struct device
-  * @soc: Previously registered SoC device container
-+ *
-+ * Returns: &struct device pointer for this @soc
-  */
- struct device *soc_device_to_device(struct soc_device *soc);
- 
+-- 
+2.54.0
+
