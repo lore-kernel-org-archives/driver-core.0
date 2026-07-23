@@ -1,204 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC67D4DB557;
-	Thu, 23 Jul 2026 13:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5194779A5
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 13:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784813839; cv=none; b=n/7zlLZTHjy/ghz3QIZZH+Ipf93Oh7DLARZwSsPrvm6wK1y2A0B3zECmyTKeXVv20N4DGBO3/I0dCoVIECaJ7FfPHj7mIGgA/DjNVb8joS0vv2NzOuqSHkTPlcN0WIt5eHwq0Yy0fqohTB1F+1SyDM3rfs17FDaQJ4cqC8rs7e8=
+	t=1784814514; cv=none; b=cez0/ZDGWbR4vE9kE/lA5zXOuBq4uXrbjNGP7KwQnDolHEnGPxx2EpK7yiUTIxU3UOlBudsu+neXVhvKAekCTHBwvGtUTKi8JmPKVcXKCsNY7Ic99RCJc/TNL8f6L8gSeaMb5R7yBzn/0Qv97QmPXiLk0gfWgrR4+mRO4dtJ54Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784813839; c=relaxed/simple;
-	bh=eO9vT5YPysqOukd+jY+035D0z/zLeO1w4vN1NwNe2Qc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LYuwM562Fx4Cd0dk8jozvP6yRGrmEDu1z8Gpq3bIjg4+FkA+n4htgAwdYENx/B+vI4QJMPm/0QPDQFmjHyXvNJK0lFs4DN2l8gCAP7Nw9iEz+QfB6u86Xvkxv8Zio/0ifppV1+hpi3kVS371/yDWQ92G6ANI9249AJJ334ORHEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXwPqfU5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784814514; c=relaxed/simple;
+	bh=VwQdFLfRqdGM5nUxBzCF1AGxYUnnTWEYeBtyXHCcubA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EV87yYFceX2taDGiZtmZ9MEw7b+zyvaTHUrQYjumTwkMOJqjXeprBJt2CryATtrD0g28lksUb1iL3X8aiBWl8emx25YmLGyZr7TGEz2+Z2B7ZYCWyMmXvZrMemH2ycB2suiaG21d3wkaZuN1CZ06kdfra03QTCZyuhcOfObvvr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FK951Cqf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXwPqfU5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16401F000E9;
-	Thu, 23 Jul 2026 13:37:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FK951Cqf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4641F000E9
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 13:48:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784813825;
-	bh=tqvVeERBLT6ROkppBN4MEGfSa50o0lpYhxpdXTdGfSM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eXwPqfU5+dyGmmARtvY9crMVwvGOsCAZ2Ru0lYpoOfgXEOQb2mMyZcg1q6u92yB0Z
-	 eZMN9cLTZ+yubZjVJ3wy4M7XG7fZikCsbl6f1040nSPNfNyH4meZZBsET+2pf6T6qH
-	 qq5izJpow7RoIotkR8UYgW6x+l2czIIn3yNVRVjPMN17oPO831Axfy1Rymb/HnXcNb
-	 XY24eVkU+jFNiKTi8CRFsGG3DyaUFKembWWsN5r8eTzYpjL4efTFMbO0xnASQRTvpI
-	 YnaQfcVtFoK4C7nDN/JU0FZvuMbAzBAbv7MBIkBFZsTw/0q7oFhQitlB8lVT412AvD
-	 YKt/asR4pMeRw==
-From: SJ Park <sj@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: SJ Park <sj@kernel.org>,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
-Date: Thu, 23 Jul 2026 06:36:53 -0700
-Message-ID: <20260723133654.86752-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <amGHuputMNCFZ9CV@gourry-fedora-PF4VCD3F>
-References: 
+	s=k20260515; t=1784814510;
+	bh=HKCYSxiClTRKhfhj2SX8Yu6DWTZP/ksvsEWHjf7nzN0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=FK951CqfYEm5ffS+7ELZFxGQNzyRl/OiVpKqs15Z18QQXna04UTk7lyWsUrirwsza
+	 WIjByEanUGGbi0RpHMt1veFDVpJLscomLE2cAbTSepOnol76Iqell7A+lJcLMb1K5z
+	 eOntTHSLvOgAbfveyDM2+zmCYDCzwegifA7zjAHncEcQBpHnqKc7q/84xu04ltMBlD
+	 fq1ybxpdt8Q6LNGm6qNG1/MfdEZZHW5yk/jPAucnarTy7oP85bBN50blAd2MaxmMMB
+	 XOl1cYQfjI4daExz3vYPzij0e43Yn6inQNBP7lem+ZqYQQtGI5vZC02BfYO6BOWKWu
+	 ui3tPnZLZZmcQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b2a4359d16so808615e87.3
+        for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 06:48:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoB16Pu5QN+LVjaOzeKcOMjlQoyNZ3eoOQpMzMuJQzv1qz+yv9soOgIJT8i5DtPimqlPMffPRPrGpa+nw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycewwqolSLy9da62cppNgEYhaJ93eC/0L7lf9azZk0Ql5V7HgX
+	iWn27WhtmeGch8k8oNQlMGRYnS83q32D263oYH2Wyo6+yQTZx74w5FKxdYMwggUy+ZMW4HOOBa9
+	leR6NCtYSLwSm+Rnoopomr5NYdKVN2/I=
+X-Received: by 2002:a05:6512:1591:b0:5b2:8c97:b50d with SMTP id
+ 2adb3069b0e04-5b2b2e52d40mr630470e87.4.1784814501178; Thu, 23 Jul 2026
+ 06:48:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260720030821.2780257-1-tzungbi@kernel.org>
+In-Reply-To: <20260720030821.2780257-1-tzungbi@kernel.org>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 23 Jul 2026 15:48:09 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gtdDt+bMm8As_FRHXhQn2fDzhc8jhpKm1=1iGTaVAHww@mail.gmail.com>
+X-Gm-Features: AUfX_mz7JjnAkI5LuEmMgkAJQMkER1jPgy31srddET01j7xHZTzj3KWIy3A2kZc
+Message-ID: <CAJZ5v0gtdDt+bMm8As_FRHXhQn2fDzhc8jhpKm1=1iGTaVAHww@mail.gmail.com>
+Subject: Re: [PATCH RESEND v6 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
+	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 22 Jul 2026 23:25:15 -0400 Gregory Price <gourry@gourry.net> wrote:
+On Mon, Jul 20, 2026 at 5:08=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> This series improves the configurability of the DPM watchdog.
+>
+> Currently, the DPM watchdog is always enabled if compiled in.  Also, the
+> module parameters defined in drivers/base/power/main.c use the generic
+> and non-descriptive "main" prefix.
+>
+> This series addresses these limitations.
+>
+> Patch 1 renames the module parameter prefix for
+> drivers/base/power/main.c from "main" to "pm".
+>
+> Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
+> enabling/disabling the watchdog at boot time and runtime.  It also adds
+> CONFIG_DPM_WATCHDOG_ENABLED to set the default value of the module
+> parameter at compile time.
+>
+> The primary motivation for this configurability revolves around Android
+> GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
+> the GKI so the feature is available.  However, because the GKI is shared
+> across many different devices, we don't want to inadvertently affect
+> devices that are unaware of this feature.  This provides a way to
+> compile it in, but keep it disabled by default for those devices via the
+> kernel command line or module parameters.
+>
+> To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
+> on `default y`.  Previously, the DPM watchdog was always active if
+> CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
+> that the behavior remains unchanged for existing users and defconfigs
+> when they upgrade.
+> ---
+> Since there was no further feedback on v5, I'm sending out v6.
+> Any feedback would be appreciated.
+> ---
+> v6:
+> - Change the prefix "pm_sleep" -> "pm".
+>
+> v5: https://lore.kernel.org/all/20260701045640.3130090-1-tzungbi@kernel.o=
+rg
+> - Rebase to v7.2-rc1.
+> - Fix Signed-off-by lines.
+>
+> v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.o=
+rg
+> - Address review comments.
+> - Patch 3 in v3 has applied separately.
+>
+> v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.o=
+rg
+> - Address review comments on patch 2.
+>
+> v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.o=
+rg
+> - Form a new series.
+>
+> v1: Doesn't exist.
+>
+> Tzung-Bi Shih (2):
+>   PM: sleep: Rename module parameters prefix to "pm"
+>   PM: dpm_watchdog: Allow disabling DPM watchdog by default
+>
+>  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+>  drivers/base/power/main.c                       | 14 ++++++++++++++
+>  kernel/power/Kconfig                            | 10 ++++++++++
+>  3 files changed, 31 insertions(+)
+>
+> --
 
-> On Wed, Jul 22, 2026 at 05:19:42PM -0700, SJ Park wrote:
-> > On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
-> > 
-> > > > "by default".  Does that mean it could be reclaimable in some situations?  If
-> > > > so, could we check if it is reclaimable?
-> > > > 
-> > > 
-> > > See the damon changes in:
-> > > 
-> > > https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
-> > 
-> > Summarizing what you want to say, quoting something from the patch, or at least
-> > calling it "26th patch of this series" would have made reviewing much easier.
-> > Cc-ing damon@ for only patches that toucing DAMON source files and the cover
-> > letter of the series could also be helpful.  Please consider doing some of
-> > these for future replies.
-> > 
-> 
-> I have been very much discouraged from this kind of trimming because it
-> removes the context of the series from the individual patches - making it
-> even more confusing.
-
-That's fair and making sense.
-
-> 
-> But I understand, I will try to remember to do this for you.
-
-Thank you, Gregory.  Nonetheless, I wouldn't insist selective Cc-ing.  I agree
-your point, and I expect doing that would be tedious if you don't have a script
-or tool (I use a tool).  It is just one of my suggestion to help reviewing in
-this context, insted of only lore link.  Just one among the other three
-suggestions (summarizing your thought, quoting, or simply calling it "26th
-patch of this series") should also suffice.
-
-> 
-> > So, I understand later patches will make it optionally reclaimable and update
-> > this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
-> > default" from the above comment for reducing the confusion?
-> 
-> Yes, but you bring up a good point - I think this two-step process is
-> actually poor form and that I need to redo it.
-> 
-> Maybe this can be redone as node states (features?) such as:
-> 
->    N_MEMORY_RECLAIMABLE
->    N_MEMORY_DEMOTABLE
->    N_MEMORY_TIERABLE
-> 
-> so these damon changes will forego this confusing intermediate step of:
-> 
->    if (folio_is_private_node(folio))
-> 
-> and go straight to
-> 
->    if (node_is_reclaimable(folio_nid(folio)))
-> 
-> In the first patch - without ever having to revisit damon again.
-
-Indeed that sounds better than my suggestion.
-
-> 
-> > > 
-> > > Technically there is nothing in migration core to prevent migration
-> > > operations, it's done on a service basis - hotunplug, reclaim/demotion,
-> > > user numa (mbind, migrate/move_pages) etc.
-> > > 
-> > > Operations on private nodes/private node folioes are refused if the
-> > > capability bit is not set.
-> > 
-> > I haven't had a chance to read the entire series, sorry about that.  So, do you
-> > mean the above blocking is not really needed, or that will conditionally be
-> > allowed by another later patch?
-> > 
-> 
-> I will reduce this all to a single patch in v6, I see where things can
-> be improved now based on a few pieces of feedback.
-
-Sounds good, thank you Gregory.  Looking forward to the next version!
-
-
-Thanks,
-SJ
-
-[...]
+Applied as 7.3 material, thanks!
