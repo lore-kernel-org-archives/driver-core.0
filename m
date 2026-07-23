@@ -1,114 +1,108 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F93F9277
-	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 08:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D7240862C;
+	Thu, 23 Jul 2026 08:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784795276; cv=none; b=PhGttmwzQUvGrGnp4biv1EOCzts2o2byP2uPIxbS+7j7sX+fNBnx5WxfDTnJ9dLvnhSBCT6O0lmxbVTPlYw52aklcNhSAoXUMd6ejdiZrwXpJO5L5yOhS+vYcqdus6ssp7wRkaZWE4/6oIigWueg10oCtIfDYYE9S6WLdc/pBQI=
+	t=1784796308; cv=none; b=YuARorRXbElwUawwNoGu7EPf8+9ooJoi4bXbrfmykoTxRwesvt9Yb1M5Ms1HcnbeBAWtNdbYeRftKlPKGnCwRKwZxsnmidGjerUAujom6QavC6QX88ynhoN3GpbEInsGJRbVIj0vtZ7RnQLtT2mQ3K3/jX15DAwaCkSK4x19ipc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784795276; c=relaxed/simple;
-	bh=5XmGirqIDHTveNQt3ukMKJSsZ6sZAXc+m9F/XlJUxXM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pnZavfvaQd15g1oUgymMB3zJ1l05u5qy0f8K0uedadSlaz81bRN/HNYZq5zyA2/pr6KO9UkB1dAdsOpVGW9gAJzMRBIkI+CaCBT9UL+uO90guonvEixmk3KPXnHsvhP0LQqv4fIS04eRfKtQk2rT3txMVFptt8GZ9YgDnvA5/GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wTbcgfjy; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1784796308; c=relaxed/simple;
+	bh=8GgPzaxuYc4s2cVuSgAcGd76ajTea0DUpWFyFtd2Oy4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=dOALgCHeUlGxQTwpEoO6EoTmY0R2TrvCOH4o483ji6QdgPuxmBc47U5HoUFk09CiGF1oUqIw1gWkVAl/xpNdYKH2I1X8ZdyBoxKPx5Kit3WIrTZAFt5tM6Jrgwnc51hYmmj50Tk9+b52wA4JbC7WqPBjPkcCc7U1F4VSyX5ECfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=W5gXIxoD; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wTbcgfjy"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1784795268; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=i8Yyo3ogKeqJ36R6Ul3Y3JRoOpYXd0lAkDof65Cp+kQ=;
-	b=wTbcgfjyxIDh9HaHS31MHTmGN23F/cSewx8rnhTS5p0I3cHJQ5MfFovtrZG/aMyoLAROYdZH0APPFgzV+mwwzYTUPugtIVq+1QMrDvqymjgm6HVfB7j9jZrPEiWZFcAqBLWXLLEQvGSNk/AqV9+0nDoAVL5WCyAgco03JJ0y03Y=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X7fcEnN_1784795267;
-Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X7fcEnN_1784795267 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 23 Jul 2026 16:27:48 +0800
-Date: Thu, 23 Jul 2026 16:27:47 +0800
-From: Feng Tang <feng.tang@linux.alibaba.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Hildenbrand <david@kernel.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH v2] arch_topology: Introduce nr_possible_packages
-Message-ID: <amHQg6_IHmwkvQ6A@U-2FWC9VHC-2323.local>
-References: <20260714054317.73219-1-feng.tang@linux.alibaba.com>
- <20260722-wakeful-lemming-of-snow-04fe9d@sudeepholla>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="W5gXIxoD"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260723084503epoutp04a324084313ef02b272e897115231c5b2~E3sg4KZO-3034630346epoutp04L;
+	Thu, 23 Jul 2026 08:45:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260723084503epoutp04a324084313ef02b272e897115231c5b2~E3sg4KZO-3034630346epoutp04L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1784796303;
+	bh=sQjXIg3wAcrT3mkYCsdbl0LWsoOlUsvvM9TLKCcGrBo=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=W5gXIxoDyG4Nfrz0+i0pklqM2q3/qpEunf4JU/SLOUtj2VknFkftcVuCb6c5nB9rv
+	 0PfvO1yP0f71Cs1IOmIxhbGH98MahM0XyvQigBVdJ9zrXWw6I7OJvWLRpHZNA++6Az
+	 8E6N/DHVyIA5A/LbAByxODYxcLsaYG1fyL2e0bnc=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260723084503epcas5p43df5d820cf5e5603cbe8d66b060992f0~E3sgfyfxj0540505405epcas5p4A;
+	Thu, 23 Jul 2026 08:45:03 +0000 (GMT)
+Received: from epcpadp1new (unknown [182.195.40.141]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4h5Pnq2p8Nz6B9mQ; Thu, 23 Jul
+	2026 08:45:03 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260723083847epcas5p21a735796de0bdb6459cd2c3b7b9b18de~E3nCLElTK0474604746epcas5p2T;
+	Thu, 23 Jul 2026 08:38:47 +0000 (GMT)
+Received: from [107.122.10.65] (unknown [107.122.10.65]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260723083835epsmtip11766a99123bc01993811bc8746be0d2d~E3m3Il4WE1438914389epsmtip1e;
+	Thu, 23 Jul 2026 08:38:35 +0000 (GMT)
+Message-ID: <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+Date: Thu, 23 Jul 2026 14:08:31 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260722-wakeful-lemming-of-snow-04fe9d@sudeepholla>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: Zhigang.Luo@amd.com, balbirs@nvidia.com, brendan.jackman@linux.dev,
+	yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com,
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org,
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, gregkh@linuxfoundation.org, rafael@kernel.org,
+	dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com,
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+	ying.huang@linux.alibaba.com, kasong@tencent.com, qi.zheng@linux.dev,
+	shakeel.butt@linux.dev, baohua@kernel.org, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev,
+	tj@kernel.org, mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca,
+	jhubbard@nvidia.com, peterx@redhat.com, baolin.wang@linux.alibaba.com,
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn,
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org,
+	damon@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com, cpgs@samsung.com
+Content-Language: en-US
+From: Arun George/Arun George <arun.george@samsung.com>
+In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260723083847epcas5p21a735796de0bdb6459cd2c3b7b9b18de
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f
+References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
+	<20260720193431.3841992-1-gourry@gourry.net>
 
-On Wed, Jul 22, 2026 at 09:41:54AM +0100, Sudeep Holla wrote:
-> On Tue, Jul 14, 2026 at 01:43:17PM +0800, Feng Tang wrote:
-> > For multi-sockets platforms kernel or driver code may need the number
-> > of packages to chose different code directions. Some architecture
-> > already provides such kind of interface like x86, which is being used
-> > in its architecture code and drivers.
-> > 
-> > Add similar interface 'nr_possible_packages' for platforms which can
-> > get package topology information by parsing ACPI tables in boot phase,
-> > which was verified to show the correct number of packages on some
-> > 1-socket and 2-sockets production arm64 servers from different vendors.
-> > 
-> > It has been used locally by some arm64 PMU driver, and cross-socket
-> > timer-consistency check code, which are to be posted.
-[...]
-> >  
-> > +unsigned int nr_possible_packages __ro_after_init;
-> > +EXPORT_SYMBOL(nr_possible_packages);
-> > +
-> > +static int package_ids[1 << CONFIG_NODES_SHIFT] __initdata;
- 
-Thanks for the suggestion!
+On 21-07-2026 01:03 am, Gregory Price wrote:
+> Changes Since V4
+> ================
+>   - dropped compressed ram example from series
+>       - will submit separately if this moves forward
 
-> Since all you need is just the total number of packages, this whole
-> array may not be required.
- 
-Yes. I also made it '__initdata' to be freed later.
+We intend to test this series on a compression capable CXL expander 
+hardware. Since compressed ram example (cram) is not part of this 
+series, how do you suggest to do that? Do you have a version of cram 
+module compatible with this series?
 
-> static unsigned int topology_count_packages(const struct cpumask *cpus)
-> {
-> 	unsigned int cpu, prev, count = 0;
-> 	int package_id;
-> 
-> 	for_each_cpu(cpu, cpus) {
-> 		package_id = cpu_topology[cpu].package_id;
-> 		if (package_id < 0)
-> 			continue;
-> 
-> 		for_each_cpu(prev, cpus) {
-> 			if (prev == cpu) {
-> 				count++;
-> 				break;
-> 			}
-> 
-> 			if (cpu_topology[prev].package_id == package_id)
-> 				break;
-> 		}
-> 	}
-> 
-> 	return count;
-> }
-> 
-> Something like this would suffice, no ?
+~Arun
 
-This is a good point, that I don't have to call count_packages()
-and use global array for each cpu, but do this package counting
-all together after CPUs have been parsed and before exitting
-parse_acpi_topology(). 
-
-One thing is, from PPTT table, the package ID is u32, so we
-can't say 0xffffffff (-1) is illegal (though I think it's insane
-to really use it :)). Anyway, I'll test more in this direction.
-
-Thanks,
-Feng
