@@ -1,216 +1,371 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1651D555;
-	Thu, 23 Jul 2026 00:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAC31D5ABA;
+	Thu, 23 Jul 2026 02:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784765996; cv=none; b=ieUHiaZVSddwJnQb/0FxLi+ToTXwhgVtVqqDTdGNa1+PzM+4bVS+mXH9FPmStMavj9/9119/soGFWNlBzBSfXqmzrzv3EolYMRC8HaAUV+CfGndvtH7KNnHza8ThRhyPG2fN340BlR5sGqGPM0Nf7FoNzKV8QZ5Tbhjbm8lcLz0=
+	t=1784772682; cv=none; b=FinsX+R1VnFPMkFOrozzuGAoJ8vylJRxAQ6avKTxQooeGjMeIu1vUpTUWZEMqX6OJwj8WicmkSrONq5XR+k4qAj1mR8zKDKDAENgE8D9+ONFwXZxGkMauNkI6vyYWU1vj/d36jE3Ps7v8ULRWKrUqLMjf5sqDMcoqQsbHx9s3eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784765996; c=relaxed/simple;
-	bh=LJrwMBFzEJfWlcNe+u3Em2s3k7Xc8/tdxZKRwTN6sgU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MDI8rZSaSoy2a1MI2eL9qWQhAyYxkiULZfZUpW2PtIUP8lsYR075zwHvFdQ5IbEqllXh2domy4T92813E0I8cq6kkBP3mA93I7GkLZBTlMjhYkKAaMAVNPEycFBNhWpO6Dxde9yZ3M8fn/wLHx0G/XwKUUegyumIY1vvjCfJjJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCF74EeS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784772682; c=relaxed/simple;
+	bh=FT3/WulpuLQqdHMgqAgW77HrCQngGC4CA6LCy+g7YBc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=o5zdFFJqZ3eTUcoADDf7Scw6xwFSIZ2Mdy95hmJq6VaMKZgVJYkBYdxXMjbk7k6QQ0mJEuCULzROJ91VoIliygkFoQkquagIq21n9wK5NglEhz434UG36VZKveTbh7gscHJvaLp2ICTFnIRzeQSBBwjUS5J8+zW4XvR7p1njgw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vh5rm+3U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCF74EeS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0F61F000E9;
-	Thu, 23 Jul 2026 00:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784765994;
-	bh=etGADT3O07IS+YgXI7BAorrClTolrXpqV0QzB1dZpWA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BCF74EeStolbb2W/TP1soDHuWZ51DJgYsnp0HoXIhY2LV8FES9MkZRqdbEzajNcq+
-	 FdLD6IqAG7VkemQlxBlzfSPOaZ9GNCpfftJx+0klLFu5BE2mkb7lN3baGG6RJOA/f+
-	 OTbXbg6YqfXU+lWGMVnTAd3AXQwctqtKShgO3nYG2UgswjKxrd3j5RbvY6xNG9gaXM
-	 fPUG9Bt2NyDXhqYg6+KA0IHV+/ZVkHI4krzjxQIX39zaRdwO1taH2ix1ZIoapD4CwO
-	 y+KvoVgLfc1T4Hs6ON+9+dwzzQyWXFuwLTkfAhh3M+nzbYJObaTnWnCcSzHNgOzf46
-	 0VqiGCD9JgaHg==
-From: SJ Park <sj@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: SJ Park <sj@kernel.org>,
-	arun.george@samsung.com,
-	balbirs@nvidia.com,
-	brendan.jackman@linux.dev,
-	yuzenghui@huawei.com,
-	apopple@nvidia.com,
-	alucerop@amd.com,
-	matthew.brost@intel.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	djbw@kernel.org,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	osandov@osandov.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	ziy@nvidia.com,
-	pbonzini@redhat.com,
-	osalvador@suse.de,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	ying.huang@linux.alibaba.com,
-	kasong@tencent.com,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	baohua@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk,
-	longman@redhat.com,
-	ridong.chen@linux.dev,
-	tj@kernel.org,
-	mkoutny@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	baolin.wang@linux.alibaba.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	xu.xin16@zte.com.cn,
-	chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev,
-	muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 14/36] mm/damon: skip private node memory in DAMON migration and pageout
-Date: Wed, 22 Jul 2026 17:19:42 -0700
-Message-ID: <20260723001943.95854-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <amCzmkdOr6AFv_kQ@gourry-fedora-PF4VCD3F>
-References: 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vh5rm+3U"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 53DCBC2BCC6;
+	Thu, 23 Jul 2026 02:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1784772682; bh=FT3/WulpuLQqdHMgqAgW77HrCQngGC4CA6LCy+g7YBc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Vh5rm+3U89ISPv1sQB+73zx7zBhtyGyf1pIF3A7BWhXYYzHfRLmgOXa44++yMOf93
+	 jNM7SkQMkMnI9wBW5VnsvPBqb9e0lGM+eTq6VkYWVs7EtWMSzPByoWq/GS28N20x7n
+	 p/fWOqfdUaJmOdjsHP7j8V9jT42VKehPrKbuVM6k=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF7EC4453A;
+	Thu, 23 Jul 2026 02:11:22 +0000 (UTC)
+From: Alvin Sun <alvin.sun@linux.dev>
+Date: Thu, 23 Jul 2026 10:10:24 +0800
+Subject: [PATCH v9 01/10] rust: module: move module types into `module.rs`
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260723-fix-fops-owner-v9-1-c1c3af7f7bcb@linux.dev>
+References: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
+In-Reply-To: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+ Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Igor Korotin <igor.korotin@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>
+Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-pci@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784772679; l=10377;
+ i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
+ bh=FT3/WulpuLQqdHMgqAgW77HrCQngGC4CA6LCy+g7YBc=;
+ b=Zasg9d0wKrlEN4U3lWTJMxhmSh/fY7B/NTQvphEX+niiuiJkNcf//sYzdHrXSAz15aHI1H7bX
+ jLwZ9XF5SOkAwkVknnJhdJbefts3ButkZ/A9qN+ddR6/LrTWo3jyGUp
+X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
+ pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
+X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
+ auth_id=684
 
-On Wed, 22 Jul 2026 08:16:56 -0400 Gregory Price <gourry@gourry.net> wrote:
+Move `Module`, `InPlaceModule`, `ModuleMetadata` and `ThisModule` from
+`lib.rs` into a new `rust/kernel/module.rs`. Re-export them from `lib.rs`
+to avoid tree-wide changes.
 
-> On Tue, Jul 21, 2026 at 04:46:43PM -0700, SJ Park wrote:
-> > On Mon, 20 Jul 2026 15:34:08 -0400 Gregory Price <gourry@gourry.net> wrote:
-> > 
-> > > DAMON operates on physical address ranges, which can cover private
-> > > node memory. Skip private-node folios in both DAMON's migration
-> > > and reclaim paths.
-> > > 
-> > > Signed-off-by: Gregory Price <gourry@gourry.net>
-> > > ---
-> > >  mm/damon/paddr.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > > 
-> > > diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
-> > > index e4f98d67461f5..c741a94319750 100644
-> > > --- a/mm/damon/paddr.c
-> > > +++ b/mm/damon/paddr.c
-> > > @@ -12,6 +12,7 @@
-> > >  #include <linux/swap.h>
-> > >  #include <linux/memory-tiers.h>
-> > >  #include <linux/mm_inline.h>
-> > > +#include <linux/node_private.h>
-> > >  
-> > >  #include "../internal.h"
-> > >  #include "ops-common.h"
-> > > @@ -250,6 +251,10 @@ static unsigned long damon_pa_pageout(struct damon_region *r,
-> > >  			continue;
-> > >  		}
-> > >  
-> > > +		/* private node memory is not reclaimable by default */
-> > > +		if (folio_is_private_node(folio))
-> > > +			goto put_folio;
-> > > +
-> > 
-> > "by default".  Does that mean it could be reclaimable in some situations?  If
-> > so, could we check if it is reclaimable?
-> > 
-> 
-> See the damon changes in:
-> 
-> https://lore.kernel.org/linux-mm/al-pkvmgIxGu3LzM@gourry-fedora-PF4VCD3F/T/#mfb99303c85dd9d4c3f58832dc28fc55583a7217a
+Switch six bus driver registrations from `module.0` to the public
+`ThisModule::as_ptr()` accessor, since the field is no longer visible
+outside the new `module` submodule.
 
-Summarizing what you want to say, quoting something from the patch, or at least
-calling it "26th patch of this series" would have made reviewing much easier.
-Cc-ing damon@ for only patches that toucing DAMON source files and the cover
-letter of the series could also be helpful.  Please consider doing some of
-these for future replies.
+No functional change.
 
-So, I understand later patches will make it optionally reclaimable and update
-this restriction by the 26th patch?  That sounds fair.  But, could we drop "by
-default" from the above comment for reducing the confusion?
+Assisted-by: opencode:glm-5.2
+Suggested-by: Gary Guo <gary@garyguo.net>
+Link: https://lore.kernel.org/all/DJFIQPLOVO4T.1K8T0VZM30LDA@garyguo.net/
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+---
+ rust/kernel/auxiliary.rs |  2 +-
+ rust/kernel/i2c.rs       |  2 +-
+ rust/kernel/lib.rs       | 75 +++++-------------------------------------------
+ rust/kernel/module.rs    | 71 +++++++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/net/phy.rs   |  6 +++-
+ rust/kernel/pci.rs       |  2 +-
+ rust/kernel/platform.rs  |  2 +-
+ rust/kernel/usb.rs       |  2 +-
+ 8 files changed, 88 insertions(+), 74 deletions(-)
 
-> 
-> > Also, what happens if we just try paging out the private node memory?  Will it
-> > simply fail?  Or, make some problems?
-> > 
-> 
-> user controls for MADV_ commands that affect private node folios would
-> skip those folios - exactly same as ZONE_DEVICE folios.
-> 
-> Which I'm not sure damon actually handles correctly presently (zone
-> device).  I remember looking around damon and thinking to myself "what
-> if this is a zone device page?" and not being able to find a satisfying
-> answer.
-> 
-> > >  		if (damos_pa_filter_out(s, folio))
-> > >  			goto put_folio;
-> > >  		else
-> > > @@ -344,6 +349,10 @@ static unsigned long damon_pa_migrate(struct damon_region *r,
-> > >  		else
-> > >  			*sz_filter_passed += folio_size(folio) / addr_unit;
-> > >  
-> > > +		/* private nodes do not support migration by default */
-> > > +		if (folio_is_private_node(folio))
-> > > +			goto put_folio;
-> > > +
-> > 
-> > Same questions.
-> > 
-> 
-> Technically there is nothing in migration core to prevent migration
-> operations, it's done on a service basis - hotunplug, reclaim/demotion,
-> user numa (mbind, migrate/move_pages) etc.
-> 
-> Operations on private nodes/private node folioes are refused if the
-> capability bit is not set.
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index 93c0db1f66555..4a02f83240be3 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -63,7 +63,7 @@ unsafe fn register(
+ 
+         // SAFETY: `adrv` is guaranteed to be a valid `DriverType`.
+         to_result(unsafe {
+-            bindings::__auxiliary_driver_register(adrv.get(), module.0, name.as_char_ptr())
++            bindings::__auxiliary_driver_register(adrv.get(), module.as_ptr(), name.as_char_ptr())
+         })
+     }
+ 
+diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+index 7b908f0c5a58d..24eff08f47123 100644
+--- a/rust/kernel/i2c.rs
++++ b/rust/kernel/i2c.rs
+@@ -142,7 +142,7 @@ unsafe fn register(
+         }
+ 
+         // SAFETY: `idrv` is guaranteed to be a valid `DriverType`.
+-        to_result(unsafe { bindings::i2c_register_driver(module.0, idrv.get()) })
++        to_result(unsafe { bindings::i2c_register_driver(module.as_ptr(), idrv.get()) })
+     }
+ 
+     unsafe fn unregister(idrv: &Opaque<Self::DriverType>) {
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index b72b2fbe046d6..040ae85056509 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -93,6 +93,7 @@
+ pub mod maple_tree;
+ pub mod miscdevice;
+ pub mod mm;
++pub mod module;
+ pub mod module_param;
+ #[cfg(CONFIG_NET)]
+ pub mod net;
+@@ -139,79 +140,17 @@
+ #[doc(hidden)]
+ pub use bindings;
+ pub use macros;
++pub use module::{
++    InPlaceModule,
++    Module,
++    ModuleMetadata,
++    ThisModule, //
++};
+ pub use uapi;
+ 
+ /// Prefix to appear before log messages printed from within the `kernel` crate.
+ const __LOG_PREFIX: &[u8] = b"rust_kernel\0";
+ 
+-/// The top level entrypoint to implementing a kernel module.
+-///
+-/// For any teardown or cleanup operations, your type may implement [`Drop`].
+-pub trait Module: Sized + Sync + Send {
+-    /// Called at module initialization time.
+-    ///
+-    /// Use this method to perform whatever setup or registration your module
+-    /// should do.
+-    ///
+-    /// Equivalent to the `module_init` macro in the C API.
+-    fn init(module: &'static ThisModule) -> error::Result<Self>;
+-}
+-
+-/// A module that is pinned and initialised in-place.
+-pub trait InPlaceModule: Sync + Send {
+-    /// Creates an initialiser for the module.
+-    ///
+-    /// It is called when the module is loaded.
+-    fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, error::Error>;
+-}
+-
+-impl<T: Module> InPlaceModule for T {
+-    fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, error::Error> {
+-        let initer = move |slot: *mut Self| {
+-            let m = <Self as Module>::init(module)?;
+-
+-            // SAFETY: `slot` is valid for write per the contract with `pin_init_from_closure`.
+-            unsafe { slot.write(m) };
+-            Ok(())
+-        };
+-
+-        // SAFETY: On success, `initer` always fully initialises an instance of `Self`.
+-        unsafe { pin_init::pin_init_from_closure(initer) }
+-    }
+-}
+-
+-/// Metadata attached to a [`Module`] or [`InPlaceModule`].
+-pub trait ModuleMetadata {
+-    /// The name of the module as specified in the `module!` macro.
+-    const NAME: &'static crate::str::CStr;
+-}
+-
+-/// Equivalent to `THIS_MODULE` in the C API.
+-///
+-/// C header: [`include/linux/init.h`](srctree/include/linux/init.h)
+-pub struct ThisModule(*mut bindings::module);
+-
+-// SAFETY: `THIS_MODULE` may be used from all threads within a module.
+-unsafe impl Sync for ThisModule {}
+-
+-impl ThisModule {
+-    /// Creates a [`ThisModule`] given the `THIS_MODULE` pointer.
+-    ///
+-    /// # Safety
+-    ///
+-    /// The pointer must be equal to the right `THIS_MODULE`.
+-    pub const unsafe fn from_ptr(ptr: *mut bindings::module) -> ThisModule {
+-        ThisModule(ptr)
+-    }
+-
+-    /// Access the raw pointer for this module.
+-    ///
+-    /// It is up to the user to use it correctly.
+-    pub const fn as_ptr(&self) -> *mut bindings::module {
+-        self.0
+-    }
+-}
+-
+ #[cfg(not(testlib))]
+ #[panic_handler]
+ fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
+diff --git a/rust/kernel/module.rs b/rust/kernel/module.rs
+new file mode 100644
+index 0000000000000..be242a82e86d2
+--- /dev/null
++++ b/rust/kernel/module.rs
+@@ -0,0 +1,71 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Module-related types and helpers.
++
++/// The entrypoint to implementing a kernel module.
++///
++/// For any teardown or cleanup operations, your type may implement [`Drop`].
++pub trait Module: Sized + Sync + Send {
++    /// Called at module initialization time.
++    ///
++    /// Use this method to perform whatever setup or registration your module
++    /// should do.
++    ///
++    /// Equivalent to the `module_init` macro in the C API.
++    fn init(module: &'static ThisModule) -> crate::error::Result<Self>;
++}
++
++/// A module that is pinned and initialised in-place.
++pub trait InPlaceModule: Sync + Send {
++    /// Creates an initialiser for the module.
++    ///
++    /// It is called when the module is loaded.
++    fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, crate::error::Error>;
++}
++
++impl<T: Module> InPlaceModule for T {
++    fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, crate::error::Error> {
++        let initer = move |slot: *mut Self| {
++            let m = <Self as Module>::init(module)?;
++
++            // SAFETY: `slot` is valid for write per the contract with `pin_init_from_closure`.
++            unsafe { slot.write(m) };
++            Ok(())
++        };
++
++        // SAFETY: On success, `initer` always fully initialises an instance of `Self`.
++        unsafe { pin_init::pin_init_from_closure(initer) }
++    }
++}
++
++/// Metadata attached to a [`Module`] or [`InPlaceModule`].
++pub trait ModuleMetadata {
++    /// The name of the module as specified in the `module!` macro.
++    const NAME: &'static crate::str::CStr;
++}
++
++/// Equivalent to `THIS_MODULE` in the C API.
++///
++/// C header: [`include/linux/init.h`](srctree/include/linux/init.h)
++pub struct ThisModule(*mut crate::bindings::module);
++
++// SAFETY: `THIS_MODULE` may be used from all threads within a module.
++unsafe impl Sync for ThisModule {}
++
++impl ThisModule {
++    /// Creates a [`ThisModule`] given the `THIS_MODULE` pointer.
++    ///
++    /// # Safety
++    ///
++    /// The pointer must be equal to the right `THIS_MODULE`.
++    pub const unsafe fn from_ptr(ptr: *mut crate::bindings::module) -> ThisModule {
++        ThisModule(ptr)
++    }
++
++    /// Access the raw pointer for this module.
++    ///
++    /// It is up to the user to use it correctly.
++    pub const fn as_ptr(&self) -> *mut crate::bindings::module {
++        self.0
++    }
++}
+diff --git a/rust/kernel/net/phy.rs b/rust/kernel/net/phy.rs
+index 3ca99db5cccf2..8b7036b8fe480 100644
+--- a/rust/kernel/net/phy.rs
++++ b/rust/kernel/net/phy.rs
+@@ -659,7 +659,11 @@ pub fn register(
+         // the `drivers` slice are initialized properly. `drivers` will not be moved.
+         // So it's just an FFI call.
+         to_result(unsafe {
+-            bindings::phy_drivers_register(drivers[0].0.get(), drivers.len().try_into()?, module.0)
++            bindings::phy_drivers_register(
++                drivers[0].0.get(),
++                drivers.len().try_into()?,
++                module.as_ptr(),
++            )
+         })?;
+         // INVARIANT: The `drivers` slice is successfully registered to the kernel via `phy_drivers_register`.
+         Ok(Registration { drivers })
+diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
+index af74ddff6114d..916ed2cb6b70b 100644
+--- a/rust/kernel/pci.rs
++++ b/rust/kernel/pci.rs
+@@ -86,7 +86,7 @@ unsafe fn register(
+ 
+         // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
+         to_result(unsafe {
+-            bindings::__pci_register_driver(pdrv.get(), module.0, name.as_char_ptr())
++            bindings::__pci_register_driver(pdrv.get(), module.as_ptr(), name.as_char_ptr())
+         })
+     }
+ 
+diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+index 8917d4ee499fb..9fdbafd53bc21 100644
+--- a/rust/kernel/platform.rs
++++ b/rust/kernel/platform.rs
+@@ -82,7 +82,7 @@ unsafe fn register(
+         }
+ 
+         // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
+-        to_result(unsafe { bindings::__platform_driver_register(pdrv.get(), module.0) })
++        to_result(unsafe { bindings::__platform_driver_register(pdrv.get(), module.as_ptr()) })
+     }
+ 
+     unsafe fn unregister(pdrv: &Opaque<Self::DriverType>) {
+diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+index 9c17a672cd275..213db32727c17 100644
+--- a/rust/kernel/usb.rs
++++ b/rust/kernel/usb.rs
+@@ -63,7 +63,7 @@ unsafe fn register(
+ 
+         // SAFETY: `udrv` is guaranteed to be a valid `DriverType`.
+         to_result(unsafe {
+-            bindings::usb_register_driver(udrv.get(), module.0, name.as_char_ptr())
++            bindings::usb_register_driver(udrv.get(), module.as_ptr(), name.as_char_ptr())
+         })
+     }
+ 
 
-I haven't had a chance to read the entire series, sorry about that.  So, do you
-mean the above blocking is not really needed, or that will conditionally be
-allowed by another later patch?
+-- 
+2.43.0
 
 
-Thanks,
-SJ
-
-[...]
