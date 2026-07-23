@@ -1,132 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5194779A5
-	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 13:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1547884C
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 15:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784814514; cv=none; b=cez0/ZDGWbR4vE9kE/lA5zXOuBq4uXrbjNGP7KwQnDolHEnGPxx2EpK7yiUTIxU3UOlBudsu+neXVhvKAekCTHBwvGtUTKi8JmPKVcXKCsNY7Ic99RCJc/TNL8f6L8gSeaMb5R7yBzn/0Qv97QmPXiLk0gfWgrR4+mRO4dtJ54Y=
+	t=1784819058; cv=none; b=dH+JcnYHVSWYzmnoIDPDTPQkhq5/5ntOLBkUbupOGBBJVpl5KzQ9NsRaQ917AGUnfuXRREt0X80ZKDyj3rxo5C7RUMmPRTzT4SBYJi51KvVB+EKFpbusD7AHLef2Th++Kd3gJ6g5NJ7XWb5lQ6fQa9kg1CF9DPI05wSbzVVmEqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784814514; c=relaxed/simple;
-	bh=VwQdFLfRqdGM5nUxBzCF1AGxYUnnTWEYeBtyXHCcubA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EV87yYFceX2taDGiZtmZ9MEw7b+zyvaTHUrQYjumTwkMOJqjXeprBJt2CryATtrD0g28lksUb1iL3X8aiBWl8emx25YmLGyZr7TGEz2+Z2B7ZYCWyMmXvZrMemH2ycB2suiaG21d3wkaZuN1CZ06kdfra03QTCZyuhcOfObvvr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FK951Cqf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784819058; c=relaxed/simple;
+	bh=UEMwl1mUTJq51zU6rBTHe0+55FnjRFqfSf95Y/ByeA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=aFTUWw3ItHsq7saXx26N1kwpy5wLwShxedHFoUzSzdoPwlv7AtFslVjZ2lB/DOseW4+GSK2cqnKvYTCoVBcqAdvL3j+S8EpXC7cT3LU+5JVKQs6KWLlYyRX1dQOKj4UFVyPEpv+/MWQKVw6jE2k/y3Ab1Hhuv4PIxQeytlPrHKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZG8ETC/c; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FK951Cqf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B4641F000E9
-	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 13:48:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784814510;
-	bh=HKCYSxiClTRKhfhj2SX8Yu6DWTZP/ksvsEWHjf7nzN0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FK951CqfYEm5ffS+7ELZFxGQNzyRl/OiVpKqs15Z18QQXna04UTk7lyWsUrirwsza
-	 WIjByEanUGGbi0RpHMt1veFDVpJLscomLE2cAbTSepOnol76Iqell7A+lJcLMb1K5z
-	 eOntTHSLvOgAbfveyDM2+zmCYDCzwegifA7zjAHncEcQBpHnqKc7q/84xu04ltMBlD
-	 fq1ybxpdt8Q6LNGm6qNG1/MfdEZZHW5yk/jPAucnarTy7oP85bBN50blAd2MaxmMMB
-	 XOl1cYQfjI4daExz3vYPzij0e43Yn6inQNBP7lem+ZqYQQtGI5vZC02BfYO6BOWKWu
-	 ui3tPnZLZZmcQ==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b2a4359d16so808615e87.3
-        for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 06:48:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoB16Pu5QN+LVjaOzeKcOMjlQoyNZ3eoOQpMzMuJQzv1qz+yv9soOgIJT8i5DtPimqlPMffPRPrGpa+nw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YycewwqolSLy9da62cppNgEYhaJ93eC/0L7lf9azZk0Ql5V7HgX
-	iWn27WhtmeGch8k8oNQlMGRYnS83q32D263oYH2Wyo6+yQTZx74w5FKxdYMwggUy+ZMW4HOOBa9
-	leR6NCtYSLwSm+Rnoopomr5NYdKVN2/I=
-X-Received: by 2002:a05:6512:1591:b0:5b2:8c97:b50d with SMTP id
- 2adb3069b0e04-5b2b2e52d40mr630470e87.4.1784814501178; Thu, 23 Jul 2026
- 06:48:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZG8ETC/c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784819055;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIw6GIPoYXkHISLGH2TozSxZ9dhllUdd+v51QggT3+w=;
+	b=ZG8ETC/ckOrzbedFhQ9vSAwHoPwiQ2kOklaYEGEBWfdu5iSBkcHRaI//W5gSY+AtEBUDAZ
+	6l3w3Xq1cQlbJB46YUswiJX61yzT08hg3cPGq68q1P8k7VuCX/yTnQ80kRlmQnWqLTqH2a
+	d7rIdgscyuyfh2HvCSpJxswGTo3NKcI=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-466-hbTdvsElOc2lpjwlkQYNxw-1; Thu, 23 Jul 2026 11:04:14 -0400
+X-MC-Unique: hbTdvsElOc2lpjwlkQYNxw-1
+X-Mimecast-MFC-AGG-ID: hbTdvsElOc2lpjwlkQYNxw_1784819054
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-522de3c645dso20628871cf.3
+        for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 08:04:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784819054; x=1785423854;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aIw6GIPoYXkHISLGH2TozSxZ9dhllUdd+v51QggT3+w=;
+        b=Q4MkVNowdQ6SkqrVvLXk5TOHQzqFA2cAhaE1pUJu3eSkv73vvv08MRSl9lzFFpwA61
+         tDwksBwI6nN9iemHGtKibjuDrxt6yJQezJZqUC7Onv+YcLsduokxR1vDSHuH+Ab6DH+W
+         v6gp8zWE5YXCnsqG07hdU4sheUwtGBMBYUju9VLlbxXOc0mAL+t2BWFdFu3D8CTTR436
+         H0NYndN4+XdzPnWUENbf4pqVZSe0g5rFrUdE4/Ox2YiuILcloVZCpl+FC8YezDvrt7sH
+         z/dXpSthgDixtE6+xUtxvkZrJxGXC27lMDpuBopZ47edhKvpimN1kMTnYqkSkBWO9nIc
+         ctHQ==
+X-Forwarded-Encrypted: i=1; AHgh+RopTVWTXiJkr+aQigLag6ZxOq5sA9JAJVdtI99TTbNRvJ7aUEeuSrzDRqe1g2kGS2zV9pB6Fdk0jOna2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8ei+qxOLi7OdvruuegYaSjGT4tPEeiNrjOgnap6b0VjhcXd0l
+	LzSLpC6cLGNjQL2AYOg9ZaBCpZsjBGcvam1cc7t03NoeSy9CzYnvuK8G49wMiOicoAAaufrNclM
+	HlYCxibGiesOsChYtu4Mw6HCDju8G5UZ/w6gKp/e4VfjwBVl8I8AyzP991dXEWfs6
+X-Gm-Gg: AR+sD10Iy/UntzSI7IwZsqXF/eBge7uXygd1x/KEaPeyDeB2PcOwv68BF1bcnbUFF0r
+	8y6MIzuqEwWq3chn91i2irVHRzJGM18XyvjZjY9o398t8tegF6L1mhQMezKBiCgdR0BZtYeXkQL
+	gV1iU9R4CqhRSmg01wqhrrDvLjpqIxAG4L+YXZP1ptsVL1JV1W99ceLb/mK4p6faEkY0z57i2rY
+	ta4Qqm/9HZTYRK9T4H6ms3Y8YQL1Jn+WxOJRLmspTggFm9mBAvQgafBv1kFsITaiDQCZ9UZqodC
+	oyiPUjLot5UuxNJ4asYs/p7ElJJ2xcd0Ipi9SCGpG9Iw5xpbt9gFwE1tKfbWAPpFqdaoe1npy2u
+	ZSQAJjfMk+naGwG/aM7+Ec5fhIWrWDzAsR2g=
+X-Received: by 2002:a05:622a:244f:b0:51c:7b12:5fdc with SMTP id d75a77b69052e-5283e03d447mr32053641cf.88.1784819053796;
+        Thu, 23 Jul 2026 08:04:13 -0700 (PDT)
+X-Received: by 2002:a05:622a:244f:b0:51c:7b12:5fdc with SMTP id d75a77b69052e-5283e03d447mr32053161cf.88.1784819053161;
+        Thu, 23 Jul 2026 08:04:13 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d402cb05sm36676211cf.31.2026.07.23.08.04.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 08:04:12 -0700 (PDT)
+Date: Thu, 23 Jul 2026 11:04:08 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Suraj Gupta <suraj.gupta2@amd.com>
+Cc: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, harini.katakam@amd.com
+Subject: Re: [PATCH net-next 1/7] clk: Add devm_clk_bulk_get_enable()
+Message-ID: <amItaLCmjtmH8SRQ@redhat.com>
+References: <20260723123838.125145-1-suraj.gupta2@amd.com>
+ <20260723123838.125145-2-suraj.gupta2@amd.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260720030821.2780257-1-tzungbi@kernel.org>
-In-Reply-To: <20260720030821.2780257-1-tzungbi@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 23 Jul 2026 15:48:09 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gtdDt+bMm8As_FRHXhQn2fDzhc8jhpKm1=1iGTaVAHww@mail.gmail.com>
-X-Gm-Features: AUfX_mz7JjnAkI5LuEmMgkAJQMkER1jPgy31srddET01j7xHZTzj3KWIy3A2kZc
-Message-ID: <CAJZ5v0gtdDt+bMm8As_FRHXhQn2fDzhc8jhpKm1=1iGTaVAHww@mail.gmail.com>
-Subject: Re: [PATCH RESEND v6 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
-	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
-	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260723123838.125145-2-suraj.gupta2@amd.com>
+User-Agent: Mutt/2.4.0 (2026-06-19)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: lB95jYVHojoiKDKkD_A7gj33gZW6dazXbfiJLVMxaJQ_1784819054
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jul 20, 2026 at 5:08=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> This series improves the configurability of the DPM watchdog.
->
-> Currently, the DPM watchdog is always enabled if compiled in.  Also, the
-> module parameters defined in drivers/base/power/main.c use the generic
-> and non-descriptive "main" prefix.
->
-> This series addresses these limitations.
->
-> Patch 1 renames the module parameter prefix for
-> drivers/base/power/main.c from "main" to "pm".
->
-> Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
-> enabling/disabling the watchdog at boot time and runtime.  It also adds
-> CONFIG_DPM_WATCHDOG_ENABLED to set the default value of the module
-> parameter at compile time.
->
-> The primary motivation for this configurability revolves around Android
-> GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
-> the GKI so the feature is available.  However, because the GKI is shared
-> across many different devices, we don't want to inadvertently affect
-> devices that are unaware of this feature.  This provides a way to
-> compile it in, but keep it disabled by default for those devices via the
-> kernel command line or module parameters.
->
-> To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
-> on `default y`.  Previously, the DPM watchdog was always active if
-> CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
-> that the behavior remains unchanged for existing users and defconfigs
-> when they upgrade.
-> ---
-> Since there was no further feedback on v5, I'm sending out v6.
-> Any feedback would be appreciated.
-> ---
-> v6:
-> - Change the prefix "pm_sleep" -> "pm".
->
-> v5: https://lore.kernel.org/all/20260701045640.3130090-1-tzungbi@kernel.o=
-rg
-> - Rebase to v7.2-rc1.
-> - Fix Signed-off-by lines.
->
-> v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.o=
-rg
-> - Address review comments.
-> - Patch 3 in v3 has applied separately.
->
-> v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.o=
-rg
-> - Address review comments on patch 2.
->
-> v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.o=
-rg
-> - Form a new series.
->
-> v1: Doesn't exist.
->
-> Tzung-Bi Shih (2):
->   PM: sleep: Rename module parameters prefix to "pm"
->   PM: dpm_watchdog: Allow disabling DPM watchdog by default
->
->  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
->  drivers/base/power/main.c                       | 14 ++++++++++++++
->  kernel/power/Kconfig                            | 10 ++++++++++
->  3 files changed, 31 insertions(+)
->
-> --
+On Thu, Jul 23, 2026 at 06:08:32PM +0530, Suraj Gupta wrote:
+> devm_clk_bulk_get_optional_enable() gets, prepares and enables a set of
+> clocks with device-managed cleanup, but treats every clock as optional:
+> a missing clock is silently returned as NULL instead of failing.
+> 
+> Consumers that need a fixed set of mandatory clocks enabled for the
+> lifetime of the device currently have to open-code devm_clk_bulk_get()
+> followed by clk_bulk_prepare_enable(), which loses the managed disable on
+> unbind, or fall back to per-clock devm_clk_get_enabled() calls.
+> 
+> Add devm_clk_bulk_get_enable() as the non-optional counterpart. The
+> underlying __devm_clk_bulk_get_enable() helper already supports the
+> required (optional = false) path, so only export a thin wrapper for it.
+> 
+> Signed-off-by: Suraj Gupta <suraj.gupta2@amd.com>
 
-Applied as 7.3 material, thanks!
+Reviewed-by: Brian Masney <bmasney@redhat.com>
+
