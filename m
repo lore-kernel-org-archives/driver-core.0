@@ -1,49 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DD73F3288;
-	Thu, 23 Jul 2026 21:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E122931D2;
+	Thu, 23 Jul 2026 21:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784841170; cv=none; b=Y34viDD+42Xyg775zWQwGIlP8JFltj7rD5FKPwMesWehPyEq8suYkkkPYC8+iqj039AnQnZfF70kZ3DQBWEj7JxfBcIIPSLeryWJ02k8CyqpRrECgqsHK1CjufJXbbzxUkOnSyDvAKLUw0JMxaFDYAALECeX3maj9j1P+rp41GU=
+	t=1784841413; cv=none; b=YB5CB0yi5Q0KuAaPCiZDuOomOwx9HPmY6DBQyrkdngvy3Xjzce2o5eXWNJTjnWxDamiS4FBJOC2XfAFiw64uxj+++GRWT3quHyMJ0GLSPRlKR3IrX00a51oo+0fE+AHpl8mlJDDI5RqWen7pH1kJVYsb/o3fxYL7GBtFRMTb5Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784841170; c=relaxed/simple;
-	bh=oPL9ggiBSByF/zWsDP4Hkc2TF776H4ZlObruSnjWXLk=;
+	s=arc-20240116; t=1784841413; c=relaxed/simple;
+	bh=Y5ldl6wH28A4HC6wsNyowajS3TCFbRSJQL7uFSe7Xs8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qLTBgkmjjt2VaxbYTDXmSnbjxmV5i4fnBNzUa99bCzt+3NVlN+JC1FLNdIV5Jy1UNPIX+tB2FEUeAw6SecVhLWJ2ViXuMrZQ4OolxazHYtP7qcydv5/5fboE2yYHMZgthSFC5SRbP/19RiA0f2LV4TmlpIIw/7WfnY+MU49WGU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ja0aQ+Qa; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=JjK1MHZYw+iENouDK0nP/WJ8HVK/zAuXu67b5C41jL9lelFoAVkX/XP2XpH6MoM0FkDnXj3A7ugLObMqzZSfz9Us2VGv14SsgQN6FdhRvtN+VPe/X0Hvl2qVx8yoFMQLXrzsty2+33iZYWSOTd2wg1eUpHoYjdAu1JgyIRbsWOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OT9eI+/e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ja0aQ+Qa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F651F000E9;
-	Thu, 23 Jul 2026 21:12:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OT9eI+/e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB0051F000E9;
+	Thu, 23 Jul 2026 21:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784841163;
-	bh=a64RI79kM4Cr0iDQbGv07xZJYlNVsekzsgBWUeJESOY=;
+	s=k20260515; t=1784841412;
+	bh=+Gbp1bgfHO44kelU7eSxwSMlWxO4+ZjEVSmyYMfwjs8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Ja0aQ+QaCpCioDy1PFInV5LnOgsflnH+gN0ZIuWS0y6MngWV+bwmBTgIiAZbaMXsF
-	 yUwskWXLWR9iohsXyiLlqXdI9/sxuMDhrhDqVEAYUgWyKnzmqJD4tSZmZgmn2/B2CM
-	 2Ix4WpbeKgf2fCts5TKQaDhBMXROBvWQr8y+TYhcYwak1183QWZW9Q1RGG8OoqU6op
-	 wDHNxoZtNL9/WtEgvcfDz8GH+HYFYU/Mjrnk+sONCAgW8YL3oph2W4AevRn7eOonxQ
-	 pIVAGuXxt3ZLDn7Sg5L1veHFOy+dqSMbY8Nb2Xed41NuV/wSfI62WrZPqWZPWQxAoc
-	 4d1I1bXa1ljrQ==
+	b=OT9eI+/eX2Qtp6yQOzst6ob+mObklRrNDR0dWOKa6Al263h6rq+VK9EqU/cCxO/yp
+	 Cf7rbQYhEOQW2GlO3wsR8n5aeDrqgity60IGksJXdsgntQeZt80z0RPLURZ9g7KkAx
+	 XQyefokfjVFV61DWkOrkjmN6en2UGtBy0vdTCnur6Ka1uACbMCCWXJWiBmPsXaLIbH
+	 4wh4J3g2VBBtrb7dbVoLR7MA4audZkEA+PqDDiwogbmtECiToMI+tNHCWON/lSueYh
+	 wYyXS1/U+f0QIYZIBHQMrQ2NECSO8Wq9uKvzqgRfrD0f2RO4H3SHbVVnPagQxxtHWQ
+	 eFroaDhhw35rQ==
 From: Danilo Krummrich <dakr@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2] device property: mark internal data as private for kernel-doc
-Date: Thu, 23 Jul 2026 23:12:38 +0200
-Message-ID: <20260723211238.3451096-1-dakr@kernel.org>
+To: Guru Das Srinagesh <linux@gurudas.dev>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Link Mauve <linkmauve@linkmauve.fr>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] samples: rust_dma: use vertical import style
+Date: Thu, 23 Jul 2026 23:16:45 +0200
+Message-ID: <20260723211645.3473315-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721023218.3490573-1-rdunlap@infradead.org>
-References: <20260721023218.3490573-1-rdunlap@infradead.org>
+In-Reply-To: <20260721-rfl-vert-imp-v2-1-71ce0df519f2@gurudas.dev>
+References: <20260721-rfl-vert-imp-v2-1-71ce0df519f2@gurudas.dev>
 X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -54,16 +68,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 20 Jul 2026 19:32:18 -0700, Randy Dunlap wrote:
-> [PATCH v2] device property: mark internal data as private for kernel-doc
+On Tue, 21 Jul 2026 00:55:30 -0700, Guru Das Srinagesh wrote:
+> [PATCH v2] samples: rust_dma: use vertical import style
 
 Applied, thanks!
 
   Branch: driver-core-testing
   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-[1/1] device property: mark internal data as private for kernel-doc
-      commit: 503735347320
+[1/1] samples: rust_dma: use vertical import style
+      commit: fde6b526a9ee
 
 The patch will appear in the next linux-next integration (typically within 24
 hours on weekdays).
