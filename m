@@ -1,126 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1547884C
-	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 15:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC95147A868
+	for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 15:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784819058; cv=none; b=dH+JcnYHVSWYzmnoIDPDTPQkhq5/5ntOLBkUbupOGBBJVpl5KzQ9NsRaQ917AGUnfuXRREt0X80ZKDyj3rxo5C7RUMmPRTzT4SBYJi51KvVB+EKFpbusD7AHLef2Th++Kd3gJ6g5NJ7XWb5lQ6fQa9kg1CF9DPI05wSbzVVmEqY=
+	t=1784821548; cv=none; b=brBNa7iRdaM1bhw0adP5ymcFyTaveL+3p8x2nNFkeXRijY0ZgB2YyR1k0aQEo21F19Fv/BSKV2Q1AYcUAsRHtnlWGESc5wQx/Ru64GJfCOVVfxGCZKaS8m765ERrnA2e44R5OQsarOHK/I3w+lLdMRieH9yUk6ho+3bVUATN80k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784819058; c=relaxed/simple;
-	bh=UEMwl1mUTJq51zU6rBTHe0+55FnjRFqfSf95Y/ByeA0=;
+	s=arc-20240116; t=1784821548; c=relaxed/simple;
+	bh=oEFMkryztdztgbBqD7MgtEgSQl2lfC96WXOHlm0qYHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=aFTUWw3ItHsq7saXx26N1kwpy5wLwShxedHFoUzSzdoPwlv7AtFslVjZ2lB/DOseW4+GSK2cqnKvYTCoVBcqAdvL3j+S8EpXC7cT3LU+5JVKQs6KWLlYyRX1dQOKj4UFVyPEpv+/MWQKVw6jE2k/y3Ab1Hhuv4PIxQeytlPrHKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZG8ETC/c; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=paf9SJS9uUCX2H39ehJJH0E+O1Qy9mJb6hgka9yZ/mIhwXtsA2nO2iImsgtf/MH2YmK9lqgoNGsIwp5GsS+gZI+NkqtYt1ASEDp9juM45NF6Y5FIGEjiEY0vY3GNR90Gw0DCTwdRiqGbtpFpZdo+/+KDt+AFbIuLc/9gHYiu8nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iqpy1YHZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZG8ETC/c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784819055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aIw6GIPoYXkHISLGH2TozSxZ9dhllUdd+v51QggT3+w=;
-	b=ZG8ETC/ckOrzbedFhQ9vSAwHoPwiQ2kOklaYEGEBWfdu5iSBkcHRaI//W5gSY+AtEBUDAZ
-	6l3w3Xq1cQlbJB46YUswiJX61yzT08hg3cPGq68q1P8k7VuCX/yTnQ80kRlmQnWqLTqH2a
-	d7rIdgscyuyfh2HvCSpJxswGTo3NKcI=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-466-hbTdvsElOc2lpjwlkQYNxw-1; Thu, 23 Jul 2026 11:04:14 -0400
-X-MC-Unique: hbTdvsElOc2lpjwlkQYNxw-1
-X-Mimecast-MFC-AGG-ID: hbTdvsElOc2lpjwlkQYNxw_1784819054
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-522de3c645dso20628871cf.3
-        for <driver-core@lists.linux.dev>; Thu, 23 Jul 2026 08:04:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784819054; x=1785423854;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aIw6GIPoYXkHISLGH2TozSxZ9dhllUdd+v51QggT3+w=;
-        b=Q4MkVNowdQ6SkqrVvLXk5TOHQzqFA2cAhaE1pUJu3eSkv73vvv08MRSl9lzFFpwA61
-         tDwksBwI6nN9iemHGtKibjuDrxt6yJQezJZqUC7Onv+YcLsduokxR1vDSHuH+Ab6DH+W
-         v6gp8zWE5YXCnsqG07hdU4sheUwtGBMBYUju9VLlbxXOc0mAL+t2BWFdFu3D8CTTR436
-         H0NYndN4+XdzPnWUENbf4pqVZSe0g5rFrUdE4/Ox2YiuILcloVZCpl+FC8YezDvrt7sH
-         z/dXpSthgDixtE6+xUtxvkZrJxGXC27lMDpuBopZ47edhKvpimN1kMTnYqkSkBWO9nIc
-         ctHQ==
-X-Forwarded-Encrypted: i=1; AHgh+RopTVWTXiJkr+aQigLag6ZxOq5sA9JAJVdtI99TTbNRvJ7aUEeuSrzDRqe1g2kGS2zV9pB6Fdk0jOna2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8ei+qxOLi7OdvruuegYaSjGT4tPEeiNrjOgnap6b0VjhcXd0l
-	LzSLpC6cLGNjQL2AYOg9ZaBCpZsjBGcvam1cc7t03NoeSy9CzYnvuK8G49wMiOicoAAaufrNclM
-	HlYCxibGiesOsChYtu4Mw6HCDju8G5UZ/w6gKp/e4VfjwBVl8I8AyzP991dXEWfs6
-X-Gm-Gg: AR+sD10Iy/UntzSI7IwZsqXF/eBge7uXygd1x/KEaPeyDeB2PcOwv68BF1bcnbUFF0r
-	8y6MIzuqEwWq3chn91i2irVHRzJGM18XyvjZjY9o398t8tegF6L1mhQMezKBiCgdR0BZtYeXkQL
-	gV1iU9R4CqhRSmg01wqhrrDvLjpqIxAG4L+YXZP1ptsVL1JV1W99ceLb/mK4p6faEkY0z57i2rY
-	ta4Qqm/9HZTYRK9T4H6ms3Y8YQL1Jn+WxOJRLmspTggFm9mBAvQgafBv1kFsITaiDQCZ9UZqodC
-	oyiPUjLot5UuxNJ4asYs/p7ElJJ2xcd0Ipi9SCGpG9Iw5xpbt9gFwE1tKfbWAPpFqdaoe1npy2u
-	ZSQAJjfMk+naGwG/aM7+Ec5fhIWrWDzAsR2g=
-X-Received: by 2002:a05:622a:244f:b0:51c:7b12:5fdc with SMTP id d75a77b69052e-5283e03d447mr32053641cf.88.1784819053796;
-        Thu, 23 Jul 2026 08:04:13 -0700 (PDT)
-X-Received: by 2002:a05:622a:244f:b0:51c:7b12:5fdc with SMTP id d75a77b69052e-5283e03d447mr32053161cf.88.1784819053161;
-        Thu, 23 Jul 2026 08:04:13 -0700 (PDT)
-Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-527d402cb05sm36676211cf.31.2026.07.23.08.04.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 08:04:12 -0700 (PDT)
-Date: Thu, 23 Jul 2026 11:04:08 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Suraj Gupta <suraj.gupta2@amd.com>
-Cc: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iqpy1YHZ"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 772121C37;
+	Thu, 23 Jul 2026 17:44:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1784821481;
+	bh=oEFMkryztdztgbBqD7MgtEgSQl2lfC96WXOHlm0qYHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iqpy1YHZDiapYnRDDS2LE5QiD7/DDXnO3UNnS/a4Z0iDtuEHzlTY5Ns8fuGP7xZP0
+	 VMw8x4TdQlLToBjYHPuzBnCBl0+XkJsJz6x1Nw4UQP5obcgIotvc2DKcbLdZlJPBkO
+	 NkCPkwjUmpTue/zlRNxkuuesa70Wcit9OnJie04g=
+Date: Thu, 23 Jul 2026 18:45:41 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, harini.katakam@amd.com
-Subject: Re: [PATCH net-next 1/7] clk: Add devm_clk_bulk_get_enable()
-Message-ID: <amItaLCmjtmH8SRQ@redhat.com>
-References: <20260723123838.125145-1-suraj.gupta2@amd.com>
- <20260723123838.125145-2-suraj.gupta2@amd.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
+ no-sequential-read
+Message-ID: <20260723154541.GA764516@killaraus.ideasonboard.com>
+References: <20260722-regmap-single-read-v1-0-aaaf31591669@linux.dev>
+ <20260722-regmap-single-read-v1-1-aaaf31591669@linux.dev>
+ <cdd3b988-72cd-4143-9a17-ee0c57625e94@sirena.org.uk>
+ <amD_vkMOrtKq5NvX@bombadil>
+ <20260722201622.GD648629@killaraus.ideasonboard.com>
+ <amEvJBOE3Ja014Ap@bombadil>
+ <525338f4-cad3-4acb-94c5-a4b71cde9c02@sirena.org.uk>
+ <amHznORUaOnUFyS4@bombadil>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260723123838.125145-2-suraj.gupta2@amd.com>
-User-Agent: Mutt/2.4.0 (2026-06-19)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: lB95jYVHojoiKDKkD_A7gj33gZW6dazXbfiJLVMxaJQ_1784819054
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <amHznORUaOnUFyS4@bombadil>
 
-On Thu, Jul 23, 2026 at 06:08:32PM +0530, Suraj Gupta wrote:
-> devm_clk_bulk_get_optional_enable() gets, prepares and enables a set of
-> clocks with device-managed cleanup, but treats every clock as optional:
-> a missing clock is silently returned as NULL instead of failing.
+On Thu, Jul 23, 2026 at 01:01:11PM +0200, Richard Leitner wrote:
+> On Wed, Jul 22, 2026 at 11:03:09PM +0100, Mark Brown wrote:
+> > On Wed, Jul 22, 2026 at 11:58:46PM +0200, Richard Leitner wrote:
+> > 
+> > > @Mark: I understood that if the fpga really intercepts the I2C bus, it
+> > > should be modelled accordingly in device tree. But what would be the
+> > > preferred implementation if both devices sit on the same I2C bus, but
+> > > one is messing up some register reads on purpose?
+> > 
+> > I think we would need to have a coherent understanding and description
+> > of the actual issue to know how to describe it.
 > 
-> Consumers that need a fixed set of mandatory clocks enabled for the
-> lifetime of the device currently have to open-code devm_clk_bulk_get()
-> followed by clk_bulk_prepare_enable(), which loses the managed disable on
-> unbind, or fall back to per-clock devm_clk_get_enabled() calls.
-> 
-> Add devm_clk_bulk_get_enable() as the non-optional counterpart. The
-> underlying __devm_clk_bulk_get_enable() helper already supports the
-> required (optional = false) path, so only export a thin wrapper for it.
-> 
-> Signed-off-by: Suraj Gupta <suraj.gupta2@amd.com>
+> Understood. I will try to figure out how the hardware is really wired
+> and come back to you.
 
-Reviewed-by: Brian Masney <bmasney@redhat.com>
+Based on the information I have received so far, the FPGA is interposed
+between the host and sensor. It could therefore be modelled in DT as
+child of the I2C bus and a parent of the sensor.
 
+New version of some of the Vision Components modules have fixed the
+multi-read bug, so we will still need a property in the FPGA DT node to
+indicate if the quirk should be activated.
+
+> > Please do not add random characters to my name.
+> 
+> Sorry, I didn’t mean any harm.
+
+-- 
+Regards,
+
+Laurent Pinchart
