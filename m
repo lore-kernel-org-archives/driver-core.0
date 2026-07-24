@@ -1,84 +1,74 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010035.outbound.protection.outlook.com [52.101.46.35])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010014.outbound.protection.outlook.com [52.101.201.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE23219C54E;
-	Fri, 24 Jul 2026 06:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF3F1A6810;
+	Fri, 24 Jul 2026 06:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784874578; cv=fail; b=ZpnSzVSMw5kCaACySUxG5xudS6Y7FF0+5Wx5Wph0JNLVlWrGLEwxbDxR2yOUgn4Lfl8M6hnNfxT4J8gOb51DNUCKIprZY5qlgywJXSKaWgKopglppWzZVoUYEZG/pjmgXW1eSYDy35J49kewsecA0AFeIfSa4Y+3I6WApoCybkg=
+	t=1784875114; cv=fail; b=TSXfPmwHYMrEqMABmdcgWhlDTPXBpu3d7n3MerDdo0uecmYgLbIMCSpFlPdc4rjWjk5GjhiSxzU11pDTl3wsnHzSFW0u1mSgT1XoPYIpamGwNDTjpDYHGOD/b5w4T6VXmoAA7aBr11CwTcgp2CvrR9235tKrwYAfL1Dwj/6Iclw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784874578; c=relaxed/simple;
-	bh=a+ACLbixapC/zjoKK3eYxjnIbrfU98SSf3nRmQNSEL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oryhduBuCTZKlYw/MrVzOK2pIsQoKmJvjJKuDpOtzTFR2ODeJnraFG7FlPl1RUgGF4HvMXoV3wzG90uERc8dCBK8Eqr8cYYHXo0yigGmEjhMYWQqIT3kgbjJuS6FSvp4YpIKBVjoX89Sxuv1zDHN6wzl7AzbKNFwpSmgnC9tLhg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BbnuJlKx; arc=fail smtp.client-ip=52.101.46.35
+	s=arc-20240116; t=1784875114; c=relaxed/simple;
+	bh=6V73mWVMLmPdvwCJPHxLv9RqqB2bXi3N8lKKJRTC4SU=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=X/3XVwV1DltaR8R5bNiXsifI4FywMxz/yIbYxVReWeIIwZI93Yo9bMzIefRdkxZDfnGcGNLwpORWTEWmrnN97vAuN87QMuWDM99cEKWWGuvRM/OrVbawhUYnwQwscNpSjGpWGF1pksVX/e95kCGF+9KXZwPDhRjTNEnqsCTPJ6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qekh7ZEy; arc=fail smtp.client-ip=52.101.201.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BbnuJlKx"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qekh7ZEy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZdARlGKTLH0ACuwiwK4wpiw1vx3zON9eQiTwYZAXqeSO48yqRNX9Nxiuc/VvQ1cpWsUULpdHU6uJfXHMtY2Dpfd/3zRzwK13VDoUSPFgWLfSqfBRl08LCWdcqJZxRnkLmpg3r8iKVpXhpdMnG1t6o3uWQrFL8k1tgnv6ZlsgTVVG5bYv02TXEb6sfUceUDbbFjkB/RQkFpPvbOZI8uWar3vO34KtyosBxNflCuhyqg2ynHy5l7LsweSwGNlx5Qz6iOtggPlSGEPo0MVurpTzTveWOq92pmRxwkEXZ59B7RMPPr6olEBntQPORn+6BlY1m3XW1KQvvLuE6occX2x/jA==
+ b=fso5LVFF8f0CwIJr9bZBt7LOkoqpjoyMVyU4TVhsZoARfqr74qHLK2b+KHBX1mfOx5rWWWAD/w81KUUvg2nAnOWPk1s3hvNHEe1u7ki+ZJqlk5TY2p/idE8HTt0r73KjpqccXc6ua875zXJt2ZXVjrTBtp5DED/xQy0vQNUSnvaIeBQJca5Pzs+m6K8K7Y0xUN0fWxN/DHTQuFv6R1K1seZaIyZQZc8a7OToDyFHwx22GT2z1fS7lTZsHj/4QnUKPNpK2mn4QC4V3TwrRZB4doiqt+jTvvclpUOyboOQzoCiax0Mf1MtB9ytKVos3//EjwdjMr8zpM/xFganxxq5og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1i8eOhJ3/JC/GfQ3HizjJjoOnsvAYLcBkgkjs33XBs4=;
- b=uiq7UWazwj+JmF5iHi6haMBJMX5mQquQxqHoMMPDOXizrXLG+8Q0v5o5u76DB2mg7bTvTKa5E2L69JJHzTYxUCftYYyGkhaGtEBQkKl9C1hjgIZokw/5AUxcUi+qiSRw2FgAQnxIGLLNz9L31zBsPGOzgNZgBE7CpAmyOtCT6eolTKzdiSwcOegqKVrBjC28yvlAUJ2S/PGIdX582ZZJ4vdCHfSPrZrQTDfeVGoJi+ItzQjsf3qIC2tj3M4zsVWxLY2cxep7/AulprIMaslX1YqwcjPgu24bUxnQdxweJIHeAUMwGy+5oEKu3qwtiO++k6rCz8nxdzP51Y1+GnlzDw==
+ bh=qObFCXGrraHYCvKwH86TF61Yd3cVXF8j1v941DPoDJs=;
+ b=V+5xlrX7XFGkEQP54T18VZRhy6V8qFZRy5oPWxbd1Xd5+aeuCZJkj0xVe/ljdg7knK5pCxLy+OlrEO5Pij1Logqlwlh/qtE/aDixrw6f/Qe/24XPoMLUvKI3P59iwL+hmTmvwmw3tGcIzCjIaff5BKTOSWgU6RFd3JtkCRJ7islzJpCRsD9A6VmyovtfepNcGXEsnMykK8WGSJzEmuKYzKjEoXEWmhY9bqQLugGPq8OM+hZjBHHhNe7xsgBEQmYSxS4xR7rWxlYgb+NV74D5oTqCpuAjh+Nqip+DGKiImLrLwcfe2JDsbGanMLdCI+kaP769XDVvszndNbPnBur7EA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1i8eOhJ3/JC/GfQ3HizjJjoOnsvAYLcBkgkjs33XBs4=;
- b=BbnuJlKxyyJC4qqrgeTVHym7vtbBTO/BJxxmjm/BqGAPaK7A9LSpeGBo64RhPmrYTEvqxS7EbA5sWbo2rjkxurpd0J+I0MXh2bRIsi+xTwJr5NKyvGjmgi5T38cMNMpixqsdQy349hG8DXlssSMxingB/1ma9fdoky6pRQgR5Y73r+qYVwTY4pnRNxsQYtyTyCDRz7aHaMo1/o9rrJqZWR7c3VN/EH+E6hb2FAU2GzbaM/8PhThrKWe+acBLLM10Ni/RR3d9ZVapISjmQXX5ItLxiJTlt3UpMtfKWrAgQ34tvuocr25Dc/5DflQqXCJMZFHhhGgSJcdK7iUzmjFUYg==
+ bh=qObFCXGrraHYCvKwH86TF61Yd3cVXF8j1v941DPoDJs=;
+ b=qekh7ZEy0+ZMSJ5VKHLHmWQk5TC+kRf58uG71FUTJdEmNbN0Ib2tE9FFx9EDVnCl1pccQu4U8FBDzTXsN7YXrGk7/YCoBl+Me3JbqTbZjsKIITaoGVxwUjfNME2cYOcqT16B7y1sdcIQ6OksSikZLcTvihmpPMme3rm15YxBfuTUO32oqyTT8OyhAfZ3c+RCpbiTOviiP357qMW1CYQJEi0CTeGByYmUnmKnbg1N9hsAUD36MQkNBETEriKfq9DgBid63pe3g1rpMGzGepIEPXJ3lo2gTPPF3Djvu8nC9CFVnRbppX0UsBurfqgdMOUcjlih08c3HIcQ43Q2qcQYBg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
- by IA0PR12MB7676.namprd12.prod.outlook.com (2603:10b6:208:432::5) with
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB7233.namprd12.prod.outlook.com (2603:10b6:510:204::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
- 2026 06:29:29 +0000
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
- 06:29:29 +0000
-Date: Fri, 24 Jul 2026 14:29:22 +0800
-From: Richard Cheng <icheng@nvidia.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <amMEai0Fo9dL63lP@MWDK4CY14F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <amDL80BSEP6u9XfE@MWDK4CY14F>
- <amDVQopyvolxfX8K@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amDVQopyvolxfX8K@gourry-fedora-PF4VCD3F>
-X-ClientProxiedBy: KL1P15301CA0053.APCP153.PROD.OUTLOOK.COM
- (2603:1096:820:3d::15) To BL0PR12MB2370.namprd12.prod.outlook.com
- (2603:10b6:207:47::27)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Fri, 24 Jul
+ 2026 06:38:24 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 06:38:24 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Jul 2026 15:38:20 +0900
+Message-Id: <DK6LF1ODPWC3.3QQV3SXQ55SXP@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH 01/10] rust: io: register: allow explicit base type
+ specification
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Content-Transfer-Encoding: quoted-printable
+References: <20260721-typed_register-v1-0-452d72b60262@garyguo.net>
+ <20260721-typed_register-v1-1-452d72b60262@garyguo.net>
+In-Reply-To: <20260721-typed_register-v1-1-452d72b60262@garyguo.net>
+X-ClientProxiedBy: TY4P301CA0067.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36a::11) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -86,387 +76,143 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|IA0PR12MB7676:EE_
-X-MS-Office365-Filtering-Correlation-Id: 918eef5c-2365-41b1-d53f-08dee94cea6f
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6bd1d5e1-9c65-4575-ccf1-08dee94e28ea
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|7416014|1800799024|6133799003|56012099006|10067099003|4143699003|11063799006|5023799004|18002099003|22082099003|3023799007;
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|23010399003|11063799006|56012099006|5023799004|4143699003|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	vEDmYT1VI4A6AhBLfy9fkzQ6ar6Im01hIe2HWPpRa3tJgVKFFI1vxEtY6HV+12WDOtgypI2sSTffMhr3WxX3h+oMDpaihMLAJ3b29JOn9R7g/OipTCp9E/KkQCc6yXQIcKLonhAw7vzKeTToxO8M2t5N9/MShK27UyeJjUtl/T3dTP1lS0nw8RocQ12qLQ80Lp4EQInv2eY643gZF+zMlz1XprAfigp9Cliy2lMqzyJzsnU+ROeTT38eLK0sopcgw4etzuzsS3V9GiORUsTzapPstD+9T+K807++Cj+tycez0PtR3OSV2Oe2zrbi6gieSMnI5mT8pGYliAglQUHNxS3UBXiMknA9Udn3xGJ67ZanGVe/QP6o3AeORwxGiDN1bmgJ/+2rIP7sq1+DNm11g1edTiuLQXT+V9ZQZ3guVqqau3l+geYgBkK8u3VRvr8IrulGJRe5acxzsAd5ppCQ0yVcE2z61UtIHanwdSq+sGVdDD3csSctX1Hjiwbz1s4FkcOCGMBEGRHWczUi1BYGSorgcA2/h+yPEhjxBUPYMok77L8vc/N6b24cc/JPEi+quHxQ3uoQudZ0Asm+aFa8UKwXkoyxqOM+1FIIZ87t3su30OaEbGo2ZjhdnFuk9at72t+EpPEZWguLLDzcySqrZ1oTdo7TmRIZ1ZlGc6HoPJ4=
+	uO1pEldULUCDh34Og0Bk+/AsU4bC5Z+QqgNhIw6rT9I7wxRPhWlILP1fiXk74XrQuTjQT9nlMfuG3GXdQHeuFwzPDHjs4RgFSIMTSYTDNkhkqH2ebIIDXa9iSli+sbP1kmzgAEkMZToNIHWlebZaCgHJofV52gRB8AZxpRixcLUjXFQF/uysUQRmxBrKzRJZZ4MdB69GDH06lvGyUgAZw9qwLdUfHDtoDsOfu3iGPIqY+DNHmiU1SppApb8XsdEeVKNJlD2yNpxFKHyHhl49Fd6rOBeXPkLY+yPi7stiM6IfukfQuLCDFVm5q50Lxu77pTDAGeWkIyteGUiaM7u696An4Q9NXASIDW9Hzh+ZroSG2LOH3zqygF4OiFy4FPeQckhKDI387mH0UergETD5A5NvnJBTDqfpIl12lSuJqnX0EuhpjaTFVEbQyL54V5Z0rIwdUDtInRJu4nTE9fRz3jNsuZMoNA85h7ZF0oupvIrEEPq1K01mOqjtz242pWoT0lCVkT2XjyN+ds1ohKWtYlbruOpC3McleNF9G9RxfkUBasRNgobDW5N7bN1qzv/XS0pyVHeOQGrqPLIkmtTeQRivw84PItVZb8mm5TZykKZ4rrw1F4FW+0/Q14vCTe4QnnsTknWoQVaXD1P95f7TN3CnMKF/tOLMv+ZGN3KSDbY=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(7416014)(1800799024)(6133799003)(56012099006)(10067099003)(4143699003)(11063799006)(5023799004)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(23010399003)(11063799006)(56012099006)(5023799004)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?L30NxugFTWN7x58WxFBGJv27aQ1arWC+2oRHTJMpWZ/AKxX6Gw/VTisL2czl?=
- =?us-ascii?Q?RO2U6y/NHTx+4JEO4lB2rkRbTCMrZ6SFmv9KcpSfkLKxIl+o5A98gEJY4+cI?=
- =?us-ascii?Q?3gDMSjcZRh2tj7WOos2ux990Bqk+TnLqH6s6y4+g5eF5B84oSEjgm1rtvPuj?=
- =?us-ascii?Q?o7G5TNcWt14C12O2H+9knC4Poxf+4vVgHFbBaw7ynrbBUWCbPDqed0pM4ZFN?=
- =?us-ascii?Q?agnc+4FnccRLn0v50bbGbbokI8O06Q8MMlAdmjs7XTss+66cLdeuPrSB6U7n?=
- =?us-ascii?Q?jDRMP+KpBNv4cz8KiyPwg8iCXQy20SCqexHv0FH43dWCjaTgXt33lLP9iup4?=
- =?us-ascii?Q?7/HLFh6FEVYNqCU8SEXqMnQpWPKL1kRrcg+yCKyaLYM1YFqWbzN9ItxSbZ4T?=
- =?us-ascii?Q?C5ujaPF88X+06gMU80hP9rHOoSyJC/Ms+9CVzSGZki4kC6cJKeAZrOJYt6dL?=
- =?us-ascii?Q?arSdqiG4noxeu/WscgPId8ny+oADBKyDsn8K1c0CXsS3MObqByakAisP/lGL?=
- =?us-ascii?Q?8ULNT0bdUjpVNrb83Upaae3NMea2aGOTTH2e9bOTt9qnxkfflgKY7zgJqRPY?=
- =?us-ascii?Q?J0OVTm9pEweqXllwQNC+w+38O7wPFYr+ukmF2KpLkrCVU5Mp94MbmVI/XT5U?=
- =?us-ascii?Q?5VLNoWHSzC1N1eDmjumE2mdSwzeDSha0xZMMQEJZyrhRmBCAxs9wZYfsTSQt?=
- =?us-ascii?Q?QFJucdgGdf2LVqxPBtVPRaHeLoL7cDRATNOiuVqmAbgUHlIOXkHJjGopA8Og?=
- =?us-ascii?Q?sYFghfYniyc6gArHviEm4kzw7/6zGRucObtcsBwkm/B6AApyOE29VpaY/kZx?=
- =?us-ascii?Q?XBnINaeMFCzwVISP/8+M+UoiZbjZYXRKS2WXK1tXergb7jKOjN1R5oCvSKco?=
- =?us-ascii?Q?cAzjybUgnDanE4p3Uv1ws7cDeEQ7M+Rm8KO9lj1e0sM2Jsaqb5ZNGqlG94VV?=
- =?us-ascii?Q?7acDVAEseR+BaK9ChvFJ9dpeFJFcvFdypYRc9jt58NPxMTIOhLLtZQ5LV7Nf?=
- =?us-ascii?Q?wc5GfKGxy1Eq+R6/MIRnQzk3IaHSGRrWgkn2jj1ih1IHCUZoQce1B8NAdvWH?=
- =?us-ascii?Q?uEcBBa+Fha62ZtIWnbY83ifFc+TYtvNCCYrB2AqLDtV9MilSU5vkDx/hmEUU?=
- =?us-ascii?Q?CsoT7UBoEpMSuqyXkaVy0LH7wLFeXMgt79T52wmYb7jrhONMVLs53KinWD50?=
- =?us-ascii?Q?Ce0El/HQ3JFFhfzhtNWSPiMS65F8N+F3DNdw3SRfMBSlwtxyeJjYmjAcSd7/?=
- =?us-ascii?Q?wl/LlEpJHjyG6+0iRSc83Bn98fKkP2JgmGTNUDgC+2Zlf8RpaEvD8C41sTDS?=
- =?us-ascii?Q?GwnXg9mv8sRn1YYY0Ldcl75pZ59ovi5h7vc7qDmH1Jd4nBvdg/EMU2oPvaYW?=
- =?us-ascii?Q?Qd6dy4FWi3DzkilzTy0pufs5QhYqgP11qx8KMudgnQsA4l7N7XCzL4JYiPtn?=
- =?us-ascii?Q?OYR70JPRjPmleOTGaOukLjFgoO6xtcXIHSgZ2dQTmbJ/V3FROIUZd7bnXLs2?=
- =?us-ascii?Q?OlOtJOp073MU4Ooz72FILTWqjstOr3KEr9jYjFVieW+rJE7S4r356KTzU1Xl?=
- =?us-ascii?Q?ZG8EcBKk4UPoOkLJNmW05A7t5L5By0spcqVMPpCTZTy1x1iOMPnQ4RZ6EI3i?=
- =?us-ascii?Q?UmbFkkSgqdGq7MEY7L5dHBO99AGCG/1ebLJWBU7K8jlDFN+NpJXSLqRXcT3y?=
- =?us-ascii?Q?xcv/ut6sWftZxMZ325qk5rsYiylrbWurXqPXUKeYTY+Ab/1p?=
+	=?utf-8?B?K2JRNzRxUGIzRUpLODJrQk1pU0xBOGtxYndMbnp2Rmd6U3hTa0pTbzdJdEQr?=
+ =?utf-8?B?d3pNcGZ4ZlZaTUdEcjdLRFFod0VGWDBOOHhZejh5THdqUnh0aThnSjJXUHBC?=
+ =?utf-8?B?U2VVcms2M2hFTlYzcThsL0x0UDdYa085VXNpRzMyRTRTUlFnNDZqNGpRUENo?=
+ =?utf-8?B?VkU1N3B0Y29YbGVOREpSVDMxd2orRkphUnNvUFN3QmUvWkpyaERpTTg5Vzhh?=
+ =?utf-8?B?QTVFWHBGRXExcGpLR3pNMGhPczVJZWVhbTgybmpiSks2bDUzaVFNb2hUa1lM?=
+ =?utf-8?B?cnhzb0Z3eHByL2JhN1IzOCt5OVNtZWcrdVlHYThST0tITHF1RHhJRFJRL3dw?=
+ =?utf-8?B?aUZZeXRqTE5XaXdWSEc5bThweUxFVDI0VFRsa0xRaEJqOVBkWnVMbitncjF4?=
+ =?utf-8?B?bHFkdDRXcUVVWFNndFd3YXNQdmphT05va0FqZkZBbDhyU01naEUyMlJmM1dO?=
+ =?utf-8?B?L1M1d280czdWOStmS3Z3ZllMQmxaRXMvekx1YTVZQ3JQSE16aXBKNE1ERkpr?=
+ =?utf-8?B?U2htdDM2dE1BTVZYNlVMYnl5anoySHpRWEJMRkc4Z1lPMEIwcXg0S3Z4SHlS?=
+ =?utf-8?B?cHNVd2svTFVXRUNxWGNTdnNoUTRsWXRrTDZrUHJaSFdZM0pHQTY4WjhaQnFF?=
+ =?utf-8?B?QU1sdVB0VTh6US94NnZnVGNmWWN2MWliNm1PNGdwS0MxbVRFRjNrYkFkTzRQ?=
+ =?utf-8?B?WXVETTJ0bXdRSVZTcW9jcU1XbXVRaHV4RFpKanBhOHVxWUhDcUdkR2lpSTZD?=
+ =?utf-8?B?MFBGcUFMTVkwS2ZWN3NxcHZIRytLN2NLa1hnTVBNZjZhV1JxeitrZENXUVh5?=
+ =?utf-8?B?SkFGZXFOcjFmUUIvWlcvSyt1NjFCekg1c21FQWdDQi9ZWTNJMkg1Y1A5N0Zu?=
+ =?utf-8?B?bUViUUNQN1ZkSjRKSnl4ck52TEk0bGJXbUk3NThmbmZFQlZYZXpoZUV2WU96?=
+ =?utf-8?B?RGJyODFzQXEvbDA2bkc2b3hsc0JjNHgzcXVCVkFvV2FWSDdOTzN0em9MVzAy?=
+ =?utf-8?B?V2FFL3dxZGVrOFZZUFVLcTM3OXV2SDAxV3U1RkM0Q0kzVmxSZkJCdy9iZFZV?=
+ =?utf-8?B?MGp2WFNFdFY1aDBqK1laMnlLK0RUaUhUa3dpSDl5ZHYwVVRTNXAyZHRzT0pv?=
+ =?utf-8?B?eXkxWWkxREJwa1o3YlJoRFpkano0cTZkSTRpU2dQRXF6S2VFM2swRWxpR3Zy?=
+ =?utf-8?B?R2Q0cm9sUEQzcmQ4RWtUdysxOHNuR1lSR1J5Wi8vNWFDL0VKYmZLandJTFlO?=
+ =?utf-8?B?eHNuQmVzTk93NDF3UWN2TmxGT05qb2ZKcktTV3hTbUFqOFJGbHp0MWZpOE5C?=
+ =?utf-8?B?QUpYVWhXdnFMM2hoZHdBVGVXa0phNTZiRDc4OTR2dTVobVpickJ5cGxjZUYr?=
+ =?utf-8?B?UGNZUi95TTdlQnc0NTJqMlVoa0R0YVhKK3cyL0lmYnBuR3h1S01aM2YrNXh4?=
+ =?utf-8?B?SDVCTWJZV1B2YXo2aXBQY2xFejF4a3lLL2V1SHVsekhvUjVObis0SjM4Ris3?=
+ =?utf-8?B?NENLaTRIc2dQMWxDVlRxMFlnbWJuMU5kMUN4eGJvUXkrZDR6R1gzOWY2NnhC?=
+ =?utf-8?B?VWx4RkIxSVlYS3pxZFpSK1Npcms1bEVXWDViTG5kTlBHOElYVUZtYXFBUyth?=
+ =?utf-8?B?SlB6N2V6Q05yNGJzK240K3BvdkNmYnNmTU5tZGFMUkpVb2YzU05nRlVabjMw?=
+ =?utf-8?B?RGhXNnJrQk5XNFFtQWh0dWJLNHJMT3k2NXhaNnMzYzNYTVdlWktIaTl1UmRm?=
+ =?utf-8?B?YjY1WGxhVTRsd01XdmEyQ0R6eEcralB4S0tDYnZWZjZGUkNON2dod1VFU1lE?=
+ =?utf-8?B?QUd2b1BISnYrUmg4TjliTHBSTXFGMTdVMXhqeHdram5kWjZwclZmNmtPVzhs?=
+ =?utf-8?B?N2M5bkJHU09nUVNyYXo5WEhFTDhlT2xJck1PMWd6aUJ6aU9hbGZYUml5VUox?=
+ =?utf-8?B?ZjFQT0RHOUVDRi94WjJ3UlB1QVphZnV5RlZtakJoeXR4dW91U25ybS92R2Iy?=
+ =?utf-8?B?aXFPVXNzOWk2Q293ZG1sa1g1d3h1Wm01TEZOUDZpRzRxdGVsbWg0Z25SZ1FL?=
+ =?utf-8?B?eklkSUdqLzJMYnJyZmtDT1BHTHVwZjUvWWJjZ2pYOXNFaWlxVzdpZHNmeGU1?=
+ =?utf-8?B?Q2J3c1FPNTF3OG1mU1ErKytPQk5QdGI0MnJRQm1NTTUyZ2tjWkxqRUhxTCtW?=
+ =?utf-8?B?T3RhbVY3YXhxYlg1SC9hTUFNaEd1SE1tZTdxV2JtdXNMOUNyM3ExTW1zL2NO?=
+ =?utf-8?B?K09XaDBNRXd0b09aZ2Rmc25NUVUrQXF6NFZxaG9lTHpzVzZOYnBJSmYyNDlJ?=
+ =?utf-8?B?UFRxV1cvVEU1ZFNJdHpkb1h6S0c3RXJQaklzSGFUM1pSbkN0Q0dIbXhhV2E1?=
+ =?utf-8?Q?Xer7xwT6y7W9+mVxavGgxze8IGdp71qsO7X5cJxhW2k4F?=
+X-MS-Exchange-AntiSpam-MessageData-1: 3F1CuVEbT/MoAA==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 918eef5c-2365-41b1-d53f-08dee94cea6f
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bd1d5e1-9c65-4575-ccf1-08dee94e28ea
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 06:29:29.6113
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 06:38:23.9157
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YBQPvhpbfZj/xc94d305n/Zn9DY7juNf1aOm/Z/FEJjBN+4J5lfeYAxomWhKZr5jTissVLBywL2hU4gSUISLrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7676
+X-MS-Exchange-CrossTenant-UserPrincipalName: UrS9mOKpN5a5yNbU3T+q+scqwedc1ju1FxzCTzoxGjQWKg4AfgUtFBTjB3LEJsow+Fb7TRrfQqSD+MOt2qKPGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7233
 
-On Wed, Jul 22, 2026 at 11:40:06AM +0800, Gregory Price wrote:
-> On Wed, Jul 22, 2026 at 10:20:00PM +0800, Richard Cheng wrote:
-> > On Mon, Jul 20, 2026 at 03:33:54PM +0800, Gregory Price wrote:
-> > Hi Gregory,
-> > 
-> > I applied your series on mm-next and give a quick review,
-> > not thoroughly, still I have some questions below regarding the design.
-> >  
-> 
-> Hi Richard,
-> 
-> Thank you for the read.
-> 
-> Just a heads up, this was based on mm-new because of some recent work
-> on Brendan's page_alloc.h cleanup, but if you managed to get it applied
-> then maybe that's made its way forward already.
-> 
-> > > The goal here is to flip that dynamic, isolate by default and then
-> > > opt-in to specific services that the device says is safe.
-> > > 
-> > > Isolation at the NUMA/Zonelist layer provides a powerful mechanism for
-> > > memory hosted on accelerators - re-use of the kernel mm/ code.
-> > > 
-> > >  - Accelerators (GPUs) can use demotion, numactl, and reclaim.
-> > >  - Special memory devices (Compressed RAM) with special access controls
-> > >    (promote-on-write) can have generic services written for them.
-> > >  - Network devices with large memory regions intended for ring buffers
-> > >    can use the buddy and standard networking stack.
-> > >  - Slow, disaggregated memory pools which aren't suitable as general
-> > >    purpose memory get cleaner interfaces (no need to re-write the buddy
-> > >    in userland, can use migration interface, etc).
-> > >  - Per-workload dedicated memory nodes (disaggregated VM memory)
-> > > 
-> > 
-> > For accelerator part, take CXL Type-2 as example, it has its own protocol
-> > CXL.cache, CXL.mem which is the rule they need to obey during memory transaction,
-> > Adding more rules for them since they are NUMA node confused me, I wonder the reason ?
-> > 
-> 
-> CXL protocols simply state how to do the memory transaction at a
-> physical / transport level.  It does not make any statement on how the
-> operating systems are to make sense of these devices or what constructs
-> / abstractions to build to actually manage the devices themselves.
+nit: the base-commit trailer points to a commit that only exists in
+linux-next (next-20260720) and is not easily discoverable - it would
+help if you could mention the base in human-resolvable form in the cover
+letter.
+
+On Wed Jul 22, 2026 at 1:54 AM JST, Gary Guo wrote:
+> Currently registers work for all untyped I/O regions, which is not ideal.
+> It allows registers defined for device A to work for another device B and
+> there is no safeguarding at all.
+
+This doesn't sound like a real concern. Registers are typically local to
+a driver, so one cannot use registers for device A on device B even now.
+And within the same crate registers can be isolated by module if needed.
+
+Even if we restrict the base type, the examples given in this patch only
+partially address the issue: registers from different drivers using
+regions of identical sizes could be used interchangeably without
+complaint.
+
+So I don't think this patchset addresses this particular problem, for
+which namespace isolation is the correct solution anyway.
+
 >
-
-Ahhh thanks this clears my question.
-Then this abstraction makes sense.
-
-> This series is not necessarily attached to CXL in particular, you could
-> just as easily carve out memory from the general pool onto a private
-> node to ensure it only gets used for a particular use.
-> 
-> In fact, that is how I have been testing this with dax/kmem:
-> https://github.com/gourryinverse/linux/commit/f279e741d9c3643597525bfab916b29b95cb635b
-> 
-> > Because NUMA node, at least for me, representing topology/locality rather than
-> > something with ownership or capability or rules.
-> > 
-> 
-> The NUMA abstraction representing topology/locality is a construct we
-> (the OS developers) have decided on historically - but there's nothing
-> that dictates we can never create new useful abstractions with it.
-> 
-> Consider:
->     N_NORMAL_MEMORY,        /* The node has regular memory */
->     N_HIGH_MEMORY,          /* The node has regular or high memory */
-> 
-> These have nothing to do with topology or locality, they are node states
-> that only have meaning in the context of linux mm/.
-> 
-
-Ok, I see.
-
-> 
-> To make something clear - there is no *requirement* for any particular
-> device to use this abstraction.  It simply enables a cleaner way for
-> devices carrying memory to re-utilize mm/ services while ensuring their
-> memory does not silently get used under system pressure (or some vagrant
-> in userspace doing `numactl --interleave all`).
-> 
-> Ignoring all the CAP bits entirely, if you just took the base series
-> your driver could re-use the buddy allocator without any special logic
-> AND have confidence that your driver is the only possible user of that
-> memory (barring some truly obscene bug).
-> 
-> > >  - isolation via a dedicated zonelist:
-> > >      - private nodes are omitted from FALLBACK/NOFALLBACK
-> > >      - added ZONELIST_PRIVATE(_NOFALLBACK)
-> > 
-> > I saw the reply in patch 5, so in fact there's not only one
-> > dedicate zonelist, but numerous ?
-> > I raise the question because zonelist was supposed to be a
-> > global, unbypasssable thing in MM design, but now what you
-> > are trying to do is to seperate the whole global list into several
-> > parts ?
-> > 
-> > Can you explain why in current design you don't consider to support
-> > something like ZONELIST_PRIVATE[n]={0, .. ,n-1} ? that's my imagination
-> > of what a global zonelist should look like, no matter private or non.
-> > 
-> 
-> First let me say that there's nothing that prevents us from doing this,
-> and we *could* make this the default case - but this decision was
-> intentional by me.
-> 
-> Having them all present in each-other's zonelists by default creates a
-> number of implicit opt-ins that are unclear:
-> 
->   - any direct zonelist iterator now iterates all zones on all private
->     nodes, even those nodes do not opt into the same services
-> 
->     e.g. zonelist iteration in reclaim that targets Private Node A would
->     attempt to reclaim Private Node B as well.  That would require and
->     extra explicit filter.
-> 
->     I ask: Why do this? Just isolate in the zonelist, and if there is
->            a desire for intersections - make it explicit, not implicit.
-> 
-
-Fair enough, thanks for the headup.
-
->   - fallback allocations can now occur across private nodes, even
->     if those nodes are intended for different purposes.
-> 
->     Obviously you can use nodemask to tighten the allocation target, but
->     I use `numactl --interleave --all` as an example of a clear case
->     where intersected nodelists may not give you the behavior you want.
-> 
-> 
-> So for consistency - everything including zonelists have full isolation.
-> This way all interactions with a private node must be explicit - always.
-> 
-
-Good choice I think, avoiding those implicit opt-in assumption will make
-future developers more aware of things and do not just stumble into them.
-
-> 
-> This is actually one of the problems with ZONE_DEVICE - and you can see
-> it in this patch set.  Some of the hooks in mm/ for zone_device only
-> apply to PTE cases, and are absent from PMD cases - only because PMD
-> mappings in ZONE_DEVICE aren't supported.
-> 
-> That kind of implicit behavior is quite bad.
-> 
-> That said, future improvements could include something like:
-> 
-> for_reclaimable_zone(ZONELIST_PRIVATE) {}
-> 
-> where we loosen this isolation, and formalize a filter, but I would
-> like to see the usecase for it first.  Loosening the isolation defeats
-> the entire purpose of the series, so there should be a strong reason to
-> do so.
-
-Totally agree.
-
-> 
-> > > Allocation Isolation
-> > > ====================
-> > > page_alloc presently controls whether a node's memory can be allocated
-> > > on a given call by 4 things (in order of authority)
-> > > 
-> > >   1) ZONELIST membership
-> > >      If a node is not in the walked zonelist, it's unreachable.
-> > >
-> > 
-> > So a device gets hotplugged in the system will get a dedicated zonelist here ?
-> 
-> Yes.
-> 
-> > And make sure it obeys the device's own protocol if it has one ?
-> > 
-> 
-> I'm not sure i follow this question, can you help me understand?
-> 
-
-Nevermind, you just answer this part above, thanks alot.
-
-> If by protocol you mean the CAP bits (opting into reclaim, demotion,
-> etc), then yes.  If you mean something else (CXL) then I think that's
-> orthogonal and unrelated.
-> 
-> > > Private nodes:
-> > >   1) Never appear in any ZONELIST_FALLBACK
-> > >   2) Have an empty ZONELIST_NOFALLBACK
-> > >   3) Only appear in their own ZONELIST_PRIVATE(_NOFALLBACK)
-> > > 
-> > > 1 & 2 mean all existing in-tree callers to page_alloc can NEVER
-> > > accidentally allocate from a private node.
-> > > 
-> > > An allocation must explicitly ask via a zonelist and a nodemask.
-> > > 
-> > >   alloc_flags |= ALLOC_ZONELIST_PRIVATE; /* use ZONELIST_PRIVATE */
-> > >   __alloc_pages(..., nodemask);     /* with the private node set */
-> > > 
-> > 
-> > As I stated above, NUMA concept was quite naive at first glance for my
-> > limited knowledge.
-> > 
-> > This is quite alot to add for NUMA node concept, I'll want to see
-> > more explanation in v6 and learn from it, thanks.
-> > 
-> 
-> Sure, I can expand on it.  I think it's not as much to add as you think
-> though - it's simply adding the concept of isolation to a NUMA node.
-> 
-> Some more explanation below, but if you think there is something i
-> should explicit spell out in v6 cover, please let me know.
-> 
+> All users of the `register!` macro know what type it will be operating on=
+,
+> and that type is consistent across the driver. Therefore, add a `base`
+> parameter to `register!`.
+>
+> Currently this parameter is unused in the generated code; it will be used
+> when all users of `register!` is converted to gain the parameter.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 > ---
-> 
-> I agree that NUMA as a concept was best-effort for, comically enough,
-> somewhat *Uniform* memory access - instead of *Non*-Uniform memory access.
-> 
-> The current abstraction quite nicely handles the case where all memory
-> on the system is roughly of the same calibre (DDR4, DDR5, etc) and
-> roughly for the same purpose (general system memory).
-> 
-> But it is quite incapable of handling truly heterogeneous memory systems
-> (precious HBM attached to the CPU, GPU's with HBM over a coherent link,
-> hardware-compressed memory expansion, network devices w/ memory, etc).
-> 
-> If you look at the history of ZONE_DEVICE, what it fundamentally does is
-> slaps an isolation mechanism on top of NUMA nodes because the NUMA
-> abstraction doesn't provide one. 
-> 
-> The problem with that approach is now you have to reason about a node
-> having both fungible and non-fungible memory.  It creates the need for
-> something like migrate_device.c when a properly isolated NUMA node could
-> just use migrate.c directly (with a coherent link).
-> 
-> 
-> One example of what isolation on the node enables:
-> 
-> A Private Node can hotplug memory in ZONE_NORMAL - which means it
-> can be GUP pinned.  That means driver support for GPU direct storage
-> is simply `alloc_pages_node() + pin()`. The driver doesn't have to
-> worry about something like SLAB accidentally using that same memory.
-> 
-> All without having to rewrite a bunch of mm/ in a driver, and with
-> having to do some kind of heroics with ZONE_DEVICE that causes even
-> more special mm/ interactions.
-> 
-> That only comes from adding an isolation primitive to a NUMA node.
-> 
-> 
-> > > Isolating private node folios from kernel services
-> > > ==================================================
-> > > We implement filter points in mm/ to prevent operations on
-> > > private node memory.  Where possible, we even re-use existing
-> > > filter points from ZONE_DEVICE.
-> > > 
-> > > Most filter points are one or two lines of code:
-> > > 
-> > > Combining ZONE_DEVICE and N_MEMORY_PRIVATE opt-out spots:
-> > >   -     if (folio_is_zone_device(folio))
-> > >   +     if (unlikely(folio_is_private_managed(folio)))
-> > > 
-> > > Disabling a service:
-> > >   +  if (!node_is_private(nid)) {
-> > >   +      kswapd_run(nid);
-> > >   +      kcompactd_run(nid);
-> > >   +  }
-> > > 
-> > > Disallowing a uapi interaction:
-> > >   +  if (node_state(nid, N_MEMORY_PRIVATE))
-> > >   +      return -EINVAL;
-> > > 
-> > 
-> > I'm not sure of why do we re-implement more filter and basically
-> > doing the same thing ? Any unavoidable scenario ?
-> > 
-> > re-using the exisintg filter would be nice if that's possible.
-> > 
-> 
-> We re-use (combine) existing filters where possible.
-> 
-> We add new ones where ZONE_DEVICE did not implement filters due to some
-> *implicit* filter already existing.
-> 
-> Two clear examples:
->    - reclaim does not target ZONE_DEVICE
->    - ZONE_DEVICE does not support PMD
-> 
-> Both cases result in private-node filters that otherwise would have to
-> exist for ZONE_DEVICE (and if ZONE_DEVICE ever grows PMD support, those
-> filters will have to be added).
-> 
-> > > Bonus Configuration: HBM device memory tiering
-> > > ==============================================
-> > > echo 1 > dax0.0/private       # make the node private
-> > > echo 0 > dax0.0/adistance     # highest tier
-> > > echo 1 > dax0.0/reclaim       # reclaim active
-> > > echo 1 > dax0.0/demotion      # may demote from the node
-> > > echo 1 > dax0.0/user_numa     # mbind()
-> > > echo online_movable > dax0.0/state
-> > > echo 1 > numa/demotion_enabled
-> > > 
-> > > This is an HBM device which is treated as the top-tier in the
-> > > system but for which memory can only enter via explicit mbind().
-> > > 
-> > > It can be overcommitted because it can be reclaimed (demotions
-> > > go to CPU DRAM, and reclaim can swap from it).
-> > > 
-> > > If the HBM is managed by an accelerator (GPU), the mmu_notifier
-> > > allows it to know when reclaim is moving memory out to do
-> > > device-mmu invalidation prior to migration.
-> > > 
-> > > Prereqs, base commit, references
-> > > ================================
-> > > akpm/mm-new - for Brendan Jackman's mm/page_alloc.h work[3]
-> > > 
-> > 
-> > Still thanks for the work, I learn alot from your work as well, thanks.
-> > 
-> 
-> Of course, and thank you for reading.
-> 
-> If nothing else I hope this series helps folks understand the page
-> allocator better (it certainly has helped me).  If there is anything
-> you think I can improve or better explain, I am happy to discuss.
-> 
-> I am planning a larger publication of all my research sometime in the
-> future, but I think code is more impactful and useful - so I am
-> prioritizing that for now :].
-> 
-> ~Gregory
+>  rust/kernel/io.rs          |  4 +++
+>  rust/kernel/io/register.rs | 79 ++++++++++++++++++++++++++++++++++++++++=
+++----
+>  2 files changed, 76 insertions(+), 7 deletions(-)
+>
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index 95f46bb75f9e..c5f07c38e59e 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -883,6 +883,8 @@ fn try_write<T, L>(self, location: L, value: T) -> Re=
+sult
+>      /// };
+>      ///
+>      /// register! {
+> +    ///     base: Region;
+> +    ///
+>      ///     VERSION(u32) @ 0x100 {
+>      ///         15:8 major;
+>      ///         7:0  minor;
+> @@ -1028,6 +1030,8 @@ fn write<T, L>(self, location: L, value: T)
+>      /// };
+>      ///
+>      /// register! {
+> +    ///     base: Region<0x1000>;
 
-That would be helpful for me, thanks alot for all the explanation again !
+I'd prefer if we could limit the `base:` parameter to registers defined
+against a specific block (like the current relative registers). Having
+it on all register definitions adds an artificial limitation (that e.g.
+regions must be of a given size, which may not suit drivers that support
+several generations of hardware with varying BAR sizes).
 
---Richard
+Top-level registers are currently working fine without this, so it
+doesn't seem justified except by the safeguarding argument, which I
+don't think is relevant here.
 
+The syntax (specifying `base:` only once at the top of a register block)
+is a great improvement over the current one; if I were to pursue my own
+fixup series I would definitely have adopted it.
+
+Still going through the series in detail but wanted to raise this point
+first. Overall I think I like the direction, it makes the falcon
+register accesses read much more naturally.
