@@ -1,111 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7810732B135;
-	Sat, 25 Jul 2026 15:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0BC625;
+	Sat, 25 Jul 2026 20:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784994052; cv=none; b=R1N/yV6AiAiTbuXRE7g9+RBwEXEoz5o+R1ktiBXE8Kj5cYeyDqsaReSWFL20qYDF2/nII96tmkq5Ato3uhA16sZlg8ofswM7xb2kR2IsED/oU9KVmuVkrTgkPhz1tQ5jYrCD504o5Vq2BfUMKcldNN8oqj+zfCFPq86btVyf0RE=
+	t=1785011472; cv=none; b=aTgBjb9cj0tsiNCIRNgwNLQgX0d4hZvqBukP+Rg2l7tWTaje0908uRIqsphDDLpNn90NS7itft0NcPZn0kT/lLzw0lkWg+AGJ+lbKUrBFyLPInQnST1u4p1GrXrFF2jSYORyEQQo4xyOyaRpTavkuvEMlc1C2OJHvum7JLtMtJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784994052; c=relaxed/simple;
-	bh=rbI7JfzH8/Z3rTxnubhC5UNZdAt9heHgiDgx8XRhTuE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=RCca/ML5h0OtN9LYtD01CYTm9KG7kt8ges9c/yFRiwvzxzTko2LDvIwmbLTjzLNldeddBpmDnZiznxWY5229CLu4gfDfxaNswFURLLQ+Rw1Rn+SiSsvdyiVNB16sCoi1Er5A4EN1YfOd5sd3zz0Z4e4Q00K0gDXZVlTJFsqQYfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJcyKBAm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785011472; c=relaxed/simple;
+	bh=e6KMoD3bd5/q6p3xQeg23qgiuejFXySUo/aGZ6esyCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JKAGydDvVpvukxAV9Q1NF4vPSEA0b15yWfsrQ+p8Z/gHAJTBkG3dE+5eiVca8cKXSa3+Noh0ZRnip2j1grPveDwhnKx5JBqbrqP+cZ/zdtyC9p92rmeO423HfMKXTQCZvNPA2mBE33TwVY9FNnKOF7f2Gxtd/dBn9DwNGDP2Zzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAfTn9kP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJcyKBAm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32731F000E9;
-	Sat, 25 Jul 2026 15:40:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAfTn9kP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFFA01F000E9;
+	Sat, 25 Jul 2026 20:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784994047;
-	bh=AVKIqDLaRJbWnwleOfdrA62Ss8E5oUijw4SSgsugB30=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To;
-	b=WJcyKBAmndl0QTaMHgQzStmh2LqdjdYH5aHzLFotx1+w63A678Lq11jVOtTjr3Tyh
-	 CisBSahLmQ1zuxxBSee6AnUeOapTVkgILUhAB8mBrCEifApcKUVj34WRHVEYk/nksv
-	 Wek70ZJDAdkmqYol+w7lZigtGxUv4uy4TtKoE3LFBiZL2+KH0yyN7VRI8FgiByuq/V
-	 j/ngHgk/3+si8L4KyMos8lhTskEHhuhjWjGtAq2OijlFodWHmCgvosiaCqMSmBIOme
-	 PdEnAnb6KPBKHHCfBh96ODVo36Tf0JNT6ev9C475g7+3W4V/Ml8dUNcBotREqDS84P
-	 oEvdnYre7X4RA==
+	s=k20260515; t=1785011470;
+	bh=e6KMoD3bd5/q6p3xQeg23qgiuejFXySUo/aGZ6esyCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=hAfTn9kP3ZABFKIwidJBkzkwUEnV03/r5N7p8kmUos3uDtUKUWtEJzQPpdypzC87s
+	 s8zXrjsDbl2M4eM1W7J86H4KiLLuZnMtxMMILtEw98qiQcngdzhm3Z933lwVaUuZ1u
+	 NLkyUWEUlaRXQiJD2BrV3+doGFNu5m2sLbsSq0EGZklaA6R4wtvLOLLa2OnPQe5qNl
+	 qRc/eqpUyUDjcyObmg1ruSpXH9PI078U1i4aarlF7k3SAVuPPwJdBfCiYHUHqv1JgK
+	 gHSHbd+Pb+4KEwvFVr0Xj05kVhoMd7+HPlRE8f80fEhbz02ckPWPFwbzdqixw/v4UL
+	 pVfAw00n8dMXA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>, Tony Luck <tony.luck@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Philipp Reisner <philipp.reisner@linbit.com>, Lars
+ Ellenberg <lars.ellenberg@linbit.com>, Christoph =?utf-8?Q?B=C3=B6hmwalde?=
+ =?utf-8?Q?r?=
+ <christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>, Johan
+ Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Michal Januszewski <spock@gentoo.org>, Helge Deller
+ <deller@gmx.de>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
+ <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Mark Fasheh
+ <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner
+ <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+ Luis Chamberlain
+ <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez
+ <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
+ Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>, Len Brown
+ <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Danilo
+ Krummrich <dakr@kernel.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Ido Schimmel <idosch@nvidia.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, David
+ Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, Paul
+ Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E.
+ Hallyn" <serge@hallyn.com>, Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
+ linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+ bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] time/jiffies: Include linux/sysctl.h for
+ proc_int_u2k_conv_uop(), ...
+In-Reply-To: <20260721131207.803760-3-petr.pavlu@suse.com>
+References: <20260721131207.803760-1-petr.pavlu@suse.com>
+ <20260721131207.803760-3-petr.pavlu@suse.com>
+Date: Sat, 25 Jul 2026 22:31:07 +0200
+Message-ID: <874ihmke0k.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 25 Jul 2026 17:40:40 +0200
-Message-Id: <DK7RKTMA6TVC.11YQWH2H4VB74@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v4 7/9] PCI: Make pci_match_one_device() match on ID
- instead of device
-Cc: "Bjorn Helgaas" <helgaas@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, "Zhenzhong Duan" <zhenzhong.duan@gmail.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Damien Le Moal" <dlemoal@kernel.org>, "Niklas Cassel"
- <cassel@kernel.org>, "GOTO Masanori" <gotom@debian.or.jp>, "YOKOTA Hiroshi"
- <yokota@netlab.is.tsukuba.ac.jp>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, "Vaibhav Gupta" <vaibhavgupta40@gmail.com>,
- "Jens Taprogge" <jens.taprogge@taprogge.org>, "Ido Schimmel"
- <idosch@nvidia.com>, "Petr Machata" <petrm@nvidia.com>, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
- Abeni" <pabeni@redhat.com>, "David Airlie" <airlied@redhat.com>,
- <linux-pci@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-ide@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <industrypack-devel@lists.sourceforge.net>,
- <netdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-To: "Gary Guo" <gary@garyguo.net>
-References: <20260723-pci_id_fix-v4-7-3580726844e1@garyguo.net>
- <20260724222939.GA1065077@bhelgaas>
- <DK7N9IZPWPIT.2AKSZR5CU1H9L@garyguo.net>
-In-Reply-To: <DK7N9IZPWPIT.2AKSZR5CU1H9L@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Sat Jul 25, 2026 at 2:17 PM CEST, Gary Guo wrote:
-> On Fri Jul 24, 2026 at 11:29 PM BST, Bjorn Helgaas wrote:
->> On Thu, Jul 23, 2026 at 11:00:46PM +0100, Gary Guo wrote:
->>> PCI dynamic ID needs to match IDs against a new ID to see if it already
->>> exists. Existing APIs can only match IDs against devices, causing the
->>> dynamic ID insertion code to create a temporary device only for matchin=
-g
->>> purpose. Rename pci_match_one_device() to pci_match_one_id() so it can =
-be
->>> used for this purpose instead; add a pci_id_from_device() helper to mak=
-e it
->>> easy to convert users.
->>
->> s/causing the ... code to create/so the ... code creates/
->> s/purpose/purposes/
->>
->>> Similarly, convert pci_match_id() to do_pci_match_id(). But keep the
->>> existing API because there are many users.
->>>=20
->>> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
->>> Signed-off-by: Gary Guo <gary@garyguo.net>
->>
->> Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
->> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->>
->> What's the merge strategy?  If these all need to be merged together,
->> feel free to include the PCI patches whereever you merge the series.
->
-> I think the series should be merged together, as I consider the driver ch=
-anges
-> included in this series being "fixing the users".
->
-> The series should probably be taken via the PCI tree. I suppose one can a=
-lso
-> argue that the lifetime issue with device IDs isn't unique to PCI bus so =
-this
-> can also be considered driver-core material, but given that Greg has alre=
-ady
-> taken the USB fixes via the USB tree the only unfixed bus left is PCI.
->
-> So unless Danilo thinks otherwise I'd suggest the series be taken as a wh=
-ole via
-> PCI.
+On Tue, Jul 21 2026 at 15:11, Petr Pavlu wrote:
 
-I'm happy to take it through driver-core if it helps, but the PCI tree seem=
-s to
-be the natural fit. :)
+> The kernel/time/jiffies.c file uses proc_int_u2k_conv_uop(),
+
+jiffies.c uses ...
+
+> proc_int_k2u_conv_kop(), proc_int_conv(), proc_dointvec_conv() and
+> proc_doulongvec_minmax_conv(), which are declared in linux/sysctl.h. It
+> currently relies on this header being included indirectly through
+> linux/module.h -> linux/kmod.h. Add the missing include in preparation for
+> removing the linux/sysctl.h include from linux/kmod.h.
+
+Can you please split that spaghetti sentence into paragraphs?
+
+https://docs.kernel.org/process/maintainer-tip.html#changelog
+
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+
+Other than that.
+
+Acked-by: Thomas Gleixner <tglx@kernel.org>
