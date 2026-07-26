@@ -1,50 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992E1BA45;
-	Sun, 26 Jul 2026 01:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D96D3346A8;
+	Sun, 26 Jul 2026 20:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785028975; cv=none; b=Y7aPl4Gjz++Uyar9Kpr5SQbKwM3y0E4+QKJMmfdBdTu3SnHyq3UWAZtn/YXEOkYEfjA5QOKgV3+fBAvI/3YSD24ge+dsNzqErvYBj481A9R9z4WvuE+Il6slVxzZIeiArxgydJiQ74jVKjRuGmRs1iYjo/+PDMXSnXnKnyal118=
+	t=1785099032; cv=none; b=VaipwrZBOoriD4NrfannjLYDE4yu2Ey6XIeWTEqTJV/FMFDY/aeR5SpQh1kHaij2PCoHtTERz9pC7+TAsXGl5gJTYbD/YzWsflDQtEFmNDH3Xu0d205h5mGZskD2RJqLNYXcw6/YjXdVAddhd4C7lPdTs11WGv6LT8slt4+LeHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785028975; c=relaxed/simple;
-	bh=k2tg1QpWq0RX4Ly0c6GBRw8rsmZDLWtzs+noTE5sgxM=;
+	s=arc-20240116; t=1785099032; c=relaxed/simple;
+	bh=3e8ybFzMuH/HJ0Ve+oX3AxqYvVPeb4SH0GjJoz5fi2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dr1ehkcmSg2Suqqsx/NxarAZRzog5cQk+Q4tmXr0iss09KHKgRCzuNj8zo1Khu+pwZvOO7hleZ1oFHg34Leh12CELvLJilBifGqA+5RARh0mYXcL1QwYjlUHmVybi/OHE8pg7I742IF1lWxuBhzhP+O9M5rJDGb6AVMn843Y9Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jz8cmKZz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=UvriZur0IMHLZKbI0CRXHyBGMG9a3pxWZdM1xyKMG7xgI9mzsrUJJ3t8Sc0l4MvmYxdFGdUORUuNDJFfqwk7Oj2q1eLDxuBKSyb8bD5jE3ChWKckrgPJPRzD7z87umdl6BxkXBBwCpCLRsQb/OUfmD+Y2QfW5jbeKQ42JoMv3ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In5V3KSS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jz8cmKZz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D977A1F000E9;
-	Sun, 26 Jul 2026 01:22:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In5V3KSS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4611F000E9;
+	Sun, 26 Jul 2026 20:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785028974;
-	bh=kyTCZAktriT+3XjiU8QSnJdULFe900yJhuf5hFur5jE=;
+	s=k20260515; t=1785099031;
+	bh=HLpZYMENBNgPXFarYmWwn7VwAhRa9SmUHkcGWYZHpG8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Jz8cmKZz9LtgeRolgwPoA+JT8I76PS1lGeJwazDa5NfE8jd+NbIiX8Ts8CIQ88atn
-	 MiEzihC/mqruRUyJ5Gj0gKWm3FqxpbUNjDtjshh99mRvGGOqpDyMeGdpuKTZDRmXTV
-	 nd9CyQrFjxAfNtkkMtKt3RCZq2jyUVkbcHCYQ+GhoftDKQ0WMNYbg980pLty8AJzw/
-	 R448SRFS0ej86PJ6sVlGek7XjITi+oFAm5HmMIkkm6ABEsF8CKPthna5LdfPv6z9H4
-	 8osFUyiMr+R9A7FdmwRMrE7b4tewj4yQn0Y2fy/1A//toM+xXdhx5vUEpth8TN7BI5
-	 9EYruvy6mibaQ==
-Date: Sun, 26 Jul 2026 10:22:52 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Pratyush Yadav <pratyush@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Dave Young <ruirui.yang@linux.dev>, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, kexec@lists.infradead.org, 
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] mm,kernfs,proc: Unmap mmaps of removed files via
- file->f_mapping
-Message-ID: <20260726001049.GA2219014@rocinante>
-References: <20260725210549.3716546-1-kwilczynski@kernel.org>
- <20260725143737.daa698b50289257fbaa9c6f1@linux-foundation.org>
+	b=In5V3KSSLdWN4HHPW+I8bvUb7SeetiUPoS+vwnKYBb2rUiZOW6WdSPgD7lUHb2ay2
+	 aEV8ESrjf0zFLfFex/SkOqNEB0Vj752OA8tBNny/jl1XwEuHlMuT1eq1+pgtxqUNRV
+	 4RB4LYce8X4AXHS91Jl3DeTxLBsFytz0qCX4/dsHqKyDntQdurR5j7n9uLgpGXcu8/
+	 1nuAFjFRygNUHsQa9d64ooc+nT4MptG5vbo9oXzn3nbgFG/J8JsoyceViKUD7QG5kl
+	 K3FdMqec0+WZ5CNDX4q3SMVfQHRxBwc6CQKsoAX6wh7LYKIXkBrEyf5BnVloSBt/y5
+	 iBhv21g14JvFA==
+Date: Sun, 26 Jul 2026 22:50:26 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org, 
+	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-pm@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	mfd@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/8] i2c: pxa-pci: use platform_device_set_fwnode()
+Message-ID: <amZzAGnHvXxS8CM8@zenone.zhora.eu>
+References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
+ <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -53,96 +58,18 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260725143737.daa698b50289257fbaa9c6f1@linux-foundation.org>
+In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 
-Hello,
+Hi Bartosz,
 
-> > The PCI resource files in sysfs and the /proc/bus/pci device files swap
-> > their f_mapping to the shared iomem address space at open time, so that
-> > revoke_iomem() can unmap userspace mappings when a driver claims a
-> > region, see commit 636b21b50152 ("PCI: Revoke mappings like devmem").
-> > 
-> > Their VMAs are therefore attached to the shared address space, which
-> > neither removal path reaches: kernfs_drain_open_files() unmaps the
-> > sysfs inode's own mapping, which contains none of them, and
-> > proc_entry_rundown() does not unmap anything at all.
-> > 
-> > As a result, userspace mappings of PCI BARs survive device removal,
-> > and also survive a BAR resize on the sysfs side, keeping stale PTEs
-> > into physical address space that the kernel may have reassigned since.
-> > A mapping made before the device is removed still returns the previous
-> > register value after the device has been released, through both
-> > interfaces.
+On Mon, Jul 20, 2026 at 11:24:49AM +0200, Bartosz Golaszewski wrote:
+> Prefer the higher-level platform_device_set_fwnode() over the
+> OF-specific platform_device_set_of_node() for dynamically allocated
+> platform devices.
 > 
-> Thanks.  Can we please have full description of the userspace-visible
-> effects of this?
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Definitely.  From the PCI side, to put this into perspective:
+Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
-Without this series, a process that maps a BAR keeps a fully working
-mapping after the device is removed or its VFs torn down.  The same
-applies when a BAR is resized, as the resize removes and recreates the
-resource groups.  Nothing faults, so the process cannot tell the device
-has gone.  A read returns the register contents as they were, because
-removal clears Bus Master but leaves Memory Space Enable set, so the
-device still decodes its BARs, and, as these attributes are writable,
-a write is still accepted and reaches it.  Those addresses are released
-on removal and can be assigned to another device, which a BAR resize
-does explicitly, and the mapping then reaches whatever occupies them.
-
-On the sysfs side this most likely has been a regression as the
-kernfs_drain_open_files() unmapped these mappings correctly until
-commit 636b21b50152 ("PCI: Revoke mappings like devmem") swapped
-f_mapping to the shared iomem address space, after which the drain
-walked an interval tree the VMAs were no longer on.  The procfs side
-never unmapped anything, so there the behaviour is new.
-
-A read here returns another device's register contents, and as read to
-clear registers are common, it can also acknowledge an interrupt or clear
-an error the owning driver has not seen.  A write can be worse, as an
-offset that was a control register on the old device may be a doorbell,
-a reset bit or a DMA descriptor address on the new one.
-
-With this series the mapping is torn down as part of the removal, and
-the next access raises SIGBUS, so userspace gets an error instead of
-silently reading stale or unrelated registers.  Both interfaces behave
-the same way afterwards.
-
-Tested on 7.2-rc1 with and without the series applied.  In each case
-the file is mmap'd, the device is removed while the mapping is held,
-and the mapping is then accessed:
-
-  - sysfs resource read after removal:
-       before: returns 0x18140241, the value read before the removal
-       after:  SIGBUS
-
-   - sysfs resource written after removal:
-       before: the write is accepted and reads back 0x00000000
-       after:  SIGBUS on the write
-
-   - sysfs resource mmap, fd closed, then read after removal:
-       before: returns 0x18140241
-       after:  SIGBUS
-
-   - sysfs resource mmap, moved with mremap and split with munmap, then forked, both read after removal:
-       before: parent and child both return 0x18140241
-       after:  SIGBUS in both
-
-   - two sysfs resources of different devices mmap, one device removed, both read:
-       before: neither is unmapped, both return their values
-       after:  the removed device raises SIGBUS, the other still returns 0x48140240
-
-   - /proc/bus/pci used to mmap resource, read after removal:
-       before: returns 0x18140241
-       after:  SIGBUS
-
-I hope this helps!
-
-> AI review might have found a few things:
-> 	https://sashiko.dev/#/patchset/20260725210549.3716546-1-kwilczynski@kernel.org
-
-I have seen the reviews.  Will reply to each.
-
-Thank you!
-
-	Krzysztof
+Thanks,
+Andi
