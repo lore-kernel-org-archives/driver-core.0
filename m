@@ -1,66 +1,76 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012050.outbound.protection.outlook.com [52.101.43.50])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013053.outbound.protection.outlook.com [40.93.201.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DABA3E2ABC;
-	Mon, 27 Jul 2026 08:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E974F3DB31E;
+	Mon, 27 Jul 2026 08:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785139622; cv=fail; b=Pa1CKuDaxS7coYpV+YTSvO5NA01usYIN+dBDn6gw4/0ytKh7F5eIA1z290xl9CW7EGQ8bgc4jCxTmTY1seXXy1t4IGPel8U3Ra8LgOM0p+5KoQ7wC6k3s4EC8p1FthpE9ugSzWMawqyGZgO+/2hnxLXWruD/y7ZAiclfp12eZ6c=
+	t=1785140064; cv=fail; b=TYFNM5tc94vRXdT+bfYgNfhLC+0gpDEOFS03eVWW2U2NC0Lqw8yHZT9ihvOWsq3UXU+tCQ4UkX3qtVzVqLe12EUn460pWFDmLp2PhcCsWsddi46qdSdpkv0KB8TtnA3LYmcsTb0P6aFGLO004vruX4NtyfzgskQLDI6cEkKl82g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785139622; c=relaxed/simple;
-	bh=nc12pCyn1nmiRKN7tCEUPORj7x93mF9IRxGgG3oKuDY=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=d9bOGEg9kKpg4Bp9UWrZjvFSfi/uhttDBTZpXxnVuXhu7Alnfk12+sAv4oPDLZPVGbXvonK09NUvEbLreAEE+sei1nvS9n7opeSbqEC2b0u2pbDLvGUa9hXypvTEMU/G2IAoyDGR8ECgGzswQ0baeGmtQNaXyDaE/dgHKW6YBLM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=urqhR7H0; arc=fail smtp.client-ip=52.101.43.50
+	s=arc-20240116; t=1785140064; c=relaxed/simple;
+	bh=95toJqyIYxGexmP4tLkXDQhYJPV3F1ZxN18Ipqqe/B0=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=phUh1ptnpCHIL8Jy13Jr0uAqVIgNtcUPW0CqB2Beft2nKqwD3y7OJS+3U+2GE+poTanlDjO7z3KSSAT2XolVSFYhsMeY2pyj6nfJaqNYOXIOBjswH++wSR1YWewIR0FI3NOCjZQwmknMxh3HSEc2Ql3ZqsXHq7i1rwbyCTduSAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ONLgdToM; arc=fail smtp.client-ip=40.93.201.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="urqhR7H0"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ONLgdToM"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RpAb+a1Jwa6DwSrqdc4frhf3O/1MDlXQ+Ro4FBS12UDwsqe6fcuZueAL/xyZKpouEGGyi4uJ3bjYpi08SB9jWV3R4HPqe3/vWUnDmgXbxW1SQEelh8xQ1FqhtN3I7gygufaiOnSmYar6YU6mp/JZ5AfLiSwcPtZzoNbk5p+o/ioTdbufGdyY9HUMO0dWjsMORXIOkHZdArSQaoj0FLV1TVb06Si6mdCSCxluZegl1vbqrpWDEmWyEvvNKy8CAHZfOjMV/+4vQouD62vRDgo4DCE4ZZDPJylEtWfuUoG0QZxBqpVV2M6KqhKgnsT7d+6uTTMd5gZNtzzDjn+Cw+Esrg==
+ b=QSLdES/k527eS3g5jL013ZLhfvEAJOBKPFsDT6769tOntkFDqJmXRw1xgHlWZXARz4S9nClLASAJsBU9zXNovUJc9j6zBSLtC9xnnPEYDFN2/TkcjAvrb0hoa0597nQYychSqnnbqXc3TL9roE026KFEbfXQRrQomrl3fksTBejinjS7qnuyhZ+Yd8WXWEHAavXwb9qx0KE5DMK/EeLBs7BLtyAC+5ytTWJrEIbfgDoqVkxB1DXj17rgh5rBU1udJFuuAO2i6n00nxwRMvF8ZVcD+06+yy+KqwNHOsMglo0yc6Nu4L+qnT57bSiJ4ExFK0fOgV567OCvBdQDAsnhmg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nc12pCyn1nmiRKN7tCEUPORj7x93mF9IRxGgG3oKuDY=;
- b=CLeStvdoNtL+K11hBjqPA7Use6rprwFkMgdyKivxUWSWUWywQ2BQwQHlzppJDs22WsvzOlrJwJL7oM7zR7oNlWkjrogqiVce4quChQ9aYjAPoUXHTMlXocxKvY72FYfdff/I0pPDkPwQuoqrxaXB705zDguEmy2UAHO3mLcoIsrl7FXuoOV5nlnPXqoSiV4jGTWlDDXJNL5wUk4hT4M5cWN2luNBGwqU2QBjN4Rt3TujxRUjTcsVMu8jUQHqPU4IS6dhFxF9V+QTbtd8m10/viHM3uhl+mdB81oxc9iEBCfsuSTZrAHj/QJAdNo8YkMfaToshFaciCc7QXyE94xWMw==
+ bh=kGb41rIOmKOz3qADZdB9w/56poMdQKzTmWM+nbrJZJA=;
+ b=dEQmJsAQdqKZeMqelnRWp8/2Fsk5/WRkvmVB1ApO/1XrAhfNZVpi5a5a/fN2G6WSlDIp3J29vdv024zaIu3JJOa4WySA27Tsbfbgohp9uupnVkGQ1KCwCzBFAaXE9g7P1hH9TahEXt1q6R0NdX2Z0sqcxwhndJ60Wl9wOG/+FNNBaBZpLV5brxtkxQCO9aXTpS8U54p4B3fkYloewQBPN+7fYY5x7n4JyGz0kxsTNU4V03OTU/ZsL757amBCnTtCSbU4fxjRLqE3nkrUhfB1yhvNpUq9KNRA5f8ykP7ayZ8rXGQwqy5+svYcqvwMTjRo3kEvnYPC+l0igp0SFBXTlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nc12pCyn1nmiRKN7tCEUPORj7x93mF9IRxGgG3oKuDY=;
- b=urqhR7H0JdKUQeMoS7jcdFF/+pOLW/8U9m/azBeAAnnvJHSPikBS0DrQf0C+mhdrHu1KqAUqj++PFEkUFHHyCxAUjY2SvGho5wvudvg3hqABuUwt6YuUUN/llQ482YmQptW7kLjffhXqtXqaNb3J2SGfXs6iuIGE0qhH99ZkWxmI1Fyhu8cVEdNCb45u5zRVUzmsiNnbxn4rI/MnLBxUbq6R00OFc8FlzfJwuSaat0Bo/vFphc9JPi38dT70P/CVfNZo0RMUdAo7HI4HUEfPuL6SwLPWNUBVKZwQpbg42e3JK4WslK/TVL73ILiMQwiwKNUHxO3lV7TjxToTVH66mg==
+ bh=kGb41rIOmKOz3qADZdB9w/56poMdQKzTmWM+nbrJZJA=;
+ b=ONLgdToMULNEUk6HNbQAmlBrRiRlu2CWG1v3r3I4ODss5EeBsg9O0Pd6ZXQ8DG/Iflk2CNN90/kt0BrmZbp61/28J2tpD/m0Fx48hv1utmR84LoxyQM64sUSGeiNgETtk2d0m+pM8+pgUAkKF2J5Sc5JizYa776wMNvoTsCATpk9AX7P8FbAOXRbS8g5mmKrSTweqiX8dw+Qbj016sYL5l62JpfoB+/K5XP6sCDZOUiFoYcz767pSw9YdxwfWUp/hSDnO5m2754m6SAu1rnUjDVWRWV9TbO7I8TbKbMwUHT79gdDO/wc7xJXF8Pz2KDRmGZfoEPVGFcd2/OWtsz2lg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by CH3PR12MB9172.namprd12.prod.outlook.com (2603:10b6:610:198::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.12; Mon, 27 Jul
- 2026 08:06:56 +0000
+ 2026 08:14:12 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 08:06:56 +0000
+ 08:14:12 +0000
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 17:06:53 +0900
-Message-Id: <DK976GZX46TW.2LCDS396N4EVS@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Russ Weight"
- <russ.weight@linux.dev>, <rust-for-linux@vger.kernel.org>,
- <driver-core@lists.linux.dev>, "Gary Guo" <gary@garyguo.net>,
- <nova-gpu@lists.linux.dev>, "Eliot Courtney" <ecourtney@nvidia.com>, "John
- Hubbard" <jhubbard@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>
-Subject: Re: [PATCH v5 8/8] gpu: nova-core: update firmware module info for
- TLV images
+Date: Mon, 27 Jul 2026 17:14:07 +0900
+Message-Id: <DK97C0MWLGFS.3D544FUPW2ADF@nvidia.com>
 From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Timur Tabi" <ttabi@nvidia.com>
+To: "Eliot Courtney" <ecourtney@nvidia.com>
+Cc: "Gary Guo" <gary@garyguo.net>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Tamir Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH 01/10] rust: io: register: allow explicit base type
+ specification
 Content-Transfer-Encoding: quoted-printable
-References: <20260710230428.865447-1-ttabi@nvidia.com>
- <20260710230428.865447-9-ttabi@nvidia.com>
-In-Reply-To: <20260710230428.865447-9-ttabi@nvidia.com>
-X-ClientProxiedBy: TY4P286CA0033.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:2b2::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+References: <20260721-typed_register-v1-0-452d72b60262@garyguo.net>
+ <20260721-typed_register-v1-1-452d72b60262@garyguo.net>
+ <DK6LF1ODPWC3.3QQV3SXQ55SXP@nvidia.com>
+ <DK6U0LR7D57N.3FW1CZG9R42YF@garyguo.net>
+ <DK93SOJQHSVI.1UCSJRLNZORJB@nvidia.com>
+In-Reply-To: <DK93SOJQHSVI.1UCSJRLNZORJB@nvidia.com>
+X-ClientProxiedBy: TYCP301CA0051.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:384::16) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -70,86 +80,256 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB9172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86f52458-6707-4d71-1af9-08deebb606cf
+X-MS-Office365-Filtering-Correlation-Id: e7aea654-5585-40ef-789b-08deebb70a6e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|10070799003|4143699003|56012099006|11063799006|10067099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|10070799003|4143699003|56012099006|5023799004|11063799006|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	LNNhWUdppPZxFP8s2ReuWwGYRrnbqIXeqXWnxmrGn5jDF8UIJNDrRpHor6wjLgXuCMIwurJ45LPgP23G1ZdncBZT2TwZbsTGVMRL1sWzI6B5sTuTvKs34a6CiTq03fmCZgZ2YH2Lk95p7uN/15eK2I5zGKshQGB0I/toe0pr4KHqetHKlfAGugPlcn0vKCXJlb/G3ubuv0/gG73frs5lWxtVp28ONhT0p2juw9wP4LHiZb1pOp8EVq1Ebhl0uD16vzk9I+4dYSYxuAIBaN90Q3z06HWGqIs6ZtherOCoUfSo6W3IBFUj92eJmvNk1GlxsGEBPqbxJBF4K2Wlioyjc/9XddyrSFdBIwnHb48o/3fJOvukNjrtjh7rsfgVxt/3XEzHRn4SsnAXhUk3Nyowo3KI8ukoVE1QIIVG7hkDI1Pxtauw3HsnbrpgxLusOEmyJ8Wm9h4k49dGVnuQ5dZiVrk4FaFrTu/ZuielvF9PAJ/x8+XwHNG3Ns9c4nnC8WOyU8FOQ2XK3XqbH4t3lE92aBcxUUb7hyQJgS4f8JxeLW6XHmbw8Mq/0TnADpVftw5MjwWfOeY36w6Tuiy0gqgUWVC3y7lmXdc0VwgiOUzubbaSNsIlZ6HoB/36dISLvDMocQKokl2vEb6RVSNdUJfOjtg1dyN4Xztyb+0r/SkOH1U=
+	37hVDaDkjQIH0yQaNGECxMGK8z2jBJTAt7OIybbvJDoeb5aPgwqJyyAy5Zl+sw41dSnVJ3Tw9WKEyXZ1bqx1zk8Q6hQ6jK5YvQwBNt2tBbzyRrA3haRF0e4djjQ9NfabfqiiOusRjnFNOoZfErwBnA1BQTMl72H0E2sAcYnIN3qYIgm1xIDxY9Bm4F9KpgmDghBS02kS2NHomE2uSBnBAR9XLJIcdIWgrpvivGQadIw+4MW19wkvLl27GTd9NIlTkG7MTxEV9AwCw/QvhoBcfOY38MJNxdAe1h1/N92maQm407jd4BH1RUgrtJbX7cOchEf1YIeFY8e2+DDY7HVwBew2KWiX3oHvTsiJe1oHpdmD47xUTJzqsfEaZafU1VyvLLwvg7I95NYSBUfQGE/wEwv+eIuWV1mvfNHcfZvvz2BThVKQ97gv3/IJxZOgRxYGiO+zztuSB4EynQmO7Bd4OhRnk8BWtCBGXUCwELQccs37UaUuO09CkypYlRx1nf/LqL4KLBRqWUD42r1M6etrOYs8GnyJqpL1IEXiCOFQCMN+TG4GTUgA5LdrGS6QmfemBrqp+moqhlp33dfPrUeH8sZvZxgBOAI1FZc9Qi4IYxJLN/NKGShJAAJ6t3cH2exiMwBpvA4sfOjYn/Zu8Sw+IQ+AlHG105l0EPyiv0167Ks=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(10070799003)(4143699003)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(10070799003)(4143699003)(56012099006)(5023799004)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L2xTaUFUMWNDaGgyTG84cGhVVTdDREZHRGY4VndnZFg4cDdtaEpzODFpbE8w?=
- =?utf-8?B?OW9NRWs5R2tjY1JSUkU5ZUVIY1pvTEx3dU43VzJ3UDRqVlpHMzJQZm5HWEFy?=
- =?utf-8?B?cEZMZ3JZL09UQ2ZmeDlySThJWS9qSUJzSG9JQUltRjlaclh0SWxRRm9QNXhE?=
- =?utf-8?B?YngwWmx2bnR3czJ2QVE4SStJc3BjdDgwZkhJYmc2T0ZESGJqZ1VSeWhwc2g1?=
- =?utf-8?B?WmQvc2RrSmtNa0k2V1VxUUZVeVRJTXJUQTJDeXlJdFM1eWRJU1JkSHVOdTZY?=
- =?utf-8?B?N3F6OWQ0bGdpWUJ1TnlxelllTFBuaUVpaFE5MEl6cWF2dzB6WVVLWVJSeEZj?=
- =?utf-8?B?NTVoWG80MDlJbFRxSUZ5VzBkU2Z6UXdrOGRMYlRkYVBVazQreVRMUnkycHlk?=
- =?utf-8?B?ZFBQWFlFOVNVV3d5UTlvR0hjWlNPUXRlb290RDRnbTFZRXBxa2V6Y1YxT2Qx?=
- =?utf-8?B?TVQ0SUtTNDJ3Tm8xRzZxMkVNQm9ZbUdNeWZYTlhaSC9ZMGtHczBHMW9Hbi9Q?=
- =?utf-8?B?L3o4WEM0ak5sQ0lIeXNaMWVzTk5ZYkNIZDBmWnZqS3prTXJ2a0xjbEpId3JJ?=
- =?utf-8?B?blV0cWFmVXB1K3RqZ2IraFV6cFVSZHNqSmNGMGNwbUZVWlBlaXF3VlBIRDcw?=
- =?utf-8?B?UGFoK3lHWFFXZUJFdSs5WVhmdi96OWxwcnZua0hKcjRoclZSQjJwWk5oZ1Vr?=
- =?utf-8?B?YXlPdHUzdUxJbmdyd0llSzdhbUxlVFkrOTc1UkYrQzh1KzE2eXBCVm8yVGhr?=
- =?utf-8?B?WHRCdUNTa0VtRGQ0L2xSZVNnOW82WWg1eWFNSnVVY0JQRTUxc0E0bStwdVBD?=
- =?utf-8?B?dHorR09iS2Q5Tm5GMWFLVDlLbUVtMDV4MG04QmFIYmpGWU9ieTFVU1ZXalJw?=
- =?utf-8?B?MXhwQSttaU1MaytNVjI1Y2hlTUxlRzhIUEU3L2hrTHdhbDJidm02aVlpQXZr?=
- =?utf-8?B?Tlk3dGJ0NmI4ZVNJRFVaa09sQWZMVU5tVFp3Ykw5QWNnOTlUcy9kb1ZqMlpi?=
- =?utf-8?B?KzdrRjdPejgxK3ZHN2Foa0xlaVFSOUpLalpRL1IzaXd6N2RJNGRzMTg0TjF0?=
- =?utf-8?B?VG9FRDBwZThFZXd4L1JMT2RyNEFPU0dSMGZBMjIveE9HUzAzNEJaaGMrbzJQ?=
- =?utf-8?B?akxLWkNYbGRzS05TUUxuQjFiNkFRSTcvRGtvS3AySUp5dFhJaGMxNDdrY0xX?=
- =?utf-8?B?UzRlWmFLWmZBcE4rWlR4czZaSm9PZUxIZmJRWWh1ajZjWkRpQjVuK0xLVzdO?=
- =?utf-8?B?WGZzL05CTitEZm1iR0Z1MFkzdEY3NStZVGdPUll4ZW96OVVWQWNOcU9PMk13?=
- =?utf-8?B?emQrSyt3NFRabnVuQXVQQjREbjNtYnp6dC9Rc2E3UXE5OHA3YlRSWVF6dUxS?=
- =?utf-8?B?YkxpS0RHdG9JYkpPdkFzT3N3c0M5RTBMaE03WGR1cmlNT25NNXVBTStHYldi?=
- =?utf-8?B?bGQ3QTEzVDl2MWd6SGNTM3BHTlRuN1hxaTArVHpBc2RQcE9LditVRkFZYjNz?=
- =?utf-8?B?M1hOZGQrQ0NQZHVJOU9VMHJsdit5UmxVcCswU0V4UmliYjNIWmk1cVF4dzVo?=
- =?utf-8?B?Y2I3U2U1TURXaDJRQzM3SVlpTHh3dVhoQmZEOWw3cnNqaHVicE9pbFFRYXFY?=
- =?utf-8?B?dWorRjl1Q0kycWZrT0cxTnhGd3Z4VHc2ZEJzT2pzaThrTlZqMFppTi8xeC92?=
- =?utf-8?B?Lzh5YlJ5SE1OUE9hNDNYNE9ZYUI1Q1Y1NWxkMXVTcEtCYzArN0tJZnVYOTFH?=
- =?utf-8?B?b0VvbGhjSnlSWVRSYllBVHVUVktEazNYVlpaQTYvRlkxN1pjR2xZT3BvTWZ3?=
- =?utf-8?B?Q0JuKzloRUljNnA4S1JCSllPeDdtY2c0RVRhV0J2dEdzZEt0U2gwYVZ6ZXk5?=
- =?utf-8?B?REoweFp0bDBUMG9CQTQrUDRRUG56dVhxVVRKa1dyUW85ODJyWkVqSTdxbHMv?=
- =?utf-8?B?MkdoYkdNMUI3VytVd2RZVjUvTjlpazJ5c1BqajF0ZnoxOThQVFJJYi9ROTZM?=
- =?utf-8?B?ZWxPNGxoZ3J5cUg0a1JMVnVsMUY1Y3ZXOUUySUpJejBTZE1iRzUrREF4NFZs?=
- =?utf-8?B?ZWVONXBJL0xlQUx2Z21KOEdPNTZRSkRmRnB1TTFwZnZKNFBrRENtZUsvT3Zh?=
- =?utf-8?B?ZjhScjVQOFI1WHR5YW5wRFgwRWhod0E2UE5KajZ4dFBlYUdDc0lBaFE4L3Nl?=
- =?utf-8?B?eG1aSEI0TUVTci9rcm94NlN4SkUrLzAxeVJDMHRvbThUSnpzdloveEV2ZUNO?=
- =?utf-8?B?eGtuSVBTaG50aXZPbElVNCtWdnZISmxTNytTOElHZW83aFI1SjgyY1NPa2lp?=
- =?utf-8?B?WVhlYTRlUU5aT1RlUURxZU5oNUtQNXlScG1VMVZ6Q3F3a2tsVkI3T2s4cTd0?=
- =?utf-8?Q?8/ixpS1Rgig/RBbS4lpjmbnEZDM8ql83/+6v1tsYeBP8h?=
-X-MS-Exchange-AntiSpam-MessageData-1: xMv+hBetOUDRsQ==
+	=?utf-8?B?aVI3dENLQ1pBMlZRb2tyVjhJNHp1clF0aE1QWUVYcG1HVGlWa0J2OVF0SEdS?=
+ =?utf-8?B?c1lHT1FzMml4Mmw2ZWo2L3ZqL1RQWWEwd1NkLzRWaDRFTXZxRlVkRzh3SHRT?=
+ =?utf-8?B?NGdRUGNCUFJWVHVtRXZwMkVpeG1DempYSXhQdldTeWhyS25TWnJpL2QyKzND?=
+ =?utf-8?B?ektnK1V3aDU3bWRjalp6N2pNbUQ4STdpMFIzZk1BRUQ0SjhmU0x6bC9IYlhK?=
+ =?utf-8?B?NFdPRmdpYlNRL3dmZy9SRU1zUldtQ2xyMmlhNUtTMk9Ma29BMmpmc0lUSzYz?=
+ =?utf-8?B?anR4d1pLVGJvUE5taW9UUTkrWkxYTm1ocHloNStFRmJKd3F2QmJmTVlDaXJp?=
+ =?utf-8?B?UWxWWEhJdE5sZGhOc01XTlBJSFR0OEZ0VGs3RjRxVk53RVhYaldaWjRkUDRF?=
+ =?utf-8?B?RUYzV3NEcHV2bDJ2WkJFeURuRk5UZmNneEN4Nlo2VnZoTUZLbkY0UDdPRitk?=
+ =?utf-8?B?WEVJcERwYlZVMkFHcHBKZjBTOXpuQnhYTU9VRFovV2wxYlk0OXFGZlZzamVj?=
+ =?utf-8?B?RWVtM0ZFelFEcmpOUTdnWjg3eXNvLzBKVHkxKzNWSEQvRmJqQnNUa3R4b3p0?=
+ =?utf-8?B?ejRxTW5sc1JGS1BoQ1o4SjR3bTBuRzZpa0plUGU2dmlWK3VNQ24wT25JWFBN?=
+ =?utf-8?B?MXJLRjhabGZMNU42Yk9nMGJrWWE5KzkrZmpYQVNCOSt5TDFuT3ZzdU0vQmRN?=
+ =?utf-8?B?aDEvQlpPa29JNElrUm54d2ZsbDJ0cFNjdEpIaTYrczg3MDZsN2s3MGlpK2Nm?=
+ =?utf-8?B?alhiK0crRUJhcTdDcXNFeG5YMkVaTzFBWG96SjBTRUZhSGI5U1BLV0IrNktW?=
+ =?utf-8?B?R3Z3d2lpN016TGhUQlV3ZElOVWFTOGhRcUcrdm9Dck9adXNGVGVPSVJzSTZ2?=
+ =?utf-8?B?bVdUV2xsVmhDeFZ6RU9WdDRXNlFXNmxBOHhHVit6RU56Qmorb29oUjhNNEdE?=
+ =?utf-8?B?d1Z6NHJYWmdZOTBvRGswK3czdVM1UnE3VVZ6a1g1WWl3WTFROVNwdFVhbnQ4?=
+ =?utf-8?B?SUVPVlNHajFhWUppM2hqYXZmdnB4dTJJVlFCL0IwbDVnQzFTNzNIWE10QmVx?=
+ =?utf-8?B?NENWT2JkUVpjSysrRnFmbzBjZEtPS0Q5L3VXL0JETVJlNXdoT0syd2twZjZ5?=
+ =?utf-8?B?OUFSVE1Jc1ZrVzQvalhKVHdpY1pFSUg2Nm14WG5GSGZDUEdKYXNFZnZncUJ6?=
+ =?utf-8?B?SVRFN0lMUVNmd3RQUkZyMFFJOUNIR2NBTzhaNFVyUndpekNlZ0hWaHZZalRZ?=
+ =?utf-8?B?VExpWUdEZkFFYndYdVJhOU1LRUlaOFN0NUE2b1JYcGg3eTBSVkFHcVRvRVhr?=
+ =?utf-8?B?enMrOG9vLzhKZTB0TzBrNXlURG5YMkZTZGhLWDVjUFRubnNsbEJha3NLT2xV?=
+ =?utf-8?B?Z2dUMnE1cGs5NEhqWjF4bzNOUXppaERrQTcxSUZ0MFhLRHRSeDJteHYxMHdv?=
+ =?utf-8?B?MFBnUHpibmxMVW1YWWEvU1o0ajNlSlI0MjVyemRGRjRCTU5TMmxNSFJRcHhC?=
+ =?utf-8?B?dUs2YklpMGdCTVAwMXRYZnF6Uk1va0diUVZoY2hPTVEvTjV0ZWd3cktXQ1ln?=
+ =?utf-8?B?djNSQnllV1VWVEdtVUtaOFg4cDFpbjNxeVBDYmxTTTFuWElaTnJIam1rWEtH?=
+ =?utf-8?B?ZXFvT0Z3U21sQVhGSi9sYUFSUEJXaHJHUVVOakFrbnN5cXVBQUF2MVZ6V0E5?=
+ =?utf-8?B?Y290RlZUWTkyV3pNaGlUYVpCa3NHTXl4ZzFZUm5mWnBtbFdRaWhGdWM2U2lC?=
+ =?utf-8?B?amhPejBCSWc0ZVZBeFE0MERRaTdzQjFCekhHSC9IRlZ5Z0Flb25CZC9aZUJ0?=
+ =?utf-8?B?ZkZsZnRWVlh6SWcrcGc0VU1EZzBTMDQ5ZjgwanJMdW1hRHVvVjdRalVIbys1?=
+ =?utf-8?B?cFFhOGZoeVY3MnhsWDhxM1pZU1FTZlZWWU1RSHdHOHJPdExRTUFRRkUyeVJP?=
+ =?utf-8?B?K2ZGVjZQa0x3UENJSzRuejJiZUN1Z2oyVUwrbHgwUkNJME84TjE1YXNHZDQ3?=
+ =?utf-8?B?ZlBiT1VtK3J1TjF6MDBuU3VtSkVBaHZaQXlLY21vOXpQaFRZMkpaM1E5RXhv?=
+ =?utf-8?B?QTU4akZ3TGs0cy84RWs1VHFzSCs2YUx5cVZSSUhYVE0vbkY1WE1CSUxjVUdy?=
+ =?utf-8?B?ZUNSaGs4NkdlQmtldFo3VklscWhUY2QxSG9VOWVYVm1tME9NZFAxWG11WVdn?=
+ =?utf-8?B?NGIxWXBpQjVqUnVVbW1IbGJEd1U3TGI3WGtQM0RkYVdPamNYaEw2QmJYNXdz?=
+ =?utf-8?B?TWdOV3JlSkpqVkRVNWRrSnYzZ0w2cnhvWnVsV3FreUJEN0JnZzBBZ3VESy9z?=
+ =?utf-8?B?c1ZaRk1mblBmMG9MZS91bEI5ejZUd01GSTFYK3dTcmYrckpYN0pkeUZuR09v?=
+ =?utf-8?Q?fGAFT9MU5cuO7SaN4xMB1etrDRdcr/HNeIEldCOfXGWNs?=
+X-MS-Exchange-AntiSpam-MessageData-1: nzxftxoPEJZhpw==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86f52458-6707-4d71-1af9-08deebb606cf
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7aea654-5585-40ef-789b-08deebb70a6e
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 08:06:56.6711
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 08:14:12.1412
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: icMwWO3vM6w8khhuOr8Ka0c74LxQ9d8wG/d9DMq/iuUyR+RYM7E2fzRgoVGd8nfHviy6befoQpPlUlcDLdb3KA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sQ1HnbendRUyK2UlZkKZVd9Ko00oOZ4ftXHqW8NmEYGLs9n/LS4xRmU5KyxoBsVsXHmchD8pr/YU77DL8xdr7w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9172
 
-On Sat Jul 11, 2026 at 8:04 AM JST, Timur Tabi wrote:
-> Now that nova-core loads the TLV firmware images, update the firmware
-> module info to specify those files.
+On Mon Jul 27, 2026 at 2:27 PM JST, Eliot Courtney wrote:
+> On Fri Jul 24, 2026 at 10:22 PM JST, Gary Guo wrote:
+>> On Fri Jul 24, 2026 at 7:38 AM BST, Alexandre Courbot wrote:
+>>> nit: the base-commit trailer points to a commit that only exists in
+>>> linux-next (next-20260720) and is not easily discoverable - it would
+>>> help if you could mention the base in human-resolvable form in the cove=
+r
+>>> letter.
+>>>
+>>> On Wed Jul 22, 2026 at 1:54 AM JST, Gary Guo wrote:
+>>>> Currently registers work for all untyped I/O regions, which is not ide=
+al.
+>>>> It allows registers defined for device A to work for another device B =
+and
+>>>> there is no safeguarding at all.
+>>>
+>>> This doesn't sound like a real concern. Registers are typically local t=
+o
+>>> a driver, so one cannot use registers for device A on device B even now=
+.
+>>> And within the same crate registers can be isolated by module if needed=
+.
+>>
+>> Even for a single driver you don't want to mix register definitions. E.g=
+. if
+>> you have more bars, e.g. if you have subregions of registers, like PFALC=
+ON and
+>> PFALCON2.
+>>
+>> Your relative register design uses an artifical marker type to distingui=
+sh
+>> between two different subregions, which is a very good motiviation to sa=
+y that
+>> registers should be typed.
+>>
+>>>
+>>> Even if we restrict the base type, the examples given in this patch onl=
+y
+>>> partially address the issue: registers from different drivers using
+>>> regions of identical sizes could be used interchangeably without
+>>> complaint.
+>>
+>> This patch set gives you the way to do newtype on regions. Ideally all d=
+rivers
+>> would eventually use that and not use the `Region` type.
+>>
+>>>
+>>> So I don't think this patchset addresses this particular problem, for
+>>> which namespace isolation is the correct solution anyway.
+>>>
+>>>>
+>>>> All users of the `register!` macro know what type it will be operating=
+ on,
+>>>> and that type is consistent across the driver. Therefore, add a `base`
+>>>> parameter to `register!`.
+>>>>
+>>>> Currently this parameter is unused in the generated code; it will be u=
+sed
+>>>> when all users of `register!` is converted to gain the parameter.
+>>>>
+>>>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>>>> ---
+>>>>  rust/kernel/io.rs          |  4 +++
+>>>>  rust/kernel/io/register.rs | 79 +++++++++++++++++++++++++++++++++++++=
++++++----
+>>>>  2 files changed, 76 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+>>>> index 95f46bb75f9e..c5f07c38e59e 100644
+>>>> --- a/rust/kernel/io.rs
+>>>> +++ b/rust/kernel/io.rs
+>>>> @@ -883,6 +883,8 @@ fn try_write<T, L>(self, location: L, value: T) ->=
+ Result
+>>>>      /// };
+>>>>      ///
+>>>>      /// register! {
+>>>> +    ///     base: Region;
+>>>> +    ///
+>>>>      ///     VERSION(u32) @ 0x100 {
+>>>>      ///         15:8 major;
+>>>>      ///         7:0  minor;
+>>>> @@ -1028,6 +1030,8 @@ fn write<T, L>(self, location: L, value: T)
+>>>>      /// };
+>>>>      ///
+>>>>      /// register! {
+>>>> +    ///     base: Region<0x1000>;
+>>>
+>>> I'd prefer if we could limit the `base:` parameter to registers defined
+>>> against a specific block (like the current relative registers). Having
+>>> it on all register definitions adds an artificial limitation (that e.g.
+>>> regions must be of a given size, which may not suit drivers that suppor=
+t
+>>> several generations of hardware with varying BAR sizes).
+>>
+>> This is more or less intended. Your driver code would have a fixed known=
+ minimum
+>> size, even if your code works with multiple generation of hardware.
+>>
+>> It's just that code touches registers outside the known minimum size wou=
+ld need
+>> to use fallible accessors because the bar is not guaranteed to be large =
+enough.
+>>
+>> If the code is written so you have dedicated HAL paths that the register=
+ will
+>> always exist, your should just create a new type for the larger region o=
+f
+>> specific hardware generation and define the register on that instead.
+>>
+>> E.g.
+>>    =20
+>>     #[repr(align(4))]
+>>     #[derive(FromBytes, IntoBytes)]
+>>     struct MyNewGenHardware([u8; SZ_1G]); // This new hardware gen has h=
+uge register space!
+>>
+>>     register! {
+>>         base: MyNewGenHardware;
+>>     }
+>>
+>>>
+>>> Top-level registers are currently working fine without this, so it
+>>> doesn't seem justified except by the safeguarding argument, which I
+>>> don't think is relevant here.
+>>
+>> This *could* be done, but this means that we need to change register tra=
+its to
+>> not have `Base` assoc type but have it as generics. It is however proble=
+matic
+>> from trait coherence POV, because Rust complains that downstream crate c=
+an
+>> implement
+>>
+>>     impl FixedRegister<MyRegion> for () {}
+>>
+>> and conflict with blanket impl.
+>>
+>> Also I think this is not really needed with strongly typed regions (see =
+above),
+>> hence the design.
+>>
+>> Best,
+>> Gary
+>>
+>>>
+>>> The syntax (specifying `base:` only once at the top of a register block=
+)
+>>> is a great improvement over the current one; if I were to pursue my own
+>>> fixup series I would definitely have adopted it.
+>>>
+>>> Still going through the series in detail but wanted to raise this point
+>>> first. Overall I think I like the direction, it makes the falcon
+>>> register accesses read much more naturally.
 >
-> Also remove FIRMWARE_VERSION as it is no longer used.
->
-> Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+> I like that we can remove the relative register which feels
+> non-orthogonal to Io views to me.
 
-Doing this in one go creates a potential bisectability issue: there are
-points in the history where the firmware entries do not reflect the
-actual firmware files used.
+Yup, fully agree on this and I also hope we can find a way to access
+register arrays that way (IIUC the current blocker is
+strides/interleaved register arrays).
 
-Can you fold this patch gradually into the respective patches (4-7) to
-avoid this?
+> It also feels natural to me to specify
+> the space that a register is in (Region), and you can decide what method
+> you access that region (Mmio, other, etc). The cost seems to be that you
+> need to specify some region on every register, but afaict you could make
+> that a Region the size of the entire BAR0 space, or a non-sized Region
+> and just have all your accesses fallible. So it's a bit noisy but otoh
+> it's nice to think about what space each of your registers exist in.
 
-Also, preemptively: note that the latest drm-rust-next introduces a
-helper `boot_firmware_files` function to get a list of files relevant to
-a given chipset. This list will have to be updated to include the `.tlv`
-suffix.
+In the case of Nova that's something we might actually want to do: as
+their name suggest, registers are split in large blocks (PBUS, PFB,
+etc). And we are currently trying to move every register out of the
+global `regs.rs` and into the module it belongs to. I am not entirely
+sure yet whether this is worth the effort, but we could also split the
+BAR0 address space into these smaller register blocks, and assign each
+block to its corresponding sub-module. That would ensure each sub-module
+cannot access anything not in its region, while also allowing the base
+address of register blocks to change (as it does sometimes between GPU
+generations).
+
+The question is, do we want to impose that on each and every driver out
+there, e.g. can we maybe have a rule that doesn't take the `base: `
+argument, and in that case provides the original behavior through
+dedicated `IoLoc` impl blocks. I am not sure yet whether that would
+work, but if it does then there is little cost in providing that option
+imho.
+
+To be clear I don't see this as a blocker, and I like how consistent the
+internal design is.
