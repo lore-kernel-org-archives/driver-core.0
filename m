@@ -1,33 +1,33 @@
-Received: from smtp71.iad3a.emailsrvr.com (smtp71.iad3a.emailsrvr.com [173.203.187.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1773B3BEC
-	for <driver-core@lists.linux.dev>; Mon, 27 Jul 2026 15:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.203.187.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3314248B1;
+	Mon, 27 Jul 2026 16:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785166897; cv=none; b=Sn5r+2O7tGw/pR8L4Ppp4HJw9zgr15hhVYCzanpsEilSQKJ1u1tXItdnl/r53q5pmORwn+J2nui2hfYytKFQjyzkwOOas6ho7FIonMYQYQn/k8uDsXO7GoFoP999NSoBvRLiSoFz8Z6c9anS+iSAD7PibVDCp7kaGxqVs+CyI0g=
+	t=1785170189; cv=none; b=YPGa7xPhQNZ+CuKoi12DurCnU4k1I48PYtZDzPzAdUKMEtI5BVl22UAY6SqWbxwcD4uKKSqdwQg3Yhc+kwksqcXVgALbHtyTSbJBVd8S+Sy7odWEn6fUoAud3/z3yzYkd5/KJUTkmiBmt4jYerHImgrkWZ3d1q+h1p8m1z8ZaNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785166897; c=relaxed/simple;
-	bh=ZEabfeduTzOfzBFUTRDyw1lfD4I0nS+Cm4lYfQEyCVk=;
+	s=arc-20240116; t=1785170189; c=relaxed/simple;
+	bh=tRlFV30ja/8brImGjZrmJZ/1eEggANfYU0WYaHOaBsM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qjVYEUhkuVpf2qF/OpRo7peis5lt2Ix1uHaUGf0klXcBNVtlwHct6s0DWzW+g+MHJQ/8y6mJ6DaY2ot56HY/J0rQGldOe+AqUFxLAeefvSNhWkRevdwbnFCx/r0hPhME9+M3RMu4gb5k819BRg9rpz/i+PxKpFCoXT+jwQ1JLC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mev.co.uk; spf=pass smtp.mailfrom=mev.co.uk; dkim=pass (1024-bit key) header.d=mev.co.uk header.i=@mev.co.uk header.b=HdLG2Nf4; arc=none smtp.client-ip=173.203.187.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mev.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mev.co.uk
+	 In-Reply-To:Content-Type; b=rWU65Mhvw4ogyWBMCJ6T6EKgMkzLg/djYPoFlMiMYtMZnwTS1y1qVM+wb1I3AwCRcEAxS760L6EiOv10ivQvRcdEtD+3/fkifRSbdBhQXDEzaq+BcASxoYkw8Zrvd/McZWdOL4X9wRM06ksyJPx1Ait9o+C1a18Zktnmnvw+ovg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHC5di3D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mev.co.uk header.i=@mev.co.uk header.b="HdLG2Nf4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20221208-6x11dpa4; t=1785164633;
-	bh=ZEabfeduTzOfzBFUTRDyw1lfD4I0nS+Cm4lYfQEyCVk=;
-	h=Date:Subject:To:From:From;
-	b=HdLG2Nf4VOgIN4BN8rW54RjppxBt7jPxPDptP1WPg8CVGe3AyOCbnduJAdmQ5DC7K
-	 OC6NIDRsvhDHpUNTUnRPHDLOMyztRwaKJDQ2J5pscAxV9NZjKSPXShU9hmRa9QYWVc
-	 dx43Guz4HTYHsgeXJwOXIBQoYtSdXewEDxDz+xIo=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp1.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 7D72559B1;
-	Mon, 27 Jul 2026 11:03:52 -0400 (EDT)
-Message-ID: <c82a9772-bcc2-4a74-9247-d90df4caa0ae@mev.co.uk>
-Date: Mon, 27 Jul 2026 16:03:53 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHC5di3D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC261F00A3E;
+	Mon, 27 Jul 2026 16:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785170188;
+	bh=NwZp8vrcS5zNu4NMBMc7+FtncQiyjKLq2JUaAvCeOIM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DHC5di3D1bGlMzcG7F1Nm23rfd1M/xEorCZ2zg2aJ4kfE3Ia7aVAOoCnNfdnUCb7u
+	 xvwTiIyUUZMVxSba/az3+UtCgzeobMK2K7uUXfMy+Fe5hcQ2pWc7ZdVLkHoR2yG5dr
+	 QmlOUpofMIT5FjH1AIflWD/OKts1pPW03Q58+kqfANSl6mi8WsYfNjhTk59EMDBkvD
+	 +A7BkHY1tQUPXQOU5XBIHE34ro+EVSnjYsSebzp4lUxOkDyhdHMm3ZUzOIMDbfMHw5
+	 Pox+sEHGUSM1J/dSayDMcF7wZTwhgGGS6E5ymM+SFqBfPru1/PKFg3nrka9Er++OoM
+	 dcORIFdnznoYA==
+Message-ID: <06ead85a-59ef-4c1b-8bb6-8eee5c6a00bd@kernel.org>
+Date: Mon, 27 Jul 2026 18:36:19 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,117 +35,187 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [kernel?] WARNING: proc registration bug in
- unregister_irq_proc (2)
-To: Thomas Gleixner <tglx@kernel.org>,
- syzbot <syzbot+690d666eb12fca6e1e61@syzkaller.appspotmail.com>,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- driver-core@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>,
- linux-pci@vger.kernel.org
-References: <6a653bcf.073198cf.94f0f.001c.GAE@google.com>
- <87ik60ikal.ffs@fw13>
+Subject: Re: [PATCH v2 1/3] mm: Add unmap_mapping_file() helper
+To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Baoquan He <baoquan.he@linux.dev>,
+ Pratyush Yadav <pratyush@kernel.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Dave Young <ruirui.yang@linux.dev>, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ kexec@lists.infradead.org, driver-core@lists.linux.dev
+References: <20260725210549.3716546-1-kwilczynski@kernel.org>
+ <20260725210549.3716546-2-kwilczynski@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-In-Reply-To: <87ik60ikal.ffs@fw13>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 70be1a8d-9012-45ee-bcf1-9093cf3a296e-1-1
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260725210549.3716546-2-kwilczynski@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-07-27 15:22, Thomas Gleixner wrote:
-> On Sat, Jul 25 2026 at 15:42, syzbot wrote:
+On 7/25/26 23:05, Krzysztof Wilczyński wrote:
+> Currently, unmap_mapping_pages() and unmap_mapping_range() unmap a
+> page offset window of an address_space, and code that removes a file,
+> such as kernfs_drain_open_files(), relies on them to unmap the pages
+> of a file that is going away.
 > 
->> HEAD commit:    3dab139d4795 Merge tag 'rust-fixes-7.2-2' of git://git.ker..
->> git tree:       upstream
->> console output: https://syzkaller.appspot.com/x/log.txt?x=156bd88e580000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
->> dashboard link: https://syzkaller.appspot.com/bug?extid=690d666eb12fca6e1e61
->> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
->>
->> Unfortunately, I don't have any reproducer for this issue yet.
->>
->> Downloadable assets:
->> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3dab139d.raw.xz
->> vmlinux: https://storage.googleapis.com/syzbot-assets/2b5a401a9dc7/vmlinux-3dab139d.xz
->> kernel image: https://storage.googleapis.com/syzbot-assets/7ed2d255bd44/bzImage-3dab139d.xz
->>
->> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> Reported-by: syzbot+690d666eb12fca6e1e61@syzkaller.appspotmail.com
+> Files with f_mapping swapped to a shared address space at open time,
+> such as PCI resource files using iomem_get_mapping(), have their VMAs
+> attached to the shared mapping instead of the file's own inode mapping,
+> so unmapping the inode's address space cannot reach them, and they stay
+> live after the file is removed.  These VMAs can only be selected by the
+> struct file they were created through, which is recorded in
+> vma->vm_file.
 > 
->> ------------[ cut here ]------------
->> remove_proc_entry: removing non-empty directory 'irq/20', leaking at least 'comedi_parport'
->> WARNING: fs/proc/generic.c:747 at remove_proc_entry+0x4e7/0x610 fs/proc/generic.c:747, CPU#1: syz.3.389/7224
+> Thus, add unmap_mapping_file(), which walks the VMA interval tree of the
+> file's f_mapping under i_mmap_lock_read() and unmaps the pages of the
+> VMAs selected by should_zap_file_vma(), using the same per-VMA zap as
+> unmap_mapping_pages().  When f_mapping is the file's own inode mapping,
+> every VMA is zapped, as unmap_mapping_range() does today.  When f_mapping
+> was swapped, only the VMAs with vm_file set to that file are zapped, so
+> callers do not need to tell the two apart.
 > 
-> So this frees an interupt descriptor, which still has an active
-> interrupt request on it.
+> HugeTLB VMAs are skipped with a WARN_ON_ONCE(), as zapping those takes
+> i_mmap_rwsem for write in hugetlb_zap_begin() and would deadlock against
+> the read lock held over the walk.
 > 
->> Modules linked in:
->> CPU: 1 UID: 0 PID: 7224 Comm: syz.3.389 Tainted: G             L      syzkaller #0 PREEMPT(full)
->>   unregister_irq_proc+0x206/0x2a0 kernel/irq/proc.c:406
->>   free_desc+0x89/0x330 kernel/irq/irqdesc.c:482
->>   irq_free_descs kernel/irq/irqdesc.c:874 [inline]
->>   irq_free_descs+0x84/0xc0 kernel/irq/irqdesc.c:865
->>   irq_domain_free_irqs+0x46a/0x5c0 kernel/irq/irqdomain.c:1917
->>   mp_unmap_irq+0xf8/0x130 arch/x86/kernel/apic/io_apic.c:1061
->>   acpi_unregister_gsi_ioapic+0x40/0x60 arch/x86/kernel/acpi/boot.c:722
->>   acpi_unregister_gsi+0x25/0x40 arch/x86/kernel/acpi/boot.c:751
->>   acpi_pci_irq_disable+0x275/0x360 drivers/acpi/pci_irq.c:517
->>   pcibios_disable_device arch/x86/pci/common.c:706 [inline]
->>   pcibios_disable_device+0x89/0xb0 arch/x86/pci/common.c:703
->>   do_pci_disable_device+0x9f/0x100 drivers/pci/pci.c:2170
->>   pci_disable_device+0x130/0x270 drivers/pci/pci.c:2206
->>   pci_device_remove+0xb2/0x1d0 drivers/pci/pci-driver.c:512
->>   device_remove+0xcb/0x180 drivers/base/dd.c:616
->>   __device_release_driver drivers/base/dd.c:1349 [inline]
->>   device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
->>   unbind_store+0xf8/0x110 drivers/base/bus.c:244
->>   drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
->>   sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
->>   kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
->>   new_sync_write fs/read_write.c:595 [inline]
->>   vfs_write+0x6ac/0x1050 fs/read_write.c:687
->>   ksys_write+0x12a/0x250 fs/read_write.c:739
->>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->>   do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
->>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
+> ---
+>  include/linux/mm.h |  2 ++
+>  mm/memory.c        | 48 ++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 50 insertions(+)
 > 
-> unbind() releases the driver, which removes the device, but the device
-> removal does not end up freeing the requested interrupt and
-> pci_device_remove() ends up correctly freeing the legacy PCI interrupt
-> descriptor through the above call chain.
-> 
-> The real question is how that comedi parport driver ends up on a PCI
-> device without actually registering a PCI driver with a proper remove
-> callback. It seems it just attaches blindly to something which user
-> space hands in through the ioctl().
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 485df9c2dbdd..e882a03eaddd 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3183,6 +3183,7 @@ extern int fixup_user_fault(struct mm_struct *mm,
+>  			    bool *unlocked);
+>  void unmap_mapping_pages(struct address_space *mapping,
+>  		pgoff_t start, pgoff_t nr, bool even_cows);
+> +void unmap_mapping_file(struct file *file);
+>  void unmap_mapping_range(struct address_space *mapping,
+>  		loff_t const holebegin, loff_t const holelen, int even_cows);
+>  #else
+> @@ -3203,6 +3204,7 @@ static inline int fixup_user_fault(struct mm_struct *mm, unsigned long address,
+>  }
+>  static inline void unmap_mapping_pages(struct address_space *mapping,
+>  		pgoff_t start, pgoff_t nr, bool even_cows) { }
+> +static inline void unmap_mapping_file(struct file *file) { }
+>  static inline void unmap_mapping_range(struct address_space *mapping,
+>  		loff_t const holebegin, loff_t const holelen, int even_cows) { }
+>  #endif
+> diff --git a/mm/memory.c b/mm/memory.c
+> index ff338c2abe92..4a09d7b6aa6b 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4423,6 +4423,54 @@ void unmap_mapping_pages(struct address_space *mapping, pgoff_t start,
+>  }
+>  EXPORT_SYMBOL_GPL(unmap_mapping_pages);
+>  
+> +static inline bool should_zap_file_vma(struct file *file,
+> +				       struct vm_area_struct *vma)
+> +{
+> +	/* On the file's own inode mapping, zap every VMA */
+> +	if (file->f_mapping == file_inode(file)->i_mapping)
+> +		return true;
+> +
 
-Yes, the device's I/O base address and IRQ number are configured by an 
-ioctl() for this driver.  (The process doing that needs CAP_SYS_ADMIN 
-capability.  There is also precedent for this sort of thing in the 
-TIOCSSERIAL ioctl() command for configuring TTY serial ports since the 
-early days of the Linux kernel.)
+I assume Sashiko complain applies only when this function would be reuse in
+other context.
 
-Back in the old days of PCs with ISA buses, you could configure the BIOS 
-to reserve specified IRQs so that they would not be assigned to PCI 
-devices, so you could use them for ISA devices.
+But I wonder if that check is even required, shouldn't below check cover this
+already? I'd expect that "vma->vm_file == file" must always hold.
 
-> 
-> Though deciphering this comedi code is beyond my skillset.
-> 
-> I rather go and harden the interrupt core against such bogosities.
-> 
-> Thanks,
-> 
->          tglx
-> 
-> 
-> 
+> +	/* A swapped mapping also holds VMAs of unrelated files, zap only ours */
+> +	return vma->vm_file == file;
+> +}
+> +
+> +/**
+> + * unmap_mapping_file() - Unmap folios from all mmaps of a file.
+> + * @file: The file to unmap.
+> + *
+> + * Unmap the folios of @file from every process that has them mapped.
+> + *
+> + * If f_mapping is the file's own inode mapping, they are unmapped
+> + * from every VMA on that mapping, as unmap_mapping_range() would do.
+> + *
+> + * However, if f_mapping was swapped to a different address space at
+> + * open time, only the VMAs with vm_file set to @file are considered,
+> + * since that address space also holds mappings of unrelated files.
+> + *
+> + * Must not be used on HugeTLB files.  HugeTLB VMAs are skipped with
+> + * a warning.
+> + */
+> +void unmap_mapping_file(struct file *file)
+> +{
+> +	struct address_space *mapping = file->f_mapping;
+> +	struct vm_area_struct *vma;
+> +
+> +	i_mmap_lock_read(mapping);
+> +	if (unlikely(mapping_mapped(mapping))) {
+> +		vma_interval_tree_foreach(vma, &mapping->i_mmap, 0, ULONG_MAX) {
+
+Can we just use mapping_rmap_tree_foreach() here, similar to
+unmap_mapping_range_tree() ?
+
+> +			cond_resched();
+
+Why that? unmap_mapping_range() doesn't seem to require one so far.
 
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+Cheers,
 
+David
