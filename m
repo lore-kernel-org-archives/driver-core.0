@@ -1,76 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F633E0082;
-	Mon, 27 Jul 2026 20:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B423DD528;
+	Mon, 27 Jul 2026 20:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785184152; cv=none; b=fItUk9STR1AKXHgulVl6Ezv0vlm5rXpLqcRo08u+HvdVNE6vul52F3m2NWK+OhPpWU0ejponRjnfOVPEWFniXi1frWSFYLKx4uODqWqsgiu098tEJ6FzzmeJ1APJHcEzMrdIxz69/Q7O4rPg8PkcxH4M486nVVLs5q4Uh7m3duo=
+	t=1785184710; cv=none; b=VpsXcnLYILc1wzUN/7gBuRqWvBZ3JJeGEGVZcjJwD4kojhNTaub3I8LboB9vxqMbpuXGYSn3XVN7ezVNpySG4A8BdG+vQKpc9HOmKSDYzaXlzzZkoJDmVn0u6pTth12Or4vFNmuCxdVM9cQh3NK/pTaazadlmrBu5TywmL4Xagc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785184152; c=relaxed/simple;
-	bh=+mhrcsHFyz8Oo8FXFcUWfvrtP4o6MC4VvNKJNhfoc+o=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=fM4hYMl5tEYmfRUWtQnRDoWPr4VmHmtVhy2/8Y/HtN26idtFdh25vGu7qaU/3slc96krDz81gU79/wAwSao3ud4zuFPcvHSgtfREQiGwJxP3jGKfPWfSH+CK9k/y5XbesiFD70CFbYRK+YxMQkcWlbqbZpH9xK488fJ5ZI1SD04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPEA56PX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785184710; c=relaxed/simple;
+	bh=J6kpKucTPJls3KIv9cmkb5XFFuQuRbXnP/koQovhLLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I+FQSse3fVeGVPJfR5HJ4E+9AYKW31hr4YKtVnYvebTjAw+wWEbJG0POm7t8BAbSE8XgDP1Hm+kor89ZnmAW8eF0408cT7KUzY0GER5pnGMBskEoshgNpp0m4b6cl1Q1zb90jKxRjb5HVfvV2jKEmFNzZHzbzU5scUnJYkYxJRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVJnPvim; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPEA56PX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A631F000E9;
-	Mon, 27 Jul 2026 20:29:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVJnPvim"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D3E41F000E9;
+	Mon, 27 Jul 2026 20:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785184150;
-	bh=PiIVeiXywgIm/YQBVQ+jGYUbAYEK1HwG+AfFHYErslU=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=PPEA56PXg10hOSlItvQ1Edgt7o7ubNzpZ9a3A0EbSyL1dXkPwNme3kD/2PCfBLXEe
-	 3HQRj6Jljs6a8o/T1fVZJ5xXsp8N9SBEiCi8eMz622GKjjqFVgE12P2CjXfjIzyvFs
-	 58Y+/epzwQSFF0Ys+p4hDpJur2a0sl6/Q+Ci0aWGkr4kPw5eHxPoQsBIwILUo6/J53
-	 2T+k6loeB0hqfWWteUfHYxjuZBLKTxxYE6SG40YgOc/FqJVwbEoF88nvUZrW2X4gzL
-	 fBxka7QU7jh+BN+oq8Go+4rYDS2Bpu38V9FNxCEXi22H/nniZB4oWQ9Rm1nqOsL1s2
-	 KxZm/d5Icj2Hg==
+	s=k20260515; t=1785184708;
+	bh=JtaPMrfbKaN822jr5+QMPprC5cstfuxnBDZV9ae0WKo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VVJnPvim4+z/5KfLroZ5EI7zgdEyWrEArfgo2+bpnCMgicT9gYyb8uixL6vhimJd6
+	 oLYnwFZYap0c9ZjLrXxoUZI2L4S6LFm5S2EJ2g597PLW90zI6WHz1Y2syT9PPl5tDt
+	 ZfB5GxEkcDA/ivfakBdV/KYziqfhmLppFYeifTqXgQztIX7GWIfS9Z4qxZr7yQqPnF
+	 mzIOYNTdx7aeJNX6CrD5we9+xAmyxVzlxrH+RMOn3/Hnn81207UXQ0JD6ayt+VFNdU
+	 OZxmdKLzUv25UHFcP4rWU7r7inzZ2WhCbTge9I5K028hWuOT5qib4EkjMRq1SKWrNc
+	 uz0diS2Jlsv+A==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH] base: soc: fixup sys_soc.h kernel-doc warnings
+Date: Mon, 27 Jul 2026 22:38:25 +0200
+Message-ID: <20260727203825.2274950-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260723214118.652616-1-rdunlap@infradead.org>
+References: <20260723214118.652616-1-rdunlap@infradead.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Jul 2026 22:29:05 +0200
-Message-Id: <DK9MYQPGPXPS.1M53LWK3OZUYT@kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- <driver-core@lists.linux.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>
-To: "Randy Dunlap" <rdunlap@infradead.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] docs/driver-api: infrastructure: add property.h and
- fwnode.h
-References: <20260726211200.2643484-1-rdunlap@infradead.org>
-In-Reply-To: <20260726211200.2643484-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Sun Jul 26, 2026 at 11:12 PM CEST, Randy Dunlap wrote:
-> @@ -17,6 +17,10 @@ The Basic Device Driver-Model Structures
->  .. kernel-doc:: include/linux/device/driver.h
->     :identifiers: probe_type device_driver
-> =20
-> +.. kernel-doc:: include/linux/property.h
-> +
-> +.. kernel-doc:: include/linux/fwnode.h
+On Thu, 23 Jul 2026 14:41:18 -0700, Randy Dunlap wrote:
+> [PATCH] base: soc: fixup sys_soc.h kernel-doc warnings
 
-This introduces new warnings, since some fields of  are not documented:
+Applied, thanks!
 
-	WARNING: ./include/linux/fwnode.h:185 struct member 'device_dma_supported'=
- not described in 'fwnode_operations'
-	WARNING: ./include/linux/fwnode.h:185 struct member 'device_get_dma_attr' =
-not described in 'fwnode_operations'
-	WARNING: ./include/linux/fwnode.h:185 struct member 'iomap' not described =
-in 'fwnode_operations'
-	WARNING: ./include/linux/fwnode.h:185 struct member 'irq_get' not describe=
-d in 'fwnode_operations'
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-I send a patch [1] to fix those; I will pick this one up once it landed.
+[1/1] base: soc: fixup sys_soc.h kernel-doc warnings
+      commit: 1c2c8484b9de
 
-Thanks,
-Danilo
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-[1] https://lore.kernel.org/driver-core/20260727202748.2232253-1-dakr@kerne=
-l.org/
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
