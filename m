@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9827A3A5443;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC8B3A7F51;
 	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785259882; cv=none; b=kJN8npzx4LRejBsWT3YNSZEhHXhWKwQur6EbNx90UR8PsrBV7hz94PDazVWiTobuaRlJt/OAaJspyMKJAZb+QsYmQTdpxPJn6hgiftoM326FUio6KqvgK9PLUBc9W7i9ioaRPASeE9DqNBhEyenaVnsZwZWIa8cdBYfHskiyZSE=
+	t=1785259882; cv=none; b=ZqnYbCidsN4pIeQB6Gyre15rGJWu0URrlOwtfGxwA21dXuURXt4Up8VUALb/6qqKmlhnB50beQqaUAHGEVBJq6CIxM4FW+L6QZe/z6Li9POTcyB9F+HX0ZUuSb6ugLz1Uuhy7ugA4ePRGpk9ksOsRlcOA1rVqaKJQjsMkV5PirU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785259882; c=relaxed/simple;
-	bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MQTPMLkCP7S/C72L4VyOKyUDbH83zNiL18P7hdUgs100z85GY/2Bh8tSMK9x/2l9o5KwEoSYLMSh0Hilrh08KI/rA/3hcjxPSnE6w4gnUfUY34dGMydslKMZBkQSiI80NDsYUcZh/dyW1m25ftIUBgLGUcylYRMaOM3cmlQ54jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBXyZL2f; arc=none smtp.client-ip=10.30.226.201
+	bh=9LGqbq7sh8ih/wSY8wPW0rsrrOT4pSqHt9qMWeX4J5k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=O4xJtpMmgp3mzo1ruPgwRkDXGn+4SDX3DWlfCxpioGum1k0F1G7uLJ7J8aU5eZzrvxPFYzYnEkz8qViN9CapWUw7pzEKHIclwPqH382/JFAnG9SDFN0PS+Z7x+it4Gzx/sNpFLXttb8AmFk9uTyhqDd5qVkEXKeg9+KnopYSkc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e5CeSgBv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBXyZL2f"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 48F18C2BCC6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e5CeSgBv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 689B9C2BCF6;
 	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1785259882;
-	bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=OBXyZL2fRA9DsgWDh34WTrAgkWPVKw9cRnE5d8yVbkPJG4JaqiagUdIhcRKz6CWjI
-	 rh4OAR946kT3dl3GTiwfmpufRq3z5nnUaUAc3O/2T3Rogm9cr/Rd5HjXPUt/+Yaj9e
-	 HwZgbQqTB7S1BEzK7lipt5ALKw+6sQbWH5QKqPEGeoIiVroeLpuRHe47NasD2e8e7f
-	 +phsjFkmiraQsA0gshbdYZUTZPALCsUVcrnixMVzoakSgynYYaRBAZjbQstYH3BUxs
-	 JBBmVV2gZ5GBrMIEAfZDvx53G2Yhl0e4a1nY8kHO9JgvwweCLijMp+elKKbNzPj5GX
-	 r1uCYLAQ6M9Qw==
+	bh=9LGqbq7sh8ih/wSY8wPW0rsrrOT4pSqHt9qMWeX4J5k=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=e5CeSgBvDqQ+G4UGT2wSCXTnQNalN9WF2On/knDqtnak5oUp1Vyum3X5RPOfzt34/
+	 K+6SbsQ31MDh9v7iptAJwuB0lPNzoMvhUaY4N+op/7QxExtY4nAzRD5LBBMU1W+J5C
+	 sI0pYBmgWKxzrCnBWjQU6yqrjQc983LFMTQiISX/W3HFofmaZa8pWwGjoR1Mq+bQZY
+	 F39vrTxy2huENwL79C9Y7TjD9e5HfEJEU2KNtK5YVxqLptOMcEAIeGfVc1hdQHJEwP
+	 33L9pcJ3LAFJxJSG0YVzwO2CP1O3HXyDk6DYPnFhVIDe7wsre6yHwPT9XR5knx/Sws
+	 4cH4FucJztzxA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E52C54F4D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 564A5C54F55;
 	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
 From: Josef Ippisch via B4 Relay <devnull+josef.ippisch.dev.mailbox.org@kernel.org>
-Subject: [PATCH v2 0/2] rust: debugfs: migrate debugfs traits requirements
- to zerocopy
-Date: Tue, 28 Jul 2026 19:31:18 +0200
-Message-Id: <20260728-migrate-binarywriter-to-zerocopy-intobytes-v2-0-0a4ec1d3ead4@mailbox.org>
+Date: Tue, 28 Jul 2026 19:31:20 +0200
+Subject: [PATCH v2 2/2] rust: debugfs: remove unsafe blocks from traits
+ impl for Vec
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -41,11 +41,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/52Oyw6CMBBFf8V07Zh2lIeu/A/josCAY5SSaUWR8
- O8CbnSpy5PcnHN75UmYvNoteiXUsmdXj4DLhcpPtq4IuBhZocZYJ2YLV67EBoKMayvdXTiQQHD
- wJHG5azrgOrisC+TBUFpuqNyubazVKGyESn7MscPxzf6WnSkPU2FanNgHJ938pjXT7q9wa0ADJ
- lSsdWSQkmh/tXzJ3GPlpFJTusUPOUY/yXGUUxqhLdK4KE3yLR+G4QVc3HFvVQEAAA==
-X-Change-ID: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
+Message-Id: <20260728-migrate-binarywriter-to-zerocopy-intobytes-v2-2-0a4ec1d3ead4@mailbox.org>
+References: <20260728-migrate-binarywriter-to-zerocopy-intobytes-v2-0-0a4ec1d3ead4@mailbox.org>
+In-Reply-To: <20260728-migrate-binarywriter-to-zerocopy-intobytes-v2-0-0a4ec1d3ead4@mailbox.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
  Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -61,11 +59,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  Miguel Ojeda <ojeda@kernel.org>, 
  Josef Ippisch <josef.ippisch.dev@mailbox.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785259881; l=2544;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785259881; l=1990;
  i=josef.ippisch.dev@mailbox.org; s=20260719; h=from:subject:message-id;
- bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
- b=rvyOi85ebZ1AZVTJ2p5GAH/yDrtUfYVs1PVPi43lRceIk0YaBtm8PeHbmtNZG5BiiA+2Sa5y8
- OxNWPMDl0MyBHXceV/1NDVun0v7ymi1vgE27dkH1oILbTExuXv3hS6V
+ bh=bcAB+rSJxo9ZroXVfXApmlpdpJQVs1F1L0YRpjVbQJo=;
+ b=cIaBDwtw9P9BlrpZZMIhZPxeVrxUAQrsh3v/wXuylsp42yoimMv9UCHwzftLYgybgje1LCjp8
+ InD76OyzfrMCU4XDG3FVgCHeP/35GRzdMIcxhADEikC5S45vChJQtTi
 X-Developer-Key: i=josef.ippisch.dev@mailbox.org; a=ed25519;
  pk=M4DnWHhz9yT9BkhXKzsmw6wTVrK2U1WBK0QiEjHoo1U=
 X-Endpoint-Received: by B4 Relay for josef.ippisch.dev@mailbox.org/20260719
@@ -73,63 +71,62 @@ X-Endpoint-Received: by B4 Relay for josef.ippisch.dev@mailbox.org/20260719
 X-Original-From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
 Reply-To: josef.ippisch.dev@mailbox.org
 
-Migrate `BinaryWriter` and `BinaryReaderMut`'s default implementation's
-requirements on T from `kernel::transmute` traits to `zerocopy` traits.
+From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
 
-This is part of a bigger migration from rust/kernel/transmute.rs to the
-zerocopy crate, see also [1] and [2]
+The previous implementation used an `unsafe` block to manually cast Vec's
+slice to a &[u8] using `core::slice::from_raw_parts`.  Instead, the
+implementation can be implemented in safe rust using zerocopy's trait
+functions `as_bytes()` and `as_mut_bytes()`, respectively, and making use
+of deref coercion to implicitly cast Vec to &[T] as `FromBytes` and
+`IntoBytes` automatically are implemented on [T] when they are implemented
+on T.
 
-[1] https://github.com/Rust-for-Linux/linux/issues/975
-[2] https://github.com/Rust-for-Linux/linux/issues/1241
-
-The crate zerocopy was introduced with
-
-c37398010a05 rust: zerocopy: import crate
-
-This introduced among other things the `FromBytes` and `IntoBytes` traits
-that, when derived, do better checks on the actual requirements of the
-types they are implemented on than the existing
-`kernel::transmute::FromBytes` and `kernel::transmute::AsBytes` traits,
-respectively.
-
-This is my first kernel patch so please let me know if I do anything wrong
-process wise or regarding some other aspect!
-
-I noticed that we could probably get rid of the `BinaryWriter` and
-`BinaryReaderMut` implementations for `Vec` altogether if we implemented
-`FromBytes`, `Immutable` and `IntoBytes` for `Vec`.  These are already
-implemented for [T] after all. What do you think?
-
-Suggested-by: Joshua Liebow-Feeser <joshlf@google.com>
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/975
-Link: https://github.com/Rust-for-Linux/linux/issues/1241
 Signed-off-by: Josef Ippisch <josef.ippisch.dev@mailbox.org>
 ---
-Changes in v2:
-- Addresses Sashiko AI review's comment about also migrating
-  `BinaryReaderMut` to zerocopy to not bifurcate the API requirements of
-  debugfs/traits.rs.
-- Do not `use zerocopy::{FromBytes, IntoBytes}` as they are part of
-  `use kernel::prelude::*`.
-- For some reason sending v2 via SMTP server did not reach the mailing
-  list.  I apologize if some of you receive this twice now.  I did not
-  mark this RESEND because of the email never reaching the mailing list.
-- Link to v1: https://patch.msgid.link/20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-0-27ed30512e75@mailbox.org
+ rust/kernel/debugfs/traits.rs | 21 ++-------------------
+ 1 file changed, 2 insertions(+), 19 deletions(-)
 
----
-Josef Ippisch (2):
-      rust: debugfs: migrate debugfs traits requirements to zerocopy
-      rust: debugfs: remove unsafe blocks from traits impl for Vec
+diff --git a/rust/kernel/debugfs/traits.rs b/rust/kernel/debugfs/traits.rs
+index b794f7dd7e14..b295f8420abd 100644
+--- a/rust/kernel/debugfs/traits.rs
++++ b/rust/kernel/debugfs/traits.rs
+@@ -153,14 +153,7 @@ fn write_to_slice(
+         writer: &mut UserSliceWriter,
+         offset: &mut file::Offset,
+     ) -> Result<usize> {
+-        let slice = self.as_slice();
+-
+-        // SAFETY: `T: Immutable + IntoBytes` allows us to treat `&[T]` as `&[u8]`.
+-        let buffer = unsafe {
+-            core::slice::from_raw_parts(slice.as_ptr().cast(), core::mem::size_of_val(slice))
+-        };
+-
+-        writer.write_slice_file(buffer, offset)
++        writer.write_slice_file(self.as_bytes(), offset)
+     }
+ }
+ 
+@@ -261,17 +254,7 @@ fn read_from_slice_mut(
+         reader: &mut UserSliceReader,
+         offset: &mut file::Offset,
+     ) -> Result<usize> {
+-        let slice = self.as_mut_slice();
+-
+-        // SAFETY: `T: FromBytes + IntoBytes` allow us to treat `&mut [T]` as `&mut [u8]`.
+-        let buffer = unsafe {
+-            core::slice::from_raw_parts_mut(
+-                slice.as_mut_ptr().cast(),
+-                core::mem::size_of_val(slice),
+-            )
+-        };
+-
+-        reader.read_slice_file(buffer, offset)
++        reader.read_slice_file(self.as_mut_bytes(), offset)
+     }
+ }
+ 
 
- rust/kernel/debugfs/traits.rs | 41 +++++++++++------------------------------
- 1 file changed, 11 insertions(+), 30 deletions(-)
----
-base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
-change-id: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
-
-Best regards,
---  
-Josef Ippisch <josef.ippisch.dev@mailbox.org>
+-- 
+2.53.0
 
 
