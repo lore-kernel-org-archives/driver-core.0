@@ -1,235 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F44030AAB8;
-	Tue, 28 Jul 2026 15:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BED377555;
+	Tue, 28 Jul 2026 16:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785252887; cv=none; b=mwKmIyaakp3ERorkkQ0IA+M5m0Wso2XbQX5gkqEHnz/kFYfU6oW1qtI8PVLVWay0tCcDMHrUgd6cmNnA95a6KG3QnT0NNdDJC96uhpTxHoV798Iot/Li1F2e3HLE9Flphx+ZVJGdT5fyDXlgBZaVz8aNCGpW5lPzNLXV7cGM2hQ=
+	t=1785255878; cv=none; b=ILL+O56L8ai0ClpheL2po3YfYdSSeZb7kt8i2aX04UDjqRif1BzcOrA5x6CQ9c5BLcXR3KDuf4IDZdCnTKw4ijDnS1Lc1UjS3lCM8QesfKlfODSdw46uCIOtaS/vgityyreRVqfSydFfBCv0KK2oZm9rAr6GVyh7BXMwLnQHMxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785252887; c=relaxed/simple;
-	bh=j81u/hQQo6ANafFDLONrqlIdb0978uF9MpOeJKSzhmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJGQjc5TlL8Qu81re3nZRo7WDFfulxg4sSY50Ws4ggI8uWaIHzQ1alPbZlYJP4pabFZmJtHpzsuCKcqu225OuXrlZOwrISqWhkzGocwPrJiB6+C46/Bzf0jFp28oII/chcil0gjv5qWE5Q1NuICPOsmF/GrcpeZD/Yg09lYlbTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDygX1Vx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785255878; c=relaxed/simple;
+	bh=vWMKSzzpBTfatsYmHFgZj4EoC9MVBYwvfVkGM/cJjIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Dq9YqDhWBHw3zpiHujSZQPw4DzXPOhbFsP0dVsmuvGi60syO761ruBYLs+/bCnRh7cJbjV3IoPFHBtFcXDn1cbSKPZl6fUFGnJCUg+k+tDnGH5njklb+sOCimU4PYWGfR05kdSWEgyrVoqtXUHHeisSq6U6FevJpYEnq+u8s7xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDl/Eg/5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDygX1Vx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51DF1F000E9;
-	Tue, 28 Jul 2026 15:34:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDl/Eg/5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E87A1F000E9;
+	Tue, 28 Jul 2026 16:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785252885;
-	bh=M4QyIJcIHjHUvIg8Dvz58XFmWJWYeAXQ8pVG5vYYwtc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dDygX1VxZrVdRpzUUbfmeJXdC14jEc6LpMOD08yHapurRZgG/oPuR030eqS7nt+U5
-	 WsnJBnN22toZw5BcPfwvkiGkwBPGpgqH/rsVRFF6Hnzrqby7S/7s9L7HGvwVVg9max
-	 X1mOliStE5p+ff+Wdc4m5UN5kHepok3ZsAdgOVEPJKPMXbGVZAzJDl3Co9wi5BqFxu
-	 lC4AcWa5ZIaR+OOixfOdoeq+agieRuDcw1BCjuWYQQ3ysSPNaxh94YqMMW10uLbmz9
-	 HGwxxdqwRja9R4sWc0klVlIbTcNMSDdDHSNhvaegL1NOZm8DNJBqP8n1C9jmj4Wwtl
-	 a8SkjfyiQOVyw==
-Date: Tue, 28 Jul 2026 16:34:40 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Richard Leitner <richard.leitner@linux.dev>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=k20260515; t=1785255874;
+	bh=3fXCTqKDFPeeZSKzhi12ENj/QYFjEH9zdFLqJrbhbl0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=ZDl/Eg/5GYecAKoOepubuSjKK4tQcE2cGvzc6/PoNqMpaF64vYbLgx0hO6rO7EpAO
+	 CR1aeoc0PB9OiKpERm5of50mGf1K7fQRIrPM9+T2vqShuHZR3UKwpz9T6+KFtMivrE
+	 ZmPFWDDEKKF6AcVc+7DYIvAVXdKvJMqtCbW7W1dcBP5gvHAQ03jgr9GNVDKqUfjX4z
+	 CJHbEk3YrTKyBtHGzK5MzBc6M9WzEGs4DNRcZZsXFlKK2MH26/KoDMbrwOLia7ka3a
+	 R8zoj080ZIGAm5/xkJel9vNoQ4KasX5uHhXTPskf4j9HDYePFt6Qn8ATd20RJ9BJXs
+	 Dnw/YrDPq4taw==
+Date: Tue, 28 Jul 2026 11:24:32 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Gary Guo <gary@garyguo.net>, David Airlie <airlied@redhat.com>,
+	Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	GOTO Masanori <gotom@debian.or.jp>,
+	YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Zhenzhong Duan <zhenzhong.duan@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
- no-sequential-read
-Message-ID: <20260728-pointy-habitual-b46592dec7ba@spud>
-References: <amEvJBOE3Ja014Ap@bombadil>
- <525338f4-cad3-4acb-94c5-a4b71cde9c02@sirena.org.uk>
- <amHznORUaOnUFyS4@bombadil>
- <20260723154541.GA764516@killaraus.ideasonboard.com>
- <20260723-hamster-juniper-5697cacade96@spud>
- <20260723161048.GC767247@killaraus.ideasonboard.com>
- <amJiqHd6I45w_e0-@bombadil>
- <20260724092812.GD712773@killaraus.ideasonboard.com>
- <amhUDOnhoj4tk4vN@bombadil>
- <20260728092856.GB1494774@killaraus.ideasonboard.com>
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	industrypack-devel@lists.sourceforge.net, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 7/9] PCI: Make pci_match_one_device() match on ID
+ instead of device
+Message-ID: <20260728162432.GA1322140@bhelgaas>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DvHlGod0MHqfPKhz"
-Content-Disposition: inline
-In-Reply-To: <20260728092856.GB1494774@killaraus.ideasonboard.com>
-
---DvHlGod0MHqfPKhz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <DK7N9IZPWPIT.2AKSZR5CU1H9L@garyguo.net>
 
-On Tue, Jul 28, 2026 at 12:28:56PM +0300, Laurent Pinchart wrote:
-> On Tue, Jul 28, 2026 at 09:13:09AM +0200, Richard Leitner wrote:
-> > On Fri, Jul 24, 2026 at 12:28:12PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 23, 2026 at 08:55:18PM +0200, Richard Leitner wrote:
-> > > > On Thu, Jul 23, 2026 at 07:10:48PM +0300, Laurent Pinchart wrote:
-> > > > > On Thu, Jul 23, 2026 at 05:02:42PM +0100, Conor Dooley wrote:
-> > > > > > On Thu, Jul 23, 2026 at 06:45:41PM +0300, Laurent Pinchart wrot=
-e:
-> > > > > > > On Thu, Jul 23, 2026 at 01:01:11PM +0200, Richard Leitner wro=
-te:
-> > > > > > > > On Wed, Jul 22, 2026 at 11:03:09PM +0100, Mark Brown wrote:
-> > > > > > > > > On Wed, Jul 22, 2026 at 11:58:46PM +0200, Richard Leitner=
- wrote:
-> > > > > > > > >=20
-> > > > > > > > > > @Mark: I understood that if the fpga really intercepts =
-the I2C bus, it
-> > > > > > > > > > should be modelled accordingly in device tree. But what=
- would be the
-> > > > > > > > > > preferred implementation if both devices sit on the sam=
-e I2C bus, but
-> > > > > > > > > > one is messing up some register reads on purpose?
-> > > > > > > > >=20
-> > > > > > > > > I think we would need to have a coherent understanding an=
-d description
-> > > > > > > > > of the actual issue to know how to describe it.
-> > > > > > > >=20
-> > > > > > > > Understood. I will try to figure out how the hardware is re=
-ally wired
-> > > > > > > > and come back to you.
-> > > > > > >=20
-> > > > > > > Based on the information I have received so far, the FPGA is =
-interposed
-> > > > > > > between the host and sensor. It could therefore be modelled i=
-n DT as
-> > > > > > > child of the I2C bus and a parent of the sensor.
-> > > > > > >=20
-> > > > > > > New version of some of the Vision Components modules have fix=
-ed the
-> > > > > > > multi-read bug, so we will still need a property in the FPGA =
-DT node to
-> > > > > > > indicate if the quirk should be activated.
-> > > > > >=20
-> > > > > > Or come up with a compatible for the FPGA DT node that uniquely
-> > > > > > identifies the revision of the RTL in use.
-> > > > > > That's my preference for things that use some custom RTL that a=
-ren't
-> > > > > > configuration parameters.
-> > > > >=20
-> > > > > I'm afraid we won't be able to get that information. We have limi=
-ted
-> > > > > visibility on the ecosystem of modules and what the FPGA does in =
-each of
-> > > > > them.
-> > > >=20
-> > > > Thanks for the clarification. Should I continue working on this top=
-ic
-> > > > (i.e. modelling the FPGA as I2C controller with the sensor as a
-> > > > "subdevice")? Or do you want to take over Laurent? Do you have any =
-other
-> > > > downstream work on the vc-mipi stuff, except the patches in your gi=
-tlab
-> > > > repo?
-> > >=20
-> > > I'm afraid I won't have time for the time being, as I will soon start=
- my
-> > > summer holidays. The patches in the git tree you mentioned are all I
-> > > have.
-> >=20
-> > Ok. Thanks. Then I will give it a try.
-> >=20
-> > I did some more research on that module and it features a Lattice FPGA
-> > (LCMXO3LF-1300E) which to all of my measurement intercepts the I2C bus
-> > as expected.
-> >=20
-> > As it additionally manages the regulators my approach would be to
-> > implement a Multi-Function Devices (MFD) driver for it.
-> >=20
-> > The resulting DTS layout would then be something like:
-> >=20
-> > &i2c1 {
-> > 	fpga@10 {
-> > 		compatible =3D "visioncomponents,vc-mipi-controller";
-> > 		reg =3D <0x10>;
-> >=20
-> > 		i2c-mux {
-> > 			compatible =3D "visioncomponents,vc-mipi-i2c-mux";
-> >=20
-> > 			i2c@0 {
-> > 				reg =3D <0>;
-> >=20
-> > 				ov9282: camera-sensor@60 {
-> > 					compatible =3D "ovti,ov9282";
-> > 					reg =3D <0x60>;
-> > 					...
-> > 				};
-> > 			};
-> > 		};
-> >=20
-> > 		vc_mipi_reg: regulator {
-> > 			compatible =3D "visioncomponents,vc-mipi-regulator";
-> > 		};
-> > 	};
-> > };
-> >=20
-> > Mark, Laurent, if that's incorrect or otherwise not acceptable,
-> > please reach out. Thanks a lot!
->=20
-> You could also simplify it to
->=20
-> &i2c1 {
-> 	fpga@10 {
-> 		compatible =3D "visioncomponents,vc-mipi-controller";
-> 		reg =3D <0x10>;
->=20
-> 		i2c@0 {
-> 			reg =3D <0>;
->=20
-> 			ov9282: camera-sensor@60 {
-> 				compatible =3D "ovti,ov9282";
-> 				reg =3D <0x60>;
-> 				...
-> 			};
-> 		};
-> 	};
-> };
->=20
-> and use a single driver that registers an I2C mux (and instantiate I2C
-> child devices) as well as a regulator, without using the MFD framework.
-> That could reduce the runtime complexity, which would be nice. If you
-> prefer using the MFD framework with more complex bindings I'm not
-> opposed to it though.
+[cc->to: Dave, Vaibhav, Jens, Greg, GOTO, YOKOTA: possible acks?
+series: https://lore.kernel.org/all/20260723-pci_id_fix-v4-0-3580726844e1@garyguo.net]
 
-I prefer this version, however I think it becomes problematic because
-there are different types of child nodes, Richard mentioned regulators
-plural and even a single regulator I think should have a dedicated node.
+On Sat, Jul 25, 2026 at 01:17:50PM +0100, Gary Guo wrote:
+> On Fri Jul 24, 2026 at 11:29 PM BST, Bjorn Helgaas wrote:
+> > On Thu, Jul 23, 2026 at 11:00:46PM +0100, Gary Guo wrote:
+> >> PCI dynamic ID needs to match IDs against a new ID to see if it already
+> >> exists. Existing APIs can only match IDs against devices, causing the
+> >> dynamic ID insertion code to create a temporary device only for matching
+> >> purpose. Rename pci_match_one_device() to pci_match_one_id() so it can be
+> >> used for this purpose instead; add a pci_id_from_device() helper to make it
+> >> easy to convert users.
+> >
+> > s/causing the ... code to create/so the ... code creates/
+> > s/purpose/purposes/
+> >
+> >> Similarly, convert pci_match_id() to do_pci_match_id(). But keep the
+> >> existing API because there are many users.
+> >> 
+> >> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+> >> Signed-off-by: Gary Guo <gary@garyguo.net>
+> >
+> > Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> >
+> > What's the merge strategy?  If these all need to be merged
+> > together, feel free to include the PCI patches whereever you merge
+> > the series.
+> 
+> I think the series should be merged together, as I consider the
+> driver changes included in this series being "fixing the users".
+> 
+> The series should probably be taken via the PCI tree. I suppose one
+> can also argue that the lifetime issue with device IDs isn't unique
+> to PCI bus so this can also be considered driver-core material, but
+> given that Greg has already taken the USB fixes via the USB tree the
+> only unfixed bus left is PCI.
+> 
+> So unless Danilo thinks otherwise I'd suggest the series be taken as
+> a whole via PCI.
 
+I'm happy to take via PCI.  It would be great to have acks/reviewed-by
+from the non-PCI maintainers:
 
->=20
-> > > > I've additionally wrote "my Vision Components contact" an email ask=
-ing
-> > > > for clarification of the I2C bus layout on the modules yesterday. I=
-f I
-> > > > get any new information from that path I will of course take it int=
-o account.
-> > > >=20
-> > > > Thanks a lot, Laurent!
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+  David Airlie <airlied@redhat.com> (agp)
 
---DvHlGod0MHqfPKhz
-Content-Type: application/pgp-signature; name=signature.asc
+  Vaibhav Gupta <vaibhavgupta40@gmail.com> (tpci200)
+  Jens Taprogge <jens.taprogge@taprogge.org> (tpci200)
+  Greg Kroah-Hartman <gregkh@linuxfoundation.org> (tpci200)
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCamjMDAAKCRB4tDGHoIJi
-0og7AQD0oXvgnBKpQbWoVMlVtwgV7DMGcVjs/tva27Zn09J+7QEA915Vc8IqxrjK
-0atKgRnmdqMfQaAgz+hq/twdCxKsYA8=
-=cKYs
------END PGP SIGNATURE-----
-
---DvHlGod0MHqfPKhz--
+  GOTO Masanori <gotom@debian.or.jp> (nsp32)
+  YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp> (nsp32)
