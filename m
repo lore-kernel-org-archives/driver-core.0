@@ -1,124 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D2B2E888A;
-	Tue, 28 Jul 2026 17:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9827A3A5443;
+	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785258080; cv=none; b=VUkP+kKh+lkb4T7JHeyU77ITDFKItT0kP+xz/DtNIWQpEF4aPoajj88YQ6+MTVHGiws7VJhL/oYf/pMxSrOAjt5ytsUG3HsjLx9LqSOhGjsGZ/ZgzppYGSqsUzUzShMcc5IZyGwWUEqM79JGtNjmNmm94JvNsskEwb/K0pM3/gE=
+	t=1785259882; cv=none; b=kJN8npzx4LRejBsWT3YNSZEhHXhWKwQur6EbNx90UR8PsrBV7hz94PDazVWiTobuaRlJt/OAaJspyMKJAZb+QsYmQTdpxPJn6hgiftoM326FUio6KqvgK9PLUBc9W7i9ioaRPASeE9DqNBhEyenaVnsZwZWIa8cdBYfHskiyZSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785258080; c=relaxed/simple;
-	bh=MvOyPm0OvxaBHSilVu7AshLW8XnoVziVrisixs/IqO8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=a8r8yl4cpDvyO7ISAxTCVfPE5LOqEEOyRHGY748F6oUnx5NSSeONwsW2gjqB4F8yTNNctst9+0uqJsGfgfZGFyofk2R1RTV29Yogyx8xAT9zt0YTn8ox1MqcUcLj595ugDRFS+JXwOf+OxENz64ZfrFIU6uLJ+aF7JQByILaPIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlspHBOW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785259882; c=relaxed/simple;
+	bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MQTPMLkCP7S/C72L4VyOKyUDbH83zNiL18P7hdUgs100z85GY/2Bh8tSMK9x/2l9o5KwEoSYLMSh0Hilrh08KI/rA/3hcjxPSnE6w4gnUfUY34dGMydslKMZBkQSiI80NDsYUcZh/dyW1m25ftIUBgLGUcylYRMaOM3cmlQ54jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBXyZL2f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlspHBOW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C524D1F000E9;
-	Tue, 28 Jul 2026 17:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785258079;
-	bh=MvOyPm0OvxaBHSilVu7AshLW8XnoVziVrisixs/IqO8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=BlspHBOWZYLezf3OfdCf9nATqVDX9JgadDA+zhTJ+rvVUXVhS1QHNTxehILUmMgjj
-	 A8djzFY3yhwu7mT0liyuqBs9QW6/2rrWJc8S7c/V6YaWx+W/bOAWjD+GGD1KEsz4/y
-	 ADKWPmf8+li8WTshvYsnEud4PSTBToaNYGp4ODCf1xogVtrcjnJe0WK2rH3NaA/huB
-	 JtulGZ3UJ8oVdxZlgQ5t8gpQ8Tk3YyJCkUK6u8QIkEJz8roAITzDE9BvnXLBHdT3Fl
-	 uvl9365qrvzZHNxqYDTRIMDH8gh/ccEfWwqszPSjMo1wcrIOwMXXocGHSV00929ZGv
-	 e5a0/BAYSUniQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBXyZL2f"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 48F18C2BCC6;
+	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785259882;
+	bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=OBXyZL2fRA9DsgWDh34WTrAgkWPVKw9cRnE5d8yVbkPJG4JaqiagUdIhcRKz6CWjI
+	 rh4OAR946kT3dl3GTiwfmpufRq3z5nnUaUAc3O/2T3Rogm9cr/Rd5HjXPUt/+Yaj9e
+	 HwZgbQqTB7S1BEzK7lipt5ALKw+6sQbWH5QKqPEGeoIiVroeLpuRHe47NasD2e8e7f
+	 +phsjFkmiraQsA0gshbdYZUTZPALCsUVcrnixMVzoakSgynYYaRBAZjbQstYH3BUxs
+	 JBBmVV2gZ5GBrMIEAfZDvx53G2Yhl0e4a1nY8kHO9JgvwweCLijMp+elKKbNzPj5GX
+	 r1uCYLAQ6M9Qw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E52C54F4D;
+	Tue, 28 Jul 2026 17:31:22 +0000 (UTC)
+From: Josef Ippisch via B4 Relay <devnull+josef.ippisch.dev.mailbox.org@kernel.org>
+Subject: [PATCH v2 0/2] rust: debugfs: migrate debugfs traits requirements
+ to zerocopy
+Date: Tue, 28 Jul 2026 19:31:18 +0200
+Message-Id: <20260728-migrate-binarywriter-to-zerocopy-intobytes-v2-0-0a4ec1d3ead4@mailbox.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Jul 2026 19:01:13 +0200
-Message-Id: <DKAD64Q7CEQD.Z15OS6MRHEKE@kernel.org>
-Subject: Re: [PATCH 08/10] gpu: nova-core: use projection for PFALCON and
- PFALCON2 registers
-Cc: "Gary Guo" <gary@garyguo.net>, "Alice Ryhl" <aliceryhl@google.com>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260721-typed_register-v1-0-452d72b60262@garyguo.net>
- <20260721-typed_register-v1-8-452d72b60262@garyguo.net>
- <DKA02Y5RE1YJ.2FGI97Z60X96R@nvidia.com>
- <DKA4Q5QUBUXM.1K6QS2QPXT12H@garyguo.net>
- <DKAASRCK3M06.G9XODK0T5AAK@nvidia.com>
-In-Reply-To: <DKAASRCK3M06.G9XODK0T5AAK@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/52Oyw6CMBBFf8V07Zh2lIeu/A/josCAY5SSaUWR8
+ O8CbnSpy5PcnHN75UmYvNoteiXUsmdXj4DLhcpPtq4IuBhZocZYJ2YLV67EBoKMayvdXTiQQHD
+ wJHG5azrgOrisC+TBUFpuqNyubazVKGyESn7MscPxzf6WnSkPU2FanNgHJ938pjXT7q9wa0ADJ
+ lSsdWSQkmh/tXzJ3GPlpFJTusUPOUY/yXGUUxqhLdK4KE3yLR+G4QVc3HFvVQEAAA==
+X-Change-ID: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Joshua Liebow-Feeser <joshlf@google.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Josef Ippisch <josef.ippisch.dev@mailbox.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785259881; l=2544;
+ i=josef.ippisch.dev@mailbox.org; s=20260719; h=from:subject:message-id;
+ bh=pVoLdUiYaCoewq3P1L24bf598pl03VPwHjg0JPQe1so=;
+ b=rvyOi85ebZ1AZVTJ2p5GAH/yDrtUfYVs1PVPi43lRceIk0YaBtm8PeHbmtNZG5BiiA+2Sa5y8
+ OxNWPMDl0MyBHXceV/1NDVun0v7ymi1vgE27dkH1oILbTExuXv3hS6V
+X-Developer-Key: i=josef.ippisch.dev@mailbox.org; a=ed25519;
+ pk=M4DnWHhz9yT9BkhXKzsmw6wTVrK2U1WBK0QiEjHoo1U=
+X-Endpoint-Received: by B4 Relay for josef.ippisch.dev@mailbox.org/20260719
+ with auth_id=884
+X-Original-From: Josef Ippisch <josef.ippisch.dev@mailbox.org>
+Reply-To: josef.ippisch.dev@mailbox.org
 
-On Tue Jul 28, 2026 at 5:09 PM CEST, Alexandre Courbot wrote:
-> Great, keeping this commit purely mechanical sounds good to me if you
-> prefer it that way (although one can argue that the refactor itself is
-> also mostly mechanical as the end result shouldn't be more complex).
+Migrate `BinaryWriter` and `BinaryReaderMut`'s default implementation's
+requirements on T from `kernel::transmute` traits to `zerocopy` traits.
 
-I don't really see much value in this intermediate change; it's not really =
-less
-invasive than to do the refactor I think, so let's do that.
+This is part of a bigger migration from rust/kernel/transmute.rs to the
+zerocopy crate, see also [1] and [2]
 
->>> And I suspect that once this is generalized, `Falcon` won't even need t=
-o
->>> store a reference to the `Bar0` (and potentially poke the I/O of other
->>> engines) anymore.
->>>
->>> Actually I would like to push that even further and replace the
->>> `pfalcon()` and `pfalcon2()` trait methods by associated constants used
->>> to construct the projected view in `Falcon::new`, since the projections
->>> are all constructed the same way, but doing so requires
->>> `generic_const_exprs`. :/
+[1] https://github.com/Rust-for-Linux/linux/issues/975
+[2] https://github.com/Rust-for-Linux/linux/issues/1241
 
-Yes, that'd be best.
+The crate zerocopy was introduced with
 
->>> We could make it work by moving the `OFFSET` generic argument of
->>> `subregion` into a regular argument and enforcing its invariants using
->>> `build_assert!`, but that would require `subregion` to be
->>> `#[inline(always)]`. I don't know if there is another trick we can use,
->>> if not otherwise I guess the trait methods are ok, especially if they
->>> are only called once in the constructor.
+c37398010a05 rust: zerocopy: import crate
 
-I think this is fine if, as Alex says as well, we expose it as another vari=
-ant
-of subregion(). (In general, I'd like to avoid introducing more build_asser=
-t!()
-if there's not much value though.)
+This introduced among other things the `FromBytes` and `IntoBytes` traits
+that, when derived, do better checks on the actual requirements of the
+types they are implemented on than the existing
+`kernel::transmute::FromBytes` and `kernel::transmute::AsBytes` traits,
+respectively.
 
-In the nova-core case it would be a specific workaround for generic_const_e=
-xprs
-not being stable, so a separate subregion() variant that is specifically
-targeted at this seems fine.
+This is my first kernel patch so please let me know if I do anything wrong
+process wise or regarding some other aspect!
 
->> This was definitely one option that I have considered, however as `NEW_S=
-IZE`
->> still needs to be generic so we're not entirely turbofish-free. But if m=
-aking
->> `offset` become an effective const parameter helps nova impl, it might m=
-ake
->> sense to use `build_assert!` for this.
+I noticed that we could probably get rid of the `BinaryWriter` and
+`BinaryReaderMut` implementations for `Vec` altogether if we implemented
+`FromBytes`, `Immutable` and `IntoBytes` for `Vec`.  These are already
+implemented for [T] after all. What do you think?
 
-As mentioned I'd like to avoid additional build_assert!() if not needed, th=
-e
-turbofish doesn't hurt too much here.
+Suggested-by: Joshua Liebow-Feeser <joshlf@google.com>
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/975
+Link: https://github.com/Rust-for-Linux/linux/issues/1241
+Signed-off-by: Josef Ippisch <josef.ippisch.dev@mailbox.org>
+---
+Changes in v2:
+- Addresses Sashiko AI review's comment about also migrating
+  `BinaryReaderMut` to zerocopy to not bifurcate the API requirements of
+  debugfs/traits.rs.
+- Do not `use zerocopy::{FromBytes, IntoBytes}` as they are part of
+  `use kernel::prelude::*`.
+- For some reason sending v2 via SMTP server did not reach the mailing
+  list.  I apologize if some of you receive this twice now.  I did not
+  mark this RESEND because of the email never reaching the mailing list.
+- Link to v1: https://patch.msgid.link/20260719-migrate-binarywriter-to-zerocopy-intobytes-v1-0-27ed30512e75@mailbox.org
 
-> Maybe we can have another variant of `subregion` that operates that way,
-> but your call. I don't see any obvious flaw with the current
-> implementation, it's just that the `FalconEngine` methods should not be
-> useful outside of the constructor eventually, so it seems a bit
-> superfluous to have them visible to the whole crate.
+---
+Josef Ippisch (2):
+      rust: debugfs: migrate debugfs traits requirements to zerocopy
+      rust: debugfs: remove unsafe blocks from traits impl for Vec
 
-I may have a slight preference for a separate subregion() variant for the
-purpose of working around generic_const_exprs, as it probably is a bit clos=
-er to
-the final solution, but trait methods are fine with me too.
+ rust/kernel/debugfs/traits.rs | 41 +++++++++++------------------------------
+ 1 file changed, 11 insertions(+), 30 deletions(-)
+---
+base-commit: 7059bdf4f04a3e14f4fafb3ac35fdca913e3e21a
+change-id: 20260719-migrate-binarywriter-to-zerocopy-intobytes-1e8f4ef93a60
+
+Best regards,
+--  
+Josef Ippisch <josef.ippisch.dev@mailbox.org>
+
+
