@@ -1,187 +1,233 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B804B3D6CC5
-	for <driver-core@lists.linux.dev>; Tue, 28 Jul 2026 09:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785230943; cv=none; b=V28bePhuNDo39EreyoGqL8anHbOP/apV1WV1FXv2BTj38zjuWDmJgiv+d1VIhBAge/mOkOq7J/oBVGag5/m4+ZpYXJRWI9xddk0zX7wHAIgSykrj141tIN46PrGbvyk1kpLkLBg/EeEeLDEfJ0mdlsdURidyciu3X3iyK9WJ7os=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785230943; c=relaxed/simple;
-	bh=XluiZRpqDLex0AekO8s7cr4bZgU5LnMUHl4vYP26PxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aJ7IKPJuqKqm35vPvQOjStTIuFMDn5YhYHzf6tCvz/XCioADPsyutY2U9cDCaIJjLj7PiYtGb/OWggVErq66likHCt9oG6GZBDy9bLi8FwhE/+YloKPsoYiHtjzlOcHdjzdpazjXPflNoKi8b0Leh+EpP5LLgf6BXJmlcmQDxNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eKGmbqJ5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF9440E8D3;
+	Tue, 28 Jul 2026 10:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785234259; cv=fail; b=V0xUCz+IBN58ylwzG8nxVnwArBRlhNP7so0f+3iTtsfu2aljzk/datr1VSx1DZ4P8w0BmAfTf5h+vYLUUkj2zGVWyVjfGEjIY+9QKZ84Hk199OI6O8ky3y4Rj497elGQcvK/s2VYmkoeYzSxQF3+bJmxu9mNiEGD5GgPmxUZKUQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785234259; c=relaxed/simple;
+	bh=9IFsaPOneclCrskgWjD38C+vddTOPBmwcA6Io2klX4Y=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=TSMAQ7my4HFuxwCW+9w4gnWREkYiIItHlLUBZk/56vKBtIF30E+vnEZWPmhOOwcf+DcYhShzIJ9xVLa11yd1JsAfm6m9PIE8LTAti7FlCKLypEeg+TgUVVjGH+uv29GqGMZcOUNPppq3AB80zyVCFxEGCL2LJ2RmChvqKFrXWD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=k2sWR89Z; arc=fail smtp.client-ip=52.101.96.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eKGmbqJ5"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FB262F8;
-	Tue, 28 Jul 2026 11:27:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1785230874;
-	bh=XluiZRpqDLex0AekO8s7cr4bZgU5LnMUHl4vYP26PxI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eKGmbqJ5fQCEv+IrwMiW0i5PMYQmndx7/3opO/6qljuPq/PcfmAYtpG/iwpORIk7c
-	 bmMFO+wjWkv0E39f3ECWZYqua9Fqc9myguIJp0FMw/llWAxnPs1cm6/f7BgsFI1Cv5
-	 GpM2WgpO0nfTUV93m6My5kcNpKA0coO2fCsZB/dY=
-Date: Tue, 28 Jul 2026 12:28:56 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Conor Dooley <conor@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
- no-sequential-read
-Message-ID: <20260728092856.GB1494774@killaraus.ideasonboard.com>
-References: <20260722201622.GD648629@killaraus.ideasonboard.com>
- <amEvJBOE3Ja014Ap@bombadil>
- <525338f4-cad3-4acb-94c5-a4b71cde9c02@sirena.org.uk>
- <amHznORUaOnUFyS4@bombadil>
- <20260723154541.GA764516@killaraus.ideasonboard.com>
- <20260723-hamster-juniper-5697cacade96@spud>
- <20260723161048.GC767247@killaraus.ideasonboard.com>
- <amJiqHd6I45w_e0-@bombadil>
- <20260724092812.GD712773@killaraus.ideasonboard.com>
- <amhUDOnhoj4tk4vN@bombadil>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="k2sWR89Z"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yasptY5YNzpiu4x5w2MAIE9Er9j9wCtzhWrbPLM60FEIyVJTlgLMlWzT/TjV2fXM0dZl80BnsdTTaIae+ZQXtZALOo3f0AkhnJtjXM9eTGbw3D633Vbwsgspat42sKJF4pE84r2xIbJrvZyFztzXElOw1JLBAPb/UgUNqBogxTVj/HUGh8jrcYds3ApcuZf1MqknlcH/oHjUJv4p+mP7Sd+MsSwEdr8Pw6UT3NsXrTRSwT3aGfK4GiAIWqTZEO1bS8cvQWSarcq2vyjWofYVMDosfc1lP1riTxV4Zvx9KnzzsYmPYaEupyRNVfBzOGAur706fMdQFT8qpxH3Iya3Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=17JWjymosbOvB189m9F3qQAiCUNLQoRUACSrJfvhIE0=;
+ b=Dw+oRaI4XxwA0mBQoGyM8qitZQuA5WWO8BsSf1WdPuz/9SsRJ2NN9Nq2QlUa0NuSAt9VcTwX6fzfaFmbjAifex7v5JisO9BbYqXyaKqkF1u9Gs14Yuu5gUDV9nCdRmiJjDVxMLzoZiddzz+xVfsQQX1C0uMh7qYca7dxv8dkQT5/flQFdx3dtAo3FvyWr7vCG9QPBpaWX+WmUIBL+cAAwwyLfBqZ+1pbngyay5+bXnh4b5Ql/tUDEksHoLs09JnLMK2U8dNp6AWYmm1kTOumQIu/kfqMQaU5RjlpP/Kh4hQzTnmjR1IC0SeCI+3UenIaUH3sU32lG5q+0h4Uw6Kqvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=17JWjymosbOvB189m9F3qQAiCUNLQoRUACSrJfvhIE0=;
+ b=k2sWR89ZGxro3p6mOQ01nOY+ity6B0Miuei3C5oSR9BrvKoRaW7lT3NPRgXenz7iWpsav03awmlhKqVTyQ8LH7P4aLhTvLholnidmYpIGBRErTyMbzKLZxj3K3yVqpmT0juUzIe5odojdWpgyhgTWAK+iOHG2aqBFBqz73YTGeE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB3227.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:15c::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Tue, 28 Jul
+ 2026 10:24:13 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%2]) with mapi id 15.21.0270.009; Tue, 28 Jul 2026
+ 10:24:13 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Jul 2026 11:24:12 +0100
+Message-Id: <DKA4Q5QUBUXM.1K6QS2QPXT12H@garyguo.net>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH 08/10] gpu: nova-core: use projection for PFALCON and
+ PFALCON2 registers
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260721-typed_register-v1-0-452d72b60262@garyguo.net>
+ <20260721-typed_register-v1-8-452d72b60262@garyguo.net>
+ <DKA02Y5RE1YJ.2FGI97Z60X96R@nvidia.com>
+In-Reply-To: <DKA02Y5RE1YJ.2FGI97Z60X96R@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0122.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:192::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <amhUDOnhoj4tk4vN@bombadil>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB3227:EE_
+X-MS-Office365-Filtering-Correlation-Id: 929fb716-237f-416c-6c06-08deec925ed8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|56012099006|4143699003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	QJgCTfWQ5Rr/MH9TR6h9Kl0NNNgVFlI+PPPfKlOB51JQmD/Gle8HhmyTamHTX1OghwHV/3Cv5ko2kg/jJOheQlEUNGKeLtFBQ88zwsJn3SdzLWt/QKA9/t6o5cLHSpVPK6XGB2NodW4oeyTU33txkTp5LD0iC1KqzcYiZqx3uavbYjyUX6u2gyq6VWPaEF6yP8r81qHs7sxwOBWmCukk0tQ1PcuMvbriYkh9QGXRyENlYCRnwg/sdrVMjBV4kLbQo1Dh2/DMmGNsBT9TlBJtIT4ezw74Aa/Hzl8H0dBSgfTJ27ma1Z5yvPzWI32sZbjjjzuJdXajmKaM/U6iASvPRNke6K+9DYQZX2q+MIZFEoLzYWs/5FgFrPbeaOcnvFXJ1ZHu9qoTtrF8FT4QTC2gNk4mq+AsrnmCc4EL2rY+u/IH7eu5oR5QULpHmR8gdTILGY7m3j9zvvDMZZcVW4zTHZIgSYd2r9RZ56Bd6ouRj2Qiv6BmVqdl0JFVXZhmR3us43N40VQf0ieCeOMzgDmKzNIe1iyMG8Eq/T0RCiC9l7tlMq+Y4QDGEZkThvjlB8/hHP5U9Z0Y9TW1p/oSNQHzXAbUsdZLtuN+1AePwgWcpCwgofX1C2lRNZ3kZcDLPuoG129yoi4uYgwM59L9Mkzkyu4Jjtq6RsMB49ib6exBmiQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K0pYMDh2WVZ4YVhEdUJjbkdqMUxEdDNyVHgwSThIdTg1bVRubkhMK2M4TkxD?=
+ =?utf-8?B?SFpYOGxVWUIxcVlFeUNPZjYxVU5aSmVOK3RsV2ZmOXZUcFFjRW0zTkpZUDha?=
+ =?utf-8?B?d0p1VTJuWE43ckVQZTFRaDJDMERaamptdXpkWUFGeEs4dEkvVmVlQXRla0Yz?=
+ =?utf-8?B?dEh1Y21JOVJRcVVtMDZ4TDNUU2tpL3NkbkRBTUlVdWxKbldtcXU5NnNNNnMw?=
+ =?utf-8?B?T1kyTXcxVkRBU2VTdDM2UFlkS1B2ZW1jT1BnN3g0N0llNG1xbFpBZHNMTWth?=
+ =?utf-8?B?bHFteFF1bWJZR3V4R21lV0NWWWZXMFJQSWc4dXNBeHFWT0pVRVBKczNrQ3dF?=
+ =?utf-8?B?Y0NLTFRNc2U4WEdkYTRxb2o4Q2JFWXROTXZaSGF1cy9kZUMrbGo2cSs2K1lj?=
+ =?utf-8?B?bGpjYk1DeDdiNnFaVVI5cVNjbGorTlordXhvc3NCRy85blFXMzROc0w5Mkhj?=
+ =?utf-8?B?dkZyeFZndk45Qm5zeWZYSzdFSFduRE1JZ0VFbGxLSWxrQ0N3TmROOWZ0SmZT?=
+ =?utf-8?B?RkdXN1RoVTlyTWxnRDc3eStPTnhyYkw5eUFQNkVDZXVZUVFZa0ovSVVTajU0?=
+ =?utf-8?B?SHVaRG1WYjdaSkRTYUhYT2I2dzdyU3VYMi9ZRkhEby9jeWdCMCs0RjFFYWUw?=
+ =?utf-8?B?NVRKcDdPSDhicnhGemhoaWZBVDdxaDdhcmQ2RDF2dWVDWWI1YjZTTUZuWEJr?=
+ =?utf-8?B?RzFDUm5PM0tKdFZiaGhoL0tGeFFMZGdYc3kwT1M1L3hYR1pQVGk4OWdQRVg2?=
+ =?utf-8?B?SkFzeGZoQndwTVptZEE4U0VNdGNMNXBmdzFEd0JveTRiN2ZKN3FNRURJMGt0?=
+ =?utf-8?B?a1pPNDVQQlpiSXJmZno1dm5UMUFFZzcwUGVnYWhXbGUvVkhWOU1renU0M1lZ?=
+ =?utf-8?B?MlRJN1YzdTVaL21hNzVjK3pyOUZUWVRMKzRaR0pQeE56emIreHdKZHZEbWx4?=
+ =?utf-8?B?dm1vMGNhTTRuVnoxVFNVbkFBblU1eElnczFtZEwwWXlsNlp6SnFMVUFHV0E5?=
+ =?utf-8?B?MVZsYVl1RmJHVkRZS3JaRFh0cTkxOEUrbVpheklZa09WUE03aWJjaWlNS2ZD?=
+ =?utf-8?B?bjZLcXE2STllRUtOUzZuUUxCemZ0YWw0NVZuMHBOYUcvRCtqZFRPMTZ0cUlO?=
+ =?utf-8?B?SGF6QUdMREZGdGE4RTduakloNjdUY056UUVVdHlvZ2V2Mjd5TkdtZHFmUk0z?=
+ =?utf-8?B?WkkxcVE5ZWxSZnp5MWg1cHJsOXQ2NlNSZDhiWG5KcStWc0NyYW93N3J1ZUF5?=
+ =?utf-8?B?d1lnVHMwcm9NVzFSTGVLUG1xZjFQQjAxcngvbkNoaWlXamdRam5IZlVyZVpY?=
+ =?utf-8?B?TGVhYXc1bEE0cURxN056Y0g3Y2cyZmJxWFFkWSszVHBYS2p2MEhpTDg0WVp5?=
+ =?utf-8?B?SHh4NGdCbGpsaXowYmd3VFFYZnA2WjJwWVpFU0xXbE1MZFpNQ0xiTTZBeWNw?=
+ =?utf-8?B?OVFPejg5V1M0UDAvaVlZdCs5cWJwVnFBd1V3cStnbmg3VHpnNFVZVmFobExi?=
+ =?utf-8?B?MGlyeUFDUnp2a3lwQXNTVitDNVhES0g2M0lnN1U2amJjT3ZNdFdhSStMSXk4?=
+ =?utf-8?B?VVV3cjQrQnBJQmR5UDFGYnJkcElIREwxbGZlMW1aTlgrcyswNWZhQnZESmcz?=
+ =?utf-8?B?MEs5VlBaVEg5RDBGRzlRQzd3SDFSbmIvSXV0UStONGNHUXBNbGNsdE1MRWVY?=
+ =?utf-8?B?cktudUJLN1RpQWhDenozUC8xSXd0SmRrNTRacmtWeG5icEpKT1JSQ1F0WXNP?=
+ =?utf-8?B?Uk4vaGpKaGhIbklsT2ZMclBJalZjRStDM0hjbnJ2VmVNd1VkZjNmeEtoZGNU?=
+ =?utf-8?B?R2hIdmcwSlI3eTgzK21USWd5NW5lbE83QkFsalRXQ2d5anRhbTVrZ2lneE1a?=
+ =?utf-8?B?eCtYczQzSlFPck1TWjBackROaFZLWS81SGhOUmZleWhmeTFpVU9tZWVCb1dY?=
+ =?utf-8?B?UjB0dEpDa2RkSlNlZjR2TUZEWjBRWnBmbitLWHlpK1FxNnJsSmp6Z1pFWkpo?=
+ =?utf-8?B?QTVXZHVqRVBRWERMeXVrL2x3TS80QWxjQ0YxR1Mwczk2S3hqaFM3d2NRck8w?=
+ =?utf-8?B?OVlUdElMY2dFVVk5aldsL0RjanRXaDZoVkw1c0Zjb0JFOU9rMkZWZG9yTXcw?=
+ =?utf-8?B?eTFxVitneXFqcURYWVcxR01pbzhRWitxNEZHVlBCWDdUdVV3NG1YZ1NGNWd6?=
+ =?utf-8?B?YWdYdmdWZUtscVRPeGhXWnBEcmx1bE81L29VbW42WnZhSGc4U21vWjhIellk?=
+ =?utf-8?B?SXc2Q3dxQmd5aWJSQVF2RGZpNHhuandJbndRalAxemphamhvMEswODYrSFZD?=
+ =?utf-8?Q?dHFLKmrxyYhiA/h8fi?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 929fb716-237f-416c-6c06-08deec925ed8
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 10:24:13.4467
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9hwXlBLE7Gvumw/obmGPxkt4l0/qQzkxw/Fts5Joxxq/oFyJZ5l8Oc4SPSBofP5x567S2YxaWGMgGVy9rBkDoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB3227
 
-On Tue, Jul 28, 2026 at 09:13:09AM +0200, Richard Leitner wrote:
-> On Fri, Jul 24, 2026 at 12:28:12PM +0300, Laurent Pinchart wrote:
-> > On Thu, Jul 23, 2026 at 08:55:18PM +0200, Richard Leitner wrote:
-> > > On Thu, Jul 23, 2026 at 07:10:48PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Jul 23, 2026 at 05:02:42PM +0100, Conor Dooley wrote:
-> > > > > On Thu, Jul 23, 2026 at 06:45:41PM +0300, Laurent Pinchart wrote:
-> > > > > > On Thu, Jul 23, 2026 at 01:01:11PM +0200, Richard Leitner wrote:
-> > > > > > > On Wed, Jul 22, 2026 at 11:03:09PM +0100, Mark Brown wrote:
-> > > > > > > > On Wed, Jul 22, 2026 at 11:58:46PM +0200, Richard Leitner wrote:
-> > > > > > > > 
-> > > > > > > > > @Mark: I understood that if the fpga really intercepts the I2C bus, it
-> > > > > > > > > should be modelled accordingly in device tree. But what would be the
-> > > > > > > > > preferred implementation if both devices sit on the same I2C bus, but
-> > > > > > > > > one is messing up some register reads on purpose?
-> > > > > > > > 
-> > > > > > > > I think we would need to have a coherent understanding and description
-> > > > > > > > of the actual issue to know how to describe it.
-> > > > > > > 
-> > > > > > > Understood. I will try to figure out how the hardware is really wired
-> > > > > > > and come back to you.
-> > > > > > 
-> > > > > > Based on the information I have received so far, the FPGA is interposed
-> > > > > > between the host and sensor. It could therefore be modelled in DT as
-> > > > > > child of the I2C bus and a parent of the sensor.
-> > > > > > 
-> > > > > > New version of some of the Vision Components modules have fixed the
-> > > > > > multi-read bug, so we will still need a property in the FPGA DT node to
-> > > > > > indicate if the quirk should be activated.
-> > > > > 
-> > > > > Or come up with a compatible for the FPGA DT node that uniquely
-> > > > > identifies the revision of the RTL in use.
-> > > > > That's my preference for things that use some custom RTL that aren't
-> > > > > configuration parameters.
-> > > > 
-> > > > I'm afraid we won't be able to get that information. We have limited
-> > > > visibility on the ecosystem of modules and what the FPGA does in each of
-> > > > them.
-> > > 
-> > > Thanks for the clarification. Should I continue working on this topic
-> > > (i.e. modelling the FPGA as I2C controller with the sensor as a
-> > > "subdevice")? Or do you want to take over Laurent? Do you have any other
-> > > downstream work on the vc-mipi stuff, except the patches in your gitlab
-> > > repo?
-> > 
-> > I'm afraid I won't have time for the time being, as I will soon start my
-> > summer holidays. The patches in the git tree you mentioned are all I
-> > have.
-> 
-> Ok. Thanks. Then I will give it a try.
-> 
-> I did some more research on that module and it features a Lattice FPGA
-> (LCMXO3LF-1300E) which to all of my measurement intercepts the I2C bus
-> as expected.
-> 
-> As it additionally manages the regulators my approach would be to
-> implement a Multi-Function Devices (MFD) driver for it.
-> 
-> The resulting DTS layout would then be something like:
-> 
-> &i2c1 {
-> 	fpga@10 {
-> 		compatible = "visioncomponents,vc-mipi-controller";
-> 		reg = <0x10>;
-> 
-> 		i2c-mux {
-> 			compatible = "visioncomponents,vc-mipi-i2c-mux";
-> 
-> 			i2c@0 {
-> 				reg = <0>;
-> 
-> 				ov9282: camera-sensor@60 {
-> 					compatible = "ovti,ov9282";
-> 					reg = <0x60>;
-> 					...
-> 				};
-> 			};
-> 		};
-> 
-> 		vc_mipi_reg: regulator {
-> 			compatible = "visioncomponents,vc-mipi-regulator";
-> 		};
-> 	};
-> };
-> 
-> Mark, Laurent, if that's incorrect or otherwise not acceptable,
-> please reach out. Thanks a lot!
+On Tue Jul 28, 2026 at 7:45 AM BST, Alexandre Courbot wrote:
+> On Wed Jul 22, 2026 at 1:54 AM JST, Gary Guo wrote:
+>> Add fixed size region types for these and add projection methods that
+>> project from `Bar0` into these. Update these registers to be registers o=
+n
+>> `PFalconRegisters` and `PFalcon2Registers` and not relative registers on
+>> `NovaRegisters`.
+>>
+>> The use sites are updated mechanically; calls to the projection methods =
+are
+>> not extracted in this commit.
+>>
+>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>> ---
+>>  drivers/gpu/nova-core/falcon.rs                    | 158 +++++++++-----=
+-------
+>>  drivers/gpu/nova-core/falcon/fsp.rs                |  53 +++----
+>>  drivers/gpu/nova-core/falcon/gsp.rs                |  43 +++---
+>>  drivers/gpu/nova-core/falcon/hal/ga102.rs          |  39 ++---
+>>  drivers/gpu/nova-core/falcon/hal/tu102.rs          |   8 +-
+>>  drivers/gpu/nova-core/falcon/sec2.rs               |  32 +++--
+>>  drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |  11 +-
+>>  drivers/gpu/nova-core/regs.rs                      |  81 ++++++-----
+>>  8 files changed, 193 insertions(+), 232 deletions(-)
+>>
+> We are calling these methods quite a bit throughout the code. I
+> understand they are supposed to be optimized away, but that's still a
+> lot of repetition.
+>
+> Since we now have HRTB and `Falcon` is already referencing the `Bar0`,
+> how about storing the projected `Mmio` inside the `Falcon` instance?
+>
+>     pub(crate) struct Falcon<'a, E: FalconEngine> {
+>         ...
+>         pfalcon: Mmio<'a, PFalconRegisters>,
+>         pfalcon2: Mmio<'a, PFalcon2Registers>,
+>     }
+>
+>     pub(crate) fn new(...) -> Result<Self> {
+>         Ok(Self {
+>             ...
+>             pfalcon: E::pfalcon(bar),
+>             pfalcon2: E::pfalcon2(bar),
+>         })
+>     }
+>
+> That way all the
+>
+>     E::pfalcon(self.bar)...
+>
+> Can become simply
+>
+>     self.pfalcon
 
-You could also simplify it to
+Right, this is the direction that I do think we should head to. As describe=
+d in
+commit message, this commit is intended as a mechanical conversion and refa=
+ctors
+are left to the future.
 
-&i2c1 {
-	fpga@10 {
-		compatible = "visioncomponents,vc-mipi-controller";
-		reg = <0x10>;
+>
+> And I suspect that once this is generalized, `Falcon` won't even need to
+> store a reference to the `Bar0` (and potentially poke the I/O of other
+> engines) anymore.
+>
+> Actually I would like to push that even further and replace the
+> `pfalcon()` and `pfalcon2()` trait methods by associated constants used
+> to construct the projected view in `Falcon::new`, since the projections
+> are all constructed the same way, but doing so requires
+> `generic_const_exprs`. :/
+>
+> We could make it work by moving the `OFFSET` generic argument of
+> `subregion` into a regular argument and enforcing its invariants using
+> `build_assert!`, but that would require `subregion` to be
+> `#[inline(always)]`. I don't know if there is another trick we can use,
+> if not otherwise I guess the trait methods are ok, especially if they
+> are only called once in the constructor.
 
-		i2c@0 {
-			reg = <0>;
+This was definitely one option that I have considered, however as `NEW_SIZE=
+`
+still needs to be generic so we're not entirely turbofish-free. But if maki=
+ng
+`offset` become an effective const parameter helps nova impl, it might make
+sense to use `build_assert!` for this.
 
-			ov9282: camera-sensor@60 {
-				compatible = "ovti,ov9282";
-				reg = <0x60>;
-				...
-			};
-		};
-	};
-};
+Best,
+Gary
 
-and use a single driver that registers an I2C mux (and instantiate I2C
-child devices) as well as a regulator, without using the MFD framework.
-That could reduce the runtime complexity, which would be nice. If you
-prefer using the MFD framework with more complex bindings I'm not
-opposed to it though.
 
-> > > I've additionally wrote "my Vision Components contact" an email asking
-> > > for clarification of the I2C bus layout on the modules yesterday. If I
-> > > get any new information from that path I will of course take it into account.
-> > > 
-> > > Thanks a lot, Laurent!
 
--- 
-Regards,
-
-Laurent Pinchart
