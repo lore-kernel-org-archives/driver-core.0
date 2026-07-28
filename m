@@ -1,251 +1,187 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB8F230BDB;
-	Tue, 28 Jul 2026 08:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B804B3D6CC5
+	for <driver-core@lists.linux.dev>; Tue, 28 Jul 2026 09:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785227959; cv=none; b=oLkT+Lg1KzKZSDcwkXr5JaE9NuVmIT9OFsq7VhelUlM8mOS+j0Gi8Gi5qDIbmTZyuNVJyyYv46fp3DMqaVz4wOeZFuD2SwW6Yi69Ly/guViC268eq6FPoG6kc26szteF6X9x4z7SNNkijPtoDS/vXWohM2I+wOxBWiakLPZC7ig=
+	t=1785230943; cv=none; b=V28bePhuNDo39EreyoGqL8anHbOP/apV1WV1FXv2BTj38zjuWDmJgiv+d1VIhBAge/mOkOq7J/oBVGag5/m4+ZpYXJRWI9xddk0zX7wHAIgSykrj141tIN46PrGbvyk1kpLkLBg/EeEeLDEfJ0mdlsdURidyciu3X3iyK9WJ7os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785227959; c=relaxed/simple;
-	bh=CRg/Nh54HZ99tMwpElMnVNEMdGg+zKH3+U7LRFD/tYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bqBHKO1dwoD2r2Oj8kVI02H1qOFidffjnjySXDiMMsdD5QV5ms+VR//BLDBqO/SY2yCjiDzeMud/EbVBkb/JFhn10M1Iy+P2pD0DlyHIloZZ6WtKGFRPQDVZZLPiwuwB1AVBhI3O5vezQy5okTe+dV0PWlV4Z9BMHmOkvuAVWl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D+tASYGg; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785230943; c=relaxed/simple;
+	bh=XluiZRpqDLex0AekO8s7cr4bZgU5LnMUHl4vYP26PxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJ7IKPJuqKqm35vPvQOjStTIuFMDn5YhYHzf6tCvz/XCioADPsyutY2U9cDCaIJjLj7PiYtGb/OWggVErq66likHCt9oG6GZBDy9bLi8FwhE/+YloKPsoYiHtjzlOcHdjzdpazjXPflNoKi8b0Leh+EpP5LLgf6BXJmlcmQDxNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eKGmbqJ5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D+tASYGg"
-Message-ID: <a9dde63a-5f2d-494b-95dd-7567879de38d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785227954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QbXjOIDNQAqLnMcNmNhhIkcZFnXKaj7v9jSB+IKjoGY=;
-	b=D+tASYGgBFHhUl7vxy1SvTJuUlL1fyINBlClOvQ9K4T3edtuSqXNpaYIxcusYBqtHtCGKn
-	4YFV+wfUruytiAPKlK/iMkIxiHxJeSoVj5BDR22K0phFcndN0nozhMJatVZeJF2M3nsdd0
-	JVFwwEIRGf5pB3U4V6tfCHcV69RCL/I=
-Date: Tue, 28 Jul 2026 16:38:44 +0800
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eKGmbqJ5"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FB262F8;
+	Tue, 28 Jul 2026 11:27:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1785230874;
+	bh=XluiZRpqDLex0AekO8s7cr4bZgU5LnMUHl4vYP26PxI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eKGmbqJ5fQCEv+IrwMiW0i5PMYQmndx7/3opO/6qljuPq/PcfmAYtpG/iwpORIk7c
+	 bmMFO+wjWkv0E39f3ECWZYqua9Fqc9myguIJp0FMw/llWAxnPs1cm6/f7BgsFI1Cv5
+	 GpM2WgpO0nfTUV93m6My5kcNpKA0coO2fCsZB/dY=
+Date: Tue, 28 Jul 2026 12:28:56 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Conor Dooley <conor@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC 1/2] dt-bindings: regmap: add common schema for
+ no-sequential-read
+Message-ID: <20260728092856.GB1494774@killaraus.ideasonboard.com>
+References: <20260722201622.GD648629@killaraus.ideasonboard.com>
+ <amEvJBOE3Ja014Ap@bombadil>
+ <525338f4-cad3-4acb-94c5-a4b71cde9c02@sirena.org.uk>
+ <amHznORUaOnUFyS4@bombadil>
+ <20260723154541.GA764516@killaraus.ideasonboard.com>
+ <20260723-hamster-juniper-5697cacade96@spud>
+ <20260723161048.GC767247@killaraus.ideasonboard.com>
+ <amJiqHd6I45w_e0-@bombadil>
+ <20260724092812.GD712773@killaraus.ideasonboard.com>
+ <amhUDOnhoj4tk4vN@bombadil>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v9 00/10] Fix missing fops.owner in Rust DRM/misc
- abstractions
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org,
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
- nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-pci@vger.kernel.org, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
- <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
- Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
- Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Igor Korotin <igor.korotin@linux.dev>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>
-References: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alvin Sun <alvin.sun@linux.dev>
-In-Reply-To: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <amhUDOnhoj4tk4vN@bombadil>
 
-Hi Miguel,
+On Tue, Jul 28, 2026 at 09:13:09AM +0200, Richard Leitner wrote:
+> On Fri, Jul 24, 2026 at 12:28:12PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jul 23, 2026 at 08:55:18PM +0200, Richard Leitner wrote:
+> > > On Thu, Jul 23, 2026 at 07:10:48PM +0300, Laurent Pinchart wrote:
+> > > > On Thu, Jul 23, 2026 at 05:02:42PM +0100, Conor Dooley wrote:
+> > > > > On Thu, Jul 23, 2026 at 06:45:41PM +0300, Laurent Pinchart wrote:
+> > > > > > On Thu, Jul 23, 2026 at 01:01:11PM +0200, Richard Leitner wrote:
+> > > > > > > On Wed, Jul 22, 2026 at 11:03:09PM +0100, Mark Brown wrote:
+> > > > > > > > On Wed, Jul 22, 2026 at 11:58:46PM +0200, Richard Leitner wrote:
+> > > > > > > > 
+> > > > > > > > > @Mark: I understood that if the fpga really intercepts the I2C bus, it
+> > > > > > > > > should be modelled accordingly in device tree. But what would be the
+> > > > > > > > > preferred implementation if both devices sit on the same I2C bus, but
+> > > > > > > > > one is messing up some register reads on purpose?
+> > > > > > > > 
+> > > > > > > > I think we would need to have a coherent understanding and description
+> > > > > > > > of the actual issue to know how to describe it.
+> > > > > > > 
+> > > > > > > Understood. I will try to figure out how the hardware is really wired
+> > > > > > > and come back to you.
+> > > > > > 
+> > > > > > Based on the information I have received so far, the FPGA is interposed
+> > > > > > between the host and sensor. It could therefore be modelled in DT as
+> > > > > > child of the I2C bus and a parent of the sensor.
+> > > > > > 
+> > > > > > New version of some of the Vision Components modules have fixed the
+> > > > > > multi-read bug, so we will still need a property in the FPGA DT node to
+> > > > > > indicate if the quirk should be activated.
+> > > > > 
+> > > > > Or come up with a compatible for the FPGA DT node that uniquely
+> > > > > identifies the revision of the RTL in use.
+> > > > > That's my preference for things that use some custom RTL that aren't
+> > > > > configuration parameters.
+> > > > 
+> > > > I'm afraid we won't be able to get that information. We have limited
+> > > > visibility on the ecosystem of modules and what the FPGA does in each of
+> > > > them.
+> > > 
+> > > Thanks for the clarification. Should I continue working on this topic
+> > > (i.e. modelling the FPGA as I2C controller with the sensor as a
+> > > "subdevice")? Or do you want to take over Laurent? Do you have any other
+> > > downstream work on the vc-mipi stuff, except the patches in your gitlab
+> > > repo?
+> > 
+> > I'm afraid I won't have time for the time being, as I will soon start my
+> > summer holidays. The patches in the git tree you mentioned are all I
+> > have.
+> 
+> Ok. Thanks. Then I will give it a try.
+> 
+> I did some more research on that module and it features a Lattice FPGA
+> (LCMXO3LF-1300E) which to all of my measurement intercepts the I2C bus
+> as expected.
+> 
+> As it additionally manages the regulators my approach would be to
+> implement a Multi-Function Devices (MFD) driver for it.
+> 
+> The resulting DTS layout would then be something like:
+> 
+> &i2c1 {
+> 	fpga@10 {
+> 		compatible = "visioncomponents,vc-mipi-controller";
+> 		reg = <0x10>;
+> 
+> 		i2c-mux {
+> 			compatible = "visioncomponents,vc-mipi-i2c-mux";
+> 
+> 			i2c@0 {
+> 				reg = <0>;
+> 
+> 				ov9282: camera-sensor@60 {
+> 					compatible = "ovti,ov9282";
+> 					reg = <0x60>;
+> 					...
+> 				};
+> 			};
+> 		};
+> 
+> 		vc_mipi_reg: regulator {
+> 			compatible = "visioncomponents,vc-mipi-regulator";
+> 		};
+> 	};
+> };
+> 
+> Mark, Laurent, if that's incorrect or otherwise not acceptable,
+> please reach out. Thanks a lot!
 
-Back in v3, Gary suggested this series go via the rust tree.
-Would you be happy with that, or would you prefer a different
-path? If so, is there anything else needed from my side?
+You could also simplify it to
 
-Best regards,
-Alvin
+&i2c1 {
+	fpga@10 {
+		compatible = "visioncomponents,vc-mipi-controller";
+		reg = <0x10>;
 
-On 7/23/26 10:10, Alvin Sun wrote:
-> During tyr debugfs development, a kernel NULL pointer dereference was
-> encountered after `rmmod tyr` while gnome-shell still held /dev/card1 open:
->
-> ```
->    [158827.868132] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
->    [158827.868918] Mem abort info:
->    [158827.869177]   ESR = 0x0000000086000004
->    [158827.869519]   EC = 0x21: IABT (current EL), IL = 32 bits
->    [158827.870000]   SET = 0, FnV = 0
->    [158827.870281]   EA = 0, S1PTW = 0
->    [158827.870571]   FSC = 0x04: level 0 translation fault
->    [158827.871043] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000108dec000
->    [158827.871623] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
->    [158827.872242] Internal error: Oops: 0000000086000004 [#1]  SMP
->    [158827.872246] Modules linked in: tyr sunrpc snd_soc_simple_card rk805_pwrkey snd_soc_simple_card_utils rtw88_8822bu display_connector rtw88_usb rtw88_8822b snd_soc_rockchip_i2s_tdm snd_soc_hdmi_codec
->    rtw88_core]
->    [158827.872337] CPU: 4 UID: 1000 PID: 11276 Comm: gnome-s:disk$0 Tainted: G                 N  7.1.0-rc1+ #331 PREEMPT
->    [158827.880534] Tainted: [N]=TEST
->    [158827.880535] Hardware name: FriendlyElec NanoPi R6C/NanoPi R6C, BIOS v1.1 04/09/2025
->    [158827.880538] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    [158827.880542] pc : 0x0
->    [158827.880547] lr : _RNvNtCs257m05FHVbX_3tyr2vm8pt_unmap+0x8c/0x12c [tyr]
->    [158827.880578] sp : ffff800083c236b0
->    [158827.880579] x29: ffff800083c236d0 x28: ffff00013f8a0000 x27: 0000000000000000
->    [158827.880585] x26: 000000000000007c x25: ffff000108e6ed80 x24: 0000000000401000
->    [158827.880590] x23: 0000000000000000 x22: 0000000040000000 x21: 0000000000001000
->    [158827.880595] x20: ffff00010f778138 x19: 0000000000400000 x18: 00000000ffffffff
->    [158827.880600] x17: 000000040044ffff x16: 045000f2b5503510 x15: 0720072007200720
->    [158827.880606] x14: 0720072007200720 x13: 0000000000401000 x12: 0000000000400000
->    [158827.880611] x11: ffff800083c239d0 x10: ffff000141e4fd88 x9 : 0000000000000000
->    [158827.880615] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000400000
->    [158827.880620] x5 : ffff00013f8a0000 x4 : 0000000000000000 x3 : 0000000000000001
->    [158827.880625] x2 : 0000000000001000 x1 : 0000000000400000 x0 : ffff00010f778138
->    [158827.880630] Call trace:
->    [158827.880632]  0x0 (P)
->    [158827.880635]  _RNvXs6_NtCs257m05FHVbX_3tyr2vmNtB5_9GpuVmDataNtNtNtCsgmSOfgXi5CZ_6kernel3drm5gpuvm11DriverGpuVm13sm_step_unmap+0x3c/0x120 [tyr]
->    [158827.891166]  _RNvMs4_NtNtNtCsgmSOfgXi5CZ_6kernel3drm5gpuvm6sm_opsINtB7_5GpuVmNtNtCs257m05FHVbX_3tyr2vm9GpuVmDataE13sm_step_unmapB13_+0x18/0x34 [tyr]
->    [158827.891187]  op_unmap_cb+0x78/0xb0
->    [158827.891196]  __drm_gpuvm_sm_unmap+0x18c/0x1b4
->    [158827.891204]  drm_gpuvm_sm_unmap+0x38/0x4c
->    [158827.891209]  _RNvMs5_NtCs257m05FHVbX_3tyr2vmNtB5_2Vm7exec_op+0x1cc/0x254 [tyr]
->    [158827.894085]  _RNvMs5_NtCs257m05FHVbX_3tyr2vmNtB5_2Vm11unmap_range+0x124/0x188 [tyr]
->    [158827.894105]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeNtNtCs257m05FHVbX_3tyr3gem8KernelBoEBK_+0x44/0xd8 [tyr]
->    [158827.894125]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeINtNtNtCsgmSOfgXi5CZ_6kernel5alloc4kvec3VecNtNtCs257m05FHVbX_3tyr2fw7SectionNtNtBL_9allocator7KmallocEEB1r_+0x3c/0x100 [tyr]
->    [158827.894147]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeINtNtNtCsgmSOfgXi5CZ_6kernel4sync3arc3ArcNtNtCs257m05FHVbX_3tyr2fw8FirmwareEEB1p_+0x94/0x190 [tyr]
->    [158827.894167]  _RNvMs4_NtNtCsgmSOfgXi5CZ_6kernel3drm6deviceINtB5_6DeviceNtNtCs257m05FHVbX_3tyr6driver12TyrDrmDriverE7releaseBW_+0x30/0x98 [tyr]
->    [158827.899550]  drm_dev_put.part.0+0x88/0xc0
->    [158827.899557]  drm_minor_release+0x18/0x28
->    [158827.899562]  drm_release+0x144/0x170
->    [158827.899567]  __fput+0xe4/0x30c
->    [158827.899573]  ____fput+0x14/0x20
->    [158827.899579]  task_work_run+0x7c/0xe8
->    [158827.899586]  do_exit+0x2a8/0xac4
->    [158827.899590]  do_group_exit+0x34/0x90
->    [158827.899594]  get_signal+0xaac/0xabc
->    [158827.899599]  arch_do_signal_or_restart+0x90/0x3e8
->    [158827.899606]  exit_to_user_mode_loop+0x140/0x1d0
->    [158827.899613]  el0_svc+0x2f4/0x2f8
->    [158827.899620]  el0t_64_sync_handler+0xa0/0xe4
->    [158827.899627]  el0t_64_sync+0x198/0x19c
->    [158827.899632] ---[ end trace 0000000000000000 ]---
-> ```
->
-> The root cause: `fops.owner` was `NULL` in Rust DRM drivers, so the kernel
-> never blocked module unloading while file descriptors were open. This leads to
-> use-after-free when drm_release (or other fops) is called on freed module code.
->
-> The series moves `THIS_MODULE` into the `ModuleMetadata` as a const, threads it
-> through `#[vtable]` to set `fops.owner` in DRM/miscdevice, and updates configfs
-> and rnull to use `this_module::<LocalModule>()`.
->
-> Assisted-by: opencode:glm-5.2
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
-> Changes in v9:
-> - Rename the binder commit prefix from `rust: binder:` to `rust_binder:`
->    to match the in-tree module name.
-> - Link to v8: https://lore.kernel.org/r/20260713-fix-fops-owner-v8-0-2495cfa82d47@linux.dev
->
-> Changes in v8:
-> - Remove unused `crate::LocalModule` import in rnull configfs.
-> - Link to v7: https://lore.kernel.org/r/20260627-fix-fops-owner-v7-0-33cd3990edf0@linux.dev
->
-> Changes in v7:
-> - Use `crate::LocalModule` in `configfs_attrs!` and silence `clippy::crate_in_macro_def`, per Gary's review.
-> - Link to v6: https://lore.kernel.org/r/20260624-fix-fops-owner-v6-0-5295e333cb3e@linux.dev
->
-> Changes in v6:
-> - Update MAINTAINERS to cover the new `rust/kernel/module.rs`.
-> - Link to v5: https://lore.kernel.org/r/20260624-fix-fops-owner-v5-0-aa1cba242f05@linux.dev
->
-> Changes in v5:
-> - Add `#[inline]` to the `this_module()` helper.
-> - Fix configfs doc comment to reference `crate::LocalModule` instead of
->    bare `LocalModule`.
-> - Link to v4: https://lore.kernel.org/r/20260623-fix-fops-owner-v4-0-0daf5f077d5c@linux.dev
->
-> Changes in v4:
-> - Move module-related types into a new `rust/kernel/module.rs`.
-> - Migrate binder from the `module!`-generated `THIS_MODULE` static to
->    `this_module::<LocalModule>()`.
-> - Reorganise the series so that every commit builds independently, and
->    drop the legacy `THIS_MODULE` static once all users are migrated.
-> - Link to v3: https://lore.kernel.org/r/20260622-fix-fops-owner-v3-0-49d45cb37032@linux.dev
->
-> Changes in v3:
-> - Renamed vtable associated type `ThisModule` to `OwnerModule`
-> - Added `this_module()` helper for ergonomic `THIS_MODULE` access
-> - Refined vtable macro implementation: one-liner detection and single `defined_items` set
-> - Reordered commits to place doctest fallback before vtable auto-insert
-> - Link to v2: https://lore.kernel.org/r/20260521-fix-fops-owner-v2-0-fd99079c5a04@linux.dev
->
-> Changes in v2:
-> - Merged old `static THIS_MODULE` and v1's `MODULE_PTR` into a single
->    `ModuleMetadata::THIS_MODULE` const
-> - `#[vtable]` macro now auto-inserts `type ThisModule`, removing all per-driver
->    manual patches from v1
-> - Added configfs & rnull usage site updates and doctest `LocalModule` fallback
-> - Link to v1: https://lore.kernel.org/r/20260519-fix-fops-owner-v1-0-2ded9830da14@linux.dev
->
-> ---
-> Alvin Sun (10):
->        rust: module: move module types into `module.rs`
->        rust: module: add `THIS_MODULE` const to `ModuleMetadata` trait
->        rust: doctest: add LocalModule fallback for #[vtable] ThisModule
->        rust: macros: auto-insert OwnerModule in #[vtable]
->        rust: drm: set fops.owner from driver module pointer
->        rust: miscdevice: set fops.owner from driver module pointer
->        rust: configfs: use `LocalModule` for `THIS_MODULE`
->        rust_binder: use `LocalModule` for `THIS_MODULE`
->        rust: macros: remove `THIS_MODULE` static from `module!`
->        rust: module: update MAINTAINERS to cover module.rs
->
->   MAINTAINERS                                |  2 +-
->   drivers/android/binder/rust_binder_main.rs |  3 +-
->   drivers/block/rnull/configfs.rs            |  5 +-
->   rust/kernel/auxiliary.rs                   |  2 +-
->   rust/kernel/configfs.rs                    |  9 ++--
->   rust/kernel/drm/device.rs                  |  3 +-
->   rust/kernel/drm/gem/mod.rs                 |  4 +-
->   rust/kernel/i2c.rs                         |  2 +-
->   rust/kernel/lib.rs                         | 75 +++-------------------------
->   rust/kernel/miscdevice.rs                  |  4 +-
->   rust/kernel/module.rs                      | 80 ++++++++++++++++++++++++++++++
->   rust/kernel/net/phy.rs                     |  6 ++-
->   rust/kernel/pci.rs                         |  2 +-
->   rust/kernel/platform.rs                    |  2 +-
->   rust/kernel/usb.rs                         |  2 +-
->   rust/macros/lib.rs                         |  6 +++
->   rust/macros/module.rs                      | 34 ++++++-------
->   rust/macros/vtable.rs                      | 41 +++++++++++++--
->   scripts/rustdoc_test_gen.rs                | 16 ++++++
->   19 files changed, 189 insertions(+), 109 deletions(-)
-> ---
-> base-commit: b7e5ac83cb16f7ffd11dc23736f84276602100ed
-> change-id: 20260519-fix-fops-owner-e3a77bb27c6c
-> prerequisite-change-id: 20260519-miscdev-use-format-9ab7e83b1c11:v3
-> prerequisite-patch-id: 405b334ff0d48ad350014f05a2321bdbaa025400
-> prerequisite-patch-id: 604b631c81d5423f4ebb2e12ba2d22e9ce371bfc
-> prerequisite-patch-id: cb550d94cefe01920e0d3ced2b2bcbecd76f3907
-> prerequisite-patch-id: 3bc830839742591460cb86d9472c04f4686dc600
-> prerequisite-patch-id: 571058244bc8c7088638d2e3225713011246c7e9
-> prerequisite-patch-id: 347c5a3c6dbef9832bfce8419fc23e6e08ba477f
-> prerequisite-patch-id: 3e202d988b56b88446f7535e90d3f00cf5f15701
->
-> Best regards,
+		i2c@0 {
+			reg = <0>;
+
+			ov9282: camera-sensor@60 {
+				compatible = "ovti,ov9282";
+				reg = <0x60>;
+				...
+			};
+		};
+	};
+};
+
+and use a single driver that registers an I2C mux (and instantiate I2C
+child devices) as well as a regulator, without using the MFD framework.
+That could reduce the runtime complexity, which would be nice. If you
+prefer using the MFD framework with more complex bindings I'm not
+opposed to it though.
+
+> > > I've additionally wrote "my Vision Components contact" an email asking
+> > > for clarification of the I2C bus layout on the modules yesterday. If I
+> > > get any new information from that path I will of course take it into account.
+> > > 
+> > > Thanks a lot, Laurent!
+
+-- 
+Regards,
+
+Laurent Pinchart
