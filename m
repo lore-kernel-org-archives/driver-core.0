@@ -1,160 +1,376 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A86476CE5
-	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 11:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16884921B7
+	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 13:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785325137; cv=none; b=WXsd0kvyJ+oMHQDHdo3yQoPDSO5L6WBRvfxG8nLJ9cqxc0cuybxIaDDM6UK9bV2teoSkTlLCE4L+ZpO03uRUpfP/XoVyPBkEJN/c/nKqfv2apCS5uKNfhHlzE6VJg6G9TwcVPDNNRHi2r1TEO2IFvdiFY9cXof6ypeMRhi2MzOg=
+	t=1785333530; cv=none; b=gy759wK6oGP/ocSCbZHpAJokwMTzMFa1JUINLuiHVZMevF/tM8dMRHBlHe8la5tlFn/743e6cUww+IixGBWPzhrxdymYl+mhhC/NN2JmP6b6q4+Aa+cRXuN+osIdZ1ML0G7r/A7YEzeSi9OYMkL8sQn4pA8oeNxALRev03wFYQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785325137; c=relaxed/simple;
-	bh=+bl7W/DghJ2lNo8ihHQByUSlt3smL+/7HO/f5BD68Hc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lu3QIEHzYAVVX02H5EgrfC3aQBe380rBWg54JQ2Yd+8AI7HQIRkBwxpyI7ds4EoLfbXP+GSPrLIXibm7PApDgXmA1Rz+y4UQr+64cEpvuyHO9dNSSseE4gcyyePBiAX3o8hRBTHvenPBR5Fd3io1+dH/HCMvpI9ZDRZvN2OrjNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hl8nOEUk; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1785333530; c=relaxed/simple;
+	bh=7agwiNjT2Zbo4oK3OhnP10yj1z22bzUitQFouWfo0V8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Wn1N0qt4Ehh4wzwU8cV35/QImdzhE1BOvar8nYDlUe4wrPVXSodzqu+of2S4Wg6SMJUo8nb55LWZAng5dcDNoVSXuksKx3ZyiWRFO7CHQOhhAvEJRtdy7Q4oTVMbZu0MUA3W2gxcuevvdGVm5HexVNIRE9w6aSa+hOp+XjjAw3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=tGN0snve; arc=none smtp.client-ip=109.224.244.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hl8nOEUk"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47de008b020so532385f8f.1
-        for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 04:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1785325133; x=1785929933; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5iX3sEVovVYi3DpvUrl6PGylYfhOnizJPhWXlTW0MXY=;
-        b=Hl8nOEUkd25VFh0f2IJNR29l4ZfX301FkAABlRvfNcYxlrgbd6oU4SG5kBszmGp+YN
-         n1LMPC+BZ9kraIzzzRYp/Hebb374i8qDCww/OzdNqQRwBYwg4gqwOooTW0uc1u2JpDAu
-         wOqvMN1kyBlqWbb6DNuiEuMz80tz/CPmICK3jYKHfeReKuRSlo+o63BBTd4x62FqSqMn
-         5rUCIyTwD1ySFjI0rbnkD/McsUTshpRdqrPOHvDhDdDJ2fCnWIPZSCwjwM3IBWH3s2Tw
-         cHWGirfviprW+HbiyJnDRU1mwSc8HUpuJu9ViHRR9OFnKcQ0Iy4UX28iJJaKDldYdhvZ
-         3w/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785325133; x=1785929933;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5iX3sEVovVYi3DpvUrl6PGylYfhOnizJPhWXlTW0MXY=;
-        b=ead9KnTAKV7lpKrsqp2S1WCwHRzkir3g39RendpyMXpSxUrqotnZeTCVzIOVzx47ek
-         9ssvwCoQ+PObFhvZsrv7mRykfbPjOGCE86OXceCmzZqKKcj4oyRF2uaGGGqTMcL5+MNz
-         qWY/Ej2xaSUuSe9I2gKmY5xWNTdnjSXVhEq/QWko1v9meUd4WqrEubHBCQs/+uSWbGik
-         ZmFRsalTf7jSKkgYT6w+zwyOXMof5VoMwFtSbbjhm5QE2z+7IDeXwa1UWeKTnvdwgRWB
-         ukk+G4tXbVqJSdDDCbxn6+V0ElxoFio3eFNz5dYr7O4+lQG/NTxwzG6ARfBhgh9Gg1Dg
-         z+fA==
-X-Gm-Message-State: AOJu0YwkQmuOOxNuwW+U1l5zAycuiQi3kp6aph5OJA92AH2azER/Q0vq
-	eWQE05zGEn8S6lv9Dab85xDd0VuLlBh477a1mYmSz+uYKFru9R1XIDL1uhkE9ZEh0Hs=
-X-Gm-Gg: AR+sD108egpWJ8vy7YiNGpkWkIabgzoY11dwGCA7qI7dErcXSF0b5zxUfC9b+3+kLk9
-	HWXdnbvm0klaMp2BztCMvLKsRPNrFRL6kz4f/L5JWw+gNxgX6LBqf0S5CaLltCnBNkwcBMIIGPa
-	sAEOVEOZ3ML5DUgDQLuO5hcfHAy8pah1mWN8+mt0ck39C0gzymKEk9qKO507dP5LvqkOwu717Kb
-	JFOdmp0BqsyQCpUjQYyrMKQn4kkMOrmBLgT6UG/Ap47SCizkykFD9113l3RVZ+Rk1Z6R+SSCYGu
-	lVGywYpwthEMcBL3qzmC02cfpGpatiWY8P4NdjYUqjgK88eaEtrrf0eh3gpwF+fzftJMwd70/s7
-	6cPfVA+QiXygy7nlWp+KwHzD4IKs4lh+fQZmsZT9KPC1rgePF+Iz0RkG6UVxWLOnD8AGzqBHtZA
-	MBTrrPZIkKmruAkt3Ijk6SkEme5cbpBlWu7fMdyRMZUocjOco+sFCfKJeVjIHXyKGF5yIaFew=
-X-Received: by 2002:a05:6000:2c05:b0:47f:9763:9864 with SMTP id ffacd0b85a97d-47fbabee850mr2432854f8f.19.1785325133163;
-        Wed, 29 Jul 2026 04:38:53 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.24.32])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6b0f039sm7702125f8f.18.2026.07.29.04.38.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jul 2026 04:38:52 -0700 (PDT)
-Message-ID: <f77aab11-0e1b-4962-9d53-0bb2fcd6486a@linaro.org>
-Date: Wed, 29 Jul 2026 12:38:50 +0100
+	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="tGN0snve"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=protonmail; t=1785333514; x=1785592714;
+	bh=iRZrXScmBt7Xn5PKV2idbmZkaUeVgRzFQGtp98fuQIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=tGN0snvepjHoyjKDELlbEe8O1GEUoghn2xmz5ljBPwvx53Cn+b+F3+wbkdRyywu/T
+	 aEcu5WNnBn9KZQfVmsqhFJ146kz8Wx+j32CVy3x6R33dKPDjIgorEA718f7+xEE1RC
+	 W/WwpHfH5TrDabjmT8LR6844hH3G3v8mTWJ0CzGexpgg18DekLszfAN02zY8wUvxQ8
+	 ATUReAotU7rPVFRZDCqSmssKQnrd2NHHoW5o5UaxcDbncU17lYOx9L7K1h6g0lG2Ou
+	 M/q9i5j5GpZEby6ZXctiXW8kGlMcEMIyjRk53piATPlVF6PTlffsgpH8BK1EAXRT8a
+	 MPH1Os3Mlbg2g==
+X-Pm-Submission-Id: 4h9DSm0stMz1DFF2
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: ojeda@kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com,
+	samitolvanen@google.com,
+	rust-for-linux@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] rust: add runtime PM support
+Date: Wed, 29 Jul 2026 16:58:28 +0300
+Message-ID: <20260729135830.412048-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <amnCwIMj5dIJevfk@arm.com>
+References: <20260721153617.869933-1-beata.michalska@arm.com> <20260721153617.869933-2-beata.michalska@arm.com> <20260727145622.904965-1-work@onurozkan.dev> <amnCwIMj5dIJevfk@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] media: qcom: camss: use
- fwnode_graph_for_each_endpoint_scoped() to simplify code
-To: Frank.Li@oss.nxp.com, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dafna Hirschfeld <dafna@fastmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- Guoniu Zhou <guoniu.zhou@nxp.com>, Frank Li <Frank.Li@nxp.com>,
- Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260625-fw_scoped-v3-0-ffd0868e498d@nxp.com>
- <20260625-fw_scoped-v3-4-ffd0868e498d@nxp.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-GB
-In-Reply-To: <20260625-fw_scoped-v3-4-ffd0868e498d@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 25/06/2026 15:17, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> Use fwnode_graph_for_each_endpoint_scoped() to simplify code.
-> 
-> No functional changes.
-> 
-> Reviewed-by: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> change in v2
-> - fix typo simplify
-> - collect andy, gouniou and loic's review tags
-> ---
->   drivers/media/platform/qcom/camss/camss.c | 17 +++++------------
->   1 file changed, 5 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 2123f6388e3d7..23f3cc30a15a5 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -4793,30 +4793,23 @@ static int camss_parse_endpoint_node(struct device *dev,
->   static int camss_parse_ports(struct camss *camss)
->   {
->   	struct device *dev = camss->dev;
-> -	struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
-> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
->   	int ret;
->   
-> -	fwnode_graph_for_each_endpoint(fwnode, ep) {
-> +	fwnode_graph_for_each_endpoint_scoped(fwnode, ep) {
->   		struct camss_async_subdev *csd;
->   
->   		csd = v4l2_async_nf_add_fwnode_remote(&camss->notifier, ep,
->   						      typeof(*csd));
-> -		if (IS_ERR(csd)) {
-> -			ret = PTR_ERR(csd);
-> -			goto err_cleanup;
-> -		}
-> +		if (IS_ERR(csd))
-> +			return PTR_ERR(csd);
->   
->   		ret = camss_parse_endpoint_node(dev, ep, csd);
->   		if (ret < 0)
-> -			goto err_cleanup;
-> +			return ret;
->   	}
->   
->   	return 0;
-> -
-> -err_cleanup:
-> -	fwnode_handle_put(ep);
-> -
-> -	return ret;
->   }
->   
->   /*
-> 
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+On Wed, 29 Jul 2026 11:07:12 +0200=0D
+Beata Michalska <beata.michalska@arm.com> wrote:=0D
+=0D
+> On Mon, Jul 27, 2026 at 05:56:20PM +0300, Onur =C3=96zkan wrote:=0D
+> > On Tue, 21 Jul 2026 17:34:02 +0200=0D
+> > Beata Michalska <beata.michalska@arm.com> wrote:=0D
+> > =0D
+> > > Add a Rust abstraction for Linux runtime PM, allowing Rust drivers to=
+=0D
+> > > register runtime PM callbacks and use scoped runtime PM requests whil=
+e=0D
+> > > retaining the behavior and guarantees of the underlying C PM core.=0D
+> > > =0D
+> > > Runtime PM is managed through a registration object tied to the devic=
+e=0D
+> > > lifetime. The registration stores the callback payload and 'ensures' =
+that=0D
+> > > the registration, its `PMContext`, and the payload do not outlive the=
+=0D
+> > > device. All that while `PMContext` holds a lifetime-annotated device =
+reference=0D
+> > > so that runtime PM requests are made only while the device remains bo=
+und.=0D
+> > > =0D
+> > > Drivers define runtime PM callbacks through the `PMOps` trait. The=0D
+> > > generated `dev_pm_ops` callbacks take the stored payload, pass owners=
+hip=0D
+> > > to the corresponding Rust callback, and store the returned payload fo=
+r=0D
+> > > the next invocation. Each callback must return a valid payload,=0D
+> > > regardless of whether the power transition succeeds or not.=0D
+> > > =0D
+> > > `PMContext` provides scoped helpers for common runtime PM operations:=
+=0D
+> > > =0D
+> > > - `ResumeScope` resumes the device for the lifetime of the scope.=0D
+> > > - `AwakeScope`  resumes the device and holds a runtime PM usage refer=
+ence.=0D
+> > > - `RetainScope` increments the runtime PM usage count without resumin=
+g the=0D
+> > >   		device.=0D
+> > > =0D
+> > > Each scope performs the corresponding inverse operation when dropped,=
+=0D
+> > > according to the selected driver-defined profile.=0D
+> > > =0D
+> > > The abstraction does not change the semantics of the C runtime PM API=
+.=0D
+> > > Asynchronous requests may only queue work, non-waiting requests may f=
+ail=0D
+> > > instead of sleeping, and callbacks remain subject to the existing dri=
+ver=0D
+> > > core rules.=0D
+> > > =0D
+> > > The current implementation requires the PM registration and `PMOps`=0D
+> > > implementation to use the same type because callback dispatch interpr=
+ets=0D
+> > > the stored registration data using that relationship. This requiremen=
+t is=0D
+> > > not yet fully enforced by the type system.=0D
+> > > =0D
+> > > Signed-off-by: Beata Michalska <beata.michalska@arm.com>=0D
+> > > ---=0D
+> > >  drivers/base/base.h             |    3 +=0D
+> > >  rust/bindings/bindings_helper.h |    1 +=0D
+> > >  rust/helpers/helpers.c          |    1 +=0D
+> > >  rust/helpers/pm_runtime.c       |   44 ++=0D
+> > >  rust/kernel/lib.rs              |    1 +=0D
+> > >  rust/kernel/pm.rs               | 1020 +++++++++++++++++++++++++++++=
+++=0D
+> > >  6 files changed, 1070 insertions(+)=0D
+> > >  create mode 100644 rust/helpers/pm_runtime.c=0D
+> > >  create mode 100644 rust/kernel/pm.rs=0D
+> > > =0D
+> > > diff --git a/drivers/base/base.h b/drivers/base/base.h=0D
+> > > index a19f4cda2c83..c49303e4a86a 100644=0D
+> > > --- a/drivers/base/base.h=0D
+> > > +++ b/drivers/base/base.h=0D
+> > > @@ -119,6 +119,9 @@ struct device_private {=0D
+> > >  	const struct device_driver *async_driver;=0D
+> > >  	char *deferred_probe_reason;=0D
+> > >  	struct device *device;=0D
+> > > +#ifdef CONFIG_RUST=0D
+> > > +	void *rust_private;=0D
+> > > +#endif=0D
+> > >  	u8 dead:1;=0D
+> > >  };=0D
+> > >  #define to_device_private_parent(obj)	\=0D
+> > > diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings=
+_helper.h=0D
+> > > index 1124785e210b..78a9153c6a01 100644=0D
+> > > --- a/rust/bindings/bindings_helper.h=0D
+> > > +++ b/rust/bindings/bindings_helper.h=0D
+> > > @@ -77,6 +77,7 @@=0D
+> > >  #include <linux/pid_namespace.h>=0D
+> > >  #include <linux/platform_device.h>=0D
+> > >  #include <linux/pm_opp.h>=0D
+> > > +#include <linux/pm_runtime.h>=0D
+> > >  #include <linux/poll.h>=0D
+> > >  #include <linux/property.h>=0D
+> > >  #include <linux/pwm.h>=0D
+> > > diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c=0D
+> > > index 4488a87223b9..14d93a5d8b1f 100644=0D
+> > > --- a/rust/helpers/helpers.c=0D
+> > > +++ b/rust/helpers/helpers.c=0D
+> > > @@ -76,6 +76,7 @@=0D
+> > >  #include "pci.c"=0D
+> > >  #include "pid_namespace.c"=0D
+> > >  #include "platform.c"=0D
+> > > +#include "pm_runtime.c"=0D
+> > >  #include "poll.c"=0D
+> > >  #include "processor.c"=0D
+> > >  #include "property.c"=0D
+> > > diff --git a/rust/helpers/pm_runtime.c b/rust/helpers/pm_runtime.c=0D
+> > > new file mode 100644=0D
+> > > index 000000000000..d0d71fcb0097=0D
+> > > --- /dev/null=0D
+> > > +++ b/rust/helpers/pm_runtime.c=0D
+> > > @@ -0,0 +1,44 @@=0D
+> > > +// SPDX-License-Identifier: GPL-2.0=0D
+> > > +=0D
+> > > +#include <linux/pm_runtime.h>=0D
+> > > +=0D
+> > > +__rust_helper void rust_helper_pm_runtime_get_noresume(struct device=
+ *dev)=0D
+> > > +{=0D
+> > > +	pm_runtime_get_noresume(dev);=0D
+> > > +}=0D
+> > > +=0D
+> > > +__rust_helper void rust_helper_pm_runtime_put_noidle(struct device *=
+dev)=0D
+> > > +{=0D
+> > > +	pm_runtime_put_noidle(dev);=0D
+> > > +}=0D
+> > > +=0D
+> > > +__rust_helper void rust_helper_pm_runtime_mark_last_busy(struct devi=
+ce *dev)=0D
+> > > +{=0D
+> > > +	pm_runtime_mark_last_busy(dev) ;=0D
+> > > +}=0D
+> > > +=0D
+> > > +__rust_helper bool rust_helper_pm_runtime_active(struct device *dev)=
+=0D
+> > > +{=0D
+> > > +	return pm_runtime_active(dev);=0D
+=0D
+[...]=0D
+=0D
+> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
+> > > +        unsafe {=0D
+> > > +            bindings::pm_runtime_mark_last_busy(dev.as_raw());=0D
+> > > +        }=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn suspend(dev: &device::Device<device::Bound>, mode: Mode) -> R=
+esult {=0D
+> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
+> > > +        // `struct device` for the duration of the call.=0D
+> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
+> > > +        to_result(unsafe { bindings::__pm_runtime_suspend(dev.as_raw=
+(), mode.into()) })=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn get_if_active(dev: &device::Device<device::Bound>) -> Result =
+{=0D
+> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
+> > > +        // `struct device` for the duration of the call.=0D
+> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
+> > > +        match unsafe { bindings::pm_runtime_get_if_active(dev.as_raw=
+()) } {=0D
+> > > +            ret if ret < 0 =3D> Err(Error::from_errno(ret)),=0D
+> > > +            0 =3D> Err(EAGAIN),=0D
+> > > +            _ =3D> Ok(()),=0D
+> > > +        }=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn runtime_enable(dev: &device::Device<device::Bound>) {=0D
+> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
+> > > +        // `struct device` for the duration of the call.=0D
+> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
+> > > +        unsafe { bindings::pm_runtime_enable(dev.as_raw()) }=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn runtime_disable(dev: &device::Device<device::Bound>) {=0D
+> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
+> > > +        // `struct device` for the duration of the call.=0D
+> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
+> > > +        unsafe { bindings::__pm_runtime_disable(dev.as_raw(), true) =
+};=0D
+> > > +    }=0D
+> > =0D
+> > What happens when you call these twice i.e. runtime_enable() when it's =
+already=0D
+> > enabled or runtime_disable() when it's already disabled?=0D
+> > =0D
+> For pm_runtime_enable  - this will drop a warning.=0D
+> For pm_runtime_disable - the disable_depth counter will be increased. Thi=
+s=0D
+> implies that for every extra disable call - enable one needs to be issued=
+.=0D
+> All handled by PM core.=0D
+=0D
+I see. I was about to suggest typestate pattern here as we can easily avoid=
+=0D
+these issues, but if you want to rely on PM core that's also fine I guess.=
+=0D
+=0D
+> > > +}=0D
+> > > +=0D
+> > > +#[cfg(not(CONFIG_PM))]=0D
+> > > +impl Request {=0D
+> > > +    #[inline]=0D
+> > > +    fn active(dev: &device::Device<device::Bound>) -> bool {=0D
+> > > +        true=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn suspended(dev: &device::Device<device::Bound>) -> bool {=0D
+> > > +        false=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn resume(_dev: &device::Device<device::Bound>, _mode: Mode) -> =
+Result {=0D
+> > > +        Ok(())=0D
+> > > +    }=0D
+> > > +=0D
+> > > +    #[inline]=0D
+> > > +    fn idle(_dev: &device::Device<device::Bound>, _mode: Mode) -> Re=
+sult {=0D
+> > > +        Err(ENOSYS)=0D
+> > > +    }=0D
+> > > +=0D
+=0D
+[...]=0D
+=0D
+> > > +    /// Returns the runtime PM context associated with this registra=
+tion.=0D
+> > > +    pub fn ctx(&self) -> &PMContext<'a, T> {=0D
+> > > +        &self.ctx=0D
+> > > +    }=0D
+> > > +}=0D
+> > > +=0D
+> > > +impl<'a, T: PMOps> Drop for Registration<'a, T> {=0D
+> > > +    fn drop(&mut self) {=0D
+> > > +        // SAFETY: `self.ctx.inner.dev` is the device this registrat=
+ion was=0D
+> > > +        // created for. Runtime PM is disabled first, and `pm_runtim=
+e_barrier`=0D
+> > > +        // waits for pending runtime PM work/callbacks before the ca=
+llback data=0D
+> > > +        // is removed below.=0D
+> > > +=0D
+> > > +        unsafe {=0D
+> > > +            bindings::__pm_runtime_disable(self.ctx.inner.dev.as_raw=
+(), true);=0D
+> > =0D
+> > Same here, is this safe to call even if it's not enabled? Registration =
+can drop=0D
+> > even when pm runtime is not enabled, right?=0D
+> True but that again is handled by PM core.=0D
+=0D
+You should at least document that.=0D
+=0D
+> > =0D
+> > > +            bindings::pm_runtime_barrier(self.ctx.inner.dev.as_raw()=
+);=0D
+> > > +        }=0D
+> > =0D
+> > You should not combine multiple unsafe calls in single unsafe block I t=
+hink.=0D
+> Why?=0D
+=0D
+To keep the scope of each unsafe block as small as possible.=0D
+=0D
+> Do not see much point in separating those.=0D
+> =0D
+> ---=0D
+> BR=0D
+> Beata=0D
+> > =0D
+> > > +        // SAFETY: The pointer, if non-null, was stored by `Registra=
+tion::new`=0D
+> > > +        // using `Pin<KBox<RegistrationData<T>>>::into_foreign`. Run=
+time PM has=0D
+> > > +        // been disabled and drained above, so generated callbacks c=
+an no longer=0D
+> > > +        // borrow this data. Clearing `rust_private` prevents later =
+lookup, and=0D
+> > > +        // `from_foreign` reconstructs the owning allocation so it i=
+s dropped.=0D
+> > > +        unsafe {=0D
+> > > +            let ptr =3D (*(*self.ctx.inner.dev.as_raw()).p).rust_pri=
+vate;=0D
+> > > +=0D
+> > > +            if !ptr.is_null() {=0D
+> > > +                (*(*self.ctx.inner.dev.as_raw()).p).rust_private =3D=
+ core::ptr::null_mut();=0D
+> > > +                Pin::<KBox<RegistrationData<'_, T>>>::from_foreign(p=
+tr);=0D
+> > > +            }=0D
+> > > +        }=0D
+> > > +    }=0D
+> > > +}=0D
+> > > -- =0D
+> > > 2.43.0=0D
+> > > =0D
