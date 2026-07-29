@@ -1,154 +1,183 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E593CA497
-	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 18:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B4B456297;
+	Wed, 29 Jul 2026 19:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785349497; cv=none; b=NvkvqJZ+uvPEhpOTag0bWj+1j9cMnEKC3T4zNusPpiBY/GfsHgeoP41ZbKEnAQRpVfsj7ujqDnsd6N8ybWuJ9Z+Vbt6UkRYfBKYgs7SzizrxGGSUI66z3KCw1nD0k0HlNDHNf8Oa5bAq12oficKsmgvQ2+fNeS3dpuvxZ8VOPZE=
+	t=1785353300; cv=none; b=sVToAoafxOCBkkuYPG/Mcj7v17WckIQlIgYhySwvKoP14/qw0bmCw0HH5GzFHkRw2tU4MbzNDo7IW0RyzDquaAZhihaJJOgy2iCQMK1ZxSMySIdEZFLEJPUlF7zz5K/wiDhtxGcq0G23YxOpkJxongp2gLjMe9D4oxuJ+UeJahc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785349497; c=relaxed/simple;
-	bh=zTNi7xN0VsEGLO29yAIGRQnfnEVLmxUXYOvil0odhJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BmSdqNvjX+fGAU/J+HOgmjd/H5M22soeXfLcTK2M12elsU6htsIQytzxVLscrIe4+Z8A3exbxxCX4V66GHSP6VzVgKC0AHB3VEDayCOvEZDuiDi1wHQo8FbAp9sh1uUq5iVcTDkwVBv+A2KU3CDijcaxq7MmfP15pURdpEQVOn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=By83TXjn; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785353300; c=relaxed/simple;
+	bh=8ImxKQKuYw5sw1oUP9bkTp8XSTLsuH8+8VjuAe+A//w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=FxdpdlBo8jCef6mzpfszfeExQZnOxqutipYLDCmUYKg+yrvwxg9kZXK5IRo6ZSOK0T3b71bBEUfn8z1sAfy8m2FagdGnOw3BflKU//ltdQf+OtepVT7maBybYSCIzpL8YwnMQG7CkiveRBESLscFvZe7neqJb1xXUo59Vt++2U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRXtw6tS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="By83TXjn"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ce7d2adef4so19358185ad.3
-        for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 11:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785349492; x=1785954292; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=nWyzhX8fQoAGYKV2tJCLm4P0gv3V6AUTTFTMKZQoknQ=;
-        b=By83TXjngjbP/yWzc/eKRIGsEEmzv/Zig1+JrDG+GNmOSCTTn+XFkA47R0fv64oG4r
-         CxGWM4QQRh32NNN0cj+347eWlT/IESwhz1+XNv6zQMJc7+pMf2JAVC3Q6jjZHSSDjL72
-         ZEv0eMsP/yHFhQou7RJ7MXf87bIRLnTq95kU3vmRTa7she9Xzf7abANk4pRPFw40JGsW
-         Bu1I0N/E3UB8EUYvs9xhIOpwmJKk+WnSFenDAGKaWgrvnf3OcxoG6kQAXkT0MpBlgv8p
-         obZ9Q2oVgCRV0OFg3qvi44rH4qiaech7LxiVc0Ju3tAGORdPtCshEmuc7WRbCue2b2DU
-         /lHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785349492; x=1785954292;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nWyzhX8fQoAGYKV2tJCLm4P0gv3V6AUTTFTMKZQoknQ=;
-        b=DYcQSDhOfw/943qvdIqBL9WI6NZ9V2X+1XQjeAgIiptzSkIQY8JAr+NIasAqGGw4iU
-         PvLXdfeKM920t1es09kGsV6SA02HKci9axeu+5Yb0WUZH9cj9QWyRjA+Db0i4+nytY7l
-         QljFLC1hSEvwjAbW2UIGjOFyKZTr+Ms2Pf2KB9+pFLecg6wp2DBLYqUBmMXu+Y+L09lV
-         I66Ykag0gZci6S1nbBR4vGNGRFLRGD7kxGk3fdtguPjLaisMFq/F5qG5aaKaLY9AyHuk
-         TwA4/w3O8xGc/kaDMfoB0IpWw1ezApnEzmBJe/1Eksti8dkDvmaI6CPd/eR909jPq7s9
-         LtAw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp1VuwotYJmFzP08mBLnuHuIyGCjstiMbVlyEvR+XH40kL7lImNPAnMQVFk2iRw6iosrKwThGqh8KC9vA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYToUkVJkb7ffAlhhbhMirNFAWu+p9HwtHK8xoYoL2Bpchg3VC
-	mZhUysSli+w97k7SbVQd5M59B5QgbKiWOmbA+RKGdC4eLhM3J/FyGx76
-X-Gm-Gg: AR+sD11lPvSX6a6Nj18opFjb6cs3YLt4+d0YfvW3wv94jsaiZcYaCPpfTlo3+PM0yzo
-	5vPEZuGAqilAiOLEg4MQ4cbkpMxun9ThyYBvq2T9yS8cCAuh+GWoENBpAY8QoCfdFyY7E2zTecU
-	KOHnq8dNSO8IeMEugYoYLT7i7NyUI7WYuCezb9KkGOnL+xywk2bmYSQ8PmMnYbQKNgg2UiCuhyA
-	amCDteZIMOOrpM3SAj3d8VMydTpEc69yWzP6PArCdh8lm8tCJiQlUy3SXz65w1T5rIFyF2wehZd
-	+Qs79E/N6yhZl2KFKzT7dLv6UBxwn/Ex581UrnWk/YTAiP4oIDhtHJ/OCS8K673YRp5hu+iiyYe
-	hse117Zg838ZM/Kya3uRWf19jqpJ/iizrX8y3z4VRlQ1hVHcmXWYJ68taOkmQ2Y1EDlVZvTzf3v
-	8d3fc7aX/Aq/SSv3huSXkPQ8tX2WnYtX7i4VULrqJo3ETWEr3gA8/kXOz5JzY2ESfMMkw3kxdE6
-	S2/aZ5I3vhr6T4xDE8mFg+CUqitXw==
-X-Received: by 2002:a05:6a21:7014:b0:3c3:ab31:3d1e with SMTP id adf61e73a8af0-3c8ba615352mr8727032637.56.1785349492297;
-        Wed, 29 Jul 2026 11:24:52 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:3062:3727:f62a:314c])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e7265547bsm10684490c88.7.2026.07.29.11.24.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 11:24:51 -0700 (PDT)
-Date: Wed, 29 Jul 2026 11:24:48 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] driver core: introduce PROBE_FORCE_ASYNCHRONOUS
-Message-ID: <ampBe9RgNYpvTENJ@google.com>
-References: <ambsuv_6mCK8U9IP@google.com>
- <2026072729-driller-leggings-e530@gregkh>
- <ambyXEGt8-f44dJD@google.com>
- <2026072717-amicably-tray-4a8b@gregkh>
- <ammQvUcOF4S_VrgO@google.com>
- <2026072921-approve-halves-6f4c@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRXtw6tS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3292A1F000E9;
+	Wed, 29 Jul 2026 19:28:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785353287;
+	bh=4R/0n+N4ulmB6HFZBWN2atbMsZoR5KA7qt0R9Wi8aQY=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=dRXtw6tStg1MZ/KeEAAJu3mjRuTvmyqH/7b1K78OvAkXMNWtRjfTJTPJ9MA6dD3Qx
+	 I6TvbmMxkSK2nmERJTC/FhDkn3BZsPJwh2KTT4FX4loX0jINNzP4Q2mBJyFXaPJZ9V
+	 liz2QQtK5MrEePIFbIE74S7BAwu8j2e0oOfVn3WHt6zNFM7S1b3bUR7mf1eVbyqnKA
+	 m66DrWmjAXM7hsA59hVLqBBrtFqfxlVp1SMwMj/tmuVSHsBqm6Oyqj2S0yxcaS/Qps
+	 CxobFI9nr3txmUlDx8JCeONUXajcBW7n1V1DZjei2PpIyz6U9Gf9btpBYymG5mhiNq
+	 P15efMzPuJASw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026072921-approve-halves-6f4c@gregkh>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Jul 2026 21:28:01 +0200
+Message-Id: <DKBAX2P3POG1.3CVTICXR9RYHS@kernel.org>
+Subject: Re: [PATCH 08/10] gpu: nova-core: use projection for PFALCON and
+ PFALCON2 registers
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260721-typed_register-v1-0-452d72b60262@garyguo.net>
+ <20260721-typed_register-v1-8-452d72b60262@garyguo.net>
+ <DKA02Y5RE1YJ.2FGI97Z60X96R@nvidia.com>
+ <DKA4Q5QUBUXM.1K6QS2QPXT12H@garyguo.net>
+ <DKAASRCK3M06.G9XODK0T5AAK@nvidia.com>
+ <DKAD64Q7CEQD.Z15OS6MRHEKE@kernel.org>
+ <DKAEZ4LDA10F.1RFA9JKBGY2CF@garyguo.net>
+ <DKAFMD8X5LFP.UPKPHK5FYZPH@kernel.org>
+ <DKAFRETW93IW.SXUWFVB47V3B@garyguo.net>
+ <DKAH4S5IE3RZ.10VD33NMVVLDR@kernel.org>
+ <DKAZD90KWY0L.2E1289J71UF8Z@garyguo.net>
+In-Reply-To: <DKAZD90KWY0L.2E1289J71UF8Z@garyguo.net>
 
-On Wed, Jul 29, 2026 at 10:49:16AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jul 28, 2026 at 10:40:29PM -0700, Dmitry Torokhov wrote:
-> > On Mon, Jul 27, 2026 at 08:25:51AM +0200, Greg Kroah-Hartman wrote:
-> > > On Sun, Jul 26, 2026 at 10:54:54PM -0700, Dmitry Torokhov wrote:
-> > > > On Mon, Jul 27, 2026 at 07:40:57AM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Sun, Jul 26, 2026 at 10:31:41PM -0700, Dmitry Torokhov wrote:
-> > > > > > Add PROBE_FORCE_ASYNCHRONOUS probe type enum and update
-> > > > > > driver_allows_async_probing() to allow asynchronous probing for drivers
-> > > > > > marked with this type.
-> > > > > > 
-> > > > > > While PROBE_PREFER_ASYNCHRONOUS exists, it represents a temporary opt-in
-> > > > > > preference. Subsystems that require asynchronous probing (such as slow
-> > > > > > legacy buses) need a dedicated probe type to guarantee asynchronous
-> > > > > > execution.
-> > > > > > 
-> > > > > > Assisted-by: Antigravity:gemini-3.5-flash
-> > > > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > > > ---
-> > > > > > 
-> > > > > > I am planning to rework serio and gameport subsystems to rely on
-> > > > > > asynchronous probing instead of rolling their own implementations.
-> > > > > 
-> > > > > What do you mean?  Why doesn't the PROBE_PREFER_ASYNCHRONOUS work for
-> > > > > you for those subsystems?
-> > > > 
-> > > > It shows the intent. It is not "preference" anymore, it is a "must". If
-> > > > we ever introduce switch to make probing synchronous for some reason it
-> > > > should not affect drivers that must be probed asynchronously.
-> > > 
-> > > I'm sorry, but I don't understand.
-> > 
-> > PROBE_PREFER_ASYNCHRONOUS says that the driver prefers to be probe
-> > asynchronously but it can also be probed synchronously if needed.
-> > 
-> > PROBE_FORCE_ASYNCHRONOUS indicates that the driver *must* be probed
-> > asynchronously, or the kernel will break.
-> > 
-> > Currently there is no difference in behavior, but it documents the
-> > intent.
-> > 
-> > > And as there's no users for this, we
-> > > really can't take it until we see those users at the same time :)
-> > 
-> > I am planning to use it in serio and gameport bus implementations that
-> > currently roll their own asynchronous registration which is quite ugly.
-> > Because we have nested serio ports probing *must* be done asynchronously
-> > or it will deadlock.
-> > 
-> > I would like to merge the new constant early so that I do not have
-> > dependency when I am ready to merge input changes.
-> > 
-> > Below is how it will look like (just a small part of a WIP series).
-> 
-> Ok, this makes sense, but you need to also add documentation for this
-> new value to the comment block right above where you defined it :)
-> 
-> 
-> Wait, in looking at the tree, I don't see how this differs from
-> "prefer".  I don't see how "prefer" can be overloaded to NOT do async
-> probing.  Am I just missing the logic somewhere?
+On Wed Jul 29, 2026 at 12:24 PM CEST, Gary Guo wrote:
+> On Tue Jul 28, 2026 at 9:07 PM BST, Danilo Krummrich wrote:
+>> On Tue Jul 28, 2026 at 9:03 PM CEST, Gary Guo wrote:
+>>> On Tue Jul 28, 2026 at 7:56 PM BST, Danilo Krummrich wrote:
+>>>> On Tue Jul 28, 2026 at 8:26 PM CEST, Gary Guo wrote:
+>>>>> On Tue Jul 28, 2026 at 6:01 PM BST, Danilo Krummrich wrote:
+>>>>>> I may have a slight preference for a separate subregion() variant fo=
+r the
+>>>>>> purpose of working around generic_const_exprs, as it probably is a b=
+it closer to
+>>>>>> the final solution, but trait methods are fine with me too.
+>>>>>
+>>>>> I am not sure that's the final solution that I want. I want arg-posit=
+ion
+>>>>> const-generics which would syntactically look more similar to `build_=
+assert!`.
+>>>>
+>>>> arg-position const generics would be great, but that's just a syntax d=
+ifference
+>>>> and not related to supporting expressions involving const generics?
+>>>>
+>>>> In any case, I think my point about being closer to the final solution=
+ holds
+>>>> regardless.
+>>>>
+>>>>> Personally I think most issues with `build_assert!` can be fixed by h=
+aving
+>>>>> lints, which is on my radar.
+>>>>
+>>>> I think it can be improved, but in the end it relies on compiler optim=
+ization
+>>>> that may or may not happen as expected.
+>>>
+>>> It'd be a compiler bug if const folding is expected to happen, the whol=
+e
+>>> BUILD_BUG_ON depends on it working.
+>>>
+>>> `build_assert!` is a useful tool that I'm not giving up. If there is a =
+need to
+>>> use it, then I'd use it compared to having two variants to do the same =
+thing
+>>> with different syntax.
+>>
+>> It is indeed useful and I don't want to give up on it either.
+>>
+>> But, it is more fragile than const evaluation, so we should only use it =
+where
+>> const evaluation is not sufficient.
+>>
+>> In the case we are discussing the problem is that const expressions invo=
+lving
+>> const generics are not yet supported, but in general it should be.
+>>
+>> This is different compared to e.g. read() where the syntax difference wo=
+uld
+>> actually hurt and const generics would limit flexibility, where we actua=
+lly rely
+>> on the compiler to eliminate unreachable code paths regardless of a valu=
+e being
+>> known at runtime only.
+>
+> The offset for `subregion` is no different to the offset for `read()`. In=
+ both
+> cases you are supposed to only supply build-time const values; and in bot=
+h cases
+> you can argue they are needed there due to const generics being too limit=
+ed to
+> what they do.
 
-As I mentioned, the current behavior for "prefer" and "force" is the
-same. It is more about documenting expectations/requirements than
-behavior of the current implementation.
+I see where you are coming from, but I see it from a different angle:
 
-Thanks.
+An offset given to read() can legitimately be a runtime value that happens =
+to be
+constrained in a way that the compiler can proof that it is within bounds (=
+with
+dead code elimination doing the rest). We have reasonable use-cases where t=
+he
+offset given to read() is not a "true" constant, and hence build_assert! is=
+ the
+correct tool.
 
--- 
-Dmitry
+subregion() is different in this regard, as we do not have reasonable use-c=
+ases
+where the offset is not a "true" constant. (And I would guess that this als=
+o
+made you choose the implementation you picked for this patch.)
+
+It just happens that we hit a language limitation where const evaluation of=
+ a
+"true" constant does not work, but that does not make build time assertion =
+the
+correct tool, it just makes it a workaround for the existing limitation.
+
+This is also in line with the documentation in rust/kernel/build_assert.rs.
+
+> We probably could even just add a method that gives you a subregion based=
+ on
+> `IoLoc` similar to other methods. This actually might be a good idea that=
+ I'd
+> pursue in next version.
+
+So, you are proposing that subregion() takes an argument of type
+L: impl IoLoc<_>?
+
+Where would this argument come from?
+
+I assume you would need to bring back
+
+	impl RegisterBase<Foo> for Bar {
+	    const BASE: usize =3D 0xff;
+	}
+
+impl blocks? Which seems like just adding boilerplate? Or do you have somet=
+hing
+else in mind?
