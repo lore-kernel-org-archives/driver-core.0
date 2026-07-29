@@ -1,376 +1,204 @@
-Received: from mail-244107.protonmail.ch (mail-244107.protonmail.ch [109.224.244.107])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013048.outbound.protection.outlook.com [40.93.201.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16884921B7
-	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 13:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.107
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785333530; cv=none; b=gy759wK6oGP/ocSCbZHpAJokwMTzMFa1JUINLuiHVZMevF/tM8dMRHBlHe8la5tlFn/743e6cUww+IixGBWPzhrxdymYl+mhhC/NN2JmP6b6q4+Aa+cRXuN+osIdZ1ML0G7r/A7YEzeSi9OYMkL8sQn4pA8oeNxALRev03wFYQs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785333530; c=relaxed/simple;
-	bh=7agwiNjT2Zbo4oK3OhnP10yj1z22bzUitQFouWfo0V8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wn1N0qt4Ehh4wzwU8cV35/QImdzhE1BOvar8nYDlUe4wrPVXSodzqu+of2S4Wg6SMJUo8nb55LWZAng5dcDNoVSXuksKx3ZyiWRFO7CHQOhhAvEJRtdy7Q4oTVMbZu0MUA3W2gxcuevvdGVm5HexVNIRE9w6aSa+hOp+XjjAw3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=tGN0snve; arc=none smtp.client-ip=109.224.244.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA6A4C0420;
+	Wed, 29 Jul 2026 16:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785343093; cv=fail; b=pPpCxdtxD1fFNVLsKJk2Fxd7997X9Tzpr8FGNMK5ky4jnktzVgAMBLnBkhWlQA5vUDXhworuRrqLWMEChkAU2BVFTX11vScbICIdAbmjQIDIXrzf+BxzdTSLvRCm0kli1EHzo0WDm5iyAd7uF80oJB6BpczOUB5H530vbxtlpq8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785343093; c=relaxed/simple;
+	bh=DGD5m2b1c1wq+B8mS1E9Jv+m5xSsABtfYtRsMlTJMxk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=huH5C1Ag1O3FNpKX2m+czCGzpDuuAjrqNYEAj9OVm6woPhT826uiaPvZOF7aiKr7req0HxBBmQrWNvsgLBhtYNQQi9mDWsUlOC752xdhan1shNqHc1Z0KOJxoYpx64oCPP+SVtQAL1gjIoTZEym+zs/zoZWQ5rxmdA2tKBdBMrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ny3nxO4k; arc=fail smtp.client-ip=40.93.201.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="tGN0snve"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=protonmail; t=1785333514; x=1785592714;
-	bh=iRZrXScmBt7Xn5PKV2idbmZkaUeVgRzFQGtp98fuQIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=tGN0snvepjHoyjKDELlbEe8O1GEUoghn2xmz5ljBPwvx53Cn+b+F3+wbkdRyywu/T
-	 aEcu5WNnBn9KZQfVmsqhFJ146kz8Wx+j32CVy3x6R33dKPDjIgorEA718f7+xEE1RC
-	 W/WwpHfH5TrDabjmT8LR6844hH3G3v8mTWJ0CzGexpgg18DekLszfAN02zY8wUvxQ8
-	 ATUReAotU7rPVFRZDCqSmssKQnrd2NHHoW5o5UaxcDbncU17lYOx9L7K1h6g0lG2Ou
-	 M/q9i5j5GpZEby6ZXctiXW8kGlMcEMIyjRk53piATPlVF6PTlffsgpH8BK1EAXRT8a
-	 MPH1Os3Mlbg2g==
-X-Pm-Submission-Id: 4h9DSm0stMz1DFF2
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: Beata Michalska <beata.michalska@arm.com>
-Cc: ojeda@kernel.org,
-	dakr@kernel.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	boris.brezillon@collabora.com,
-	samitolvanen@google.com,
-	rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] rust: add runtime PM support
-Date: Wed, 29 Jul 2026 16:58:28 +0300
-Message-ID: <20260729135830.412048-1-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <amnCwIMj5dIJevfk@arm.com>
-References: <20260721153617.869933-1-beata.michalska@arm.com> <20260721153617.869933-2-beata.michalska@arm.com> <20260727145622.904965-1-work@onurozkan.dev> <amnCwIMj5dIJevfk@arm.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ny3nxO4k"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=itsg28T5KG3dtJDvoUJDOD0ZVYti6Y6UzoAuxuucPRKr2VdcqASXGOCE+fu+T22/VCs8Tm3vZVt2z+BIuEYV33j1Otq4MVSbytMldeQVrvd21psMHmufJAqQz54MHb7OrnC37/Lg/oaRXNTVoEl5Qk/Aq4BXYrQCXF2mUzjeVbFGq4MphXsCEIrY/c63B0Z2hr/we0c/sgJc+DUH9nwacRN16JEfRjJ6m0fJrf6Qi4M4HlCBooaUeh452/16Jn1cvM2WRycNerQ+J5TWzvuJPCBQEciV8x5d4wy84/4FYR5SgrMo9FyrT02XgWOYkv2+rL3bCgE9OjrY0NWNDXPOdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DGD5m2b1c1wq+B8mS1E9Jv+m5xSsABtfYtRsMlTJMxk=;
+ b=XmNd/r8MK2U1VrxtV+gq8qw7zJYHFdb+mFYCgrRC+JmiL5BqrhvIGzK1K6p2oGCG6hNQN8dnFUpsPdjiBWoA8P1/MtfAxgcy5l14KJAS3WOmiZ7Tv/KZpFyUCpDDxdqvCbR3exDscsRbtFU11Sfj5/RCmzEoLP7v40mt9PCew4lw1bNod/FR1Ahit+Vw8bTVnMVyUkmFw40hmTsw6zIBRd6688zt5vPlZ26x+FaTmmBZdqV8pa+JQW0KllqZ6YPUOictvTob/uFBY9bILHeLCwtgr7btmAO8n0ne0YcJdx33TnCA9LFPepUGl31UzEjPvOCym9UJvIP+Ir8kj0Hhjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DGD5m2b1c1wq+B8mS1E9Jv+m5xSsABtfYtRsMlTJMxk=;
+ b=ny3nxO4kXeezjkNyO883xKBHOczsFuyVMj3nNS2R+iMaPN41xi31VfmRCN1BnajYy9Dcf256chQdW8Tf7WD/EN9AlBbEVZnzoQxOznN8mHI7OTe+NQsYUyYpdN54rBMIuyE/tw1E17jQsEt24JMKaod4xAiHSLB3Ep37Jy4+xdy526czloV4yngIN1/THUei4X6HtsCVIQmqhjbKWJ68+Ih+fe45Aw3i4/UhSEFumgBpZsCqJuyiQ+CyGyKprhm6nmnCX95A57sk1Et2WlMrxM8Ud6gUFD7OFPCt05+5aGxFkVYXzfP61Q2fQDfN4n0CewOeGhjjUVdqLeoX6hFhxw==
+Received: from MN6PR12MB8568.namprd12.prod.outlook.com (2603:10b6:208:471::19)
+ by LV8PR12MB9619.namprd12.prod.outlook.com (2603:10b6:408:2a1::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Wed, 29 Jul
+ 2026 16:37:57 +0000
+Received: from MN6PR12MB8568.namprd12.prod.outlook.com
+ ([fe80::f13:fa29:e7b3:4d3a]) by MN6PR12MB8568.namprd12.prod.outlook.com
+ ([fe80::f13:fa29:e7b3:4d3a%5]) with mapi id 15.21.0270.012; Wed, 29 Jul 2026
+ 16:37:57 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+CC: Zhi Wang <zhiw@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+	"gary@garyguo.net" <gary@garyguo.net>, "rust-for-linux@vger.kernel.org"
+	<rust-for-linux@vger.kernel.org>, "nova-gpu@lists.linux.dev"
+	<nova-gpu@lists.linux.dev>, Eliot Courtney <ecourtney@nvidia.com>,
+	"russ.weight@linux.dev" <russ.weight@linux.dev>, "mcgrof@kernel.org"
+	<mcgrof@kernel.org>, "dakr@kernel.org" <dakr@kernel.org>, "ojeda@kernel.org"
+	<ojeda@kernel.org>, "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>
+Subject: Re: [PATCH v5 3/8] gpu: nova-core: add TLV parser for firmware files
+Thread-Topic: [PATCH v5 3/8] gpu: nova-core: add TLV parser for firmware files
+Thread-Index: AQHdEMCQ2jhut/KpAUikVCB3QFh3IbaBVU6AgAN6aAA=
+Date: Wed, 29 Jul 2026 16:37:57 +0000
+Message-ID: <ba791aaea02d5caf9254278e170b9deae5305e6b.camel@nvidia.com>
+References: <20260710230428.865447-1-ttabi@nvidia.com>
+	 <20260710230428.865447-4-ttabi@nvidia.com>
+	 <DK9BISU6MPAY.EK5385QYWU90@nvidia.com>
+In-Reply-To: <DK9BISU6MPAY.EK5385QYWU90@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.56.2-9 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN6PR12MB8568:EE_|LV8PR12MB9619:EE_
+x-ms-office365-filtering-correlation-id: bbd1189a-615e-4ee7-0ca5-08deed8fbf0c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|376014|10070799003|366016|1800799024|38070700021|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ 9Hc/rtiFk8dE3sLivmrdf/V2zr8P6leFwaVgBeJB2PpzomovQHgtEDNvTbbuo5vgW9stCzvuCvtinIK7Hac+CkIA9y0Xp9BIUChF8A0u3jWrcZMBRHMPxA5Y5ZeCidVQA/jPHc7TpblkVsOpCwyqdA5/vrZ0497JxZVDAVNFDxPzH/iesJuDkrYhPUlB9i5H/84B5dTvV3LZEkLMTUnkP1PY0nn22cIZMBPnuRRD/3hhZoQPmpUbKZQs3LZpuehMlJZ6ZSFYmjY3z63Xa0iAZxW69/L68ZMzofCMcuaBua4pY3u007ZmAW1e1/8CsoI1zhWQ22YWziKYgwuQ31zwKpYY/kAmdIoFdY9BO4tsPVTF6EqmAMEmhIt1GQx7pq6NZfDtlpq6crf+APGuiYEi8dQ0xwhgnleL9x+iXQ0GTxQcqnfCfBQWK8DR4ImjhIj8o2VEgPxFFzz0eqqfTINNfzZDS6gbZI+guklQyxHcp74fC2HPPbDIvQXYEG1klBOs/aUeNRGau23QGfkFtDmhwip5Ac2QebkXN4d5Y89zqfU84HzQ2gmye1Gu/wIpMXoUPFLBM7Ok/AhG56xn5g9/g6TMnKhYFdU9rp9P9Unlj4TtA8FVu7kWmrkrv2uE8HnPToll3TGKBcbCuN0YRDrs1qeCCfFH4KI9KzS1EWT4YyGbakcdm+ZnWE0Q5Pu79K1uJqgu13rJpi+Lx0MnAEFUX9N1nZWyT0KGcYgZhM/CfwQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR12MB8568.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(10070799003)(366016)(1800799024)(38070700021)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?TGovZGRnTzhNRGRvK0l5OTFZS1gyemk0NmJ4K0RFZDhjYkdKelpkOHF0WnZw?=
+ =?utf-8?B?YmhoNXI0VHJEdWZiMkdtSWIvS1M1UkZmSDJHQjExYlFZeVZEcmxzdlhDTUsv?=
+ =?utf-8?B?OE5maEQzc3JqdE4ySVhEOWtQWUZtalp0TFRPeXdBa3BRME9Mc1BGZGtsUU5j?=
+ =?utf-8?B?M0tGbEVBOU16cDM2cmc0aWY5akxJSk50OVYyTzVOc2U1L01hK3pZZHNHbFk4?=
+ =?utf-8?B?RmhNbS8zeXJmRjBKUG96U2pKNFVHSi9Yc09FNTNpRXQ5YlFWb0h3bjVGODJW?=
+ =?utf-8?B?cjJCc0ptV2YwM1d3YndkN3ZvUHp4a0Y1Ryt6SGNEVVhVZ2dtb1IvdmtMcXZQ?=
+ =?utf-8?B?L3ROd2ZFK0NFTDJZckRQMFA0MkozQ01HMTBoaHB6SDI5MER2dzJWL3lJMFd6?=
+ =?utf-8?B?U3N1ZE1zQlRwKzFIVWJ4NDllTE1Dc1lBVUxiSVIrd242akg0Q1IzMkJCM1V1?=
+ =?utf-8?B?MllPTm9HelhYSFFtSlhOekNMTllRSDFPQjM0QURTWVhkU3lYU3VJcTc3MnVY?=
+ =?utf-8?B?dllYanBKUVBIOE8xMjZaaVRjZTRFZXJNcFdnSVAwSCtEb0ZzWStzQUttaEpR?=
+ =?utf-8?B?UHVLbFdNb2tHSGtaUVF3K3lBdUNOZEZGa1gzMlV3K1VEM1IwbUVyRzI3NXZQ?=
+ =?utf-8?B?UHFEMW5pUkNOcUZtTnJXbDhUQ2NWT3plQXJ5VmI4MmhLZ3hzai9UQ3Z2WHlo?=
+ =?utf-8?B?TGU1RWtsdDYrVHZmQ01UTERKQ0VmTlBoSWFpRk5IL2ROMndwY0xNKzQxbmpl?=
+ =?utf-8?B?OVJRekRQODBWRGVHYlNvK3JvM2xobTVkRFdTN01YTEd1VDQ4MnI0MEJNUXdM?=
+ =?utf-8?B?VnlkSUVvRStyOUtzUDI2dy9ETWhnZnVDdk53ajh3SjVLTHFLejR2Uy93ZktS?=
+ =?utf-8?B?bVBhZDFrMk9MTWp5Mzd6aXBZSC84QnlrNDU5ejBTbzN0bEdrSjkxK093ZkhI?=
+ =?utf-8?B?YmwraUdRemZiUTZPc2RWYVBKVFJ4UTVtcEYwdGJSelJsdGw0bDVLQmVjQklp?=
+ =?utf-8?B?bmEzUGd3ZWpsS2dycTRGU0hrd3RncGxoekJTeHpSZjloWDdpQkpaYjh4enRz?=
+ =?utf-8?B?VDBBU2w1cEMrRFFUZUQvd1Z6aC9qeDdDQVhUNzdUU1dQQmk1eTRzcGo1bGwv?=
+ =?utf-8?B?ZzgvamMrWENaY3B2M01NcnRURkYzWkZOQmEyMUJwRVB6bGtoaGFBYVpFMGRC?=
+ =?utf-8?B?OXRJYzVzTURsYk5Ca3FybzhGdkcrZVhYbzhDdUcrc0JxNndObGIwVFBOaWpy?=
+ =?utf-8?B?LzNtU3Q1V2JYM2E3cWJxVGVyV1BOdUdnT1E0N3JRZXJaYVBIdEtldGlrL1BH?=
+ =?utf-8?B?R1NhdHJuTVhuVHN3K2VacTZJUksyS1V4QWo0RDRQVW9xQnpYcnEwWnNFeVpl?=
+ =?utf-8?B?b0hCR0tSRHdXZ0hobHlGM1RJWldJM0trczg4OExQZFFKWStkOEh5U1pqanhY?=
+ =?utf-8?B?LzJBMytWVUFFMjdtaXNCQWlXYWc0R0RrL3dWZTM0OUg4RUNqV1FkNldPcG5W?=
+ =?utf-8?B?OFlkeG51U1ljNUI5RVU1SHVuSk9CeXJOVk5ZYk1SUDczdjR5REgvc2dmWjJM?=
+ =?utf-8?B?VzZQYXJIdkVLTmdqQ0ZYVjA1NHMxb0hmWDIvWXdXdHF4UW5td0pXenc3QWFZ?=
+ =?utf-8?B?K0Z4YUltVnNvZzQ3b1pxbCtpY2djRHI5WTZMaFdBYytFSTdLVEFvYWNBMTV6?=
+ =?utf-8?B?dWU4cEVobFJURXhjR1hlUnY2Y0hTY2d3bWNnRXNKbXBIWC8yV0d0NlNDVmVN?=
+ =?utf-8?B?QzhCOWpQUms0N1E0dnNnRHpwcTAxaTRkOTc1WU5hSXJGKzVYdmVxcHkyRHpX?=
+ =?utf-8?B?cVNPcjFmQkYyWC84ZVpNNkw3ZS9xdHJWVFNFcEtoL3B3c2JOc3R0V0JXT3Bw?=
+ =?utf-8?B?bERCT1BiRFA1M0NCVVB3dWNSTCtxWU1mNmNBQlZDdWR1UDVUS0MxVHBWOWVC?=
+ =?utf-8?B?dWI2WklFbzlSWnJyNHFzZU9iWVpvS1pPMjUyZ0h2NXUwQnhOdHBKZzh0aVNq?=
+ =?utf-8?B?VHNlU1A4bXJ3Qk8zMjRQVytEb2FRbm04dUVYWHptYVFLQ0FiM3ZpejlPQVkx?=
+ =?utf-8?B?L3V1c3ZnbHdGV3pRYjRLYk1xVjgwS1RyVUhSTlpiTVhZajloQTEzNWJ3VFJH?=
+ =?utf-8?B?OG50QXNQd3kyOFZWYSs4R2VkcllRMkwvWDhsZzZrSFQrRDN3NkE3ZVpKZXds?=
+ =?utf-8?B?NVNwaTJibEVmcld3MjhndW4xZ3hUTTNGbzRXNVVnTHZpY1BQd2h5RlZrQkJj?=
+ =?utf-8?B?YlU4WmVrNWt1d0dLdW05dndqTnJXSVF5d0M4QTM2UG91YWpZd00zMnAxK3NN?=
+ =?utf-8?B?eC8rc3VrTXljM3NyRGU3MmE0NUFWWFA2a2k0VHFsVld4NEZzVWprb1RjUkVY?=
+ =?utf-8?Q?6sm2kd9yQN4SVRucFwJ1TZdvtUZJJm903OoCU9NIaVKPa?=
+x-ms-exchange-antispam-messagedata-1: VVZTmKUAD1nqAA==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <942F3AB883D4C040BA3A1B5CF6C45370@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR12MB8568.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbd1189a-615e-4ee7-0ca5-08deed8fbf0c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2026 16:37:57.4345
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4A1+vz85dhbmK5TvxSyiYLvxECzRwJcvgVBbctkYlZE0i7/8f3haBZXoaRx94eBGpB6Zg6jzHDU8GifecmURWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9619
 
-On Wed, 29 Jul 2026 11:07:12 +0200=0D
-Beata Michalska <beata.michalska@arm.com> wrote:=0D
-=0D
-> On Mon, Jul 27, 2026 at 05:56:20PM +0300, Onur =C3=96zkan wrote:=0D
-> > On Tue, 21 Jul 2026 17:34:02 +0200=0D
-> > Beata Michalska <beata.michalska@arm.com> wrote:=0D
-> > =0D
-> > > Add a Rust abstraction for Linux runtime PM, allowing Rust drivers to=
-=0D
-> > > register runtime PM callbacks and use scoped runtime PM requests whil=
-e=0D
-> > > retaining the behavior and guarantees of the underlying C PM core.=0D
-> > > =0D
-> > > Runtime PM is managed through a registration object tied to the devic=
-e=0D
-> > > lifetime. The registration stores the callback payload and 'ensures' =
-that=0D
-> > > the registration, its `PMContext`, and the payload do not outlive the=
-=0D
-> > > device. All that while `PMContext` holds a lifetime-annotated device =
-reference=0D
-> > > so that runtime PM requests are made only while the device remains bo=
-und.=0D
-> > > =0D
-> > > Drivers define runtime PM callbacks through the `PMOps` trait. The=0D
-> > > generated `dev_pm_ops` callbacks take the stored payload, pass owners=
-hip=0D
-> > > to the corresponding Rust callback, and store the returned payload fo=
-r=0D
-> > > the next invocation. Each callback must return a valid payload,=0D
-> > > regardless of whether the power transition succeeds or not.=0D
-> > > =0D
-> > > `PMContext` provides scoped helpers for common runtime PM operations:=
-=0D
-> > > =0D
-> > > - `ResumeScope` resumes the device for the lifetime of the scope.=0D
-> > > - `AwakeScope`  resumes the device and holds a runtime PM usage refer=
-ence.=0D
-> > > - `RetainScope` increments the runtime PM usage count without resumin=
-g the=0D
-> > >   		device.=0D
-> > > =0D
-> > > Each scope performs the corresponding inverse operation when dropped,=
-=0D
-> > > according to the selected driver-defined profile.=0D
-> > > =0D
-> > > The abstraction does not change the semantics of the C runtime PM API=
-.=0D
-> > > Asynchronous requests may only queue work, non-waiting requests may f=
-ail=0D
-> > > instead of sleeping, and callbacks remain subject to the existing dri=
-ver=0D
-> > > core rules.=0D
-> > > =0D
-> > > The current implementation requires the PM registration and `PMOps`=0D
-> > > implementation to use the same type because callback dispatch interpr=
-ets=0D
-> > > the stored registration data using that relationship. This requiremen=
-t is=0D
-> > > not yet fully enforced by the type system.=0D
-> > > =0D
-> > > Signed-off-by: Beata Michalska <beata.michalska@arm.com>=0D
-> > > ---=0D
-> > >  drivers/base/base.h             |    3 +=0D
-> > >  rust/bindings/bindings_helper.h |    1 +=0D
-> > >  rust/helpers/helpers.c          |    1 +=0D
-> > >  rust/helpers/pm_runtime.c       |   44 ++=0D
-> > >  rust/kernel/lib.rs              |    1 +=0D
-> > >  rust/kernel/pm.rs               | 1020 +++++++++++++++++++++++++++++=
-++=0D
-> > >  6 files changed, 1070 insertions(+)=0D
-> > >  create mode 100644 rust/helpers/pm_runtime.c=0D
-> > >  create mode 100644 rust/kernel/pm.rs=0D
-> > > =0D
-> > > diff --git a/drivers/base/base.h b/drivers/base/base.h=0D
-> > > index a19f4cda2c83..c49303e4a86a 100644=0D
-> > > --- a/drivers/base/base.h=0D
-> > > +++ b/drivers/base/base.h=0D
-> > > @@ -119,6 +119,9 @@ struct device_private {=0D
-> > >  	const struct device_driver *async_driver;=0D
-> > >  	char *deferred_probe_reason;=0D
-> > >  	struct device *device;=0D
-> > > +#ifdef CONFIG_RUST=0D
-> > > +	void *rust_private;=0D
-> > > +#endif=0D
-> > >  	u8 dead:1;=0D
-> > >  };=0D
-> > >  #define to_device_private_parent(obj)	\=0D
-> > > diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings=
-_helper.h=0D
-> > > index 1124785e210b..78a9153c6a01 100644=0D
-> > > --- a/rust/bindings/bindings_helper.h=0D
-> > > +++ b/rust/bindings/bindings_helper.h=0D
-> > > @@ -77,6 +77,7 @@=0D
-> > >  #include <linux/pid_namespace.h>=0D
-> > >  #include <linux/platform_device.h>=0D
-> > >  #include <linux/pm_opp.h>=0D
-> > > +#include <linux/pm_runtime.h>=0D
-> > >  #include <linux/poll.h>=0D
-> > >  #include <linux/property.h>=0D
-> > >  #include <linux/pwm.h>=0D
-> > > diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c=0D
-> > > index 4488a87223b9..14d93a5d8b1f 100644=0D
-> > > --- a/rust/helpers/helpers.c=0D
-> > > +++ b/rust/helpers/helpers.c=0D
-> > > @@ -76,6 +76,7 @@=0D
-> > >  #include "pci.c"=0D
-> > >  #include "pid_namespace.c"=0D
-> > >  #include "platform.c"=0D
-> > > +#include "pm_runtime.c"=0D
-> > >  #include "poll.c"=0D
-> > >  #include "processor.c"=0D
-> > >  #include "property.c"=0D
-> > > diff --git a/rust/helpers/pm_runtime.c b/rust/helpers/pm_runtime.c=0D
-> > > new file mode 100644=0D
-> > > index 000000000000..d0d71fcb0097=0D
-> > > --- /dev/null=0D
-> > > +++ b/rust/helpers/pm_runtime.c=0D
-> > > @@ -0,0 +1,44 @@=0D
-> > > +// SPDX-License-Identifier: GPL-2.0=0D
-> > > +=0D
-> > > +#include <linux/pm_runtime.h>=0D
-> > > +=0D
-> > > +__rust_helper void rust_helper_pm_runtime_get_noresume(struct device=
- *dev)=0D
-> > > +{=0D
-> > > +	pm_runtime_get_noresume(dev);=0D
-> > > +}=0D
-> > > +=0D
-> > > +__rust_helper void rust_helper_pm_runtime_put_noidle(struct device *=
-dev)=0D
-> > > +{=0D
-> > > +	pm_runtime_put_noidle(dev);=0D
-> > > +}=0D
-> > > +=0D
-> > > +__rust_helper void rust_helper_pm_runtime_mark_last_busy(struct devi=
-ce *dev)=0D
-> > > +{=0D
-> > > +	pm_runtime_mark_last_busy(dev) ;=0D
-> > > +}=0D
-> > > +=0D
-> > > +__rust_helper bool rust_helper_pm_runtime_active(struct device *dev)=
-=0D
-> > > +{=0D
-> > > +	return pm_runtime_active(dev);=0D
-=0D
-[...]=0D
-=0D
-> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
-> > > +        unsafe {=0D
-> > > +            bindings::pm_runtime_mark_last_busy(dev.as_raw());=0D
-> > > +        }=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn suspend(dev: &device::Device<device::Bound>, mode: Mode) -> R=
-esult {=0D
-> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
-> > > +        // `struct device` for the duration of the call.=0D
-> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
-> > > +        to_result(unsafe { bindings::__pm_runtime_suspend(dev.as_raw=
-(), mode.into()) })=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn get_if_active(dev: &device::Device<device::Bound>) -> Result =
-{=0D
-> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
-> > > +        // `struct device` for the duration of the call.=0D
-> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
-> > > +        match unsafe { bindings::pm_runtime_get_if_active(dev.as_raw=
-()) } {=0D
-> > > +            ret if ret < 0 =3D> Err(Error::from_errno(ret)),=0D
-> > > +            0 =3D> Err(EAGAIN),=0D
-> > > +            _ =3D> Ok(()),=0D
-> > > +        }=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn runtime_enable(dev: &device::Device<device::Bound>) {=0D
-> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
-> > > +        // `struct device` for the duration of the call.=0D
-> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
-> > > +        unsafe { bindings::pm_runtime_enable(dev.as_raw()) }=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn runtime_disable(dev: &device::Device<device::Bound>) {=0D
-> > > +        // SAFETY: `dev.as_raw()` must provide a valid pointer to=0D
-> > > +        // `struct device` for the duration of the call.=0D
-> > > +        // The `Device<Bound>` reference provides that guarantee.=0D
-> > > +        unsafe { bindings::__pm_runtime_disable(dev.as_raw(), true) =
-};=0D
-> > > +    }=0D
-> > =0D
-> > What happens when you call these twice i.e. runtime_enable() when it's =
-already=0D
-> > enabled or runtime_disable() when it's already disabled?=0D
-> > =0D
-> For pm_runtime_enable  - this will drop a warning.=0D
-> For pm_runtime_disable - the disable_depth counter will be increased. Thi=
-s=0D
-> implies that for every extra disable call - enable one needs to be issued=
-.=0D
-> All handled by PM core.=0D
-=0D
-I see. I was about to suggest typestate pattern here as we can easily avoid=
-=0D
-these issues, but if you want to rely on PM core that's also fine I guess.=
-=0D
-=0D
-> > > +}=0D
-> > > +=0D
-> > > +#[cfg(not(CONFIG_PM))]=0D
-> > > +impl Request {=0D
-> > > +    #[inline]=0D
-> > > +    fn active(dev: &device::Device<device::Bound>) -> bool {=0D
-> > > +        true=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn suspended(dev: &device::Device<device::Bound>) -> bool {=0D
-> > > +        false=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn resume(_dev: &device::Device<device::Bound>, _mode: Mode) -> =
-Result {=0D
-> > > +        Ok(())=0D
-> > > +    }=0D
-> > > +=0D
-> > > +    #[inline]=0D
-> > > +    fn idle(_dev: &device::Device<device::Bound>, _mode: Mode) -> Re=
-sult {=0D
-> > > +        Err(ENOSYS)=0D
-> > > +    }=0D
-> > > +=0D
-=0D
-[...]=0D
-=0D
-> > > +    /// Returns the runtime PM context associated with this registra=
-tion.=0D
-> > > +    pub fn ctx(&self) -> &PMContext<'a, T> {=0D
-> > > +        &self.ctx=0D
-> > > +    }=0D
-> > > +}=0D
-> > > +=0D
-> > > +impl<'a, T: PMOps> Drop for Registration<'a, T> {=0D
-> > > +    fn drop(&mut self) {=0D
-> > > +        // SAFETY: `self.ctx.inner.dev` is the device this registrat=
-ion was=0D
-> > > +        // created for. Runtime PM is disabled first, and `pm_runtim=
-e_barrier`=0D
-> > > +        // waits for pending runtime PM work/callbacks before the ca=
-llback data=0D
-> > > +        // is removed below.=0D
-> > > +=0D
-> > > +        unsafe {=0D
-> > > +            bindings::__pm_runtime_disable(self.ctx.inner.dev.as_raw=
-(), true);=0D
-> > =0D
-> > Same here, is this safe to call even if it's not enabled? Registration =
-can drop=0D
-> > even when pm runtime is not enabled, right?=0D
-> True but that again is handled by PM core.=0D
-=0D
-You should at least document that.=0D
-=0D
-> > =0D
-> > > +            bindings::pm_runtime_barrier(self.ctx.inner.dev.as_raw()=
-);=0D
-> > > +        }=0D
-> > =0D
-> > You should not combine multiple unsafe calls in single unsafe block I t=
-hink.=0D
-> Why?=0D
-=0D
-To keep the scope of each unsafe block as small as possible.=0D
-=0D
-> Do not see much point in separating those.=0D
-> =0D
-> ---=0D
-> BR=0D
-> Beata=0D
-> > =0D
-> > > +        // SAFETY: The pointer, if non-null, was stored by `Registra=
-tion::new`=0D
-> > > +        // using `Pin<KBox<RegistrationData<T>>>::into_foreign`. Run=
-time PM has=0D
-> > > +        // been disabled and drained above, so generated callbacks c=
-an no longer=0D
-> > > +        // borrow this data. Clearing `rust_private` prevents later =
-lookup, and=0D
-> > > +        // `from_foreign` reconstructs the owning allocation so it i=
-s dropped.=0D
-> > > +        unsafe {=0D
-> > > +            let ptr =3D (*(*self.ctx.inner.dev.as_raw()).p).rust_pri=
-vate;=0D
-> > > +=0D
-> > > +            if !ptr.is_null() {=0D
-> > > +                (*(*self.ctx.inner.dev.as_raw()).p).rust_private =3D=
- core::ptr::null_mut();=0D
-> > > +                Pin::<KBox<RegistrationData<'_, T>>>::from_foreign(p=
-tr);=0D
-> > > +            }=0D
-> > > +        }=0D
-> > > +    }=0D
-> > > +}=0D
-> > > -- =0D
-> > > 2.43.0=0D
-> > > =0D
+T24gTW9uLCAyMDI2LTA3LTI3IGF0IDIwOjMxICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
+ZToNCj4gDQo+ID4gK1RhZ3MgYW5kIExlbmd0aA0KPiA+ICs9PT09PT09PT09PT09PT0NCj4gPiAr
+VExWIHRhZ3MgYXJlIGFsd2F5cyBmb3VyLWNoYXJhY3RlciB3b3Jkcywgd2l0aCBhbGwgbGV0dGVy
+cyBiZWluZyB1cHBlciBjYXNlLg0KPiA+ICtEdXBsaWNhdGUgdGFncyBhcmUgbm90IGFsbG93ZWQu
+DQo+ID4gKw0KPiA+ICtMZW5ndGhzIG9mIHplcm8gYXJlIGFsbG93ZWQgYW5kIGluZGljYXRlIHRo
+YXQgdGhlIHRhZyBpcyBhIGJvb2xlYW4uwqAgVGhhdCBpcywNCj4gDQo+IExldCdzIG1lbnRpb24g
+IlBheWxvYWRzIG9mIGxlbmd0aCB6ZXJvIiB0byBiZSBwcmVjaXNlIHdoYXQgbGVuZ3RoIHRoaXMN
+Cj4gaXMgYWJvdXQuDQoNCkknbSBnb2luZyB0byByZW1vdmUgdGhlIHN0dWZmIGFib3V0IGJvb2xl
+YW5zLiAgV2UgZG9uJ3QgdXNlIHRoZW0gaW4gTm92YSwgYW5kIHdoZW4gSSB0cmllZCB0bw0KYWRk
+IHN1cHBvcnQgZm9yIHRoZW0gaXQgd2FzIGp1c3QgbWVzc3kuICBKdXN0IGJlY2F1c2UgYSB0YWcg
+aXMgbWlzc2luZywgdGhhdCBkb2Vzbid0IG1lYW4gdGhhdA0KaXQncyBmYWxzZS4gIEl0IGNvdWxk
+IGJlIGp1c3QgbWlzc2luZywgd2hpY2ggd291bGQgYmUgc29tZXRoaW5nIHRvIGNoZWNrIGZvci4N
+Cg0KVGhlIHVwY29taW5nIG52b2Mgc3R1ZmYgZG9lcyBoYXZlIGEgYm9vbGVhbiB0YWcsIGJ1dCBp
+dCdzIG5vdCBpbiB0aGUgVExWIHlldC4gIEkgZG9uJ3QgaGF2ZSBhDQpyZWFsIEVUQSBmb3IgaXQs
+IHNvIHRoZXJlIHdpbGwgYmUgYSB0aW1lIHBlcmlvZCB3aGVyZSB3ZSBzdXBwb3J0IHI2MTUgYnV0
+IHNvbWUgdGFncyB3aWxsIGFwcGVhcg0KbGF0ZXIuICBTbyB3ZSBuZWVkIHRvIGJlIGFibGUgdG8g
+Y2hlY2sgZm9yIGEgbWlzc2luZyB0YWcgdnMgdGFnPT1mYWxzZS4NCg0KPiA+ICsNCj4gPiArR1NQ
+IEZpcm13YXJlIFRhZ3MNCj4gPiArPT09PT09PT09PT09PT09PT0NCj4gPiArYGBTSUdOYGAgKGJ5
+dGVzKQ0KPiA+ICvCoMKgwqAgQ3J5cHRvZ3JhcGhpYyBzaWduYXR1cmUgZm9yIHRoZSBHU1AgZmly
+bXdhcmUuDQo+ID4gKw0KPiA+ICtgYEJMSURgYCAoYnl0ZXMpDQo+ID4gK8KgwqDCoCBUaGUgYnVp
+bGQgSUQsIGV4dHJhY3RlZCBmcm9tIHRoZSAiLm5vdGUuZ251LmJ1aWxkLWlkIiBzZWN0aW9uLg0K
+PiANCj4gU2hvdWxkIHRoaXMgYmUgYSBzdHJpbmcgYnkgYW55IGNoYW5jZT8NCg0KWWVzLCB0aGFu
+a3MuDQoNCj4gDQo+ID4gKw0KPiA+ICtCb290ZXIgRmlybXdhcmUgVGFncw0KPiA+ICs9PT09PT09
+PT09PT09PT09PT09PQ0KPiA+IA0KLi4uDQo+ID4gKw0KPiA+ICtgYE5TSUdgYCAodTMyKSAtIGBg
+bnVtX3NpZ3NgYA0KPiA+ICvCoMKgwqAgTnVtYmVyIG9mIHNpZ25hdHVyZXMgaW5jbHVkZWQgaW4g
+dGhlIGBgU0lHTmBgIHRhZy7CoCBBIHZhbHVlIG9mIDAgaW5kaWNhdGVzDQo+ID4gK8KgwqDCoCB1
+bnNpZ25lZCBmaXJtd2FyZSBhbmQgdGhhdCB0aGVyZSBpcyBubyBgYFNJR05gYCB0YWcuDQo+IA0K
+PiBJbiBwYXRjaCA0IGBib290ZXIucnNgIHNheXMgIkJvb3RlciBpcyBhbHdheXMgc2lnbmVkIiwg
+d2hpY2ggY29udHJhZGljdHMNCj4gdGhpcyBkZWZpbml0aW9uLiBXZSBoYWQgYSBub24tc2lnbmVk
+IHBhdGggaW4gdGhlIG9yaWdpbmFsIGNvZGU7IHdoeSBub3QNCj4gcHJlc2VydmUgaXQ/IFRoZSBj
+dXJyZW50IGZpcm13YXJlIGZpbGVzIGRvIG5vdCBtYWtlIHVzZSBvZiBpdCwgYnV0IHRoZQ0KPiBw
+b2ludCBvZiBzcGVjaWZ5aW5nIHRoaW5ncyBoZXJlIGlzIHRvIG1ha2UgdGhlIGNvZGUgZnV0dXJl
+LXByb29mIGluIGNhc2UNCj4gd2UgaW50cm9kdWNlIG9yIGVuYWJsZSB1bnNpZ25lZCBmaXJtd2Fy
+ZXMgaW4gdGhlIGZ1dHVyZTsgc28gbGV0J3MgbWFrZQ0KPiB0aGUgY29kZSByZWxpZ2lvdXNseSBm
+b2xsb3cgdGhlIHNwZWMuDQoNCldlbGwsIGJvb3RlciAoYm90aCBsb2FkIGFuZCB1bmxvYWQpIGFs
+d2F5cyBpcyBzaWduZWQuICBUaGUgc2NyaXB0IGV2ZW4gZW5mb3JjZXMgdGhhdC4gwqBUaGUNCmN1
+cnJlbnQgdW5zaWduZWQgY29kZSBpbiBib290ZXIucnMgaGFzIG5ldmVyIGJlZW4gZXhlcmNpc2Vk
+LCBzbyB3ZSBjYW4ndCByZWFsbHkgc2F5IGl0J3MNCmNvcnJlY3QuDQoNCkkgY2FuIGNoYW5nZSB0
+aGUgZG9jdW1lbnRhdGlvbiBoZXJlIHRvIG5vdCBtZW50aW9uIE5TSUc9PTAgYXMgYSBwb3NzaWJp
+bGl0eS4gIFdoZW4gSSB3cm90ZSB0aGlzDQp0ZXh0LCBJIGhhZG4ndCBub3RpY2VkIHRoYXQgTlNJ
+RyBpcyBuZXZlciAwLg0KDQpXZSBhcmUgbmV2ZXIgZ29pbmcgdG8gaW50cm9kdWNlIHVuc2lnbmVk
+IGJvb3RlciBmaXJtd2FyZS4gIEZvciBvbmUgdGhpbmcsIEhvcHBlciBhbmQgbGF0ZXIgaGF2ZQ0K
+YWxyZWFkeSByZXBsYWNlZCBib290ZXIgd2l0aCBmbWMsIHNvIHRoaXMgY29kZSBpcyBhbHJlYWR5
+IGxlZ2FjeS4NCg0KSWYgaXQgdHVybnMgb3V0IHRoYXQgc29tZSBmdXR1cmUgdmVyc2lvbiBvZiBH
+U1AtUk0gZG9lcyBhZGQgYW4gdW5zaWduZWQgYm9vdGVyLCB3ZSB3b3VsZCBuZWVkIHRvDQpjaGFu
+Z2UgdGhlIHNjcmlwdCBhbmQgcHJvYmFibHkgZG8gbW9yZSB0aGFuIGp1c3QgY2FsbCBub19wYXRj
+aF9zaWduYXR1cmUoKS4NCg0KPiA+ICvCoMKgwqAgLy8vIFJldHVybiBhIHN0cmluZyB2YWx1ZS4N
+Cj4gPiArwqDCoMKgIHB1YihjcmF0ZSkgZm4gZ2V0X3N0cmluZygmc2VsZiwgdGFnOiAmW3U4OyA0
+XSkgLT4gUmVzdWx0PCYnYSBzdHI+IHsNCj4gPiArwqDCoMKgwqDCoMKgwqAgbGV0IHRsdiA9IHNl
+bGYuZmluZCh0YWcpPzsNCj4gPiArDQo+ID4gK8KgwqDCoMKgwqDCoMKgIGxldCBieXRlcyA9IHRs
+di52YWx1ZTsNCj4gPiArDQo+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIFRvIG1ha2Ugc3VyZSB0aGUg
+dmFsdWUgYWN0dWFsbHkgaXMgYSBzdHJpbmcsIGVuc3VyZSBpdCdzIGFsbCBBU0NJSS4NCj4gPiAr
+wqDCoMKgwqDCoMKgwqAgaWYgIWJ5dGVzLmlzX2FzY2lpKCkgew0KPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHJldHVybiBFcnIoRUlOVkFMKTsNCj4gPiArwqDCoMKgwqDCoMKgwqAgfQ0KPiAN
+Cj4gVGhlIHNwZWMgYWxzbyBzYXlzIHRoYXQgTlVMTCBjaGFyYWN0ZXJzIGFyZSBpbnZhbGlkOyB3
+ZSBzaG91bGQgdGVzdCBmb3INCj4gYHx8IGJ5dGVzLmNvbnRhaW5zKCYwKWAgYXMgd2VsbCBoZXJl
+Lg0KDQpIbW1tLi4uIEkgd29uZGVyIGlmIEkgc2hvdWxkIGV4cGFuZCB0aGUgZGVmaW5pdGlvbiB0
+byBleGNsdWRlIGFsbCBjaGFyYWN0ZXJzIGxlc3MgdGhhbiBBU0NJSSAzMj8NCg0KSSB3YXMgZGVi
+YXRpbmcgaXNfYXNjaWlfZ3JhcGhpYygpIGJ1dCB0aGF0IGFsc28gZXhjbHVkZXMgYmxhbmsgc3Bh
+Y2VzLiAgVGhlcmUgaXMgdmFsdWUgaW4NCmluc2lzdGluZyB0aGF0IHRoZSB0YWcgaXMgY2xlYXJs
+eSBwcmludGFibGUuDQoNClRob3VnaHRzPw0KDQo+IA0K
