@@ -1,415 +1,254 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838C12E7369
-	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 03:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D3F3AD50F
+	for <driver-core@lists.linux.dev>; Wed, 29 Jul 2026 05:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785296201; cv=none; b=BpQJ73VlNR7b91AUPBrlq5EOJgbvK5k/FUtMlogAAL5Hq2NNZF6FqO+23fo0B75R4pQQG3onfHP+5ygF5hBSRUzm2CnORm9RVP5Vor0quVLk2LoKADzqAZCeW8NjlA5CAD69+fWdzEWkCkeWUEf82EIxgtK04tF+quOzN+/UbVw=
+	t=1785303635; cv=none; b=doFd8G7sBVVz7U1qMYQh0ojyXL6twq/J2lnIkkE3Vm/W9gza7E3kK6ka2kK7EcOI+PrVvQM8roLOhZ3C6MiYhEdN0VEGjYqQ98VaKtNKliTSOPV8PWSEYtP2fjMOtJbp1YVqDvJJkx8Ea9vhgdU+R0b3oIg7zlclgY/9tIvDeN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785296201; c=relaxed/simple;
-	bh=YCE9uOU4OrvFd2DKmVaTJGBlmH6Wlb5KZdSUax6l9bE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Erbp1DTkKEfAW3tEGjgNIJ9JPy8SPI1FWwSvTiyzSojX34/IeDYVglPDmWx74tioWnm3jmeFIeesdVgWypDtmt3bgXoJdi8iz16YPqviyRPZuNTCo2R5mvn7Anxsh1bh6pSorY1f9tUxBZWQA9Nv3VuFkH7oegdUKa3htPgeOgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a45b3f0bdfso524020b6e.1
-        for <driver-core@lists.linux.dev>; Tue, 28 Jul 2026 20:36:39 -0700 (PDT)
+	s=arc-20240116; t=1785303635; c=relaxed/simple;
+	bh=jL0RiLOugXkaYKuBva15zd1DJur+LW1Pqs6+Liy3JIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TR9S2AgRRfoCHcCvx7Vm7xzKu9sCjPNCBflEIKBUgW4gYclohvIWUfa93eP1w5HlUYIYrRm4OTHahBf7Ep6eEi40gBH0T7njzB6JLufoRnZcUgaX8+/frHKbXXB7OruQclh300lru/m0REfHbNKAMMrRM9Nz1545xiCwk/gYThM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNY8HxOr; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNY8HxOr"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e3617ba36so643652a91.3
+        for <driver-core@lists.linux.dev>; Tue, 28 Jul 2026 22:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785303633; x=1785908433; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rkOHM5geNPJAHsEz68m3kayrwcdycw0DphXnanl0CQc=;
+        b=RNY8HxOr7bRjDNBAzGAYYXHEYxZTq/Y3ewKmCVRlG4bwFG8/q5ua1bZKTkDeFH6nqy
+         g9SJKoXv1QgsvWhUmWBQG4SzyGc7gQrgx1KLz5SIHFCGWZE+zzky50Q0DnMgbt4BKfYZ
+         oZBg1Wv1vibzy8HMjwq1TkU+wQ7HLkxE53datrlmxR0u8i6EV4FpyIFNCbJv25hRCGUP
+         3sQgeAs1cUvVE2wT/JPtg5o178hRVSOTV2zgDL3FTzXkdtWWClXiort5sDcMvEL9qwQ+
+         dSL4Rzv+y0haM//agEQCRHPbQQKwdcXAKBkn2NLUJVcBoAVCvZvg+NQHdttl1sU/7OJt
+         kNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785296198; x=1785900998;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1785303633; x=1785908433;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=A0v5mRGbS2rTiMEzXjZ+tJA0JsHiN1tvBaFh4oEVAsI=;
-        b=nMjsZBGGaGe0yxkLVLpewUtFYFUgQ8saE9yhHSOf+JWf51ZjS1DlTTaYnmE8nHThGT
-         Dnx0iPDrnZe40XyBwHv5Qcb/Q65ARlpaPz9KR7iXusAgPWcYtYO6gSd3bU1efZFgZ04l
-         OukP2oBc6TGRfDcOhSvlf/H9601wwt/IKp9hOtlkSu7GMuy5mpKKsVpon7bNok2ZHtsD
-         iqgiIRdJfAkmKaWeg9vC7vKNC2xrBGO0+/ZA6lA+yIHigfLYg5AO0na/fiZKPyl+vgdu
-         N3PTlND67xX2mEk36kfRLBL+W+/6UgFganMHMxPW7iImkNzSLLhVY6FeDXhhF/CRKD7z
-         FZUw==
-X-Forwarded-Encrypted: i=1; AHgh+RpGKW74JzhbZe5TxEQ8gZGPWqsa0jvK9YkjpPFutEuGJfdoNK1o1HvW3A/q+fSG0vo3QrdxF19Pva7X8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxC6nB2N9/aC0ni0/IyvHjnxgdNJtCCHT4XRZOd1EwkCExnaLLj
-	5dxvM6CrsTuVuIc7kd20oJtn3ii5FjrMFArO2bfnch+zF2ZWWMq9NMO1EUTg/myVPabOHaT1wMm
-	GzbkfDzZVI1ZQZErZrnUch5wyyv4ZJMx2R+5rpfW4rwOwC32ueohqVrm+6tA=
+        bh=rkOHM5geNPJAHsEz68m3kayrwcdycw0DphXnanl0CQc=;
+        b=Kttb1/p7KH7C18jQzRBy6GNcce9emZ+phL7iIU1D95942PGoqjHhN30fSegn0VCbvw
+         6+H1yy29yj8uHvMsGGGt4CrPM9kB2onIaz8KNX0I9T7WSLTney8qcckU9rMW0Ma4W+96
+         twuAsYruoaCtBfw+trm301iJCVcueIU7C0QDZaTzDK+0ZIF6lj8tvz7B2GEel3DZwdao
+         nHIpuNslnk6jG4rBISmtTEkObFwVkbuLmQEjxfS/EJsuzTcQRFTBQEjBOrsugX4BfXXd
+         1hqtVpFe8FZEcHxzscSINWKDItLa2x4lSTNQLhnuwXoZjcvgRFLYMn5VxYrEB+JniZGj
+         sdCg==
+X-Forwarded-Encrypted: i=1; AHgh+RrkTlUvVrz1MlfA4GZOiBsmRrmlKYdUFjfkNm0sKsbRNCJRpGdZVDuDrbR17Fgr6dhCKVrIcLzp0uMB0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/+RpOyFo8bxVtLrwuTufOy1gH50Oz0Wye7GJHsMF2YdcTPGmv
+	anw06psK7zZoo39lCMqksi4tUiMessrLE8YEGTHU6Ad1TCns1wKljb8h
+X-Gm-Gg: AR+sD12lvxt9NnlSV3eisjJfDxRzKYImG1ZiX+0fWrlE4n2PEa+TDcdBZDV9I5CbXnk
+	yY9c13HKGPBG32nwZ5BwIK5Gecm4lREck73K0wSoUjNvriI0rlZoMozS1LNJEbb2bmcEQ1R+gVx
+	ODUL6zPDuadYMxfMrKnzTZtABR8pHjCSPg2CAtX9sletKSBkUJewjo2+R75qFoyaRvR4AfT4vUh
+	ghGYr0X8qvlWR0fJGTKOdW1skyjq8bUuYlxq9UaYQFZ/3NdK8kPo7BJlEC9u8rFHDOlLv8oaWm6
+	QXBq/sIRex7EhDhODD7u94KeEeHjrhF3huI1KiObwz5jPY9mNGZFEuFqRDSy0YB1kAsdmkbz1Jh
+	xjDV0YozjvSK8cnIed2LQLOzQxlCXIijHAUvQ7HKAdYS1rERY0nUQNLScu5hH00FAPIgPvHGyPU
+	pJE2EejOIAZaQHVWCsgzSymwmUOXgi1CmeASlh1Eff6Vm0ukQ4EsKSx54hQubk3huPgOtM6EOcb
+	I1cH3xfJBT+rvNmVNIe1ukwqRLsZw==
+X-Received: by 2002:a17:90b:584f:b0:38f:1e1a:5141 with SMTP id 98e67ed59e1d1-38f6a45f896mr5868893a91.28.1785303633084;
+        Tue, 28 Jul 2026 22:40:33 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:3062:3727:f62a:314c])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e72643a12sm8093503c88.5.2026.07.28.22.40.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 22:40:32 -0700 (PDT)
+Date: Tue, 28 Jul 2026 22:40:29 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver core: introduce PROBE_FORCE_ASYNCHRONOUS
+Message-ID: <ammQvUcOF4S_VrgO@google.com>
+References: <ambsuv_6mCK8U9IP@google.com>
+ <2026072729-driller-leggings-e530@gregkh>
+ <ambyXEGt8-f44dJD@google.com>
+ <2026072717-amicably-tray-4a8b@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3010:b0:4a4:c09:6a4 with SMTP id
- 5614622812f47-4ad5b992f68mr2747511b6e.10.1785296198301; Tue, 28 Jul 2026
- 20:36:38 -0700 (PDT)
-Date: Tue, 28 Jul 2026 20:36:38 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a697546.6bd615f2.c0aa.0009.GAE@google.com>
-Subject: [syzbot] [pm?] possible deadlock in device_link_add
-From: syzbot <syzbot+a335e4c21d52fb8d9e95@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026072717-amicably-tray-4a8b@gregkh>
 
-Hello,
+On Mon, Jul 27, 2026 at 08:25:51AM +0200, Greg Kroah-Hartman wrote:
+> On Sun, Jul 26, 2026 at 10:54:54PM -0700, Dmitry Torokhov wrote:
+> > On Mon, Jul 27, 2026 at 07:40:57AM +0200, Greg Kroah-Hartman wrote:
+> > > On Sun, Jul 26, 2026 at 10:31:41PM -0700, Dmitry Torokhov wrote:
+> > > > Add PROBE_FORCE_ASYNCHRONOUS probe type enum and update
+> > > > driver_allows_async_probing() to allow asynchronous probing for drivers
+> > > > marked with this type.
+> > > > 
+> > > > While PROBE_PREFER_ASYNCHRONOUS exists, it represents a temporary opt-in
+> > > > preference. Subsystems that require asynchronous probing (such as slow
+> > > > legacy buses) need a dedicated probe type to guarantee asynchronous
+> > > > execution.
+> > > > 
+> > > > Assisted-by: Antigravity:gemini-3.5-flash
+> > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > > ---
+> > > > 
+> > > > I am planning to rework serio and gameport subsystems to rely on
+> > > > asynchronous probing instead of rolling their own implementations.
+> > > 
+> > > What do you mean?  Why doesn't the PROBE_PREFER_ASYNCHRONOUS work for
+> > > you for those subsystems?
+> > 
+> > It shows the intent. It is not "preference" anymore, it is a "must". If
+> > we ever introduce switch to make probing synchronous for some reason it
+> > should not affect drivers that must be probed asynchronously.
+> 
+> I'm sorry, but I don't understand.
 
-syzbot found the following issue on:
+PROBE_PREFER_ASYNCHRONOUS says that the driver prefers to be probe
+asynchronously but it can also be probed synchronously if needed.
 
-HEAD commit:    48a5a7ab8d6a Merge tag 'v7.2-rc4-smb3-client-fixes' of git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=101332ea580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=a335e4c21d52fb8d9e95
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+PROBE_FORCE_ASYNCHRONOUS indicates that the driver *must* be probed
+asynchronously, or the kernel will break.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Currently there is no difference in behavior, but it documents the
+intent.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-48a5a7ab.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8ed725bee82f/vmlinux-48a5a7ab.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/110c09c210d5/bzImage-48a5a7ab.xz
+> And as there's no users for this, we
+> really can't take it until we see those users at the same time :)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a335e4c21d52fb8d9e95@syzkaller.appspotmail.com
+I am planning to use it in serio and gameport bus implementations that
+currently roll their own asynchronous registration which is quite ugly.
+Because we have nested serio ports probing *must* be done asynchronously
+or it will deadlock.
 
-i2c i2c-0: new_device: Instantiated device rt1719 at 0x49
-wusb3801 0-004a: supply vbus not found, using dummy regulator
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L     
-------------------------------------------------------
-syz.6.979/9504 is trying to acquire lock:
-ffffffff8edba220 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:317 [inline]
-ffffffff8edba220 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4565 [inline]
-ffffffff8edba220 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:4925 [inline]
-ffffffff8edba220 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_cache_noprof+0x63/0x6c0 mm/slub.c:5511
+I would like to merge the new constant early so that I do not have
+dependency when I am ready to merge input changes.
 
-but task is already holding lock:
-ffffffff8fc0bc60 (dpm_list_mtx){+.+.}-{4:4}, at: device_link_add+0x2e5/0x19e0 drivers/base/core.c:828
+Below is how it will look like (just a small part of a WIP series).
 
-which lock already depends on the new lock.
+Thanks.
 
-
-the existing dependency chain (in reverse order) is:
-
--> #8 (dpm_list_mtx){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       device_pm_add+0x87/0x370 drivers/base/power/main.c:153
-       device_add+0xa1b/0x1970 drivers/base/core.c:3720
-       device_create_groups_vargs+0x1f8/0x270 drivers/base/core.c:4454
-       device_create+0xed/0x130 drivers/base/core.c:4493
-       msr_device_create+0x31/0x70 arch/x86/kernel/msr.c:251
-       cpuhp_invoke_callback+0x3b4/0x9a0 kernel/cpu.c:194
-       cpuhp_thread_fun+0x3e9/0x7c0 kernel/cpu.c:1109
-       smpboot_thread_fn+0x3d3/0xaa0 kernel/smpboot.c:160
-       kthread+0x370/0x450 kernel/kthread.c:436
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #7 (cpuhp_state-up){+.+.}-{0:0}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       cpuhp_lock_acquire kernel/cpu.c:103 [inline]
-       cpuhp_thread_fun+0x146/0x7c0 kernel/cpu.c:1086
-       smpboot_thread_fn+0x3d3/0xaa0 kernel/smpboot.c:160
-       kthread+0x370/0x450 kernel/kthread.c:436
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #6 (cpu_hotplug_lock){++++}-{0:0}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
-       cpus_read_lock+0x42/0x170 kernel/cpu.c:490
-       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
-       nbd_reconnect_socket drivers/block/nbd.c:1379 [inline]
-       nbd_genl_reconfigure+0xd82/0x1a00 drivers/block/nbd.c:2468
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:775 [inline]
-       __sock_sendmsg net/socket.c:790 [inline]
-       ____sys_sendmsg+0xa4d/0xbe0 net/socket.c:2684
-       ___sys_sendmsg+0x190/0x1e0 net/socket.c:2738
-       __sys_sendmsg+0x160/0x210 net/socket.c:2770
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #5 (&nsock->tx_lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
-       nbd_queue_rq+0x428/0x1080 drivers/block/nbd.c:1207
-       blk_mq_dispatch_rq_list+0x422/0x1e70 block/blk-mq.c:2117
-       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
-       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
-       __blk_mq_sched_dispatch_requests+0xcea/0x1620 block/blk-mq-sched.c:307
-       blk_mq_sched_dispatch_requests+0xd7/0x1c0 block/blk-mq-sched.c:329
-       blk_mq_run_work_fn+0x135/0x380 block/blk-mq.c:2531
-       process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
-       process_scheduled_works kernel/workqueue.c:3405 [inline]
-       worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
-       kthread+0x370/0x450 kernel/kthread.c:436
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #4 (&cmd->lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       nbd_queue_rq+0xba/0x1080 drivers/block/nbd.c:1199
-       blk_mq_dispatch_rq_list+0x422/0x1e70 block/blk-mq.c:2117
-       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
-       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
-       __blk_mq_sched_dispatch_requests+0xcea/0x1620 block/blk-mq-sched.c:307
-       blk_mq_sched_dispatch_requests+0xd7/0x1c0 block/blk-mq-sched.c:329
-       blk_mq_run_work_fn+0x135/0x380 block/blk-mq.c:2531
-       process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
-       process_scheduled_works kernel/workqueue.c:3405 [inline]
-       worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
-       kthread+0x370/0x450 kernel/kthread.c:436
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #3 (set->srcu){.+.+}-{0:0}:
-       lock_sync kernel/locking/lockdep.c:5916 [inline]
-       lock_sync+0x9d/0x110 kernel/locking/lockdep.c:5904
-       srcu_lock_sync include/linux/srcu.h:199 [inline]
-       __synchronize_srcu+0xa2/0x300 kernel/rcu/srcutree.c:1481
-       blk_mq_wait_quiesce_done block/blk-mq.c:284 [inline]
-       blk_mq_wait_quiesce_done block/blk-mq.c:281 [inline]
-       blk_mq_quiesce_queue block/blk-mq.c:304 [inline]
-       blk_mq_quiesce_queue+0x149/0x1c0 block/blk-mq.c:299
-       elevator_switch+0x17b/0x7e0 block/elevator.c:576
-       elevator_change+0x352/0x530 block/elevator.c:681
-       elevator_set_default+0x29e/0x360 block/elevator.c:754
-       blk_register_queue+0x48e/0x630 block/blk-sysfs.c:992
-       __add_disk+0x73f/0xe40 block/genhd.c:524
-       add_disk_fwnode+0x118/0x480 block/genhd.c:593
-       add_disk include/linux/blkdev.h:800 [inline]
-       nbd_dev_add+0x77a/0xb10 drivers/block/nbd.c:2021
-       nbd_init+0x291/0x2b0 drivers/block/nbd.c:2729
-       do_one_initcall+0x11d/0x700 init/main.c:1347
-       do_initcall_level init/main.c:1409 [inline]
-       do_initcalls init/main.c:1425 [inline]
-       do_basic_setup init/main.c:1445 [inline]
-       kernel_init_freeable+0x6ea/0x7b0 init/main.c:1658
-       kernel_init+0x1f/0x1e0 init/main.c:1548
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #2 (&q->elevator_lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       elevator_change+0x1bc/0x530 block/elevator.c:679
-       elevator_set_none+0x92/0xf0 block/elevator.c:769
-       blk_mq_elv_switch_none block/blk-mq.c:5101 [inline]
-       __blk_mq_update_nr_hw_queues block/blk-mq.c:5146 [inline]
-       blk_mq_update_nr_hw_queues+0x4c1/0x15f0 block/blk-mq.c:5211
-       nbd_start_device+0x1a6/0xbd0 drivers/block/nbd.c:1526
-       nbd_genl_connect+0xff2/0x1a40 drivers/block/nbd.c:2276
-       genl_family_rcv_msg_doit+0x214/0x300 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x560/0x800 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
-       sock_sendmsg_nosec net/socket.c:775 [inline]
-       __sock_sendmsg net/socket.c:790 [inline]
-       ____sys_sendmsg+0xa4d/0xbe0 net/socket.c:2684
-       ___sys_sendmsg+0x190/0x1e0 net/socket.c:2738
-       __sys_sendmsg+0x160/0x210 net/socket.c:2770
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&q->q_usage_counter(io)#49){++++}-{0:0}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       blk_alloc_queue+0x610/0x790 block/blk-core.c:504
-       blk_mq_alloc_queue+0x174/0x290 block/blk-mq.c:4420
-       __blk_mq_alloc_disk+0x29/0x120 block/blk-mq.c:4467
-       nbd_dev_add+0x492/0xb10 drivers/block/nbd.c:1991
-       nbd_init+0x291/0x2b0 drivers/block/nbd.c:2729
-       do_one_initcall+0x11d/0x700 init/main.c:1347
-       do_initcall_level init/main.c:1409 [inline]
-       do_initcalls init/main.c:1425 [inline]
-       do_basic_setup init/main.c:1445 [inline]
-       kernel_init_freeable+0x6ea/0x7b0 init/main.c:1658
-       kernel_init+0x1f/0x1e0 init/main.c:1548
-       ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #0 (fs_reclaim){+.+.}-{0:0}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
-       fs_reclaim_acquire+0xc4/0x100 mm/page_alloc.c:4343
-       might_alloc include/linux/sched/mm.h:317 [inline]
-       slab_pre_alloc_hook mm/slub.c:4565 [inline]
-       slab_alloc_node mm/slub.c:4925 [inline]
-       __kmalloc_cache_noprof+0x63/0x6c0 mm/slub.c:5511
-       _kmalloc_noprof include/linux/slab.h:969 [inline]
-       _kzalloc_noprof include/linux/slab.h:1290 [inline]
-       device_link_add+0x45d/0x19e0 drivers/base/core.c:920
-       _regulator_get_common+0x594/0x9a0 drivers/regulator/core.c:2526
-       _regulator_get drivers/regulator/core.c:2545 [inline]
-       _regulator_get+0x58/0x70 drivers/regulator/core.c:2534
-       _devm_regulator_get+0x55/0xd0 drivers/regulator/devres.c:31
-       wusb3801_probe+0x151/0x8e0 drivers/usb/typec/wusb3801.c:342
-       i2c_device_probe+0x658/0xd10 drivers/i2c/i2c-core-base.c:592
-       call_driver_probe drivers/base/dd.c:628 [inline]
-       really_probe+0x241/0xa60 drivers/base/dd.c:706
-       __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
-       driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
-       __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
-       bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
-       __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
-       device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
-       bus_probe_device+0x64/0x160 drivers/base/bus.c:620
-       device_add+0x121d/0x1970 drivers/base/core.c:3772
-       i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
-       new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
-       dev_attr_store+0x58/0x80 drivers/base/core.c:2505
-       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
-       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6ac/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  fs_reclaim --> cpuhp_state-up --> dpm_list_mtx
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(dpm_list_mtx);
-                               lock(cpuhp_state-up);
-                               lock(dpm_list_mtx);
-  lock(fs_reclaim);
-
- *** DEADLOCK ***
-
-7 locks held by syz.6.979/9504:
- #0: ffff88802cc54b70 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x2aa/0x380 fs/file.c:1259
- #1: ffff88802667a450 (sb_writers#8){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #2: ffff8880370f8080 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x2c2/0x5f0 fs/kernfs/file.c:336
- #3: ffff88802e23db48 (kn->active#72){.+.+}-{0:0}, at: kernfs_get_active_of fs/kernfs/file.c:73 [inline]
- #3: ffff88802e23db48 (kn->active#72){.+.+}-{0:0}, at: kernfs_fop_write_iter+0x332/0x5f0 fs/kernfs/file.c:337
- #4: ffff8880371f7148 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #4: ffff8880371f7148 (&dev->mutex){....}-{4:4}, at: __device_attach+0x7e/0x4d0 drivers/base/dd.c:1073
- #5: ffffffff8fbf4080 (device_links_lock){+.+.}-{4:4}, at: device_links_write_lock drivers/base/core.c:316 [inline]
- #5: ffffffff8fbf4080 (device_links_lock){+.+.}-{4:4}, at: device_link_add+0x2e0/0x19e0 drivers/base/core.c:827
- #6: ffffffff8fc0bc60 (dpm_list_mtx){+.+.}-{4:4}, at: device_link_add+0x2e5/0x19e0 drivers/base/core.c:828
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 9504 Comm: syz.6.979 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1c7 kernel/locking/lockdep.c:2043
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2175
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
- __fs_reclaim_acquire mm/page_alloc.c:4329 [inline]
- fs_reclaim_acquire+0xc4/0x100 mm/page_alloc.c:4343
- might_alloc include/linux/sched/mm.h:317 [inline]
- slab_pre_alloc_hook mm/slub.c:4565 [inline]
- slab_alloc_node mm/slub.c:4925 [inline]
- __kmalloc_cache_noprof+0x63/0x6c0 mm/slub.c:5511
- _kmalloc_noprof include/linux/slab.h:969 [inline]
- _kzalloc_noprof include/linux/slab.h:1290 [inline]
- device_link_add+0x45d/0x19e0 drivers/base/core.c:920
- _regulator_get_common+0x594/0x9a0 drivers/regulator/core.c:2526
- _regulator_get drivers/regulator/core.c:2545 [inline]
- _regulator_get+0x58/0x70 drivers/regulator/core.c:2534
- _devm_regulator_get+0x55/0xd0 drivers/regulator/devres.c:31
- wusb3801_probe+0x151/0x8e0 drivers/usb/typec/wusb3801.c:342
- i2c_device_probe+0x658/0xd10 drivers/i2c/i2c-core-base.c:592
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
- new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
- dev_attr_store+0x58/0x80 drivers/base/core.c:2505
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f17c619de99
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f17c70ca028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f17c6425fa0 RCX: 00007f17c619de99
-RDX: 000000000000000e RSI: 0000200000000400 RDI: 0000000000000004
-RBP: 00007f17c6233eaf R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f17c6426038 R14: 00007f17c6425fa0 R15: 00007ffc87927898
- </TASK>
-i2c i2c-0: new_device: Instantiated device wusb3801 at 0x4a
+-- 
+Dmitry
 
 
+Input: serio - use PROBE_FORCE_ASYNCHRONOUS and make port registration synchronous
+
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Mark serio drivers as using PROBE_FORCE_ASYNCHRONOUS instead of
+PROBE_PREFER_ASYNCHRONOUS during registration.
+
+At the same time, rework __serio_register_port() to run synchronously
+under serio_mutex instead of queuing a SERIO_REGISTER_PORT event to
+kseriod. This ensures port registration happens synchronously while
+driver probing is handled asynchronously by the driver core.
+
+Assisted-by: Antigravity:gemini-3.5-flash
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/input/serio/serio.c |   46 +++++--------------------------------------
+ 1 file changed, 5 insertions(+), 41 deletions(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
+index dd53c2b7a39d..f47d90f0507b 100644
+--- a/drivers/input/serio/serio.c
++++ b/drivers/input/serio/serio.c
+@@ -124,7 +124,6 @@ enum serio_event_type {
+ 	SERIO_RESCAN_PORT,
+ 	SERIO_RECONNECT_PORT,
+ 	SERIO_RECONNECT_SUBTREE,
+-	SERIO_REGISTER_PORT,
+ };
+ 
+ struct serio_event {
+@@ -190,11 +189,6 @@ static void serio_handle_event(struct work_struct *work)
+ 	while ((event = serio_get_event())) {
+ 
+ 		switch (event->type) {
+-
+-		case SERIO_REGISTER_PORT:
+-			serio_add_port(event->object);
+-			break;
+-
+ 		case SERIO_RECONNECT_PORT:
+ 			serio_reconnect_port(event->object);
+ 			break;
+@@ -279,30 +273,6 @@ static void serio_remove_pending_events(void *object)
+ 	}
+ }
+ 
+-/*
+- * Locate child serio port (if any) that has not been fully registered yet.
+- *
+- * Children are registered by driver's connect() handler so there can't be a
+- * grandchild pending registration together with a child.
+- */
+-static struct serio *serio_get_pending_child(struct serio *parent)
+-{
+-	struct serio_event *event;
+-	struct serio *serio;
+-
+-	guard(spinlock_irqsave)(&serio_event_lock);
+-
+-	list_for_each_entry(event, &serio_event_list, node) {
+-		if (event->type == SERIO_REGISTER_PORT) {
+-			serio = event->object;
+-			if (serio->parent == parent)
+-				return serio;
+-		}
+-	}
+-
+-	return NULL;
+-}
+-
+ /*
+  * Serio port operations
+  */
+@@ -516,13 +486,6 @@ static void serio_add_port(struct serio *serio)
+  */
+ static void serio_destroy_port(struct serio *serio)
+ {
+-	struct serio *child;
+-
+-	while ((child = serio_get_pending_child(serio)) != NULL) {
+-		serio_remove_pending_events(child);
+-		put_device(&child->dev);
+-	}
+-
+ 	if (serio->stop)
+ 		serio->stop(serio);
+ 
+@@ -653,13 +616,14 @@ void serio_reconnect(struct serio *serio)
+ EXPORT_SYMBOL(serio_reconnect);
+ 
+ /*
+- * Submits register request to kseriod for subsequent execution.
+- * Note that port registration is always asynchronous.
++ * Synchronously registers serio port.
+  */
+ int __serio_register_port(struct serio *serio, struct module *owner)
+ {
+ 	serio_init_port(serio);
+-	serio_queue_event(serio, owner, SERIO_REGISTER_PORT);
++
++	guard(mutex)(&serio_mutex);
++	serio_add_port(serio);
+ 
+ 	return 0;
+ }
+@@ -778,7 +742,7 @@ int __serio_register_driver(struct serio_driver *drv, struct module *owner, cons
+ 	 * Mark all serio drivers as using asynchronous probe because serio
+ 	 * devices are slow and their probing takes long time.
+ 	 */
+-	drv->driver.probe_type = PROBE_PREFER_ASYNCHRONOUS;
++	drv->driver.probe_type = PROBE_FORCE_ASYNCHRONOUS;
+ 
+ 	error = driver_register(&drv->driver);
+ 	if (error) {
