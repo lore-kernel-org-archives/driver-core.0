@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4979D35C180;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498B7397321;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785431151; cv=none; b=bkgjuhqpYRTVAXaFwZGCgB5lH7iwbetGhPVqjscxcceolmteUTjeercfbOETJ0d3a9VEYMPSFnbHTFa3Y2PWFUnUEJG6b/NmvOas3yIjLxhp5cB+KkeAJralx0s2gSXduWqxyPyUuxrbwa6klJu3Se5nPH1OuewPDaHUEkW57fQ=
+	t=1785431151; cv=none; b=jJtXvaRMRznOf8lccYVmlXzj1uPDxqWR3ENsp8tYtmF+JuPCgILzYpKOopB38bY0mkS441CLJR1Clay1ckLRKmpd3G06eyfOXHo3UOF/NnSqhgiX/oZlGfnnTHRjDTctHAsNbtUGO8Iv7D5msZc4r2OnoPHliguFSqrG+zu9qaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785431151; c=relaxed/simple;
-	bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
+	bh=FTFUONPZ59+GJBuoVyzqKeWjyXfvQxVwyjwhiLzc75o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eXB7v0Zyh7QTLW2xmOwQlERd0ej4+4w1wWYhefa7LHUc8BxDb/W1DMVbT7EYmzffnnu2sw1183Ri2xKlCcTXlGgAJroFZLmbUPJbkmHiV9D5L78m5E0OMgDdFKU44/yt6fzPfEPar8GIvrLxArEZUnAzW1m5wvsQp3DsLnCw0kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U0OgeggQ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=H491IeTJcZ0LHN/bjBnfNa8wm0spiLLVF2ZvdhA4qg3vRgjV6cWVfJU5qT4aufGnY/AghFk5UPyvUw5A2JdjYyaIOEQvYKhsAfDpCLlu9oZT4gMD2+I2lTZivzTTC7A8Y0U5uURNWMX7G0vswdIlCpCLUWNgSLxSHUyrmsfEF/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f/jt8kXY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U0OgeggQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 03FBEC2BCFC;
-	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f/jt8kXY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EB56FC2BCF7;
+	Thu, 30 Jul 2026 17:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1785431151; bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
+	t=1785431151; bh=FTFUONPZ59+GJBuoVyzqKeWjyXfvQxVwyjwhiLzc75o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=U0OgeggQO9XAL00a0Lyi35OLQFTK+lgiPeKS4qmN72pWx387JkERQVbhaBtOVKxdJ
-	 sJd6YYGWsuOVxaSSQoYbyIEuRiRPoFytyPFKfSKxYw6JA5XO9HnFuJ6vYAEboU5uLI
-	 7IX0+x5h0g9equU+dLAiCNGM5Adka3vWJXdsZZfU=
+	b=f/jt8kXY791tKpDq1ShjjhUrVh7rO1K5+VAFQpuWAnaycz+1jSsiDNo13LaWsGcNB
+	 CuOngTCHDvlzdLNt7Bn+CtxF5Si+fksTZSA7HZirq1iesPQU7BpWUwIa6ZhsarmvaH
+	 dIXKcEUtphzq6RnIYJIYC2tO/HhkK76hAWnAI4/U=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF18C55171;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE79FC5516F;
 	Thu, 30 Jul 2026 17:05:50 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 31 Jul 2026 01:05:42 +0800
-Subject: [PATCH v2 4/9] drm: move debugfs_init after dev->registered is set
+Date: Fri, 31 Jul 2026 01:05:41 +0800
+Subject: [PATCH v2 3/9] rust: debugfs: add Entry::from_raw and
+ ScopedDir::from_dentry
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -36,7 +37,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-tyr-debugfs-v2-v2-4-aea19eccb996@linux.dev>
+Message-Id: <20260731-tyr-debugfs-v2-v2-3-aea19eccb996@linux.dev>
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 In-Reply-To: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -64,56 +65,87 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=1502;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=2419;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
- b=Nu6+7BcxiJjyRPpf2u+1b0iaiSQBOJe051oW2rzfFeF1mot84+/iQEuu/d+7bnherhoaUo22G
- PErAWGVIR6SCpdLLCp+QzHtk1b2X3Lol0rBTsYH8E7OtNJA4IEi52sW
+ bh=FTFUONPZ59+GJBuoVyzqKeWjyXfvQxVwyjwhiLzc75o=;
+ b=oDB9AgTRksigyDa32LKWaz2haxDqxaPU9ZNoKyWk2lZQksK+lhTkT3ANydQK7o5sAwThohcZm
+ tN6hxLfrA6bBsIAG2AFfPthvNKam079pN6pEZHxRiv9W9CHM1n3f42I
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-The debugfs_init callback was invoked by drm_debugfs_register before
-dev->registered is set to true. Moving it to drm_dev_register after
-dev->registered = true fixes the Ioctl type invariant violation.
+Add methods to construct debugfs abstractions from raw C dentry
+pointers. Needed by DRM debugfs_init callback to create ScopedDir
+from the root dentry provided by C core.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- drivers/gpu/drm/drm_debugfs.c | 3 ---
- drivers/gpu/drm/drm_drv.c     | 5 +++++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ rust/kernel/debugfs.rs       | 19 +++++++++++++++++++
+ rust/kernel/debugfs/entry.rs | 15 ++++++++++++++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index ae1c6126c2c59..38cf6ce387cc8 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -442,9 +442,6 @@ int drm_debugfs_register(struct drm_minor *minor, int minor_id)
- 	/* TODO: Only for compatibility with drivers */
- 	minor->debugfs_root = dev->debugfs_root;
+diff --git a/rust/kernel/debugfs.rs b/rust/kernel/debugfs.rs
+index dea0e2c953039..0f521762352ad 100644
+--- a/rust/kernel/debugfs.rs
++++ b/rust/kernel/debugfs.rs
+@@ -735,4 +735,23 @@ fn new(name: &CStr) -> ScopedDir<'data, 'static> {
+             _phantom: PhantomData,
+         }
+     }
++
++    /// Creates a [`ScopedDir`] wrapping an existing debugfs dentry.
++    ///
++    /// Files created under this directory are not automatically removed on drop;
++    /// their lifetime is tied to the dentry owner.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure the dentry remains valid for the lifetime of the
++    /// returned `ScopedDir`.
++    pub unsafe fn from_dentry(dentry: *mut bindings::dentry) -> Self {
++        let _ = dentry;
++        ScopedDir {
++            #[cfg(CONFIG_DEBUG_FS)]
++            // SAFETY: The caller guarantees the dentry is valid and outlives this `ScopedDir`.
++            entry: ManuallyDrop::new(unsafe { Entry::from_raw(dentry) }),
++            _phantom: PhantomData,
++        }
++    }
+ }
+diff --git a/rust/kernel/debugfs/entry.rs b/rust/kernel/debugfs/entry.rs
+index 46aad64896ecb..7643ff0fa6093 100644
+--- a/rust/kernel/debugfs/entry.rs
++++ b/rust/kernel/debugfs/entry.rs
+@@ -8,7 +8,7 @@
+         CStr,
+         CStrExt as _, //
+     },
+-    sync::Arc,
++    sync::Arc, //
+ };
  
--	if (dev->driver->debugfs_init && dev->render != minor)
--		dev->driver->debugfs_init(minor);
--
- 	return 0;
+ use core::marker::PhantomData;
+@@ -87,6 +87,19 @@ pub(crate) unsafe fn dynamic_file<T>(
  }
  
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index e890052061f30..15669764fe625 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -1101,6 +1101,11 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	dev->registered = true;
- 	dev->unplugged = false;
- 
-+	/* Call debugfs_init after the device is fully registered. */
-+	if (dev->driver->debugfs_init && dev->primary &&
-+	    dev->render != dev->primary)
-+		dev->driver->debugfs_init(dev->primary);
+ impl<'a> Entry<'a> {
++    /// Wraps a raw dentry pointer.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure the dentry is valid and outlives this `Entry`.
++    pub(crate) unsafe fn from_raw(entry: *mut bindings::dentry) -> Self {
++        Self {
++            entry,
++            _parent: None,
++            _phantom: PhantomData,
++        }
++    }
 +
- 	if (driver->load) {
- 		ret = driver->load(dev, flags);
- 		if (ret)
+     pub(crate) fn dir(name: &CStr, parent: Option<&'a Entry<'_>>) -> Self {
+         let parent_ptr = match &parent {
+             Some(entry) => entry.as_ptr(),
 
 -- 
 2.43.0
