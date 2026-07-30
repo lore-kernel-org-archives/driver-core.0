@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D68F431E73;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F74D432E98;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785431151; cv=none; b=E20B5RNJn7nETqCsSBjB30AERCcyYk7z6rDJTJYsbWh1fQg6Dim/4SQhrh1GzVhyjfvifAaJtsG61nnb1pFcYpvScOp2hukD8MBKc2/JrFHAKq6XVcDWuHClZk9+L52HXXulvmFITHQQvRrqDcNexKkPVVrIlBdtxkYYt8B0U+o=
+	t=1785431151; cv=none; b=H416gQCOZvyumF8dcuyoXn+8ZZSL6p7jv1Uq2uFemOLCjtiS9bLkAIq7mydauaN4hmUMh48+TzyiV/sdHZyUIS4wgYdzBbTxemQtf17pHeHbZMu5a5+pQ/ROOCbWG3qHWD9BzlfE9b9UYdhpws2u2mpHlfE9JsEAYL6AX/sf3ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785431151; c=relaxed/simple;
-	bh=GVCT8D7jTZC4iF9oYU9jLIUK2NmIVV1AdrU5/oeX5O4=;
+	bh=skA4KVHM8LMz73TA56MQb3n/Ixh2G2cs8JHXFUZaNIU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dpdNEqLsBYlMjR0bKyeq/z6XepBsKNO1koIwoCBWZcjvf3YSxRnyjYEY3PzX0kDuptB+MmAtiAXT3AsVuTvywTJPZeNnJk+P49aDhrEvlmYURyGWHBw33zE+W8fmZXzZ3C+UEqIweHXvUt/sxUo/992TxI+8MTktX91zOOWgoY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=zHo+9Ys5; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=lOommcaIou1m1Aa7sWZA3oYUf62hjiEeNFaJg7vMiUpYG32o8ccvYCT6SG3Ntcq0oJGfbZitreL6QR8eLmOFzPh1dsyaQ84MGrN3iD29zjQ/QeHZcVnet13y295QiG67QZLlqs7rszMLB3L8FaCifFjESFyrEoNOKVUC9RHtQXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=yYmeCtbD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="zHo+9Ys5"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1CA2EC4AF1A;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="yYmeCtbD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50F43C2BCFD;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1785431151; bh=GVCT8D7jTZC4iF9oYU9jLIUK2NmIVV1AdrU5/oeX5O4=;
+	t=1785431151; bh=skA4KVHM8LMz73TA56MQb3n/Ixh2G2cs8JHXFUZaNIU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=zHo+9Ys5jbQMG+Us9qdLC0FTvYtYyiYzzpS5B9c4zzpccG6CoSvM1d1U6zJMBU3tC
-	 mUcHRCAvPlNp/Af3y+fBBxQfTM2uSSXQ3Xv4kliUyzmcbo2ga8LSiR+0rWMkr6R7Jy
-	 OvcHIEmgWr+w/N5cnMi24bzfRxiSdbcnCYNVeodw=
+	b=yYmeCtbDDCLxHrj4UeDlPOHGZybc9oRgoiMKd28LLLlNo1cSoFpL7QOtdAkz+YdeN
+	 I6Fkd9CbjRViQsDDTNjpHa5h+2w9HXvwr6DmQDhGaZ/8lUscQJ7Itc9jTpUP3bLK3Q
+	 XN2ki20ASAGy4KBwoqSuqpTfhmKkckBGVQF5+BjY=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08864C55162;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A77C55171;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 31 Jul 2026 01:05:44 +0800
-Subject: [PATCH v2 6/9] rust: drm: add DrmSeqShow seq_file adapter
+Date: Fri, 31 Jul 2026 01:05:47 +0800
+Subject: [PATCH v2 9/9] drm/debugfs: hold device reference for the lifetime
+ of open files
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -36,7 +37,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-tyr-debugfs-v2-v2-6-aea19eccb996@linux.dev>
+Message-Id: <20260731-tyr-debugfs-v2-v2-9-aea19eccb996@linux.dev>
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 In-Reply-To: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -64,94 +65,111 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=2686;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=3132;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=GVCT8D7jTZC4iF9oYU9jLIUK2NmIVV1AdrU5/oeX5O4=;
- b=+RGmMqtdp1gntYEKgcNqJHPleGq4GDbAxXoW3f3/rP3zzWKCFsIYNIsb7VKgS9WriBEl0+zsW
- laOIBDRYn20AOsbawtafVMeOLtdUeUSBA3Gzgq0bXg1yx6yKnrGd86T
+ bh=skA4KVHM8LMz73TA56MQb3n/Ixh2G2cs8JHXFUZaNIU=;
+ b=byirK3xd7xbmRD0KNzAAenKpeldvUER6QjL52yREv13nnnfpFq5CGiZ65r+lwQ7WTBzZbuVjH
+ 2PRTkN6XUtDB1MhPnoqzBmw/q8DJSTtfx8+g8cJQ91uO8Obgrcp4MCI
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add DrmSeqShow trait and its SeqShow blanket impl for Device<T, Normal>,
-enabling Rust DRM drivers to expose device state via debugfs seq_file
-entries. Device registration data is kept alive for the duration of
-each seq_file read.
+Hold a device reference (via drm_dev_get/put) across the lifetime of open
+debugfs files. Prevents use-after-free when a device is unregistered while
+a debugfs file remains open. Both drm_debugfs_open (legacy info_list)
+and drm_debugfs_entry_open (drm_debugfs_add_file) paths are covered.
+
+Fixes: 1c9cacbea8805 ("drm/debugfs: create device-centered debugfs functions")
+Fixes: 28a62277e06f9 ("drm: Convert proc files to seq_file and introduce debugfs")
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- rust/kernel/drm/debugfs.rs | 49 ++++++++++++++++++++++++++++++++++++++++++++++
- rust/kernel/drm/mod.rs     |  1 +
- 2 files changed, 50 insertions(+)
+ drivers/gpu/drm/drm_debugfs.c | 42 ++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 38 insertions(+), 4 deletions(-)
 
-diff --git a/rust/kernel/drm/debugfs.rs b/rust/kernel/drm/debugfs.rs
-new file mode 100644
-index 0000000000000..26f3b400e24ac
---- /dev/null
-+++ b/rust/kernel/drm/debugfs.rs
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 38cf6ce387cc8..5262a708f1602 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -159,11 +159,28 @@ static const struct drm_debugfs_info drm_debugfs_list[] = {
+ static int drm_debugfs_open(struct inode *inode, struct file *file)
+ {
+ 	struct drm_info_node *node = inode->i_private;
++	struct drm_device *dev = node->minor->dev;
++	int ret;
+ 
+ 	if (!device_is_registered(node->minor->kdev))
+ 		return -ENODEV;
+ 
+-	return single_open(file, node->info_ent->show, node);
++	drm_dev_get(dev);
 +
-+//! DRM-specific debugfs seq_file helpers.
++	ret = single_open(file, node->info_ent->show, node);
++	if (ret)
++		drm_dev_put(dev);
 +
-+use crate::{
-+    debugfs,
-+    drm,
-+    prelude::*,
-+    seq_file,
-+    sync::aref::AlwaysRefCounted, //
-+};
-+use core::ptr::NonNull;
-+
-+/// Renders DRM device state into a seq_file under SRCU protection.
-+///
-+/// Pass an implementing type to
-+/// [`debugfs::ScopedDir::seq_file`]. The `show`
-+/// method receives a [`drm::RegistrationGuard`] that keeps DRM device data alive
-+/// for its duration.
-+pub trait DrmSeqShow<T: drm::Driver> {
-+    /// Writes debugfs output for the file.
-+    fn show(guard: &drm::RegistrationGuard<'_, T>, m: &seq_file::SeqFile) -> Result;
++	return ret;
 +}
 +
-+impl<S: DrmSeqShow<T>, T: drm::Driver> debugfs::SeqShow<drm::Device<T, drm::Normal>> for S {
-+    fn show(dev: &drm::Device<T, drm::Normal>, m: &seq_file::SeqFile) -> Result {
-+        // SAFETY: `debugfs_init` runs after `dev->registered = true` is set,
-+        // so the `Ioctl` invariant is satisfied. `Normal` and `Ioctl` share
-+        // an identical layout.
-+        let dev = unsafe { dev.assume_ctx::<drm::Ioctl>() };
++static int drm_debugfs_release(struct inode *inode, struct file *file)
++{
++	struct drm_info_node *node =
++		((struct seq_file *)file->private_data)->private;
 +
-+        let Some(guard) = dev.registration_guard() else {
-+            return Err(ENODEV);
-+        };
-+        S::show(&guard, m)
-+    }
++	drm_dev_put(node->minor->dev);
++	return single_release(inode, file);
+ }
+ 
+ static int drm_debugfs_entry_open(struct inode *inode, struct file *file)
+@@ -171,11 +188,28 @@ static int drm_debugfs_entry_open(struct inode *inode, struct file *file)
+ 	struct drm_debugfs_entry *entry = inode->i_private;
+ 	struct drm_debugfs_info *node = &entry->file;
+ 	struct drm_minor *minor = entry->dev->primary ?: entry->dev->accel;
++	struct drm_device *dev = entry->dev;
++	int ret;
+ 
+ 	if (!device_is_registered(minor->kdev))
+ 		return -ENODEV;
+ 
+-	return single_open(file, node->show, entry);
++	drm_dev_get(dev);
 +
-+    fn open(dev: &drm::Device<T, drm::Normal>) -> Result {
-+        // Hold a device reference so the device is not freed while the file is open.
-+        dev.inc_ref();
-+        Ok(())
-+    }
++	ret = single_open(file, node->show, entry);
++	if (ret)
++		drm_dev_put(dev);
 +
-+    unsafe fn release(dev: NonNull<drm::Device<T, drm::Normal>>) {
-+        // Drop the reference taken in `open`.
-+        // SAFETY: `dev` is valid per this function's safety contract.
-+        unsafe { drm::Device::<T>::dec_ref(dev) };
-+    }
++	return ret;
 +}
-diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-index fd6ed35bc35a9..5ed2e6bb764eb 100644
---- a/rust/kernel/drm/mod.rs
-+++ b/rust/kernel/drm/mod.rs
-@@ -2,6 +2,7 @@
++
++static int drm_debugfs_entry_release(struct inode *inode, struct file *file)
++{
++	struct drm_debugfs_entry *entry =
++		((struct seq_file *)file->private_data)->private;
++
++	drm_dev_put(entry->dev);
++	return single_release(inode, file);
+ }
  
- //! DRM subsystem abstractions.
+ static const struct file_operations drm_debugfs_entry_fops = {
+@@ -183,7 +217,7 @@ static const struct file_operations drm_debugfs_entry_fops = {
+ 	.open = drm_debugfs_entry_open,
+ 	.read = seq_read,
+ 	.llseek = seq_lseek,
+-	.release = single_release,
++	.release = drm_debugfs_entry_release,
+ };
  
-+pub mod debugfs;
- pub mod device;
- pub mod driver;
- pub mod file;
+ static const struct file_operations drm_debugfs_fops = {
+@@ -191,7 +225,7 @@ static const struct file_operations drm_debugfs_fops = {
+ 	.open = drm_debugfs_open,
+ 	.read = seq_read,
+ 	.llseek = seq_lseek,
+-	.release = single_release,
++	.release = drm_debugfs_release,
+ };
+ 
+ /**
 
 -- 
 2.43.0
