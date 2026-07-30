@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F981435A9D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8D1434E3E;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785431151; cv=none; b=jSNA1H4bJ+i9POtrwQ0t16tv3jfqf5fgqXeo61gy+am238jQuedpGWsxhHV8cKHJnyTcb4wz9OyafQ9GzPlaJcOjeZHXco+EhzAKjo9I61A7W0JA3QZx0OfBnN9NvMZDxR5M+I27EazAi+iCTiWXkHyhXS+T4aaw2cjCUxyaq68=
+	t=1785431151; cv=none; b=LTFjz/KYK8iGmD9aJKY14bGWmlGzsCU6hX9I7IqtmCi4U2ehru05ZHHr0DXZ3kGh+juCY2+Nh9liWJwPReHaHa5QqAPUXp84f1Ka4py0lUcEKsbWnh7CEKeznCd1Xu4j4OaKg1/T6g2sQZawP3ZCIgCBZhzkRPY9D/r7AIizuEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785431151; c=relaxed/simple;
-	bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
+	bh=NX/9FQXMAwjzHsZtdfgcGo+thvCbDsU1kpIsxoHDurk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qcMJPNe1Y5KrKGOpQjUqpG3hJKCOUUWKA8Topbbqi406M6C8zO1UDXvHhWKns69IIwsQxuYjypFT3EcpyP5DIe9Wp33R6A8fB6YusAkD3yZWjihgP98rRAyaW4X6Mw2okibONZCzal/Y5/PPShQcl153wT6WQvihnaIc0SShOx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ynCcWmuX; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=kMtbuHw1XECoQSAaAoJ2QEa/q+u1Ntbpq7VXUYl64vE1dMSEQYu7Epo7PeqbwNPt0v5mD2mkb0TQHiGxeMnO+diOz/IfcCFf/FRbulioflvT4QZ4vlxEJCBEc/TWwwj/Ocq9KawnrydjTjojxaXQRGnsnHZumaJe5mI02iO3QXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dhwEsmcq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ynCcWmuX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 09E6DC2BD04;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dhwEsmcq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2C7F0C2BD01;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1785431151; bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
+	t=1785431151; bh=NX/9FQXMAwjzHsZtdfgcGo+thvCbDsU1kpIsxoHDurk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ynCcWmuXnB0jjo1gfEzF2jgxiV2aL0oZzLWejxsMLXb4okCPLe3K7+G64qxTK4MIo
-	 6rNizpKjra+f6AvlJ25j+D+OYwTWtqqOaWRlKiYjQnpXP7YDpeA7koaKn++mlN071N
-	 7z5nZrEFA7ueImCwM19zTdbwN1+n6Yzuhp1/NiIc=
+	b=dhwEsmcqjbVlVUIEV607eSZN6VTYj4jLxgnN2BuMwP0KbIc840FtymcmOINeS92Sc
+	 mUi6tIm3NNvZQuZNONbq/hc/Q6IFLyGbP1BBbugxAn6HK0v8/bYl9wHcaRhz7eWx9D
+	 5VQTWAASGXVRtiIXbu7P2jQyR+D1XmSEL4XQp9/E=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB5AC55164;
-	Thu, 30 Jul 2026 17:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B59C5516E;
+	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 31 Jul 2026 01:05:43 +0800
-Subject: [PATCH v2 5/9] rust: drm: add debugfs_init callback to Driver
- trait
+Date: Fri, 31 Jul 2026 01:05:45 +0800
+Subject: [PATCH v2 7/9] rust: drm: gpuvm: add dump_gpuva_info to
+ UniqueRefGpuVm
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-tyr-debugfs-v2-v2-5-aea19eccb996@linux.dev>
+Message-Id: <20260731-tyr-debugfs-v2-v2-7-aea19eccb996@linux.dev>
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 In-Reply-To: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -65,137 +65,43 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=4261;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=1085;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
- b=Vv+KfURg6kwiS2V3pkSEKb24JmkZRi0mkucL3WPHVnRo6orv2pNtzyrdWBlpd9MdSl2XLFoEQ
- faMxHsP+XSCCZhDPDUwU633m6r4bYMpHblmSoeScV4tqQqJjnmvF8px
+ bh=NX/9FQXMAwjzHsZtdfgcGo+thvCbDsU1kpIsxoHDurk=;
+ b=cD39ySEYIbIAhUOKIQFpOc4MgiEtfltDPaMc4WolTSVbYVrpErF1ujIo9f14HN16T+q5MJyJz
+ EnwgmZQwiviBPwAqNYogW//0Hpe0VYPTPP8y9CXV0uDkuY/IRUuM3yO
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add debugfs_init method to the Driver trait, enabling Rust DRM
-drivers to populate debugfs entries during device registration.
-The C callback converts from raw C minor/dentry types to Rust Device
-and ScopedDir references.
+Add method wrapping drm_debugfs_gpuva_info to dump GPU VA space
+mappings into a seq_file. Needed by the Tyr gpuvas debugfs file.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- rust/bindings/bindings_helper.h |  1 +
- rust/kernel/drm/device.rs       | 36 ++++++++++++++++++++++++++++++++++--
- rust/kernel/drm/driver.rs       | 11 +++++++++++
- 3 files changed, 46 insertions(+), 2 deletions(-)
+ rust/kernel/drm/gpuvm/mod.rs | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 1124785e210b3..c3b2a86528934 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -30,6 +30,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/gpu_buddy.h>
-+#include <drm/drm_debugfs.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 7a3a0e21e9557..c9aa5d2374444 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -7,6 +7,7 @@
- use crate::{
-     alloc::allocator::Kmalloc,
-     bindings,
-+    debugfs::ScopedDir,
-     device,
-     drm::{
-         self,
-@@ -39,7 +40,7 @@
-     ptr::{
-         self,
-         NonNull, //
--    },
-+    }, //
- };
- 
- #[cfg(CONFIG_DRM_LEGACY)]
-@@ -170,7 +171,7 @@ const fn compute_features() -> u32 {
-         release: Some(Device::<T>::release),
-         master_set: None,
-         master_drop: None,
--        debugfs_init: None,
-+        debugfs_init: Some(Device::<T, Normal>::debugfs_init_callback),
- 
-         gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
-         prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
-@@ -353,6 +354,37 @@ extern "C" fn release(ptr: *mut bindings::drm_device) {
-         unsafe { core::ptr::drop_in_place(this) };
+diff --git a/rust/kernel/drm/gpuvm/mod.rs b/rust/kernel/drm/gpuvm/mod.rs
+index 20a08b3defeb8..9da88501a4206 100644
+--- a/rust/kernel/drm/gpuvm/mod.rs
++++ b/rust/kernel/drm/gpuvm/mod.rs
+@@ -312,6 +312,14 @@ pub fn data_ref(&self) -> &T {
+         unsafe { &*self.0.data.get() }
      }
  
-+    /// C callback for `drm_driver.debugfs_init`.
++    /// Dumps GPU VA space info into a seq_file.
 +    ///
-+    /// # Safety
-+    ///
-+    /// The DRM core guarantees that `minor` is valid and non-null when calling
-+    /// this callback, and that `minor->dev` is a valid `drm_device` embedded
-+    /// in a `Device<T>`.
-+    unsafe extern "C" fn debugfs_init_callback(minor: *mut bindings::drm_minor) {
-+        // SAFETY: `minor` is valid and non-null per the function's safety
-+        // precondition.
-+        let dev_ptr = unsafe { (*minor).dev };
-+        // SAFETY: `minor` is valid per the function's safety precondition.
-+        let debugfs_root = unsafe { (*minor).debugfs_root };
-+
-+        // Debugfs may be disabled.
-+        if debugfs_root.is_null() {
-+            return;
-+        }
-+
-+        // SAFETY: `dev_ptr` points to a valid `drm_device` embedded in
-+        // `Device<T, Normal>`. `debugfs_init` runs during registration, so
-+        // the `Normal` context is correct.
-+        let device = unsafe { Device::<T, Normal>::from_raw(dev_ptr) };
-+
-+        // SAFETY: `debugfs_root` is a valid dentry that remains alive as long as the
-+        // DRM device is registered, which outlives this `ScopedDir`.
-+        let dir = unsafe { ScopedDir::from_dentry(debugfs_root) };
-+
-+        T::debugfs_init(device, &dir);
++    /// Wraps the C `drm_debugfs_gpuva_info` function.
++    pub fn dump_gpuva_info(&self, m: &crate::seq_file::SeqFile) -> Result {
++        // SAFETY: `m.as_raw()` and `self.as_raw()` are valid by the type invariants.
++        to_result(unsafe { bindings::drm_debugfs_gpuva_info(m.as_raw(), self.as_raw()) })
 +    }
 +
-     /// Change the [`DeviceContext`] for a [`Device`].
-     ///
-     /// # Safety
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index 08b2a318cf02a..7f3a6eaeddc5e 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -6,6 +6,7 @@
- 
- use crate::{
-     bindings,
-+    debugfs::ScopedDir,
-     device,
-     drm,
-     error::to_result,
-@@ -138,6 +139,16 @@ pub trait Driver {
-     /// usable from the render node (i.e. marked DRM_RENDER_ALLOW), whereas
-     /// userspace processes using the master node can invoke any ioctl.
-     const FEAT_RENDER: bool = false;
-+
-+    /// Populates debugfs for this DRM device.
-+    ///
-+    /// Called by the DRM core during registration, once per minor (callback
-+    /// runs after `dev->registered`).
-+    fn debugfs_init<'a>(_dev: &'a drm::Device<Self, drm::Normal>, _dir: &ScopedDir<'a, 'static>)
-+    where
-+        Self: Sized,
-+    {
-+    }
- }
- 
- /// The registration type of a `drm::Device`.
+     /// Access the data owned by this `UniqueRefGpuVm` mutably.
+     #[inline]
+     pub fn data(&mut self) -> &mut T {
 
 -- 
 2.43.0
