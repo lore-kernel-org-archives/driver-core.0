@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F815433E63;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F981435A9D;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785431151; cv=none; b=FrVzXxKrMXVljZqmtWW7Vw8ck2Zfk4WgrGRCBkuAAjpOQ/RoaXiYr0eLBKgR2DqYBaluZQwWtFapmI1Uh4hO32NDUsrFTjuGSO8QfMymePXjORvVizTDSrKPNImu6oOP2NXvpKl85v4LfPuICicV1XF6yHUDlNvp1v/O2Y2yJ1M=
+	t=1785431151; cv=none; b=jSNA1H4bJ+i9POtrwQ0t16tv3jfqf5fgqXeo61gy+am238jQuedpGWsxhHV8cKHJnyTcb4wz9OyafQ9GzPlaJcOjeZHXco+EhzAKjo9I61A7W0JA3QZx0OfBnN9NvMZDxR5M+I27EazAi+iCTiWXkHyhXS+T4aaw2cjCUxyaq68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785431151; c=relaxed/simple;
-	bh=kYVkz61WE+2pny9snlklEeo0ASdH0aL0mIPndo2QTJk=;
+	bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m/RzeLZOsATRT4NtA+PcbbJv1MinIZxFggrcpTt4h5Mr+O5swvLMr88HUs8ZgQgDEvQROIgmMHgudzJknl5h+6qFLsFzJO5Of6l7EXEg2qKcwlf5OJAQZcrCTkBEcf5H6e/Vn8QzzXL16+5yx5sdUNZKC1AhPzaVpwkCvJqoIsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SBOTLx19; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=qcMJPNe1Y5KrKGOpQjUqpG3hJKCOUUWKA8Topbbqi406M6C8zO1UDXvHhWKns69IIwsQxuYjypFT3EcpyP5DIe9Wp33R6A8fB6YusAkD3yZWjihgP98rRAyaW4X6Mw2okibONZCzal/Y5/PPShQcl153wT6WQvihnaIc0SShOx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ynCcWmuX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SBOTLx19"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A1F0C4AF15;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ynCcWmuX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 09E6DC2BD04;
 	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1785431151; bh=kYVkz61WE+2pny9snlklEeo0ASdH0aL0mIPndo2QTJk=;
+	t=1785431151; bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SBOTLx19r8SYWlKgI8bHEEGAGvKzWVXQ3514W7pkDzPqi3h8Bjkec+7x33ONlbucu
-	 95okEdFHIH5WhdpduJuXmYUG6w6Y/Ij0EesDf5YdZ5hkvyf5WQcZPQ1+QjlBntWDBl
-	 S9wZ6kXd8g1uIVEhJbbSwjFvOFMD+lQQvJ9QkOkw=
+	b=ynCcWmuXnB0jjo1gfEzF2jgxiV2aL0oZzLWejxsMLXb4okCPLe3K7+G64qxTK4MIo
+	 6rNizpKjra+f6AvlJ25j+D+OYwTWtqqOaWRlKiYjQnpXP7YDpeA7koaKn++mlN071N
+	 7z5nZrEFA7ueImCwM19zTdbwN1+n6Yzuhp1/NiIc=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28ADDC5516F;
-	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB5AC55164;
+	Thu, 30 Jul 2026 17:05:50 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 31 Jul 2026 01:05:46 +0800
-Subject: [PATCH v2 8/9] drm/tyr: add gpuvas debugfs file
+Date: Fri, 31 Jul 2026 01:05:43 +0800
+Subject: [PATCH v2 5/9] rust: drm: add debugfs_init callback to Driver
+ trait
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -36,7 +37,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
+Message-Id: <20260731-tyr-debugfs-v2-v2-5-aea19eccb996@linux.dev>
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 In-Reply-To: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -64,228 +65,137 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=6199;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=4261;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=kYVkz61WE+2pny9snlklEeo0ASdH0aL0mIPndo2QTJk=;
- b=SAW5hfriiBKwOoYyYKHdMATWNLMBel1xSMH9cZA+Z/ZeMFDLTI8ZbQ8poI+EoOQzN4Rp+spMd
- hIpGd4fkWeVBvhVYcRsVFfs6IGaQnNqomaJx9+Rt/+3e0lCiJsuJU75
+ bh=Mu/THEs4NT5nNw4z7NqjGMWVALSaA8dgypD02/JDRXs=;
+ b=Vv+KfURg6kwiS2V3pkSEKb24JmkZRi0mkucL3WPHVnRo6orv2pNtzyrdWBlpd9MdSl2XLFoEQ
+ faMxHsP+XSCCZhDPDUwU633m6r4bYMpHblmSoeScV4tqQqJjnmvF8px
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add a gpuvas debugfs file listing all GPU VAs for the Tyr DRM driver.
-Collects VMs into a shared list during firmware init and renders them
-via dump_gpuva_info on read.
+Add debugfs_init method to the Driver trait, enabling Rust DRM
+drivers to populate debugfs entries during device registration.
+The C callback converts from raw C minor/dentry types to Rust Device
+and ScopedDir references.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- drivers/gpu/drm/tyr/debugfs.rs | 65 ++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tyr/driver.rs  | 16 +++++++++++
- drivers/gpu/drm/tyr/fw.rs      |  8 ++++++
- drivers/gpu/drm/tyr/tyr.rs     |  1 +
- drivers/gpu/drm/tyr/vm.rs      |  5 ++++
- 5 files changed, 95 insertions(+)
+ rust/bindings/bindings_helper.h |  1 +
+ rust/kernel/drm/device.rs       | 36 ++++++++++++++++++++++++++++++++++--
+ rust/kernel/drm/driver.rs       | 11 +++++++++++
+ 3 files changed, 46 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tyr/debugfs.rs b/drivers/gpu/drm/tyr/debugfs.rs
-new file mode 100644
-index 0000000000000..d381b1901bd08
---- /dev/null
-+++ b/drivers/gpu/drm/tyr/debugfs.rs
-@@ -0,0 +1,65 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+
-+//! Debugfs support for the Tyr DRM driver.
-+
-+use kernel::{
-+    alloc::KVec,
-+    drm,
-+    new_mutex,
-+    prelude::*,
-+    seq_file,
-+    sync::{
-+        Arc,
-+        Mutex, //
-+    }, //
-+};
-+
-+use crate::{
-+    driver::TyrDrmDriver,
-+    vm::Vm, //
-+};
-+
-+/// Registry of VMs for debugfs access.
-+#[pin_data]
-+pub(crate) struct VmRegistry<'drm> {
-+    #[pin]
-+    vms: Mutex<KVec<Arc<Vm<'drm>>>>,
-+}
-+
-+impl<'drm> VmRegistry<'drm> {
-+    pub(crate) fn new() -> impl PinInit<Self> {
-+        pin_init!(Self { vms <- new_mutex!(KVec::new()) })
-+    }
-+
-+    pub(crate) fn register(&self, vm: Arc<Vm<'drm>>) -> Result {
-+        Ok(self.vms.lock().push(vm, GFP_KERNEL)?)
-+    }
-+
-+    fn for_each(&self, mut f: impl FnMut(&Vm<'drm>) -> Result) -> Result {
-+        for vm in self.vms.lock().iter() {
-+            f(vm)?;
-+        }
-+        Ok(())
-+    }
-+}
-+
-+/// Debugfs data associated with a device.
-+///
-+/// Each field corresponds to a debugfs file.
-+pub(crate) struct DebugfsData<'drm> {
-+    pub(crate) gpuvas: Pin<KBox<VmRegistry<'drm>>>,
-+}
-+
-+/// `DrmSeqShow` implementation for the `gpuvas` debugfs file.
-+pub(crate) struct GpuvasShow;
-+
-+impl drm::debugfs::DrmSeqShow<TyrDrmDriver> for GpuvasShow {
-+    fn show(guard: &drm::RegistrationGuard<'_, TyrDrmDriver>, m: &seq_file::SeqFile) -> Result {
-+        guard.registration_data_with(|reg_data| {
-+            reg_data
-+                .debugfs_data
-+                .gpuvas
-+                .for_each(|vm| vm.dump_gpuva_info(m))
-+        })
-+    }
-+}
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index a6694400be659..6af3e464994b4 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 1124785e210b3..c3b2a86528934 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -30,6 +30,7 @@
+ 
+ #include <linux/acpi.h>
+ #include <linux/gpu_buddy.h>
++#include <drm/drm_debugfs.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index 7a3a0e21e9557..c9aa5d2374444 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
 @@ -7,6 +7,7 @@
-         Clk,
-         OptionalClk, //
-     },
+ use crate::{
+     alloc::allocator::Kmalloc,
+     bindings,
 +    debugfs::ScopedDir,
-     device::{
-         Bound,
-         Core,
-@@ -45,6 +46,11 @@
+     device,
+     drm::{
+         self,
+@@ -39,7 +40,7 @@
+     ptr::{
+         self,
+         NonNull, //
+-    },
++    }, //
  };
  
- use crate::{
-+    debugfs::{
-+        DebugfsData,
-+        GpuvasShow,
-+        VmRegistry, //
-+    },
-     file::TyrDrmFileData,
-     fw::{
-         irq::{
-@@ -86,6 +92,8 @@ pub(crate) struct TyrDrmRegistrationData<'drm> {
-     /// Firmware sections.
-     pub(crate) fw: Arc<Firmware<'drm>>,
+ #[cfg(CONFIG_DRM_LEGACY)]
+@@ -170,7 +171,7 @@ const fn compute_features() -> u32 {
+         release: Some(Device::<T>::release),
+         master_set: None,
+         master_drop: None,
+-        debugfs_init: None,
++        debugfs_init: Some(Device::<T, Normal>::debugfs_init_callback),
  
-+    pub(crate) debugfs_data: DebugfsData<'drm>,
-+
-     #[pin]
-     clks: Mutex<Clocks>,
- 
-@@ -167,11 +175,14 @@ fn probe<'bound>(
- 
-         let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
- 
-+        let vms = KBox::pin_init(VmRegistry::new(), GFP_KERNEL)?;
-+
-         let firmware = Firmware::new(
-             pdev.as_ref(),
-             iomem.clone(),
-             &unreg_dev,
-             mmu.as_arc_borrow(),
-+            &vms,
-             &gpu_info,
-         )?;
- 
-@@ -194,6 +205,7 @@ fn probe<'bound>(
-         let reg_data = pin_init!(TyrDrmRegistrationData {
-                 pdev,
-                 fw: firmware,
-+                debugfs_data: DebugfsData { gpuvas: vms },
-                 clks <- new_mutex!(Clocks {
-                     core: core_clk,
-                     stacks: stacks_clk,
-@@ -248,6 +260,10 @@ impl drm::Driver for TyrDrmDriver {
-     kernel::declare_drm_ioctls! {
-         (PANTHOR_DEV_QUERY, drm_panthor_dev_query, ioctl::RENDER_ALLOW, TyrDrmFileData::dev_query),
+         gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
+         prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
+@@ -353,6 +354,37 @@ extern "C" fn release(ptr: *mut bindings::drm_device) {
+         unsafe { core::ptr::drop_in_place(this) };
      }
+ 
++    /// C callback for `drm_driver.debugfs_init`.
++    ///
++    /// # Safety
++    ///
++    /// The DRM core guarantees that `minor` is valid and non-null when calling
++    /// this callback, and that `minor->dev` is a valid `drm_device` embedded
++    /// in a `Device<T>`.
++    unsafe extern "C" fn debugfs_init_callback(minor: *mut bindings::drm_minor) {
++        // SAFETY: `minor` is valid and non-null per the function's safety
++        // precondition.
++        let dev_ptr = unsafe { (*minor).dev };
++        // SAFETY: `minor` is valid per the function's safety precondition.
++        let debugfs_root = unsafe { (*minor).debugfs_root };
 +
-+    fn debugfs_init<'a>(dev: &'a drm::Device<Self, drm::Normal>, dir: &ScopedDir<'a, 'static>) {
-+        dir.seq_file::<GpuvasShow, _>(c"gpuvas", dev);
++        // Debugfs may be disabled.
++        if debugfs_root.is_null() {
++            return;
++        }
++
++        // SAFETY: `dev_ptr` points to a valid `drm_device` embedded in
++        // `Device<T, Normal>`. `debugfs_init` runs during registration, so
++        // the `Normal` context is correct.
++        let device = unsafe { Device::<T, Normal>::from_raw(dev_ptr) };
++
++        // SAFETY: `debugfs_root` is a valid dentry that remains alive as long as the
++        // DRM device is registered, which outlives this `ScopedDir`.
++        let dir = unsafe { ScopedDir::from_dentry(debugfs_root) };
++
++        T::debugfs_init(device, &dir);
++    }
++
+     /// Change the [`DeviceContext`] for a [`Device`].
+     ///
+     /// # Safety
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index 08b2a318cf02a..7f3a6eaeddc5e 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -6,6 +6,7 @@
+ 
+ use crate::{
+     bindings,
++    debugfs::ScopedDir,
+     device,
+     drm,
+     error::to_result,
+@@ -138,6 +139,16 @@ pub trait Driver {
+     /// usable from the render node (i.e. marked DRM_RENDER_ALLOW), whereas
+     /// userspace processes using the master node can invoke any ioctl.
+     const FEAT_RENDER: bool = false;
++
++    /// Populates debugfs for this DRM device.
++    ///
++    /// Called by the DRM core during registration, once per minor (callback
++    /// runs after `dev->registered`).
++    fn debugfs_init<'a>(_dev: &'a drm::Device<Self, drm::Normal>, _dir: &ScopedDir<'a, 'static>)
++    where
++        Self: Sized,
++    {
 +    }
  }
  
- struct Clocks {
-diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-index 65ac18b92b4f2..3f45767e93853 100644
---- a/drivers/gpu/drm/tyr/fw.rs
-+++ b/drivers/gpu/drm/tyr/fw.rs
-@@ -47,6 +47,7 @@
- };
- 
- use crate::{
-+    debugfs::VmRegistry,
-     driver::{
-         IoMem,
-         TyrDrmDevice, //
-@@ -251,6 +252,7 @@ pub(crate) fn new(
-         iomem: Arc<IoMem<'drm>>,
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-+        gpuvas: &VmRegistry<'drm>,
-         gpu_info: &GpuInfo,
-     ) -> Result<Arc<Firmware<'drm>>> {
-         let vm = Vm::new(dev, ddev, mmu, gpu_info)?;
-@@ -300,6 +302,12 @@ pub(crate) fn new(
-             )?)
-         })();
- 
-+        if result.is_ok() {
-+            if let Err(e) = gpuvas.register(vm.clone()) {
-+                dev_warn!(dev, "failed to register VM: {e:?}\n");
-+            }
-+        }
-+
-         if result.is_err() {
-             vm.kill();
-         }
-diff --git a/drivers/gpu/drm/tyr/tyr.rs b/drivers/gpu/drm/tyr/tyr.rs
-index e7ec450bdc9c0..6eb13c15d1657 100644
---- a/drivers/gpu/drm/tyr/tyr.rs
-+++ b/drivers/gpu/drm/tyr/tyr.rs
-@@ -7,6 +7,7 @@
- 
- use crate::driver::TyrPlatformDriver;
- 
-+mod debugfs;
- mod driver;
- mod file;
- mod fw;
-diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-index 74c3d6c8efc49..927d4605b1e8d 100644
---- a/drivers/gpu/drm/tyr/vm.rs
-+++ b/drivers/gpu/drm/tyr/vm.rs
-@@ -401,6 +401,11 @@ pub(crate) fn activate(&self) -> Result {
-             })
-     }
- 
-+    /// Dumps GPU VA space info into a seq_file.
-+    pub(crate) fn dump_gpuva_info(&self, m: &kernel::seq_file::SeqFile) -> Result {
-+        self.gpuvm_unique.lock().dump_gpuva_info(m)
-+    }
-+
-     /// Deactivate the VM by evicting it from its address space slot.
-     fn deactivate(&self) -> Result {
-         self.mmu.deactivate_vm(&self.as_data).inspect_err(|e| {
+ /// The registration type of a `drm::Device`.
 
 -- 
 2.43.0
