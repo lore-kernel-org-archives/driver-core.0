@@ -1,92 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615DF443A94;
-	Thu, 30 Jul 2026 16:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94922FD665;
+	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785428478; cv=none; b=hFt9xoRMyGjuitIOnH8gTd+pozAS0SmMIbOlj3H+/9IEptx9Y5lT7uk5SHwwTuXL/gV6yLKcCSNIz5sywdRE9Q5qz2Ceiq1dCDhvozR/42WUdBOsa3Y3tmgIAs8kub2L6qg3aFpasURjoudWoDX8zUxyDCj8wn6b0PRHttEuLgo=
+	t=1785429313; cv=none; b=Yw8KYsE47dNldE+A+Ox2MSRIY74XNjR7fiwQn9KFJuYX7NNpCVndHYqbuiH4aQPiSQ/a8rH8zBFAN71gs7tTCOpOMlh2lR1XqT+4/eanLzodozMr4c9fQFvWWHsKwHbo5A6F5Rb2SO45/vL3QVqOepBMKyffCZAja49ceZ4WhEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785428478; c=relaxed/simple;
-	bh=vgAaEDYnEiyIcw8WvXb+LJM4O/djtYS0hbJLAP6qGBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8xxlNiAiI7HME1F8FvBWtpUCdMCJxXen5ol/z5F1DuWPrxcuZTl9i3Z3jpK9lVZGFU2YTfNylaR/ejRsyhAT9KJGaOvAoVyQNNJUmAoLCxnZIq0xiKCSCw1LfjT2m5RJHs11FUni196GPa49ALLv/lIXImkoUHTMC9NxNyb4+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vPJ9CUUg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785429313; c=relaxed/simple;
+	bh=NOfo7wCWVPHuFHnJP8Bujm4ylRP1YOJen3Xiue6s4b8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hDdbJF5byuVtqCObj95xd7Kq0u21PvmRtR2L/ySgdDtz29GBZkVFEGgiGe43Zv2L0YNASqkROQorJtgVvEBff9a3KcCYo9rOJAP3+Q2mybtwLwXBJVRo/Xhr9vN92u8MzB/WYPBSHNolO3Zh2l7bZwH/OJBN+k7+v647U9+fyH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tXJwMCAJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vPJ9CUUg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B676F1F000E9;
-	Thu, 30 Jul 2026 16:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785428477;
-	bh=f9wvIaksClS1jB3hklR/Msv5qmQ/ojOlrqo8+jkn6vQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=vPJ9CUUgL/+A/2/2zFeWe0+jlEx+O/0w5vk71RJ4KmWGMLkGVfZ81vi9T7l3eZ3L9
-	 qWCIHptjOhjv+lJAcRjYraoe8LMZG7BeICluw2kWTgPa7AE8ntWWVP6BNuPA4B6gfq
-	 XhaYe0CCG9+da8wV1G5HwWOW7S2tOZVR7N/7duT0=
-Date: Thu, 30 Jul 2026 17:05:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>,
-	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for
- Apple ARM platforms
-Message-ID: <2026073008-crane-jolly-2204@gregkh>
-References: <20260730004759.3089449-1-neal@gompa.dev>
- <2026073019-emoticon-decidable-200e@gregkh>
- <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXJwMCAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 53270C19425;
+	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785429313;
+	bh=NOfo7wCWVPHuFHnJP8Bujm4ylRP1YOJen3Xiue6s4b8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=tXJwMCAJdx3YQPvnfkFOOaQR/PQhVrHybCSVWmyMYvoSjfs0eJDpyWqLMpJtGRW8q
+	 slhhLJsXm0mLUNRywj+DuZUqFzZ7UXdfvDmfYBtGm+hu6o9ummnRZI/yWSH0rAlcOI
+	 E99wfz219bjugpwgJXPG5acC7LgEPbx5/5tkq58mCpihdL8nnx7vgRXjhWfMyq/u2I
+	 qfATH9Q0OdvJH9foP6JZ400QrKRFOyAutvyk9Dew7vgOFsBrm1BeL78AjoOg4qsn7W
+	 nUXIrm4HVF23EkYVqoHAzX90yA9fAQ1/5+TQVBbAkzzfkRXSpHZtS6rgnBJNgADJte
+	 xMcPfE/bainfw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27882C55160;
+	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
+From: Younes Akhouayri via B4 Relay <devnull+git.younes.io@kernel.org>
+Date: Thu, 30 Jul 2026 18:34:38 +0200
+Subject: [PATCH v2] rust: dma: return zero for Coherent reads past EOF
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOQQ6CMBBFr2K6drStEcGV9zAsSjvIGG3NFIiEc
+ Hdb3LhzN3/y/sufRUQmjOK8mQXjSJGCT0FvN8J2xt8QyKUstNSFPGkJLb3BPQ3Y0CGj7wFDC04
+ 6WdpKoVQHkaovxsSt2mv9zXFo7mj77MpEYyJCw8bbLr8c04icpIz7nxse5IeY+Y5iH3had44qe
+ /9MGhUocJUuyqNrSmeKyxQGj3FHQdTLsnwAr9P7IfoAAAA=
+X-Change-ID: 20260720-fix-dma-coherent-eof-d0d08c91e013
+To: Danilo Krummrich <dakr@kernel.org>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Timur Tabi <ttabi@nvidia.com>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Younes Akhouayri <git@younes.io>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785429312; l=1756;
+ i=git@younes.io; s=20260712; h=from:subject:message-id;
+ bh=h1A+NWN2Xpe9vp3xANzc6K2B5aOY514pEP2UO1pSO+Q=;
+ b=mcGqEDFd4tUQ4CKrD8JSz08ovz5d+/Zm3sLI9AXnCzTxWYEN+ol/hs34cyjMHkCifR6j40Vt/
+ lvefY+a1mVkB1Zxz+H4mVDG0jt0V5fG0opzf5DxbI3DepObP5oT+fdu
+X-Developer-Key: i=git@younes.io; a=ed25519;
+ pk=1DRfzPrQ04RQHHgGK28t+vjIAPv5oISPiAdLMU6J5dE=
+X-Endpoint-Received: by B4 Relay for git@younes.io/20260712 with
+ auth_id=866
+X-Original-From: Younes Akhouayri <git@younes.io>
+Reply-To: git@younes.io
 
-On Thu, Jul 30, 2026 at 10:55:00AM -0400, Neal Gompa wrote:
-> On Thu, Jul 30, 2026 at 2:01 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
-> > > On Apple ARM machines (branded Apple Silicon Macs), there is
-> > > non-redistributable firmware provided in macOS that is required
-> > > for Linux to leverage the hardware to run properly.
-> > >
-> > > The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
-> > > touchscreen, and the trackpad.
-> > >
-> > > In order to ensure this firmware can be installed without messing
-> > > with firmware provided by linux-firmware and other packages that
-> > > put things in the tree, the empty "vendor" subdirectory was created
-> > > to serve this purpose. This directory is used by the asahi dracut
-> > > module as part of the Asahi Linux installation process to transfer
-> > > firmware from macOS to the newly installed Linux system.
-> >
-> > Why is this needed when there is the ability for userspace to add their
-> > own firmware search path to the list today?
-> >
-> > We aren't going to keep adding random paths here, please use the option
-> > that is designed specifically for this:
-> >
-> > >  * fw_path_para - module parameter - default is empty so this is ignored
-> >
-> > Right there.
-> 
-> I was not familiar with this feature, and I had inherited the patch as
-> part of our cleanup effort to upstream the Asahi work. Sorry about
-> that!
-> 
-> Based on the documentation, this is the patch I've created for our
-> dracut module: https://github.com/AsahiLinux/asahi-scripts/pull/72
-> 
-> Is this how it is supposed to be used?
+From: Younes Akhouayri <git@younes.io>
 
-If it works, yes :)
+Coherent<T>::write_to_slice() calculates a zero-byte copy when the file
+offset is beyond the allocation, but still calls
+UserSliceWriter::write_dma(). The latter rejects offsets beyond the
+allocation even when the copy length is zero, so a debugfs read past EOF
+returns -ERANGE.
+
+Return before calling write_dma() when the offset is at or beyond the
+allocation, matching simple_read_from_buffer() EOF semantics.
+
+Fixes: 016818513936 ("rust: dma: implement BinaryWriter for Coherent<[u8]>")
+Cc: stable@vger.kernel.org
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library/topic/.E2.9C.94.20Possible.20past-EOF.20bug.20in.20Coherent.3CT.3E.3A.3Awrite_to_slice/near/611677095
+Signed-off-by: Younes Akhouayri <git@younes.io>
+---
+Changes in v2:
+- Use ordinary subtraction after the explicit EOF check, which makes
+  underflow impossible.
+- Link to v1: https://patch.msgid.link/20260720-fix-dma-coherent-eof-v1-1-d92685db8da6@younes.io
+---
+ rust/kernel/dma.rs | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 200def84fb69..556424b88fb9 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -1005,7 +1005,11 @@ fn write_to_slice(
+             return Ok(0);
+         };
+ 
+-        let count = self.size().saturating_sub(offset_val).min(writer.len());
++        if offset_val >= self.size() {
++            return Ok(0);
++        }
++
++        let count = (self.size() - offset_val).min(writer.len());
+ 
+         writer.write_dma(self, offset_val, count)?;
+ 
+
+---
+base-commit: 667d0fb32149f023b8b34a1f6f3d384556eafb5a
+change-id: 20260720-fix-dma-coherent-eof-d0d08c91e013
+
+Best regards,
+--  
+Younes Akhouayri <git@younes.io>
+
+
