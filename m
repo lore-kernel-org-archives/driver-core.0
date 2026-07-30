@@ -1,36 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94922FD665;
-	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4979D35C180;
+	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785429313; cv=none; b=Yw8KYsE47dNldE+A+Ox2MSRIY74XNjR7fiwQn9KFJuYX7NNpCVndHYqbuiH4aQPiSQ/a8rH8zBFAN71gs7tTCOpOMlh2lR1XqT+4/eanLzodozMr4c9fQFvWWHsKwHbo5A6F5Rb2SO45/vL3QVqOepBMKyffCZAja49ceZ4WhEk=
+	t=1785431151; cv=none; b=bkgjuhqpYRTVAXaFwZGCgB5lH7iwbetGhPVqjscxcceolmteUTjeercfbOETJ0d3a9VEYMPSFnbHTFa3Y2PWFUnUEJG6b/NmvOas3yIjLxhp5cB+KkeAJralx0s2gSXduWqxyPyUuxrbwa6klJu3Se5nPH1OuewPDaHUEkW57fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785429313; c=relaxed/simple;
-	bh=NOfo7wCWVPHuFHnJP8Bujm4ylRP1YOJen3Xiue6s4b8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hDdbJF5byuVtqCObj95xd7Kq0u21PvmRtR2L/ySgdDtz29GBZkVFEGgiGe43Zv2L0YNASqkROQorJtgVvEBff9a3KcCYo9rOJAP3+Q2mybtwLwXBJVRo/Xhr9vN92u8MzB/WYPBSHNolO3Zh2l7bZwH/OJBN+k7+v647U9+fyH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tXJwMCAJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785431151; c=relaxed/simple;
+	bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eXB7v0Zyh7QTLW2xmOwQlERd0ej4+4w1wWYhefa7LHUc8BxDb/W1DMVbT7EYmzffnnu2sw1183Ri2xKlCcTXlGgAJroFZLmbUPJbkmHiV9D5L78m5E0OMgDdFKU44/yt6fzPfEPar8GIvrLxArEZUnAzW1m5wvsQp3DsLnCw0kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U0OgeggQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXJwMCAJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 53270C19425;
-	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785429313;
-	bh=NOfo7wCWVPHuFHnJP8Bujm4ylRP1YOJen3Xiue6s4b8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=tXJwMCAJdx3YQPvnfkFOOaQR/PQhVrHybCSVWmyMYvoSjfs0eJDpyWqLMpJtGRW8q
-	 slhhLJsXm0mLUNRywj+DuZUqFzZ7UXdfvDmfYBtGm+hu6o9ummnRZI/yWSH0rAlcOI
-	 E99wfz219bjugpwgJXPG5acC7LgEPbx5/5tkq58mCpihdL8nnx7vgRXjhWfMyq/u2I
-	 qfATH9Q0OdvJH9foP6JZ400QrKRFOyAutvyk9Dew7vgOFsBrm1BeL78AjoOg4qsn7W
-	 nUXIrm4HVF23EkYVqoHAzX90yA9fAQ1/5+TQVBbAkzzfkRXSpHZtS6rgnBJNgADJte
-	 xMcPfE/bainfw==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U0OgeggQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 03FBEC2BCFC;
+	Thu, 30 Jul 2026 17:05:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1785431151; bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=U0OgeggQO9XAL00a0Lyi35OLQFTK+lgiPeKS4qmN72pWx387JkERQVbhaBtOVKxdJ
+	 sJd6YYGWsuOVxaSSQoYbyIEuRiRPoFytyPFKfSKxYw6JA5XO9HnFuJ6vYAEboU5uLI
+	 7IX0+x5h0g9equU+dLAiCNGM5Adka3vWJXdsZZfU=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27882C55160;
-	Thu, 30 Jul 2026 16:35:13 +0000 (UTC)
-From: Younes Akhouayri via B4 Relay <devnull+git.younes.io@kernel.org>
-Date: Thu, 30 Jul 2026 18:34:38 +0200
-Subject: [PATCH v2] rust: dma: return zero for Coherent reads past EOF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF18C55171;
+	Thu, 30 Jul 2026 17:05:50 +0000 (UTC)
+From: Alvin Sun <alvin.sun@linux.dev>
+Date: Fri, 31 Jul 2026 01:05:42 +0800
+Subject: [PATCH v2 4/9] drm: move debugfs_init after dev->registered is set
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -39,88 +36,86 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOQQ6CMBBFr2K6drStEcGV9zAsSjvIGG3NFIiEc
- Hdb3LhzN3/y/sufRUQmjOK8mQXjSJGCT0FvN8J2xt8QyKUstNSFPGkJLb3BPQ3Y0CGj7wFDC04
- 6WdpKoVQHkaovxsSt2mv9zXFo7mj77MpEYyJCw8bbLr8c04icpIz7nxse5IeY+Y5iH3had44qe
- /9MGhUocJUuyqNrSmeKyxQGj3FHQdTLsnwAr9P7IfoAAAA=
-X-Change-ID: 20260720-fix-dma-coherent-eof-d0d08c91e013
-To: Danilo Krummrich <dakr@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+Message-Id: <20260731-tyr-debugfs-v2-v2-4-aea19eccb996@linux.dev>
+References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
+In-Reply-To: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
  Alexandre Courbot <acourbot@nvidia.com>, 
  =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Timur Tabi <ttabi@nvidia.com>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Younes Akhouayri <git@younes.io>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785429312; l=1756;
- i=git@younes.io; s=20260712; h=from:subject:message-id;
- bh=h1A+NWN2Xpe9vp3xANzc6K2B5aOY514pEP2UO1pSO+Q=;
- b=mcGqEDFd4tUQ4CKrD8JSz08ovz5d+/Zm3sLI9AXnCzTxWYEN+ol/hs34cyjMHkCifR6j40Vt/
- lvefY+a1mVkB1Zxz+H4mVDG0jt0V5fG0opzf5DxbI3DepObP5oT+fdu
-X-Developer-Key: i=git@younes.io; a=ed25519;
- pk=1DRfzPrQ04RQHHgGK28t+vjIAPv5oISPiAdLMU6J5dE=
-X-Endpoint-Received: by B4 Relay for git@younes.io/20260712 with
- auth_id=866
-X-Original-From: Younes Akhouayri <git@younes.io>
-Reply-To: git@younes.io
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>, 
+ Eric Anholt <eric@anholt.net>, Ben Gamari <bgamari@gmail.com>, 
+ rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785431148; l=1502;
+ i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
+ bh=WZR8Y42ND9E/OAlX111HbpPcKsxTChsq0oOfQ3+9UZM=;
+ b=Nu6+7BcxiJjyRPpf2u+1b0iaiSQBOJe051oW2rzfFeF1mot84+/iQEuu/d+7bnherhoaUo22G
+ PErAWGVIR6SCpdLLCp+QzHtk1b2X3Lol0rBTsYH8E7OtNJA4IEi52sW
+X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
+ pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
+X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
+ auth_id=684
 
-From: Younes Akhouayri <git@younes.io>
+The debugfs_init callback was invoked by drm_debugfs_register before
+dev->registered is set to true. Moving it to drm_dev_register after
+dev->registered = true fixes the Ioctl type invariant violation.
 
-Coherent<T>::write_to_slice() calculates a zero-byte copy when the file
-offset is beyond the allocation, but still calls
-UserSliceWriter::write_dma(). The latter rejects offsets beyond the
-allocation even when the copy length is zero, so a debugfs read past EOF
-returns -ERANGE.
-
-Return before calling write_dma() when the offset is at or beyond the
-allocation, matching simple_read_from_buffer() EOF semantics.
-
-Fixes: 016818513936 ("rust: dma: implement BinaryWriter for Coherent<[u8]>")
-Cc: stable@vger.kernel.org
-Link: https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library/topic/.E2.9C.94.20Possible.20past-EOF.20bug.20in.20Coherent.3CT.3E.3A.3Awrite_to_slice/near/611677095
-Signed-off-by: Younes Akhouayri <git@younes.io>
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
-Changes in v2:
-- Use ordinary subtraction after the explicit EOF check, which makes
-  underflow impossible.
-- Link to v1: https://patch.msgid.link/20260720-fix-dma-coherent-eof-v1-1-d92685db8da6@younes.io
----
- rust/kernel/dma.rs | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_debugfs.c | 3 ---
+ drivers/gpu/drm/drm_drv.c     | 5 +++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 200def84fb69..556424b88fb9 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -1005,7 +1005,11 @@ fn write_to_slice(
-             return Ok(0);
-         };
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index ae1c6126c2c59..38cf6ce387cc8 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -442,9 +442,6 @@ int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ 	/* TODO: Only for compatibility with drivers */
+ 	minor->debugfs_root = dev->debugfs_root;
  
--        let count = self.size().saturating_sub(offset_val).min(writer.len());
-+        if offset_val >= self.size() {
-+            return Ok(0);
-+        }
+-	if (dev->driver->debugfs_init && dev->render != minor)
+-		dev->driver->debugfs_init(minor);
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index e890052061f30..15669764fe625 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -1101,6 +1101,11 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	dev->registered = true;
+ 	dev->unplugged = false;
+ 
++	/* Call debugfs_init after the device is fully registered. */
++	if (dev->driver->debugfs_init && dev->primary &&
++	    dev->render != dev->primary)
++		dev->driver->debugfs_init(dev->primary);
 +
-+        let count = (self.size() - offset_val).min(writer.len());
- 
-         writer.write_dma(self, offset_val, count)?;
- 
+ 	if (driver->load) {
+ 		ret = driver->load(dev, flags);
+ 		if (ret)
 
----
-base-commit: 667d0fb32149f023b8b34a1f6f3d384556eafb5a
-change-id: 20260720-fix-dma-coherent-eof-d0d08c91e013
-
-Best regards,
---  
-Younes Akhouayri <git@younes.io>
+-- 
+2.43.0
 
 
