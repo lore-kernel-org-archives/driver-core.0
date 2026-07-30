@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF13C363C75;
-	Thu, 30 Jul 2026 06:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DAB3921E0;
+	Thu, 30 Jul 2026 07:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785391306; cv=none; b=mH61ELyrztLxIz6+yTfa+nTFwO+8cJkuuhZG8kIzfatyPp0W/5itZL1jgfcZOTDv8qqLE1QEG0XwKHOb8ajzb4bjCYvKnd2O5H0QOQnh7H4jOpZxgvf2qi8Lj8OkPOwAQuqqYxmUf1UyH8juYGH+Up1ifA/JHZRiUT4HbeJFKjQ=
+	t=1785396420; cv=none; b=eeEz7iSutKWgl0OZBjzyq6GFZeFg8Y1PH+PGgjU+4LH5wskzYWnBWW4eb9qe+mEkSyBR14z6Q9C3ZTpsX98C17nAU40KJVrLKAwPGrRuvlAWdlA9VCyNkHsL/Is1cK1jdXEblUEnLxmyCgfOgWYSK4d7Gm2IXBAAh4BhBbxL70s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785391306; c=relaxed/simple;
-	bh=eoi15omz+OGIPbC5NnBafJqEOHAXSwDA46F4zFLC0TE=;
+	s=arc-20240116; t=1785396420; c=relaxed/simple;
+	bh=2aJxRpmT6kVoGBlClB9qW1QuGmWsuwmWtQY/9KvzqYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vs9btXzi96D3Mc7PrTQSjys+k4GX3gmtmgWZLxopNcAavVy7dvqjROrCeczAgGnDViG6OZNzNcgZrsq3fI+6tsoJnQ1kRajO4348tGAHOJbExi4XJhiRnOWuYn7S0TSOWThUzwTZott2a3PA4lROm1MExC9a5+fjTA4otHeq4us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=T32GjTBo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ea+VAAbCpl8VeA4vepSEOfeKNlJkJGuuJcTdk1TedcnC6Cs+552zyFgU5CxxI+URptsLgDEYIa1yjSmA6d/+MK+1/CPenNC6MoNy+wwA3EzTclqMPYJjNctQfpW4YUuO/ly1TomQYZRJXVWXXDCasy5mt8H0YxB1hrtRFiisZtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e2XjjHWE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="T32GjTBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A4B1F000E9;
-	Thu, 30 Jul 2026 06:01:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e2XjjHWE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B6A1F000E9;
+	Thu, 30 Jul 2026 07:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785391302;
-	bh=JnBP3MozLqB78h8Vck0oTx7eKSL7wBDDqu2AWcK27iA=;
+	s=korg; t=1785396418;
+	bh=Dwu/vVUPF7mCTIoYUGGpqvpJUp9q6AeuslBpL5E67k4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T32GjTBodZ9btouiLBlZdPBy/C4hYgkSgYPQxjc97tzXgEjrIaKsNW8kjg9sd08w+
-	 hM0rJL6pxpOwpHo8tl4DzCKAIRtLnp+WqivpY26rARytw3DyC90kFzF4e7EcnXEhue
-	 9m+/vYUB92uhPFepVsDTxM5trc5+FDz1uwarKa6U=
-Date: Thu, 30 Jul 2026 08:01:28 +0200
+	b=e2XjjHWEd3pQqw4g/x8ryg7aDxPoA8HsFVay+tluHeiIf785o7J665uCTOHDnfpvB
+	 Cyd1GIVf0m57y5f1OX1yQsS7uM5NOY5DNFA37U+51A89wiu4DYLqaGiwYCEmyxCEnJ
+	 tA1cfAow5VynqLwd2UxJWCFvl4DkIrc9ic9/SLLI=
+Date: Thu, 30 Jul 2026 09:25:31 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>,
-	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for
- Apple ARM platforms
-Message-ID: <2026073019-emoticon-decidable-200e@gregkh>
-References: <20260730004759.3089449-1-neal@gompa.dev>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver core: introduce PROBE_FORCE_ASYNCHRONOUS
+Message-ID: <2026073057-unissued-starving-c663@gregkh>
+References: <ambsuv_6mCK8U9IP@google.com>
+ <2026072729-driller-leggings-e530@gregkh>
+ <ambyXEGt8-f44dJD@google.com>
+ <2026072717-amicably-tray-4a8b@gregkh>
+ <ammQvUcOF4S_VrgO@google.com>
+ <2026072921-approve-halves-6f4c@gregkh>
+ <ampBe9RgNYpvTENJ@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -46,33 +46,73 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260730004759.3089449-1-neal@gompa.dev>
+In-Reply-To: <ampBe9RgNYpvTENJ@google.com>
 
-On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
-> On Apple ARM machines (branded Apple Silicon Macs), there is
-> non-redistributable firmware provided in macOS that is required
-> for Linux to leverage the hardware to run properly.
+On Wed, Jul 29, 2026 at 11:24:48AM -0700, Dmitry Torokhov wrote:
+> On Wed, Jul 29, 2026 at 10:49:16AM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Jul 28, 2026 at 10:40:29PM -0700, Dmitry Torokhov wrote:
+> > > On Mon, Jul 27, 2026 at 08:25:51AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Sun, Jul 26, 2026 at 10:54:54PM -0700, Dmitry Torokhov wrote:
+> > > > > On Mon, Jul 27, 2026 at 07:40:57AM +0200, Greg Kroah-Hartman wrote:
+> > > > > > On Sun, Jul 26, 2026 at 10:31:41PM -0700, Dmitry Torokhov wrote:
+> > > > > > > Add PROBE_FORCE_ASYNCHRONOUS probe type enum and update
+> > > > > > > driver_allows_async_probing() to allow asynchronous probing for drivers
+> > > > > > > marked with this type.
+> > > > > > > 
+> > > > > > > While PROBE_PREFER_ASYNCHRONOUS exists, it represents a temporary opt-in
+> > > > > > > preference. Subsystems that require asynchronous probing (such as slow
+> > > > > > > legacy buses) need a dedicated probe type to guarantee asynchronous
+> > > > > > > execution.
+> > > > > > > 
+> > > > > > > Assisted-by: Antigravity:gemini-3.5-flash
+> > > > > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > > > > > ---
+> > > > > > > 
+> > > > > > > I am planning to rework serio and gameport subsystems to rely on
+> > > > > > > asynchronous probing instead of rolling their own implementations.
+> > > > > > 
+> > > > > > What do you mean?  Why doesn't the PROBE_PREFER_ASYNCHRONOUS work for
+> > > > > > you for those subsystems?
+> > > > > 
+> > > > > It shows the intent. It is not "preference" anymore, it is a "must". If
+> > > > > we ever introduce switch to make probing synchronous for some reason it
+> > > > > should not affect drivers that must be probed asynchronously.
+> > > > 
+> > > > I'm sorry, but I don't understand.
+> > > 
+> > > PROBE_PREFER_ASYNCHRONOUS says that the driver prefers to be probe
+> > > asynchronously but it can also be probed synchronously if needed.
+> > > 
+> > > PROBE_FORCE_ASYNCHRONOUS indicates that the driver *must* be probed
+> > > asynchronously, or the kernel will break.
+> > > 
+> > > Currently there is no difference in behavior, but it documents the
+> > > intent.
+> > > 
+> > > > And as there's no users for this, we
+> > > > really can't take it until we see those users at the same time :)
+> > > 
+> > > I am planning to use it in serio and gameport bus implementations that
+> > > currently roll their own asynchronous registration which is quite ugly.
+> > > Because we have nested serio ports probing *must* be done asynchronously
+> > > or it will deadlock.
+> > > 
+> > > I would like to merge the new constant early so that I do not have
+> > > dependency when I am ready to merge input changes.
+> > > 
+> > > Below is how it will look like (just a small part of a WIP series).
+> > 
+> > Ok, this makes sense, but you need to also add documentation for this
+> > new value to the comment block right above where you defined it :)
+> > 
+> > 
+> > Wait, in looking at the tree, I don't see how this differs from
+> > "prefer".  I don't see how "prefer" can be overloaded to NOT do async
+> > probing.  Am I just missing the logic somewhere?
 > 
-> The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
-> touchscreen, and the trackpad.
-> 
-> In order to ensure this firmware can be installed without messing
-> with firmware provided by linux-firmware and other packages that
-> put things in the tree, the empty "vendor" subdirectory was created
-> to serve this purpose. This directory is used by the asahi dracut
-> module as part of the Asahi Linux installation process to transfer
-> firmware from macOS to the newly installed Linux system.
+> As I mentioned, the current behavior for "prefer" and "force" is the
+> same. It is more about documenting expectations/requirements than
+> behavior of the current implementation.
 
-Why is this needed when there is the ability for userspace to add their
-own firmware search path to the list today?
-
-We aren't going to keep adding random paths here, please use the option
-that is designed specifically for this:
-
->  * fw_path_para - module parameter - default is empty so this is ignored
-
-Right there.
-
-thanks,
-
-greg k-h
+But you aren't changing anything here at all, just adding a new enum
+that does the same thing as the existing one.  So I'm really confused...
