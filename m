@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2F93C0635;
-	Fri, 31 Jul 2026 11:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223823EC822;
+	Fri, 31 Jul 2026 11:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785496441; cv=none; b=cb9ZuXqPPdUer/HkOyLXSCvIeGxSesHYS97XHT44Nwlv+1z8MJGUwtlBtNeIpcN5RXJuiXM8/OLn54pJVbtNKdlF61NeUz0a3ATLAH5UAwT27XWV3vCqRLtrwaDhj7s9pAXbhfdeNVKzwp7molaQnRDMSsppHgMKpq9r1RQFC98=
+	t=1785496458; cv=none; b=oc+/kDYu6PkZROx/VqQJFY4E+72uUFzG85eMOsMRD9nVjPlLiI/sHlT3a6xi8/XXtBxWoO3KTuFv+XLP5CahdVVieB+9ctGImyqh0fW0C3uIO3a3yB+tJuLyVMmIJVsIBLOIlaF5H7uQWCkJkQqtauNUrHR8xaC+2HiT0NKhH4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785496441; c=relaxed/simple;
-	bh=aKmlAzsjVCqcqUrIFE8Tjbl8uY935NRG2okKbodDIwU=;
+	s=arc-20240116; t=1785496458; c=relaxed/simple;
+	bh=dnYuN4dmqju/+L/DgqWsokRMhv0QKkt6O7izcsaujDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rfqELBgB2u/hNctN/2sP9O+xWpEsCbCPrI93Ythslx/4o6gK1dxwBcat/yNzD5GfyNSkrDd30C4Mr2ZZ7PGE/sl1gQZbQnn54ljXzPxUgCbwLys5Dx9tuhCTrEYcV1YyZYMyyAG6KX0SWbeGnJn+7VuMUYQUB4chk8GDnGCG8Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hb4CWDBc; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EbYORYLjdMBPW3D9tNcoHi9Q439EaBh1ssFMKKyaX9QKmwcqW5lrlu2SDpwxCBaaVWPccFuykQD+uUxtyCwOSt7nT5+uFjCZLXcPi7FKqRd3XSK1ikOjdrCFi/ThhtadZkfO0NQK+UtMZ6afAFKI5sqat4aRj4agoLBRFDeJAA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LvVWi64W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hb4CWDBc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E001F00A3A;
-	Fri, 31 Jul 2026 11:13:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LvVWi64W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F27D11F000E9;
+	Fri, 31 Jul 2026 11:14:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785496439;
-	bh=ZZd2wFsI0vlTOOBAoX8RxjCDRXUNV2ld6JlcnZHaHTg=;
+	s=korg; t=1785496455;
+	bh=hyNegqK3RMsh7JaaXuElKtcTwJNevhLPi5pGxj52UTA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hb4CWDBc0hvvu5doj0wMk16qo745TFHJLIfxLAAyK2jTKxSIji92eGQWP5GP4iKv7
-	 Bd6VEZA8E1XBINFIbLzxcAFihIiIukpRy1GtMtlFEDTXQ6AxX0Ur4t8E0g1azham7q
-	 6bQvzlVcMRiUsvV1T1Foh+j0nY+64j+N1kBMexqo=
-Date: Fri, 31 Jul 2026 13:13:45 +0200
+	b=LvVWi64WMe7PuPiEw6EkpYm+srFjZU/CkO07QgAXpPKT3TBfgdcUzrDidLo/if0iM
+	 x7zMVbFMa3VrDT7yWeXMytbI5EZ1UvArUOLmPOjM4db8dSaKVa68hqqacdERfbXg+m
+	 FPELKrme6NjMbvRbVeloGRH7YoYSqhcDd7NMo6UM=
+Date: Fri, 31 Jul 2026 13:14:01 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Kevin Mitchell <kevmitch@arista.com>
 Cc: Tejun Heo <tj@kernel.org>, Chengming Zhou <zhouchengming@bytedance.com>,
 	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] kernfs: fix race to increment for nr_mmapped in
  kernfs_fop_mmap()
-Message-ID: <2026073129-tarmac-causation-98a9@gregkh>
+Message-ID: <2026073146-condiment-liberty-4b05@gregkh>
 References: <20260731010914.233067-2-kevmitch@arista.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -91,40 +91,6 @@ On Thu, Jul 30, 2026 at 06:09:12PM -0700, Kevin Mitchell wrote:
 >  		of_on(of)->nr_mmapped++;
 > +		mutex_unlock(mutex)
 > +;
-> +		of->mmapped = true;
->  		of->vm_ops = vma->vm_ops;
->  	}
->  	vma->vm_ops = &kernfs_vm_ops;
-> -- 
-> 2.51.0
-> 
 
-Hi,
+That line looks very odd, didn't checkpatch catch it?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
