@@ -1,66 +1,66 @@
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A656E36196E
-	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 12:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724D01DF248
+	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 13:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785502789; cv=none; b=RhnXUAlRDpDFHS41z73AMdbpf1iejMYFcTUYpJ2qcZn3gIshrppsEzE9P4O+tPYUj1SzHa0me345I7I3cpE04PwMey5NcHfqbk9tlS8F49HWJ5OklgDumohKPLj8AEmSYQXOPUQyLKr6jD8tnusZUDu3k3l3rmp4QRu88jSvJmA=
+	t=1785502891; cv=none; b=Ide0Nz0Ikbz9flu2ryNXc/y+GXgQ9o8iUdxswDJdELlSphO9Rgmlcwe2t8o5NOtBoOa/scSNEy6+Jr8shbkxMytqudxtwMrOhW0jgT3ZGWwNUtcFOPBmPzAJyNm2Zt6KVlDYdKQGNQwUc48uhc1meI8mRBG/sLDjtDgo0mpE6ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785502789; c=relaxed/simple;
-	bh=TV4S6QcoDp9i3XvYMLYR7XmivYO8ZF+r2apXG+G/N38=;
+	s=arc-20240116; t=1785502891; c=relaxed/simple;
+	bh=qY/0yET04svAepBp8nEt3pTLBv4nkoF4nroslqjIxCs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WnWP5mENGuBXb8oEPBpLMyT9yFuwfiUHLYOefgQ2SvzpcNc8pS1t6RzzXSNF4K5Xv9OuP/1D1m5GCN2da5DfyE8eZc4DKE6NfOPhSckHidtfMBi3nS0XlQziC2lkolsQn1M+lpaPTYN8llqZevOowY/a4SjO40VYTa5KwHbA1Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r8bcG+6D; arc=none smtp.client-ip=209.85.221.69
+	 To:Cc:Content-Type; b=ALL/MecNjoc4OkLYTa7DmQUfjikY/sIjY/oZctxc7Wk4GDZ2x/YJRv8PF9EzHm6tnsWH+XlSJmeTvxj+NZkFfJSwzFTylc39aF22icvAHmbyel899GZKwudVPx4Hku4xWqPEJGn9vQGRGnYZrwai+noxEspejgdxI6S/0+DvR+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lqk07+5Z; arc=none smtp.client-ip=209.85.208.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r8bcG+6D"
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47f83999cceso1120855f8f.3
-        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 05:59:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lqk07+5Z"
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-69fc66f110eso1701727a12.1
+        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 06:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785502786; x=1786107586; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1785502888; x=1786107688; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=P9eJPXgMx/k8Zzskbe/ENfQg92M9fVEFYQJ0hF5Ni8Q=;
-        b=r8bcG+6DGXUjd0IKpkwFj26ULM68Bo0NoV0aJg0Gy+Ufnbc4Ont+no5U9fp9F1ihn7
-         xH/tPyhrBI12AYrT3IwCSGXl92vWI9MErN3xqHQcch/B0AKpWc2t/lFJ6uP6Svy9XAqy
-         Yd46Xm/2X8byvPf0vNyl9He5AnGzrgcfeqt1R7AYVdyT9p7LT6ZUWX3cICsq/JMafFio
-         NVSNZPv6/2CQ5RT/rmZSUBnVcABUQ3jaxGcH8PgYmTBawU68U3wq0/4IDXRc3ZZ0mYqQ
-         x2LGSD5wPOhf1o+d1+VntNt9rQIzabnWsRCtuPh352laNC9uetqj0d/IwY0vRePu++zj
-         xhTg==
+        bh=FBHJGJamcmVHqk45wC3+3WaZ921glxpmyO6R7cNL6rM=;
+        b=lqk07+5ZLC2igL6WHxJl0qqpnuftEG6lIZ8RCwcnm1NEcafvAqHEiOvGbnkTsGtzP0
+         Hw1JBdJfoekevhv7sK7P6xC1Yu6A+JvBvoEHduS1CQQ3O6wqLwUV6PXu955Up/Ih1fJ2
+         h18LpSHS+Ane4ek02nUPvFlr7+zhrQqriSg1TF8GS7PkBH6jrDQUpxG0CI4J602vTXa6
+         +M+q2FLdrddZCQh8wTxuH4UI/n7qgv+VK/aSGkLx72fkHPaB06zb6V+zX8qJGDet3uat
+         xicUoq/Pcc2Z7hdvHAtvv7ssmzMFV/QqIMMZobpoB1taYR/B6ygtU5zpPh5Zvhmpy0vi
+         YzlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785502786; x=1786107586;
+        d=1e100.net; s=20251104; t=1785502888; x=1786107688;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=P9eJPXgMx/k8Zzskbe/ENfQg92M9fVEFYQJ0hF5Ni8Q=;
-        b=g6AXP4loQ3QCHQQ9ytRQFXvlFAMGRD2Fg9o747ON3RtHy99lG+03yBMdBoyypZEEuK
-         GWrD8nMwfsEMQZFJVy5Qu6vVYvKQYcwv8TEdDEC/A2sW/jXVfAwEu37cv9WLQ/iI/Rka
-         v1MlthBxyTmkDAciMh9vXjp1iOMs6Ernd8eJVVQ3/AXpZXHiyI9FIlRzwG05LFmHejX8
-         y+QyZ/Esuow3P9bp0jYJcBpLKvjjzSb4Kv2/1XU5aWXH6bSgHhJowZjWeT5nTrtRWDi1
-         cq+yb/36s6eNUFBcTcpZkk/YaSiYbrw5VpmM8cqnkktjfLLKbDELVttG9vk/4wg5FE5l
-         5zJw==
-X-Forwarded-Encrypted: i=1; AHgh+RrjvG5KQQ9/tqll6uWZeqD1VULKh3H8694r7HEhUa3KZ0/U64u+oq78PhSN+tOsXB+1dz/EUQw1l1rOFQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJQXGAGKGIA8WErpVbgZjCwyzqi2E6kj/RCwwQSc9o6mOQy0nT
-	l9v/W9+pRlfHMWAaLk9ptpdZklStZVqnpYTZBRJs0GBdeF1zquaq5R0ZBIVldxj0R2JrtecgKp7
-	SjdjNeemOPF90p6dUWA==
-X-Received: from wmbdr14.prod.google.com ([2002:a05:600c:608e:b0:493:af1f:8829])
+        bh=FBHJGJamcmVHqk45wC3+3WaZ921glxpmyO6R7cNL6rM=;
+        b=Jbfdt6G6Z7m3Vc/JNzk8XHtDCVsTfBD+4fVUNCsrt5fl1DQne/jDYP4tOnkquo9YTd
+         ldtli/QI2kWsyKh8x81VmulUCzuh6HOber2vEUbtb41AyEtDEmKRnehRjNW2FyFHI8m0
+         sGQT7JyabU05DqT4ZTesN3mJZzmDbH8cTZjtae0EHISpAzhVIrtWpSuGJIh4RAsnl9de
+         3n3x978F9NTE1uqVUnQw5lDwFlC7f2yE+ztRQQU/eoHFP92lzGgHxHZqOoWechBV4Izd
+         q+OTcSIgNQdvkSiZIdsOeqzuLY7Ncg9+107V5FcHd6nHuj0bw7LvoKotPKtmW68AuATU
+         V1Ig==
+X-Forwarded-Encrypted: i=1; AHgh+RqL1e4kooqgR7jjas1ALicWcDYloxDcz4B7ONfNYQptVKG6ADf7Kem97/zaoibWD1+EKtGdnCuVOFJ/9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhuS4zygfUfE6qIWpodV2Qhg5w+LWTcc+YGZmWVvDqh7ouIDTT
+	4IrAPihw6Zts/YXO4Qf/OI24b3qxuJ5hHRyoSXNdT74X5LGyTTU3Cc6QdVbUfTiG2ZA1qZH4VpK
+	fnThm53Gd3/AYsUhBxA==
+X-Received: from wmbeb18.prod.google.com ([2002:a05:600c:6792:b0:495:5dfe:fc5f])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:40cd:b0:47f:6d9a:d7a6 with SMTP id ffacd0b85a97d-47fd2aed4ebmr4411247f8f.25.1785502783123;
- Fri, 31 Jul 2026 05:59:43 -0700 (PDT)
-Date: Fri, 31 Jul 2026 12:59:42 +0000
-In-Reply-To: <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
+ 2002:aa7:d3ce:0:b0:6a0:7a26:fc88 with SMTP id 4fb4d7f45d1cf-6a09b14436amr755660a12.17.1785502887568;
+ Fri, 31 Jul 2026 06:01:27 -0700 (PDT)
+Date: Fri, 31 Jul 2026 13:01:26 +0000
+In-Reply-To: <20260731-tyr-debugfs-v2-v2-7-aea19eccb996@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev> <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
-Message-ID: <amycPnwWUS1qwGs9@google.com>
-Subject: Re: [PATCH v2 8/9] drm/tyr: add gpuvas debugfs file
+References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev> <20260731-tyr-debugfs-v2-v2-7-aea19eccb996@linux.dev>
+Message-ID: <amycptp9uZOUjMJ7@google.com>
+Subject: Re: [PATCH v2 7/9] rust: drm: gpuvm: add dump_gpuva_info to UniqueRefGpuVm
 From: Alice Ryhl <aliceryhl@google.com>
 To: Alvin Sun <alvin.sun@linux.dev>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -81,78 +81,31 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <ga
 	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 
-On Fri, Jul 31, 2026 at 01:05:46AM +0800, Alvin Sun wrote:
-> Add a gpuvas debugfs file listing all GPU VAs for the Tyr DRM driver.
-> Collects VMs into a shared list during firmware init and renders them
-> via dump_gpuva_info on read.
+On Fri, Jul 31, 2026 at 01:05:45AM +0800, Alvin Sun wrote:
+> Add method wrapping drm_debugfs_gpuva_info to dump GPU VA space
+> mappings into a seq_file. Needed by the Tyr gpuvas debugfs file.
 > 
 > Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 > ---
->  drivers/gpu/drm/tyr/debugfs.rs | 65 ++++++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tyr/driver.rs  | 16 +++++++++++
->  drivers/gpu/drm/tyr/fw.rs      |  8 ++++++
->  drivers/gpu/drm/tyr/tyr.rs     |  1 +
->  drivers/gpu/drm/tyr/vm.rs      |  5 ++++
->  5 files changed, 95 insertions(+)
+>  rust/kernel/drm/gpuvm/mod.rs | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/tyr/debugfs.rs b/drivers/gpu/drm/tyr/debugfs.rs
-> new file mode 100644
-> index 0000000000000..d381b1901bd08
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tyr/debugfs.rs
-> @@ -0,0 +1,65 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +
-> +//! Debugfs support for the Tyr DRM driver.
-> +
-> +use kernel::{
-> +    alloc::KVec,
-> +    drm,
-> +    new_mutex,
-> +    prelude::*,
-> +    seq_file,
-> +    sync::{
-> +        Arc,
-> +        Mutex, //
-> +    }, //
-> +};
-> +
-> +use crate::{
-> +    driver::TyrDrmDriver,
-> +    vm::Vm, //
-> +};
-> +
-> +/// Registry of VMs for debugfs access.
-> +#[pin_data]
-> +pub(crate) struct VmRegistry<'drm> {
-> +    #[pin]
-> +    vms: Mutex<KVec<Arc<Vm<'drm>>>>,
-> +}
-> +
-> +impl<'drm> VmRegistry<'drm> {
-> +    pub(crate) fn new() -> impl PinInit<Self> {
-> +        pin_init!(Self { vms <- new_mutex!(KVec::new()) })
+> diff --git a/rust/kernel/drm/gpuvm/mod.rs b/rust/kernel/drm/gpuvm/mod.rs
+> index 20a08b3defeb8..9da88501a4206 100644
+> --- a/rust/kernel/drm/gpuvm/mod.rs
+> +++ b/rust/kernel/drm/gpuvm/mod.rs
+> @@ -312,6 +312,14 @@ pub fn data_ref(&self) -> &T {
+>          unsafe { &*self.0.data.get() }
+>      }
+>  
+> +    /// Dumps GPU VA space info into a seq_file.
+> +    ///
+> +    /// Wraps the C `drm_debugfs_gpuva_info` function.
+> +    pub fn dump_gpuva_info(&self, m: &crate::seq_file::SeqFile) -> Result {
+> +        // SAFETY: `m.as_raw()` and `self.as_raw()` are valid by the type invariants.
+> +        to_result(unsafe { bindings::drm_debugfs_gpuva_info(m.as_raw(), self.as_raw()) })
 > +    }
-> +
-> +    pub(crate) fn register(&self, vm: Arc<Vm<'drm>>) -> Result {
-> +        Ok(self.vms.lock().push(vm, GFP_KERNEL)?)
-> +    }
-> +
-> +    fn for_each(&self, mut f: impl FnMut(&Vm<'drm>) -> Result) -> Result {
-> +        for vm in self.vms.lock().iter() {
-> +            f(vm)?;
-> +        }
-> +        Ok(())
-> +    }
-> +}
 
-This code maintains a separate list of all of the vms for access from
-debugfs, but I would have expected that this is not necessary. If we
-already store the vms inside the driver's private data, then can't we
-just access them from the normal storage location?
+This can be marked inline. Otherwise:
 
-By having multiple copies of the same information, you risk that they
-get out of sync. In this case, you never remove vms from the list even
-if the vm stops being used, which seems wrong.
-
-Alice
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
