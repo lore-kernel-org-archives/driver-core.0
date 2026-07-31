@@ -1,28 +1,28 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010008.outbound.protection.outlook.com [52.101.201.8])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012008.outbound.protection.outlook.com [40.107.209.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4459F36F8E7;
-	Fri, 31 Jul 2026 20:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128F9372ED6;
+	Fri, 31 Jul 2026 20:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785528648; cv=fail; b=cwggWbmbjmqT3jTf27Gw4T5ZSkzDk25i3FqPIm2AT9mOqQ/xwApbukM2PBqtrnxPsXyJLnJ6rj6DqDkmZOX7V6eqbJHOZWv5BfQ9rD+nQWMUh/Yn1QAZPnNNuu3VCNuIUlF7FOWgOKBYELjbOPteJkzbUlwy+aNAIk74nyo8yw8=
+	t=1785528649; cv=fail; b=Tmq1ZZMtbho3DbdlWmMw4m4Ratz1DpXM8Q97aUs2ZVx1BzCOptLmkAfMGKSMcJXIxmEuMzffHr0AYdTA5y5TnW6H4Yfoj69jYtpoXV6Dp9u2WBG7Nl7ao0f/cYzy05ouMDARdVZ9XtYjPOnP/t29oeshbBXn443kGDPCXTHHV8o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785528648; c=relaxed/simple;
-	bh=KSU499FpS2ensEdzMHwQrj3Kk9JswOnllbpWCSBH1oo=;
+	s=arc-20240116; t=1785528649; c=relaxed/simple;
+	bh=tJTs0TmEzrPlf6CBjFCob2zxqIXJo2bRBzPNuuKBG2Q=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VKOX7I78vel7x+OnaQH9nqKAA0eqwE5IAW9A8VF4E1NLxev6OH4i0bTGEFw9qVoTunUfnWVwuakylf4j+LUGRMDGvCq53D2vtaRY9CT4o352EbjBBk2KyF1rnBPDkiX/VTUMK3tnoD+Dv2slHPKtisCJuaK5t5ub3u94v3CuRGk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nveG4mhK; arc=fail smtp.client-ip=52.101.201.8
+	 MIME-Version:Content-Type; b=GC7vMmbi2GMLAA7XBV9ZFNaqRlVJCLKTNzhaEHX/J+F8OAWPBAdD0T+iWPfadk6eS3L8grdS8PBDpa2ZjTk7itvQ+JsbFZeVCqr7nzUJ5gF/PXFrrHAc5kW8Zo8ftrGWs4kVMmhRhHhaO5LFcDOxBupSc5++VJhMHPVB59m8tnI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eldPwleb; arc=fail smtp.client-ip=40.107.209.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nveG4mhK"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eldPwleb"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qxDiCpyckCW1fQ9nf/qkDD6yzl7UWxYAmdCoCeu4zrY6XkvaWR6bk7Fb/v1HNSPjiF1+SaCviLfWnH9PZwQx+Q2vMf1EoFkS/dmUb8G348egS+j3CIYBvnYS3+mqIWgl9kKUTGqEXogkds9UXhzWghceNb7FwKjjNVykvrqtUQl7Cd3WpaztUb39gcXiKFSsqNqWb8LM+MGWSBzE6JUBcaqUX3OyuYtxH8ieOFyN/kUcLlgiH7crn9Jid637X4XnNV02lRw9qK/nYJQCp+UV6TtkHR0zNuF8p8HLuAOduFWDMsSmBmJ6T9lzrayWPuXB7rxZQsiJUUQLB1aXharnOQ==
+ b=j1X3Nwa+8WPe9dcUSNgO+C3cy97QeWKn3iDt+L899h9JcA5bCnmvG8cmr/cvaY9/GEcPDjIGYEM3QhzYeeW5rADDPJxrueOKAGSbq2W6ee0VE5bNlmTtjDNE7ob5calI+fu8jXEl3IC2/eIcyDCjgQoc27b5xvOlOjng86H+yytlOBZa8VTJc9wTBvjzR8VOSriJ0kXjgHaHgjgiNh4rezFYtW9rYiephznfG6DXeBrzw9YwZmYuook+DuhCDexWgMywurjXYl+yJxReaCJtSzf4SXLeBrRpBraKo0VmXKlpn+0CxIwNhRTGE3AXMVA3V/R860WnUezLXC+RCA4Q1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vU+7PXj57ge8O0m81INIgG9BWvB6BggCz3nlkmTaDhg=;
- b=WuKBaV8G5ApWm9H+YWECxv5TdOhLiwvnweh0GUW0uuSUYjX6weqj4lpqfq1Gkyd1e7rgCm5YW0rFH1Y9kUkUHigYEs3ppoYsTU4gN3w19fObgllhQmglLZyuBhC+LF8H3+L4tZOOdFC66pfvLRgELhABxjLMxH0IWCdP7h3UVxhqKgYMmoFc9MFHl5cHcV2g5GAmyTlgmpLSFY1DKRWd8+K6HCb0mAWvxqi3bBOIOEI0NPInafogX8O+eHMwiK1sLwa0Fz4/xEdDaEwQ6bIE770RhFTDN+6V8S3A1gzeU0TNb2FKVg5I7H0Bp6HouW1QJO6JNWMBvw3rXnzB7R6AgQ==
+ bh=TWq+WLGzVItDl9XrFkp36qPheMlUy2wb/a2+QAXtCTo=;
+ b=c9weDXiUVGK8UPVPY7aW0/z9BrjpVu85229kF1+TJgoLj6DK3bXPcKPXx6vGP99fpLdUTC9iEIaqNO5z315ahs0wENWiSUhvCGf62PBSY8m6YfzCkixBio07fUjsviL5OTn8MrYayaWk0NbxsEyU4AGyw2RjTd9L2jqEdlAQGH2PTZDk74hA2gw26Gx9jqQkTAOdw0MBxgOhAbCf2+zxphmJ2PR9tkNd4sz2E4iwQ8ukN2vNIHwAJTd0dtOFmbQ+HMfthLprZ9yBP+S/RVoG9ps4F2eGKDMnnq9zMuQHDsDjK8EdpO3Fa8KGLjol7A6HarBwYiGdLXPkCDZhq22oxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -30,18 +30,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vU+7PXj57ge8O0m81INIgG9BWvB6BggCz3nlkmTaDhg=;
- b=nveG4mhKYLhrBw4n905CaAaI7hfNLBZ1urrzkkQci0zcyUMflJ1HD3TWtzd6p7qrYhnyBCoeqZvfsIJ60hTI9BBZXkRr7iFo/Q62WH2YMToC4QteGFDdpQl80Zo97ihP5ZVLgLFwuuW0vcyFdVerXDFmfxnddRVu9EMfIPmbkzp2jup2a2P+7tLObJh3R5SEeux/b5+Szc8yBUcYCnKbUJoePUpgMWc8a/KGwUt8VBgkj7jiE3baoFbRJAdcNOsF/jdhpU3hKcTaiP4LKYNah5dJ5bE6pyRjcoIqEjJErRB1ATHFs0NufS2iK8KC91j3c87nXgoi0iRjW0L/zkY5og==
-Received: from DS7P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:1ca::16) by
- MN0PR12MB6152.namprd12.prod.outlook.com (2603:10b6:208:3c4::21) with
+ bh=TWq+WLGzVItDl9XrFkp36qPheMlUy2wb/a2+QAXtCTo=;
+ b=eldPwleb/6YL+vjGyZlpAh6Z7t/xM8/aOxOtlnwYK/XiVIkytd4myK81yBdQbloNuVXY8ht9dQkjzN7hJcX7CZ0tLRm6i7ibv09x3e2Bmui+4Q/55K9IlUWK+oySs2NNSMm1wd9f63H072Io3LTc+iUnQAFGecWMva4sLMEsWI6ebgeOV5PpG/WI2nSTiKZH5n7an6Jn5baYTxhzLenXHFvH7j7oQn9jMo0A5jK3e85dq6WhsyuyowDl4RfOV/Epa6diSJv5zH0uuAwTt2XA4tBe5CWOSAX8BoVdSDCBAU4PZGRULQ2ECEroWzPNKOrkwNyEyEkY2QV7QLYxE74q7A==
+Received: from DS7PR03CA0054.namprd03.prod.outlook.com (2603:10b6:5:3b5::29)
+ by BY5PR12MB4228.namprd12.prod.outlook.com (2603:10b6:a03:20b::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Fri, 31 Jul
- 2026 20:10:42 +0000
-Received: from DS1PEPF0001708F.namprd03.prod.outlook.com
- (2603:10b6:8:1ca:cafe::83) by DS7P220CA0011.outlook.office365.com
- (2603:10b6:8:1ca::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
+ 2026 20:10:44 +0000
+Received: from DS1PEPF00017090.namprd03.prod.outlook.com
+ (2603:10b6:5:3b5:cafe::9) by DS7PR03CA0054.outlook.office365.com
+ (2603:10b6:5:3b5::29) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.16 via Frontend Transport; Fri,
- 31 Jul 2026 20:10:41 +0000
+ 31 Jul 2026 20:10:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -49,17 +49,17 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.117.161 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.117.161) by
- DS1PEPF0001708F.mail.protection.outlook.com (10.167.17.139) with Microsoft
+ DS1PEPF00017090.mail.protection.outlook.com (10.167.17.132) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.8 via Frontend Transport; Fri, 31 Jul 2026 20:10:41 +0000
+ 15.21.292.8 via Frontend Transport; Fri, 31 Jul 2026 20:10:42 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
  (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 31 Jul
- 2026 13:10:27 -0700
+ 2026 13:10:28 -0700
 Received: from ttabi.nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 31 Jul
- 2026 13:10:25 -0700
+ 2026 13:10:26 -0700
 From: Timur Tabi <ttabi@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Luis
  Chamberlain" <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, "Gary
@@ -67,9 +67,9 @@ To: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Luis
  Courtney" <ecourtney@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
 	<zhiw@nvidia.com>, <rust-for-linux@vger.kernel.org>,
 	<driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>
-Subject: [PATCH v7 1/8] rust: alloc: add Vec::zeroed method
-Date: Fri, 31 Jul 2026 15:10:10 -0500
-Message-ID: <20260731201017.2580713-2-ttabi@nvidia.com>
+Subject: [PATCH v7 2/8] rust: firmware: add request_into_buf()
+Date: Fri, 31 Jul 2026 15:10:11 -0500
+Message-ID: <20260731201017.2580713-3-ttabi@nvidia.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260731201017.2580713-1-ttabi@nvidia.com>
 References: <20260731201017.2580713-1-ttabi@nvidia.com>
@@ -86,93 +86,109 @@ X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001708F:EE_|MN0PR12MB6152:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42716746-416d-4614-a782-08deef3fcc0d
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017090:EE_|BY5PR12MB4228:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9933986-8b1e-4d8e-227c-08deef3fccb3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|376014|23010399003|82310400026|18002099003|22082099003|11063799006|56012099006|10067099003|921020|6133799003;
+	BCL:0;ARA:13230040|1800799024|82310400026|23010399003|36860700016|376014|6133799003|22082099003|18002099003|10067099003|56012099006|11063799006|921020;
 X-Microsoft-Antispam-Message-Info:
-	e5Dwgprt1vcUAzqXe6IabyffWjMBHPjnrD0QWvYt1TfJ1WFg+nZ3GQJmyfwD1Ok1QMZeA/bWoQK14flnDLrdjbNsxFXy5/hM7Lkf6Vha0lGknbunzIZloBPtWExsMYgRQULBMK3/QSO3+RVnw8AR17SYX8jjF+so3zYOWRF+NIle0Pt6L4DEPhiEi7thbYVsmnZR7wjVzVYXRXswGVpY3objTfI/m15u3ie6C7UaegunnzPWeenHefwCdAFxVaRtAJ4YevoNkBhtu9JGpHYpOMSOkmcibv9ZKrLUJaTCA4XXXBfei11E51mmnS/xeCbX/W5fHJVTXx0z8rqo6HUuVDrfmkSjxaoWjA9/x9X95TRJLWPF0TDMLOtIz9TTzFS3Fdw+T+iON9GxqkVZfgWD+WlX/4AGDGdTbaHzrMizf16OqS3cjn5t/ZgJjRy0/T/72HNV7RDX0atX73jO/z4mVI6NbjQDBQ1sQdbbWeFDq228Wu04z7OTCWMUD/aZfQpKT9Z3/PPLokAZRk814qHLzOAkS877puMxpZbgMZP6p9CRGuVdQlqIWvVicnDAb2P0r0GHcyJulj0Wo3vO32dENBgrbMK554qFu52j/JWKgoZ3DD+nyPxur828gSJQlGA3Y+whk8gSubsE899aFi+xPbnow4BYZWmMUD7Yv+jCgcyjEZtdb0uQ+Up8nfiMRHOwjT98YPXXGD0Hwmmfe3YZJqsLQxjiZ25YuUXpy3rT1c+Q5CNYQCbrvhCsT5X9FYvy
+	/efJzf/h+XeQGW5ZmxRfVTuYmqPiolY2sT17juTbqK2OleQxIeLGcF+/6soZrpW6Z9fjZ5PM1rrFsRMDyPl/mrvexL9M+mss5/GyKzYtypdTlrmGvA8kZPv5BcJdzOLElEGXW9RRmVLcPZcx3je9vo3uiGCErV9Vsizh/AACcwi9oX84dAK/y6hqQNaIj9s3rSEAOPbO49+NUQrkE8ycmP7AMuJR4i+gcZ+nKWwabNCTSab5C38iKhfnr0+6bCl+ez3BRoDZBBbFwi5cjRGFOkKdSR1L5aGawKwx4BdhFCfg2i/evpBXXGaSUq5sZzntK/pl+aZBNoM9//5BAipRUwzO4LviX3CGMXTb8yNOq80Ax+AAAXTSX91hwO2UBu8VtNlbJLd0jVCPTKmJ+ipOrvwZaOS5QzbWDJgs+uIrCXx7c1qRTiKoSFsTIGXdmSrO7SNfK9FMr1iUzIrDRPLDl4iEOEotHPSkG+87qaNAlw7mm29HxitJ+2HIufptmbeRKz9CJ48yAhBt79xHyWUAnBkpQenF+0s3a7O8yEty1p5mhMuNOlRaKLidVbzuno1LCMK8BWTCTdFmOQ1mfPmSHdjkzj84zZ5LV4OjQUSTNhZg07v2XDBzFOmfWcttNlCKj7wffLBwStznq+KKA/uqF1DiwVyVugEDjOhb+gW1x0ibDTr3XvfxUk5QnfwpBdceniCrjRGBk+vbX+PK92gWw/eiMazAwClB701Fo2rxflBxcyTIg9yQg7aF52X3CRq0
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(23010399003)(82310400026)(18002099003)(22082099003)(11063799006)(56012099006)(10067099003)(921020)(6133799003);DIR:OUT;SFP:1101;
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(23010399003)(36860700016)(376014)(6133799003)(22082099003)(18002099003)(10067099003)(56012099006)(11063799006)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	ufbVLeUSRepZ8uKkbs011LzGIZIHkSiFz1Rw2hOEHHQA3KjgIkQ2r6rkgJRKE5HAPsCfVUEX+yOZ8hJ9cSw9AFGObWD+B1XZTg/7MmSiAs9mboDKCwg/RJ6tdq2a2Et/jxWRB8pke3EWLxiztCKz14cDupUZglX0MvDwFTTJEP7r9dnXfZVNpAEeJ9xihCa2v5dUV/xV6c0rvmCkNCx5QWW/7JpeimmiE+e+E86+OgpDoxLu+xF6/vSDsGQqQ5XyFu0ZR3cmd5XyBlMN9d9QSXqEYiLNggXLwvSJytiJDMVSGcxiRgTGfNd2X8T4kHYzABjt3TwetDQ+xZNNxnDc+Z3t8crDd7LMoDlhpBCV61fUmGVRx0dnB3Np+QignGtgX7aCQYgZ2iJSq3sYAEn4928kjBTu+4FftOsvMxYnhWhKv6wBQ3uwps5Gy17T2wFu
+	Ds5dwU4ngxFCo5HaF1MSekwq2fmsBQBIbBnlIyUDZiMeZlPAMGtxfBMKiC3pw8MXLGIaQYt42V1a7D3MADNVs8eOysvMh/sHzuBnRLw8+pIp8eKF4IgDAZojBtTuH2WtnUANdB6SbY8sNxItmgBCCS++UcDNYKrNynf0dtDfr0UoPQtf2OKIIBjfhPXmFifNLGFAY3v6XWr+VfOqMgVC2jHlf47TLwWhTaNi8BqZIMCiw/54wVt6ft0OXsDOj9RwJYmhvUJJYo/g6LIcVWAAQpLSWx7QiMiDnlvfysHFsHSTsJncON9HnpTKN59X9Z49qYcEw9N1ciW1A+mLy53XreNSORs25o0qmbCSDNjo7+2essqTzsBZLLk2kj8+MB4p4mAUgQM+LeFA1RT8zHlnT55TtLCs8itVHslu8SDengaWartxo7Yz3ZcYqm6rCjFc
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 20:10:41.7643
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 20:10:42.8138
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42716746-416d-4614-a782-08deef3fcc0d
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9933986-8b1e-4d8e-227c-08deef3fccb3
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF0001708F.namprd03.prod.outlook.com
+	DS1PEPF00017090.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6152
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4228
 
-Add a constructor for kernel Vec that allocates a vector of a given length
-with all elements zero-initialized. Memory is allocated with the __GFP_ZERO
-flag, matching the existing KBox::zeroed() pattern.
+Add request_into_buf(), a Rust wrapper around the
+request_firmware_into_buf() function. This variant loads the firmware
+image directly into a caller-provided buffer rather than a
+kernel-allocated one.
 
 Signed-off-by: Timur Tabi <ttabi@nvidia.com>
 Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- rust/kernel/alloc/kvec.rs | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ rust/kernel/firmware.rs | 48 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
-index f7af62835aa8..c7546b9da4fa 100644
---- a/rust/kernel/alloc/kvec.rs
-+++ b/rust/kernel/alloc/kvec.rs
-@@ -9,6 +9,7 @@
-         Vmalloc,
-         VmallocPageIter, //
-     },
-+    flags::__GFP_ZERO,
-     layout::ArrayLayout,
-     AllocError,
-     Allocator,
-@@ -51,6 +52,8 @@
-     }, //
+diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+index 71168d8004e2..5b336bd1f09c 100644
+--- a/rust/kernel/firmware.rs
++++ b/rust/kernel/firmware.rs
+@@ -7,9 +7,9 @@
+ use crate::{
+     bindings,
+     device::Device,
+-    error::Error,
+-    error::Result,
++    error::to_result,
+     ffi,
++    prelude::*,
+     str::{CStr, CStrExt as _},
  };
- 
-+use pin_init::Zeroable;
-+
- mod errors;
- pub use self::errors::{InsertError, PushError, RemoveError};
- 
-@@ -532,6 +535,30 @@ pub fn with_capacity(capacity: usize, flags: Flags) -> Result<Self, AllocError>
-         Ok(v)
+ use core::ptr::NonNull;
+@@ -120,6 +120,50 @@ fn drop(&mut self) {
      }
+ }
  
-+    /// Creates a new [`Vec`] with `n` zero-initialized elements.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// let v = KVec::<u32>::zeroed(20, GFP_KERNEL)?;
-+    ///
-+    /// assert!(v.iter().all(|&x| x == 0));
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    pub fn zeroed(n: usize, flags: Flags) -> Result<Self, AllocError>
-+    where
-+        T: Zeroable,
-+    {
-+        let mut v = Self::with_capacity(n, flags | __GFP_ZERO)?;
-+
-+        // SAFETY:
-+        // - `n <= capacity - len`: `with_capacity(n)` guarantees capacity >= n, len is 0.
-+        // - All elements in `[0, n)` are initialized: `__GFP_ZERO` zeroes the allocation,
-+        //   and `T: Zeroable` guarantees all-zeroes is a valid bit pattern.
-+        unsafe { v.inc_len(n) };
-+        Ok(v)
++/// Load firmware directly into the caller-provided `buf`.
++///
++/// On success the firmware image has been copied into `buf`; the caller accesses the data
++/// through `buf` itself.
++///
++/// This is intentionally a stand-alone function rather than a `Firmware` constructor. For
++/// the `into_buf` path, the firmware data lives in the caller's `buf`, not in a
++/// kernel-owned buffer, so returning a `Firmware` would expose `Firmware::data()` as a
++/// second handle aliasing `buf` (and `release_firmware()` does not free `buf` anyway).
++pub fn request_into_buf(name: &CStr, dev: &Device, buf: &mut [u8]) -> Result {
++    // `as_mut_ptr()` on an empty slice returns a non-NULL pointer to
++    // memory which the loader does not own. Passing that pointer with `size == 0`
++    // makes the loader believe that it is buffer it allocated itself, so when
++    // `release_firmware()` is called, it will vfree the pointer and trigger a
++    // bug. Reject empty slices to avoid this situation.
++    if buf.is_empty() {
++        return Err(EINVAL);
 +    }
 +
-     /// Creates a `Vec<T, A>` from a pointer, a length and a capacity using the allocator `A`.
-     ///
-     /// # Examples
++    let mut fw: *mut bindings::firmware = core::ptr::null_mut();
++    let pfw: *mut *mut bindings::firmware = &mut fw;
++    let pfw: *mut *const bindings::firmware = pfw.cast();
++
++    // SAFETY: `pfw` is a valid pointer to a NULL initialized `bindings::firmware` pointer.
++    // `name` and `dev` are valid as by their type invariants. `buf` is a valid writable
++    // buffer of `buf.len()` bytes.
++    to_result(unsafe {
++        bindings::request_firmware_into_buf(
++            pfw,
++            name.as_char_ptr(),
++            dev.as_raw(),
++            buf.as_mut_ptr().cast(),
++            buf.len(),
++        )
++    })?;
++
++    // The firmware bytes are now in `buf`, which the caller owns, so we don't need
++    // the kernel to hang on to it any more.
++    // SAFETY: `fw` is a valid pointer returned by `request_firmware_into_buf`.
++    unsafe { bindings::release_firmware(fw) };
++
++    Ok(())
++}
++
+ // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, which is safe to be used from
+ // any thread.
+ unsafe impl Send for Firmware {}
 -- 
 2.54.0
 
