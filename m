@@ -1,159 +1,134 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64B489873
-	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 16:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0232B30C371
+	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 16:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785516768; cv=none; b=C+psBJdn/52Fp4Qw3KtB8WcJwQPyh9Ntt/Pp1rAQ4ZA15Ozn+Na7aMid2SkPfFFZ0Mwa/JmdIAM/dfhS465Y4xPi8VWOuAVLr6stBqjx/ZNCRT5qwL9dDiEIxstnXpGOS/qLKEbaotX0VCdL02uNNhtGAnrKunh13eGFIwmL7DM=
+	t=1785517095; cv=none; b=sKt+/72oPuJJKWX3dIXlL3H3m5aAdkmWWbTWSA27vwsr3StAZuaZ79Zd5XbWZLFh74l41GQpjIwp6VAQgqm35LoqD6uTebLQlCGDnQhzukIuyRarZpPKeFB2Cia0qjkEN3SDIeij89Skd910n4nkBjAqL/tVStqatOd0Fm8fXSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785516768; c=relaxed/simple;
-	bh=8udq5qnngAgAZOEuBBW4ghu1uxPFuZm7ffYHK//KkMc=;
+	s=arc-20240116; t=1785517095; c=relaxed/simple;
+	bh=7Wkc5vnPJfK8+T6cj+GxOwF6aP8t3LLmOUCwYz0pevc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oBxCejcQTIKh1OZTjyBuiJpCOKv08vfqV+Pat93SR8bD1iWXaCwFLsQCpnuSkwSz8T4FALURhgcEGGJoujIdxhUOR/Ng6Z5d62H5wl8+xZ421yRXIsf7+JCzLzmFy4Qgt/Tb01mExhXEQutb3LNTO9LxN6mYOqL1kbwLMPOW3y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tw0fBVmA; arc=none smtp.client-ip=91.218.175.178
+	 In-Reply-To:Content-Type; b=RXVN4fxLNOr9MXU8jVeZew1fHebAtwAk7QBXJaSYFPnZmCOSUj+lXc5yB8DIRkt4zSFEqEijE2MguPJNuJOMJ5jr7DLG6F7zGiag8nzIrzT1RvuYo8oie1bA876uX1mhYPho1KVPEkb0WmwvKU5CRxsur9Pf4mlCuocTXiMVSto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QDupzw9e; arc=none smtp.client-ip=95.215.58.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tw0fBVmA"
-Message-ID: <d42d6ce2-7160-457f-be04-ff84551e9b9a@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QDupzw9e"
+Message-ID: <191efe80-24d1-4aab-8746-21afb4c379bc@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785516763;
+	t=1785517090;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xWkD4jlIKLHWvPRjV0QmKvuYD4Xxyf9krdRe4eLcDvs=;
-	b=tw0fBVmAHcUXZ7EyOQ7pyMrimPCYLOkU5/RHBTtdmkcGGYTVYktilu6Dt4cd95LFOpxMyx
-	zi1m2M/5GXO4iE9fdtnAW4EffxYHAUkWE/2Z9itCgIUFo88sErfYnGryS8S87roMxd3eCw
-	ls1W3ST343itFRpTm7rbr+AyeKMo51k=
-Date: Sat, 1 Aug 2026 00:52:06 +0800
+	bh=7Wkc5vnPJfK8+T6cj+GxOwF6aP8t3LLmOUCwYz0pevc=;
+	b=QDupzw9eNh0JVgtVkhnk9fpyAzqrfoSZcykUG5rIYn9PyeUrXBswOnBQUHvPKBV/p2MNUf
+	mfRJ1cQlIl9txEmp6iCYbDFObuLFKeBZy0GRG3CtTIljNnrDbkEdkJiywNamh8zB4FrxIM
+	8PggOuJ4D54cvOEyYOsxvLigg1zLIWo=
+Date: Sat, 1 Aug 2026 00:57:22 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/9] rust: debugfs: add SeqShow trait and seq_file file
- operations
-To: Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH v9 00/10] Fix missing fops.owner in Rust DRM/misc
+ abstractions
+To: Gary Guo <gary@garyguo.net>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>,
- Eric Anholt <eric@anholt.net>, Ben Gamari <bgamari@gmail.com>,
- rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
- <20260731-tyr-debugfs-v2-v2-2-aea19eccb996@linux.dev>
- <amyeMmmfEBpuVclw@google.com>
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
+ <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+ Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Igor Korotin <igor.korotin@linux.dev>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
+ linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>
+References: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
+ <CANiq72m59O-ruHUvUcZC7yCvu0KV0w_m5vMO4e0rxyHdRmihJw@mail.gmail.com>
+ <68c43a03-5fa0-42a8-b886-2c756e39515e@linux.dev>
+ <DKCWO60T6JPR.1P3AAJAATMXBI@garyguo.net>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Alvin Sun <alvin.sun@linux.dev>
-In-Reply-To: <amyeMmmfEBpuVclw@google.com>
+In-Reply-To: <DKCWO60T6JPR.1P3AAJAATMXBI@garyguo.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-On 7/31/26 21:08, Alice Ryhl wrote:
-> On Fri, Jul 31, 2026 at 01:05:40AM +0800, Alvin Sun wrote:
->> +/// Show callback for `SeqShow` types.
->> +///
->> +/// # Safety
->> +///
->> +/// The seq_file core guarantees that `seq` points to a live `seq_file` and that
->> +/// `seq->private` is a valid pointer to a `T` with no outstanding mutable
->> +/// references.
->> +unsafe extern "C" fn seq_file_show<S: SeqShow<T>, T: Sync>(
->> +    seq: *mut bindings::seq_file,
->> +    _: *mut crate::ffi::c_void,
->> +) -> crate::ffi::c_int {
->> +    // SAFETY: `seq->private` is a valid `T` pointer with no outstanding
->> +    // mutable references.
->> +    let data = unsafe { &*((*seq).private.cast::<T>()) };
->> +    // SAFETY: `seq` points to a live `seq_file`.
->> +    let m = unsafe { SeqFile::from_raw(seq) };
->> +    from_result(|| S::show(data, m).map(|()| 0))
->> +}
->> +
->> +/// Renders `data` into a seq_file.
->> +///
->> +/// `data` is the value stashed as the debugfs file's `i_private` at creation
->> +/// time. `show` is invoked on each read to produce the file's contents.
->> +///
->> +/// `open` and `release` are optional lifecycle hooks called during file open
->> +/// and release. They can be used to manage the lifetime of `data` (e.g.,
->> +/// reference counting). Default implementations are no-ops.
->> +pub trait SeqShow<T> {
->> +    /// Writes debugfs output for the file.
->> +    fn show(data: &T, m: &SeqFile) -> Result;
->> +
->> +    /// Called during file open, before `single_open`.
->> +    fn open(_data: &T) -> Result {
->> +        Ok(())
->> +    }
->> +
->> +    /// Called during file release, before `single_release`.
->> +    ///
->> +    /// # Safety
->> +    ///
->> +    /// `data` must point to valid memory, kept alive by actions taken in
->> +    /// [`Self::open`] (e.g., incrementing a reference count).
->> +    unsafe fn release(_data: NonNull<T>) {}
->> +}
-> Hmm. So in a later patch you implement SeqShow in the following manner:
->
->      fn open(dev: &drm::Device<T, drm::Normal>) -> Result {
->          // Hold a device reference so the device is not freed while the file is open.
->          dev.inc_ref();
->          Ok(())
->      }
->
->      unsafe fn release(dev: NonNull<drm::Device<T, drm::Normal>>) {
->          // Drop the reference taken in `open`.
->          // SAFETY: `dev` is valid per this function's safety contract.
->          unsafe { drm::Device::<T>::dec_ref(dev) };
->      }
->
-> I don't understand why this increment/decrement pair is necessary.
-> Just based on the code, it *looks* like you have them because otherwise
-> `show()` might get called with a dangling pointer to the drm device, but
-> the inc_ref() in open() ensures it stays alive.
->
-> However, earlier in this patch you said:
->
->> The seq_file core guarantees that `seq` points to a live `seq_file` and
->> that `seq->private` is a valid pointer to a `T` with no outstanding
->> mutable references.
-> So based on this, you are saying that open()/release() do not need to do
-> anything special for the value to stay alive.
->
-> These seem contradictory. Could you clarify the situation?
+On 8/1/26 00:43, Gary Guo wrote:
+> On Fri Jul 31, 2026 at 5:34 PM BST, Alvin Sun wrote:
+>> Hi Miguel,
+>>
+>> Thanks for taking a look!
+>>
+>> On 7/31/26 14:46, Miguel Ojeda wrote:
+>>> On Thu, Jul 23, 2026 at 4:11 AM Alvin Sun <alvin.sun@linux.dev> wrote:
+>>>> base-commit: b7e5ac83cb16f7ffd11dc23736f84276602100ed
+>>> Was this old tag used for some reason?
+>> That was an oversight on my part - I forgot to rebase onto the latest
+>> tag before sending v9. The series is now based on v7.2-rc4.
+>>
+>>>> prerequisite-change-id: 20260519-miscdev-use-format-9ab7e83b1c11:v3
+>>>> prerequisite-patch-id: 405b334ff0d48ad350014f05a2321bdbaa025400
+>>>> prerequisite-patch-id: 604b631c81d5423f4ebb2e12ba2d22e9ce371bfc
+>>>> prerequisite-patch-id: cb550d94cefe01920e0d3ced2b2bcbecd76f3907
+>>>> prerequisite-patch-id: 3bc830839742591460cb86d9472c04f4686dc600
+>>>> prerequisite-patch-id: 571058244bc8c7088638d2e3225713011246c7e9
+>>>> prerequisite-patch-id: 347c5a3c6dbef9832bfce8419fc23e6e08ba477f
+>>>> prerequisite-patch-id: 3e202d988b56b88446f7535e90d3f00cf5f15701
+>>> Are all these actually needed? Some seem unrelated (some were already
+>>> applied too).
+>> The prerequisites were just some import formatting changes that the
+>> series depended on at the time. After rebasing onto v7.2-rc4, I was
+>> able to drop all of them - the rebase was clean with no conflicts.
+>>
+>> I'll send v10 shortly.
+> If the patch applies cleanly then there's a no need to send a new version.
 
-You're right. The `SeqShow` trait documentation was inaccurate -- the
-framework does not manage the lifetime of `data`, so `inc_ref`/`dec_ref`
-in `DrmSeqShow` is necessary to prevent `show()` from accessing a freed
-device.
-
-Will fix the doc in the next revision.
+Sounds good. I'll hold off on v10 then. Thanks!
 
 Best regards,
 Alvin
 
 >
-> Alice
+> Best,
+> Gary
+>
+>> Best regards,
+>> Alvin
+>>
+>>> The only one that seems needed has Andreas' Acked-by, so
+>>> I guess it is fine.
+>>>
+>>> (By the way, I will use this second message to take this chance to
+>>> move the modules maintainers in the To: in case it helps, since I
+>>> didn't do it in my previous message)
+>>>
+>>> Thanks!
+>>>
+>>> Cheers,
+>>> Miguel
+>
