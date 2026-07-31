@@ -1,67 +1,66 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47A142E8C3
-	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 14:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34988414A1E
+	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 14:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785508409; cv=none; b=WpnSd9R7+J4N1pmcn/avRgKSide5vwTpOirWnTK+6znEF6vAKIDkpIty73a48YrKP2LTNdAVaHmysWOzJW7JEIck3MZ21s602oy0Zm7RjED9jcZ7T5CzLumcv6z3CYSTvlj+vPW0fcCSMD52kvrq+VGobu/c4IxFgO/EIC0YzDI=
+	t=1785508472; cv=none; b=YLNsBqzCYSnu2v+/S+O5YHubO3wuB9nGvqwWvWmCvMGNL7JU/gEy6Ne2l9AZvPV/ohqxUIbL2/YeMVKrdK0VKA3hl7iLnZBzidWhaH0MrxVES3r+apMeMttGlKF+8tEDASV8KO6576cZsCV8KT8n5cbVmhkMWFozHeJWkvVPMEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785508409; c=relaxed/simple;
-	bh=ijNh1l6urWW2UsORZiLTXZySDEmKMwL5HbqApkuKIsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JTQs6kxT2F9FhVL9zxh6nwuXPljr84SoluA+BQ64QfPSJ+9Bf8i/VL/3ChbBlRurBMIHDmyKWmSrMF1kIijxaftkWmVpv4WJGi8Zh8Q0aC/9BcTZ+xiv5rN6VV/hhpb3Hl+N6XV1kGbpiImdgSFsoiGyhVztcZKKQTbB7DEe+BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdATbvrt; arc=none smtp.client-ip=209.85.208.172
+	s=arc-20240116; t=1785508472; c=relaxed/simple;
+	bh=Lu9hJWM5FnkOlRaWVWjIRI/RDVl5jUP9oaZX7fCXZhY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=chsduC0taomRdyJ8rid1ksCbgnwSEZfDZc7OuWjulhibSMHzIyr+95XLWUGmYgo/sGYd7r48Tp5uncOusEcGWzA1f4eRkWgsQIzhrmAoLOZdOPzN1ewTq4q4yhg9HB9Hp4oIDmHpBiMoiOFwp6b7m9T5Bqp24xgch81L1DrNME0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RhTFxCUh; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdATbvrt"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39c83acb86eso9235591fa.1
-        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 07:33:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RhTFxCUh"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39dbe684115so18289711fa.1
+        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 07:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785508406; x=1786113206; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eA4/Jfq3oApsdwkMmM8JpBKsrNAF9FmOl3wpFinK2xk=;
-        b=QdATbvrtUDqSD1VnHY1ODSpeysDPBibwuw/mR4OOJKf8Arj8TXHa8MHx+Ylz/VDmep
-         W1oTd4lTvzA1AryJZbuBVriyhlDvOPcqZRL3VozBCMfvEQokKivF/P7ToyoGC+VjIT3w
-         dXH5Xj/8O5rjpGGiTRmJT/c4Mqituwy6426XOl9WZdhel7Mq1AJxBxPSRWs60/vay27v
-         XiyfW63kSbH42Nva4Ypwx+M/kL6GiTsPzMHgWrhCaXbVHvUtMRrNLZlMG8XVCdW5AHjY
-         zvXGIMkvo/wPNCyeB43nmEEwZzirhXIOXhMnVcQYR8Syy9F8Mw+r9dy8Zl0Qk23iF0Ch
-         arww==
+        d=gmail.com; s=20251104; t=1785508469; x=1786113269; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cEYf8XWt7uIQNYBnvw5HrwZeU0df85IjOKBJMRJ7Wzw=;
+        b=RhTFxCUheL9PZOcn1PfVNmxdZ90l5v3+AHbD4yBmLU/tXz/hsNlJWxoFhuavLzPIH0
+         CF5JfazD6Xqac0riWLDJEd9g9Bmgdc0a4dQA0dTGrO6eiguTLCyNn9gxPvze+gRm2rrJ
+         xXtuzBAqGHCeiwqWrqiuywiIoCOSflpij2JWFqJnWEgy3JKzXB9kgeyhZryPSUvrwqfo
+         zfEztpLg9qgE3gfzJWL062Wj+y2sMOyLzBQT3zT+k3gCze6x16hTrHd+4faDoF355Bfm
+         74qEtpi1/urTKovOrGiy82YQLUPbld95tkark9cPf5x9DbmwsOg4DW0CpNohhtXyWZOD
+         DgbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785508406; x=1786113206;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1785508469; x=1786113269;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eA4/Jfq3oApsdwkMmM8JpBKsrNAF9FmOl3wpFinK2xk=;
-        b=IEuh4QRitDLVT6/RA0SuUzEWgD6s8Osbc3eVnwOXPwYiKqQMZZUFUXHq4BdofKMCGV
-         OAWPmQ8f1vCQgHV/MeQLAFCWa98H9JRRNZE1wEO1D6EO6aADS1UQkYr5JnWAsTFOQiwu
-         mcEusS41IzVaMJGsumaFWvfSH8pCLCtC2LanR4lGCjLNiPw4CtBpR5Cz4Oc8raQ2erUV
-         Rgbm+mPTpU1NdgeKV4HHfaOzVyO0LgZVPEk5y/oqWke+fjkaUjNrZsoN2AUzTmxFpXvw
-         830VaPwzWCX4Nt1SD1c5+04oBcck7mZuN47g+zJRS8+rAQIShbAYVD5f9Yz37ncI31aa
-         RNww==
-X-Forwarded-Encrypted: i=1; AHgh+RpNumCaAMs6NHggcGipnzFjWxq8CXIAP8e6L2m9X6FlU3TN3k0KnMl7WWTmVz7ULByAvRdI503QPIc3Mw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxbp1zkv4ENcMlOnbz923JiI8nMqUKHE9evi6YfeULeJ1wUsifN
-	f5kkhBdxCq3GkaCqJsONMCXswdIqIZ5GfVI5dlix5JNEpMd2pinMCn+Y
-X-Gm-Gg: AR+sD13k8HGFLKPrhFjDpukbqYwrRiMzZhWkEohTT27xUZcsQ0QAvlhdfipTrLx2LlM
-	qIp93zPuWrxMywXhcwMBcueA2UG8txGgde7mHih9hiAm0F3vIOgqnS5PRg5FStHMPkOxuluEelA
-	+AoVPMCuwPZgqtFvwX5dAAgemy+aifmwAED0oAaJxm6h9GmOpyGhKZjwS6ZfC6V2kYZEY8P2omT
-	9fVONue8kD/2DZ6Q6PsmL5/4t8+U0ymE5bC/mduvcDismO+YN/OPBgVYHPdpr9mq2yEk2zrtkZ+
-	Ry7zZPdaVhkTqgVu9FMV8ZhQVT3ssZB5twc80LAVAUetbDkFnJRQFPddsD/BpehgOpG0dODskU7
-	wF3vEnoWineuZfj76Szf7UFqICkqooHD02Nuo0g+/QTdoYAWbvBUWg7w35zDpT6TmFRK52pXcn4
-	K7uLDXBWcYRZDhumcJPg7uTQI/AVaXFKvmare3Pd/A4AXXfeQeXyOVTrIjShGpKFku4fVVFGEo
-X-Received: by 2002:a05:6512:3d0f:b0:5b0:17e7:67cb with SMTP id 2adb3069b0e04-5b2e1fc6317mr582376e87.17.1785508405470;
-        Fri, 31 Jul 2026 07:33:25 -0700 (PDT)
+        bh=cEYf8XWt7uIQNYBnvw5HrwZeU0df85IjOKBJMRJ7Wzw=;
+        b=RXf0RZIG8jlKuEyyFC5ew5z+Cuq8UbCilV7QQqMUklBC59ZZwGh0ekPajy+Ufmu6Fc
+         ESX3yNyv2iwl1yVQWWYVjIiTm4bkqlm9D/i+eWeypBQ/qnlsbt5vzqww+ORhZeeLKoLz
+         xCNdgR/wQIJxQNQqkoau+Gd4x+ZX7UrVpDlRLwoFLw2fl6EOClU6e6dJDq7694tid7DX
+         AsMF8UqzL14ORM8CYp4/uprJe6ozxGve0Lt9UyKUXYs3qARGk2EfF1xLZdBQjFGV3u8f
+         esfKHwfyrVLQDqoNRyaLvU6xZ9bL4rhX1aug5BZTwi509XyX2xmQDSW0HV+V7kNmBMDx
+         fTgA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqwfl0e699bsHKuOy0JOmGsw9Di7vnz214qbUKBBcT057+dH64Pvfqqqxmm37mYazzDdqQbHfavcNZXKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhpBf68FJh6p0jDMpodqbeCHUFv/1xpXUyNRy0/h9WKVXybAH8
+	dIzNEsd3BRSwM3KCDXs9Jb232Um42x0VmCyvek+xUIs7zTbQYrMsPb76
+X-Gm-Gg: AR+sD12XMt/3PbY8AYbVHjAKn7zOzecEW54f9auHTYCOfdoAsaVDNbne7CpZha2cwpl
+	T5G5aXHZCr13KoPmJR2wxog8iX3UCuMoQOuRdl875aYEbZdtMTFUYJ2eW2W3CrGRFTp+o4pi7Te
+	/ikDRtq5K65PJdr41BIV4DTI1nNVr+9q3kd91ebVt7mnDH+TV2cfigBYxwDKisSEHZHw/lqDG5t
+	nY+0dqP66t+hv8mChAg4SZRJXiLi8wF30hHAXt2lR/+VDvj2GfidRP9d7ht/vkbevhO4IzfrtrC
+	WhcwoN91phqsZaiVPn7kkZwPLyuOjq0dRnn8jQW9HfMc1mS4NwzF038rf1M3kZJIN4RKzguHiWl
+	HPLmkywECmGoKgs/jRE4IeFF2tJcnnk1AoyY/0by2YeZVqlD8YupPAZ8GizdrL6RCA97yCyQtF+
+	DswQWKw7uJvkE/OYu0eHpuLa06JbWnJOHPhtGXbgM4HlG6yEoIrReVOtt7thpJ4KhyP6Gjx000
+X-Received: by 2002:a05:6512:3d03:b0:5ae:acbd:439c with SMTP id 2adb3069b0e04-5b2e2422d22mr454761e87.23.1785508468894;
+        Fri, 31 Jul 2026 07:34:28 -0700 (PDT)
 Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2e23c556asm341380e87.9.2026.07.31.07.33.22
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2e2441db4sm332262e87.45.2026.07.31.07.34.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jul 2026 07:33:24 -0700 (PDT)
-Message-ID: <38397324-56b0-41e9-960f-152a16ce8b12@gmail.com>
-Date: Fri, 31 Jul 2026 16:33:20 +0200
+        Fri, 31 Jul 2026 07:34:28 -0700 (PDT)
+Message-ID: <7855a0c3-29ac-4842-8e07-352fcb535a63@gmail.com>
+Date: Fri, 31 Jul 2026 16:34:23 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -71,6 +70,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 11/16] dt-bindings: usb: mediatek,mtk-xhci: Switch to
  ports for USB connections
+From: Konrad Dybcio <konradybcio@gmail.com>
 To: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -92,56 +92,62 @@ Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
  Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 References: <20260721065413.2306137-1-wenst@chromium.org>
  <20260721065413.2306137-12-wenst@chromium.org>
+ <38397324-56b0-41e9-960f-152a16ce8b12@gmail.com>
 Content-Language: en-US
-From: Konrad Dybcio <konradybcio@gmail.com>
-In-Reply-To: <20260721065413.2306137-12-wenst@chromium.org>
+In-Reply-To: <38397324-56b0-41e9-960f-152a16ce8b12@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
-> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
+On 7/31/26 4:33 PM, Konrad Dybcio wrote:
+> On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
+>> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
+>>
+>> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
+>> and USB 3.x Super Speed (SS). The block can also be synthesized with
+>> either HS-only capability or HS+SS capability. The SSUSB controller
+>> handles the device or gadget mode. Saying that SSUSB handles the HS
+>> portion is wrong.
 > 
-> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-> and USB 3.x Super Speed (SS). The block can also be synthesized with
-> either HS-only capability or HS+SS capability. The SSUSB controller
-> handles the device or gadget mode. Saying that SSUSB handles the HS
-> portion is wrong.
+> [...]
+> 
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Super Speed (SS) data bus if SS-capable;
+>> +          otherwise High Speed (HS) data bus.
+>> +
+>> +      port@2:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: High Speed (HS) data bus if controller is SS-capable.
+> 
+> FWIW this is opposite vs what the (most common) DWC3 schema defines:
 
-[...]
-
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Super Speed (SS) data bus if SS-capable;
-> +          otherwise High Speed (HS) data bus.
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: High Speed (HS) data bus if controller is SS-capable.
-
-FWIW this is opposite vs what the (most common) DWC3 schema defines:
-
-
-(also true for mediatek,mtu3 and renesas,usb3-peri)
-
--- Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-  ports:
-    $ref: /schemas/graph.yaml#/properties/ports
-    description:
-      Those ports should be used with any connector to the data bus of this
-      controller using the OF graph bindings specified if the "usb-role-switch"
-      property is used.
-
-    properties:
-      port@0:
-        $ref: /schemas/graph.yaml#/properties/port
-        description: High Speed (HS) data bus.
-
-      port@1:
-        $ref: /schemas/graph.yaml#/properties/port
-        description: Super Speed (SS) data bus.
+(s/opposite/different to)
 
 Konrad
+
+> 
+> 
+> (also true for mediatek,mtu3 and renesas,usb3-peri)
+> 
+> -- Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+>   ports:
+>     $ref: /schemas/graph.yaml#/properties/ports
+>     description:
+>       Those ports should be used with any connector to the data bus of this
+>       controller using the OF graph bindings specified if the "usb-role-switch"
+>       property is used.
+> 
+>     properties:
+>       port@0:
+>         $ref: /schemas/graph.yaml#/properties/port
+>         description: High Speed (HS) data bus.
+> 
+>       port@1:
+>         $ref: /schemas/graph.yaml#/properties/port
+>         description: Super Speed (SS) data bus.
+> 
+> Konrad
