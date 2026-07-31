@@ -1,105 +1,158 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325ED414A22
-	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 12:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A656E36196E
+	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 12:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785499591; cv=none; b=GU2mPMzhUUS98LmNcuifPmLIOAwZCjedFn5G0rK8qcR98GHRa3RUMs1wyWOVTrsk2G9+0XKK3YpEa56Kk3yQ5W1gsEMu/0BupHIhGzfXrck+GmBW1Hox+Qd/jmlxWMIJIZCPLZRPdPxckxVKVFE5fJG2kFPlqURO/azbId1e0ms=
+	t=1785502789; cv=none; b=RhnXUAlRDpDFHS41z73AMdbpf1iejMYFcTUYpJ2qcZn3gIshrppsEzE9P4O+tPYUj1SzHa0me345I7I3cpE04PwMey5NcHfqbk9tlS8F49HWJ5OklgDumohKPLj8AEmSYQXOPUQyLKr6jD8tnusZUDu3k3l3rmp4QRu88jSvJmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785499591; c=relaxed/simple;
-	bh=v/wytK4wYWcN1quhANGlf+MhBQCs/zJd4N9RI0UcnMw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eiSKbmrxXfKojO4y+2KXeFxfYVxW+NZYFLuSO/XNFj3D3ugpBbb0go8j1scs0Rff31gfHJLmLq3YsHP4sJZbwQPOpMc4B2615kerA7qI5pYRImArKoqr/75red0Tr8ohULQTcTJPppTi1oo9Utcm1nZtMZDMli9KIQPbqNIgRxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=gjjfVJgQ; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1785502789; c=relaxed/simple;
+	bh=TV4S6QcoDp9i3XvYMLYR7XmivYO8ZF+r2apXG+G/N38=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=WnWP5mENGuBXb8oEPBpLMyT9yFuwfiUHLYOefgQ2SvzpcNc8pS1t6RzzXSNF4K5Xv9OuP/1D1m5GCN2da5DfyE8eZc4DKE6NfOPhSckHidtfMBi3nS0XlQziC2lkolsQn1M+lpaPTYN8llqZevOowY/a4SjO40VYTa5KwHbA1Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r8bcG+6D; arc=none smtp.client-ip=209.85.221.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="gjjfVJgQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1785499563;
-	bh=bpLVf+YRsb+x9iwyuL8GnWfdS7ZflUDXtgizbU0JqDI=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=gjjfVJgQ8Egrw2Gx2IIfDa1ua1Qu36+Gas/EZZe8JCfBHMbP9WxYulZYLTYKSg2Gw
-	 byuIWp4tf+Qq5x3CN+A5LPfOtjx9Xxl1XAKEAFz3ZNvj4yErxdOVKj6y6ZsD6xRQD3
-	 9fdU7Tv7XTsp3h5eMDUDlrEc2GaijrIyqSBS/pyI=
-X-QQ-mid: zesmtpgz3t1785499558t14c59e62
-X-QQ-Originating-IP: 1Z8VkdL01wbvbgyjPWcS2yR2ro3TZ6yb5950rwYD4eg=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 31 Jul 2026 20:05:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1151331584069813262
-EX-QQ-RecipientCnt: 5
-From: Yichong Chen <chenyichong@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: tj@kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH] kernfs: avoid iattr allocation in listxattr
-Date: Fri, 31 Jul 2026 20:05:54 +0800
-Message-Id: <20260731120554.630147-1-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r8bcG+6D"
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-47f83999cceso1120855f8f.3
+        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 05:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785502786; x=1786107586; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=P9eJPXgMx/k8Zzskbe/ENfQg92M9fVEFYQJ0hF5Ni8Q=;
+        b=r8bcG+6DGXUjd0IKpkwFj26ULM68Bo0NoV0aJg0Gy+Ufnbc4Ont+no5U9fp9F1ihn7
+         xH/tPyhrBI12AYrT3IwCSGXl92vWI9MErN3xqHQcch/B0AKpWc2t/lFJ6uP6Svy9XAqy
+         Yd46Xm/2X8byvPf0vNyl9He5AnGzrgcfeqt1R7AYVdyT9p7LT6ZUWX3cICsq/JMafFio
+         NVSNZPv6/2CQ5RT/rmZSUBnVcABUQ3jaxGcH8PgYmTBawU68U3wq0/4IDXRc3ZZ0mYqQ
+         x2LGSD5wPOhf1o+d1+VntNt9rQIzabnWsRCtuPh352laNC9uetqj0d/IwY0vRePu++zj
+         xhTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785502786; x=1786107586;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=P9eJPXgMx/k8Zzskbe/ENfQg92M9fVEFYQJ0hF5Ni8Q=;
+        b=g6AXP4loQ3QCHQQ9ytRQFXvlFAMGRD2Fg9o747ON3RtHy99lG+03yBMdBoyypZEEuK
+         GWrD8nMwfsEMQZFJVy5Qu6vVYvKQYcwv8TEdDEC/A2sW/jXVfAwEu37cv9WLQ/iI/Rka
+         v1MlthBxyTmkDAciMh9vXjp1iOMs6Ernd8eJVVQ3/AXpZXHiyI9FIlRzwG05LFmHejX8
+         y+QyZ/Esuow3P9bp0jYJcBpLKvjjzSb4Kv2/1XU5aWXH6bSgHhJowZjWeT5nTrtRWDi1
+         cq+yb/36s6eNUFBcTcpZkk/YaSiYbrw5VpmM8cqnkktjfLLKbDELVttG9vk/4wg5FE5l
+         5zJw==
+X-Forwarded-Encrypted: i=1; AHgh+RrjvG5KQQ9/tqll6uWZeqD1VULKh3H8694r7HEhUa3KZ0/U64u+oq78PhSN+tOsXB+1dz/EUQw1l1rOFQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJQXGAGKGIA8WErpVbgZjCwyzqi2E6kj/RCwwQSc9o6mOQy0nT
+	l9v/W9+pRlfHMWAaLk9ptpdZklStZVqnpYTZBRJs0GBdeF1zquaq5R0ZBIVldxj0R2JrtecgKp7
+	SjdjNeemOPF90p6dUWA==
+X-Received: from wmbdr14.prod.google.com ([2002:a05:600c:608e:b0:493:af1f:8829])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:40cd:b0:47f:6d9a:d7a6 with SMTP id ffacd0b85a97d-47fd2aed4ebmr4411247f8f.25.1785502783123;
+ Fri, 31 Jul 2026 05:59:43 -0700 (PDT)
+Date: Fri, 31 Jul 2026 12:59:42 +0000
+In-Reply-To: <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MQPu5pFEJFN4A4KlujeMSwk8MRq1c/CjOb02/3+liiqT5xMzhtUn++/A
-	rvzZzlhMftaMc3mCTUPXBMnIkctRVCvyyrUwvz/4xwQIASJe6aVZ4SrOSmhYNwA18Vhcq3/
-	Bhxr5z3szqv/ztBKSDjMV9i9/OWFrGg+mE1o5Pm60k4jNz+JiJ8kOYmAGF6Mp+4JavETX/K
-	oC9L+84VEIPk4Rrmqv/il3BLEtamlXz8KW5gf6AOD7nuuPv+qWs2qPFAPWfr8TKbJ2qrbdq
-	XXxGGjjCXr+/yTUbcn13CytPrKHW+bd+sSVaGmHOgzuQ6bQaKQl3SkH2sq/kazpfGc5axi8
-	iMUVTNJ8oiNuFDdVsilknogniJnJMhJniyTYMqNffzVdJx4u0dakcNtgxNfK6AklIf4nQHr
-	8O8W3bdJtr5lOTMzt0JdHKgY7VPMMx8BkFlIXoiefcS9aCABn986MlUfLCp1xJzwi2WZzG4
-	IOhUjDCtMFCUSfF3jnxTgVbXnrO6GUIKYDDm3Sy3nWAtveVL+w1gLohC6iA+GUbpoUlNbUm
-	1ETgg5EEasJFqIiZ62/enhIFoevk2V3v10RtwnEzLBeAXjYfQE9Wt7LP5CniNNcWq7NIkIt
-	uoFrPansDgoVv95UZiHheZCEKz0bMq2iTF9zKgS/+BYXWhEYdzOYtepVJ97+6vMbm/ThMaU
-	vqy7XVx9Sy9uHuvn2tds7swv/Jg3r2uFcg/WJVyQk6u4y04NS528brJOtrBKia+/kX43Ojn
-	GhH5n2joQPG5hG8v6Hpyv3lkEjQT+4ico6JDpXTGv+ItU7QjeEvLtKsg39AJk8OidGT7lyl
-	ZBrRZlYWXnxAOUnVGgaUssFroECBGN+gj0Ceoc6v7I4l4bO0WPhBhNFliW13viDWAqUXO0u
-	8NdEgpNTeklc+OBgMG4wjNnunqK/Tb2ScQWR57LJfQa620VwsnkEP6BK6U+Jp8bHWLmd6Jz
-	Z1izAcgtN3grbc6r2hhtqsn81OBXmLHA+uu/wOjegry08lgPJ790XlegNgluk7Zrp3L2BFd
-	7dWCMIhHF4oFWQ8ghTydM6K03I3B6rEqDs3gzI1BTXPUnfs+KMGmzrkgte6Yk=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0
+References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev> <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
+Message-ID: <amycPnwWUS1qwGs9@google.com>
+Subject: Re: [PATCH v2 8/9] drm/tyr: add gpuvas debugfs file
+From: Alice Ryhl <aliceryhl@google.com>
+To: Alvin Sun <alvin.sun@linux.dev>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+	"=?utf-8?B?TWHDrXJh?= Canal" <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>, 
+	Wambui Karuga <wambui.karugax@gmail.com>, Eric Anholt <eric@anholt.net>, 
+	Ben Gamari <bgamari@gmail.com>, rust-for-linux@vger.kernel.org, 
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 
-kernfs_iop_listxattr() only needs to report existing xattrs, but it uses
-kernfs_iattrs(), which allocates kernfs_iattrs when the node does not
-have one yet.
+On Fri, Jul 31, 2026 at 01:05:46AM +0800, Alvin Sun wrote:
+> Add a gpuvas debugfs file listing all GPU VAs for the Tyr DRM driver.
+> Collects VMs into a shared list during firmware init and renders them
+> via dump_gpuva_info on read.
+> 
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> ---
+>  drivers/gpu/drm/tyr/debugfs.rs | 65 ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tyr/driver.rs  | 16 +++++++++++
+>  drivers/gpu/drm/tyr/fw.rs      |  8 ++++++
+>  drivers/gpu/drm/tyr/tyr.rs     |  1 +
+>  drivers/gpu/drm/tyr/vm.rs      |  5 ++++
+>  5 files changed, 95 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tyr/debugfs.rs b/drivers/gpu/drm/tyr/debugfs.rs
+> new file mode 100644
+> index 0000000000000..d381b1901bd08
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tyr/debugfs.rs
+> @@ -0,0 +1,65 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +//! Debugfs support for the Tyr DRM driver.
+> +
+> +use kernel::{
+> +    alloc::KVec,
+> +    drm,
+> +    new_mutex,
+> +    prelude::*,
+> +    seq_file,
+> +    sync::{
+> +        Arc,
+> +        Mutex, //
+> +    }, //
+> +};
+> +
+> +use crate::{
+> +    driver::TyrDrmDriver,
+> +    vm::Vm, //
+> +};
+> +
+> +/// Registry of VMs for debugfs access.
+> +#[pin_data]
+> +pub(crate) struct VmRegistry<'drm> {
+> +    #[pin]
+> +    vms: Mutex<KVec<Arc<Vm<'drm>>>>,
+> +}
+> +
+> +impl<'drm> VmRegistry<'drm> {
+> +    pub(crate) fn new() -> impl PinInit<Self> {
+> +        pin_init!(Self { vms <- new_mutex!(KVec::new()) })
+> +    }
+> +
+> +    pub(crate) fn register(&self, vm: Arc<Vm<'drm>>) -> Result {
+> +        Ok(self.vms.lock().push(vm, GFP_KERNEL)?)
+> +    }
+> +
+> +    fn for_each(&self, mut f: impl FnMut(&Vm<'drm>) -> Result) -> Result {
+> +        for vm in self.vms.lock().iter() {
+> +            f(vm)?;
+> +        }
+> +        Ok(())
+> +    }
+> +}
 
-This makes a query operation create persistent per-node metadata even
-when the xattr list is empty.
+This code maintains a separate list of all of the vms for access from
+debugfs, but I would have expected that this is not necessary. If we
+already store the vms inside the driver's private data, then can't we
+just access them from the normal storage location?
 
-Use kernfs_iattrs_noalloc() instead and return an empty list when no
-iattrs exist.
+By having multiple copies of the same information, you risk that they
+get out of sync. In this case, you never remove vms from the list even
+if the vm stops being used, which seems wrong.
 
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
----
- fs/kernfs/inode.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 2cb20294aaf5..237dcdd73fc2 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -141,9 +141,9 @@ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size)
- 	struct kernfs_node *kn = kernfs_dentry_node(dentry);
- 	struct kernfs_iattrs *attrs;
- 
--	attrs = kernfs_iattrs(kn);
-+	attrs = kernfs_iattrs_noalloc(kn);
- 	if (!attrs)
--		return -ENOMEM;
-+		return 0;
- 
- 	return simple_xattr_list(d_inode(dentry), &attrs->xattrs, buf, size);
- }
--- 
-2.51.0
-
+Alice
