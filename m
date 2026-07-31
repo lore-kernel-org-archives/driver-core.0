@@ -1,201 +1,120 @@
-Received: from sender4.zoho.com (sender4.zoho.com [136.143.188.1])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A79442B0F
-	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 16:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785515434; cv=pass; b=BL1PzsCYPxWh2m89LIYhsQnLMM5ro6EiZpJK8aGNy4jehaoXK35gefPonLN7tesyGjRUwYM9ykqv8NiKg/VZ4L4IRdy74ChPasaZot8WvX48Zen4CVKv7PCeALgz/WouR3Inbm3xXZp1l5JszGAgN4qD+DG3W1Cs9FGoOJ3Idnk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785515434; c=relaxed/simple;
-	bh=7J2FlyYxuEKNxeo+fHK8baPwDJWuD/TchjguUdI4PtE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=UH6E+yGivq8SWmBQ4yJVz6Xmunq50RP1FrWlQlYoqyPTCvxygmr4GfuASbHfTkyjAYe4A6x7Pzu0/aVfEApWaXq5F+Jp+zVRZZXkPP/yv3MGW+jdrUQoH0CJ1e9FfNn/8f8sNlqyBEzo4EyWRDxCs6iUczw34g/dt+/N0WUPt3w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=bkycZpoF; arc=pass smtp.client-ip=136.143.188.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16EA4756CF
+	for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 16:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785515716; cv=none; b=rxyni8Z1fbSIK7g9ZHsPy3l/aOJUodKhPV3urEsCgtLcdJuQhfdWZ2FlWqfzUO1BPPbIx8JEd0uZRken13IBhdZB2ae6pyGtm51N8ShHJ9TTBn+txneVRtp2pV2QOdKHjLJvHJZ0Ezyvj9MrfranFKvkKgNPItw5oh9HjqAZCRo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785515716; c=relaxed/simple;
+	bh=k5sZ8yh5BOVOkm6m+aB4IJxsBCN5qaz3UCrWsKZ1grE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A2m/fs6LKQqbkE9Xkv+t8UGn6NEu9a+hrNT5tqqumqABzI/kKlqjabW09uHJZGnAtYq2+sYxvqq53B90mM+X8q4K0v1t9wpKXmBAGMqgHBBFA3y8EoX68ADUPA5cNkKhZRGztR9W/ACN0fppS4erxAtLghi7zyDKPAvFxYWz9eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VVKXMVok; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="bkycZpoF"
-ARC-Seal: i=1; a=rsa-sha256; t=1785515391; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=BnAvaKmRq2RyR2IItLBnECqoMu/K+JFBJoIMtHsxph/ZHlu84d8LKCnuu9J3H17xE63CVFeCYJ+w3dTFFvC+MA66Di9ASwLZoQn2Zq7sxA+LY4E6f6Uv8pFYRv5TozSZhh+AS/R39wWeZFEiprty9++p+pUCGJ+b/IUaEl7lZwE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785515391; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Ty2Us3CSr4duHioWtKFDmBPTA9uycF2Ft1Lo5esOmzw=; 
-	b=VqbdE8lO28seeCfnH0WndahOcXPxieysULj90ttG3TEuCGXNiC/8dUFAdegJTbVYby/Uo1PlNjIeH6wicEFVtDpaDJe7uAhjoQF3T1p067/7q+k/Ed93pc0gMPIB0xRqOxYm4qIvZARYYcdQBtxsNWSm+kAtGKVSFFVvOag0IRs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785515391;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
-	bh=Ty2Us3CSr4duHioWtKFDmBPTA9uycF2Ft1Lo5esOmzw=;
-	b=bkycZpoFSwuPEfFj9mE0BFLRmuFrOkp79oDiImZR4lMPd+SMQaLExXHTqE7teuaR
-	pdY5k6GPIELKrWFIOvoubtqbmtTO0iAD676+1vkxHqlw8U9MuiA2cv5R29AbCAy7aXk
-	JU+piG8sndXbI7rAIDrVh8WnWiHRk8PbM+PiOpqE=
-Received: by mx.zohomail.com with SMTPS id 1785515389919883.983345609444;
-	Fri, 31 Jul 2026 09:29:49 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VVKXMVok"
+Message-ID: <68c43a03-5fa0-42a8-b886-2c756e39515e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785515702;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k5sZ8yh5BOVOkm6m+aB4IJxsBCN5qaz3UCrWsKZ1grE=;
+	b=VVKXMVokpVB1vKabKOGmEKxPAc35f9q1vfORSbyiK3AUWl5pwb7Bi7uJ+FuiDTP3FParih
+	CR9Ua6shXcMiVUoWCizph87o9FPuwe+lZ/dX8SgKzz1HMqNnPVJs77zhU68C2yTrUHpKAS
+	VnYrIAV5xdaxxnMusa991Hx/mj8YpYI=
+Date: Sat, 1 Aug 2026 00:34:17 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v2 8/9] drm/tyr: add gpuvas debugfs file
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <amycPnwWUS1qwGs9@google.com>
-Date: Fri, 31 Jul 2026 13:29:28 -0300
-Cc: Alvin Sun <alvin.sun@linux.dev>,
- Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+MIME-Version: 1.0
+Subject: Re: [PATCH v9 00/10] Fix missing fops.owner in Rust DRM/misc
+ abstractions
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>,
- Matthew Brost <matthew.brost@intel.com>,
- =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>,
- Wambui Karuga <wambui.karugax@gmail.com>,
- Eric Anholt <eric@anholt.net>,
- Ben Gamari <bgamari@gmail.com>,
- rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <065E32DC-303F-46A5-838B-203A38502F8D@collabora.com>
-References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
- <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
- <amycPnwWUS1qwGs9@google.com>
-To: Alice Ryhl <aliceryhl@google.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+ Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
+ <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+ Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Igor Korotin <igor.korotin@linux.dev>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
+ linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>
+References: <20260723-fix-fops-owner-v9-0-c1c3af7f7bcb@linux.dev>
+ <CANiq72m59O-ruHUvUcZC7yCvu0KV0w_m5vMO4e0rxyHdRmihJw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alvin Sun <alvin.sun@linux.dev>
+In-Reply-To: <CANiq72m59O-ruHUvUcZC7yCvu0KV0w_m5vMO4e0rxyHdRmihJw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+Hi Miguel,
 
+Thanks for taking a look!
 
-> On 31 Jul 2026, at 09:59, Alice Ryhl <aliceryhl@google.com> wrote:
->=20
-> On Fri, Jul 31, 2026 at 01:05:46AM +0800, Alvin Sun wrote:
->> Add a gpuvas debugfs file listing all GPU VAs for the Tyr DRM driver.
->> Collects VMs into a shared list during firmware init and renders them
->> via dump_gpuva_info on read.
->>=20
->> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
->> ---
->> drivers/gpu/drm/tyr/debugfs.rs | 65 =
-++++++++++++++++++++++++++++++++++++++++++
->> drivers/gpu/drm/tyr/driver.rs  | 16 +++++++++++
->> drivers/gpu/drm/tyr/fw.rs      |  8 ++++++
->> drivers/gpu/drm/tyr/tyr.rs     |  1 +
->> drivers/gpu/drm/tyr/vm.rs      |  5 ++++
->> 5 files changed, 95 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/tyr/debugfs.rs =
-b/drivers/gpu/drm/tyr/debugfs.rs
->> new file mode 100644
->> index 0000000000000..d381b1901bd08
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tyr/debugfs.rs
->> @@ -0,0 +1,65 @@
->> +// SPDX-License-Identifier: GPL-2.0 or MIT
->> +
->> +//! Debugfs support for the Tyr DRM driver.
->> +
->> +use kernel::{
->> +    alloc::KVec,
->> +    drm,
->> +    new_mutex,
->> +    prelude::*,
->> +    seq_file,
->> +    sync::{
->> +        Arc,
->> +        Mutex, //
->> +    }, //
->> +};
->> +
->> +use crate::{
->> +    driver::TyrDrmDriver,
->> +    vm::Vm, //
->> +};
->> +
->> +/// Registry of VMs for debugfs access.
->> +#[pin_data]
->> +pub(crate) struct VmRegistry<'drm> {
->> +    #[pin]
->> +    vms: Mutex<KVec<Arc<Vm<'drm>>>>,
->> +}
->> +
->> +impl<'drm> VmRegistry<'drm> {
->> +    pub(crate) fn new() -> impl PinInit<Self> {
->> +        pin_init!(Self { vms <- new_mutex!(KVec::new()) })
->> +    }
->> +
->> +    pub(crate) fn register(&self, vm: Arc<Vm<'drm>>) -> Result {
->> +        Ok(self.vms.lock().push(vm, GFP_KERNEL)?)
->> +    }
->> +
->> +    fn for_each(&self, mut f: impl FnMut(&Vm<'drm>) -> Result) -> =
-Result {
->> +        for vm in self.vms.lock().iter() {
->> +            f(vm)?;
->> +        }
->> +        Ok(())
->> +    }
->> +}
->=20
-> This code maintains a separate list of all of the vms for access from
-> debugfs, but I would have expected that this is not necessary. If we
-> already store the vms inside the driver's private data, then can't we
-> just access them from the normal storage location?
+On 7/31/26 14:46, Miguel Ojeda wrote:
+> On Thu, Jul 23, 2026 at 4:11 AM Alvin Sun <alvin.sun@linux.dev> wrote:
+>> base-commit: b7e5ac83cb16f7ffd11dc23736f84276602100ed
+> Was this old tag used for some reason?
 
-Panthor also has a similar concept. I agree that we can reach the VMs
-from other places, but they=E2=80=99re scattered, and this type buys the =
-convenience
-to do so, which we will need for other, non-debugfs-related features.
+That was an oversight on my part - I forgot to rebase onto the latest
+tag before sending v9. The series is now based on v7.2-rc4.
 
-I wonder if we should move the registry to the top level in the private =
-data,
-though:
+>
+>> prerequisite-change-id: 20260519-miscdev-use-format-9ab7e83b1c11:v3
+>> prerequisite-patch-id: 405b334ff0d48ad350014f05a2321bdbaa025400
+>> prerequisite-patch-id: 604b631c81d5423f4ebb2e12ba2d22e9ce371bfc
+>> prerequisite-patch-id: cb550d94cefe01920e0d3ced2b2bcbecd76f3907
+>> prerequisite-patch-id: 3bc830839742591460cb86d9472c04f4686dc600
+>> prerequisite-patch-id: 571058244bc8c7088638d2e3225713011246c7e9
+>> prerequisite-patch-id: 347c5a3c6dbef9832bfce8419fc23e6e08ba477f
+>> prerequisite-patch-id: 3e202d988b56b88446f7535e90d3f00cf5f15701
+> Are all these actually needed? Some seem unrelated (some were already
+> applied too).
 
-i.e.: {
-  fw: ..=20
-  mmu: =E2=80=A6
-  registry: VmRegistry
-}
+The prerequisites were just some import formatting changes that the
+series depended on at the time. After rebasing onto v7.2-rc4, I was
+able to drop all of them - the rebase was clean with no conflicts.
 
+I'll send v10 shortly.
 
->=20
-> By having multiple copies of the same information, you risk that they
-> get out of sync. In this case, you never remove vms from the list even
-> if the vm stops being used, which seems wrong.
->=20
-> Alice
+Best regards,
+Alvin
 
-I think this can be solved by having vm::new() take a &VmRegistry =
-argument,
-same for vm::destroy(). This forces callers to provide the list so it =
-can be kept
-in sync.
-
-This is just one approach though, perhaps someone has a better idea?
-
-=E2=80=94 Daniel
-
+> The only one that seems needed has Andreas' Acked-by, so
+> I guess it is fine.
+>
+> (By the way, I will use this second message to take this chance to
+> move the modules maintainers in the To: in case it helps, since I
+> didn't do it in my previous message)
+>
+> Thanks!
+>
+> Cheers,
+> Miguel
