@@ -1,246 +1,161 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013009.outbound.protection.outlook.com [40.93.201.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724573ACA7E
-	for <driver-core@lists.linux.dev>; Sat,  1 Aug 2026 03:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9D26B971
+	for <driver-core@lists.linux.dev>; Sat,  1 Aug 2026 06:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785554030; cv=pass; b=foHhisiU8aiYr0WFuFY2KgyBfC9BFnD9XvTLSZZi9LnHOfNAAauo0c7k3FO2dCIVo1p6xicA9BVCqrMSVqP+Db+vlBLu+ywLu2Q3S2kzZNEOCUpAIbFguNTKMEWfXcZasoyKTvjn3K7U48KwO4t9nehjtnBLQ8kavw+yhJQePyc=
+	t=1785564120; cv=fail; b=KNxf30zpYt/46ZoXeIyO4rmZKNFGlT0LhRdfZUcNxqw+wCv+fmsc0wnxFy7lrbx6Ior1GSblzfbfaEzVRGDa8V0AVAkkwOKTDavPvg/w4Mn4GnG57JltErWxcjEXOoFPHDAea+xmptieJPOtvgbY3h3/SaOo5jePtb00HtikJHs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785554030; c=relaxed/simple;
-	bh=95QCJbuFW0DJ4I2GQ9WngTVOHrimeZjlLTACZfyrPGs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U0bBq7LA+DtjUf5eTZfH0teNNFi5JxflzhO2FpbQK9QmFXYQpcwqHaVNqs4PFJVVq/7LJ+qMw061oUCfEsRe2ISGN6nTJxoV8V/Xu5D++zNcMkeDnausDj7zIRJG6lGSruBHrWcL1Pr9QX5MPzYRNF2ahtf06xl8lfCeQFk3hyU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=debian.or.jp; spf=pass smtp.mailfrom=gmail.com; arc=pass smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=debian.or.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81dfdbd86d1so17270717b3.1
-        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 20:13:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785554027; cv=none;
-        d=google.com; s=arc-20260327;
-        b=F3oI0S2RsW+YWTwI86jg/1NrSJ1VfeyRjLzC+CrSi6dt2Z9dTIeFK8qU17rkrWg471
-         ZFp8g8ZVadw9hoD13KLzeYGIJ//SU1/H7ix6P/NC6f6o3eELEOGLzRbbDkEgG8L1s3FL
-         NIRcfDNQDJeoSdEHwrB9aW05HMaIo4BrhEOUH0Jg0Pg0RM+NUC9eZPPNT9RbYIfs7FX0
-         b2iNzg6nNe4LOwnMdgrPlOxQYZnO1XnEbdaotyQx07dxilBqNTx9MlW9pI5IuaHKD7fH
-         Ml6k7ao7hzNT07WK8+AkdCnqoN2wpGZIU/e34irVH6rjPlJL59m510b4Gt2ioYmDVEub
-         6bbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=SeAZ9LnHsy3/NLwDMK5sclw7WS1BzURw2kr/GeL6nEM=;
-        fh=2mvb2785BCR3DKq4bJD2P8P7tEXoK4DBgun8ekWg/Ps=;
-        b=R6nxZkqyGW536gZmYesyR4v/jbSxGsEFNuMiAiVSzgGI9mtQNaH6fiWdyy1qtlgMhA
-         lHEg7/ABotlt/8UnGCiTTvOu/ZbC82wiRb9CfXCNDgu8IM/vjTjdY9WUYbI/lPhddThr
-         /VLYtdHQxFSrK7hgG5rgRL+bhVIogjWIKg4Bq+iYSQo2loqHRCRGEEsWVA8gyfUN9reX
-         eHNNvh700T9I4DfQRz51OZwsrNcyq7efEEbGrV7UkvQ609S+ZmHtTxo5T9NZPOnv4SIL
-         HbIX+omFiabg9t8CZQKZDEQdNZUBhOzKEOrux1QaWq29dtlwS6s8hFoPLOs0nEwsHwa3
-         1trQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785554027; x=1786158827;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SeAZ9LnHsy3/NLwDMK5sclw7WS1BzURw2kr/GeL6nEM=;
-        b=VPFxG6iITMznMFAlpgAmFvYufnzONmMMBr76/tJf2JIYxXe8kVrgqc3qjI7/80/Lrb
-         guHqlcvlnPCz+ZbKDhL4g0fw2ZJjbMlv6yvBNrCCgK586wi/jiNSYoYMBemz30gC4Uf4
-         JhYpZwJGbR0nm77zzyTuptZalKlVOdHmNCSjjID9s4sdURuL7KjT60YIZU50guSouJgU
-         PM+XDpkk8+HZymTRMI1RXvtGlJHDQpOSpTCIKS4PQBwL/UJcu2tNSlxbngHpGK9BDORY
-         lpYQSrGQNDIvhOJXT3+IkH1iXtROwTs/X8mSheoQjj9khxc5BP6W8RVY78SAIAywRAww
-         6ECw==
-X-Forwarded-Encrypted: i=1; AHgh+RrD53l9F/XTHDvkYR8dWVJJ2K4WZlu8snV6vW2vI+Li/lobdsD14Ek20/hXjfiASlAMr4UoQOZyyOSTxQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuWg5NlewKkbPkFXzZNC9+xr3mltqZ0MyN+r220s1m80U1UjtW
-	e6sdxj9TqsuGJ/gsUYjiw38pzF2t3DUlhJno59w+3CMeZbaeit3RMJjltgHzW7gLf5JERJ05DMT
-	19+OznRMrYiCk8gJLOGug5Bm3d8kmBEE=
-X-Gm-Gg: AR+sD13Xa7KfSq8ihQpVESXeyiNxpHaTpo7eaTNlCJ8OWj7XN0vficmihOK8EPuTPyX
-	+7nZEFhyejvGRltqcYVJGaxmhlAuPX2ceagvI49UMtyzxdUZ7V1iE0W2oTK2RoudgARWJbjLJUT
-	CGOkfuRHem7SsTPV4t+xPdD9b7ciYjAbD8zS6p/2PHAx8JbZY6ygRyom889a5+zK4KeNWRAursp
-	2aawJceiFJaDzJFkZXZcTNaYZRVAHbw4QBdt1YBk2mdDMqH+pfiCTihCwyZxlVDhfE9i54TStRw
-	eACqspyBXJFXWkCl3GfIpzXdJB/0desAQhkgZOJL7Nu5L+FhsDiiQOSE2XAkHWvARxgG9x6QYZp
-	GTw==
-X-Received: by 2002:a05:690c:278a:b0:81c:b865:2231 with SMTP id
- 00721157ae682-81fd4bf88ecmr32651387b3.33.1785554025363; Fri, 31 Jul 2026
- 20:13:45 -0700 (PDT)
+	s=arc-20240116; t=1785564120; c=relaxed/simple;
+	bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=oC4wt3TO7wSuCFEtnRxzIGOJKwPhNwur1RMGLO+zuF7HA6JT7udD7pFzDPnyxnt2kGXQi0bcuB5jbyhSiNagBomiZ9cqgImyPLGjR61OMEAHNLz5vZMyCqbP7or3puewH1ylYUnU2vFU6f4MtSCbmeBsUaIupmx8oZ1I7sIOvt4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=t2MJ+oMJ; arc=fail smtp.client-ip=40.93.201.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="t2MJ+oMJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vvDmkM/IthVPCGymD049Nuy7U+G5ePN+GdLm534pOtA02Bcc6YRsD8rVorVfWOEo1KbLSDSBPBLglO3m9bWQRcOvpx+WqCyNuWdD6oUg5OurUHTh3Z4YgOgXtt+AQ/XSev7NIVgreFfV0evdbK4wd1sRiHF6kfga9BBzUyZDOm9ebD28eOR2GyDcyTpQJ9B02zEliAz75ddPNQq1iJjwKFwXX48Ms2PNKbWCe2G+6wp08JzPnlHaVyrxELgmgGYOpRZ+wOuMmVKVHx0XFO3BvUQCOustGeolbzD6Il5DTIek3wtESjkP+nngL68783+NQJRnSH60tMrQ25rphD/aAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
+ b=egvP/AIWzvRpPe2V+M7Jj21obm9PkymFdrNTn9mSl/15ip1I12u0sQoxboSevUMCDG5TMatOtQnpsrxej9A/T9fHHDIandwW2Eh0N2Yzy4FTTDoXoaRponb4VKBDDtP3ZI9Y+Uze1OmSfJokKYXnUwvt5rI2TDkJbAyGGG+BHFTQ6mnTyspgjk4NUsftcxZDjaFHDLSu+BxE8mdFkSQzSJWKe+9YazwzxlMPIUCFogpW6z1XRNcjhggHoFb04H8ePpMHsx6WU8Oz2OhSwz7y3asJhNlqsaXxqIFHsH8S4xgCOoJ0NcNpqCTqgWZhkk/U7Tn4N5tigv4Vf3TWW6fFRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
+ b=t2MJ+oMJoXP6sDfUiSarYufGWOIG/3JuTDFKxdJJr366LxWri4T4bxv7FwQZe3QRsrUqQEiwWTgPoe2zJL83Vk7sX1fcZBt6u27qdChWKmWTy3G+1NcUQLjgKt8+Givd6pyGbiBpfOq4NR2PIh5GTjochMvbL9i2c2jPxZceu7SuGJvNF1g1OxFzefrfH+o38M02ng6EzD8i7CiebDC45uIizhZZtN74ESc7I3I5/zLBNP/QMHvvSO0JBUv6mlRO3GvslLNHIZlSKPXn/c/K5pLOOcCE6e24dOXcDYtWheAB92yf4Nl5dhKPtFwQ4H1jzJlz1Wlf1lPFabo/Oej8XQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS7PR12MB6141.namprd12.prod.outlook.com (2603:10b6:8:9b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Sat, 1 Aug
+ 2026 06:01:52 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0270.015; Sat, 1 Aug 2026
+ 06:01:52 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 01 Aug 2026 15:01:48 +0900
+Message-Id: <DKDDNF6TGYFH.2HGW4GZM9CY6Y@nvidia.com>
+Cc: <git@younes.io>, "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Tamir
+ Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Timur Tabi" <ttabi@nvidia.com>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] rust: dma: return zero for Coherent reads past EOF
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Younes Akhouayri via B4 Relay" <devnull+git.younes.io@kernel.org>
+References: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
+In-Reply-To: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
+X-ClientProxiedBy: TY4P286CA0118.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:37c::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260723-pci_id_fix-v4-0-3580726844e1@garyguo.net> <20260728162538.GA1325438@bhelgaas>
-In-Reply-To: <20260728162538.GA1325438@bhelgaas>
-From: Masanori Goto <gotom@debian.or.jp>
-Date: Sat, 1 Aug 2026 12:13:18 +0900
-X-Gm-Features: AUfX_mz7siEIuZSDLGecSdNp4xhgCzEOOClyi0oT7r0lmGspOzwc1eUhhS3W20M
-Message-ID: <CALZLnaEmm5Zi=30n4i7ioX9ii4KMAePnZTAhAcNScSZFSNB7UA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] PCI: Fix UAF and TOCTOU related to dynamic ID
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Zhenzhong Duan <zhenzhong.duan@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Niklas Cassel <cassel@kernel.org>, YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Vaibhav Gupta <vaibhavgupta40@gmail.com>, 
-	Jens Taprogge <jens.taprogge@taprogge.org>, Ido Schimmel <idosch@nvidia.com>, 
-	Petr Machata <petrm@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Airlie <airlied@redhat.com>, 
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, industrypack-devel@lists.sourceforge.net, 
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Sashiko <sashiko-bot@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB6141:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54ea0768-7a5f-4ae0-e409-08deef926181
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|10070799003|6133799003|56012099006|10067099003|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	vL0YqCYOP/IO/ovLL4QIqnJqYbCnXrCbsegr+gOG8lREicVOXRO8jHM8NGQ5j2P8JvLT1iY/5tUHRTCiqkHDFeUxZDCW8BV5vBOnj00lOaAGX7VXiJoLLYZ7D3c+qPo0EWoc0LbxI4jmEgSd6cwFFE8Wb7btJQeAtXIgYmFz+FPMmSZ0P4XSpDgZWEekK37tlv/iVSio8KgjOOHnGoXf+cSxeA773RfDcTlYXhlum/S6NMM4r2gmxc3RC/4rzV4ts1ddYkwec/ExTIl/iNPL2rrF7mMaag+8O1t+dBEfTDaAhvWdLWVAk/KAd6AJtjW564dbogscpOAIr18T7IjHau4A0adU0Swznm3HSVr++oAQ9RVd5Q9mmO7ReCeqHonveVrx+yywJWRtzUCpGPFTkMS6Fyom/8vg+lAA/XI4KPs27KxcbM2IWZb0g0ISkEv9UvXPabgNnCY9FA8yNmKnbMeQ++UWKHwnTty9HBYvC/Lq9Dl/uWdJAKO/rIl4ARaFbMWJqwmT2V9AiYjLIOjBYiC2J70i3Mrdd+1mBNCovkcSq8QLnxaSjmwFtaP/boli/qBKbZAc+Yx+1VTf3+83ePgTM/91JsJ2n+d0IIjb7B0kSwFyBpdL2d+z2ovzYNYvrl3pgig/t/Dqb84pMXdc/w8bR08nMVjiuZ6VEEmSzFk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(10070799003)(6133799003)(56012099006)(10067099003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE1aSTNocVh3d0Jid2RwaG5uTVZmOS9kOWtaUUlTR21MZGdWcElJM05odHNk?=
+ =?utf-8?B?V2Myb2IreG5aQ2o4SFk4cm5PUnFVSkVCMmtoWW5yaFpHcFZoeHVYaFBnNjFJ?=
+ =?utf-8?B?aW5KWXpuMHEyQ0J2Z292YzhHendYN0J3K3VTbE8yQnFQY2h0M2NPVTBNNlVt?=
+ =?utf-8?B?YmdxNVZQUHdYYTZFclJhSDl0cWxsTXQ2QlpyVU5FWXVEdUJ1K2tFSGU4VFcz?=
+ =?utf-8?B?VjVUSkVtL2FQSkloLzBVRnIydXI1S3p5WS9yWDl6WDFZUFZuanBldWh3SUd2?=
+ =?utf-8?B?Q2tKMEN6Y3pQa3d1WXVZeWhwNkNxVzJTVEhHSjBUSmZaVDdab2h0NkFNN21t?=
+ =?utf-8?B?dzM5d0RtR0FUUlhFQitxZVpnVEwwMS8zb2tCcTVQMUlYSmtWajdVOWtlVHlW?=
+ =?utf-8?B?TVZjQ3RUTHl5WGpSVkdBb290L01rQkZXd05zaGZtUXFqdllJUHVRU3NRa1Zm?=
+ =?utf-8?B?V2hxVnp4LytkTENxV1cyVkhVK2tGY3plQVUzWW1mSHVGMUFZenJIL3NYeGM4?=
+ =?utf-8?B?RGtWS0pLOVJLRXBYK0RmY3lZS2NGTHpqOVZrcWtEY2dBdVVLVHpFRnB3ZlZR?=
+ =?utf-8?B?dGtRdUExd1VEWGUrTzZoV3Q1VEJmZmZZTi9tNEFCNStQREFyR1dIVnVyOUg1?=
+ =?utf-8?B?cVdRSWZ1dTRzVVFjYTZIZDB6bURlLzlmdzF0aUVObTRTMXZRTVI4WUZYbmZJ?=
+ =?utf-8?B?TGFXRDhkWmVYRW1ERjJkMzhETE1kclBLMEsxYW5Hc2tMU3JndlppdGVIcFNP?=
+ =?utf-8?B?T0dlMkR3ZmlETmpFTE1ueDJ3YWhFaHZ6NncxMHpUenBNV0xXWjF6Rmc1N1Zh?=
+ =?utf-8?B?ZTZaM0VoeFhCSTFZQmpKUm5hVlBEWnN0U3l4WS9ISURnblpLc3BQbi9DaEZ2?=
+ =?utf-8?B?aUc3bHNYZFlHK2k5Y3JpSWliSXJVdTE5OWhZZVQyb2pJY1RReU1pT3RnT1hH?=
+ =?utf-8?B?cjNvMlVMclZPWGpBaG5lK2lNUTNuTWZYbTh6WTVWdFJYbVVreVQ3YVdjM1Ar?=
+ =?utf-8?B?SW5RcUFTTUFDeTlUTWZiOEt2clJBU1NjcWl0Q2QrVEJDdjUwRGtaZ2MwdFpp?=
+ =?utf-8?B?aCtsUE5HZUw3OVVocDVveVM5MkQ4Z0ROeUh1UDJ5ZTNxQW1wT2c3MGJkTHgv?=
+ =?utf-8?B?azhjYXd4M0doS2JWQ2xGYmtZKytOYTcvT3hiNFFzellMckkrem1TVDh2YTE3?=
+ =?utf-8?B?eW4wV3JEOWl1bFFJdHRsMU94LzcvOGV1Z0xWb1VMaGtCaTNxd3JaL3BtZVU0?=
+ =?utf-8?B?MnI3UjdWUEVlQmJQZE1yNkJ5aEZSMWtXMTlTS1ZDVUN4cE9KZWNwWUNEanpr?=
+ =?utf-8?B?V1J6cXBjSVZveU55MzJkcnBoKzVxWklEeVFXOWIza0gyMDNoR3JLU3hJWTha?=
+ =?utf-8?B?OWlXNTlhRiszM2VYNXg3azg4YzI3OU1WdXZoNXdOQ0tpenBzankzVVlEbHdS?=
+ =?utf-8?B?VGQzY3JsSXN6UnIxSERNeisxejBuRlh0MDM0ek9meXhCRVcxaG5ENklyWHNQ?=
+ =?utf-8?B?dExkVnM2OTNWZkdJZDNOQVEwNHRzcEx3RTBNQkxpYk1iOUtYSnNtaDhjVjJT?=
+ =?utf-8?B?NDZROFNuRnlOYlVEWFBKT2xQOTRSNWJPVnQ5UENGZlFPaWlDZVBTbGJiR25o?=
+ =?utf-8?B?YlQ3S2FyL29DNFpZQVB4eENJWC9xdktOd1ZuTVF2WWJ1ck96aHNWWHNDTUsx?=
+ =?utf-8?B?aTIyWDJBSkdnemEyVWI5T2RkcWdqYlFrclJiSS9DYXNQakxpUDlaVUlkT0ZG?=
+ =?utf-8?B?c3UrUC9scXlESkxPeHFwRENqQWpkOTVFSTV4RW9nZlI0a1U3WHdFd3M2cnE0?=
+ =?utf-8?B?dkt3UG1tYnJqN2hVdXVNS1ovbzdOK0FRTFRTY1pXekw4UG5xd1oxeDErdEh6?=
+ =?utf-8?B?bE9QMDd6Q0libERUdWV4c2VYUFBaUmQzZTVmSnN5NDJKZ0ZBRUtKcUtDQndV?=
+ =?utf-8?B?aExadnBVaHBCYUxiM1VBeFhNa1FuaHltaTJQM0NzR2hDMGMzSm03RHJuRHJs?=
+ =?utf-8?B?bHJuTTZTeFdKZDkyaVR1RkVHbzdzRTMyTkI5MFBtaWNpelE1WW05RHlTaVlk?=
+ =?utf-8?B?MFhYT2NQYTlrMVpxWnRyNEV5blBqTUtPUlJmdGMxQUFKUUNpNi9rR3FodFAv?=
+ =?utf-8?B?SVhXN3A4cjJvZ2c1Z3RDY0E1c1V0WWYzcUVqS0dqaGMvZDJXSmMxT2xtSndF?=
+ =?utf-8?B?akJBMUFHcU9tQnhkMjMwdkZ6R1lXamh5cXpvV1RhUU5uRE1kNlhjVEhjMGt2?=
+ =?utf-8?B?NjhpVGh5c2NNYW42a0ZqMDl4UmdvSXZHc0RMZXVqSjRYcjVhaWxuQ0d3cjFm?=
+ =?utf-8?B?dUNZN2xROFJtQTB4WEFVNHZpWmZGSytDN08yUWp5bThvelBiN05ubnN6SDRo?=
+ =?utf-8?Q?AURTsx4ehzeRgmegxzmvMbO2/JOC3i03LHqrgXl6zPJDX?=
+X-MS-Exchange-AntiSpam-MessageData-1: iErC778wH8EqIg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54ea0768-7a5f-4ae0-e409-08deef926181
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 06:01:51.5872
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YU2SQgJuW0nQjKUqp80WGPS57gVwNbWxEWSfQMrJYXVrvycYwzI8Eddk4uK1XHBS5UTAHVHMV+OFpIQzFkD3HA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6141
 
-I'm a "nsp32 folk", which patch version should I take a look at?
-
-Best regards,
-Masanori
-
-
-2026=E5=B9=B47=E6=9C=8829=E6=97=A5(=E6=B0=B4) 1:27 Bjorn Helgaas <helgaas@k=
-ernel.org>:
+On Fri Jul 31, 2026 at 1:34 AM JST, Younes Akhouayri via B4 Relay wrote:
+> From: Younes Akhouayri <git@younes.io>
 >
-> On Thu, Jul 23, 2026 at 11:00:39PM +0100, Gary Guo wrote:
-> > While working on improving the Rust abstractions [1], Sashiko reported =
-that
-> > an existing UAF issue related to dynamic ID, which I find to be genuine=
-.
-> > When taking a look at the code I also find a TOCTOU issue where the
-> > existence check of dynamic ID happens in a separate critical section as=
- the
-> > actual insertion. This series fix both issues.
-> >
-> > There are two exported functions pci_match_id() and pci_add_dynid() whi=
-ch I
-> > have to tweak to implement this cleanly; I created separate "do_xxx"
-> > functions to keep the existing APIs because they all have multiple user=
-s.
-> >
-> > There're a few existing users which stores their pci_device_id argument=
- in
-> > probe callback. This is a bad pattern because nothing except driver_dat=
-a
-> > inside pci_device_id is what they want; actual ID information can be
-> > retrieved from pci_dev instead.
-> >
-> > There are two users that performs pointer arithmetic on the pci_device_=
-id;
-> > these are also problematic with dynamic ID and driver_override, so fix =
-them
-> > as well.
-> >
-> > I've used the following coccinelle script to flag all cases where the
-> > pci_device_id is used other than reading its fields.
-> >
-> > @usage@
-> > identifier fn, id;
-> > position p;
-> > @@
-> >   fn(..., struct pci_device_id *id, ...)
-> >   {
-> >     ...
-> >     id@p
-> >     ...
-> >   }
-> >
-> > // Due to cocci isomorphism this needs to be explicit
-> > @bad@
-> > identifier fn, id;
-> > type T;
-> > position usage.p;
-> > @@
-> >   fn(..., struct pci_device_id *id, ...)
-> >   {
-> >     ...
-> >     (T*)id@p
-> >     ...
-> >   }
-> >
-> > // Good use cases
-> > @good@
-> > identifier fn, id, fld;
-> > expression E;
-> > position usage.p;
-> > @@
-> >   fn(..., struct pci_device_id *id, ...)
-> >   {
-> >     ...
-> > (
-> >     id@p->fld
-> > |
-> >     E(..., id@p, ...)
-> > |
-> > // Redundant checks, but ignore
-> >     !id@p
-> > |
-> > // Redundant checks, but ignore
-> >     id ? ... : ...
-> > )
-> >     ...
-> >   }
-> >
-> > @script:python depends on usage && (bad || !good)@
-> > p << usage.p;
-> > @@
-> > coccilib.report.print_report(p[0], "suspicious use of pci_device_id")
-> >
-> > Link: https://lore.kernel.org/all/20260618-id_info-v1-0-96af1e559ef9@ga=
-ryguo.net/ [1]
-> > Link: https://lore.kernel.org/all/20260619170503.518F61F00A3A@smtp.kern=
-el.org/ [2]
-> >
-> > ---
-> > Changes in v4:
-> > - Code and commit message style fixes (Bjorn)
-> > - Link to v3: https://patch.msgid.link/20260706-pci_id_fix-v3-0-2d48fc0=
-25acc@garyguo.net
-> >
-> > Changes in v3:
-> > - Fix users which uses pci_device_id for pointer arithmetic. (Sashiko)
-> > - Convert to scoped_guard. (Danilo)
-> > - For static IDs, still give out static pointers and avoid making a cop=
-y.
-> > - Link to v2: https://patch.msgid.link/20260630-pci_id_fix-v2-0-b834a98=
-c0af2@garyguo.net
-> >
-> > Changes in v2:
-> > - Fix users which store pci_device_id.
-> > - Clarify in probe documentation about the lifetime of pci_device_id
-> >   parameter.
-> > - Dynamic ID conflict check now ignores override_only. (Sashiko)
-> > - Link to v1: https://patch.msgid.link/20260626-pci_id_fix-v1-0-a35c803=
-f1b95@garyguo.net
-> >
-> > ---
-> > Gary Guo (9):
-> >       ata: ata_generic: don't store pci_device_id
-> >       scsi: nsp32: don't store pci_device_id
-> >       ipack: tpci200: don't store pci_device_id
-> >       mlxsw: pci: don't store pci_device_id
-> >       agp/via: Don't rely on address of pci_device_id
-> >       agp/amd-k7: Don't rely on address of pci_device_id
-> >       PCI: Make pci_match_one_device() match on ID instead of device
-> >       PCI: Fix dyn_id add TOCTOU
-> >       PCI: Fix UAF when probe runs concurrent to dyn ID removal
-> >
-> >  drivers/ata/ata_generic.c                 |   6 +-
-> >  drivers/char/agp/amd-k7-agp.c             |  26 +--
-> >  drivers/char/agp/via-agp.c                | 308 +++++++---------------=
---------
-> >  drivers/ipack/carriers/tpci200.c          |   1 -
-> >  drivers/ipack/carriers/tpci200.h          |   1 -
-> >  drivers/net/ethernet/mellanox/mlxsw/pci.c |  11 +-
-> >  drivers/pci/pci-driver.c                  | 194 ++++++++++---------
-> >  drivers/pci/pci.h                         |  43 +++--
-> >  drivers/pci/search.c                      |   8 +-
-> >  drivers/scsi/nsp32.c                      |   8 +-
-> >  drivers/scsi/nsp32.h                      |   8 +-
-> >  include/linux/pci.h                       |   1 +
-> >  12 files changed, 237 insertions(+), 378 deletions(-)
+> Coherent<T>::write_to_slice() calculates a zero-byte copy when the file
+> offset is beyond the allocation, but still calls
+> UserSliceWriter::write_dma(). The latter rejects offsets beyond the
+> allocation even when the copy length is zero, so a debugfs read past EOF
+> returns -ERANGE.
 >
-> I put this on pci/enumeration and plan it for v7.3, hopefully with
-> acks from the AGP, tpci200, and nsp32 folks.
+> Return before calling write_dma() when the offset is at or beyond the
+> allocation, matching simple_read_from_buffer() EOF semantics.
+>
+> Fixes: 016818513936 ("rust: dma: implement BinaryWriter for Coherent<[u8]=
+>")
+> Cc: stable@vger.kernel.org
+> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library=
+/topic/.E2.9C.94.20Possible.20past-EOF.20bug.20in.20Coherent.3CT.3E.3A.3Awr=
+ite_to_slice/near/611677095
+> Signed-off-by: Younes Akhouayri <git@younes.io>
+
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
