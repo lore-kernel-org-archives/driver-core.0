@@ -1,557 +1,290 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010035.outbound.protection.outlook.com [52.101.61.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08445376A03;
-	Fri, 31 Jul 2026 20:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785528667; cv=fail; b=uHc33W93AfGft/v0MHJOCQcK9qN0Xu2yuxw3X8CQ1H2BjCQtMt2TAnRdXJogCh8eZ6KvQApqTBlPQLZ+bCQZM5diBun6ZGbIrMGEI+HomWciCUkGN+yjrSculWVfZCzJTSWwdafyUXHDzS7TOSn2NVShbd8CwQH/tBOURueeRu4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785528667; c=relaxed/simple;
-	bh=e88DHkpxKa1do9uPKAMCWaOAyXy6HIimWBQA2w1Rl38=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I+3lolBdqQp4LfxtFE7lHqvDWwt35YiDk6aibys+rtUoC1k4++5OQ4Y5C4Y75qcjm5Ee+IhQv61GuqDXCoIxYcTyQm6xhGFvFz5Yrmud3jKVQUWR9Ap6Mu2nEcCYCUIaeHibZQgEm5SgegISiKhOp0pNc4cLosfXLf3WPH8hSZc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UNzHekQr; arc=fail smtp.client-ip=52.101.61.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UNzHekQr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dv+zivZEumomEnYvcUDdIqBgogzbNcp7M6MhBow9MOvJR5xx6HnEQ0FqaJbaxUerXabqZHhb1HH8ljJRfGX8su114OdMSGJsrWJuAhL9fU/Ob3ibM6vqUC7apsD14wqwrwzxhhSTeeUEok1eCZMd57daBZDtE9s4EoeI+d9GJptYlbc0plpmzRvdQ7stRlF8Wg8w+eucnL/ECKXU23cJD5pMkFL2xhwv2z3owaiFZEC+oxkCpFm1bEg6xzRXHDwunHkY9w+Ga8rKOHFrWRF99ENwoa75fnBk3H8q1NT7B4gGklmQ/cF3Mi+H4OaZjgurZskiRDQWd62NtkQEj1Ja3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3+z7yaEdci0bIs84A0SIDIWiWCc+lqeecTWgQdrg18Y=;
- b=NezRt0jKtfK5c+12NAbviSDqTFe2ky5uPODivD/ZYE2A9E90RjKiH1CyiUd4UDrni6ZC1hHtV1JByGgNwI6T3zEV2yjh0AIxIaG/7RQnrzQo43uFFCl7zU9nqdZeINM7m3L0haadDaI1mNPeluVxQ9ZqFbgulN3HUMGe64xUJWkXvx0VdzwfZyLDGfO0nvlDo3/DMAjskzFJ0KtcUVjOAW1zmP+X8VaEV3Ul+lm9lS1NnEDikRnEFg3Cw0m9Q2CdPBT1uH2rh0Mb4UTazj6dtjCi5S+sqZztbSH8NDqUvhmgvhRUMkJfbFUogfk0oPcE91SkTUiQnO6qrk9EC5iruw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3+z7yaEdci0bIs84A0SIDIWiWCc+lqeecTWgQdrg18Y=;
- b=UNzHekQrX+DkVNaKmpKSnI07B0Mqrd1FHFoa6kHvST2lPUToqQ9Z/qy/YUfy8/NUdYWNql5+3ehMCjqO9epA927kJFmCBZ+X8rIMl4qoIs1tqXzZ65u4LJxxPjIMwK83SV6jwU2OU5KxkGq7UUBtfTnIbesT80N3AeFwFAyYxVik3l1x9nvvbeT8GOofNaI8kmC2RuamWyi+Saa4ITs2CVfdOmwt2mHzCXeXyTJeR29Znj59PW4lhjlRSd5/gNFaHbNkMxFMZ/MY6d9pdUPSslGh4Gmeqettd6g/xFGyhdi2tx1S9oah2xkWE2vGhOLjMF4a/xBlO3qX9yv7DDdNeA==
-Received: from BN9P223CA0003.NAMP223.PROD.OUTLOOK.COM (2603:10b6:408:10b::8)
- by DM4PR12MB5865.namprd12.prod.outlook.com (2603:10b6:8:64::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
- 2026 20:10:54 +0000
-Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
- (2603:10b6:408:10b:cafe::2c) by BN9P223CA0003.outlook.office365.com
- (2603:10b6:408:10b::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.14 via Frontend Transport; Fri,
- 31 Jul 2026 20:10:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.0 via Frontend Transport; Fri, 31 Jul 2026 20:10:53 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 31 Jul
- 2026 13:10:34 -0700
-Received: from ttabi.nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 31 Jul
- 2026 13:10:33 -0700
-From: Timur Tabi <ttabi@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Luis
- Chamberlain" <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, "Gary
- Guo" <gary@garyguo.net>, Alexandre Courbot <acourbot@nvidia.com>, "Eliot
- Courtney" <ecourtney@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
-	<zhiw@nvidia.com>, <rust-for-linux@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>
-Subject: [PATCH v7 7/8] gpu: nova-core: transition fsp to TLV images
-Date: Fri, 31 Jul 2026 15:10:16 -0500
-Message-ID: <20260731201017.2580713-8-ttabi@nvidia.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260731201017.2580713-1-ttabi@nvidia.com>
-References: <20260731201017.2580713-1-ttabi@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090971E5207
+	for <driver-core@lists.linux.dev>; Sat,  1 Aug 2026 00:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785542437; cv=none; b=dJZAvqq41lT8ZjT8k1mbYXbfuKhV/KIvnHMk0zmeNAtOasrSY914GNbv2G0/TpxEDM4UOfPV0BprpButoLxfM6Rjk17VeXNz0qKEg44eLNPORC5jVgVGJoC2er0YZOE/TfbYFQAnQ3ivt9A0PgPRZ18OJb4CdRyzxPUaknUYpuA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785542437; c=relaxed/simple;
+	bh=J8cLEEt3aKwvbcWpn8eov2BtA/Yx0lmYpzMPQuWuJLE=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Afchdvr+nodSKaAiAqITYljgjKWvQXR/ov5jQwEYB5UgZQ7JOqHM8Q3hfEtW7PfqGDMYzS+CXHQ1X4ScWQranOOOmpGnBC561Wvtsjm3r5v28nJql7TbvbcpvqseEu01HWjBq+bWBHQFSx70bsRUWOl0Lez/jWxmsXy32J+pMSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4a5a66f375dso912943b6e.1
+        for <driver-core@lists.linux.dev>; Fri, 31 Jul 2026 17:00:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785542434; x=1786147234;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mWH3Qmx0jjAXpqItBB2H2lgkAnvHeUm3hkEk4woqWPc=;
+        b=AXx9WVXpOrps6GpTEHdGwykDA8NYGaBK2XvV2su9GmNzaclASBsfEZvPolGleYxnjy
+         8+mWdOtBuRiIhjKz9RwXL5j/mYslzIQMCwktW+0/Lh4J9blyQrM6jW5F5RTR8RBirNsj
+         26N2tJuRDMcHm/Nl5VaA7h04G7hg/pEW1FPJIw0HNZPWQkohmL5v2N0tGklPCLwX8dvT
+         MQSz3QozKebv1REWbg8ygO33vUuncVqNviEcB/b0GyUD5ktOK9JAtX1+KHop7VxjBVPo
+         97RTA/EsVeMATxkMWkAs2LMu1eHFzEtLFCy3/46fHD+YwassJTOzNOVgKnGmlPsViylA
+         Fiyg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/hI8VG/1AjT8lPdfM7RFSjfSxouX+VWG7VEMGVxDZZKk5JAQgLtiXatN/AG5NwVL43MzdvCD7MlGCoA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwW/e/Fu48n+WMbot2qMYZG7p/5shLpMxFc/fqFPLNyh0wEEIfZ
+	AFZWrWP3o6DIhSsp1O+8YHzSHVf1raDtKfyv9PVNqJuNJ+iuXr7v9EE1i6BsPagnn9Ba9CzfZqf
+	jz6fa7VfO/6ddrIIi1PDnz41ShqfMY/orw/A/3vsgOFdBrcwnQVOIrQimC4M=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|DM4PR12MB5865:EE_
-X-MS-Office365-Filtering-Correlation-Id: 255be489-8a84-46bf-6ffe-08deef3fd351
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|36860700016|82310400026|10067099003|11063799006|6133799003|56012099006|18002099003|3023799007|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	PU1u4XF1SQbOvIIdwAIaQZQdtcv5pgxxTaUPQZd+qx/qKwwWC/SSLR4GiyeWtw8jbErphmf3TERsOMX9UT+rqlVdDbyLbYkOlvMbz8+OWSXUWx+J/AdieDrHY8z0OOw+6MqlMeZwwGGe6IU3/TGTEeSIkuXmGQPncpnITOPkhpmyNhhFPLQVP2gBCVn05SiIM8oMR/cIeuoXAmhIEqzJHNsIbX61WGjlgOEBNwuNz7w60UgSJRan2qE0GQj1Fdr65gTrp21ufiB0WXUQtgslMJcqloiAd5/PXt/kyra/y8/V6gSrmog6WkDKTm4lZWQzsxLuEaJM7pbQAA00gsLlLcqK5Wi3vSF/z9rZdlnUwGmqKh7RtIrJ6hj/b9+ab0LRDEt/tbTZmf6RDxDob/PbenHfybS2BzkdsCLhH+p0gVUC861IUcR8Va0j3NPr0xCGVZrsCd1XqBCElc8zzc3u6MmQrLFQvGEzv2sYUE87XDxTvc+sYg5HORIz8wvg8DGINu5ZPMYUxxqdZ+9ZENJkivemi87PMqLq3bkIPU0dv77NCatJLeSBrB3uxwdWBkD1X9vqs7pFKVoi7nBNxejQ2T8MhGxTA96Lqdw3D/yael0B/vfuP4PrLQpEH3C8JCvSPrbhbYaQCWGoOPIACJoh3jS7sMOIIE3PuUnBu4l7bO9JtjJM3SW2R09m5B3IhQwyfdyeGtOsm9EhtzZPLzT3hA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(36860700016)(82310400026)(10067099003)(11063799006)(6133799003)(56012099006)(18002099003)(3023799007)(22082099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	NFbqiIOJePOqFuIO00XhVaxklgff4yIDJrOQnGpfZDM81QWt7YOvykoHkvqj4Ef+3UagL7m/zTLpp21vQnjHDWD8Z0sY2ygrWPfaN92GSV72IBMtKH6KL8j+eq6bOgKjuI2ReytyjnwnekAzxBH4z1w0o8vpgjvnXYiiSKUotFlyM/COkJH5MZOAX1rlqbDUj96F48zdrgfGi3sUnoyoGXF4q/gGRVFMBIil9/UHxnByKKcmOLuemCF1zQGZ9gJItfIH18wu2W+oljfNmlZmFrWkWKH7mN0O/kvjvcwUSiu7qFsTyLSQ+V9LSnkDrTo7ocwPkpkSAIaqUcHaS39V5cQxDobttR8pBH1/L1KHXdgtscQZ1XcnW+Nqdl/qvXZue0s/jaPlMZ5rIWs6z/xbWZwLqnpg7UZ1sv0lxhyY3mmnSrYYRJ1nNvT3pkO5vbv1
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 20:10:53.8642
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 255be489-8a84-46bf-6ffe-08deef3fd351
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055E1.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5865
+X-Received: by 2002:a05:6808:c191:b0:495:e92e:d797 with SMTP id
+ 5614622812f47-4af5e1d395fmr3683836b6e.11.1785542433977; Fri, 31 Jul 2026
+ 17:00:33 -0700 (PDT)
+Date: Fri, 31 Jul 2026 17:00:33 -0700
+In-Reply-To: <6a6aac38.79190830.3d7c75.0018.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6d3721.13bfb6d0.1ecdd5.0250.GAE@google.com>
+Subject: Re: [syzbot] [fs?] KASAN: slab-use-after-free Read in lookup_noperm_common
+From: syzbot <syzbot+23ad911c819b923238b7@syzkaller.appspotmail.com>
+To: andi.shyti@kernel.org, dakr@kernel.org, driver-core@lists.linux.dev, 
+	gregkh@linuxfoundation.org, hdanton@sina.com, johan@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com, vasilisalmpanis@gmail.com, 
+	wsa@sang-engineering.com
+Content-Type: text/plain; charset="UTF-8"
 
-Switch the FSP firmware loaders from the legacy ELF32 format to the new
-TLV format.  This change requires the new TLV versions of the r570.144
-firmware images.
+syzbot has found a reproducer for the following issue on:
 
-Because we are no longer loading ELF images, we can also delete the ELF
-parser.
+HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10d94e32580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
+dashboard link: https://syzkaller.appspot.com/bug?extid=23ad911c819b923238b7
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f3a5b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12ac4c9e580000
 
-Also remove function request_firmware() as this was the last user.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
 
-Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+23ad911c819b923238b7@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in lookup_noperm_common+0x407/0x430 fs/namei.c:3106
+Read of size 4 at addr ffff888040cd8000 by task syz-executor329/6384
+
+CPU: 0 UID: 0 PID: 6384 Comm: syz-executor329 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ lookup_noperm_common+0x407/0x430 fs/namei.c:3106
+ simple_start_creating+0x9c/0x110 fs/libfs.c:2302
+ debugfs_start_creating+0xdb/0x1a0 fs/debugfs/inode.c:394
+ debugfs_create_dir+0x24/0x350 fs/debugfs/inode.c:572
+ i2c_device_probe+0x814/0xbf0 drivers/i2c/i2c-core-base.c:588
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ i2c_new_client_device+0xa29/0x1130 drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x24b/0x530 drivers/i2c/i2c-core-base.c:1307
+ kernfs_fop_write_iter+0x3a5/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x61e/0xbb0 fs/read_write.c:687
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8c042ca209
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f8c03a89128 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f8c04370908 RCX: 00007f8c042ca209
+RDX: 000000000000000f RSI: 0000200000000700 RDI: 0000000000000004
+RBP: 00007f8c04370900 R08: 00007f8c03a89cdc R09: 0000000000000000
+R10: 00007f8c03a89cdc R11: 0000000000000246 R12: 00007f8c0437090c
+R13: 000000000000000b R14: 00007ffca85726b0 R15: 00007ffca8572798
+ </TASK>
+
+Allocated by task 44:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4608 [inline]
+ slab_alloc_node mm/slub.c:4921 [inline]
+ kmem_cache_alloc_lru_noprof+0x355/0x670 mm/slub.c:4954
+ __d_alloc+0x37/0x6f0 fs/dcache.c:1902
+ d_alloc+0x4b/0x190 fs/dcache.c:1981
+ lookup_one_qstr_excl+0xd8/0x360 fs/namei.c:1806
+ __start_dirop fs/namei.c:2920 [inline]
+ start_dirop+0x5c/0x90 fs/namei.c:2942
+ simple_start_creating+0xcc/0x110 fs/libfs.c:2305
+ debugfs_start_creating+0xdb/0x1a0 fs/debugfs/inode.c:394
+ debugfs_create_dir+0x24/0x350 fs/debugfs/inode.c:572
+ i2c_register_adapter+0xc14/0x1400 drivers/i2c/i2c-core-base.c:1609
+ dvb_usb_i2c_init+0x1fc/0x2e0 drivers/media/usb/dvb-usb/dvb-usb-i2c.c:31
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:183 [inline]
+ dvb_usb_device_init+0xf30/0x2570 drivers/media/usb/dvb-usb/dvb-usb-init.c:310
+ dibusb_probe+0xb7/0xf0 drivers/media/usb/dvb-usb/dibusb-mb.c:116
+ usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ usb_new_device+0x98d/0x1610 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5953
+ process_one_work+0xaaf/0x1480 kernel/workqueue.c:3379
+ process_scheduled_works kernel/workqueue.c:3462 [inline]
+ worker_thread+0xb05/0x10d0 kernel/workqueue.c:3543
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 29:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2706 [inline]
+ slab_free mm/slub.c:6388 [inline]
+ kmem_cache_free+0x187/0x6c0 mm/slub.c:6515
+ rcu_do_batch kernel/rcu/tree.c:2645 [inline]
+ rcu_core kernel/rcu/tree.c:2897 [inline]
+ rcu_cpu_kthread+0x950/0x1480 kernel/rcu/tree.c:2985
+ smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ __call_rcu_common kernel/rcu/tree.c:3159 [inline]
+ call_rcu+0xee/0x8b0 kernel/rcu/tree.c:3279
+ dentry_kill+0x4d3/0x880 fs/dcache.c:845
+ finish_dput+0x1a/0x260 fs/dcache.c:1001
+ debugfs_remove+0x5b/0x70 fs/debugfs/inode.c:781
+ i2c_del_adapter+0x229/0x430 drivers/i2c/i2c-core-base.c:1829
+ dvb_usb_i2c_exit+0x64/0xb0 drivers/media/usb/dvb-usb/dvb-usb-i2c.c:46
+ dvb_usb_exit drivers/media/usb/dvb-usb/dvb-usb-init.c:144 [inline]
+ dvb_usb_device_exit+0x1cb/0x350 drivers/media/usb/dvb-usb/dvb-usb-init.c:338
+ usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:461
+ device_remove drivers/base/dd.c:618 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
+ bus_remove_device+0x449/0x560 drivers/base/bus.c:664
+ device_del+0x528/0x8f0 drivers/base/core.c:3961
+ usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
+ usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5407 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5953
+ process_one_work+0xaaf/0x1480 kernel/workqueue.c:3379
+ process_scheduled_works kernel/workqueue.c:3462 [inline]
+ worker_thread+0xb05/0x10d0 kernel/workqueue.c:3543
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888040cd8000
+ which belongs to the cache dentry of size 376
+The buggy address is located 0 bytes inside of
+ freed 376-byte region [ffff888040cd8000, ffff888040cd8178)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888040cd9b80 pfn:0x40cd8
+head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+memcg:ffff8880276f0201
+flags: 0x80000000000240(workingset|head|node=0|zone=1)
+page_type: f5(slab)
+raw: 0080000000000240 ffff88801c2f6500 ffffea00011add10 ffffea00013fbf10
+raw: ffff888040cd9b80 0000000800120011 00000000f5000000 ffff8880276f0201
+head: 0080000000000240 ffff88801c2f6500 ffffea00011add10 ffffea00013fbf10
+head: ffff888040cd9b80 0000000800120011 00000000f5000000 ffff8880276f0201
+head: 0080000000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000002
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Reclaimable, gfp_mask 0xd20d0(__GFP_RECLAIMABLE|__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 4962, tgid 4962 (udevd), ts 59068459425
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x264c/0x26c0 mm/page_alloc.c:3955
+ __alloc_frozen_pages_noprof+0x222/0x5b0 mm/page_alloc.c:5394
+ alloc_slab_page mm/slub.c:3295 [inline]
+ allocate_slab+0x7c/0x5e0 mm/slub.c:3410
+ new_slab mm/slub.c:3456 [inline]
+ refill_objects+0x2d8/0x350 mm/slub.c:7321
+ refill_sheaf mm/slub.c:2833 [inline]
+ __pcs_replace_empty_main+0x330/0x690 mm/slub.c:4699
+ alloc_from_pcs mm/slub.c:4775 [inline]
+ slab_alloc_node mm/slub.c:4909 [inline]
+ kmem_cache_alloc_lru_noprof+0x44d/0x670 mm/slub.c:4954
+ __d_alloc+0x37/0x6f0 fs/dcache.c:1902
+ d_alloc+0x4b/0x190 fs/dcache.c:1981
+ lookup_one_qstr_excl+0xd8/0x360 fs/namei.c:1806
+ __start_renaming+0x1da/0x410 fs/namei.c:3888
+ filename_renameat2+0x3a0/0x9b0 fs/namei.c:6161
+ __do_sys_rename fs/namei.c:6230 [inline]
+ __se_sys_rename+0x55/0x2c0 fs/namei.c:6226
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff888040cd7f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888040cd7f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888040cd8000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff888040cd8080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888040cd8100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc
+==================================================================
+
+
 ---
- drivers/gpu/nova-core/firmware.rs     | 222 +-------------------------
- drivers/gpu/nova-core/firmware/fsp.rs |  88 +++++-----
- drivers/gpu/nova-core/fsp.rs          |  11 +-
- 3 files changed, 46 insertions(+), 275 deletions(-)
-
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index c285e57268f0..d58a3d5770d5 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -8,10 +8,8 @@
- use core::ops::Deref;
- 
- use kernel::{
--    device,
-     firmware,
--    prelude::*,
--    str::CString, //
-+    prelude::*, //
- };
- 
- use crate::{
-@@ -33,19 +31,6 @@
- 
- pub(crate) const FIRMWARE_VERSION: &str = "570.144";
- 
--/// Requests the GPU firmware `name` suitable for `chipset`, with version `ver`.
--fn request_firmware(
--    dev: &device::Device,
--    chipset: gpu::Chipset,
--    name: &str,
--    ver: &str,
--) -> Result<firmware::Firmware> {
--    let chip_name = chipset.name();
--
--    CString::try_from_fmt(fmt!("nvidia/{chip_name}/gsp/{name}-{ver}.bin"))
--        .and_then(|path| firmware::Firmware::request(&path, dev))
--}
--
- /// Structure used to describe some firmwares, notably FWSEC-FRTS.
- #[repr(C)]
- #[derive(Debug, Clone, FromBytes)]
-@@ -393,208 +378,3 @@ pub(crate) const fn create(
-         this.0
-     }
- }
--
--/// Ad-hoc and temporary module to extract sections from ELF images.
--///
--/// Some firmware images are currently packaged as ELF files, where sections names are used as keys
--/// to specific and related bits of data. Future firmware versions are scheduled to move away from
--/// that scheme before nova-core becomes stable, which means this module will eventually be
--/// removed.
--mod elf {
--    use kernel::{
--        bindings,
--        prelude::*,
--        transmute::FromBytes, //
--    };
--
--    /// Trait to abstract over ELF header differences.
--    trait ElfHeader: FromBytes {
--        fn shnum(&self) -> u16;
--        fn shoff(&self) -> u64;
--        fn shstrndx(&self) -> u16;
--    }
--
--    /// Trait to abstract over ELF section-header differences.
--    trait ElfSectionHeader: FromBytes {
--        fn name(&self) -> u32;
--        fn offset(&self) -> u64;
--        fn size(&self) -> u64;
--    }
--
--    /// Trait describing a matching ELF header and section-header format.
--    trait ElfFormat {
--        type Header: ElfHeader;
--        type SectionHeader: ElfSectionHeader;
--    }
--
--    /// Newtype to provide a [`FromBytes`] implementation.
--    #[repr(transparent)]
--    struct Elf64Hdr(bindings::elf64_hdr);
--    // SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
--    unsafe impl FromBytes for Elf64Hdr {}
--
--    impl ElfHeader for Elf64Hdr {
--        fn shnum(&self) -> u16 {
--            self.0.e_shnum
--        }
--
--        fn shoff(&self) -> u64 {
--            self.0.e_shoff
--        }
--
--        fn shstrndx(&self) -> u16 {
--            self.0.e_shstrndx
--        }
--    }
--
--    #[repr(transparent)]
--    struct Elf64SHdr(bindings::elf64_shdr);
--    // SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
--    unsafe impl FromBytes for Elf64SHdr {}
--
--    impl ElfSectionHeader for Elf64SHdr {
--        fn name(&self) -> u32 {
--            self.0.sh_name
--        }
--
--        fn offset(&self) -> u64 {
--            self.0.sh_offset
--        }
--
--        fn size(&self) -> u64 {
--            self.0.sh_size
--        }
--    }
--
--    struct Elf64Format;
--
--    impl ElfFormat for Elf64Format {
--        type Header = Elf64Hdr;
--        type SectionHeader = Elf64SHdr;
--    }
--
--    /// Newtype to provide [`FromBytes`] and [`ElfHeader`] implementations for ELF32.
--    #[repr(transparent)]
--    struct Elf32Hdr(bindings::elf32_hdr);
--    // SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
--    unsafe impl FromBytes for Elf32Hdr {}
--
--    impl ElfHeader for Elf32Hdr {
--        fn shnum(&self) -> u16 {
--            self.0.e_shnum
--        }
--
--        fn shoff(&self) -> u64 {
--            u64::from(self.0.e_shoff)
--        }
--
--        fn shstrndx(&self) -> u16 {
--            self.0.e_shstrndx
--        }
--    }
--
--    /// Newtype to provide [`FromBytes`] and [`ElfSectionHeader`] implementations for ELF32.
--    #[repr(transparent)]
--    struct Elf32SHdr(bindings::elf32_shdr);
--    // SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
--    unsafe impl FromBytes for Elf32SHdr {}
--
--    impl ElfSectionHeader for Elf32SHdr {
--        fn name(&self) -> u32 {
--            self.0.sh_name
--        }
--
--        fn offset(&self) -> u64 {
--            u64::from(self.0.sh_offset)
--        }
--
--        fn size(&self) -> u64 {
--            u64::from(self.0.sh_size)
--        }
--    }
--
--    struct Elf32Format;
--
--    impl ElfFormat for Elf32Format {
--        type Header = Elf32Hdr;
--        type SectionHeader = Elf32SHdr;
--    }
--
--    /// Returns a NULL-terminated string from the ELF image at `offset`.
--    fn elf_str(elf: &[u8], offset: u64) -> Option<&str> {
--        let idx = usize::try_from(offset).ok()?;
--        let bytes = elf.get(idx..)?;
--        CStr::from_bytes_until_nul(bytes).ok()?.to_str().ok()
--    }
--
--    fn elf_section_generic<'a, F>(elf: &'a [u8], name: &str) -> Option<&'a [u8]>
--    where
--        F: ElfFormat,
--    {
--        let hdr = F::Header::from_bytes(elf.get(0..size_of::<F::Header>())?)?;
--
--        let shdr_num = usize::from(hdr.shnum());
--        let shdr_start = usize::try_from(hdr.shoff()).ok()?;
--        let shdr_end = shdr_num
--            .checked_mul(size_of::<F::SectionHeader>())
--            .and_then(|v| v.checked_add(shdr_start))?;
--
--        // Get all the section headers as an iterator over byte chunks.
--        let shdr_bytes = elf.get(shdr_start..shdr_end)?;
--        let mut shdr_iter = shdr_bytes.chunks_exact(size_of::<F::SectionHeader>());
--
--        // Get the strings table.
--        let strhdr = shdr_iter
--            .clone()
--            .nth(usize::from(hdr.shstrndx()))
--            .and_then(F::SectionHeader::from_bytes)?;
--
--        // Find the section which name matches `name` and return it.
--        shdr_iter.find_map(|sh_bytes| {
--            let sh = F::SectionHeader::from_bytes(sh_bytes)?;
--            let name_offset = strhdr.offset().checked_add(u64::from(sh.name()))?;
--            let section_name = elf_str(elf, name_offset)?;
--
--            if section_name != name {
--                return None;
--            }
--
--            let start = usize::try_from(sh.offset()).ok()?;
--            let end = usize::try_from(sh.size())
--                .ok()
--                .and_then(|sz| start.checked_add(sz))?;
--
--            elf.get(start..end)
--        })
--    }
--
--    /// Extract the section with name `name` from the ELF64 image `elf`.
--    fn elf64_section<'a>(elf: &'a [u8], name: &str) -> Option<&'a [u8]> {
--        elf_section_generic::<Elf64Format>(elf, name)
--    }
--
--    /// Extract the section with name `name` from the ELF32 image `elf`.
--    fn elf32_section<'a>(elf: &'a [u8], name: &str) -> Option<&'a [u8]> {
--        elf_section_generic::<Elf32Format>(elf, name)
--    }
--
--    /// Automatically detects ELF32 vs ELF64 based on the ELF header.
--    pub(super) fn elf_section<'a>(elf: &'a [u8], name: &str) -> Option<&'a [u8]> {
--        // ELF identification: a 4-byte magic followed by a class byte (32- vs 64-bit).
--        const ELFMAG: &[u8] = b"\x7fELF";
--        const SELFMAG: usize = ELFMAG.len();
--        const EI_CLASS: usize = 4;
--        const ELFCLASS32: u8 = 1;
--        const ELFCLASS64: u8 = 2;
--
--        if elf.get(0..SELFMAG) != Some(ELFMAG) {
--            return None;
--        }
--
--        match *elf.get(EI_CLASS)? {
--            ELFCLASS32 => elf32_section(elf, name),
--            ELFCLASS64 => elf64_section(elf, name),
--            _ => None,
--        }
--    }
--}
-diff --git a/drivers/gpu/nova-core/firmware/fsp.rs b/drivers/gpu/nova-core/firmware/fsp.rs
-index 6eaf1c684b9d..5462e318410a 100644
---- a/drivers/gpu/nova-core/firmware/fsp.rs
-+++ b/drivers/gpu/nova-core/firmware/fsp.rs
-@@ -6,12 +6,14 @@
- use kernel::{
-     device,
-     dma::Coherent,
--    firmware::Firmware,
-     prelude::*, //
- };
- 
- use crate::{
--    firmware::elf,
-+    firmware::tlv::{
-+        request_tlv, //
-+        Tlv,
-+    },
-     gpu::Chipset, //
- };
- 
-@@ -19,11 +21,11 @@
- const FSP_HASH_SIZE: usize = 48;
- /// Maximum size of the FSP public key (RSA-3072), in bytes.
- ///
--/// The FMC ELF `publickey` section may be shorter, so the remaining bytes are zero-padded.
-+/// The FMC `PKEY` tag may be shorter, so the remaining bytes are zero-padded.
- const FSP_PKEY_SIZE: usize = 384;
- /// Maximum size of the FSP signature (RSA-3072), in bytes.
- ///
--/// The FMC ELF `signature` section may be shorter, so the remaining bytes are zero-padded.
-+/// The FMC `SIGN` tag may be shorter, so the remaining bytes are zero-padded.
- const FSP_SIG_SIZE: usize = 384;
- 
- /// Structure to hold FMC signatures.
-@@ -38,64 +40,35 @@ pub(crate) struct FmcSignatures {
- }
- 
- pub(crate) struct FspFirmware {
--    /// FMC firmware image data (only the "image" ELF section).
-+    /// FMC firmware image data
-     pub(crate) fmc_image: Coherent<[u8]>,
-     /// FMC firmware signatures.
-     pub(crate) fmc_sigs: KBox<FmcSignatures>,
- }
- 
- impl FspFirmware {
--    pub(crate) fn new(
--        dev: &device::Device<device::Bound>,
--        chipset: Chipset,
--        ver: &str,
--    ) -> Result<Self> {
--        let fw = super::request_firmware(dev, chipset, "fmc", ver)?;
-+    pub(crate) fn new(dev: &device::Device<device::Bound>, chipset: Chipset) -> Result<Self> {
-+        let fw = request_tlv(dev, chipset, "fmc")?;
-+        let tlv = Tlv::new(fw.data())?;
-+        dev_dbg!(dev, "loaded fsp firmware v{}\n", tlv.get_string(b"VERS")?);
- 
--        // FSP expects only the "image" section, not the entire ELF file.
--        let fmc_image_data = elf::elf_section(fw.data(), "image").ok_or_else(|| {
--            dev_err!(dev, "FMC ELF file missing 'image' section\n");
--            EINVAL
--        })?;
-+        let fmc_image_data = tlv.get_bytes(b"BLOB")?;
-         let fmc_image = Coherent::from_slice(dev, fmc_image_data, GFP_KERNEL)?;
- 
-         Ok(Self {
-             fmc_image,
--            fmc_sigs: Self::extract_fmc_signatures(&fw, dev)?,
-+            fmc_sigs: Self::extract_fmc_signatures(&tlv, dev)?,
-         })
-     }
- 
-     /// Extract FMC firmware signatures for Chain of Trust verification.
-     ///
--    /// Extracts real cryptographic signatures from FMC ELF32 firmware sections.
-+    /// Extracts real cryptographic signatures from FMC TLV firmware tags.
-     /// Returns signatures in a heap-allocated structure to prevent stack overflow.
--    fn extract_fmc_signatures(
--        fmc_fw: &Firmware,
--        dev: &device::Device,
--    ) -> Result<KBox<FmcSignatures>> {
--        let get_section = |name: &str, max_len: usize| {
--            elf::elf_section(fmc_fw.data(), name)
--                .ok_or(EINVAL)
--                .inspect_err(|_| dev_err!(dev, "FMC firmware missing '{}' section\n", name))
--                .and_then(|section| {
--                    if section.len() > max_len {
--                        dev_err!(
--                            dev,
--                            "FMC {} section size {} > maximum {}\n",
--                            name,
--                            section.len(),
--                            max_len
--                        );
--                        Err(EINVAL)
--                    } else {
--                        Ok(section)
--                    }
--                })
--        };
--
--        let hash_section = get_section("hash", FSP_HASH_SIZE)?;
--        let pkey_section = get_section("publickey", FSP_PKEY_SIZE)?;
--        let sig_section = get_section("signature", FSP_SIG_SIZE)?;
-+    fn extract_fmc_signatures(tlv: &Tlv<'_>, dev: &device::Device) -> Result<KBox<FmcSignatures>> {
-+        let hash_section = tlv.get_bytes(b"HASH")?;
-+        let pkey_section = tlv.get_bytes(b"PKEY")?;
-+        let sig_section = tlv.get_bytes(b"SIGN")?;
- 
-         // The hash section is a SHA-384 output: it must be exactly FSP_HASH_SIZE bytes.
-         if hash_section.len() != FSP_HASH_SIZE {
-@@ -108,15 +81,36 @@ fn extract_fmc_signatures(
-             return Err(EINVAL);
-         }
- 
-+        // The key and signature sections are zero-padded to a fixed maximum, so they may be
-+        // shorter, but must not exceed the destination buffers.
-+        if pkey_section.len() > FSP_PKEY_SIZE {
-+            dev_err!(
-+                dev,
-+                "FMC public key section size {} > maximum {}\n",
-+                pkey_section.len(),
-+                FSP_PKEY_SIZE
-+            );
-+            return Err(EINVAL);
-+        }
-+        if sig_section.len() > FSP_SIG_SIZE {
-+            dev_err!(
-+                dev,
-+                "FMC signature section size {} > maximum {}\n",
-+                sig_section.len(),
-+                FSP_SIG_SIZE
-+            );
-+            return Err(EINVAL);
-+        }
-+
-         // Initialize the signatures in place to avoid building the large `FmcSignatures` on the
-         // stack, then fill each section from the firmware.
-         let signatures = KBox::init(
-             pin_init::init_zeroed::<FmcSignatures>().chain(|sigs| {
-                 // PANIC: src and dst lengths are both FSP_HASH_SIZE (verified above).
-                 sigs.hash384.copy_from_slice(hash_section);
--                // PANIC: dst is sliced to src.len(); src.len() <= FSP_PKEY_SIZE per `get_section`.
-+                // PANIC: dst is sliced to src.len(); src.len() <= FSP_PKEY_SIZE (verified above).
-                 sigs.public_key[..pkey_section.len()].copy_from_slice(pkey_section);
--                // PANIC: dst is sliced to src.len(); src.len() <= FSP_SIG_SIZE per `get_section`.
-+                // PANIC: dst is sliced to src.len(); src.len() <= FSP_SIG_SIZE (verified above).
-                 sigs.signature[..sig_section.len()].copy_from_slice(sig_section);
-                 Ok(())
-             }),
-diff --git a/drivers/gpu/nova-core/fsp.rs b/drivers/gpu/nova-core/fsp.rs
-index ba4544210e40..29c809e1557e 100644
---- a/drivers/gpu/nova-core/fsp.rs
-+++ b/drivers/gpu/nova-core/fsp.rs
-@@ -32,12 +32,9 @@
-         Falcon, //
-     },
-     fb::FbLayout,
--    firmware::{
--        fsp::{
--            FmcSignatures,
--            FspFirmware, //
--        },
--        FIRMWARE_VERSION, //
-+    firmware::fsp::{
-+        FmcSignatures,
-+        FspFirmware, //
-     },
-     gpu::Chipset,
-     gsp::{
-@@ -413,7 +410,7 @@ fn wait_secure_boot(
-         const FSP_SECURE_BOOT_TIMEOUT_MS: i64 = 5000;
- 
-         let falcon = Falcon::<FspEngine>::new(dev, chipset, bar)?;
--        let fsp_fw = FspFirmware::new(dev, chipset, FIRMWARE_VERSION)?;
-+        let fsp_fw = FspFirmware::new(dev, chipset)?;
- 
-         read_poll_timeout(
-             || Ok(hal.fsp_boot_status(bar)),
--- 
-2.54.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
