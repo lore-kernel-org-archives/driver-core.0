@@ -1,89 +1,65 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E75A269B1C
-	for <driver-core@lists.linux.dev>; Sun,  2 Aug 2026 19:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD20E1C861D;
+	Sun,  2 Aug 2026 19:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785698892; cv=none; b=T3PfieDdiVI4EwjOZvOTyguSpjgHtah0P8GryhCY4R08sk+pimWtNfAH37VvqDUPiG6UUVNg+Xre6gP5rmDeiMQ9XLmuucugE/lIzTZEl0UtmSgU2PE+7XoVtu6P66uGr4FgANb6WtYCJmPbm/iMgvhPJ5QXXmtnjxyAqb9j3ts=
+	t=1785699750; cv=none; b=uFYszUFPuuMH8ETCEqK21b5m+mkyJKQfRl8A+M/2boB+8RCbJOACVtNN80CYeUlhZw2elPtRbFaP0sdkn0TDGA1lH/NEvkDTpeK+Jm5TAogGh68N8/GSEk3ZKzzZ1TdXfxiaTLxelRCzrcFOJMQsGMiPGpJWE/TFbVCghMEt10w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785698892; c=relaxed/simple;
-	bh=ih17u19AEzHyVVPvha5pFDpYhRKd9u+uawUawKr9oxY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rJleBgkvWkh/F34HVkqUFfhTJzDSU/VccY77PD62F3KNFFwmdoJ/PToYBGowLhObusPyxm90XycZ6u7i6WXFdEP+HGjOlpFUG3ht7r09TLP74OdD0cTYkqAwHhbxNJvX9NvEefP3zfyijZkphMabfLamqbNr5k1XaUvw3n9ikeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HH4I9Pcm; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785699750; c=relaxed/simple;
+	bh=V9EktQLP9GIh/wWANh3HK8+9a2RLwzeLdNyddL9I9LY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FVi8HZf+RwfdnOH0BL85oNey7poyirVX2lwpanCuakSrrcLRdywVGyaJLb+2hT+mqAJumSXE3zRu7nTCRF45J19wdiWg77IG2hkEcp+IbDZfyJJZwnxBrCB+dvJ1zbtyInaEkIJEfdC8FIK+i0MdTVw5qsXTJv6WHO1gPd8iNBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSfUUzhS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HH4I9Pcm"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785698887;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ih17u19AEzHyVVPvha5pFDpYhRKd9u+uawUawKr9oxY=;
-	b=HH4I9Pcm/SBcXwV76O4Zr3TEewgiBxIxBBXpqQM8Bxx6pbnHqmdspVGXVoRm/tgt+ZRxhP
-	Wkq2QgEeZnDBB73o9s4NOq1KfotlJUZUu9J7K8JDW1REDwfinGozamxxiHbS4lLkZI2pCQ
-	7/57U/olWMrrVRTQ9kGqYX0jVopHcEs=
-From: Igor Korotin <igor.korotin@linux.dev>
-To: Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?utf-8?q?=C3=96zkan?= <work@onurozkan.dev>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Dave Ertman <david.m.ertman@intel.com>,
- Ira Weiny <iweiny@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>,
- Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 00/11] rust: driver: use pointers instead of
- indices for ID info
-Date: Sun, 02 Aug 2026 20:27:50 +0100
-Message-ID: <178569887068.1652.14450480404285948832@linux.dev>
-In-Reply-To: <20260730210149.1117242-2-dakr@kernel.org>
-References: <20260629-id_info-v2-0-56fccbe9c5ef@garyguo.net>
- <20260730210149.1117242-2-dakr@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSfUUzhS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259A81F000E9;
+	Sun,  2 Aug 2026 19:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785699749;
+	bh=MBg8Qt8Le5Rilaj52TjAWsiHdVJJpkjGd0StKRaBJ4A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZSfUUzhSY9VNxnCcNGm8/0NZOnVxqWMPU+7gMaqgLw/4PB9GAQpePjSyn+GSFovI8
+	 ic3y5iVZ+ocPY2PRUBndQYFWugH8Lyd7zWELjSuSMLxxAuvBkiJIHOHe4NBL1CkzGj
+	 8bLWf0dA0ilB0MqnJJ4ro9yI8kE1jVb7hCMrXV7ODJe3jdqW1TnhoFB9p057qKh7X0
+	 3Mc+4VmoRPRNi6sznyF5CwH9O/d4Lbzd3Lm7cWbC1YexRC6I5JdZLa29nxeN1/mrbz
+	 7NcwZ9oaE5bzBF36JeKkYfxlQntMimoDgq5n7SWrYO9uFXZPzal+6PlPG1yqJBrrgk
+	 /3g07KnM5K1Cw==
+Date: Sun, 2 Aug 2026 09:42:28 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: gregkh@linuxfoundation.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernfs: avoid iattr allocation in listxattr
+Message-ID: <am-dpITJWlNLIWRB@slm.duckdns.org>
+References: <20260731120554.630147-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260731120554.630147-1-chenyichong@uniontech.com>
 
-Hi Danilo,
+On Fri, Jul 31, 2026 at 08:05:54PM +0800, Yichong Chen wrote:
+> kernfs_iop_listxattr() only needs to report existing xattrs, but it uses
+> kernfs_iattrs(), which allocates kernfs_iattrs when the node does not
+> have one yet.
+> 
+> This makes a query operation create persistent per-node metadata even
+> when the xattr list is empty.
+> 
+> Use kernfs_iattrs_noalloc() instead and return an empty list when no
+> iattrs exist.
+> 
+> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 
-Sorry for the silence -- I was offline for personal reasons for about two
-weeks from the 16th, and missed this before it got applied.
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Checked 6-9/11 now: the i2c bits are correct. Unlike PCI/USB, i2c has no
-dynamic-ID (new_id) mechanism, so i2c_match_id() can only ever return a
-pointer that IdArray::new() actually populated -- the plain
-info_unchecked() (not _opt) in i2c_id_info() is the right call, not an
-oversight.
+Thanks.
 
-Cheers
-Igor
+-- 
+tejun
