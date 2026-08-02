@@ -1,161 +1,212 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013009.outbound.protection.outlook.com [40.93.201.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9D26B971
-	for <driver-core@lists.linux.dev>; Sat,  1 Aug 2026 06:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785564120; cv=fail; b=KNxf30zpYt/46ZoXeIyO4rmZKNFGlT0LhRdfZUcNxqw+wCv+fmsc0wnxFy7lrbx6Ior1GSblzfbfaEzVRGDa8V0AVAkkwOKTDavPvg/w4Mn4GnG57JltErWxcjEXOoFPHDAea+xmptieJPOtvgbY3h3/SaOo5jePtb00HtikJHs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785564120; c=relaxed/simple;
-	bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=oC4wt3TO7wSuCFEtnRxzIGOJKwPhNwur1RMGLO+zuF7HA6JT7udD7pFzDPnyxnt2kGXQi0bcuB5jbyhSiNagBomiZ9cqgImyPLGjR61OMEAHNLz5vZMyCqbP7or3puewH1ylYUnU2vFU6f4MtSCbmeBsUaIupmx8oZ1I7sIOvt4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=t2MJ+oMJ; arc=fail smtp.client-ip=40.93.201.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="t2MJ+oMJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vvDmkM/IthVPCGymD049Nuy7U+G5ePN+GdLm534pOtA02Bcc6YRsD8rVorVfWOEo1KbLSDSBPBLglO3m9bWQRcOvpx+WqCyNuWdD6oUg5OurUHTh3Z4YgOgXtt+AQ/XSev7NIVgreFfV0evdbK4wd1sRiHF6kfga9BBzUyZDOm9ebD28eOR2GyDcyTpQJ9B02zEliAz75ddPNQq1iJjwKFwXX48Ms2PNKbWCe2G+6wp08JzPnlHaVyrxELgmgGYOpRZ+wOuMmVKVHx0XFO3BvUQCOustGeolbzD6Il5DTIek3wtESjkP+nngL68783+NQJRnSH60tMrQ25rphD/aAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
- b=egvP/AIWzvRpPe2V+M7Jj21obm9PkymFdrNTn9mSl/15ip1I12u0sQoxboSevUMCDG5TMatOtQnpsrxej9A/T9fHHDIandwW2Eh0N2Yzy4FTTDoXoaRponb4VKBDDtP3ZI9Y+Uze1OmSfJokKYXnUwvt5rI2TDkJbAyGGG+BHFTQ6mnTyspgjk4NUsftcxZDjaFHDLSu+BxE8mdFkSQzSJWKe+9YazwzxlMPIUCFogpW6z1XRNcjhggHoFb04H8ePpMHsx6WU8Oz2OhSwz7y3asJhNlqsaXxqIFHsH8S4xgCOoJ0NcNpqCTqgWZhkk/U7Tn4N5tigv4Vf3TWW6fFRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wSjOFtKw1O42OjSDXPqoGpTWz35aGY78z9KyTFgMw38=;
- b=t2MJ+oMJoXP6sDfUiSarYufGWOIG/3JuTDFKxdJJr366LxWri4T4bxv7FwQZe3QRsrUqQEiwWTgPoe2zJL83Vk7sX1fcZBt6u27qdChWKmWTy3G+1NcUQLjgKt8+Givd6pyGbiBpfOq4NR2PIh5GTjochMvbL9i2c2jPxZceu7SuGJvNF1g1OxFzefrfH+o38M02ng6EzD8i7CiebDC45uIizhZZtN74ESc7I3I5/zLBNP/QMHvvSO0JBUv6mlRO3GvslLNHIZlSKPXn/c/K5pLOOcCE6e24dOXcDYtWheAB92yf4Nl5dhKPtFwQ4H1jzJlz1Wlf1lPFabo/Oej8XQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS7PR12MB6141.namprd12.prod.outlook.com (2603:10b6:8:9b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Sat, 1 Aug
- 2026 06:01:52 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0270.015; Sat, 1 Aug 2026
- 06:01:52 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 01 Aug 2026 15:01:48 +0900
-Message-Id: <DKDDNF6TGYFH.2HGW4GZM9CY6Y@nvidia.com>
-Cc: <git@younes.io>, "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Tamir
- Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Timur Tabi" <ttabi@nvidia.com>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: Re: [PATCH v2] rust: dma: return zero for Coherent reads past EOF
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Younes Akhouayri via B4 Relay" <devnull+git.younes.io@kernel.org>
-References: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
-In-Reply-To: <20260730-fix-dma-coherent-eof-v2-1-8aff21054afa@younes.io>
-X-ClientProxiedBy: TY4P286CA0118.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37c::14) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83A11891A9
+	for <driver-core@lists.linux.dev>; Sun,  2 Aug 2026 00:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785628836; cv=none; b=E2+F7JiM7xHIaxFMHArIAXqjEDsghagxkiigxNeEb8hOz8fHF7iqtxkCYJ+fukw2vDe+8EUc4hcyhqxgWyfHTP2eD6jg8tmdat+X2KmRFzI69pmweR50vRRTRcdXQHYvn4gx3tRtqlKMJQawjxAy5j8dyqdWLmZde1JnYrrntoI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785628836; c=relaxed/simple;
+	bh=mTIkNiFrB2tE8TGWw7i4l/43HnSjE3FgH47SLWzHggI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=MNxyL+hzz68G6ZeyiPnkQjGrmhzsaR31eUZFeo5Mf+HhiCdxZi7ZO7pUKMrOdGmLcffodQsRuS+PisJrFp1QPqM1pd0lK/2v/E5Ajvhjx6jPZb5u4xCFvNiqC+JUIQodC0sXxAp505DVWI2TcfaufH5xvoaZR77ZXFelfjxkO28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4ab4dd46ddeso1531290b6e.3
+        for <driver-core@lists.linux.dev>; Sat, 01 Aug 2026 17:00:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785628833; x=1786233633;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rcjUvSgLwh50//vBrNZydN3/5lJfhx/xxmZpzcHLEYM=;
+        b=WMUMWeWYN1LAgO5VkXrFhwJiLdl9PKnpNGmPFLQoWAvgiOYbKtANJnGkM8C3oFx1pa
+         cQ3W5gjNvjqofAf/mjW2yVGPAHCSGtbMPy4I+5x3+y8OLR//2v9hSVdHYBpGzI1ALPMT
+         L+pGgzz+szOYSNXqLjPTZ7xoUlK4Izz8hBF+gh4YLdq7i2xl7JAZLFtD1maM0hECRT32
+         DiBUssrHylOOk4y6aR30mOTpqYrE71BE6fpAlygM43v0AXrA+s0LmfDvgThc/hOg/QcA
+         Sf0DGkjBQYdJhmFdwFy52WOm4OJcpUcsktGRb5fhAWoZrPPh/r3qAeMaHGPvt2AdsFUF
+         yTlw==
+X-Gm-Message-State: AOJu0YzucRQLOQuGhNfBQMv2mvDetIm5wf61iak4NAvWFxCJGtbD9d5y
+	aGRafYOlr9YI74++R2RqvRTCRQw+lSrz29PMw4APMqpmx12kj8tqwoeoiyrRvt2N+lInO5r5yUf
+	4sUTfQHip8vnaIAWAThGuXLlc1VxF8Akoa0nkYPU06PAualIXNVKFBaN4x4vEbQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB6141:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54ea0768-7a5f-4ae0-e409-08deef926181
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|10070799003|6133799003|56012099006|10067099003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	vL0YqCYOP/IO/ovLL4QIqnJqYbCnXrCbsegr+gOG8lREicVOXRO8jHM8NGQ5j2P8JvLT1iY/5tUHRTCiqkHDFeUxZDCW8BV5vBOnj00lOaAGX7VXiJoLLYZ7D3c+qPo0EWoc0LbxI4jmEgSd6cwFFE8Wb7btJQeAtXIgYmFz+FPMmSZ0P4XSpDgZWEekK37tlv/iVSio8KgjOOHnGoXf+cSxeA773RfDcTlYXhlum/S6NMM4r2gmxc3RC/4rzV4ts1ddYkwec/ExTIl/iNPL2rrF7mMaag+8O1t+dBEfTDaAhvWdLWVAk/KAd6AJtjW564dbogscpOAIr18T7IjHau4A0adU0Swznm3HSVr++oAQ9RVd5Q9mmO7ReCeqHonveVrx+yywJWRtzUCpGPFTkMS6Fyom/8vg+lAA/XI4KPs27KxcbM2IWZb0g0ISkEv9UvXPabgNnCY9FA8yNmKnbMeQ++UWKHwnTty9HBYvC/Lq9Dl/uWdJAKO/rIl4ARaFbMWJqwmT2V9AiYjLIOjBYiC2J70i3Mrdd+1mBNCovkcSq8QLnxaSjmwFtaP/boli/qBKbZAc+Yx+1VTf3+83ePgTM/91JsJ2n+d0IIjb7B0kSwFyBpdL2d+z2ovzYNYvrl3pgig/t/Dqb84pMXdc/w8bR08nMVjiuZ6VEEmSzFk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(10070799003)(6133799003)(56012099006)(10067099003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NE1aSTNocVh3d0Jid2RwaG5uTVZmOS9kOWtaUUlTR21MZGdWcElJM05odHNk?=
- =?utf-8?B?V2Myb2IreG5aQ2o4SFk4cm5PUnFVSkVCMmtoWW5yaFpHcFZoeHVYaFBnNjFJ?=
- =?utf-8?B?aW5KWXpuMHEyQ0J2Z292YzhHendYN0J3K3VTbE8yQnFQY2h0M2NPVTBNNlVt?=
- =?utf-8?B?YmdxNVZQUHdYYTZFclJhSDl0cWxsTXQ2QlpyVU5FWXVEdUJ1K2tFSGU4VFcz?=
- =?utf-8?B?VjVUSkVtL2FQSkloLzBVRnIydXI1S3p5WS9yWDl6WDFZUFZuanBldWh3SUd2?=
- =?utf-8?B?Q2tKMEN6Y3pQa3d1WXVZeWhwNkNxVzJTVEhHSjBUSmZaVDdab2h0NkFNN21t?=
- =?utf-8?B?dzM5d0RtR0FUUlhFQitxZVpnVEwwMS8zb2tCcTVQMUlYSmtWajdVOWtlVHlW?=
- =?utf-8?B?TVZjQ3RUTHl5WGpSVkdBb290L01rQkZXd05zaGZtUXFqdllJUHVRU3NRa1Zm?=
- =?utf-8?B?V2hxVnp4LytkTENxV1cyVkhVK2tGY3plQVUzWW1mSHVGMUFZenJIL3NYeGM4?=
- =?utf-8?B?RGtWS0pLOVJLRXBYK0RmY3lZS2NGTHpqOVZrcWtEY2dBdVVLVHpFRnB3ZlZR?=
- =?utf-8?B?dGtRdUExd1VEWGUrTzZoV3Q1VEJmZmZZTi9tNEFCNStQREFyR1dIVnVyOUg1?=
- =?utf-8?B?cVdRSWZ1dTRzVVFjYTZIZDB6bURlLzlmdzF0aUVObTRTMXZRTVI4WUZYbmZJ?=
- =?utf-8?B?TGFXRDhkWmVYRW1ERjJkMzhETE1kclBLMEsxYW5Hc2tMU3JndlppdGVIcFNP?=
- =?utf-8?B?T0dlMkR3ZmlETmpFTE1ueDJ3YWhFaHZ6NncxMHpUenBNV0xXWjF6Rmc1N1Zh?=
- =?utf-8?B?ZTZaM0VoeFhCSTFZQmpKUm5hVlBEWnN0U3l4WS9ISURnblpLc3BQbi9DaEZ2?=
- =?utf-8?B?aUc3bHNYZFlHK2k5Y3JpSWliSXJVdTE5OWhZZVQyb2pJY1RReU1pT3RnT1hH?=
- =?utf-8?B?cjNvMlVMclZPWGpBaG5lK2lNUTNuTWZYbTh6WTVWdFJYbVVreVQ3YVdjM1Ar?=
- =?utf-8?B?SW5RcUFTTUFDeTlUTWZiOEt2clJBU1NjcWl0Q2QrVEJDdjUwRGtaZ2MwdFpp?=
- =?utf-8?B?aCtsUE5HZUw3OVVocDVveVM5MkQ4Z0ROeUh1UDJ5ZTNxQW1wT2c3MGJkTHgv?=
- =?utf-8?B?azhjYXd4M0doS2JWQ2xGYmtZKytOYTcvT3hiNFFzellMckkrem1TVDh2YTE3?=
- =?utf-8?B?eW4wV3JEOWl1bFFJdHRsMU94LzcvOGV1Z0xWb1VMaGtCaTNxd3JaL3BtZVU0?=
- =?utf-8?B?MnI3UjdWUEVlQmJQZE1yNkJ5aEZSMWtXMTlTS1ZDVUN4cE9KZWNwWUNEanpr?=
- =?utf-8?B?V1J6cXBjSVZveU55MzJkcnBoKzVxWklEeVFXOWIza0gyMDNoR3JLU3hJWTha?=
- =?utf-8?B?OWlXNTlhRiszM2VYNXg3azg4YzI3OU1WdXZoNXdOQ0tpenBzankzVVlEbHdS?=
- =?utf-8?B?VGQzY3JsSXN6UnIxSERNeisxejBuRlh0MDM0ek9meXhCRVcxaG5ENklyWHNQ?=
- =?utf-8?B?dExkVnM2OTNWZkdJZDNOQVEwNHRzcEx3RTBNQkxpYk1iOUtYSnNtaDhjVjJT?=
- =?utf-8?B?NDZROFNuRnlOYlVEWFBKT2xQOTRSNWJPVnQ5UENGZlFPaWlDZVBTbGJiR25o?=
- =?utf-8?B?YlQ3S2FyL29DNFpZQVB4eENJWC9xdktOd1ZuTVF2WWJ1ck96aHNWWHNDTUsx?=
- =?utf-8?B?aTIyWDJBSkdnemEyVWI5T2RkcWdqYlFrclJiSS9DYXNQakxpUDlaVUlkT0ZG?=
- =?utf-8?B?c3UrUC9scXlESkxPeHFwRENqQWpkOTVFSTV4RW9nZlI0a1U3WHdFd3M2cnE0?=
- =?utf-8?B?dkt3UG1tYnJqN2hVdXVNS1ovbzdOK0FRTFRTY1pXekw4UG5xd1oxeDErdEh6?=
- =?utf-8?B?bE9QMDd6Q0libERUdWV4c2VYUFBaUmQzZTVmSnN5NDJKZ0ZBRUtKcUtDQndV?=
- =?utf-8?B?aExadnBVaHBCYUxiM1VBeFhNa1FuaHltaTJQM0NzR2hDMGMzSm03RHJuRHJs?=
- =?utf-8?B?bHJuTTZTeFdKZDkyaVR1RkVHbzdzRTMyTkI5MFBtaWNpelE1WW05RHlTaVlk?=
- =?utf-8?B?MFhYT2NQYTlrMVpxWnRyNEV5blBqTUtPUlJmdGMxQUFKUUNpNi9rR3FodFAv?=
- =?utf-8?B?SVhXN3A4cjJvZ2c1Z3RDY0E1c1V0WWYzcUVqS0dqaGMvZDJXSmMxT2xtSndF?=
- =?utf-8?B?akJBMUFHcU9tQnhkMjMwdkZ6R1lXamh5cXpvV1RhUU5uRE1kNlhjVEhjMGt2?=
- =?utf-8?B?NjhpVGh5c2NNYW42a0ZqMDl4UmdvSXZHc0RMZXVqSjRYcjVhaWxuQ0d3cjFm?=
- =?utf-8?B?dUNZN2xROFJtQTB4WEFVNHZpWmZGSytDN08yUWp5bThvelBiN05ubnN6SDRo?=
- =?utf-8?Q?AURTsx4ehzeRgmegxzmvMbO2/JOC3i03LHqrgXl6zPJDX?=
-X-MS-Exchange-AntiSpam-MessageData-1: iErC778wH8EqIg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54ea0768-7a5f-4ae0-e409-08deef926181
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 06:01:51.5872
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YU2SQgJuW0nQjKUqp80WGPS57gVwNbWxEWSfQMrJYXVrvycYwzI8Eddk4uK1XHBS5UTAHVHMV+OFpIQzFkD3HA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6141
+X-Received: by 2002:a05:6808:238b:b0:495:ce61:4e0c with SMTP id
+ 5614622812f47-4af5dfd106fmr9779571b6e.3.1785628833595; Sat, 01 Aug 2026
+ 17:00:33 -0700 (PDT)
+Date: Sat, 01 Aug 2026 17:00:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6e88a1.13bfb6d0.1ecdd5.0260.GAE@google.com>
+Subject: [syzbot] [mm?] [kernfs?] INFO: rcu detected stall in netlink_sendmsg (6)
+From: syzbot <syzbot+508388c85f7a82cbd79e@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri Jul 31, 2026 at 1:34 AM JST, Younes Akhouayri via B4 Relay wrote:
-> From: Younes Akhouayri <git@younes.io>
->
-> Coherent<T>::write_to_slice() calculates a zero-byte copy when the file
-> offset is beyond the allocation, but still calls
-> UserSliceWriter::write_dma(). The latter rejects offsets beyond the
-> allocation even when the copy length is zero, so a debugfs read past EOF
-> returns -ERANGE.
->
-> Return before calling write_dma() when the offset is at or beyond the
-> allocation, matching simple_read_from_buffer() EOF semantics.
->
-> Fixes: 016818513936 ("rust: dma: implement BinaryWriter for Coherent<[u8]=
->")
-> Cc: stable@vger.kernel.org
-> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library=
-/topic/.E2.9C.94.20Possible.20past-EOF.20bug.20in.20Coherent.3CT.3E.3A.3Awr=
-ite_to_slice/near/611677095
-> Signed-off-by: Younes Akhouayri <git@younes.io>
+Hello,
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+syzbot found the following issue on:
+
+HEAD commit:    9c88929cc18c Merge branch 'vxlan-fixes-for-skb-header-pull..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=12e316b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e38b15c29e6a1d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=508388c85f7a82cbd79e
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=113de499580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13c10aea580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c839a5778222/disk-9c88929c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7d9c12119e13/vmlinux-9c88929c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f0189c8f6aad/bzImage-9c88929c.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+508388c85f7a82cbd79e@syzkaller.appspotmail.com
+
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 1, t=10502 jiffies, g=15149, q=760 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10502 (4294966187-4294955685), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10502 jiffies! g15149 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:27496 pid:16    tgid:16    ppid:2      task_flags:0x208040 flags:0x00080000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x17d9/0x56c0 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7326
+ schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
+ rcu_gp_fqs_loop+0x30c/0x11f0 kernel/rcu/tree.c:2123
+ rcu_gp_kthread+0x9e/0x2b0 kernel/rcu/tree.c:2325
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 5666 Comm: syz-executor142 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+RIP: 0010:__lock_is_held kernel/locking/lockdep.c:5601 [inline]
+RIP: 0010:lock_is_held_type+0x89/0x150 kernel/locking/lockdep.c:5940
+Code: 9c 07 41 83 bd 98 0b 00 00 00 7e 48 4c 89 eb 48 81 c3 a0 0b 00 00 45 31 ff 49 83 ff 31 73 24 48 89 df 4c 89 f6 e8 f7 01 00 00 <85> c0 75 2a 49 ff c7 49 63 85 98 0b 00 00 48 83 c3 28 49 39 c7 7c
+RSP: 0018:ffffc90000007d68 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: ffff88807e8aaaf0 RCX: 0000000000010001
+RDX: ffff88807e8a9f00 RSI: ffff8880b86281d8 RDI: ffff88807e8aaaf0
+RBP: 00000000ffffffff R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff52000000fac R12: 0000000000000046
+R13: ffff88807e8a9f00 R14: ffff8880b86281d8 R15: 0000000000000002
+FS:  0000555577b834c0(0000) GS:ffff888124f50000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7bc378eef0 CR3: 0000000070652000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ lock_is_held include/linux/lockdep.h:249 [inline]
+ enqueue_hrtimer+0x79/0x2c0 kernel/time/hrtimer.c:1107
+ __run_hrtimer kernel/time/hrtimer.c:2048 [inline]
+ __hrtimer_run_queues+0x4ce/0xa10 kernel/time/hrtimer.c:2096
+ hrtimer_interrupt+0x448/0x910 kernel/time/hrtimer.c:2215
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__orc_find arch/x86/kernel/unwind_orc.c:101 [inline]
+RIP: 0010:orc_find arch/x86/kernel/unwind_orc.c:238 [inline]
+RIP: 0010:unwind_next_frame+0x4d0/0x2550 arch/x86/kernel/unwind_orc.c:510
+Code: fc ff df 4c 8b 7c 24 10 49 8d 6e 38 0f 84 8a 16 00 00 e9 ee 01 00 00 49 89 d5 49 89 d7 4c 89 e0 4c 29 f8 48 89 c1 48 c1 f9 02 <48> c1 e8 3f 48 01 c8 48 83 e0 fe 49 8d 1c 47 48 89 d8 48 c1 e8 03
+RSP: 0018:ffffc90003ace660 EFLAGS: 00000202
+RAX: 0000000000000008 RBX: ffffffff9073eec0 RCX: 0000000000000002
+RDX: ffffffff9073eeb4 RSI: ffffffff90f35a48 RDI: ffffffff8c4bdb20
+RBP: ffffffff81b1f9a8 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8eb59c60 R12: ffffffff9073eebc
+R13: ffffffff9073eeb4 R14: ffffc90003ace708 R15: ffffffff9073eeb4
+ arch_stack_walk+0x11b/0x150 arch/x86/kernel/stacktrace.c:25
+ stack_trace_save+0xa9/0x100 kernel/stacktrace.c:122
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4612 [inline]
+ slab_alloc_node mm/slub.c:4945 [inline]
+ kmem_cache_alloc_noprof+0x2a0/0x5f0 mm/slub.c:4959
+ __kernfs_new_node+0xe6/0x980 fs/kernfs/dir.c:665
+ kernfs_new_node fs/kernfs/dir.c:751 [inline]
+ kernfs_create_dir_ns+0xfe/0x230 fs/kernfs/dir.c:1120
+ sysfs_create_dir_ns+0x12f/0x2a0 fs/sysfs/dir.c:59
+ create_dir lib/kobject.c:73 [inline]
+ kobject_add_internal+0x622/0xcd0 lib/kobject.c:240
+ kobject_add_varg lib/kobject.c:374 [inline]
+ kobject_add+0x163/0x240 lib/kobject.c:426
+ device_add+0x3fa/0xb80 drivers/base/core.c:3695
+ netdev_register_kobject+0x178/0x310 net/core/net-sysfs.c:2337
+ register_netdevice+0x1433/0x1eb0 net/core/dev.c:11446
+ cfg80211_register_netdevice+0x138/0x2d0 net/wireless/core.c:1690
+ ieee80211_if_add+0x108d/0x1600 net/mac80211/iface.c:2397
+ ieee80211_register_hw+0x3e79/0x4a50 net/mac80211/main.c:1644
+ mac80211_hwsim_new_radio+0x3238/0x5680 drivers/net/wireless/virtual/mac80211_hwsim_main.c:6113
+ hwsim_new_radio_nl+0xd8b/0xf90 drivers/net/wireless/virtual/mac80211_hwsim_main.c:6904
+ genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+ genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+ genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+ netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2556
+ genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+ netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+ netlink_unicast+0x7bb/0x940 net/netlink/af_netlink.c:1345
+ netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1900
+ sock_sendmsg_nosec+0x13a/0x180 net/socket.c:775
+ __sock_sendmsg net/socket.c:790 [inline]
+ __sys_sendto+0x408/0x5a0 net/socket.c:2252
+ __do_sys_sendto net/socket.c:2259 [inline]
+ __se_sys_sendto net/socket.c:2255 [inline]
+ __x64_sys_sendto+0xde/0x100 net/socket.c:2255
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7bc370bc2e
+Code: 08 0f 85 25 ed ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 90 41 57 41 56 4d 89 c6 41 55 4d 89 cd 41 54 55 53 48 83 ec 08
+RSP: 002b:00007fffcb9d7168 EFLAGS: 00000246 ORIG_RAX: 000000000000002c
+RAX: ffffffffffffffda RBX: 0000555577b834c0 RCX: 00007f7bc370bc2e
+RDX: 0000000000000024 RSI: 00007f7bc3791990 RDI: 0000000000000003
+RBP: 0000000000000003 R08: 00007fffcb9d71e4 R09: 000000000000000c
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 0000000000000000 R14: 00007f7bc3791990 R15: 0000000000000000
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
