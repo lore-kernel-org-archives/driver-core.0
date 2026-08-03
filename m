@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5777D3290B9;
-	Mon,  3 Aug 2026 17:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D863955D8;
+	Mon,  3 Aug 2026 17:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785779759; cv=none; b=p+hxJd3T4WW494zUR2Z3L5l1EUscMMZzmQsH30GL0mop2JKh6qIv5YhKRWrQ68MCpOTxw2CT2X0gjJFDIofeX4il8n5tR7++Rhy3VIECAkyR8Vq13PDyPfPGMPpG3KLLi93XGp/KMo2TFp497pbl9pfodyydPw0dwrli29t/0H0=
+	t=1785779789; cv=none; b=JXyXxhLO5pR3IHCPOMCUwO17zrS7dny2ZTEOzxYVcCP6SXTjypl+5bkBndJc6itCl9X2+E3tdRQDCmoRXpaXAnRsFyA9ETTWd4XxmYixVgxFNE9M6+Nugv773fNgD92H/jtcN3Pbf8o7atZ1EYcOe9GN4eQisWgHD/9mYbS2erY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785779759; c=relaxed/simple;
-	bh=QNouzkrA1TqxDjWgsNxvGGlEWDueKrOGn3kgkX5muys=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=EEglcKPOc6cI7Q2us1Z1RvEbV9ZQzr6sKJrWYOlO4iO73az2HSkzdmfOUWlHCenkDJVZ7RHe0pDrrg38GEhNs9GC3u4ZKU+0u4meC04BhpZoqPZnuHtJggbNVd3tfF0sAYCcVS0XTcVpzwTlIZ5qQOm7eo4tZap4rzci9TM5wOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tnd60swh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785779789; c=relaxed/simple;
+	bh=Qvrs2oBboVMB507TatCgoFZaOC1I0y25AAlsZMSic58=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=oF7KHDHtovuT4Mjpdg07pif2/FFV4em1aY/Fw2negpsNrpEDqYGTuHQ89vOSbmcJoRzeuTziFt+e+BK7/blJABuY/426h0jbGnjMDw4gihyzWBfwLbD4PtEe2zuRiKVGogRwFFgpkCTTL/h5yi5wjp0blEp3JUWIoZM+KqzemSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fuFz+tmd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tnd60swh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A1A51F00A3A;
-	Mon,  3 Aug 2026 17:55:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fuFz+tmd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BE61F000E9;
+	Mon,  3 Aug 2026 17:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785779758;
-	bh=V183rzhhugBwg3vh8YfWq1iT/27aLeKbPvm0NIc25+Y=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To;
-	b=Tnd60swhIZLFBtpdJjnNdNWzlFvA6hx1Mhjogl5Ihx88RLTYYwPErXzNP7dWv5kFs
-	 IUlU2k7VJaditjVTRNBATsHcGM47qfd4feQ6UueXJj76fg6xY117xfqLBuozr97HoG
-	 aUO28JvN8jFbCAzNHB7DaP3tim0KpjZNWyhjZ31J2YRay08p7B+7Wuzoh+A7hdYJvW
-	 fjSy18CK4Jn9bANDkRmLHcRybw5dQflyWd+nUdO/dPtFprr9nFGbTKFAwN48kIKbZ6
-	 WjFGJ1lo0QYZ4t7lraKb7Cw7ZRfoDuI5+5ENzTmuxDDjwC2M/tKeXvtrcSZhNQhVjl
-	 W4SvcbWIRXDtQ==
+	s=k20260515; t=1785779788;
+	bh=Qvrs2oBboVMB507TatCgoFZaOC1I0y25AAlsZMSic58=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=fuFz+tmdn1gJS5SbwyUATSbpaBEq0otZ4K4VKTwmDHWnoxOwfCuemfOsEzo0u8YMj
+	 cP7X9rlSZJd5kezXZuUewSlPM0U7TIVTWyFp+vECqHmbTv4Nkg6QtrOLFfaWTMRU6I
+	 JQbefjoo+z8uRb/+uT6WpCFqGdiIdx9myxhVBm5cuU6+J8100nRlTRZU7uO4zQPriE
+	 kE42qw6IfsFzYgLIQRac2gjUzVOMy4l9gmPxkOTjm9bMz0ib33pOiV6eIdI6BuIDgT
+	 NdkW0EPvKeMD11BI4Akb+YfKhBoH2Mk7cn6Wt+Bqoja/4BevQSzlLBfcv8ggqw+BJj
+	 SDM+yzZAgWdng==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,11 +34,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 19:55:50 +0200
-Message-Id: <DKFI383UHNXW.2X3OG31P5QAJZ@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 5/9] rust: drm: add debugfs_init callback to Driver
- trait
+Date: Mon, 03 Aug 2026 19:56:21 +0200
+Message-Id: <DKFI3M4IEPIS.1Q2UYQGFIC6EO@kernel.org>
 Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
  "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
@@ -60,34 +57,21 @@ Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
  <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
  <dri-devel@lists.freedesktop.org>
 To: "Alvin Sun" <alvin.sun@linux.dev>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 6/9] rust: drm: add DrmSeqShow seq_file adapter
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
- <20260731-tyr-debugfs-v2-v2-5-aea19eccb996@linux.dev>
-In-Reply-To: <20260731-tyr-debugfs-v2-v2-5-aea19eccb996@linux.dev>
+ <20260731-tyr-debugfs-v2-v2-6-aea19eccb996@linux.dev>
+In-Reply-To: <20260731-tyr-debugfs-v2-v2-6-aea19eccb996@linux.dev>
 
 On Thu Jul 30, 2026 at 7:05 PM CEST, Alvin Sun wrote:
-> +    /// Populates debugfs for this DRM device.
-> +    ///
-> +    /// Called by the DRM core during registration, once per minor (call=
-back
-> +    /// runs after `dev->registered`).
-> +    fn debugfs_init<'a>(_dev: &'a drm::Device<Self, drm::Normal>, _dir: =
-&ScopedDir<'a, 'static>)
-> +    where
-> +        Self: Sized,
-> +    {
-> +    }
->  }
+> Add DrmSeqShow trait and its SeqShow blanket impl for Device<T, Normal>,
+> enabling Rust DRM drivers to expose device state via debugfs seq_file
+> entries. Device registration data is kept alive for the duration of
+> each seq_file read.
+>
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 
-This could just be
-
-	fn debugfs_init(dir: &debugfs::ScopeRef<'_, Self::RegistrationData<'_>>)
-
-as it is only needed to populate files / directories for exposing things in
-RegistrationData.
-
-Subsequent debugfs::Scopes can be registered from drm::File<'_>::open() and
-IOCTLs (I also work on introducing HRT private data for IOCTLs; semanticall=
-y
-equivalent to a Vec in DriverFile<'_> or RegistrationData<'_>, but managed =
-by
-the subsystem).
+This patch shouldn't be needed with the ScopeRef approach. The full proxy
+already guarantees show() can't run after debugfs_remove_recursive(). So, t=
+he
+driver can just implement plain debugfs::SeqShow<RegistrationData<'_>>.
