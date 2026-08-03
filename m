@@ -1,127 +1,138 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F443AB26D
-	for <driver-core@lists.linux.dev>; Mon,  3 Aug 2026 19:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5729A37F33E;
+	Mon,  3 Aug 2026 20:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785787036; cv=none; b=cYhtzy1x2S6iFdw7jpnpzKGvfZAX+ZWoBcALAaiazUpO7GaNZ50fwzfNtlcZ4FpqiiONP/QLf2i9jckcN+ot/Y5q+KtNYhPy8ED0rAndcmope9lYxCD0zke1pAzeD5occ+4FV3m+PvdGJHEI8THL7F/0W10TFwHkIpo9hoYtH5s=
+	t=1785787397; cv=none; b=eSzMb7xaXizPXwTpZtt26y+DacDsE9bUq3rsm8gq05Vpt5rAxTxK/w95nTGZfubCOKD/kFXmnY1Y+akumxj3Emneudd1GrIaZ8/W2zL3wHCOu1Q+Ct38RlkAA7tB7/TF9/7L3FD6LdtYpOBy+w6WPbGMepeAIWW7OkhKMf1n5eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785787036; c=relaxed/simple;
-	bh=fCRsNkCEqwHoPRilNKFXevRP0xgvCmY+zGu4aEXK1PY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=vA4gE7nuYpCAqWHMWdFehJ6Um2Kw3o6dJRta1VghOpWxxpKKB5Rx6k8E2KhZ2CrjCo1i5gMIdP49x9N9QXOZ2mVaQsPyQrc4TY6oAlPX7Fzl6Jg3sXZttz27Ag1Z/Zr0WOEt3O4ZlVVwiE2c0m+CeffgAseQyK3qcBx724IPmfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FMSqh3F7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HUim8J+K; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1785787397; c=relaxed/simple;
+	bh=hnUZid0Vr3BLORALHN8t97HYwN2VnvcYMq6ugErPJY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fe7kuQc/M/kw7XV+/q3gA68IRpKdHi+hlweFaP89ruLRJoEwCjC6aSf1SxRVLRVHypKa9jT1jo2BxpMfi+MOL6CpC2RHCensDAA0Z6kWZuVlnc29IEyH+Twv2g14m7Z1IVGyHp/TngWNgm9LdDpLckGe0QLUTP8v1JGd8oxf2bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQkj8PLH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FMSqh3F7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HUim8J+K"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1519A7A00E2;
-	Mon,  3 Aug 2026 15:57:10 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Mon, 03 Aug 2026 15:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1785787030;
-	 x=1785873430; bh=mY/6rvzP69RzWZiS8I+ni2XMqznB7lR2WoXu0t0T/WM=; b=
-	FMSqh3F7xWocGy8NDNvDYJrEAHyZOUhYRSzY5NB1iSEexYFvylBCWGNBXO1rzx7F
-	o9KgjFrpONh/qd3ynw7yOzdlv1OFIETRsOBaQ00hbdiQ4HAbMyhTzzeWeHo5yyUE
-	e3IJOQ6456SVmIUKHKaP/WMr84zU3bjLNiqPH01F6XSmtUd7j9rWaPPGI16Hyv7d
-	fbjGUOXg88DcPWTvvh1DHgTmxGZ5IKaK7XIda76boMTdpaOyOe9U4/4W0tiMxX6E
-	VNs4L6iZVHVGFM7kxUgPq2BGVd3+HIBhD2XSv49qleGQ00/x0E3eQBikjQta39oN
-	X95YePgmmGNkH1GoGg+g5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1785787030; x=
-	1785873430; bh=mY/6rvzP69RzWZiS8I+ni2XMqznB7lR2WoXu0t0T/WM=; b=H
-	Uim8J+KgTVTLi2hsoy7OofZI5xG78XjE2kmv/6md7QkzEjT9s/xGL2w5IK5UudaJ
-	g90C8CyONmUbq6vQjwvncjW+xJcPsqxtbNoLYn2XLfOrR6iqXOOeH3Bc3BmAEJZp
-	v46XNbzsKWEBLrCVCN/9ue/WdAQc6Lf7eZ2UzEe9N9PUtDLm0F9IRP/m3nLYDtmH
-	m5Ez5prAT/Fq6/OUhskID7ChbxCsJH3rF0zJsQjBOH/XfViV76S3wuiutTCt3fJF
-	FBIWqsyxB85gz2lPh8PsMLwrT1Y+yduMkBqaWX2ux2lPnA8igyvlBZJAcZ4lw2FU
-	+i9Gi3r8hA1vzNqv2loUA==
-X-ME-Sender: <xms:jvJwapNw7YUa1NYb3IPz6czPdiGiEp2bWwXlLadhDO-KqE6mdoEGjw>
-    <xme:jvJwamzUT3YTFNCmjfzGzhe5mkHOvU3aEiRV0qyEFG4Wmz0noo_A6cIHMX-X9gbiZ
-    jVMGVPCBzFf-7YRhBSg24rVNHgBE43NnZo8P6AfS646Bg6ZlPQ6ANSQ>
-X-ME-Proxy-Cause: dmFkZTELVz7Dq0P2Ik40Hp2ZlPiBrx6xzy06ctQJZXTMC4c9UE+/TE+8G8kgQvf4TgoyFH
-    sOrv0hg/GzbQXM1zowmstQ6IH0RXgDtIHNYUmdezXf7fZA2KY1yQEqL1lScWuBLCRgN3/l
-    nLZIqAOqH5+PEvwR9ZqfEhI202LyT9rqA6HSYvW8hFHpW7z1X1O2HHvcVEeefUTLgghUkH
-    9o+bLULGn3TGR2Fkf3VDGeOvaUavNnZ0tNS0G3yVHqwtV7g3f0U/Rc6yqsu4gvEq4jinin
-    aSvxWRl20dqqWMMsZbZvhbV0Iv87VQg8fIK+0D3P8rK4+UE05pHh3ZN5ForWbl8B3X6bEI
-    cfyFtZjuFQXP3k2wsqOdX1HxP2ps550rQpUkxt5cU+P+eRIzij9BwIJTCueSH8PupHhW+Z
-    uiEm4OM8r7w9gDrGqHw+L824Eu+v1COImDaEtVZ4RpSeukP8IUMLJgn856LBrncNUiNxgb
-    eYjCffzwCRb9CL79ChUZY0POWUWyTONNv38SVj3dxt/wWfnNpTzlLFhTZMMC0EQ6xOc3Ab
-    x9jK/L66U8xL9dTZ2ImJO1zYYGyGGULpWlwwr024YqBQZjmT8u/txUe/C0NLvjPlt8nbAG
-    Dh0qCpJGgKnidqiikMablEXB9ORNv2gs0E2XG/xM8A5k6zbwSqyBdW5jjj8A
-X-ME-Proxy: <xmx:kvJwatkgMBy9ffuDy0Ywbore37u-zese6Z6BV2w0SO0tAFd1JLJupw>
-    <xmx:kvJwasw5N4LIUpBvW-Uh_T0Y1-HZuGtsEIe9oD2s12DYqYlveDNOkw>
-    <xmx:kvJwasIjPohHY7QUsEC-NPqD9mmDV9LznBiugmBtvyOUx_kcsgi7Iw>
-    <xmx:kvJwanKWSXv5L7gWn4eBe25STB3rI5BxM9dP7nr9L6PN1jJR3aftsg>
-    <xmx:lvJwanYVd8qxuTOA3k1cGXq6LGl1kqodb2mwZCxgyKvH7UYnQjI3NNLR>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id D7B7132A0064; Mon,  3 Aug 2026 15:57:02 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQkj8PLH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F20F71F000E9;
+	Mon,  3 Aug 2026 20:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785787396;
+	bh=mkc4P8QSReij9BeFSaxSDrGdtSC+IpbDs0fk7mO7Awo=;
+	h=From:To:Cc:Subject:Date;
+	b=IQkj8PLHpazd7tZHNWbySYHLsUKsKVnde0Dv6wQkIFIXSpL6iZ11iSv2Y0+wQj9Iv
+	 YuxLd4CXAVlDx+G20M1PEnO4naSIrRq3ilFcK+iiO6UK7ZR/7k9Z5sISttRN6CywGp
+	 wxLurRpLBeJqYiWACLAD4WxWx9DfCyiC5FoEgHborNVTtgrbAM2iDTK/QX5UuBRHvf
+	 6Lg+KGtcj9SjMoPrDIn6ZEuJEopBdaWhfan40da6uUMYV7mTI+DJU4ccdEqRjxQfm0
+	 r0cgLQmgNcDtpI2RtBn+hpeqapHs722GUqRgouHBuarBBAvfwxq56nz0+57jOxiPrq
+	 6KCFUZsqowtww==
+From: Danilo Krummrich <dakr@kernel.org>
+To: dakr@kernel.org,
+	aliceryhl@google.com,
+	daniel.almeida@collabora.com,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev
+Cc: driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] rust: io: gate ioremap/iounmap on CONFIG_HAS_IOMEM
+Date: Mon,  3 Aug 2026 22:02:36 +0200
+Message-ID: <20260803200249.3494259-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Ag8nwV6tN_57
-Date: Mon, 03 Aug 2026 21:56:42 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Miguel Ojeda" <ojeda@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Heiko Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>
-Cc: driver-core@lists.linux.dev,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Sven Schnelle" <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <lossin@kernel.org>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Trevor Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- rust-for-linux@vger.kernel.org
-Message-Id: <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
-In-Reply-To: <20260803180931.97202-1-ojeda@kernel.org>
-References: <20260803180931.97202-1-ojeda@kernel.org>
-Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 3, 2026, at 20:09, Miguel Ojeda wrote:
->
-> so e.g. an `allnoconfig` with Rust fails.
->
-> I assume we will need to `#ifdef` the helpers, plus the users; or stub
-> at some layer to avoid changing callers.
->
-> I hope that helps & thanks!
+s390 does not provide ioremap()/iounmap() when CONFIG_HAS_IOMEM is not
+set (which requires CONFIG_PCI on that architecture). This causes a
+build failure with Rust enabled on e.g. s390 allnoconfig:
 
-I think in practice you'll find that all sensible configurations
-will have PCI enabled since that was introduced in the 2012
-generation (zEC12), while the oldest supported machines in
-the kernel these days are from 2008 (z10) and Red Hat Enterprise
-Linux already needs a z14 from 2017.
+	In file included from rust/helpers/helpers.c:68:
+	rust/helpers/io.c:8:9: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations
+	      [-Wimplicit-function-declaration]
+	    8 |         return ioremap(offset, size);
+	      |                ^
+	rust/helpers/io.c:19:2: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations
+	      [-Wimplicit-function-declaration]
+	   19 |         iounmap(addr);
 
-In theory you should be able to use rust code without PCI MMIO
-support, but I can't see any practical downsides to making rust
-'depends on HAS_MMIO' to avoid having to add those #ifdef.
+Guard the C helpers behind #ifdef CONFIG_HAS_IOMEM and provide a
+cfg-gated stub in IoMem::ioremap() that returns -EINVAL when IOMEM is
+unavailable, mirroring the C pattern used by
+devm_platform_ioremap_resource() and friends.
 
-Note that we already have 'config COMPILE_TEST depends on HAS_MMIO'
-to work around similar problems with random drivers expecting
-MMIO support.
+Reported-by: Miguel Ojeda <ojeda@kernel.org>
+Closes: https://lore.kernel.org/all/20260803180931.97202-1-ojeda@kernel.org
+Fixes: 3f70ebe63858 ("s390: Enable Rust support")
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+ rust/helpers/io.c     |  2 ++
+ rust/kernel/io/mem.rs | 11 ++++++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-      Arnd
+diff --git a/rust/helpers/io.c b/rust/helpers/io.c
+index 397810864a24..1edbc274951c 100644
+--- a/rust/helpers/io.c
++++ b/rust/helpers/io.c
+@@ -3,6 +3,7 @@
+ #include <linux/io.h>
+ #include <linux/ioport.h>
+ 
++#ifdef CONFIG_HAS_IOMEM
+ __rust_helper void __iomem *rust_helper_ioremap(phys_addr_t offset, size_t size)
+ {
+ 	return ioremap(offset, size);
+@@ -18,6 +19,7 @@ __rust_helper void rust_helper_iounmap(void __iomem *addr)
+ {
+ 	iounmap(addr);
+ }
++#endif /* CONFIG_HAS_IOMEM */
+ 
+ __rust_helper u8 rust_helper_readb(const void __iomem *addr)
+ {
+diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
+index fc2a3e24f8d5..3f596bc4fb26 100644
+--- a/rust/kernel/io/mem.rs
++++ b/rust/kernel/io/mem.rs
+@@ -233,6 +233,12 @@ pub struct IoMem<'a, const SIZE: usize = 0> {
+ }
+ 
+ impl<'a, const SIZE: usize> IoMem<'a, SIZE> {
++    #[cfg(not(CONFIG_HAS_IOMEM))]
++    fn ioremap(_dev: &'a Device<Bound>, _resource: &Resource) -> Result<Self> {
++        Err(EINVAL)
++    }
++
++    #[cfg(CONFIG_HAS_IOMEM)]
+     fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
+         // Note: Some ioremap() implementations use types that depend on the CPU
+         // word width rather than the bus address width.
+@@ -286,8 +292,11 @@ pub fn into_devres(self) -> Result<Devres<IoMem<'static, SIZE>>> {
+ 
+ impl<const SIZE: usize> Drop for IoMem<'_, SIZE> {
+     fn drop(&mut self) {
++        #[cfg(CONFIG_HAS_IOMEM)]
+         // SAFETY: Safe as by the invariant of `Io`.
+-        unsafe { bindings::iounmap(self.io.addr() as *mut c_void) }
++        unsafe {
++            bindings::iounmap(self.io.addr() as *mut c_void)
++        }
+     }
+ }
+ 
+
+base-commit: 667d0fb32149f023b8b34a1f6f3d384556eafb5a
+-- 
+2.55.0
+
