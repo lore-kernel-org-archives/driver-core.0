@@ -1,75 +1,49 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE1A2E5B2D
-	for <driver-core@lists.linux.dev>; Mon,  3 Aug 2026 01:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CD9395AF0
+	for <driver-core@lists.linux.dev>; Mon,  3 Aug 2026 06:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785720589; cv=none; b=AQ5MbzBnz61D8m/L3omod0CfMmunyvT+Iaxb8xmNMO3CFBsF2RusION2BLt20sqHrBDcl9eywmb7UxCrLHwe/H8DS2d50UmibW98Z9/s8bcHkt8pxgWXkQfM1FNBYRGGeOjmsFR+Et2Rvxv3ee3a/8cnPW+5nruQa5lWyUx+Gwc=
+	t=1785737410; cv=none; b=WnGrMgz9dU4ehnDaylaKy32+PNK+JBtDJqFgMXBgBBqscj8dt0Y2hifAtXMBNlWLZbY7VZLroR6IsHbP9ZXoYBntnxxkd9wGyw5Z9WuikbePpQohauoa+4BfDGA/IpaGXijq5dkmZwHI2twlASvdvVos3sFabi08EW3RcZ3Hz/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785720589; c=relaxed/simple;
-	bh=AQqIFM0cEHWxdl6CexxZcDc//Jjz6VvOODplzoWGuC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bflsVVLYD7TnW0RUzbwdaqGdG4Cz9YUpKBjdCeqGmpmJ2dHdDnOWSD5G5UyvC5/GthYAtpO46wDT6bGguCOX+1cnEK4f6sOsPWnxue63kyvm7o7hJydET9iqVp1XqAdf0n9+k9ub/cMGa903X/bC/6jMLom0QHV9Iksiqe+r9qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBOpsLJ4; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785737410; c=relaxed/simple;
+	bh=PksTe+mkl8O3Fni5znT5YOUbPAmyGwXQp0crzJew/Fk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ulj6O+AzNRCbQ+7q6MgYDntjoTjMFyBESjQzeUKnplOZM6siaxTP90oO0KmxOt7QNdD52rW1yPOfPyRXjskKNkTl2RT3SgeJQfYs0VJ0XdO4dEZ3b9WW6wFaeizCJMRqaqwf8lCosCAHlsjfZV9ZRbp5U5L4tIXSLCaxXfsXqak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=OA0CcwtA; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBOpsLJ4"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e67555e24so130703585a.3
-        for <driver-core@lists.linux.dev>; Sun, 02 Aug 2026 18:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785720586; x=1786325386; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U9TUfArfjzEKocxGG4TRFcc88SBwNw8ueUXsGddr+Ag=;
-        b=CBOpsLJ46EydGfWHJwZqVub1ky33eDlYCIqUhC+bp3GCR2pIfuQnl4rUIsGgheQTQI
-         3Cla+aJPqHpqHw1kuA3JAVOXVGGQ09L5PdbkFYBWvKaB9luPxqbc4dMxeXRNPjoyNml4
-         lejek40+EmF6tUlVTLvY4MzN3xC5m+d+iaNBceuL1fzHy549Q5KW3EkOZXQANY5fhy3Z
-         hmsO8U8HLgASJtHGZVxBrxdr7nBfXrS2aKbQeFT1wiEv3LJEmrIFSbXgLjxpyQrMsVwV
-         OQC7l4vljejdZqfVEDdV4B8jQcUk0onlAKhspdBwkLr24bUQN+gvIxIevzYy/XJ23RKJ
-         0ymA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785720586; x=1786325386;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=U9TUfArfjzEKocxGG4TRFcc88SBwNw8ueUXsGddr+Ag=;
-        b=fDgrgb7CgFpPzEoTQdZndf0RgUVSzaUWCbPzuSTfAhmBVC0vyCm+VNtv53rPcoVyei
-         sTi1mF3Zx4gK2PPEgqxN2Zq2HHPEUYWTDIcu0l1lJSt9NTTxZGvx//7jkfPC5emJoJdW
-         9m/mpF/QjHwzade7FgtFjQ5b9hx+hsum2Ja1ejItTACu/IBjSaxnPDnLD2wuZGwrnVCT
-         HJp+EGOcFDFiKXdnNX0+UkGpG4zxbgNAmTKE2E8ahnY+SFJhfVL2b2sj/i+uoGUSUSNq
-         Br1SWcW/Lj2OCQCavx259m7ibNRzw3zh/ravRC5cyynQZ5gRvrpx71ZTNJvAvjD8oIga
-         WLFQ==
-X-Gm-Message-State: AOJu0Yx48PzEKhNYoPl/MEB8bSiGwVQIucKX7Eof3PcVZ3hTRIN+63B9
-	Kj1YZaLhPRh8/rzVApsc3l+FsngTu0KUbYbdxa5fffb1/yVf11sJGLVa
-X-Gm-Gg: AR+sD13Sikyhna4PqAu5peGbE/LsCAxBUlbSXqlVsF3m+cXI9i6bsm+CZsrI+jz4eDa
-	CCi1CjpBuXrV/5BP5/25HZl/jAb0kMqzFPbGzj6O3idg/QbLMNiCPNCTjzdGEmSDP684jad367g
-	KY9VNtcy/J99paPLH9RWzrb68Sp9QuHQMqarw5dNBGktOO5gWbjHHKTBTgD+GFZwLGICENHtVqS
-	JKSmxbYJH66wTSramXnDycsvvWzuxmtuzwRq76C2wZBpxY2x16Eio1ElyJXJ12vd3lcnBY58Bgq
-	DobvKiMrl/H6p4e7MWNExiN7SpujdSyZgE3VwgpvqKmTbz2j/6Jz5MicqTFjM1UJSISyxaafvdD
-	5LQIcytO2EnRnaFMMDAJcSxqOwv1AZ8f9jNUneRKsM0INX32pOlody69BO093WULuushlyVNv+d
-	JmsFz3uKzEyJ6qNsM7VMzRcsWdASyMO+ww712kWiMYUQeERxSDT+4F4LA7AFXQjpK1vg9tMo4e3
-	WD8o+DU1Ggod7op0y8EBFn+a+RTyk0EKwKijMUxlVENuXH+Z27XuhgkgbdJiGQ=
-X-Received: by 2002:a05:620a:1a15:b0:92e:57ae:3a53 with SMTP id af79cd13be357-934a06c37abmr1603649885a.9.1785720586525;
-        Sun, 02 Aug 2026 18:29:46 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9349c1c1d0esm557031585a.33.2026.08.02.18.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 18:29:45 -0700 (PDT)
-From: Yuho Choi <dbgh9129@gmail.com>
-To: mcgrof@kernel.org,
-	russ.weight@linux.dev,
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="OA0CcwtA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1785737383;
+	bh=4Fqd1GdYAOkTa853XOfR3ElF3P6LlAjIZuYduEwMeuM=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=OA0CcwtAbbpr/ESqZY3ejMCsWycMFxaPa2Pnzuf6thubxf3tSGcqToKPUjyhz/PKq
+	 PSlOW12IfgZ7TiX38LQbYcpzJmW5Am7p10UQ1fRRRTRjKf2BjwtizZSbP6t4L9ib5x
+	 7STrXjFIarg2uU84OM8HOINEY75Dgr6wIDc07TI0=
+X-QQ-mid: zesmtpgz1t1785737365t5fe95845
+X-QQ-Originating-IP: ekupQAR/1wxEnRDUlfp26dZXzPJy3froRRogqhwERR4=
+Received: from uniontech.com ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 03 Aug 2026 14:09:23 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 80412947165124751
+EX-QQ-RecipientCnt: 8
+From: Yichong Chen <chenyichong@uniontech.com>
+To: gregkh@linuxfoundation.org
+Cc: rafael@kernel.org,
 	dakr@kernel.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	nixiaoming@huawei.com
-Cc: driver-core@lists.linux.dev,
+	djakov@kernel.org,
+	quic_mdtipton@quicinc.com,
+	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Yuho Choi <dbgh9129@gmail.com>
-Subject: [PATCH v1] firmware_loader: Unwind initialization on sysfs failure
-Date: Sun,  2 Aug 2026 21:29:41 -0400
-Message-ID: <20260803012941.610268-1-dbgh9129@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Yichong Chen <chenyichong@uniontech.com>
+Subject: [PATCH] debugfs: serialize debugfs_create_str() writers
+Date: Mon,  3 Aug 2026 14:09:20 +0800
+Message-Id: <20260803060920.812228-1-chenyichong@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -77,62 +51,113 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NQvpx3reNVf35hjcTnjtlfDXiP7rsj2K5mH2E02+4G+nmfRPOBSFKz/v
+	xOXIXnERpgvKLNJnWaTdEpEfJ4i/g8tWVe2XY8seDufKk29G1ra9Kb0+Ml4QOzx7OkYFs0s
+	ICvCgxDVp30WDnSleO6PGLH4ZUhiyy4EEvRVoBIKNwOdVBK4LAjoROpndjFV3wqszDggS0B
+	2sWgtFy2GTJuknhpDNJuHhrhkVE8bO5bkpAqQwKQOV5Cc7syIhx229o12rkCpz2xbdNz8YH
+	6FfFQaUJJbNto2P+1aAbIoH7s1xUaAH8el9Opot84vUVhdWb7Jr/gmwQS1AvDj2zzfpTQVT
+	HfXBfDY4whvxa9b2baLLsghd+Ong2XGGFQA5H7iX/OFCctC5sHU7Q/GdYgBOOD/qKh3dPSV
+	EBqlxfD0o4z3FNopn7NVgHP1kNFkZPyJlXjpDUu5UQZqy61mJYx+MEXBJP3Vh7QsT9frcCY
+	Fa4jEiJBBsNr92jf//DurfxLMDBAzTcEz8La3LaxD24wcPVXhazh1pn8f0fE+26Pd9hwqh2
+	oytQst+vPLcRr2Qhn20+lByEVpa/LrGVwWjPCwNN9CXunaIRt74rOik0aqitkH2U7AcGQEW
+	krh3QAP4qKoFJbSsZDH4fACr4Iq4kFanEV3dOZo6Y9IC62FPEk7zkAUBe71QIpQpwbnZWTb
+	TkIKH+q+XXfM8V6sX7SFNLN4NKKX6sPMHq2UCIE1k0n+Bpz2kBZt+rloMJ7/vr+4VziZteX
+	jt9surfq2GXjQ5TY1w+u66Qy6/B7YwTC120ipqovGE7OPDC1fWulnYTvimn4i9/c5KZiGlL
+	QFXeHJXCcxZAdYqbIDfBiZt7kS0as9nXilQlEpUJCKuwziX0H9qNVqSMUo4SjVt9I7f1mS+
+	89I6tbMqyDyMZ8rBV4ZNRDiE4DutnRT4qDydyI0mGISFQNA7kZiX5tYZRjgO4DU/8O2J61+
+	63xuArjCtqtLfqh9ZV/7iFF6t+B0Z5XNbCveZhyI6WC5fDLcBpVp6fnk32VeAsXKDjb6YBn
+	eBqqojNq0CpF4ZDqnl
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-RECHKSPAM: 0
 
-firmware_class_init() leaves the firmware PM operations and reboot
-notifier registered when register_sysfs_loader() fails. In addition, the
-sysfs loader can leave the firmware class registered if its sysctl setup
-fails.
+debugfs_write_file_str() replaces the string pointer backing a
+debugfs_create_str() file and frees the old string after
+synchronize_rcu().
 
-Unwind the reboot notifier and firmware PM operations when sysfs loader
-registration fails. Make register_sysfs_loader() transactional by
-unregistering the firmware class if its sysctl registration fails.
+Concurrent writers can observe the same old pointer before either
+replacement is published. They can then both replace the pointer and
+both free the same old string, which KASAN reports as a double-free.
 
-Fixes: 6bb9cf3aa3ed ("firmware: provide helpers for registering the syfs loader")
-Fixes: 6aad36d421d8 ("firmware_loader: move firmware sysctl to its own files")
-Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+Serialize writers with a mutex so only one writer can replace and free
+the old string at a time. Also make readers use rcu_read_lock() and
+rcu_dereference(), matching the existing RCU grace period before the old
+string is freed.
+
+Fixes: 86b5488121db ("debugfs: Add write support to debugfs_create_str()")
+Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 ---
- drivers/base/firmware_loader/main.c  | 8 +++++++-
- drivers/base/firmware_loader/sysfs.c | 7 ++++++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ fs/debugfs/file.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
-index 24213a0ea831..c2f7825dfc4a 100644
---- a/drivers/base/firmware_loader/main.c
-+++ b/drivers/base/firmware_loader/main.c
-@@ -1727,8 +1727,14 @@ static int __init firmware_class_init(void)
- 	if (ret)
- 		goto out;
- 
--	return register_sysfs_loader();
-+	ret = register_sysfs_loader();
-+	if (ret)
-+		goto out_reboot;
-+
-+	return 0;
- 
-+out_reboot:
-+	unregister_reboot_notifier(&fw_shutdown_nb);
- out:
- 	unregister_fw_pm_ops();
- 	return ret;
-diff --git a/drivers/base/firmware_loader/sysfs.c b/drivers/base/firmware_loader/sysfs.c
-index 29a10d2ad537..d9deb0804f55 100644
---- a/drivers/base/firmware_loader/sysfs.c
-+++ b/drivers/base/firmware_loader/sysfs.c
-@@ -117,7 +117,12 @@ int register_sysfs_loader(void)
- 
- 	if (ret != 0)
- 		return ret;
--	return register_firmware_config_sysctl();
-+
-+	ret = register_firmware_config_sysctl();
-+	if (ret)
-+		class_unregister(&firmware_class);
-+
-+	return ret;
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index 08de6652a4f3..566f9ce976b0 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -18,6 +18,7 @@
+ #include <linux/slab.h>
+ #include <linux/atomic.h>
+ #include <linux/device.h>
++#include <linux/mutex.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/poll.h>
+ #include <linux/security.h>
+@@ -1014,6 +1015,8 @@ void debugfs_create_bool(const char *name, umode_t mode, struct dentry *parent,
  }
+ EXPORT_SYMBOL_GPL(debugfs_create_bool);
  
- void unregister_sysfs_loader(void)
++static DEFINE_MUTEX(debugfs_str_write_mutex);
++
+ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
+ 			      size_t count, loff_t *ppos)
+ {
+@@ -1026,15 +1029,18 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
+ 	if (unlikely(ret))
+ 		return ret;
+ 
+-	str = *(char **)file->private_data;
++	rcu_read_lock();
++	str = rcu_dereference(*(char __rcu **)file->private_data);
+ 	len = strlen(str) + 1;
+-	copy = kmalloc(len, GFP_KERNEL);
++	copy = kmalloc(len, GFP_ATOMIC);
+ 	if (!copy) {
++		rcu_read_unlock();
+ 		debugfs_file_put(dentry);
+ 		return -ENOMEM;
+ 	}
+ 
+ 	copy_len = strscpy(copy, str, len);
++	rcu_read_unlock();
+ 	debugfs_file_put(dentry);
+ 	if (copy_len < 0) {
+ 		kfree(copy);
+@@ -1061,7 +1067,9 @@ static ssize_t debugfs_write_file_str(struct file *file, const char __user *user
+ 	if (unlikely(r))
+ 		return r;
+ 
+-	old = *(char **)file->private_data;
++	mutex_lock(&debugfs_str_write_mutex);
++	old = rcu_dereference_protected(*(char __rcu **)file->private_data,
++					lockdep_is_held(&debugfs_str_write_mutex));
+ 
+ 	/* only allow strict concatenation */
+ 	r = -EINVAL;
+@@ -1091,11 +1099,13 @@ static ssize_t debugfs_write_file_str(struct file *file, const char __user *user
+ 	synchronize_rcu();
+ 	kfree(old);
+ 
++	mutex_unlock(&debugfs_str_write_mutex);
+ 	debugfs_file_put(dentry);
+ 	return count;
+ 
+ error:
+ 	kfree(new);
++	mutex_unlock(&debugfs_str_write_mutex);
+ 	debugfs_file_put(dentry);
+ 	return r;
+ }
 -- 
-2.43.0
+2.51.0
 
