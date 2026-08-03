@@ -1,75 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294840F732;
-	Mon,  3 Aug 2026 20:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D80442EEA3;
+	Mon,  3 Aug 2026 20:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785787755; cv=none; b=fyKn9S7AsOnUYIomheYg7ivL0slu74hs9llzqi9HxHggUo1OMoqE0LCvizfGFhl+PsrXKzz1/6qlNfOnYX0dKMHrTvg8HEzii6Ds8PmHubznwMu7hLHR6PliT1q57e/p6kknTw8h1y66F0mxLVR4j2T7Dt7EJWn9OiDgYhMvLpE=
+	t=1785789988; cv=none; b=X3cA2sf5uE7WbKPCn9zlNbayAb47bSxgZRGNBeY44ilXkrHtcWQD+hiW0FWEDMHBRSnmvpZP5hKLIkxYpswfI7uCUpM2BZ3kQMX6jq6FWJBEJz7u45kY+grz1/ckXVKIUhsP0TwIZDA/lmZIDEPzTskd0AY8K7SZNRiu5RP0Xpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785787755; c=relaxed/simple;
-	bh=6NbWN1XHjF1fj9AFwj/Mx9k9fsq6Ll+iCjCiEH37BuQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=p+EyDjgNA6pS/J/6Hn5d6kyKZvpH6OIXeA8eV5TALHM2M3cOf9f10Wwd/W5s4XNXNOq7R/pPl9a0B+XrP6BTKLqsBwKVAe5mDtbw1109gpp/yGzV74eEakmrqh4779NpQLpTZeYvRxAyMFug/naPdgApjRRkMDXTwwyQMS3a7qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/Em5m71; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785789988; c=relaxed/simple;
+	bh=EAGKuy1pjQKvYeth3/E76zgSjPP3DfHLJfU3fM2bmyc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EwsvuY3mdxB2u9ztsd9PEdU4QAmZcB9Q/1i1bB75TCbO1SXa+3Uiy/cgt/VOsfX1Hw+ZUu54JTrTj2OVdAGFr4/sXK33JI1vrTUNzYciYQ1Mb2Dh2d0Cu2t3LJZmbrwJXLNb8FrE8hAv8WxgU4X+t1P1/fBAIfWPSqe3ufIk69c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HLIrXYCi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/Em5m71"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90731F00A3A;
-	Mon,  3 Aug 2026 20:09:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HLIrXYCi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70EC51F000E9;
+	Mon,  3 Aug 2026 20:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785787753;
-	bh=6NbWN1XHjF1fj9AFwj/Mx9k9fsq6Ll+iCjCiEH37BuQ=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=C/Em5m71NvwzWRGJ3FSJWVoI7YxUU+jCWSuSebR/QXetyubxXJT7svGlOe3j+hhpb
-	 4MlE+gtSCSGC7eqTMeFM5VSiLmN8GK8ZJ10RphgA6libibRBvisF76UB8vti8IIODI
-	 aHEH1dcL1gC5Jw8XsdxFo1nKF5DeaiOT4dgw7CyBO6WBXr3EB5K86H2nFnCgbWKeNt
-	 JfK3Gm0JIYae9pVdClGqRt3om0aDemAJUobxYlyDViQEhrbWUY5BEzM4dO3pKWyWjB
-	 87Ol3XbUcUdjyke1XhTT8rZZc/Z23+80GRm7RG+Q8JIQdkJgKqI6m3nHMnR2E5JpD1
-	 ceP6+WSH6Sngw==
+	s=k20260515; t=1785789986;
+	bh=CKukr0kKtwGlYBu1PNlJeaKZSMwsaeEvONoBJmI2Ijs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=HLIrXYCidf5yZItQJ7euKmQldxLQCaXhOLLk7+CqYVwi1Yk5S5RH9J2C3YA2PLMUt
+	 bSPkfUEm5gPFbkguhIFVPIu9XZCmm7FgK2ktiuDnu0xOxMJXp0yHuB4d1fbVJk3JNB
+	 xeASrv82DkF5BK8tcWVFhhVeCAgpDBPNHQm39c7kcJ4A0bQs0FETb32ojwjyh8P0lO
+	 IWHCRw9xiOobhkmWXvCBveItkzH++Fc4n2ytv58jN3AarfZTFZ7Il5tgYuEkwrSI96
+	 xqm80uo3hD4JZTN9Xj3LIQhylOJeblmZjTvJk6ogpHbSMTAVFR7FpYrYyxDvIGJHT9
+	 Gw0ke0VgmqAXA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/3] rust: io: register: a few fixups
+Date: Mon,  3 Aug 2026 22:46:19 +0200
+Message-ID: <20260803204619.3606521-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260724-registers_fix-v2-0-a0fb58b02185@nvidia.com>
+References: <20260724-registers_fix-v2-0-a0fb58b02185@nvidia.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 22:09:08 +0200
-Message-Id: <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org>
-Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Heiko Carstens"
- <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, <driver-core@lists.linux.dev>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Sven Schnelle"
- <svens@linux.ibm.com>, <linux-s390@vger.kernel.org>, "Linux-Arch"
- <linux-arch@vger.kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Tamir Duberstein" <tamird@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <rust-for-linux@vger.kernel.org>
-To: "Arnd Bergmann" <arnd@arndb.de>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260803180931.97202-1-ojeda@kernel.org>
- <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
-In-Reply-To: <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon Aug 3, 2026 at 9:56 PM CEST, Arnd Bergmann wrote:
-> In theory you should be able to use rust code without PCI MMIO
-> support, but I can't see any practical downsides to making rust
-> 'depends on HAS_MMIO' to avoid having to add those #ifdef.
+On Fri, 24 Jul 2026 20:37:03 +0900, Alexandre Courbot wrote:
+> [PATCH v2 0/3] rust: io: register: a few fixups
 
-I think the implications should be minor without making Rust depend on
-CONFIG_HAS_IOMEM.
+Applied, thanks!
 
-I just sent out a fix [1]; the only annoying part is [2], but we should cha=
-nge
-those doc-tests anyway. For the one in rust/kernel/io.rs we already did in
-driver-core-next.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-[1] https://lore.kernel.org/driver-core/20260803200249.3494259-1-dakr@kerne=
-l.org/
-[2] https://lore.kernel.org/driver-core/20260803200249.3494259-2-dakr@kerne=
-l.org/
+[1/3] rust: io: register: dispatch shortcut rules internally
+      commit: ebb314763f97
+[2/3] rust: io: register: remove unused rule arguments
+      commit: 78e9b4389231
+[3/3] rust: io: register: use path fragment for alias destination
+      commit: 2230d3882850
+
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
