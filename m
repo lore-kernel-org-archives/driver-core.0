@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B824423EB0;
-	Mon,  3 Aug 2026 17:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7FF424D47;
+	Mon,  3 Aug 2026 17:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785779798; cv=none; b=b1a6Xy0KQC72As1fjik4JYo8Y8TwM4vpFbUf1jntKLJ1E1LFxhLCVCDIxNdJcUkQiXicO+pV/sYSmosKi8mHJdvTbalbMhWdetBBcbhesdhQ8zIB9yrXhUlfCXN/BUU8AVjSHXeeru9aQhmProaEMtSjODJe8J05fTTxK7XZDUw=
+	t=1785779808; cv=none; b=NOf5DmcOV/1POe5jLtzy+396A9zG3YgTzp9wEShmz2nVLoR+5s1otvuzp5orGFAnOD4C+Z/iksOt66ljYsQs4VQTf+EWfgjkujNoV6+HopOLdgZQJ+WHE+UBFbQ7kOYWG4z4/YH3wvDYmumdVR+9tfOQBWVKmBAg8BjCZF/TqvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785779798; c=relaxed/simple;
-	bh=DKKMZdM8BAxRbbPQIl2G5CnAYcAwr2Zr6rnCZL7k+KY=;
+	s=arc-20240116; t=1785779808; c=relaxed/simple;
+	bh=m4vt64u6cJX0WIWdq88CwwkdVG49bKzDv3Dzuhu5MZY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=kbjTSaK7hbHsW3HX3UuAU/TW9UC/wCZhgQCsVmS6HVlbT6H5pGZNGG91JLjyf5BkeJqdlK/AHs32nLVb7nxoFk32btvlY88PkzG9KuR/g/7S/gikUIqpJW4+Z8/GTaDMCv/4T/Y2vMwQAIvcNKiBYywGmMMW+4r1r66o1tmi36c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OdRw8WJC; arc=none smtp.client-ip=100.103.45.18
+	 References:In-Reply-To; b=Q30dQD9MxZvFKgsJMRr3RDaWgDkh/tYZ7QuODqpIqdGYG9yASVRh/NUyLp7ySi4zVr92OMwUuTSxF3L2w0PHm1AmfMIhqAq16YZRdC8OdTfBEiN8BZEnrhN8et+C2kNN7yzxdSYadoQ8EfwTWLG/4krI1oT8nbhtGPI1xBO8WVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YcbQOOmE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OdRw8WJC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C6B1F000E9;
-	Mon,  3 Aug 2026 17:56:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YcbQOOmE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969BF1F00A3A;
+	Mon,  3 Aug 2026 17:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785779797;
-	bh=ihzE00+caEyyGAyJnAUTpAAPcz2FPtHVqqcNm5l8H8Y=;
+	s=k20260515; t=1785779806;
+	bh=0W2dA/tdnG6mWPGo2zM7KT0maUNZ2/vxD3OQ7HNm5g0=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=OdRw8WJCR5s67MPCCDorPFOUgUk/FS8WgAxajB4Ins7fYQvAzwi/g50xFhbRPDGI7
-	 j5o2T8zpPNIh0Q4ECnR5oTU9NkMEeV5ssoY1AN63S9jYy4A1MiefEuboQLdSH6LjaD
-	 E0ZbFipEqW3LKKkUY8HldcUeS+8jsOKkFcpYfOCucMi8x9pPGuAQoPFWPP7TzhfsG6
-	 ZgcOQq5Y+PdPZNlGeq3RVNgeLlFqMHK42hWY3YjxsLfxnd3/eordh3BFB56ko5SEzB
-	 2j21QfTqKnSHC6kpRMRbw/cjw400Wp2PPlR2yfOeiZ3JC2sVD6W8L4InN48k6cM8zc
-	 5O6oB4VDxgyMg==
+	b=YcbQOOmEtOpQVHtYFHt/jXOGqQoQngTf+ugzZGePRvRRrYA8DOQsPqvRNLDpi/lzj
+	 jz9tFTlvR/UE2Bjl9JKWwTDydTq5SZga+Z8qVRBFNzRWbyMDFN/6lN9uz88qfXbVOS
+	 CZ9aL15nY/gzM590dE+d3fVM7iWfbUw+tO6kZbshW0d4gkLxc8zfUlevC+RNiEJlPS
+	 YAwiWrvq7LvJxBq2aAkFhj8xHmhvk4Uf5oBvYHKFYYyytz1eC4TbTgCu52KgGasT4+
+	 L2H5s32RncX9xZrb/U2tXm9WKdItOazlEDBoJG6F4SwVGCNbY1oV2KR+IFq/0Ovy+m
+	 yDPdFyPTb288w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,9 +34,10 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 19:56:30 +0200
-Message-Id: <DKFI3QBK1A04.28I347HOKJ8TE@kernel.org>
-Subject: Re: [PATCH v2 8/9] drm/tyr: add gpuvas debugfs file
+Date: Mon, 03 Aug 2026 19:56:39 +0200
+Message-Id: <DKFI3UD0X731.1X9513GWW3LT7@kernel.org>
+Subject: Re: [PATCH v2 9/9] drm/debugfs: hold device reference for the
+ lifetime of open files
 Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
  "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
@@ -60,41 +61,64 @@ Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
 To: "Alvin Sun" <alvin.sun@linux.dev>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
- <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
-In-Reply-To: <20260731-tyr-debugfs-v2-v2-8-aea19eccb996@linux.dev>
+ <20260731-tyr-debugfs-v2-v2-9-aea19eccb996@linux.dev>
+In-Reply-To: <20260731-tyr-debugfs-v2-v2-9-aea19eccb996@linux.dev>
 
 On Thu Jul 30, 2026 at 7:05 PM CEST, Alvin Sun wrote:
-> +impl drm::debugfs::DrmSeqShow<TyrDrmDriver> for GpuvasShow {
-> +    fn show(guard: &drm::RegistrationGuard<'_, TyrDrmDriver>, m: &seq_fi=
-le::SeqFile) -> Result {
-> +        guard.registration_data_with(|reg_data| {
-> +            reg_data
-> +                .debugfs_data
-> +                .gpuvas
-> +                .for_each(|vm| vm.dump_gpuva_info(m))
-> +        })
-> +    }
+> Hold a device reference (via drm_dev_get/put) across the lifetime of open
+> debugfs files. Prevents use-after-free when a device is unregistered whil=
+e
+> a debugfs file remains open. Both drm_debugfs_open (legacy info_list)
+> and drm_debugfs_entry_open (drm_debugfs_add_file) paths are covered.
+>
+> Fixes: 1c9cacbea8805 ("drm/debugfs: create device-centered debugfs functi=
+ons")
+> Fixes: 28a62277e06f9 ("drm: Convert proc files to seq_file and introduce =
+debugfs")
+>
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 42 +++++++++++++++++++++++++++++++++++++=
++----
+>  1 file changed, 38 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.=
+c
+> index 38cf6ce387cc8..5262a708f1602 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -159,11 +159,28 @@ static const struct drm_debugfs_info drm_debugfs_li=
+st[] =3D {
+>  static int drm_debugfs_open(struct inode *inode, struct file *file)
+>  {
+>  	struct drm_info_node *node =3D inode->i_private;
+> +	struct drm_device *dev =3D node->minor->dev;
+> +	int ret;
+> =20
+>  	if (!device_is_registered(node->minor->kdev))
+>  		return -ENODEV;
+> =20
+> -	return single_open(file, node->info_ent->show, node);
+> +	drm_dev_get(dev);
+> +
+> +	ret =3D single_open(file, node->info_ent->show, node);
+> +	if (ret)
+> +		drm_dev_put(dev);
+> +
+> +	return ret;
 > +}
+> +
+> +static int drm_debugfs_release(struct inode *inode, struct file *file)
+> +{
+> +	struct drm_info_node *node =3D
+> +		((struct seq_file *)file->private_data)->private;
+> +
+> +	drm_dev_put(node->minor->dev);
+> +	return single_release(inode, file);
+>  }
 
-Should simplify to:
-
-	impl SeqShow<TyrDrmRegistrationData<'_>> for GpuvasShow {
-	    fn show(reg_data: &TyrDrmRegistrationData<'_>, m: &SeqFile) -> Result =
-{
-	        reg_data
-	            .debugfs_data
-	            .gpuvas
-	            .for_each(|vm| vm.dump_gpuva_info(m))
-	    }
-	}
-
-> +    fn debugfs_init<'a>(dev: &'a drm::Device<Self, drm::Normal>, dir: &S=
-copedDir<'a, 'static>) {
-> +        dir.seq_file::<GpuvasShow, _>(c"gpuvas", dev);
-> +    }
-
-Should become:
-
-	fn debugfs_init(dir: &debugfs::ScopeRef<'_, TyrDrmRegistrationData<'_>>) {
-	    dir.seq_file::<GpuvasShow>(c"gpuvas");
-	}
+This isn't needed; in drm_dev_unregister() we call debugfs_remove_recursive=
+(),
+which already waits for all in-flight file operations. The DRM device itsel=
+f is
+guaranteed to be valid as long as it is registered.
