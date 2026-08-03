@@ -1,122 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5743D313E2B;
-	Mon,  3 Aug 2026 14:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785767430; cv=none; b=OnGlB0GbHndK+zOnSBve3OiT07JbgCiUTTIQk/UM+bA4EWsm4asG8Iah2C+At2a3IN2Gp4OaI4PBB3zVV4AcC6eqj+dDW89qB7II7fg8KvsD3uRs8fQAknsCCfaSUPJpkqKnZGifVj7YUn86yRa+VIJoBWbkeQeo7D73V2p+kK8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785767430; c=relaxed/simple;
-	bh=0ylbr2e+UhF90GrPAgiwQl2i+ENO0yXSLMl5gsN/X0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lr0khSfu8/IS99ytZ01ufHrMR4N/4wQIVqRSkvdXyuYcNFJX6gs81HGklWPfY7htCLwjIQkE08Eq5MFftHmFsVPXB5jeHYHXF9YnQdQCLKWTKtTk+dFVuetSzRT6DXIXvYANDT8cDMWQou2iAGCsQ5ulIj/RMOnH6FAE/E6fKQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hegr8Cz8; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380683438A2
+	for <driver-core@lists.linux.dev>; Mon,  3 Aug 2026 15:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785769571; cv=pass; b=CJ96rm+hYNiQxMvpQXgXybAlmAK2Gi4akfZPenVPg2GQ5HDZMScgUSxOi9dQlJfpCrLKlkge1ziaoB21uNI6ZA/Qu2M3ngiKxFapn5l+M65QUWaM2BdkD1Ybu1HA1eDrTdgf98viCt/NOJVGJwIIHEli2uvZUGK4rK2Sz3rEI/Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785769571; c=relaxed/simple;
+	bh=vJQ85GMhPd27rokuLxPgrmhCOeWEsn68yRurzB2w63U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VxSea19V6LpFW181NhQECfakEKS5FefwSRRC8XDuJXmRqEa23zJd7yki0Mq9zRuUuzfH7vNWo30PGs4c/F0SQ5fUbAwaO5T9WDTdFqoJWx+3LKH7YNk8SOqn2CmH2NKY+/0eGuAhtff/5gGt7Job9ieQ1HlHoIG6mo4iK2SjHRQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lxPt3tpI; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hegr8Cz8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785767428; x=1817303428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0ylbr2e+UhF90GrPAgiwQl2i+ENO0yXSLMl5gsN/X0I=;
-  b=Hegr8Cz8lQVxt/SOqenDeIxuToDcfSqW431Db2OypHN9ZKxL4M1n1LDL
-   D4EP6z/HFdi9cqtVX4wm8vuTJaq3fi8zM2o45H19ZH6NBR/ElSLhQVx4M
-   /rVsJNRjmJwChK3Alp1zV0oJX1xMATMuQ10Iy0PjFify2gYmuQxJ/pu8V
-   //e5njiFr82SiRjYULCTvbfMgSCsMyKyBJpIKv+MeLTno93Wo7gz+dOxI
-   rcTNjkfWKU04jhOEAOdb++H/PCerm+qknKOUSJHfOtb7tU7U9LVDr/fiY
-   qCo9V3dO1ii68lF4WXf2pJsicGc4dgyh0xMCyW8eXeezuN8fREO7yb2Ee
-   Q==;
-X-CSE-ConnectionGUID: 8Po8Dn0cTUSZ8qrFCrFNGw==
-X-CSE-MsgGUID: P0/CV4SmQc+AWyWzozES+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="96958810"
-X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="96958810"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 07:30:19 -0700
-X-CSE-ConnectionGUID: Mg2PfLUTTgaiZdjDlK/WMA==
-X-CSE-MsgGUID: vBbIqnJoR5urgr7iZYpsTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,202,1779174000"; 
-   d="scan'208";a="291165749"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Aug 2026 07:30:12 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wqtfv-0000000077Z-35zH;
-	Mon, 03 Aug 2026 14:29:56 +0000
-Date: Mon, 3 Aug 2026 22:29:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Trevor Chan <trev@trevrosa.dev>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, ojeda@kernel.org,
-	a.hindborg@kernel.org, paul@paul-moore.com, aliceryhl@google.com,
-	airlied@gmail.com, simona@ffwll.ch, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, igor.korotin@linux.dev, vireshk@kernel.org,
-	nm@ti.com, sboyd@kernel.org, m.wilczynski@samsung.com,
-	boqun@kernel.org, gary@garyguo.net, axboe@kernel.dk,
-	daniel.almeida@collabora.com, shankari.ak0208@gmail.com,
-	lyude@redhat.com, j@jananu.net, lossin@kernel.org,
-	acourbot@nvidia.com, markus.probst@posteo.de,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6] rust: aref: make `AlwaysRefCounted::inc_ref` an
- associated function
-Message-ID: <202608032252.nPlw6icN-lkp@intel.com>
-References: <20260628095132.47753-1-trev@trevrosa.dev>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lxPt3tpI"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47f703a9d05so2117374f8f.0
+        for <driver-core@lists.linux.dev>; Mon, 03 Aug 2026 08:06:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785769568; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ctr0JgbtD4EQaG94RmEYtrW+UT1Tj14iYnMbhO2cpLVm8uI3jX1mJxwYByC5BNqEur
+         02NA9SlfawPaTxMfrZQAAiGyhxnT/i2Am2vvDMTA1bAmYybaW0ddwQUF3KrpTfeqN8Ww
+         RdWvhbw27uqT1hMInXi7tWImK6hRfTdDAFSpQ6ZA4RZw0dXYkBnXmjz/caTS38ZRO/2+
+         UvXUYuO3BF1serzmfSxaxRGXit7ep4eOHgTD/RcTwy8Ec4G07kCpZwUKHzeqJN6rWwt6
+         dK5iuPIN6aJAR/VV3n0rKXhWaEU9jaZABaJRtaM4W/JfqHpz/htMPSJjpqSXYMoumwdQ
+         MlSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3Q8NiBv1owB+m2z5E0qzw1M2JQ8N4hGqbVT+Vkq10LI=;
+        fh=gasdwBxVaEZucH1d7ICKnZ8dDnjZVWDnATFIl/1HCfc=;
+        b=hYTLGmyNh+BehRUjmFC6BZnTnnfq9nUmoZrfZ8tUgIcOTBfpFVfFt2H1zloiPXi9AE
+         3lEw+0tKu47pJPy2/0QN6PEAu+BPPSAX1tRPFtOEZFvFjwURm7Sn9qcDJq/McwffFhR1
+         D3SmpQx2P4FXhfTDJalxGKoYtib9B6LmYP+EwmBJqEFktpzamDPF06VzgvLUArb36rK+
+         VGFZo29yuEISvQm9qgB6XpzqH5+4Zg3eCCDj7eyq8/gQETKo024CXO8GaOWHyNTbJGt/
+         Rp0Ovh8jDjReSzQ7mNrsEm5jXgTbEaMMN9Lm6kzW0DjisVs3Ls3bATJHEGsCeBF1LmNt
+         88sQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785769568; x=1786374368; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3Q8NiBv1owB+m2z5E0qzw1M2JQ8N4hGqbVT+Vkq10LI=;
+        b=lxPt3tpI8UHKIsQ97+jdOtZuqE35p/PXJyr+CLA0CSz6Y7r3fxI82CeQuKYgco5p3q
+         6wC808u3rfWNF6+WgiHOC4rzzl7xoJYs6hoj38dlEecV2ebNUwUFWKzjaTSKHNcZpHKa
+         iUTtdJTlUrepeQ3GvlLFChidAfr2o8J62QFqx08kqhTOzSELthm4AE+4rn2+x84NkAJc
+         2hcAGrNV43FCBbij9p/FnAFX70C33FOezqfb35pTha/Z5oZvq/NOqS02TCrjx77ha+Sw
+         OMtmC5oW8TRX7Xs3Y8g4PKxS8zeGEWpzNMzQqRhPksFmBZzOSX1f1JCEo/FBsS9s7QD9
+         oIVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785769568; x=1786374368;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3Q8NiBv1owB+m2z5E0qzw1M2JQ8N4hGqbVT+Vkq10LI=;
+        b=aLhfQT/pkD4/371xPVHh3cwKSZ+a7QLpGq+SzLF1dHHvI4fqTt6NfPIFPfWmV6sZoH
+         AcXvWAikEq8iTfGgcA+3AobTpe1V4zTa6n7vl+FPR4QKHoYkuxuspcePd75VDXgk0sxv
+         KtfVz6inBJ5OYC1P6iejYWcqxytBsx6UUnKQkUzGGC6h8TlM3AddNGAVC35t6IBJMW6C
+         wm1ZdWTGwzCy7C+whsFP0G8AC7ztuQ35wWp+CQe6gWAbpAA8LrKhm97HAv8kovIxr+yP
+         uxxqR9CmnNiRUnZNEXX+bH9upgn9drmwVkSj+7G4GgCBq7xwgZLCfnAo/GJ5TtZNPu72
+         DOOA==
+X-Forwarded-Encrypted: i=1; AHgh+RpqsmdARQDKo+K3n5H/fnFKMvOUrg69wTVF/3PA0YgS7fH6jP2HGEXE/wQg2Rm3J3N33/Da7RWAa+3Syw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbauOomkNx4NCORjwhWTaLgp5Vn/Z/+JVtfTfkdE4sn4tJZpdA
+	7AU45vLl/YcLoglU1amcAT7PrwLsCE9DrnUpWrAPt4uNGRcc2X1Nv1E/iQXmH4T5eCntR63r81J
+	bxwmY3NeyNHmm/Z2k7gNTu2DDk+7xjSenovARwaii
+X-Gm-Gg: AR+sD12STXbYM/FFumD6mItdie8R5gct8f3XTYgHCo7uumSyMC6NaaeZd1Nb8fO0Xnv
+	K8FKkETqEb4phC7SFtYU6nXegsvwikrpdNUtZBFRVr8tkdb2Xqs0+p6fOsxiiPkVGjmWk5CG/1y
+	MD+ml+/0hjUerDiFXmhgzUs+nm69NyjuDIYIrrLKvo+3XfH7r8fSHgfzKGsFZd1x/o0lHUfF1LR
+	xyrA+BaDk6cNtyVBoQiu8YkdyIHcX8wP/78edOc2twYpWoJ4cn/Tt47hLxQpW4NVG3Vom3lyLaj
+	/gmal6yIS8j5YLekzeq/xIQpIvJVjRo3JbEunqTQ5eTPcyJokLNbTC3P2sHzCqZYOmvse2L1x3U
+	=
+X-Received: by 2002:a05:6000:4615:b0:47f:8887:3b07 with SMTP id
+ ffacd0b85a97d-47fd72d320amr27491657f8f.13.1785769567433; Mon, 03 Aug 2026
+ 08:06:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260628095132.47753-1-trev@trevrosa.dev>
+References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
+ <20260731-tyr-debugfs-v2-v2-2-aea19eccb996@linux.dev> <amyeMmmfEBpuVclw@google.com>
+ <d42d6ce2-7160-457f-be04-ff84551e9b9a@linux.dev>
+In-Reply-To: <d42d6ce2-7160-457f-be04-ff84551e9b9a@linux.dev>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 3 Aug 2026 17:05:55 +0200
+X-Gm-Features: AUfX_mwlQH6Z-tduzlfCZ86MznBGj1HOcIQs7EHUIsZkQr1iKQzeu-QfbRXr-F4
+Message-ID: <CAH5fLgh9oZ9jRATbLM+s+tNR_KjJvdYuJ4w_vxXKwCmRd28E5w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] rust: debugfs: add SeqShow trait and seq_file file operations
+To: Alvin Sun <alvin.sun@linux.dev>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Melissa Wen <mwen@igalia.com>, Wambui Karuga <wambui.karugax@gmail.com>, 
+	Eric Anholt <eric@anholt.net>, Ben Gamari <bgamari@gmail.com>, rust-for-linux@vger.kernel.org, 
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Trevor,
+On Fri, Jul 31, 2026 at 6:52=E2=80=AFPM Alvin Sun <alvin.sun@linux.dev> wro=
+te:
+>
+>
+> On 7/31/26 21:08, Alice Ryhl wrote:
+> > On Fri, Jul 31, 2026 at 01:05:40AM +0800, Alvin Sun wrote:
+> >> +/// Show callback for `SeqShow` types.
+> >> +///
+> >> +/// # Safety
+> >> +///
+> >> +/// The seq_file core guarantees that `seq` points to a live `seq_fil=
+e` and that
+> >> +/// `seq->private` is a valid pointer to a `T` with no outstanding mu=
+table
+> >> +/// references.
+> >> +unsafe extern "C" fn seq_file_show<S: SeqShow<T>, T: Sync>(
+> >> +    seq: *mut bindings::seq_file,
+> >> +    _: *mut crate::ffi::c_void,
+> >> +) -> crate::ffi::c_int {
+> >> +    // SAFETY: `seq->private` is a valid `T` pointer with no outstand=
+ing
+> >> +    // mutable references.
+> >> +    let data =3D unsafe { &*((*seq).private.cast::<T>()) };
+> >> +    // SAFETY: `seq` points to a live `seq_file`.
+> >> +    let m =3D unsafe { SeqFile::from_raw(seq) };
+> >> +    from_result(|| S::show(data, m).map(|()| 0))
+> >> +}
+> >> +
+> >> +/// Renders `data` into a seq_file.
+> >> +///
+> >> +/// `data` is the value stashed as the debugfs file's `i_private` at =
+creation
+> >> +/// time. `show` is invoked on each read to produce the file's conten=
+ts.
+> >> +///
+> >> +/// `open` and `release` are optional lifecycle hooks called during f=
+ile open
+> >> +/// and release. They can be used to manage the lifetime of `data` (e=
+.g.,
+> >> +/// reference counting). Default implementations are no-ops.
+> >> +pub trait SeqShow<T> {
+> >> +    /// Writes debugfs output for the file.
+> >> +    fn show(data: &T, m: &SeqFile) -> Result;
+> >> +
+> >> +    /// Called during file open, before `single_open`.
+> >> +    fn open(_data: &T) -> Result {
+> >> +        Ok(())
+> >> +    }
+> >> +
+> >> +    /// Called during file release, before `single_release`.
+> >> +    ///
+> >> +    /// # Safety
+> >> +    ///
+> >> +    /// `data` must point to valid memory, kept alive by actions take=
+n in
+> >> +    /// [`Self::open`] (e.g., incrementing a reference count).
+> >> +    unsafe fn release(_data: NonNull<T>) {}
+> >> +}
+> > Hmm. So in a later patch you implement SeqShow in the following manner:
+> >
+> >      fn open(dev: &drm::Device<T, drm::Normal>) -> Result {
+> >          // Hold a device reference so the device is not freed while th=
+e file is open.
+> >          dev.inc_ref();
+> >          Ok(())
+> >      }
+> >
+> >      unsafe fn release(dev: NonNull<drm::Device<T, drm::Normal>>) {
+> >          // Drop the reference taken in `open`.
+> >          // SAFETY: `dev` is valid per this function's safety contract.
+> >          unsafe { drm::Device::<T>::dec_ref(dev) };
+> >      }
+> >
+> > I don't understand why this increment/decrement pair is necessary.
+> > Just based on the code, it *looks* like you have them because otherwise
+> > `show()` might get called with a dangling pointer to the drm device, bu=
+t
+> > the inc_ref() in open() ensures it stays alive.
+> >
+> > However, earlier in this patch you said:
+> >
+> >> The seq_file core guarantees that `seq` points to a live `seq_file` an=
+d
+> >> that `seq->private` is a valid pointer to a `T` with no outstanding
+> >> mutable references.
+> > So based on this, you are saying that open()/release() do not need to d=
+o
+> > anything special for the value to stay alive.
+> >
+> > These seem contradictory. Could you clarify the situation?
+>
+> You're right. The `SeqShow` trait documentation was inaccurate -- the
+> framework does not manage the lifetime of `data`, so `inc_ref`/`dec_ref`
+> in `DrmSeqShow` is necessary to prevent `show()` from accessing a freed
+> device.
+>
+> Will fix the doc in the next revision.
 
-kernel test robot noticed the following build errors:
+I'm not convinced that works soundness-wise. If I just leave
+open/release empty, then I will be able to access a &T inside of
+show(), but there's nothing keeping it alive, so I could dereference a
+freed &T in safe code that way.
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus drm/drm-next drm-misc/drm-misc-next akpm-mm/mm-everything linus/master v7.2-rc6]
-[cannot apply to next-20260731]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I think we need the seq file to instead own some sort of value. Then,
+show() can be passed the a reference to value it has ownership of, and
+release() can be said type's destructor.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Trevor-Chan/rust-aref-make-AlwaysRefCounted-inc_ref-an-associated-function/20260803-160221
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260628095132.47753-1-trev%40trevrosa.dev
-patch subject: [PATCH v6] rust: aref: make `AlwaysRefCounted::inc_ref` an associated function
-config: x86_64-buildonly-randconfig-001-20260803 (https://download.01.org/0day-ci/archive/20260803/202608032252.nPlw6icN-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260803/202608032252.nPlw6icN-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608032252.nPlw6icN-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error[E0424]: expected value, found module `self`
-   --> rust/kernel/pwm.rs:637:50
-   |
-   634 |     fn inc_ref(obj: &Self) {
-   |        ------- this function doesn't have a `self` parameter
-   ...
-   637 |         unsafe { bindings::get_device(&raw mut (*self.0.get()).dev) };
-   |                                                  ^^^^ `self` value is a keyword only available in methods with a `self` parameter
-   |
-   help: add a `self` receiver parameter to make the associated `fn` a method
-   |
-   634 |     fn inc_ref(&self, obj: &Self) {
-   |                ++++++
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alice
