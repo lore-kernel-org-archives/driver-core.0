@@ -1,106 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975E02F8EB0;
-	Mon,  3 Aug 2026 15:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F663803DC;
+	Mon,  3 Aug 2026 16:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785770601; cv=none; b=AtBpG64Lfw7R1I6grlTvt8XJ+rWiQW/11J5ZWS4/yUgn8zk5SHmYFHFDgR14eh0F4UN7V8vdx9FEj5bynlvhOuto42JNlscb1Y8SttZMBnKg1CQifX118xNV+HX/zeOzOcVj9ldJ5iCZqjKzL6Tk0hMU8seoWZQQo4mSFTf2Ebg=
+	t=1785774958; cv=none; b=IPbijTRcnk3Icj4FIi2CTbws1eVXWMwMdpOY9o0zaHEL2ihwBQ6kDWWPI8hbCc5mqAez9/ZFgXmxTfH/8YZEv+RQ5KnjGPLw97SZcimxzbot2uF/e/ofuOJzWrHw6kcWERendtSdm7y2uB9opjWTh//C7ehqPJ6A/kWFSZ5dTOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785770601; c=relaxed/simple;
-	bh=EP/91TNB8ZE38GEZ9jeQaJ09odZVPtG1g+tHlXxSuFM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=pMYBuK6vjYxyPhsCjmcZIMUqLHYogpf6LdVDS0OjErGmN7827Spy7HS2NGCuje8e5W4/n4DxwX78IYnHacRjAFuaq5xEFlz8x0I7qSPmtunzSnvWBM+FT7xYVVkaJGp5hLTERLj5FrUnXv8tWPhPPmu9ohlXkMHzxASx1Xz+b0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=McHnZ3pC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785774958; c=relaxed/simple;
+	bh=qV3sjAtAJDYHMCCEDv5fgRP7Sb7VlyMUOaxfU1aLFGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GE1VPb+z+dJlwZ8Fq9k2Wbp0ykSf+t+9ngownB6kjrGyPTq/DRCOWz3zu1lCAPPR3P/8EYX0xmi0xc2J6tHlhuMIMNxoZowodSeU+xt5Qw/InYxW8T7273D/l6u5UjbOQ3CamVf5cyzcAQcx8Qd3lUIE1DgrnupHHg+n/PuAJuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5aViUc6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="McHnZ3pC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854601F000E9;
-	Mon,  3 Aug 2026 15:23:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5aViUc6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110CB1F000E9;
+	Mon,  3 Aug 2026 16:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785770600;
-	bh=dZYSC8erIMTeSh377JsLNybfBrVvBlw03e2MC63a0C8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=McHnZ3pCySk8fLXiiGo5wXe4OJjJWo58uagpdWKQDFTAx4nQ2d/r+SnOraAkdLDB2
-	 A1/6uqdxAYJe+ts8DdgzcmgBs1M6SsykUmM6TY8LA9NQ21G6N24VLiu09lnKjz4E8G
-	 yu54GeI9py8SIpx9PkYNtM1dStanHHKTqYhy1GVXlWRouNoq2RpzJOSu558rndcYwe
-	 JRJfuxQc+8ZpHXEc5lBNnUMabSud9oBVFOqsYcML9IQpUVvvf4lQuU97UokHm8cHxj
-	 az87oZgxYJkw2hWxktzPnQxPr353on+nyeckr/kGMTtP/IgE1sWlQkXGNgyttr0FvC
-	 0LmxW7b/V05Lg==
+	s=k20260515; t=1785774957;
+	bh=qV3sjAtAJDYHMCCEDv5fgRP7Sb7VlyMUOaxfU1aLFGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=T5aViUc6iBiZA/SGXiwSEij4hmTGrkRcmMWZriT4P9qk2aBYxgcYaeTifZCmYt2Mr
+	 K3RxbFX8u+Vc5SHngPfja0I3GDl48k3FqHDGe/4DnwhmH+8gIbgPyb3YgD48jro0aA
+	 /Q2WC7z1tBERQzOn6scyvuse8F27jTh+F1DMeVcSN/4w8vY/1cotVMFmqNRtrC4GQP
+	 c7cJyBLdDc0RUA94n2Fc25LBx+FSRBk9uloUAAtjq2VrFGwnUa31NnhXqgv+ZW7N92
+	 Of1UqQuNi23L3w6z8rC2ez3beqawyTLKP5dWPuh50ytZ2+UAsSvyTuRcpxYv9EZJCc
+	 7fVEFk6JJa0Tg==
+Date: Mon, 3 Aug 2026 09:35:56 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ankit Agrawal <ankita@nvidia.com>
+Cc: "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>, Alistair
+ Francis <alistair.francis@wdc.com>, Lukas Wunner <lukas@wunner.de>, Donald
+ Hunter <donald.hunter@gmail.com>, "aik@amd.com" <aik@amd.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 01/15] netlink: specs: Introduce multi-message blobs for
+ SPDM
+Message-ID: <20260803093556.0ef56084@kernel.org>
+In-Reply-To: <SAWPR12MB9992679DEB9AFB41A21B116FDBB0D62@SAWPR12MB999267.namprd12.prod.outlook.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+	<20260705220819.2472765-2-djbw@kernel.org>
+	<20260721182046.16219426@kernel.org>
+	<SAWPR12MB9992679DEB9AFB41A21B116FDBB0D62@SAWPR12MB999267.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 17:23:12 +0200
-Message-Id: <DKFEUD1RMRZA.2ILHJ8I3TPLUR@kernel.org>
-Subject: Re: [PATCH v2 2/9] rust: debugfs: add SeqShow trait and seq_file
- file operations
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, "Matthew Brost" <matthew.brost@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Melissa Wen"
- <mwen@igalia.com>, "Wambui Karuga" <wambui.karugax@gmail.com>, "Eric
- Anholt" <eric@anholt.net>, "Ben Gamari" <bgamari@gmail.com>,
- <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>
-To: "Alvin Sun" <alvin.sun@linux.dev>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260731-tyr-debugfs-v2-v2-0-aea19eccb996@linux.dev>
- <20260731-tyr-debugfs-v2-v2-2-aea19eccb996@linux.dev>
-In-Reply-To: <20260731-tyr-debugfs-v2-v2-2-aea19eccb996@linux.dev>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu Jul 30, 2026 at 7:05 PM CEST, Alvin Sun wrote:
-> +/// Renders `data` into a seq_file.
-> +///
-> +/// `data` is the value stashed as the debugfs file's `i_private` at cre=
-ation
-> +/// time. `show` is invoked on each read to produce the file's contents.
-> +///
-> +/// `open` and `release` are optional lifecycle hooks called during file=
- open
-> +/// and release. They can be used to manage the lifetime of `data` (e.g.=
-,
-> +/// reference counting). Default implementations are no-ops.
+On Sun, 2 Aug 2026 17:58:06 +0000 Ankit Agrawal wrote:
+> > I don't like this, sorry. You need to come up with something outside
+> > of netlink or more netlink-y. =20
+>=20
+> Hi Jakub, picking this up and continuing on with the Dan's work.
+>=20
+> In an earlier discussion [1], two options were mentioned.
+>=20
+> > Alright, so to make this more Netlink-y you can either:
+> =C2=A0=C2=A0>=C2=A0 - delete the F_MULTI and replicate other attrs in eac=
+h message and
+> =C2=A0=C2=A0>=C2=A0=C2=A0=C2=A0 add an offset attr; this will make each m=
+essage in the dump more
+> =C2=A0=C2=A0>=C2=A0=C2=A0=C2=A0 standalone.
+> =C2=A0=C2=A0>=C2=A0 - keep the F_MULTI but object_val has to be a multi-a=
+ttr, and then
+> =C2=A0=C2=A0>=C2=A0=C2=A0=C2=A0 we have to teach YNL to correctly append =
+the attrs. =20
+>=20
+> So I'll update to the first option of standalone messages with an offset =
+attribute.
+> i.e. every dump message with a new offset for the chunk it carries and wi=
+th
+> reassembly left to the consumer. I suppose that aligns with your preferen=
+ce?
+>=20
+> [1] https://lore.kernel.org/all/20260318170014.6650d2bf@kernel.org/
 
-The open() and release() callbacks shouldn't be needed. The existing C (pro=
-xy
-file ops) and Rust code already ensures to wait for in-flight file operatio=
-ns,
-so show() can't run after debugfs_remove().
-
-Both the existing Rust debugfs code and the DRM code use the full proxy fop=
-s.
-
-> +pub trait SeqShow<T> {
-> +    /// Writes debugfs output for the file.
-> +    fn show(data: &T, m: &SeqFile) -> Result;
-> +
-> +    /// Called during file open, before `single_open`.
-> +    fn open(_data: &T) -> Result {
-> +        Ok(())
-> +    }
-> +
-> +    /// Called during file release, before `single_release`.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// `data` must point to valid memory, kept alive by actions taken i=
-n
-> +    /// [`Self::open`] (e.g., incrementing a reference count).
-> +    unsafe fn release(_data: NonNull<T>) {}
-> +}
+Yes, cleanly building the blob in netlink is going to be tough.
+First option would be uncontroversial from Netlink PoV, AFAICT.
+But also please spend a bit of time on trying to come up with
+a better way of moving the blobs.
