@@ -1,133 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A66EEA8;
-	Mon,  3 Aug 2026 22:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580B3371072;
+	Tue,  4 Aug 2026 01:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785795683; cv=none; b=eZR5x7OKLl0QOURqzB4hRSc+nM0DKWEYyMgIOtR5kHNOcnKmoKoAERGcujGcZ7rYYr/lCHXP2pSMHjJ4pNLRBPEdX5meUkuleaPD5gn9MCKprYinnBMCB23lDzg5HQLFFD/lPEwzxAwfnJVbRlxOGKSzGzb0NAxKMfmaPdjb1IQ=
+	t=1785808119; cv=none; b=HTvq4+g6EOvghnjUmfwY0S+4BUtmCOLnahBbwzpWtSTWKFQdBDGIa9I8j4o6h6YYwR6Ry357R7C1comjM14WLRpktpt3mL8ybi1GYjsx/mTWfRwfCOxb7FvdZ4qelRrJtG473lgp7tDCs1Vg3rgdfObULTiR9IO9OLQXnO5fwOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785795683; c=relaxed/simple;
-	bh=xuXdgySlvCgHLOdGmGL+MubfZyFQvRssa94WG2HMgWk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=g1hIOYFYKeOSercxnK+fqfGmUI5JYL/jVB5dDpenLoC52N20mFN35Qq5W8lvquKyWvuEL8s8lvHF7gwrOc4iuSucJnQ0emdujNETMatuglvyy0799IbsAYj2g0xSEOtVIR7QiAJlalMtllVFF33sTfsfiubmqqhFg9XFxF1Stm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FaJ7jRrU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785808119; c=relaxed/simple;
+	bh=uzaIOC6zZELkU5sbR/ClnsjAfCVYnJB05KTHk4UHAVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZ0TrGS38TcBkv3pqSsae4dIn/jPdXcbGp12sJ0OpUjHDjD9gd05vN2wFO9ID2IJnh+HlbSbQvQnW1hzfXCyyE7Qiy7NBNnMmtdb569lx/1gecW++0c+LLGbhkfiVAAFRHXrvba1ESn/K6SlDwHKBlkp74/XmadXD7+UmzEPLnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAU1LesI; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FaJ7jRrU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B9351F000E9;
-	Mon,  3 Aug 2026 22:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785795681;
-	bh=xuXdgySlvCgHLOdGmGL+MubfZyFQvRssa94WG2HMgWk=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=FaJ7jRrUDw+YHd7ugnUXOXor7JZhM+UUcWKDINySpl5cQx2bO8jMqX/wC397GZSyU
-	 zJqsJB5YBrtwPkIKKV41nNw2/NoungOXZyJpw4ixxlBnP1SebwPOh1EOUKDOwiGEe1
-	 yOVP6+a2nW9sy3aoMYik+k98YSEVriSQsokd1f1Tv2JSqi8/PizDpIhQyQp49ubaFd
-	 aUllZmB0ilb1vPaxfZcSksVN9Q6a7KVZcq3/G3grPHDwwjTJ5GLpj/7YwCuvVuQHDH
-	 0GTcUwegITQ1WrlNZPl61fkr94LoxuZzn5RFLRiMAyegun1jncAGK9Byy6aisS+sAv
-	 I6VE42CpgeO5g==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAU1LesI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785808117; x=1817344117;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uzaIOC6zZELkU5sbR/ClnsjAfCVYnJB05KTHk4UHAVA=;
+  b=NAU1LesI+oZeAwWb5vkDkQZb9PQieyISHu0IwcUNDnych9+rxq02PbF2
+   MPFu1mryPNNOcsqH5bzuIj6TmWvXuUIUz7nV1Nko1RefCiiAXKDAv7cpt
+   UAf5kGaOC/GlXsCdOfB7X7SXJcAymLQOfruyy6RcvAfJ/DW+m5Z2pnIXC
+   yVIBuXdfyGX2jAC1wFEvoLa2V8aNB9Ywa9p/ofH/rOLo4g6k4EdC5zlvu
+   ntXpy692x019FRfodxx1CF6kJB6DKM9fNSG03IRau7pWIC5fPXsZerBrI
+   3BLSEKzQD8E1DcSArW0n84unwOnfEDh4uw1cjs97uk2+qLGOHjr3KarLR
+   w==;
+X-CSE-ConnectionGUID: 43aLKDo2T/yM3bl45fbu8Q==
+X-CSE-MsgGUID: PCQneW1IToekHdHD+JPsjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86119960"
+X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
+   d="scan'208";a="86119960"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 18:48:36 -0700
+X-CSE-ConnectionGUID: HuofELu+RXaWlmkgQV+dyQ==
+X-CSE-MsgGUID: QNt7WxEbQLm7JX6mlNDKXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
+   d="scan'208";a="260121398"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa010.jf.intel.com with ESMTP; 03 Aug 2026 18:48:31 -0700
+Date: Tue, 4 Aug 2026 09:48:30 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Alexey Kardashevskiy <aik@amd.com>, linux-coco@lists.linux.dev,
+	linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+	ankita@nvidia.com, Aaron Tomlin <atomlin@atomlin.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Message-ID: <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
+ <amk7Xzm5jmz+6SPJ@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 04 Aug 2026 00:21:18 +0200
-Message-Id: <DKFNQH0FLP11.1JGXFSKVTOBMF@kernel.org>
-To: "Timur Tabi" <ttabi@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v7 3/8] gpu: nova-core: add TLV parser for firmware
- files
-Cc: "ojeda@kernel.org" <ojeda@kernel.org>, "John Hubbard"
- <jhubbard@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>, "Eliot
- Courtney" <ecourtney@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>,
- "russ.weight@linux.dev" <russ.weight@linux.dev>, "mcgrof@kernel.org"
- <mcgrof@kernel.org>, "rust-for-linux@vger.kernel.org"
- <rust-for-linux@vger.kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "driver-core@lists.linux.dev"
- <driver-core@lists.linux.dev>, "nova-gpu@lists.linux.dev"
- <nova-gpu@lists.linux.dev>
-References: <20260731201017.2580713-1-ttabi@nvidia.com>
- <20260731201017.2580713-4-ttabi@nvidia.com>
- <DKFMSHHGF3DE.2SUUP3FB7WXTK@kernel.org>
- <0c53c38adec26bc5df6b4658d3da53075001d93a.camel@nvidia.com>
-In-Reply-To: <0c53c38adec26bc5df6b4658d3da53075001d93a.camel@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amk7Xzm5jmz+6SPJ@ziepe.ca>
 
-On Tue Aug 4, 2026 at 12:05 AM CEST, Timur Tabi wrote:
-> On Mon, 2026-08-03 at 23:36 +0200, Danilo Krummrich wrote:
->> @Miguel: One consideration for you below.
->>=20
->> On Fri Jul 31, 2026 at 10:10 PM CEST, Timur Tabi wrote:
->> > +=C2=A0=C2=A0=C2=A0 fn find(&self, tag: &[u8; 4]) -> Result<TlvBlock<'=
-a>> {
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.iter().find(|b| b.tag=
- =3D=3D *tag).ok_or(EINVAL)
->> > +=C2=A0=C2=A0=C2=A0 }
->>=20
->> NIT: Do we really know the tag is invalid just because it wasn't found?
->
-> Well, maybe this is where we should return ENODATA?
+On Tue, Jul 28, 2026 at 08:29:35PM -0300, Jason Gunthorpe wrote:
+> On Tue, Jul 28, 2026 at 06:20:10PM +1000, Alexey Kardashevskiy wrote:
+> > On 6/7/26 08:08, Dan Williams wrote:
+> > > Major changes since: "[PATCH v2 00/19] PCI/TSM: TEE I/O infrastructure" [1]
+> > 
+> > soo with the recent sudden sad news about Dan, I do not know where to start really so I just start...
+> > 
+> > Here is his unfinished work which I'd really like to see finished to
+> > progress with the phase2 of the plan. How do we proceed from now on?
+> 
+> Yes, we do, but at least I need some more time before considering what
+> to do, sorry.
+> 
+> > The direction appears to be set, imho the immediate TODO list is:
+> > - address "not-netlink-y enough" concerns
+> > - teach pci_iomap() to map mixed private+shared BARs (ones which contain MSIX for the starter)
+> > - always call pci_tsm_ops::enable_dma/disable_dma
+> > - ditch the module trust parameter?
+> > - add a knob to enable/disable DMA and keep TDI in RUN
+> 
+> I somehow suspect we should probably reduce the scope somewhat into
+> smaller chunks at a time and try to follow this as a skeleton, but I
+> haven't studied it carefully.
 
-Or maybe just ENOENT.
+Hi Jason & Ankit:
 
-> I am expecting future Nova code to handle tags that may be legitimately a=
-bsent, so maybe having
-> it return ENODATA if the tag is missing, and EINVAL in all other situatio=
-ns is better.
+Glad to see you all here to make progress! Intel can also help on this.
+Can we have a meeting to discuss on these topics? As Alexey mentioned,
+previously we had a bi-weekly call, perhaps use that for our first
+meeting? Or what time works best for everyone?
 
-In this case it makes sense to differenciate; AFAIC this can be a follow-up
-patch.
-
->> > +=C2=A0=C2=A0=C2=A0 /// Return a slice of bytes.=C2=A0 Returns ENODATA=
- if the value is empty.
->> > +=C2=A0=C2=A0=C2=A0 pub(crate) fn get_bytes(&self, tag: &[u8; 4]) -> R=
-esult<&'a [u8]> {
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let tlv =3D self.find(tag)=
-?;
->> > +
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Treat empty value as an=
- error, to avoid trying to parse nothing.
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if tlv.value.is_empty() {
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
-turn Err(ENODATA);
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>=20
->> This one seems resonable; but we don't have the error code in place. The=
- commit
->> message says the series depends on [1], but this likely goes through the=
- Rust
->> tree.
->
-> Can't you just pick it up from the Rust tree and put it in drm-rust-next?
-
-This is what I refer to below as "signed tag".
-
-Some background on this: We can't have patches as duplicate commits going t=
-o
-Linus. So in order for me to pull from the Rust tree, it has to guarantee t=
-o not
-change its histroy (which it does not). Besides that, we don't want all the
-commits from another tree, but just a specific one. The normal process for =
-this
-is to put the commit on a separate branch based on a commit base, e.g. some=
- -rc,
-typically -rc1. Then we can create a signed tag from this that can be merge=
-d
-into both (or multiple) trees, so the commit only exists exactly once.
-
-However, this kind of logistics typically only makes sense for features, et=
-c. In
-order to avoid a trivial conflict, it is usually overkill. Which is also wh=
-y I
-said I'd go for the former.
-
->> Either we just add this single error code in a separate patch or Miguel =
-provides
->> a signed tag for [1].
->>=20
->> Since this is a perfectly trivial conflict, I'd go for the former.
->
-> The latter seems simpler to me, and would avoid an annoying merge conflic=
-t.
+https://zoom-lfx.platform.linuxfoundation.org/meeting/93219227394?password=80705486-101a-4e19-8f11-0baaf92104be
