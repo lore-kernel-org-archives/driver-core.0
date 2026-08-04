@@ -1,501 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010003.outbound.protection.outlook.com [52.101.193.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EDE4854F8;
-	Tue,  4 Aug 2026 19:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785873216; cv=none; b=SQdqNph9SIlxvJh5Nu7cWPhnHZ+woYJVidraap7FxA7UgwbnJ1KXtseuZ/QuBc2kRcn0eBBcDIZhM8Hz9f8H1Q4+yaP3Qjc7qflTQnse428GDyx/fmG9irodYm5i5ech26bzQahu27EaLEAtSpGPE9ziIPkLGTEQvxyT+1V038U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785873216; c=relaxed/simple;
-	bh=saFGcA/IOUitefqNF3vJ3rxLlfNRxVOxpqAeEZdGio4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E8poCAwXhpKB3L+rbx+Pl0GJdvaKnHcZ4KWcTFDEuPyYXAKwB+lw5GN6Kb4eoaeqnOnsJnH1lfQZCqxnTWAnTwWliuGpf6o9xaVomzY3YEC1byI03GrXBaOmG70H3gnJBG2GZN0UWa1/W50QVVx9dUJFCzASA1ZXhZySDLqgL0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVHa2mIj; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E30B3B2FFE;
+	Tue,  4 Aug 2026 20:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785875624; cv=fail; b=kEpXpAweN8NjCsRblDtaU+9MhMwYvVFn5fju5hEwzCVgjGizHjxoXBE3GGmUfKfclWi7RCeCcNq3bnlztPzT3tR2jc4+tYxBELtOv2shrbLdqbfqafL3fd6IOCU9Cetw7gpBgJgr6fwtpO/eqUIrWovxJGDPKgYshzlukr4oaXw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785875624; c=relaxed/simple;
+	bh=nzy8EsmG/DeO/ZI4JJlnryBWPnR/mzfT32FzjTXqUSc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=KRRv60PTdqhKGFMSqr1LP1yMqoGYOVmOypABdOacDA+0/UfE1Ppqo+ptcKelpKuVPSewE63WQhyJ+e1oKp/n1OARjzrARLpLAlzQm19IB9j96k2o2G+KOKKkCaDL8T5SmUSVhXTd4RqqTQn5WxUBgNikuCiQULIMZ6JywB9vEWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ZF8XBF8w; arc=fail smtp.client-ip=52.101.193.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVHa2mIj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D721F00A3A;
-	Tue,  4 Aug 2026 19:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785873214;
-	bh=Y6vPxA08WuImsttgLjCe+Pyt9z/RPuUU3Pfcz/EgmVA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WVHa2mIjnd3KP4pbou0g5duJ8uTfldF1py8QF2FiTsRGUP1WLkj8P9GUEJhw0NFAW
-	 btb6A2FPna0zg66Dqh9YVk/xQvIiv7i+GWvOkiJZRmkCgQ9Ez5HtQVdK6lX1eQ7bWQ
-	 fXJks/5tw+qYEzZseb8YHzk3Ug+PCc9P50AMYAw6+L3A8NwKTuxD2udnz0iETTIkHj
-	 +yMC0+ghZ1EmMbAIBh1PaliFyEllCKQZc/pp0A8sG1inxgrfqbigBxQMMr4jlKwrgB
-	 DEiLf8NWbz2Ihocz2pcsZMYf51g2xA7HvFQ1u5mNqGzHClOXkXyLyf8zxCM3I7HwXE
-	 jfQNxtOVxK1sg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: tj@kernel.org,
-	jiangshanlai@gmail.com,
-	aliceryhl@google.com,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	jhubbard@nvidia.com
-Cc: rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 7/7] rust: workqueue: add ScopedWork for non-'static work items
-Date: Tue,  4 Aug 2026 21:52:09 +0200
-Message-ID: <20260804195248.665636-8-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260804195248.665636-1-dakr@kernel.org>
-References: <20260804195248.665636-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZF8XBF8w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N8jnVOFzvCZxjmK7OpYZ+BHkIbZhI0xHHMGE8zHLTsxpMFhrzORXY7bbky7abhA1KVxfBX1UVo+Zp1pAFa0M2tEhr/aZ99Dxl3Y5sia+t+cnjvECzzDWtLTU7wzOq21C0mTC4eOt98lCv7id6Ueiiux48B4XUDah/xuTcmw2QAo/F/Jrzut0imeYjABNXws0/G7P0rJC4jBjt3sLCNMKskTThxsVrRwU9kaF3ZeEy+2XpfWGcGKRyovB8eckeeDZ2B/BfKRjFaXzp0FRh/AutNSoXD6dQSEsvOsNXRmELkm2+w/E0C+aMXF+2MeMGLZ7t1MyWI/cukvsPxh+rpB9Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nzy8EsmG/DeO/ZI4JJlnryBWPnR/mzfT32FzjTXqUSc=;
+ b=Y+okJ4Na7MdHM37TO9RIR9g0Tkuo85hO3k+gz3USW4mq/TSk0gjmQjlcpTlOMqvTQtekmItYH2qkqzrh3EKyqbNOLAwJYQiQKAkHVuoN01Mx9D3l6Ls7YxoodR1JrhUqDz9W2SBbXpV8+yibyw/XtuIiG13Vz3Tn3xwDc5P1jhFyTiMsKCCdRUxnHrieOubkceMe44bOC5Jcnqk2uMQ8KMuIjQm+y1Wj8uocLrSxlH3o0BkmzykSzgI80eKuBcj1Ufxj+lgy5MsbUY6VQ8lqFQMKs4kARkzNwnzLde/li4G2/btq5o6SJVIo2xgxv4z1ckMj0X0VYHgVvw343SMvXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nzy8EsmG/DeO/ZI4JJlnryBWPnR/mzfT32FzjTXqUSc=;
+ b=ZF8XBF8wdnSbQqEFaIVcJznC4a3aeCyqoUlbmft88V2yvwrjiBl3zd1WddDMbMTCQW4c/VS5B6/pS3wI7YK0pONGuFQ4J55t4JiqKKJSa+3UvXJdRJwYlgS/1Q0xMgrgrn1fp4V0bk2SXeYtGZalev/6CiGjIdLgNHQBP0TnlU/D2UL1FWQMexschJKjBIU/HuHbuaa11Kl3V7vT9bIgtfjtiZWBQ0e46r1MQl2UJhLbAQz85MU/olqbbD0R6OwFs5KCIBsSy5iOQ3g+r/LLlBoMQw3ViN6WKZctkB2GkWZUZSlXloAFOUe5GkrjGc3Ga5JUNNInHuNz+rmNQoaY6g==
+Received: from SAWPR12MB999267.namprd12.prod.outlook.com
+ (2603:10b6:806:55f::17) by DS7PR12MB5741.namprd12.prod.outlook.com
+ (2603:10b6:8:70::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.15; Tue, 4 Aug
+ 2026 20:33:35 +0000
+Received: from SAWPR12MB999267.namprd12.prod.outlook.com
+ ([fe80::fe35:8a00:d9eb:40f9]) by SAWPR12MB999267.namprd12.prod.outlook.com
+ ([fe80::fe35:8a00:d9eb:40f9%6]) with mapi id 15.21.0292.013; Tue, 4 Aug 2026
+ 20:33:35 +0000
+From: Ankit Agrawal <ankita@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>, Jason Gunthorpe <jgg@ziepe.ca>
+CC: Alexey Kardashevskiy <aik@amd.com>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>, Aaron Tomlin <atomlin@atomlin.com>, Alistair
+ Francis <alistair.francis@wdc.com>, "Aneesh Kumar K.V"
+	<aneesh.kumar@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas
+	<bhelgaas@google.com>, Daniel Gomez <da.gomez@kernel.org>, Danilo Krummrich
+	<dakr@kernel.org>, Dexuan Cui <decui@microsoft.com>, Donald Hunter
+	<donald.hunter@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Lukas
+ Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Sami
+ Tolvanen <samitolvanen@google.com>, Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>,
+	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>, "rick.p.edgecombe@intel.com"
+	<rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol
+ (TDISP)
+Thread-Topic: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Thread-Index: AQHdDMrOwfwmCkkN7EeGRZV1a3LRYbaCujkAgAD+F4CACZTNAIABNzrX
+Date: Tue, 4 Aug 2026 20:33:35 +0000
+Message-ID:
+ <SAWPR12MB999267F65E7DEB49B1F4D9FD58B0D42@SAWPR12MB999267.namprd12.prod.outlook.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com> <amk7Xzm5jmz+6SPJ@ziepe.ca>
+ <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
+In-Reply-To: <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SAWPR12MB999267:EE_|DS7PR12MB5741:EE_
+x-ms-office365-filtering-correlation-id: 66f6dec5-7a9f-4602-0334-08def267a84a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|38070700021|10067099003|11063799006|4143699003|56012099006|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ 5cTFJAnhmU97DKF9+viIgDGreyG3iWzxqvD8QXSEtJtQLqh3oyocN/fQP8BaJBXmqFDSzmnaovCuMPzUyN4mrxl8ybOW9IINTPORo801uRFL6e0WOmsonm/gN+Wnv1ocS9m+6O9M4BQyPudfBd4U6bcwy0+K9Vf5pSmuDhd9PA2OBW9XI1LANIUNz7NLixllVNsHChsuOxPUinQ5DIiuXHnI9GzQ9GQS5Y686W+RlsYT9RPTlgKRngXui/LU5puHKfFF7bv6XA9s52nKZVh/pCAHhANkhayUAmruKBp2NHL1hwb7XrJxs4rFVxsrKaA7LRylMjCvUpjswy888LWw5cwWqPXS8BKS8fAOpx3tKSdv7uJwl585Wab1F2Kou1Rqj0tQJYA+CT2ng3lRPT0jbAQuS34JAM33GCJXiKdnug59xgDTshtzxfU5yKd5WhvWjh4L+DfhHNG25wH1eelQCi24AAU/PlfRkBqouPperfXExzOFncyi2BW3omISQZm4yYSAfVEKeMDSXXVl0bl1nJ7j91g/lCf16KZFJVe44h3jjdesVV/BeeioubkJwoGrAL/2ChNq2Hndxcmfc07nPpKDQk0NzOAtQVBRWxU91cMqni+xPRlZW8pOPUyE7u9lxitYPfBrYIywMsL0meUVNfOjXVy8uc6CmBH/LvQYf2pLGoHKH7Gs0U8O7M09fz/SbU2c65sBxQHIlGGp32DkKe6EKOy9Di1MYFwCKJSun0w=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SAWPR12MB999267.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(38070700021)(10067099003)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?BKik5NDNhxvSH1CN8bNfTmpu1d0j6YGrFTO7yYYTYmqPXW/a44EY1HQrcl?=
+ =?iso-8859-1?Q?eCdnLVpZBzabczXjpX0yWGkBkmeMXyOJe4v9b8F5QELxQZQKLD/EHTgi3o?=
+ =?iso-8859-1?Q?9sNEfl+JmEOO7o16R3L/p3FJn4zfevO81fpUB7Zi26j1MdImmF9poa9xU2?=
+ =?iso-8859-1?Q?zRnBqcJtqrUE05JzMQItJOXkQH4TA7B/vseQLgeZzii01eR6YhFg6wtZZV?=
+ =?iso-8859-1?Q?6e7a5LMTQUwSXUa+mfKXZsU1EwJqlERac25llajt9Po5Sx3rE7YwewoNNk?=
+ =?iso-8859-1?Q?nMPSARYRUzyIsQb8Ltl91+3HanRkdiVCVfDWyhB7UqKAQdsYfkpK59bD7C?=
+ =?iso-8859-1?Q?L+dPs9MBRbsXgCYU9YfH9htgkvAAkFHTHnUMqdINB05dSaMz7lizJRd4TY?=
+ =?iso-8859-1?Q?Wel2TV2CCNr9CutoNUW4kR8EWT86/0fprtSj/hXeH3VZqshIUKn1tqX80H?=
+ =?iso-8859-1?Q?zy7cqVyuhymE33SK4Ji5vyMmsM4TpUoj4zvicxaL11x5Pq6gV/YiOSs9hZ?=
+ =?iso-8859-1?Q?d0AePNIHqiS/mmiw1BvIwzINfl7RoyNzXpgOFu0nXECUgPLmrGWcOcdnKV?=
+ =?iso-8859-1?Q?ogsM+GDDV7S4EYb57fle6daletkTDfcaG0/J2PCqt0VR57LXI3ZCRrdm2C?=
+ =?iso-8859-1?Q?nGSScmsDUVqlL66nS7o2GHr1AhRYAFflSh+24+099UIZx2lrZGmzY+F3G2?=
+ =?iso-8859-1?Q?BgJfiTHoUGSDQpAXtW+FPZX0eGWc0a5jkk76mpdAvLd5AAMwxVJoJDa+d7?=
+ =?iso-8859-1?Q?37brePpUjkBP6dH+zPmnJnRsEWxEnEHqsq6tK5XBWEjnSRC5Qr/XAqJCam?=
+ =?iso-8859-1?Q?GP5hlTcGFwfDNtOdGEpSc8p3KTfpTQmsFesYCUypNyZA1RpvuSNCCT6ule?=
+ =?iso-8859-1?Q?TXP8IcS3ayOhl9UvlmTbHbpPqOpBXbXAZlgw3tgiFy1p3J4UnCBW8xDp3O?=
+ =?iso-8859-1?Q?xSePRsTs4YSVmoT7Hw/65ZPWj6OG3tHN8WL1h+fNEI0ORTK+B9wX9FDRU6?=
+ =?iso-8859-1?Q?2MKED+1Ym3JvjiP1p0xMCMrd/JiCDHhgytkPDjICbwc74simkny7UPhaQ6?=
+ =?iso-8859-1?Q?DCdIYiTvspEAmNWDYXkX0SvZBDEzqA03ZOe974n+Xpac7mLVacm5pcKHmt?=
+ =?iso-8859-1?Q?AVDrjq1c+hthcgY36N8Wg9wTfEnZBtSvea8bNQQJqUOZlx26cP10UDmr9z?=
+ =?iso-8859-1?Q?nKAXDItWqydNZOysS48FyS0LMkLQdz0DXKihD2VmUpTkpM0ShL4AJ9imQ4?=
+ =?iso-8859-1?Q?K7/gUk+WffhF+RrDjT8Qj97pM4olW9ZCLGC4R1/ZqvRuuZbuKwyiIwApmg?=
+ =?iso-8859-1?Q?GJj31WAJ9er2g/MDYy4xrVxLahQUex8QzoNbZGIH4qZT27Z9ouNpcKKToH?=
+ =?iso-8859-1?Q?BFegOT3rqf8UGMWT+9m04r+bmQOFNJFGRf0nkBtfGcvqTlweYFVnB0N6ff?=
+ =?iso-8859-1?Q?BLEYjsSsKvilqnd5jcmC5CpGjDqu7fIfVB1MD+KZAq+4M26bZA1ga4mKrC?=
+ =?iso-8859-1?Q?W+6fppnfB3qRMcuFSuDNHTlERk0yODWHtMmL4HRGTRskSJdQU1+G+EMPQY?=
+ =?iso-8859-1?Q?pVzeXECe+Ig5ce+pe74ZVUSlUgG17Ku0ECOK7yJvPxV01+XlSrRQIpaiXC?=
+ =?iso-8859-1?Q?lDkTOqbJE1Sfmytoxuk9Ua0rO+ZH327BLQMgu1xIv7MIXIbEKiJInnA2IG?=
+ =?iso-8859-1?Q?5FL8u9QlZY8GBU+iG7EUGdZnHGYaxJSfzeLQVvkWYQdQBq4y0WHpagass9?=
+ =?iso-8859-1?Q?qqJYkxA8jf/gOS21KVhAfL6jkb5bVgYFM9GbHJSnu/kydj?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SAWPR12MB999267.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66f6dec5-7a9f-4602-0334-08def267a84a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2026 20:33:35.1789
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oC94ke0OJOzEy5fVXxJCEQ/efknZnz9tuiD6jQD92P4XB1pPNBIVo0eiHa4DeGpJUt+CY46dKZrAEOG2dTaQzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5741
 
-Add ScopedWork<T>, a work item wrapper whose destructor calls
-cancel_work_sync(), allowing T to carry non-'static lifetimes. Ownership
-of the data is not transferred to the workqueue; instead, the
-synchronous cancellation on drop guarantees the work function is not
-running when the data is freed.
-
-ScopedWork uses the existing Work/HasWork/WorkItem infrastructure with
-NonNull<Self> as WorkItem::Pointer for the callback path, and implements
-RawWorkItem for Pin<&ScopedWork<T>> for the enqueue path (requiring T:
-Sync for cross-thread shared access safety).
-
-Two enqueue paths are provided:
-  - Queue::enqueue_scoped() / ScopedQueue::enqueue_scoped() (unsafe):
-    the caller must ensure the work item is not forgotten.
-  - ScopedQueue::enqueue() (safe): when the work item's lifetime
-    satisfies the queue's 'scope bound.
-
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- rust/kernel/workqueue/mod.rs          |  43 +++-
- rust/kernel/workqueue/scoped_queue.rs |  37 +++-
- rust/kernel/workqueue/scoped_work.rs  | 290 ++++++++++++++++++++++++++
- 3 files changed, 348 insertions(+), 22 deletions(-)
- create mode 100644 rust/kernel/workqueue/scoped_work.rs
-
-diff --git a/rust/kernel/workqueue/mod.rs b/rust/kernel/workqueue/mod.rs
-index 2b87f935712a..11477d42020b 100644
---- a/rust/kernel/workqueue/mod.rs
-+++ b/rust/kernel/workqueue/mod.rs
-@@ -215,6 +215,13 @@
- mod scoped_queue;
- pub use self::scoped_queue::ScopedQueue;
- 
-+mod scoped_work;
-+pub use self::scoped_work::{
-+    new_scoped_work,
-+    ScopedWork,
-+    ScopedWorkItem, //
-+};
-+
- /// Creates a [`Work`] initialiser with the given name and a newly-created lock class.
- #[macro_export]
- macro_rules! new_work {
-@@ -286,20 +293,34 @@ pub unsafe fn from_raw<'a>(ptr: *const bindings::workqueue_struct) -> &'a Queue
-     pub fn enqueue<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
-     where
-         W: RawWorkItem<ID> + Send + 'static,
-+    {
-+        // SAFETY: `W: 'static` guarantees the work item remains valid indefinitely,
-+        // so the `enqueue_scoped` requirement that the work item stays valid until
-+        // the work function runs (or is cancelled) is trivially satisfied.
-+        unsafe { self.enqueue_scoped(w) }
-+    }
-+
-+    /// Enqueues a work item that may not be `'static`.
-+    ///
-+    /// Unlike [`Queue::enqueue`], this does not require the work item to be `'static`.
-+    ///
-+    /// The work item will be submitted using `WORK_CPU_UNBOUND`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that the work item's destructor runs before any
-+    /// lifetime it captures expires (i.e., the work item must not be forgotten).
-+    pub unsafe fn enqueue_scoped<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
-+    where
-+        W: RawWorkItem<ID> + Send,
-     {
-         let queue_ptr = self.0.get();
- 
--        // SAFETY: We only return `false` if the `work_struct` is already in a workqueue. The other
--        // `__enqueue` requirements are not relevant since `W` is `Send` and static.
--        //
--        // The call to `bindings::queue_work_on` will dereference the provided raw pointer, which
--        // is ok because `__enqueue` guarantees that the pointer is valid for the duration of this
--        // closure.
--        //
--        // Furthermore, if the C workqueue code accesses the pointer after this call to
--        // `__enqueue`, then the work item was successfully enqueued, and `bindings::queue_work_on`
--        // will have returned true. In this case, `__enqueue` promises that the raw pointer will
--        // stay valid until we call the function pointer in the `work_struct`, so the access is ok.
-+        // SAFETY: We only return `false` if the `work_struct` is already in a workqueue. The
-+        // caller guarantees the work item remains valid until the work function runs or the item
-+        // is cancelled, satisfying the `__enqueue` requirement that the pointer stays valid until
-+        // the function pointer in the `work_struct` is called. `W: Send` satisfies the
-+        // cross-thread safety requirement.
-         unsafe {
-             w.__enqueue(move |work_ptr| {
-                 bindings::queue_work_on(
-diff --git a/rust/kernel/workqueue/scoped_queue.rs b/rust/kernel/workqueue/scoped_queue.rs
-index d4b9a03fd93c..21928d60a63b 100644
---- a/rust/kernel/workqueue/scoped_queue.rs
-+++ b/rust/kernel/workqueue/scoped_queue.rs
-@@ -152,20 +152,35 @@ pub unsafe fn new(name: &'static CStr) -> Result<Self> {
-     pub fn enqueue<W, const ID: u64>(&self, work: W) -> W::EnqueueOutput
-     where
-         W: RawWorkItem<ID> + Send + 'scope,
-+    {
-+        // SAFETY: `W: 'scope` and dropck keep borrowed data alive until this queue
-+        // is dropped. The constructor requires that the queue is not leaked and
-+        // dropping `inner` drains pending and running work, so the function pointer
-+        // is not called after any lifetime in `W` expires.
-+        unsafe { self.enqueue_scoped(work) }
-+    }
-+
-+    /// Enqueues a work item without the `'scope` lifetime bound.
-+    ///
-+    /// Unlike [`ScopedQueue::enqueue`], this does not require `W: 'scope`.
-+    ///
-+    /// Prefer [`ScopedQueue::enqueue`] when the work item's lifetime satisfies
-+    /// `'scope`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that the work item's destructor runs before any
-+    /// lifetime it captures expires (i.e., the work item must not be forgotten).
-+    pub unsafe fn enqueue_scoped<W, const ID: u64>(&self, work: W) -> W::EnqueueOutput
-+    where
-+        W: RawWorkItem<ID> + Send,
-     {
-         let queue_ptr = self.inner.0.get();
- 
--        // SAFETY:
--        // - Closure returns `false` only if `queue_work_on` returns `false`
--        //   and that means `work_ptr` is already in a workqueue.
--        //
--        // - `W: 'scope` and dropck keep borrowed data alive until this queue is
--        //   dropped. The constructor requires that the queue is not leaked and
--        //   dropping `inner` drains pending and running work so the function
--        //   pointer is not called after any lifetime in `W` expires.
--        //
--        // - The last requirement of `__enqueue` is not relevant here because `W`
--        //   is `Send`.
-+        // SAFETY: The caller guarantees the work item remains valid until the work
-+        // function runs or the item is cancelled. `W: Send` satisfies the
-+        // cross-thread safety requirement. The closure only returns `false` if the
-+        // `work_struct` is already in a workqueue.
-         unsafe {
-             work.__enqueue(move |work_ptr| {
-                 bindings::queue_work_on(
-diff --git a/rust/kernel/workqueue/scoped_work.rs b/rust/kernel/workqueue/scoped_work.rs
-new file mode 100644
-index 000000000000..bdc834a9a08d
---- /dev/null
-+++ b/rust/kernel/workqueue/scoped_work.rs
-@@ -0,0 +1,290 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Scoped work items.
-+//!
-+//! Provides [`ScopedWork`] for work items whose inner data may carry non-`'static` lifetimes.
-+//!
-+//! Unlike [`Work`]-based work items, [`ScopedWork`] cancels work synchronously on drop via
-+//! `cancel_work_sync()`, so ownership of the data is not transferred to the workqueue.
-+//!
-+//! # Examples
-+//!
-+//! Enqueue on the system workqueue (unsafe, caller must not forget the work):
-+//!
-+//! ```
-+//! # use kernel::time::{Delta, delay::fsleep};
-+//! use kernel::workqueue::{
-+//!     self,
-+//!     new_scoped_work,
-+//!     ScopedWork,
-+//!     ScopedWorkItem,
-+//! };
-+//!
-+//! struct MyWork {
-+//!     value: u32,
-+//! }
-+//!
-+//! impl ScopedWorkItem for MyWork {
-+//!     fn run(self: Pin<&Self>) {
-+//!         pr_info!("value = {}\n", self.value);
-+//!     }
-+//! }
-+//!
-+//! let work = KBox::pin_init(
-+//!     new_scoped_work!("MyWork", MyWork { value: 42 }),
-+//!     GFP_KERNEL,
-+//! )?;
-+//!
-+//! // SAFETY: `work` is not forgotten.
-+//! unsafe { workqueue::system_dfl().enqueue_scoped(&*work) };
-+//! # // Allow the worker thread to pick up and execute the work.
-+//! # fsleep(Delta::from_millis(100));
-+//! # Ok::<(), Error>(())
-+//! ```
-+//!
-+//! Enqueue on a [`ScopedQueue`] using the safe path (work outlives the queue):
-+//!
-+//! ```
-+//! use kernel::workqueue::{
-+//!     new_scoped_work,
-+//!     ScopedQueue,
-+//!     ScopedWork,
-+//!     ScopedWorkItem,
-+//! };
-+//!
-+//! struct MyWork {
-+//!     value: u32,
-+//! }
-+//!
-+//! impl ScopedWorkItem for MyWork {
-+//!     fn run(self: Pin<&Self>) {
-+//!         pr_info!("value = {}\n", self.value);
-+//!     }
-+//! }
-+//!
-+//! let work = KBox::pin_init(
-+//!     new_scoped_work!("MyWork", MyWork { value: 42 }),
-+//!     GFP_KERNEL,
-+//! )?;
-+//!
-+//! // SAFETY: The queue is not forgotten.
-+//! let queue = unsafe { ScopedQueue::new(c"example_wq")? };
-+//!
-+//! // Safe since `work` outlives `queue`.
-+//! queue.enqueue(&*work);
-+//! # Ok::<(), Error>(())
-+//! ```
-+
-+use super::{
-+    impl_has_work,
-+    HasWork,
-+    RawWorkItem,
-+    Work,
-+    WorkItem,
-+    WorkItemPointer, //
-+};
-+
-+use crate::{
-+    bindings,
-+    prelude::*,
-+    sync::LockClassKey, //
-+};
-+
-+use core::{
-+    ops::Deref,
-+    ptr::NonNull, //
-+};
-+
-+/// Trait for types that can be used as scoped work items.
-+///
-+/// Implementers define the work function that executes when the item is dequeued by a workqueue
-+/// thread. The callback receives a shared pinned reference; mutation should use interior mutability
-+/// (e.g., [`Mutex`](crate::sync::Mutex)).
-+pub trait ScopedWorkItem {
-+    /// Called when the work item is executed.
-+    fn run(self: Pin<&Self>);
-+}
-+
-+// SAFETY: The `run` callback uses the `work_struct` pointer to recover a pointer to `ScopedWork<T>`
-+// via `HasWork`, wraps it in `NonNull`, and calls `WorkItem::run`.
-+unsafe impl<T: ScopedWorkItem, const ID: u64> WorkItemPointer<ID> for NonNull<ScopedWork<T>>
-+where
-+    ScopedWork<T>: WorkItem<ID, Pointer = Self>,
-+    ScopedWork<T>: HasWork<ScopedWork<T>, ID>,
-+{
-+    unsafe extern "C" fn run(ptr: *mut bindings::work_struct) {
-+        let ptr = ptr.cast::<Work<ScopedWork<T>, ID>>();
-+
-+        // SAFETY: The `work_struct` is embedded in `ScopedWork<T>` via `HasWork`.
-+        let ptr = unsafe { <ScopedWork<T> as HasWork<ScopedWork<T>, ID>>::work_container_of(ptr) };
-+
-+        // SAFETY: `work_container_of` returns a valid, non-null pointer.
-+        let nn = unsafe { NonNull::new_unchecked(ptr) };
-+
-+        <ScopedWork<T> as WorkItem<ID>>::run(nn);
-+    }
-+}
-+
-+// Required because `WorkItemPointer<ID>: RawWorkItem<ID>` is a supertrait bound. This `__enqueue`
-+// is never called; the enqueue path goes through the `RawWorkItem` impl for `&ScopedWork<T>`
-+// instead.
-+//
-+// SAFETY: `__enqueue` is unreachable.
-+unsafe impl<T: ScopedWorkItem, const ID: u64> RawWorkItem<ID> for NonNull<ScopedWork<T>>
-+where
-+    ScopedWork<T>: HasWork<ScopedWork<T>, ID>,
-+{
-+    type EnqueueOutput = bool;
-+
-+    unsafe fn __enqueue<F>(self, _queue_work_on: F) -> Self::EnqueueOutput
-+    where
-+        F: FnOnce(*mut bindings::work_struct) -> bool,
-+    {
-+        unreachable!()
-+    }
-+}
-+
-+// SAFETY: `&ScopedWork<T>` points to a valid, pinned `ScopedWork` with a valid `work_struct`.
-+// The pointer remains valid until `cancel_work_sync()` completes.
-+unsafe impl<'a, T: ScopedWorkItem + Sync, const ID: u64> RawWorkItem<ID> for &'a ScopedWork<T>
-+where
-+    ScopedWork<T>: HasWork<ScopedWork<T>, ID>,
-+{
-+    type EnqueueOutput = bool;
-+
-+    unsafe fn __enqueue<F>(self, queue_work_on: F) -> Self::EnqueueOutput
-+    where
-+        F: FnOnce(*mut bindings::work_struct) -> bool,
-+    {
-+        let self_ptr = core::ptr::from_ref(self);
-+
-+        // SAFETY: `self_ptr` points to a valid `ScopedWork` with a `Work` field.
-+        let work_ptr = unsafe {
-+            <ScopedWork<T> as HasWork<ScopedWork<T>, ID>>::raw_get_work(self_ptr.cast_mut())
-+        };
-+
-+        // SAFETY: `work_ptr` points to a valid `Work`.
-+        let work_ptr = unsafe { Work::raw_get(work_ptr) };
-+
-+        queue_work_on(work_ptr)
-+    }
-+}
-+
-+/// A scoped work item that cancels synchronously on drop.
-+///
-+/// `ScopedWork<T>` contains both a `work_struct` and the user data `T`. Its destructor calls
-+/// `cancel_work_sync()`, guaranteeing the work function is not running when the data is dropped.
-+///
-+/// This allows `T` to carry non-`'static` lifetimes.
-+///
-+/// Construct via [`new_scoped_work!`] which returns an `impl PinInit` suitable for embedding
-+/// in-place inside other pinned structs.
-+#[pin_data(PinnedDrop)]
-+pub struct ScopedWork<T: ScopedWorkItem> {
-+    #[pin]
-+    work: Work<Self>,
-+    #[pin]
-+    data: T,
-+}
-+
-+impl_has_work! {
-+    impl{T: ScopedWorkItem} HasWork<ScopedWork<T>> for ScopedWork<T> { self.work }
-+}
-+
-+impl<T: ScopedWorkItem> WorkItem for ScopedWork<T> {
-+    type Pointer = NonNull<Self>;
-+
-+    fn run(this: NonNull<Self>) {
-+        // SAFETY: `this` points to a valid, pinned `ScopedWork`. `cancel_work_sync()` in
-+        // `PinnedDrop` prevents use-after-drop.
-+        let data = unsafe { Pin::new_unchecked(&(*this.as_ptr()).data) };
-+
-+        T::run(data);
-+    }
-+}
-+
-+impl<T: ScopedWorkItem> Deref for ScopedWork<T> {
-+    type Target = T;
-+
-+    fn deref(&self) -> &T {
-+        &self.data
-+    }
-+}
-+
-+impl<T: ScopedWorkItem> ScopedWork<T> {
-+    /// Creates a pin-initializer for a new scoped work item.
-+    ///
-+    /// Use [`new_scoped_work!`] to automatically provide the lock class key.
-+    pub fn new<E>(
-+        name: &'static CStr,
-+        key: Pin<&'static LockClassKey>,
-+        init: impl PinInit<T, E>,
-+    ) -> impl PinInit<Self, Error>
-+    where
-+        Error: From<E>,
-+    {
-+        try_pin_init!(Self {
-+            work <- Work::new(name, key),
-+            data <- init,
-+        })
-+    }
-+
-+    /// Synchronously cancels pending work and waits for any running work function to complete.
-+    ///
-+    /// Returns `true` if the work was pending, `false` otherwise.
-+    pub fn cancel_work_sync(&self) -> bool {
-+        self.work.cancel_work_sync()
-+    }
-+}
-+
-+#[pinned_drop]
-+impl<T: ScopedWorkItem> PinnedDrop for ScopedWork<T> {
-+    fn drop(self: Pin<&mut Self>) {
-+        self.cancel_work_sync();
-+    }
-+}
-+
-+/// Creates a [`ScopedWork`] pin-initializer with a new lock class.
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::workqueue::{
-+///     new_scoped_work,
-+///     ScopedWork,
-+///     ScopedWorkItem,
-+/// };
-+///
-+/// struct MyWork {
-+///     value: u32,
-+/// }
-+///
-+/// impl ScopedWorkItem for MyWork {
-+///     fn run(self: Pin<&Self>) {
-+///         pr_info!("value = {}\n", self.value);
-+///     }
-+/// }
-+///
-+/// #[pin_data]
-+/// struct MyData {
-+///     #[pin]
-+///     work: ScopedWork<MyWork>,
-+/// }
-+///
-+/// fn init_data() -> impl PinInit<MyData, Error> {
-+///     try_pin_init!(MyData {
-+///         work <- new_scoped_work!("MyWork", MyWork { value: 7 }),
-+///     })
-+/// }
-+/// ```
-+#[macro_export]
-+macro_rules! new_scoped_work {
-+    ($name:literal, $init:expr) => {
-+        $crate::workqueue::ScopedWork::new(
-+            $crate::c_str!($name),
-+            $crate::static_lock_class!(),
-+            $init,
-+        )
-+    };
-+}
-+pub use new_scoped_work;
--- 
-2.55.0
-
+> Hi Jason & Ankit:=0A=
+> =0A=
+> Glad to see you all here to make progress! Intel can also help on this.=
+=0A=
+> Can we have a meeting to discuss on these topics? As Alexey mentioned,=0A=
+> previously we had a bi-weekly call, perhaps use that for our first=0A=
+> meeting? Or what time works best for everyone?=0A=
+>=0A=
+> https://zoom-lfx.platform.linuxfoundation.org/meeting/93219227394?passwor=
+d=3D80705486-101a-4e19-8f11-0baaf92104be=0A=
+=0A=
+Hi Yilun & Alexey=0A=
+=0A=
+Thanks for the suggestion for the Aug 6 bi-weekly call. Unfortunately I'm o=
+n vacation=0A=
+for the rest of the week and the meeting timing is inconvenient for Jason (=
+PST+4).=0A=
+=0A=
+We can perhaps consider syncup sometime after Aug 16th. Does that sound fin=
+e?=
