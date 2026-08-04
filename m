@@ -1,164 +1,109 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611EC466AF4
-	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 17:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ECD424D42;
+	Tue,  4 Aug 2026 19:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785863754; cv=none; b=syqzYJkceTmU9o6e8B+zyltl9b9YvOWoRcMilULFj8JCYhrfcpeI6Pe8WchfyRNQbapebaBOx1zlB9Ksf31wv8lazAI7xh4kq4dqg3FXK9CaPAIpLg0wSEfzRR+s7FP3/UzFa4q/Wy+eSbCuZcHf02OWwVNdRZ2LTavHWXkqAAY=
+	t=1785873186; cv=none; b=RS/vOBmF7Vh1wKqs4NSCRP0kjZAR1wdI+qmrfMwavmPezo3KIK5KfGeQ+nxxT+DF+30IRmy1QIS/ord0VJi1LCkz1v+/a029G8rZ6g5+TJ0xtqVgfnwVjmm2HqSvA5CTJ+/+Ha9r/QTyD05wEnXHqXqhNxVqMry42hTDGDbyfZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785863754; c=relaxed/simple;
-	bh=VwwTpV+ezdcw39Sr3AKQMGIAF2VE506c/8kWk/yhDXc=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=lDdz5lWszgJm7zrA+FR5y+HZd0ea0iNNHQrpUVboM9rZfnyStOTv2Az1GhWs7QiOt0wE5/GQ/B1klqhx3a2PqqEOUmf001jy6qOQ4DUfpTaFAXRbfixisWgbUAK0SGwF2PQHf2Wj8UJAqEYg52EXS1KDF2W5no7iBY1jGav3uSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4959c49e054so60329b6e.3
-        for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 10:15:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785863739; x=1786468539;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=XKd940BQHqh/j+Z3cKxp/K2Wgbp0NxV7joqVuJPtBE0=;
-        b=T8iWlStF69dnXcdS4L0hxCkwwrCuFQLJMau28sNYlt3kvyLCdwMEPvNihztwTIG11c
-         e5rZukwGPypfJHGAgjedL1Z/MP4KsNOod5ht+4nBUA/1KJ+EQzTMdvmZcJGhcTtIPs1f
-         E+6+SjhO3d4hh7RmX7zfsutcuRUcxZ2OQtOzN/yrma9Y7nsULs4XKf2A701BDGFp26TL
-         ipNqf2So1O/tEJON9n6M3xXaNZyNHcoM77pU54kO/tMpEpAVvGbirtSEreHHs3tGCLlr
-         4Z56dsCcV9IdIATK57LgyGtWdX3L/EiDOM+km5XR0lpzIvrn8MnKpFG0wlN4ze7uU77g
-         PdlQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+1FUE5o//e416ViYQuOLzrcoPlRc9sykWS9KHjF8GWRAJbiREj0LFHpEqdOJiv98uzsFSDYrmLjXpfg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNkHTlenrbYbGTU9aj8HtTfQrEbzc3OJqYzIAGKKCJC0zvwyEX
-	wbbT/ncLxQcQgp8WPXwmZ5gzXpKoHj7HBWgCX0raknODHKPSWE+ntbwIbKGB60umLOldGruqxX7
-	3Y8IQhZAKI/nSf4SOWXxrnFC28sQR9uLxFEE0/h1NdFVOeTWXVhnRHbSoxoc=
+	s=arc-20240116; t=1785873186; c=relaxed/simple;
+	bh=G+emVjrWGnj593PsBxX0UlQ4KdgibQCqjwHsn41CZds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UbMnCZ28F1Hnv8zv70unHC9qxOQDt07lncM2TzBOAi16hDkYvLbl3UPbQhizyWz6yOsVeY6FJvC1mYxv+bMpLPitV8vA79FEXxdjvy9aY+m19vQFKOdMPDilBo7fzI6XS5Edzya8hdyw6QayHx75ZYr+YyrfFEWo36OZZmpzWms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7skavlt; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7skavlt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29011F000E9;
+	Tue,  4 Aug 2026 19:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785873184;
+	bh=xu+GksaCGgOMwV9hU5Wdn+RIJ/qpkfvR471e/po4eyY=;
+	h=From:To:Cc:Subject:Date;
+	b=Z7skavltvZDoA5kAZTnGt8FIJO4aOQw7Z/UVrKhFjkR9jvqg+s7DKeG47rNutPi2J
+	 jKAqifz2XyQGi8YDe7WGHyrcRTafet0p8kUv2kYNuVM+/izln2aJDA7Ol+xEmSY2Vy
+	 1Fohn913s3ozDKWd7NXCi4irQkfncC4fcEOQZ9s/Ot0uMrwAwHci6fL504F3rnJiDn
+	 QJ2gVOZTaF6Qa0KQwniMKsuJURw+Jn5X1HdzvZOUCEgRydZNbF0Rq1YP/rxRRIGPcH
+	 a0wKKFG1ts4mmtOOYOJgFmu5WJwUt9pqm0OevEknzMszLDezY+gokthx5uHPdjqytt
+	 7IFcIQnlQFA7g==
+From: Danilo Krummrich <dakr@kernel.org>
+To: tj@kernel.org,
+	jiangshanlai@gmail.com,
+	aliceryhl@google.com,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	daniel.almeida@collabora.com,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev,
+	jhubbard@nvidia.com
+Cc: rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/7] workqueue OwnedQueue, ScopedQueue and ScopedWork
+Date: Tue,  4 Aug 2026 21:52:02 +0200
+Message-ID: <20260804195248.665636-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:4fd3:b0:496:2b3:ae71 with SMTP id
- 5614622812f47-4afadef488fmr149848b6e.18.1785863739303; Tue, 04 Aug 2026
- 10:15:39 -0700 (PDT)
-Date: Tue, 04 Aug 2026 10:15:39 -0700
-In-Reply-To: <6a6b45fb.57649fcc.360844.0016.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a721e3b.40259c87.584f4.04bd.GAE@google.com>
-Subject: Re: [syzbot] [fs?] general protection fault in __simple_recursive_removal
- (2)
-From: syzbot <syzbot+cc460646984184ad435a@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
+This series extends the Rust workqueue bindings with the ability to create
+custom workqueues, enqueue non-'static work items on scoped queues, and
+introduces ScopedWork, a work item type that cancels synchronously on drop,
+allowing drivers to use workqueues with lifetime-bound data.
 
-HEAD commit:    7235a3e71949 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=16c913b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf4bea59f67007
-dashboard link: https://syzkaller.appspot.com/bug?extid=cc460646984184ad435a
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1116acc6580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=121fb649580000
+This picks up and extends prior work from Alice [1] and Onur [2]; changes I
+subsequently applied, if any, are documented in the corresponding patch.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/fd45635beaae/disk-7235a3e7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d7d2e6507223/vmlinux-7235a3e7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b5b5d8de4cea/Image-7235a3e7.gz.xz
+I also added a patch to replace the deprecated system_wq with
+system_{percpu,dfl}_wq, which I originally sent with the WaitQueue series [3],
+as it makes a bit more sense in this context.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cc460646984184ad435a@syzkaller.appspotmail.com
+[1] https://lore.kernel.org/all/20260312-create-workqueue-v4-0-ea39c351c38f@google.com
+[2] https://lore.kernel.org/all/20260617144645.253444-1-work@onurozkan.dev
+[3] https://lore.kernel.org/all/20260726223613.1242940-3-dakr@kernel.org
 
-i2c i2c-1: failure reading functionality
-i2c i2c-1: failure reading functionality
-Unable to handle kernel paging request at virtual address dfff800000000028
-KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0
-[dfff800000000028] address between user and kernel address ranges
-Internal error: Oops: 0000000096000005 [#1]  SMP
-Modules linked in:
-CPU: 1 UID: 0 PID: 5728 Comm: syz.4.648 Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/02/2026
-pstate: 23400005 (nzCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
-pc : kasan_byte_accessible+0x10/0x20 mm/kasan/generic.c:210
-lr : __kasan_check_byte+0x20/0x54 mm/kasan/common.c:573
-sp : ffff800096777240
-x29: ffff800096777240 x28: ffff800088b0a000 x27: ffff0000d0da3a80
-x26: 2eb980008045b830 x25: 0000000000000000 x24: 0000000000000001
-x23: 0000000000000000 x22: 0000000000000140 x21: 0000000000000140
-x20: 0000000000000002 x19: ffff80008045b830 x18: 1fffe00035bc9e28
-x17: 0000000000000003 x16: ffff800088b07000 x15: ffff800088bbd0a0
-x14: 00000000ffff8000 x13: 0000000000000001 x12: 0000000000000000
-x11: 0000000000000000 x10: 0000000000000003 x9 : dfff800000000000
-x8 : 0000000000000028 x7 : ffff8000818fc2c8 x6 : ffff800080d4edec
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000000 x1 : ffff80008045b830 x0 : 0000000000000140
-Call trace:
- kasan_mem_to_shadow include/linux/kasan.h:65 [inline] (P)
- kasan_byte_accessible+0x10/0x20 mm/kasan/generic.c:210 (P)
- kasan_check_byte include/linux/kasan.h:402 [inline]
- lock_acquire+0xa4/0x364 kernel/locking/lockdep.c:5842
- down_write_nested+0x58/0xcc kernel/locking/rwsem.c:1757
- inode_lock_nested include/linux/fs.h:1069 [inline]
- __simple_recursive_removal+0x7c/0x430 fs/libfs.c:606
- simple_recursive_removal+0x2c/0x3c fs/libfs.c:646
- debugfs_remove+0x60/0x88 fs/debugfs/inode.c:781
- i2c_device_probe+0x884/0x9d4 drivers/i2c/i2c-core-base.c:610
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- driver_probe_device+0x6c/0x19c drivers/base/dd.c:898
- __device_attach_driver+0x198/0x2f8 drivers/base/dd.c:1026
- bus_for_each_drv+0x144/0x1dc drivers/base/bus.c:500
- __device_attach+0x248/0x390 drivers/base/dd.c:1098
- device_initial_probe+0x90/0xc8 drivers/base/dd.c:1153
- bus_probe_device+0x58/0x120 drivers/base/bus.c:620
- device_add+0x6cc/0x9e0 drivers/base/core.c:3772
- device_register+0x28/0x38 drivers/base/core.c:3854
- i2c_new_client_device+0x5ac/0xadc drivers/i2c/i2c-core-base.c:1019
- new_device_store+0x210/0x3d4 drivers/i2c/i2c-core-base.c:1307
- dev_attr_store+0x6c/0x90 drivers/base/core.c:2505
- sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x51c/0xa0c fs/read_write.c:687
- ksys_write+0x12c/0x228 fs/read_write.c:739
- __do_sys_write fs/read_write.c:750 [inline]
- __se_sys_write fs/read_write.c:747 [inline]
- __arm64_sys_write+0x84/0x98 fs/read_write.c:747
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
- el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
-Code: d503245f d343fc08 d2d00009 f2fbffe9 (38696908) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	d503245f 	bti	c
-   4:	d343fc08 	lsr	x8, x0, #3
-   8:	d2d00009 	mov	x9, #0x800000000000        	// #140737488355328
-   c:	f2fbffe9 	movk	x9, #0xdfff, lsl #48
-* 10:	38696908 	ldrb	w8, [x8, x9] <-- trapping instruction
+Alice Ryhl (3):
+  rust: workqueue: restrict delayed work to global wqs
+  rust: workqueue: create workqueue subdirectory
+  rust: workqueue: add creation of workqueues
+
+Danilo Krummrich (3):
+  rust: workqueue: replace deprecated system_wq with
+    system_{percpu,dfl}_wq
+  rust: workqueue: add Work::cancel_work_sync()
+  rust: workqueue: add ScopedWork for non-'static work items
+
+Onur Özkan (1):
+  rust: workqueue: add ScopedQueue for lifetime bound items
+
+ MAINTAINERS                                   |   1 +
+ drivers/android/binder/process.rs             |   4 +-
+ rust/helpers/workqueue.c                      |   7 +
+ rust/kernel/sync/completion.rs                |   2 +-
+ rust/kernel/workqueue/builder.rs              | 389 ++++++++++++++++++
+ .../kernel/{workqueue.rs => workqueue/mod.rs} | 147 +++++--
+ rust/kernel/workqueue/scoped_queue.rs         | 202 +++++++++
+ rust/kernel/workqueue/scoped_work.rs          | 290 +++++++++++++
+ 8 files changed, 1009 insertions(+), 33 deletions(-)
+ create mode 100644 rust/kernel/workqueue/builder.rs
+ rename rust/kernel/{workqueue.rs => workqueue/mod.rs} (90%)
+ create mode 100644 rust/kernel/workqueue/scoped_queue.rs
+ create mode 100644 rust/kernel/workqueue/scoped_work.rs
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+base-commit: f2687db25dd52319cb06ef4aa8cc2a13fa0203fa
+-- 
+2.55.0
+
