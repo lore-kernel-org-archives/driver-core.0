@@ -1,166 +1,155 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C9C45DF65
-	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 13:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256B946F4BF
+	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 15:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785850159; cv=none; b=RbHZ/SnmNiYFPZq7Lxm8dT/Bw4k8Jf7eotS0ip6g2QXWmikbXqN73IxnpJ8UskSCnfCPndFGOlq8Do9p6VsDvi1wbjotSWemrcDFmvH4+EoH++p4PoI6FtdlIb3JQ5Z1txlZ4MluqrqlJZ+K/VwGn2hJ/jIiguphWVHSzUP1LZQ=
+	t=1785858768; cv=none; b=uUMCgE08cXar0JeWViqh0bGjqUH0Z0xB1W78WWG/tKm6uqrBccYS8X3BmZGXMxQBVbLKRfCR+owbApgghWx5ix71oZniEU+nhafd8wNNCySLdcfWSvXEyCN5mralK4968elMYI+aWV4IwQwfj2lQnscb+TE8W8tK/h16P+bEFIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785850159; c=relaxed/simple;
-	bh=LVdiZF7CvaM94iteidROu2BkJoAaGj3MZe4/m7jriJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YOeaihTYiSN1V94oFQVcjNSPwFuVx8xZNdv2PBynBaVD0TSCjFY9fUzjbHfcPWF0OVVnqpmuwDA5kihgRlzQI1K11nBY8dx6ARB7heGkjlPy1aKlnNn603PXzVakLQOTueElFRUo5/VOeCcCXAbYkBdy+4e0vPFK7QC1WB5m4Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KpjlhYHi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NJhzNHwF; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1785858768; c=relaxed/simple;
+	bh=4IMYxJH0hPLNM/inpTfFxvUD3zVh0AxAaEUPOIGaumM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ChbjsP/M0NFdAJYAVHGnvne6McIGNhu2D1zyixlrJorr7k/z/Gb3lLNv/PfFYBgAzsEE9Gzs+lEipoKjbPxO+iXcnqB/hGrrl4AZg43hzcQ+jg46ldc/IvMP+xrqDCanvF+M6ftrSzPF3qbnEIWwGyyJluKqK7xuFYz29zefHTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=XlbuGjOj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OJ6wdfMW; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KpjlhYHi";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NJhzNHwF"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674CXMn03829985
-	for <driver-core@lists.linux.dev>; Tue, 4 Aug 2026 13:29:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=yqNQQDZ0kzr9GItKVarNWHVJ
-	LBAJsCftPb64wB9ngRM=; b=KpjlhYHiQBEYzUflzcTH0UJU2Jk0JttJblhgRsQV
-	j1Q01Zofx3UzPO4kOL+Z7TWmB8Gd6PH9vfEmAOYtr1hWWXbn0iN+dmyWY+OXVsRn
-	WWm3GGdZtewXPs6k7hG6DNKspzpFYUfZk9tCzmZJFyLDzw/wmEf90lG24PRSy8d8
-	d2g/fTWTxvT43TU64WmjsLty8JWzajWXhus/bE9xNpc32L3oGHMCby9YrLENLk7i
-	6bUTwOZr7Uezv4z6SFuh+clSrO84beYrtqtS24zpF3SZ1KBxMP+nb3EbmICEeWOx
-	biuQiHrr59IwxLATT7l35V3aZp+ca0tOLFHglJNRL+tzUQ==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fty5scdey-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 13:29:17 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cb74d5db64eso5639415a12.2
-        for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 06:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785850156; x=1786454956; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yqNQQDZ0kzr9GItKVarNWHVJLBAJsCftPb64wB9ngRM=;
-        b=NJhzNHwF+8K6QQgrLSwV4O22kLm7iyX2KQFyJxLEAzcG6H5tABqSBCPWE/eBFPzcQu
-         kfTz2/L4+h1DssXLumuFMx7YHBv5lGmGbsorAn5d/F5WvcAHrxzzRkDPAD70bIPdFsr4
-         yk62CxHvlEM6iyCx6UNENK8/PrjvqBIfqTWzPBhMmpeVnP4THbvgL6TCnUO+K+u8VqY8
-         EhAQDXQY/SvTSPSzOHbNlV4DLn4IeSFxcFjJ/QEEQ1IOf2Hu0s1oHs4G0q2oFRS/bI2d
-         AOkajvllpl5528OF7IbB6KxAtKaSv/95+qpZowC7cC74TKGUD5tQOrf35Yk1pPclinrN
-         MHYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785850156; x=1786454956;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yqNQQDZ0kzr9GItKVarNWHVJLBAJsCftPb64wB9ngRM=;
-        b=Y7Ye3AKC6EKe0ydkrxi/3qRAriWs4SkJx2qq+52DSUjk7vuyNpveS+decSPvjdwx4j
-         O3GnygTVp7IBAIwv1xTjndM87+AFqkivLLd4ExeeuEOK68ij2KthEGLMUPH2uZZg15kY
-         ffGPC0OW22Dfr7VuVvzreehvh66azBJpM3p8VizzLmSAEEamz+36pz3uMztmd6Y4rwPK
-         yvJa2XIj8BnSBNyCxDuzvsgffGjYht3H8SEh4gR0+VKHKlpyKSETrI9z/Cq4P3IArd/q
-         mo/4zCMQwelE9Gi4fOhdU/lGwHOCC29fP+wwKHdqOS+q6kCIEEpaAHUoyX1zaG8puzQq
-         PBQw==
-X-Forwarded-Encrypted: i=1; AHgh+RorhYe/9MQkN9IfS4pYvxxG/HhjRAe4e89P4T5uSrzSVkK5obWTMgPnTZpXucBB7zTcMCqJhg3pZKEz6Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxp7uZQrclhGJ0VtKbZmWkhEi/GZK/sugzeVZeJdR/ANA59bJkd
-	5fwCh0rU/joZLcWH19TXtTFEIYn1nkxWO/GmRj60F81wTT35n4Ks2d0Pb3Nbkt9h3rR+8ZbbOdR
-	0p1MdRS6D7Mr1GX0Ky/wR/kP2AyCQiwc3/8yp2BJlVcUcazeOPp+hUxIBiSx7E8ad1G9SxCQtqA
-	==
-X-Gm-Gg: AR+sD11HpVvHBrqzPARmUpOemvmVVJ72sSNE1Fa2kUeJiLGuDhvZHP9+EctHlz0RGBr
-	62sPVnOfrLPfJrpBvq2izYtcft3vwMgYytNWN02OV1XD+wmPn2K1/WVBH3nrFBMNXQCf8/TDdVx
-	sW3SIheM1ORfqdI16nUtrE7Yy8OIs8bnYt6BhjIDVUw6mvAKJrHIkTj2EYFIK8njiV6ZlbdSiGK
-	0BpnrviIVkYmFwb0JiQtdAxBvHqBD3h1Tm8m//wMSIbNSmKDrlsV8wX5IYxhcC9FJDgfCHmUenR
-	gv6XGIHEMwYyM4kajdSluYpBEU2LLBY7rWHs9AQmR6awX23XzBzjyuvwRUJHZnJ2kUAthXQdXCT
-	Pu59dyC2W+CGHiVVVFsxxO+ubFNY=
-X-Received: by 2002:a05:6a21:9183:b0:3bf:e2dc:bc85 with SMTP id adf61e73a8af0-3c92a89c476mr14560253637.40.1785850156077;
-        Tue, 04 Aug 2026 06:29:16 -0700 (PDT)
-X-Received: by 2002:a05:6a21:9183:b0:3bf:e2dc:bc85 with SMTP id adf61e73a8af0-3c92a89c476mr14560215637.40.1785850155602;
-        Tue, 04 Aug 2026 06:29:15 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31586162e80sm5565206eec.0.2026.08.04.06.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 06:29:14 -0700 (PDT)
-Date: Tue, 4 Aug 2026 18:59:08 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Anirudh Rayabharam <mail@anirudhrb.com>,
-        Shuah Khan <skhan@linuxfoundation.org>, driver-core@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware_loader: do not queue completed sysfs fallback
- requests
-Message-ID: <20260804132908.oepyhy5g3bgzqrby@hu-mojha-hyd.qualcomm.com>
-References: <20260716081601.1674470-1-mukesh.ojha@oss.qualcomm.com>
- <20260803181237.kkfi4mtmmd637e7w@hu-mojha-hyd.qualcomm.com>
- <DKFJ13ZEUX8M.29CDWH9A0OF6U@kernel.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="XlbuGjOj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OJ6wdfMW"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 3BF3B14000DD;
+	Tue,  4 Aug 2026 11:52:44 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Tue, 04 Aug 2026 11:52:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1785858763;
+	 x=1785945163; bh=tvHNcStby7mA2MTedxkPfcu3psZZkC2QAAIerdvv5BY=; b=
+	XlbuGjOjzvtkwwzyaMzIY5/q2c25pE6974gbbyEj7QvtE+brS+TEWKMENWwMZnsV
+	2S8YvnEK2FkgyXvMcn8EMGGDmmjJdFct/1IGy6y8LlDJu000B5gRyKlho7EbfK+V
+	6yGqTT+mH7A+XQiNhkpYXKJSXgxSLg52dvK2lK/QrlMvkVkNfROqZSilXrMjwOMY
+	xqDsYcS2bhdSaS9yYPCYg/+g6F/ehTZH+3pbvUs9mgccsYzFj1fQExZOGLPaZS7B
+	ZSwokkKQAuMtSTKfbxNXtoE2ku76npIPOayG7OIWqP7iOAEptk18oAufdjgpeVH6
+	MPsBicPq4XmrXVUAnNCj1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1785858763; x=
+	1785945163; bh=tvHNcStby7mA2MTedxkPfcu3psZZkC2QAAIerdvv5BY=; b=O
+	J6wdfMWMFi6sSQVuySFR9sQBwgSkRoQZrH/FrkqWgbbr2B4VgyODxgJ/GOqc2tnH
+	WyzRJlle83RX7n+7Tb6TpLKlS4A8TImzYhrd8U2WjsBEW08WBoBvwuEUHEIZXYJS
+	xVqaMJtHkq+KVy660rz2HDKI9HcyYQrX8PtNol2zPTKfARZdCuwoLauFWAiYD8W9
+	YKrbijhAysnw9o45BfgSXH46rfZXrzfnTcCCD/TmNMIgKdxZ7/8bcJv0x0XAYew9
+	NYkyNDDKIn/7jVpL0Fxx/4T9eouYSgmf2G4Nsp3zCysNm3tFT5veebLMj8vTx7NI
+	6FefIOwtuGg1FcrKHWgag==
+X-ME-Sender: <xms:wwpyaoq7LvcUG1u5yPw1YP8DuLa49jXieUbG9ZUvcDjALEQs8-ZZjw>
+    <xme:wwpyapepKqYvi_mjS2Iqlm1WRhHNbniW52G0hm9jnwHY1fsY7O9XEiPCjV70_qovC
+    0qncrywDQQefIAg-8Ha2a14YWbuBMAjTGoiGxF1ShlQaWhz5eHv6g>
+X-ME-Proxy-Cause: dmFkZTE6dy9+2lfDYpR/aLw8faXRHD8Gp+7LDACqd3lgKT3c4TyXY77vVtGtLw+6ogbHJt
+    RQ1TcE3RozZ2SKSmFDQ6m+eaxPt+BvQoXFQNJf/uoDzOfVqb/mG16Mwn/s7DlM4yc2yb49
+    KqKdeyu0ECs1bNgAJjzJESLzzlkIf0BZuC0WhY+1LlN6Fyh3O1wK1s8ROBp4its/Y5r3z3
+    rHRnJxh4mhXbgVgBBbG0AmBtLAdNkpPdL0fZenjvt9OqJUBbiLS7ZUo3URb0a+JLqe4w/m
+    bQ0bEWkC7SLImMlL6TzmuBBUG87+UKpXuU5ju0aJK7x1js7JJA4rslTuh12IbmKBX7oKAn
+    urSEe69AN5eGR0KvqNwOedlZJrHWtZWlZourX2PWybBQABypSOaW83p/qBhxIsuF85qNo9
+    mjeUBE74+saty+KLxFHj4x2WGuO/DrpZquCsNpYIjc5vHoBITY912R314E6ui9iYM7SeTm
+    nDECyBPa3JKyvK4OFU55sVReSbFX1vcbYN9DEc6TtYNp1YgszM89KBfoC/E/8NOvk+oBgW
+    kIi8sqfCFsN3r70rDTFc49YEiXttdApHS8Kk7/D4yJf6q6ziMy9DC3gUx0SxPqWu/NPXbw
+    aSkSsuGlxI0I4jiSIaWl0kpiHX5H9f0C6cjiItFdijVgv8TVNUoyR6LYA24Q
+X-ME-Proxy: <xmx:xwpyavYPzTKZOjVb8fu8GS0IEVwQN7nOXJGsR7JmK1MP7clHDC_R_g>
+    <xmx:xwpyar0VSTueGpVxBppRaCHJM-ikHwG8H45GxiLXRWFuE9U658R2Sw>
+    <xmx:xwpyah7LMvaEgXxgr59Kw0hgurcTrjwXrbyboi6IVxkJn5Has5HslQ>
+    <xmx:xwpyanQICiQWRhTwGF4MAcLA67CAWFE3lIzG2FwgY-7_vnAtykEpXw>
+    <xmx:ywpyaq4ADYVlAyWSIOHnXxaVtWE4TeJi2fviLbyhkM-YiVQ47DG6-y3A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 4743132A0062; Tue,  4 Aug 2026 11:52:35 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DKFJ13ZEUX8M.29CDWH9A0OF6U@kernel.org>
-X-Authority-Analysis: v=2.4 cv=SPJykuvH c=1 sm=1 tr=0 ts=6a71e92d cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=ON1YFn8C5K9rNmW4d8IA:9 a=CjuIK1q_8ugA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-ORIG-GUID: bPjIdjVlpCGVUpZzqIjYr54c9EX3yYec
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDEwOCBTYWx0ZWRfX1/up5CnOWprS
- iF5b4vlGwjQBtPX/W6WnliAH7kFdv1p8444/MBAueWZCqzL4kB7YShn1czFVye4Rfia2OG8dCyk
- ecBIjseMjeJ8AlApLfee5ugX1d7L1i1ujwO29L5LZdtxjMyNRTZ+nZ6KZlqLsGtbmQdRlPrUcfh
- 7ccuevudQJzHaPi7R7fkxGnMARGXPs9AYsUxm4jsVKk3of/vLT5VjpJcbOIcXJN+/qG26CMT7Au
- qsJmj0Go/QygB/U2BiWHR8eMnCxzj9Ufj3U1Adz7IXFlPIl83nKCxBk07OvN/I4OzEMLksncOyb
- Ulj1Vd51ITt34KyZv8j9BrSAVU/hBruI3gKqlVdZoFfhWXRiqk6YchcaMTBpJK62SOV6wCl32T6
- iIPjebC6yGCSNPk24rEiLFYmehqj9pCFUAoLVsO9Io/3hEHt31c9gTyPpVMqpGbB0gddngJ2y1O
- gvWOpNLOLbjDECammaA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDEwOCBTYWx0ZWRfX1DGeTeaARX8A
- XRGvEwnv5e7F4YRWDV4KKtVNwYPiDuNSbJtGA5N5uBrwC7iBNEFfM283pOMLMTHNlKXQ1cW1ci/
- Aw81scz9SdGyCsq1ARxEMZ9pKUsnRPI=
-X-Proofpoint-GUID: bPjIdjVlpCGVUpZzqIjYr54c9EX3yYec
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-04_03,2026-08-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 spamscore=0 phishscore=0 adultscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608040108
+X-ThreadId: Ag8nwV6tN_57
+Date: Tue, 04 Aug 2026 17:52:14 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Niklas Schnelle" <schnelle@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Gerd Bayer" <gbayer@linux.ibm.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, driver-core@lists.linux.dev,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Sven Schnelle" <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <lossin@kernel.org>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ rust-for-linux@vger.kernel.org
+Message-Id: <57ac7553-4034-49e2-b686-b7272591da00@app.fastmail.com>
+In-Reply-To: <1aac654b8d333cc058a345b03ae0f798f1724ced.camel@linux.ibm.com>
+References: <20260803180931.97202-1-ojeda@kernel.org>
+ <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
+ <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org>
+ <20260804071330.24760Aaf-hca@linux.ibm.com>
+ <33ecacea-ed2a-409c-ab1c-a136e06b1b7a@app.fastmail.com>
+ <1aac654b8d333cc058a345b03ae0f798f1724ced.camel@linux.ibm.com>
+Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 03, 2026 at 08:40:06PM +0200, Danilo Krummrich wrote:
-> On Mon Aug 3, 2026 at 8:12 PM CEST, Mukesh Ojha wrote:
-> > On Thu, Jul 16, 2026 at 01:46:01PM +0530, Mukesh Ojha wrote:
-> >> fw_load_sysfs_fallback() calls device_add() before adding the fw_priv to
-> >> pending_fw_head. device_add() publishes the fallback loading interface, so
-> >> a userspace helper which discovers the device by scanning sysfs can write 0
-> >> to the loading attribute and complete the request before it is queued as
-> >> pending.
-> >> 
-> >> In that interleaving firmware_loading_store() calls fw_state_done() while
-> >> pending_list still points to itself, so it cannot remove an entry from
-> >> pending_fw_head. The subsequent unconditional list_add() then queues an
-> >> already-completed fw_priv. Once the request is released, pending_fw_head
-> >> can retain a pointer to freed memory and the next fallback request can
-> >> fault while validating the list.
-> >> 
-> >> Only in-flight fallback requests need suspend or reboot abort handling. If
-> >> the request is already DONE after device_add(), return success from the
-> >> fallback path without sending another uevent, waiting again, or queueing it
-> >> as pending. This preserves the invariant that pending_fw_head contains only
-> >> active fallback requests.
-> >> 
-> >> Fixes: 75d95e2e39b2 ("firmware_loader: fix use-after-free in firmware_fallback_sysfs")
-> >> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> >
-> > Can we consider this fix for this mentioned issue ?
-> 
-> Sure, how did you come across this issue?
+On Tue, Aug 4, 2026, at 14:21, Niklas Schnelle wrote:
+>
+> I think there is also an interesting interaction with memremap(). 
+> That calls ioremap() under some circumstances and it's a known issue that on
+> s390 memremap() will work if the PCI memory-I/O (MIO) instructions are
+> enabled (e.g. on modern LPARs) because then ioremap() actually maps,
+> but won't work if they aren't enabled. With your proposal it would also
+> work for !PCI.
 
-with Kasan with some fuzzing.
+Right, that is an interesting one, as there are somewhat conflicting
+requirements:
 
--Mukesh
+- On PCI MMIO areas, memremap() and memremap_wt() should return a
+  normal kernel pointer that can be dereferenced, e.g. for
+  option ROM contents for a framebuffer console. This can't work
+  on non-MIO guests but might work on MIO depending on which
+  instructions are allowed those mappings (I can never quite
+  remember how this part works on z, does this have to use
+  pcistgi or does a normal aligned load/store work as well?).
+
+- On areas that are backed by physical RAM but not part of the
+  kernel memory (something like z/VM DCSS) should be mapped
+  using memremap(), which would fail with the current !MIO
+  implementation. On x86 and arm, this is done for mapping
+  firmware blobs, but I don't think anything tries to do
+  this on s390.
+  Right now, not having memremap() defined on !PCI configs is
+  the one thing that lets you know if some non-PCI code ever
+  start using it, other than crashing a non-MIO guest.
+
+> I actually have a prototype lying around where ioremap() always remaps
+> by mapping the address cookies much like we do for user-space access
+> via the s390 specific MMIO syscalls and then doing a page table walk in
+> the accessors for the case where we don't have PCI MIO support. That
+> would also allow us to implement the s390 MMIO syscall via
+> generic_access_phys() getting rid of quite nasty inline assembly and
+> over 300 lines removed in total. On the other hand it would cause
+> overhead for non-MIO systems and sadly this currently includes all KVM
+> and z/VM guests which is why it remains on my prototype pile. I haven't
+> actually been able to measure the overhead but clearly more work is
+> done.
+
+This would not help with either memremap() or the !CONFIG_HAS_MMIO
+issue though, right?
+
+       Arnd
