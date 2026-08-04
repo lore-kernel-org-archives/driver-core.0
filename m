@@ -1,141 +1,141 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2338C3F4DE6
-	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 07:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F0A42BC38
+	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 08:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785827629; cv=none; b=fEKV8EwFsEf2vaSNKGm/0FnsqofG0CaCgH0CPGs3ilhrqj6lVVpNPTqrbd9VeaIS+IxOt/cMKhayBNTRUty0VZENcVBMP2RmYAKdt2MEKV/FDoLJ/bkMynk4xJ3FoLeVYwbYTk/mxVeJ4bH7SypJ50xrykNF0loRZ5+ZYEg8ijc=
+	t=1785830537; cv=none; b=t/dFipNE+e74HpK2642QokHWtjk8ifoY2XTF7RBcNz89xuxjk+E6Wfy2A0y8hL0zuCNFViJ05kdWqCZHuIXKYsQ51lFFsqTmn+1ZTW3XuvSjKmyCjvk/qbWCy82svTKUgo91ecqFL4bsR1FOMU1IAligB3rJRgP6NJpsCoSy1A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785827629; c=relaxed/simple;
-	bh=iB7LAbQB9wnUsBMZOc1HkDyLZosHBMB2j8feHA1K5Qs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOFr0HQRToYbKtt3DC8ExoYBLScnWwLxOw9vamGJXSLfyOMMSEWAjrzgyckdmJ4psko2eQ8FpHXquwfhB7prpJlmBALkpAgf1+OAP/qYa/XY7y9mrvLm7DfVMRM7+We/+Fq86VSCxoLxavBCtfT+maxsGlHW/YhKFjcGjPBAl/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GY4RTDjz; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1785830537; c=relaxed/simple;
+	bh=CB5SYoKg/5ZxEr5pPhwxBoe4hMu1CcWGN7cso8dfp4M=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=qja0pNvV0kG3FHOVcXmvxC5yfPe+RC6FezCDxr5BGjb4XOIMIEJu299U4TIvolmgDmsB6s7PWLgCQHqfEZ9fjEbE0MR1jaNDoIIpBrNMuMjvGmx7IG60kiR7ehO4FNaMNrWbsUJWt0zEOfuAkgGEx6VMrbe6papS5T/2YgSadEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vGX233ew; arc=none smtp.client-ip=209.85.128.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GY4RTDjz"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6741Iquf3657805;
-	Tue, 4 Aug 2026 07:13:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=vUE32F5PyxjvzAPaObeqRMSsRGv8gN
-	bkIwzkhha1L2w=; b=GY4RTDjzrcBHJFguzMKgTPWXld4hjkUkt5mNRTTM1NuTpI
-	B5aabeesGMSw0xh6e2YHrW1qiR9OVVHGsl8a3TnmjcP2Kmw4DcbEsRTPRVyrLGrY
-	uXq2Foq6eMSySTWrpH0FfXrhKKf0SvavpqdXDF7Fmr5yBEM5d1Q9/480JF3Qj3ch
-	XLYEcuUk/0babo1s8U2ECsxRI6hBWwqJF6YK43Jk6cwRlM0JFsdNJTFIAXm6u1Hw
-	Ea+RRx4Pekz3XgNJ0isflq85SQ7slI4n8O2KARRiaAotvZAOuxYXTbV9Dx3KYOqV
-	sS/mtpDM1YaHaU9Qi3bBr/pMb//naliNkBiXMOww==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fs8h4vmb6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Aug 2026 07:13:38 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6747BGg9017489;
-	Tue, 4 Aug 2026 07:13:37 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fsu4qh1xw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Aug 2026 07:13:36 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6747DX6G44106180
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 4 Aug 2026 07:13:33 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0DAED20063;
-	Tue,  4 Aug 2026 07:13:33 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3FDF120040;
-	Tue,  4 Aug 2026 07:13:32 +0000 (GMT)
-Received: from osiris (unknown [9.111.93.243])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue,  4 Aug 2026 07:13:32 +0000 (GMT)
-Date: Tue, 4 Aug 2026 09:13:30 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Danilo Krummrich <dakr@kernel.org>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Gerd Bayer <gbayer@linux.ibm.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
-        Alice Ryhl <aliceryhl@google.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        driver-core@lists.linux.dev,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>, Boqun Feng <boqun@kernel.org>,
-        Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Benno Lossin <lossin@kernel.org>,
-        Andreas Hindborg <a.hindborg@kernel.org>,
-        Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>,
-        Alexandre Courbot <acourbot@nvidia.com>,
-        Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-        rust-for-linux@vger.kernel.org
-Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
-Message-ID: <20260804071330.24760Aaf-hca@linux.ibm.com>
-References: <20260803180931.97202-1-ojeda@kernel.org>
- <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
- <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vGX233ew"
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4954a93c565so16978675e9.2
+        for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 01:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785830533; x=1786435333; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nEJITv1WcGLvr9b4sfSYJz2GZb00MTzVJtJ1pz53UrA=;
+        b=vGX233ewfKtTE4NHgql+RNNkOOAVOuVraEFgoacc8lzjfWDh9EH85Ktn93but41eQI
+         wNYs7SBdDXrZYMlR6h06gdXX60FTLVOtd9PiVSKZOYSP/gDDRl5CJ1XSxXqBE9jc1EnH
+         x+i/vzQTXV3XkoLzPxwYqwz7yan5UakCL5bDj0S1ozYI676HDAzPn7Omt5rfRxH8LynU
+         +ybMyPcZRpxXfMRL/7SEWyuerqGEW9Uh/PNm8zVSl23aeBK+oFXfebGTDf+yIjEq1YQX
+         F7Ci+7cL61f7W3DuD6SUx+n6mp7U8YTIX6kTwoYNcp2FFo+R46qI+rPMCZoooVs8fDsU
+         W8dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785830533; x=1786435333;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nEJITv1WcGLvr9b4sfSYJz2GZb00MTzVJtJ1pz53UrA=;
+        b=hYdzKW9DNyvtMiO26pZG30HCRTkfZdUUYB5TfNbEWjG5w1JhlaWYcbDRCsccTkCIRM
+         WyYDGq1zhEdyVHDYBqcT6KzdiRmWwJ1tpd85/LdL//5iySinN2XINcq7ocW7IMEc1hBR
+         ghXe8IeyuC2ySx18QkQeWb76KInC/qJVOd4nOowOZjRn45cD75EWaldketMDpq+e6kxq
+         tAITSkhnWZggKgweSfk76nUf/orKaIGFkuZERRDJf9dGD3xMPv4qhJUS6Nk2SUCGlB6u
+         kff7q0LVLRKBHVrwfoKuHbkSLnhcPx9cvNnkEpmPcUWDi9YhdZIvl2pA3c5fjc0YIBPz
+         lPnw==
+X-Forwarded-Encrypted: i=1; AHgh+RrIkCvKASsYoGSr3Q+4rxbzIpmVVR4p1OKtvxKl/PGrU8lQo+RcAlC4DGTYqTNXGbmK5yOfa3Yxy2hsSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxWCmeqM+T8ijWh+GEvq7pCcu4CZpyKDMneFHh361Q2NbRCmoa
+	Nyf4PEWRndFwb2fE5Lps7hjJwpRZFg6xuQz4d6kzFQIK0+79amFqerHA1Y4STY1RRcxz05eehkn
+	6JQAIUuOaM6Kg1DS2tA==
+X-Received: from wmpx38.prod.google.com ([2002:a05:600c:18a6:b0:495:49a0:9476])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4f84:b0:496:bbcb:b0bb with SMTP id 5b1f17b1804b1-4980c674e31mr299591655e9.18.1785830532277;
+ Tue, 04 Aug 2026 01:02:12 -0700 (PDT)
+Date: Tue, 4 Aug 2026 08:02:11 +0000
+In-Reply-To: <20260721153617.869933-3-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDA1MiBTYWx0ZWRfX3v88aBK5YIfi
- g0CikaZzU6SCLK4jvJrE43+u9qKt9mf/pN5sXI6EE7+YOrQwxGCR6kvT42IkPsEIOTdJdLFly5P
- 3ielbbnqL/rmr8UZk6HHETEsXui4/CE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDA1MiBTYWx0ZWRfX/C/TRi9AeEqi
- mx2uGAr6WflAIE7vELDGWbll/NjO/egbZIMz7QrrH+Zi/eCdkvdSEAf0iaONiV8FQm/3x091Xcf
- H/8HoGHm+a3+ODnWLJdH98CkPwyUu+AgpF/IQLMgMAeMOLPgS8fJAINZreJcLFa92S482K4OiPe
- 1K+8p+F3nnBjBlF2DeRKqJjK9ECfhfxd7UwWpV48h9znsJPV0oLYH3P02ps8D+kMsWduz45lS9e
- uZPsrkB1a+6T2h2dtAXV8YK+YW2imnUu1UetLuXr64RT1KGph8ZY7x7dssr97DwNEj5o31oo0jO
- h8B6jtpA85w+gO+iXYyyZEQqzSxtqfXJRj0TORhm1p/wGJcNR66uciMDu7m6+ynZjF2aPzNiY5d
- /kt6bAK6mzO++k3A7/C963ENgSLy8J1QdO9pSCbtl3ct52B5GDlgvWsjX69Gw0ijP8yfh9kUKFs
- oI6JFrVenNDY5kAxgLQ==
-X-Authority-Analysis: v=2.4 cv=SI1ykuvH c=1 sm=1 tr=0 ts=6a719122 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
- a=kqwOr8l2DO9RG4HK3QcA:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-ORIG-GUID: Ft_qBtxc8u4mav5gIIbz5_nIC5A8xVIb
-X-Proofpoint-GUID: 754QDw_B3uIUzLifpG3vuiI9ma9loci4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-04_01,2026-08-03_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608040052
+Mime-Version: 1.0
+References: <20260721153617.869933-1-beata.michalska@arm.com> <20260721153617.869933-3-beata.michalska@arm.com>
+Message-ID: <anGcgxwNXz5_RzD1@google.com>
+Subject: Re: [PATCH v2 2/3] rust: platform: wire runtime PM callbacks
+From: Alice Ryhl <aliceryhl@google.com>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	tmgross@umich.edu, daniel.almeida@collabora.com, 
+	boris.brezillon@collabora.com, work@onurozkan.dev, samitolvanen@google.com, 
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Aug 03, 2026 at 10:09:08PM +0200, Danilo Krummrich wrote:
-> On Mon Aug 3, 2026 at 9:56 PM CEST, Arnd Bergmann wrote:
-> > In theory you should be able to use rust code without PCI MMIO
-> > support, but I can't see any practical downsides to making rust
-> > 'depends on HAS_MMIO' to avoid having to add those #ifdef.
+On Tue, Jul 21, 2026 at 05:34:03PM +0200, Beata Michalska wrote:
+> Allow Rust platform drivers to expose runtime PM callbacks to the driver core.
 > 
-> I think the implications should be minor without making Rust depend on
-> CONFIG_HAS_IOMEM.
+> The runtime PM abstraction builds a dev_pm_ops table for the concrete driver
+> implementation, but the platform bus still needs to receive that table through
+> struct platform_driver. Add an optional PM_OPS associated constant to
+> platform::Driver and initialize the coresponding C device_driver struct
+> accordingly during registration. The platform glue only wires the callback
+> table into the C driver model; ownership of the callback payload and
+> runtime PM teardown remain with the pm module.
 > 
-> I just sent out a fix [1]; the only annoying part is [2], but we should change
-> those doc-tests anyway. For the one in rust/kernel/io.rs we already did in
-> driver-core-next.
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> ---
+>  rust/kernel/platform.rs | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> [1] https://lore.kernel.org/driver-core/20260803200249.3494259-1-dakr@kernel.org/
-> [2] https://lore.kernel.org/driver-core/20260803200249.3494259-2-dakr@kernel.org/
+> diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+> index d8d48f60b0b9..b7e422388634 100644
+> --- a/rust/kernel/platform.rs
+> +++ b/rust/kernel/platform.rs
+> @@ -72,6 +72,11 @@ unsafe fn register(
+>              None => core::ptr::null(),
+>          };
+>  
+> +        let pm_ops = match T::PM_OPS {
+> +            Some(ops) => ops,
+> +            None => core::ptr::null(),
+> +        };
 
-I'm wondering if it would make sense to make HAS_IOMEM always available
-on s390, even though it doesn't make too much sense without PCI.
-But at least it would make s390 again a bit less special.
+This value is just any user-provided &bindings::pm_ops, which I think is
+too lax. There is no guarantee that the Registration and the PM_OPS
+table agree on what the type T is, which can lead to type confusion.
 
-Niklas, Gerd?
+Most likely, you must instead give `trait Driver` an associated type
+saying "the PmOps type is this particular type", and then here you can
+do `Some(T::PM_OPS)` to actually get the associated table.
+
+And then in the registration, you can further require that the types
+also match there. E.g., maybe make the registration generic over the
+Driver type and then the inner type T is just D::PmData or similar.
+
+Alice
+
+>          // SAFETY: It's safe to set the fields of `struct platform_driver` on initialization.
+>          unsafe {
+>              (*pdrv.get()).driver.name = name.as_char_ptr();
+> @@ -79,6 +84,7 @@ unsafe fn register(
+>              (*pdrv.get()).remove = Some(Self::remove_callback);
+>              (*pdrv.get()).driver.of_match_table = of_table;
+>              (*pdrv.get()).driver.acpi_match_table = acpi_table;
+> +            (*pdrv.get()).driver.pm = pm_ops;
+>          }
+>  
+>          // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
+> @@ -222,6 +228,9 @@ pub trait Driver {
+>      /// The table of ACPI device ids supported by the driver.
+>      const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+>  
+> +    /// Runtime PM callbacks
+> +    const PM_OPS: Option<&'static bindings::dev_pm_ops> = None;
+> +
+>      /// Platform driver probe.
+>      ///
+>      /// Called when a new platform device is added or discovered.
+> -- 
+> 2.43.0
+> 
