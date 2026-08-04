@@ -1,177 +1,195 @@
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1990942AF88
-	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 08:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4F343CE4D
+	for <driver-core@lists.linux.dev>; Tue,  4 Aug 2026 09:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785831197; cv=none; b=Z9UrxF5lrU21IiBcPxM8zugAl4/VuPlSANQiRhjcdm3ddyJG/k3Ba8IBbzDTIovspk0MKsSq2B7thO3KMmu+1GBLNRBOF8rtyU+IYP13IPKf7T9jyCtCI9uXQaA5vWRNhdwOIW/BF/BIvshT0UgMCDJKV82qRbd/MWNJA58UJno=
+	t=1785834976; cv=none; b=P+UWCjYwcsoXquodJrgiMyEbv70OzTRSJWQ4EEO90xpCbvR6BqhsFeIyetgqXzcJ4nj7iDlTnZC3Hpkr4QA30pqL2p5dgf63JpYhfGmoROI/4FY6WYgH2/GNbcyYMtWftMJXUqeuZl3GIuyDAVOcRXiyq4d6za7SKKj763YyFWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785831197; c=relaxed/simple;
-	bh=LAsOEtzxkMYoh59OODdN+yuBYdhcMYsLZPgZzAuESiM=;
+	s=arc-20240116; t=1785834976; c=relaxed/simple;
+	bh=seQi5dHm7N0iENzPndBuyLMvlINbZuNsFgRvyq8o0Jo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fKtaMGIHMphrG60m1H8841A+H4RiEmmE+Tqn97S+2z0YSmEoT493ePTqC/mdyxyhNAm/uBhtB2hJbjfgz5uHqB4v1Cj18ZeSMly3yjyF2ZPVNiCt6ncXMXap56dl8jcqXfKF3Ko+7xtkHQyEe5z1P7gwE2tdDEHY+tAHfjGQnDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lxq5nJbc; arc=none smtp.client-ip=209.85.128.70
+	 To:Cc:Content-Type; b=MIidTdQMCqk7A4YPIQjZgnbJS7FEzENOvTV56At4LhH9CZkmybRtYmJU+ejUeVFeqWfV8aQMfvAneoode706VKekBlQhoQc4OrQjOp7J9DrEkIOKfjPzOdL1WuWEMi/j2sLPf3dmOV7upCfywdLebvgkhtNXCGgqHg3Uns2Uoro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FBjeYyuM; arc=none smtp.client-ip=209.85.128.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lxq5nJbc"
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4956c1655c3so17698795e9.0
-        for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 01:13:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FBjeYyuM"
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-496bbcf7d1eso19916355e9.0
+        for <driver-core@lists.linux.dev>; Tue, 04 Aug 2026 02:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785831194; x=1786435994; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1785834973; x=1786439773; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+5Xh3KzsVxqqcicEBvZF6wQ7Jh9PvamLGM+WRhr6wnk=;
-        b=Lxq5nJbcmhx89nHaYE4mSjG6T+RTrwrA+4omRYp1WQqgMUX7/ayy6BC6yrjILDDBiJ
-         hCHZPEMyXlLBD2z4PYGhyALU3VutYDfhAZPCWQkeaTd45YOFWWp4PQ/p3oDSrBBsOD4S
-         APiqUbdysWlYXXCv1aywfAiDHti5zqDn9K1hRV4FJGjuiM14vajvdf5zVdWJ8Na9snjj
-         jhdNqMIjCQAVywxiKhKXLOIzi0cMDem73AC0FaewnY2TMfzGIbbg3Zrqk4svrnxNqG4f
-         D+1RDAXfvLrqQfhWqBt08wyS+OUwZfMfqiRwZsl0i+2y2iJD+niyo+TDVAsPNW4GfrRF
-         YlxQ==
+        bh=f7xJl7liXrGedcihtRFOy204jJIb+lTqMppbYEP+Pf0=;
+        b=FBjeYyuMFZ4sFm2eeVeGfF6+FWvfTgL4tHdfYWJMuEdpu3K+B8ayCeZopjISqQ4f/X
+         vUoSSneNDgs0o+4iKRsvsJtfq5sg9J5ecACNfpOQg0gJII0csc03p9PCPVP2YLLRVQuw
+         5wy4EbNxpUVp5VBJlKFwRX6sGlcLibaggRd9t+2KwRqPU+qoqYNvJPjYZIXJYprcS0fI
+         GFVznLCPAgsggTL1x2NjITLKFoX6MAnLEF9ShQ/IN8TMd7G4Uo599VIZro5dsKeoivny
+         XZZmc5gfcgBjBtb9p07MnD4D0Wr9OzBMQEDzgYVAjboqhW0zKmJ3QmDtlSfpFDHfkC4I
+         U4Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785831194; x=1786435994;
+        d=1e100.net; s=20251104; t=1785834973; x=1786439773;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+5Xh3KzsVxqqcicEBvZF6wQ7Jh9PvamLGM+WRhr6wnk=;
-        b=AuF9UswkhvCRvXm3RXQ3+/zMfftLQ1K/LN+4Ul/h3I6pgBnXFVpSNlAcSc4PMG0n7Z
-         ZWu+v0efhjGX2p0OAEfn9EbYA56pwMoeHHsQmWuViYjkklokuEhaGFOzA1oXgO2CJTMH
-         4y4ksQpb9W3uJVsGvDwZxkCO7wlWGORkYplgQvEDtpy3adw6E28DBLU0ehFRzd6BB2SJ
-         qWKp2a6QeUSSG5yz0/PWbYlK4D5Nb8+BbsIhEQWmj5m4rDzjP5Xj3fyqFxhrH8/ZFXkH
-         TtYnc01mT1WLx6SMyIcisbEwWQo6ayHBeagY3h2tVcCdTwZXi2fUveNiz5KbOUgFvb7s
-         uEPQ==
-X-Forwarded-Encrypted: i=1; AHgh+Roz/42B6vtppW/p5d2Dxp0VUC9UiE+Tz/2O8A2/O9Q6BzGfHvrB7yl9UKqjVProGFDlllER9RMbovtHLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmvJkwbuA4fZ6aNHTp3T89kvZQd1jRDVMZNNhJJupMyO+D8KfT
-	cIFhvJxSmmaaYUpXT4xJ4eFCK+5Gp8QYAHStX0RTZ9/4poPvWRfEcgJcXDp+QPaB7NkCMqNhSzL
-	MK+TdXFkhWN5bIPSljQ==
-X-Received: from wmlu6.prod.google.com ([2002:a05:600c:2106:b0:490:b1af:78f3])
+        bh=f7xJl7liXrGedcihtRFOy204jJIb+lTqMppbYEP+Pf0=;
+        b=IBgp+TpVodOoV2b6Qz4cF5sdNSe/+I2dqQVXwmwQ81pUOooj6ZT2haEgXNsu9Nf5ub
+         y85+DzkULHl99QO57OvyL0urEvnQ8KxdiMYfagqDEULXpJCXYj/Do4UgGulM8qJfQv9n
+         MzQRmVax2S6SLlsolwU8ZcrLIdhal91LGTmUEVLcXF0d8EGO3pWtZeXO7p39y4Io4/7t
+         YxSYVcjydvq9UvXPnN9C9nK+xnUvfjorX42fLhWXbNpsTcSlrEwlSXe2U751lMBuoGL9
+         T/pyksTUmuzbGLmPu2wB/7a2t1hT3Ox/K8u+/4jxpUTzwyjdYwUDjwYl9kol2LLnLZy1
+         6mWA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrx8Vw0QdFmcG9WWSvzh2sNX03W7FSiHm/GATiuyw7vP5whCRS83y/4WJ1xb/GUU/OveR1nHtVGzEt5/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzpf1zT/ib9wI15UOKh/5BTrv62sxbWULCpeb9f02QIVBITdwTU
+	QUKbBVOMhnl1V79mIYJSPSQ1WwiQHA6jg/+ROj47mKRudScdmyCik79bX5PbOjmIj5DnxrVvlzx
+	TUA9js8XLjk8nBc6lig==
+X-Received: from wmjl15.prod.google.com ([2002:a7b:c34f:0:b0:487:3739:c5c4])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:350c:b0:495:4d00:2fda with SMTP id 5b1f17b1804b1-4980f23180fmr233843235e9.2.1785831193972;
- Tue, 04 Aug 2026 01:13:13 -0700 (PDT)
-Date: Tue, 4 Aug 2026 08:13:13 +0000
-In-Reply-To: <20260721153617.869933-2-beata.michalska@arm.com>
+ 2002:a05:600c:3b01:b0:493:f0f5:f2d7 with SMTP id 5b1f17b1804b1-4980c66c90fmr247655025e9.7.1785834972482;
+ Tue, 04 Aug 2026 02:16:12 -0700 (PDT)
+Date: Tue, 4 Aug 2026 09:16:11 +0000
+In-Reply-To: <20260721153617.869933-3-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260721153617.869933-1-beata.michalska@arm.com> <20260721153617.869933-2-beata.michalska@arm.com>
-Message-ID: <anGfGWWxiuZj4i2U@google.com>
-Subject: Re: [PATCH v2 1/3] rust: add runtime PM support
+References: <20260721153617.869933-1-beata.michalska@arm.com> <20260721153617.869933-3-beata.michalska@arm.com>
+Message-ID: <anGt2_OAK2UWtXuO@google.com>
+Subject: Re: [PATCH v2 2/3] rust: platform: wire runtime PM callbacks
 From: Alice Ryhl <aliceryhl@google.com>
-To: Beata Michalska <beata.michalska@arm.com>
-Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, daniel.almeida@collabora.com, 
-	boris.brezillon@collabora.com, work@onurozkan.dev, samitolvanen@google.com, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+To: Beata Michalska <beata.michalska@arm.com>, dakr@kernel.org
+Cc: ojeda@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, 
+	daniel.almeida@collabora.com, boris.brezillon@collabora.com, 
+	work@onurozkan.dev, samitolvanen@google.com, rust-for-linux@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 
-On Tue, Jul 21, 2026 at 05:34:02PM +0200, Beata Michalska wrote:
-> +/// Runtime PM callbacks implemented by a driver.
-> +///
-> +/// Defines the [`PMOps`] trait and its corresponding [`bindings::dev_pm_ops`].
-> +///
-> +/// Each generated C callback recovers the Rust bus device from the raw
-> +/// `struct device *`, borrows the registered runtime PM payload, and delegates
-> +/// to the matching [`PMOps`] trait method.
-> +///
-> +/// # Safety
-> +///
-> +/// `PMContext::<T>::PM_OPS` must only be installed for devices whose concrete
-> +/// bus type is `T::DeviceType`, and whose runtime PM registration data was
-> +/// installed by [`Registration::new`] for the same `T`.
-> +///
-> +macro_rules! define_pm_ops {
-> +    ($($name:ident $( : $desc:tt )? ),+ $(,)?) => {
-> +        $( define_pm_callback!( @parse_desc $name $( $desc )?); )+
-> +        define_pm_ops!(@common $( $name ), +);
-> +    };
+On Tue, Jul 21, 2026 at 05:34:03PM +0200, Beata Michalska wrote:
+> Allow Rust platform drivers to expose runtime PM callbacks to the driver core.
+> 
+> The runtime PM abstraction builds a dev_pm_ops table for the concrete driver
+> implementation, but the platform bus still needs to receive that table through
+> struct platform_driver. Add an optional PM_OPS associated constant to
+> platform::Driver and initialize the coresponding C device_driver struct
+> accordingly during registration. The platform glue only wires the callback
+> table into the C driver model; ownership of the callback payload and
+> runtime PM teardown remain with the pm module.
+> 
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> ---
+>  rust/kernel/platform.rs | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+> index d8d48f60b0b9..b7e422388634 100644
+> --- a/rust/kernel/platform.rs
+> +++ b/rust/kernel/platform.rs
+> @@ -72,6 +72,11 @@ unsafe fn register(
+>              None => core::ptr::null(),
+>          };
+>  
+> +        let pm_ops = match T::PM_OPS {
+> +            Some(ops) => ops,
+> +            None => core::ptr::null(),
+> +        };
 > +
-> +    (@common $( $name:ident),+ ) => {
-> +        /// Runtime PM callbacks implemented by a driver
-> +        #[vtable]
-> +        pub trait PMOps: Sized
-> +        {
-> +            /// Type of a bus device
-> +            type DeviceType: AsBusDevice<device::Bound>;
-> +            /// Type of the data associated with a PM transitions:
-> +            type RuntimePayloadType: Send;
+>          // SAFETY: It's safe to set the fields of `struct platform_driver` on initialization.
+>          unsafe {
+>              (*pdrv.get()).driver.name = name.as_char_ptr();
+> @@ -79,6 +84,7 @@ unsafe fn register(
+>              (*pdrv.get()).remove = Some(Self::remove_callback);
+>              (*pdrv.get()).driver.of_match_table = of_table;
+>              (*pdrv.get()).driver.acpi_match_table = acpi_table;
+> +            (*pdrv.get()).driver.pm = pm_ops;
+>          }
+>  
+>          // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
+> @@ -222,6 +228,9 @@ pub trait Driver {
+>      /// The table of ACPI device ids supported by the driver.
+>      const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+>  
+> +    /// Runtime PM callbacks
+> +    const PM_OPS: Option<&'static bindings::dev_pm_ops> = None;
 > +
-> +            $(
-> +                #[allow(missing_docs)]
-> +                // Callback-specific docs are provided by the generated `dev_pm_ops`
-> +                // contract on `PMOps`.
-> +
-> +                fn $name<'a>(
-> +                    _dev:  &'a Self::DeviceType,
-> +                    _payload: Option<Self::RuntimePayloadType>,
-> +                ) -> Result<Option<Self::RuntimePayloadType>, (Option<Self::RuntimePayloadType>, Error)> {
-> +                    build_error!(VTABLE_DEFAULT_ERROR)
-> +                }
-> +            )+
-> +        }
-> +        paste!(
-> +            impl<'a, T:PMOps> PMContext<'a, T> {
-> +                /// Driver-provided runtime PM operations.
-> +                ///
-> +                /// A driver implements this trait to handle runtime PM
-> +                /// transitions for its device type.
-> +                ///
-> +                /// Each callback receives the device and the current payload.
-> +                /// On success, it returns the payload to keep for the next
-> +                /// transition. On failure, it returns the payload together
-> +                /// with the error so the previous, or otherwise sane state
-> +                /// can be preserved.
-> +                pub const PM_OPS: bindings::dev_pm_ops = bindings::dev_pm_ops {
-> +                    $( [<$name>]: if T::[<HAS_ $name:upper>] {
-> +                        Some([<$name _callback>]::<T>)
-> +                    } else {
-> +                        None
-> +                    }, )+
-> +                    ..PMOPS_NONE
-> +                };
-> +            }
-> +        );
-> +    }
-> +}
+>      /// Platform driver probe.
+>      ///
+>      /// Called when a new platform device is added or discovered.
 
-> +
-> +define_pm_ops!(
-> +    // PM state change
-> +    runtime_suspend,
-> +    runtime_resume,
-> +);
+I've been thinking more about this, and I can't help but wonder whether
+we could significantly simplify it. Why not just do this:
 
-I think using a macro to define this trait is overkill. Just write it
-out:
+1. Update rust/kernel/platform.rs Driver trait to include pm ops
+directly in the trait:
 
-pub trait PMOps: Sized {
-    /// Type of a bus device
-    type DeviceType: AsBusDevice<device::Bound>;
-    /// Type of the data associated with a PM transitions:
-    type RuntimePayloadType: Send;
+	#[vtable]
+	pub trait Driver {
+	    type IdInfo: 'static;
+	    type Data<'bound>: Send + 'bound;
+	    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = None;
+	    const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
+	
+	    fn probe<'bound>(
+	        dev: &'bound Device<device::Core<'_>>,
+	        id_info: Option<&'bound Self::IdInfo>,
+	    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
+	
+	    fn unbind<'bound>(dev: &'bound Device<device::Core<'_>>, this: Pin<&Self::Data<'bound>>) {
+	        let _ = (dev, this);
+	    }
+	
+	    // Add these methods.
+	    fn runtime_suspend<'bound>(
+	        dev: &'bound Device<device::Bound>,
+	        data: &Self::Data<'bound>,
+	    ) -> Result
+	    {
+	        build_error!(VTABLE_DEFAULT_ERROR)
+	    }
+	
+	    fn runtime_resume<'bound>(
+	        dev: &'bound Device<device::Bound>,
+	        data: &Self::Data<'bound>,
+	    ) -> Result
+	    {
+	        build_error!(VTABLE_DEFAULT_ERROR)
+	    }
+	}
 
-    fn runtime_suspend<'a>(
-        _dev:  &'a Self::DeviceType,
-        _payload: Option<Self::RuntimePayloadType>,
-    ) -> Result<Option<Self::RuntimePayloadType>, (Option<Self::RuntimePayloadType>, Error)> {
-        build_error!(VTABLE_DEFAULT_ERROR)
-    }
+By marking the trait with #[vtable], we know whether the user has
+overridden runtime_suspend() and runtime_resume() and then the platform
+abstraction can enable PM in that scenario:
 
-    fn runtime_resume<'a>(
-        _dev:  &'a Self::DeviceType,
-        _payload: Option<Self::RuntimePayloadType>,
-    ) -> Result<Option<Self::RuntimePayloadType>, (Option<Self::RuntimePayloadType>, Error)> {
-        build_error!(VTABLE_DEFAULT_ERROR)
-    }
-}
+ - If `T::HAS_RUNTIME_SUSPEND && T::HAS_RUNTIME_RESUME` then set
+   `(*pdrv.get()).driver.pm` to a table using those methods in
+   register().
+ - If `T::HAS_RUNTIME_SUSPEND && T::HAS_RUNTIME_RESUME` then invoke
+   `pm_runtime_enable()` from `probe_callback()` after the
+   `set_callback()` line. Note that this call is infallible.
+ - Do the same from unplug to disable PM.
 
-This is a lot easier to read.
+And then you automatically PM whenever you implement those two methods
+in the `platform::Driver` trait, and that's all you need to do. Since we
+invoke `pm_runtime_enable()` in `probe_callback()` after setting the
+private data, there's no issue with passing the device private data to
+the callbacks.
+
+Note that we can trigger a const eval panic on `T::HAS_RUNTIME_SUSPEND
+!= T::HAS_RUNTIME_RESUME` to enforce that you must implement both
+methods if you implement either one.
+
+Thoughts? I know we have gone down this route before, but I just think
+it would be so so much simpler than the current approach. I know that
+this diverges from IRQ and such by not having a Registration, but I
+actually think that's ok. PM is already different from IRQ callbacks in
+the sense that the platform abstractions need PM-specific code *anyway*
+to properly set pm_ops in the `struct platform_device`.
 
 Alice
