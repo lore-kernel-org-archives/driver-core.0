@@ -1,36 +1,36 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020098.outbound.protection.outlook.com [52.101.196.98])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020143.outbound.protection.outlook.com [52.101.196.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B303483BD1;
-	Wed,  5 Aug 2026 16:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8971A48A8D0;
+	Wed,  5 Aug 2026 16:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.143
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785947841; cv=fail; b=PqgbuXUMFay73pzDUlmNY7R47AiMrrjkKbVHutkWrLD7qM0b+IZ6IYqO0UwOzP8u5Mc/GGlyC8vcvZ6kpXQPTpbuvg19jh//DsncHU3ShlD+CkcOWO81ivbCH7oJPGA6PLfnsCuT3JoD1UyCAMb5hP0cn93M7aG1SfAr+4VzFFg=
+	t=1785947846; cv=fail; b=ddSJq5QVJ42fA+K5jGA/wBpVhs/olvnl3vCsbV/kBAUrNPzsCiDPJgftqrSPx/8nIWTvBxBo1VG4X8GRiuac8avBiJm2k9K6x6M3zz3zxqQ+w61uM48KnuHwXONRQikgiinjndlf2X+Xeo3qDxSP7IlRBiIJcxqnDi4KZDoU/UI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785947841; c=relaxed/simple;
-	bh=EA8nt8Iv5DnadzaZ1L833fTrj6susiTu+zZOLANPB2A=;
+	s=arc-20240116; t=1785947846; c=relaxed/simple;
+	bh=4IYGZYY5yfpiRR/pq59TMlwC0IwSy825+cZG4DHMQFA=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=l6UPui+ugqtmMTQPEfzE5shY6VmE6iGDma3+f+p5er3ozMY5eWAMTimadlkStq9pQtb7ob1Zg6t3DLWBI+AWyV6VFh8uEM6Zm9nMuAOE6M3rK8bifENIGZg80LcAGJWzxXC9q35tBtCP7vT8N18vFH5E1z5Xyn0v2NYjS2p55Iw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=e9RfLLx6; arc=fail smtp.client-ip=52.101.196.98
+	 To:Cc:MIME-Version; b=dro/Lpr9cNOLMFJlyAVQ8gW8ND5TUACM7ObTBcjG/lI1Xphp15TYg7N/SYTw/hTI6k8JBtTFDwgf1i/6iZu4ZZCt/o2CkMGpAKxH6NQR5j4c7kBfLrpaXFr9v1qznUXDf5zhNwXb3VtH4VhfeWcWkCklnC8hcb4O0ZrLXpO0yrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ClOGRdUE; arc=fail smtp.client-ip=52.101.196.143
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="e9RfLLx6"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ClOGRdUE"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tWOH1OovDOCe4Jw1N5WmwJsxZiNxNUwYITWnPDj+85LsI+IS8ck55dJKgJwPcDE8m4YU+qPT7xzv7x5vZp3jKwusSqRfUDVE1RC+8L7h0Igh3h1DPiKVu+rz1bKk03KXpSkUrojLv+3C3AVxluDguniZyifbaW63Rvv+2rSVN3YKhrfcFY5KvuvcgyXhXXvoB2RDEncjNYvrWi+cgS2xuzxw/6T8ByuUscLOwlSW7CUL0e+gA0PGevNp3m6aWlvxp4FNzEQwN2Vo3S3AmjOJs/3I9yGWJt8JO357MTBeAxdfcs7xVyTLfLNWGY93CfVCdIJguWRpzOF/M+AYX408FA==
+ b=FFWQezQU5DkMdW6c7w3VHDpZEfcz4zJCu6Daoiv3Vkmg4fcVz20GGV53xH9eYC2iD4G5yd/ou/iLh2/GtxS3mMtRRpDDQkV+eB8FusGQ8SBMvMwzq5r34Qs9DLbFyRblIUNpZmJontevC9wjhNUUlN60om+JSTe9YK/3pW5LjEnKxpMADcxrSA0Gr7gzWdaw3inPM6JHM+SeTLUSulefnQUifhxATRteATAc1slTI1QaYUeC3uaSLSUlBuV/xshKRaxifJCu8fyybQa7lPY4jbD0oRM0NcsAJEoUrlnAVW0r2WbJm0aQ3Hk3oEaLoDiSPQQlhNAiL9OgHnOM79OHFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hb082skm67h44ihoTj0EfK5v+N6cUhum6FfNDFPKiGo=;
- b=emkmSzvt5u8J0D/+qqMnjmcJzUewTxDC8iy4Z8z4mO2NaMwhZJwQyLLzz/NgWf+BxyzdNkEXPVFFWngwO+OVaYvjfgGcDluC6P+K+pTV+va1yMFhC+IWLwk0TnjwbHisICwRWZ5k/lE2fnZsyO0swqd/VN2bVvDbK1wGyD7Iv/l3m2CM7ryVEOwTmHLLlrdNqu9EN+aYWGCmYie/6MLxmsgUhsyLwQAFgU4tVHkOkRtloI5gGiCiT7IyIAA06sQMkP/8ckc0QdngWRAk0D20ozCE/Ox3fhnkNpWcGQDqbSnxInUJS9W1CpIM8qGRyD9wr3fvz1/VCnutV3UejVtcVg==
+ bh=A4E8hmqb30t8gQ5gAenzaXPjowRjYQsuGIN7wA5UX+s=;
+ b=JRSoApiBs3ENHF4NDl1S2MvuWUZ1JJJnqrhhx7x9JNW9qkUhfwij28y310teLGZuZH7ZDVLmumtMI9cJ5uff2SH1zq9vkuVKGEuz0Y78cu7+41j9Th54zs+66uGWin0Qsxb8njfvXv+Mzn+mW4lGO47bhDwJWITbz6vzGZWAieyQekekvAdvOUlvZbKqgBWQkB9vhmA2hRoPqG6IfVv4n0edONELMhVLeJotyBCwxBzO1SlpAvtKIyTaP29F3ovGj8vhhbetr7TTEmLjTQox55z3xCz3zSn6W2YsnUSs5X6mhPwrZpRrPRMoNO35S4kxDO4yyF4z8IbxatfBhfNgYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hb082skm67h44ihoTj0EfK5v+N6cUhum6FfNDFPKiGo=;
- b=e9RfLLx6ByGSxonF2xJMGPfLrpe6fNU+3ACxHFXjP1e+l5JgomfCj9qwPExlCClcmqoDUThvsgdp+q30Tcxja0yXIJ6FBS+8iIRzs7HMxttkN+CSmpcBPBmujkQSWAoDk/U8Z17IyEJEcOPCOX4HK4083XchI2TMopRZPTv3CqU=
+ bh=A4E8hmqb30t8gQ5gAenzaXPjowRjYQsuGIN7wA5UX+s=;
+ b=ClOGRdUE5Vhv4utGNbMxjSWGYGW9ut5D5HKX4ciCVqNZboYVm+hUKYu8u1ENyYc7Ew+33H17kTgJ3Dof2ty/XJKqD/l+x7w2tmygHTJ7G/Tw5iiBUXUEGVrnJBb5YWUtLe6uSgB95bvgunuOF+t4oApYBwiM4RkxsuJnSnYKPEk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4b4::24)
@@ -43,11 +43,12 @@ Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
  ([fe80::c07d:488c:d4aa:2a4a%4]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
  16:37:05 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Wed, 05 Aug 2026 17:35:50 +0100
-Subject: [PATCH v2 07/16] gpu: nova-core: specify base type for registers
+Date: Wed, 05 Aug 2026 17:35:52 +0100
+Subject: [PATCH v2 09/16] samples: rust: pci: specify base type for
+ registers
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260805-typed_register-v2-7-c3ca142220a0@garyguo.net>
+Message-Id: <20260805-typed_register-v2-9-c3ca142220a0@garyguo.net>
 References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
 In-Reply-To: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -66,11 +67,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
  Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785947818; l=8925;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785947818; l=939;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=EA8nt8Iv5DnadzaZ1L833fTrj6susiTu+zZOLANPB2A=;
- b=0C81QwBvANKXq+syHcxgqJ0znDm/WtG/3mLtk7426pd8DGYy39xBJuH8OeCJqvs0JZdeNTH8o
- lut3Ew+kU5bDnr4zEncJI7jvJEgTgPa2AN4DzkcuAXSSv+sFbSQLT4f
+ bh=4IYGZYY5yfpiRR/pq59TMlwC0IwSy825+cZG4DHMQFA=;
+ b=w4AsBhVpDXSaEf5w8vJydVaBzWmV9q6jueFMKwjjKDAvq/keAkgyJX087Om0LWnvmKqZkRs24
+ cjUnd/CCS+LDfFPu3NGj1gQahYQkOQuAyZTUKBlPnXp6YTHTzVj1yZP
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0608.GBRP123.PROD.OUTLOOK.COM
@@ -84,362 +85,97 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOZP265MB8551:EE_|LO2P265MB5822:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcd0faee-9a09-478a-5ca6-08def30fc854
+X-MS-Office365-Filtering-Correlation-Id: cbf0b419-80c2-401a-7cf1-08def30fc913
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|7416014|1800799024|376014|23010399003|366016|22082099003|18002099003|56012099006|10067099003|921020;
+	BCL:0;ARA:13230040|10070799003|7416014|1800799024|376014|23010399003|366016|6133799003|22082099003|18002099003|56012099006|10067099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	fjfmJNXYsh7zv5zlHE8sltZEvUnOp0QfrO+md99PjhlSouoKxaRhLBdFFGq1b0F06OTDLJybcw0WtPYcFEGBrUFF1QgiQvhD/z8OKqnLiz06QOU0DvA4sOlB4lZRM7oxGxW1BQEZ750B7/IKVyQ5x2TW5MQ//shH8698bbmQ+x3Lb7Z02ghqFepSYo4OConn4e0M+jZ2QSSiczJDUGfgJVabKuRkP+OMabBPJkJg3n3BFyZ0FXdkdSCVLO/LrZVo6mTWcI5QnkGn65kP2ZyDlJ7Om43zQrZPnTgUKni1u9gCChtC/WLMqqGGMebgMF3um6OVH/WiJMtF5qmf4cSye4T/4BNVOT2nghZGQJxDZyRUI2drauDDpKRm3KTJfQ5VZhG0vGYmY/SrZ5HIjvaEAn70J67bxyI4l78+RQOuAwnYxQ+MDxSxNKaBr6sKQsd4V/ZXPBiuUsZQYVqH5E4DMInu6yyxFEeirWm8HAn2S00vErlCIaGJIqjJm6fTlkqmUyOyZbJNCnceiRBl/shvxkDx1FtYxBMafA1IYssvhRDd+82Jf0EBp+ytFKvkdXIGxKc0MHzfb8xJLa8HXrE6+Gz+oya9AmlnvpxVp42lITGLdGgjd5VgEa872JUS6dWpwluANC7v3MsidHMhchdHTnPx31eKTlJqTAQikfWllioVjbU6ogDu+iLjkqwkGmgdmuhoOEMibXH+wWLAjoNs7Q==
+	4vUEl+6O1a2pjklfRkslXkjm4+iHX38iTvUj0Is0OniotLDB0qDuNCpaRwJggarSu/hQ7409aK7YCp1BFW9bn9QQsQKX62R2jo7R//U0t4JCndvS7VnvcDdKZtXhwOKm1Oyqs9vqg6GohknmE+MgPVHleo4VuRWbGGeF+eCpzlOqKcPCq+IcX2Kn7Rpm78Wd42CfPBHiIJyTXg/K8R2HR4LVc51cF4F7/o2DCInZKI7SqhjkUNCI/a+04gEyjiOj6vOaLdtgHxUUY7K8uXLMDjJer6NAv0z9Mn8wRhOrbITJ0J+0FqWp5/1rVCmMWHTOiiuRA49H29H25shApoZLobL4ESuJ6oqTkGPvsZgEOWV13+VdwrVWREDkJ+Wy3J5fG3tQKZCStMOnQWAzElIzxgKJl58XrBrYmfIinuplQ2x3n2zXhrux4xhhdUG+KBFq4XZ3KWbaSRsghd/gJILV0mICnD7USpx+PjeV6hTz0VRBEb4SPM7Y3RsEQ/Q1J1m124+Rhs/s2JalHCKcf4xnvFVRXUSEqehoPFmum0tfKKQKj3nx3JhA2JpS7qeD8R2Mk6TIGnydd0kyG2gm+BVRShVvbzpZkd+n7Zxcb/nCJRGldaX7meulKRQo6Ld4pHgEiqN8vD5gkj1lZtGkY1l2m9cWpouyzJ3UldYa7GdDT55lrlplt1ZOfw4CstQ2oOX4xyeyQ6Qe/bEZI148ajGtpA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(1800799024)(376014)(23010399003)(366016)(22082099003)(18002099003)(56012099006)(10067099003)(921020);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(1800799024)(376014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(56012099006)(10067099003)(921020);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ei9mRldsRjlxdU1FaFhPRXVPUkdXeTlFdm95OWhaQUZRa2NNYTZGZ0tYeC9Z?=
- =?utf-8?B?OHVaSnFEWWZVOGkwWE5JOFQzSEFmZXVWS2F0UlZ3VGVkOXNHOURxb1FPYXdZ?=
- =?utf-8?B?dEhzNklRT1EzY2NwendrZnp4dy9CT3didUl3dWFUQm9mQ1Fic2xlTGw1ZTBR?=
- =?utf-8?B?TDlyOHFUbVRzMGdPZm9ROGI4SERRNEZxdVlnUlo0d0k1b0pMODJmMG9jS0Nu?=
- =?utf-8?B?elVRVUJJbldMTUJiT0EwMUlOMEIyQzNLRVhQbWNFS1UwbmdLcktXT1lJcWlQ?=
- =?utf-8?B?T0FCUURUeDlMbFFZWE9uNXU3ajJuOXJYN1ZIMVMwdWd0QnZObkZaZUFiaWxY?=
- =?utf-8?B?dCtvKzJZV0VjQzNCT2FScUhGTkJSNVFXdnEzTWJjM0U0ZHFWWHQwOGVkTVp0?=
- =?utf-8?B?b1dDUEFLK0liQWhEVGYrRWR4UHdkTUc0MVR6NXgrN3BubDZIdVA4b2QwK2Q2?=
- =?utf-8?B?encrOTN4bEllTHRpUlV3WkloTW51L2lkM1lLRU1xa3VnUzhVSjFVNFk1MWYw?=
- =?utf-8?B?eGlkQnFCbzZOeUpqcDlJYWtjUHJ4eUhEdzRUNmQxM1Q5QnpKZS9ndVpwM2pL?=
- =?utf-8?B?UEQ5WldvQ0ZWVW5tOUF3bmVmdzhCVnVvdUhrZGlHa1orZXIveFhxQnhJdFZX?=
- =?utf-8?B?M0owTmhWKzNMdmpHT1RaSW5EaEFpS3d6VHJLVE45VEdTZHJkaEU3N3l6VFFE?=
- =?utf-8?B?ZzQ1anZOZWpTN0dGMzN1Y2M3cndyVTBxTDBFWDM2VnJ3UGZ6QS9xZldPRzN2?=
- =?utf-8?B?MGU1Qjkvb3A0YS9KbVFtTzczcStzbEtkVWdGMU5KNHJiak5ycjhJbk9XcHBY?=
- =?utf-8?B?bFRVdTlkTWVBODNNTXB1RysrcTVZS3pjSjRNU2ZIb0w4VEFBZ1hmQkNqajF5?=
- =?utf-8?B?QmlxekJpVDBSRnBvTk5tekpneFkwQXM3b2R2TGY3WlZNM1F5RHVFS2RWZHps?=
- =?utf-8?B?T0hTNGltZCtzaEJpU2dNaEh5WFhsZkFvTktERThHNUZjcExjTnFKVWN5ZHlk?=
- =?utf-8?B?UUI4VWdmR054WStVQ2M2STdTZ3g3QkxvcU5hUElKM0puVmZJV2gyYmNrbXdw?=
- =?utf-8?B?V0FZVTdCVVlvQVpuNmdxOU5zQjlQWWZIQmZZelVlbXZZakp6dkdCTGpKaWVX?=
- =?utf-8?B?M2RCUThjWTVadzgwQTBkc0l2K3NiVy9tYnNaYWQ4bUEvWEJtRGwwNXZ2RHpG?=
- =?utf-8?B?MFk2dFNtRVAyT0xXMld3WE90Ykd0NkFtZUo1RE1VU0cxTjZ2OFYrOVVIenMz?=
- =?utf-8?B?b2lKVjV2WmtGSEVPTmkweTdzQUhQd2dabE9iTUFKYjVNSXFIWFBLWmVacGls?=
- =?utf-8?B?VVFGSWFUd250dnFKaEkxTjB6WmY4Qk9nd0FuQVpxMnlXRDQxNndERHAzMnBI?=
- =?utf-8?B?M3lZdi9QbDZYeU1oc0NDVmxaY2ZMd3lna2JJc0c0LzhZa0dYcWhDMFVvMlh2?=
- =?utf-8?B?ejQ1ZlRoR09EN0d3R1dpcEw2Y2p4MFBnbmhwSVNIMlorSUVSdGZhZHVJSFRD?=
- =?utf-8?B?enl5ZVY1WnZsNXZ5cmtDK2FFeWEyNlEvYmVBZ1N4OUdWQ25XQjdFMUVmektX?=
- =?utf-8?B?S2ZaS2hBV2VSNTRvVldjeFBLejM2YlFPTy85SzM4WW1wZWJQTVpPZ1ZRUEth?=
- =?utf-8?B?Qmgva2w3ZE9WTWwyclU2dEh3MFQvR0RkUml5WHdIbVQwY1g5V0lwWU9OeE9v?=
- =?utf-8?B?bm1iTVh3dVFNbHZVNzViekFER09ObndJdGFvT2hwRkREOEdKVXc1ekZvMVhS?=
- =?utf-8?B?dENCVEd2dTlpenNOQ2JVVnk2UVZ5MWdxbVBFd29ncjFORHlJdFRsdjBhZUlB?=
- =?utf-8?B?dFV6QTgzcnd6ZzNTRGpnUldQOHM2bEpvVElNbnRERExjeWZlV3lMeHBENkRM?=
- =?utf-8?B?eXJ2dzc3Wm1aTm1yY1ExY05oMDRENG5vR21sOWhlcC9ydTA0N3E0TCtOclds?=
- =?utf-8?B?R051a25wTXY3MmpQQzhoOVVxQTVVZnZJL1NSUUdzb08vMERZS2RyK29YL3pN?=
- =?utf-8?B?aE1XL21sanFtRnhFbUx6SmZRcUdZamNzbnR5Q1RuajFUaisrSzZ4US9aeXAv?=
- =?utf-8?B?Y1lOS3hRcHJwc3NpK042eEJaVFlHM2xKQ2x1elFzbVZYdHNnOXBEb3VHM2NH?=
- =?utf-8?B?YW5GVkM2UE85RGl3aFVhcktiT3VJdWVDRnA0OTRGVmFoOFZtdTRzY0MrLzhB?=
- =?utf-8?B?a0dwQ2RuNWdOcjcxMkFvcUFDY092Q3Eyb3Ntbk10WkhMMVF2ckhvZ0pjY0Uw?=
- =?utf-8?B?ak9obi9rTEFoWVZ4M2lGU2FtS0kyai9lOVYzSk5HZ09JYUI2cnVtNHp6THJ1?=
- =?utf-8?B?QXFxd0xOeitlZkUrRFdHSXZVKzRBdys0cEcrN21XTFN0cERYd0Zudz09?=
+	=?utf-8?B?OGVlRSthL3RSdWNGTStvWTdTNzVEQldhQUpQUjdhR05qemh3cDIxc3pUMWVM?=
+ =?utf-8?B?TWdlZWtQUGFsSWRWVTBHdFY5b25xM1NMNjh2WlorZHRya3JGRlZrY2grcTdU?=
+ =?utf-8?B?VEtOMk5RYURsdjFGWkR0UXV0bm9KZFBlVFgvb3dPSnE3Nnh3VXp0clljSU9p?=
+ =?utf-8?B?aEp3cTYvNk9uL0laZVl5SDRlOU1SZVkxTmxBdlAzcE5CMlNTUU95QWMyeXlE?=
+ =?utf-8?B?Z0NEc0d0Nm5QMy9FOHVGUHl1amN5bDVXSkZ2NFFtWmwwV3hIbjIwb1JuTnU3?=
+ =?utf-8?B?aW85eWZacUxQMkRxNGNKV214aHBGZVc0SXB4NkRNdTBmcnRBcWhiZisvNm9x?=
+ =?utf-8?B?My9KdzA4d3hUQ0tCaXZYUWFEMHkzM05YZGNET3VhM1kzRDlvVVc2cDhxdVVX?=
+ =?utf-8?B?a0lTdGNrL1F1OTh0UTB0OUFWdFNvZlhIbzc4Y2pGTzJqTHFua25IY2lnRnVW?=
+ =?utf-8?B?TFRRWWlwN1ovcjZjUHdiSzN3bFRQMS8vWnB3d1FNdVhPbnRyOXZzdlVqSmZR?=
+ =?utf-8?B?Mm1ncGFDWHJWN3dXTWNHRDhIZUlyQ0w2QzZuZnhPdUJ2cXBIZ3ExOTdkWnZG?=
+ =?utf-8?B?ckx5aVY2NmxTaHBSZ0lib01yM0hrZzdvYzNqN1YxOEd1MHp4M3BySEsxbmtj?=
+ =?utf-8?B?TS83dFdkSTBmWDlyZXVmNGdvc29BMUR3OW5kRlBrZkcwTVBSckd2ZUtiV0hT?=
+ =?utf-8?B?Z3VNM2NIbGlTUzR1c01Jbi9KSlRqWmZIVlhkNjZzV0xoMVdRRWZKTTlkWGJE?=
+ =?utf-8?B?a0Eranp2M2pJUUo3dkkySG9aVjBZUjM5eUcxUWNEUXFCU3ltNGw2R2ZvcEpt?=
+ =?utf-8?B?MTErWk45bFoxVlgxMjluR09sa0ZzYTJqZ2oyWFo3YjRiOGhyZXJiVk52c0Fm?=
+ =?utf-8?B?cFlHYnoyT3JCSXN0b1dLd081L3dvTVNGbDV1VlRZRDdCRnlBRmF2VmM2TUdG?=
+ =?utf-8?B?OEJTOWhUaXhRQXRUeHVGNzVpa01hUzd4NzAzdTAxVEtJaHhzb0wrMEY1SW42?=
+ =?utf-8?B?eDdwSHpTd1k1bkt2MTA4N0FoeTQ0aThkNFI4MHdURjZWZU1GTzlzd3VEMXd0?=
+ =?utf-8?B?ZVFhNCtJVjBaeVJjR2p1UHhTVVlCejdGeXJvTUVRZ2dKR2oySFhRdjROWEFH?=
+ =?utf-8?B?Q0p0Q1F0NnBHY2ZqQVMyaS9lOVQxZFdJVXJvM3drazRjeERDUmUwMXcyY3FF?=
+ =?utf-8?B?VVVXUE1QUDFZNlN1dFZRY1hTY1hKR2NyTW5YamdlQzhTN2FjbHVYY2ZFZmc4?=
+ =?utf-8?B?UVlYSEtLdUNtYzVzNGh4OENveEtYNzlrQmhFWnAyTlNxRy9zdzVjYnZuN2dn?=
+ =?utf-8?B?Q241R1UvZGpRalJ1angwQXU4blowdTZhZnRrQnY3dFp3NEU3bngySTB2SUpm?=
+ =?utf-8?B?M3VFbmRJWUQ3dW0vME9JOHd6eUpUVXhSY1FKNDFZVG1vREZZRDA0SjNSUzVp?=
+ =?utf-8?B?Z21sWlNiUS91bDZDamVtNVdNSXRqUE5KSnV3UURzZGFqanpIWHIrbUxXNTFL?=
+ =?utf-8?B?b1d0ZzJ3cWxqam5BcGlFTFdtVlgvS2RPTkR0VGJZTitFSEhTNmkvSDFHM05O?=
+ =?utf-8?B?RlRBWURBRFNEWjYvenpiclIrL3VIWnlVcHpIZ3RDNGxJY3RVWS9aemp4bHM1?=
+ =?utf-8?B?cEprSzMxWTRLbC90WEtuTEN2d3hMQmFpb2ZHaldGRWtZb0dqbFFBM1YzSldN?=
+ =?utf-8?B?elR1d01lZkJ0MnRsS3VKcUxjTXhUbW5XaGNBK1lPaytXa3g0aGp0NkVMMEJ6?=
+ =?utf-8?B?YXRPaFNka0p0ZG1WL2Nia1F1d1lIcUlqdFFFL3Q2QmJ0ODBCMHpwK012aGUy?=
+ =?utf-8?B?K1djKzRpLzZPWUIvTVJsaWVMZm9Sa2puRXpsaFRjbUR1Wk5JYzUya2pKK3dS?=
+ =?utf-8?B?ei9RK1ovaTMyWUJvQ1c3UWIxMTVFSjZUS1VrVHg2TGRnbWxySmpSV2tXczZC?=
+ =?utf-8?B?aGVRb1oyd1FRaXpxSElRam9LdmdxOTEzYlg5UDgwdFFRcXBNQXFZWHhZcmFt?=
+ =?utf-8?B?Mjd0aHBaMEg4QU4xV200eEhNYmxNejM0WlpUdnBRYUNHTUpMbDhtL2FCVnNE?=
+ =?utf-8?B?MEdMWkhxRmIvREkzSW5CNEYzQW9lSXh6WSsrR3RwOEZYOWdUWWZHdHZ5clpi?=
+ =?utf-8?B?eEIrcEdKaW1HSkZBTmtuemFjb3g1Y1FoZ1lGb0lBbFZUSDlib2R5MytOaTBP?=
+ =?utf-8?B?YnZGbVpGWlFxOUpFSWEvdmNHenV2aU9hWlc0b0JIbVJ0cDh4REZORXpSQ3VJ?=
+ =?utf-8?B?dEQ0OVBPVU1hQ0lxVnRtZFdWdEo5V284UlhnWVJuTW1KUllKQmU2QnRFVTQx?=
+ =?utf-8?B?UmtUNmJqTWl5M0VhRjloNXFvNkNIMlY3MzNKWFNtYnpQanNkT05hdz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcd0faee-9a09-478a-5ca6-08def30fc854
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbf0b419-80c2-401a-7cf1-08def30fc913
 X-MS-Exchange-CrossTenant-AuthSource: LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 16:37:04.5241
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 16:37:05.7980
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8AqGio3nByFOBONYRUmMQqmiKI91JC4awkJDH582ZXWVmTEhU/6TmfVvl2YDv/Y57Z8ZG7NQ1b4sYr6+cR0I5Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: H4xAlMsdajqUE8Dt/L/GSrclP14AciOfIr99Vy2ph9O2PfFhnu3KomoA9UhX89VcerjPGzHWKlen+COxjdZgIg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB5822
 
-All registers use the same base type, which is `<Bar0 as IO>::Target`. Thus
-add the base parameter to `register!` invocation.
+The `register!` macro is going to require explicit base type, specify it
+for both `register!` usages in PCI sample driver.
 
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/gpu/nova-core/driver.rs   |  1 +
- drivers/gpu/nova-core/fb/regs.rs  | 12 ++++++++++++
- drivers/gpu/nova-core/gsp/regs.rs |  9 ++++++++-
- drivers/gpu/nova-core/regs.rs     | 37 ++++++++++++++++++++++++++++++++++++-
- drivers/gpu/nova-core/vbios.rs    | 11 ++++++++++-
- 5 files changed, 67 insertions(+), 3 deletions(-)
+ samples/rust/rust_driver_pci.rs | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-index bbd93959e0b2..cf3534dd47d4 100644
---- a/drivers/gpu/nova-core/driver.rs
-+++ b/drivers/gpu/nova-core/driver.rs
-@@ -37,6 +37,7 @@ pub(crate) struct NovaCore<'bound> {
- const BAR0_SIZE: usize = SZ_16M;
- 
- pub(crate) type Bar0<'a> = &'a pci::Bar<'a, BAR0_SIZE>;
-+pub(crate) type NovaRegisters = kernel::io::Region<BAR0_SIZE>;
- 
- kernel::pci_device_table!(
-     PCI_TABLE,
-diff --git a/drivers/gpu/nova-core/fb/regs.rs b/drivers/gpu/nova-core/fb/regs.rs
-index 95adbe124a30..c27582e376e2 100644
---- a/drivers/gpu/nova-core/fb/regs.rs
-+++ b/drivers/gpu/nova-core/fb/regs.rs
-@@ -5,9 +5,13 @@
-     sizes::SizeConstants, //
- };
- 
-+use crate::driver::NovaRegisters;
-+
- // PDISP
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(super) NV_PDISP_VGA_WORKSPACE_BASE(u32) @ 0x00625f04 {
-         /// VGA workspace base address divided by 0x10000.
-         31:8    addr;
-@@ -30,6 +34,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
- // PFB
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// Low bits of the physical system memory address used by the GPU to perform sysmembar
-     /// operations (see [`crate::fb::SysmemFlush`]).
-     pub(super) NV_PFB_NISO_FLUSH_SYSMEM_ADDR(u32) @ 0x00100c10 {
-@@ -65,6 +71,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
- pub(super) struct Hshub0Base(());
- 
- register! {
-+    base: NovaRegisters;
-+
-     // GB10x sysmem flush registers, relative to the HSHUB0 base. GB10x routes sysmembar
-     // through a primary and an EG (egress) pair that must both be programmed to the same
-     // address. Hardware ignores bits 7:0 of each LO register. The boot path uses a fixed
-@@ -87,6 +95,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
- }
- 
- register! {
-+    base: NovaRegisters;
-+
-     // GB20x FBHUB0 sysmem flush registers. Unlike the older
-     // NV_PFB_NISO_FLUSH_SYSMEM_ADDR registers, which encode the address with an
-     // 8-bit right-shift, these take the raw address split into lower and upper
-@@ -101,6 +111,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
- }
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// Low bits of the physical system memory address used by the GPU to perform
-     /// sysmembar operations on Hopper.
-     ///
-diff --git a/drivers/gpu/nova-core/gsp/regs.rs b/drivers/gpu/nova-core/gsp/regs.rs
-index 9a48aa87e7fb..3c410d65e8e4 100644
---- a/drivers/gpu/nova-core/gsp/regs.rs
-+++ b/drivers/gpu/nova-core/gsp/regs.rs
-@@ -2,11 +2,16 @@
- 
- use kernel::io::register;
- 
--use crate::regs::NV_PBUS_SW_SCRATCH;
-+use crate::{
-+    driver::NovaRegisters,
-+    regs::NV_PBUS_SW_SCRATCH, //
-+};
- 
- // PGSP
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(super) NV_PGSP_QUEUE_HEAD(u32) @ 0x00110c00 {
-         31:0    address;
-     }
-@@ -15,6 +20,8 @@
- // PBUS
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// Scratch register 0xe used as FRTS firmware error code.
-     pub(super) NV_PBUS_SW_SCRATCH_0E_FRTS_ERR(u32) => NV_PBUS_SW_SCRATCH[0xe] {
-         31:16   frts_err_code;
-diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-index caeef4d85874..1af073f3861f 100644
---- a/drivers/gpu/nova-core/regs.rs
-+++ b/drivers/gpu/nova-core/regs.rs
-@@ -13,7 +13,10 @@
- };
- 
- use crate::{
--    driver::Bar0,
-+    driver::{
-+        Bar0,
-+        NovaRegisters, //
-+    },
-     falcon::{
-         DmaTrfCmdSize,
-         FalconCoreRev,
-@@ -37,6 +40,8 @@
- // PMC
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// Basic revision information about the GPU.
-     pub(crate) NV_PMC_BOOT_0(u32) @ 0x00000000 {
-         /// Lower bits of the architecture.
-@@ -108,6 +113,8 @@ fn fmt(&self, f: &mut kernel::fmt::Formatter<'_>) -> kernel::fmt::Result {
- // PBUS
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(crate) NV_PBUS_SW_SCRATCH(u32)[64] @ 0x00001400 {}
- }
- 
-@@ -121,6 +128,8 @@ fn fmt(&self, f: &mut kernel::fmt::Formatter<'_>) -> kernel::fmt::Result {
- // number.
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// Boot Sequence Interface (BSI) register used to determine
-     /// if GSP reload/resume has completed during the boot process.
-     pub(crate) NV_PGC6_BSI_SECURE_SCRATCH_14(u32) @ 0x001180f8 {
-@@ -175,6 +184,8 @@ pub(crate) fn usable_fb_size(self) -> u64 {
- pub(crate) const NV_FUSE_OPT_FPF_SIZE: usize = 16;
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(crate) NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION(u32)[NV_FUSE_OPT_FPF_SIZE] @ 0x00824100 {
-         15:0    data => u16;
-     }
-@@ -191,6 +202,8 @@ pub(crate) fn usable_fb_size(self) -> u64 {
- // PFALCON
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(crate) NV_PFALCON_FALCON_IRQSCLR(u32) @ PFalconBase + 0x00000004 {
-         6:6     swgen0 => bool;
-         4:4     halt => bool;
-@@ -392,6 +405,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
- /* PFALCON2 */
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(crate) NV_PFALCON2_FALCON_MOD_SEL(u32) @ PFalcon2Base + 0x00000180 {
-         7:0     algo ?=> FalconModSelAlgo;
-     }
-@@ -414,6 +429,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
- // PRISCV
- 
- register! {
-+    base: NovaRegisters;
-+
-     /// RISC-V status register for debug (Turing and GA100 only).
-     /// Reflects current RISC-V core status.
-     pub(crate) NV_PRISCV_RISCV_CORE_SWITCH_RISCV_STATUS(u32) @ PFalcon2Base + 0x00000240 {
-@@ -439,6 +456,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
- // These registers manage falcon EMEM communication queues.
- 
- register! {
-+    base: NovaRegisters;
-+
-     pub(crate) NV_PFSP_QUEUE_HEAD(u32)[8] @ 0x008f2c00 {
-         31:0    address => u32;
-     }
-@@ -462,9 +481,13 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
- pub(crate) mod gm107 {
-     use kernel::io::register;
- 
-+    use crate::driver::NovaRegisters;
-+
-     // FUSE
+diff --git a/samples/rust/rust_driver_pci.rs b/samples/rust/rust_driver_pci.rs
+index 2282191e6292..13b035a95756 100644
+--- a/samples/rust/rust_driver_pci.rs
++++ b/samples/rust/rust_driver_pci.rs
+@@ -23,6 +23,8 @@ mod regs {
+     use super::*;
  
      register! {
-+        base: NovaRegisters;
++        base: kernel::io::Region<END>;
 +
-         pub(crate) NV_FUSE_STATUS_OPT_DISPLAY(u32) @ 0x00021c04 {
-             0:0     display_disabled => bool;
+         pub(super) TEST(u8) @ 0x0 {
+             7:0 index => TestIndex;
          }
-@@ -474,9 +497,13 @@ pub(crate) mod gm107 {
- pub(crate) mod ga100 {
-     use kernel::io::register;
+@@ -102,6 +104,8 @@ fn config_space(pdev: &pci::Device<Bound>) {
  
-+    use crate::driver::NovaRegisters;
-+
-     // FUSE
- 
-     register! {
-+        base: NovaRegisters;
-+
-         pub(crate) NV_FUSE_STATUS_OPT_DISPLAY(u32) @ 0x00820c04 {
-             0:0     display_disabled => bool;
-         }
-@@ -488,9 +515,13 @@ pub(crate) mod ga100 {
- pub(crate) mod gh100 {
-     use kernel::io::register;
- 
-+    use crate::driver::NovaRegisters;
-+
-     // PTHERM
- 
-     register! {
-+        base: NovaRegisters;
-+
-         pub(crate) NV_THERM_I2CS_SCRATCH(u32) @ 0x000200bc {
-             31:0    data;
-         }
-@@ -505,9 +536,13 @@ pub(crate) mod gh100 {
- pub(crate) mod gb202 {
-     use kernel::io::register;
- 
-+    use crate::driver::NovaRegisters;
-+
-     // PTHERM
- 
-     register! {
-+        base: NovaRegisters;
-+
-         pub(crate) NV_THERM_I2CS_SCRATCH(u32) @ 0x00ad00bc {
-             31:0    data;
-         }
-diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-index c03650ee5226..9c214b9f4dd9 100644
---- a/drivers/gpu/nova-core/vbios.rs
-+++ b/drivers/gpu/nova-core/vbios.rs
-@@ -16,7 +16,10 @@
- };
- 
- use crate::{
--    driver::Bar0,
-+    driver::{
-+        Bar0,
-+        NovaRegisters, //
-+    },
-     firmware::{
-         fwsec::Bcrt30Rsa3kSignature,
-         FalconUCodeDesc,
-@@ -92,12 +95,16 @@ impl<'a> VbiosIterator<'a> {
-     fn rom_offset(dev: &device::Device, bar0: Bar0<'_>) -> Result<usize> {
-         // IFR Header in VBIOS.
+         // Some PCI configuration space registers.
          register! {
-+            base: NovaRegisters;
++            base: pci::Normal;
 +
-             NV_PBUS_IFR_FMT_FIXED0(u32) @ 0x300000 {
-                 31:0    signature;
-             }
-         }
- 
-         register! {
-+            base: NovaRegisters;
-+
-             NV_PBUS_IFR_FMT_FIXED1(u32) @ 0x300004 {
-                 30:16   fixed_data_size;
-                 15:8    version => u8;
-@@ -105,6 +112,8 @@ fn rom_offset(dev: &device::Device, bar0: Bar0<'_>) -> Result<usize> {
-         }
- 
-         register! {
-+            base: NovaRegisters;
-+
-             NV_PBUS_IFR_FMT_FIXED2(u32) @ 0x300008 {
-                 19:0 total_data_size;
+             VENDOR_ID(u16) @ 0x0 {
+                 15:0 vendor_id;
              }
 
 -- 
