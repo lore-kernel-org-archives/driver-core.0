@@ -1,218 +1,634 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022095.outbound.protection.outlook.com [52.101.96.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAD23E9C2F;
-	Wed,  5 Aug 2026 10:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785926595; cv=fail; b=I70rTCKna3ckjvMytJz5FvQQdlXGDMXfhxNfEiJUXg3B/QjA1wSqzh9aHsTMFClTSU2actxinHQwc7bi8FlcpAejGHtUf/r9Z5EbVAfWOKc6mlmt14UKhn77CJETn3zIs/qWU4b0tXuFOkUv3oae0Vs683v9osfAgdh81OHCLMo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785926595; c=relaxed/simple;
-	bh=AIz/rkwIZQ9roSfEBtRx7fL6cX4LSAWCv7x1TRkbezA=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=MAg1Vs0KDVbg3iQ7Rzxrti+Ak0XdkPbwGxYxEwCfTJwN9DGIqNmcMANYJshq0bnftiFhu9zx2tOYWz9+dyHE6pI0LI7iuugOowBv6v9FjmFWKgOhayC9dtvXi66LzQ+CYigfVzd1c7GNcIYD9EPPno+c+pk0eCdETiKDwbmHwoo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vTGmYkHB; arc=fail smtp.client-ip=52.101.96.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79AD9361970;
+	Wed,  5 Aug 2026 11:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785929560; cv=none; b=SqpaR2qAsLjy89bCALk4myhnUkuAiGujIobFeZnln2FtpFxycrt+5lzs9uiG/Fpabr88awX+AMveDrBa0TMTrmp+oRKco/6wnuu9ipBswVG39TGMxBawwoV5Cg8MH4ZmP7st7zylAHh7jXzbWtG/U0rllFDSfK3TI1DwoTQsul0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785929560; c=relaxed/simple;
+	bh=UeWZSb5w44v3YjXwkI6vzL/4fTBjvSfw7C6+UI2le3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=axhoR25vKC4XfdvDnZMD60q5/Y0kRTbF11x19AdWjpOrzBr0Ov3zEg75n8lmdXn1pA+tql0KrA3+zjmp3z2a3WNE3atNWMFQDlx9rjtIgGdq6Wk958kvy9l24+UBErdmbG0QitjvJDjsHH/yO39XT19ZH8f4fiB2w1N8Kl/qwwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=OkEyV6wG; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vTGmYkHB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dk3kz15lZ3cyDl2ZKTLATVaWYHA4Yfp1V42Uvm6OdZcHctmFH98QutqcFJXl3A5N+7wzPxhFZOX4rUlJvv/7UNcakU32ISDHmKPfoCSFxNPUdlu60i6MxF6RzEqSn/6x1a8U0KG8YEoNmJ4tbXHFcpVEYW7CUk+KxfwrU6qNq6vcg4jHf71qJpz/xCr6SmLdf8DCNL8zggspqT3d4Cs1P8eBYzzWWMZLLhvxgnmqdhzlnbjSgEpv/XPlHtEGMh24JlKumjz1fHly5x7BNwLwypiTYzC/18tFq+04Hs+dtVsKTMROkjdnveQSDyCXEbq4dneGesTS2qh7XcI6CGeUJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+CNTMZs7UmLYoxVAwaorCR59krU5bZFAf/HHxWZEp1c=;
- b=SEi/WxqhqbyVwpjHursRc9edihRgTAJ/kr3FMOZb9De9ya/CxYYh+5pMtbssY3ZGlyfhRAWzBC/mbUxJ6VZt3Guc6YFn9bzebyikkNoqGqKlxVc0eBhsdbJ7Zz7PKEPQEG9qtJHtfHEe3HpL+WEg9BARwzoDK3rJdAysRFHBYkQ8Ksv+9WTB8eb4yLgT3vZB0ELmP9We773KBV9iE3AVyyWoZyF/v82iJGX38VKKglqhLz6O0eJnYQEyVCaQi7GIXEWK+b6Z7sETuYHv1nlFK+SpVYZRSByu8Vx2+o/qSdKUaH5DaKVmifw+DxNylGiJckN1+KeVH72eAOt+XAZhiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+CNTMZs7UmLYoxVAwaorCR59krU5bZFAf/HHxWZEp1c=;
- b=vTGmYkHBPvgbTe2vnIzIIUoH3yCoQnp9IE4VWcIw1mZhZOmLaPPu2NXT2WRwH73uWj6JcCY5zGgaE6qOK3CPXBCNRFTXNjt92MHfmZHRAORkPlJ+BoUpUvppyCvLiTXI7OSUcsBGDKhsSBo0UkTHnNiqa543ykWyE1EKQTxxV+o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4b4::24)
- by LOAP265MB9175.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:498::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
- 2026 10:43:09 +0000
-Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- ([fe80::c07d:488c:d4aa:2a4a]) by LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- ([fe80::c07d:488c:d4aa:2a4a%4]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
- 10:43:09 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Aug 2026 11:43:08 +0100
-Message-Id: <DKGY508IDAS4.9E9983YWQ2F5@garyguo.net>
-Subject: Re: [PATCH 01/12] rust: io: add Region::try_subregion
-From: "Gary Guo" <gary@garyguo.net>
-To: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Yury Norov" <yury.norov@gmail.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Jonathan Corbet"
- <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
- <20260805-pramin-split-v1-1-ff3e84a75dac@nvidia.com>
-In-Reply-To: <20260805-pramin-split-v1-1-ff3e84a75dac@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0090.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:190::23) To LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4b4::24)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="OkEyV6wG"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C20AF153B;
+	Wed,  5 Aug 2026 04:32:31 -0700 (PDT)
+Received: from [10.57.40.190] (unknown [10.57.40.190])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD7563F66F;
+	Wed,  5 Aug 2026 04:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785929555; bh=UeWZSb5w44v3YjXwkI6vzL/4fTBjvSfw7C6+UI2le3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OkEyV6wGJ5+Plw5XiBnMVBu1pUqUAWahkkZB7eC5Tx0o7d11lF+mNwywU79SgipNt
+	 Ux/xnqEG4XwVDInyHUie39aE/hCl/VzSGUsgSMdRWYPr5cjUd/+Cyy/DMnCBixiAn7
+	 GG540YgS4EkZJiEBmYZ9L6/123P2xbJ6aNMWwdgM=
+Message-ID: <3a87960b-8a20-4947-a8b5-d5197174317c@arm.com>
+Date: Wed, 5 Aug 2026 12:32:28 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOZP265MB8551:EE_|LOAP265MB9175:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb81b229-c20e-4f23-a5e2-08def2de5702
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|23010399003|1800799024|376014|7416014|366016|921020|6133799003|4143699003|10067099003|18002099003|22082099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	7/JvGy/8gZSsafNXq5C+rXAygIsSTKOBlAQ7gM9bRMqfRpjeHNZ+uBH98vrK2p/7rjVZh2+4Qr487AOGnozZWVzc9sZ/Aebazk55ReC9V2P3ENm71qwHlPq7rEwJ6WLb5cIOkWsxsSfYGzVKjS958H0/AbwvFCdoWSvMwMIl9eSZu+x63BGsoFsZzPlvzk9U+08RuzOMVkGOWBsG6A+/9Q+oO7n94odblkbwWrUbvxcDk2L7dy22qnTwTi7ZZL3StEyQGImHjy6npXeGtNJDKARTc6yJmJOYrCIou6pCpZ/zFp2MynsUVVVP2zkt4PiIZjQOFFo81ZuIDoJGIkR8K9o8ZEhIACxXLk4eK3yjGvlOcnLjBWItOKoi+XKq5Iqa8gww51hSCPP1HNw2LkqS0O4dUYoJqmO9fMmS2VNT0pVEdvh9ZRXgNwsYX5eigmyaTb8a1fgREn+o5wBBbSSLnX5AK5Wa529ulBI6vM2yaVJ2UA63UNxWHg1EyPXjjR/WuZO09rfxTCBkMvfefIY4rowHwfbaUQcRwlp4r5uuWw7WIJra7IjJzH3cVEP6hGspwWP+6tFZMC2c2SsCHLUcO7nlBox8yC85PkWVjNMC7XwyYODnpQ2onnzXl75hlVXt5oLNJVNf0HCzgKk/9BNW0UM7Kv/2gc3jb4Vvfgj+5eqU83gPec7uIaNJGGidUBVECoxsY8iXaREMDetW1Kgdfw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(1800799024)(376014)(7416014)(366016)(921020)(6133799003)(4143699003)(10067099003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QlJiUXR4N2lVNEZvUHRJQ0JuSGdXQ2oxbXVvZWVvZGVSdHk2MmZ3MFlKUjhU?=
- =?utf-8?B?c1FIc3hwdmRZcFFzS2xiVmZrRkNKeXJJUDVUb1BWT0tjVXJ6ZEZod0RkWkNU?=
- =?utf-8?B?VW1ldHBCVi9jTk4wbmR2Qk1DbXFVNlcyeWpVOFRLVGxtWlNkcmkvenFSdjRQ?=
- =?utf-8?B?U2x1Z3F6ekFzeUVGOWVGbFhZa1V3Q3NCbnBOOGlrYmxKTEF6UjgxbG1qdnlx?=
- =?utf-8?B?QWtYSGZsYkk0NklqSk91T1JDc1VBL3dFeklCRFhiYXoxK2hnZEM3VktMREhv?=
- =?utf-8?B?YmxQdnFmY0xRTWNtNllKYzhMS3lKeGljdFg1R1gvcllnSlNFTmhHcmdRelA0?=
- =?utf-8?B?cW9vRisxT2RkZTVPbE11MnlJSC94STNKZmVJc3JUYnpOVktrTFJMVHZvMGdj?=
- =?utf-8?B?YTk3eVBJRlA4Sm5nbVlHUGpKOVFyaXMxNm9pM05iODIzb25xU2hMZWF5elZi?=
- =?utf-8?B?eWVOWlZjKzBzTEIwSFppVnloNlozTk80K0lQTi9zbHhKREhLTXQzVmwzY3lS?=
- =?utf-8?B?SHl5TEc3OTI5Qmw2OStLMWJFbjlKV3lPZ0tnUlh2b3RuMkJ3VHNQWkprWHZL?=
- =?utf-8?B?SGsvUmhRUFh1Z1ZMQkdhbTFCbDU5MVdkUWJibDU2c21rZGpibW1ZVFkza2pP?=
- =?utf-8?B?dURaOXhaRHU4K1V1Y09JeHA3Tks0UXE5VU1QbUFWVWM3UEJsTjdDYUg5d2xH?=
- =?utf-8?B?VXc1bEdweCtoZnJqTExxTFVIUkdkclFqaFlaWE5jRUZuM09iRitWNDc1NzhO?=
- =?utf-8?B?ckdqdmdRamxabGJIVEsxYW15dFhSY0kwTmxFWk5IZmZIb0NJTmN0R2xNSWJI?=
- =?utf-8?B?SVo0S3ZBLzBVc2ZzSW1ySThCQUN0V3hJeWl5Znl4cjZhSnRBUG1zM0s3N1dW?=
- =?utf-8?B?NXJZeFI1b1lwd0hDSWlyYXFaRDNTS1RxbGdvUndDYkhHMERmTmJ6S1dWNUF0?=
- =?utf-8?B?aFhrZlRTV25ZL3BkTHFwMW1BdmFhZ1BGeEtuYzNsRVU0aDh2Y1ArUWJoaHA2?=
- =?utf-8?B?TUFSeENGV0tiSmc0MGxydmhZdXBTbVZUaWJnSW5XUXl0cUNSNzFTNExRSHdL?=
- =?utf-8?B?TjlMSkZJVFcrSXN4N3VnQjBkck1yS3loQ3hOQ1VPT2pBV25ubDBTN1R2Z2di?=
- =?utf-8?B?S2NqbGQ4SWV1YWd0TjVSc1pMbFVHUWYzTGxMUHJTejAyd2FKejJwaUFtclNC?=
- =?utf-8?B?QmJLQ2RmNG1mNUxrdkVjbVBMTXNGZjVtdkladW1pdmhjRnJFejV2TkszR2RW?=
- =?utf-8?B?c3k4NFJ0SU1uNXB3UkNkcFpDOUd4SGtXSytOUi9xc1BKd1JjQjRiR0NHSVl3?=
- =?utf-8?B?Q2U5ZHhET2NWMHF1TTdOV3ZWeDZJc1Zjb1dBcHJxU29rS3RzV0pGNUxvL1hI?=
- =?utf-8?B?UnpaWGVScnlCcDdvVUI4a3BIKzhYdjlzNFY5QWUzejFkNEdvNnhGbDNDazlx?=
- =?utf-8?B?Ym5SWTAzSUMwckdNb1NIZlFYUDQ4RXY3aVJiU05SRVR1N3V5QnFJRlFlQmpq?=
- =?utf-8?B?cm1DUUV0NVZFT3VhMUxOTGlBaXBnNFh5ZlI1M3FlMDkxSDFFZy9BbjE0RVRH?=
- =?utf-8?B?TnA4cWdEVy9MckxSSWNIV3pUN0pLclBSTzh0OEFJSjVRZERGK1MxcU5rYmxD?=
- =?utf-8?B?SEJqaFNoeVdveEtSN1pJSnV0OUFidlF0clhCMm1MQkd3Q21VUkt1KzFYLy9Z?=
- =?utf-8?B?emxESGhOQXJSOWlKWFJwWXVySUkva1RJN0gxdkhYYXZWWmhkMUhLc3NBSCtF?=
- =?utf-8?B?bGU3NktFb2lFN2RJRVV1WW1UYzU3QWlCTjJlcVRoTitFZHpqMUlsNG1QbUhp?=
- =?utf-8?B?MEs4VjJmTUNTS0NTS2tTRmRZdnQrcU53YlNNN2Zua0U2TTQrQUI4NnpGYUZq?=
- =?utf-8?B?SWt6SENxbWVobTR3bnd1RDhXYlJ4YSs5MCtPd1ovR292eVhpSG9Ka0t5MGpz?=
- =?utf-8?B?TGtkejNXRDhibW50dVdFbmNYYVNsN1hGUkVmemhnc3A3L01mdTR6RFR1YWNv?=
- =?utf-8?B?NFFYUXlldklSM1BjS0xyS0ZuRjRaTktiUjFreDNOWW5DVmxndXh4elJnbmdF?=
- =?utf-8?B?ZWVjK0Y3eWg2M3dhc2Y1bU5yd05sL010b1I1WkVKZkx6UDMyc05iaUNGR0xN?=
- =?utf-8?B?ZDhzV2MzZnptQTF2YlNXTkFCY0QydE9DSzhSbUJ5SlZmdW4wR21vTDRxRnFB?=
- =?utf-8?B?Y1c2SFRyN0dOWnFVN202MGxyRHVhUkhQb2RZdUNHa1czWGFPd1JFYzN5eGk3?=
- =?utf-8?B?WXBTQWh6UXNzY3NveURBczF2UDZYUWZFczhwTzQ1RXR1ZG8xWWZVcnlnb3Vn?=
- =?utf-8?B?T1ZIeHJzak5LYWFEdnFnTkpsalY5VTlFM0tzbVhKbFlTRHJNeGVNQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb81b229-c20e-4f23-a5e2-08def2de5702
-X-MS-Exchange-CrossTenant-AuthSource: LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 10:43:09.1404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nT6FSzbf05Ubx0QdJz1on0gDHqwgzpofdiZ9JVsdcvIiw0470juIitJy1TYYUdMaLK3qVCM4C727bckmuEfdIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOAP265MB9175
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] rust: dma: rename dma_handle to dma_address
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org
+References: <20260805-falcon-dma-projections-v2-0-4cc9f3f13ee9@nvidia.com>
+ <20260805-falcon-dma-projections-v2-2-4cc9f3f13ee9@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260805-falcon-dma-projections-v2-2-4cc9f3f13ee9@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed Aug 5, 2026 at 6:44 AM BST, Eliot Courtney wrote:
-> Add a helper to get a subregion of an IO view fallibly.
->
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+On 2026-08-05 6:01 am, Alexandre Courbot wrote:
+> The `dma_handle` naming is inherited from the C API, but what this
+> really describes is the device DMA address; everything named
+> `dma_handle` is actually a `dma_addr_t`.
+> 
+> This naming introduces some confusion on the Rust API side, as handles
+> are supposed to be opaque tokens, yet we were doing address computation
+> on values returned by `dma_handle`.
+
+To be fair, that is sort of the intent in the C API as well, to be clear 
+that DMA addresses must not simply be treated as physical addresses, and 
+aren't necessarily address-like in general e.g. comparing two 
+dma_handles is pretty meaningless, since they could have different 
+values but still refer to the same underlying memory, or vice-versa. 
+Adding or subtracting offsets within the bounds of the original 
+allocation/mapping size is pretty much the only arithmetic that _is_ valid.
+
+However at the Rust level, the abstraction itself can convey (and even 
+enforce!) most of that, so for the sake of clarity here, particularly if 
+Rust programmers are likely to have their own expectations of what 
+"address" and "handle" mean, then I'm inclined to agree.
+
+> Rename `dma_handle` to `dma_address` while nova-core is still its only
+> user.
+
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+
+> Suggested-by: John Hubbard <jhubbard@nvidia.com>
+> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> Link: https://lore.kernel.org/all/DK75LUA4NLGI.3P29AIZQE20V2@kernel.org/
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 > ---
->  rust/kernel/io.rs | 31 ++++++++++++++++++++++++++++++-
->  1 file changed, 30 insertions(+), 1 deletion(-)
-
-Looks like the case where you need this don't actually require a `Region`
-(dynamically sized type) but rather a fixed size window?
-
-In that case the next version of
-https://lore.kernel.org/rust-for-linux/20260721-typed_register-v1-0-452d72b=
-60262@garyguo.net/
-will contain what you need.
-
-Best,
-Gary
-
->
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index 95f46bb75f9e..85fbdcc50c8f 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -6,7 +6,8 @@
-> =20
->  use core::{
->      marker::PhantomData,
-> -    mem::MaybeUninit, //
-> +    mem::MaybeUninit,
-> +    ops::Range, //
->  };
-> =20
->  use crate::{
-> @@ -80,6 +81,34 @@ pub fn ptr_try_from_raw_parts_mut(base: *mut u8, size:=
- usize) -> Result<*mut Sel
-> =20
->          Ok(Self::ptr_from_raw_parts_mut(base, size))
->      }
-> +
-> +    /// Try to create a subregion of `io` at the given range.
-> +    ///
-> +    /// Runtime checks that `range` is within this region, is at least a=
-s large as the given new
-> +    /// minimum size `NEW_SIZE`, and that [`Region`]'s alignment require=
-ments are satisfied.
-> +    #[inline]
-> +    pub fn try_subregion<'a, const NEW_SIZE: usize, IO>(
-> +        io: IO,
-> +        range: Range<usize>,
-> +    ) -> Result<<IO::Backend as IoBackend>::View<'a, Region<NEW_SIZE>>>
-> +    where
-> +        IO: IoBase<'a, Target =3D Self>,
-> +    {
-> +        let view =3D io.as_view();
-> +        let ptr =3D IO::Backend::as_ptr(view);
-> +
-> +        let size =3D KnownSize::size(ptr);
-> +        if range.start > size || range.end > size {
-> +            return Err(EINVAL);
-> +        }
-> +        let region =3D Region::ptr_try_from_raw_parts_mut(
-> +            ptr.cast::<u8>().wrapping_add(range.start),
-> +            range.len(),
+>   drivers/gpu/nova-core/falcon.rs                    |  8 +--
+>   drivers/gpu/nova-core/fb.rs                        |  4 +-
+>   drivers/gpu/nova-core/firmware/booter.rs           |  8 ++-
+>   drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |  4 +-
+>   drivers/gpu/nova-core/firmware/gsp.rs              |  6 +-
+>   drivers/gpu/nova-core/fsp.rs                       |  6 +-
+>   drivers/gpu/nova-core/gsp.rs                       |  2 +-
+>   drivers/gpu/nova-core/gsp/cmdq.rs                  |  8 +--
+>   drivers/gpu/nova-core/gsp/fw.rs                    | 10 ++--
+>   drivers/gpu/nova-core/gsp/hal/gh100.rs             |  2 +-
+>   drivers/gpu/nova-core/gsp/hal/tu102.rs             |  8 ++-
+>   drivers/gpu/nova-core/gsp/sequencer.rs             |  8 +--
+>   rust/kernel/dma.rs                                 | 70 +++++++++++-----------
+>   13 files changed, 74 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+> index cd05985f5ee6..a281d316ebfd 100644
+> --- a/drivers/gpu/nova-core/falcon.rs
+> +++ b/drivers/gpu/nova-core/falcon.rs
+> @@ -499,7 +499,7 @@ pub(crate) fn pio_load<F: FalconFirmware<Target = E> + FalconPioLoadable>(
+>           Ok(())
+>       }
+>   
+> -    /// Perform a DMA write according to `load_offsets` from `dma_handle` into the falcon's
+> +    /// Perform a DMA write according to `load_offsets` from `dma_obj` into the falcon's
+>       /// `target_mem`.
+>       ///
+>       /// `sec` is set if the loaded firmware is expected to run in secure mode.
+> @@ -514,14 +514,14 @@ fn dma_wr(
+>           // For IMEM, we want to use the start offset as a virtual address tag for each page, since
+>           // code addresses in the firmware (and the boot vector) are virtual.
+>           //
+> -        // For DMEM we can fold the start offset into the DMA handle.
+> +        // For DMEM we can fold the start offset into the DMA address.
+>           let (src_start, dma_start) = match target_mem {
+>               FalconMem::ImemSecure | FalconMem::ImemNonSecure => {
+> -                (load_offsets.src_start, dma_obj.dma_handle())
+> +                (load_offsets.src_start, dma_obj.dma_address())
+>               }
+>               FalconMem::Dmem => (
+>                   0,
+> -                dma_obj.dma_handle() + DmaAddress::from(load_offsets.src_start),
+> +                dma_obj.dma_address() + DmaAddress::from(load_offsets.src_start),
+>               ),
+>           };
+>           if dma_start % DmaAddress::from(DMA_LEN) > 0 {
+> diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+> index 9e475efb1150..e7ed19a61c1a 100644
+> --- a/drivers/gpu/nova-core/fb.rs
+> +++ b/drivers/gpu/nova-core/fb.rs
+> @@ -61,7 +61,7 @@ pub(crate) fn register(
+>       ) -> Result<Self> {
+>           let page = CoherentHandle::alloc(dev, kernel::page::PAGE_SIZE, GFP_KERNEL)?;
+>   
+> -        hal::fb_hal(chipset).write_sysmem_flush_page(bar, page.dma_handle())?;
+> +        hal::fb_hal(chipset).write_sysmem_flush_page(bar, page.dma_address())?;
+>   
+>           Ok(Self {
+>               chipset,
+> @@ -76,7 +76,7 @@ impl Drop for SysmemFlush<'_> {
+>       fn drop(&mut self) {
+>           let hal = hal::fb_hal(self.chipset);
+>   
+> -        if hal.read_sysmem_flush_page(self.bar) == self.page.dma_handle() {
+> +        if hal.read_sysmem_flush_page(self.bar) == self.page.dma_address() {
+>               let _ = hal.write_sysmem_flush_page(self.bar, 0).inspect_err(|e| {
+>                   dev_warn!(
+>                       &self.device,
+> diff --git a/drivers/gpu/nova-core/firmware/booter.rs b/drivers/gpu/nova-core/firmware/booter.rs
+> index acb7f4d8a532..972618e5eafe 100644
+> --- a/drivers/gpu/nova-core/firmware/booter.rs
+> +++ b/drivers/gpu/nova-core/firmware/booter.rs
+> @@ -405,9 +405,11 @@ pub(crate) fn run<T>(
+>       ) -> Result {
+>           sec2_falcon.reset()?;
+>           sec2_falcon.load(self)?;
+> -        let wpr_handle = wpr_meta.dma_handle();
+> -        let (mbox0, mbox1) =
+> -            sec2_falcon.boot(Some(wpr_handle as u32), Some((wpr_handle >> 32) as u32))?;
+> +        let wpr_dma_address = wpr_meta.dma_address();
+> +        let (mbox0, mbox1) = sec2_falcon.boot(
+> +            Some(wpr_dma_address as u32),
+> +            Some((wpr_dma_address >> 32) as u32),
 > +        )?;
-> +
-> +        // SAFETY: We have checked bounds and alignment, so this is a va=
-lid projection.
-> +        Ok(unsafe { IO::Backend::project_view(view, region) })
-> +    }
->  }
-> =20
->  impl<const SIZE: usize> KnownSize for Region<SIZE> {
-
+>           dev_dbg!(dev, "SEC2 MBOX0: {:#x}, MBOX1: {:#x}\n", mbox0, mbox1);
+>   
+>           if mbox0 != 0 {
+> diff --git a/drivers/gpu/nova-core/firmware/fwsec/bootloader.rs b/drivers/gpu/nova-core/firmware/fwsec/bootloader.rs
+> index d9fafd2eea5b..c4a327af9ac7 100644
+> --- a/drivers/gpu/nova-core/firmware/fwsec/bootloader.rs
+> +++ b/drivers/gpu/nova-core/firmware/fwsec/bootloader.rs
+> @@ -230,7 +230,7 @@ pub(crate) fn new(
+>                   reserved: [0; 4],
+>                   signature: [0; 4],
+>                   ctx_dma: FALCON_DMAIDX_PHYS_SYS_NCOH,
+> -                code_dma_base: firmware_dma.dma_handle(),
+> +                code_dma_base: firmware_dma.dma_address(),
+>                   // `dst_start` is also valid as the source offset since the firmware DMA object is
+>                   // a mirror image of the target IMEM layout.
+>                   non_sec_code_off: imem_ns.dst_start,
+> @@ -242,7 +242,7 @@ pub(crate) fn new(
+>                   code_entry_point: 0,
+>                   // Start of data section is the added padding + the DMEM `src_start` field.
+>                   data_dma_base: firmware_dma
+> -                    .dma_handle()
+> +                    .dma_address()
+>                       .checked_add(u64::from_safe_cast(align_padding))
+>                       .and_then(|offset| offset.checked_add(dmem.src_start.into()))
+>                       .ok_or(EOVERFLOW)?,
+> diff --git a/drivers/gpu/nova-core/firmware/gsp.rs b/drivers/gpu/nova-core/firmware/gsp.rs
+> index 99a302bae567..97977f27d74b 100644
+> --- a/drivers/gpu/nova-core/firmware/gsp.rs
+> +++ b/drivers/gpu/nova-core/firmware/gsp.rs
+> @@ -161,9 +161,9 @@ pub(crate) fn new<'a>(
+>           })
+>       }
+>   
+> -    /// Returns the DMA handle of the radix3 level 0 page table.
+> -    pub(crate) fn radix3_dma_handle(&self) -> DmaAddress {
+> -        self.level0.dma_handle()
+> +    /// Returns the DMA address of the radix3 level 0 page table.
+> +    pub(crate) fn radix3_dma_address(&self) -> DmaAddress {
+> +        self.level0.dma_address()
+>       }
+>   }
+>   
+> diff --git a/drivers/gpu/nova-core/fsp.rs b/drivers/gpu/nova-core/fsp.rs
+> index ba4544210e40..1721a8387636 100644
+> --- a/drivers/gpu/nova-core/fsp.rs
+> +++ b/drivers/gpu/nova-core/fsp.rs
+> @@ -287,12 +287,12 @@ fn new<'a>(
+>           .chain(move |msg| {
+>               msg.cot.version = version;
+>               msg.cot.size = size;
+> -            msg.cot.gsp_fmc_sysmem_offset = fsp_fw.fmc_image.dma_handle();
+> +            msg.cot.gsp_fmc_sysmem_offset = fsp_fw.fmc_image.dma_address();
+>               msg.cot.frts_vidmem_offset = frts_vidmem_offset;
+>               msg.cot.frts_vidmem_size = frts_size;
+>               // frts_sysmem_* are left at zero because this path places FRTS in vidmem. The sysmem
+>               // fields point to an FRTS buffer in sysmem instead, for systems without VRAM.
+> -            msg.cot.gsp_boot_args_sysmem_offset = args.fmc_boot_params.dma_handle();
+> +            msg.cot.gsp_boot_args_sysmem_offset = args.fmc_boot_params.dma_address();
+>               msg.cot.sigs = *fsp_fw.fmc_sigs;
+>   
+>               Ok(())
+> @@ -353,7 +353,7 @@ pub(crate) fn new(
+>           libos: &'a Coherent<[LibosMemoryRegionInitArgument]>,
+>           resume: bool,
+>       ) -> Result<Self> {
+> -        let init = GspFmcBootParams::new(wpr_meta.dma_handle(), libos.dma_handle());
+> +        let init = GspFmcBootParams::new(wpr_meta.dma_address(), libos.dma_address());
+>   
+>           Ok(Self {
+>               chipset,
+> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+> index b403dc3515a5..13f361406a6c 100644
+> --- a/drivers/gpu/nova-core/gsp.rs
+> +++ b/drivers/gpu/nova-core/gsp.rs
+> @@ -122,7 +122,7 @@ impl LogBuffer {
+>       fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+>           let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
+>   
+> -        let start_addr = obj.0.dma_handle();
+> +        let start_addr = obj.0.dma_address();
+>   
+>           let pte_view = io_project!(
+>               obj.0,
+> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+> index cd844fe48f05..f0f28b6ded7a 100644
+> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+> @@ -243,7 +243,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+>           gsp_mem.cpuq.rx = MsgqRxHeader::new();
+>   
+>           let gsp_mem: Coherent<_> = gsp_mem.into();
+> -        PteArray::init(io_project!(gsp_mem, .ptes), gsp_mem.dma_handle())?;
+> +        PteArray::init(io_project!(gsp_mem, .ptes), gsp_mem.dma_address())?;
+>   
+>           Ok(Self(gsp_mem))
+>       }
+> @@ -487,8 +487,8 @@ pub(crate) struct Cmdq {
+>       /// Inner mutex-protected state.
+>       #[pin]
+>       inner: Mutex<CmdqInner>,
+> -    /// DMA handle of the command queue's shared memory region.
+> -    pub(super) dma_handle: DmaAddress,
+> +    /// DMA address of the command queue's shared memory region.
+> +    pub(super) dma_addr: DmaAddress,
+>   }
+>   
+>   impl Cmdq {
+> @@ -517,7 +517,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound>) -> impl PinInit<Self, Err
+>               let gsp_mem = DmaGspMem::new(dev)?;
+>   
+>               Ok(try_pin_init!(Self {
+> -                dma_handle: gsp_mem.0.dma_handle(),
+> +                dma_addr: gsp_mem.0.dma_address(),
+>                   inner <- new_mutex!(CmdqInner {
+>                       dev: dev.into(),
+>                       gsp_mem,
+> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/fw.rs
+> index 6e8e7d822ef1..a237db74cad5 100644
+> --- a/drivers/gpu/nova-core/gsp/fw.rs
+> +++ b/drivers/gpu/nova-core/gsp/fw.rs
+> @@ -183,16 +183,16 @@ pub(crate) fn new<'a>(
+>               // CAST: we want to store the bits of `GSP_FW_WPR_META_MAGIC` unmodified.
+>               magic: bindings::GSP_FW_WPR_META_MAGIC as u64,
+>               revision: u64::from(bindings::GSP_FW_WPR_META_REVISION),
+> -            sysmemAddrOfRadix3Elf: gsp_firmware.radix3_dma_handle(),
+> +            sysmemAddrOfRadix3Elf: gsp_firmware.radix3_dma_address(),
+>               sizeOfRadix3Elf: u64::from_safe_cast(gsp_firmware.size),
+> -            sysmemAddrOfBootloader: gsp_firmware.bootloader.ucode.dma_handle(),
+> +            sysmemAddrOfBootloader: gsp_firmware.bootloader.ucode.dma_address(),
+>               sizeOfBootloader: u64::from_safe_cast(gsp_firmware.bootloader.ucode.size()),
+>               bootloaderCodeOffset: u64::from(gsp_firmware.bootloader.code_offset),
+>               bootloaderDataOffset: u64::from(gsp_firmware.bootloader.data_offset),
+>               bootloaderManifestOffset: u64::from(gsp_firmware.bootloader.manifest_offset),
+>               __bindgen_anon_1: GspFwWprMetaBootResumeInfo {
+>                   __bindgen_anon_1: GspFwWprMetaBootInfo {
+> -                    sysmemAddrOfSignature: gsp_firmware.signatures.dma_handle(),
+> +                    sysmemAddrOfSignature: gsp_firmware.signatures.dma_address(),
+>                       sizeOfSignature: u64::from_safe_cast(gsp_firmware.signatures.size()),
+>                   },
+>               },
+> @@ -635,7 +635,7 @@ fn id8(name: &str) -> u64 {
+>   
+>           let init_inner = init!(bindings::LibosMemoryRegionInitArgument {
+>               id8: id8(name),
+> -            pa: obj.dma_handle(),
+> +            pa: obj.dma_address(),
+>               size: num::usize_as_u64(obj.size()),
+>               kind: num::u32_into_u8::<
+>                   { bindings::LibosMemoryRegionKind_LIBOS_MEMORY_REGION_CONTIGUOUS },
+> @@ -901,7 +901,7 @@ impl MessageQueueInitArguments {
+>       /// Creates a new init arguments structure for `cmdq`.
+>       fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
+>           init!(MessageQueueInitArguments {
+> -            sharedMemPhysAddr: cmdq.dma_handle,
+> +            sharedMemPhysAddr: cmdq.dma_addr,
+>               pageTableEntryCount: num::usize_into_u32::<{ Cmdq::NUM_PTES }>(),
+>               cmdQueueOffset: num::usize_as_u64(Cmdq::CMDQ_OFFSET),
+>               statQueueOffset: num::usize_as_u64(Cmdq::STATQ_OFFSET),
+> diff --git a/drivers/gpu/nova-core/gsp/hal/gh100.rs b/drivers/gpu/nova-core/gsp/hal/gh100.rs
+> index 22b60f9233de..8e219a0cb164 100644
+> --- a/drivers/gpu/nova-core/gsp/hal/gh100.rs
+> +++ b/drivers/gpu/nova-core/gsp/hal/gh100.rs
+> @@ -63,7 +63,7 @@ fn lockdown_released_or_error(
+>           // boot. If the address is still there, keep polling rather than treating it as an error.
+>           // Any other non-zero mailbox0 value is a GSP-FMC error code.
+>           if self.mbox0 != 0 {
+> -            return self.combined_addr() != fmc_boot_params.dma_handle();
+> +            return self.combined_addr() != fmc_boot_params.dma_address();
+>           }
+>   
+>           !gsp_falcon.riscv_branch_privilege_lockdown()
+> diff --git a/drivers/gpu/nova-core/gsp/hal/tu102.rs b/drivers/gpu/nova-core/gsp/hal/tu102.rs
+> index 03133f723faf..26ac1adba1bf 100644
+> --- a/drivers/gpu/nova-core/gsp/hal/tu102.rs
+> +++ b/drivers/gpu/nova-core/gsp/hal/tu102.rs
+> @@ -286,9 +286,11 @@ fn boot(
+>           }
+>   
+>           gsp_falcon.reset()?;
+> -        let libos_handle = gsp.libos.dma_handle();
+> -        let (mbox0, mbox1) =
+> -            gsp_falcon.boot(Some(libos_handle as u32), Some((libos_handle >> 32) as u32))?;
+> +        let libos_dma_address = gsp.libos.dma_address();
+> +        let (mbox0, mbox1) = gsp_falcon.boot(
+> +            Some(libos_dma_address as u32),
+> +            Some((libos_dma_address >> 32) as u32),
+> +        )?;
+>           dev_dbg!(dev, "GSP MBOX0: {:#x}, MBOX1: {:#x}\n", mbox0, mbox1);
+>   
+>           dev_dbg!(
+> diff --git a/drivers/gpu/nova-core/gsp/sequencer.rs b/drivers/gpu/nova-core/gsp/sequencer.rs
+> index 5e1ec7e59ab0..bcad1421953a 100644
+> --- a/drivers/gpu/nova-core/gsp/sequencer.rs
+> +++ b/drivers/gpu/nova-core/gsp/sequencer.rs
+> @@ -234,12 +234,12 @@ fn run(&self, seq: &GspSequencer<'_>) -> Result {
+>                   // Reset the GSP to prepare it for resuming.
+>                   seq.gsp_falcon.reset()?;
+>   
+> -                let libos_dma_handle = seq.libos.dma_handle();
+> +                let libos_dma_address = seq.libos.dma_address();
+>   
+> -                // Write the libOS DMA handle to GSP mailboxes.
+> +                // Write the libOS DMA address to GSP mailboxes.
+>                   seq.gsp_falcon.write_mailboxes(
+> -                    Some(libos_dma_handle as u32),
+> -                    Some((libos_dma_handle >> 32) as u32),
+> +                    Some(libos_dma_address as u32),
+> +                    Some((libos_dma_address >> 32) as u32),
+>                   );
+>   
+>                   // Start the SEC2 falcon which will trigger GSP-RM to resume on the GSP.
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index e275f2562a5b..4258ff7ff525 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -585,7 +585,7 @@ fn from(value: CoherentBox<T>) -> Self {
+>   /// # Invariants
+>   ///
+>   /// - For the lifetime of an instance of [`Coherent`], the `cpu_addr` is a valid pointer
+> -///   to an allocated region of coherent memory and `dma_handle` is the DMA address base of the
+> +///   to an allocated region of coherent memory and `dma_addr` is the DMA address base of the
+>   ///   region.
+>   /// - The size in bytes of the allocation is equal to size information via pointer.
+>   // TODO
+> @@ -602,7 +602,7 @@ fn from(value: CoherentBox<T>) -> Self {
+>   // entire `Coherent` including the allocated memory itself.
+>   pub struct Coherent<T: KnownSize + ?Sized> {
+>       dev: ARef<device::Device>,
+> -    dma_handle: DmaAddress,
+> +    dma_addr: DmaAddress,
+>       cpu_addr: NonNull<T>,
+>       dma_attrs: Attrs,
+>   }
+> @@ -627,11 +627,10 @@ pub fn as_mut_ptr(&self) -> *mut T {
+>           self.cpu_addr.as_ptr()
+>       }
+>   
+> -    /// Returns a DMA handle which may be given to the device as the DMA address base of
+> -    /// the region.
+> +    /// Returns a DMA address which may be given to the device as the base of the region.
+>       #[inline]
+> -    pub fn dma_handle(&self) -> DmaAddress {
+> -        self.dma_handle
+> +    pub fn dma_address(&self) -> DmaAddress {
+> +        self.dma_addr
+>       }
+>   
+>       /// Returns a reference to the data in the region.
+> @@ -678,13 +677,13 @@ fn alloc_with_attrs(
+>               );
+>           }
+>   
+> -        let mut dma_handle = 0;
+> +        let mut dma_addr = 0;
+>           // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
+>           let addr = unsafe {
+>               bindings::dma_alloc_attrs(
+>                   dev.as_raw(),
+>                   core::mem::size_of::<T>(),
+> -                &mut dma_handle,
+> +                &mut dma_addr,
+>                   gfp_flags.as_raw(),
+>                   dma_attrs.as_raw(),
+>               )
+> @@ -696,7 +695,7 @@ fn alloc_with_attrs(
+>           // - We also hold a refcounted reference to the device.
+>           Ok(Self {
+>               dev: dev.into(),
+> -            dma_handle,
+> +            dma_addr,
+>               cpu_addr,
+>               dma_attrs,
+>           })
+> @@ -795,13 +794,13 @@ fn alloc_slice_with_attrs(
+>           }
+>   
+>           let size = core::mem::size_of::<T>().checked_mul(len).ok_or(ENOMEM)?;
+> -        let mut dma_handle = 0;
+> +        let mut dma_addr = 0;
+>           // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
+>           let addr = unsafe {
+>               bindings::dma_alloc_attrs(
+>                   dev.as_raw(),
+>                   size,
+> -                &mut dma_handle,
+> +                &mut dma_addr,
+>                   gfp_flags.as_raw(),
+>                   dma_attrs.as_raw(),
+>               )
+> @@ -813,7 +812,7 @@ fn alloc_slice_with_attrs(
+>           // - We also hold a refcounted reference to the device.
+>           Ok(Coherent {
+>               dev: dev.into(),
+> -            dma_handle,
+> +            dma_addr,
+>               cpu_addr,
+>               dma_attrs,
+>           })
+> @@ -927,14 +926,14 @@ impl<T: KnownSize + ?Sized> Drop for Coherent<T> {
+>       fn drop(&mut self) {
+>           let size = T::size(self.cpu_addr.as_ptr());
+>           // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
+> -        // The cpu address, and the dma handle are valid due to the type invariants on
+> +        // The cpu address, and the dma address are valid due to the type invariants on
+>           // `Coherent`.
+>           unsafe {
+>               bindings::dma_free_attrs(
+>                   self.dev.as_raw(),
+>                   size,
+>                   self.cpu_addr.as_ptr().cast(),
+> -                self.dma_handle,
+> +                self.dma_addr,
+>                   self.dma_attrs.as_raw(),
+>               )
+>           }
+> @@ -989,13 +988,13 @@ fn write_to_slice(
+>   ///
+>   /// - `cpu_handle` holds the opaque handle returned by `dma_alloc_attrs` with
+>   ///   `DMA_ATTR_NO_KERNEL_MAPPING` set, and is only valid for passing back to `dma_free_attrs`.
+> -/// - `dma_handle` is the corresponding bus address for device DMA.
+> +/// - `dma_addr` is the corresponding bus address for device DMA.
+>   /// - `size` is the allocation size in bytes as passed to `dma_alloc_attrs`.
+>   /// - `dma_attrs` contains the attributes used for the allocation, always including
+>   ///   `DMA_ATTR_NO_KERNEL_MAPPING`.
+>   pub struct CoherentHandle {
+>       dev: ARef<device::Device>,
+> -    dma_handle: DmaAddress,
+> +    dma_addr: DmaAddress,
+>       cpu_handle: NonNull<c_void>,
+>       size: usize,
+>       dma_attrs: Attrs,
+> @@ -1019,13 +1018,13 @@ pub fn alloc_with_attrs(
+>           }
+>   
+>           let dma_attrs = dma_attrs | Attrs(bindings::DMA_ATTR_NO_KERNEL_MAPPING);
+> -        let mut dma_handle = 0;
+> +        let mut dma_addr = 0;
+>           // SAFETY: `dev.as_raw()` is valid by the type invariant on `device::Device`.
+>           let cpu_handle = unsafe {
+>               bindings::dma_alloc_attrs(
+>                   dev.as_raw(),
+>                   size,
+> -                &mut dma_handle,
+> +                &mut dma_addr,
+>                   gfp_flags.as_raw(),
+>                   dma_attrs.as_raw(),
+>               )
+> @@ -1034,11 +1033,11 @@ pub fn alloc_with_attrs(
+>           let cpu_handle = NonNull::new(cpu_handle).ok_or(ENOMEM)?;
+>   
+>           // INVARIANT: `cpu_handle` is the opaque handle from a successful `dma_alloc_attrs` call
+> -        // with `DMA_ATTR_NO_KERNEL_MAPPING`, `dma_handle` is the corresponding DMA address,
+> +        // with `DMA_ATTR_NO_KERNEL_MAPPING`, `dma_addr` is the corresponding DMA address,
+>           // and we hold a refcounted reference to the device.
+>           Ok(Self {
+>               dev: dev.into(),
+> -            dma_handle,
+> +            dma_addr,
+>               cpu_handle,
+>               size,
+>               dma_attrs,
+> @@ -1055,12 +1054,12 @@ pub fn alloc(
+>           Self::alloc_with_attrs(dev, size, gfp_flags, Attrs(0))
+>       }
+>   
+> -    /// Returns the DMA handle for this allocation.
+> +    /// Returns the DMA address for this allocation.
+>       ///
+>       /// This address can be programmed into device hardware for DMA access.
+>       #[inline]
+> -    pub fn dma_handle(&self) -> DmaAddress {
+> -        self.dma_handle
+> +    pub fn dma_address(&self) -> DmaAddress {
+> +        self.dma_addr
+>       }
+>   
+>       /// Returns the size in bytes of this allocation.
+> @@ -1079,28 +1078,29 @@ fn drop(&mut self) {
+>                   self.dev.as_raw(),
+>                   self.size,
+>                   self.cpu_handle.as_ptr(),
+> -                self.dma_handle,
+> +                self.dma_addr,
+>                   self.dma_attrs.as_raw(),
+>               )
+>           }
+>       }
+>   }
+>   
+> -// SAFETY: `CoherentHandle` only holds a device reference, a DMA handle, an opaque CPU handle,
+> +// SAFETY: `CoherentHandle` only holds a device reference, a DMA address, an opaque CPU handle,
+>   // and a size. None of these are tied to a specific thread.
+>   unsafe impl Send for CoherentHandle {}
+>   
+>   // SAFETY: `CoherentHandle` provides no CPU access to the underlying allocation. The only
+> -// operations on `&CoherentHandle` are reading the DMA handle and size, both of which are
+> +// operations on `&CoherentHandle` are reading the DMA address and size, both of which are
+>   // plain `Copy` values.
+>   unsafe impl Sync for CoherentHandle {}
+>   
+>   /// View type for `Coherent`.
+>   ///
+> -/// This is same as [`SysMem`] but with additional information that allows handing out a DMA handle.
+> +/// This is same as [`SysMem`] but with additional information that allows handing out a DMA
+> +/// address.
+>   pub struct CoherentView<'a, T: ?Sized> {
+>       cpu_addr: SysMem<'a, T>,
+> -    dma_handle: DmaAddress,
+> +    dma_addr: DmaAddress,
+>   }
+>   
+>   impl<T: ?Sized> Copy for CoherentView<'_, T> {}
+> @@ -1112,16 +1112,16 @@ fn clone(&self) -> Self {
+>   }
+>   
+>   impl<'a, T: ?Sized> CoherentView<'a, T> {
+> -    /// Erase the DMA handle information and obtain a [`SysMem`] view of the same memory region.
+> +    /// Erase the DMA address information and obtain a [`SysMem`] view of the same memory region.
+>       #[inline]
+>       pub fn as_sys_mem(self) -> SysMem<'a, T> {
+>           self.cpu_addr
+>       }
+>   
+> -    /// Returns a DMA handle which may be given to the device as the DMA address base of the region.
+> +    /// Returns the DMA address which may be given to the device as base of the region.
+>       #[inline]
+> -    pub fn dma_handle(self) -> DmaAddress {
+> -        self.dma_handle
+> +    pub fn dma_address(self) -> DmaAddress {
+> +        self.dma_addr
+>       }
+>   
+>       /// Returns a reference to the data in the region.
+> @@ -1174,9 +1174,9 @@ unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownSize>(
+>       ) -> Self::View<'a, U> {
+>           let offset = ptr.addr() - view.cpu_addr.as_ptr().addr();
+>           // CAST: The offset DMA address can never overflow.
+> -        let dma_handle = view.dma_handle + offset as DmaAddress;
+> +        let dma_addr = view.dma_addr + offset as DmaAddress;
+>           CoherentView {
+> -            dma_handle,
+> +            dma_addr,
+>               // SAFETY: Per safety requirement.
+>               cpu_addr: unsafe { SysMemBackend::project_view(view.cpu_addr, ptr) },
+>           }
+> @@ -1241,7 +1241,7 @@ fn as_view(self) -> CoherentView<'a, Self::Target> {
+>           CoherentView {
+>               // SAFETY: `cpu_addr` is valid and aligned kernel accessible memory.
+>               cpu_addr: unsafe { SysMem::new(self.cpu_addr.as_ptr()) },
+> -            dma_handle: self.dma_handle,
+> +            dma_addr: self.dma_addr,
+>           }
+>       }
+>   }
+> 
 
