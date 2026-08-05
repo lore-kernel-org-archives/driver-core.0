@@ -1,99 +1,177 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15353D300F;
-	Wed,  5 Aug 2026 20:39:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D083C98BF;
+	Wed,  5 Aug 2026 21:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785962397; cv=none; b=ebmu0jl0VggEUfLbwnmoxfCenyHnFiDOpnopo4n6m22ho9vGrrv1GshpiN0lHOWUKsM+Hmdrv8q42vzvutCeqfQH4XrxsRcx3A2QvO87cP2imdKh+85TxzFCpM0gePE6+QAYkisj9ZwGD63DrYk5B3evFbLrvPeQKdPxZecirlg=
+	t=1785965367; cv=none; b=Zv+c1iJWrBwEXeOycSDGjwCGATiGbfkxi/PhHxM4GJ57UolIRqh8t0xq7eaTQELbLbCBo8Pn4h3haQq3TWS3c8MZyAxQ1igy++CKlf/C4edQR/BXJ/AT674elvU65FBHUos7g8bclHn0EsGLL+liXxonDuZrNIDg09rdzUwu5SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785962397; c=relaxed/simple;
-	bh=HDyA1AHqV1GG5znDjIJMQn0uh8/N2gKM1KJPkKkMP1Q=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=OUkFCGJWhvGqunnd81WY+163vo3GmoAGxMtjfToThAWWEHJBbvn5l/nlFu2vyxrdF4JLI4pXwYW9LZAN/TB+KBu7Bh+VM5FZmANoc8ww0Ncb/ihuMx883T17pO4qISEdk4NWhlGpakP9aJcY783EKgkrF5b+D9wqGZI3cn7VDB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEQKVUUG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785965367; c=relaxed/simple;
+	bh=R9WQy457uN9atZe33NUCuRCdBTNmX153WP3PsCU476o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rYre2oGEZHkN6jdmE5qvSXvPqnrhj/EZUWty4kbOVbWqzC0RT/WjMdPi7xc04g7xxBOVbQlmVJB+yPPLP3a6JPCBNBFtzv1ohs3LN8aKrZn1itiohwR2zWNYOZQ3eJeKGsAb0GMiuC4Fa1KmilM1pGejMSgIXntLAGR66blssU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbS/BZwK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEQKVUUG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF291F000E9;
-	Wed,  5 Aug 2026 20:39:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbS/BZwK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 885A81F000E9;
+	Wed,  5 Aug 2026 21:29:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785962396;
-	bh=HDyA1AHqV1GG5znDjIJMQn0uh8/N2gKM1KJPkKkMP1Q=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=IEQKVUUGYgAOPLuRXTcVmhOdc3PtY0k7BSdBbqZleZxR7mgiIDaPDpbHzCRItbKqQ
-	 TiJc6rIaVvez4uxezNfnhwJkPpoAyA+2mpryh56weiQVj04QbK3i2GK/g3SobPoTKX
-	 8tmXIXXr8lQm1aNZ12uRPDThZUrKMGHOnVAPCBW+5HpGeCavZIe1tIBcLARa/Sa4pF
-	 fJ7DIEQWOwQyMGwtY4A/e676AmDgeJB0XFWdws1lYJf6rU6DLHlCL01sgSQ0JFPFHn
-	 rcCR4Ws1ki3c8Vqd7zBeGFuUdEmpclOJ8p9nS790tmxoIFRZ/C1LTLwyh8ll+SV3AE
-	 HxITaHbeouFxQ==
+	s=k20260515; t=1785965366;
+	bh=AoMN/cmcd6IwG1JYDsGZWVEuE9XJEOh9IHcgSwbWR/g=;
+	h=From:To:Cc:Subject:Date;
+	b=KbS/BZwKIYz6zPQ/LZibHR37VKjkZyjPELNR5uldUsqPAwqyXv7yelKz2YqvvpB20
+	 V9aOIlcQMZ42MSw+8McFkU5toSlUNNcs+F7As6pbYfh3Mx2KjeulHh3YoO+GEaUxSf
+	 DhoRRSLi8t/93wD0bk14jTga3Jgul9duEDA/o/TbtZu+AmnyeYXkKxG9s+i1GyupDJ
+	 OAwnhcxVfwhE1RTr5fy+EKYInWN2QwRqKN/s8iMqyDfity046iOt3pNbFyx4zQ+i2Y
+	 Gld5v6AupixosHXFSebBqqZdLibkqxQ7qJs/uRALXceZaaJgKZ/SBnNu/Men4wy5Xv
+	 DxRgDQNhTlXMg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	aliceryhl@google.com,
+	daniel.almeida@collabora.com,
+	arnd@arndb.de,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev
+Cc: driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] rust: io: gate ioremap/iounmap on CONFIG_HAS_IOMEM
+Date: Wed,  5 Aug 2026 23:28:35 +0200
+Message-ID: <20260805212920.1996937-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Aug 2026 22:39:50 +0200
-Message-Id: <DKHATVF1WAE7.NGVXJQD12XQ@kernel.org>
-Subject: Re: [PATCH v2 2/3] rust: dma: rename dma_handle to dma_address
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>, "Tamir Duberstein"
- <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>
-To: "Robin Murphy" <robin.murphy@arm.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260805-falcon-dma-projections-v2-0-4cc9f3f13ee9@nvidia.com>
- <20260805-falcon-dma-projections-v2-2-4cc9f3f13ee9@nvidia.com>
- <3a87960b-8a20-4947-a8b5-d5197174317c@arm.com>
-In-Reply-To: <3a87960b-8a20-4947-a8b5-d5197174317c@arm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Aug 5, 2026 at 1:32 PM CEST, Robin Murphy wrote:
-> To be fair, that is sort of the intent in the C API as well, to be clear=
-=20
-> that DMA addresses must not simply be treated as physical addresses, and=
-=20
-> aren't necessarily address-like in general e.g. comparing two=20
-> dma_handles is pretty meaningless, since they could have different=20
-> values but still refer to the same underlying memory, or vice-versa.=20
-> Adding or subtracting offsets within the bounds of the original=20
-> allocation/mapping size is pretty much the only arithmetic that _is_ vali=
-d.
+s390 does not provide ioremap()/iounmap() when CONFIG_HAS_IOMEM is not
+set (which requires CONFIG_PCI on that architecture). This causes a
+build failure with Rust enabled on e.g. s390 allnoconfig:
 
-Yes, I did suggest a dma::Range type [1] for this purpose, such that only t=
-his
-kind arithmetic is possible to do.
+	In file included from rust/helpers/helpers.c:68:
+	rust/helpers/io.c:8:9: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations
+	      [-Wimplicit-function-declaration]
+	    8 |         return ioremap(offset, size);
+	      |                ^
+	rust/helpers/io.c:19:2: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations
+	      [-Wimplicit-function-declaration]
+	   19 |         iounmap(addr);
 
-The dma::Range type should have a method returning its embedded raw value w=
-hich
-then can be used to program registers etc.
+Guard the C helpers behind #ifdef CONFIG_HAS_IOMEM and cfg-gate the Rust
+io::mem module, such that IoMem, ExclusiveIoMem and IoRequest are not
+available without CONFIG_HAS_IOMEM.
 
-This patch is only an intermediate step, that clarifies that intent of the
-current usage of dma_handle() (or now dma_address()), which is not to serve=
- as a
-handle.
+Note that the C API is inconsistent about this. For instance,
+devm_ioremap() has no stub and produces a link failure without
+CONFIG_HAS_IOMEM, whereas devm_platform_ioremap_resource() provides an
+inline stub returning -EINVAL.
 
-[1] https://github.com/Rust-for-Linux/linux/issues/1248
+The approach taken here (compile-time gating) matches the former, which
+is slightly more appropriate since any driver performing MMIO currently
+requires CONFIG_HAS_IOMEM.
 
-> However at the Rust level, the abstraction itself can convey (and even=20
-> enforce!) most of that, so for the sake of clarity here, particularly if=
-=20
-> Rust programmers are likely to have their own expectations of what=20
-> "address" and "handle" mean, then I'm inclined to agree.
+Ideally, s390 should provide ioremap()/iounmap() stubs unconditionally
+(as UML already does), removing the need for any config gating as
+discussed in [1]; a follow-up patch for s390 is expected.
 
-Yeah, as mentioned in the link below, the handle that represents the alloca=
-tion
-are the DMA container types (such as dma::Coherent) themselves.
+Cc: Arnd Bergmann <arnd@arndb.de>
+Reported-by: Miguel Ojeda <ojeda@kernel.org>
+Closes: https://lore.kernel.org/all/20260803180931.97202-1-ojeda@kernel.org [1]
+Fixes: 3f70ebe63858 ("s390: Enable Rust support")
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+Changes in v2:
+  - Gate the entire io::mem module with #[cfg(CONFIG_HAS_IOMEM)] instead of
+    providing a runtime stub returning -EINVAL.
+  - Expand the commit message, and note about the existing inconsistency of
+    handling CONFIG_HAS_IOMEM and a potential follow-up.
+---
+ rust/helpers/io.c       | 2 ++
+ rust/kernel/io.rs       | 1 +
+ rust/kernel/platform.rs | 9 +++++----
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
->> Link: https://lore.kernel.org/all/DK75LUA4NLGI.3P29AIZQE20V2@kernel.org/
+diff --git a/rust/helpers/io.c b/rust/helpers/io.c
+index 397810864a24..1edbc274951c 100644
+--- a/rust/helpers/io.c
++++ b/rust/helpers/io.c
+@@ -3,6 +3,7 @@
+ #include <linux/io.h>
+ #include <linux/ioport.h>
+ 
++#ifdef CONFIG_HAS_IOMEM
+ __rust_helper void __iomem *rust_helper_ioremap(phys_addr_t offset, size_t size)
+ {
+ 	return ioremap(offset, size);
+@@ -18,6 +19,7 @@ __rust_helper void rust_helper_iounmap(void __iomem *addr)
+ {
+ 	iounmap(addr);
+ }
++#endif /* CONFIG_HAS_IOMEM */
+ 
+ __rust_helper u8 rust_helper_readb(const void __iomem *addr)
+ {
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index fcc7678fd9e3..d30bb5c6d4fc 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -9,6 +9,7 @@
+     prelude::*, //
+ };
+ 
++#[cfg(CONFIG_HAS_IOMEM)]
+ pub mod mem;
+ pub mod poll;
+ pub mod register;
+diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
+index 9b362e0495d3..d41555a4b31d 100644
+--- a/rust/kernel/platform.rs
++++ b/rust/kernel/platform.rs
+@@ -17,10 +17,7 @@
+         from_result,
+         to_result, //
+     },
+-    io::{
+-        mem::IoRequest,
+-        Resource, //
+-    },
++    io::Resource,
+     irq::{
+         self,
+         IrqRequest, //
+@@ -31,6 +28,9 @@
+     ThisModule, //
+ };
+ 
++#[cfg(CONFIG_HAS_IOMEM)]
++use crate::io::mem::IoRequest;
++
+ use core::{
+     marker::PhantomData,
+     mem::offset_of,
+@@ -307,6 +307,7 @@ pub fn resource_by_name(&self, name: &CStr) -> Option<&Resource> {
+     }
+ }
+ 
++#[cfg(CONFIG_HAS_IOMEM)]
+ impl Device<Bound> {
+     /// Returns an `IoRequest` for the resource at `index`, if any.
+     pub fn io_request_by_index(&self, index: u32) -> Option<IoRequest<'_>> {
+
+base-commit: 667d0fb32149f023b8b34a1f6f3d384556eafb5a
+-- 
+2.55.0
+
