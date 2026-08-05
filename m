@@ -1,55 +1,53 @@
-Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A983047126A
-	for <driver-core@lists.linux.dev>; Wed,  5 Aug 2026 22:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8382D3FF1CB
+	for <driver-core@lists.linux.dev>; Wed,  5 Aug 2026 22:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785969928; cv=none; b=rIjwZyZgiDC2uTByBIwXCY+/ZoVOH7CKbMAyHTzvlk/wiUXkBN4jOAu5rXf4nnfq2zsZuBthAoU+DxiE76jv2Ou4HXE/9deOzlgDNooXyjLN1JU8LgoKI+5CA+7j7Om2DQJ0UJgRzsof3lUKB4+frDFaz2/CmHRedwgUHGJ7GDk=
+	t=1785970001; cv=none; b=mMvAYUps1vHAx6lD9poWfPH6M7W+zjH+K8Vw6k20Ql2IXwPVY36O9uI+QRqg3OmmdawYjuRCNhHR9XNzPqRJMjPB8SbaUxEkXh2aKPIriIHNcnAxDpZyvqGoAvWzHnaZcCJVBsc76LAcCYHeOdRRbUb1Fi7LDvhp+Lb8uPiJFOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785969928; c=relaxed/simple;
-	bh=ObrrrhVIABvmMsjgtGxn0fo10sgWBJJq1fSzxCxi5tc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=n2ngHIe244Ze+Fspj6e6BhEsuQcE7TD6tsopg1Q+1KS8h0r6PxJ/4RxhwYeThwlPXuwU5qkV66TtK4/AhPHLMoe0lp/m1TfwDzqDpiT1cldmVxoGxZOXMycTPi1VPLUWVMwKkGMqSEIhz67W0ZhHfJE/I3OS81mmu7AJkKS5Y6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+	s=arc-20240116; t=1785970001; c=relaxed/simple;
+	bh=QoYUBdFWimbBdtZOdXIwLgeVeQFvZQEJ6C67Ry45HKs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ejpSr6s5Zd7HmNOx7WBH62CmBzaLm3f8vhsOfKHjMXODEN7rsKq/gr1yr33Vo1Zd9TGe+8pKWbEJaRBAozMGN10eE+fi95ZjG1cI009egjRyX8beAWXGF8JYE4AwV92HACzqBX9Hc1SN6igD6Fx4FPeDduLquuEZRMItFZuAHZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7ec6685adabso2187410a34.0
-        for <driver-core@lists.linux.dev>; Wed, 05 Aug 2026 15:45:26 -0700 (PDT)
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4a45997664aso1699027b6e.1
+        for <driver-core@lists.linux.dev>; Wed, 05 Aug 2026 15:46:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785969926; x=1786574726;
+        d=1e100.net; s=20251104; t=1785969998; x=1786574798;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SREuf9Mlu8ZYiOLiOyDH/te4HL0atuAHoIKIhO5+8Ck=;
-        b=mAUfCrEIM+zWXG4UYqlSBoQ0RKd/8G8AR/FWsEr/73ORAcaGC0RxhsWYwTPsfUwcFB
-         ojo2KJCiNRfSE4rviGxEOVlJXjMRdCMD9SAoRE0fxtJj5GSeWiqtfMKHP88nJLjurgwn
-         Z1C8LXOhP3GSRRrFX7NoVyV3FaNVXykYj5kLvf9imQ2jv56zubxiqC3KJqUrhgGGqeTY
-         W4SWe75naNt2Q4JkbUcEsBYz2Ypw8CDIgEI3nhMjCFhxfwing59rlCuRiKAW0HYmx0Ly
-         D9wIKHUkZKL4FKdYW8YC21DXIZbdMizQSDw5ff53xsUWMHaYQGXPg65gicxXf1b+a5DL
-         hrmQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrLEl7KJ9csNx5ATg92gd7T5A3qVUCXd44RFx8uQWv7Qp/GH640+mIrVGz1q7jGyBXnu6h75gjq1m4skw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6P66GleKm/x+7MwTL+3y9VM9GaZvotl+uI2MM9y3NuCbSbvs6
-	wyB7jiUY3Yo2TjatfZ78DDnKt3ldwHbVEenmOdSm34HiIkbM8csx2HT/nHzRu1JNcRcFFZ+A0An
-	hjB4tVNgf+FG9hqR34kcmfKlemvrIYGUeRNZ086Awcn3rx1s10OwYkECFquQ=
+        bh=W9wGtsTczoFx/e+Ir/a8hLSmHxBvMLFIuJ2a71e5PXM=;
+        b=KDIK8OZ8FOTTCo8Xuzl5rvKOomWj6NugKbzWq3ITFhfgcH/Gq2YvjFXA6XRkw2WEQx
+         aFMcp6A3tpmbDQ3s6SPduooBn8yeOFeneXekY9maH9xz2a7jIJW5ZvfSThqLn7jVoncm
+         ljwvCHQNUtpux5uKJ2JIlt1HBXd1/eyj5dKeBmPMFDI/kfUW73jW30xcgmzm6YiGGUlT
+         qvYuzMvsOtPQs4WUgMGkqAgvG/RIb5tVCyQF+GjEC3iTV1M8B72zyJ+3PjX3AdUHcNxo
+         UvkIKBOGKFCUuelX0E/QoQUh8Wtoupoxy4Cv5RnizMahiiJXNj0lZB3+knxS7M4qWXl4
+         MVZw==
+X-Forwarded-Encrypted: i=1; AHgh+RqWNhsWammpk2JtqcrW8zZondUy8jyy0KCoiYCnWKuiSfLtiHS5Znl6twKsCaBon4e3SfO/OoujQOzCIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKZssp2etpo99b35WspxeCSbQK2GDWQrg5QnJ8e8j3NsQ4Uajq
+	uBshn6O4kpzaDNjIEt8ET+W8xxNk7rXV+WCvGrWDnSIE1sPoGYp9mKy7Ppbu81Yc6AJXviBy56T
+	tXO/enYqythesKuyieC21hbktiAbksBU4/1iPcCMqgjdy8mw2kf2IPcVDWw0=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1a0e:b0:6aa:da04:b583 with SMTP id
- 006d021491bc7-6ae96ed3e2dmr5417575eaf.17.1785969925759; Wed, 05 Aug 2026
- 15:45:25 -0700 (PDT)
-Date: Wed, 05 Aug 2026 15:45:25 -0700
+X-Received: by 2002:a05:6820:1ca0:b0:6ac:a994:8794 with SMTP id
+ 006d021491bc7-6ae96c3a350mr5679561eaf.7.1785969998153; Wed, 05 Aug 2026
+ 15:46:38 -0700 (PDT)
+Date: Wed, 05 Aug 2026 15:46:38 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a73bd05.5aeeccc9.207e63.0005.GAE@google.com>
-Subject: [syzbot] [acpi?] general protection fault in software_node_register
-From: syzbot <syzbot+665bae0a102933788e1a@syzkaller.appspotmail.com>
-To: andriy.shevchenko@linux.intel.com, dakr@kernel.org, djrscally@gmail.com, 
-	driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	heikki.krogerus@linux.intel.com, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rafael@kernel.org, sakari.ailus@linux.intel.com, 
+Message-ID: <6a73bd4e.01d0871a.3a0d52.0006.GAE@google.com>
+Subject: [syzbot] [kernel?] general protection fault in regmap_get_i2c_bus
+From: syzbot <syzbot+6c7e68b141ebd3a2cadf@syzkaller.appspotmail.com>
+To: broonie@kernel.org, dakr@kernel.org, driver-core@lists.linux.dev, 
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, rafael@kernel.org, 
 	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
@@ -57,97 +55,108 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    7235a3e71949 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=122e13b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ccf4bea59f67007
-dashboard link: https://syzkaller.appspot.com/bug?extid=665bae0a102933788e1a
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=142f9bb9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16abbe32580000
+HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=155113b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=6c7e68b141ebd3a2cadf
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1446acc6580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12905bb9580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/fd45635beaae/disk-7235a3e7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d7d2e6507223/vmlinux-7235a3e7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b5b5d8de4cea/Image-7235a3e7.gz.xz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-848acc8f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6fb497cc0c8d/vmlinux-848acc8f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/663ccee34982/bzImage-848acc8f.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+665bae0a102933788e1a@syzkaller.appspotmail.com
+Reported-by: syzbot+6c7e68b141ebd3a2cadf@syzkaller.appspotmail.com
 
-EXT4-fs (nvme0n1p2): shut down requested (2)
-Aborting journal on device nvme0n1p2-8.
-Unable to handle kernel paging request at virtual address dfff800000
-Unable to handle kernel paging request at virtual address dfff800000000001
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0
-[dfff800000000001] address between user and kernel address ranges
-Internal error: Oops: 0000000096000005 [#1]  SMP
-Modules linked in:
-CPU: 1 UID: 0 PID: 4917 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/02/2026
-pstate: 83400005 (Nzcv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
-pc : software_node_register+0x30/0xd4 drivers/base/swnode.c:927
-lr : software_node_register+0x28/0xd4 drivers/base/swnode.c:926
-sp : ffff800095917500
-x29: ffff800095917500 x28: 0000000000000000 x27: ffff0000c2b100d0
-x26: dfff800000000000 x25: ffff700012b22eb4 x24: 0000000000001ae0
-x23: 0000000000000001 x22: dfff800000000000 x21: 0000000000000008
-x20: 0000000000000000 x19: 0000000000000000 x18: 00000000ffffffff
-x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-x11: 0000000000000000 x10: 0000000000000003 x9 : 0000000000000000
-x8 : 0000000000000000 x7 : 0000010000003fff x6 : 0000010000000000
-x5 : ffff0000c6f62980 x4 : 0000000000000400 x3 : ffff8000831b8d98
-x2 : 0000000000001ae0 x1 : ffff0000d09aba80 x0 : 0000000000000000
-Call trace:
- software_node_register+0x30/0xd4 drivers/base/swnode.c:927 (P)
- device_add_software_node+0x16c/0x1cc drivers/base/swnode.c:1015
- dwc3_pci_quirks drivers/usb/dwc3/dwc3-pci.c:311 [inline]
- dwc3_pci_probe+0x460/0x8e4 drivers/usb/dwc3/dwc3-pci.c:375
- local_pci_probe+0xc8/0x158 drivers/pci/pci-driver.c:332
- pci_call_probe drivers/pci/pci-driver.c:394 [inline]
- __pci_device_probe drivers/pci/pci-driver.c:455 [inline]
- pci_device_probe+0x460/0x8d4 drivers/pci/pci-driver.c:489
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x29c/0x800 drivers/base/dd.c:706
- __driver_probe_device+0x1e0/0x350 drivers/base/dd.c:868
- device_driver_attach+0x58/0xac drivers/base/dd.c:1203
- bind_store+0xf4/0x14c drivers/base/bus.c:267
- drv_attr_store+0x80/0xa4 drivers/base/bus.c:125
- sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
+CPU: 0 UID: 0 PID: 5929 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:regmap_get_i2c_bus+0xbe/0xc60 drivers/base/regmap/regmap-i2c.c:360
+Code: 89 c6 e8 f5 8b a3 fb 45 85 e4 0f 85 84 01 00 00 e8 77 91 a3 fb 4c 8d 73 1c 48 b8 00 00 00 00 00 fc ff df 4c 89 f2 48 c1 ea 03 <0f> b6 14 02 4c 89 f0 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 a2
+RSP: 0018:ffffc900042ef568 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff8666d35b
+RDX: 0000000000000003 RSI: ffffffff8666d369 RDI: ffff88802be1a540
+RBP: ffff8880552ba000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff8880552ba018 R14: 000000000000001c R15: ffff8880552ba000
+FS:  000055558b984500(0000) GS:ffff8880d5dd8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b33263fff CR3: 000000004714c000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ __devm_regmap_init_i2c+0x28/0x80 drivers/base/regmap/regmap-i2c.c:439
+ stusb160x_probe+0xe4/0x1ae0 drivers/usb/typec/stusb160x.c:649
+ i2c_device_probe+0x658/0xd10 drivers/i2c/i2c-core-base.c:592
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2505
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
  new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x51c/0xa0c fs/read_write.c:687
- ksys_write+0x12c/0x228 fs/read_write.c:739
- __do_sys_write fs/read_write.c:750 [inline]
- __se_sys_write fs/read_write.c:747 [inline]
- __arm64_sys_write+0x84/0x98 fs/read_write.c:747
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:736
- el0t_64_sync_handler+0x48/0x148 arch/arm64/kernel/entry-common.c:755
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:594
-Code: f2fbfff6 9784f9dc 91002275 d343feb7 (38766ae8) 
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f143eb9e019
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc13e63168 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f143ee25fa0 RCX: 00007f143eb9e019
+RDX: 000000000000000f RSI: 0000200000000300 RDI: 0000000000000003
+RBP: 00007f143ec3500c R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f143ee25fac R14: 00007f143ee25fa0 R15: 00007f143ee25fa0
+ </TASK>
+Modules linked in:
 ---[ end trace 0000000000000000 ]---
+RIP: 0010:regmap_get_i2c_bus+0xbe/0xc60 drivers/base/regmap/regmap-i2c.c:360
+Code: 89 c6 e8 f5 8b a3 fb 45 85 e4 0f 85 84 01 00 00 e8 77 91 a3 fb 4c 8d 73 1c 48 b8 00 00 00 00 00 fc ff df 4c 89 f2 48 c1 ea 03 <0f> b6 14 02 4c 89 f0 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 a2
+RSP: 0018:ffffc900042ef568 EFLAGS: 00010207
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff8666d35b
+RDX: 0000000000000003 RSI: ffffffff8666d369 RDI: ffff88802be1a540
+RBP: ffff8880552ba000 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff8880552ba018 R14: 000000000000001c R15: ffff8880552ba000
+FS:  000055558b984500(0000) GS:ffff8880d5dd8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b33263fff CR3: 000000004714c000 CR4: 0000000000352ef0
 ----------------
 Code disassembly (best guess):
-   0:	f2fbfff6 	movk	x22, #0xdfff, lsl #48
-   4:	9784f9dc 	bl	0xfffffffffe13e774
-   8:	91002275 	add	x21, x19, #0x8
-   c:	d343feb7 	lsr	x23, x21, #3
-* 10:	38766ae8 	ldrb	w8, [x23, x22] <-- trapping instruction
+   0:	89 c6                	mov    %eax,%esi
+   2:	e8 f5 8b a3 fb       	call   0xfba38bfc
+   7:	45 85 e4             	test   %r12d,%r12d
+   a:	0f 85 84 01 00 00    	jne    0x194
+  10:	e8 77 91 a3 fb       	call   0xfba3918c
+  15:	4c 8d 73 1c          	lea    0x1c(%rbx),%r14
+  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  20:	fc ff df
+  23:	4c 89 f2             	mov    %r14,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
+  2e:	4c 89 f0             	mov    %r14,%rax
+  31:	83 e0 07             	and    $0x7,%eax
+  34:	83 c0 03             	add    $0x3,%eax
+  37:	38 d0                	cmp    %dl,%al
+  39:	7c 08                	jl     0x43
+  3b:	84 d2                	test   %dl,%dl
+  3d:	0f                   	.byte 0xf
+  3e:	85                   	.byte 0x85
+  3f:	a2                   	.byte 0xa2
 
 
 ---
