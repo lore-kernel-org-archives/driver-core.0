@@ -1,268 +1,209 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F22A3F6610;
-	Wed,  5 Aug 2026 21:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506D43BCD05
+	for <driver-core@lists.linux.dev>; Wed,  5 Aug 2026 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785966912; cv=none; b=m2LPq+408Q3djOBt9NB1mIv7WsK1pGyJKaEmQEcJ9gPFJun4lrKV2wHofzSyHRuwmgGDyrrm2KmNoFi6pFCi+QzZc6uHWHq/EKqwhPnXnfBahD0W9banDFOK8LZkv8KZRRGLeOD4qaJNyZO69uofz8ylrOlQ1Zz4+ikOrknYd3g=
+	t=1785968481; cv=none; b=I0IAY4oDmHdXT6tlkWU3cRW/Iv6OAg5Jb+G+onpZNYEifgxKqB8hM/FQY+dVmdoMs4NGdlN/74yKR8TI0Tf3Q2cOIhaz3aJnIAqthSiKXaovBaDth5IgnWNbKMq5aptaFDCN9+Qa9XK9mWLf70nk2gmm47lnItgIwkvWLCgYoVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785966912; c=relaxed/simple;
-	bh=ThOABvvFsour3ijRiEVxhr05cModfN4gyoRRJwxQlzA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NerStNolnBEDsts96bQYkA//RpSbwN2UWzFz4ai8WKclQ55E49u0mYF6vs86RRxoAiXdsB/V9f+pFMiQJI+aESk7PGFK4sqCEze8p3g5EV9h84nR54n0ve2quux8s8TDZyMyCi10jB5229GnGcq5O5Ln5QjX4VQbHmfv+YWZffg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=vmamja+D; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AiUAnXHo; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="vmamja+D";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="AiUAnXHo"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hFkjQ0Dqtz8v33;
-	Wed, 05 Aug 2026 23:55:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1785966906;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bezt+Zsz+6o7rpt8SOOEgp0ND8Yn/JD38WcjGDxzRL4=;
-	b=vmamja+DdIEECiONfwcQwwmGAqdESGQvdJJEyXcVuNJIWH39Iy4PiuFAjVq3nyEwQS2zER
-	qD4tplYjakFBa1So/bGmfi6QaBXnXrCXa42WgzNkI7JBYa1enwjZZ/nuBvZqLwjBstsk9A
-	/sg+/TfnoY++svgUTxHT9+IJwPhfu1Yz2AusJyVEDFHpYR0AtFvCdHdzjxqA8w+664FGuN
-	0OpYIby89693ly/CgqIqoKUyYJQX5kEvxQ6tUFXaRwjdW+C6hKaorSKowb4o0MR+ED2lzk
-	ZVfG5bEFrdgIy1CVhzr2TxACAcxidL/4xGlZTI81yHJ6L13Mees3W3VhqJ7JLg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=AiUAnXHo;
-	spf=pass (outgoing_mbo_mout: domain of mhi@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=mhi@mailbox.org
-From: Maurice Hieronymus <mhi@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1785966904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bezt+Zsz+6o7rpt8SOOEgp0ND8Yn/JD38WcjGDxzRL4=;
-	b=AiUAnXHoT70uU+hHU9Jew+KvkY+Bg1LMftCr/Uuvy5shqaLHOE2SFxrGMlK4w/H63vwhAf
-	LXhSiS8HlC+Jb9Da6NvVk0+nvQQqhwMFWUU9P2mNxPu5s/DtyV17y8eOiTV66UZLdWZ+8g
-	UrKkzzIvbdGXmEv6lbd40pHGP1THwG/5emlNfMzyJWjlImmYqcHGd7HqEzFZsUWxztwyf4
-	+I1LicAlDH5RY+4vezCTKtUPxkeAWsnLa8F1UHn4MD1CX4UdhdMsoEWELc4Go2+iYjpvwQ
-	+LezW7QL4o9pBYE9btvcdBOGf+z8UhgVzAxZkhoDjn5yyGYHzy7LX0jyVWLAEw==
-Date: Wed, 05 Aug 2026 23:54:43 +0200
-Subject: [PATCH 3/3] gpu: nova-core: gsp: map the WPR meta for streaming
- DMA
+	s=arc-20240116; t=1785968481; c=relaxed/simple;
+	bh=YHh/QBCgs/aO9lwXCOLDvEOA5goxPQWmPGE1HCLt62Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CbN64PGOq/t5RAcqzqbbQC4uItoUQ/n/mDA4KkW7B5fl+GLlMco+d7AW2cZMB2r7Cr5d9J61zG24KR1jhgZl78yVk1T6Yt07q9Q7hL/Flw3CiOyP4f4d26Ksf8ub0VlNbqGJkEf4YYdRwswCFpWwML2O04leL/Kp4sExbvIDttM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by linkmauve.fr (Postfix, from userid 1000)
+	id 247BA70A24FA; Thu, 06 Aug 2026 00:21:16 +0200 (CEST)
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: rust-for-linux@vger.kernel.org
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Michael Garofalo <officialTechflashYT@gmail.com>,
+	Ash Logan <ash@heyquark.com>,
+	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH] rust: io: Add a BigEndianMmio wrapper
+Date: Thu,  6 Aug 2026 00:21:09 +0200
+Message-ID: <20260805222110.2949369-1-linkmauve@linkmauve.fr>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260805-dma-streaming-v1-3-03974c86b141@mailbox.org>
-References: <20260805-dma-streaming-v1-0-03974c86b141@mailbox.org>
-In-Reply-To: <20260805-dma-streaming-v1-0-03974c86b141@mailbox.org>
-To: Danilo Krummrich <dakr@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, Maurice Hieronymus <mhi@mailbox.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785966885; l=6274;
- i=mhi@mailbox.org; s=20260525; h=from:subject:message-id;
- bh=ThOABvvFsour3ijRiEVxhr05cModfN4gyoRRJwxQlzA=;
- b=YCrrpuj6GlMj5rQmtZsCgCUvG2BV9HN9tuj8qLzbCj/GsTtpyV/FqSzoZ9WK1FKYzRj6MTnll
- zLFjHi80ZDTBvjIL4EftCQnjieHerAFcPXWVdIyZilWpVio2I0/aD72
-X-Developer-Key: i=mhi@mailbox.org; a=ed25519;
- pk=AHlEkGG3hpXZHntlEzF42Ip/LFyXWOgsNUvaHqAnV80=
-X-MBO-RS-META: jyegkrsu9kunrco4ypfdr8s61uhas51p
-X-MBO-RS-ID: 4c71b2105cb0efc4092
-X-Rspamd-Queue-Id: 4hFkjQ0Dqtz8v33
+Content-Transfer-Encoding: 8bit
 
-`GspFwWprMeta` is filled in once during boot, read out of system memory
-by the booter, and dropped when `Gsp::boot()` returns. That is a
-streaming transfer, so a coherent allocation buys nothing.
+This allows the user to read from and write to big-endian MMIO devices,
+such as those found on PowerPC systems.
 
-Map a `KBox<GspFwWprMeta>` instead. The mapping is submitted right
-after initialization, which makes the contents unreachable for the
-duration of the chipset-specific boot sequence and lets `dma_handle()`
-be read through a shared reference.
+The implementation is pretty much a copy-paste of the RelaxedMmio type,
+with the business logic changed.
 
-`complete()` is called as soon as `hal.boot()` succeeds, the earliest
-point the device is provably done with the metadata: on Tu102 the
-Booter-load falcon has halted, on GH100 GSP-FMC has released the
-lockdown. If `hal.boot()` fails instead, no such proof exists --
-`Gsp::unload()` deliberately carries on past failed steps, so the
-falcon may still be reading the buffer -- and `wpr_meta` drops in
-flight, trading a one-off leak for a device-side use-after-free.
+This has been tested with various WIP drivers on the Nintendo Wii, and I
+thought it would be nicer to upstream it before those are completely
+ready, to get some review.
 
-Signed-off-by: Maurice Hieronymus <mhi@mailbox.org>
+Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 ---
- drivers/gpu/nova-core/firmware/booter.rs | 11 +++++++----
- drivers/gpu/nova-core/gsp/boot.rs        | 20 ++++++++++++++++++--
- drivers/gpu/nova-core/gsp/hal.rs         |  4 ++--
- drivers/gpu/nova-core/gsp/hal/gh100.rs   |  4 ++--
- drivers/gpu/nova-core/gsp/hal/tu102.rs   |  4 ++--
- 5 files changed, 31 insertions(+), 12 deletions(-)
+ rust/helpers/io.c | 34 +++++++++++++++++++
+ rust/kernel/io.rs | 84 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 118 insertions(+)
 
-diff --git a/drivers/gpu/nova-core/firmware/booter.rs b/drivers/gpu/nova-core/firmware/booter.rs
-index d9313ac361af..780c7702a777 100644
---- a/drivers/gpu/nova-core/firmware/booter.rs
-+++ b/drivers/gpu/nova-core/firmware/booter.rs
-@@ -9,9 +9,12 @@
+diff --git a/rust/helpers/io.c b/rust/helpers/io.c
+index 7ed9a4f77f1b..3bbb86a00d67 100644
+--- a/rust/helpers/io.c
++++ b/rust/helpers/io.c
+@@ -120,6 +120,40 @@ __rust_helper void rust_helper_writeq_relaxed(u64 value, void __iomem *addr)
+ }
+ #endif
  
- use kernel::{
-     device,
--    dma::Coherent,
-+    dma::StreamingInFlight,
-     prelude::*,
--    transmute::FromBytes, //
-+    transmute::{
-+        AsBytes,
-+        FromBytes, //
-+    },
- };
- 
- use crate::{
-@@ -402,12 +405,12 @@ pub(crate) fn new(
-     ///
-     /// Resets SEC2, loads this firmware image, then boots with the WPR metadata
-     /// address passed via the SEC2 mailboxes.
--    pub(crate) fn run<T>(
-+    pub(crate) fn run<T: FromBytes + AsBytes>(
-         &self,
-         dev: &device::Device<device::Bound>,
-         bar: Bar0<'_>,
-         sec2_falcon: &Falcon<Sec2>,
--        wpr_meta: &Coherent<T>,
-+        wpr_meta: &StreamingInFlight<'_, KBox<T>>,
-     ) -> Result {
-         sec2_falcon.reset(bar)?;
-         sec2_falcon.load(dev, bar, self)?;
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index 8afb62d689cb..300ebf4e843d 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -4,7 +4,10 @@
- use kernel::{
-     bits,
-     device,
--    dma::Coherent,
-+    dma::{
-+        DataDirection,
-+        Streaming, //
-+    },
-     io::poll::read_poll_timeout,
-     pci,
-     prelude::*,
-@@ -117,7 +120,12 @@ pub(crate) fn boot(
-         let fb_layout = FbLayout::new(chipset, bar, &gsp_fw)?;
-         dev_dbg!(dev, "{:#x?}\n", fb_layout);
- 
--        let wpr_meta = Coherent::init(dev, GFP_KERNEL, GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
-+        let wpr_meta = Streaming::new(
-+            dev,
-+            KBox::init(GspFwWprMeta::new(&gsp_fw, &fb_layout), GFP_KERNEL)?,
-+            DataDirection::ToDevice,
-+        )?
-+        .submit();
- 
-         // Perform the chipset-specific boot sequence, and retrieve the unload bundle.
-         let unload_guard = hal.boot(
-@@ -131,6 +139,14 @@ pub(crate) fn boot(
-             sec2_falcon,
-         )?;
- 
-+        // The chipset-specific boot sequence only succeeds once the device is done reading the
-+        // WPR metadata: on Tu102 the Booter-load falcon has halted, on GH100 GSP-FMC has released
-+        // the lockdown. If it fails instead, `wpr_meta` drops in flight and leaks, as the falcon
-+        // may still be reading the buffer.
-+        //
-+        // SAFETY: Per the above, the device has finished accessing the buffer.
-+        let _ = unsafe { wpr_meta.complete() };
++__rust_helper u16 rust_helper_ioread16be(const void __iomem *addr)
++{
++	return ioread16be(addr);
++}
 +
-         gsp_falcon.write_os_version(bar, gsp_fw.bootloader.app_version);
- 
-         // Poll for RISC-V to become active before continuing.
-diff --git a/drivers/gpu/nova-core/gsp/hal.rs b/drivers/gpu/nova-core/gsp/hal.rs
-index 04f004856c60..09a523e3a180 100644
---- a/drivers/gpu/nova-core/gsp/hal.rs
-+++ b/drivers/gpu/nova-core/gsp/hal.rs
-@@ -8,7 +8,7 @@
- 
- use kernel::{
-     device,
--    dma::Coherent, //
-+    dma::StreamingInFlight, //
- };
- 
- use crate::{
-@@ -61,7 +61,7 @@ fn boot<'a>(
-         bar: Bar0<'a>,
-         chipset: Chipset,
-         fb_layout: &FbLayout,
--        wpr_meta: &Coherent<GspFwWprMeta>,
-+        wpr_meta: &StreamingInFlight<'_, KBox<GspFwWprMeta>>,
-         gsp_falcon: &'a Falcon<GspEngine>,
-         sec2_falcon: &'a Falcon<Sec2>,
-     ) -> Result<BootUnloadGuard<'a>>;
-diff --git a/drivers/gpu/nova-core/gsp/hal/gh100.rs b/drivers/gpu/nova-core/gsp/hal/gh100.rs
-index 98f5ce197d13..67a79c54a739 100644
---- a/drivers/gpu/nova-core/gsp/hal/gh100.rs
-+++ b/drivers/gpu/nova-core/gsp/hal/gh100.rs
-@@ -5,7 +5,7 @@
- 
- use kernel::{
-     device,
--    dma::Coherent,
-+    dma::StreamingInFlight,
-     io::poll::read_poll_timeout,
-     time::Delta, //
- };
-@@ -156,7 +156,7 @@ fn boot<'a>(
-         bar: Bar0<'a>,
-         chipset: Chipset,
-         fb_layout: &FbLayout,
--        wpr_meta: &Coherent<GspFwWprMeta>,
-+        wpr_meta: &StreamingInFlight<'_, KBox<GspFwWprMeta>>,
-         gsp_falcon: &'a Falcon<GspEngine>,
-         sec2_falcon: &'a Falcon<Sec2>,
-     ) -> Result<BootUnloadGuard<'a>> {
-diff --git a/drivers/gpu/nova-core/gsp/hal/tu102.rs b/drivers/gpu/nova-core/gsp/hal/tu102.rs
-index 2f6301af7113..7d906de6d8bf 100644
---- a/drivers/gpu/nova-core/gsp/hal/tu102.rs
-+++ b/drivers/gpu/nova-core/gsp/hal/tu102.rs
-@@ -5,7 +5,7 @@
- 
- use kernel::{
-     device,
--    dma::Coherent,
-+    dma::StreamingInFlight,
-     io::Io, //
- };
- 
-@@ -262,7 +262,7 @@ fn boot<'a>(
-         bar: Bar0<'a>,
-         chipset: Chipset,
-         fb_layout: &FbLayout,
--        wpr_meta: &Coherent<GspFwWprMeta>,
-+        wpr_meta: &StreamingInFlight<'_, KBox<GspFwWprMeta>>,
-         gsp_falcon: &'a Falcon<GspEngine>,
-         sec2_falcon: &'a Falcon<Sec2>,
-     ) -> Result<BootUnloadGuard<'a>> {
++__rust_helper u32 rust_helper_ioread32be(const void __iomem *addr)
++{
++	return ioread32be(addr);
++}
++
++#ifdef CONFIG_64BIT
++__rust_helper u64 rust_helper_ioread64be(const void __iomem *addr)
++{
++	return ioread64be(addr);
++}
++#endif
++
++__rust_helper void rust_helper_iowrite16be(u16 value, void __iomem *addr)
++{
++	iowrite16be(value, addr);
++}
++
++__rust_helper void rust_helper_iowrite32be(u32 value, void __iomem *addr)
++{
++	iowrite32be(value, addr);
++}
++
++#ifdef CONFIG_64BIT
++__rust_helper void rust_helper_iowrite64be(u64 value, void __iomem *addr)
++{
++	iowrite64be(value, addr);
++}
++#endif
++
+ __rust_helper resource_size_t rust_helper_resource_size(struct resource *res)
+ {
+ 	return resource_size(res);
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index a38c20ba3d23..a91979e4392a 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -1751,3 +1751,87 @@ macro_rules! io_write {
+ }
+ #[doc(inline)]
+ pub use crate::io_write;
++
++/// [`Mmio`] wrapper using big-endian accessors.
++///
++/// This type provides an implementation of [`Io`] that uses big-endian I/O MMIO operands instead of
++/// the regular little-endian ones.
++///
++/// See [`Mmio::big_endian`] for a usage example.
++#[repr(transparent)]
++pub struct BigEndianMmio<'a, T: ?Sized>(Mmio<'a, T>);
++
++impl<T: ?Sized> Copy for BigEndianMmio<'_, T> {}
++impl<T: ?Sized> Clone for BigEndianMmio<'_, T> {
++    #[inline]
++    fn clone(&self) -> Self {
++        *self
++    }
++}
++
++/// I/O Backend for memory-mapped I/O, with relaxed access semantics.
++pub struct BigEndianMmioBackend;
++
++impl IoBackend for BigEndianMmioBackend {
++    type View<'a, T: ?Sized + KnownSize> = BigEndianMmio<'a, T>;
++
++    #[inline]
++    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> *mut T {
++        MmioBackend::as_ptr(view.0)
++    }
++
++    #[inline]
++    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownSize>(
++        view: Self::View<'a, T>,
++        ptr: *mut U,
++    ) -> Self::View<'a, U> {
++        // SAFETY: Per safety requirement.
++        BigEndianMmio(unsafe { MmioBackend::project_view(view.0, ptr) })
++    }
++}
++
++impl<'a, T: ?Sized + KnownSize> IoBase<'a> for BigEndianMmio<'a, T> {
++    type Backend = BigEndianMmioBackend;
++    type Target = T;
++
++    #[inline]
++    fn as_view(self) -> BigEndianMmio<'a, T> {
++        self
++    }
++}
++
++impl<'a, T: ?Sized> Mmio<'a, T> {
++    /// Returns a [`BigEndianMmio`] reference that performs big-endian I/O operations.
++    ///
++    /// Big-endian makes no change to 8-bit accesses, but will invert the bytes of 16-, 32- and
++    /// 64-bit accesses, to ensure numbers will be read in their correct order.
++    ///
++    /// # Examples
++    ///
++    /// ```no_run
++    /// use kernel::io::{
++    ///     Io,
++    ///     Mmio,
++    ///     Region,
++    ///     BigEndianMmio,
++    /// };
++    ///
++    /// fn do_io(io: Mmio<'_, Region<0x100>>) {
++    ///     // The access is performed using `ioread32be` instead of `readl`.
++    ///     let v = io.big_endian().read32(0x10);
++    /// }
++    ///
++    /// ```
++    #[inline]
++    pub fn big_endian(self) -> BigEndianMmio<'a, T> {
++        BigEndianMmio(self)
++    }
++}
++
++// MMIO regions support 8, 16, and 32-bit accesses.
++impl_mmio_io_capable!(BigEndianMmioBackend, u8, readb, writeb);
++impl_mmio_io_capable!(BigEndianMmioBackend, u16, ioread16be, iowrite16be);
++impl_mmio_io_capable!(BigEndianMmioBackend, u32, ioread32be, iowrite32be);
++// MMIO regions on 64-bit systems also support 64-bit accesses.
++#[cfg(CONFIG_64BIT)]
++impl_mmio_io_capable!(BigEndianMmioBackend, u64, ioread64be, iowrite64be);
 
+base-commit: 1701fda2f58e345c050f4309971bdc07cd6146ba
 -- 
-2.54.0
+2.55.0
 
