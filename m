@@ -1,130 +1,123 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F5C3DFC8F
-	for <driver-core@lists.linux.dev>; Wed,  5 Aug 2026 07:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785913365; cv=pass; b=JO9QQYtxmty2f9TK36YEKaWzuD+x8d62lVR4Z7MIVZrB2cGDNjWKS597QJZCzbXVGUPY2e6SE6NIoulfAdzh4IHQMmRutVs9LqhNkY4TS/TFIlIOsErtTOo4aMH5I0Zesqb/9IvLFkDIUEmQkwNNjqzR+CulMcnHQJ5ZbWvVh04=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785913365; c=relaxed/simple;
-	bh=X9DLVvJ8kZ3o/aKGNrmT4crMmKXXqJyZuyKxDrdOtyE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SFlZcBBrLnqLx0ZZQR6fLE1GnHgKFFYTeEvUcXieQgJugxx3zmZ6H6yQJO6HTqXhIERnqGMTMqsB6bI6NP9Dr6AoY5s+sRNp6KGWa9ivXOrNWksJ4Tf8mCai9PN0lIQ10S29760z9ZsB5JAG/ndY7fywl6sWorXyC+qgVoWUosM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIhWKI2d; arc=pass smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86833DDDA3;
+	Wed,  5 Aug 2026 07:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785913519; cv=none; b=ds7DpcmNy8PLJXBBruut21S0bhakbKc1eyCdf9SLfYN6v58w/yprCxkxGku9JRhOHN8YHKmrgLDRJVu9a6tg6sbJ3SKkqgNBN5EXg/7dEHjA4FU5ObA4uFsRCtdZX6iDnpJImqUwcQzcP3uRBjfscRg/wVKBafMfip0Bpcizrv0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785913519; c=relaxed/simple;
+	bh=pgAr2gM0tZb/OCrvKnOzGUaMxUnY3vKQWD5392b0foU=;
+	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=CFedsRWK5M9jzK/PpYsx5+gjLU/hW+nneAg5mUEgxhOy+G6Th4C3Ug3n7PUBKhhEfQ/ZWXPlCPLIokSTpd38/Lv9x4n7DuYM7OG6g+vZVIxaBwM+PgxIGxu35gNa0dWYLQI62vLuQCESQUw0VxgTmGiqlJbrN8S85eSeur4m8T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUqaq6c+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIhWKI2d"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-667b0ced2d3so1028994d50.2
-        for <driver-core@lists.linux.dev>; Wed, 05 Aug 2026 00:02:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785913363; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Bov2UsNat/dZHEFnNOH8Ln+eO7H0yoWoXHThC009OxZXn9bupGLwPTmtkn7cWowcz+
-         rIYEA03NAbHnYGktJ5ODttX1manwcFMA7GIvZ6eXYdxEA4jv7cUeLKSzeJjwkGhfsyjZ
-         y/PbzDLMU04L+ajBLQHNmR7rYLODdRK700szMwPZekElQPi5EqBaD4j+TYkBAlS1F5U5
-         zNLqI1m78YjSaNlRtVyQYbrd6eFZV39eSqK4LR5uppwBY9WnRKHemKOkE43IGh0qbTmq
-         kwuuNkX//4edbLYrNZnY2+WRGuIlNlqapThnhDm71npup+gu0EqMrSiiV8ej6y+7vF+k
-         3J6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Y60TCRk5n5yLOLon2qFjPKh9SFL9tvHl6trgyo4bm3Q=;
-        fh=Lnsahs0fHXQvjXw0b8uaB9y76DeHyumYQ/2yUWGXYbc=;
-        b=Cfw540U62lWRlPhKQfyTOBvy8JAeE3wU8hY5Ad2pb2dmB+3ctTaMhHlljnGEI6oGIb
-         wOj3uRiHZ7vM+SWfiQuVsDYypvGd72piEBr/k6pAh4xz07I76WxC4zkauaJLnXkRrWuL
-         GycPOKocmk6ujG0APfkaJ/VzBMqyNutXk/0FuFdpzARCdoIEbWEGrD/7aS17nZLkQPpn
-         SNAyLaS9pbnGn4emz8UXNsiTHL3jTGLXyfcP7xub2F5H2IcqtFxh2vMKEr6TMN0Cnwkx
-         0rPwQPWL7f+XzIEfjeovca4xtELmsIXGnkKnQn0CSvIauTDnE1xH0FwfUbOpq/Qn1T1Z
-         zaLw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785913363; x=1786518163; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Y60TCRk5n5yLOLon2qFjPKh9SFL9tvHl6trgyo4bm3Q=;
-        b=hIhWKI2dqw/WMACw8aHPKgfR+Dybli98uYxG8Oush5MXHRTUxGSnUXNMIZKp6GJb3V
-         +mpOTrGmiI5H6hBa1/nROn2PumyJp8/5kaVPoh9FjEVjbfcXLZ9CkBQvTbb2NiFeZHIA
-         iOaPfotBmR4mUwVUo8uZZEIe2+LnXJg0JkXx5I0Rwb0frNgyRZzGQckXXkd7x+TrMntL
-         1YBcvetWgpSoQjEybwKs3g1qwcIbdVPm9MqWZKu3rHwUZ2BEJcpVGvV3Ra+2UujgdaW+
-         sj6C4f/SLaq5sqOzrFZ+i0bRc4omHclferj8fAEWfe0QPUrBmpRoVp4KdBliwsw8bk+y
-         X5Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785913363; x=1786518163;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y60TCRk5n5yLOLon2qFjPKh9SFL9tvHl6trgyo4bm3Q=;
-        b=c08uy8FOGpU1GlmWveiuN4BDrX4nZ37iPA/GbrVF739iN96RYnSBn3UTS27gkonPT+
-         +wL+LDzAO7rwPaVEQj1lgN7iPPCQLQCgIU6OBGbCd6MDwXLgqgX1FEPXQZDannRCrNm7
-         sGtpWEmqLZuQwLeUOtm/T9i55RkVn+CEYpU2j0BJ8fO7DgMBOAeyOLZvPrEq9LPSkATE
-         YmNrBnbg25cJemXb12OD9ximFVDp4Uc7knh1KwcBELTNscj9VlWzW+pqcaQXQob4CM/R
-         Ln7sMV1vk+UGdNZ5vSCcUNJKih129T7MNq/qZ2znhLDcQygvdevBVNzHSqwYThagnKR4
-         Jcjg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp96yBFglKaQBD298ikair1/f97ll4fyCJMCRFfo1Apow5/B/70wQY0wzzdLUPseDiF5nSVLhgS7Fbn1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmVj7t01KmfYDVL3e79ferjQcs7H+zZpOErY+hDkB67Yvhw1mi
-	hduyMgACCtCsUOroFWowdaQ3mFmBWxVUKDzYDI+IpzvW6lLtJM2BbzBdE8539XL7pbZ3cS8oAiA
-	SGHcY4hcABLL/hDDvTEkCQHqWjJDs/6E=
-X-Gm-Gg: AR+sD13pxZWGrHO7IFTykV1vGUpL3pDEZ+FyHpfPBkC5r8VBTeg9psX6PxgKwtmeaPJ
-	8O+jk90xntra+7iF54rXutEjlP2se0fZynskwuYZDvzb+yY/gq1/A2ynkBJIhuPUn0X+bqrFaQj
-	h+DVl+dXuEPDSUwO/DCjseisWi36RSLu6xJ/t0EiP+AAk3qJfi0laN6nn/UkgVtl7zlJcE+2Ntw
-	gc+HZh+A7IysCMKEnzwUTphgSYnnd1Pp7nyM3aTkdsB4Ma+svtQwS6RKUxzp7ZESchBjcdfaPKq
-	CU0gny9Euq7ZXVhqDTfmvwuSlB1dZcE8GcSy4m8o47aY
-X-Received: by 2002:a05:690e:11ca:b0:664:dbfc:e454 with SMTP id
- 956f58d0204a3-6699a892fe6mr2574216d50.3.1785913362887; Wed, 05 Aug 2026
- 00:02:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUqaq6c+"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E03FF1F000E9;
+	Wed,  5 Aug 2026 07:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785913517;
+	bh=ggHO1t8B9rcI7os7V0V7Xd3QRXhXGk9IRyZuc9fFssQ=;
+	h=From:To:Cc:Subject:Date;
+	b=BUqaq6c+P9/fTzHFFnmGJs1xcXZgdRx94ZV9tumgrxJaRgblH4JTSnIYWISHzq3WM
+	 KjPlln2Up4WzQTLYrZCuIRg+SllRQf1N4Krh+SH1Kk3bBBaVULlEHHpdJi9qjfu5Gj
+	 ZYA78t079DPCqHU1sknhb/utfSLmPpyrzPhbVanHsQh/pVrWkCN0q8jCdEdG0+xQ/i
+	 MZ2eD4yHFbm20xynjaEjq+w8/U43c4ac/Iq6w85pjGgSJbRnjSJtOwFKY1Bh6YBLBm
+	 /FZ8/IZGELN3gQi/bfLuunJJXI6asQqZB8W9VaiPxztuTVCnDsrniuA5rXB1GQ+geD
+	 pSzCtK8jiN+Hw==
+From: "syzbot" <syzbot@kernel.org>
+To: syzkaller-bugs@googlegroups.com, Jeffin Philip <jeffinphilip14@gmail.com>, "Danilo Krummrich" <dakr@kernel.org>, <driver-core@lists.linux.dev>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Russ Weight" <russ.weight@linux.dev>, "Ming Lei" <ming.lei@canonical.com>
+Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
+Subject: [PATCH] firmware_loader: Reject 0-size firmware in batched requests
+Message-ID: <ae7f1cae-a734-45e4-9949-0dacdc8e555f@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260805-falcon-dma-projections-v2-0-4cc9f3f13ee9@nvidia.com> <20260805-falcon-dma-projections-v2-1-4cc9f3f13ee9@nvidia.com>
-In-Reply-To: <20260805-falcon-dma-projections-v2-1-4cc9f3f13ee9@nvidia.com>
-From: Ethan Plant <plant.ethan@gmail.com>
-Date: Wed, 5 Aug 2026 00:02:31 -0700
-X-Gm-Features: AUfX_mwzehL-ePDmTswSjyc9hlF-NtAAFmKSmV6DsLAB8oAWcLbYIszSPAFss0U
-Message-ID: <CA+ZM=sFFWx-yCWaWsUk0usONc7BMh3xckFxZj5tQx70SXtao+g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] gpu: nova-core: falcon: remove unnecessary check
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Tamir Duberstein <tamird@kernel.org>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
-	Eliot Courtney <ecourtney@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Date: Wed,  5 Aug 2026 07:05:16 +0000 (UTC)
 
-On Tue, Aug 4, 2026 at 10:03=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
-com> wrote:
->
-> The `try_with_base` call performed on `NV_PFALCON_FALCON_DMATRFBASE1`
-> already returns `EOVERFLOW` if the address is too large for the
-> register, making this check redundant.
->
-> -        // The DMATRFBASE/1 register pair only supports a 49-bit address=
-.
-> -        if dma_start > DmaMask::new::<49>().value() {
-> -            dev_err!(self.dev, "DMA address {:#x} exceeds 49 bits\n", dm=
-a_start);
-> -            return Err(ERANGE);
-> -        }
+From: Jeffin Philip <jeffinphilip14@gmail.com>
 
-This also changes the error returned for an address that does not fit
-from `ERANGE` to `EOVERFLOW`, and drops the `dev_err!` diagnostic.
+When multiple concurrent requests are made for the same firmware name, the
+firmware loader batches them. The first request allocates a struct fw_priv
+and proceeds to load the firmware (e.g., via the sysfs fallback).
+Subsequent requests find the existing fw_priv and wait for the first
+request to finish.
 
-Is that change intentional? If so, would it be worth
-mentioning that in the commit message?
+In the sysfs fallback mechanism, if user space writes 1 to the loading
+attribute and then immediately writes 0 without writing any data,
+fw_priv->size remains 0 and fw_priv->data remains NULL. The sysfs fallback
+mechanism completes and sets the state to FW_STATUS_DONE.
 
-Thanks,
-Ethan
+The first request wakes up, explicitly checks for a 0-size firmware, and
+correctly returns -ENOENT. However, the batched requests wake up from
+fw_state_wait(), see the FW_STATUS_DONE state, and assume success.
+_request_firmware_prepare() then blindly copies the 0 size and NULL data
+pointer into the struct firmware and returns success.
+
+Drivers receiving this invalid firmware can crash when attempting to parse
+it. For example, the emi26 driver calls request_ihex_firmware(), which
+passes the 0-size, NULL-data firmware to ihex_validate_fw(). Because
+fw->size is 0, fw->size - sizeof(*end) underflows to a huge positive value,
+causing the loop condition to evaluate to true. The loop executes and
+attempts to read from the NULL pointer, resulting in a KASAN
+null-ptr-deref:
+
+Oops: general protection fault, probably for non-canonical address
+0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5720 Comm: kworker/0:3 Not tainted
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:ihex_binrec_size include/linux/ihex.h:26 [inline]
+RIP: 0010:__ihex_next_binrec include/linux/ihex.h:35 [inline]
+RIP: 0010:ihex_validate_fw include/linux/ihex.h:54 [inline]
+RIP: 0010:request_ihex_firmware include/linux/ihex.h:74 [inline]
+RIP: 0010:emi26_load_firmware drivers/usb/misc/emi26.c:86 [inline]
+RIP: 0010:emi26_probe+0x283/0x1690 drivers/usb/misc/emi26.c:232
+Call Trace:
+ <TASK>
+ usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+
+To fix this, enforce the same validation rules for batched requests as for
+the primary request. In _request_firmware_prepare(), after fw_state_wait()
+returns successfully, explicitly check if fw_priv->size is 0. If it is,
+return -ENOENT instead of blindly calling fw_set_page_data(). This properly
+aborts any remaining batched requests and cleans up the state.
+
+Fixes: 1f2b79599ee8 ("firmware loader: always let firmware_buf own the pages buffer")
+Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
+Reported-by: syzbot+cb67625c47fe4d6dd7c8@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=cb67625c47fe4d6dd7c8
+Link: https://syzkaller.appspot.com/ai_job?id=c8fc1a4f-643b-4169-a624-9871d2c011bd
+Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+
+---
+diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+index 24213a0ea..b1521a1da 100644
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -771,6 +771,8 @@ _request_firmware_prepare(struct firmware **firmware_p, const char *name,
+ 	if (ret > 0) {
+ 		ret = fw_state_wait(fw_priv);
+ 		if (!ret) {
++			if (!fw_priv->size)
++				return -ENOENT;
+ 			fw_set_page_data(fw_priv, firmware);
+ 			return 0; /* assigned */
+ 		}
+
+
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+You can comment on the patch as usual, syzbot will try to address
+the comments and send a new version of the patch if necessary.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
