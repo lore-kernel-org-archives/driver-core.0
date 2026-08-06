@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BC23DD503;
-	Thu,  6 Aug 2026 09:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7CF31E845;
+	Thu,  6 Aug 2026 09:02:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006887; cv=none; b=QtxpJQ6WAsPH7iMFvKQ+6j6mIbCuiweGrfQR4Bt9I0f+3IEKgqBDEnUwE1dEyiSmZgn2SOGKguaqoQnjUV8euarRRQZjNnU4A/5Locn2M7E4UT/4VVgJJa+ftORd9f90cNB5AK6Tou0EP63I3Ob2lrfU376MH+vzMrlS4ly/HDE=
+	t=1786006943; cv=none; b=cTxamUwsH+HLOiFQp3tJo44krnLsrXL4bbv3UlNMrfQuheAF6Zu1EL78nWlp4YXin/ZjTnQY34KTnl/yeovCsThHkRw6dAGmW/iq5G8VoEv2yvGuPdb95GD0iH1z8AIPvi/Xh4SfH3ophdGNODE2e6xwpGRWEpKSfCrs6OEL4U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006887; c=relaxed/simple;
-	bh=QPeb6M2iCPCZMs8c9dwgYHumyO34WqnHwJvzcycTgqc=;
+	s=arc-20240116; t=1786006943; c=relaxed/simple;
+	bh=BhoAIRSSw12dwlgtkrUG8lawrlcOm1C2AjCzInw67mA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m9ddhym8dNCckuUCk4EorvWAnm28i4egREbhGaVNXIvhEqQGtDk/5BwcOVtevZblVuupZovUU35ao3OJw3eLmNmOOIq0VvSxf0NKDDVwkOqZ9G4UPpyjA3pG5wE86ju8F2dMEfNm8GdsS6XqKhSEf85UtYuzCpo8JCIbgKWZkdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b/fMIERL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=C2SARmgEOU4vr44PZUh6hp81fK3owHrI6qxHr60hZ/0Uc1kaqdPLPwAMmMMMfWMD1FXY+ljY5iqMF0qpuc7UG8RiNvkMiA58P78kw68SYDOcKwz+spVPMMSt1WYy1+QIDP0IEc4xNwdxg6xlSIPOpZgwT3YCMEjT21Qize0X39g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nHioQw1J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b/fMIERL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B74C1F000E9;
-	Thu,  6 Aug 2026 09:01:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nHioQw1J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A8681F000E9;
+	Thu,  6 Aug 2026 09:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786006885;
-	bh=BFIPNtqlQDio3zu8anhXqcJnHiAHEd5OCYYW3ygP5rw=;
+	s=korg; t=1786006941;
+	bh=fP86ssXPihe2gMNpYTG8Xgq5ose0BM8EMTaFtieBwMU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=b/fMIERLf3DnkVBBBpX/DgXd+ILZ2zjw8i3J4VAFOyRJ8tiZr+fIvnWdw3oT+MDwO
-	 97Q/jdEKy6O1itc6zggqJwPjUfEHPn7wHo6gNbQSpvIXCzluvgL0xAYXUjE7kkWkTa
-	 5UEY+wcl68dG+8T6PxHsfaN6YU5eczKyETTy5pJg=
-Date: Thu, 6 Aug 2026 11:01:07 +0200
+	b=nHioQw1JYiKx68eTF6pCOnzKC1rHeHuuwJ8b7f1TmUtHMxRv2bNp7z0jdDKNEjjZa
+	 9UpqaJghk4zpTXEVXkB3NmZiPSERlpSqLNdF1+HW9FG+KFbXBaz3UPGIRkPaI8sPJo
+	 U0/hsCoNHHni3FWmPhHfFUmSPxsbyE64pnpPUNnk=
+Date: Thu, 6 Aug 2026 11:02:04 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Yichong Chen <chenyichong@uniontech.com>
 Cc: rafael@kernel.org, dakr@kernel.org, djakov@kernel.org,
@@ -31,11 +31,10 @@ Cc: rafael@kernel.org, dakr@kernel.org, djakov@kernel.org,
 	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
 	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-pm@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] interconnect: debugfs: replace writable string
- helper
-Message-ID: <2026080632-delighted-bonsai-18b7@gregkh>
+Subject: Re: [PATCH v2 2/3] soundwire: debugfs: replace writable string helper
+Message-ID: <2026080613-expert-primary-a222@gregkh>
 References: <20260806084854.1019789-1-chenyichong@uniontech.com>
- <20260806084854.1019789-2-chenyichong@uniontech.com>
+ <20260806084854.1019789-3-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,66 +43,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260806084854.1019789-2-chenyichong@uniontech.com>
+In-Reply-To: <20260806084854.1019789-3-chenyichong@uniontech.com>
 
-On Thu, Aug 06, 2026 at 04:48:52PM +0800, Yichong Chen wrote:
+On Thu, Aug 06, 2026 at 04:48:53PM +0800, Yichong Chen wrote:
 > debugfs_create_str() is being made read-only because its generic write path
 > is hard to make safe without adding more locking to the helper.
 > 
-> Convert the interconnect debugfs client src_node and dst_node entries to
-> local file operations before removing writable string support from
-> debugfs_create_str().  Protect the string replacement and path lookup with
-> the existing debugfs_lock.
+> Convert the SoundWire firmware_file entry to a local write-only file
+> operation before removing writable string support from
+> debugfs_create_str().
+> 
+> Copy the firmware name before request_firmware() so later debugfs writes
+> cannot replace the string while it is being used.
 > 
 > Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 > ---
->  drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++++-----
->  1 file changed, 62 insertions(+), 13 deletions(-)
+>  drivers/soundwire/debugfs.c | 56 ++++++++++++++++++++++++++++++++++---
+>  1 file changed, 52 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/interconnect/debugfs-client.c b/drivers/interconnect/debugfs-client.c
-> index 08df9188ef94..b71c25fd9314 100644
-> --- a/drivers/interconnect/debugfs-client.c
-> +++ b/drivers/interconnect/debugfs-client.c
-> @@ -5,6 +5,7 @@
->  #include <linux/debugfs.h>
->  #include <linux/interconnect.h>
->  #include <linux/platform_device.h>
-> +#include <linux/slab.h>
->  
->  #include "internal.h"
->  
-> @@ -36,6 +37,59 @@ struct debugfs_path {
->  	struct list_head list;
->  };
->  
-> +static ssize_t icc_node_read(struct file *file, char __user *user_buf,
-> +			     size_t count, loff_t *ppos)
+> diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
+> index 099eb84a548e..bba2b65a0668 100644
+> --- a/drivers/soundwire/debugfs.c
+> +++ b/drivers/soundwire/debugfs.c
+> @@ -145,6 +145,38 @@ static u32 start_addr;
+>  static size_t num_bytes;
+>  static u8 read_buffer[MAX_CMD_BYTES];
+>  static char *firmware_file;
+> +static DEFINE_MUTEX(firmware_file_lock);
+> +
+> +static ssize_t firmware_file_write(struct file *file,
+> +				   const char __user *user_buf,
+> +				   size_t count, loff_t *ppos)
 > +{
-> +	char **node = file->private_data;
-> +	char *copy;
-> +	size_t len;
-> +	ssize_t ret;
-> +
-> +	mutex_lock(&debugfs_lock);
-> +	copy = kstrdup(*node ?: "", GFP_KERNEL);
-> +	mutex_unlock(&debugfs_lock);
-
-scoped guard?
-
-> +	if (!copy)
-> +		return -ENOMEM;
-> +
-> +	len = strlen(copy);
-> +	copy[len++] = '\n';
-> +	ret = simple_read_from_buffer(user_buf, count, ppos, copy, len);
-> +	kfree(copy);
-> +	return ret;
-> +}
-> +
-> +static ssize_t icc_node_write(struct file *file, const char __user *user_buf,
-> +			      size_t count, loff_t *ppos)
-> +{
-> +	char **node = file->private_data;
 > +	char *old, *new;
 > +
 > +	if (*ppos)
@@ -116,57 +87,109 @@ scoped guard?
 > +		return PTR_ERR(new);
 > +	strim(new);
 > +
-> +	mutex_lock(&debugfs_lock);
-> +	old = *node;
-> +	*node = new;
-> +	mutex_unlock(&debugfs_lock);
+> +	mutex_lock(&firmware_file_lock);
+> +	old = firmware_file;
+> +	firmware_file = new;
+> +	mutex_unlock(&firmware_file_lock);
 
-Same here.
+scoped lock?
 
 > +
 > +	kfree(old);
 > +	return count;
 > +}
 > +
-> +static const struct file_operations icc_node_fops = {
+> +static const struct file_operations firmware_file_fops = {
 > +	.open = simple_open,
-> +	.read = icc_node_read,
-> +	.write = icc_node_write,
+> +	.write = firmware_file_write,
 > +	.llseek = default_llseek,
 > +};
-> +
->  static struct icc_path *get_path(const char *src, const char *dst)
+>  
+>  static int set_command(void *data, u64 value)
 >  {
->  	struct debugfs_path *path;
-> @@ -56,24 +110,17 @@ static int icc_get_set(void *data, u64 val)
+> @@ -246,6 +278,7 @@ static int cmd_go(void *data, u64 value)
+>  {
+>  	const struct firmware *fw = NULL;
+>  	struct sdw_slave *slave = data;
+> +	char *fw_name = NULL;
+>  	ktime_t start_t;
+>  	ktime_t finish_t;
+>  	int ret;
+> @@ -265,15 +298,24 @@ static int cmd_go(void *data, u64 value)
+>  	}
 >  
->  	mutex_lock(&debugfs_lock);
->  
-> -	rcu_read_lock();
-> -	src = rcu_dereference(src_node);
-> -	dst = rcu_dereference(dst_node);
-> -
->  	/*
->  	 * If we've already looked up a path, then use the existing one instead
->  	 * of calling icc_get() again. This allows for updating previous BW
->  	 * votes when "get" is written to multiple times for multiple paths.
->  	 */
-> -	cur_path = get_path(src, dst);
-> -	if (cur_path) {
-> -		rcu_read_unlock();
-> +	cur_path = get_path(src_node, dst_node);
-> +	if (cur_path)
->  		goto out;
-> -	}
->  
-> -	src = kstrdup(src, GFP_ATOMIC);
-> -	dst = kstrdup(dst, GFP_ATOMIC);
-> -	rcu_read_unlock();
-> +	src = kstrdup(src_node, GFP_KERNEL);
-> +	dst = kstrdup(dst_node, GFP_KERNEL);
+>  	if (cmd == 0) {
+> -		ret = request_firmware(&fw, firmware_file, &slave->dev);
+> +		mutex_lock(&firmware_file_lock);
 
-Why is GFP_KERNEL now ok, while GFP_ATOMIC wasn't?  Is this the rcu
-stuff interacting somehow?
+Again, scoped lock?
+
+> +		if (firmware_file)
+> +			fw_name = kstrdup(firmware_file, GFP_KERNEL);
+> +		mutex_unlock(&firmware_file_lock);
+> +		if (!fw_name) {
+> +			ret = -ENOMEM;
+> +			goto out;
+> +		}
+> +
+> +		ret = request_firmware(&fw, fw_name, &slave->dev);
+>  		if (ret < 0) {
+> -			dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
+> +			dev_err(&slave->dev, "firmware %s not found\n", fw_name);
+>  			goto out;
+>  		}
+>  		if (fw->size < num_bytes) {
+>  			dev_err(&slave->dev,
+>  				"firmware %s: firmware size %zd, desired %zd\n",
+> -				firmware_file, fw->size, num_bytes);
+> +				fw_name, fw->size, num_bytes);
+>  			goto out;
+>  		}
+>  	}
+> @@ -306,6 +348,7 @@ static int cmd_go(void *data, u64 value)
+>  out:
+>  	if (fw)
+>  		release_firmware(fw);
+> +	kfree(fw_name);
+>  
+>  	pm_runtime_mark_last_busy(&slave->dev);
+>  	pm_runtime_put(&slave->dev);
+> @@ -358,7 +401,8 @@ void sdw_slave_debugfs_init(struct sdw_slave *slave)
+>  
+>  	debugfs_create_file("read_buffer", 0400, d, slave, &read_buffer_fops);
+>  	if (firmware_file)
+> -		debugfs_create_str("firmware_file", 0200, d, &firmware_file);
+> +		debugfs_create_file("firmware_file", 0200, d, NULL,
+> +				    &firmware_file_fops);
+>  
+>  	slave->debugfs = d;
+>  }
+> @@ -370,8 +414,10 @@ void sdw_slave_debugfs_exit(struct sdw_slave *slave)
+>  
+>  void sdw_debugfs_init(void)
+>  {
+> +	mutex_lock(&firmware_file_lock);
+>  	if (!firmware_file)
+>  		firmware_file = kstrdup("", GFP_KERNEL);
+> +	mutex_unlock(&firmware_file_lock);
+
+Same here.
+
+>  
+>  	sdw_debugfs_root = debugfs_create_dir("soundwire", NULL);
+>  }
+> @@ -379,6 +425,8 @@ void sdw_debugfs_init(void)
+>  void sdw_debugfs_exit(void)
+>  {
+>  	debugfs_remove_recursive(sdw_debugfs_root);
+> +	mutex_lock(&firmware_file_lock);
+
+And here.
+
+>  	kfree(firmware_file);
+>  	firmware_file = NULL;
+
+This doesn't need to get set to NULL, right?
 
 thanks,
 
