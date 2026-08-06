@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1523859D3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEBD3845A6;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036195; cv=none; b=iZDC1U2j9pY/e1EZxOPl+b/3hWWB0gkuLzd1eBDSFK7kzWutE649QYUfcTEjNqI16NqKZYO7yu+CFiLBQBVcg5RKJOjUP6Ccxb6f4HQtg5EVIB2qpjaGaVUewW7ad5Z8g3/kasnDJxG1+vqSiJAzzxLbTJTseQTWFpJ4XOILHc4=
+	t=1786036195; cv=none; b=b7/2CDszFQp4Qxx0o4t/qnZOKAQv61sJiJ/e8QOoczZ5S30O+XvaF57vcr6k2wSuf9K0kVjGPMwZUkWIqNq05xIy1N3xUjcAr/ykXt7J2v3/fOkGrjrUQxYvC0X9WdvwK0NyTjzf2NJrD2S3Tm3oQYhgQE6vezqbUS/jscw8Xvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786036195; c=relaxed/simple;
-	bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
+	bh=phGE6qAgWSFcQKcf7QAsD69tXR0oqZJVFj7Q1uQQc88=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L8XTfxqRBhIAeqXH8Diz7gfeS9X0K6ohh3CEfVBQTEopzcmnTFPaltJupg8MRLLDHPVC4r/Of2tffRGFF5OhNXEcrBTZtRxhGlUjDyKnXRwnzQY3N2lnJquzrLEyebI0jHSLbIsCLjVSGjXUgjD10HtfAqS72i3XvoxD6I7avXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=avvL1WKa; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=XA2Ia8Iy+D2z7Zelczazr9dU4twsX7d1YaDOb39wi2Yd8loy2XyC/dvfA9eaJhgRUFV9RL2ub0yI+J4ohxb+FNP0gOiHDAj7wBEx8pheUXGc+KjQqr7QfUPay4HwvjnUwCP/BPDbo69i2csuy0sgi6cTo0cafGK7woN/q/CmZ3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WvV4EiP8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="avvL1WKa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 66063C4AF10;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WvV4EiP8"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D958C4AF1A;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1786036195; bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
+	t=1786036195; bh=phGE6qAgWSFcQKcf7QAsD69tXR0oqZJVFj7Q1uQQc88=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=avvL1WKaHglXcOAOA2zel1l+1ksbAw+1UkpdUlXsjlqQu2WYUKC9bqPT03NURbC6u
-	 WsNJ9mpszf4PWp3c4hpMt8EnE4P3oE9avc6Q2/tg1WxcuE5tmk4nGaiOrz53En1lIk
-	 kq4rJuWuE5CgxVPV2dOo/861cXjvWhha5scDFZ1M=
+	b=WvV4EiP8VZvkBwAFIAsGPWwnSExdFcw7G40EANVIQPVezn0a4ZVnzgGBvQ8+QeXxo
+	 W/ih3noYy9EPf0enHRNh5dMMNrpdVRVn2ePSUBEOCDUzxWfjWsjAskza0lON25xUO2
+	 HzJNVeXmug5J/uXfOtLE1MxdXaE4mvyjg7X2JEOo=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5E7C5AC80;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E7FC5AC81;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 07 Aug 2026 01:07:26 +0800
-Subject: [PATCH v3 4/8] drm: move debugfs_init after dev->registered is set
+Date: Fri, 07 Aug 2026 01:07:29 +0800
+Subject: [PATCH v3 7/8] drm/tyr: track VMs in a registry
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -36,7 +36,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-tyr-debugfs-v2-v3-4-ff5595ac66ae@linux.dev>
+Message-Id: <20260807-tyr-debugfs-v2-v3-7-ff5595ac66ae@linux.dev>
 References: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 In-Reply-To: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -61,57 +61,182 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=1535;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=5211;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
- b=JiqjzmF+Hf6okmV2BctyiTvlTlQw9TRSdd+G41efvmY17FJHk84qA45UkSLTPkbLSsoATeJ8N
- ZvYO/AEGRr5C24jfJdbWbNAbQ3qGz2fSbsOLSj0yI9+B9E7Ndp82GYq
+ bh=phGE6qAgWSFcQKcf7QAsD69tXR0oqZJVFj7Q1uQQc88=;
+ b=VNMj1FO6LKaxO8oV+bwyly5M+GvJGBrjn+KIvm0d03AEvo4GSMcHLg+PVuSkaPLCH7b3c5YEb
+ nN7iwUwcLC2DmqnDWeevHSIxfl/cHjk8FT/6RHf1c3T9FFllvufeh2q
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-The debugfs_init callback is called from drm_debugfs_register during
-drm_minor_register, before dev->registered is set to true. Move it to
-drm_dev_register after dev->registered = true so that callbacks see a
-fully registered device.
+Add VmRegistry to track all VMs for debugfs enumeration. VMs are
+explicitly registered and unregistered to keep the list in sync.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- drivers/gpu/drm/drm_debugfs.c | 3 ---
- drivers/gpu/drm/drm_drv.c     | 5 +++++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs |  6 +++++-
+ drivers/gpu/drm/tyr/fw.rs     | 18 +++++++++++++++---
+ drivers/gpu/drm/tyr/vm.rs     | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index ae1c6126c2c59..38cf6ce387cc8 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -442,9 +442,6 @@ int drm_debugfs_register(struct drm_minor *minor, int minor_id)
- 	/* TODO: Only for compatibility with drivers */
- 	minor->debugfs_root = dev->debugfs_root;
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index a6694400be659..f26c3bb332e70 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -57,7 +57,8 @@
+     gpu,
+     gpu::GpuInfo,
+     mmu::Mmu,
+-    regs::gpu_control::*, //
++    regs::gpu_control::*,
++    vm::VmRegistry, //
+ };
  
--	if (dev->driver->debugfs_init && dev->render != minor)
--		dev->driver->debugfs_init(minor);
+ pub(crate) type IoMem<'a> = kernel::io::mem::IoMem<'a, SZ_2M>;
+@@ -167,11 +168,14 @@ fn probe<'bound>(
+ 
+         let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
+ 
++        let registry = Arc::pin_init(VmRegistry::new(), GFP_KERNEL)?;
++
+         let firmware = Firmware::new(
+             pdev.as_ref(),
+             iomem.clone(),
+             &unreg_dev,
+             mmu.as_arc_borrow(),
++            registry.clone(),
+             &gpu_info,
+         )?;
+ 
+diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
+index 65ac18b92b4f2..8b09ea6c7c6d2 100644
+--- a/drivers/gpu/drm/tyr/fw.rs
++++ b/drivers/gpu/drm/tyr/fw.rs
+@@ -64,7 +64,6 @@
+         KernelBoVaAlloc, //
+     },
+     gpu::GpuInfo,
 -
- 	return 0;
+     mmu::Mmu,
+     regs::{
+         gpu_control::{
+@@ -76,7 +75,8 @@
+         }, //
+         job_control::JOB_IRQ_CLEAR,
+     },
+-    vm::Vm, //
++    vm::Vm,
++    vm::VmRegistry, //
+ };
+ 
+ mod interfaces;
+@@ -174,6 +174,9 @@ pub(crate) struct Firmware<'drm> {
+     /// MCU VM.
+     vm: Arc<Vm<'drm>>,
+ 
++    /// VM registry, used to unregister `vm` on drop.
++    vm_registry: Arc<VmRegistry<'drm>>,
++
+     /// List of firmware sections.
+     sections: KVec<Section<'drm>>,
+ 
+@@ -195,6 +198,7 @@ fn drop(self: Pin<&mut Self>) {
+         let _ = self.stop();
+ 
+         // AS slots retain a VM ref, we need to kill the circular ref manually.
++        self.vm_registry.unregister(&self.vm);
+         self.vm.kill();
+     }
+ }
+@@ -251,12 +255,18 @@ pub(crate) fn new(
+         iomem: Arc<IoMem<'drm>>,
+         ddev: &TyrDrmDevice,
+         mmu: ArcBorrow<'_, Mmu<'drm>>,
++        vm_registry: Arc<VmRegistry<'drm>>,
+         gpu_info: &GpuInfo,
+     ) -> Result<Arc<Firmware<'drm>>> {
+         let vm = Vm::new(dev, ddev, mmu, gpu_info)?;
+-        vm.activate()?;
++        if let Err(e) = vm_registry.register(vm.clone()) {
++            dev_warn!(dev, "failed to register VM: {e:?}\n");
++        }
++        let registry = vm_registry.clone();
+ 
+         let result = (|| {
++            vm.activate()?;
++
+             let vm = &vm;
+             let (fw, parsed_sections) = Self::load(dev, ddev, gpu_info)?;
+             let mut sections = KVec::new();
+@@ -291,6 +301,7 @@ pub(crate) fn new(
+                 try_pin_init!(Firmware {
+                     iomem,
+                     vm: vm.clone(),
++                    vm_registry: registry,
+                     sections,
+                     global_iface <- new_mutex!(GlobalInterface::new()?),
+                     job_irq_wait: Arc::pin_init(new_waitqueue!(), GFP_KERNEL)?,
+@@ -301,6 +312,7 @@ pub(crate) fn new(
+         })();
+ 
+         if result.is_err() {
++            vm_registry.unregister(&vm);
+             vm.kill();
+         }
+ 
+diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
+index 74c3d6c8efc49..690d08b8aa901 100644
+--- a/drivers/gpu/drm/tyr/vm.rs
++++ b/drivers/gpu/drm/tyr/vm.rs
+@@ -311,6 +311,34 @@ pub(crate) struct GpuVmData<'drm> {
+     _phantom: PhantomData<&'drm ()>,
  }
  
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index e890052061f30..15669764fe625 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -1101,6 +1101,11 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
- 	dev->registered = true;
- 	dev->unplugged = false;
- 
-+	/* Call debugfs_init after the device is fully registered. */
-+	if (dev->driver->debugfs_init && dev->primary &&
-+	    dev->render != dev->primary)
-+		dev->driver->debugfs_init(dev->primary);
++/// Tracks all VMs for this device.
++#[pin_data]
++pub(crate) struct VmRegistry<'drm> {
++    #[pin]
++    vms: Mutex<KVec<Arc<Vm<'drm>>>>,
++}
 +
- 	if (driver->load) {
- 		ret = driver->load(dev, flags);
- 		if (ret)
++impl<'drm> VmRegistry<'drm> {
++    pub(crate) fn new() -> impl PinInit<Self> {
++        pin_init!(Self { vms <- new_mutex!(KVec::new()) })
++    }
++
++    pub(crate) fn register(&self, vm: Arc<Vm<'drm>>) -> Result {
++        Ok(self.vms.lock().push(vm, GFP_KERNEL)?)
++    }
++
++    pub(crate) fn unregister(&self, vm: &Vm<'drm>) {
++        self.vms.lock().retain(|v| !core::ptr::eq(&**v, vm));
++    }
++
++    pub(crate) fn for_each(&self, mut f: impl FnMut(&Vm<'drm>) -> Result) -> Result {
++        for vm in self.vms.lock().iter() {
++            f(vm)?;
++        }
++        Ok(())
++    }
++}
++
+ /// GPU virtual address space.
+ ///
+ /// Each VM can be mapped into a hardware address space slot.
+@@ -401,6 +429,11 @@ pub(crate) fn activate(&self) -> Result {
+             })
+     }
+ 
++    /// Dumps GPU VA space info into a seq_file.
++    pub(crate) fn dump_gpuva_info(&self, m: &kernel::seq_file::SeqFile) -> Result {
++        self.gpuvm_unique.lock().dump_gpuva_info(m)
++    }
++
+     /// Deactivate the VM by evicting it from its address space slot.
+     fn deactivate(&self) -> Result {
+         self.mmu.deactivate_vm(&self.as_data).inspect_err(|e| {
 
 -- 
 2.43.0
