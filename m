@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BFE36DA04;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95082371D05;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036195; cv=none; b=RvooGclcmoG89thUG/01bIKPOOYH2+d7MLiJf6pE1yRY/jgxXzNoqklAEfdKd17LW8eiQGisJgkSFxjhvTA/7lciLu+Tqt+8RrOQE9n/tmpXDMcYArn08QxcWFAuwS+AGdEwOnT4daObazATWWj8noTnS38fCBhiEnYHesm+wfo=
+	t=1786036195; cv=none; b=LKsLdO6Et5KGUm6/aNxUCpCC2ZJ6y70ySwAY9bYGdcbSiNQV+Sgl0HdIA/8ST3NjAt12IW+W6njcafzSHm5HFNQ1R5q8UsvNK6i9CBqnMziAyRhKvKBpbjsr8CbIrKi1LK1ysUuIKCtprjTCFBAqBMdAAecYjPDcxXDPYgwGORc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786036195; c=relaxed/simple;
-	bh=S91QflBSULvrfjiqsIil2QLyQMnzG3EKMzzqukOgbg4=;
+	bh=gBeCwzgG77EObc2Yyji4wjMjI8hg1cHLHMj7opVab9g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gSnoPLPZbftWMs/FRpL9QA7lb2AQJy87RU7Q6mnGlvZ+iiU/RaB1hh5FXTh9SnPgMNwnVUWiq9zrZCZ9+Qa3k2v5gv0eVsr75nNanDv7omyxyInvjIkqXDKFcCBg4N4gPylBmqaKUBXVADOBhb5kIZ0CI+LoN2YXE8Lrk1rql1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AZjHYCKK; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=qz4MsI3BeiVR/XT5l8vb+ds46JDBsvjGvX4LOArjKUC2S2MO7ZNWBJEvX2lihmWld5HwwN2OoIx5o42AviHZW7pef6UwXJj2lJTnbTH/4+025Mmh/HvhhF5TQuerJemQMol3izn8wvfi/7qf1/MFOSRnTkDnqFK6QvjBQ1uBTdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GCiSK5T0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AZjHYCKK"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E21BC2BCF5;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GCiSK5T0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D319C2BCFF;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1786036195; bh=S91QflBSULvrfjiqsIil2QLyQMnzG3EKMzzqukOgbg4=;
+	t=1786036195; bh=gBeCwzgG77EObc2Yyji4wjMjI8hg1cHLHMj7opVab9g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=AZjHYCKKnwOSLIkoGt2QPuaF4vCrTuIJskmNUUhEuvo3aata9rDcv5bGW5BVP1Wdp
-	 VBkWPdgdpTkGYDnSCNZHYkvS/dZ5BZu8Q2YZRtJxJ0TQ1I3QIluOQ/pej1qqacIDoo
-	 natkMgFLnctvSUi0Vz0InzWyPUq9SB7gLMk5Jmlc=
+	b=GCiSK5T0hiEC5OWWinNef8l0w0S59cnZ4eiis4qiKM2SP2J8mqKNWX/8+kBy1wv4u
+	 9gHtavzhiTJs6KYKfAHYZ6mNpieX2vkKWPHMOMp7og06IE446chia4qldYXcrJoFA8
+	 Vkng0SCWDkUW53V5DimQevcIbSlDdhWFKvlPcC+M=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFDDC56205;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2B2C5AC81;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 07 Aug 2026 01:07:24 +0800
-Subject: [PATCH v3 2/8] rust: debugfs: add seq_file support
+Date: Fri, 07 Aug 2026 01:07:25 +0800
+Subject: [PATCH v3 3/8] rust: debugfs: add ScopeRef for existing dentries
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -36,7 +36,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-tyr-debugfs-v2-v3-2-ff5595ac66ae@linux.dev>
+Message-Id: <20260807-tyr-debugfs-v2-v3-3-ff5595ac66ae@linux.dev>
 References: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 In-Reply-To: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -61,134 +61,190 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=4116;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=5737;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=S91QflBSULvrfjiqsIil2QLyQMnzG3EKMzzqukOgbg4=;
- b=lOdaecEPQc/anzAS8mKEBFibrr6ZfwYq6RvEk6I7QDaEpVGd8av1G9CsZbQkYis7VuaEEI8fC
- NBqJNtFbZ+ADoD1jcJAoGShdgROyGYAxVdoAi+DzmBV+H3SvUzDwIQo
+ bh=gBeCwzgG77EObc2Yyji4wjMjI8hg1cHLHMj7opVab9g=;
+ b=fxzLoGbcjbRzQmSV14JVKvUk4fBi1ynRhqiyz7qnp7FIftA+IE4Nb9DENs0oXyil0ol6jTgeP
+ JEV56FGjnhKA1XGbIUv7oY2yk1r/Wc2/Ms4IZJbHAe1n4Z0EL0ROo+b
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add SeqShow trait for seq_file-backed debugfs files. Needed by DRM
-and other subsystems to expose readable debugfs state via seq_file.
+Add methods to construct debugfs abstractions from raw C dentry
+pointers. Needed by DRM debugfs_init callback to create ScopedDir
+from an existing dentry.
+
+Add ScopeRef<'a, T>, a debugfs directory handle that carries a
+reference to associated data of type T.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- rust/kernel/debugfs/file_ops.rs | 60 +++++++++++++++++++++++++++++++++++++++++
- rust/kernel/debugfs/traits.rs   | 11 ++++++++
- 2 files changed, 71 insertions(+)
+ rust/kernel/debugfs.rs       | 84 ++++++++++++++++++++++++++++++++++++++++++--
+ rust/kernel/debugfs/entry.rs | 15 +++++++-
+ 2 files changed, 96 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/debugfs/file_ops.rs b/rust/kernel/debugfs/file_ops.rs
-index f15908f71c4a2..ee8c85360e924 100644
---- a/rust/kernel/debugfs/file_ops.rs
-+++ b/rust/kernel/debugfs/file_ops.rs
-@@ -5,11 +5,13 @@
-     BinaryReader,
+diff --git a/rust/kernel/debugfs.rs b/rust/kernel/debugfs.rs
+index d7b8014a64746..831d6750a34ba 100644
+--- a/rust/kernel/debugfs.rs
++++ b/rust/kernel/debugfs.rs
+@@ -24,7 +24,7 @@
+         PhantomData,
+         PhantomPinned, //
+     },
+-    ops::Deref,
++    ops::Deref, //
+ };
+ 
+ mod traits;
+@@ -33,6 +33,7 @@
+     BinaryReaderMut,
      BinaryWriter,
      Reader,
 +    SeqShow,
      Writer, //
  };
  
- use crate::{
-     debugfs::callback_adapters::Adapter,
-+    error::from_result,
-     fmt,
-     fs::file,
-     prelude::*,
-@@ -123,6 +125,64 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-     0
+@@ -51,6 +52,7 @@
+     FileOps,
+     ReadFile,
+     ReadWriteFile,
++    SeqReadFile,
+     WriteFile, //
+ };
+ 
+@@ -538,7 +540,7 @@ pub fn dir<'dir2>(&'dir2 self, name: &CStr) -> ScopedDir<'data, 'dir2> {
+         }
+     }
+ 
+-    fn create_file<T: Sync>(&self, name: &CStr, data: &'data T, vtable: &'static FileOps<T>) {
++    fn create_file<T: Sync>(&self, name: &CStr, data: &'data T, vtable: &FileOps<T>) {
+         #[cfg(CONFIG_DEBUG_FS)]
+         core::mem::forget(Entry::file(name, &self.entry, data, vtable));
+     }
+@@ -588,6 +590,14 @@ pub fn read_callback_file<T, F>(&self, name: &CStr, data: &'data T, _f: &'static
+         self.create_file(name, data, vtable)
+     }
+ 
++    /// Creates a seq_file debugfs file in this directory.
++    ///
++    /// The file's contents are produced by invoking [`SeqShow::show`] with
++    /// `data` on each read.
++    pub fn seq_file<S: SeqShow<U>, U: Sync>(&self, name: &CStr, data: &'data U) {
++        self.create_file(name, data, &<S as SeqReadFile<U>>::FILE_OPS)
++    }
++
+     /// Creates a read-write file in this directory.
+     ///
+     /// Reading the file uses the [`Writer`] implementation on `data`. Writing to the file uses
+@@ -721,4 +731,74 @@ fn new(name: &CStr) -> ScopedDir<'data, 'static> {
+             _phantom: PhantomData,
+         }
+     }
++
++    /// Creates a [`ScopedDir`] wrapping an existing debugfs dentry.
++    ///
++    /// Files created under this directory are not automatically removed on drop;
++    /// their lifetime is tied to the dentry owner.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure the dentry remains valid for the lifetime of the
++    /// returned `ScopedDir`.
++    pub unsafe fn from_dentry(dentry: *mut bindings::dentry) -> Self {
++        let _ = dentry;
++        ScopedDir {
++            #[cfg(CONFIG_DEBUG_FS)]
++            // SAFETY: The caller guarantees the dentry is valid and outlives this `ScopedDir`.
++            entry: ManuallyDrop::new(unsafe { Entry::from_raw(dentry) }),
++            _phantom: PhantomData,
++        }
++    }
++}
++
++/// A reference to a debugfs directory that also holds a reference to
++/// associated data of type `T`.
++///
++/// Created from an existing debugfs dentry (e.g. the DRM debugfs root).
++/// `data` must remain valid while the debugfs files created under this
++/// scope may be accessed.
++pub struct ScopeRef<'a, T> {
++    #[cfg(CONFIG_DEBUG_FS)]
++    inner: ScopedDir<'a, 'a>,
++    data: &'a T,
++}
++
++impl<'a, T> ScopeRef<'a, T> {
++    /// Creates a [`ScopeRef`] from an existing debugfs dentry and a data reference.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure that `dentry` remains valid for the lifetime of
++    /// the returned [`ScopeRef`] and that `data` remains valid while the
++    /// debugfs files created under this scope may be accessed.
++    pub unsafe fn new(dentry: *mut bindings::dentry, data: &'a T) -> Self {
++        let _ = dentry;
++        ScopeRef {
++            #[cfg(CONFIG_DEBUG_FS)]
++            // SAFETY: By the safety preconditions of `new`, `dentry` is valid
++            // and remains valid for the lifetime of the returned `ScopeRef`.
++            inner: unsafe { ScopedDir::from_dentry(dentry) },
++            data,
++        }
++    }
++
++    /// Creates a seq_file debugfs file in this directory.
++    ///
++    /// The file's contents are produced by invoking [`SeqShow::show`] with
++    /// `data` on each read.
++    #[cfg(CONFIG_DEBUG_FS)]
++    pub fn seq_file<S: SeqShow<T>>(&self, name: &CStr)
++    where
++        T: Sync,
++    {
++        self.inner.seq_file::<S, T>(name, self.data);
++    }
++
++    #[cfg(not(CONFIG_DEBUG_FS))]
++    pub fn seq_file<S: SeqShow<T>>(&self, _name: &CStr)
++    where
++        T: Sync,
++    {
++    }
+ }
+diff --git a/rust/kernel/debugfs/entry.rs b/rust/kernel/debugfs/entry.rs
+index 46aad64896ecb..7643ff0fa6093 100644
+--- a/rust/kernel/debugfs/entry.rs
++++ b/rust/kernel/debugfs/entry.rs
+@@ -8,7 +8,7 @@
+         CStr,
+         CStrExt as _, //
+     },
+-    sync::Arc,
++    sync::Arc, //
+ };
+ 
+ use core::marker::PhantomData;
+@@ -87,6 +87,19 @@ pub(crate) unsafe fn dynamic_file<T>(
  }
  
-+/// Show callback for `SeqShow` types.
-+///
-+/// # Safety
-+///
-+/// The seq_file core guarantees that `seq` points to a live `seq_file`
-+/// whose private data is a valid pointer to a `T` with no outstanding
-+/// mutable references.
-+unsafe extern "C" fn seq_file_show<S: SeqShow<T>, T: Sync>(
-+    seq: *mut bindings::seq_file,
-+    _: *mut c_void,
-+) -> c_int {
-+    // SAFETY: `seq->private` is a valid `T` pointer with no outstanding
-+    // mutable references.
-+    let data = unsafe { &*((*seq).private.cast::<T>()) };
-+    // SAFETY: `seq` points to a live `seq_file`.
-+    let m = unsafe { SeqFile::from_raw(seq) };
-+    from_result(|| S::show(data, m).map(|()| 0))
-+}
+ impl<'a> Entry<'a> {
++    /// Wraps a raw dentry pointer.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure the dentry is valid and outlives this `Entry`.
++    pub(crate) unsafe fn from_raw(entry: *mut bindings::dentry) -> Self {
++        Self {
++            entry,
++            _parent: None,
++            _phantom: PhantomData,
++        }
++    }
 +
-+/// Open callback for `SeqShow` types.
-+///
-+/// # Safety
-+///
-+/// The VFS guarantees that `inode` is valid with `i_private` pointing to a
-+/// valid `T` that remains valid for the duration of the call, and that `file`
-+/// points to a live, uninitialized file object.
-+unsafe extern "C" fn seq_file_open<S: SeqShow<T>, T: Sync>(
-+    inode: *mut bindings::inode,
-+    file: *mut bindings::file,
-+) -> c_int {
-+    // SAFETY: `inode` is valid per VFS. `i_private` points to a valid `T`
-+    // (guaranteed by the `FileOps<T>` invariants).
-+    let data = unsafe { (*inode).i_private.cast::<T>() };
-+
-+    // SAFETY: `file` is valid per VFS; `data` matches `seq_file_show`'s contract.
-+    unsafe { bindings::single_open(file, Some(seq_file_show::<S, T>), data.cast()) }
-+}
-+
-+pub(crate) trait SeqReadFile<T> {
-+    const FILE_OPS: FileOps<T>;
-+}
-+
-+impl<S: SeqShow<T>, T: Sync> SeqReadFile<T> for S {
-+    const FILE_OPS: FileOps<T> = {
-+        let operations = bindings::file_operations {
-+            read: Some(bindings::seq_read),
-+            llseek: Some(bindings::seq_lseek),
-+            release: Some(bindings::single_release),
-+            open: Some(seq_file_open::<Self, T>),
-+            ..pin_init::zeroed()
-+        };
-+        // SAFETY: `read` and `llseek` are stock `seq_file` implementations.
-+        // `seq_file_open` treats `inode->i_private` as a valid `&T` reference,
-+        // satisfying the `FileOps::new` contract.
-+        unsafe { FileOps::new(operations, 0o400) }
-+    };
-+}
-+
- // Work around lack of generic const items.
- pub(crate) trait ReadFile<T> {
-     const FILE_OPS: FileOps<T>;
-diff --git a/rust/kernel/debugfs/traits.rs b/rust/kernel/debugfs/traits.rs
-index 8c39524b6a990..02782cd817c4b 100644
---- a/rust/kernel/debugfs/traits.rs
-+++ b/rust/kernel/debugfs/traits.rs
-@@ -8,6 +8,7 @@
-     fmt,
-     fs::file,
-     prelude::*,
-+    seq_file::SeqFile,
-     sync::{
-         atomic::{
-             Atomic,
-@@ -338,3 +339,13 @@ fn read_from_slice(
-         self.deref().read_from_slice(reader, offset)
-     }
- }
-+
-+/// Renders `data` into a seq_file.
-+///
-+/// `data` is the value stashed as the debugfs file's `i_private` at creation
-+/// time. `show` is invoked on each read to produce the file's contents.
-+/// `data` must remain valid while the debugfs file is registered.
-+pub trait SeqShow<T> {
-+    /// Writes debugfs output for the file.
-+    fn show(data: &T, m: &SeqFile) -> Result;
-+}
+     pub(crate) fn dir(name: &CStr, parent: Option<&'a Entry<'_>>) -> Self {
+         let parent_ptr = match &parent {
+             Some(entry) => entry.as_ptr(),
 
 -- 
 2.43.0
