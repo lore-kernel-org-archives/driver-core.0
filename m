@@ -1,71 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427D3376A04;
-	Thu,  6 Aug 2026 21:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CD63E1203;
+	Thu,  6 Aug 2026 21:46:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052326; cv=none; b=omFZQhM+VD8hlRRH2KOIF6NmYlGcOwR8EeLT6BizZlTflMNP9fyzy0Fo5dd30iVTNnM7+aTRaVkV8K6jgBupd2vPuAwp4wXo3fq8dvKmElO+QurYpMJoInmNHV1evfs6bCMcOlGOL4hQMyiFgnvw4mh2nbXRqZHiJzCaVyLl8VM=
+	t=1786052797; cv=none; b=ievPeMOUYddsu/j8jtlbNlp4ei04VRYdxNK30ZBhZGZFFCWJ1ea20Eluc+1bGeDyNOKdASkAahbfo5DoLCz84dIK2XvHrtqI/WBIs9/nQSdgXz27852aszwnu1Z+Rg6qHja7xmNkbjAE0R9YzeVnD4eZ+DZpFT/t7amUTlCMOk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052326; c=relaxed/simple;
-	bh=JPlTPyMBIeWmrgRn/ypWuZK/e/pqDuHtKaW7OqBQBcU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FcH4nT/9LSYLX7UIh4ST2pCy8/97YOz6T3eqXAFN0mB/VhWbahwL0kR8N/Zb9N/cnBuOdn2Xsj1i3iDCQNxtORO+CVx3whYrQ/F7gz20BAd3X/4XLHeL+l8Varp++AqXtYlko1rhhhJDXZ1veoXroHZsHiVCg97G453oGjwQfAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQBx8Upq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786052797; c=relaxed/simple;
+	bh=aj0kqCtYzmzTiWVk8eSKl2nBtfZARwavGTuHWMz4p4Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=ZUFFvgxYey4l0Ed0lKE7Zgbim7mrDQEK1eFoe+vBu2VIhT26pHR2cg8KphwliQjsAjUeIdEwcvVYlZ1KGcQ4WEeN/AVgzPzJxQ4j+0Em9Hia5SudoJIWZZgJRn4EUcnD5Xs8M96cxK8S1sDtGGYcosfTc2t1leEBRyQroAqShxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euDhVZe2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQBx8Upq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3BD1F000E9;
-	Thu,  6 Aug 2026 21:38:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euDhVZe2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 317531F000E9;
+	Thu,  6 Aug 2026 21:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786052324;
-	bh=E4GUgwS7RXrskrQR743MRhxQtDL2RFd0paR3JffAdN4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GQBx8UpqWxG/zdyOGr5ZzE26/OewHEiPH8BMv7taIYB8jdnv8dFBxOLOpNaQrN2hs
-	 wNTsejgCzLcJVTXaE5obdVYgLxqqvlItTX0lJPzS0ddcbfngZaj4sQEjh0Bd7S5PXJ
-	 9AuYyrYZhu6K8mcmHQPqwKB7dctk09lhPdhM1wznanYjck5UKtyEx9lcLuWDYgxaEe
-	 iZ/+K1aMSxGx5035PsxNdK2bIi5CPEqK10HVbb8nTOn+19k3Hnzi0unsb0tSQKeOJh
-	 U/nzCTSBsv9wtH07HhH4HjEUYNfYmB0mc5smV159fjddnFzjlQTzqd1PQkeZlE1z7h
-	 ofZD5IeqoJJnw==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Anirudh Rayabharam <mail@anirudhrb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware_loader: do not queue completed sysfs fallback requests
-Date: Thu,  6 Aug 2026 23:38:40 +0200
-Message-ID: <20260806213840.3143482-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260716081601.1674470-1-mukesh.ojha@oss.qualcomm.com>
-References: <20260716081601.1674470-1-mukesh.ojha@oss.qualcomm.com>
-X-Patch-Reply: applied
+	s=k20260515; t=1786052795;
+	bh=aj0kqCtYzmzTiWVk8eSKl2nBtfZARwavGTuHWMz4p4Y=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=euDhVZe2V0+fdLmFzBf2qn+nR4FOB7ZcxHQ0cmfIWSx2MmQ2ALbsCbA8Ac3rmfKRq
+	 Ktn+qNJwB5w3fdMKO5YD4bDs9Xf/gzi++DmXvn5kNXRR6ML1l66yHkopYaS8K9dtZV
+	 04x3kcpiagKzb3u/FuBLd28Jwv54lMFm1BIvhr7k4RPrWnTysnsPj0z916UGGadD+h
+	 x1smlDLKu5+oZfxrGc+7TjwW+lxQvPdf6d/X6O+dzSBvr2aMJRmmojOo+V2B1ddEpT
+	 RPws7xMmvou7dN94sEtdHdkrZjcNXa8CicqPHq1ipOi6ye8kW7WzxmuBja8L8lNi+7
+	 zkJO9nEdx3gCg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Thu, 06 Aug 2026 23:46:32 +0200
+Message-Id: <DKI6VHVGQVRX.3JWQYO4QAPJC3@kernel.org>
+Subject: Re: [PATCH v1] firmware_loader: Unwind initialization on sysfs
+ failure
+Cc: <mcgrof@kernel.org>, <russ.weight@linux.dev>,
+ <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <nixiaoming@huawei.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+To: "Yuho Choi" <dbgh9129@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260803012941.610268-1-dbgh9129@gmail.com>
+In-Reply-To: <20260803012941.610268-1-dbgh9129@gmail.com>
 
-On Thu, 16 Jul 2026 13:46:01 +0530, Mukesh Ojha wrote:
-> [PATCH] firmware_loader: do not queue completed sysfs fallback requests
+On Mon Aug 3, 2026 at 3:29 AM CEST, Yuho Choi wrote:
+> firmware_class_init() leaves the firmware PM operations and reboot
+> notifier registered when register_sysfs_loader() fails. In addition, the
+> sysfs loader can leave the firmware class registered if its sysctl setup
+> fails.
 
-Applied, thanks!
-
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-
-[1/1] firmware_loader: do not queue completed sysfs fallback requests
-      commit: b48373c90195
-
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patch is in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+Those are two separate issues, so it should also be two separate patches.
