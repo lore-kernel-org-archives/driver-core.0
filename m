@@ -1,36 +1,36 @@
 Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1A141F5D4
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 08:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043F23FC5B5
+	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 08:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006180; cv=none; b=fkfxdrZPsscPa2QW7rI2y8ligVq3ILPL9Z7nTKX9KwJ9WgrPacvjvXn7MbcsBzR+jxjdTxA+JDspIDn7TldFtq5f1EVcOtBs75xGwYKtJ+VZ28tqH2eFOEGMqAaf+S3Vfy9nbIqQJHCVZy1qslfcnEr1czBvRoPsLBGG7aWXxPo=
+	t=1786006184; cv=none; b=IaBlGzmPHzVD7pv733PjRqj9o2noCCp7dI13/BFdiPzwnbs1tLPvgWLZqFAdSyAaScAa0OwkGHj1zNVlchZI4IG1PTem2G06O6fHW0G+bizCFN9i7LC22xELI8OvgM3PJDYO4gG2GS5JQEfW9QD+svxKFgEJV8nNcqZUkA7jeDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006180; c=relaxed/simple;
-	bh=ARu3eo+AzmCY/i1tQVvRQ0wec1DQQyp45sCuLGUpD9k=;
+	s=arc-20240116; t=1786006184; c=relaxed/simple;
+	bh=bYVn57snV5A2ibN/w2p93lM39rQLKNNKwdn5GeNSJKk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c/hB2fEvcG+6RZNpr/s6XkrbGHi2nnOlO7ST22yp/I2kPHtO22gRc1NwULDxnYwBPYvHo6jka4MAjOIoYB5hLDkHkD2ZOyRLRQnlMfAHQg1VCNYVDoSvjenhhI5trHHJYvFfQBE5MpHuysH2kkR+VQqkjKtisDLdowkQLxSqUYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=UIgXAP4Z; arc=none smtp.client-ip=54.92.39.34
+	 MIME-Version; b=nHV9fgDXwStCRiFBSHOduYaxSInSP62kluOd9lQBmv7hirdr4eYYlqN9/29oCNNIWOBXIL1bIac28QtfDiOEFZyCFRk5u02vtkibepgZo4r67JLqH1D+Yp0nHlOvk2woqTGLhf0QBHwtzYHlRQp0BfQFvjRbEHmuBv4+1qf23s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=TY2F0cFK; arc=none smtp.client-ip=54.92.39.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="UIgXAP4Z"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="TY2F0cFK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1786006149;
-	bh=whvAXfqcI/2CG+KFaVGKysE7QcfBGYNfN6vsf1EJrf4=;
+	s=onoh2408; t=1786006154;
+	bh=jUyYmBTsmqs0n3Z9OLd2hHj4Q6AzdFTzYfegDmaEhuU=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=UIgXAP4ZZuNZi3YLaNO171bGHcX5h4lTy8Juci2etRv43J5Hj0Sakc6JAqURyfE6D
-	 pJ1dqDfgOsVtCNObJRQY5oA8GgJ21UvlStHKx4e3d4W4en0uQXvEUgfF6CEcrNeqwL
-	 9I7fhicZFFW4LEICPHiMIP46FeH3/sPEe8Uyn3J4=
-X-QQ-mid: esmtpgz10t1786006143tdf8f9d1c
-X-QQ-Originating-IP: uf6iFDgW7rDy3zzGqYADMSBmyCO/dnFQ3AfidrBp4r0=
+	b=TY2F0cFKeX61LRRhufNlwe6FQvycX2zlbQWxfwLrhR47N3DfJ/4NB5+CnKSKEgzca
+	 D6pDvJZIt9iLIjW0wYbMLLzsx6sxAlE7mBr9zp9xQjuPfwEI9lgGEJBypkTr7Nj0YU
+	 yWdzYZz97Vu8b8NDznF1aouwkS7Ld0q6TgS6+53M=
+X-QQ-mid: esmtpgz10t1786006148t22d80378
+X-QQ-Originating-IP: D2JFE83FYkgCrQbhtgVWxiQGpFIeUpgu08ldEDCPt7U=
 Received: from uniontech.com ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 06 Aug 2026 16:49:01 +0800 (CST)
+	id ; Thu, 06 Aug 2026 16:49:06 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14852656375599871192
+X-BIZMAIL-ID: 736460180246486777
 EX-QQ-RecipientCnt: 13
 From: Yichong Chen <chenyichong@uniontech.com>
 To: gregkh@linuxfoundation.org
@@ -46,9 +46,9 @@ Cc: rafael@kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v2 1/3] interconnect: debugfs: replace writable string helper
-Date: Thu,  6 Aug 2026 16:48:52 +0800
-Message-Id: <20260806084854.1019789-2-chenyichong@uniontech.com>
+Subject: [PATCH v2 2/3] soundwire: debugfs: replace writable string helper
+Date: Thu,  6 Aug 2026 16:48:53 +0800
+Message-Id: <20260806084854.1019789-3-chenyichong@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20260806084854.1019789-1-chenyichong@uniontech.com>
 References: <20260806084854.1019789-1-chenyichong@uniontech.com>
@@ -61,79 +61,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MuYB7VmwJPrIoa/Yjtkby4LraX6dUTqAslqsYpI4MVLZRepyVfoohM5b
-	4W1XGBjvT+10YkLPzM8aSlvz1hYMSblHtYER8k2IZtWqkxmu3LAK9hgVXXu/HFgeXNKzGo+
-	8bgs2CcYtEcOdsS0FHIPUkLghxqpb/eoVtt7NpTlTBrBGTTVEANM404EyvuWCyQi5qIikbd
-	1vpXx9aB6QcynlbrTgmj89BafuZpoPPc2j8Y+XrYscQNWeP2f+99wd/trkefkHCxMXqzqYJ
-	l9VGtIMULXp5P8UY+hqiJx0TzvrvL0E7xMZ+DLKA+RXEILLmxkkC0XPpT/0nhinIpDE6jM0
-	fPT7+7e6VnXPtSGyebZZ2ZeycpJFoJNVAtSDDpnUXK77tS5YktjyKLL5JqmMgq5NotrAiJO
-	gIbuwa4Drea5c28sIUuMy+mb+83gczVIm1UqlFNv/HhapFELU3rooNYxXCqC7hT5MTVQ2NN
-	tGLkrwRSwEwYJ8DbXfHYazPJsONY21SDSzOEkbVxf+e7FLihfnwZ/B+MyHdrHDHKIYqbdeS
-	tV166ivkx9FrDKc6uEAtURD2I4WDTTZPT4Si7dfHqDpeJf4xgcy1DAcR3Usgsw5AF10Ge13
-	0/h4O/ZiF3ZLMEs9UE+T3W9qxx+EQazG9hN8zhGF1i/bvvXYs1l8sTW06SGgJJs06U1PgxH
-	5e7ypsXvsUpuOdZZ6KVM1P34x7qnyRp3qGERu8geLJh0X4d1HJcXxMn81bV5iJtkBCLtQNO
-	Jw6al3B/4RvR8Y7lKZ/bJg4Npr2AKRcini9baqPFJBNuUgArXFPGxHxI95dcfVXMWV541KD
-	pZkTHGJr3HITusSlNs55it7+T8L02FqIslqhfZFBphDDuoN7qmyrr6h4Dln5D9vNaHSv7wW
-	tiypG9X3RScQwLydRjepEBrYAshJcKg/BZMhgII6XwmfE093fsRKMSe6ghGrVJu636LO8fi
-	2WSTbEDw8+7+hxHrzYedJWV/061HnbeF6wszZWSycsqb7JwB/RVHuhHNWTIbDcRcJQQYj7N
-	C7GEXZG5QWF/7/tNsdJVP1OOY6c7y2//Xdfd44uYuPjusQ0g5c
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-XMAILINFO: Mm/8i8/T4yneonnyiX7T3B4fEjZxZpO0mv8jmi4AE13nuEdSs9GAJldI
+	6QO/wG3SwO4i9LesVnr5pKWLhElxU2YiJG1C5vEvi6/J2oHMil6yiVQXbBawADcuwhEveS+
+	8fMmXVNvKqSaVIMIsq3DQ9Xinp4998OLye/ae1jkjyUF3X/4Q8jOOgIxl6LiqiU3GgE1rEP
+	xPL+C4sbhfUQtg240HmtmUmzUlLgQLQv7I/505D0xbp0L2B9pOrCto2rNau4XlkM7RppzAI
+	KKuxq6B6sVAHAvTy3O0MaC/alvg2lZwKYKsEWyEhK1/QikIEYyiqdRX8/O2ZnVp+n7rUORs
+	IGBGm2vjIqD1SoBUPgE2UMTQGWFxC1kR9x5CxB/v5OT6SQvPmN2TeUr47WUorT5wRa+EfQi
+	OCb110gp1pkOPV2tbVlwJoL5BSrhhRxg0j0lundRZVAVRHB26G7KQcD0p0zNHeXJYDSUeUS
+	gv8QuYogf1BFrRnDUeI246GoPT8DpQmnHTamAx9syl0NJJTVOJwGqrfPxQzZMEXN9NLA7up
+	eL7+j24uF0YKpbFt2LkEZCjFVR2uZDZFWVDc9v6OjlG8T/fZRpDgg7sxYc5mdi51eJhAYi4
+	E5hIC8RsDa/p1otcPDAj8ajxI+nW9HnpnpBTPOilNuCaxJqdlvvIQDItmYDXSiHe0RxvKeY
+	EF0WcwfbvqOUFvylvargqZLjU8H8JP25EGaPTJ3uDvrPYaeOyfDOwRE+MHPpqzq7nQSpa/J
+	wIfbn1PcU36sHwHJ3CDBGgtgfpeQTGtXwlP+zMAX+OgzNsZAGP5Q1ugFdEWZcaMWSiWFsb7
+	7XUznynjTmE67V7NqZECGag4EA/k+DF3WKv0IxpuwQnvQ1hzdL9W61ZmnMR03H85kdAVsRt
+	w6yDqizU/4G0Br2syz0sLcWYoU4Q/6swJbTslLDL//EzJ7Yl2etsQ624RmRIVS4OOA4M8Z0
+	uLjCInbFe5wAkHrFTo54diQsBI9rCmuCArhfBCQMg12M/V73ZbcZJtw/x79r1EKV64WDoGC
+	R4PIw2sJvcHPilRUImqDc3G1Q67WE=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
 X-QQ-RECHKSPAM: 0
 
 debugfs_create_str() is being made read-only because its generic write path
 is hard to make safe without adding more locking to the helper.
 
-Convert the interconnect debugfs client src_node and dst_node entries to
-local file operations before removing writable string support from
-debugfs_create_str().  Protect the string replacement and path lookup with
-the existing debugfs_lock.
+Convert the SoundWire firmware_file entry to a local write-only file
+operation before removing writable string support from
+debugfs_create_str().
+
+Copy the firmware name before request_firmware() so later debugfs writes
+cannot replace the string while it is being used.
 
 Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 ---
- drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++++-----
- 1 file changed, 62 insertions(+), 13 deletions(-)
+ drivers/soundwire/debugfs.c | 56 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 52 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/interconnect/debugfs-client.c b/drivers/interconnect/debugfs-client.c
-index 08df9188ef94..b71c25fd9314 100644
---- a/drivers/interconnect/debugfs-client.c
-+++ b/drivers/interconnect/debugfs-client.c
-@@ -5,6 +5,7 @@
- #include <linux/debugfs.h>
- #include <linux/interconnect.h>
- #include <linux/platform_device.h>
-+#include <linux/slab.h>
- 
- #include "internal.h"
- 
-@@ -36,6 +37,59 @@ struct debugfs_path {
- 	struct list_head list;
- };
- 
-+static ssize_t icc_node_read(struct file *file, char __user *user_buf,
-+			     size_t count, loff_t *ppos)
+diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
+index 099eb84a548e..bba2b65a0668 100644
+--- a/drivers/soundwire/debugfs.c
++++ b/drivers/soundwire/debugfs.c
+@@ -145,6 +145,38 @@ static u32 start_addr;
+ static size_t num_bytes;
+ static u8 read_buffer[MAX_CMD_BYTES];
+ static char *firmware_file;
++static DEFINE_MUTEX(firmware_file_lock);
++
++static ssize_t firmware_file_write(struct file *file,
++				   const char __user *user_buf,
++				   size_t count, loff_t *ppos)
 +{
-+	char **node = file->private_data;
-+	char *copy;
-+	size_t len;
-+	ssize_t ret;
-+
-+	mutex_lock(&debugfs_lock);
-+	copy = kstrdup(*node ?: "", GFP_KERNEL);
-+	mutex_unlock(&debugfs_lock);
-+	if (!copy)
-+		return -ENOMEM;
-+
-+	len = strlen(copy);
-+	copy[len++] = '\n';
-+	ret = simple_read_from_buffer(user_buf, count, ppos, copy, len);
-+	kfree(copy);
-+	return ret;
-+}
-+
-+static ssize_t icc_node_write(struct file *file, const char __user *user_buf,
-+			      size_t count, loff_t *ppos)
-+{
-+	char **node = file->private_data;
 +	char *old, *new;
 +
 +	if (*ppos)
@@ -146,67 +121,97 @@ index 08df9188ef94..b71c25fd9314 100644
 +		return PTR_ERR(new);
 +	strim(new);
 +
-+	mutex_lock(&debugfs_lock);
-+	old = *node;
-+	*node = new;
-+	mutex_unlock(&debugfs_lock);
++	mutex_lock(&firmware_file_lock);
++	old = firmware_file;
++	firmware_file = new;
++	mutex_unlock(&firmware_file_lock);
 +
 +	kfree(old);
 +	return count;
 +}
 +
-+static const struct file_operations icc_node_fops = {
++static const struct file_operations firmware_file_fops = {
 +	.open = simple_open,
-+	.read = icc_node_read,
-+	.write = icc_node_write,
++	.write = firmware_file_write,
 +	.llseek = default_llseek,
 +};
-+
- static struct icc_path *get_path(const char *src, const char *dst)
+ 
+ static int set_command(void *data, u64 value)
  {
- 	struct debugfs_path *path;
-@@ -56,24 +110,17 @@ static int icc_get_set(void *data, u64 val)
+@@ -246,6 +278,7 @@ static int cmd_go(void *data, u64 value)
+ {
+ 	const struct firmware *fw = NULL;
+ 	struct sdw_slave *slave = data;
++	char *fw_name = NULL;
+ 	ktime_t start_t;
+ 	ktime_t finish_t;
+ 	int ret;
+@@ -265,15 +298,24 @@ static int cmd_go(void *data, u64 value)
+ 	}
  
- 	mutex_lock(&debugfs_lock);
+ 	if (cmd == 0) {
+-		ret = request_firmware(&fw, firmware_file, &slave->dev);
++		mutex_lock(&firmware_file_lock);
++		if (firmware_file)
++			fw_name = kstrdup(firmware_file, GFP_KERNEL);
++		mutex_unlock(&firmware_file_lock);
++		if (!fw_name) {
++			ret = -ENOMEM;
++			goto out;
++		}
++
++		ret = request_firmware(&fw, fw_name, &slave->dev);
+ 		if (ret < 0) {
+-			dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
++			dev_err(&slave->dev, "firmware %s not found\n", fw_name);
+ 			goto out;
+ 		}
+ 		if (fw->size < num_bytes) {
+ 			dev_err(&slave->dev,
+ 				"firmware %s: firmware size %zd, desired %zd\n",
+-				firmware_file, fw->size, num_bytes);
++				fw_name, fw->size, num_bytes);
+ 			goto out;
+ 		}
+ 	}
+@@ -306,6 +348,7 @@ static int cmd_go(void *data, u64 value)
+ out:
+ 	if (fw)
+ 		release_firmware(fw);
++	kfree(fw_name);
  
--	rcu_read_lock();
--	src = rcu_dereference(src_node);
--	dst = rcu_dereference(dst_node);
--
- 	/*
- 	 * If we've already looked up a path, then use the existing one instead
- 	 * of calling icc_get() again. This allows for updating previous BW
- 	 * votes when "get" is written to multiple times for multiple paths.
- 	 */
--	cur_path = get_path(src, dst);
--	if (cur_path) {
--		rcu_read_unlock();
-+	cur_path = get_path(src_node, dst_node);
-+	if (cur_path)
- 		goto out;
--	}
+ 	pm_runtime_mark_last_busy(&slave->dev);
+ 	pm_runtime_put(&slave->dev);
+@@ -358,7 +401,8 @@ void sdw_slave_debugfs_init(struct sdw_slave *slave)
  
--	src = kstrdup(src, GFP_ATOMIC);
--	dst = kstrdup(dst, GFP_ATOMIC);
--	rcu_read_unlock();
-+	src = kstrdup(src_node, GFP_KERNEL);
-+	dst = kstrdup(dst_node, GFP_KERNEL);
+ 	debugfs_create_file("read_buffer", 0400, d, slave, &read_buffer_fops);
+ 	if (firmware_file)
+-		debugfs_create_str("firmware_file", 0200, d, &firmware_file);
++		debugfs_create_file("firmware_file", 0200, d, NULL,
++				    &firmware_file_fops);
  
- 	if (!src || !dst) {
- 		ret = -ENOMEM;
-@@ -160,8 +207,10 @@ int icc_debugfs_client_init(struct dentry *icc_dir)
+ 	slave->debugfs = d;
+ }
+@@ -370,8 +414,10 @@ void sdw_slave_debugfs_exit(struct sdw_slave *slave)
  
- 	client_dir = debugfs_create_dir("test_client", icc_dir);
+ void sdw_debugfs_init(void)
+ {
++	mutex_lock(&firmware_file_lock);
+ 	if (!firmware_file)
+ 		firmware_file = kstrdup("", GFP_KERNEL);
++	mutex_unlock(&firmware_file_lock);
  
--	debugfs_create_str("src_node", 0600, client_dir, &src_node);
--	debugfs_create_str("dst_node", 0600, client_dir, &dst_node);
-+	debugfs_create_file("src_node", 0600, client_dir, &src_node,
-+			    &icc_node_fops);
-+	debugfs_create_file("dst_node", 0600, client_dir, &dst_node,
-+			    &icc_node_fops);
- 	debugfs_create_file("get", 0200, client_dir, NULL, &icc_get_fops);
- 	debugfs_create_u32("avg_bw", 0600, client_dir, &avg_bw);
- 	debugfs_create_u32("peak_bw", 0600, client_dir, &peak_bw);
+ 	sdw_debugfs_root = debugfs_create_dir("soundwire", NULL);
+ }
+@@ -379,6 +425,8 @@ void sdw_debugfs_init(void)
+ void sdw_debugfs_exit(void)
+ {
+ 	debugfs_remove_recursive(sdw_debugfs_root);
++	mutex_lock(&firmware_file_lock);
+ 	kfree(firmware_file);
+ 	firmware_file = NULL;
++	mutex_unlock(&firmware_file_lock);
+ }
 -- 
 2.51.0
 
