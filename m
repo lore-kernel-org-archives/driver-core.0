@@ -1,233 +1,123 @@
-Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729DF3DB31E
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 06:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65EA3E008A
+	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 06:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785997332; cv=none; b=kbbE8Tv6tCpYFKAyGGWFR/SWzGbmaUqMHc9PldUFfavZWSYPs9mxNKSjCpPrEJ3Hv9mOYgaU1NGaQWijN/jSIaOhc3tMU/6r01HZsbaw22FnbngsnCLf4oKJj8n7/C31+Z6oGBhMfsCBzKKTyi1/PU0eoEYYB3lW/U/AJfVv2vc=
+	t=1785998501; cv=none; b=aT3xDit4C31mxH+rYYJUBq0qdwcNay9rYi+u1T8qc7WJMiOEquXpdrqLf9L827Yx4hiW97zR0Vq0Dko3gCjppUtQnKLB2aol3I6ulO0+ib+m5olDvgRCv8qB4kcROuX8+WT7A/vl39NQZZyUccTDSFRZyyHYxuCvfhOWkZA7yKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785997332; c=relaxed/simple;
-	bh=/4VEb4lu7jJv1J2369j6uGurfX24GvQlqc0cDhlc6pI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iPjPBJe61IH5X7p4UFT451y6JhsNslvm8dAw9U9RPaPoAOLUmiHGDU5cigXjTuzPwk7UomO/nnfIBhlFhhbTPws2Q6t7GQ77zeE9kKjDA6uTek5/8ecwDqzBl2/6TLpkvqJN0aDDOoLUiSioIVkipVGA9RbHuBo3XqcDUt9xUVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by linkmauve.fr (Postfix, from userid 1000)
-	id BF80270A28AC; Thu, 06 Aug 2026 08:22:08 +0200 (CEST)
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: rust-for-linux@vger.kernel.org
-Cc: Link Mauve <linkmauve@linkmauve.fr>,
-	Ethan Plant <plant.ethan@gmail.com>,
-	Michael Garofalo <officialTechflashYT@gmail.com>,
-	Ash Logan <ash@heyquark.com>,
-	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH v2] rust: io: Add a BigEndianMmio wrapper
-Date: Thu,  6 Aug 2026 08:22:04 +0200
-Message-ID: <20260806062207.3024012-1-linkmauve@linkmauve.fr>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1785998501; c=relaxed/simple;
+	bh=CfNRJZeZmqs+vpmkTIy+iPYiZj1ZA6vbNYOB8IJb70g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=MN6syKsuYC1rLz+4QYuKjnPPjjzUE5wgYnSVA+l/bhHGJYDwbSElU0U+SLCeLaY9B7sJg8gwV9FsKGZM/zYsqQ/CJKRnzZTMFvTWndxeFjI60oTfb6V0wiOpy4Oe7YpSXu7PWpDaLoHOJbKyueORUe99n4JFmjB2lEcfpJT6ncM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s1+GXoFN; arc=none smtp.client-ip=209.85.218.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s1+GXoFN"
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c160e8957d3so160244366b.0
+        for <driver-core@lists.linux.dev>; Wed, 05 Aug 2026 23:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785998498; x=1786603298; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=US1i/tRbzF6S64ni7H83o50wYD7eH+0GOV1v3nMXlH0=;
+        b=s1+GXoFNpfJdYIx5MY1jYGa/O/FwuHiunaho8dRrUHEbt1jem7C0DeYLbeXsQHumJy
+         +2gKOROl6aPCp691bgCOLuOWveBWfL9CDYo6KjnDADmXh6X6hVmAMd85WoYYGhp8rCnQ
+         /Z/ZVLmuGwjDQlYku7Q4dnKs1jEjDnz6Kbd34/nVd4GR4DqncqH93lj6MGbN31ClUUdx
+         WaOYEivhdFv/agv678b1vEHFEycUprjE9mausn4HR4iqiBLg58luOviFHYQmi/mUnl1V
+         mNsvy/o4gdaU4r5R/xAJkXeaYe+7Xr2KV2Dp4jZThjuxKnxovf1LeDltvYKA5H6SSFwt
+         dAOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785998498; x=1786603298;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=US1i/tRbzF6S64ni7H83o50wYD7eH+0GOV1v3nMXlH0=;
+        b=QLM91BK6Seb8GGZNJEOEJJuNUpdfPqjV/8e+BSRw3Qr4XkHSP2u53P405L6bkIOsoZ
+         ZE1Tv6bxDWRJTMJpeyiSicb98iUJJDcKHijy/A8OpTTbcGEjqdq1geyMT0q69vnvBk4d
+         0NLEn6izqYLcJanhTynsOs/vpMH8rcLRu79X5/lqzmMXTTfZO87RGMzVpUc4LOzyG+ba
+         NIfGle/Tg/79vP0j4QKMMLedP500Ja813imQGntd8kyDwti8XJDMcksaTlg50ofQgfyb
+         1jwPchzsyK089WZJi5Sk7S0KeDYpxp/WVFP5i2venYtNsOtv+655FiP1NT2Ne2Os/ZNp
+         wITQ==
+X-Forwarded-Encrypted: i=1; AHgh+RonTsyZwqmu9T67B8SUIC+VBN7Ro5E6vCbw7q+2J0ntfZegqXaN1YuQr1ald66s0vUMbD9EfH9uwu6b0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2LdFD8XNuDxbpfVRTY8rNRjfZb3Po/HAvp1bRx1m3Vmred8A8
+	4Op0JAciaujKX6Ueo77yUYSZPo04HL4dqgqFzmheBYXoZPQ4YgbNnHvAsdCiqlUCb4vdIRGrzn0
+	IuJQBXIXkzUZLk7SiYg==
+X-Received: from edbdm10.prod.google.com ([2002:a05:6402:22ca:b0:698:ac87:5b65])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:1f47:b0:698:3602:d0d with SMTP id 4fb4d7f45d1cf-6a14f252b49mr6344045a12.17.1785998497864;
+ Wed, 05 Aug 2026 23:41:37 -0700 (PDT)
+Date: Thu, 6 Aug 2026 06:41:36 +0000
+In-Reply-To: <anHarTAFv-c4qx4h@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260721153617.869933-1-beata.michalska@arm.com>
+ <20260721153617.869933-2-beata.michalska@arm.com> <anGfGWWxiuZj4i2U@google.com>
+ <anHarTAFv-c4qx4h@arm.com>
+Message-ID: <anQsoIbL6dGWmzbL@google.com>
+Subject: Re: [PATCH v2 1/3] rust: add runtime PM support
+From: Alice Ryhl <aliceryhl@google.com>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	tmgross@umich.edu, daniel.almeida@collabora.com, 
+	boris.brezillon@collabora.com, work@onurozkan.dev, samitolvanen@google.com, 
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-This allows the user to read from and write to big-endian MMIO devices,
-such as those found on PowerPC systems.
+On Tue, Aug 04, 2026 at 02:27:25PM +0200, Beata Michalska wrote:
+> On Tue, Aug 04, 2026 at 08:13:13AM +0000, Alice Ryhl wrote:
+> > On Tue, Jul 21, 2026 at 05:34:02PM +0200, Beata Michalska wrote:
+> > > +define_pm_ops!(
+> > > +    // PM state change
+> > > +    runtime_suspend,
+> > > +    runtime_resume,
+> > > +);
+> > 
+> > I think using a macro to define this trait is overkill. Just write it
+> > out:
+> > 
+> > pub trait PMOps: Sized {
+> >     /// Type of a bus device
+> >     type DeviceType: AsBusDevice<device::Bound>;
+> >     /// Type of the data associated with a PM transitions:
+> >     type RuntimePayloadType: Send;
+> > 
+> >     fn runtime_suspend<'a>(
+> >         _dev:  &'a Self::DeviceType,
+> >         _payload: Option<Self::RuntimePayloadType>,
+> >     ) -> Result<Option<Self::RuntimePayloadType>, (Option<Self::RuntimePayloadType>, Error)> {
+> >         build_error!(VTABLE_DEFAULT_ERROR)
+> >     }
+> > 
+> >     fn runtime_resume<'a>(
+> >         _dev:  &'a Self::DeviceType,
+> >         _payload: Option<Self::RuntimePayloadType>,
+> >     ) -> Result<Option<Self::RuntimePayloadType>, (Option<Self::RuntimePayloadType>, Error)> {
+> >         build_error!(VTABLE_DEFAULT_ERROR)
+> >     }
+> > }
+> > 
+> > This is a lot easier to read.
+> It is, though there are more collbacks, that I would expect to be added at some
+> point, so macro is just to avoid several code blocks that would only differ in
+> function name.
+> But I do see your point.
+> Happy to change that if you still believe there is no much point to it.
 
-The implementation is pretty much a copy-paste of the RelaxedMmio type,
-with the business logic changed.
+I generally believe that for traits such as this one where end-users are
+likely to look up the definition, it's much more important that it's
+easy to read when you look up the source, than it being easy to write.
+Therefore, I think it should not use a macro, even if there are many
+methods.
 
-This has been tested with various WIP drivers on the Nintendo Wii, and I
-thought it would be nicer to upstream it before those are completely
-ready, to get some review.
-
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
----
- rust/helpers/io.c | 34 ++++++++++++++++++
- rust/kernel/io.rs | 88 +++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 120 insertions(+), 2 deletions(-)
-
-Changes since v1:
-- Link to v1:
-  https://lore.kernel.org/rust-for-linux/178598049138.1212746.2443151507074972963.b4-review@b4/T/
-- Fix copy/paste mistake in backend docstring (thank you Ethan Plant!)
-- Fix safety comment in macro documentation.
-
-diff --git a/rust/helpers/io.c b/rust/helpers/io.c
-index 7ed9a4f77f1b..3bbb86a00d67 100644
---- a/rust/helpers/io.c
-+++ b/rust/helpers/io.c
-@@ -120,6 +120,40 @@ __rust_helper void rust_helper_writeq_relaxed(u64 value, void __iomem *addr)
- }
- #endif
- 
-+__rust_helper u16 rust_helper_ioread16be(const void __iomem *addr)
-+{
-+	return ioread16be(addr);
-+}
-+
-+__rust_helper u32 rust_helper_ioread32be(const void __iomem *addr)
-+{
-+	return ioread32be(addr);
-+}
-+
-+#ifdef CONFIG_64BIT
-+__rust_helper u64 rust_helper_ioread64be(const void __iomem *addr)
-+{
-+	return ioread64be(addr);
-+}
-+#endif
-+
-+__rust_helper void rust_helper_iowrite16be(u16 value, void __iomem *addr)
-+{
-+	iowrite16be(value, addr);
-+}
-+
-+__rust_helper void rust_helper_iowrite32be(u32 value, void __iomem *addr)
-+{
-+	iowrite32be(value, addr);
-+}
-+
-+#ifdef CONFIG_64BIT
-+__rust_helper void rust_helper_iowrite64be(u64 value, void __iomem *addr)
-+{
-+	iowrite64be(value, addr);
-+}
-+#endif
-+
- __rust_helper resource_size_t rust_helper_resource_size(struct resource *res)
- {
- 	return resource_size(res);
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index a38c20ba3d23..ab8b7864298a 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -1194,14 +1194,14 @@ impl IoCapable<$ty> for $backend {
-             #[inline]
-             fn io_read(view: <$backend as IoBackend>::View<'_, $ty>) -> $ty {
-                 // SAFETY: `$backend::as_ptr(view)` is a valid pointer for MMIO operations for both
--                // `MmioBackend` and `RelaxedMmioBackend`.
-+                // `MmioBackend`, `RelaxedMmioBackend` and `BigEndianMmioBackend`.
-                 unsafe { bindings::$read_fn($backend::as_ptr(view).cast_const().cast()) }
-             }
- 
-             #[inline]
-             fn io_write(view: <$backend as IoBackend>::View<'_, $ty>, value: $ty) {
-                 // SAFETY: `$backend::as_ptr(view)` is a valid pointer for MMIO operations for both
--                // `MmioBackend` and `RelaxedMmioBackend`.
-+                // `MmioBackend`, `RelaxedMmioBackend` and `BigEndianMmioBackend`.
-                 unsafe { bindings::$write_fn(value, $backend::as_ptr(view).cast()) }
-             }
-         }
-@@ -1751,3 +1751,87 @@ macro_rules! io_write {
- }
- #[doc(inline)]
- pub use crate::io_write;
-+
-+/// [`Mmio`] wrapper using big-endian accessors.
-+///
-+/// This type provides an implementation of [`Io`] that uses big-endian I/O MMIO operands instead of
-+/// the regular little-endian ones.
-+///
-+/// See [`Mmio::big_endian`] for a usage example.
-+#[repr(transparent)]
-+pub struct BigEndianMmio<'a, T: ?Sized>(Mmio<'a, T>);
-+
-+impl<T: ?Sized> Copy for BigEndianMmio<'_, T> {}
-+impl<T: ?Sized> Clone for BigEndianMmio<'_, T> {
-+    #[inline]
-+    fn clone(&self) -> Self {
-+        *self
-+    }
-+}
-+
-+/// I/O Backend for memory-mapped I/O using big-endian accessors.
-+pub struct BigEndianMmioBackend;
-+
-+impl IoBackend for BigEndianMmioBackend {
-+    type View<'a, T: ?Sized + KnownSize> = BigEndianMmio<'a, T>;
-+
-+    #[inline]
-+    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> *mut T {
-+        MmioBackend::as_ptr(view.0)
-+    }
-+
-+    #[inline]
-+    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownSize>(
-+        view: Self::View<'a, T>,
-+        ptr: *mut U,
-+    ) -> Self::View<'a, U> {
-+        // SAFETY: Per safety requirement.
-+        BigEndianMmio(unsafe { MmioBackend::project_view(view.0, ptr) })
-+    }
-+}
-+
-+impl<'a, T: ?Sized + KnownSize> IoBase<'a> for BigEndianMmio<'a, T> {
-+    type Backend = BigEndianMmioBackend;
-+    type Target = T;
-+
-+    #[inline]
-+    fn as_view(self) -> BigEndianMmio<'a, T> {
-+        self
-+    }
-+}
-+
-+impl<'a, T: ?Sized> Mmio<'a, T> {
-+    /// Returns a [`BigEndianMmio`] reference that performs big-endian I/O operations.
-+    ///
-+    /// Big-endian makes no change to 8-bit accesses, but will invert the bytes of 16-, 32- and
-+    /// 64-bit accesses, to ensure numbers will be read in their correct order.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```no_run
-+    /// use kernel::io::{
-+    ///     Io,
-+    ///     Mmio,
-+    ///     Region,
-+    ///     BigEndianMmio,
-+    /// };
-+    ///
-+    /// fn do_io(io: Mmio<'_, Region<0x100>>) {
-+    ///     // The access is performed using `ioread32be` instead of `readl`.
-+    ///     let v = io.big_endian().read32(0x10);
-+    /// }
-+    ///
-+    /// ```
-+    #[inline]
-+    pub fn big_endian(self) -> BigEndianMmio<'a, T> {
-+        BigEndianMmio(self)
-+    }
-+}
-+
-+// MMIO regions support 8, 16, and 32-bit accesses.
-+impl_mmio_io_capable!(BigEndianMmioBackend, u8, readb, writeb);
-+impl_mmio_io_capable!(BigEndianMmioBackend, u16, ioread16be, iowrite16be);
-+impl_mmio_io_capable!(BigEndianMmioBackend, u32, ioread32be, iowrite32be);
-+// MMIO regions on 64-bit systems also support 64-bit accesses.
-+#[cfg(CONFIG_64BIT)]
-+impl_mmio_io_capable!(BigEndianMmioBackend, u64, ioread64be, iowrite64be);
-
-base-commit: 1701fda2f58e345c050f4309971bdc07cd6146ba
--- 
-2.55.0
-
+Alice
