@@ -1,87 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703C422D7A9;
-	Thu,  6 Aug 2026 22:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786056525; cv=none; b=aauCNx6XfcXc0UnNPSxHpzMOSwCwqOgYXHwwT5Ra2kxq29qMyQONNMj7fmygOur/k/dS1gb/PHoPSFvcpU+FLj90K2ohTuqdsAorPljEWezm5EB3efcTXNESp/CWfzUHtrAFAyjezOfiBmMVrI1Wbzrr7VuWfJ6TOdi8YG2AdxE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786056525; c=relaxed/simple;
-	bh=47MhhO47gY+JH2sPUWtshEZPSr4hnFXUniWpt+7sZ4E=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=gwS22U1XR5zMyqzwqeh4UPXX/LhbHcVEA8+hBuvNbQNntlhmmlwlsfLZCCn4wv7oootusPzHlI3v2L0905+PEdNKtIJ9Y0lLu1ZQQJnSPXliaZuLT0dxkOmXC7fh8y77FocAZ1a6mYDBElzMcu7MpA3d2iYPj+OfyyH09hrKk0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Y/hkOxsi; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474D64B048F
+	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 23:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786060301; cv=pass; b=l6DW4OPGCgaVxbjqBJ7VD8f8hX4OosjEUwcpMK/vehWRodENxOOapQzQXQDxu744t/m8Sld1wFXq/OULsECsQsgHcLLmgOyQlcwoxrxqoc0VlxP5rSUlRYwG3HT/LoqrYE7xPsYeM0XrmHF7/o2v92xBZcnbif8EZiUjJDBpBxs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786060301; c=relaxed/simple;
+	bh=9ApL3yvbJJoPDqNBc5nPKZMb4VSNnNUverpXTK53g9Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PVJe6ENB7UQqGeZSJRQkI3o8gyp43cEVikhS+C2pwnHZiq8eNoYJWKSJMh3qZJapn+1CYYzzVwxkcOD/uRg1MT7RsnE9daTI6X6n/abnIJTa1WkixMV+BuwazSNrzVsEx2ewxgsY4H4BWXOeDxvu+qCCCpPUP1L8cAXToMmtaI4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2LdQUtr; arc=pass smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Y/hkOxsi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CFC1F000E9;
-	Thu,  6 Aug 2026 22:48:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2LdQUtr"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15cb6f5c12so456351066b.0
+        for <driver-core@lists.linux.dev>; Thu, 06 Aug 2026 16:51:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786060298; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rZIg99JDaSE3E/UCGl3IGXPBgDQqHTNt6vWL0XBjefgmPxnqkrVhM4wWXqUfvV+9sJ
+         P8sbaB6Jkj/9qwFatIxXy/J+BsTKe2SJGEdXowaojOHCZCtJ2WLK6koSOGAxucHBtQsI
+         3BE/mcnAmwt8SF0vDu2aL6zjQ7+ATMfoGY82n0pttdrwB6V5bxmIMvXW1tf1Zyu8X8HL
+         jTtmejfjJipYfw25C92bgSA6py+m8FbcSWjh0Q4Y7/OpZ6ktvdHN3CC6i+XNG9yyJSWm
+         ZmtgOxbF98sfkalqJw/foo6/vdNOfUjPnL5oVtCtm0LO41LnhTu4KX+dVg3oNRa/BJY6
+         yfoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9ApL3yvbJJoPDqNBc5nPKZMb4VSNnNUverpXTK53g9Y=;
+        fh=t6x2qQxJcBOVAv2WfMg40r2ge17MY2OtsCA5olkXKII=;
+        b=Ae0Wrfv0wo1W6D13E3p3tjbzDx8VNCpgaP0e9g/6b61kUscLOI2gn6TApltARuYjcU
+         5UXlVxWx/VZpyvTC4ulDS1TGFe0DywjTunyBFrpTbwk6ujCgyye2AD11kcL+VxJzd7cP
+         aLYhv514YnzOTYWnUheoSfm/7qdz4/l8xsJPOBrAjn9pL6LLt65ntICCayhQEUFZz2cD
+         tMcmWXLNSKhh6uWAjIsPI/I9dPZjyCCeViim7unZrImIxL3IPxBAVnl9ylIfZoy1sf8p
+         LiPpljob4tRd2XfGCtSYYNAQjoPkczFPIYmEX12H9SvWd1yDidjmfJuBgCxm3gk2CUeN
+         D/xQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1786056524;
-	bh=aKWps21C2vpIWj/xL3lTP3KBe8XdUi+jDN1FX8vkfyI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Y/hkOxsiIyXqvny+I6euy/SH9J9Y7PfvaVvzz4ktCdEuX4pKj6zPoGgBWZ5XftV5k
-	 TJfDirsMpGdI8gmczhDD0jw9OYPO5/iIRZkpzwjANRXqfSxsf443+QOpy/gnslQp/t
-	 soLmaACg6qvULyVpdT1asWMzpnJCBRCNU+SfzJlM=
-Date: Thu, 6 Aug 2026 15:48:42 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Catalin Marinas <catalin.marinas@arm.com>, Danilo Krummrich
- <dakr@kernel.org>, David Hildenbrand <david@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, Will Deacon
- <will@kernel.org>, driver-core@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] drivers/base, mm: move arch_numa.c to mm/
-Message-Id: <20260806154842.9faab19cdfb7cf09799d8f79@linux-foundation.org>
-In-Reply-To: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
-References: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20251104; t=1786060298; x=1786665098; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9ApL3yvbJJoPDqNBc5nPKZMb4VSNnNUverpXTK53g9Y=;
+        b=K2LdQUtrowMk9K82lNOxF5uEOT9hqo3A24uENMumrcm8LeOkS7v/0alBlmnawxkMSk
+         r1tsEvXk4/mE6lNcMV4/JsppJHEhou1GHI5bwAHng8VA66wem7kJfNcoVejRS+ZElQ7y
+         PcEpFNybFDebTpVkfZUCA9fdmzTuusf1Neo6OKY+Sj01+w3DTWibbFvJT845sXPkfbTO
+         S5UvxiNokEpEikQdKLRr2VHZZKdMaqR7TFLEJdMp6rU8Faz1aXJscm7R/GO/5TJNkQp1
+         M0ywQfrmbWmgh1rv6juHbIMDAfs5/SYkjvC0rmv+XxRHhAewoA8DlSCApBFrkxKgPTM8
+         rMVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786060298; x=1786665098;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=9ApL3yvbJJoPDqNBc5nPKZMb4VSNnNUverpXTK53g9Y=;
+        b=Jl0KZiqNymdJauyLY19gES6GajBzyTKLOlC9Uy/TAJsf+OblmpFSwFL2prsXqQbubv
+         s31EMKInXdvhefmIVlqJOwY0YnG0pdZYMeLZlbnrkrZXcgG6Kulqh5BCZN4qDIDIbfiD
+         ob8f9AmLB2b/spN23mgyOIHhcEurF305DjWnjWwIzL7cJMG6kfjCqbME+8YK4sR0Rczh
+         1fqoaQGDyLiuRufbPS+uOuXDxQOzG2aZJN+zQ511fTL78qswKdPnPhiCfCwvpQZ3k9BK
+         5wSPoMkuSHkGxytzSd1AFeREXtz4S14mUYySzpwdiaNwCpbwYPTZZzuIZJl6vHlWvZtp
+         1k8A==
+X-Forwarded-Encrypted: i=1; AHgh+RqULHzEpwSIQkoBHz8LwB1jDIILcMpUFep6LYtvxiJsW3VSV9Insg7PmwDmR4IqS+6bY2BpiNIN3WpT3g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWuzWCf4gLQzA9m05jWBLYzJx0MCDLzMKMRPijHQlY5MTA5JLP
+	zPoRmWB1BhNuKWMSkUprtVJvXVstTK+Sw3VlkvcAevfPDQHOtO3TUcW/zj6BzpTB8GcOMBSr43g
+	Yom8cVNoD/cxmiyU80a/e75dWjyou4Bs=
+X-Gm-Gg: AR+sD11xH7aBy7lFE1E3vbdA+A2IRFy6+KYlEfOkoMurG+qscvGfc+s6GTDVRHABhMA
+	zuseWTEZs5VClDl13XD0dvK+nyTkkvefn9fW9PfmaVzS+S6OAkANSy6tmyc4ds7lPTdrYw7QtFx
+	GmZTkpalblApPJy52vP+x5FRIfxGC0Sfnr0HqlUcPAsEpJsReXLp+O/ef9Q62qwLJh54ZKABnm5
+	VIFExmjQ/+HCESnpswKzi8Yackh6ONOQ1lI/ObFq9NBQdSuANRS6wghpzzTy8kfTAw6xofaXXdx
+	S1E+OCFfUrocw4/aMx3a4yCncJP8v5HzryJhAoTBjLeFSqtfCV35YoTt1cieS0RZYuD5yK+h4PQ
+	Y/t0yTMjJ7g89pxgg40VjdsxTb5U=
+X-Received: by 2002:a17:907:9301:b0:bec:64d4:3872 with SMTP id
+ a640c23a62f3a-c2039ec8d14mr800060966b.24.1786060298177; Thu, 06 Aug 2026
+ 16:51:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20260803012941.610268-1-dbgh9129@gmail.com> <DKI6VHVGQVRX.3JWQYO4QAPJC3@kernel.org>
+In-Reply-To: <DKI6VHVGQVRX.3JWQYO4QAPJC3@kernel.org>
+From: =?UTF-8?B?7LWc7Jyg7Zi4?= <dbgh9129@gmail.com>
+Date: Thu, 6 Aug 2026 19:51:26 -0400
+X-Gm-Features: AUfX_mwSBb9X-7UvOW6ar4fqMPQwM443KD6rJinu9CP2SEGBDxjl_e42b-N3_kA
+Message-ID: <CACrCO_XKqZ=tgfnpD6uVxTG2=PMJd8g0hPXy=BC-ma=-Ae7wPw@mail.gmail.com>
+Subject: Re: [PATCH v1] firmware_loader: Unwind initialization on sysfs failure
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, nixiaoming@huawei.com, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 06 Aug 2026 09:58:38 +0300 "Mike Rapoport (Microsoft)" <rppt@kernel.org> wrote:
+On Thu, 6 Aug 2026 at 17:46, Danilo Krummrich <dakr@kernel.org> wrote:
+>
+> Those are two separate issues, so it should also be two separate patches.
 
-> arch_numa.c implements boot time discovery and initialization of NUMA
-> topology on architectures that select GENERIC_ARCH_NUMA (currently arm64
-> and riscv).
-> 
-> Since this is step in the initialization of the memory management
-> subsystem, it's logical to have arch_numa.c in mm/ alongside numa.c,
-> numa_memblks.c and numa_emulation.c.
-> 
-> Move arch_numa.c to mm/ and add its F: entry to "MEMBLOCK AND MEMORY
-> MANAGEMENT INITIALIZATION" in MAINTAINERS.
+I appreciate your time reviewing this. I'll send two separate patches.
 
-Unclear what tree this is targeted at.  I grabbed it.
-
-
-mm-stable does have this change:
-
---- linux-7.2-rc5/drivers/base/arch_numa.c	2026-07-27 04:44:55.000000000 -0700
-+++ 25/drivers/base/arch_numa.c	2026-08-06 15:47:59.019918702 -0700
-@@ -231,10 +231,6 @@ static int __init numa_init(int (*init_f
- {
- 	int ret;
- 
--	nodes_clear(numa_nodes_parsed);
--	nodes_clear(node_possible_map);
--	nodes_clear(node_online_map);
--
- 	ret = numa_memblks_init(init_func, /* memblock_force_top_down */ false);
- 	if (ret < 0)
- 		goto out_free_distance;
-
-
-which is easily handled either way.
+Thanks,
+Yuho
