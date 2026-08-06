@@ -1,113 +1,152 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E072391E4E
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 15:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC09647CA9E;
+	Thu,  6 Aug 2026 15:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030113; cv=none; b=NElFZTaRTPMpo6Mwa/xRBp2/55GSFHdNP8UdepXET/pctLJhGlVWeD4WoB2ZyHW1uMHxuzMyrXlKAXnHpJkDXuVGcphDLnWBjhFi3XL5q5LzTmoro/ST/ZZ5RxEQxP4b1bXRShW3TWdkC0pDDRLG+WhRoaM7n1VIm6I+WyIt9DM=
+	t=1786031255; cv=none; b=tHmBP54CbeuGefkrEOK2L4BtNVJys4oS/A6BxpnZvnegyLZw2hGOBxa8wTcm9sB1z2TaDbD6+YSULNl3IcoOmlF2HWflXnvSKhiV5D6nAQsWtyqaePzlub0PjhRN8aPV4ESobCYt6Kpk93Qdwy6Ydwbyw7aXUjcyeq22uLtaz3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786030113; c=relaxed/simple;
-	bh=sSOMPBG4fiWze6IAdyKEgJOvNuDwNVHf2DlIvHsEtKk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GFXh5tm7CSvVAJvQWx55yl6EvoI/HoYRa5I1u/ZjooWE426j/oUmRRealaIwsO/xJz369rxwWDEgUIsEIfkkPoSvPePh230Y+HoaNTvNZo9mjt+YaxmsqHfBCqfhTf4QV7PVFebcUcCgJNd5hKUpTCnTKsHJtfLyw6bAqe9SByU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-81ecf499af9so34266377b3.1
-        for <driver-core@lists.linux.dev>; Thu, 06 Aug 2026 08:28:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786030110; x=1786634910;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ohZ39jK4R7nHBsxWJDOlT0sMAW4jJSovzDHcfJTHmAg=;
-        b=LWJy7x+4nBHZX1RJ1nEyt/4PvL2LfF1CkwoNtAeS/HvxJOcungMgZ8utkHX0IYEuUO
-         Csq2QblUf3thRNVllsLiJfKasP8SDCm+bnCy3PqSJamK5Q/lXdSiQy1eN7quTmYb0iJa
-         8sPsKgF7Qss90dCr3FJvEptjxr9I3MH5LVyBJLLaQYE9x/iKa2VELFvrBhN6garPPZ9g
-         y4Q/iq14/4+9ixN5xJpTkbc2xW/rgMRlp8wQbw8bdGeMOKXcIcD8eSO0HESC2M2hZaco
-         YPCbzZ1OGHm+2BquKqxOQS89KinyBuVSLSJbh+Wy5HCw04aD8OqpnvmtH80qK6K/sMKV
-         8R+A==
-X-Forwarded-Encrypted: i=1; AHgh+RowsIkuUrqV6HJ+eueDFzFmT4WvO05ZZs6mIC+v8x7PgPwLS/1dAKTvRYIwsYQc/G2Iiwh5qTH676SZUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZStV0wOzeJ//9N2ALzCHGCi983a4dkUhc9mRwa/Wr0MONxHSl
-	KoY3Y/nhDn20YSI8pVWuFJfzrvNwxVuDzArjvRugI8GU3eallSoRgauIlVuxgl3R
-X-Gm-Gg: AR+sD10+TMEMTArPhqNDznFNnV4EOLoeDOXX3O6I9p1WBmZng3zlQhfPlqWeMAdDWbO
-	OgJCvhEWfzdtuO248d/c5tMVxiAuZT5hX1CwfSuS247SZVnvJync5z7YOisL9K1B6i7KtavwaTM
-	zdbttPHceJlor7Rk89R8QtoiUUjaGotTgJMgwJ2kcBNihEX5OpGyq43y4L2jc/s3CDKFoHccjr7
-	PtWkjmesqTZzquEqYkcEqKoF6P1ij1yatlGmw4C+WzRYryVWzW+nIVOhwjtiVxjTrcpB6fiHaAu
-	q5UsplRnRAkdMajrnxd7aek8MapWrIlkz0eX6Wr5tUOj92SFZ1KMLfezkBtMNIPYsOruvL9yi8c
-	qS724DYv5B3A/1tLtr9Cg0yHg1LYbSpXHDNNmRvsTdpx2orC1MDEXtlj0sA8X4hsUnDItFZPaeg
-	VJOH9+0b+LoOu7ueo5N45GsP3VoJW4bybUNdEHtuVJLJIVzV80gnwX5BndXFporMUCaqZ0fYb7n
-	wDM40JYIgsNgWAX/XuGdUmLEKUCv/64OUAd3AyU
-X-Received: by 2002:a05:690c:6c85:b0:814:651e:a553 with SMTP id 00721157ae682-820224cc826mr89019137b3.28.1786030110575;
-        Thu, 06 Aug 2026 08:28:30 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8201326bb32sm40754217b3.21.2026.08.06.08.28.29
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2026 08:28:30 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8201447e8cdso38598497b3.3
-        for <driver-core@lists.linux.dev>; Thu, 06 Aug 2026 08:28:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq+CKWeZFjdC09k0iKzo44SjQY1GH/k0vVV7dLtRqVCYTvHpUFIIjLrJJx/fHioCxUqy/w61dudYz9K7w==@lists.linux.dev
-X-Received: by 2002:a05:6102:2b83:b0:738:133f:8d5e with SMTP id
- ada2fe7eead31-760ea747b4emr4930162137.12.1786029696259; Thu, 06 Aug 2026
- 08:21:36 -0700 (PDT)
+	s=arc-20240116; t=1786031255; c=relaxed/simple;
+	bh=muDwzzn9UV/m6uBLB6bapZR7YmEITPaEzs60CwRPK1o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=cEZQNBvFwJorDAONFjWnLJ+tHXBLWkbJUQ+Gu9lwTy8ax1kfIc3c9vz+XvJRkeFshOxivGlw6qxcoIWyd2gr+OImYqyuqtAQ+GwVWnpKOKPL/FougnBsKUOQMI3II48crvaG7FAHm0SimQbdSxLyMATNPB+bigpRu54/TEFZxKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YV2A4LQP; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YV2A4LQP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49F0F1F000E9;
+	Thu,  6 Aug 2026 15:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786031253;
+	bh=z1A3EmIIWJRb0d1uGxhHbE0Quaai0/yh/grVQbttDBI=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=YV2A4LQPx81u0J/lp+6T7yqPT2VGRhug2TsHjfhvR9xlc6gCRfdO+YLvMwuuSzTnU
+	 Zqu3mdKi8ljXbf6yjGC+vr1vvq/9artgRjGLNjpK/dt6Lz9fxGa3Pik5rNDISGseha
+	 CGqt9ynh8KHFF+EKdW/OaRyhFNDTYwvpk6aJXqZqND6Y6i+eOHlP/8GE1oFBv4tG5h
+	 iKRMt8968tP5nC+SugYa/9TjDU6z8z5ImFY/GBW3eTFeIl5azhdjPTx+1PiFOZy+Hw
+	 bxb1nPvzAR2AT9xyT/PX8/U9cNx2NfUtyyGPClMp5HijDbRu/OPVLF1Nbc4Jr4Voj0
+	 3jqpo6apFapow==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260803180931.97202-1-ojeda@kernel.org> <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com>
- <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org> <20260804071330.24760Aaf-hca@linux.ibm.com>
- <33ecacea-ed2a-409c-ab1c-a136e06b1b7a@app.fastmail.com> <1aac654b8d333cc058a345b03ae0f798f1724ced.camel@linux.ibm.com>
- <57ac7553-4034-49e2-b686-b7272591da00@app.fastmail.com> <94c3ebc645e80feae1044a57b8b5c82d4d4ff408.camel@linux.ibm.com>
- <f2002ee7-00a4-4a3f-a516-409886b724ab@app.fastmail.com> <2aaf01a4417cea313ce0cce7cfdbec65d350a41f.camel@linux.ibm.com>
- <f85a48cb-4ad9-412c-be00-a8227d6c8fb1@app.fastmail.com>
-In-Reply-To: <f85a48cb-4ad9-412c-be00-a8227d6c8fb1@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 6 Aug 2026 17:21:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWBiCA6+SWatmbB5bVdFd7_9CPNgR_eaTcOUpqAEA5J4w@mail.gmail.com>
-X-Gm-Features: AUfX_mytiRYZjGYX1aobVkgoZ5obof2d1lrRV5Gr1cwx_C_pvGoMLWUjStMFMZU
-Message-ID: <CAMuHMdWBiCA6+SWatmbB5bVdFd7_9CPNgR_eaTcOUpqAEA5J4w@mail.gmail.com>
-Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Gerd Bayer <gbayer@linux.ibm.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, driver-core@lists.linux.dev, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	linux-s390@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 06 Aug 2026 17:47:28 +0200
+Message-Id: <DKHZ8KNRT5WY.2GPNFMJGZVEX2@kernel.org>
+Subject: Re: [PATCH v2 1/2] rust: io: gate ioremap/iounmap on
+ CONFIG_HAS_IOMEM
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260805212920.1996937-1-dakr@kernel.org>
+ <9fbff830-d1b3-428b-b7b2-205eff41b6d5@app.fastmail.com>
+In-Reply-To: <9fbff830-d1b3-428b-b7b2-205eff41b6d5@app.fastmail.com>
 
-Hi Arnd,
+On Wed Aug 5, 2026 at 11:39 PM CEST, Arnd Bergmann wrote:
+> Can you also hide the actual I/O accessors in this case?
+> While s390 without CONFIG_PCI still provides the asm-generic
+> version of those, that is technically a mistake, and it would
+> be nice not to.
+>
+> I'm guessing that there is enough kernel code that still expects
+> these to be present for C, but if all rust code has the correct
+> HAS_IOMEM dependencies, it would be cleaner not to reference
+> since there is no correct way to call them without ioremap().
 
-On Thu, 6 Aug 2026 at 15:51, Arnd Bergmann <arnd@arndb.de> wrote:
-> I think the reason is that there are a couple of architectures
-> (including non-MIO s390) that take a shortcut for normal
-> ioremap() that avoids actually mapping anything, e.g. mips
-> and related architectures have a fixed uncached mapping
-> of all MMIO space visible to kernel, while some alpha, m68k
-> powerpc, and s390 do something other than a pointer dereference
-> for MMIO.
+As things are right now, I think something like in [1] should work, but we'=
+d
+also need to cfg-gate every single doc-test that uses I/O primitives, which=
+ is
+slightly annoying.
 
-FTR, several m68k platforms use the transparent translation registers
-to set up a mapping to the main system's MMIO space (like MIPS,
-but programmable), and thus just need to add an offset.
+In any case, I'm not sure it would be a huge benefit anyway. Unlike in C, w=
+here
+I/O accessors operate on raw void pointers, the Rust primitives are typed. =
+So,
+users have no way of actually calling them without being able to obtain a
+mapping in the first place.
 
-Gr{oetje,eeting}s,
+- Danilo
 
-                        Geert
+[1]
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+diff --git a/rust/helpers/io.c b/rust/helpers/io.c
+index 1edbc274951c..29120ea9d7d8 100644
+--- a/rust/helpers/io.c
++++ b/rust/helpers/io.c
+@@ -19,7 +19,6 @@ __rust_helper void rust_helper_iounmap(void __iomem *addr=
+)
+ {
+        iounmap(addr);
+ }
+-#endif /* CONFIG_HAS_IOMEM */
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+ __rust_helper u8 rust_helper_readb(const void __iomem *addr)
+ {
+@@ -108,6 +107,7 @@ __rust_helper void rust_helper_writeq_relaxed(u64 value=
+, void __iomem *addr)
+        writeq_relaxed(value, addr);
+ }
+ #endif
++#endif /* CONFIG_HAS_IOMEM */
+
+ __rust_helper resource_size_t rust_helper_resource_size(struct resource *r=
+es)
+ {
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index d4063ee41200..d91fc2e4ae9b 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -728,6 +728,7 @@ fn io_addr_assert<U>(&self, offset: usize) -> usize {
+     }
+ }
+
++#[cfg(CONFIG_HAS_IOMEM)]
+ /// Implements [`IoCapable`] on `$mmio` for `$ty` using `$read_fn` and `$w=
+rite_fn`.
+ macro_rules! impl_mmio_io_capable {
+     ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, $write_fn:iden=
+t) =3D> {
+@@ -746,10 +747,14 @@ unsafe fn io_write(&self, value: $ty, address: usize)=
+ {
+     };
+ }
+
++#[cfg(CONFIG_HAS_IOMEM)]
+ // MMIO regions support 8, 16, and 32-bit accesses.
+ impl_mmio_io_capable!(Mmio, u8, readb, writeb);
++#[cfg(CONFIG_HAS_IOMEM)]
+ impl_mmio_io_capable!(Mmio, u16, readw, writew);
++#[cfg(CONFIG_HAS_IOMEM)]
+ impl_mmio_io_capable!(Mmio, u32, readl, writel);
++#[cfg(CONFIG_HAS_IOMEM)]
+ // MMIO regions on 64-bit systems also support 64-bit accesses.
+ impl_mmio_io_capable!(
+     Mmio,
+@@ -843,10 +848,14 @@ pub fn relaxed(&self) -> &RelaxedMmio<SIZE> {
+     }
+ }
+
++#[cfg(CONFIG_HAS_IOMEM)]
+ // MMIO regions support 8, 16, and 32-bit accesses.
+ impl_mmio_io_capable!(RelaxedMmio, u8, readb_relaxed, writeb_relaxed);
++#[cfg(CONFIG_HAS_IOMEM)]
+ impl_mmio_io_capable!(RelaxedMmio, u16, readw_relaxed, writew_relaxed);
++#[cfg(CONFIG_HAS_IOMEM)]
+ impl_mmio_io_capable!(RelaxedMmio, u32, readl_relaxed, writel_relaxed);
++#[cfg(CONFIG_HAS_IOMEM)]
+ // MMIO regions on 64-bit systems also support 64-bit accesses.
+ impl_mmio_io_capable!(
+     RelaxedMmio,
