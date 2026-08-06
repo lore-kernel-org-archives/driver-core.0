@@ -1,257 +1,164 @@
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F8F3E0C7B
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 06:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399712D2488;
+	Thu,  6 Aug 2026 06:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785998706; cv=none; b=emNoUrRz5QpetiiC6eL31P3Esx16rrZ/iIbogPJSn5ssxa0NJxycGNKSO/v2/y1HxZ/2KM8fRewtl6FI0WBxVr7nbWoFrz4Feim6vg3PIHawVrBi2Z8Q6dQsvlqZESnqiUMIrxbVd2wd2YBb76rNgD8Hp3mcjBtPZQ+mlOi/svo=
+	t=1785999527; cv=none; b=a5OOz2Trv6UkZlpvJuDfb3QgttgnoRY6Yw07IX30OTvx7+imx/ls33Yg1dckhoUDDL/5g3jyjFMYA+V9kHihYaMM0iCi58c59SuaQqv5n2iAl0JZgthj2+1ACbuSH+48ycKxUjPztfCEAQZKpr2XR9vek0C2fcUjaeV9Bbt3Cbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785998706; c=relaxed/simple;
-	bh=fRTJ1SJFWkaeN99T099jlMEWWDBrUQRgB6IQGkMC//0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=j6rRLNSmbovI0aB6gLySQl3v/128FcqAbk42YZofxFTEx0xUYQBB97HO/20HizO4csipOC/vjK4D8jPN81AQnJwo9DHEe8IH6zlgPMiRMf+Ewd1QDMOlep1IhE2PBFCUwFOIH/RDGhSuLdbsYhFbmKt4x5yCcfFA96CuPuwdjV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p6kICy1B; arc=none smtp.client-ip=209.85.128.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1785999527; c=relaxed/simple;
+	bh=SQLwLwD7rv0pVUbydhLz5dKSJQuaZotdPXThhUtQm8M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BH5o4W+S4krBEqd+oGJc51e4N5PsPGIbBctNn5kR/77MKG17vO6ZSw2p6bpWm0tCB+Z6sR5mbylNMm5nLN70iXUqB3UJE7lMlkcFkPq7gYbuePT7evsmVX3bA9gJT4JL7ugRtPnP5dgUcZ6P7KOzoSROy+N9byR4MoXQ5MPs+vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Id+KiXWC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p6kICy1B"
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-496b6f97676so17924315e9.2
-        for <driver-core@lists.linux.dev>; Wed, 05 Aug 2026 23:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1785998703; x=1786603503; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zRICwH8NrYFqbtAQ5CUI1CBNEXWJgmDrqZQyPRGCMDg=;
-        b=p6kICy1BlvL8ViusRLH6nv8QMsKTe5TjRwxagEVlSGCgkA0VFaiGOetJ0MpLltbLAc
-         QonObYhg+F+M42uB9temmru13zhUZNlvmV+BH8iVhl6HE/5t65fSFyPTV5WpqqMvHDrn
-         I03CvFOZ8g30sNqXTJZPgxuS0e6QHAvDrefDo9kuDOgqbqqdaXE0KvfdbPgg8BGwSsaA
-         WQco9ToPyihBnh6IfaqZoR4f1SpMp4u7FSCumqe6iXuo2uisIWingzDDZr4aW/qRKEy0
-         97oJ/ABjjU6/QnKbX0ZN3d+k6satJgWEixdqXj4D+Ol2E9uCIQ1+LMH/8Tqm6Kf/bXrN
-         eaTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785998703; x=1786603503;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zRICwH8NrYFqbtAQ5CUI1CBNEXWJgmDrqZQyPRGCMDg=;
-        b=c5Yux6rie1fJf4zXdXuFRjAsyMNpoSeps4Z+2VmIfWqEinKQBiJe9/yvK1Lbd6f2LF
-         5el7UG4zh0ycgV5YB7ijTntmy42z9U+NwpHtvsS2555BPRGqQGB2Q3R/U1trT9z3/KPq
-         y4jsFI4eoF+dp/7YRxCmtJ39yK3PSCqOJ3w4kXkPRdij3/u8/5RrCoQUmT0Ie6qW7++o
-         4KtrLHC3VcZ0oxpEjpZUcy9bEkpokT+dY17RjjTVCPeqq3HB0QWvCKk8CRTosLdbpft7
-         4m1HAVuq7GsiCj9jAR+vEPzDKN+OMj1V+AO45cv/jxZdQME++tTinjeYrHjiSuRb6z1w
-         aMVg==
-X-Forwarded-Encrypted: i=1; AHgh+RpB1ukyFtghMlE2JsebQ1/TVOx5U8plawbJFrQ2Vkd61632xkL6AM4gb0onq692YvNpVfW/5OBR2pycZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqJHBGR/OJLa+TyMujGkGuO10ll/9eVp+Wh3YbpWTQNiOllF9n
-	U6Tf974DlGukoZxCQPx1jTeLwWQd2incVKoU0oqWECYJDhsvhjq4yKw9QnsaJxPBijFQzBfXnn5
-	dLZ+H/gbE7gfVYcgt5Q==
-X-Received: from wmbjo7.prod.google.com ([2002:a05:600c:6b47:b0:493:c2c9:129b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1f86:b0:499:52ab:a50c with SMTP id 5b1f17b1804b1-49952aba5b3mr58567965e9.1.1785998702236;
- Wed, 05 Aug 2026 23:45:02 -0700 (PDT)
-Date: Thu, 6 Aug 2026 06:45:01 +0000
-In-Reply-To: <anHa43G9-aln8wik@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Id+KiXWC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DB91F000E9;
+	Thu,  6 Aug 2026 06:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785999525;
+	bh=Og4J4rIMluGAROgsSgHc7NrmB9oSF18CDjoJb6Nf1RI=;
+	h=From:Date:Subject:To:Cc;
+	b=Id+KiXWCH0b3bg7Qog+PMhWe2FZgZ/bTAjgf42f21DnSOXky2G+O00DZUtGzAPJTk
+	 62wkCkugzNROZgeSjntHRq8FmWEy36oDPG5YXTBTgfzdUm/3sUidZ/0tLt18BVsBl5
+	 wZwhfReGhh4l1mo2B1J6jXD5sNOb1l9+58CpldpJZ/YL+PZKh457y1F2Xy+LKyzlg9
+	 S4guBDVMCwWjZLtf0a5AmV1xSfxMDseR+LLri3Bzd/71zyW3EmiIY8J6z5CR0EQa/5
+	 H2i+UCbIIkFt+7FGSskzSLBNUcu3flkS0UsKXrtHlRcE/VHK870iAhYDPBNKxfw5Sy
+	 d4kMiWejUY0gQ==
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Date: Thu, 06 Aug 2026 09:58:38 +0300
+Subject: [PATCH] drivers/base, mm: move arch_numa.c to mm/
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260721153617.869933-1-beata.michalska@arm.com>
- <20260721153617.869933-3-beata.michalska@arm.com> <anGt2_OAK2UWtXuO@google.com>
- <anHa43G9-aln8wik@arm.com>
-Message-ID: <anQtbRH9SB5H1zRe@google.com>
-Subject: Re: [PATCH v2 2/3] rust: platform: wire runtime PM callbacks
-From: Alice Ryhl <aliceryhl@google.com>
-To: Beata Michalska <beata.michalska@arm.com>
-Cc: dakr@kernel.org, ojeda@kernel.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, daniel.almeida@collabora.com, 
-	boris.brezillon@collabora.com, work@onurozkan.dev, samitolvanen@google.com, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJ0wdGoC/yWM0QrCMAwAf2Xk2WI7yhB/RXxIa1wjLJNkG8LYv
+ 9vq4x3H7WCkTAbXbgeljY1nqRBOHeSCMpLjR2XofT/4ix8cai5O1gldjDGlWF0IEWr/Vnry5/e
+ 63f9sa3pRXtqgFQmNXFKUXJqalUeW84S2kMJxfAEGyNpgjQAAAA==
+X-Change-ID: 20260806-arch-numa-444bb4806114
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Danilo Krummrich <dakr@kernel.org>, David Hildenbrand <david@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+ Will Deacon <will@kernel.org>, driver-core@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org
+X-Mailer: b4 0.16-dev
 
-On Tue, Aug 04, 2026 at 02:28:19PM +0200, Beata Michalska wrote:
-> On Tue, Aug 04, 2026 at 09:16:11AM +0000, Alice Ryhl wrote:
-> > On Tue, Jul 21, 2026 at 05:34:03PM +0200, Beata Michalska wrote:
-> > > Allow Rust platform drivers to expose runtime PM callbacks to the driver core.
-> > > 
-> > > The runtime PM abstraction builds a dev_pm_ops table for the concrete driver
-> > > implementation, but the platform bus still needs to receive that table through
-> > > struct platform_driver. Add an optional PM_OPS associated constant to
-> > > platform::Driver and initialize the coresponding C device_driver struct
-> > > accordingly during registration. The platform glue only wires the callback
-> > > table into the C driver model; ownership of the callback payload and
-> > > runtime PM teardown remain with the pm module.
-> > > 
-> > > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> > > ---
-> > >  rust/kernel/platform.rs | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > > 
-> > > diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-> > > index d8d48f60b0b9..b7e422388634 100644
-> > > --- a/rust/kernel/platform.rs
-> > > +++ b/rust/kernel/platform.rs
-> > > @@ -72,6 +72,11 @@ unsafe fn register(
-> > >              None => core::ptr::null(),
-> > >          };
-> > >  
-> > > +        let pm_ops = match T::PM_OPS {
-> > > +            Some(ops) => ops,
-> > > +            None => core::ptr::null(),
-> > > +        };
-> > > +
-> > >          // SAFETY: It's safe to set the fields of `struct platform_driver` on initialization.
-> > >          unsafe {
-> > >              (*pdrv.get()).driver.name = name.as_char_ptr();
-> > > @@ -79,6 +84,7 @@ unsafe fn register(
-> > >              (*pdrv.get()).remove = Some(Self::remove_callback);
-> > >              (*pdrv.get()).driver.of_match_table = of_table;
-> > >              (*pdrv.get()).driver.acpi_match_table = acpi_table;
-> > > +            (*pdrv.get()).driver.pm = pm_ops;
-> > >          }
-> > >  
-> > >          // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
-> > > @@ -222,6 +228,9 @@ pub trait Driver {
-> > >      /// The table of ACPI device ids supported by the driver.
-> > >      const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
-> > >  
-> > > +    /// Runtime PM callbacks
-> > > +    const PM_OPS: Option<&'static bindings::dev_pm_ops> = None;
-> > > +
-> > >      /// Platform driver probe.
-> > >      ///
-> > >      /// Called when a new platform device is added or discovered.
-> > 
-> > I've been thinking more about this, and I can't help but wonder whether
-> > we could significantly simplify it. Why not just do this:
-> > 
-> > 1. Update rust/kernel/platform.rs Driver trait to include pm ops
-> > directly in the trait:
-> > 
-> > 	#[vtable]
-> > 	pub trait Driver {
-> > 	    type IdInfo: 'static;
-> > 	    type Data<'bound>: Send + 'bound;
-> > 	    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = None;
-> > 	    const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
-> > 	
-> > 	    fn probe<'bound>(
-> > 	        dev: &'bound Device<device::Core<'_>>,
-> > 	        id_info: Option<&'bound Self::IdInfo>,
-> > 	    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
-> > 	
-> > 	    fn unbind<'bound>(dev: &'bound Device<device::Core<'_>>, this: Pin<&Self::Data<'bound>>) {
-> > 	        let _ = (dev, this);
-> > 	    }
-> > 	
-> > 	    // Add these methods.
-> > 	    fn runtime_suspend<'bound>(
-> > 	        dev: &'bound Device<device::Bound>,
-> > 	        data: &Self::Data<'bound>,
-> > 	    ) -> Result
-> > 	    {
-> > 	        build_error!(VTABLE_DEFAULT_ERROR)
-> > 	    }
-> > 	
-> > 	    fn runtime_resume<'bound>(
-> > 	        dev: &'bound Device<device::Bound>,
-> > 	        data: &Self::Data<'bound>,
-> > 	    ) -> Result
-> > 	    {
-> > 	        build_error!(VTABLE_DEFAULT_ERROR)
-> > 	    }
-> > 	}
-> > 
-> > By marking the trait with #[vtable], we know whether the user has
-> > overridden runtime_suspend() and runtime_resume() and then the platform
-> > abstraction can enable PM in that scenario:
-> > 
-> >  - If `T::HAS_RUNTIME_SUSPEND && T::HAS_RUNTIME_RESUME` then set
-> >    `(*pdrv.get()).driver.pm` to a table using those methods in
-> >    register().
-> >  - If `T::HAS_RUNTIME_SUSPEND && T::HAS_RUNTIME_RESUME` then invoke
-> >    `pm_runtime_enable()` from `probe_callback()` after the
-> >    `set_callback()` line. Note that this call is infallible.
-> >  - Do the same from unplug to disable PM.
-> > 
-> > And then you automatically PM whenever you implement those two methods
-> > in the `platform::Driver` trait, and that's all you need to do. Since we
-> > invoke `pm_runtime_enable()` in `probe_callback()` after setting the
-> > private data, there's no issue with passing the device private data to
-> > the callbacks.
-> > 
-> > Note that we can trigger a const eval panic on `T::HAS_RUNTIME_SUSPEND
-> > != T::HAS_RUNTIME_RESUME` to enforce that you must implement both
-> > methods if you implement either one.
-> > 
-> > Thoughts? I know we have gone down this route before, but I just think
-> > it would be so so much simpler than the current approach. I know that
-> > this diverges from IRQ and such by not having a Registration, but I
-> > actually think that's ok. PM is already different from IRQ callbacks in
-> > the sense that the platform abstractions need PM-specific code *anyway*
-> > to properly set pm_ops in the `struct platform_device`.
-> > 
-> 
-> This is a sound idea, though there are few caveats.
-> This patchset only introduces runtime_resume and runtime_suspend, though the
-> range of pm ops is wider than that. So if we go the way you suggest, we need to
-> accept that all of those would finally end up in that trait's implementation.
-> Further more this would need to be replicated for other bus devices.
-> Which makes the implementation pretty noisy.
+arch_numa.c implements boot time discovery and initialization of NUMA
+topology on architectures that select GENERIC_ARCH_NUMA (currently arm64
+and riscv).
 
-You can potentially do this:
+Since this is step in the initialization of the memory management
+subsystem, it's logical to have arch_numa.c in mm/ alongside numa.c,
+numa_memblks.c and numa_emulation.c.
 
-	#[vtable]
-	pub trait Driver {
-	    type IdInfo: 'static;
-	    type Data<'bound>: Send + 'bound;
-	    type PMOps: PMOps; // set to Self or () for no PM
-	    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = None;
-	    const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
-	
-	    fn probe<'bound>(
-	        dev: &'bound Device<device::Core<'_>>,
-	        id_info: Option<&'bound Self::IdInfo>,
-	    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
-	
-	    fn unbind<'bound>(dev: &'bound Device<device::Core<'_>>, this: Pin<&Self::Data<'bound>>) {
-	        let _ = (dev, this);
-	    }
-	}
-	
-	trait PMOps {
-	    fn runtime_suspend<'bound>(
-	        dev: &'bound Device<device::Bound>,
-	        data: &Self::Data<'bound>,
-	    ) -> Result
-	    {
-	        build_error!(VTABLE_DEFAULT_ERROR)
-	    }
-	
-	    fn runtime_resume<'bound>(
-	        dev: &'bound Device<device::Bound>,
-	        data: &Self::Data<'bound>,
-	    ) -> Result
-	    {
-	        build_error!(VTABLE_DEFAULT_ERROR)
-	    }
-	}
+Move arch_numa.c to mm/ and add its F: entry to "MEMBLOCK AND MEMORY
+MANAGEMENT INITIALIZATION" in MAINTAINERS.
 
-To avoid that duplication.
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+ MAINTAINERS                      | 1 +
+ drivers/base/Kconfig             | 7 -------
+ drivers/base/Makefile            | 1 -
+ mm/Kconfig                       | 7 +++++++
+ mm/Makefile                      | 1 +
+ {drivers/base => mm}/arch_numa.c | 0
+ 6 files changed, 9 insertions(+), 8 deletions(-)
 
-> Offloading enabling runtime PM to bus driver might not be suitable for all
-> potential users of runtime PM either. Some drivers might want to enable it
-> while in probe, call device resume and do some early setup. With this approach,
-> using drvdata is still an issue.
-> The sample implementation for Tyr is just one way of doing things.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5114e6db7307..465b64f8e93c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16880,6 +16880,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+ F:	Documentation/core-api/boot-time-mm.rst
+ F:	include/linux/kho/abi/memblock.h
+ F:	include/linux/memblock.h
++F:	mm/arch_numa.c
+ F:	mm/bootmem_info.c
+ F:	mm/memblock.c
+ F:	mm/memtest.c
+diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+index f7d385cbd3ba..1d93bfc34490 100644
+--- a/drivers/base/Kconfig
++++ b/drivers/base/Kconfig
+@@ -239,13 +239,6 @@ config GENERIC_ARCH_TOPOLOGY
+ 	  appropriate scaling, sysfs interface for reading capacity values at
+ 	  runtime.
+ 
+-config GENERIC_ARCH_NUMA
+-	bool
+-	select NUMA_MEMBLKS
+-	help
+-	  Enable support for generic NUMA implementation. Currently, RISC-V
+-	  and ARM64 use it.
+-
+ config FW_DEVLINK_SYNC_STATE_TIMEOUT
+ 	bool "sync_state() behavior defaults to timeout instead of strict"
+ 	help
+diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+index 8074a10183dc..435710f643a5 100644
+--- a/drivers/base/Makefile
++++ b/drivers/base/Makefile
+@@ -25,7 +25,6 @@ obj-$(CONFIG_PINCTRL) += pinctrl.o
+ obj-$(CONFIG_DEV_COREDUMP) += devcoredump.o
+ obj-$(CONFIG_GENERIC_MSI_IRQ) += platform-msi.o
+ obj-$(CONFIG_GENERIC_ARCH_TOPOLOGY) += arch_topology.o
+-obj-$(CONFIG_GENERIC_ARCH_NUMA) += arch_numa.o
+ obj-$(CONFIG_ACPI) += physical_location.o
+ 
+ obj-y			+= test/
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 9e0ca4824905..410b8a0a92b9 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -1469,6 +1469,13 @@ config NUMA_EMU
+ 	  into virtual nodes when booted with "numa=fake=N", where N is the
+ 	  number of nodes. This is only useful for debugging.
+ 
++config GENERIC_ARCH_NUMA
++	bool
++	select NUMA_MEMBLKS
++	help
++	  Enable support for generic NUMA implementation. Currently, RISC-V
++	  and ARM64 use it.
++
+ config ARCH_HAS_USER_SHADOW_STACK
+ 	bool
+ 	help
+diff --git a/mm/Makefile b/mm/Makefile
+index eff9f9e7e061..fd29be716fa8 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -122,6 +122,7 @@ obj-$(CONFIG_CMA)	+= cma.o
+ obj-$(CONFIG_NUMA) += numa.o
+ obj-$(CONFIG_NUMA_MEMBLKS) += numa_memblks.o
+ obj-$(CONFIG_NUMA_EMU) += numa_emulation.o
++obj-$(CONFIG_GENERIC_ARCH_NUMA) += arch_numa.o
+ obj-$(CONFIG_BALLOON) += balloon.o
+ obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
+ obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
+diff --git a/drivers/base/arch_numa.c b/mm/arch_numa.c
+similarity index 100%
+rename from drivers/base/arch_numa.c
+rename to mm/arch_numa.c
 
-Ok, it of course depends on how these things are actually used, but it
-was not clear to me that this does not fit all actual use-cases in
-practice.
+---
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+change-id: 20260806-arch-numa-444bb4806114
 
-Alice
+--
+Sincerely yours,
+Mike.
+
