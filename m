@@ -1,214 +1,173 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736F13DDAFD
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 08:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BC23DD503;
+	Thu,  6 Aug 2026 09:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006187; cv=none; b=AQ3kulWC7EG+0uiKr10T+SUGg5HiSEsCw0xZlPgX3qx+WIuDikrm5dBzCLPpH3i1ygMkFEdO1Q72CsItBvNNcM3/R9auqs3H1jV/eqkczN9jR/SmuACxIwg37mTRvEuMLtQXdlBBtic4O3+k2fHgd6wWr+wO1GiFJSHcMpeMI6o=
+	t=1786006887; cv=none; b=QtxpJQ6WAsPH7iMFvKQ+6j6mIbCuiweGrfQR4Bt9I0f+3IEKgqBDEnUwE1dEyiSmZgn2SOGKguaqoQnjUV8euarRRQZjNnU4A/5Locn2M7E4UT/4VVgJJa+ftORd9f90cNB5AK6Tou0EP63I3Ob2lrfU376MH+vzMrlS4ly/HDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006187; c=relaxed/simple;
-	bh=ePp+RxiutBCyzzEvl5K1dmKuPb/y40CYrZgkRG5vNg0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PtDqCTfne9fC2Dm7vPo9A1BD9DG5x5XaUKOoiFjWILU7P86Gm9X+W6s069Tk3nPcdtwZqse2nq27Opls3/kkMjReMERd4QZu8AOfYuuWROsYoKXAwwjOoubuFXYSDfxhHb6i0b7GuFguHKMAPXeNidUGLaESiID3GUZhyhOTw5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=eBkq8aG5; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1786006887; c=relaxed/simple;
+	bh=QPeb6M2iCPCZMs8c9dwgYHumyO34WqnHwJvzcycTgqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m9ddhym8dNCckuUCk4EorvWAnm28i4egREbhGaVNXIvhEqQGtDk/5BwcOVtevZblVuupZovUU35ao3OJw3eLmNmOOIq0VvSxf0NKDDVwkOqZ9G4UPpyjA3pG5wE86ju8F2dMEfNm8GdsS6XqKhSEf85UtYuzCpo8JCIbgKWZkdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b/fMIERL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="eBkq8aG5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1786006158;
-	bh=qvo8GnxR4HBw5KUhU+lgGsArbxbsBLDwyjUKHDJAdeY=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=eBkq8aG5AY9+sOScid5oBlapucgVKrgfbbUlj1FXeeXNJoIIEFq+XfLC1Sa6f3vIj
-	 jyDPRcaiJi/z3lF197cxIDP7RVztLNaUWUF3CONPCJiNmjMUaZtplfb/6GLyaY2QdI
-	 4eQ83DjdBjyY0PCXrBNIcUrhwHuzHiP5EK7Bs92U=
-X-QQ-mid: esmtpgz10t1786006153t5a193209
-X-QQ-Originating-IP: JVhbFHdaKldKfaSuDbI31KdscLgt26kiGyz/MsQ1sFk=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 06 Aug 2026 16:49:10 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11587436272673348081
-EX-QQ-RecipientCnt: 13
-From: Yichong Chen <chenyichong@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: rafael@kernel.org,
-	dakr@kernel.org,
-	djakov@kernel.org,
-	quic_mdtipton@quicinc.com,
-	vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v2 3/3] debugfs: make debugfs_create_str() read-only
-Date: Thu,  6 Aug 2026 16:48:54 +0800
-Message-Id: <20260806084854.1019789-4-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260806084854.1019789-1-chenyichong@uniontech.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b/fMIERL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B74C1F000E9;
+	Thu,  6 Aug 2026 09:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1786006885;
+	bh=BFIPNtqlQDio3zu8anhXqcJnHiAHEd5OCYYW3ygP5rw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b/fMIERLf3DnkVBBBpX/DgXd+ILZ2zjw8i3J4VAFOyRJ8tiZr+fIvnWdw3oT+MDwO
+	 97Q/jdEKy6O1itc6zggqJwPjUfEHPn7wHo6gNbQSpvIXCzluvgL0xAYXUjE7kkWkTa
+	 5UEY+wcl68dG+8T6PxHsfaN6YU5eczKyETTy5pJg=
+Date: Thu, 6 Aug 2026 11:01:07 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: rafael@kernel.org, dakr@kernel.org, djakov@kernel.org,
+	quic_mdtipton@quicinc.com, vkoul@kernel.org,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] interconnect: debugfs: replace writable string
+ helper
+Message-ID: <2026080632-delighted-bonsai-18b7@gregkh>
 References: <20260806084854.1019789-1-chenyichong@uniontech.com>
+ <20260806084854.1019789-2-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: Mh1JMxfliF/1MGldjCRDRJRwJtAVKKQlCrJHxteiApDdMbhGrm5tquH/
-	Xv2XAbGoAvGCCXOWJHRwTVf/YfbF/FmeNzF5WC6Yr43wkBJUXlgR9/iUAK/uAtBeGQsWr9m
-	wdGWkW0aq3DId0HWZvyWUeqhC1XdDugPtOsqSamTb7KjXlY1hMUCXWtSoJxss8eYTmuxdfq
-	GsKdXDCVXmssOi84PBSKMkBHrN6/FwMUny0sKWt6nAYr5lDQV5A1wzxeqSZcqaFiMbDCNTz
-	gwZfIf7qnIsH7NsQpUd/tdSjetbmHo5hZvsxvDnfijhsMBhz09H5IQw5DeurlRt45woT2l3
-	0qKBQxJXL510ZFk9OqvMW8qTTltzcPNKTVlZxJv9wPvRR8EjnVC4ImyyfWXRFxeq8ZvQDNK
-	OxTIPptbGPzKBaObMMiAQJVAi8AQC/ori1i5raCkp+OFaX1P1+PyiIRfDnfb85Y2jUWJe73
-	tHOxPqoieiD0qCqPRVsIvYnYiiBbwaCTIe+SAMI0oRAX28Ong0K/LuaUTL8KYOLXpHWZNZA
-	s+FQZseN0ZXVZdz93IlLKH0vUg8QmII6iUl7EvMeZruTtS4qpDZ0P2gCuqobCEztG61hpum
-	vPg6Dv6LpTOPF7eCRULC0HU846i5tK6LlTnXpFHEiTs9WhBZqvfScb/i3/AUK5s/Eg10B2e
-	7l3uHbFuPs3WZqvelvKMf/UwoefKHQJYuhaV6MLvVT7si5jNVlTiC+HXWALSWjV8dPSEhdZ
-	DXWeLqTmVhWkG/2VX+fErGB/EYo4rc4D/4ApKMsZ5Mz1dkHSl9bVR49xQC5UJzcu+MUGywq
-	sh8XwyreqvfFDmAtEixuq2TXZg9HBLZ8VTTyN+bcLHh6dLPLkEP/N0r3NkqBC1w3cW35Bil
-	y0ZYA1/O6zhuDAaBu6OquWo8YzfRJrn581IA1VOOfWfgAkVSTZSVQsnNmiGiBpKVO71ZrwE
-	vxxSUItxROxg766dTOQJCJ9T9oIcGVcrFRbL034EyWmHz0CWvLIN0RzmUys5esdHAx4gp2l
-	xL1Qrgwjgg4XPCnPzjfycGHMnXfPwM2b0sAZm6HRT0OBMgBU+r6hn/QS5dWWU=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806084854.1019789-2-chenyichong@uniontech.com>
 
-debugfs_create_str() supports replacing the backing string from userspace.
-Concurrent writers can race and free the same old string twice.
+On Thu, Aug 06, 2026 at 04:48:52PM +0800, Yichong Chen wrote:
+> debugfs_create_str() is being made read-only because its generic write path
+> is hard to make safe without adding more locking to the helper.
+> 
+> Convert the interconnect debugfs client src_node and dst_node entries to
+> local file operations before removing writable string support from
+> debugfs_create_str().  Protect the string replacement and path lookup with
+> the existing debugfs_lock.
+> 
+> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+> ---
+>  drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++++-----
+>  1 file changed, 62 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/interconnect/debugfs-client.c b/drivers/interconnect/debugfs-client.c
+> index 08df9188ef94..b71c25fd9314 100644
+> --- a/drivers/interconnect/debugfs-client.c
+> +++ b/drivers/interconnect/debugfs-client.c
+> @@ -5,6 +5,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/interconnect.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/slab.h>
+>  
+>  #include "internal.h"
+>  
+> @@ -36,6 +37,59 @@ struct debugfs_path {
+>  	struct list_head list;
+>  };
+>  
+> +static ssize_t icc_node_read(struct file *file, char __user *user_buf,
+> +			     size_t count, loff_t *ppos)
+> +{
+> +	char **node = file->private_data;
+> +	char *copy;
+> +	size_t len;
+> +	ssize_t ret;
+> +
+> +	mutex_lock(&debugfs_lock);
+> +	copy = kstrdup(*node ?: "", GFP_KERNEL);
+> +	mutex_unlock(&debugfs_lock);
 
-All writable in-tree users have been converted to local file operations.
-Remove the generic write support from debugfs_create_str(), and refuse to
-create a file when the caller passes write permission bits.
+scoped guard?
 
-This makes unsupported writable use visible instead of silently creating a
-file with different permissions.
+> +	if (!copy)
+> +		return -ENOMEM;
+> +
+> +	len = strlen(copy);
+> +	copy[len++] = '\n';
+> +	ret = simple_read_from_buffer(user_buf, count, ppos, copy, len);
+> +	kfree(copy);
+> +	return ret;
+> +}
+> +
+> +static ssize_t icc_node_write(struct file *file, const char __user *user_buf,
+> +			      size_t count, loff_t *ppos)
+> +{
+> +	char **node = file->private_data;
+> +	char *old, *new;
+> +
+> +	if (*ppos)
+> +		return -EINVAL;
+> +	if (count + 1 > PAGE_SIZE)
+> +		return -E2BIG;
+> +
+> +	new = memdup_user_nul(user_buf, count);
+> +	if (IS_ERR(new))
+> +		return PTR_ERR(new);
+> +	strim(new);
+> +
+> +	mutex_lock(&debugfs_lock);
+> +	old = *node;
+> +	*node = new;
+> +	mutex_unlock(&debugfs_lock);
 
-Fixes: 86b5488121db ("debugfs: Add write support to debugfs_create_str()")
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
----
- fs/debugfs/file.c | 81 ++++++-----------------------------------------
- 1 file changed, 10 insertions(+), 71 deletions(-)
+Same here.
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 08de6652a4f3..f5abd067b260 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -1049,98 +1049,37 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
- 	return ret;
- }
- 
--static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
--				      size_t count, loff_t *ppos)
--{
--	struct dentry *dentry = F_DENTRY(file);
--	char *old, *new = NULL;
--	int pos = *ppos;
--	int r;
--
--	r = debugfs_file_get(dentry);
--	if (unlikely(r))
--		return r;
--
--	old = *(char **)file->private_data;
--
--	/* only allow strict concatenation */
--	r = -EINVAL;
--	if (pos && pos != strlen(old))
--		goto error;
--
--	r = -E2BIG;
--	if (pos + count + 1 > PAGE_SIZE)
--		goto error;
--
--	r = -ENOMEM;
--	new = kmalloc(pos + count + 1, GFP_KERNEL);
--	if (!new)
--		goto error;
--
--	if (pos)
--		memcpy(new, old, pos);
--
--	r = -EFAULT;
--	if (copy_from_user(new + pos, user_buf, count))
--		goto error;
--
--	new[pos + count] = '\0';
--	strim(new);
--
--	rcu_assign_pointer(*(char __rcu **)file->private_data, new);
--	synchronize_rcu();
--	kfree(old);
--
--	debugfs_file_put(dentry);
--	return count;
--
--error:
--	kfree(new);
--	debugfs_file_put(dentry);
--	return r;
--}
--
- static const struct file_operations fops_str = {
- 	.read =		debugfs_read_file_str,
--	.write =	debugfs_write_file_str,
--	.open =		simple_open,
--	.llseek =	default_llseek,
--};
--
--static const struct file_operations fops_str_ro = {
--	.read =		debugfs_read_file_str,
--	.open =		simple_open,
--	.llseek =	default_llseek,
--};
--
--static const struct file_operations fops_str_wo = {
--	.write =	debugfs_write_file_str,
- 	.open =		simple_open,
- 	.llseek =	default_llseek,
- };
- 
- /**
-- * debugfs_create_str - create a debugfs file that is used to read and write a string value
-+ * debugfs_create_str - create a debugfs file that is used to read a string value
-  * @name: a pointer to a string containing the name of the file to create.
-  * @mode: the permission that the file should have
-  * @parent: a pointer to the parent dentry for this file.  This should be a
-  *          directory dentry if set.  If this parameter is %NULL, then the
-  *          file will be created in the root of the debugfs filesystem.
-- * @value: a pointer to the variable that the file should read to and write
-- *         from. This pointer and the string it points to must not be %NULL.
-+ * @value: a pointer to the variable that the file should read from. This
-+ *         pointer and the string it points to must not be %NULL.
-  *
-  * This function creates a file in debugfs with the given name that
-- * contains the value of the variable @value.  If the @mode variable is so
-- * set, it can be read from, and written to.
-+ * contains the value of the variable @value.  The file can be read from.
-+ * Writable files are not supported; if @mode contains write permission bits,
-+ * no file is created.
-  */
- void debugfs_create_str(const char *name, umode_t mode,
- 			struct dentry *parent, char **value)
- {
- 	if (WARN_ON(!value || !*value))
- 		return;
-+	if (WARN_ONCE(mode & 0222,
-+		      "%s() does not support writable files\n", __func__))
-+		return;
- 
--	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
--				   &fops_str_ro, &fops_str_wo);
-+	debugfs_create_file_unsafe(name, mode, parent, value, &fops_str);
- }
- EXPORT_SYMBOL_GPL(debugfs_create_str);
- 
--- 
-2.51.0
+> +
+> +	kfree(old);
+> +	return count;
+> +}
+> +
+> +static const struct file_operations icc_node_fops = {
+> +	.open = simple_open,
+> +	.read = icc_node_read,
+> +	.write = icc_node_write,
+> +	.llseek = default_llseek,
+> +};
+> +
+>  static struct icc_path *get_path(const char *src, const char *dst)
+>  {
+>  	struct debugfs_path *path;
+> @@ -56,24 +110,17 @@ static int icc_get_set(void *data, u64 val)
+>  
+>  	mutex_lock(&debugfs_lock);
+>  
+> -	rcu_read_lock();
+> -	src = rcu_dereference(src_node);
+> -	dst = rcu_dereference(dst_node);
+> -
+>  	/*
+>  	 * If we've already looked up a path, then use the existing one instead
+>  	 * of calling icc_get() again. This allows for updating previous BW
+>  	 * votes when "get" is written to multiple times for multiple paths.
+>  	 */
+> -	cur_path = get_path(src, dst);
+> -	if (cur_path) {
+> -		rcu_read_unlock();
+> +	cur_path = get_path(src_node, dst_node);
+> +	if (cur_path)
+>  		goto out;
+> -	}
+>  
+> -	src = kstrdup(src, GFP_ATOMIC);
+> -	dst = kstrdup(dst, GFP_ATOMIC);
+> -	rcu_read_unlock();
+> +	src = kstrdup(src_node, GFP_KERNEL);
+> +	dst = kstrdup(dst_node, GFP_KERNEL);
 
+Why is GFP_KERNEL now ok, while GFP_ATOMIC wasn't?  Is this the rcu
+stuff interacting somehow?
+
+thanks,
+
+greg k-h
