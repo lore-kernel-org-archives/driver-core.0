@@ -1,359 +1,122 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022094.outbound.protection.outlook.com [52.101.96.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAEA471D0C
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 11:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786016678; cv=fail; b=nXu8BOkYBy6MGK+VceI6at3heMf71VI2uH+izX4lW7xrVkD7WhRpSsVyFXuZMzsi/QwOPNyUxPPlSK+cPR2PtFuVgIA8hvBLmohctJcTaMpBRMQ/WYu5DKs+41Kuo6G20l+pBgcb3aiYwkqnRZNpOGSNkk4FLB1JUnw7yJDaWi0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786016678; c=relaxed/simple;
-	bh=/CgOpKfO7KcG/cpThiUtzKZZBCxu1YYket1Z+fcs4/Q=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=UXXQMLV8PMjGyvDvNa9eAiJAcpVP5Q7nj6tNTwSnppU5KcRlajAkCblCiQm8+7sbG4TdpDeF4j+nJRnui1NCRFgjpwnCiQYzB7OsiwBwBfwXPxX31KQeI5YHYtRoPJbRwRTEQY1qFaH+w7O1IiVEW9kfuHPinqHK7OgbzWYpQ7w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=geltjk6g; arc=fail smtp.client-ip=52.101.96.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B54433031;
+	Thu,  6 Aug 2026 11:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786016938; cv=none; b=QoRspDFvpG1YHpf3xeAi09KlnD/8HFsAsNGpLHqMuN7GLzX5x6krPmmpxPeqrm9ViZn5ScgtdtP7m6prbyQHXQt3LBlPo8/aWOjl+QTeikKti+wjR1jK5qrOhQjQyNJd7WUswgNJhHeSt7Km9o1Ysz3D7VqdHo6Lf08DzQsAbGw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786016938; c=relaxed/simple;
+	bh=WJAXeWTt34ANHU2ASfd7aGAVUOXdtVUNh5Qz7j7C8As=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mKk05oi1xZ+kLThh4q0c85NSWzwIXPFO1RjOQRxvJVA5D/XHzoaYTAhc2LrojiHJfYXqVsDzRU5AKCTOq6O8ugSYuiVIP0yI7KmGaQ3EdJ4Hn1j2B15b67EgtCQ/jHoiZjnR7W1GKCQ0gYzjzPylZFAHacX9uoWgZsf6i2MZFhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ui9DV13V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="geltjk6g"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RgZFTwuExuvUMtd5yZh3chvLXvtPBJxW2yvCfErfyxtSFY1RB2HgmIBqxQPcsNWFlcgcVHpE/JS90deSCosQlAUEhQa8e62mASFn8Z+XXMMT85IO0hWZiWEf+0nu7bqef8H9SvxqrC1kBlvvC+CRJncE5GtdXazrSDlfbeJaWVx6hQrpSUQotmz/npqWaV/y9Y7K3CsnW/taiw/FDR1VA4ByWbzcxiGePG4YuRkD5NRRRfDoLt63n8h/nKh5crslaVVFPmDQh1r+X9xIzYuM95jeJZZh8wUJ9VLqtZFMD7BOdDyJGmwtw132Xhhm33ZXUB5fBlP8wAOpujnB4pfQpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2dkFK1BQ1IfMNe3+Q4FkBiA3s8P3wBBWUxSoSTXwElY=;
- b=C7yTAmA06EAeEQ/2Told23Lh4Qwr4wwEibRuf36mLLG6BMKzl9WQrsJdLg199zA9Xi9CwxB03+rQd6weNSNKM8gLLXIzOeWt4sOZSV969SWSwDQNIfngNqbtxq1w1mKfKI819AB6cZGYIJGd3kCBYn0oluahjAFRRA182SxTEFWJU/t69uE5lK8h2bPziJSFVU1yfEXmFcUndgtB5eui8IJoCUNsVFXPPSdWFBsfMdslqLkwIpNu942I+ZURvKhvhNNE/XdsGXs/1eabcbZ0HNxWa2ifDwNibr5v1aMGsR+54H1enVpntdLsyGVfjyEs6tMrufcyiJ/xl/NdT49MyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2dkFK1BQ1IfMNe3+Q4FkBiA3s8P3wBBWUxSoSTXwElY=;
- b=geltjk6gYxi7Kag6xcTy4mX8Y8cTm1BTknbFXj8IJhXKM4dKHURgrfqD4JzBabge8ZpBe0Kf2aXl+YOjay6tAgTyNPL6MofK9+04JIah1ZdWcqliIf/XiwDOn/i2nqIllCCPv+P28QZIljOKa96ueMVRPwjEf1HOBFx9CqJz1QU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4b4::24)
- by CWXP265MB5624.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:158::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.21; Thu, 6 Aug
- 2026 11:44:32 +0000
-Received: from LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- ([fe80::c07d:488c:d4aa:2a4a]) by LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- ([fe80::c07d:488c:d4aa:2a4a%4]) with mapi id 15.21.0292.019; Thu, 6 Aug 2026
- 11:44:32 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 06 Aug 2026 12:44:31 +0100
-Message-Id: <DKHU2JQ95D67.33B9B0U3539IA@garyguo.net>
-To: "Link Mauve" <linkmauve@linkmauve.fr>, <rust-for-linux@vger.kernel.org>
-Cc: "Ethan Plant" <plant.ethan@gmail.com>, "Michael Garofalo"
- <officialTechflashYT@gmail.com>, "Ash Logan" <ash@heyquark.com>,
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, "Sasha
- Finkelstein" <k@chaosmail.tech>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>
-Subject: Re: [PATCH v2] rust: io: Add a BigEndianMmio wrapper
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260806062207.3024012-1-linkmauve@linkmauve.fr>
-In-Reply-To: <20260806062207.3024012-1-linkmauve@linkmauve.fr>
-X-ClientProxiedBy: LO4P123CA0281.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:195::16) To LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4b4::24)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ui9DV13V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E651F000E9;
+	Thu,  6 Aug 2026 11:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786016937;
+	bh=3z9hALdtszYjv3nQ9X0eCYQLP5osX66/8WnjWFmsgUY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ui9DV13VpFCqNW8mww2sLiYawA8CCjZHThoC2xD/dh4ygdQ8EpmoD0b8VIvKcHk6k
+	 X9oevw7sRIK/Lf0RQWmnD+X/EPKFN1+9XftNV4jRr367BOmPupp6okdvgLw9mXddBv
+	 EdzWEH7idKNWtBnNUFuuwbyZ8PmCmRfcvImVDLfNV5m755obmSei0oR4kGhpA8Z6DN
+	 WdQpKVC0SRKNAoedu3cGK67X+evBvQIrs8FJ7lWvhoGTMbdUwqiEoTQ2ZJZYWsMLVs
+	 4yueNqTJJD+qN5N1YnPblCSKbU1Lxhz8siDJJXk61TJwgoJhiAPxLko0KB/61l5rE9
+	 7wzISa1DuEaNQ==
+Message-ID: <201c2696-ff69-4c0c-8c38-de898798d21a@kernel.org>
+Date: Thu, 6 Aug 2026 13:48:48 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOZP265MB8551:EE_|CWXP265MB5624:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a54c2e6-6411-4704-7e26-08def3b01489
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|23010399003|1800799024|7416014|376014|5023799004|56012099006|10067099003|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	ikJE6nH3LCzVOpySVNmgoKZf3c8D7wp6WYHEllQ3QSSEagqyWUxE2ZVjg/NHFZ5AlMhyVcBY126od+LPperuZCKcdvJalz/0bOPvJLQtRRlU1o23udO/SO2CsPMHbpLFcllmjIBa7d/LYiVkgsYhwAkCNTLZX7UDV2ORt2iEXGaWylWvorXfWD9AsJ7ecZkfAV9RhycncwJSwQLpshfZGo4FfwTA3lmvKF/qR73AakuugzJmytAUqZt5PtXQQm8LjFmZ2dsXPYavtamfKVs7pmB2EXJs252Ml09v+J6YFSMxd5Ry6NUTASAd3hmRu601Ts46ejI3dfantjW5u3bT5Rpd/V5PIoANqxmlXWg/RYvrJ23pu0luGyIKrbxuQ4pHPksCeQYx6PvqOTyuKbUkf0PUIZ9cwXd4SPpZe3D2kVWBMw6JWjXQqWgtsFvarC14SkymuFAzxw/hWbyQ07QL6R+2gEFEX1ZWhC9iHV/iPrzTHa1zsgFpW6/K5Gt1gGnet16jNMETr5ZJBbGVhshOzpmgoudb7Y3qGutcbbeDyZLQguxjODCTHp7O9LeOiot5PmtNSMCqfv006TUwB2b7hXwVVnA4UQVNs65lZTmg6niw1iYBKfgwjvd6OjBQ8kS4johaB55Yi9Nr+KmoF/ASqKMRQASCe/Ha+/4rsH72JVo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(23010399003)(1800799024)(7416014)(376014)(5023799004)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TFdTSkR2dVFwMDEzUEl0UEtsemI1SStoQjExTGh1Skl5Q2dVRU9kb0g3clJ5?=
- =?utf-8?B?NVB5VnRPdytrdVpSYjZyUlpYR1hraGZKS1RaMnpPL2lhZmlzMlBQaWFoOG9y?=
- =?utf-8?B?ekprL01pTHcxdDNPSXFOWWJOSXNDclMzU1RyVUF0QytJcHhlS28rajREOFA3?=
- =?utf-8?B?dUdEcTdxYXhhQktZeTU3cEdld1J5NGtaRWFLcmhadGNkWW5LZlQzRTZJVzNx?=
- =?utf-8?B?WEc3d0RrWlFwZ3Q2OWtFRGlLNjA1Y2p4eFY4ODlQQU1sNjZzT0tHeGNkUXlC?=
- =?utf-8?B?Tlp3dTlTbGxETGp0b0QzWWJvdk5mdHMwSDVFSmNwNmV2Y3dPbU56QnNIejlR?=
- =?utf-8?B?MDdvYXFyUXJxNXg2Zjd1WURCTXc0SlEwb1ZlOEdrdUpwKzQxZEFGdWNsZDgr?=
- =?utf-8?B?bkFqT1RSaDdXNWlLaENUSGZ2WUc5dllFYlNqem1jRGplR3hyejNPbzdaanYx?=
- =?utf-8?B?UWdDSjdxNWNNK1A2cmhmOGx4MG5jLzJBTjZEL2xKNWI3bnVEYVExSlA4Skpm?=
- =?utf-8?B?aTU1SUtGREZUNkx2K1YrY0FnT2Zvem1TWHEzZm5rdHF0aDFQQlFTVjZjNm9s?=
- =?utf-8?B?MFBkck0zamtHOFpOYit4eENLNUVXR3hZUmxUU1hRV1lhdFhtSWYxMnVWZ29m?=
- =?utf-8?B?ODRFN1hPWWEvRFhaMStQbTN4dlhyQURHVmRDcCtZRVJhUFhWZXJFY0VJd0d3?=
- =?utf-8?B?ODdqaDJ6N1c5ZWhMNnhueGhQcFZDQkJ0Q0VXTmlyNmExajIraklTa3FHblRh?=
- =?utf-8?B?WUtmZGdzc0J4SzhKNmZpTWk5WjdNUnN3VGkzaHFObW16VHhlejUrU1BFVWdh?=
- =?utf-8?B?SWx3UW1LU2V1OGlLK3pTd2kzeE5uSm1zY1lVN09uWlM1V0d5QXR3WW9PZzdG?=
- =?utf-8?B?eEtYY1R5Vys4QVNXM3pXaXl5WVdRbS9MelFQT3A0dWUybS9XaFl5b0RKUFJG?=
- =?utf-8?B?bjY2Qk5waDFsK0IxaU5meXdxZDlTK0dtalhnZS9UeDlYK1E1T3NoV3NLSFV5?=
- =?utf-8?B?OXRocnF4MXVLdTg4R0trWFo3QkJPcnVkb3RGUDVTdnZqS1NCdHNSeTZTV3lU?=
- =?utf-8?B?UTFsUDI5dm5jR1A5ZUFtdXpxQVdqUW9kNzhnUXU2UERCNko0M3NhNTNaOHZE?=
- =?utf-8?B?MGt1VFF6WmJjTUhaTTJ5ZUNKSzZXVmRpY2VtZVo3RWYrOFdEa1I3TFFhcnpl?=
- =?utf-8?B?TFE1NEtJK1ZwVGdkUG5VVkowTkdEUWt1SzRQeG1KOGVocG93Q012cmNHSUlE?=
- =?utf-8?B?cHdVZ1hWbm02em9MR1dLWXNJblZWSlBWL2JtZTRvSUpoQ0lQRWwxdS9FUVhF?=
- =?utf-8?B?ajAweUpsSHpEcVIxTGhvcVhPMXlQdHA2VmRwVU1FRHppOSt4WS8yc3NVODN0?=
- =?utf-8?B?T0huVkF5RmZNZElVYmp5WTFQQ0c1Uy93eTQxT1dkL090azB4d2I0WCtydkxO?=
- =?utf-8?B?SUxZWkpTbi8zWXVKYzRJRXdtN0RBTzI4OHpwZFREcmhDdXpuTWU5b0FLVitW?=
- =?utf-8?B?VUVRM1NQdEZ6cnJpbmgwVWk5ZDlyYjFndlRSczZoZVdqQ0JPMmlJMGpwSVps?=
- =?utf-8?B?Tkpubm0ycjJmYVNSdXJrS0MrNEhGcElnTU0vVE1NQWpsUnZvdTkwSitMQ1lB?=
- =?utf-8?B?VEFVekpmTUVVL1hNNHIwSk9FdlljVXFlSWJ3andlRVk1MUg2ZmRrVUtqZnc2?=
- =?utf-8?B?azBNbTNCdW1JVy9pdDJYR0p6RURjYkhQY01PSmxiNUJkeDdmc3l3NE01ZzNM?=
- =?utf-8?B?ZEg1Yi8wdk1ZajhUNGxXRklLOTVoNGhDeSs0N09NbzEwOWRIRVZhSnM4RUdD?=
- =?utf-8?B?cmorVmd3Q3crVFR6TEU3cUNzTzJERVZLQ0Jld3IwTWlPaEZkL29QNEh5YlF3?=
- =?utf-8?B?K1pjd1RJYmg3bjZCb285aGhkaFJFMXJudW5QOFc1NVZVQTI3YVV4NExSUHg4?=
- =?utf-8?B?Uzk5MjUrSnN0VTlaMG54cTRSVHFDQmpvTWtQR0wyS3RQTHYzYkw0cnNZZmdR?=
- =?utf-8?B?VzJFRml4Z0l4eFkrTHdId2prNFNrdHd4SWpVOXJzTGx3b1JydTdNd2dPMFdq?=
- =?utf-8?B?YWRNVUIvMEd6QXpvTXZGOU9PeENrTlYzTnVaTjVhNk9ndkdPcjBpTzQ2RW51?=
- =?utf-8?B?T3Nka3M5YjU2QjlvS0JUWHZuZHV3L2ZKNktkRGhOcTlsNUt1KyttUGNMU3lQ?=
- =?utf-8?B?RDY5dlF0SHlZYWN4aUZpM0V1ay9NZWY4dml3QkdnTUt2bXd1TzV1a25sWjBq?=
- =?utf-8?B?MFI1bmhIVlBOV25BdllycVgzNXpBaTg1T2tMK2oraVpIM3dJMjFqY1RKUE4r?=
- =?utf-8?B?UVBiWm9wR0ptbTR1OThvNHdPT1MvaWlQRHQ0Y1VBN0pvZ2kySFNPUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a54c2e6-6411-4704-7e26-08def3b01489
-X-MS-Exchange-CrossTenant-AuthSource: LOZP265MB8551.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 11:44:31.9337
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tjgGJRT9gNTUz+P4NGFC0jeIu0jVzzYfIetzpaTHYvtUwbpUXiUeoYN+Wrpqn4Y+TgzxcccLSOldilQqlhACvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5624
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers/base, mm: move arch_numa.c to mm/
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Catalin Marinas <catalin.marinas@arm.com>, Danilo Krummrich
+ <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <pjw@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Will Deacon <will@kernel.org>, driver-core@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org
+References: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu Aug 6, 2026 at 7:22 AM BST, Link Mauve wrote:
-> This allows the user to read from and write to big-endian MMIO devices,
-> such as those found on PowerPC systems.
->
-> The implementation is pretty much a copy-paste of the RelaxedMmio type,
-> with the business logic changed.
->
-> This has been tested with various WIP drivers on the Nintendo Wii, and I
-> thought it would be nicer to upstream it before those are completely
-> ready, to get some review.
-
-An alternative approach would be to have a generic wrapper `BigEndian<IO>` =
-where
-it performs byte-swapping in its `IoCapable` implementation. This is more
-composable as it works for all I/O.
-
-Of course, this means that it won't be using the specialized BE I/O impl, b=
-ut
-then the only architectures that have specialized ioread16be are PPC32 and
-SPARC, so maybe it's a reasonable trade-off to make?
-
-Best,
-Gary
-
->
-> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
+On 8/6/26 08:58, Mike Rapoport (Microsoft) wrote:
+> arch_numa.c implements boot time discovery and initialization of NUMA
+> topology on architectures that select GENERIC_ARCH_NUMA (currently arm64
+> and riscv).
+> 
+> Since this is step in the initialization of the memory management
+> subsystem, it's logical to have arch_numa.c in mm/ alongside numa.c,
+> numa_memblks.c and numa_emulation.c.
+> 
+> Move arch_numa.c to mm/ and add its F: entry to "MEMBLOCK AND MEMORY
+> MANAGEMENT INITIALIZATION" in MAINTAINERS.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
->  rust/helpers/io.c | 34 ++++++++++++++++++
->  rust/kernel/io.rs | 88 +++++++++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 120 insertions(+), 2 deletions(-)
->
-> Changes since v1:
-> - Link to v1:
->   https://lore.kernel.org/rust-for-linux/178598049138.1212746.24431515070=
-74972963.b4-review@b4/T/
-> - Fix copy/paste mistake in backend docstring (thank you Ethan Plant!)
-> - Fix safety comment in macro documentation.
->
-> diff --git a/rust/helpers/io.c b/rust/helpers/io.c
-> index 7ed9a4f77f1b..3bbb86a00d67 100644
-> --- a/rust/helpers/io.c
-> +++ b/rust/helpers/io.c
-> @@ -120,6 +120,40 @@ __rust_helper void rust_helper_writeq_relaxed(u64 va=
-lue, void __iomem *addr)
->  }
->  #endif
-> =20
-> +__rust_helper u16 rust_helper_ioread16be(const void __iomem *addr)
-> +{
-> +	return ioread16be(addr);
-> +}
-> +
-> +__rust_helper u32 rust_helper_ioread32be(const void __iomem *addr)
-> +{
-> +	return ioread32be(addr);
-> +}
-> +
-> +#ifdef CONFIG_64BIT
-> +__rust_helper u64 rust_helper_ioread64be(const void __iomem *addr)
-> +{
-> +	return ioread64be(addr);
-> +}
-> +#endif
-> +
-> +__rust_helper void rust_helper_iowrite16be(u16 value, void __iomem *addr=
-)
-> +{
-> +	iowrite16be(value, addr);
-> +}
-> +
-> +__rust_helper void rust_helper_iowrite32be(u32 value, void __iomem *addr=
-)
-> +{
-> +	iowrite32be(value, addr);
-> +}
-> +
-> +#ifdef CONFIG_64BIT
-> +__rust_helper void rust_helper_iowrite64be(u64 value, void __iomem *addr=
-)
-> +{
-> +	iowrite64be(value, addr);
-> +}
-> +#endif
-> +
->  __rust_helper resource_size_t rust_helper_resource_size(struct resource =
-*res)
->  {
->  	return resource_size(res);
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index a38c20ba3d23..ab8b7864298a 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -1194,14 +1194,14 @@ impl IoCapable<$ty> for $backend {
->              #[inline]
->              fn io_read(view: <$backend as IoBackend>::View<'_, $ty>) -> =
-$ty {
->                  // SAFETY: `$backend::as_ptr(view)` is a valid pointer f=
-or MMIO operations for both
-> -                // `MmioBackend` and `RelaxedMmioBackend`.
-> +                // `MmioBackend`, `RelaxedMmioBackend` and `BigEndianMmi=
-oBackend`.
->                  unsafe { bindings::$read_fn($backend::as_ptr(view).cast_=
-const().cast()) }
->              }
-> =20
->              #[inline]
->              fn io_write(view: <$backend as IoBackend>::View<'_, $ty>, va=
-lue: $ty) {
->                  // SAFETY: `$backend::as_ptr(view)` is a valid pointer f=
-or MMIO operations for both
-> -                // `MmioBackend` and `RelaxedMmioBackend`.
-> +                // `MmioBackend`, `RelaxedMmioBackend` and `BigEndianMmi=
-oBackend`.
->                  unsafe { bindings::$write_fn(value, $backend::as_ptr(vie=
-w).cast()) }
->              }
->          }
-> @@ -1751,3 +1751,87 @@ macro_rules! io_write {
->  }
->  #[doc(inline)]
->  pub use crate::io_write;
-> +
-> +/// [`Mmio`] wrapper using big-endian accessors.
-> +///
-> +/// This type provides an implementation of [`Io`] that uses big-endian =
-I/O MMIO operands instead of
-> +/// the regular little-endian ones.
-> +///
-> +/// See [`Mmio::big_endian`] for a usage example.
-> +#[repr(transparent)]
-> +pub struct BigEndianMmio<'a, T: ?Sized>(Mmio<'a, T>);
-> +
-> +impl<T: ?Sized> Copy for BigEndianMmio<'_, T> {}
-> +impl<T: ?Sized> Clone for BigEndianMmio<'_, T> {
-> +    #[inline]
-> +    fn clone(&self) -> Self {
-> +        *self
-> +    }
-> +}
-> +
-> +/// I/O Backend for memory-mapped I/O using big-endian accessors.
-> +pub struct BigEndianMmioBackend;
-> +
-> +impl IoBackend for BigEndianMmioBackend {
-> +    type View<'a, T: ?Sized + KnownSize> =3D BigEndianMmio<'a, T>;
-> +
-> +    #[inline]
-> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> *mu=
-t T {
-> +        MmioBackend::as_ptr(view.0)
-> +    }
-> +
-> +    #[inline]
-> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownS=
-ize>(
-> +        view: Self::View<'a, T>,
-> +        ptr: *mut U,
-> +    ) -> Self::View<'a, U> {
-> +        // SAFETY: Per safety requirement.
-> +        BigEndianMmio(unsafe { MmioBackend::project_view(view.0, ptr) })
-> +    }
-> +}
-> +
-> +impl<'a, T: ?Sized + KnownSize> IoBase<'a> for BigEndianMmio<'a, T> {
-> +    type Backend =3D BigEndianMmioBackend;
-> +    type Target =3D T;
-> +
-> +    #[inline]
-> +    fn as_view(self) -> BigEndianMmio<'a, T> {
-> +        self
-> +    }
-> +}
-> +
-> +impl<'a, T: ?Sized> Mmio<'a, T> {
-> +    /// Returns a [`BigEndianMmio`] reference that performs big-endian I=
-/O operations.
-> +    ///
-> +    /// Big-endian makes no change to 8-bit accesses, but will invert th=
-e bytes of 16-, 32- and
-> +    /// 64-bit accesses, to ensure numbers will be read in their correct=
- order.
-> +    ///
-> +    /// # Examples
-> +    ///
-> +    /// ```no_run
-> +    /// use kernel::io::{
-> +    ///     Io,
-> +    ///     Mmio,
-> +    ///     Region,
-> +    ///     BigEndianMmio,
-> +    /// };
-> +    ///
-> +    /// fn do_io(io: Mmio<'_, Region<0x100>>) {
-> +    ///     // The access is performed using `ioread32be` instead of `re=
-adl`.
-> +    ///     let v =3D io.big_endian().read32(0x10);
-> +    /// }
-> +    ///
-> +    /// ```
-> +    #[inline]
-> +    pub fn big_endian(self) -> BigEndianMmio<'a, T> {
-> +        BigEndianMmio(self)
-> +    }
-> +}
-> +
-> +// MMIO regions support 8, 16, and 32-bit accesses.
-> +impl_mmio_io_capable!(BigEndianMmioBackend, u8, readb, writeb);
-> +impl_mmio_io_capable!(BigEndianMmioBackend, u16, ioread16be, iowrite16be=
-);
-> +impl_mmio_io_capable!(BigEndianMmioBackend, u32, ioread32be, iowrite32be=
-);
-> +// MMIO regions on 64-bit systems also support 64-bit accesses.
-> +#[cfg(CONFIG_64BIT)]
-> +impl_mmio_io_capable!(BigEndianMmioBackend, u64, ioread64be, iowrite64be=
-);
->
-> base-commit: 1701fda2f58e345c050f4309971bdc07cd6146ba
 
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
+-- 
+Cheers,
+
+David
