@@ -1,35 +1,36 @@
 Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A7741F5EA
-	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 08:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1A141F5D4
+	for <driver-core@lists.linux.dev>; Thu,  6 Aug 2026 08:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006179; cv=none; b=ClTaN5MHIkUoL0Yk8exK1yEHAEUMyH2TC1aDvPmSlwzyNJDrUcmURU2l8FFeJluhN9NOQZOa0pCoc+yAwUogcum1J1VJSa3PqvNg/Ms9BFdNxNpOT27UqTkhqGpIYMM0EcaTWi8ndeS6992HdUNK1Ebz5wCudEy2Lr7h5em5fPc=
+	t=1786006180; cv=none; b=fkfxdrZPsscPa2QW7rI2y8ligVq3ILPL9Z7nTKX9KwJ9WgrPacvjvXn7MbcsBzR+jxjdTxA+JDspIDn7TldFtq5f1EVcOtBs75xGwYKtJ+VZ28tqH2eFOEGMqAaf+S3Vfy9nbIqQJHCVZy1qslfcnEr1czBvRoPsLBGG7aWXxPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006179; c=relaxed/simple;
-	bh=PSqhwNhgk0w3pRkAn7OksH/I0Bm/DIJZHaLdHbJBmkw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=amT69f+42ERaTMW31kfn7G/BcMB6A89W7HYFhpO0uNmppyRAQbcTEk+9ZqqoAYL3YGs2a8f36msfy2KZcaZNda+MrVfJoEm8xZXxJ4QDAT3kn2eMSQLyIOywVe/XWzTrKB2J11yyPt1pnLTcEF+cR2hcP078NiMwCTC2pfWzTZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=X1DAExgI; arc=none smtp.client-ip=54.92.39.34
+	s=arc-20240116; t=1786006180; c=relaxed/simple;
+	bh=ARu3eo+AzmCY/i1tQVvRQ0wec1DQQyp45sCuLGUpD9k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=c/hB2fEvcG+6RZNpr/s6XkrbGHi2nnOlO7ST22yp/I2kPHtO22gRc1NwULDxnYwBPYvHo6jka4MAjOIoYB5hLDkHkD2ZOyRLRQnlMfAHQg1VCNYVDoSvjenhhI5trHHJYvFfQBE5MpHuysH2kkR+VQqkjKtisDLdowkQLxSqUYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=UIgXAP4Z; arc=none smtp.client-ip=54.92.39.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="X1DAExgI"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="UIgXAP4Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1786006144;
-	bh=bfQFI9UE0BG7PqkJJvCr5MnjWC2ExUuD2Mv5wNUydPI=;
+	s=onoh2408; t=1786006149;
+	bh=whvAXfqcI/2CG+KFaVGKysE7QcfBGYNfN6vsf1EJrf4=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=X1DAExgIgT5nC6kwUlmkDgpRg/RtSnxSfv6xz8iTXwJDOjsG+FriyV0dUaEKJqy7L
-	 UXuNTz+dcXrguUoz9nT1blMkWu39lDDCOPG94qp4KKErqgl5v389lwNPCI88i8CopS
-	 SRp82i+HO8pWJq5gfXYYyCex1f4BH+8QvZ+23si0=
-X-QQ-mid: esmtpgz10t1786006138t64a578e1
-X-QQ-Originating-IP: ZumO0C5vAZaw+kCchQzXeTEgVEoSMl6W5wDM4tLlYmc=
+	b=UIgXAP4ZZuNZi3YLaNO171bGHcX5h4lTy8Juci2etRv43J5Hj0Sakc6JAqURyfE6D
+	 pJ1dqDfgOsVtCNObJRQY5oA8GgJ21UvlStHKx4e3d4W4en0uQXvEUgfF6CEcrNeqwL
+	 9I7fhicZFFW4LEICPHiMIP46FeH3/sPEe8Uyn3J4=
+X-QQ-mid: esmtpgz10t1786006143tdf8f9d1c
+X-QQ-Originating-IP: uf6iFDgW7rDy3zzGqYADMSBmyCO/dnFQ3AfidrBp4r0=
 Received: from uniontech.com ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 06 Aug 2026 16:48:56 +0800 (CST)
+	id ; Thu, 06 Aug 2026 16:49:01 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 16807416105596679994
+X-BIZMAIL-ID: 14852656375599871192
 EX-QQ-RecipientCnt: 13
 From: Yichong Chen <chenyichong@uniontech.com>
 To: gregkh@linuxfoundation.org
@@ -45,10 +46,12 @@ Cc: rafael@kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v2 0/3] debugfs: make debugfs_create_str() read-only
-Date: Thu,  6 Aug 2026 16:48:51 +0800
-Message-Id: <20260806084854.1019789-1-chenyichong@uniontech.com>
+Subject: [PATCH v2 1/3] interconnect: debugfs: replace writable string helper
+Date: Thu,  6 Aug 2026 16:48:52 +0800
+Message-Id: <20260806084854.1019789-2-chenyichong@uniontech.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20260806084854.1019789-1-chenyichong@uniontech.com>
+References: <20260806084854.1019789-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -58,48 +61,152 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MxdW4jxL6NvX5bVhx3wffVYTh7l5twAWtJy2WNXi6Y+2ekQ+evS/iXlP
-	B4X3512nCcf6C58LxjejH6OX77iwYwne9i7VTkzMOh8o89gxzPBDlvr255TJFBOYE5gQyjI
-	TrdSV8ndSyq6an2A3bxrotPnVU4BY9cGm7A2lJnZMpZzOA7NrGmXcBU/ipsgqNDB6vL+iI8
-	dHKB9IFIRwMBQyrTxyynL7gZkQoZKKQnTFIzLyX+6sGoMgUIgAJQQ00/2z40kHfoJ9g/Jfp
-	v/0KULxBmOYeyXw020c2cEJBsVQz2xPaEvash4n4bJWdxMVfS+mK+3hux8tLqjXYlbM4Jxk
-	ILaZhmeAkCqxHqhwpCy8BopDwctb5gKuGzFD0dpLyc0Uk8jXayNdOCMemTaJnk+hdAtCBCy
-	+2Tzs1s+/R8iKdWPXKTXbHiwtVe5/u9maubHmkr/0ziQJ2F/TdQNg7vmpv2Ap9cxnOX8lOh
-	XGL3AOFbHqLOTB7UO9m9fKKgrT377dewpzgIiCCjTaJj7/l4MLqnYsFrb99prwCjmJYOy3J
-	hDcOpoJ4u6vwcrMrWMC8e2aX1fZ6C1Oc1919RCaWau99XQfc5GlgGD8UC2nLJMkVJ24ZXql
-	jmKbtXzeR7qj3hjMjNXI9OgUfgIGJ9i8anyHoU2yIWA9yRxpSYRnrmzoALvZV+DOIyFntAx
-	LN0VlWN9mSNGpfa23OGQ6od1aBH/VxAJzEn0rWfVbewVvD7gQYW7OZxcdmsHTqPSWKfEyXk
-	CbNq33GqE51aZFgjsV93n25m5pKrNEZhp0o4MB/PlfjqafDwDijR/H/CT6Dc5IEtLwnIxBK
-	iwe9g7CTl783LOHBpl2980WIV7R6Yn7lYNdft/IvSMluLke1vnTycWArtpB70P9sPwz5qnU
-	haJpWiMPgmD5xTteZrgtg3N7Kink5ZjEuN6qUKPV3/M+nv0n23jdewmM9+YFQf9WTRgXkHy
-	Mj66Z2GOw/NZqRxvHrpew9fFbgFkhXltZExC1npkAs0yeZQKwYVp+iX8anaZPgEHy6AMs+I
-	HwnXJtoh7fcjOiJZJNp2mgJkq5UIo=
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-XMAILINFO: MuYB7VmwJPrIoa/Yjtkby4LraX6dUTqAslqsYpI4MVLZRepyVfoohM5b
+	4W1XGBjvT+10YkLPzM8aSlvz1hYMSblHtYER8k2IZtWqkxmu3LAK9hgVXXu/HFgeXNKzGo+
+	8bgs2CcYtEcOdsS0FHIPUkLghxqpb/eoVtt7NpTlTBrBGTTVEANM404EyvuWCyQi5qIikbd
+	1vpXx9aB6QcynlbrTgmj89BafuZpoPPc2j8Y+XrYscQNWeP2f+99wd/trkefkHCxMXqzqYJ
+	l9VGtIMULXp5P8UY+hqiJx0TzvrvL0E7xMZ+DLKA+RXEILLmxkkC0XPpT/0nhinIpDE6jM0
+	fPT7+7e6VnXPtSGyebZZ2ZeycpJFoJNVAtSDDpnUXK77tS5YktjyKLL5JqmMgq5NotrAiJO
+	gIbuwa4Drea5c28sIUuMy+mb+83gczVIm1UqlFNv/HhapFELU3rooNYxXCqC7hT5MTVQ2NN
+	tGLkrwRSwEwYJ8DbXfHYazPJsONY21SDSzOEkbVxf+e7FLihfnwZ/B+MyHdrHDHKIYqbdeS
+	tV166ivkx9FrDKc6uEAtURD2I4WDTTZPT4Si7dfHqDpeJf4xgcy1DAcR3Usgsw5AF10Ge13
+	0/h4O/ZiF3ZLMEs9UE+T3W9qxx+EQazG9hN8zhGF1i/bvvXYs1l8sTW06SGgJJs06U1PgxH
+	5e7ypsXvsUpuOdZZ6KVM1P34x7qnyRp3qGERu8geLJh0X4d1HJcXxMn81bV5iJtkBCLtQNO
+	Jw6al3B/4RvR8Y7lKZ/bJg4Npr2AKRcini9baqPFJBNuUgArXFPGxHxI95dcfVXMWV541KD
+	pZkTHGJr3HITusSlNs55it7+T8L02FqIslqhfZFBphDDuoN7qmyrr6h4Dln5D9vNaHSv7wW
+	tiypG9X3RScQwLydRjepEBrYAshJcKg/BZMhgII6XwmfE093fsRKMSe6ghGrVJu636LO8fi
+	2WSTbEDw8+7+hxHrzYedJWV/061HnbeF6wszZWSycsqb7JwB/RVHuhHNWTIbDcRcJQQYj7N
+	C7GEXZG5QWF/7/tNsdJVP1OOY6c7y2//Xdfd44uYuPjusQ0g5c
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 X-QQ-RECHKSPAM: 0
 
-debugfs_create_str() currently supports writable files through a generic
-string replacement helper.  Concurrent writers can race in that helper.
+debugfs_create_str() is being made read-only because its generic write path
+is hard to make safe without adding more locking to the helper.
 
-Instead of adding more locking to the generic debugfs string code, convert
-the existing writable in-tree users to local file operations first, then make
-debugfs_create_str() read-only and refuse modes with write permission bits.
+Convert the interconnect debugfs client src_node and dst_node entries to
+local file operations before removing writable string support from
+debugfs_create_str().  Protect the string replacement and path lookup with
+the existing debugfs_lock.
 
-Changes since v1:
-- Follow Greg's suggestion to avoid adding locking to the generic
-  debugfs_create_str() write path.
-- Convert the existing writable in-tree users to local file operations.
-- Make debugfs_create_str() read-only and refuse writable modes.
-- Split the change into a 3-patch series.
+Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+---
+ drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++++-----
+ 1 file changed, 62 insertions(+), 13 deletions(-)
 
-Yichong Chen (3):
-  interconnect: debugfs: replace writable string helper
-  soundwire: debugfs: replace writable string helper
-  debugfs: make debugfs_create_str() read-only
-
- drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++-----
- drivers/soundwire/debugfs.c           | 56 ++++++++++++++++--
- fs/debugfs/file.c                     | 81 ++++-----------------------
- 3 files changed, 124 insertions(+), 88 deletions(-)
-
+diff --git a/drivers/interconnect/debugfs-client.c b/drivers/interconnect/debugfs-client.c
+index 08df9188ef94..b71c25fd9314 100644
+--- a/drivers/interconnect/debugfs-client.c
++++ b/drivers/interconnect/debugfs-client.c
+@@ -5,6 +5,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/interconnect.h>
+ #include <linux/platform_device.h>
++#include <linux/slab.h>
+ 
+ #include "internal.h"
+ 
+@@ -36,6 +37,59 @@ struct debugfs_path {
+ 	struct list_head list;
+ };
+ 
++static ssize_t icc_node_read(struct file *file, char __user *user_buf,
++			     size_t count, loff_t *ppos)
++{
++	char **node = file->private_data;
++	char *copy;
++	size_t len;
++	ssize_t ret;
++
++	mutex_lock(&debugfs_lock);
++	copy = kstrdup(*node ?: "", GFP_KERNEL);
++	mutex_unlock(&debugfs_lock);
++	if (!copy)
++		return -ENOMEM;
++
++	len = strlen(copy);
++	copy[len++] = '\n';
++	ret = simple_read_from_buffer(user_buf, count, ppos, copy, len);
++	kfree(copy);
++	return ret;
++}
++
++static ssize_t icc_node_write(struct file *file, const char __user *user_buf,
++			      size_t count, loff_t *ppos)
++{
++	char **node = file->private_data;
++	char *old, *new;
++
++	if (*ppos)
++		return -EINVAL;
++	if (count + 1 > PAGE_SIZE)
++		return -E2BIG;
++
++	new = memdup_user_nul(user_buf, count);
++	if (IS_ERR(new))
++		return PTR_ERR(new);
++	strim(new);
++
++	mutex_lock(&debugfs_lock);
++	old = *node;
++	*node = new;
++	mutex_unlock(&debugfs_lock);
++
++	kfree(old);
++	return count;
++}
++
++static const struct file_operations icc_node_fops = {
++	.open = simple_open,
++	.read = icc_node_read,
++	.write = icc_node_write,
++	.llseek = default_llseek,
++};
++
+ static struct icc_path *get_path(const char *src, const char *dst)
+ {
+ 	struct debugfs_path *path;
+@@ -56,24 +110,17 @@ static int icc_get_set(void *data, u64 val)
+ 
+ 	mutex_lock(&debugfs_lock);
+ 
+-	rcu_read_lock();
+-	src = rcu_dereference(src_node);
+-	dst = rcu_dereference(dst_node);
+-
+ 	/*
+ 	 * If we've already looked up a path, then use the existing one instead
+ 	 * of calling icc_get() again. This allows for updating previous BW
+ 	 * votes when "get" is written to multiple times for multiple paths.
+ 	 */
+-	cur_path = get_path(src, dst);
+-	if (cur_path) {
+-		rcu_read_unlock();
++	cur_path = get_path(src_node, dst_node);
++	if (cur_path)
+ 		goto out;
+-	}
+ 
+-	src = kstrdup(src, GFP_ATOMIC);
+-	dst = kstrdup(dst, GFP_ATOMIC);
+-	rcu_read_unlock();
++	src = kstrdup(src_node, GFP_KERNEL);
++	dst = kstrdup(dst_node, GFP_KERNEL);
+ 
+ 	if (!src || !dst) {
+ 		ret = -ENOMEM;
+@@ -160,8 +207,10 @@ int icc_debugfs_client_init(struct dentry *icc_dir)
+ 
+ 	client_dir = debugfs_create_dir("test_client", icc_dir);
+ 
+-	debugfs_create_str("src_node", 0600, client_dir, &src_node);
+-	debugfs_create_str("dst_node", 0600, client_dir, &dst_node);
++	debugfs_create_file("src_node", 0600, client_dir, &src_node,
++			    &icc_node_fops);
++	debugfs_create_file("dst_node", 0600, client_dir, &dst_node,
++			    &icc_node_fops);
+ 	debugfs_create_file("get", 0200, client_dir, NULL, &icc_get_fops);
+ 	debugfs_create_u32("avg_bw", 0600, client_dir, &avg_bw);
+ 	debugfs_create_u32("peak_bw", 0600, client_dir, &peak_bw);
 -- 
 2.51.0
+
