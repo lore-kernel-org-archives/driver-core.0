@@ -1,34 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8345371D11;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1523859D3;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036195; cv=none; b=sU4FbA4PxUPjlwYGLibSVr3lU2KW60ny8AIId0wG30nZuo/QrxaxKOY9qNGCkXiOM5sUrDKGTUq2k5OXhDEmqUzNhNfmhOozBwwKmO/xLcJP8/e+dK93ghcEh5a18rVPjChlfVlQCpm71WE09+/ctwFMKd1QWguU9BBxPKatnVs=
+	t=1786036195; cv=none; b=iZDC1U2j9pY/e1EZxOPl+b/3hWWB0gkuLzd1eBDSFK7kzWutE649QYUfcTEjNqI16NqKZYO7yu+CFiLBQBVcg5RKJOjUP6Ccxb6f4HQtg5EVIB2qpjaGaVUewW7ad5Z8g3/kasnDJxG1+vqSiJAzzxLbTJTseQTWFpJ4XOILHc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786036195; c=relaxed/simple;
-	bh=iSdF+luNjDPO6H6nxaSmDmulGRciqP5amMZxLEHVmtk=;
+	bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=joEloEMzYC9HfbyDGzv9Q98ahnfW3wlVR2sY/RO1Lj2Oz5LItxy7cOiINfquVIE6SIm35UJXmHXIeTRjzoynWvpjzXNTNxXcyNK8oDdOPnYsiE/EbdClUmOIjWuVMSutsf6NwsIF6+JMmjLhJAPS4DWnWYk8smAntlnUs/K+1OE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WQYihOQp; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=L8XTfxqRBhIAeqXH8Diz7gfeS9X0K6ohh3CEfVBQTEopzcmnTFPaltJupg8MRLLDHPVC4r/Of2tffRGFF5OhNXEcrBTZtRxhGlUjDyKnXRwnzQY3N2lnJquzrLEyebI0jHSLbIsCLjVSGjXUgjD10HtfAqS72i3XvoxD6I7avXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=avvL1WKa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WQYihOQp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 77ED7C2BD00;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="avvL1WKa"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 66063C4AF10;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1786036195; bh=iSdF+luNjDPO6H6nxaSmDmulGRciqP5amMZxLEHVmtk=;
+	t=1786036195; bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WQYihOQpr9OUCtrDKYyegWaCG31o7Hd9BwYQaMAbaZhkvCJluV7Mtaggn64YttYaT
-	 4HAM2wJipbB239CAz/NY6yj7hMy3VWEmlNyYB3BANXJPSPGb80dZ/x4I9JvpOfjPtd
-	 OEtmzz6IdLclICEO0sD9ulm/x1n0hZy/epox3Tv4=
+	b=avvL1WKaHglXcOAOA2zel1l+1ksbAw+1UkpdUlXsjlqQu2WYUKC9bqPT03NURbC6u
+	 WsNJ9mpszf4PWp3c4hpMt8EnE4P3oE9avc6Q2/tg1WxcuE5tmk4nGaiOrz53En1lIk
+	 kq4rJuWuE5CgxVPV2dOo/861cXjvWhha5scDFZ1M=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6251EC5AC9E;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5E7C5AC80;
 	Thu,  6 Aug 2026 17:09:55 +0000 (UTC)
 From: Alvin Sun <alvin.sun@linux.dev>
-Date: Fri, 07 Aug 2026 01:07:27 +0800
-Subject: [PATCH v3 5/8] rust: drm: add debugfs_init callback to Driver
- trait
+Date: Fri, 07 Aug 2026 01:07:26 +0800
+Subject: [PATCH v3 4/8] drm: move debugfs_init after dev->registered is set
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -37,7 +36,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-tyr-debugfs-v2-v3-5-ff5595ac66ae@linux.dev>
+Message-Id: <20260807-tyr-debugfs-v2-v3-4-ff5595ac66ae@linux.dev>
 References: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 In-Reply-To: <20260807-tyr-debugfs-v2-v3-0-ff5595ac66ae@linux.dev>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -62,120 +61,57 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
  rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=3893;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786036192; l=1535;
  i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=iSdF+luNjDPO6H6nxaSmDmulGRciqP5amMZxLEHVmtk=;
- b=ZldjwIosw8T4AUAs13rIIp40Yo3Ta8eNDnAr5ngOYS3vLm3zkVA0mRb6DELoNVnG9fQKRfVeV
- YHc+XGZHlN/C8qSLi2v8IH7x7tqE7y07/E9u9bfQ6PXd/pxmR1sCYWx
+ bh=3j8Y2VWzUHHVn7fnmcTtj47HwMwv4l28mSjidsjPSoc=;
+ b=JiqjzmF+Hf6okmV2BctyiTvlTlQw9TRSdd+G41efvmY17FJHk84qA45UkSLTPkbLSsoATeJ8N
+ ZvYO/AEGRr5C24jfJdbWbNAbQ3qGz2fSbsOLSj0yI9+B9E7Ndp82GYq
 X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
  auth_id=684
 
-Add debugfs_init method to the Driver trait, enabling Rust DRM drivers
-to populate debugfs entries during device registration.
+The debugfs_init callback is called from drm_debugfs_register during
+drm_minor_register, before dev->registered is set to true. Move it to
+drm_dev_register after dev->registered = true so that callbacks see a
+fully registered device.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- rust/kernel/drm/device.rs | 41 ++++++++++++++++++++++++++++++++++++++++-
- rust/kernel/drm/driver.rs | 11 +++++++++++
- 2 files changed, 51 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_debugfs.c | 3 ---
+ drivers/gpu/drm/drm_drv.c     | 5 +++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 7a3a0e21e9557..35fd514fec274 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -7,6 +7,7 @@
- use crate::{
-     alloc::allocator::Kmalloc,
-     bindings,
-+    debugfs,
-     device,
-     drm::{
-         self,
-@@ -170,7 +171,7 @@ const fn compute_features() -> u32 {
-         release: Some(Device::<T>::release),
-         master_set: None,
-         master_drop: None,
--        debugfs_init: None,
-+        debugfs_init: Some(Device::<T>::debugfs_init_callback),
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index ae1c6126c2c59..38cf6ce387cc8 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -442,9 +442,6 @@ int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ 	/* TODO: Only for compatibility with drivers */
+ 	minor->debugfs_root = dev->debugfs_root;
  
-         gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
-         prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
-@@ -353,6 +354,44 @@ extern "C" fn release(ptr: *mut bindings::drm_device) {
-         unsafe { core::ptr::drop_in_place(this) };
-     }
- 
-+    /// C callback for `drm_driver.debugfs_init`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The DRM core guarantees that `minor` is valid and non-null, that
-+    /// `minor->dev` is a valid `drm_device` embedded in a `Device<T>`.
-+    unsafe extern "C" fn debugfs_init_callback(minor: *mut bindings::drm_minor) {
-+        // SAFETY: `minor` is valid and non-null per the function's safety
-+        // precondition.
-+        let dev_ptr = unsafe { (*minor).dev };
-+        // SAFETY: `minor` is valid per the function's safety precondition.
-+        let debugfs_root = unsafe { (*minor).debugfs_root };
-+
-+        // Debugfs may be disabled.
-+        if debugfs_root.is_null() {
-+            return;
-+        }
-+
-+        // SAFETY: `dev_ptr` points to a valid `drm_device` embedded in
-+        // `Device<T>`.
-+        let dev = unsafe { Self::from_raw(dev_ptr) };
-+
-+        // SAFETY: The device is in the registered state per the function's
-+        // safety precondition.
-+        let dev = unsafe { dev.assume_ctx::<Registered>() };
-+
-+        dev.registration_data_with(|reg_data| {
-+            // SAFETY: `debugfs_root` is valid as long as the DRM device is
-+            // registered. The debugfs proxy fops wait for in-progress file
-+            // operations and block new ones during `debugfs_remove()`, so no
-+            // access to `reg_data` can outlive it. `debugfs_remove()` runs
-+            // before `Registration::drop` frees `reg_data`.
-+            let dir = unsafe { debugfs::ScopeRef::new(debugfs_root, reg_data) };
-+
-+            T::debugfs_init(&dir);
-+        });
-+    }
-+
-     /// Change the [`DeviceContext`] for a [`Device`].
-     ///
-     /// # Safety
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index 08b2a318cf02a..f850b11fd5c53 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -6,6 +6,7 @@
- 
- use crate::{
-     bindings,
-+    debugfs,
-     device,
-     drm,
-     error::to_result,
-@@ -138,6 +139,16 @@ pub trait Driver {
-     /// usable from the render node (i.e. marked DRM_RENDER_ALLOW), whereas
-     /// userspace processes using the master node can invoke any ioctl.
-     const FEAT_RENDER: bool = false;
-+
-+    /// Populates debugfs for this DRM device.
-+    ///
-+    /// Called by the DRM core during registration. The `ScopeRef` provides
-+    /// access to the device's `RegistrationData` for creating debugfs files.
-+    fn debugfs_init(_dir: &debugfs::ScopeRef<'_, Self::RegistrationData<'_>>)
-+    where
-+        Self: Sized,
-+    {
-+    }
+-	if (dev->driver->debugfs_init && dev->render != minor)
+-		dev->driver->debugfs_init(minor);
+-
+ 	return 0;
  }
  
- /// The registration type of a `drm::Device`.
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index e890052061f30..15669764fe625 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -1101,6 +1101,11 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+ 	dev->registered = true;
+ 	dev->unplugged = false;
+ 
++	/* Call debugfs_init after the device is fully registered. */
++	if (dev->driver->debugfs_init && dev->primary &&
++	    dev->render != dev->primary)
++		dev->driver->debugfs_init(dev->primary);
++
+ 	if (driver->load) {
+ 		ret = driver->load(dev, flags);
+ 		if (ret)
 
 -- 
 2.43.0
