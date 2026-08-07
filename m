@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE2B39EF1C;
-	Fri,  7 Aug 2026 16:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492F2392C34;
+	Fri,  7 Aug 2026 16:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786121608; cv=none; b=Mw8vyUFStqZQxFpxfCV7aBY555EXjH33KlXqhfWqVAbHJ4llxP2n7YSGxIdHgsil6WgSrlwj766LPsV+E3CubuqceELUlzrV2iJmw1F8VcDZwZ4cI1bR1kRpliwwojk21UsXUcoVHlagqiNygquoViyJTo2ZPCeyLQW1zpu5rsk=
+	t=1786121613; cv=none; b=KN0wAUTTNiLV7OzthqySQsc0GxVkLyVuQ/pUzaEufxyyBV5xvAJ/MOE2xIRph6hritoySliDpBGe3Z7iJhFwtdXWqKUExr6V6YHyI0yXrLhtG/ktreirKkGmbUddpChTFyHqnYUufP2TQ6ZXzDYnOqbg6dNLxxARYyxAo87w3Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786121608; c=relaxed/simple;
-	bh=MeyJSyi4gNjiMX9oh3a84EhMG9idgmhZucxZZguxoPM=;
+	s=arc-20240116; t=1786121613; c=relaxed/simple;
+	bh=sPV84w4SX+U/1LZWuC3bVnh4+DTDuSfP+duYQoCrcQw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sCnFnfcS1A4gV2xgAI6RUoB5uAVvK/GZEPqSQu7ki6S283p09OcYUesGBqJOcMEG8Ux4PeMVf9Yu7GGJ3vQ6q6GDsggUm+dTeE8OJVt3szjZtma6LJiqHhShfamSxKrklRezY4ap/J+SLbTnqw02h6mR/M2hu1hPH4cF0VKlG04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZsbqvC7; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=tfeWldZG+S1MPXCnTuiF4tRdJKwgo0XGT2TamhjAu4q/QcdQYkpZFg8Db/Qa153mlGJKTmM6umM5f22UUP+XXjyMqEoOy14BLGzsd7weJLFO1+aFuLla7GeTtSR6jr9pD/rjB5PWFdewOVzRjU/88z5HH8SaGBrD83lO1YnR91c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERpZdC21; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZsbqvC7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DCE71F00A3A;
-	Fri,  7 Aug 2026 16:53:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERpZdC21"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9682E1F000E9;
+	Fri,  7 Aug 2026 16:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786121606;
-	bh=v5rO7Pt9TZyJwWtTgJ+3okuK8bq+zJs8wct93yfdHpU=;
+	s=k20260515; t=1786121610;
+	bh=XLbEWJSeXDkTQHNGYVl4uqwESecA9mbAlTlzm692Aik=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PZsbqvC7e+qLpU2aSUQ7kn+VaVpVxD30TKDxFPuwD457ZRAnQ8riV8iKUfqyyZskr
-	 L6vc2hGEJz4AlRAfhqEBRG59zqrPunftKRAYNLncAVjOhyhcyUPozvjD0LTL26s5nn
-	 trXW+/bdS1gO1b774bOyazxnG6XteO8ntjkkVtXwAxW1F2VXUGKuGD7MTVo13Mwprt
-	 3TBuMAi3L40e7WqcarGDd2HTjJ/Fcq5DyqHKaViAG5VgcDMzuUQnCmhwVZmNBXfQZz
-	 exR4yV5UNdO2R1mV5YpnfJakQCI7pVZEE3n0JP4daKk/bQE5JS9JszdAvMyDU7t6Ls
-	 YullI4FVhQfVw==
+	b=ERpZdC21r1/NhV+iFxVokt8aeqMZE/f91/eU+39aFi5LrJwi7AdYPNOBbV5XhL0GK
+	 UUx9Rsp5JMru7fTEQUD5y4rYJFcxiKMpcVxpH7sPXGKwh+1lLC9Y+5MSQ4KxcMz+gW
+	 WSqg3GRXSA+XZk8/AEvK6Hdy2z46Hj/Um6LlswpkVSU1CjfUkqCs2a7ndIXp7olkLV
+	 DDd+WUWY9a85jZc6OOLYeaCbPLizxbrnYLFdPp8zZiVRhETodz0V8BW5le9CGM8CLT
+	 ihyHuWToj6VjEbwbpJAA2Rj9ZHRzsiJcVnzM9bB3xCmo4+YvzDYhExj2x2GuFQgqfM
+	 /EeqznHTn9TaQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: tj@kernel.org,
 	jiangshanlai@gmail.com,
@@ -46,9 +46,9 @@ Cc: rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 5/6] rust: workqueue: add ScopedQueue for lifetime bound items
-Date: Fri,  7 Aug 2026 18:52:48 +0200
-Message-ID: <20260807165252.3849875-6-dakr@kernel.org>
+Subject: [PATCH v2 6/6] rust: workqueue: add ScopedWork for non-'static work items
+Date: Fri,  7 Aug 2026 18:52:49 +0200
+Message-ID: <20260807165252.3849875-7-dakr@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260807165252.3849875-1-dakr@kernel.org>
 References: <20260807165252.3849875-1-dakr@kernel.org>
@@ -58,266 +58,589 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Onur Özkan <work@onurozkan.dev>
+Add ScopedWork<T>, a work item wrapper whose destructor calls
+cancel_work_sync(), allowing T to carry non-'static lifetimes. Ownership
+of the data is not transferred to the workqueue; instead, the
+synchronous cancellation on drop guarantees the work function is not
+running when the data is freed.
 
-Add a workqueue wrapper for work items that are not 'static.
+ScopedWork uses the existing Work/HasWork/WorkItem infrastructure with
+NonNull<ScopedWorkRef<T>> as WorkItem::Pointer for the callback path,
+and implements RawWorkItem for &ScopedWork<T> and &ScopedWorkRef<T> for
+the enqueue path (requiring T: Sync for cross-thread shared access
+safety).
 
-Tyr reset work is queued from a handle that owns a Controller<'bound>
-where the work item holds references tied to the lifetime of the bound
-device and its mapped IO state. The existing API only accepts 'static
-work items which cannot express that relationship.
+Two enqueue paths are provided:
+  - Queue::enqueue_scoped() (unsafe): the caller must ensure the work
+    item is not forgotten.
+  - ScopedQueue::enqueue() (safe): when the work item's lifetime
+    satisfies the queue's 'scope bound.
 
-Introduce ScopedQueue for this case. It owns the underlying workqueue
-and ties enqueued work to the queue lifetime so borrowed state cannot
-outlive the queue that may still run it.
-
-Construction is unsafe because the queue must not be leaked.
-
-`compile_fail` doc-tests are ignored for now as KUnit doesn't support
-that. Enabling those tests as regular code block would raise this error:
-
-    ERROR:root:error[E0597]: `data` does not live long enough
-	 --> rust/doctests_kernel_generated.rs:22029:44
-	  |
-    22027 |         let data = ();
-	  |             ---- binding `data` declared here
-    22028 |         // SAFETY: Queue is not leaked.
-    22029 |         queue = unsafe { new_queue(&data)? };
-	  |                                            ^^^^^ borrowed value does not live long enough
-    22030 |     }
-	  |     - `data` dropped here while still borrowed
-    ...
-    22034 | }
-	  | - borrow might be used here, when `queue` is dropped and runs the `Drop` code for type `ScopedQueue`
-	  |
-	  = note: values in a scope are dropped in the opposite order they are defined
-
-which is exactly the constraint ScopedQueue is meant to enforce.
-
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Onur Özkan <work@onurozkan.dev>
-[ Move from scoped_queue.rs to scoped.rs, which can be shared with
-  ScopedWork; add missing inline annotations. - Danilo ]
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/workqueue/mod.rs    |   3 +
- rust/kernel/workqueue/scoped.rs | 190 ++++++++++++++++++++++++++++++++
- 2 files changed, 193 insertions(+)
- create mode 100644 rust/kernel/workqueue/scoped.rs
+ rust/kernel/workqueue/mod.rs    |  46 +++-
+ rust/kernel/workqueue/scoped.rs | 442 +++++++++++++++++++++++++++++---
+ 2 files changed, 444 insertions(+), 44 deletions(-)
 
 diff --git a/rust/kernel/workqueue/mod.rs b/rust/kernel/workqueue/mod.rs
-index 8eb2d037be83..551fa1401b85 100644
+index 551fa1401b85..be5bfb4cfc30 100644
 --- a/rust/kernel/workqueue/mod.rs
 +++ b/rust/kernel/workqueue/mod.rs
-@@ -212,6 +212,9 @@
- mod builder;
+@@ -213,7 +213,13 @@
  pub use self::builder::Builder;
  
-+mod scoped;
-+pub use self::scoped::ScopedQueue;
-+
+ mod scoped;
+-pub use self::scoped::ScopedQueue;
++pub use self::scoped::{
++    new_scoped_work,
++    ScopedQueue,
++    ScopedWork,
++    ScopedWorkItem,
++    ScopedWorkRef, //
++};
+ 
  /// Creates a [`Work`] initialiser with the given name and a newly-created lock class.
  #[macro_export]
- macro_rules! new_work {
-diff --git a/rust/kernel/workqueue/scoped.rs b/rust/kernel/workqueue/scoped.rs
-new file mode 100644
-index 000000000000..18a4b6f6cf18
---- /dev/null
-+++ b/rust/kernel/workqueue/scoped.rs
-@@ -0,0 +1,190 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -283,23 +289,39 @@ pub unsafe fn from_raw<'a>(ptr: *const bindings::workqueue_struct) -> &'a Queue
+     /// This may fail if the work item is already enqueued in a workqueue.
+     ///
+     /// The work item will be submitted using `WORK_CPU_UNBOUND`.
++    #[inline]
+     pub fn enqueue<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
+     where
+         W: RawWorkItem<ID> + Send + 'static,
++    {
++        // SAFETY: `W: 'static` guarantees the work item remains valid indefinitely,
++        // so the `enqueue_scoped` requirement that the work item stays valid until
++        // the work function runs (or is cancelled) is trivially satisfied.
++        unsafe { self.enqueue_scoped(w) }
++    }
 +
-+//! Lifetime-scoped workqueues.
-+//!
-+//! Provides [`ScopedQueue`] for work items that may borrow data with some
-+//! non-`'static` lifetime.
-+//!
-+//! Unlike [`Queue`] which only accepts `'static` work items, [`ScopedQueue`]
-+//! owns its underlying queue and relies on that queue being dropped to drain
-+//! pending and running work before borrowed data can go out of scope.
-+//!
-+//! TODO: Remove `ignore` once KUnit supports `compile_fail` on doc-tests.
-+//! ```compile_fail,ignore
-+//! use kernel::prelude::*;
-+//! use kernel::workqueue::ScopedQueue;
-+//!
-+//! /// # Safety
-+//! ///
-+//! /// Returned queue must not be leaked.
-+//! unsafe fn new_queue<'bound>(_: &'bound ()) -> Result<ScopedQueue<'bound>> {
-+//!     // SAFETY: Caller guarantees that the returned queue is not leaked.
-+//!     unsafe { ScopedQueue::new(c"scoped_queue") }
-+//! }
-+//!
-+//! fn queue_outlives_borrowed_data() -> Result {
-+//!     let queue;
-+//!
-+//!     {
-+//!         let data = ();
-+//!         // SAFETY: Queue is not leaked.
-+//!         queue = unsafe { new_queue(&data)? };
-+//!     }
-+//!     // Here the `compile_fail` is fulfilled as `queue` would be dropped
-+//!     // after `data`.
-+//!     Ok(())
-+//! }
-+//! ```
-+//!
-+//! TODO: Remove `ignore` once KUnit supports `compile_fail` on doc-tests.
-+//! ```compile_fail,ignore
-+//! use kernel::prelude::*;
-+//! use kernel::sync::Arc;
-+//! use kernel::workqueue::{
-+//!     impl_has_work,
-+//!     new_work,
-+//!     ScopedQueue,
-+//!     Work,
-+//!     WorkItem,
-+//! };
-+//!
-+//! #[pin_data]
-+//! struct BorrowedWork<'bound> {
-+//!     data: &'bound (),
-+//!     #[pin]
-+//!     work: Work<BorrowedWork<'bound>>,
-+//! }
-+//!
-+//! impl_has_work! {
-+//!     impl{'bound} HasWork<BorrowedWork<'bound>> for BorrowedWork<'bound> { self.work }
-+//! }
-+//!
-+//! impl<'bound> WorkItem for BorrowedWork<'bound> {
-+//!     type Pointer = Arc<Self>;
-+//!
-+//!     fn run(_this: Arc<Self>) {}
-+//! }
-+//!
-+//! impl<'bound> BorrowedWork<'bound> {
-+//!     fn new(data: &'bound ()) -> Result<Arc<Self>> {
-+//!         Arc::pin_init(
-+//!             pin_init!(Self {
-+//!                 data,
-+//!                 work <- new_work!("BorrowedWork::work"),
-+//!             }),
-+//!             GFP_KERNEL,
-+//!         )
-+//!     }
-+//! }
-+//!
-+//! struct Handle<'bound> {
-+//!     work: Arc<BorrowedWork<'bound>>,
-+//!     wq: ScopedQueue<'bound>,
-+//! }
-+//!
-+//! impl<'bound> Handle<'bound> {
-+//!     /// # Safety
-+//!     ///
-+//!     /// Returned handle must not be leaked.
-+//!     unsafe fn new(data: &'bound ()) -> Result<Self> {
-+//!         Ok(Self {
-+//!             work: BorrowedWork::new(data)?,
-+//!             // SAFETY: Caller guarantees that the returned handle is not leaked.
-+//!             wq: unsafe { ScopedQueue::new(c"handle_wq")? },
-+//!         })
-+//!     }
-+//! }
-+//!
-+//! fn handle_outlives_borrowed_data() -> Result {
-+//!     let handle;
-+//!
-+//!     {
-+//!         let data = ();
-+//!         // SAFETY: Handle is not leaked.
-+//!         handle = unsafe { Handle::new(&data)? };
-+//!
-+//!         let _ = handle.wq.enqueue(handle.work.clone());
-+//!     }
-+//!     // Here the `compile_fail` is fulfilled as `handle` would be dropped
-+//!     // after `data`.
-+//!     Ok(())
-+//! }
-+//! ```
-+
-+use super::{
-+    OwnedQueue,
-+    Queue,
-+    RawWorkItem, //
-+};
-+
-+use crate::{
-+    bindings,
-+    ffi,
-+    prelude::*, //
-+};
-+
-+use core::marker::PhantomData;
-+
-+/// An owned workqueue that can enqueue work items borrowing from `'scope`.
-+///
-+/// A `ScopedQueue` must not outlive data borrowed by its work items.
-+pub struct ScopedQueue<'scope> {
-+    inner: OwnedQueue,
-+    _scope: PhantomData<&'scope mut &'scope ()>,
-+}
-+
-+impl<'scope> ScopedQueue<'scope> {
-+    /// Creates an ordered scoped workqueue.
++    /// Enqueues a work item that may not be `'static`.
++    ///
++    /// Unlike [`Queue::enqueue`], this does not require the work item to be `'static`.
++    ///
++    /// The work item will be submitted using `WORK_CPU_UNBOUND`.
 +    ///
 +    /// # Safety
 +    ///
-+    /// The caller must not leak the returned queue or otherwise prevent its
-+    /// [`Drop`] implementation from running since dropping the queue drains
-+    /// pending and running work that may borrow from `'scope`.
++    /// The caller must ensure that the work item's destructor runs before any
++    /// lifetime it captures expires (i.e., the work item must not be forgotten).
 +    #[inline]
-+    pub unsafe fn new(name: &'static CStr) -> Result<Self> {
-+        Ok(Self {
-+            inner: Queue::new_ordered().build(name)?,
-+            _scope: PhantomData,
++    pub unsafe fn enqueue_scoped<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
++    where
++        W: RawWorkItem<ID> + Send,
+     {
+         let queue_ptr = self.0.get();
+ 
+-        // SAFETY: We only return `false` if the `work_struct` is already in a workqueue. The other
+-        // `__enqueue` requirements are not relevant since `W` is `Send` and static.
+-        //
+-        // The call to `bindings::queue_work_on` will dereference the provided raw pointer, which
+-        // is ok because `__enqueue` guarantees that the pointer is valid for the duration of this
+-        // closure.
+-        //
+-        // Furthermore, if the C workqueue code accesses the pointer after this call to
+-        // `__enqueue`, then the work item was successfully enqueued, and `bindings::queue_work_on`
+-        // will have returned true. In this case, `__enqueue` promises that the raw pointer will
+-        // stay valid until we call the function pointer in the `work_struct`, so the access is ok.
++        // SAFETY: We only return `false` if the `work_struct` is already in a workqueue. The
++        // caller guarantees the work item remains valid until the work function runs or the item
++        // is cancelled, satisfying the `__enqueue` requirement that the pointer stays valid until
++        // the function pointer in the `work_struct` is called. `W: Send` satisfies the
++        // cross-thread safety requirement.
+         unsafe {
+             w.__enqueue(move |work_ptr| {
+                 bindings::queue_work_on(
+diff --git a/rust/kernel/workqueue/scoped.rs b/rust/kernel/workqueue/scoped.rs
+index 18a4b6f6cf18..1adf96f7eccd 100644
+--- a/rust/kernel/workqueue/scoped.rs
++++ b/rust/kernel/workqueue/scoped.rs
+@@ -1,13 +1,95 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+-//! Lifetime-scoped workqueues.
++//! Lifetime-scoped workqueues and work items.
+ //!
+-//! Provides [`ScopedQueue`] for work items that may borrow data with some
+-//! non-`'static` lifetime.
++//! Provides [`ScopedQueue`] and [`ScopedWork`] for work items that may borrow
++//! data with some non-`'static` lifetime.
+ //!
+-//! Unlike [`Queue`] which only accepts `'static` work items, [`ScopedQueue`]
+-//! owns its underlying queue and relies on that queue being dropped to drain
+-//! pending and running work before borrowed data can go out of scope.
++//! [`ScopedQueue`] owns its underlying queue and relies on that queue being
++//! dropped to drain pending and running work before borrowed data can go out
++//! of scope.
++//!
++//! [`ScopedWork`] wraps a work item whose destructor calls `cancel_work_sync()`,
++//! so ownership of the data is not transferred to the workqueue. This allows the
++//! inner data to carry non-`'static` lifetimes.
++//!
++//! Drivers should prefer [`ScopedWork`] with either a [`ScopedQueue`] or a
++//! system queue over [`Work`]-based items. When used with a [`ScopedQueue`],
++//! the work item must already outlive the queue, making [`Work`]'s separate
++//! allocation and reference count unnecessary.
++//!
++//! # Examples
++//!
++//! Enqueue on the system workqueue (unsafe, caller must not forget the work):
++//!
++//! ```
++//! # use kernel::time::{Delta, delay::fsleep};
++//! use kernel::workqueue::{
++//!     self,
++//!     new_scoped_work,
++//!     ScopedWork,
++//!     ScopedWorkItem,
++//!     ScopedWorkRef,
++//! };
++//!
++//! struct MyWork {
++//!     value: u32,
++//! }
++//!
++//! impl ScopedWorkItem for MyWork {
++//!     fn run(work: &ScopedWorkRef<Self>) {
++//!         pr_info!("value = {}\n", work.value);
++//!     }
++//! }
++//!
++//! let work = KBox::pin_init(
++//!     new_scoped_work!("MyWork", MyWork { value: 42 }),
++//!     GFP_KERNEL,
++//! )?;
++//!
++//! // SAFETY: `work` is not forgotten.
++//! unsafe { workqueue::system_dfl().enqueue_scoped(&*work) };
++//! # fsleep(Delta::from_millis(100));
++//! # Ok::<(), Error>(())
++//! ```
++//!
++//! Enqueue on a [`ScopedQueue`] using the safe path (work outlives the queue):
++//!
++//! ```
++//! use kernel::workqueue::{
++//!     new_scoped_work,
++//!     ScopedQueue,
++//!     ScopedWork,
++//!     ScopedWorkItem,
++//!     ScopedWorkRef,
++//! };
++//!
++//! struct MyWork {
++//!     value: u32,
++//! }
++//!
++//! impl ScopedWorkItem for MyWork {
++//!     fn run(work: &ScopedWorkRef<Self>) {
++//!         pr_info!("value = {}\n", work.value);
++//!     }
++//! }
++//!
++//! let work = KBox::pin_init(
++//!     new_scoped_work!("MyWork", MyWork { value: 42 }),
++//!     GFP_KERNEL,
++//! )?;
++//!
++//! // SAFETY: The queue is not forgotten.
++//! let queue = unsafe { ScopedQueue::new(c"example_wq")? };
++//!
++//! // Safe since `work` outlives `queue`.
++//! queue.enqueue(&*work);
++//! # Ok::<(), Error>(())
++//! ```
++//!
++//! [`ScopedQueue`] can also be used with regular [`Work`]-based items. The
++//! following `compile_fail` examples demonstrate the lifetime enforcement that
++//! [`ScopedQueue`] provides in that case.
+ //!
+ //! TODO: Remove `ignore` once KUnit supports `compile_fail` on doc-tests.
+ //! ```compile_fail,ignore
+@@ -112,18 +194,30 @@
+ //! ```
+ 
+ use super::{
++    impl_has_work,
++    HasWork,
+     OwnedQueue,
+     Queue,
+-    RawWorkItem, //
++    RawWorkItem,
++    Work,
++    WorkItem,
++    WorkItemPointer, //
+ };
+ 
+ use crate::{
+     bindings,
+-    ffi,
+-    prelude::*, //
++    prelude::*,
++    sync::LockClassKey,
++    types::Opaque, //
+ };
+ 
+-use core::marker::PhantomData;
++use pin_init::Wrapper;
++
++use core::{
++    marker::PhantomData,
++    ops::Deref,
++    ptr::NonNull, //
++};
+ 
+ /// An owned workqueue that can enqueue work items borrowing from `'scope`.
+ ///
+@@ -133,6 +227,15 @@ pub struct ScopedQueue<'scope> {
+     _scope: PhantomData<&'scope mut &'scope ()>,
+ }
+ 
++impl Deref for ScopedQueue<'_> {
++    type Target = Queue;
++
++    #[inline]
++    fn deref(&self) -> &Queue {
++        &self.inner
++    }
++}
++
+ impl<'scope> ScopedQueue<'scope> {
+     /// Creates an ordered scoped workqueue.
+     ///
+@@ -155,28 +258,11 @@ pub fn enqueue<W, const ID: u64>(&self, work: W) -> W::EnqueueOutput
+     where
+         W: RawWorkItem<ID> + Send + 'scope,
+     {
+-        let queue_ptr = self.inner.0.get();
+-
+-        // SAFETY:
+-        // - Closure returns `false` only if `queue_work_on` returns `false`
+-        //   and that means `work_ptr` is already in a workqueue.
+-        //
+-        // - `W: 'scope` and dropck keep borrowed data alive until this queue is
+-        //   dropped. The constructor requires that the queue is not leaked and
+-        //   dropping `inner` drains pending and running work so the function
+-        //   pointer is not called after any lifetime in `W` expires.
+-        //
+-        // - The last requirement of `__enqueue` is not relevant here because `W`
+-        //   is `Send`.
+-        unsafe {
+-            work.__enqueue(move |work_ptr| {
+-                bindings::queue_work_on(
+-                    bindings::wq_misc_consts_WORK_CPU_UNBOUND as ffi::c_int,
+-                    queue_ptr,
+-                    work_ptr,
+-                )
+-            })
+-        }
++        // SAFETY: `W: 'scope` and dropck keep borrowed data alive until this queue
++        // is dropped. The constructor requires that the queue is not leaked and
++        // dropping `inner` drains pending and running work, so the function pointer
++        // is not called after any lifetime in `W` expires.
++        unsafe { self.enqueue_scoped(work) }
+     }
+ }
+ 
+@@ -188,3 +274,295 @@ fn drop(&mut self) {
+         let _ = &self._scope;
+     }
+ }
++
++/// Trait for types that can be used as scoped work items.
++///
++/// Implementers define the work function that executes when the item is dequeued by a workqueue
++/// thread. The callback receives a reference to the containing [`ScopedWorkRef`], which provides
++/// access to the inner data via [`Deref`] and can be used to re-enqueue the work item.
++pub trait ScopedWorkItem: Sized {
++    /// Called when the work item is executed.
++    fn run(work: &ScopedWorkRef<Self>);
++}
++
++/// The work function's view of a [`ScopedWork`] item.
++///
++/// The work function callback receives `&ScopedWorkRef<T>`, which [`Deref`]s to `&T` and can be
++/// passed to queue enqueue methods for re-enqueueing from within the work function.
++#[pin_data]
++pub struct ScopedWorkRef<T: ScopedWorkItem> {
++    #[pin]
++    work: Work<Self>,
++    #[pin]
++    data: T,
++}
++
++impl_has_work! {
++    impl{T: ScopedWorkItem} HasWork<ScopedWorkRef<T>> for ScopedWorkRef<T> { self.work }
++}
++
++impl<T: ScopedWorkItem> Deref for ScopedWorkRef<T> {
++    type Target = T;
++
++    #[inline]
++    fn deref(&self) -> &T {
++        &self.data
++    }
++}
++
++impl<T: ScopedWorkItem> WorkItem for ScopedWorkRef<T> {
++    type Pointer = NonNull<Self>;
++
++    #[inline]
++    fn run(this: NonNull<Self>) {
++        // SAFETY: `this` points to a valid, pinned `ScopedWorkRef`. `cancel_work_sync()` in
++        // `ScopedWork`'s `PinnedDrop` prevents use-after-drop.
++        let work = unsafe { &*this.as_ptr() };
++
++        T::run(work);
++    }
++}
++
++// SAFETY: The `run` callback uses the `work_struct` pointer to recover a pointer to
++// `ScopedWorkRef<T>` via `HasWork`, wraps it in `NonNull`, and calls `WorkItem::run`.
++unsafe impl<T: ScopedWorkItem, const ID: u64> WorkItemPointer<ID> for NonNull<ScopedWorkRef<T>>
++where
++    ScopedWorkRef<T>: WorkItem<ID, Pointer = Self>,
++    ScopedWorkRef<T>: HasWork<ScopedWorkRef<T>, ID>,
++{
++    unsafe extern "C" fn run(ptr: *mut bindings::work_struct) {
++        let ptr = ptr.cast::<Work<ScopedWorkRef<T>, ID>>();
++
++        // SAFETY: The `work_struct` is embedded in `ScopedWorkRef<T>` via `HasWork`.
++        let ptr =
++            unsafe { <ScopedWorkRef<T> as HasWork<ScopedWorkRef<T>, ID>>::work_container_of(ptr) };
++
++        // SAFETY: `work_container_of` returns a valid, non-null pointer.
++        let nn = unsafe { NonNull::new_unchecked(ptr) };
++
++        <ScopedWorkRef<T> as WorkItem<ID>>::run(nn);
++    }
++}
++
++// Required because `WorkItemPointer<ID>: RawWorkItem<ID>` is a supertrait bound. This `__enqueue`
++// is never called; the enqueue path goes through the `RawWorkItem` impl for `&ScopedWork<T>` or
++// `&ScopedWorkRef<T>` instead.
++//
++// SAFETY: `__enqueue` is unreachable.
++unsafe impl<T: ScopedWorkItem, const ID: u64> RawWorkItem<ID> for NonNull<ScopedWorkRef<T>>
++where
++    ScopedWorkRef<T>: HasWork<ScopedWorkRef<T>, ID>,
++{
++    type EnqueueOutput = bool;
++
++    unsafe fn __enqueue<F>(self, _queue_work_on: F) -> Self::EnqueueOutput
++    where
++        F: FnOnce(*mut bindings::work_struct) -> bool,
++    {
++        unreachable!()
++    }
++}
++
++// SAFETY: `&ScopedWorkRef<T>` points to a valid `ScopedWorkRef` with a valid `work_struct`.
++// The pointer remains valid until `cancel_work_sync()` completes in `ScopedWork`'s drop.
++unsafe impl<'a, T: ScopedWorkItem + Sync, const ID: u64> RawWorkItem<ID> for &'a ScopedWorkRef<T>
++where
++    ScopedWorkRef<T>: HasWork<ScopedWorkRef<T>, ID>,
++{
++    type EnqueueOutput = bool;
++
++    unsafe fn __enqueue<F>(self, queue_work_on: F) -> Self::EnqueueOutput
++    where
++        F: FnOnce(*mut bindings::work_struct) -> bool,
++    {
++        let self_ptr = core::ptr::from_ref(self);
++
++        // SAFETY: `self_ptr` points to a valid `ScopedWorkRef` with a `Work` field.
++        let work_ptr = unsafe {
++            <ScopedWorkRef<T> as HasWork<ScopedWorkRef<T>, ID>>::raw_get_work(self_ptr.cast_mut())
++        };
++
++        // SAFETY: `work_ptr` points to a valid `Work`.
++        let work_ptr = unsafe { Work::raw_get(work_ptr) };
++
++        queue_work_on(work_ptr)
++    }
++}
++
++// SAFETY: `&ScopedWork<T>` accesses the inner `ScopedWorkRef` through `Opaque::get()`.
++// The pointer remains valid until `cancel_work_sync()` completes in `ScopedWork`'s drop.
++unsafe impl<'a, T: ScopedWorkItem + Sync, const ID: u64> RawWorkItem<ID> for &'a ScopedWork<T>
++where
++    ScopedWorkRef<T>: HasWork<ScopedWorkRef<T>, ID>,
++{
++    type EnqueueOutput = bool;
++
++    unsafe fn __enqueue<F>(self, queue_work_on: F) -> Self::EnqueueOutput
++    where
++        F: FnOnce(*mut bindings::work_struct) -> bool,
++    {
++        // SAFETY: The inner ScopedWorkRef is valid and initialized.
++        let inner: &ScopedWorkRef<T> = unsafe { &*self.inner.get() };
++
++        // SAFETY: Delegates to the `&ScopedWorkRef<T>` impl.
++        unsafe { inner.__enqueue(queue_work_on) }
++    }
++}
++
++/// A scoped work item that cancels synchronously on drop.
++///
++/// `ScopedWork<T>` contains a `work_struct` and the user data `T`. Its destructor calls
++/// `cancel_work_sync()`, guaranteeing the work function is not running when the data is dropped.
++///
++/// This allows `T` to carry non-`'static` lifetimes.
++///
++/// Construct via [`new_scoped_work!`] which returns an `impl PinInit` suitable for embedding
++/// in-place inside other pinned structs.
++///
++/// # Examples
++///
++/// Self-re-enqueueing from within the work function:
++///
++/// ```
++/// # use kernel::sync::atomic::{Atomic, Relaxed};
++/// # use kernel::time::{Delta, delay::fsleep};
++/// use kernel::workqueue::{
++///     new_scoped_work,
++///     Queue,
++///     ScopedQueue,
++///     ScopedWork,
++///     ScopedWorkItem,
++///     ScopedWorkRef,
++/// };
++///
++/// struct RequeueWork<'a> {
++///     counter: Atomic<u32>,
++///     queue: &'a Queue,
++/// }
++///
++/// impl ScopedWorkItem for RequeueWork<'_> {
++///     fn run(work: &ScopedWorkRef<Self>) {
++///         if work.counter.fetch_add(1u32, Relaxed) < 2 {
++///             // SAFETY: The `ScopedWork` is not forgotten.
++///             unsafe { work.queue.enqueue_scoped(work) };
++///         }
++///     }
++/// }
++///
++/// // SAFETY: The queue is not forgotten.
++/// let queue = unsafe { ScopedQueue::new(c"requeue_wq")? };
++///
++/// let work = KBox::pin_init(
++///     new_scoped_work!("RequeueWork", RequeueWork { counter: Atomic::new(0u32), queue: &queue }),
++///     GFP_KERNEL,
++/// )?;
++///
++/// // SAFETY: `work` is not forgotten.
++/// unsafe { queue.enqueue_scoped(&*work) };
++/// # fsleep(Delta::from_millis(300));
++///
++/// assert_eq!(work.counter.load(Relaxed), 3);
++/// # Ok::<(), Error>(())
++/// ```
++#[pin_data(PinnedDrop)]
++pub struct ScopedWork<T: ScopedWorkItem> {
++    #[pin]
++    inner: Opaque<ScopedWorkRef<T>>,
++}
++
++// SAFETY: `&ScopedWork<T>` only provides `&ScopedWorkRef<T>` (via `Deref`), which is safe to share
++// when `T: Sync`.
++unsafe impl<T: ScopedWorkItem + Sync> Sync for ScopedWork<T> {}
++
++// SAFETY: ScopedWork can be sent to another thread when T: Send.
++unsafe impl<T: ScopedWorkItem + Send> Send for ScopedWork<T> {}
++
++impl<T: ScopedWorkItem> Deref for ScopedWork<T> {
++    type Target = ScopedWorkRef<T>;
++
++    #[inline]
++    fn deref(&self) -> &ScopedWorkRef<T> {
++        // SAFETY: The inner `ScopedWorkRef` is always valid and initialized.
++        unsafe { &*self.inner.get() }
++    }
++}
++
++impl<T: ScopedWorkItem> ScopedWork<T> {
++    /// Creates a pin-initializer for a new scoped work item.
++    ///
++    /// Use [`new_scoped_work!`] to automatically provide the lock class key.
++    #[inline]
++    pub fn new<E>(
++        name: &'static CStr,
++        key: Pin<&'static LockClassKey>,
++        init: impl PinInit<T, E>,
++    ) -> impl PinInit<Self, Error>
++    where
++        Error: From<E>,
++    {
++        try_pin_init!(Self {
++            inner <- Opaque::pin_init(try_pin_init!(ScopedWorkRef::<T> {
++                work <- Work::new(name, key),
++                data <- init,
++            })),
 +        })
 +    }
++}
 +
-+    /// Enqueues a work item on this scoped queue.
++#[pinned_drop]
++impl<T: ScopedWorkItem> PinnedDrop for ScopedWork<T> {
 +    #[inline]
-+    pub fn enqueue<W, const ID: u64>(&self, work: W) -> W::EnqueueOutput
-+    where
-+        W: RawWorkItem<ID> + Send + 'scope,
-+    {
-+        let queue_ptr = self.inner.0.get();
++    fn drop(self: Pin<&mut Self>) {
++        let inner = self.inner.get();
 +
-+        // SAFETY:
-+        // - Closure returns `false` only if `queue_work_on` returns `false`
-+        //   and that means `work_ptr` is already in a workqueue.
-+        //
-+        // - `W: 'scope` and dropck keep borrowed data alive until this queue is
-+        //   dropped. The constructor requires that the queue is not leaked and
-+        //   dropping `inner` drains pending and running work so the function
-+        //   pointer is not called after any lifetime in `W` expires.
-+        //
-+        // - The last requirement of `__enqueue` is not relevant here because `W`
-+        //   is `Send`.
-+        unsafe {
-+            work.__enqueue(move |work_ptr| {
-+                bindings::queue_work_on(
-+                    bindings::wq_misc_consts_WORK_CPU_UNBOUND as ffi::c_int,
-+                    queue_ptr,
-+                    work_ptr,
-+                )
-+            })
-+        }
++        // SAFETY: `inner` points to a valid `ScopedWorkRef`. After `cancel_work_sync()` returns,
++        // the work function is guaranteed to not be running.
++        unsafe { bindings::cancel_work_sync(Work::raw_get(&raw const (*inner).work)) };
 +    }
 +}
 +
-+impl Drop for ScopedQueue<'_> {
-+    #[inline]
-+    fn drop(&mut self) {
-+        // This impl makes dropck require `'scope` to outlive `OwnedQueue`.
-+        // See: https://doc.rust-lang.org/nomicon/phantom-data.html#generic-parameters-and-drop-checking
-+        let _ = &self._scope;
-+    }
++/// Creates a [`ScopedWork`] pin-initializer with a new lock class.
++///
++/// # Examples
++///
++/// ```
++/// use kernel::workqueue::{
++///     new_scoped_work,
++///     ScopedWork,
++///     ScopedWorkItem,
++///     ScopedWorkRef,
++/// };
++///
++/// struct MyWork {
++///     value: u32,
++/// }
++///
++/// impl ScopedWorkItem for MyWork {
++///     fn run(work: &ScopedWorkRef<Self>) {
++///         pr_info!("value = {}\n", work.value);
++///     }
++/// }
++///
++/// #[pin_data]
++/// struct MyData {
++///     #[pin]
++///     work: ScopedWork<MyWork>,
++/// }
++///
++/// fn init_data() -> impl PinInit<MyData, Error> {
++///     try_pin_init!(MyData {
++///         work <- new_scoped_work!("MyWork", MyWork { value: 7 }),
++///     })
++/// }
++/// ```
++#[macro_export]
++macro_rules! new_scoped_work {
++    ($name:literal, $init:expr) => {
++        $crate::workqueue::ScopedWork::new(
++            $crate::c_str!($name),
++            $crate::static_lock_class!(),
++            $init,
++        )
++    };
 +}
++pub use new_scoped_work;
 -- 
 2.55.0
 
