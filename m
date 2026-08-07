@@ -1,36 +1,36 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0C23F210A
-	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 10:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FBC404BE9
+	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 10:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786096986; cv=none; b=ckp1DjI178WU9UI0LbAzBoCffP1+iVrmbx8uHZKQGmsUYNcTIaJOd93brdln+xfP+xJpLhyFlbO8xS5K3uGnqsOWzYfTTU8AAp3RClllY8zD0KsjyZHXvfm1NMcoh4Ye/rM1ZtsUUErPJBB+o9rw7Gpwv++CP11PRwbVRBrXQLg=
+	t=1786096990; cv=none; b=Do/yZ2Dls24NDUp/6Z36pJYvOK4tfdbHd2SYCJJK2/fFA94Dwew3vzYbBZM5hPf63nv8yxOXUzLSawYTdm3UP/vM7VXJcrOCxfdvrfmqHrpHjWYWOgz++KulN/WkTpg3J3aBx0zkB16LrVc2jS05OkeUgPtAQP0u/twIggdNDpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786096986; c=relaxed/simple;
-	bh=sTB+q2yGXMUFFVb/puERdZJCmbQ4/NCEbjGWkoO3doQ=;
+	s=arc-20240116; t=1786096990; c=relaxed/simple;
+	bh=HzKxMRWqgnUrqGjs5xW5rIPpkTGLbuRLIuuAwL4P/BQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=D694MYswNUrGhbXRi4S4/CtNz0qFlht8yJTtKTMklKe5izqWyCI2UxomY3SvuWHcExk5Wh/wZpYIDQMKOIxHAS/9S5lU4W+mQbXC/MfbF+5aYI4e0xJqZ7jKv8djkXu3vQhvifk94xtDRt/DbzWq1evijBtPpnIhwGY6WliHFFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=RT68QvRk; arc=none smtp.client-ip=54.243.244.52
+	 MIME-Version; b=e6rRS10iHwxbY89EhCjVd3rHx7i77OU+TDqjiqdqeWGX5NybN+a1f0OtNItPsXp7rUdaS9Z8fJmM4x0g7zznl2KvDWT7kOCTSnnxfdFjGXqncEfaHJBc+aZveo16jSX2XCctzNJdNDtwZi65LQRAsvYnId2X8VxP0WUnVyz/zHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Pr1lB9gH; arc=none smtp.client-ip=54.254.200.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="RT68QvRk"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Pr1lB9gH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1786096943;
-	bh=MsDLrJziY9sfCbxEdR4Mn3VYin9jFIv1p9TVwvNq7cs=;
+	s=onoh2408; t=1786096949;
+	bh=tP6FsQWEwYoq2MGkNGhgwZkP1Jh1LVRNF/KcW4T3hFY=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=RT68QvRkmS6GFP8VPC9D7ibZzoyK8U6EMDrk4mRWVnOU+SxSGPsaRkZCr8Ht4mNVR
-	 0yv/qgsG4JiDW+w1UtEvqgupnbLa07BPfx5tasB4rCYVfzHymaoa7FB/4FKOc9egX4
-	 9yg+TVLrcLTEQJodUGWy1KwgTa04OzKYBquifvgY=
-X-QQ-mid: zesmtpgz1t1786096938ta3e5e1b1
-X-QQ-Originating-IP: S+p1emIyL/pTOuj2FrBZ+LochIXhVzo8lbfR6Q1S5xI=
+	b=Pr1lB9gHZO1pq0I/ZRv3RgGmw01vSr6l0zMXXKDds7/pCV2cgVyJqc6nCPTdQbbTc
+	 Pr9iRCppgp8ax1RdqRiGIipYKmqaj64YdcwjbI5NZMIYgvvQEip6DalEXDkBR6rHUq
+	 esuL/GSIPFbccY6c4RdTkpW21wjsXzaNt8jyVFh0=
+X-QQ-mid: zesmtpgz1t1786096944tba2b5ced
+X-QQ-Originating-IP: 2ULuDb63Nqk5vrbJn0taO1cZCs7QEGJCr1/P5AoBP6M=
 Received: from uniontech.com ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 07 Aug 2026 18:02:11 +0800 (CST)
+	id ; Fri, 07 Aug 2026 18:02:21 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17825993322717190689
+X-BIZMAIL-ID: 4948339811663763525
 EX-QQ-RecipientCnt: 13
 From: Yichong Chen <chenyichong@uniontech.com>
 To: gregkh@linuxfoundation.org
@@ -46,9 +46,9 @@ Cc: rafael@kernel.org,
 	linux-pm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH v3 2/3] soundwire: debugfs: replace writable string helper
-Date: Fri,  7 Aug 2026 18:00:52 +0800
-Message-Id: <20260807100053.1089834-3-chenyichong@uniontech.com>
+Subject: [PATCH v3 3/3] debugfs: make debugfs_create_str() read-only
+Date: Fri,  7 Aug 2026 18:00:53 +0800
+Message-Id: <20260807100053.1089834-4-chenyichong@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20260807100053.1089834-1-chenyichong@uniontech.com>
 References: <20260807100053.1089834-1-chenyichong@uniontech.com>
@@ -61,162 +61,156 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OA2DBih+LDLYVK7oeHVVfRU49+8yVsgq6Nc882r/c02Lqha8hJ0CwQxt
-	k8WdY7b822R56V+KuquFFDoQO4YpzeT7Sx5nJmkCr/wbix6eU3p0j3yk+MfQk7GFSPKwegR
-	VELqTXf5hfcCRn38KhHILMwDOhwilPx4n33Fj+vyFiFmxbMESIFtaGakY+FcigCge5bg15E
-	d5oIbvcmQE9O1yCdBo68RPc876j0p54uXPlMMVNhikuMJLfQIomZBP4WoDLJhTP9pua41x5
-	FQePKfRmz67sK33Xwq+UBY2BnyGwqH4+GxCc1vYIvnXpoaegJrpR8tQIW1KUBvLvrADnZ0/
-	PGLVcRZuKpeLYpUp6dTVkfLaMyOTmBCD9KeSRzTUqOaybnEgqizSxS85arF3K2fDlEffDIz
-	myD7/ea95EdYFA0p2ynNlvIzZsFRaKinWN6Jta0pvwU8CBHUNTmNdxSZ4f7mpCmC/hLdwDM
-	zKAouLW1uijtvaz5dfthuLLuY/cMpgkQyshdBKm5lN6cp83oMXAaoQXZhPvj9EeWtvJ/LPh
-	50fDHTMadoyXP8+IS/n5uAp/WDe0ljUtH2oCbeC3r1E7Xel491Gnk2zVqJbIOIxRsNpvfmX
-	WqyAaEY8NESPahvQiBA+66Xxl+m4L7fb6Peco0qNfGSbz2YvQAve/NEioh9lj2qfcnojo7b
-	Xts4dETBfidSwh0QWUOALTO29qzciV0HJO//fcGQXQ17blYIQ6yiNRmQJWqJVPgAYU5SgUM
-	t6GEsM8c8pMPpeKkQE9IRyzVM1ysi/zU7WtXvKFhu090UCnAzDNnK1fNLepfXaU+fum7bIo
-	cf8cj/Dxn68J1zB+DSgMtUp+G8P3/sYRSFR5tpcYWLu4bxB4JoxdlnJYuoWQaBDX8WiZJW3
-	TVQZ/U+7ZNo0niVweBOiTJ5krNxoQhz+vrzgsQ5iz+ZHdzJw2RenjHCfffxvhVlTFO15WYd
-	V2rivyZZzIG5HmBRHAE972U4QhBnaTzR1G9g7PyzNYioLb5v+rVq3ZDBvb4vsxWQnXrD1OQ
-	w7xOxLb8rRMrk+P52NeBM8+5D8iaNo8oYlsGM2su9dGZvE1EKVIhLD9YUOd3igfGbPVXcyv
-	XaLGZ0UX9TKlAJ5b+VS4+CqEX/DIaVL7yK3ILeuUz18nIpRwFRpa8TGcFLnwaITC8I07XFy
-	EYjk
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-XMAILINFO: Nw5WZPeltq7pgynYcw2gXeji0DgY525l1Y3Q7QCQKOfpgTWPLWv9Zu08
+	eODgpEWCZKZeB1N2IcOrKNdKFQJE+a1/OMgSd/CYP1/zlERzzyiI+37vJElqiXejkF3RCLa
+	yHgBJIBDw6NYEnrX8TBLNEsl7P75YC3rki0VqnGAvUwLCnIODjhk+iUrUbUB2QNTGyJk1cC
+	jjABqQeQHsKJsU3TqHVL0XNw2WnacpIYGdAEZUTWQTO2XTUjNcfB99A9lKT0QGgWf4MmbM0
+	UUSploc6y1YHZtr9q3geAOj8mRqhnOa5APDG/iYcfO4peYtOc2/B00nvcdGgHiwAHGDClmq
+	bhKaFqyxWamt1qZD0gW+/VuoWx+Lx8E3K2K2SdJMXkrCRqcaxJAFNNF2CMQFuQfCv0u2uHf
+	5zjkceY7GwirWnQSWTDM5nVVqa3r0RlkTXyHd0IrIudVIPLU+RI2rGfirrUQsRevxAA/1Pv
+	Y9+SDuFYLI4rjUMuVedR9xDy75E21vrHxUi2JxjEXYYUCbSGFGwfGs1FC9BzcNlrhGZ0xMR
+	nf0xFAwR8oM+UwEJFciV7HlfY7m4+WpASKLe9UyLAC35HrRo6gRi0w/BsL0ZQHUULKLrzgl
+	bmpauaGvD5fTxfLkgX85n1/D2ihw5+YV1HTvXSinf9KX7gZ3/g6lnzOGraKArcENmKpNiGh
+	lSbpFhj1XmPAjyylE/zbj77ZYLNjHWNhZeOGukItkqQBIXz49dPpNa9O0Ee4FMxxuZJZH8m
+	5WVdAmGqhgfl7eJrv3tv8X60cDtiKv/yziOWHIcwaAUVqFQafZRr8KS3jVYdf7OrEABPnCs
+	y16U77dysam/a5vQSP3sxza5dIb8eHapFzLwQ01wn0ZUJQabmjrdri053oIA4DdL+miq/nM
+	PpsBw14WC5ZBC/SreoMiKsrcyixELZhI2mLDrcN9KDfWC4y39qdhGOlZzffGVGJ42UZKiwt
+	QFzXEobM7nBCqaB/iH9j/RPQf0XGlsVdV34n5pTvqRxTgExeqq3Kr7t4Sg0Ilr9ixGUQ9nl
+	KowpoxRI/bxc3tj1cd99AasGTtWzWPoZa0m8nw/5gAVPHD85A80lEOSvAD637iEUkO12QzO
+	4tOCiFIIvyx/nZ9KF2I7Q7eViTdH1qFfBnylPA4C8VviADp/XIYn0+k9jiKra6BqU+UPcvq
+	h8vpkhE13iqdAOg=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
 X-QQ-RECHKSPAM: 0
 
-debugfs_create_str() is being made read-only because its generic write
-path is hard to make safe without adding more locking to the helper.
+debugfs_create_str() supports replacing the backing string from userspace.
+Concurrent writers can race and free the same old string twice.
 
-Convert the SoundWire firmware_file entry to a local write-only file
-operation before removing writable string support from
-debugfs_create_str().
+All writable in-tree users have been converted to local file operations.
+Remove the generic write support from debugfs_create_str(), and refuse to
+create a file when the caller passes write permission bits.
 
-Copy the firmware name before request_firmware() so later debugfs writes
-cannot replace the string while it is being used.
+This makes unsupported writable use visible instead of silently creating a
+file with different permissions.
 
+Fixes: 86b5488121db ("debugfs: Add write support to debugfs_create_str()")
 Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 ---
- drivers/soundwire/debugfs.c | 63 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 55 insertions(+), 8 deletions(-)
+ fs/debugfs/file.c | 81 ++++++-----------------------------------------
+ 1 file changed, 10 insertions(+), 71 deletions(-)
 
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 099eb84a548e..a8a6db164fe7 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -145,6 +145,38 @@ static u32 start_addr;
- static size_t num_bytes;
- static u8 read_buffer[MAX_CMD_BYTES];
- static char *firmware_file;
-+static DEFINE_MUTEX(firmware_file_lock);
-+
-+static ssize_t firmware_file_write(struct file *file,
-+				   const char __user *user_buf,
-+				   size_t count, loff_t *ppos)
-+{
-+	char *old, *new;
-+
-+	if (*ppos)
-+		return -EINVAL;
-+	if (count + 1 > PAGE_SIZE)
-+		return -E2BIG;
-+
-+	new = memdup_user_nul(user_buf, count);
-+	if (IS_ERR(new))
-+		return PTR_ERR(new);
-+	strim(new);
-+
-+	scoped_guard(mutex, &firmware_file_lock) {
-+		old = firmware_file;
-+		firmware_file = new;
-+	}
-+
-+	kfree(old);
-+	return count;
-+}
-+
-+static const struct file_operations firmware_file_fops = {
-+	.open = simple_open,
-+	.write = firmware_file_write,
-+	.llseek = default_llseek,
-+};
- 
- static int set_command(void *data, u64 value)
- {
-@@ -246,6 +278,7 @@ static int cmd_go(void *data, u64 value)
- {
- 	const struct firmware *fw = NULL;
- 	struct sdw_slave *slave = data;
-+	char *fw_name = NULL;
- 	ktime_t start_t;
- 	ktime_t finish_t;
- 	int ret;
-@@ -265,15 +298,24 @@ static int cmd_go(void *data, u64 value)
- 	}
- 
- 	if (cmd == 0) {
--		ret = request_firmware(&fw, firmware_file, &slave->dev);
-+		scoped_guard(mutex, &firmware_file_lock) {
-+			if (firmware_file)
-+				fw_name = kstrdup(firmware_file, GFP_KERNEL);
-+		}
-+		if (!fw_name) {
-+			ret = -ENOMEM;
-+			goto out;
-+		}
-+
-+		ret = request_firmware(&fw, fw_name, &slave->dev);
- 		if (ret < 0) {
--			dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
-+			dev_err(&slave->dev, "firmware %s not found\n", fw_name);
- 			goto out;
- 		}
- 		if (fw->size < num_bytes) {
- 			dev_err(&slave->dev,
- 				"firmware %s: firmware size %zd, desired %zd\n",
--				firmware_file, fw->size, num_bytes);
-+				fw_name, fw->size, num_bytes);
- 			goto out;
- 		}
- 	}
-@@ -306,6 +348,7 @@ static int cmd_go(void *data, u64 value)
- out:
- 	if (fw)
- 		release_firmware(fw);
-+	kfree(fw_name);
- 
- 	pm_runtime_mark_last_busy(&slave->dev);
- 	pm_runtime_put(&slave->dev);
-@@ -358,7 +401,8 @@ void sdw_slave_debugfs_init(struct sdw_slave *slave)
- 
- 	debugfs_create_file("read_buffer", 0400, d, slave, &read_buffer_fops);
- 	if (firmware_file)
--		debugfs_create_str("firmware_file", 0200, d, &firmware_file);
-+		debugfs_create_file("firmware_file", 0200, d, NULL,
-+				    &firmware_file_fops);
- 
- 	slave->debugfs = d;
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index 08de6652a4f3..170feb75317f 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -1049,98 +1049,37 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
+ 	return ret;
  }
-@@ -370,8 +414,10 @@ void sdw_slave_debugfs_exit(struct sdw_slave *slave)
  
- void sdw_debugfs_init(void)
- {
--	if (!firmware_file)
--		firmware_file = kstrdup("", GFP_KERNEL);
-+	scoped_guard(mutex, &firmware_file_lock) {
-+		if (!firmware_file)
-+			firmware_file = kstrdup("", GFP_KERNEL);
-+	}
+-static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
+-				      size_t count, loff_t *ppos)
+-{
+-	struct dentry *dentry = F_DENTRY(file);
+-	char *old, *new = NULL;
+-	int pos = *ppos;
+-	int r;
+-
+-	r = debugfs_file_get(dentry);
+-	if (unlikely(r))
+-		return r;
+-
+-	old = *(char **)file->private_data;
+-
+-	/* only allow strict concatenation */
+-	r = -EINVAL;
+-	if (pos && pos != strlen(old))
+-		goto error;
+-
+-	r = -E2BIG;
+-	if (pos + count + 1 > PAGE_SIZE)
+-		goto error;
+-
+-	r = -ENOMEM;
+-	new = kmalloc(pos + count + 1, GFP_KERNEL);
+-	if (!new)
+-		goto error;
+-
+-	if (pos)
+-		memcpy(new, old, pos);
+-
+-	r = -EFAULT;
+-	if (copy_from_user(new + pos, user_buf, count))
+-		goto error;
+-
+-	new[pos + count] = '\0';
+-	strim(new);
+-
+-	rcu_assign_pointer(*(char __rcu **)file->private_data, new);
+-	synchronize_rcu();
+-	kfree(old);
+-
+-	debugfs_file_put(dentry);
+-	return count;
+-
+-error:
+-	kfree(new);
+-	debugfs_file_put(dentry);
+-	return r;
+-}
+-
+ static const struct file_operations fops_str = {
+ 	.read =		debugfs_read_file_str,
+-	.write =	debugfs_write_file_str,
+-	.open =		simple_open,
+-	.llseek =	default_llseek,
+-};
+-
+-static const struct file_operations fops_str_ro = {
+-	.read =		debugfs_read_file_str,
+-	.open =		simple_open,
+-	.llseek =	default_llseek,
+-};
+-
+-static const struct file_operations fops_str_wo = {
+-	.write =	debugfs_write_file_str,
+ 	.open =		simple_open,
+ 	.llseek =	default_llseek,
+ };
  
- 	sdw_debugfs_root = debugfs_create_dir("soundwire", NULL);
- }
-@@ -379,6 +425,7 @@ void sdw_debugfs_init(void)
- void sdw_debugfs_exit(void)
+ /**
+- * debugfs_create_str - create a debugfs file that is used to read and write a string value
++ * debugfs_create_str - create a debugfs file that is used to read a string value
+  * @name: a pointer to a string containing the name of the file to create.
+  * @mode: the permission that the file should have
+  * @parent: a pointer to the parent dentry for this file.  This should be a
+  *          directory dentry if set.  If this parameter is %NULL, then the
+  *          file will be created in the root of the debugfs filesystem.
+- * @value: a pointer to the variable that the file should read to and write
+- *         from. This pointer and the string it points to must not be %NULL.
++ * @value: a pointer to the variable that the file should read from. This
++ *         pointer and the string it points to must not be %NULL.
+  *
+  * This function creates a file in debugfs with the given name that
+- * contains the value of the variable @value.  If the @mode variable is so
+- * set, it can be read from, and written to.
++ * contains the value of the variable @value.  The file can be read from.
++ * Writable files are not supported; if @mode contains write permission bits,
++ * no file is created.
+  */
+ void debugfs_create_str(const char *name, umode_t mode,
+ 			struct dentry *parent, char **value)
  {
- 	debugfs_remove_recursive(sdw_debugfs_root);
--	kfree(firmware_file);
--	firmware_file = NULL;
-+	scoped_guard(mutex, &firmware_file_lock) {
-+		kfree(firmware_file);
-+	}
+ 	if (WARN_ON(!value || !*value))
+ 		return;
++	if (WARN(mode & 0222,
++		 "%s() does not support writable files\n", __func__))
++		return;
+ 
+-	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
+-				   &fops_str_ro, &fops_str_wo);
++	debugfs_create_file_unsafe(name, mode, parent, value, &fops_str);
  }
+ EXPORT_SYMBOL_GPL(debugfs_create_str);
+ 
 -- 
 2.51.0
 
