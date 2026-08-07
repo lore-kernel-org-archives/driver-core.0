@@ -1,70 +1,53 @@
-Received: from mail-pj2-f10.google.com (mail-pj2-f10.google.com [74.125.227.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E336D448BAB
-	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 06:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECE53B47C1;
+	Fri,  7 Aug 2026 07:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786083144; cv=none; b=b3JZL2ptDXrgJgPLgMhyTgqSHm0c0nkaVZ+GSRyc2X8aOfjtLPnsMYNDCMOAFsGO1MxGaEm8r+2M40qCnfv4Hh+8nYpD5J/b5BDY32lWdwChiHdf2UUzIB6jp+CUh4L0X9ghKsHrF542yS7SCzONs1XhIB+mYcsGldBu4I+xz6M=
+	t=1786088873; cv=none; b=BdlOlmtmB34a9kGXlfxBOYy8tt46oKABkQIssWPykw/cX0cI3rxEOBNAWmkjFWA7K4ztR1FC/fn/sYlN3NY1iRx1i6WQVC7Iq3TFsOMJGk7AsFJcB4L18knPwFE9mrkX2/GqX3rlrih8DhLWnn97V6q3DK8A43hTQ+JrQc3EkPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786083144; c=relaxed/simple;
-	bh=mBdQuOd2+orI7EhARk3z3raKkDlXH+X/4B3FrZzB/fY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HKyRF2/NSAdfmpISXkAwDt60CClAGFgj9z2hy6ovDYSVIG5UxJkZq/cWCTdBWG0EJ6mvQYsGNIb/S0lZhnR0kRkGIBRF+5ddaS6Iwulo0MgeUFF69VrqFcYI3IbEEZ+c3WeIKpQ1HhAEHtr5Y1j2ThPfXUTD+fxLf5ztZVY51EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj2-f10.google.com with SMTP id 98e67ed59e1d1-38dc4f9462cso1045348a91.0
-        for <driver-core@lists.linux.dev>; Thu, 06 Aug 2026 23:12:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786083142; x=1786687942;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m2XI3tymrAXIanNBdwarSxOFR4nQgsGCTq88+6vG+F8=;
-        b=jHW+EnPb3n8lj6JrRvCkt8hTzeESJiMDBQS5NsenY+SF0+xfepkfV07XQ0aJbKIzoB
-         jUweraM4JfHvj1DpBezdFIliireK9e7qxyh4st9j67JNfGO6qxFgkTl2aBoOcrlrdhPZ
-         /mjnF2fqtrBQGURdBhQC461bC4opbK2IO5Bz5IEI41A+bNG9RUbR2t8HRTmzX/yx4S6B
-         w+zAv4OxKyOizig4juQphX8e7hRWgZSf00OvJ+tzF8KbcTpkWhw5k8LvJs/MywjLJ3sf
-         kvyXzXFY55sBPjslqxe9PvQodJMBoCCuRYfHAzO7kmEA/3aGlWJSyCFyHqVSTBRSeJuA
-         B0dQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rok2+JNpwNPT5f6HfYr/rx1hpEff+in9wM2YaqU/EV9RUjEdkl0N4EEKVyujr6f2xb56KiKklg7dx+37g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2FfQCjIYQ4Pz5ZWIaZkZp56Akfhy6QipnSJ6/ZD/ERpVrnzrF
-	PAaKxSy6FvEYdQGKNlVmNJMAc/WSM1JFT5IQnUm6ZWbBughKaKnmpcGS
-X-Gm-Gg: AR+sD12pCfcjp/0K/g1lQWUu/BrMjfDWFoAlLG0jyaHg0c6BO0Fy4cZtc3AfUj4ZJ0H
-	wcM9eseQ+EaEKFCbnqANW588T/N39MpItkKmLNEi+/WKKuZPdBhsfZlKgYoT+K3YxvLrF3CJLVH
-	S29FDvPgLavzXzvQj0h1F7wF2L+jLLPcrP0wgUyMgdXVjoNT5RmP0QKKtG1yM/M89AYpnHrFh1m
-	Njwmd4HWmn0iT4mZzeZcCJb5fUHgYW4n/5U2CFCu2EB1jZ8hqL3lBoeVmvjD0fimfyD1Cj6Oo3+
-	5CcsdcrHi4PjJ7qnzj1LWM4TQoN8RWPfGYdc3wd1Sl6msuJvsb0Ods232yHgbgJ4kk0lqvWITAU
-	/3QCGNzAq+lPPcM++FbU6dr1IFvl1R14PlX4Qlufjhh5JEDEHYblGujfUHiL/iFJ75Wk04FzX2S
-	Rs3qfnO8Ym/GyiJnisbVigA1R1cSjr5I/Cg2k3UB8qrY5z7yn00VFIWReXpHew7r41Rtgs51VzE
-	rJELHmSOg==
-X-Received: by 2002:a17:90a:d010:b0:38d:eaec:4396 with SMTP id 98e67ed59e1d1-3903c58bdd2mr20324647a91.11.1786083142215;
-        Thu, 06 Aug 2026 23:12:22 -0700 (PDT)
-Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39085dbe349sm3434375a91.4.2026.08.06.23.12.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 23:12:21 -0700 (PDT)
-From: Xueqin Luo <luoxueqin@kylinos.cn>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
+	s=arc-20240116; t=1786088873; c=relaxed/simple;
+	bh=iqIKYNlmCv0hF3AVgPGXQqLOWJcFVEyfZDjmiiwFG6w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ElHmR+7UQ42YVUIQb40jNrx5/vQZYo1DB7fyNyU5lHsLaGDF/gTRlf237N/nwTF5lXW7/3cTpQoIEbRhdrHJqbwLTN4Xjh2HMYs/TBB4EJgTV8tr9/ffuMELZjcV8The6npOrZmEyq7hURzUukVUbyXGPbBuIcBrM4QssGufpJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhXJmGFR; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhXJmGFR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53DAB1F000E9;
+	Fri,  7 Aug 2026 07:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786088871;
+	bh=dpUOm8WmgFWx7EiOz6JPn3kiHIpyo9Na2Sj45FWRUPU=;
+	h=From:To:Cc:Subject:Date;
+	b=WhXJmGFRIWdClSkHdJv6rpV/ynGUh6oPLDCtAxK2j2+5G2s07mPIdR/CLA47LnBMy
+	 IunNkR+DTL5QNgIUNl8KYgKAJA7ShgKrvQdmYvh9lEVJfKEYtJ6P0Xdf0UoZy9lDXd
+	 Arp9quEtgSltFD7Rf3ngixMQ61y8wpEY9hFpLHHhC5WQmdDnXmJ4yBCm0a/SPMsm9q
+	 JbUZgXzb/YbQuM2yaOkWKbtSV1qYHbZ+Kiy2Ytb1zcyOG41ycxpeOttGak1HtntsZw
+	 bS1eulgppaPIdUwqnP/groYil6zYOwMy4dcX0zt4fPO/UZ1XVQr+c7g93pekxG6pB6
+	 1w+RyMHjeYUVw==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Mark Brown <broonie@kernel.org>,
+	Benno Lossin <lossin@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Jie Zhan <zhanjie9@hisilicon.com>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	Sumit Gupta <sumitg@nvidia.com>,
-	linux-kernel@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-next@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
 	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	Xueqin Luo <luoxueqin@kylinos.cn>
-Subject: [PATCH v5 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
-Date: Fri,  7 Aug 2026 14:08:48 +0800
-Message-ID: <20260807060848.832929-4-luoxueqin@kylinos.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260807060848.832929-1-luoxueqin@kylinos.cn>
-References: <20260807060848.832929-1-luoxueqin@kylinos.cn>
+	Boqun Feng <boqun@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: [PATCH] rust: serdev: replace `__pinned_init` with `raw_try_init`
+Date: Fri,  7 Aug 2026 09:47:29 +0200
+Message-ID: <20260807074729.108159-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -73,168 +56,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the CPPC Highest Performance register changes at runtime
-(e.g. via ACPI Notify(0x85)), the scheduler's view of CPU capacity
-and the frequency invariance engine's reference values become stale,
-as topology_init_cpu_capacity_cppc() is only called once during boot.
+Commit
 
-Keep raw_capacity allocated after CPPC init instead of freeing it,
-and introduce topology_update_cpu_capacity() to update per-CPU
-raw_capacity, capacity_freq_ref, and the normalized CPU capacity
-scale at runtime. Provide a no-op stub when GENERIC_ARCH_TOPOLOGY
-is disabled so cppc_cpufreq can link on those configs. Skip updates
-when the value is unchanged and reject a zero capacity_scale to
-avoid division by zero.
+  ea7da3116015 ("rust: treewide: replace `__pinned_init` with `raw_[try_]init`")
 
-Call this from cppc_cpufreq_update_limits() for every CPU in the
-policy so shared-policy Notify(0x85) targeting a non-policy CPU
-still refreshes the correct topology capacity.
+from the pin-init tree replaced the method before removing it, but commit
 
-Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
+  99f59aa82341 ("rust: add basic serial device bus abstractions")
+
+from the driver-core tree added a new use.
+
+Thus replace that one as well.
+
+Link: https://lore.kernel.org/rust-for-linux/5ce12a15-3f1e-4279-9b1a-57d6b2faf7c9@sirena.org.uk/
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- drivers/base/arch_topology.c   | 76 ++++++++++++++++++++++++++++++++++
- drivers/cpufreq/cppc_cpufreq.c |  2 +
- include/linux/arch_topology.h  | 13 ++++++
- 3 files changed, 91 insertions(+)
+ rust/kernel/serdev.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-index 8c5e47c28d9a..27f2bfa9f326 100644
---- a/drivers/base/arch_topology.c
-+++ b/drivers/base/arch_topology.c
-@@ -229,6 +229,7 @@ static void update_topology_flags_workfn(struct work_struct *work)
- }
- 
- static u32 *raw_capacity;
-+static DEFINE_MUTEX(raw_capacity_lock);
- 
- static int free_raw_capacity(void)
- {
-@@ -372,13 +373,88 @@ static inline void topology_init_cpu_capacity_cppc(void)
- 	schedule_work(&update_topology_flags_work);
- 	pr_debug("cpu_capacity: cpu_capacity initialization done\n");
- 
-+	/*
-+	 * Keep raw_capacity for runtime updates via
-+	 * topology_update_cpu_capacity().
-+	 */
-+	return;
-+
- exit:
- 	free_raw_capacity();
- }
-+
- void acpi_processor_init_invariance_cppc(void)
- {
- 	topology_init_cpu_capacity_cppc();
- }
-+
-+/**
-+ * topology_update_cpu_capacity - Update CPU capacity after highest_perf change
-+ * @cpu: CPU whose highest performance changed
-+ * @perf_caps: Updated CPPC performance capabilities for @cpu
-+ *
-+ * When the CPPC Highest Performance register changes at runtime
-+ * (e.g. via Notify(0x85)), the scheduler's view of CPU capacity
-+ * and the frequency invariance engine's reference values become
-+ * stale. This function updates the per-CPU raw_capacity,
-+ * capacity_freq_ref and freq_inv max ratio, then re-normalizes the
-+ * CPU capacity scale for all possible CPUs and triggers a sched
-+ * domain rebuild. If the value is unchanged, everything is skipped.
-+ */
-+void topology_update_cpu_capacity(unsigned int cpu,
-+				  struct cppc_perf_caps *perf_caps)
-+{
-+	u32 highest_perf = perf_caps->highest_perf;
-+	u64 capacity, capacity_scale = 0;
-+	int c;
-+
-+	guard(mutex)(&raw_capacity_lock);
-+
-+	if (!raw_capacity || cpu >= num_possible_cpus())
-+		return;
-+
-+	/*
-+	 * Validate: highest_perf must be >= nominal_perf and >= lowest_perf,
-+	 * consistent with the boot-time check in topology_init_cpu_capacity_cppc().
-+	 */
-+	if (highest_perf < perf_caps->lowest_perf) {
-+		pr_warn("cpu_capacity: CPU%d invalid highest_perf=%u (nominal=%u, lowest=%u), skipping\n",
-+			cpu, highest_perf, perf_caps->nominal_perf,
-+			perf_caps->lowest_perf);
-+		return;
-+	}
-+
-+	if (raw_capacity[cpu] == highest_perf)
-+		return;
-+
-+	pr_debug("cpu_capacity: CPU%d cpu_capacity=%u -> %u (raw)\n",
-+		 cpu, raw_capacity[cpu], highest_perf);
-+
-+	raw_capacity[cpu] = highest_perf;
-+	per_cpu(capacity_freq_ref, cpu) =
-+		cppc_perf_to_khz(perf_caps, highest_perf);
-+	freq_inv_set_max_ratio(cpu,
-+			       per_cpu(capacity_freq_ref, cpu) * HZ_PER_KHZ);
-+
-+	/* Re-normalize all CPUs: capacity is relative. */
-+	for_each_possible_cpu(c)
-+		capacity_scale = max_t(u64, capacity_scale, raw_capacity[c]);
-+
-+	if (!capacity_scale)
-+		return;
-+
-+	for_each_possible_cpu(c) {
-+		capacity = raw_capacity[c];
-+		capacity = div64_u64(capacity << SCHED_CAPACITY_SHIFT,
-+				     capacity_scale);
-+		topology_set_cpu_scale(c, capacity);
-+		pr_debug("cpu_capacity: CPU%d cpu_capacity=%lu\n",
-+			 c, topology_get_cpu_scale(c));
-+	}
-+
-+	schedule_work(&update_topology_flags_work);
-+}
-+EXPORT_SYMBOL_GPL(topology_update_cpu_capacity);
- #endif
- 
- #ifdef CONFIG_CPU_FREQ
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index 09d7745a609f..1480be537eaa 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -979,6 +979,8 @@ static void cppc_cpufreq_update_limits(struct cpufreq_policy *policy)
- 
- 	refresh_frequency_limits(policy);
- 
-+	topology_update_cpu_capacity(policy->cpu, caps);
-+
- 	/*
- 	 * Autonomous selection mode uses MIN/MAX performance as runtime
- 	 * hardware control bounds. Re-program them when highest_perf
-diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
-index ebd7f8935f96..9415cb6a6c2b 100644
---- a/include/linux/arch_topology.h
-+++ b/include/linux/arch_topology.h
-@@ -11,6 +11,19 @@
- void topology_normalize_cpu_scale(void);
- int topology_update_cpu_topology(void);
- 
-+#ifdef CONFIG_ACPI_CPPC_LIB
-+struct cppc_perf_caps;
-+#ifdef CONFIG_GENERIC_ARCH_TOPOLOGY
-+void topology_update_cpu_capacity(unsigned int cpu,
-+				  struct cppc_perf_caps *perf_caps);
-+#else
-+static inline void
-+topology_update_cpu_capacity(unsigned int cpu, struct cppc_perf_caps *perf_caps)
-+{
-+}
-+#endif
-+#endif
-+
- struct device_node;
- bool topology_parse_cpu_capacity(struct device_node *cpu_node, int cpu);
- 
--- 
-2.43.0
+diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+index c0cd24481ee3..a4927452016e 100644
+--- a/rust/kernel/serdev.rs
++++ b/rust/kernel/serdev.rs
+@@ -197,7 +197,7 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+             // SAFETY:
+             // - `driver.as_mut_ptr()` is a valid pointer to uninitialized data.
+             // - `private_data.driver` is pinned.
+-            let result = unsafe { data.__pinned_init(driver.as_mut_ptr()) };
++            let result = unsafe { pin_init::raw_try_init(driver.as_mut_ptr(), data) };
 
+             *active = result.is_ok();
+
+
+base-commit: 1fc711bb8253ffd6fdfcf262bbccac53e8e9ff67
+--
+2.55.0
