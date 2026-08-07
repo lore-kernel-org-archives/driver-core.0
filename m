@@ -1,359 +1,210 @@
-Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013041.outbound.protection.outlook.com [40.93.201.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7D312D1F1
-	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 00:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786060952; cv=none; b=er2vejyVawOzwkiyqEoBxKc9rOGxPRVZpyclkz9BxcaKeFtZCHGLvUZIvlmKmXbvx/1GzJCFI5DSrZoiEpIpEQzMleJHJCGyrYD8V12hBMbbN4Nv1UaBfyITRes5ux0zUbJvc+48vxQE4X6Gs24fR3kDJhiYSJZKfTqB1qi2OiI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786060952; c=relaxed/simple;
-	bh=z2tXnhjE9e1sQO8jaEH+JYwBo2RPBDcsQUQ2mgfd6Ig=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Nq0bfgWfzJY5tpDl7nKHDQnkf0x6NK8supXANr/6/qekLSAB4u81Ebl/BCNe5LQckgQcUgat1g6HLIKbBUdZX89es8CvGtEsb7CRAdDISlzBv/g4uwyhlCLMCpht5M8HuaiG9fHMJ1TUHr4Xh2lZLKyHr1oVMgA451we44zYVrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-6aca189b5a9so881308eaf.0
-        for <driver-core@lists.linux.dev>; Thu, 06 Aug 2026 17:02:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786060946; x=1786665746;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3XZ/crxJoplbs1rqNkidwJyW5ffroSRO0+0Frz8Wl6M=;
-        b=iFSBB/qecxV2whJhMWy/YpA80l7eCpElkAdLVJCyF4g6vJlCilu1gCrONlHNdlInMy
-         XfAWGR60mWSjDxje7o7lHPJTCsbLOrVslB6P78VhSpj/N50Ie5k+2oUCh6mJ/M2va/2s
-         EuXJVYrjevvYUhf+sawWGdwTAqsVV2JSU+50C581fRDQLp6Q4vB9tth2+eHOeKvWej8Y
-         H/vi8dzRdL4NAj4RSwUK7CYUjEbpHpf13lUuI72q5MPvCt8PKBH3qgfjQxsMP08ktfU1
-         uCqjuIGVRiz+xi9AZdkrls7q6cxL7tk95Mx31j/osbVL/TqSxh8ojA50AtWh2F/5rMkJ
-         kw5Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rqv2KZ5Lp7zjV+B9M+cTICPFVX5dtf7O05bIy0UoptwKRp8ZIheqLge7it3g2JnHzNaE9pVO10AsrKwjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLSPCv+6/mv+6WoFE53jIzU+ZPpVXFxdOHFL4jG0rlhraqmZyn
-	7MNzhV2ls+fe42PkY1Nv14Na0gg1Imy1LcU1VAw7MPemdJ1uY4kqP+Ti1C2t7k/x+NehLcCUqtn
-	tMcOfTJ0/SvwtjyKk9O/PtgC6WfRdWXtnPuTlaWNsqMeKz+j6GwVB7NoovpU=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554143AAF7F
+	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 01:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786066704; cv=fail; b=TXCb9UF205utQ310s4AaGYzH3SgJrQmYwUCBrJPHmJOFzWH5UQ69XqvcM7IDKKqc0J4UtQH5sGK5jBERZ0OrG8uUGa0AkaSwAH+AKww63y4ywz/KPfS10eOClu32wXxTBg0aMjFF7qnF5K7QJHr0Bw8DYIDlcHstDVsL6/RfYl4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786066704; c=relaxed/simple;
+	bh=dh5uOVVF9wrTGX8dFTlUwUEpeCqcLPbDmwZPFQCEl4Q=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=sq6leKXGiKp1dQUdO096YrVhkMV8jL3a0iPUW9AQNi7pZuffxr4VzQHvpQxq/k5JXdvkdrwAUvr/n/1iY0pysa1K3N1CVnZYjdckhgPYV+RHWZEq7Fnw8jXhR4DSlq9vBEU28n3D5svk8pe6X1xnFTKeJdz7IjbHpM7RmgRV+24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W+uzjGAB; arc=fail smtp.client-ip=40.93.201.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W+uzjGAB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iqtOVb7RBfc3IhWAwrzgvB+mqwu380+jtRPq6AvQT9+Q57MQ6swLBaRsC6rCtlRqZ8nuiFhkJGvxi27Z1+v4l6pUlUTnjyuPx30b5UckNIV09JDU58xYsvPOs/tnUoxU5SVLIvH7T9gofY2/pRHh+Hqt2n/sF31Gyn5zR6oXVKVLSNlW5q9sBE2kZoYZnrYkf6CC7ti8T+kiutZGmosi0aq775h/TdsgQdsue4uN0Yk2mFqzQFar7ik1SoShGklM7os9Fo22arguPJNFvxBY6xDz0r6m+janxg13RmACTyLgfE1oycqt3f668zfXFOFwQJDVfCGyUyuLRo2mlEWZog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x/kFY7caVr+CJO19u4aNehB+8SuGAcrg3RX4ACfwIvs=;
+ b=nI9z49gWo3PjK/YWs5g02whmSuRum8nJg2CEwXkt871u9pgd2eGQooOcG2hLwvvXrw9VlPENjM6naTZNZ69i4MinBHmYo3dmlZJDOK5CoyTNIt4gCbQ1rcc2UPGCLYYLMN6Ww9C/jh4ySWBnEXACfsA6KzsLCXh2W/89Kk+1EOWiT1OP2QziYC6WxWPVggCSs92WNlYMMN1LI8iLL2hG6OHSgliynf0E4vUyFevr3eDIUAZdprbk8w0Nfecm7xRsk9s9ZqybtC6ABpGiNAxUuE2D5k9L3R/a9uWV0qyxo7kILya761TISYTnSxZO/6xDeNstIAUldhtbL7emr2+HtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x/kFY7caVr+CJO19u4aNehB+8SuGAcrg3RX4ACfwIvs=;
+ b=W+uzjGABk9YL4he4y2TeNiCKpTOoMrfOrMBt2ZmlNq23uf2Zpi/qf7w/9xX4VXm+VJMlATiV5466kob52XVy5H+ythPq2TJiSV9kAd6DbIt1KPJjT87+xtzfsRN61Aolt+gSM7ENj8iU9en3GrI+p4h/ca0W/jmfbfbsb/gtpqSzFqnY7sRNwNGkE4IFWOJSDmgpwrNKi/kg9KAGYh2VjFzpWO98cGuwldPHUs5+ZAucZc8PSZW1zAppYmzTFc7eXyxKNQlrXgw2p+brhiC6D+idcMj8yGwXFFPMZCI0gCR7EaFzo6SEJVBtgURnU3KdD6AmemOI8SgJEhEzsf7sfA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Fri, 7 Aug
+ 2026 01:37:58 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0292.019; Fri, 7 Aug 2026
+ 01:37:58 +0000
+Message-ID: <c5fae595-2407-42cf-8040-384699df537d@nvidia.com>
+Date: Thu, 6 Aug 2026 18:37:56 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] rust: workqueue: add Work::cancel_work_sync()
+To: Danilo Krummrich <dakr@kernel.org>, tj@kernel.org,
+ jiangshanlai@gmail.com, aliceryhl@google.com, ojeda@kernel.org,
+ boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
+ daniel.almeida@collabora.com, tamird@kernel.org, acourbot@nvidia.com,
+ work@onurozkan.dev
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+References: <20260804195248.665636-1-dakr@kernel.org>
+ <20260804195248.665636-7-dakr@kernel.org>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20260804195248.665636-7-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0016.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::21) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:a09:b0:6ae:8a52:ffa9 with SMTP id
- 006d021491bc7-6ae96c17679mr9341349eaf.3.1786060946165; Thu, 06 Aug 2026
- 17:02:26 -0700 (PDT)
-Date: Thu, 06 Aug 2026 17:02:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a752092.9c11d2ce.289b96.009f.GAE@google.com>
-Subject: [syzbot] [pm?] inconsistent lock state in lock_sync
-From: syzbot <syzbot+7b4431d5335ca2d9f771@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|MW4PR12MB5666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25f25bf4-7d77-47df-5deb-08def42482b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|22082099003|18002099003|56012099006|4143699003|11063799006|6133799003|10067099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	bBFh5Q9GHS7raj24NgkQOozwNrukAOEKL1mk/vZ5BwFT716Ses8MYe6xJ3CxeTMygrlx957DKVfLGQGKVkM6IeZ+WFOWNTky2OFpBPD3oiaPWlOY28xr8p+U5JYWBPLJTIVQSYHDbV/kjrCl81R6MYEdfgSHXFV/QKnYTE0d6MJx4Z9w9DjuXP7mQeu/yVbipN8qMpFAwy5E2rTmHZ+DU0A6b2z4YDsz3iL0t6Yb+vdtq5vwrQ0D6mrOLfbeU15fLj1Xyo5EoYrlBUkZMk0J3C7+XU+wor8NaNcIDpkByOFuVJVmibtfhh5jkmYtAv7+Xcc9kb6ukTVx6mPiXEr/P29nvXey1oPCIaq6KIWgAlOyzuOItIyipMBLXLQvWbDv40eH002vHf/0dR1WBrYQ4VlvEjbD23ngBPRS1I+QbmlCnpW55i6grF4jxagNnRItb3SmgP66jvn2ipdAwjFpYkMlz0UDvvTVGt6CAWZD+PfKxsLgcadWhTfEfJa8nnTFb7AAfgloAvWLelE/q7cxenaIc+YqC0UwmPHXUZt7zdoCJGyB6+hfIj3jaqG0WEbuF5+XZEFgQtaaaM7c7RGxz0bvVtcAKmG0F67Ze00KbwlITozXhgrheQErIgSxN8QfHs50WH95Ejmo498cnNs6qsUJQkiYN3lzu/1B0Pf2fT4SBbEtfuHifxocswBz/zPoAyEJfpGKg+3xjBd87qLbmw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006)(6133799003)(10067099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2F4blBBSEdHNVFVUU40Wk05dUtIanM4aysrOFF2KzdQR05NcXBjTWRabjBp?=
+ =?utf-8?B?QUJwMlpJcUZ6VnBWWkM2WElDeUxTeTIwdlFvT2ovNzZ1cmhPQlZEYk4ycU5X?=
+ =?utf-8?B?NzYyZUpZUXJNbjRyNjNPbG1abmNmalE2dzgyL1RjWTZCa3ArOHpIYVkxenlZ?=
+ =?utf-8?B?bHpjY3lKeE4reE54bzFma0Y0aHJmVCtabjIrNkJqVUpTdmwreDRKYUZkdXUr?=
+ =?utf-8?B?Mnd5VHJldFllOGsxWUIwbGlKb3VsNkdKNXpYcFc1ZEtZdmU1MUsrbzFWemEw?=
+ =?utf-8?B?c3lTSTFRMjA2WXNSMWVwbDdKN3lTT1VaZ2RFV0JzdXpFUm5WaktuZ09NWE1W?=
+ =?utf-8?B?K0E0QmRCK3l6VysvMmxiNm9qZVdOdmxJNnpGUG4wcnRGdVRQRWlJZ2lRZEhH?=
+ =?utf-8?B?NUV4Y0VKRkw1MnFwR2JVbkd1bDJoSEFSanAzRHFSLzlNUFdNWGl3WWRqS2Vw?=
+ =?utf-8?B?N3VYaUlNMTI1YWtPNmF2WG1RVkhNdm1lZ3d5aklQeGpUeERXRFVEZ1ZYNHlN?=
+ =?utf-8?B?eW9XYUhoOTY2ZkhnTy9sbjFIVmFrN2RndlpMWUdZaE9ySndiMnZFMHlDME5R?=
+ =?utf-8?B?Z1ViN0hPV3lsbWJUY3ZoQTRrSUdPZkxhWmxQekhKOERtaVZKOFdNVkZYVlQx?=
+ =?utf-8?B?ZHNOOFNkOUtSWDVjUmFxS1RxcFF2WC9jb2NIYWFBeFlCV1hETHJvaVY5WXRv?=
+ =?utf-8?B?MzlraGdlM1YwRWh0UGhIVVBoMUZsbk1ZVWswUExnZkkxTWtjeWZqVm41R2FN?=
+ =?utf-8?B?K3JSeWJ5UlZuNkZMTVFLajh2S2YyS2cwQms2V2cyR1JhZXlvT3VIM09sVzhj?=
+ =?utf-8?B?Tmhnd004dVNPS3BuUForTG1RUnZNQnlPVjZOTmJubSs4Tmtwd1FVVDJpbDFP?=
+ =?utf-8?B?T0kvbXZlelYzc3o3VFozSkRUVHdvWkFhU2wzZUlBR1U1MTQxeTJ4ZkpBT29K?=
+ =?utf-8?B?MVF3KzdZeldaeDNXUUErRUtDVlVMbXpFeDFPTk5SaFNXK0p5SHoyNUxja0k3?=
+ =?utf-8?B?ZG5tcmtPTEdPTyt0dmJPamR0Tkk5c0ZrRTN3L2F2a2FWQ240K2xYcElieFJh?=
+ =?utf-8?B?czRheUVVWU5RVXN1c1FudzlhUzNWeHZzQzVaZzI3cjF5Zm9HbG8veTkwamt1?=
+ =?utf-8?B?MFRySE8wOGloazRLVjdwdDhQQ0VxTkZsM1Rsa3ZCU2VTeC9oWXpJR3pkNHU0?=
+ =?utf-8?B?MG9lOE82N3VqNVE4QWJFWDlYWFNEM1JGY0ltcjA3YWFtcjhzd2N3NzN2YkpG?=
+ =?utf-8?B?NVJWRGVDanRnMG5sdEdiVUR1UytaQXFqRXZ3YmRuZWZDTVpFZE1vQjU1ejZn?=
+ =?utf-8?B?c1lQdlg2YVBrN2plNFpRVHlCNkdBRkRDMmFRUU9Dd0REdTlaVWRrTWlpZTJq?=
+ =?utf-8?B?TGtFOEFUeTRwb0FNZWRPU0M2T3VzS3lVVFBOd09GRlpVOWRQVllJNkg3aklq?=
+ =?utf-8?B?bFJta3cyY3c5OGY2dUhvVVMzZkVLS0trSDQ2UmxCUkhwZHN5STkwTUlSd0Nq?=
+ =?utf-8?B?WnBxZ3RzaitGTUpudTJXZmQzd1lZOE1NYWF6ZGZjMEhoV2ExalZ0bENGNUxC?=
+ =?utf-8?B?dDNYb0dobkNoaWFETHZMaEVmQnhIVjZ4MzhsNklnMkFraHVKbUhrU1lzQlNG?=
+ =?utf-8?B?b1VZT0RlMUFSeVhGenJ3aytNOUIvK2JKdWZLQVlWSFpQRnIwdmt0N0MrNElU?=
+ =?utf-8?B?NGlYUXpYVXBvb05SZCttR0c2VEx3eTdiK0dtNDB4SmdmMHJ4WmRoZ3VHZHU4?=
+ =?utf-8?B?bGlrYmRVZTBjb0krNEg1UkhvdVZTQ2xlako5NUx1S25iYlR0bURXNEdMTEJV?=
+ =?utf-8?B?TVQ5TTlRNE9TVzd4OWFzMExUc3hhaWpRNGxqSFV4bHBsUDFqSUpCTjVUUGRH?=
+ =?utf-8?B?VzM2Ty8xUTVnR1c4QzBHVUJhTzN6NWd3bVBHaEt2Ukw0SGcrVEhyaUd3MTFq?=
+ =?utf-8?B?OVl0RWhHTkgwdktoSUJ2VUxVSWZURUFKYjlMMjBKSnFsaVdBaXg3bmQ1TlJk?=
+ =?utf-8?B?T2YwajVzd2s0YTVhdGIydGlDalVvM0ZRYjhBMFZ0S3FBblNoWlhWSloyM25i?=
+ =?utf-8?B?ckpUM0VITG9rZkI0ZWR4aFA1Q3QyUzlheitReThtVzMyOExzb0pJUEx6UktN?=
+ =?utf-8?B?aWFHU1czREVDd3psQVdVR2pKZk5kaVVQQVBvSHAyN3cwRW9IdWozREdjdXZs?=
+ =?utf-8?B?OEV3bmU1M0JTdm5zTUdwRUtNUXlmVlpzYzlpd2J4NG9LWk9wRVptTTlXbER1?=
+ =?utf-8?B?RUhBY0l3NDdHM1A1ZTJDR0c4SmdGNXRNM1lIcjhXZkNNYnFqOGhDUXRsVkpC?=
+ =?utf-8?B?V2tCN2NEWXB2WHRFZ3BwNEZLbjh5cEZqMk5CeWp2b2xLVW4ydG5Rdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25f25bf4-7d77-47df-5deb-08def42482b5
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 01:37:58.3933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Os+DN+FCf0nKXPU1S6D+td0S9N6ouTftjoi8LiUg8ZKWIwaRazy50w1H7HOFy7n9JKu63PiRu77tqDRVGlIrfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
 
-Hello,
+On 8/4/26 12:52 PM, Danilo Krummrich wrote:
+> Add a method to cancel a work item and wait for it to finish if it is
+> currently running.
+> 
+> This will also be used by ScopedWork's destructor to synchronously
+> cancel work before dropping borrowed data.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  rust/kernel/workqueue/mod.rs | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/rust/kernel/workqueue/mod.rs b/rust/kernel/workqueue/mod.rs
+> index 5de88c59b2e5..2b87f935712a 100644
+> --- a/rust/kernel/workqueue/mod.rs
+> +++ b/rust/kernel/workqueue/mod.rs
+> @@ -585,6 +585,14 @@ pub unsafe fn raw_get(ptr: *const Self) -> *mut bindings::work_struct {
+>          // the compiler does not complain that the `work` field is unused.
+>          unsafe { Opaque::cast_into(core::ptr::addr_of!((*ptr).work)) }
+>      }
+> +
+> +    /// Cancels the work item and waits for it to finish if it is running.
+> +    ///
+> +    /// Returns `true` if the work was pending, `false` otherwise.
+> +    pub fn cancel_work_sync(&self) -> bool {
+> +        // SAFETY: We have a reference to a valid, initialized Work, so the pointer is valid.
+> +        unsafe { bindings::cancel_work_sync(Self::raw_get(self)) }
+> +    }
 
-syzbot found the following issue on:
+This seems to expose a way for driver writers to leak work items,
+doesn't it?
 
-HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1479be32580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=7b4431d5335ca2d9f771
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Previously, work items were either run, or failed to enqueue, and
+both of those paths restored the Arc via Arc::from_raw().
 
-Unfortunately, I don't have any reproducer for this issue yet.
+But now with this new cancel_work_sync(), Arc::from_raw() never gets
+called. So for example:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/32c9dc084aaa/disk-848acc8f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b7604244b0a9/vmlinux-848acc8f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4cd321f6fe47/bzImage-848acc8f.xz
+#[pin_data]
+struct MyStruct {
+    #[pin]
+    work: Work<MyStruct>,
+}
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7b4431d5335ca2d9f771@syzkaller.appspotmail.com
+impl_has_work! {
+    impl HasWork<Self> for MyStruct { self.work }
+}
 
-RBP: 00007faa6b63500c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007faa6b826038 R14: 00007faa6b825fa0 R15: 00007ffe29482fa8
- </TASK>
-================================
-WARNING: inconsistent lock state
-syzkaller #0 Tainted: G        W          
---------------------------------
-inconsistent {SOFTIRQ-ON-R} -> {IN-SOFTIRQ-W} usage.
-syz.4.93/7194 [HC0[0]:SC1[1]:HE1:SE0] takes:
-ffffffff8fc0ed18 (wakeup_srcu){.+-+}-{0:0}, at: srcu_lock_sync include/linux/srcu.h:199 [inline]
-ffffffff8fc0ed18 (wakeup_srcu){.+-+}-{0:0}, at: __synchronize_srcu+0x1c/0x300 kernel/rcu/srcutree.c:1481
-{SOFTIRQ-ON-R} state was registered at:
-  lock_acquire kernel/locking/lockdep.c:5868 [inline]
-  lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-  srcu_lock_acquire include/linux/srcu.h:187 [inline]
-  srcu_read_lock include/linux/srcu.h:294 [inline]
-  device_wakeup_arm_wake_irqs+0x53/0x130 drivers/base/power/wakeup.c:401
-  dpm_suspend_noirq drivers/base/power/main.c:1652 [inline]
-  dpm_suspend_end+0xe5/0x210 drivers/base/power/main.c:1860
-  create_image kernel/power/hibernate.c:328 [inline]
-  hibernation_snapshot+0x28b/0x9c0 kernel/power/hibernate.c:442
-  hibernate.cold+0x17c/0x6a2 kernel/power/hibernate.c:811
-  state_store+0x1ff/0x240 kernel/power/main.c:821
-  kobj_attr_store+0x58/0x80 lib/kobject.c:840
-  sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
-  kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
-  new_sync_write fs/read_write.c:595 [inline]
-  vfs_write+0x6ac/0x1050 fs/read_write.c:687
-  ksys_write+0x12a/0x250 fs/read_write.c:739
-  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-  do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-irq event stamp: 90148
-hardirqs last  enabled at (90148): [<ffffffff8bbe28f2>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:178 [inline]
-hardirqs last  enabled at (90148): [<ffffffff8bbe28f2>] _raw_spin_unlock_irqrestore+0x52/0x80 kernel/locking/spinlock.c:198
-hardirqs last disabled at (90147): [<ffffffff8bbe2602>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:130 [inline]
-hardirqs last disabled at (90147): [<ffffffff8bbe2602>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:166
-softirqs last  enabled at (89630): [<ffffffff81c8f222>] __do_softirq kernel/softirq.c:656 [inline]
-softirqs last  enabled at (89630): [<ffffffff81c8f222>] invoke_softirq kernel/softirq.c:496 [inline]
-softirqs last  enabled at (89630): [<ffffffff81c8f222>] __irq_exit_rcu+0x162/0x210 kernel/softirq.c:735
-softirqs last disabled at (89637): [<ffffffff81c8f222>] __do_softirq kernel/softirq.c:656 [inline]
-softirqs last disabled at (89637): [<ffffffff81c8f222>] invoke_softirq kernel/softirq.c:496 [inline]
-softirqs last disabled at (89637): [<ffffffff81c8f222>] __irq_exit_rcu+0x162/0x210 kernel/softirq.c:735
+impl WorkItem for MyStruct {
+    type Pointer = Arc<MyStruct>;
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
+    fn run(_this: Arc<MyStruct>) {}
+}
 
-       CPU0
-       ----
-  lock(wakeup_srcu);
-  <Interrupt>
-    lock(wakeup_srcu);
+let obj = Arc::pin_init(
+    pin_init!(MyStruct {
+        work <- new_work!("MyStruct::work"),
+    }),
+    GFP_KERNEL,
+)?;
 
- *** DEADLOCK ***
+// refcount 1 -> 2, and the workqueue owns the second one
+let _ = workqueue::system_dfl().enqueue(obj.clone());
 
-8 locks held by syz.4.93/7194:
- #0: ffff88807ade1430 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x2aa/0x380 fs/file.c:1259
- #1: ffff888069482450 (sb_writers#8){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #2: ffff888055791080 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x2c2/0x5f0 fs/kernfs/file.c:336
- #3: ffff88801f2c81e8 (kn->active#61){.+.+}-{0:0}, at: kernfs_get_active_of fs/kernfs/file.c:73 [inline]
- #3: ffff88801f2c81e8 (kn->active#61){.+.+}-{0:0}, at: kernfs_fop_write_iter+0x332/0x5f0 fs/kernfs/file.c:337
- #4: ffffffff8ea9fc80 (system_transition_mutex){+.+.}-{4:4}, at: lock_system_sleep+0x56/0x70 kernel/power/main.c:71
- #5: ffffffff8fbf46e0 (device_hotplug_lock){+.+.}-{4:4}, at: hibernate.cold+0x126/0x6a2 kernel/power/hibernate.c:805
- #6: ffffffff8f8c6bc0 (acpi_scan_lock){+.+.}-{4:4}, at: acpi_pm_start drivers/acpi/sleep.c:533 [inline]
- #6: ffffffff8f8c6bc0 (acpi_scan_lock){+.+.}-{4:4}, at: acpi_hibernation_begin+0xf6/0x1c0 drivers/acpi/sleep.c:945
- #7: ffffc90000a08ca0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11f/0x610 kernel/time/timer.c:1745
+// takes it off the worklist, so run() never reclaims that reference
+obj.work.cancel_work_sync();
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 7194 Comm: syz.4.93 Tainted: G        W           syzkaller #0 PREEMPT(full) 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_usage_bug.part.0+0x257/0x340 kernel/locking/lockdep.c:4042
- print_usage_bug kernel/locking/lockdep.c:4010 [inline]
- valid_state kernel/locking/lockdep.c:4056 [inline]
- mark_lock_irq kernel/locking/lockdep.c:4273 [inline]
- mark_lock+0x6b5/0xa20 kernel/locking/lockdep.c:4753
- mark_usage kernel/locking/lockdep.c:4642 [inline]
- __lock_acquire+0xff3/0x1a40 kernel/locking/lockdep.c:5191
- lock_sync kernel/locking/lockdep.c:5916 [inline]
- lock_sync+0x9d/0x110 kernel/locking/lockdep.c:5904
- srcu_lock_sync include/linux/srcu.h:199 [inline]
- __synchronize_srcu+0xa2/0x300 kernel/rcu/srcutree.c:1481
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2636
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3880
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x162/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:179 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:198
-Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 f6 d0 27 f6 48 89 df e8 7e 20 28 f6 f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e8 05 2e 17 f6 65 8b 05 4e 57 a6 08 85 c0 74 16 5b
-RSP: 0018:ffffc9000500fb10 EFLAGS: 00000246
-RAX: 0000000000000006 RBX: ffff88823fff8740 RCX: 0000000000000040
-RDX: 0000000000000000 RSI: ffffffff8e1a8186 RDI: ffffffff8c402680
-RBP: 0000000000000246 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000140001
-R13: 00000000000a8d20 R14: ffffffff81e6a290 R15: 0000000000000005
- mark_free_pages kernel/power/snapshot.c:1252 [inline]
- count_data_pages+0x7d/0xf0 kernel/power/snapshot.c:1417
- hibernate_preallocate_memory+0x104/0x507 kernel/power/snapshot.c:1859
- hibernation_snapshot+0x1e6/0x9c0 kernel/power/hibernate.c:430
- hibernate.cold+0x17c/0x6a2 kernel/power/hibernate.c:811
- state_store+0x1ff/0x240 kernel/power/main.c:821
- kobj_attr_store+0x58/0x80 lib/kobject.c:840
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7faa6b59e019
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007faa6c4cf028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007faa6b825fa0 RCX: 00007faa6b59e019
-RDX: 0000000000000005 RSI: 0000200000000100 RDI: 0000000000000003
-RBP: 00007faa6b63500c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007faa6b826038 R14: 00007faa6b825fa0 R15: 00007ffe29482fa8
- </TASK>
-ODEBUG: object ffffc90000a08a70 is NOT on stack ffffc90005008000, but annotated.
-------------[ cut here ]------------
-1
-WARNING: lib/debugobjects.c:672 at debug_object_is_on_stack lib/debugobjects.c:672 [inline], CPU#1: syz.4.93/7194
-WARNING: lib/debugobjects.c:672 at lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705, CPU#1: syz.4.93/7194
-Modules linked in:
-CPU: 1 UID: 0 PID: 7194 Comm: syz.4.93 Tainted: G        W           syzkaller #0 PREEMPT(full) 
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-RIP: 0010:debug_object_is_on_stack lib/debugobjects.c:672 [inline]
-RIP: 0010:lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705
-Code: c4 60 5b 5d 41 5c 41 5d 41 5e 41 5f e9 49 18 88 0a 83 c5 01 89 2d 20 43 57 1a 4c 89 e6 48 c7 c7 c0 31 40 8c e8 f1 ef eb ff 90 <0f> 0b 90 e9 d2 03 f1 03 83 c5 01 89 2d ff 42 57 1a 49 39 c4 73 da
-RSP: 0018:ffffc90000a08900 EFLAGS: 00010086
-RAX: 0000000000000050 RBX: ffff888076281508 RCX: 0000000000000000
-RDX: 0000000000000050 RSI: ffffffff81e8afd9 RDI: fffff52000141111
-RBP: 0000000000000001 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000102 R11: 205d314320202020 R12: ffffc90000a08a70
-R13: ffff888033bc0000 R14: 0000000000000001 R15: 0000000000000000
-FS:  00007faa6c4cf6c0(0000) GS:ffff888123ed8000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200000000000 CR3: 00000000618ef000 CR4: 00000000003526f0
-Call Trace:
- <IRQ>
- lookup_object_or_alloc lib/debugobjects.c:682 [inline]
- __debug_object_init+0x2a9/0x3d0 lib/debugobjects.c:798
- __synchronize_srcu+0x1c3/0x300 kernel/rcu/srcutree.c:1494
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2636
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3880
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x162/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:179 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:198
-Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 f6 d0 27 f6 48 89 df e8 7e 20 28 f6 f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e8 05 2e 17 f6 65 8b 05 4e 57 a6 08 85 c0 74 16 5b
-RSP: 0018:ffffc9000500fb10 EFLAGS: 00000246
-RAX: 0000000000000006 RBX: ffff88823fff8740 RCX: 0000000000000040
-RDX: 0000000000000000 RSI: ffffffff8e1a8186 RDI: ffffffff8c402680
-RBP: 0000000000000246 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000140001
-R13: 00000000000a8d20 R14: ffffffff81e6a290 R15: 0000000000000005
- mark_free_pages kernel/power/snapshot.c:1252 [inline]
- count_data_pages+0x7d/0xf0 kernel/power/snapshot.c:1417
- hibernate_preallocate_memory+0x104/0x507 kernel/power/snapshot.c:1859
- hibernation_snapshot+0x1e6/0x9c0 kernel/power/hibernate.c:430
- hibernate.cold+0x17c/0x6a2 kernel/power/hibernate.c:811
- state_store+0x1ff/0x240 kernel/power/main.c:821
- kobj_attr_store+0x58/0x80 lib/kobject.c:840
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7faa6b59e019
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007faa6c4cf028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007faa6b825fa0 RCX: 00007faa6b59e019
-RDX: 0000000000000005 RSI: 0000200000000100 RDI: 0000000000000003
-RBP: 00007faa6b63500c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007faa6b826038 R14: 00007faa6b825fa0 R15: 00007ffe29482fa8
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	f5                   	cmc
-   1:	53                   	push   %rbx
-   2:	48 8b 74 24 10       	mov    0x10(%rsp),%rsi
-   7:	48 89 fb             	mov    %rdi,%rbx
-   a:	48 83 c7 18          	add    $0x18,%rdi
-   e:	e8 f6 d0 27 f6       	call   0xf627d109
-  13:	48 89 df             	mov    %rbx,%rdi
-  16:	e8 7e 20 28 f6       	call   0xf6282099
-  1b:	f7 c5 00 02 00 00    	test   $0x200,%ebp
-  21:	75 23                	jne    0x46
-  23:	9c                   	pushf
-  24:	58                   	pop    %rax
-  25:	f6 c4 02             	test   $0x2,%ah
-  28:	75 37                	jne    0x61
-* 2a:	bf 01 00 00 00       	mov    $0x1,%edi <-- trapping instruction
-  2f:	e8 05 2e 17 f6       	call   0xf6172e39
-  34:	65 8b 05 4e 57 a6 08 	mov    %gs:0x8a6574e(%rip),%eax        # 0x8a65789
-  3b:	85 c0                	test   %eax,%eax
-  3d:	74 16                	je     0x55
-  3f:	5b                   	pop    %rbx
+// refcount 2 -> 1. MyStruct is never dropped.
+drop(obj);
 
+thanks,
+-- 
+John Hubbard
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
