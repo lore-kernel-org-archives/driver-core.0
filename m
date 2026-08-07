@@ -1,123 +1,69 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37BB3A8753
-	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 17:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786122761; cv=pass; b=YrJDyFmrhJ3qsKh98G16nnBTue+3nox4AIw/lzZXTteFpY6sf+S0YRGQbQOO6RPHGAfZuXU0CSfkK61j0+WkeffgSTIzygI0UfZCgA1vxYbfgaau/A20Pv+qnK1EIeMbFOdEKJYE5GBn8kjhIT3uaePVrNtG9+PSZ7H0Tdme1HI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786122761; c=relaxed/simple;
-	bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sJ2cF/pNHw9nYqsOvPiQ79qnckdFiO4/zPx8bg3vlcd16A5vNhlWMCiJT3WMs0szkx94ItVRWvZLpf64TjInoHXvhgmCY1SCIhIzm8zcoA1jRgMMseRkgSC27TesToBu9HiHAAQAb74gFrFJHrWie8BnstlpRTBpoYcbIyT3e6Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ebfDng22; arc=pass smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E9D21D3F5
+	for <driver-core@lists.linux.dev>; Fri,  7 Aug 2026 18:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786125606; cv=none; b=Eh1sclYNnP6g6DrgxE3p0JQEQKuMMiBBQ8D63ljilQpsxNS4AE/V41PM9tYCrX/H4EkzAGSW1guEuYKHv3O3gGl3le1chp8GCl91JiHdqp6HLQX+Wj8o7s67f+LHyUUvFKBSHjSWzgnHJGQ0JUexhidYpHixP3N2jN+lFWI4xHk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786125606; c=relaxed/simple;
+	bh=5e9qdLC6Xp5xVgN8GJUCOswnAQFaDJoHI+AtoDhWC1U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=cWhod5bsK12miVterMEvBRHv3qVbmmBBBN2u/IC5MuwBow3DmOlfaZwPrt6/Q+tCSqtr7H2Va5gUIm8EnWeDAs1ijrgyLDhaJeXCc4t6fAuRgjRd6NacnGezH/HvvjJhXIy8J1lKAlco9OtbmFOnd51ge5+pICfY6RfwNWvj0uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5DmpWSs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ebfDng22"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3856d4015e0so460521a91.2
-        for <driver-core@lists.linux.dev>; Fri, 07 Aug 2026 10:12:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786122759; cv=none;
-        d=google.com; s=arc-20260327;
-        b=B7NMn/sqc2qBZ0ppvwjB1/RVu7zLUZX5Dz/nCujkP+kyifzobBppnzhAv6FY+K7ZVs
-         KdSznh5qOtFFYAkUTJiMnhqXEd9/RCHddJ9bVwB3dyFKK2z3kUUBLCp+I1H8KrjT6DQ/
-         K8XevL6/TDlOUL1iQfHmTyNPSjnYWK3A6tuFOKcfPG/9llB4adXEmONMK9q+vEoGFr0T
-         i7yxRFbTxSg1R+6GvXC0WuKk/hDxolos9kcLQrMHL9BBFq+oESs7bH8TB8F3eEUyQ4gJ
-         ejsEKDU6fdYw1tPvm/vT6sPnacjznZuY/4CFn3PbKi8yBgwvUWksmuKC95iXJN36zVRM
-         Em0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
-        fh=ak1S86y+eNQUSIlvTWPqqiaf8z1aKL8LhGFmhkW9cYA=;
-        b=M7bgYcE76HAa4lXa7TkmORe5HGOkR4TV9wk7PrnXfLVsJuX/ZZLn9DIB3oIWRQ4o3V
-         YkPJkIGChOTstKx7Lm+Yqc0Ci5FqIV9/YBr2pWv2tBIxcak4tsTCqNmsONigJnwGkZ/v
-         ZcSKyxvPdr5L62x+MOncA3mJui345ZBUic644TSMRDYmqqKbmZWuvMS/KoTpIemPoJSL
-         aho6GGYqMWHPHbI2HKzA5EL9hbBj9q6+BPmRWYJG5A90bOngokROtyfvEnRZxot8R2GZ
-         /31CQzaUfaXlxeit7rATlJM0vYYfkiTtDXYEIaZz8jySYHU0Vjrzk7xAYyfVKg5z+/sK
-         0jgw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786122759; x=1786727559; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
-        b=ebfDng22CIBVPF1OX378SD39Ymr4slNGko1jXrZQNWj2iGtcmCOUFGt82mt2OlwzqE
-         LjRahJ5MX9gg6Bt+zu+yeeTJ2ST9sTn59Y/iWpOyIJnRIt8PgubvEUswZDEHgaJV4oyc
-         U0fK6dADJ0ShO833mxPK82u0BEjlwoLn8TdqEReE799s4I/BxNQxC7/7gQDUZtRRTSwM
-         EGXiNIzaIBKcxSnsXRit6pFsYavjED652qX6klROFwIDj08Lb0E+xQvFO7gvcnqM4Eo9
-         lY/mbrlXFWfBtpz+vftNOmRHak54iSULRYnh8SOw22SMZAoOFHty/R8pCAr61G/1kCGp
-         wSaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786122759; x=1786727559;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rYN3WqMlSBD8p+Coyo0jjeKucvb7gFDKdiYxoZH2MVw=;
-        b=PIWo8KJRE7lTEKGv7yXia05deYHPlr0IeaSZY7S/nwyG1hIef79x7VhmJfmuMRTFUR
-         IPY4ChmynkcrxsntFkgVcxQbHWmf0v90EkcGXXSYqUIzGNGvkfFKIqQZtD9uSJ6maql5
-         it9Hw0xjAScdljwolgKYI/GeN1z92aYg50NKSZEPfC+2uNDvGuu2W8G61t0F9hq0pmmD
-         fneT8/64UK+l0BiKqZ8BaRG3y9+4DtO8BJ3VRXGC9sMtivmdWbTIQzU+NaLKZktCsr1t
-         fwG5q1G+HHAh/ZM929Nma0OOEAGA+jigb2JdmLDwn0CcYnCjtDm7x1uf6jD+ov4rwxKY
-         0xhA==
-X-Forwarded-Encrypted: i=1; AHgh+RovyR4hpzpLXJ0ilsU0dTyWdSxL3nxlqiJdKDa/GrELCi3xETp1OfTWmRlzxrIGme++FONZ22v4HGGyeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6WEGQ2OBNy1nxidumBp6C95cvPgZozj9QUuFUPsSdg64pAluf
-	JsFeLfel/srQoXLq9B0Q285k+BgQWX/fqPZ3IG/2OoraFCjM9WwfUJjPRRQg5wiBzIsuWpffxER
-	f9m4k+amxhm/kCwtlpmEJRNa1pPpsI9Q=
-X-Gm-Gg: AR+sD134UhQ+dDzWg+XZ0bko7xtnA9FOoM2B1mIXFlWuN3B+ttrHUJtOuzmZIDN1Bh4
-	UGW87QnnhvKN3PeWdOmICcCtunYRYe/u32N4i+4rzqRJhXsMpK79y8dYQknbHc1hciIiDTU3JtE
-	EgEJQeqXgrMCr4/dQ7WPIgfSM4D0wPgI371P9Dk3Pu8J/5VR1oAwW47aJmTnSUjPdudAjA6mhmZ
-	INLnx7tus1nqLKwiyDvDHsADDsEBLuWYtivVacyqH6QlpPUEwa9lJCKXvtEA/YXOyC7gGk+cPVS
-	glGBWRCFLbYRvFmsEQgcNxtb1ryOPKsJdJHiJA+aLhPAu4Ir0wFQqgkR8r+NyIhGJx5neFB6EZd
-	861s0zzrJlB8rIrZHUMEUdsjAkI2veLpys4L1w9Z5qhtqjxJAs/1prbWIHL75
-X-Received: by 2002:a17:90b:1fc8:b0:38e:ab3f:2c99 with SMTP id
- 98e67ed59e1d1-3903c628181mr18187876a91.2.1786122759120; Fri, 07 Aug 2026
- 10:12:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5DmpWSs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6EF01F00A3A;
+	Fri,  7 Aug 2026 18:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786125604;
+	bh=5e9qdLC6Xp5xVgN8GJUCOswnAQFaDJoHI+AtoDhWC1U=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=J5DmpWSscCZQlMrIT7CBMpCKqRZNVXbaStFFr78UA9h5mB/5EcvCeHGTN4zGl4EpG
+	 D3qPhstye/hyR1yMLxHFpHK389ZQUqYH7tuxST2ZkgKX8TpEujAy5104V1r/sbjej2
+	 PZCHv2M1kYcvS6FIHgqrfTyNXHcGIIla72jvNtdQrHZQ19Xy9qkOHNMB61DQErLUjx
+	 THBZCqgAvsCq3P0pAR2d6ZNeMHmZr2nXE6SO3a/RvF1lh8ZmJl49CtemONPnXAAEB6
+	 SXS8czWkxj5FHfCkcGZddljLJxWifr9tEVLakrQ0ZoGHxH5uZWgXwSMB85rG9MhoQm
+	 rTTttJGmZFZLg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260805-pramin-split-v1-0-ff3e84a75dac@nvidia.com>
- <20260805-pramin-split-v1-2-ff3e84a75dac@nvidia.com> <DKIRNHGHK4O6.2IRJZGM6W79B@nvidia.com>
-In-Reply-To: <DKIRNHGHK4O6.2IRJZGM6W79B@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 7 Aug 2026 19:12:25 +0200
-X-Gm-Features: AUfX_mw-cYa1MKRYuhH-uVGjXrAOGt3b9pyVqsuViit8BjsQ3XkXMD2u-qTWwOs
-Message-ID: <CANiq72kYqPySwS8ci84CEsvjJqCTBjrveSx14xxnNWJZWRFAuw@mail.gmail.com>
-Subject: Re: [PATCH 02/12] rust: num: reject Bounded::shr overshifts at build time
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Eliot Courtney <ecourtney@nvidia.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Yury Norov <yury.norov@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Aug 2026 20:00:02 +0200
+Message-Id: <DKIWOM1S6PDN.3OWKELDD10SEQ@kernel.org>
+Subject: Re: [PATCH 1/1] MAINTAINERS: Remove Russ Weight from Firmware
+ Loader
+Cc: <mcgrof@kernel.org>, <driver-core@lists.linux.dev>
+To: "Russ Weight" <russ.weight@linux.dev>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <5o4r7r76h4areyfolngggnzcd3msquwgubly6xjbz6zdvoha2i@doazljuavhgk> <DKI3CWI7Y5T1.2DS54JYTFSVSN@kernel.org> <4562w4kmilphdekvzkfqg7e2ncdznxqc5tgzqh7g4ed2a6ulzd@acimaw5bmozi>
+In-Reply-To: <4562w4kmilphdekvzkfqg7e2ncdznxqc5tgzqh7g4ed2a6ulzd@acimaw5bmozi>
 
-On Fri, Aug 7, 2026 at 4:03=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
-om> wrote:
+On Fri Aug 7, 2026 at 7:24 AM CEST, Russ Weight wrote:
+> On Thu, Aug 06, 2026 at 09:01:12PM +0200, Danilo Krummrich wrote:
+>> Hi Russ,
+>>=20
+>> On Thu Aug 6, 2026 at 7:19 PM CEST, Russ Weight wrote:
+>> > Russ Weight is retired and is no longer actively participating in linu=
+x
+>> > kernel development. Remove him from the list of maintainers for FIRMWA=
+RE
+>> > LOADER.
+>>=20
+>> I think we should also add an entry to the CREDITS file. :)
 >
-> Indeed it looks like this would panic with the kernel build, and can be
-> easily caught at build-time since `SHIFT` is a constant.
+> Thanks. I'll create an entry.
 >
-> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>>=20
+>> Also, should we update the contact information in
+>> Documentation/ABI/testing/sysfs-class-firmware?
+>
+> Who should I put for the new contact for these files? Should it be you?
+> Or Luis? Or someone else?
 
-Do you want me to take it this cycle? And maybe the next one too?
-
-Cheers,
-Miguel
+Either sounds good to me.
