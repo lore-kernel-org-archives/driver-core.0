@@ -1,80 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5753B9DAE;
-	Mon, 10 Aug 2026 11:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BA183FF8AC
+	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 14:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786361958; cv=none; b=mCwBN2OLaqlbAUaTVf3kwxowUsU0xxBjmz7a4pC4tNTC6fzIwEa8ufowswb9P/MIFyKl8aerYp1jW0HMbZO56KVg6r0ljwR3M+Kr5kUkKj2Dm3Ud+bKFlZZWU87nXdFNkxh5ceW3rGQ2PEOAXp3j+ZkiVTus5+wXSeKU6ho2sZY=
+	t=1786372420; cv=none; b=ROSZyWlS6ucX5TKSzBQhomNML030BkxWfSMrfg+2ycNamY7ieV0UMgkRl31PtxtC1C4MR/WS1G9TqBe421wrWKD++musLY9yaW8IUPAaHK+ykcjPR6fpWIet3U77XhbiHQGsH11uNcrPxwdYeq3XQdcEqNRwEjc4eqCT69ESsWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786361958; c=relaxed/simple;
-	bh=atxt0l2OVAZdt7cZ5M3hkSsmj2uyoR3AiGUzTTrcWyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRgyJOZFKW4/t2UEur3ozBGFCkkJez2fUHiAubV3Js/3Saic24aCEHnA1GolFrXoLaCPz8CLhnmCQvl8YZjaaNfDxmKNmxALz1kCFkRwTXE9lfrJ+q9OCHR69KuAKL3tatzbYRD7P0VaWoxzQng3gI1uJH5cl9zHtW5IPr7EOfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0n5GSYMj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786372420; c=relaxed/simple;
+	bh=AfxvFoS/ftUkTwWYkLmLR+Bd4Y9eH94xPiNFj7HC8Jk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UGxMaO9CWernZrDPkzPLnaeKN0spKijPOESMmFchXzCcwe16boF+MBqLZyoyrzgZqyN8gqChUGbkQmBXS1Wxl9FLCU2zTEBETBcWXlpIBi0Dehi68hABU7uJrpU8KpheqRnrjYJfx8ykoU9WZ5KHt0mWO4Zd5dw9XGXKMRfgohE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YsyWqvkn; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0n5GSYMj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 397A11F000E9;
-	Mon, 10 Aug 2026 11:39:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786361956;
-	bh=P0u6lGUiQZ9xDiMEWf+IKqlqkyWhF01/3VtVUUrckZ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=0n5GSYMjKpmNPLb015C0thOzWGSPPkoWGGuoIt2+ELcLaSMQGIaMyoOZDKUw+hkvU
-	 M+zxwrMLMEusBAVJds31c3BcDFwQ8BC80O+P0nZ62caf6QGVSTDf51Qj8Ak37y0tt0
-	 SUElGnBIwcGv63s6L7SLa3uxesIEVZGFEngp5IuY=
-Date: Mon, 10 Aug 2026 13:37:44 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: seanwang1 <seanwang1@lenovo.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>, rafael@kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>,
-	Beata Michalska <beata.michalska@arm.com>,
-	Xuewen Yan <xuewen.yan@unisoc.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sumit Gupta <sumitg@nvidia.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2] arm64: topology: add source check in
- arch_cpu_idle_enter()
-Message-ID: <2026081025-rummage-rifling-982e@gregkh>
-References: <20260810102006.9986-1-seanwang1@lenovo.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YsyWqvkn"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73F0314BF;
+	Mon, 10 Aug 2026 07:33:33 -0700 (PDT)
+Received: from [10.57.68.246] (unknown [10.57.68.246])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3CB743F86F;
+	Mon, 10 Aug 2026 07:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786372417; bh=AfxvFoS/ftUkTwWYkLmLR+Bd4Y9eH94xPiNFj7HC8Jk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YsyWqvkn3zsbqmwUzojlwwxZiJWAhA5osq4Apo+zJQwSZ31nGBMbsz5YEFrfjPJws
+	 Fu6KLmk2gaIj8EdMnB6Rs1wnM4gGU1k+E+EmkW9KHiVthutehonzSY8ZArGF/78MJ8
+	 1ywnp7HGYi/dKwMA176okwj+xcFO4uvLEpgEE9d8=
+Message-ID: <840da3ba-1d65-4a28-a072-a586ea4dfce5@arm.com>
+Date: Mon, 10 Aug 2026 15:33:33 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260810102006.9986-1-seanwang1@lenovo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] arch_topology: Add topology_update_cpu_capacity()
+ for runtime updates
+To: Xueqin Luo <luoxueqin@kylinos.cn>, Sudeep Holla
+ <sudeep.holla@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Beata Michalska <Beata.Michalska@arm.com>,
+ Ionela Voinescu <Ionela.Voinescu@arm.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Jie Zhan <zhanjie9@hisilicon.com>, Lifeng Zheng
+ <zhenglifeng1@huawei.com>, Pierre Gondois <pierre.gondois@arm.com>,
+ Sumit Gupta <sumitg@nvidia.com>, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-pm@vger.kernel.org
+References: <20260807060848.832929-1-luoxueqin@kylinos.cn>
+ <20260807060848.832929-4-luoxueqin@kylinos.cn>
+Content-Language: en-US
+From: Christian Loehle <christian.loehle@arm.com>
+In-Reply-To: <20260807060848.832929-4-luoxueqin@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 10, 2026 at 06:20:06PM +0800, seanwang1 wrote:
-> arch_cpu_idle_enter() directly calls amu_scale_freq_tick() to update
-> arch_freq_scale when a CPU enters idle. This bypasses the sft_data
-> pointer check that topology_clear_scale_freq_source() relies on.
+On 8/7/26 07:08, Xueqin Luo wrote:
+> When the CPPC Highest Performance register changes at runtime
+> (e.g. via ACPI Notify(0x85)), the scheduler's view of CPU capacity
+> and the frequency invariance engine's reference values become stale,
+> as topology_init_cpu_capacity_cppc() is only called once during boot.
 > 
-> As a result, even after calling topology_clear_scale_freq_source()
-> with SCALE_FREQ_SOURCE_ARCH to disable AMU-based frequency scaling,
-> the arch_freq_scale value can still be modified by AMU counters when
-> the CPU goes idle through the arch_cpu_idle_enter() path.
+> Keep raw_capacity allocated after CPPC init instead of freeing it,
+> and introduce topology_update_cpu_capacity() to update per-CPU
+> raw_capacity, capacity_freq_ref, and the normalized CPU capacity
+> scale at runtime. Provide a no-op stub when GENERIC_ARCH_TOPOLOGY
+> is disabled so cppc_cpufreq can link on those configs. Skip updates
+> when the value is unchanged and reject a zero capacity_scale to
+> avoid division by zero.
 > 
-> Add topology_scale_freq_source() helper to check whether a specific
-> frequency scaling source is currently registered for a CPU. Use it
-> in arch_cpu_idle_enter() to verify that AMU is the active source
-> before calling amu_scale_freq_tick().
+> Call this from cppc_cpufreq_update_limits() for every CPU in the
+> policy so shared-policy Notify(0x85) targeting a non-policy CPU
+> still refreshes the correct topology capacity.
 > 
-> This ensures that topology_clear_scale_freq_source() properly
-> disables AMU updates in both the tick path (already handled by
-> topology_scale_freq_tick()) and the idle path.
-> 
-> Co-developed-by: Xuewen Yan <xuewen.yan@unisoc.com>
-> Signed-off-by: Sean Wang <seanwang1@lenovo.com>
-> Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+> Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
 > ---
+>  drivers/base/arch_topology.c   | 76 ++++++++++++++++++++++++++++++++++
+>  drivers/cpufreq/cppc_cpufreq.c |  2 +
+>  include/linux/arch_topology.h  | 13 ++++++
+>  3 files changed, 91 insertions(+)
+> 
+> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+> index 8c5e47c28d9a..27f2bfa9f326 100644
+> --- a/drivers/base/arch_topology.c
+> +++ b/drivers/base/arch_topology.c
+> @@ -229,6 +229,7 @@ static void update_topology_flags_workfn(struct work_struct *work)
+>  }
+>  
+>  static u32 *raw_capacity;
+> +static DEFINE_MUTEX(raw_capacity_lock);
+>  
+>  static int free_raw_capacity(void)
+>  {
+> @@ -372,13 +373,88 @@ static inline void topology_init_cpu_capacity_cppc(void)
+>  	schedule_work(&update_topology_flags_work);
+>  	pr_debug("cpu_capacity: cpu_capacity initialization done\n");
+>  
+> +	/*
+> +	 * Keep raw_capacity for runtime updates via
+> +	 * topology_update_cpu_capacity().
+> +	 */
+> +	return;
+> +
+>  exit:
+>  	free_raw_capacity();
+>  }
+> +
+>  void acpi_processor_init_invariance_cppc(void)
+>  {
+>  	topology_init_cpu_capacity_cppc();
+>  }
+> +
+> +/**
+> + * topology_update_cpu_capacity - Update CPU capacity after highest_perf change
+> + * @cpu: CPU whose highest performance changed
+> + * @perf_caps: Updated CPPC performance capabilities for @cpu
+> + *
+> + * When the CPPC Highest Performance register changes at runtime
+> + * (e.g. via Notify(0x85)), the scheduler's view of CPU capacity
+> + * and the frequency invariance engine's reference values become
+> + * stale. This function updates the per-CPU raw_capacity,
+> + * capacity_freq_ref and freq_inv max ratio, then re-normalizes the
+> + * CPU capacity scale for all possible CPUs and triggers a sched
+> + * domain rebuild. If the value is unchanged, everything is skipped.
+> + */
+> +void topology_update_cpu_capacity(unsigned int cpu,
+> +				  struct cppc_perf_caps *perf_caps)
+> +{
+> +	u32 highest_perf = perf_caps->highest_perf;
+> +	u64 capacity, capacity_scale = 0;
+> +	int c;
+> +
+> +	guard(mutex)(&raw_capacity_lock);
+> +
+> +	if (!raw_capacity || cpu >= num_possible_cpus())
+> +		return;
+> +
+> +	/*
+> +	 * Validate: highest_perf must be >= nominal_perf and >= lowest_perf,
+> +	 * consistent with the boot-time check in topology_init_cpu_capacity_cppc().
+> +	 */
+> +	if (highest_perf < perf_caps->lowest_perf) {
+> +		pr_warn("cpu_capacity: CPU%d invalid highest_perf=%u (nominal=%u, lowest=%u), skipping\n",
+> +			cpu, highest_perf, perf_caps->nominal_perf,
+> +			perf_caps->lowest_perf);
+> +		return;
+> +	}
+> +
+> +	if (raw_capacity[cpu] == highest_perf)
+> +		return;
+> +
+> +	pr_debug("cpu_capacity: CPU%d cpu_capacity=%u -> %u (raw)\n",
+> +		 cpu, raw_capacity[cpu], highest_perf);
+> +
+> +	raw_capacity[cpu] = highest_perf;
 
-The From: line does not match your signed-off-by name :(
+Does this actually work if highest_perf would now be the equivalent for >1024?
+
+> +	per_cpu(capacity_freq_ref, cpu) =
+> +		cppc_perf_to_khz(perf_caps, highest_perf);
+> +	freq_inv_set_max_ratio(cpu,
+> +			       per_cpu(capacity_freq_ref, cpu) * HZ_PER_KHZ);
+> +
+> +	/* Re-normalize all CPUs: capacity is relative. */
+> +	for_each_possible_cpu(c)
+> +		capacity_scale = max_t(u64, capacity_scale, raw_capacity[c]);
+> +
+> +	if (!capacity_scale)
+> +		return;
+> +
+> +	for_each_possible_cpu(c) {
+> +		capacity = raw_capacity[c];
+> +		capacity = div64_u64(capacity << SCHED_CAPACITY_SHIFT,
+> +				     capacity_scale);
+> +		topology_set_cpu_scale(c, capacity);
+> +		pr_debug("cpu_capacity: CPU%d cpu_capacity=%lu\n",
+> +			 c, topology_get_cpu_scale(c));
+> +	}
+> +
+> +	schedule_work(&update_topology_flags_work);
+> +}
+> +EXPORT_SYMBOL_GPL(topology_update_cpu_capacity);
+>  #endif
+>  
+>  #ifdef CONFIG_CPU_FREQ
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 09d7745a609f..1480be537eaa 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -979,6 +979,8 @@ static void cppc_cpufreq_update_limits(struct cpufreq_policy *policy)
+>  
+>  	refresh_frequency_limits(policy);
+>  
+> +	topology_update_cpu_capacity(policy->cpu, caps);
+> +
+>  	/*
+>  	 * Autonomous selection mode uses MIN/MAX performance as runtime
+>  	 * hardware control bounds. Re-program them when highest_perf
+> diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
+> index ebd7f8935f96..9415cb6a6c2b 100644
+> --- a/include/linux/arch_topology.h
+> +++ b/include/linux/arch_topology.h
+> @@ -11,6 +11,19 @@
+>  void topology_normalize_cpu_scale(void);
+>  int topology_update_cpu_topology(void);
+>  
+> +#ifdef CONFIG_ACPI_CPPC_LIB
+> +struct cppc_perf_caps;
+> +#ifdef CONFIG_GENERIC_ARCH_TOPOLOGY
+> +void topology_update_cpu_capacity(unsigned int cpu,
+> +				  struct cppc_perf_caps *perf_caps);
+> +#else
+> +static inline void
+> +topology_update_cpu_capacity(unsigned int cpu, struct cppc_perf_caps *perf_caps)
+> +{
+> +}
+> +#endif
+> +#endif
+> +
+>  struct device_node;
+>  bool topology_parse_cpu_capacity(struct device_node *cpu_node, int cpu);
+>  
 
