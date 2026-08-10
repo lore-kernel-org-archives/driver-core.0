@@ -1,176 +1,413 @@
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020097.outbound.protection.outlook.com [52.101.196.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09D5175A72
-	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 10:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786357247; cv=none; b=Fjhxf+lOJWqvSUlNfut6ZC5OrQOUZjaeORd/OlBZ7l1RG+SsIqP86op/zJ0enLwk6uKZSI0fAErIg8ChIoWOSu4d9/05kokB7PG5tQULWhWOO/1+WyhfYLRx1K/5yH1PtjJPmTlmkz7rTE6TLRaF7s2LzNbf3aqPoPh60gJgV3U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786357247; c=relaxed/simple;
-	bh=ElRMXMqUlqHi0jslYTtvgShQyouMJ6RBkzwwYgftXk4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DJ5zWvgP2D5uAQZ3mJZ+AKhQiCoZXHWLvQyhj98ZDERnYq3ljRXejJ2MHoJr6JVvHPSAyoGrGO7/jaV5HdYvhc+NI8H4xgQSLl1yEM1FV7663c2P/ORkyN04EWLKoMKNS+rTu0zDzd3dsXyZS8Vvp0j2VjstUiK5tsWOOIaBtss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com; spf=pass smtp.mailfrom=lenovo.com; dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b=tESWTj5f; arc=none smtp.client-ip=148.163.148.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lenovo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4273BB681;
+	Mon, 10 Aug 2026 11:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.97
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786360906; cv=fail; b=Mfwb3v4R70b77L+n+cvC/N0UyYhxaD7fnjqlSa7vPvT1Y4AhZjJi0ipwgBR65NsW2bYNAMhPmp7uSW23b5dAi5GNd+is/WA0Y8Iyae9h9EPp6sDczFmGdao+a6PpW3awJV/XL2dOQpOHMQwPT7/uNatALk3sFf1wQR1O6cq+24s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786360906; c=relaxed/simple;
+	bh=Tngc5GrMxDtJPOkZtuEvzBIM2/i9eskjdQOp9IL003k=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=MFtc/nPe8IIcQedl5AMX9HbbJFdyLprFVYWHzQFoyApisj+8q34DBbd34AUmLVbZDQV1wA0g9hzmuT9Ee2rDupfx22BPOrMHcPtY2Zfarq3/TO7DOnhXT7psJPOzenztM161ZQmnkEC5ijzSLkss56ggzX7tlu3IPArt4qbWN0o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Cttdo2sT; arc=fail smtp.client-ip=52.101.196.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b="tESWTj5f"
-Received: from pps.filterd (m0464638.ppops.net [127.0.0.1])
-	by mx0a-00823401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67A9RosQ1833020;
-	Mon, 10 Aug 2026 10:20:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=DKIM202306; bh=+r5sSmpWP/sQfyM19vW1yCiTY+KSCURxWh
-	1DkUla0WU=; b=tESWTj5fmqUxM8KVgsPHtnowXpZIEf/2bnWKwJALgJFCica5E+
-	CdSuUeldiaEdaacjhz00xzoVQJSo0LoNOiDbV7q6wJmRFalkBTWWZbOlyMcw9Vkc
-	+mFeYbuQWNG92hFYsRob0abj3BSnDvFC6gPiLq0JX8hZsCxioRtuT48Pj7snOAYZ
-	r6ClcgEoFDjEM4W61NoolOZkVUvKFVGdRTuMl57I9BlRAr3jRqw+Y24ae8ZP005c
-	h6qdPcMuzgpfSLSjXQsPzGC03RgER1PQCnunKbLytnvuEHT9cE6vwRiH6bXw3S1G
-	QT+rfmmmHbg0YtETzHBb46/7LRQ3z+p8CptQ==
-Received: from hkglppfpool2.lenovo.com ([103.30.235.219])
-	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 4fxfwfsun6-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 10 Aug 2026 10:20:16 +0000 (GMT)
-Received: from hetlppfpool1.lenovo.com (unknown [10.196.132.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hkglppfpool2.lenovo.com (Postfix) with ESMTPS id 4hJW1y3mJsz1yfbbq;
-	Mon, 10 Aug 2026 10:19:02 +0000 (UTC)
-Received: from SEANWANG1-P5MFL.lenovo.com (SEANWANG1-P5MFL.lenovo.com [10.111.201.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hetlppfpool1.lenovo.com (Postfix) with ESMTPS id 4hJW3L2Nplz1wCTlh;
-	Mon, 10 Aug 2026 10:20:14 +0000 (UTC)
-From: seanwang1 <seanwang1@lenovo.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
-        Danilo Krummrich <dakr@kernel.org>
-Cc: Lifeng Zheng <zhenglifeng1@huawei.com>,
-        Beata Michalska <beata.michalska@arm.com>,
-        Xuewen Yan <xuewen.yan@unisoc.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sumit Gupta <sumitg@nvidia.com>, Yunhui Cui <cuiyunhui@bytedance.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        driver-core@lists.linux.dev, seanwang1 <seanwang1@lenovo.com>
-Subject: [PATCH v2] arm64: topology: add source check in arch_cpu_idle_enter()
-Date: Mon, 10 Aug 2026 18:20:06 +0800
-Message-Id: <20260810102006.9986-1-seanwang1@lenovo.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Cttdo2sT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Off2ILzdTIrNBpsW8B86VbBSqcKwlTHEl7phueu5JBPkw72QUB4Uzsrj66v4JlFw8tnK/N4S8KaK+CK+w13mBaCfd7QrAusA3zsVmCOQII70NV6FLyN5QzJnKTg9mbu6c0cnmAkzU1xv8IbKQcw/cnzOpNY9HQ4q7UNOmRbmIOZ23epxTtc179xjXM7MezIdKN36UxuspbM4K1RcxZMnJijywgM15KHznABY0NauMXCvF2IDPqj9x2bYQhw5tF1TuxWEsbBJhrAhyTy+mfzdhbv4fbrdfCNVK0CzxRIrCvZMVgNju8kXMVUq3P4wTaMbXyRCnYqF4YXHlvaBZmDcgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dt0/8c5S3U5GQtrTBhUZp6Emr5f92yZPhPC+zVxfY3I=;
+ b=ZHpLvC1QM2ZK40C6/5skVZjEJuLKluNNR6SAQHxcLAhBd5y8tBnBYFw45xAWUwkSQb/R3QX7WkSb2/uN0Jvw7eb78HpJ/sfCwO6BA0nMDZhOWsGwuZ4SpPlNfHV463/G0aiydWFjtPXQwQViz0X1R40w7Pz/uxJXy0MMpje6BJaH8Q5EUesP/CAQxFKO9NI2ayJJ7NFJeCz7m9j+Osgm4nZRNhHViw8dJHeZgAXCmXnPLK5nuuxyhZucsweKi82eV+2SaoUsc/f/d2tKYZVuXrCyuvLugTmXiaYnv5j3BvAuRRCMNc5KSND1MQIsPqbqBlJCHurtf0remR1tFlCA+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dt0/8c5S3U5GQtrTBhUZp6Emr5f92yZPhPC+zVxfY3I=;
+ b=Cttdo2sTTaXo7THyJIfiaHeyUxwQptofx1tesSk6QA5DuAYrOu6svvIZ1oXxpnr7jSzlUHVqnlCJKsqyCVzU8q1z8gqNQi0M4SkipjzRrN0rZqztARbezhkDbbCHrqn2cT1LufNvPGjkk0GnYGm6SGz9UDwVt8J+YBbUyNix7Eo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO8P265MB7485.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3b5::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
+ 2026 11:21:39 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
+ 11:21:39 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 10 Aug 2026 12:21:38 +0100
+Message-Id: <DKL837PVU38R.3OONERSO8RMOW@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v2 02/16] rust: io: add `IoRepr` trait
+X-Mailer: aerc 0.21.0
+References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
+ <20260805-typed_register-v2-2-c3ca142220a0@garyguo.net>
+ <DKL5Q2P868GQ.29WSPCWX4HTHJ@nvidia.com>
+In-Reply-To: <DKL5Q2P868GQ.29WSPCWX4HTHJ@nvidia.com>
+X-ClientProxiedBy: LO4P302CA0030.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c1::16) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=YvY/gYYX c=1 sm=1 tr=0 ts=6a79a5e0 cx=c_pps
- a=Z3w50ro9cqVPZ6U0/1IFzw==:117 a=Z3w50ro9cqVPZ6U0/1IFzw==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=2RTuljz969oO5usasWGy:22
- a=QJilI6ASod0cdCKXAsqI:22 a=icsG72s9AAAA:8 a=8k6WQxmsAAAA:8
- a=r6UP8DDBqnObT9kPvYkA:9 a=T89tl0cgrjxRNoSN2Dv0:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDA4OSBTYWx0ZWRfX36Jf6s0l/CjE
- L3AMC2NaKCMj7X7uVO5kBBhJ7c0kbNhmlPHC39YDkc2zk1CpRo4a+dgz/U7LHovKOrWtxLF1Umw
- Q3ePjoYHz+mohIjBl5szZMPQKTRnU5jtWWTOkiYga6dM6cX/QFpDT8a4cU/mWRQ0Hjx/2K/goV3
- lhTwZe1AubGVvRgFZZ3Fd7gB7AVgz3VDRzAmfxsgaSBUDWu/4aYw11pZhcdx3/1q0dwTyKHFzin
- rlq+yMf4FqgbAyU6QoNnMFsxps3QOsleqBnW4E0wGsxWEoM6NWnSx/EX1lPNaLWwZ9qjX22uPcR
- 4j6owsMTzWOUjiK1j48WLjuWjlIBz6cnq0nVh/sA/qWIlzr4WGCT/gbKDUXbDmgxIbko7Kr6VrZ
- iYG8n0jleGhzaBObcQWYIhcQp0/fO+4bYKH8CO0YblEX/WO48+Ohs5ZSpkikRmCbl3h3iAmQlLk
- 8NHdSEKkftqwZKPvh6w==
-X-Proofpoint-ORIG-GUID: wLTvqhnOyi9YMhclmgyP9prPkAKBn-nm
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDA4OSBTYWx0ZWRfX69QvEiN0IDSI
- ef3Wjx9y91AgSIvjfFmmz41z8oSEph07ygiEF07M2fHEJFipzwHZ2qO13r3WL1LQwouiciIlDXB
- siuPDekzOVkUlDwzFeU2wE6ke5sNodg=
-X-Proofpoint-GUID: wLTvqhnOyi9YMhclmgyP9prPkAKBn-nm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-10_02,2026-08-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1011 spamscore=0
- malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=-20
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608100089
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO8P265MB7485:EE_
+X-MS-Office365-Filtering-Correlation-Id: 924a46ae-14ab-45d5-427d-08def6d18c1f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|7416014|1800799024|23010399003|10070799003|6133799003|4143699003|5023799004|56012099006|10067099003|3023799007|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	x8e+mAErGsQDeX5bVPpsyrzArXP9vtt1xLfsuW89onBo/vLDjicbKQJsa4/8P3LfQfrxTFFRCdevcyncDNiyDAOMQQUKAQf0z4Ak/YsShFxNwx5XUmPtt/CbjdClRQ1ecwgdfzO/OxfCqQYUNQQHC5S3K5tStnP6iq9YjXiz9kYAdVBSK8k7g8SAWdkRP7JIeT/DM6BkAImhD5fGR2Hv5tPpXYtwJFxKJj+G56D4dipJ/Vf+BPcWAx5rzEkk0a5NsidOHWhR8EtJTme0OLoFNQ9cUEut8Vc/rqqhFgvUHmI51n1kjF3XEcQhB8suiYRxqQFxU00ZU0ZoudengHXor7t0S41VXDloaQC9YIBJpDbdNLnBa0ycGDRCf2sT0BbZeofS4mawgY6owNC8f7S5bLAFp+QxJLAphQgSdjR/79lpFUvpyQD84lMFK5QdxcOoDC2t7tXu9h5DYKTP/qzjd56+Xn0FzIU+3ANq+cHXd6Cj8KsFXvff9K4y0dzc/r1GItqtU8bpuTHGAFU50PaUbo/bzaHfGkwWMZjsCKjjGb2gjKWG3X9aTYy2HHyk0vlnw00CZvdzUVkFN3i5TbLGVMVK9BeDbSfQjHvwngjCHo8gDy0l5c98RtSOxEkkSIy/wlOYnKuO6FNFUCG2HPf/iwyEhtt5Z3XIbN4ijy80cOY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(23010399003)(10070799003)(6133799003)(4143699003)(5023799004)(56012099006)(10067099003)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WE9JOVhwQTZUVmdKZTdlenRnVVZDRVMyTVg0YzJOVnA3N0l6WDZidFl2eXBy?=
+ =?utf-8?B?elJHZ3FuNVJRZmVWK0M1dVB3K1NTdERseHh6OERLR1VaUnFnQWEyYzdRaURj?=
+ =?utf-8?B?c280SGx6UDJUdEs3dm1EdSs0ZVF1N3hLcURBWW5hVWFJOXRRM05NaUlxamV1?=
+ =?utf-8?B?WGlsN1ZWME1BcU5ERDRBQktzYkhmd2VxcTZuMU1zc09lanZjemdEMC9menJT?=
+ =?utf-8?B?MWRzRHRiWTA3UnVZQVpLZGEyNm12VkQ4akF4NmJTRnM0L21Kc2NHSFREUWVL?=
+ =?utf-8?B?MGFMZkhqWDZ4MU51UUduemdkTHg4MGkyaEk2ZkVHOHZmeDdxNXV6aitzdWpk?=
+ =?utf-8?B?OGtkVmJLUW95RGpmR3J0VDVFL1FIRlZYV2RZZDhFMERIWGpaOThyOWxMUnZE?=
+ =?utf-8?B?RVZXVjFyWm9FdnZTNXdrd2R0UFBXWnlIZW4wdGFHM1kwcXREazZNeVlRTDRq?=
+ =?utf-8?B?b0xmdW5WaWh6Sk12U2JIMGl0RURGUlVRVERiUzREVnpmNVgvMTVud3FSNmMy?=
+ =?utf-8?B?dEhHeW1NMU9ZbHhUUk5LQ3QvR0gvN1FqS2M1R3ZwK253SlpUcUdOY2szK0Mx?=
+ =?utf-8?B?T0dhM2p3Y1hiWGo2aGQ1dGdsUnpnaCtSS01sOE1ydFNTS0ozZERQck1BaU1Q?=
+ =?utf-8?B?dDNkK3p0L0I5M2pVZkJQaitOVjRyRDBKdEFWTlM1ZklKZ0VuRllrVUI2UDMv?=
+ =?utf-8?B?VTRFcTZYSGFrSVEwZHhIWFYzVFhoVkRwWlNaU0tvWjErMVZGcUJPQzZSNDRk?=
+ =?utf-8?B?aWhFcmhZaEZZV2x0TFhXbWVXa2lGZE4zcTF2V1FxV3N1MCtqOTVTYW1LZThj?=
+ =?utf-8?B?VysxNUdhYjNQclk1WW1SaHd2TE1HUFNpUktkajlVdmZ2RCtYdkVLekVvSHRj?=
+ =?utf-8?B?b0UwWThsSkdEVTFxemM3cVF3aHFrNWRtaEhPeDRHdytVcC9vdmxDUWhkaGU5?=
+ =?utf-8?B?VVE2Wk0yb1NMdkRoZ2UwM1N4enRCS2wyNmFPOWIyUWNPY0RjZTl6YmRTbDJj?=
+ =?utf-8?B?MzFQcmdLVkxiOGFVL2VlZFVKTWNjMWdaRm5vWWN2NTBocEE2alljSXZmeDdi?=
+ =?utf-8?B?RkJPM2tYWFdMempsbGVJSHByaFM2OTlFRWhBRzFiK0trdktsWGQxTHF5VUZz?=
+ =?utf-8?B?OGNiZEpuV21CU1NQSFM1a2hBMVFITUcwcU55ZXlRMSt1Yk5TUkdRTFNvUVBl?=
+ =?utf-8?B?Ymp3TEdneTQ1d29ISklDMGh0WUcySnRxZWRXTDNGM0RTeUZrY2tkeHhrQUw5?=
+ =?utf-8?B?eTJCN0IxdUIvQnd5UUJTMC90WFVLRlRYV29saVFKU3hySXpIamh2SU0wTFds?=
+ =?utf-8?B?WGJyWExsbk5mRG1RMjVXNEEwcDlZYzFQYVdYLzBOVWVhY29zU0U5OW9NMDlz?=
+ =?utf-8?B?blc3UWRpMzhHZGU4SGRGZmpnQytXdUFlUWp5STZCSTh3RFloK2hIZ1dRMzBU?=
+ =?utf-8?B?RndheEM0dmpsY3FtbTRPbC9FWG5jd3AySUpsSXJZUVZrNWlpRk02S05Ia1U3?=
+ =?utf-8?B?SVUvM0piNUxPWkc4QURFZW5NRVJCdmJrK0I5cFkrcnpUaWJ4R2dYY2liVHdz?=
+ =?utf-8?B?MjlSWDVPdnBUdDFxRmdPL3Q4c0d1NFZHclkvaEY1UlhKWlR2RG9jSlMxYWNS?=
+ =?utf-8?B?Y09BKzFGUCtISnpoNkZtL3AvQm9mOUs2TEVSWE9HZkNyaVVuRFZMVWpKczIr?=
+ =?utf-8?B?S3FuOVVFcHphK3RSbHdLMndUV1gwZFJ6YWdLNzd5ZFZKRG1qQU9QenVxMktn?=
+ =?utf-8?B?eUgrK0lwdUkwQy9ZbTZrYjBzcEVET1V5eTJFYWlEbTcvYTJzNzQyUTdwdWZW?=
+ =?utf-8?B?Zm1ya2pxanlFOGRhb2pBeEdRQVVqNnErWkdXV0wvcnp3dlRtelM0NmNYUzlu?=
+ =?utf-8?B?SUt3ZnRrL1lleXNXMFpjY2hQS0wxUDh6dndvWEN0UGZMbXB3ODBsT2VCYmdD?=
+ =?utf-8?B?dFdVcHNjbk4ydVg5aEZ3OXl2ajJaVXlGZDNSUGw5N0tuWVlSYzVvOXorMXAw?=
+ =?utf-8?B?MVNiTGlCM3pZa1dIT3c1aWdiQnMrRUR3WkpVbUhzZXdORG1HdXFaa2gzNmtu?=
+ =?utf-8?B?TlVZejlEQldyR3krZGoxZ3NrY25nTXZOZmdzQWFwMElJZUdocFhVcWxvUVJs?=
+ =?utf-8?B?dlc1Z01RakpNb3E0NFNmN2Z4cnhDNUZ0TGtmUHBuN2hjUUlRcUc2MXRWRVhL?=
+ =?utf-8?B?VTJXUmxxMzFTcTJTZkt6S0lyanhrNXpyUmpxZlFsOC9BSm5RTG9kTmQzWUpl?=
+ =?utf-8?B?K1k5S1Fyb0V4WWVENVJySUpIN0phMVAwcUpBeElYK0hlcmVYRHB5UXhaZ0xL?=
+ =?utf-8?B?aEthQmltQlN6WGpPNjFlMWxFNkU1QTFlRStTdDU5Y3M5Yy9LNExjQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 924a46ae-14ab-45d5-427d-08def6d18c1f
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 11:21:39.3933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3Ku28JySzzHK+8z9BYLUF53W/3+WCSnkZ0z8sPKyWXzpvXMb4O80JtwA7fu0bXf1dF4IoDsyEDZb00+/9Kn/gQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7485
 
-arch_cpu_idle_enter() directly calls amu_scale_freq_tick() to update
-arch_freq_scale when a CPU enters idle. This bypasses the sft_data
-pointer check that topology_clear_scale_freq_source() relies on.
+On Mon Aug 10, 2026 at 10:30 AM BST, Alexandre Courbot wrote:
+> On Thu Aug 6, 2026 at 1:35 AM JST, Gary Guo wrote:
+>> For types that are layout-compatible with an I/O capable type, we would
+>> want the ability to use them directly for I/O operations. E.g.
+>>
+>>     bitfield! {
+>>         pub struct Foo(u32) {
+>>             ...
+>>         }
+>>     }
+>>
+>>     #[repr(C)]
+>>     struct Bar {
+>>         foo: Foo,
+>>     }
+>>
+>>     let mmio: Mmio<'_, Bar> =3D ...;
+>>     io_read!(mmio, .foo)
+>>
+>> Currently this feature is available from `register!()` macro but not
+>> otherwise available with `io_read!`, `io_write!`. Support this by adding=
+ a
+>> `IoRepr` type to denote the underlying I/O type to use for a specific ty=
+pe.
+>>
+>> This makes the `IoLoc::IoType` and `Register::Storage` redundant; thus
+>> remove them; also convert register methods to use the `read_val` and
+>> `write_val` instead.
+>
+> Ah that's nice, I was a bit bothered that `IoType` and `Storage`
+> basically defined the same thing.
+>
+>>
+>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>> ---
+>>  rust/kernel/bitfield.rs    |   5 ++
+>>  rust/kernel/io.rs          | 203 ++++++++++++++++++++++++++++++++------=
+-------
+>>  rust/kernel/io/register.rs |  59 +++++--------
+>>  3 files changed, 170 insertions(+), 97 deletions(-)
+>>
+>> diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
+>> index 35ede53f2b8e..4bc92c62da06 100644
+>> --- a/rust/kernel/bitfield.rs
+>> +++ b/rust/kernel/bitfield.rs
+>> @@ -308,6 +308,7 @@ macro_rules! bitfield {
+>>          $(#[$attr])*
+>>          #[repr(transparent)]
+>>          #[derive(Clone, Copy, PartialEq, Eq)]
+>> +        #[derive($crate::prelude::FromBytes, $crate::prelude::IntoBytes=
+)]
+>>          $vis struct $name {
+>>              inner: $storage,
+>>          }
+>> @@ -346,6 +347,10 @@ fn from(val: $storage) -> $name {
+>>                  Self::from_raw(val)
+>>              }
+>>          }
+>> +
+>> +        impl $crate::io::IoRepr for $name {
+>> +            type Repr =3D $storage;
+>> +        }
+>
+> This introduces a dependency from `bitfield` to `io`, which looks like
+> inconsistent layering. But thankfully there is an easy fix - see below.
+>
+>>      };
+>> =20
+>>      // Definitions requiring knowledge of individual fields: private an=
+d public field accessors,
+>> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+>> index adfc555de7d0..71c6180ed745 100644
+>> --- a/rust/kernel/io.rs
+>> +++ b/rust/kernel/io.rs
+>> @@ -276,6 +276,91 @@ pub trait IoCapable<T>: IoBackend {
+>>      fn io_write<'a>(view: Self::View<'a, T>, value: T);
+>>  }
+>> =20
+>> +/// Safe transmute that performs size check on monomorphization-time.
+>> +///
+>> +/// Can be considered as generic version of [`zerocopy::transmute!`] ma=
+cro but using the unstable
+>> +/// `core::mem::transmute_neo` instead of [`core::mem::transmute`].
+>> +#[inline(always)] // This is a no-op.
+>> +fn transmute_neo<Src: IntoBytes, Dst: FromBytes>(val: Src) -> Dst {
+>> +    const_assert!(size_of::<Src>() =3D=3D size_of::<Dst>());
+>> +
+>> +    // SAFETY: `Src: IntoBytes` and `Dst: FromBytes` and we've checked =
+size is the same.
+>> +    unsafe { core::mem::transmute_copy(&core::mem::ManuallyDrop::new(va=
+l)) }
+>> +}
+>
+> This is universally useful, so let's move this to the `transmute` module?
 
-As a result, even after calling topology_clear_scale_freq_source()
-with SCALE_FREQ_SOURCE_ARCH to disable AMU-based frequency scaling,
-the arch_freq_scale value can still be modified by AMU counters when
-the CPU goes idle through the arch_cpu_idle_enter() path.
+I think we can just have a `kernel::mem` and put it there so it's consisten=
+t
+with std naming. The `transmute` module just contains two types that are go=
+ing
+away.
 
-Add topology_scale_freq_source() helper to check whether a specific
-frequency scaling source is currently registered for a CPU. Use it
-in arch_cpu_idle_enter() to verify that AMU is the active source
-before calling amu_scale_freq_tick().
+Ideally we have this function in `zerocopy`. But my understanding is that t=
+his
+depends on inline const which is stable since 1.79 but zerocopy's MSRV is 1=
+.56.
 
-This ensures that topology_clear_scale_freq_source() properly
-disables AMU updates in both the tick path (already handled by
-topology_scale_freq_tick()) and the idle path.
+>
+>> +
+>> +/// Trait indicating the underlying primitive types to be used for I/O =
+operations.
+>> +///
+>> +/// Implementing trait allows arbitrary types to be used for I/O operat=
+ions, not just raw
+>> +/// primitives.
+>> +///
+>> +/// The layout of the type and the underlying primitive must match; thi=
+s is enforced via const
+>> +/// assertions when I/O methods are used, as the type system cannot rep=
+resent this.
+>> +/// [`IoRepr::from_repr`] and [`IoRepr::into_expr`] can be overridden f=
+or conversions, however it
+>> +/// should be noted that they are only invoked on value read/write oper=
+ations and are not invoked
+>> +/// on byte operations such as [`Io::copy_read`].
+>> +///
+>> +/// # Examples
+>> +///
+>> +/// ```
+>> +/// # use kernel::io::*;
+>> +/// #[repr(transparent)]
+>> +/// #[derive(FromBytes, IntoBytes)]
+>> +/// pub struct MyNewType(u32);
+>> +///
+>> +/// impl IoRepr for MyNewType {
+>> +///     type Repr =3D u32;
+>> +/// }
+>> +///
+>> +/// #[repr(C)]
+>> +/// pub struct MyStruct {
+>> +///     raw: u32,
+>> +///     new_type: MyNewType,
+>> +/// }
+>> +///
+>> +/// # fn test(mmio: Mmio<'_, MyStruct>) {
+>> +/// // let mmio: Mmio<'_, MyStruct>;
+>> +/// let val: u32 =3D io_read!(mmio, .raw); // Raw primitive read
+>> +/// io_write!(mmio, .raw, val);          // Raw primitve write
+>> +/// let val: MyNewType =3D io_read!(mmio, .new_type); // Read via `IoRe=
+pr`.
+>> +/// io_write!(mmio, .new_type, val);                // Write via `IoRep=
+r`.
+>> +/// # }
+>> +/// ```
+>> +pub trait IoRepr: FromBytes + IntoBytes + Sized {
+>> +    /// The backing I/O capable type.
+>> +    type Repr: FromBytes + IntoBytes;
+>> +
+>> +    /// Convert from [`IoRepr::Repr`] to `Self`.
+>> +    #[inline(always)]
+>> +    fn from_repr(repr: Self::Repr) -> Self {
+>> +        transmute_neo(repr)
+>> +    }
+>> +
+>> +    /// Convert from `Self` to [`IoRepr::Repr`].
+>> +    #[inline(always)]
+>> +    fn into_repr(this: Self) -> Self::Repr {
+>> +        transmute_neo(this)
+>> +    }
+>> +}
+>> +
+>> +macro_rules! impl_io_repr {
+>> +    ($($ty:ty =3D> $backing:ty,)*) =3D> {
+>> +        $(impl IoRepr for $ty {
+>> +            type Repr =3D $backing;
+>> +        })*
+>> +    };
+>> +}
+>> +
+>> +impl_io_repr! {
+>> +    u8 =3D> u8,
+>> +    u16 =3D> u16,
+>> +    u32 =3D> u32,
+>> +    u64 =3D> u64,
+>> +    i8 =3D> u8,
+>> +    i16 =3D> u16,
+>> +    i32 =3D> u32,
+>> +    i64 =3D> u64,
+>> +}
+>
+> ... and `IoRepr` and its implementations for primitive types should also
+> be part of `transmute` IMHO (after being renamed to e.g. `Repr`), for
+> there is nothing I/O exclusive to it. It just indicates that one type
+> can be represented by another, a property that is again useful outside
+> of I/O.
 
-Co-developed-by: Xuewen Yan <xuewen.yan@unisoc.com>
-Signed-off-by: Sean Wang <seanwang1@lenovo.com>
-Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
----
- arch/arm64/kernel/topology.c  |  3 +++
- drivers/base/arch_topology.c  | 14 ++++++++++++++
- include/linux/arch_topology.h |  1 +
- 3 files changed, 18 insertions(+)
+I tried to be a little bit forward looking in designing this, so I ended up
+with a design that provides conversion functions instead of just transmutat=
+ion.
+If we're moving it we should probably just get rid of these and just requir=
+e a
+transmutability with the raw repr.
 
-diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-index b32f13358fbb..cae5da68d5ec 100644
---- a/arch/arm64/kernel/topology.c
-+++ b/arch/arm64/kernel/topology.c
-@@ -173,6 +173,9 @@ void arch_cpu_idle_enter(void)
- 	if (!amu_fie_cpu_supported(cpu))
- 		return;
- 
-+	if (!topology_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, cpu))
-+		return;
-+
- 	/* Kick in AMU update but only if one has not happened already */
- 	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
- 	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
-diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-index 8c5e47c28d9a..dfc2574a5588 100644
---- a/drivers/base/arch_topology.c
-+++ b/drivers/base/arch_topology.c
-@@ -127,6 +127,20 @@ void topology_clear_scale_freq_source(enum scale_freq_source source,
- }
- EXPORT_SYMBOL_GPL(topology_clear_scale_freq_source);
- 
-+bool topology_scale_freq_source(enum scale_freq_source source, unsigned int cpu)
-+{
-+	struct scale_freq_data *sfd;
-+	bool ret;
-+
-+	rcu_read_lock_sched();
-+	sfd = rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
-+	ret = (sfd && sfd->source == source);
-+	rcu_read_unlock_sched();
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(topology_scale_freq_source);
-+
- void topology_scale_freq_tick(void)
- {
- 	struct scale_freq_data *sfd = rcu_dereference_sched(*this_cpu_ptr(&sft_data));
-diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
-index ebd7f8935f96..803382f599a2 100644
---- a/include/linux/arch_topology.h
-+++ b/include/linux/arch_topology.h
-@@ -48,6 +48,7 @@ struct scale_freq_data {
- void topology_scale_freq_tick(void);
- void topology_set_scale_freq_source(struct scale_freq_data *data, const struct cpumask *cpus);
- void topology_clear_scale_freq_source(enum scale_freq_source source, const struct cpumask *cpus);
-+bool topology_scale_freq_source(enum scale_freq_source source, unsigned int cpu);
- 
- DECLARE_PER_CPU(unsigned long, hw_pressure);
- 
--- 
-2.25.1
+Note that there is `AtomicType` which has similar (but not equivalent
+requirement). `AtomicType` requires a round-trip transmutability only, and
+`IoRepr` needs both directions. So `repr(C)` enums (that is not used up all=
+ its
+variant reprs) can be `AtomicType` but not `IoRepr`.
+
+>
+> That way `bitfield` gets a dependency on `transmute` rather than `io`,
+> which doesn't break layering.
+
+We can also avoid breaking layering by requiring user to need to specify
+`#[derive(IoRepr)]` when declaring bitfield.
+
+Best,
+Gary
+
+>
+> In order to avoid `Repr::Repr` we can also rename the associated type to
+> `Raw` and update the method names accordingly to `from_raw`/`into_raw` -
+> which would have allowed us to remove the `bitfield` methods of the same
+> name if they weren't needed in const context! But at least it makes
+> things align nicely.
+>
+> <...>
+>> @@ -831,8 +816,8 @@ macro_rules! register {
+>>              { $($fields:tt)* }
+>>      ) =3D> {
+>>          $crate::register!(@bitfield $(#[$attr])* $vis struct $name($sto=
+rage) { $($fields)* });
+>> -        $crate::register!(@io_base $name($storage) @ $offset);
+>> -        $crate::register!(@io_fixed $(#[$attr])* $vis $name($storage));
+>> +        $crate::register!(@io_base $name @ $offset);
+>> +        $crate::register!(@io_fixed $(#[$attr])* $vis $name);
+>>      };
+>> =20
+>>      };
+>> [snip]
+>> =20
+>>      // Implementations of register arrays.
+>> -    (@io_array $vis:vis $name:ident ($storage:ty) [ $size:expr, stride =
+=3D $stride:expr ]) =3D> {
+>> +    (@io_array $vis:vis $name:ident [ $size:expr, stride =3D $stride:ex=
+pr ]) =3D> {
+>>          impl $crate::io::register::Array for $name {}
+>> =20
+>>          impl $crate::io::register::RegisterArray for $name {
+>> @@ -1008,7 +991,7 @@ impl $crate::io::register::RegisterArray for $name =
+{
+>> =20
+>>      // Implementations of relative array registers.
+>>      (
+>> -        @io_relative_array $vis:vis $name:ident ($storage:ty) [ $size:e=
+xpr, stride =3D $stride:expr ]
+>> +        @io_relative_array $vis:vis $name:ident [ $size:expr, stride =
+=3D $stride:expr ]
+>>              @ $base:ident + $offset:literal
+>>      ) =3D> {
+>>          impl $crate::io::register::WithBase for $name {
+>
+> These appear to repeat quite a bit of [1] which is already in
+> `driver-core-next`. You'll want to rebase, I think the only difference
+> between the two is the removal of $storage from @io_base.
+
+I'm thinking of moving this entire thing to syn :)
+
+Best,
+Gary
+
 
