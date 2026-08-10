@@ -1,166 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010028.outbound.protection.outlook.com [52.101.193.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C01C379C5D
-	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 09:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786353804; cv=none; b=TLqQyymzg/sl2YzdKTalC1LsX2ci6ELrHVxbVsb6/NkjfQqTL1G2Yn2m+WnEc+yg0gqt8UxgO1w5fA8VCJ9iQcldcRUNFP1LmzMaH8/TKsvm0Now9TzjA/Cj7qO6AB6WporV+k0Px3rucG/dtqy8Rqfz0tlbV+htcYoyn1E/8hE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786353804; c=relaxed/simple;
-	bh=CiffaeMdIRCvdAMm/O1QXB9/2DsbQrGhgdjla7uXdC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C7wqhHw0/XCgmwEFBK+TBNUyjzwEt1GFAxUua3htrStjkbbHlLtn1bllJMZ4p4XEvz3uK09sCkWljbfhjTdgwFdYmww9FEKlInw1fK7YGXTsCY9O2Fy+mq91eo+NFyILy3g/H+EXCD2EDSxgSa/8BgNxwH6KpIH8vtmZu9F95fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpPxxjIf; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AB93AF640;
+	Mon, 10 Aug 2026 09:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786354166; cv=fail; b=anKbIwvRuDRG+f8q/3fSmIiRRVpcXJohfOq5Z3O/rNsdICeovytSYKUFXRSv3yfn+VzYakrXlXNG47kP3dZLxVEx5Myzud6KLveR8MKaQeX7j6cXZLiwAXD2O2ac3UAt72LyQSrhxwl1DVK05jg3FRbJ8b1Pww+4ARbItGoglHk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786354166; c=relaxed/simple;
+	bh=of8u1wqraS+93WbZ8V5lbPLyUZwg5YG4DjLg6liBFGM=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=QzLF01xxnoULFrNo4Nc18AIfcbGnDp36DA+xW3nQSethigvDiZUy+U5qNT7WMC9XQXP5LkJ5uwx+nhehFAAhPe1qXZ4viKiESfGPy/QlWorfHT8CjbRv29qyx4R+Kd/e8+fNCC7A/oWwPcV7daUgz+SlAG6HkmxWKe+vMSwSwtw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W9xu9+AT; arc=fail smtp.client-ip=52.101.193.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpPxxjIf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F44C1F00A3D
-	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 09:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786353803;
-	bh=H+Pd7gzYvWcuRMdfZQyzumi66vIiFyICFv4uiNpdGrM=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=fpPxxjIfHHUhO8hA/zHg1A1bDypQJAMf9/v982lf9TLkQjU7BOIXjpiZG5ubVFask
-	 YB05vgdg8CzcYwLxRUCPDj51wEaaxGNIMaOIklH7TkLT00IQp8W9y6xzcWWarq5ojG
-	 EeB2zj9ZwTkO3YklwO2fmjI/9H8maknTGU3SBfEiI09ooh5j7d9zO4l8IZaBnYpdG/
-	 6AJXvonKi4P9m6Ikj4ecFXmByNZv4pXZik+4Tjo++r+Ogt2cbLrWr/ToU+4YE5cZQ0
-	 vpFRHf8dRGWDF1naUKjnvRjNHPliOyrgSeLfl9UKK7GBH4SkVJqcQm7lvRFc3q90ij
-	 bHmT/f0wHS+EA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39faaf1efd3so8805621fa.0
-        for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 02:23:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrlAOLi6Hik6iUrGRP/tiGwEWSLwqbG71kLhdVjSsGF3dk2BfC4w+uPKjgwKMKLKeoB46oEMOo8oHZqIQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo8ScAAYrUK4AW8V+NKlunsVrwBPSVBNoPNE1YEtmalA7M4hE/
-	B/9JpmPO12c1KQPiXoV+khHpULaKNDLwAvjb5IJG9EhBu0UfpZfiMO8EEA9wRbbyK8krtp3koiN
-	wdbluTokVqcI/x4C3H+U70yTGHOQBpFE=
-X-Received: by 2002:a05:651c:a103:20b0:39c:6ea4:f0a1 with SMTP id
- 38308e7fff4ca-39fdf52c7e1mr14697041fa.26.1786353801578; Mon, 10 Aug 2026
- 02:23:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W9xu9+AT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sAJJgqfMW/mMB1muq/XscM1+4wJQM8xNAMhd1cCLjGa55IiaN5PAJusLNJdEEchhnwlSDMB2DQTV7v1b/en27tBPyY2Bx2r1NU8o/2ejzZAYeZXw04p/5JOFAOAkjfFCNRkAryAh4eLvwGyq5d57wrRcBh5KU+S29DSoZbR8qo/Omm3cui6bA8aA+mlJjEK2eARWMj5BdiEtFsnRyE3ypAyes0CvppvP0qdmUnYMurN1oxt3u/3jh09OoACOjGVTg7feHT7FBojzHzu78fr+09ytK5h6s3x0YR6e4WIshO6fGUJ4cVyquwrE7o4s03ITdglfDNI5SjNBDmyROWjDYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qCp5kxtlIaeaApeHLeI0eQZoJcar/k7C2+lIfAUStvc=;
+ b=m3Y5JbGBJsmWBtPDIjBqcoQFc2j9mvfYdbEkNj2JFFw9tQtZzXnuQHKwyosnznHYTDzqGqVXldfMZe1oN7IGrW3K9tLxzTt0pfRaqPIErtX5XtdgJIKF6jkbbREb+bQZYYpZq7L0/8xfbuZQrX+RBrGQg/Qq3JosmStsYebf6TbD7BzM7qcoq8p50TMq/tqjhlScRwkBDfJU3p6kBwJsUgdTUVzYqUw9gaPBmKs//MajQLDVv28g/Y+T5mr4oGndfqYjuG83L1uD++/YPdBlawcmHNHQAVxiPkTGDwuv8q8y/5uuJa0PqfDKa/DFvTI8p8yv+i+rQI0HAWL0UFCHLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qCp5kxtlIaeaApeHLeI0eQZoJcar/k7C2+lIfAUStvc=;
+ b=W9xu9+ATuTMCzNyrfQwEG0SyrJToknTFTVx1jR1dsUOg5JDjeQFYImBpAHzezgRngq1csj8iny8ZrJu5JnJ13op0A9MhJWJXnddtfGODnl7nHVkCDUqT9O/AMq+YaGyY2q8DvS1QBkucNB7hzuFz+v2V9hF70uWe4XFlI2L4ejRzOlP2OvY7BYCvczfryVtchEH1MZTv03b5pcmF75opnEsGnb3Ccvwgb0FFlyPwmaD9wgNe4q9kZOlD9ERF7LyO1jlBx8xr73cvJWY2Uk7GdLFlGPgPMTuNFkjLesMsHnXxv1GHJyg70BaNgBaFyc7AKB8Wvyb254WsxqcnQGVHMw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DM4PR12MB8570.namprd12.prod.outlook.com (2603:10b6:8:18b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Mon, 10 Aug
+ 2026 09:29:18 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
+ 09:29:18 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 10 Aug 2026 18:29:14 +0900
+Message-Id: <DKL5P5CJC170.3EFWNHBMTTIPS@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v2 01/16] rust: io: add static `cast()` method for views
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Content-Transfer-Encoding: quoted-printable
+References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
+ <20260805-typed_register-v2-1-c3ca142220a0@garyguo.net>
+In-Reply-To: <20260805-typed_register-v2-1-c3ca142220a0@garyguo.net>
+X-ClientProxiedBy: TYCP301CA0005.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:386::8) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260721065413.2306137-1-wenst@chromium.org> <20260721065413.2306137-12-wenst@chromium.org>
- <38397324-56b0-41e9-960f-152a16ce8b12@gmail.com> <7855a0c3-29ac-4842-8e07-352fcb535a63@gmail.com>
-In-Reply-To: <7855a0c3-29ac-4842-8e07-352fcb535a63@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 10 Aug 2026 17:23:09 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66GkGcWqYGps3vRk55NcUfV8AS3io4LcRRAunvDP492JQ@mail.gmail.com>
-X-Gm-Features: AUfX_mysoxlkJEUQJ5Yf2_OF5ZLWAw7NKOoCLgdNhCiwn0C9Cq3aA06OlGMS7Go
-Message-ID: <CAGb2v66GkGcWqYGps3vRk55NcUfV8AS3io4LcRRAunvDP492JQ@mail.gmail.com>
-Subject: Re: [PATCH v6 11/16] dt-bindings: usb: mediatek,mtk-xhci: Switch to
- ports for USB connections
-To: Konrad Dybcio <konradybcio@gmail.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB8570:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe536854-40be-4119-c63b-08def6c1d98d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|10070799003|1800799024|23010399003|366016|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	ZP2pD5F74OO40QGjEFPPRrRyP9JOn+bCSdioqUXWv2eOkPMyhl4DkjZ3aBimmECx/TmG3d9blEzb2T8H5l2ENaht7fUkFNgDf5ndP4seWc53wTNExoIxu+nuRPKmdvxyBjoq2mmlNCRTCcPLrwEQSlGzzaNAoRmt+bIM/STGbZAbUmnSMRzUZ1HC++HZ1UU4bSkDEg4c7OGMP0PPZQGI2IVEO/RE+ZW+iXDDreWdVUdaEPvqEa2v9ifwcKAxz0L5Qqv4hpBAoeVDKWe+D9G8rLLFf7nk/Mt5mgYCQ/HFUSZvnfNosnqCJvjmuZubO+zT6Ad5G0bxa6KRLNPTkXqG/qd4fq1M+4EODx2s0E8JzxVfPg17MzX5FaiqdBTuVOB+6x+Xt1dY+FerysRjK2+2/9mhebiBxXijYvLY1MhMUFbB8sxrE9Ax/CdbXcRg9/5nCsx4zoYvm4x8naa1Pw7NhL3SnJAcETmY1inVYb3iXBDmTBJlNyzZHRz8GOkKJI9J1BAKlN1n23mgv/NqoLoaMDxYG0/TYhDGRQnx/l63B/dLeUaFvKo+ZBDn2ifflA/515ONvQr1RnOjYbylInVN+dGYGf/ewlAVm3Gx6KMc3jtTIIayaXS+jQvTrv893hMR1JavKUvGdRe+6PV71oT8z1pZwhKYF08vBNUMlzdA5ao=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(23010399003)(366016)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M2hTamo1Y01relcyMGR0dUxDRzFVQ0U3NEV3U0JvRUQ2SkloMENkQXcwcC82?=
+ =?utf-8?B?NktTT3o0a2JrUC9sN3ErR2RVMW9LQ2N3cVAvb0lRZlpDYU5ocURQZnkvM3lp?=
+ =?utf-8?B?c29nNVp1QU4vZE1OTXFDVlNrRWhjQVNPa0dFenFnMG5lL2luYnlmeW9aKzcv?=
+ =?utf-8?B?UkdsdmdHdTVTK3lhU3N4TlV0U2FXQ2w4MVNrSEhlb2p3alQ3L1VkV09aQm1Y?=
+ =?utf-8?B?bmZlVFRMYnB5bFdyNHNxYWhVZmpxRk1xM1NQa0xPeVhIQUpXYjVpUk9FUDhw?=
+ =?utf-8?B?bUF1c3kxZ0Z3eUMvS2VUV2hXTmVlWWFaTE5FeTg5cFZBcng1M2FrSC9EKzJS?=
+ =?utf-8?B?dThrRXgvcWMybWE0VUJIRUU4M1RFTHBjR2MwRC82a2cyK244SXl5Nk5SUS9M?=
+ =?utf-8?B?emR4eFk5Y1VUeUFzWUhvdGpSZXpGd2ZCUVF2RUpjN0NXTms1SUpPTFFQNGkw?=
+ =?utf-8?B?RVcrdEp0bVNORzczVU8wd3dmemMvS2hnOFhtUXVQclQ0a1BsZnNCUHZqRE96?=
+ =?utf-8?B?WFBPbzFzdm5ZSnRMVi9ERzJSd0ZaWVBWbHI1endYOGp4emVIbEJkYklWRmUr?=
+ =?utf-8?B?K003UFVPSHZhVmIzaEJ4S2t0bVpDQTFiMStOUTZrT2NNditRODlxVHR5MDl4?=
+ =?utf-8?B?Smlxb0s0OGdoaFhIUDQxcXMwL0NxY21FTlU5NFY1V0x4SDJmd0tLWGRMUkxw?=
+ =?utf-8?B?aC9vK2ptdzZCVG1JY1dYalZYejEyVXVTR3h2UXVTVHg1czh5OWtSSDVTMys3?=
+ =?utf-8?B?Q3QybHlPc0JqWktUMDNUMWJVNS9MSm1razR4M2phUlRaaDcyc3V4T3NDV0lh?=
+ =?utf-8?B?Um5rSG1vSFFhYXJ2UnlZZnBMb3hVcHRscVRXOUdUbzFJYnBkYWI1RGwwcEU1?=
+ =?utf-8?B?OHVhOHkrWGpSRi9UQkxnaTFOZ1IrTjJLTUExdkl1QUpDVkwyRTdtQlZISFpN?=
+ =?utf-8?B?Y25CcUoxWWJLOVpab1J5TVBRTTNFNkprNUsxWXk0bW1rSm4wQThaMHFZRHdO?=
+ =?utf-8?B?V2JXQjF0WDRIeTRPbTBHYXF5YzVlQ0lMMkZWS0VQNW5DcVZ1WEova3FWRko0?=
+ =?utf-8?B?aDlHQ0x3RUtmNFR5a28xWmlzMnE2dk1keTN2Z3ZmL0dBUVM1UWgxaEJHcEFD?=
+ =?utf-8?B?YWpGUDNKaU81K0tnS2FGa01mMzAwbENjWTlMU0tLZWNOT1ZHSlNuZUw0YWdE?=
+ =?utf-8?B?TjBQaFBhc0FWd3VPQVY2MHV2Z1p3bGEwcEs1SkNwbkcyc29JRTBZNEdReVpN?=
+ =?utf-8?B?eW5QcnMyR0ZzdkpLU3FSTzdoQTdNeEtCK2JTOFpZaHptc1Z1S1pjanlQTS92?=
+ =?utf-8?B?T2ZEZ0dFVjlSQk43QTU5UVBiSTY4SkxHTXdhZ0kvcVlKMFN2RUhBV00yZzgx?=
+ =?utf-8?B?R1Z4Q3lJZkVOQWdFTVIrNkNSd1Y4dEFvOUhWZE83TFFGYldtMWplajJzSFAz?=
+ =?utf-8?B?MTVMeEhwaXFLZ1Z6NjlrSzR5OTdBeVZiRTUxbzFLT0ZZeHNKd3FINHJReDNQ?=
+ =?utf-8?B?WTRYdFNmaGRVTG95d1lQSGtyT3FvcWF6WG8zZDlURC9RSzdaeWpuOXJwOXcw?=
+ =?utf-8?B?bWRBNmRTQ09yWkZ2bmsxUXFsenIrOWpJdnlFUldIQU5tdUpNRGx6WGF1K1VP?=
+ =?utf-8?B?TUlmcEsyb1BkWVRjcm9FV2NuZFRYUmdwdCs2QkFWR1BGcGhoNFQ2bjhSWCt2?=
+ =?utf-8?B?Z3ZtL0cyQ3J5WmNQNERkbDRFeEZ6ZWRIR3pjRHk2bjlLaVllNDcrYTlLZXpX?=
+ =?utf-8?B?cFM0WmVTWFg0b3NKREdyZ1VLR3BjSU9iVVdOYlkvU09xZTJwa3Y2Qm02akk0?=
+ =?utf-8?B?Z3ZLbTFpejRkaTBFUmRUMlNERkJoMkJ1QW1PL1l4YU9WY1kxY09LNmFtT2lT?=
+ =?utf-8?B?U0gyREpkVGRXcVEvdm5OYWFKcERQUGluMDNOaGk2V3l1NTc2bFBhSUtOM24v?=
+ =?utf-8?B?TDl2cFVtSkl5UHk5Yk9hUkhydUxjRW5jY2t3Nng4endTbDRLR3VrMm12SEF5?=
+ =?utf-8?B?NnRjOXlTM0c5R05yUWE5S1psOTZqbWhpdzJMT20wS3FhQnNkbTc2bXRxMUp0?=
+ =?utf-8?B?Y0M4dHFPd0RBcCt3OXp3VHRDaGVEelB0eUdsa1pJcG1SdXVUeHgwUjVHdjNn?=
+ =?utf-8?B?UE1wQkg4MGpWVUI4ditqSU0rU0Z6bzFqbFBUc2F2OXI2SVk4RlVrYWV3eUpr?=
+ =?utf-8?B?dnJBUGlBVHp3dzhTZENHSzhCbU9tZEF2cnllSTNRVmIrTHQ0K251Qm1BS1Mz?=
+ =?utf-8?B?Y252WE1NYkFVbG1yYmlIODRKNlVqOFRCdzZ3a3plL3NERmFCYzJ2TW1EM2lK?=
+ =?utf-8?B?dlRGOXpjNTlFWVArNHVoY2lVcmNRMjNlVmUzZ0R5WVRkKzhnUDN4Zk9hL0tV?=
+ =?utf-8?Q?AHdahAy3+UYdVcvj1gHKairEZiZIz81QWeIYTzo9/uaJC?=
+X-MS-Exchange-AntiSpam-MessageData-1: JpDJ4bOhF6mJng==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe536854-40be-4119-c63b-08def6c1d98d
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 09:29:18.2286
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EVTOz8TKEHzd7rBMsZcRLIbLxctyYD+vRLQM4Oqpmo9qMPpEuDiCBN/x4mBKQeHxnPUk4EZSmLeR1K644PeHrA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8570
 
-(Resending in plain text ...)
-
-On Fri, Jul 31, 2026 at 10:34=E2=80=AFPM Konrad Dybcio <konradybcio@gmail.c=
-om> wrote:
+On Thu Aug 6, 2026 at 1:35 AM JST, Gary Guo wrote:
+> Add a compile-time checked variant of `try_cast()` using the minimum size
+> and alignment information.
 >
-> On 7/31/26 4:33 PM, Konrad Dybcio wrote:
-> > On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
-> >> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
-> >>
-> >> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-> >> and USB 3.x Super Speed (SS). The block can also be synthesized with
-> >> either HS-only capability or HS+SS capability. The SSUSB controller
-> >> handles the device or gadget mode. Saying that SSUSB handles the HS
-> >> portion is wrong.
-> >
-> > [...]
-> >
-> >> +  ports:
-> >> +    $ref: /schemas/graph.yaml#/properties/ports
-> >> +
-> >> +    properties:
-> >> +      port@1:
-> >> +        $ref: /schemas/graph.yaml#/properties/port
-> >> +        description: Super Speed (SS) data bus if SS-capable;
-> >> +          otherwise High Speed (HS) data bus.
-> >> +
-> >> +      port@2:
-> >> +        $ref: /schemas/graph.yaml#/properties/port
-> >> +        description: High Speed (HS) data bus if controller is SS-cap=
-able.
-> >
-> > FWIW this is opposite vs what the (most common) DWC3 schema defines:
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+>  rust/kernel/io.rs | 39 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
 >
-> (s/opposite/different to)
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index a38c20ba3d23..adfc555de7d0 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -436,6 +436,45 @@ fn is_empty<T>(self) -> bool
+>          self.len() =3D=3D 0
+>      }
+> =20
+> +    /// Convert into a different typed I/O view.
+> +    ///
+> +    /// The target type must be known (statically) to be of the same or =
+smaller size to current
+> +    /// type, and the current view is properly aligned for the target ty=
+pe.
 
-My version for mtk-xhci is modeled against what the hardware actually
-reports, and thus what the kernel maps things to.
+grammar nit: s/is/must be.
 
-Yes it's different from what DWC3 uses, but then I'm not sure if folks
-actually verified that the kernel maps the ports or onboard devices
-correctly. The kernel doesn't actually check if the USB IDs one gives
-in the device tree nodes matches or not. It only matches against the
-port number. Put in another way, binding the device node to the USB
-device is an afterthought.
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// ```no_run
+> +    /// use kernel::io::{
+> +    ///     io_project,
+> +    ///     Mmio,
+> +    ///     Io,
+> +    ///     Region,
+> +    /// };
+> +    /// #[derive(FromBytes, IntoBytes)]
+> +    /// #[repr(C)]
+> +    /// struct MyStruct { field: u32, }
+> +    ///
+> +    /// # fn test(mmio: &Mmio<'_, Region<0x1000>>) {
+> +    /// // let mmio: Mmio<'_, Region>;
 
-I did a quick test on my Orange Pi 5 Plus, which is an RK3588 with a
-GL3523 USB 2.0+3.0 hub connected to one of the DWC3 XHCIs. It seems
-that port 1 is USB 2.0 and port 2 is USB 3.0. The ordering matches
-the dwc3 binding, but the port number is off by 1. In hardware, USB
-downstream ports are numbered starting at 1.
+Should this be `Region<0x1000>`? Because as written the `cast` right
+below wouldn't build since `Region::MIN_SIZE =3D=3D 0`.
 
-So yeah, we have problems.
+Also, looking at Sashiko's comment about `KnownSize` we should maybe
+bite the bullet and make it unsafe? There was some talk about it [1] but
+the reason why we kept it safe back then doesn't seem to protect us
+here.
 
-> >
-> >
-> > (also true for mediatek,mtu3 and renesas,usb3-peri)
-> >
-> > -- Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
-> >   ports:
-> >     $ref: /schemas/graph.yaml#/properties/ports
-> >     description:
-> >       Those ports should be used with any connector to the data bus of =
-this
-> >       controller using the OF graph bindings specified if the "usb-role=
--switch"
-> >       property is used.
-> >
-> >     properties:
-> >       port@0:
-> >         $ref: /schemas/graph.yaml#/properties/port
-> >         description: High Speed (HS) data bus.
-> >
-> >       port@1:
-> >         $ref: /schemas/graph.yaml#/properties/port
-> >         description: Super Speed (SS) data bus.
-
-I feel like this numbering was only implemented for the gadget case, not
-the host case. And it certainly doesn't match what one would put in for
-onboard devices such as hubs. Ideally the numbering should be the same,
-because it is a hardware property.
-
-Any ideas for reconciling this? Mapping a device node to a USB host port
-or downstream device is buried in the USB core. For example,
-usb_of_get_device_node() and usb_of_get_connect_type() just take the USB
-downstream port number (1-based).
-
-OOTH dwc3 seems to just want _any_ graph connection to find an extcon
-provider. The mtu3 driver doesn't even have any OF graph related calls.
-
-
-Thanks
-ChenYu
+[1] https://lore.kernel.org/rust-for-linux/DGSDGDIVUHO0.P594H9B4LLO5@kernel=
+.org/
