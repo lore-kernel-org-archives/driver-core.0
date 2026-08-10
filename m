@@ -1,168 +1,176 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011066.outbound.protection.outlook.com [52.101.52.66])
+Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985763A7F6F;
-	Mon, 10 Aug 2026 09:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786354383; cv=fail; b=c8YhZ7yIQFn0URPvXkk36N/QpL/8vZ6lsqoCU65q8CsisOHm0LcCiRubUQ/MzOjrUH0Jo+Lq/1fiNT694W83SQohYFjxQNJ93hv22d0DvTUUssqPq0IX60oNDRMEbyEfhLrTF3xTNDAxVt/AgaHQ2uR87VxKlz5leYXimoXTQXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786354383; c=relaxed/simple;
-	bh=5UqMiB07e6wOaNYJ1+dDQ4EKskQ1dPOKD2lMnThZ3FQ=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=qJKvrlIp+btVQizJutFaE+U/K7Oy9fvVS60U7IvRLhTTI0qJ/WBRQyiLG84bE6YlCLPo18eAsMucCR638Y0iWZoTgBu08mhf3gnKZACPVGe24cAbS39EwsCyjtoKGq71MjEgsWHuRpin/mXsRHkPeIOKHkU9skHBw0YIoPL2D/M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fWlWj9a0; arc=fail smtp.client-ip=52.101.52.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09D5175A72
+	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 10:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786357247; cv=none; b=Fjhxf+lOJWqvSUlNfut6ZC5OrQOUZjaeORd/OlBZ7l1RG+SsIqP86op/zJ0enLwk6uKZSI0fAErIg8ChIoWOSu4d9/05kokB7PG5tQULWhWOO/1+WyhfYLRx1K/5yH1PtjJPmTlmkz7rTE6TLRaF7s2LzNbf3aqPoPh60gJgV3U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786357247; c=relaxed/simple;
+	bh=ElRMXMqUlqHi0jslYTtvgShQyouMJ6RBkzwwYgftXk4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DJ5zWvgP2D5uAQZ3mJZ+AKhQiCoZXHWLvQyhj98ZDERnYq3ljRXejJ2MHoJr6JVvHPSAyoGrGO7/jaV5HdYvhc+NI8H4xgQSLl1yEM1FV7663c2P/ORkyN04EWLKoMKNS+rTu0zDzd3dsXyZS8Vvp0j2VjstUiK5tsWOOIaBtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com; spf=pass smtp.mailfrom=lenovo.com; dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b=tESWTj5f; arc=none smtp.client-ip=148.163.148.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lenovo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fWlWj9a0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nZYrcXRgVhKQoVYvQyCToUbe02EbJpvU+XpX1K2cYWCprR6TCwMqRozQVeTV37L4wCavdeu9RcyJLuAx1WunxvPz3uZs+BYHqYWdG5cyunBP1Me8IPwiAz2bPLEm/tFjEcJxmB/J1lRVxwJEqEkQddj5Ams0ihCEb5Gwgc0lP5W8wwS1YN9mIxq9FEbaI8Zf1GkrhXXlPTKuo0lLQIX+UYTOYl/8CMbhEFJyW/XAWNzQfOKFjej5XJvarWIKzwTU1hozxFSBG8WKqot9n6F+7xOLvOdwhYEiozEzNtXTD135r8aLgS25/3aYjC8UalRp2RCaL2z/yY8ceX54YupsGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5UqMiB07e6wOaNYJ1+dDQ4EKskQ1dPOKD2lMnThZ3FQ=;
- b=NtapI0eU76hYxCrFYTwsvysDElyUBBMOecWyHTvs1r9WtgVLJ947c37diEqp8/+DEPPsorSmR+y3ztZVwdd7ul3xz0uqBKBAeTp19stOKifHXteVTfuNUmKpxM4KYVFpkF8EtI2ioOXc20/fn2ZSoEkKyNwl591mibx8uaqc5XxjXJQfoYhcUfu/nwQV6MnRBDf1HADvsig7udwi9Il2WjZAiE9XI7MEmsbr4zShjgmOODloIcTP6rz/W4l5uPurAiDH8DfnPtvXkoJIZZgquiTLIQTtAn/sCwcuV3zGS/7kLtONzz+CG/6WgcLVD2Cp11c8KMqUmO/D+GqXheteFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5UqMiB07e6wOaNYJ1+dDQ4EKskQ1dPOKD2lMnThZ3FQ=;
- b=fWlWj9a0Zj2TEXEdWCTuSIt+4qPNYGahOGVYYrdi7tB+VW8PbhZgnTJbljMMOPleNdFDyP8gRCAltQjWMmu6mJka0FOYhSSA+AV8h0381jCOuRmb5aIfCTjMYBc7qG7rfAW3g6DNbxHXMrt488N/sUShyGYIiTP32mCILmiuPmOeXf92rFdr4n/yuFAUXoZYiJ9yxLPWAfNgmw58EIT7HTMsUOSd1KUfufyGL/ThReoE5/rGT5B1wSDdkoZkyHTwhGSozG8TnBeOCTqSG3R5WqjR+4oRWBhg1agk/C5nmwRQpK35hTmyofFU0xykXma0VSYwD2tk8gJ+d5MuBsnWJA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MN2PR12MB4175.namprd12.prod.outlook.com (2603:10b6:208:1d3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Mon, 10 Aug
- 2026 09:32:58 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0292.024; Mon, 10 Aug 2026
- 09:32:58 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 10 Aug 2026 18:32:54 +0900
-Message-Id: <DKL5RYI8V8GH.2X3FMJUO6JYHA@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v2 06/16] rust: io: register: allow explicit base type
- specification
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-Content-Transfer-Encoding: quoted-printable
-References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
- <20260805-typed_register-v2-6-c3ca142220a0@garyguo.net>
-In-Reply-To: <20260805-typed_register-v2-6-c3ca142220a0@garyguo.net>
-X-ClientProxiedBy: TYCP286CA0127.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::9) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b="tESWTj5f"
+Received: from pps.filterd (m0464638.ppops.net [127.0.0.1])
+	by mx0a-00823401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67A9RosQ1833020;
+	Mon, 10 Aug 2026 10:20:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=DKIM202306; bh=+r5sSmpWP/sQfyM19vW1yCiTY+KSCURxWh
+	1DkUla0WU=; b=tESWTj5fmqUxM8KVgsPHtnowXpZIEf/2bnWKwJALgJFCica5E+
+	CdSuUeldiaEdaacjhz00xzoVQJSo0LoNOiDbV7q6wJmRFalkBTWWZbOlyMcw9Vkc
+	+mFeYbuQWNG92hFYsRob0abj3BSnDvFC6gPiLq0JX8hZsCxioRtuT48Pj7snOAYZ
+	r6ClcgEoFDjEM4W61NoolOZkVUvKFVGdRTuMl57I9BlRAr3jRqw+Y24ae8ZP005c
+	h6qdPcMuzgpfSLSjXQsPzGC03RgER1PQCnunKbLytnvuEHT9cE6vwRiH6bXw3S1G
+	QT+rfmmmHbg0YtETzHBb46/7LRQ3z+p8CptQ==
+Received: from hkglppfpool2.lenovo.com ([103.30.235.219])
+	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 4fxfwfsun6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 10 Aug 2026 10:20:16 +0000 (GMT)
+Received: from hetlppfpool1.lenovo.com (unknown [10.196.132.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hkglppfpool2.lenovo.com (Postfix) with ESMTPS id 4hJW1y3mJsz1yfbbq;
+	Mon, 10 Aug 2026 10:19:02 +0000 (UTC)
+Received: from SEANWANG1-P5MFL.lenovo.com (SEANWANG1-P5MFL.lenovo.com [10.111.201.157])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hetlppfpool1.lenovo.com (Postfix) with ESMTPS id 4hJW3L2Nplz1wCTlh;
+	Mon, 10 Aug 2026 10:20:14 +0000 (UTC)
+From: seanwang1 <seanwang1@lenovo.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: Lifeng Zheng <zhenglifeng1@huawei.com>,
+        Beata Michalska <beata.michalska@arm.com>,
+        Xuewen Yan <xuewen.yan@unisoc.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sumit Gupta <sumitg@nvidia.com>, Yunhui Cui <cuiyunhui@bytedance.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        driver-core@lists.linux.dev, seanwang1 <seanwang1@lenovo.com>
+Subject: [PATCH v2] arm64: topology: add source check in arch_cpu_idle_enter()
+Date: Mon, 10 Aug 2026 18:20:06 +0800
+Message-Id: <20260810102006.9986-1-seanwang1@lenovo.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN2PR12MB4175:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb89a51a-f8c3-49c2-55ba-08def6c25d08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|7416014|376014|1800799024|366016|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	UFriqu99/fcS7gi0FuyZ11QUT/xuUueVxPf173svdvU6mn8/h3YXgZbEpsOG6AzyH2OiRH0mbCfVcp4fR7OHFnOJmbRz0YZ9pdUPQSwSUniwGGkw08wAtB9akXaFOR6m2t1PPmkAmR2HP3KwfLT3ixZ1SVisoC7RY7UOcEbzt5UCl+Kz+TcfXx7qab1Hwcw2w2rAr4ZIN29lDoIKCTJ26fb+fRJzAtYXpooyWcLd7A2DOS8uXgZoSW8T+F6OL95UzERHjfck17RgU7Apw7yGexnuJwxixua8lEPyaseFBKK4+bEEwIQI0KP9TgJ3xaTbZRMEKVtunz+hoU+MMRYf/mvbJJiuNrPgVvgcntrz/tjjV3/98uxnrFkKi5CelyBIpLiDjxqvYsJLTjEfwRCt6nJlTqa/FsJsdscaZBNUWmUIJ9d2u9XCTlfWos/06fUvRucYKP389bGtWpWVmOnEiMtlTSQcMCMMc5/dx1Gytl/qYQ4o8H2Fb2EVKW8bTe77XEaQSKAoYS0ih3qmGNJPnhCz5yzC31MKxFYm8VvFEAwrE4/S+wG53L+vgG+ovvjmvGT/Q/468MQjjgOCOyZy8Lkw30RvRgedUAB9+xvxqOwTzUUvOMnd0hdYq9JjuxfkT5/sX27dNlUjfX+zwEIEdrjgNNltyhyE2ZL6M1lJKQI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(7416014)(376014)(1800799024)(366016)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T2hmcitJN29yOXdJT1hya1JVeUhsWld3YUhuSkJjWU91bnpmbmZUM1ZwU1B0?=
- =?utf-8?B?OUtWaktROWVKWFAvanVmeCtYcktnbEJKV0plSVlHRkJtd0NYR2Y1dHc1QUoz?=
- =?utf-8?B?Q0lidTM0SlF6N0R4a3RkdlRDcFVDSU5Kd2ZES0hKRmx3MnBpcHlCSDhIOXp5?=
- =?utf-8?B?Sk9LbFBvV0ZvMW81Yjk2alExOHZEdkF5Q3NPcDU4aXM2cVp3R09kWThMdG9r?=
- =?utf-8?B?bUU0WURaV1BFdUlSNCttVVVjcWcvcWk5anFsZHQ3M2Y3bGNoYVpGZVU1Sm1n?=
- =?utf-8?B?R0J6bXBmNVp3amFTY1BnMFdYVFNxTWM4MVBuY1Y3ME5jM04wbk1USUloaE1D?=
- =?utf-8?B?Zy9NV2U3N3VjZHF1N1JLUGdzWEQ2VWRZcGxLZE1HK3dzd043M05kSER3RjR5?=
- =?utf-8?B?SGE1RjBLcVZjV2s3SVBXWFBHM1U3ZTFwOVhrZCtLM3hoakRpNjh3elR6WDlP?=
- =?utf-8?B?YmRzSlFkTjJSMk9OMEFNdy95bVc0YSt5UEVXTjJBazQ0L296TW5LZGtTYk9O?=
- =?utf-8?B?TlJFbUhDcnZteUFHNldMd2hMbWoweHVaQitjclpna2o2bmpRSXhIUXlNa1Fz?=
- =?utf-8?B?Y2cwNi90YXZYcW1wcWUwdHRuSUZ2UHEvY1pyaFdxYzZqeTY4dkZzNVFxMFVs?=
- =?utf-8?B?V04rdThlV0RpVWZ4UHNVV0lkbkR4OGNML3QwcFo2UmF3YkdvSTNXcUN3ZnBu?=
- =?utf-8?B?RmlPdjhjTzlBMDVxVHB6R25Jd01vZ2JHQUI1WmJQb0syMHBvS2U1cXhuNXFI?=
- =?utf-8?B?ZkowOHlTMmJtQktONzBpa1Z2NlFlSWpoZEhGd0dzZnAyZkRKTElnVVFQS0VJ?=
- =?utf-8?B?bTd2Mzh4eVVRK0xpNHhtRXowZXdTaUxWQlhRQkdJRktTY3Fhc0kyYUFITWw0?=
- =?utf-8?B?cGNJcjUzU1NRR1ZYeFNoV2k3VlFJS3VkNU1EaUprN1VmSzJkaHB6MituWEpv?=
- =?utf-8?B?c2pGNUNXNHc4ZFZCNmNuc0tIK1BrSGI5Q0VPY1FHT0VRL0Y2bmFxbHhpNXUw?=
- =?utf-8?B?MHE3SFF4OStKLzRsc2VLTkZiZ1QrV2V1Smx0TjVVWlNNbGs2U3I3S1ZmVUs3?=
- =?utf-8?B?NnIwTGQ1RHZDTjJhWDVOeWovUFMrSXVLbWRyQzVmVFd6ZGpKNmxid2hwR2tw?=
- =?utf-8?B?Q29qanV0Mi9wMGcrZEFtRUZJcE5xdnFrVVoweDAxTXdQbFJzdlFGekZ5d21J?=
- =?utf-8?B?SHJvR3VHZml3Z3dUdThqOENJN2xVOEZjV3UyOHFuQ3c3V0U4aFgwb0VFODZj?=
- =?utf-8?B?V2VRNFNTVmNCbFJCbWFLZFVnY252ZHB4VFZPbCs4TFpNZExKNlhZa3RlZzhV?=
- =?utf-8?B?NkN2ZGNITDFmb01OaXUyTjFBYi9SSjcrVXRJVm9DdnFVeUN6bUlBZWFtTHlM?=
- =?utf-8?B?czdUUW9PMWd3U0VGRW9jNEVzZ0JiZFBuSzE0NHk3ekR0QWFtLzJmcUx6aFgr?=
- =?utf-8?B?S0tmdlR4ZnVXYUthcVM1eVpJWVlNeU5DeERNWCtTcmw1Yy9HWHdkZVlscld2?=
- =?utf-8?B?U2ErYkhxZ2VNUFZHWFFYNHBMN0VKN3hWUi9MUjcxMDl0eTl0clhnWGNPVEQ4?=
- =?utf-8?B?TDBoanFRNmp2RGNhOUt6Y1dqTjRQUnZjS1NGVUt3U3g4eVhjYjNSQXUrMUtU?=
- =?utf-8?B?U0xJQjEzTWcvNWhEb241MFFFYzJHYjZpZFcvTzhiZ3Q3cWhLd21OUE40Vnha?=
- =?utf-8?B?K3NGOGdTTzBZM0haOVprSzV1dUl1QXFzM0pGVWFRRUo3b1p1WFlQSDZGS3JH?=
- =?utf-8?B?bFRBckhEVjR1YzJJMzcvTlFtRG52c0FZRmNMekcrOFQxdm1oWi9lSHIvOUZp?=
- =?utf-8?B?TnA1VS9lSTN5ZGN6bDErTDRPU3l4ZnNUZi9UcHo0QXhMUHdrbGFtQTR2NG43?=
- =?utf-8?B?OG1PTTNjR0RIRno3ck1aOCtKQko1K2J6SHVMZzlva09yZFBNVHk4ODdQWEhl?=
- =?utf-8?B?emdVMHZGT0J2KzQxU1NDbENpUHoyN2lFWDZPR1d4RjRLRTVaMEE0bDJVS1h1?=
- =?utf-8?B?aTQ2UnhrM29GbVVGMWtVOW5RQmlac2VhS3Jzdjl0Z3lNZ3hubHhJMHdERkRu?=
- =?utf-8?B?RGxzblU3ZzFQNy9GV2VyWmtPZUl5RnZDdHl3aUlEVmZQUXQvenVobERibWpK?=
- =?utf-8?B?NTRhUFZiQTlza2tCbTRzTnl6Z2ZNTGlHWGlIQWNZWnRFQUFYa2VKU3lUOVo4?=
- =?utf-8?B?UUtldmx6MU9pOWZSN0llbGtadERhTTdMVkp2ZFdrY2VzRW85Uzg2ekI1RzlH?=
- =?utf-8?B?N3N4TE5uNjVMakc3V1hWdEFLODNEdlhGMi9FSUxQUURTR1lsekF4UkFXOTIy?=
- =?utf-8?B?WDZMaEpXMG1aT3Q2NGZ1dnVxS25sUnpscmY1MnhXMjBFRFBWRkw2T1BLZnpS?=
- =?utf-8?Q?kBZ1DTJwbeNCVa0rGuY8ytegb90zz5mTpNmjqzhfQxMzN?=
-X-MS-Exchange-AntiSpam-MessageData-1: c1u91cd6AkMwOA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb89a51a-f8c3-49c2-55ba-08def6c25d08
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2026 09:32:58.3726
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hnO98V2xvdwGSkRAfRJWco+Ckhm0206pZUGQ+iIWaAV+SIdUuyxLETKPtHn31oqT5TswltKoP6EzDpi7nFPK2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4175
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=YvY/gYYX c=1 sm=1 tr=0 ts=6a79a5e0 cx=c_pps
+ a=Z3w50ro9cqVPZ6U0/1IFzw==:117 a=Z3w50ro9cqVPZ6U0/1IFzw==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=2RTuljz969oO5usasWGy:22
+ a=QJilI6ASod0cdCKXAsqI:22 a=icsG72s9AAAA:8 a=8k6WQxmsAAAA:8
+ a=r6UP8DDBqnObT9kPvYkA:9 a=T89tl0cgrjxRNoSN2Dv0:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDA4OSBTYWx0ZWRfX36Jf6s0l/CjE
+ L3AMC2NaKCMj7X7uVO5kBBhJ7c0kbNhmlPHC39YDkc2zk1CpRo4a+dgz/U7LHovKOrWtxLF1Umw
+ Q3ePjoYHz+mohIjBl5szZMPQKTRnU5jtWWTOkiYga6dM6cX/QFpDT8a4cU/mWRQ0Hjx/2K/goV3
+ lhTwZe1AubGVvRgFZZ3Fd7gB7AVgz3VDRzAmfxsgaSBUDWu/4aYw11pZhcdx3/1q0dwTyKHFzin
+ rlq+yMf4FqgbAyU6QoNnMFsxps3QOsleqBnW4E0wGsxWEoM6NWnSx/EX1lPNaLWwZ9qjX22uPcR
+ 4j6owsMTzWOUjiK1j48WLjuWjlIBz6cnq0nVh/sA/qWIlzr4WGCT/gbKDUXbDmgxIbko7Kr6VrZ
+ iYG8n0jleGhzaBObcQWYIhcQp0/fO+4bYKH8CO0YblEX/WO48+Ohs5ZSpkikRmCbl3h3iAmQlLk
+ 8NHdSEKkftqwZKPvh6w==
+X-Proofpoint-ORIG-GUID: wLTvqhnOyi9YMhclmgyP9prPkAKBn-nm
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDA4OSBTYWx0ZWRfX69QvEiN0IDSI
+ ef3Wjx9y91AgSIvjfFmmz41z8oSEph07ygiEF07M2fHEJFipzwHZ2qO13r3WL1LQwouiciIlDXB
+ siuPDekzOVkUlDwzFeU2wE6ke5sNodg=
+X-Proofpoint-GUID: wLTvqhnOyi9YMhclmgyP9prPkAKBn-nm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-10_02,2026-08-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1011 spamscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=-20
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608100089
 
-On Thu Aug 6, 2026 at 1:35 AM JST, Gary Guo wrote:
-> Currently registers work for all untyped I/O regions, which is not ideal.
-> It allows registers defined for device A to work for another device B and
-> there is no safeguarding at all.
->
-> All users of the `register!` macro know what type it will be operating on=
-,
-> and that type is consistent across the driver. Therefore, add a `base`
-> parameter to `register!`.
->
-> Currently this parameter is unused in the generated code; it will be used
-> when all users of `register!` is converted to gain the parameter.
->
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+arch_cpu_idle_enter() directly calls amu_scale_freq_tick() to update
+arch_freq_scale when a CPU enters idle. This bypasses the sft_data
+pointer check that topology_clear_scale_freq_source() relies on.
 
-I did push back a bit on v1 about making this mandatory, but this makes
-a lot more sense once you consider that by the end of this series, the
-`register!` macro does not really define registers anymore: it defines
-the layout of an address space - that you can define register types with
-it is just a convenience shortcut.
+As a result, even after calling topology_clear_scale_freq_source()
+with SCALE_FREQ_SOURCE_ARCH to disable AMU-based frequency scaling,
+the arch_freq_scale value can still be modified by AMU counters when
+the CPU goes idle through the arch_cpu_idle_enter() path.
 
-With that framing, it is much more defensible to have to specify the
-type (or at least the size) of the address space itself. I guess we
-ought to rename `register!` at some point in the near future (not
-necessarily with this series).
+Add topology_scale_freq_source() helper to check whether a specific
+frequency scaling source is currently registered for a CPU. Use it
+in arch_cpu_idle_enter() to verify that AMU is the active source
+before calling amu_scale_freq_tick().
+
+This ensures that topology_clear_scale_freq_source() properly
+disables AMU updates in both the tick path (already handled by
+topology_scale_freq_tick()) and the idle path.
+
+Co-developed-by: Xuewen Yan <xuewen.yan@unisoc.com>
+Signed-off-by: Sean Wang <seanwang1@lenovo.com>
+Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+---
+ arch/arm64/kernel/topology.c  |  3 +++
+ drivers/base/arch_topology.c  | 14 ++++++++++++++
+ include/linux/arch_topology.h |  1 +
+ 3 files changed, 18 insertions(+)
+
+diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+index b32f13358fbb..cae5da68d5ec 100644
+--- a/arch/arm64/kernel/topology.c
++++ b/arch/arm64/kernel/topology.c
+@@ -173,6 +173,9 @@ void arch_cpu_idle_enter(void)
+ 	if (!amu_fie_cpu_supported(cpu))
+ 		return;
+ 
++	if (!topology_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, cpu))
++		return;
++
+ 	/* Kick in AMU update but only if one has not happened already */
+ 	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+ 	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
+diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+index 8c5e47c28d9a..dfc2574a5588 100644
+--- a/drivers/base/arch_topology.c
++++ b/drivers/base/arch_topology.c
+@@ -127,6 +127,20 @@ void topology_clear_scale_freq_source(enum scale_freq_source source,
+ }
+ EXPORT_SYMBOL_GPL(topology_clear_scale_freq_source);
+ 
++bool topology_scale_freq_source(enum scale_freq_source source, unsigned int cpu)
++{
++	struct scale_freq_data *sfd;
++	bool ret;
++
++	rcu_read_lock_sched();
++	sfd = rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
++	ret = (sfd && sfd->source == source);
++	rcu_read_unlock_sched();
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(topology_scale_freq_source);
++
+ void topology_scale_freq_tick(void)
+ {
+ 	struct scale_freq_data *sfd = rcu_dereference_sched(*this_cpu_ptr(&sft_data));
+diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
+index ebd7f8935f96..803382f599a2 100644
+--- a/include/linux/arch_topology.h
++++ b/include/linux/arch_topology.h
+@@ -48,6 +48,7 @@ struct scale_freq_data {
+ void topology_scale_freq_tick(void);
+ void topology_set_scale_freq_source(struct scale_freq_data *data, const struct cpumask *cpus);
+ void topology_clear_scale_freq_source(enum scale_freq_source source, const struct cpumask *cpus);
++bool topology_scale_freq_source(enum scale_freq_source source, unsigned int cpu);
+ 
+ DECLARE_PER_CPU(unsigned long, hw_pressure);
+ 
+-- 
+2.25.1
+
