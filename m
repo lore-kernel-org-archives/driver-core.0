@@ -1,180 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9053386562
-	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 08:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905363A4521
+	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 08:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786350378; cv=none; b=pRW1LPW/s9xnZcCHg0Iq7xItl+wwpe6dxR1o2mxlW/23DkY4EMFuivLrRPH0GpoCyfN9mWBPoHs2MReKtcSQ+mz68jn2kw0IwGNFTuEMAdhcDWOQejmKT4Vnk3qJgnpu+wGeZ9QRR+/6NPP4yS/Z64mrXFcVpyQeSNArWTPJuHU=
+	t=1786350895; cv=none; b=BpqlB9UZujA49q7Bkg0OMO8lhdR48ETLvkSiqWPhdFEZFVxs0xdOdh6Z2K0Np3hmmpqvfdp8+NgUPRYu3dTpOoDNjBoEP7s6cGiQMmVtHr5QRM5JAMo6nZS9JHnJ9fh1yhB7XUDxr3fTjJgrXQn5g+rAutHg3KRG1Mf67X3LYt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786350378; c=relaxed/simple;
-	bh=++vktebTJ+rMB1mZxjsv9rXUywIuN/HM5q3NZWWkCDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ElkdR7WkLzSP9UN3soZowSOpVGQIbrah0YX4PzoTa85+vS3DMf/+G8suwU7NJbTgkG1jhOMSQ5zWFv/mGHIqZKthy+5dmBku7vnITtNPfqKCc4NY+Kesg1hiCgYpMcWCbTqhVapqRdm//zyB3XhfK1mvPW/DcT38UZoUUHChRUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGw3LkEI; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786350895; c=relaxed/simple;
+	bh=zIgBtvSpT57XQu3RWyx/moS3BxsJUDg8BdyVeprlafc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G1D9P8yMwk9IO/b3jC7iQkyBLzML8+MRUE0pflShkJXYyX5FErJ2qyFOxFNFdaj+BxztQVDwIUK0WJmXTwzz1Xsf/imdaEc+IlJHVSva2vimzAtSzlFY/XZa/jk8PvPXZxe/B96eMdcWGQZV2mzx5h7Bhxc6WXa7boZIVfSXLSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=qnXAND4o; arc=none smtp.client-ip=52.26.1.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGw3LkEI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786350377; x=1817886377;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=++vktebTJ+rMB1mZxjsv9rXUywIuN/HM5q3NZWWkCDk=;
-  b=kGw3LkEIhb1qSEvCx8J8I3ikVBcZoeW2Mbgt53AGvqwiXnffuKTGeWUT
-   xx+uwmLYr+K9GrEjF9CjdWgYAuh/E6SfB+Xn7JugV+ufDc4wdzlB8F6ca
-   qQ95ODqZiGaEHRbGIhzunV/9/RHnbVyFOWzSgva4tN/OojDiHt3jayf5d
-   u4H59B1YvsIbB4SSkBqFAXYFcZzFlUFOR2P7nrh7LGymyOEXD/MVoyuDU
-   Zd8hzvmHvZ8JggWaY+7fKRP8vDjxfY1GAGT0DAKLt3lD+yWYoITWn6yRk
-   xD3m5I0crvs1GYUGwZKsCgSHDXk/bi+yCSwO/S7+GDUnf56+rBJS3hP8P
-   Q==;
-X-CSE-ConnectionGUID: IGl33ishS2GyMlFS10Pb+A==
-X-CSE-MsgGUID: WIjGQUPKR8ywJ0cj70foGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="85976391"
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="85976391"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 01:26:16 -0700
-X-CSE-ConnectionGUID: qsY+KBHKTJaaQy+CCw/B+w==
-X-CSE-MsgGUID: UzhpxU54SZmz8vkYlnfovg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="264960575"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.104])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 01:26:11 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 137AA121197;
-	Mon, 10 Aug 2026 11:26:09 +0300 (EEST)
-Date: Mon, 10 Aug 2026 11:26:09 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v7 01/16] device property: Add
- fwnode_graph_get_port_by_id()
-Message-ID: <anmLIT--JrEvOaSs@kekkonen.localdomain>
-References: <20260724084328.3943997-1-wenst@chromium.org>
- <20260724084328.3943997-2-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="qnXAND4o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
+  t=1786350894; x=1817886894;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dr5xpzRAq8ouKRSIuMtlx0P9FeaQGvwwcGLMSQxZbl0=;
+  b=qnXAND4oir7sQkzAVMtxGE5C94HTi5RWdFbeGOfmC8XkuRcX/3T9wT23
+   cmNWG2D/bM6kbqMjv1bZx0KRfe7t1M+ICgPUtLyj3G68U8r3wUfgHYLAm
+   jDmbxalBbsn6/cTgKZybGIiVQ6OdmpmncmEAfClOuYzOVocm8prQ+dqjd
+   ZuCqY1AiCpVgls4M61u7Uhg27FxT6iEmal+e11hacuH2ZZddV7oXfwWVL
+   KfhesnryLwiLh1vyL7xTwAaLoxI+3YARVELE2pCwJXcQun44FUL7f3qA6
+   En9vqWYpN4ACAEgR0E6Y5i0GY3vFQd8llhMmwWVVcg8Fkq+Hiwc6sgIvt
+   A==;
+X-CSE-ConnectionGUID: aEbRFXLgRG+YgQsRuClmPw==
+X-CSE-MsgGUID: bpHcGCrIQN+uPC6nhwvY6A==
+X-IronPort-AV: E=Sophos;i="6.25,215,1779148800"; 
+   d="scan'208";a="25585877"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 08:34:51 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.182:28268]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.19.171:2525] with esmtp (Farcaster)
+ id d5956c16-b231-48d3-b785-2c3f609134e4; Mon, 10 Aug 2026 08:34:51 +0000 (UTC)
+X-Farcaster-Flow-ID: d5956c16-b231-48d3-b785-2c3f609134e4
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Mon, 10 Aug 2026 08:34:51 +0000
+Received: from dev-dsk-simonlie-1b-ad174abf.eu-west-1.amazon.com
+ (172.19.78.185) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45; Mon, 10 Aug 2026
+ 08:34:49 +0000
+From: Simon Liebold <simonlie@amazon.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Eric Sandeen
+	<sandeen@redhat.com>, Christian Brauner <brauner@kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: Simon Liebold <simonlie@amazon.de>, <stable@vger.kernel.org>
+Subject: [PATCH] devtmpfs: restore mount option reconfiguration on get_tree
+Date: Mon, 10 Aug 2026 08:34:38 +0000
+Message-ID: <20260810083438.764684-1-simonlie@amazon.de>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260724084328.3943997-2-wenst@chromium.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D036UWC003.ant.amazon.com (10.13.139.214) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Hi Chen-Yu,
+Commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
+public instance") converted devtmpfs to the new mount API but dropped
+the reconfigure_single() call that reapplied mount options.
 
-On Fri, Jul 24, 2026 at 04:43:10PM +0800, Chen-Yu Tsai wrote:
-> In some cases the driver needs a reference to the port firmware node.
-> Once such case is the upcoming USB power sequencing integration. The
-> USB hub port is tied to the corresponding port firmware node if it
-> exists.
-> 
-> Provide a helper for this.
-> 
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v5:
-> - Dropped left-over declaration in header (Sashiko)
-> 
-> Changes since v4:
-> - Added flags parameter so users can specify whether incomplete ports
->   are returned or not (Sashiko)
-> 
-> Changes since v2:
-> - Moved "Return:" kernel-doc section to the end. (Andy)
-> 
-> Changes since v1:
-> - New patch
-> ---
->  drivers/base/property.c  | 29 +++++++++++++++++++++++++++++
->  include/linux/property.h |  2 ++
->  2 files changed, 31 insertions(+)
-> 
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 9387bb83eb54..950defc0c55a 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -1346,6 +1346,35 @@ int fwnode_graph_parse_endpoint(const struct fwnode_handle *fwnode,
->  }
->  EXPORT_SYMBOL(fwnode_graph_parse_endpoint);
->  
-> +/**
-> + * fwnode_graph_get_port_by_id - get the port matching a given id
-> + * @fwnode: parent fwnode_handle containing the graph
-> + * @id: id of the port
-> + * @flags: fwnode lookup flags
-> + *
-> + * The caller is responsible for calling fwnode_handle_put() on the returned
-> + * fwnode pointer.
-> + *
-> + * Does not return ports that belong to disabled devices or endpoints that
-> + * are unconnected, unless FWNODE_GRAPH_DEVICE_DISABLED is passed in @flags.
+This causes userspace-requested mount options to be silently ignored.
 
-The function also does not return ports that have no endpoints. I don't
-think it'd be very useful to do that either, instead this should be still
-documented.
+To reproduce, boot a system where systemd mounts /dev with a size
+option (e.g. size=4m), then check the actual size:
 
-> + *
-> + * Return: A 'port' firmware node pointer with refcount incremented.
-> + */
-> +struct fwnode_handle *fwnode_graph_get_port_by_id(struct fwnode_handle *fwnode,
-> +						  u32 id,
-> +						  unsigned long flags)
-> +{
-> +	struct fwnode_handle *ep;
-> +
-> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, id, 0,
-> +					     flags | FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!ep)
-> +		return NULL;
-> +
-> +	return fwnode_get_next_parent(ep);
-> +}
-> +EXPORT_SYMBOL_GPL(fwnode_graph_get_port_by_id);
-> +
->  const void *device_get_match_data(const struct device *dev)
->  {
->  	return fwnode_call_ptr_op(dev_fwnode(dev), device_get_match_data, dev);
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 14c304db4664..01ea010cb2f9 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -505,6 +505,8 @@ int fwnode_get_phy_mode(const struct fwnode_handle *fwnode);
->  
->  void __iomem *fwnode_iomap(struct fwnode_handle *fwnode, int index);
->  
-> +struct fwnode_handle *fwnode_graph_get_port_by_id(struct fwnode_handle *fwnode, u32 id,
-> +						  unsigned long flags);
->  struct fwnode_handle *fwnode_graph_get_next_endpoint(
->  	const struct fwnode_handle *fwnode, struct fwnode_handle *prev);
->  struct fwnode_handle *
+    findmnt -n -o SIZE --bytes /dev
 
+On an affected kernel this returns ~50% of RAM instead of the
+requested size.
+
+Fix by calling fc->ops->reconfigure() after obtaining the superblock
+reference in devtmpfs_get_tree().
+
+Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
+Cc: stable@vger.kernel.org
+Signed-off-by: Simon Liebold <simonlie@amazon.de>
+---
+ drivers/base/devtmpfs.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+index b1c4ceb65026e..44683dde04377 100644
+--- a/drivers/base/devtmpfs.c
++++ b/drivers/base/devtmpfs.c
+@@ -72,14 +72,25 @@ static struct file_system_type internal_fs_type = {
+ 	.kill_sb = kill_anon_super,
+ };
+ 
+-/* Simply take a ref on the existing mount */
++/* Take a ref on the existing mount and reconfigure to apply mount options. */
+ static int devtmpfs_get_tree(struct fs_context *fc)
+ {
+ 	struct super_block *sb = mnt->mnt_sb;
++	int err;
+ 
+ 	atomic_inc(&sb->s_active);
+ 	down_write(&sb->s_umount);
+ 	fc->root = dget(sb->s_root);
++
++	if (fc->ops->reconfigure) {
++		err = fc->ops->reconfigure(fc);
++		if (err) {
++			dput(fc->root);
++			fc->root = NULL;
++			deactivate_locked_super(sb);
++			return err;
++		}
++	}
+ 	return 0;
+ }
+ 
+
+base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
 -- 
-Kind regards,
+2.50.1
 
-Sakari Ailus
