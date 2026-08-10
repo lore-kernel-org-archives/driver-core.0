@@ -1,109 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2585133A03F;
-	Mon, 10 Aug 2026 17:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF9233A03F
+	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 17:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786381938; cv=none; b=Fpuju0peNxRRe00+4wnAs6q4nFsnSglqvpnQlE68cqqNSWUs6wYtK9su1ul95XCXZFAG1Kg9tWhkC45hFtF9T8BK/KWkwoPpyNooUI4k6Qsil49T72b8+31J6y7S08VlBxPpnaAEdLwxnP8Bmbvj6onUXBAnTMSHZMiDfXnzPi8=
+	t=1786382010; cv=none; b=YMOFdB9+ZyjZlZqkOaopkhLLrexY2VAurn+7bbRx9JlVkzZK4+MQsCRIYC+0J7xAFcb/DElW1S6yqmtdg5xWtoEbQjIGexEr95eGJ1HnAtPB8BcjtU1cKNf2u3LhbsMMKHSMAlQuoFSXgD73BaWehdyyZ9ilrdnj6EnKjvMAYgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786381938; c=relaxed/simple;
-	bh=mceccNaaWmcchg9L8ED4lJf/FLN7OSM0KRweOSQ6BlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=toCgr5KbcyUonHfyGJzEwIJh7rCWJYQL59uIqS7j4Pb7xOS0d1j5421EB7pnXmAajzRLgkegUAhPWneMGJ/YQ7Lrns/6LdqczfpjV3U4kzX9UHkcEB+YjGAhkJd1pYJSad6BYj2svDqNTCYbEDQCTBfbXA6rwmd1loI/vojnXvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PjGA/P24; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PjGA/P24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5881F000E9;
-	Mon, 10 Aug 2026 17:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786381936;
-	bh=fVrGGL5Q0nSgj2p380L09qPkXcrVRBJyN66cazrVrMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PjGA/P24nLObN/Vr0Bxq12S0QmU7205Y8TzFWVr4OpTB51Nd4GtcEPxwaNVh5NLY/
-	 Hk870KboTaYos41UywIijUWP3lCPNOr3XiUbNzg2JR+WFmMUJ01xs9HHUosv/IG7HD
-	 bj54JiKJBhSDlWThr6gedepNZrPRdreI5HoQdfLV/WE5NWmWa654WjYcXxrPStliRh
-	 p2Zj5kFWg6+KNdbmipxEEADZGm1w8pFmFt5//PmCO7lY3AUodjHHKu/fLekg1Dtan4
-	 Za+sUxmqcSAJSMiDJEfrQzAMrReqclqt8FH7is5NZlviPAdg/Rf7Vy633pOmQOqCsk
-	 QhAXbL278yMcQ==
-Date: Mon, 10 Aug 2026 19:12:06 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v7 14/16] power: sequencing: pcie-m2: Split Bluetooth
- unit based on interface
-Message-ID: <ns5zexfsbin4om3klprrh4v2xfvhhg5nztbbf5neakyuwq47bc@mckelf2d5x5f>
-References: <20260724084328.3943997-1-wenst@chromium.org>
- <20260724084328.3943997-15-wenst@chromium.org>
+	s=arc-20240116; t=1786382010; c=relaxed/simple;
+	bh=u5DnQ2ug+50etOvEZvocOH+ftMP2Go6yy14/ZXFft3Y=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=N70sqPZtK8xr1LHDAl17BL9zc0EhTQbwuss0WV3oadFF6L7VesMGt8So6sp7BraOvJWhz76i87FR7XuzryraLHOb5WF71QAsptythlGd+kGfcPJ/jCP7oz77RsAOQlcnCRdOP5Ldk4Fw1h7uWkpztm41H7gR7M6+UyFM/dKfgt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-7e9e2db9914so124067a34.1
+        for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 10:13:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786382008; x=1786986808;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bXv1DkYpQZeAyefREq26kKDCDQkUPtTwOw+3ClE4bcg=;
+        b=SPVBYRM81jojzzVWDMOqHOMoRsX55UEf2NrhPpdHEu9Z37qlrDc8TpaPsVd67Eww71
+         nHSTooedFEpWSFYCsr1WEFQY3kMH+KSJhLX9U/K8KJEgOZlTLl/57aJHh3Wi5+MGMlJI
+         9tdqX0ZWhMCiDecBL5/xA0AlbqYx02tb61sk7eSgdJP/O6JrQAiBU57fPIBg2LOGmwaq
+         nLYVAPjq2+bnioiltrLv36XzrrNwZIgbvzQGOOAzGVc4ZtHbdGozPYwoDKsZInjOJ1Y8
+         sBeurigYTw70r9w36ymVeKRkX33H25gzwCXffpo5TOPsjkQDPMvghz35rpYryNcqNIQY
+         FeEg==
+X-Forwarded-Encrypted: i=1; AHgh+RqZ64m5jB1QfVDwlkfwqMOTkHy81SvPBwjF0rSX0xqqwYbiRa67UEv3jJkQREXqHimp1OAPPRYCoNIYKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzjd9j5MzstxftzYFS+u1poLp8RG+fBYLDkcv0hLaDU2Lmk5xQV
+	NYB9qRz4mhT/mqxCgeWC4Fx4WfWuRcRzIjAW//AQ50oBOJo8K+129UutzEXbJxT50VSaiCMfO+g
+	N/0XDZ38NUaJV1fuGr0M4fhMJpoGZj3HXQNzyP4mvnyDhru/gVqkCnMGXUdc=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260724084328.3943997-15-wenst@chromium.org>
+X-Received: by 2002:a05:6808:d47:b0:4ab:224d:6dd6 with SMTP id
+ 5614622812f47-4b1af98e2eamr10474075b6e.15.1786382007866; Mon, 10 Aug 2026
+ 10:13:27 -0700 (PDT)
+Date: Mon, 10 Aug 2026 10:13:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7a06b7.b50370da.49fe0.0057.GAE@google.com>
+Subject: [syzbot] [kernel?] memory leak in dev_set_name
+From: syzbot <syzbot+87ce68d9f48eca96a84a@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 24, 2026 at 04:43:23PM +0800, Chen-Yu Tsai wrote:
-> Some UART / serdev based Bluetooth drivers need to be able to reset the
-> hardware during initialization or recovery. This is not possible with
-> the current power sequencing API if a unit is shared between USB and
-> UART interfaces.
-> 
-> For now, split the Bluetooth unit into two, one for each interface.
-> This allows either interface to independently toggle the power, with
-> the last action prevailing, thereby unbreaking the Qualcomm Bluetooth
-> serdev driver. This is also needed for the Realtek Bluetooth serdev
-> driver (hci_h5).
-> 
-> Having independent control from either interface unfortunately means
-> that userspace is able to shut down the controller from sysfs using
-> the USB port's "disable" setting without the serdev driver knowing
-> about it. On the USB side, independent control is also desired, as it
-> allows the USB core to power cycle the port/device during faults, and
-> for userspace to initiate reset and recovery using the aforementioned
-> "disable" setting. However when USB is used, a serdev device is not
-> created, and there is no conflicting usage, which allows the power
-> sequencing to work even without the split unit.
-> 
-> Suggested-by: Wei Deng <wei.deng@oss.qualcomm.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v4:
-> - New patch
-> 
-> This patch is _not_ squashed into the previous to provide clear context
-> on the change, and the less than perfect nature of it.
-> 
-> I think what we need in this case is some sort of lockout. The serdev
-> consumer would want "exclusive" access, locking out the USB consumer,
-> which can tolerate "shared" access.
-> 
-> Something similar would be needed for the WiFi if we ever add support
-> for SDIO for toggling the state of W_DISABLE#1. At least the SDIO and
-> PCIe reset signals are separate.
+Hello,
 
-I don't think PCIe/SDIO suffers from the same issue as USB/BT. But anyhow, I
-think it is OK to have this patch as an interim solution, but we should try to
-model the BT control in a proper manner. I'd fancy adding TODO instead of XXX in
-the comments. But nevertheless,
+syzbot found the following issue on:
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+HEAD commit:    06cf61899d64 Merge tag 'x86-urgent-2026-08-08' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=124d4079580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6843f8fd2336602d
+dashboard link: https://syzkaller.appspot.com/bug?extid=87ce68d9f48eca96a84a
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=134722c6580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=164d4079580000
 
-- Mani
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e023ff6ad9bc/disk-06cf6189.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ea49527ba5df/vmlinux-06cf6189.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e3d6468d0490/bzImage-06cf6189.xz
 
--- 
-மணிவண்ணன் சதாசிவம்
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+87ce68d9f48eca96a84a@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff88810628f840 (size 16):
+  comm "swapper/0", pid 1, jiffies 4294937753
+  hex dump (first 16 bytes):
+    67 61 64 67 65 74 2e 30 00 00 00 00 00 00 00 00  gadget.0........
+  backtrace (crc 5823fe15):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __do_kmalloc_node mm/slub.c:5333 [inline]
+    __kmalloc_node_track_caller_noprof+0x3d3/0x570 mm/slub.c:5471
+    kvasprintf+0x6e/0xf0 lib/kasprintf.c:25
+    kvasprintf_const+0x5c/0x110 lib/kasprintf.c:49
+    kobject_set_name_vargs+0x40/0xd0 lib/kobject.c:274
+    dev_set_name+0x6d/0x90 drivers/base/core.c:3560
+    usb_add_gadget+0x219/0x330 drivers/usb/gadget/udc/core.c:1459
+    usb_add_gadget_udc_release drivers/usb/gadget/udc/core.c:1517 [inline]
+    usb_add_gadget_udc+0x6e/0xb0 drivers/usb/gadget/udc/core.c:1564
+    dummy_udc_probe+0x26c/0x2e0 drivers/usb/gadget/udc/dummy_hcd.c:1121
+    platform_probe+0x86/0xf0 drivers/base/platform.c:1439
+    call_driver_probe drivers/base/dd.c:628 [inline]
+    really_probe+0x12f/0x3a0 drivers/base/dd.c:706
+    __driver_probe_device+0xe9/0x1a0 drivers/base/dd.c:868
+    driver_probe_device+0x28/0xf0 drivers/base/dd.c:898
+    __device_attach_driver+0x10f/0x170 drivers/base/dd.c:1026
+    bus_for_each_drv+0xd2/0x130 drivers/base/bus.c:500
+    __device_attach+0xf9/0x290 drivers/base/dd.c:1098
+    device_initial_probe+0x6f/0x80 drivers/base/dd.c:1153
+
+BUG: memory leak
+unreferenced object 0xffff88810629da00 (size 256):
+  comm "swapper/0", pid 1, jiffies 4294937753
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 08 da 29 06 81 88 ff ff  ..........).....
+    08 da 29 06 81 88 ff ff 80 cd 4e 83 ff ff ff ff  ..).......N.....
+  backtrace (crc a134a33e):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    device_private_init drivers/base/core.c:3602 [inline]
+    device_add+0x740/0xc80 drivers/base/core.c:3653
+    usb_add_gadget+0x221/0x330 drivers/usb/gadget/udc/core.c:1461
+    usb_add_gadget_udc_release drivers/usb/gadget/udc/core.c:1517 [inline]
+    usb_add_gadget_udc+0x6e/0xb0 drivers/usb/gadget/udc/core.c:1564
+    dummy_udc_probe+0x26c/0x2e0 drivers/usb/gadget/udc/dummy_hcd.c:1121
+    platform_probe+0x86/0xf0 drivers/base/platform.c:1439
+    call_driver_probe drivers/base/dd.c:628 [inline]
+    really_probe+0x12f/0x3a0 drivers/base/dd.c:706
+    __driver_probe_device+0xe9/0x1a0 drivers/base/dd.c:868
+    driver_probe_device+0x28/0xf0 drivers/base/dd.c:898
+    __device_attach_driver+0x10f/0x170 drivers/base/dd.c:1026
+    bus_for_each_drv+0xd2/0x130 drivers/base/bus.c:500
+    __device_attach+0xf9/0x290 drivers/base/dd.c:1098
+    device_initial_probe+0x6f/0x80 drivers/base/dd.c:1153
+    bus_probe_device+0x3e/0xb0 drivers/base/bus.c:620
+    device_add+0x99f/0xc80 drivers/base/core.c:3772
+    platform_device_add+0x1c2/0x300 drivers/base/platform.c:762
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
