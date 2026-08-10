@@ -1,85 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8A741A4EE;
-	Mon, 10 Aug 2026 16:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7B4427FB6
+	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 16:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786379196; cv=none; b=CGnpF5MhfvgKwdPmrT5X8c1pAz7yL0D8trjfQFB6CWjH+1TvCriMw8VSWrW17Y6sSLoY/Uf4A2Re6C2rQTPJGSj27ETyLX0e7g0K+45kuitNL1uzaSJSk47tI5uktNI+8icP/I6IlWCM2G00hnUKUh9BD+MoM5+yjROlczpWlLY=
+	t=1786379694; cv=none; b=j8l32P0xXbXZAIheFDfG1Ed6SWwpPqOTi8OFAr0n3l2gPKCD4AZHGqz+xkd/JzadEokwPhplPtz2XuhaQR3tkCeEc9Ey0UOXQelUyBfB9cAymy0owum7y2Vo5ItGcRu6TseNGx22nZTuGyED/aTCgCZbo/XiXD1rw2OKIjwIcJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786379196; c=relaxed/simple;
-	bh=ysPMNBeJ2ay+VOXT1/Gdtq9+3bpoy6chLIHWvgB0SHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hw7dkEpju4bxSh9Nnyycl2YHyLoh0dIwufcmQnQZrMjlARHRvyGIX39YJWJHawVZmsNKu8T4LbZmz+ugSUe+YCAkNv7DplZiviQF+7Ha50QbmbFsS+dH9HShlKxgoFq/jijSIQMOw7jnHIJte2di/L4sy/O0Pb+SZI9TE3yu2N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZLUvply; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786379694; c=relaxed/simple;
+	bh=ajbvcjZXnT3+iWpd7dWUGsxzHJKakpxdBrDOcC2Np+8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=OOrpKQyQEvSgRVyecq41+KQQDCawQaS0O7XaBa1U6lvR42f4PZH/2j5jBdeHfkgcbPliyYptfKMbnbIGDmZ0uT+Uz9YGWM2CAhD4NUzjoecPDJeSwEupGsNJIEcvDfDwOLSgCMsnPoX6lrJ0Pkgh9Iyem9lhMaiAIWSRc1Tg7r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=osG9TOwl; arc=none smtp.client-ip=209.85.218.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZLUvply"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE791F00A3A;
-	Mon, 10 Aug 2026 16:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786379185;
-	bh=SUi8TvaGZ/ONLDR20xtbgTj2PSwgrawqHUmwvPH281Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iZLUvplyIcNz5VE9d3kCC55idVkZrcMUkNQMbp9OGxSTxJfNYZ4yr2JOIOsKLJAn8
-	 OObjougUbmk/38Tg1bYoCpjH+ub9h5QwXhL5o/8zljucHR+7DSNhua66AetPZHytcQ
-	 3y2CRfYBQvSNkeuKQbvgCx8L6hlt9D3WV679tfLe6BvPHzmCHXlH9U99BxReF/HGin
-	 TL4hR+2U4zuEU+faiR9plq7xmFoQFSgBVHxVjTPoHNr+pLGwQl794ToVshVql7ZgUD
-	 g+L0acQ0yPs3jYsKAs1idJ115olPzn+IoDNqdAlrajYd2g8cEdKKUpyT9Dcts4aZoC
-	 Zur8II8DGV73g==
-Date: Mon, 10 Aug 2026 18:26:15 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v7 13/16] power: sequencing: pcie-m2: Add usb and sdio
- targets for E-key connector
-Message-ID: <hxidwwqeooyo4fwjc6rmbsfv35b2af7flub23qcpwin6bqj5ff@h46sqvwc6k6i>
-References: <20260724084328.3943997-1-wenst@chromium.org>
- <20260724084328.3943997-14-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="osG9TOwl"
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c15c6a68406so144729366b.3
+        for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 09:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786379691; x=1786984491; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iDGvS9HpsrPtLNw2H79kc5fyPEaWVAB8Beu1OXPCfRo=;
+        b=osG9TOwl5HlqmhhUP7FXLkxfxLjJ5KYZh/0CnGESj5TNOj1xjBvo+00DcyRggnw+ZE
+         fpFcA8Y+L0Cqtxod9vM6rpIUN2dtTnGVomwQOrxqQXAtkDcLYN3ba3PDP5hCZgHOTy4B
+         tVfyy4tuQq4jzD0hJcl8pS8qUWAyaViRBuPvkVh2uSmuMoKj1CANmnLB+ka/KoPKjUzf
+         TPZtgBuVSZQBdf5P+pPHuYT4ijPCZYz82u5IwOOJA96d4LdtQfHNhSmqaFD1jSbwlZk+
+         9dd1KyOSOiXuJ1u7Ju/Qgybiy+JQnQHeFJMsA3gvXclR4qGjD800SPXQPPN2g/K23lBQ
+         JzFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786379691; x=1786984491;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iDGvS9HpsrPtLNw2H79kc5fyPEaWVAB8Beu1OXPCfRo=;
+        b=QGCNbdFXswSxpulbZ6PhMy+ExlU/q27vmn4BGPM8j6vAzGC1lz30QK8MDP9ni7ljSg
+         xPNllWpiDQKJS1p5M0PuktYm9HEWVZ6Spmsfq6Q0TQnhlNDaKSr5NUp+ocD9E8pR2/r+
+         73e9yWAfsU8I5Ve/YG3BKE5D3WehiNa1qtPq5VsYWMPDOB1XFEVQETJnX8bPkwWz5Iyo
+         EmSZPOu05YG/kf6vOIMy0yqQlWbxcmnHoEye9QpWYrrpJlY5sMwJU7ugmQ4y3Yyw1vYJ
+         URPQq7+yspxuZdJUU0IrcLvDSCuxRy7Sv1P6RGmSD195G/yC9aA9jKUCebqlRBMNOoen
+         TQJQ==
+X-Forwarded-Encrypted: i=1; AHgh+RopWaoichgMU8YJE8Zl090WuR0UZpTp2Kt5qR24QJIBPIg6Y+XVY68NNJVKp0W4Cd51Fticvu7e3WJZ1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzocacLNpzZqvPMYcz4DgtdU5IPp40uTFv6tClwicC6C620NRe4
+	zm/+4Tz9v3/myA7HkNwT18msAI+tnqvMrbSl73eDH2huTlefnuLVJ2AFTUn2EcdeicQDz4exwBg
+	BGlU0i328KJMkmx76fA==
+X-Received: from ejzq2.prod.google.com ([2002:a17:906:b282:b0:c1c:22c5:732])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:7ba5:b0:c15:f26a:342f with SMTP id a640c23a62f3a-c2073392a89mr1505099466b.23.1786379690769;
+ Mon, 10 Aug 2026 09:34:50 -0700 (PDT)
+Date: Mon, 10 Aug 2026 16:28:10 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260724084328.3943997-14-wenst@chromium.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
+Message-ID: <20260810162814.1398016-1-tarunsahu@google.com>
+Subject: [PATCH 0/4] Convert manual kfree(dev) to put_device()
+From: Tarun Sahu <tarunsahu@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Geoff Levand <geoff@infradead.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, dmatlack@google.com, Borislav Petkov <bp@alien8.de>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com, 
+	Tony Luck <tony.luck@intel.com>, skhawaja@google.com, 
+	Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
+Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-edac@vger.kernel.org, Tarun Sahu <tarunsahu@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 24, 2026 at 04:43:22PM +0800, Chen-Yu Tsai wrote:
-> The M.2 E-key connector allows either PCIe or SDIO for WiFi and USB or
-> UART for BT. Currently the driver only supports PCIe and UART.
-> 
-> Add power sequencing targets for SDIO and USB. To avoid adding a
-> complicated dependency tree, rename the existing power sequencing units
-> "pcie" and "uart" to "wifi" and "bt". The existing target names are left
-> untouched. The new "sdio" and "usb" targets just point to the renamed
-> "wifi" and "bt" units.
-> 
-> The "unit" names are internal to the power sequencing framework, and
-> should be confined to a single provider. The names are only
-> informational. Dependencies are tracked with pointers to other units.
-> 
-> The "target" names are the strings that the consumer uses to acquire a
-> descriptor with. As these remain the same, existing users will continue
-> to work.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Hello,
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+As per the guidelines, no devices that are tried to register with
+device_register or to add using device_add, must use put_device on their
+failure path. These series contains 4 patches that update these
+instances.
 
-- Mani
+Tarun Sahu (4):
+  ARM: locomo: use put_device() on device_register() failure
+  firmware/edd: use kobject_put() on edd_device_register() failure
+  EDAC/versalnet: use put_device() on device_register() failure
+  powerpc/ps3: use put_device() on device_register() failure in
+    ps3_system_bus_device_register
 
+ arch/arm/common/locomo.c                 | 13 ++--
+ arch/powerpc/platforms/ps3/device-init.c | 83 ++++++++++++++----------
+ arch/powerpc/platforms/ps3/system-bus.c  |  2 +
+ drivers/edac/versalnet_edac.c            |  6 +-
+ drivers/firmware/edd.c                   |  2 +-
+ 5 files changed, 63 insertions(+), 43 deletions(-)
+
+
+base-commit: dbaafe9cc56a996931eedfe043eb34418cc9cd9b
 -- 
-மணிவண்ணன் சதாசிவம்
+2.55.0.679.g6767b8d81c-goog
+
