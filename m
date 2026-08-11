@@ -1,57 +1,55 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022077.outbound.protection.outlook.com [52.101.96.77])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020087.outbound.protection.outlook.com [52.101.196.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B993E43B49C
-	for <driver-core@lists.linux.dev>; Tue, 11 Aug 2026 12:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAC4443E5D
+	for <driver-core@lists.linux.dev>; Tue, 11 Aug 2026 12:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.87
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786451167; cv=fail; b=lSK7J2/U55vIIw+5fzBrm+kCyNEkXrHxMzYgHx52H7VwMhPybohrlp8wMTUct7GiQQ14du0og16RIZDrsNK2PNHIBI3SkprpLbBjJacyGyLCPQ6vjQbcSQF5+kDeZWeRdwsXf4UnSlHjIWjzIbCckXFfIGhfG9KVkT4FSRcSgWs=
+	t=1786451169; cv=fail; b=dEPv53vv84UFr8XZV5YTudEM0EOOFGHJg34Orfk/BkFOK+1zyGubHiOW3Of/ABr0ZmSSVR+KwlWfQ9fuTyjyEImD8gixS8QyJu6O8lDBeMn7XHYcWueEUd3fJrn8O45ICQRh65JuouCwPQV8cnKbb7y7eic3nyzkSh188BLIk1k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786451167; c=relaxed/simple;
-	bh=b/ozt+mfLqYj7T6lORqKJemeCq4z/nK9dYTS7Q1gL3g=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=GG4ogkUguAEda/uKYaRAKA7n5MbNyhXBtWcSvylhUkzQuB/ulo/xVEpgZPqt9lKjRU2Wd/a0xefhYtQZ8QSRQg9lAnDih6C1jD6xAMoIdl6WScKSZcxw7EXbMqcPwPstqGRav867FWCPHyYqinYgICm06l/nVXGGo30XlWNphZc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=HccJvI8c; arc=fail smtp.client-ip=52.101.96.77
+	s=arc-20240116; t=1786451169; c=relaxed/simple;
+	bh=fKFOnxn9mkkggVQGQaR/veYiv80tVTzsKdheZZi86MU=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=YTxVPNMQ7JQG9QTDDHm7anVHHJ8vroialiGj9foQEdmsKLZBWAdar6kquIjK3NTd6vxMweg2MkzoLHuwnEAbSF0b7oBYWWGwNpEMLLliI9zkDSTLvQ23/Qbk5t8d2c23dgw0pScpL+daQbiXQjyFD38K3aG7L7kEOLuV9IozeNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=VVI5H8y+; arc=fail smtp.client-ip=52.101.196.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="HccJvI8c"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="VVI5H8y+"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lrHiEf8r07jDBXgO5VqVVmGvxXssR/BSmeLdKl4USVtSDtpWyiM2OgJt44TxRxZbpPErXoMyJDNkpWT8zNSp8AwOecd3706dFB3uXNedUL3XGCujd0cmSJdYCTtv0Csq9kLhv9JS44beK8PjuCPZjnuZxnaYsvnECbtyiA4dAUA1bNmK/VBbNonFl7pgSKpQHcCzpJyehoJcwtK3XVAADMGbsjItNgCIcC8eyQLjgVazsOt1m25yEJsvMFjAAHLEBHFuTS+292W0KuBIKw4kV97K16zRp7CPS950rfFMDLAbMElgAFps+qn11wuoaFQuMHTQ41HoEfq4Lc/RYBQSYA==
+ b=r7RbvF5xQhVLvF1t7RRCKJcB0X24zzoc+QpFivk3t38Xkx+XA12SN8P4QFtANoT//rmCOehKenYo89uLujw1X3TYwXp9kNbw8D1r926MnLDdN/Tk++uWPF2fiqpxPcdj9JkOsbdQUC3zcwtLXVZn4doxmemo9PU7751uJIqbCFCt9E/91B5plqFWNXKHik0fHahr+/ljlbzyTsKSGQeM14Bq1vob/44A+zXUz10JqH3HYkf9lw9NDfM6iDUtNoUscGpshH2nAj+9vmbJocC9kxwJPtN/fEScAjUvUwCDHXFAtn/rkLOidcivx6Yhg2n0oK0FRzD8Sutgaf8LOqJl7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iTUkhQ+kZ8QRV2epOtZMvO95moaOgf9QCqymwo8BxRA=;
- b=dNnfjHhZVHrml3YH1onJr0vxZvmbFLJZaqDS097YaWLuYwtoWtYD5QfwcGZX5JOmzwbIKSUTsnmaIMcA65zWmSicolBe2OcBVwpx2nFeWxQelIOXO3uJYOq+XY3oo5Ns/I7mbkpXMCTgT0sAt78qs9VkXBGaMKyTqxvvukcvZqtmTMBM2lW9XE067qu8jADBRElok8h1htIb5H+UpdO0kmmhw8JBvIE09x9KNXhIRKhnJeezsjp6KMj7WV/mFrTObe22oB+wSnfSIk+IKBwCYc5mWQe3r3VM4u/FkSEyU8ZhVg0n/s0VgNIjJRcl1PFxwownzeAf4A+jql57nh3mgw==
+ bh=7LwhLqrH55STleNard3NJsgxxJJQAeVghmSaAGGwIMM=;
+ b=NyPdVAuJFTGSq4S1Da9fsvQCOvTA956xhVQsHvzl4RzWDgP460lLXYs45gY9nMEylz4+KXAilxOY/PnJwxhweec0z1A6LNFpc0Lg81pisKFQglvo22xbXLYCGVmFE1JxGqMwTu39o5lt5vNtMmbseVhm1SdCYywzpPfmdPrvpvl7WDNiwZrpdn0W1UgBY48jrE6TnWLxf5Oekp240/PYKvf2xFAYmwSDdWn6QfiOLXj5PR3aLCnD762OSwQ95CULKzxviBqfQfDKP6Exvv9mXPWkanO+2FGEDEQ9a1B47N33Jb8uhXfEClzaqzsn9dwGHEJn/TFs5GNEWIdB+/U5pw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iTUkhQ+kZ8QRV2epOtZMvO95moaOgf9QCqymwo8BxRA=;
- b=HccJvI8crVPj6kOBoCEZ16WNbL792kavghVD1l5DOo5YGHwimX4yjLFyW5PDWJqftHyfMFL+9Eg69wKw0rRoQXIH/CvEqyU9XVENJlnnbzEAtiDY8BDoytyWGY0FLjKWuUyOtZ68kQxjIP61OlA2JyXpmE+MjFUm8Vx53m72RlA=
+ bh=7LwhLqrH55STleNard3NJsgxxJJQAeVghmSaAGGwIMM=;
+ b=VVI5H8y+9laY0sluchEgtfE5fQqxnaL3MHWBXDEto27KnG9klmu+82CFxSXjv3o55ihBVGuptyyiAgLBxjI2J8BT2BJ7QosVl3JYyECt1bACl5PS6eSS37zMTLVwtLnIetKW5GkVnX8tlXLyHK0oaZalpRmOQW6cewGbRE6SgUg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LO0P265MB5094.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:282::6) with
+ by LO0P265MB2891.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:183::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 12:26:00 +0000
+ 2026 12:26:03 +0000
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 12:25:59 +0000
+ 12:26:03 +0000
 From: Gary Guo <gary@garyguo.net>
-Subject: [PATCH 0/4] rust: add `#[macro_export_scoped]` for scoped
- declarative macro
-Date: Tue, 11 Aug 2026 13:25:52 +0100
-Message-Id: <20260811-macro_export_scoped-v1-0-e7782b102819@garyguo.net>
+Date: Tue, 11 Aug 2026 13:25:56 +0100
+Subject: [PATCH 4/4] rust: io: convert to use `#[macro_export_scoped]`
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANAUe2oC/yWM2wrCMBAFf6Xss8G20hL9FSkll9VGbBJ2UwmU/
- ruJPs7hzOzASA4Zbs0OhB/HLvgC3akBsyj/ROFsYejbfmxl14lVGQoz5hgozWxCRCsGgxepB6u
- vo4RiRsKHy7/qffozb/qFJtVUfWjFKDQpb5Y6vZ3fsvCY03lVnJDgOL5gGVSimwAAAA==
-X-Change-ID: 20260811-macro_export_scoped-5ce38b5db968
+Message-Id: <20260811-macro_export_scoped-v1-4-e7782b102819@garyguo.net>
+References: <20260811-macro_export_scoped-v1-0-e7782b102819@garyguo.net>
+In-Reply-To: <20260811-macro_export_scoped-v1-0-e7782b102819@garyguo.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -66,11 +64,11 @@ To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  driver-core@lists.linux.dev, Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786451159; l=2438;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786451159; l=2784;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=b/ozt+mfLqYj7T6lORqKJemeCq4z/nK9dYTS7Q1gL3g=;
- b=opau12IBwbEVEXERK6XfrZknNgGbIQlO6lOkg855cNFiqTbY86WY6vad9nIyQbp4h9g4Ufmqv
- JHIoeS1NPPVDG1JMvyXnjGt3wcdDpCvn3bhN1Pbuh6JPgujnFLYhQRn
+ bh=fKFOnxn9mkkggVQGQaR/veYiv80tVTzsKdheZZi86MU=;
+ b=T/GRomljQhLZxfVHgWKDfWcjN9R/SqT4CaePTNb+/IM86lZU4rtw+WHQY5mjNAO8/n4SFyAxB
+ /ZNBgnxoSphAc3+mqXUJ2NcW3SDBOJFDXAgElTvHaP7YDL8CxYE/M0n
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO6P123CA0059.GBRP123.PROD.OUTLOOK.COM
@@ -83,118 +81,155 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO0P265MB5094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e186347-864b-4e5d-03fc-08def7a3b38b
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO0P265MB2891:EE_
+X-MS-Office365-Filtering-Correlation-Id: 043ba8f0-89fa-4f6c-92fe-08def7a3b59a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|10070799003|376014|23010399003|18002099003|56012099006|5023799004|10067099003|921020;
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|10070799003|1800799024|56012099006|5023799004|10067099003|18002099003|22082099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	CMAT3QqgPjlUjuscWcJP1ohnM9QVQdpIgTkoj4X7zK/6GdtJ0b5pRoWWTXDSyV+0VBB20mBKkhlkkgtd9jp90cf8IpdKae9bxUDJPZv/6EHCKJ6os5M0KYH4wyezUPSLpodJvugi8qAL9cvB+CE9iWkoWVw2l9t/vKPn1Gwvu1jHpfzRZX+14RP1YGM94erCXPZvoK5skNoo96yPFFd/kO9wiNwArEEXvaLn1wLUMqZthhVGKcpiVxgmnLO6fouUD3JluiIsAEZvwIKBb7Z5xCwyQ8yclGlXAluDKuHo2vrVvbOzcOMkoGLuI68KrssNuo5Tm8g9SkrVd2WTEGo33XYOXMyoAGIDnimGK/yPgPivUh8XrLYutRHEuKimkPvPTNRC1gC0fdkvrtmU/lhdJREVLtOG4+uzy2TZ3zABjJkSK1WJltKZl3JZPKZwRLxp1zk8sOmeTwuV81HAictN5Vw8uIolSoAUnFMfnFwH9X7OK65mobYs/CNV8aCgfbb5SUE28JGxnXLQwyUSezrmpnMEAK7tYczQCQn2d0mN4CuZrEReC/4NUz04MUahYys0MWIfrn17gSaKxyduYgft5qUB1gwEVw8JMBlCYyjVhl4GEazEltUA6E1sd/B+S0hnZQkSosabL9MKTS+usq0IBheiZB9wJwhpJ5D4KrFjSrKaI9XwmsUfD86lBsmALZyOinB/81xfu6ZZpmMpMF89MQ==
+	xgKTxVhLTOiYXjqFwnfkkMFtS1MwVUtoZR0/WsddyHs52tIsqhJFyIV1mWqAHhn9y0OLMuU6hBIn6cwXxpRuuID2GIlP5UrhjS6CRTNw+b70lp1P2fZdk+8A2mdlBbVEmtrX1Kx6Z2Ci3ss9vTI3H8cZDy1v+LBgxzZgGtXYvz+BeRNpC6f3ofyishByVuBSiaslrb5oCsOlpRfwb7bcUT0ZtuoeKi22Am2x8y6OqgvOv4XrYtA0pzu3BSoGxCEGnNce5DBWsxV8GruSiADPVqY8T+H/hyEW/nX20z3ZDbmpMv5ukHAvQNCtTdDGX+5WBzrBuoj55VFsF+oFMQv70KyHkr6m5+xpsMuvFYvUdl6buPLeRQ5OUim8vHEsH2JtQIuS3RdAEHKmSZQP9iXpHqQtUlNezB8KkO3fnKLto4h3UHnN2wbAzv2/O0sTXm9foomYFevuBbA72C8mvAVingPGizsfXKdqDODHfLznAyL0ubNd36SneFZatZs2g09x0RdOFAyzEgbfWwgaii7C33LUkf+3Gem5ZEK8uIkGXgBE2PavFZLT6g0ZiD+QI1kiYvpgzdTa/ILc/1BCVdEdfvvHrOh7x1qSjOwsFCDqCJmvNDoz5OzcJjqcCAK7CGQgEclQvBQWTxgEYzKpeJH68tLy7oWF3+cyYgSooPFn1e7TlFWYrJkQDw8w3Fw0Rb96+vS6/OKdKDkopStYgs9TvA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(10070799003)(376014)(23010399003)(18002099003)(56012099006)(5023799004)(10067099003)(921020);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(10070799003)(1800799024)(56012099006)(5023799004)(10067099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NTV5UWlwWCs5clgxbm9xTm5GZmY5YkFJN09vd3cxZDJ6NWFjbjVqRXl1ZDZq?=
- =?utf-8?B?MktxeW1Tdytlb2MxRFhkbzBqS3ljUmxwdERwVTFjVlU5N01TWDlZekxGblZP?=
- =?utf-8?B?TitIVzdkaDArZThSSFlTMnlqeEVCQlZ4bVZMaGpIVVc2MithbmsvY0RYVmhm?=
- =?utf-8?B?VmNyN2xock9MUjkyRkdMRk9JcWRZTXZmaXFoRmZTQS83aktMTS9HMjJaUDd1?=
- =?utf-8?B?ZmtnM21mcUNEWUtwYnhkVVRTRUtGdWxHZkMxaEIvMFN4ZG9YWWM4eDZJMjdm?=
- =?utf-8?B?NDE1OFp4bFJlUzhWTWh2QTZTN1FWY2RETkxGd0c2VFU2VWNKOHZsMmZQSkZy?=
- =?utf-8?B?Mk5oZW01VFIzR1FVNTdsSnNjTG5pMi9TRy9PWXRjZUI1RnBQaEQwUndFendR?=
- =?utf-8?B?bStPZXUrSEJhSDhSVDJweFA2YURDL2h2TXZWdXVBY2R6bSttZ2llWTN3Wlg4?=
- =?utf-8?B?RnJUL3BLellLazBSZ0FyOUxZQU4zVEJmaldJSFNmZVNkRzZPSmk5dnhvdWZE?=
- =?utf-8?B?MmZ0S3BwYXk4dGVXQVFET2NDK2V5SGVXL3UyYWdRTEZ4eE5WVEgxdzAzMjhn?=
- =?utf-8?B?Z2ZZY1JUbmVCQzhXWGlPOU8wOVkzcmFJU2VTUWJyVTB3TUtKOE8vTWNJb0cx?=
- =?utf-8?B?eFlONVdHaERPOUhpZFcrR2tHbWJ5b3V0dnBOTDlPaWhUREF4QnVXNnZQZVdQ?=
- =?utf-8?B?SnlQTXY4R2o5M281b2pLRVJraEQxVTZqOGNkMjJ6Uk9wbGZ3azRLUjF3STQy?=
- =?utf-8?B?aUdYN2Q5N0hVOXJSdWxCa1QxRXlOY09nTUFDdkMzZmxIOUtHa3hUdWVFYlBG?=
- =?utf-8?B?VGpZZEM1M2JpUHN1blZuQVNDYXZXbFhxUXJaQjFaYUE4WGp4RkNmdDlTNzQy?=
- =?utf-8?B?RUpwdy9WT0ZmQWpoamhnL0dIdm5XbDVIaDNuK1AzTFdHM2k0eXFkZEtFQUs5?=
- =?utf-8?B?M0piT1I5bXJHQ0FTYlpqTUtMdzJIZXErQVlIZ3RjcGJpVzU4VEZYUTBVWUNw?=
- =?utf-8?B?QW14a3hoUlZEVHQ5WGxyUDdWSTZvVlNNY2pyL3NiMk1BUDdHK0hlYmtSNFEx?=
- =?utf-8?B?VGpjTHQzRFZVZHJHOGdKZzg5U3piZ1MrbTU2eGVHeDcvUEd0Wmx1clNCNmox?=
- =?utf-8?B?elJDTXFxbHFVeGh6Tk1PeDM5NHBURmNkcjJYTnQ2NGViZllOMCtLNXM5MFNW?=
- =?utf-8?B?ZkJIN09ZV2sxdGIzbHh0MGlteWhWcDhCS1pMU3R0YTFYWjlTU0N5S2I4RXFl?=
- =?utf-8?B?dHMzc2EzdnZLTjlpckJ1ZEgrSlIxN3BLTzd6Skt4czYwWHc1THBDckRWUFlY?=
- =?utf-8?B?U0J5aS92bUhBM0JpMGpYSG93N1lEcHN5bVdmd3g5VEtBZy80RlJvNkVHdmZM?=
- =?utf-8?B?N2pqbC9qbmlRUTM3WGlVaFBCTEtobE96MWhXdC8ybGhnRHk0Nm16amQvdWdh?=
- =?utf-8?B?TkFobDJVSUNqU2RCY2pOemNHSkpLczZvMjdGQW5ZS0lOWHdnUm43c0NpU3Az?=
- =?utf-8?B?dk10TGhzbmMvcEEwNFRNcGtJWmorbzRscDRxdHhTcHlOVm5KZ3RudFJZOTJl?=
- =?utf-8?B?M0lDWittT0g5QWFJQUpYUytYdThPTFBsSE9OWTAzWE5kazI0VDh0MFBIOFhR?=
- =?utf-8?B?Mk1JOW1jUkZ2bFRuRGUvN1A5bkJKTDhpV2FGeXlscnZkNjlLMGFiNWRTUmZv?=
- =?utf-8?B?WWRLU2VHTVZ5N2hKdkhnd0k2S0ZTVXBlQjR2V2dBUVpjR21YWC8yVjFNdXJN?=
- =?utf-8?B?OU5BWU55VmxEY3Y4ZkZmN0NUQ1B0MjQ5WGRSWnM5eHU2MXNITHZnRDZOR3E2?=
- =?utf-8?B?M1RMUHdpczNsWXN3WFNwc3EzRXBXdzVaSHVqbWlRamVMamdsVjBGdHpkWmpP?=
- =?utf-8?B?S1pqeUtkWGlsL1NvU2ZoVnhmdjl5ZmtpK24zWlJoZ3BCZmF4ZStQU2tORXRP?=
- =?utf-8?B?M2I1ZytTTFlKVkxoZWo5T2EwTjk5ZWg0anRvYklrTU0vRS9OdHlnU014KzUw?=
- =?utf-8?B?NnkrRFpHcm8rdndFMTRLTUNnTmUrYjhZM1NKNjJaYTg2QkVCOXJoVlgyNHRH?=
- =?utf-8?B?aUNTdlRvWXdrdHFaT3BLclg2YlM5ZXV4REc4OTBtL3FMZmhwMExUSVhwczdP?=
- =?utf-8?B?S2kwcEZqK3Q0RGFNOXNMblpFWWpzM0IrWGtxRlFabWRla3gwR0hnMVh4aDhB?=
- =?utf-8?B?eFF0UjQwQzJDdk51dUlTMFdPdlNVU0ZEWUh0R0laMXZSVDNwQTJDSjFrRjRR?=
- =?utf-8?B?OEgraGxua2cwOWphb2hkd1Ixa3I0Zi9mdFB6K09Ob09KY1poc1NpbUtHakJt?=
- =?utf-8?B?RkcwdU9pZEcyZVdpYWI2VExZUWQ0OTNqTlNUR0VtekswV2QzOUY1dz09?=
+	=?utf-8?B?YUYrWStqMWw5dXlkeVo1S2Ziekg0R1ZFVFE2RTVuOWpDaWFjMXhUYW9rVFJs?=
+ =?utf-8?B?cVkxTmZwS2FlNDJPWVZITzJhMU9hYjdMOEFJV2NnUWNqMi8wLy8yK3h1ZUd4?=
+ =?utf-8?B?ODNycVJKTWpQT0o2S1Z2YXhVdkxhUFk5cDV3RmtoNXRaMGN2MncxNjVNbjlD?=
+ =?utf-8?B?WFIzTEVteVlDZVluZjBuYkE1bk0zWnIzK1RoZDFtdWV0TUF2Rld6cmxmaktR?=
+ =?utf-8?B?bGJiMmErWFZ0clJhUEJmdXZKNENZZnNNY2w2VVVsVUIzMkI1UVZvQlMydzhp?=
+ =?utf-8?B?MEdRTklrTFdnOTJqRytQUHBuRlBUcWhzdjJvZkxLV1YyRzFNVW1tYjZ0Uml0?=
+ =?utf-8?B?ZURNcW1OSFZNSmxOQkJtOXl0OExoNDRBaDNzT0xtcmJtNU1uSGd0RmxZUUlH?=
+ =?utf-8?B?WFZBYlZXT3M0b2VWam5kS3EyaTZVOHZxNElrNTRDcTI0aXlPb3JXRk54TFVB?=
+ =?utf-8?B?YWVmYlNvbGhFMm02bGJoZkFpRUlsbldjcW05VzR3M1lycUd1TlFMYXRKaW5k?=
+ =?utf-8?B?TzJ5cTdGbWl5dzNWNkoyaGJ0VWJDRlJBdXBaQlZsWSsrSmltZUtBNkcrdzR4?=
+ =?utf-8?B?MXJzTHdma3prS04zT2xndEp3SDFqVG5Xczh6WElJNTRERWJFMXpLaEhNdDA0?=
+ =?utf-8?B?Ny9tQkdXUWp3eElpWSt3dy9leHB0OS9BOHhHbWg2SGxMTVVnVS92N1o4MjdY?=
+ =?utf-8?B?c05qbm1pcHV6NEFGYUNiUjFCRG5aYmdWR25uNWVrN0lnS2tZdmFyMEprS2lT?=
+ =?utf-8?B?M2dnUGdNcmJPOUdmYU5mSTNYTnZ4SXJpL2ovM0xFelFtcHYzeTlORUtaekpm?=
+ =?utf-8?B?V1EzNXRFUy9JNzZQcWpsTk5kRWR5RVhvTktvZVd0WW1EeUV5YzVZVTJNZ0pl?=
+ =?utf-8?B?RDZyVjVMSDFkbkhLLytTTEJEV2lkVm5MNmwrZk5qcytuTXE3UmM3cFdYai8y?=
+ =?utf-8?B?M1Rxa3lVMzF0ckFwUUZMZDFhNVlvdWhTZTBMY3lKMEhoakFwSi93MVVueXhZ?=
+ =?utf-8?B?bzJPQXRaOXBHeUF2a3doODhmcFI0Rk5ZMkQybVZsbzhlampmaTVQd1d3MGxy?=
+ =?utf-8?B?MmxJSTJCbEo3dVVhWmRHSDZsSW5RRFRaRzhDL0JBQmowb0VRYTZrMUZMcEUv?=
+ =?utf-8?B?QUxjNXRZdWMvZmdDL3JNS0VndzR3aGc1d2I5UkFHbEpuYUMvMllNbk00K0g4?=
+ =?utf-8?B?RFI5cVBTcWJXMTFKTUpLcnVlNWgxM3dEaFNFRGRZeFZyRSs3WVdoNktVdzI4?=
+ =?utf-8?B?ZE82Wk9pSTBSNW9zRllxWlpGM2k5eVphZ0trWGt1bk16ek4vVFQrdVU5ekRK?=
+ =?utf-8?B?UUVYUDRSRk9LSHV6QmZGVHg2TlB4dGgyL3VGSVpjWWhQRGkzZnh3L2Y3aEs2?=
+ =?utf-8?B?NXEzekNNRWV5NUdteGF0cWR4TVU5N05DdDFyUWU3M3RZY1JiT0E3MzBCSktT?=
+ =?utf-8?B?akF6U3UzMFdYSHlYeFlxd3o1RWRGNWlTUVhrWGpWUkxWTElaeXVPWXNXaVVF?=
+ =?utf-8?B?RTNXdlZtWlNGQldOeFlsRUdXSXVIcVFZQTRhbTZSbkFVbEpvVEZINTBQOUJW?=
+ =?utf-8?B?N0dHQ3dhZG9veE1VS1hIMTJwdmF6VXFNczlSNmI5bEhnUmlkSjFSV0UvWml3?=
+ =?utf-8?B?RUhRZHB5b1F4MEJIK0N5Tkw4OHQ5V3FacnAyS0Y0NExrcUFGbTk3MjNuS0FF?=
+ =?utf-8?B?d0Q5azR1MVR0R2VtcHdhTDd4NzJkWlFOTmVGRlZhVitBTUNnUFdDKy9Td1ps?=
+ =?utf-8?B?akhyM3ltaWN6SS9YWjRRQTVSYVd1U3AyaURKRW10SnhZK1pJVmZqSm9OZm41?=
+ =?utf-8?B?bGtYL3FaY3RtbUJ1U3U1Wml6aVo3M25HSFRHUUZXN1Q2eTEzWmxiUW9oOGRh?=
+ =?utf-8?B?RXVLMDlSdlcxSHZMalRYM3RYYlhqM1dLL0o2cm9KdzI2Wk45TWwrSU43L2hW?=
+ =?utf-8?B?NzQ1T0doT05qcm5MeFZWWlZqWmVwRHViV0thdTlNWEgwanZmSEVIZUFSTFFS?=
+ =?utf-8?B?TER3azBxdVNVM0VLK3dDK3c4aUdzTk9kWTZ3Y3p0MDlSWk8zUzd1WnhvU2g2?=
+ =?utf-8?B?MmxOVEhGQmY4aXpHY1NIcE5WTURkU3M5SHc2bVkzMEhQM3dIMzlCMk5kbkZP?=
+ =?utf-8?B?RVhBTENxbi95ZTkvWXo0NzltV1IxbThuWktMOHM5N0JmbXJWWXRaM3ljbWxH?=
+ =?utf-8?B?YXlXYi9kbi9vbUlXcGd4cERGVlQweXEwYWNBTHpad0tpR1lqbDR4UmdzUjNy?=
+ =?utf-8?B?ZmdDMkVUcUc5ZWZHWEkwcVVpUDQxNHVZaTM4TDlTVThxSjc2SUVwWmVOTVAv?=
+ =?utf-8?B?YjAzVlpqNk0xYlNUZmtqZ2Q2UTVTWUgzcXpXeFNjdDlvN2pGeGJLUT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e186347-864b-4e5d-03fc-08def7a3b38b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 043ba8f0-89fa-4f6c-92fe-08def7a3b59a
 X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 12:25:59.8975
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 12:26:03.3479
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BMqmEZoGU06uTFQhKtwA2NS/KbZ+S1rlJRipavUy/wWsTGxL4+78hJ+25W/9I9Fp+4MSnyHvRC9qWazibKWjJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5094
+X-MS-Exchange-CrossTenant-UserPrincipalName: VUSptJ4Ihc4U8TNY5bRG4w51tYUBpNqJQqFL6SZvWhAEpvTRl4rgFEm559eop2Zf8H+IPnFbh/qX4ExpFQNCMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB2891
 
-Rust's declarative macro scoping rule is confusing because it was
-historically purely textual scoped and the path-based scoping is added as
-an afterthought.
-
-`#[macro_export]` will make the macro available for use outside the crate,
-but it also adds the macro to the root of crate. This has the issue where
-it prevents us from cleanly put things in modules where they belong. Macro
-2.0 is supposed to address this issue, but currently it seems that we are
-unlikely to get macro 2.0 any time soon.
-
-There is a way to approximate the scoping -- hide the macro from the crate
-root using `#[doc(hidden)]`, and then re-export the macro from where they
-are supposed to appear, and undo the `#[doc(hidden)]` with
-`#[doc(inline)]`. We have used this approach for a few macros already.
-This is not fully bullet-proof; users can still reference the items from
-crate root, as it is hidden from documentation but is still present in name
-resolution.
-
-Introduce a macro `#[macro_export_scoped]`, that implements the above
-trick, so people can create new properly-scoped macros easily. Also, adopt
-a solution where we assign the macros non-guessable names, and then just
-re-export them under intended name. This removes the possibility of
-using the macro from incorrect path unintentionally.
+Convert I/O macros that use `#[macro_export]` + `#[doc(hidden)]` trick to
+use the `#[macro_export_scoped]` macro.
 
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Gary Guo (4):
-      rust: macros: add `#[macro_export_scoped]`
-      rust: build_assert: remove macro from crate root
-      rust: list: convert to use `#[macro_export_scoped]`
-      rust: io: convert to use `#[macro_export_scoped]`
+ rust/kernel/io.rs | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
- rust/kernel/build_assert.rs            | 24 +++++----------
- rust/kernel/configfs.rs                |  4 +--
- rust/kernel/firmware.rs                |  4 +--
- rust/kernel/io.rs                      | 27 +++++++----------
- rust/kernel/list/arc.rs                |  4 +--
- rust/kernel/list/arc_field.rs          |  4 +--
- rust/kernel/list/impl_list_item_mod.rs | 14 ++++-----
- rust/kernel/ptr.rs                     |  6 +---
- rust/kernel/sync/atomic.rs             |  2 +-
- rust/macros/lib.rs                     | 25 ++++++++++++++++
- rust/macros/macro_export_scoped.rs     | 53 ++++++++++++++++++++++++++++++++++
- 11 files changed, 108 insertions(+), 59 deletions(-)
----
-base-commit: 6b8c8af514d739d0335f5579b585e02babe8a727
-change-id: 20260811-macro_export_scoped-5ce38b5db968
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index 5ce9fd129068..891a27fe59b6 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -9,6 +9,8 @@
+     mem::MaybeUninit, //
+ };
+ 
++use macros::macro_export_scoped;
++
+ use crate::{
+     bindings,
+     prelude::*,
+@@ -1673,8 +1675,7 @@ pub unsafe fn project_view<U: ?Sized + KnownSize>(
+ /// let nested: Mmio<'_, u32> = io_project!(whole, .field);
+ /// # Ok::<(), Error>(()) }
+ /// ```
+-#[macro_export]
+-#[doc(hidden)]
++#[macro_export_scoped]
+ macro_rules! io_project {
+     ($io:expr, $($proj:tt)*) => {{
+         #[allow(unused)]
+@@ -1688,8 +1689,6 @@ macro_rules! io_project {
+         unsafe { view.project_view(ptr) }
+     }};
+ }
+-#[doc(inline)]
+-pub use crate::io_project;
+ 
+ /// Read from I/O memory.
+ ///
+@@ -1707,15 +1706,12 @@ macro_rules! io_project {
+ /// let field: u32 = kernel::io::io_read!(mmio, [try: 2].field);
+ /// # Ok::<(), Error>(()) }
+ /// ```
+-#[macro_export]
+-#[doc(hidden)]
++#[macro_export_scoped]
+ macro_rules! io_read {
+     ($io:expr, $($proj:tt)*) => {
+-        $crate::io::Io::read_val($crate::io_project!($io, $($proj)*))
++        $crate::io::Io::read_val($crate::io::io_project!($io, $($proj)*))
+     };
+ }
+-#[doc(inline)]
+-pub use crate::io_read;
+ 
+ /// Writes to I/O memory.
+ ///
+@@ -1734,21 +1730,18 @@ macro_rules! io_read {
+ /// kernel::io::io_write!(mmio, [try: 2].field, 10);
+ /// # Ok::<(), Error>(()) }
+ /// ```
+-#[macro_export]
+-#[doc(hidden)]
++#[macro_export_scoped]
+ macro_rules! io_write {
+     (@parse [$io:expr] [$($proj:tt)*] [, $val:expr]) => {
+-        $crate::io::Io::write_val($crate::io_project!($io, $($proj)*), $val)
++        $crate::io::Io::write_val($crate::io::io_project!($io, $($proj)*), $val)
+     };
+     (@parse [$io:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) => {
+-        $crate::io_write!(@parse [$io] [$($proj)* .$field] [$($rest)*])
++        $crate::io::io_write!(@parse [$io] [$($proj)* .$field] [$($rest)*])
+     };
+     (@parse [$io:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] $($rest:tt)*]) => {
+-        $crate::io_write!(@parse [$io] [$($proj)* [$flavor: $index]] [$($rest)*])
++        $crate::io::io_write!(@parse [$io] [$($proj)* [$flavor: $index]] [$($rest)*])
+     };
+     ($io:expr, $($rest:tt)*) => {
+-        $crate::io_write!(@parse [$io] [] [$($rest)*])
++        $crate::io::io_write!(@parse [$io] [] [$($rest)*])
+     };
+ }
+-#[doc(inline)]
+-pub use crate::io_write;
 
-Best regards,
---  
-Gary Guo <gary@garyguo.net>
+-- 
+2.54.0
 
