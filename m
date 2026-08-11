@@ -1,176 +1,289 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B28434407
-	for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 23:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB0F1DE8AE
+	for <driver-core@lists.linux.dev>; Tue, 11 Aug 2026 00:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786404229; cv=none; b=BE2ydm7xplkCed4SoFxsgkx33L9HUqKY9c1uHH7zBOgeTsGeTltqP2vHjAVe4XdLFAs1S4wNG8t+hFU2ptJqNXFPe/LzlhXKPCcsk6sPL6WhBi21uXKekRlNsLsk6f7oR9+7P8IeZGXmmWhwr33zUdsPHfOjTD8O1Hclam+vCdo=
+	t=1786407149; cv=none; b=uV+d+a3P9qBcW+8xYBnoin6yy8c8rtvAXaTFUcP95lx0sl9ZEL6y77KmouB69ETsD58TGv7DTy2mweH0XP5RSkq3ZQ4heiG3MQeV0OpqDtFFp36LjQIC5srvBOuKAgbEkm85xnkoyPxGl+v9D6UTyoIuMALtmhxmWStryZcv3bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786404229; c=relaxed/simple;
-	bh=qumYJBErYHBnlknTR2S5jtbwLJj7iWgwgq6ztFcjW+Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YAyalVqQL/HM+t2uZw1p5SakTvSzU2PEA4iLXoRPi+OKVntNbf3G7IsYDLA6cIZlRp4tymmWdsecuTjLxg7/tYzJy47XV/7vgerICohwLF5WApJq8dX0F+rbzojZxWH5/0rb6d2Mw3mJ2UKpl4fLW4wGLl/ODhYJMXtGWx9lOzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QTHL1Uiq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QTHL1Uiq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786404227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dvXcdVrrcYWC7Qoe02Nyc3BrgNoZ7f3QNoGWtGrCDEM=;
-	b=QTHL1Uiq20jasy56QEReGD4sL4hbRUdvev83s1VGfrWAFHqVKPEPJxEfEhRhdtLBky2WY0
-	2XH9rrooimKbd6LIElM7UwDuHFcdmqdXaHEQJaYnrYS321qjhmq0HEMEXCUw8JTB8jGyYk
-	eA5XFMw6vAYMkKsivT6ZS5pOvPX30zc=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-22-uCjoDNJDOtSLrCIcQT_dtg-1; Mon, 10 Aug 2026 19:23:40 -0400
-X-MC-Unique: uCjoDNJDOtSLrCIcQT_dtg-1
-X-Mimecast-MFC-AGG-ID: uCjoDNJDOtSLrCIcQT_dtg_1786404219
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-448bb8bd2efso3649458fac.0
-        for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 16:23:40 -0700 (PDT)
+	s=arc-20240116; t=1786407149; c=relaxed/simple;
+	bh=123IcB4NztDi49zrvLRaHwB8pVdf6Tcr5y4ZqCHn5Ns=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GxfWa8QTiOTdNvX6IsIzgCozYC3vG43F+RPpt3HLSmXvfrx0anAaSvgLomGGLQxmPn3jVPBf7R7kap0IONwsHi0gMN78H2VIWTP53xP4rpgllT2MmnJQFU1pJHkoJmzBaUyAMhwa8wX3xvrGlDsOoPApJ2uLK+1xDtc/IgAPNrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4ad778bacbeso2955433b6e.1
+        for <driver-core@lists.linux.dev>; Mon, 10 Aug 2026 17:12:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786404219; x=1787009019;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dvXcdVrrcYWC7Qoe02Nyc3BrgNoZ7f3QNoGWtGrCDEM=;
-        b=jYbdK9LV/MfBGIGz6HzzAtXtGrRRvyCW7mjoMA9LN/U4uL5Bhhvtp1nV2QJr4vpOCb
-         dIrrUkQB6FtELfA9zoB+GWdXEKMFGydNe4E9skRpbarry3NRuecJLIOj0yQBbN8RIUJx
-         GRjR/md4MKFKv91w5DREmbKDQPSfhBPscSvmiQFoD44Zs3bjq+1nM8FKSGYsg81O3fU8
-         RjY/9aI2h19BjBfDJhzQjUixidU7vufsn/kf8Ghd1k/0F9Itb2gduZDSzzmrZ+FGK+Ho
-         kD0F/5fIzCXEEpLksBmk/q4kNmrBRhHmZc9Gm9pPpAUBQxeIM/cXZnUKlYBD2fFLYn8W
-         Q07w==
-X-Forwarded-Encrypted: i=1; AHgh+RrI3iRuwOMPZxSpVeyE2dXA9RDHi06R+2c/y2O9hVq3DSEb9Q1Get4f3JMyjSPZN4LXrvhXs/XuAWriHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5kVmPyLyHyh82N+2/n/kvQ/C0ZYGkM7D53M2veg4Jg2iBSMp+
-	PWwX001EulN2hhVmWYRBjqZ56dsyuQYlNFjqM2h1mTMr+FlojPfOZCQLG1moaOpSmuE5S/CfsIs
-	UDeXeja29yehWcGuG58So/6tpE6VJaC1j/RIn0nnI9PFV/q8L8Dkz45X6xMwIloIwD31EwN3mdC
-	c=
-X-Gm-Gg: AR+sD12UK54GgJYecaJjbNDnvt48Dou+45But8FyiqGvfl8b//xdq5QQCi25Vqs22tn
-	Qvo+yd3tQXQRFJQW2zuzYmOLXBo6EtU8ZVoFgD61PhNy7Q2xOaInzvA62MrK+bVI2/Ddp7s/ZyL
-	AOv3E6vuUBlCt9y83CeUIRZaAUNsuZvQ0QHJxwAAOsGR1RWtofU0zrRrcZLGR0dMNSDmNxUNb0B
-	e+B/lilBHsAoD4GsPTUUCGCT1LOs6ZUogxy2VtmlrUTebU+uNYzn7+PaOL1Do3x9ms3LmvlJopa
-	Il3qVrgIubKGWgtjAMSThBhTRG7l/AGRac0K3/VdwEOxFlQiJjwB29ZHYNqLpWSIYZfi1FcqJvE
-	2zfoLtv4Bx899zS3dDJnc8gnLFmA92imD15OWT49v
-X-Received: by 2002:a05:6820:168f:b0:6ae:9b39:68d1 with SMTP id 006d021491bc7-6b0420d5753mr12437001eaf.23.1786404219425;
-        Mon, 10 Aug 2026 16:23:39 -0700 (PDT)
-X-Received: by 2002:a05:6820:168f:b0:6ae:9b39:68d1 with SMTP id 006d021491bc7-6b0420d5753mr12436982eaf.23.1786404219028;
-        Mon, 10 Aug 2026 16:23:39 -0700 (PDT)
-Received: from [10.0.0.187] (97-127-68-83.mpls.qwest.net. [97.127.68.83])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-459f19fd31csm9718793fac.1.2026.08.10.16.23.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2026 16:23:38 -0700 (PDT)
-Message-ID: <8fba77ff-8b67-45fa-969e-4009cfe59928@redhat.com>
-Date: Mon, 10 Aug 2026 18:23:36 -0500
+        d=1e100.net; s=20251104; t=1786407146; x=1787011946;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QSAHm/bZXok2btxi3dN3u/5Ahmbp+kzZbQ3xT8+awFY=;
+        b=FXFC+MlCfNlgvhMybCOD4dGp7wdzTi0ASh1jdOK6czv+we+dvinzar5f4PbpoE0LHQ
+         dlGO2ORdCItT41umgn0KowNGnAuIraibuHbJflJaQwfKI/UBgrDNZkRedxJk4qhcLT+o
+         NZVxZCNrOs6YFD692yLlG0j3N5323UB4UZFZqMD2kMOIXzRPF+loFR6M2+AwryHXj8+s
+         QmDHfZBqGMpZmv9dc4ZZQjgg92dJ53wbF01VRxhQ28Kkk3uNAB89TiBufgxax3dBjWi5
+         UoCnChUUS8oToz7mdrDmW3oIQkEZQYYIycxRs9T+BKaNAoIMnojHfBeN4gT4OkLzX3s7
+         oOog==
+X-Forwarded-Encrypted: i=1; AHgh+Rrb/m3rWI3w0uPRCiVXo0lBN13nS1g2L32F32LqDPu7329TovsYZ4z66Idyh0Oi12fuoYL7Ozerwvf7nw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0gqG/y0Wp+9umXNC+Lhg8JXoeDFoEg0ShdnnsyGLkzqz7eEhq
+	mcgCsEncty5BoM8XTYdggG/owQlRt7heb9LavS/GdH9IN5E+E6Z3+SvpTw7IwlyXrmuGZl+bsMb
+	0gf2BYeI2BjjfCWq+0mts7Jme50IopyL1svRG8Oz58yPXGCme3X+PRbPrwsw=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] devtmpfs: restore mount option reconfiguration on
- get_tree
-To: Simon Liebold <simonlie@amazon.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Christian Brauner <brauner@kernel.org>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: stable@vger.kernel.org
-References: <20260810083438.764684-1-simonlie@amazon.de>
-From: Eric Sandeen <sandeen@redhat.com>
-In-Reply-To: <20260810083438.764684-1-simonlie@amazon.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: iPR8IYOM3C4uPrOZe89k5IgcohFK96jBXI0c_E4B1HE_1786404219
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6808:1a06:b0:4af:5d69:1cb4 with SMTP id
+ 5614622812f47-4b1ab975a97mr11697000b6e.15.1786407146513; Mon, 10 Aug 2026
+ 17:12:26 -0700 (PDT)
+Date: Mon, 10 Aug 2026 17:12:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a7a68ea.9c11d2ce.289b96.00f2.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] BUG: sleeping function called from invalid
+ context in kvm_xen_set_evtchn_fast (2)
+From: syzbot <syzbot+e42793f1299e53beb2ee@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/10/26 3:34 AM, Simon Liebold wrote:
-> Commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
-> public instance") converted devtmpfs to the new mount API but dropped
-> the reconfigure_single() call that reapplied mount options.
-> 
-> This causes userspace-requested mount options to be silently ignored.
+Hello,
 
-hohum, I'm not sure how I managed to re-break that - I had cc'd neilb
-precisely because I knew he had fixed a regression here before, so
-it must have been on my mind.
+syzbot found the following issue on:
 
-Looking back to an IRC conversation with viro I think I diverged from
-his recommendation though I'm not sure why.
+HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=128b7cc6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
+dashboard link: https://syzkaller.appspot.com/bug?extid=e42793f1299e53beb2ee
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=138157b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=127cf29e580000
 
-I had credited viro in my changelog, but looking back I don't think I
-faithfully implemented what he had suggested. I'd like to revisit that
-and maybe propose a different solution to fixing this.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
 
-(One concern is approach is that I think it is now passing an fc which
-was not "for_reconfigure" to reconfigure, for starters, but that's on
-me I think for setting it up this way ...)
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e42793f1299e53beb2ee@syzkaller.appspotmail.com
 
-Give me a day or so to try to page all this back in again? And sorry
-for breaking it. :(
+BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:248
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 5622, name: syz-executor363
+preempt_count: 10000, expected: 0
+RCU nest depth: 1, expected: 1
+locks held by syz-executor363/5622: 4, last CPU#0:
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1069 [inline]
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: __simple_recursive_removal+0x19a/0x520 fs/libfs.c:619
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ #2: ffffffff8e3c3880 (rcu_read_lock){....}-{1:3}, at: rtlock_slowlock_locked+0x2ab/0x3c20 kernel/locking/rtmutex.c:1874
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: kvm_xen_set_evtchn_fast+0x1be/0x990 arch/x86/kvm/xen.c:1827
+irq event stamp: 13272
+hardirqs last  enabled at (13271): [<ffffffff8b53b4b3>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:187 [inline]
+hardirqs last  enabled at (13271): [<ffffffff8b53b4b3>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:206
+hardirqs last disabled at (13272): [<ffffffff8b501aee>] sysvec_apic_timer_interrupt+0xe/0xc0 arch/x86/kernel/apic/apic.c:1062
+softirqs last  enabled at (6940): [<ffffffff81882fe0>] __local_bh_enable_ip+0x1a0/0x2b0 kernel/softirq.c:305
+softirqs last disabled at (6932): [<ffffffff891cda09>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (6932): [<ffffffff891cda09>] __alloc_skb+0x189/0x7a0 net/core/skbuff.c:697
+Preemption disabled at:
+[<ffffffff81883b8e>] irq_enter_rcu+0x1e/0x1f0 kernel/softirq.c:668
+CPU: 0 UID: 0 PID: 5622 Comm: syz-executor363 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x329/0x480 kernel/sched/core.c:9194
+ rt_read_lock+0xa9/0x4b0 kernel/locking/spinlock_rt.c:248
+ kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+ xen_timer_callback+0x109/0x220 arch/x86/kvm/xen.c:141
+ __run_hrtimer kernel/time/hrtimer.c:2065 [inline]
+ __hrtimer_run_queues+0x3a0/0xaf0 kernel/time/hrtimer.c:2122
+ hrtimer_interrupt+0x44a/0x900 kernel/time/hrtimer.c:2241
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:rt_mutex_owner include/linux/rtmutex.h:52 [inline]
+RIP: 0010:rtmutex_spin_on_owner kernel/locking/rtmutex.c:1504 [inline]
+RIP: 0010:rtlock_slowlock_locked+0x34e5/0x3c20 kernel/locking/rtmutex.c:1893
+Code: 80 3c 01 00 4c 8b b4 24 80 00 00 00 4c 8b 2c 24 74 08 4c 89 ef e8 db 0e df f6 48 8d 84 24 60 01 00 00 49 39 45 00 75 6c f3 90 <48> b8 00 00 00 00 00 fc ff df 48 8b 8c 24 a8 00 00 00 80 3c 01 00
+RSP: 0018:ffffc90004e6f7a0 EFLAGS: 00000246
+RAX: ffffc90004e6f900 RBX: 1ffff11006ff9bbe RCX: 1ffffffff1ca7871
+RDX: 00000000e6b90d15 RSI: ffffffff8bcbd060 RDI: 0000000000000001
+RBP: ffffc90004e6f9f0 R08: 1d00000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8e3c3880 R12: ffff888037fcddc0
+R13: ffffffff8e53c388 R14: ffffffff8e53c390 R15: 1ffff11006ff9bba
+ rtlock_slowlock kernel/locking/rtmutex.c:1922 [inline]
+ rtlock_lock kernel/locking/spinlock_rt.c:43 [inline]
+ __rt_spin_lock kernel/locking/spinlock_rt.c:49 [inline]
+ rt_spin_lock+0x165/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ __simple_recursive_removal+0x215/0x520 fs/libfs.c:623
+ debugfs_remove+0x5b/0x70 fs/debugfs/inode.c:781
+ kvm_destroy_vm_debugfs virt/kvm/kvm_main.c:988 [inline]
+ kvm_destroy_vm virt/kvm/kvm_main.c:1261 [inline]
+ kvm_put_kvm+0x147/0xae0 virt/kvm/kvm_main.c:1331
+ kvm_vm_release+0x46/0x50 virt/kvm/kvm_main.c:1354
+ __fput+0x42a/0xa80 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1009
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1152
+ __do_sys_exit_group kernel/exit.c:1163 [inline]
+ __se_sys_exit_group kernel/exit.c:1161 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1161
+ x64_sys_call+0x18bf/0x18c0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f132ec60d05
+Code: Unable to access opcode bytes at 0x7f132ec60cdb.
+RSP: 002b:00007ffe413e3968 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f132ec60d05
+RDX: 00000000000000e7 RSI: ffffffffffffffd8 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000009
+R10: 0000000000000009 R11: 0000000000000202 R12: 0000000000000000
+R13: 00007f132ecfa118 R14: 00007f132ecfc3c8 R15: 00007f132ecfc3e0
+ </TASK>
 
-Thanks,
--Eric
+=============================
+[ BUG: Invalid wait context ]
+syzkaller #0 Tainted: G        W          
+-----------------------------
+syz-executor363/5622 is trying to lock:
+ffff888038241530 (&gpc->lock){....}-{3:3}, at: kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+other info that might help us debug this:
+context-{2:2}
+locks held by syz-executor363/5622: 4, last CPU#0:
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1069 [inline]
+ #0: ffff88804093d380 (&sb->s_type->i_mutex_key#8/2){+.+.}-{4:4}, at: __simple_recursive_removal+0x19a/0x520 fs/libfs.c:619
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #1: ffffffff8e53c398 (pin_fs_lock){+.+.}-{3:3}, at: simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ #2: ffffffff8e3c3880 (rcu_read_lock){....}-{1:3}, at: rtlock_slowlock_locked+0x2ab/0x3c20 kernel/locking/rtmutex.c:1874
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:187 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:294 [inline]
+ #3: ffff888038241b48 (&kvm->srcu){.?.+}-{0:0}, at: kvm_xen_set_evtchn_fast+0x1be/0x990 arch/x86/kvm/xen.c:1827
+stack backtrace:
+CPU: 0 UID: 0 PID: 5622 Comm: syz-executor363 Tainted: G        W           syzkaller #0 PREEMPT_{RT,(full)} 
+Tainted: [W]=WARN
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4846 [inline]
+ check_wait_context kernel/locking/lockdep.c:4918 [inline]
+ __lock_acquire+0xef0/0x2e40 kernel/locking/lockdep.c:5204
+ lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5906
+ rt_read_lock+0xcc/0x4b0 kernel/locking/spinlock_rt.c:249
+ kvm_xen_set_evtchn_fast+0x1f4/0x990 arch/x86/kvm/xen.c:1829
+ xen_timer_callback+0x109/0x220 arch/x86/kvm/xen.c:141
+ __run_hrtimer kernel/time/hrtimer.c:2065 [inline]
+ __hrtimer_run_queues+0x3a0/0xaf0 kernel/time/hrtimer.c:2122
+ hrtimer_interrupt+0x44a/0x900 kernel/time/hrtimer.c:2241
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:rt_mutex_owner include/linux/rtmutex.h:52 [inline]
+RIP: 0010:rtmutex_spin_on_owner kernel/locking/rtmutex.c:1504 [inline]
+RIP: 0010:rtlock_slowlock_locked+0x34e5/0x3c20 kernel/locking/rtmutex.c:1893
+Code: 80 3c 01 00 4c 8b b4 24 80 00 00 00 4c 8b 2c 24 74 08 4c 89 ef e8 db 0e df f6 48 8d 84 24 60 01 00 00 49 39 45 00 75 6c f3 90 <48> b8 00 00 00 00 00 fc ff df 48 8b 8c 24 a8 00 00 00 80 3c 01 00
+RSP: 0018:ffffc90004e6f7a0 EFLAGS: 00000246
+RAX: ffffc90004e6f900 RBX: 1ffff11006ff9bbe RCX: 1ffffffff1ca7871
+RDX: 00000000e6b90d15 RSI: ffffffff8bcbd060 RDI: 0000000000000001
+RBP: ffffc90004e6f9f0 R08: 1d00000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8e3c3880 R12: ffff888037fcddc0
+R13: ffffffff8e53c388 R14: ffffffff8e53c390 R15: 1ffff11006ff9bba
+ rtlock_slowlock kernel/locking/rtmutex.c:1922 [inline]
+ rtlock_lock kernel/locking/spinlock_rt.c:43 [inline]
+ __rt_spin_lock kernel/locking/spinlock_rt.c:49 [inline]
+ rt_spin_lock+0x165/0x400 kernel/locking/spinlock_rt.c:57
+ spin_lock include/linux/spinlock_rt.h:45 [inline]
+ simple_release_fs+0x2f/0xd0 fs/libfs.c:1120
+ __simple_recursive_removal+0x215/0x520 fs/libfs.c:623
+ debugfs_remove+0x5b/0x70 fs/debugfs/inode.c:781
+ kvm_destroy_vm_debugfs virt/kvm/kvm_main.c:988 [inline]
+ kvm_destroy_vm virt/kvm/kvm_main.c:1261 [inline]
+ kvm_put_kvm+0x147/0xae0 virt/kvm/kvm_main.c:1331
+ kvm_vm_release+0x46/0x50 virt/kvm/kvm_main.c:1354
+ __fput+0x42a/0xa80 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x73a/0x2360 kernel/exit.c:1009
+ do_group_exit+0x22d/0x2f0 kernel/exit.c:1152
+ __do_sys_exit_group kernel/exit.c:1163 [inline]
+ __se_sys_exit_group kernel/exit.c:1161 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1161
+ x64_sys_call+0x18bf/0x18c0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f132ec60d05
+Code: Unable to access opcode bytes at 0x7f132ec60cdb.
+RSP: 002b:00007ffe413e3968 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f132ec60d05
+RDX: 00000000000000e7 RSI: ffffffffffffffd8 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000009
+R10: 0000000000000009 R11: 0000000000000202 R12: 0000000000000000
+R13: 00007f132ecfa118 R14: 00007f132ecfc3c8 R15: 00007f132ecfc3e0
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
+   4:	4c 8b b4 24 80 00 00 	mov    0x80(%rsp),%r14
+   b:	00
+   c:	4c 8b 2c 24          	mov    (%rsp),%r13
+  10:	74 08                	je     0x1a
+  12:	4c 89 ef             	mov    %r13,%rdi
+  15:	e8 db 0e df f6       	call   0xf6df0ef5
+  1a:	48 8d 84 24 60 01 00 	lea    0x160(%rsp),%rax
+  21:	00
+  22:	49 39 45 00          	cmp    %rax,0x0(%r13)
+  26:	75 6c                	jne    0x94
+  28:	f3 90                	pause
+* 2a:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax <-- trapping instruction
+  31:	fc ff df
+  34:	48 8b 8c 24 a8 00 00 	mov    0xa8(%rsp),%rcx
+  3b:	00
+  3c:	80 3c 01 00          	cmpb   $0x0,(%rcx,%rax,1)
 
-> To reproduce, boot a system where systemd mounts /dev with a size
-> option (e.g. size=4m), then check the actual size:
-> 
->     findmnt -n -o SIZE --bytes /dev
-> 
-> On an affected kernel this returns ~50% of RAM instead of the
-> requested size.
-> 
-> Fix by calling fc->ops->reconfigure() after obtaining the superblock
-> reference in devtmpfs_get_tree().
-> 
-> Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Simon Liebold <simonlie@amazon.de>
-> ---
->  drivers/base/devtmpfs.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-> index b1c4ceb65026e..44683dde04377 100644
-> --- a/drivers/base/devtmpfs.c
-> +++ b/drivers/base/devtmpfs.c
-> @@ -72,14 +72,25 @@ static struct file_system_type internal_fs_type = {
->  	.kill_sb = kill_anon_super,
->  };
->  
-> -/* Simply take a ref on the existing mount */
-> +/* Take a ref on the existing mount and reconfigure to apply mount options. */
->  static int devtmpfs_get_tree(struct fs_context *fc)
->  {
->  	struct super_block *sb = mnt->mnt_sb;
-> +	int err;
->  
->  	atomic_inc(&sb->s_active);
->  	down_write(&sb->s_umount);
->  	fc->root = dget(sb->s_root);
-> +
-> +	if (fc->ops->reconfigure) {
-> +		err = fc->ops->reconfigure(fc);
-> +		if (err) {
-> +			dput(fc->root);
-> +			fc->root = NULL;
-> +			deactivate_locked_super(sb);
-> +			return err;
-> +		}
-> +	}
->  	return 0;
->  }
->  
-> 
-> base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
