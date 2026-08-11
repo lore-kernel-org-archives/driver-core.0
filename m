@@ -1,189 +1,175 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012062.outbound.protection.outlook.com [52.101.43.62])
+Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162CE3932D3
-	for <driver-core@lists.linux.dev>; Tue, 11 Aug 2026 06:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786430708; cv=fail; b=j6EvA+PzYRn6f21zUfxXs0Pg5FPgNlqCFQmJLiIaqd2NAF7nCEy4wciOqRILL5UfvUcZMJEtZOHuHKPa42skPCJNnES2xC/bKZP+DlqzMcSGaz0sQCeoBVlVPT+mey2ladj+2WHuO+yyOM4MIrda3lZSuInqLFOrxZNIRyk5xZU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786430708; c=relaxed/simple;
-	bh=jx8XEaxeb0gzwFKqgbtlcIV6T/1eNPlnIfhFLyqJ//U=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=es2/IjpT7sjmCofvWlIS7kpPAsyGCUnnmsEMRM24jj+2p/HpnHcqFCk0CoS7Ts4Sg07xWHYq1FQ3K+HEJy807I52sfH11CgqIZMfmYAddbTbVbgahf8NmBjDTKoibGOmTDB8efs1dqfGIoybosPyjNEwJSDW6VblxHNu6s4akBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mENvKyEa; arc=fail smtp.client-ip=52.101.43.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED792397332
+	for <driver-core@lists.linux.dev>; Tue, 11 Aug 2026 07:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786433369; cv=none; b=Ml2FW4KZpQiL+KLDxv51hzmlOH6BdZgQzrAEnNl+e/kF6QIwKJf9ctLEWbosHklN5trOxxZa/77/yHcgZBqVq0G3gjd1hYc9Mjo+PaaNvrJ0muxjE2DkF9A1dcvUnz6Wg/WFMZvSPwKthOrLdWNKjeh1ikGVtInpVA+XFeZhRj4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786433369; c=relaxed/simple;
+	bh=YgJXtj+ttWC8fU1tKrmsMhnNUIjNR1vQc75lf9zCh5A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a0jr/edxc+z7NYVtSlqbpNlnxK2n5YfWWcak6XOyIghOGqJcqVYLPxPzr679izB4j3CKhubFV3TAVcPgRwum0atZ3FLVarN4iZDflt5RzjPv/ElYTVMMmUmiicHjg0cZZwfoyAMwfdIE2KZpSadHWTmS2MP/Emv1DRhp/miO5Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com; spf=pass smtp.mailfrom=lenovo.com; dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b=cFOpCwCw; arc=none smtp.client-ip=148.163.152.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lenovo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mENvKyEa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dGj1VWjiY8ZPUAum61kZBijKVmElNI64YSkkBC9/O/MzgI+aG8biCHBRnLrJkWLVAwjk0ZiZtk4wbmNxswU1rI4SRD6vKPmKYXCM9BSQK/oodrmBi05/OY/7ZpWHDJYxc7X2MtGzWNiRXXmxFu15+O0zt/gGuOHwUmJAqtljm1Lfh+P9oBrV/zY8vfP4T3watf9G9dXv8JIhc9j5n/wQ3F/66V16hvlpavzUHJYQl/pNKJidIyGCvcNVa7OtHcGgnT1n87aInDWW0Vz1w64Ka+6PsLoxAft/tnjcr4zZOuKrxyRnlNOPyzhiP/mvrFRyHE9o/ESDTs5gPdYsblqXgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F05fzZEZORLdpp+eIpRlKhpVR/4aFztg+5HhYVE5JGg=;
- b=R/xotvjsy59cDe0LN9KIqlYeQysnxzf6KRFg6Okyq32h/stQuNywQ9riMPQ75i/ZjlFdeYK3hxSMuFuBKD+aFrNzuylHyQ1HwLud5OvqnhIdJGhFTxrRcFofmU4BAB0BYFTiRdxbhA0SN+a0DECY41BSlUbl8u1q06zfTTXpW92E88LdloJyLoYDajmRfJgGMk9kRY4KmhgjWnQOvXPhJYhZl0EcCAy9Wr93gT7gcDunoWWovqmTntnKg8J1lAopHgVFU1Wt5GMXP5SdDkR/vUylSAuk73LLCQoXOt6A23FJjB3hVyv3kf1MUVl9+hP84ia1Fgos1zwIhcqfd9+ycQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F05fzZEZORLdpp+eIpRlKhpVR/4aFztg+5HhYVE5JGg=;
- b=mENvKyEaqpfj7Wh1QydT8luY6mVPSPpSu3b4uF5HUm80+oHnrdSeieX0lvMAj0mr54L00GgjRLkaoRn66gVgpVtIEJ59aKVmlgouS3dHQuA7eGQlEwCu86P9nTNxeVSvUiaKjLdLaAUCinrekp3+vNPu/NlW9RsWFD88PxgWNUI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by IA0PR12MB8748.namprd12.prod.outlook.com (2603:10b6:208:482::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
- 2026 06:44:44 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 06:44:43 +0000
-Message-ID: <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
-Date: Tue, 11 Aug 2026 12:14:34 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] EDAC/versalnet: use put_device() on device_register()
- failure
-To: Tarun Sahu <tarunsahu@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geoff Levand <geoff@infradead.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- dmatlack@google.com, Borislav Petkov <bp@alien8.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com,
- Tony Luck <tony.luck@intel.com>, skhawaja@google.com,
- Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
-Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-edac@vger.kernel.org
-References: <20260810162814.1398016-1-tarunsahu@google.com>
- <20260810162814.1398016-4-tarunsahu@google.com>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <20260810162814.1398016-4-tarunsahu@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0145.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d7::15) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b="cFOpCwCw"
+Received: from pps.filterd (m0355091.ppops.net [127.0.0.1])
+	by mx0b-00823401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67B6TDvI2971078;
+	Tue, 11 Aug 2026 07:29:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=DKIM202306; bh=fLnRuJFuGdy1GtQKk507tGXhGl33M4FPQ/
+	a27fnbORg=; b=cFOpCwCw8r3P7CuL/0tfsFI09L8Zfta4v5i0+puIuJYeMfyfvb
+	A+qQauDUjnvEgkyTWCr5/N1pjj/1ZFSX5g85e3HRlUwqr9/2MoehSLWYEOH8b3IW
+	gw/BjrPAPi5bP6BATMSeAgH2syWutGHbhGl3wFIaDefGn4uZvoHl4PvNJIyQ2Aq5
+	7gXYrHea0EIpj5nHRQIgWfI7JfWv4bJu0ceoGpYGvjAyAzYDcx6oslnCO1ND4Uzd
+	vpO5yVFZDAIeholpKrGwENt2m8OEDDktBpopucXzcwwEFkGfwg/rHjI+6L5Q22RZ
+	wS0fPWedLy9t8iu+LfOUgmeQYaEn/04VL38A==
+Received: from hkglppfpool4.lenovo.com ([103.30.235.221])
+	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 4fxhjeuqdp-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 11 Aug 2026 07:29:01 +0000 (GMT)
+Received: from shelppfpol1.lenovo.com (unknown [10.122.146.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hkglppfpool4.lenovo.com (Postfix) with ESMTPS id 4hK3CH275RzltBPK;
+	Tue, 11 Aug 2026 07:28:59 +0000 (UTC)
+Received: from SEANWANG1-P5MFL.lenovo.com (SEANWANG1-P5MFL.lenovo.com [10.111.201.157])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by shelppfpol1.lenovo.com (Postfix) with ESMTPS id 4hK3CG40tVzYlvJs;
+	Tue, 11 Aug 2026 07:28:58 +0000 (UTC)
+From: Sean Wang <seanwang1@lenovo.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: Lifeng Zheng <zhenglifeng1@huawei.com>,
+        Beata Michalska <beata.michalska@arm.com>,
+        Xuewen Yan <xuewen.yan@unisoc.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sumit Gupta <sumitg@nvidia.com>, Yunhui Cui <cuiyunhui@bytedance.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        driver-core@lists.linux.dev, Sean Wang <seanwang1@lenovo.com>
+Subject: [PATCH v3] arm64: topology: add source check in arch_cpu_idle_enter()
+Date: Tue, 11 Aug 2026 15:28:30 +0800
+Message-Id: <20260811072830.10028-1-seanwang1@lenovo.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|IA0PR12MB8748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 599aac83-07e4-42a3-13f7-08def7740645
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|921020|18002099003|22082099003|11063799006|4143699003|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	7nzveOrTLyFjZW6oFnFse9uYc0PSNVhZH2m0jFWO7jP4xl4ubfrmEAiplbN2yri+gTu/PumE+ZStqORI13bfTi5bqN9k6FVc1FkyZpWMyv47LZOl30LhO97xbkG4A5rFA8Dn9a+qLw9HMySDoeRXWKPCZ8uGjzpJBj2ZnMqYZ0mycqUYYIBrwpVVSPeu/mFdlFc9fuWfe2/yIQqIQpEkyiXVqAxI4nf1cgGjQbAIKybZeIzoWYqmKyubcUQrSdYQF40eTb/Yqv4IuzPs2fNegF+snk3r/8gc3Xtmp8qyIzW8lrWUbbtidV8wL5hvJGxEx2GaM9BhRUhnZ4kvAJy8l4UKbHgbGcbP2Zy5k/I/OOixaqrFmAAZ3fVlhj2eQ5RhkA3o2qsojBX77Xb8gN4bscVgyd0q2SI7Zx0FJE8O6VGZNSAvJHs8BZI7E9rIR6G6BWrLf370MTCEBpVktzEG4iN1jweCSN4JCpyPnNGfMXhNdEK0AfvD2xQvPiEYMX7JRoIGUHq12CfM5gC4dX67KaT1NwcnSQZDGKNwbeHHlFegdaZizAsFVLPx+0wvvRjFC7L7Zw0KZJlGTkQrG/sDSGp/0W5u5RNugUUz/jAvVaIoDkmHIu0mr4oOKK1ABdxtMs56T8Df5GBtK5ZKFoQgbALW76/z0rj+ReHWbqZkw5nIQtf5PVXy1WyYohlngbBLd3bqMXv2GnV01BDTMpc8IQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(921020)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VlhqbzltUGtYWHRtRUhSaTJ4VUgzV2g3Z2w4L1ZRTXZCQkVIM3d0ejNPRG9z?=
- =?utf-8?B?UW1kKzZDOWwwMzNObzl4cktHMzQyczZyby8wZUFac1A3bEtkVXhaWVNFcTVo?=
- =?utf-8?B?b0t5NzNqbnRieXEvUDhOTkZlekFkWkRyRzlDa2tERU02bWZuVDdVZnpJUjJh?=
- =?utf-8?B?SXJ1akxOMnNHaHRISHpqeDFVQTRMM0pjU21HUzJ0UkhxVTdjZHZFRGdkclBN?=
- =?utf-8?B?LzhpalA4eUtkQWx5NDJwbFNiMGMzdGpMTEpYSXlsY3hySnhwdUtlM3FYYUtX?=
- =?utf-8?B?ZUJxV2VqSVJ0OGs2ejJZVVF1ZmJTVUZCV2ExeVVYZ0UrVEtvRndFTXB1VzRn?=
- =?utf-8?B?ZUR5OTlNUG9JSXVaU1h5TDRvalFsVVVTRkZqc2pmOG82QUh0N25GZ3h1TWZD?=
- =?utf-8?B?RDBPZUNCMDNPaXpac1l3K2Rta1M3VXBUVVljVy9PK0ZMei9rMmZqUWt2Tmkv?=
- =?utf-8?B?SnplcEx5SG5xVFRZUkNQY1Q1OU1QVTBZbXlyUWcvZ01Wa2h4VXVOR3RsTkpC?=
- =?utf-8?B?L1lDVmo0aXJ1QW1EdkwyN25aTUh5MnNVV095RGk3T2VmR3Q2c3dmVngrRUN3?=
- =?utf-8?B?c2NHVndMZkN4cFp1aUowZFo2eFFnY2x5NHFscmxDZDBLQ2R1WHovWkdnbEYz?=
- =?utf-8?B?WHpwa0VlVXg5UUx3dE1jelpPOUEvQ2FaeGxYYkxHMDZXZzBvc1dycHBGSXEx?=
- =?utf-8?B?b3pCcXR4VVJXdzhVd1dRTWJxN2EvM0NsNFlFemFhSWpOM2ZKd0NTWUQ5SFJa?=
- =?utf-8?B?SDJyVDNSQW80SjV1c1V3OHptdWZ3bzVHU2dhUks4S0JpaE9jMDNaVDh3bGxs?=
- =?utf-8?B?TWpxTkg2QTJkbVZXVFY4Tk5WTE1yeW9yYXlyc2ZVbm9Uajk3L0ZibGtaTTJr?=
- =?utf-8?B?Ym82Z1dnTWw5cEtMZG1MM0puNDF2dFpWdVB3a3VxL21lWVFlVkNiMlVRa1Jp?=
- =?utf-8?B?VDE2cjZ3Ky9Xb2JrWnNtbXFYNXd4Sit3aklBNXhwNHFjZEg4bHhVQ1Bkbi9o?=
- =?utf-8?B?VU9NN3U4YUl2VXZFSzZHSWJEaHZRMnpaTWlPT1RXUWlCTGx2eEtHNVZlcU9Z?=
- =?utf-8?B?SzBOTHg3OEtGeVFPUzFwaWVVdTBoRC9YcXdFYllkcHJqbkxvQ01JYWIxM1Nh?=
- =?utf-8?B?NlAwZGx4aXpVRWNWRUdnYUhCZUFYdWhrOC91WmZNekluKzhYZkx6WDBtZWRW?=
- =?utf-8?B?NXYzRC9IcFErQU9JdlZUOHdvdGM4SjRHUEVXRTVUcVpzcnl5bTl0V09tQm1P?=
- =?utf-8?B?aTNMNXJXYVRhUFBUYlN3dzZ6dkYrc1NNNXZiUjhYb2trdU9QdmlBaEV3bXd5?=
- =?utf-8?B?N3gwMkxrRGRCSThRNlU5UnAxVFpLU3pGWTQ4ejdudVJuR2Q1U1dhb3lzdENE?=
- =?utf-8?B?ZFJZdE1BSDQ0M0JZYUl2enFIWE5JaHNuQllxRHJvcklkMEZ4MitnWnAxZmVv?=
- =?utf-8?B?ZUZFZE5Ub2NJUm9yc0JJcjhGM3M3NlNZb2wzbmtkNCs1dUs2ZHdEYlQ3MndJ?=
- =?utf-8?B?MmRjYXJ1TFZLQU5UYWpFbEo2L3hIb2ZURmxrQm1mWmx2K2ZEUVB0Sm1MREw3?=
- =?utf-8?B?bHQrS0o1Ukl3YWRnT3h5dnRUYVB4SUVrWkpnUmVOUWJtZzBLKzd5VGdFeWkr?=
- =?utf-8?B?YVNZS2habGFKZmxoWkRPdnJiK2NGb2Nvd2R4ZHNZZTkrcWUwU3pDVWRxZTEy?=
- =?utf-8?B?RW9iUXdiTUNGUHpkVzJMSWw1RXEzK3RhWkd3c09XaURBSTBtdHRDTkZmTHBy?=
- =?utf-8?B?cHBoQ3RpTk1GK3dsVFEyczJCZllwME9rNnpQa0ZhcXVjRDZNcTBmdkJPUkFw?=
- =?utf-8?B?Q0kxczBaQW9sOTlFYm14WHdYNkwzdUIvRXNvZHNGaGtmRVkwWitwZXpOVXh5?=
- =?utf-8?B?SmdsVDNUVUZ3R0l4SnRQeW9RK3cwRmhrakEwREhQci9FTmRLd25adVJXVUVU?=
- =?utf-8?B?V1l4SlNWRWtlcVBDemdQWXp6VmtRWVNXOGFnblZ4dnc3cFJqcFZSQ05lVy93?=
- =?utf-8?B?L2lKN3dJTjVFZzdDVytGSXVOeFcxaGhVYkdhQU9RV1R0SXN5a0NYVTR0RHlW?=
- =?utf-8?B?UmF6eFZRUDRsNmFPSGNGaUgyWHhjZHhubVUzYzZSUnlWVmNKK1l6MmRjNDdw?=
- =?utf-8?B?S1Z1M3ZBaTVyNmhTaWhVaC8xZ3dIYTh1cmxEQk00blZIV3NXSThrUFliT3lw?=
- =?utf-8?B?ZTJESXFoeStsTHBMcWtudDNPVTEra1B3Z0x1OUJ1bVkzMVdvbFBzbHhNZmNG?=
- =?utf-8?B?U1VPbTNibkRuMHJqckU5UkRpd09PTjRZZVhTOTAzdm5OZ1BQcjMwc205UnpQ?=
- =?utf-8?B?cllHTDNrdDNvMzdjUWRLNDJLNEM4ZGMyRXBSUjVHQlFXNFhRUGpMZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 599aac83-07e4-42a3-13f7-08def7740645
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 06:44:43.1090
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BR4Z+9NhF3xM52fqK1ArB1Jiz5E80oZmbHtB+5bjn0MGrC5bIguVa55TsIUmf9sr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8748
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=QPhYgALL c=1 sm=1 tr=0 ts=6a7acf3d cx=c_pps
+ a=kYoHdcNGVJUooFJAQZl1vA==:117 a=kYoHdcNGVJUooFJAQZl1vA==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=2RTuljz969oO5usasWGy:22
+ a=faLMhqsB0ZTpFNi-tw5Q:22 a=icsG72s9AAAA:8 a=8k6WQxmsAAAA:8
+ a=0sY-ZtaHpH0GsPKVRdcA:9 a=T89tl0cgrjxRNoSN2Dv0:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDA2MSBTYWx0ZWRfX3tjiwvZ/tgoK
+ iIVNTWZTvh9FVCVnLc/BNHpvCUyGaA6ROC5s4Ebs2h6UKV3APklBzyhHHUB9aE2AE1JQBZUM1uH
+ Pi2/HAjIeKcndFoXKlYs+vnhZD3N+QM3+Z1BR3mYUv0Gy45Md+mst76GOX49oSIMc0U9SkoaVwI
+ qdysQ4PGpofzxjrYvnTPP041x4To+Y3mvwb7gBLjSDcMIEDl6NabrR6q138VsPrclF3AuxDIpqI
+ ddNUymrjz/PmT9ablXTu0WjwhPsizGHAt7hk2pvLgzb4vBFWoL5TjcDIyobBk2aGuT0qY330bfB
+ WifyG9/Apb10uBkuPyah+2f5w34rOIY6wyt7a4thdOCopOVCt+gquXoEr6AgwzLtRu9MsQUynbs
+ bGv0AhoZuEWfFf5SyN9AWtEp4+W/2YTp9oV7rnw2beaWSr5iB3s3r30vBoJNj4xziSgFshvZ40j
+ 6kyiIBIDGAqxeOIA3Ag==
+X-Proofpoint-ORIG-GUID: 5kO4fnpnN8YRkIyrhasUgr7GaUQz81Vp
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDA2MSBTYWx0ZWRfX6XJGNzJACbGE
+ +ktM2oU+ehIv87RvJ8100i6o/LPqG6iy1mlxgCCOASaBSv3LGz5WgS+nRA52VyeHFmQmigAJcMw
+ HIWLR+Womv9pzo0h/Ms3sT/pIOK94P8=
+X-Proofpoint-GUID: 5kO4fnpnN8YRkIyrhasUgr7GaUQz81Vp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-10_06,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=-20
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110061
 
-On 8/10/2026 9:58 PM, Tarun Sahu wrote:
-> When device_register() fails, calling kfree(dev) directly bypasses the
-> device_release() callback (versal_edac_release) and leaks the allocated
-> driver core structures.
-> 
-> Fix this by calling put_device(dev) when device_register() returns an
-> error, ensuring proper refcount decrement and release cleanup.
-> 
-> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+arch_cpu_idle_enter() directly calls amu_scale_freq_tick() to update
+arch_freq_scale when a CPU enters idle. This bypasses the sft_data
+pointer check that topology_clear_scale_freq_source() relies on.
 
-Thanks for the patch. FYI, this issue is already being addressed in an
-ongoing series.
-https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
+As a result, even after calling topology_clear_scale_freq_source()
+with SCALE_FREQ_SOURCE_ARCH to disable AMU-based frequency scaling,
+the arch_freq_scale value can still be modified by AMU counters when
+the CPU goes idle through the arch_cpu_idle_enter() path.
 
--Radhey
+Add topology_is_scale_freq_source() helper to check whether a specific
+frequency scaling source is currently registered for a CPU. Use it
+in arch_cpu_idle_enter() to verify that AMU is the active source
+before calling amu_scale_freq_tick().
 
-> ---
->   drivers/edac/versalnet_edac.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index 97ec05d68bbb..2912b3658915 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	dev->release = versal_edac_release;
->   
->   	rc = device_register(dev);
-> -	if (rc)
-> +	if (rc) {
-> +		put_device(dev);
->   		goto err_mc_free;
-> +	}
->   
->   	mci->pdev = dev;
->   	mc_init(mci, dev);
-> @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	device_unregister(mci->pdev);
->   err_mc_free:
->   	edac_mc_free(mci);
-> +	return rc;
->   err_dev_free:
->   	kfree(dev);
-> -
->   	return rc;
->   }
->   
+This ensures that topology_clear_scale_freq_source() properly
+disables AMU updates in both the tick path (already handled by
+topology_scale_freq_tick()) and the idle path.
+
+Co-developed-by: Xuewen Yan <xuewen.yan@unisoc.com>
+Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+Signed-off-by: Sean Wang <seanwang1@lenovo.com>
+---
+ arch/arm64/kernel/topology.c  |  3 ++-
+ drivers/base/arch_topology.c  | 13 +++++++++++++
+ include/linux/arch_topology.h |  1 +
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+index b32f13358fbb..1dbd8f4c3178 100644
+--- a/arch/arm64/kernel/topology.c
++++ b/arch/arm64/kernel/topology.c
+@@ -175,7 +175,8 @@ void arch_cpu_idle_enter(void)
+ 
+ 	/* Kick in AMU update but only if one has not happened already */
+ 	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+-	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
++	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)) &&
++	    topology_is_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, cpu))
+ 		amu_scale_freq_tick();
+ }
+ 
+diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+index 8c5e47c28d9a..6049e77bbe1d 100644
+--- a/drivers/base/arch_topology.c
++++ b/drivers/base/arch_topology.c
+@@ -127,6 +127,19 @@ void topology_clear_scale_freq_source(enum scale_freq_source source,
+ }
+ EXPORT_SYMBOL_GPL(topology_clear_scale_freq_source);
+ 
++bool topology_is_scale_freq_source(enum scale_freq_source source, unsigned int cpu)
++{
++	struct scale_freq_data *sfd;
++	bool ret;
++
++	rcu_read_lock_sched();
++	sfd = rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
++	ret = (sfd && sfd->source == source);
++	rcu_read_unlock_sched();
++
++	return ret;
++}
++
+ void topology_scale_freq_tick(void)
+ {
+ 	struct scale_freq_data *sfd = rcu_dereference_sched(*this_cpu_ptr(&sft_data));
+diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
+index ebd7f8935f96..fb7c1fe74808 100644
+--- a/include/linux/arch_topology.h
++++ b/include/linux/arch_topology.h
+@@ -48,6 +48,7 @@ struct scale_freq_data {
+ void topology_scale_freq_tick(void);
+ void topology_set_scale_freq_source(struct scale_freq_data *data, const struct cpumask *cpus);
+ void topology_clear_scale_freq_source(enum scale_freq_source source, const struct cpumask *cpus);
++bool topology_is_scale_freq_source(enum scale_freq_source source, unsigned int cpu);
+ 
+ DECLARE_PER_CPU(unsigned long, hw_pressure);
+ 
+-- 
+2.25.1
 
