@@ -1,89 +1,291 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C4239EF24;
-	Wed, 12 Aug 2026 20:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB50402BA1
+	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 21:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786567723; cv=none; b=U9jPSc+8gav7ekNPCbgP/U8D3s5JrfGZA70L467TXKu+nHDPUsaTXRjEIv9jJYTEN1Qft9KPQ9hNq3KZ4vMV7zwpPQGCFAoYCXRVmqFO2VTyX3k4ZdjKs+DMX6cBKNXFs6XcKC8nUXA3hfNwU//BY6zfsx8GkQhS9fcWFPu4tmM=
+	t=1786571090; cv=none; b=MqhU+O/pfEjCcQ/Q6EP7pXUupXImVIAK8ySo76uVHk1MYPa3hQlcTnqzLwiKaPNOPaolR+zb6ErvRnzW19zISKYKDKwdnY33XEln7U0c1Xagf+szlrrvgl1UfAhIEkReJKoB9v5NA6TpVnO9rRnNjOwiFYZgpxvk4DV5Dv1cMBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786567723; c=relaxed/simple;
-	bh=1mN0W9jVS3pWyld65UwIqwvx8g5pSH42AxTZxBPJpSY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Xx9IXMNl0+yMeRbRg3tRiZCMA/PurmhC7caRyqzulA9SPSETgsQYz0JrfgI40qDrIk2riKAW3lH7HSuKV5Mz9ODpHTHrU+NWGxHtxouK9DbEOM/l7ITCU1ilbKYwQKbUpu56it4VfRNTlqCbgkbH6+Jf93Fr44+FsesBS42udlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lTwyNwcs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786571090; c=relaxed/simple;
+	bh=89EwqujkVX8CqILmqZsH+8E2Zfqbt1N8OrlIniE5+R8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YFicJRNntfchcclSHZJv/UQbeXBuy4qU9/shydBmpY++dQ9KYdCF03rWOJ3hkJh9g/Zi81g/1occknWghIigMIIfdoLcSxqQROHtQyKhXgOUb26VhQQeCGK1MxbRoGPIg7142rloJLATj5ZVEATDeDHswmgrWsp261c0zoojWbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K4unTsat; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lTwyNwcs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93A91F000E9;
-	Wed, 12 Aug 2026 20:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786567722;
-	bh=54ZL8Gpq8SFzNp6XwaLdeir1X0WUzZIgaSehqvjcHxw=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=lTwyNwcsu29wfBKMkMFvXAWw2zBZ0F7zLYmqbuL5fB1y3upbA3+yChXpsySb+68Za
-	 FbWj00Brsf6TbsFNsT+QR4PUM1vgjyPgARXHXLpZLwCUFEXWMGMgwwT3H30NmPSShB
-	 u0K3+EbzpcGZjoGMlbQ4YoiPqtaSy7ehtRrYgJH1+HP4yRlAp7TCv8QUfPwBb/jxzr
-	 ecfjplVrUnZ+ZphajAuuuicUCj5nxGAiKo2Yn/gGod7BCGXMGt0LseNI3mcextiCc8
-	 WwDN3t/wzsBvQZwXYQBUGkktg8spht94IBNwT2NhNMy4tj4f9s3JVmoZwQcqYtzHBs
-	 5QHp41GZ0Jq8w==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K4unTsat"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1786571088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpdR7lRgwsOXaHnV+8khs91uYzIEWMJ6GYggqjAM8+M=;
+	b=K4unTsat81KRR5GIA7lMOl5gXWc/JgPwrp76Qoe5HB+0WUd+66GAPUGXRTA14I6Wpp983g
+	FSO7EqonB0z8jiZa6xUhPtZxe27x/OoLlQLzxfpn3iK+TWYRzMwvWewbwQE1b/F2ABOwCn
+	KrLG7M7ZGQkVHmHWvYgjDfUvRwoht9I=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-516-_XPuavGUNYW2SAoLcsB18g-1; Wed, 12 Aug 2026 17:44:41 -0400
+X-MC-Unique: _XPuavGUNYW2SAoLcsB18g-1
+X-Mimecast-MFC-AGG-ID: _XPuavGUNYW2SAoLcsB18g_1786571081
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7e9fdc2870fso94157a34.2
+        for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 14:44:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786571081; x=1787175881;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EpdR7lRgwsOXaHnV+8khs91uYzIEWMJ6GYggqjAM8+M=;
+        b=nzRYjDhcErUpiNVOENKWaG1N58m7K4s1G8zsxce+5V9gllWDtRM6p/drAXVv+0+lty
+         bQl+DvOWK/zKnik0PUoM6C1te3rFH5Qln0gXsMS/E5FLE1K6x+jzGEWVpiGAuta9vG/C
+         ksyyDd4mz5VOfqOgwnXGUj00fnjjCoCkUKnPOLZ3VjkULWas3iXjVsnBg4bwnPdOG95E
+         dITwH6OgfHRu8Hblr9WtQEvAE4eOtjiOizWo+buw17YHHY7vfBFGjO1jtp85BZY4nn1H
+         k13oYo7eFScoQalQQR+n57QYrhKl+FGx+IbR426v4KwcUIFpYImzP1FjE/GBUQfIw9HG
+         cAvA==
+X-Forwarded-Encrypted: i=1; AHgh+RpBRPuZHZGsXzNDfRb3JlE4tvORAQqWHk6HXCyfSFW6iAKS3Azn5L0cvkPlWcGGk7FAE/jAcf2dO1ALqw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkIwt7Iay2nRn/o8zg4a0KH46yd+JC4qa0+oKYX1cYLqOs5mya
+	iDZFjmYhezMUcoF68vdDtLvP7ZyjV4p00YiTsvONlTVgUiB/B0krGIdybi7hgBi8bmh+pmvaylw
+	UIFkg7Y5zm5hZHA80ulGH37MIrsXfNxEwVcAK/cQhl6llbicAHV4wj6A6nJb7ssSW
+X-Gm-Gg: AR+sD13QmSr6UtafZEDjgkeXOmt84QuNVPtqn1+n1sTy3m43IB6CeaiOiHW9S6EugoP
+	jXu2F7dg1YGG3ZfTZiJGb81HqUDerJM311Rx9kbmvT9xPD8G+5KTnD2N21+wju8ZEnxcER+BeOl
+	SBFYATQPA9pLyp7UrtRgZzgDattBqwMn/R8fLckBCSjYwdPS9Be2EdO5P5HgWMsOXV59LxYMvSx
+	v3AwRI6vaFGybaeAciL2KAC19N2jA4r6OfRpvESxgfMgnr4f2xke+SML2pXtuAl1loq7BB/wlO+
+	b19VeM6t8DupuhqmwMWXwzKgPxadK9ICMy0FFY/d381fugERDWQ73vU9vaAYrMoGPMLSicTwDEY
+	fo0H7ran8sfWR78qUBaZIjhHDUl5HmGKodRt6S31f
+X-Received: by 2002:a05:6820:4cc7:b0:6b0:40d9:8ac6 with SMTP id 006d021491bc7-6b0c41ff715mr1536504eaf.9.1786571080808;
+        Wed, 12 Aug 2026 14:44:40 -0700 (PDT)
+X-Received: by 2002:a05:6820:4cc7:b0:6b0:40d9:8ac6 with SMTP id 006d021491bc7-6b0c41ff715mr1536452eaf.9.1786571080219;
+        Wed, 12 Aug 2026 14:44:40 -0700 (PDT)
+Received: from [10.0.0.119] (97-127-68-83.mpls.qwest.net. [97.127.68.83])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3c9a172cesm438933a34.12.2026.08.12.14.44.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2026 14:44:39 -0700 (PDT)
+Message-ID: <b1bd3b15-78ea-4487-b6a8-aad0b05dd3bb@redhat.com>
+Date: Wed, 12 Aug 2026 16:44:38 -0500
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH V2] devtmpfs: restore mount option reconfiguration on get_tree
+To: Simon Liebold <simonlie@amazon.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Christian Brauner <brauner@kernel.org>,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexander Viro <aviro@redhat.com>
+Cc: stable@vger.kernel.org
+References: <20260810083438.764684-1-simonlie@amazon.de>
+From: Eric Sandeen <sandeen@redhat.com>
+In-Reply-To: <20260810083438.764684-1-simonlie@amazon.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yRl6-6MCHqyuw0WNualbeNQFsaEdn_HZGsIYH8sTvYQ_1786571081
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 22:48:36 +0200
-Message-Id: <DKN9EEKUAK60.1M10BUHE5C6SS@kernel.org>
-Subject: Re: [PATCH v2 5/5] rust: pci: expose the allocated interrupt type
-Cc: <bhelgaas@google.com>, <kwilczynski@kernel.org>, <aliceryhl@google.com>,
- <daniel.almeida@collabora.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
- <tmgross@umich.edu>, <tamird@kernel.org>, <acourbot@nvidia.com>,
- <work@onurozkan.dev>, <jhubbard@nvidia.com>, <ttabi@nvidia.com>,
- <apopple@nvidia.com>, <ecourtney@nvidia.com>, <shashanks@nvidia.com>,
- <zhiw@nvidia.com>, <driver-core@lists.linux.dev>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260811233952.3000968-1-dakr@kernel.org>
- <20260811233952.3000968-6-dakr@kernel.org>
- <DKN47TIEH9R7.2Z6FDMEZTUKL5@garyguo.net>
- <DKN5RMNZUBGM.1EFIG6TFAT3AW@kernel.org>
- <DKN65PE95UMV.1NW8ZW80Y60UC@garyguo.net>
-In-Reply-To: <DKN65PE95UMV.1NW8ZW80Y60UC@garyguo.net>
+Content-Transfer-Encoding: 7bit
 
-On Wed Aug 12, 2026 at 8:16 PM CEST, Gary Guo wrote:
-> On Wed Aug 12, 2026 at 6:57 PM BST, Danilo Krummrich wrote:
->> On Wed Aug 12, 2026 at 6:44 PM CEST, Gary Guo wrote:
->>> On Wed Aug 12, 2026 at 12:39 AM BST, Danilo Krummrich wrote:
->>>> +    pub fn irq_type(&self) -> IrqType {
->>>> +        self.reg.irq_type()
->>>
->>> Do you expect people to call this on the `IrqVetor` (or even
->>> `IrqVectorRegistration`)? This is really a property of the device, and =
-not on a
->>> specific IRQ vector/allocation.
->>
->> You are not wrong, but the C API sets msix_enabled and msi_enabled in
->> pci_alloc_irq_vectors() and clears them in pci_free_irq_vectors().
->
-> Right, then putting it on `IrqVectorRegistration` does make sense. Speaki=
-ng of
-> which, what prevents people from calling pci_alloc_irq_vectors twice with
-> different irq types or with both IrqType::Intx?
+commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
+public instance") converted the public devtmpfs instance to the new
+mount API but broke the ability to reconfigure the shared superblock
+options via subsequent mount() calls, as had been fixed once in
+a6097180d884 ("devtmpfs regression fix: reconfigure on each mount")
 
-Most cases are fine: INTX is idempotent; MSI and MSIX mixed up should be ca=
-ught
-by the C API already.
+This makes boot-time defaults permanent.
 
-I'm aware of a preexisting issue with mixing INTX and either MSI or MSIX, s=
-ince
-calling pci_free_irq_vectors() on the INTX one would also disable MSI/MSIX.
+Fix this using an approach suggested by Al Viro: at init_fs_context
+time, create a reconfigure-mode context via fs_context_for_reconfigure()
+and save it in fc->fs_private. The devtmpfs parse ops can then use
+this context to parse options appropriately for the underlying filesystem.
 
-I plan to fix it up when fixing the C bitfied issue [1] with an additional =
-flag.
+This also removes the devtmpfs_configure_context() one-time ops-copying
+approach and the global mutable ops table it required.
 
-[1] https://lore.kernel.org/all/DKKG2QM3YJYB.Z2H2B2UXJ75N@kernel.org/
+Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
+Reported-by: Simon Liebold <simonlie@amazon.de>
+Cc: stable@vger.kernel.org
+Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+---
+
+I think this might be a better approach; more involved, but it uses the
+right type of context for reconfigure and avoids the nasty ops copying
+I wrote the first time. :(
+
+First, sorry for breaking this. Second, Al please yell if I have mis-attributed
+or mis-implemented your suggestion from months back. Third, I have done only
+light testing on this but it seems ok, built and booted with CONFIG_TMPFS=y
+and confirmed that a fresh "mount" with new options takes hold, and confirmed
+it builds without CONFIG_TMPFS configured though I don't have a system
+that wants to boot that config.
+
+Thoughts?
+
+ drivers/base/devtmpfs.c | 108 ++++++++++++++++++++++++----------------
+ 1 file changed, 64 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+index b1c4ceb65026..c32d3b963f2e 100644
+--- a/drivers/base/devtmpfs.c
++++ b/drivers/base/devtmpfs.c
+@@ -72,39 +72,90 @@ static struct file_system_type internal_fs_type = {
+ 	.kill_sb = kill_anon_super,
+ };
+ 
+-/* Simply take a ref on the existing mount */
++struct devtmpfs_context {
++	struct fs_context *fc;
++};
++
++static void devtmpfs_free(struct fs_context *fc)
++{
++	struct devtmpfs_context *ctx = fc->fs_private;
++
++	if (ctx) {
++		put_fs_context(ctx->fc);
++		kfree(ctx);
++	}
++}
++
++static int devtmpfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
++{
++	struct devtmpfs_context *ctx = fc->fs_private;
++
++	return ctx->fc->ops->parse_param(ctx->fc, param);
++}
++
++static int devtmpfs_parse_monolithic(struct fs_context *fc, void *data)
++{
++	struct devtmpfs_context *ctx = fc->fs_private;
++
++	if (ctx->fc->ops->parse_monolithic)
++		return ctx->fc->ops->parse_monolithic(ctx->fc, data);
++	return generic_parse_monolithic(ctx->fc, data);
++}
++
+ static int devtmpfs_get_tree(struct fs_context *fc)
+ {
++	struct devtmpfs_context *ctx = fc->fs_private;
+ 	struct super_block *sb = mnt->mnt_sb;
++	int err;
+ 
+ 	atomic_inc(&sb->s_active);
+ 	down_write(&sb->s_umount);
++
++	if (ctx->fc->ops->reconfigure) {
++		err = ctx->fc->ops->reconfigure(ctx->fc);
++		if (err) {
++			deactivate_locked_super(sb);
++			return err;
++		}
++	}
++
+ 	fc->root = dget(sb->s_root);
+ 	return 0;
+ }
+ 
+-/* Ops are filled in during init depending on underlying shmem or ramfs type */
+-static struct fs_context_operations devtmpfs_context_ops = {};
++static const struct fs_context_operations devtmpfs_context_ops = {
++	.free		  = devtmpfs_free,
++	.parse_param	  = devtmpfs_parse_param,
++	.parse_monolithic = devtmpfs_parse_monolithic,
++	.get_tree	  = devtmpfs_get_tree,
++};
+ 
+-/* Call the underlying initialization and set to our ops */
+ static int devtmpfs_init_fs_context(struct fs_context *fc)
+ {
+-	int ret;
+-#ifdef CONFIG_TMPFS
+-	ret = shmem_init_fs_context(fc);
+-#else
+-	ret = ramfs_init_fs_context(fc);
+-#endif
+-	if (ret < 0)
+-		return ret;
++	struct devtmpfs_context *ctx;
++	int err;
++
++	ctx = kzalloc_obj(struct devtmpfs_context);
++	if (!ctx)
++		return -ENOMEM;
++
++	/* Each mount will reconfigure the shared superblock w/ new options */
++	ctx->fc = fs_context_for_reconfigure(mnt->mnt_root,
++					     mnt->mnt_sb->s_flags, MS_RMT_MASK);
++	if (IS_ERR(ctx->fc)) {
++		err = PTR_ERR(ctx->fc);
++		kfree(ctx);
++		return err;
++	}
+ 
++	fc->fs_private = ctx;
+ 	fc->ops = &devtmpfs_context_ops;
+ 
+ 	return 0;
+ }
+ 
+ static struct file_system_type dev_fs_type = {
+-	.name = "devtmpfs",
++	.name		 = "devtmpfs",
+ 	.init_fs_context = devtmpfs_init_fs_context,
+ };
+ 
+@@ -442,31 +493,6 @@ static int __ref devtmpfsd(void *p)
+ 	return 0;
+ }
+ 
+-/*
+- * Get the underlying (shmem/ramfs) context ops to build ours
+- */
+-static int devtmpfs_configure_context(void)
+-{
+-	struct fs_context *fc;
+-
+-	fc = fs_context_for_reconfigure(mnt->mnt_root, mnt->mnt_sb->s_flags,
+-					MS_RMT_MASK);
+-	if (IS_ERR(fc))
+-		return PTR_ERR(fc);
+-
+-	/* Set up devtmpfs_context_ops based on underlying type */
+-	devtmpfs_context_ops.free	      = fc->ops->free;
+-	devtmpfs_context_ops.dup	      = fc->ops->dup;
+-	devtmpfs_context_ops.parse_param      = fc->ops->parse_param;
+-	devtmpfs_context_ops.parse_monolithic = fc->ops->parse_monolithic;
+-	devtmpfs_context_ops.get_tree	      = &devtmpfs_get_tree;
+-	devtmpfs_context_ops.reconfigure      = fc->ops->reconfigure;
+-
+-	put_fs_context(fc);
+-
+-	return 0;
+-}
+-
+ /*
+  * Create devtmpfs instance, driver-core devices will add their device
+  * nodes here.
+@@ -482,12 +508,6 @@ int __init devtmpfs_init(void)
+ 		return PTR_ERR(mnt);
+ 	}
+ 
+-	err = devtmpfs_configure_context();
+-	if (err) {
+-		pr_err("unable to configure devtmpfs type %d\n", err);
+-		return err;
+-	}
+-
+ 	err = register_filesystem(&dev_fs_type);
+ 	if (err) {
+ 		pr_err("unable to register devtmpfs type %d\n", err);
+-- 
+2.55.0
+
+
+
