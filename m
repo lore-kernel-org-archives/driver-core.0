@@ -1,96 +1,133 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8C4442B30B
-	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 16:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9368456DE8;
+	Wed, 12 Aug 2026 17:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786553999; cv=none; b=ArT4e/Htxwp28jSnQmcyhmcxdEtSythRo+ep4hstDXNeTIN9ko5bXK3vdNoTAvr12lNUw9HzoU3mtnBv+T4xLcWeALbvW5FyZpcq1EZHW18LUTh75s/DP2H9tbBA2lH09TsEaD6pC0aiB2GB5RemfJZD0GqEi4H8cXhCcoPkxVs=
+	t=1786556257; cv=none; b=B0p7elJzdFeHIiqiVBdfs5v8Qp42/d6SPCJK1TEvz4cnK8oIx+rWiehNqfkjh5aBV4yzX9pkDLiZHzaylhAZZ2JJFHtl9X1NsrcMED9AewShhYTYnruF62FngP6SlEx90M5836szCi7m6rLqzy13UyYoDGuvvs8qrARABfORXq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786553999; c=relaxed/simple;
-	bh=COsxPsgzygMQ/mDqla3VOTd+8FeyU7R8a94fdNIC43g=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=A5jhe5FlzcSrLza2U1E4CVZerEM+zpdrvDO4Z06XEop/nETiOtYEvAbK8XHmv1boNIkfZL7uo8yamuNLLRRX5ZXq/lMapzX2dDsQZR4bNwgqdYWDzZo71mDepQXmHGNAD9T1przxSTsjnD7Bpvu7JHsiO+K6A7mDk+wvcbTrvZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 1309092009D; Wed, 12 Aug 2026 18:59:54 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 10DAB92009C;
-	Wed, 12 Aug 2026 17:59:54 +0100 (BST)
-Date: Wed, 12 Aug 2026 17:59:53 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Arnd Bergmann <arnd@arndb.de>
-cc: Danilo Krummrich <dakr@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
-    Niklas Schnelle <schnelle@linux.ibm.com>, 
-    Gerd Bayer <gbayer@linux.ibm.com>, Miguel Ojeda <ojeda@kernel.org>, 
-    Alice Ryhl <aliceryhl@google.com>, 
-    Daniel Almeida <daniel.almeida@collabora.com>, 
-    Vasily Gorbik <gor@linux.ibm.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, driver-core@lists.linux.dev, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, 
-    Linux-Arch <linux-arch@vger.kernel.org>, Boqun Feng <boqun@kernel.org>, 
-    Gary Guo <gary@garyguo.net>, 
-    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-    Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-    Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-    Alexandre Courbot <acourbot@nvidia.com>, 
-    =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-    rust-for-linux@vger.kernel.org
-Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
-In-Reply-To: <3eeb0ece-42e9-49f2-9632-962793db8d4e@app.fastmail.com>
-Message-ID: <alpine.DEB.2.21.2608121731000.48788@angie.orcam.me.uk>
-References: <20260803180931.97202-1-ojeda@kernel.org> <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com> <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org> <20260804071330.24760Aaf-hca@linux.ibm.com> <33ecacea-ed2a-409c-ab1c-a136e06b1b7a@app.fastmail.com>
- <DKG43HF7A2EN.PC1LBC0QUP93@kernel.org> <f0e0c069-23eb-443a-800d-267cfe4c2aa2@app.fastmail.com> <alpine.DEB.2.21.2608120349370.48788@angie.orcam.me.uk> <3eeb0ece-42e9-49f2-9632-962793db8d4e@app.fastmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1786556257; c=relaxed/simple;
+	bh=SoUPwDXMmUhcR7Jzq39eSaKiYlp1y6GoPF67qoZMcqM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=r4FQgwlEepqQ85Qu69cGIK0yh73MEIch2cIUDns7gcfWw/6quyUstPASV7TXXRVtugEC1CaCmRhW2hliqQjXe9vKfloVGxQGglwFw3WVRnHTvL91d4YfgxfB3jRMxycsq+vNwoF3NUOybTQVv0+fioRCO1HbmcW/ZiwhOiHtc9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gz0c+abm; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gz0c+abm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E18B41F000E9;
+	Wed, 12 Aug 2026 17:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786556256;
+	bh=FRjvxmjv+QwDQeHa7piNraUS+xJH87P/jJlyp8e/qA8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=Gz0c+abm2Gzoh9aC4cnYAv1EVnbq3Ksk2BzHFzWMU3ZVvcEbzcbMGiSDKzgh6+5c2
+	 wXCxkUzaBUqszDJdFerbV03JdUw0nVD3t1sFxmKII+VSnZU5SpQ9DDYnmVjuQDhZel
+	 N6piaSd9/0J7q7vlA6ddp46Qxj6fSXj4Q8bp+9Yf/LU7WAgBrHRJyVfhMd+oDCUH/6
+	 MhCDfwDxv2JEzOIB0vxzyMkFbj4tPyKWk5BgSX/0WXHEZOsEOCDsionhrmxGjBWFcY
+	 GQCOvumgxNaS7sKcPKbSshYrOFJMhgVjjYOvSd07JSu/ScJlTN97nTFrLcx/FW2baZ
+	 0SgUDt/zIYA+g==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Aug 2026 19:37:30 +0200
+Message-Id: <DKN5C359PZP3.2BPH5HLM9H0HY@kernel.org>
+Subject: Re: [PATCH v2 1/5] rust: pci: convert IrqVectorRegistration to a
+ lifetime-managed owning type
+Cc: <bhelgaas@google.com>, <kwilczynski@kernel.org>, <aliceryhl@google.com>,
+ <daniel.almeida@collabora.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <tamird@kernel.org>, <acourbot@nvidia.com>,
+ <work@onurozkan.dev>, <jhubbard@nvidia.com>, <ttabi@nvidia.com>,
+ <apopple@nvidia.com>, <ecourtney@nvidia.com>, <shashanks@nvidia.com>,
+ <zhiw@nvidia.com>, <driver-core@lists.linux.dev>,
+ <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260811233952.3000968-1-dakr@kernel.org>
+ <20260811233952.3000968-2-dakr@kernel.org>
+ <DKN3U000UGRL.2MOXT25O11UE0@garyguo.net>
+In-Reply-To: <DKN3U000UGRL.2MOXT25O11UE0@garyguo.net>
 
-On Wed, 12 Aug 2026, Arnd Bergmann wrote:
+On Wed Aug 12, 2026 at 6:26 PM CEST, Gary Guo wrote:
+>>  /// IRQ type flags for PCI interrupt allocation.
+>>  #[derive(Debug, Clone, Copy)]
+>> @@ -78,6 +75,7 @@ const fn as_raw(self) -> u32 {
+>>  #[derive(Clone, Copy)]
+>>  pub struct IrqVector<'a> {
+>>      dev: &'a Device<Bound>,
+>> +    reg: &'a IrqVectorRegistration<'a>,
+>
+> The registration has a refence to the device so we don't need to keep bot=
+h reg
+> and dev?
 
-> >  AFAICT HAS_IOMEM is all about just having peripherals located in the 
-> > CPU's regular memory addressing space.  All the DEC MIPS platforms fall 
-> > into this category, never seen PCI/ISA, some have no peripheral bus.
-> 
-> To me this is more about the driver model: On most architectures,
-> you can use portable drivers that use IORESOURCE_MEM resources
-> with ioremap() and the do readl()/writel() on those to access
-> little-endian registers.
+In this patch dev is still needed for the TryInto impl, but a subsquent pat=
+ch
+does remove it in favor of IrqRequest.
 
- Obviously I can't speak for the s390, but that's been my observation as 
-well -- it is a matter of coding style then rather than HAS_IOMEM being 
-inherently PCI/ISA.
+>> +pub struct IrqVectorRegistration<'a> {
+>> +    dev: &'a Device<Bound>,
+>> +    count: NonZero<usize>,
+>
+> I wonder if it should be called "len" as I view this as a collection of I=
+RQ
+> vectors.
 
-> s390 and um only support this conceptually for PCI devices,
-> and the HW implementation is different enough that the abstraction
-> breaks down in some cases (like memremap()). m68k Amiga is
-> similar to decstation I think, in that it has devices that are
-> memory mapped, but they are always visible in the kernel address
-> space and are accessed through their own abstraction instead of
-> readl()/writel(). m68k q40 does have ISA devices with both
-> port and memory accesses that can use portable drivers. I think
-> other m68k platforms use a mix of ioremap()/readl()/writel() 
-> and their own lower-level accessors based on the driver, but
-> none of those drivers are shared with another platform.
+Either sounds good to me.
 
- On DECstation we actually have driver code shared between TURBOchannel 
-peripheral bus and PCI (and possibly EISA) and it obviously uses the 
-standard MMIO accessors consistently regardless of the bus binding.
+>> +    #[inline]
+>> +    pub fn vector(&self, index: usize) -> Result<IrqVector<'_>> {
+>> +        if index >=3D self.count.get() {
+>> +            return Err(EINVAL);
+>> +        }
+>
+> Given that the error is for out-of-bound access only, perhaps return `Opt=
+ion`
+> like `get()` function of various containers?
 
- Then there is code shared between TURBOchannel and platform stuff, also 
-with the system models that lack a peripheral bus too.  There is leftover 
-code using non-standard accessors still there, but that's really a matter 
-of resources needed to clean this up.
+It's not really a case a driver would handle other than just follow it up w=
+ith
+.ok_or(EINVAL)? anyways, so I'd like to keep that.
 
- For instance drivers/net/ethernet/amd/declance.c has now been high on my 
-priority list to clean up and properly convert from its current mess to a 
-regular TURBOchannel/platform device.  The only issue outstanding are MMIO 
-barriers, which have never been properly sorted out in a generic way; cf. 
-arch/mips/include/asm/io.h and the iobarrier_*() stuff there.
+(Further consideration on a subsequent patch.)
 
-  Maciej
+>> @@ -256,7 +249,21 @@ pub fn alloc_irq_vectors(
+>>          min_vecs: u32,
+>>          max_vecs: u32,
+>>          irq_types: IrqTypes,
+>> -    ) -> Result<RangeInclusive<IrqVector<'_>>> {
+>> -        IrqVectorRegistration::register(self, min_vecs, max_vecs, irq_t=
+ypes)
+>> +    ) -> Result<IrqVectorRegistration<'_>> {
+>> +        // SAFETY:
+>> +        // - `self.as_raw()` is guaranteed to be a valid pointer to a `=
+struct pci_dev`
+>> +        //   by the type invariant of `Device`.
+>> +        // - `pci_alloc_irq_vectors` internally validates all other par=
+ameters
+>> +        //   and returns error codes.
+>> +        let ret =3D unsafe {
+>> +            bindings::pci_alloc_irq_vectors(self.as_raw(), min_vecs, ma=
+x_vecs, irq_types.as_raw())
+>> +        };
+>> +
+>> +        to_result(ret)?;
+>> +
+>> +        let count =3D NonZero::new(ret as usize).ok_or(EINVAL)?;
+>
+> I don't think `ret` can ever be zero. `expect` or `new_unchecked()` perha=
+ps?
+
+Correct, but I don't see a reason to BUG_ON() for this. A WARN_ON() makes s=
+ense,
+but I see this to be the job of the C API making the promise.
+
+We could use new_unchecked(), but since this method is fallible already and=
+ not
+a hot path, I don't think it's worth.
