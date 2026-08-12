@@ -1,313 +1,269 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010038.outbound.protection.outlook.com [40.93.198.38])
+Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAFC29BD8C;
-	Wed, 12 Aug 2026 04:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59B4330668
+	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 07:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.152.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786510293; cv=fail; b=WO/2aWFkZFBpE0AMzwwqW+SO6k2/BPz8bAtVa690Z+5CegfofSkujwAVj2xaZKeLHlTGU9k72ZFk37JZvw0f0AnNVxk0HXkdCtrWIRFjoTndxSbs1xzLT9rhmKq2U6HRHLW00fnk3X9nspBcSqmIo6MhQPZ6O0NCr+/kwgUqYDg=
+	t=1786520135; cv=fail; b=LbHGtGV4HTzPtiqc4Q+ar4ojoAjVnoUgNT1/Wzd4A50c2Tx7+NlIDFglDghnp+HuXXTnD47tGj3FJ6DBtFdYgzhdrzdctM++Ux3eyNRFcE2Cv/OJdmOgxFjY9PJ4WzFbPH/hIgBNiTinUnjhEiUv5ArUvlViu+dUvCQFmLfIdOA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786510293; c=relaxed/simple;
-	bh=rizI5BYRQxG4i6pnnSzMa8w228hXKtcxsIG+N5bWf1Q=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=MvbPWeg+oN8EIG4HtYMMrHAOD6UkBq9g6Qfcx473FXimBUYjVqtr5bceA7Q+FwxyUsSl1j9nhb0ry5iHCMV09z65EHD2V4TxIpSBXt76ZTquEAlJJfk2IlZEa4+O9TpNQMy09EwAat/WIumxuPcCLcJNkaWd+Yqh1rP1vkZk7gE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EGr+t01E; arc=fail smtp.client-ip=40.93.198.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1786520135; c=relaxed/simple;
+	bh=iGXY9dCfFUDU/asmbwvFenYeiDdRTjePzdpLu8FF22g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jbnfO9Gsf4rPEYgp2d6nbn29CemCXRruZD3ODLWt2rmoeu0s7/A2z3hgnQ1YVJI1o+5vV6R2TGpIAgs8hTw+E3EZEjDHF6kwbqzTHJs83PEVHUtRvJiZ8gkHwMCP5DXy1R6NuTmBP/DxuLmVcSfANZk3xXaL8Wm4vg6G8j8hii4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com; spf=pass smtp.mailfrom=lenovo.com; dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b=2zakPLLS; arc=fail smtp.client-ip=148.163.152.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lenovo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lenovo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EGr+t01E"
+	dkim=pass (2048-bit key) header.d=lenovo.com header.i=@lenovo.com header.b="2zakPLLS"
+Received: from pps.filterd (m0355090.ppops.net [127.0.0.1])
+	by m0355090.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 67C66ktp2650622;
+	Wed, 12 Aug 2026 07:34:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM202306;
+	 bh=G9Ug8udOqIOOCaC1/rUTRwJz0mfUjUVclBKacaVe4mM=; b=2zakPLLS4CtU
+	tmpOkWqUgUNitAvtREVhz9i8ndf98IrmfZISiNIa2KrgpUGQlo6fHO+JFcpmEzX4
+	ENchYjIzvVhJLm8GhA8NehDEtKfuU1XkPftBKJjJFKo3WiGJHuE5JqTaXi8Rvwj+
+	0WEnLy0Yi8DDbcMaA0dwydxOkq79AUFgNqqbUFuIOY5kdsT/8RwrIVB7bXLlDr4l
+	vhxtjkoo/6HRkfxBOEAjTPkTnAy1FC3hBRvR3ezyyv5hjfbmq10WAxX3JO1sD5zy
+	t1ngG4x1EGcZhoikoi8sBYwQuehx7GD7cctUfhaSOlA/FjGs3tzAr+38GemD4V8O
+	y0169A1/vQ==
+Received: from tydpr03cu002.outbound.protection.outlook.com (mail-japaneastazon11013069.outbound.protection.outlook.com [52.101.127.69])
+	by m0355090.ppops.net (PPS) with ESMTPS id 4fxfsqe5v6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 12 Aug 2026 07:34:56 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lg5OAGe00eQxHH70RcnoZaf2EiHovuXEfjiqPwHYwFhjAA5n32EznApu9lr/MAE+Pqiyi1hpRUYuRUqC1uPRivQTYZ45qh2aGCvGNmY/x42W3PDI25K21pyZ0ad4R/TSRhF8YStG81eT1VdTJUz3OHjXwUffsyUy7B7p6iuVc0efTnCh2N9KWveW5owlNhD39FMK37qiWl7TXg3WS8gpMAaeWXVyPsSlT+fn078j6dRmsjM88NR+8Nv/+8WIjk9daf9ab3/4TXbEK82vrco3j/4ObbYscQOLQEp5+DvUeQu1dtoECznPcc5osgZaER7HvyKk3htpZq7jS3ZfNqAe9A==
+ b=AQecRp630w+uX6a/jRxQHRG1US8HMcRq2nv+bnfGhpJqC/1MaUtDwiRMnlbggnhwP23zNiNgJ3xE/iwzuo5W/auBsc5EvfTOAszdr1ohTLlxyBjs1HHICdYOpRYFH044uSRe4hYUE1xzQoDQ/AeRnleNrjk0kBw/6UMgSqezkO+ZY95GPtwaozHhH2QBe/LvvMbdXwv2KQhdPHcVQAueY7gep1ZBFdIALJX/Ap33lXNN1etVu91VKVtirlwUQ1F2D+K8nbpxHH9wszhgrG41mciISCYhJ4km2lZJO/ZClUn84SLA/MNKpY1VOB4xdbJYpd5/J9a0EAPDutZpme/phg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=py5CAUJevsJ7PhaOVkqXR0YA0wgNmf7UZGq7d2QvFR4=;
- b=S21yIQPCO9oOkYyxCBP8OMF1IoH0iLpOXsZD78M0VWnrqARYrQuKa3rXB+lEpj5wRL7mXg3SIZ9JpYqFU9BI4G932sbcTPmgMfQc2Iq2vSnHukmX7ecE/ljHJD1XyG9wSxwYyzwuVbSGHqoOZBq8TvVkMMSUGSE/ZXvcQDGJZsoXjo3qy91rF+nKHU00VD7QOSrGr0w9tEjiDQmFAaAxjFX1A9mhPnZtyUxtVA8VfrKeFcVmygtra436oH58KAOkfO8PODJmNUiNN4GgdCajDauf9G/Qb6zuvWtwRt6idjr4k2evRxsligpgsjZI0MUD45VYtfUXZ0pbKJOZtOk6pA==
+ bh=G9Ug8udOqIOOCaC1/rUTRwJz0mfUjUVclBKacaVe4mM=;
+ b=iDQhaeJNwEuxO0Gt8cKp21i25SvnAi/mqt1psRAvbdtAXE5fzpPPOEOvojBuikeMgT9E5Fsius9bJkoOFIK6h7n/drQbW3kpAuwNDhnH18Kn+yquDkxUSzftXbPDQYmpZfpxUx8nizhB/Ri8aGMUiCIaEJnG3y4xdbVyiiIs0OgZyQKZm2gsApKSOu4yUuv3wqMQ9DKueEaZxIBHSozpIasKWmaH8wtQPdEEC/G0KD8NQ8K9fvbEPgCGRniW7w2IHn5lrjHleS6eKYnp/n8Lr3mvfkcG6kfsHMNw+/nsmwDxwxjcMzcjkAWIjKTmY51EKeuvL34BPMGtqsI35FI3Pw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=py5CAUJevsJ7PhaOVkqXR0YA0wgNmf7UZGq7d2QvFR4=;
- b=EGr+t01EzE3Pi72zFOoiFmk0i1NjA39koh7CjasfT5qYVqZokhoSyZDTGJ0eeXFVLXtMxt5RG2uI4puNCcfKUF84NVrD+ipciAY/0/eGR2qMw40DM9UT20fAJrEeTXkSjP9v7Ha4cF/JZn6dpunVwaqOpYlLRNDVN+9mpjt5ITsAlOeqD6wGVGGdSyX8Y3Sgbhi420sItq+WshOlTXpP+d1jMzseL6QnbdhIDHUHvcXPzp8xpTR+hFcDNL8zEHAGmn+dRy/S4/C+se+hGodERtcN4J2X/kSU/OYLbwjTGd0q8LQm8QSnfeeCW6hjjYJGyS7C4nO52aV2AIEnQ+S5gw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DM4PR12MB6088.namprd12.prod.outlook.com (2603:10b6:8:af::18) with
+ smtp.mailfrom=lenovo.com; dmarc=pass action=none header.from=lenovo.com;
+ dkim=pass header.d=lenovo.com; arc=none
+Received: from SI2PR03MB6688.apcprd03.prod.outlook.com (2603:1096:4:1eb::14)
+ by KL1PR03MB7407.apcprd03.prod.outlook.com (2603:1096:820:e9::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
- 2026 04:51:25 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0315.008; Wed, 12 Aug 2026
- 04:51:25 +0000
+ 2026 07:34:52 +0000
+Received: from SI2PR03MB6688.apcprd03.prod.outlook.com
+ ([fe80::7943:fe42:e5e5:f477]) by SI2PR03MB6688.apcprd03.prod.outlook.com
+ ([fe80::7943:fe42:e5e5:f477%4]) with mapi id 15.21.0292.024; Wed, 12 Aug 2026
+ 07:34:52 +0000
+From: Sean Wang1 <seanwang1@lenovo.com>
+To: Beata Michalska <beata.michalska@arm.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        Danilo
+ Krummrich <dakr@kernel.org>,
+        Lifeng Zheng <zhenglifeng1@huawei.com>,
+        Xuewen
+ Yan <xuewen.yan@unisoc.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Sumit Gupta <sumitg@nvidia.com>, Yunhui Cui <cuiyunhui@bytedance.com>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>
+Subject: RE: [External] Re: [PATCH v3] arm64: topology: add source check in
+ arch_cpu_idle_enter()
+Thread-Topic: [External] Re: [PATCH v3] arm64: topology: add source check in
+ arch_cpu_idle_enter()
+Thread-Index: AQHdKWMV98wMlqnYdUuX7xi9SU3GVLaYnmKAgAFhwGA=
+Date: Wed, 12 Aug 2026 07:34:52 +0000
+Message-ID:
+ <SI2PR03MB6688D1DC0796AC6F6A373C2E93DC2@SI2PR03MB6688.apcprd03.prod.outlook.com>
+References: <20260811072830.10028-1-seanwang1@lenovo.com>
+ <anrzT-ez3b7uYaCt@arm.com>
+In-Reply-To: <anrzT-ez3b7uYaCt@arm.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR03MB6688:EE_|KL1PR03MB7407:EE_
+x-ms-office365-filtering-correlation-id: f63f1077-b770-4fe1-3ab6-08def8443272
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|38070700021|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ FkarHUsXohMXCCzAOEWsoQifiESKnmZUYhhmQJ61DrWtdwdBCd0j9//7tDWMjgGS6E/n3ZzoZTTMvPlDqIxhsMb3k8CVdT1H+aNbEelrshQrG9PwXP3VQnWKV3+n/DPBR64TsF9g0bgCbza2dZF6vzrkXd07ZdKjJSi4ICnu+KA+pMKALQBxiJ+NekCQ+pHJFP768onA7CLJ7cjBLe32jsBqNUEEHQ4gJhsC0HFa3MOAfpeXqsXzSza/bx8vXHOyUlE4cjgICMFSnS5kMTt9In3f9nUvNZP7RBAiR26j1YA6nSBEvTxs6Ghu6Q1dSdeDHZNm/XRiNnGpWNtCaD4IOOZE90Uo4bDxXWkdiEbJv3EVBvPRxN//6y/LaBooHivdhGpfAbnj4uRIbXNEjBi1VZvwdXj2dGuoulJNNSFeC6qHTWbWIRZrJE1mj0yY2pwB2AYCYyezszOPt4xlxaJ4mFVT1YBFiM/h3Tw6P4xtuzff0CmIwaQKHgwI4oPUuNAaxlTc+eDDDFHQreZ34QL0Axf3l5lYaXaC4y29uLvg7OubqdTkt6bJOYkpmzM5FTfVijeNXczHwAlB5UCmmBRGZecSWlSVHZO2pARvTTXInpFaCYewjpDMlz3/EmA6dDuSPpM6+W+03y9GPnHzKrnwoWyNYihyK0cEeIO8W8tOsqUv5P6m5S/W6oBsyyXtOAnlcZ0iY5m3itO2B5odvFHjgjmKvhCKXkrWUrSP+W2lhhQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB6688.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(38070700021)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?EgH0/UG3hTGdMefw7YIZtpgzArvAFhubAsl/Q5WZlq7bVnsn5P7HMJG+Ht5C?=
+ =?us-ascii?Q?daQZsbBVmFqK4E1WCCmO2sUktpPAg5sXQkFZFwJ2vEmZP/8aQ+ekGiJUkyxq?=
+ =?us-ascii?Q?n7r3aZLPJCaHn0rdQgBZwM8XXIPJRcDqA3E0BEysp4BOP4/lNYCgwg3sBVn8?=
+ =?us-ascii?Q?GpH+TQu8rZC5JxztY2bmWUJvbbNpIwMMVWIiPDSrMLGeheporVoLrELNPjCx?=
+ =?us-ascii?Q?bKeylAClrd92WPpZUNJd06RKMfwBDK3ab/mI/mTxGvWx2ud/RsiIdj4Uh+Z+?=
+ =?us-ascii?Q?7I9DLh3woatQIW+SHaG4RWXWfetWBuhxuN2q5Svpnk/AEj8PBxX0Ln8JNrel?=
+ =?us-ascii?Q?CzZUTGQ4e+rQZda7jgBIXbQAmTuWnHL7yWnAcPbju2GgIqRiJ4iRMBA7L7Yq?=
+ =?us-ascii?Q?YQbOlUL8ZExWR/mt+ASD/6Q93voBQhwALfsb0NMclfVsk35Gc4OHUmAE5PGl?=
+ =?us-ascii?Q?77Yy0AT10NP5T5fQ4J6uigIZyzaNrgOHYCCTIRge3DpDv658ikZJP4RODKzU?=
+ =?us-ascii?Q?k18Ov/RBAslCLX9pqaMtwPUg3CvJQqIPq4iW3Ox1riXGtbH3kr/cBZ8eDs/u?=
+ =?us-ascii?Q?u05QklNxfzr0WLQGDUaCHQFPR5dkcWlwe3y3Kf84qooab0TJ8Hix2bLR5ZC9?=
+ =?us-ascii?Q?5/j453Ey3CgFLLy64CnhLC6R4C+XzzLkQUrgX4lQOnwlg34Xw/ESE5Im2h1f?=
+ =?us-ascii?Q?qIQg592Ifteg/d+XZcAlioxWNlGZJtLT3wNnfiIQPd26ApH0vWz5cNK17Fdi?=
+ =?us-ascii?Q?0UQP7EqBYh8N5QOLgIaEO5SMD+wVIAitLP8RUYncC5iRh4mblb59olLCv+Iz?=
+ =?us-ascii?Q?uCA/bF5Ey5+NblHeG0wEfgPyskR9MlxQHnxaYHVwPuzJVsg5uTiTUjCBkYlA?=
+ =?us-ascii?Q?jm17YBfm2Lz6YWMbmhECiyonKp/9WyqV1cY3Wx33/gPNuIIUO+sKbYV+gnkx?=
+ =?us-ascii?Q?g6KaUoBtE5vPzfug2ZE5F4thUhy1Gj8xVZYYHOITmUOQiuGCW2Mv8TuOMZDJ?=
+ =?us-ascii?Q?368IZ0iFu+wLWfZ6uI1AZd+sLe7cRGbadUmMc2zFu2M0WDrDz5bkB/YpGzu3?=
+ =?us-ascii?Q?KEjm0uAiMzpFICuHxn9NMf9+pfGDk5+VT4tfSIFOdJqOGleLhO+pmlvC4bbE?=
+ =?us-ascii?Q?uW1jo+WrDIP97ApHNY9jMLsLqO9tBUUqtzheoGQGCc4uVnBXbC7be1KMMUI3?=
+ =?us-ascii?Q?8/1nVr+R6fwkb/OPpXiPEcsCnpT638wsiaZqapzn7nIzx8FpBJJSDrCHqc9E?=
+ =?us-ascii?Q?b9lHafA6fURLoGpqihPcroaLAcYez/6cx0lX3+gGb38d0vPkZIYGTOnjGbFZ?=
+ =?us-ascii?Q?aQ7gML3WN/aPTN4Fau2Oc8feMT6XwU1SfpbhZVpMX9TJ8Qb3+EVrOfP2OV5p?=
+ =?us-ascii?Q?8acL+zi/V+dGPuF9R2n4fX/7jhHQ45I9FGQomFiI9qV2guUmlvEiWuHfMzWs?=
+ =?us-ascii?Q?OzIrXs1yL0Fik8hkgu6eRx5I/xssRziHdrZl2wYJV8vYKEydKwrMaykJ7uuX?=
+ =?us-ascii?Q?FinOgsaED3dWdCQ1pTJltBj57z0iTuxjhOypI4uofOW+PVKjmctvRDPgPoID?=
+ =?us-ascii?Q?2g47vavf2DK3MUH6k4pxNwg01OS4PTjG2EsYDLBF28lbXlx2HBtCjjcOUELQ?=
+ =?us-ascii?Q?hs4+/DTEpn0ZDuKGCz2eU6GOSf4Qmq1ph/LKujG56qI6UKHeOCNIitat29rK?=
+ =?us-ascii?Q?xftLi2GP/g4kzjDkHxe0fqGayC+MP+SJaix7/mto9DZvvguxClINk64svdrL?=
+ =?us-ascii?Q?tSgudmJXtg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 13:51:21 +0900
-Message-Id: <DKMP1HAAG2E2.26IBNW8ICEREP@nvidia.com>
-Subject: Re: [PATCH v2 02/16] rust: io: add `IoRepr` trait
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
- <20260805-typed_register-v2-2-c3ca142220a0@garyguo.net>
- <DKL5Q2P868GQ.29WSPCWX4HTHJ@nvidia.com>
- <DKL837PVU38R.3OONERSO8RMOW@garyguo.net>
-In-Reply-To: <DKL837PVU38R.3OONERSO8RMOW@garyguo.net>
-X-ClientProxiedBy: TYCP286CA0001.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:26c::7) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB6088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e906798-b027-4f4a-7283-08def82d5ced
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|7416014|376014|366016|1800799024|23010399003|4143699003|11063799006|5023799004|56012099006|3023799007|6133799003|18002099003|10067099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Tt28Xrlj11W5THb22NRDhpbHGWtFpa1tSaDMKVQ9YAXUIadzZIwoLD4S+QcsiparCRYW3FsWfCcEkEOrHoHQ1ZwILfFvUE9NvDhokEFBXrZYllpBBZjekqM2Qs7BfTBuc8OVDtNKx23ZIZiRHdXgfY77GrPhXr1YuPchHmcwRmgOc+s62ZLXeqXpJ2BHK82zH8DlDjDXhjo6YbaiWvFeSdm4YWc7hoMtZU4lXhhSVrhq3oL8Y3p+SCnqXO3ukIODWUuKdvqCZWux2GQUqUE3HB+bovRD0/+Sz8Gey0XMop4CCPk9pngGgIjzJax8YlAweQEkC2gtqsLI/ZoeWpbR7ippGZzTFY42+FFDUnz96ZlLJUnOmxHaoCtr95Ge/5w5+XzVMMKvOLxr0kGiuaO2cAA2fO5auVJ4Qk65JRyr0ZM0Em/baQdCMGUys2V43yMVpRVsU47iYDU2snyTB2Wf3J5LkpzBXAu+Z2BEKA5A6iaEicoaqJ1zCmG8DVZGZMrbCTu7JpnJ9EVZSSWphYXDf9Q3VVO4NhRDNE3URn3hUwgQMVEd5F5WNNFeXkKNw7z2QK1DdueMoJ46xzt/RHfipuuqrUsMpzGEQKydjQtjPba76GQqY/8vPS8X7ws9BMz80mguGLY5cInVApFZ9uGemw5M0YXzHm+J2wRy0VGYJZ0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(366016)(1800799024)(23010399003)(4143699003)(11063799006)(5023799004)(56012099006)(3023799007)(6133799003)(18002099003)(10067099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YlFaUkN2SnRsTG5PMjFUMWlsU3lEdUNmUkhjZ2R0dUkvRlhuTnlTdE9hN25M?=
- =?utf-8?B?MmNPNStCQVRjK3BVZ2w4aERacGNROFpIL2N0SzJoNXJwYXgwRHlCR1NhYkVR?=
- =?utf-8?B?ckNEVUJmd25nZkduVVUvb1RnOGV2TjVENEtjN1ptd3BzWitXUEt4OUxUaEp4?=
- =?utf-8?B?eDlmQTRnblQ1NTNNRXVBeEVYK1NISXZRVEJOTExobjIweW9LMlVvakVBbmVp?=
- =?utf-8?B?Rk1zMHgxcXNOSnlZc1o3TDJBQkRud2E5bFFOR0VWQmJrYzhSVUZLNi9aY3ZW?=
- =?utf-8?B?eEkrTVJNcEN0eVFUWWNqd0lHNXZnbHp2cUFDR2tBTzV2dFVOT0FVSkQ1L2w4?=
- =?utf-8?B?VW1KTHYrZTlZQ3JyVkQxK211REhEczlNSTZBSDh4Z0hCcTlKMnpISkJJbXNZ?=
- =?utf-8?B?b0pmNjd5bFNsZElQSzgrZVNWbzJISjYyZlhUWVYvZk52RWFuRnh5d2tZK1I0?=
- =?utf-8?B?U29neXRvT2NiQ0VMYzdUcHZhRWR2eDFsbjA4aEd3dnBCTlo5WVgvYU1MMzRx?=
- =?utf-8?B?c0VROEU2amZFRkRDRnZUbmd2SWdzb3lHbjB2eXZjVDVycGpUT2FUR2thTGNt?=
- =?utf-8?B?Y2JwMGtabmNGbTdyeDg5Vm5LWjh2bWhiMEEzTnNvV2JvQUxiZ3BXNituNk82?=
- =?utf-8?B?ZHhxWUxpUDRoRTZ2bzIwQUc2dHFEZHlJMnA1S2JsTi9LWWoyejV0OGsrUGFL?=
- =?utf-8?B?M3NwT3pXbjBiTWJ2d1h5VW5vdkw0dCt3SDlsNDZiT0x3emIrS3NqZm9Hb0l2?=
- =?utf-8?B?NXAxSVI3b0svc2pmcWFCRnFLRWk3cDFzWEY4cWNKYlpKOFlrS0pMUWRNRHBP?=
- =?utf-8?B?ck5TdE4vVEQxWHB4bTJCVlM2djFUaG02ZWo1ekFoYmljbGRVa3lHbS9MVWsy?=
- =?utf-8?B?UWh0amZ4ZWNyV21kby94dWFiby8xRHFLMC9YcXRCeFlTWVZFK0dMYWcxVWVu?=
- =?utf-8?B?SWNQMnppTE1HYndrdHBaQ012ZWlVWXl2NzNYdGp2VlY1K0p6MWJiRUJqMmNG?=
- =?utf-8?B?WHBPUW81U2cxMmhEMHdRQUx0K0w2UkI4NTE2NjdhNlF0aENCVmxzTFBBYnJT?=
- =?utf-8?B?QVJ6dEdUYnVFSkhvc2ZBMy9RWnZjWk80L2o0ZVgwNGR6S0J2MThLbGFxM3ht?=
- =?utf-8?B?RHFoNDlNclh3cm5TbnY2dmQ3TlZhRTJuYnJTcVVLYVNTaUgrWnJmRytOUFFm?=
- =?utf-8?B?VnZ3dDRpRjdVTHFQTjhHUXJlWFJxNVJ2dEF3ZmpleXlHQU11aXNQUnVDVi9V?=
- =?utf-8?B?MzdkbXZQYlA0ck9mRmFreEhpN05EMTFEVG5vQ2gxbGZQdXJRSlZCRmxpVHlB?=
- =?utf-8?B?dEVjZk1SblpoTzdGVUttR1QzMEZlcUdySmRvdGdtdnJBcVduaDlhS2ZIdmtz?=
- =?utf-8?B?RXdUMklvcTVnRVRXZ1ROTXRqU25RRERXbWl4eW5UakJtVk9RdVFURUZYdWhS?=
- =?utf-8?B?dFk5WU41aXA4VU9rZlZTZjdod2d3bW43bFAvYklFbzlzWFJQSmJzV1U1K0Fu?=
- =?utf-8?B?bVdvTCs5cTRUUElPTW9Qd29YMEw2dEp2czhMZGpmaDNxMWNrTzlnY0dRaHU1?=
- =?utf-8?B?ejRrR2oyVC9lUlZEMGRTZ2U4cE1XUUdxOTQvWXY0NkdZK2c0MmpIM1hjQzBJ?=
- =?utf-8?B?bjNwTEY4NE1rMGJTemR0aGJXR1FaNnBNU0ZLUFpnOHVvMXJ0NWdGMXhuZjAy?=
- =?utf-8?B?azNqRDEvNUhHcmVyTkd2eVBjWDd1VVdVWkppS2NleVpRVGdHak1KenFZRnFE?=
- =?utf-8?B?MUcvaFA0c1NFOXgzejQ0eGIrTHFVcy9VRVJMSFJyc3QrNlZidWdTS0NFVlpW?=
- =?utf-8?B?a1RnUmc5cU9VREFLYmI5eWVDajBmcS9XTDVhblVybFg1ZjhCaElOV1V6UUVX?=
- =?utf-8?B?b3BhM1RsazliTHBZdHBURk8xWVpURHI1cVYxVUkwdTRWUG04S0lscTY5dnR3?=
- =?utf-8?B?MlZVSHprUVZkazVQZ3BjRmExV3pja1pnVmd1QzBtYjVJV0QyeFZXbzVUNGFl?=
- =?utf-8?B?UGhqZHdDZ0wxZ0lJOG5ad1orYXpaRlFFZ3BDdTlnTGdRR2xpdnVtNVUyVjN1?=
- =?utf-8?B?WWJUOUFaMXg2bVIxYVlyVFB4NTI4d1JpTHFHVUdMVUpHVEFDVWw3bWV4bXR5?=
- =?utf-8?B?b3Q1NUFXZm1RMHNzY0poYW4xRkQ5aGtTaHp5eU9GVHF1T0pDMkNUeTZlQm4x?=
- =?utf-8?B?MytoeG9JUkl0L1BrSTJQU3JMU2dnZjJtVHhoZGZ4bjAwU3dNWkJIdzI5ZGdI?=
- =?utf-8?B?bXVVekdCclRzblZLR09TN3BkaGhCRi8zT3o2TDlSV0pxTWttRUtjTVMrVnJ6?=
- =?utf-8?B?SDJHWXBNaC9tTUhzQlhNcHJrVVZBdXYzT1ZrMktHUk1iZ1orV1VlNkwvQnVl?=
- =?utf-8?Q?+1SWpd6BjsI9kgLWvjP0rWRtAYfin6WbzoXJz9o1yzO7x?=
-X-MS-Exchange-AntiSpam-MessageData-1: wib12r0vc4AnAg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e906798-b027-4f4a-7283-08def82d5ced
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-Exchange-RoutingPolicyChecked:
+	SsFdqfyO/IDrkKRK1rL9FSwa1fg9r0yBub+6aopq1lmmy3Y+x7SM27doyVq5UUWI7F9HKVeDt7sBJvj3yXkgkRbEgi3IHipQJQE5pIcY8zFVMHQLQkkKRGDqdW/aBL4C8EBYAvIi4x2XkmOa/n4yAeqJM/YplbDU6yZyFIV5DcJDiXXxH/eWtBpmKvGG+u43bjEfagoSQ/OJOsVoPWcC7qDnxYGQUEEC9yjoFXIg3hy7PrVYRLfWyWGxrezQ+bA46rsQRtoO9O5CUV8vmhO/k545sadhYk0tKBu7mO4Md5YGSWn/54mZfeV8X9SVH4Atwe4AG0knh0dYxsBwvxd6Iw==
+X-OriginatorOrg: lenovo.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 04:51:25.1584
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB6688.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f63f1077-b770-4fe1-3ab6-08def8443272
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2026 07:34:52.0444
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YmCJ3+bY+qN0r6J6j8WjHmwyb9cFE3nhAOM0obf6+hbImHn+jJpIwH5jLBcQg3SSe99wFVziulFn2tgvetGf3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6088
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /20lJB5ef/1RyJeGgGC09QTRDQt3KVkLnkJIDLuHLkODFb+Hrcbu/XsgKIi0TdVZlxEGUO4s01t307CcWhtsJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7407
+X-Proofpoint-ORIG-GUID: DjkgKny0FMhSClUNMtVfXVfYwd-Cm3a4
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA1OSBTYWx0ZWRfXymYTBGXTGpiJ
+ uiR8qppoqSC3v0Yos4/UbvmTwjhS59Oed3OJJx+2q6Dw4VDgo9U87xdhcU7+aNM42xIMw1feb6W
+ wuq2iSBLBhp/cPuGwLLio2syaSj4iZI=
+X-Proofpoint-GUID: DjkgKny0FMhSClUNMtVfXVfYwd-Cm3a4
+X-Authority-Analysis: v=2.4 cv=JK4LdcKb c=1 sm=1 tr=0 ts=6a7c2220 cx=c_pps
+ a=D4TVgLWKYpTCXR8XIqRWmQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=2RTuljz969oO5usasWGy:22
+ a=ZyEuT479hi48zPIlagN0:22 a=VWe-AeaDbOxPGCuMFt8A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA1OSBTYWx0ZWRfX/qmcLHYbCxJx
+ an8jSw+UQeIFlQJJKOwBUBS45AgOvNVQyN0DGlXKil+Y9NTOVu3yALLk26rkaLYAUihPmZLyuTe
+ 1SdrRK/Gq3ZR080DjG2k5Wa4EEy6PcioopXqEW7SxbnCoi1nwf1IaI0Qms5fXIscjJCO3UEzqVV
+ QFSq3kRZl26WWZPbysRvoc10uh7q/FyuIkbiO+Bp4pASBZePqkhrdm0hY+mOXOwy/BuceCxOPwK
+ kQd6zUw2lM6t/EBnwJNUqtdVH0MfsQRgizfyeENdA2kFFoMNlkFXsM8fn5+Kpv5887T5dHKhSYA
+ CIYOmmoFTDGPHtES4mmFjuyH4IAwJVGDq7FXnTb2Xt3wiB7F6JRkJJQwhJDaNHX6h64g5dtq3Z2
+ rD0JkBnuu19XhngFvsjVsgO3bZIPssxcNlpk1Ops7QtKvUMMOzBrO5BA/z68cMBcMNeyZy9bg+O
+ y2ZiSb5oGWfjx3rDYCA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-12_02,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=-20 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608120059
 
-On Mon Aug 10, 2026 at 8:21 PM JST, Gary Guo wrote:
-> On Mon Aug 10, 2026 at 10:30 AM BST, Alexandre Courbot wrote:
->> On Thu Aug 6, 2026 at 1:35 AM JST, Gary Guo wrote:
->>> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
->>> index adfc555de7d0..71c6180ed745 100644
->>> --- a/rust/kernel/io.rs
->>> +++ b/rust/kernel/io.rs
->>> @@ -276,6 +276,91 @@ pub trait IoCapable<T>: IoBackend {
->>>      fn io_write<'a>(view: Self::View<'a, T>, value: T);
->>>  }
->>> =20
->>> +/// Safe transmute that performs size check on monomorphization-time.
->>> +///
->>> +/// Can be considered as generic version of [`zerocopy::transmute!`] m=
-acro but using the unstable
->>> +/// `core::mem::transmute_neo` instead of [`core::mem::transmute`].
->>> +#[inline(always)] // This is a no-op.
->>> +fn transmute_neo<Src: IntoBytes, Dst: FromBytes>(val: Src) -> Dst {
->>> +    const_assert!(size_of::<Src>() =3D=3D size_of::<Dst>());
->>> +
->>> +    // SAFETY: `Src: IntoBytes` and `Dst: FromBytes` and we've checked=
- size is the same.
->>> +    unsafe { core::mem::transmute_copy(&core::mem::ManuallyDrop::new(v=
-al)) }
->>> +}
->>
->> This is universally useful, so let's move this to the `transmute` module=
-?
->
-> I think we can just have a `kernel::mem` and put it there so it's consist=
-ent
-> with std naming. The `transmute` module just contains two types that are =
-going
-> away.
+On Tus, Aug 11, 2026 at 06:03PM, Beata Michalska wrote:
 
-Yes, that would work as well and is probably an even better location.
+> > --- a/arch/arm64/kernel/topology.c
+> > +++ b/arch/arm64/kernel/topology.c
+> > @@ -175,7 +175,8 @@ void arch_cpu_idle_enter(void)
+> >
+> >  	/* Kick in AMU update but only if one has not happened already */
+> >  	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+> > -
+> time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
+> > +
+> time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu))
+> &&
+> > +	    topology_is_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, cpu))
+> >  		amu_scale_freq_tick();
+> I'm not entirely convinced you gained a lot by that.
+> It's one additional check per each enter_idle for case where AMUs are the
+> source vs 2 additional check when it is not.
+> Will try to figure out smth less 'invasive'.
+>=20
 
->
-> Ideally we have this function in `zerocopy`. But my understanding is that=
- this
-> depends on inline const which is stable since 1.79 but zerocopy's MSRV is=
- 1.56.
->
->>
->>> +
->>> +/// Trait indicating the underlying primitive types to be used for I/O=
- operations.
->>> +///
->>> +/// Implementing trait allows arbitrary types to be used for I/O opera=
-tions, not just raw
->>> +/// primitives.
->>> +///
->>> +/// The layout of the type and the underlying primitive must match; th=
-is is enforced via const
->>> +/// assertions when I/O methods are used, as the type system cannot re=
-present this.
->>> +/// [`IoRepr::from_repr`] and [`IoRepr::into_expr`] can be overridden =
-for conversions, however it
->>> +/// should be noted that they are only invoked on value read/write ope=
-rations and are not invoked
->>> +/// on byte operations such as [`Io::copy_read`].
->>> +///
->>> +/// # Examples
->>> +///
->>> +/// ```
->>> +/// # use kernel::io::*;
->>> +/// #[repr(transparent)]
->>> +/// #[derive(FromBytes, IntoBytes)]
->>> +/// pub struct MyNewType(u32);
->>> +///
->>> +/// impl IoRepr for MyNewType {
->>> +///     type Repr =3D u32;
->>> +/// }
->>> +///
->>> +/// #[repr(C)]
->>> +/// pub struct MyStruct {
->>> +///     raw: u32,
->>> +///     new_type: MyNewType,
->>> +/// }
->>> +///
->>> +/// # fn test(mmio: Mmio<'_, MyStruct>) {
->>> +/// // let mmio: Mmio<'_, MyStruct>;
->>> +/// let val: u32 =3D io_read!(mmio, .raw); // Raw primitive read
->>> +/// io_write!(mmio, .raw, val);          // Raw primitve write
->>> +/// let val: MyNewType =3D io_read!(mmio, .new_type); // Read via `IoR=
-epr`.
->>> +/// io_write!(mmio, .new_type, val);                // Write via `IoRe=
-pr`.
->>> +/// # }
->>> +/// ```
->>> +pub trait IoRepr: FromBytes + IntoBytes + Sized {
->>> +    /// The backing I/O capable type.
->>> +    type Repr: FromBytes + IntoBytes;
->>> +
->>> +    /// Convert from [`IoRepr::Repr`] to `Self`.
->>> +    #[inline(always)]
->>> +    fn from_repr(repr: Self::Repr) -> Self {
->>> +        transmute_neo(repr)
->>> +    }
->>> +
->>> +    /// Convert from `Self` to [`IoRepr::Repr`].
->>> +    #[inline(always)]
->>> +    fn into_repr(this: Self) -> Self::Repr {
->>> +        transmute_neo(this)
->>> +    }
->>> +}
->>> +
->>> +macro_rules! impl_io_repr {
->>> +    ($($ty:ty =3D> $backing:ty,)*) =3D> {
->>> +        $(impl IoRepr for $ty {
->>> +            type Repr =3D $backing;
->>> +        })*
->>> +    };
->>> +}
->>> +
->>> +impl_io_repr! {
->>> +    u8 =3D> u8,
->>> +    u16 =3D> u16,
->>> +    u32 =3D> u32,
->>> +    u64 =3D> u64,
->>> +    i8 =3D> u8,
->>> +    i16 =3D> u16,
->>> +    i32 =3D> u32,
->>> +    i64 =3D> u64,
->>> +}
->>
->> ... and `IoRepr` and its implementations for primitive types should also
->> be part of `transmute` IMHO (after being renamed to e.g. `Repr`), for
->> there is nothing I/O exclusive to it. It just indicates that one type
->> can be represented by another, a property that is again useful outside
->> of I/O.
->
-> I tried to be a little bit forward looking in designing this, so I ended =
-up
-> with a design that provides conversion functions instead of just transmut=
-ation.
-> If we're moving it we should probably just get rid of these and just requ=
-ire a
-> transmutability with the raw repr.
+First, I think that the rcu_read_lock_sched()/unlock() in
+topology_is_scale_freq_source() is unnecessary. arch_cpu_idle_enter()
+is called from do_idle() after local_irq_disable() at
+kernel/sched/idle.c:340, which satisfies the rcu_sched grace period
+requirement. This means we can call rcu_dereference_sched() directly
+without explicit RCU lock.
 
-If that works for you then that would simplify things a bit yes, and we
-can think about hypotheticals when we need them.
+I have two options to propose:
 
->
-> Note that there is `AtomicType` which has similar (but not equivalent
-> requirement). `AtomicType` requires a round-trip transmutability only, an=
-d
-> `IoRepr` needs both directions. So `repr(C)` enums (that is not used up a=
-ll its
-> variant reprs) can be `AtomicType` but not `IoRepr`.
->
->>
->> That way `bitfield` gets a dependency on `transmute` rather than `io`,
->> which doesn't break layering.
->
-> We can also avoid breaking layering by requiring user to need to specify
-> `#[derive(IoRepr)]` when declaring bitfield.
+Option A: Keep the helper, but drop the explicit RCU lock
 
-Yup, that sounds like a good solution to the problem as well.
+    bool topology_is_scale_freq_source(enum scale_freq_source source,
+                                       unsigned int cpu)
+    {
+        struct scale_freq_data *sfd;
+        sfd =3D rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
+        return sfd && sfd->source =3D=3D source;
+    }
 
-<...>
->> These appear to repeat quite a bit of [1] which is already in
->> `driver-core-next`. You'll want to rebase, I think the only difference
->> between the two is the removal of $storage from @io_base.
->
-> I'm thinking of moving this entire thing to syn :)
+Option B: Drop the helper entirely, check directly in arch_cpu_idle_enter()
+If a generic exported helper feels too invasive, we can do the
+check locally within arch_cpu_idle_enter() without touching
+drivers/base/arch_topology.c at all:
 
-Heh, I guess that's the next logical step. It would also avoid the (for
-now harmless) recursion introduced by the token muncher of this series.
+    if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+        time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, c=
+pu))) {
+        struct scale_freq_data *sfd;
+        sfd =3D rcu_dereference_sched(*this_cpu_ptr(&sft_data));
+        if (sfd && sfd->source =3D=3D SCALE_FREQ_SOURCE_ARCH)
+            amu_scale_freq_tick();
+    }
+
+This keeps the change entirely in arm64 code and avoids adding
+a new exported symbol. Which approach would you prefer?
+
+> Aside: I should have probably asked that earlier, but I am not sure I do =
+fully
+> understand the case we are trying to fix here.
+> The topology_set_scale_freq_source prefers arch source to others. So if t=
+he
+> AMUs were chosen to server as the source for the freq scale - I do not se=
+e
+> why the sfd would be changed. That would require calling sequence clear-s=
+et
+> to get a different source in place. I do understand the issue itself, tho=
+ugh how
+> did we end up there in the first place ?
+
+The issue arises when topology_clear_scale_freq_source() is called
+with SCALE_FREQ_SOURCE_ARCH to explicitly disable AMU-based frequency
+scaling. This API is exported (EXPORT_SYMBOL_GPL), so it is designed
+to be used by modules or subsystems that need to replace the frequency
+invariance mechanism at runtime.
+=20
+After clearing, the tick path (topology_scale_freq_tick()) correctly
+skips the AMU update because sft_data is set to NULL. However, the
+idle path (arch_cpu_idle_enter()) bypasses this check by calling
+amu_scale_freq_tick() directly, so arch_freq_scale still gets
+modified by AMU counters.
+=20
+This creates an inconsistency: the tick path respects
+topology_clear_scale_freq_source() but the idle path does not.
+=20
+The goal of this patch is to make the idle path consistent with
+the tick path, ensuring that topology_clear_scale_freq_source()
+fully disables AMU updates across all paths.
