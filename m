@@ -1,291 +1,238 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB50402BA1
-	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 21:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571CF40801E;
+	Wed, 12 Aug 2026 21:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786571090; cv=none; b=MqhU+O/pfEjCcQ/Q6EP7pXUupXImVIAK8ySo76uVHk1MYPa3hQlcTnqzLwiKaPNOPaolR+zb6ErvRnzW19zISKYKDKwdnY33XEln7U0c1Xagf+szlrrvgl1UfAhIEkReJKoB9v5NA6TpVnO9rRnNjOwiFYZgpxvk4DV5Dv1cMBY=
+	t=1786571625; cv=none; b=bkgYARdG5dNs/rEP+UfoUCmf2GTo1JU7YFM2aGQYT2lXygAVASncc5nVhFpv8tGzIL6NfX/MMmGJStnwF1379pKfW8AWulmzuGEjozwf7mPpZMDAHrmOYPzWYr1gXlPC83TRFw+1rmlyhJcvmIPuvAp77+YR+PRfUeAirO07m10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786571090; c=relaxed/simple;
-	bh=89EwqujkVX8CqILmqZsH+8E2Zfqbt1N8OrlIniE5+R8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YFicJRNntfchcclSHZJv/UQbeXBuy4qU9/shydBmpY++dQ9KYdCF03rWOJ3hkJh9g/Zi81g/1occknWghIigMIIfdoLcSxqQROHtQyKhXgOUb26VhQQeCGK1MxbRoGPIg7142rloJLATj5ZVEATDeDHswmgrWsp261c0zoojWbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K4unTsat; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786571625; c=relaxed/simple;
+	bh=zoOEOQ43+sDxWy+UnOrNn2U9dUnrZIIC52tkbdcIiuY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=mMcG0vAz0Itg0Ld07aoICQSsSbD2KTLExaFc92QeWnvu3WBUnf004y+y+TqPjwRHwSfVpMZFHWaecXBCqib/2r8f2wRgfLOxQQraQ4PeHduTgT17vJD3Q3VwGMTzgpIcANI5IF1AJG09W/AR2PQAbQSwm0lGzlZlqsqwM+uD2IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IXsVTdQ5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K4unTsat"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786571088;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EpdR7lRgwsOXaHnV+8khs91uYzIEWMJ6GYggqjAM8+M=;
-	b=K4unTsat81KRR5GIA7lMOl5gXWc/JgPwrp76Qoe5HB+0WUd+66GAPUGXRTA14I6Wpp983g
-	FSO7EqonB0z8jiZa6xUhPtZxe27x/OoLlQLzxfpn3iK+TWYRzMwvWewbwQE1b/F2ABOwCn
-	KrLG7M7ZGQkVHmHWvYgjDfUvRwoht9I=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-_XPuavGUNYW2SAoLcsB18g-1; Wed, 12 Aug 2026 17:44:41 -0400
-X-MC-Unique: _XPuavGUNYW2SAoLcsB18g-1
-X-Mimecast-MFC-AGG-ID: _XPuavGUNYW2SAoLcsB18g_1786571081
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7e9fdc2870fso94157a34.2
-        for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 14:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786571081; x=1787175881;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EpdR7lRgwsOXaHnV+8khs91uYzIEWMJ6GYggqjAM8+M=;
-        b=nzRYjDhcErUpiNVOENKWaG1N58m7K4s1G8zsxce+5V9gllWDtRM6p/drAXVv+0+lty
-         bQl+DvOWK/zKnik0PUoM6C1te3rFH5Qln0gXsMS/E5FLE1K6x+jzGEWVpiGAuta9vG/C
-         ksyyDd4mz5VOfqOgwnXGUj00fnjjCoCkUKnPOLZ3VjkULWas3iXjVsnBg4bwnPdOG95E
-         dITwH6OgfHRu8Hblr9WtQEvAE4eOtjiOizWo+buw17YHHY7vfBFGjO1jtp85BZY4nn1H
-         k13oYo7eFScoQalQQR+n57QYrhKl+FGx+IbR426v4KwcUIFpYImzP1FjE/GBUQfIw9HG
-         cAvA==
-X-Forwarded-Encrypted: i=1; AHgh+RpBRPuZHZGsXzNDfRb3JlE4tvORAQqWHk6HXCyfSFW6iAKS3Azn5L0cvkPlWcGGk7FAE/jAcf2dO1ALqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkIwt7Iay2nRn/o8zg4a0KH46yd+JC4qa0+oKYX1cYLqOs5mya
-	iDZFjmYhezMUcoF68vdDtLvP7ZyjV4p00YiTsvONlTVgUiB/B0krGIdybi7hgBi8bmh+pmvaylw
-	UIFkg7Y5zm5hZHA80ulGH37MIrsXfNxEwVcAK/cQhl6llbicAHV4wj6A6nJb7ssSW
-X-Gm-Gg: AR+sD13QmSr6UtafZEDjgkeXOmt84QuNVPtqn1+n1sTy3m43IB6CeaiOiHW9S6EugoP
-	jXu2F7dg1YGG3ZfTZiJGb81HqUDerJM311Rx9kbmvT9xPD8G+5KTnD2N21+wju8ZEnxcER+BeOl
-	SBFYATQPA9pLyp7UrtRgZzgDattBqwMn/R8fLckBCSjYwdPS9Be2EdO5P5HgWMsOXV59LxYMvSx
-	v3AwRI6vaFGybaeAciL2KAC19N2jA4r6OfRpvESxgfMgnr4f2xke+SML2pXtuAl1loq7BB/wlO+
-	b19VeM6t8DupuhqmwMWXwzKgPxadK9ICMy0FFY/d381fugERDWQ73vU9vaAYrMoGPMLSicTwDEY
-	fo0H7ran8sfWR78qUBaZIjhHDUl5HmGKodRt6S31f
-X-Received: by 2002:a05:6820:4cc7:b0:6b0:40d9:8ac6 with SMTP id 006d021491bc7-6b0c41ff715mr1536504eaf.9.1786571080808;
-        Wed, 12 Aug 2026 14:44:40 -0700 (PDT)
-X-Received: by 2002:a05:6820:4cc7:b0:6b0:40d9:8ac6 with SMTP id 006d021491bc7-6b0c41ff715mr1536452eaf.9.1786571080219;
-        Wed, 12 Aug 2026 14:44:40 -0700 (PDT)
-Received: from [10.0.0.119] (97-127-68-83.mpls.qwest.net. [97.127.68.83])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3c9a172cesm438933a34.12.2026.08.12.14.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2026 14:44:39 -0700 (PDT)
-Message-ID: <b1bd3b15-78ea-4487-b6a8-aad0b05dd3bb@redhat.com>
-Date: Wed, 12 Aug 2026 16:44:38 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IXsVTdQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 987811F000E9;
+	Wed, 12 Aug 2026 21:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786571623;
+	bh=6nEU+aeRluycxdNo/6s4mZZKrJ1RxjlgPtIHRp6CvKk=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=IXsVTdQ5zQUuKR4Iw6ZK3MQhGzcBbD5D+BmAgP90RIhowNF15Qvl/daAVQJt8uLyy
+	 rIkJAZ6sNBkDjUGtU3cI/VGEiGebXer+9cErer6IqhdmgixYvy4Hz1W7Q7pabBrv8x
+	 YQXaZcdMYk+oUEFaZT6hbmwff+KV39BTSqdgf6+R+2uOUvAmAbz9PrPAOS6WKy0Fa1
+	 O6EgPhBJzHIifIXXh8zwYLZJluIm96rhQ3IQSP1gu3YzsVqWyoQ5I/w3Dm6bN1SHUD
+	 PeamQtayFym7qz9Jcw3jlL3cOB+eq9PY/6eF6heTF+y3ojTLfgHj8GMUmuJum26dfp
+	 gSeZSwkGxdiXg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH V2] devtmpfs: restore mount option reconfiguration on get_tree
-To: Simon Liebold <simonlie@amazon.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Christian Brauner <brauner@kernel.org>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexander Viro <aviro@redhat.com>
-Cc: stable@vger.kernel.org
-References: <20260810083438.764684-1-simonlie@amazon.de>
-From: Eric Sandeen <sandeen@redhat.com>
-In-Reply-To: <20260810083438.764684-1-simonlie@amazon.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yRl6-6MCHqyuw0WNualbeNQFsaEdn_HZGsIYH8sTvYQ_1786571081
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 12 Aug 2026 23:53:34 +0200
+Message-Id: <DKNAS52KYWLD.M15VEC6U0F6R@kernel.org>
+Subject: Re: [PATCH v10 00/10] Fix missing fops.owner in Rust DRM/misc
+ abstractions
+Cc: "Alvin Sun" <alvin.sun@linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Luis
+ Chamberlain" <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>,
+ "Daniel Gomez" <da.gomez@kernel.org>, "Sami Tolvanen"
+ <samitolvanen@google.com>, "Aaron Tomlin" <atomlin@atomlin.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Brendan Higgins" <brendan.higgins@linux.dev>,
+ "David Gow" <david@davidgow.net>, "Rae Moar" <raemoar63@gmail.com>, "Breno
+ Leitao" <leitao@debian.org>, "Jens Axboe" <axboe@kernel.dk>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Leon Romanovsky" <leon@kernel.org>, "Igor
+ Korotin" <igor.korotin@linux.dev>, "FUJITA Tomonori"
+ <fujita.tomonori@gmail.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
+ <tkjos@android.com>, "Christian Brauner" <brauner@kernel.org>, "Carlos
+ Llamas" <cmllamas@google.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-modules@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <nova-gpu@lists.linux.dev>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-pci@vger.kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260811-fix-fops-owner-v10-0-7e71776f9dbe@linux.dev>
+ <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com>
+In-Reply-To: <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com>
 
-commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
-public instance") converted the public devtmpfs instance to the new
-mount API but broke the ability to reconfigure the shared superblock
-options via subsequent mount() calls, as had been fixed once in
-a6097180d884 ("devtmpfs regression fix: reconfigure on each mount")
+(Cc: Mark)
 
-This makes boot-time defaults permanent.
+On Wed Aug 12, 2026 at 6:33 PM CEST, Miguel Ojeda wrote:
+> On Tue, Aug 11, 2026 at 8:41=E2=80=AFAM Alvin Sun <alvin.sun@linux.dev> w=
+rote:
+>>
+>> The series moves `THIS_MODULE` into the `ModuleMetadata` as a const, thr=
+eads it
+>> through `#[vtable]` to set `fops.owner` in DRM/miscdevice, and updates c=
+onfigfs
+>> and rnull to use `this_module::<LocalModule>()`.
+>
+> Applied to `rust-next` -- thanks everyone!
 
-Fix this using an approach suggested by Al Viro: at init_fs_context
-time, create a reconfigure-mode context via fs_context_for_reconfigure()
-and save it in fc->fs_private. The devtmpfs parse ops can then use
-this context to parse options appropriately for the underlying filesystem.
+This series has a semantic conflict with both the driver-core and the drm-r=
+ust
+tree:
 
-This also removes the devtmpfs_configure_context() one-time ops-copying
-approach and the global mutable ops table it required.
+@Mark: When you merge driver-core-next after rust-next (which I think is th=
+e
+case) then you need to include the diff in [1] into the merge.
 
-Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
-Reported-by: Simon Liebold <simonlie@amazon.de>
-Cc: stable@vger.kernel.org
-Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
-Signed-off-by: Eric Sandeen <sandeen@redhat.com>
----
+In drm-rust-next the build fails with:
 
-I think this might be a better approach; more involved, but it uses the
-right type of context for reconfigure and avoids the nasty ops copying
-I wrote the first time. :(
+	error[E0425]: cannot find type `LocalModule` in the crate root
+	   --> rust/kernel/drm/gem/shmem.rs:628:5
+	    |
+	628 |     #[vtable]
+	    |     ^^^^^^^^^ not found in the crate root
+	    |
+	    =3D note: this error originates in the attribute macro `vtable` (in Ni=
+ghtly builds, run with -Z macro-backtrace for more info)
 
-First, sorry for breaking this. Second, Al please yell if I have mis-attributed
-or mis-implemented your suggestion from months back. Third, I have done only
-light testing on this but it seems ok, built and booted with CONFIG_TMPFS=y
-and confirmed that a fresh "mount" with new options takes hold, and confirmed
-it builds without CONFIG_TMPFS configured though I don't have a system
-that wants to boot that config.
+which is because the kunit test in rust/kernel/drm/gem/shmem.rs uses the
+#[vtable] macro.
 
-Thoughts?
+This should be fixed up with a patch on top of this series in rust-next.
 
- drivers/base/devtmpfs.c | 108 ++++++++++++++++++++++++----------------
- 1 file changed, 64 insertions(+), 44 deletions(-)
+I came up with to potential solutions [2] and [3]. I think with the new bui=
+ld
+system we want [3], but I'm not entirely sure this works correctly with the
+current build system in all cases (at least it did survive my tests).
 
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index b1c4ceb65026..c32d3b963f2e 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -72,39 +72,90 @@ static struct file_system_type internal_fs_type = {
- 	.kill_sb = kill_anon_super,
+Alternatively, we could just open-code a dummy module as in [2] for now.
+
+[1] driver-core-next merge fixup
+
+diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+index a4927452016e..17ca504b7f8d 100644
+--- a/rust/kernel/serdev.rs
++++ b/rust/kernel/serdev.rs
+@@ -87,7 +87,7 @@ unsafe fn register(
+         }
+
+         // SAFETY: `sdrv` is guaranteed to be a valid `DriverType`.
+-        to_result(unsafe { bindings::__serdev_device_driver_register(sdrv.=
+get(), module.0) })
++        to_result(unsafe { bindings::__serdev_device_driver_register(sdrv.=
+get(), module.as_ptr()) })
+     }
+
+     unsafe fn unregister(sdrv: &Opaque<Self::DriverType>) {
+
+[2] Open-coded dummy module
+
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index c04e6c5aa7e0..274924cfcc05 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -157,6 +157,15 @@
+ /// Prefix to appear before log messages printed from within the `kernel` =
+crate.
+ const __LOG_PREFIX: &[u8] =3D b"rust_kernel\0";
+
++/// Dummy module type for `#[vtable]` impl blocks within the kernel crate =
+(e.g. kunit tests).
++struct LocalModule;
++
++impl ModuleMetadata for LocalModule {
++    const NAME: &'static str::CStr =3D c"rust_kernel";
++    // SAFETY: `try_module_get`/`module_put` handle null module pointers g=
+racefully.
++    const THIS_MODULE: ThisModule =3D unsafe { ThisModule::from_ptr(core::=
+ptr::null_mut()) };
++}
++
+ #[cfg(not(testlib))]
+ #[panic_handler]
+ fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
+
+[3] Allow module!() for kernel crate
+
+diff --git a/rust/Makefile b/rust/Makefile
+index 48adcd9b7851..4f6bf1b4d194 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -279,6 +279,7 @@ rustdoc-pin_init: $(src)/pin-init/src/lib.rs rustdoc-pi=
+n_init_internal \
+        +$(call if_changed,rustdoc)
+
+ rustdoc-kernel: private is-kernel-object :=3D y
++rustdoc-kernel: private rustc_target_envs =3D RUST_MODFILE=3Dkernel/lib.rs
+ rustdoc-kernel: private rustc_target_flags =3D --extern ffi --extern pin_i=
+nit \
+     --extern build_error --extern macros \
+     --extern bindings --extern uapi \
+@@ -351,6 +352,7 @@ rusttestlib-pin_init: $(src)/pin-init/src/lib.rs rustte=
+stlib-macros \
+     rusttestlib-pin_init_internal $(obj)/$(libpin_init_internal_name) FORC=
+E
+        +$(call if_changed,rustc_test_library)
+
++rusttestlib-kernel: private rustc_target_envs =3D RUST_MODFILE=3Dkernel/li=
+b.rs
+ rusttestlib-kernel: private rustc_target_flags =3D --extern ffi \
+     --extern build_error --extern macros --extern pin_init \
+     --extern bindings --extern uapi \
+@@ -386,6 +388,7 @@ quiet_cmd_rustdoc_test_kernel =3D RUSTDOC TK $<
+        rm -rf $(objtree)/$(obj)/test/doctests/kernel; \
+        mkdir -p $(objtree)/$(obj)/test/doctests/kernel; \
+        $(rustc_target_envs) \
++       RUST_MODFILE=3Dkernel/lib.rs \
+        OBJTREE=3D$(abspath $(objtree)) \
+        $(RUSTDOC) --test $(filter-out --remap-path-scope=3D%,$(rust_flags)=
+) \
+                -L$(objtree)/$(obj) --extern ffi --extern pin_init \
+@@ -788,6 +791,7 @@ $(obj)/uapi.o: $(src)/uapi/lib.rs \
+     $(obj)/uapi/uapi_generated.rs FORCE
+        +$(call if_changed_rule,rustc_library)
+
++$(obj)/kernel.o: private rustc_target_envs =3D RUST_MODFILE=3Dkernel/lib.r=
+s
+ $(obj)/kernel.o: private rustc_target_flags =3D --extern ffi --extern pin_=
+init \
+     --extern build_error --extern macros --extern bindings --extern uapi \
+     --extern zerocopy --extern zerocopy_derive
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index c04e6c5aa7e0..7df9159788ad 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -154,8 +154,21 @@
  };
- 
--/* Simply take a ref on the existing mount */
-+struct devtmpfs_context {
-+	struct fs_context *fc;
-+};
+ pub use uapi;
+
+-/// Prefix to appear before log messages printed from within the `kernel` =
+crate.
+-const __LOG_PREFIX: &[u8] =3D b"rust_kernel\0";
++struct KernelCrateModule;
 +
-+static void devtmpfs_free(struct fs_context *fc)
-+{
-+	struct devtmpfs_context *ctx = fc->fs_private;
-+
-+	if (ctx) {
-+		put_fs_context(ctx->fc);
-+		kfree(ctx);
-+	}
++impl Module for KernelCrateModule {
++    fn init(_module: &'static ThisModule) -> error::Result<Self> {
++        Ok(Self)
++    }
 +}
 +
-+static int devtmpfs_parse_param(struct fs_context *fc, struct fs_parameter *param)
-+{
-+	struct devtmpfs_context *ctx = fc->fs_private;
-+
-+	return ctx->fc->ops->parse_param(ctx->fc, param);
++macros::module! {
++    type: KernelCrateModule,
++    name: "rust_kernel",
++    authors: ["Rust for Linux Contributors"],
++    description: "The kernel crate",
++    license: "GPL",
 +}
-+
-+static int devtmpfs_parse_monolithic(struct fs_context *fc, void *data)
-+{
-+	struct devtmpfs_context *ctx = fc->fs_private;
-+
-+	if (ctx->fc->ops->parse_monolithic)
-+		return ctx->fc->ops->parse_monolithic(ctx->fc, data);
-+	return generic_parse_monolithic(ctx->fc, data);
-+}
-+
- static int devtmpfs_get_tree(struct fs_context *fc)
- {
-+	struct devtmpfs_context *ctx = fc->fs_private;
- 	struct super_block *sb = mnt->mnt_sb;
-+	int err;
- 
- 	atomic_inc(&sb->s_active);
- 	down_write(&sb->s_umount);
-+
-+	if (ctx->fc->ops->reconfigure) {
-+		err = ctx->fc->ops->reconfigure(ctx->fc);
-+		if (err) {
-+			deactivate_locked_super(sb);
-+			return err;
-+		}
-+	}
-+
- 	fc->root = dget(sb->s_root);
- 	return 0;
- }
- 
--/* Ops are filled in during init depending on underlying shmem or ramfs type */
--static struct fs_context_operations devtmpfs_context_ops = {};
-+static const struct fs_context_operations devtmpfs_context_ops = {
-+	.free		  = devtmpfs_free,
-+	.parse_param	  = devtmpfs_parse_param,
-+	.parse_monolithic = devtmpfs_parse_monolithic,
-+	.get_tree	  = devtmpfs_get_tree,
-+};
- 
--/* Call the underlying initialization and set to our ops */
- static int devtmpfs_init_fs_context(struct fs_context *fc)
- {
--	int ret;
--#ifdef CONFIG_TMPFS
--	ret = shmem_init_fs_context(fc);
--#else
--	ret = ramfs_init_fs_context(fc);
--#endif
--	if (ret < 0)
--		return ret;
-+	struct devtmpfs_context *ctx;
-+	int err;
-+
-+	ctx = kzalloc_obj(struct devtmpfs_context);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	/* Each mount will reconfigure the shared superblock w/ new options */
-+	ctx->fc = fs_context_for_reconfigure(mnt->mnt_root,
-+					     mnt->mnt_sb->s_flags, MS_RMT_MASK);
-+	if (IS_ERR(ctx->fc)) {
-+		err = PTR_ERR(ctx->fc);
-+		kfree(ctx);
-+		return err;
-+	}
- 
-+	fc->fs_private = ctx;
- 	fc->ops = &devtmpfs_context_ops;
- 
- 	return 0;
- }
- 
- static struct file_system_type dev_fs_type = {
--	.name = "devtmpfs",
-+	.name		 = "devtmpfs",
- 	.init_fs_context = devtmpfs_init_fs_context,
- };
- 
-@@ -442,31 +493,6 @@ static int __ref devtmpfsd(void *p)
- 	return 0;
- }
- 
--/*
-- * Get the underlying (shmem/ramfs) context ops to build ours
-- */
--static int devtmpfs_configure_context(void)
--{
--	struct fs_context *fc;
--
--	fc = fs_context_for_reconfigure(mnt->mnt_root, mnt->mnt_sb->s_flags,
--					MS_RMT_MASK);
--	if (IS_ERR(fc))
--		return PTR_ERR(fc);
--
--	/* Set up devtmpfs_context_ops based on underlying type */
--	devtmpfs_context_ops.free	      = fc->ops->free;
--	devtmpfs_context_ops.dup	      = fc->ops->dup;
--	devtmpfs_context_ops.parse_param      = fc->ops->parse_param;
--	devtmpfs_context_ops.parse_monolithic = fc->ops->parse_monolithic;
--	devtmpfs_context_ops.get_tree	      = &devtmpfs_get_tree;
--	devtmpfs_context_ops.reconfigure      = fc->ops->reconfigure;
--
--	put_fs_context(fc);
--
--	return 0;
--}
--
- /*
-  * Create devtmpfs instance, driver-core devices will add their device
-  * nodes here.
-@@ -482,12 +508,6 @@ int __init devtmpfs_init(void)
- 		return PTR_ERR(mnt);
- 	}
- 
--	err = devtmpfs_configure_context();
--	if (err) {
--		pr_err("unable to configure devtmpfs type %d\n", err);
--		return err;
--	}
--
- 	err = register_filesystem(&dev_fs_type);
- 	if (err) {
- 		pr_err("unable to register devtmpfs type %d\n", err);
--- 
-2.55.0
 
-
-
+ #[cfg(not(testlib))]
+ #[panic_handler]
