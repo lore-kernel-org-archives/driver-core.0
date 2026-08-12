@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BCE320CBE;
-	Wed, 12 Aug 2026 19:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B088E2DEA7B;
+	Wed, 12 Aug 2026 19:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786563076; cv=none; b=PSGX3ScYh7f1HhM5R6ZG9VmNzporuWbgcPDT/voymwGoRFPqNyLbiCCvBoG/ADjKlkrhqhX896O20fZpU1k6D2dnupy4nF/QLoG+leR+xyqW5M1DHpBvdoLBTM8tYk8gY5unF0F2jU6BHbwdY5goeHUhYfkpVDuFP+WWna4DnF0=
+	t=1786564665; cv=none; b=fVLGj/tLC+xaGOiqd6UTwNzOhtgFJE+AEZsfsNRcn7X8ZFeNVDKQoXQMiXs4j4FmtBbIBBTn0NXPa6pVXISwlzyGPTGsbkq1uNk12meZtfAtqUbnjrK/czAERfuffw0R7m9AoGJeCz8uXfKJqJtaGmpYEzVsP/yjc0WNiBOku7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786563076; c=relaxed/simple;
-	bh=IUOP6NKnlTpSSSf5P55+u+N72940Fvh/R4Z5F17uc/c=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=H0wUnRmTQtAQixJYRzrqj70gcK18PbG0/b4AzIDfN2DdOBOTmsbM+LWZhqlUin0UtpUTd4fPu28E6mS5Q54cHOlNFS/q+J3NfV93TH18kt5LQ7IFV5VB2EBI9SQDH13XIH4MZSEtzc2sBNhO0D4SgEFINJYc+HZY/jMmljS54ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hS78QHXi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786564665; c=relaxed/simple;
+	bh=teSbcK8YfazPkNdIbehrOFLgujsO4hQooFuTPtYQV4s=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=uqXzmOGT/BnlvauFsmyxuFVplfpNBrzJaSpFvKhNWKfE9qqw2XOcX9k4siIcmRdAOKxhdZ9fkdb9rd0rrw+Q3I7Q538hKgt2t6NHvgbj+l9NOGIFrJmPRyym40SlTBcJbfYlQxbOqf8qRl2gI/SVvyU6RTeyKebIq9mIkA7vN5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/GK8mPF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hS78QHXi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E711F000E9;
-	Wed, 12 Aug 2026 19:31:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/GK8mPF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D60061F000E9;
+	Wed, 12 Aug 2026 19:57:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786563075;
-	bh=xw4G7/B/uTxPa+kXrkmzXVxEeqlT3GP1kOyNFWPfXm4=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=hS78QHXidl4w6xf+BEILFE/0TLRCqkMXlDW6U+c2GmrnvPRrx7y8Z4aUaFazIzBzu
-	 KqFvUiPez2/CVhCr+fMgM7KN03U0Gavpkj+9RMfPiiqmATkoiGlM4xVymgAxKhaLo5
-	 a8BiXngd5FxI5VjfXFKC1ucDRf4vx64e/hrn9tPi+wcH/wN+1r+F314yGjPy4hWPxv
-	 TtkzvS5aZrFkDgRrEc1HcohGqZvMYj8bTAnQ2wefZwuE4RGBv3ib4maF+WQNCpzAUM
-	 W/G50YSVl4O3SjWdeSmIV9ywbehntxQ6fWcqi97Jrh1LH2qlSHa7Gm2Y7wwrkGn7vS
-	 6T8YRZ5ZEL/+w==
+	s=k20260515; t=1786564664;
+	bh=A+Wk3BV8+0nSVtbUop929wSiFkTbjDQfpbfypmbDngc=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=M/GK8mPFPE/jDMDxhvQOmPlOvr+iX6jzAywBy61SEJMc/iaVgSccLC4+VXJyXFu9k
+	 rG0GUIo8CYlFCN7GvFVrwVVICS2qfCSiga7yriYsKyKK8kkFDwJbExNtSghCvsgsOs
+	 9lmXkNASLO+jBpwC/A4k090hkyv+zQS1hIfNRZy6EQY5p6XfW7BjOTXQMJpDGdCTSc
+	 NziONSGA0EDr+j0tXRShP2M6HwQb6V3t/0zkgQZvi0ooYauL8XlcibIcWGaorgrUg/
+	 LNSagEPlCPftQFRy/5aacp6O9NbYE6o8+e3tuwP0BLdsyHFOMpHugIS2HdFoXwdOTn
+	 Jfx8KnKYUGGMQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,8 +34,10 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 21:31:09 +0200
-Message-Id: <DKN7R3LFHP8S.20RYZQSO8TMZC@kernel.org>
+Date: Wed, 12 Aug 2026 21:57:38 +0200
+Message-Id: <DKN8BDODRXVT.RDQQIJX5316G@kernel.org>
+Subject: Re: [PATCH v2 1/5] rust: pci: convert IrqVectorRegistration to a
+ lifetime-managed owning type
 Cc: <bhelgaas@google.com>, <kwilczynski@kernel.org>, <aliceryhl@google.com>,
  <daniel.almeida@collabora.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
  <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
@@ -47,88 +49,72 @@ Cc: <bhelgaas@google.com>, <kwilczynski@kernel.org>, <aliceryhl@google.com>,
  <linux-kernel@vger.kernel.org>
 To: "Gary Guo" <gary@garyguo.net>
 From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 2/5] rust: pci: resolve IRQ in vector() and embed
- IrqRequest in IrqVector
 References: <20260811233952.3000968-1-dakr@kernel.org>
- <20260811233952.3000968-3-dakr@kernel.org>
- <DKN432T77NWT.1HRUZU9DJ9ABH@garyguo.net>
- <DKN5HGXO6M7E.1SL8IATHZFUK1@kernel.org>
- <DKN60QB0522T.1IRNS63F2RMXG@garyguo.net>
-In-Reply-To: <DKN60QB0522T.1IRNS63F2RMXG@garyguo.net>
+ <20260811233952.3000968-2-dakr@kernel.org>
+ <DKN3U000UGRL.2MOXT25O11UE0@garyguo.net>
+ <DKN5C359PZP3.2BPH5HLM9H0HY@kernel.org>
+ <DKN6203R3WD1.1NLN19VVBZJO9@garyguo.net>
+ <DKN6TRRJ2OY3.2U6M6TQDNSM27@kernel.org>
+ <DKN74N3E3NUK.1I4LFP3LLH5AM@garyguo.net>
+In-Reply-To: <DKN74N3E3NUK.1I4LFP3LLH5AM@garyguo.net>
 
-On Wed Aug 12, 2026 at 8:09 PM CEST, Gary Guo wrote:
-> On Wed Aug 12, 2026 at 6:44 PM BST, Danilo Krummrich wrote:
->> On Wed Aug 12, 2026 at 6:38 PM CEST, Gary Guo wrote:
->>> On Wed Aug 12, 2026 at 12:39 AM BST, Danilo Krummrich wrote:
->>>>      pub fn vector(&self, index: usize) -> Result<IrqVector<'_>> {
->>>>          if index >=3D self.count.get() {
->>>>              return Err(EINVAL);
->>>>          }
->>>> =20
->>>> -        // SAFETY: `index` is within bounds of this registration's al=
-location, and `self.dev` is
->>>> -        // the device it was allocated from.
->>>> -        Ok(unsafe { IrqVector::new(self.dev, self, index as u32) })
->>>> +        // SAFETY: `self.dev.as_raw()` is a valid pointer to a `struc=
-t pci_dev`.
->>>> +        let irq =3D unsafe { bindings::pci_irq_vector(self.dev.as_raw=
-(), index as u32) };
->>>> +        if irq < 0 {
->>>> +            return Err(Error::from_errno(irq));
->>>> +        }
->>>
->>> Correct me if I'm wrong, but I believe that it's impossible for `pci_ir=
-q_vector`
->>> once we have allocated vector and the index is in bounds. (If that's no=
-t the
->>> case, we should ideally fix that instead.)
+On Wed Aug 12, 2026 at 9:01 PM CEST, Gary Guo wrote:
+> On Wed Aug 12, 2026 at 7:47 PM BST, Danilo Krummrich wrote:
+>> On Wed Aug 12, 2026 at 8:11 PM CEST, Gary Guo wrote:
+>>> Well, I'd expect some drivers want to do `.vector(v).expect()` rather t=
+han just
+>>> propagating the error if `v` is a constant that is less than `min_vecs`=
+..
 >>
->> You are correct, as of now it is unreachable with the index check above.
->>
->>> So I think we should just `.expect()` on the error in `Into`.
->>
->> I don't agree with the conclusion; I don't want this code to rely on an
->> implementation detail of pci_irq_vector(), which (even though unlikely) =
-could
->> theoretically change.
+>> This is nothing we want drivers to do; this API is only ever called from=
+ a
+>> fallible context anyway and propagating costs nothing, but on the other =
+hand, if
+>> the driver gets it wrong, we'd BUG() the whole kernel for no value.
 >
-> I think this is expected use pattern of `pci_irq_vector`. Many C code don=
-'t
-> check the return code at all. If we want to mirror what C code do, we can=
- also
-> just drop this error code check and rely on `irq as u32` below doing the =
-correct
-> thing.
+> Well, if you ask for an interrupt and got one, you'd better got one! If t=
+he case
+> is actually "we'd BUG() the kernel", then it probably should because some=
+thing
+> is catastrophically wrong. I'd even consider `unwrap_unchecked` to be val=
+id
+> there and in my view `BUG()` is less damaging then UB.
+
+If the driver calls vector().expect() on an index that is actually out of
+bounds, because someone made a mistake, e.g. because min_vecs changed and p=
+eople
+forgot to update the code, then nothing went "catastrophically wrong" to a =
+point
+that we need to BUG() the whole kernel.
+
+> I don't like the fact that we propagate error code because we can. Propag=
+ating
+> error comes with a cost: it's one extra control flow that developer needs=
+ to
+> consider; more code is generated because the destructors that's currently
+> available still needs to be executed; and the code will have 0% coverage =
+because
+> it'd never occur as
 >
-> For both this and the EINVAL case for patch 1, my reasoning is that if th=
-e error
-> is never going to happen, then the code shouldn't be written as if it doe=
-s, as
-> it will only add confusion to people reading the code.
+>     /// `dev` has an allocation of `count` interrupt vectors
 >
-> I view these essentially as invariants, just not spelled out because it's
-> written in another language. In this case, basically you can say that
-> `pci_irq_vector(dev, index)` being successful is an invariant of
-> `IrqVectorRegistration` type.
+> is the type invariant of `IrqVectorRegistration`.
 
-All this only checks out if we keep open-coding the range check and therefo=
-re
-rely on implementation details of pci_irq_vector().
+I do not disagree; those points are all valid, but I think it is a case by =
+case
+question.
 
->>
->> If we want to remove the redundancy, then we could maybe drop the index =
-check
->> above.
->
-> I think the index check should stay.
+For drivers and in an already fallible cold path, I don't see a lot of valu=
+e in
+compromising on robustness against human mistakes for those reasons.
 
-Again, this seems backwards, why would we want to open-code a check that
-pci_irq_vector() already does and subsequently rely on this implementation
-detail?
+Quite some drivers are poorly maintained and patches don't receive a lot of
+review before they are thrown in; Rust has a chance to significantly compen=
+sate
+the downsides of a monolithic kernel by increasing the robustness of this
+weakest part.
 
->>
->> (I also prefer IrqVector to be a new type over IrqRequest, as it also gu=
-arantees
->> type wise that a valid IrqVector will always transform into a valid IrqR=
-equest.)
-
+If we encourage drivers to use accessors that potentially end up in BUG() f=
+or
+cases where it doesn't provide significant value, we may also diminish the
+potential for additional robustness.
