@@ -1,165 +1,68 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 484DC432BC2
-	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 11:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00981436BF2
+	for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 11:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786532562; cv=none; b=RZVwweZvpaYwulgJoq5aS8HsGqDlSdiSSdBn2KsxfHXB+tBx9c5IMKRq1uQoy0hxSi5iMNPebk7aeKgc/gBY6DBngLERZEoaPLGy9kR6BKrZwqzAuYkFX5UHojLVGmqYzN3NqokEIEkUKAyPEf0/pzp4l3lVryo4gqziK5RYTSw=
+	t=1786533579; cv=none; b=NcIGBPUD7q07G1OQvLB22l3td0wS8hsKVGwT83N4kvD/ov5ankCgk7HFeeUkRjTWzZTttZ3SnvJkEZC8vn3UKltRAHdGosZvn+UkmztSMN4huyDdJ1Y0F0UmFsSSrD5EeHXAv+ar7LJP/UIWR8YI4+5Ld2BVNavdSPoOHmvCkFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786532562; c=relaxed/simple;
-	bh=mdrIGZjICmq0LxOwQ6YiH5ZpPrFH3mTO0IlhyWlkIDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKF00+d6YXdCd6jR8oCJ89LuyPun6OUxVNv67D6lG3ds6emH6EPj+ovqAUC7SfOXfTJ+Mdaro8OqoP7hbuZ2ePSxvBHdJ/HckNuepeUKsrY44hMFOkDLXh2hDa/gu/h7Mkv5g431DRnzJy7fUjS1Xg44dB2Jpjm99SwPBzFEZTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZGpV5YRL; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZGpV5YRL"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 875641596;
-	Wed, 12 Aug 2026 04:02:33 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BEBBE3F86F;
-	Wed, 12 Aug 2026 04:02:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786532557; bh=mdrIGZjICmq0LxOwQ6YiH5ZpPrFH3mTO0IlhyWlkIDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZGpV5YRLI7rdNyFSqiLdfEanSElpwuTSW6u+h99x0+n0OsN0F8HVFSj4UAyLA6Pdr
-	 sgDWFHZc6Qoqx9qryjKj6NH9tlbT1SuUH+l3IuXwRQHxJvHRiW9/eB53dmlXfVCZFU
-	 87t+L3949mhkIpaQVEw0nW09yC8WGZUpPbJTkjFw=
-Date: Wed, 12 Aug 2026 13:02:09 +0200
-From: Beata Michalska <beata.michalska@arm.com>
-To: Sean Wang1 <seanwang1@lenovo.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>,
-	Xuewen Yan <xuewen.yan@unisoc.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sumit Gupta <sumitg@nvidia.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>
-Subject: Re: [External] Re: [PATCH v3] arm64: topology: add source check in
- arch_cpu_idle_enter()
-Message-ID: <anxSsfvpZHHsVnp_@arm.com>
-References: <20260811072830.10028-1-seanwang1@lenovo.com>
- <anrzT-ez3b7uYaCt@arm.com>
- <SI2PR03MB6688D1DC0796AC6F6A373C2E93DC2@SI2PR03MB6688.apcprd03.prod.outlook.com>
+	s=arc-20240116; t=1786533579; c=relaxed/simple;
+	bh=+Bn+Q3nHOn1X2xwaQgCpf5eH6EK4BP1DTQzRz61/xrI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=V/D7nn8jCA22w13gCROXkSlG5BuHr7GJceEP86c3k3ovDPo7azZ79L5eLh6Bea62J0HsTS6KztBedTait5jnjs9GekAm9NdohcDnrpSNBOjK8SBjMBgN80ll0d024w+9VoxP7v932kfAk9YiCzXEPNrCA0Pe5q5yU3FmfNr6iLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 7A29492009C; Wed, 12 Aug 2026 13:19:29 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 76D1392009B;
+	Wed, 12 Aug 2026 12:19:29 +0100 (BST)
+Date: Wed, 12 Aug 2026 12:19:29 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Arnd Bergmann <arnd@arndb.de>
+cc: Danilo Krummrich <dakr@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
+    Niklas Schnelle <schnelle@linux.ibm.com>, 
+    Gerd Bayer <gbayer@linux.ibm.com>, Miguel Ojeda <ojeda@kernel.org>, 
+    Alice Ryhl <aliceryhl@google.com>, 
+    Daniel Almeida <daniel.almeida@collabora.com>, 
+    Vasily Gorbik <gor@linux.ibm.com>, 
+    Alexander Gordeev <agordeev@linux.ibm.com>, driver-core@lists.linux.dev, 
+    Christian Borntraeger <borntraeger@linux.ibm.com>, 
+    Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org, 
+    Linux-Arch <linux-arch@vger.kernel.org>, Boqun Feng <boqun@kernel.org>, 
+    Gary Guo <gary@garyguo.net>, 
+    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+    Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+    Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+    Alexandre Courbot <acourbot@nvidia.com>, 
+    =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+    rust-for-linux@vger.kernel.org
+Subject: Re: `io{re,un}map()` build error in s390 under `!CONFIG_HAS_IOMEM`
+In-Reply-To: <f0e0c069-23eb-443a-800d-267cfe4c2aa2@app.fastmail.com>
+Message-ID: <alpine.DEB.2.21.2608120349370.48788@angie.orcam.me.uk>
+References: <20260803180931.97202-1-ojeda@kernel.org> <fb2daae7-4eba-4ca1-95a5-60f8157eb66b@app.fastmail.com> <DKFKXA6YWW8R.1NDZ44Q13XFQH@kernel.org> <20260804071330.24760Aaf-hca@linux.ibm.com> <33ecacea-ed2a-409c-ab1c-a136e06b1b7a@app.fastmail.com>
+ <DKG43HF7A2EN.PC1LBC0QUP93@kernel.org> <f0e0c069-23eb-443a-800d-267cfe4c2aa2@app.fastmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SI2PR03MB6688D1DC0796AC6F6A373C2E93DC2@SI2PR03MB6688.apcprd03.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Wed, Aug 12, 2026 at 07:34:52AM +0000, Sean Wang1 wrote:
-> On Tus, Aug 11, 2026 at 06:03PM, Beata Michalska wrote:
-> 
-> > > --- a/arch/arm64/kernel/topology.c
-> > > +++ b/arch/arm64/kernel/topology.c
-> > > @@ -175,7 +175,8 @@ void arch_cpu_idle_enter(void)
-> > >
-> > >  	/* Kick in AMU update but only if one has not happened already */
-> > >  	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
-> > > -
-> > time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
-> > > +
-> > time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu))
-> > &&
-> > > +	    topology_is_scale_freq_source(SCALE_FREQ_SOURCE_ARCH, cpu))
-> > >  		amu_scale_freq_tick();
-> > I'm not entirely convinced you gained a lot by that.
-> > It's one additional check per each enter_idle for case where AMUs are the
-> > source vs 2 additional check when it is not.
-> > Will try to figure out smth less 'invasive'.
-> > 
-> 
-> First, I think that the rcu_read_lock_sched()/unlock() in
-> topology_is_scale_freq_source() is unnecessary. arch_cpu_idle_enter()
-> is called from do_idle() after local_irq_disable() at
-> kernel/sched/idle.c:340, which satisfies the rcu_sched grace period
-> requirement. This means we can call rcu_dereference_sched() directly
-> without explicit RCU lock.
-In this particular case RCU locking is not required, though you are exposing
-an API that might be used in other curcumstances, so the least we could do is
-document that.
-> 
-> I have two options to propose:
-> 
-> Option A: Keep the helper, but drop the explicit RCU lock
-> 
->     bool topology_is_scale_freq_source(enum scale_freq_source source,
->                                        unsigned int cpu)
->     {
->         struct scale_freq_data *sfd;
->         sfd = rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
->         return sfd && sfd->source == source;
->     }
-> 
-> Option B: Drop the helper entirely, check directly in arch_cpu_idle_enter()
-> If a generic exported helper feels too invasive, we can do the
-> check locally within arch_cpu_idle_enter() without touching
-> drivers/base/arch_topology.c at all:
-> 
->     if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
->         time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu))) {
->         struct scale_freq_data *sfd;
->         sfd = rcu_dereference_sched(*this_cpu_ptr(&sft_data));
->         if (sfd && sfd->source == SCALE_FREQ_SOURCE_ARCH)
->             amu_scale_freq_tick();
->     }
-> 
-> This keeps the change entirely in arm64 code and avoids adding
-> a new exported symbol. Which approach would you prefer?
-I do not mind this additional helper. Besides, not my place to either mind it
-or not.
-What I do mind is doing the check in the arch idle enter path. I would rather
-see some notification triggered when the source gets changed so that
-the previous sfd code can do some state transition that would avoid us having
-to run the check in the first place.
-Still pondering on that one.
-Preferably I would drop that 'tick' call from there completely, but apparently
-this was needed on some platforms to make AMU readings more reliable.
+On Tue, 4 Aug 2026, Arnd Bergmann wrote:
 
-> 
-> > Aside: I should have probably asked that earlier, but I am not sure I do fully
-> > understand the case we are trying to fix here.
-> > The topology_set_scale_freq_source prefers arch source to others. So if the
-> > AMUs were chosen to server as the source for the freq scale - I do not see
-> > why the sfd would be changed. That would require calling sequence clear-set
-> > to get a different source in place. I do understand the issue itself, though how
-> > did we end up there in the first place ?
-> 
-> The issue arises when topology_clear_scale_freq_source() is called
-> with SCALE_FREQ_SOURCE_ARCH to explicitly disable AMU-based frequency
-> scaling. This API is exported (EXPORT_SYMBOL_GPL), so it is designed
-> to be used by modules or subsystems that need to replace the frequency
-> invariance mechanism at runtime.
->  
-So this is the bit I was missing: external module that does the switch
-willingly giving up on arch provided freq scale source.
-The rest is clear. Thanks.
+> arch/um is the only other one that does not always enable HAS_IOMEM,
+> though most m68k targets don't have any support for ISA/PCI style
+> MMIO or PIO and probably should not enable it in theory.
 
----
-BR
-Beata
+ While HAS_IOPORT is indeed a feature that has propagated from Intel x86 
+(or really 8080, etc.) to non-x86 systems through ISA/PCI what's been so 
+special about ISA/PCI WRT HAS_IOMEM?
 
-> After clearing, the tick path (topology_scale_freq_tick()) correctly
-> skips the AMU update because sft_data is set to NULL. However, the
-> idle path (arch_cpu_idle_enter()) bypasses this check by calling
-> amu_scale_freq_tick() directly, so arch_freq_scale still gets
-> modified by AMU counters.
->  
-> This creates an inconsistency: the tick path respects
-> topology_clear_scale_freq_source() but the idle path does not.
->  
-> The goal of this patch is to make the idle path consistent with
-> the tick path, ensuring that topology_clear_scale_freq_source()
-> fully disables AMU updates across all paths.
+ AFAICT HAS_IOMEM is all about just having peripherals located in the 
+CPU's regular memory addressing space.  All the DEC MIPS platforms fall 
+into this category, never seen PCI/ISA, some have no peripheral bus.
+
+  Maciej
