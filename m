@@ -1,142 +1,79 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AA83264EF
-	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A551329C60;
+	Thu, 13 Aug 2026 06:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786584076; cv=none; b=GB2kqtWgiGr8RqLVgFKpE4yef12NTu9PbLdFbH/CfONRWP8lyE9R2qiUCzOSeZFhlde2y7own//RlEfC2FuvKqj2RPPkk/HJTkOrpF0GU8IAsRpgOvOqkWC8ztezGg2VR1nWizjRgMCnLDZNEXC8K26uckbeBsqPLCB3uH4CbDc=
+	t=1786601656; cv=none; b=NglAl/lLMPGATZVh1XZnCcw0sMM7vLGslgTGJdxnlVrOOK1dDFIgRRcR3ZtQ0H9KQMpMCodgKeqO2z3safeTlFmgGhrvy6X4e3VhEipqO5+8POK5TYevse/CO/uhKbEFK06l6AelbYNzgriXON+0RZhyUFUjgVuMitGMXQaDd6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786584076; c=relaxed/simple;
-	bh=jQAWRVENXd5JGHsxo/hf6vUttuV6ujE/QtYCehIVHRI=;
+	s=arc-20240116; t=1786601656; c=relaxed/simple;
+	bh=N7bLYYpfEmOPMJSVbIx/4DvgisfsY6K/fwme5uJA3qE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aS+Ie9AIP4QKewEwF0yl1EGlY2KKNXHoDRN3xJg88k3JPQhBwVJnrh2AsMJuRRU61DGs9ef9OnNyfYm3w4ok3LfXo6gRH6K6ATrAPA5kjsUwEf2ojI1IgmGjz7F72EINVQrxoZ64yTqeKxBJS0ExWsWG2Sp9wKU40DRO3gdPiBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=UhdYbJXs; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=pv1U0aH/ythc/9WD7UKO+D5W1cn8i6NNF4GCGkQMRT0Kb7ARS9zYn5nbsJF8gz8xi1PEg70CJvOKpikEkPdUsGR1HdwksIuNfSwsI7DcTowfc58WMl92upzB4kqIirzacwEFeShjcdTumGlIKqOBZLmx5e2Mpw+0HOTTg0sjciI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9q+SlQY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="UhdYbJXs"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-9063b380982so2552196d6.0
-        for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 18:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1786584071; x=1787188871; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
-        b=UhdYbJXs0QWMtav9IKzsNtYjnjbYfJ3m2nvXjiagbk7FMpPXpPQdLmPFLRBFuB/b1h
-         9ejERz5LE1jkHiC4fTsivCIYKoOh/LTmTbIu84cgrrXrMirRDRnqo9SRmycv4qw9gxjx
-         zfIh1uBwy0Tnn5czqnIUZfnj0Z5SytnfYC/0eheziy5pO+ZedaQyjVBqg+4yiy1FP2Yh
-         No2d0LtS3FNhH/gPksuKlKcoj/1ivANatU9aYz84ZqqocAWtb0R8+VSm0Fa2DDu0MdRu
-         jKduyAYyd7IDVKmr+iQNQr+PXehSKMPFq4O70+2UfcDJ9V+12g7SgGw6n6K6m3QT4XLb
-         jqbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786584071; x=1787188871;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
-        b=qBLg5rLoPc0JjO+gYO59CmzVHZfSN3b1NcBK9RwLxcraxH0L+rSxYFj3F5s0hOYsfV
-         f3boft7OFcmLjr44QgSTxqhlgO8whANZF3G/gZmWFfI8jclxzYZ13jXY/Xm+HsddbBLQ
-         KZtrKP1lEMNbe4dXZe3qAdSRF5rG3mgN/Yp74URptS7EbD+65r13pcMa61A7jNKwRhWz
-         2seBi0R3e+l1G6aXUw0LKEUqXuSKtHOJnayPzck+aVbIWVxuRXN/vAEATM9taOEiwvDY
-         lhJ/aPrrJ/Qke5HuIQYz1BT0BfKj2xPTn30oNGlny7FsdPXEkEC1kFGc4+Zbf0Hh5s6j
-         yBNQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqjmO7sPZdKJ8+L1Apa3kXtGdIKkU5Qpfk+u+Xhu/iJaGZpScN3ZDHdDG47CNRhv//DuSdX/7D2W3x3zA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz07M03UcKfGKXP0r4nvHuTUHbGAuqT1WGvkuJTIUg/JqwjPhUX
-	8KXuTMBB4IU7uU9RgjAw3L6OWKL9KmjVGo5xn47VIYFEk8xuLoFE6LfAUnLSMo7RX+Y=
-X-Gm-Gg: AR+sD10VJAjF+ZL8G0/sCPn6LHb+5uKoF0JXQfwH8ho1O6bA2sienYDQsvozgGThiDS
-	OO9nKsD49M8F4ihEI2zomOfaCc9G2UVdJBr3R+5/tFhdLSY2ZnLi7cyLlSuJMk9ZeKZ8EaaZDMq
-	K4Dpw61HLgFyvIRurg/AWtEQPIa+I1HSi9gGqcsZ7KpUdefrF4Ckn6Y+xmJpu/OhUijTVcHQM1/
-	GyhSs3kzbWI0oyNNR4c7kh0xeuBUqHFiIlPjim/okXafdcfYI/QOcIHjc5rFzeS++jGPTG4UUvf
-	mppglwLAUN/7SJOIiYBGzb26F643JeHf6dS9p5pQJgvfZdTUnTf+XV68p5iERjjwq5gMh+qbD2c
-	jQMo2ZjlNsuDwq29xq5U/m28T97d0ZaIDPXnzy/wYOt24hUhRIropADtunn7HAVzY0Eqh/wL7I0
-	2cB6eU7e68oa+7wVP56Ok4iTaU5Ssy2YWjxTZy2oe4/YG8oYo=
-X-Received: by 2002:a05:6214:500b:b0:8f0:d710:26ba with SMTP id 6a1803df08f44-90a80bb0b74mr17793966d6.31.1786584071577;
-        Wed, 12 Aug 2026 18:21:11 -0700 (PDT)
-Received: from fedora ([2601:19e:8500:d3c0::28fe])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a8179e350sm4119856d6.6.2026.08.12.18.21.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 18:21:10 -0700 (PDT)
-Date: Wed, 12 Aug 2026 21:21:04 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com,
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com,
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com,
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
-	vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, osandov@osandov.com, jannh@google.com,
-	pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
-	ying.huang@linux.alibaba.com, kasong@tencent.com,
-	qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org,
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
-	yury.norov@gmail.com, linux@rasmusvillemoes.dk, longman@redhat.com,
-	ridong.chen@linux.dev, tj@kernel.org, mkoutny@suse.com,
-	sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
-	baolin.wang@linux.alibaba.com, npache@redhat.com,
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev,
-	usama.arif@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
-	cgroups@vger.kernel.org, damon@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
-	"Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-Message-ID: <an0cAMh_m8ZhGIm2@fedora>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9q+SlQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299191F000E9;
+	Thu, 13 Aug 2026 06:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786601654;
+	bh=hXgxrqF5WzE2LQ/fhkXb+3Tnh+7LoVRm7x5a3Nebzpc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=n9q+SlQYx4Wx80YT7HgAzAz4jS2AiUpfcm3L2+yII0LxrTZQ/fIfi84OUz6rt+Ga/
+	 z2EFk0PFPUfkb6C6GC2JCu0W7QIwLZCb+oNXhuMVj1CBP1EqXO5cc90D36I9C1ypba
+	 e4iKV++0sJYdjEFpIYdQaovsKt/ups6D6l14vCYADMdgdkdmP3RGfpOSA5/pQ0ZbMz
+	 +55uCIHgH9gXZnanQcoYJRG1oPqKdmU/LVUMwsRFAqX8PUWs4UhANHt3MhD4MxlRYY
+	 kvuM23UEobH8vtaQOeDgcWMPi/xmTTp4lhAH3emRC26P6iwo+2tV4YL/DFIjRdLZc8
+	 NYeo1w6DQkvmQ==
+Date: Thu, 13 Aug 2026 08:13:58 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>, 
+	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v10 06/10] PCI: of: Use fw_devlink_set_device()
+Message-ID: <qmdu6iiffirxs2we2eggepq72hdoto5mmavbpgewunw4jorf7f@7b7tgcagrixw>
+References: <20260717145147.823749-1-herve.codina@bootlin.com>
+ <20260717145147.823749-7-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260717145147.823749-7-herve.codina@bootlin.com>
 
-On Wed, Aug 12, 2026 at 02:01:12PM +0200, Pankaj Gupta wrote:
-> >
-> > Bonus Configuration: HBM device memory tiering
-> > ==============================================
-> > echo 1 > dax0.0/private       # make the node private
-> > echo 0 > dax0.0/adistance     # highest tier
-> > echo 1 > dax0.0/reclaim       # reclaim active
-> > echo 1 > dax0.0/demotion      # may demote from the node
-> > echo 1 > dax0.0/user_numa     # mbind()
-> > echo online_movable > dax0.0/state
-> > echo 1 > numa/demotion_enabled
+On Fri, Jul 17, 2026 at 04:51:41PM +0200, Herve Codina wrote:
+> The code set directly fwnode.dev field.
 > 
-> I am bit confused by the HBM device example being discovered as a DAX
-> device. Is it to
-> only to showcase the use-case? Or we see HBM device is actually
-> expected to be discovered as
-> DAX device with N_MEMORY_PRIVATE?
+> Use the dedicated fw_devlink_set_device() helper to perform this
+> operation.
 > 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-"actually expected to be" -> no.  there's no requirement HBM be
-discovered and boudn to DAX, DAX is simply a convenient intermediary
-to memory-hotplug.  This is at best a demonstration.
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-A device driver could very well just call memory-hotplug directly,
-or its memory could be brought up as a private node via a boot
-paremeter (which I have sculpted for v7).  The former is preferred,
-but there's a bit of a chicken/egg scenario for bootstrapping.
+- Mani
 
-Most of these UAPI extensions are going to be consolidated into a
-debugfs interface for testing purposes only in v7.  I've been working
-on aggressive Linux Test Project test expansion to ensure there is no
-UAPI regressions.
-
-~Gregory
+-- 
+மணிவண்ணன் சதாசிவம்
