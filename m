@@ -1,188 +1,142 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011000.outbound.protection.outlook.com [52.101.57.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DFD18872A
-	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 01:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786584057; cv=fail; b=Vh41aOlCkRLdlWQ3ipX5MQ/SBFMdWTUsVZBCw9l8Ehym+TBjhq+2gf35NynDbwdoSaOVYYt+RT9FDKNoDnNamGhPgkqm0wbH7hz9eu0dDNMhkZXR5UTn8JwrsrN9PfgMdSrF4n5Qj5SyFHEInBqq3E1Da1NeKgZWG71/OLSD9G4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786584057; c=relaxed/simple;
-	bh=gtShPwcbG9ELqCInAWTF6qm/B2IdBqpf/xidZ4pMoxY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=YScRND+jfQtUQRRLtzIUuGB7HzEAyEjcjbiYYXk3qyMXbeXXnos3cK3QByFMJoesqR0pGW91fCuJdQ8S3NADynpKCE3mnuzYeE8P2Xj331P+xkYqkZDdXu/8XFuC55lutWWDdrOfYpgvM3GUGD9dgh0+WZnyk738DkC1/RfMzPE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ap73XyBS; arc=fail smtp.client-ip=52.101.57.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AA83264EF
+	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 01:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786584076; cv=none; b=GB2kqtWgiGr8RqLVgFKpE4yef12NTu9PbLdFbH/CfONRWP8lyE9R2qiUCzOSeZFhlde2y7own//RlEfC2FuvKqj2RPPkk/HJTkOrpF0GU8IAsRpgOvOqkWC8ztezGg2VR1nWizjRgMCnLDZNEXC8K26uckbeBsqPLCB3uH4CbDc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786584076; c=relaxed/simple;
+	bh=jQAWRVENXd5JGHsxo/hf6vUttuV6ujE/QtYCehIVHRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aS+Ie9AIP4QKewEwF0yl1EGlY2KKNXHoDRN3xJg88k3JPQhBwVJnrh2AsMJuRRU61DGs9ef9OnNyfYm3w4ok3LfXo6gRH6K6ATrAPA5kjsUwEf2ojI1IgmGjz7F72EINVQrxoZ64yTqeKxBJS0ExWsWG2Sp9wKU40DRO3gdPiBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=UhdYbJXs; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ap73XyBS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TtQbLNmhPKXrkuOoNoUuCMHNQJQks+4OQ6rF7birjg05TNisFDjWPGw3QDjx8AtQJ6+1ri1VB6Tk0MkEvnJql+poEzUipLbRgRfKiNSTQMzA8YnCvw7QZHYUpW2GNv3TioOhKAB7w4sFwawgHN3P3583GNVGyCJdze/fbjsC0fxLOFOK8JAeLB1MPxjJb00u3L20hE2WO1iat0MgtXxq5GubUHbA8PwcNdwAboy5p3JlFXjRC841R/ZRcI/9XlgjpdUZoTasSNY6j2ZGS2kzAsV2BpJ67dt58soNzZ/dTX3HsNpvn1p39HrMT0Hc40Ho598KMdojCJgWSqZqDhYWNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uIMJTlmiVGx32QvfcwObAiTrxJTMASt8QFuS/lrWUis=;
- b=SD5jHjoZeoDRM+SmamEeLwm5O1Lq0GgU0Imx9Z9PkntT1jRAGp6T9NtWaUON0sdkjRztZBZQ/R/EvE5XDiq/SI9r2cXhAo/OVOTtIAUNdJhws5nCH1WaT9EJq8jlUgSpKqvimTfhMJfS+KLc6ncHebqUzNxGo2nTFVB5tyYyMhUeayqRT70SWJQK/UJbm5uYvDVgZrbo6RYDmETpTCYHfcOO9w+jf7uueTNYlFj2Fz+uCMJcEpqojIq4L82Qc+lX3ivMbBKsRDUPqjMOl1PxSqoF/zL6fjbduLczDrtW1a64Q4ewLkl6kfrGOOKNNoSkpiNs5ZSfxQ0kBjDbK1zubg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uIMJTlmiVGx32QvfcwObAiTrxJTMASt8QFuS/lrWUis=;
- b=ap73XyBSfPe+99AmmuyPSj5e+XMAPIGkmNCwl81VgvfLS/WQSH6O0eKw8BFX94K1Rfr4v3Abdz8KtbUN9nLaD0Rr3IVDOUToVKTG2+6dPyGczrJNJUTUhXbl84b/pE5SX+vIpgkavLUN23xoNonPcHMm8oy7aen4A83uWzHqH97BtaNLt4bU9U9WzKrqTF+CgWESwOuMA0jOT0LDu9WrZ9Fvh2HPNTj6DdRe0q/ePEN0wDxDo9jEGZeLe0dxhiUXInYYs8h5tZ/nTL1XSag3nphzV5s1TAsbmKqh3GPxNSWC5L/PDxC6UnPMp657SK69O9T+FKh/LI5kvRtt++vBfQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- CH2PR12MB4118.namprd12.prod.outlook.com (2603:10b6:610:a4::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.315.11; Thu, 13 Aug 2026 01:20:48 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%4]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 01:20:48 +0000
-Message-ID: <4048251d-7989-4818-9e66-21d06188570d@nvidia.com>
-Date: Wed, 12 Aug 2026 18:20:46 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Rework PCI IRQ vector code
-To: Danilo Krummrich <dakr@kernel.org>, bhelgaas@google.com,
- kwilczynski@kernel.org, aliceryhl@google.com, daniel.almeida@collabora.com,
- ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, tamird@kernel.org, acourbot@nvidia.com,
- work@onurozkan.dev, ttabi@nvidia.com, apopple@nvidia.com,
- ecourtney@nvidia.com, shashanks@nvidia.com, zhiw@nvidia.com
-Cc: driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260811233952.3000968-1-dakr@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20260811233952.3000968-1-dakr@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::11) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="UhdYbJXs"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-9063b380982so2552196d6.0
+        for <driver-core@lists.linux.dev>; Wed, 12 Aug 2026 18:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1786584071; x=1787188871; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
+        b=UhdYbJXs0QWMtav9IKzsNtYjnjbYfJ3m2nvXjiagbk7FMpPXpPQdLmPFLRBFuB/b1h
+         9ejERz5LE1jkHiC4fTsivCIYKoOh/LTmTbIu84cgrrXrMirRDRnqo9SRmycv4qw9gxjx
+         zfIh1uBwy0Tnn5czqnIUZfnj0Z5SytnfYC/0eheziy5pO+ZedaQyjVBqg+4yiy1FP2Yh
+         No2d0LtS3FNhH/gPksuKlKcoj/1ivANatU9aYz84ZqqocAWtb0R8+VSm0Fa2DDu0MdRu
+         jKduyAYyd7IDVKmr+iQNQr+PXehSKMPFq4O70+2UfcDJ9V+12g7SgGw6n6K6m3QT4XLb
+         jqbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786584071; x=1787188871;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZGIPGO62vUWJJtnlWOV7HnIzQD6+wbjwlpycp53S1ew=;
+        b=qBLg5rLoPc0JjO+gYO59CmzVHZfSN3b1NcBK9RwLxcraxH0L+rSxYFj3F5s0hOYsfV
+         f3boft7OFcmLjr44QgSTxqhlgO8whANZF3G/gZmWFfI8jclxzYZ13jXY/Xm+HsddbBLQ
+         KZtrKP1lEMNbe4dXZe3qAdSRF5rG3mgN/Yp74URptS7EbD+65r13pcMa61A7jNKwRhWz
+         2seBi0R3e+l1G6aXUw0LKEUqXuSKtHOJnayPzck+aVbIWVxuRXN/vAEATM9taOEiwvDY
+         lhJ/aPrrJ/Qke5HuIQYz1BT0BfKj2xPTn30oNGlny7FsdPXEkEC1kFGc4+Zbf0Hh5s6j
+         yBNQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqjmO7sPZdKJ8+L1Apa3kXtGdIKkU5Qpfk+u+Xhu/iJaGZpScN3ZDHdDG47CNRhv//DuSdX/7D2W3x3zA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz07M03UcKfGKXP0r4nvHuTUHbGAuqT1WGvkuJTIUg/JqwjPhUX
+	8KXuTMBB4IU7uU9RgjAw3L6OWKL9KmjVGo5xn47VIYFEk8xuLoFE6LfAUnLSMo7RX+Y=
+X-Gm-Gg: AR+sD10VJAjF+ZL8G0/sCPn6LHb+5uKoF0JXQfwH8ho1O6bA2sienYDQsvozgGThiDS
+	OO9nKsD49M8F4ihEI2zomOfaCc9G2UVdJBr3R+5/tFhdLSY2ZnLi7cyLlSuJMk9ZeKZ8EaaZDMq
+	K4Dpw61HLgFyvIRurg/AWtEQPIa+I1HSi9gGqcsZ7KpUdefrF4Ckn6Y+xmJpu/OhUijTVcHQM1/
+	GyhSs3kzbWI0oyNNR4c7kh0xeuBUqHFiIlPjim/okXafdcfYI/QOcIHjc5rFzeS++jGPTG4UUvf
+	mppglwLAUN/7SJOIiYBGzb26F643JeHf6dS9p5pQJgvfZdTUnTf+XV68p5iERjjwq5gMh+qbD2c
+	jQMo2ZjlNsuDwq29xq5U/m28T97d0ZaIDPXnzy/wYOt24hUhRIropADtunn7HAVzY0Eqh/wL7I0
+	2cB6eU7e68oa+7wVP56Ok4iTaU5Ssy2YWjxTZy2oe4/YG8oYo=
+X-Received: by 2002:a05:6214:500b:b0:8f0:d710:26ba with SMTP id 6a1803df08f44-90a80bb0b74mr17793966d6.31.1786584071577;
+        Wed, 12 Aug 2026 18:21:11 -0700 (PDT)
+Received: from fedora ([2601:19e:8500:d3c0::28fe])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a8179e350sm4119856d6.6.2026.08.12.18.21.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 18:21:10 -0700 (PDT)
+Date: Wed, 12 Aug 2026 21:21:04 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com,
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com,
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com,
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
+	vishal.l.verma@intel.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, osandov@osandov.com, jannh@google.com,
+	pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de,
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+	ying.huang@linux.alibaba.com, kasong@tencent.com,
+	qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	yury.norov@gmail.com, linux@rasmusvillemoes.dk, longman@redhat.com,
+	ridong.chen@linux.dev, tj@kernel.org, mkoutny@suse.com,
+	sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
+	baolin.wang@linux.alibaba.com, npache@redhat.com,
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev,
+	usama.arif@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev, muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org,
+	cgroups@vger.kernel.org, damon@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
+	"Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <an0cAMh_m8ZhGIm2@fedora>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CH2PR12MB4118:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90aca93e-87dd-4cad-c195-08def8d91afa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|56012099006|10067099003|18002099003|22082099003|11063799006|921020;
-X-Microsoft-Antispam-Message-Info:
-	FuajjDb3mOPBL9xgSo/hxhEYwKcO18t99whjYVI7xP5x2Ggy+HVTuXIXVJsR9yNARl68mVDYLVh8VKyNQ8ng1BLxFUHAuGH2bsCFzS/5IRCV36mPwv/kFdN3Qp/ePXMKmRCsl9UU8UdFCtGxXukenlYVGvjGuHF753Gf7cXF0R7oJn8JaWAI8A6gwf3GEuYSVCL6K/KOJIJWCT5ETJ3nBC/vzXmuQ2T9aRF8tMHqAvaiK5pPOVQzIPSXP7xye+lzAIVKPqOLPFayvm1H9pMDa0WhZ2X9Od9+rYiVVGG08H3ksUMRy7lM/nCSm+I/weuQ+9n4Brp1BufM3g0T7gy42lcRA1c/nSxViYSF/X6Ug1/WlyWIKJMtYaI2RDlhiCf0BfNdXAtWYTJTifLBVZAZacVUf/2/fmNrQuRvz0fCPhKcMQBeHbT/K45i1I+dk+E4gVh5KMvBeglnChI/Su8/rpAkxm/1BBshf0Z2UaIPI5NXhm5DKPsJ29GoTAfjf6su2AKf3cMwzCrNlaxuPsC6uZS3Pd7mNHd3keEbwOdt/83XpA4GK/UGOQbXT5BFvtOfbTCYDJt7s8gVVB+WLBGFf6yHNY2tF7UWiggtxqa8pdupy/edFwKvftTg/XHTC+I3fpCCNvFWN6VOPQDBS+4kUngMLz70sCMcUsEIHp/aKDqmHxQC/9IN0OHDE8DB1gSjWecpUX06irUWfA0FrScSzw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(56012099006)(10067099003)(18002099003)(22082099003)(11063799006)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ckZXNVVqbFFTOVd6MXV2UGVzbnVNNmJVL0RxMVVMYmpsM1NrQzRWMWZKYy9H?=
- =?utf-8?B?TEFoTEgrL3hwZ2FQUmN4S216dkVQOEtXNitQNnNERVhZeFhHOG5qaXdXb29X?=
- =?utf-8?B?VnAvRi9CektkcVlwSXVjalF5RmFpNCthSDZoWGZhZW16YXZ4TElEdFIwVlAv?=
- =?utf-8?B?Q0FQRHQyZFF1OERRcFpFRG9tZlZNUG1nMGlvRlZ5Q01HejdxeEhTenNVMFJt?=
- =?utf-8?B?eVpwU2Jia0QySHd6elk0TlhaQkNqQ1gyRVhnanJvRStuK3NLbjc4NnVSRDJY?=
- =?utf-8?B?UUlnb3E4LzVOUWl0bFFHc1BNclR6azhUUHJPZTA0b0RodFFEeDdJU3UyTHND?=
- =?utf-8?B?eFg2bTJMM0Evb01FNVA4bHVTK1F3V2x3aW9WU0h2TjJubzBkRHROQ1RXZjUv?=
- =?utf-8?B?bGdWZFljcExYbWJXazNPdytMMXl3d3UvRm1NODVsVUtYK21HUWoxN1dFYUlk?=
- =?utf-8?B?QUJHazJxUGpUTE9XN2ZLdXQ2MGtqOFNEZ3RJcjdxMm0xdmVHbitCYXVIZWl3?=
- =?utf-8?B?WDJ4NHVUd1JMSXcybXZGL1MyUDZDMjRsWmJoQ1dneVBNRjhsT1VZalBWWFFI?=
- =?utf-8?B?eGN4c0hVTitYWERyZDZQZjBWWVN6R0Fhd1ZhV0wwbmwxMHdJVHREZGtoRTZw?=
- =?utf-8?B?REdXOHUzRmlrZk9pZGk1WERYZlBzTVFIazFtWjJEeXpyVzljQnp1WEJxRmVt?=
- =?utf-8?B?U3c2UlJ0VlR0Nm1Tc0o5OWg1L3pJR3daSzZubUV5YkhpSy9rb0hVUjdwYnJ1?=
- =?utf-8?B?UFFPVHpaa25pMHE1VXBhRFMvZHdsN0ltU2pzWjhEd29Od3FESTl2dUptenl1?=
- =?utf-8?B?cWQ3N0M2cnA0UEltc3ZNZ1JuQ2U5MGNjTFFDb1BETUd0Vlk3NjFQZjNkOUFF?=
- =?utf-8?B?UFArSjNKWERvcldoYVhRTXlES003dThsV0x3SWs4L0pHQmJmbVZmaEFXYTht?=
- =?utf-8?B?TGNIaGN4Y0VLUWpuR3RQaTZQdFBmMkVyVjJEVG5DUGoydTZwSEhOUFJkVG1y?=
- =?utf-8?B?MG9XNmIrNFM4bnVIaHJrZVhyQVlSekhnekZDWWdub2V2WWVaMDVjUjVlSzVX?=
- =?utf-8?B?QlRQOVVIOFlya1pOTnRDQmcwNHpScXpVRkFwZW15RjFza2NrdFh1bzVoVllm?=
- =?utf-8?B?SlJZTDEzbVQvOFBSc1ZVL1R6YUZIZFdwR2VCandQb1dEQ05kMTNaOFZ2azgv?=
- =?utf-8?B?aDdxWUJrOWtjWTJ2eFJnNGp1aGl5cG1PS2I2Q3VnaXNBcitZYjJ0amlud2Y0?=
- =?utf-8?B?cFd3am5HTWVvazd2MFphV3BXTzN4YUl0N0NsQTFWRVhFVVNxc2QrbEZYNyt1?=
- =?utf-8?B?MUJreWh3WUltbVBISVkyeHhMNUpqWFFaYlJMdUZIWnRIdnVnQkpmUE90Y3dk?=
- =?utf-8?B?VGVzMzN5TitTdTNZT3d4VTY4RVlsOWUweHJweEtmVjE3SUY4UmZTZlYxTHNm?=
- =?utf-8?B?ZjJsLzdibTB1cWM0UzhVYVFIbiswbUZROFNBWGJuVVE3VkdPd3hhaEtDbWZE?=
- =?utf-8?B?VkJ4YS8xd3h4UWpGWnR0TDBuVnhuUEVvTStPYkNnZXFScTFUVXBnSXNCdnM3?=
- =?utf-8?B?MW9tMlYvQVBJR202NkhLWCt5eE01bUNKSE4rRmFnVEFYOXZsMTE5VW9zYkFh?=
- =?utf-8?B?SW5OQ1ZMVmdpTGwzY0hGQ1BGTGRabWZ2ZW10VFZTV25xTXhOUlkvNXdrUUs4?=
- =?utf-8?B?S3FqZkZTUEhKdGdFaHAxQi82dkJjYjRMTlhuTlJYdVNPampJK1BwK1NPTjVo?=
- =?utf-8?B?MnZDZTFtdUNTYVN1OXNHMEx4amlQTEIyTUh4L1pBaGRHNm45ak9yb0dWVEYy?=
- =?utf-8?B?SHFiZVpQMlZ5NndTZnhnQ1pmVVdyOVc2T1AwaDJtWko4RitPZzZpOFNSNTNn?=
- =?utf-8?B?UUg0T2pjS3NPdmF6NGRtL2JNRm9uZmY0L1BqdStjazRJL3lHdEVDc25EUWdo?=
- =?utf-8?B?ZFhmOUcydTFaOEhnRTZFREdlRTNxbkFzajNycTVvL0ZaUTBnSlBKVHlma1Rm?=
- =?utf-8?B?Rllqb2VaUzR1WUJXYzJqclJzVmJYczR3WFdzU2ZnSk9GczArcVluTUFiT1JL?=
- =?utf-8?B?TUVwZk5HR082UlVmVHVpSlVrZ01Ha256N1crU3JtYm5CMUYrNmdSM1EvSGpY?=
- =?utf-8?B?akVNamRwODFlR1cvMzNTSWp0RUZUNVM4VGVuSU91NUZuSVR6ZUsxRmdxTkw3?=
- =?utf-8?B?Q0pQZ251dUZnMExlb2FEUjJvSlVIcjE2ZWpOVFZxZEpZbDJub3dJL1BheHc1?=
- =?utf-8?B?bllWTFg5UGFyT1NDcGRBVlFiNFIxZi9uOS9DOUxuc1hCSTFzdkxDTUZsY1Ru?=
- =?utf-8?B?RU5UQ213Vm9zQU1tM0JDOVFMZ2x6ckgxdUJpcnlmMERlVldNaEF3dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90aca93e-87dd-4cad-c195-08def8d91afa
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 01:20:47.9267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TrmLCLZFyCU+5dSPIe9RJBGmkvRvmdqVds/hRdtrqHrm95hMdt4RWua//sXPpCp7338bY2p6kkfPnYeg8dJ2SA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4118
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
 
-On 8/11/26 4:39 PM, Danilo Krummrich wrote:
-> This series reworks the Rust PCI interrupt vector abstractions, motivated by
-> review feedback on the nova-core interrupt support series [1].
+On Wed, Aug 12, 2026 at 02:01:12PM +0200, Pankaj Gupta wrote:
+> >
+> > Bonus Configuration: HBM device memory tiering
+> > ==============================================
+> > echo 1 > dax0.0/private       # make the node private
+> > echo 0 > dax0.0/adistance     # highest tier
+> > echo 1 > dax0.0/reclaim       # reclaim active
+> > echo 1 > dax0.0/demotion      # may demote from the node
+> > echo 1 > dax0.0/user_numa     # mbind()
+> > echo online_movable > dax0.0/state
+> > echo 1 > numa/demotion_enabled
 > 
-> Convert IrqVectorRegistration to a lifetime-managed owning type, replacing the
-> devres-based approach. Since vector() borrows the registration, the returned
-> IrqVector inherits that lifetime, preventing the allocation from being dropped
-> while any handler is live.
-> 
-> IrqVector embeds a resolved IrqRequest, making the conversion infallible. The
-> request_irq()/request_threaded_irq() wrappers on Device are removed since their
-> &self receiver could refer to an unrelated device.
-> 
-> Add pci_irq_type() as a C function in include/linux/pci.h, replacing open-coded
-> checks across drivers [2], and wrap it for Rust.
-> 
-> [1] https://lore.kernel.org/all/20260808031120.363869-1-jhubbard@nvidia.com/
-> [2] https://elixir.bootlin.com/linux/v7.1/source/drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c#L196
-> 
-> Changes in v2:
->   - Drop the IrqRequestAnchor approach and keep IrqVector as a new type over
->     IrqRequest.
+> I am bit confused by the HBM device example being discovered as a DAX
+> device. Is it to
+> only to showcase the use-case? Or we see HBM device is actually
+> expected to be discovered as
+> DAX device with N_MEMORY_PRIVATE?
 > 
 
-I've integrated this version into my work-in-progress v2 patchset for interrupt
-support for nova[1], and it still passes tests on some real GPU hardware.
+"actually expected to be" -> no.  there's no requirement HBM be
+discovered and boudn to DAX, DAX is simply a convenient intermediary
+to memory-hotplug.  This is at best a demonstration.
 
-For example:
+A device driver could very well just call memory-hotplug directly,
+or its memory could be brought up as a private node via a boot
+paremeter (which I have sculpted for v7).  The former is preferred,
+but there's a bit of a chicken/egg scenario for bootstrapping.
 
-$ dmesg -t | grep -B1 'interrupt self-test'
-nova-core 0000:c1:00.0: NVIDIA (Chipset: TU117, Architecture: Turing, Revision: a.1)
-nova-core 0000:c1:00.0: interrupt self-test: starting on vector 129, subtree 2, with Msi
-nova-core 0000:c1:00.0: interrupt self-test: passed, subtree 2, 2 deliveries
---
-nova-core 0000:c2:00.0: NVIDIA (Chipset: GB202, Architecture: BlackwellGB20x, Revision: a.1)
-nova-core 0000:c2:00.0: interrupt self-test: starting on vector 129, subtree 2, with Msi
-nova-core 0000:c2:00.0: interrupt self-test: passed, subtree 2, 2 deliveries
---
-nova-core 0000:01:00.0: NVIDIA (Chipset: GA104, Architecture: Ampere, Revision: a.1)
-nova-core 0000:01:00.0: interrupt self-test: starting on vector 129, subtree 2, with Msi
-nova-core 0000:01:00.0: interrupt self-test: passed, subtree 2, 2 deliveries
+Most of these UAPI extensions are going to be consolidated into a
+debugfs interface for testing purposes only in v7.  I've been working
+on aggressive Linux Test Project test expansion to ensure there is no
+UAPI regressions.
 
-So for the series, please feel free to add:
-
-Tested-by: John Hubbard <jhubbard@nvidia.com>
-
-
-[1] https://github.com/johnhubbard/linux/tree/nova-core-gin-interrupt-tree-v2
-
-thanks,
--- 
-John Hubbard
-
+~Gregory
