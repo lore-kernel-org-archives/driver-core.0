@@ -1,119 +1,107 @@
-Received: from mta1.migadu.com (out-226.mta1.migadu.com [95.215.58.226])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8012A438487
-	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 11:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6425147B436
+	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 13:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786621965; cv=none; b=NXOAEJBLlXnT/k26sCot/J38zJkgyN6XmpQ0CObZg5eLW5QIfMPZnyQRF9J5pSCnJOFTmM83qOwglQepJvR9yq3smcrTVDlJyOmD8IEEJRDxAfmM+NUC4BlsP6+NeuEwvQn4sBefLWAHOREtwB47MqMS6QMfhK1aeAAOA98LI7Y=
+	t=1786626466; cv=none; b=COpTe0Q39B3BAJVyvw28XkEf3nKHoTSb8i2prMnQhE43+DDCFR4nGNB2d9fk40rNQLyarH7MVl4A+005Mg0oFYj5nT8+W6x09DFqpPXQnKPZHGwBcead4aBJmdrwxx4AIyHQSr2SBjRUrPH0VaVqaou4KW58uTGY89E2oKR/ZWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786621965; c=relaxed/simple;
-	bh=R2f0PJtuTSVROgAmYKIuGCx86gpNuYMzhmVycIrzC/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xu/eHs766/Ya6DTSc4fa5hF/oQCq3rJ4jlycY4e5/0hXZlbBM2gm9/UkemnzJvL23zyTMIf7do+kO3HAUgSaF+Z1IMlNjMQ4n359jAQ7dR0Hzcmh/iaS3wLnqBG4PX98TLJ63GU9d5fYrumP9bnKGfJ4yKYZ4knnWQH2lycHae0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ubtiHOCi; arc=none smtp.client-ip=95.215.58.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1786626466; c=relaxed/simple;
+	bh=PgCkBg+SaqY2ck5/bBDSS+1DtbuO8coJDwswlb7aiy8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mYmDNqf6Tx7g9AKLZ2i6dHrus7gbAH7sOvnjeLkQyPfPw/LBYViPVLwe8oyPlCkvF2CP0/Mq4f1fNR5iyRfbQUQhC2CkUlx+CFWjXDf8cRzojt+Zdnk+ZnUCG8WuEovkCFVi39IxifOEANBp0+95ERwCmyls4/Xu9UWkCQHpK8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gjPufDXc; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ubtiHOCi"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=R2f0PJtuTSVROgAmYKIuGCx86gpNuYMzhmVycIrzC/0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1786621958; v=1; x=1787226758;
- b=ubtiHOCiVF+6G2c57ZPAvI6l+awYjHl+AIb5taDvumN7OMQCvAXROI+r8LU1Uh4u47ZDTwcP
- +c1G/hi9ZzkB30pl20V961orVKZoU3tfKI/qpVs+Jk6DnEGQfKo/qnEmgrN069VuLkPSLEc+jBz
- c14PQhuIwKPL9sizx6dY8eoM=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: from [192.168.200.2] (2a11:3:200::10a9)
-	by smtp.migadu.com with ESMTPS id dd9de6576435b65a;
-	Thu, 13 Aug 2026 11:52:38 +0000
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <cfb5912c-514d-4a3c-b056-a1e8d2d4469f@linux.dev>
-Date: Thu, 13 Aug 2026 19:51:04 +0800
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gjPufDXc"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4954f5e8020so10314465e9.2
+        for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 06:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1786626462; x=1787231262; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fMxauQa/lOA4/+kENFd3ICiTI2KeojXJKd2HkM4Rljc=;
+        b=gjPufDXcGJ72yGfR0Z2AN/plKbK+9q4ecxI2WrZuI2fBnxHD3ntQylTuW/78hvKXur
+         elbu7p8VsUtV7E0yEKFIgeEeQaOhVOnE5UYOgbKL38f6FhBoKpwW1xf3siTQlP66+w1n
+         esUQVl5oFcgraJu3K1ESVOFAxqgCfvTZvVvX0Stf0hQRkcI2JlOjylWDKiR35ffxPXEY
+         q54yt/C1BaHConNb5Tlxp91wt0afyr5a/qDpYE6qA6T2KCfY/xvVMpgmCutFvrG5EpW2
+         XCb2Bk0GbfBuMzm/9d3CYzcweaoHghxEBb8WTJUs9taCNi41G2edj8NR1i6MR9RjTJh8
+         1qzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786626463; x=1787231263;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fMxauQa/lOA4/+kENFd3ICiTI2KeojXJKd2HkM4Rljc=;
+        b=hbngvOOpsqe4lv6UEGz4z5TfCU8iSSvxHfYtzaQZQed+tlasRgyk7mfFqMlCdlPoJd
+         MjrrlLVDzBGqJROBrLyQLlhd8tT9oHJsVywGl3AmGJhX+S5B9LVhuksCeMby+YzdPb1w
+         5EHyjx2bhaSiYmsofz786TEnvr9jTM8ZSd2Oxvhmi4Rlov4QJz2xkz9VPmpGwzZZ8mJL
+         Z+UgBHbmNoUbaMtYInRW3Gh/1jg4VzIIltnnZsmHeWZIRQikKFTNPOn3BFCGqygmPGV/
+         dMzu8rS2EGGz7kpL/iZ9xBDeJ7Um+PNU1NA0bTfoV4ysu8sPLWH3WIoDQWo1kz5yAA2P
+         qkeA==
+X-Forwarded-Encrypted: i=1; AHgh+RppEtVh/RXyfTHuAYjaI9zqHny6AhtWu2471eX5mT3vp1EHFaApZld6tyraCnOep1srZIVanIaHt50PZA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyWmB0cHs9eT/C5O+ci/5677tkwhfhv0D0FJsODnqEtzK3lYjz
+	j02TYSDRORG90srnwAgs2xmffLhCIm+PQzTBi40MVHv2AGGSIeHT0/9R7mZZHXE5wbo=
+X-Gm-Gg: AR+sD13jiPm+z27ku+AkNMeGtkGnoNCAInwT7xaRDZ+9sSqkYO8r66hkjtbiwzwiCZw
+	+HNRGvhXOcf8EFWQEGZuXcuou7KIs6A/8bHKT0WfJRZzH/mUKnT5doC/HRiT8uglKjcqH8o1diw
+	0NZwi2kWqwlN4rFwG1EjaqNWoXOsALhqkFp7rDtr5MkPGvf70LiEAaqE5yRhLUP1vY6Jz1jKQgk
+	qF4JwQWI9ADl4eYYWwXan6QLW2d4Dxfy21wRqwjzk2VL6SH6tP6qIvBI086h5HsgRplCQ80joyB
+	GE2xk/zf8dsWozMkFhx/HEzZ8RQXRYfZMOUgdhE4TkoK67QqBik5XBOm923H9+VCK89mNSR0PM3
+	dVwizM7nfcvAH2EdU0I1qk/9fgDpiUWFtmfBloarGrOjvCIMa1x7HBezzPXEiep8yaE90eEVNFh
+	YB4p2DxSRiuDMmHiwagO2iiOLrr2n/nSCmd/Pa73pF+SF5w6m+A8t6Iws/UI+RDg==
+X-Received: by 2002:a05:600c:b99:b0:499:7a5e:4c3f with SMTP id 5b1f17b1804b1-4998215a94fmr60223455e9.1.1786626462572;
+        Thu, 13 Aug 2026 06:07:42 -0700 (PDT)
+Received: from linux ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49981abd6desm72030885e9.0.2026.08.13.06.07.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 06:07:42 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: daniel@makrotopia.org
+Cc: andrew@lunn.ch,
+	dakr@kernel.org,
+	davem@davemloft.net,
+	driver-core@lists.linux.dev,
+	edumazet@google.com,
+	gregkh@linuxfoundation.org,
+	horms@kernel.org,
+	johannes.goede@oss.qualcomm.com,
+	kuba@kernel.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	luiz.dentz@gmail.com,
+	marcel@holtmann.org,
+	miriam.rachel.korenblit@intel.com,
+	netdev@vger.kernel.org,
+	olteanv@gmail.com,
+	pabeni@redhat.com,
+	rafael@kernel.org,
+	Marco Crivellari <marco.crivellari@suse.com>
+Subject: Re: [RFC PATCH 1/4] driver core: add device_schedule_reprobe()
+Date: Thu, 13 Aug 2026 15:07:06 +0200
+Message-ID: <20260813130706.238544-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <anpxXANMYTlOHbPo@makrotopia.org>
+References: <anpxXANMYTlOHbPo@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/10] Fix missing fops.owner in Rust DRM/misc
- abstractions
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
- Mark Brown <broonie@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
- <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
- Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
- Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Igor Korotin <igor.korotin@linux.dev>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
- linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20260811-fix-fops-owner-v10-0-7e71776f9dbe@linux.dev>
- <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com>
- <DKNAS52KYWLD.M15VEC6U0F6R@kernel.org>
- <DKNDF3WD27GM.5VP6RBRXZBUS@garyguo.net>
- <CANiq72=SP_nT7Z6NSH-GT51-8hJ8qLUa07Cs+SarSFTO9Z7vUw@mail.gmail.com>
-From: Alvin Sun <alvin.sun@linux.dev>
-In-Reply-To: <CANiq72=SP_nT7Z6NSH-GT51-8hJ8qLUa07Cs+SarSFTO9Z7vUw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Hi,
 
-On 8/13/26 17:32, Miguel Ojeda wrote:
-> On Thu, Aug 13, 2026 at 1:57 AM Gary Guo <gary@garyguo.net> wrote:
->> IMO this is the correct way, also consistent with
->>
->> https://lore.kernel.org/rust-for-linux/20260811-fix-fops-owner-v10-3-7e71776f9dbe@linux.dev/
->>
->> It might make sense to add this to rust-next.
-> Yeah, it is also consistent (in the sense of adding a fallback) with
-> the other fix I added when applying the series for the `macros`
-> doctest; and the `kernel` crate is not an actual module yet.
->
-> I guess yet another solution would be to have an even more local
-> fallback, but that would be too local in my opinion, i.e. we will want
-> to use it elsewhere sooner or later.
->
-> So I could fold [2] into commit 98f256e27262, but a commit on top is
-> fine, I will reference that commit from the new one instead.
->
-> Ok, done -- Danilo, I took your diff and converted it into a proper
-> commit, please double-check you are OK with the Signed-off-by:
->
->    ec6fcf8a175a ("rust: kernel: add `LocalModule` fallback for
-> `#[vtable]` `impl`s")
+> +	queue_delayed_work(system_unbound_wq, &rp->work,
+> +			   msecs_to_jiffies(delay_ms));
 
-I was just looking at the difference between the doctest and in-crate
-`#[kunit_tests]` test paths — thanks for taking care of this.
+Please note that system_unbound_wq is deprecated. The new unbound
+workqueue is system_dfl_wq.
 
-I'll look into [3] once the new build system lands.
 
-Best regards,
-Alvin
+Thanks!
 
->
-> Thanks!
->
-> Cheers,
-> Miguel
