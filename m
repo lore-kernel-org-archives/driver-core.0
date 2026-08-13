@@ -1,163 +1,206 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012045.outbound.protection.outlook.com [52.101.43.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4196443312
-	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 08:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E20B397689
+	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 09:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786611327; cv=pass; b=a3fROfo3T0uuOzXKpUDRsUUGRRiSrfKOqBAb1UDCsjg2aLDSUIMJYRlAvjU1jsIwrV9NKRIBNUii9H/W9DNvChNb31oIYhkr8Ze40kMUQQ2L2CSdgBryc0JvF4him0YYV2eDJs2ggjaz40mnho2vwbAu6qzr35sMXip6gXSIZh4=
+	t=1786612313; cv=fail; b=AmkagMwlYtjv/Am3TgkEY85SKmGiHjs0tJvISnaRFIM1xuWuvrXSRNvWALNrC4UtNOF3smomhSjY1aEujoEA4Sy00eWa4B809S+IFsAQqxHvRfr4GSenx1kWdKbGK+wYrc04M+ukUroOcVO3wqozdP1JzAj1gM/5VWCYgCYCdB0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786611327; c=relaxed/simple;
-	bh=Jzc8k1yrWfBTMmPd/uTV9o0ew6ZOvHlbY2BVlHKCDmQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BgFGSQQepINFJld7384NJQ76jMHPBgu/97Az13bme7w5wTReIPc80ofwrv26Hxt1+zYuA3DJSszJpIClUZfkNmK5jlSBvaqrQNrHlK0p9kwZCxNRuH2pojd2aeGoDkJMMT5Ulc23aD9R3RhXogQbbcwAoX3M7vnD2rMv4uhesps=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+5UcjpV; arc=pass smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786612313; c=relaxed/simple;
+	bh=hceSbxJVEAy0dRTLW+rIRvq5eABdovGlr5IUlMEHxwg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=sHluLIM8AKJQEWU40lmcr45/uLF4BlBbgy2al58gJ+RqBue4vx8bwBRZeGNVv51eKWxRFBkibNVIaYrA8o+RnC8KoXxhlKQFrR8fTtAXEJT6dGBNSpoJw/UIK+j2Z85c2E2kux9BxxdM1OjIAa9JU3JxyMCyvIfD6EeeXcSOUn0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hc6D6NP4; arc=fail smtp.client-ip=52.101.43.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+5UcjpV"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2caf228a910so4163605ad.2
-        for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 01:55:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786611325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=m9VfHfJISP/dJIb6Rt7bgl81z1Q3BWutK+xjRpUV/t2q/17GfTccOYaP8UvRmGNjKf
-         70oyxwejFGTaMQjoYTcKnPHHXej/lKlTNBfEFa92seQRzOImWkJoUH8QkYmeaoFtyEns
-         ee7aLbkOW+sM76lTplqnoseKZzlozHuWA7pDgvPlgZm12wHXLkSs4nIbBFyg4t6Z9j2o
-         INd21JvMT0DWKeyglqlALRnbWzNSw8EAjr9DtrF8EuLcfDFtOlBpRyKgnYOYoq0lR40W
-         L+0rXBALEtljxbEdZiTowY7TPr7iBjDiGcae00GaTQ+zc+v5kqU9dIGeHuf/bRfpb3f8
-         PeKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=iQkBGHUJCah+5IraL6W1VGnCKmw1qeB0IxjLs3arhcU=;
-        fh=IwyNRcCY83d1o6aMtaPYgCA8+MkKUKTJxIjrPwGGD6Y=;
-        b=SRB8uh6g80q7fYWSCLGh53QMW86V9t9W9OPpXkWs1TbSMmf5/B8bQxOhOiRkBu6A1e
-         p3iVqvnGBvIOy2Y/x7QpyLuj4FizocQLN4v0iz8wJlW+A6EHcnDZSWHY/vOEwTuXumKI
-         g2NhyGe3RC8yHAylOtBfcycly9Tc+UqelVU32UnHuTda9ZzcyqLFGfJsXrK8kIDHPQkG
-         xtEMvMwmwUaBjpVt9IatV9I6cZgHVqz8qb90zl/A7tfOCFjlgWjRBAL9B54zFcN5xjZ/
-         /x0M8jY7tjIXogCEqXRuQb7kvLg6YldXX04LZQcxBLN8vn7lKvuxNecOYAx/a1y7IZpK
-         gh0g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786611325; x=1787216125; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iQkBGHUJCah+5IraL6W1VGnCKmw1qeB0IxjLs3arhcU=;
-        b=F+5UcjpVBRplijmxQSvRBTO82+o5SwKCfhOA3TjPyujTw2xWiWZnZ8zLpKMJuA4NZ5
-         EkmffUQYA+Wc8in6nba6ZRH4CTpBkWJq/HUrDR/BNQKsLQQzqmlle4csYzfvjP9dax1K
-         48l9z52J2KplaIJ+lYs7mu9YxAkQG44Ic7KAbSv4SaaPHX2hHGJlG47XSdk1tKg1nTzm
-         AbDcJ6ZABdCm1bxsyQOK/w7c8ceO3xSHCe/SgmkjFEQuSveLV5mPT5I41bxbL9sSru6c
-         enDqYvmfrLegpM5eTAhIuPBHP/ZwLQP2a4S0Nbb3HwAfsz56+Y2HSg0/dl/WO2lzOh/x
-         9e3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786611325; x=1787216125;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=iQkBGHUJCah+5IraL6W1VGnCKmw1qeB0IxjLs3arhcU=;
-        b=cLnKRtvTXXksyt2aV6SH9hKJecQhQKu8z/nE2556L/0aGxGhAuR90LDnn2sW5hfYTs
-         TQwJaDBNbt+4vn19Ig68DvChvBajAu8j3Qx4b2gp/g9vkSP3Hs240tbs/L3wBeQbkxRK
-         2CSRb4wWnfAypc4+TDrdSeLIbUbeJQal3KKHEWwvbU2z4l39uVOcfiSRZcJeDa31t2Hu
-         +JX4VUFilwjr99sjCMkpY+nXaUM7GTUWqVwQrriJZ8T+2A3d9d8WGJy508T0lhssenyf
-         1EPPCZfcK5uYrfaXZ3UV1F6kkdel+9Ywc9Bsf55HJwkLrGU8Fq4PZ/QLhKIBRkRAjHy1
-         MrVw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro6UIOIcYlQMyOMUS3Gnx5f8Cnm5QEwXVUHhJw5ggqcVQe0BGR5sPbpWH3QnHOwSifH+RBlYOtbR5JiJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4/X5VoJD6J5XyKnwy4yPSFX4EywWmUykunHmkOZlp5wu2O53M
-	xLVVvWXygnWy+5STP7ilYS4/VGxoXmZsdx2xsl5hyR4+5BTETz8wM1V0K76in4tiL5Mjw9LXHvn
-	4Q5Tj4/aXj3xbEGQ9U2W9xh+a9Hk94XU=
-X-Gm-Gg: AR+sD12+lJko+urpWQclHd7vpHsdUhAeW6zVaNSYIvNi7vAanH5wangB+J0G48wanmk
-	tuCYWK8Da6BJOgkJweFbKxsqUw1UDV0Wg+Xu8vuDrdkDvau7/XjQCl/6y9Y/eGMvySWsRsP3VR9
-	BKhq1AdfHpPgJLxt5owCbXvJqy5cn7lgtq/o5bY2XycGM35rCtBSowxWCM1RMUn4agNqRzBF/xG
-	R5g94iBm2Or76yOVnrhX9l1njptwdxmEgBAHRDMEjX1CH9fFSMO533S37Rgv+1QPZPanf7D1NM7
-	M4k8XXMgJHugC2/XlgYXOpCaZ2CoSNXrlhQ5MNDWyynkOo8=
-X-Received: by 2002:a05:6a21:150b:b0:3bf:8604:9a3c with SMTP id
- adf61e73a8af0-3cc553f513emr5787899637.28.1786611324791; Thu, 13 Aug 2026
- 01:55:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hc6D6NP4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CL/VsI7YifQ4s4kuRxfHf/bUSdIr9m8UMBeZP6FiWt2s6GxzqaR4Uf/k4WBk+SEPOxptbUai6WfJBNdIJlYujjRT1WFLL3q9NeLjMkznEUN39DgLp5yoi5puTScaTLS7IsruUVMwh4bk1fV61nn/l9WUdAaMCqltg7snB5r8ZyNrictvSHWExaCn0mCeUdsZIgUh6n4p5RhdNiGKlcnwaNMZkMh4smbawIdvdwmzun6eGlWs2O2hRFKP1EvGo/PG7BCXb1UB78yZKe7+Jp/Yiwzc75E73yBpeTSwK/CtLIZBknQ24XorwvuNbIdUP/ibu2FV4Cyg/Lce6TZVtYmIAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9WBFRX6BPgREUxNFn/NzQLKTj2SXHm/y7NBLmhaGT1g=;
+ b=JtstkD/5COxFr9mjUZczV+mtBh+rsxFxX5cizRBW/D07qQRm/JF/gAxvAtGy4WFmcxJ4DLvZvD/xjh5PJKio20MjbKzdhSQCTVJ/HiCuhNXOyBb1kZ3hyIoGstSqfF5+TrJw/u49iUA+4PTCbtU5zVzZog6r9C3VqGPsT46KFA0pkD/S1yRlyaJW0+edeAakyR3yLTFaW8yRWZkYrc3NVtfllY0XNGH9HtHYccG0Lp6HWSrEFyvTEhqUctvRwMl93XddXsqHYbwd8UR6MyRB46AtVf6GhQj6JSR3FYOiZmrO7IGPZGqZg5aYI158ealy6iruWryWwARz3BN4AOPzHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9WBFRX6BPgREUxNFn/NzQLKTj2SXHm/y7NBLmhaGT1g=;
+ b=hc6D6NP4VpsGty/Sy2vj7wblojOJIZBhnFDKhQzX142p0QS8VQLp4AkY0yUbHY2/0VVprIUrMoykDIr6MteYllGUX3ZyHW7jjnyxtPaXDIhARkm7sUt4IVdAIFl3p9uXuCbPg3zKW412zxnfNAUOdZtcDAFwnj3nym2D9e1rlAI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by SA1PR12MB9489.namprd12.prod.outlook.com (2603:10b6:806:45c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Thu, 13 Aug
+ 2026 08:59:49 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
+ 09:11:49 +0000
+Message-ID: <5810d8cc-78cd-42c1-a671-2d562ea6d7ec@amd.com>
+Date: Thu, 13 Aug 2026 14:41:37 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] EDAC/versalnet: use put_device() on device_register()
+ failure
+To: tarunsahu@google.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geoff Levand <geoff@infradead.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ dmatlack@google.com, Borislav Petkov <bp@alien8.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com,
+ Tony Luck <tony.luck@intel.com>, skhawaja@google.com,
+ Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
+Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-edac@vger.kernel.org
+References: <20260810162814.1398016-1-tarunsahu@google.com>
+ <20260810162814.1398016-4-tarunsahu@google.com>
+ <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
+ <9huzbjb9hrf0.fsf@tarunix.c.googlers.com>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <9huzbjb9hrf0.fsf@tarunix.c.googlers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0080.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:26b::8) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260720193431.3841992-1-gourry@gourry.net> <CAM9Jb+jpJ-Ui4qDHxsp2WiERiv8gmrQfKQ8Z0BmabefeQ6pg4A@mail.gmail.com>
- <an0cAMh_m8ZhGIm2@fedora>
-In-Reply-To: <an0cAMh_m8ZhGIm2@fedora>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Thu, 13 Aug 2026 10:55:13 +0200
-X-Gm-Features: AUfX_mx5aRT_GeBsew982Oll4m1v2zeTSERp4DtDb2YI-VK1slYjLWUFWPkF2ZE
-Message-ID: <CAM9Jb+jmxPdL-CdWQHYMT5G=qmjB6z2WFg+4K8Fod5n=2N6YCQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	djbw@kernel.org, "Gupta, Pankaj" <pankaj.gupta@amd.com>, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, 
-	ying.huang@linux.alibaba.com, kasong@tencent.com, qi.zheng@linux.dev, 
-	shakeel.butt@linux.dev, baohua@kernel.org, axelrasmussen@google.com, 
-	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, 
-	tj@kernel.org, mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, 
-	jhubbard@nvidia.com, peterx@redhat.com, baolin.wang@linux.alibaba.com, 
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	lance.yang@linux.dev, usama.arif@linux.dev, xu.xin16@zte.com.cn, 
-	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, cgroups@vger.kernel.org, 
-	damon@lists.linux.dev, linux-kselftest@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|SA1PR12MB9489:EE_
+X-MS-Office365-Filtering-Correlation-Id: f37db8fa-ad28-4966-3dbc-08def91ae7c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|921020|11063799006|10067099003|56012099006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	JL2PagGibDBbb6WHLY6f9GD7Qvx4D/DlLdjycybkGmnpuu8s4yJIu47VZnYNQZIRJ4cV+q6OxZLBxrfanipt2X+xQo1daI733iPlmcDiWHBvxM8xQW/2URDMDFtf53l0nTDhcF3FU0NO1OGSjhaB8DTd6XmJqxhaopRAPT+pwh1zHleQGzeDZJN50/vWLvOiQTr8JsIvZkf96YacmENTp7x3d6v9C2C3QDSFGJWuojeOy/3EOiAwm8IqxFibbq9nmtCsd5ingt+ihh+/Jz0juFvi+pCwhfa58aLTH56+n5q4ElNJOIk5k0yG7OuTmdZVZvS5dvico89m7rIwX2CDj8uCO0gyVasZ6Ixf4PahdH5qLksTKwrUnBEOHHj3YB9uSnurCr8cFWMTPwJNrkJ25BaRWmxArumTOGQK7LAkOnbrW+4zBvau3ma9UkprmrkMS6Q85f2pEsX4Mcuih+inGiZAA35VadrysJQdRFJ4/S4WrH9sUTx1icmfFTtNRBYEn/3qZH7Ugmg89yp4bEwtdQuTuRtRN4cNYYuC8JA5VoiLGvO+C9sF3juaTFcCMNQT3xW71Z2w5239SsdKMCc0eCq8YhOtatjHopMephSEAalY2YrLxT/rVoBHtOwLKZ8XbQRH4QK5Eqfh1TPCERIdEeVqauZhmnhJquV3Gz/xF2Fk5OpVjpGx8FlkWr8v3C2foZ76L23IaFQ6XPtWXROiOA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(921020)(11063799006)(10067099003)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SnFDZktNZU8yY0xlcE9Qd0xuanJmb212VHRkcUI0aWcyZzlFYjhLcC9Obnox?=
+ =?utf-8?B?RWlFQXlRa3hib2N0cExEaWpyN3lQcUFzVUltQnVZOFZLcGFrc2lkUGhYdnhG?=
+ =?utf-8?B?ZnRXNFhjMGNNMUtjUEF6alpDL2M0YUdYMzBtNXd5UFFLRVlIL1lHY1NVai8v?=
+ =?utf-8?B?ck9UWEF3azNrTGcxUnlVSmJYOHEvRDNVQWhnZDNrV2Mxb3kxVzlhUkdldkpa?=
+ =?utf-8?B?M21jZXMwZmR0ZjNmT2QrekUraCthbUxoZmV4Lzc1QVRieE9IRFlEQW9RQkI0?=
+ =?utf-8?B?ZHlkZm0ySVl1VzFCaWRJeUVoQ2ZNWllONzMrcWNpY0Q1NXcyMHpnbUhnOEE1?=
+ =?utf-8?B?a3hpUlp6Tk56K2xZdzArSU04VGVuY3dDM2tiNzVtRE5hcUxjMVlPSjZPSGpi?=
+ =?utf-8?B?dGZvbEZ5dzNLQlIyMGFsd0xzcHR5MDMrSFRaRDVVK21hdDhicnh1SW94ZHhI?=
+ =?utf-8?B?UGhKaHpmTDZXZnBpenNOU2dmWU1WT0daMzNtNllwdmpERTJuRlBzb2FxMnBH?=
+ =?utf-8?B?ZkVwL1NXTGlzT2p4ck9MZDVZMWliYlZzY0pXRXBUdmorcGVNS1piallYRXR0?=
+ =?utf-8?B?UmJCbmdld0xuNDVhMXJqWGJHV2tYcHZyMHIyNjdzWFNGaGVGTVVtYXk3TkRV?=
+ =?utf-8?B?Z25CSVAzVlhqNVloaGVIekJOa1htdDdSczBIVUpScmRaWGltdWdtVVRtWjZr?=
+ =?utf-8?B?RlF3LzFkYzhFM0dhNFZMZkkwR0Q1Y0lwZXdHSjd6ejJWUDhFeDVYSk1vSjFF?=
+ =?utf-8?B?Zmw0WWRsdEkvdGpZSDhVQXZMOE1LaGVESVVaMk9kU1o0R0tKYkZIUWRRTUlN?=
+ =?utf-8?B?ckErN2laY09mM1BzSXcwLzBNaVIrakY2ZnQ2NitKM0xOeVlFNm0zYTlYN3dn?=
+ =?utf-8?B?dGxaSDBFZmV0NmQrKzgvNlpnUmZ3WFZsZUE2K1R4T29UVkFPQ0RTc2EwOXpr?=
+ =?utf-8?B?a2hPY3hEbWxmY2o4M2o4MS85SkVuVzNyZkFjVFBHanI5RmdSNCtSSGtBeVEx?=
+ =?utf-8?B?V3VKbHdwa0Y1M1k5RUVOQ0hKbTh6RGFHT1VhWkM0MkJIMXRyeWJFS0xaa1VB?=
+ =?utf-8?B?OWpCblVjeDl6ampianJGdUlFVVdsZEp1MW1DM05sVWZZTkh3M0l4M3pZYkY1?=
+ =?utf-8?B?VkJBM3lNSWJIbE1pZUhTTlBHaDdXOFZ4Mjlna0xpdUY1WnEzNHFsMDJoQi9a?=
+ =?utf-8?B?VUpyN1pwN1JTU2VxQVNLbmRIV0t1VER6SUdtMVFERjQxNU5MTTZZSjZQZ2Nw?=
+ =?utf-8?B?OURYN0lQMHVGNFR5Z0gwOWRUTHd3aWJBNlFnVmFtZHZvTDUrU1owdXE3Sk1V?=
+ =?utf-8?B?MGtlNFptTUsxdDRJbldoKzRERTdjZlVRai9mdmRsQitSQllwUUxoL3E4aFNT?=
+ =?utf-8?B?MWNaNUJwamxua1NONFNpSnV2RGQ3aXRJeVBGWXBpK3lVVDFFL1pmL2NaUXE0?=
+ =?utf-8?B?TkExb1lpY2N2MWRTbzVIdVpsajFBUHpjYjFXUkRMZUgxSitrQWp6TUJXdmF1?=
+ =?utf-8?B?bzlKNTB6Njk0eWRqYWV5TnhrTy9nNEhyQ1dhanlIWUlrWHNTd01pc2t1YnN1?=
+ =?utf-8?B?Q3VRcXAwOUhHVDI4c3pFVnZRdzU1UXUzd2RzRTVyU0o5RktRdEYveFNaTnVH?=
+ =?utf-8?B?UXB6QVRWYnovSndBM0I1d3Ivd0hIcnB0ZG1URXBmb0pndlhWb3k0OElUeTFD?=
+ =?utf-8?B?U084NCszN2pTMG1PMkVvRmt4Y3oza1hiUkphOVV0L0NMVjN1YWpNV0RyMjVU?=
+ =?utf-8?B?Vm9VZ2RUQVd6ekVIelBka2NkQzl3WUlsQWtyZHkxSndVbzFDRUg3djJDU1Zx?=
+ =?utf-8?B?V085dDA3K0RIRXk1dkpyS3ZwRFZyd01Gc09lVFluL2ZZNXZ4MXYxWTU3MHZE?=
+ =?utf-8?B?bWVPVnVyQWtIY3dSS2tFZllRTi9GTEhxV0NjdkFHWWZZSStDYm1YUElQY3p4?=
+ =?utf-8?B?RThwWnFCenlFV2xWZDgrVUg0endPbSs0ODFGNzVsL3c2VVZxd1JkMVJxMFdQ?=
+ =?utf-8?B?M3BCWVlPaEttaHBWYjZYL0pFbU81VVFxK1JLcENOS3VpT29SYzUrUDdIS0E2?=
+ =?utf-8?B?TVV1Z0hrdUJCTEw0NDgydEllU29VVnMwa0hmZlhjbHc5b0s4dmdkVFg4eXgr?=
+ =?utf-8?B?T05JYnJoN0ZhRlUyaVc3eTBadGd0TVVKcjcvZlIzN2FiK2pZOEhlTlhTbE1m?=
+ =?utf-8?B?QkVLNUdkcjB0d1dmdGM5cndMeEZ4MEcrL1RqSDQ3Ly9CY1NQdFJ5dlNDVVFk?=
+ =?utf-8?B?ZGpmVkdBK00yaDByOTN6Z0dveW5LMkNUeDF0bFhZT28xNVpMMS9PVkp5aUE1?=
+ =?utf-8?B?eTNBdHZ4b1IxZWRvVXh3dlZKQ21QTXhYZFgxRWJ6cnJDZE9CZG1Xdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f37db8fa-ad28-4966-3dbc-08def91ae7c3
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 09:11:49.0567
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BPUZHpiY2GKMhGiIt8Bgvd1UcRc1+JhKdkT2+Ou8+OSo/0PlP5CyrAi2we+DCBxK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9489
 
-> > > Bonus Configuration: HBM device memory tiering
-> > > ==============================================
-> > > echo 1 > dax0.0/private       # make the node private
-> > > echo 0 > dax0.0/adistance     # highest tier
-> > > echo 1 > dax0.0/reclaim       # reclaim active
-> > > echo 1 > dax0.0/demotion      # may demote from the node
-> > > echo 1 > dax0.0/user_numa     # mbind()
-> > > echo online_movable > dax0.0/state
-> > > echo 1 > numa/demotion_enabled
-> >
-> > I am bit confused by the HBM device example being discovered as a DAX
-> > device. Is it to
-> > only to showcase the use-case? Or we see HBM device is actually
-> > expected to be discovered as
-> > DAX device with N_MEMORY_PRIVATE?
-> >
->
-> "actually expected to be" -> no.  there's no requirement HBM be
-> discovered and boudn to DAX, DAX is simply a convenient intermediary
-> to memory-hotplug.  This is at best a demonstration.
->
-> A device driver could very well just call memory-hotplug directly,
-> or its memory could be brought up as a private node via a boot
-> paremeter (which I have sculpted for v7).  The former is preferred,
-> but there's a bit of a chicken/egg scenario for bootstrapping.
+On 8/11/2026 4:09 PM, tarunsahu@google.com wrote:
+> "Pandey, Radhey Shyam" <radheys@amd.com> writes:
+> 
+>> On 8/10/2026 9:58 PM, Tarun Sahu wrote:
+>>> When device_register() fails, calling kfree(dev) directly bypasses the
+>>> device_release() callback (versal_edac_release) and leaks the allocated
+>>> driver core structures.
+>>>
+>>> Fix this by calling put_device(dev) when device_register() returns an
+>>> error, ensuring proper refcount decrement and release cleanup.
+>>>
+>>> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+>>
+>> Thanks for the patch. FYI, this issue is already being addressed in an
+>> ongoing series.
+>> https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
+>>
+> 
+> That is good. Should it go as saperate patch or it fits very well with
+> the above series. I will drop it incase of later. WDYT?
+> 
 
-I find this interesting as this appears to be evolving towards a vendor
-agnostic framework for hotplugging memory directly to private nodes.
-
-How you see this working? In particular, How would the kernel know which
-memory ranges correspond to HBM or other device memory?
-
-Please also CC me when you post v7: pankaj.gupta@amd.com
+Please drop it from your series as the fix done in Shubhrajyoti's
+series is complete.
 
 Thanks,
-Pankaj
->
-> Most of these UAPI extensions are going to be consolidated into a
-> debugfs interface for testing purposes only in v7.  I've been working
-> on aggressive Linux Test Project test expansion to ensure there is no
-> UAPI regressions.
->
-> ~Gregory
+Radhey
+
+> ~Tarun
+> 
+>> -Radhey
+>>
+>>> ---
+>>>    drivers/edac/versalnet_edac.c | 6 ++++--
+>>>    1 file changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+>>> index 97ec05d68bbb..2912b3658915 100644
+>>> --- a/drivers/edac/versalnet_edac.c
+>>> +++ b/drivers/edac/versalnet_edac.c
+>>> @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>>>    	dev->release = versal_edac_release;
+>>>    
+>>>    	rc = device_register(dev);
+>>> -	if (rc)
+>>> +	if (rc) {
+>>> +		put_device(dev);
+>>>    		goto err_mc_free;
+>>> +	}
+>>>    
+>>>    	mci->pdev = dev;
+>>>    	mc_init(mci, dev);
+>>> @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>>>    	device_unregister(mci->pdev);
+>>>    err_mc_free:
+>>>    	edac_mc_free(mci);
+>>> +	return rc;
+>>>    err_dev_free:
+>>>    	kfree(dev);
+>>> -
+>>>    	return rc;
+>>>    }
+>>>    
+
