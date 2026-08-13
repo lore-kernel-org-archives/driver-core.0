@@ -1,92 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-122.mta1.migadu.com [95.215.58.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AF931E85B;
-	Thu, 13 Aug 2026 06:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFDF43BDBE
+	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 08:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786601857; cv=none; b=gebhxlwvy5H5M3CkVGCUWaXrLOzFFiDIEj07gPXvXUq0hV4lU5BM4GgVMrcaOkXZz+EKjWg0bxComjseiLj3819uHDF9Nn3Z6J6Sv4OJ15tZivbc5V67EhCnFQsYmfuoIngb3IiorQVXy+o5+M1m9Fibhg5OrfwFfY394oZpBZw=
+	t=1786608914; cv=none; b=pye7V7C7VtHtnxIWx0csac+NwP3rrkcouvq/zTle6ni2iZn/APZTEcgTnzFwsyYIX27f2/cPh4uAj0H3R9ScXpY5iK/Z3cHgbTZdzM+0rtFzvgBd/fzZ2yX5O9IARTzJz+tgEfLBOOwJtDMeO7r59Iwe7G1PwJRiHqQMjlRYW/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786601857; c=relaxed/simple;
-	bh=z9G4N5ySez6K/OvcDFMO2s/RhZrVwmETPeCrg/mdxC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uBO7TdCLLb8kG6aPKfI+MAjXjiP1IvIqGazpU622zt0gGQNVcStwPb60SZC2UWvAoqaXPJUcTkGpXUWveHE1XvewN3EeHtzwUrsNYc20SeVpTyFpaDSovjprNnD16c45h1hEG4GXbDmcVUDnYeVg7Rflli+r79tpIkB+tzlRBsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKMwQCK2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786608914; c=relaxed/simple;
+	bh=HJkkjybnc95eKMUgffBgUHHJLr8cPHCSSaxuPE45BEc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g2v+3I0GTWsH5tYNPor7lxZ8IhsShIRPPya852UXi/DcSfIDdeGMoN/kNhzbXV6JejCYcN6pxMZ21jtAab04cJQhwdk8+Iq7y9ATAo9C18J7ORBFMJDNEzqOXlZuHyQzoA7BhDghiriQewtKyhZ8XLCA4/GnP7fsCe1WaEcWh9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UHai7FBN; arc=none smtp.client-ip=95.215.58.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKMwQCK2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E111F00A3A;
-	Thu, 13 Aug 2026 06:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786601856;
-	bh=3hkGajI2L3VCIaYqx24q5REez+3Wl5xg9c6GVH/Friw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UKMwQCK28TSILWRtZYIiOcDLDZRvrYVvr/6WUGonpE2gXO5sNj35XDxJbbXJaZfVf
-	 TQ3isjzHk5zA44MkIUI7rf31xc96ZlPoM29T6vDCVLY5XSo3+bi4CXnmSQnLtGw5LR
-	 l9eUDYCo81v18wDWy3hLv4BuLcEO4693tIm2NyYTz1BHVm9UchV8r3znS6zj0kbwzx
-	 suKUgSmAmTepJhXFbvH2zhssyQebFtQvBZjH2GwlqUVbGWRQFnVCyiYtxadBubaTPz
-	 JnLWT7alQeMWPuhaB8sD3fhgHgzTKVcvx6WOH5IjXYGoSL/BeX/EVklUkktbmuizf0
-	 Sg1WZcz2PdcVw==
-Date: Thu, 13 Aug 2026 08:17:20 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>, 
-	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon <daniel.machon@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v10 08/10] PCI: of: Set fwnode device of newly created
- PCI device nodes
-Message-ID: <ir6y6vwejuqjpz3dx37xadojinvxniduzv5tycylnhidqs2ma7@5v5hy2vwv6qi>
-References: <20260717145147.823749-1-herve.codina@bootlin.com>
- <20260717145147.823749-9-herve.codina@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UHai7FBN"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=HJkkjybnc95eKMUgffBgUHHJLr8cPHCSSaxuPE45BEc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1786608910; v=1; x=1787213710;
+ b=UHai7FBNVrl0ZSe+2mNdxKwYssAUVvc8lLsNDvxwVJM9F25wBLYV5Nekeg3/FEgeXSbEloJt
+ ZUh6B0rVaU2nqJACkfxm66O77x++fBtgRcll4Gv0xFHv1ZqOU6grQX9i/Mwzt/PjWYN5IIfrGkF
+ LJ4WiabhJaVR4BgMgGXFog+A=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: from [10.0.11.3] (2a11:3:200::10a9)
+	by smtp.migadu.com with ESMTPS id 549bb4bc2be94b73;
+	Thu, 13 Aug 2026 08:15:10 +0000
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <0102f153-154b-430d-a3da-2c8423fb3f1f@linux.dev>
+Date: Thu, 13 Aug 2026 16:14:42 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260717145147.823749-9-herve.codina@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/10] Fix missing fops.owner in Rust DRM/misc
+ abstractions
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
+ <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+ Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Igor Korotin <igor.korotin@linux.dev>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
+ linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260811-fix-fops-owner-v10-0-7e71776f9dbe@linux.dev>
+ <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com>
+From: Alvin Sun <alvin.sun@linux.dev>
+In-Reply-To: <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 17, 2026 at 04:51:43PM +0200, Herve Codina wrote:
-> Device-tree node can be created when CONFIG_PCI_DYNAMIC_OF_NODES. Those
-> nodes are created and filled based on PCI core information but the
-> fwnode device field is not set.
-> 
-> When later an overlay is applied, this confuses fw_devlink. Indeed,
-> without any device attached to the node, fw_devlink considers that this
-> node will never become a device. When this node is pointed as a
-> supplier, devlink looks at its ancestors in order to find a node with a
-> device that could be used as the supplier.
-> 
-> In the PCI use case, this leads to links that wrongly use the PCI root
-> bridge device as the supplier instead of the expected PCI device.
-> 
-> Setting the fwnode device to the device of the PCI device allows devlink
-> to use this device as a supplier and so, correct links are created.
-> 
-> Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On 8/13/26 00:33, Miguel Ojeda wrote:
+> By the way, I removed the Acked-by in that last patch since I think it
+> came from an older version as a series-tag that didn't have the patch.
+> Please let me know if I should re-add it.
 
-- Mani
+Hi Miguel,
 
--- 
-மணிவண்ணன் சதாசிவம்
+Thanks for applying the series and catching the stray Acked-by.
+It was a v5 series-tag, from before the MAINTAINERS patch existed,
+so no need to re-add it. I'll be more careful with tags in future
+submissions.
+
+Best regards,
+Alvin
