@@ -1,138 +1,101 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524C54192FC
-	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 09:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786613784; cv=pass; b=Y5CZG1Ga4mcfDdfhfNPHsKJZmWGweQ/TqptB9ML4FCv8LpoOG0YKeibu1mSaBtAKvMcGSL89J7uqAafdr1QpY86WMWMtGSRe/fEpZCVwK1cm9TZvOBYfsArpyiwNsxIrcEBd+bHtWg/bLMOsLvGsMh3o4URrr0Kx6DKbD6oC76Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786613784; c=relaxed/simple;
-	bh=I9h0QULojzau7syX2ptB1YiILa8mj5wKL7cDn/JLX6g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OgtKF0ZKCSe1O6cn1QW29arzqDxTB9UK9/LmVTbzsZiBHM+D4qYAB/HAfwUwasbg+6U9iGoRJn5nDP10Z8Utn5z7YyXuRpYtPDCNCv+e3+6BmK3JBzeaw0kP3XFccKvwS3irdNM6OrK1mKHI6Go0+paVmcJzJXdH2hNlwbVFp6Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFMEYCOY; arc=pass smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860CD39CCFA
+	for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 09:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.70
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786614868; cv=none; b=c23H4BnHEVRSrWjLyFsuVAfdbCCf6UoDDL+Vl+5FlPrRBYmjkQQlx1oIjbpN849luPjvDzANB9Ee+7gm+oXcnHvogDiizaEU20YgOLZM4CBpiQgJtp823wcefauZl6tLmGcKc9gurmHn1Z8qqTJu4mpAVbqOqeJNod2npv8r7Ew=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786614868; c=relaxed/simple;
+	bh=xR5Wua660iYSh7uDHWlC3HYp9mQUFTcrH3R4zbvltD0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=A0njx9trk+VUcTCE6DMUvAIWv/YlFHIFDYkby5TIiRiFMdmiFZpIL8MBoz/7RCedly9CpZDyQ/EB2xB9zaOul4YRIgt7Gaa8w3M1yPWPlpAlGrKuvwTh6OVWsOAAO6yqAXUc/tgFVETS0huNpSRhHL14kCAVlfe0ck2zg/QPzqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rvypDIT7; arc=none smtp.client-ip=209.85.218.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFMEYCOY"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ccdce28edeso3400865ad.0
-        for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 02:36:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786613775; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oKlfy/v/O3rjRdKWyuLLFxQw3LI7GB4iIAqcyMe0l7uDVlfDwlkgif+9RB4rOvaM65
-         NKfGR6AWXId4OniaIZFX77cJyAJi0nr9Qn3ISWDUNxerXL/zUzBWYvAPirtyMfU9bjY2
-         mXOUu0g/Fg1mPboACdn8Nhy5sYVudSCkpW3SoeqCkZ4dhvaKUfmij71fnNURvFPz6Vqo
-         ktsFER88NHaCVGzsZGYgdlb4KBAxwxWYu6TL+8r1LZ9dtfg2Wwze/jSSM0H/W8Zo8O7V
-         IQEE1eVF9+dxI9L+/+XECSFGHlIo3lFn/GhYENUybCUwP13cOf5k+yxWmfDOeUEoELib
-         xaVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=I9h0QULojzau7syX2ptB1YiILa8mj5wKL7cDn/JLX6g=;
-        fh=gAKOajjzfr2qinWtJSA3l1nHBLFAmulo+uLBYCbXWC0=;
-        b=BR6DVdYdssJ+DcBC+xe9Us3Ve+MkpjVzeTHw4FNI/yBM7zAk1YMBuYS+k+FPE/QOtN
-         HGFHkyWUxJiPlqbluDwG5SstcU2RtKhb0gwbEg4PHnNJaLlgmj1CNmMSNFIqFW+lLveL
-         SUOgVDTvHm4wW9bsOxk1dtHKYITFq+Y8B4bqYuPszsrrZvbpga+H9zSuMEjtc+fsZrBp
-         Vt39y+ujTvZKgTEPL4yY/vhRa4o5CjmdFSezB2B8fJd8B+/yRZELT4kQHQ9kWfdb56hE
-         cfCMP2Svlw7Q0gv/fZT6bOhxEKQr4mtq5pUsxUC7YupDdDb4OeOxotB9pU/jaC7QpC4R
-         lupg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rvypDIT7"
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c15cec1ccb6so158876066b.1
+        for <driver-core@lists.linux.dev>; Thu, 13 Aug 2026 02:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786613775; x=1787218575; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I9h0QULojzau7syX2ptB1YiILa8mj5wKL7cDn/JLX6g=;
-        b=fFMEYCOYjXix3pa07usucniAF+uYOdXHvXSk0pwssM1Zq3CZSaXwV6dHwrUBPlMj1X
-         wMPAPmDeI7n7xK0H+I7xpoEz/Gh//C0QXSYwrtMWLwRA/8xKKyubKyVb4JZikLxWfkmJ
-         CJUmVLGXOu48/6mEwwsCayNY7OQrdVyNwp5d5MoczXwW730I7LV3BPVyJXB3KAGW5CZK
-         6znZ288p/+NPJ6z8cyOfsgxAUdjdOzltnmM3XW5tseojA83f7u3rPmfz2cmZ7jeWTK55
-         SzuPS0Lu6cyZQtZDZigy7+4o1tQL/VQ/xy+Dsuafu25bqdqWdJ9hVBzXhD5c9MBhtBXT
-         aofQ==
+        d=google.com; s=20251104; t=1786614864; x=1787219664; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UoJE0ONwiW9+839EaZ7hWiQ9yyPS5ERFdBgspRFFZDw=;
+        b=rvypDIT7YOm9px5DoNdzEwyoo5aHhui4IpYb/aZr2951jnPb+mk6+5gTXPdDrmaFsA
+         Cqdws6g6JvckJHlsDflU2Of5J8zshc6txqEPm435naYt7BaEgQUk82dYuLN3XmWdMTSc
+         9+xDW0MN8YVrZpx8ZHkLblt0OLvrPn7pCg2ZqB3Bffg1knlhet1wOKagQ1HhUQlf+cfZ
+         kOZE/BI1kUjXe7dYygr6smtqJA+vgn6C/fqTB11HNxqUmXudk11VvCObnAo1SE9tcezi
+         1epZOGIzdmdF9WvjQ+jXxVGwjmA9grdzhxzd2Xj6nHg2XMaVbuFodSBDgYc2o6fgdYpR
+         gZ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786613775; x=1787218575;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1786614864; x=1787219664;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I9h0QULojzau7syX2ptB1YiILa8mj5wKL7cDn/JLX6g=;
-        b=i6A2qDaSTk1chVoR67fMFe47+kqLMH6z5VXhcUClAqQ/tMt81j+ciA4/Izj6Hwfj0E
-         xyfciSAI9c5swI4Z68JX94LS38l/KfQeEzzMnDelSTg1LGC9Yy2J6s6HwJWbdqyd82yA
-         2u2BWbgW0xq3Kg7QwVWjMJSFi74GOyGw2L94llNLqqo3B/CIiCa7fw9CxKgW2JX3fUJC
-         UelPXQiU4CRzwmQYdNywNtNyu7NX8szHObar8FhGFD5q+LUCtK8ZFnUBIsghBlAisMOp
-         N/h+f7PpqJWQ68UbRHw11nveOyeRkanJS86D/cWSxEUwieCPzQ15bJCBNa0dQD1O2iOG
-         wuiw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpy+CUkJVkZE0QCDdUi/NcVNhxHrZsKWfNWAdK7QGZ9XPTXiHQXlCQVkqKpcgoSrmCmuQnBnnOK4tvFQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwL50a9knPdU8m6JcjO86IqSP5Ns//57qDwiT+pmjerU05keWuV
-	dNK+8PjVdoBPP829bFitt1wjKoSxKXKXhzvcF+2eNYkr3SBHF7pvO6dO7tSozd1S4prkOfOiVqz
-	M0Q+T/58v+h83QGrIpu2QWshh3FN3yEg=
-X-Gm-Gg: AR+sD13+bO4Dzrnz9IStfpT1cuFzPcFTnY/zuZ5/sJN7CA60UdGxQ42SZzWcO1RWORa
-	/45Tpc2wCYKOa3h8xb2H3S5PEC//J7GFXj6sXq2nqVUNmsTXpjsoRr8uI4xepPwx5YkjrFl4R0n
-	GWbRDyjEy1O2tnYVg6UzmyFKKL/u64l9UlidaMHOuXapiKG/z0GJ66w3dZKhhyWjg6Ed/+g4LjV
-	ejVfIPN47rrucI6k/6kU4e6bkroWvJ0cAsqB0Fi5zxNXZ6WmGiVIH6nccZIhZr3t2CzUm7GYpgd
-	1k0ciatGkSL7eNlef6YGDY4mpvlUoFqJYJ0JtILG7QOr47sZ2TGiNmVxdytUGW3m4Y5Iix4utIE
-	YGTFMeylgXoMB2Q9+z/mI+jVkzGgxri6rOiO9EQO07XReVAPu6FjdgbJ4SjBufyi8tqt4/2M=
-X-Received: by 2002:a17:902:ea0b:b0:2c9:fbde:ab68 with SMTP id
- d9443c01a7336-2d389b9107fmr28401875ad.3.1786613775343; Thu, 13 Aug 2026
- 02:36:15 -0700 (PDT)
+        bh=UoJE0ONwiW9+839EaZ7hWiQ9yyPS5ERFdBgspRFFZDw=;
+        b=bbkNXbzKT3FM17pITuhztc8mEuGMcwbP0ehT6TBVvEhz/Pz+52Ay5mKTVhXSMu9kj2
+         kDMJfmuwTdQvnutshaYtbzfQxzz10Stalt+MhX2YZxLM+PXK1IP6cF7XnrUGTQUmTRGl
+         /199Xj0RiMKNIEQ4iouaypJ1mcD5F7vptZO/e4Dg4cDXNoQbOknwoQAFoLHQqtQ/TwI8
+         TuXubV0TUyQS0gUnYKYRd6ae9PIK+XX2fjSb0XVAjCBUEAVFM1RGHRdRrAc5w7wYjlB5
+         Y3TdP35lgIV1fnwQo8+iHto+RPSRak+JusVih2BRO6J2o2JnDkX2oSyDbVHF8Fsw8spd
+         /Pjw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9E6aMpyEaKXZ+UXYkU1sT9mRVtjcJrs7zgCpflQXD6XjHrGZnTpn64/7Of1S01wJIRv4W++NDFjO7/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYeMKPkstBqluJZ/u27QfftzF58aouEepvr/H8V2j8H9hPxLJt
+	fQXRnp93Pf/q7a+BfRGyQPGwwVpfg920SbHkNJIKk75/pwVLOFcRvxL3ZwTbpi325uQCb0pw/YD
+	dZe3T9AhkyANGBwfo/A==
+X-Received: from edtl22.prod.google.com ([2002:aa7:cad6:0:b0:69f:aa9b:a336])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:6b06:b0:c16:8adf:f183 with SMTP id a640c23a62f3a-c2108f06416mr245963566b.14.1786614864119;
+ Thu, 13 Aug 2026 02:54:24 -0700 (PDT)
+Date: Thu, 13 Aug 2026 09:54:18 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260811-fix-fops-owner-v10-0-7e71776f9dbe@linux.dev>
- <CANiq72=bhfofrbdf1qeA380-eWeKj5yXhC0NzaU_nbB9SpxYHA@mail.gmail.com> <DKNAS52KYWLD.M15VEC6U0F6R@kernel.org>
-In-Reply-To: <DKNAS52KYWLD.M15VEC6U0F6R@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 13 Aug 2026 11:36:01 +0200
-X-Gm-Features: AUfX_mydrO4nx0TADc_1KF-ELy8K1d4zi4yvOYINpS4bHvyjdnsvoZ1CepMueE4
-Message-ID: <CANiq72nR3K9d0Y--FyUm1yAkww2LaAuYQZ3yHXjYxxfztgMMYw@mail.gmail.com>
-Subject: Re: [PATCH v10 00/10] Fix missing fops.owner in Rust DRM/misc abstractions
-To: Danilo Krummrich <dakr@kernel.org>, Mark Brown <broonie@kernel.org>
-Cc: Alvin Sun <alvin.sun@linux.dev>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Igor Korotin <igor.korotin@linux.dev>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-modules@vger.kernel.org, driver-core@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.699.gb54405d56f-goog
+Message-ID: <20260813095421.1700945-1-tarunsahu@google.com>
+Subject: [PATCH v2 0/3] Convert manual kfree(dev) to put_device()
+From: Tarun Sahu <tarunsahu@google.com>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Russell King <linux@armlinux.org.uk>, Geoff Levand <geoff@infradead.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, djeffery@redhat.com, 
+	Nicholas Piggin <npiggin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, dmatlack@google.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, souravsgl@google.com, skhawaja@google.com, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, Tarun Sahu <tarunsahu@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 12, 2026 at 11:53=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
- wrote:
->
-> This series has a semantic conflict with both the driver-core and the drm=
--rust
-> tree:
->
-> @Mark: When you merge driver-core-next after rust-next (which I think is =
-the
-> case) then you need to include the diff in [1] into the merge.
+Hello,
 
-Mark: in case it helps to make it clearer and so you don't have to
-read much, that [1] diff still needs to be included (i.e. the rest of
-the discussion and the commit I added is independent).
+As per the guidelines, Devices that are tried to register with
+device_register or to add using device_add, must use put_device
+on their failure path (not kfree). This series contains 3 patches
+for updating such instances.
 
-Thanks!
+V2 <- V1
+1. Removed patch [1] as it is part of another series [2] already.
 
-Cheers,
-Miguel
+[1]: https://lore.kernel.org/all/20260810162814.1398016-4-tarunsahu@google.com/
+[2]: https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
+
+Tarun Sahu (3):
+  ARM: locomo: use put_device() on device_register() failure
+  firmware/edd: use kobject_put() on edd_device_register() failure
+  powerpc/ps3: use put_device() on device_register() failure in
+    ps3_system_bus_device_register
+
+ arch/arm/common/locomo.c                 | 13 ++--
+ arch/powerpc/platforms/ps3/device-init.c | 83 ++++++++++++++----------
+ arch/powerpc/platforms/ps3/system-bus.c  |  2 +
+ drivers/firmware/edd.c                   |  2 +-
+ 4 files changed, 59 insertions(+), 41 deletions(-)
+
+
+base-commit: dbaafe9cc56a996931eedfe043eb34418cc9cd9b
+-- 
+2.55.0.699.gb54405d56f-goog
+
