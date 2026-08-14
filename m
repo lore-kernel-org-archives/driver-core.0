@@ -1,60 +1,60 @@
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76F13D7D6A
-	for <driver-core@lists.linux.dev>; Fri, 14 Aug 2026 02:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5DE35838E
+	for <driver-core@lists.linux.dev>; Fri, 14 Aug 2026 07:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786674652; cv=none; b=GZfTZtOcLF4z0mndw2VB5KFp+gRU4qFRm4S3/eJKzEE/8MSNEEoGn+U4Hg3zEnHwu76zINjFJ0PePy1ixJ4aDEppyRU9RL3x+PxbDybRk7BZTKcMizJIrXrepphCc4r7Tp6Y+BZoLQh7A/QAhwgsaxlA1ExjmC2MUeMKhuR6kA0=
+	t=1786691339; cv=none; b=GOWnwVaC5wICzUL86uTcwkSoKw3rzwSs3VIpoZ0MdK6ReOROjqT6c4iAqJ7D6UGG18VWL1crqXaP+FmAM0gOqrbxdwdRrKDuHCYFG5YlMn/JOZYVZE7AvOoo9lwt9oTzd1P1YZ59erXjQp2xdd6XNZCMkzHeRNy5Bor/N8jeQnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786674652; c=relaxed/simple;
-	bh=O0sxiM6CjP5dN+afLmVGWu0TdrTE8MNnj0gTmJffHoQ=;
+	s=arc-20240116; t=1786691339; c=relaxed/simple;
+	bh=zXota04Bm/O2Yiv8zsamATHPmlrdJr7T7Vn1f3CsnlE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g2yvxka9x5N9BYxjXSff0pyUBi7Gb0+m7Y48L53iKxJPbrt/Ay2CY2tFpzHwcJoVQzqQrx2xCKPL7UDT56oUAv5lC+R3I8Mss74+qujz2Zji5M03kPlPK3sqz4epol4iJy094UtUW3IIp3vc3Pod1OxYNHAJL77O2VNqVjptHOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=sxJAcQvx; arc=none smtp.client-ip=148.163.158.5
+	 In-Reply-To:Content-Type; b=JAcYhwebFaKSQRh3WPXGMvgUVJVk/JCVvwMMag2XSTqmXwzgzUVU5peWfheYBGiYrQGHkSPYN+Kv3kXCOuXzRiapbE1H/Fxl/gkgsWBflJGZ81HofdQiiBaXkpMP/B2dTattuX5hUa8+NQE1/L3cQGtVJuouhmR3Sbx9vfW3MLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NjDYxFlS; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="sxJAcQvx"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E1W2cT3892807;
-	Fri, 14 Aug 2026 02:30:23 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NjDYxFlS"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67E4W6Sl3237725;
+	Fri, 14 Aug 2026 07:08:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=dIgSLr
-	egNr2fYwEjLwaPm1ysOKaZ+mvb7rcmx/nVi70=; b=sxJAcQvx6kCe10SGRNPQba
-	nqsdd/HDBvKRw9q6sVtofPSBSgsAbc0dr8Jl9CmTBm8xxFX8G8wqm7kejqQR8vjH
-	foQQtx+LW1wCXEeiTRYDr/8t0mulKn7t9L+IY1DJ32KJdzQkIPHVA3pJLWp2GJEv
-	sw6NCmD25SfYY4bAy1EP7oU5f80e3aaWOhu/BcZn+UdPhZLr/GDclQTxOG1KkrG7
-	EhUslukKy9E/kmsvUi7d3FnWOcW8dQ6HZNSvL6nH2paHXDIUAEuL5g3SI4WklOiS
-	BYjeNzaNGYP8DYuBfQd7ZnYGMM8tGEcszPGGrhBvbxUQilv/zQaH1swGm3JP666w
+	:message-id:mime-version:references:subject:to; s=pp1; bh=9JwlBu
+	Mq8aFK6CuuLr9F6ZHKz8oh4YzfzcNnm8tFJaE=; b=NjDYxFlSzm2PSGTMROWPCM
+	RqFKnvgymgJ2IscMXyjbF5/gGcXhBscCSdixQpRJuqTvyhUfNPgmwp4MfeEeO7fd
+	Aw1puLIdH3y4YF15ARlytxpi1QByZ27utFMScNdEtIV9gD+RfnT8AU9VxKwvy4Yt
+	NBffvVl9qMBllncB497rve8AtWxa6HnTVhJwklo0ti8Jyxhwvt6IHIRA//SEcIvU
+	rfKSwgemjL9M0mz5ISB+C7YhxEBjIww3gOYQwPHLfddljo3zfGo2fKuG1LLbja4k
+	k9tPDz3Q14ccGa3qlmq1ADc0w6fREZICd4gmlCIjp+Ssf+CZEUql86NRyw9WMcBQ
 	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvp39qee-1
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fyb243vxq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Aug 2026 02:30:23 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67E2QGCP018288;
-	Fri, 14 Aug 2026 02:30:22 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxfsk5gyj-1
+	Fri, 14 Aug 2026 07:08:37 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67E6uNn2030574;
+	Fri, 14 Aug 2026 07:08:36 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fxg9he86a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Aug 2026 02:30:22 +0000 (GMT)
+	Fri, 14 Aug 2026 07:08:36 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67E2UK2W30409460
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67E78YRX42467754
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 14 Aug 2026 02:30:20 GMT
+	Fri, 14 Aug 2026 07:08:34 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 244E12004B;
-	Fri, 14 Aug 2026 02:30:20 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 6D5B820043;
+	Fri, 14 Aug 2026 07:08:34 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6E2B620040;
-	Fri, 14 Aug 2026 02:30:14 +0000 (GMT)
-Received: from [9.39.17.52] (unknown [9.39.17.52])
+	by IMSVA (Postfix) with ESMTP id C463B20040;
+	Fri, 14 Aug 2026 07:08:30 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
 	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 14 Aug 2026 02:30:14 +0000 (GMT)
-Message-ID: <5b6fd32e-037a-42b4-b9e9-bb0503561781@linux.ibm.com>
-Date: Fri, 14 Aug 2026 08:00:12 +0530
+	Fri, 14 Aug 2026 07:08:30 +0000 (GMT)
+Message-ID: <014a7724-4955-4fb5-b331-ab5fc9abf806@linux.ibm.com>
+Date: Fri, 14 Aug 2026 12:38:29 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -62,8 +62,8 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] powerpc/ps3: use put_device() on device_register()
- failure in ps3_system_bus_device_register
+Subject: Re: [PATCH v2 1/3] ARM: locomo: use put_device() on device_register()
+ failure
 To: Tarun Sahu <tarunsahu@google.com>,
         "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
         Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -77,301 +77,91 @@ Cc: linux-arm-kernel@lists.infradead.org, dmatlack@google.com,
         skhawaja@google.com, linux-kernel@vger.kernel.org,
         driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
 References: <20260813095421.1700945-1-tarunsahu@google.com>
- <20260813095421.1700945-4-tarunsahu@google.com>
+ <20260813095421.1700945-2-tarunsahu@google.com>
 Content-Language: en-US
 From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <20260813095421.1700945-4-tarunsahu@google.com>
+In-Reply-To: <20260813095421.1700945-2-tarunsahu@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=AMtp2X5w c=1 sm=1 tr=0 ts=6a7e7dbf cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Authority-Analysis: v=2.4 cv=XqfK/1F9 c=1 sm=1 tr=0 ts=6a7ebef5 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=1XWaLZrsAAAA:8 a=n3Y_rXsrvEagZGvLPyQA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: z2GAf6TahFsdZej1SvZngaYtlb-Fq6Ap
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDAxNSBTYWx0ZWRfX3S4+lINbmaWN
- JULXBrqFKQI3VokWQXKOMi7Njj3iDtiZl8Fxfq84Q2M2Q2BIksq3EMWr6OpqHfNhRpJ8sXwrVd9
- VKrCd07RthHMo7M6lTRivUtgfHR4xKI7VILXQ43p73mjJq1Z9Z14IOWDEskJwlEJkQJNPxKjxsl
- AU2J69Ktwi1R1JZYD34WNnrJ4n5EqlEqCqoQP9KHnvXcLTOFGDJDWPfJyRK34bMWk4fJ1KACHfp
- hTo9IU4Ck9gDmjkR7WPIzf5KXfT4V5zKQPkxFvI07ovxtEtz+m3o2fa8RDHc3c5/mSuV1yvA+Ne
- lx93VTNNiO+qkD9JZC+K56NIJW0yoZQ7qM2V4kFd9SYDw7VCc6bz9qSrEtX3//N6fZ9U7yJvex7
- Hm8baxg7/VQ/lAM7HtPaAyr5BkJGiGajw0qmSvUYHJCLdW0QmUuY83wRqh9b87FCu1XjT3xJ0NE
- ilAjundE8PGT2uUOS8g==
-X-Proofpoint-ORIG-GUID: AT5Rq_PBXSS0X67XNK0UT2Fpaszq8ck5
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDAxNSBTYWx0ZWRfXyXi9L/ayC78u
- HWC799RPx6HfZxhenXGMamJ6YQVPnaWY95Fq7q5bqH4WSJRbC7B8abqQz/sEONYSQBx9A1hDVUz
- Ktd1b7BmJZ3onRlB9mXI4d/yTCogJI4=
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=1XWaLZrsAAAA:8
+ a=VnNF1IyMAAAA:8 a=uCD4N2YI4OkgVMcWFWUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDA1NCBTYWx0ZWRfX9eL7khLqTpsz
+ H9mU347g0+6t8AubXsC+IdnMzvGvVj1JPyVoc6bwspDLgyykecXW4jbXAPLrfHYrL7L0psDid/L
+ gyZMu2eDW5worrAuTf9zUqhvxY/3rEIEkHlLBoyJzRIDXWGsj1/ppziMcszWeLu1z/mtQEts0Dd
+ iDd5WTlgxKxUS31IbkwuzkjhA7x/ICpCWzWLfKnazv5tQf0URxxnrya1ZaHxZIKf74ecUA2zJol
+ Lc5AwNwtxW47dg5M0tzrB4MIupmKStXDVbzkrVP8uKUqldnigCU45b/X752wU9GHaccuMWiGW1f
+ S6ZmkFuZAZ92tybdKK3mE4GGsQoFv0NoRd4DEDyYRCANysqBGXodyFmp7MRvjV2R4Yu+D//SUXt
+ fru7HByrpfNqvM6ZrDhx8CFVodgT6hQ8BxFSsULJcJyKtd6+ONOhkxFqS/Ma4e8oe4esnviFhro
+ Y+T+OEizBLfyUj3fpjw==
+X-Proofpoint-ORIG-GUID: oqNk42v34wyTHQGK2XQV_4jNpEaF25LA
+X-Proofpoint-GUID: yVKkax5Z7IlTCXG2MEVswgh_oYrze_6h
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDA1NCBTYWx0ZWRfX2Dp5/Q+fZtPN
+ /Dy2Ldcv0ZmgEmPeJH/1/wChuuXbPg/tV7+NuZcfI/y6R7yxPHtnJ0hKQA9appoZsVRYjOblJ3d
+ l0yxHm3G4bCFC1+rTmr2837fRr7wzQk=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-14_01,2026-08-12_01,2025-10-01_01
+ definitions=2026-08-14_02,2026-08-12_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1011
- priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 bulkscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608140015
+ lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608140054
 
 
 
 On 13/08/26 15:24, Tarun Sahu wrote:
-> When device_register() fails, calling put_device() ensures that the
-> device reference count drops to 0, which invokes the release callback
-> ps3_system_bus_release_device() to cleanly free the device and its
-> associated driver core resources.
-
-Yes, since the PS3 device has a release function, put_device() should be
-used instead of manually freeing the memory, as described in 
-device_register().
+> When device_register() fails, calling kfree(dev) directly bypasses the
+> device_release() callback (locomo_dev_release) and leaks internal driver
+> core structures allocated during device initialization.
+>
+> Fix this by replacing direct kfree(dev) with put_device(&dev->dev) when
+> device_register() returns an error, ensuring proper refcount decrement
+> and cleanup via locomo_dev_release().
+>
+> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+> ---
+>   arch/arm/common/locomo.c | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/arch/arm/common/locomo.c b/arch/arm/common/locomo.c
+> index 55e360452828..0f6689d343b0 100644
+> --- a/arch/arm/common/locomo.c
+> +++ b/arch/arm/common/locomo.c
+> @@ -223,10 +223,8 @@ locomo_init_one_child(struct locomo *lchip, struct locomo_dev_info *info)
+>   	int ret;
+>   
+>   	dev = kzalloc_obj(struct locomo_dev);
+> -	if (!dev) {
+> -		ret = -ENOMEM;
+> -		goto out;
+> -	}
+> +	if (!dev)
+> +		return -ENOMEM;
+>   
+>   	/*
+>   	 * If the parent device has a DMA mask associated with it,
+> @@ -255,10 +253,11 @@ locomo_init_one_child(struct locomo *lchip, struct locomo_dev_info *info)
+>   
+>   	ret = device_register(&dev->dev);
+>   	if (ret) {
+> - out:
+> -		kfree(dev);
+> +		put_device(&dev->dev);
+> +		return ret;
+>   	}
+> -	return ret;
+> +
+> +	return 0;
+>   }
 
 Changes look good to me. Feel free to add:
 Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 
->
-> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
-> ---
->   arch/powerpc/platforms/ps3/device-init.c | 83 ++++++++++++++----------
->   arch/powerpc/platforms/ps3/system-bus.c  |  2 +
->   2 files changed, 52 insertions(+), 33 deletions(-)
->
-> diff --git a/arch/powerpc/platforms/ps3/device-init.c b/arch/powerpc/platforms/ps3/device-init.c
-> index 9109c218a060..8d0c77db1764 100644
-> --- a/arch/powerpc/platforms/ps3/device-init.c
-> +++ b/arch/powerpc/platforms/ps3/device-init.c
-> @@ -90,14 +90,12 @@ static int __init ps3_register_lpm_devices(void)
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_register;
-> +		return result;
->   	}
 >   
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return 0;
->   
-> -
-> -fail_register:
->   fail_rights:
->   fail_read_repo:
->   	kfree(dev);
-> @@ -121,6 +119,12 @@ static int __init ps3_setup_gelic_device(
->   		struct ps3_dma_region d_region;
->   	} *p;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d\n", __func__, __LINE__);
->   
->   	BUG_ON(repo->bus_type != PS3_BUS_TYPE_SB);
-> @@ -164,13 +168,12 @@ static int __init ps3_setup_gelic_device(
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return result;
->   
-> -fail_device_register:
->   fail_dma_init:
->   fail_find_interrupt:
->   	kfree(p);
-> @@ -192,6 +195,12 @@ static int __init ps3_setup_uhc_device(
->   	u64 bus_addr;
->   	u64 len;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d\n", __func__, __LINE__);
->   
->   	BUG_ON(repo->bus_type != PS3_BUS_TYPE_SB);
-> @@ -252,13 +261,12 @@ static int __init ps3_setup_uhc_device(
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return result;
->   
-> -fail_device_register:
->   fail_mmio_init:
->   fail_dma_init:
->   fail_find_reg:
-> @@ -291,6 +299,12 @@ static int __init ps3_setup_vuart_device(enum ps3_match_id match_id,
->   		struct ps3_system_bus_device dev;
->   	} *p;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d: match_id %u, port %u\n", __func__, __LINE__,
->   		match_id, port_number);
->   
-> @@ -308,15 +322,10 @@ static int __init ps3_setup_vuart_device(enum ps3_match_id match_id,
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return 0;
-> -
-> -fail_device_register:
-> -	kfree(p);
-> -	pr_debug(" <- %s:%d fail\n", __func__, __LINE__);
-> -	return result;
->   }
->   
->   static int ps3_setup_storage_dev(const struct ps3_repository_device *repo,
-> @@ -327,6 +336,12 @@ static int ps3_setup_storage_dev(const struct ps3_repository_device *repo,
->   	u64 port, blk_size, num_blocks;
->   	unsigned int num_regions, i;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->sbd).
-> +	 * sbd must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct ps3_storage_device, sbd) != 0);
-> +
->   	pr_debug(" -> %s:%u: match_id %u\n", __func__, __LINE__, match_id);
->   
->   	result = ps3_repository_read_stor_dev_info(repo->bus_index,
-> @@ -395,13 +410,12 @@ static int ps3_setup_storage_dev(const struct ps3_repository_device *repo,
->   	if (result) {
->   		pr_debug("%s:%u ps3_system_bus_device_register failed\n",
->   			 __func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   
->   	pr_debug(" <- %s:%u\n", __func__, __LINE__);
->   	return 0;
->   
-> -fail_device_register:
->   fail_read_region:
->   fail_find_interrupt:
->   	kfree(p);
-> @@ -445,6 +459,12 @@ static int __init ps3_register_sound_devices(void)
->   		struct ps3_mmio_region m_region;
->   	} *p;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d\n", __func__, __LINE__);
->   
->   	p = kzalloc_obj(*p);
-> @@ -461,15 +481,10 @@ static int __init ps3_register_sound_devices(void)
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return 0;
-> -
-> -fail_device_register:
-> -	kfree(p);
-> -	pr_debug(" <- %s:%d failed\n", __func__, __LINE__);
-> -	return result;
->   }
->   
->   static int __init ps3_register_graphics_devices(void)
-> @@ -479,6 +494,12 @@ static int __init ps3_register_graphics_devices(void)
->   		struct ps3_system_bus_device dev;
->   	} *p;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d\n", __func__, __LINE__);
->   
->   	p = kzalloc_obj(struct layout);
-> @@ -495,16 +516,11 @@ static int __init ps3_register_graphics_devices(void)
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return 0;
-> -
-> -fail_device_register:
-> -	kfree(p);
-> -	pr_debug(" <- %s:%d failed\n", __func__, __LINE__);
-> -	return result;
->   }
->   
->   static int __init ps3_register_ramdisk_device(void)
-> @@ -514,6 +530,12 @@ static int __init ps3_register_ramdisk_device(void)
->   		struct ps3_system_bus_device dev;
->   	} *p;
->   
-> +	/*
-> +	 * ps3_system_bus_release_device() calls kfree(&p->dev).
-> +	 * dev must be at offset 0 so kfree() frees outer p.
-> +	 */
-> +	BUILD_BUG_ON(offsetof(struct layout, dev) != 0);
-> +
->   	pr_debug(" -> %s:%d\n", __func__, __LINE__);
->   
->   	p = kzalloc_obj(struct layout);
-> @@ -530,16 +552,11 @@ static int __init ps3_register_ramdisk_device(void)
->   	if (result) {
->   		pr_debug("%s:%d ps3_system_bus_device_register failed\n",
->   			__func__, __LINE__);
-> -		goto fail_device_register;
-> +		return result;
->   	}
->   
->   	pr_debug(" <- %s:%d\n", __func__, __LINE__);
->   	return 0;
-> -
-> -fail_device_register:
-> -	kfree(p);
-> -	pr_debug(" <- %s:%d failed\n", __func__, __LINE__);
-> -	return result;
->   }
->   
->   /**
-> diff --git a/arch/powerpc/platforms/ps3/system-bus.c b/arch/powerpc/platforms/ps3/system-bus.c
-> index 0537a678a32f..0918c74d3e19 100644
-> --- a/arch/powerpc/platforms/ps3/system-bus.c
-> +++ b/arch/powerpc/platforms/ps3/system-bus.c
-> @@ -774,6 +774,8 @@ int ps3_system_bus_device_register(struct ps3_system_bus_device *dev)
->   	pr_debug("%s:%d add %s\n", __func__, __LINE__, dev_name(&dev->core));
->   
->   	result = device_register(&dev->core);
-> +	if (result)
-> +		put_device(&dev->core);
->   	return result;
->   }
->   
+>   #ifdef CONFIG_PM
 
