@@ -1,277 +1,222 @@
-Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020133.outbound.protection.outlook.com [52.101.195.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA4D459AF4
-	for <driver-core@lists.linux.dev>; Fri, 14 Aug 2026 10:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786703856; cv=none; b=rIWjhGm+BZfU5ei82OfYAbwMgG/ChyFUdAuDlel7cn9KDuKORInWEwzFRsrPSWKFLx0I+5QrxbnuJEnTf+T4RxXPSWbgLBlvQ1QFuE4aBCb4zwI45V++rNiWSbjEZWLQdpuTUHGHHIBH8EGVqgudg/t31ocqGH5hQymzV9iXcUg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786703856; c=relaxed/simple;
-	bh=iLm6yHdgH9uTz6XEjQZ4K0e0vkLBndFd2jp/Lxiobpo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LnTaCFeBwJXR5Y7GwU1b12roU/HyD1myO8AVTPscDTZfzD0PikbfflsqOIj9x6N8trH66bZSEbXf1geIk8HlPfRqJCRlQCz1+/6uPEDtzVlTS2NwjiVNAEuoOyCMyQhE5D2klFn6d6jCHY390fU0AuH/63U7aAm2iku6eQ9A2Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-456ab1a7f2cso996339fac.3
-        for <driver-core@lists.linux.dev>; Fri, 14 Aug 2026 03:37:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786703846; x=1787308646;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V8h9rcswZfmF0SHe0JimNyQe+xhlf/jwvw/S/NcoY/Q=;
-        b=ifsSdJ7RlGKwT6rdEbarpUo3suggFhsa7nSzcPbXgiw37iU/MJomvWktjbVK1ah2zU
-         dG7Mnry1b1lCsGD+MDOGgrr6LrQoe+x+lNzg+hE5gYOwFtIhHmaqMlPA0kEpKu/HDcCF
-         Sgj+rTl2CqivoTFJHeeO+oDJw99i/0yfWcSA0TQIWjP/q1G1qlRfRjgB4dD+7Por1MhZ
-         MJCKnSj8pUQkXKOOYXCvQ78q5tWwSP/o2GTONa2uJgnXGAoOkJCbs1mBMykBQf8ghmuZ
-         frs5/gLb7hU8OCXWyIeUYB40+UozJ0kYaLGzCYNyQeiZobfdmRYL7H0VMtO/i/y3kmHo
-         PUsA==
-X-Forwarded-Encrypted: i=1; AHgh+RqnpvMwkkUnHTJ7X714wYR4VjiBAcBCT2CEx1vc8iSLpaxGAmDBwsqozydUF5CE5VTs3p2lq7QQY76wWA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfqxWQijlp0lQQDWR3t2KiwV5Mg+eiLANUa+rvPxzZvyQy2nsA
-	ZWqtaeZXhIyEFkUeHfLu/EVMKAY40owd483l9yqVntUb+AOQJ0NkX0MtdXzUq1M2XrkrZzTB45m
-	ucy6jlP9s49ZNwOfgydbM4DhXO9IsFsFFqOVq9ZvirxDAx2IiNfMW7RHacZE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8833B20E6E2;
+	Fri, 14 Aug 2026 13:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.133
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786712731; cv=fail; b=hbSxx3SwEz2RJL/L0DDnSstEs71NnZYdI6z8I/YvYbhdv/op4TdRwwSyQ4Cj9zaukLKd61rBPhdHgcEWOwcHdd1YXrPMQS3Pht+VXCwND1iea48IhLgEzWnnGSOkt4DF6QotwX+uL+WSLyZsQH4Df4JUsdzdPZoFyZ+rI7EN/P0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786712731; c=relaxed/simple;
+	bh=UDk6nOSkAT48IAETSZMgL9RQmAiE9LEnVdeh3qzJ/4g=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=pOpzcIKRnQ7he3t4+mmPj4AjvBBHcLX17t3NJFq3yx8e1YB6bkCp24lQVZ1mnFMIVUX5TB4w7TmiPZZpecnKn4DvPTh0veTeOPt8KIl3fQuDylix7bUOhyBNybR252lG60eSXsQecdGweLrqCGm7TttsSJQne7hSUWZk5L04Jt0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=EdLw4fem; arc=fail smtp.client-ip=52.101.195.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="EdLw4fem"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZhY9ZAENzJb8W49vxAahrEkr5E9CnWFVW5UdLZR7NOkwzgbns8O+7cMdkVV0nB8OzU/rhB2bk9JJzD0vYh7/CBGCPkHMVgQGRYd5V+akAuLhesg8xJbA2ZHPIV6bWm6CNIJwqCs3aX9AqnHCflGmf/WcbDiS/GJuTU2Jv8pE0GRUcoJPcgO3Fnj0cwnZo3IPVJ4xR5l5+jo2HB/tVrk88tELBewfQDww5Gzv4oDvhTq1Ut7rjRedjbhBM5KlC/i956gNsf6mIvtOVy4Fit367hJTrXK3HrSUbAJ3uDCwDM1S8McePQhx9FbTJFD5hdGn8DSUUsJFFghd/7O4tT3tHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=heb2WB+gjBpzLcCikgq5lLw1oJ/BlfFSOYMt3NnilFc=;
+ b=R+bFI+mVKnj7F6UhTU1u3cPi+qvkcTsgfi5TjJyBZbYagCv3oA86UUXccfAehCztf/MugNq+1KeMB66DOqCDLGCcURbJBYSZmAq9XdmnABuo7mO7FwLSeUDRTOGX7XUE2QNAaLimBbXHHNnUpsRsHq5Mhz2STUkft4rjCXTlrX6ovxSzcTMfbWweUOVjXNZB/SkADiec7DBkp4wWIWb9SOg5XgfXxbD3feeBJdqmmYVWV7lQgnVgPvXdSSl9bSdijsud9TJq8/BUNI56hJXLfIaTe1eURjMcsI6Xq9BU9ID48rTE1D0YwigMmO07UZq0SpW/pRqtHlXvQvF9fIEXdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=heb2WB+gjBpzLcCikgq5lLw1oJ/BlfFSOYMt3NnilFc=;
+ b=EdLw4fem3R2al4lMfDhRtFCc5bVuzBzD3BpPICp64ZgC3KNucggbA44ZnmdyII3OSkSR+UqgBxJ2T9RM7k6QK7MIEh1TtzvWm6/fcr2M7G68OjlHMUj4Hnf0CvHuxYzjRCKtPonciqGOZ4xWowW+dxPBimb7Hk6cF4Y9AVpPrfE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO2P265MB3514.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1a3::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Fri, 14 Aug
+ 2026 13:05:22 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0315.014; Fri, 14 Aug 2026
+ 13:05:22 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 14 Aug 2026 14:05:21 +0100
+Message-Id: <DKOOSSXDVVUK.SY5IAXJXUX5F@garyguo.net>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v2 12/16] gpu: nova-core: use projection for PFALCON and
+ PFALCON2 registers
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260805-typed_register-v2-0-c3ca142220a0@garyguo.net>
+ <20260805-typed_register-v2-12-c3ca142220a0@garyguo.net>
+ <DKN1QEH1HWD1.1ZV0LWLNCZJTH@nvidia.com>
+In-Reply-To: <DKN1QEH1HWD1.1ZV0LWLNCZJTH@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0310.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::9) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4b82:b0:6a1:8b23:d4c8 with SMTP id
- 006d021491bc7-6b0d5fa52bemr4170435eaf.3.1786703846321; Fri, 14 Aug 2026
- 03:37:26 -0700 (PDT)
-Date: Fri, 14 Aug 2026 03:37:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7eefe6.f7a79266.2f965f.0001.GAE@google.com>
-Subject: [syzbot] [kernel?] INFO: task hung in usb_disable_device (2)
-From: syzbot <syzbot+5cf28d3643d94bfb0821@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, mcgrof@kernel.org, 
-	rafael@kernel.org, russ.weight@linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO2P265MB3514:EE_
+X-MS-Office365-Filtering-Correlation-Id: b28162e1-53dc-4598-6c47-08defa04b2ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|22082099003|18002099003|56012099006|5023799004|4143699003|10067099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	ZtQxL9xQXhbdSmoBV/j7InO/rWadIX47hX9F6k4cjpG1yr+/jsXDRB8m7W8TgqUsYlz6DQ9UqujcKFOUM+jOanq3awuUAlnjMj8CPQy8g7+uIMlWz1K2+DdE1fWKoz2vzQcnWGUYH3O/rTnSEjn7+CtsBjpDgxP46OWWQU6Yr0QJqD4uT+FVr5I9KfjAhPtpjtvGiLrsnXSQQ7OQ9Azej+g12jQIRnB8LWhnx0PPm5ROR2vtrZZQbtZGK0rD4te/qe8t+pSUE6C4xZfF9MsbT6JcfYUSNunEQUXUQS5dSiTxu1tunSpvqytjg4uRaiw7OC8BJ2gPzKOp+zWU5bruX629rV7zh/Hy19ycI3t6SJ6IDMvfiTELR+ONfa/L6T8/LxnffZYpc2Mf9//2tyuaPipgS9bqSRq4G3v9CYjcYqR1aPMtu4lSUfwGf9Ph48f7shB5bMX1nacYI8ZGw8+ch96RX6bDt+Fvn/w5FgyqffnZry6qAj8iRhAmti6ToQWs4N7GamQSXNauq1Jk2crFE6T2PGqY0r2zfiPqqChlIpj04Q4kbqvk8hfAppUBMFp2bP55j8I0ZDw7An2VeG24UZJ0RIu1fERMiyARLTPJaAONH7LUqGiAWw7GRZl8m0sY9LX4vNqNwH8VXUY0+NcfR+YWhmcJeyb8BzyzTdjC9xc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099006)(5023799004)(4143699003)(10067099003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aDVTUlgwZ0k1dE9jQ3VweGtyTW1DVGE4VnM4RkJTMlovbUo0UkJCQ1IvTXFZ?=
+ =?utf-8?B?S3M5Q2czTkllZk9ka2k2VGFDcGx5VW5NMWpGazZLL0tkcTBZYllPOThKUCt3?=
+ =?utf-8?B?WDdWNkFJTWlaWTdVelBSMHZmeUl3bloyc1BCV3ZrWmpwMHg4RXNmaWRMWkY0?=
+ =?utf-8?B?by9GVGxFNGhpRVc4cWtQS21LSzYvc09YVmpja1JpZUVEWnF5MFprQmlrRjB5?=
+ =?utf-8?B?OEU1UzlFK3RiUUQ2aVU3N3ZBbC9hUjU2TmcwTkRLM0dCNVpwU3l2b0dEOWVY?=
+ =?utf-8?B?WjlhZU9GS2pEYnR4cUV1M2tQV3V6MmphK0lHYmVSay9LSTBZaTA0RXBsYWRy?=
+ =?utf-8?B?VnNuRVhIU0Z4YWYzd0FObWp6RVdrTndwaWlaVHdkYUlDS3pZS0dqbXhZZVFj?=
+ =?utf-8?B?RE15SzNieXJCN0d0S0gwMzJBTlhYK0ZYZFk1MHBBQ2dXWTlJWVgrdFBSZVZH?=
+ =?utf-8?B?dTUxaVQrVFY2Y3BwNnNkYUxVTDYyN2k4VWJMVXp5WUxYMVNGZmhBOXhCUm9Y?=
+ =?utf-8?B?Ym1HSEpLVEVJdlJVSmlrN2c0d1RUcTdvWERMcmJEaUZQV0gzK3NwYUR5cmIy?=
+ =?utf-8?B?cjc3ZnBPOStEOTVEYmFpMVRzUFhaMkJ2dXl0a0VOa0VmOUlOWWpJNHp1SS96?=
+ =?utf-8?B?ZjBTY2liRFcvcXZaNTQxTk9MVU1SajZxUlFaOXI2blIwVkFWMGV0TGVTbkgv?=
+ =?utf-8?B?RUd0WEhjaVhJbzB6VERIY0J1QUdSOGdvNjF6SDFRd3YzdXRTZFNpeEZNamMv?=
+ =?utf-8?B?RS9WZ2VhSGE1YXdLc1JtTlhUQlkrd3ZzdWRmRlAreUI2T3k2bWpHdmUraGI2?=
+ =?utf-8?B?RDl0dUk1aGFZcUJ6NC96cTdsZCtlSXZ6Z2trek1tYUljcjBQSDExWU5sSzE3?=
+ =?utf-8?B?RlJESlNwYkN6ZGZUQytINXBqVHA1N0NIbTlSSlo5eXIzV0ZJb3Q4MTRJcUVN?=
+ =?utf-8?B?YjZNbmxVNGJQUnFrQitFMzRmMnMyOC9VY1AwQ0IralljcDZ6MDFZZitwTGMz?=
+ =?utf-8?B?a29WemF4MnE2a3BBQmdQWUhyTTMvTjdNdTlmOXM5aTRVY0hoNzlIWWRMTkNS?=
+ =?utf-8?B?c1kxZzlITWpBU1RvM2FSSFFIODNOQlhSY2RoK01iRkNxMHh5UktoWnBWVkd6?=
+ =?utf-8?B?WEIrR2pUY205T1N6RVdyVXFaNHVmR0NDOHc3ZXlPUjZMWXdRMk1IM3NQNDVv?=
+ =?utf-8?B?VFA1QVBhYUxGV2Fvc1JWTWdDaDFobGREb3JTYXdOdTN2WHJTQzUzZDJUSFhr?=
+ =?utf-8?B?d2NIOC9UMFVoNFBEV2Vpbm5OSC9EdWp2eHgwc3YyZUFDeUtxcVQvS21rdmQ3?=
+ =?utf-8?B?V1NJZldVcnY5bnI1OEV1MU1iT09hMStadGxUUVBOaFk2eFFCSkRJTkFOYW5E?=
+ =?utf-8?B?SWJlU2VjUWYwOXloSDBMMFBHRWQrd2ROM1RHa0R3Njh2amwrR28vRWxYL3Zs?=
+ =?utf-8?B?TUQ5Z2x1VTZXM1p6UTE0N0dWNlloV2Uyb3BEcVpMWGFRQkZ5bXRmcnByTmhy?=
+ =?utf-8?B?bjdSMm90U2Y0cjk5ejVYMnNia0p3NkN5ZTdkVk4rK0pHd2RXQ3hKNGRVN3Ny?=
+ =?utf-8?B?ai9CN0tyby9yL1NIYzBwZmhYSDBrQ3ozZGQycjZGYllYaTQwOVBkNXI4Rjk3?=
+ =?utf-8?B?ZjhHQ0RibHhSd2xwaWI5MVZmY0FMR2x0VGxsaUVnd2JlMGpSUXYxRFRsY3RY?=
+ =?utf-8?B?cm5UTDM4aEdEMlBqUHY5Ly82a1c5SVIzTnc1Njc5TVo2M3hrY2JSTWpEcWJv?=
+ =?utf-8?B?S0Q0ZzBLa2JOdzl2VmhZLzR0M1NGUlUzNFkxQ2tBdGlFci9zaUhZUS9lOTU1?=
+ =?utf-8?B?dW5HTU14c3g1OTljNkZFTWQ3Sm1PL21odElWNVNFRnl3Rk1jRzlRdVVUWm1C?=
+ =?utf-8?B?ejVLdEJJMCtjRVQ3Sk54SFV3Q2cwS0hZelFtNGg3N2tkcU0rY3k3YjdocHlm?=
+ =?utf-8?B?aUlFZDcxNytDVFgwQ3ZJblFpaWRKWWlXY0sydHpYZVpiUDJsUWU4VndNSEZH?=
+ =?utf-8?B?VWx5QWI0Vm1zQlFXZGxSSm5LU3FCVXU5WEoxWFFGTmYwcXpDc0lMOGhqSUc4?=
+ =?utf-8?B?S2hsRGx1L3VKeVVkRTV4YitVL3U3dWQvYmlxR2V6cXRkVlJkVVlMbklzZy9G?=
+ =?utf-8?B?RmxuTUNqOVVRVkh4T3hHTTlIREJKL1crRlZZVThMaTFmWTJ6eXdKek5pSnNO?=
+ =?utf-8?B?ejlIaGNXVU1Ea1ZVR1Z2Uk9YYW5NNCtZQnhrZjFvd3c3R3FpMFRWT0pSRFFi?=
+ =?utf-8?B?SDJJbFp1RXpzbVRMa2ljWlMrQU1WYS9NdU1tV25ocDRBZ3ZsY0ZjSGF2OE81?=
+ =?utf-8?B?Q1N1YlpKbTFBbUZHRmlwWExDaEtLRGRyUC9CbE54cVNVaTIyK0w2Zz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: b28162e1-53dc-4598-6c47-08defa04b2ce
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 13:05:22.1014
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GHX4TTEBUazSmNc0u7zKwEP0CIamLDCOaMwaTZfgRSilUS/NY4nDxmHrsrrgPnpgm7cemmm8IFkEW/i0T+ox+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3514
 
-Hello,
+On Wed Aug 12, 2026 at 3:48 PM BST, Alexandre Courbot wrote:
+> On Thu Aug 6, 2026 at 1:35 AM JST, Gary Guo wrote:
+>> -/// Type used to represent the `PFALCON` registers address base for a g=
+iven falcon engine.
+>> -pub(crate) struct PFalconBase(());
+>> +/// Type used to represent the `PFALCON` registers.
+>> +#[repr(align(4))]
+>> +#[derive(FromBytes, IntoBytes)]
+>> +pub(crate) struct PFalconRegisters([u8; SZ_4K]);
+>> =20
+>> -/// Type used to represent the `PFALCON2` registers address base for a =
+given falcon engine.
+>> -pub(crate) struct PFalcon2Base(());
+>> +/// Type used to represent the `PFALCON2` registers.
+>> +#[repr(align(4))]
+>> +#[derive(FromBytes, IntoBytes)]
+>> +pub(crate) struct PFalcon2Registers([u8; SZ_4K]);
+>> =20
+>>  /// Trait defining the parameters of a given Falcon engine.
+>>  ///
+>>  /// Each engine provides one base for `PFALCON` and `PFALCON2` register=
+s.
+>> -pub(crate) trait FalconEngine:
+>> -    Send + Sync + RegisterBase<PFalconBase> + RegisterBase<PFalcon2Base=
+> + Sized
+>> -{
+>> +pub(crate) trait FalconEngine: Send + Sync + Sized {
+>> +    fn pfalcon(io: Bar0<'_>) -> Mmio<'_, PFalconRegisters>;
+>> +    fn pfalcon2(io: Bar0<'_>) -> Mmio<'_, PFalcon2Registers>;
+>
+> Remember on v1 when we contemplated using associated consts? Turns out
+> we can with this version:
+>
+>     // Need a better name, but you get the idea.
+>     pub(crate) type PFalconRegs =3D OffsetLoc<NovaRegisters, PFalconRegis=
+ters>;
+>     pub(crate) type PFalcon2Regs =3D OffsetLoc<NovaRegisters, PFalcon2Reg=
+isters>;
+>
+>     pub(crate) trait FalconEngine: Send + Sync + Sized {
+>         const PFALCON: PFalconRegs;
+>         const PFALCON2: PFalcon2Regs;
+>     }
+>
+> ... and make `Falcon::new` call `io_project` directly, and it works! At
+> the cost of importing `OffsetLoc` in `falcon.rs`, but that removes ~30
+> LoCs in total, and I'm not sure `OffsetLoc` should be hidden anyway.
 
-syzbot found the following issue on:
+Originally I want the type of consts created by `register!()` to be conside=
+red
+as implementation detail and thus ideally not to be named by the user. To u=
+ser I
+want them to treat it as just `impl IoLoc<>`.
 
-HEAD commit:    5d5fd841c346 Merge 7.2-rc5 into usb-next
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=14fbca9e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
-dashboard link: https://syzkaller.appspot.com/bug?extid=5cf28d3643d94bfb0821
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+However, thinking about this again, I think we might be able to have a sing=
+le
+type for all registers after all the cleanups, so it'd make sense to make t=
+his
+public API. However, I do want a better name than `OffsetLoc` if we're goin=
+g to
+make this use case supported, though.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Best,
+Gary
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2ed536ae4daf/disk-5d5fd841.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ab40098ccbf1/vmlinux-5d5fd841.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/66d5c395f47c/bzImage-5d5fd841.xz
+>
+>>  }
+>> =20
+>>  /// Represents a portion of the firmware to be loaded into a particular=
+ memory (e.g. IMEM or DMEM)
+>> @@ -358,6 +361,8 @@ pub(crate) struct Falcon<'a, E: FalconEngine> {
+>>      hal: KBox<dyn FalconHal<E>>,
+>>      dev: &'a device::Device<device::Bound>,
+>>      bar: Bar0<'a>,
+>> +    pub(crate) pfalcon: Mmio<'a, PFalconRegisters>,
+>> +    pfalcon2: Mmio<'a, PFalcon2Registers>,
+>>  }
+>> =20
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5cf28d3643d94bfb0821@syzkaller.appspotmail.com
-
-INFO: task kworker/1:1:28 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/1:1     state:D
- stack:19176 pid:28    tgid:28    ppid:2      task_flags:0x4208060 flags:0x00080000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
- __schedule_loop kernel/sched/core.c:7311 [inline]
- schedule+0xdd/0x2c0 kernel/sched/core.c:7326
- schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7383
- __mutex_lock_common kernel/locking/mutex.c:726 [inline]
- __mutex_lock+0xccc/0x1bd0 kernel/locking/mutex.c:821
- device_lock include/linux/device.h:1102 [inline]
- device_del+0xa0/0x9b0 drivers/base/core.c:3923
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2350
- hub_port_connect drivers/usb/core/hub.c:5412 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5712 [inline]
- port_event drivers/usb/core/hub.c:5876 [inline]
- hub_event+0x1d0c/0x4af0 drivers/usb/core/hub.c:5958
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-INFO: task kworker/0:2:247 blocked for more than 144 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/0:2     state:D stack:20520 pid:247   tgid:247   ppid:2      task_flags:0x4288060 flags:0x00080000
-Workqueue: events request_firmware_work_func
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
- __schedule_loop kernel/sched/core.c:7311 [inline]
- schedule+0xdd/0x2c0 kernel/sched/core.c:7326
- lbs_wait_for_firmware_load+0x11e/0x1e0 drivers/net/wireless/marvell/libertas/firmware.c:117
- lbs_remove_card+0x84/0x390 drivers/net/wireless/marvell/libertas/main.c:913
- if_usb_disconnect+0xc5/0x270 drivers/net/wireless/marvell/libertas/if_usb.c:317
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- usb_driver_release_interface drivers/usb/core/driver.c:643 [inline]
- usb_forced_unbind_intf+0x1a4/0x240 drivers/usb/core/driver.c:1137
- usb_reset_device+0x411/0xaa0 drivers/usb/core/hub.c:6409
- if_usb_reset_device.isra.0+0x21e/0x290 drivers/net/wireless/marvell/libertas/if_usb.c:400
- if_usb_prog_firmware+0x626/0xef0 drivers/net/wireless/marvell/libertas/if_usb.c:889
- lbs_fw_loaded drivers/net/wireless/marvell/libertas/firmware.c:23 [inline]
- helper_firmware_cb drivers/net/wireless/marvell/libertas/firmware.c:80 [inline]
- helper_firmware_cb+0x1f7/0x2d0 drivers/net/wireless/marvell/libertas/firmware.c:64
- request_firmware_work_func+0x13f/0x440 drivers/base/firmware_loader/main.c:1164
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Showing all locks held in the system:
-5 locks held by kworker/1:1/28:
- #0: 
-ffff888106aa4540
- (
-(wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
- #1: ffffc900001e7d18 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: ffff88810af571d8
- (
-&dev->mutex
-){....}-{4:4}
-, at: device_lock include/linux/device.h:1102 [inline]
-, at: hub_event+0x1bd/0x4af0 drivers/usb/core/hub.c:5904
- #3: 
-ffff8881158cd1d8
- (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- (&dev->mutex){....}-{4:4}, at: usb_disconnect+0x10a/0x9a0 drivers/usb/core/hub.c:2341
- #4: ffff8881158c81a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #4: ffff8881158c81a0 (&dev->mutex){....}-{4:4}, at: device_del+0xa0/0x9b0 drivers/base/core.c:3923
-1 lock held by khungtaskd/30:
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x3d/0x184 kernel/locking/lockdep.c:6775
-3 locks held by kworker/0:2/247:
- #0: ffff88810006b140 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
- #1: 
-ffffc90001af7d18
- (
-(work_completion)(&fw_work->work)
-){+.+.}-{0:0}
-, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: 
-ffff8881158c81a0
- (
-&dev->mutex
-){....}-{4:4}
-, at: device_lock include/linux/device.h:1102 [inline]
-, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
-, at: device_release_driver_internal+0xb2/0x620 drivers/base/dd.c:1369
-2 locks held by getty/2918:
- #0: 
-ffff888115d290a0
- (
-&tty->ldisc_sem
-){++++}-{0:0}
-, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
- #1: 
-ffffc900000452e8
- (
-&ldata->atomic_read_lock
-){+.+.}-{4:4}
-, at: n_tty_read+0x419/0x14e0 drivers/tty/n_tty.c:2211
-2 locks held by kworker/0:5/5267:
-2 locks held by kworker/0:11/11531:
-
-=============================================
-
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 30 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- nmi_cpu_backtrace.cold+0x12d/0x151 lib/nmi_backtrace.c:122
- nmi_trigger_cpumask_backtrace+0x21c/0x2a0 lib/nmi_backtrace.c:65
- trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x141/0x190 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xcb1/0x1030 kernel/hung_task.c:561
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 1 to CPUs 0:
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 9069 Comm: kworker/0:9 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Workqueue: events legacy_dvb_usb_read_remote_control
-RIP: 0010:__sanitizer_cov_trace_pc+0xb/0x70 kernel/kcov.c:213
-Code: 5f 00 be 03 00 00 00 5b e9 e2 72 23 01 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 65 8b 05 e5 9b 4a 0b <48> 8b 34 24 65 48 8b 15 c1 9b 4a 0b a9 00 01 ff 00 74 1b f6 c4 01
-RSP: 0018:ffffc900125cf238 EFLAGS: 00000216
-RAX: 0000000000000001 RBX: ffffffff878ae180 RCX: ffffffff87788dd0
-RDX: 0000000000000063 RSI: 000000000000002a RDI: ffff88811567bc00
-RBP: ffffc900125cf2e0 R08: 0000000000000001 R09: 000000000000002a
-R10: 0000000000000063 R11: 0000000000b421c8 R12: 0000000000000063
-R13: ffffffff878ae181 R14: ffffc900125cf370 R15: 0000000000000033
-FS:  0000000000000000(0000) GS:ffff888268636000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055556db20908 CR3: 00000001175ac000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- format_decode+0x32f/0xdd0 lib/vsprintf.c:2739
- vsnprintf+0x1c0/0x1300 lib/vsprintf.c:2887
- snprintf+0xc7/0x100 lib/vsprintf.c:3043
- print_caller kernel/printk/printk.c:1368 [inline]
- info_print_prefix+0x134/0x350 kernel/printk/printk.c:1387
- record_print_text+0x143/0x3c0 kernel/printk/printk.c:1434
- printk_get_next_message+0x2d1/0x6c0 kernel/printk/printk.c:3072
- console_emit_next_record kernel/printk/printk.c:3137 [inline]
- console_flush_one_record+0x67c/0xe50 kernel/printk/printk.c:3269
- console_flush_all kernel/printk/printk.c:3343 [inline]
- __console_flush_and_unlock kernel/printk/printk.c:3373 [inline]
- console_unlock+0x103/0x260 kernel/printk/printk.c:3413
- vprintk_emit+0x407/0x6b0 kernel/printk/printk.c:2479
- _printk+0xcf/0x110 kernel/printk/printk.c:2504
- legacy_dvb_usb_read_remote_control.cold+0x11/0x16 drivers/media/usb/dvb-usb/dvb-usb-remote.c:124
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
