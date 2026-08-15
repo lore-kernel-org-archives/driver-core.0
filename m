@@ -1,137 +1,122 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9952641FC
-	for <driver-core@lists.linux.dev>; Sat, 15 Aug 2026 00:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8AA2BEC5F
+	for <driver-core@lists.linux.dev>; Sat, 15 Aug 2026 02:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786754922; cv=none; b=bM0pX2kBWomrwbandexgIFH0iR4lV6c2M+UWEMC3/zCHj+pirmGZ1Gv3dsJRWXjOgb3/ILZ1SryNFy6Py4wMvsNO1yijONB5HuSU9jrhZ4hAa9snLNLPQVyaX//JRmunKoGNuTXtwbJkEpp0o6+j1yg3FLDZTQNDW8S7WdLcriQ=
+	t=1786760566; cv=none; b=PEVnn/xeV9vjzogsy3R8uqeLr7CaABenJqGz7T4iAZ5Ur5VVpVr5eDRlP8WXuOxEAGdQvcWHPQSiBkwdbAZDeaehhvOCKoqg4PmJQ8QFJhSu3GmhbaR40jzmbDekgHGdN5laQoEVSSYqQkL3Cc85l78Ejl9JZj0RUJaeB3NngJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786754922; c=relaxed/simple;
-	bh=1LnCRgjE5GrtVilnDq6Mw+CJnt8OEZLKDembPlnG1UE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PSvI99viecoJCDTE6h5YPvzSl/jeKNt1Eq0KmvCnICzZxMMOwdkb0sXYYT9fAANFR+/1T+5wvO+HdrQns1YKePgoH4rZCsiWLo+6epiUrnOXcJ3JR3LdFrXfIFhFKiNFNWlunLlv6N6QmAcIQ/I7yi+ynRV7+fMQLZO1bOvcYww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qFdSlszg; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786760566; c=relaxed/simple;
+	bh=Ee3FdVR/GdnvH5dGnkcUbmVcmuQlP7cQ1YYOfk7SjRE=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=bMAkE3bTcgPeckdH2xOcDQI55WzSfby8eTvKORMP74OnAYJbP5DlSmh79/FdDIJDFntEr2CdnOyDCg1YF+5YkwTLT6aizdLJp94dWBoLkg749yjO2ED42S5mqbj0wSEHu4Q8Dx1fi5yLLHivsCovrtBmXnb8dKB5Kk4Y8ElvWmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=sT3xdZYB; arc=none smtp.client-ip=203.205.221.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qFdSlszg"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7e9ecb1e13cso1631562a34.3
-        for <driver-core@lists.linux.dev>; Fri, 14 Aug 2026 17:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786754919; x=1787359719; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Kbg4qcFK/mBxoYXCkGvYYK5TXUGZpjr2DCvrJZaXNS8=;
-        b=qFdSlszgGwAl5Sm16WS7/gaFzkqB83DNTULei/IqHW8n77YoNgRLPDBCq0HCb5PuVM
-         TeGH0nkYn7zQ7GCEXuQ2XWYmZ3zIAegfj4CzL0/Mh0bJKILU5J1n6kGGwI3BN55kMZq7
-         dGAJejmp0CHclrDkuK5hd6bO4sbW/5MnmfYroFgmR1nqXOaRwiEaLdIkVP6IPUbbmYjm
-         CpOA/kuVX/So9MqqRW5Dh8QOOSHo5hJBFpr/LT7xgIQ5IBiv+bpiwDB4v7g5NeUcApvV
-         v/oc6vrupVklTsEeIw44Ndn0JO4mkW0WNu57suaYmVaduAHc3luffytll/qd7k7M1PNX
-         e0sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786754919; x=1787359719;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Kbg4qcFK/mBxoYXCkGvYYK5TXUGZpjr2DCvrJZaXNS8=;
-        b=ClkkK59p33DFuN+wr1n2dBwBDmhBdkZRwtTT8u7xqKlERTTFG1cxfbkkUT2j6GsCr0
-         0J6Fr2AG2ehaJ7rVTHgKtAk+ugH9GJiTuwH9WxoCcsWwqYGcYOTpAZWKV/KVbNhKb2Pd
-         PVY45fWSq9nJEqOh7FgD7baqSHal/jUb+FyJg42cnwqJ9d9QLVbS1K31+7qO75WH2f4h
-         Hw3VNzozFg0hYzrrRUgAZpfLxltP8ISSFvj/IfOtQ3NguAV+MsWxvSjKeD0c0CkYE9u0
-         mM06KbEs/xOzMPMRXBnjRmIjgeAaybZZQ2JG7rPvAYBFmRVkZ9zjAaCelOKjqYGH6QT9
-         hqwA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqx9mmOL9AWDI8GaTFLOgThBhERymDpFFgg39B27usqN7yXeQ7p5+8+SxI5N9KZzUxcFNef90a2NijdZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxv54baFyUf7REPhVGpOKsyjkDMOzJ2X4ivqDurNdXOrvuLlFfm
-	sz0GtGlYIqOmmTDWASt3wqHiVhFtZjkNiz+EarGMgG6E57nFrqYH8Kqt
-X-Gm-Gg: AR+sD11TQEzmUvXWf6nmMcSccT7BhRA71whpr736SXKJyFRiNNe59zXP5AFlyW7k3Hs
-	8RnRVda8geLcA/PF4f97hgfADasSsb/+uK1fGMh09kjL9S178vaoEKyCgvKUXdJvca3acS81mm/
-	94b/vFipqXhfb04TgAWoooYTrh1VmJczsQ5AoB5e8BRmYOKMDXJWuhN5YIUX19QWEEz6xQ0bBDv
-	7w6iXXxixzXdQo5sd+TulHZ7K2hMSOevh0vDUi+cuYBmewiwaDY0M0od5ewvlovv5h9JlECDOO3
-	PT84rdA5vaggIxaw576O/JvvGJ6Q5oBvZvtcgbLudrdNI4HXmX6uF3iJYAw+hFgS4kTKeIxthDN
-	Gy03Qwo2rMNuSWNtSAgvp8aIYL1zfbGRAB2b0GD0Yft3nv+Eg2j65wZ3txS0V7Gu75cCyTRta5C
-	UBrznLRyHDcnfT35Vqm5qYVQy3B/HUMHEQ2JI1NwzpeTfBqSzvbL5SoFb+zWAKtZ/rUgEuGt4ho
-	x04wRsvAdrmeprzg+pBPcgJAwz/OZ1i2sN+l9a6x/6CkGpyx7CMIjNgeciSFNWr8/LttvyxfvPt
-	Wu9yYwYYxdDW+s67e0P1a0u/A57nj1X5oIzOBFvPsWVMO6FktvSgvJsLKhKPTIanwitY8IQPa9f
-	aBmq8YObujYOZXHonsQ==
-X-Received: by 2002:a05:6820:2916:b0:6ac:9729:6710 with SMTP id 006d021491bc7-6b0d6a8e9b9mr8697804eaf.18.1786754919602;
-        Fri, 14 Aug 2026 17:48:39 -0700 (PDT)
-Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b0d9574d7csm3240730eaf.2.2026.08.14.17.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 17:48:39 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 14 Aug 2026 18:46:17 -0600
-Subject: [PATCH net-next 3/3] net: mdio: release fw_devlink proxies after
- population
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="sT3xdZYB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786760534; bh=9+6xBqYjXWiwtS8jU5WNVik2hUwsA5jxqbdJYSYzGJ0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=sT3xdZYBmHlVuwq5uG0gD7w/VVz2OJ0J4p3/SyHz7AtN1YmojahofXOghOaMS5lwM
+	 VJlx8FOk/JRwmYFsp07RsOhLWiY0yH5J/NGBWFb+K82hbDqk3EYmFcgzyOzf/FmZqJ
+	 gYX1QasYv/n5A1wwBgOy+PF6cN+wlIvmiL0YNEJk=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 58B9C4D1; Sat, 15 Aug 2026 10:22:11 +0800
+X-QQ-mid: xmsmtpt1786760531teb8qx8jf
+Message-ID: <tencent_5A6ECE8C93A7F206CD12F4C65C49852EC906@qq.com>
+X-QQ-XMAILINFO: Mfa2ogpi8We7DAxRZS9qKSApTp7KTtUoUwfw/ryL6yi2gIEe6rs8colH+2WM2I
+	 /Kv9Vkcv0mWxySa5IBChv5QKduX02sjgHbUbvXUwLlHeoTWqOXvV0OPkAtqJZpCgG8kqLP2lUiBo
+	 7v+G1rCUwXHd7uBIseQa6N+O9r+jFmW4dewM/cKWg/cXrZ03FxMZsvK9UYmkjAeWLKAsRm7StBfo
+	 0elhDB357khK1A02fEN0T/HNJHjdgPkSwaaN1FAqmSRQoKSdvZXKsd0g4qK311Q+VsfiRfzlG1lL
+	 Z6w9rdaNkV5+e5tHRYDLjfPtHg+2NUdyDojjJ4+FJnv5QoGeA4+vQDvJ/+d6sLSGvNZsBzg3nA1g
+	 DMbYi6b0StEM46AfOAgwl/stCY7TldzDpEfx96bYJ5Vb5/n/XfRh8O4lR7+D6LpV2ZTU7fvvbUC5
+	 MJFb73XGdV5fEoSL69C+1to4Rh8qk6Fb4cllk5UWjdhAUXjDXHdlDyVMwQ+bOl/SnhiQWtdYDbNZ
+	 xSZJnHJzUaNXeSMwdwsqp0aW7O1ImucFbty2KG0+Yq/K5/kqd64D2fefgsfNEM04jGIflSanIIzN
+	 NCl8gQVCfDXAyUdZd80Vx6vxI345bEB1kubpJroBPaVHeJQBbrt7t5wWmrPNU2MGQZkBTmQpr5Jm
+	 9xF0F84e6533G3zbx+U6F6eKkvcFPX9oJT7oV8wzncKBY1Bd7kFTYs2CB5lC9IXZj/+XbXpitbrL
+	 ghBusu24gad5WUTb7NyTJXDydJg4HjdyrRryhie5NIa3nqKlGp5kQ8ZKQXSSM8xBxGuHkLzjk8KC
+	 3QmJj0jmABAQV8hEt3z/pJ66Vfiz8hT3hb2DE0+Y4kY+B8iwnmlVu289TQfEB2MdrTnXDkxRfpxI
+	 ocvawITCDVHMmiOOukmiq9HzgQ8onEGHNhS2o+mDE0rZ3h+yItf5zQ5urxX22doaVlHjBF74Vo3j
+	 OeCRkwCtiQYqWXf/fqyACsjiyh7lF6LiKg3dXxIpYsb3nh+i6ui49rEnRWfDNXf0hPEB5dMOwD+a
+	 xCnqY4bw==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+de42beb9ccc760a210ab@syzkaller.appspotmail.com
+Cc: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] driver core: Cancel the attach if device addition fails
+Date: Sat, 15 Aug 2026 10:22:12 +0800
+X-OQ-MSGID: <20260815022211.247040-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a7ed70c.5b0d2c79.2ef4ef.0004.GAE@google.com>
+References: <6a7ed70c.5b0d2c79.2ef4ef.0004.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260814-submit-phy-package-fwdevlink-v1-v1-3-2319844f057a@gmail.com>
-References: <20260814-submit-phy-package-fwdevlink-v1-v1-0-2319844f057a@gmail.com>
-In-Reply-To: <20260814-submit-phy-package-fwdevlink-v1-v1-0-2319844f057a@gmail.com>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Christian Marangi <ansuelsmth@gmail.com>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- netdev@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+Content-Transfer-Encoding: 8bit
 
-fw_devlink creates sync-state-only links from the closest existing
-ancestor device to suppliers of child devices which have not been added
-yet. It normally drops those proxy links when the ancestor driver
-finishes probing.
+syzbot reported a null-ptr-deref below [1] following a fault injection in
+device_add(). [0]
 
-An MDIO bus is a driverless class device, so successful OF population
-never reaches that lifecycle point. Its proxy links can consequently
-remain forever and prevent suppliers from receiving sync_state() even
-after the real PHY devices have acquired and activated their own links.
+When device_add() fails, dev->p is NULL.
+Later, __device_attach() tries to access members of
+dev->p(e.g., dev->p->dead), the issue in [1] is triggered.
 
-Call the driver-core cleanup helper after successful OF MDIO population.
-Only sync-state-only links are removed; the real PHY links continue to
-enforce dependency and runtime-PM ordering.
+Let's handle the error of __device_attach() properly.
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+[0]
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 1, space 0, times 1000000
+Workqueue: events_long serio_handle_event
+Call Trace:
+ kmem_cache_alloc_noprof+0x91/0x6a0
+ kernfs_new_node+0x117/0x150
+ __kernfs_create_file+0x53/0x350
+ sysfs_add_file_mode_ns+0x207/0x3c0
+ internal_create_group+0x593/0xfb0
+ internal_create_groups+0x9d/0x150
+ device_add+0xf60/0x1970
+ serio_handle_event+0x59b/0x990
+
+[1]
+KASAN: null-ptr-deref in range [0x0000000000000108-0x000000000000010f]
+RIP: 0010:__device_attach+0xb0/0x4d0 drivers/base/dd.c:1074
+Call Trace:
+ serio_find_driver drivers/input/serio/serio.c:112 [inline]
+ serio_handle_event+0x60a/0x990 drivers/input/serio/serio.c:206
+
+Fixes: 654888327e9f ("driver core: Avoid binding drivers to dead devices")
+Reported-by: syzbot+de42beb9ccc760a210ab@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=de42beb9ccc760a210ab
+Tested-by: syzbot+de42beb9ccc760a210ab@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- drivers/net/mdio/of_mdio.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/base/dd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/mdio/of_mdio.c b/drivers/net/mdio/of_mdio.c
-index b8d298c04d3f..49f9b4062cf5 100644
---- a/drivers/net/mdio/of_mdio.c
-+++ b/drivers/net/mdio/of_mdio.c
-@@ -229,7 +229,7 @@ int __of_mdiobus_register(struct mii_bus *mdio, struct device_node *np,
- 		goto unregister;
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 60c005223844..d345f6c175a6 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1071,7 +1071,7 @@ static int __device_attach(struct device *dev, bool allow_async)
+ 	bool async = false;
  
- 	if (!scanphys)
--		return 0;
-+		goto done;
- 
- 	/* auto scan for PHYs with empty reg property */
- 	for_each_available_child_of_node(np, child) {
-@@ -261,6 +261,9 @@ int __of_mdiobus_register(struct mii_bus *mdio, struct device_node *np,
- 		}
- 	}
- 
-+done:
-+	device_links_drop_sync_state_only(&mdio->dev);
-+
- 	return 0;
- 
- put_unregister:
-
+ 	device_lock(dev);
+-	if (dev->p->dead) {
++	if (!dev->p || dev->p->dead) {
+ 		goto out_unlock;
+ 	} else if (dev->driver) {
+ 		if (device_is_bound(dev)) {
 -- 
-2.53.0
+2.43.0
 
