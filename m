@@ -1,196 +1,66 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCD438DC69
-	for <driver-core@lists.linux.dev>; Sat, 15 Aug 2026 06:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85CA30594E;
+	Sat, 15 Aug 2026 21:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786776017; cv=none; b=TvfDJ6K+tOfPTmlgxAb2UZWMoc2h1Skp+gtroSoPdb/X+XRMS/qBPJVqIvcwAmLV6oRWjEFIq84NS8fj0WrZ6yWp18Nd/yktOEKlHoTwXfoBBpQcwwLZR+zFXu+DzjO2OjI4q0vN2JDcP9K884tQIQCaUiLc5FverQhKv0biAM8=
+	t=1786828619; cv=none; b=jKwa0Z4f95I6SRvDDCM1FPErrBxDJPpUKCnEUetbKNWunWpyH5gz0fdDGuC4ZWa4YHcNuApn44YM5iaJOXwfpw2UScCkWRlE7Zri9dgzKMhKuu/aSA8vhW3BgoulgKz1vgA3ANKjTtob62MjVW07LT9zSnU+FlaTJTJfNTkG2GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786776017; c=relaxed/simple;
-	bh=xlYqBpohSg0bKJPMHGKiU/Hs+8CMcvpONvqoipt2u2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojaYPTlJltxcyLQRkAEoxrJP/R+Y1ojgIIoK0crPLUel8ITlId0xK6UPsT8RsS1VtUVSLpvukOXUwVVLtEsfemzW2VfW3oev4h1GM1M+2/6hG28awJ2Zv5LoqCgDbdnNQdOBsj3YTYOkz6SQmdh6vwjYdc76xtfxa5g2icJLBMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wv83t-0000000074n-0h62;
-	Sat, 15 Aug 2026 06:40:09 +0000
-Date: Sat, 15 Aug 2026 07:40:05 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Cc: Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	"Srivatsa, Ravishankar" <ravishankar.srivatsa@intel.com>,
-	Kiran K <kiran.k@intel.com>,
-	ChandraShekar <chandrashekar.devegowda@intel.com>
-Subject: [PATCH net-next v11 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <3c1c638ab5842e663a0e711ee1d3a9a1d964988c.1786773971.git.daniel@makrotopia.org>
-References: <cover.1786773971.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1786828619; c=relaxed/simple;
+	bh=xLoC0w3+IrEYemjqzW2P+y6AbEhn8khZMCmuwD89G30=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZPJdV7enjjEVjknfzweXlGrGCOwmDPGtvKLlowof0Oki0uFl2EI2pp5VfRk+LlIvJngbJe114+pOBr2cG0nJhh2XMiVPTxeh7n2dag200wOYYVRwMP2UO8nv3OZttnzMdRi21FtP+N2RjPUFqudWkUNOlFh0mNyGSM0U6GT99AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDcts1pU; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDcts1pU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E651F000E9;
+	Sat, 15 Aug 2026 21:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786828618;
+	bh=irdcSiioFKVhsMGCKFGPV8EKiBsTR4yL76UfjmY+uHI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZDcts1pUwYGCoujWn8jNAOuMC+vgR+Fn2dOv7uVqNhx105vns13H4Dc0URLco+CW8
+	 WYdMi1pNHTUsL4AkEbtJDtenMhgEYIl7QB8dsotns4Tm9y3LYawIwtzimecbk1zKeR
+	 3dN3bN0h321z9y5KSJlmNemmgwB/eix0oQn+v2099UQSC8Le/3fISY7hiM0+f4r0Is
+	 CBZlI98GIXdN8UzBn+XqQ/6KlFY7WaoSJHDbr6QHhfee4EhF3IWpiUVhowE3DeAaTG
+	 IgcQbiYw9IM0EAw0blunQilF2amPiwgfMDQJdwsVG31qaHlxe5nrMC2xYJEd86U9yI
+	 HOnzUWXvw4MMg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: gregkh@linuxfoundation.org,
+	tj@kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernfs: avoid iattr allocation in listxattr
+Date: Sat, 15 Aug 2026 23:16:55 +0200
+Message-ID: <20260815211655.1392205-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260731120554.630147-1-chenyichong@uniontech.com>
+References: <20260731120554.630147-1-chenyichong@uniontech.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1786773971.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Fri, 31 Jul 2026 20:05:54 +0800, Yichong Chen wrote:
+> [PATCH] kernfs: avoid iattr allocation in listxattr
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+Applied, thanks!
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 4745148fecf4..058999d0dc56 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -94,6 +94,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 991460050da7..e3f7ded569bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16106,6 +16106,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+[1/1] kernfs: avoid iattr allocation in listxattr
+      commit: d5e81a5650b5
+
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
