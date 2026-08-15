@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3107F38839D
-	for <driver-core@lists.linux.dev>; Sat, 15 Aug 2026 06:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6623A38A73C
+	for <driver-core@lists.linux.dev>; Sat, 15 Aug 2026 06:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786775993; cv=none; b=PlrDMz3Nz/xT7xI8U/3L/6F91dUV+l8p/JbokxW8/p8yUaAkCvqYfRGRAQNpkZhpWiCEfjaY9o2LGNavLGgdQgp3WYimUqYi0OeE6HZaD/IhUdd7rDq5/82ljj8MfJXiXr7sBDMQ01WMwihmGi63wAerZcIgoQZq1q67HK99nRc=
+	t=1786775995; cv=none; b=ddOpNT9YrLUuZX8hyDu0aIr+LcN0jftc3nj8qLO4eFcprVu7cusKiQIPHFUCVKhU6ToiU6HEo+YMeXhX+9SIU/zi8N4EDEBE9BaXhtHABx3TRWDfBqL7nPq9Sxttwj86ozIAUpuxLVzApFYxfTY7FFGlwe+U4KmLbHuZ7mhFV50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786775993; c=relaxed/simple;
-	bh=LYH961mrf2KMUtvnSoUqVLCXwphD+ycmxC6An4KFd7o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ITPZZPI1S30CtVqkowHfGm5CF5q83xj8yZ7V6Jhw3CqTlMjucCtWmHFlpTEZmdTzg119KrKhXCrXvFmThs0G/yhFZJ7IyuYjUu85AeABdX3HZDadec7yqytTiJrnlcOYzHnTxIsHyC/H2f+Oy32J1gEsKXSMyhTOT6+0R0qieHs=
+	s=arc-20240116; t=1786775995; c=relaxed/simple;
+	bh=4/hYfh1O2EOA++jmyscn4mMbUcXTpw55pgt7s3oCAKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OZZMbNg62pKClMMp/2bw+DX48yy8cdSS7dDGrlcUaAFW2TSDYNcCiK7uoQc/ogLViGQzqUxU1yFxU0ijeC02eTG5CjoCTHAxhfTwlNyZgBf+W5AXW6Z+08UKdTVt0NWjZoWbTfkA0FWsTPnNNK57hsTQGZjMUYhLOyeYvTWavlo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wv834-0000000071w-2oWT;
-	Sat, 15 Aug 2026 06:39:18 +0000
-Date: Sat, 15 Aug 2026 07:39:09 +0100
+	id 1wv83V-0000000072y-1Fpm;
+	Sat, 15 Aug 2026 06:39:45 +0000
+Date: Sat, 15 Aug 2026 07:39:41 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -42,8 +42,9 @@ Cc: Miri Korenblit <miriam.rachel.korenblit@intel.com>,
 	"Srivatsa, Ravishankar" <ravishankar.srivatsa@intel.com>,
 	Kiran K <kiran.k@intel.com>,
 	ChandraShekar <chandrashekar.devegowda@intel.com>
-Subject: [PATCH net-next v11 0/6] net: dsa: mxl862xx: devlink flash and rescue
-Message-ID: <cover.1786773971.git.daniel@makrotopia.org>
+Subject: [PATCH net-next v11 3/6] driver core: add device_schedule_reprobe()
+Message-ID: <33f18324752c8f1185a4aad89a22e3db2bcd2e8a.1786773971.git.daniel@makrotopia.org>
+References: <cover.1786773971.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,342 +53,228 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1786773971.git.daniel@makrotopia.org>
 
-This series adds "devlink dev flash" and "devlink dev info" support to
-the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
-MCUboot loader recoverable through the same path.
+Three in-tree drivers schedule a deferred re-probe of their own device
+from a work item whose work function lives in module text: iwlwifi
+(iwl_trans_schedule_reprobe(), firmware crash recovery when a lighter
+restart is not sufficient), hci_h5 (h5_btrtl_resume(), RTL devices
+lose their firmware state over suspend) and btintel_pcie (synchronous
+device_reprobe() from its own reset work, with a hand-rolled locking
+contract spanning several comments).
 
-Patch 1 adds a flash_update callback to dsa_switch_ops so a DSA driver
-can implement the devlink operation. Patch 2 adds clause-22 SMDIO
-register access, which is the only channel the loader answers on.
-Patch 3 adds device_schedule_reprobe() to the driver core. Patch 4
-implements the flash and info operations over SMDIO. Patch 5 detects a
-switch sitting in MCUboot, registers it in a reduced rescue mode so
-devlink stays reachable, and drains an interrupted download back to a
-state the loader will accept a new image in. Patch 6 documents the
-result.
+Two bug classes affect the hand-rolled implementations:
 
-The AI review Paolo forwarded on v10's patch 3 found two real issues in
-the deferred re-probe: the work function's trailing module_put() races
-a concurrent rmmod freeing the module text, and nothing synchronizes
-the deferred detach against device_shutdown() or an administrative
-unbind. Both are inherited from the iwlwifi pattern the code was
-modelled on, and neither can be fully closed from driver code, since
-device_shutdown() holds device_lock() across ->shutdown() and
-device_reprobe() takes the same lock, leaving any driver-side check a
-TOCTOU. They are therefore fixed in the driver core instead: patch 3
-adds device_schedule_reprobe(), as posted in the RFC together with
-conversions of the existing open-coded users [11], and the driver now
-schedules its post-flash and post-drain re-probe through it. Following
-the discussion on the RFC thread, the helper is picked up into this
-series so that mxl862xx does not add another open-coded copy; the
-conversions of the existing users (iwlwifi, hci_h5, btintel_pcie) will
-follow as a separate series once the helper has landed.
+1. The work function ends with put_device(); kfree();
+   module_put(THIS_MODULE); in module text. After the atomic decrement
+   a concurrent rmmod can free the module text before the function
+   epilogue has finished executing. This is exactly the race
+   module_put_and_kthread_exit() exists to close for kthreads; there
+   is no work-item equivalent.
 
-The helper itself was runtime-tested (backported to 7.0.11) on Intel
-AX101 hardware with PROVE_LOCKING and DEBUG_OBJECTS_WORK, driving
-iwlwifi's crash escalation into the re-probe path: normal detach and
-rebind, an unbind racing a pending re-probe (the unbind is not undone),
-rmmod with a re-probe pending, and reboot with a re-probe pending; no
-lockdep or debugobjects reports. See [11] for details.
+2. There is no synchronization between the deferred device_reprobe()
+   and device_shutdown() or a driver unbind. The drivers do not check
+   any bound state before calling device_reprobe(), so a stale
+   re-probe can undo an administrative unbind, and the detach half can
+   run against a device whose ->shutdown() callback has already run.
+   The core already blocks the attach half during shutdown
+   (device_shutdown() calls device_block_probing() before any
+   callback, and really_probe() honors defer_all_probes), but nothing
+   blocks the detach half. For drivers which clear their drvdata in
+   ->shutdown() so that a subsequent ->remove() becomes a no-op this
+   escalates to use-after-free of driver state which other subsystem
+   structures still reference.
 
-Tested on an MxL86252C switch of the BananaPi R4 Pro 8X (asic.id 8628).
-Repeated devlink dev flash cycles across three firmware builds each
-completed in under a minute -- running firmware detected at probe, a
-full flash and reprobe, the new version reported afterwards. A crash
-mid-transfer left the switch wedged in its loader; the next boot
-detected the interrupted download, drained it in the background, and
-reprobed into rescue mode (firmware 0.0.0), from which devlink dev
-flash restored running firmware. A hard reset during a flash brought
-the loader up clean at READY, flashable directly without a drain.
+Both classes disappear when the driver core owns the deferred work.
+Add device_schedule_reprobe(), which schedules a detach and re-probe
+of a device after a caller-specified delay:
 
-Changes since v10 [10]:
- - new patch 3: driver core: add device_schedule_reprobe(), as posted
-   in the RFC [11], used to schedule the post-flash and post-drain re-probe with
-   device_schedule_reprobe() instead of a driver-owned work item.
- - the dsa_switch allocation returns to devres. Keeping it out of
-   devres only defused the remaining check-vs-detach window, which the
-   core helper closes outright
- - scheduling the re-probe is now the one step that can fail after the
-   switch was flashed, since the helper allocates its work item
-   internally and v10's allocate-up-front dance is no longer possible.
-   An -ENOMEM there is a system-wide condition no driver-level message
-   or recovery improves, so flash_update just returns it (unbind and
-   rebind reinitialises the driver), and a drain whose hand-off fails
-   still marks recovery failed so devlink does not keep promising a
-   retry
+- The work function is builtin text, so callers do not need to hold a
+  module reference. If the driver module is unloaded before the work
+  runs, driver_unregister() has already unbound the device, the bound
+  driver no longer matches the driver recorded at scheduling time and
+  the work does nothing.
 
-Changes since v9 [9]:
- - Harmonised the SB PDI timeouts. The verify wait is now one constant
-   shared by the flash and drain paths (15 s), the 1-byte mailbox step
-   is another (2 s) used by the drain and by both detection waits, and
-   the per-slice write budget drops from 120 s to 60 s. The last-slice
-   flush, which cannot see the boundary between programming and
-   verifying, gets the sum of the two.
- - The post-flash and post-drain reprobe no longer detaches a device
-   that has been shut down or unbound, and the dsa_switch is allocated
-   outside devres so a lost race cannot leave dsa_switch_find() reading
-   freed memory. This was a live bug in v9's patch 3 as well, reachable
-   by rebooting within 500 ms of a flash.
- - A failed reprobe hand-off after a successful drain now logs and
-   fails flashing outright, instead of leaving devlink answering "retry
-   shortly" for good. Dropped heal_lock and mxl862xx_stop_work() with
-   it: the lock only made the flag test and the queueing atomic, which
-   is not the guarantee the comment claimed, and the reprobe's own
-   check is what actually decides now.
- - A loader that publishes READY but never services the register-read
-   challenge now reports -ENXIO rather than propagating -ETIMEDOUT, and
-   the documented return sets of mxl862xx_rescue_mode_detect() and
-   mxl862xx_rescue_drain_finish() match what the code returns.
- - Commit message for patch 4 no longer claims a running firmware is
-   "left untouched" (the presence probe writes two mailbox scratch
-   registers, inert to a firmware that does not read them), says that
-   an SB PDI window away from the OTP reset offsets also yields
-   -ENODEV, and describes the -ENXIO outcome above.
- - Commented why STAT == 0 during a drain is unambiguous: by the
-   r_remain == 0 rule the loader cannot be both inside the receive loop
-   asking for a chunk and publishing a verdict.
- - Documented that a switch power cycled on its own needs the driver
-   unbound and rebound before a failed recovery is re-examined.
+- The recorded driver pointer is only ever compared, never
+  dereferenced, so it may legitimately point to freed memory.
 
-Changes since v8 [8]:
- - install the flash_update devlink op unconditionally and return
-   -EOPNOTSUPP from the trampoline for drivers without the callback,
-   instead of a second devlink_ops permutation (Andrew Lunn)
- - picked up Andrew's Reviewed-by on patches 2 and 5, given on v5
+- The bound-state check and __device_release_driver() run under a
+  single __device_driver_lock() hold, the same lock dance
+  device_release_driver_internal() uses. This closes the
+  check-vs-detach TOCTOU that drivers cannot close themselves,
+  because device_reprobe() takes the device lock internally.
 
-Changes since v7 [7]:
- - most of the changes below address findings of the Sashiko AI reviews
-   of v7
- - the MCUboot loader's transfer completion was reverse-engineered to
-   settle two of them: it publishes an image verification verdict in its
-   status register, finalises without the END magic once a 2 s timeout
-   expires, and keeps the host's byte count visible while it programs a
-   chunk. The interrupted-download drain therefore no longer sends END,
-   which a loader still in its receive loop consumes as a byte count and
-   underflows its receive counter on, and the flash path now reports a
-   rejected image instead of a write timeout
- - refuse a second devlink dev flash while the previous one's reprobe is
-   still pending, and stop publishing a zeroed firmware version after a
-   failed transfer
- - initialise the SerDes state before the rescue-mode early return, so a
-   successful rescue-mode flash cannot hand phylink an unconfigured PCS
- - do not fail probe from the wedged-download branch of the rescue
-   detection, which a download interrupted with exactly one byte
-   outstanding would trigger, and report a failed recovery through
-   devlink rather than refusing every flash for good
- - reset the SB PDI mailbox before probing it, log the drain's progress,
-   and correct the protocol and register comments throughout
+- A new shutdown_done flag in struct device_private, set under the
+  device lock once device_shutdown() reaches a device, suppresses the
+  detach half during shutdown. It occupies a spare bit in an existing
+  byte, mirroring how kill_device() sets the dead flag.
 
-Changes since v6 [6]:
- - reprobe from a single delayed work item instead of a kthread spawned
-   by a workqueue kickoff; the kthread existed only to drop the module
-   reference from core code, but its creation-failure path did the racy
-   module_put() from module text anyway and could strand the driver
-   bound with skip_teardown set. The collapsed form matches
-   iwl_trans_reprobe_wk(), and a failed reprobe now leaves the device
-   unbound like a failed probe
- - only signal END on a successful transfer; a failure leaves the loader
-   mid-payload, where END is read as a byte count and can underflow the
-   receive counter, so return the error and let the reprobe recover
- - add cond_resched() to the payload loop so a long transfer over a
-   bit-banged MDIO bus under CONFIG_PREEMPT_NONE does not trip the
-   soft-lockup detector
- - drop the cached firmware version and chip id on a failed flash so
-   devlink dev info stops reporting the pre-flash version until the
-   reprobe
- - report the firmware version under DEVLINK_INFO_VERSION_GENERIC_FW
-   instead of a bare "fw" string
- - correct the SB PDI header comment's SMDIO register map and expand the
-   note on why closing the shared conduit is safe
+- The attach half is plain device_attach(), which already honors both
+  the dead flag and defer_all_probes: a re-probe landing during
+  system suspend detaches immediately and the probe is deferred until
+  device_restore_probing() at resume time. The detach half
+  deliberately does not check defer_all_probes so that a re-probe
+  scheduled before suspend is not silently dropped.
 
-Changes since v5 [5]:
- - run the post-flash reprobe from a kthread that drops the module
-   reference with module_put_and_kthread_exit() from core code, fixing
-   a use-after-free where a work item's trailing module_put() could
-   return into module text a racing rmmod had freed; a workqueue kickoff
-   spawns the kthread off the devlink caller where kthread_create() can
-   return -EINTR
- - send END on every flash failure from the ready handshake onward so an
-   aborted transfer lets MCUboot reboot instead of leaving it waiting
- - after the background drain finalises an interrupted download, reprobe
-   and let the probe-time detection re-classify the switch, so a valid
-   image a last-moment interruption left bootable comes up as running
-   firmware; rescue_drain() no longer inspects or reports the outcome
- - re-read the SB PDI status register once more after a poll timeout
-   expires, so a preempted poll cannot report a spurious -ETIMEDOUT
- - bail out of the periodic stats poll when the flash teardown has set
-   WORK_STOPPED, closing a get_stats64() re-arm race
- - allocate the reprobe kickoff before disturbing the switch, so an
-   -ENOMEM cannot leave it flashed but never reprobed
- - omit asic.id/asic.rev when the CHIP ID read returned 0, instead of
-   publishing a bogus "0000" for fwupd to match firmware against
- - treat the flashless-download loop (STAT 0xc33c) as an unsupported
-   configuration and fail probe with -ENODEV instead of advertising it
-   as flashable
+One pre-existing window remains: __device_release_driver()
+transiently drops the locks while consumer device links are busy, so
+for devices with busy consumers a ->shutdown() can still interleave
+in the middle of the release. That window exists identically for
+every unbind path in the kernel, sysfs unbind included, and is not
+made worse by this helper.
 
-Changes since v4 [4]:
- - report the numeric chip part number and version read from the
-   static CHIP ID registers as the "asic.id" and "asic.rev" fixed
-   versions instead of a model-name string, which does not belong in
-   a devlink version identifier (Jakub Kicinski)
- - report the running firmware version as the "stored" version too,
-   since the switch boots it from its own flash, so userspace can
-   distinguish a flash-backed part from a flashless one by the
-   presence of "stored" without a future API change
- - run the post-flash reprobe from a self-contained work item again
-   instead of the v4 kernel thread, which tripped the hung-task
-   watchdog while parked across the flash and returned -EINTR from
-   kthread_create() when the devlink command was interrupted
- - re-read the new firmware version through the reprobe's fresh probe
-   and drop the SYS_MISC_FW_VERSION exemption from the host block
- - raise the firmware command poll timeout so the FW_UPDATE command
-   that reboots into MCUboot is not cut short
- - detect the switch state from the value MCUboot publishes in the SB
-   PDI STAT register (loader ready, wedged download, or running
-   firmware), confirming a live console loader with a register-read
-   challenge, instead of trusting a bare SMDIO scratch write
- - fail probe with -ENODEV over SB PDI when the switch does not respond
-   at all (absent, unpowered, or misdescribed in the device tree)
-   instead of letting the clause-45 API flood the log with CRC errors
- - drain a wedged interrupted download back to a clean ready state
-   from a background work item so the multi-minute recovery never
-   holds the devlink instance lock, reporting no firmware version and
-   refusing flash with -EBUSY until it completes
- - report the rescue-mode null firmware version "0.0.0" as both the
-   running and stored version, matching the running/stored reporting
-   above
- - split the devlink documentation into its own patch and add
-   Documentation/networking/devlink/mxl862xx.rst describing the info
-   versions and the flash update behaviour (Jakub Kicinski)
- - include example "devlink dev info" outputs in the commit messages
-   of patches 3 and 4 (Jakub Kicinski)
+Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+---
+v11: new patch: add device_schedule_reprobe() to the driver core (posted
+     earlier as an RFC) so mxl862xx can schedule its post-flash and
+     post-drain re-probe through the core instead of open-coding a work
+     item
 
-Changes since v3 [3]:
- - only install the flash_update devlink op for switches whose
-   driver implements it, so the devlink core rejects unsupported
-   requests before fetching the firmware file from userspace
- - run the deferred reprobe from a kernel thread which ends in
-   module_put_and_kthread_exit() instead of a work item that
-   dropped its module reference while still executing module code
- - fail firmware API read commands with -ENODEV after the update
-   has finished instead of faking success with an unfilled buffer,
-   which could send port_fdb_dump() into an endless loop
- - keep the host block in place across the post-update version
-   query by exempting SYS_MISC_FW_VERSION from block_host instead
-   of briefly lifting the block, and write all blocking flags under
-   the MDIO bus lock
- - check the return value of all SB PDI control writes; a failed
-   address write during the half-bank switch could otherwise place
-   the second half of the payload at the wrong flash offset
- - initialise the progress notification deadline from jiffies so
-   notifications are not suppressed on 32-bit systems shortly
-   after boot
- - log a distinct diagnostic when rescue mode detection fails on an
-   SMDIO bus error instead of silently treating it as not being in
-   rescue mode
- - flush the switchdev deferred queue after closing the ports so
-   the bridge's deferred STP DISABLED transitions reach the
-   firmware while it is still running instead of failing against
-   the host block with "failed to set STP state" errors
- - treat -ENODEV as successful deletion in port_mdb_del() so the
-   post-update teardown no longer leaves host MDB entries behind
-   for the DSA core to report when the tree is torn down
+ drivers/base/base.h    |  5 +++
+ drivers/base/core.c    |  3 ++
+ drivers/base/dd.c      | 82 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/device.h |  2 ++
+ 4 files changed, 92 insertions(+)
 
-Changes since v2 [2]:
- - validate the firmware image, including both CRCs, before taking
-   down any ports, so that a malformed file is rejected without
-   disturbing the running switch and without the needless flash and
-   reprobe cycle it previously triggered
- - reject images whose declared payload sizes overflow when summed
-   (check_add_overflow) or sum up to zero; the latter previously
-   erased the flash without writing anything back
- - allocate the reprobe work item and take the module and device
-   references before starting the update, so scheduling the reprobe
-   can no longer fail after the switch has been pushed into MCUboot
- - prevent the stats poll work from being re-armed and cancel the
-   CRC error work before starting the transfer
- - check the host-blocking flags in mxl862xx_api_wrap() under the
-   MDIO bus lock to close the race window where an API command
-   which had already passed the check could reach the bus after the
-   switch rebooted into MCUboot
- - check the return value of SB PDI data word writes so a failed
-   MDIO transaction aborts the transfer instead of being noticed
-   only through a corrupted image
- - report a per-model chip name (e.g. "MaxLinear MxL86252") as the
-   devlink "asic.id" fixed version instead of the devicetree
-   compatible string, whose comma is awkward for userspace
-   consumers such as fwupd (see discussion on v2 patch 3)
- - report the canonical null version "0.0.0" instead of
-   "mcuboot-rescue" as the running firmware version in rescue mode,
-   so that version-comparing update tools like fwupd treat every
-   available release as an upgrade and offer it for recovery
-
-Changes since RFC [1]:
- - detect a switch stuck in MCUboot rescue mode at probe, register
-   the switch without any ports and report "mcuboot-rescue" as the
-   running firmware version, so devlink flash can recover from a
-   failed or interrupted update (Andrew Lunn)
- - clarify in the commit message of patch 2 that the per-transaction
-   MDIO bus locking is about other, non-switch devices on the same
-   MDIO bus (Andrew Lunn)
- - mention in the commit message of patch 3 that closing the ports
-   also stops phylib from polling the switch-internal PHYs during
-   the transfer (Andrew Lunn)
- - split up run-on sentence and explain the dynamically allocated
-   reprobe work item instead of just pointing at iwlwifi in the
-   commit message of patch 3 (Manuel Ebner)
- - use kzalloc_obj() (Manuel Ebner)
- - state the actual duration of a complete flash and reprobe cycle
-   (just under a minute) in comments and the commit message, and
-   clarify that the timeout values are generous upper bounds
-   (Manuel Ebner)
-
-[1] https://lore.kernel.org/all/ak0J-HgzMRea53om@makrotopia.org/
-[2] https://lore.kernel.org/all/cover.1783988826.git.daniel@makrotopia.org/
-[3] https://lore.kernel.org/all/cover.1784513694.git.daniel@makrotopia.org/
-[4] https://lore.kernel.org/all/cover.1784665017.git.daniel@makrotopia.org/
-[5] https://lore.kernel.org/all/cover.1784945329.git.daniel@makrotopia.org/
-[6] https://lore.kernel.org/all/cover.1785119999.git.daniel@makrotopia.org/
-[7] https://lore.kernel.org/all/cover.1785274610.git.daniel@makrotopia.org/
-[8] https://lore.kernel.org/all/cover.1785389905.git.daniel@makrotopia.org/
-[9] https://lore.kernel.org/all/cover.1785728574.git.daniel@makrotopia.org/
-[10] https://lore.kernel.org/all/cover.1786294649.git.daniel@makrotopia.org/
-[11] https://lore.kernel.org/all/anpxFdwNxk0XwPjQ@makrotopia.org/
-
-Daniel Golle (6):
-  net: dsa: add devlink flash_update callback to dsa_switch_ops
-  net: dsa: mxl862xx: add SMDIO clause-22 register access
-  driver core: add device_schedule_reprobe()
-  net: dsa: mxl862xx: add devlink flash_update and info_get
-  net: dsa: mxl862xx: recover switch stuck in MCUboot rescue mode
-  net: dsa: mxl862xx: document devlink flash and info support
-
- Documentation/networking/devlink/index.rst    |    1 +
- Documentation/networking/devlink/mxl862xx.rst |   74 ++
- MAINTAINERS                                   |    1 +
- drivers/base/base.h                           |    5 +
- drivers/base/core.c                           |    3 +
- drivers/base/dd.c                             |   82 ++
- drivers/net/dsa/mxl862xx/Makefile             |    2 +-
- drivers/net/dsa/mxl862xx/mxl862xx-api.h       |   10 +
- drivers/net/dsa/mxl862xx/mxl862xx-cmd.h       |    2 +
- drivers/net/dsa/mxl862xx/mxl862xx-fw.c        | 1057 +++++++++++++++++
- drivers/net/dsa/mxl862xx/mxl862xx-fw.h        |   20 +
- drivers/net/dsa/mxl862xx/mxl862xx-host.c      |   59 +
- drivers/net/dsa/mxl862xx/mxl862xx-host.h      |    2 +
- drivers/net/dsa/mxl862xx/mxl862xx-phylink.c   |    2 +
- drivers/net/dsa/mxl862xx/mxl862xx.c           |  160 ++-
- drivers/net/dsa/mxl862xx/mxl862xx.h           |   34 +
- include/linux/device.h                        |    2 +
- include/net/dsa.h                             |    3 +
- net/dsa/devlink.c                             |   13 +
- 19 files changed, 1516 insertions(+), 16 deletions(-)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
- create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.c
- create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.h
-
-
-base-commit: e6a5d573d24cd375e09d24f136523cb3cc85c9d3
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index a5b7abc10ff0..6234e37de7e9 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -106,6 +106,10 @@ struct driver_private {
+  * @dead: This device is currently either in the process of or has been
+  *	  removed from the system. Any asynchronous events scheduled for this
+  *	  device should exit without taking any action.
++ * @shutdown_done: Set once device_shutdown() has reached this device, under
++ *	  the device lock, before any shutdown callback runs. Read under the
++ *	  device lock. A deferred re-probe scheduled with
++ *	  device_schedule_reprobe() must not detach the device anymore.
+  *
+  * Nothing outside of the driver core should ever touch these fields.
+  */
+@@ -120,6 +124,7 @@ struct device_private {
+ 	char *deferred_probe_reason;
+ 	struct device *device;
+ 	u8 dead:1;
++	u8 shutdown_done:1;
+ };
+ #define to_device_private_parent(obj)	\
+ 	container_of(obj, struct device_private, knode_parent)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4d026682944f..8a7dbe4e8362 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -4906,6 +4906,9 @@ void device_shutdown(void)
+ 			device_lock(parent);
+ 		device_lock(dev);
+ 
++		if (dev->p)
++			dev->p->shutdown_done = true;
++
+ 		/* Don't allow any more runtime suspends */
+ 		pm_runtime_get_noresume(dev);
+ 		pm_runtime_barrier(dev);
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 60c005223844..69632a8c44f8 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1436,3 +1436,85 @@ void driver_detach(const struct device_driver *drv)
+ 		put_device(dev);
+ 	}
+ }
++
++struct device_reprobe {
++	struct delayed_work work;
++	struct device *dev;
++	const struct device_driver *drv;
++};
++
++static void device_reprobe_work_fn(struct work_struct *work)
++{
++	struct device_reprobe *rp = container_of(work, struct device_reprobe,
++						 work.work);
++	struct device *dev = rp->dev;
++	struct device *parent = dev->parent;
++	bool detached = false;
++
++	__device_driver_lock(dev, parent);
++	/*
++	 * rp->drv is only ever compared, never dereferenced: the driver it
++	 * points to may have been unregistered and freed by now.
++	 */
++	if (!dev->p->dead && !dev->p->shutdown_done &&
++	    dev->driver && dev->driver == rp->drv) {
++		__device_release_driver(dev, parent);
++		detached = true;
++	}
++	__device_driver_unlock(dev, parent);
++
++	if (detached && device_attach(dev) < 0)
++		dev_err(dev, "re-probe failed, device left unbound\n");
++
++	put_device(dev);
++	kfree(rp);
++}
++
++/**
++ * device_schedule_reprobe - schedule a deferred detach and re-probe
++ * @dev: device to detach and re-probe
++ * @delay_ms: delay in milliseconds before the re-probe runs
++ *
++ * Schedule a detach and re-probe of @dev after @delay_ms milliseconds.
++ * The re-probe is skipped if, by the time the scheduled work runs, the
++ * device has been removed, the system shutdown sequence has reached the
++ * device, or @dev is no longer bound to the driver that was bound at
++ * scheduling time. In particular an administrative unbind is never
++ * undone by a stale re-probe.
++ *
++ * The work function is built-in text, so the bound driver may call this
++ * from its own code without holding a module reference. If the driver
++ * module is unloaded before the work runs, driver unregistration unbinds
++ * @dev first and the scheduled work does nothing.
++ *
++ * Multiple pending re-probes for the same device are individually safe;
++ * a caller that wants at most one pending re-probe must gate scheduling
++ * itself.
++ *
++ * May only be called from process context.
++ *
++ * Returns: 0 on success, -EINVAL if @dev is not a registered device
++ * bound to a driver, -ENOMEM on allocation failure.
++ */
++int device_schedule_reprobe(struct device *dev, unsigned int delay_ms)
++{
++	struct device_reprobe *rp;
++
++	if (!dev->bus || !dev->p || !device_is_registered(dev))
++		return -EINVAL;
++	if (!dev->driver)
++		return -EINVAL;
++
++	rp = kzalloc_obj(*rp);
++	if (!rp)
++		return -ENOMEM;
++
++	rp->dev = get_device(dev);
++	rp->drv = READ_ONCE(dev->driver);
++	INIT_DELAYED_WORK(&rp->work, device_reprobe_work_fn);
++	queue_delayed_work(system_dfl_wq, &rp->work,
++			   msecs_to_jiffies(delay_ms));
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(device_schedule_reprobe);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index aee79fd6b32b..7a9916950577 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1314,6 +1314,8 @@ int  __must_check device_attach(struct device *dev);
+ int __must_check driver_attach(const struct device_driver *drv);
+ void device_initial_probe(struct device *dev);
+ int __must_check device_reprobe(struct device *dev);
++int __must_check device_schedule_reprobe(struct device *dev,
++					 unsigned int delay_ms);
+ 
+ bool device_is_bound(struct device *dev);
+ 
 -- 
 2.55.0
