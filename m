@@ -1,189 +1,97 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7DE533D6
-	for <driver-core@lists.linux.dev>; Sun, 16 Aug 2026 23:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7323E49C7;
+	Sun, 16 Aug 2026 23:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786922670; cv=none; b=RJat/9lP5EnzLZPEpCK47vTSxzgxLzrS7AXJfEH/C4BZNz4OvIoohPUTRjBdYvjlewDuEPCVjV5qTepMbzr4uLJ3/JQfuAPb2L2kx5KYzaw4QrgFUG192/Lm3xX+Wvh1eS5YQW0U1+7c5z6vxWcCutdPhOQ+SG1TQd+7lGk7ZSM=
+	t=1786924675; cv=none; b=bjCrxmEZiYnHVTxfzLKBVG1T3EQ7ToQH9p1hPvIaOtkhJvRhyRl4HHvhfl7oA0pPNs8kBQhdyW1ALVGKcZqjzZr4b3c7pAyrDCxDhv3Ti87kgbhq71ufEHIIqwaWfimp0OsT09CdlQhMkvvwfkcgFfi4E3ipfF+a2Uc+PRLLfPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786922670; c=relaxed/simple;
-	bh=Ki3gJTth/7XuqzyRUxIY4ZYouYLxSVyqMJNFBgT0NBQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQwScGN1XrY7v+uY3CYOZWtRESyGf3ENoUotMKsvCp+yBNZgAbXDfc4dSe6PBdyBdvDtiCmyOCL4sFsoEgCyfLKaAWLzWQ6Hh9nlek+J/PtRoVJnRTfCrER/E5Wvu8AAN3HJFTd6XEjg76+aTL3Zq3uAEiW98VZmIJtNMyL5M64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.99)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1wvkDH-000000005Ai-3Pyl;
-	Sun, 16 Aug 2026 23:24:23 +0000
-Date: Mon, 17 Aug 2026 00:24:20 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v12 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <1a28ab5fce48beba6efc69e2ea08f3c9541d0566.1786922210.git.daniel@makrotopia.org>
-References: <cover.1786922210.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1786924675; c=relaxed/simple;
+	bh=QPDOqpxrjN3QBcYOLC9kGMjIGXMlUkpeIp4YrXXrfQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pWK49DgHsdN+noIEEg2Ek8cmHWHCD3DP4yvjW6yfpFZmSqY4y2dL0xYj9iV6ie2wYvBWPvyBxqLm2s4ETTRuC8AWQphqnozk6STZgYojtbmkWmYQ9fLGY5eumxZJpBXpq2l2c5XbUp8n/LtH8bt19EyXBkJCNdqyr1/UD4W5Jww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VlGPT335; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VlGPT335"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C411F000E9;
+	Sun, 16 Aug 2026 23:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786924674;
+	bh=qtvnP0LtDe8Hti1OyUjc69500NzUGQMPeXz+jX4MKW8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VlGPT335RaYCvhnTd/SxzkCXQO1OPE6jJA0S0AKpPq6u1pRy1p6fauasFZcPGLPt+
+	 b6hXTk5mr/aaajPp1sPWVsAM6cgWa7z3IYRwxDPXxU2uZ2rVmG82yQe6wtWDSYwjrY
+	 Lw4GhzP3D/ZtHa/0hP7mBZiN0/JwGOkWe5mJdfzILHdrVLbhMyDd/jxNzpSKtgtyjk
+	 nNLytto5PHa5FROuZCNFaVERLImKKpON3EckRu4eq+lT3mxUUjBTjWHlwNYEATii6u
+	 aCCN5KVaXZ82aJO4pgPRSC1idoiyWoW0AqN/gV8jY56SW5Vh8aTq0CNErDTVMEPhN4
+	 koeQZFXS7A4eg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	aliceryhl@google.com,
+	daniel.almeida@collabora.com,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev,
+	jhubbard@nvidia.com,
+	ttabi@nvidia.com,
+	apopple@nvidia.com,
+	ecourtney@nvidia.com,
+	shashanks@nvidia.com,
+	zhiw@nvidia.com,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] Rework PCI IRQ vector code
+Date: Mon, 17 Aug 2026 01:57:46 +0200
+Message-ID: <20260816235746.425240-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260813165234.620555-1-dakr@kernel.org>
+References: <20260813165234.620555-1-dakr@kernel.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1786922210.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Thu, 13 Aug 2026 18:52:00 +0200, Danilo Krummrich wrote:
+> [PATCH v3 0/5] Rework PCI IRQ vector code
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+Applied, thanks!
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 4745148fecf4..058999d0dc56 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -94,6 +94,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 991460050da7..e3f7ded569bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16106,6 +16106,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+[1/5] rust: pci: convert IrqVectorRegistration to a lifetime-managed owning type
+      commit: 17d4a399e8b8
+[2/5] rust: pci: resolve IRQ in index() and embed IrqRequest in IrqVector
+      commit: 2fb7755b0a7e
+[3/5] rust: pci: remove request_irq() and request_threaded_irq() from Device
+      commit: 6ca38086b4ee
+[4/5] PCI: Add pci_irq_type() to query the allocated interrupt type
+      commit: f146c7bc85a5
+
+      [ Add missing pci_irq_type() stub for CONFIG_PCI=n. ]
+
+[5/5] rust: pci: expose the allocated interrupt type
+      commit: 3b5ea0f078e1
+
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
