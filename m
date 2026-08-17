@@ -1,132 +1,116 @@
-Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BA53AC0C7
-	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 10:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D28400969
+	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 11:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786960873; cv=none; b=S3rpBVVXpO0/UU7hduJVYrbv+kP7U3KjpPOHNQP23UOVOI8S6T5snigcTdCBVGqnf3ejw89Py7pzQlZOIvbqYW++Y8Ut5TcbB7ceP/r/mk6k4n60hZevB7vxcDdB0GJnsCo/MncE12qNg4Fgj+t9ozSzn+98jL3iw6ShKSWjC+0=
+	t=1786967690; cv=none; b=C3IRmsh1Od5ees5uJXgmAhcEngppCoawCFm3+u1u1Gc8p9WD89cc9tY5Fm3rnqyWt400bU1TiXpiTmQ90gMwyiBUsRFjQLww1RXGalH6eHfihSVzv/UkzQKrc+B9ZGHPPv+8rkfVOnLzhNsE3GiwBAQfXhzlJvl2XoO8omGX9mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786960873; c=relaxed/simple;
-	bh=QFwGflSg/xbQtdgC7RkCRrTPWLiVkClzm6dle6b12Sg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FkERjzp2TwUvrnO2P6RoT9CuttyIbat+vBoGvK3pgvUjkeix/FN7LBpedDx1OK6Tq8lWzACrYXfqeBXrKwxbJsrxdczKB3VGrJyNd0fInB84YNpqo7TRRNhoTDFdlsmnQDeOogQDoQGSWYfVO6ynF8Sdoc0iMqFK5CE9y1Vq2uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj2-f0.google.com with SMTP id d9443c01a7336-2cc6bb7476dso5637025ad.0
-        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 03:01:04 -0700 (PDT)
+	s=arc-20240116; t=1786967690; c=relaxed/simple;
+	bh=4q3srqtFp1h3A95lCQEjKRdZTxaY+cGjas1UVMNU2Yg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LGWNUvx9y5/uxy3JxFQU5OQKij0rnJ7Eb4DyMT4YCmoh4NyhAAGT8Vtr2hrl271tCoPGsB4ieX9cWtlUagy0vb74pqdrb9jj4a6a035RJokMVNs4IQFb7n6ozDSHnS5BMlIcRf0UIFbkkaOB9Guiip+7qsdyWvbNxetLgPrqReM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=keXwL6QE; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="keXwL6QE"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b0148201fbso3119732e87.3
+        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 04:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1786967687; x=1787572487; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=9jIpGBastiw+6fayBkJLj/KHHg/HqumJJPDo7EbWiK4=;
+        b=keXwL6QERikVJIZwRqh9kKIsN6pA70Z/UP/E81Lm9qp7xC0WYuXqBIKZ9QrW1xSDIF
+         2hbK+04A6KutqcrLf/e+Kne6grKvp2NhBLNB7+HI1cN+k6GYeb6GBCRqIdpuhqMuatC6
+         DusQCvJe0JKpFuzbRV/WAARcBwVGk4gYgeb94=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786960862; x=1787565662;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SFJhRYMaeccSWN7O5plNjrZM7NMQ7y9/USAmz9QApWk=;
-        b=VquStGaFPmMTVc7kMrKxDspmkWsom71ekvJ2fYSA2vZrlEQIJvaIfOboJ8BBQT8ZMD
-         YoXQPdDx0HAqhOfF8pNPsisx5bwHlY0wjCjY4dg2YAF/cAv7QS/7OhwqDV34X1lByiSO
-         nyfCsKtqmal5nkpSaMBJ6qHikhQW7fhdI35LBzywnI5d0M+eDRY6GbrhV8F6T0Zz0Nkx
-         /dSbmiYkY5AU6Zewunoic1+QmOm6NVGkuykchmN3ledueGSAmiEPJVu9GthOLYHDtaC6
-         3Jq4qTANS4W+mdJIlp88so3/W4or9gABuQ50sDZhurH4KbmCqpJiz43hvmkgFpARvXzD
-         EGbg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpg3ZIxGt9gvdSUZCWsHWUHnWIS2OhswfTMdsrO2e05cvc3gFcnRJnC7NnkT8tcqRFh+GbPazxSWEo1QQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzf8wVQQE7XGyMf5oLpRv/9nnyjL0U+SADnB7Kmv37tUCEr7PkV
-	HNh5Mpcy190d/WJaW/awzNywrGASxYTouoH09QiKzN6QGT6dEbutF6r3bb9NSQCv9Ik=
-X-Gm-Gg: AR+sD11IGb4yegkTQIt/uU9AeI8YzMe26Kc7K/IPT3DYLLko21OqYZKDJ7QgvZVmA9C
-	VZwsCnJ8WcscOT5S8tt80XjWjgE+Yg+2pD1H/J1EFZHfnMzS88sKnOHxuCsKNh3G6ONIo6gDPa9
-	nThZU4cCIa8Tl4mWrX+2mA7WIpz8D4yxtW741CT8gGkAkpVcZGGgKbOsKOYiJKe4ETFCGhJGE9F
-	3p2Q1cQqNnNwo04xrQWWD/NTjXqu+XbQiwf3fvB1FDcy6M6wCQpAo1QlTdl06Unvx8PI0OhLYNl
-	UQRhknUEmH0VYgzVdlVe1JpmCyVoxwViXuisG1hVrhiGzUR5wrXYG2R0UXr9udqlmb07xgwiVWh
-	kfaIiJcnM0PtU5136tvOXPmNyUMx9s3jrzK4INTB4e53CCwwI96ZxpKdfChgdBjYOcBplAZZOSh
-	Xhf/7ggGP5CD0Q5Hp0z5HB52IwqDKnZxAi59+8Z/3VeYktI0ikvSNyrFPyTW2iZZwc8RbkPlCBn
-	iBOzvPC79E=
-X-Received: by 2002:a17:902:d2cf:b0:2ca:c847:8e41 with SMTP id d9443c01a7336-2d3affcc11bmr193339195ad.11.1786960862073;
-        Mon, 17 Aug 2026 03:01:02 -0700 (PDT)
-Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5c1ecb162sm274525ad.69.2026.08.17.03.00.53
+        d=1e100.net; s=20251104; t=1786967687; x=1787572487;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=9jIpGBastiw+6fayBkJLj/KHHg/HqumJJPDo7EbWiK4=;
+        b=R6URo+/0F3UypLi7U8uH5VYR6Q5a1kfAY+KMwVkgQxryhM641D2SDtc/MfPYZrm0aX
+         CwzweozW04OmWxV07QtxgRRshgMc4bN8ioiyTnrK/wTaQXMkvG+u9Laexp8OBoDiuzEh
+         UZeiBLSGaIhVfIhonBud0WxrCk8lVz/WOZuuMfrdc7wU7iAs5uXJGtNWy/53AaO7CtRE
+         55lwOOOWkV89e60VqkBpe/Uz2krEmvA5n8EmLaJ12YPn9C1BmVyr5bZh1OCVZVAFvAuu
+         +2mFc8BuIcGN/vtIH6yTu0CqmQguXdwbPwyG5JE9/KJIrKX6HD8A14VE9NEcNXW0rZXF
+         wtRg==
+X-Gm-Message-State: AOJu0YyBqGyE6c1emjcs1A970LU8FtPyzDN9MmQIRVwlOQhzUP4jwknw
+	cccqaZ/zEsIDxwlmt5QRDk+VhX6pFQGtWK1KemmCOnIRVqqiG3K4nIDuDb2lgr8xGQ==
+X-Gm-Gg: AR+sD13fsixFtUoiNObONZruBZXPoFwwlxRArswlhOQiHl0N9t3XP7A2cvgp+g16XBp
+	pqUre1kqPKuJLn6faMQwW/lgndhEdEj0ukYRVVH52EidSWqUNE4SV09Z+7ffsE32TrDgZLDlkvr
+	mSlpb0QAdnvYCZPv1MeMfRep/GdEVa1nT3qSSTkiDFv6d5ThQnn9/QkBZCZ+a/EyxllxLNrqB7d
+	ElFPZOuMOf/99RgdATekrrFeWMk42JKVRHfDx1IXPcoybsZ6xql2A87WIA2VfL7ZLjeALMgDWZ3
+	Pao0dS5cfXN0fRU4WGkFhuU+7qQlvXk2EeOXZP4N02HB72coSH75/AvEV2U2q/A0rTMnXrIpPx+
+	tphzidpcGNnI+JsMHp3vEih0x/O20CYOEhiQ7Zx7sXEvPIV9V9ZXacUdiiqRM+7N/SXz8lmndNZ
+	lXIqis0H9NnhH4pICfE3OSWz58VT0s6YmFkywKbTdk54GWDDoAWOTE83/dUVIDI9xhXFbxOYqJn
+	sU2rP8364lSuhCxRD/3xX5CkwAb9ud2gU1EFV6No7xTfoIFlw==
+X-Received: by 2002:a05:6512:8384:b0:5b2:a353:e4bb with SMTP id 2adb3069b0e04-5b45910e12dmr2778513e87.3.1786967686907;
+        Mon, 17 Aug 2026 04:54:46 -0700 (PDT)
+Received: from ribalda.c.googlers.com (11.36.88.34.bc.googleusercontent.com. [34.88.36.11])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a16b0e3c17sm3771201fa.14.2026.08.17.04.54.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 03:01:01 -0700 (PDT)
-From: Xueqin Luo <luoxueqin@kylinos.cn>
-To: christian.loehle@arm.com
-Cc: Beata.Michalska@arm.com,
-	Ionela.Voinescu@arm.com,
-	dakr@kernel.org,
-	dietmar.eggemann@arm.com,
-	driver-core@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	luoxueqin@kylinos.cn,
-	pierre.gondois@arm.com,
-	rafael@kernel.org,
-	sudeep.holla@kernel.org,
-	sumitg@nvidia.com,
-	viresh.kumar@linaro.org,
-	zhanjie9@hisilicon.com,
-	zhenglifeng1@huawei.com
-Subject: Re: [PATCH v5 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
-Date: Mon, 17 Aug 2026 18:00:42 +0800
-Message-ID: <20260817100042.1291471-1-luoxueqin@kylinos.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <840da3ba-1d65-4a28-a072-a586ea4dfce5@arm.com>
-References: <840da3ba-1d65-4a28-a072-a586ea4dfce5@arm.com>
+        Mon, 17 Aug 2026 04:54:46 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 17 Aug 2026 11:54:44 +0000
+Subject: [PATCH] drivers: base: test: Depend on OF instead of selecting it
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260817-driver-pe-v1-1-7003ddb9e400@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAIP2gmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDC0Nz3ZSizLLUIt2CVF1Tg8RU80TLxKQkY0MloPqCotS0zAqwWdGxtbU
+ AorxpiFsAAAA=
+X-Change-ID: 20260817-driver-pe-50ae7a9abb31
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Xu Yang <xu.yang_2@nxp.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.3
 
-Hi Christian,
+Selecting OF instead of depending on it makes it impossible to
+disable OF when KUNIT_ALL_TESTS is selected.
 
-Thanks for the review.
+The purpose of KUNIT_ALL_TESTS is to test everything with satisfied
+dependencies, not to force dependencies.
 
-> Does this actually work if highest_perf would now be the equivalent
-> for >1024?
+Cc: stable@vger.kernel.org
+Fixes: 0e6f8ccd4618 ("device property: add test cases for fwnode_for_each_child_node()")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/base/test/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Yes, it works correctly. I verified this on an arm64 8-core big.LITTLE
-system (kernel 7.2.0-rc7-next-20260810). The runtime highest_perf change
-was simulated by writing to a debugfs hook that invokes
-cpufreq_update_limits() on the CPU, exercising the exact same code
-path as ACPI Notify(0x85):
+diff --git a/drivers/base/test/Kconfig b/drivers/base/test/Kconfig
+index 542ce07530a1..292cf33fbaad 100644
+--- a/drivers/base/test/Kconfig
++++ b/drivers/base/test/Kconfig
+@@ -16,8 +16,7 @@ config DM_KUNIT_TEST
+ 
+ config DRIVER_PE_KUNIT_TEST
+ 	tristate "KUnit Tests for property entry API" if !KUNIT_ALL_TESTS
+-	depends on KUNIT
+-	select OF
++	depends on KUNIT && OF
+ 	default KUNIT_ALL_TESTS
+ 
+ config DRIVER_SWNODE_KUNIT_TEST
 
-  LITTLE cores (cpu0-2,4-6): highest_perf=1900, cpu_capacity=670
-  big cores    (cpu3,7):      highest_perf=2900, cpu_capacity=1024
-
-The normalization is purely relative:
-  capacity_scale = max(raw_capacity[all CPUs])
-  cpu_capacity = (raw_capacity[cpu] << SCHED_CAPACITY_SHIFT) / capacity_scale
-
-Test results with runtime highest_perf changes via debugfs:
-
-Test                        cpu0   cpu1   cpu2   cpu3   cpu4   cpu5   cpu6   cpu7
----------------------------------------------------------------------------------
-baseline                     670    670    670   1024    670    670    670   1024
-cpu0 highest_perf=800        282    670    670   1024    670    670    670   1024
-cpu0 highest_perf=2048       723    670    670   1024    670    670    670   1024
-cpu0 highest_perf=4096      1024    475    475    725    475    475    475    725
-cpu3 highest_perf=3000      1024    475    475    750    475    475    475    725
-restored to hw values        670    670    670   1024    670    670    670   1024
-
-Key observations:
-
-1. highest_perf=2048 (>1024, but < capacity_scale=2900):
-   cpu0 capacity = (2048 << 10) / 2900 = 723. Matches exactly.
-   capacity_scale stays 2900 (cpu3/cpu7 still max), so other CPUs
-   are unaffected.
-
-2. highest_perf=4096 (> capacity_scale=2900):
-   capacity_scale shifts to 4096. cpu0 becomes the new max at 1024.
-   All other CPUs are re-normalized downward proportionally:
-   LITTLE: (1900 << 10) / 4096 = 475
-   big:    (2900 << 10) / 4096 = 725
-
-3. Restore: writing back hw values fully restores original capacities.
-   No state leakage.
-
-In summary: the normalization is ratio-based and architecture-agnostic.
-Whether highest_perf is 100, 1024, or 4096, the relative capacity
-model remains consistent. 
+---
+base-commit: 4477a78374a57c3809b172ad30cceabda48c47c6
+change-id: 20260817-driver-pe-50ae7a9abb31
 
 Best regards,
-Xueqin
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
