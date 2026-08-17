@@ -1,85 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52A3D7D70
-	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 15:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5817043E079;
+	Mon, 17 Aug 2026 15:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786980225; cv=none; b=eR8STBP0o8JEJLei3t0LqERL0W9r4zUziHQRFbHLMp+N+X/vZh+ky4NkCjMQUnLF5UcCie4EElCWZK+mTUIKsXSkt09/Ukh4Bi2npOC5reVlCsRGR7KYPD611VRDqNQKbVJIWgehsP9+3HSeWRxhYAIF8wtkiGsorB5qeqNU2ok=
+	t=1786981470; cv=none; b=qzZZEdHSeZY05Iua863WJRZhM4uBg0o8vJsyQaqH8gzEHwb1treguMqnto14DEaJEUxh9ipOZwnIYiEd9gFHl/BIruBHoYWRN0IYs33eHkA+P182xOfB5yihIi4yQeteMRS1la6G4qvytLt9SmqFupW77tcu+MmdTj7clGhVc+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786980225; c=relaxed/simple;
-	bh=msl28pOI/fIME2wOC1gRmqujU8+8NPSO78hDxF33EKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYQxITwb5WBlrZ3pnNBFN2darTbHbcQrvkCwALizG227k9/U+AJ5KoD5a9wUWL6nhLcReRzN9BRKMXM/t16A0t//4elpqHD5Y2MKxsh8AghLZnZBOKq3UwjnJs0DE2edgtQxVJgyik5RBZfPpfAXDCWoIG7nqxfYY1U68NzfW+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTJFx4d9; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1786981470; c=relaxed/simple;
+	bh=2nLQkUyEKRR18p+WnC9W2wgWKyl+84bDXBYzTf3PfzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YiqAlIj+0GjDvB54/99sPRIF7sQcbKfqQM0I7nk12pbkAdUPhxgHZftZqKNTf1BDvURqJIGiUYETyjvx9Cp5tKiOthIZ4VW71SgiGN1qxES3kaE9NyhcFAOnYg14hTJODEN2N9FFcJcYZnKVMH4ERCMnx18R46FngyZkwztw4nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLjgiJvr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTJFx4d9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786980224; x=1818516224;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=msl28pOI/fIME2wOC1gRmqujU8+8NPSO78hDxF33EKM=;
-  b=WTJFx4d94Xt5SocJ+XOvsPYbkIzIJqug7jmi9pS+sTNSlNTmi1JntZcI
-   4Q80EEmXR8jy3tkpSHZERVpkNob17atpIPOI2KsEWuMwF2O/dtFcOfA5r
-   W1KMnLo0GNTItMQlSShtHXltquP8Priuxc549j0xk18RB8XQSHC3ylE03
-   y8XPecwqRt4EGNCRedUgPJsHavpQR4Ywd5+wgBNSpq2VRECjUncpXyEXm
-   abQhqTsFnm9A8zi0j0oky/jS/CLDUZ35TGAnHteB94VPWp8jF5JSFyLYK
-   j6Ib/u11jQ8xuk8he673hlRDGOVqCbsz7JdBZW9aC2yBnIZ3ocEXRtRPv
-   Q==;
-X-CSE-ConnectionGUID: UttYhsjhSROVaUeGv1D6Pg==
-X-CSE-MsgGUID: T+2htZWIRku/5o4icC/XyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="74989005"
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="74989005"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:23:43 -0700
-X-CSE-ConnectionGUID: wBEASFEzQSuiNDwVEiCcow==
-X-CSE-MsgGUID: YZhT4dB2R96XbM/i3gQ2fQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="264486862"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:23:42 -0700
-Date: Mon, 17 Aug 2026 18:23:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Xu Yang <xu.yang_2@nxp.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] drivers: base: test: Depend on OF instead of selecting it
-Message-ID: <aoMnevcLHdUEZr9-@ashevche-desk.local>
-References: <20260817-driver-pe-v1-1-7003ddb9e400@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLjgiJvr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748051F000E9;
+	Mon, 17 Aug 2026 15:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786981469;
+	bh=ALW69sobqjQmXlkf4i60Ji/sF0wUVgqZ8KQ8cjh+01w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bLjgiJvrF7JxqPLdAD+CnPP7txks2Xv27Qc+igBF76jTRlynkD3q20tik3RXSMTar
+	 xnj8PSqlxNjYUCL61X9AVaHp3WcuQcjgDPHUHULZff8iQfs5POpQamVMzTaCecb0AZ
+	 oZjBfIuW8RxxlX9ChxO6jSVlSjoPdEpMy6nym7Hr6HrQjaMdYTVinN/3/lrtnJjm+g
+	 s3RH3qve73pezBRAWo1gR5INxMgbtg7i2cSpb5QKaRARydyloLLWg9ZbgwlaYEeQj2
+	 W8QFuDaR3uCA7GgymZNgs2tpKxQtEhE496GET9ATzahtwDA9vco4ZkK1zo4eu0a0qJ
+	 8oALL4ZqJjAzQ==
+Date: Mon, 17 Aug 2026 08:44:27 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Vladimir
+ Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+Subject: Re: [PATCH net-next v12 0/6] net: dsa: mxl862xx: devlink flash and
+ rescue
+Message-ID: <20260817084427.54db3449@kernel.org>
+In-Reply-To: <cover.1786922210.git.daniel@makrotopia.org>
+References: <cover.1786922210.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260817-driver-pe-v1-1-7003ddb9e400@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 17, 2026 at 11:54:44AM +0000, Ricardo Ribalda wrote:
-> Selecting OF instead of depending on it makes it impossible to
-> disable OF when KUNIT_ALL_TESTS is selected.
-> 
-> The purpose of KUNIT_ALL_TESTS is to test everything with satisfied
-> dependencies, not to force dependencies.
+On Mon, 17 Aug 2026 00:23:06 +0100 Daniel Golle wrote:
+> Subject: [PATCH net-next v12 0/6] net: dsa: mxl862xx: devlink flash and rescue
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+## Form letter - net-next-closed
 
-Shouldn't we also handle this in tools/testing/kunit/configs/all_tests.config?
-(maybe in the future).
+The merge window for v7.3 has started, and therefore net-next is closed
+for new drivers, features, code refactoring and optimizations.
+We will only consider applying net-next patches which were posted
+before the announcement:
 
+https://lore.kernel.org/20260816155953.072d73da@kernel.org
+
+Fixes are obviously welcome at any time. net-next patches may be sent
+for review and discussion only with an RFC tag.
+
+Please repost when net-next reopens.
+
+See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
 -- 
-With Best Regards,
-Andy Shevchenko
-
+pw-bot: defer
+pv-bot: closed
 
