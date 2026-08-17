@@ -1,138 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8453314C4
-	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 05:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BA53AC0C7
+	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 10:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786943273; cv=none; b=MJafVRPnQ8Qes0ytZGV6oYDIQETjkJHZ+HwAb67MpBvu97KscwRlL9laAICrreyRvgiDLKrMDXDg67suZX667Iw0bSTxIaoPOY8jLoEeP4ecO0fpQB2y1H5Fjk6Snk2M8K06huIJCr0n7QK5Qu6feyp+WLbR45K2aNpy7iF1myg=
+	t=1786960873; cv=none; b=S3rpBVVXpO0/UU7hduJVYrbv+kP7U3KjpPOHNQP23UOVOI8S6T5snigcTdCBVGqnf3ejw89Py7pzQlZOIvbqYW++Y8Ut5TcbB7ceP/r/mk6k4n60hZevB7vxcDdB0GJnsCo/MncE12qNg4Fgj+t9ozSzn+98jL3iw6ShKSWjC+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786943273; c=relaxed/simple;
-	bh=dPsF7Xioqbe5fhKxW0MfomQ1+z5/xpPeeyvux+IR1Mc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AhEbeDlo690OJj1IP0lzjLbmng0H7LIO6Wdv4sKxMHE7fAmUa4lSAoySYJtY5Zf5DRJRY1JsJL5vl5vlTj6H/7rKvX6XHH/nupMmOaZy8Yxb6USJpS/KzlyM6mctbRXkhCTUIxhicxRdt5EJJlST2U+rReLTzTEl3pdob0tGc0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GT4zDEDz; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GT4zDEDz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07A11F00ACF
-	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 05:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786943271;
-	bh=CHRP4WWAlhnlIcngLxDf76+lEj0u2TNpiNX33keCcBU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=GT4zDEDzS49pxkVS++aYPzKQsT8Lw43dh7yC/vX/7yccfZORo52w4xxrDi7FcENIm
-	 N7HFli1Sky06U4n82gtJCI2ZkKWyskW163FlVluYkuuYpIu3q0IlkFnhNEVr2n863h
-	 XRsa1dR2Y4gY9NO9NTHGj+KXz6oQ0Wop02LXZI3x83qx+tQ5Lv3Ag6ENnTu1HPJf6e
-	 7pqvaIxmt0WQm0qAz6kE1hpzF3Zd43TzYATDPKQ4IROU5sfnyitWiNMOWH3EoRw7Qg
-	 nEoCbhCEXQeylCPfSHr6knxSn7Zg0/ZvCZN6mP3f6hvtiV9DGXTGxaE1Bwqn7RCjOl
-	 NVeLaPhc0u41A==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a17c04563fso4255826a12.3
-        for <driver-core@lists.linux.dev>; Sun, 16 Aug 2026 22:07:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rpk03UaadPEgKOWVBOWGykSpAwT1eA7SmQQ1+x0xsALRu6jULp/XG3X+LrCyUIn15hoa7uryU3nny5tVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ9Pd4ncr5M2kaJ37+lP7etTrte93US6YRCa73UyMw4dXBW/P0
-	kSOz/BH+q1HVIa+FCMjuBecaPjT6VG7aL87gZ9EqX+T3JIefau8aWHuiR23GzAeDNE06VjKLVst
-	XB1tjDqOTVWqOqU8zD9zPRdnzsiKH+60=
-X-Received: by 2002:a05:6402:4345:b0:6a1:29ca:681e with SMTP id
- 4fb4d7f45d1cf-6a38a927f6dmr9252296a12.7.1786943270802; Sun, 16 Aug 2026
- 22:07:50 -0700 (PDT)
+	s=arc-20240116; t=1786960873; c=relaxed/simple;
+	bh=QFwGflSg/xbQtdgC7RkCRrTPWLiVkClzm6dle6b12Sg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FkERjzp2TwUvrnO2P6RoT9CuttyIbat+vBoGvK3pgvUjkeix/FN7LBpedDx1OK6Tq8lWzACrYXfqeBXrKwxbJsrxdczKB3VGrJyNd0fInB84YNpqo7TRRNhoTDFdlsmnQDeOogQDoQGSWYfVO6ynF8Sdoc0iMqFK5CE9y1Vq2uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj2-f0.google.com with SMTP id d9443c01a7336-2cc6bb7476dso5637025ad.0
+        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 03:01:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786960862; x=1787565662;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SFJhRYMaeccSWN7O5plNjrZM7NMQ7y9/USAmz9QApWk=;
+        b=VquStGaFPmMTVc7kMrKxDspmkWsom71ekvJ2fYSA2vZrlEQIJvaIfOboJ8BBQT8ZMD
+         YoXQPdDx0HAqhOfF8pNPsisx5bwHlY0wjCjY4dg2YAF/cAv7QS/7OhwqDV34X1lByiSO
+         nyfCsKtqmal5nkpSaMBJ6qHikhQW7fhdI35LBzywnI5d0M+eDRY6GbrhV8F6T0Zz0Nkx
+         /dSbmiYkY5AU6Zewunoic1+QmOm6NVGkuykchmN3ledueGSAmiEPJVu9GthOLYHDtaC6
+         3Jq4qTANS4W+mdJIlp88so3/W4or9gABuQ50sDZhurH4KbmCqpJiz43hvmkgFpARvXzD
+         EGbg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpg3ZIxGt9gvdSUZCWsHWUHnWIS2OhswfTMdsrO2e05cvc3gFcnRJnC7NnkT8tcqRFh+GbPazxSWEo1QQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzf8wVQQE7XGyMf5oLpRv/9nnyjL0U+SADnB7Kmv37tUCEr7PkV
+	HNh5Mpcy190d/WJaW/awzNywrGASxYTouoH09QiKzN6QGT6dEbutF6r3bb9NSQCv9Ik=
+X-Gm-Gg: AR+sD11IGb4yegkTQIt/uU9AeI8YzMe26Kc7K/IPT3DYLLko21OqYZKDJ7QgvZVmA9C
+	VZwsCnJ8WcscOT5S8tt80XjWjgE+Yg+2pD1H/J1EFZHfnMzS88sKnOHxuCsKNh3G6ONIo6gDPa9
+	nThZU4cCIa8Tl4mWrX+2mA7WIpz8D4yxtW741CT8gGkAkpVcZGGgKbOsKOYiJKe4ETFCGhJGE9F
+	3p2Q1cQqNnNwo04xrQWWD/NTjXqu+XbQiwf3fvB1FDcy6M6wCQpAo1QlTdl06Unvx8PI0OhLYNl
+	UQRhknUEmH0VYgzVdlVe1JpmCyVoxwViXuisG1hVrhiGzUR5wrXYG2R0UXr9udqlmb07xgwiVWh
+	kfaIiJcnM0PtU5136tvOXPmNyUMx9s3jrzK4INTB4e53CCwwI96ZxpKdfChgdBjYOcBplAZZOSh
+	Xhf/7ggGP5CD0Q5Hp0z5HB52IwqDKnZxAi59+8Z/3VeYktI0ikvSNyrFPyTW2iZZwc8RbkPlCBn
+	iBOzvPC79E=
+X-Received: by 2002:a17:902:d2cf:b0:2ca:c847:8e41 with SMTP id d9443c01a7336-2d3affcc11bmr193339195ad.11.1786960862073;
+        Mon, 17 Aug 2026 03:01:02 -0700 (PDT)
+Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d5c1ecb162sm274525ad.69.2026.08.17.03.00.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 03:01:01 -0700 (PDT)
+From: Xueqin Luo <luoxueqin@kylinos.cn>
+To: christian.loehle@arm.com
+Cc: Beata.Michalska@arm.com,
+	Ionela.Voinescu@arm.com,
+	dakr@kernel.org,
+	dietmar.eggemann@arm.com,
+	driver-core@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	luoxueqin@kylinos.cn,
+	pierre.gondois@arm.com,
+	rafael@kernel.org,
+	sudeep.holla@kernel.org,
+	sumitg@nvidia.com,
+	viresh.kumar@linaro.org,
+	zhanjie9@hisilicon.com,
+	zhenglifeng1@huawei.com
+Subject: Re: [PATCH v5 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
+Date: Mon, 17 Aug 2026 18:00:42 +0800
+Message-ID: <20260817100042.1291471-1-luoxueqin@kylinos.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <840da3ba-1d65-4a28-a072-a586ea4dfce5@arm.com>
+References: <840da3ba-1d65-4a28-a072-a586ea4dfce5@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com>
- <20260816-submit-phy-package-fwdevlink-v1-v2-3-23e55dd59fad@gmail.com>
-In-Reply-To: <20260816-submit-phy-package-fwdevlink-v1-v2-3-23e55dd59fad@gmail.com>
-From: Saravana Kannan <saravanak@kernel.org>
-Date: Sun, 16 Aug 2026 22:07:38 -0700
-X-Gmail-Original-Message-ID: <CACRMN=f2RYJbgTdBvb6R4EZ2vGzux6ALfoB_Td2HBp-0k4LEAw@mail.gmail.com>
-X-Gm-Features: AcwNN1UJ5Vyf0Luntl1LV1hQIf97qhuC4K-SYL3G9ab3BtcopvWi0iTczMQ4KaM
-Message-ID: <CACRMN=f2RYJbgTdBvb6R4EZ2vGzux6ALfoB_Td2HBp-0k4LEAw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 3/4] of: property: link PHY package suppliers
- to member PHYs
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Christian Marangi <ansuelsmth@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 16, 2026 at 5:00=E2=80=AFPM James Hilliard
-<james.hilliard1@gmail.com> wrote:
->
-> Ethernet PHY package nodes describe shared resources for their member
-> PHYs, but are not populated as struct devices. fw_devlink consequently
-> represents the package dependencies with proxy links to the closest
-> ancestor device.
->
-> The MDIO bus is a class device without a driver, so such a proxy can
-> remain available indefinitely and prevent a supplier from receiving its
-> sync_state() callback even after every PHY has probed.
->
-> Treat every enabled member PHY as a consumer of the common package
-> suppliers. The links can then be converted to links for the real PHY
-> devices and retired through their normal driver lifecycle.
->
-> Fixes: 385ef48f4686 ("net: phy: add support for scanning PHY in PHY packa=
-ges nodes")
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
->  drivers/of/property.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 38c0c7dc428a..d59bcb1f29de 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -1272,6 +1272,20 @@ static void of_link_to_phandle(struct device_node =
-*con_np,
->                 tmp_np =3D of_get_next_parent(tmp_np);
->         }
->
-> +       /*
-> +        * An Ethernet PHY package node describes resources shared by its=
- member
-> +        * PHYs, but is not populated as a struct device. Link every enab=
-led
-> +        * member PHY to those suppliers so fw_devlink can use the real c=
-onsumer
-> +        * devices instead of leaving a proxy link on the MDIO bus indefi=
-nitely.
-> +        */
-> +       if (of_node_name_eq(con_np, "ethernet-phy-package")) {
-> +               for_each_available_child_of_node_scoped(con_np, child)
-> +                       fwnode_link_add(of_fwnode_handle(child),
-> +                                       of_fwnode_handle(sup_np), flags);
-> +
-> +               return;
-> +       }
-> +
+Hi Christian,
 
-The design philosophy behind fwnode links is that it's purely a
-parsing optimization. It doesn't care how this is later converted into
-device links. If one DT node points to another, then there'll be a
-fwnode link between those two. Whether the node gets converted to a
-struct device or not and how that should be handles should be outside
-of the fwnode links code. So, please solve this elsewhere.
+Thanks for the review.
 
-Without digging too deep into the code, this feels more like something
-that should be solved at the MDIO or phy layer.
+> Does this actually work if highest_perf would now be the equivalent
+> for >1024?
 
-Thanks,
-Saravana
+Yes, it works correctly. I verified this on an arm64 8-core big.LITTLE
+system (kernel 7.2.0-rc7-next-20260810). The runtime highest_perf change
+was simulated by writing to a debugfs hook that invokes
+cpufreq_update_limits() on the CPU, exercising the exact same code
+path as ACPI Notify(0x85):
 
+  LITTLE cores (cpu0-2,4-6): highest_perf=1900, cpu_capacity=670
+  big cores    (cpu3,7):      highest_perf=2900, cpu_capacity=1024
 
->         fwnode_link_add(of_fwnode_handle(con_np), of_fwnode_handle(sup_np=
-), flags);
->  }
->
->
-> --
-> 2.53.0
->
+The normalization is purely relative:
+  capacity_scale = max(raw_capacity[all CPUs])
+  cpu_capacity = (raw_capacity[cpu] << SCHED_CAPACITY_SHIFT) / capacity_scale
+
+Test results with runtime highest_perf changes via debugfs:
+
+Test                        cpu0   cpu1   cpu2   cpu3   cpu4   cpu5   cpu6   cpu7
+---------------------------------------------------------------------------------
+baseline                     670    670    670   1024    670    670    670   1024
+cpu0 highest_perf=800        282    670    670   1024    670    670    670   1024
+cpu0 highest_perf=2048       723    670    670   1024    670    670    670   1024
+cpu0 highest_perf=4096      1024    475    475    725    475    475    475    725
+cpu3 highest_perf=3000      1024    475    475    750    475    475    475    725
+restored to hw values        670    670    670   1024    670    670    670   1024
+
+Key observations:
+
+1. highest_perf=2048 (>1024, but < capacity_scale=2900):
+   cpu0 capacity = (2048 << 10) / 2900 = 723. Matches exactly.
+   capacity_scale stays 2900 (cpu3/cpu7 still max), so other CPUs
+   are unaffected.
+
+2. highest_perf=4096 (> capacity_scale=2900):
+   capacity_scale shifts to 4096. cpu0 becomes the new max at 1024.
+   All other CPUs are re-normalized downward proportionally:
+   LITTLE: (1900 << 10) / 4096 = 475
+   big:    (2900 << 10) / 4096 = 725
+
+3. Restore: writing back hw values fully restores original capacities.
+   No state leakage.
+
+In summary: the normalization is ratio-based and architecture-agnostic.
+Whether highest_perf is 100, 1024, or 4096, the relative capacity
+model remains consistent. 
+
+Best regards,
+Xueqin
