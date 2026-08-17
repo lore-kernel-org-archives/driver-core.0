@@ -1,138 +1,138 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A263E9C26
-	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 00:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E969120C029
+	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 00:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786924843; cv=none; b=ANwP23oo0w6LbYfkkqEBUXY7QZ6PQxQsGHPV07JtTk2T6eKsihkI9FVxwGfwiJkiq4yRwVrMk7UXDk/2IqoprnV2Ct1G53CCf1rftEGlIzrnSoiTGBn2ghBBkFQ8gI9O44R+qorlJoyak4DbwKltkdxPAVp+2153Oo7GuIPx2P8=
+	t=1786927771; cv=none; b=LKC5n3GR/eN6CLRAl4p6M8AotEb3E+fAqntRlj1dn9ur9YyWVDIokejHQ4ktcUAAwewWto+GA4ALXNrnhCKYe5tyVNHGfrpJLYgtaCndlS5CciBGz6BkEtiM9AFoOf0NwUke3QRkb5Id42She8xf4dyELFhPaWdvrzO/h8/iXtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786924843; c=relaxed/simple;
-	bh=1LnCRgjE5GrtVilnDq6Mw+CJnt8OEZLKDembPlnG1UE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cjGoX2MgUu0HoWld1+oi5KwesnmwsxE333cben93/40hP84YofeVGl2Bu6KIdO6ODuuFlRtPfM/CzANRH/m1EGupUNq3k+57s0Qwga1QazXrKlWFQ1W4W7P5vRAsLGvu831j5+u4gnP5Qhnv6gKa9AWCb7vAiSllgMbfWtUAuE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nV6zakk4; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786927771; c=relaxed/simple;
+	bh=Q2AJHfOQlhxmo4d6xkSdfftND9W8OwOWU4sIuscydGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FzylUBLN2TVoXFt6colx0ZfRro7zm7y8vVACSqtXSiprl6JSkrvHwLkEImPKxcxyfp9QZEp5ySRL5l/KvgF1COWYkvUo+IxKyclfAkzsz5jsQhYn6EPyKR5R8cfFK6YcLab81TJod/tXxZngJKge0LOS3eNM79PBeano5Udjb64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=K+25e0Rp; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nV6zakk4"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7eb4d532e65so1224304a34.0
-        for <driver-core@lists.linux.dev>; Sun, 16 Aug 2026 17:00:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="K+25e0Rp"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51c8e2e39easo28118511cf.0
+        for <driver-core@lists.linux.dev>; Sun, 16 Aug 2026 17:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786924841; x=1787529641; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Kbg4qcFK/mBxoYXCkGvYYK5TXUGZpjr2DCvrJZaXNS8=;
-        b=nV6zakk486FyYddjbwweyw+Cc++UYAVTTzJWs+hMgREqkbj/DovSDYEKg6oBWcGe4N
-         a5q3RnU9Qd5QTdFP1yJ5sfAeKh3Sxyzxr1ftQbwYZMdNjZLpFLJ3AanwgCpbFjWlt51A
-         pf5vvADG33xQeQcFZU03NlOk4tPzthKPt0JfXc8u7vtDaYRNaM3DT6a11D5IxWwpqfTp
-         kuRHdpvnsovtQy4fbltzOoJVpw8d61opcFyF+YqCpLbrsCFfHWiqQ29rEepOxxYJRuuI
-         KPwNP4OJ7wHNeFcfbOvqW84RyWyMLipcxClyvOaGc5o5gZjZIe4p2RdrDOWWPTgXy5YE
-         q6jw==
+        d=gourry.net; s=google; t=1786927768; x=1787532568; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
+        b=K+25e0RpJENzYFwingcae5ISwe+TKSd0MxJ2OfxVFBtlR5h73BlKGHLobbqYf5fAKw
+         oHWg4RcsTl6bJhE33ZrmLJjvJ4dKK/0CXNX1gDfQ4EL5/5aoRD13S85GxNq1JFgQw5s8
+         3OuaOTcAcd64C7DosZuFX4Iajj+egSDifIwHvz3KstGPbMWWwj71p/3Uk/H9INY0tB06
+         FJMVrAX4JAJ3qpstkLm/lKreHDlF1PGAK4oTol7Q4qcnTtma5b2xcqiRFoV+JOFR2xyG
+         cMdn6O/nzGxACjL9olXGKpgIcJGRL9qLnFyMLLRLus3G485jTJ601/HC/mWk3YmLRkRW
+         XbkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786924841; x=1787529641;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1786927768; x=1787532568;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Kbg4qcFK/mBxoYXCkGvYYK5TXUGZpjr2DCvrJZaXNS8=;
-        b=AlxSn3iBiH08iypWvLNL7QRKOWmtNH41W6PWIRrQ60TsnSMwuMqSAwk/oUsVst0FDf
-         msdKpeFl9M/L9UyPeG6cHALdgYjEd5y52Cy2WgwjkdL4yxtotC7V2x1p53Fv2V/6AXrb
-         Hk6uWffrIrJsp7yjoYd5t799vM4ew/8bPZwUK9y3ehXDQhCTv40gTYrL+9wUw1TK2hoE
-         Np/u/UTf2nSzQ3N3iDW0Up8PBUYMXPgRy7EPZzWhnSSzbxdNk8PzVSd7qB6H0XaOE+NM
-         O6SYY2tc27866ipsebifHILQFVjnItEDWeLcQDMOl6Rl6dzmjHBB+NP8YIGoprrRs86s
-         XfGw==
-X-Forwarded-Encrypted: i=1; AHgh+RoIbJN9KuTO1gH1H07yA+hg6uEbjJz7tKucy7vbydtEK7PFtefv+lzpp9I/PW17+udP8R112Te94JqWzg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+1auG47j3KF2bP/7/lBC/cW+CyMoKApGrwOC4lBMHO3CujwnY
-	nwIRdPj97yXM2ZN3pbUHUvNfJJh2Uj5B1SGUZ/lEZNPHmDtM3TD5QbvN
-X-Gm-Gg: AR+sD12QTkP0XS0rkmX5rvSGVntlPtehc8LQDWtMScWToGliE21tM99TroZCkk2fp8s
-	l+4nnGspMNJzPCfm3aheoUuhlsTk6fxXJ6kJn6PQX+vv/P7Ng+Z1uGUNKGui90YPCmicguIZvMM
-	1Z0/0glPzTDK8AyUCErOCyWfAtLJB/NvVKaFh1e7BtO7gW5G9R+OXdlbT3yx1ZY4Y86fuQz4sQf
-	pWTgz9L6Or3P2pX5rguJ3bgsiaLGp+5ZRz9bFXE8wEZnI5Tkgb+uxaOcsWfBGkrfoQcs6M+CaiX
-	+VWx+OztGWIdqShvMmifWB9SuS97vY4Ya9zyBzYeZIcMye1aOVl+y0VV0LSK+0gXxTkNbz0MUe/
-	7qrWiHgmB0GUFBcdTpKS/g1HAc5ktPm5AKzpZT2u/0Y994kd3Z6MAYU9M+dQj0ho8o6tNavTArr
-	M1E4mE3+PxkMZCS491/HkFgP9PtHDuu4Ohi39Po+XaS7naR40wXWOcN03mn5gaIKJPcjqPMrZO+
-	oa9I5HLifYCngDapGTk0yoCaC9uWryI/JlTAedvaDWr5UqH9BXNc1U4fuF26bCP7bg4YkIGDLy8
-	O1vfbYII3tYBxLaeLF7lB/FLGPZL1IaHQx8B/Hem/SZ7iWIjVN5DH06joAdo2MMMJqyt5aEx4IC
-	3RQusH7vpdJ+N6UgY
-X-Received: by 2002:a05:6808:1916:b0:48f:c907:7a40 with SMTP id 5614622812f47-4b241e1499cmr17948145b6e.11.1786924840611;
-        Sun, 16 Aug 2026 17:00:40 -0700 (PDT)
-Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b2714dc18asm2556802b6e.17.2026.08.16.17.00.39
+        bh=FcQdr0dRPL3xWk5ZJ+WEqnlvhAK6C+Y9UAGkoGf2Ky8=;
+        b=QVvpShsb3r/wtK5AIB0CbPTfL6ecjfBoxZdbYy3gUxq3TA9DkRRSCWGA/t9McmBxQl
+         vNb+0EoXxvP8V++NpI4/yp9EAXi/C88LOYBrwu3xHqzfDK1DQMivMBTf/oKEg6QQTjJc
+         +R6sQX8XeVng7uLi0VOHTpz/69AOHUmFh4zMdM85DjUEJajEcidXUIh8krfGILOc2fOa
+         TpBK33F5S7RZNIRQMV9WuULchLzffW2P7GBdePN05CQwv6HD2dRwLV27GiYClaIxVcc8
+         G/0mt1svpT5YHO/AIPGdpDtgUpnwqA3Uq6fkFHueykBR2oZMNnWF4kT4eMet4uVel3PT
+         r9jg==
+X-Forwarded-Encrypted: i=1; AHgh+RotMRDBTGSbcpCYh4g34YloG0FzXSzADKt7rnamQ+ZFrff3XXLM5pkPv7JKNNTnVjFRinhDuOXnOd2ZGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5tTp/wh4Da9Zz/meiIsjnxospSYo9DJlpr3KdTj2nI4p6ph+n
+	tEg03b4SmIUCmt1KCAij14XcSQRFSejorcMNOn1T6HfucpRdQ4Ktl1aODGpRE9amTLA=
+X-Gm-Gg: AR+sD10r/K6n43mRJhkIWt/5WPpeXjnyZpfGXRoCzp7l1ptbTMI5f4N4Q3sgfjqnAQQ
+	VE41REt3X4iAM/Hru4ljOTqyLCd229xF/l6iFfa7cIlUwuVNMpLGvpg4xMJddF1ad/9Jj4BG+IN
+	mkfGU+ZgsxU4hjLx2nHi6xfvIBTGFXF43ITimGOs+EsjlPE5GgiQUNtUgEWBXKFaqAbNOqjSdtI
+	XTfXa28T8fR1atfc48C+Oc1mVfxiymF67PhwnBM1rRCE3L0nHTL0q45vrpsBcfujSY/vG47RrzD
+	f2KKLk9CQ6RYeMYjyq9CLA7xEj7hvt0aOGM+HOWFHCVDVxae4t6WUPsjPolu6+3GCBZHv747zHi
+	eOih2W0TZnV5n6YHuYHPt+hY8m+//gduEzi9Qoqis5pDuYoYJfsOniHgFgVC25LgfMlaXGQj6S0
+	p1lYYY6XrNZht8HXHxQxAsXG43DALt3vbk6cWsU48P7QRfh6NsvPzdY3aoIb6W8OTLQ4ktIUilZ
+	7WyzDGZPwnHOENQEF02kYll72BKpVgTU/1kK6NJsyBp
+X-Received: by 2002:a05:622a:2b4b:b0:52d:a151:10f5 with SMTP id d75a77b69052e-52da15111admr97787241cf.22.1786927767788;
+        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52db62764f2sm1152051cf.30.2026.08.16.17.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 17:00:39 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 16 Aug 2026 18:00:31 -0600
-Subject: [PATCH net-next v2 4/4] net: mdio: release fw_devlink proxies
- after population
+        Sun, 16 Aug 2026 17:49:27 -0700 (PDT)
+Date: Sun, 16 Aug 2026 20:49:24 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Qiqi Li <liqiqi23@huawei.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
+ node hotplug
+Message-ID: <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-26-gourry@gourry.net>
+ <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260816-submit-phy-package-fwdevlink-v1-v2-4-23e55dd59fad@gmail.com>
-References: <20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com>
-In-Reply-To: <20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, netdev@vger.kernel.org, 
- James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
 
-fw_devlink creates sync-state-only links from the closest existing
-ancestor device to suppliers of child devices which have not been added
-yet. It normally drops those proxy links when the ancestor driver
-finishes probing.
+On Thu, Aug 06, 2026 at 11:30:08AM +0800, Qiqi Li wrote:
+> Hi Gregory,
+> 
+> On 7/21/2026 3:34 AM, Gregory Price wrote:
+> 
+> > Add add_private_memory_driver_managed() to let modules hotplug
+> > memory onto an N_MEMORY_PRIVATE node they control.
+> 
+> I am trying to understand how the nid passed to
+> add_private_memory_driver_managed() is expected to be provisioned.
+> 
+> From what I can see, both node_private_register() and
+> __add_memory_resource() require the nid to already be present in
+> node_possible_map. My understanding is therefore that this patch
+> supports hotplugging private memory onto an existing possible node,
+> rather than creating a new possible node ID at runtime.
+> 
+> For example, in the use case I am looking at, the device's private
+> node is not described by firmware. Would its nid need to be reserved
+> during early NUMA initialization, or is there another mechanism that
+> I may have missed?
+> 
 
-An MDIO bus is a driverless class device, so successful OF population
-never reaches that lifecycle point. Its proxy links can consequently
-remain forever and prevent suppliers from receiving sync_state() even
-after the real PHY devices have acquired and activated their own links.
+It would need to be reserved, and you could use numa emulation but
+that's clunky.  I have an RFC for exactly this issue - though i haven't
+pushed it further yet.
 
-Call the driver-core cleanup helper after successful OF MDIO population.
-Only sync-state-only links are removed; the real PHY links continue to
-enforce dependency and runtime-PM ordering.
+https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/net/mdio/of_mdio.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/mdio/of_mdio.c b/drivers/net/mdio/of_mdio.c
-index b8d298c04d3f..49f9b4062cf5 100644
---- a/drivers/net/mdio/of_mdio.c
-+++ b/drivers/net/mdio/of_mdio.c
-@@ -229,7 +229,7 @@ int __of_mdiobus_register(struct mii_bus *mdio, struct device_node *np,
- 		goto unregister;
- 
- 	if (!scanphys)
--		return 0;
-+		goto done;
- 
- 	/* auto scan for PHYs with empty reg property */
- 	for_each_available_child_of_node(np, child) {
-@@ -261,6 +261,9 @@ int __of_mdiobus_register(struct mii_bus *mdio, struct device_node *np,
- 		}
- 	}
- 
-+done:
-+	device_links_drop_sync_state_only(&mdio->dev);
-+
- 	return 0;
- 
- put_unregister:
-
--- 
-2.53.0
-
+> Also, could you please Cc me on future revisions of this series?
+> I would appreciate it and would be happy to follow the work:)
+> 
+> Thanks,
+> Qiqi
