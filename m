@@ -1,86 +1,85 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C4C41E6C9;
-	Mon, 17 Aug 2026 12:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52A3D7D70
+	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 15:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786971466; cv=none; b=Y5DF5R+qcuq9UB7H9Etxp/5a44fzOLa1h04GiNNNwjDrZsptMQTXDOiNhGaERKnAWEItopKW5YM57r7rVO4DvQzTVMfH17q6/T0Gvh9vCYhQ9Eh+cJ+atcQS9kvrkoxVZedp/RQEia4j66/as+/56jEiNx3IU5YNQWjBWS9RIWQ=
+	t=1786980225; cv=none; b=eR8STBP0o8JEJLei3t0LqERL0W9r4zUziHQRFbHLMp+N+X/vZh+ky4NkCjMQUnLF5UcCie4EElCWZK+mTUIKsXSkt09/Ukh4Bi2npOC5reVlCsRGR7KYPD611VRDqNQKbVJIWgehsP9+3HSeWRxhYAIF8wtkiGsorB5qeqNU2ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786971466; c=relaxed/simple;
-	bh=Kr9+NqGxX/7rkik+zJxbR9+9TRciLZ/LeTYyjUnXEwY=;
+	s=arc-20240116; t=1786980225; c=relaxed/simple;
+	bh=msl28pOI/fIME2wOC1gRmqujU8+8NPSO78hDxF33EKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAcuf+zuRTKIgi8sLI9u5ADiPd8pD5/mcDNqR/OS8I+spEYb2Z3aCI/ABxvuWbh7SyzWLini47qLp2AAGyItMhFppJa3Nu0bAjln0rd0yMEz+qk2OdRyT4UOeM6iTMj/1XXmrtFYjR2EUY+MwKHqubqCCNYDvB7SYNa6CmN1kng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=atQOa8X1; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYQxITwb5WBlrZ3pnNBFN2darTbHbcQrvkCwALizG227k9/U+AJ5KoD5a9wUWL6nhLcReRzN9BRKMXM/t16A0t//4elpqHD5Y2MKxsh8AghLZnZBOKq3UwjnJs0DE2edgtQxVJgyik5RBZfPpfAXDCWoIG7nqxfYY1U68NzfW+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTJFx4d9; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="atQOa8X1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=jR90udMQKB9MCmNtBGkfjHvnHloBFfFG2p/ago2rX5s=; b=at
-	QOa8X1Fg0lnuHMMSjgf1NtGqolQDq0h88h9sg+tnzks0GII1/jLWN4kCgkLjDXs0xtqM7C5G4BbYi
-	kxFJSB0FEa5GYzji8bgDNQWe3hksgJh6IdeO2/Bdui5nAZlwwn5Qy5dCJ2nDcB+sg+dxSZL/h+Aqs
-	3SaLauGFXbXcBuI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wvwu1-000JXJ-Bl; Mon, 17 Aug 2026 14:57:21 +0200
-Date: Mon, 17 Aug 2026 14:57:21 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Saravana Kannan <saravanak@kernel.org>
-Cc: James Hilliard <james.hilliard1@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTJFx4d9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786980224; x=1818516224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=msl28pOI/fIME2wOC1gRmqujU8+8NPSO78hDxF33EKM=;
+  b=WTJFx4d94Xt5SocJ+XOvsPYbkIzIJqug7jmi9pS+sTNSlNTmi1JntZcI
+   4Q80EEmXR8jy3tkpSHZERVpkNob17atpIPOI2KsEWuMwF2O/dtFcOfA5r
+   W1KMnLo0GNTItMQlSShtHXltquP8Priuxc549j0xk18RB8XQSHC3ylE03
+   y8XPecwqRt4EGNCRedUgPJsHavpQR4Ywd5+wgBNSpq2VRECjUncpXyEXm
+   abQhqTsFnm9A8zi0j0oky/jS/CLDUZ35TGAnHteB94VPWp8jF5JSFyLYK
+   j6Ib/u11jQ8xuk8he673hlRDGOVqCbsz7JdBZW9aC2yBnIZ3ocEXRtRPv
+   Q==;
+X-CSE-ConnectionGUID: UttYhsjhSROVaUeGv1D6Pg==
+X-CSE-MsgGUID: T+2htZWIRku/5o4icC/XyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="74989005"
+X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
+   d="scan'208";a="74989005"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:23:43 -0700
+X-CSE-ConnectionGUID: wBEASFEzQSuiNDwVEiCcow==
+X-CSE-MsgGUID: YZhT4dB2R96XbM/i3gQ2fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
+   d="scan'208";a="264486862"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 08:23:42 -0700
+Date: Mon, 17 Aug 2026 18:23:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v2 1/4] of: property: skip links without a
- consumer node
-Message-ID: <e8ca3655-5d79-4705-86dd-172465c255e2@lunn.ch>
-References: <20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com>
- <20260816-submit-phy-package-fwdevlink-v1-v2-1-23e55dd59fad@gmail.com>
- <CACRMN=eU_C=sSXxoR_WY-LMPwD6H-bi366TXsbbDt0tPBmPA=A@mail.gmail.com>
+	Danilo Krummrich <dakr@kernel.org>, Xu Yang <xu.yang_2@nxp.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] drivers: base: test: Depend on OF instead of selecting it
+Message-ID: <aoMnevcLHdUEZr9-@ashevche-desk.local>
+References: <20260817-driver-pe-v1-1-7003ddb9e400@chromium.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRMN=eU_C=sSXxoR_WY-LMPwD6H-bi366TXsbbDt0tPBmPA=A@mail.gmail.com>
+In-Reply-To: <20260817-driver-pe-v1-1-7003ddb9e400@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Aug 16, 2026 at 10:07:19PM -0700, Saravana Kannan wrote:
-> On Sun, Aug 16, 2026 at 5:00 PM James Hilliard
-> <james.hilliard1@gmail.com> wrote:
-> >
-> > Supplier bindings can map a property node to the device node which
-> > consumes the referenced resource. The remote-endpoint binding uses
-> > of_graph_get_port_parent(), which can return NULL for a malformed graph
-> > node without its expected parents.
-
-If it is malformed, do we care? An Opps is a good way to indicate
-there is something wrong, and it contains more information than a
--EINVAL.
-
-> > Only create the link when the binding resolved a consumer node. A
-> > malformed graph property then creates no dependency instead of crashing
-> > while fw_devlink parses the tree.
+On Mon, Aug 17, 2026 at 11:54:44AM +0000, Ricardo Ribalda wrote:
+> Selecting OF instead of depending on it makes it impossible to
+> disable OF when KUNIT_ALL_TESTS is selected.
 > 
-> Is this a real issue? If it's upstream, should  we fix the DT? If it's
-> off-tree/down stream, should we care?
+> The purpose of KUNIT_ALL_TESTS is to test everything with satisfied
+> dependencies, not to force dependencies.
 
-Good questions.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-	Andrew
+Shouldn't we also handle this in tools/testing/kunit/configs/all_tests.config?
+(maybe in the future).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
