@@ -1,97 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7323E49C7;
-	Sun, 16 Aug 2026 23:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3059B2DECDF
+	for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 00:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786924675; cv=none; b=bjCrxmEZiYnHVTxfzLKBVG1T3EQ7ToQH9p1hPvIaOtkhJvRhyRl4HHvhfl7oA0pPNs8kBQhdyW1ALVGKcZqjzZr4b3c7pAyrDCxDhv3Ti87kgbhq71ufEHIIqwaWfimp0OsT09CdlQhMkvvwfkcgFfi4E3ipfF+a2Uc+PRLLfPc=
+	t=1786924838; cv=none; b=oUtcCJUkZu8Xba2axZVAz8AnwyPvRJrZ2KKBLhXbUxO4Frsr0usv0zpQJ7ISK8D4rHwnw1t07Lv02W3QIqEI1dTYBMn0WUpsUEkszpgChJVbLqgzebhwtJBVyPM9UYDcLq/1+1LTI+RWimsvo8oroZj8FmcxxIaLzpZsXzhWf6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786924675; c=relaxed/simple;
-	bh=QPDOqpxrjN3QBcYOLC9kGMjIGXMlUkpeIp4YrXXrfQc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pWK49DgHsdN+noIEEg2Ek8cmHWHCD3DP4yvjW6yfpFZmSqY4y2dL0xYj9iV6ie2wYvBWPvyBxqLm2s4ETTRuC8AWQphqnozk6STZgYojtbmkWmYQ9fLGY5eumxZJpBXpq2l2c5XbUp8n/LtH8bt19EyXBkJCNdqyr1/UD4W5Jww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VlGPT335; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786924838; c=relaxed/simple;
+	bh=6RTg5Hb6zZsRPnNpf0Q7IiOsATNXj9Nz9kJLXoBlFiQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YWMdoWNvMXAvgYa88LXZvoZB2G6p2s9sn73g3flZ7OSktuUR0omyULMSerjde+tBKtg7kTEK8ea2MIxiEzX6hY6Ai1eAXqpVkPfNbUgRCtBa98kfAib5NdRF5jJdgxjcvdYvtk5FjAeAtuvrnoBVbORntbiNYsrQSu4jbrKwN/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVUfJ6Nw; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VlGPT335"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C411F000E9;
-	Sun, 16 Aug 2026 23:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786924674;
-	bh=qtvnP0LtDe8Hti1OyUjc69500NzUGQMPeXz+jX4MKW8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VlGPT335RaYCvhnTd/SxzkCXQO1OPE6jJA0S0AKpPq6u1pRy1p6fauasFZcPGLPt+
-	 b6hXTk5mr/aaajPp1sPWVsAM6cgWa7z3IYRwxDPXxU2uZ2rVmG82yQe6wtWDSYwjrY
-	 Lw4GhzP3D/ZtHa/0hP7mBZiN0/JwGOkWe5mJdfzILHdrVLbhMyDd/jxNzpSKtgtyjk
-	 nNLytto5PHa5FROuZCNFaVERLImKKpON3EckRu4eq+lT3mxUUjBTjWHlwNYEATii6u
-	 aCCN5KVaXZ82aJO4pgPRSC1idoiyWoW0AqN/gV8jY56SW5Vh8aTq0CNErDTVMEPhN4
-	 koeQZFXS7A4eg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	aliceryhl@google.com,
-	daniel.almeida@collabora.com,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	jhubbard@nvidia.com,
-	ttabi@nvidia.com,
-	apopple@nvidia.com,
-	ecourtney@nvidia.com,
-	shashanks@nvidia.com,
-	zhiw@nvidia.com,
-	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Rework PCI IRQ vector code
-Date: Mon, 17 Aug 2026 01:57:46 +0200
-Message-ID: <20260816235746.425240-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260813165234.620555-1-dakr@kernel.org>
-References: <20260813165234.620555-1-dakr@kernel.org>
-X-Patch-Reply: applied
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVUfJ6Nw"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4a4cb36ae00so1688248b6e.0
+        for <driver-core@lists.linux.dev>; Sun, 16 Aug 2026 17:00:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786924835; x=1787529635; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fvYmmH+KfQ7O1sgqmpdyWXqFOmmC2PQNerX16oNlWsU=;
+        b=PVUfJ6Nwyie5gUSLBttueJme4QR8BC1WE0JgzNdDSkegKi8rIlpvZSUC2gOGt5+7/o
+         N5k83fm3VkXKo3V6GAyEZg0Juk0MLlZ6usrRMomzq5ZfoFNhhifJM8nfz5yVQbb5Yh9h
+         R3vLAxShUsHgQhuGGO6qEOkp4HtdH31w7xQGtCUwV7a6Phn27nJobWEVhu64jh0aptbP
+         4pbEL9Pl4wFixW5QFV9p9iEGPRCuFHQUYHz/MM0ILPwxUNjXuGZygElHj9wJCZ9+ph4U
+         uiBuzGVF2r9MuSJ90829Pu/9qE3FaWj6UyAeD4sNfymvKBihw2gyflC3JVC9QkX4zMAe
+         3+eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786924835; x=1787529635;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fvYmmH+KfQ7O1sgqmpdyWXqFOmmC2PQNerX16oNlWsU=;
+        b=W3SJ0Dn39EFX9YNolkDi2jpGREEX6yF9Q6ji9K+m+unzPBCRG1A9B7SIXn93UsrIvd
+         ZgfcTgWfDR32lA5f7Gp1qQB/zro6FNvGtAE96Dp8JDqU93/Wj+zNIyEmLXakfgA/Yg/p
+         NOcjt5LEoESvQkPuZNGIpDVaeN5UopJwMHYz5liO+uYHcOzVx0CAW3slsuGsY3t3vw/+
+         dSbD2pobAN+1cZqkwVBio0kLLBEShGd1MF/SBYG8MRWSyHVqX4g88nlZdCAQv8hf66fA
+         NzKMPYFx1yUpsxQXAQ/kH1WhhVhRJ9s6KYsvn/WDatrMZy0CKGZcwZr26Y4vaobDalle
+         XwPg==
+X-Forwarded-Encrypted: i=1; AHgh+RqujfkuGO+K3j4OV8RllEu8PdzO6qAoJBVZIQvF90tIUfrGRsiIe2FOl4gfj7Q4ToM7lwWO5eao2v8ruA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRThbZnU/wHV53HSb05/Q+6F0pqTmkvjNnEYAqDa52byMNsf4l
+	LxC8MJRyOg+wOLPdG1XzZsC01HwDSWzlqscyBk8mVhM+LFjsnPESyC+7
+X-Gm-Gg: AR+sD10Ha2/SpNrrCKtv4fmFs7nXxUK4R2RmFuXm3giQs6SadYbzkUXLLSA4RKO0i+t
+	64tU5Npr0zwQRvV8JJYupFNJtEKUogpy5aKr7/TKrUT6dcV1z8lqrktFnTgPMVronL8qroWgzuR
+	h2O7a7uFmZZbWOoD1AVkwjaTRVvB98ac5tufkJ2RCjTty3pta5uPOvIGzr0gSo99MGcjyckUutf
+	ix7nR67YIeG/da9/K07y8xCEXcm6wGLGr3H+zbe7+AwU64+bh/UKCjxjYEBMB0JB3hLftYlnVz8
+	Bb0swulYC3If73vQ5XKFWYGxFLYFZuxqO+B5DaYUblY4vY9mHHhSlP5/jtGYBt5pKnwqZH4u164
+	1KG8/Vo44N6d4s4yCeLNJ1YRUvk0/NkXkfadfgO5cd3EKAaSDj2TTtcHc9LA+LCtMnCUo2/1xco
+	Qmd2mKDbHNDiThOaGWC4CQ43NxIdc7doQ1bevRdfwgSnuGteD0orYIn//UbXmX13OrwkdWFkMtR
+	y3o8aubGR2RIhPRFPnQ4LwBAx87iYEDRMNleedTKbS4PcoHOL1+Yd6I21APDvMKYMJT5AjvnC83
+	Nw+ZM5xMuYKhdNFZ5p2voQBUVgefhj2cCYkJ9kOdXPNMwiWoBvZaMdZvZVVcHn9pnjB6orUz7r8
+	kqD+1iXyy2O5a+Msx
+X-Received: by 2002:a05:6808:3082:b0:495:f85b:38c0 with SMTP id 5614622812f47-4b241b9d037mr21641094b6e.12.1786924834990;
+        Sun, 16 Aug 2026 17:00:34 -0700 (PDT)
+Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b2714dc18asm2556802b6e.17.2026.08.16.17.00.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Aug 2026 17:00:34 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH net-next v2 0/4] of: mdio: fix fw_devlink for Ethernet PHY
+ packages
+Date: Sun, 16 Aug 2026 18:00:27 -0600
+Message-Id: <20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OzQ6CMBCEX4Xs2ZpS/j35HoZDLVtYgUJoRQjh3
+ S34AiZzmczsfLuBxYnQwi3YYMKZLA3GG3EJQDXS1Mio8h4EFynPw5jZ97Mnx8ZmZaNUrfQN/al
+ w7si0bA5ZlspcF6gxiQrwK+OEmpaT8ACDjhlcHJS/xI+9ULkDcHQbsm6Y1vOZOTwv/uZ6cSais
+ MjjWPMkk/e6l9Rd1dBDue/7F8mzNk3qAAAA
+X-Change-ID: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andrew Lunn <andrew@lunn.ch>, Christian Marangi <ansuelsmth@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, netdev@vger.kernel.org, 
+ James Hilliard <james.hilliard1@gmail.com>
+X-Mailer: b4 0.15.2
 
-On Thu, 13 Aug 2026 18:52:00 +0200, Danilo Krummrich wrote:
-> [PATCH v3 0/5] Rework PCI IRQ vector code
+Ethernet PHY package nodes describe resources shared by their member
+PHYs, but the package node is a container rather than a struct device.
+fw_devlink therefore represents those dependencies with temporary
+sync-state-only links from the closest existing ancestor device to each
+supplier.
 
-Applied, thanks!
+For OF MDIO, that ancestor is the MDIO bus class device. The bus is
+driverless, so its proxy links never reach the usual driver-bound
+cleanup. They can remain after all member PHYs have probed and
+indefinitely prevent suppliers from receiving sync_state().
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+Before fixing the proxy-link lifecycle, skip supplier links when a binding
+cannot resolve its consumer node. This prevents malformed graph descriptions
+from passing a NULL consumer to the fwnode-link core.
 
-[1/5] rust: pci: convert IrqVectorRegistration to a lifetime-managed owning type
-      commit: 17d4a399e8b8
-[2/5] rust: pci: resolve IRQ in index() and embed IrqRequest in IrqVector
-      commit: 2fb7755b0a7e
-[3/5] rust: pci: remove request_irq() and request_threaded_irq() from Device
-      commit: 6ca38086b4ee
-[4/5] PCI: Add pci_irq_type() to query the allocated interrupt type
-      commit: f146c7bc85a5
+Fix both parts of the lifecycle. First, factor the sync-state-only
+cleanup already performed by device_links_driver_bound() and expose it
+to frameworks which populate children below driverless devices. Next,
+treat each enabled member PHY as a consumer of suppliers referenced by
+its package node. Finally, call the cleanup helper after successful OF
+MDIO population. The real links from each member PHY retain dependency
+and runtime-PM ordering.
 
-      [ Add missing pci_irq_type() stub for CONFIG_PCI=n. ]
+This was found while validating an X-Powers AC300 package whose input
+clock is supplied by PWM. Before the fix, the PWM driver reported that
+sync_state() was pending due to stmmac-0 even after the PHY had probed.
 
-[5/5] rust: pci: expose the allocated interrupt type
-      commit: 3b5ea0f078e1
+The complete fix was tested on an Allwinner H616 board with an X-Powers
+AC300 PHY package. All five real supplier links targeted the member PHY,
+and no proxy link remained on the driverless MDIO bus. The PWM supplier
+reached state_synced while continuing to generate the PHY clock. The PHY
+negotiated a 100 Mbps full-duplex link, 8 MiB was transferred in each
+direction, and 100 consecutive pings completed without loss.
 
-The patches will appear in the next linux-next integration (typically within 24
-hours on weekdays).
+Validation completed with:
 
-The patches are in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+  - arm64 defconfig object builds of driver core, OF property and OF MDIO
+    with W=1;
+  - strict per-patch checkpatch checks; and
+  - the H616/AC300 hardware test described above.
+
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes in v2:
+- Add a preparatory guard for malformed graph consumers (reported by Sashiko)
+- Rebase on net-next/main
+- Link to v1: https://patch.msgid.link/20260814-submit-phy-package-fwdevlink-v1-v1-0-2319844f057a@gmail.com
+
+---
+James Hilliard (4):
+      of: property: skip links without a consumer node
+      driver core: factor sync-state-only link cleanup
+      of: property: link PHY package suppliers to member PHYs
+      net: mdio: release fw_devlink proxies after population
+
+ drivers/base/core.c        | 74 +++++++++++++++++++++++++++++++++++-----------
+ drivers/net/mdio/of_mdio.c |  5 +++-
+ drivers/of/property.c      | 18 ++++++++++-
+ include/linux/device.h     |  1 +
+ 4 files changed, 79 insertions(+), 19 deletions(-)
+---
+base-commit: e6a5d573d24cd375e09d24f136523cb3cc85c9d3
+change-id: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
+
