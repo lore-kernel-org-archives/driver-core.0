@@ -1,70 +1,71 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BF0372B5A
-	for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 06:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6D372B3C
+	for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 06:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787036350; cv=none; b=X3/2/DHuCKS2EebAXxb3xIjvQRcwDDszXOyOnR8al+70zgZJxEpiCdVAF7Qvo91K82U941i19VYlVrU6lUrnJQIAJjruK/JaK+SobXGFr5oKg4qQTniYFlDAbnV+Bqt5rdKPmY1tFWaZrP1av0KeyJ9UgoVAB7vnLS+4m3LjdJQ=
+	t=1787036351; cv=none; b=t4KV4/3LTsw11sNF0oqLdakZLEWU5QcyKhJJtVb1FoC7XYAczTi5jvrI0j20lIJKbQDr5gu87nMtC+DuSvuOYFULgXWNlZMQ1TNe9Gdg6rfHPxDXxWXY0c9FsGo767J4OV4fhxS6Hz+WEOIOUMJADwWUeiMF2cPKRMdwcJ0LQvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787036350; c=relaxed/simple;
-	bh=D/pmpT1MHUXbBSsDgHnw4mLi6p3iwlFDCAYqzCrg8no=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TKYJuWt97DO3ol54i6rslDGoPVT2oWry/BHWvX8f3w+4au3lpoJ0Aqwn+rnI2aGAS4MVtK7ElgVzuVlWGVR1IQrZMQq7EtRYCLJFCqtBdxyG4Lye7/8st/nv5t9DChbIKdYflqmD24FGVhlXM2ekxfWU5bmLjT5Ie0LK3g12jO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCa/xQjc; arc=none smtp.client-ip=209.85.210.53
+	s=arc-20240116; t=1787036351; c=relaxed/simple;
+	bh=9Ej8oCWE/SEz2kwV+lumcbgilsrgrfEVoihV506X6K0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=F7GA+iNSLt6fxOxO0qnCbVKbS2l05IxLFcs5QYvZplZGcms5zMD8DQn6v8pJJw89QUdsO1HQ0sWaWRy9eYgCCeHXvsQEsJGosSO6WigbIL7S4iv2U8zO1OdP5FFdEDs8tVuzueNfcBs9BWFCofMgzfxe9j/fTeUt6KlhZRuBoMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQqfQR1G; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCa/xQjc"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7eb29ed2bbdso2350419a34.2
-        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 23:59:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQqfQR1G"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7eb64371a2aso2674838a34.0
+        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 23:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787036341; x=1787641141; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=DeMyVaMFOea0yLlM8gVonhIGCBF8ArkQ/Fdvw30KkVU=;
-        b=BCa/xQjc+kjc32VPzKNSnHRPu8F+ln1T+hx5w2MNjQQEJRYhHbjtnoSbzVa6mbPNKD
-         6zW51c3Da2CPkp48cPAnTqIckKiKdn6nVUXOnAs+vzIBJQo7PAXVJJ5HN02w4Uw6Zlon
-         aMWMH24/vjV2678okpFaqfsF/r2zxgUUgSjQ8Yu2ndUDwn/ISNjP2mlbQn/BCsmJtuE3
-         MJ5pR3QJLwU1NixGUjfMtMkSejGW9oF5MO/dl6h2ZK6gJfi8QOdff+L9OLh50fd9vCQT
-         Op2NEjKQ0ZFN5ADfXtZOB3T076GMVQzbPgZjih2qmdhf3+KC5qFBtlXvmjTK6koIQsD6
-         SxJg==
+        d=gmail.com; s=20251104; t=1787036343; x=1787641143; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AMMgthRopw07ZlQT3zAbed2zC3TzeWq8aCthIdCEwok=;
+        b=EQqfQR1Gugrx1z/s/xN2NTHMwTM97aqADOljF5g11qe8SGXxAc+MfvICEaKVxFrHoc
+         tiBm7LDSzR0jENxhzsgB0WZ9cws2QEJy25dYUHwpOzKNvK8PHeR7PjpLIT06hPbWx8Ep
+         qYo+DsSDZzJ2xiklEa5vmudCWOu2V+YxUGts12kOJuu0eQs4bI9zlXpATw0AVD8TILJR
+         TcqZhMUdEh1Ht4kqV3KaWps9tKs3kD9fH5BN10tIz/O2HnLfDcrccygi2FwgO763hjis
+         8klrq21cWDL15Zo9c51PiReVFceQx5u7VkneHaX+6jYYlKjS4ZhaMJdHLnuUMh5YelNo
+         u/jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787036341; x=1787641141;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=DeMyVaMFOea0yLlM8gVonhIGCBF8ArkQ/Fdvw30KkVU=;
-        b=cMAYUrSZo9pbTnRKSxiFJo2ZqBWqWuJic3Q5vumbocs+zGWzOIuYogUOxeOumbhS3B
-         nB78QHQ3ZFK34xR1Bt8bQ9dDI7D/j4LFKSz2ldX7K6i/efUjboWvW56E9McD73IAuwk8
-         dn+9VBgF1rYDqGAwuHxkSTx8EqvnZSSgovfjOv+6k0I4/YQTHe/e1bxdAIHoAqrwJ0sK
-         +Lbj/C0lO0ZnKOQB/aX9jMYoqWAGm8ZoWqRNcjZGjKt9yFxbX0SdqCF3/agFX1aKl7aJ
-         kD+W01upd+UhKD31dk9uJTqvafHV2S6zpDWUyPhmuCJk7/ErvZ32ZyupzMx6T9QOgRXv
-         JvNg==
-X-Forwarded-Encrypted: i=1; AHgh+RqqYOf1YvMRSqydeCZ2wTvaOoG2zWgkS0IHsm60j9IKaCTpuvJcS0SZHHiPcw8yJKQpJRZEqf3LVLdCUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YybSWXOB22wqDKaJMYzM7HJ2BHL43BhMAv7sXAQqNgsg1gl8YPC
-	13afzISW/lULtnML33sxqTIiZ4qulzJ8y8RD+nlcfy/uTWO5Ez+PrWAw
-X-Gm-Gg: AR+sD12OqyTGvQOTpV2DTjs4syBJZoY9llEoxfhBagvtXisrGgaXqooNWXA7HdA25iW
-	c1QLcdNECiOvdXAj9HbL92aZ0cVCVKxFJsGmqUOWluRnX8HWvSdWOrqJHMijlAlS/6datsw0xWV
-	1efk/9Kgnqaya5Iw0yDc417FEb8h/SKtstLcNZqiXd9DPFyOMVCgHt1tWMSR/1IKh2t4lkON1MP
-	OhY/ZE/HbKP56uwtnTvl1t6sp1dwBs4GHG5vUD2vrTyCqlvpYZRXqykOsVvlRIee10+rXYtzuz7
-	xgDCrM/c1pJjfuaIOm79A1eQUwpxUpyft2KmQjPcvk1h9LCTg6+XumHyxCqOXBgnjjH0XNha+LW
-	cxF9o4E9H/n0ra7Y032ct1+nyXF/k6lEq1E7b9Fxssh7Z6iDtr1xOP2I8kY6PaChV4UQVSI86XC
-	za1Qq2fdKYRhvYSG9rHve8QIPlzI+kWQtedlr28LptVpedL6jZSqT3ttqtdLWXyagMjrPcA/pzd
-	1qgyX+5SkK5NuXoPsVJMZqSzko02xwlCCpFHZndlz3B7YbmVYsfl8eRptOgSWC+X00M8SuN8ujO
-	UODdWvD94IEzRukN+Cq8M0wV2q5DKegzxopFBNlKp5gGbonmv/PHhWAmKWGSetr/zDotWCxYDo+
-	Mjyg+Lj6pPQpY0nlZ
-X-Received: by 2002:a05:6830:6996:b0:7eb:89e4:8f5c with SMTP id 46e09a7af769-7f423ec621emr6353519a34.14.1787036341544;
-        Mon, 17 Aug 2026 23:59:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787036343; x=1787641143;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AMMgthRopw07ZlQT3zAbed2zC3TzeWq8aCthIdCEwok=;
+        b=XaYnC4EoAEURWk7bTu1bobpMYjJGIHNxhFk2nNGGfJl8Qww8fBkaQbklfp6zZLMf5/
+         WJnnoF19WUdVskm0aPAE0GNSZAWd7d0/5d4mkMD//khP8ZAqqW207jCM2MlQDTTwHHrM
+         sbMFcj0rbGdUL/asdCtYlTm+RHUth8XCDdyVZN0IcPkEmqEZQdTd7J8GGfWmMamd8OnT
+         IigT259DSVwdbmUmG4IUOEZGVkT7n6LpAVszsF9D1+72zn3V++dXc8y+L2C8wv8ZoK1q
+         6S2Z7S9ERv9bbFumnsWfHX3gJAT80SD9Rq+bqfnAf0EhZVSKnPdAKor3ABdXB9gSM/BQ
+         pgDg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7W9CsS7YvNsxi5qKnZ0RNsXzoz/DL+/Fr24GmctDuhpFaVutR8Zg7Z8scAt8H9wkG5SLrg2JBiO4IUA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3ha00DMmvwsbwG1RDgEHk2TA8U8pow+QVJurEHwJG+dEVDG4i
+	D3gDxT2nJJ4ff2g4FTl4qM+FSnvqdS4ngRTWtgvYc/DEGNnsMxEUvbwW
+X-Gm-Gg: AR+sD13iVT8AwxSAl+pj11KiFQQi2VegBujF9d47C9mDuQ69Ku3gJhReezxegXJ7WSr
+	xbOiCzLWCe+u+Bep04kB1J016zDRBMfc6N6eTBAfySX8YPg86LWVYEA1LYqB65Kpx9cL2+5wFeG
+	GnY2/boGkNChzM/DBiSuhUn42bTfePAcY0xfhI+bE3Qgx4x3Of9vRav++2raJ5lG6aPu5xZlZOE
+	kIkD/g0YevCWuazJNBGn1D5G4639MKKXwhvuXL/35xS4PvHkkmBc6tpMdHWKzzcNnxxjMeqkKPa
+	5jAYwudBeTxAquLWpWVXN3Ek7rQCgYvtsiGFcnNGQHsIvC8N3SdZWEaWIjGN2vTWe/OpG4kh5CX
+	EqkZ7hSCam1Gqr4cu2B9dS+IkKFkybn6UTeNUt/PYRuNS3gP6hO+YDWUJ/SSr0Y8lZ7Thb34+XP
+	q5RlCS2n2M4PzQF0A90ep80rHvBnXHEDWSZHTfeMC8bQygavoCqNrkeCJnCWEfUITnE3g7dm6RW
+	QCe2AOp8cAVOXnG2DfBL+h7Fl9bEXQ60UTgxh/fV5i0eTFyQeuLpodHmUsBk/mwxQOjl3ZRePt0
+	ZCuFn2TSF3Ms16uL+SDhFFTnL9aI2Mwyya1YB0CHZYjLbZi/MCXYuF8DLKSiJmt/tpDOzWWBPsq
+	En4GpIDzL33LOgqi6
+X-Received: by 2002:a05:6830:6ab1:b0:7ec:6749:f38d with SMTP id 46e09a7af769-7f3ddfd0405mr29268449a34.0.1787036342856;
+        Mon, 17 Aug 2026 23:59:02 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f41beef430sm3599463a34.5.2026.08.17.23.59.00
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f41beef430sm3599463a34.5.2026.08.17.23.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 23:59:01 -0700 (PDT)
+        Mon, 17 Aug 2026 23:59:02 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH net-next v3 0/4] driver core, net: handle fw_devlink for
- class devices and PHY packages
-Date: Tue, 18 Aug 2026 00:58:56 -0600
-Message-Id: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
+Date: Tue, 18 Aug 2026 00:58:57 -0600
+Subject: [PATCH net-next v3 1/4] driver core: add fw_devlink supplier-copy
+ helper
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -73,11 +74,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OQQ6CMBBFr0K6tqYUiuDKexgXtZ3KKBRCa4UY7
- m6tG3eazOZn/rw3T+JgQnBknz3JBAEdDjaGYpMR1Up7AYo6ZsIZr1idl9Tdzz16OrYLHaW6ydg
- wDw2hQ3ujIae7StamAQOiaEikjBMYnJPhSCx4amH25PTZRNgVlH8L3t0WnR+mJT0T8nTxtzcOo
- 7zIm7osDRM7ebj0ErutGvpkC/ybV/3m8cQDIbQWjZH6m7eu6wtIR6VdOgEAAA==
-X-Change-ID: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+Message-Id: <20260818-submit-phy-package-fwdevlink-v1-v3-1-40a905ea16b6@gmail.com>
+References: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
+In-Reply-To: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
 To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
@@ -97,117 +96,359 @@ Cc: devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-Managed device links normally advance through probe and removal alongside
-a device driver. Driverless class devices are added directly, so their
-links do not currently receive equivalent transitions. A class supplier
-can leave its consumers dormant, while sync-state-only links from a class
-consumer can indefinitely prevent suppliers from receiving sync_state().
-Removal also does not unbind consumers of a class supplier.
+Some firmware nodes describe resources shared by devices instantiated for
+their children, but the container node itself is never converted to a
+struct device. The firmware parser should retain the topology as
+described, while the framework which creates the children can identify
+the actual consumers.
 
-Ethernet PHY packages expose both sides of this problem. A package node
-describes resources shared by member PHYs, but is a container rather than
-a device. fw_devlink preserves that topology and temporarily represents
-those dependencies through the closest device, which for OF MDIO is the
-driverless MDIO bus class device. Its proxy links previously remained
-after the real PHY had probed and kept the package suppliers from reaching
-sync_state().
+Add fw_devlink_copy_suppliers() so such a framework can copy the direct
+supplier links from a container to a real consumer firmware node before
+the consumer is registered. The normal device_add() path then converts
+the copied dependencies into device links at the correct point in device
+registration.
 
-Handle the generic class-device lifecycle in the driver core. Put
-driverless class devices into the probing state while device_add()
-publishes them, complete their incoming and outgoing managed links after
-class interfaces run, and apply the corresponding unbind and cleanup
-transitions during device_del(). This supports class devices as either
-suppliers or consumers and keeps descendant firmware links available for
-devices created later. Keep inferred links to probing and registered class
-suppliers out of no-driver fallback paths, and recognize class-backed
-nodes when refreshing dependencies after firmware-tree overlays.
+Leave the source links in place for other children, suppress duplicate
+links and roll back newly allocated links if a copy fails. Skip ignored
+links and clear cycle flags on newly copied links, since cycle
+classification must be recomputed for the new consumer topology. Reject
+calls after the target firmware node has been associated with a device.
+Check that association while holding the fwnode-link lock so a
+concurrent device_add() either observes the copied links or makes the
+helper reject the request.
 
-Keep generic firmware parsing faithful to the described topology. Add a
-helper through which a subsystem can copy a container node's direct
-supplier links onto the firmware node for a real child device, then use it
-from PHY registration before device_add(). The ordinary fw_devlink path
-consequently creates each managed PHY link at the normal
-device-registration stage.
+Add KUnit coverage for filtering, cycle-flag handling, idempotency, the
+pre-registration contract and conversion into an active device link.
 
-Finally, defer supplier sync-state callbacks across OF MDIO bus
-registration and child population. This closes the interval between
-completion of the bus class device and installation of the member PHY
-links without adding an MDIO-specific device-link state transition.
-
-This was found while validating an X-Powers AC300 package whose input
-clock is supplied by PWM. Before the fix, the PWM driver reported that
-sync_state() was pending due to stmmac-0 after the PHY had probed.
-
-The complete series was tested on an Allwinner H616 board with an X-Powers
-AC300 PHY package. All five package-derived supplier links targeted the
-member PHY and no proxy link remained on the driverless MDIO bus. The PWM
-supplier reached state_synced while continuing to generate the PHY clock.
-These properties remained true after unbinding and rebinding the MAC, and
-the PHY renegotiated a 100 Mbps full-duplex link. Both before and after
-that lifecycle test, 8 MiB transfers in each direction compared correctly
-and 100 consecutive pings completed without loss.
-
-Validation also included:
-
-  - a full arm64 defconfig Image and modules build with W=1;
-  - KUnit tests for class supplier/consumer transitions, inferred-link
-    preservation, and fwnode supplier copying and device-link conversion;
-    and
-  - strict per-patch checkpatch and whitespace checks.
-
-Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
-Changes in v3:
-- Replace the framework-specific proxy cleanup with generic managed-link
-  lifecycle handling for driverless class suppliers and consumers, as
-  suggested by Saravana Kannan
-- Handle registered class consumers during supplier teardown without a
-  no-op driver release or driver-only cleanup warning
-- Derive class handling inside the shared bound helpers and clarify the
-  lifecycle documentation
-- Keep inferred links to probing and registered class suppliers out of
-  no-driver fallback paths and include class nodes in overlay refresh
-- Keep firmware parsing topology-only and let the PHY layer project package
-  suppliers onto member PHYs through a new fwnode-link copy helper, as
-  suggested by Saravana Kannan
-- Defer supplier sync across MDIO bus and OF child population instead of
-  deleting proxy links from the MDIO framework
-- Add driver-core KUnit coverage and device-link lifecycle documentation
-- Drop the unrelated malformed-graph guard because no concrete DT or
-  runtime reproducer was found
-- Rebase on current net-next/main
-- Link to v2: https://patch.msgid.link/20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com
-
-Changes in v2:
-- Add a preparatory guard for malformed graph consumers
-  (reported by Sashiko)
-- Rebase on net-next/main
-- Link to v1: https://patch.msgid.link/20260814-submit-phy-package-fwdevlink-v1-v1-0-2319844f057a@gmail.com
 
 ---
-James Hilliard (4):
-      driver core: add fw_devlink supplier-copy helper
-      net: mdio: link PHY package suppliers to member PHYs
-      net: mdio: defer supplier sync during OF population
-      driver core: handle managed links for class devices
-
- Documentation/driver-api/device_link.rst   |  47 ++-
- drivers/base/base.h                        |   2 +
- drivers/base/core.c                        | 332 +++++++++++++++-----
- drivers/base/dd.c                          |  21 +-
- drivers/base/test/Makefile                 |   2 +
- drivers/base/test/device-link-class-test.c | 479 +++++++++++++++++++++++++++++
- drivers/base/test/fwnode-link-test.c       | 207 +++++++++++++
- drivers/net/mdio/of_mdio.c                 |  34 +-
- include/linux/device.h                     |   9 +-
- include/linux/fwnode.h                     |   2 +
- 10 files changed, 1042 insertions(+), 93 deletions(-)
+Changes v2 -> v3:
+  - Keep generic firmware parsing faithful to the described topology and
+    add a helper for frameworks to project container suppliers onto real
+    child consumers, as suggested by Saravana Kannan
+  - Require copying before device_add() and let the normal fw_devlink path
+    create device links after consumer sysfs and PM initialization
+  - Serialize the target-association check with fwnode link copying
+  - Skip ignored links, recalculate cycle state for copied links and add
+    KUnit coverage
 ---
-base-commit: 47226bbdef69fc0de815b8f5b81b39673f50bbee
-change-id: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+ drivers/base/core.c                  |  60 ++++++++++
+ drivers/base/test/Makefile           |   1 +
+ drivers/base/test/fwnode-link-test.c | 207 +++++++++++++++++++++++++++++++++++
+ include/linux/fwnode.h               |   2 +
+ 4 files changed, 270 insertions(+)
 
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4d026682944f..cf3f4133391d 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2394,6 +2394,66 @@ static void fw_devlink_link_device(struct device *dev)
+ 	__fw_devlink_link_to_suppliers(dev, fwnode);
+ }
+ 
++/**
++ * fw_devlink_copy_suppliers - Copy supplier links between firmware nodes
++ * @to: Firmware node which consumes the copied suppliers
++ * @from: Firmware node whose supplier links should be copied
++ *
++ * Frameworks can use this when a container firmware node describes resources
++ * shared by devices created for its children. The source links remain in
++ * place, while links are added for the real consumer firmware node. Call this
++ * before device_add() associates @to with a registered device, so the normal
++ * fw_devlink path can convert the copied dependencies into device links.
++ *
++ * Ignored source links are skipped. Cycle flags are topology-specific and are
++ * recalculated for the new consumer when its links are converted.
++ *
++ * Return: 0 on success, -EINVAL for invalid firmware nodes, -EBUSY if @to is
++ * already associated with a device, or -ENOMEM if a link could not be
++ * allocated.
++ */
++int fw_devlink_copy_suppliers(struct fwnode_handle *to,
++			      struct fwnode_handle *from)
++{
++	struct list_head *first;
++	struct fwnode_link *link;
++	int ret;
++
++	if (!to || !from)
++		return -EINVAL;
++	if (!fw_devlink_flags || to == from)
++		return 0;
++	fw_devlink_parse_fwnode(from);
++
++	guard(mutex)(&fwnode_link_lock);
++	if (READ_ONCE(to->dev))
++		return -EBUSY;
++
++	first = to->suppliers.next;
++	list_for_each_entry(link, &from->suppliers, c_hook) {
++		u8 flags = link->flags & ~FWLINK_FLAG_CYCLE;
++
++		if (flags & FWLINK_FLAG_IGNORE)
++			continue;
++
++		ret = __fwnode_link_add(to, link->supplier, flags);
++		if (ret)
++			goto rollback;
++	}
++
++	return 0;
++
++rollback:
++	while (to->suppliers.next != first) {
++		link = list_first_entry(&to->suppliers, struct fwnode_link,
++					c_hook);
++		__fwnode_link_del(link);
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(fw_devlink_copy_suppliers);
++
+ /* Device links support end. */
+ 
+ static struct kobject *dev_kobj;
+diff --git a/drivers/base/test/Makefile b/drivers/base/test/Makefile
+index e321dfc7e922..d871a71dbbaa 100644
+--- a/drivers/base/test/Makefile
++++ b/drivers/base/test/Makefile
+@@ -3,6 +3,7 @@ obj-$(CONFIG_TEST_ASYNC_DRIVER_PROBE)	+= test_async_driver_probe.o
+ 
+ obj-$(CONFIG_DM_KUNIT_TEST)	+= root-device-test.o
+ obj-$(CONFIG_DM_KUNIT_TEST)	+= platform-device-test.o
++obj-$(CONFIG_DM_KUNIT_TEST)	+= fwnode-link-test.o
+ 
+ obj-$(CONFIG_DRIVER_PE_KUNIT_TEST) += property-entry-test.o
+ CFLAGS_property-entry-test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+diff --git a/drivers/base/test/fwnode-link-test.c b/drivers/base/test/fwnode-link-test.c
+new file mode 100644
+index 000000000000..fee18613d230
+--- /dev/null
++++ b/drivers/base/test/fwnode-link-test.c
+@@ -0,0 +1,207 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <kunit/platform_device.h>
++#include <kunit/test.h>
++
++#include <linux/device.h>
++#include <linux/fwnode.h>
++#include <linux/platform_device.h>
++
++#define FWNODE_LINK_TEST_DRIVER_NAME	"fwnode-link-test"
++
++struct fwnode_link_test_context {
++	struct fwnode_handle consumer;
++	struct fwnode_handle container;
++	struct fwnode_handle supplier_a;
++	struct fwnode_handle supplier_b;
++};
++
++static int fwnode_link_test_probe(struct platform_device *pdev)
++{
++	return 0;
++}
++
++static struct platform_driver fwnode_link_test_driver = {
++	.probe = fwnode_link_test_probe,
++	.driver = {
++		.name = FWNODE_LINK_TEST_DRIVER_NAME,
++	},
++};
++
++static void fwnode_link_test_cleanup(void *data)
++{
++	struct fwnode_link_test_context *context = data;
++
++	fwnode_links_purge(&context->consumer);
++	fwnode_links_purge(&context->container);
++	fwnode_links_purge(&context->supplier_a);
++	fwnode_links_purge(&context->supplier_b);
++}
++
++static struct fwnode_link_test_context *
++fwnode_link_test_init(struct kunit *test)
++{
++	struct fwnode_link_test_context *context;
++	int ret;
++
++	context = kunit_kzalloc(test, sizeof(*context), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, context);
++
++	fwnode_init(&context->consumer, NULL);
++	fwnode_init(&context->container, NULL);
++	fwnode_init(&context->supplier_a, NULL);
++	fwnode_init(&context->supplier_b, NULL);
++	ret = kunit_add_action_or_reset(test, fwnode_link_test_cleanup,
++					context);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	return context;
++}
++
++static struct platform_device *
++fwnode_link_test_register_pdev(struct kunit *test,
++			       struct fwnode_handle *fwnode)
++{
++	struct platform_device *pdev;
++	int ret;
++
++	pdev = kunit_platform_device_alloc(test, FWNODE_LINK_TEST_DRIVER_NAME,
++					   PLATFORM_DEVID_AUTO);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
++
++	device_set_node(&pdev->dev, fwnode);
++	ret = kunit_platform_device_add(test, pdev);
++	if (ret) {
++		KUNIT_FAIL(test, "failed to register platform device: %d", ret);
++		return NULL;
++	}
++
++	return pdev;
++}
++
++static unsigned int fwnode_supplier_count(struct fwnode_handle *fwnode)
++{
++	struct fwnode_link *link;
++	unsigned int count = 0;
++
++	list_for_each_entry(link, &fwnode->suppliers, c_hook)
++		count++;
++
++	return count;
++}
++
++static struct fwnode_link *
++fwnode_find_supplier(struct fwnode_handle *consumer,
++		     struct fwnode_handle *supplier)
++{
++	struct fwnode_link *link;
++
++	list_for_each_entry(link, &consumer->suppliers, c_hook) {
++		if (link->supplier == supplier)
++			return link;
++	}
++
++	return NULL;
++}
++
++static void fwnode_link_copy_suppliers_test(struct kunit *test)
++{
++	struct fwnode_link_test_context *context;
++	struct fwnode_link *link;
++	int ret;
++
++	context = fwnode_link_test_init(test);
++	KUNIT_ASSERT_NOT_NULL(test, context);
++
++	ret = fwnode_link_add(&context->container, &context->supplier_a,
++			      FWLINK_FLAG_CYCLE);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	ret = fwnode_link_add(&context->container, &context->supplier_b,
++			      FWLINK_FLAG_IGNORE);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	ret = fw_devlink_copy_suppliers(&context->consumer,
++					&context->container);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_EXPECT_EQ(test, fwnode_supplier_count(&context->container), 2U);
++	KUNIT_EXPECT_EQ(test, fwnode_supplier_count(&context->consumer), 1U);
++
++	link = fwnode_find_supplier(&context->consumer, &context->supplier_a);
++	KUNIT_ASSERT_NOT_NULL(test, link);
++	KUNIT_EXPECT_EQ(test, link->flags, (u8)0);
++	link = fwnode_find_supplier(&context->consumer, &context->supplier_b);
++	KUNIT_EXPECT_NULL(test, link);
++
++	ret = fw_devlink_copy_suppliers(&context->consumer,
++					&context->container);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	KUNIT_EXPECT_EQ(test, fwnode_supplier_count(&context->consumer), 1U);
++}
++
++static void fwnode_link_copy_before_device_add_test(struct kunit *test)
++{
++	struct fwnode_link_test_context *context;
++	struct platform_device *consumer;
++	struct platform_device *supplier;
++	struct device_link *link;
++	int ret;
++
++	context = fwnode_link_test_init(test);
++	KUNIT_ASSERT_NOT_NULL(test, context);
++
++	ret = fwnode_link_add(&context->container, &context->supplier_a, 0);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	supplier = fwnode_link_test_register_pdev(test, &context->supplier_a);
++	KUNIT_ASSERT_NOT_NULL(test, supplier);
++
++	ret = fw_devlink_copy_suppliers(&context->consumer,
++					&context->container);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++	consumer = fwnode_link_test_register_pdev(test, &context->consumer);
++	KUNIT_ASSERT_NOT_NULL(test, consumer);
++
++	KUNIT_EXPECT_EQ(test, fwnode_supplier_count(&context->container), 1U);
++	KUNIT_EXPECT_EQ(test, fwnode_supplier_count(&context->consumer), 0U);
++
++	if (list_empty(&consumer->dev.links.suppliers)) {
++		KUNIT_FAIL(test, "consumer device link was not created");
++		return;
++	}
++	link = list_first_entry(&consumer->dev.links.suppliers,
++				struct device_link, c_node);
++	KUNIT_EXPECT_PTR_EQ(test, link->supplier, &supplier->dev);
++	KUNIT_EXPECT_EQ(test, READ_ONCE(link->status), DL_STATE_ACTIVE);
++
++	ret = fw_devlink_copy_suppliers(&context->consumer,
++					&context->container);
++	KUNIT_EXPECT_EQ(test, ret, -EBUSY);
++}
++
++static struct kunit_case fwnode_link_test_cases[] = {
++	KUNIT_CASE(fwnode_link_copy_suppliers_test),
++	KUNIT_CASE(fwnode_link_copy_before_device_add_test),
++	{}
++};
++
++static int fwnode_link_test_suite_init(struct kunit_suite *suite)
++{
++	return platform_driver_register(&fwnode_link_test_driver);
++}
++
++static void fwnode_link_test_suite_exit(struct kunit_suite *suite)
++{
++	platform_driver_unregister(&fwnode_link_test_driver);
++	device_link_wait_removal();
++}
++
++static struct kunit_suite fwnode_link_test_suite = {
++	.name = "fwnode-link",
++	.suite_init = fwnode_link_test_suite_init,
++	.suite_exit = fwnode_link_test_suite_exit,
++	.test_cases = fwnode_link_test_cases,
++};
++
++kunit_test_suite(fwnode_link_test_suite);
++
++MODULE_DESCRIPTION("KUnit tests for firmware-node links");
++MODULE_LICENSE("GPL");
+diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+index 4e86e6990d28..ad4250fc7afb 100644
+--- a/include/linux/fwnode.h
++++ b/include/linux/fwnode.h
+@@ -254,6 +254,8 @@ int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup,
+ void fwnode_links_purge(struct fwnode_handle *fwnode);
+ void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
+ void fw_devlink_refresh_fwnode(struct fwnode_handle *fwnode);
++int fw_devlink_copy_suppliers(struct fwnode_handle *to,
++			      struct fwnode_handle *from);
+ bool fw_devlink_is_strict(void);
+ 
+ #endif
+
+-- 
+2.53.0
 
