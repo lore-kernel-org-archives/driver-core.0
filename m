@@ -1,89 +1,213 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70ED233344A
-	for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 06:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BF0372B5A
+	for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 06:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787034397; cv=none; b=PhYTZXlXAUn+x+0GLC/0K8DmiCQUnmGbTmTKCKBDVmqsfZHTAA+lF4Rtxmmk4SUVo0Q4oSj3TK6HeBaNbjQB5vufwIIqo40YlQ4Gcaipa/9IZO5Otlcv5GJSACOeByUxWDtISCo2N85ujr1rg2Dt2F4hPmLDH3GFtkDs7PN51yQ=
+	t=1787036350; cv=none; b=X3/2/DHuCKS2EebAXxb3xIjvQRcwDDszXOyOnR8al+70zgZJxEpiCdVAF7Qvo91K82U941i19VYlVrU6lUrnJQIAJjruK/JaK+SobXGFr5oKg4qQTniYFlDAbnV+Bqt5rdKPmY1tFWaZrP1av0KeyJ9UgoVAB7vnLS+4m3LjdJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787034397; c=relaxed/simple;
-	bh=CdZWVE2aVxvvoMcSS/wkYxHqnEorhORvC+axj36DENI=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=Hb6Me4oUrkKRDE29qTIJfC4gZCl+TCcte/Qhi9JSAVgVmDk54ZC6fTqd+zoYZCmxCpscBGv5v49pa7DfrsZdERC/htntczHPiJzMb5XIn6vKt+O2Wj8hpouMDvTtzUu5zcZV5+JL86LAw175Dqkx2A4/R3TK4PQELdqVrw0fy74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=4.193.249.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.190.164.155])
-	by mtasvr (Coremail) with SMTP id _____wAnIH8G+4Nq7YGiAA--.26113S3;
-	Tue, 18 Aug 2026 14:26:15 +0800 (CST)
-Received: from stitch$zju.edu.cn ( [10.190.164.155] ) by
- ajax-webmail-mail-app2 (Coremail) ; Tue, 18 Aug 2026 14:26:14 +0800
- (GMT+08:00)
-Date: Tue, 18 Aug 2026 14:26:14 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Jiacheng Xu" <stitch@zju.edu.cn>
-To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org
-Cc: akpm@linux-foundation.org, driver-core@lists.linux.dev
-Subject:  [PATCH] kobject: fix out-of-bounds read in action parser
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260617(6f868824) Copyright (c) 2002-2026 www.mailtech.cn zju.edu.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1787036350; c=relaxed/simple;
+	bh=D/pmpT1MHUXbBSsDgHnw4mLi6p3iwlFDCAYqzCrg8no=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TKYJuWt97DO3ol54i6rslDGoPVT2oWry/BHWvX8f3w+4au3lpoJ0Aqwn+rnI2aGAS4MVtK7ElgVzuVlWGVR1IQrZMQq7EtRYCLJFCqtBdxyG4Lye7/8st/nv5t9DChbIKdYflqmD24FGVhlXM2ekxfWU5bmLjT5Ie0LK3g12jO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCa/xQjc; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCa/xQjc"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7eb29ed2bbdso2350419a34.2
+        for <driver-core@lists.linux.dev>; Mon, 17 Aug 2026 23:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787036341; x=1787641141; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=DeMyVaMFOea0yLlM8gVonhIGCBF8ArkQ/Fdvw30KkVU=;
+        b=BCa/xQjc+kjc32VPzKNSnHRPu8F+ln1T+hx5w2MNjQQEJRYhHbjtnoSbzVa6mbPNKD
+         6zW51c3Da2CPkp48cPAnTqIckKiKdn6nVUXOnAs+vzIBJQo7PAXVJJ5HN02w4Uw6Zlon
+         aMWMH24/vjV2678okpFaqfsF/r2zxgUUgSjQ8Yu2ndUDwn/ISNjP2mlbQn/BCsmJtuE3
+         MJ5pR3QJLwU1NixGUjfMtMkSejGW9oF5MO/dl6h2ZK6gJfi8QOdff+L9OLh50fd9vCQT
+         Op2NEjKQ0ZFN5ADfXtZOB3T076GMVQzbPgZjih2qmdhf3+KC5qFBtlXvmjTK6koIQsD6
+         SxJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787036341; x=1787641141;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DeMyVaMFOea0yLlM8gVonhIGCBF8ArkQ/Fdvw30KkVU=;
+        b=cMAYUrSZo9pbTnRKSxiFJo2ZqBWqWuJic3Q5vumbocs+zGWzOIuYogUOxeOumbhS3B
+         nB78QHQ3ZFK34xR1Bt8bQ9dDI7D/j4LFKSz2ldX7K6i/efUjboWvW56E9McD73IAuwk8
+         dn+9VBgF1rYDqGAwuHxkSTx8EqvnZSSgovfjOv+6k0I4/YQTHe/e1bxdAIHoAqrwJ0sK
+         +Lbj/C0lO0ZnKOQB/aX9jMYoqWAGm8ZoWqRNcjZGjKt9yFxbX0SdqCF3/agFX1aKl7aJ
+         kD+W01upd+UhKD31dk9uJTqvafHV2S6zpDWUyPhmuCJk7/ErvZ32ZyupzMx6T9QOgRXv
+         JvNg==
+X-Forwarded-Encrypted: i=1; AHgh+RqqYOf1YvMRSqydeCZ2wTvaOoG2zWgkS0IHsm60j9IKaCTpuvJcS0SZHHiPcw8yJKQpJRZEqf3LVLdCUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YybSWXOB22wqDKaJMYzM7HJ2BHL43BhMAv7sXAQqNgsg1gl8YPC
+	13afzISW/lULtnML33sxqTIiZ4qulzJ8y8RD+nlcfy/uTWO5Ez+PrWAw
+X-Gm-Gg: AR+sD12OqyTGvQOTpV2DTjs4syBJZoY9llEoxfhBagvtXisrGgaXqooNWXA7HdA25iW
+	c1QLcdNECiOvdXAj9HbL92aZ0cVCVKxFJsGmqUOWluRnX8HWvSdWOrqJHMijlAlS/6datsw0xWV
+	1efk/9Kgnqaya5Iw0yDc417FEb8h/SKtstLcNZqiXd9DPFyOMVCgHt1tWMSR/1IKh2t4lkON1MP
+	OhY/ZE/HbKP56uwtnTvl1t6sp1dwBs4GHG5vUD2vrTyCqlvpYZRXqykOsVvlRIee10+rXYtzuz7
+	xgDCrM/c1pJjfuaIOm79A1eQUwpxUpyft2KmQjPcvk1h9LCTg6+XumHyxCqOXBgnjjH0XNha+LW
+	cxF9o4E9H/n0ra7Y032ct1+nyXF/k6lEq1E7b9Fxssh7Z6iDtr1xOP2I8kY6PaChV4UQVSI86XC
+	za1Qq2fdKYRhvYSG9rHve8QIPlzI+kWQtedlr28LptVpedL6jZSqT3ttqtdLWXyagMjrPcA/pzd
+	1qgyX+5SkK5NuXoPsVJMZqSzko02xwlCCpFHZndlz3B7YbmVYsfl8eRptOgSWC+X00M8SuN8ujO
+	UODdWvD94IEzRukN+Cq8M0wV2q5DKegzxopFBNlKp5gGbonmv/PHhWAmKWGSetr/zDotWCxYDo+
+	Mjyg+Lj6pPQpY0nlZ
+X-Received: by 2002:a05:6830:6996:b0:7eb:89e4:8f5c with SMTP id 46e09a7af769-7f423ec621emr6353519a34.14.1787036341544;
+        Mon, 17 Aug 2026 23:59:01 -0700 (PDT)
+Received: from [127.0.1.1] (184-96-154-59.hlrn.qwest.net. [184.96.154.59])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f41beef430sm3599463a34.5.2026.08.17.23.59.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 23:59:01 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH net-next v3 0/4] driver core, net: handle fw_devlink for
+ class devices and PHY packages
+Date: Tue, 18 Aug 2026 00:58:56 -0600
+Message-Id: <20260818-submit-phy-package-fwdevlink-v1-v3-0-40a905ea16b6@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <200d27f7.1471a.1a0138c92da.Coremail.stitch@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:zC_KCgBXx8wG+4NqrzL4Aw--.20459W
-X-CM-SenderInfo: qtrxiiaqttimo62m3hxhgxhubq/1tbiAwYHC2qDvBYE7wAAsh
-X-CM-DELIVERINFO: =?B?iDRwTAXKKxbFmtjJiESix3B1w3tMoM3snk/k5SVzZVydjEqe1eefKHnLf95EnB4iem
-	egW8+OhS+QO2dYbxzcbMJOVXcAY3kqnHhljA8Eppavh2t+C6uslOxD+Qqp5wuj0SqU3qDI
-	HhY2dyABfiB15EYgC/Q1Md2LXB9jSIi815nA/5O1IkFdfSebY+rAK0eGGfowhg==
-X-Coremail-Antispam: 1Uk129KBj93XoW7Zr4xKryxJF1ftw48Aw4xAFc_yoW8Gw4Dpr
-	sI9w13tr95Jw47GwsxtaykWFW7Za1kAr1UJF909wnIkw4Y9wnYgF1DKr1UZr13GF95Ar1Y
-	q3WUKwn09ayDZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPGb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
-	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
-	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCF
-	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Jr0_Gr1l6VACY4xI67k04243AbIYCTnIWIevJa73UjIFyTuYvj
-	xU2_HjUUUUU
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OQQ6CMBBFr0K6tqYUiuDKexgXtZ3KKBRCa4UY7
+ m6tG3eazOZn/rw3T+JgQnBknz3JBAEdDjaGYpMR1Up7AYo6ZsIZr1idl9Tdzz16OrYLHaW6ydg
+ wDw2hQ3ujIae7StamAQOiaEikjBMYnJPhSCx4amH25PTZRNgVlH8L3t0WnR+mJT0T8nTxtzcOo
+ 7zIm7osDRM7ebj0ErutGvpkC/ybV/3m8cQDIbQWjZH6m7eu6wtIR6VdOgEAAA==
+X-Change-ID: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Christian Marangi <ansuelsmth@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-acpi@vger.kernel.org, netdev@vger.kernel.org, 
+ James Hilliard <james.hilliard1@gmail.com>
+X-Mailer: b4 0.15.2
 
-a29iamVjdF9hY3Rpb25fdHlwZSgpIHVzZXMgdGhlIHBvc2l0aW9uIG9mIHRoZSBmaXJzdCBzcGFj
-ZSBpbiB0aGUgaW5wdXQKYXMgdGhlIGxlbmd0aCBvZiB0aGUgdWV2ZW50IGFjdGlvbi4gIEl0IHRo
-ZW4gY2hlY2tzIHRoZSBieXRlIGF0IHRoYXQKcG9zaXRpb24gaW4gdGhlIGNvcnJlc3BvbmRpbmcg
-YWN0aW9uIHN0cmluZy4KCkFuIGVtYmVkZGVkIE5VTCBieXRlIGNhbiBtYWtlIHN0cm5jbXAoKSBy
-ZXBvcnQgYSBtYXRjaCB3aGlsZQpjb3VudF9maXJzdCBpcyBhbHJlYWR5IGdyZWF0ZXIgdGhhbiB0
-aGUgYWN0dWFsIGxlbmd0aCBvZiB0aGUgYWN0aW9uCnN0cmluZy4gIEZvciBleGFtcGxlLCB0aGUg
-aW5wdXQgImJpbmRcMCAuLi4iIG1ha2VzIHRoZSBwYXJzZXIgYWNjZXNzCmtvYmplY3RfYWN0aW9u
-c1tLT0JKX0JJTkRdWzVdLCB3aGljaCBpcyBiZXlvbmQgdGhlIGVuZCBvZiB0aGUgImJpbmQiCnN0
-cmluZy4KClVzZSBzdHJsZW4oKSB0byB2ZXJpZnkgdGhhdCB0aGUgaW5wdXQgYWN0aW9uIGxlbmd0
-aCBleGFjdGx5IG1hdGNoZXMgdGhlCmtub3duIGFjdGlvbiBzdHJpbmcgYmVmb3JlIGFjY2VwdGlu
-ZyB0aGUgbWF0Y2guICBUaGlzIGF2b2lkcyBpbmRleGluZwp0aGUgYWN0aW9uIHN0cmluZyB3aXRo
-IGFuIG91dC1vZi1ib3VuZHMgb2Zmc2V0LgoKRml4ZXM6IGYzNjc3NmZhZmJhYSAoImtvYmplY3Q6
-IHN1cHBvcnQgcGFzc2luZyBpbiB2YXJpYWJsZXMgZm9yIHN5bnRoZXRpYyB1ZXZlbnRzIikKU2ln
-bmVkLW9mZi1ieTogSmlhY2hlbmcgWHUgPHN0aXRjaEB6anUuZWR1LmNuPgotLS0KbGliL2tvYmpl
-Y3RfdWV2ZW50LmMgfCAyICstCjEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQoKZGlmZiAtLWdpdCBhL2xpYi9rb2JqZWN0X3VldmVudC5jIGIvbGliL2tvYmplY3Rf
-dWV2ZW50LmMKaW5kZXggZGRiYzRkNzQ4MmQyLi5iMDM1NjIzMDFiZmUgMTAwNjQ0Ci0tLSBhL2xp
-Yi9rb2JqZWN0X3VldmVudC5jCisrKyBiL2xpYi9rb2JqZWN0X3VldmVudC5jCkBAIC04Myw3ICs4
-Myw3IEBAIHN0YXRpYyBpbnQga29iamVjdF9hY3Rpb25fdHlwZShjb25zdCBjaGFyICpidWYsIHNp
-emVfdCBjb3VudCwKZm9yIChhY3Rpb24gPSAwOyBhY3Rpb24gPCBBUlJBWV9TSVpFKGtvYmplY3Rf
-YWN0aW9ucyk7IGFjdGlvbisrKSB7CiAgICAgICAgaWYgKHN0cm5jbXAoa29iamVjdF9hY3Rpb25z
-W2FjdGlvbl0sIGJ1ZiwgY291bnRfZmlyc3QpICE9IDApCiAgICAgICAgICAgICAgICBjb250aW51
-ZTsKLSAgICAgICAgICAgICBpZiAoa29iamVjdF9hY3Rpb25zW2FjdGlvbl1bY291bnRfZmlyc3Rd
-ICE9ICdcMCcpCisgICAgICAgICAgICAgaWYgKHN0cmxlbihrb2JqZWN0X2FjdGlvbnNbYWN0aW9u
-XSkgIT0gY291bnRfZmlyc3QpCiAgICAgICAgICAgICAgICBjb250aW51ZTsKICAgICAgICBpZiAo
-YXJncykKICAgICAgICAgICAgICAgICphcmdzID0gYXJnc19zdGFydDsK
+Managed device links normally advance through probe and removal alongside
+a device driver. Driverless class devices are added directly, so their
+links do not currently receive equivalent transitions. A class supplier
+can leave its consumers dormant, while sync-state-only links from a class
+consumer can indefinitely prevent suppliers from receiving sync_state().
+Removal also does not unbind consumers of a class supplier.
+
+Ethernet PHY packages expose both sides of this problem. A package node
+describes resources shared by member PHYs, but is a container rather than
+a device. fw_devlink preserves that topology and temporarily represents
+those dependencies through the closest device, which for OF MDIO is the
+driverless MDIO bus class device. Its proxy links previously remained
+after the real PHY had probed and kept the package suppliers from reaching
+sync_state().
+
+Handle the generic class-device lifecycle in the driver core. Put
+driverless class devices into the probing state while device_add()
+publishes them, complete their incoming and outgoing managed links after
+class interfaces run, and apply the corresponding unbind and cleanup
+transitions during device_del(). This supports class devices as either
+suppliers or consumers and keeps descendant firmware links available for
+devices created later. Keep inferred links to probing and registered class
+suppliers out of no-driver fallback paths, and recognize class-backed
+nodes when refreshing dependencies after firmware-tree overlays.
+
+Keep generic firmware parsing faithful to the described topology. Add a
+helper through which a subsystem can copy a container node's direct
+supplier links onto the firmware node for a real child device, then use it
+from PHY registration before device_add(). The ordinary fw_devlink path
+consequently creates each managed PHY link at the normal
+device-registration stage.
+
+Finally, defer supplier sync-state callbacks across OF MDIO bus
+registration and child population. This closes the interval between
+completion of the bus class device and installation of the member PHY
+links without adding an MDIO-specific device-link state transition.
+
+This was found while validating an X-Powers AC300 package whose input
+clock is supplied by PWM. Before the fix, the PWM driver reported that
+sync_state() was pending due to stmmac-0 after the PHY had probed.
+
+The complete series was tested on an Allwinner H616 board with an X-Powers
+AC300 PHY package. All five package-derived supplier links targeted the
+member PHY and no proxy link remained on the driverless MDIO bus. The PWM
+supplier reached state_synced while continuing to generate the PHY clock.
+These properties remained true after unbinding and rebinding the MAC, and
+the PHY renegotiated a 100 Mbps full-duplex link. Both before and after
+that lifecycle test, 8 MiB transfers in each direction compared correctly
+and 100 consecutive pings completed without loss.
+
+Validation also included:
+
+  - a full arm64 defconfig Image and modules build with W=1;
+  - KUnit tests for class supplier/consumer transitions, inferred-link
+    preservation, and fwnode supplier copying and device-link conversion;
+    and
+  - strict per-patch checkpatch and whitespace checks.
+
+Assisted-by: Codex:gpt-5.6-sol
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes in v3:
+- Replace the framework-specific proxy cleanup with generic managed-link
+  lifecycle handling for driverless class suppliers and consumers, as
+  suggested by Saravana Kannan
+- Handle registered class consumers during supplier teardown without a
+  no-op driver release or driver-only cleanup warning
+- Derive class handling inside the shared bound helpers and clarify the
+  lifecycle documentation
+- Keep inferred links to probing and registered class suppliers out of
+  no-driver fallback paths and include class nodes in overlay refresh
+- Keep firmware parsing topology-only and let the PHY layer project package
+  suppliers onto member PHYs through a new fwnode-link copy helper, as
+  suggested by Saravana Kannan
+- Defer supplier sync across MDIO bus and OF child population instead of
+  deleting proxy links from the MDIO framework
+- Add driver-core KUnit coverage and device-link lifecycle documentation
+- Drop the unrelated malformed-graph guard because no concrete DT or
+  runtime reproducer was found
+- Rebase on current net-next/main
+- Link to v2: https://patch.msgid.link/20260816-submit-phy-package-fwdevlink-v1-v2-0-23e55dd59fad@gmail.com
+
+Changes in v2:
+- Add a preparatory guard for malformed graph consumers
+  (reported by Sashiko)
+- Rebase on net-next/main
+- Link to v1: https://patch.msgid.link/20260814-submit-phy-package-fwdevlink-v1-v1-0-2319844f057a@gmail.com
+
+---
+James Hilliard (4):
+      driver core: add fw_devlink supplier-copy helper
+      net: mdio: link PHY package suppliers to member PHYs
+      net: mdio: defer supplier sync during OF population
+      driver core: handle managed links for class devices
+
+ Documentation/driver-api/device_link.rst   |  47 ++-
+ drivers/base/base.h                        |   2 +
+ drivers/base/core.c                        | 332 +++++++++++++++-----
+ drivers/base/dd.c                          |  21 +-
+ drivers/base/test/Makefile                 |   2 +
+ drivers/base/test/device-link-class-test.c | 479 +++++++++++++++++++++++++++++
+ drivers/base/test/fwnode-link-test.c       | 207 +++++++++++++
+ drivers/net/mdio/of_mdio.c                 |  34 +-
+ include/linux/device.h                     |   9 +-
+ include/linux/fwnode.h                     |   2 +
+ 10 files changed, 1042 insertions(+), 93 deletions(-)
+---
+base-commit: 47226bbdef69fc0de815b8f5b81b39673f50bbee
+change-id: 20260814-submit-phy-package-fwdevlink-v1-76a8f9efe539
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
 
