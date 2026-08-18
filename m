@@ -1,76 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5817043E079;
-	Mon, 17 Aug 2026 15:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70ED233344A
+	for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 06:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786981470; cv=none; b=qzZZEdHSeZY05Iua863WJRZhM4uBg0o8vJsyQaqH8gzEHwb1treguMqnto14DEaJEUxh9ipOZwnIYiEd9gFHl/BIruBHoYWRN0IYs33eHkA+P182xOfB5yihIi4yQeteMRS1la6G4qvytLt9SmqFupW77tcu+MmdTj7clGhVc+4=
+	t=1787034397; cv=none; b=PhYTZXlXAUn+x+0GLC/0K8DmiCQUnmGbTmTKCKBDVmqsfZHTAA+lF4Rtxmmk4SUVo0Q4oSj3TK6HeBaNbjQB5vufwIIqo40YlQ4Gcaipa/9IZO5Otlcv5GJSACOeByUxWDtISCo2N85ujr1rg2Dt2F4hPmLDH3GFtkDs7PN51yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786981470; c=relaxed/simple;
-	bh=2nLQkUyEKRR18p+WnC9W2wgWKyl+84bDXBYzTf3PfzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YiqAlIj+0GjDvB54/99sPRIF7sQcbKfqQM0I7nk12pbkAdUPhxgHZftZqKNTf1BDvURqJIGiUYETyjvx9Cp5tKiOthIZ4VW71SgiGN1qxES3kaE9NyhcFAOnYg14hTJODEN2N9FFcJcYZnKVMH4ERCMnx18R46FngyZkwztw4nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLjgiJvr; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLjgiJvr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748051F000E9;
-	Mon, 17 Aug 2026 15:44:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786981469;
-	bh=ALW69sobqjQmXlkf4i60Ji/sF0wUVgqZ8KQ8cjh+01w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bLjgiJvrF7JxqPLdAD+CnPP7txks2Xv27Qc+igBF76jTRlynkD3q20tik3RXSMTar
-	 xnj8PSqlxNjYUCL61X9AVaHp3WcuQcjgDPHUHULZff8iQfs5POpQamVMzTaCecb0AZ
-	 oZjBfIuW8RxxlX9ChxO6jSVlSjoPdEpMy6nym7Hr6HrQjaMdYTVinN/3/lrtnJjm+g
-	 s3RH3qve73pezBRAWo1gR5INxMgbtg7i2cSpb5QKaRARydyloLLWg9ZbgwlaYEeQj2
-	 W8QFuDaR3uCA7GgymZNgs2tpKxQtEhE496GET9ATzahtwDA9vco4ZkK1zo4eu0a0qJ
-	 8oALL4ZqJjAzQ==
-Date: Mon, 17 Aug 2026 08:44:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Vladimir
- Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev
-Subject: Re: [PATCH net-next v12 0/6] net: dsa: mxl862xx: devlink flash and
- rescue
-Message-ID: <20260817084427.54db3449@kernel.org>
-In-Reply-To: <cover.1786922210.git.daniel@makrotopia.org>
-References: <cover.1786922210.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1787034397; c=relaxed/simple;
+	bh=CdZWVE2aVxvvoMcSS/wkYxHqnEorhORvC+axj36DENI=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=Hb6Me4oUrkKRDE29qTIJfC4gZCl+TCcte/Qhi9JSAVgVmDk54ZC6fTqd+zoYZCmxCpscBGv5v49pa7DfrsZdERC/htntczHPiJzMb5XIn6vKt+O2Wj8hpouMDvTtzUu5zcZV5+JL86LAw175Dqkx2A4/R3TK4PQELdqVrw0fy74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=4.193.249.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.190.164.155])
+	by mtasvr (Coremail) with SMTP id _____wAnIH8G+4Nq7YGiAA--.26113S3;
+	Tue, 18 Aug 2026 14:26:15 +0800 (CST)
+Received: from stitch$zju.edu.cn ( [10.190.164.155] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Tue, 18 Aug 2026 14:26:14 +0800
+ (GMT+08:00)
+Date: Tue, 18 Aug 2026 14:26:14 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Jiacheng Xu" <stitch@zju.edu.cn>
+To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org
+Cc: akpm@linux-foundation.org, driver-core@lists.linux.dev
+Subject:  [PATCH] kobject: fix out-of-bounds read in action parser
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
+ 20260617(6f868824) Copyright (c) 2002-2026 www.mailtech.cn zju.edu.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Message-ID: <200d27f7.1471a.1a0138c92da.Coremail.stitch@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:zC_KCgBXx8wG+4NqrzL4Aw--.20459W
+X-CM-SenderInfo: qtrxiiaqttimo62m3hxhgxhubq/1tbiAwYHC2qDvBYE7wAAsh
+X-CM-DELIVERINFO: =?B?iDRwTAXKKxbFmtjJiESix3B1w3tMoM3snk/k5SVzZVydjEqe1eefKHnLf95EnB4iem
+	egW8+OhS+QO2dYbxzcbMJOVXcAY3kqnHhljA8Eppavh2t+C6uslOxD+Qqp5wuj0SqU3qDI
+	HhY2dyABfiB15EYgC/Q1Md2LXB9jSIi815nA/5O1IkFdfSebY+rAK0eGGfowhg==
+X-Coremail-Antispam: 1Uk129KBj93XoW7Zr4xKryxJF1ftw48Aw4xAFc_yoW8Gw4Dpr
+	sI9w13tr95Jw47GwsxtaykWFW7Za1kAr1UJF909wnIkw4Y9wnYgF1DKr1UZr13GF95Ar1Y
+	q3WUKwn09ayDZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPGb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCF
+	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Jr0_Gr1l6VACY4xI67k04243AbIYCTnIWIevJa73UjIFyTuYvj
+	xU2_HjUUUUU
 
-On Mon, 17 Aug 2026 00:23:06 +0100 Daniel Golle wrote:
-> Subject: [PATCH net-next v12 0/6] net: dsa: mxl862xx: devlink flash and rescue
-
-## Form letter - net-next-closed
-
-The merge window for v7.3 has started, and therefore net-next is closed
-for new drivers, features, code refactoring and optimizations.
-We will only consider applying net-next patches which were posted
-before the announcement:
-
-https://lore.kernel.org/20260816155953.072d73da@kernel.org
-
-Fixes are obviously welcome at any time. net-next patches may be sent
-for review and discussion only with an RFC tag.
-
-Please repost when net-next reopens.
-
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#development-cycle
--- 
-pw-bot: defer
-pv-bot: closed
+a29iamVjdF9hY3Rpb25fdHlwZSgpIHVzZXMgdGhlIHBvc2l0aW9uIG9mIHRoZSBmaXJzdCBzcGFj
+ZSBpbiB0aGUgaW5wdXQKYXMgdGhlIGxlbmd0aCBvZiB0aGUgdWV2ZW50IGFjdGlvbi4gIEl0IHRo
+ZW4gY2hlY2tzIHRoZSBieXRlIGF0IHRoYXQKcG9zaXRpb24gaW4gdGhlIGNvcnJlc3BvbmRpbmcg
+YWN0aW9uIHN0cmluZy4KCkFuIGVtYmVkZGVkIE5VTCBieXRlIGNhbiBtYWtlIHN0cm5jbXAoKSBy
+ZXBvcnQgYSBtYXRjaCB3aGlsZQpjb3VudF9maXJzdCBpcyBhbHJlYWR5IGdyZWF0ZXIgdGhhbiB0
+aGUgYWN0dWFsIGxlbmd0aCBvZiB0aGUgYWN0aW9uCnN0cmluZy4gIEZvciBleGFtcGxlLCB0aGUg
+aW5wdXQgImJpbmRcMCAuLi4iIG1ha2VzIHRoZSBwYXJzZXIgYWNjZXNzCmtvYmplY3RfYWN0aW9u
+c1tLT0JKX0JJTkRdWzVdLCB3aGljaCBpcyBiZXlvbmQgdGhlIGVuZCBvZiB0aGUgImJpbmQiCnN0
+cmluZy4KClVzZSBzdHJsZW4oKSB0byB2ZXJpZnkgdGhhdCB0aGUgaW5wdXQgYWN0aW9uIGxlbmd0
+aCBleGFjdGx5IG1hdGNoZXMgdGhlCmtub3duIGFjdGlvbiBzdHJpbmcgYmVmb3JlIGFjY2VwdGlu
+ZyB0aGUgbWF0Y2guICBUaGlzIGF2b2lkcyBpbmRleGluZwp0aGUgYWN0aW9uIHN0cmluZyB3aXRo
+IGFuIG91dC1vZi1ib3VuZHMgb2Zmc2V0LgoKRml4ZXM6IGYzNjc3NmZhZmJhYSAoImtvYmplY3Q6
+IHN1cHBvcnQgcGFzc2luZyBpbiB2YXJpYWJsZXMgZm9yIHN5bnRoZXRpYyB1ZXZlbnRzIikKU2ln
+bmVkLW9mZi1ieTogSmlhY2hlbmcgWHUgPHN0aXRjaEB6anUuZWR1LmNuPgotLS0KbGliL2tvYmpl
+Y3RfdWV2ZW50LmMgfCAyICstCjEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL2xpYi9rb2JqZWN0X3VldmVudC5jIGIvbGliL2tvYmplY3Rf
+dWV2ZW50LmMKaW5kZXggZGRiYzRkNzQ4MmQyLi5iMDM1NjIzMDFiZmUgMTAwNjQ0Ci0tLSBhL2xp
+Yi9rb2JqZWN0X3VldmVudC5jCisrKyBiL2xpYi9rb2JqZWN0X3VldmVudC5jCkBAIC04Myw3ICs4
+Myw3IEBAIHN0YXRpYyBpbnQga29iamVjdF9hY3Rpb25fdHlwZShjb25zdCBjaGFyICpidWYsIHNp
+emVfdCBjb3VudCwKZm9yIChhY3Rpb24gPSAwOyBhY3Rpb24gPCBBUlJBWV9TSVpFKGtvYmplY3Rf
+YWN0aW9ucyk7IGFjdGlvbisrKSB7CiAgICAgICAgaWYgKHN0cm5jbXAoa29iamVjdF9hY3Rpb25z
+W2FjdGlvbl0sIGJ1ZiwgY291bnRfZmlyc3QpICE9IDApCiAgICAgICAgICAgICAgICBjb250aW51
+ZTsKLSAgICAgICAgICAgICBpZiAoa29iamVjdF9hY3Rpb25zW2FjdGlvbl1bY291bnRfZmlyc3Rd
+ICE9ICdcMCcpCisgICAgICAgICAgICAgaWYgKHN0cmxlbihrb2JqZWN0X2FjdGlvbnNbYWN0aW9u
+XSkgIT0gY291bnRfZmlyc3QpCiAgICAgICAgICAgICAgICBjb250aW51ZTsKICAgICAgICBpZiAo
+YXJncykKICAgICAgICAgICAgICAgICphcmdzID0gYXJnc19zdGFydDsK
 
