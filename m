@@ -1,54 +1,53 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021111.outbound.protection.outlook.com [52.101.95.111])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021107.outbound.protection.outlook.com [52.101.95.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A3E4582EA;
-	Wed, 19 Aug 2026 11:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2D2455184;
+	Wed, 19 Aug 2026 11:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.107
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787137827; cv=fail; b=NY032t0DqGF4HFdtVRHe6X6Ma5hMmGz6ag7doksp+Ys0XMbSMGDdXIA2rvaZNEN2q0MnmKsrdCP4XVQLXnjXYsmFvsvAP2CKL6TBw6wKEQPp1exgD49rJyEUDDXdhrgeobVLd7PenenVxa4qtEln8M9d4kS5QPqTpbTuvWI0e10=
+	t=1787137829; cv=fail; b=JjMlvMYgE2DjByHknRXMVhXwxR/H05kjmcF2PBlj0wC1sejn57wvlrcDxWvMbWSuLJreYqUmdzqQnen3TZHus2RyZHzUyJauqKGt1FOso9pAG0mBMD16dA7asOYeSHxB3CapwkWyRl8mK7GSLY72FvZP/Sk/Xo2hNzMw7stj85c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787137827; c=relaxed/simple;
-	bh=fNklDIbUzqKSWVEec0SWn3DPw8OYEFfR6ffLgTCMyYU=;
+	s=arc-20240116; t=1787137829; c=relaxed/simple;
+	bh=EA8nt8Iv5DnadzaZ1L833fTrj6susiTu+zZOLANPB2A=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=KkK0q9vK8u640fFcN89p5kB5goxu0xAd8w/LJcVKxmGiVbjD5a1FT1BkDOcJCCsNS7F9Rxqpg1IhxV6v79kwNadEMtcVR2Da+56XAmDFCrhAZGPCEeX10je2ZPs+x7TbT/pG2zSGxrAXF83lEwAxVR/OSX5YGl84s0O4paMXozA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=WONRkcjY; arc=fail smtp.client-ip=52.101.95.111
+	 To:Cc:MIME-Version; b=s2uNG3lCrXpxRgFbzOMNslS8nEnQr6ZXXRPR4CqsAIefch4tL424auKOS6JHJ9R24YdHUlXuN5k2SoavpDG+9GsE8tkIa9boTocBjeOJHpj/hfHrq4uq6qF915zbPGdJlRrDx6qDPi4YsPvYST+/GY6H8cEw62spWEzZeWx0OhI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=D/vlFjbg; arc=fail smtp.client-ip=52.101.95.107
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="WONRkcjY"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="D/vlFjbg"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wVpNd674T498BF3qwmvBrflbOns4B0l1EShDa4gULoAmzFNNn7wM6FfVjw2f7M0zjVNEAmT/EqjRQvWOFcWZjWfCyB8c8HNJCq0A54bZ0pHAYxDTBYmXUdhvR5fEbLUbUYdTn46mluA442GhfqMMtgmGRtyTaz+TEpTVP1QTQgQIn4EkYg+zq/sAu8/Uvy3JrrqJnKjkCl8jGSDdx54VkDyHuCBUPcSUGHz2sJOPCA6/sVBd2uMocRjW16XYXfvk8wfHKJetx9Yi0zE4+MkO1yf3yviHZnAL/eED6rqi0LHyjRy6SLw4G+sEWOHTZmax1JyoKX9xI/dsCnMrM1LhOQ==
+ b=Vx7IIfosOm+s60SPvu5v/hUovVbU8s+miUbjGMs18Cx0+tjEz+iuT0bNbtyMxIL1RqYZN73RmkWgjMa+RwlUt5B2W0vm9Lx+2BxD1953G3FBsV4bD9meaus3HAAXiFkYXrQtozPZaxiXKgCqNV5OA/WEbfDZc6NYlnrAlo5dKb6ccZJYwTXrgYsXPEkkXsBTVe0BXG0MNIvEKV/8FBSLzy44i+1BQaV/E6IYOKZFHd3Z5IroY7RDPEh3TWmJquIN0FuME2w8eam4q0Eq/GTysADu5abgUDrBFIRcmqonbsRzIx9f/LolI8GYSkuslKhRjH3ognFW1nTwb20eN5piPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VJJU6M0wRwT05SIiqR0kX7QMTa06jMPQLqD4QL3HvJg=;
- b=oNRv18YeMW7siwNKFnRV1Z8+p4d5RqDGVmgtOTJy31Nbi9yGY0LaBMko3mlY0hZWUZh7dnOUus/3hBgk1jVVLscWB97g70b2t1VKKPK9vaaEYJJOhBQq1/x8bkfTcgSCd0ADc0nHcZHIBp3lX9r1NdL1dLAW7N7ftdIy2KQkUFwHgG3p3SwfP5bYwKIv+i8/oEWVMLH+cke6/bwmkiVtEya1fgrAjNhymFoa5TH94LmalWlQxmKXQEp6vuWn6PmZhySMvD5d+YJWLCtDvxLRrxBI3GgjCTfF+b+izgNtZdfnaV+nqvhtsZh3e6k1a/YALzkZng+rmC/CgBIhWiVaKQ==
+ bh=Hb082skm67h44ihoTj0EfK5v+N6cUhum6FfNDFPKiGo=;
+ b=RdfrXEXzbVNNyl6geTDFUM0BbTGnsnrEtSzLzrnAHJ3W95aatpd9Gml0KWhiF5Jfj6kpalRGoJMREF8OG0YRudqP2TrqGHtxCUyoE3m0dGLGIGNRVdC46bqhOeUOyQD/cxmXqy6UElVyFmdm4vos4sYCfoP8fSaXSe0Y07UjD+qyrjF+TVNqr6I7M68hkNaO4iD/ZkYwPKkg2k/GRFRXfqs5ozIYbGuyQigrdwZILiyU9aIoaHAY2Vw/DLHpgfxHaLt0FtGyTUyiFfEUcNHHRyXnfMLkclxkQIByJrQ8N78ALddr+SUxMpB1ApbnPkrmPmjptMd1pWQpxqXLiP4Dyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJJU6M0wRwT05SIiqR0kX7QMTa06jMPQLqD4QL3HvJg=;
- b=WONRkcjYGLWE9gSeF2o45pCrOYUkL+AZq1lRZvLWhvZn9MmwDT0wKMueZaB5x0681nsieL2le1iDsNYa4Wt9u3x/3Ldvy7xLQce+wBaq9d3XZbVypdRi4lcbkS65Z2TM7uH7sKIOULTu7SoZBtMgVeFlRSG8PFdgMhHWUIJfSB4=
+ bh=Hb082skm67h44ihoTj0EfK5v+N6cUhum6FfNDFPKiGo=;
+ b=D/vlFjbgquGHAa2pkz1YLMdB3R4fxQYcdTRYeBX2jyomtSAYkuyFFjegEj724vgq83BzRbFVxdof9SQSZ+aBdlG1W25u3CeMtTcJCh6DUkvArQd4Bah0Zlk6TvnGfnujyWTjdBQohxV2QBmjQjyVWd/ZTNw40PwrNwPJxiyj6BI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWLP265MB5113.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:15d::12) with
+ by CWLP265MB7056.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:200::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 11:10:21 +0000
+ 2026 11:10:19 +0000
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
- 11:10:21 +0000
+ 11:10:19 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Wed, 19 Aug 2026 12:09:18 +0100
-Subject: [PATCH v3 10/16] rust: io: register: make register have a typed
- base
+Date: Wed, 19 Aug 2026 12:09:15 +0100
+Subject: [PATCH v3 07/16] gpu: nova-core: specify base type for registers
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-typed_register-v3-10-3699a75fadf1@garyguo.net>
+Message-Id: <20260819-typed_register-v3-7-3699a75fadf1@garyguo.net>
 References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
 In-Reply-To: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -67,11 +66,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
  Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787137814; l=9303;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787137814; l=8925;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=fNklDIbUzqKSWVEec0SWn3DPw8OYEFfR6ffLgTCMyYU=;
- b=fz5cHTSBS+Nb0xG7qnnrNoT1YMOMcJ0YOBm+VpAMcu2+rxaa7HCaGyIxKzuKy8hwn/feyiw7r
- upAMWWLxwz1CA+GvBpRWy0Gel3Y3vti70p69GKJbeCnROHSUVHSuQjW
+ bh=EA8nt8Iv5DnadzaZ1L833fTrj6susiTu+zZOLANPB2A=;
+ b=YznlK0ObFWYzJ8n9slKdL9huS5iGINAwRO5Id2ZHomIFVJ6OKPGKASHHTW5Mg3fb+jxI+cO0v
+ Ep1TBlQXRlaAA2WZGE1sD/tLFnGewjM+cOhZCycCghFzELuRpMjdBtj
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0096.GBRP123.PROD.OUTLOOK.COM
@@ -84,328 +83,364 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB5113:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5449a54b-9e34-4407-9980-08defde275d5
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB7056:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ea6ada8-1398-4d5f-4cf9-08defde27488
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|7416014|23010399003|921020|3023799007|56012099006|10067099003|5023799004|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|10070799003|1800799024|7416014|366016|23010399003|10067099003|56012099006|22082099003|18002099003|921020;
 X-Microsoft-Antispam-Message-Info:
-	fujDrFXF/IMBBFjQnUVc6SN0c46MRdswste1XSt8I4pb0QKVYav+jDCGVt8sFyfQW+yriNAo37ZCLGVwr1qA0xP2bOCTEqnE82dbrxsXRAHLfPSEf4nv8kd/2NXztL2nDRHezg5riu9ZbavDP6IoRxlZsN9yc5j/XL3EQtS1kgVebM/6MaTkL+JKVCZVC2oeI94eiopa6yX1I4hWQgHnCJbHWluU5t9Ardn0WANHS1fmyLvw5xMXhPJ79a1bM+J74avHPPJVqQhFClfbpANW0lu05MSUHJj2YBXCj8tvmqaRYngdwAdrykJ//kAlV/a+hUbHe3ToakyyaFDupl5q8otWNWifPbaXdf5o0Dauw4LUGnQIJhpWPyWcOdkaVcJpgi3mGYM+G7ImmFE1hddyCgDwoCWKlJcYWoMBnqzI84gDUpU7Agyliz79KMhf7uq/CNV6SHwaa3wCCE9FrcAifb635jOEUt7fZtTPCdOozEGhn6Z/FZiL3gSYjDZrltHzTZ85zE5ZDP0IiRUgDo19JltlUww1D3Po3S2dI4J7bTjxRi7z4REm9vta6PJYWYBG2wSDMuoSjW3oKmWWJIbs7NAvk3lNoh5qTzFpLlO440d0FzsKyjFzE23MoKNIzpXkHgrkZDHCNmJFIFa0jgmq+DS4d/Dyu6QKRTpVBXfyAwxNx8WDxQICIqSCQWB02OukQHtdkWEEvkHirUgOkWzozQ==
+	V1J9RhJ/XkWh9Muact+97+H2j5ABneLsTeh+AuwqyL0AKYVVbn4yVoGuFwcyVfZk4npMPbglZe4EwDeVirurnH+yt7iLdzRArVvKUgezVOLeOsuGmC7lydQNePY/rGsx/HgWE2vlCHWvgS81ra2kFjNQJPqVsGTAMP94l19Pp3ROt5LJf35o+hCzel29XVQJ9pzxfMCqcL4uw+fOcajWPqB3IuRn17b2Mboez6lPOa1DBo3or6LYripH7bgku2mmyfoNxEIMmzLr3Gtpnid+Eh5j5WqFMTB3QLR6XKIHAy3Kos/I2KEdR35XK9qTJDAoHkMoLY9Xs5+ttA4CHT6LQbRg/XDbMO57tZIqxq2b52n3bQiMt0MzN3KPC8nJBPrQR5cxsPRQQqAdQh9f06Eyv3e5O82S6ud4/uzZfOIoLi31zqw6CpWehHl5OwjDSnUcv3plCQcyUBDxq5MQjTyKKceUDVgfyS7x36UgqT0hXeZ5URjW1qNcJJVXKGRSbSMcOMBT8FchrzLXSLFBKby2gel/Zhg//JQFpQDxHcl2Xdv5o5qH46IwlRTm1VdEqdzShmZm8nyQNu4Mw6323HgOoExkBLHV6qtuLF/9nZ+2hc7rnYQoc4US61tUKwOxEtN1MySnUeI0PdB+SIWT+fmR2r4yvGjU1yXLSsNztoJikq9j/dw5JkCs8ToHKOjfLwyb6z/UIyyYvG+TTLuRgEc8wQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(7416014)(23010399003)(921020)(3023799007)(56012099006)(10067099003)(5023799004)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(7416014)(366016)(23010399003)(10067099003)(56012099006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dEJTY1pScHJ4ZzEyNkNDem9pcG1XVXB4MHo5Ukt6UG1RdXVvYjNEdm9WWjl5?=
- =?utf-8?B?dFdUckNzaWdhbjZDS1dTQ3l0UE1EOFVaYlA4MEVrQ1ZiNFRkdFl2dXhkcmV0?=
- =?utf-8?B?cTcrQjh3ZXlzUUVZT1VTYk5LMG02d1NuZFV3aDVNWkNKZ3dMQnhHZDJYRWVv?=
- =?utf-8?B?czRyUTVoc1JCU3BINVBoSjRFNmNVMW1lMnlCMzhIYW9DdyszRGRVUzd2a1Ax?=
- =?utf-8?B?ZlM5QkV0U012OFN4ZUt2MHJvbVdETFBpREpJVUdnSmd1eldJclByTnBkRXVC?=
- =?utf-8?B?eWdleVJLc3VaVWZmS0hSQkxTR1RISy85aW12MzVzdlJFaGQ4VGkyUENRUHBW?=
- =?utf-8?B?VG5GelIrS01sNGFhcEhwaWJheDNFTW5DM0hjNVcwUzZyODFiS3Z3UmFSNytX?=
- =?utf-8?B?NER0VzhHWDZydmphU2tWOFNqcXVvdmdDYkhuQXVuMEVXY1UvTGs2eHBYWTBl?=
- =?utf-8?B?ckxLVmwrZnd5RnB6VmxDVUQ0Z0twaHpGYVl5bkJZMkJDNjlOai9panYxeXgw?=
- =?utf-8?B?bS9iS0JqVGNwM1N2NEJEZHM0VXFWaHdldTBaSFQ4aG5GcmR3UmdCZVhNSmxZ?=
- =?utf-8?B?T1p2aFJxKzNFRmpZckhtOFZseHhOVVZXWElwZGJFUENid2hjYzcxZVNDQk5P?=
- =?utf-8?B?WTNSa3JHNVAzRzkrOElrTkJ5b2ZsL3h2ZG5OaDdnZDNwYUozWDhPMWtXejRB?=
- =?utf-8?B?bzJZSlQwVS9EYVBzWS9IN2dHWWxzclZhc3ovVjBKMXhYa1hwL1B3NlBQd1Zy?=
- =?utf-8?B?b1Jsck9tOHgrUXZvSmRWTkQvZ1VYMHEzUGFhbjRxTllFUE1hOUtDRzZVaVMz?=
- =?utf-8?B?QUJHcERoVnFnbkZRTm5QdnROQWdocXMvOThzVXJGb1pSeEFTL0hVQXZnS0t5?=
- =?utf-8?B?dDdsUHNneXdsaHlScExsRTdNejBFdjVMYU1BVmUxMHMzQjdOME1nY01nSWpJ?=
- =?utf-8?B?Y1V4TVdPNXNSZjN1YU9FeVVSK2ZQaU9zY2lvZ0xveG5tZU9BK2w0c0RxZTZq?=
- =?utf-8?B?ZkpWMXpLdkhlTFllSEZRUTJVR0hNcW9kdTlBU085Ym5hUUhQZmdITXJuWlht?=
- =?utf-8?B?VDZkMFhlWGcvLzZqTXhsOUV4eWRhN2FRYW8xcE4wekh6d1d6ZzBUdXRqb09i?=
- =?utf-8?B?LzNlWi9ET2tGVkU2TjR5TDdLa2JxVFArUEtsOWVVa1NTakxTZGMxLzFMY1ha?=
- =?utf-8?B?dTIzMFJhaExmTXFCcUNYcGo2OW44djViRjlycEZEL0YreUxuYXVzWFFyV3VR?=
- =?utf-8?B?eU9LQ1FzYWxJYW1Nc1hSNGw5OFdtTmVpYk9LUmVPOVZubkY5d2hVbm0rMGNk?=
- =?utf-8?B?TG1zMHFtZ3ZHVEdyRWIya2J5YnJNa1BYZVR0QStyR1NVZFJPdVYxQ1ZwbVp2?=
- =?utf-8?B?eEtrUGYwTHZFSlJBSW1qcitwcUg1ckRLUWRFU1ZPbHB5Yk8wQmhLZk1RUkhD?=
- =?utf-8?B?WGxXT0VRZnB3aS9RVjN2VjdRUlp2aVJFZnFwV0UzbVlwWFFWaCtVYzhPS3VM?=
- =?utf-8?B?OHVudDQwWVpkc2dET01YalEyam1rVTVmZW1XQUgvMGZTeFlKWCtDeVFYWkJ5?=
- =?utf-8?B?RmphYkR6Z3doYWVsOHRVOHVBN1VVUzMyenVVQXphRU9GVXQ4NThtR05uRFFn?=
- =?utf-8?B?OUN3c1dvVUEvQ3lWWTdLVEJlWDVNSjFrOEdhMDRHZjhxZnMzc1FLaUx3c3oz?=
- =?utf-8?B?UWg4VjVoU0xSNnlXaGYxQk5lTnhncmIzQ04rM3dGUk8zS2tHaS9mSzJUNi9Q?=
- =?utf-8?B?eVB6UHJYb1VGVUJsb0RqR0ttdnAzaEs0dUdYRm1XYmFsaGZ3bGFObWVzYWEv?=
- =?utf-8?B?Vmc5QVNWWEMrMnp3RTROVTFoSGtWbVdFZE80Tlo4N0FmeHBSdC9DYWpTWVhH?=
- =?utf-8?B?TUVidGI2VXZLdmdnUnIyVjZPT3BuK2tUUTF0L1Y2VG1qeEVyUnVub2x2ZmFv?=
- =?utf-8?B?UTNjanczUUFCdllJdlUvQWt4SlR4bjJIbHFGUXBqWHg4TXh6WE4vaTNqYkxr?=
- =?utf-8?B?bmh6QkZXV0ZHc1pYMkFGaDhRUThlR21xVmlUOU1sY0loY0lic1NaemhRelpQ?=
- =?utf-8?B?SHVvdVVtd0gxUnJlTmprQWhxaExpUE1RM2pocGRuL0w0VlhtYnRQanBzRkxr?=
- =?utf-8?B?Z2ZhcXIvNzlhVFJsckpsZ0Y2eWRsQy9SbXl3RW85L1ViZEYvOU1ZaHQxNnRw?=
- =?utf-8?B?eWpjUjE2UmFGOHZrOTVOTTdaTWxFSWJJdEpzWVpwbGUzeVlCYmtNclVYT2o2?=
- =?utf-8?B?RXZDWDA0MHhHWGtNZUtSeGRURGpIM3BpZ2pObE9qQ0dmc1ZleVlIY2prOE9h?=
- =?utf-8?B?Z0NXTUlPSXZSd3I1YmhwVkNGWThxS0JDcVRrdnE4VkZiQ0VSZHFZUT09?=
+	=?utf-8?B?R0F0dmhRZXN4eWN5MTNpUkJtQlpOanlEMlR2OXd3alhrdUpsT3BObVJ3RnlC?=
+ =?utf-8?B?dGxiTWhQbG9VTWdYeWZnODJ5cWlCTlMxMjFWSmRGY0dKRTAyMkFFc3dhemNP?=
+ =?utf-8?B?NEVUTng5U0Fic2VGQkpqWUtiTlQ5cjVVcU1DdlZNUDVpOU5paEtTNnFDVkpt?=
+ =?utf-8?B?c0RZeVA5YlFia1pEeHZHbnZEMllVWGs2WkxFWlBUT05MTXZqTHRMc3RrTW5S?=
+ =?utf-8?B?b0JZSWY5S1I3YlRxNGVCYmdQMDNzWXc4VC9qTHRmeTU1ZkZTZy9NNDJyclFa?=
+ =?utf-8?B?K0Q1Vm1ORlRvbVNxTmdwMGtSYTVtSkNQRFNmZGtGUFhUOUhmT0hWQmZGSUJQ?=
+ =?utf-8?B?aTNVaXRydVN2UnVHRjNrRHNmNU16UGFPSjdXK2pWeldTK1JJd2NvTm1lUzY5?=
+ =?utf-8?B?VTlyditydEkxVVN0bmJGcFpvQXRmUFQ3cFFTR0NwZ2xxazZEV1NVWUFocU91?=
+ =?utf-8?B?Ukkwd2V4T015WDJlSjZZblN0bU02ZVR1LzhHSVo4YW8zY0oyNVY4M0k5bGE1?=
+ =?utf-8?B?N0MrN0FwWVV1cjRMZHl4LzRuZmN1YXJ5NE5tYXFFNS8vZmhkdlpCY2poeUM2?=
+ =?utf-8?B?Y2MxWGtBczd0ampURzZwaXExRVl5a0dOem9pekFGZG5GcmFTV0Z5WDlhbFhj?=
+ =?utf-8?B?YkVlWGdYeGtTRlBvTlJidWJlVWY1a245RVB1eCt6NVNwNTJOb29tU2pFOWU4?=
+ =?utf-8?B?NzgwUmdZMHFUWDFqWWFPRGdRTmk5Z0dyUXdtQ1lsNEtCdXFPaGJXVzhvbWpE?=
+ =?utf-8?B?ZlUwYXlZRGIrVkVLQjZTa1ZQWC9taVkrL0VrbFpKdy9hREJQN1Q0OXUrb3dE?=
+ =?utf-8?B?NERCeVVITjdlLytXM0xtcGtNMjJZeDdlR3YzSjU1Nkl5NzllYmlXSzFHdUZ6?=
+ =?utf-8?B?UWtnL24ydGVjOEtYYTk1MkU3bkpwK0pHUGI5WnYrNXh1WW9OSThacEZrbi9t?=
+ =?utf-8?B?R3Nncm5mMW5CL0VTbG1zNzV0Umh6OEJOR1ZkQ0V4Q1NPSkdPR0VuVnV5dTVW?=
+ =?utf-8?B?dzYwS3VuLzhIQ2hETjBnR1ZObFZYQVRESEZQL3hGWUhTTk1UYURVZ3NTOTVp?=
+ =?utf-8?B?UUxvdE1NSnc3Mk9WOUdhdUp2VG1BNEtkYTdML3hWR2VINGhTYzQwczJjZm1L?=
+ =?utf-8?B?bDU4Z3lWY2pDMVQ1ZXlaQ1N2QW9TRENsZ3g1VkM1Yk9oVXF6Z0RHQmhqUEll?=
+ =?utf-8?B?YWFNc1I1REd4R0lZRURWSXhtL2ZDWkg3WnlWT3FwcUZ6Zkd6Wk9KV0llL2l1?=
+ =?utf-8?B?VG5SbklkRG11blJYekY0c0dSd2M0VysrdEovdlZaQ3ZieEJ1djJVelBvZWRZ?=
+ =?utf-8?B?MDZybStuNVRpRFNFTnVRaE54Y1RGSFNEYko0REcycU9Na2JobVJvNTFRMzYw?=
+ =?utf-8?B?ZmtxZHpMUk1zWGpkd2IvWlc0NFlYWmdhSjFoMmVJYmlCb0p5aXdzekpKaExZ?=
+ =?utf-8?B?aEdSNGhZL1VTeTMyZEF4NG5oYkNLWjRQN3pCQzBVQUtaaUxsWnp4SFB1Vkl2?=
+ =?utf-8?B?L3BTVXBvSDgrTHB6Y0hLTEsvRE1TclBKZjBwekF5bGFLRVR5RmFlUnNvSEts?=
+ =?utf-8?B?OUlXSjRIYkNxU3BUSVhwb0hJaGlMVEtVTnc4UkxRYk1mZHVna2hnMVdwZHcy?=
+ =?utf-8?B?WFhTS3dCT29MTDRmay9IZVpjUjZzVnJ3b0xONGxlbDNPKzlRamd0MlVQUmtM?=
+ =?utf-8?B?M0VJWThGRXVjVUNldEdGdzJMTnZRUzZmMWhra3g1VDB3Z0I0S0tNV3RsZmtD?=
+ =?utf-8?B?UjhGZUJJaUJKWklpZThCSkJQZzkwNDM1azJpMm1vemlmSk5hQ3RQQjlQa1FI?=
+ =?utf-8?B?SnNYb01GV1lYMTBLOEtzWVIyMzQyRGtsa21XT2xZUC80YlU4MWxTVHZ4aVY5?=
+ =?utf-8?B?aFJ2QloyN0R4MnJDdnJHc1ZTV3U4Nm5wTnZ3R1JTd0djTkVpaXhrZG1sdzZB?=
+ =?utf-8?B?VFlNYk9lOWY5eVVtdW5lb1hVTDVzYmVkYkREQzFZUmNISzVTRjJGZTFORk4x?=
+ =?utf-8?B?N01Pbk1PU09nQzdiWDV5QWpqY05KdVJhMlhGQ0JRdUc4RzAxN2k4RHZ5SElB?=
+ =?utf-8?B?NnNJWFEwWFNOSlJUVno2N1J3a0N5MVorN1VPWXVZc3A1NGxQeDV5ejVrY1ZK?=
+ =?utf-8?B?WWpycHRFcTFjcm1yZFRJbmYxZWhTdzhtQ3lacG5EdUZkZUo5c1JRMy9FYzU0?=
+ =?utf-8?B?RjRjVkZqem1nRW9ES2JBcDhVaVViMHNsZGFCNnhzYVh1V0pFOTNiUmFTWkVG?=
+ =?utf-8?B?UXBOTnVwWk5mVE43b2ZxMjhRbjUyektjaTM1UGlaWEdXZUowZHl0TWlvTEcx?=
+ =?utf-8?B?MTQ5RnBscHB3K0FObGpiZjZiRy9nbXVhQ2tQQ29oQ2tTRDJHVmZHQT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5449a54b-9e34-4407-9980-08defde275d5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea6ada8-1398-4d5f-4cf9-08defde27488
 X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 11:10:21.5684
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 11:10:19.3466
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yLCZiKsxnpBW+2JZFYo6NUGMPMk7D3XXXK8hMNs6aYdrzVtsBTrllPLq1S8RswV02hznOkLVI+tIV6YSECWQAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5113
+X-MS-Exchange-CrossTenant-UserPrincipalName: uCPdp72HehAt5EjxJMcnSSzWbjt3/rRZbfoU90PGHJgNRsS+KevZtGcLrS2ffcQLvHT7rMkmZPME+HDzLLWQVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7056
 
-Previously `register!` defined registers can be used on any untyped I/O
-regions. With all users specifying their desired register type now,
-propagate the specified type and restrict I/O access only when type
-matches.
-
-Also, add an `io_project!` example which is enabled by this change.
+All registers use the same base type, which is `<Bar0 as IO>::Target`. Thus
+add the base parameter to `register!` invocation.
 
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- rust/kernel/io.rs          | 13 +++++++++++
- rust/kernel/io/register.rs | 55 ++++++++++++++++++++++++++++++++--------------
- rust/macros/io/register.rs | 34 ++++++++++++++--------------
- 3 files changed, 68 insertions(+), 34 deletions(-)
+ drivers/gpu/nova-core/driver.rs   |  1 +
+ drivers/gpu/nova-core/fb/regs.rs  | 12 ++++++++++++
+ drivers/gpu/nova-core/gsp/regs.rs |  9 ++++++++-
+ drivers/gpu/nova-core/regs.rs     | 37 ++++++++++++++++++++++++++++++++++++-
+ drivers/gpu/nova-core/vbios.rs    | 11 ++++++++++-
+ 5 files changed, 67 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index 84dd876b3407..4542187d6b91 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -1692,21 +1692,34 @@ pub fn project_loc<U, L>(self, location: L) -> <T::Backend as IoBackend>::View<'
- /// The syntax is of form `io_project!(io, proj)` where `io` is an expression to a type that
- /// implements [`Io`] and `proj` is a [projection specification](kernel::ptr::project!).
- ///
-+/// `io_project!` can also project to subview of registers defined with [`register!`] macro.
-+/// Register projection has syntax `io_project!(io, try: REGISTER)` for fallible projection and
-+/// `io_project!(io, build: REGISTER)` for infallible projection.
-+///
- /// # Examples
- ///
- /// ```
- /// use kernel::io::{
- ///     io_project,
-+///     register,
- ///     Mmio,
- /// };
- /// #[repr(C)]
- /// struct MyStruct { field: u32, }
- ///
-+/// register! {
-+///     base: MyStruct;
-+///     FIELD(u32) @ 0 {
-+///         31:0 val;
-+///     }
-+/// }
-+///
- /// # fn test(mmio: Mmio<'_, [MyStruct]>) -> Result {
- /// // let mmio: Mmio<[MyStruct]>;
- /// let field: Mmio<'_, u32> = io_project!(mmio, [try: 1].field);
- /// let whole: Mmio<'_, MyStruct> = io_project!(mmio, [try: 2]);
- /// let nested: Mmio<'_, u32> = io_project!(whole, .field);
-+/// let reg: Mmio<'_, FIELD> = io_project!(whole, build: FIELD);
- /// # Ok::<(), Error>(()) }
- /// ```
- #[macro_export]
-diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-index 49a5fe069e47..f622057f7346 100644
---- a/rust/kernel/io/register.rs
-+++ b/rust/kernel/io/register.rs
-@@ -121,10 +121,11 @@
-     io::IoLoc, //
+diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
+index bbd93959e0b2..cf3534dd47d4 100644
+--- a/drivers/gpu/nova-core/driver.rs
++++ b/drivers/gpu/nova-core/driver.rs
+@@ -37,6 +37,7 @@ pub(crate) struct NovaCore<'bound> {
+ const BAR0_SIZE: usize = SZ_16M;
+ 
+ pub(crate) type Bar0<'a> = &'a pci::Bar<'a, BAR0_SIZE>;
++pub(crate) type NovaRegisters = kernel::io::Region<BAR0_SIZE>;
+ 
+ kernel::pci_device_table!(
+     PCI_TABLE,
+diff --git a/drivers/gpu/nova-core/fb/regs.rs b/drivers/gpu/nova-core/fb/regs.rs
+index 95adbe124a30..c27582e376e2 100644
+--- a/drivers/gpu/nova-core/fb/regs.rs
++++ b/drivers/gpu/nova-core/fb/regs.rs
+@@ -5,9 +5,13 @@
+     sizes::SizeConstants, //
  };
  
--use super::Region;
--
- /// Trait implemented by all registers.
- pub trait Register: Sized {
-+    /// Base type for this register.
-+    type Base: ?Sized;
++use crate::driver::NovaRegisters;
 +
-     /// Start offset of the register.
+ // PDISP
+ 
+ register! {
++    base: NovaRegisters;
++
+     pub(super) NV_PDISP_VGA_WORKSPACE_BASE(u32) @ 0x00625f04 {
+         /// VGA workspace base address divided by 0x10000.
+         31:8    addr;
+@@ -30,6 +34,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
+ // PFB
+ 
+ register! {
++    base: NovaRegisters;
++
+     /// Low bits of the physical system memory address used by the GPU to perform sysmembar
+     /// operations (see [`crate::fb::SysmemFlush`]).
+     pub(super) NV_PFB_NISO_FLUSH_SYSMEM_ADDR(u32) @ 0x00100c10 {
+@@ -65,6 +71,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
+ pub(super) struct Hshub0Base(());
+ 
+ register! {
++    base: NovaRegisters;
++
+     // GB10x sysmem flush registers, relative to the HSHUB0 base. GB10x routes sysmembar
+     // through a primary and an EG (egress) pair that must both be programmed to the same
+     // address. Hardware ignores bits 7:0 of each LO register. The boot path uses a fixed
+@@ -87,6 +95,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
+ }
+ 
+ register! {
++    base: NovaRegisters;
++
+     // GB20x FBHUB0 sysmem flush registers. Unlike the older
+     // NV_PFB_NISO_FLUSH_SYSMEM_ADDR registers, which encode the address with an
+     // 8-bit right-shift, these take the raw address split into lower and upper
+@@ -101,6 +111,8 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
+ }
+ 
+ register! {
++    base: NovaRegisters;
++
+     /// Low bits of the physical system memory address used by the GPU to perform
+     /// sysmembar operations on Hopper.
      ///
-     /// The interpretation of this offset depends on the type of the register.
-@@ -136,9 +137,9 @@ pub trait FixedRegister: Register {}
+diff --git a/drivers/gpu/nova-core/gsp/regs.rs b/drivers/gpu/nova-core/gsp/regs.rs
+index 9a48aa87e7fb..3c410d65e8e4 100644
+--- a/drivers/gpu/nova-core/gsp/regs.rs
++++ b/drivers/gpu/nova-core/gsp/regs.rs
+@@ -2,11 +2,16 @@
  
- /// Allows `()` to be used as the `location` parameter of [`Io::write`](super::Io::write) when
- /// passing a [`FixedRegister`] value.
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for ()
-+impl<Base: ?Sized, T> IoLoc<Base, T> for ()
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -148,9 +149,9 @@ fn offset(self) -> usize {
+ use kernel::io::register;
  
- /// A [`FixedRegister`] carries its location in its type. Thus `FixedRegister` values can be used
- /// as an [`IoLoc`].
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for T
-+impl<Base: ?Sized, T> IoLoc<Base, T> for T
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -171,9 +172,9 @@ pub const fn new() -> Self {
-     }
- }
+-use crate::regs::NV_PBUS_SW_SCRATCH;
++use crate::{
++    driver::NovaRegisters,
++    regs::NV_PBUS_SW_SCRATCH, //
++};
  
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for FixedRegisterLoc<T>
-+impl<Base: ?Sized, T> IoLoc<Base, T> for FixedRegisterLoc<T>
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -240,9 +241,9 @@ const fn offset(self) -> usize {
-     }
- }
+ // PGSP
  
--impl<const SIZE: usize, T, B> IoLoc<Region<SIZE>, T> for RelativeRegisterLoc<T, B>
-+impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterLoc<T, B>
- where
--    T: RelativeRegister,
-+    T: RelativeRegister<Base = SuperBase>,
-     B: RegisterBase<T::BaseFamily> + ?Sized,
- {
-     #[inline(always)]
-@@ -282,9 +283,9 @@ pub fn try_new(idx: usize) -> Option<Self> {
-     }
- }
- 
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for RegisterArrayLoc<T>
-+impl<Base: ?Sized, T> IoLoc<Base, T> for RegisterArrayLoc<T>
- where
--    T: RegisterArray,
-+    T: RegisterArray<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -367,9 +368,9 @@ pub fn try_at(self, idx: usize) -> Option<RelativeRegisterArrayLoc<T, B>> {
-     }
- }
- 
--impl<const SIZE: usize, T, B> IoLoc<Region<SIZE>, T> for RelativeRegisterArrayLoc<T, B>
-+impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterArrayLoc<T, B>
- where
--    T: RelativeRegisterArray,
-+    T: RelativeRegisterArray<Base = SuperBase>,
-     B: RegisterBase<T::BaseFamily> + ?Sized,
- {
-     #[inline(always)]
-@@ -393,9 +394,9 @@ pub trait LocatedRegister<Base: ?Sized> {
-     fn into_io_op(self) -> (Self::Location, Self::Value);
- }
- 
--impl<const SIZE: usize, T> LocatedRegister<Region<SIZE>> for T
-+impl<Base: ?Sized, T> LocatedRegister<Base> for T
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     type Location = FixedRegisterLoc<Self::Value>;
-     type Value = T;
-@@ -406,6 +407,28 @@ fn into_io_op(self) -> (FixedRegisterLoc<T>, T) {
-     }
- }
- 
-+/// Helper function for register alias implementation.
-+///
-+/// This is used to enforce base matching. Only called during const eval.
-+#[doc(hidden)]
-+#[inline(always)]
-+pub const fn alias_offset<Base: ?Sized, Alias: Register<Base = Base>>() -> usize {
-+    Alias::OFFSET
-+}
+ register! {
++    base: NovaRegisters;
 +
-+/// Helper function for register element alias implementation.
-+///
-+/// This is used to enforce base matching and provide bounds checking. Only called during const
-+/// eval.
-+#[doc(hidden)]
-+#[inline(always)]
-+pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base>>(
-+    idx: usize,
-+) -> usize {
-+    build_assert!(idx < Alias::SIZE);
-+    Alias::OFFSET + idx * Alias::STRIDE
-+}
+     pub(super) NV_PGSP_QUEUE_HEAD(u32) @ 0x00110c00 {
+         31:0    address;
+     }
+@@ -15,6 +20,8 @@
+ // PBUS
+ 
+ register! {
++    base: NovaRegisters;
 +
- /// Defines a dedicated type for a register, including getter and setter methods for its fields and
- /// methods to read and write it from an [`Io`](kernel::io::Io) region.
- ///
-diff --git a/rust/macros/io/register.rs b/rust/macros/io/register.rs
-index 2fb48e1be82d..cb02e850b23f 100644
---- a/rust/macros/io/register.rs
-+++ b/rust/macros/io/register.rs
-@@ -140,21 +140,23 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+     /// Scratch register 0xe used as FRTS firmware error code.
+     pub(super) NV_PBUS_SW_SCRATCH_0E_FRTS_ERR(u32) => NV_PBUS_SW_SCRATCH[0xe] {
+         31:16   frts_err_code;
+diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+index caeef4d85874..1af073f3861f 100644
+--- a/drivers/gpu/nova-core/regs.rs
++++ b/drivers/gpu/nova-core/regs.rs
+@@ -13,7 +13,10 @@
+ };
+ 
+ use crate::{
+-    driver::Bar0,
++    driver::{
++        Bar0,
++        NovaRegisters, //
++    },
+     falcon::{
+         DmaTrfCmdSize,
+         FalconCoreRev,
+@@ -37,6 +40,8 @@
+ // PMC
+ 
+ register! {
++    base: NovaRegisters;
++
+     /// Basic revision information about the GPU.
+     pub(crate) NV_PMC_BOOT_0(u32) @ 0x00000000 {
+         /// Lower bits of the architecture.
+@@ -108,6 +113,8 @@ fn fmt(&self, f: &mut kernel::fmt::Formatter<'_>) -> kernel::fmt::Result {
+ // PBUS
+ 
+ register! {
++    base: NovaRegisters;
++
+     pub(crate) NV_PBUS_SW_SCRATCH(u32)[64] @ 0x00001400 {}
  }
  
- pub(crate) struct RegDef {
--    base: Option<Type>,
-+    base: Type,
-     regs: Vec<Reg>,
- }
+@@ -121,6 +128,8 @@ fn fmt(&self, f: &mut kernel::fmt::Formatter<'_>) -> kernel::fmt::Result {
+ // number.
  
- impl Parse for RegDef {
-     fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
--        let base = if input.peek(kw::base) {
--            let _: kw::base = input.parse()?;
--            let _: Token![:] = input.parse()?;
--            let base = input.parse()?;
--            let _: Token![;] = input.parse()?;
--            Some(base)
--        } else {
--            None
--        };
-+        if !input.peek(kw::base) {
-+            Err(input.error(
-+                "a base type needs to be specified for `register!` invocation with `base: ty;`",
-+            ))?;
-+        }
+ register! {
++    base: NovaRegisters;
 +
-+        let _: kw::base = input.parse()?;
-+        let _: Token![:] = input.parse()?;
-+        let base = input.parse()?;
-+        let _: Token![;] = input.parse()?;
-+
-         let mut regs = Vec::new();
-         while !input.is_empty() {
-             regs.push(input.parse()?);
-@@ -166,6 +168,7 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
- pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-     let mut outputs = TokenStream::new();
+     /// Boot Sequence Interface (BSI) register used to determine
+     /// if GSP reload/resume has completed during the boot process.
+     pub(crate) NV_PGC6_BSI_SECURE_SCRATCH_14(u32) @ 0x001180f8 {
+@@ -175,6 +184,8 @@ pub(crate) fn usable_fb_size(self) -> u64 {
+ pub(crate) const NV_FUSE_OPT_FPF_SIZE: usize = 16;
  
-+    let base = &def.base;
-     for reg in def.regs {
-         let Reg {
-             attrs,
-@@ -186,18 +189,12 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             RegOffset::Fixed { offset } => quote!(#offset),
-             RegOffset::Alias { alias } => {
-                 quote_spanned!(alias.span().resolved_at(span) =>
--                    <#alias as ::kernel::io::register::Register>::OFFSET
-+                    ::kernel::io::register::alias_offset::<#base, #alias>()
-                 )
+ register! {
++    base: NovaRegisters;
++
+     pub(crate) NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION(u32)[NV_FUSE_OPT_FPF_SIZE] @ 0x00824100 {
+         15:0    data => u16;
+     }
+@@ -191,6 +202,8 @@ pub(crate) fn usable_fb_size(self) -> u64 {
+ // PFALCON
+ 
+ register! {
++    base: NovaRegisters;
++
+     pub(crate) NV_PFALCON_FALCON_IRQSCLR(u32) @ PFalconBase + 0x00000004 {
+         6:6     swgen0 => bool;
+         4:4     halt => bool;
+@@ -392,6 +405,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+ /* PFALCON2 */
+ 
+ register! {
++    base: NovaRegisters;
++
+     pub(crate) NV_PFALCON2_FALCON_MOD_SEL(u32) @ PFalcon2Base + 0x00000180 {
+         7:0     algo ?=> FalconModSelAlgo;
+     }
+@@ -414,6 +429,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+ // PRISCV
+ 
+ register! {
++    base: NovaRegisters;
++
+     /// RISC-V status register for debug (Turing and GA100 only).
+     /// Reflects current RISC-V core status.
+     pub(crate) NV_PRISCV_RISCV_CORE_SWITCH_RISCV_STATUS(u32) @ PFalcon2Base + 0x00000240 {
+@@ -439,6 +456,8 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+ // These registers manage falcon EMEM communication queues.
+ 
+ register! {
++    base: NovaRegisters;
++
+     pub(crate) NV_PFSP_QUEUE_HEAD(u32)[8] @ 0x008f2c00 {
+         31:0    address => u32;
+     }
+@@ -462,9 +481,13 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+ pub(crate) mod gm107 {
+     use kernel::io::register;
+ 
++    use crate::driver::NovaRegisters;
++
+     // FUSE
+ 
+     register! {
++        base: NovaRegisters;
++
+         pub(crate) NV_FUSE_STATUS_OPT_DISPLAY(u32) @ 0x00021c04 {
+             0:0     display_disabled => bool;
+         }
+@@ -474,9 +497,13 @@ pub(crate) mod gm107 {
+ pub(crate) mod ga100 {
+     use kernel::io::register;
+ 
++    use crate::driver::NovaRegisters;
++
+     // FUSE
+ 
+     register! {
++        base: NovaRegisters;
++
+         pub(crate) NV_FUSE_STATUS_OPT_DISPLAY(u32) @ 0x00820c04 {
+             0:0     display_disabled => bool;
+         }
+@@ -488,9 +515,13 @@ pub(crate) mod ga100 {
+ pub(crate) mod gh100 {
+     use kernel::io::register;
+ 
++    use crate::driver::NovaRegisters;
++
+     // PTHERM
+ 
+     register! {
++        base: NovaRegisters;
++
+         pub(crate) NV_THERM_I2CS_SCRATCH(u32) @ 0x000200bc {
+             31:0    data;
+         }
+@@ -505,9 +536,13 @@ pub(crate) mod gh100 {
+ pub(crate) mod gb202 {
+     use kernel::io::register;
+ 
++    use crate::driver::NovaRegisters;
++
+     // PTHERM
+ 
+     register! {
++        base: NovaRegisters;
++
+         pub(crate) NV_THERM_I2CS_SCRATCH(u32) @ 0x00ad00bc {
+             31:0    data;
+         }
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index c03650ee5226..9c214b9f4dd9 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -16,7 +16,10 @@
+ };
+ 
+ use crate::{
+-    driver::Bar0,
++    driver::{
++        Bar0,
++        NovaRegisters, //
++    },
+     firmware::{
+         fwsec::Bcrt30Rsa3kSignature,
+         FalconUCodeDesc,
+@@ -92,12 +95,16 @@ impl<'a> VbiosIterator<'a> {
+     fn rom_offset(dev: &device::Device, bar0: Bar0<'_>) -> Result<usize> {
+         // IFR Header in VBIOS.
+         register! {
++            base: NovaRegisters;
++
+             NV_PBUS_IFR_FMT_FIXED0(u32) @ 0x300000 {
+                 31:0    signature;
              }
-             RegOffset::ElementAlias { alias, idx } => {
--                outputs.extend(quote_spanned!(idx.span().resolved_at(span) =>
--                    ::kernel::build_assert::static_assert!(
--                        #idx < <#alias as ::kernel::io::register::RegisterArray>::SIZE
--                    );
--                ));
-                 quote_spanned!(alias.span().resolved_at(span) =>
--                    <#alias as ::kernel::io::register::Register>::OFFSET
--                        + #idx * <#alias as ::kernel::io::register::RegisterArray>::STRIDE
-+                    ::kernel::io::register::element_alias_offset::<#base, #alias>(#idx)
-                 )
-             }
-         };
-@@ -211,6 +208,7 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             );
+         }
  
-             impl ::kernel::io::register::Register for #name {
-+                type Base = #base;
-                 const OFFSET: usize = #offset;
+         register! {
++            base: NovaRegisters;
++
+             NV_PBUS_IFR_FMT_FIXED1(u32) @ 0x300004 {
+                 30:16   fixed_data_size;
+                 15:8    version => u8;
+@@ -105,6 +112,8 @@ fn rom_offset(dev: &device::Device, bar0: Bar0<'_>) -> Result<usize> {
+         }
+ 
+         register! {
++            base: NovaRegisters;
++
+             NV_PBUS_IFR_FMT_FIXED2(u32) @ 0x300008 {
+                 19:0 total_data_size;
              }
-         ));
 
 -- 
 2.54.0
