@@ -1,160 +1,281 @@
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020123.outbound.protection.outlook.com [52.101.196.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC36237CD59
-	for <driver-core@lists.linux.dev>; Wed, 19 Aug 2026 05:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787117618; cv=none; b=SbrxZ8U1+HAeyMuwSDdQDbvtldwUaFA7bqMvf42TASSCYf3fFOnUl1cWt5eQ3SoOt3dPyllr06dcfEwsEOKQN+QXtI+IsgAdtjIqw01Vx10fnZkwuJG/sy3d3cuMoPY6g75y4FUqrUhx3x6pOTqoOklJSbaujeB0bREmPd/CcN0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787117618; c=relaxed/simple;
-	bh=nGqXBd1ywz5ZLyuuV9/4d1dqIgNBrOa+76aUutPPE+w=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DZ12ZH8iztwVEjLrgBJxQoYqjjKhUz7EbLhO1AO9gba+1E32w+sVCtrPGwe7wa04GJCQ+nv7+1Inj4TLtpfwvpgqtYALyRzbJ1gH1MC1algpGzKUX40MCIoNj24PvImqzWZHpTUjQ/qa8sHdNGgqc/KtPDyAA1lmb7i12pagw1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4b28db6c77aso845569b6e.3
-        for <driver-core@lists.linux.dev>; Tue, 18 Aug 2026 22:33:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787117616; x=1787722416;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1HCqqJw9VawZ7gbI3jsAGuJwceVNHIhpFH05MwRM+4U=;
-        b=McX0OmW7xX/NQmJW73YybJUZ8kAxRkKW5z8sm4psQi6h3hrimN23VMYMC7Wyw33KRH
-         gjvrepTi2uqd8dyFDRsHYJJpjguoGdCaUIqVkNS9NuxoI1WAcUM7GQkK7pRZZEUw+MxO
-         MrwolH6haU8aIc9bKKftDUfIZ5pr0LNSqrmAHgG4d+bZ8/7Vba5usvcLoEqjRM0dw44l
-         VOiTVZ7TdoWXL7LHFKd20kpwWRSlUMpk+Bpz3VVDBU3INb0hXIVmhW/RMbTooZtASDc2
-         +LNJxLR+ghLv7r2/e9xI9AXvEppzOy21g57orxWr1NgVAoBKOeA8/8qw/R5jFBypiEOM
-         LW7w==
-X-Forwarded-Encrypted: i=1; AHgh+Rozq8SPlI9HQ/Pq3xBjOkR+5PjFtGgx9MI+GiRLzFQxjW5aNPEXuHBexCgqgnw0Vlt+7HZ1CNMnrXb6rQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxBlO5j2YbBQ30Tc7okvaf+DG2PglzOKD8HpBq1+XhRINl4PW4z
-	XRZPaoYzcfEdLNc3q+ymVn2OiPZNBxFAjhhJFsIcrMEPRufMAU3CA+x8Q3t7PqaT/sGMIso1Zrq
-	Z3ftuL0aH/Y5PnFkKBvvXkY5xb3uA/CK+XcE4SBXMxY2tyuNarnrFq9aK4SI=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28B444C664;
+	Wed, 19 Aug 2026 11:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787137821; cv=fail; b=ZduNacj8QKYKBFutmRVvb7Z4ujV8PwB0qPft7iG1poyupSaVRk7VBJzXDjwdarj71gdRvjd+5BV5BhWZ8GM8z7aI74x3zMByHPuAi4LomCRDRod+HRno2w8xlIrFVOem9skxMYoQm6qmHMApNJFKgV7gFXi1tFrsuIX3XM9nSs4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787137821; c=relaxed/simple;
+	bh=Oc6il3mob2qKpIkIHez4KvHV59qL0UPnl+2Jiw3cI2U=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=fTozl4Z5DPBCP2/Cau7eLlESeVsvmtsvwbpb2tNkofzkVTGO8mlgRV0iAX1sBNQHaQ/jqdvag2Lexi/RGYALb02TDrMvDb+S+mjcl1Sazs/AkivXrPHwa56eO38l/WjD6WUj66BJ/Va/EjNvLjl+OmbupDt9g6tXydpex+8VVLU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=L+CzTY2r; arc=fail smtp.client-ip=52.101.196.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="L+CzTY2r"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QDpvgoOSnvg8sWGhMZW0L2oJknk569HnlzVMuH8qEoShydl3tutBUuZjWyHmcFKpTenVkSTEn256yYGC3XKFBTARcJutUnpMWbNhRJS7W6j9/sNjDS7qlYI5T/PQ5FL02jp1Kq6wdPzh0JUQlzIe031oUpL6TLQQJHtk8tlgLRgBx69gwAMod6LmqeSH+qAXg5mVEgX4OHHEJUcrqYvyiFh89E66IInG41re/LB9t8srf/xssmSugTl1m70J5cR+3SP7az4m6SScJJjAWnmQ5BNC5BfN4Kym8fKWatB1uH02mlklTenhc5+iiEmJlO2PLYEs838mOpky3Y5B2vmdmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vlx6uZJKCAWYot3eMOTrDAcO+QvdlmFruwPUoamhrBo=;
+ b=rGzaxqkVDJPgpuLBTossfFsPtD4VbSDAuBtol7QIdPJ6eCwJe58yXgVtpnonTWK1NgW9q4Y6vzX/CTa65W/7rOPGq7kUhAdE57LO188ia68LGf09cx+Vxl/OUCoE2oMF4PAHzrK7rr0jdUuLwsnYPYvHag3UX79CT/62DWMY4SAZj2QbVjzV/sjxi9c1ljZmJBYyThknK7isKB4xdXFrFCYMVUvUPIPrBSfzyfPBS2A48/zpgxgB1LgMIVuiIagr4+1CMGb+bi2lBV61tOtL16WX2D8hz8y9ZRp/M+Ejilk678Ewjab3Z5bnonZOKR1cIDe/GBitbJMDGr4Gm/VGnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vlx6uZJKCAWYot3eMOTrDAcO+QvdlmFruwPUoamhrBo=;
+ b=L+CzTY2rCf6tidxGycJpeCtMIqhevtBiVWRNylKOA1yaIpXqRIMlr9zz0rpqGoLBifHOhMjU+lhVjTEkyxJ+Z7baMIk1Ls+tw3hvt6jQ46V2DYfreoYOjfUv2XqGlhdZ4nNpbLUZNcx4YiUVUBJIDnGZ1vRztt6RIgpE39SVEvI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO0P265MB5167.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:283::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
+ 2026 11:10:15 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
+ 11:10:14 +0000
+From: Gary Guo <gary@garyguo.net>
+Subject: [PATCH v3 00/16] rust: io: support register projections and remove
+ relative registers
+Date: Wed, 19 Aug 2026 12:09:08 +0100
+Message-Id: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANWOhWoC/3XOQQrCMBAF0KtI1kaTaW3FlfcQkUk6thFNS5KWl
+ tK7m+hCRFz+4c/jz8yTM+TZYTUzR4PxprUxZOsV0w3amripYmYgoBAlSB6mjqqLo9r4QI7LsiB
+ UGSqiksWnztHVjC/wdH5n36sb6ZCU1FDoiSuHVjfpdDe2H7mlMWwfmMjUaSLeuum1apDJ+jtgk
+ FzwfAdVCaqIHTjW6Ka6bzeWAksTBvgAe7H7ASACOtMocwAQKL6BZVmeMq/MRCUBAAA=
+X-Change-ID: 20260721-typed_register-176eab3abee7
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+ Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787137814; l=5528;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=Oc6il3mob2qKpIkIHez4KvHV59qL0UPnl+2Jiw3cI2U=;
+ b=Mj5gefuhwNuFKI6PH/GWDk6/tpVKNS0IYBs06CTtpOCOqNA09j2JFZWJPXYw1lwDIfWOxR7T+
+ jpx0UZrKkajDS3dIGxNTHiWRpCLJ9nYam6gJl24npJ3D6vpuEqCkJDn
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P123CA0096.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:191::11) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:178b:b0:4a4:ba4a:9ac4 with SMTP id
- 5614622812f47-4b2bcabf503mr1698588b6e.13.1787117615788; Tue, 18 Aug 2026
- 22:33:35 -0700 (PDT)
-Date: Tue, 18 Aug 2026 22:33:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a85402f.ae6ddae5.3da009.0007.GAE@google.com>
-Subject: [syzbot] [kernel?] WARNING in __dynamic_dev_dbg
-From: syzbot <syzbot+6102f1c3a0ea8073fd64@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO0P265MB5167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 167100c7-00d0-4c2d-9b5b-08defde271bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|23010399003|376014|7416014|366016|18002099003|921020|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	1av63k7nrtQeNO7DMvcP47ZtXDaST/UpW/vxKOMXi5sJDildDPS5pTSuqZFGq1ZlwaOcNP2Ws2sy4g6clGY2PETm7VPBcLpfL6lU8T06dFWrXkKDPKmeD3Mt+av6WiuPx3isB2J6Ggtrx9TygBzVjAb639Mk3G49f2XsKkv6GJcuBqqvZNUZPIApZzkMml2HgaKUyP9cLgCRyBUVD3/XEQpq/esDRWFbGo6b5JiP1Gfw2SJGMc8bW7jWJ4tuUrCQqFffRfvXD0LuxZtcomD1H4MYjXqCrotOQax7d7+V3kJAIeHqeDM4iOCA2eucqxk08gMGx3B8fuvLyMwYaub2MBypT42WAfYtbq23as5ZJB39BwiiVy9HjDvZt1l3cFQOrGq9vyLGyf8ZCKsygoPbUt5sKzt3kGF30tpbvsw+1bmqpyPXnMLetkDc96eLl0p+P+UJU+q0MfSSDm/wjtD+4sNwrhL5iTBdotKXzLxNeT7xv7Qlqo5afaxH03CWcv0hWySm9n/kU0Q13YzGItOKRlV5l34SmAxE8xSXPRlFBmQg+dgrvl/kr4VvzXbyOLAuDfXz0RJPsCx35NKG8foobaqug9Sw977z2ZoSImfvFf/ljrxkR0Sy8/aZKlezqyvGNjUlCtVN6p6YxM3MDvQWxNJ3Bp0dJttcWUidI9gZJTY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(23010399003)(376014)(7416014)(366016)(18002099003)(921020)(10067099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2QyWUdZcStYYkhGV3h5SHJTOERrTG9UalVGcXFSOWJBRWoxUFVxL3lhMDE3?=
+ =?utf-8?B?a3VPMmR0UkhHdVlCR2d2dDVKMExQdWZYMFg1VjEyb0QycXdvc2oyMGFHbmVG?=
+ =?utf-8?B?S2dYd243azUxeXRuT0ZSYzZUN01qN1RMNkVldUVKcTFQemhEMVgvbjVaWS9I?=
+ =?utf-8?B?UFZ2OUNXRis0K0lTcXlCQ0VBY1VWbFF3cXZmQXpLc0ZzSUNxUmRjdXpHSmNU?=
+ =?utf-8?B?YXBaMzRsdmdWOGxMVTJSdEk2L1BkMEJCVXJTMzVEU1E3Wkxlb0NUQ1lqVGNB?=
+ =?utf-8?B?amowWEc2dTlrbjRFdFN6MlB4R1BGNHVkT3hIRTVCTEN1ckE2bWlCTVJDb054?=
+ =?utf-8?B?V1p2cHFmSzZPNGJoM21xUGlIVmNPRGsxZklUUnIzZlp4Y2NkVWE5aHpvY0th?=
+ =?utf-8?B?SUkzYmxkd3plRk5ETkpJNENkQ0t6a0U5cFJpRUplMmsrSm1sZ2hCYjhsRG0x?=
+ =?utf-8?B?ODhOdlRwZ3h3SDFxNHBKVThoaXBidUd5RUMyT3ZtN3AyVVhTM3pxUE5FcnVW?=
+ =?utf-8?B?UzBqa0hqTXRwOVNna1lwNnAxbi9jclBaK1Y0SjFUNExBMTZla1FvOVpmS3BU?=
+ =?utf-8?B?ckpWdUs0b2p2QlQydTdvWitQSXVCUXNIbGp4eUw1SWE3Y3QxTnFzY2Q1V0tQ?=
+ =?utf-8?B?MmlTY1dDR1NlU0xoNm9yMXM0bnNRVlRMT1NYQWVHOTFYRjFqWSt5NFBaOEpP?=
+ =?utf-8?B?VFFkS3IvZkFWYzNacUdOdGtCR1FJMzR0eDJJaEN4RmUzaTlmZTJUZmxzZEYw?=
+ =?utf-8?B?Y29jQzN2Q3BEak55TU9CR01KVFVWODd2cFhRanVBVzExQ2xlWFZhK0FuQkZl?=
+ =?utf-8?B?eFlabEtJUU9INUszRXhZL1VLNDRmVkhZRytOYUtpcDM3OWVuYmc5Wm83cjVv?=
+ =?utf-8?B?RlhiTjh1YTFQRlNIVGF5RnFCRHNEYm12cW5kcUduL3gxRW0wSVQweGQrNC9l?=
+ =?utf-8?B?M2dqU3lxTHN1TWVMVE00Q09TN2hqbDZQQVVQNTVrM291ZEtzOGVHVVo3dG9X?=
+ =?utf-8?B?Yyt2M3VmaWtFNEcvWGsxOTAvb2V1aFdjQkpTMWV5c2N6Y1hkdnFYeDRWL3gr?=
+ =?utf-8?B?RXFIVUJtUGxxYUlQZTU4VGx3dDVjTDU5ZzBGSG1jRjZDK2huUG1RUGt5d3F1?=
+ =?utf-8?B?YlNyLzBXeXdjTUMvelR0MjJsL0RLaXFkOENiM2YwV0dvVTc0OWErcFZ0SmVm?=
+ =?utf-8?B?bW1pOEcvM0JzbkhpdlgrVzhORTcycnErazJLY0dzV0p0L1J0RXpnUFp2S1hh?=
+ =?utf-8?B?NWJjMVdJZ0g0UWQvem1ycE5HQmZZbkJ6TjlvdzVlK1FPN3B0WDY5Z2oycGJ0?=
+ =?utf-8?B?bHpuTEM2QXVZVWdia3hQWCtCSDd3TGQraXR3SG4vTDNENFJJMFA2M2xMVGhY?=
+ =?utf-8?B?RzhYbkVRa2kvREZPWXNqZnoxamVXYzhUQXdOcDNORjFOSW0yYS9CUm16Wk04?=
+ =?utf-8?B?Y0hIN3BEbEl1MFcrbDB1TWtWZ1hhT2xuQ3AyZnJMWXNaZWMwS1FtZkNoYXdI?=
+ =?utf-8?B?amhGeU9mVDlObDJEVTZ5SUNodldtZiswb2NFc3lCdis3TVhmWS83cUdVQldO?=
+ =?utf-8?B?bWhhRFdBR1FaVjY3c012b2hHZmZybkdhTjYyMEFqajNBQjJ2ZXA5RStxTTZZ?=
+ =?utf-8?B?MWZVa3hIaU1XSEZ6SUNyM0hkVi92MDNrbkZBbUtrWVNLTXI3NEVzNzh2aFVm?=
+ =?utf-8?B?c2l5anNvVjRsb2JBVjVoNWlOSXJ0cElndFBUY3ZMYnZDREtSZVhIOHFIdCs4?=
+ =?utf-8?B?Ynl6SVRoMzJ3SEN2cXV0eWo0MlpwTlRXVTVlM1ZackR5NEVma0orcElzSXQ0?=
+ =?utf-8?B?d3IvUW02UnFFVmh1aEplRHhDMWJNdDNHb0hvbUNvZDRmeE4zcEhpd1Qwb293?=
+ =?utf-8?B?NWFjWm1OQlZIa0Z6T2s3UWhxbFpFWGhLZkhDRU4yZWs5YldCSHNZdzkveGpC?=
+ =?utf-8?B?SDBSbS84TDV6UTc3cTQ1cUtnQTdsZU1LOHBHN1BkTFI2NVFRdFU2MjFlSkdr?=
+ =?utf-8?B?UUdhZTBFQ0pvMTJuNFZxMkw3T0NBYVZSQUkzaXJPTG1PcExOSVJiUVVZb2to?=
+ =?utf-8?B?RlE5OXE2L3JCWXI5VTJDTk83SFl0SEpoSEZhbHNzcjl0cjRsODNJWWYrcjhq?=
+ =?utf-8?B?dFo0SUdWcjl1M2djdDZGTGx1c3pNV09DWklUY2VOVjhieTh0Sk5aTnR0T3hT?=
+ =?utf-8?B?Wm9Ma3gxVXFKV21CeU9YaW5PREdFL1ZlTFlNejV0NDlLT1F5c1ZQYW10aVh3?=
+ =?utf-8?B?czdCdnJxcjJEQ3lkbEpsRmV6LzhFcjVTaXdpRjF6QlprS1h0T0VwbldHRWlE?=
+ =?utf-8?B?NHRUdFM4Mk5XR1pSaTlncGVOVzlVN3ZwWUdkaHpDQmlRR0lmejJsQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 167100c7-00d0-4c2d-9b5b-08defde271bc
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 11:10:14.7424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M6+tF3sykfyKTsFPijF6MycxEn88BK6qCiUGW74MoWklV8yc/W/NBJK2r2GDbsPGNcY1PUSBjfJwLSHPg+PwUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5167
 
-Hello,
+Currently registers work for all untyped I/O regions, which is not ideal.
+It allows registers defined for device A to work for another device B and
+there is no safeguarding at all.
 
-syzbot found the following issue on:
+Change this by requiring a base type for registers. `register!` can still
+define registers on untyped `Region`s, although users would need to do so
+explicitly and supply a concrete type.
 
-HEAD commit:    21d6ac051080 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=1022e279580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=6102f1c3a0ea8073fd64
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
+This change makes it possible to use projection for relative registers;
+relative registers can be implemented by defining new types for the I/O
+subregions and just define registers for these subregion types like normal
+registers.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+This actually results in more ergnomic code for users of relative registers
+(currently only nova-core), because non-array registers can be written to
+with
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/88380e2ddcb9/disk-21d6ac05.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5dba5c2896b7/vmlinux-21d6ac05.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/52ac739e37e0/Image-21d6ac05.gz.xz
+    #[...]
+    struct Subregion(...);
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+6102f1c3a0ea8073fd64@syzkaller.appspotmail.com
+    register! {
+        base: MyBase;
+        SUBREGION: Subregion @ ...;
+    }
 
-------------[ cut here ]------------
-field width 67108864 out of range
-WARNING: lib/vsprintf.c:2650 at set_field_width lib/vsprintf.c:2650 [inline], CPU#0: syz.6.1148/9267
-WARNING: lib/vsprintf.c:2650 at vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2914, CPU#0: syz.6.1148/9267
-Modules linked in:
-CPU: 0 UID: 0 PID: 9267 Comm: syz.6.1148 Tainted: G             L      syzkaller #0 PREEMPT 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
-pstate: 634000c5 (nZCv daIF +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
-pc : set_field_width lib/vsprintf.c:2650 [inline]
-pc : vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2914
-lr : set_field_width lib/vsprintf.c:2650 [inline]
-lr : vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2914
-sp : ffff8000946e6b10
-x29: ffff8000946e6b60 x28: 00000000007fffff x27: ffff800087471e82
-x26: 0000000004000000 x25: ffff8000946e6bd8 x24: 0000000000000402
-x23: ffff8000946e6f18 x22: ffff800087b3ed00 x21: ffff8000946e6bf0
-x20: ffff8000946e6ecb x19: dfff800000000000 x18: 0000000000000000
-x17: 0000000000000000 x16: 0000000000000000 x15: 0000000020000040
-x14: 0000000000000000 x13: 0000000000000001 x12: 0000000000000000
-x11: 0000000000000000 x10: 0000000000080000 x9 : d2e0bfbdf6510800
-x8 : d2e0bfbdf6510800 x7 : ffff80008048c5b8 x6 : 0000000000000000
-x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff8000802f6830
-x2 : 0000000100000000 x1 : ffff0000f664d7c0 x0 : 0000000000000001
-Call trace:
- set_field_width lib/vsprintf.c:2650 [inline] (P)
- vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2914 (P)
- va_format lib/vsprintf.c:1725 [inline]
- pointer+0x5e8/0x6b4 lib/vsprintf.c:2573
- vsnprintf+0x618/0xd10 lib/vsprintf.c:2949
- vprintk_store+0x344/0xb94 kernel/printk/printk.c:2307
- vprintk_emit+0x1bc/0x514 kernel/printk/printk.c:2455
- dev_vprintk_emit+0x2ec/0x3b4 drivers/base/core.c:4996
- dev_printk_emit+0xe0/0x130 drivers/base/core.c:5007
- __dynamic_dev_dbg+0x1b4/0x254 lib/dynamic_debug.c:904
- dtv_property_process_get+0x26bc/0x2838 drivers/media/dvb-core/dvb_frontend.c:1594
- dvb_get_property drivers/media/dvb-core/dvb_frontend.c:2396 [inline]
- dvb_frontend_handle_ioctl+0x1644/0x2424 drivers/media/dvb-core/dvb_frontend.c:2477
- dvb_frontend_do_ioctl+0x124/0x278 drivers/media/dvb-core/dvb_frontend.c:2100
- dvb_usercopy+0x2a4/0x4d4 drivers/media/dvb-core/dvbdev.c:996
- dvb_frontend_ioctl+0x68/0x8c drivers/media/dvb-core/dvb_frontend.c:2114
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __arm64_sys_ioctl+0x154/0x1cc fs/ioctl.c:583
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-irq event stamp: 150
-hardirqs last  enabled at (149): [<ffff80008690f4e0>] irqentry_exit_to_kernel_mode_after_preempt include/linux/irq-entry-common.h:507 [inline]
-hardirqs last  enabled at (149): [<ffff80008690f4e0>] __arm64_exit_to_kernel_mode+0x64/0x78 arch/arm64/kernel/entry-common.c:60
-hardirqs last disabled at (150): [<ffff80008048f368>] vprintk_store+0x13c/0xb94 kernel/printk/printk.c:2287
-softirqs last  enabled at (114): [<ffff80008013b050>] local_bh_enable include/linux/bottom_half.h:33 [inline]
-softirqs last  enabled at (114): [<ffff80008013b050>] put_cpu_fpsimd_context arch/arm64/kernel/fpsimd.c:251 [inline]
-softirqs last  enabled at (114): [<ffff80008013b050>] fpsimd_restore_current_state+0x39c/0x9c8 arch/arm64/kernel/fpsimd.c:1797
-softirqs last disabled at (112): [<ffff80008013acf8>] local_bh_disable include/linux/bottom_half.h:20 [inline]
-softirqs last disabled at (112): [<ffff80008013acf8>] get_cpu_fpsimd_context arch/arm64/kernel/fpsimd.c:234 [inline]
-softirqs last disabled at (112): [<ffff80008013acf8>] fpsimd_restore_current_state+0x44/0x9c8 arch/arm64/kernel/fpsimd.c:1790
----[ end trace 0000000000000000 ]---
+    register! {
+        base: Subregion;
+        REG(u32) @ .. { .. }
+    }
 
+    let subregion = io_project!(bar, build: SUBREGION);
+    subregion.read(REG)
+    subregion.write_reg(reg)
+
+instead of
+
+    struct SubregionType;
+    struct Subregion;
+    impl RegisterBase<SubregionType> for Subregion {
+        const BASE: usize = ...;
+    }
+
+    register! {
+        REG(u32) @ Subregion + .. { .. }
+    }
+
+    bar.read(REG::of::<Subregion>())
+    bar.write(WithBase::of::<Subregion>(), reg)
+
+This also allows a lot more code sharing between I/O projection and
+`register!` macro.
+
+The expressiveness power of Rust declarative macros is becoming limiting,
+so it is converted to a proc macro before new features being added to it.
+
+Signed-off-by: Gary Guo <gary@garyguo.net>
+---
+Changes in v3:
+- Convert the `register!` macro to syn.
+- Add check to ensure register and alias share the same base. (Alex)
+- Split transmute functionalities to `kernel::mem`. (Alex)
+- Remove some stray trait bound in nova code. (Alex)
+- Link to v2: https://patch.msgid.link/20260805-typed_register-v2-0-c3ca142220a0@garyguo.net
+
+Changes in v2:
+- Extract type conversion from `register!` to `Io`
+- Redesign the API to be centered around regsiter projections.
+  * Support register projections in `io_project!`
+  * Support adding register definition without defining bitfield
+  * Subregions is thus unified with other registers.
+- Store projected subregions in `Falcon` for nova.
+- Link to v1: https://patch.msgid.link/20260721-typed_register-v1-0-452d72b60262@garyguo.net
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Gary Guo (16):
+      rust: io: register: reimplement as proc macro
+      rust: mem: add `transmute` with deferred size check
+      rust: mem: add `AsRepr` and `AsReprMut`
+      rust: io: perform conversions using `AsRepr`
+      rust: io: support register projections
+      rust: io: register: allow explicit base type specification
+      gpu: nova-core: specify base type for registers
+      drm/tyr: specify base type for registers
+      samples: rust: pci: specify base type for registers
+      rust: io: register: make register have a typed base
+      rust: io: register: support fixed offset register without bitfield
+      gpu: nova-core: use projection for PFALCON and PFALCON2 registers
+      gpu: nova-core: convert hshub0 from relative register to projection
+      rust: io: register: remove relative registers
+      rust: io: register: remove `Register` trait and cleanup macro
+      rust: io: register: unify handling of register with/without bitfields
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ MAINTAINERS                                        |   1 +
+ drivers/gpu/drm/tyr/driver.rs                      |   1 +
+ drivers/gpu/drm/tyr/fw.rs                          |   5 +-
+ drivers/gpu/drm/tyr/regs.rs                        |  45 +-
+ drivers/gpu/nova-core/driver.rs                    |   1 +
+ drivers/gpu/nova-core/falcon.rs                    | 157 ++---
+ drivers/gpu/nova-core/falcon/fsp.rs                |  63 +-
+ drivers/gpu/nova-core/falcon/gsp.rs                |  51 +-
+ drivers/gpu/nova-core/falcon/hal/ga102.rs          |  62 +-
+ drivers/gpu/nova-core/falcon/hal/tu102.rs          |   9 +-
+ drivers/gpu/nova-core/falcon/sec2.rs               |  37 +-
+ drivers/gpu/nova-core/fb/hal/gb100.rs              |  59 +-
+ drivers/gpu/nova-core/fb/regs.rs                   |  29 +-
+ drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |  18 +-
+ drivers/gpu/nova-core/gsp/hal/tu102.rs             |   7 +-
+ drivers/gpu/nova-core/gsp/regs.rs                  |   9 +-
+ drivers/gpu/nova-core/regs.rs                      | 115 ++--
+ drivers/gpu/nova-core/vbios.rs                     |  11 +-
+ rust/kernel/bitfield.rs                            |  10 +
+ rust/kernel/device_id.rs                           |   3 +-
+ rust/kernel/io.rs                                  | 188 +++--
+ rust/kernel/io/register.rs                         | 757 +++++----------------
+ rust/kernel/lib.rs                                 |   1 +
+ rust/kernel/mem.rs                                 | 185 +++++
+ rust/kernel/sync/atomic.rs                         |   4 +-
+ rust/macros/io/mod.rs                              |   3 +
+ rust/macros/io/register.rs                         | 284 ++++++++
+ rust/macros/lib.rs                                 |  10 +
+ samples/rust/rust_driver_pci.rs                    |   4 +
+ 29 files changed, 1175 insertions(+), 954 deletions(-)
+---
+base-commit: e6664f2b33db9b6811eb4cec109f06cb2b4f458d
+change-id: 20260721-typed_register-176eab3abee7
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Best regards,
+--  
+Gary Guo <gary@garyguo.net>
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
