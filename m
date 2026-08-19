@@ -1,54 +1,53 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021111.outbound.protection.outlook.com [52.101.95.111])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020128.outbound.protection.outlook.com [52.101.196.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757CE451076;
-	Wed, 19 Aug 2026 11:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C2F44C664;
+	Wed, 19 Aug 2026 11:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.128
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787137846; cv=fail; b=kZFuKWmeCb2YfDY4f81RwMCrNY5O1LEJKdQvmgKiQR+Duiu4uplFEZBTVdf6oejj1geygDFYRDpORmHjZpKxRIqU+nMsAT4/Sl0Do8ctxol+cB9P78Ib7RpjufDWEliydMjQ5wcXo3LJenFsQN/p9o/FR4GIQevXoF1EMsBhJ/8=
+	t=1787137848; cv=fail; b=cau4OMjygfn9m7FaoHLLdJQnr0gTgda0LHuCdtrYyb8qFsyTQu3yXtKlt23ie5fhkSzOmAJmaauIhkuscEfBuOPxLMlUqqaul5qk2As3OCfL8Q6hacV/FKqoBxXLh2iPilIHWR8WhUsFJup03aD/3ICtyseDiunO0WJ0NHT2bSU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787137846; c=relaxed/simple;
-	bh=UcdRmVpzRIL5d6EXe2nVU7lPrMffwe962tEbCQsnEq8=;
+	s=arc-20240116; t=1787137848; c=relaxed/simple;
+	bh=QK1le1HxUqoKzvsVPNYCGxqAhC5hdY3awRRalC47ao0=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=ncPFLN7gCx4nzjtcR9Cm+TWuSrvBMR2JcXakogJixxY24/GvAXZybXcx+gb0o6oT1REamd4m6NFx+vGbEbvnloD985+FficrFWDhSeHB8qioDZhww1c6iWe3ZQo3VQ91caZ4CUzO0L0MzVQ232e/m/lt+LAZJgOjrR4yRhMaA7s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Ha9JBVjA; arc=fail smtp.client-ip=52.101.95.111
+	 To:Cc:MIME-Version; b=cZ9Xeu+8VL4oKI9UiZZgn9lqiVDmCUQWSdxf4v53taQbR+ntOISE9pGRBvaq+wrwVbYWSh/qKuor29SnQsaErNKUAfWbetRnwfSrfj7SguhoSfWrJLHzt3RYij9vULgGQDHYsLI5idjVxGWVL9c7KqOpzAKobkni2YOTGomcJz0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=jZKmDysG; arc=fail smtp.client-ip=52.101.196.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Ha9JBVjA"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="jZKmDysG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jALZFgFobHgWgmHM33DuosQEs0P/RISZuniyYGKSPmU6dFFh3n3CjD/rlxh2+HM6sn/tEXWKWBN1gpdgp2qUGIUm65+bChoF8o4ALnZoUhgTegKOzQNcwbWphsMI8IQ11z9G3rqwD5btRHWKuVm6z83G+acAdvbIJSFaYpTvShWqRk3VVY1x6KozltbjdNbzigh4aKTprCjlhnVAwTaPS4fzTkkELtCOpsGq4RmZ162ixdOL6BEaZ6TeLTAelnXpu57Ctzw+D3cdiFemObCOlamBAO35aRO6+/WbOgAvKKyxnKwIe0FDtZnFjV8Ld5fGTO9LAkPp7Aro9/wrIauTyw==
+ b=yLc7kSVnTP2grDC0xzucO+lTVa1zTdqY8CSpWXlkMRCnguhKtEQbeZR/eCPiPaPmM+XReM/XA7lzKcjBb2wauiqKDxKWJD0Co06vLy5GALG8XW7PxgpARCJeETma1TkClq2zwzHeVIrxkW1dYnyQF2az5/l4kfcLw8ycFviuMOIPOMxHwrcqBSp7E+n9X1SELsv/xZJu74yG8o6RiggksUhP4VwQH7xMCDjvzHSABl2Scy3eO7CicM7Sr6lJzebYeKyhCjqyodtY7MmXhwy96HjfxVB7Uh2sjZZZ2E7hZTBAewRuBT7hU21/XmECv7m5ryDClD8sIybz4+mZFC/aeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v0B9J7EtjFFOfqpNapB2NAxL9XvD5dlbr2Cpc+w+7pc=;
- b=IzZtI40MBD7I1LsT/1jzzQfXfw4dQJhN/7xONzvQEzuveE1KqnEc5aSn33c4qGKP0KRxSpfj87fPvgFmEBYFNH8WYjBiRtL7X2DjlpN4bFkZ5ig8T9Oex2yGw9uoKl8tAWtzPzBDeGjPHLpKhJQV4iBcmqeYHqIHSAd/cMO19I0mDZ7UdXuwK0FHhahzsrj5QyGecVaQ2Mp39IkwSA6uX2fSkiVeS/9Fh4sucFbmtueVFpo7vMANTlZBdJyTjGRJPDcHhSDHhVqjl81Hb24V1LTaW8977Y7xh7Q6stS/jbxYAc8pIr35QLA/6Ut7yFuBZobzaqHHB2PRkarsb9fcQA==
+ bh=wUCf+rqxAxDjIcVyRzQlNpOG4zfjfpD6Ogu4pqNvK8g=;
+ b=q+ACbnQu4e3bD84lQ/w3oHi4aEIgkc4O0UAlSDuOfwoonDd6WU16Asxg//V1yb/nCOeYG4iW2jreYjWA4e1ylBRft6b9LPW/DtFKZp8wlj5cs5H3FKZb9FM760NqMri5oRatTbKqZAfqyCAKKiQK0RWzkK7CGtSyXD2BnE7Mr6lwFrS9dz78T8JOrdnyvuzC/2sDnUCLfdjKckw2LOuYXq+JeIgAHZk0KvMXTiuqBSqfHM7ZMdr0ejB/tpeCeCeZqAVwWdsk86SNTG3yE1mRlsawqKHah1PFUwA9I6RopHDcazzg2d9/uFrPsZdQbyUjy5w8sI+eTVksV3JoHGfAtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v0B9J7EtjFFOfqpNapB2NAxL9XvD5dlbr2Cpc+w+7pc=;
- b=Ha9JBVjAn2WNErgFAOlunk/CaUtzEwlNbhES8ijrxytpX3mXNOuL8sGBm+y34hSiTMPJt1H6L92cfdaymyXlru0BZNEPQevke2X1W/BMDypyeti26rvCdVAxq2JQ/hxroS6JFvN6H65O5S/yPZvtuyQ1PUjkZ4rTimlgBXTL5G8=
+ bh=wUCf+rqxAxDjIcVyRzQlNpOG4zfjfpD6Ogu4pqNvK8g=;
+ b=jZKmDysGlVKrIVCzkcZB3JLImqjMgAg4QHSy5LvSL6hsPvyp6ynjSBOiEFgIRNxQpfTgztkf38MuPmziHYEEnG3NPzkN7vr+oHhm1M5431rZmyDJiBVIJz/KUEz3iTpQjqQiMbpbD3DBnspu/bglOJQ7lu9DQ/wuL5odfQ2lp88=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
  by CWLP265MB5113.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:15d::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
- 2026 11:10:23 +0000
+ 2026 11:10:24 +0000
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0339.007; Wed, 19 Aug 2026
- 11:10:23 +0000
+ 11:10:24 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Wed, 19 Aug 2026 12:09:21 +0100
-Subject: [PATCH v3 13/16] gpu: nova-core: convert hshub0 from relative
- register to projection
+Date: Wed, 19 Aug 2026 12:09:22 +0100
+Subject: [PATCH v3 14/16] rust: io: register: remove relative registers
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-typed_register-v3-13-3699a75fadf1@garyguo.net>
+Message-Id: <20260819-typed_register-v3-14-3699a75fadf1@garyguo.net>
 References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
 In-Reply-To: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -67,11 +66,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
  Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787137814; l=6702;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787137814; l=21901;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=UcdRmVpzRIL5d6EXe2nVU7lPrMffwe962tEbCQsnEq8=;
- b=dEHU3s9Bt6dbAAcjdnsSRiJ5FhuX3fnSoI4gjo0CkeMrfeY575uC6sAMCFXwhAsAlnr4eFJ+b
- nhmPxD3opaCCho/D0u6kZQr+RhiaEdoSVTGHjkcVW+oLdmjMCuuPiBA
+ bh=QK1le1HxUqoKzvsVPNYCGxqAhC5hdY3awRRalC47ao0=;
+ b=g6ZPyqRlXvoDdNlqEf642fIU6sfs0xOuFxOCLyJh3O3lUZMV8otXleyp9uDcP8txeGffRaMUl
+ GPLtPXE2V/qC1E2kUMLaMHzICXVR+wE9JS0Y/Tq77EPToJF40lLMUwB
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0096.GBRP123.PROD.OUTLOOK.COM
@@ -85,250 +84,663 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB5113:EE_
-X-MS-Office365-Filtering-Correlation-Id: c894bf8a-4e06-4420-1d5d-08defde27716
+X-MS-Office365-Filtering-Correlation-Id: 17ae7c6f-076a-4057-1024-08defde27789
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|7416014|23010399003|921020|6133799003|56012099006|10067099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|7416014|23010399003|921020|3023799007|56012099006|10067099003|5023799004|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	zbZMLvH2x/Qpe2XcHcVoNiduVTlci05kpOg7cnTMMg6sDlK6ooMdiwlz8hQzC0WRMNhlqucXE4SMjI2w0ePy4K86kwLfMzQK46RNPv3ipSE/2qgOQ2Ezxvc08mjMp2plC3pd0EyGTNtGTnbMwKmsD8Gm41Ij9wkExKo8U0DGVzoUacWysKzzBzJJNSRO1mbBPDpi+TIbs1YTJSQNkaWZkir9ez6N45Of87CiW6XTgFaKrA5QaQcOGC83UYg7uoou1ITf/O0EGSV1+Dst482cXKq1cBD51zUQ1ocut+HbP4VW2wad7Wh6WYwY3XiOhvXQnLgp8TJPimD9a/t2baoelj2Yec7kCU3fpDMDrFs8mQYW0fd6E4Sy/x4Cp1V85SLOQ87PZ4Z5nMCvkql1hVoIejZSZaerB5e1qPbJ7RciTwKm6VLqn9C+y5Eqgagevq11WiydYd/ZA4LlJPQVbhITtio5WPiLmWSx/Yeiu069O4f6F/zG39omltxuidEHh73exy9E4dEGk45LhcGcsvCcwGGgIyPsRRgLAKgctLf3eW5s42v5uD7ZX1so0YCIcGmYrWs1UwQ5784xOhyIvJ/WCDpoK61YsM1D5t0JwjcI8wRomitdMaLSirbldE0QDIflpIMLGAJxqGnD+szlQ4HCU5/a0DcrQrgiyi6ArK4ZPbE74KVXGsm7PG+LUOyO66AJet+1F+8VZPAIryjkBd8wVA==
+	C2k08hOt7nEEYSZRoONKW2/Z76ZWAlmHBBXNiNJ4LRg8nYB9qc/acYk5VhV/tyePodm7Ze9uZyN8KcfqFBQ8Qk9929qaIYOVS4XWOSd55dt8RL5Fze8KEL3dJ6R9lloQGq/ueKhNlXIKUPyI3m1oDX+g0riwVh+bg9GFcG2QyqrV2bHzMK7WQpsG92xwjaoV1/28W0dZzWCb7Uk61FKwlTft/Mw7qYaMJYuFnT0MXR9ZSg4QalQD0VMPScQCQDb5jMGNjxTjd7mkmNICOHImGA/x+xUcjd0W+iwZWrqvWtLSnnxdj6vzVVQVXgZ7nTCKGDOyx9ynR4VQCbXLAv1IJ0uwrsAGf80mR1052A/P3kMCaPAnGQOgk3pvzMPFptMpRli8zRFGXijD3T1lFotAWdE4qBjr7yB6CCfVBtKtBM1UhgI6tajdvF1Mwa2c4fCqxezfEBYtMnbITo6tWioSnATkstuEJ8qfKrd+4novo2XZOyVqpkYRgoHArUYlNJ11whInsbvVn6PgzY5milAtQsx56ziK4FkY/FxUhv8sjSL4Tu3XgOe3EarEPmHpO28JCdkDF9qdiXH389VyjbVJEL8YgPFm4HuAV7jtymP/wlK4+ibimJ2Sg3hjOnFPK3YJP49eZ/ckN33LhsPbwJEuHtOYJbF72lXiSZKOl8Tgma1w73V3RsNL4q2kCgD9GHZR/JfoYnBMWhm2PZZBTJOdJA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(7416014)(23010399003)(921020)(6133799003)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(7416014)(23010399003)(921020)(3023799007)(56012099006)(10067099003)(5023799004)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STh4LzlsWUNzdndOdFlJZm1NMUJaMHJ1bnErcDlHMHVSTWNIdXd5VmF2cmE0?=
- =?utf-8?B?T2xaMDdYVWw2Y2xUNFBGM0ltRlhRSkRrMDNkQ0Vzbys3UVY2TWEvM0kxSExq?=
- =?utf-8?B?VGxoUndvWC93T1V2VUZBWVBmL280ZC84WExseUNQbGtIblRucEZ1VW16cGc5?=
- =?utf-8?B?WVU1QnppaFJ3cm16R1JLbVZsNFdNbUJINEJ0OGtCTmdXdEo1ZXZFbUIwWi9R?=
- =?utf-8?B?QXFWL1hUV0syZHlXUFJycU1RejNQa0RDWDAxUGFWeU5SSGJIcmlQSmo4QnZp?=
- =?utf-8?B?MU1WdlpCNDlsTXdaSUZaYWpicmwxajd4TlVkTHR1LzJZNjdXWUlZWGxDcDNU?=
- =?utf-8?B?WUxMeTRtNVkzaWc0clFMRklWZmk1cGZQNTBweUViT1ZmbzVCRkhIazJ0cDVo?=
- =?utf-8?B?QWZkUHpKM2gwd3NaSTkrZ3Zyb1VpMCtKKy8xYmphV0RObUlRanlMdnJhbUVk?=
- =?utf-8?B?S09BcjBvOVMwZlpiRk90ZldnT1YvNTI4ZW5Cczh6dXJxcGt0QVdtQ3R5ZmtP?=
- =?utf-8?B?ZHA0VVc1eit5TzVwU0RWUkFQb0dCRitJcjk4c1lHT012OW1OaGo0ZEVFMHBx?=
- =?utf-8?B?OVpaK2xza3Z2aXlIMEs3Ri9GalFKTzg5NVRiUy9JTUFHZkticm1BbmxNWjNR?=
- =?utf-8?B?em8xTGNZUk9YYldBQlI0RGFxYWNwMjNJZjFUbDU0SnAxYWNiWk9KeGtmdVNP?=
- =?utf-8?B?M1hDeEpSL2l4cWRzb3dMNWtOYVcyWm14WU9xbC9oWGcwNlhXVCs1aXV2QTBK?=
- =?utf-8?B?S1h5Q3k2V3dDNU9oMkFCV1k2b25Hd0RYUXVOdE5hSlU1alpEYnFPSlVBUVk1?=
- =?utf-8?B?bWU4UnllL0V5d2cva2RJaElCanZUR2hjVlZjM3hBK1d5WTE3L1lldVVzckhJ?=
- =?utf-8?B?SjhVdGx4R3NoenkwZENRSU5kNXp5R2ZoY0hEVWEvNGNCemFJdmxzU0J3cWFx?=
- =?utf-8?B?dGdYMmsrQnNYQXJVOW9nZXVVcjB4RDY4QVdqUFN1ZU91cHl0THZrejBRNlh0?=
- =?utf-8?B?NHluMWJMQXJadnA3MC9QN2pnYzVINEhiZnZ3QkdOWUxKdnQ2NFVmbWNhU0E3?=
- =?utf-8?B?S2FVS1FUTXZpNUpqZU1VaGEvVnRkQnNHL2tMaVQ2ZHZJQXdMeU5EdmdxaUdj?=
- =?utf-8?B?UitPUWt1cjkxbDVPSGRnMmZuQkJnOXFZSDROMXU2OW43ajlRU0FROUZpNTVw?=
- =?utf-8?B?bWNNbDAvWHhKOCt6WVlUbnRLVXd6WllIOXpWTVpwQjBaYUJ5SVlabUhhRXZX?=
- =?utf-8?B?ZlZ1VDFEdXZsbms0Ky91a0NZSGFXS2JiZjZucUpoR1dFcVNmRFRDZXNlYXlu?=
- =?utf-8?B?bHladDRhRlhOTWZSNHdiaWhqQ044c0NtU3lIclQrL280cnYyT3ZVek5odmti?=
- =?utf-8?B?bTZKKzVSdGJZNENrTUMxbXdKcEluQmExNUVua0NNRmdrOXNGakRMUS9mZmVo?=
- =?utf-8?B?RTdUUG0xZDBIZnRSNkV5UW9ZbU05SHRidmhTVDZQckxCMHMwNlBzZXZkck1m?=
- =?utf-8?B?TnFWYk9kanVoVXFSVDJWaUoveWZMcVA0Rk9wVFEvcnJJbktqanh2bTBHaFhz?=
- =?utf-8?B?aEtZR25YbkdPb1V1MHNHOXpRV3hoaTdjK0Z3ay9nckFVQ1FsWitMS09uVDQz?=
- =?utf-8?B?RTVLTjNnVGNNVTVnR2FJcTVqQWkySFlEbnM0ZndncW50TURCQ1JrWndEaExi?=
- =?utf-8?B?R0p1TlRJRnBsaVZUTUdMZ3Q2d1pRdFJWc0M4RTBpWStCbEVBcjZzeitYWWFa?=
- =?utf-8?B?ZnkzT3VZRDNTTnhjamVoZ01sOXBvdUFpQlRSWVNyRktSVElmUGY4bzcreTcx?=
- =?utf-8?B?SENRZFlSWEwyaFFINy9RbTl4Y0IvbXhLbC9wNWtGUmhpK1F1TGxRZGR5Q0F2?=
- =?utf-8?B?dU0zdXpER2Q2dTB5NlBhYTloY2NGWTE2VnBtRHh0NzRkbHF2Sit4Z2ZmUHl6?=
- =?utf-8?B?Y1BVRlMrcE5QWEw3VnZLcmRzbXRzOU5zSkkzWWxFV0o0UGYrcFlab2VKMEFO?=
- =?utf-8?B?RkNQeGpvekNROGxrdHgyRW90WElvMnNwNFFBMnBCMFZob2UxRVBQOVIwRUZZ?=
- =?utf-8?B?S2dRcnpTSVNUbmw2T1hhYk9WMzhVb1ZsQStxVU44RldkS3IvYmpRWDNpakJO?=
- =?utf-8?B?ZUR2U2Y5aDdONUdmUG9GYzJOK0pzeERoT3BNQXRBSkJTTC96czZ2eG41dmU5?=
- =?utf-8?B?MWtkM0JFSXNhYWppK05jTHNzOUc3a21qK0RFVlZNRTdYNkRiN1Q0NGNaejlL?=
- =?utf-8?B?a2R2ZEMydzlWOXZCcXN2cThKanI4d2Z0VFhtQmNwK3pMd3dRdHBoMzFHMko2?=
- =?utf-8?B?RVZOYllRT1hYSzkrNFVUQ29QTG1iMmpWMEgzNEE1R1RkbmhQT29Tdz09?=
+	=?utf-8?B?MEI5WXBpUGFmQ2tMbW1vT1RNSXNyams5VEo4V20zY0RHb1hRU3FEK3dMdU1G?=
+ =?utf-8?B?ZjIya1JteTZTUGRGOU5TbWNvWk40YzFmbFB5WnhUdlljUm10YWYvTk5rWTgv?=
+ =?utf-8?B?bTFJMWdDelNBTS8wZTNXR29PbzdyTzNjbWUzSENWa3FQS2piRlpYeGhTcTMx?=
+ =?utf-8?B?KzdPNmpPdmlKVEZEOG5paUl0Y0JkZk1ZdkZaRWRZUHVmUnNGMEt6N01zQUo0?=
+ =?utf-8?B?dktrNFJmaU9JUmxnMGJkR3JCL05JVDRweE5iRk8vVERNWVFINStoWVVJNWNG?=
+ =?utf-8?B?Y2Y3NEl4c2tnMVpmdWVlVll2OUdSekVtVUxuaG1pK285QnRFVFh3SmVuS0Fu?=
+ =?utf-8?B?a0pld1I1UGFBb3djMGNnYXZONDg2VGJYUUNFRUhNSzRpMHJ4aDEvNkFKc1Zt?=
+ =?utf-8?B?YlI2bWtjTW42alRpNS9OZ1dFY1J6b08wdnhySXZqMUhrOFhkNTJaVUFUaWJl?=
+ =?utf-8?B?eTFBVzYrN0pHQk9KcmY5MDBJVGdXenc2UTVhcVB5WjBkYnJrRVBWNDJZaU00?=
+ =?utf-8?B?SVJ2aEpkYStSM1VKVWwwNGhNMENwUFlUcUdjYmxmRkRnK20rNVI3N0JMOGxv?=
+ =?utf-8?B?ZHNrSWgrNEl1SFJEVzJqQVNJd1ByWHZLcjNjTFRZN0hxV2J2RkN2WXFrZ1BX?=
+ =?utf-8?B?Y3BoYi81UEJXdTUyR1l6Z1J1ZHMzVy8rUFdBSEd6ejFXVHRMQUdtV2VmVFhp?=
+ =?utf-8?B?SnMxY2pqUWk2bldPNGp1M0tSNE5UMmlXSi94MHV4Q2xwUEZPSkpJSC9uekxY?=
+ =?utf-8?B?cjJ6NlVqdEh1QXorOTRBQkpiSHJlNnNWT0R0NmkxOGQwM2loM1RSSXJYMzAz?=
+ =?utf-8?B?Rkk4OW9VVlVpOWY1ZG9FUkEyZk1SK3FYMXFCV3BOZk0zd3lDcjZ0TEhhaDJI?=
+ =?utf-8?B?UUdXMEJ2QVIwNVFobUdIQmlZWmttVHBsT29qaGEzcll2TkEveDdYeGZ5Uy9M?=
+ =?utf-8?B?V1UwVXFBb21jcVJNUE5GcmFHOXhvMC9NQy9IdXcwbm11ZTFjR2hzQ2M3M3d4?=
+ =?utf-8?B?TlJHcFUrMjFxTm1ZQjFOSEhaZ0tXTUlteWg4NEhSMFVhTmRpeE5lVXZtdUVu?=
+ =?utf-8?B?RXVHOXYwTWN2NWxrYjdDV1V6cHpDYk5tTmRSckI5OUVGdWpFMzYyZU1JRnAr?=
+ =?utf-8?B?RG1lZWRLbHVBZlV4cm5DMUxoSlNxOHlHTTBzSUNrejM5QXNlQ2o4QXh6RXhq?=
+ =?utf-8?B?WmU4Y21oNlAxb01JRnlwSVhWOG14T0UzaERaUGZIMWxZRmlMQzdsVFZ0dzF4?=
+ =?utf-8?B?VFQ3Yjl5K3VUR2cyU0M0a216TDJyWVlMZUVueEFqTVZUU0dHbEo4Kzd2Z3Rm?=
+ =?utf-8?B?V1duN1FLNHU2Q2JmeUxxd2hyT21GMnVWK0RlZTBKaVc4SnF3TFRGU1BJZ1I4?=
+ =?utf-8?B?eGphTXRnZVV2amxBWlcxamZyWDZwN1RGK3MvVkgwcUtzSFJnczNFTWxybyt6?=
+ =?utf-8?B?elZPSmZsTWIxMWJ0QWlmTGZwb1AzNnhnMTR2Zklzcm9HUzN0QzdGQlVvOHhq?=
+ =?utf-8?B?LzFtbU9sa3RiZTBNNUpVMkt5Qm11THpuZFluVVdMTTNVMUpFeUY4S2k3SDFj?=
+ =?utf-8?B?ZVpBSnF3cUpETnZHSkpzbTJVMzVURnR2VmNlMkFUSlVKY2UyM1NzVkhkMEto?=
+ =?utf-8?B?WmI4R0pZQ042YTUzWmV1OVNaMnZIY0Y3U1JaWmhWdWJ4c2N2REVaK011bzRK?=
+ =?utf-8?B?ZXBwVXZZdW1JdWpETzZ5TEFaV3RPeVY1bVc4MmZMY3dkME9JSmVrNlcvZFBM?=
+ =?utf-8?B?ajVUL1c0bGk1NjhVZEhXMkdOK1lHSVJOM2oxOUpRaEVRWmFrNVJ6cmlDMXhZ?=
+ =?utf-8?B?aHlOOGZxa3IzeG1ZR3EyQk1uM0NEeEFXVEtlb1ZtVjY5dytqeWVnemNqZ0I5?=
+ =?utf-8?B?NWJBclJJTGxtdkZYQmRWWFNHMHFlaENwQjJZM1V3ejh5SWkzTVNsazJIZHBj?=
+ =?utf-8?B?TVVxR21tcUxZY3JKWUtSWVh3dUpuRHlBZ01NMGo0aE1HcFVOTEl5ZDVCb3Qz?=
+ =?utf-8?B?VG1zS1dwbmNudlZ1c2x4UDRHNzFIY0pVSkh3VEpoTTVLUTA5TDVXSUx5Y3Jk?=
+ =?utf-8?B?NXhqQkt0YThrTTgyR3FlOHcydGVHN0NDTDJsU1lmK2daeVVrbW45RlBidi9B?=
+ =?utf-8?B?OUNCSmpkamNsWTdKQVptUTNIYTJGVi9KaVMvTGN6d1lvMmZCQmp4UTU4MHls?=
+ =?utf-8?B?ZE5qZHhoZTBwNXVxUzduR0pWdEIvMjQ4RmIzRUp0UURQeHltQXpoM0FVYUJo?=
+ =?utf-8?B?YU9CRko5aDJ0UkdYUDIzWlpScWF2aXh0b1RBempEK3F1ZmFEZzJERlY2Q0dt?=
+ =?utf-8?B?YkM4eHJzTWIyL3BTMTFUcUtrYkYxZDY3QUtnV3B6WU1ZREV1OE81QT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: c894bf8a-4e06-4420-1d5d-08defde27716
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17ae7c6f-076a-4057-1024-08defde27789
 X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 11:10:23.6915
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 11:10:24.4299
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y6kUVRAgYnAEDAdGZx5dkSCF/L0CQ4zd2rPMNMx/4rU2zxgyTD4Ql83sjLriW8C+7F+k/v9Kttbc+GapPweHVA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 01QyJbumDIFk7wicpn1ODJvocG2vQE6dRsTi8hZ4cGg/xy+dmb7Ggh0DPZGzGaYxSvv3gZnuaQY1ZC8X7u7jYw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5113
 
-Similar to the PFALCON and PFALCON2 conversion, the hshub0 relative access
-can also be achieved cleanly with projection and a new base.
+Relative registers can be better served by projection to subregion instead
+of ad-hoc handling in register macro. Projection composes better (e.g. it
+natively allows relative registers of relative registers without needing
+additional support).
+
+Remove relative register support, and update the documentation to
+demonstrate how projection and subregions can be used to achieve this
+instead.
 
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/gpu/nova-core/fb/hal/gb100.rs | 59 +++++++++++++++++------------------
- drivers/gpu/nova-core/fb/regs.rs      | 19 ++++++-----
- 2 files changed, 40 insertions(+), 38 deletions(-)
+ rust/kernel/io/register.rs | 388 ++++++---------------------------------------
+ rust/macros/io/register.rs |  52 ++----
+ 2 files changed, 61 insertions(+), 379 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/fb/hal/gb100.rs b/drivers/gpu/nova-core/fb/hal/gb100.rs
-index d9e4d62ae632..9fa094939600 100644
---- a/drivers/gpu/nova-core/fb/hal/gb100.rs
-+++ b/drivers/gpu/nova-core/fb/hal/gb100.rs
-@@ -5,11 +5,10 @@
- 
- use kernel::{
-     io::{
--        register::{
--            RegisterBase,
--            WithBase, //
--        },
--        Io, //
-+        io_project,
-+        register,
-+        Io,
-+        Mmio, //
-     },
-     num::Bounded,
-     prelude::*,
-@@ -21,7 +20,10 @@
- };
- 
- use crate::{
--    driver::Bar0,
-+    driver::{
-+        Bar0,
-+        NovaRegisters, //
-+    },
-     fb::{
-         hal::FbHal,
-         regs, //
-@@ -31,17 +33,26 @@
- 
- struct Gb100;
- 
--impl RegisterBase<regs::Hshub0Base> for Gb100 {
--    const BASE: usize = 0x0087_0000;
-+register! {
-+    base: NovaRegisters;
-+
-+    HSHUB0: regs::Hshub0Registers @ 0x0087_0000;
-+}
-+
-+#[inline]
-+fn hshub0(bar: Bar0<'_>) -> Mmio<'_, regs::Hshub0Registers> {
-+    io_project!(bar, build: HSHUB0)
+diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
+index 63c054162e54..4d4afd3ae94a 100644
+--- a/rust/kernel/io/register.rs
++++ b/rust/kernel/io/register.rs
+@@ -8,7 +8,7 @@
+ //!
+ //! Note: most of the items in this module are public so they can be referenced by the macro, but
+ //! most are not to be used directly by users. Outside of the `register!` macro itself, the only
+-//! items you might want to import from this module are [`WithBase`] and [`Array`].
++//! item you might want to import from this module is [`Array`].
+ //!
+ //! # Simple example
+ //!
+@@ -199,76 +199,6 @@ fn offset(self) -> usize {
+     }
  }
  
--fn read_sysmem_flush_page_gb100(bar: Bar0<'_>) -> u64 {
-+fn read_sysmem_flush_page_gb100(hshub0: Mmio<'_, regs::Hshub0Registers>) -> u64 {
-     let lo = u64::from(
--        bar.read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>())
-+        hshub0
-+            .read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO)
-             .adr(),
-     );
-     let hi = u64::from(
--        bar.read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>())
-+        hshub0
-+            .read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI)
-             .adr(),
-     );
+-/// Trait providing a base address to be added to the offset of a relative register to obtain
+-/// its actual offset.
+-///
+-/// The `T` generic argument is used to distinguish which base to use, in case a type provides
+-/// several bases. It is given to the `register!` macro to restrict the use of the register to
+-/// implementors of this particular variant.
+-pub trait RegisterBase<T> {
+-    /// Base address to which register offsets are added.
+-    const BASE: usize;
+-}
+-
+-/// Trait implemented by all registers that are relative to a base.
+-pub trait WithBase {
+-    /// Family of bases applicable to this register.
+-    type BaseFamily;
+-
+-    /// Returns the absolute location of this type when using `B` as its base.
+-    #[inline(always)]
+-    fn of<B: RegisterBase<Self::BaseFamily>>() -> RelativeRegisterLoc<Self, B>
+-    where
+-        Self: Register,
+-    {
+-        RelativeRegisterLoc::new()
+-    }
+-}
+-
+-/// Trait implemented by relative registers.
+-pub trait RelativeRegister: Register + WithBase {}
+-
+-/// Location of a relative register.
+-///
+-/// This can either be an immediately accessible regular [`RelativeRegister`], or a
+-/// [`RelativeRegisterArray`] that needs one additional resolution through
+-/// [`RelativeRegisterLoc::at`].
+-pub struct RelativeRegisterLoc<T: WithBase, B: ?Sized>(PhantomData<T>, PhantomData<B>);
+-
+-impl<T, B> RelativeRegisterLoc<T, B>
+-where
+-    T: Register + WithBase,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+-{
+-    /// Returns the location of a relative register or register array.
+-    #[inline(always)]
+-    // We do not implement `Default` so we can be const.
+-    #[expect(clippy::new_without_default)]
+-    pub const fn new() -> Self {
+-        Self(PhantomData, PhantomData)
+-    }
+-
+-    // Returns the absolute offset of the relative register using base `B`.
+-    //
+-    // This is implemented as a private const method so it can be reused by the [`IoLoc`]
+-    // implementations of both [`RelativeRegisterLoc`] and [`RelativeRegisterArrayLoc`].
+-    #[inline]
+-    const fn offset(self) -> usize {
+-        B::BASE + T::OFFSET
+-    }
+-}
+-
+-impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterLoc<T, B>
+-where
+-    T: RelativeRegister<Base = SuperBase>,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+-{
+-    #[inline(always)]
+-    fn offset(self) -> usize {
+-        RelativeRegisterLoc::offset(self)
+-    }
+-}
+-
+ /// Trait implemented by arrays of registers.
+ pub trait RegisterArray: Register {
+     /// Number of elements in the registers array.
+@@ -331,71 +261,6 @@ fn try_at(idx: usize) -> Option<RegisterArrayLoc<Self>>
+     }
+ }
  
-@@ -52,7 +63,7 @@ fn read_sysmem_flush_page_gb100(bar: Bar0<'_>) -> u64 {
+-/// Trait implemented by arrays of relative registers.
+-pub trait RelativeRegisterArray: RegisterArray + WithBase {}
+-
+-/// Location of a relative array register.
+-pub struct RelativeRegisterArrayLoc<
+-    T: RelativeRegisterArray,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+->(RelativeRegisterLoc<T, B>, usize);
+-
+-impl<T, B> RelativeRegisterArrayLoc<T, B>
+-where
+-    T: RelativeRegisterArray,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+-{
+-    /// Returns the location of register `T` from the base `B` at index `idx`, with build-time
+-    /// validation.
+-    #[inline(always)]
+-    pub fn new(idx: usize) -> Self {
+-        build_assert!(idx < T::SIZE);
+-
+-        Self(RelativeRegisterLoc::new(), idx)
+-    }
+-
+-    /// Attempts to return the location of register `T` from the base `B` at index `idx`, with
+-    /// runtime validation.
+-    #[inline(always)]
+-    pub fn try_new(idx: usize) -> Option<Self> {
+-        if idx < T::SIZE {
+-            Some(Self(RelativeRegisterLoc::new(), idx))
+-        } else {
+-            None
+-        }
+-    }
+-}
+-
+-/// Methods exclusive to [`RelativeRegisterLoc`]s created with a [`RelativeRegisterArray`].
+-impl<T, B> RelativeRegisterLoc<T, B>
+-where
+-    T: RelativeRegisterArray,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+-{
+-    /// Returns the location of the register at position `idx`, with build-time validation.
+-    #[inline(always)]
+-    pub fn at(self, idx: usize) -> RelativeRegisterArrayLoc<T, B> {
+-        RelativeRegisterArrayLoc::new(idx)
+-    }
+-
+-    /// Returns the location of the register at position `idx`, with runtime validation.
+-    #[inline(always)]
+-    pub fn try_at(self, idx: usize) -> Option<RelativeRegisterArrayLoc<T, B>> {
+-        RelativeRegisterArrayLoc::try_new(idx)
+-    }
+-}
+-
+-impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterArrayLoc<T, B>
+-where
+-    T: RelativeRegisterArray<Base = SuperBase>,
+-    B: RegisterBase<T::BaseFamily> + ?Sized,
+-{
+-    #[inline(always)]
+-    fn offset(self) -> usize {
+-        self.0.offset() + self.1 * T::STRIDE
+-    }
+-}
+-
+ /// Trait implemented by items that contain both a register value and the absolute I/O location at
+ /// which to write it.
  ///
- /// Both the primary and EG (egress) register pairs must be programmed to the same address,
- /// as required by hardware.
--fn write_sysmem_flush_page_gb100(bar: Bar0<'_>, addr: Bounded<u64, 52>) {
-+fn write_sysmem_flush_page_gb100(hshub0: Mmio<'_, regs::Hshub0Registers>, addr: Bounded<u64, 52>) {
-     // CAST: lower 32 bits. Hardware ignores bits 7:0.
-     let addr_lo = *addr as u32;
-     let addr_hi = addr.shr::<32, 20>().cast::<u32>();
-@@ -60,24 +71,12 @@ fn write_sysmem_flush_page_gb100(bar: Bar0<'_>, addr: Bounded<u64, 52>) {
-     // Write HI first. The hardware will trigger the flush on the LO write.
- 
-     // Primary HSHUB pair.
--    bar.write(
--        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>(),
--        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi),
--    );
--    bar.write(
--        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>(),
--        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo),
--    );
-+    hshub0.write_reg(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi));
-+    hshub0.write_reg(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo));
- 
-     // EG (egress) pair -- must match the primary pair.
--    bar.write(
--        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>(),
--        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi),
--    );
--    bar.write(
--        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>(),
--        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo),
--    );
-+    hshub0.write_reg(regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi));
-+    hshub0.write_reg(regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo));
- }
- 
- // This PMU reservation size is r570-specific.
-@@ -88,13 +87,13 @@ pub(super) const fn pmu_reserved_size_gb100() -> u32 {
- 
- impl FbHal for Gb100 {
-     fn read_sysmem_flush_page(&self, bar: Bar0<'_>) -> u64 {
--        read_sysmem_flush_page_gb100(bar)
-+        read_sysmem_flush_page_gb100(hshub0(bar))
-     }
- 
-     fn write_sysmem_flush_page(&self, bar: Bar0<'_>, addr: u64) -> Result {
-         let addr = Bounded::<u64, 52>::try_new(addr).ok_or(EINVAL)?;
- 
--        write_sysmem_flush_page_gb100(bar, addr);
-+        write_sysmem_flush_page_gb100(hshub0(bar), addr);
- 
-         Ok(())
-     }
-diff --git a/drivers/gpu/nova-core/fb/regs.rs b/drivers/gpu/nova-core/fb/regs.rs
-index c27582e376e2..584488a3e012 100644
---- a/drivers/gpu/nova-core/fb/regs.rs
-+++ b/drivers/gpu/nova-core/fb/regs.rs
-@@ -2,7 +2,8 @@
- 
- use kernel::{
-     io::register,
--    sizes::SizeConstants, //
-+    prelude::*,
-+    sizes::{SizeConstants, SZ_4K}, //
- };
- 
- use crate::driver::NovaRegisters;
-@@ -65,31 +66,33 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
-     }
- }
- 
--/// Base of the GB10x HSHUB0 register window (`NV_HSHUB0_PRIV_BASE` in Open RM).
-+/// The GB10x HSHUB0 register window (Base defined as `NV_HSHUB0_PRIV_BASE` in Open RM).
+@@ -452,8 +317,7 @@ pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base
+ /// This documentation focuses on how to declare registers. See the [module-level
+ /// documentation](mod@kernel::io::register) for examples of how to access them.
  ///
- /// The base is provided by the GB10x framebuffer HAL.
--pub(super) struct Hshub0Base(());
-+#[repr(align(4))]
-+#[derive(FromBytes, IntoBytes)]
-+pub(super) struct Hshub0Registers([u8; SZ_4K]);
- 
- register! {
--    base: NovaRegisters;
-+    base: Hshub0Registers;
- 
-     // GB10x sysmem flush registers, relative to the HSHUB0 base. GB10x routes sysmembar
-     // through a primary and an EG (egress) pair that must both be programmed to the same
-     // address. Hardware ignores bits 7:0 of each LO register. The boot path uses a fixed
-     // HSHUB0 base, so the multiple runtime-discovered HSHUB bases are not needed here.
--    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ Hshub0Base + 0x00000e50 {
-+    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ 0x00000e50 {
-         31:0    adr => u32;
-     }
- 
--    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ Hshub0Base + 0x00000e54 {
-+    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ 0x00000e54 {
-         19:0    adr;
-     }
- 
--    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ Hshub0Base + 0x000006c0 {
-+    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ 0x000006c0 {
-         31:0    adr => u32;
-     }
- 
--    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ Hshub0Base + 0x000006c4 {
-+    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ 0x000006c4 {
-         19:0    adr;
-     }
+-/// There are 4 possible kinds of registers: fixed offset registers, relative registers, arrays of
+-/// registers, and relative arrays of registers.
++/// Registers can either be fixed offset registers or arrays of registers.
+ ///
+ /// ## Fixed offset registers
+ ///
+@@ -551,122 +415,6 @@ pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base
+ /// }
+ /// ```
+ ///
+-/// ## Relative registers
+-///
+-/// Relative registers can be instantiated several times at a relative offset of a group of bases.
+-/// For instance, imagine the following I/O space:
+-///
+-/// ```text
+-///           +-----------------------------+
+-///           |             ...             |
+-///           |                             |
+-///  0x100--->+------------CPU0-------------+
+-///           |                             |
+-///  0x110--->+-----------------------------+
+-///           |           CPU_CTL           |
+-///           +-----------------------------+
+-///           |             ...             |
+-///           |                             |
+-///           |                             |
+-///  0x200--->+------------CPU1-------------+
+-///           |                             |
+-///  0x210--->+-----------------------------+
+-///           |           CPU_CTL           |
+-///           +-----------------------------+
+-///           |             ...             |
+-///           +-----------------------------+
+-/// ```
+-///
+-/// `CPU0` and `CPU1` both have a `CPU_CTL` register that starts at offset `0x10` of their I/O
+-/// space segment. Since both instances of `CPU_CTL` share the same layout, we don't want to define
+-/// them twice and would prefer a way to select which one to use from a single definition.
+-///
+-/// This can be done using the `Base + Offset` syntax when specifying the register's address:
+-///
+-/// ```ignore
+-/// register! {
+-///     ...
+-///     pub RELATIVE_REG(u32) @ Base + 0x80 {
+-///         ...
+-///     }
+-/// }
+-/// ```
+-///
+-/// This creates a register with an offset of `0x80` from a given base.
+-///
+-/// `Base` is an arbitrary type (typically a ZST) to be used as a generic parameter of the
+-/// [`RegisterBase`] trait to provide the base as a constant, i.e. each type providing a base for
+-/// this register needs to implement `RegisterBase<Base>`.
+-///
+-/// The location of relative registers can be built using the [`WithBase::of`] method to specify
+-/// its base. All relative registers implement [`WithBase`].
+-///
+-/// Here is the above layout translated into code:
+-///
+-/// ```no_run
+-/// use kernel::{
+-///     io::{
+-///         register,
+-///         register::{
+-///             RegisterBase,
+-///             WithBase,
+-///         },
+-///         Io,
+-///         Region,
+-///     },
+-/// };
+-/// # use kernel::io::Mmio;
+-///
+-/// // Type used to identify the base.
+-/// pub struct CpuCtlBase;
+-///
+-/// // ZST describing `CPU0`.
+-/// struct Cpu0;
+-/// impl RegisterBase<CpuCtlBase> for Cpu0 {
+-///     const BASE: usize = 0x100;
+-/// }
+-///
+-/// // ZST describing `CPU1`.
+-/// struct Cpu1;
+-/// impl RegisterBase<CpuCtlBase> for Cpu1 {
+-///     const BASE: usize = 0x200;
+-/// }
+-///
+-/// // This makes `CPU_CTL` accessible from all implementors of `RegisterBase<CpuCtlBase>`.
+-/// register! {
+-///     base: Region<0x1000>;
+-///
+-///     /// CPU core control.
+-///     pub CPU_CTL(u32) @ CpuCtlBase + 0x10 {
+-///         0:0 start;
+-///     }
+-/// }
+-///
+-/// # fn test(io: Mmio<'_, Region<0x1000>>) {
+-/// // Read the status of `Cpu0`.
+-/// let cpu0_started = io.read(CPU_CTL::of::<Cpu0>());
+-///
+-/// // Stop `Cpu0`.
+-/// io.write(WithBase::of::<Cpu0>(), CPU_CTL::zeroed());
+-/// # }
+-///
+-/// // Aliases can also be defined for relative register.
+-/// register! {
+-///     base: Region<0x1000>;
+-///
+-///     /// Alias to CPU core control.
+-///     pub CPU_CTL_ALIAS(u32) => CpuCtlBase + CPU_CTL {
+-///         /// Start the aliased CPU core.
+-///         1:1 alias_start;
+-///     }
+-/// }
+-///
+-/// # fn test2(io: Mmio<'_, Region<0x1000>>) {
+-/// // Start the aliased `CPU0`, leaving its other fields untouched.
+-/// io.update(CPU_CTL_ALIAS::of::<Cpu0>(), |r| r.with_alias_start(true));
+-/// # }
+-/// ```
+-///
+ /// ## Arrays of registers
+ ///
+ /// Some I/O areas contain consecutive registers that share the same field layout. These areas can
+@@ -763,115 +511,83 @@ pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base
+ /// # }
+ /// ```
+ ///
+-/// ## Relative arrays of registers
++/// ## Relative registers
+ ///
+-/// Combining the two features described in the sections above, arrays of registers accessible from
+-/// a base can also be defined:
++/// There are cases where a register region is subdivided into small subregions, and you may wish to
++/// have your register definition be relative to these subregions. This may be needed, for example,
++/// if these subregions are instantiated several times, or you just want it for encapsulation
++/// purpose.
+ ///
+-/// ```ignore
+-/// register! {
+-///     ...
+-///     pub RELATIVE_REGISTER_ARRAY(u8)[10, stride = 4] @ Base + 0x100 {
+-///         ...
+-///     }
+-/// }
++/// For instance, imagine the following I/O space:
++///
++/// ```text
++///           +-----------------------------+
++///           |             ...             |
++///           |                             |
++///  0x100--->+------------CPU0-------------+
++///           |                             |
++///  0x110--->+-----------------------------+
++///           |           CPU_CTL           |
++///           +-----------------------------+
++///           |             ...             |
++///           |                             |
++///           |                             |
++///  0x200--->+------------CPU1-------------+
++///           |                             |
++///  0x210--->+-----------------------------+
++///           |           CPU_CTL           |
++///           +-----------------------------+
++///           |             ...             |
++///           +-----------------------------+
+ /// ```
+ ///
+-/// Like relative registers, they implement the [`WithBase`] trait. However the return value of
+-/// [`WithBase::of`] cannot be used directly as a location and must be further specified using the
+-/// [`at`](RelativeRegisterLoc::at) method.
++/// `CPU0` and `CPU1` both have a `CPU_CTL` register that starts at offset `0x10` of their I/O
++/// space segment. Since both instances of `CPU_CTL` share the same layout, we don't want to define
++/// them twice and would prefer a way to select which one to use from a single definition.
++///
++/// This can be done define a new type for the subregion, and then define registers that use the new
++/// type as the base:
+ ///
+ /// ```no_run
+ /// use kernel::{
+ ///     io::{
++///         io_project,
+ ///         register,
+-///         register::{
+-///             RegisterBase,
+-///             WithBase,
+-///         },
+ ///         Io,
+ ///         Region,
+ ///     },
+ /// };
+ /// # use kernel::io::Mmio;
+-/// # fn get_scratch_idx() -> usize {
+-/// #   0x15
+-/// # }
+-///
+-/// // Type used as parameter of `RegisterBase` to specify the base.
+-/// pub struct CpuCtlBase;
+ ///
+-/// // ZST describing `CPU0`.
+-/// struct Cpu0;
+-/// impl RegisterBase<CpuCtlBase> for Cpu0 {
+-///     const BASE: usize = 0x100;
+-/// }
++/// // Subregion type. Make sure it has adequate size and alignment.
++/// #[repr(align(4))]
++/// #[derive(FromBytes, IntoBytes)]
++/// pub struct CpuCtl([u8; 0x100]);
+ ///
+-/// // ZST describing `CPU1`.
+-/// struct Cpu1;
+-/// impl RegisterBase<CpuCtlBase> for Cpu1 {
+-///     const BASE: usize = 0x200;
+-/// }
+-///
+-/// // 64 per-cpu scratch registers, arranged as a contiguous array.
+ /// register! {
+ ///     base: Region<0x1000>;
+ ///
+-///     /// Per-CPU scratch registers.
+-///     pub CPU_SCRATCH(u32)[64] @ CpuCtlBase + 0x00000080 {
+-///         31:0 value;
+-///     }
++///     // Subregions can just be defined like normal registers.
++///     CPU0: CpuCtl @ 0x100;
++///     CPU1: CpuCtl @ 0x200;
+ /// }
+ ///
+-/// # fn test(io: Mmio<'_, Region<0x1000>>) -> Result<(), Error> {
+-/// // Read scratch register 0 of CPU0.
+-/// let scratch = io.read(CPU_SCRATCH::of::<Cpu0>().at(0));
+-///
+-/// // Write the retrieved value into scratch register 15 of CPU1.
+-/// io.write(WithBase::of::<Cpu1>().at(15), scratch);
+-///
+-/// // This won't build.
+-/// // let cpu0_scratch_128 = io.read(CPU_SCRATCH::of::<Cpu0>().at(128)).value();
+-///
+-/// // Runtime-obtained array index.
+-/// let scratch_idx = get_scratch_idx();
+-/// // Access on a runtime index returns an error if it is out-of-bounds.
+-/// let cpu0_scratch = io.read(
+-///     CPU_SCRATCH::of::<Cpu0>().try_at(scratch_idx).ok_or(EINVAL)?
+-/// ).value();
+-/// # Ok(())
+-/// # }
+-///
+-/// // Alias to `SCRATCH[8]` used to convey the firmware exit code.
++/// // Then you can define new registers on the subregion.
+ /// register! {
+-///     base: Region<0x1000>;
++///     base: CpuCtl;
+ ///
+-///     /// Per-CPU firmware exit status code.
+-///     pub CPU_FIRMWARE_STATUS(u32) => CpuCtlBase + CPU_SCRATCH[8] {
+-///         7:0 status;
++///     /// CPU core control.
++///     pub CPU_CTL(u32) @ 0x10 {
++///         0:0 start;
+ ///     }
+ /// }
+ ///
+-/// // Non-contiguous relative register arrays can be defined by adding a stride parameter.
+-/// // Here, each of the 16 registers of the array is separated by 8 bytes, meaning that the
+-/// // registers of the two declarations below are interleaved.
+-/// register! {
+-///     base: Region<0x1000>;
+-///
+-///     /// Scratch registers bank 0.
+-///     pub CPU_SCRATCH_INTERLEAVED_0(u32)[16, stride = 8] @ CpuCtlBase + 0x00000d00 {
+-///         31:0 value;
+-///     }
+-///
+-///     /// Scratch registers bank 1.
+-///     pub CPU_SCRATCH_INTERLEAVED_1(u32)[16, stride = 8] @ CpuCtlBase + 0x00000d04 {
+-///         31:0 value;
+-///     }
+-/// }
++/// # fn test(io: Mmio<'_, Region<0x1000>>) {
++/// // Read the status of `Cpu0`.
++/// let cpu0_started = io_project!(io, build: CPU0).read(CPU_CTL);
+ ///
+-/// # fn test2(io: Mmio<'_, Region<0x1000>>) -> Result<(), Error> {
+-/// let cpu0_status = io.read(CPU_FIRMWARE_STATUS::of::<Cpu0>()).status();
+-/// # Ok(())
++/// // Stop `Cpu0`.
++/// io_project!(io, build: CPU0).write_reg(CPU_CTL::zeroed());
+ /// # }
+ /// ```
+ #[macro_export]
+diff --git a/rust/macros/io/register.rs b/rust/macros/io/register.rs
+index 0b4e0d1903dd..757ea8094f61 100644
+--- a/rust/macros/io/register.rs
++++ b/rust/macros/io/register.rs
+@@ -53,7 +53,6 @@ struct Reg {
+     name: Ident,
+     ty: Type,
+     array: Option<RegArrayDef>,
+-    relative_base: Option<Path>,
+     offset: RegOffset,
+     bitfield: Option<(Type, Group)>,
  }
+@@ -98,26 +97,15 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+         };
+ 
+         let lh = input.lookahead1();
+-        let mut relative_base = None;
+         let offset = if lh.peek(Token![@]) {
+             let _: Token![@] = input.parse()?;
+ 
+-            if input.peek(Ident) {
+-                relative_base = Some(input.parse()?);
+-                let _: Token![+] = input.parse()?;
+-            }
+-
+             RegOffset::Fixed {
+                 offset: input.parse()?,
+             }
+         } else if lh.peek(Token![=>]) {
+             let _: Token![=>] = input.parse()?;
+-            let mut alias: Path = input.parse()?;
+-            if input.peek(Token![+]) {
+-                let _: Token![+] = input.parse()?;
+-                relative_base = Some(alias);
+-                alias = input.parse()?;
+-            }
++            let alias: Path = input.parse()?;
+ 
+             if input.peek(token::Bracket) {
+                 let content;
+@@ -152,7 +140,6 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+             name,
+             ty,
+             array,
+-            relative_base,
+             offset,
+             bitfield,
+         })
+@@ -196,7 +183,6 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
+             name,
+             ty,
+             array,
+-            relative_base,
+             offset,
+             bitfield,
+         } = reg;
+@@ -236,7 +222,7 @@ impl ::kernel::io::register::Register for #name {
+         }
+ 
+         match array {
+-            None if bitfield.is_none() && relative_base.is_none() => outputs.extend(quote!(
++            None if bitfield.is_none() => outputs.extend(quote!(
+                 #(#attrs)* #vis const #name: ::kernel::io::register::OffsetLoc<#base, #ty> =
+                     ::kernel::io::register::OffsetLoc::new(#offset);
+             )),
+@@ -246,21 +232,12 @@ impl ::kernel::io::register::Register for #name {
+                 "defining without bitfield is not yet supported for this type of register",
+             ))?,
+ 
+-            None => match relative_base {
+-                None => outputs.extend(quote_spanned!(span =>
+-                    impl ::kernel::io::register::FixedRegister for #name {}
+-
+-                    #(#attrs)* #vis const #name: ::kernel::io::register::FixedRegisterLoc<#name> =
+-                        ::kernel::io::register::FixedRegisterLoc::<#name>::new();
+-                )),
+-                Some(relative_base) => outputs.extend(quote_spanned!(span =>
+-                    impl ::kernel::io::register::WithBase for #name {
+-                        type BaseFamily = #relative_base;
+-                    }
++            None => outputs.extend(quote_spanned!(span =>
++                impl ::kernel::io::register::FixedRegister for #name {}
+ 
+-                    impl ::kernel::io::register::RelativeRegister for #name {}
+-                )),
+-            },
++                #(#attrs)* #vis const #name: ::kernel::io::register::FixedRegisterLoc<#name> =
++                    ::kernel::io::register::FixedRegisterLoc::<#name>::new();
++            )),
+ 
+             Some(def) => {
+                 let size = &def.size;
+@@ -276,24 +253,13 @@ impl ::kernel::io::register::RelativeRegister for #name {}
+                 };
+ 
+                 outputs.extend(quote_spanned!(span =>
++                    impl ::kernel::io::register::Array for #name {}
++
+                     impl ::kernel::io::register::RegisterArray for #name {
+                         const SIZE: usize = #size;
+                         const STRIDE: usize = #stride;
+                     }
+                 ));
+-
+-                match relative_base {
+-                    None => outputs.extend(quote_spanned!(span =>
+-                        impl ::kernel::io::register::Array for #name {}
+-                    )),
+-                    Some(relative_base) => outputs.extend(quote_spanned!(span =>
+-                        impl ::kernel::io::register::WithBase for #name {
+-                            type BaseFamily = #relative_base;
+-                        }
+-
+-                        impl ::kernel::io::register::RelativeRegisterArray for #name {}
+-                    )),
+-                }
+             }
+         };
+     }
 
 -- 
 2.54.0
