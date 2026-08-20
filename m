@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D5836B90C;
-	Thu, 20 Aug 2026 22:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB8939281B;
+	Thu, 20 Aug 2026 22:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787266480; cv=none; b=GeyluhTVbH7QVjlTLGzyFr1s+4chdNCIRmBdoUadTxym9LBbWHJegC7+mC1DeBnC/dO+D0X991a8Gm+sg6wmdZljfXf4dJLO2tF/6SrtUEKLSaMzdPY7bcHyzYrEh3ny6uvsRzNtAaqB0vLCMEFauZ9joiZSm3qlrEbLO6uDP2I=
+	t=1787266482; cv=none; b=sxrvBdBajEMMOWyBbjZUipkFQehSnSCJHkUlFoVpYdnHlOxxYLc71jrR0u1PWfcGc0wO07rgqYeF4Ob1fXRPMXxhpScRVrvkO0870e+SNALhUPNG7x2SuQGm4/7Cn3CX11k7cW+I3LLTWmdJ3vFaRbi3L5FQ+THK8ex8g+1JEqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787266480; c=relaxed/simple;
-	bh=1JaP2DEpAEBQFM0+q4bU+lbfR8OAglsR0+pnqTzmUIo=;
+	s=arc-20240116; t=1787266482; c=relaxed/simple;
+	bh=7Au701bf1sZC5LElU/P6jtiOctOquYQpP1SGLwX8GdE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nt8VwlKGHg6di0+DWW76yBomyZaCU6SUyWPqsZfoM26cRlqUu3T7DjPIPJ7Kli8zCa8kUpl4fAbCQq+8ZkxZKmLH4OF6mVLpCqx+sIiZuhqQkghMyg4EDOHy4GlCj+Ggo7ClAmKf1Kv532vDbAv28Ec2hrcNTAT0mhiH6bEmuqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFXC0O6j; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=tu52oWSBSejUcoJqa64KBxEw6w9rlz9JB5U0wQJg6L/zx6WyGjlKmDpgTuOmZUY+6z/4qZb3KZvT/wAwTUI9r0Jfpy98Q9izupGGps4RRAQVR7x8oTczIixtZUxWLadZPu0v8NtgasSDiUKkVWVeqJ87CvVOYhCwrOEgD8T5m8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZIBceQD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFXC0O6j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF7161F00A3A;
-	Thu, 20 Aug 2026 22:54:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZIBceQD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B761F000E9;
+	Thu, 20 Aug 2026 22:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787266478;
-	bh=UMa3P870NbVCLbfMk6yVLt11sH06XfayTjfC2UWHnm4=;
+	s=k20260515; t=1787266480;
+	bh=BydrFpxIM0sG9LnR/EWtwRv2hOi+zg7xGaPmMcWrlA8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FFXC0O6jkXGb1Lf0oeYfPyYO3m1p581sP106PuRbNrbuX+jmiSAoQ0wBmFGzNLC4c
-	 SRVbBJvqFYjpjn4pGpqKH6NNO/vG/Gm+fF/Gj/qKufmzpYpO6MwATfFalmOxLpyGOg
-	 fYfNOaBWWF1YovhzJPZoZ+54ZJcz0LrI+EMVdNpWk3gBLgbni2CJ3+ofOLYsZldSbn
-	 37NVpKxU4cfAUBUL5TivuD55TaHxiWA+/bxh3cVDaOJvpnam7eKHlhjVkRsAK8hJNh
-	 caaEgPmmGthGq2Yl6MznrQ8vHc13R0SANfhYYfdjvAgHQGF9dYKoVTWh5nnzp+ZNlk
-	 CvJK4kORm+Thw==
+	b=aZIBceQDE0Eq6gOoeA2CPnIP4O56T34BfCFKzSzDnC9X6JNrFGfWmRv+EOai1ZMB0
+	 XjYtBRym+eHBHyPfWd4vQagY4P9gNy+5z+f/guRue3RlS3aXdE+0I2d0T+VF6qc8QU
+	 PLi7lCxKtyDndyYZrauV4I2vdCepAEK6/U4NhUYZx47eyUDfWoxcpG6aDpffHua2LM
+	 hlPdblntpsxZ8s0B/mK/zvoxz7cqZpmoUHAjoGN3XjYOaIjiEQS3kSTyV7p5CY+RUa
+	 X8tZCQFhD7AL7AZFACcICgdSQdj0hlBZKBTe0Ecg481QpobQPK4PVCV2TyfnIY87UQ
+	 H77QXwCjiDoNQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: krzk@kernel.org
 Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 2/3] w1: move slave uevent into w1_slave_device_type
-Date: Fri, 21 Aug 2026 00:54:10 +0200
-Message-ID: <20260820225430.1847356-2-dakr@kernel.org>
+Subject: [PATCH 3/3] w1: stop using struct device template for master devices
+Date: Fri, 21 Aug 2026 00:54:11 +0200
+Message-ID: <20260820225430.1847356-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260820225430.1847356-1-dakr@kernel.org>
 References: <20260820225430.1847356-1-dakr@kernel.org>
@@ -45,94 +45,97 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bus-level w1_uevent() only ever added uevent variables (W1_FID,
-W1_SLAVE_ID) for slave devices.
+w1_alloc_dev() uses memcpy() with a static struct device template
+(w1_master_device) to initialize new master devices.
 
-Move the slave uevent logic into w1_slave_device_type.uevent where it
-naturally belongs and remove the bus-level uevent callback entirely.
+Replace the memcpy() with a w1_master_dev_init() helper that sets only
+bus, type, and release.
 
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
 Compile-tested only, no hardware available.
-
-I think the dev_dbg() stuff wasn't really  useful, so I dropped it.
 ---
- drivers/w1/w1.c | 37 +++++++++----------------------------
- 1 file changed, 9 insertions(+), 28 deletions(-)
+ drivers/w1/w1.c          | 15 +++++++--------
+ drivers/w1/w1_int.c      |  7 +++----
+ drivers/w1/w1_internal.h |  2 +-
+ 3 files changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/w1/w1.c b/drivers/w1/w1.c
-index faa1c03f4807..b40f2d9fd29d 100644
+index b40f2d9fd29d..d71e2a1568bd 100644
 --- a/drivers/w1/w1.c
 +++ b/drivers/w1/w1.c
-@@ -164,11 +164,14 @@ static const struct device_type w1_master_device_type = {
- 	.name = "w1_master",
+@@ -193,19 +193,18 @@ struct device_driver w1_master_driver = {
+ 	.bus = &w1_bus_type,
  };
  
-+static int w1_slave_uevent(const struct device *dev,
-+			   struct kobj_uevent_env *env);
+-struct device w1_master_device = {
+-	.parent = NULL,
+-	.bus = &w1_bus_type,
+-	.type = &w1_master_device_type,
+-	.init_name = "w1 bus master",
+-	.release = &w1_master_release
+-};
+-
+ static struct device_driver w1_slave_driver = {
+ 	.name = "w1_slave_driver",
+ 	.bus = &w1_bus_type,
+ };
+ 
++void w1_master_dev_init(struct device *dev)
++{
++	dev->bus = &w1_bus_type;
++	dev->type = &w1_master_device_type;
++	dev->release = &w1_master_release;
++}
 +
- static const struct device_type w1_slave_device_type = {
- 	.name = "w1_slave",
-+	.uevent = w1_slave_uevent,
- };
+ #if 0
+ struct device w1_slave_device = {
+ 	.parent = NULL,
+diff --git a/drivers/w1/w1_int.c b/drivers/w1/w1_int.c
+index 19a0ea28e9f3..a59ca19471e0 100644
+--- a/drivers/w1/w1_int.c
++++ b/drivers/w1/w1_int.c
+@@ -22,8 +22,7 @@ static int w1_enable_pullup = 1;
+ module_param_named(enable_pullup, w1_enable_pullup, int, 0);
  
--static int w1_uevent(const struct device *dev, struct kobj_uevent_env *env);
- static struct device_driver w1_slave_driver;
- 
- static int w1_match(struct device *dev, const struct device_driver *drv)
-@@ -183,7 +186,6 @@ static int w1_match(struct device *dev, const struct device_driver *drv)
- static const struct bus_type w1_bus_type = {
- 	.name = "w1",
- 	.match = w1_match,
--	.uevent = w1_uevent,
- };
- 
- struct device_driver w1_master_driver = {
-@@ -580,39 +582,18 @@ void w1_destroy_master_attributes(struct w1_master *master)
- 	sysfs_remove_group(&master->dev.kobj, &w1_master_defattr_group);
- }
- 
--static int w1_uevent(const struct device *dev, struct kobj_uevent_env *env)
-+static int w1_slave_uevent(const struct device *dev,
-+			   struct kobj_uevent_env *env)
+ static struct w1_master *w1_alloc_dev(u32 id, int slave_count, int slave_ttl,
+-				       struct device_driver *driver,
+-				       struct device *device)
++				       struct device_driver *driver)
  {
--	const struct w1_master *md = NULL;
--	const struct w1_slave *sl = NULL;
--	const char *event_owner, *name;
--	int err = 0;
--
--	if (dev->type == &w1_master_device_type) {
--		md = container_of(dev, struct w1_master, dev);
--		event_owner = "master";
--		name = md->name;
--	} else if (dev->type == &w1_slave_device_type) {
--		sl = container_of(dev, struct w1_slave, dev);
--		event_owner = "slave";
--		name = sl->name;
--	} else {
--		dev_dbg(dev, "Unknown event.\n");
--		return -EINVAL;
--	}
--
--	dev_dbg(dev, "Hotplug event for %s %s, bus_id=%s.\n",
--			event_owner, name, dev_name(dev));
--
--	if (dev->type != &w1_slave_device_type || !sl)
--		goto end;
-+	const struct w1_slave *sl = container_of(dev, struct w1_slave, dev);
-+	int err;
+ 	struct w1_master *dev;
+ 	int err;
+@@ -57,7 +56,7 @@ static struct w1_master *w1_alloc_dev(u32 id, int slave_count, int slave_ttl,
+ 	mutex_init(&dev->bus_mutex);
+ 	mutex_init(&dev->list_mutex);
  
- 	err = add_uevent_var(env, "W1_FID=%02X", sl->reg_num.family);
- 	if (err)
--		goto end;
-+		return err;
+-	memcpy(&dev->dev, device, sizeof(struct device));
++	w1_master_dev_init(&dev->dev);
+ 	dev_set_name(&dev->dev, "w1_bus_master%u", dev->id);
+ 	snprintf(dev->name, sizeof(dev->name), "w1_bus_master%u", dev->id);
+ 	dev->dev.init_name = dev->name;
+@@ -116,7 +115,7 @@ int w1_add_master_device(struct w1_bus_master *master)
+ 	} while (found);
  
- 	err = add_uevent_var(env, "W1_SLAVE_ID=%024LX",
- 			     (unsigned long long)sl->reg_num.id);
--end:
- 	return err;
- }
+ 	dev = w1_alloc_dev(id, w1_max_slave_count, w1_max_slave_ttl,
+-		&w1_master_driver, &w1_master_device);
++		&w1_master_driver);
+ 	if (!dev) {
+ 		mutex_unlock(&w1_mlock);
+ 		return -ENOMEM;
+diff --git a/drivers/w1/w1_internal.h b/drivers/w1/w1_internal.h
+index cb5a74e9939a..ffe7c7e8c4ca 100644
+--- a/drivers/w1/w1_internal.h
++++ b/drivers/w1/w1_internal.h
+@@ -65,7 +65,7 @@ void __w1_family_get(struct w1_family *f);
+ struct w1_family *w1_family_registered(u8 fid);
  
+ extern struct device_driver w1_master_driver;
+-extern struct device w1_master_device;
++void w1_master_dev_init(struct device *dev);
+ extern int w1_max_slave_count;
+ extern int w1_max_slave_ttl;
+ extern struct list_head w1_masters;
 -- 
 2.55.0
 
