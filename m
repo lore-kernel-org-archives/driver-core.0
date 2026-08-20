@@ -1,53 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964D835C1A1
-	for <driver-core@lists.linux.dev>; Wed, 19 Aug 2026 21:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4151440638
+	for <driver-core@lists.linux.dev>; Thu, 20 Aug 2026 00:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787173993; cv=none; b=sfBjztR47Pfjv2/HD3vGJu8YIvL3HITdmDyVrC/sTqa474WJyq+qVxB2nTSimShFPgA+scF0Q8AGqhcBE87siAceDcnVggZrOzlShsSrBd77dUbyfeITa98odsByDVLroHyhJy+jkgNiCBqnxHdkV4a+F2ZmTBVWLgMfrxTNL24=
+	t=1787185947; cv=none; b=XZ12l9XDDdOhBbjCG6TZ76Pv5vAMkClSisl/rnfw+OFry1letJjPOpSwaatkTzzEuT6YmxzBkDiyGY8xiHdpuSkPFKYzWdq5A3arz/GocFYdxwjxOnJh/Z+IKUzVzHaeBKgkRtkOy8Ln8JML0dysCv9EKdG1/40Z2DKqlb0mi5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787173993; c=relaxed/simple;
-	bh=ep9rmA0F3JHcplJs4RoJHxews0NkNYZRYczOwHS6I78=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=Njb4uSmey1lJjTLLtzShc2qm8EG9TqzcXwy8qliw4v2D2oJhLyY961BYxk/JPdhZxtFam3Jj3oP67X05OAaj10vgy4JN8b43VmrNtJuLudERgidg/CJNqRhp89E1Fyz+fTzt8pxqNdGYDnvjXunfpYTYyj2lGP8LXOKhCUT+Dsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bty0tXj0; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bty0tXj0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2861F000E9;
-	Wed, 19 Aug 2026 21:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787173992;
-	bh=ep9rmA0F3JHcplJs4RoJHxews0NkNYZRYczOwHS6I78=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=Bty0tXj0ll2SFD3RQh0vOz9z2CNn5LRK2ZQIC6tX85AyA6fHCdP3GU9hdJ+RnRmBO
-	 9pJR6yPp6n1fihloU2LjCpAnR7vSyNQzhi7ht4us7o478reIW+V0e5gthPgtsC4XVn
-	 mfs0tssB5Z5W6KlrH2QMTwKt4Y1k/tpSAInpK9YnAXvlgWiRE7WpESz6JT4UEYM993
-	 X2yCLC0mHUPSw/WfUQvLxVcyF5qF6b8V4SdFR84Ywi2nGnkop7aKrTQcn0UF+2n6xb
-	 Co2iWHV097W5nP1EzTrRk8u0vMG8RkbZ6qYAzYBFF5jgOqVQRQVrus/orjb1yE5wOF
-	 RV0PzQ0E1/clw==
+	s=arc-20240116; t=1787185947; c=relaxed/simple;
+	bh=/z03sx9hdGw6YJSBUL5u2FZjjb9OwGzbteA279601a0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EO2oB3XpVxbuxuS1NvyNNFAACqLeEtXhhRu+Uq33rg6f38wb5mMQrzR0KWtvOTx0lDN4Eblg9vn3z4RXG2vhbKOZElcGGP0LUsIGBbjJSyHqKxTcLy33XHvESYuApW3TNulaNvfqY4+6I8ilUeT4deXuyq/RzzfSZHXJGaI4u74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.99)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1wwqhZ-000000007CJ-0pVm;
+	Thu, 20 Aug 2026 00:32:13 +0000
+Date: Thu, 20 Aug 2026 01:32:04 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org
+Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: [PATCH v2 0/4] device_schedule_reprobe(): core helper and conversions
+Message-ID: <cover.1787185594.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 19 Aug 2026 23:13:09 +0200
-Message-Id: <DKT8B0Q4DI67.3W01EFAK765YU@kernel.org>
-Cc: <mcgrof@kernel.org>, <driver-core@lists.linux.dev>
-To: "Russ Weight" <russ.weight@linux.dev>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v1 0/3] Remove Russ Weight from kernel development files
-References: <20260818194648.1014604-1-russ.weight@linux.dev>
-In-Reply-To: <20260818194648.1014604-1-russ.weight@linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue Aug 18, 2026 at 9:46 PM CEST, Russ Weight wrote:
-> Russ Weight is retired and is no longer actively participating in linux k=
-ernel
-> development.
+Three in-tree drivers (iwlwifi, hci_h5, btintel_pcie) schedule a
+deferred re-probe of their own device from a work item whose work
+function lives in module text. The hand-rolled copies share two bug
+classes: the work function ends with module_put(THIS_MODULE), racing a
+concurrent rmmod freeing the module text (the race
+module_put_and_kthread_exit() exists to close for kthreads), and
+nothing synchronizes the deferred detach against device_shutdown() or
+an administrative unbind.
 
-Thanks for the kernel work over the years, Russ. Enjoy your retirement!
+Patch 1 moves the deferred work into the driver core.
+device_schedule_reprobe() runs builtin code, so no module reference is
+needed; it checks under a single __device_driver_lock() hold that the
+device is still bound to the driver that scheduled the re-probe, and
+skips the detach once device_shutdown() has reached the device (a new
+one-bit shutdown_done flag in struct device_private). It pins both the
+device and its parent for the lifetime of the work and re-locks the
+parent across the attach on buses that require it. Patches 2 and 3 are
+mechanical conversions. Patch 4 (btintel_pcie) also retires that
+driver's remove()-from-own-work contract, replacing the current_work()
+dance with the deferred re-probe; it changes more and can be dropped
+without affecting patches 1-3.
 
-(I will pick up the series after the merge window.)
+As Hans put it on the RFC: the tree already has device_reprobe() with
+15 callers, so this just adds a way to run one from a worker safely
+rather than having each of the open-coded copies reimplement the
+locking.
+
+This was first floated as an RFC [1]. In parallel the helper rode
+along in the mxl862xx DSA firmware-update series as its patch 3, and
+the v11 [2] and v12 [3] postings put it through further review: an
+automated review of v12 caught a parent use-after-free (the work locks
+the parent, but only the child was pinned) and a missing parent lock
+across device_attach() on need_parent_lock buses. Both are fixed here.
+net-next is closed and the mxl862xx feature waits for the next window,
+so the helper is submitted on its own now; mxl862xx converts to it
+once it lands.
+
+Testing: Patches 1-3 were runtime-tested (backported to 7.0.11) on
+Intel AX101 hardware with PROVE_LOCKING and DEBUG_OBJECTS_WORK,
+driving iwlwifi's crash escalation into the re-probe path: normal
+detach+rebind, an unbind racing a pending re-probe (the unbind is not
+undone), rmmod with a re-probe pending (now succeeds instead of
+EBUSY), and reboot with a re-probe pending; no lockdep or debugobjects
+reports. The same helper was exercised by the mxl862xx v11/v12
+hardware testing across repeated devlink firmware-flash and re-probe
+cycles, including a re-probe pending across unbind, rmmod and reboot.
+hci_h5 and btintel_pcie are compile-tested only.
+
+Changes since the RFC (v1) [1]:
+ - rebased from net-next onto v7.2-rc7
+ - pin the parent device across the deferred work and re-lock it
+   across device_attach() on need_parent_lock buses (found by the
+   automated review of the mxl862xx v12 posting)
+ - schedule the work on system_dfl_wq instead of the deprecated
+   system_unbound_wq
+ - thread the series properly (the RFC's patches were unthreaded)
+ - drop RFC status
+
+[1] https://lore.kernel.org/all/anpxFdwNxk0XwPjQ@makrotopia.org/
+[2] https://lore.kernel.org/all/cover.1786773971.git.daniel@makrotopia.org/
+[3] https://lore.kernel.org/all/cover.1786922210.git.daniel@makrotopia.org/
+
+Daniel Golle (4):
+  driver core: add device_schedule_reprobe()
+  wifi: iwlwifi: use device_schedule_reprobe()
+  Bluetooth: hci_h5: use device_schedule_reprobe()
+  Bluetooth: btintel_pcie: use device_schedule_reprobe() after reset
+
+ drivers/base/base.h                           |  5 +
+ drivers/base/core.c                           |  3 +
+ drivers/base/dd.c                             | 99 +++++++++++++++++++
+ drivers/bluetooth/btintel_pcie.c              | 51 +++++-----
+ drivers/bluetooth/hci_h5.c                    | 43 ++------
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    | 40 +-------
+ include/linux/device.h                        |  2 +
+ 7 files changed, 144 insertions(+), 99 deletions(-)
+
+
+base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
+-- 
+2.55.0
