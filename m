@@ -1,144 +1,248 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB1C38B7DC
-	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 05:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D491D495052
+	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 14:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787288905; cv=none; b=EIpLwHM66CUs1wAazUyHZwsjvc8kwcihIJ9fABqRrZolItl0sHmkVBpFx0mtFc6rsIwMhfDGtTWiuazNALcSPIpFXckGI3Rc5HdaYJF7vYavsLvqkoSQNhx7RRpAk9UlBMG3JG8BuXfOECGCErKSluSnCuZn0o6UryhuksaEqtk=
+	t=1787322293; cv=none; b=RzRbWUVApusw9gQUK58HSL0mvpiKKI3QLHy0i0+6skHxMf0R1zuQXlO/Z2cZJIKfTHtNPpViF6oT74MAmV1TMPrhZTJ4ErXjmGIPqK/VBx8kObsSUhmzI0skb6hCNOV3ff3266/tX5DHow0EiUEId/H0Orb7wqd2hYmAV4yNx1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787288905; c=relaxed/simple;
-	bh=WD6OxeImrnQpFpjLyAL0OUvV97lbkNlzzuav3RpTQWk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kylO4FNcx2vY0cQIQBMM7ZDO/+Xqv5R4DyieC45qqvK/hwKA1/5Pa0/xJNILoe7JWBA+yBlUx7KYXWel2Zs7WYdOBccx/UElNwNgnNAibZjMVSMW5LRnntIpZW4lIynFbDrcVUJmimS3XMVU3xBzhrXIxhG+J7crPL0DqCx6iDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wDXNzRA3YdqDMmwAA--.11214S3;
-	Fri, 21 Aug 2026 13:08:17 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgDnedBA3Ydq4xMJBA--.53480S2;
-	Fri, 21 Aug 2026 13:08:16 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: gregkh@linuxfoundation.org,
-	tj@kernel.org
-Cc: chenridong@huawei.com,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] kernfs: recheck of->released after acquiring the active reference
-Date: Fri, 21 Aug 2026 05:07:20 +0000
-Message-Id: <20260821050720.14848-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <aoc9XplwfHGjQym4@slm.duckdns.org>
-References: <aoc9XplwfHGjQym4@slm.duckdns.org>
+	s=arc-20240116; t=1787322293; c=relaxed/simple;
+	bh=5KSy/nGOQKzhmI/IrtRBuzrF//84fjijlLJDY8x3GMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=niuHuizzaA+GFw/5TyDTggA3jAjE0Gh3JTVsxEuya1hY3QaDKaNfPgoCZgou60nxpVXEUaOtAfFNTNabark2ySwfAwJqJWg0hDcWrg7dYVg+Ex8JOlRyUyFWX2iXyx/+9XrgmTLGlkIh9HeaSf5qg0dTnR5XmFtiZ72fA2oka+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aFg84PVp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aFg84PVp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787322288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kzLAPBXMlMhYI6ySzz6pnLfsKpX/Ftkzneo9qfA/5sU=;
+	b=aFg84PVp1S0uAmWt9yqeqRhmwCokqSa7g9D9LXtv2XeGpE/DFhWkD73pYJp+F79K8HAioh
+	pU8mZOBe/01jLpNbw1ocPPZDLcx8lwxz5bAOwrEFlwEHYl7zWAzZdSvBd3kYM9cRjKqcr6
+	qtrNLdw574vaKC5ZK1qG2Z7ibIhF7eA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-465-9a5yc_PuOaGe1CNe4NBKQw-1; Fri,
+ 21 Aug 2026 10:24:47 -0400
+X-MC-Unique: 9a5yc_PuOaGe1CNe4NBKQw-1
+X-Mimecast-MFC-AGG-ID: 9a5yc_PuOaGe1CNe4NBKQw_1787322284
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 487B018011EC;
+	Fri, 21 Aug 2026 14:24:44 +0000 (UTC)
+Received: from djeffery-thinkpadp1gen3.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 174BF1800346;
+	Fri, 21 Aug 2026 14:24:40 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Tarun Sahu <tarunsahu@google.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	kexec@lists.infradead.org,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v20 0/9] shut down devices asynchronously
+Date: Fri, 21 Aug 2026 10:24:05 -0400
+Message-ID: <20260821142414.150892-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: 1-pHV13T1ozV0Wlvu5KlYSOnyOO4Vp0p9P3flj9ezCo_1787322284
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgDnedBA3Ydq4xMJBA--.53480S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?gFlzPAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI1KHBbo286va0Q+LmGz8bKexBP5+98Z/RqhjlXMVzgShSNQ
-	kGDYUkNhfQEO896yJbmp9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxZFW5XrW5Zr48tFyUXw43urX_yoW5ur4xpF
-	4fKr4fXrn7Ar1DCrWDAF1xZFyru3s7tFW5Wwn7Xwnaya1Ykw1rt34Ygr4v9ry5Ar95Jw4Y
-	v3W7tryjy3s8AabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
-	JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-kernfs_get_active_of(), added by commit 3c9ba2777d6c ("kernfs: Fix UAF
-in polling when open file is released"), tests @of->released before
-acquiring the active reference on @of->kn.  A hide/drain/show cycle can
-run between those steps: the drain path releases the open file, and the
-reactivation lets kernfs_get_active() succeed again.  Any entry guarded
-by kernfs_get_active_of() can consequently run its file operation on an
-already released open file; on the cgroup pressure files, the poll
-callback dereferences of->priv while forming &ctx->psi.trigger and can
-hit either stale, freed memory or NULL.
+These patches are rebased against the driver-core tree's driver-core-next
+branch and should also apply against recent linux-next. Changes for v18 are
+contained in patch 3.
 
-  CPU 0 (kernfs_fop_poll)       CPU 1 (echo 0/1 > cgroup.pressure)
-  -------------------------     ---------------------------------
-  of->released == false         kernfs_show(kn, false)
-  ... preempted ...               kernfs_drain()
-                                   kernfs_release_file()
-                                     ->release(of)  (frees of->priv)
-                                     of->released = true
-                                kernfs_show(kn, true)
-                                  kernfs_activate_one(kn)
-  kernfs_get_active(of->kn)
-  ops->poll(of)
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-The cycle needs the file operation to be delayed between the two
-steps, but kernfs_show() cycles like the one above are fully
-userspace driven.
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-Acquire the active reference first and re-check @of->released after
-it.  While the reference is held, @kn cannot be drained: kernfs_drain()
-waits for kn->active to reach KN_DEACTIVATED_BIAS before draining open
-files, and the only other kernfs_release_file() caller,
-kernfs_fop_release(), is serialized against in-flight file operations
-by the VFS, so the re-read settles whether @of was released for good.
-The re-check needs no lock: @of->released is only ever set to true,
-the drain which sets it precedes the reactivation under kernfs_rwsem,
-and the fully-ordered RMW on @kn->active in kernfs_get_active() then
-orders the read after that reactivation.
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
 
-This issue was found by an in-house static analysis tool.
+And thank you to everyone who has spent some of their valuable time
+providing reviews, suggestions, criticisms, or tests on the various
+iterations of this patchset.
 
-Fixes: 3c9ba2777d6c ("kernfs: Fix UAF in polling when open file is released")
-Cc: stable@vger.kernel.org
-Suggested-by: Tejun Heo <tj@kernel.org>
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
-Changes since v1:
-- Drop the kernfs_open_file_mutex re-check; the fully-ordered RMW in
-  kernfs_get_active() together with the kernfs_rwsem serialization of
-  drain and reactivation already orders the released re-read.
-- Read @of->released with READ_ONCE().
----
- fs/kernfs/file.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Changes from V19:
+- Convert initial creation of shutdown_one_device to a code move with no
+  changes or side effects
+- Add a warning to device_move should some device ever mix need_parent_lock
+  with device_move in the future
+- Link a PCI virtual function as consumer of its associated physical
+  function to ensure proper shutdown order
 
-diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
-index 9adf36e6364b..44d40d9e6dd1 100644
---- a/fs/kernfs/file.c
-+++ b/fs/kernfs/file.c
-@@ -73,12 +73,17 @@ static struct kernfs_open_node *of_on(struct kernfs_open_file *of)
- /* Get active reference to kernfs node for an open file */
- static struct kernfs_open_file *kernfs_get_active_of(struct kernfs_open_file *of)
- {
--	/* Skip if file was already released */
--	if (unlikely(of->released))
-+	if (!kernfs_get_active(of->kn))
- 		return NULL;
+Changes from V18:
+- Fix deadlock and race condition on concurrent device_add
+- Use local variable to device_shutdown for caching async_shutdown
+- Added dev->p check to avoid NULL pointer deference and tell if the
+  device is not registered so no need to be shutdown. This is to handle
+  the cases when devices consumers list might have devices that are not
+  yet registered.
+
+Changes from V17:
+
+Fix mangled text in kernel parameter description
+Re-protect the list removal with the spinlock
+  * Hold a device reference to ensure the device cannot be freed before
+    attempting list removal
+
+Changes from V16:
+
+Drop spinlock before async subsystem call which uses GFP_KERNEL
+Handle that async shutdown can widen races between device shutdown and deletion
+  * __shutdown_one_device will immediately return if a device is dead
+  * Set shutdown device completion to complete when marking a device dead to
+      prevent waiting on a dead device
+  * Only late-access a parent pointer if device is in a non-dead state to
+      ensure the pointer is still valid
+
+Changes from V15:
+
+The async_shutdown bit field is converted to a device flags bit
+Convert all patches to use the flag bit accessor macros to set or check if
+  async shutdown should be used
+Added documentation on the kernel parameter to control use of async shutdown
+
+Changes from V14:
+
+Remove unneeded use of '!!' with boolean type
+
+Changes from V13:
+
+Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
  
--	if (!kernfs_get_active(of->kn))
-+	/*
-+	 * A successful active reference prevents a new drain and orders this
-+	 * check after an earlier reactivation.
-+	 */
-+	if (unlikely(READ_ONCE(of->released))) {
-+		kernfs_put_active(of->kn);
- 		return NULL;
-+	}
+Changes from V2:
  
- 	return of;
- }
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+David Jeffery (7):
+  driver core: warn should device_move try to move a need_parent_lock
+    device
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+  driver core: async device shutdown infrastructure
+  PCI: Link a virtual function to its physical function
+  PCI: Enable async shutdown support
+  scsi: Enable async shutdown support
+
+Tarun Sahu (2):
+  driver core: rely on put_device to free dev->p
+  driver core: prevent device_add() during system shutdown
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ drivers/base/base.h                           |   2 +
+ drivers/base/core.c                           | 273 +++++++++++++++---
+ drivers/pci/iov.c                             |  11 +-
+ drivers/pci/probe.c                           |   2 +
+ drivers/scsi/hosts.c                          |   2 +
+ drivers/scsi/scsi_sysfs.c                     |   3 +
+ include/linux/device.h                        |   2 +
+ 8 files changed, 265 insertions(+), 40 deletions(-)
+
+-- 
+2.53.0
 
