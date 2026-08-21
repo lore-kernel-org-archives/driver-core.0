@@ -1,141 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB8939281B;
-	Thu, 20 Aug 2026 22:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BC7361975
+	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 03:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787266482; cv=none; b=sxrvBdBajEMMOWyBbjZUipkFQehSnSCJHkUlFoVpYdnHlOxxYLc71jrR0u1PWfcGc0wO07rgqYeF4Ob1fXRPMXxhpScRVrvkO0870e+SNALhUPNG7x2SuQGm4/7Cn3CX11k7cW+I3LLTWmdJ3vFaRbi3L5FQ+THK8ex8g+1JEqg=
+	t=1787281713; cv=none; b=cd4zQY1jRY0FZuv9qoE6WYoc7CIE+4OsWs6MQSuhVEovdaBOqFjFYFn1rkvSZD1iqCouqKkKtG6Ro77th2V8HU5lap50UOG2MfX4Oh/xPcTFS67FVLSaIAwq9xzL6XhIS0A5lc8YEnp4+IXsSHfmosWybj1VkAnXKhFsLRHs6iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787266482; c=relaxed/simple;
-	bh=7Au701bf1sZC5LElU/P6jtiOctOquYQpP1SGLwX8GdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tu52oWSBSejUcoJqa64KBxEw6w9rlz9JB5U0wQJg6L/zx6WyGjlKmDpgTuOmZUY+6z/4qZb3KZvT/wAwTUI9r0Jfpy98Q9izupGGps4RRAQVR7x8oTczIixtZUxWLadZPu0v8NtgasSDiUKkVWVeqJ87CvVOYhCwrOEgD8T5m8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZIBceQD; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZIBceQD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B761F000E9;
-	Thu, 20 Aug 2026 22:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787266480;
-	bh=BydrFpxIM0sG9LnR/EWtwRv2hOi+zg7xGaPmMcWrlA8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aZIBceQDE0Eq6gOoeA2CPnIP4O56T34BfCFKzSzDnC9X6JNrFGfWmRv+EOai1ZMB0
-	 XjYtBRym+eHBHyPfWd4vQagY4P9gNy+5z+f/guRue3RlS3aXdE+0I2d0T+VF6qc8QU
-	 PLi7lCxKtyDndyYZrauV4I2vdCepAEK6/U4NhUYZx47eyUDfWoxcpG6aDpffHua2LM
-	 hlPdblntpsxZ8s0B/mK/zvoxz7cqZpmoUHAjoGN3XjYOaIjiEQS3kSTyV7p5CY+RUa
-	 X8tZCQFhD7AL7AZFACcICgdSQdj0hlBZKBTe0Ecg481QpobQPK4PVCV2TyfnIY87UQ
-	 H77QXwCjiDoNQ==
-From: Danilo Krummrich <dakr@kernel.org>
-To: krzk@kernel.org
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 3/3] w1: stop using struct device template for master devices
-Date: Fri, 21 Aug 2026 00:54:11 +0200
-Message-ID: <20260820225430.1847356-3-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260820225430.1847356-1-dakr@kernel.org>
-References: <20260820225430.1847356-1-dakr@kernel.org>
+	s=arc-20240116; t=1787281713; c=relaxed/simple;
+	bh=CBDVKp9MlCzdwdAZgdYt7cIMkOdyGaTV/im6jhI9diA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ico9KFwe5UErpLO7DWJBByAC2veSlVtlZIBQ49b3jwDIWM9PGs32a5cIAGJyzwT7bNnMYy439AY0X2q1UezaY2fFIeDp2zqFc/cMANoaZcCm0xxHRGYxooHlbyH3JIUi91h6uTJnIcoxV1BIJAqKZjIk3/AJkYi0imUeL3Y5/pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+	 (Exim 4.99)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1wxFcD-000000005TT-0RJQ;
+	Fri, 21 Aug 2026 03:08:21 +0000
+Date: Fri, 21 Aug 2026 04:08:12 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org
+Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: [PATCH v3 0/4] device_schedule_reprobe(): core helper and conversions
+Message-ID: <cover.1787281239.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-w1_alloc_dev() uses memcpy() with a static struct device template
-(w1_master_device) to initialize new master devices.
+Three in-tree drivers (iwlwifi, hci_h5, btintel_pcie) schedule a
+deferred re-probe of their own device from a work item whose work
+function lives in module text. The hand-rolled copies share two bug
+classes: the work function ends with module_put(THIS_MODULE), racing a
+concurrent rmmod freeing the module text (the race
+module_put_and_kthread_exit() exists to close for kthreads), and
+nothing synchronizes the deferred detach against device_shutdown() or
+an administrative unbind.
 
-Replace the memcpy() with a w1_master_dev_init() helper that sets only
-bus, type, and release.
+Patch 1 moves the deferred work into the driver core.
+device_schedule_reprobe() runs builtin code, so no module reference is
+needed; it checks under a single __device_driver_lock() hold that the
+device is still bound to the driver that scheduled the re-probe, and
+skips the detach once device_shutdown() has reached the device (a new
+one-bit shutdown_done flag in struct device_private). It pins both the
+device and its parent for the lifetime of the work and re-locks the
+parent across the attach on buses that require it. Patches 2 and 3 are
+mechanical conversions; patch 4 (btintel_pcie) also retires that
+driver's remove()-from-own-work contract.
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
-Compile-tested only, no hardware available.
----
- drivers/w1/w1.c          | 15 +++++++--------
- drivers/w1/w1_int.c      |  7 +++----
- drivers/w1/w1_internal.h |  2 +-
- 3 files changed, 11 insertions(+), 13 deletions(-)
+This is a cross-tree series. Each patch applies cleanly on the tree
+that owns it:
 
-diff --git a/drivers/w1/w1.c b/drivers/w1/w1.c
-index b40f2d9fd29d..d71e2a1568bd 100644
---- a/drivers/w1/w1.c
-+++ b/drivers/w1/w1.c
-@@ -193,19 +193,18 @@ struct device_driver w1_master_driver = {
- 	.bus = &w1_bus_type,
- };
- 
--struct device w1_master_device = {
--	.parent = NULL,
--	.bus = &w1_bus_type,
--	.type = &w1_master_device_type,
--	.init_name = "w1 bus master",
--	.release = &w1_master_release
--};
--
- static struct device_driver w1_slave_driver = {
- 	.name = "w1_slave_driver",
- 	.bus = &w1_bus_type,
- };
- 
-+void w1_master_dev_init(struct device *dev)
-+{
-+	dev->bus = &w1_bus_type;
-+	dev->type = &w1_master_device_type;
-+	dev->release = &w1_master_release;
-+}
-+
- #if 0
- struct device w1_slave_device = {
- 	.parent = NULL,
-diff --git a/drivers/w1/w1_int.c b/drivers/w1/w1_int.c
-index 19a0ea28e9f3..a59ca19471e0 100644
---- a/drivers/w1/w1_int.c
-+++ b/drivers/w1/w1_int.c
-@@ -22,8 +22,7 @@ static int w1_enable_pullup = 1;
- module_param_named(enable_pullup, w1_enable_pullup, int, 0);
- 
- static struct w1_master *w1_alloc_dev(u32 id, int slave_count, int slave_ttl,
--				       struct device_driver *driver,
--				       struct device *device)
-+				       struct device_driver *driver)
- {
- 	struct w1_master *dev;
- 	int err;
-@@ -57,7 +56,7 @@ static struct w1_master *w1_alloc_dev(u32 id, int slave_count, int slave_ttl,
- 	mutex_init(&dev->bus_mutex);
- 	mutex_init(&dev->list_mutex);
- 
--	memcpy(&dev->dev, device, sizeof(struct device));
-+	w1_master_dev_init(&dev->dev);
- 	dev_set_name(&dev->dev, "w1_bus_master%u", dev->id);
- 	snprintf(dev->name, sizeof(dev->name), "w1_bus_master%u", dev->id);
- 	dev->dev.init_name = dev->name;
-@@ -116,7 +115,7 @@ int w1_add_master_device(struct w1_bus_master *master)
- 	} while (found);
- 
- 	dev = w1_alloc_dev(id, w1_max_slave_count, w1_max_slave_ttl,
--		&w1_master_driver, &w1_master_device);
-+		&w1_master_driver);
- 	if (!dev) {
- 		mutex_unlock(&w1_mlock);
- 		return -ENOMEM;
-diff --git a/drivers/w1/w1_internal.h b/drivers/w1/w1_internal.h
-index cb5a74e9939a..ffe7c7e8c4ca 100644
---- a/drivers/w1/w1_internal.h
-+++ b/drivers/w1/w1_internal.h
-@@ -65,7 +65,7 @@ void __w1_family_get(struct w1_family *f);
- struct w1_family *w1_family_registered(u8 fid);
- 
- extern struct device_driver w1_master_driver;
--extern struct device w1_master_device;
-+void w1_master_dev_init(struct device *dev);
- extern int w1_max_slave_count;
- extern int w1_max_slave_ttl;
- extern struct list_head w1_masters;
+  patch 1 (driver core)      -> driver-core
+  patch 2 (iwlwifi)          -> wireless-next
+  patches 3, 4 (bluetooth)   -> bluetooth-next
+
+It is based on bluetooth-next so patches 3 and 4 apply there; patch 1
+applies equally on driver-core and patch 2 on wireless-next (verified
+against all three trees). Patches 2-4 depend on the helper from patch
+1, so they need it in their tree -- or an immutable branch/tag of it --
+before they build.
+
+As Hans put it on the RFC: the tree already has device_reprobe() with
+15 callers, so this just adds a way to run one from a worker safely
+rather than having each open-coded copy reimplement the locking.
+
+History: this was first floated as an RFC (v1) [1]. In parallel the
+helper rode along in the mxl862xx DSA firmware-update series, whose
+review [2] caught a parent use-after-free (the work locks the parent,
+but only the child was pinned) and a missing parent lock across
+device_attach() on need_parent_lock buses -- both fixed here. net-next
+is closed and the mxl862xx feature waits for the next window, so the
+helper is submitted on its own now; mxl862xx is going to use it once it
+lands.
+
+Testing: Hans de Goede reviewed and tested patches 1 and 3 on hci_h5
+hardware that hits the resume re-probe path. Patches 1-3 were also
+runtime-tested (backported to 7.0.11) on Intel AX101 with PROVE_LOCKING
+and DEBUG_OBJECTS_WORK, driving iwlwifi's crash escalation into the
+re-probe path: normal detach+rebind, an unbind racing a pending
+re-probe (not undone), rmmod with a re-probe pending (now succeeds
+instead of EBUSY), and reboot with a re-probe pending; no lockdep or
+debugobjects reports. The helper was exercised further by the mxl862xx
+v11/v12 hardware testing. btintel_pcie (patch 4) is compile-tested
+only.
+
+Changes since v2 [3]:
+ - patch 1: use dev_err_probe() for the re-probe error path so a
+   re-probe deferred at resume no longer logs a spurious error; pick up
+   Hans de Goede's Tested-by/Reviewed-by
+ - patch 3: pick up Hans de Goede's Tested-by/Reviewed-by
+ - patch 4: rebased onto bluetooth-next, whose btintel_pcie has four
+   dump workers rather than the single one the v2 mainline snapshot had
+ - base the series on bluetooth-next instead of v7.2-rc7 so the
+   bluetooth patches apply for their maintainers
+
+Changes since the RFC (v1) [1]:
+ - pin the parent device across the deferred work and re-lock it across
+   device_attach() on need_parent_lock buses (found reviewing the
+   mxl862xx posting [2])
+ - schedule the work on system_dfl_wq instead of the deprecated
+   system_unbound_wq
+ - thread the series properly (the RFC's patches were unthreaded)
+ - drop RFC status
+
+[1] https://lore.kernel.org/all/anpxFdwNxk0XwPjQ@makrotopia.org/
+[2] https://lore.kernel.org/all/cover.1786922210.git.daniel@makrotopia.org/
+[3] https://lore.kernel.org/all/cover.1787185594.git.daniel@makrotopia.org/
+
+Daniel Golle (4):
+  driver core: add device_schedule_reprobe()
+  wifi: iwlwifi: use device_schedule_reprobe()
+  Bluetooth: hci_h5: use device_schedule_reprobe()
+  Bluetooth: btintel_pcie: use device_schedule_reprobe() after reset
+
+ drivers/base/base.h                           |   5 +
+ drivers/base/core.c                           |   3 +
+ drivers/base/dd.c                             | 102 ++++++++++++++++++
+ drivers/bluetooth/btintel_pcie.c              |  49 +++++----
+ drivers/bluetooth/hci_h5.c                    |  43 ++------
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |  40 +------
+ include/linux/device.h                        |   2 +
+ 7 files changed, 146 insertions(+), 98 deletions(-)
+
+
+base-commit: 486f8908aa587ab2a213bbef39311743e4f8f57a
 -- 
 2.55.0
-
