@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D854BC002
-	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 14:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541554D8D8D
+	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 14:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787322312; cv=none; b=fxrBo44OFLnl+xR32uQrSOXF+D2YskBvC16Q9BZUIz910SaKIHN6aKKJX7U11Q5JD/8OIcHQws2uuvqFVp9yMbTTxbSf9pfJK2o5Pi+GS5zv1Pq9zKGm1EUkO7w/L1Ej5kyOugWVcOmbHUxl8Cut/q2AyR1mncGIfF/c00vlIjg=
+	t=1787322316; cv=none; b=fiAgXqrFn86kOj/xhz6Q/qf1/uUO5c4Ht7thEnJft4ayFyH8fTX4q1kPxb44i5CdIpZ0vXt7DsE4Xtzyh16EPHCDuuBPiREClydSxZyKR9CdJ4dNDQ67xvGbtvY+Od5KtCJkzl/BJnmBAgq88kdgTjM23Z+ltggnnBFZ+ptMEDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787322312; c=relaxed/simple;
-	bh=TUNZAGJ8NS4yQJHqG+jndRCTH9fz2EzUUgct2wCRBWc=;
+	s=arc-20240116; t=1787322316; c=relaxed/simple;
+	bh=QDnzyAXfkVtXx6dafjBq5IPhp7lT//fl6PxTNeIYJZ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=MQA+AgNrbMeo5BgsnEiomUZoOSjdIrOCtJTMxZacIjBOjWesiC2PVIr7tJ2mIbprkI9kAIHjxNxiluH0Rh3jaoif4suhc5LjC7y8upD4jGGjrOpnaE2Tdm+8LUpYtOgqKA785LfqFIdYjfqu79Kk0OJm8R9MYqVxtQrYaFu/fTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WcSd1BuB; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=l/UaNe6qERJvcZb0njJp7vvf4Gn6z5fNA5/G1e0Gh6adFl3U6eHmTggeuBg3HCcHi56tEPl2GBl7sT2kHtbpaO6wJB5LcmDWIu5wr3ZMhZ3QaM3+/lMI3y5n/Fs44aYNAABCnYYNXKBOK1vLqhYcdfqiXM7dqY6rXzNbzyOVqHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C4GuZQKD; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WcSd1BuB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C4GuZQKD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787322310;
+	s=mimecast20190719; t=1787322314;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uQriG7YcJmiiNOWQvqK/7JJ3Dxkgd3HtvvGvRtKCsy4=;
-	b=WcSd1BuBWqil6K2mISAPPAJByy9WFIWccIM0I5Mzt7b6LAXxbUw5cS9AOlKyV/56DG+dFj
-	JhQw7uQ2x8CNO5hMsPe+k7py5fcH/g9CeWj//keSIgjPHstBmohv0LifKKbOlnw1Y5I/i2
-	Hwin64DlrKNGyzz/10LhRNG79CcTG8I=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=2wH5PJaoSf+WZ0HADj6Qf/btDMSF680EsLu/bDLMdGU=;
+	b=C4GuZQKDmzK2VWUCkL+ocEivff+2DF0q8q7KhVW7oTcShG5NRxqd1HB+mwwtBVEcOOqrPl
+	5dQ45GHIq3xVsK4ai0SJrrBsgzw4etoSTLYn89ayDs2Z5Afj0xVSrPv8QlgDLPq4CY/PiB
+	GIahwVNTXk6bPqdNiIfBoL1niVaGWMk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-248-jp2jjpJgM8eimwEFXLiTpg-1; Fri,
- 21 Aug 2026 10:24:59 -0400
-X-MC-Unique: jp2jjpJgM8eimwEFXLiTpg-1
-X-Mimecast-MFC-AGG-ID: jp2jjpJgM8eimwEFXLiTpg_1787322296
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-148-wb891n9mO46S-xNiZu2-Pw-1; Fri,
+ 21 Aug 2026 10:25:10 -0400
+X-MC-Unique: wb891n9mO46S-xNiZu2-Pw-1
+X-Mimecast-MFC-AGG-ID: wb891n9mO46S-xNiZu2-Pw_1787322307
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1BA1519540DF;
-	Fri, 21 Aug 2026 14:24:56 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E43718011EC;
+	Fri, 21 Aug 2026 14:25:07 +0000 (UTC)
 Received: from djeffery-thinkpadp1gen3.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 74B671800346;
-	Fri, 21 Aug 2026 14:24:53 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 93532180034F;
+	Fri, 21 Aug 2026 14:25:04 +0000 (UTC)
 From: David Jeffery <djeffery@redhat.com>
 To: driver-core@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -57,10 +57,11 @@ Cc: linux-kernel@vger.kernel.org,
 	kexec@lists.infradead.org,
 	David Jeffery <djeffery@redhat.com>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 4/9] driver core: separate function to shutdown one device
-Date: Fri, 21 Aug 2026 10:24:09 -0400
-Message-ID: <20260821142414.150892-5-djeffery@redhat.com>
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH 8/9] PCI: Enable async shutdown support
+Date: Fri, 21 Aug 2026 10:24:13 -0400
+Message-ID: <20260821142414.150892-9-djeffery@redhat.com>
 In-Reply-To: <20260821142414.150892-1-djeffery@redhat.com>
 References: <20260821142414.150892-1-djeffery@redhat.com>
 Precedence: bulk
@@ -70,107 +71,44 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: 2sTfC_cGtfiy5czRL8HvBsLb75DUH_wwnKeMhG7vkm4_1787322296
+X-Mimecast-MFC-PROC-ID: B7fAz27YSRpLCYlLol9dkBwubm3EoY19t8_iBXTDU38_1787322307
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Make a separate function for the part of device_shutdown() that does the
-shutown for a single device.  This is in preparation for making device
-shutdown asynchronous.
+Like its async suspend support, allow PCI device shutdown to be performed
+asynchronously to reduce shutdown time.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Signed-off-by: David Jeffery <djeffery@redhat.com>
+Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Tested-by: Laurence Oberman <loberman@redhat.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/base/core.c | 65 ++++++++++++++++++++++++---------------------
- 1 file changed, 35 insertions(+), 30 deletions(-)
+ drivers/pci/probe.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 75f5931165a8..a94d24b30c30 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4910,6 +4910,40 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- 	return error;
- }
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index dd0abbc63e18..af2381446406 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1046,6 +1046,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
  
-+static void shutdown_one_device(struct device *dev, struct device *parent)
-+{
-+	/* hold lock to avoid race with probe/release */
-+	if (parent)
-+		device_lock(parent);
-+	device_lock(dev);
-+
-+	/* Don't allow any more runtime suspends */
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_barrier(dev);
-+
-+	if (dev->class && dev->class->shutdown_pre) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown_pre\n");
-+		dev->class->shutdown_pre(dev);
-+	}
-+	if (dev->bus && dev->bus->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->bus->shutdown(dev);
-+	} else if (dev->driver && dev->driver->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->driver->shutdown(dev);
-+	}
-+
-+	device_unlock(dev);
-+	if (parent)
-+		device_unlock(parent);
-+
-+	put_device(dev);
-+	put_device(parent);
-+}
-+
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
-@@ -4946,36 +4980,7 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
+ 	bus->bridge = get_device(&bridge->dev);
+ 	device_enable_async_suspend(bus->bridge);
++	dev_set_async_shutdown(bus->bridge);
+ 	pci_set_bus_of_node(bus);
+ 	pci_set_bus_msi_domain(bus);
+ 	if (bridge->msi_domain && !dev_get_msi_domain(&bus->dev) &&
+@@ -2748,6 +2749,7 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+ 	pci_reassigndev_resource_alignment(dev);
  
--		/* hold lock to avoid race with probe/release */
--		if (parent)
--			device_lock(parent);
--		device_lock(dev);
--
--		/* Don't allow any more runtime suspends */
--		pm_runtime_get_noresume(dev);
--		pm_runtime_barrier(dev);
--
--		if (dev->class && dev->class->shutdown_pre) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown_pre\n");
--			dev->class->shutdown_pre(dev);
--		}
--		if (dev->bus && dev->bus->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->bus->shutdown(dev);
--		} else if (dev->driver && dev->driver->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->driver->shutdown(dev);
--		}
--
--		device_unlock(dev);
--		if (parent)
--			device_unlock(parent);
--
--		put_device(dev);
--		put_device(parent);
-+		shutdown_one_device(dev, parent);
+ 	pci_init_capabilities(dev);
++	dev_set_async_shutdown(&dev->dev);
  
- 		spin_lock(&devices_kset->list_lock);
- 	}
+ 	/*
+ 	 * Add the device to our list of discovered devices
 -- 
 2.55.0
 
