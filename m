@@ -1,190 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7FD4C900C
-	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 14:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6691395AE9
+	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 16:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787322323; cv=none; b=VqpnNhqcQQKnXHe0WSaZ0Qn3/7nB1C3UL3faWzMVY8juuC3LCHWHgw9UUQVHyaZWbtwQhhArE9ccHUjZClCsV7DCwbr1xn9BwgRHD5vn5Q2ncG0Kgl2cSgJYhky+ypMa1SRzFN54uKaOb8hRc1FM2Ovzygu5wvmarVjmNTxzgiY=
+	t=1787328788; cv=none; b=tJ54p6uUqIk4+btXE+1Hoqce5Hxol86mTzg1yL8vu9YVvVAc4gmP2FyS++XSNoiWiIiw4TzD7pP7uTcf/obfd6eXOkDV/aVleYYCaXfHdFU2yfi5PPSqw3DIg3lWOL2uvtA1BmZX0hx4w7n09eWXa6WPjaLaBEM/uGtbCvj1x0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787322323; c=relaxed/simple;
-	bh=PpCFqoRTZpuvsvOZ0n6sLpsfDEkS0I7BJkxeNNLASWI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=TNf50FhrltFEOlDdh8LQ6oeDa/5NzR0GX3XXUypGqrHCEuG6zftfpMH2J09dsH/sjRKzMsZS/AckILSqmvuf6NbogXXMdFuoogzkaFibzhPlUqmjn6J9REuJinQ7+F1nmXr1ojNYzUrpV7kEXb4JnZY8xEQmlYn2nBKeCKuOQg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F40lYVtD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787328788; c=relaxed/simple;
+	bh=bxejHnhZgOHZCx4l87xaSOkvIQXcM6SB6i/eoU6gds4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mb0cDvt7CSboi9TpLWL3mHzhxZsrCPtbll8tvmAqOGUa+cuW13w6ubL6paqd+f1D959bCTbc1P9pFr9QZ6qVvcH2elASNtN7+gfL8rIt8AypR9I0qXJWkIcneT666SmZeK6oeUvIvV+WO9iTmN2oUwR/f/3VF2rS1y2X1jZsIcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=N9UgHtvn; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F40lYVtD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787322321;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMrZ3k+8w7iHo+aJLNVhsbxB4A7X4+dEmXKkGn+Muu4=;
-	b=F40lYVtDSVGQRl9Y4way2Nx3ObB0YcTwMJKQBPNDY5Pyl5AnGftntkJc8YTyqfUE9wqACQ
-	MUNpvuDaMzmJljNDnkpc3T5HJLcJxIzt/AOYAVQCswPeq9csL7yKO0aVcby9QZcSTjnqpE
-	Uv321VORnVzElwwAoFvw6QHHXqGg2oY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-505-Ui0UpXs6OW60e-6v_nFLxg-1; Fri,
- 21 Aug 2026 10:25:02 -0400
-X-MC-Unique: Ui0UpXs6OW60e-6v_nFLxg-1
-X-Mimecast-MFC-AGG-ID: Ui0UpXs6OW60e-6v_nFLxg_1787322299
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0B5321955DE3;
-	Fri, 21 Aug 2026 14:24:59 +0000 (UTC)
-Received: from djeffery-thinkpadp1gen3.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 478731800346;
-	Fri, 21 Aug 2026 14:24:56 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Tarun Sahu <tarunsahu@google.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	kexec@lists.infradead.org,
-	David Jeffery <djeffery@redhat.com>
-Subject: [PATCH 5/9] driver core: do not always lock parent in shutdown
-Date: Fri, 21 Aug 2026 10:24:10 -0400
-Message-ID: <20260821142414.150892-6-djeffery@redhat.com>
-In-Reply-To: <20260821142414.150892-1-djeffery@redhat.com>
-References: <20260821142414.150892-1-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="N9UgHtvn"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-84c4d4f68c7so1786187b3.2
+        for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 09:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1787328784; x=1787933584; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hnEZF2cF3IzXZwcXsx024q0uyKxWL8hRCsuHpl/rWC4=;
+        b=N9UgHtvnguOHFaYfBQEAq+OgUoHFK6UHWBhZjaU4ITSxjVgKZqFMGDQHpS4u76vLke
+         DyaXhcssdz2fNSLDr02153sNhjk1pxmzRsmxKoE7fiuGgptUfn1DhhpbN8p2DBF2wwVL
+         B3jzzRuE6veKNVENfKWn0XTzqzvw/KZQyHtaRQnGP6v5cNad10j7haReDjymFuqaenya
+         Ak1od1EDgo2qMyVvC/JX5B9CbqeJ3KoAqyvfoLOWHfxvVHM2dLlPFwwpAwfpxfXqvX6T
+         IHCZe7BgwV9uC46YHgW1KOlqrjOt8amuo2tTx8+ogB34Zvr91fG2KXBOCWhqrbwnvQbG
+         WeHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787328784; x=1787933584;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hnEZF2cF3IzXZwcXsx024q0uyKxWL8hRCsuHpl/rWC4=;
+        b=RMw4RpCeRdQWrcyx7NYn9q+jYuOyv8Ea8F3gmMA96AtkxO65CVGi7FAEGAPf2NYyz4
+         qUYQxVrPH1x3KDIARWxEX2hMgMYzmuLVKuAYaRuVmlaQd00eb7Afqjff/wochSXLzvF8
+         fInBfw+uYnhVejnkNvoOhb/cJmfsUzOpi+dlnquAOWEa9wDDifG40c0hAVQXeU8Vhtgr
+         lVgejOQWM9y6Kq7kI3ubRTDczr32OuVD4j4ZyTPDbojctMHBgHQDK6bBl/IIQbWPGKsv
+         A1XRN73dl0YO9LYteAaQPPqX/Kg/rIO+PO8vKP2NhCuFP59QWPyAZX9yRiXKtxpLGTZD
+         gu/A==
+X-Gm-Message-State: AFuF++nRzlq8NL6yzgxl7gjmZXzUagoCjKlQEt7AzKWhIZo3gMKMtyMv
+	f7SZheI/yGm1BYOHbShtibSkBDnuKUr3gDw0EHM/XC/bpbPyqS86/yynNMW3auXUDw==
+X-Gm-Gg: AR+sD132zm/B2vtUad/j/G8oixaQacDtI694zRTyvMFkxv0dJqyQs5UJTC+0GDDcxkj
+	vnCJN3J+SBWPeIKZkSiPZsA+hqTI3uQj4FNm4PQsIhIwPk9Nahp2a87bsNnibGhXPabHSfFtN4m
+	WJ5/MivEaDl+EZUCKSNX0g7ipG8s20ZO3itndDrWdHD1/MhxdGNkfdE/qHGqoIXeAF77aPm2DAg
+	sYFMWtwYA3XMbmhrUbobPkw3jcxJudjprYtLHiQFcC2CSYN7xlnhn8N0Gnf6QDN+p3gIIE78y/X
+	dzxKp7INhTetKz4dm9SaFugMcVAym+ywAQsSQn1yeJvdzUdCsh8ntrt56s2S8lWu+xVLKxSzd1d
+	aH7eYgCeR8GU4MiSx02qfc7CdwZS6bkflhIKm9SyEo1h2MZrDk6bqJI0IvNigVvRm8N/q8TGedu
+	tOnq/APTYaqMWam/DYVl9MToHTyfS2ARlg0ZWZ2jn1tVn0xwB5F7Tc0Urd7fIpcBYMbTE2yRvFO
+	dIgwqpFZ4rDCdzi
+X-Received: by 2002:a05:690c:9a86:b0:81f:3dab:372f with SMTP id 00721157ae682-849f1d8b2aemr37464177b3.12.1787328784469;
+        Fri, 21 Aug 2026 09:13:04 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84511abc12fsm43056607b3.1.2026.08.21.09.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 09:13:04 -0700 (PDT)
+From: hengyul@cs.unc.edu
+To: chenyichong@uniontech.com,
+	tj@kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kernfs: preserve security xattrs without allocating iattrs
+Date: Fri, 21 Aug 2026 12:12:21 -0400
+Message-ID: <20260821161221.1270292-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: D9YL0NKuDC2skTZ41WhZWzE_9d0WxKsfEk85JNQoEPA_1787322299
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Don't lock a parent device unless it is needed in device_shutdown. This
-is in preparation for making device shutdown asynchronous, when it will
-be needed to allow children of a common parent to shut down
-simultaneously.
+From: Hengyu Liang <hengyul@cs.unc.edu>
 
-And only acquire a reference to the parent device if the parent is to be
-locked.
+Commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
+made kernfs_iop_listxattr() return an empty list when the kernfs node
+has no allocated kernfs_iattrs.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Tarun Sahu <tarunsahu@google.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
+However, this also skips security xattr names provided by
+simple_xattr_list(). As of now, applications can retrieve the SELinux
+label of a sysfs file with getxattr(), but cannot do it through
+listxattr().
+
+A similar issue happened before in commit b09e0fa4b4ea ("tmpfs: implement generic xattr support").
+It was fixed by commit 8b0ba61df5a1c ("fs/xattr.c: fix simple_xattr_list to always include security.* xattrs").
+Perhaps this recent commit needs a fix as well.
+
+The issue can be reproduced with a simple python program:
+
+    python3 - <<'PY'
+    import os
+
+    path = "/sys/kernel/warn_count"
+
+    print("getxattr:", os.getxattr(path, "security.selinux"))
+    print("listxattr:", os.listxattr(path))
+    PY
+
+Before commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr"),
+the result is:
+
+    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
+    listxattr: ['security.selinux']
+
+After that commit, the result is:
+
+    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
+    listxattr: []
+
+This patch will keep listxattr() consistent with getxattr() when security
+xattrs are available.
+
+Fixes: d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
+
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 ---
+ fs/kernfs/inode.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-The sashiko patch analysis may complain about the parent locking and
-possible use of device_move. This issue cannot currently happen as
-devices with need_parent_lock do not use device_move. An earlier patch
-also adds a warning for this condition should some future code change
-violate the incompatibility between need_parent_lock and device_move.
-
-
- drivers/base/core.c | 44 ++++++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index a94d24b30c30..cd725466c32d 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4910,12 +4910,10 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- 	return error;
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 237dcdd73fc2..bc3c6b939b0e 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -142,10 +142,9 @@ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size)
+ 	struct kernfs_iattrs *attrs;
+ 
+ 	attrs = kernfs_iattrs_noalloc(kn);
+-	if (!attrs)
+-		return 0;
+ 
+-	return simple_xattr_list(d_inode(dentry), &attrs->xattrs, buf, size);
++	return simple_xattr_list(d_inode(dentry),
++				 attrs ? &attrs->xattrs : NULL, buf, size);
  }
  
--static void shutdown_one_device(struct device *dev, struct device *parent)
-+static void __shutdown_one_device(struct device *dev)
- {
--	/* hold lock to avoid race with probe/release */
--	if (parent)
--		device_lock(parent);
--	device_lock(dev);
-+	if (!dev->p || dev->p->dead)
-+		return;
- 
- 	/* Don't allow any more runtime suspends */
- 	pm_runtime_get_noresume(dev);
-@@ -4935,13 +4933,33 @@ static void shutdown_one_device(struct device *dev, struct device *parent)
- 			dev_info(dev, "shutdown\n");
- 		dev->driver->shutdown(dev);
- 	}
-+}
- 
--	device_unlock(dev);
--	if (parent)
-+static void shutdown_one_device(struct device *dev)
-+{
-+	struct device *parent;
-+
-+	device_lock(dev);
-+
-+	/* use parent lock if needed to avoid race with probe/release */
-+	if (dev->bus && dev->bus->need_parent_lock && dev->p && !dev->p->dead &&
-+	    (parent = get_device(dev->parent))) {
-+		/* the parent lock needs to be acquired first, so re-lock */
-+		device_unlock(dev);
-+
-+		device_lock(parent);
-+		device_lock(dev);
-+
-+		__shutdown_one_device(dev);
-+		device_unlock(dev);
- 		device_unlock(parent);
-+		put_device(parent);
-+	} else {
-+		__shutdown_one_device(dev);
-+		device_unlock(dev);
-+	}
- 
- 	put_device(dev);
--	put_device(parent);
- }
- 
- /**
-@@ -4949,7 +4967,7 @@ static void shutdown_one_device(struct device *dev, struct device *parent)
-  */
- void device_shutdown(void)
- {
--	struct device *dev, *parent;
-+	struct device *dev;
- 
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4966,12 +4984,6 @@ void device_shutdown(void)
- 		dev = list_entry(devices_kset->list.prev, struct device,
- 				kobj.entry);
- 
--		/*
--		 * hold reference count of device's parent to
--		 * prevent it from being freed because parent's
--		 * lock is to be held
--		 */
--		parent = get_device(dev->parent);
- 		get_device(dev);
- 		/*
- 		 * Make sure the device is off the kset list, in the
-@@ -4980,7 +4992,7 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
- 
--		shutdown_one_device(dev, parent);
-+		shutdown_one_device(dev);
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
+ static inline void set_default_inode_attr(struct inode *inode, umode_t mode)
 -- 
 2.55.0
 
