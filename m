@@ -1,118 +1,150 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0133624CF
-	for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 22:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C772773E4
+	for <driver-core@lists.linux.dev>; Sat, 22 Aug 2026 05:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787351850; cv=none; b=kIksL2wnMlx+WEdB3+oiQY7F+xMIbmmHBIVJh4fodrhNHGitRkj92nUyRXfd2CxMQxPokiiergu6jndn21GUHaZl1KGz5OdJk7yrsMHfA/5X6VlnhNuEcUEq4GXODpt4ba8aCTg1ToJ7RGdH134325b1zxxCG7un/A+yQqQJSjI=
+	t=1787375853; cv=none; b=Pe3aNdaaXui0JWmpmCVbBl4sH8BC7TJHNKQ0tOeAsgvOW5nb1xEK737QgfsvapfkuSINaL3/a4eUFOvpzeQsfvV7SfujtRZ84trDL/WQVu8jffOEFVsDfkScSCrJBsbZ/3yesCrtCVr4PRz74KcwiIXKhG98eu2cdoWAnR0kYaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787351850; c=relaxed/simple;
-	bh=s0mbgR1B/3e3hk97RKicR6EngEFS8QxUOV6OgZeuQt8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CgpUw+skBOSrIlZBXLQ4Y2ngobwJUGeopEZCYgA1yaVLsgLaT4by//3AN3YpoF4HVc21GC7xcxyUvvhRnn0SewYK/ueuOShuKNvfGOcH1OM+gSfSdNtxJV8q2r6VOnZ8RIWWwUV/3W0KSxH9Q5jUpK8qVD89sbfbad8Va0Nt5Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Vv17E+Dv; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1787375853; c=relaxed/simple;
+	bh=JI/MWOMfUtza6fLR6APHNqEFtX5Ifei+2Obda2PjPdw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTvqTm7uAzhDoaBc+O9YFWc0Pn5LKqh1ksy0kCTdmYz2UCLDuDyOT9qzIB65dG5ORAT5r8PPfsKFLwnWAk5QkekuDC3wNA04FT9RRCdpY1l69c5OU1mNgAJdu3YklDTD1RFcCRbu25sGWxbGA4bcGXBiv/IC3HSHLx2R0VmRipg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=NECaqpV6; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vv17E+Dv"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-96723c7151eso566169241.2
-        for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 15:37:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="NECaqpV6"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-836cde02992so21236237b3.2
+        for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 22:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1787351848; x=1787956648; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ibjvuzdx+Tl1DxNX7IbQEnv5VU652wCRXclJCpK/iM4=;
-        b=Vv17E+DvXxlU3/aY3C22oSEdEXM+NxL2NURzYS1n05GodPs+qrUH3Kf62kJL5u9jD8
-         Tv8uMmsKkgGqxjbVNR4+BjgyQjkT6FBc+HPWzg+5Lp2XiHsI3/VoyDWpptEJ6GOFETDv
-         g5tlSbAqMucjn7Cew2zw0ENRWwxN0ej+AO+OQ=
+        d=cs.unc.edu; s=google; t=1787375850; x=1787980650; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ObzK49S08DHWC6VkAKkzJZzxLTHEkWBeL1S/7Ye9ivQ=;
+        b=NECaqpV6+ysqBaPW0Sq1NlvSrxTfwz9YFnYts04TSvjZ4hbcCkw9hlPMEfUiu6PqLP
+         HaGpqBSnH/ANAlkxuT6XiNV68s+6b8bj4RP8Ic5jaNsfyRGW4yEm+MI6eJV5Y5yfNwCf
+         GUFfhS9EcX8TKYcw/Oe4RNfXJ7+hq/mn2t43InBSBWj3tOnpNwQnO95K6o9SOXtwnmFa
+         yILAJM+UHcxdXvvvz4oxsuhfCzp9LSuvtJQgjYbognaztVwYm71yTjIUfu7sM+2DHp2N
+         I9ya0IBBZugKi2fU5WLu/fiMeeBzZp5NUaQP+MUdyJBN/u3cJYo7DTZd3AIuV9etg48Z
+         gk+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787351848; x=1787956648;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ibjvuzdx+Tl1DxNX7IbQEnv5VU652wCRXclJCpK/iM4=;
-        b=MhwDZ9nU4ZJYokqUAy9BBV7kxyp233edgl5SImpvQKXzOlZgJNlrnBfd3PYnQp/pvo
-         S7KbRTbYowSvFHGYV04NA3O9ZL0REYhJ8mo5+rcUM3eCtHeulb70ryJoM5fDxLcI4uMW
-         txL7QfIkwjE7wc17H9eeqLkyP5yF3dGZyl2myc6UXl34fyBL9LSriQKsbhwefHuK2PWu
-         usDicOGtgRWG/EDyJzuMtnoHTYk5/3EiCq6p8rfDgpoDkUG1+T3BBDIHhhXuuhRZ8+0J
-         EUuC2BejfxiNH+cvFBHlkGFkVOviWDFPy41HrODwJ9/r9ykYgO0uyijVn95UZFl3DLr/
-         xa1A==
-X-Forwarded-Encrypted: i=1; AHgh+Roxuzg0bKIxlZOKXxj19/CbpWu1k39tALxS4f40mjjfV4QhDESQkvLuEOPOuB5LUQcq3bIDI7tCyHGhSQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++nIH41zqHvG+3D10u4HTLircdx+t0l1YFkbMOZTxLKTzsDhQilx
-	zGduhC/32AfsC0wLHKPAbIl3ovdlzI/Qf7QuCdmQPaWIP7nbGXYEvck51l9qA08tiBa+/7pMX/K
-	mtiU=
-X-Gm-Gg: AR+sD10aez0PDce65QNa7rke+zUdxWweeX1hHFxKGvvz/C2OmIwI6p18Kz6vMDCvEPi
-	7X6l/lg9pkONXFPSfqudM3CDWqJ8Hb9C/NM21lSXj9/Wv9zBXDYr+PLB/52gUrlAVVEQKmIZv2R
-	pLuGZV4JJkVTT8RE/cno9iJ3l8n28rFc5zCHx/+G54YFPjyTkMz3HZIEXTOqWsU9ZpiC8+snXaK
-	m2QjbLh8RoyYKdjHSs0m/7msOjQVX/bqX2ScBcVRIXON2AOcRmlioGADKy+XxwHvQgPcEcJ3Z2t
-	w/teD1gmBRrGMd6IJUWhB+EWd7yjrEBnnl5FGKLiUM7RMziHt2yRJIemgRNQI+ohTfCGhl0hNmd
-	4ojT+qFVAeMgTvnVMmBOySPFdf116eb26/+4jlUFEWc/QeRCDzGdkWJESXS/I1q2hFuvBMI/0Z8
-	nr6A8BZmxnWf3BOqmdF0a+1dhUh4lCjv+CerMz5/IfQe8/LbO3buMI98Pcu24YvlxeOxQoFzvNA
-	LfdyiKO4HPaHzvp49J1WuC79l0=
-X-Received: by 2002:a05:6102:6890:b0:76f:1eb7:9944 with SMTP id ada2fe7eead31-77bd04b5b7bmr708974137.3.1787351847961;
-        Fri, 21 Aug 2026 15:37:27 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97c834bc1e0sm198832241.4.2026.08.21.15.37.25
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2026 15:37:26 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-745497ac8fcso466184137.0
-        for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 15:37:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RreoltDmFjAkfWSNcUK1629MUeMhjSwKp3FM78HA7ssHAmj6KE9ja5/6TepjQ9ta4NzU0K05qHMegUoWQ==@lists.linux.dev
-X-Received: by 2002:a05:6102:5124:b0:77a:d089:3de7 with SMTP id
- ada2fe7eead31-77bd0ac29aemr671472137.4.1787351844660; Fri, 21 Aug 2026
- 15:37:24 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787375850; x=1787980650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ObzK49S08DHWC6VkAKkzJZzxLTHEkWBeL1S/7Ye9ivQ=;
+        b=TaWJwUrc/6y5vgPDbiUcImYDPOguZyXRojPHW203+TkVyJ+9iKW5goUixYennkIV+Q
+         lVE3vpJBR8cxyOSBHKIqZDjAepmbWZmvWQ8BDnCWeYDmP8Yt8sOM0TTG+IrCne81nFeC
+         X6nQsCZEHJ1ItSn5ioNr3W2DEnqpJ3oqB1Sb3+biTUFxV5mdRsetwDgCnmNdD9NwEwQ4
+         d/2s6HqWIA3NRWYI1JFgbZPUml9l7ARsVVwZLnT97izv/eQyfVkSsP0TrjY3JuVOf9Cu
+         nYVM1nkKZM7Wfj7iASAz4D7SYWYEbgdTRwDCQ48EpL4feXcNpzoRQoXJA58CYavRFuus
+         l0ng==
+X-Gm-Message-State: AFuF++kzH2dI7udeOhYAkJHKayfmnN0fEAVgaSd4T7JK1Qy3+uTc/vP+
+	l7xzIPVTItarddsT0wpr3A133fAiuZ6uAIsX8K9E6ZyDn+qBznnpp4CYd0gg1sndAA==
+X-Gm-Gg: AR+sD13OaIlA3q19KI4oWJJN7s7O2/iQNGWJsLPcE0QAc0dmoLZ/0RBDwgY5cQxSLL3
+	PI2PspUBbCS2ZurEkhaKQA77eBLRCSvqhRiwLCMLhuYTh8clUVxf+3Qy95tbxMacYAn3Llf3Wnh
+	3x5qBMsAhljt8qRzZ+QtggzHpsb6FZ8aG0LWWdGkEZ3BquLt8XsiEgIx8KOzuKs1sS/zGqt17JT
+	L34b3C8tGLZJ+kgCA+PI+26en8EnmgN/yD2WDL2d9K1ue2nr77Eml0mRn6qKgfoVE4UzEn3wXgp
+	7Kvw7jU222U1LQCK1JdAfcSo95aUVGyrvLvlaJkINV3GrinZ/MNrjNv/3FeScn9T530B/rdRtMR
+	8f9ogYAu3ado3AUBGugODeIjMU3Qr1g31hRLU3ZNw7jaLMCcEpzY9NMdCIVj4ZuwW6mzaHgUqfu
+	80ez2NcQNjAxYeDF3DIzsgidhEaz/tiZlMt5GljLJ7FDul0oOgemHGT6bcRb/J/BPyl1dzDpTqd
+	0b3dqmBOPY=
+X-Received: by 2002:a05:690c:a08b:b0:82d:aa2e:2a66 with SMTP id 00721157ae682-849f67b0ac6mr35953267b3.23.1787375850496;
+        Fri, 21 Aug 2026 22:17:30 -0700 (PDT)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac5ecceasm6504357b3.46.2026.08.21.22.17.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 22:17:29 -0700 (PDT)
+From: hengyul@cs.unc.edu
+To: chenyichong@uniontech.com,
+	tj@kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kernfs: preserve security xattrs without allocating iattrs
+Date: Sat, 22 Aug 2026 01:17:05 -0400
+Message-ID: <20260822051705.1761850-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260821170648.3097673-1-mrungta@google.com>
-In-Reply-To: <20260821170648.3097673-1-mrungta@google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 21 Aug 2026 15:37:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UDw4WEGAjr4eY2qoPVbs9h9J1SJU88OjHgTnqXUSwotw@mail.gmail.com>
-X-Gm-Features: AcwNN1WGrJG5_bxCdBWoSfRR0lNfg_tXwcq51fkh5y5rtpDnrxN0Z4zNEa69sjQ
-Message-ID: <CAD=FV=UDw4WEGAjr4eY2qoPVbs9h9J1SJU88OjHgTnqXUSwotw@mail.gmail.com>
-Subject: Re: [PATCH] PM: sleep: Add DPM watchdog to late/early/noirq phases
-To: Mayank Rungta <mrungta@google.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Hengyu Liang <hengyul@cs.unc.edu>
 
-On Fri, Aug 21, 2026 at 10:06=E2=80=AFAM Mayank Rungta <mrungta@google.com>=
- wrote:
->
-> Extend the DPM watchdog to wrap device_suspend_late, device_suspend_noirq=
-,
-> device_resume_early, and device_resume_noirq callbacks. If a driver hangs
-> during these transitions, the watchdog will fire and dump a stack trace
-> to help identify the offending driver.
->
-> To prevent false-positive timeouts, the watchdog is set only after
-> waiting for subordinate (during suspend) and superior (during resume)
-> devices.
->
-> Signed-off-by: Mayank Rungta <mrungta@google.com>
-> ---
-> Testing:
-> - Tested on an ARM64 SoC (Pixel platform running a 6.18-based kernel with
->   DPM watchdog enabled; Android 6.18 kernel has latest DPM changes
->   backported).
->
->  drivers/base/power/main.c | 25 ++++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
+Commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
+made kernfs_iop_listxattr() return an empty list when the kernfs node
+has no allocated kernfs_iattrs.
 
-I reviewed this patch for Mayank before he sent it. It seems correct /
-useful to me, so I'm happy with:
+However, this also skips security xattr names provided by
+simple_xattr_list(). As of now, applications can retrieve the SELinux
+label of a sysfs file with getxattr(), but cannot do it through
+listxattr().
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+A similar issue happened before in commit b09e0fa4b4ea ("tmpfs:
+implement generic xattr support"). It was fixed by commit 8b0ba61df5a1c
+("fs/xattr.c: fix simple_xattr_list to always include security.* xattrs").
+Perhaps this recent commit needs a fix as well.
+
+The issue can be reproduced with a simple python program:
+
+    python3 - <<'PY'
+    import os
+
+    path = "/sys/kernel/warn_count"
+
+    print("getxattr:", os.getxattr(path, "security.selinux"))
+    print("listxattr:", os.listxattr(path))
+    PY
+
+Before commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr"),
+the result is:
+
+    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
+    listxattr: ['security.selinux']
+
+After that commit, the result is:
+
+    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
+    listxattr: []
+
+This patch will keep listxattr() consistent with getxattr() when security
+xattrs are available.
+
+Fixes: d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
+Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+Acked-by: Tejun Heo <tj@kernel.org>
+---
+
+Changes in v2:
+- Remove an unnecessary line break.
+
+v1: https://lore.kernel.org/driver-core/20260821161221.1270292-1-hengyul@cs.unc.edu/
+
+ fs/kernfs/inode.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 237dcdd73fc2..abb286bc3474 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -142,10 +142,8 @@ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size)
+ 	struct kernfs_iattrs *attrs;
+ 
+ 	attrs = kernfs_iattrs_noalloc(kn);
+-	if (!attrs)
+-		return 0;
+ 
+-	return simple_xattr_list(d_inode(dentry), &attrs->xattrs, buf, size);
++	return simple_xattr_list(d_inode(dentry), attrs ? &attrs->xattrs : NULL, buf, size);
+ }
+ 
+ static inline void set_default_inode_attr(struct inode *inode, umode_t mode)
+-- 
+2.53.0
+
