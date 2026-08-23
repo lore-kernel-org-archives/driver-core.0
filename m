@@ -1,331 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C053D34B9;
-	Sun, 23 Aug 2026 12:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787488064; cv=fail; b=KzBc8MxEEybecrNNRxoAsSsgp2UOZYSe3qPoiFCQI0webgHR+7BT5rgp62fKC2rRNJ1WvhCbDEjDCay1PsHjbQK1wncbCy/c6qxDFDjPe37Eg7OOwXBmcE6QbSXFWYbqDCDQn44JwuzghpVxPinl+Ql1epcQY4ig8oQZm0jvlfE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787488064; c=relaxed/simple;
-	bh=Zb7CTgSYiljlEOBzggqDYlVn647wPNC/c/qshQep85c=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=h362G52Wg3SHdZekXy8OMh3fxmNZZm4sanTn8mDFZrOIUENe+5vVlRtTyb+/J21jl6OORA+JXBJk6wymPeCvVVWP6CfwJ9DFW+yy44oTsDZw2y4l6D1vFPiV/TikVeKzkElYXy4QcrSVVM1BtQwRQGKM0ZFYqtIs+TYAy1jwEJM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZhweAtkR; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE5C369D4F
+	for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 14:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787496009; cv=none; b=l6Q/aX/W74p8YGEkbQhkKfjh38RuJUCbS0HtiMMJSyxqAFmA19m6App0KdddJUYWE81K73DjHgMh+990PMq1UZ5ZZXwr9en3DyERxr81lbqrZO2z5rl3xG4FSwCcBWLA9u1hVvKobrCSyV3fteL4VyvUfi8aAkalPFd0NaLkwQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787496009; c=relaxed/simple;
+	bh=mdUGm8U13JxZwr3ZnxRwt3yi6FvYTBdNA5OUPUKmQyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IF8vbIj4Nq+RurVMekagqNmiv0BMEiuyMibNNzB2CYon73Ugl0CEp5NdoI+msqMRJQxxXa2S0epoxGGtPZ1l9W/Y77S1a2vPUzTnptHORc/Vsnz7c09DMP+4r56CtlioBXGRE1LHUW2JNuyHl7xpPD+m+IdYhBxxeDCFGMp6o0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=EFux0XWA; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhweAtkR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787488062; x=1819024062;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=Zb7CTgSYiljlEOBzggqDYlVn647wPNC/c/qshQep85c=;
-  b=ZhweAtkRH84PurnaZPoinVBzqef1SvJT39J8fatSxbwAGwJPh+g+8Ges
-   potIMnO4TiGG2f8f9+fvTdMwQ7gPfWTDcGXlmKZ0pm7O0hiRbwQWuR4BK
-   XND9KP3W3nkK5POfSe0TknPyxOnDzLkgbCXGHufz3iFrfbR5JrPOiN+bE
-   eH8JQLaDRmBpdaEetjiriMZN/Fcm0N29LdCQSKv6KvPgvsAN1OFVIP6E6
-   1Y/4Kg0Wmi/chjkcIV+qzno22keh8+lmZhqEVmioCb1i9MvCoKXRKpfyd
-   a8KXQuzY0P8ZNzFWwBwFO5MGwRE1YqtGqqi39sCHx18NUjkgQkSmcj7PF
-   w==;
-X-CSE-ConnectionGUID: ALZJNabWRfGgG8kiCzg41g==
-X-CSE-MsgGUID: 1xVpiITbRfK68n6uq3xmNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11883"; a="87076755"
-X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="87076755"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:27:42 -0700
-X-CSE-ConnectionGUID: zR7gb4WGRCa3DtTMU1k6Bg==
-X-CSE-MsgGUID: LjVmN12ATPann/hAEAVYOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,238,1779174000"; 
-   d="scan'208";a="296670740"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2026 05:27:42 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:27:41 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Sun, 23 Aug 2026 05:27:41 -0700
-Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.53) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 23 Aug 2026 05:27:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bqBzoy50J9nIWLIPLQ/rlXVmcQ4s6XZRc9ePH0Fu29wdpvjoxkugfcA8whmbu8GczG3bUO/nafr9UE+sazb5Zvm4j2o9zP+hNQAeazjJYCfrj/fBIUDTlqekyBb6nLIll/FYKk0hMjAiahadnOFuXiy1Fq5hfoZlGQ/ZhKk6QQ8WL02QBuSzrflD8TGUswga/dG08IL0/z5QpO1su3dwQsLwlyruNG5UxEMZssbvTOjOHIzdz6O89m3nORRFmASVrTTBaqDBR8GNTK4zeoLQ3f5S/zNfhRiWqmU3IB1/KhSQ/qZPL+cI459TKmS/0BQ8ZeQJmGraJ9PDdL+I16zvzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zu8XOYyPvhlmgCadNKz7nadEIyXTQKLr6ux3RL+Xv2o=;
- b=f/cA9CSmhclykzDlaPGV83Y/3wI9pxWjq6U0lI1bQfrSOboVcaUI/FiXpptEQ0a54EYvht5YPp4LI6ojkpoOJTFVeQpVJ30vDCuGQ9Me714qIRHo50RIr+bpXDQKIkJgGVWJ3OnKlj84MAtjuef0rxkqJxqyO9/zx5ZzmyEY/OgZshHhpliLgwen25P4rl0K22DG2izuypxvQhr2Ye5e3f9vxODPRdDIPt9U/A3umXUpuxdCyTavfkmsZEjExZR+cY7uJltdrGD5hbeCmCckzDWzxhQNIBGX0SEzXwCoI+mOVS4Z2+9Zc1V34nZOyHtzZCIV++xi8VnU5MxqCJ7UsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ0PR11MB5214.namprd11.prod.outlook.com (2603:10b6:a03:2df::22)
- by IA4PR11MB9324.namprd11.prod.outlook.com (2603:10b6:208:569::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Sun, 23 Aug
- 2026 12:27:38 +0000
-Received: from SJ0PR11MB5214.namprd11.prod.outlook.com
- ([fe80::5926:3836:4212:8640]) by SJ0PR11MB5214.namprd11.prod.outlook.com
- ([fe80::5926:3836:4212:8640%4]) with mapi id 15.21.0339.012; Sun, 23 Aug 2026
- 12:27:38 +0000
-Date: Sun, 23 Aug 2026 20:27:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fan Wu <fanwu01@zju.edu.cn>, <gregkh@linuxfoundation.org>, <tj@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <chenridong@huawei.com>,
-	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Fan Wu
-	<fanwu01@zju.edu.cn>, <stable@vger.kernel.org>
-Subject: Re: [PATCH v2] kernfs: recheck of->released after acquiring the
- active reference
-Message-ID: <202608230046.Ixvo8Av6-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260821050720.14848-1-fanwu01@zju.edu.cn>
-X-ClientProxiedBy: SI1PR02CA0004.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::12) To SJ0PR11MB5214.namprd11.prod.outlook.com
- (2603:10b6:a03:2df::22)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="EFux0XWA"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-908934450cdso21486936d6.1
+        for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 07:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787496007; x=1788100807; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kP+6mVlmxhfGWx9Sj9mX/wiFGcmQa2FtLQoZIAd5BpA=;
+        b=EFux0XWAjndFZrxY1U3I9Wxt0xPuFABaBWIiVaG0u9ApHTW835D8MHRTecLu4mJycg
+         W4+8cfkPnwlz/E5SVUo2+lz/7IdTKGKGNXokY0dVEmpuowFyAjn1YbbjMBX1tQjAq7Hj
+         zPxN9KXqMp3pNpwfYiWkEeCOnPexnBoXpPlSZ/BWu1vF7CT+cxzCcpUw6Bep2OrHiNOR
+         wZx26fnvcUDSEXCtBROB3UOhKTOve2iKZflx279eRbXvoXgHvULMXIUuYvwfC3WQk/Ll
+         voKyqAZK0pCNKEQuUWIKLi/CxQnMZEofacILWERQVKlUk2WCgaz6Plh6NbCbBDV2KVH2
+         n6KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787496007; x=1788100807;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kP+6mVlmxhfGWx9Sj9mX/wiFGcmQa2FtLQoZIAd5BpA=;
+        b=Ws/4lh3vY2RmuyQgPrWYGvw5dkqFhMgxrsTkYvo802W43VS3uvt3Ppu+D44hjmFw89
+         bYiZK7VD8v4Hyo8aj+mhIk7Lr566ouWMO6bxY8lkzw8Ep3eTSEoiE1hNFteHFSC2iYdt
+         YVXCHnH05HRR8Mfsw46VluoZ03rlqktki95g/T8sNJHiOd2DQcQmoTxotkuXgpzkRKny
+         q6cUMHKO6AZDKodMfTRlxgUP6+EzKd90a/ze0Ae8TtqbglEkqtva0jiqNZSOw2SI2PUP
+         xIeQIK79zzGSexN8AET2d65KtDaHHj3L+TqkiCYKmAfDX3st3K663w6Etklt24TVqJdx
+         sK2w==
+X-Forwarded-Encrypted: i=1; AHgh+RqQTa78In7Mzhp/9xe+miZYlnqTU5ol7gGZOsy8/QxfMIKNTgGVROkfSx76oS7m/hZPzXsskKcQ9MXY2w==@lists.linux.dev
+X-Gm-Message-State: AFuF++kJceoYXOtfIHj6CG159KnV8MaLnOJGl875CCqif1xuEVwin80b
+	qoYQvNV0G9RckpB/swQXaM5u7820Sig/V5lzBZSZ43EJT0tvPcF/qQ7gFggeQlO1gg==
+X-Gm-Gg: AR+sD12qGdaNqhIBCMWGisEBeNtKCu51tlGoKd96jeJzxVZ+OpZxKv/dHrexj7olXJi
+	FLs5Y/HITEVFS2lCKfC+CEmia1xgPH20AQD7mqw67YBawtz1TYVfbtSP2V0SPW1lkfbOX5hSCZq
+	St904T7cCRBNcZCbgk8AS8zEibLYS3nBDv29Zfc1pglcM7LspFJaIMecAoERy43HXUXl/q1+dT1
+	pxt7DaoNdO6Tqf1jajIBJC40Z7EvVamsWtWGIa6y7sOqxnBflL0LiYu3nSEcw1AHsWkS4F+sLyP
+	Wxu7rIqEuZ2Z0vUeX0cl8zdXRyFGAQJTLy8T+B+r+fgseWB2UoXVTST0kqdpl6FQZeOAhYp8EWs
+	1ACWaU+mezoiNw98GBgnE/PBPItQkggwvNSEmSbRoBSVn2OQyCt8qHVrFfewS4QY/yYwlid6PxE
+	45QeyIn+vam/wcU8XhWyX/Q/c2+f38aSkv62UdnA0D+lnUERKdTv0ruwzbr/cr6CoU+aHZcL4g
+X-Received: by 2002:ad4:5d67:0:b0:8f7:43f4:fe8d with SMTP id 6a1803df08f44-90c8fa5ed5emr118052316d6.29.1787496006573;
+        Sun, 23 Aug 2026 07:40:06 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c93a4f093sm39231026d6.37.2026.08.23.07.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 07:40:05 -0700 (PDT)
+Date: Sun, 23 Aug 2026 10:40:03 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: syzbot <syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com>,
+	dakr@kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] INFO: task hung in unbind_store
+Message-ID: <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+References: <6a8adc31.ae6ddae5.3da009.0064.GAE@google.com>
+ <2026082307-negligent-lusty-750a@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5214:EE_|IA4PR11MB9324:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12b54583-06a2-4923-3ea5-08df0111eb1e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|18002099003|22082099003|56012099006|10067099003|11063799006;
-X-Microsoft-Antispam-Message-Info: Da/+t+rwVcsIf8ruhO5OQdO99VNsfuGdc/XLz3H7scqZUh9prXN2sx23OFNxagLxwfeLGB8SF+BoLZe/s/Gvhfs/2TLS21vra03ZDZnGbu5gIwkctXFMAZBDZ7MSNqBk/b2cl4PFjEUF16B/4c1rM3TNIJiFh2DhiyStICU9N5pd3mNU8hrVcAM9IrMB5QMAQTnkbix1RYlNOsOQBc3kYHm4k1+Otb1H6VQ4VDfk+XDtC4b4ClLcNGrqMkHVC2fSt2aUSID5vTQ/wib3xDURmEQsxDrDLfRdxVErjsPzS5BeoUAQnNPsHa46Hn1+i9aphZPOro35W7GbD5DnB3NpocHpgeQ5ydmnEFFgGqVhfofgRr7LPQbiGOJl1EqDZIA4ckEx1ajBSTJ5h9yrfSDezSWKCeXre1g6DFE8FTUWTYykhrANwhOeCeQm33JYQfVatxEf6seAc3QMY+nE5GePiiTQ+cFaq7/rISlQNZPBSzPJ8t1FD6OJKjzJpm6wDrnLXfQa2VoYpfE81st3tQ7p+At/gc6CJlhpAxPLvvFSgbxxYH6V/iv3T2XCXFA99zjje+VrxTZViUBBCE+dvwTTDroH1XeFUkbJIWpftgdTKoKEdjR8s08uk6VzBhrjKGkm
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5214.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(18002099003)(22082099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pbzQDxHtgA+IkjlDu7fsY+464E3Cyn8Qkv/qNyQU1JuX8cDbb44zLxXdCOCM?=
- =?us-ascii?Q?c/iHBv2Ukttxv57IXoMOVnlRoRAf/zv8dIyKAUGlqJ4eV7zxmJjr9xlEpVie?=
- =?us-ascii?Q?lI0YVQX3wCt6xUsjAAsOUrZmnuookc4KFUq4zhKI6p5GbXtl/wCWcL/cCxn5?=
- =?us-ascii?Q?JYY45NUJHO9YzCcwfIBT1+sC8kfd+HDiENcZIxg99SGmllO5jjbGUaH1wnkN?=
- =?us-ascii?Q?FO/OkhwWEDWNuM1V6+d9O9jaV1wgI9GIzGRn939yXbCIq2aLU4pWAjzvU1Pt?=
- =?us-ascii?Q?YnLxpMvivSiBYAk+WTpgD2ZqrZ/VgzrEYBwrf8Pi2OmG+bMvuSQgM9bd+sFj?=
- =?us-ascii?Q?Dbq8gmpXIw7Q7M1zkv/8uBQajEjWMZWErieHfYMPuWNFFE1Qxb2oKlJ3cOye?=
- =?us-ascii?Q?329r8TA7D9c5qYFJpDNOFacNsHtgRjmLvtZpt9gyJWgFRpbm+7Op5S3v6Sm5?=
- =?us-ascii?Q?nU4m5+8D1F3LBqgsELRp6gTFrADUdTPQOoLMTrChV7UFZsJSnnBVped9KRiA?=
- =?us-ascii?Q?iGSg5hbeYondY/oqeskwnJceAzbhAS35o/ry6482z2fMSx11Sl9C2ev/qP8u?=
- =?us-ascii?Q?lgJIvntLdpiY2MHkKnZ5O2BogjTygZi77ky+WAEiiIh37huB47cPaYd0Tql0?=
- =?us-ascii?Q?UD6xkFiXMTGYcPx5LlYsJtnF2+m2eRc+KM0UAak29Ts9Esb5nVNLCYcc21fZ?=
- =?us-ascii?Q?PkOne3JUKY4hRqqR3mCl9pIf0F3C9H6/nN6ReqQv7qOCQ47O82F3DsTOhTtc?=
- =?us-ascii?Q?oAbhzksYdYFUoaXT/cMff/XN6YpAV4w4RM8ValCVnXCoNZBJdAYuu1vcRcCK?=
- =?us-ascii?Q?faCVFy8f2i6Uthu7A8xO8TckORdAYVviyPJSs256IgrEXCo/ENIWTsVT8rQO?=
- =?us-ascii?Q?vnVa4Cqe9Q2n696GzDGjU5vj1wYDy4s1xiabx4C9Mpi8jxPMNXCXJ3o8Xb62?=
- =?us-ascii?Q?d/zett4G0oD9L66zd7GB8Ff3VpbzC8gfjzLWNRBhKO5pvCbYB6FQbvmUzfAs?=
- =?us-ascii?Q?jlHKJ02RrR79kkH5yoD3+5XxPo6peGRIgSpMh1o7ov+U4JT4UN5PMTVQgI9V?=
- =?us-ascii?Q?x8w6yeDPNQfDnqDmEBDVK54/BV9Bj04JreiB+0yX0lhDZZscU2v8Ix2l2q2B?=
- =?us-ascii?Q?xdWcI/yhk7DUuOmNG+/Iult87sggWqxnTulzwZ9VE889TXfT0htQBvNEPo7G?=
- =?us-ascii?Q?npoj+b5GfRX2+3abJbnaa9uhUlDhLg+B9xDX/5wU10uUTuGYHOxs4sAfaH25?=
- =?us-ascii?Q?otvz/MZiQ7ltPHrgBsKkzxXpuClLx47YezC+rnxxsEsrOM55ZuuhLjUV5MlR?=
- =?us-ascii?Q?A913td6zdb0L+XxdJgbN7+9dZpTlEsrkkECmOSbwZY8xGba7dqSaX026HxEe?=
- =?us-ascii?Q?Dlx0kXgxbJQxzKX/hzilEnrEk1+Xn8nHvTBRH9K2PpL6d+c4Pfpn6cx6pZqd?=
- =?us-ascii?Q?pReLPubu2nmSNBVbxR5+nrc2mQTWHgdXYDMzeGDqz8F0dtODGyQRHS6Jmuo8?=
- =?us-ascii?Q?ErYAbITN7gPU//vAmHydGt6va0osQiDX1tRV1YwWejlbQHFyj7nYkbXFNq5i?=
- =?us-ascii?Q?EJgVy92WnubcRyUrHZg78fN0DyEP8RB6cfXtvkjxB9CMWTKVXzlkmfT9Zx08?=
- =?us-ascii?Q?ewhe5iIVZ0/GnJTK5sKS6pv3k8c/g/XeE43C4MM2KGa1vCpUXqnSwTN4R+qU?=
- =?us-ascii?Q?jaPAit9CDjXRf0AlLDp3DE2lG1Em+RUmFNlqDQL/ugKyKo55nyzN5/6ajnkn?=
- =?us-ascii?Q?deAF3uauCg=3D=3D?=
-X-Exchange-RoutingPolicyChecked: JDmaF94GbPW01C6u4LM+Ol3bYa0yo1P1Oor+64f7ZF/gQnE97zU31j/fgIz+ldsKgrWaPNNrK/bUzx6tGHs8zrptuKHSH24HaEo4xO04fmNivgbe2brxofwF4o0KaNZ0hjOMDF1DE3gIggN1WTrJ5i7k4iLJ7YI26VtioNdLZwGs98d9P/ocltznoAU/NEF+XXQeCW9cV0Ze6w+4SOdf36eH9m9L49g2kNzq/h5wdtlBb8M/tYooWSrl7pIhBYCTX/5XS5Uy5cpqecU72t6yLGn5a02iQwJWOFRzJ6TYzw26watZ/OAQytEugf9LNdURAEHeeD8tDU5DC8GZb6j0IQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12b54583-06a2-4923-3ea5-08df0111eb1e
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5214.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2026 12:27:38.3029
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QODcGbKbpSXAuBJaH108MmdWQbTbibWUzO+DQEkI2yGFRkW/CJLfCCG7sYb95TqCA30PtdhBfX2CX65yAI9L6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9324
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026082307-negligent-lusty-750a@gregkh>
 
-Hi Fan,
+On Sun, Aug 23, 2026 at 01:46:43PM +0200, Greg KH wrote:
+> On Sun, Aug 23, 2026 at 04:40:33AM -0700, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following issue on:
+> > 
+> > HEAD commit:    e8bf40d15402 Merge tag 'chrome-platform-firmware-v7.3' of ..
+> > git tree:       upstream
+> > console+strace: https://syzkaller.appspot.com/x/log.txt?x=13e9f679580000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=1941312e3e971b07
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=fd7be5ad9795b7f29df3
+> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a75679580000
+> > 
+> > Downloadable assets:
+> > disk image: https://storage.googleapis.com/syzbot-assets/7df7b958efe0/disk-e8bf40d1.raw.xz
+> > vmlinux: https://storage.googleapis.com/syzbot-assets/cefbf90e524a/vmlinux-e8bf40d1.xz
+> > kernel image: https://storage.googleapis.com/syzbot-assets/37a530b91001/bzImage-e8bf40d1.xz
+> > 
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com
+> > 
+> > INFO: task syz.4.23:6285 blocked for more than 143 seconds.
+> >       Not tainted syzkaller #0
+> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> > task:syz.4.23        state:D stack:27592 pid:6285  tgid:6285  ppid:6213   task_flags:0x400140 flags:0x00080002
+> > Call Trace:
+> >  <TASK>
+> >  context_switch kernel/sched/core.c:5510 [inline]
+> >  __schedule+0x17d4/0x5630 kernel/sched/core.c:7239
+> >  __schedule_loop kernel/sched/core.c:7316 [inline]
+> >  schedule+0x164/0x2b0 kernel/sched/core.c:7331
+> >  schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7388
+> >  __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+> >  __mutex_lock+0x7c1/0x1550 kernel/locking/mutex.c:821
+> >  device_lock include/linux/device.h:1104 [inline]
+> >  __device_driver_lock drivers/base/dd.c:1170 [inline]
+> >  device_release_driver_internal+0x93/0x880 drivers/base/dd.c:1369
+> >  unbind_store+0x1a1/0x1d0 drivers/base/bus.c:244
+> 
+> Ok, I'm going to add a new TAINT flag for when unbind is written to as
+> that is obviously not a normal operation and is only for debugging
+> things by kernel developers.  Adding loads of work-arounds in the kernel
+> for this not-real-workload-path is just not required.
+> 
+> If syzbot could stop hitting this path, that would be great, as it's a
+> root-only thing for debugging and not something "real".
 
-kernel test robot noticed the following build errors:
+Actually, I could imagine people wanting to use unbind for a real 
+purpose -- you could consider it to be a more specific form of modprobe 
+blacklisting.
 
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus linus/master v7.2 next-20260821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The bind attribute is the one which really should taint the kernel, 
+because it bypasses the normal matching checks.  Also, all the numerous 
+syzbot bug reports coming out lately have involved weird bind 
+operations, not unbind.  Unbind should pretty much always work.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/kernfs-recheck-of-released-after-acquiring-the-active-reference/20260821-050720
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20260821050720.14848-1-fanwu01%40zju.edu.cn
-patch subject: [PATCH v2] kernfs: recheck of->released after acquiring the active reference
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260823/202608230046.Ixvo8Av6-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260823/202608230046.Ixvo8Av6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608230046.Ixvo8Av6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-   include/linux/compiler_types.h:663:45: error: 'sizeof' applied to a bit-field
-     663 |         (sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
-         |                                             ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/compiler_types.h:690:9: note: in expansion of macro '__compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-   include/linux/compiler_types.h:664:16: error: 'sizeof' applied to a bit-field
-     664 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/compiler_types.h:690:9: note: in expansion of macro '__compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-   include/linux/compiler_types.h:664:44: error: 'sizeof' applied to a bit-field
-     664 |          sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
-         |                                            ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/compiler_types.h:690:9: note: in expansion of macro '__compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-   include/asm-generic/rwonce.h:36:54: error: 'sizeof' applied to a bit-field
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                                                      ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/compiler_types.h:690:9: note: in expansion of macro '__compiletime_assert'
-     690 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
->> fs/kernfs/file.c:76:32: error: 'typeof' applied to a bit-field
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                                ^~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/rwonce.h:44:43: note: in expansion of macro '__unqual_scalar_typeof'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-   include/asm-generic/rwonce.h:44:71: error: cannot take address of bit-field 'released'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                       ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   fs/kernfs/file.c:76:22: note: in expansion of macro 'READ_ONCE'
-      76 |         if (unlikely(READ_ONCE(of->released))) {
-         |                      ^~~~~~~~~
-
-
-vim +/typeof +76 fs/kernfs/file.c
-
-    65	
-    66	/* Get active reference to kernfs node for an open file */
-    67	static struct kernfs_open_file *kernfs_get_active_of(struct kernfs_open_file *of)
-    68	{
-    69		if (!kernfs_get_active(of->kn))
-    70			return NULL;
-    71	
-    72		/*
-    73		 * A successful active reference prevents a new drain and orders this
-    74		 * check after an earlier reactivation.
-    75		 */
-  > 76		if (unlikely(READ_ONCE(of->released))) {
-    77			kernfs_put_active(of->kn);
-    78			return NULL;
-    79		}
-    80	
-    81		return of;
-    82	}
-    83	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alan Stern
