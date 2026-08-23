@@ -1,150 +1,212 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-oi2-f2.google.com (mail-oi2-f2.google.com [74.125.231.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C772773E4
-	for <driver-core@lists.linux.dev>; Sat, 22 Aug 2026 05:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B38364043
+	for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 03:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787375853; cv=none; b=Pe3aNdaaXui0JWmpmCVbBl4sH8BC7TJHNKQ0tOeAsgvOW5nb1xEK737QgfsvapfkuSINaL3/a4eUFOvpzeQsfvV7SfujtRZ84trDL/WQVu8jffOEFVsDfkScSCrJBsbZ/3yesCrtCVr4PRz74KcwiIXKhG98eu2cdoWAnR0kYaw=
+	t=1787455413; cv=none; b=LiqL0NNX3vQe+2fp/iAUoMMBlz2FnSinEQdBSW9g2kzJZF29Cs1IIU00L8ZZOQGSd+Pg4GGViUhX9MO73QNsJGWmZN4b2y5fWLfuN7tH5fKbYuIPRNqt9e2XYNpa5GpR2dGSFwsVV48249juYELHC3ZSTrHlfLbhrJGIDiGEBvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787375853; c=relaxed/simple;
-	bh=JI/MWOMfUtza6fLR6APHNqEFtX5Ifei+2Obda2PjPdw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTvqTm7uAzhDoaBc+O9YFWc0Pn5LKqh1ksy0kCTdmYz2UCLDuDyOT9qzIB65dG5ORAT5r8PPfsKFLwnWAk5QkekuDC3wNA04FT9RRCdpY1l69c5OU1mNgAJdu3YklDTD1RFcCRbu25sGWxbGA4bcGXBiv/IC3HSHLx2R0VmRipg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu; spf=pass smtp.mailfrom=cs.unc.edu; dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b=NECaqpV6; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.b="NECaqpV6"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-836cde02992so21236237b3.2
-        for <driver-core@lists.linux.dev>; Fri, 21 Aug 2026 22:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1787375850; x=1787980650; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ObzK49S08DHWC6VkAKkzJZzxLTHEkWBeL1S/7Ye9ivQ=;
-        b=NECaqpV6+ysqBaPW0Sq1NlvSrxTfwz9YFnYts04TSvjZ4hbcCkw9hlPMEfUiu6PqLP
-         HaGpqBSnH/ANAlkxuT6XiNV68s+6b8bj4RP8Ic5jaNsfyRGW4yEm+MI6eJV5Y5yfNwCf
-         GUFfhS9EcX8TKYcw/Oe4RNfXJ7+hq/mn2t43InBSBWj3tOnpNwQnO95K6o9SOXtwnmFa
-         yILAJM+UHcxdXvvvz4oxsuhfCzp9LSuvtJQgjYbognaztVwYm71yTjIUfu7sM+2DHp2N
-         I9ya0IBBZugKi2fU5WLu/fiMeeBzZp5NUaQP+MUdyJBN/u3cJYo7DTZd3AIuV9etg48Z
-         gk+A==
+	s=arc-20240116; t=1787455413; c=relaxed/simple;
+	bh=mUNCGUauvzblBdSwOBREqqLfRUQykoK2gjgnu77KoH8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=uR3i3fIhnNmRDxGY0ydKv6zzx503hc1tJiZkdxMAAWsGweGBOSuIir6h+3X2QKIffk9hgeiPhg9ml2gaK1Khb1norDLJ2yHGPR42xg2PRrGIZnz8eiKV2hCy01STOqf7pZ4moe/Fgp2dJvNoN3h9jd+/x1Z+lEGWh3A5Ybmkyh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f2.google.com with SMTP id 5614622812f47-495d5d27acfso1168217b6e.1
+        for <driver-core@lists.linux.dev>; Sat, 22 Aug 2026 20:23:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787375850; x=1787980650;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ObzK49S08DHWC6VkAKkzJZzxLTHEkWBeL1S/7Ye9ivQ=;
-        b=TaWJwUrc/6y5vgPDbiUcImYDPOguZyXRojPHW203+TkVyJ+9iKW5goUixYennkIV+Q
-         lVE3vpJBR8cxyOSBHKIqZDjAepmbWZmvWQ8BDnCWeYDmP8Yt8sOM0TTG+IrCne81nFeC
-         X6nQsCZEHJ1ItSn5ioNr3W2DEnqpJ3oqB1Sb3+biTUFxV5mdRsetwDgCnmNdD9NwEwQ4
-         d/2s6HqWIA3NRWYI1JFgbZPUml9l7ARsVVwZLnT97izv/eQyfVkSsP0TrjY3JuVOf9Cu
-         nYVM1nkKZM7Wfj7iASAz4D7SYWYEbgdTRwDCQ48EpL4feXcNpzoRQoXJA58CYavRFuus
-         l0ng==
-X-Gm-Message-State: AFuF++kzH2dI7udeOhYAkJHKayfmnN0fEAVgaSd4T7JK1Qy3+uTc/vP+
-	l7xzIPVTItarddsT0wpr3A133fAiuZ6uAIsX8K9E6ZyDn+qBznnpp4CYd0gg1sndAA==
-X-Gm-Gg: AR+sD13OaIlA3q19KI4oWJJN7s7O2/iQNGWJsLPcE0QAc0dmoLZ/0RBDwgY5cQxSLL3
-	PI2PspUBbCS2ZurEkhaKQA77eBLRCSvqhRiwLCMLhuYTh8clUVxf+3Qy95tbxMacYAn3Llf3Wnh
-	3x5qBMsAhljt8qRzZ+QtggzHpsb6FZ8aG0LWWdGkEZ3BquLt8XsiEgIx8KOzuKs1sS/zGqt17JT
-	L34b3C8tGLZJ+kgCA+PI+26en8EnmgN/yD2WDL2d9K1ue2nr77Eml0mRn6qKgfoVE4UzEn3wXgp
-	7Kvw7jU222U1LQCK1JdAfcSo95aUVGyrvLvlaJkINV3GrinZ/MNrjNv/3FeScn9T530B/rdRtMR
-	8f9ogYAu3ado3AUBGugODeIjMU3Qr1g31hRLU3ZNw7jaLMCcEpzY9NMdCIVj4ZuwW6mzaHgUqfu
-	80ez2NcQNjAxYeDF3DIzsgidhEaz/tiZlMt5GljLJ7FDul0oOgemHGT6bcRb/J/BPyl1dzDpTqd
-	0b3dqmBOPY=
-X-Received: by 2002:a05:690c:a08b:b0:82d:aa2e:2a66 with SMTP id 00721157ae682-849f67b0ac6mr35953267b3.23.1787375850496;
-        Fri, 21 Aug 2026 22:17:30 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-84cac5ecceasm6504357b3.46.2026.08.21.22.17.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 22:17:29 -0700 (PDT)
-From: hengyul@cs.unc.edu
-To: chenyichong@uniontech.com,
-	tj@kernel.org,
-	dakr@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] kernfs: preserve security xattrs without allocating iattrs
-Date: Sat, 22 Aug 2026 01:17:05 -0400
-Message-ID: <20260822051705.1761850-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1787455410; x=1788060210;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=reYCA9texGA+i4hhGkr84lFQt3J7gOmzTWCCQAJBp5U=;
+        b=S4s7f0wkrcKN7rWgg3UNZWrkyfRgyD0Ku3u0lzZh1fodL84pLBLLgcMUZ1EyVCbNM5
+         MBZ4RfaZKkmFQnhEYKOHysghj7wOf6ODNh4lWd6ggLRN5We8Qe0NREjkLyqm9bB6CNJS
+         T/GesZPsgQPf60lFkqwBoMcFr0t410V4mZ6sMv8msCdmqEeomcGeRLL1/AUNeaPIIKFN
+         IhWNX1NwQt3zUKp7gS4G/1hWlxZ8x7rM9SKKPM3vAElWFp8s5Sw+ijBfqFwVRMkrT1mf
+         zwOsli5WTUu2lucty8/qke8pgg2FCSTLWd+Rm6U3zZKjG26nx2ixWBi7nLHshWzny4UV
+         GQSA==
+X-Forwarded-Encrypted: i=1; AHgh+RpxonFdiPaK+17CRt8bQHTYIuML7781ExWREGJlTfj6Of7QvTCIc0s0z8OpZInaMvmykmx2KM5pGk+R5g==@lists.linux.dev
+X-Gm-Message-State: AFuF++l0+BEwZ3vc+0O+FFbHQP8dvf72FIq7KaR0Cb3bH8B3+AhX0RiK
+	bFeCTcnGwvE5estr8p7SGPfwq7y0vJKl/jnIIoKZCCBIv+X8vB8AQBv6E+LcZOHj6o/SYBlLqP2
+	Y0ZGFFqn1MlcD6X9b6286Gv31O4VpO8zBOoYEd4O8KrLMW/n46b1kSiX2sYM=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:c145:b0:48b:5dcb:85ab with SMTP id
+ 5614622812f47-4b2ef242470mr19647197b6e.8.1787455410663; Sat, 22 Aug 2026
+ 20:23:30 -0700 (PDT)
+Date: Sat, 22 Aug 2026 20:23:30 -0700
+In-Reply-To: <699fe31c.050a0220.2fcbed.0002.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8a67b2.ae6ddae5.3da009.0060.GAE@google.com>
+Subject: Re: [syzbot] [input?] possible deadlock in __kernfs_remove (3)
+From: syzbot <syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, driver-core@lists.linux.dev, 
+	gregkh@linuxfoundation.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Hengyu Liang <hengyul@cs.unc.edu>
+syzbot has found a reproducer for the following issue on:
 
-Commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
-made kernfs_iop_listxattr() return an empty list when the kernfs node
-has no allocated kernfs_iattrs.
+HEAD commit:    66fb95a52111 Merge tag 'caps-pr-20260820' of git://git.ker..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=11ca4625580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b0978f5ed2905b98
+dashboard link: https://syzkaller.appspot.com/bug?extid=1075f6dc93f398c1857e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10815549580000
 
-However, this also skips security xattr names provided by
-simple_xattr_list(). As of now, applications can retrieve the SELinux
-label of a sysfs file with getxattr(), but cannot do it through
-listxattr().
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e7d9049723b0/disk-66fb95a5.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a04d6efe59a0/vmlinux-66fb95a5.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/81e3f2b9c049/bzImage-66fb95a5.xz
 
-A similar issue happened before in commit b09e0fa4b4ea ("tmpfs:
-implement generic xattr support"). It was fixed by commit 8b0ba61df5a1c
-("fs/xattr.c: fix simple_xattr_list to always include security.* xattrs").
-Perhaps this recent commit needs a fix as well.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com
 
-The issue can be reproduced with a simple python program:
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.0.17/6104 is trying to acquire lock:
+ffff888035f1b008 (kn->active#59){++++}-{0:0}, at: __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
 
-    python3 - <<'PY'
-    import os
+but task is already holding lock:
+ffffffff904d00c0 (serio_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ffffffff904d00c0 (serio_mutex){+.+.}-{4:4}, at: serio_unregister_port+0x1b/0x40 drivers/input/serio/serio.c:677
 
-    path = "/sys/kernel/warn_count"
+which lock already depends on the new lock.
 
-    print("getxattr:", os.getxattr(path, "security.selinux"))
-    print("listxattr:", os.listxattr(path))
-    PY
 
-Before commit d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr"),
-the result is:
+the existing dependency chain (in reverse order) is:
 
-    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
-    listxattr: ['security.selinux']
+-> #1 (serio_mutex){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
+       class_mutex_intr_constructor include/linux/mutex.h:255 [inline]
+       drvctl_store+0x3c/0x350 drivers/input/serio/serio.c:360
+       dev_attr_store+0x58/0x80 drivers/base/core.c:2509
+       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x6af/0x1050 fs/read_write.c:687
+       ksys_write+0x12a/0x250 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-After that commit, the result is:
+-> #0 (kn->active#59){++++}-{0:0}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+       validate_chain kernel/locking/lockdep.c:3924 [inline]
+       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
+       lock_acquire kernel/locking/lockdep.c:5886 [inline]
+       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+       kernfs_drain+0x4f0/0x600 fs/kernfs/dir.c:532
+       __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
+       kernfs_remove_by_name_ns+0x7c/0x120 fs/kernfs/dir.c:1797
+       kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
+       remove_files+0x96/0x1c0 fs/sysfs/group.c:28
+       sysfs_remove_group+0x8b/0x1b0 fs/sysfs/group.c:328
+       sysfs_remove_groups fs/sysfs/group.c:352 [inline]
+       sysfs_remove_groups+0x60/0xb0 fs/sysfs/group.c:344
+       device_remove_groups drivers/base/core.c:2918 [inline]
+       device_remove_attrs+0x192/0x290 drivers/base/core.c:3048
+       device_del+0x36e/0x9b0 drivers/base/core.c:3964
+       serio_destroy_port+0x476/0x590 drivers/input/serio/serio.c:543
+       serio_unregister_port+0x2b/0x40 drivers/input/serio/serio.c:680
+       userio_char_release+0x91/0xe0 drivers/input/serio/userio.c:105
+       __fput+0x3ff/0xb50 fs/file_table.c:512
+       task_work_run+0x150/0x240 kernel/task_work.c:233
+       ptrace_notify+0xf3/0x120 kernel/signal.c:2531
+       ptrace_report_syscall include/linux/ptrace.h:416 [inline]
+       ptrace_report_syscall_exit include/linux/ptrace.h:477 [inline]
+       arch_ptrace_report_syscall_exit include/linux/entry-common.h:233 [inline]
+       syscall_exit_work include/linux/entry-common.h:266 [inline]
+       syscall_exit_to_user_mode_work include/linux/entry-common.h:297 [inline]
+       syscall_exit_to_user_mode include/linux/entry-common.h:334 [inline]
+       do_syscall_64+0x5e7/0x790 arch/x86/entry/syscall_64.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-    getxattr: b'system_u:object_r:sysfs_t:s0\x00'
-    listxattr: []
+other info that might help us debug this:
 
-This patch will keep listxattr() consistent with getxattr() when security
-xattrs are available.
+ Possible unsafe locking scenario:
 
-Fixes: d5e81a5650b5 ("kernfs: avoid iattr allocation in listxattr")
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
-Acked-by: Tejun Heo <tj@kernel.org>
+       CPU0                    CPU1
+       ----                    ----
+  lock(serio_mutex);
+                               lock(kn->active#59);
+                               lock(serio_mutex);
+  lock(kn->active#59);
+
+ *** DEADLOCK ***
+
+locks held by syz.0.17/6104: 1, last CPU#1:
+ #0: ffffffff904d00c0 (serio_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ #0: ffffffff904d00c0 (serio_mutex){+.+.}-{4:4}, at: serio_unregister_port+0x1b/0x40 drivers/input/serio/serio.c:677
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 6104 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+ check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+ validate_chain kernel/locking/lockdep.c:3924 [inline]
+ __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5253
+ lock_acquire kernel/locking/lockdep.c:5886 [inline]
+ lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+ kernfs_drain+0x4f0/0x600 fs/kernfs/dir.c:532
+ __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
+ kernfs_remove_by_name_ns+0x7c/0x120 fs/kernfs/dir.c:1797
+ kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
+ remove_files+0x96/0x1c0 fs/sysfs/group.c:28
+ sysfs_remove_group+0x8b/0x1b0 fs/sysfs/group.c:328
+ sysfs_remove_groups fs/sysfs/group.c:352 [inline]
+ sysfs_remove_groups+0x60/0xb0 fs/sysfs/group.c:344
+ device_remove_groups drivers/base/core.c:2918 [inline]
+ device_remove_attrs+0x192/0x290 drivers/base/core.c:3048
+ device_del+0x36e/0x9b0 drivers/base/core.c:3964
+ serio_destroy_port+0x476/0x590 drivers/input/serio/serio.c:543
+ serio_unregister_port+0x2b/0x40 drivers/input/serio/serio.c:680
+ userio_char_release+0x91/0xe0 drivers/input/serio/userio.c:105
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ ptrace_notify+0xf3/0x120 kernel/signal.c:2531
+ ptrace_report_syscall include/linux/ptrace.h:416 [inline]
+ ptrace_report_syscall_exit include/linux/ptrace.h:477 [inline]
+ arch_ptrace_report_syscall_exit include/linux/entry-common.h:233 [inline]
+ syscall_exit_work include/linux/entry-common.h:266 [inline]
+ syscall_exit_to_user_mode_work include/linux/entry-common.h:297 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:334 [inline]
+ do_syscall_64+0x5e7/0x790 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f094979e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffca1bdeb48 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007f0949a27da0 RCX: 00007f094979e0d9
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f0949a27da0 R08: 0000000000000006 R09: 0000000000000000
+R10: 00007f0949a27cb0 R11: 0000000000000246 R12: 000000000001aa1e
+R13: 00007f0949a25fac R14: 000000000001a7d2 R15: 00007ffca1bdec50
+ </TASK>
+
+
 ---
-
-Changes in v2:
-- Remove an unnecessary line break.
-
-v1: https://lore.kernel.org/driver-core/20260821161221.1270292-1-hengyul@cs.unc.edu/
-
- fs/kernfs/inode.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 237dcdd73fc2..abb286bc3474 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -142,10 +142,8 @@ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size)
- 	struct kernfs_iattrs *attrs;
- 
- 	attrs = kernfs_iattrs_noalloc(kn);
--	if (!attrs)
--		return 0;
- 
--	return simple_xattr_list(d_inode(dentry), &attrs->xattrs, buf, size);
-+	return simple_xattr_list(d_inode(dentry), attrs ? &attrs->xattrs : NULL, buf, size);
- }
- 
- static inline void set_default_inode_attr(struct inode *inode, umode_t mode)
--- 
-2.53.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
