@@ -1,118 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1762F5A0E;
-	Sun, 23 Aug 2026 17:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF84D38A70B
+	for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 19:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787506192; cv=none; b=nB5KUyheQanneQwnQUZEUBEfu8X/b4JeUzJ/1psC3ZNZFtEC6x3r8pSjXsQbmePKhotBkqdDHcoVU1Q5qGelvVCctxyd6Yuu3PjlgLJ/8BBBh8XpSohvpwM0QsBOoidgbR+HVd1JvAXGMAgKvUrCu9ab/Sy7Hqu9DfMLP9isS7M=
+	t=1787512385; cv=none; b=UMYN7sPJnW4R2oUfNvghVSapkZiPk/NyePXxvH/ww8sKx1DqJdiUZAf+VIGsL5g1DU0RayJOad/uyXfEOp6gMVwXoSptqHx3zO1+hRchjFdMa1kKD00rMX+nmHCahSYqK3x5DEkechGWGKJ5Ft6ObR+x6+3GXrRHyvt+5CBX30A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787506192; c=relaxed/simple;
-	bh=jmM5SXJ1QM0unKtzepjLGi1QGthhDRbAYwRI3IPLqc8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQCoikiLGLAYPNNEP5V7w2R9EC9DavJnVaqe7r4btbOO2W1dbFlOd58AAJKQ/Esr51Hg0cFxATJZg/nw+8YnAHMlC9heJLRxEyJj4OS2Byr5J/1ivEB+Euh/1taGikvZRYb2hFujIN45lnU0WGy1BGb0P42uLJy1kNgO04r8nec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kvh+riaE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787512385; c=relaxed/simple;
+	bh=Owu2yQZ3ssiTZF54WlJcep8/1pFQFocuIQQmghBWd3U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=LAxQ6r1nILINTCknqEv7u5mHMhMVyHo0yBf8Lbf3bVYlEKBdYsxYzlx/u1RlVm/qxGFw0L7VRhAWXhmDE4mqrk+eWqBm+P2cJPmwTLTWiWdUyKkiQ/L47WcLFVgT/lmVLq2i+gh2bXLg5MlBA5GML7I1QCEBhQR0M/aiD6QfpyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jysf1SIr; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kvh+riaE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787561F000E9;
-	Sun, 23 Aug 2026 17:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787506190;
-	bh=s/X4uoXU1lSsTreDd4JtMNx12If+u9/RDGV3FNS1Sf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kvh+riaE8ySP8Sxq6Bnm0tgug2Dnral/1xux4lVSi8SpNWlha1TTyIWZ4d8gfjB2+
-	 PFlPQECbSReptY31ls86nTuvE8507LN3tjCUyrYeqiQI0WYgXqZj0dFbyXl5U2bgVW
-	 6FSknV/FAM1rKNKxGrVqHlCH9JdP6fjhP4Nv49K0=
-Date: Sun, 23 Aug 2026 19:28:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: syzbot <syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] INFO: task hung in unbind_store
-Message-ID: <2026082333-persuader-overturn-8205@gregkh>
-References: <6a8adc31.ae6ddae5.3da009.0064.GAE@google.com>
- <2026082307-negligent-lusty-750a@gregkh>
- <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jysf1SIr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787512382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
+	b=Jysf1SIryrI1vCAR5hsGvIetFsY7LZShJdjjRwduBLUjSy9hCARPieybYvMWn+1SvYplvU
+	sGP0TXb5ZUSZ7fzqgadOPj5uk7ikYfuWEjp8MJJZh+J2iA8Pd7SDnLcoy/Y3WfVMdhBUPu
+	cJ+C5QKaD/+c8GXndjmXWD4iQjM7J8Y=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-caWVKvLZMFmIj3v2wjwwcA-1; Sun, 23 Aug 2026 15:12:59 -0400
+X-MC-Unique: caWVKvLZMFmIj3v2wjwwcA-1
+X-Mimecast-MFC-AGG-ID: caWVKvLZMFmIj3v2wjwwcA_1787512378
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84857446424so4773579b3a.1
+        for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 12:12:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787512378; x=1788117178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
+        b=KquAIP/ySKOESpiEA41mpr4QJAQ2OubiDROTkw8QjuIUZU1KgZ6CzNcpIDGK3zLvyW
+         NIg+jaSr8k81bfQZyUOVyV+XRpnP80RkxYiMmdn54r8ufNs0ChOJ4Q33TTQtn11EXwcy
+         VbtYYEynS83rJZLZzpQTPevMUDK1UZYOfSPJvA3TWYMO+xu8yYicm9su6c9m/sZw4o9B
+         gpG0vwAG0aB7kaDABpXY36EYixmYSYiWbK/Q/ZreNscCzgEefod2/3xXdkoq3d7wOTtw
+         2OGfViQlEdS7DAFMNqelo8ySiQ1zp9dIGLEA7jHQ/blzd8QEPwzJwM93K4+9Agfe9pae
+         24/A==
+X-Forwarded-Encrypted: i=1; AHgh+RpL4QnrpE7sdkGcBzF0zz8YKyFYzUMsOpW2zt6jr0KJZjLVX+CR/gJmLPpdo2FMO4GqqG6/sHfTpiDGXg==@lists.linux.dev
+X-Gm-Message-State: AFuF++kDauWDtpJph1XFehng49oq+KLjtc2XJWlz7mUqVeUNC+QTkUPd
+	9//hKMCqZfB8zXIbjdDNprXo9gNL7wwKHjgS9W4dV9i6Zagp0z35TIFbWUY89cneq9f7pdqjTN8
+	7z4krKGZnMA8YZ84Bk0K/bUEBNAr+oIB9O8x+PadT609d7vnYuytJKwFgtQ2t4sX9
+X-Gm-Gg: AR+sD116l0C/W99O3KGr5C/SOW5D1AD2Lr5ehiIB7mmslmqgus7FLI5LxMJ1tNgvoMc
+	7ZjlSjYuC0Nb/qF44E4waW3aXx2a6NZVcMRIZChAc74D34ZXj1l3ZWvyvXn+ZO4gfkvLlKe7Wqo
+	om0dJ248rF4EN9Skn9nQAZhtJUJvd7jO156+1b2yftNnt5q10Js0pBKESYtMfqGXke++mBHQIDf
+	Wi8bbwbh7PURTJaH4VdXGG8dH0BMqTqyfKlN4CFgMDc8Tg/99w3gOLSdk7n1ZoOCzFWCCbWI3te
+	1zc1C3mWdSBzsq3YbnHlD/XQt3rcCMKQ6B2d36xjmFC8G6CqrGprHSqCmTjQKMOY8inJIgLbVkB
+	F8c3CLad/GOZR70UXUoEyZGZx
+X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210453b3a.14.1787512378311;
+        Sun, 23 Aug 2026 12:12:58 -0700 (PDT)
+X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210390b3a.14.1787512377847;
+        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
+Received: from kernel-devel.tail62cea.ts.net ([240d:1a:c0d:9f00:be24:11ff:fe35:71b3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f161701sm1224422b3a.53.2026.08.23.12.12.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
+From: Shigeru Yoshida <syoshida@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Eric Sandeen <sandeen@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	Shigeru Yoshida <syoshida@redhat.com>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] devtmpfs: apply mount options to the existing superblock
+Date: Mon, 24 Aug 2026 04:12:53 +0900
+Message-ID: <20260823191254.3696641-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: sNTAdczV5MwByQQIfMCGfVb3NMB6OxQHDj1-w0-AqT0_1787512378
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Sun, Aug 23, 2026 at 10:40:03AM -0400, Alan Stern wrote:
-> On Sun, Aug 23, 2026 at 01:46:43PM +0200, Greg KH wrote:
-> > On Sun, Aug 23, 2026 at 04:40:33AM -0700, syzbot wrote:
-> > > Hello,
-> > > 
-> > > syzbot found the following issue on:
-> > > 
-> > > HEAD commit:    e8bf40d15402 Merge tag 'chrome-platform-firmware-v7.3' of ..
-> > > git tree:       upstream
-> > > console+strace: https://syzkaller.appspot.com/x/log.txt?x=13e9f679580000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=1941312e3e971b07
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=fd7be5ad9795b7f29df3
-> > > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a75679580000
-> > > 
-> > > Downloadable assets:
-> > > disk image: https://storage.googleapis.com/syzbot-assets/7df7b958efe0/disk-e8bf40d1.raw.xz
-> > > vmlinux: https://storage.googleapis.com/syzbot-assets/cefbf90e524a/vmlinux-e8bf40d1.xz
-> > > kernel image: https://storage.googleapis.com/syzbot-assets/37a530b91001/bzImage-e8bf40d1.xz
-> > > 
-> > > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > > Reported-by: syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com
-> > > 
-> > > INFO: task syz.4.23:6285 blocked for more than 143 seconds.
-> > >       Not tainted syzkaller #0
-> > > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > > task:syz.4.23        state:D stack:27592 pid:6285  tgid:6285  ppid:6213   task_flags:0x400140 flags:0x00080002
-> > > Call Trace:
-> > >  <TASK>
-> > >  context_switch kernel/sched/core.c:5510 [inline]
-> > >  __schedule+0x17d4/0x5630 kernel/sched/core.c:7239
-> > >  __schedule_loop kernel/sched/core.c:7316 [inline]
-> > >  schedule+0x164/0x2b0 kernel/sched/core.c:7331
-> > >  schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7388
-> > >  __mutex_lock_common kernel/locking/mutex.c:726 [inline]
-> > >  __mutex_lock+0x7c1/0x1550 kernel/locking/mutex.c:821
-> > >  device_lock include/linux/device.h:1104 [inline]
-> > >  __device_driver_lock drivers/base/dd.c:1170 [inline]
-> > >  device_release_driver_internal+0x93/0x880 drivers/base/dd.c:1369
-> > >  unbind_store+0x1a1/0x1d0 drivers/base/bus.c:244
-> > 
-> > Ok, I'm going to add a new TAINT flag for when unbind is written to as
-> > that is obviously not a normal operation and is only for debugging
-> > things by kernel developers.  Adding loads of work-arounds in the kernel
-> > for this not-real-workload-path is just not required.
-> > 
-> > If syzbot could stop hitting this path, that would be great, as it's a
-> > root-only thing for debugging and not something "real".
-> 
-> Actually, I could imagine people wanting to use unbind for a real 
-> purpose -- you could consider it to be a more specific form of modprobe 
-> blacklisting.
+Commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
+public instance") dropped the reconfigure_single() call that
+public_dev_mount() used to apply the options of every new mount to the
+single, internally created superblock. devtmpfs_get_tree() only takes
+a reference on it: the options are still parsed into fc->fs_private,
+but ->reconfigure is now only reached via reconfigure_super(), i.e. on
+remount, so they are discarded by put_fs_context().
 
-If you want to do that, just don't load the module :)
+For example, systemd mounts /dev with "-o mode=755,size=4m,nr_inodes=1m",
+so size= is silently ignored and /dev falls back to the tmpfs default of
+50% of physical RAM.
 
-> The bind attribute is the one which really should taint the kernel, 
-> because it bypasses the normal matching checks.  Also, all the numerous 
-> syzbot bug reports coming out lately have involved weird bind 
-> operations, not unbind.  Unbind should pretty much always work.
+Call the underlying ->reconfigure from devtmpfs_get_tree(), the same
+way tracefs and debugfs do; ramfs has no ->reconfigure, hence the NULL
+check.
 
-"always work" is tough due to the races that can, and will, happen for
-many non-hotplugged bus devices, as syzbot is finding now.  We shouldn't
-require this, as again, it's a debugging thing.
+This restores the behaviour of commit a6097180d884 ("devtmpfs
+regression fix: reconfigure on each mount"), which fixed the same
+regression when devtmpfs was first converted away from mount_single().
 
-bind is used by the virtio people for some reason, but yes, I will be
-glad to taint at that point as well.  I'll look into doing that after
--rc1 is out.
+Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+---
+ drivers/base/devtmpfs.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-thanks,
+diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
+index aef0fcc6aba1..f0798fc1bc34 100644
+--- a/drivers/base/devtmpfs.c
++++ b/drivers/base/devtmpfs.c
+@@ -80,6 +80,18 @@ static int devtmpfs_get_tree(struct fs_context *fc)
+ 	atomic_inc(&sb->s_active);
+ 	down_write(&sb->s_umount);
+ 	fc->root = dget(sb->s_root);
++
++	if (fc->ops->reconfigure) {
++		int err = fc->ops->reconfigure(fc);
++
++		if (err) {
++			dput(fc->root);
++			fc->root = NULL;
++			deactivate_locked_super(sb);
++			return err;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.55.0
 
-greg k-h
