@@ -1,150 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f0.google.com (mail-oi2-f0.google.com [74.125.231.192])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6981E40DB29;
-	Mon, 24 Aug 2026 12:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB522D0292
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 14:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787574375; cv=none; b=t6sLYmHu4nzQC2xLXANzZMM1ZBsKrBiKdtOzSPxfE83sna1WwI6SUfo7cs/+BQiP5HzuGKhRBYIK9ChBkY36H9jv00nmOICQwqvMBxfTjy16L8HLxaf4UasGLCIkZREjRMTGJeNZgATBZbCT+3cousKUIw74hP2DpyNt3+dwQTk=
+	t=1787580938; cv=none; b=dylLY2qqRdGtwJsqSuo77BCAGYUU2YeVH0D/Pl1uSgQ665rGJdupDanSOlBP02sU6hg3M6pJoyGICiTujKgsOh0JBLxl86Rkdlw0bP0FHKK9PhL7TMfc7BiJjhwF8UHMDrEXbBy2S6H26+YL0RyWP2QHCTuKRpuLp5JSVu6qY+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787574375; c=relaxed/simple;
-	bh=XprHHe3lQdZ/bHHkrfW5U843BNmtX6D0fOYV/cPGdkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UDxfDluJo72vt3/Ah1pOS94Sy6vol7MntYGOfrfLq9WGSPKpE0Zf58aTXliSd+oByGc/9NdUxIPmOxIKmhPfOvJJQHf4h7l+xuWHvRe9i4XkzHv0S0D2BRblIIxLTIEQHUjuLhRwnHM0ejVbwoc2N6QDqLkzfI/cpq9eclev2JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwNPX2NR; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwNPX2NR"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 874ED1F000E9;
-	Mon, 24 Aug 2026 12:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787574374;
-	bh=upukaXZkr84gwak4ggRO0ndAK9t7zaBT3owzkfM3Fdk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PwNPX2NRFVN0Bz+S6KhhJDxiLSSZueaI23ct1PXVX8KFblpux4F/bG76u6TxrwCtv
-	 UBlSiGxKVvBTRYKxoEml8G+yJNr5LUcxCVHAJkkApNdp1pLMOe/M1VjBTgCXwU7U6V
-	 5IgTBRfAEyOLQqvyJJiMl62FQy0LIfHZ1uydX9Y4AhNiRmTr2057vOspY1cC7nY6+Q
-	 qZ3KAqtRYMVxL80qEDUwO6SUdJGBXEpXuEZNK6b9Z8cRlU4tajvzt2DKIM8cr4Vboc
-	 q/Ct4jN9XMSxR0SxukEoUtbJdV8txAyM9aXphiu3NaGi6TMPM5g8mGMXa0XMTMt2gj
-	 F9NjqiDJeK5BA==
-Date: Mon, 24 Aug 2026 14:26:11 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, 
-	Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>, 
-	Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v20 5/8] rust: rename `AlwaysRefCounted` to `RefCounted`.
-Message-ID: <aow36NjRc5Ig0hG8@monoceros>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-5-490735672187@kernel.org>
+	s=arc-20240116; t=1787580938; c=relaxed/simple;
+	bh=rLMheNznZJmNpnLmvy1g5vyO1AY4iNFH8Be1EMrypKg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZYfVd6N6j6dcDrYATXXficmoWdHAO79iUTEVJW096j3RaYeLitcpK/Z6Wu58kAnynQroxzylUFBYAAtaEpYwUHz23aEaG6E+BWItxbVgd+d4cuh/0Fe/jrPr+yhNSvXKIv1I3HmWFdYNFXCnCW5RrEAvdVQXCy+QdSdXU9vlNy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f0.google.com with SMTP id 5614622812f47-4a49b13b745so1221133b6e.0
+        for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 07:15:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787580936; x=1788185736;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zjtSZ0Hk74hXFJV7KOTWyhOW5rok74z5TqFOPkrY64s=;
+        b=sNcMnhcYSh6xRYau7mCvqlTSTZLZZSpoDMmH15D8jRfm4w7xmklidyylGCh0Cr5mVX
+         lt3lU3H+MEKH6n81cEtvIR1kcA7FTtNhQgxOVoXeEPRv5OOKViX0JIObPacVM18SubGN
+         M8VLMNbmugJLkanJkjLWBV7ioDAeSRSU0VewFUiGdPCYD88FAG3g/I1gAAal7BVHPSJH
+         q6CrpDqXTh51xfUdgUPhqHXpOKj50Qka1DH7DBNUb0zsMFFmw1D7SPCsvEVV7kXfkpKT
+         qAYP24tgwnpxuk1gNW8+64AHsWJulUGhpAInPPDxdQbg+gA9KfyyyZhAG79zAAg6InC6
+         ISuA==
+X-Forwarded-Encrypted: i=1; AHgh+RoZkO4rsjaAFJxf97+UnVKcE1q8tq+Jn10fpf6rekTAwS0FS2NJDO195cIPEsqqPF3NMtHT8SLkKxyFJg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mj+j+5748I/+ZDfLpBj+9BIDwxNrf5w4Ox4WwBAPi4k+ErCH+j
+	t1aRwqfqp24lsw6a9XUaw8HPJIerY/F7bmPFAidu2EOykhM7nNKFvu4HAE9EynzWpAu4becJxhe
+	6hda25IIb15bof1EV2XEfBe/wE385jQGrndZFo/OQodAphfOWxZaW/RUEnYU=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nwuv4cl3v42iarkt"
-Content-Disposition: inline
-In-Reply-To: <20260824-unique-ref-v20-5-490735672187@kernel.org>
-
-
---nwuv4cl3v42iarkt
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v20 5/8] rust: rename `AlwaysRefCounted` to `RefCounted`.
-MIME-Version: 1.0
+X-Received: by 2002:a05:6808:4f69:b0:4a4:a930:1f76 with SMTP id
+ 5614622812f47-4b2ef3387cfmr26663246b6e.11.1787580936043; Mon, 24 Aug 2026
+ 07:15:36 -0700 (PDT)
+Date: Mon, 24 Aug 2026 07:15:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8c5208.dbb3a75c.7844.0005.GAE@google.com>
+Subject: [syzbot] [usb?] [input?] INFO: task hung in usb_set_configuration
+From: syzbot <syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
-On Mon, Aug 24, 2026 at 01:17:57PM +0200, Andreas Hindborg wrote:
-> diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
-> index 6c9d667009ef7..2d1cd74dd98e1 100644
-> --- a/rust/kernel/pwm.rs
-> +++ b/rust/kernel/pwm.rs
-> @@ -13,7 +13,11 @@
->      devres,
->      error::{self, to_result},
->      prelude::*,
-> -    sync::aref::{ARef, AlwaysRefCounted},
-> +    sync::aref::{
-> +        ARef,
-> +        AlwaysRefCounted,
-> +        RefCounted, //
-> +    },
->      types::Opaque, //
->  };
->  use core::{
-> @@ -629,7 +633,7 @@ pub fn new<'a>(
->  }
-> =20
->  // SAFETY: Implements refcounting for `Chip` using the embedded `struct =
-device`.
-> -unsafe impl<T: PwmOps> AlwaysRefCounted for Chip<T> {
-> +unsafe impl<T: PwmOps> RefCounted for Chip<T> {
->      #[inline]
->      fn inc_ref(&self) {
->          // SAFETY: `self.0.get()` points to a valid `pwm_chip` because `=
-self` exists.
-> @@ -647,6 +651,10 @@ unsafe fn dec_ref(obj: NonNull<Chip<T>>) {
->      }
->  }
-> =20
-> +// SAFETY: We do not implement `Ownable`, thus it is okay to obtain an `=
-ARef<Chip<T>>` from a
-> +// `&Chip<T>`.
-> +unsafe impl<T: PwmOps> AlwaysRefCounted for Chip<T> {}
-> +
->  // SAFETY: `Chip` is a wrapper around `*mut bindings::pwm_chip`. The und=
-erlying C
->  // structure's state is managed and synchronized by the kernel's device =
-model
->  // and PWM core locking mechanisms. Therefore, it is safe to move the `C=
-hip`
+syzbot found the following issue on:
 
-I don't understand that, but if this is considered ok by the Rust folks,
-I'm fine with merging it via their tree.
+HEAD commit:    e1e6e541c5c9 Merge tag 'thunderbolt-for-v7.3-rc1' of ssh:/..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=143df815580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bdeea7ee6735f91
+dashboard link: https://syzkaller.appspot.com/bug?extid=c22bb42560ec86726aba
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1783ba25580000
 
-Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for pwm.rs
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3b0a1f8e6a1f/disk-e1e6e541.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f98d855e85e8/vmlinux-e1e6e541.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/db2c3a41df6d/bzImage-e1e6e541.xz
 
-Best regards
-Uwe
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com
 
---nwuv4cl3v42iarkt
-Content-Type: application/pgp-signature; name="signature.asc"
+INFO: task kworker/0:2:733 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:2     state:D
+ stack:26352 pid:733   tgid:733   ppid:2      task_flags:0x4208060 flags:0x00080000
+Workqueue: usb_hub_wq hub_event
 
------BEGIN PGP SIGNATURE-----
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0xdd/0x2c0 kernel/sched/core.c:7326
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7383
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0xccc/0x1bd0 kernel/locking/mutex.c:821
+ uevent_net_broadcast_untagged lib/kobject_uevent.c:317 [inline]
+ kobject_uevent_net_broadcast lib/kobject_uevent.c:410 [inline]
+ kobject_uevent_env+0xba8/0x18b0 lib/kobject_uevent.c:611
+ device_add+0x1173/0x1970 drivers/base/core.c:3738
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.part.0+0xcc2/0x1686 drivers/usb/core/hub.c:2708
+ usb_new_device drivers/usb/core/hub.c:5833 [inline]
+ hub_port_connect drivers/usb/core/hub.c:5580 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5720 [inline]
+ port_event drivers/usb/core/hub.c:5884 [inline]
+ hub_event.cold+0x51a/0xe9d drivers/usb/core/hub.c:5966
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqMOGEACgkQj4D7WH0S
-/k7Eqwf+MmntLyABjsJ6u3n0tfvFXtT43FkhKWBYTvfrSkkGSwvZSD/ZY5rm4TJa
-bXNvGj/meY+tjoiL+lqEl91gKDUE91djmvVcfXDoceliQzIKh2cKRqYubSng7etR
-4cjqGN+2sGoPMqw/DE4AHSt6FjN7PW9atWXCHSqgj1X59q+Il9zzPvJoUf5LoJGl
-M03B0IF/eZP8vEHvwBR+bKlVqdJnU8LD7vn7fYKS9w8EcXVmRNet0ARjs8XnIUhd
-mRyFbmkqewycYxQaQdFwYsqkvc+ZdQfjXofOkRIorYXk2OXiZy3oqy94wwwiGntm
-xaLKESdeyy1mp9Q0CzYXHqcQr8nU5Q==
-=h9TM
------END PGP SIGNATURE-----
+Showing all locks held in the system:
+7 locks held by kworker/0:1/11:
+ #0: 
+ffff8881062b0540
+ (
+(wq_completion)usb_hub_wq
+){+.+.}-{0:0}
+, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
+ #1: 
+ffffc900000bfd18
+ (
+(work_completion)(&hub->events)
+){+.+.}-{0:0}
+, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
+ #2: 
+ffff88810b3051d8
 
---nwuv4cl3v42iarkt--
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
