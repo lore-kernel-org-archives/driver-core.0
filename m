@@ -1,506 +1,195 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEB6645C6E8;
-	Mon, 24 Aug 2026 16:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6E24078DF
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 16:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787587564; cv=none; b=O72jfopqxn3rll2xAEK4bK+vXAiX/emoX2EktTEKKBhxFHULQHJe5UpOsBXXSGJFu1Pg4Wxh0ffIb5iDMrS0QPc/hLCY4T8h9UwaghFAD97MZ9ZPazwcOXCPyFZ28V8JtsOjpvzVJA2b84Bz/5Ke7tg1BApZ+HCixIas/f2O6LI=
+	t=1787587817; cv=none; b=JS49zRbpOqaWTeFYRCc7aVCuuJDwqBvWviuBRMvEnAS3cTAcj49+Zk2eObsHgtiYvlbPJf7emE/xACjZeX8Veqa0rn61nXrAKSWYvzIT+K6hji/0wubPXvwSnACMMUk6qZjTLFDncc4HnAY6jY2ffTcs0qEjYF8mOY0T+YzPAy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787587564; c=relaxed/simple;
-	bh=zSGfmVXfWXcbyipNcWelU0w6iRaVKu9ffZG2h02dhSg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QSWCV2f8IqVSqieQnQ4DoWHTF+zxYpTtdhZHbftZs2Xzd2nRwvJlm9k/LrvM6ombZdA1TIrsHpF1lIVzi5KGko2IHK3trKTlIesDtfcyFrCIxmquToRn72qMKdpyps1C7KCEtCKqC4uFFN89oR8mpZaPA+ahI7CiCLY21D3l2tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=I6KKEsSw; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1787587817; c=relaxed/simple;
+	bh=WYp79WvhieUNZCmKVcztP08DuWzU2r2nD9piZtP2e4w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UeNwngVHPPmN9YPxsDEtbVmfQxZn7a+PXwERXuaOY9U954CQy5MJeSUGaeRsEfm2V2NDobINnCjsTBWElpv1NN4JgB/THx7wPXNFfpE7ZHq8NDAPaV44IsNe7JEbpjltfGIrSRH2FsRik/DdlEww3fDHMi4CoIJmTcnFUTQRr2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYH5cA2K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="I6KKEsSw"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 097401AED;
-	Mon, 24 Aug 2026 09:05:55 -0700 (PDT)
-Received: from [10.57.70.220] (unknown [10.57.70.220])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CAD073F8C6;
-	Mon, 24 Aug 2026 09:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787587558; bh=zSGfmVXfWXcbyipNcWelU0w6iRaVKu9ffZG2h02dhSg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=I6KKEsSwVbN4Ii8YXRG5InIKzCarnJJGM0H0PL7NrTWCxJW+48du73qDpJSfcOThQ
-	 WuZTc79DPeAwnLyUH1VmSac2yUTfciOdpxIrgepThi3S3ZKWt7N1ebMcczaY3UpcEZ
-	 a9BktBmX+AccxR8dlzHHFVU5l7gws5lcKG5Dj/Xo=
-Message-ID: <a826c7cb-5e77-4c21-a649-d40a9f0ef564@arm.com>
-Date: Mon, 24 Aug 2026 17:05:50 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYH5cA2K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C19E1F00ACF
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 16:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787587816;
+	bh=9lfE4kJBZz3AqUd+UVhYQB7YyX6PkGx6pUwKpB5sKG0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=OYH5cA2KUwZwkSI+n9o41oNxtoiRF41uqnHCXK4h91qks1o6VL5i4zRSXoczX1BBm
+	 RXd0Fu186mGnoU0yjo+R/CChP0PWvn4ZV40wI6g4CSuDM9zIjHTKQnN3eJIPMOGLA5
+	 ivD3JES8/IKNdEVgh+v21SJL3PcorNGv6loS5cCOvCPUO7WQN4LWja4pcHqdCqBLvB
+	 7fLgD6g1GzYlPgY31RBLGg457nfJ6sDaZX0rucZGuXpp47+OgPnDxEmaa/naGgMECl
+	 zCEUjiwk+6kbAN+vfVm3TYaqsKE8zRM2w5Vm1Y8cXMxbE/MivibTh7lwlmSRx9aCvS
+	 Cg8cI8qhOiuJQ==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39fa5e3a428so445731fa.1
+        for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 09:10:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrNCb9hssYwx2lxIGy2uzg8IpbsJ66+HS7ZBik+IjNNFZMvAblThHEuKG4qa9bYTk5nwLONqN7dUsMOBg==@lists.linux.dev
+X-Gm-Message-State: AFuF++leC/m1zzMTE/D/Qt4rJ1ibGKwZWUruoPy6wRN79XvNinbqR2fO
+	R3TH/x1M4YsAG8s36YtOqEUlXatZL8ow9sbM+x0vUmxccrHmpuiyYjT6ILULa00yZmeQv6pwcKa
+	rpk2GwAnkOXDnNhWA7xdSbJnL0qFkK9w=
+X-Received: by 2002:a2e:bc82:0:b0:396:ade7:4153 with SMTP id
+ 38308e7fff4ca-3a1ed6f4061mr640871fa.0.1787587814368; Mon, 24 Aug 2026
+ 09:10:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] swiotlb/mm: Implement SWIOTLB nocopy page
- allocator
-To: Luigi Rizzo <lrizzo@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Luigi Rizzo <rizzo.unipi@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragos Tatulea <dtatulea@nvidia.com>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, netdev@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux.dev, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260615234220.3946885-1-lrizzo@google.com>
- <20260824152932.1583506-1-lrizzo@google.com>
- <20260824152932.1583506-3-lrizzo@google.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260824152932.1583506-3-lrizzo@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260811061530.21789-1-jkoolstra@xs4all.nl>
+In-Reply-To: <20260811061530.21789-1-jkoolstra@xs4all.nl>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Mon, 24 Aug 2026 18:09:33 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i0PQEMTOT6UqWO87jCdV539ns-KcP69n++eQsz_NG0zA@mail.gmail.com>
+X-Gm-Features: AcwNN1Vw_f3gJ9-ik0-5o_-rxbVsDApCxrOUXBD3-HgJUcrld_w14x51Y6yKZxY
+Message-ID: <CAJZ5v0i0PQEMTOT6UqWO87jCdV539ns-KcP69n++eQsz_NG0zA@mail.gmail.com>
+Subject: Re: [PATCH] thermal: change thermal_class to a const struct
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:THERMAL" <linux-pm@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-08-24 4:29 pm, Luigi Rizzo wrote:
-> Introduce swiotlb_alloc_pages() and swiotlb_free_pages() to allocate
-> and release compound pages directly from the default SWIOTLB pool.
+On Tue, Aug 11, 2026 at 8:17=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl>=
+ wrote:
+>
+> The class_create() call has been deprecated in favor of class_register()
+> as the driver core now allows for a struct class to be in read-only
+> memory. Change thermal_class to be a const struct class and drop the
+> class_create() call.
 
-Huh? The sole intended purpose of SWIOTLB is for bounce-buffering data 
-which already exists in some other memory that is unsuitable for DMA for 
-whatever reason. If you want to allocate directly from some kind of 
-pre-shared DMA page pool to avoid bounce-buffering, set up some kind of 
-pre-shared DMA page pool and allocate from that in a manner which can 
-avoid bouncing entirely (see DMA_ATTR_CC_SHARED). The idea of getting as 
-far as calling swiotlb_bounce() to then have a special case saying "haha 
-not really" seems entirely absurd. Don't hack stuff into the SWIOTLB 
-code which has no business being there.
+This has been deliberately changed the other way around not too long
+ago, in commit
 
-Thanks,
-Robin.
+34f54003643e thermal/core: Allocate the thermal class dynamically
 
-> The allocator is restricted to slots in the static default pool,
-> with caller-specified percentage limits on pool occupancy.
-> 
-> This will be used for kernel data (e.g. socket buffers) in
-> nocopy confidential computing.
-> 
-> Signed-off-by: Luigi Rizzo <lrizzo@google.com>
+and it was then argued that it would be better to allocate the class
+dynamically.
+
+You seem to have a differing opinion.
+
+Is there any plan to remove class_create() from the kernel?  If there
+isn't, I'd rather stop this back-and-forth dance and leave the code
+as-is.
+
+> Compile tested only.
+
+That is, not tested.
+
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 > ---
->   include/linux/swiotlb.h |  24 ++++++
->   kernel/dma/swiotlb.c    | 187 ++++++++++++++++++++++++++++++++++++++--
->   mm/page_alloc.c         |  51 +++++++++++
->   3 files changed, 255 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> index 3dae0f592063e..4661e361c60e4 100644
-> --- a/include/linux/swiotlb.h
-> +++ b/include/linux/swiotlb.h
-> @@ -169,6 +169,23 @@ static inline struct io_tlb_pool *swiotlb_find_pool(struct device *dev,
->   	return NULL;
->   }
->   
-> +bool swiotlb_pool_is_nocopy(struct io_tlb_pool *pool, phys_addr_t paddr);
-> +
-> +static inline bool swiotlb_addr_in_default_pool(struct device *dev,
-> +						phys_addr_t paddr)
-> +{
-> +	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-> +
-> +	return mem && paddr >= mem->defpool.start && paddr < mem->defpool.end;
-> +}
-> +
-> +static inline bool swiotlb_is_nocopy_addr(struct device *dev, phys_addr_t paddr)
-> +{
-> +	if (!swiotlb_addr_in_default_pool(dev, paddr))
-> +		return false;
-> +	return swiotlb_pool_is_nocopy(&dev->dma_io_tlb_mem->defpool, paddr);
-> +}
-> +
->   static inline bool is_swiotlb_force_bounce(struct device *dev)
->   {
->   	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-> @@ -178,6 +195,13 @@ static inline bool is_swiotlb_force_bounce(struct device *dev)
->   
->   void swiotlb_init(bool addressing_limited, unsigned int flags);
->   void __init swiotlb_exit(void);
-> +struct page *swiotlb_alloc_pages(struct device *dev, unsigned int order, gfp_t gfp,
-> +				 unsigned int percent);
-> +bool swiotlb_free_pages(struct page *page, unsigned int order);
-> +void swiotlb_nocopy_inc_ref(struct io_tlb_pool *pool, phys_addr_t phys);
-> +void swiotlb_nocopy_dec_ref(struct io_tlb_pool *pool, phys_addr_t phys);
-> +void swiotlb_prep_compound_page(struct page *page, unsigned int order);
-> +void swiotlb_destroy_compound_page(struct page *page, unsigned int order);
->   void swiotlb_dev_init(struct device *dev);
->   size_t swiotlb_max_mapping_size(struct device *dev);
->   bool is_swiotlb_allocated(void);
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index 8e4bd9d47735a..6b86a1e955fb4 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -66,17 +66,59 @@
->   /**
->    * struct io_tlb_slot - IO TLB slot descriptor
->    * @orig_addr:	The original address corresponding to a mapped entry.
-> + * @nocopy_refcnt:	Lockless atomic refcount for Nocopy buffers.
->    * @alloc_size:	Size of the allocated buffer.
->    * @list:	The free list describing the number of free entries available
->    *		from each index.
->    * @pad_slots:	Number of preceding padding slots. Valid only in the first
->    *		allocated non-padding slot.
-> + * @flags:	Slot attributes (e.g. SWIOTLB_SLOT_NOCOPY for Nocopy buffers).
-> + *
-> + * The slot descriptor has states identified by @list and @flags (SWIOTLB_SLOT_NOCOPY):
-> + *
-> + * 1. FREE (list > 0):
-> + *    Linear sweep free slot.
-> + *
-> + * 2. USED (list == 0, SWIOTLB_SLOT_NOCOPY flag is NOT set in @flags):
-> + *    Allocated SWIOTLB bounce buffer.
-> + *    Fields used: @list, @pad_slots, @orig_addr, @alloc_size.
-> + *
-> + * 3. USED_NOCOPY (list == 0, SWIOTLB_SLOT_NOCOPY flag is set in @flags):
-> + *    Allocated Nocopy SWIOTLB buffer.
-> + *    Fields used: @list, @nocopy_refcnt, @alloc_size.
-> + */
-> +#define SWIOTLB_SLOT_NOCOPY	BIT(0)
-> +
-> +/*
-> + * SWIOTLB nocopy allocations (swiotlb_alloc_pages()) do not have an original
-> + * physical address to bounce, but need to pass a caller-specified pool usage
-> + * limit (percentage) down to the area search logic.
-> + *
-> + * To avoid adding a parameter to swiotlb_find_slots(), swiotlb_search_area(),
-> + * and swiotlb_search_pool_area(), the desired percentage (0..90) is encoded
-> + * into the orig_addr parameter in the reserved high address range starting at
-> + * INVALID_PHYS_ADDR (~0ULL).
-> + *
-> + * - NOCOPY_PCT_TO_ADDR(pct): Encodes a percentage into an orig_addr.
-> + * - IS_SWIOTLB_NOCOPY(addr): Identifies a nocopy allocation request and
-> + *   restricts slot search to the static default pool.
-> + * - NOCOPY_ADDR_TO_PCT(addr): Extracts the percentage to cap max_usable
-> + *   slots in swiotlb_search_pool_area().
->    */
-> +#define NOCOPY_PCT_MAX	(90u)
-> +#define NOCOPY_PCT_TO_ADDR(pct)		(INVALID_PHYS_ADDR - min(pct, NOCOPY_PCT_MAX))
-> +#define IS_SWIOTLB_NOCOPY(addr)		((addr) >= INVALID_PHYS_ADDR - NOCOPY_PCT_MAX)
-> +#define NOCOPY_ADDR_TO_PCT(addr)	((unsigned int)(INVALID_PHYS_ADDR - (addr)))
-> +
->   struct io_tlb_slot {
-> -	phys_addr_t orig_addr;
-> +	union {
-> +		phys_addr_t orig_addr;
-> +		atomic_t nocopy_refcnt;
-> +	};
->   	size_t alloc_size;
->   	unsigned short list;
->   	unsigned short pad_slots;
-> +	unsigned int flags;
->   };
->   
->   static bool swiotlb_force_bounce;
-> @@ -300,6 +342,7 @@ static void swiotlb_init_io_tlb_pool(struct io_tlb_pool *mem, phys_addr_t start,
->   		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
->   		mem->slots[i].alloc_size = 0;
->   		mem->slots[i].pad_slots = 0;
-> +		mem->slots[i].flags = 0;
->   	}
->   
->   	memset(vaddr, 0, bytes);
-> @@ -869,12 +912,17 @@ static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size
->   			   enum dma_data_direction dir, struct io_tlb_pool *mem)
->   {
->   	int index = (tlb_addr - mem->start) >> IO_TLB_SHIFT;
-> -	phys_addr_t orig_addr = mem->slots[index].orig_addr;
->   	size_t alloc_size = mem->slots[index].alloc_size;
-> -	unsigned long pfn = PFN_DOWN(orig_addr);
->   	unsigned char *vaddr = mem->vaddr + tlb_addr - mem->start;
-> +	phys_addr_t orig_addr;
-> +	unsigned long pfn;
->   	int tlb_offset;
->   
-> +	/* Nocopy swiotlb buffers do not need bouncing. */
-> +	if (mem->slots[index].flags & SWIOTLB_SLOT_NOCOPY)
-> +		return;
-> +
-> +	orig_addr = mem->slots[index].orig_addr;
->   	if (orig_addr == INVALID_PHYS_ADDR)
->   		return;
->   
-> @@ -904,6 +952,7 @@ static void swiotlb_bounce(struct device *dev, phys_addr_t tlb_addr, size_t size
->   		size = alloc_size;
->   	}
->   
-> +	pfn = PFN_DOWN(orig_addr);
->   	if (PageHighMem(pfn_to_page(pfn))) {
->   		unsigned int offset = orig_addr & ~PAGE_MASK;
->   		struct page *page;
-> @@ -1052,7 +1101,8 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->   	unsigned long max_slots = get_max_slots(boundary_mask);
->   	unsigned int iotlb_align_mask = dma_get_min_align_mask(dev);
->   	unsigned int nslots = nr_slots(alloc_size), stride;
-> -	unsigned int offset = swiotlb_align_offset(dev, 0, orig_addr);
-> +	unsigned long max_usable = pool->area_nslabs;
-> +	unsigned int offset;
->   	unsigned int index, slots_checked, count = 0, i;
->   	unsigned long flags;
->   	unsigned int slot_base;
-> @@ -1061,6 +1111,13 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->   	BUG_ON(!nslots);
->   	BUG_ON(area_index >= pool->nareas);
->   
-> +	if (IS_SWIOTLB_NOCOPY(orig_addr)) {
-> +		max_usable = (pool->area_nslabs * NOCOPY_ADDR_TO_PCT(orig_addr)) / 100;
-> +		orig_addr = 0;
-> +	}
-> +
-> +	offset = swiotlb_align_offset(dev, 0, orig_addr);
-> +
->   	/*
->   	 * Historically, swiotlb allocations >= PAGE_SIZE were guaranteed to be
->   	 * page-aligned in the absence of any other alignment requirements.
-> @@ -1087,7 +1144,7 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->   	stride = get_max_slots(max(alloc_align_mask, iotlb_align_mask));
->   
->   	spin_lock_irqsave(&area->lock, flags);
-> -	if (unlikely(nslots > pool->area_nslabs - area->used))
-> +	if (unlikely(area->used + nslots > max_usable))
->   		goto not_found;
->   
->   	slot_base = area_index * pool->area_nslabs;
-> @@ -1164,6 +1221,9 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->    * Search one memory area in all pools for a sequence of slots that match the
->    * allocation constraints.
->    *
-> + * If IS_SWIOTLB_NOCOPY(orig_addr) is true, the search is restricted to only the
-> + * default pool, which is what swiotlb_alloc_pages() is allowed to use.
-> + *
->    * Return: Index of the first allocated slot, or -1 on error.
->    */
->   static int swiotlb_search_area(struct device *dev, int start_cpu,
-> @@ -1177,6 +1237,9 @@ static int swiotlb_search_area(struct device *dev, int start_cpu,
->   
->   	rcu_read_lock();
->   	list_for_each_entry_rcu(pool, &mem->pools, node) {
-> +		/* Only search the default pool (first in mem->pools) for nocopy allocations. */
-> +		if (IS_SWIOTLB_NOCOPY(orig_addr) && pool != &mem->defpool)
-> +			break;
->   		if (cpu_offset >= pool->nareas)
->   			continue;
->   		area_index = (start_cpu + cpu_offset) & (pool->nareas - 1);
-> @@ -1229,6 +1292,13 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
->   			goto found;
->   	}
->   
-> +	/*
-> +	 * Passing a nocopy orig_addr restricts the search to only the
-> +	 * default pool, so do not attempt dynamic pool expansion.
-> +	 */
-> +	if (IS_SWIOTLB_NOCOPY(orig_addr))
-> +		return -1;
-> +
->   	if (!mem->can_grow)
->   		return -1;
->   
-> @@ -1468,11 +1538,16 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
->   	return tlb_addr;
->   }
->   
-> +/*
-> + * called with dev == NULL from swiotlb_dealloc_pages(), in this case force offset
-> + * and align_mask to 0, pad_slots is also 0, and assume the pages come from the
-> + * default system pool.
-> + */
->   static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
->   				  struct io_tlb_pool *mem)
->   {
->   	unsigned long flags;
-> -	unsigned int offset = swiotlb_align_offset(dev, 0, tlb_addr);
-> +	unsigned int offset = dev ? swiotlb_align_offset(dev, 0, tlb_addr) : 0;
->   	int index, nslots, aindex;
->   	struct io_tlb_area *area;
->   	int count, i;
-> @@ -1506,6 +1581,7 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
->   		mem->slots[i].orig_addr = INVALID_PHYS_ADDR;
->   		mem->slots[i].alloc_size = 0;
->   		mem->slots[i].pad_slots = 0;
-> +		mem->slots[i].flags = 0;
->   	}
->   
->   	/*
-> @@ -1519,7 +1595,7 @@ static void swiotlb_release_slots(struct device *dev, phys_addr_t tlb_addr,
->   	area->used -= nslots;
->   	spin_unlock_irqrestore(&area->lock, flags);
->   
-> -	dec_used(dev->dma_io_tlb_mem, nslots);
-> +	dec_used(dev ? dev->dma_io_tlb_mem : &io_tlb_default_mem, nslots);
->   }
->   
->   #ifdef CONFIG_SWIOTLB_DYNAMIC
-> @@ -1912,3 +1988,100 @@ static const struct reserved_mem_ops rmem_swiotlb_ops = {
->   
->   RESERVEDMEM_OF_DECLARE(dma, "restricted-dma-pool", &rmem_swiotlb_ops);
->   #endif /* CONFIG_DMA_RESTRICTED_POOL */
-> +
-> +static inline int swiotlb_nocopy_head_index(struct io_tlb_pool *pool, phys_addr_t phys)
-> +{
-> +	return (page_to_phys(compound_head(phys_to_page(phys))) - pool->start) >> IO_TLB_SHIFT;
-> +}
-> +
-> +/**
-> + * swiotlb_dealloc_pages() - Actually release Nocopy slots and page metadata
-> + * @pool:	SWIOTLB pool containing the buffer.
-> + * @parent:	Slot index of the buffer head.
-> + */
-> +static void swiotlb_dealloc_pages(struct io_tlb_pool *pool, unsigned int parent)
-> +{
-> +	unsigned int order = get_order(pool->slots[parent].alloc_size);
-> +	phys_addr_t paddr = pool->start + (parent << IO_TLB_SHIFT);
-> +	struct page *head = phys_to_page(paddr);
-> +
-> +	swiotlb_destroy_compound_page(head, order);
-> +	swiotlb_release_slots(NULL, paddr, pool);
-> +}
-> +
-> +struct page *swiotlb_alloc_pages(struct device *dev, unsigned int order,
-> +				 gfp_t gfp, unsigned int percent)
-> +{
-> +	struct io_tlb_pool *pool;
-> +	struct page *page;
-> +	int index, nslots, i;
-> +
-> +	if (WARN_ON_ONCE(!dev || !dev->dma_io_tlb_mem))
-> +		return NULL;
-> +
-> +	if (dev->dma_io_tlb_mem != &io_tlb_default_mem)
-> +		return NULL;
-> +
-> +	index = swiotlb_find_slots(dev, NOCOPY_PCT_TO_ADDR(percent),
-> +				   PAGE_SIZE << order, (PAGE_SIZE << order) - 1,
-> +				   &pool);
-> +	if (index < 0)
-> +		return NULL;
-> +
-> +	nslots = (PAGE_SIZE << order) >> IO_TLB_SHIFT;
-> +	page = phys_to_page(pool->start + (index << IO_TLB_SHIFT));
-> +	swiotlb_prep_compound_page(page, order);
-> +	for (i = 0; i < nslots; i++)
-> +		pool->slots[index + i].flags |= SWIOTLB_SLOT_NOCOPY;
-> +	atomic_set(&pool->slots[index].nocopy_refcnt, 1);
-> +	return page;
-> +}
-> +EXPORT_SYMBOL(swiotlb_alloc_pages);
-> +
-> +bool swiotlb_free_pages(struct page *page, unsigned int order)
-> +{
-> +	struct io_tlb_mem *mem = &io_tlb_default_mem;
-> +	struct io_tlb_pool *pool = &mem->defpool;
-> +	struct page *head = compound_head(page);
-> +	unsigned int parent;
-> +	phys_addr_t paddr;
-> +
-> +	paddr = page_to_phys(head);
-> +	if (paddr < pool->start || paddr >= pool->end)
-> +		return false;
-> +
-> +	parent = swiotlb_nocopy_head_index(pool, paddr);
-> +	if (!(pool->slots[parent].flags & SWIOTLB_SLOT_NOCOPY))
-> +		return false;
-> +
-> +	if (atomic_dec_and_test(&pool->slots[parent].nocopy_refcnt))
-> +		swiotlb_dealloc_pages(pool, parent);
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(swiotlb_free_pages);
-> +
-> +void swiotlb_nocopy_inc_ref(struct io_tlb_pool *pool, phys_addr_t phys)
-> +{
-> +	int head_idx = swiotlb_nocopy_head_index(pool, phys);
-> +
-> +	atomic_inc(&pool->slots[head_idx].nocopy_refcnt);
-> +}
-> +EXPORT_SYMBOL(swiotlb_nocopy_inc_ref);
-> +
-> +void swiotlb_nocopy_dec_ref(struct io_tlb_pool *pool, phys_addr_t phys)
-> +{
-> +	int head_idx = swiotlb_nocopy_head_index(pool, phys);
-> +
-> +	if (atomic_dec_and_test(&pool->slots[head_idx].nocopy_refcnt))
-> +		swiotlb_dealloc_pages(pool, head_idx);
-> +}
-> +EXPORT_SYMBOL(swiotlb_nocopy_dec_ref);
-> +
-> +bool swiotlb_pool_is_nocopy(struct io_tlb_pool *pool, phys_addr_t paddr)
-> +{
-> +	int index = (paddr - pool->start) >> IO_TLB_SHIFT;
-> +
-> +	return pool->slots[index].flags & SWIOTLB_SLOT_NOCOPY;
-> +}
-> +EXPORT_SYMBOL_GPL(swiotlb_pool_is_nocopy);
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 083cbcb5bddec..ea148562a76d0 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -16,6 +16,7 @@
->   
->   #include <linux/stddef.h>
->   #include <linux/mm.h>
-> +#include <linux/swiotlb.h>
->   #include <linux/highmem.h>
->   #include <linux/interrupt.h>
->   #include <linux/jiffies.h>
-> @@ -711,6 +712,56 @@ void prep_compound_page(struct page *page, unsigned int order)
->   	prep_compound_head(page, order);
->   }
->   
-> +#ifdef CONFIG_SWIOTLB
-> +/*
-> + * Prepare a SWIOTLB page (potentially compound).
-> + *
-> + * We explicitly initialize the head page refcount to 1 because recycled
-> + * SWIOTLB pages might have a refcount of 0.
-> + *
-> + * If order > 0 (compound page), we must explicitly set all tail page
-> + * refcounts to 0. This is because SWIOTLB pages might have a boot-default
-> + * refcount of 1, but the core memory management subsystem expects tail pages
-> + * of a compound page to have a refcount of 0.
-> + */
-> +void swiotlb_prep_compound_page(struct page *page, unsigned int order)
-> +{
-> +	init_page_count(page);
-> +	if (order > 0) {
-> +		for (int i = 1; i < (1 << order); i++)
-> +			set_page_count(page + i, 0);
-> +		prep_compound_page(page, order);
-> +	}
-> +}
-> +
-> +/*
-> + * Destroy a SWIOTLB compound page and restore page refcounts.
-> + *
-> + * When pages are returned to the SWIOTLB pool, we restore the refcount of
-> + * all constituent pages (head and tails) to 1. This resets them to their
-> + * clean boot-default state, ensuring they are ready for reuse either as
-> + * individual order-0 pages or as part of a new compound allocation.
-> + */
-> +void swiotlb_destroy_compound_page(struct page *page, unsigned int order)
-> +{
-> +	if (order > 0) {
-> +		struct folio *folio = (struct folio *)page;
-> +
-> +		__ClearPageHead(page);
-> +		page[1].flags.f &= ~PAGE_FLAGS_SECOND;
-> +#ifdef NR_PAGES_IN_LARGE_FOLIO
-> +		folio->_nr_pages = 0;
-> +#endif
-> +		for (int i = 1; i < (1 << order); i++) {
-> +			page[i].mapping = NULL;
-> +			clear_compound_head(&page[i]);
-> +			set_page_count(page + i, 1);
-> +		}
-> +	}
-> +	set_page_count(page, 1);
-> +}
-> +#endif /* CONFIG_SWIOTLB */
-> +
->   static inline void set_buddy_order(struct page *page, unsigned int order)
->   {
->   	set_page_private(page, order);
+>  drivers/thermal/thermal_core.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_cor=
+e.c
+> index 28a20d4b475c..36220113ca8e 100644
+> --- a/drivers/thermal/thermal_core.c
+> +++ b/drivers/thermal/thermal_core.c
+> @@ -889,7 +889,9 @@ static void thermal_unbind_cdev_from_trip(struct ther=
+mal_zone_device *tz,
+>         kfree(pos);
+>  }
+>
+> -static struct class *thermal_class __ro_after_init;
+> +static const struct class thermal_class =3D {
+> +       .name   =3D "thermal"
+> +};
+>
+>  static inline
+>  void print_bind_err_msg(struct thermal_zone_device *tz,
+> @@ -973,7 +975,7 @@ thermal_cooling_device_alloc(const char *type, const =
+struct thermal_cooling_devi
+>             !ops->set_cur_state)
+>                 return ERR_PTR(-EINVAL);
+>
+> -       if (!thermal_class)
+> +       if (!class_is_registered(&thermal_class))
 
+Any chance to reduce the overhead of this check (in all places where
+it is done)?
+
+>                 return ERR_PTR(-ENODEV);
+>
+>         cdev =3D kzalloc_obj(*cdev);
+> @@ -1010,7 +1012,7 @@ int thermal_cooling_device_add(struct thermal_cooli=
+ng_device *cdev, void *devdat
+>         mutex_init(&cdev->lock);
+>         INIT_LIST_HEAD(&cdev->thermal_instances);
+>         cdev->updated =3D false;
+> -       cdev->device.class =3D thermal_class;
+> +       cdev->device.class =3D &thermal_class;
+>         cdev->device.release =3D thermal_cdev_release;
+>         device_initialize(&cdev->device);
+>         cdev->devdata =3D devdata;
+> @@ -1447,7 +1449,7 @@ thermal_zone_device_register_with_trips(const char =
+*type,
+>         if (polling_delay && passive_delay > polling_delay)
+>                 return ERR_PTR(-EINVAL);
+>
+> -       if (!thermal_class)
+> +       if (!class_is_registered(&thermal_class))
+>                 return ERR_PTR(-ENODEV);
+>
+>         tz =3D kzalloc_flex(*tz, trips, num_trips);
+> @@ -1483,7 +1485,7 @@ thermal_zone_device_register_with_trips(const char =
+*type,
+>         if (!tz->ops.critical)
+>                 tz->ops.critical =3D thermal_zone_device_critical;
+>
+> -       tz->device.class =3D thermal_class;
+> +       tz->device.class =3D &thermal_class;
+>         tz->device.release =3D thermal_zone_device_release;
+>         tz->devdata =3D devdata;
+>         tz->num_trips =3D num_trips;
+> @@ -1745,7 +1747,7 @@ static void __thermal_pm_prepare(void)
+>
+>  void thermal_pm_prepare(void)
+>  {
+> -       if (!thermal_class)
+> +       if (!class_is_registered(&thermal_class))
+>                 return;
+>
+>         __thermal_pm_prepare();
+> @@ -1776,7 +1778,7 @@ void thermal_pm_complete(void)
+>  {
+>         struct thermal_zone_device *tz;
+>
+> -       if (!thermal_class)
+> +       if (!class_is_registered(&thermal_class))
+>                 return;
+>
+>         guard(mutex)(&thermal_list_lock);
+> @@ -1789,7 +1791,6 @@ void thermal_pm_complete(void)
+>
+>  static int __init thermal_init(void)
+>  {
+> -       struct class *tc;
+>         int result;
+>
+>         thermal_debug_init();
+> @@ -1808,13 +1809,10 @@ static int __init thermal_init(void)
+>         if (result)
+>                 goto unregister_governors;
+>
+> -       tc =3D class_create("thermal");
+> -       if (IS_ERR(tc)) {
+> -               result =3D PTR_ERR(tc);
+> +       result =3D class_register(&thermal_class);
+> +       if (result)
+>                 goto unregister_governors;
+> -       }
+>
+> -       thermal_class =3D tc;
+>         return 0;
+>
+>  unregister_governors:
+> --
