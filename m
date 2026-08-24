@@ -1,144 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF84D38A70B
-	for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 19:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31625B2F4
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 00:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787512385; cv=none; b=UMYN7sPJnW4R2oUfNvghVSapkZiPk/NyePXxvH/ww8sKx1DqJdiUZAf+VIGsL5g1DU0RayJOad/uyXfEOp6gMVwXoSptqHx3zO1+hRchjFdMa1kKD00rMX+nmHCahSYqK3x5DEkechGWGKJ5Ft6ObR+x6+3GXrRHyvt+5CBX30A=
+	t=1787531393; cv=none; b=OVo+E9qBisKJDnPZ/RHQrHBCWdv4b9zxei5pVe76r08rDNatQ55Wt4CoOjJKYgQaE+VHr+bGulHj2seEICleEpmzJ8b3cmN+Bl5+djx/nnZjep+WknDCTtyg3sWLgS+TgDi1qY43SV46Mbtduf8bT4d9iZVmOCuVXushFYS6rd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787512385; c=relaxed/simple;
-	bh=Owu2yQZ3ssiTZF54WlJcep8/1pFQFocuIQQmghBWd3U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=LAxQ6r1nILINTCknqEv7u5mHMhMVyHo0yBf8Lbf3bVYlEKBdYsxYzlx/u1RlVm/qxGFw0L7VRhAWXhmDE4mqrk+eWqBm+P2cJPmwTLTWiWdUyKkiQ/L47WcLFVgT/lmVLq2i+gh2bXLg5MlBA5GML7I1QCEBhQR0M/aiD6QfpyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jysf1SIr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787531393; c=relaxed/simple;
+	bh=S2VVXIm9NXC1/7S/os++vXO4y8V6rLx/oQUPCR5sBQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m1ZaDBIPI36DXGLP472TtVa6Tu1ERD/nPVk2qKWgVHASwPm4yO6fGXzJZ02SNW1AStnXOlwyfpeHSr6eXU3EbeyFKdkSYFhWu/U77472aVYnmYinbSKdpEv+XGSmhXNkVRZ9ar7JHy1hPC7hyv5fd6wNJlVpyY1vE/pAdYmwZ5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=dHAdRGIG; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jysf1SIr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787512382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
-	b=Jysf1SIryrI1vCAR5hsGvIetFsY7LZShJdjjRwduBLUjSy9hCARPieybYvMWn+1SvYplvU
-	sGP0TXb5ZUSZ7fzqgadOPj5uk7ikYfuWEjp8MJJZh+J2iA8Pd7SDnLcoy/Y3WfVMdhBUPu
-	cJ+C5QKaD/+c8GXndjmXWD4iQjM7J8Y=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-441-caWVKvLZMFmIj3v2wjwwcA-1; Sun, 23 Aug 2026 15:12:59 -0400
-X-MC-Unique: caWVKvLZMFmIj3v2wjwwcA-1
-X-Mimecast-MFC-AGG-ID: caWVKvLZMFmIj3v2wjwwcA_1787512378
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-84857446424so4773579b3a.1
-        for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 12:12:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="dHAdRGIG"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-527e352a167so18079391cf.1
+        for <driver-core@lists.linux.dev>; Sun, 23 Aug 2026 17:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1787531389; x=1788136189; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u0oyaTfgHNj82lNrvA/IiuK50TaUKsX5aQhkbMM0CdQ=;
+        b=dHAdRGIG6O5TGqy6fgTl6DAs7IP/v8bubDP6ADgpYX8gto2fUbTDxUR+c0SKheDXW7
+         jj7AbfNcDzJzEbcg5iUr6t0eiK5mGkaqdnMLhkr6nE/nOV6OoJZsTVHWogD8OWeCQPMM
+         1ffvc/GCXyK2PsnKbpVvY7qEUGosqDWYr6glF5VUukAiuyHvO7gjnoXCatfhBrurYk7u
+         N+q81QmatzWE0Wu1TvbZu54X5Zn7Oik3jxckc8ZevCQ4a9vODkACtdaz76qhibAnRhHg
+         +NJUgB3S0gNfMAnJEg0PYRCUAHgw5Bx5AmrafxRiVI5vPL1aS1DmE4b7f/1qgibF3tqV
+         f8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787512378; x=1788117178;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dyMUHwcFZHWvzwaQJRcLCXJOSAtnM8sZrtYfPFtbokg=;
-        b=KquAIP/ySKOESpiEA41mpr4QJAQ2OubiDROTkw8QjuIUZU1KgZ6CzNcpIDGK3zLvyW
-         NIg+jaSr8k81bfQZyUOVyV+XRpnP80RkxYiMmdn54r8ufNs0ChOJ4Q33TTQtn11EXwcy
-         VbtYYEynS83rJZLZzpQTPevMUDK1UZYOfSPJvA3TWYMO+xu8yYicm9su6c9m/sZw4o9B
-         gpG0vwAG0aB7kaDABpXY36EYixmYSYiWbK/Q/ZreNscCzgEefod2/3xXdkoq3d7wOTtw
-         2OGfViQlEdS7DAFMNqelo8ySiQ1zp9dIGLEA7jHQ/blzd8QEPwzJwM93K4+9Agfe9pae
-         24/A==
-X-Forwarded-Encrypted: i=1; AHgh+RpL4QnrpE7sdkGcBzF0zz8YKyFYzUMsOpW2zt6jr0KJZjLVX+CR/gJmLPpdo2FMO4GqqG6/sHfTpiDGXg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kDauWDtpJph1XFehng49oq+KLjtc2XJWlz7mUqVeUNC+QTkUPd
-	9//hKMCqZfB8zXIbjdDNprXo9gNL7wwKHjgS9W4dV9i6Zagp0z35TIFbWUY89cneq9f7pdqjTN8
-	7z4krKGZnMA8YZ84Bk0K/bUEBNAr+oIB9O8x+PadT609d7vnYuytJKwFgtQ2t4sX9
-X-Gm-Gg: AR+sD116l0C/W99O3KGr5C/SOW5D1AD2Lr5ehiIB7mmslmqgus7FLI5LxMJ1tNgvoMc
-	7ZjlSjYuC0Nb/qF44E4waW3aXx2a6NZVcMRIZChAc74D34ZXj1l3ZWvyvXn+ZO4gfkvLlKe7Wqo
-	om0dJ248rF4EN9Skn9nQAZhtJUJvd7jO156+1b2yftNnt5q10Js0pBKESYtMfqGXke++mBHQIDf
-	Wi8bbwbh7PURTJaH4VdXGG8dH0BMqTqyfKlN4CFgMDc8Tg/99w3gOLSdk7n1ZoOCzFWCCbWI3te
-	1zc1C3mWdSBzsq3YbnHlD/XQt3rcCMKQ6B2d36xjmFC8G6CqrGprHSqCmTjQKMOY8inJIgLbVkB
-	F8c3CLad/GOZR70UXUoEyZGZx
-X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210453b3a.14.1787512378311;
-        Sun, 23 Aug 2026 12:12:58 -0700 (PDT)
-X-Received: by 2002:a05:6a00:bd03:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8520ba55d99mr20210390b3a.14.1787512377847;
-        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
-Received: from kernel-devel.tail62cea.ts.net ([240d:1a:c0d:9f00:be24:11ff:fe35:71b3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f161701sm1224422b3a.53.2026.08.23.12.12.56
+        d=1e100.net; s=20251104; t=1787531389; x=1788136189;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u0oyaTfgHNj82lNrvA/IiuK50TaUKsX5aQhkbMM0CdQ=;
+        b=OIn1TH8MGxYNPTPayo4NdO7l2w9RGnp+HITSC9nUvBHIXeXR82ZODJcDZjmLFUGgUo
+         7zd/uY83lFdaP8YPqkkr7NnJak5X8875gzGsr74QgM44IwrVQW5+gerlSQbaAViOs0B/
+         9afZiZMJIFSqsgz5Fck3gIJQ3AxjBQyqzeYlawwmG5zdAkTU1ektKXE1wlYrLNR2E52H
+         Vb96MD8glm6MUW7WdPPGC193khSyUFDfyW/UDE3EV7/AIgtUZ19xB2zAQjd4LAgFjr3E
+         Ss4CWskMpqa7MSpdKZKT93006twxG3m7QYfZN/NDd9tUtWaqaBkEW9JcKxjKJOyM/Jkd
+         +aNw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro+F/EwqxOM2veA8kFbpH8zazH8TD9Kdtg4cSiRKFg+WkHg9giyIb/7xnEWQoQE5VvOUVKnvWUzfyQXUA==@lists.linux.dev
+X-Gm-Message-State: AFuF++myn9i0U2NNtSB8TQ6hkrVN78XBFkMma19UoStzTssAoQBzWEwP
+	gtnr1902NruFoYwZSU/xdzXZ3jx8iMztkfR1J7VC5E9wJcvV7wriCNdyT/EgKy6iew==
+X-Gm-Gg: AR+sD10RAB7+Mja+yRNYtWUp77xVeIad3X/6zu72YG4Iu21hkxJhLh9h6O12UbDdxjL
+	DVnq3QGSjBq6rF3stdGhSQUmwZTO6KLxPxU0nVWbCA7ztsrrLdE+ObPZWEvveK7Z/itVWxQOrdI
+	5ncmc2upzN3meO1NVV/9I4EDgXJHvMKL06P9Pe1iVKACHObNiPOawjvpl2uXUwr1x5lzZ81CV4e
+	fc4tj/P5f1oaUxWd191PIBJqp2pCvlMl3G062HfSc1VyHzC6uFOEkRIDVx0+Pg8WISwTcLOkAN7
+	0TLZd/KTa/Q5i2uojwm0E6TUFVlzCaNl5OnKUuq/wWmv6bH+J2vEVW4713gdtF2Osat6+bjU02o
+	FhNMFg+Yhvj4BeOPVuhe04/mZw65B9/uL5A8OcMfzhL36a6yZ2SMp4Zu8X2fZngookzy14pHkdI
+	cUspNbj6kngED9AM8tksz8IIhySKaaPJZgnnlRQ8JawyvitHCJwQnSzJm0WnJ2udfRwYEMXdFG
+X-Received: by 2002:a05:622a:4083:b0:52b:6543:d8b with SMTP id d75a77b69052e-52df573954amr253830641cf.12.1787531388897;
+        Sun, 23 Aug 2026 17:29:48 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09ae7211sm36723671cf.26.2026.08.23.17.29.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 12:12:57 -0700 (PDT)
-From: Shigeru Yoshida <syoshida@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Sandeen <sandeen@redhat.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	Shigeru Yoshida <syoshida@redhat.com>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] devtmpfs: apply mount options to the existing superblock
-Date: Mon, 24 Aug 2026 04:12:53 +0900
-Message-ID: <20260823191254.3696641-1-syoshida@redhat.com>
-X-Mailer: git-send-email 2.55.0
+        Sun, 23 Aug 2026 17:29:47 -0700 (PDT)
+Date: Sun, 23 Aug 2026 20:29:45 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: syzbot <syzbot+fd7be5ad9795b7f29df3@syzkaller.appspotmail.com>,
+	dakr@kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] INFO: task hung in unbind_store
+Message-ID: <190b86c3-5332-4d77-920c-a845f8a01b2c@rowland.harvard.edu>
+References: <6a8adc31.ae6ddae5.3da009.0064.GAE@google.com>
+ <2026082307-negligent-lusty-750a@gregkh>
+ <2ce6496d-6166-4470-b424-2b187908f2ba@rowland.harvard.edu>
+ <2026082333-persuader-overturn-8205@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sNTAdczV5MwByQQIfMCGfVb3NMB6OxQHDj1-w0-AqT0_1787512378
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026082333-persuader-overturn-8205@gregkh>
 
-Commit cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in
-public instance") dropped the reconfigure_single() call that
-public_dev_mount() used to apply the options of every new mount to the
-single, internally created superblock. devtmpfs_get_tree() only takes
-a reference on it: the options are still parsed into fc->fs_private,
-but ->reconfigure is now only reached via reconfigure_super(), i.e. on
-remount, so they are discarded by put_fs_context().
+On Sun, Aug 23, 2026 at 07:28:10PM +0200, Greg KH wrote:
+> On Sun, Aug 23, 2026 at 10:40:03AM -0400, Alan Stern wrote:
+> > On Sun, Aug 23, 2026 at 01:46:43PM +0200, Greg KH wrote:
+> > > Ok, I'm going to add a new TAINT flag for when unbind is written to as
+> > > that is obviously not a normal operation and is only for debugging
+> > > things by kernel developers.  Adding loads of work-arounds in the kernel
+> > > for this not-real-workload-path is just not required.
+> > > 
+> > > If syzbot could stop hitting this path, that would be great, as it's a
+> > > root-only thing for debugging and not something "real".
+> > 
+> > Actually, I could imagine people wanting to use unbind for a real 
+> > purpose -- you could consider it to be a more specific form of modprobe 
+> > blacklisting.
+> 
+> If you want to do that, just don't load the module :)
 
-For example, systemd mounts /dev with "-o mode=755,size=4m,nr_inodes=1m",
-so size= is silently ignored and /dev falls back to the tmpfs default of
-50% of physical RAM.
+No, because unbinding is more precise.  You can unbind a driver from one 
+particular device.  Not loading the module affects all the devices the 
+driver might bind to.
 
-Call the underlying ->reconfigure from devtmpfs_get_tree(), the same
-way tracefs and debugfs do; ramfs has no ->reconfigure, hence the NULL
-check.
+> > The bind attribute is the one which really should taint the kernel, 
+> > because it bypasses the normal matching checks.  Also, all the numerous 
+> > syzbot bug reports coming out lately have involved weird bind 
+> > operations, not unbind.  Unbind should pretty much always work.
+> 
+> "always work" is tough due to the races that can, and will, happen for
+> many non-hotplugged bus devices, as syzbot is finding now.  We shouldn't
+> require this, as again, it's a debugging thing.
 
-This restores the behaviour of commit a6097180d884 ("devtmpfs
-regression fix: reconfigure on each mount"), which fixed the same
-regression when devtmpfs was first converted away from mount_single().
+If a driver does not support hotplugging, shouldn't it disable the bind 
+and unbind attributes?  (Is that possible?  If not, it should be.)
 
-Fixes: cb0e0a8bf4e1 ("devtmpfs: replace ->mount with ->get_tree in public instance")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
----
- drivers/base/devtmpfs.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+But if a driver does support hotplugging, unbinding it should definitely 
+work every time.
 
-diff --git a/drivers/base/devtmpfs.c b/drivers/base/devtmpfs.c
-index aef0fcc6aba1..f0798fc1bc34 100644
---- a/drivers/base/devtmpfs.c
-+++ b/drivers/base/devtmpfs.c
-@@ -80,6 +80,18 @@ static int devtmpfs_get_tree(struct fs_context *fc)
- 	atomic_inc(&sb->s_active);
- 	down_write(&sb->s_umount);
- 	fc->root = dget(sb->s_root);
-+
-+	if (fc->ops->reconfigure) {
-+		int err = fc->ops->reconfigure(fc);
-+
-+		if (err) {
-+			dput(fc->root);
-+			fc->root = NULL;
-+			deactivate_locked_super(sb);
-+			return err;
-+		}
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.55.0
-
+Alan Stern
