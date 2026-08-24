@@ -1,195 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6E24078DF
-	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 16:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787587817; cv=none; b=JS49zRbpOqaWTeFYRCc7aVCuuJDwqBvWviuBRMvEnAS3cTAcj49+Zk2eObsHgtiYvlbPJf7emE/xACjZeX8Veqa0rn61nXrAKSWYvzIT+K6hji/0wubPXvwSnACMMUk6qZjTLFDncc4HnAY6jY2ffTcs0qEjYF8mOY0T+YzPAy4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787587817; c=relaxed/simple;
-	bh=WYp79WvhieUNZCmKVcztP08DuWzU2r2nD9piZtP2e4w=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FCB46C826
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 16:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787589095; cv=pass; b=VkzHh5365w/e935IpdoIb7mr1L2fwLCw5/2gUXBahwI3jtip5Z03+qJatLcTSIkAh5emNvvm0PW6e2C0I6ug0YGOZ4YUUelOjXZaSxJc1iiWnOOYiJGK+2AXyUVqzWTZVhh1BaRuTOovI0FiLTV30I72QXL4kT4dsA8ELis9m0w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787589095; c=relaxed/simple;
+	bh=roisqT8iKq+LRB/VLs0WzYDy3i23i29fG7pAUt2iNuM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UeNwngVHPPmN9YPxsDEtbVmfQxZn7a+PXwERXuaOY9U954CQy5MJeSUGaeRsEfm2V2NDobINnCjsTBWElpv1NN4JgB/THx7wPXNFfpE7ZHq8NDAPaV44IsNe7JEbpjltfGIrSRH2FsRik/DdlEww3fDHMi4CoIJmTcnFUTQRr2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYH5cA2K; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=emdbGrpdBs8uxFM4p4Ncs+CR3uL56Fq7ybcym9IQoOEKdvxrpyYi6wkvqiO58U4aGCtdzO+TBsNuEKeLAUMXVGH4ughvYWrZbcoqFZMZqDsRaf1TGeRdWG/kqw/7xjznk7VrEEMTi1Z2c74ARzs7SOlQPYkxqGLzEQ11oPT6XkQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MiWj5nDK; arc=pass smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYH5cA2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C19E1F00ACF
-	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 16:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787587816;
-	bh=9lfE4kJBZz3AqUd+UVhYQB7YyX6PkGx6pUwKpB5sKG0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=OYH5cA2KUwZwkSI+n9o41oNxtoiRF41uqnHCXK4h91qks1o6VL5i4zRSXoczX1BBm
-	 RXd0Fu186mGnoU0yjo+R/CChP0PWvn4ZV40wI6g4CSuDM9zIjHTKQnN3eJIPMOGLA5
-	 ivD3JES8/IKNdEVgh+v21SJL3PcorNGv6loS5cCOvCPUO7WQN4LWja4pcHqdCqBLvB
-	 7fLgD6g1GzYlPgY31RBLGg457nfJ6sDaZX0rucZGuXpp47+OgPnDxEmaa/naGgMECl
-	 zCEUjiwk+6kbAN+vfVm3TYaqsKE8zRM2w5Vm1Y8cXMxbE/MivibTh7lwlmSRx9aCvS
-	 Cg8cI8qhOiuJQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39fa5e3a428so445731fa.1
-        for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 09:10:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrNCb9hssYwx2lxIGy2uzg8IpbsJ66+HS7ZBik+IjNNFZMvAblThHEuKG4qa9bYTk5nwLONqN7dUsMOBg==@lists.linux.dev
-X-Gm-Message-State: AFuF++leC/m1zzMTE/D/Qt4rJ1ibGKwZWUruoPy6wRN79XvNinbqR2fO
-	R3TH/x1M4YsAG8s36YtOqEUlXatZL8ow9sbM+x0vUmxccrHmpuiyYjT6ILULa00yZmeQv6pwcKa
-	rpk2GwAnkOXDnNhWA7xdSbJnL0qFkK9w=
-X-Received: by 2002:a2e:bc82:0:b0:396:ade7:4153 with SMTP id
- 38308e7fff4ca-3a1ed6f4061mr640871fa.0.1787587814368; Mon, 24 Aug 2026
- 09:10:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MiWj5nDK"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d3b445a84fso171625ad.1
+        for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 09:31:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787589093; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mCGih95JFYtDEkScCm8FxJGn/TZ+rIj4XbZ34FWvp1ST1zdgPyi9LF81L/OJEG6rL9
+         XGdplOmWYdE7OhbEAtw0fFW8qBgrUGeWgygvhBo1d851r+F20FtWQEar33Ohl1wdl0Vk
+         yvdHTV7yswI/DcTRQ5ZW/GQ/N5dYvQJ92g/RW6WQN44FsE9IrWCPqoQTtQEhfn4cmbXT
+         EgP+mMRWUdjzyLKuqXToYlwhRkNM/ttfuNQ5dYRpqhUZuSiLQdDP6D6iam7Wwo5HoVvI
+         Iw9l2Hi967UC9y8BRQu6oMHuNSrdwB9FG5A051tEP5pV7ysU6WBh7uVE4vqHRptTe7+h
+         Mk/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=q6jDXnJz5bszG8pnLHnZK0KeQdaX8tcSfusG1JTMhO0=;
+        fh=2EZ2JUgh6c5SZ/qNKKR9vaa1ZJxOSdYYpjJZrn2KuxA=;
+        b=Zp5xu0NC7VYAXphUkLT0OXJS6fNSSfSUDpQKufvtieeZSMQvCK3XlSbmboXPKIj0GM
+         RBtggSNKN7f5XKMHLkL/eZp/37f7xKqCwwtIOOHob9de10HT27EpythnMBGlvJgl6Eym
+         8FPJs8SF1+V2JrVotyplA6zjhK4N58gTALUmdQpVl7UOG/Wayz+j67pww22bZi9dokze
+         gYanobuhebW8zk2ovLIpWBDu8ipej59rrqoPHdbUQkfzJF8CeeQiCcQLq0kCcmPfkj7j
+         UtVMvmcNXMUEH3DuqvrryAW11OE+Vu1e718TM0aUssitK7HwQq8DwXwspmCokui6rO+b
+         DVqg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787589093; x=1788193893; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=q6jDXnJz5bszG8pnLHnZK0KeQdaX8tcSfusG1JTMhO0=;
+        b=MiWj5nDK2fNgG+nHQo1YZx5lRyqVtxkSGj/oZ1NM2j4g/EzJlDCnZYaQphHcKzPnNN
+         4SpPANrLNgBtiH2IEDMDfcjOVfy98l5k3OF8pFEBOhDzC8M+vjpQ5OA0VJfMbjuJ44rJ
+         WRgHDUIojLftcwGGeiLS0uwh+gankI6LcK/KD2hTvPdER/rb6p+VpdnpFkuQSAHVV9ZC
+         dII7/1Lzg5BYiOvF/DBNtcwVzxYXt/9ogrrhUSH7fUrtXq15GAmGp3Iv+E9ZKzPBLHYe
+         dm66iQN0BqMCUBfAaH9Pk96f57aWmzPEMzpnkhAdgtLO0K5yWiCnj4tzoZlJXGuR4Dkv
+         9S+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787589093; x=1788193893;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q6jDXnJz5bszG8pnLHnZK0KeQdaX8tcSfusG1JTMhO0=;
+        b=gCU4wYIFOslupbXo9ha5jwHguttKw44sV89+lFxrImAqvNeAurrcgQfFT9RSCrWaEJ
+         qAksbPx4ptY1dqdjZKs+9QW3+dOPKg3N+xG0yAKf7AAzQQLwvy6q1cGrHgKYnJXB/rK8
+         Tb5d6+N22hKZ8KZMjvcs1gUaLqUWjh87t6kthSPEaQ2086QGqZvvtumILD67c3XLHWwR
+         YC/9N0bvFGGKJvdaPq/L8LNhriSfdqK+ZdJt/GT7GymmZL2ofPNT4AFt2BRvfV1D26Gi
+         B+MUkUwUun5rk7kuAY2VX0MuYDjbNndF1p5fosoKFivxou0lFwmW/2yBV+ERvIvDIUCH
+         ZEUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoRqIpvCMnIPjTCgCX1N5CrzJOzuhuCPazNJIX5cEjAs9wjD0UyfCtGWdpjbnzX6ELPIfJl+X7jiRalDg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mPgKsx2m/3FF+OgN6mTfwhpF1pJSXMTgGpzCk6w4Uy/81yG05+
+	fXqu4tLC74UOsxhsWhmmDWuUaj7VMx4yBQP2+uohAeoxBK0eEjL5NxJb6QJhxx+qO0EkTKQPvA5
+	kzajb0E0io/6x1hCObyP7gLXWwbXmkA0xfVHUnUArb+DDNFiGxm0ckw2Q214uRw==
+X-Gm-Gg: AR+sD10EJqFTGuVk54iRLPBKmLxQ5gECuGhigxse5vn1PO+9hojY1kO19Vr3NlDRjNe
+	3BGICW06T3rkt4lspfXbo2f/iVf+AEpPMpLKIfpMcxtbcedsCQNpMC4hXR5AKGupg7jliqBZX2w
+	UPQ4Ra0Nuf8DfKKxtMJ6d7xcPWr2Gj9Wyh56TJWmqZ2XbZZk9WnPQeWY8GoBJIxjk75BRPPztoJ
+	vzCtVXlyraC9aMvVzFZIyIk91jl76EcUKB/oYPWrXIRJqdI0fUr2y55emwr3/jJcFL5z9u55jSM
+	jYR86+UCUNUD0TWKb43ZbLvAPu0+gGpUXXmuklG0Ggdkiw==
+X-Received: by 2002:a17:903:3c4b:b0:2d5:db3d:1a45 with SMTP id
+ d9443c01a7336-2d66ffd7057mr11511785ad.18.1787589091990; Mon, 24 Aug 2026
+ 09:31:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811061530.21789-1-jkoolstra@xs4all.nl>
-In-Reply-To: <20260811061530.21789-1-jkoolstra@xs4all.nl>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 24 Aug 2026 18:09:33 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i0PQEMTOT6UqWO87jCdV539ns-KcP69n++eQsz_NG0zA@mail.gmail.com>
-X-Gm-Features: AcwNN1Vw_f3gJ9-ik0-5o_-rxbVsDApCxrOUXBD3-HgJUcrld_w14x51Y6yKZxY
-Message-ID: <CAJZ5v0i0PQEMTOT6UqWO87jCdV539ns-KcP69n++eQsz_NG0zA@mail.gmail.com>
-Subject: Re: [PATCH] thermal: change thermal_class to a const struct
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:THERMAL" <linux-pm@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	driver-core@lists.linux.dev
+References: <20260615234220.3946885-1-lrizzo@google.com> <20260824152932.1583506-1-lrizzo@google.com>
+ <20260824152932.1583506-3-lrizzo@google.com> <a826c7cb-5e77-4c21-a649-d40a9f0ef564@arm.com>
+In-Reply-To: <a826c7cb-5e77-4c21-a649-d40a9f0ef564@arm.com>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Mon, 24 Aug 2026 18:30:55 +0200
+X-Gm-Features: AcwNN1XmT87hJkoGkp9jcEKvjnY9kL9lu9ePxKQtYVAUZgS8n1wQenRujPZyI_4
+Message-ID: <CAMOZA0JstwiwoWFuFjpoC1W12ir2b=SrWPO9i9tto1rOksKGgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] swiotlb/mm: Implement SWIOTLB nocopy page allocator
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Willem de Bruijn <willemb@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Luigi Rizzo <rizzo.unipi@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, iommu@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 11, 2026 at 8:17=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl>=
+On Mon, Aug 24, 2026 at 6:06=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
  wrote:
 >
-> The class_create() call has been deprecated in favor of class_register()
-> as the driver core now allows for a struct class to be in read-only
-> memory. Change thermal_class to be a const struct class and drop the
-> class_create() call.
+> On 2026-08-24 4:29 pm, Luigi Rizzo wrote:
+> > Introduce swiotlb_alloc_pages() and swiotlb_free_pages() to allocate
+> > and release compound pages directly from the default SWIOTLB pool.
+>
+> Huh? The sole intended purpose of SWIOTLB is for bounce-buffering data
+> which already exists in some other memory that is unsuitable for DMA for
+> whatever reason. If you want to allocate directly from some kind of
+> pre-shared DMA page pool to avoid bounce-buffering, set up some kind of
+> pre-shared DMA page pool and allocate from that in a manner which can
+> avoid bouncing entirely (see DMA_ATTR_CC_SHARED). The idea of getting as
+> far as calling swiotlb_bounce() to then have a special case saying "haha
+> not really" seems entirely absurd. Don't hack stuff into the SWIOTLB
+> code which has no business being there.
 
-This has been deliberately changed the other way around not too long
-ago, in commit
+Ah I see DMA_ATTR_CC_SHARED did not exist when I implemented the
+swiotlb allocator. Cool, one less piece, it should be possible to replace
+this chunk witth the DMA_ATTR_CC_SHARED.
 
-34f54003643e thermal/core: Allocate the thermal class dynamically
+The other pieces are still relevant though ?
 
-and it was then argued that it would be better to allocate the class
-dynamically.
+- use these dma-able pages for page pool allocations (small)
+- [PATCH v2 3/5] net/swiotlb: Track bounce device per socket
+  or one would have to unconditionally allocate from that pool,
+  even for e.g. local sockets
+- divert socket allocations for eligible sockets to a DMA-able pool
 
-You seem to have a differing opinion.
-
-Is there any plan to remove class_create() from the kernel?  If there
-isn't, I'd rather stop this back-and-forth dance and leave the code
-as-is.
-
-> Compile tested only.
-
-That is, not tested.
-
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  drivers/thermal/thermal_core.c | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_cor=
-e.c
-> index 28a20d4b475c..36220113ca8e 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -889,7 +889,9 @@ static void thermal_unbind_cdev_from_trip(struct ther=
-mal_zone_device *tz,
->         kfree(pos);
->  }
->
-> -static struct class *thermal_class __ro_after_init;
-> +static const struct class thermal_class =3D {
-> +       .name   =3D "thermal"
-> +};
->
->  static inline
->  void print_bind_err_msg(struct thermal_zone_device *tz,
-> @@ -973,7 +975,7 @@ thermal_cooling_device_alloc(const char *type, const =
-struct thermal_cooling_devi
->             !ops->set_cur_state)
->                 return ERR_PTR(-EINVAL);
->
-> -       if (!thermal_class)
-> +       if (!class_is_registered(&thermal_class))
-
-Any chance to reduce the overhead of this check (in all places where
-it is done)?
-
->                 return ERR_PTR(-ENODEV);
->
->         cdev =3D kzalloc_obj(*cdev);
-> @@ -1010,7 +1012,7 @@ int thermal_cooling_device_add(struct thermal_cooli=
-ng_device *cdev, void *devdat
->         mutex_init(&cdev->lock);
->         INIT_LIST_HEAD(&cdev->thermal_instances);
->         cdev->updated =3D false;
-> -       cdev->device.class =3D thermal_class;
-> +       cdev->device.class =3D &thermal_class;
->         cdev->device.release =3D thermal_cdev_release;
->         device_initialize(&cdev->device);
->         cdev->devdata =3D devdata;
-> @@ -1447,7 +1449,7 @@ thermal_zone_device_register_with_trips(const char =
-*type,
->         if (polling_delay && passive_delay > polling_delay)
->                 return ERR_PTR(-EINVAL);
->
-> -       if (!thermal_class)
-> +       if (!class_is_registered(&thermal_class))
->                 return ERR_PTR(-ENODEV);
->
->         tz =3D kzalloc_flex(*tz, trips, num_trips);
-> @@ -1483,7 +1485,7 @@ thermal_zone_device_register_with_trips(const char =
-*type,
->         if (!tz->ops.critical)
->                 tz->ops.critical =3D thermal_zone_device_critical;
->
-> -       tz->device.class =3D thermal_class;
-> +       tz->device.class =3D &thermal_class;
->         tz->device.release =3D thermal_zone_device_release;
->         tz->devdata =3D devdata;
->         tz->num_trips =3D num_trips;
-> @@ -1745,7 +1747,7 @@ static void __thermal_pm_prepare(void)
->
->  void thermal_pm_prepare(void)
->  {
-> -       if (!thermal_class)
-> +       if (!class_is_registered(&thermal_class))
->                 return;
->
->         __thermal_pm_prepare();
-> @@ -1776,7 +1778,7 @@ void thermal_pm_complete(void)
->  {
->         struct thermal_zone_device *tz;
->
-> -       if (!thermal_class)
-> +       if (!class_is_registered(&thermal_class))
->                 return;
->
->         guard(mutex)(&thermal_list_lock);
-> @@ -1789,7 +1791,6 @@ void thermal_pm_complete(void)
->
->  static int __init thermal_init(void)
->  {
-> -       struct class *tc;
->         int result;
->
->         thermal_debug_init();
-> @@ -1808,13 +1809,10 @@ static int __init thermal_init(void)
->         if (result)
->                 goto unregister_governors;
->
-> -       tc =3D class_create("thermal");
-> -       if (IS_ERR(tc)) {
-> -               result =3D PTR_ERR(tc);
-> +       result =3D class_register(&thermal_class);
-> +       if (result)
->                 goto unregister_governors;
-> -       }
->
-> -       thermal_class =3D tc;
->         return 0;
->
->  unregister_governors:
-> --
+cheers
+Luigi
