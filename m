@@ -1,196 +1,422 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010061.outbound.protection.outlook.com [52.101.85.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B554B3EDE7A;
-	Mon, 24 Aug 2026 08:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A32223DD4
+	for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 09:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787561978; cv=fail; b=dGOp06yV92d1Xd5xEhurCOS/ZY5D7zYtddqxw/yQDilnI0QM6nxcEUe7sP52na/SzIc/r+yt856Rybqm3ocJd8DNC8pIz5eGdoXRpbB9qNppq8aAaXX7P0eueiU5Mu/y9tb4bo6M5t6YRTVl0/7P6t1TS+BdgNX0mVAxHSxNt98=
+	t=1787563283; cv=pass; b=GJeOMtmzKF61N26GcmLyHQo1DiHY1U5HyR3LcV+fwhtgz0f6mT5uc17nl1jWkOPoLJ+9YwTiL8T+aRb6jPcxh4iKFJRz1PpWE2Kko5DS7b6gsW1UOoHdse9TJkvMEXU8b20rN+qocUEHvFlubqA50Ay362TNtz+5K9qWKmRtqX0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787561978; c=relaxed/simple;
-	bh=biY3Jd89u5JzytoYlJyaD2Md0E7k3M6G2rGbHx8OXPE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eys1uHyvAjM3EPVW/v6cmwlXdLBHYvPCEPM4zCSkbJ1USOoVuzZKjc1eO9RfUJ9nns9XdzV0WSVhjTSBZ4IPBqN7IOQ8kJLpJgFKNO7t6ETSKqYSxgtjEn7odMUoaSgV1xiBFXOCaaxzGdxJdBnURK37acj4wW9vZSO7tcb9TLU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GFHreHO8; arc=fail smtp.client-ip=52.101.85.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1787563283; c=relaxed/simple;
+	bh=2WW8ByPwCe0PPq0I8XsUIFoHgdmeOx6fgoKKs7h6BQU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ktcGP0NRexDv6tkl63ps3NyX5Gxs/nZFfgGhxGsWOWajuvud++iyZpBXjG9OLItOzaLKvonV/0wFVlGXYK6dXLSG+Mj2zzmj0rPJgmf5I6RR196cfRRi+aarXXpKBWCzg7xRC4bAs/SkeBD5Wqxj0KJszd/zyX6Z1Trz9hv+4uA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LIurSPiW; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GFHreHO8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzeAnegkqzSJaSFZBAzpGRv6fbruO/JMHUOnt3zGQlxnKkeqtcTLHzyhKzGs868G6yHQcdfEA+zhyuEmqWtAxjAJQHJoga6RZ7HiNawqcM4Dhc9TEOpGJbhtDqZQj7ztU4yH6fPZleGp/dxdVBxAFgp00QjLqGs2wYTIx7KUZX4TRYJ/Qh2KnfqCj8a7v0wS8yEP3pRBxRxUFbbgXWOUHd/yTJTENIIllvBxlOj1cL6bA4ZsPD/76VLWyvHfHXtfQ66puDUBrPRwkpUUN+/TrUzYWAIi/xVKd1n2FomRvYVlYYwINdpszxP7eqV2hLq1jZEhgx7EbUislYrmEqFiIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xPEpNYwQnxN8HF6+IFuiUxFUZ0y5F6aFP/mGUW1MQ7c=;
- b=aikvevWEBaj3LVjhHo7o2Rew/+rGPtsweCLX3KPqtpP/j68slX9HcjrtSZz1+7+kYnqaKzRnjFGVESUIIMCp4/Cd2Xe4rBiGbe0pbmT4/opS3ZLAY5mnz7Nvcx7PTtkVhCMhzP0zsGRS6YQzyFAtck0X4OM74jnv5rMza0gg5Z3HCmyNGDkdn1m8Nwodc9yfLSzi6tjbwOxqoHIWqUGKSWPmsAOi1ZGf6DSRkog9nvDXIEpaIUU3bPSGYf/aNj+iAU6GxGx3HYaVlv7elJxwedVEJeKsEjseP4Pu93zoiu5VHdc2SHzbaXsVF8/7Gw/SOACsoyc/bj0PoCPsOgJScw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xPEpNYwQnxN8HF6+IFuiUxFUZ0y5F6aFP/mGUW1MQ7c=;
- b=GFHreHO8RNHeHvGUwCWGuoDQk1xGX5Ye04x7zy+VA3/sVqnpmFOYmvT8oTccES35Cfd0ghg7pJuUDHmn0PZjN68HItqiJQKZuiewtYP62IX+R0pFRghTL/6R9qvny6/rUIgSc6zLgFKZLWdg34RZSH2L1liCYLLpWB/kSm4PgSVzS2IC5/K0ZVqCwzh29iP8B7UQmlfUh+/YTyU+Xqvzzt7qjbBffVVsNJbFKu8flGQpqFdGoBVShR86WCHpmOHG41lKOZ7semaDojhC//xjU5HLbh1ZNSZ5Nm7ZqmhQ4rsmPYXosG/q4o97TEDy7Wk3lOXsPhZSbwDolBtfJR5QUw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8728.namprd12.prod.outlook.com (2603:10b6:610:171::12)
- by DM4PR12MB5963.namprd12.prod.outlook.com (2603:10b6:8:6a::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.12; Mon, 24 Aug 2026 08:59:28 +0000
-Received: from CH3PR12MB8728.namprd12.prod.outlook.com
- ([fe80::2641:1046:bdf3:93d7]) by CH3PR12MB8728.namprd12.prod.outlook.com
- ([fe80::2641:1046:bdf3:93d7%6]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
- 08:59:28 +0000
-Message-ID: <ac473a83-c77f-4a41-bc86-8a857d2d6e36@nvidia.com>
-Date: Mon, 24 Aug 2026 10:59:21 +0200
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
-To: Mostafa Saleh <smostafa@google.com>, Luigi Rizzo <lrizzo@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, rizzo.unipi@gmail.com,
- m.szyprowski@samsung.com, robin.murphy@arm.com, willemb@google.com,
- kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, gregkh@linuxfoundation.org, rafael@kernel.org,
- akpm@linux-foundation.org, david@kernel.org, netdev@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux.dev, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260615234220.3946885-1-lrizzo@google.com>
- <20260615172535.080cf94f@kernel.org>
- <CAMOZA0KAHKsvA9yRcdrjG13S+=rJhw-Cvnw2WdLjGGY0azG0kw@mail.gmail.com>
- <ajEuUZMgS_NRmDcp@google.com>
-Content-Language: en-US
-From: Dragos Tatulea <dtatulea@nvidia.com>
-In-Reply-To: <ajEuUZMgS_NRmDcp@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0023.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f1::15) To CH3PR12MB8728.namprd12.prod.outlook.com
- (2603:10b6:610:171::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LIurSPiW"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-526f963372aso22499141cf.1
+        for <driver-core@lists.linux.dev>; Mon, 24 Aug 2026 02:21:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787563275; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jazsB8Pt3OxdliWibyfH1ivSiNVJdVq6Gtd15IBI7ZFoZ7XU+FxoErYsRsPkxDI32Y
+         Or+daA75FM4vxjnIvhiBbSICQ/jIYy0aDpL3sNhQfoMJvEMkFHOJTLqr+87cOC1+Br3U
+         fcrl78N5oaEyAywKblmsvbWKogBAcKSOZzpnO/Ym14kTJeACAXHjpD06Nzy07wG066U3
+         trlUhYPXeWS/yvVUo6iegEG+i4gIGUzozkZkqGfQmIi3yXZM6IhHj2DWF8L3Uzl0bcNR
+         cAcZ2muJgrSApa4Bs3gRsjQrUHlqxn9jGEI8+0ztpMUDMoSrAu02oesh6H6bHeq81NK5
+         7BqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s2dhbwUU2Acnt8iDl/i5Fl7McccZzULDySa0x9EcInY=;
+        fh=pDTyjOHn0Fx7tgiwGZENbYcoOOYiEEqIEJBWyy3AClI=;
+        b=iClybU8tpwv6MyDx7e6EiW9TVXolYgDCUMilQ3GkzWEMM6EmbTPikYuMSJeJxHAIT9
+         KJbOg04Nx4KkE4hV7agvr5cFkvPkzHRAaYMpdgm0QzVUscdjMS7Biiq49mJmAYCriaL4
+         PMG4Tzs7PNMUBixwd7R+xUJRlSAMx8QZZMwoZtwFcHFRkgl8tiE0bGYL+scBMGkgy4ce
+         Kc/YtADg+nRBcND2ti2fhCml/lK0RToX70MyX/F8ae+iVZ/frwaImYuZ0nsFXthtK1xK
+         d3JGQ0FhS3r+jd8XT1Ids86Mm1x1FNQKzNjf7F+abu/pzJGGUtn9rLNZ42uGe/A+Y4vP
+         N98Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787563275; x=1788168075; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s2dhbwUU2Acnt8iDl/i5Fl7McccZzULDySa0x9EcInY=;
+        b=LIurSPiWfSKnOuxt3UwMnzDCk4V4q1XJJa0u7YrU1W5S8E1mHXz877AKl5ReM29i4Y
+         NwP1pcypa2lKl7tXqaN21YkPOmnyprbwIkVd42g6wPRt2N44AeeFh8o/kB8zhBb4aSzM
+         lhFkCaVVYzVU7l3cM0M9bEX5o1E7XPf8PzIh69oofCRRtO0XuzMpWv0TdwaGJ4o57/wo
+         5WoBqbTRsuPynbIyvQiVSQjMTJfHojtaRR87YCI4GLZn+4fvWdwxCB2yx4ktmGO2YxPe
+         pHande75THTuBGflqBIwCQXKcjI10nH2mhQXZNEYXJ+bWPv5Z/EJBRIXSmhMvY2D8cl3
+         PxMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787563275; x=1788168075;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s2dhbwUU2Acnt8iDl/i5Fl7McccZzULDySa0x9EcInY=;
+        b=OQ7ZThwugVUDlYTvp8a41QTF+jwhsNoHdYvQ5DKtqoj8/tc1rngX51XsGs9k8P0SjF
+         0PY1P9GAy2Iz3jkBbj/azaSuGwPKL18Vu6hRc4OAqvYSle5ltWOeXzycG3QXlxF5cNs8
+         1vJr8s1E+1frZBKot/5vxtSFJAovqaRu4TpHgTc+C7MNrF36x9vNA5pcLK/f/gValPDH
+         3K3/wCwW04niPE7q1dF5gSnWXiy3NY8mZaD0Aksq9aweRjAUmC38+FVg4xYQX1walmv3
+         GIjAgoNajGsgELTXxYj69drdWMbJOxpoX7AiThFok+boAQExZaXrHFyCKNgVXu0tFG2l
+         Il+A==
+X-Forwarded-Encrypted: i=1; AHgh+Rpq0wMGLS6bwhLKIhASDF920eAjNkp1bsZ0iv+tltEWPfG3giWRfK1JkQotCq3sz+2ByMfZMKikRw5VVQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++n24csnxAus200WZsGpXO37PccxJoP2GpUBiIgZU9bnVBN9LAJZ
+	1hYKRvHmthAuS8QtT42qQS/qW3W0ke4WqviCRbKBgnxbEB4PM4HVxvxW1OqYetFxQYHYBFoLYzl
+	bQ4M5ZQWqW8G3rR6Q/qFKssMxs8S1xLY=
+X-Gm-Gg: AR+sD13gki8GOXvQyb4dATF37brtBll4YK4w3hcVm0igbW2m4Fd4wtLjFnl2zYaBaJg
+	arFr+hXgjNgq8aTluGcmZfdJwEFIGxwLZD2DLOmzvSlYYUMW26IVJ2QTHZf5Bfjs0PkiOFRnWzw
+	0/dGpyvOwVvWNhtHc2WIJYM97rL6FAJXzkoVofK+oR0j56Wx3Jcy7Z/kYFlMMMA6Xy6minyt/rR
+	2g2Q0d+7SYZUrnCWpvJgzZ0Rq260yLxywpS8hZCAGTmm3GSHAzW/X86ZxhyakGP3Cke4iXUY1Oq
+	a/D9Aj3ua0atHnc/FJCUK/LJDWKAxPMJXQPDR9F2oJ1ExlbhTtOhE2iHMw==
+X-Received: by 2002:a05:622a:1cc7:b0:51a:896c:9ab0 with SMTP id
+ d75a77b69052e-52e09b9c641mr167385421cf.10.1787563275220; Mon, 24 Aug 2026
+ 02:21:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8728:EE_|DM4PR12MB5963:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82d2c0e8-e66b-40c1-01e3-08df01be00ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|10067099003|22082099003|18002099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	m+6mXDsx1UNSgbgdtXYOc3ilXKI4SHa/1M4cxDCnAtK/YoYSnmhsO1TUH7COi7U183MerbU+SlJrE7sRJ4oAYwQwIPNC9nKF1oQmd87vGNLBaLuDvVx+iBSF7dPbquT+w0d7QaBPQ2MCRrWipIQNMhqA5WhqSu49IXo/JKnlIxOZb16RXOXG2IPzT3UnrpBPqIn3PDnzobokP6rVAKm3AEQ3Wg13jpoPEddnj9TB7xUEBY0NU9IMjiM2QDb4TO/y5KfKOL2Evnp2PqGl+r4A3j3qE889kCkv8Hhf2X5/UFbgmk56gJN/qNxsBf18XjmTpiIjd+6Do3D5V0YpPEr+n8gI5urTkebmNlPITZhumvPbZoCL/HMz5HRecU3hPaKHSLI/a8FqNMOv/LX7aeSMofIF8MRjbRw1zUbtCUoBS5RKbuHgPli26U+ipoMijohkaopooso8PCKGlwwzHd8+cHiuabxWQHZ0nuQ4bONY6Gn1BXj94eqNO2rQDtNgfpyypDXYR+Nylwaj3VfOrkg3wbOkaCH5EBkFQCrqMzyorT8d++BhbRmHTNXS/90fFGR9QZWCiK4tK/bKwPeAYNTL+9Ssof90X9igwr0ASKlMbCH5nRO9gBecaHvUS1LdzdMa5pRgp526qvs6uJgCtKoMrRirruM7k5B/oHTHThDvNd0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8728.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NDNML0x2Z0pZbzNSSStqbnhJMnk5bC9tU29NSzYyRWxSMWVYaHhEUElyTWRz?=
- =?utf-8?B?ZW9xcHZkNXJ3ZjYrdWozMVRGQ1pnLzNmWU9EMTFrZVhQcGxjU1Y0RWRrTk5C?=
- =?utf-8?B?V005aGRkaXNoMzdFRmhzU2QreTNjM0R1RzlITy9tUDVCQUROSlJxaUdWRmo3?=
- =?utf-8?B?d1lIM0ZJWmQzOGtCd3lycFlpTktHVTJ0THZPTmpQU2Y1dHFKbUdYQkk4allr?=
- =?utf-8?B?bmVpckJDQzBjZDZkb0lhdFV5R1JQaUkyc1pRWXJ1RW93VDFBVVhHK01XdVpy?=
- =?utf-8?B?YjVHUHd2V1lOM0R1c0tGS3JTaW04Z3hBZWxRZlM2bm1lTXBHM3dETVlUa3Vu?=
- =?utf-8?B?NXNaUmtRRy8xdXZEZCtIQmQ1aFVhK2x1N2ZlZTJDZFhYY1JWTWVBdXBMZ0xH?=
- =?utf-8?B?Vnh5QTkwWHk1UjFpY05HVEtjaDJkd2tMdmtEdElENWRkZjhlUVhCeGRyR1li?=
- =?utf-8?B?NXYyOHFIUGo1ZEFKalY5dVZGSitpN0NQeXBvUU00L0gwWHp1WlZZMlpjaXdM?=
- =?utf-8?B?Yk10dldmTi9MNzBadjhRVkxPVUMyT3F4MkExbUF3QzY3OEFPU0hQdTU0bzhZ?=
- =?utf-8?B?U1FnNWJZTVhLNmFnQ0hKODArV2c2MUNRSURwb2tXZGJjOExoUTFYNFNZVmRB?=
- =?utf-8?B?UlJpVnV6WTNsdFlXeTFISnQ2WFdZOGVJWmRPcEJ6dUdpaGFCckVPcG03eEFw?=
- =?utf-8?B?N0hUVjVnNXdCc25VUXVlVWF1ZTBBNWR2cnRwN2JQYXFGS2k1Qkw1TzdHM1B0?=
- =?utf-8?B?QUZqN29QOXRlam9nSzVvRWlFc2EvK0gxS0FRU1VVME9HdG9GKzh0eVpTMUY5?=
- =?utf-8?B?a01yNmllOEIrb0liRlVMN0w2K1BJejlPL1RmcmRqSk5kNVEyZXBiTHQ5Mk9L?=
- =?utf-8?B?SG90U1lNdmw5ZTJsZW50ek9MRHdITFVTQTNjQkMwUys5SEtBQkVpMForNDha?=
- =?utf-8?B?TW04ZGFCbGt2TFYrWkozUm5CWFl5bFJzcXZ3Q2IyWlF6UzFhbzBDcFhlVHVo?=
- =?utf-8?B?WCtRVVdweEFxa1o4eEErN2pKc1duMUcvTGVLWlB1ZjdKN3ltenN5MVFZTEUz?=
- =?utf-8?B?Y1lQdVI3dW5TNFlXNEpjUVJxLzhGT3QwK0VVcWJKTU9VNHVWRy9LQ3BQRDgz?=
- =?utf-8?B?Ykw3R2s0V2NiTHUzdDMzdEpsdXBaTjd0NDdlREYrZ3BwZm5INFBrWUtNMDdB?=
- =?utf-8?B?WktzdXlrREZHQzNzeCtoeitkK2FsVFZMcUJldG9CU0xEK2JOV0VCTUR5UVlo?=
- =?utf-8?B?MTZWM3VPbXgzMFQwUGhDVUFyOGdvYmlNMDQyUm5tUUh5U053VFdzUjRyakJJ?=
- =?utf-8?B?UW9ZOXBvdEZvaTU3YWVIRUZnVy8zVEZXdUFyWk1SV0VBMVRNRXljNVhtaG5W?=
- =?utf-8?B?R3ZaV3ZTNFpkM01DY0doaE5sc0ZVTkVWcGRZOWVOZUJGTnpnd01sSUpmN1F4?=
- =?utf-8?B?RVd3ZkgwZk1obnljZTVWdGZ2Y2hNYUlRNUFhai82aWxVd3ZqZzR5MnhtbGRu?=
- =?utf-8?B?ZFJZVzNPOW5PUUdBUTZOelNOS0UyWUdwSHUvUFByRm5BSEp3ZGU4M0cvK2Rs?=
- =?utf-8?B?VW93VTEvbk1nZG84enFUa3VNQ3lLQytFQjRhd2hXcC9GMFB6aW9xV3l5YzNM?=
- =?utf-8?B?Z0I1bFVnbGoxT0kvdW16Y1NmR2EzaEVRNjZyT2JvQWd6ZEordEdaaGtyV0U2?=
- =?utf-8?B?dTF5eUxlemJObHJ2UU1ldFhWdFRwNXFNazk0aVNqSlJlSzRqbSt6SzI3bm9v?=
- =?utf-8?B?cUlMTGh4MDcwb3pKVW9ZQnNPRU5aZnVvL0hOdEVVUWc4RUVkYldnVmQwTVlw?=
- =?utf-8?B?Vm9oSG5JUSsxWDhidjVMOVVtL0dZSy94Ky9JMzZodG1Ya2htVXBQN25RaXpD?=
- =?utf-8?B?RW1wWW9SK2o4Y3JsWm1Fa3Zxb1M2b0JWSlFUSzlTaXRDVVVNNWphd2wydy9Q?=
- =?utf-8?B?TXZ2emlDUU9uNm1iWk9PVGZWYmN3T2VSK1NNWjNoOGxUR2NwN09sc0hzdmRv?=
- =?utf-8?B?K2M1VWlUTFdmcDJQM1pkQlZCUlowaUNEb2tTNlhBdENZQVQxRW5FZndWZHRw?=
- =?utf-8?B?ZXhicXNwci9vV3hYc1ZXZWR5Yy9jbDdJRjdyRlpBaTBGR05nY3pyS1ZlWmpE?=
- =?utf-8?B?Mmg2a1lIa09uR09Hd3hna2h1cHhkQkdzdFhublpVNG9veG1vcFdQYkVwZ1Vp?=
- =?utf-8?B?TlBKV29iRW5QZ1Z5a2NPL3hEN1NFWHVnMkh2aGhZVWJvQStwR0FtN2ZRRExt?=
- =?utf-8?B?clBlbUNjTGpiS3FtYWxzZ2pFU3pRb1QrOVlwV2hmQ3llSUlNblA3aXdmMmRu?=
- =?utf-8?B?R1pCM3BWYk11TTFpL1gzWUtWWDdhd0FyaDFFV2ZyTFl3dGRtUWM4dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82d2c0e8-e66b-40c1-01e3-08df01be00ae
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8728.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 08:59:27.8848
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zlzcQabuMvaj8wr/heSkooWEGHoFCt3kOvsHsd177Z+zE3zIEbgFzAj0youpMDpTiTn/KrYGEMZ3KW+t797v9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5963
+References: <20260811072830.10028-1-seanwang1@lenovo.com> <anrzT-ez3b7uYaCt@arm.com>
+ <SI2PR03MB6688D1DC0796AC6F6A373C2E93DC2@SI2PR03MB6688.apcprd03.prod.outlook.com>
+ <anxSsfvpZHHsVnp_@arm.com> <aoX_jiuhv3dyMS-g@arm.com>
+In-Reply-To: <aoX_jiuhv3dyMS-g@arm.com>
+From: Xuewen Yan <xuewen.yan94@gmail.com>
+Date: Mon, 24 Aug 2026 17:21:03 +0800
+X-Gm-Features: AcwNN1WASJD0Uyy8E8St9ZJzbOmEzEbrEYrP-LIm_bk-HpFm5Pmi7KhDCWL_9SI
+Message-ID: <CAB8ipk_4Zbhb=azTDGQEQ1S=n2Zhzvqs7pYr6ZfOOWL8meE_4Q@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v3] arm64: topology: add source check in arch_cpu_idle_enter()
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: Sean Wang1 <seanwang1@lenovo.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "rafael@kernel.org" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lifeng Zheng <zhenglifeng1@huawei.com>, 
+	Xuewen Yan <xuewen.yan@unisoc.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Sumit Gupta <sumitg@nvidia.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Aug 20, 2026 at 3:11=E2=80=AFAM Beata Michalska <beata.michalska@ar=
+m.com> wrote:
+>
+> On Wed, Aug 12, 2026 at 01:02:37PM +0200, Beata Michalska wrote:
+> > On Wed, Aug 12, 2026 at 07:34:52AM +0000, Sean Wang1 wrote:
+> > > On Tus, Aug 11, 2026 at 06:03PM, Beata Michalska wrote:
+> > >
+> > > > > --- a/arch/arm64/kernel/topology.c
+> > > > > +++ b/arch/arm64/kernel/topology.c
+> > > > > @@ -175,7 +175,8 @@ void arch_cpu_idle_enter(void)
+> > > > >
+> > > > >         /* Kick in AMU update but only if one has not happened al=
+ready */
+> > > > >         if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+> > > > > -
+> > > > time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, c=
+pu)))
+> > > > > +
+> > > > time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, c=
+pu))
+> > > > &&
+> > > > > +           topology_is_scale_freq_source(SCALE_FREQ_SOURCE_ARCH,=
+ cpu))
+> > > > >                 amu_scale_freq_tick();
+> > > > I'm not entirely convinced you gained a lot by that.
+> > > > It's one additional check per each enter_idle for case where AMUs a=
+re the
+> > > > source vs 2 additional check when it is not.
+> > > > Will try to figure out smth less 'invasive'.
+> > > >
+> > >
+> > > First, I think that the rcu_read_lock_sched()/unlock() in
+> > > topology_is_scale_freq_source() is unnecessary. arch_cpu_idle_enter()
+> > > is called from do_idle() after local_irq_disable() at
+> > > kernel/sched/idle.c:340, which satisfies the rcu_sched grace period
+> > > requirement. This means we can call rcu_dereference_sched() directly
+> > > without explicit RCU lock.
+> > In this particular case RCU locking is not required, though you are exp=
+osing
+> > an API that might be used in other curcumstances, so the least we could=
+ do is
+> > document that.
+> > >
+> > > I have two options to propose:
+> > >
+> > > Option A: Keep the helper, but drop the explicit RCU lock
+> > >
+> > >     bool topology_is_scale_freq_source(enum scale_freq_source source,
+> > >                                        unsigned int cpu)
+> > >     {
+> > >         struct scale_freq_data *sfd;
+> > >         sfd =3D rcu_dereference_sched(*per_cpu_ptr(&sft_data, cpu));
+> > >         return sfd && sfd->source =3D=3D source;
+> > >     }
+> > >
+> > > Option B: Drop the helper entirely, check directly in arch_cpu_idle_e=
+nter()
+> > > If a generic exported helper feels too invasive, we can do the
+> > > check locally within arch_cpu_idle_enter() without touching
+> > > drivers/base/arch_topology.c at all:
+> > >
+> > >     if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
+> > >         time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_upd=
+ate, cpu))) {
+> > >         struct scale_freq_data *sfd;
+> > >         sfd =3D rcu_dereference_sched(*this_cpu_ptr(&sft_data));
+> > >         if (sfd && sfd->source =3D=3D SCALE_FREQ_SOURCE_ARCH)
+> > >             amu_scale_freq_tick();
+> > >     }
+> > >
+> > > This keeps the change entirely in arm64 code and avoids adding
+> > > a new exported symbol. Which approach would you prefer?
+> > I do not mind this additional helper. Besides, not my place to either m=
+ind it
+> > or not.
+> > What I do mind is doing the check in the arch idle enter path. I would =
+rather
+> > see some notification triggered when the source gets changed so that
+> > the previous sfd code can do some state transition that would avoid us =
+having
+> > to run the check in the first place.
+> > Still pondering on that one.
+> > Preferably I would drop that 'tick' call from there completely, but app=
+arently
+> > this was needed on some platforms to make AMU readings more reliable.
+>
+> How about smth between the lines of:
+>
+> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+> index b32f13358fbb1..aff33836488c8 100644
+> --- a/arch/arm64/kernel/topology.c
+> +++ b/arch/arm64/kernel/topology.c
+> @@ -250,6 +250,22 @@ int arch_freq_get_on_cpu(int cpu)
+>         return freq;
+>  }
+>
+> +static int amu_fie_source_notifier(struct notifier_block *nb,
+> +                                  unsigned long event,
+> +                                  void *data)
+> +{
+> +       const struct cpumask *cpus =3D data;
+> +
+> +       if (event =3D=3D SCALE_FREQ_SOURCE_ARCH)
+> +               cpumask_andnot(amu_fie_cpus, amu_fie_cpus, cpus);
 
+Should we distinguish between events?
 
-On 16.06.26 13:06, Mostafa Saleh wrote:
-> On Tue, Jun 16, 2026 at 02:33:52AM +0200, Luigi Rizzo wrote:
->> On Tue, Jun 16, 2026 at 2:25 AM Jakub Kicinski <kuba@kernel.org> wrote:
->>>
->>> On Mon, 15 Jun 2026 23:42:20 +0000 Luigi Rizzo wrote:
->>>> The use of swiotlb causes an extra data copy on I/O.  For tx sockets,
->>>> especially with greedy senders, this has a high chance of happening in
->>>> the softirq handler for tx network interrupts, creating a significant
->>>> performance bottleneck.
->>>
->>> What's the use case? I associate swiotlb with debug / testing mostly,
->>> so it'd be useful for people like me to explain why you care.
->>
->> Ah sorry, I forgot to mention.
->> swiotlb is used in guest kernels for confidential computing VMs.
->> Ordinary memory pages are encrypted and the host or devices
->> have no way to decrypt them, so the kernel must use
->> unencrypted bounce buffers to exchange data with I/O devices.
-> 
-> I started looking into the same problem recently, to reduce the
-> bouncing in protected KVM (pKVM) confidential guests.
-> My first attempt was to update dma_direct_map_phys() to skip
-> bouncing and do inline memory decryption (for pKVM that is a hypercall
-> which updates the stage-2 page tables), however, that was really slow
-> compared to the memcpy in bouncing even for massive pages.
-> My conclusion was similar that we need to solve this at construction
-> by making this memory allocated from a pre-decrypted pool (which
-> does not have to be part of the SWIOTLB)
-> My initial idea was to teach some of the kernel subsystems (SKB,
-> BLK, SLAB) about "CoCo allocators" that allocate decrypted memory,
-> as this is not a net specific problem.
-> 
-An example of this is Jiri's system_cc_shared heap which is a dma-buf
-heap with decrypted memory for userspace.
+> +
+> +       return NOTIFY_OK;
+> +}
+> +
+> +static struct notifier_block amu_fie_nb =3D {
+> +       .notifier_call =3D amu_fie_source_notifier,
+> +};
+> +
+>  static void amu_fie_setup(const struct cpumask *cpus)
+>  {
+>         int cpu;
+> @@ -274,6 +290,8 @@ static void amu_fie_setup(const struct cpumask *cpus)
+>
+>         topology_set_scale_freq_source(&amu_sfd, cpus);
+>
+> +       if (cpumask_weight(cpus) =3D=3D cpumask_weight(amu_fie_cpus))
+> +               topology_register_scale_freq_source_notifier(&amu_fie_nb)=
+;
+>         pr_debug("CPUs[%*pbl]: counters will be used for FIE.",
+>                  cpumask_pr_args(cpus));
+>  }
+> @@ -339,9 +357,9 @@ static int cpuhp_topology_online(unsigned int cpu)
+>         }
+>
+>         cpumask_set_cpu(cpu, amu_fie_cpus);
+> -
+>         topology_set_scale_freq_source(&amu_sfd, cpumask_of(cpu));
+> -
+> +       if (cpumask_weight(amu_fie_cpus) =3D=3D 1)
+> +               topology_register_scale_freq_source_notifier(&amu_fie_nb)=
+;
+>         pr_debug("CPU[%u]: counter will be used for FIE.", cpu);
+>
+>         return 0;
+> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+> index 8c5e47c28d9a3..096430a99ee00 100644
+> --- a/drivers/base/arch_topology.c
+> +++ b/drivers/base/arch_topology.c
+> @@ -22,11 +22,14 @@
+>  #include <linux/rcupdate.h>
+>  #include <linux/sched.h>
+>  #include <linux/units.h>
+> +#include <linux/notifier.h>
+>
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/hw_pressure.h>
+>
+>  static DEFINE_PER_CPU(struct scale_freq_data __rcu *, sft_data);
+> +static struct blocking_notifier_head scale_freq_source_change =3D
+> +       BLOCKING_NOTIFIER_INIT(scale_freq_source_change);
+>  static struct cpumask scale_freq_counters_mask;
+>  static bool scale_freq_invariant;
+>  DEFINE_PER_CPU(unsigned long, capacity_freq_ref) =3D 0;
+> @@ -67,6 +70,18 @@ static void update_scale_freq_invariant(bool status)
+>         }
+>  }
+>
+> +int topology_register_scale_freq_source_notifier(struct notifier_block *=
+nb)
+> +{
+> +       return blocking_notifier_chain_register(&scale_freq_source_change=
+, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(topology_register_scale_freq_source_notifier);
+> +
+> +int topology_unregister_scale_freq_source_notifier(struct notifier_block=
+ *nb)
+> +{
+> +       return blocking_notifier_chain_unregister(&scale_freq_source_chan=
+ge, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(topology_unregister_scale_freq_source_notifier);
+> +
+>  void topology_set_scale_freq_source(struct scale_freq_data *data,
+>                                     const struct cpumask *cpus)
+>  {
+> @@ -95,6 +110,7 @@ void topology_set_scale_freq_source(struct scale_freq_=
+data *data,
+>         rcu_read_unlock();
+>
+>         update_scale_freq_invariant(true);
+> +
+>  }
+>  EXPORT_SYMBOL_GPL(topology_set_scale_freq_source);
+>
+> @@ -102,8 +118,11 @@ void topology_clear_scale_freq_source(enum scale_fre=
+q_source source,
+>                                       const struct cpumask *cpus)
+>  {
+>         struct scale_freq_data *sfd;
+> +       cpumask_var_t cleared_mask __free(free_cpumask_var) =3D CPUMASK_V=
+AR_NULL;
+>         int cpu;
+>
+> +       zalloc_cpumask_var(&cleared_mask, GFP_KERNEL);
+> +
+>         rcu_read_lock();
+>
+>         for_each_cpu(cpu, cpus) {
+> @@ -112,6 +131,8 @@ void topology_clear_scale_freq_source(enum scale_freq=
+_source source,
+>                 if (sfd && sfd->source =3D=3D source) {
+>                         rcu_assign_pointer(per_cpu(sft_data, cpu), NULL);
+>                         cpumask_clear_cpu(cpu, &scale_freq_counters_mask)=
+;
+> +                       if (cpumask_available(cleared_mask))
+> +                               cpumask_set_cpu(cpu, cleared_mask);
+>                 }
+>         }
+>
+> @@ -124,6 +145,10 @@ void topology_clear_scale_freq_source(enum scale_fre=
+q_source source,
+>         synchronize_rcu();
+>
+>         update_scale_freq_invariant(false);
+> +
+> +       if (cpumask_available(cleared_mask))
+> +               blocking_notifier_call_chain(&scale_freq_source_change, s=
+ource,
+> +                                            cleared_mask);
+>  }
+>  EXPORT_SYMBOL_GPL(topology_clear_scale_freq_source);
+>
+> diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.=
+h
+> index ebd7f8935f969..4c31fd6dff0ef 100644
+> --- a/include/linux/arch_topology.h
+> +++ b/include/linux/arch_topology.h
+> @@ -48,6 +48,8 @@ struct scale_freq_data {
+>  void topology_scale_freq_tick(void);
+>  void topology_set_scale_freq_source(struct scale_freq_data *data, const =
+struct cpumask *cpus);
+>  void topology_clear_scale_freq_source(enum scale_freq_source source, con=
+st struct cpumask *cpus);
+> +int topology_register_scale_freq_source_notifier(struct notifier_block *=
+nb);
+> +int topology_unregister_scale_freq_source_notifier(struct notifier_block=
+ *nb);
+>
+>  DECLARE_PER_CPU(unsigned long, hw_pressure);
+>
+>
+> ---
+>
+> This is just a rough idea, and needs ironing out the wrinkles, which are =
+there,
+> but that allows leaving the idle enter as is. I also believe this is the =
+right
+> approach for the interface itself, although I also see some drawbacks and
+> potential issues (in its current state), especially that the functionalit=
+y is
+> being exposed to modules.
+> Nevertheless, those are my two cents, untested, just sketched.
 
-> I am still looking into this, I was planning to bring this up in the
-> upcoming LPC.
-> I will give this patch a try. However, I believe that we need a more
-> generalised concept for CoCo pre-decrypted allocators in the kernel.
-> 
-There is a talk at LPC in the networking track about this [2]. This is
-exactly the type of discussion that I was hoping to have there.
+As an aside, could we verify the functionality of the AMU's
+SYS_AMEVCNTR0_CONST_EL0 in the current CPU before enabling amu_file?
+To my knowledge, many chips currently have inaccurate errata in this counte=
+r.
+Alternatively, could we introduce a command line that allows users to
+dynamically disable this feature?
 
-Besides the issues mentioned in this thread we've also found that a lot
-of overhead can come only from swiotlb allocations when running many queues.
-
-I will add information about this series in my talk. Hopefully I will also
-have time to add some numbers for comparison.
-
-Sorry for the late reply but I spotted this thread only now by
-accident.
-
-[1] https://lore.kernel.org/all/20260325192352.437608-3-jiri@resnulli.us/
-[2] https://lpc.events/event/20/contributions/2464
-
-Thanks,
-Dragos
+Thanks!
+>
+> ---
+> BR
+> Beata
+> >
+> > >
+> > > > Aside: I should have probably asked that earlier, but I am not sure=
+ I do fully
+> > > > understand the case we are trying to fix here.
+> > > > The topology_set_scale_freq_source prefers arch source to others. S=
+o if the
+> > > > AMUs were chosen to server as the source for the freq scale - I do =
+not see
+> > > > why the sfd would be changed. That would require calling sequence c=
+lear-set
+> > > > to get a different source in place. I do understand the issue itsel=
+f, though how
+> > > > did we end up there in the first place ?
+> > >
+> > > The issue arises when topology_clear_scale_freq_source() is called
+> > > with SCALE_FREQ_SOURCE_ARCH to explicitly disable AMU-based frequency
+> > > scaling. This API is exported (EXPORT_SYMBOL_GPL), so it is designed
+> > > to be used by modules or subsystems that need to replace the frequenc=
+y
+> > > invariance mechanism at runtime.
+> > >
+> > So this is the bit I was missing: external module that does the switch
+> > willingly giving up on arch provided freq scale source.
+> > The rest is clear. Thanks.
+> >
+> > ---
+> > BR
+> > Beata
+> >
+> > > After clearing, the tick path (topology_scale_freq_tick()) correctly
+> > > skips the AMU update because sft_data is set to NULL. However, the
+> > > idle path (arch_cpu_idle_enter()) bypasses this check by calling
+> > > amu_scale_freq_tick() directly, so arch_freq_scale still gets
+> > > modified by AMU counters.
+> > >
+> > > This creates an inconsistency: the tick path respects
+> > > topology_clear_scale_freq_source() but the idle path does not.
+> > >
+> > > The goal of this patch is to make the idle path consistent with
+> > > the tick path, ensuring that topology_clear_scale_freq_source()
+> > > fully disables AMU updates across all paths.
+>
