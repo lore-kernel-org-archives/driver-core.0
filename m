@@ -1,37 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDB21ACED5
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 06:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A87431E859
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 07:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787640519; cv=none; b=WfxKnfOxk1e2MLDwjYVHU8c2mar8jg1+Hsg8lwSbUQ/u+C/kU28bY9dwItIC6Uh8/t/mYIQhl/KGaXKx9MAQmyxOZqFmcuYzZyWOlvjthqRZAJ6/gXk7eWVYQ+R1Us4bfYD2/DXH5YKiJq5siwtH+bdSroDQgGfyQlAy5qf1RIk=
+	t=1787641411; cv=none; b=M7VMSk9Jl3+xFaAyJZK+AMne5t81YnxcJTacBOsApjI837g4o62ous6wozXZCJk7nyzZBt8EwQN48w4GYBWr2+hqFztQ7HSbDqp1EeVwrmOfzBneWelWKI2/wXFU6+eRMC+lWZ3v0Ki6EVP4mlXBUB4TJL5gI7TyEpZvLm7aaxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787640519; c=relaxed/simple;
-	bh=ImT2VGKXlqkb5IruzmwBz7J2AuPqSBwLx9h8OJV/OYM=;
+	s=arc-20240116; t=1787641411; c=relaxed/simple;
+	bh=LOf+RtJBXhs6s/eIJdx9ZRDZnUklk3vYSZNk0xKtRkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c0xMU9pw9bZw0ijxmwPMikBuvlM9axufrake/PHiX5Dnf7JyVgQtHTzDGEnGMWEnRbdgwLayFlMtpPa3+QVP90OxAG4T9tRII5eF+2D2uNEJvHfw3J1LBXapaew/Zxan7CPOB5mWHxicXUy4sNbqAMNFPV7jdUNh4L/siIAP3JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=o8h/szgE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=lk4JouoFUoaYAQ6GCSBhH+b5xmejzLfH25nSKCtfxMpV0zNQ61J5evpZKjIEYYNedUCWt3/rfFLovmNuazjuqKLOfxYwYiP/GVy/wSjeVqpIihoWhiCgoS8vqkIyltQhjs65GPEJ/Pw079tS58JvubG20MvpGejYHYs50D4akzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/gXuHoS; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o8h/szgE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190CD1F000E9;
-	Tue, 25 Aug 2026 06:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787640516;
-	bh=XJ/Dx77QZsZBDnWdPca/egfP8Ey4QT1e9VV2VO93w/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=o8h/szgEf2xTGh029pn49qWgdrwZxR1lHkJCG8N0uUZmL7uA3nzoYHbZ191QaCh1T
-	 qw0P3VFk61xJo4ODAzk0Lh+1hgo0OvNsXnEg9OtQkHBUSFAqwv4EiMpyJ0qvS2scHb
-	 llVe5SerSArl4CmvPfNiXfBwvZcTcBIEfK65clng=
-Date: Tue, 25 Aug 2026 08:46:54 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiacheng Xu <stitch@zju.edu.cn>
-Cc: vishal.moola@gmail.com, rafael@kernel.org, dakr@kernel.org,
-	akpm@linux-foundation.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH] kobject: fix out-of-bounds read in action parser
-Message-ID: <2026082543-ceramics-overdue-f278@gregkh>
-References: <2026082518-swinging-wildfowl-9c19@gregkh>
- <20260825062620.63807-1-stitch@zju.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/gXuHoS"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15cd3fd760so530602666b.2
+        for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 00:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787641408; x=1788246208; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CMzGm+i1YzxWvRFmcCkLX0OTQ3u6nTrGUJ+DECAkF1s=;
+        b=n/gXuHoSIDVoWu9Cy/1DzOqFc/s15fKJa0JZdlgBMkQHLlrg1VQ0AlcjtoDDMCN97O
+         yw6Rax3PA8OwR8HdaVppt+Gt/AbdmySmnSg/sjwzjkYmNo/SlsZx/AH0pzoacd19MCGP
+         3cTA8qy0nmX08rpLEylMF0jEaLIz8FktCx/A9iFzAum5nenq4F/KRptQTha4J98LSWzU
+         m5+GAzdAp8UHYhthP44xDZ41k8l/IKDkKdVmFvZ3yH+BoT4Y9KjdUuKm7LS1791jfT/9
+         D5es2av+gm2rAxhTpSqJGtVfxGmfZddrNXOYTkx5GZigYEb+qYxZI5K44v5grA6HreAw
+         cw2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787641408; x=1788246208;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CMzGm+i1YzxWvRFmcCkLX0OTQ3u6nTrGUJ+DECAkF1s=;
+        b=NZ4EUq1z7cDejeLY6CQSRaYJeXD4ZnAAaS6PvZxid+k+MqVhIV+W+iPBeb3k3wof3M
+         pF4Exrxk9Y25orkozJVzUJavnG42l5JVGOnrt1bsifEGgjYjKEPrx/cZlaFjPOHImaE7
+         k/Bozk00ADEN+3+2o9KQKjlBvT1o0/qXLjhgAbnKl5h4ZrVes63/kUXPERmeZuggg3sS
+         oq+MVr9fwujUyJ+0hqPjGP7gLP+BSbVY7WavGJ8dH/iiu4I4stBpCX9y0879CTlP700L
+         fC2vgqnOYclU5wdFSPspCgXp7NzoHzI9AZlDDStf/krTr5Q/3A0rYtsyWg2hRcsz7/pg
+         +xfQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoFBTH2bmu2MkKdFm/DyESIrWXXsd2Z4LarxJCPXXOKpBZDjjbjx8K1+ek63ffM24xTJixwzyE4+Eh3sA==@lists.linux.dev
+X-Gm-Message-State: AFuF++laQZ0yDe+qME1tp4uNn0gBpxd0HNWF0WXlQX6b9ryRvaKAT0u2
+	iw6eNtDgbUUuo4YqMh/qshNZU+N5e6PWpY104kzlyBkWFjTys8aMIyGB
+X-Gm-Gg: AR+sD1137OD5yo+HLACBRa/ySUZtMNnjn8yKuQb3P4qCDhTThttp74+JGBmUdLVXBwT
+	872T2t3a0LypHBEhBnNOQeEwQEWo+GYbdSb9GLQW0j7D/aQy4/DLGDIo2CLS/a2FriADhXNBjvB
+	GgrP8ViDS4KvdplTKDhBm3CyHqO4VYTRjl5q3i7NKpFWhERPlTJYtJDK3zIEIystLG0gSJTU/OG
+	QLdnk5KYOkT8WBHs4SBKlpsy9C+LSY6xmK/NtS81UNzR2PYcxBfM4N74J35x0bo6n/zBdxAehpQ
+	Ex/46nK9iYGEZ254lsh/pYUzjWGJn5KB3+xHIFFtqdOCqNU0lWz9vYy0kuPb8JPibYiKfYO4Y8I
+	h2K/kevnQNKPv6jvN2rZqaeOUmxjmtGk/kpvpFj9+sx0HHzp9Xg/+M9LQHJHK4gvONu+cDL/Bh+
+	Zth96HwKf/vPFgrbcC3jRWVC2ru4yeaUhJCgRDiBHATAIsl9etBz3fYMal08a3SAWRPqz9gGaXN
+	7/GijYhI4j2p5FILRD4oK6ARycSPO+PLwlpfP9NekInDQvudNVkCJrG7Ootytx7aKOuLZ+Kf5zw
+	GhHW1xVEXQape7zkDU7JgeFTG6qAC7+08jcsKwzY9EctXldnQ1g0Y6wNH9TEEtH5ZLiwHevdkZj
+	G
+X-Received: by 2002:a17:907:948a:b0:c1f:922d:34c3 with SMTP id a640c23a62f3a-c24926a1c3dmr2295180566b.14.1787641408067;
+        Tue, 25 Aug 2026 00:03:28 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-af54-b201-7419-a557-62e9-4d13.310.pool.telefonica.de. [2a02:3100:af54:b201:7419:a557:62e9:4d13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f64e0sm1897627466b.32.2026.08.25.00.03.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 00:03:27 -0700 (PDT)
+Date: Tue, 25 Aug 2026 09:03:25 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Matthew Wilcox <willy@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	syzbot+9cb1ac7fce4944ba9165@syzkaller.appspotmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH] klist: avoid accesses after waking klist_remove()
+Message-ID: <ao051-T1sSobzcXP@gmail.com>
+References: <20260825040408.59225-1-kmehltretter@gmail.com>
+ <2026082559-cyclist-annoying-7a55@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -40,71 +81,47 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260825062620.63807-1-stitch@zju.edu.cn>
+In-Reply-To: <2026082559-cyclist-annoying-7a55@gregkh>
 
-On Tue, Aug 25, 2026 at 02:26:20PM +0800, Jiacheng Xu wrote:
-> kobject_action_type() uses the position of the first space in the input
-> as the length of the uevent action. It then checks the byte at that
-> position in the corresponding action string.
+On Tue, Aug 25, 2026 at 07:25:48AM +0100, Greg Kroah-Hartman wrote:
+> > to go out of scope and its caller to free or reuse the node.
 > 
-> An embedded NUL byte can make strncmp() report a match while
-> count_first is already greater than the actual length of the action
-> string. For example, the input "bind\0 ..." makes the parser access
-> kobject_actions[KOBJ_BIND][5], which is beyond the end of the "bind"
-> string.
+> But does that ever actually happen?
+
+klist_remove() waits until the node is removed so the containing object can
+be freed. bus_remove_driver() can later free drv->p, while device_move()
+immediately adds the same node to another list.
+
+> > The task reference keeps the waiter task alive if it returns and exits
+> > before wake_up_process(). wake_up_process() provides the full barrier
+> > required by the sleep/wakeup protocol, so remove the explicit mb().
 > 
-> Use strlen() to verify that the input action length exactly matches the
-> known action string before accepting the match. This avoids indexing
-> the action string with an out-of-bounds offset.
+> I'm confused, what actual bug is here?
+
+I found this during a targeted klist.c review.
+
+Only later I cam across the syzbot report. That report became too prominent
+in the commit message.
+
+klist_release() sets waiter->woken, then reads waiter->process and later
+writes n->n_klist. After seeing woken, the waiter can return on another CPU.
+
+My initial KASAN reproducer was klist-only. One thread held an iterator while
+another removed and freed the object. A delay after the wakeup made
+the race easy, hit KASAN on n_klist in qemu arm64. 
+
+> > Closes: https://syzkaller.appspot.com/bug?extid=9cb1ac7fce4944ba9165
+> > Tested-by: syzbot+9cb1ac7fce4944ba9165@syzkaller.appspotmail.com
 > 
-> Fixes: f36776fafbaa ("kobject: support passing in variables for synthetic uevents")
-> Signed-off-by: Jiacheng Xu <stitch@zju.edu.cn>
-> ---
->  lib/kobject_uevent.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-> index ddbc4d7482d2..b03562301bfe 100644
-> --- a/lib/kobject_uevent.c
-> +++ b/lib/kobject_uevent.c
-> @@ -83,7 +83,7 @@ static int kobject_action_type(const char *buf, size_t count,
->  	for (action = 0; action < ARRAY_SIZE(kobject_actions); action++) {
->  		if (strncmp(kobject_actions[action], buf, count_first) != 0)
->  			continue;
-> -		if (kobject_actions[action][count_first] != '\0')
-> +		if (strlen(kobject_actions[action]) != count_first)
->  			continue;
->  		if (args)
->  			*args = args_start;
-> -- 
-> 2.51.0
-> 
-> 
+> Are you sure?  the whole bind/unbind mess that syzbot is throwing at us
+> right now is really causing people to go down odd paths in thinking it's
+> even a valid thing to consider at all.
 
-Hi,
+I did not verify the dummy_udc bind/unbind sequence. The klist issue
+does not depend on this USB path.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+I can reword a v2 around the generic reproducer. anything else I should
+investigate before sending it ?
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Thanks,
+Karl
