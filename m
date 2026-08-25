@@ -1,127 +1,100 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A87431E859
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 07:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3AA025CC79
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 07:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787641411; cv=none; b=M7VMSk9Jl3+xFaAyJZK+AMne5t81YnxcJTacBOsApjI837g4o62ous6wozXZCJk7nyzZBt8EwQN48w4GYBWr2+hqFztQ7HSbDqp1EeVwrmOfzBneWelWKI2/wXFU6+eRMC+lWZ3v0Ki6EVP4mlXBUB4TJL5gI7TyEpZvLm7aaxM=
+	t=1787641536; cv=none; b=Rh/Ges7KHMU8RcHaFYAnVIvbqDEkoql/yWLAoSQ3H8Z2+UsCRUIdhv3g4aC+xEC+uM8grC0hWnBOA6YSDi2GSMaZS4nVtsSkd/YkBwhZU0C303NYcMcveBiTy9JHfPUGiFDyBnnIpVAsgUaKCin3Sc44Kpyf/dzgnos/clZiiKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787641411; c=relaxed/simple;
-	bh=LOf+RtJBXhs6s/eIJdx9ZRDZnUklk3vYSZNk0xKtRkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lk4JouoFUoaYAQ6GCSBhH+b5xmejzLfH25nSKCtfxMpV0zNQ61J5evpZKjIEYYNedUCWt3/rfFLovmNuazjuqKLOfxYwYiP/GVy/wSjeVqpIihoWhiCgoS8vqkIyltQhjs65GPEJ/Pw079tS58JvubG20MvpGejYHYs50D4akzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/gXuHoS; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/gXuHoS"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15cd3fd760so530602666b.2
-        for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 00:03:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787641408; x=1788246208; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CMzGm+i1YzxWvRFmcCkLX0OTQ3u6nTrGUJ+DECAkF1s=;
-        b=n/gXuHoSIDVoWu9Cy/1DzOqFc/s15fKJa0JZdlgBMkQHLlrg1VQ0AlcjtoDDMCN97O
-         yw6Rax3PA8OwR8HdaVppt+Gt/AbdmySmnSg/sjwzjkYmNo/SlsZx/AH0pzoacd19MCGP
-         3cTA8qy0nmX08rpLEylMF0jEaLIz8FktCx/A9iFzAum5nenq4F/KRptQTha4J98LSWzU
-         m5+GAzdAp8UHYhthP44xDZ41k8l/IKDkKdVmFvZ3yH+BoT4Y9KjdUuKm7LS1791jfT/9
-         D5es2av+gm2rAxhTpSqJGtVfxGmfZddrNXOYTkx5GZigYEb+qYxZI5K44v5grA6HreAw
-         cw2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787641408; x=1788246208;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CMzGm+i1YzxWvRFmcCkLX0OTQ3u6nTrGUJ+DECAkF1s=;
-        b=NZ4EUq1z7cDejeLY6CQSRaYJeXD4ZnAAaS6PvZxid+k+MqVhIV+W+iPBeb3k3wof3M
-         pF4Exrxk9Y25orkozJVzUJavnG42l5JVGOnrt1bsifEGgjYjKEPrx/cZlaFjPOHImaE7
-         k/Bozk00ADEN+3+2o9KQKjlBvT1o0/qXLjhgAbnKl5h4ZrVes63/kUXPERmeZuggg3sS
-         oq+MVr9fwujUyJ+0hqPjGP7gLP+BSbVY7WavGJ8dH/iiu4I4stBpCX9y0879CTlP700L
-         fC2vgqnOYclU5wdFSPspCgXp7NzoHzI9AZlDDStf/krTr5Q/3A0rYtsyWg2hRcsz7/pg
-         +xfQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoFBTH2bmu2MkKdFm/DyESIrWXXsd2Z4LarxJCPXXOKpBZDjjbjx8K1+ek63ffM24xTJixwzyE4+Eh3sA==@lists.linux.dev
-X-Gm-Message-State: AFuF++laQZ0yDe+qME1tp4uNn0gBpxd0HNWF0WXlQX6b9ryRvaKAT0u2
-	iw6eNtDgbUUuo4YqMh/qshNZU+N5e6PWpY104kzlyBkWFjTys8aMIyGB
-X-Gm-Gg: AR+sD1137OD5yo+HLACBRa/ySUZtMNnjn8yKuQb3P4qCDhTThttp74+JGBmUdLVXBwT
-	872T2t3a0LypHBEhBnNOQeEwQEWo+GYbdSb9GLQW0j7D/aQy4/DLGDIo2CLS/a2FriADhXNBjvB
-	GgrP8ViDS4KvdplTKDhBm3CyHqO4VYTRjl5q3i7NKpFWhERPlTJYtJDK3zIEIystLG0gSJTU/OG
-	QLdnk5KYOkT8WBHs4SBKlpsy9C+LSY6xmK/NtS81UNzR2PYcxBfM4N74J35x0bo6n/zBdxAehpQ
-	Ex/46nK9iYGEZ254lsh/pYUzjWGJn5KB3+xHIFFtqdOCqNU0lWz9vYy0kuPb8JPibYiKfYO4Y8I
-	h2K/kevnQNKPv6jvN2rZqaeOUmxjmtGk/kpvpFj9+sx0HHzp9Xg/+M9LQHJHK4gvONu+cDL/Bh+
-	Zth96HwKf/vPFgrbcC3jRWVC2ru4yeaUhJCgRDiBHATAIsl9etBz3fYMal08a3SAWRPqz9gGaXN
-	7/GijYhI4j2p5FILRD4oK6ARycSPO+PLwlpfP9NekInDQvudNVkCJrG7Ootytx7aKOuLZ+Kf5zw
-	GhHW1xVEXQape7zkDU7JgeFTG6qAC7+08jcsKwzY9EctXldnQ1g0Y6wNH9TEEtH5ZLiwHevdkZj
-	G
-X-Received: by 2002:a17:907:948a:b0:c1f:922d:34c3 with SMTP id a640c23a62f3a-c24926a1c3dmr2295180566b.14.1787641408067;
-        Tue, 25 Aug 2026 00:03:28 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-af54-b201-7419-a557-62e9-4d13.310.pool.telefonica.de. [2a02:3100:af54:b201:7419:a557:62e9:4d13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f64e0sm1897627466b.32.2026.08.25.00.03.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 00:03:27 -0700 (PDT)
-Date: Tue, 25 Aug 2026 09:03:25 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Matthew Wilcox <willy@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	syzbot+9cb1ac7fce4944ba9165@syzkaller.appspotmail.com, stable@vger.kernel.org
-Subject: Re: [PATCH] klist: avoid accesses after waking klist_remove()
-Message-ID: <ao051-T1sSobzcXP@gmail.com>
-References: <20260825040408.59225-1-kmehltretter@gmail.com>
- <2026082559-cyclist-annoying-7a55@gregkh>
+	s=arc-20240116; t=1787641536; c=relaxed/simple;
+	bh=a60ZAUuDEFXwWm50B4jlOfaQjY/HSzApRqnqVd+ej4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bp8FNFt+vzy1iWHYNiKgjkOynPQ46VaLe9OmDS21OzI/qg6tqKKrnik/f5IeujAsk/4PND/IIAWocMqcwcbALbIDueoD1NhCGOqgG2Dr6W76Lkcz+4Grv8MdiBG0GcoQ3SQxj50UfrkdW/3VjnA8k1ACA/18yNSGENsMvE1X5Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.190.160.162])
+	by mtasvr (Coremail) with SMTP id _____wA3tiy4Po1qEeLAAA--.608S3;
+	Tue, 25 Aug 2026 15:05:28 +0800 (CST)
+Received: from 192.168.5.38 (unknown [10.190.160.162])
+	by mail-app3 (Coremail) with SMTP id zS_KCgAnPnC3Po1qAIuqBA--.54805S2;
+	Tue, 25 Aug 2026 15:05:27 +0800 (CST)
+From: Jiacheng Xu <stitch@zju.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: vishal.moola@gmail.com,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	akpm@linux-foundation.org,
+	driver-core@lists.linux.dev,
+	Jiacheng Xu <stitch@zju.edu.cn>
+Subject: [PATCH v2 RESEND] kobject: fix out-of-bounds access in kobject_action_type()
+Date: Tue, 25 Aug 2026 15:05:25 +0800
+Message-ID: <20260825070525.76409-1-stitch@zju.edu.cn>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2026082518-swinging-wildfowl-9c19@gregkh>
+References: <2026082518-swinging-wildfowl-9c19@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026082559-cyclist-annoying-7a55@gregkh>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zS_KCgAnPnC3Po1qAIuqBA--.54805S2
+X-CM-SenderInfo: qtrxiiaqttimo62m3hxhgxhubq/
+X-CM-DELIVERINFO: =?B?m1FgSQXKKxbFmtjJiESix3B1w3tMoM3snk/k5SVzZVydjEqe1eefKHnLf95EnB4iem
+	egWzO/wNhIP+pglnkLd0BnOseY7yZURa9/aTZdjFdCZ6LvppqCAjDpUvMasmwYmRY3z57x
+	KdIliCu/wImWqY+lxJDYTRELsriASjh7/H7VYkk6
+X-Coremail-Antispam: 1Uk129KBj93XoW7Zr4xKryxJF1ftw48Aw4xAFc_yoW8Xr13pr
+	sI9w13tF95Jw47GwsxtaykWFW7Za1kAr1UJF909wnIkw4Y9wnYgF1DKr1UZr13GF95Ar1Y
+	q3WUKwn09ayDZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1tfQtUUUUU==
 
-On Tue, Aug 25, 2026 at 07:25:48AM +0100, Greg Kroah-Hartman wrote:
-> > to go out of scope and its caller to free or reuse the node.
-> 
-> But does that ever actually happen?
+kobject_action_type() uses the position of the first space in the input
+as the length of the uevent action. It then checks the byte at that
+position in the corresponding action string.
 
-klist_remove() waits until the node is removed so the containing object can
-be freed. bus_remove_driver() can later free drv->p, while device_move()
-immediately adds the same node to another list.
+An embedded NUL byte can make strncmp() report a match while
+count_first is already greater than the actual length of the action
+string. For example, the input "bind\0 ..." makes the parser access
+kobject_actions[KOBJ_BIND][5], which is beyond the end of the "bind"
+string.
 
-> > The task reference keeps the waiter task alive if it returns and exits
-> > before wake_up_process(). wake_up_process() provides the full barrier
-> > required by the sleep/wakeup protocol, so remove the explicit mb().
-> 
-> I'm confused, what actual bug is here?
+Use strlen() to verify that the input action length exactly matches the
+known action string before accepting the match. This avoids indexing
+the action string with an out-of-bounds offset.
 
-I found this during a targeted klist.c review.
+Fixes: f36776fafbaa ("kobject: support passing in variables for synthetic uevents")
+Signed-off-by: Jiacheng Xu <stitch@zju.edu.cn>
+---
+ lib/kobject_uevent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Only later I cam across the syzbot report. That report became too prominent
-in the commit message.
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..b03562301bfe 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -83,7 +83,7 @@ static int kobject_action_type(const char *buf, size_t count,
+ 	for (action = 0; action < ARRAY_SIZE(kobject_actions); action++) {
+ 		if (strncmp(kobject_actions[action], buf, count_first) != 0)
+ 			continue;
+-		if (kobject_actions[action][count_first] != '\0')
++		if (strlen(kobject_actions[action]) != count_first)
+ 			continue;
+ 		if (args)
+ 			*args = args_start;
+-- 
+2.51.0
 
-klist_release() sets waiter->woken, then reads waiter->process and later
-writes n->n_klist. After seeing woken, the waiter can return on another CPU.
-
-My initial KASAN reproducer was klist-only. One thread held an iterator while
-another removed and freed the object. A delay after the wakeup made
-the race easy, hit KASAN on n_klist in qemu arm64. 
-
-> > Closes: https://syzkaller.appspot.com/bug?extid=9cb1ac7fce4944ba9165
-> > Tested-by: syzbot+9cb1ac7fce4944ba9165@syzkaller.appspotmail.com
-> 
-> Are you sure?  the whole bind/unbind mess that syzbot is throwing at us
-> right now is really causing people to go down odd paths in thinking it's
-> even a valid thing to consider at all.
-
-I did not verify the dummy_udc bind/unbind sequence. The klist issue
-does not depend on this USB path.
-
-I can reword a v2 around the generic reproducer. anything else I should
-investigate before sending it ?
-
-Thanks,
-Karl
