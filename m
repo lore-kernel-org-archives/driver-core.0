@@ -1,199 +1,307 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4BB3D6CDE
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 08:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751E63E1203
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 08:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787645032; cv=none; b=sOkjBdq0zB2w8iwHgEUPxft2Vm8xyyhwCtIwH04KmqfJKrAyR4DfGweiBJT3Q/D2PNV0/20dBazg7VudaWN+bcThJKnyf2Q/EuCgrvG6WoK7G0pm5RyB9VKZWnfBmLGbKJ3p7tgK2HMXpmK3IX3wKzfG+9rNy0dk1wxQffJ/w70=
+	t=1787646480; cv=none; b=OAT//V5oGbpDVeFRxeDNOxVSPleKrJTq81QJvWlRk6CXbh0ml7KPzNtcLAphdlu0s8cHuuB1LrkMRZHmIYReMH5LHu5JpNAvpPP/cF9KwqfnBjhMcxfSY5agGaIAwJyP5ir1kOHGcDx0pVRLTMjnmroVt1p3a0oStgsl1ShUgWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787645032; c=relaxed/simple;
-	bh=zE/6PpAbFwbSHzEnUEO8gwXvJ5QKAZ5ylc2eCikFt+w=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=ZtoqdML5qLXLOU97Vl5MEoUrW90fnXKbUPt2z7O2QB7zXmqMVyoS1wjAcPwy6Pscy4juWj6Y+gcl7BFCS43MYc8f18z+wE9hhfS/NUNPD50l7uW2Y+rRIp6UzN51jjnkUgAH9pVnOODVAmZQ983fnFgNC8BET/XYadxFOHDglL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ad778bacbeso8856641b6e.1
-        for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 01:03:50 -0700 (PDT)
+	s=arc-20240116; t=1787646480; c=relaxed/simple;
+	bh=phVtok+ObHFJ1au6qUh5rNrwq/TE1QKw2vCdkhVllwA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ggk1NQT1trCbpXerKK448lHP4SeavH/PcfvrGHWmR5ewBfrcbEdmwBB54JWusKbaZARCFOKk5KqApUCI2WOF+i5z0e+EEypMFnb/bLHLZPd86FQWfbbiWotVpCU5HcLeCuudjT/MpgpJD2j5dP8b8Btqv+edvf4uLaJeJlf19Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RjjH7AWH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PTqw0aL+; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RjjH7AWH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PTqw0aL+"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67P88PsF1359467
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 08:27:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	E+q7F1y6fnZGUuGCnDxg2E2aPK2KeY9/J3jStlZtmz0=; b=RjjH7AWHHkMXBUQv
+	1QpW7MoQLRT/Dabjx07OlOC2LEg9SCUSdvUweL4CjQhSq7c2sKkbLbaq1l+TehZQ
+	tzCge/ERGQdQptiorMXQZm5JVuAt46JPBtu8y4U7f1loDG4tVleZ7WhJt/wFjJSj
+	ordiMj8Xu6dAA9BobfF3fPO+G2T0PFeGYOm2fPhk+u1hSztWbNbkgZ+tGzPDAM/s
+	JMNrzIZlOxJaWsyeUUrS+DzR2jULSMZDx1FAtSy6A/RvqiE8Fch+rLDGSqExi/Gf
+	KCeuUR/ws8Yopy8OtKiqUGC1uW5puSMO5Udjnq3Unl2kBjIJAVShCEKysKwNSgrV
+	04U1hA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8swy30me-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 08:27:57 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so2667511a91.3
+        for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 01:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787646477; x=1788251277; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=E+q7F1y6fnZGUuGCnDxg2E2aPK2KeY9/J3jStlZtmz0=;
+        b=PTqw0aL+FnZ3fXGKMpkX4Qd14iUmF79yEAc16se0SinMuWF7Odc7MfYO8lhXXrV2d7
+         OaWYDgb7U/zFcqxhsZ7bD4FRFcm1TwDcCMArpATU2l/utO03xKyJS2Ei+vNcASgxwPep
+         9+LUwr/TCXGcU13KnLPhbS3oQ5R8UdMLg+FT8mwk6SDxhJACzNKGxkqa4p3pbgRDyWg2
+         kVa0k0c2iLC/28nINobUaoua3MHJ2FTawD7zswygapdxqRKFQpKnvE0PVk2o4RabDWoG
+         kDZVct2aiynkKoUjGxRkxZrPMr9k0W7WK8CvDfXxSNJGvkj8njHQvsYNApyqibkw4kei
+         BN3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787645030; x=1788249830;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=AtGfEt5fG2go9z5Op71wQEx7a+tRBKr+1KtptibDM+E=;
-        b=XP7LDxM6GNRs7JOudO/DLF1GKfu/WfaISERquMfLDq2azWY+l8awKjqWejNeKU9nXU
-         m9YskfvKyOTO9TDnkysFyt7IJ+8Td0vIFOI9mTNVfONcqt8WHtw+FpyF/HFc85mSHsQq
-         qudf+0BJM56h4zApTp8Py4EqW+K4pX1/G0cZ8Z2Ft/+F8mvXNnz1I0vYusC7n7gyxcCn
-         +tABsEZmvz88hhcxlj5HlrrPuIIvJqUNtYipISP4Ctcw/AP9zerPeQ8ZmbF+g94szfJM
-         LowJ3rQBjQ+EoD7paMisBLz7WnaGLr+uxwq993s/HIbywomhvlETA6rbGyIQjQS5TTiQ
-         XlIA==
-X-Forwarded-Encrypted: i=1; AHgh+RpYdSlJktxYHYLPZ7nwCqlStC4J1k7FfugusFCdr0IhL/9bzystU2A5UwcocAgK69uHrix00vjK2gAHYw==@lists.linux.dev
-X-Gm-Message-State: AFuF++n+fInhkr+LIBwWcy4wP3zpCG3/kwcfW3bjoLCTibeytdVNHtCe
-	AG8vdMP0AbaRJyIQGNW36kCFC+hC3aSTsoYfmE2Fyqpqsxj306QGK6aDxy0shaeuhh26tTZx8kQ
-	7D7SyfK5nPhADIPMrv5iKZcZjSfi/riFx3v4AUzB4/PUjZ64BDntAx30SqVA=
+        d=1e100.net; s=20251104; t=1787646477; x=1788251277;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=E+q7F1y6fnZGUuGCnDxg2E2aPK2KeY9/J3jStlZtmz0=;
+        b=DlpHVhMzOHZpaWXbvSdH8Gc5C1bnFHc67/nCF2IjI9QN/xXY59oVRXm1oTKDS3OwhZ
+         vXcWZTkdAKijgFm+o1+qQjEd9nzX1FnqScRS0lWBXqk9+SFMMYaPxY3JTPujToZ3xXzh
+         JTKqUlzJ/hCBKg0K/gIB+YEjXJefzs1SKOIYm4LCry8K5UFuPcAUtP5HEDzUqSjlv4/Z
+         Ih0Q0hI7UGidirO4AwmpLEUMHmaW+Y7LRIHm9o3+d2jiUu7UCqfuWWZE65b30unYkN11
+         513lVl57UQDWrVUvRQb8aSQqM44VKQQGMNYHVqlLfNVQgNxEA61xkZgPg0PMVbicu4o2
+         eM+w==
+X-Forwarded-Encrypted: i=1; AHgh+Rp8YM+gWFPhDknpDa8DWEs6tFxVgZQ0nsho/4ILSmTQEwB8XJyfdM1qEmSycNqr34HOlrtxieqdLgkh/Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++mKiGgS6+VJpQyZQ0ss3RBa8zktKyuPqkKDgOxsH0Xn0MH9Xnl1
+	sSMEIyo4I5WvUbFmA8bqcS0q/wxhbn0nmYOEkim/ZdUmlKOsGh8zEtgcXlCku4eAWn96IuvKjmQ
+	8MjeMnljCQHrgFDDua2EbJmIpG0ie4+kSCsMFC8FMzHGSePp68x+kmOJGGq7kiMspOg==
+X-Gm-Gg: AR+sD12OEb8BuHyIIcds8lECj7gUMkfc6GtDtPlSkBIjDhuDM7M8o30t7phoI3TphG6
+	DVgMZi6Iy7cfWRt3TjGUCTbGoOWZ+imeRSpWfGkH6gOFu5g8BiJfZe1erzOpGpy/kVm/2l7OeO3
+	aMfWBKoMhq2ohi/yxLAI/n0R6DrJLGIA5FVPw03f0q0jJR860XEK4IZdHVlTifo2j1XSqJ1DQor
+	su5SG9LTI5IYLIkPuPp9APyOM28r7pwZbwtqt0+bRNI7uYnEfIEfOoNv6WozNQjUy09K6u76JRf
+	CijQAN9rVNgVIWVQU1uZXuSPxE0yb93Da9IjT2m2f8r78pqQTGloJMRCMyLKXCppiJTlsR6jnHq
+	rZFzaG0eD03EErearSnFkAh211N8k1sICtrlxwf9FCuAdPwmMLE0nOPy16jhPHj8=
+X-Received: by 2002:a17:903:230b:b0:2c9:c991:3bf0 with SMTP id d9443c01a7336-2d670c27184mr417203955ad.8.1787646476967;
+        Tue, 25 Aug 2026 01:27:56 -0700 (PDT)
+X-Received: by 2002:a17:903:230b:b0:2c9:c991:3bf0 with SMTP id d9443c01a7336-2d670c27184mr417203025ad.8.1787646476449;
+        Tue, 25 Aug 2026 01:27:56 -0700 (PDT)
+Received: from [10.133.33.92] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d676761bdesm25924885ad.1.2026.08.25.01.27.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 01:27:56 -0700 (PDT)
+Message-ID: <e1223b8f-9a1e-4093-9dc0-299c674aec49@oss.qualcomm.com>
+Date: Tue, 25 Aug 2026 16:27:45 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1c09:b0:496:a36:b5e5 with SMTP id
- 5614622812f47-4b35089c71bmr4724901b6e.17.1787645029903; Tue, 25 Aug 2026
- 01:03:49 -0700 (PDT)
-Date: Tue, 25 Aug 2026 01:03:49 -0700
-In-Reply-To: <20260824152932.1583506-1-lrizzo@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8d4c65.a5a502ce.31d34.0049.GAE@google.com>
-Subject: [syzbot ci] Re: swiotlb: avoid swiotlb copy on network sockets
-From: syzbot ci <syzbot+ci194162eefbbbb459@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, davem@davemloft.net, david@kernel.org, 
-	driver-core@lists.linux.dev, dtatulea@nvidia.com, edumazet@google.com, 
-	gregkh@linuxfoundation.org, iommu@lists.linux.dev, kuba@kernel.org, 
-	kuniyu@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	lrizzo@google.com, m.szyprowski@samsung.com, netdev@vger.kernel.org, 
-	pabeni@redhat.com, rafael@kernel.org, rizzo.unipi@gmail.com, 
-	robin.murphy@arm.com, willemb@google.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-syzbot ci has tested the following series
-
-[v2] swiotlb: avoid swiotlb copy on network sockets
-https://lore.kernel.org/all/20260824152932.1583506-1-lrizzo@google.com
-* [PATCH v2 1/5] swiotlb: enforce pool nareas and nslabs invariants
-* [PATCH v2 2/5] swiotlb/mm: Implement SWIOTLB nocopy page allocator
-* [PATCH v2 3/5] net/swiotlb: Track bounce device per socket
-* [PATCH v2 4/5] net: Divert socket allocations to SWIOTLB for nocopy TX
-* [PATCH v2 5/5] swiotlb: Implement RX nocopy with fast recycling eviction
-
-and found the following issue:
-general protection fault in page_pool_put_unrefed_netmem
-
-Full report is available here:
-https://ci.syzbot.org/series/b17756c4-983f-4d7a-8415-3da06c0dda99
-
-***
-
-general protection fault in page_pool_put_unrefed_netmem
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      0a0d1d55dad570724bf8c7ea83409639cfb4be9b
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/20e51ca2-88da-4674-9797-a62c64743095/config
-syz repro: https://ci.syzbot.org/findings/4385dd7f-d1fc-4627-ad19-6862c780a90c/syz_repro
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000082: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000410-0x0000000000000417]
-CPU: 0 UID: 0 PID: 5836 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:swiotlb_addr_in_default_pool include/linux/swiotlb.h:177 [inline]
-RIP: 0010:swiotlb_is_nocopy_addr include/linux/swiotlb.h:184 [inline]
-RIP: 0010:__page_pool_put_page net/core/page_pool.c:851 [inline]
-RIP: 0010:page_pool_put_unrefed_netmem+0x22a/0xd20 net/core/page_pool.c:930
-Code: 5c 63 00 00 89 c5 31 ff 89 c6 e8 61 17 04 f8 85 ed 0f 84 07 08 00 00 e8 54 12 04 f8 49 81 c4 10 04 00 00 4c 89 e0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 e7 e8 37 c7 73 f8 4d 8b 24 24 4d 85 e4
-RSP: 0018:ffffc900039df230 EFLAGS: 00010206
-RAX: 0000000000000082 RBX: 0000000000000000 RCX: ffff888160efda00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 0000000000000001 R08: ffffffff89c3aca5 R09: 0000000000000000
-R10: 0000000000000000 R11: ffffffff8ed5a4e0 R12: 0000000000000410
-R13: dffffc0000000000 R14: ffffea0004450300 R15: 0000000004450300
-FS:  00007f08f83e86c0(0000) GS:ffff88818d6fc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffd455a8fe8 CR3: 00000001134ac000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- page_pool_put_netmem include/net/page_pool/helpers.h:343 [inline]
- page_pool_put_full_netmem include/net/page_pool/helpers.h:373 [inline]
- napi_pp_put_page+0x133/0x1e0 net/core/skbuff.c:1036
- skb_pp_recycle net/core/skbuff.c:1047 [inline]
- skb_free_head net/core/skbuff.c:1091 [inline]
- skb_release_data+0x8c3/0xab0 net/core/skbuff.c:1122
- skb_release_all net/core/skbuff.c:1197 [inline]
- __kfree_skb+0x5d/0x210 net/core/skbuff.c:1211
- llc_rcv+0x77a/0xcb0 net/llc/llc_input.c:-1
- __netif_receive_skb_list_ptype net/core/dev.c:6312 [inline]
- __netif_receive_skb_list_core+0x784/0x830 net/core/dev.c:6354
- __netif_receive_skb_list net/core/dev.c:6406 [inline]
- netif_receive_skb_list_internal+0x995/0xcf0 net/core/dev.c:6497
- netif_receive_skb_list+0x67/0x480 net/core/dev.c:6549
- xdp_recv_frames net/bpf/test_run.c:268 [inline]
- xdp_test_run_batch net/bpf/test_run.c:349 [inline]
- bpf_test_run_xdp_live+0x1875/0x1c20 net/bpf/test_run.c:378
- bpf_prog_test_run_xdp+0x7d8/0x11d0 net/bpf/test_run.c:1463
- bpf_prog_test_run+0x2c5/0x340 kernel/bpf/syscall.c:4804
- __sys_bpf+0xa22/0xd90 kernel/bpf/syscall.c:6385
- __do_sys_bpf kernel/bpf/syscall.c:6486 [inline]
- __se_sys_bpf kernel/bpf/syscall.c:6483 [inline]
- __x64_sys_bpf+0xba/0xd0 kernel/bpf/syscall.c:6483
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f08f759e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f08f83e8028 EFLAGS: 00000246 ORIG_RAX: 0000000000000141
-RAX: ffffffffffffffda RBX: 00007f08f7825fa0 RCX: 00007f08f759e0d9
-RDX: 0000000000000048 RSI: 0000200000000600 RDI: 000000000000000a
-RBP: 00007f08f7635024 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f08f7826038 R14: 00007f08f7825fa0 R15: 00007fffc4c69778
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:swiotlb_addr_in_default_pool include/linux/swiotlb.h:177 [inline]
-RIP: 0010:swiotlb_is_nocopy_addr include/linux/swiotlb.h:184 [inline]
-RIP: 0010:__page_pool_put_page net/core/page_pool.c:851 [inline]
-RIP: 0010:page_pool_put_unrefed_netmem+0x22a/0xd20 net/core/page_pool.c:930
-Code: 5c 63 00 00 89 c5 31 ff 89 c6 e8 61 17 04 f8 85 ed 0f 84 07 08 00 00 e8 54 12 04 f8 49 81 c4 10 04 00 00 4c 89 e0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 e7 e8 37 c7 73 f8 4d 8b 24 24 4d 85 e4
-RSP: 0018:ffffc900039df230 EFLAGS: 00010206
-RAX: 0000000000000082 RBX: 0000000000000000 RCX: ffff888160efda00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 0000000000000001 R08: ffffffff89c3aca5 R09: 0000000000000000
-R10: 0000000000000000 R11: ffffffff8ed5a4e0 R12: 0000000000000410
-R13: dffffc0000000000 R14: ffffea0004450300 R15: 0000000004450300
-FS:  00007f08f83e86c0(0000) GS:ffff88818d6fc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffd455a8fe8 CR3: 00000001134ac000 CR4: 00000000000006f0
-----------------
-Code disassembly (best guess), 2 bytes skipped:
-   0:	00 00                	add    %al,(%rax)
-   2:	89 c5                	mov    %eax,%ebp
-   4:	31 ff                	xor    %edi,%edi
-   6:	89 c6                	mov    %eax,%esi
-   8:	e8 61 17 04 f8       	call   0xf804176e
-   d:	85 ed                	test   %ebp,%ebp
-   f:	0f 84 07 08 00 00    	je     0x81c
-  15:	e8 54 12 04 f8       	call   0xf804126e
-  1a:	49 81 c4 10 04 00 00 	add    $0x410,%r12
-  21:	4c 89 e0             	mov    %r12,%rax
-  24:	48 c1 e8 03          	shr    $0x3,%rax
-* 28:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
-  2d:	74 08                	je     0x37
-  2f:	4c 89 e7             	mov    %r12,%rdi
-  32:	e8 37 c7 73 f8       	call   0xf873c76e
-  37:	4d 8b 24 24          	mov    (%r12),%r12
-  3b:	4d 85 e4             	test   %r12,%r12
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/15] arm-mpam: Add basic device tree support for
+ resctrl
+From: Yin Li <yin.li@oss.qualcomm.com>
+To: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Ben Horgan
+ <ben.horgan@arm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
+        driver-core@lists.linux.dev,
+        Srivathsa L Rao
+ <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei
+ <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+        linux-kernel@vger.kernel.org
+References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDA3MSBTYWx0ZWRfX8if8sVCZIK94
+ UPe9WSgYtu9ZORUHrtdfUsXmynxgifoZ6PHgRZRpz2T3GKdlgYPp4Qkbsei0ojpL12gCJebsumm
+ qrOBTryFsFQ8xhiN6ejF3sgMyOoWfnVyrGl+Vb9GJz2eLNeDvp/Q4tzKbR5V2+g0umN7LGYnEZG
+ 22zsrIUuVX+0Vpgqdp7LKjHCo5mIG8uiuApEqgPpK/6cAqmuokosXh8mToSJakvYCigyjyKvE+o
+ FK5HXTzN9KeHpaQk0PtjYhXsfndifYgg9ERS3w+GGKw9E1lzP/IaTsfzCnX482Otpks/Tb+EcsM
+ 4WLDPtC2TBBxY5/HvPW49G2rgvJGbiuQeRBQ4nTsS7zUK59L0+waHXenRzW/OIhgDW499Z5zBk6
+ k+tCTKK/B3wKUWCq8+ToquBuQC7OrTEk03UJAJ/X+q8j0SkUe0xpXzwFa4Yi7x9PSYB32IaK6Pf
+ POS0ecEEv12IQ/ciiww==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDA3MSBTYWx0ZWRfX6jlzzMnjDwyl
+ rYpspUqej9X6gZGy5XiJo+r5Td5KzbhLlm7I+SoIEXuJ0Qv/EDTNtnIi3HcaBpK58wzX9xbntCa
+ V0v4imUceWOqCi2ivuO3XjKbPavHW5Q=
+X-Proofpoint-ORIG-GUID: mo2jCWCLFjFkqKUNllKbXGIhobxjo3Kb
+X-Proofpoint-GUID: mo2jCWCLFjFkqKUNllKbXGIhobxjo3Kb
+X-Authority-Analysis: v=2.4 cv=QIlYgALL c=1 sm=1 tr=0 ts=6a8d520d cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=ag1SF4gXAAAA:8 a=QyXUC8HyAAAA:8 a=VIS1g5ZynMs3Vg3ehMYA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-25_02,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608250071
 
 
-***
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+On 8/11/2026 9:30 PM, Yin Li wrote:
+> Notes for James, Shanker and Rob
+> --------------------------------
+> This series builds directly on your not-yet-upstream MPAM snapshot
+> patches from the mpam/snapshot+extras/v6.18-rc1 branch. Two things I'd
+> like your guidance on:
+> 
+> 1. Do you mind us picking these up and continuing to extend them? We have
+>     kept the original authorship and Signed-off-by intact and documented
+>     the inherited-vs-new split below. If you would prefer a different
+>     attribution arrangement, or have your own plans to upstream MPAM DT
+>     support, please let us know so we can avoid duplicating effort.
+> 
+> 2. The fixes to the inherited patches are kept as small, self-contained
+>     patches on top, purely to make review easier. Since fixes to
+>     not-yet-upstream patches would normally be squashed into the original
+>     commit by its author, please point out which of these you would like
+>     folded back, and we will reorganize accordingly.
+> 
+> Rob kindly provided some early off-list feedback on an earlier draft,
+> which this series has tried to address.
+> 
+> Add Arm MPAM resctrl basic device tree support.
+> 
+> Arm Memory System Resource Partitioning and Monitoring (MPAM) with
+> resctrl requires device tree (DT) support as a prerequisite before any
+> higher-level functionality can be enabled. This series provides the
+> foundational DT binding and parsing support for MPAM, laying the
+> groundwork for subsequent features such as MPAM Firmware-backed
+> (MPAM-FB) partitioning.
+> 
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+Hi all,
 
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
+Just a friendly ping on this RFC series.
 
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+In particular, I'd appreciate any guidance on whether this is a
+reasonable direction for upstream DT support of MPAM/resctrl, before
+spending more effort preparing the next revision.
+
+Any high-level feedback would be very helpful.
+
+Thanks for your time.
+
+
+
+> The patches are based on earlier work by James Morse, Shanker
+> Donthineni and Rob Herring, with fixes and additions on top:
+> 
+> Inherited (authorship preserved, with fixes noted in each patch):
+> - dt-bindings: MPAM MSC binding [1]
+> - cacheinfo: expose cache-id generation from a device_node [2]
+> - arm_mpam: device tree support for MSC probing [3]
+> - arm_mpam: memory controller MSC support on DT platforms [4]
+> 
+> New on top:
+> - standalone fixes extracted from the inherited patches (device_node
+>    refcount, cache-id sentinel/type, RIS index range checks, MSC window
+>    size, accessibility return type, foundling MSC creation, cache-id
+>    error path)
+> - dt-bindings: schema and example fixes
+> - arm_mpam: derive MSC accessibility from per-RIS nodes as a fallback
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?h=mpam/snapshot+extras/v6.18-rc1&id=b38bed339681
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?h=mpam/snapshot+extras/v6.18-rc1&id=2af39084438c
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?h=mpam/snapshot+extras/v6.18-rc1&id=a6ab8b6c77cb
+> [4] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?h=mpam/snapshot+extras/v6.18-rc1&id=c1be40782ace
+> 
+> DT affinity model
+> -----------------
+> An MSC node is nested under the device it partitions or monitors. For a
+> cache MSC this is the cache node, so the MSC's CPU affinity is derived
+> from its parent cache; for a memory-controller MSC the parent is the
+> memory device, which is accessible from all CPUs. A per-RIS fallback is
+> also provided: when an MSC sits under a generic container with no
+> affinity-bearing parent, affinity is resolved from an explicit 'cpus'
+> phandle or an 'arm,mpam-device' phandle on each RIS node.
+> 
+> The Kaanapali DTS patch is for local enabling and verification only and
+> cannot be upstreamed: the platform is already upstream with a public
+> device tree, and production firmware does not allow the OS to write the
+> MSC registers, so this path only works on a local test setup. The MSC
+> nodes are disabled by default, serving as a reference example for other
+> platform DT authors.
+> 
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> ---
+> To: James Morse <james.morse@arm.com>
+> To: Rob Herring <robh@kernel.org>
+> To: Shanker Donthineni <sdonthineni@nvidia.com>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Ben Horgan <ben.horgan@arm.com>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> To: "Rafael J. Wysocki" <rafael@kernel.org>
+> To: Danilo Krummrich <dakr@kernel.org>
+> To: Reinette Chatre <reinette.chatre@intel.com>
+> To: Fenghua Yu <fenghuay@nvidia.com>
+> To: Bjorn Andersson <andersson@kernel.org>
+> To: Konrad Dybcio <konradybcio@kernel.org>
+> Cc: trilok.soni@oss.qualcomm.com
+> Cc: aiqun.yu@oss.qualcomm.com
+> Cc: ganapatrao.kulkarni@oss.qualcomm.com
+> Cc: Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: driver-core@lists.linux.dev
+> Cc: devicetree@vger.kernel.org
+> Cc: trilok.soni@oss.qualcomm.com
+> Cc: aiqun.yu@oss.qualcomm.com
+> Cc: ganapatrao.kulkarni@oss.qualcomm.com
+> Cc: Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>
+> 
+> ---
+> James Morse (2):
+>        cacheinfo: Expose the code to generate a cache-id from a device_node
+>        arm_mpam: Add device tree support for MSC probing
+> 
+> Rob Herring (1):
+>        dt-bindings: arm: Add MPAM MSC binding
+> 
+> Shanker Donthineni (1):
+>        arm_mpam: Add support for memory controller MSC on DT platforms
+> 
+> Yin Li (11):
+>        arm_mpam: Fix device_node refcount in DT resource parsing
+>        arm_mpam: Fix cache ID sentinel from ~0UL to U32_MAX to match u32 return type
+>        arm_mpam: Fix the RIS index range check in mpam_ris_create_locked
+>        arm_mpam: Fix ris_idx type to prevent range check bypass on truncation
+>        arm_mpam: Fix MSC MMIO window size to use resource_size() instead of end - start
+>        arm_mpam: Fix update_msc_accessibility() return type to void
+>        arm_mpam: Fix mpam_dt_create_foundling_msc() to create MSC platform devices
+>        arm_mpam: Fix get_cpumask_from_cache() to clear mask on error
+>        dt-bindings: arm: Fix MPAM MSC binding schema and examples
+>        arm_mpam: Support MSC accessibility derivation from RIS nodes
+>        [DNM] arm64: dts: qcom: kaanapali: Add MPAM MSC nodes for the L2 caches
+> 
+>   .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 202 +++++++++++
+>   arch/arm64/boot/dts/qcom/kaanapali.dtsi            |  50 ++-
+>   drivers/base/cacheinfo.c                           |  19 +-
+>   drivers/resctrl/mpam_devices.c                     | 401 +++++++++++++++++++--
+>   drivers/resctrl/mpam_internal.h                    |   2 +-
+>   include/linux/arm_mpam.h                           |   4 +-
+>   include/linux/cacheinfo.h                          |   3 +
+>   7 files changed, 638 insertions(+), 43 deletions(-)
+> ---
+> base-commit: 3d08ff75a47a3e7e2ab45a3bcab6723b4d906422
+> change-id: 20260731-mpam-resctrl-dt-knp-support-c15dcc3a4a98
+> 
+> Best regards,
+> --
+> Yin Li <yin.li@oss.qualcomm.com>
+> 
+
+-- 
+Thx and BRs,
+Yin
+
