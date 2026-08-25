@@ -1,113 +1,170 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B8E1B4223
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 02:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7575B78C9C
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 02:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787623253; cv=none; b=hs9g5laP4jzx7hs4X9qcvveRBq+HY2w6g4R2y7qO6GdnEvUNLDnPSrtvOOGecz7ltCwZ+CcBmR0r7ZcZpOEqcB+1ksHK0t7LQzHhKmucISOL2DUwBXOtX0IsmTo1lEC4pU442823+dUO41L+zpcgNalQAVUwe8AzC4yHgo3seZY=
+	t=1787624804; cv=none; b=ZOqchqjzWUEfNE+GB+FWx7tFz/KwVfOeUWzPLbdLuwKglcJDv+cpsfFB5WhPPyMSUHZeElNPauGxIHA9G1gDZ/RYm/iN1BiE+cb+VzsgVu6r022gGEczueY63+y+FCJAAnwv5r6VN4dIjwmOB1GbD7LpAvxUjz2Aen04QHcFgtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787623253; c=relaxed/simple;
-	bh=guMQe8VhuUcx6ei2ldcPojriHPJXPEJIpjG3ME4KyDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fHD0s/CCkeU7dTBVw0FEQDOK+SAkKGxpIrqpzBzgS2FLmsS0vsY358JrjydkgrcCW7vVTGdlQGbcc/vpRnjNXlvsgJ0dQhQNmZ3/tyvYLJZiTjCaOgJoeVv7QDbQonAtrQhZaQZyApxKX+So2y4DNU9P1ObTf2k/7W3T59qVfQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=09S7TYJR; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787624804; c=relaxed/simple;
+	bh=59oDA8OxqCcTABs6FaXD4uZZ6h0YHjbqVgHwIRKfCEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FEZgAO9q6sn717WyzvfkV93wRJLHAsz8NXVcAYcAHONxcdBDEyn+TMbvfT0Li/Rsizt6Yw6dPSI+pVvW6C0gS+TQoZngZQwBqrpIBNp2wJaBRptJmmNjwaiQrwGxFNrX51F61DiExswxl0trkbJ+awlpryY65WZfsx83z10aisg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l43i7BFK; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="09S7TYJR"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=eYNpA1Cjg66vAxWKuNBevFxzrmWfEW5RTnkNOKHT9Lo=;
-	b=09S7TYJRR1spigIQyapTYNO3i1aTuoityuW2zcGz++GJZJQF7Eyieq6o3XkABKDLxiVJVrBPU
-	SoDrMECSup+394btecfKJ/Ylk8UQWlet+lzsl2GSMdohwO47sZ6dNWeGU4GmiL7tXsZ5flRceTH
-	g8m58xRMV+c84F5uR3U9hZA=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hTW2B1SyqznTxv;
-	Tue, 25 Aug 2026 09:50:26 +0800 (CST)
-Received: from kwepemr200004.china.huawei.com (unknown [7.202.195.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id 676B64057A;
-	Tue, 25 Aug 2026 10:00:41 +0800 (CST)
-Received: from [10.67.121.62] (10.67.121.62) by kwepemr200004.china.huawei.com
- (7.202.195.241) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 25 Aug
- 2026 10:00:40 +0800
-Message-ID: <5fe88f15-3164-4a9b-b490-334e91ad7644@huawei.com>
-Date: Tue, 25 Aug 2026 10:00:39 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l43i7BFK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787624802; x=1819160802;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=59oDA8OxqCcTABs6FaXD4uZZ6h0YHjbqVgHwIRKfCEk=;
+  b=l43i7BFKMVGFAa+ZwsfNt/jjkLmYllJCGR7JaxCJSyfuvBqUZnj/P+mr
+   /7vn4POg4dTzTWVzP8N3aSCH5ot8ZQ0fcVZ7PhrxPtzlR0umFKAdqHNNs
+   a0O+h1cyVLMwlpxB8gzHSf7S6YFzAG/aSDTshf1NMC3eteQPg47PlGacW
+   tPWblqa64bnWjWfWCaGOI6nOZnJsaj906qK54SNzGT+6CAIbujBsd6rOq
+   jHngJB+jkQPLvec4hdglcLnDdAnQogXmmmc/QJ9LZpy9X3WATe2MWOYgs
+   nsmrOnbHcKjpAZFPTYQnVICKedO4n/mOEfhKZOUewAH0xqRAP+qy29nsJ
+   g==;
+X-CSE-ConnectionGUID: Tkp6yERpTrC8ZSJsbcZTVg==
+X-CSE-MsgGUID: mcUU294EQ+OKkrMvgY8bSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98760914"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="98760914"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:41 -0700
+X-CSE-ConnectionGUID: qw57hyDPQVqR+IkyCbQLew==
+X-CSE-MsgGUID: yqTxaTRTTP67lZe80asckg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="265390022"
+Received: from fdefranc-mobl3.igk.intel.com ([172.28.182.157])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:34 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: linux-cxl@vger.kernel.org
+Cc: David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Subject: [PATCH v2 00/13] Make SBR work for CXL Downstream Ports
+Date: Tue, 25 Aug 2026 04:26:15 +0200
+Message-ID: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] PM: sleep: Unblock runtime PM when device prepare
- fails
-To: Shibo Zhu <3499129952@qq.com>, "Rafael J . Wysocki" <rafael@kernel.org>
-CC: Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich
-	<dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>, <linux-pm@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <tencent_C5AC0A02FC01F700E764F8C2E3ECE4F41009@qq.com>
-From: Pengjie Zhang <zhangpengjie2@huawei.com>
-In-Reply-To: <tencent_C5AC0A02FC01F700E764F8C2E3ECE4F41009@qq.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemr200004.china.huawei.com (7.202.195.241)
+Content-Transfer-Encoding: 8bit
 
+A Secondary Bus Reset (SBR), a Link Down or a Downstream Port
+Containment (DPC) event on a CXL Downstream Port clears the Downstream
+Component's captured Bus Number. CXL r4.0 sec 8.1.5.1 notes that, if the
+Component then sources its Power Management (PM) Initialization traffic
+with Requester Bus = 0, a Port with Access Control Services (ACS) Source
+Validation (SV) enabled may reject the Component's CREDIT_RTN IP2PM
+message, PM Initialization may fail to complete, and that "another
+Secondary Bus Reset alone will not facilitate recovery". PCIe r7.0 sec
+6.12.1.1 makes the rejection an error that is reported as ACS Violation.
 
-On 8/19/2026 12:18 AM, Shibo Zhu wrote:
-> device_prepare() blocks runtime PM for a device with runtime PM disabled
-> before invoking its system-sleep ->prepare() callback. For a device that
-> has never enabled runtime PM, this changes dev->power.last_status from
-> RPM_INVALID to RPM_BLOCKED.
->
-> If the callback returns an error, dpm_prepare() does not move the device
-> to dpm_prepared_list. Consequently, the recovery path through
-> dpm_complete() never calls device_complete() for the failing device.
->
-> The error path drops the runtime PM usage reference, but does not clear
-> RPM_BLOCKED. A later legitimate pm_runtime_enable() then reports:
->
->    Attempt to enable runtime PM when it is blocked
->
-> before clearing the stale state.
->
-> Call pm_runtime_unblock() on the prepare error path before dropping the
-> runtime PM reference, matching the cleanup performed by device_complete().
->
-> The issue was reproduced with a platform test device whose ->prepare()
-> callback returns -EIO while runtime PM has never been enabled. Before
-> the fix, last_status remained RPM_BLOCKED after the failed suspend and
-> the first pm_runtime_enable() produced the warning above. With the fix,
-> last_status is restored to RPM_INVALID and the warning is absent.
->
-> Fixes: 3e5eee147b7b ("PM: Block enabling of runtime PM during system suspend")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.6-sol
-> Assisted-by: ChatGPT:GPT-5.6 Sol
-> Signed-off-by: Shibo Zhu <3499129952@qq.com>
-> ---
->   drivers/base/power/main.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index f71467f6ada4..4ed2e9b7e99b 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -2234,6 +2234,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
->   
->   	if (ret < 0) {
->   		suspend_report_result(dev, callback, ret);
-> +		pm_runtime_unblock(dev);
->   		pm_runtime_put(dev);
->   		return ret;
->   	}
+The Implementation Note under sec 8.1.5.1 gives the sequence that avoids
+it: save and clear Bus Master Enable and ACS SV, generate the SBR, wait
+for Port PM Initialization Complete, restore both bits, continue device
+re-initialization. This series takes a step further to a preventive
+measure that avoids the ACS Violation in the first place, not after
+failure.
 
-LGTM.
+Patches 1-5 restore HDM Decoder registers below a reset CXL Downstream
+Port.
 
-Reviewed-by: Pengjie Zhang <zhangpengjie2@huawei.com>
+Patches 6-8 disable and re-enable the CXL Regions around the reset:
+offline memory, invalidate CPU caches for its range, collect the set of
+regions the CXL DPort which is SBR andunbind the driver.
 
-> base-commit: 0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
+Patch 9 disable and re-enable CXL regions across a Downstream Port reset
+and registers the CXL region callbacks for a Downstream Port bus. We
+want the reset to be called only when the CXL driver is loaded.
+
+Patch 10 calls the CXL operations from pci_bridge_secondary_bus_reset().
+
+Patch 11 issues the same sequence from dpc_reset_link().
+
+Patches 12 and 13 gives root a sysfs attribute that conrols whether the
+SBR is allowed to be unmasked and prevents kernel from unmasking SBR on
+its own.
+
+What user space finds after an SBR of a CXL Downstream Port: the dax
+device returns under the same name, the region's HPA range, interleave
+geometry and decoder programming are restored, and the media content is
+unchanged for PMEM. System RAM comes back registered but offline.
+
+Fabio M. De Francesco (13):
+  cxl/pci: Make the HDM and Mem_Enable writes callable from cxl_core
+  cxl/hdm: Add cxl_decoder_recommit() to restore one HDM decoder
+  cxl/hdm: Add cxl_endpoint_enable_hdm_decode() to restore CXL.mem
+    decode
+  cxl/hdm: Reprogram the HDM Decoders below a CXL Port
+  cxl/core: Restore the HDM decoders below a reset Downstream Port
+  drivers/base/memory: Add cxl_offline_memory() to offline a physical
+    range
+  cxl/core: Add region disable and enable for a Downstream Port reset
+  cxl/core: Collect the CXL regions routed through a Downstream Port
+  PCI/CXL: Register CXL region callbacks for a Downstream Port bus reset
+  PCI/CXL: Clear ACS SV across an SBR of a CXL Downstream Port
+  PCI/DPC: Issue the CXL recovery SBR from DPC without offlining memory
+  PCI/CXL: Add cxl_unmask_sbr to permit an SBR of a CXL Downstream Port
+  PCI/CXL: Refuse an SBR of a CXL Downstream Port without the unmask
+    consent
+
+ Documentation/ABI/testing/sysfs-bus-pci |  16 +
+ drivers/base/memory.c                   |  36 +++
+ drivers/cxl/core/Makefile               |   2 +-
+ drivers/cxl/core/core.h                 |  28 ++
+ drivers/cxl/core/dport_sbr.c            | 374 ++++++++++++++++++++++++
+ drivers/cxl/core/hdm.c                  | 341 +++++++++++++++++++++
+ drivers/cxl/core/pci.c                  |  19 +-
+ drivers/cxl/core/port.c                 |   4 +-
+ drivers/cxl/core/ras.c                  |  10 +
+ drivers/cxl/core/region.c               |   6 +-
+ drivers/pci/pci-sysfs.c                 |  31 ++
+ drivers/pci/pci.c                       | 254 +++++++++++++++-
+ drivers/pci/pci.h                       |  15 +
+ drivers/pci/pcie/dpc.c                  |  46 ++-
+ include/linux/aer.h                     |   9 +
+ include/linux/memory.h                  |   5 +
+ include/linux/pci.h                     |  16 +
+ include/uapi/linux/pci_regs.h           |   2 +
+ tools/testing/cxl/Kbuild                |   2 +-
+ 19 files changed, 1193 insertions(+), 23 deletions(-)
+ create mode 100644 drivers/cxl/core/dport_sbr.c
+
+-- 
+2.55.0
+
