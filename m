@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7575B78C9C
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 02:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0163161A1
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 02:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787624804; cv=none; b=ZOqchqjzWUEfNE+GB+FWx7tFz/KwVfOeUWzPLbdLuwKglcJDv+cpsfFB5WhPPyMSUHZeElNPauGxIHA9G1gDZ/RYm/iN1BiE+cb+VzsgVu6r022gGEczueY63+y+FCJAAnwv5r6VN4dIjwmOB1GbD7LpAvxUjz2Aen04QHcFgtU=
+	t=1787624810; cv=none; b=Q8qbfE7nZXWeQ/Z5AFwK64QDWudUsLkCdNSqrIlpI6dlPrNhd9M4tSnar6wbEtgkupqw9BNVoKy101KmbGAjJhxflMRHIVus0izt7ERu5NuozXnYL6QROD03DuVQ27CAq/9KkTqOcr6XR8+QuPsZYIRtG0hhBG1FgEIV+YEmMlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787624804; c=relaxed/simple;
-	bh=59oDA8OxqCcTABs6FaXD4uZZ6h0YHjbqVgHwIRKfCEk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FEZgAO9q6sn717WyzvfkV93wRJLHAsz8NXVcAYcAHONxcdBDEyn+TMbvfT0Li/Rsizt6Yw6dPSI+pVvW6C0gS+TQoZngZQwBqrpIBNp2wJaBRptJmmNjwaiQrwGxFNrX51F61DiExswxl0trkbJ+awlpryY65WZfsx83z10aisg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l43i7BFK; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1787624810; c=relaxed/simple;
+	bh=tsn1ZiUbzdaF4vYy7trPOo26c92bIqiH3qklxnc8dFw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fRXapQIuuNUFb7UOL9pbg4HTEe3A5SJP8aSgmMeWJMDeDAYx2sz7qGzo8TgMG/vTmNJ53ffLkIEcuWVwCPHvHNcqFw4nw2RF9laPe1pmrI1Puf0g9uJaWCLu2X2e8PECspKAEVO2cpNTrkixXQvvXypjdK9aNeBiVEmVXq7GRkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lqext/n6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l43i7BFK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lqext/n6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787624802; x=1819160802;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=59oDA8OxqCcTABs6FaXD4uZZ6h0YHjbqVgHwIRKfCEk=;
-  b=l43i7BFKMVGFAa+ZwsfNt/jjkLmYllJCGR7JaxCJSyfuvBqUZnj/P+mr
-   /7vn4POg4dTzTWVzP8N3aSCH5ot8ZQ0fcVZ7PhrxPtzlR0umFKAdqHNNs
-   a0O+h1cyVLMwlpxB8gzHSf7S6YFzAG/aSDTshf1NMC3eteQPg47PlGacW
-   tPWblqa64bnWjWfWCaGOI6nOZnJsaj906qK54SNzGT+6CAIbujBsd6rOq
-   jHngJB+jkQPLvec4hdglcLnDdAnQogXmmmc/QJ9LZpy9X3WATe2MWOYgs
-   nsmrOnbHcKjpAZFPTYQnVICKedO4n/mOEfhKZOUewAH0xqRAP+qy29nsJ
-   g==;
-X-CSE-ConnectionGUID: Tkp6yERpTrC8ZSJsbcZTVg==
-X-CSE-MsgGUID: mcUU294EQ+OKkrMvgY8bSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98760914"
+  t=1787624808; x=1819160808;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=tsn1ZiUbzdaF4vYy7trPOo26c92bIqiH3qklxnc8dFw=;
+  b=Lqext/n6PerszdaIWyRyznOgBQ5wbVUkQ3WW7QldmbMP5DEGOPsPt0Do
+   D0VEcIusxjAbsVzf/dTeKpr8S1VQ84eMPSlfhWhivJut6mm6XzhYEH/du
+   Q1e9wyZUN4S8vgvYWwF/OcabzKlvnbW8k0L/rsaf9gBBvAC8FL/ABBm68
+   S7qsvyvyugDbo8hGFKPa7XeFX8fHy1O4Rt8GnsDSTYxwas7MoHBK9jd0p
+   9hkv6LqeuXFM81beK7hRUP8FAHXjtFZt9PavEw37wdk1KSQTGYNw8HCDF
+   WJjvmjWiWTirNqz5dRtZ5mUOfEYq9nT7l+EoNyeLF7Sr2qQ9jfe/q0/DA
+   Q==;
+X-CSE-ConnectionGUID: Roh7qpCWRG2HZXFp6GLfvA==
+X-CSE-MsgGUID: veWpuJqZTs6jx0QxGSPUxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98760948"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="98760914"
+   d="scan'208";a="98760948"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:41 -0700
-X-CSE-ConnectionGUID: qw57hyDPQVqR+IkyCbQLew==
-X-CSE-MsgGUID: yqTxaTRTTP67lZe80asckg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:48 -0700
+X-CSE-ConnectionGUID: lF9tHVnlTmmDi5NsgwZhEQ==
+X-CSE-MsgGUID: NWBh33+kSD+0V6l964YYkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="265390022"
+   d="scan'208";a="265390038"
 Received: from fdefranc-mobl3.igk.intel.com ([172.28.182.157])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:34 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:26:42 -0700
 From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
 To: linux-cxl@vger.kernel.org
 Cc: David Hildenbrand <david@kernel.org>,
@@ -72,10 +73,12 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-pci@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Subject: [PATCH v2 00/13] Make SBR work for CXL Downstream Ports
-Date: Tue, 25 Aug 2026 04:26:15 +0200
-Message-ID: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
+Subject: [PATCH v2 01/13] cxl/pci: Make the HDM and Mem_Enable writes callable from CXL
+Date: Tue, 25 Aug 2026 04:26:16 +0200
+Message-ID: <20260825022628.3651434-2-fabio.m.de.francesco@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
+References: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -84,87 +87,78 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A Secondary Bus Reset (SBR), a Link Down or a Downstream Port
-Containment (DPC) event on a CXL Downstream Port clears the Downstream
-Component's captured Bus Number. CXL r4.0 sec 8.1.5.1 notes that, if the
-Component then sources its Power Management (PM) Initialization traffic
-with Requester Bus = 0, a Port with Access Control Services (ACS) Source
-Validation (SV) enabled may reject the Component's CREDIT_RTN IP2PM
-message, PM Initialization may fail to complete, and that "another
-Secondary Bus Reset alone will not facilitate recovery". PCIe r7.0 sec
-6.12.1.1 makes the rejection an error that is reported as ACS Violation.
+Split the Global Control write out of devm_cxl_enable_hdm() as
+cxl_enable_hdm() and drop the static from cxl_set_mem_enable(), so both
+are reachable from the rest of cxl_core. Declare them in core.h.
 
-The Implementation Note under sec 8.1.5.1 gives the sequence that avoids
-it: save and clear Bus Master Enable and ACS SV, generate the SBR, wait
-for Port PM Initialization Complete, restore both bits, continue device
-re-initialization. This series takes a step further to a preventive
-measure that avoids the ACS Violation in the first place, not after
-failure.
+Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+---
+ drivers/cxl/core/core.h |  2 ++
+ drivers/cxl/core/pci.c  | 19 ++++++++++++++-----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-Patches 1-5 restore HDM Decoder registers below a reset CXL Downstream
-Port.
-
-Patches 6-8 disable and re-enable the CXL Regions around the reset:
-offline memory, invalidate CPU caches for its range, collect the set of
-regions the CXL DPort which is SBR andunbind the driver.
-
-Patch 9 disable and re-enable CXL regions across a Downstream Port reset
-and registers the CXL region callbacks for a Downstream Port bus. We
-want the reset to be called only when the CXL driver is loaded.
-
-Patch 10 calls the CXL operations from pci_bridge_secondary_bus_reset().
-
-Patch 11 issues the same sequence from dpc_reset_link().
-
-Patches 12 and 13 gives root a sysfs attribute that conrols whether the
-SBR is allowed to be unmasked and prevents kernel from unmasking SBR on
-its own.
-
-What user space finds after an SBR of a CXL Downstream Port: the dax
-device returns under the same name, the region's HPA range, interleave
-geometry and decoder programming are restored, and the media content is
-unchanged for PMEM. System RAM comes back registered but offline.
-
-Fabio M. De Francesco (13):
-  cxl/pci: Make the HDM and Mem_Enable writes callable from cxl_core
-  cxl/hdm: Add cxl_decoder_recommit() to restore one HDM decoder
-  cxl/hdm: Add cxl_endpoint_enable_hdm_decode() to restore CXL.mem
-    decode
-  cxl/hdm: Reprogram the HDM Decoders below a CXL Port
-  cxl/core: Restore the HDM decoders below a reset Downstream Port
-  drivers/base/memory: Add cxl_offline_memory() to offline a physical
-    range
-  cxl/core: Add region disable and enable for a Downstream Port reset
-  cxl/core: Collect the CXL regions routed through a Downstream Port
-  PCI/CXL: Register CXL region callbacks for a Downstream Port bus reset
-  PCI/CXL: Clear ACS SV across an SBR of a CXL Downstream Port
-  PCI/DPC: Issue the CXL recovery SBR from DPC without offlining memory
-  PCI/CXL: Add cxl_unmask_sbr to permit an SBR of a CXL Downstream Port
-  PCI/CXL: Refuse an SBR of a CXL Downstream Port without the unmask
-    consent
-
- Documentation/ABI/testing/sysfs-bus-pci |  16 +
- drivers/base/memory.c                   |  36 +++
- drivers/cxl/core/Makefile               |   2 +-
- drivers/cxl/core/core.h                 |  28 ++
- drivers/cxl/core/dport_sbr.c            | 374 ++++++++++++++++++++++++
- drivers/cxl/core/hdm.c                  | 341 +++++++++++++++++++++
- drivers/cxl/core/pci.c                  |  19 +-
- drivers/cxl/core/port.c                 |   4 +-
- drivers/cxl/core/ras.c                  |  10 +
- drivers/cxl/core/region.c               |   6 +-
- drivers/pci/pci-sysfs.c                 |  31 ++
- drivers/pci/pci.c                       | 254 +++++++++++++++-
- drivers/pci/pci.h                       |  15 +
- drivers/pci/pcie/dpc.c                  |  46 ++-
- include/linux/aer.h                     |   9 +
- include/linux/memory.h                  |   5 +
- include/linux/pci.h                     |  16 +
- include/uapi/linux/pci_regs.h           |   2 +
- tools/testing/cxl/Kbuild                |   2 +-
- 19 files changed, 1193 insertions(+), 23 deletions(-)
- create mode 100644 drivers/cxl/core/dport_sbr.c
-
+diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+index 07555ae63859..4dc324f019ab 100644
+--- a/drivers/cxl/core/core.h
++++ b/drivers/cxl/core/core.h
+@@ -213,6 +213,8 @@ int cxl_gpf_port_setup(struct cxl_dport *dport);
+ struct cxl_hdm;
+ int cxl_hdm_decode_init(struct cxl_dev_state *cxlds, struct cxl_hdm *cxlhdm,
+ 			struct cxl_endpoint_dvsec_info *info);
++void cxl_enable_hdm(struct cxl_hdm *cxlhdm, u32 global_ctrl);
++int cxl_set_mem_enable(struct cxl_dev_state *cxlds, u16 val);
+ int cxl_port_get_possible_dports(struct cxl_port *port);
+ 
+ #ifdef CONFIG_CXL_FEATURES
+diff --git a/drivers/cxl/core/pci.c b/drivers/cxl/core/pci.c
+index e4338fd7e01b..a7a2b84293e9 100644
+--- a/drivers/cxl/core/pci.c
++++ b/drivers/cxl/core/pci.c
+@@ -179,7 +179,7 @@ int cxl_await_media_ready(struct cxl_dev_state *cxlds)
+ }
+ EXPORT_SYMBOL_NS_GPL(cxl_await_media_ready, "CXL");
+ 
+-static int cxl_set_mem_enable(struct cxl_dev_state *cxlds, u16 val)
++int cxl_set_mem_enable(struct cxl_dev_state *cxlds, u16 val)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(cxlds->dev);
+ 	int d = cxlds->cxl_dvsec;
+@@ -247,14 +247,23 @@ static void disable_hdm(void *_cxlhdm)
+ 	       hdm + CXL_HDM_DECODER_CTRL_OFFSET);
+ }
+ 
+-static int devm_cxl_enable_hdm(struct device *host, struct cxl_hdm *cxlhdm)
++/*
++ * @global_ctrl is the CXL HDM Decoder Global Control value to enable decode in.
++ * A caller restoring decode after a reset passes the value it saved, so the
++ * fields the driver does not model are not left at their reset defaults.
++ */
++void cxl_enable_hdm(struct cxl_hdm *cxlhdm, u32 global_ctrl)
+ {
+ 	void __iomem *hdm = cxlhdm->regs.hdm_decoder;
+-	u32 global_ctrl;
+ 
+-	global_ctrl = readl(hdm + CXL_HDM_DECODER_CTRL_OFFSET);
+ 	writel(global_ctrl | CXL_HDM_DECODER_ENABLE,
+ 	       hdm + CXL_HDM_DECODER_CTRL_OFFSET);
++}
++
++static int devm_cxl_enable_hdm(struct device *host, struct cxl_hdm *cxlhdm,
++			       u32 global_ctrl)
++{
++	cxl_enable_hdm(cxlhdm, global_ctrl);
+ 
+ 	return devm_add_action_or_reset(host, disable_hdm, cxlhdm);
+ }
+@@ -398,7 +407,7 @@ int cxl_hdm_decode_init(struct cxl_dev_state *cxlds, struct cxl_hdm *cxlhdm,
+ 	 * enable and use the HDM Decoder Capability registers.
+ 	 */
+ 	if (!info->mem_enabled) {
+-		rc = devm_cxl_enable_hdm(&port->dev, cxlhdm);
++		rc = devm_cxl_enable_hdm(&port->dev, cxlhdm, global_ctrl);
+ 		if (rc)
+ 			return rc;
+ 
 -- 
 2.55.0
 
