@@ -1,162 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD1031E847
-	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 02:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4972D2E06D2
+	for <driver-core@lists.linux.dev>; Tue, 25 Aug 2026 03:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787624898; cv=none; b=Rkou7qGoaOeXtd1FF7z10Q35vn7O/3qkY4UIN4hQmdr6gdaSr9vrcKasagIbF9R85GIGVvzYjdvvZEZ6NH78+YJQPwgiVLwq2HmXVTzLC6CC6wxHFSbVrLvS54lGQ7iu/R0+K/B17hfPt2NHK0GmXYkxG6nE/Ua0YaCBRI8bE4c=
+	t=1787630071; cv=none; b=kVWQ6ulAa6LD4wLJc4rxWxueUHREXACZAQqNBT1Az9opvGzZxNeQiJ5n0bv0nQdCcylC0EWvVVYZinq7nj6xCFZMy9J3gSLJdHgrEo2OkbSUxc+wNE75J8sKKkhe8RhENDqv3ODoeVOaCeJOQjxQurqoK80YP0yqx2uTEVUOO1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787624898; c=relaxed/simple;
-	bh=p35ooKxDDEqYJs00+ywe+gwGYag0qhbr8UgYGTT8yA4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gVSZAnEc02KRQIrnDC9aZPfTKXcNfXyA9pf6OgUApC+xikXjD5T/RaJE7SBe2AGVBcNQtRNxsQ8gn6wEki7N/yE/PGW6PDbr9kAv4JWp4u4vF3zTJ9AezbfL6xYMxVX/GetZwAEVr9P+SBsbxUppO6VdSa+xG5S6uMjk2FQuBaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fzkpQaC8; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fzkpQaC8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787624896; x=1819160896;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=p35ooKxDDEqYJs00+ywe+gwGYag0qhbr8UgYGTT8yA4=;
-  b=fzkpQaC8uWadYG0y4K7iHcuz+wSfPCzR9+4BsqNHv+1ZpCcATB1bvey/
-   gO1TSUnBB1PDHjDo9v7Ra00p7wlxGsLZrnGJBlgDwTGVcDy19Mf+B8juH
-   8WbbbFhgSP6871PeIbe758rtJH81+SMOUk8x0P1mw151mWzWVIlZ2s8mS
-   jMFg2KxCxgE3IxO6YebNkXQ6rItOCZnWXDDFiAKNdL3yraUINoVD+Zadi
-   fzX+WWILBIxbzr+Q1JavF+JNjvnZUeuduW1udiPkRsUN120AB33t7Bzo6
-   eI/lsrvTeYbsWtUoXyaI+96tb58F4zoopItcCmcdBtUaIY15awTTAXTlq
-   g==;
-X-CSE-ConnectionGUID: F2ThRn5ZSQqAyOj1uguSNw==
-X-CSE-MsgGUID: /CCcjugPQ/e0ChPSqKVsHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98761242"
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="98761242"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:28:16 -0700
-X-CSE-ConnectionGUID: KQlGpQmQRWef0MiKW/Zq2g==
-X-CSE-MsgGUID: n6NeHPHmT6KWhioKt0tOhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="265390156"
-Received: from fdefranc-mobl3.igk.intel.com ([172.28.182.157])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 19:28:09 -0700
-From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-To: linux-cxl@vger.kernel.org
-Cc: David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Subject: [PATCH v2 13/13] PCI/CXL: Refuse an SBR of a CXL DPort unless authorized
-Date: Tue, 25 Aug 2026 04:26:28 +0200
-Message-ID: <20260825022628.3651434-14-fabio.m.de.francesco@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
-References: <20260825022628.3651434-1-fabio.m.de.francesco@linux.intel.com>
+	s=arc-20240116; t=1787630071; c=relaxed/simple;
+	bh=VxmrCrogWby7B6y3p6NYGqDejleVY/FKmZEpApOWwqA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=CMChfIIpJ9q5sWoCxQQadBiXCMXznbrXdsxyZ4gkaCzuzuENgmVDHgzlZQPWZUJ4cT6hiH7+WyRpnHV3APcTTwyN0FcPKsQXbKnJnuy5V3SGJ1VR2qQe1wZVaqOoJsClanCh2AJwNbx9VD8iBNJ2PQXxI8gDdqnq5cv+yKB18io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.190.160.162])
+	by mtasvr (Coremail) with SMTP id _____wDH4HzkEY1q2j3AAA--.6389S3;
+	Tue, 25 Aug 2026 11:54:13 +0800 (CST)
+Received: from stitch$zju.edu.cn ( [10.190.160.162] ) by
+ ajax-webmail-mail-app4 (Coremail) ; Tue, 25 Aug 2026 11:54:12 +0800
+ (GMT+08:00)
+Date: Tue, 25 Aug 2026 11:54:12 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Jiacheng Xu" <stitch@zju.edu.cn>
+To: "Vishal Moola (Fractile)" <vishal.moola@gmail.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	akpm@linux-foundation.org, driver-core@lists.linux.dev
+Subject: Re: Re: [PATCH] kobject: fix out-of-bounds read in action parser
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
+ 20260617(6f868824) Copyright (c) 2002-2026 www.mailtech.cn zju.edu.cn
+In-Reply-To: <aoyARlxyR9c71H8Z@fedora>
+References: <200d27f7.1471a.1a0138c92da.Coremail.stitch@zju.edu.cn>
+ <aoyARlxyR9c71H8Z@fedora>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <1bf799eb.19635.1a0370de3aa.Coremail.stitch@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:zi_KCgCXyjHkEY1quaNqAw--.24249W
+X-CM-SenderInfo: qtrxiiaqttimo62m3hxhgxhubq/1tbiAwcOC2qM9pcCBgAAsC
+X-CM-DELIVERINFO: =?B?DN7LTQXKKxbFmtjJiESix3B1w3tMoM3snk/k5SVzZVydjEqe1eefKHnLf95EnB4iem
+	egW+ApG9yJBpOLzq/ZrtXTM0TFkvQsQmc0KcqC7fgkZdcyFiz9WeIqfWJUtcwjB70cBLCt
+	X4yRQGcHAWj5gRoTSPrmw38AUTbQ3i2aPPIUePZ2aG1AcHrRV2I1pqiSdsP4Bg==
+X-Coremail-Antispam: 1Uk129KBj93XoWxJFWkJF1rAFyDtr4DZFyrAFc_yoW5GFyUpr
+	WfA3WakFyktw4kGwsrKa48WFy2v3WDJrnrXas09wn2kw1Y9wn3KFyDKry8ur13Cr1rAa4Y
+	qa1Yg3sIvayUAFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPGb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCF
+	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Jr0_Gr1l6VACY4xI67k04243AbIYCTnIWIevJa73UjIFyTuYvj
+	xU7GYpUUUUU
 
-CXL r4.0 sec 8.1.5.2 Table 8-32 describes a bit that makes the SBR bit
-in Bridge Control take effect at all, so a Port left at the firmware
-default is one the reset must not silently unmask.
-
-Add cxl_sbr_allowed() to answer if SBR is allowed: check if a Port whose
-Unmask SBR is already set needs no consent, as it happens with cxl_bus
-reset.
-
-Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
----
- drivers/pci/pci.c | 26 ++++++++++++++++++++++++++
- drivers/pci/pci.h |  1 +
- 2 files changed, 27 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index eedd516f8484..08873ea3957b 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4881,6 +4881,11 @@ static int cxl_sbr_prepare(struct pci_dev *bridge, u16 dvsec,
- {
- 	int rc;
- 
-+	if (action == CXL_SBR_OFFLINE_AND_UNBIND && !cxl_sbr_allowed(bridge)) {
-+		pci_info(bridge, "SBR masked, write 1 to cxl_unmask_sbr to allow a bus reset\n");
-+		return -ENOTTY;
-+	}
-+
- 	/*
- 	 * CXL_SBR_UNBIND: the link is already down, so offlining the regions'
- 	 * memory would take the reads that page migration performs as a machine
-@@ -5138,6 +5143,27 @@ static bool cxl_sbr_masked(struct pci_dev *dev)
- 	return true;
- }
- 
-+/*
-+ * cxl_sbr_allowed - whether an SBR of a CXL Downstream Port may go ahead
-+ * @dev: Downstream Port to test
-+ *
-+ * Per CXL r4.0 sec 8.1.5.2 Table 8-32 the SBR bit in a CXL Port's Bridge
-+ * Control register has no effect while the Port's Unmask SBR bit is clear, and
-+ * sec 9.12.3 says System Firmware may leave it clear "to prevent CXL-unaware
-+ * PCIe software from resetting the device and the link". A Port that already
-+ * has it set needs no further permission; otherwise unmasking it takes the
-+ * administrator's consent, given by writing 1 to the Port's cxl_unmask_sbr.
-+ *
-+ * Return: true if the reset paths may unmask and generate an SBR of @dev.
-+ */
-+bool cxl_sbr_allowed(struct pci_dev *dev)
-+{
-+	if (!cxl_port_dvsec(dev))
-+		return false;
-+
-+	return dev->cxl_unmask_sbr || !cxl_sbr_masked(dev);
-+}
-+
- static int pci_reset_bus_function(struct pci_dev *dev, bool probe)
- {
- 	struct pci_dev *bridge = pci_upstream_bridge(dev);
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index b6d873b077ed..bea05acc58f0 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -248,6 +248,7 @@ int __pci_bridge_secondary_bus_reset(struct pci_dev *dev,
- 				     enum cxl_sbr_region_action action);
- bool is_cxl_dport(struct pci_dev *dev);
- u16 cxl_port_dvsec(struct pci_dev *dev);
-+bool cxl_sbr_allowed(struct pci_dev *dev);
- int pci_bus_error_reset(struct pci_dev *dev);
- int pci_try_reset_bridge(struct pci_dev *bridge);
- 
--- 
-2.55.0
+VGhhbmtzIGZvciBwb2ludGluZyB0aGlzIG91dC4gSSdsbCByZWZvcm1hdCBhbmQgcmVzZW5kIHRo
+ZSBwYXRjaCBhcyB2Mi4gU29ycnkgZm9yIHRoZSBub2lzZS4KCj4gLS0tLS3ljp/lp4vpgq7ku7Yt
+LS0tLQo+IOWPkeS7tuS6ujogIlZpc2hhbCBNb29sYSAoRnJhY3RpbGUpIiA8dmlzaGFsLm1vb2xh
+QGdtYWlsLmNvbT4KPiDlj5HpgIHml7bpl7Q6MjAyNi0wOC0yNSAwMTozMjo1NCAo5pif5pyf5LqM
+KQo+IOaUtuS7tuS6ujogIkppYWNoZW5nIFh1IiA8c3RpdGNoQHpqdS5lZHUuY24+Cj4g5oqE6YCB
+OiBncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZywgcmFmYWVsQGtlcm5lbC5vcmcsIGRha3JAa2Vy
+bmVsLm9yZywgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZywgZHJpdmVyLWNvcmVAbGlzdHMubGlu
+dXguZGV2Cj4g5Li76aKYOiBSZTogW1BBVENIXSBrb2JqZWN0OiBmaXggb3V0LW9mLWJvdW5kcyBy
+ZWFkIGluIGFjdGlvbiBwYXJzZXIKPiAKPiBJIHdhcyBsb29raW5nIGF0IHJldmlld2luZyB5b3Vy
+IHBhdGNoLiBVbmZvcnR1bmF0ZWx5LCBpdCBkb2Vzbid0IGFwcGVhcgo+IHRvIGFwcGx5IGNsZWFu
+bHk7IEknbSBzZWVpbmc6Cj4gCj4gQXBwbHlpbmc6IGtvYmplY3Q6IGZpeCBvdXQtb2YtYm91bmRz
+IHJlYWQgaW4gYWN0aW9uIHBhcnNlcgo+IGVycm9yOiBjb3JydXB0IHBhdGNoIGF0IC5naXQvcmVi
+YXNlLWFwcGx5L3BhdGNoOjEwCj4gUGF0Y2ggZmFpbGVkIGF0IDAwMDEga29iamVjdDogZml4IG91
+dC1vZi1ib3VuZHMgcmVhZCBpbiBhY3Rpb24gcGFyc2VyCj4gCj4gSXQgbG9va3MgbGlrZSBzYXNo
+aWtvIGZhaWxlZCB0byBhcHBseSBpdCBhcyB3ZWxsWzFdLiBQZXJoYXBzIHlvdSBzaG91bGQKPiBy
+ZWZvcm1hdCBhbmQgcmVzZW5kPwo+IAo+IE9uIFR1ZSwgQXVnIDE4LCAyMDI2IGF0IDAyOjI2OjE0
+UE0gKzA4MDAsIEppYWNoZW5nIFh1IHdyb3RlOgo+ID4ga29iamVjdF9hY3Rpb25fdHlwZSgpIHVz
+ZXMgdGhlIHBvc2l0aW9uIG9mIHRoZSBmaXJzdCBzcGFjZSBpbiB0aGUgaW5wdXQKPiA+IGFzIHRo
+ZSBsZW5ndGggb2YgdGhlIHVldmVudCBhY3Rpb24uICBJdCB0aGVuIGNoZWNrcyB0aGUgYnl0ZSBh
+dCB0aGF0Cj4gPiBwb3NpdGlvbiBpbiB0aGUgY29ycmVzcG9uZGluZyBhY3Rpb24gc3RyaW5nLgo+
+ID4gCj4gPiBBbiBlbWJlZGRlZCBOVUwgYnl0ZSBjYW4gbWFrZSBzdHJuY21wKCkgcmVwb3J0IGEg
+bWF0Y2ggd2hpbGUKPiA+IGNvdW50X2ZpcnN0IGlzIGFscmVhZHkgZ3JlYXRlciB0aGFuIHRoZSBh
+Y3R1YWwgbGVuZ3RoIG9mIHRoZSBhY3Rpb24KPiA+IHN0cmluZy4gIEZvciBleGFtcGxlLCB0aGUg
+aW5wdXQgImJpbmRcMCAuLi4iIG1ha2VzIHRoZSBwYXJzZXIgYWNjZXNzCj4gPiBrb2JqZWN0X2Fj
+dGlvbnNbS09CSl9CSU5EXVs1XSwgd2hpY2ggaXMgYmV5b25kIHRoZSBlbmQgb2YgdGhlICJiaW5k
+Igo+ID4gc3RyaW5nLgo+ID4gCj4gPiBVc2Ugc3RybGVuKCkgdG8gdmVyaWZ5IHRoYXQgdGhlIGlu
+cHV0IGFjdGlvbiBsZW5ndGggZXhhY3RseSBtYXRjaGVzIHRoZQo+ID4ga25vd24gYWN0aW9uIHN0
+cmluZyBiZWZvcmUgYWNjZXB0aW5nIHRoZSBtYXRjaC4gIFRoaXMgYXZvaWRzIGluZGV4aW5nCj4g
+PiB0aGUgYWN0aW9uIHN0cmluZyB3aXRoIGFuIG91dC1vZi1ib3VuZHMgb2Zmc2V0Lgo+ID4gCj4g
+PiBGaXhlczogZjM2Nzc2ZmFmYmFhICgia29iamVjdDogc3VwcG9ydCBwYXNzaW5nIGluIHZhcmlh
+YmxlcyBmb3Igc3ludGhldGljIHVldmVudHMiKQo+ID4gU2lnbmVkLW9mZi1ieTogSmlhY2hlbmcg
+WHUgPHN0aXRjaEB6anUuZWR1LmNuPgo+ID4gLS0tCj4gPiBsaWIva29iamVjdF91ZXZlbnQuYyB8
+IDIgKy0KPiA+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvbGliL2tvYmplY3RfdWV2ZW50LmMgYi9saWIva29iamVjdF91
+ZXZlbnQuYwo+ID4gaW5kZXggZGRiYzRkNzQ4MmQyLi5iMDM1NjIzMDFiZmUgMTAwNjQ0Cj4gPiAt
+LS0gYS9saWIva29iamVjdF91ZXZlbnQuYwo+ID4gKysrIGIvbGliL2tvYmplY3RfdWV2ZW50LmMK
+PiA+IEBAIC04Myw3ICs4Myw3IEBAIHN0YXRpYyBpbnQga29iamVjdF9hY3Rpb25fdHlwZShjb25z
+dCBjaGFyICpidWYsIHNpemVfdCBjb3VudCwKPiA+IGZvciAoYWN0aW9uID0gMDsgYWN0aW9uIDwg
+QVJSQVlfU0laRShrb2JqZWN0X2FjdGlvbnMpOyBhY3Rpb24rKykgewo+ID4gICAgICAgICBpZiAo
+c3RybmNtcChrb2JqZWN0X2FjdGlvbnNbYWN0aW9uXSwgYnVmLCBjb3VudF9maXJzdCkgIT0gMCkK
+PiA+ICAgICAgICAgICAgICAgICBjb250aW51ZTsKPiA+IC0gICAgICAgICAgICAgaWYgKGtvYmpl
+Y3RfYWN0aW9uc1thY3Rpb25dW2NvdW50X2ZpcnN0XSAhPSAnXDAnKQo+ID4gKyAgICAgICAgICAg
+ICBpZiAoc3RybGVuKGtvYmplY3RfYWN0aW9uc1thY3Rpb25dKSAhPSBjb3VudF9maXJzdCkKPiA+
+ICAgICAgICAgICAgICAgICBjb250aW51ZTsKPiA+ICAgICAgICAgaWYgKGFyZ3MpCj4gPiAgICAg
+ICAgICAgICAgICAgKmFyZ3MgPSBhcmdzX3N0YXJ0Owo+IAo+IFsxXSBodHRwczovL3Nhc2hpa28u
+ZGV2LyMvcGF0Y2hzZXQvMjAwZDI3ZjcuMTQ3MWEuMWEwMTM4YzkyZGEuQ29yZW1haWwuc3RpdGNo
+JTQwemp1LmVkdS5jbgo=
 
