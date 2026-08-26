@@ -1,60 +1,73 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021116.outbound.protection.outlook.com [52.101.100.116])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013035.outbound.protection.outlook.com [40.93.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00483D9DD7
-	for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 11:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66803C0623;
+	Wed, 26 Aug 2026 11:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787742832; cv=fail; b=cRso2wG36WcQ4C12kK/f/Dg/M6t6Cl3nE+AYXSX1OVg7YYq7e9qTRt9cu3Ng5DY008OGhOiF7Xr2zL/S8nkeiJfMOlTNteQHKkYR5w9Je3rGjDSd96ybAkxQQ/xGUK6WoJe8i6bs/rLto0UhqMU6Q8T1b5oV8Npl0NMEWqQl3CU=
+	t=1787743529; cv=fail; b=T9LS4Fx8Ii/7r6DEI1X32ZLETyzFtZShhAYnRhYU9gzytUIBF/Aqpv7l98m/Y5AKAbbdjMEbc3XPFRjfgPh4t3vumuXojH/AVkDrKWAfqxszHallHVj4KJQg/KYexMIAW36WAtw9yA42Mb8cCtKcuOWcTHbOwjnmFhO8c0ErK50=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787742832; c=relaxed/simple;
-	bh=OCL7ZGOaOTqRCJuOSR5+VKsFuAEEIsjEwxjFbWF6WAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=FrDeT+I+lAdZskdogtsqJkXD+2kVQkHCdI8vVqDm/f0JEvvVepyxOhb+RYophgWA7eMlGcKBO07NNI6FxUrpboRHHPGR+jqHMD/seNCFllICk6tt/61NBZCzppaOAEVYxmM1nOFM4M1jJUPGVMMT4BKCVuZelOF8AV+D1ckesuY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.100.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	s=arc-20240116; t=1787743529; c=relaxed/simple;
+	bh=yqIribufW0swoz9uVemsCp0QMJYiwavsW1vw54VBBoo=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=A86rTdSQlHM+CuLb4uIGlh64Sd3ApDt69+ig6vZoJLnaobeXY222VJ7LiBWFDjXk3yDIobInuptk2Jycfhhy6p00JR3HRSb0THimAi7GbxUK753g/vkywTw5ZC6DvjPT/RZ7FafWA4rlREa2tS8vO1NXudgAq5lNZxeydSzBQag=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LI7VqZIk; arc=fail smtp.client-ip=40.93.201.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LI7VqZIk"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J5rGpPRYmJlHWgotasel0bqIg8T1+SlWGfRyDJrds0Qe7cz6BbN8vRmZGqLjUYzcOXuVJCfDM+SVoLplurARnHPf9u6tFqTj7w5Rrm7d9QHEbeJ+t6nGVK9fa4Lh6cGxiufLJauvWkM9wlBFRSmfHS0j78tGM6oX2o6/n74JXKAqBv55mE8Xqt+sGk8evi0b/mW1egeu6Ph6E3n26gZKFC0Uu/bm86y9aH3z4p+VNaZmkG2lpiBqtMCHKn2MxYO+bmikuytUnBhcjQMQGvB50iMr1UpXx7qxoDmvgpmyyTQrQS8gCPx5ml/2xOG3o8vLGg7kfN0wbXDTgJ4Gwua3zw==
+ b=yxJ8iWHnNNdx1gmIEk4ak+a8pJDBV1JrCqERp3DR1J7zadcd+nrfmMp6JndRmjzrmXDs0q5Aaam+6J58J2Smb/4xotkjeF6Cyx/LbtOcl+dT9XdN0mlC0+pfOlW34uXe87jcI5oyjHhEQnJqyI8cp1OHnRYZOmHWZEP2IUw75qASzCIdLtomj9jnaraCzjoec2KvJUGp8Pc74f9aYup9eitMcMc4H1Yyj6PB2dLKGVJq+fVDbywMUNI8jSWwFvEDbqC4SExoj7DXfUkOawWi53ZTnJZVqMRsadf3PBPkUQFgHmS2LqDdf1LIG986f7hAPom1t06j3FGdf+IyGriFrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=lgCyyzTewM08z+JKVgY6mDDF2hnul4KNHzZ61gOalDo=;
- b=wc6MyLeiEYjfp1cKoqcC869+ZetxU3t25H3vbI98tZdQuYKxN2rS4f/1AgQhnJUMQ9J3zSVwWFdIFRMDuvRcbWtoKN39ioAMXf2IBV8GnQEk3f8v0I/iycvFJyFJ+VxjLxidTdccs4Fdw+/I+TroFzlfzXsjf8rk+GJIGVQ2evvn0p3b1pmIYdrSYhyPafaKfaVvoqpCafoh044ztw/v/XwbVixU6RON0+YOGAVIDRMCmTTaPWDX0gH3Z2dCy/z/OL5u/z5HWBo9XQobFJv5AeMrI7z6dw4O3pjLQZ6oApG72gtgk3veC7zw41l2wFSTQbjNMmTAEecR6pEPi5/9fw==
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KtAQIEDwpiYnbZbjtMg7LEwpuR5NuIyoDy/VP79P924=;
+ b=ux8nYaDP21gy/7pyDQx8Ww+GO25VbWL2ooL+zDTDVQOnjJIowiz/tNeUKzefi919VS+P+YDtcGu2CBlN+ImLFS5gOyuBlQRzAVOzJbI4lsZhNAbUlZzdfjfuMhJYkTXea9z6SS9RNxeO2UoEFwhjlvYJJMM2/h9iv/ImIBo0z1lld8g8Pe6U7tMYg2y6g7HaEqE/kxVZg/XLPzCWamwkw6/tKWuUJcWP4y1mAvGslN0c3QGeXrh556LAPURhI6e9H0Sov9XYDE50nUGMSqHXxOUo9cdDJojuo1TAiS4E/5X8GG1PYFtiOGbA5GhWBeaW4Zthq96fbxieutnJX4oAWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KtAQIEDwpiYnbZbjtMg7LEwpuR5NuIyoDy/VP79P924=;
+ b=LI7VqZIk0/DiH0i3uP5yKugYeWDlrqvmS2KoipkNgWbyJxwZnJqOxG6T5Gh466Dmwhn6Mdq9cXt1exl/8Km0wrZEiGUvIRBPK9sdD/rq//yrFa+IqXW592H9lh204d9ImhTc500yjD61YZC9bDy7FsqV5MKW6gvVmrsPlj7qG7wZL43T7gkP1XHnAyq2jxSBNlgmxa8RAgvuoIFPYLEREa+R33XaUrAmBegq2lN8vsEZ0wyYmFInkUxd784ztxOTPZEXrWGwMr4DEG0qa4ZgImaRkqxwt6xk6JXKPQUZQM17V/tVMlrtQ+L/LCU0UAHg45BRxjXyWwcbZTTCekpqWg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LO0P123MB7937.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:42b::20) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+ by PH8PR12MB6937.namprd12.prod.outlook.com (2603:10b6:510:1bc::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.9; Wed, 26 Aug
- 2026 11:13:38 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0360.008; Wed, 26 Aug 2026
- 11:13:38 +0000
-Date: Wed, 26 Aug 2026 07:13:36 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] module: pull out add_taint_module() to be public
-Message-ID: <lnbvi6d72t7zdc3w7yc34y4hyf6gnuduqpqk4q3vqzypw23j37@5zh62c4wyr6i>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
-X-ClientProxiedBy: LO4P123CA0042.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::11) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 26 Aug
+ 2026 11:25:23 +0000
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0315.014; Wed, 26 Aug 2026
+ 11:25:23 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 26 Aug 2026 20:25:20 +0900
+Message-Id: <DKYU6RA4PD45.J2EMZIOB0BBF@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v3 03/16] rust: mem: add `AsRepr` and `AsReprMut`
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Content-Transfer-Encoding: quoted-printable
+References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
+ <20260819-typed_register-v3-3-3699a75fadf1@garyguo.net>
+In-Reply-To: <20260819-typed_register-v3-3-3699a75fadf1@garyguo.net>
+X-ClientProxiedBy: TYCP286CA0374.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:79::9) To MW4PR12MB6873.namprd12.prod.outlook.com
+ (2603:10b6:303:20c::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -62,148 +75,222 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO0P123MB7937:EE_
-X-MS-Office365-Filtering-Correlation-Id: ebfb1d7e-c570-4eac-8f22-08df036313fc
+X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|PH8PR12MB6937:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd5fa837-edc5-472c-bf02-08df0364b7f7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|7416014|376014|56012099006|10067099003|18002099003|22082099003|4143699003;
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|10070799003|6133799003|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	eqQQDHEWeVpm5cfe9VLNV2w+KPPbkdb5bnIe0d9snnr3zuv0oHg8jexdNq7XX98XTEsRxTU719+AD+VSZqVmmZsOFKMkLj+PHwaNwHugOOToNHgTZjnY7OEbYIBtDCVPjZB2Cf0Ueu/Ga5AgbrJ7xDn8rGADoqBbSvl2duLBAGVqVi6zwyzWemz+MV0Fkn6ATspLYxyClbIUKLQ/e6bi/Mwu4vwNiutz4OdWSBVNpBX9Cef5ymeRSClJfZhbkPvWcLTQ0QUoRVG3r4o1CxAQbYxKsNqqqjb3+SPPcPEz1N3EXFbObNB4cWbqmg9Am299/Kauw2qk0Gj0jwgtupZJ75MMkHkCi0Pqo9fD/2icKH4z8ImyVgkJulJv2If8EOwx/SMVM75pOiZNnLVgh0SlO2tJFoiWnnuGQdHd0sMVlIplE9NoW3Q4sC7aJZvEEUZIFQ/WlHZgubfsnqZ6Vn3KfWNxEZ0nshqgx99x6jbO/QUdq+FRp+ZzvhE+GIwONRzrbLfl/HEPnLxOYbKYE4yj0kCCW91fCvnaYuuiAsHwi4LLOQbnr7V289ShbYBhm7GX+aStxotmbHEZKXEAPoOdocszGqjA9v2qOw9K9CG6YxQ=
+	cVprPAfgkgisYug3GQtWC02ZefycEVGK3pXP79/iLoMsHIhwCzp9B1e1ntHvkZebeWdH2X9Cp9Ibqr+dQ0m4pyWD3Eoyzlw47URoOlS+xTar35PlMUNw5wpfz2o1mRL3XdKp6/pcr8FsqKS4gIeuwdhEGEUQKuhv+oTAtx52kOzPsLNc166XuO2EzqhB/RsjTQow/cuWeiAgi8cO8avKwc8y/7HmrkcnA9MU5xVSDpFb0DoqcWHS1Sld8VWE0RfjthyQvknFwWoca/ziMh6Hr5sFRvIEmipbAW52M6fF8MEmk5r39K6exp4svSLfCTZaBulyur0yUxOkqAae6SqtY6s1MFYaS+ekMbNXCn4/OZ6NWZwA4xJmOAlo0SmtdRz6zU8dg5IlEaD7asZUvHLkfNRlVw0L20AhfAvTvZXbKPPJoy/vfYhd6EIcKbw3CsmJGWge0EsQhOUuIG6YAJzgudtacG9MJRsbV602Fwyyy9gF+GfLy1rd4kJbfzifFZs2LCVexLoS7i4gJnaPYJIUWIKyaLCSDs1oBZymSxYGBxBBzdOmtaqYiA9FFJk4wzHuPrfoGDCk0FxMaQo5x9jycOHpxjIqRCvhhc68od+9nCYCfrJOMGqP4FdT2HvOhEa1oqoyJw9gU0yncEUpBhYuQ1eAvqn8YQvRV3WKzAbjk/4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(7416014)(376014)(56012099006)(10067099003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(10070799003)(6133799003)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aGhlbGFnZmdob0dnSk5GWkE4dHhXcjF5NHE2K2NHcThIVVg4M3BGMkQwSlQr?=
- =?utf-8?B?UTUzaDZJTlNDVmE0NlpFUkxsZllqQmVkMDNBYitCbmE0eEhNblNmRnpGdTdM?=
- =?utf-8?B?SVFaRSsrdElOT2RyWHpuVy91L3RmZjJlb2R6cDAvM1Y3Y3QxRDUwcWhoRmlx?=
- =?utf-8?B?MWxkdDVCVE9rNk9WS0VsTDRMdTVTMUdadkVLNHlWTWY0Uit4NW5ZR2YxYVFC?=
- =?utf-8?B?c1ZLVWFySkZjc2dUNzRzZlcyOS91Y2VmL2Z3MU5zcU9pRmlqT0JRSmpSSVlV?=
- =?utf-8?B?QTNCbUNsQjd1d2pPYVVpUkdQZEszMDdlMFMycklFZVlkZHpadWM0VGtUOTFu?=
- =?utf-8?B?eHI2bnp6Q0RlUTcwVFFMZEZGMzI1L2k0eHdQbkxIdWpCTlcwMkNpbHozelRR?=
- =?utf-8?B?Qk5JcjN6M0ZwbU5INER0d3ZlTmxsMUZjVnE5RnU4YXFZNjFJeHdsYk51Zm1n?=
- =?utf-8?B?NlVRUllhSTN0MVVSamNRWVdTRXltRHkxNjljMW4vZmoxSWxmd3ZiYWRiK0pm?=
- =?utf-8?B?VFRWUVA1RTVnM0MyWXAvS0RMay9wWkNQNElRM0dYc3NwL1RoREJyWWRWbFlz?=
- =?utf-8?B?Q0diS0xNWkN3cHFycGxvQWxYZHpkMklXZmhZeXRyS053QnJiQncxeERlL1VI?=
- =?utf-8?B?b0FkMjdoNlJSWGNoSnFzWXJWQ1l3NkYxeVJXRTI0K3REeDdVZS9IZXlNbFJU?=
- =?utf-8?B?QXZFZXpvR1IxWTdvV1cwcG5GYW5ubjZmc2lFL2N1NDRoU0g1OG5MeGhkRVNr?=
- =?utf-8?B?WVF0cGtyZis5eXBLZ1g0cE1SV2xZTDVnWGMzN2hrK0d1cWVObnZrVGlXYkFM?=
- =?utf-8?B?cU53ZzYxczJEMDdQTVQyYkUvV3BrbTZFcTlQUWY3U1pzdk5PYWdINjRnQlhs?=
- =?utf-8?B?THRpc2ZhV1hTR3F4eDNURVI2clc3Q3ZiT3lWL29CdjFyb05BN0x4S1J6dnE1?=
- =?utf-8?B?ZFhQOHY1ZW5JLzBzRjJweUxJTXkzR25aMEhqbXBZbURwL2FROWlOUzY3YXhX?=
- =?utf-8?B?OVJGaUlzWm5QR1AxVTRyVXpYUnN2dTJ4RzBYNFFkcXdFd291YWh2NDJPMm9B?=
- =?utf-8?B?Wi81RGdacjg4RHpPeEhISXBTSHNkdzlHZXloQU9pZlB5Y21IcXpsTTF2YlF0?=
- =?utf-8?B?Z2daemlVYnVyZzJVM1p0RDllRDJRMjY1MzRrNWVkQ0pIZ1NSTlJyK04vNjdG?=
- =?utf-8?B?OGsyL2pYZHMyang1QnJyQXJKZEVPL0ZoQnBicEpMRkZhOUc1VUUyb3I2eXdR?=
- =?utf-8?B?N2VrZTEzb0NrMm9yN3loSmhRWjJtb2ozM3hHTUNiMlR3ZUU3UFpIN09YTHVD?=
- =?utf-8?B?WnVGSUNXakpYZUdLQXZaNzQwYTJ0Z3dxdHJocXFIazBXM1BrZXNwVm93Q0FD?=
- =?utf-8?B?M3kzL1NHaUdHOWQ1NHZxUmJ0RXlUaVhidGc4MS84bW1UWUUvZ0daMEJDM0tE?=
- =?utf-8?B?TzAxVlBHdzVma0ZVME1mYU1hWVFIWldzQkU3ZEtRUEpEQXBpSmdMQktLcGlK?=
- =?utf-8?B?WVFScVlrUE9BUmttSGFENEFlRXpzWkhnMllFTk9OZm9FOXFrdzJNUFpJaTZh?=
- =?utf-8?B?ejVZY21TWVdIazVWYnp2RzY1bzdVZGhUaGJMS05FZldCdlZMalB2Y2FFOGVH?=
- =?utf-8?B?c0ZSMWlVdTBVQ2l5cGovNE5kLzZXWm5QNmRFeHE5UHFiZUQ0NjJZTDl6cEVT?=
- =?utf-8?B?WUJZWHc2TytleTh0djFNT1pTYzF2L09XY2FwZHZnZlBpN3crVm9zZTMxQnZQ?=
- =?utf-8?B?R0twQkwvaVRPOGRBV2tSbE45RzdlWS91eXg5UE1WNm82RGQwaFlWanBLTnR1?=
- =?utf-8?B?djFlZzV6MFJ6VXY5QWdZcFZqbnlPY2xST0prV05QSzJyc3VxZVhnd3lMcFQw?=
- =?utf-8?B?NXlmV011UVpYeGkzSEVac1BkZ1RqYXpKNlYzeWhocUxNeXNWZEsyT1h3K2N0?=
- =?utf-8?B?UVRBOUF2Q250dUhNWnozSW8zVEllRTdVZ0N5c0tVRENwamZlNVFmNkxqc3lL?=
- =?utf-8?B?ZGJvazg5bm45dGZQSnI4ODVCZTMvNzZNSjZQNldYbFBEb3IrMVhmMlN4bFRw?=
- =?utf-8?B?QS8rQ3k4WmhYT25SMXFZdVVKSUQ0dzlHZmV4anozeXNBNnF6cUNEQVBnSDNE?=
- =?utf-8?B?eEZXeTlGb2d1M0FXdUtwdzlBUVEyczF2S2VKUTN2eWtqZitlczU5QWg0VUZz?=
- =?utf-8?B?TityOCtWc1pncXgvWG4rcDZPS0JGUzBWcXQ1eHBQL0ovbCtBQ0FJaHFlWGJB?=
- =?utf-8?B?ejJ6OHJyOHBDSDAwMkVheUREcG1HaVB4dGZqTUlUdUNyN3hqa1A2blRBQ2ZF?=
- =?utf-8?B?YkR0bE5LNDlrdSs1QnhvYlRkcFIrS0pIcjh3eDJUMndUa1JyS2xxZz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebfb1d7e-c570-4eac-8f22-08df036313fc
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+	=?utf-8?B?ZmNVNjVCa01BaDRKSkpvZ3Z5MVltc2JVdDd3ZlJtS3hac2NvQnhvc2NteXNB?=
+ =?utf-8?B?NitrcTJmZnFkQnFoVWdjbkdoTnJ0RTRpT0tKNHhIVDZVMmFCUzlDYmF3SGpH?=
+ =?utf-8?B?SURQbVYvYVZPUmJJZy84R1lMY0NyMmJCRXNDV3VqTVBtM252RUUwVDAxT1Rx?=
+ =?utf-8?B?QS80ZmhCeUpOTklVcG15V3lPMmUxK2svR2dSN2VtMWlJVmd0Mk5wbkZCVG9Q?=
+ =?utf-8?B?RlBZM3Z4NGVCM3ljL3M0TTV6N3FXbDdEVEdKandYSTZLb0FseTRYL0UvQjhh?=
+ =?utf-8?B?QThCeFprL2lFUlUwTzNtaFJENU02dHAyQS9SUjBKWEdHNTdRZ0dOc3RNMVBC?=
+ =?utf-8?B?QUZ4TnNseGN4TnBNcGtXcEkrd0NCZjhXaStXQ0xXYTZhSnFZK2UvdUFVdTNt?=
+ =?utf-8?B?dFFleTZZRkI2VSs3Z2FJdVpaYW5vQXVDM01sM05rRHdsN2xnM0lubXBTZzNM?=
+ =?utf-8?B?VlFaeGNlb1c3Q1pBMTRSYVpKUDVBSlNXZXhSUmMzNUQzVXN2MUJhM1NpTUsx?=
+ =?utf-8?B?VmhKMk14ZXB3S1h1LzBHMU1zOG9VNkRPRmNLeWdSL1JwRWl3bDluaUNPTmRP?=
+ =?utf-8?B?d2d5K2hOV21kTWJxeitVU1ZqWnpNdWVnZXpMWHRZa1M0WEpWYmh6VFF5RFhi?=
+ =?utf-8?B?K2F5cWFadnM3KzI5cFZEVUNnQ0Q1anM5OTQxbUExcGo5K3J5QkZYbURZT0wx?=
+ =?utf-8?B?SkFsZ3RLdW5iNk8vUU83S25iT2FTRU1yTHppREZIZGxGTE5hdmZmYmNGWXJz?=
+ =?utf-8?B?S2RBWUt1ODBqVnBrRi94VnlpSUEyaTdqUmNVOFZJdUIxM0s5dlpGbXEza1VZ?=
+ =?utf-8?B?RFFKWGVtclVrQWMrZHltT1FYU0YyT0xXQndxYUljb0NjVjR4QmM4aHJuTkhr?=
+ =?utf-8?B?cENkSnd0b3BwZW5XY0tLMkwrQm0xMWhsT1ZZV3dsSEM5N2dlMSt6UGQ4NmZl?=
+ =?utf-8?B?ZnFlVkN6L3FwL0JyN0J2czZ3M0xzMzZtL3U4M05VNWFFMW5uK0NXWlFpRm0v?=
+ =?utf-8?B?emovM1BySWkzcHdjc3I3RlRwZVl0NmZuV0dkTXRQeXE4cDQzZi9ZREFISTRn?=
+ =?utf-8?B?aHFDb3Y2K2lNRkNZS3AvU2RjdlY4VHhrVkhaMkpoak9xeG1sRGNrbmowMitX?=
+ =?utf-8?B?RisxNUFuZUFYeG1oZDh6T0NKZWo0eXFTUld3ejdtc0YrZUJZK3ZIYVl6Q0JV?=
+ =?utf-8?B?NnF3UmROMHdFS1NzQ2FudDNTZzJ3bkdENTNiSHBML3lEZEdONFprWGdUQ0dq?=
+ =?utf-8?B?RytOc3RWOWZZRGJKYWY5ck1EQ0RjaW1WRFVtSDRNTnRuOGZ6Mm9wMkV1NUc1?=
+ =?utf-8?B?dW5hS3VwZG9ldGV2c0s1RVNMblN2V3h3NUcrajVJSDJZRzg2N0xDVVM5WmFL?=
+ =?utf-8?B?L3JjWXFpWnN6NnltQmVVODZ1WVNsT09HdUlLTkE4ZFd0em0wUVJweTZnTzJj?=
+ =?utf-8?B?dTJvL29EdURNMjNsSTU4NUEwRlRmZWFxL015SWtiMWVxeVljaTI0eUpSQXRR?=
+ =?utf-8?B?blo3R0cvQkR3TFpETG5sd1QzUHh1dW43ODU1UzJUWU9DaXNlek10dFJ3bzRl?=
+ =?utf-8?B?SmFhVkdGTkk0cHFWa0s0bU1TQ2hmd0M5ZlBza2hSYmRRZzV0SkFaREFaSXYv?=
+ =?utf-8?B?cm5LVjFST3pXclpZczBwY0dGM3JoWkxXb0tGRXc5ZUZVK1hTTVc2R2JZQVJ0?=
+ =?utf-8?B?ZVhFam5pM0syZ3ZBTEpETm5BUXM3elBnampVTHBrVHRZczkrSUh5aWpFY0hm?=
+ =?utf-8?B?OUlSVGs3MFVXQ3lqMkR3RlZQTHN0QzdKYnRNZkVjUlliQUVoaXpuT0RNOU5p?=
+ =?utf-8?B?Z2xQaWp1U0E3TkxNWUxjRDVnRUNERE93OE14bzFMd3N1SGFnbllPdjBIdTdq?=
+ =?utf-8?B?THp1b3ZkOURQT0Z0V21zME84QWUrMGt6R0thTnJrMzZ6bmJxMWFRTjgycEtX?=
+ =?utf-8?B?ZExBdlBRWEVOOGZkYW9VVUdVeCtnOHgzTHBvT0dhVXJra2tET1ppcGtuS2NX?=
+ =?utf-8?B?d1FDaHRWZUVOTjhnb0NmZGliSlBOM2ZsYXgrOG9PYzQ1MDhoMldCNzFFY01v?=
+ =?utf-8?B?S2pxVHp2K2JwWlJEM0dzM0VTTkxja3Y5SVd2ZW1ZQkw1NkEwSXQyYUlTcVds?=
+ =?utf-8?B?UWd5c0t1OGZVV3B6MDNNNEpKK002ZW8wS2lTa2pySkNKRnl3cytkaTk2UFMz?=
+ =?utf-8?B?SkdZTEcvYWtJbS9KMDQ0ditHVS9yem1GQmlNY2xud1BlMmJ0eFJOVGRMVnlk?=
+ =?utf-8?B?MXRyUFVsb0xSY1B5VnBveXl1T0dRM0ZCZVFDN1NRb0RURERyWG9OQ3gvaExZ?=
+ =?utf-8?B?cC91TmpvUUh4UEo2VDRUazBxTW9lNnlIRDN5VElTY1J4Nk5xMFU0Q0xxY0xl?=
+ =?utf-8?Q?iZmbkuB21T/YJQzVD/T9u7jD1AOEBYbfzTyy5fKcle1kL?=
+X-MS-Exchange-AntiSpam-MessageData-1: 4GnMEVQP0P10Jg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd5fa837-edc5-472c-bf02-08df0364b7f7
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 11:13:38.3404
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 11:25:23.0132
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wcNVcBHNHLQwojLICsKar2XE2BHygl2Zl99nLQ8iyObDXxHcSMLEPg49G2kKViwz62KfJoU0HEkzEUgT1QW6ng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB7937
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7yD7vM7jLDytmgFC6SY3rtBCiJk3ZwJ5aAZ9YXSib47pafd9FV3FIExm2yLeFV5iPyZCc3iqPTi4LqMlvSKp9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6937
 
-On Wed, Aug 26, 2026 at 11:19:32AM +0200, Greg Kroah-Hartman wrote:
-> Other kernel code might want to call add_taint_module() so pull it out
-> and make it global.  If modules are not enabled, this defaults to a call
-> to add_taint(), so all is fine.
-> 
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Wed Aug 19, 2026 at 8:09 PM JST, Gary Guo wrote:
+> Some API like atomics and I/O operate on primitives only; therefore other
+> types would need to converted to these primitive first. Add two traits
+> `AsRepr` and `AsReprMut` to indicate that the type can be turned into a
+> primitive for these operations.
+>
+> Conceptually, `T: AsRepr` means that `&T` can be viewed as `&T::Repr` and
+> thus it has only a round-trip transmutability requirement. `T: AsReprMut`
+> means that `&mut T` can be viewed as `&mut T::Repr` and thus it needs to
+> support bi-directional transmutability.
+>
+> To avoid duplicating implementation, all repr types are normalized to
+> unsigned integers.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 > ---
->  include/linux/module.h |  8 ++++++++
->  kernel/module/main.c   | 13 +++++++++++--
->  2 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 96cc98568eea..25221539e645 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -29,6 +29,7 @@
->  #include <linux/srcu.h>
->  #include <linux/static_call_types.h>
->  #include <linux/dynamic_debug.h>
-> +#include <linux/panic.h>
->  
->  #include <linux/percpu.h>
->  #include <asm/module.h>
-> @@ -770,6 +771,8 @@ static inline bool is_livepatch_module(struct module *mod)
->  
->  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
->  
-> +void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok);
-> +
->  #else /* !CONFIG_MODULES... */
->  
->  static inline struct module *__module_address(unsigned long addr)
-> @@ -877,6 +880,11 @@ static inline bool module_is_coming(struct module *mod)
->  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
->  {
+>  rust/kernel/mem.rs | 148 +++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 148 insertions(+)
+>
+> diff --git a/rust/kernel/mem.rs b/rust/kernel/mem.rs
+> index a0901cbe1b2d..5bce381d8895 100644
+> --- a/rust/kernel/mem.rs
+> +++ b/rust/kernel/mem.rs
+> @@ -35,3 +35,151 @@ pub const fn transmute<Src: IntoBytes, Dst: FromBytes=
+>(val: Src) -> Dst {
+>      // SAFETY: transmute is safe with `IntoBytes` and `FromBytes` bounds=
+.
+>      unsafe { transmute_unchecked(val) }
 >  }
 > +
-> +static inline void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok)
-> +{
-> +	add_taint(flag, lockdep_ok);
+> +/// Type that is layout-compatible with a primitive representation.
+> +///
+> +/// # Round-trip transmutability
+> +///
+> +/// `T` is round-trip transmutable to `U` if and only if both of these p=
+roperties hold:
+> +///
+> +/// - Any valid bit pattern for `T` is also a valid bit pattern for `U`.
+> +/// - Transmuting a value of type `T` to `U` and then to `T` again
+> +///   yields a value that is in all aspects equivalent to the original v=
+alue.
+> +///
+> +/// # Safety
+> +///
+> +/// - [`Self`] must have the same size and alignment as [`Self::Repr`].
+> +/// - [`Self`] must be [round-trip transmutable] to  [`Self::Repr`].
+> +///
+> +/// [round-trip transmutable]: AsRepr#round-trip-transmutability
+> +pub unsafe trait AsRepr: Sized {
+
+I'm a bit confused by the naming of this trait - the commit message
+mentions that it means that "`&T` can be viewed as `&T::Repr`", but such
+a method doesn't exist. Instead we have an `AsRepr` trait with an
+`into_repr` method that makes a copy.
+
+Can we either rename this to `IntoRepr` (and `AsReprMut` into `FromRepr`
+I guess?), or maybe better, have `fn as_repr(this: &Self) ->
+&Self::Repr` (on top of which `into_repr` could be implemented if
+useful) so the names of the trait and provided method align, while also
+making the commit message match the actual API? I haven't tried but
+since all the representations we are working with are primitives that
+implement `Copy`, I intuitively think it should work just as well.
+
+Same would apply to `AsReprMut`.
+
+Since this is becoming core infrastructure, I guess `as_repr` will also
+become valuable when we want to do in-place access (with e.g. atomics)
+or use it with larger types that we don't want to copy.
+
+> +    /// Primitive representation of this type.
+> +    type Repr;
+> +
+> +    /// Convert from [`AsRepr::Repr`] to `Self`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `repr` must be a valid bit patern of `Self`. If `repr` is previo=
+usly obtained using
+
+nit: s/patern/pattern.
+
+> +    /// [`AsRepr::into_repr`], then it will always be safe.
+> +    #[inline(always)]
+> +    unsafe fn from_repr_unchecked(repr: Self::Repr) -> Self {
+> +        // SAFETY: Per safety requirement of the trait.
+
+"... of the trait and method" maybe?
+
+> +        unsafe { transmute_unchecked(repr) }
+> +    }
+> +
+> +    /// Convert from `Self` to [`AsRepr::Repr`].
+> +    #[inline(always)]
+> +    fn into_repr(this: Self) -> Self::Repr {
+> +        // SAFETY: Per safety requirement of the trait.
+> +        unsafe { transmute_unchecked(this) }
+> +    }
 > +}
->  #endif /* CONFIG_MODULES */
->  
->  #ifdef CONFIG_SYSFS
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index d0e1e0bd2ad0..99cedb961898 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -191,8 +191,17 @@ static inline int strong_try_module_get(struct module *mod)
->  		return -ENOENT;
->  }
->  
-> -static inline void add_taint_module(struct module *mod, unsigned flag,
-> -				    enum lockdep_ok lockdep_ok)
-> +/**
-> + * add_taint_module: add a taint flag if not already set for a specific module
-> + * @mod: pointer to the module that caused the problem
-> + * @flag: one of the TAINT_* constants.
-> + * @lockdep_ok: whether lock debugging is still OK.
-> + *
-> + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> + * some noteworthy-but-not-corrupting cases, it can be set to true.
-> + */
-> +void add_taint_module(struct module *mod, unsigned flag,
-> +		      enum lockdep_ok lockdep_ok)
->  {
->  	add_taint(flag, lockdep_ok);
->  	set_bit(flag, &mod->taints);
-> 
-> -- 
-> 2.55.0
-> 
+> +
+> +/// Type that is bi-directionally transmutable with a primitive represen=
+tation.
+> +///
+> +/// # Safety
+> +///
+> +/// - [`Self`] must be [transmutable] from [`Self::Repr`].
 
-Hi Greg,
+nit: missing backticks on [transmutable].
 
-I believe Sashiko [1] found a few valid concerns.
+<...>
+> +#[cfg(target_pointer_width =3D "32")]
+> +const _: () =3D {
+> +    // SAFETY: usize has the same size and alignment with u32, and is ro=
+und-trip transmutable to it.
+> +    unsafe impl AsRepr for usize {
+> +        type Repr =3D u32;
+> +    }
+> +
+> +    // SAFETY: isize has the same size and alignment with u32, and is ro=
+und-trip transmutable to it.
+> +    unsafe impl AsRepr for isize {
+> +        type Repr =3D u32;
+> +    }
+> +
+> +    // SAFETY: usize is transmutable from u32.
+> +    unsafe impl AsReprMut for usize {}
+> +    // SAFETY: isize is transmutable from u32.
+> +    unsafe impl AsReprMut for isize {}
+> +};
+> +
+> +#[cfg(target_pointer_width =3D "64")]
+> +const _: () =3D {
+> +    // SAFETY: usize has the same size and alignment with u64, and is ro=
+und-trip transmutable to it.
+> +    unsafe impl AsRepr for usize {
+> +        type Repr =3D u64;
+> +    }
+> +
+> +    // SAFETY: isize has the same size and alignment with u64, and is ro=
+und-trip transmutable to it.
+> +    unsafe impl AsRepr for isize {
+> +        type Repr =3D u64;
+> +    }
+> +
+> +    // SAFETY: usize is transmutable from u64.
+> +    unsafe impl AsReprMut for usize {}
+> +    // SAFETY: isize is transmutable from u64.
+> +    unsafe impl AsReprMut for isize {}
+> +};
 
-[1]: https://sashiko.dev/#/message/20260826102921.5B81B1F000E9%40smtp.kernel.org
+By making these available, aren't we running into the same
+non-portability issue [1] that we discussed on the `casts` module?
 
-Kind regards,
--- 
-Aaron Tomlin
+[1] https://lore.kernel.org/all/DK9A6KGK5JQD.3U23MBEMSAXBK@garyguo.net/
