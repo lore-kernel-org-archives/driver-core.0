@@ -1,103 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073E53BE14D;
-	Wed, 26 Aug 2026 09:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2ED388394;
+	Wed, 26 Aug 2026 10:21:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787736574; cv=none; b=OoF7QMGtk4VpdApYl8e0S4QfZexxcOgxycKVL1qoIv/ECKz2Aqyi4kAe+7Mig9K9eBUPYuIMU8zE8tjGHgrzIXOlqshPACqcFWKRr5pbT3GRgGcncT7/cs2txanmCy8NvMM0p+6sHijpn/VAR9wSUtpTv6t04DQpBvRHko2fCNo=
+	t=1787739686; cv=none; b=fBPz1G31PZ+tY72BsIDuPeE2POGZfLmlW5NqSO+Nuzp1bjnsc5Zl0RqGafNIv6+cfQ/UKSsUS+PKeZxqRJv68N23We+c0i5XhcvhUR30F/Mr6jEdTJGUCpwWm5XcWD3X3RuM1mpJqz4XvMvJZYpEoeGzFyoDbEWsACswtlJaH6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787736574; c=relaxed/simple;
-	bh=vE0DFncUbEa7WUezDlJbcmjpQbbiEpMqeMkCvD7YDbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XdYzgQmyKcGKmTl9mfPSgAq4opPLv6a+T/ALUBX8538mFeyhckPLL+E+och0kv9TUnkPQ9sW4h8897Ex6tdN9+pu4//DvxwSo3tN4FQgL6SJU3ov0oce54QxRsdCyTiyGSFD4OGXJBXJIxY58oHQYObo+WzDN+w+TblrRNolAKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMLbpbtV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787739686; c=relaxed/simple;
+	bh=7SCdvxoK0Z6e0C/Fm77VqCSXp0EzbmaMQ5H91NjQjmE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iXS9xZ1uFHRU560r927OaY8aoTrlUoXjmPvx94izG0bg39H1pCQb+AGG/9FqJKPZgmLZVKP8KwgB3apqL9qInNqt9aQ2PW+Rb/ZQ3oiDO+JeuophHzDkHsXAvw78Y8mkWkRw/goIlCNCMsmLcTXYrsFPzR8ZwOEhhpv+7Cs4QLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UYvNVJ9Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMLbpbtV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9931F01561;
-	Wed, 26 Aug 2026 09:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787736572;
-	bh=vE0DFncUbEa7WUezDlJbcmjpQbbiEpMqeMkCvD7YDbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=GMLbpbtV6XRD4w6KN91RH1oCiVx72uKzWQqLkbfx2kIDN9D9Eag0gzkEbhDAl0gWt
-	 P1YCkvBlGTSdwRH3cp7KuiATo/uaSTYejkU3Vxpztm9iu3uFxILV1ojmRaKWYlikRY
-	 Ggw4d12WTNh1bcjG7gDKhj2+I6mDhrKTue5CuHtVBbtjdSc5JxIGzd18mhpGbu9Yql
-	 CcB/55rMLKstOxN38hkC+/m6VAXbVIPr7Ta8HzW2B+7BxGx5BXD678vW+tpQrbQfJh
-	 g9tTDJTf0faFwf4/6U0eVGbrjKFJOeooMnCeoyi93Y+sF616btPc7GrV1O9Sww9y70
-	 JGj0Mli2sglfQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof
- =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Pavel Tikhomirov
- <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>,
- Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Oliver Mangold
- <oliver.mangold@pm.me>
-Subject: Re: [PATCH v20 6/8] rust: Add missing SAFETY documentation for
- `ARef` example
-In-Reply-To: <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-6-490735672187@kernel.org>
- <CANiq72mPLrKQMzb37ow2969m5r3Z2Kh_4LHERUun6ALw3ea6tg@mail.gmail.com>
-Date: Wed, 26 Aug 2026 11:29:08 +0200
-Message-ID: <87y0dt1b8b.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UYvNVJ9Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C1E1F000E9;
+	Wed, 26 Aug 2026 10:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787739684;
+	bh=YEUXFgAdOYZhq6WlTXAgBZCPoZlzq0VxDUe0Jo44nCo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=UYvNVJ9QJGIODputgmB7wnNgRVGVdFtQitMj0XSvMZK+a0f3/cxKMr2FWAPowRrbF
+	 VinU6yOTa6OXhDxvotzTxMOEu/9hD9fW9+IgDTmuonYLhhX6pDCq4V3gvaZe550PPy
+	 Jj+3mSvEHHT+GZr+WFE8xG4ri2TsPqij/IuekGUM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Wed, 26 Aug 2026 11:19:32 +0200
+Subject: [PATCH 1/2] module: pull out add_taint_module() to be public
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+In-Reply-To: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2435;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=7SCdvxoK0Z6e0C/Fm77VqCSXp0EzbmaMQ5H91NjQjmE=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFl96zffXn45ez73/eMrvSft42cJU1Iz5TZesKygTqDT3
+ eyO/izjjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZhIaCHDPO0Pt/7Mbi7P+rlP
+ w2rNCw3XtkPP5BnmJ3wTvORXnhywreb6v/OGN/7KxmS9BwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
+Other kernel code might want to call add_taint_module() so pull it out
+and make it global.  If modules are not enabled, this defaults to a call
+to add_taint(), so all is fine.
 
-> On Mon, Aug 24, 2026 at 1:19=E2=80=AFPM Andreas Hindborg <a.hindborg@kern=
-el.org> wrote:
->>
->> From: Oliver Mangold <oliver.mangold@pm.me>
->>
->> SAFETY comment in rustdoc example was just 'TODO'. Fixed.
->>
->> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->
-> Please see/link https://github.com/Rust-for-Linux/linux/issues/351.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ include/linux/module.h |  8 ++++++++
+ kernel/module/main.c   | 13 +++++++++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-Do you want a link to this issue with a regular `Link:` tag?
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 96cc98568eea..25221539e645 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -29,6 +29,7 @@
+ #include <linux/srcu.h>
+ #include <linux/static_call_types.h>
+ #include <linux/dynamic_debug.h>
++#include <linux/panic.h>
+ 
+ #include <linux/percpu.h>
+ #include <asm/module.h>
+@@ -770,6 +771,8 @@ static inline bool is_livepatch_module(struct module *mod)
+ 
+ void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
+ 
++void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok);
++
+ #else /* !CONFIG_MODULES... */
+ 
+ static inline struct module *__module_address(unsigned long addr)
+@@ -877,6 +880,11 @@ static inline bool module_is_coming(struct module *mod)
+ static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
+ {
+ }
++
++static inline void add_taint_module(struct module *mod, unsigned flag, enum lockdep_ok)
++{
++	add_taint(flag, lockdep_ok);
++}
+ #endif /* CONFIG_MODULES */
+ 
+ #ifdef CONFIG_SYSFS
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index d0e1e0bd2ad0..99cedb961898 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -191,8 +191,17 @@ static inline int strong_try_module_get(struct module *mod)
+ 		return -ENOENT;
+ }
+ 
+-static inline void add_taint_module(struct module *mod, unsigned flag,
+-				    enum lockdep_ok lockdep_ok)
++/**
++ * add_taint_module: add a taint flag if not already set for a specific module
++ * @mod: pointer to the module that caused the problem
++ * @flag: one of the TAINT_* constants.
++ * @lockdep_ok: whether lock debugging is still OK.
++ *
++ * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
++ * some noteworthy-but-not-corrupting cases, it can be set to true.
++ */
++void add_taint_module(struct module *mod, unsigned flag,
++		      enum lockdep_ok lockdep_ok)
+ {
+ 	add_taint(flag, lockdep_ok);
+ 	set_bit(flag, &mod->taints);
 
-
-Best regards,
-Andreas Hindborg
-
-
+-- 
+2.55.0
 
