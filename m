@@ -1,357 +1,145 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846EE471253
-	for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 16:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D8F1A9FA8
+	for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 17:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787762283; cv=none; b=clAiGT6fNM4k1iDi5KW1cy2N9TJzuPd9NziQ+0qxB4kRWSow8MOGRSQQTU26Dp3kltuwK84xGUmP5DPo3tetdFBd1fhd12GhCbe4rHentCi7vU1Df6/gztMmRWLV/umT9yA7muh0D0TEcD/SCOgG5aY4Zv1UKIex7spaTbH1Yns=
+	t=1787763716; cv=none; b=HnRNLR2oVqW5yZ4vJS7b6l+0hCbUVRDYtojESeFqn059Zzpk4phvPqBO3IsB9mUOHyA0G9+3sPE5GTeTbgQRhGIFB+B4kN2gK1wcOfT4FctwZjSD5uxs/EhMQJ72nsgRE4+fVSlRc2Dhu03Hzah/5J0d5dn3jSwqbAYpUZ7wtYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787762283; c=relaxed/simple;
-	bh=qIcM5y3Hb6kSUN2B7nsjh8Y4Ancfrv4Lu71gNXejc54=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JUhzen3vd4coXUD8h3TtGdhgUcFQ/vyNNvnSW9GVwQqnpxB0GUgB4Yh3mm0KI8fc5Uj/CU5tpeNHyzIMzot6KN94G5pGl0DFvddg+JTSw/GjXME4B/sOPIljaJKOu4sKyW7J2BToH9039qasX1DCnHNoJyjWqL7bpzsZo5RP+to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=EoQNCLUW; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="EoQNCLUW"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49954b88fffso9808765e9.0
-        for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 09:37:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1787762248; x=1788367048; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A1HpPd4ylLTuKYL4oCpnHBVRKXPxKbcynFiK+teZyII=;
-        b=EoQNCLUWO0P7aB37jRpWpFHf5u4DUYe9u07PxbTUe+O4dULrlRfb4fk7crSsVjW4fp
-         +HJ2Pomg3BnqtINdnQKbJF/9yqExmUk9CJwduQUko4PjVHVSov+Oad26KM2jxC2xoWT1
-         xEo7Q/jhpdOqW/4NX3G1QtEhSpHFlqT+1BNQz/oGN4WE4aoKjP9yzEitd6ZcCEeN0IjB
-         E7CTjVTgciur77UIOvIcbz46XG66tvmEmCoujmDfX2vXKFz4v68ckybE19/9wbP7VMBE
-         UMdTfZNBhQ+PYI8xiZKtEnt5T1VR4fAhZrnGDhUMRb4jIRvHHYAcddAv2SxBJY9aoWI4
-         jS7Q==
+	s=arc-20240116; t=1787763716; c=relaxed/simple;
+	bh=w15suKsWFvnl/SbNHI/YWs/B61oJZUiIks8mIiL/ciw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=K8oB+aCgqk6ASZBahuAlaBkVr0+/xIenHp1jf7mqgsDZsv41xihXNNXb9a25ZgYuRFLx4WuisXQD+wmtsGphMXjxLibGEjgW2ZpR/qjSIXm5Kkx64zcRtgsTji0A12nKRGnBh3s2SD5BAW4lL35vmRbxL4XHRG+GSNUI6aUv8AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.128.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-855a66e5c76so30901847b3.0
+        for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 10:01:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787762248; x=1788367048;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=A1HpPd4ylLTuKYL4oCpnHBVRKXPxKbcynFiK+teZyII=;
-        b=fGuZyNQVvdfaWgkP7cqkqgYSd1U9/6mcW7BaiJWqPlDfERZJ1wMlnSEFa0psrRbJ9g
-         +Sl9PQJq289/x5LJKKx73x3/bE/dldWlNjKRDxuvC1YcHJrfVVbNnEb9+Xzlslhmf+sL
-         blKVIkDLMxwzRZx+LgJJXtjyr1UPMgbrYrDulGAJnhrbIwnONDA70VSCBe5olvPieMmU
-         EB4gfb3y7xxq+Oo3+XWJ5w6IRNTlLZErCys3BkMl9fPo1DmnuE/ob68x8PyhPD9TIPpP
-         G8c88WG7xXMgPQ2rg9tZuRcxct3xqIBqlXOywruVuzx55MptWSUOsOBw5lw3ZoF1vnFF
-         VDvw==
-X-Forwarded-Encrypted: i=1; AHgh+RrmeZc2kJraS7/xeXP/iOhq5GsTtBRRZXlsadXA3pLM+8UXUCnSlH6ecr95l9EqLL724QxGDFox3skBlQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++nLcpnWLSpiziOrnsi2RaO4N033YrJxMUZ57motAQgx59zpTAbM
-	bWX5eHQ7iebH3prlcmuisIgPh1fQWmm6D95OfW6+2sW9zLr4r+1XRS94AH54jUrLXg==
-X-Gm-Gg: AR+sD12C9EMBn+r4LpZprw+U4gg+d6QGK78aIrUDt2JNTsV6ZH35EC2y8p7R/5W6AnL
-	lOmICvVYbse5/JoSNM2FQTE7VJtJOUrinebsSmwqWZNi3AWdffc6cXPiNxnJ+QCP2bZbtMnpaCe
-	I0NWkkjEyXiGK5iIqwCOKkvuZ+3XPqL2TdXpxdIWn024fsFuIMb26nshh2D0sQcWkTlkRdfwj4W
-	+Yf0TmBqCGMjmMjG5eAy+AOS6J/d1Nls3NQL6sQtZtHdqQRZkbuaGzh7wfV3E30OUMKS/8gMQPy
-	XeII2asUnrgp/mioeyGp4CpIUkuwu/4YgTTz4HRiiV9L89q3lhd7jBes9ujB6meCRBFFJijcZ9f
-	ebE7+0KwCOE/1lIXX7MMF7u93UGXrzCvnn7sRUaXb2YMqlG7ioEqgSWnxPReC99aVLpxqaMpNZ9
-	1k8rEfOGkHyT9X2TN9BGqCjO4L/VsLxHpr4QqImGYIrNLcHEN72UYzC+0Qp5obqDWjvQOuUOUSR
-	QcHPEwymrDFpJBvpcOkfQEWT/vJ8juzTtmWZU7O0KUxMyE=
-X-Received: by 2002:a05:600c:5491:b0:499:a4d1:d7d9 with SMTP id 5b1f17b1804b1-499dc717e32mr74023185e9.9.1787762247721;
-        Wed, 26 Aug 2026 09:37:27 -0700 (PDT)
-Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:caf1:6b20:8531:818c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e279eb11sm3350111f8f.8.2026.08.26.09.37.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 09:37:26 -0700 (PDT)
-From: Mike Lothian <mike@fireburn.co.uk>
-To: linux-kernel@vger.kernel.org
-Cc: Mike Lothian <mike@fireburn.co.uk>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH 1/1] rust: firmware: add the firmware upload abstraction
-Date: Wed, 26 Aug 2026 17:37:15 +0100
-Message-ID: <20260826163716.6274-2-mike@fireburn.co.uk>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260826163716.6274-1-mike@fireburn.co.uk>
-References: <20260826163716.6274-1-mike@fireburn.co.uk>
+        d=1e100.net; s=20251104; t=1787763702; x=1788368502;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zpkb59MZ3xKKGRCh9R6EynX+Nh2apKlX3tYGFftwGAo=;
+        b=qzrF5DNtYFQHhIbB4UAOPMikxUOeu8XThY3i465+ckXQlC5qoV+G4ZXzkXEZ5jHoUz
+         yGA+/BIXTZlW5OQcLyhB0d6XUQgI6ufB5qf9QyBJTld7OIW3lGEZLUPo9Ew8raoEWGLC
+         YOb2M/hHJUpVYshqfScFrH7OWd++0V/4VFQJIbBxl7eC8hklP+bQbc4o7Kvx83YXuqc4
+         ofv3AyAnvo/K2xkhErXSp/FHPZGftKzDS3KRoDFXe8lQ46MrsyDniPWAeZ//PkWzlUp9
+         v9UNq4Wk8286UxFSb7VBpNfIcestCO+ARvvCXBzxS/NuqbaqmM+kNHQ575hIuM/BouOg
+         aREg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqg/vW2AfslnHw/X1ljtbNoR108EfK+TFpP5duQ+DEn67RUbvnqMitqR+MGoO62CxKvrYwcwyxIH2755A==@lists.linux.dev
+X-Gm-Message-State: AFuF++kubHYi9RqdNFZzGbspB+QRzmwxOwHhU9fUt9MJQjp1Mjkc7hoM
+	XjROSI6fHBbcWynnciBVvGaHyVTLfobyyyVCXvr6TrZHv1RGiZ1nkcJOVCh17GC4OjX0RHwqX4L
+	rj2V5XGvj+l8NBRPt46ZYwlSXZU7tVx2sZ3+K8MiQG9c0Ka7O0t+WW4ZMBqE=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a53:e849:0:b0:66d:112b:769 with SMTP id
+ 956f58d0204a3-66d25663260mr2084976d50.1.1787763702629; Wed, 26 Aug 2026
+ 10:01:42 -0700 (PDT)
+Date: Wed, 26 Aug 2026 10:01:42 -0700
+In-Reply-To: <6a653bcf.073198cf.94f0f.001c.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8f1bf6.50659fcc.60cd.0004.GAE@google.com>
+Subject: Re: [syzbot] [kernel?] WARNING: proc registration bug in
+ unregister_irq_proc (2)
+From: syzbot <syzbot+690d666eb12fca6e1e61@syzkaller.appspotmail.com>
+To: abbotti@mev.co.uk, bhelgaas@google.com, dakr@kernel.org, 
+	driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com, tglx@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-request_firmware() covers "pull an image from /lib/firmware"; the other
-half of the firmware loader, firmware_upload_register(), covers "userspace
-hands the driver an image to write". It publishes
-/sys/class/firmware/<name>/ with the loading/data handshake plus status,
-error, remaining_size and cancel, and is what a driver uses when an image
-has to be written on demand rather than only when a newer one appears.
+syzbot has found a reproducer for the following issue on:
 
-Add an Upload trait mirroring struct fw_upload_ops, a Registration that
-unregisters on drop, and an Error enum whose values are the fw_upload_err
-codes userspace already reads back out of the error attribute.
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=17569625580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=690d666eb12fca6e1e61
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=157ce979580000
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+690d666eb12fca6e1e61@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+remove_proc_entry: removing non-empty directory 'irq/17', leaking at least 'comedi_parport'
+WARNING: fs/proc/generic.c:747 at remove_proc_entry+0x4e7/0x610 fs/proc/generic.c:747, CPU#0: syz-executor143/6008
+Modules linked in:
+CPU: 0 UID: 0 PID: 6008 Comm: syz-executor143 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:remove_proc_entry+0x4f5/0x610 fs/proc/generic.c:747
+Code: 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 c7 00 00 00 48 8d 3d 39 b7 88 0e 49 8b 95 d0 00 00 00 48 c7 c6 80 39 0b 8c <67> 48 0f b9 3a e9 2a fe ff ff e8 4c 2b 4a ff 48 8d 7d 18 48 b8 00
+RSP: 0018:ffffc900032af7b8 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: dffffc0000000000 RCX: ffff88803dac74dc
+RDX: ffff88801cb025dc RSI: ffffffff8c0b3980 RDI: ffffffff91498da0
+RBP: ffff88803dac74b8 R08: ffff88802b20f75c R09: ffffed1007b58e83
+R10: ffff88803dac741b R11: 0000000000000000 R12: ffff88803dac7400
+R13: ffff88801cb02500 R14: ffff88802b20f738 R15: dffffc0000000000
+FS:  000055558ac37400(0000) GS:ffff8880d5ba2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efe6b5a6130 CR3: 000000002bb43000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ unregister_irq_proc+0x206/0x2a0 kernel/irq/proc.c:406
+ free_desc+0x89/0x330 kernel/irq/irqdesc.c:482
+ irq_free_descs kernel/irq/irqdesc.c:874 [inline]
+ irq_free_descs+0x84/0xc0 kernel/irq/irqdesc.c:865
+ irq_domain_free_irqs+0x46a/0x5c0 kernel/irq/irqdomain.c:1919
+ mp_unmap_irq+0xf8/0x130 arch/x86/kernel/apic/io_apic.c:1061
+ acpi_unregister_gsi_ioapic+0x40/0x60 arch/x86/kernel/acpi/boot.c:722
+ acpi_unregister_gsi+0x25/0x40 arch/x86/kernel/acpi/boot.c:751
+ acpi_pci_irq_disable+0x275/0x360 drivers/acpi/pci_irq.c:517
+ pcibios_disable_device arch/x86/pci/common.c:706 [inline]
+ pcibios_disable_device+0x89/0xb0 arch/x86/pci/common.c:703
+ do_pci_disable_device+0x9f/0x100 drivers/pci/pci.c:2192
+ pci_disable_device+0x130/0x270 drivers/pci/pci.c:2228
+ enable_store+0x219/0x260 drivers/pci/pci-sysfs.c:342
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2509
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6af/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8d19fda9f7
+Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007ffff688d7b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 000055558ac37400 RCX: 00007f8d19fda9f7
+RDX: 0000000000000002 RSI: 00007f8d1a0120f4 RDI: 0000000000000004
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007f8d1a012129
+R13: 00007f8d1a014458 R14: 00007f8d1a0120f4 R15: 0000000000000015
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 fc                	add    %bh,%ah
+   2:	ff                   	lcall  (bad)
+   3:	df 48 89             	fisttps -0x77(%rax)
+   6:	fa                   	cli
+   7:	48 c1 ea 03          	shr    $0x3,%rdx
+   b:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   f:	0f 85 c7 00 00 00    	jne    0xdc
+  15:	48 8d 3d 39 b7 88 0e 	lea    0xe88b739(%rip),%rdi        # 0xe88b755
+  1c:	49 8b 95 d0 00 00 00 	mov    0xd0(%r13),%rdx
+  23:	48 c7 c6 80 39 0b 8c 	mov    $0xffffffff8c0b3980,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	e9 2a fe ff ff       	jmp    0xfffffe5e
+  34:	e8 4c 2b 4a ff       	call   0xff4a2b85
+  39:	48 8d 7d 18          	lea    0x18(%rbp),%rdi
+  3d:	48                   	rex.W
+  3e:	b8                   	.byte 0xb8
+
+
 ---
- rust/kernel/firmware.rs | 237 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 237 insertions(+)
-
-diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index 6a6b392ffc4e..a6fa565421d7 100644
---- a/rust/kernel/firmware.rs
-+++ b/rust/kernel/firmware.rs
-@@ -385,3 +385,240 @@ pub const fn build_length(self) -> usize {
-         self.n + 1
-     }
- }
-+
-+/// Firmware upload: let userspace hand a driver an image to write to its device.
-+///
-+/// Registering creates `/sys/class/firmware/<name>/` with the `loading`/`data` handshake plus
-+/// `status`, `error`, `remaining_size` and `cancel`, which is the counterpart to [`Firmware`]:
-+/// the same image works either way, but this one is pushed by userspace rather than pulled from
-+/// `/lib/firmware`. Drivers use it when an image has to be written on demand -- a re-flash, or a
-+/// deliberate downgrade -- rather than only when a newer version appears.
-+pub mod upload {
-+    use super::*;
-+    use crate::types::ForeignOwnable;
-+
-+    /// Why an upload step failed. `None` means success.
-+    ///
-+    /// The values are the `enum fw_upload_err` the core reports back through `sysfs`, so a driver
-+    /// says what went wrong in the vocabulary userspace already reads out of `error`.
-+    #[derive(Clone, Copy, PartialEq, Eq)]
-+    #[repr(u32)]
-+    pub enum Error {
-+        /// The device reported a failure; see the kernel log.
-+        Hardware = bindings::fw_upload_err_FW_UPLOAD_ERR_HW_ERROR,
-+        /// A handshake with the device timed out.
-+        Timeout = bindings::fw_upload_err_FW_UPLOAD_ERR_TIMEOUT,
-+        /// Userspace wrote `cancel`.
-+        Canceled = bindings::fw_upload_err_FW_UPLOAD_ERR_CANCELED,
-+        /// Another upload is already running.
-+        Busy = bindings::fw_upload_err_FW_UPLOAD_ERR_BUSY,
-+        /// The image is not a size this device can take.
-+        InvalidSize = bindings::fw_upload_err_FW_UPLOAD_ERR_INVALID_SIZE,
-+        /// A read or write to the device failed; see the kernel log.
-+        ReadWrite = bindings::fw_upload_err_FW_UPLOAD_ERR_RW_ERROR,
-+        /// The flash is wearing out; wait and retry.
-+        WearOut = bindings::fw_upload_err_FW_UPLOAD_ERR_WEAROUT,
-+        /// The image is not one this device accepts.
-+        InvalidFirmware = bindings::fw_upload_err_FW_UPLOAD_ERR_FW_INVALID,
-+    }
-+
-+    /// A driver's side of an upload.
-+    ///
-+    /// `prepare` runs once with the whole image, which is where a driver rejects one that is not
-+    /// for this device; `write` is then called repeatedly until every byte is written.
-+    pub trait Upload: Sized {
-+        /// Shared driver state, handed back to every callback.
-+        type Data: ForeignOwnable + Send + Sync;
-+
-+        /// Validate the image and get the device ready. Runs before any write.
-+        fn prepare(
-+            data: <Self::Data as ForeignOwnable>::Borrowed<'_>,
-+            image: &[u8],
-+        ) -> Result<(), Error>;
-+
-+        /// Write `chunk`, which starts at `offset` in the image, returning how much was written.
-+        ///
-+        /// Called repeatedly until the image is consumed, so a driver may write less than it was
-+        /// offered and be called again with the remainder.
-+        fn write(
-+            data: <Self::Data as ForeignOwnable>::Borrowed<'_>,
-+            image: &[u8],
-+            offset: u32,
-+            chunk: &[u8],
-+        ) -> Result<u32, Error>;
-+
-+        /// Report whether the device has finished programming what it was sent.
-+        fn poll_complete(data: <Self::Data as ForeignOwnable>::Borrowed<'_>) -> Result<(), Error>;
-+
-+        /// Asked to stop, from another thread: set a flag the other callbacks observe.
-+        fn cancel(data: <Self::Data as ForeignOwnable>::Borrowed<'_>);
-+
-+        /// Undo whatever `prepare` set up. Runs on success and on failure alike.
-+        fn cleanup(_data: <Self::Data as ForeignOwnable>::Borrowed<'_>) {}
-+    }
-+
-+    /// The C vtable for `U`, built once at compile time.
-+    struct Vtable<U: Upload>(core::marker::PhantomData<U>);
-+
-+    impl<U: Upload> Vtable<U> {
-+        /// Turn a driver result into the `enum fw_upload_err` the core expects.
-+        fn err(r: Result<(), Error>) -> bindings::fw_upload_err {
-+            match r {
-+                Ok(()) => bindings::fw_upload_err_FW_UPLOAD_ERR_NONE,
-+                Err(e) => e as bindings::fw_upload_err,
-+            }
-+        }
-+
-+        /// # Safety
-+        ///
-+        /// Called by the firmware core with a valid `fw_upload` whose `dd_handle` is the pointer
-+        /// [`Registration::new`] passed it, and `data` valid for `size` bytes.
-+        unsafe extern "C" fn prepare(
-+            fw: *mut bindings::fw_upload,
-+            data: *const u8,
-+            size: u32,
-+        ) -> bindings::fw_upload_err {
-+            // SAFETY: the core owns `fw` for the duration of the call.
-+            let handle = unsafe { (*fw).dd_handle };
-+            // SAFETY: `handle` came from `into_foreign()` in `Registration::new` and outlives the
-+            // registration; `data`/`size` describe the image the core is holding.
-+            let (d, image) = unsafe {
-+                (
-+                    <U::Data as ForeignOwnable>::borrow(handle.cast()),
-+                    core::slice::from_raw_parts(data, size as usize),
-+                )
-+            };
-+            Self::err(U::prepare(d, image))
-+        }
-+
-+        /// # Safety
-+        ///
-+        /// As [`Self::prepare`]; `written` is a valid out-parameter.
-+        unsafe extern "C" fn write(
-+            fw: *mut bindings::fw_upload,
-+            data: *const u8,
-+            offset: u32,
-+            size: u32,
-+            written: *mut u32,
-+        ) -> bindings::fw_upload_err {
-+            // SAFETY: as above.
-+            let handle = unsafe { (*fw).dd_handle };
-+            // SAFETY: as above; `data + offset` is within the image the core holds.
-+            let (d, image, chunk) = unsafe {
-+                (
-+                    <U::Data as ForeignOwnable>::borrow(handle.cast()),
-+                    core::slice::from_raw_parts(data, (offset + size) as usize),
-+                    core::slice::from_raw_parts(data.add(offset as usize), size as usize),
-+                )
-+            };
-+            match U::write(d, image, offset, chunk) {
-+                Ok(n) => {
-+                    // SAFETY: the core passes a valid pointer for the result.
-+                    unsafe { *written = n };
-+                    bindings::fw_upload_err_FW_UPLOAD_ERR_NONE
-+                }
-+                Err(e) => e as bindings::fw_upload_err,
-+            }
-+        }
-+
-+        /// # Safety
-+        ///
-+        /// As [`Self::prepare`].
-+        unsafe extern "C" fn poll_complete(
-+            fw: *mut bindings::fw_upload,
-+        ) -> bindings::fw_upload_err {
-+            // SAFETY: as above.
-+            let handle = unsafe { (*fw).dd_handle };
-+            // SAFETY: as above.
-+            let d = unsafe { <U::Data as ForeignOwnable>::borrow(handle.cast()) };
-+            Self::err(U::poll_complete(d))
-+        }
-+
-+        /// # Safety
-+        ///
-+        /// As [`Self::prepare`]. Runs on a different thread from the rest.
-+        unsafe extern "C" fn cancel(fw: *mut bindings::fw_upload) {
-+            // SAFETY: as above.
-+            let handle = unsafe { (*fw).dd_handle };
-+            // SAFETY: as above.
-+            let d = unsafe { <U::Data as ForeignOwnable>::borrow(handle.cast()) };
-+            U::cancel(d)
-+        }
-+
-+        /// # Safety
-+        ///
-+        /// As [`Self::prepare`].
-+        unsafe extern "C" fn cleanup(fw: *mut bindings::fw_upload) {
-+            // SAFETY: as above.
-+            let handle = unsafe { (*fw).dd_handle };
-+            // SAFETY: as above.
-+            let d = unsafe { <U::Data as ForeignOwnable>::borrow(handle.cast()) };
-+            U::cleanup(d)
-+        }
-+
-+        const VTABLE: bindings::fw_upload_ops = bindings::fw_upload_ops {
-+            prepare: Some(Self::prepare),
-+            write: Some(Self::write),
-+            poll_complete: Some(Self::poll_complete),
-+            cancel: Some(Self::cancel),
-+            cleanup: Some(Self::cleanup),
-+        };
-+    }
-+
-+    /// A live `/sys/class/firmware/<name>/` upload interface, unregistered when dropped.
-+    pub struct Registration<U: Upload> {
-+        fw: *mut bindings::fw_upload,
-+        data: *mut core::ffi::c_void,
-+        _p: core::marker::PhantomData<U>,
-+    }
-+
-+    // SAFETY: the C side is internally locked, and `U::Data` is `Send + Sync`.
-+    unsafe impl<U: Upload> Send for Registration<U> {}
-+    // SAFETY: as above.
-+    unsafe impl<U: Upload> Sync for Registration<U> {}
-+
-+    impl<U: Upload> Registration<U> {
-+        /// Publish an upload interface named `name` under `parent`.
-+        pub fn new(
-+            module: &'static crate::ThisModule,
-+            parent: &Device,
-+            name: &CStr,
-+            data: U::Data,
-+        ) -> Result<Self> {
-+            let handle = data.into_foreign();
-+            // SAFETY: `parent` and `name` are valid for the call; the vtable is 'static; `handle`
-+            // is kept alive by this registration and released in `drop`.
-+            let fw = unsafe {
-+                bindings::firmware_upload_register(
-+                    module.as_ptr(),
-+                    parent.as_raw(),
-+                    name.as_char_ptr(),
-+                    &Vtable::<U>::VTABLE,
-+                    handle.cast(),
-+                )
-+            };
-+            let fw = match crate::error::from_err_ptr(fw) {
-+                Ok(fw) => fw,
-+                Err(e) => {
-+                    // SAFETY: registration failed, so nothing else observes `handle`.
-+                    drop(unsafe { <U::Data as ForeignOwnable>::from_foreign(handle) });
-+                    return Err(e);
-+                }
-+            };
-+            Ok(Self {
-+                fw,
-+                data: handle.cast(),
-+                _p: core::marker::PhantomData,
-+            })
-+        }
-+    }
-+
-+    impl<U: Upload> Drop for Registration<U> {
-+        fn drop(&mut self) {
-+            // SAFETY: `self.fw` came from `firmware_upload_register` and is unregistered once.
-+            unsafe { bindings::firmware_upload_unregister(self.fw) };
-+            // SAFETY: the core no longer holds `dd_handle` after unregistering.
-+            drop(unsafe { <U::Data as ForeignOwnable>::from_foreign(self.data.cast()) });
-+        }
-+    }
-+}
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
