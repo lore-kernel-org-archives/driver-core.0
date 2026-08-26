@@ -1,136 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33351332604;
-	Wed, 26 Aug 2026 07:03:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D18D302146
+	for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 07:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787727805; cv=none; b=Q0G9hrNDxRMH+7fLG97gIVBpYFYs1qdRjhyoG/jkcteUkExUCXAWfmserfoi3KwyCQfrs6uUQKXK39FVPGGN/rFbrHNcmMtM1eIllo5ls0pUXw25WJ8eg9HUsyAg44ZaMPHOd4siPG3/LqjJCZl3loUvF+cy4zQcbwyC+op+RQI=
+	t=1787728683; cv=none; b=iu4oCPM+FqhQmOoIJ8I1THLG5EV5dQYeYohIbcrE1CjZnKFVPgVD34IBzKL23atVEDubUsdQl7TrHN3+JEPMgMa4kDHIW1qkh1FWSiV6k9MWHUPEa6SHJQjiN//4pvbqP2K8OKPkrFPRq2Isxbfmk2NgECGs9Nq3xzGk9BKvhtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787727805; c=relaxed/simple;
-	bh=eyrh5Zk46z7h/o6OWWvIWXhU3ZtwrrVkYgqqYH/FRdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7Z1O0+bFcSdPEAKxiZDh+pgG93NaNHX9YO9zK5zjwwDxkxsgW6PDQ4Yi+JeCLU3DLXq/g3TA4V+SKGoQEi1lnNk+jxKKkQ6qB2x6CrWyvKGt31HJjI5tojdByPI4lmpdkUxWUGjNky5jTFKJ7jZN3FlNVaOiSVYJsc+eh0rjsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aZIFD1r4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787728683; c=relaxed/simple;
+	bh=uzxxyks2ToEzwNXkuyUgwmSloH8uK4bfgsIFGVs2mKE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TvBM4+Gekc7WFXN0A/EveSKTl5TNhl/MogxJxOvFmahW5RG2N58vcQkZRQ1iAS8N0LGfMahAwnoX8ri7U29kzXMsZ+jZtozaxY0vwF5TmymJlrJ3BgkyPIeD9Admg+yUcmrito/h+3oV1jvoUSzL7/LH1bTSMqVmxuinXsbl8YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxYNtrR1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aZIFD1r4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 414161F000E9;
-	Wed, 26 Aug 2026 07:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787727803;
-	bh=XxducLyt6wdGSM2UI5Nio2djOP6n3ZS0EsbJub2EbKs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aZIFD1r4c+o3AF0JOia0WPW6V0v+22Hi6LOVUNt6HM02Y5dJW4woq0QvfSRO2FNcF
-	 LR3HKQApKsJeDUTQI9oBxMxx1LUoMKMrRJikjFfwgFlvZQSK60FnHwS6ZGbXdLlJuW
-	 SgSy5FqE19EkWSbEPAiZ+O4QqND5N1bCJvPJxV18=
-Date: Wed, 26 Aug 2026 09:01:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tao Yu <tao1.yu@intel.com>
-Cc: rafael@kernel.org, dakr@kernel.org, akpm@linux-foundation.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com
-Subject: Re: [PATCH] kobject: avoid blocking allocation while holding
- uevent_sock_mutex
-Message-ID: <2026082632-sports-cattail-a5b0@gregkh>
-References: <20260826064633.589258-1-tao1.yu@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxYNtrR1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787728682; x=1819264682;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=uzxxyks2ToEzwNXkuyUgwmSloH8uK4bfgsIFGVs2mKE=;
+  b=NxYNtrR14dq5tAS5vKC45jmo5YlMTNtVdg4t/elsXFWbXKPIASU3+huh
+   cVn2Lsd9wzBGm27xURje0oWDs1g3wybZyGnVhBT38t7CQVJsSyUmkeNnX
+   N6Sn7rSPb+DCYBsei2Yhsw2wbyVhi9/L20l/ZteIpZV8Oqclvl0BTjyFA
+   igfpv5nU18zzki1NGSrG+3A9vGMTq2e4iYzysi+ZSdj9VVDFHkQOgMrRV
+   zhwcWOG/QrpbI7Xr5NNso9A7XhICH+yPxKF25IS/OjuDcU7QGRK4T1QBD
+   nT9vRbBdqNcd7aaW2UHYylrXsKhNvZYCGsgKLsDqU4flfOcwRVPWIr0w3
+   g==;
+X-CSE-ConnectionGUID: aiS2WyvWQqmvYHWZsf1Jew==
+X-CSE-MsgGUID: kc5XJKXRT4+CdJUTFDs9cA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="91884992"
+X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
+   d="scan'208";a="91884992"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 00:18:01 -0700
+X-CSE-ConnectionGUID: jS2OywpoSzSvnYiIJQcP5Q==
+X-CSE-MsgGUID: tM+nmQEuShC5Q7A177P1Eg==
+X-ExtLoop1: 1
+Received: from tester.sh.intel.com ([10.112.106.126])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Aug 2026 00:17:59 -0700
+From: Tao Yu <tao1.yu@intel.com>
+To: gregkh@linuxfoundation.org
+Cc: akpm@linux-foundation.org,
+	dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	rafael@kernel.org,
+	syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com,
+	tao1.yu@intel.com
+Subject: Re: [PATCH] kobject: avoid blocking allocation while holding uevent_sock_mutex
+Date: Wed, 26 Aug 2026 15:17:58 +0800
+Message-Id: <reply-20260826-kobject-uevent-v1@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2026082632-sports-cattail-a5b0@gregkh>
+References: <20260826064633.589258-1-tao1.yu@intel.com> <2026082632-sports-cattail-a5b0@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260826064633.589258-1-tao1.yu@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 26, 2026 at 02:46:33PM +0800, Tao Yu wrote:
-> uevent_net_broadcast_untagged() still holds uevent_sock_mutex across
-> netlink_broadcast().  That serializes all untagged uevent senders behind
-> one global mutex, and it also keeps the mutex held while the netlink
-> broadcast path may perform blocking memory allocation.
-> 
-> This becomes visible during USB enumeration, where device_add() sends a
-> KOBJ_ADD uevent from the usb_hub_wq context.  If a listener is slow or
-> the netlink broadcast path runs into memory pressure, the sender can sit
-> behind uevent_sock_mutex long enough to trigger hung task reports.
+Hi Greg,
 
-What has changed to cause this to happen?  USB enumeration is quite
-common :)
+Thanks for the review.
 
-> Keep the existing send-side ordering, but move the uevent skb allocation
-> out of the critical section and use GFP_NOWAIT for the broadcast clones
-> performed while uevent_sock_mutex is held.  This removes the sleeping
-> allocation point from the locked region without changing uevent delivery
-> semantics.
-> 
-> Reported-by: syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com
+Nothing changed in USB enumeration itself. What syzbot appears to be
+hitting is a long-standing latency problem in the untagged uevent path,
+not a recent USB-specific regression.
 
-No link?  Was this tested?
+The blocked task is in:
 
-No cc: stable?
+  usb_set_configuration()
+    -> device_add()
+    -> kobject_uevent_env()
+    -> uevent_net_broadcast_untagged()
 
-No Fixes: tag?
+so the contention point is the global untagged-uevent broadcast path in
+lib/kobject_uevent.c.
 
-> Signed-off-by: Tao Yu <tao1.yu@intel.com>
-> ---
->  lib/kobject_uevent.c | 28 +++++++++++++++++++---------
->  1 file changed, 19 insertions(+), 9 deletions(-)
-> 
-> diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-> index ddbc4d7482d24..b8832a5ca583d 100644
-> --- a/lib/kobject_uevent.c
-> +++ b/lib/kobject_uevent.c
-> @@ -311,9 +311,26 @@ static int uevent_net_broadcast_untagged(struct kobj_uevent_env *env,
->  {
->  	struct sk_buff *skb = NULL;
->  	struct uevent_sock *ue_sk;
-> +	bool has_listeners = false;
->  	int retval = 0;
->  
-> -	/* send netlink message */
-> +	mutex_lock(&uevent_sock_mutex);
-> +	list_for_each_entry(ue_sk, &uevent_sock_list, list) {
-> +		if (!netlink_has_listeners(ue_sk->sk, 1))
-> +			continue;
-> +
-> +		has_listeners = true;
-> +		break;
-> +	}
-> +	mutex_unlock(&uevent_sock_mutex);
+Looking at the history, the locked allocation/broadcast pattern appears
+to date back to 16dff336b33d ("kobject: add kobject_uevent_net_broadcast()").
+Because of that, I did not add a Fixes tag or cc stable in v1. I do not
+have evidence that this is a recent regression, so I would rather not
+add those tags without a stronger justification.
 
-guard()?
+You are also right about the race in my listener pre-check. A listener
+can appear after the first unlock, so that part of v1 is not correct.
+I will drop that approach in the next revision.
 
-> +
-> +	if (has_listeners) {
+I also should have included the syzbot link and testing details. The
+report is here:
+https://syzkaller.appspot.com/bug?extid=c22bb42560ec86726aba
 
-What happens if you get a listner right after the lock is released?
+syzbot has now tested the proposed patch and reported that the
+reproducer did not trigger the issue:
+https://groups.google.com/g/syzkaller-bugs/c/q6wmyA-hG6E/m/rLDsbLC-AQAJ
 
-> +		skb = alloc_uevent_skb(env, action_string, devpath);
-> +		if (!skb)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	/* Keep send-side ordering, but avoid sleeping while holding the mutex. */
->  	mutex_lock(&uevent_sock_mutex);
->  	list_for_each_entry(ue_sk, &uevent_sock_list, list) {
->  		struct sock *uevent_sock = ue_sk->sk;
-> @@ -321,15 +338,8 @@ static int uevent_net_broadcast_untagged(struct kobj_uevent_env *env,
->  		if (!netlink_has_listeners(uevent_sock, 1))
->  			continue;
->  
-> -		if (!skb) {
-> -			retval = -ENOMEM;
-> -			skb = alloc_uevent_skb(env, action_string, devpath);
-> -			if (!skb)
-> -				continue;
-> -		}
-> -
->  		retval = netlink_broadcast(uevent_sock, skb_get(skb), 0, 1,
-> -					   GFP_KERNEL);
-> +					   GFP_NOWAIT);
+So the patch now has:
+Tested-by: syzbot+c22bb42560ec86726aba@syzkaller.appspotmail.com
 
-This all feels very odd.  Again, what has changed to suddenly need this?
+I also compile-tested it with:
+  make lib/kobject_uevent.o
 
-thanks,
+Given the race in v1, I will respin this as a narrower fix and include
+the proper Link/Tested-by information.
 
-greg k-h
+Thanks,
+Tao
