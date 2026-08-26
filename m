@@ -1,87 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042B33F1AD7;
-	Wed, 26 Aug 2026 13:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D3C3F0A92
+	for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 13:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787749817; cv=none; b=FJ9xKeC76LKXI19gQTOB4tPgRLCnjfL3d0gBuChjCS4hEz7a6EimV7vZY7an0/3LHi7mTFpwSKlJ02xy5QGRgSv6+TtKB4WXVRsD0GTInFvwFy4AmbcNpkXZUyWv1MYBibZBqAyW9mr/43u7Pv9TwBaEi7DHamSdxW/ugLK8m34=
+	t=1787749957; cv=none; b=bArwoXnopZQETYSLM3g7CgItC4kCEzPJlCcbGD4CfSIIADtuPjYovEuZh9C/6wfwLfl0XecOhB3GSup45h8EvenC4ff4+QkiJjHNQeqwlsNsTkGQIFg+kOrFxxNBqaoI8eesbXzoJOOwuscJ6awXi5KfzRS6DQpRDA7fe8NTs4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787749817; c=relaxed/simple;
-	bh=DikMXrn6dNejgfcuxe4iWYRZZU6hw6FARPjRMsrHE9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DHoTRX6xPmNu2NgjXptf45r9EUVgQ6Ujsaz3kYjXNkVjTLSYH9yJUUTc3Y2ioR+JZiv45W+k9KS9qRBXd5Vsxxyj/vEAw5ChYzqUQ2qXmuJRJCMyPerAk8bPLxJKql1ED4sv3lwxgyxVNd0EkO0C8mOQ2/+f6tUZqHql0lodvHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hnoUkDCR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787749957; c=relaxed/simple;
+	bh=ivvuNl1kIvjfNLJisWIJ37xnmxyBhBZ5jrVN3aFoMqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T2QbOqolic64Ep0ucaZTvhvAgqc7otG+X0uv/awPwwiajhd3sWgrUqS7qs/zvpwEXLmDOSrDI3M6oBaKG6lfOgBwcz2AEN+iU0XU3d1TEoDsMlffSWR7KAa7BcFnkUE3fDTk5gD3IKpOlDd4xzEzNEuyGtaOwzGEkX3+RX1sBb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nPwE1PZj; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hnoUkDCR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1241F000E9;
-	Wed, 26 Aug 2026 13:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787749815;
-	bh=z29EKC1TEcpdEn0ZbUlK5fEa15VDOjDwmxfz9RTXdqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hnoUkDCRtz++B5hNmtoD1jlGKWqCfoTBsaIX+dYjA6/zxajl3xysiiFoMU3DCy9PD
-	 1t+59qGAuFl+SkbrXocFqBvCOoCHOPNEsmX6w5WIiCw/4vKSeM1upiPIXw0oL5yz9I
-	 RbIHKYtyPOcZPbsDbH4Z0wvkwRZ88oApiOKqptmY=
-Date: Wed, 26 Aug 2026 15:10:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: atomlin@atomlin.com, corbet@lwn.net, da.gomez@kernel.org,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, mathieu.desnoyers@efficios.com,
-	mcgrof@kernel.org, mhiramat@kernel.org, petr.pavlu@suse.com,
-	rafael@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
-	samitolvanen@google.com, skhan@linuxfoundation.org
-Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026082604-freewill-pretzel-0057@gregkh>
-References: <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
- <C35F2CF9-9CD7-482F-8F30-2D152AB42D0B@mainlining.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nPwE1PZj"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF74F1684;
+	Wed, 26 Aug 2026 06:12:25 -0700 (PDT)
+Received: from e143943.arm.com (unknown [10.57.1.236])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6F21C3F66F;
+	Wed, 26 Aug 2026 06:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787749949; bh=ivvuNl1kIvjfNLJisWIJ37xnmxyBhBZ5jrVN3aFoMqM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nPwE1PZj/o2dhKHiiG5SsQ9UX5fpzcHLOh6jLD1t3JpRU5sdp28XTm/aRzWbif8h4
+	 sfnQr1KTuxyvssPmM8bOck9lOyuNsFUrRkS7I3STkv3qPfYyAVFjkn07FLGrGGc1fw
+	 qwBsvE8iN8Qya0Gm4nUHxtkzz9bJQaynM/IxCZQE=
+From: Beata Michalska <beata.michalska@arm.com>
+To: ojeda@kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org
+Cc: boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com,
+	work@onurozkan.dev,
+	samitolvanen@google.com,
+	acourbot@nvidia.com,
+	rust-for-linux@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v3 0/3] Rust: add runtime PM support
+Date: Wed, 26 Aug 2026 15:10:54 +0200
+Message-ID: <20260826131213.1820408-1-beata.michalska@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <C35F2CF9-9CD7-482F-8F30-2D152AB42D0B@mainlining.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 26, 2026 at 12:58:00PM +0100, Bradley Morgan wrote:
-> On 26 August 2026 10:19:33 BST, Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >The ability to add and remove devices from a driver through the sysfs
-> >"bind" and "unbind" files was created all those decades ago as a way
-> >that kernel developers can iterate faster, and provide a debugging way
-> >for users to attempt to add a new device to a driver without having to
-> >rebuild their kernel.
-> >
-> >This api over the years has been abused and recently come under a major
-> >fuzzing "attack" through tools like syzbot which decided that it would
-> >attempt to just randomly bind any driver to any type of device, causing
-> >loads of unneeded errors and pointless kernel patches to be generated by
-> >unsuspecting new developers.
-> >
-> >Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> >will be set on the driver if the bind/unbind sysfs files are ever
-> >successfully written to.  This lets kernel developers "know" that a user
-> >is attempting to do something that is not normal, and as such, if the
-> >kernel breaks they get to keep the shiny pieces laying around on the
-> >floor.
-> >
-> >Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> >as many times crashes/oops/warnings/failures happen within the callback,
-> >and the taint flag needs to be there to show what was being attempted.
-> >If it were to be set after the callback happens, the oops report would
-> >not properly reflect what foolishness was being attempted.
-> >
-> 
-> sashiko found a couple valid concerns for 2/2
+This series adds initial Rust support for Linux runtime PM.
 
-Yes, will fix that for v2.
+The concept for Rust abstraction gets introduced in the first patch.
+It provides callback registration, PM callback dispatch through PMOps trait,
+scoped request helpers for common runtime PM operations and configuration
+helpers.
 
-thanks,
+The abstraction intends to keep the request semantics aligned with
+the C runtime PM core.
 
-greg k-h
+Second patch integrates dev_pm_ops into the Rust platform driver abstraction,
+enabling drivers to register PM callbacks with the core.
+
+The last in the series is provided for demonstrative purposes
+(not intended to be an actual merge material).
+
+This has been lightly tested with the Tyr driver.
+
+It is based on Danilo's drm/file branch [1]
+
+---
+v3:
+- Dropped macros in favour of plain encoding of the PM callbacks
+- Moved Mode to use kernel::impl_flags
+- Generated PM callbacks, the stored payload, and the device cast
+  are all monomorphized for the same (Adapter<T>, T) pair,
+  with the registration sealing the contract by validating installed dev_pm_ops
+- Platform PM wiring should be type-safe now
+- Tracking runtime enable/disable state
+- Few fixes for issues pointed out by Sami Tolvanen (samitolvanen@google.com),
+  like making the registration teardown respecting the CONFIG_PM settings or
+  fixing AwakeScope for async/no wait calls; Sami is also the person behind
+  adding get_if_active variant (much appreciated)
+- Changed base branch
+v2:
+- Moving away from the old PMContext<T, Dormant/Active> type-state design
+- Introducing an explicit Registration<'a, T> object.
+- PMContext now carries a lifetime and is derived from the registration
+- Callback data is no longer recovered through driver data
+- Simplified PMOps
+- Runtime payload handling change
+- Request helpers slightly extended
+
+---
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=drm/file
+
+Beata Michalska (3):
+  rust: add runtime PM support
+  rust: platform: wire runtime PM callbacks
+  drm/tyr: enable runtime PM
+
+ drivers/base/base.h             |    3 +
+ drivers/gpu/drm/tyr/driver.rs   |  123 +++-
+ drivers/gpu/drm/tyr/file.rs     |    3 +
+ rust/bindings/bindings_helper.h |    1 +
+ rust/helpers/helpers.c          |    1 +
+ rust/helpers/pm_runtime.c       |   44 ++
+ rust/kernel/error.rs            |    1 +
+ rust/kernel/lib.rs              |    1 +
+ rust/kernel/platform.rs         |   30 +
+ rust/kernel/pm.rs               | 1079 +++++++++++++++++++++++++++++++
+ 10 files changed, 1262 insertions(+), 24 deletions(-)
+ create mode 100644 rust/helpers/pm_runtime.c
+ create mode 100644 rust/kernel/pm.rs
+
+-- 
+2.43.0
+
