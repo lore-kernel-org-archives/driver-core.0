@@ -1,168 +1,174 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573F637D100;
-	Thu, 27 Aug 2026 02:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AD938945A
+	for <driver-core@lists.linux.dev>; Thu, 27 Aug 2026 04:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787798962; cv=none; b=hw9ymnQd4IgG+zEVPkBUju7OjKU8Y3A8Q+0rLc0JQzu51zn6BhKD6BaFzT9GiskbiH4e6Pdp1RqShLACAtOQkqpxi6OqnZk0t2hOwgRsxAsbRyvLsUscqPCpJMT+jITVdoSfDtCfALbC65+NgghAt+8aU/me+lUQJhDPyicFXe4=
+	t=1787804311; cv=none; b=C8K+4MO82W4Ck0ydSQtAGOW+vJKeOqdHcOPguq1D+kqCjBAExvV7rUTf+RFDERZJWHtewN6sNvE1HlPdb7hErSZUobGlnY7JP0CTMOzuXx5Np4WUcy9QC8EAynU1ncXYHXmAXipNewmFhZB43S7w44k0DUr9mviTr6KMDwkNQkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787798962; c=relaxed/simple;
-	bh=YoLCz1bvgFQQJvMdYJcuPfNecOmjseRt1ck2Kmm/oGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r1pRuALY6amGBLk8qAeQzNwkuErBKtCoEQpc0dp0ek+vC1Y/cuaNQhHz9/NFDBiheWujk+eYBNrRxc+kFYgpmOrNujRPp4xbUoXOU7amCTqTVlymfLg5rjTnuwlBhMjHT4dDL/fCsopguDcgpWcvqiAQ0UO/wh3Qd3uq16EMB2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hzilSf0A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787804311; c=relaxed/simple;
+	bh=uSMkf3RwzjItLUAPe9EhTmetvptyKOyoUUkhMvsgRCQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PtJHTWwXKODlmr45Baf6W4iFPt9LA8Fy/kJ1UdFCspNShxGRYn7l0dsxG02n74HknRiP25iiCM82no7zA/cwKCuBadSqWw0AX4YhbLyrZqJ81CDhnTOmpdNzvPQpif+ff4GOg4YP5QyBBDEtMDUTXMaOwnCR8bQj4wSGUnaOenA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mi3qUhqa; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hzilSf0A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=mtxyjDR/AkeJ1U6spdGadiXVy/JeYOrATb8gpHS2GT0=; b=hzilSf0AFvb2ZflmV2+sTecXFZ
-	c+ZiHEEu9zIe5Hl7/d3U4hFO0C2IUv96B+a0S8z0KpSHG1dEluzFwpJzxUXd0IkP4Cqg1MOsrsksE
-	ZCRIJJzwZ+ocO2aS1OOg9+m/t1TvcmIY5xGgYQ0lvGLlnGMs18TxvYWj5p6nhZdne59VSDSjCma8A
-	/F8Svk2oFlkIboL8M6JbZCyDHzIezjb/Rq9PO/81mpeDwn3X1SQ+NcyPozPj0WcUlsOSyj8T0/W0x
-	0mK2QmVZxJ3z2SkU8c85t1fE3jIzKOI8CI5YZ18ZdpAwqzSeWVyhM1dw5MmJXM0xV/wSL+o76iAOl
-	eqmCTZbQ==;
-Received: from [38.23.173.23] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wzQB1-00000003KHf-19Y2;
-	Thu, 27 Aug 2026 02:49:15 +0000
-Date: Wed, 26 Aug 2026 22:49:12 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Danilo Krummrich <dakr@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, driver-core@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] drivers/base, mm: move arch_numa.c to mm/
-Message-ID: <xzndraf66344jbze5gfst2ugz5plr4cqsgv7hiw4w2vefqekn6@fkaqeczif5cb>
-References: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mi3qUhqa"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-499b2981a7bso2369365e9.3
+        for <driver-core@lists.linux.dev>; Wed, 26 Aug 2026 21:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787804308; x=1788409108; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tSfRa8BgrZI/TGibDtUnpQi8XG0Nol/aLRpoLE1ncnY=;
+        b=mi3qUhqa3TMw3HdqX657Kefr6YyNtwBT3IpQxCRvvZoSMTwXbkei0i17DNf5uOQbYj
+         AnqFDNQFTDFll9NG2ZJQR3CJ6qSqH183lgzAPGa2qsRoIIPkyD2KYrpk6QRyjiywAqsN
+         9PgOKZu+ptZ+/3IP8cBJd9AcbmOohNL3hXOaL1lVTpVER1TB34Lme4yzw82jzuG/RGaW
+         bROLwYkhNTMOtXfAEkbdtBgjrJDdDtr4JJESY08TdBrusHsAkvcUCKCA+ogo7F/Vvgfn
+         bBqVabf0wkorx+ncjsoT7LCZbob515bcXmUYoTIG9bjwoLuAmgqhVvnkdV2iQEBV8Skl
+         Ftpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787804308; x=1788409108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tSfRa8BgrZI/TGibDtUnpQi8XG0Nol/aLRpoLE1ncnY=;
+        b=s4UagJXnGtMTyBgFa/pyTaWUW4k3cWhyv04bIBGtzy9+y8Y2+HxkhM3CX+6EbHOKVK
+         GM3+F5dWbkqMwgDUqp3iwoV4nDHvIeMtRp7QauKXDlLhBPUTavtcFcC2FILKMgg4RWB3
+         RUexrDUo5K/SwOSztNIQuyXbbL2JpQHS3V/SatCuamJTQxEkl7KTEgx6xXzxOBAX7Wuy
+         C6UvZ1ZPC5NLpD0zt8+K8aq36vNdl+BGw1Asaof8VQkeuG7SUSRPlp/VK/EfMVKQb6An
+         GWtTjurZo7EEUoWHyI3W3sQxy05VKoYD8JrzycSvUtIddfHOEYaiZYXYl3CkvMuYczJe
+         GGKw==
+X-Forwarded-Encrypted: i=1; AHgh+RqULyHp8nFyEHBWE34DGquXqFHJJN3r5nCNwSmAOxGfs7uO/WzgPQ6qOwn/N0apKoUdXX8bv3AkFK90Nw==@lists.linux.dev
+X-Gm-Message-State: AFuF++k27b4wAFkFDHaZ1s0hco3xGOws87eeOMnOAF/k+68/SABqX2kt
+	M6UVFn9EQ4b5MPrR84xRYVc0Vdnv0dkxSqqwvBgl0TMmUR9mk5/hTqTm
+X-Gm-Gg: AR+sD13izayfZ0yMY+zEy80+LkjTmqJDhd/QuMz0+A4dDy9hzk11XRN7br2EPW5Rm54
+	OQIg9LFzCpR0fgX7fURvcDVz1b7FszB8xf6K5jlH0O9KkPQL1F/w2uBDT8HMENwMfLTQbrgPerr
+	i9Slc0GqK7fgxRort6CAuNuoZNeEk+IZA8DMFkBk7fKa+ybQiFVUWrRnfCIItnrkRKbXDfbZYow
+	n2/BGHrD7Df67lsck/9bVTmsC28Fd05tLQj9wQvs4Bofg4313LCLHdbwcx5AkcZUiq4mbtaYm5f
+	y3q4XFSnVnB5KpFiSB/yAFZ5ciU/Km7iF/o5uAwrk6tiMEZfYB/TJXrZaYpmdJ+SRhIePy8Yi4R
+	Ade0a5yChG0PRQmCgAsZqbpIY0XtnstzKpO+0KE5wtFcKSWCIskyJoYlUcYoiOR5Dt3v+tKwkSi
+	EvA2M2dlgmq1Gv+zq6FSwTbV/GLcMyARM9etZNBCjfQygmsQOceGILqv6wMySAWxqPc7tszw4xp
+	Y+tVOWsBpwuoaQY2qzKHc2CywOw7g5WpBHPNeDFx6GGlDf/8t32sxakIPF+Zp7esaqJum1zVLnu
+	TJs4Ktg7TjrqbmEHikD3PKW9OA==
+X-Received: by 2002:a05:600c:6088:b0:499:a277:e8b5 with SMTP id 5b1f17b1804b1-499dc6f3248mr130645735e9.3.1787804307537;
+        Wed, 26 Aug 2026 21:18:27 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-095-114-154-097.95.114.pool.telefonica.de. [95.114.154.97])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dd5616f7sm44613445e9.2.2026.08.26.21.18.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 26 Aug 2026 21:18:27 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] klist: avoid accesses after waking klist_remove()
+Date: Thu, 27 Aug 2026 06:17:08 +0200
+Message-Id: <20260827041708.31682-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806-arch-numa-v1-1-968ec128121e@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On 26/08/06 09:58AM, Mike Rapoport (Microsoft) wrote:
-> arch_numa.c implements boot time discovery and initialization of NUMA
-> topology on architectures that select GENERIC_ARCH_NUMA (currently arm64
-> and riscv).
-> 
-> Since this is step in the initialization of the memory management
-> subsystem, it's logical to have arch_numa.c in mm/ alongside numa.c,
-> numa_memblks.c and numa_emulation.c.
-> 
-> Move arch_numa.c to mm/ and add its F: entry to "MEMBLOCK AND MEMORY
-> MANAGEMENT INITIALIZATION" in MAINTAINERS.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+klist_remove() waits until a node is unreferenced so that its caller can
+free the containing object.  klist_release() currently publishes
+waiter->woken and wakes the waiter before its final accesses to the waiter
+and node.  klist_remove() can then return, allowing its stack waiter and
+the containing object to be freed or reused while klist_release() is still
+running.  In particular, bus_remove_driver() can free drv->p while
+__device_attach() walks the same bus klist with bus_for_each_drv().
 
-Acked-by: Liam R. Howlett (Oracle) <liam@infradead.org>
+On an arm64 Cortex-A72 system, an unpatched 7.2.0-rc3 kernel with
+CONFIG_PREEMPT_RT=y and CONFIG_KASAN=y reproduced the bug through the
+in-tree I2C/at24 path.  KASAN reported a use-after-free in
+klist_dec_and_del() reached from klist_next()/bus_for_each_drv() while
+at24 was being unregistered.
 
-> ---
->  MAINTAINERS                      | 1 +
->  drivers/base/Kconfig             | 7 -------
->  drivers/base/Makefile            | 1 -
->  mm/Kconfig                       | 7 +++++++
->  mm/Makefile                      | 1 +
->  {drivers/base => mm}/arch_numa.c | 0
->  6 files changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5114e6db7307..465b64f8e93c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16880,6 +16880,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
->  F:	Documentation/core-api/boot-time-mm.rst
->  F:	include/linux/kho/abi/memblock.h
->  F:	include/linux/memblock.h
-> +F:	mm/arch_numa.c
->  F:	mm/bootmem_info.c
->  F:	mm/memblock.c
->  F:	mm/memtest.c
-> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-> index f7d385cbd3ba..1d93bfc34490 100644
-> --- a/drivers/base/Kconfig
-> +++ b/drivers/base/Kconfig
-> @@ -239,13 +239,6 @@ config GENERIC_ARCH_TOPOLOGY
->  	  appropriate scaling, sysfs interface for reading capacity values at
->  	  runtime.
->  
-> -config GENERIC_ARCH_NUMA
-> -	bool
-> -	select NUMA_MEMBLKS
-> -	help
-> -	  Enable support for generic NUMA implementation. Currently, RISC-V
-> -	  and ARM64 use it.
-> -
->  config FW_DEVLINK_SYNC_STATE_TIMEOUT
->  	bool "sync_state() behavior defaults to timeout instead of strict"
->  	help
-> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
-> index 8074a10183dc..435710f643a5 100644
-> --- a/drivers/base/Makefile
-> +++ b/drivers/base/Makefile
-> @@ -25,7 +25,6 @@ obj-$(CONFIG_PINCTRL) += pinctrl.o
->  obj-$(CONFIG_DEV_COREDUMP) += devcoredump.o
->  obj-$(CONFIG_GENERIC_MSI_IRQ) += platform-msi.o
->  obj-$(CONFIG_GENERIC_ARCH_TOPOLOGY) += arch_topology.o
-> -obj-$(CONFIG_GENERIC_ARCH_NUMA) += arch_numa.o
->  obj-$(CONFIG_ACPI) += physical_location.o
->  
->  obj-y			+= test/
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 9e0ca4824905..410b8a0a92b9 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1469,6 +1469,13 @@ config NUMA_EMU
->  	  into virtual nodes when booted with "numa=fake=N", where N is the
->  	  number of nodes. This is only useful for debugging.
->  
-> +config GENERIC_ARCH_NUMA
-> +	bool
-> +	select NUMA_MEMBLKS
-> +	help
-> +	  Enable support for generic NUMA implementation. Currently, RISC-V
-> +	  and ARM64 use it.
-> +
->  config ARCH_HAS_USER_SHADOW_STACK
->  	bool
->  	help
-> diff --git a/mm/Makefile b/mm/Makefile
-> index eff9f9e7e061..fd29be716fa8 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -122,6 +122,7 @@ obj-$(CONFIG_CMA)	+= cma.o
->  obj-$(CONFIG_NUMA) += numa.o
->  obj-$(CONFIG_NUMA_MEMBLKS) += numa_memblks.o
->  obj-$(CONFIG_NUMA_EMU) += numa_emulation.o
-> +obj-$(CONFIG_GENERIC_ARCH_NUMA) += arch_numa.o
->  obj-$(CONFIG_BALLOON) += balloon.o
->  obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
->  obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
-> diff --git a/drivers/base/arch_numa.c b/mm/arch_numa.c
-> similarity index 100%
-> rename from drivers/base/arch_numa.c
-> rename to mm/arch_numa.c
-> 
-> ---
-> base-commit: 075b74841bd0065a3bda3440873c747938e69b68
-> change-id: 20260806-arch-numa-444bb4806114
-> 
-> --
-> Sincerely yours,
-> Mike.
-> 
+Clear n_klist and take a task reference before publishing woken.  Use
+release/acquire accesses for that publication and wake the referenced task.
+The task reference keeps the waiter task alive if it returns and exits
+before wake_up_process().
+
+Fixes: 8b0c250be489 ("[PATCH] add klist_node_attached() to determine if a node is on a list or not.")
+Fixes: 210272a28465 ("driver core: Remove completion from struct klist_node")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+v2:
+- Explain the use-after-free and document an in-tree driver path; drop the
+  syzbot tags (Greg).
+- Keep the mb(); removing it was NAKed before:
+  https://lore.kernel.org/r/20220614144443.6566-1-wuchi.zero@gmail.com/
+- Add an arm64 Cortex-A72 PREEMPT_RT + KASAN reproduction through the
+  in-tree I2C/at24 driver path; the first run hit KASAN after 32 module
+  unregisters and 397 device operations.
+
+Link to v1:
+  https://lore.kernel.org/r/20260825040408.59225-1-kmehltretter@gmail.com/
+
+ lib/klist.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/lib/klist.c b/lib/klist.c
+index 332a4fbf18ff0..f133740b1c2cb 100644
+--- a/lib/klist.c
++++ b/lib/klist.c
+@@ -36,6 +36,7 @@
+ #include <linux/klist.h>
+ #include <linux/export.h>
+ #include <linux/sched.h>
++#include <linux/sched/task.h>
+ 
+ /*
+  * Use the lowest bit of n_klist to mark deleted nodes and exclude
+@@ -187,18 +188,24 @@ static void klist_release(struct kref *kref)
+ 
+ 	WARN_ON(!knode_dead(n));
+ 	list_del(&n->n_node);
++	knode_set_klist(n, NULL);
+ 	spin_lock(&klist_remove_lock);
+ 	list_for_each_entry_safe(waiter, tmp, &klist_remove_waiters, list) {
++		struct task_struct *p;
++
+ 		if (waiter->node != n)
+ 			continue;
+ 
++		p = waiter->process;
++		get_task_struct(p);
+ 		list_del(&waiter->list);
+-		waiter->woken = 1;
++		/* Publish only after the final waiter and n accesses */
++		smp_store_release(&waiter->woken, 1);
+ 		mb();
+-		wake_up_process(waiter->process);
++		wake_up_process(p);
++		put_task_struct(p);
+ 	}
+ 	spin_unlock(&klist_remove_lock);
+-	knode_set_klist(n, NULL);
+ }
+ 
+ static int klist_dec_and_del(struct klist_node *n)
+@@ -250,7 +257,8 @@ void klist_remove(struct klist_node *n)
+ 
+ 	for (;;) {
+ 		set_current_state(TASK_UNINTERRUPTIBLE);
+-		if (waiter.woken)
++		/* Pairs with the release store in klist_release() */
++		if (smp_load_acquire(&waiter.woken))
+ 			break;
+ 		schedule();
+ 	}
+-- 
+2.53.0
