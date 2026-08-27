@@ -1,254 +1,94 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020072.outbound.protection.outlook.com [52.101.196.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7989947CA83;
-	Thu, 27 Aug 2026 14:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787841137; cv=fail; b=bYDgBCuX+V0izniSlv+Yr46hhHKDaXfkrTLQWcSkvaer+7zQ9ZAuBkZhZacswrITIBb9TUuwymeOilym6facl5itgVad5t5FWiz54AZpa3t5dh1Dr3yqUIDar+19J594vTHCT4VzfXBLeaT+gDpvQH41BqlPpNTaFwBPQFW4IP4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787841137; c=relaxed/simple;
-	bh=dIKnr15gIxrwhPCYn0Dgp2qP3AkDfn/lOOqxb8W+lII=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=NuRG2sd3SSpY9fcGGvhPCSdkS4OJeKetKZFCJEsJtXqbt/xlP05kUdNV6dy1wDTP1xscTnVFWpMmfk0ziQrHq2fo0Lqs3vPSFOVOMmKU/v4AdbuQMNWIgBqwY2TELL8QE+Fboy6r0E46nhP6pKHu3q9yuFZyWEUxP1Wq8IjXT8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ZqHTekBh; arc=fail smtp.client-ip=52.101.196.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF32284690;
+	Thu, 27 Aug 2026 14:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787841143; cv=none; b=f/6Pgl/d8CS+Cene98gpbosO4WIsg0AHhcymfvBKWYv0W/lZBDRdwYvYEALFAanhAwdN07rvbydQxHWRlhtjPJMeWfxHV/HWisWa9wI9HAVPcKzvXjWPwNDzWZJIEVXBNkL7sNeYiYOH48Ud5sAlQypqqMVARrbqnpG3WaBdaHI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787841143; c=relaxed/simple;
+	bh=32W/YkfA2YFHY9KJT8XuRLvbKnhjrEAh7fIoYP4Fyg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UinFQNjJ5wSQTVnLDYxIy9vcnfJmgCOhVpztbcPFM7lKaUz6mWOPVJMHaHKq3Y3qcx++MDB9AyXrd33mw1BjHn2gWKUgGQ8QtSgTJXoq4qyjKB7wybrUmQHFNhbgEBlFeG8/+P0QcROMHr2rJ+RhEN+CC+38HUJD6H+QE+s8JT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZYpZniKZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ZqHTekBh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tGatilk+92L0XeNp/fYQC2K3oC3ZCb8b4WXlSzvQXbk6vW/PGotDI+EBjXuI0j14fAn6/jqRhP226vvmn31frPP2e+tpIgKxwCl0UF4a9Tm65xmypU3gc/hu+8PI7F9imJ5tDfaNvSnfoOKQG/u+mNDJThRkzZ7XafqrN3uADTShzJ/XcWvG04pXzLD8jQRyrU+MXfzuLGN3S9kXnQrC2ufw68T/aNDrE24h/zuaFkgD2hNrA9pa6bZV1phgWAY+QgYX07nFfC/WTQt9tQ6fdBV/ZBA5SKdILX5VxSGrlyKHt4Mo1vV+IaZr5roqsaJtCmtuhYZe5XESZHiLDKlktg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wFlGk4RnK7meMOBefJejKUaJJRKOMCsFpmmAaVhs/+8=;
- b=gscWF+xa++d4ezm6wInLbU4IX66rgQnvxflksYEByNI+lD2w7qAOxmef1F6fm+GjtJs3pJnEbomDEBeTQKTzHbU2e99KA20GZTb8HRBYfAfmcCi2eIzes5UP67uUcvUtAaqgPLjZFVP6x7rQC9ZADLQL5zLyHLG4AarQgWGqkKD0UnNxIGWwFdOSCg+4GdptMGWCctqofPCtnfYc7XeuE+T31Mc1x7Up4xKW236ZTKIrbmUrO6b2Ywpe+pSEDNK8C1aHKXNMFbAFkMtnWkC7rfN4V+imZDkuqKDJaEVZb/dWdbSv7IgAPxRtEjoDZQ76SA8EcnFaI0ZfqopFJmbQ6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wFlGk4RnK7meMOBefJejKUaJJRKOMCsFpmmAaVhs/+8=;
- b=ZqHTekBhqgzMWOSFlJkr8f9PH5OOJDKHG5SDZ8WA+JD8+rV6VhisYVrAfHPxGafHCvn0qBdFZpNbbQbttbi0MnbpWeHziey4gGoIkSCW/90EW1Mczqtd2TV0bmrzVFBnFhggKU1ySfGvLMwhXeT8ENk3GAKl1sdI3Va4VdRHwPA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWXP265MB2247.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:85::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Thu, 27 Aug
- 2026 14:32:08 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.008; Thu, 27 Aug 2026
- 14:32:08 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 27 Aug 2026 15:32:07 +0100
-Message-Id: <DKZSSBO7KNYJ.1YCSZDT87W7PX@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v3 10/16] rust: io: register: make register have a typed
- base
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.22.0
-References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
- <20260819-typed_register-v3-10-3699a75fadf1@garyguo.net>
- <DKZRPYOFOIY5.3RAONSST6MTL4@nvidia.com>
-In-Reply-To: <DKZRPYOFOIY5.3RAONSST6MTL4@nvidia.com>
-X-ClientProxiedBy: LO6P265CA0001.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:339::9) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZYpZniKZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77EC61F000E9;
+	Thu, 27 Aug 2026 14:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787841138;
+	bh=163b9z3lbMkc0FEcq1dbE3pOnD7g0ons6yqBuYTNQqo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZYpZniKZHJ61ki9gDq4SjzydVU49iCyvWcBJHaRvY1HjJYNMGVeaTPMjVP6Vtn4C5
+	 FgMiSaXRrPI6oP/Ezzc9n6d8tG3LIm9ILhy82ienk5B++gTQq4zTWyI3gAgGhObWPv
+	 GaqMHK/ZvtQCExiPsyaYunzDSvbfHcCjFw3piwSQ=
+Date: Thu, 27 Aug 2026 16:30:36 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] module: pull out add_taint_module() to be public
+Message-ID: <2026082713-award-dreamless-3aa7@gregkh>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-1-52b05f4a965c@linuxfoundation.org>
+ <apA9aTiIpBz4inof@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWXP265MB2247:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69e960c1-f1cf-4c8b-c50a-08df0447f990
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|7416014|376014|1800799024|10067099003|6133799003|18002099003|22082099003|4143699003|5023799004|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	54vM7AteI+qNBD7GS62/AgMRVNudgZhFZIJcECIJ59Hqcl9fAYPRYsquRzIkAoCvDo8y4p222nYQm68EVXE67PV3yPJUKXqMa7XOKtIk2DWrjaoASybalY6uMiuiAQBnq4OYFhEgLjfg+z0m7Kg/HjMHmOWe/TqfT/pxpSZ3qIMhrRJELgq248D+AGvrf25+Q08WW67EWLJxQPwxJRMJ9pkH/f7ojqYmUjXLx3TAa8erV9wEgjtk2t883kEF6IjS1eTzu/elg824nVzDkebKa2ovtZdyUWD5/DY0Z6tAXz/v2YTQuRbGhvgmHIDUlAgX522imRjJeLv8Al9TtFGwwUUHUGuzARwi2iCskf7NecoSXO3a2Wd9L+vW2lwpLYLyCbaoPwnGpfKKUvkYB5URw9ltL94S9baZ65QvYNLbpdnd+rsKlDmBFbHOEK+f9CzpYLVlgJ9E+hSItlMUsQf7s/aT1P8FtSqI8eghY53DBkpaWBDglRaeRnGylCrrMA4rGHBR1zh4S8lqzQfwnqsfU38QSRElp5Zc5CjBrlA1GzZEqvQFVsd/VqWMOISE7it4jivKFf/ymrcfqpdxxjks/iQE9ZdYpy9czJWKkKjBi6enZUn03bXHzwsnpr1rKx2iR4Ly88tjI2Z2t4aaAmTXQ3NcdwrALQAG8kjjxxNw4J8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(7416014)(376014)(1800799024)(10067099003)(6133799003)(18002099003)(22082099003)(4143699003)(5023799004)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OXZ6ajczemtCNVc5UGNMQSs3VFhqZ2lKQkN3OEhIZXZ1RkdzRjg0Z3pNN3Bx?=
- =?utf-8?B?aEFTcXBObW5lK1pySXhJYzRtdENCWXdPSFl0S3FqWXpvL05SUXVlZXA4WjR0?=
- =?utf-8?B?eDdMTE94QnFibnozWDFTeHhxQ05KeXAzWFVUV3FrWXFuWmtXUWtMSXdVNXc4?=
- =?utf-8?B?VkRFSTZQeENEd093ckNod1orRjJBazlsajF2cjRWT1NuT1lHV09nSkNrUE5F?=
- =?utf-8?B?V3JSa3hkTlQxSVBLVmtCaTZyYUJ3dnE2cEQ3TG5wdmZqckVCWEpQL1praHE3?=
- =?utf-8?B?dzRGQVJkbmg5eW1GWUMxb2FhRWxmS0ZWakZoWFBLY29XRUE5R3FQL255aEhN?=
- =?utf-8?B?YkFNU1BMNk53QkVOS1FXYTRTblFHRmtud0EzNFBwRDMzK3R5K0R2V0hKcVRN?=
- =?utf-8?B?TWJGUzBKRk5tcXZTSGNoaVZKcFF3VVRHd3UrNGRYUE55dDYySmR2akRYUTJ6?=
- =?utf-8?B?Q2RYMGkzYzNyVHd6SkhWZys0NjRtaFVzNzdjSytVSUd5d2JpMEtHL2ZiU0VF?=
- =?utf-8?B?U2p4My9yV3owVWFIQW5Vdm5ZdU1vL05JRXhmdGZ2SUVJeldvb0E4dy9EZmQ0?=
- =?utf-8?B?S1o0aWt4bTUrTTV2dzVRUEJzYnROMEhJVDRLbDFUaU80d0RTTmhacGdDVVZz?=
- =?utf-8?B?WHgwWjNyd2JGUjJ1QTd3SWZHTmljeFBIOXBPYlJFNDc3eVdBZkxDNUJpRjFV?=
- =?utf-8?B?WDNDWG15VFJmbGRyZkZseXI0U0FRNFBmUEk4RnhhYzN2em5EcVlIUmpMb0Ew?=
- =?utf-8?B?ODMvS2pUaEpkOUdZcnVjUlArRGJ6UWFxQkw5MFREZWtpY0RMSkZiSjU3aHh1?=
- =?utf-8?B?OTU5dlozSGFxUFN4bjJhZldDNXFGYXZVMG9jU0d5bTlXOEw2NjVjUi9pUnhL?=
- =?utf-8?B?R0p0Q1lHQ1liblkrOU5jcUJNUlh0SFhEbjdRNE5ncTlhZGhiOHBydEZNOTlk?=
- =?utf-8?B?eHM1MU15aldQNHl0WXZYRkRiOUdMeWdwd0JMS1dydVp5MDVZZDU5ZnFSUGoy?=
- =?utf-8?B?ZmhrWk1WVGxhUXVycmpSZVhDWmdCYlRxSnVKN3paWUR4Z3dBa0dNeWlVOGF3?=
- =?utf-8?B?ak9BUHZKLzZ1YTEyazZ1L1ZiYyt2Y1FPRFptYkRERkxVcnY5M0w4dHlPWnp6?=
- =?utf-8?B?SVNDaXY5bFMrODRvY2MvVEZyTmYrTVdkaXEwUTZ6SXExc0kzM1MwZUxFT29X?=
- =?utf-8?B?RFdYOVVPNUVsMWRjNnp0ZnRsTDNUNkpQNkNkV0xvcU1mNU9kRitYaHNXQ0FP?=
- =?utf-8?B?cXQyL0hvQ1dwaGZoaEU1T1VlR2YzcEJzamdtejFzTktrWnVZWjRaem5leHM3?=
- =?utf-8?B?S0dKSFc3dFdPaEw4Q1pROVUrWmR0c1A1QzdDbkVNYkpaRElJa2FQQXNtdkh3?=
- =?utf-8?B?bm1LREtoU01uVktzU0hOUXhuSnFvVSthQjFUcWVzUHlpTUZKQmxnV09hSDE1?=
- =?utf-8?B?cFZhdGxsT1lINWo4M2VnM3pSUU5ZamJlU3V0U28zUy9td01Pa00vV2I2Q2x3?=
- =?utf-8?B?WExPTHZKTTBHNmZrRkhMVTBwYTJMVHJTYXpkNkRrdzJuYXNkM2RJMmpOblJT?=
- =?utf-8?B?VnJ4cldOK1A2OXQyQmd1Wi9hRGRVbFBET2hEbzBaL2c2eW15VGV0cWYycmZW?=
- =?utf-8?B?MTRRZG1TSDB0eUNnZW54SlBwUWNFRUlnbWVZRW1oaG8rQ3V6V1NIcGFvNkRG?=
- =?utf-8?B?aGk4bFJNZ0hlNXJBcFJxSlRXZGdEeGVlUkkySUZQaWV5UTVUUXNxWS91NUdj?=
- =?utf-8?B?c0xna05EWlRpNlBzTk5BMUR0SjAxTEdNb2l6WmdLNzM2ZGt2Z1JvMVhOL1lY?=
- =?utf-8?B?ZUtHaGxEOUlZZmRwV2ZpMFlvZUxZdXRnM1MzUGcvQXh5S1E2RTUxdXhPdHEw?=
- =?utf-8?B?ZFZLZk05VURUdWJXSW1BcmlBSndQMG9qUGpSaUVKbVBudkxtR043YitCa0xj?=
- =?utf-8?B?T0o0MVRoV2p4eDFzemFMOEFLN25RRGFZTVdIVytuRzcyaGNPTVZMd1AzeEV3?=
- =?utf-8?B?L1dvSWN6N0R4MklqL1NnalBDaGcwNnRkdXpkUW9jNWVLY3pwekxtUklCbVZX?=
- =?utf-8?B?bFJCQVRiNE8weEFmSjBZWUNEUDFOVFNDdEMzWWJObldKMzh1ekNuMGRtUE9y?=
- =?utf-8?B?WWQxanE5RVRNUGtLTzZxV3BsUURWUUczbitxMkdkS3RlUFVNNExveWJrV2Zp?=
- =?utf-8?B?S0JlSlAyS1pSQ3FEQS84OVhIVjNJS0cxVWlac1p0L3J5K3FLQ2RpcjNqWnNm?=
- =?utf-8?B?SzRFWXE0dE5KWnljcWdrYVF0OHpvcnQ4REUwbjhDUHlZczZhOVVMUEVaQ1Z5?=
- =?utf-8?B?ZjBVV2NvUDllSThGUFNSTGN2R0Q1WElpQ0VoVUtyZmhYTklESmI2UT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69e960c1-f1cf-4c8b-c50a-08df0447f990
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2026 14:32:08.6922
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: svRDyf+2u6jF6uVez1JHVUCmrnKOT0Dd4fssJMqa9SjEKsMRoAaQY8GyEH3lUhasOWmKWPbLt5xE/wxf0hbl2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2247
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <apA9aTiIpBz4inof@hovoldconsulting.com>
 
-On Thu Aug 27, 2026 at 2:42 PM BST, Alexandre Courbot wrote:
-> On Wed Aug 19, 2026 at 8:09 PM JST, Gary Guo wrote:
->> Previously `register!` defined registers can be used on any untyped I/O
->> regions. With all users specifying their desired register type now,
->> propagate the specified type and restrict I/O access only when type
->> matches.
->>
->> Also, add an `io_project!` example which is enabled by this change.
->>
->> Signed-off-by: Gary Guo <gary@garyguo.net>
->> ---
->>  rust/kernel/io.rs          | 13 +++++++++++
->>  rust/kernel/io/register.rs | 55 ++++++++++++++++++++++++++++++++-------=
--------
->>  rust/macros/io/register.rs | 34 ++++++++++++++--------------
->>  3 files changed, 68 insertions(+), 34 deletions(-)
->>
->> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
->> index 84dd876b3407..4542187d6b91 100644
->> --- a/rust/kernel/io.rs
->> +++ b/rust/kernel/io.rs
->> @@ -1692,21 +1692,34 @@ pub fn project_loc<U, L>(self, location: L) -> <=
-T::Backend as IoBackend>::View<'
->>  /// The syntax is of form `io_project!(io, proj)` where `io` is an expr=
-ession to a type that
->>  /// implements [`Io`] and `proj` is a [projection specification](kernel=
-::ptr::project!).
->>  ///
->> +/// `io_project!` can also project to subview of registers defined with=
- [`register!`] macro.
->
-> nit: "to a subview".
->
-> <...>
->> +/// Helper function for register alias implementation.
->> +///
->> +/// This is used to enforce base matching. Only called during const eva=
-l.
->> +#[doc(hidden)]
->> +#[inline(always)]
->> +pub const fn alias_offset<Base: ?Sized, Alias: Register<Base =3D Base>>=
-() -> usize {
->> +    Alias::OFFSET
->> +}
->> +
->> +/// Helper function for register element alias implementation.
->> +///
->> +/// This is used to enforce base matching and provide bounds checking. =
-Only called during const
->> +/// eval.
->> +#[doc(hidden)]
->> +#[inline(always)]
->> +pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Ba=
-se =3D Base>>(
->> +    idx: usize,
->> +) -> usize {
->> +    build_assert!(idx < Alias::SIZE);
->> +    Alias::OFFSET + idx * Alias::STRIDE
->> +}
->
-> You could convert the `build_assert!` (always good to eschew) into a
-> `const_assert!` if you turn `idx` into a generic parameter:
->
->     pub const fn element_alias_offset<
->         Base: ?Sized,
->         Alias: RegisterArray<Base =3D Base>,
->         const IDX: usize,
->     >() -> usize {
->         crate::const_assert!(IDX < Alias::SIZE);
->         Alias::OFFSET + IDX * Alias::STRIDE
->     }
->
-> You get a better error message, the const parameter is used in a
-> very controlled environment well within the expressive power of const
-> generics, and that function is not public interface anyway.
->
-> If you don't like it (recent discussions make me think you might not
-> :)), then let's remove the `build_assert!` and keep the `static_assert`
-> emitted by the macro until this patch; it's not as elegant as checking
-> the condition into the same block of code that uses it, but again we are
-> in a controlled environment and static_assert > const_assert >
-> build_assert so this may actually be my preferred solution. You can
-> document the invariant in `element_alias_offset`.
+On Thu, Aug 27, 2026 at 03:36:41PM +0200, Johan Hovold wrote:
+> On Wed, Aug 26, 2026 at 11:19:32AM +0200, Greg Kroah-Hartman wrote:
+> > Other kernel code might want to call add_taint_module() so pull it out
+> > and make it global.  If modules are not enabled, this defaults to a call
+> > to add_taint(), so all is fine.
+> > 
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> > -static inline void add_taint_module(struct module *mod, unsigned flag,
+> > -				    enum lockdep_ok lockdep_ok)
+> > +/**
+> > + * add_taint_module: add a taint flag if not already set for a specific module
+> > + * @mod: pointer to the module that caused the problem
+> > + * @flag: one of the TAINT_* constants.
+> > + * @lockdep_ok: whether lock debugging is still OK.
+> > + *
+> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> > + */
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok)
+> >  {
+> >  	add_taint(flag, lockdep_ok);
+> 
+> >  	set_bit(flag, &mod->taints);
+> 
+> As has been pointed out, this crashes with built-in drivers. If you go
+> with a simple mod NULL check before this call (and updated kernel-doc)
+> you can add my:
 
-The error message should be identical? This function is only called during =
-const
-evaluation, so even if I replace this build_assert to assert it'll be fine =
-and
-never actually cause linker error or runtime panic.
+Yeah, I've fixed this locally and will be resolved in v2.
 
-I wonder if I should add
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Tested-by: Johan Hovold <johan@kernel.org>
 
-    assert_in_const_eval()
-
-or maybe
-
-    #[const_eval_only]
-    fn ...
-
-which expands to
-
-    #[inline(always)]
-    fn const ... {
-        assert_in_const_eval()
-    }
-
-so that it's clear to reader that this is a const-eval-only function.
-
-Best,
-Gary
-
+Thanks!
