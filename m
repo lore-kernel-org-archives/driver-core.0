@@ -1,142 +1,83 @@
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674CC3769F4
-	for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 15:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024C9394E8A;
+	Fri, 28 Aug 2026 18:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787932264; cv=none; b=WH5IOJOBwobspf7xh7dFqnMSD3xbjELKBP7yoySEX2knmrhiyuIycTYY1HShbzktW6AHmWo/2RXks++XcoygsMmy90MVfG2fnRv9eNFzzITk9V2liLgOeOsLES/TqXxTZI8CUlw/xYBxSzgPJw7kHuTJ+G8zsuT7OieOR1o12iA=
+	t=1787940444; cv=none; b=IEGd3f1Xf6pFddor3+RCcS01y8OSKPSJ6H+aJXIyLAas9qoly0XkHJF4IEkd2iv7KbLIx4DGDmQRxSy5W9fkQ6S0oljwifT03TxsZe75jLf0+j476811el4G0glJI5PpKd3Qqb3il1T2pahdD4uzba8JBMHCdMOQbKNoD31J2hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787932264; c=relaxed/simple;
-	bh=ReIfV+XfN9CJ7gWGHVy+pvxz4t/Bfm9Oz0pHx1zUvmQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p94YEXHCbVv9f4wacBto9wRqWANXGhS8leB8L147zLyzcgM8XTPeq9xWgvq2bWAlPxXL+NBqJR6Bg10Gm1maXb1iYIn4Z0mP/ugqn77oMLKE2Z+cga0dLDf926uoK3BI48A5jUha8WjJR6qavue2gCWtpAeOxsDlnEJQSgMvEVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JRqSk6XZ; arc=none smtp.client-ip=209.85.208.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1787940444; c=relaxed/simple;
+	bh=Lzx9Xq9BMeq+ZpB7GGU1u3d0U/wril2CkGqKpFEoi2s=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=aXxTqcAokXrwXaKH3ypYiJcUCoixTvled+rO0h5r592KHqFiyNNXBjFY2c5g1xEzYaIGITq+jXZdiVssdjnvUpIHiA//0dzqByGph9NFA3YARxC3+LvZaZM/LGghxB4+G9P+E1biYgQAxBVlVgUUoQ9EDCk7OJRgf8l4FzRgjZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eQbLatPS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JRqSk6XZ"
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6a60a4f1ae2so1476644a12.2
-        for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 08:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1787932257; x=1788537057; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uNXgP9aiWGCY8sBDBkxQ5jGmQfHLh/8XePeePdlfGZw=;
-        b=JRqSk6XZHpAd4LOcgnBmDJ+Ie7ILLpsfKWxU6XjnAvSNAaijzbJJd6rpBh0SYhRpF3
-         dJbz2fNYcHAEBGKQFjSzTWlJws8HXbi/ZYpNwa7men4CeaZFNZwMfjb+X0M1SRCwsU2f
-         Artw9kzDXM7pB3g5N+lmafbMb/g2qJBTOTAl6fG0c8a15AlhqSyQgULJZod9Rgr5Y3pb
-         spTc8nVGrFPSug/83E6UfILkPg1go9n1gtKAWyb/AqTkVyH/NEJwGck8iZp3bW/pibBe
-         NnE25kX7HauxQQWEdX8kbKKjZHMrslxtjeGDrE8L3JscfTDkpcxWEndwesxvpPOtG51A
-         YSVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787932257; x=1788537057;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uNXgP9aiWGCY8sBDBkxQ5jGmQfHLh/8XePeePdlfGZw=;
-        b=gTPE0Kb5bQNkti7XpA1QbJUr9TASRxn130KaeW1YzAmGnS2qpHzLsuFinIUCURO+j0
-         I3wac3ZZo59zQI5R81nV9e/BskTCXcUNMm9Vysyy8pBdLxJZMEmbSSgJUWbmUfkbkysu
-         5NvsfYsqJnYHuWfLcC47BX6PI9RfYuvRqoi8OTy0e13W6zdXGppUbw8QkkwFLVyRLS+3
-         PoTCv+oPeACyI2rm1T7dDDWrsOfs5s4xScHAzg+8AcCgpUUp/xX9znlAHmm/VZLVVlSr
-         HSU4Ko9trdVUkN2EtGzrY/jvCPstk4L4zPYyY39BdVWckvJblr151fZgz7641sK6KtsN
-         pMYQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq8OK+n2kbk0rOGP7IjthkI32bU7Zq44289FgbUO1tHanYrYlyrBE4WUbNvxqOnhnWf/UGzlom3IeVUBQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lEWO0/mSzUcsrnbVmATv2rDVbJ7z0Ix3HTFpKVSN5yepEC4oIy
-	fTtkbZyVE0y+I7v3jQdTjZn566c7NfWmYFSpS5t7j23nat+FSg8fZWGOyqMmESpQTH2ovgQgUlN
-	E+LrOVHiAyUwBAaQ3Mg==
-X-Received: from edrb21.prod.google.com ([2002:aa7:d495:0:b0:6a6:a82:8b98])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:5286:b0:6a6:1c30:bc4c with SMTP id 4fb4d7f45d1cf-6a61c30c3cfmr2134011a12.5.1787932256221;
- Fri, 28 Aug 2026 08:50:56 -0700 (PDT)
-Date: Fri, 28 Aug 2026 15:50:55 +0000
-In-Reply-To: <20260821142414.150892-4-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eQbLatPS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB841F000E9;
+	Fri, 28 Aug 2026 18:07:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787940442;
+	bh=OpnphWdgzPULckeiFXamEoh0hJR1q1iyiG4unRaCc6w=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=eQbLatPSxVotYtgsTveUpVgBqXcMch9LJ5fBw1SujuJSPoY+xLRAr+fzXZBtxTSZH
+	 a12GyEuoWMoSKE+S+fxM4omt1xTObbb+x6imtl5Lbh3qSHVWPrHU95SfZUZezwy56G
+	 OrS/hN0KQzWoj0fXpAGS1o0wbHUNdJYsHxQDwRfNwAgDDH3hvGj+1Wcp96Vqwd5BGH
+	 pQvKQsJ95QZ+SPutWc23Wj9nNwti9HDWPSSa8nzOwGaNaPskwkGwU6NVSDZv03HOQp
+	 Ty1TXgDa3qxoiptySmzW5L474ZrqcoCT4Cv9AyQkq7z13c6zt2rhpXO3QBKFKoRn8D
+	 C9AGMPxr0Kz7Q==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260821142414.150892-1-djeffery@redhat.com> <20260821142414.150892-4-djeffery@redhat.com>
-Message-ID: <9huzjypaz1k0.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH 3/9] driver core: warn should device_move try to move a
- need_parent_lock device
-From: tarunsahu@google.com
-To: David Jeffery <djeffery@redhat.com>, driver-core@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, Stuart Hayes <stuart.w.hayes@gmail.com>, 
-	Laurence Oberman <loberman@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>, kexec@lists.infradead.org, 
-	David Jeffery <djeffery@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 28 Aug 2026 20:07:19 +0200
+Message-Id: <DL0RZMS3MLF3.3AJP3BNVBV03Y@kernel.org>
+Subject: Re: [PATCH v2] drivers/base/node: fix UAF on device_register()
+ failure
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+ "Keith Busch" <kbusch@kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+To: "Linkai Gong" <gonglinkai@kylinos.cn>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260806082804.2845360-1-gonglinkai@kylinos.cn>
+ <20260828012516.3591496-1-gonglinkai@kylinos.cn>
+In-Reply-To: <20260828012516.3591496-1-gonglinkai@kylinos.cn>
 
-David Jeffery <djeffery@redhat.com> writes:
+On Fri Aug 28, 2026 at 3:25 AM CEST, Linkai Gong wrote:
+> diff --git a/drivers/base/node.c b/drivers/base/node.c
+> index 3da91929ad4e..d5eec2ef76dd 100644
+> --- a/drivers/base/node.c
+> +++ b/drivers/base/node.c
+> @@ -171,13 +171,14 @@ static struct node_access_nodes *node_init_node_acc=
+ess(struct node *node,
+>  		goto free;
+> =20
+>  	if (device_register(dev))
+> -		goto free_name;
+> +		goto put_device;
+> =20
+>  	pm_runtime_no_callbacks(dev);
+>  	list_add_tail(&access_node->list_node, &node->access_list);
+>  	return access_node;
+> -free_name:
+> -	kfree_const(dev->kobj.name);
+> +put_device:
+> +	put_device(dev);
+> +	return NULL;
+>  free:
+>  	kfree(access_node);
+>  	return NULL;
 
-> Currently, no device has need_parent_lock set and is moved by
-> device_move. need_parent_lock is only set by the usb bus and very
-> few device types ever use device_move.
->
-> Add a warning to device_move to catch should it ever be used on a
-> device with need_parent_lock set. The combination would break
-> the immutable relationship needed between parent and child for
-> need_parent_lock when locking and unlocking both.
->
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> Tested-by: Laurence Oberman <loberman@redhat.com>
-> ---
->  drivers/base/core.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index bd9c2921e326..75f5931165a8 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -4712,6 +4712,14 @@ int device_move(struct device *dev, struct device *new_parent,
->  	if (!dev)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * device_move() should not be used on devices with need_parent_lock
-> +	 * set. Concurrent reparenting will violate the immutable
-> +	 * relationship needed while locking and unlocking both parent and
-> +	 * child.
-> +	 */
-> +	WARN_ON(dev->bus && dev->bus->need_parent_lock);
-> +
->  	device_pm_lock();
->  	new_parent = get_device(new_parent);
->  	new_parent_kobj = get_device_parent(dev, new_parent);
-> -- 
+Sorry I didn't notice this in the first version, but why do we keep the got=
+o
+labels at all if they both end with a return statement? Can't we just get r=
+id of
+both?
 
-Thankyou for adding this, Please feel free to add
-Suggested-by: Tarun Sahu <tarunsahu@google.com>
-
-Also, I have seen sashiko complaining about another problem with
-device_move which is impractical/impossible. So I mentioning it below
-for discussion/information.
-
-Sashiko Claim: There is potential deadlock if a device is being
-registered with DL_FLAG_STATELESS which skips the reordering of
-the list so device_kset->list will have device dependent devices out of
-order. Also same problem can be create by device_move.
-
-=> This is impractical because a device being registered with
-DL_FLAG_STATELESS must have its supplier already registered first
-(Documentation/driver-api/device_link.rst) which inherently puts
-them in the order.
-
-Similarily for device_move() affecting topological order is very
-impractical. Unless someone mis-use the API
-device_move(..., DPM_ORDER_NONE). Which, as well, not favourable
-on upstream.
-
-Once topological order is messed up, neither async shutdown nor serial
-(sync) shutdown can work. As it is precondition for it. except
-DL_FLAG_SYNC_STATE_ONLY, which is handled in both implementation.
-
-
-~Tarun
-
-> 2.55.0
+Thanks,
+Danilo
