@@ -1,137 +1,262 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012069.outbound.protection.outlook.com [52.101.48.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5089D1E5B68
-	for <driver-core@lists.linux.dev>; Thu, 27 Aug 2026 23:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B7814ABE;
+	Fri, 28 Aug 2026 00:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.69
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787872062; cv=pass; b=BSOD/wA8bmYenEZInjT5RGLeqmS+vJTycIovGecut28xxNQpj2S03WZgk18e0BN1leu/UlxFkwWh1v8S7mEW/pXgUVy8Q3AuylnsFEm/AweWG75XkdOg8Oby6n/J2ikXua3zBrVDAN/c1/Bon+A0wzULm4QPmwXCvt+yS4Ad+7s=
+	t=1787875331; cv=fail; b=Ibjvi/cYdUxdFDxM/7bmIjZ6wZY2+690WfOyq0ODnA167BLNma3a3K2CQLTdJ7mQyX3FALF5uuzhk9B1YEQc4KdmM2GCSJYQeHQJ1ojSGI/hW1nRQrMlU4OgtLgYP2Q7TddViDcrPBhvdPvETHYpQ8DMOkcziAgBPPDQt8yr31Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787872062; c=relaxed/simple;
-	bh=JN3rSnKGqqfDq/eQLtVOB8blkZVlaaGIGUYSZdLukz0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=WcdQvnejJvZIPMP0IppePP1cClNI/HjuNiAF8FAcK85WcM2lr3wZBefYaGiU8fn1/YdFV6kySWu2eCF1+KUwasIZ4E04vTWUCs8L6uzuxGYERYlV5OhcsyBmeiNS5nM+k0XYFQR5vHG3zZWoDUSAR8n2RMPZLtnNYW8j+tPXuUU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=a5WONbZ9; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1787875331; c=relaxed/simple;
+	bh=HYlOk2PNIceUORAZaNfLnV5+2ida2uGJz1GZjVBZYqo=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=S27fByYGLbmHKlliRbx8Hp95RVOlzNPP/kMD4vxEKTxNgCqVE+Cu2VlpTk8ZGc4vElRu/B6S4O+ZdxDSCw1eO5F5XJMA5jHtFgFnUPR27S2fDUtQJzIw5OYuoJHlmUlsFJirxUotCiWBLYvsBI4LADzrfjjAxQLjiHP67vOU9is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hm/WSmK+; arc=fail smtp.client-ip=52.101.48.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="a5WONbZ9"
-ARC-Seal: i=1; a=rsa-sha256; t=1787872055; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UB0UsIC6SHTKqP5ChI+TmVTJV7ZOcBxq239G2/ARTA0WIUuCaU4GVOyR6HlUJXNz9a02Qagqkol8ndI2ZnmR3nTMuO8k60vtSE/N/1d8nUPITWkbwPtDg3PgtLBOgGQrflbNZRhb+IuhpxLB/64MKKqgO9fxCH76kAOV09+Q1Ns=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787872055; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=iLWnyVnmxOQ+B7kTcDs1wmKhTGpUrtmBx77S2Imtshc=; 
-	b=dhVlQAYSvC6TfRk1EXpzr4dhlUs0AlwmXVQ3MtHhwVaCHw3UHjXYaYqTCrHuhXqdWo3kwd6Bg65RT8JwcByjxv097+O6XWDCoJwNArUNcTJNv81gx2pC8SRgLZjLigzsq0NOi1iYwdYzClK/cUVjgJ4Kt+n2f0JViS2brmcWFsk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787872055;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
-	bh=iLWnyVnmxOQ+B7kTcDs1wmKhTGpUrtmBx77S2Imtshc=;
-	b=a5WONbZ93sBitwOhLCJyJmHS6qGMS29PFxJ6lNjDP65y2zWGXICSEtJq4eBosL8S
-	TAqO83vJNgY5qfmCArwCiggttp0f/XBdwMDwz6I1X9uvEhB0OIaTIkiHuB58aLRAZEi
-	h8Nxjd7ySHpFMPlXu+13CniTxjwhyt2o/XiyeiBg=
-Received: by mx.zohomail.com with SMTPS id 1787872053915579.0836722582136;
-	Thu, 27 Aug 2026 16:07:33 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hm/WSmK+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VjOKjcBAEabr3JNJyoPSbTMZx3QU8rJ/BApstYWWxKlI5THZ14OcQgs9M0xDTmT3EJZ3X8ZwGyDGfqJ3r0KYinPMFq+HwHm28h/FegeFm6py8QQmKa4CZKwn0engYECDunESbTIlEM8jdamL5qeilsvq5HzJ4DH1OpNfXwoj8ttipgir0W03WGzJNX7PLvC4HWxBCw1dBZl6thLaSS8g3yHouIGKgvxfLa5FEmtlmOk8EaED6r/zNJeZAzMzaXbRdynTwvnGHqHBGIpxVqupIKOCkiEi7Pv4UFG635byfDZcW38iO/+pX4Xk6FgRzf+oqEKXHJHmKpub2VqdgehQ+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ucyOr2bHjoL17LsB8zAVeo8ZBWCAjTNm1Zp3LR5uG3M=;
+ b=SUumLpVx1p09RCuM6AKE0+m05YSBz8jHNrAlXsj5ENFt+8LuEYAEGtxw486L3lS8zbbz2RygDRbtd2DjpmrhcTpp69oKsdl9K5ZREfH2ckOkInI1eY5RiI6QjQgeCIxCdO0VfJXiPe+aCcDsqjokX/mbWRWIr1GQzQ/3MFuwi8k3N+nA678O+Q8xif6/F6Ir/6chipEohZPTDusHFlrNSZIxPdWYnOWpVZNMJNJ2HX0Bns3zg6yblXozdDHZDhyyCna6ElC+TWwfdY4GEIDAsT89X+2/KS9Mqfu5fXTVBxyuzdeFRI+Yvq3FW+ObHstfBDc4akvFm/0QpyYOnLAEvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ucyOr2bHjoL17LsB8zAVeo8ZBWCAjTNm1Zp3LR5uG3M=;
+ b=hm/WSmK+S1FMJBmArtYeA/vmhH0IvA9/1xIOE/ZZlK7PXHI+Tmze+K30bvhwDPpC6q6/F8964SHdZ7M9VOp/QztUoWZRvzF2R7r9WeQGWXsHPdb8yepmTHORH2bH4g03ZLDpYJ/MizkOmL6YBwfEfOolL1hTVwBbscjqap1lqt+5eqqMczINGg8FEw6fiHciwdIQ9jC3UTB9NL9zjR7knK/yxHIbe38RdQfzB+n6Co/f2ZU/xq990zzwdnNmyO7BJREVbTy+CwY6hQQGZ4AZ0V6k18ljvKs2TdX++FfX3bJrBMHGNyEdTON4crEtPgpzvoOieF2RbAElK86reiovSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+ by SA3PR12MB8440.namprd12.prod.outlook.com (2603:10b6:806:2f8::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
+ 2026 00:02:03 +0000
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0315.014; Fri, 28 Aug 2026
+ 00:02:02 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 28 Aug 2026 09:01:59 +0900
+Message-Id: <DL04WN17HK3U.2P3ZVKRJDOPRP@nvidia.com>
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v3 10/16] rust: io: register: make register have a typed
+ base
+Content-Transfer-Encoding: quoted-printable
+References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
+ <20260819-typed_register-v3-10-3699a75fadf1@garyguo.net>
+ <DKZRPYOFOIY5.3RAONSST6MTL4@nvidia.com>
+ <DKZSSBO7KNYJ.1YCSZDT87W7PX@garyguo.net>
+In-Reply-To: <DKZSSBO7KNYJ.1YCSZDT87W7PX@garyguo.net>
+X-ClientProxiedBy: TY4P301CA0001.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:26f::12) To MW4PR12MB6873.namprd12.prod.outlook.com
+ (2603:10b6:303:20c::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v2 6/6] rust: workqueue: add ScopedWork for non-'static
- work items
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260807165252.3849875-7-dakr@kernel.org>
-Date: Thu, 27 Aug 2026 20:07:16 -0300
-Cc: tj@kernel.org,
- jiangshanlai@gmail.com,
- aliceryhl@google.com,
- ojeda@kernel.org,
- boqun@kernel.org,
- gary@garyguo.net,
- bjorn3_gh@protonmail.com,
- lossin@kernel.org,
- a.hindborg@kernel.org,
- tmgross@umich.edu,
- tamird@kernel.org,
- acourbot@nvidia.com,
- work@onurozkan.dev,
- jhubbard@nvidia.com,
- rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <62F91620-6211-46BD-8095-4655726D52A2@collabora.com>
-References: <20260807165252.3849875-1-dakr@kernel.org>
- <20260807165252.3849875-7-dakr@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|SA3PR12MB8440:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6af6b4ec-53df-472a-ab8e-08df0497965b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|10070799003|7416014|376014|10067099003|6133799003|18002099003|22082099003|56012099006|4143699003|5023799004|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	2SKGsOh67eMw1JF2R3n/goDaiK0VfBWcW63kUIVTsu68Lu0IW6kBKDS0h6rEToVi0nabkQ2OpS0IQcixnFU9dIzpWQ3t0EZ9A4MAsl+zsVZQB0IKK1vw8KlKxyIjbj7jHxIzS1u651siU2Bc/kynjIw0uAEDnXzxUrJEeQfocJZQSnVdMOxlBM8WbOXer21rctCGRXhqSuqTiaO+uVdZpZ4r0HTnA/LL7D/lxcU9aYzDvyYu49rU1nXqgUovrWCgqakfracpf/QILVXoQtwB7wgxLJeh3MSyz4xQUqDOghoBhOrHi9LxahLBGxXBEWazY4DzKjbDHdz2/BFtlSGgvtmMdFV4XlYEdFNz3PkhHx7xmBkc/HctfnRRh0/AwNjBLgJb1QUrrvUgNqCrZpzQMpoUtDdp/adHh1WHSwCUQFnh1zmLa+gn6yxY0RO0JPVgy/mzi5HO6ZF3o/m1nBa7f6iuxWTntAVuh8IKKpDMfX2hZH73Dtj37hT7ROLucwGw2B7IM2Fm8SPVFQku5PYSm3sjQ3oHTLtQC1WUWgOvSFOm4d6aliLy9wkyNI79CK5inYhtCbmiqhCGXeB4RvZ/0CEjnXUT9RqN/wpelhYeymFxS0bgXmHlEjmTuHgyxqsaTAXFADHSvMYFu+AaRouvoZ3F85G/pNkmbZR+TGmSmj4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(10070799003)(7416014)(376014)(10067099003)(6133799003)(18002099003)(22082099003)(56012099006)(4143699003)(5023799004)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UmJnTGVwV09TOThmdjQzZHFzVFdKa2FtTHBvaGhUdlNPU2lOUXNiS25CUWU5?=
+ =?utf-8?B?ZVErVFZhU2VqMnFZeElyRW5vc1FCUGh2UHQ4akNrWnQvc0E4OTFuMGE3bHJs?=
+ =?utf-8?B?VGZiNGpYM21YQnpVMXVacXpHQWdLY1kzMm83dWg0ODROV2NkVk9lc2x2VG9v?=
+ =?utf-8?B?Y2RWMHYyQXROSHAvRHRoU1VhaTZsYnR0MEY0VnNQQmNpVVplTjh0bURiNW9C?=
+ =?utf-8?B?N2xsV3REWUFxUUcxSmZob2FhVUtSWDJCWWh4cEJkRGRDOVB3Wk13UjhkM1pa?=
+ =?utf-8?B?NDRWaHJaS2N5ZEwvWXIrL28rRUxScHk1VjhBSmVmUTBNK2dXbW4yWkp4Uyth?=
+ =?utf-8?B?NXpYUjc5alNGQ1JpNW0rQVBUZUNlekVhTHJHSU1nZE42bW5Fdm9HV05pdUpv?=
+ =?utf-8?B?aWhwYVdzTmF6TTRzdkt3aFZzNE0wTVQ5YWxmYUNLbVlXcGdWSEg4VVh2RS9w?=
+ =?utf-8?B?ODg0RGFyOEhxTXJHd0ltWWxDSVJETWtTZDIzK1h3dTJkaWVvR0x3eEFHakNy?=
+ =?utf-8?B?R2VtR0NyZWpGTUlvdVJJeEZmZG9HcEEvVUQyM3pWZUQ1bDhheDlyNkJhYVl4?=
+ =?utf-8?B?Tzc3Y1dJZWx6TnEveFlaRzhXQTVNdk02c0NQYndVOStMQlhPdkJ3Ylh1TVIy?=
+ =?utf-8?B?cW9mUHQvZEJ0MlJHcmhJUG9OeHNuaC94NkVBWUJmbml2RVkxMXFkQ29UY2da?=
+ =?utf-8?B?elJhUTdRSnd1a3hSMEZDMXhkd0psREFnM0VLZFFIR3FFaXNFbWwyY0JGSFlT?=
+ =?utf-8?B?cUJHR3FWTDVXTHhmTGF4ZW9mVkxKdFpNQUErZld3VGlzTUpyOGFJSnZhWXgv?=
+ =?utf-8?B?NFVOb2ErQUlDMnFsZ1ErUFdsYlJKc3N3ZUQ3QkRRSGpiTGdhbE1Xd3dMZjF2?=
+ =?utf-8?B?anQyMHNxREJoSkNEK3pab3NibU54cGU3dCtjbXRJVEpTU3A3NWo3RzN6VU11?=
+ =?utf-8?B?YTkyUU9rUVFyOVA1NzRFRzdtUXBBRTl3RU9zQzhqM0VOTVhVSlo4Y2NRVUlZ?=
+ =?utf-8?B?SVRudUJzMlQ3RGJObjhsWnptZGlRRTRQRVVxQmlMZUU0UU9XNmx5aVpEcVJD?=
+ =?utf-8?B?WittUlYzQVZ3MEFGWnVNTG1nUFYwTHdvTUxWRXAxeXo5US9oYm1WUWh2TGw4?=
+ =?utf-8?B?VWhxMjBabkFsdDhEelN1ZFZhc0xsMDBPa1NwZEdTNWEvTmdQTXVveXpzaGtY?=
+ =?utf-8?B?TkJWTlpsU2N5TUZLUTF5ZmhWdXJNWXJQSXZHRDlyYXdudzZ3bTVPOEZoa3Qz?=
+ =?utf-8?B?TUhFMHJ5U2JQN1JMaUF5TmhuaWpxQkUvN3RDbWpqbkUxUDVvcVNCNjJMM3BZ?=
+ =?utf-8?B?Mlg4NG8wWXZ1djg4cGVYMjNSM3FrWjBWdDgwdjZyRXJDekV5YVY1Z0sxMVMr?=
+ =?utf-8?B?TVhOMDNPc0JHR2JPMktTRWRrbXdZUVZpUWNwMExBRXVlc0xWdFJodU1nR2tO?=
+ =?utf-8?B?ODd4V2Y4UXg4dFBuSWg0NVRyTXdxSzAzRGlJWDlacXdUdGRSOVQzS2JRS0Rt?=
+ =?utf-8?B?bXVYbUw5dFRxY0dVaGRFalVpUFRCRzhBS0VhR2ZVVjB1L3RXTjJVd2pwNXlN?=
+ =?utf-8?B?VkNPNy9CMnRLUGtCUVQycHlDNDN3TXNVd2k0RFFCMVExQllYQzNGMEtRRUd2?=
+ =?utf-8?B?MUlXYmFEZFBQYzhBWjIzNkRiTXZrS2xiUFV6czIxVjE5amRBczJUYWVOWGJN?=
+ =?utf-8?B?bWFhekRzcllaeGxiSmVrRFpQV2F0MzAwUTB6SmRxbVNNNTVqUHRiZFZWUnVL?=
+ =?utf-8?B?T2lFTmFaaEJYd3YvT1JJNHZwa1NaSVRJUU5RQVZzbXdnNG1EcWVZK3p1RUtO?=
+ =?utf-8?B?ekpXNHZwb3Y4SnJQT3ZsbTBVTEkrYjVjOUhlRUJiU2FJZ1d5ZThqNnVsTVRR?=
+ =?utf-8?B?OTdTWXlTT3U0TFV4S2QyN2hKeEE4L1VYbERwUE8rdGcrV0dBK3VtRENOdlZJ?=
+ =?utf-8?B?WVFrc2g5SFUvNWFENWwvMG9DK0tmZHhtaEUwU0djeUJJZ09NaTRhc3IwKzRN?=
+ =?utf-8?B?d2E3TTQ5SFIzZ3ZtNHlXdlFaYUcwaExvdHFoNDRibHBKQVlTa3dmS2oreTZ6?=
+ =?utf-8?B?Q1lpMTJHZFR6aU9JZkYvUU1yeW16MzJ4V0dRSHdTTkFEREEyOWkveE4wd3U2?=
+ =?utf-8?B?TEo0R1BxY1p3VS9iTjNaOUVoVXJpWUh6SEZSdVZLdS9zRUJ0UnVXSlRVYUZw?=
+ =?utf-8?B?eUQvcEpucGhRZGJjU3dSbUxnamltODJFcTVwUVZUbDFvWnAzN1R2WnlHOGhY?=
+ =?utf-8?B?aVhDOEJmNC9TSFdNZlZHWWdPL29PdmlyOFJCM3VweGI0emFyTmFlZlYzd2lv?=
+ =?utf-8?B?d3p3LzY2RUlhUmxRbmM4MmdadGNjdjRrVXQxNlhnUjJ4TjkxYUxEMlZYTjJ5?=
+ =?utf-8?Q?oOz9gE4p10jwRGvZeYyueBEfdO1eGV8S0PEHvqLqMsmGf?=
+X-MS-Exchange-AntiSpam-MessageData-1: j6zVa0d5YP+HEA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6af6b4ec-53df-472a-ab8e-08df0497965b
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 00:02:02.6376
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a4s3fB6t5/+aOP3ACZk/lCD3eU0wwntq+6BQq6jBr1aInxne631JZlzDxmnO3bDc+fb5N0aupvSQu+kDncLFbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8440
 
->=20
-> /// Creates a [`Work`] initialiser with the given name and a =
-newly-created lock class.
-> #[macro_export]
-> @@ -283,23 +289,39 @@ pub unsafe fn from_raw<'a>(ptr: *const =
-bindings::workqueue_struct) -> &'a Queue
->     /// This may fail if the work item is already enqueued in a =
-workqueue.
->     ///
->     /// The work item will be submitted using `WORK_CPU_UNBOUND`.
-> +    #[inline]
->     pub fn enqueue<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
->     where
->         W: RawWorkItem<ID> + Send + 'static,
-> +    {
-> +        // SAFETY: `W: 'static` guarantees the work item remains =
-valid indefinitely,
-> +        // so the `enqueue_scoped` requirement that the work item =
-stays valid until
-> +        // the work function runs (or is cancelled) is trivially =
-satisfied.
-> +        unsafe { self.enqueue_scoped(w) }
-> +    }
-> +
-> +    /// Enqueues a work item that may not be `'static`.
-> +    ///
-> +    /// Unlike [`Queue::enqueue`], this does not require the work =
-item to be `'static`.
-> +    ///
-> +    /// The work item will be submitted using `WORK_CPU_UNBOUND`.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// The caller must ensure that the work item's destructor runs =
-before any
-> +    /// lifetime it captures expires (i.e., the work item must not be =
-forgotten).
+On Thu Aug 27, 2026 at 11:32 PM JST, Gary Guo wrote:
+> On Thu Aug 27, 2026 at 2:42 PM BST, Alexandre Courbot wrote:
+>> On Wed Aug 19, 2026 at 8:09 PM JST, Gary Guo wrote:
+>>> Previously `register!` defined registers can be used on any untyped I/O
+>>> regions. With all users specifying their desired register type now,
+>>> propagate the specified type and restrict I/O access only when type
+>>> matches.
+>>>
+>>> Also, add an `io_project!` example which is enabled by this change.
+>>>
+>>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>>> ---
+>>>  rust/kernel/io.rs          | 13 +++++++++++
+>>>  rust/kernel/io/register.rs | 55 ++++++++++++++++++++++++++++++++------=
+--------
+>>>  rust/macros/io/register.rs | 34 ++++++++++++++--------------
+>>>  3 files changed, 68 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+>>> index 84dd876b3407..4542187d6b91 100644
+>>> --- a/rust/kernel/io.rs
+>>> +++ b/rust/kernel/io.rs
+>>> @@ -1692,21 +1692,34 @@ pub fn project_loc<U, L>(self, location: L) -> =
+<T::Backend as IoBackend>::View<'
+>>>  /// The syntax is of form `io_project!(io, proj)` where `io` is an exp=
+ression to a type that
+>>>  /// implements [`Io`] and `proj` is a [projection specification](kerne=
+l::ptr::project!).
+>>>  ///
+>>> +/// `io_project!` can also project to subview of registers defined wit=
+h [`register!`] macro.
+>>
+>> nit: "to a subview".
+>>
+>> <...>
+>>> +/// Helper function for register alias implementation.
+>>> +///
+>>> +/// This is used to enforce base matching. Only called during const ev=
+al.
+>>> +#[doc(hidden)]
+>>> +#[inline(always)]
+>>> +pub const fn alias_offset<Base: ?Sized, Alias: Register<Base =3D Base>=
+>() -> usize {
+>>> +    Alias::OFFSET
+>>> +}
+>>> +
+>>> +/// Helper function for register element alias implementation.
+>>> +///
+>>> +/// This is used to enforce base matching and provide bounds checking.=
+ Only called during const
+>>> +/// eval.
+>>> +#[doc(hidden)]
+>>> +#[inline(always)]
+>>> +pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<B=
+ase =3D Base>>(
+>>> +    idx: usize,
+>>> +) -> usize {
+>>> +    build_assert!(idx < Alias::SIZE);
+>>> +    Alias::OFFSET + idx * Alias::STRIDE
+>>> +}
+>>
+>> You could convert the `build_assert!` (always good to eschew) into a
+>> `const_assert!` if you turn `idx` into a generic parameter:
+>>
+>>     pub const fn element_alias_offset<
+>>         Base: ?Sized,
+>>         Alias: RegisterArray<Base =3D Base>,
+>>         const IDX: usize,
+>>     >() -> usize {
+>>         crate::const_assert!(IDX < Alias::SIZE);
+>>         Alias::OFFSET + IDX * Alias::STRIDE
+>>     }
+>>
+>> You get a better error message, the const parameter is used in a
+>> very controlled environment well within the expressive power of const
+>> generics, and that function is not public interface anyway.
+>>
+>> If you don't like it (recent discussions make me think you might not
+>> :)), then let's remove the `build_assert!` and keep the `static_assert`
+>> emitted by the macro until this patch; it's not as elegant as checking
+>> the condition into the same block of code that uses it, but again we are
+>> in a controlled environment and static_assert > const_assert >
+>> build_assert so this may actually be my preferred solution. You can
+>> document the invariant in `element_alias_offset`.
+>
+> The error message should be identical? This function is only called durin=
+g const
+> evaluation, so even if I replace this build_assert to assert it'll be fin=
+e and
+> never actually cause linker error or runtime panic.
 
-It seems like this requirement is due to cancel_work_sync(). But what =
-happens
-if the item is enqueued with enqueue_scoped() on two work queues
-simultaneously? Would cancel_work_sync() wait for both queues?
+Indeed, I missed that. Even in this case, it's still better to use
+something the compiler enforces can only run at const eval.
 
-Docs seem to warn against it, IIUC?
+`build_assert` is something that in an ideal world shouldn't need to
+exist, so let's avoid proliferating its use if we can avoid it.
 
-"Cancel work and wait for its execution to finish. This function can be =
-used
-even if the work re-queues itself or migrates to another workqueue. On =
-return
-from this function, work is guaranteed to be not pending or executing on =
-any
-CPU =E2=80=94> as long as there aren=E2=80=99t racing enqueues. <=E2=80=94=
-"
+>
+> I wonder if I should add
+>
+>     assert_in_const_eval()
+>
+> or maybe
+>
+>     #[const_eval_only]
+>     fn ...
+>
+> which expands to
+>
+>     #[inline(always)]
+>     fn const ... {
+>         assert_in_const_eval()
+>     }
+>
+> so that it's clear to reader that this is a const-eval-only function.
 
-> +    #[inline]
-> +    pub unsafe fn enqueue_scoped<W, const ID: u64>(&self, w: W) -> =
-W::EnqueueOutput
-> +    where
-> +        W: RawWorkItem<ID> + Send,
->     {
-
+If that doesn't delay the series, sure.
