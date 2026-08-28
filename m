@@ -1,74 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E613385A7;
-	Fri, 28 Aug 2026 06:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674CC3769F4
+	for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 15:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787898790; cv=none; b=Vlx7Z5GuuTRA3i35WP2s46e7Yh1cXcpyVshVg5Bvqn8x8nc8S+Ybu8QA9/EUAQK23WpjpBWBDWO2pNmsa8ylFg0Koho5dszPvvKM76tkaTYMaetp5hbkjl/ZaoReul+/Q9omHEVhuFjobvuaQa5jY0SXUR1VVb7yhVKE5u9f7GE=
+	t=1787932264; cv=none; b=WH5IOJOBwobspf7xh7dFqnMSD3xbjELKBP7yoySEX2knmrhiyuIycTYY1HShbzktW6AHmWo/2RXks++XcoygsMmy90MVfG2fnRv9eNFzzITk9V2liLgOeOsLES/TqXxTZI8CUlw/xYBxSzgPJw7kHuTJ+G8zsuT7OieOR1o12iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787898790; c=relaxed/simple;
-	bh=QTttZJvjLYXsm8lD7HUNJ2sdSMsD2Xj+oW8LNojOJ8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NR/0tZ3q0gUaozVeRZ7haolKctfey85QVfQJo4FI6LA8pHxNSd7QOk6BzI/I9sFxoJYM1Su7OlH7euz3//8cvF1xGwC+n1rhnVX2eCLouhpOFlvHVheqcv5kMAOEY5KnF1Ff58uXSblhEeir7Ap/CxALFumTZU7zNZIVF2Abmeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aIdwRxKo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787932264; c=relaxed/simple;
+	bh=ReIfV+XfN9CJ7gWGHVy+pvxz4t/Bfm9Oz0pHx1zUvmQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=p94YEXHCbVv9f4wacBto9wRqWANXGhS8leB8L147zLyzcgM8XTPeq9xWgvq2bWAlPxXL+NBqJR6Bg10Gm1maXb1iYIn4Z0mP/ugqn77oMLKE2Z+cga0dLDf926uoK3BI48A5jUha8WjJR6qavue2gCWtpAeOxsDlnEJQSgMvEVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JRqSk6XZ; arc=none smtp.client-ip=209.85.208.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aIdwRxKo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA3951F000E9;
-	Fri, 28 Aug 2026 06:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787898788;
-	bh=ZHuzFeQZ9B9LmTK2dLLNnL+xjQFqp3vbQbw3uzHQLE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aIdwRxKoVarIBpG6XF+TQ9Qe73dfAT4sdb3AFa98gXbyIPTryIHG09zQlbPhk+C5E
-	 XTyxD7v3sJB8ZXSu1V87usyGVjk8LbMrANVNZmdgSY+zJkWhg+LN4sofRI6NkDtzlG
-	 aC/3XbY8a8nlMBZfXQRhTWaNe3ZmL9lscC1kUQZ0=
-Date: Fri, 28 Aug 2026 08:33:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Farhad Alemi <farhad.alemi@berkeley.edu>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, falemi@asu.edu,
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] general protection fault in sysfs_do_create_link_sd
-Message-ID: <2026082852-wrist-devotee-3cd0@gregkh>
-References: <CA+0ovChyLaYfEN19Fomt6qWx6dYtX47Ptyaej3gfMeNGB1xoFg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JRqSk6XZ"
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6a60a4f1ae2so1476644a12.2
+        for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 08:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1787932257; x=1788537057; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uNXgP9aiWGCY8sBDBkxQ5jGmQfHLh/8XePeePdlfGZw=;
+        b=JRqSk6XZHpAd4LOcgnBmDJ+Ie7ILLpsfKWxU6XjnAvSNAaijzbJJd6rpBh0SYhRpF3
+         dJbz2fNYcHAEBGKQFjSzTWlJws8HXbi/ZYpNwa7men4CeaZFNZwMfjb+X0M1SRCwsU2f
+         Artw9kzDXM7pB3g5N+lmafbMb/g2qJBTOTAl6fG0c8a15AlhqSyQgULJZod9Rgr5Y3pb
+         spTc8nVGrFPSug/83E6UfILkPg1go9n1gtKAWyb/AqTkVyH/NEJwGck8iZp3bW/pibBe
+         NnE25kX7HauxQQWEdX8kbKKjZHMrslxtjeGDrE8L3JscfTDkpcxWEndwesxvpPOtG51A
+         YSVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787932257; x=1788537057;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uNXgP9aiWGCY8sBDBkxQ5jGmQfHLh/8XePeePdlfGZw=;
+        b=gTPE0Kb5bQNkti7XpA1QbJUr9TASRxn130KaeW1YzAmGnS2qpHzLsuFinIUCURO+j0
+         I3wac3ZZo59zQI5R81nV9e/BskTCXcUNMm9Vysyy8pBdLxJZMEmbSSgJUWbmUfkbkysu
+         5NvsfYsqJnYHuWfLcC47BX6PI9RfYuvRqoi8OTy0e13W6zdXGppUbw8QkkwFLVyRLS+3
+         PoTCv+oPeACyI2rm1T7dDDWrsOfs5s4xScHAzg+8AcCgpUUp/xX9znlAHmm/VZLVVlSr
+         HSU4Ko9trdVUkN2EtGzrY/jvCPstk4L4zPYyY39BdVWckvJblr151fZgz7641sK6KtsN
+         pMYQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq8OK+n2kbk0rOGP7IjthkI32bU7Zq44289FgbUO1tHanYrYlyrBE4WUbNvxqOnhnWf/UGzlom3IeVUBQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lEWO0/mSzUcsrnbVmATv2rDVbJ7z0Ix3HTFpKVSN5yepEC4oIy
+	fTtkbZyVE0y+I7v3jQdTjZn566c7NfWmYFSpS5t7j23nat+FSg8fZWGOyqMmESpQTH2ovgQgUlN
+	E+LrOVHiAyUwBAaQ3Mg==
+X-Received: from edrb21.prod.google.com ([2002:aa7:d495:0:b0:6a6:a82:8b98])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:5286:b0:6a6:1c30:bc4c with SMTP id 4fb4d7f45d1cf-6a61c30c3cfmr2134011a12.5.1787932256221;
+ Fri, 28 Aug 2026 08:50:56 -0700 (PDT)
+Date: Fri, 28 Aug 2026 15:50:55 +0000
+In-Reply-To: <20260821142414.150892-4-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+0ovChyLaYfEN19Fomt6qWx6dYtX47Ptyaej3gfMeNGB1xoFg@mail.gmail.com>
+Mime-Version: 1.0
+References: <20260821142414.150892-1-djeffery@redhat.com> <20260821142414.150892-4-djeffery@redhat.com>
+Message-ID: <9huzjypaz1k0.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH 3/9] driver core: warn should device_move try to move a
+ need_parent_lock device
+From: tarunsahu@google.com
+To: David Jeffery <djeffery@redhat.com>, driver-core@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, Stuart Hayes <stuart.w.hayes@gmail.com>, 
+	Laurence Oberman <loberman@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>, kexec@lists.infradead.org, 
+	David Jeffery <djeffery@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 28, 2026 at 05:50:00AM +0000, Farhad Alemi wrote:
-> Hello,
-> 
-> As part of the kernel research at ASU's SEFCOM
-> lab, we hit the crash below. Crash reports can be found here:
-> 
->   https://github.com/farhad-alemi/public_bug_reports/tree/main/188-general-protection-fault-in-sysfs-do-create-link-sd/
-> 
->   Oops: general protection fault, probably for non-canonical address
-> 0xdffffc0000000006: 0000 [#1] SMP KASAN NOPTI
->   KASAN: null-ptr-deref in range [0x0000000000000030-0x0000000000000037]
->   RIP: 0010:sysfs_do_create_link_sd+0x4b/0x110 fs/sysfs/symlink.c:35
->   Call Trace:
->    sysfs_do_create_link_sd+0x4b/0x110 fs/sysfs/symlink.c:35
->    nfs_sysfs_link_rpc_client+0x3a3/0x590 fs/nfs/sysfs.c:343
->    nfs_init_server fs/nfs/client.c:770 [inline]
->    nfs_create_server+0x7e8/0x2110 fs/nfs/client.c:1155
->    nfs3_create_server+0x1e/0x180 fs/nfs/nfs3client.c:56
->    nfs_try_get_tree+0x1fa/0x11a0 fs/nfs/super.c:981
->    vfs_get_tree+0x8f/0x290 fs/super.c:1754
->    do_new_mount+0x341/0xd80 fs/namespace.c:3834
-> 
-> Our reproducer.c is available upon request.
-> 
-> Happy to test a patch if that would help.
+David Jeffery <djeffery@redhat.com> writes:
 
-Again, please send patches.
+> Currently, no device has need_parent_lock set and is moved by
+> device_move. need_parent_lock is only set by the usb bus and very
+> few device types ever use device_move.
+>
+> Add a warning to device_move to catch should it ever be used on a
+> device with need_parent_lock set. The combination would break
+> the immutable relationship needed between parent and child for
+> need_parent_lock when locking and unlocking both.
+>
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> Tested-by: Laurence Oberman <loberman@redhat.com>
+> ---
+>  drivers/base/core.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index bd9c2921e326..75f5931165a8 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -4712,6 +4712,14 @@ int device_move(struct device *dev, struct device *new_parent,
+>  	if (!dev)
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * device_move() should not be used on devices with need_parent_lock
+> +	 * set. Concurrent reparenting will violate the immutable
+> +	 * relationship needed while locking and unlocking both parent and
+> +	 * child.
+> +	 */
+> +	WARN_ON(dev->bus && dev->bus->need_parent_lock);
+> +
+>  	device_pm_lock();
+>  	new_parent = get_device(new_parent);
+>  	new_parent_kobj = get_device_parent(dev, new_parent);
+> -- 
+
+Thankyou for adding this, Please feel free to add
+Suggested-by: Tarun Sahu <tarunsahu@google.com>
+
+Also, I have seen sashiko complaining about another problem with
+device_move which is impractical/impossible. So I mentioning it below
+for discussion/information.
+
+Sashiko Claim: There is potential deadlock if a device is being
+registered with DL_FLAG_STATELESS which skips the reordering of
+the list so device_kset->list will have device dependent devices out of
+order. Also same problem can be create by device_move.
+
+=> This is impractical because a device being registered with
+DL_FLAG_STATELESS must have its supplier already registered first
+(Documentation/driver-api/device_link.rst) which inherently puts
+them in the order.
+
+Similarily for device_move() affecting topological order is very
+impractical. Unless someone mis-use the API
+device_move(..., DPM_ORDER_NONE). Which, as well, not favourable
+on upstream.
+
+Once topological order is messed up, neither async shutdown nor serial
+(sync) shutdown can work. As it is precondition for it. except
+DL_FLAG_SYNC_STATE_ONLY, which is handled in both implementation.
+
+
+~Tarun
+
+> 2.55.0
