@@ -1,63 +1,64 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB10431AAAA
-	for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 01:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CF3322DB7
+	for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 01:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787881951; cv=none; b=ga4NpJWcBf82dXP4hl/hz3qDQLnPNMQsgY4LTQOZcgUMZ/I6QX96XmhLOtt8t6s6VmazI/zoAlW5r7NMf6eKVKkkP9yTK31wRvZbmGUpsTPwhm7HQjzhOszf3Mzhmf0bWqwRz9Vb9TePd8GFnFgyFXyq6BAZiGGnBttoV6273sc=
+	t=1787881961; cv=none; b=R2dLNaGofUqGXCqXK54cpfwUIMwpw4j7lgzc4U6A7IhvBbHo1SYhk0Kebhq/LskEjDBLTv9+T+MU/WLVnzZr2wahLgBKCXvoCUTxtOmEJPPwB9nbxIGyaZvjs4T7wT8ly98WRf9zXpgC+oh0CiUdXWlcGASuCNipYtoyD3SxktQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787881951; c=relaxed/simple;
-	bh=cDXl9u4CuY/1+XKa+zRWdOwNjQ9DIY+bFbQam7r/xuA=;
+	s=arc-20240116; t=1787881961; c=relaxed/simple;
+	bh=q30dBEXeI8fNqG2Fhm0SNCEmhwHt3HVvGwgctzlo228=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MdMTABZrV4YkzwIgv8Ou3wnT5DlxFmxnx+pg+EoCU3TI/5n5WKL0RGss5GPaI35J7txJwELPKiJOPfDoGDMHaDjB3bbAhwBn6WJgbQ2NzvCgxCZk5UdFq9BdXbHtt6DPQ4bJURzvRyYHyOq2D/PkxKd/H+/OH+plzXT7h6XVtSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EfogPrwm; arc=none smtp.client-ip=209.85.216.49
+	 MIME-Version; b=YoCwf11CDafxfmazul/G59WpkFGe0nbyrqIFCvfI/U/wIX55fCNQjE8hw0AtwXHxPI90SqFxLFxAqOPK4CZkGmqxGDLgH6TeH42vQyzB/APTUq1BrXWrerHdgCb8m/VzerlsO87vrjJGvp6xamufxKoT5FwkJEZtOvT2xBbvFJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oOwdp9Kk; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EfogPrwm"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso886229a91.2
-        for <driver-core@lists.linux.dev>; Thu, 27 Aug 2026 18:52:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOwdp9Kk"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e58034d05so604424a91.2
+        for <driver-core@lists.linux.dev>; Thu, 27 Aug 2026 18:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787881946; x=1788486746; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787881952; x=1788486752; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zgRyTdTbwko1JdLbXQIFBmeYI8ONlsJWkwJx4wtdOdg=;
-        b=EfogPrwmfWF0s86FLOaARrhVwENUjMVUJiZZ9TKhT/Uad+N3A4SyQFtSCzOnrb4cT2
-         2rh1lvxplaB0PDrs/R7L0yOLqcQYZy2y6hWtWIc5mM6595OcHODVDYOtof23/DlFNzZ7
-         Ge61C4PtoWLKvQyo9gplil61boYchKhSaZ+kg1Ky0dUwVeG99Q4RsreQUi1bj2A1gCyS
-         InFYgc5nWJs+EnLFwjIkiLE0HfkhLViI52NltTGKnN335t/b+IhSnzecU/n3eONV3AXK
-         3oF25N3dj5LtDtOLddHpgqgeRyROFTczTCqdlgrM7ssdXEIJRzWK+ri4RA0VSY6ZcJ44
-         Rqkw==
+        bh=Zu+RxARiDBgW38W1dKFU7cEtIABJ2qMEIV7Sy1U5J70=;
+        b=oOwdp9KkM4mPSgoyOMWuJz7O1LfI6JJaU4ZvV1+DkkTc509z+n6t2XrA8Pw6GQ5UVr
+         D31YCl7W6dm5LP1LkFScdLRoyWXvkiHXwjMrWnewDJYz0ZCKQZUelDIR/B0G5I0ODyJZ
+         8b8M3hISSn41YmtfAJhhR9mRcdPrPg1K9qabYuBjg88qGHwlSNCWNyH6WowSga9jivUr
+         CufDckxlrxVxPO81OapSiABQjkdShrRPktNAomBWc+eBSw/W2hL/0h2jQJsGWE+BsFr3
+         gGI0JEI7V9NvGsTHSLcqFvvwyPam6LdL56t5iO5nGQT/6/WjrowxWEgxKabDAxxTK2EW
+         bs3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787881946; x=1788486746;
+        d=1e100.net; s=20251104; t=1787881952; x=1788486752;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zgRyTdTbwko1JdLbXQIFBmeYI8ONlsJWkwJx4wtdOdg=;
-        b=Ick4c9lmgyj3FOtevWzvvnpXe8hg34mrZ45vVTmzHfFKg1dIB9dQNmK+AmkxnXP7ia
-         OPiiPWqRLraDVOjNiblJd8fYqD2gVfI+IBpvUxxVSh0q8iE/+70xB/AD1QiNDtmIznZW
-         wC3C18ZjBvVuO8Ei1h0G2TSq1XpYFwYyCeRfwovOhc9qTFb3TwLISJkg0eqo1DlFHWYB
-         c4iLQ91Vm18WWcOzltrjdPyl6f6wZ9Gt0FhOAzJZotoBT7Einh2Tvzih6rNmq1+GiEym
-         tewypxNRrp9YhjT4itplOr+S9Ai4p4ZKdhN/+MMhCqcSlCV9mpB+htx+cn74Q8j1DFoA
-         bYow==
-X-Forwarded-Encrypted: i=1; AHgh+Rqly5o5I4awa2KDiCp628YuwN7mO1S7rM01PNWIL7MUgyui4IvagGwHDGee8mN7HoSejfNVrFBPbjehtg==@lists.linux.dev
-X-Gm-Message-State: AFuF++lX42z9Avx2ChA4O1oxii/EDsSxpVbEjlwbsmQTZO97kOKvsSzn
-	G6rOIqBsF5n09n0aIdQhVqOPBB+eIgq+FZsjjK2rOtMEV8iJTSRvY92Q
-X-Gm-Gg: AR+sD11PJ+8EFML0LGHxzcfVSN8vpgoGztqAkPRuJ8iY2rDSWOua66a2hZHjbLL2wAQ
-	mpCM16RD4EUxjiFr3AGkGKbcKSfH7fzitQ1ok4S/+2IgtB6U5FgECXysiVJn6S+/+xfBbFk9nrd
-	xpFY8MXzpVF5nJtRW98w/Hbfuo8q9dhVf2fcISxlHu5hVR20TPlJAvHFAKbfl3FFS7VL+18eYOQ
-	3uTVHAJKgRytpbClK/+WkU2SJ0xsvS1Yi5JC3/ok4B5BRgmRAOezwhvgytoLkpEzPJIbDQd1l8T
-	vIyjWX0rNnstrXouKK4DTpN1B71yhUy3beHZKFrYiCUAt+VUbALFDKoIOCzpLWHOhiImczyT7or
-	A9+GAGbFinr2wA5scBNSabVwcLuR5R9qblZD8rCcQD/INneOpw91rk3HLvlBEZpbL3yvXUdglWW
-	9rRBgGqLYdeumLjEIkwfstZrao1ZdZNav+B3UtXcGaJkNAy/TTP7e33Cmzhvn3thJqI+o=
-X-Received: by 2002:a17:90b:54c6:b0:36d:b424:4f17 with SMTP id 98e67ed59e1d1-396d0e24bdamr7100016a91.1.1787881945898;
-        Thu, 27 Aug 2026 18:52:25 -0700 (PDT)
+        bh=Zu+RxARiDBgW38W1dKFU7cEtIABJ2qMEIV7Sy1U5J70=;
+        b=j95IgogFQl/cIicRtgPnRxHmXhh9I93X7h7sftJLujoYSJcJPL2IDeDBKxMC7ndtP+
+         /vUPAAC1GEe9hPt8R/vyt+D1VxMncT22ztGt2s/OCGWiHua+E3UqhDbGVkgEbyq8kihO
+         732krJFgV0qbQ6zUiPmuCGpcau7SAl0gx31ZW9TjB0m2mfWyWgif/1cD6SXxXJfNi/9r
+         IEYqHJ3S3lBJes54hx1rKrRGGnyZivssfaxTqbfwIugTgqOOKCQr0K2M0PV26Xwk9hYf
+         iiNk/1mbOQgyoF09Hib6mcjbrFEUT2zuHgyNDz8MwBOTWe3gSCoLCF8zIm/7VhRRqfrR
+         t4Ag==
+X-Forwarded-Encrypted: i=1; AHgh+RqBYqc1ODY8ebW/oKcxza5YFXA7F9c4DJR6J+/NDlULHwEfl1JHJOiYkdSH91aliMg4QWxHqvm12BXh9A==@lists.linux.dev
+X-Gm-Message-State: AFuF++k4AX9GPqX6ESwi/ktBC6dHmgubn+bIKPMsOoSYeVaOOqNXIm3Y
+	wGQ00imVIuZrNVhlA3mTSdt3p5UYeSwfk1wwnlKO4/HiGFKai2Oci4y6
+X-Gm-Gg: AR+sD12OGiMhe3AOF/VbtoQ+ZYgUlwR6RW5xo/YYKB4RgoyBTqyyA/Sg4DOyMrbNIkJ
+	sST4+mY913oYorQmC22Q1c7mcIu/8Ds3hzLww0XZ9JqYV+2S0JkDjF819CTIb4cVmbL4KXGOahN
+	4MdeHEFGA3APr/lXg/JpI1+krOTHdD2g7LsQ9ujStWdrS8MdXruMBX9yPZTGFgDo2Z8CJTcRJ49
+	8nfdO9rlAlF9dspFrXHBW35Ve7GiJQ5R3Qan2rmzPXXx6enws3nM87uHNBuY3Lswbws9XPpJoFm
+	wVMeTB+fFpOnilnumj4nUeZL4eTjwS5KX3y/UqYWkDgd+3hKVGObZd3gzNehmK6b2xwbmHjl4zn
+	jXGbekzdzq61K462a5SZMmuQWjYhGLZNVofD47KEt9qKc18NlmQ63FhjuSJdiEzZd2UknaObZj3
+	EvG990aG6xhuXToFu3itHPwKsSPn7Cx9fUx9I/iGtZVemuSIGlh70/6Y3spO6Ke6YtYRkjI4CSP
+	Dm3lw==
+X-Received: by 2002:a17:90b:1a8c:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-396d0c0ffb5mr6224769a91.0.1787881952077;
+        Thu, 27 Aug 2026 18:52:32 -0700 (PDT)
 Received: from main ([176.237.234.93])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396d2316e21sm603674a91.2.2026.08.27.18.52.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396d2316e21sm603674a91.2.2026.08.27.18.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 18:52:25 -0700 (PDT)
+        Thu, 27 Aug 2026 18:52:31 -0700 (PDT)
 From: Mehmet Koseoglu <mehmet.mkoseoglu@gmail.com>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -67,9 +68,9 @@ Cc: rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	Mehmet Koseoglu <mehmet.mkoseoglu@gmail.com>
-Subject: [PATCH v1 2/3] dma-mapping: rust: samples: add missing newline in rust_dma
-Date: Fri, 28 Aug 2026 04:50:21 +0300
-Message-ID: <20260828015148.221737-3-mehmet.mkoseoglu@gmail.com>
+Subject: [PATCH v1 3/3] rust: io: register: add missing newline in doc example
+Date: Fri, 28 Aug 2026 04:50:22 +0300
+Message-ID: <20260828015148.221737-4-mehmet.mkoseoglu@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260828015148.221737-1-mehmet.mkoseoglu@gmail.com>
 References: <20260828015148.221737-1-mehmet.mkoseoglu@gmail.com>
@@ -81,33 +82,31 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The `dev_info!` call iterating over scatter-gather table entries in
-`DmaSampleDriver::drop` is missing a trailing newline, causing the
-printed message to not be properly line-terminated.
+The `pr_info!` call in the register module documentation code example
+is missing a trailing newline.
 
 Add the missing `\n` to the format string.
 
-Fixes: 5444799d701c ("samples: rust: dma: add sample code for SGTable")
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Fixes: 20ba6a1dbcb9 ("rust: io: add `register!` macro")
 Link: https://github.com/Rust-for-Linux/linux/issues/1139
 Signed-off-by: Mehmet Koseoglu <mehmet.mkoseoglu@gmail.com>
 ---
- samples/rust/rust_dma.rs | 2 +-
+ rust/kernel/io/register.rs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-index bd60034ded23..aa454e4841a7 100644
---- a/samples/rust/rust_dma.rs
-+++ b/samples/rust/rust_dma.rs
-@@ -125,7 +125,7 @@ fn drop(self: Pin<&mut Self>) {
-         for (i, entry) in self.sgt.iter().enumerate() {
-             dev_info!(
-                 self.pdev,
--                "Entry[{}]: DMA address: {:#x}",
-+                "Entry[{}]: DMA address: {:#x}\n",
-                 i,
-                 entry.dma_address(),
-             );
+diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
+index 03dfd2ff48c7..31e084a4aa9f 100644
+--- a/rust/kernel/io/register.rs
++++ b/rust/kernel/io/register.rs
+@@ -71,7 +71,7 @@
+ //!
+ //! // Read from the register's defined offset (0x100).
+ //! let boot0 = io.read(BOOT_0);
+-//! pr_info!("chip revision: {}.{}", boot0.major_revision().get(), boot0.minor_revision().get());
++//! pr_info!("chip revision: {}.{}\n", boot0.major_revision().get(), boot0.minor_revision().get());
+ //!
+ //! // Update some fields and write the new value back.
+ //! let new_boot0 = boot0
 -- 
 2.55.0
 
