@@ -1,152 +1,151 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010024.outbound.protection.outlook.com [52.101.85.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB532D7BF;
-	Fri, 28 Aug 2026 02:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787882884; cv=fail; b=hYlOdVyP9X12gSa2qmAM0uXZBAuyMZVEmnDBChTPraTwdeKEpt3mtrrlVecO2aHozA/BGY0k+zHzWDxbqh1tcZwP9KIMm7INKvQKbxBxOH6NEWp+ctVZ6WEUXRoaQVPCKue+6EmjXHjCbft+KsWAN7LSR3BVP/5ptPAQ6Nanglw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787882884; c=relaxed/simple;
-	bh=vtHH0sUIgfMg7Ej37sivpLCfCT8PCkceMK3NYkt84IQ=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=IccE+NdgMik+A9S7x7J6dP+XXkWy1YyapJbRFCQuFJxOYSz5p2Dtth+6Qnwr7cmY6XVdmwT7jjwhZdm8/le3l1Ymn3ajy7FVrHUgVVM/mtI0Zq5yrs28KNnhEjHRyBGn+MvQf8qdpbd6WLO1naOwMIhFj0FylQBuuZuzKh7EV68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=norxD3XL; arc=fail smtp.client-ip=52.101.85.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="norxD3XL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x6AHoVpArgmQsV5g2Q5UleGIFViMoft+t2frBa8E36XcYT/jjVnsjvNlcJf+kyaEXgkW9OJTtyh51x+44S5RsrsGfUqf7/32ee1hVxbiE8RR87+grU6IEBL2fE6YkESBFxWFh9cFQOlkruiF/HOCMC65PfddK95bvDoYV+9kbs7OEvrbDVSkkPI4DSwZwclQa6KcmzbD39+U+oULc7rslX1/f1hwq8FjFLFORAMrbqYuVD7EgKifFVnGw2A8o/RB0vCLrLT21cHa30JCm2JFPuYxlIXomzdfFFX1RynqumYFm0cpKWClhXDK9pLa1u1zkt7llSpYr/QGeSVFIiqNrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vtHH0sUIgfMg7Ej37sivpLCfCT8PCkceMK3NYkt84IQ=;
- b=bncIMLBG1DLTF8z/eRf77DXefe+eTXvAbwtzpr3IKp3809Ngoh7g+EvcNS9jTRV3xyVHm+wPq2G/VHm+iewuPML3H6JC4sEMWpCHcw+wY4cW18F1BnhbPyWWEDwAbmgrzQfTsJeMAiTq8EPjEXcpsxJR2hwmgM6gIr4XL964a4ZOQpuVRVA8mHb3gntCYFEklxHc2ePjbOepU8FFigLAUEEY33ZCES5avcRkygbVc6Yr++5wma8xM/GXFo5L8OrxGUzlOIbJX3/UO3lC+IABtrQKB3N8ijU7TXsZYwXz4swDnH9xzC7Za90ET2x6GbyOZaKrOK/qUt/r1iDAV6fW6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vtHH0sUIgfMg7Ej37sivpLCfCT8PCkceMK3NYkt84IQ=;
- b=norxD3XLNgJCu7pI5dXhMC0lWv3DFIrQUCXe1fxD1cRzHnKMfMdDPyZNA0Rh4yBpObxkAsxsp1ucuF76wuD3MinDWX2B6Zdzj587JEFd6o66bK5JgE8DI+Qm4q1XDGSXOrc6aueVizRYX9MwGIv+aL7FpEMIx6ZMqbTHekSxpKu4Om59Cbv2L5z/L4x8xeIaJFDmhFaHbCD79DfxaDBVdroM651WbI1GE7KxMdjg85/X6wuXsHFVPRjgeBn3dHmw12W7FHnI1pMSAzp3W/O8yOgYKekxGlXRKEV5V5sj3frFBhLbETLwY06vhTHK+3Gu5Hm/Rs2gkHx+7EYsL+tiUw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by DS7PR12MB8275.namprd12.prod.outlook.com (2603:10b6:8:ec::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
- 2026 02:07:51 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0315.014; Fri, 28 Aug 2026
- 02:07:51 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 28 Aug 2026 11:07:48 +0900
-Message-Id: <DL07KZ0JS91S.343R8RX3V5AG@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v3 15/16] rust: io: register: remove `Register` trait
- and cleanup macro
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-References: <20260819-typed_register-v3-0-3699a75fadf1@garyguo.net>
- <20260819-typed_register-v3-15-3699a75fadf1@garyguo.net>
-In-Reply-To: <20260819-typed_register-v3-15-3699a75fadf1@garyguo.net>
-X-ClientProxiedBy: TY6P286CA0005.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:3b8::13) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D66321C173
+	for <driver-core@lists.linux.dev>; Fri, 28 Aug 2026 04:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787889908; cv=none; b=oCaFai07n7914Av+W8VSBOWwC23nYNy4PEs8YwH2f+FC2MfFuvNoiAKjfkI+iQplisWlxTuOe6KJH93wywnVumloUyA3xSM2vFwB0cVwySZbankRxt22g7NkNCC/YCq10bdjSsIB1LPgoBQ7nBFyHDlHSn1l7SbnI7uo6Z/Nle8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787889908; c=relaxed/simple;
+	bh=ug4Wy3wBJUcuCXxvPXvLKPYJRwW8MtrVX/USNQJOnmg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OqTYHPRS4tX/Rd9QL8A8JVMDiDwhRnIxTZJXHJdmKBM1zSznI87vyfO0eckaWyAyY7FdYTk3AK4xpR4Xc1JPFiuBOcQTojA8UpSsVfuDD3H4QcWxu8pQs83Z3UiJZwJlhcrpW1bYTXa+VtDbK2WovyRn7U5fLlM4x1+eW4MI82o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wBXQT_hCJFqZhXOAA--.1313S3;
+	Fri, 28 Aug 2026 12:04:50 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app2 (Coremail) with SMTP id zC_KCgBn2c7dCJFqX_QuBA--.63973S2;
+	Fri, 28 Aug 2026 12:04:47 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: gregkh@linuxfoundation.org,
+	tj@kernel.org
+Cc: chenridong@huawei.com,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] kernfs: recheck of->released after acquiring the active reference
+Date: Fri, 28 Aug 2026 04:03:48 +0000
+Message-Id: <20260828040348.1809278-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|DS7PR12MB8275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44f279e0-ee86-46fa-dc7d-08df04a929f6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|10070799003|376014|7416014|1800799024|10067099003|22082099003|18002099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	5YAzDsxTytZf5Dl2hdmOTQRAP9nonFpnt8pw5Wr9ItShrWHeg/ENDpkiyeHDBXL3aSupPcUZRuR2O79sqNYkiAPBb7cl6IjyFTeVq1O2jbFdhXJTGeuKgy92ySuN/5oSIiopR4orWJirkDWn4S7ox5J0TQnrC0AQZ/VB8zbgK95/Lk+jRADPjM19RvF0mGQgJ6Ha7CqMXsRv2A+lE0OY3+rQbI8255CoseZNyflhzisPTMH5c4ptEIgYLvNchCpO5qKG7vbhsINQxHb1LAuHThicjUgfaQL8imZQp3cdj215K6uLEP2eoqaR0qWsBt0AUKQPVl4iYXZQL/tLq4yWy2RXMHnfkfDWREiMOgCgmMR0vYmitxxgXjX7Kzixumjgqw2RGULYoqov5tM1TQrkLR+Z6KRk/qrzkhsf3WjAJRvQGqkLycz+6h0XjgB985t6ygk2d+OH+AnQWGufhWoM9O5zVUh0h1d9zg35Cx6XrUjtGTERCovZa8A8G2ycRwevSowSlls55KsFcgJffUjMmRmyP5h//rx5uWcjysu0PbjyxDr+orO3V9QL7CAHssqqukOqEWDW5sWggZ6cS2I4rM0goa9ETmvdzQbZ9GDNZZKmCmMPaj1zypb2GCj52nZ7E9UPONP1PWs1e8iKH1B/jjtD6n820cGe+kviBAEcfBc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(10070799003)(376014)(7416014)(1800799024)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UnhLcGdCaFdlMktMSTR3WEpIbE5XeFJmcXI3RmVsWldSa0hxd2lGMVpkdFdY?=
- =?utf-8?B?bmowWTh1WmMzOGFObjZ3eExOMzhoR0htZzJ6VTJTenRmdHhEZWpXcURqaUZ6?=
- =?utf-8?B?azdWRHNMOU9MSXdqTEpWa25nQkhiZDloWWRrM0VPN1NqYkJkU3RJVE9kVGY1?=
- =?utf-8?B?dG41WmExNmRidjY5djBmTXhIZ0VqeEo3dDVZT0pmZzRBbk1JeUJYc1R4VjRr?=
- =?utf-8?B?NXZmWkUxaVdjNmxJMitrQTRuRWxGMDJUVXhjeStwSFJiUkRYUWJkZUZIcjlj?=
- =?utf-8?B?Zk5XdVlRQ2IyYy9ORWhTMVlhbEhmemtjS3hmcHhOWXBDd050NFZISnAwYkk0?=
- =?utf-8?B?RGl6TGgvT21KRTNETWljMFhLU29ZaERxRmxIdzl0MzFzTEpCNlZ1bnFiejFx?=
- =?utf-8?B?Um10dzlQUkk5MEJIRWk2VEI4bVNNa0ZpdnRZdDFnOWdQNjNBeFY0SElqU0g5?=
- =?utf-8?B?NzVacm52VTd1UktwS283MG5WckVVdVZXSmwycXFhZ2luSS9vS0VCc2lmYjNI?=
- =?utf-8?B?UnFwNytCbUJFMFdUaTdxbnRUaG4vR2g5V2Rib1VkejlEZXRvRHB6Z25JUzI3?=
- =?utf-8?B?MWlEdGRTZkJiNVgxZEZqUzI1b3hQb01vdEM4cHVMS2JBdVhTc3g4NWhoUGxh?=
- =?utf-8?B?L2F6eFNvWGN2cS9xTHAxN0tIYVdoeTlGNDFpRTNYVy9TVlN5Qi9SN1UrNDMv?=
- =?utf-8?B?dVJSdEQyNUtqVkNpbktrVng1RWRTbFhQcFhhbHIrNkVXOUlUVEc4czRjdGtZ?=
- =?utf-8?B?RFFXTWl0cVJKOFZJQUhGTGZGQ1ZHTlRGWmVBeTEyUUI5aG1XanFiRGNuV2xv?=
- =?utf-8?B?VkZLZ0trcmRsYkdjKzVtQXRZazU3WkthdGRiZ3NRTytzQjExa0o4WXlYbU96?=
- =?utf-8?B?S1RJSWZsSGtqRFVybndYL0VOOWpNcW1JbWJvb3NPWHVzd1RxZFBtVHNqUmxS?=
- =?utf-8?B?Tm5YTWR2TXVjcXBiTnZCNCtFRE9qSUpia1dVOFkxT0E5cnpTYWtPc2hxSVg3?=
- =?utf-8?B?Z0tKV01wdjlKa0RQT0l2YTZhY1l6NDNPM01mT3E3cTNKa3oycVNaNVhDbk4x?=
- =?utf-8?B?Q01OVnB5NVpvZ1ovc25adVUzMW5ZTUZ3MHVoYk9vYzMyd0JaNkJiYXd4RmZK?=
- =?utf-8?B?WDgycVBmZG05MUVYbGE5NUw0b3c4RlpRaGZEdXE5YUpWOEt1ZUVlYjFjNlNu?=
- =?utf-8?B?bW5BT0hPZ2dlZkhkQklpM1d1eHZVOGkyS3F1S2kzaGFaU0ZnTzE4R0xUNHc0?=
- =?utf-8?B?MW11b3RHbXhWM0lLb0J2d3NGYjJMZGdHejE5VWM1VnVkVUxabnNzNnI2Vkhk?=
- =?utf-8?B?NGhGWExGMEhsWW9NSVBwUUwxeExVeGpqc0FrVVNuaTk5dERWMGVGUFRQenF4?=
- =?utf-8?B?UGNiK3FPTE9DbkVKSUZIVWN6VU5WNW9QdGdvK2MxM21NM0pCb2VJVEl5THph?=
- =?utf-8?B?aWJNelVJOVRUZHViMXpNR3dZb0xjdUQxSW5UMkpTeHJGM0pBQTAvQk96QVFN?=
- =?utf-8?B?RnR4Q2hRTERicnduQzc1aXNxVkQwWnRQd2o5Yzd6K0FlVHJrUzN3eDBvVThx?=
- =?utf-8?B?bmFKZjY3MitSSStnNlhPM1BkMFZIYjVtZ1kzaUp1NzhJYTZBbWdsMmtxWm1q?=
- =?utf-8?B?ZGN3ZXhTTGQ3aEw5c1BPa2gxcEtaVHdDOUxmdkNDdTE1eDVIaFJ3anlVQ2c5?=
- =?utf-8?B?ZHpCb1VsRHpISndLQWFoOGdtTytXaFpIMDQxNCtQWGlCYndLSzdBczV5UFAv?=
- =?utf-8?B?UnRtVTRMdjR6WFlUcVpjY2NRZ2x5MkxXbFZPN3R1ejRETGZsbTJabnJEN05K?=
- =?utf-8?B?UVo5Wkw5c25vbExlL3pKY3RHalNXcTAzalFIeDdyN0JFUFI5WXIzTXJOWEtY?=
- =?utf-8?B?enZyaTVsREY4U3h1bUhKUGozRDVENTlhQ3dVRjJVZVJiem1XRlUrYXlWT0VW?=
- =?utf-8?B?eHM1TEZ0ME9nYUpmSmZwRXRHVkxqM3VrWGd4VnMzRTR3V3FhblNaYy9FZG9k?=
- =?utf-8?B?U1lFWGI1dHR0Zm41YUVLZTJyeVhLZDl6bWg4VGYwSmUzSElpQ016akRQTU84?=
- =?utf-8?B?UDBtUW1PRUVlZVZmd0QwN2tRYTBBdDJ1YUwwekc3eGdvN1ppRUtJdzd4ZGRZ?=
- =?utf-8?B?VUExQ0E1aXdxeEdIUzRHM1RDTDg0NVpYbzh2Mnk0V2ptNStyZ0xBZ1VVcE0y?=
- =?utf-8?B?STJtOTlzQUR6cjdMNmIrb01FbVVrYlFWM3dYcnVGdTdNZmFxR3E2K2NETlBH?=
- =?utf-8?B?R3BmamlpRzJQeExoTnpRa1BWVzU4YTUwbTE0aFVxNFlBNGlrUzZUUXk3TExP?=
- =?utf-8?B?K1I2dFJVc0RHTlB0VlpFM2QzeU5MZHFLaVVIYzZ1amRwcGFFQkd3NXlPRHdu?=
- =?utf-8?Q?6jbfEkJjVUZd5gFebDlZK3XlQ7DL1/qXzgyqwFrOBvxhc?=
-X-MS-Exchange-AntiSpam-MessageData-1: Mv4QntfDkt2uRA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44f279e0-ee86-46fa-dc7d-08df04a929f6
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 02:07:51.0855
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vUh+uxihFprOQWhJAkgEBSEASqrTVJqna9oeY7aJkIu5jFfACfuVCvOBKNqFRaAGuycb5jP8TBORFn5IM2gSLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8275
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zC_KCgBn2c7dCJFqX_QuBA--.63973S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?FOFEVgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfncGSG+szpQCInt5Y8rbJUI3gGUhJIyk5DkEkhl6m75AgdOplLpL3Hqq6nhqan3ICX0ks
+	AbKSuAhYMJqOa/3GhZKp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxZFW5GrW8XF4UZF13Jr13trc_yoW5uF48pF
+	WrKF45XFZ7JFyDCrsrA3Wxua4Fv3s3tFW3G3s2gwnYy3W5Kwn3t34Ygr4qvwn5XrWrJF4j
+	v3W2gryUtw15ZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 
-On Wed Aug 19, 2026 at 8:09 PM JST, Gary Guo wrote:
-> With the removal of relative registers, there are only two type of
-> registers left, fixed register and register arrays. There is not much
-> benefit in having a common super trait for them anymore, thus remove it,
-> and cleanup the macro rules associated with it.
->
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+kernfs_get_active_of(), added by commit 3c9ba2777d6c ("kernfs: Fix UAF
+in polling when open file is released"), tests @of->released before
+acquiring the active reference on @of->kn. A hide/drain/show cycle can
+run between the two steps: the drain path releases the open file, and
+the reactivation lets kernfs_get_active() succeed again, so a file
+operation can run on an already released open file. On the cgroup
+pressure files, the poll callback dereferences of->priv while forming
+&ctx->psi.trigger and can hit either stale, freed memory or NULL.
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Re-check @of->released after the successful acquisition and drop the
+active reference again if it has been set. No lock is needed:
+@of->released is only ever set to true, the drain which sets it
+precedes the reactivation under kernfs_rwsem, and the fully-ordered
+RMW on @kn->active in kernfs_get_active() then orders the read after
+that reactivation.
+
+To allow the lockless reads to use READ_ONCE(), drop the :1 storage
+from @released and store it with WRITE_ONCE() to match.
+
+This issue was found by an in-house static analysis tool.
+
+Fixes: 3c9ba2777d6c ("kernfs: Fix UAF in polling when open file is released")
+Cc: stable@vger.kernel.org
+Suggested-by: Tejun Heo <tj@kernel.org>
+Acked-by: Tejun Heo <tj@kernel.org>
+Assisted-by: Codex:gpt-5.6
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+Changes in v3:
+- Drop the :1 bit-field storage from @released so that READ_ONCE() can
+  be applied to it, use READ_ONCE() for both lockless reads of the
+  field, and add the matching WRITE_ONCE() on the store side.
+  READ_ONCE() on a bit-field does not build, as reported by the
+  kernel test robot on v2. The logic is unchanged from v2, where the
+  Acked-by was obtained; happy to drop it if you prefer a fresh one.
+
+v2: <20260821050720.14848-1-fanwu01@zju.edu.cn>
+lkp report on v2: <202608230046.Ixvo8Av6-lkp@intel.com>
+---
+ fs/kernfs/file.c       | 10 ++++++++--
+ include/linux/kernfs.h |  2 +-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 9adf36e6364b..98adceddbcfa 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -74,12 +74,18 @@ static struct kernfs_open_node *of_on(struct kernfs_open_file *of)
+ static struct kernfs_open_file *kernfs_get_active_of(struct kernfs_open_file *of)
+ {
+ 	/* Skip if file was already released */
+-	if (unlikely(of->released))
++	if (unlikely(READ_ONCE(of->released)))
+ 		return NULL;
+ 
+ 	if (!kernfs_get_active(of->kn))
+ 		return NULL;
+ 
++	/* @of may have been drained in between: recheck. */
++	if (unlikely(READ_ONCE(of->released))) {
++		kernfs_put_active(of->kn);
++		return NULL;
++	}
++
+ 	return of;
+ }
+ 
+@@ -762,7 +768,7 @@ static void kernfs_release_file(struct kernfs_node *kn,
+ 		 * and being drained.  Don't use kernfs_ops().
+ 		 */
+ 		kn->attr.ops->release(of);
+-		of->released = true;
++		WRITE_ONCE(of->released, true);
+ 		of_on(of)->nr_to_release--;
+ 	}
+ }
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index b5a5f32fdfd1..e95e333e24ea 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -269,7 +269,7 @@ struct kernfs_open_file {
+ 
+ 	size_t			atomic_write_len;
+ 	bool			mmapped:1;
+-	bool			released:1;
++	bool			released;
+ 	const struct vm_operations_struct *vm_ops;
+ };
+ 
+
