@@ -1,135 +1,156 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+Received: from mail-oa2-f1.google.com (mail-oa2-f1.google.com [74.125.231.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6D31E1A3D
-	for <driver-core@lists.linux.dev>; Sun, 30 Aug 2026 06:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC28385D7F
+	for <driver-core@lists.linux.dev>; Sun, 30 Aug 2026 15:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788070050; cv=none; b=Iw+pirwuxxdHx340fuqB8XzbEt9DHu2eMCbPTJNWpmXu/cLxh6O35NDIfHV+ztHYv1CVqx6MgC41JrG1hNRNSWgodwg4GOsF8mKdtQBwSUql+2f8p7PI25FkJ5rRIvewTnc+NY8U3HCWkT3EVadmfyZjlFwzw8znPiffvV60hzI=
+	t=1788102212; cv=none; b=Ign4ariGlL1iXn9sWzK5n1gb5/GhIvYrMjFir3S+L/Ey4yOFikjbpNkp33Xc78oH+NjXIoYVWXSpSNTeoF6obq0gDDXJxpl9PJJNZzlqY77pFjbkV7Qct8LU4CSkz02LpTJ7ZndFa3kmnDbbHoboTQpDxbF2N0ac6qZVO8A7mYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788070050; c=relaxed/simple;
-	bh=XkPbtOqrriHPiCBNvOsmJOASC0BOzzVjchLp+H9zuRg=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=djVvg0EYkcTznep/hHNtQimPNmy10VsjVQEpiZ95HGS/b9uphwG1JbBaki+1Xlzmpo4tiwqjchoruGtL56Lo0Pph9z02dK+w6qUUbdcyAHZuB2tW6e/h1GW9n4RtIdpgN1gY0b5xpyEszwjrMmM+65+undBLWEZ1buHDJlereiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+	s=arc-20240116; t=1788102212; c=relaxed/simple;
+	bh=U4H9BqySYPL0L7p7XIhAHlXpgN2X7ZypyBq+Buw8xwc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Ee1GaPu07mf3XHP/I2vPlTHc6QTtMixtnsyBIFdP9HXeO/7NIIF90F4CNlts0fZrUiNb/ovkKvz4TCPx9KKi0/PRT/TPGnzBRvDEKF3dy/m1YC3Zd2KYxxP54B6fVUmjmmnTS544fd5eEoHU6AetM1P2zvKw++JKHwriqpCpgaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-4b3b05aa29dso2436620b6e.0
-        for <driver-core@lists.linux.dev>; Sat, 29 Aug 2026 23:07:28 -0700 (PDT)
+Received: by mail-oa2-f1.google.com with SMTP id 586e51a60fabf-4489b7aa0e7so721157fac.1
+        for <driver-core@lists.linux.dev>; Sun, 30 Aug 2026 08:03:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788070047; x=1788674847;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=p5La2iTpV+quS/m9MwVA3ijcOPBPbgelWJbwzyRXVRI=;
-        b=NNQNtFeUPVD7QNVeBV8zRixnqECOQ9DUu7ZrIdZi1Rdlk3molXthQ+1zdr1vUEEQoK
-         KTbfMQeVPW+OHxqbnkBnKoVlc/J/QWpamW/sAUSg6SP57ErYjoQSIR2U6sJNznm17uvS
-         Hklp34/35PbvPTfaHzO+O2cDQQanUYgGqF4Qyv+f7aKpLuzTuYUaIie782aygvIDwZGg
-         NTk4WqPrtX9ObQ6eIrWK9pME9pgRTs8iuZ9QJvA1lY23qmD9FdXJMCunPyV4pKFd1aHJ
-         uf4PSNoNbSUx/yCnIDl56TKsLDnzVdoIUHhJyV9JYG2VjM94ZoKnukZ9+GYnm79GGQep
-         4dwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpAYKRomvhhELnJywrxPt5J1ThwfKXOcOSlrJ/PTH4c5kxFzuO5VcCaktroUQQh+AzbDmx27RGlNmGm2A==@lists.linux.dev
-X-Gm-Message-State: AFuF++nMoV0k16Q9zfVo84S5nzAjSYSnBnuVE0B+WnsMdmiKIukTlLgU
-	6i8FRWRA4xBPt8SeQOLLK/WdYDrdzpEdidzxgjzUxbrAEjVYKhRvW8zW1GdMSZ6E0vJs4ZYT//T
-	YkbG1QJWABPD1ZIBjNAxubZEdvHSLQDP2LuQjczE43kHSNHI9abhssdIwjd8=
+        d=1e100.net; s=20251104; t=1788102209; x=1788707009;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6wtiGisHmTSw2KWwt9Wk+GviNuqppzh3TCDJTsgBRGo=;
+        b=p+L0wllTaxnvE0GFQc9UUF8vW7cXoOS3Pr6pzqpEkHB+vvN5feCZu72xEJPEFmXsK3
+         dwq9GVfyKLBfQOMMfXF040IGFZq7GK8WMFSWScRJn1KqxXu6mWlrR6AQn5CAIe2lttMW
+         McYTZYShduACw+5I614YSSv4XO4E4w6tkRlgMD79QbPMQ8NuOOW5icpM4pNaUIteBw8N
+         WRw+G6unlQCkt7Zxm/SGwTSWTCvwSllblk8TYJqaX58Mj9yeDxbFE1eAzVPABl0kdfhO
+         1Z9dDSwScqzmsDQ6peNsH7+5Y14+ubROF5r1HSLhKNrKb/dq3cSLRokmxv2rx4nM5v83
+         NU6g==
+X-Gm-Message-State: AFuF++lgeFMW2uef6vgER+vy8JTPZbs91CAzIp1EHQLAtX241spR1Af7
+	k96Mlo2dqIXOti0KUf4tp27jKTCL7uJE9+LGVSdlNUoteNfJEkxVnt6cGBb28UuZobqJfiAy6yz
+	W+zsNXymCqvXxYIDBYwnyr1Dvk/9qjEDWgHFzXdjJrw/naLrrw5ngDHCTgSAGWQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:144f:b0:492:c9a4:2104 with SMTP id
- 5614622812f47-4b59e8d21afmr386604b6e.10.1788070047659; Sat, 29 Aug 2026
- 23:07:27 -0700 (PDT)
-Date: Sat, 29 Aug 2026 23:07:27 -0700
-In-Reply-To: <6a8bd82a.dbb3a75c.13dd47.0060.GAE@google.com>
+X-Received: by 2002:a05:6808:c197:b0:4b3:89ae:df60 with SMTP id
+ 5614622812f47-4b398342e94mr21728714b6e.16.1788102209400; Sun, 30 Aug 2026
+ 08:03:29 -0700 (PDT)
+Date: Sun, 30 Aug 2026 08:03:29 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a93c89f.08e933ee.dbf97.00fd.GAE@google.com>
-Subject: Re: [syzbot] [kernel?] KASAN: global-out-of-bounds Read in uevent_store
-From: syzbot <syzbot+d164947c037324221043@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	jeffinphilip14@gmail.com, linux-kernel@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
+Message-ID: <6a944641.4d659fcc.734b4.003b.GAE@google.com>
+Subject: [syzbot] [kernfs?] WARNING in generic_access_phys
+From: syzbot <syzbot+fafc2cbca26ad7368aae@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-syzbot has found a reproducer for the following issue on:
+Hello,
 
-HEAD commit:    f1b8fa82cab7 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e82379580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1128bc53f2ef7f3
-dashboard link: https://syzkaller.appspot.com/bug?extid=d164947c037324221043
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12597d79580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e82379580000
+syzbot found the following issue on:
+
+HEAD commit:    45c13f3f9e3b Merge tag 'hwlock-v7.3' of git://git.kernel.o..
+git tree:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux master
+console output: https://syzkaller.appspot.com/x/log.txt?x=173c5d79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d6a4e008e57a0e64
+dashboard link: https://syzkaller.appspot.com/bug?extid=fafc2cbca26ad7368aae
+compiler:       aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: arm
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11d7ac15580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17320349580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/932d85a2bda2/disk-f1b8fa82.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5b6b8fb76e8d/vmlinux-f1b8fa82.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c246b61ee396/Image-f1b8fa82.gz.xz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/fa3fbcfdac58/non_bootable_disk-45c13f3f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f88d9fecef79/vmlinux-45c13f3f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/87ae79a5d86d/zImage-45c13f3f.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d164947c037324221043@syzkaller.appspotmail.com
+Reported-by: syzbot+fafc2cbca26ad7368aae@syzkaller.appspotmail.com
 
-==================================================================
-BUG: KASAN: global-out-of-bounds in kobject_action_type lib/kobject_uevent.c:86 [inline]
-BUG: KASAN: global-out-of-bounds in kobject_synth_uevent+0x1e0/0x730 lib/kobject_uevent.c:200
-Read of size 1 at addr ffff800087b429cb by task syz.0.17/4919
-
-CPU: 1 UID: 0 PID: 4919 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/07/2026
+------------[ cut here ]------------
+WARNING: ./arch/arm64/include/asm/io.h:283 at rcu_read_unlock include/linux/rcupdate.h:878 [inline], CPU#0: syz.2.18/3678
+WARNING: ./arch/arm64/include/asm/io.h:283 at pte_unmap include/linux/pgtable.h:117 [inline], CPU#0: syz.2.18/3678
+WARNING: ./arch/arm64/include/asm/io.h:283 at follow_pfnmap_end mm/memory.c:7077 [inline], CPU#0: syz.2.18/3678
+WARNING: ./arch/arm64/include/asm/io.h:283 at generic_access_phys+0x26c/0x344 mm/memory.c:7126, CPU#0: syz.2.18/3678
+Modules linked in:
+CPU: 0 UID: 0 PID: 3678 Comm: syz.2.18 Tainted: G        W           syzkaller #0 PREEMPT 
+Tainted: [W]=WARN
+Hardware name: linux,dummy-virt (DT)
+pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : ioremap_prot arch/arm64/include/asm/io.h:283 [inline]
+pc : generic_access_phys+0x26c/0x344 mm/memory.c:7116
+lr : rcu_read_unlock include/linux/rcupdate.h:882 [inline]
+lr : pte_unmap include/linux/pgtable.h:117 [inline]
+lr : follow_pfnmap_end mm/memory.c:7077 [inline]
+lr : generic_access_phys+0xcc/0x344 mm/memory.c:7111
+sp : ffff8000a1d37830
+x29: ffff8000a1d378f0 x28: ffff8000a1d37870 x27: 0000000000000000
+x26: 0000000000000001 x25: ffff700010ef8fd0 x24: 0000000000001000
+x23: ffff8000877c7e80 x22: 0000000000000000 x21: 0160000000000f92
+x20: ffff000017a38a00 x19: 0000000010042000 x18: 0000000000000000
+x17: ffff800080c267fc x16: ffff800080e49be0 x15: ffff800080e496d8
+x14: ffff800080a8ead0 x13: ffff800089e66530 x12: ffff600003cfbfbd
+x11: 1fffe00003cfbfbc x10: ffff600003cfbfbc x9 : dfff800000000000
+x8 : ffff00001e7dfde0 x7 : 0000000000000001 x6 : ffff600003cfbfbc
+x5 : ffff00001e7dfde0 x4 : 0000000000000000 x3 : 1fffe000025ac430
+x2 : 0000000000000000 x1 : 0000000000001000 x0 : 000000003fffffff
 Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:499 (C)
- __dump_stack+0x30/0x40 lib/dump_stack.c:94
- dump_stack_lvl+0xd8/0x12c lib/dump_stack.c:120
- print_address_description+0xb0/0x238 mm/kasan/report.c:378
- print_report+0x68/0x84 mm/kasan/report.c:482
- kasan_report+0x8c/0xc4 mm/kasan/report.c:595
- __asan_report_load1_noabort+0x20/0x2c mm/kasan/report_generic.c:378
- kobject_action_type lib/kobject_uevent.c:86 [inline]
- kobject_synth_uevent+0x1e0/0x730 lib/kobject_uevent.c:200
- uevent_store+0x54/0x84 drivers/base/core.c:2851
- drv_attr_store+0x80/0xa4 drivers/base/bus.c:125
- sysfs_kf_write+0xe0/0x108 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x260/0x3b8 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x51c/0xa0c fs/read_write.c:687
- ksys_write+0x12c/0x228 fs/read_write.c:739
- __do_sys_write fs/read_write.c:750 [inline]
- __se_sys_write fs/read_write.c:747 [inline]
- __arm64_sys_write+0x84/0x98 fs/read_write.c:747
+ rcu_read_unlock include/linux/rcupdate.h:878 [inline] (P)
+ pte_unmap include/linux/pgtable.h:117 [inline] (P)
+ follow_pfnmap_end mm/memory.c:7077 [inline] (P)
+ generic_access_phys+0x26c/0x344 mm/memory.c:7126 (P)
+ kernfs_vma_access+0x14c/0x1f0 fs/kernfs/file.c:437
+ __access_remote_vm+0x3dc/0x600 mm/memory.c:7194
+ access_remote_vm+0x10/0x20 mm/memory.c:7241
+ mem_rw+0x16c/0x580 fs/proc/base.c:912
+ mem_read+0x14/0x20 fs/proc/base.c:940
+ vfs_read+0x190/0xa18 fs/read_write.c:572
+ ksys_read+0xf0/0x1e0 fs/read_write.c:716
+ __do_sys_read fs/read_write.c:725 [inline]
+ __se_sys_read fs/read_write.c:723 [inline]
+ __arm64_sys_read+0x70/0xa0 fs/read_write.c:723
  __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
- do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
- el0_svc+0x64/0x260 arch/arm64/kernel/entry-common.c:758
- el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:777
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:590
-
-The buggy address belongs to the variable:
- .str.34+0x6b/0x80
-
-The buggy address belongs to a vmalloc virtual mapping
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x21a142
-flags: 0x5ffc00000002000(reserved|node=0|zone=2|lastcpupid=0x7ff)
-raw: 05ffc00000002000 fffffdffc7685088 fffffdffc7685088 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff800087b42880: 07 f9 f9 f9 05 f9 f9 f9 07 f9 f9 f9 00 f9 f9 f9
- ffff800087b42900: 05 f9 f9 f9 07 f9 f9 f9 00 02 f9 f9 00 00 00 00
->ffff800087b42980: 00 00 00 00 00 03 f9 f9 f9 f9 f9 f9 00 00 00 00
-                                              ^
- ffff800087b42a00: 00 00 01 f9 f9 f9 f9 f9 00 00 00 04 f9 f9 f9 f9
- ffff800087b42a80: 00 00 02 f9 f9 f9 f9 f9 06 f9 f9 f9 00 00 00 00
-==================================================================
+ invoke_syscall+0x74/0x240 arch/arm64/kernel/syscall.c:49
+ el0_svc_common.constprop.0+0xac/0x230 arch/arm64/kernel/syscall.c:121
+ do_el0_svc_compat+0x40/0x58 arch/arm64/kernel/syscall.c:146
+ el0_svc_compat+0x54/0x264 arch/arm64/kernel/entry-common.c:909
+ el0t_32_sync_handler+0x88/0xac arch/arm64/kernel/entry-common.c:927
+ el0t_32_sync+0x19c/0x1a0 arch/arm64/kernel/entry.S:595
+irq event stamp: 2118
+hardirqs last  enabled at (2117): [<ffff8000859a8084>] irqentry_exit_to_kernel_mode_after_preempt include/linux/irq-entry-common.h:507 [inline]
+hardirqs last  enabled at (2117): [<ffff8000859a8084>] __arm64_exit_to_kernel_mode+0x38/0x98 arch/arm64/kernel/entry-common.c:60
+hardirqs last disabled at (2118): [<ffff8000859a81d0>] el1_brk64+0x20/0x54 arch/arm64/kernel/entry-common.c:445
+softirqs last  enabled at (2112): [<ffff80008023b5b8>] softirq_handle_end kernel/softirq.c:491 [inline]
+softirqs last  enabled at (2112): [<ffff80008023b5b8>] handle_softirqs+0xa98/0x1048 kernel/softirq.c:673
+softirqs last disabled at (2101): [<ffff8000800103d4>] __do_softirq+0x14/0x20 kernel/softirq.c:679
+---[ end trace 0000000000000000 ]---
 
 
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
 If you want syzbot to run the reproducer, reply with:
 #syz test: git://repo/address.git branch-or-commit-hash
 If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
