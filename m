@@ -1,211 +1,196 @@
-Received: from mail-oi2-f7.google.com (mail-oi2-f7.google.com [74.125.231.199])
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA1237882E
-	for <driver-core@lists.linux.dev>; Sat, 29 Aug 2026 21:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BC423EA83
+	for <driver-core@lists.linux.dev>; Sun, 30 Aug 2026 00:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788038553; cv=none; b=o8OGXSWZ67ELqME3Yunmw8+btRktLsg3N2PnJ5ntujhKyjZwlhKN70OhC19YYEeVhTzfkGnM0NP2GkRVNTjyjEHRSBk3P+CtlyYj6/vxWle9FiyUC1Ux8BoiEX4hPATLd4+/6Bvq2cTjMMXSmfFz6EQfcWRLcoSoBngi9KEPuys=
+	t=1788049831; cv=none; b=bPQNbv+IAaUfCGd5vZfdFgxcwpJl7WVT1tgmVb5ZSUe3KjJqnW74rng1hn/h5C88qQDtiBBng7XL0kSj2V5fSxc3MsWKeeMy231T59Gv9cTxCTuIUhxldPnVlbNgKURkJtd/nUhBlnGAwNzlVEXRWiOVIqkBQDFnWXYcNCBtkNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788038553; c=relaxed/simple;
-	bh=WI7AZhtEqr9xVlLFzEDYIIFNWQlxz9PEtDtkd4+D4f0=;
+	s=arc-20240116; t=1788049831; c=relaxed/simple;
+	bh=HLVWaMVldZGCM1CNOfEHLO61y+UvHI0bHYIPOoaiHwg=;
 	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=bWmGx5MepBZ4EeKu+onzdkQ5DunhXG10fdp2a0Cld790CD4eN/OW9cN00L+VUod+CDD1nomVGqRMyw2DUc6pN06Da2C5CBDzYcjjdvjg4SW4jSkOsfA5glwXFqzM6KkRBP6IG7gIbGvOOIEuSUsbIPjgu3ARPX7vxML0vu85A9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.199
+	 Content-Type; b=K9S4SJDEyYR16iKgr0BiRQBp/ZSMWRuDXdJ3YVhEyQi8l+8kv4Fm/yh+i21UdDK8AFG6ymPxImWuZRQCYOnL4oGobD7F8Qb49rltr1Iirh39vr7Afv1C4YXwQFuGXD0O5ymsyNY7yszGd6u9iAdcs/W7mYUXsxU6zmSvqfvvuV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f7.google.com with SMTP id 5614622812f47-4b39374fab5so726421b6e.1
-        for <driver-core@lists.linux.dev>; Sat, 29 Aug 2026 14:22:31 -0700 (PDT)
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4b3b05aa29dso2222943b6e.0
+        for <driver-core@lists.linux.dev>; Sat, 29 Aug 2026 17:30:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788038550; x=1788643350;
+        d=1e100.net; s=20251104; t=1788049829; x=1788654629;
         h=content-type:to:from:subject:message-id:in-reply-to:date
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=LJMEXdlk7d61VrtM7qDRU6Bog3O/MwGb1q5vlyd9SZA=;
-        b=X+VCtkZYbmP9WfqQfZOy3O0z9RPYcparFHqgauSSpXp4Lubt5H32lN0WzeUJNu8llD
-         V/8kSlgUJ3ODH/QPrRMMmFm/16v54mnjV5hvBD5AM3SitdD8BGoWMXcLCD6wp26vM9bs
-         lv88EQbfQqtsuG2S5wNyNBfyr+XEXTExFRbwZecLhu5VugbUONKM/DhTp5GMsp+Fp4v4
-         V4hXjo2G9jvx7OUdLfAw7bpJ+cKShTmoli3dfEpopRNgVtxPNNtTbqH8sJ1VFtUWg2YV
-         zhZ8cnhHno3wY1r3nWFuSfOv4OTrxNNQk8esXpODNYQbzCtWS0nklSsbvURW+z6mWqpj
-         b5lw==
-X-Forwarded-Encrypted: i=1; AHgh+RpsEfUGnGogOzGeU74536g/cPUaVpn5e9uheWOzMqKdTQnP9QX7tJsZH1kLxvquctQ5rlCg/z2sAQOY3w==@lists.linux.dev
-X-Gm-Message-State: AFuF++lnDm2olndv9U0GpqI1ZfTWkKO9XOgQcUZWntUDHGwfuW21QsJB
-	jiI+WLPi8KOR0UbbffIslrER0UzLRN7e8i0G0fCfhP3WGOICh7S61g1Vir6EKCbYXfPTM3tqDKe
-	LsU9uo/T3bZTxkF8e8Z0af67/W3PHuMXCsWu57X76lonwgfxgVwz5hTbdHFE=
+        bh=GkWDQBE726VxWf1LI026GoG6+i9KDMEuoSzzOrab5TA=;
+        b=TcQ3lkF6guKYmvaAaaYo0q/GnWvdc8wAPwYVnUxs8r4PQb6mB38n4Yza2K4eRLj0vX
+         kpSsp+kjvztUBSvEj0SDAeyyofsMuBNKaX22isOcSOgYoo8rCpxphckcqHlT5CQLWOH7
+         Z1nKd31TRTaPyGo+Df379lu73l+ilWZ88H6QMYzUz7RGKJ3FYCljX/gqMQ426n79gf/U
+         p3FXGqWk257kV0mkLfhCS12V3az6QwSXFxtacSJAyme7x3k1FxMARf00CSgukz0QUHuk
+         ALZxtWmeBcGSD7Wq1DAg2ij3079cf8hCmReQiMyi8F4fqHgzWGVUms1p9iT2j7XzLG4o
+         7tkA==
+X-Forwarded-Encrypted: i=1; AHgh+RqSzcqeAPn/HqzZwp2r09WRFr293gsQ+Zltb8z9HJkYHnnzP5DvJsGTKEfCRWI5OHYaCDfFt/Lx+ElnUA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lwPg2aSulGuIvO/J7GKHMvnK8S9xn51cTpTnLy2yrQFQW75sQg
+	ErbjsfZGUKGS/fU3CvtfyQAl59JfKrE0bM3M/TD9fmdG1h9qwXGnB12uzF38ahqd7sU/QyEVpLj
+	RSIMW3VUDPb7sHjdel2xzN1e8Pva7peQRt8C/cgqVcRR74CB1aLfO0HKhb0A=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:10c8:b0:4b2:8d89:6a40 with SMTP id
- 5614622812f47-4b397ffa6e9mr16173861b6e.7.1788038550449; Sat, 29 Aug 2026
- 14:22:30 -0700 (PDT)
-Date: Sat, 29 Aug 2026 14:22:30 -0700
-In-Reply-To: <699fe31c.050a0220.2fcbed.0002.GAE@google.com>
+X-Received: by 2002:a05:6808:14c4:b0:4b3:18d2:5fa0 with SMTP id
+ 5614622812f47-4b37ca840ddmr22776221b6e.14.1788049829067; Sat, 29 Aug 2026
+ 17:30:29 -0700 (PDT)
+Date: Sat, 29 Aug 2026 17:30:29 -0700
+In-Reply-To: <695e9bb5.050a0220.1c677c.0372.GAE@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a934d96.08e933ee.dbf97.00aa.GAE@google.com>
-Subject: Re: [syzbot] [input?] possible deadlock in __kernfs_remove (3)
-From: syzbot <syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, driver-core@lists.linux.dev, 
-	gregkh@linuxfoundation.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Message-ID: <6a9379a5.1d9ded08.62e62.0114.GAE@google.com>
+Subject: Re: [syzbot] [net?] INFO: rcu detected stall in kernfs_fop_write_iter (3)
+From: syzbot <syzbot+10b515098afdcfc455c7@syzkaller.appspotmail.com>
+To: dakr@kernel.org, davem@davemloft.net, driver-core@lists.linux.dev, 
+	edumazet@google.com, gregkh@linuxfoundation.org, horms@kernel.org, 
+	kuba@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	pabeni@redhat.com, rafael@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 syzbot has found a reproducer for the following issue on:
 
-HEAD commit:    cf72cbb39da8 Merge tag 'io_uring-7.3-20260828' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14c09d79580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85bc5cc2fc7394d9
-dashboard link: https://syzkaller.appspot.com/bug?extid=1075f6dc93f398c1857e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161fae25580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1084c379580000
+HEAD commit:    1b78070aaef6 Merge tag 'net-7.3-rc1' of git://git.kernel.o..
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=132ec379580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
+dashboard link: https://syzkaller.appspot.com/bug?extid=10b515098afdcfc455c7
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1208fd49580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b92c15580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-cf72cbb3.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/755d053ff703/vmlinux-cf72cbb3.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/0837738ba281/bzImage-cf72cbb3.xz
+disk image: https://storage.googleapis.com/syzbot-assets/18856a03a9a3/disk-1b78070a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cc2bc68d7ef4/vmlinux-1b78070a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/05a5e00f8f91/bzImage-1b78070a.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com
+Reported-by: syzbot+10b515098afdcfc455c7@syzkaller.appspotmail.com
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.17/6098 is trying to acquire lock:
-ffff88804e56bf08 (kn->active#66){++++}-{0:0}, at: __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
-
-but task is already holding lock:
-ffffffff904e2360 (serio_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
-ffffffff904e2360 (serio_mutex){+.+.}-{4:4}, at: serio_unregister_port+0x1b/0x40 drivers/input/serio/serio.c:677
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #1 (serio_mutex){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
-       class_mutex_intr_constructor include/linux/mutex.h:255 [inline]
-       drvctl_store+0x3c/0x350 drivers/input/serio/serio.c:360
-       dev_attr_store+0x58/0x80 drivers/base/core.c:2509
-       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
-       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
-       new_sync_write fs/read_write.c:595 [inline]
-       vfs_write+0x6af/0x1050 fs/read_write.c:687
-       ksys_write+0x12a/0x250 fs/read_write.c:739
-       do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
-       __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
-       do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
-       entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-
--> #0 (kn->active#66){++++}-{0:0}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
-       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
-       validate_chain kernel/locking/lockdep.c:3924 [inline]
-       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
-       lock_acquire kernel/locking/lockdep.c:5908 [inline]
-       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
-       kernfs_drain+0x4f0/0x600 fs/kernfs/dir.c:532
-       __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
-       kernfs_remove_by_name_ns+0x7c/0x120 fs/kernfs/dir.c:1797
-       kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
-       remove_files+0x96/0x1c0 fs/sysfs/group.c:28
-       sysfs_remove_group+0x8b/0x1b0 fs/sysfs/group.c:328
-       sysfs_remove_groups fs/sysfs/group.c:352 [inline]
-       sysfs_remove_groups+0x60/0xb0 fs/sysfs/group.c:344
-       device_remove_groups drivers/base/core.c:2918 [inline]
-       device_remove_attrs+0x192/0x290 drivers/base/core.c:3048
-       device_del+0x36e/0x9b0 drivers/base/core.c:3964
-       serio_destroy_port+0x476/0x590 drivers/input/serio/serio.c:543
-       serio_unregister_port+0x2b/0x40 drivers/input/serio/serio.c:680
-       userio_char_release+0x91/0xe0 drivers/input/serio/userio.c:105
-       __fput+0x3ff/0xb50 fs/file_table.c:512
-       task_work_run+0x150/0x240 kernel/task_work.c:233
-       resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
-       __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
-       exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
-       __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
-       syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
-       syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
-       __do_fast_syscall_32+0x59f/0x8b0 arch/x86/entry/syscall_32.c:294
-       do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
-       entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-
-other info that might help us debug this:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(serio_mutex);
-                               lock(kn->active#66);
-                               lock(serio_mutex);
-  lock(kn->active#66);
-
- *** DEADLOCK ***
-
-locks held by syz.0.17/6098: 1, last CPU#2:
- #0: ffffffff904e2360 (serio_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
- #0: ffffffff904e2360 (serio_mutex){+.+.}-{4:4}, at: serio_unregister_port+0x1b/0x40 drivers/input/serio/serio.c:677
-
-stack backtrace:
-CPU: 2 UID: 0 PID: 6098 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	1-...!: (1 ticks this GP) idle=51bc/1/0x4000000000000000 softirq=17926/17938 fqs=6
+rcu: 	(detected by 0, t=10502 jiffies, g=16769, q=4471 ncpus=2)
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 4984 Comm: udevd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:check_preemption_disabled+0x1a/0xd0 lib/smp_processor_id.c:53
+Code: 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 41 57 41 56 53 65 8b 05 4b ee b0 07 65 48 8b 0d 1b ee b0 07 85 c9 74 0c 5b <41> 5e 41 5f 5d c3 cc cc cc cc cc 9c 59 f7 c1 00 02 00 00 74 ea 65
+RSP: 0018:ffffc90000a18d68 EFLAGS: 00000002
+RAX: 0000000000000001 RBX: 00000000ffffffff RCX: 0000000001000001
+RDX: 0000000001000001 RSI: ffffffff8e48da65 RDI: ffffffff8c6d8b80
+RBP: 00000000ffffffff R08: 0000000001000001 R09: 0000000000000000
+R10: ffff88802b880308 R11: ffffed1005710063 R12: 0000000000000046
+R13: ffff88807ed40000 R14: ffff8880b8728298 R15: ffff8880b8728390
+FS:  00007f352db77880(0000) GS:ffff888124de0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055556bd98a38 CR3: 000000007efac000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ lockdep_recursion_inc kernel/locking/lockdep.c:465 [inline]
+ lock_is_held_type+0x5a/0x150 kernel/locking/lockdep.c:5981
+ lock_is_held include/linux/lockdep.h:249 [inline]
+ __run_hrtimer kernel/time/hrtimer.c:2033 [inline]
+ __hrtimer_run_queues+0x20b/0xa10 kernel/time/hrtimer.c:2124
+ hrtimer_interrupt+0x4cd/0xaa0 kernel/time/hrtimer.c:2243
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:add_uevent_var+0x25f/0x460 lib/kobject_uevent.c:692
+Code: 01 00 00 e8 63 ee ed f5 4c 8b 64 24 38 42 0f b6 04 3b 84 c0 48 8b 54 24 10 0f 85 aa 01 00 00 49 83 c4 18 4c 63 32 41 8d 46 01 <89> 02 bf 40 00 00 00 44 89 f6 e8 32 f3 ed f5 49 83 fe 3f 0f 87 aa
+RSP: 0018:ffffc9000253f880 EFLAGS: 00000286
+RAX: 0000000000000009 RBX: 1ffff1100feb9043 RCX: ffff88807ed40000
+RDX: ffff88807f5c8218 RSI: 000000000000007b RDI: 0000000000000801
+RBP: ffffc9000253f9b0 R08: ffffc9000253f757 R09: 0000000000000000
+R10: ffffc9000253f740 R11: fffff520004a7eeb R12: ffff88807f5c8018
+R13: 1ffff920004a7f20 R14: 0000000000000008 R15: dffffc0000000000
+ dev_uevent+0x4ab/0x870 drivers/base/core.c:2774
+ kobject_uevent_env+0x475/0x9e0 lib/kobject_uevent.c:576
+ kobject_synth_uevent+0x45e/0x950 lib/kobject_uevent.c:207
+ uevent_store+0x26/0x70 drivers/base/core.c:2847
+ kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f352d4a7407
+Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007fff3d25d8b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f352db77880 RCX: 00007f352d4a7407
+RDX: 0000000000000007 RSI: 000055716b1e2a00 RDI: 000000000000000c
+RBP: 000055716b1e2a00 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000007
+R13: 000055716b1ea8a0 R14: 00007f352d5efea0 R15: 00007fff3d25dbf0
+ </TASK>
+rcu: rcu_preempt kthread starved for 10472 jiffies! g16769 f0x0 RCU_GP_WAIT_FQS(5) ->state=R ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:27496 pid:17    tgid:17    ppid:2      task_flags:0x208040 flags:0x00080000
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
- check_prevs_add kernel/locking/lockdep.c:3300 [inline]
- validate_chain kernel/locking/lockdep.c:3924 [inline]
- __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
- lock_acquire kernel/locking/lockdep.c:5908 [inline]
- lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
- kernfs_drain+0x4f0/0x600 fs/kernfs/dir.c:532
- __kernfs_remove+0x34c/0xb80 fs/kernfs/dir.c:1579
- kernfs_remove_by_name_ns+0x7c/0x120 fs/kernfs/dir.c:1797
- kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
- remove_files+0x96/0x1c0 fs/sysfs/group.c:28
- sysfs_remove_group+0x8b/0x1b0 fs/sysfs/group.c:328
- sysfs_remove_groups fs/sysfs/group.c:352 [inline]
- sysfs_remove_groups+0x60/0xb0 fs/sysfs/group.c:344
- device_remove_groups drivers/base/core.c:2918 [inline]
- device_remove_attrs+0x192/0x290 drivers/base/core.c:3048
- device_del+0x36e/0x9b0 drivers/base/core.c:3964
- serio_destroy_port+0x476/0x590 drivers/input/serio/serio.c:543
- serio_unregister_port+0x2b/0x40 drivers/input/serio/serio.c:680
- userio_char_release+0x91/0xe0 drivers/input/serio/userio.c:105
- __fput+0x3ff/0xb50 fs/file_table.c:512
- task_work_run+0x150/0x240 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
- exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
- __do_fast_syscall_32+0x59f/0x8b0 arch/x86/entry/syscall_32.c:294
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf6ffefec
-Code: Unable to access opcode bytes at 0xf6ffefc2.
-RSP: 002b:00000000ffbd8fbc EFLAGS: 00000202 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 000000000000001e
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ context_switch kernel/sched/core.c:5520 [inline]
+ __schedule+0x17d4/0x5820 kernel/sched/core.c:7270
+ __schedule_loop kernel/sched/core.c:7347 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7362
+ schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
+ rcu_gp_fqs_loop+0x30c/0x11f0 kernel/rcu/tree.c:2122
+ rcu_gp_kthread+0x9e/0x2b0 kernel/rcu/tree.c:2330
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 0 UID: 0 PID: 5760 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:csd_lock_wait kernel/smp.c:363 [inline]
+RIP: 0010:csd_lock kernel/smp.c:396 [inline]
+RIP: 0010:smp_call_function_many_cond+0x61e/0x1500 kernel/smp.c:944
+Code: b6 04 04 84 c0 0f 85 d5 03 00 00 44 8b 3b 44 89 fe 83 e6 01 31 ff e8 51 51 0c 00 41 83 e7 01 75 07 e8 46 4c 0c 00 eb 3f f3 90 <48> b8 00 00 00 00 00 fc ff df 41 0f b6 04 04 84 c0 75 0f f7 03 01
+RSP: 0018:ffffc9000355f420 EFLAGS: 00000293
+RAX: ffffffff81bb677e RBX: ffff8880b87414c8 RCX: ffff888020330000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc9000355f570 R08: ffff88802033159f R09: 1ffff110040662b3
+R10: dffffc0000000000 R11: 0000000000000000 R12: 1ffff110170e8299
+R13: 0000000000000001 R14: ffff8880b87414c0 R15: 0000000000000001
+FS:  000055556bd7d500(0000) GS:ffff888124ce0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe76eb556c8 CR3: 000000007b140000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __flush_tlb_multi arch/x86/include/asm/paravirt.h:46 [inline]
+ flush_tlb_multi arch/x86/mm/tlb.c:1361 [inline]
+ flush_tlb_mm_range+0x8ff/0x1090 arch/x86/mm/tlb.c:1435
+ dup_mmap+0x1758/0x1dc0 mm/mmap.c:1884
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x11a/0x480 kernel/fork.c:1595
+ copy_process+0x1e75/0x43e0 kernel/fork.c:2307
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2766
+ __do_sys_clone kernel/fork.c:2908 [inline]
+ __se_sys_clone kernel/fork.c:2892 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe76ddc6bd2
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffc068b1d70 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffc068b1d70 RCX: 00007fe76ddc6bd2
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007ffc068b1efc R08: 0000000000000000 R09: 0000000000000000
+R10: 000055556bd7d7d0 R11: 0000000000000246 R12: 0000000000000001
+R13: 000055556bd90a00 R14: 000000000001ae67 R15: 00007ffc068b1f50
  </TASK>
 
 
