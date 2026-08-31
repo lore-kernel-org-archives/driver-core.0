@@ -1,32 +1,32 @@
 Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B4A408017;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449D73D6689;
 	Mon, 31 Aug 2026 23:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788219662; cv=none; b=ULYR9BdNsjZ6/foYl361BlY5aJM6qjzzxsdvwuhxtTAhf4NcjLGA3eLbcitegBKA7O8adoECIAAh4mvcaAU09DKuLYm9qvCJGN6mZ/MMcvR5V74qS811Sua3LjG6UpqKKzxtkXFK/JfZlVPYb6lUbIh38fuMHJ/Y8L2LNPKFpsA=
+	t=1788219663; cv=none; b=ps2n5tncDni55MJQ70qoDnf9mrWV3MSQSqytmV8nobfB+022HddfITxoi5l0qVtHWDGOKI+gubOld6V7O1KMFG5PZx0GlC3P7o/rkUbUgkali5n2FC952Chu4eJyDTOdrwJvj9S6Eqla5MN928PSScazvLA7EkXYj+p/yjVQHGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788219662; c=relaxed/simple;
-	bh=lzTPqvCpuD3Offo77tFmPZMg+nODPXTVZbeeobizTTs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=diPaSJgLhyD3cyshR7z6oRGzo4AC8mSqpFGskk9uSLXQyO6LbbYgt2/7149Of2MiaX+uN+ZKZZsI8X1W3tdSlW2DeBgvxIMCfIHsiS9SoGi0rDZO0t4iaBe/cObEtOmyo4ExmCi7WyxelJrSclRJIrQXTuo6Dx2w/oD8q1EEteI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=dT0O5try; arc=none smtp.client-ip=91.216.248.203
+	s=arc-20240116; t=1788219663; c=relaxed/simple;
+	bh=Pd+xuj/awkQjzclpiwBAlCOaUDbx6XwHn6PW/HGWlGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ga0SpHK5cNvFSnELYxjUhpuwHab0mwY/Ce8aX5AhxleLZm+2tt45i7p6ksMUDdZdmfy61Ue0yoHctBSgojFZOCXJvMqj0zoTSm/v0qvPmV8jysol6CF39NBxPsVYP64LSVBbj1mGvRupCzMyLPytHkm3aud8oYupC2XSEe8f6P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=NpCoRxf9; arc=none smtp.client-ip=91.216.248.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="dT0O5try"
+	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="NpCoRxf9"
 From: Matteo Kloiber <kernel@matt3o12.de>
-X-Lima-ML-UUID: 61c678b1-c3a4-4cff-a8c9-6ec6af3f13e3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
-	s=securedbylima-20230709; t=1788219152;
-	bh=lzTPqvCpuD3Offo77tFmPZMg+nODPXTVZbeeobizTTs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dT0O5trySNUNRvAe1CSCRUGb2BG5Xm8RJHVHbttbS+OaiFE4rMD+AQ45I2GM3cdwX
-	 lpFh+A74WK2S2fihnHpxwomEs4pRhokdVqJ/MncVHSOCLuJ6EflWIU2NYBWKTj+Gmk
-	 5KA9A35SXg6KItmgCYy7OQ74QNCcYqD2GX1FHm6B/Cd1Vi6u43/Yi3+DJEk0TyFBBw
-	 5gMETmD7kkS0OidtkmFdvCvyoMEBKLt7KcFl2WvKadfWZ9oo0SXz3qL3vRotdnoPQZ
-	 IL8Z7NTprqAnbnNvAq4onb2gSo5yxU5qoPxTI1zE4SuXs4kn6MqZwkdtge32M2+Irw
-	 lAkhlklOCArkw==
+	s=securedbylima-20230709; t=1788219153;
+	bh=Pd+xuj/awkQjzclpiwBAlCOaUDbx6XwHn6PW/HGWlGA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NpCoRxf92FZv9ezg56i3s4eaV+rg3wSalMNrQ1ifw0PSoniBKhdKXfDqF7zK0a1WF
+	 hVqXw0Lfgz426mJuqN3i7DpJ7YtWVvFX/WtiMPuNOiLQfclMPFHFd3OBPUqkWWyC9Z
+	 eiX880QoRoI8IeYSOlfSH8ubn8oOLzhHRGIGPYPq0mpT9rex1hriMIP7fu17UzmBUB
+	 a6yspNk+lj0DuCdkzcA8MI0rSHOhE2xRlNvHhXSD+bsTWFRzHHf2X3G+iHkclS8Lb0
+	 fUcJbckd8IDf2Dz32Vm/oQHBqFhiUIbocQgWvi5/JXvAu+Lg4AiQrzcyfSB+a3Y6b+
+	 0U9JupAyf3PGg==
 To: dakr@kernel.org,
 	acourbot@nvidia.com
 Cc: aliceryhl@google.com,
@@ -43,10 +43,12 @@ Cc: aliceryhl@google.com,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Matteo Kloiber <kernel@matt3o12.de>
-Subject: [PATCH 0/2] rust: honor the maximum DMA segment size
-Date: Tue,  1 Sep 2026 01:32:13 +0200
-Message-ID: <20260831233215.287881-1-kernel@matt3o12.de>
+Subject: [PATCH 1/2] gpu: nova-core: declare unlimited DMA max segment size
+Date: Tue,  1 Sep 2026 01:32:14 +0200
+Message-ID: <20260831233215.287881-2-kernel@matt3o12.de>
 X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20260831233215.287881-1-kernel@matt3o12.de>
+References: <20260831233215.287881-1-kernel@matt3o12.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -55,44 +57,40 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Booting nova-core against a real GSP with CONFIG_DMA_API_DEBUG=y warns
-when the ~60 MiB firmware image is mapped as a scatter-gather table:
+The PCI default max_seg_size is 64 KiB. nova-core never raises it, so
+mapping the GSP firmware image (~60 MiB) as a scatter-gather table
+triggers a DMA-API debug warning when contiguous pages coalesce into
+segments that exceed the default:
 
   DMA-API: nova-core 0000:00:03.0: mapping sg segment longer than
   device claims to support [len=62914560] [max=65536]
 
-There are two separate issues behind it.
+CONFIG_DMA_API_DEBUG=y is required to see this warning.
 
-Patch 1 has nova-core declare the segment size it actually supports. It
-re-decomposes every segment into 4 KiB GSP page-table entries, so it has
-no upper bound on segment length.
+Signed-off-by: Matteo Kloiber <kernel@matt3o12.de>
+Assisted-by: Claude:claude-opus-4-8
+---
+ drivers/gpu/nova-core/gpu.rs | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Furthermore, I also checked what other GPUs do, and most do the same:
-set the max segment size u32::MAX. So this should be the correct
-behavior for nova as well.
-
-Patch 2 has SGTable::new() honor dma_get_max_seg_size() in addition to
-dma_max_mapping_size(). The abstraction is generic, so a driver with a
-real hardware segment limit would otherwise silently be handed segments
-it cannot express in a single descriptor.
-
-Tested on an RTX 5080 (GB203) passed through to a QEMU guest via VFIO
-with CONFIG_DMA_API_DEBUG=y: the warning is gone, and GSP boot and RPC
-still work.
-
-Discussed on Zulip:
-https://rust-for-linux.zulipchat.com/#narrow/channel/509436-Nova/topic/nova.20core.3A.20DMA-API.3A.20nova-core.200000.3A00.3A03.2E0.3A.20mapping.20sg.20segme/with/618319830
-
-Matteo Kloiber (2):
-  gpu: nova-core: declare unlimited DMA max segment size
-  rust: scatterlist: honor the device's maximum segment size
-
- drivers/gpu/nova-core/gpu.rs |  7 +++++++
- rust/helpers/dma.c           |  5 +++++
- rust/kernel/scatterlist.rs   | 12 ++++++++++--
- 3 files changed, 22 insertions(+), 2 deletions(-)
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+index fd1414004dd0..233ef2dc9688 100644
+--- a/drivers/gpu/nova-core/gpu.rs
++++ b/drivers/gpu/nova-core/gpu.rs
+@@ -343,6 +343,13 @@ pub(crate) fn new<'a>(
+                 // still constructing it, so no concurrent DMA allocations can exist.
+                 unsafe { pdev.dma_set_mask_and_coherent(dma_mask)? };
+ 
++                // Nova re-decomposes SG segments into 4 KiB page-table entries, so it
++                // has no upper bound on segment length; declare that to the DMA layer.
++                //
++                // SAFETY: same invariant as above -- still constructing, no concurrent
++                // DMA mapping can exist.
++                unsafe { pdev.dma_set_max_seg_size(u32::MAX) };
++
+                 hal.wait_gfw_boot_completion(bar)
+                     .inspect_err(|_| dev_err!(dev, "GFW boot did not complete\n"))?;
+             },
 -- 
 2.51.2
 
