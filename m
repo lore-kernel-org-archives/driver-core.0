@@ -1,54 +1,54 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022093.outbound.protection.outlook.com [52.101.96.93])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8668488DAE;
-	Tue,  1 Sep 2026 16:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D6B48BD5B;
+	Tue,  1 Sep 2026 16:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788281452; cv=fail; b=RqYGv52bI/4RHaq2WqA0SDbDoqwknfBQ1wtZOUpj5mbvasFloMVmHoxWQ2FkjZPAG3LB9D6thG9tenNs28Fy7s/dbgI/Juye4mokeB7Voq+4jq9S19WYBcTbDebib1QsF9JzIAcj82SdeT7CzYgUrQqVxOglJ9ydPz03pOm3HDU=
+	t=1788281456; cv=fail; b=eOOJHmNJ25eJhI1GnkBFi0OPe6wBgveEAnHclaNM77zTkvqt/yB6MsIFdDW0gJjPyy4/Jk00j4gbgfQY70EF6H3Id8PS89PTxqnmAloWWTLOBHdpN0AU74bev5qu5qud8OlE8ZLEqsTYxH6QFaW3LJ5avf5H2ttuJWHHPUXCZdE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788281452; c=relaxed/simple;
-	bh=LRCzTRbElfNXpnbN07JbS4qKUWYbLxu7w8UpJPZal0Q=;
+	s=arc-20240116; t=1788281456; c=relaxed/simple;
+	bh=jxmNg7xPw7da42o5I5lxrJuHBh4clo2hgfjUDn1kqRg=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=jhDdc7yP+wtsBPIX/Q5tmII2p17owkeroGWwxxgL07wkM5enXbI1cCyhepsHlvqZY3K5bFx5hPCbC3e1z7XORXFJy/5OgIFqHertvTpkXafrCihO5r9GqgZP0+RtG8taHS5arpNoFu5QgHpUu8LTVYfFahAnknLUQ/Pn4/sdRBQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=CaoG77Z1; arc=fail smtp.client-ip=52.101.96.93
+	 To:Cc:MIME-Version; b=ZuGldEw5CEQcBg5xQ/SKPwHDjgjmOSpDL2IQniUdjeIZtwCdQt3JZy4qVhxfSzO+/zB7LV2PYmCm11sFR1nlZVjnHDhuJh20Ina2+uXTPDfxkQZob41uXYfiI/hTWK75qde6+1bN4gdN4o+xsXY4vP0zGoQD9oXK5YuE5gqA9VM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=uC1IWFqg; arc=fail smtp.client-ip=52.101.96.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="CaoG77Z1"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="uC1IWFqg"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tOcu4EsESSMwRqqlrl5VvIDCKhWnhPrMKacCA4ScrgzVWiBLqI7gIhtGX6nghQxxQ+OK2QL/e/T6bNM0o3G8rBeUtJISOP3xUJNmldbLQOidEkRk7YetGrB8Euse7m3ebU4k3JUe//CNvnbuLxCpVDVQ7KcUdfEOUqjCB4II+i133mvUi63Xj4d79rUhgyU+KbYTZNGjgenbSD62W8wM6flyGQcI9zCmxdCnHrD7VwTM2iGnpvdWeKk/CA5kxnTg36QTj6ie8BZ/ZAKfWMJVoKvihry1o/aC6E5x2Xzqpn64JD+1kRERlXAiU4cE8oliw53mfcyT4MOz1X8Ff01nUg==
+ b=I+Y5Ycet/PjB2ZHkp+8hlE0yUnN9OTjTq3PdOTh5HkBBXmqW/oN/dMBgPx7TCd1iP4vDRBM36P4d7c+JBPFkGX1TOhtJ5s9rJ+W1uC6iLBS9jRfr5wteMQe++ARl/Aeq/WkdSWU2zt1eP+Bf1Jete8gv9qk8WUTnheOjbvOaTskEc8IZpiKtA9XBhTDAYAMvSsZSEjvHqpCRVlpjG2vyRCyEe2fi+rbkWR7ot5g+BiQJiTp1gPT/lO1dyuPKMMJxR6z1XHCjR9F61HckjbyqNLWg8KSfb6bKZRx5XqEGQaAx7tidgz4tCth+UWIIxPmhxi1BwCJjlJXGaEOpaSvjuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Otepd9WSVL3uV6K+l1r6wDSj3LCIZLja4n6PbCqf+f4=;
- b=ToLMSgEPU45odr7si0zpW5V+1v8sKxJLj4ESbYwUtp9P+4UzOYj8M224mLkLHKd9SagZahBI+p7W+/5xyvkcDXrDNSHPEZXAOFIKSoFEUNjlzbFBWN/kE//7sRnL0Y70KNP2ak0NdnRhqO/gHe3N5oyuc0yQqbKVlM6S4pMj7qhdwVQCqge9E50ryVBHNlEuUZeWtU40CRCiAEBxGp2Cf+5ljLMzwR5ZtGeVCRzi7aYk30633rkf05X2bNU4Rdc4lgsoddR2PqtJblpfdcR/sKo48TcxrQ962sy5K/BK5OXO31J58HnKdWkScpU09RzzF1HzsG81jOXL1LBGiN22Mw==
+ bh=ToENILkQJrEJR14hMqLdQy9VnyEgDH8Lxe1vho9utvw=;
+ b=Pp0OJ6GsYJJLymQhhIr4wugg9RjTeZ8VrGUzcql3fenXwM/WmCJfbD1Lkn+HwmAiCdck10rl82ACQExCn1CCcrpRY/wXfjsvLl1ESv1HxTIb3sXNMk6c2y1E3ldZTA0fs8g7LsyIAk5yAUbR5DSdAK68BYecjAwWZPQJGk1L7d+5cGi13oYGSBNEoLGAu6lCm0VMbfNeR9qAFSyqw7sg5TKTFfou2b5W07T822V6vCVYkYkV0FXajbuaZUZgRa9y7ocVn5duVMQKl2RBjeUBwS4bXK/JFUrZ+7Po9JSVZ3TGzKrSVHvQjQXgWKGOuMlUJWwkaCGCCaVQTgXy50SvnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Otepd9WSVL3uV6K+l1r6wDSj3LCIZLja4n6PbCqf+f4=;
- b=CaoG77Z1kJsTRuakOZrjK9yVsjCePgSe/DzzGdPUg68qQxSjo002G8bDIyfn4OpBOh2XIJxE4JxPGZmWGlspgaZiPpxLo8HfS6ZZI4TuGeQ39wsPKogvNZkJFj4Sr5OTDaFM3zVcpGwmCmqghc6j4Y5IgEMS7WwS+w6R66wyUfo=
+ bh=ToENILkQJrEJR14hMqLdQy9VnyEgDH8Lxe1vho9utvw=;
+ b=uC1IWFqgKT95KXNhfubaUP9G5Q0W1hSq82ulJrpW0hIKUcAXJeKXx60m5HTkFUpU+q2cjj0n8trPfc0zsuzvmbd15gt4s+CGBkEcr5qarWRLXDf6PSpc1sb2+kHo5/czIfTpjDnmMBM28B/ePmoZyftrjaDy5yqjpvt2rO7b62o=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
  by CW1P265MB9199.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:272::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 16:50:41 +0000
+ 2026 16:50:44 +0000
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 16:50:41 +0000
+ 16:50:44 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Tue, 01 Sep 2026 17:50:34 +0100
-Subject: [PATCH v4 10/16] rust: io: register: make register have a typed
- base
+Date: Tue, 01 Sep 2026 17:50:37 +0100
+Subject: [PATCH v4 13/16] gpu: nova-core: convert hshub0 from relative
+ register to projection
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-typed_register-v4-10-5552b1d59525@garyguo.net>
+Message-Id: <20260901-typed_register-v4-13-5552b1d59525@garyguo.net>
 References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
 In-Reply-To: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -67,11 +67,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
  Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788281431; l=9843;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788281431; l=6817;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=LRCzTRbElfNXpnbN07JbS4qKUWYbLxu7w8UpJPZal0Q=;
- b=xJyvWtgl0OkNJs1eY0dYkJVr690tyL9fuZI5Gug5T+oBAFqHKj8gYSB0l9kEq6oHXr1r69LTN
- /xhWEdsgz15Aoh7dClWo/TuPMzrEKqZiHUSJVFxKjIK56BneZ0aGzxl
+ bh=jxmNg7xPw7da42o5I5lxrJuHBh4clo2hgfjUDn1kqRg=;
+ b=JadxgMXLjjnnZrm+DOQbhiD40wM/k7aZulIxsp2o2YwTWXGUCw3jVBsWC/hmEVFCqRmAb+OK7
+ 44uIbImgxzpDg/v0tySKH986Gt7QNKr8+/ich2YhSTf0o14cmW5E2Hg
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: PAZP264CA0173.FRAP264.PROD.OUTLOOK.COM
@@ -85,349 +85,253 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB9199:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c34f4a6-f2dc-41a9-bcb1-08df0849285d
+X-MS-Office365-Filtering-Correlation-Id: 9ed1013e-ec49-43de-4765-08df08492a02
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|23010399003|366016|921020|3023799007|10067099003|56012099006|5023799004|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|23010399003|366016|921020|6133799003|10067099003|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	4Vs4oaYBWCmXcOZn012tq7eVQOUvG8VbkGTV/IB0yRBKJ1+LheJS+MEoBqJTjAQiQ0cGRR3ds9n56bgp25O98XjLoIji7z1pqf4txeiPZ1c06SHz34IXDPAmvc45+YtDrxHbk6LhIPOClA15pzXnXGUw3Zy8tMjf6vW3MbtloYRlsp8f3ddBG6t6ezWU+T68ZjtkLQHESt1AIVaRVJXOI7iLbDo88a6jOeRi6Qir5lJ8FMSQPgOfB1/mycT1dcvhJ6zOD5zokGCY/J07mI7g/RjZKUARCdNKnlGMpEr1WILX0koabkaWqgXHbzP6dHaX08Mo1Eqdv8aF8cP5kkZW7Jl59y4GjeBJDeMzRa1ctfrbnZxhxcDwEWrgyfiOohjxvuI9k/H9rNNpBUbu99oWASQwAwsnA24LgnvykD+1qJX+0WdyZVzkD/K3InqUfd0zBWu5qYItVxWVp1pl458ZjtmMndrBoiZpEWv1uEbws7EOX9toLJQnUtK/hZu/VVb2SQisCcp6lQoN5bA+nI95qQW6Oy+1wHZWFylkaFqpWSkNXXW57mO2/vSfFmnJJOExZIWFCALVVUZjQflrCKu7Oq2BMhKo3taK8bi4BheakdEvO/TYBMvGBFtErW1K2WrdpHO0jpD2YE5Kf8ZQwwrH++iYtjzxJ64wvZfzyukd6u2ILenmXckEiI9TZiapueDD49VOLdobs3gdDvxqq+UxcQ==
+	RR7EsED61qSUlhjA39HXGgkISiWbtcARH0atp88wOGEet3jKSlUMDnt9y+MfL002yB/Llhhh93U2+8p4NNtQLv+chSKqyWOUYCsl9SiQK8hhJtbsqzpHGlh9oqEyq7ahKuhgWRsxqOlHQlKNnNBYvMXTG5XURKoD1Sp6Ey5c/x2Vfj5OMvCswB5rtSAM5oEt1dfc3RIm1+pnl4m25vI6n4jLUKEtxUygyyBcHOio14lziRNqKu1Lr9Ui7hVv1fzDWVsh/sECTOI3nto5xMMwNvsvqKEeSYnX2TWRijfuPF3DS3yTg/wthbjVFv0gwuQelLcQ4QYoRYwu/llvYWwA1F3UdAsZDyCDY6OkUrKZpw7Vba/sK7uCuqeQNtuF6nayYLP454a8LhmxkXA/PspWtqo7A2keXmt9N4NAIXmTZn2moWs6QsyV/dm/2hp7e5a09ODowsAZv1yUnthAC6Ta2AiABkiz2tCnV6u+2dmPeo0MCCBTBmDO/4z1eWJjAffsbMec/OUfLoJ9GfZ1gM6gM1CYwpeo9LaJZ02rN2pbOnOoYdd108MLmYMudSxdyoGVBYEKUQe4gLY/Bk7IPueq0jvLm7ai7DgDtCQAXfXSD6gb7TF9yB0E6Oxah0PB7eqAVWi8UUFKKod8ENrmmkw7MlqYdxpOZyVF0Kw6Uh3kJpG6ZYlhl1M7i6UUU2r2jm09R+pTVN7+lrnrkv9AJ1Ppfg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(23010399003)(366016)(921020)(3023799007)(10067099003)(56012099006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(23010399003)(366016)(921020)(6133799003)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Tm0ybHA0WXNkeEFnSHZuNkxtVGdzalROaGxpSlhQQXJ1V0RWTVVaT0xURnBp?=
- =?utf-8?B?SFpyK3l0amtyaHRoYU9WbzNFYWdZckgyN1l4elJlNU1hZlFMNUJUS200aUdM?=
- =?utf-8?B?ZFFFUGg2UmZoY3YzNm5UaC9zU3VqUVF1YStmaHV2T2hGa0p6R0FVQUU0LzlZ?=
- =?utf-8?B?cTFlQlBhazNUUldkeHR0U1dheFhUME83dG94UTltZFpST1ljYjdnZ3UydHRS?=
- =?utf-8?B?WXNNTDRuTU1YYjd5SlZQaG9KS0xQQnlRU2V4Y2lHQVBzREN6eUQ0bytsdzZQ?=
- =?utf-8?B?SGdwT1haWVBTK2VJVUxVT0pVQjhCMlVNdmNWRis4c0Z6ZytYbkVWOXM2NmUx?=
- =?utf-8?B?T252WloxZUgyUGM0UnlpSEFucU8rRENsRVJHaVNwdFlsWDl1a0JqSkFWdFAr?=
- =?utf-8?B?U1RBOE1MTC95TFFad0JHaVM5NEdFY0ZmUWQwNWM4VVNROGtUajlhWVc4VEZE?=
- =?utf-8?B?ZUIvek9rYVNXTUdRUkh1aU9nNGNRRHJVY1NjUUpQeEQ3MG9HbUxhSGNZQmZH?=
- =?utf-8?B?M1hybVJ6YUtPTXJKaFJaZCtUL2xTMnpoQVBRaTR3dzI5WEg0Y3JNM0x3REtv?=
- =?utf-8?B?S2ZGcVJ5MzAzZW5ucmNPc3VvMTZEcUNpb0FHWFVZVVViZWtTcFl2NXJ3eWlD?=
- =?utf-8?B?dlVSY2RnZlVhVkRlQmdyZUQ5dUUzRDFIdGdwc0xlZ0NOZ29STWMxbG5WYVRK?=
- =?utf-8?B?THZHM0JKRTFJd3E5SG0yQXFsRC84ZVMyMXdNUWkybHdocUd6OWV6cndRNkNu?=
- =?utf-8?B?cVJJRzNTU2hPZUh0VTBRb3ZUcHQ4cDZNLzFYV3NyOTVvNWFhM0FoYmQwSnN1?=
- =?utf-8?B?L2ZyZDBaTFhLNTczblpXLy9nMG5XM3JyQzJ5R1pNRitzU0pRYXBHSFd5NXQw?=
- =?utf-8?B?SkZob3QwdVBWdXh4MVdydFdPR0xhV2NENytrcUtiTjdjeUIySUttb0RjNUR0?=
- =?utf-8?B?ajN2UlRMSkdrYXpsTnc4UEdxS08raVpHVkpyaFA2ZXRtNGUyT0tjdkxqVHov?=
- =?utf-8?B?N0VvSFA0cEgyZXN5S3JjTHFOYzNKNUtkL2VCTHd6bno5S2psREZYaDlhcE1S?=
- =?utf-8?B?T01GRFJmbENuN1c2WnpxS0plUE1VOTRDbkRlMkx0NWg0c2pZcEZTQ2tYUnhM?=
- =?utf-8?B?eUxpbnY2WDdiTms5TUFkUzdVcnI0Y2dCR2JSQ2hFWGtzKzZ6amorQU5aKzJV?=
- =?utf-8?B?NE1UeStwNzA1V1N3N1VFcHVnRDlFVnVuV2RNZGhmVTEzSjJFWkc4eVFWS1Nx?=
- =?utf-8?B?clpXOURkSG83bmRJbGpiQmtDRXVXcGN0WmF1QUlKcFl5b0ZQazRVcnRJYTdK?=
- =?utf-8?B?bERlcWFwQ3A1NXNnUnZhU3RSMHV0NzdIdmhzaEdiVmZOc050K1FMa0FGZ0ZW?=
- =?utf-8?B?UDlTOGZhaEh6Z3BPSUczUWNpUzNaT0VhVnhYbjBSMDZZU0RxN1lMMW1WOUZJ?=
- =?utf-8?B?T3QxSTl4eDdNTXQvZmtpVkdscHIrb3hNTXk5UUw0TEtva3lXTnZqZlhQcUVE?=
- =?utf-8?B?OENrMzJnVkh4LzNFeUcxMU5yNTRYUFRzWFpDT0NNdWx4cFBNZ2kxTHBBeVlE?=
- =?utf-8?B?ZmpTVGVZRFdrcHJkU01WUk4ySGdCa0VkeDJrWHB4a05HVCs2RGpQeU5PKzBI?=
- =?utf-8?B?ZTN6cVlWRkZYVjY5cFhBSXYzcTEzaVgwc0ZyMW9INkMybElLL08vQVNOUmJS?=
- =?utf-8?B?QzExZnFMMFFYQ0VSdXczT2kwbDFWelNFMzZibkJWVGhxcjZ5NzdiZkFKb3BL?=
- =?utf-8?B?K0FjUGN0SVdaZWdJZy9md0VvbklLS1drd0lmcGhhRUwwbmFFS1owbTNNL25I?=
- =?utf-8?B?cDhaNTJYQ3hZQkpKYnVWd1YzUUxiZGlUTGZoNU1IbDdUR2xtMS9WNmRpYWI2?=
- =?utf-8?B?WWZkWng2TTdWMnBKVm9EcXJ6cEFxV1EzWENIRjE0QmRoT0hzcnBab1dGbkFT?=
- =?utf-8?B?Z0NkVlBmZUNoRzVtSk9iM0xtNC9seWJRakRqR25zYXRmbjN6NFl5c0UxZEJW?=
- =?utf-8?B?QTFmKzIzS1VOc3JyYmhpa3AxQ0s0SUZkRzYvR3hsSU5TYUdEdXdoY1IrSm41?=
- =?utf-8?B?ampJMzF3Y05uMzZKc0RwM216OHNPQXM5c0Q0THRMbmtuTmxBWklKUHAydy9t?=
- =?utf-8?B?S2padENFL1paalF2Y21wWm5LN0gyaXlPcnFzRitHaWpxbzdaMUtDMU5vOXlP?=
- =?utf-8?B?Y09pSXhqTmZKTGVKWDJsdDAvQk5KcmdQN0NJNFJBd2JJU1hZajFxNlpjVlhX?=
- =?utf-8?B?cXp4TEt0SVp1RUM3VkNQMHVtNFEvQzVLcW9mcm9DZERwWFdSYmtCMCtjSElE?=
- =?utf-8?B?RlZab0hyeFBjYzhYbUJzU2lhNFlpNDUzVXhQMFphUHdHZHM3TmpCdz09?=
+	=?utf-8?B?dmluR1lBeksvNElnZWtoNlExZlVrc2Q5L0p2cDVXWUpMcUhQaVN6SUJOcmk0?=
+ =?utf-8?B?Z3BqeUZnaDBpRlBHcWJhMnI2NzRkQ1cwa2RwTTg1YTk3TGxsYlZEMjloK3Np?=
+ =?utf-8?B?eEhSZmp0REdRZWErbDhTbFVWS2VjdCtCQXAvWG85dVBlNUZGdTl6WWZBRFFU?=
+ =?utf-8?B?eng4SFNOdnFqK01SRjNjaUd1Y0RQMEdzVVBXTVpJazIxaVBIWUNGKzNweTJi?=
+ =?utf-8?B?aW9MSU82NW5VYzZ2c0E3OWMxU1BnYkF2enhQbVprS2VxaDNkS2xoUTl2WWw1?=
+ =?utf-8?B?N1I2Vm9TeWRLYjE2eFg1Tmg5ODZaNHpRSVNnWlFtZWdXcmdJY1g2eC9ZUDdP?=
+ =?utf-8?B?M05vY0twQjh6M1RNUCs0T2F6c3NLTkMzZXk4RVNaK29ZZFNpZWNGNUNpTnpw?=
+ =?utf-8?B?RG1vbDY3QldoMUw3UFZkdkd6LzVBYVgvTHhJY0psV3FSZXpvcjhaQldrSmZC?=
+ =?utf-8?B?TkpyRXVaSmJoOE9YRDlBaW5xZFNCVUpRcnpQWVIrWG40UE9GMnNSVnVYNHhs?=
+ =?utf-8?B?TzlkU1FMNGptR0JIbStFcmdHS2FvSS9WUVVWQUhYTXF0dnhVeGJnVTFlYncr?=
+ =?utf-8?B?dUVtS0lkRnhNTUJvNW9IemJtMFBJbWRZcjJiNml4TzZldWFFUlZtSzVqbU1z?=
+ =?utf-8?B?dGZsYWVYSVVPWFUwRS8xZ0FrQWZmMnlpNHIxZERGaFJmS1k1S3dVbEVHTHlm?=
+ =?utf-8?B?b21YMWk4QXJleCt0cllpTExubHFXTlpNMWlrSEZqbEo3OUhFYllLa1JiZk9x?=
+ =?utf-8?B?KzF6YWRXOWE2QWhvL3gwZmxrTVhUWGVqSG5ORmRwem9yQjJpYkRaRyszREhl?=
+ =?utf-8?B?M1djQm4rSEFEcHBDbmFmSUZrQjhPUDh3SWY2RmhBQmpIMXlWZ3p1QS9jTnQz?=
+ =?utf-8?B?UFZ5RzlscXkwdjFycGM4M0VldjFBUVJrZnpTUUthVnZoTWUvaGs1TklzTllv?=
+ =?utf-8?B?bCswL1JVYkc4SDZ6YUJsQitlWisyb3Y2Wm4yWElUTGdpdjJiNkpVakdIaUt2?=
+ =?utf-8?B?aks4NW5xY0gvWE5BRmRKaEU1SCt2UWwwZnQ3NWVQbUlXS29WU05mR25yK3lt?=
+ =?utf-8?B?cXg0NkFPYWxOY2JnOGhCRE51b0h3STl2cFJRSE9ScEpNbVpNZVBLQ3lsVzE3?=
+ =?utf-8?B?cnEyT2Rhd3pmOVVEemdYbFBNVGZwbE1YM0pvUjdZOWJKN2xVMjNzYTM2TzdO?=
+ =?utf-8?B?TWR4andhOHA3K1o1QUdKc3dhT3N2cGtsbi9xN0ZBVFNrT0o1NVdLREpVZkJl?=
+ =?utf-8?B?SFBRck9yNjRsUXRTaDFJakkzMDVzWWkwZFNldDNwYWltMS9wWk1YdjBmd1lk?=
+ =?utf-8?B?QjAyZzNOTmhBSzZ2NHBxQzVMVFVBd0J2djFvOWVFWHpVckJham1JdTFHREQ3?=
+ =?utf-8?B?U25VL1BMSXE3Y3hhR1VUQ0hON2UyNTB0eTNpRi8yOGlJTW5oY25UeEhIYVNt?=
+ =?utf-8?B?Z1Rsc282bWdQYXpUT1R4ckYrSmRPVVlnc2paYjJnaXRMM0RjRGY4S1ljVENa?=
+ =?utf-8?B?endLQTZxR1BBYWd4NTFQZ2ZFMjEvcGdIbVZlV1lWaGtleUdEOGVjMEJqaUdt?=
+ =?utf-8?B?Ky8rVVZPeUpSa3BJOTNEeWIrbWVYTFowUVhWV3cyV0RpS2NjMzZLaWpIT0JL?=
+ =?utf-8?B?cGxWOWYzdTNjd29pc1daVXpiQnh3MEhaWCt1WHJKTVdqU1RpLzVvVU5wK3dp?=
+ =?utf-8?B?VmlRditkM21PRTRWanplMjFLOTdYcjB0VjJuRWdyU0RuM1FrZTdLQ3k2NVlI?=
+ =?utf-8?B?d0lnMXRyWHlMSm1CdDJLb2FsU0RvRDV0WVRRRXdQaWVWdno5aHFKbS9sTy9s?=
+ =?utf-8?B?T01IRHkzbjFhZWUwMW90V1J3eloyTTB3SzVJR29GUURyamMxcURsdm9MVnpx?=
+ =?utf-8?B?NnJFL3pUL2xadEJkd005ckZ3K1F5SjNJNkhFTVVGVGprOU1RamJRS0xxT1Fn?=
+ =?utf-8?B?Y2QrVzRNK3g0UU1QZ05jdVVUSEEvZGJ5a1BrZkhwNWQvM2IyaVFmUGpHL2ZH?=
+ =?utf-8?B?NVA1Y2dUSEdPTTJaR1pVRkJxRnJyem9hR29nWkVGbmNqYXEzZ2NTb2ZZZ3l6?=
+ =?utf-8?B?dXYzL2VxdzBsSHdZWFMvWVZIV21QdWpNZUtFRVk5K3U5dXNGZ29jdXlhSUpT?=
+ =?utf-8?B?UlM2a1E4UEdwN1N4dHJBTG5OUGZKUUZFSEdxYTdNcW85ZGJhQ21CS2c4Rmln?=
+ =?utf-8?B?OFpHNTFyQ0VUVGxaeExacVdHeFNYWlZUZk9wd1V3WmRnaXZqTmpDdzNWNEpR?=
+ =?utf-8?B?QjZQbTZiZWlnOUFqa2lxREFqMlp2dThzRE45WjAwdnhqMVVUdERDeFQ5VUVH?=
+ =?utf-8?B?aWRXWFdMTkUveUtVZVd3THNuY3ptcll5QUtBQ0crSzZuUjYyM2Uvdz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c34f4a6-f2dc-41a9-bcb1-08df0849285d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ed1013e-ec49-43de-4765-08df08492a02
 X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:50:41.3716
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:50:44.0989
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zSxIoHEEoG/seG4APmdoMyw71A2W7fMNy8I97pxHajSGBJgfVSofH9Pnd9hcVhjSK37QtFgewGnOs06Wh8MEeg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: l/KxF7kf4L/YFM1+dqCQtd1co+U917+zpg8WstUuuAP78MheVoFuY/1TP4OQDem74D4pMD+bBJQgSK0IH+GLCg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB9199
 
-Previously `register!` defined registers can be used on any untyped I/O
-regions. With all users specifying their desired register type now,
-propagate the specified type and restrict I/O access only when type
-matches.
+Similar to the PFALCON and PFALCON2 conversion, the hshub0 relative access
+can also be achieved cleanly with projection and a new base.
 
-Also, add an `io_project!` example which is enabled by this change.
-
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Changes since v3:
-- Adopted Alex's map_err suggestion
-- Moved the "const eval only" comment slightly down and updated the
-  build_assert to just a plain assert.
----
- rust/kernel/io.rs          | 13 +++++++++++
- rust/kernel/io/register.rs | 54 ++++++++++++++++++++++++++++++++--------------
- rust/macros/io/register.rs | 45 +++++++++++++++-----------------------
- 3 files changed, 68 insertions(+), 44 deletions(-)
+ drivers/gpu/nova-core/fb/hal/gb100.rs | 59 +++++++++++++++++------------------
+ drivers/gpu/nova-core/fb/regs.rs      | 21 ++++++++-----
+ 2 files changed, 42 insertions(+), 38 deletions(-)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index 05c7fa12fdbe..7a0e0ebc6c85 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -1685,21 +1685,34 @@ pub fn project_loc<U, L>(self, location: L) -> <T::Backend as IoBackend>::View<'
- /// The syntax is of form `io_project!(io, proj)` where `io` is an expression to a type that
- /// implements [`Io`] and `proj` is a [projection specification](kernel::ptr::project!).
- ///
-+/// `io_project!` can also project to a subview of registers defined with [`register!`] macro.
-+/// Register projection has syntax `io_project!(io, try: REGISTER)` for fallible projection and
-+/// `io_project!(io, build: REGISTER)` for infallible projection.
-+///
- /// # Examples
- ///
- /// ```
- /// use kernel::io::{
- ///     io_project,
-+///     register,
- ///     Mmio,
- /// };
- /// #[repr(C)]
- /// struct MyStruct { field: u32, }
- ///
-+/// register! {
-+///     base: MyStruct;
-+///     FIELD(u32) @ 0 {
-+///         31:0 val;
-+///     }
-+/// }
-+///
- /// # fn test(mmio: Mmio<'_, [MyStruct]>) -> Result {
- /// // let mmio: Mmio<[MyStruct]>;
- /// let field: Mmio<'_, u32> = io_project!(mmio, [try: 1].field);
- /// let whole: Mmio<'_, MyStruct> = io_project!(mmio, [try: 2]);
- /// let nested: Mmio<'_, u32> = io_project!(whole, .field);
-+/// let reg: Mmio<'_, FIELD> = io_project!(whole, build: FIELD);
- /// # Ok::<(), Error>(()) }
- /// ```
- #[macro_export]
-diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-index 49a5fe069e47..58dcf651dfd0 100644
---- a/rust/kernel/io/register.rs
-+++ b/rust/kernel/io/register.rs
-@@ -121,10 +121,11 @@
-     io::IoLoc, //
+diff --git a/drivers/gpu/nova-core/fb/hal/gb100.rs b/drivers/gpu/nova-core/fb/hal/gb100.rs
+index d9e4d62ae632..9fa094939600 100644
+--- a/drivers/gpu/nova-core/fb/hal/gb100.rs
++++ b/drivers/gpu/nova-core/fb/hal/gb100.rs
+@@ -5,11 +5,10 @@
+ 
+ use kernel::{
+     io::{
+-        register::{
+-            RegisterBase,
+-            WithBase, //
+-        },
+-        Io, //
++        io_project,
++        register,
++        Io,
++        Mmio, //
+     },
+     num::Bounded,
+     prelude::*,
+@@ -21,7 +20,10 @@
  };
  
--use super::Region;
--
- /// Trait implemented by all registers.
- pub trait Register: Sized {
-+    /// Base type for this register.
-+    type Base: ?Sized;
+ use crate::{
+-    driver::Bar0,
++    driver::{
++        Bar0,
++        NovaRegisters, //
++    },
+     fb::{
+         hal::FbHal,
+         regs, //
+@@ -31,17 +33,26 @@
+ 
+ struct Gb100;
+ 
+-impl RegisterBase<regs::Hshub0Base> for Gb100 {
+-    const BASE: usize = 0x0087_0000;
++register! {
++    base: NovaRegisters;
 +
-     /// Start offset of the register.
-     ///
-     /// The interpretation of this offset depends on the type of the register.
-@@ -136,9 +137,9 @@ pub trait FixedRegister: Register {}
- 
- /// Allows `()` to be used as the `location` parameter of [`Io::write`](super::Io::write) when
- /// passing a [`FixedRegister`] value.
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for ()
-+impl<Base: ?Sized, T> IoLoc<Base, T> for ()
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -148,9 +149,9 @@ fn offset(self) -> usize {
- 
- /// A [`FixedRegister`] carries its location in its type. Thus `FixedRegister` values can be used
- /// as an [`IoLoc`].
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for T
-+impl<Base: ?Sized, T> IoLoc<Base, T> for T
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -171,9 +172,9 @@ pub const fn new() -> Self {
-     }
- }
- 
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for FixedRegisterLoc<T>
-+impl<Base: ?Sized, T> IoLoc<Base, T> for FixedRegisterLoc<T>
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -240,9 +241,9 @@ const fn offset(self) -> usize {
-     }
- }
- 
--impl<const SIZE: usize, T, B> IoLoc<Region<SIZE>, T> for RelativeRegisterLoc<T, B>
-+impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterLoc<T, B>
- where
--    T: RelativeRegister,
-+    T: RelativeRegister<Base = SuperBase>,
-     B: RegisterBase<T::BaseFamily> + ?Sized,
- {
-     #[inline(always)]
-@@ -282,9 +283,9 @@ pub fn try_new(idx: usize) -> Option<Self> {
-     }
- }
- 
--impl<const SIZE: usize, T> IoLoc<Region<SIZE>, T> for RegisterArrayLoc<T>
-+impl<Base: ?Sized, T> IoLoc<Base, T> for RegisterArrayLoc<T>
- where
--    T: RegisterArray,
-+    T: RegisterArray<Base = Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
-@@ -367,9 +368,9 @@ pub fn try_at(self, idx: usize) -> Option<RelativeRegisterArrayLoc<T, B>> {
-     }
- }
- 
--impl<const SIZE: usize, T, B> IoLoc<Region<SIZE>, T> for RelativeRegisterArrayLoc<T, B>
-+impl<SuperBase: ?Sized, T, B> IoLoc<SuperBase, T> for RelativeRegisterArrayLoc<T, B>
- where
--    T: RelativeRegisterArray,
-+    T: RelativeRegisterArray<Base = SuperBase>,
-     B: RegisterBase<T::BaseFamily> + ?Sized,
- {
-     #[inline(always)]
-@@ -393,9 +394,9 @@ pub trait LocatedRegister<Base: ?Sized> {
-     fn into_io_op(self) -> (Self::Location, Self::Value);
- }
- 
--impl<const SIZE: usize, T> LocatedRegister<Region<SIZE>> for T
-+impl<Base: ?Sized, T> LocatedRegister<Base> for T
- where
--    T: FixedRegister,
-+    T: FixedRegister<Base = Base>,
- {
-     type Location = FixedRegisterLoc<Self::Value>;
-     type Value = T;
-@@ -406,6 +407,27 @@ fn into_io_op(self) -> (FixedRegisterLoc<T>, T) {
-     }
- }
- 
-+/// Helper function for register alias implementation.
-+///
-+/// This is used to enforce base matching.
-+#[doc(hidden)]
-+#[inline(always)] // for const eval only
-+pub const fn alias_offset<Base: ?Sized, Alias: Register<Base = Base>>() -> usize {
-+    Alias::OFFSET
++    HSHUB0: regs::Hshub0Registers @ 0x0087_0000;
 +}
 +
-+/// Helper function for register element alias implementation.
-+///
-+/// This is used to enforce base matching and provide bounds checking.
-+#[doc(hidden)]
-+#[inline(always)] // for const eval only
-+pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base>>(
-+    idx: usize,
-+) -> usize {
-+    assert!(idx < Alias::SIZE);
-+    Alias::OFFSET + idx * Alias::STRIDE
-+}
-+
- /// Defines a dedicated type for a register, including getter and setter methods for its fields and
- /// methods to read and write it from an [`Io`](kernel::io::Io) region.
++#[inline]
++fn hshub0(bar: Bar0<'_>) -> Mmio<'_, regs::Hshub0Registers> {
++    io_project!(bar, build: HSHUB0)
+ }
+ 
+-fn read_sysmem_flush_page_gb100(bar: Bar0<'_>) -> u64 {
++fn read_sysmem_flush_page_gb100(hshub0: Mmio<'_, regs::Hshub0Registers>) -> u64 {
+     let lo = u64::from(
+-        bar.read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>())
++        hshub0
++            .read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO)
+             .adr(),
+     );
+     let hi = u64::from(
+-        bar.read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>())
++        hshub0
++            .read(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI)
+             .adr(),
+     );
+ 
+@@ -52,7 +63,7 @@ fn read_sysmem_flush_page_gb100(bar: Bar0<'_>) -> u64 {
  ///
-diff --git a/rust/macros/io/register.rs b/rust/macros/io/register.rs
-index 851335792a46..f603f4e45565 100644
---- a/rust/macros/io/register.rs
-+++ b/rust/macros/io/register.rs
-@@ -19,6 +19,7 @@
-     spanned::Spanned,
-     token,
-     Attribute,
-+    Error,
-     Expr,
-     Ident,
-     Path,
-@@ -153,22 +154,23 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+ /// Both the primary and EG (egress) register pairs must be programmed to the same address,
+ /// as required by hardware.
+-fn write_sysmem_flush_page_gb100(bar: Bar0<'_>, addr: Bounded<u64, 52>) {
++fn write_sysmem_flush_page_gb100(hshub0: Mmio<'_, regs::Hshub0Registers>, addr: Bounded<u64, 52>) {
+     // CAST: lower 32 bits. Hardware ignores bits 7:0.
+     let addr_lo = *addr as u32;
+     let addr_hi = addr.shr::<32, 20>().cast::<u32>();
+@@ -60,24 +71,12 @@ fn write_sysmem_flush_page_gb100(bar: Bar0<'_>, addr: Bounded<u64, 52>) {
+     // Write HI first. The hardware will trigger the flush on the LO write.
+ 
+     // Primary HSHUB pair.
+-    bar.write(
+-        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>(),
+-        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi),
+-    );
+-    bar.write(
+-        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>(),
+-        regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo),
+-    );
++    hshub0.write_reg(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi));
++    hshub0.write_reg(regs::NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo));
+ 
+     // EG (egress) pair -- must match the primary pair.
+-    bar.write(
+-        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::of::<Gb100>(),
+-        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi),
+-    );
+-    bar.write(
+-        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::of::<Gb100>(),
+-        regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo),
+-    );
++    hshub0.write_reg(regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI::zeroed().with_adr(addr_hi));
++    hshub0.write_reg(regs::NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO::zeroed().with_adr(addr_lo));
  }
  
- pub(crate) struct RegDef {
--    #[allow(unused)]
--    base: Option<Type>,
-+    base: Type,
-     regs: Vec<Reg>,
+ // This PMU reservation size is r570-specific.
+@@ -88,13 +87,13 @@ pub(super) const fn pmu_reserved_size_gb100() -> u32 {
+ 
+ impl FbHal for Gb100 {
+     fn read_sysmem_flush_page(&self, bar: Bar0<'_>) -> u64 {
+-        read_sysmem_flush_page_gb100(bar)
++        read_sysmem_flush_page_gb100(hshub0(bar))
+     }
+ 
+     fn write_sysmem_flush_page(&self, bar: Bar0<'_>, addr: u64) -> Result {
+         let addr = Bounded::<u64, 52>::try_new(addr).ok_or(EINVAL)?;
+ 
+-        write_sysmem_flush_page_gb100(bar, addr);
++        write_sysmem_flush_page_gb100(hshub0(bar), addr);
+ 
+         Ok(())
+     }
+diff --git a/drivers/gpu/nova-core/fb/regs.rs b/drivers/gpu/nova-core/fb/regs.rs
+index c27582e376e2..abb48b0955a9 100644
+--- a/drivers/gpu/nova-core/fb/regs.rs
++++ b/drivers/gpu/nova-core/fb/regs.rs
+@@ -2,7 +2,8 @@
+ 
+ use kernel::{
+     io::register,
+-    sizes::SizeConstants, //
++    prelude::*,
++    sizes::{SizeConstants, SZ_4K}, //
+ };
+ 
+ use crate::driver::NovaRegisters;
+@@ -65,31 +66,35 @@ pub(super) fn vga_workspace_addr(self) -> Option<u64> {
+     }
  }
  
- impl Parse for RegDef {
-     fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
--        let base = if input.peek(kw::base) {
--            let _: kw::base = input.parse()?;
--            let _: Token![:] = input.parse()?;
--            let base = input.parse()?;
--            let _: Token![;] = input.parse()?;
--            Some(base)
--        } else {
--            None
--        };
-+        let _: kw::base = input.parse().map_err(|e| {
-+            Error::new(
-+                e.span(),
-+                "a base type needs to be specified for `register!` invocation with `base: ty;`",
-+            )
-+        })?;
+-/// Base of the GB10x HSHUB0 register window (`NV_HSHUB0_PRIV_BASE` in Open RM).
++const HSHUB0_REGION_SIZE: usize = SZ_4K;
 +
-+        let _: Token![:] = input.parse()?;
-+        let base = input.parse()?;
-+        let _: Token![;] = input.parse()?;
-+
-         let mut regs = Vec::new();
-         while !input.is_empty() {
-             regs.push(input.parse()?);
-@@ -180,15 +182,7 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
- pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-     let mut outputs = TokenStream::new();
++/// The GB10x HSHUB0 register window (Base defined as `NV_HSHUB0_PRIV_BASE` in Open RM).
+ ///
+ /// The base is provided by the GB10x framebuffer HAL.
+-pub(super) struct Hshub0Base(());
++#[repr(align(4))]
++#[derive(FromBytes, IntoBytes)]
++pub(super) struct Hshub0Registers([u8; HSHUB0_REGION_SIZE]);
  
--    if let Some(base) = &def.base {
--        outputs.extend(quote_spanned!(base.span() =>
--            const _: () = {
--                #[allow(unused)]
--                type Base = #base;
--            };
--        ));
--    }
--
-+    let base = &def.base;
-     for reg in def.regs {
-         let Reg {
-             attrs,
-@@ -209,18 +203,12 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             RegOffset::Fixed { offset } => quote!(#offset),
-             RegOffset::Alias { alias } => {
-                 quote_spanned!(alias.span().resolved_at(span) =>
--                    <#alias as ::kernel::io::register::Register>::OFFSET
-+                    ::kernel::io::register::alias_offset::<#base, #alias>()
-                 )
-             }
-             RegOffset::ElementAlias { alias, idx } => {
--                outputs.extend(quote_spanned!(idx.span().resolved_at(span) =>
--                    ::kernel::build_assert::static_assert!(
--                        (#idx) < <#alias as ::kernel::io::register::RegisterArray>::SIZE
--                    );
--                ));
-                 quote_spanned!(alias.span().resolved_at(span) =>
--                    <#alias as ::kernel::io::register::Register>::OFFSET
--                        + (#idx) * <#alias as ::kernel::io::register::RegisterArray>::STRIDE
-+                    ::kernel::io::register::element_alias_offset::<#base, #alias>(#idx)
-                 )
-             }
-         };
-@@ -234,6 +222,7 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             );
+ register! {
+-    base: NovaRegisters;
++    base: Hshub0Registers;
  
-             impl ::kernel::io::register::Register for #name {
-+                type Base = #base;
-                 const OFFSET: usize = #offset;
-             }
-         ));
+     // GB10x sysmem flush registers, relative to the HSHUB0 base. GB10x routes sysmembar
+     // through a primary and an EG (egress) pair that must both be programmed to the same
+     // address. Hardware ignores bits 7:0 of each LO register. The boot path uses a fixed
+     // HSHUB0 base, so the multiple runtime-discovered HSHUB bases are not needed here.
+-    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ Hshub0Base + 0x00000e50 {
++    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ 0x00000e50 {
+         31:0    adr => u32;
+     }
+ 
+-    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ Hshub0Base + 0x00000e54 {
++    pub(super) NV_PFB_HSHUB_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ 0x00000e54 {
+         19:0    adr;
+     }
+ 
+-    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ Hshub0Base + 0x000006c0 {
++    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_LO(u32) @ 0x000006c0 {
+         31:0    adr => u32;
+     }
+ 
+-    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ Hshub0Base + 0x000006c4 {
++    pub(super) NV_PFB_HSHUB_EG_PCIE_FLUSH_SYSMEM_ADDR_HI(u32) @ 0x000006c4 {
+         19:0    adr;
+     }
+ }
 
 -- 
 2.54.0
