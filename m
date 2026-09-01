@@ -1,60 +1,61 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F138392C2E
-	for <driver-core@lists.linux.dev>; Tue,  1 Sep 2026 01:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB1F3AEF4B
+	for <driver-core@lists.linux.dev>; Tue,  1 Sep 2026 01:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788226474; cv=none; b=OhKB55LP1ma7LYLgGtQkqlk2xQmWJii1QqkD7myZ7dJV+6xx31nz8WpT511JxO0C4LUuXL1iuUglt7aUsmQasdVAAHjZjsoVgMhepC2zMo+9TaxzSeIGMFLQHJ7H9U+B3yIb71U523wkK7Qe7IsY7V4N0wEOTtp6sFoEQ4v2SeE=
+	t=1788226476; cv=none; b=RbsF1M8D8lDxpE+jW+EmQiRcAqSffvtVZUkvVNc5oJG25MC+sXpvYTtcz1IfaWgSqT7RddynVMy4Xr4qQlQdSWy3BjnYKbVQM0n7JIkxcvxZuPgrWGfCakHoKB1UH4ZH4u57P+c07e7WsawF8F7F4Z4G+K7oOeIcqncXSnYwsEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788226474; c=relaxed/simple;
-	bh=MF0hTNvzTdpGvqo8emDiLI7Op/glV1Xy1dpT2XxnEE4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XhW5OTajOMj7TY4O7WN2LkIW8tluwqD8QdspOuwEXAlT6YrJ5JU+x4DglxqhH/2gIED96oRZYiAemNIpVbijC0k8YfDBVEPeMn3pko/Q3hCoBdoMjYlOv/JUkdF/6L1WPh6vnGNEiYvBoGPpInEIcs7/9rqNjEUZ7GISLD8bvyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CfHvFAy1; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1788226476; c=relaxed/simple;
+	bh=1mpcEHU+vXV7UJTachxrk+ovjYhZdLAWpZ3FoOglyek=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H7yj0M1tDBkUUyqo+l9HmBql9D4isH0vAgqWHgygmj7v00fI8REF31erjf8dNtH0owOwpiuurUGNno3oRz9jBBLjk+s+bUJEKG96HiZRItsJVgbczVE0pJUL6lNKyVu7IYY7Cr4othnIw1PMkTfK40ebY4G3JR7qViFl9FfAzP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CtRWQt+D; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CfHvFAy1"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-39647184c73so513203a91.1
-        for <driver-core@lists.linux.dev>; Mon, 31 Aug 2026 18:34:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CtRWQt+D"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cbe827e3cb4so4527345a12.3
+        for <driver-core@lists.linux.dev>; Mon, 31 Aug 2026 18:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788226472; x=1788831272; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y9fRfnXzddhjDeOspwFwhS9N/kT3C//SscgMJBIw6do=;
-        b=CfHvFAy1848VL6HCwMQXLEGBVDaCfeCzRGD5OupGXJSDLq0TAx0ajDWfFGUvf5CQsY
-         V7niyLFPYFDxsU5j6tWoux3o9tn4g6i2MGYtBqJSLR/sznyPFpG8tfMCqLktXddFCxC5
-         jwY3VE6PyhVOgkrIXA7BctgM1d0/bKYXxL59U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788226472; x=1788831272;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1788226474; x=1788831274; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Y9fRfnXzddhjDeOspwFwhS9N/kT3C//SscgMJBIw6do=;
-        b=AoaHJJFdAdBP1Xsrzgak9ZR+5wnYF0gXcwLkbncBaNDjVJW1tYQUmcQ8tUQw5xG8G8
-         AdctbFX4btAcb42auE5GElNiPFE9ZWmBED2B3MTQZn1SHXXPCHF51aILSVuCtUYZa8X4
-         UQP51q7myOh9khapi+PNc4KuNomvOTi4X1lVLpD/HFCeI3Cus3d35tucR9O9N4TmmUAF
-         bU3bcIMaJIPe7HDH7nxANkZhOl4pvPUBZCCwbEtXDV+K1qds1OYQMPRNmDP/y9bObM5m
-         XH+JpAlTN8jU4GoaLJoo2B5x93KS8OtI8232SsSrqpb8loosvioeoqZlWmhDIgZfh24q
-         hAHw==
-X-Forwarded-Encrypted: i=1; AKwUvBzbIkkJtSBYFm3XwuUldIAxluwGvLeSfwnhHlEk24G6+6jtoJpbglDLssRNxWc69Ypsj3hIX0DOXO8FNA==@lists.linux.dev
-X-Gm-Message-State: AFuF++kvBCaQt1/AfFr9ufH+aZglaC22s3G/Mj6SXOLnJFtFJUX7Spmo
-	aots0k9Dn8FIOsRm2FyHRZ8neqzWNPamHrAJRc1ec0I4IcT+FqHguTXEUpqJDCH1W+i0gBRcAXc
-	yAj8=
-X-Gm-Gg: AYBFou1mL/N/O5aXOHVEECsHhn7VK+7KYVEJybxDaDvFQYIZNdKcd+5SaxJ8OIUkpQG
-	UN8YKgwZvdlPtiZfu6umAT2VcLqZUK1Vkra98Rq5EjSGw7agwnEZfZqCcRp/sFAmgiMMfNL6NgZ
-	PgVr76xGSiQ1uncv+Dg4w7tqBOHeMmqgjZd0y5RvryuI/p7U0KcOGGZO+wTvNHPLU1NOHKDppYt
-	72u0cgLbmK2WZcbKAlMP1VtX7ATbwmQaf+ar9fcpiTrwO2Jqxp3ODgGfYdRMJAEOTimAbDvH4HG
-	4w7KiHRYQsavqOyFO4GGqLCYrk/0XW1KmnN0fi54P1EwWSbvnH/HjRgtK7ZiBFUW9ieyO4OPnf7
-	Oqc/0JmB2typ8Ey0Uoq69gHzU/r+btLSkb/Ke/PhlTgWSLuRciNeZiE33Yav4c3DIROzvU0ZmKq
-	WKz57tHYLTfknIfMCUdElPfQ44DhKBEL8ANYSbN7TshsTI/+e+7RiqdP2cGmz1ipEGk4Bh6sN5o
-	SMCXt+38y0Twy7wdvertpAEz216aYE/5MJClA==
-X-Received: by 2002:a17:90b:1f92:b0:381:10a3:8b10 with SMTP id 98e67ed59e1d1-3990f78b130mr2150062a91.14.1788226471666;
-        Mon, 31 Aug 2026 18:34:31 -0700 (PDT)
+        bh=GbPmurZM++0R7ryOeZy8bjoqVFB9j6Ae9S7wxXumXEQ=;
+        b=CtRWQt+Dy7K+8M05sXDNqZaNOHDl4piFvw4jHHPVAvcXvw08YuBkIndpQ0JeYJzndi
+         XwF+INsyukYPpjuaCLuY/otL1eHwwxlQHI0OQYYc0wUWFLSRXDQL6wPD/JKQocc77gvF
+         ibbS1LNMP9rR+WFHY7VdeySA4LcGRivsRix9Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788226474; x=1788831274;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GbPmurZM++0R7ryOeZy8bjoqVFB9j6Ae9S7wxXumXEQ=;
+        b=LYuaMz2EJ08Gmad/+hut5nEcEXEwy6zQOSqP7KHJPxP+/cJYv3RPR1Fx/ySryooIJf
+         433YPGWE96L32Gm8+vYkVbbA0bg684ocBHa7BRQONC5pztFgc1SnjqkFXJhKUXAq/XT4
+         axGObw/upi01+GfehtpzuHAcWfAcP55/KMe9Im74rMgMPUfXWe1iOtBTgWqZEnCX0wYi
+         NIrlr21/nbr6Y+ltxzRM/UOEhw0hICyVpptd5qzJ+FRfQW1LLjlTwmu/wPOQA/NbiEuJ
+         gCIeKLc+kb0iUbGhKgJ8+qqPcvCRjSn8yZIHYEcJ3freuswd+vDpWjuCngHmbwL9sBC7
+         dVcA==
+X-Forwarded-Encrypted: i=1; AHgh+RrUuW6kiYq4c328ZYU5oU1LokvKb+VHXCYwuTwr9PO/8pYmpxPABTEkt8Wl6G3BZh4ioDxGShq6aksRew==@lists.linux.dev
+X-Gm-Message-State: AFuF++lyw94rUIg6/kOPRNVY3WIG4EEL/jxxTpsAQU/glEz9OD5ks8jb
+	bqFUTMBQrrQVmmDcWL/EAiokI5yb1SY2lo82kaBo+jNEgI5BYOj0vN8Oy+9xK7Gn8A==
+X-Gm-Gg: AR+sD132zNY3C7LNaGWwbNZjsbC1sHHiairFDs+tCy7Kz3DREzFlYg8GrvaR53gh+Ep
+	hNSWRuf/2sAwMxstVoobCQof4FF0+zyTVJsfrXVXMa5wLyNP+dCn2p7YCIacME9Ghg7cZhyK2Re
+	MvfMYUZSCWe1F2eKXX678D3JXWGREigfW607eUfKW13BDs9I2k6vvz+Fku1PiS3zmPd1LmiKtnG
+	nASVR3nERr3b3fZvO/PtlIJu5t8xnMImDvOQF+D7zO5ZQI1NNDJdukE5x0LGG1Q3XY1u0SQK9Gz
+	1hTKTfBeQkgADlU7A8ZsAhpcQIsU++lLNLEpCfcf8qqtxrHBULXMcCmUb0VSwyfku8TYFYXSApx
+	S4oUfdliXACftxN4x08Da9P7/a5seX3co/pyPoVTTg2nfxTbz0JnySAaSTrnBF2DgCorw9lKPM7
+	VbkUxZzbdkRobrYQAWAA1V7cU6lMGmH044Bl0d4BMwrf/BGvLQZv56XuchsHpdrE609ytz8aCl+
+	4miRaVwUBA0fl1mfBMRvphg670TE6xS0YdV+Q==
+X-Received: by 2002:a05:6a21:3944:b0:3d3:aec2:4dcb with SMTP id adf61e73a8af0-3d7b075b26bmr8592474637.23.1788226473927;
+        Mon, 31 Aug 2026 18:34:33 -0700 (PDT)
 Received: from localhost ([2a00:79e0:2e7c:8:ab65:e5d8:860b:c20f])
-        by smtp.gmail.com with UTF8SMTPSA id 5a478bee46e88-3286f8094dasm35514254eec.13.2026.08.31.18.34.30
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-142e0d38207sm31017877c88.5.2026.08.31.18.34.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2026 18:34:30 -0700 (PDT)
+        Mon, 31 Aug 2026 18:34:33 -0700 (PDT)
 From: Brian Norris <briannorris@chromium.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Pavel Machek <pavel@kernel.org>,
@@ -64,10 +65,12 @@ Cc: Pavel Machek <pavel@kernel.org>,
 	linux-pm@vger.kernel.org,
 	Ulf Hansson <ulf.hansson@linaro.org>,
 	Brian Norris <briannorris@chromium.org>
-Subject: [PATCH 1/2] PM: runtime: Only queue an idle check for RPM-linked suppliers
-Date: Mon, 31 Aug 2026 18:23:22 -0700
-Message-ID: <20260901013341.1417232-1-briannorris@chromium.org>
+Subject: [PATCH 2/2] PM: runtime: Add kunit test for supplier idle/suspend
+Date: Mon, 31 Aug 2026 18:23:23 -0700
+Message-ID: <20260901013341.1417232-2-briannorris@chromium.org>
 X-Mailer: git-send-email 2.55.0.970.g62bdec98f9-goog
+In-Reply-To: <20260901013341.1417232-1-briannorris@chromium.org>
+References: <20260901013341.1417232-1-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -76,44 +79,132 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a device RPM-suspends, it queues up an idle check for all of its
-suppliers, in case that device was the last consumer, and those
-suppliers are now able to suspend. Today, we do this for all suppliers,
-and not only for those suppliers that are marked for use by runtime PM.
-This isn't directly harmful, but it is a bit wasteful, and also may
-induce unexpected suspend attempts (e.g., if a device was purposely last
-touched with pm_runtime_put_noidle()).
+Add a unit test that covers the bugfix/optimization in the previous
+patch, "PM: runtime: Only queue an idle check for RPM-linked suppliers".
 
-To avoid excess idle checks, only call pm_request_idle() on linked
-suppliers that opted into runtime PM.
+This test ensures:
 
-Noticed by inspection of trace logs.
+1) device links with DL_FLAG_PM_RUNTIME can RPM-resume/suspend properly;
+   and
 
-This is not expected to have a functional impact on systems that are
-using device links properly, and should only be considered an
-optimization.
+2) device links without DL_FLAG_PM_RUNTIME are not accidentally
+   resumed/suspended along with the consumer.
 
-Fixes: 5244f5e2d801 ("PM: runtime: Defer suspending suppliers")
+Notably, without patch 1 ("PM: runtime: Only queue an idle check for
+RPM-linked suppliers"), the no-RPM supplier will fail 2 of its last 3
+test expectations:
+
+  $ tools/testing/kunit/kunit.py run --kconfig_add CONFIG_PM=y 'pm_runtime*'
+
+  ...
+
+  ## Fails because rpm_suspend_suppliers() suspended the wrong links
+  [17:01:44] # pm_runtime_supplier_suspend_test: EXPECTATION FAILED at drivers/base/power/runtime-test.c:279
+  [17:01:44] Expected pm_runtime_active(norpm_supplier) to be true, but is false
+
+  ## Fails because the no-RPM supplier is already suspended unexpectedly
+  [17:01:44] # pm_runtime_supplier_suspend_test: EXPECTATION FAILED at drivers/base/power/runtime-test.c:282
+  [17:01:44] Expected 0 == pm_runtime_suspend(norpm_supplier), but
+  [17:01:44]     pm_runtime_suspend(norpm_supplier) == 1 (0x1)
+  ...
+
 Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
+In my opinion, this patch is slightly better as a proof for my patch 1
+fix, rather than a proper unit test, mainly because it:
 
- drivers/base/power/runtime.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+1) tests a somewhat arcane set of particular sequences and
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index fab38bc98113..4d84d97f09c4 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -361,7 +361,8 @@ static void rpm_suspend_suppliers(struct device *dev)
+2) lightly depends on the behavior of pm_wq.
+
+But it should be a reliable regression test still, if it's deemed
+valuable.
+
+ drivers/base/power/runtime-test.c | 57 +++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+
+diff --git a/drivers/base/power/runtime-test.c b/drivers/base/power/runtime-test.c
+index 1535ad2b0264..24865ce844fc 100644
+--- a/drivers/base/power/runtime-test.c
++++ b/drivers/base/power/runtime-test.c
+@@ -5,6 +5,7 @@
  
- 	list_for_each_entry_rcu(link, &dev->links.suppliers, c_node,
- 				device_links_read_lock_held())
--		pm_request_idle(link->supplier);
-+		if (device_link_test(link, DL_FLAG_PM_RUNTIME))
-+			pm_request_idle(link->supplier);
+ #include <linux/cleanup.h>
+ #include <linux/pm_runtime.h>
++#include <linux/workqueue.h>
+ #include <kunit/device.h>
+ #include <kunit/test.h>
  
- 	device_links_read_unlock(idx);
+@@ -229,6 +230,61 @@ static void pm_runtime_probe_active_test(struct kunit *test)
+ 	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
  }
+ 
++static void pm_runtime_supplier_suspend_test(struct kunit *test)
++{
++	struct device *dev = kunit_device_register(test, DEVICE_NAME);
++	struct device *supplier = kunit_device_register(test, DEVICE_NAME "_supplier");
++	struct device *norpm_supplier = kunit_device_register(test, DEVICE_NAME "_norpm_supplier");
++
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, supplier);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, norpm_supplier);
++
++	KUNIT_ASSERT_NOT_NULL(test, device_link_add(dev, supplier, DL_FLAG_PM_RUNTIME));
++	KUNIT_ASSERT_NOT_NULL(test, device_link_add(dev, norpm_supplier, 0));
++
++	pm_runtime_enable(dev);
++	pm_runtime_enable(supplier);
++	pm_runtime_enable(norpm_supplier);
++
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(norpm_supplier));
++
++	/*
++	 * Resume the device and RPM-linked supplier; non-RPM-linked supplier
++	 * stays suspended.
++	 */
++	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_active(supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(norpm_supplier));
++
++	/* Also resume the non-RPM-linked supplier. */
++	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(norpm_supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_active(norpm_supplier));
++
++	pm_runtime_put_noidle(norpm_supplier);
++	KUNIT_EXPECT_TRUE(test, pm_runtime_active(norpm_supplier));
++
++	/*
++	 * Suspend device. This should only suspend the device and its
++	 * RPM-linked supplier, not the non-RPM-linked supplier.
++	 */
++	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
++	/* Note: supplier suspend is async, so we have to flush the queue. */
++	flush_workqueue(pm_wq);
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_active(norpm_supplier));
++
++	/* Now suspend non-RPM-linked supplier. */
++	KUNIT_EXPECT_EQ(test, 0, pm_runtime_suspend(norpm_supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(supplier));
++	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(norpm_supplier));
++}
++
+ static struct kunit_case pm_runtime_test_cases[] = {
+ 	KUNIT_CASE(pm_runtime_depth_test),
+ 	KUNIT_CASE(pm_runtime_already_suspended_test),
+@@ -236,6 +292,7 @@ static struct kunit_case pm_runtime_test_cases[] = {
+ 	KUNIT_CASE(pm_runtime_disabled_test),
+ 	KUNIT_CASE(pm_runtime_error_test),
+ 	KUNIT_CASE(pm_runtime_probe_active_test),
++	KUNIT_CASE(pm_runtime_supplier_suspend_test),
+ 	{}
+ };
+ 
 -- 
 2.55.0.970.g62bdec98f9-goog
 
