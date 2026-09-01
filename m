@@ -1,47 +1,43 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1E98477298
-	for <driver-core@lists.linux.dev>; Tue,  1 Sep 2026 09:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta0.migadu.com (out-112.mta0.migadu.com [91.218.175.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396F436B901
+	for <driver-core@lists.linux.dev>; Tue,  1 Sep 2026 14:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788254278; cv=none; b=H36bsUhvPtYi0Ejg8yLOHEmmbobKD0ToarlNXWYibOWxe6kgxSpbzwKY74QU52fkBmqVnCekOZCU+SESQUdQLY6ifrpPJfwbJIIytnzrb4HE46RUoI9MaIKf8SSZKHuRW7fBIjn0ZKeI16NMeIaxsVAQZCvsg+0OneqaT4jmcls=
+	t=1788272786; cv=none; b=PzHlN/AT53KzZFzzsSbM+MpdKChCg2mtFJDs9QK5GM9HKOWnF1MGite9kozeDiwJy9Ejrdm43LzfdLah1NGbWRwiQgVOVQvgcKg5s8bWGz72YRioX1Mz6MbXl9eqQ/LQAjvh6ioQI0UldKlA9B0OUOQbRoapZcd5KGbOgRUseWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788254278; c=relaxed/simple;
-	bh=ks9WM3PRQRqUGON47//b1Pmkqw5lx8iK3dx6XqExqyM=;
+	s=arc-20240116; t=1788272786; c=relaxed/simple;
+	bh=BYo7V49rEgMHWq7ZsNC+wtDhhAsiwmzghNYGwdvniXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oeql6AB5d+qJEvqwjOpdNaPpiZhCMvkJKT6HhZaGZfVSd2USQIDYUb5tAqmZelyIF6QzszvFk5L9oCpOnKOP7zBPPb9kqEsHIPYRd3KrNODcr8xHPx+8oIrzHGxzQHqDKAlfgHKBzb5miioyR/OKN60iYW1XRcHIzl7K9uTpFhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nMv/UW7j; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YMmVMNKBF6H8ou0p2El73g5ghiNfxS0C1VEpZ/MGNAkMRPR3TbWh6D11ZIXB0Y4kr2KdTmYT5fCoYoYdvakBSrOGL2eheYAIR1UO/u6Ud7/vKdrSIY/hlKeLXtwpyQVxRbdLILYdihFPVusB7uvWt9iRIie1dWbrFkqiijPVjz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JvQpvZiP; arc=none smtp.client-ip=91.218.175.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nMv/UW7j"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2267F1692;
-	Tue,  1 Sep 2026 02:17:51 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5FC703F882;
-	Tue,  1 Sep 2026 02:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788254274; bh=ks9WM3PRQRqUGON47//b1Pmkqw5lx8iK3dx6XqExqyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nMv/UW7jL/CfUFZIEOAX4wlPj4g0NKuCatmZAvfp2d6bdCOlYsCtkffE4uiDCzs2l
-	 /naRgpKXeGcCK3cvxTyNVtdYyomrbKmz1fjilV0kkhrtAWHOGasOngKobacWxAZ0yp
-	 QFD+shJ6Kb3ze8xiBhYbpRbur/Mj0g9wlCEU4Xdo=
-Date: Tue, 1 Sep 2026 11:17:42 +0200
-From: Beata Michalska <beata.michalska@arm.com>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net,
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
-	aliceryhl@google.com, tmgross@umich.edu,
-	daniel.almeida@collabora.com, boris.brezillon@collabora.com,
-	work@onurozkan.dev, acourbot@nvidia.com,
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] rust: add runtime PM support
-Message-ID: <apaYNvQSSUCkMTjn@arm.com>
-References: <20260826131213.1820408-1-beata.michalska@arm.com>
- <20260826131213.1820408-2-beata.michalska@arm.com>
- <20260829003719.GA552219@google.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JvQpvZiP"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=BYo7V49rEgMHWq7ZsNC+wtDhhAsiwmzghNYGwdvniXQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788272782; v=1; x=1788877582;
+ b=JvQpvZiPq9n81+epQf8WYz3zIPppaKIylwaTeW8D+c+ahhQGt2JxXTbpuGPOh9h7kaY1FUQm
+ 3TFrQ3Nv5CujNeoHg8+VnHgboBpKgK4GN8pDauT4OoFEYst0Q5wQ0T/iGeM7K7iSMNjIp4lisQV
+ wCByLihBxCDn51jvNNA3wmh4=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 6877674021b6adc4;
+	Tue, 01 Sep 2026 14:26:22 +0000
+X-Mizu-Trace-ID: 6877674021b6adc4
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 1 Sep 2026 07:26:21 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>
+Cc: Meta kernel team <kernel-team@meta.com>, 
+	linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests: cover kernfs dentry revalidation
+Message-ID: <apbgQnHeMKDyVHPg@linux.dev>
+References: <20260829022825.407836-1-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -50,201 +46,46 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260829003719.GA552219@google.com>
+In-Reply-To: <20260829022825.407836-1-shakeel.butt@linux.dev>
 
-Hi Sami,
+On Fri, Aug 28, 2026 at 07:28:25PM -0700, Shakeel Butt wrote:
+> kernfs_test only exercised two xattr calls, so nothing covered the part
+> of kernfs most exposed to userspace: the dentry cache.
+> 
+> kernfs nodes appear and disappear from kernel contexts with no VFS
+> operation driving them, and removal cannot reliably unhash the cached
+> dentries, so ->d_revalidate() is the correctness backstop. It had no
+> test at all.
+> 
+> Add tests that drive kernfs from kernel context rather than through VFS
+> create/unlink:
+> 
+>  - writing cgroup.subtree_control makes the kernel add and remove files
+>    in every child cgroup, exercising both the negative-dentry revision
+>    check and the deactivation check,
+>  - renaming a network interface renames the sysfs node underneath an
+>    already cached dentry,
+>  - sysfs in a fresh network namespace must show only that namespace's
+>    interfaces, covering the KERNFS_NS tagging paths,
+>  - lookup hammered against concurrent mkdir/rmdir must only ever see
+>    success or an errno meaning "it went away",
+>  - removal-while-open, readdir duplicate detection and a
+>    seekdir()/telldir() round trip over kernfs_dir_pos()'s hash cookie.
+> 
+> Also the other direction: walking already cached dentries must not
+> invalidate them. That is not merely a lost optimisation --
+> d_invalidate() calls detach_mounts(), so a revalidation that wrongly
+> fails silently tears down any mount underneath the directory.
+> 
+> Both filesystems are needed: cgroup2 has no ->rename and is not
+> namespace tagged, and sysfs cannot be mounted with a controllable set of
+> children. The config fragment keeps a kernel built via kselftest-merge
+> from reporting a pass while running almost nothing.
+> 
+> Verified the suite reacts to a broken backstop rather than passing:
+> stubbing kernfs_dir_changed() to return false turns 8 of the 11 tests
+> red.
+> 
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-On Sat, Aug 29, 2026 at 12:37:19AM +0000, Sami Tolvanen wrote:
-> Hi Beata,
-> 
-> On Wed, Aug 26, 2026 at 03:10:55PM +0200, Beata Michalska wrote:
-> > diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-> > index a56ba6309594..43bbf4bce993 100644
-> > --- a/rust/kernel/error.rs
-> > +++ b/rust/kernel/error.rs
-> > @@ -67,6 +67,7 @@ macro_rules! declare_err {
-> >      declare_err!(EOVERFLOW, "Value too large for defined data type.");
-> >      declare_err!(EMSGSIZE, "Message too long.");
-> >      declare_err!(ETIMEDOUT, "Connection timed out.");
-> > +    declare_err!(EINPROGRESS, "Operation now in progress.");
-> 
-> Looks like this is already upstream since commit b93fb6e76ec1.
-Missed that.
-> 
-> > +/// Device's runtime power management status
-> > +#[repr(i32)]
-> > +pub enum RuntimePMState {
-> > +    /// Runtime PM has not been initialized for this device yet.
-> > +    UNKNOWN = bindings::rpm_status_RPM_INVALID,
-> > +    /// The device is expected to be runtime active and in it's normal operating state
-> 
-> Nit: it's -> its.
-Fixed for v4 (across all style-related comments: spelling, documentation
-formatting, naming/CamelCase, etc.).
-> 
-> > +    RESUMED = bindings::rpm_status_RPM_ACTIVE,
-> > +    /// The device is expected to be suspended, unavailable for normal operations
-> > +    SUSPENDED = bindings::rpm_status_RPM_SUSPENDED,
-> 
-> Should the enum variant names use CamelCase?
-> 
-> > +impl<'a> ResumeScope<'a> {
-> > +    fn new(dev: &'a device::Device<device::Bound>, mode: Mode) -> Result<Self> {
-> > +        if mode.contains(ModeFlag::Acquire) {
-> > +            // ModeFlag::Acquire is intended to be used with Awake scope
-> > +            // Avoid mixing the modes.
-> > +            return Err(EINVAL);
-> > +        }
-> > +
-> > +        // ModeFlag::Idle is internal so strip it of before passing further
-> 
-> Nit: of -> off. Also in the identical comment below.
-> 
-> > +impl<'a> AwakeScope<'a> {
-> > +    fn new(dev: &'a device::Device<device::Bound>, mode: Mode) -> Result<Self> {
-> > +        if !mode.contains(ModeFlag::Acquire) {
-> > +            return Err(EINVAL);
-> > +        }
-> > +        // ModeFlag::Idle is internal so strip it of before passing further
-> > +        match Request::resume(dev, mode & !ModeFlag::Idle) {
-> > +            Ok(()) => {}
-> > +            // For async/nowait requests, `EINPROGRESS` means the resume is in
-> > +            // flight and the usage reference already keeps the device active.
-> > +            Err(e) if e == EINPROGRESS && mode.contains_any(ModeFlag::Async | ModeFlag::Nowait) => {
-> > +            }
-> > +            Err(e) => {
-> > +                Request::put_noidle(dev);
-> > +                return Err(e);
-> > +            }
-> > +        }
-> > +
-> > +        Ok(Self(Scope::<Awake> {
-> > +            dev,
-> > +            mode,
-> > +            _tag: PhantomData,
-> > +        }))
-> > +    }
-> > +
-> > +    fn release_inner(&self) -> Result {
-> > +        let scope_mode = self.0.mode & !ModeFlag::Idle;
-> > +        match self.0.mode {
-> > +            mode if mode.contains(ModeFlag::Idle) => Request::idle(self.0.dev, scope_mode),
-> > +            mode if mode.contains(ModeFlag::Auto) => {
-> > +                Request::mark_last_busy(self.0.dev);
-> > +                Request::suspend(self.0.dev, scope_mode)
-> > +            }
-> > +            _ => Request::suspend(self.0.dev, scope_mode),
-> 
-> In v2 you had Request::idle in the default arm. I didn't see a note
-> about this in the changelog. Was the change in behavior intentional?
-This is intentional to match the resume request. Idle has a separate case.
-Missed that from the changelog.
-> 
-> > +impl<'a> RetainScope<'a> {
-> > +    fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
-> > +        Request::get_noresume(dev);
-> > +        Ok(Self(Scope::<Retain> {
-> > +            dev,
-> > +            mode: Mode(ModeFlag::Sync as u32),
-> > +            _tag: PhantomData,
-> > +        }))
-> > +    }
-> > +
-> > +    fn try_new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
-> > +        Request::get_if_active(dev)?;
-> > +        Ok(Self(Scope::<Retain> {
-> > +            dev,
-> > +            mode: Mode(ModeFlag::Sync as u32),
-> > +            _tag: PhantomData,
-> > +        }))
-> > +    }
-> > +
-> > +    fn release_inner(&self) {
-> > +        Request::put_noidle(self.0.dev);
-> 
-> What's the reason for using put_noidle here? It doesn't queue
-> autosuspend, so wouldn't the try_hold_active pattern (i.e. grab if
-> active, do something, drop) leave the device active until something
-> else triggers a suspend?
-You are right. This should call put.
-> 
-> > +/// SAFETY:
-> > +/// bindings::dev_pm_ops is #[repr(C)], implements Default
-> > +/// and the struct itself is all nullable function pointers.
-> > +/// There is no padding and all zero bit-pattern is valid
-> > +///
-> > +pub const PMOPS_NONE: bindings::dev_pm_ops =
-> > +    unsafe { core::mem::MaybeUninit::<bindings::dev_pm_ops>::zeroed().assume_init() };
-> 
-> The safety comment shouldn't be a doc comment.
-> 
-> > +/// Runtime PM context tied to a device.
-> > +pub struct PMContext<'a, D: driver::DriverLayout, T: PMOps<D>> {
-> > +    // Preferably, PMContext could be shared via borrowed reference over
-> > +    // a pm Registration's lifetime but that bares complications on its own
-> > +    // when the context needs to be shared across different Registration types.
-> 
-> Nit: bares -> bears. Also in the identical comment below.
-> 
-> > +impl<'a, D: driver::DriverLayout, T: PMOps<D>> PMContext<'a, D, T> {
-> > +    /// Driver-provided runtime PM operations.
-> > +    ///
-> > +    /// A driver implements this trait to handle runtime PM
-> > +    /// transitions for its device type.
-> > +    ///
-> > +    /// Each callback receives the device and the current payload.
-> > +    /// On success, it returns the payload to keep for the next
-> > +    /// transition. On failure, it returns the payload together
-> > +    /// with the error so the previous, or otherwise sane state
-> > +    /// can be preserved.
-> > +    pub const PM_OPS: bindings::dev_pm_ops = bindings::dev_pm_ops {
-> > +        runtime_resume: if T::HAS_RUNTIME_RESUME {
-> > +            Some(runtime_resume_callback::<D, T>)
-> > +        } else {
-> > +            None
-> > +        },
-> > +        runtime_suspend: if T::HAS_RUNTIME_SUSPEND {
-> > +            Some(runtime_suspend_callback::<D, T>)
-> > +        } else {
-> > +            None
-> > +        },
-> > +        ..PMOPS_NONE
-> > +    };
-> > +
-> > +    /// Enable runtime PM
-> > +    pub fn enable(&self, state: RuntimePMState) -> Result {
-> > +        if self.inner.enabled.cmpxchg(false, true, ordering::Full).is_err() {
-> > +            return Err(EBUSY);
-> > +        }
-> > +        Self::apply_config(self.inner.dev, &self.inner.configs);
-> > +        match state {
-> > +            RuntimePMState::RESUMED => Request::mark_active(self.inner.dev),
-> > +            RuntimePMState::SUSPENDED => Request::mark_suspended(self.inner.dev),
-> > +            _ => Err(EINVAL),
-> > +        }.inspect_err(|_| self.inner.enabled.store(false, ordering::Release))?;
-> 
-> This always applies the config even if state is invalid. Should we
-> validate the state before making changes?
-We could but that should not be strictly necessary.
-Those should not have any effect when rpm is not enabled.
-> 
-> > +    /// Runs a closure while holding an `AwakeScope`.
-> > +    pub fn with_get<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
-> > +        if profile.0.contains(ModeFlag::Async) {
-> > +            return Err(EINVAL);
-> > +        }
-> > +        let _scope = self.get(profile)?;
-> > +        f()
-> > +    }
-> 
-> Shouldn't this reject NoWait too to make sure the device will actually
-> be powered when the closure is executed?
-We should. Thanks for catching this.
-
-Thank you for your feedback.\
-
----
-BR
-Beata
-> 
-> Sami
+Sashiko raised couple of issues, so I will address those and send v2.
