@@ -1,53 +1,54 @@
 Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE708485518;
-	Tue,  1 Sep 2026 16:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827E8486BA7;
+	Tue,  1 Sep 2026 16:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788281449; cv=fail; b=doLWJ6O9jI5dSJt5IoJVXrHfDcISsAUFxyC17G8+xTrfJglH5bKaeVbTlpDBY/HSxIIcow5uMKU1AjNthFFt+9k/EcPuk2Xq4cm9X+XNEjKllitiUvtL2lOu8YBaolu/zeqBHtu0HZsVmYgb9A+7lW6wAU3ZvLX/Nk7HuQ6X9Ss=
+	t=1788281452; cv=fail; b=IOljGlSXtgjfOM4hpmwe4bVZg2DuK807PM1sc8zdF6utYNHfIjmtXAWG0UJAEy3V9zU2is0S9dlCbyYkYwie24Zu6LdIwsUs5uw4kWwiQej8Y3CA7gilGpo/+ayvwRt/SxKvtz+I0Midi1t8avAgLRn9735iCxoKPrsQzoGetqY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788281449; c=relaxed/simple;
-	bh=nTJ7wZSeeUArV1c5w8DwZwK2ut/RdnBTX0czYVxRigA=;
+	s=arc-20240116; t=1788281452; c=relaxed/simple;
+	bh=zEIOeiPp4a1yDOdPM6mIKhxZQ8hMqxFVFnTtfY+7bqI=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=f60cAdpEQ88IMTQ6a5+1DgQJXWn4KJ2KzcT7tZ2F6owFkC9vAIvmpUvuMmSvB02I95IJxKAVlku9ORoFs395m7TYaLYgXjCyBlLYVvOvJqBD3zKGojQQoOenXlF42gfopZZcyQGOMf0HJr1K1l49+erkZgf9iTSwVUYI/1jjyzQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=pGbWEPpD; arc=fail smtp.client-ip=52.101.96.125
+	 To:Cc:MIME-Version; b=JK2pEBA2YB7UYuC8eIyKn4dtDZTSxXZ1fSN/6MbepRKZFKw7dyzoDI1pewgD+TNohO0ccwaH0N/+48+IokphVnb4u2a8PV/HmqfuC8QxgQpNNdDUBpmZeCyVkGQHYh0/FLzDTWWymLcv2nk8t14u+mzT137yvz8OvFensYFj50U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ZalMD0Dq; arc=fail smtp.client-ip=52.101.96.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="pGbWEPpD"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ZalMD0Dq"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HEj81LyXE8o44GHfyhH0frbWpEFZWka5GxhHIM1llm3np9J2DKiUZT+GDajN0f+u+jWPLmZdXjWy6ncNmxVb3YVYHs8N4/p/oN0Tg7hg3m1lBK+3WsJ0bxIUaCU+3JWpFgi8xG4mjpPLoKqAmWpGDQXskp/KJ0MXTnYLJ/IXfkXg9JRhUxF9np0OeyHzW1A/AkWzGQeIR8a/nGBv1n1dQ0/ozIJ/CsY5LARDFIOxjdrejX5Lx3TgdQLh5BzqR2WajVNTJ5ClCT4X6c7Yp7xxShZgq5Tm6g03GHgRfTO2r++K52f2CuK+FQndHsttQPE7zU1JhKbO/AGCQo/YI4oxaA==
+ b=Jg+ax6NPjXwNxLu4bmgqPTYJGxBQXG3t4wx23+WDeuM6qdCeJcBbvKekZiDMjjR91CpmQUiOk51ECL75PmUK4KVOII8C++qaszc4xojAJEai8IqQOTARPOClX/qbpSx8mpTBZFjnOv1uCBx/7Gdofpep5ezxkaSjvFeRWFSBFOGUJPS9DTGsCJRgtgXMb1BgQMg3upotZlVMr6SnrNnyN/801ovB59+pcMuHWeVhQE/nK4CCU9K8VStr1gEI7uFuaTw+nOfQikMXx0kUpyV49P0YMqMOQtkrRkNY+eL6k9IopBq06TX3H97jtgXWPG8VczFYinbMKtvmbFlRvL18Cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NvWLye6q3T6iJdVLSyDKt2fXUAcrrEInZPcP41AR6Mo=;
- b=tc0QNDZPcJiRPb7uFP0O+4dSHiC0zskWuX8zfSI27lXZe+Vwuv+BPwcJMmQCjV1YLr7GrPpGNby6GX9E4/hj2emSLV0Pi2X+eVTd9i9HDWMe6zEVmidt3B5bqSmAmmXUTdEYpkxVQhffz1UGSIgAzixZiFdb1vgOgA7plbwx+VxBM3spN6KBxqCJImXOPrnPzdts19GT21oyAiOhaXRuO7ctg3S+b5ydOJknxoT+6OZgrEU2uJUkMi+MnYlk4YXQt9KF/vSyXjUbHBLOTDhrs7LVaMD+Tuy+LCyubOxHpE2rBfXz6i56/0CrkdExWUXXQgiwIqf7tVKJHInL1ksCYg==
+ bh=rCqwbtdaqZ+QP3nT+UsxF/pKPsWOYcZlWfV5Q0XGCkc=;
+ b=RtNs3M+oQVXXCtZ41mamdaNYWoA67XrzwAx2PSeGZ1yoblhX5jBHG76VOKW5Pzxv1NGc/2ztGnz6lqE0JrUA3T+dFi33SkYJ3v7eh0R2nCOIhRq/g/DtblmNoj6CqOAANFCiUJUN5VVyohFDw1rdcYVPwhWfg0oR6qLwjpqA717tA5B3nkcwQuPLlBLz7juvsluwA4cR7n+q9cWeb7g7XeHmf+DsPyOR7KhDFNkYA+FhMXvjFxilDTTbT7jSkWRXU5QAOrV6Ar0aGvFaNYzLQ2rxgDOAH+0UPwXxED2MAnMKrd3lXnGd4FLAUK2i3CzD8Y+dS4oEjatcnozYtHnoBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NvWLye6q3T6iJdVLSyDKt2fXUAcrrEInZPcP41AR6Mo=;
- b=pGbWEPpD58kDZLpBL7AR09S5fQDJx/XIkYg3NjRHu9DQF2sHwsYfX6dNNGGzod/Ad/duZ0/xwIGdoY0fl9su9b83RdgKx9xHytagf3wqptCtmR6n4oIu7z4UDkrYAb4tQNuri8Q3EDWzR1QxJEMFM8XX9ZGKRhQvgFBDz1eGvJc=
+ bh=rCqwbtdaqZ+QP3nT+UsxF/pKPsWOYcZlWfV5Q0XGCkc=;
+ b=ZalMD0Dq+eAEsLvAlIIkQjFDu1Luznw/yQQgiuKpvYfHsMijVZSyajIaCHbFXaGLQBhhDBf9I46l+9+2Kr4777S2Z1TmGxMfRuarv18urp61RYlxLKWbmCBxDw/W/oatebHSXsnPVPc/29lhm1Vu80mGhD2MqIasUDz0bCqj4AQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
  by CW1P265MB9199.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:272::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 16:50:39 +0000
+ 2026 16:50:42 +0000
 Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 16:50:39 +0000
+ 16:50:42 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Tue, 01 Sep 2026 17:50:32 +0100
-Subject: [PATCH v4 08/16] drm/tyr: specify base type for registers
+Date: Tue, 01 Sep 2026 17:50:35 +0100
+Subject: [PATCH v4 11/16] rust: io: register: support fixed offset register
+ without bitfield
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-typed_register-v4-8-5552b1d59525@garyguo.net>
+Message-Id: <20260901-typed_register-v4-11-5552b1d59525@garyguo.net>
 References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
 In-Reply-To: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -66,11 +67,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
  Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788281431; l=7409;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788281431; l=8003;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=nTJ7wZSeeUArV1c5w8DwZwK2ut/RdnBTX0czYVxRigA=;
- b=hwh470+H6ghU6gJ8+uNBfwNSKLi57prsGhGKA92YknymqxtJWpT3qb85Ljqc875s7yHLWqFsn
- bDqz8D0Gh1/BCGll2fOGh8VdoUWwBg3hI2G5jefFO6CTzg6QV8l4Io+
+ bh=zEIOeiPp4a1yDOdPM6mIKhxZQ8hMqxFVFnTtfY+7bqI=;
+ b=SFk/cHLNnbV2FfHDTmt3JssIWyqe/UeG42qFroyd6eKi5q6hp5TxIGAabf8eZbXi8LRcPPQrq
+ ibjYkIH9Jz6BxJp3x1A7vA5zdy5KtfbLFrbNHKWRGmxdpUJd7q/bLVK
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: PAZP264CA0173.FRAP264.PROD.OUTLOOK.COM
@@ -84,300 +85,294 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB9199:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5645085-ad1c-4f39-d928-08df0849274c
+X-MS-Office365-Filtering-Correlation-Id: 33f4f20f-9fbe-4673-4f79-08df084928da
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|23010399003|366016|921020|6133799003|3023799007|10067099003|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|23010399003|366016|921020|3023799007|10067099003|56012099006|5023799004|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	ldHPAB4UBRCPQKaSAK43PhZCNO9g8cg1w/Qp180l+gxQoPAFd2bMHaL+OfYLJAlpCgjN+ZP6OLo9ZSK4yAjqkkf+5PTDLbOmN6UOvCgvga/8svHgSunRtl4rkwfgTQ9qrzBYmzZZdUdA6vxLj4ewM21IkqezMQ+xdm3xnMVm9DMG6XX5txanzCP1k4C7t9jQrva+q89zbH7Isk+5lMqU8VtwLGz7ADYfV60yYn25QjiaNP2frJMrAQVw6Sc03fqtATkX6c8liCoZAWMgUs+/WhOdh2nJOO5PUclggA31bYdUrRTNWt5W0O6dXnrbaJVblsJU7arIgSjz/koGJmvhgWQ6DuuGLPuWa4gAkWawCVSJ9TvxeBBJEk9HEXGaEbD/aPzJQeM3gZmBzz4WQT3jyrwds4CEkkAiWc8YhZ5ADsv9OjRUaVvWFKKOZHrUF8OZdrM8N34LEmCnqEc+7+q6/pWhqzjYXk1CoQ8u3g6tgUsB970mCJlLwCNSyqll0iPxiCsJaa87urbTFoBFCACyGBBkUsZe2nczye740vp0GoXQAYbFICOugviMA2ljYuWNQnJPGO32yyt4qQUEkCIhwnAOjtlL1H2in18tLxNGlalkO7BkDGJtsyQugKof23MDLCnlOCxaG7/q+zxCwFC7KBkmojiVIOYaxI6PTzneMHCmx2cL8uidas2d92jvp1cKdqxcoJk7Cn6W+fvVJh6mkA==
+	xthVSC91G8LM21dfbm30fQuH9SeylS5RHqvXkAe4/9OvlgDCoZPWfb87euIY6xUuA4gWhwU+/fdVmtH6L6wksmwjolOh2v0Ef6OG+GP0jrsIDojG9hEfDzg4MoZiR+xfbtZYEkVjUaQtWO697BQKRWC8LE8iSNEqy42flkzRCAhm4jXEoA9yLcVjAO2Hb3U81rHOj6ywWS0qCmhOgA9kJEKwF1Xck8s/BQ8/vkkQnrPWjKyKjxypMdRSq6HDQq3hr1hYEFkGFdkBKZQqwhdNi/3BeoZTNNqtwFmwT51z0lQjCsWApXeHyEuk38ko0unoocENdd2XR4BHM1+KXCt+dyuOSigT3pw++9j7yMywkW9XXP0JqjlQeVF+cLWEcZHKOtPYpOoN2wWO695cDaIu373ZtUu2MpPGqhZ/HodIgqU3BiqHqBL9/w6c3p+48l9nvELrOpBaotRagoDIwpexQ42a/zdfwh+JLjqBSRQ6gwoMGpz+Zlxe7u2GpxYSm3t0k4ZY67Ic+g4zMJ3kENXoOsbH6kj1blG8EYxiOVLRt7cqjK6QMO1GY9hQJ7+cWzqApo77Dma8mbHarGUStLCDFPoROBBKXBJGgQ3nwC0vVoVZyTgfXT4/X0XlC8F6sFe6T2vb05xAsFVziZJm4q/IvOdMk0G/C/2g/pir/SgjnOK895ch6G2t+Lo2H5iYvFGGMw07wHLmlsOPYAZD9P5W1w==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(23010399003)(366016)(921020)(6133799003)(3023799007)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(23010399003)(366016)(921020)(3023799007)(10067099003)(56012099006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TmNhVDFNaGwxWGpxUytwQW1ZemVJbUF1aUw0My9qUHhudG05MWoyeU12aGN6?=
- =?utf-8?B?alRmSFpPTktrRmxtcFpCU0MrZEJ3eTlNTkk0OWVRRTdabnE3c0UxL2pvOFIy?=
- =?utf-8?B?dmY4N2o0WW5EQVg3aUhZa3VpS0k5eUFUYzBOMHNTTEsvTVZ4UHNRMnZ6MUtj?=
- =?utf-8?B?cXBmZmUwZEVhRnBYK1FDdHViU0p0YnkweUNTOFp0SEVCZlJyOXFBOTdiRW04?=
- =?utf-8?B?V1VLeHVYNjVLQnQ0YVBrQm55K1pkREMxYitxL0duN1B4TDVZTWVob1Y1UXhj?=
- =?utf-8?B?UmtmNUNBZEFZUGE4aGhOMnEvSWtnOTYvcnQ1UWN4NlIvbzg4R2lud1QvTDNk?=
- =?utf-8?B?ZGZaZzVRaGIyUVhQMC9HaGU3dGJlN3lVZERERldPUGlFNWF3bnRsZUozcEZt?=
- =?utf-8?B?NVRZWHp6YmxGeFg5L2dhTDVXa1Q2VXFGdXBWdm15cDFFOUVQNXFzWHdPMW9F?=
- =?utf-8?B?cGZGVVJNSk10dTlhd1VWSjZ6eVRDMmN1ZEl2cWtOMmZXbm9RNDltMWpCL2c5?=
- =?utf-8?B?djNrbkFaZTI1b1h1bHZmaVZvMmpLTDJTRm0wdVlsckllZHgvOWZFME93SVNC?=
- =?utf-8?B?RWhtcFUxV2lMMSs4QUdxcnhHOXZCNWRremhDeTRFSHBucUFON3RSV0pkU1Br?=
- =?utf-8?B?SUh3THQ2Q1ZPMHhZOG5hVE93cXpZM1pqSDhnWjFnUTZjUWZwaDhWc2VQUkZm?=
- =?utf-8?B?bm5Rd09mZFJ0WGExZWFlVkoyUG9saVJLRUl4ZTh4clVxZ0FaVDRuUC9RYlBs?=
- =?utf-8?B?Q1F3VldYRG9GbnRlaUdvSlpiOHlTS0l6aHhwdDVPTlkwZEdCK1h0bWNVb3Y5?=
- =?utf-8?B?UzJzenJoN2s2UFNwZTJCS2hRUXdwdytqQVdsNy92SDNXRmpRaGxvZG1VWnVa?=
- =?utf-8?B?L0l3amVnaExaMnl3aFYzLzFaVzdCeUVJM2M2MFpDZXpPVFc5cTFMcVJ1YzZ5?=
- =?utf-8?B?dklnN2xNcFFOcFlmMWxianFoNHZkNENPVGhUZStRQ1JzUGFqMkZmaW1CUGkx?=
- =?utf-8?B?MGxtNUM0NzlwTXZOTkh4UDh0clRQc2N0TFJ2dzdEVElTMm9CWGZQYllLMWxD?=
- =?utf-8?B?bnREQnRaNExGMFRWVDBuZ0xNWHpwVFdxV0ZkWEVuL281d1FDVTZaa2taUHp4?=
- =?utf-8?B?UlFXNjhHMWo1Y2tLVGlqSXk3TkJHS1Fwejl4ZTVSNE1tTTNFM2IrTjJGZ2Fh?=
- =?utf-8?B?QkxEL3hOSzVORUFFR0tzS2h1ai9vSm5TSFNLeDE3VUFYTUNSZHRxY045Vjc5?=
- =?utf-8?B?NVE4WEQ2Z0ZZWml1MktJMFNucWdYTWxvblg5QVJqSCs0Vm4rOHU0a2RBd0M3?=
- =?utf-8?B?NWdSZHptTWFMc2hqOUhORnA4aDBYa0ZETE1WUFR5djExYW1MTlVWWDFLY2ky?=
- =?utf-8?B?SlI3Q3NwVEpFZ0JBR09EbDRYWVJJaVArMXFJckE1R1Fuc2hCbURkTTY3ek5T?=
- =?utf-8?B?NGlRbEQ3MjRxemZiODR3SHBYYjhiZExoQ2dOekJ6U2twMG5RUmcvanZJZmVO?=
- =?utf-8?B?ZXpRTW1MSlNHN05xZXhMS1dEYTd2YjdNelpUUlBMOUV2L3hJR3JWb3JzdGli?=
- =?utf-8?B?TjhpcXNYYVdOYk15bVVHbkJWN3FTRVFCVjJMTHMrTDhkUFhWdDNLK0hzRDlK?=
- =?utf-8?B?OGp1Q2EwbzhUbVdXOU0xbmRrTkJkd21QOHAwdEJLRlUwbXBYMmRBMWN3TTJy?=
- =?utf-8?B?L0lMNnBYbkt4QVU2cENITXdmeGkzS2NlM2pzRXpEdk1JWHdUb0Q3bnNPNFpJ?=
- =?utf-8?B?S1ZpL1EzS00rMmdNSmNNeVBSb2dpeWZ4UE9YNjlWTVc2L2ZaTVZadlg2V2Fv?=
- =?utf-8?B?bE1DY1lzQ09NK3BxZDFmZ3lHWSs0cmtBaG9lbEU5VXYrVVRxWEw5Z0NuZVl6?=
- =?utf-8?B?cnNMQ0FZbmw5dmN6NzJqQmRLZTZlUjRrYTllS2lVcmJ0MzgzeE9KZVpUd1Ez?=
- =?utf-8?B?THN5WndsbThmMnhLbkhscGhMWWxXR3AzRGUyMENBQ01hR2Q3UWgzNjMvYzVK?=
- =?utf-8?B?YVNiREhWRXFIdi9WNExrWGtBZDVrbExMbWRzSHBzUW5pcTZveTZoT0ZhWlg2?=
- =?utf-8?B?dVJsUDVsWndqYklvMytES0ZZUll6RmpzRzRxTm95QzhVMnJPUG5CZTczNzBF?=
- =?utf-8?B?SXlzVHNEVW9lZ3NrNWZzL3JXRXdxQ3diK1c0OW0ydGJwOW1IbTV4OXdoa0N5?=
- =?utf-8?B?UEk3NEl6cURXSDNSaFpGc3B0Z2JOMmN5WkgrQ3Fxc1kyK3hGVkh4Q1QvaGc4?=
- =?utf-8?B?QU01dEN1aDdzMzA2QzhzcjJPaHZuWGs4c0pwSTBQdk8zQzFXcFllMnlwVU93?=
- =?utf-8?B?THZHSGo0enl0eitGSTJJbUNGblRMVXdSNUZPRXJzN3JZNkxwZmxwQT09?=
+	=?utf-8?B?SmJ1NmgxZTRzc1pmazE3WC9GOW8wcFlFNjRxN3VsMi9ZZXlFdlU4SlM3SVlZ?=
+ =?utf-8?B?VVV3dFB5S1FTQ3U2ajlHZTgrWU04SkRLZktQbmlnSFZ0Y2ZFM0E5LzB3UzBt?=
+ =?utf-8?B?T1NLUWEwN3E3Zk4vZjNDdStObnhsVFR3eEtYcHJCSHlkSCthMXUyQUtud0dl?=
+ =?utf-8?B?cFZrc3N5QmNtUDVMbmlwVFZFNkQxMTFDYkZpUFY5c2d0WFJtdGcyK1BTS3ov?=
+ =?utf-8?B?NytHMVJvRkh4UmNNTnNoUUUzMDNoeWhSVnBrRDJMV3o1MmNqZ001R1Z0c1I1?=
+ =?utf-8?B?bGtILzZuRFZ2RFhUa2Y2M1NPb3dQbFljT21USnZmMmtVYVptVUlleGdZYTB0?=
+ =?utf-8?B?UUpmenNKMXV3T2hOdUFDYUpJek5pQTgzNjJhQWZ5WGYvaTRDTkFLdmNLRjh1?=
+ =?utf-8?B?YmFCRU44a2FuVWE0YVc5Y3ZpM3BrSjZGZkYrSlB3dHcwL0NVMy9IRFljNzRN?=
+ =?utf-8?B?S3JrNE9EenUwc0lHakNPZDQ4Y05tajhzQndlQTFuTDBJZ2VGenZWcGZHemJa?=
+ =?utf-8?B?T09TaHR4RHlPUzZ3Mld6NlJaZG5FcmZDcmtRRjA0YWJFRVBHWVRnd29keUUv?=
+ =?utf-8?B?SlVVSENGQndqdWlodUgwTGp5MStGNXNCemVFSng1SXdnTGxlaENnZG9STW9L?=
+ =?utf-8?B?Znc2UUVwbC95Um9TRnhEZ2NBaEJISFl0RG9WVXZGelFYbW5rLzVidzUxWEVF?=
+ =?utf-8?B?THNyWjY0RENIR2wvWDNBU1RURnlUSlNPMlQ0UmVRNXRzRG5uZy92NnNpQVdq?=
+ =?utf-8?B?NUtvS1YyVDRYWGZBS1d1ZExNdURsWnVEMkhXQ1ZXK1dodlJGeDNuMmFnSjQw?=
+ =?utf-8?B?M1pteDlXYkxlelZ6UzJidGpQSFZXME1oMWN6LzlmUWJLVU5BcnloeVpXejhj?=
+ =?utf-8?B?NGV4SVU4bXhyMDBiMUx4QXBmUjVjWTNaRTAzeDdnY2h0TGMrQmw4aUJ6RDV5?=
+ =?utf-8?B?eXFodm5TWkxwc1VmVEIxc2lnSGo0YkZJazM3UVU0T3ZneXYwVHBkemlONDJk?=
+ =?utf-8?B?VGxyU0RMZVgzQll4TTA2RUF4RXRpUk54VlRQdlJaL3Y1eHJYejRFS09YamN5?=
+ =?utf-8?B?dTlRYzdheVpSKzJoSUpxd0VjMDJnOUtqbzR0aVNYc1hKWDlwQUZTTS9qdzk1?=
+ =?utf-8?B?WThpNmE0R2xwakVwWXM3UU5FdTMycllHQ2UzZHJmMnByMzRjV0FpZUZvb09v?=
+ =?utf-8?B?Q2M4eXhEOVhGNU5yMlgwZStJVkVkV2VsbHBCTnpoVzdYV2JwZ2JGY05oa0li?=
+ =?utf-8?B?L2wvVHNIdlZCSkcvbFc5RVk5cE5zR1ZlOWkvK2pDd1kwcjBvYXFKZ2dJTHFw?=
+ =?utf-8?B?eEhKNWFTUWV6alVyT3NUTXByVlFYd0dXSnhhbEJBdHB5RThLT0F1N1kyaUFT?=
+ =?utf-8?B?QzVjQ1R4L2lPQWE5VUgzUUgzcWhTazlFRnIrMVNkdjdzQkEwQjQ5MThxYitq?=
+ =?utf-8?B?WTA3ODJIWmJYUkNuV2JrQWR5R3RSU0RiWUNJU01kdGVqS1RmYmdmeVJrbXd4?=
+ =?utf-8?B?c3p3Mkt2VmNhYUVGM2gzWVRXTlAxdStVRi9XdzVYZVVHcUdWakJvMWZUTU9F?=
+ =?utf-8?B?UnM3L015dFgyVnNMa1pCb29SVkMwcWhRUWRESE5QY08yNzEzelRzVG14YnJQ?=
+ =?utf-8?B?M1dIb3FKVU1SVTgzTmQ4S2FHd0ZSQU1Vb1Y0ZHVvUWY3VXF5OXUyWkh2cnk0?=
+ =?utf-8?B?VURpQzRHRlZvSDlkOGNuMkpJaUJBVzkrU014NHdGNWFSdHVCWER6SGxYaFJo?=
+ =?utf-8?B?ODkxTThIMWtwclZ3Z2RlMDViL24yaDAxbkVpZ1h5ZVIwbTN3dHVhOWdhSDBG?=
+ =?utf-8?B?RVYxZldyUlJ6VWEza1Vybm1IMEovdG15S0d4aUlnNklPeTF5WjRrSDlXVE9z?=
+ =?utf-8?B?d3pRandiMjJUVDFsSGJFWmRaZU9QMHhlczQ3SUdyR3htNEQ3Ylp1dUNja0R3?=
+ =?utf-8?B?WWlzbEFDMExrSTNFUWc3dHJmRXkyWVFmcXl5SzNwZ2IvSU50L1VCQnF0Wnls?=
+ =?utf-8?B?MFd6SWpnU1VhKys4NUYraDBuUXo5MUlRMmhiMTB3VnB5OHA3UXNGelJiTURX?=
+ =?utf-8?B?VlNucVFQNHRSdXY2bWhSeW9vcHZlRGFoUWE3RTFtZ1BqYjFYbytNMVdVT0Uy?=
+ =?utf-8?B?U1VTU0RsN2YzbHd0RWlsOWszQmhCSkdVYVVnbEs4Ui81VGNTbkI4aWd2andL?=
+ =?utf-8?B?bEIrT1NaUnZiV1oySDRDaHlUMVJ3dVdjdThZTjdac0lYTlZWUDlHMnhPNFNj?=
+ =?utf-8?B?R1duUS9JajBFYld4R3NQNzd2ZmQ5U0RUMWdROE9lcDI4T1dUSThYQ21YOStF?=
+ =?utf-8?B?SWVFR2hmN1I0cGI0ZVBnanJ5WENyQnE4MkxhbVRPbHVxSVFnVWp4dz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5645085-ad1c-4f39-d928-08df0849274c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33f4f20f-9fbe-4673-4f79-08df084928da
 X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:50:39.5628
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:50:42.1747
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /dAq2Hu39N3KsEhJM6o7T6cfJYxihwT22leb1W42nQVsiED7w5wc+/ReeF8cE2q9zNzQne8C/gelR+HVIbB7Ug==
+X-MS-Exchange-CrossTenant-UserPrincipalName: mziR4W098qt9DAa70DRtPMO+1cWyFonp1m8yRu0h/c5pxnKoh/eHKVOx+MIr/qijwqeRSi0kaMJI5M5hnocclA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB9199
 
-All registers use the same base type, which is `<IoMem as IO>::Target`.
-Thus add the base parameter to `register!` invocation.
+Add a rule to allow creating `IoLoc` in `register!()` using an existing
+type and not create a bitfield. Add an example to demonstrate this for FIFO
+registers.
 
+This rule is also going to be used to create subregions for registers; the
+example of doing so will be added later when relative registers are
+removed.
+
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/gpu/drm/tyr/driver.rs |  1 +
- drivers/gpu/drm/tyr/fw.rs     |  5 ++++-
- drivers/gpu/drm/tyr/regs.rs   | 45 ++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 49 insertions(+), 2 deletions(-)
+ rust/kernel/io/register.rs | 31 +++++++++++++++++
+ rust/macros/io/register.rs | 84 +++++++++++++++++++++++++++++++---------------
+ 2 files changed, 88 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index bfb0ba19caff..730b84e37a54 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -46,6 +46,7 @@
- };
- 
- pub(crate) type IoMem<'a> = kernel::io::mem::IoMem<'a, SZ_2M>;
-+pub(crate) type TyrRegisters = kernel::io::Region<SZ_2M>;
- 
- pub(crate) struct TyrDrmDriver;
- 
-diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-index 47d25c901bd0..7edb5eff1707 100644
---- a/drivers/gpu/drm/tyr/fw.rs
-+++ b/drivers/gpu/drm/tyr/fw.rs
-@@ -39,7 +39,8 @@
- use crate::{
-     driver::{
-         IoMem,
--        TyrDrmDevice, //
-+        TyrDrmDevice,
-+        TyrRegisters, //
-     },
-     fw::parser::{
-         FwParser,
-@@ -101,6 +102,8 @@ fn from(value: CacheMode) -> Self {
+diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
+index 58dcf651dfd0..b9cb4fce8628 100644
+--- a/rust/kernel/io/register.rs
++++ b/rust/kernel/io/register.rs
+@@ -182,6 +182,24 @@ fn offset(self) -> usize {
+     }
  }
  
- register! {
-+    base: TyrRegisters;
++// Provides a `IoLoc` impl that for a fixed offset.
++#[doc(hidden)]
++pub struct OffsetLoc<Base: ?Sized, T>(usize, PhantomData<(T, Base)>);
 +
-      #[allow(non_upper_case_globals)]
-     pub(super) SectionFlags(u32) @ 0x0 {
-         0:0 read => bool;
-diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
-index a62724378ced..0c419c4e1186 100644
---- a/drivers/gpu/drm/tyr/regs.rs
-+++ b/drivers/gpu/drm/tyr/regs.rs
-@@ -57,7 +57,11 @@ pub(crate) mod gpu_control {
-         uapi, //
-     };
++impl<Base: ?Sized, T> OffsetLoc<Base, T> {
++    #[inline]
++    pub const fn new(offset: usize) -> Self {
++        Self(offset, PhantomData)
++    }
++}
++
++impl<Base: ?Sized, T> IoLoc<Base, T> for OffsetLoc<Base, T> {
++    #[inline(always)]
++    fn offset(self) -> usize {
++        self.0
++    }
++}
++
+ /// Trait providing a base address to be added to the offset of a relative register to obtain
+ /// its actual offset.
+ ///
+@@ -520,6 +538,19 @@ pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base
+ /// In this example, `SCRATCH_BOOT_STATUS` uses the same I/O address as `SCRATCH`, while providing
+ /// its own `completed` field.
+ ///
++/// If you do not wish to have a bitfield defined, you can also create a register using an existing
++/// type.
++///
++/// ```no_run
++/// # use kernel::io::*;
++/// register! {
++///     base: Region<0x1000>;
++///
++///     /// UART RX register.
++///     pub UART_RX: u8 @ 0x100;
++/// }
++/// ```
++///
+ /// ## Relative registers
+ ///
+ /// Relative registers can be instantiated several times at a relative offset of a group of bases.
+diff --git a/rust/macros/io/register.rs b/rust/macros/io/register.rs
+index f603f4e45565..b3262e9c06a1 100644
+--- a/rust/macros/io/register.rs
++++ b/rust/macros/io/register.rs
+@@ -16,6 +16,7 @@
+     bracketed,
+     parenthesized,
+     parse::Parse,
++    parse_quote,
+     spanned::Spanned,
+     token,
+     Attribute,
+@@ -62,11 +63,11 @@ struct Reg {
+     attrs: Vec<Attribute>,
+     vis: Visibility,
+     name: Ident,
+-    storage: Type,
++    ty: Type,
+     array: Option<RegArrayDef>,
+     relative_base: Option<Path>,
+     offset: RegOffset,
+-    bitfield_args: Group,
++    bitfield: Option<(Type, Group)>,
+ }
  
-+    use crate::driver::TyrRegisters;
+ impl Parse for Reg {
+@@ -74,11 +75,22 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+         let attrs = input.call(Attribute::parse_outer)?;
+         let vis = input.parse()?;
+         let name = input.parse()?;
+-        let storage = {
 +
-     register! {
-+        base: TyrRegisters;
++        let lh = input.lookahead1();
++        let (ty, bitfield_storage) = if lh.peek(Token![:]) {
++            let _: Token![:] = input.parse()?;
++            (input.parse()?, None)
++        } else if lh.peek(token::Paren) {
+             let content;
+             parenthesized!(content in input);
+-            content.parse()?
++            let bitfield_storage = Some(content.parse()?);
 +
-         /// GPU identification register.
-         pub(crate) GPU_ID(u32) @ 0x0 {
-             /// Status of the GPU release.
-@@ -315,6 +319,8 @@ fn from(mode: FlushMode) -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// GPU command register.
-         ///
-         /// Use the constructor methods to create commands:
-@@ -380,6 +386,8 @@ pub(crate) fn clear_fault() -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// GPU status register. Read only.
-         pub(crate) GPU_STATUS(u32) @ 0x34 {
-             /// GPU active, a 1-bit boolean flag.
-@@ -463,6 +471,8 @@ fn from(access: AccessType) -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// GPU fault status register. Read only.
-         pub(crate) GPU_FAULTSTATUS(u32) @ 0x3c {
-             /// Exception type.
-@@ -768,6 +778,8 @@ fn from(mode: CoherencyMode) -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// Coherency enable. An index of which coherency protocols should be used.
-         /// This register only selects the protocol for coherency messages on the
-         /// interconnect. This is not to enable or disable coherency controlled by MMU.
-@@ -808,6 +820,8 @@ fn from(mode: McuControlMode) -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// MCU control.
-         pub(crate) MCU_CONTROL(u32) @ 0x700 {
-             /// Request MCU state change.
-@@ -849,6 +863,8 @@ fn from(status: McuStatus) -> Self {
-     }
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// MCU status. Read only.
-         pub(crate) MCU_STATUS(u32) @ 0x704 {
-             /// Read current state of MCU.
-@@ -862,7 +878,11 @@ fn from(status: McuStatus) -> Self {
- pub(crate) mod job_control {
-     use kernel::register;
- 
-+    use crate::driver::TyrRegisters;
-+
-     register! {
-+        base: TyrRegisters;
-+
-         /// Raw status of job interrupts.
-         ///
-         /// Write to this register to trigger these interrupts.
-@@ -912,7 +932,11 @@ pub(crate) mod job_control {
- pub(crate) mod mmu_control {
-     use kernel::register;
- 
-+    use crate::driver::TyrRegisters;
-+
-     register! {
-+        base: TyrRegisters;
-+
-         /// IRQ sources raw status.
-         ///
-         /// This register contains the raw unmasked interrupt sources for MMU status and exception
-@@ -966,9 +990,10 @@ pub(crate) mod mmu_as_control {
-             prelude::*,
-             register, //
++            // For bitfields, bitfield macro will generate a type with the same name as `name`.
++            (parse_quote!(#name), bitfield_storage)
++        } else {
++            Err(lh.error())?
          };
++
+         let array = if input.peek(token::Bracket) {
+             let content;
+             bracketed!(content in input);
+@@ -133,22 +145,28 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
+             Err(lh.error())?
+         };
+ 
+-        let lh = input.lookahead1();
+-        let bitfield_args = if lh.peek(token::Brace) {
+-            input.parse()?
++        let bitfield = if let Some(storage) = bitfield_storage {
++            let lh = input.lookahead1();
++            let args = if lh.peek(token::Brace) {
++                input.parse()?
++            } else {
++                Err(lh.error())?
++            };
++            Some((storage, args))
+         } else {
+-            Err(lh.error())?
++            let _: Token![;] = input.parse()?;
++            None
+         };
+ 
+         Ok(Self {
+             attrs,
+             vis,
+             name,
+-            storage,
++            ty,
+             array,
+             relative_base,
+             offset,
+-            bitfield_args,
++            bitfield,
+         })
+     }
+ }
+@@ -188,11 +206,11 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
+             attrs,
+             vis,
+             name,
+-            storage,
++            ty,
+             array,
+             relative_base,
+             offset,
+-            bitfield_args,
++            bitfield,
+         } = reg;
+ 
+         // Use register name's span for generated code, so error messages (if any) can point to it
+@@ -213,21 +231,33 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
+             }
+         };
+ 
+-        outputs.extend(quote_spanned!(span =>
+-            ::kernel::bitfield!(
+-                // `#[allow(non_camel_case_types)]` is added since register names typically use
+-                // `SCREAMING_CASE`.
+-                #[allow(non_camel_case_types)]
+-                #(#attrs)* #vis struct #name(#storage) #bitfield_args
+-            );
 -
-         use pin_init::Zeroable;
- 
-+        use crate::driver::TyrRegisters;
+-            impl ::kernel::io::register::Register for #name {
+-                type Base = #base;
+-                const OFFSET: usize = #offset;
+-            }
+-        ));
++        if let Some((storage, args)) = &bitfield {
++            outputs.extend(quote_spanned!(span =>
++                ::kernel::bitfield!(
++                    // `#[allow(non_camel_case_types)]` is added since register names typically use
++                    // `SCREAMING_CASE`.
++                    #[allow(non_camel_case_types)]
++                    #(#attrs)* #vis struct #name(#storage) #args
++                );
 +
-         /// Maximum number of hardware address space slots.
-         /// The actual number of slots available is usually lower.
-         pub(crate) const MAX_AS: usize = 16;
-@@ -977,6 +1002,8 @@ pub(crate) mod mmu_as_control {
-         const STRIDE: usize = 0x40;
++                impl ::kernel::io::register::Register for #name {
++                    type Base = #base;
++                    const OFFSET: usize = #offset;
++                }
++            ));
++        }
  
-         register! {
-+            base: TyrRegisters;
+         match array {
++            None if bitfield.is_none() && relative_base.is_none() => outputs.extend(quote!(
++                #(#attrs)* #vis const #name: ::kernel::io::register::OffsetLoc<#base, #ty> =
++                    ::kernel::io::register::OffsetLoc::new(#offset);
++            )),
 +
-             /// Translation table base address. A 64-bit pointer.
-             ///
-             /// This field contains the address of the top level of a translation table structure.
-@@ -1104,6 +1131,8 @@ fn from(val: MemoryType) -> Self {
-         }
- 
-         register! {
-+            base: TyrRegisters;
++            _ if bitfield.is_none() => Err(Error::new_spanned(
++                ty,
++                "defining without bitfield is not yet supported for this type of register",
++            ))?,
 +
-             /// Stage 1 memory attributes (8-bit bitfield).
-             ///
-             /// This is not an actual register, but a bitfield definition used by the MEMATTR
-@@ -1137,6 +1166,8 @@ fn from(val: MMU_MEMATTR_STAGE1) -> Self {
-         }
+             None => match relative_base {
+                 None => outputs.extend(quote_spanned!(span =>
+                     impl ::kernel::io::register::FixedRegister for #name {}
+@@ -249,12 +279,12 @@ impl ::kernel::io::register::RelativeRegister for #name {}
+                 let stride = if let Some(stride) = &def.stride {
+                     outputs.extend(quote_spanned!(stride.span().resolved_at(span) =>
+                         ::kernel::build_assert::static_assert!(
+-                            ::core::mem::size_of::<#storage>() <= #stride
++                            ::core::mem::size_of::<#ty>() <= #stride
+                         );
+                     ));
+                     quote!(#stride)
+                 } else {
+-                    quote_spanned!(span => ::core::mem::size_of::<#storage>())
++                    quote_spanned!(span => ::core::mem::size_of::<#ty>())
+                 };
  
-         register! {
-+            base: TyrRegisters;
-+
-             /// Memory attributes.
-             ///
-             /// Each address space can configure up to 8 different memory attribute profiles.
-@@ -1292,6 +1323,8 @@ pub(crate) fn from_mair(mair: u64) -> Self {
-         }
- 
-         register! {
-+            base: TyrRegisters;
-+
-             /// Lock region address for each address space.
-             pub(crate) LOCKADDR(u64)[MAX_AS, stride = STRIDE] @ 0x2410 {
-                 /// Lock region size.
-@@ -1353,6 +1386,8 @@ fn from(cmd: MmuCommand) -> Self {
-         }
- 
-         register! {
-+            base: TyrRegisters;
-+
-             /// MMU command register for each address space. Write only.
-             pub(crate) COMMAND(u32)[MAX_AS, stride = STRIDE] @ 0x2418 {
-                 7:0     command ?=> MmuCommand;
-@@ -1480,6 +1515,8 @@ fn from(access: MmuAccessType) -> Self {
-         }
- 
-         register! {
-+            base: TyrRegisters;
-+
-             /// Fault status register for each address space. Read only.
-             pub(crate) FAULTSTATUS(u32)[MAX_AS, stride = STRIDE] @ 0x241c {
-                 /// Exception type.
-@@ -1705,6 +1742,8 @@ fn from(sh: PtwShareability) -> Self {
-         }
- 
-         register! {
-+            base: TyrRegisters;
-+
-             /// Translation configuration and control.
-             pub(crate) TRANSCFG(u64)[MAX_AS, stride = STRIDE] @ 0x2430 {
-                 /// Address space mode.
-@@ -1760,6 +1799,8 @@ fn from(sh: PtwShareability) -> Self {
- pub(crate) mod doorbell_block {
-     use kernel::register;
- 
-+    use crate::driver::TyrRegisters;
-+
-     /// Number of doorbells available.
-     pub(crate) const NUM_DOORBELLS: usize = 64;
- 
-@@ -1770,6 +1811,8 @@ pub(crate) mod doorbell_block {
-     const STRIDE: usize = 0x10000;
- 
-     register! {
-+        base: TyrRegisters;
-+
-         /// Doorbell request register. Write-only.
-         pub(crate) DOORBELL(u32)[NUM_DOORBELLS, stride = STRIDE] @ 0x80000 {
-             /// Doorbell set. Writing 1 triggers the doorbell.
+                 outputs.extend(quote_spanned!(span =>
 
 -- 
 2.54.0
