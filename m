@@ -1,142 +1,261 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04BF54AA1E9
-	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 16:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87F04AA004
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 17:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788366157; cv=none; b=P1AIDAYiQ2ytd8ncaMy3DuiSJXkonZAoShApu56U7bnw0UjWu7+lkABNzyAhv9DXeBH+3sYVT2UaBYWREZVWHD48/qeBkqdoqI35oFgIJZRrASh2MffKyvS3LSZ5r9gYmW5feWMQEu1pnfnET4YQUXqSiY4OL2PPF5hczO42sOA=
+	t=1788368938; cv=none; b=HuN4edphd5LDzMfdtMxR+3rjzlkbVvsamq2DAhiuS7OmUdoeEhbc5YGtZOD8kYmMqlSXK4lUf229OQMk54LrzsOQn46q8b2jY8WteYi+iTZWYCoI1XY8jr9XPO9u2lmtIhwbkwMA9DfSe3XjR3H68SBF4jExGdLyN/mw0kz4KSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788366157; c=relaxed/simple;
-	bh=f7So4PD3SpWVkcMTym/ALZ8vV33+GGiW9Tn+04kGdXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jTLW5OYN8nrdYEinZU7IdI5IMaYI1e/XmfJ9a/3hlelzANh4T9W9himhCBbm0+JtlH/ZYquZt0RHVgYoE2XbwaLNBxj+7skSD4fFyvQprcu0z+B6TBTMp9bmoNoC+WGjdNHcFYwRQfZA83ZPHiuCwa9m8ZTGHjOTFEwQT2kZRAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pwcrpkTi; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1788368938; c=relaxed/simple;
+	bh=TMIYaTI/mkH0viaYqmV8FJlYo1dAnCICTFz6ny5+zUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=PoHnZyy9+dKQqo1svT3lZf2Nr0tcKpt6vre5tqVeuWR9MOdO91LCQgcM7zDpOB0SAPiICC88yCUYqrGhZJqkFUfQV4B6yVSetPMCnBgRDr1yE6M+m+rYyqyWV6l0JCfoFaIufKo5+VNkYKlOTunxQmoazclwYqun9HKOhFjCRmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dMwnvwPu; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pwcrpkTi"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97372165C;
-	Wed,  2 Sep 2026 09:22:30 -0700 (PDT)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 595503F882;
-	Wed,  2 Sep 2026 09:22:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788366154; bh=f7So4PD3SpWVkcMTym/ALZ8vV33+GGiW9Tn+04kGdXs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pwcrpkTi9XgUFwKtd7d8RetimOzgVqcjPRL0NQ7xqfCWiXec1X48RdCTgwWyfhGrV
-	 b3RmIXXPF7I1HV7pLvAh7Xi5Yf5njXs+9Nzkk8Bhx4BRJBF01z2/k3mEofMu0rkYl6
-	 33K+d7vi9eoLsgjbxGeiWHqmBQn8Vo/gX5FrXtPU=
-Message-ID: <bca22f76-4fc0-4a99-8648-4f148de7246d@arm.com>
-Date: Wed, 2 Sep 2026 18:22:29 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dMwnvwPu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788368935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xOI6fE6IFzn2Y2SJgYgTQiaYQdwE/HE1TtjRKTx+nYQ=;
+	b=dMwnvwPuHOvyNbl8Ai+j0PQqSirJ188nJVf9AmPAtPwlIjH9UkCTlecPtTHq5QuVkYIAa9
+	udd1cTdhGFY9KlX8WDV6bqutdrc/3WVFwtbEWOv+kiJWqXeF9qJ7R6VU3BexIJunMFa+cA
+	3nYLN5+NscLSD64MX3UzWzqMiYX31Ck=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-190-QabH0riVNguA83tMeaLkNg-1; Wed,
+ 02 Sep 2026 13:08:52 -0400
+X-MC-Unique: QabH0riVNguA83tMeaLkNg-1
+X-Mimecast-MFC-AGG-ID: QabH0riVNguA83tMeaLkNg_1788368928
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A0D9D195E920;
+	Wed,  2 Sep 2026 17:08:47 +0000 (UTC)
+Received: from djeffery-thinkpadp1gen3.rmtusga.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A00C01955D8D;
+	Wed,  2 Sep 2026 17:08:43 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Tarun Sahu <tarunsahu@google.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	kexec@lists.infradead.org,
+	"Ewan Milne" <emilne@redhat.com>,
+	"John Meneghini" <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	"Bart Van Assche" <bvanassche@acm.org>,
+	"John Garry" <john.g.garry@oracle.com>,
+	"Jeremy Allison" <jallison@ciq.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	"Pasha Tatashin" <tatashin@google.com>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v21 0/9] shut down devices asynchronously
+Date: Wed,  2 Sep 2026 13:07:25 -0400
+Message-ID: <20260902170734.95504-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 08/15] arm_mpam: Fix ris_idx type to prevent range
- check bypass on truncation
-To: Yin Li <yin.li@oss.qualcomm.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
- Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Konrad Dybcio <konradybcio@kernel.org>, James Morse <james.morse@arm.com>,
- Ben Horgan <ben.horgan@arm.com>, Bjorn Andersson <andersson@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
- driver-core@lists.linux.dev, Srivathsa L Rao
- <srivathsa.rao@oss.qualcomm.com>, Huang Yiwei
- <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
- linux-kernel@vger.kernel.org
-References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
- <20260811-mpam-resctrl-dt-knp-support-v1-8-ea6397bead59@oss.qualcomm.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260811-mpam-resctrl-dt-knp-support-v1-8-ea6397bead59@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: YCKsmRza3dpGxANr6OWbY44ZYgBVzZctr2qn-1UJ-nI_1788368928
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Hi,
+These patches are rebased against the driver-core tree's driver-core-next
+branch and should also apply against recent linux-next. Changes for v18 are
+contained in patch 3.
 
-On 8/11/26 15:30, Yin Li wrote:
-> The RIS index is read from device tree as u64 via of_property_read_reg(),
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-what does it do that using an u64, actually? Do you refer to the reg 
-property of the ris subnode, which has a limit of 0xf in the DT binding? 
-So shouldn't it be an u8 all along, and we fix the types up at the 
-sources, rather than widening everything needlessly to u64?
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-Cheers,
-Andre
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
 
-> but was narrowed to u32 when passed to mpam_dt_parse_resource() and
-> further to u8 when passed to mpam_ris_create(). A value exceeding
-> MPAM_MSC_MAX_NUM_RIS could be silently truncated to a small index that
-> passes the range check in mpam_ris_create_locked(), leading to incorrect
-> RIS creation.
-> 
-> Widen the ris_idx parameter through mpam_dt_parse_resource(),
-> mpam_ris_create_locked(), and mpam_ris_create() to u64 so the value
-> is preserved until the range check in mpam_ris_create_locked() rejects
-> out-of-range indices.
-> 
-> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-> ---
->   drivers/resctrl/mpam_devices.c | 6 +++---
->   include/linux/arm_mpam.h       | 4 ++--
->   2 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-> index cc9fa1d78925..1e082fb60e30 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -260,7 +260,7 @@ static int mpam_dt_count_msc(void)
->   }
->   
->   static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
-> -				  u32 ris_idx)
-> +				  u64 ris_idx)
->   {
->   	int err = 0;
->   	u32 class_id = 0;
-> @@ -712,7 +712,7 @@ static int mpam_ris_get_affinity(struct mpam_msc *msc, cpumask_t *affinity,
->   	return 0;
->   }
->   
-> -static int mpam_ris_create_locked(struct mpam_msc *msc, u8 ris_idx,
-> +static int mpam_ris_create_locked(struct mpam_msc *msc, u64 ris_idx,
->   				  enum mpam_class_types type, u8 class_id,
->   				  int component_id)
->   {
-> @@ -799,7 +799,7 @@ static void mpam_ris_destroy(struct mpam_msc_ris *ris)
->   		mpam_vmsc_destroy(vmsc);
->   }
->   
-> -int mpam_ris_create(struct mpam_msc *msc, u8 ris_idx,
-> +int mpam_ris_create(struct mpam_msc *msc, u64 ris_idx,
->   		    enum mpam_class_types type, u8 class_id, int component_id)
->   {
->   	int err;
-> diff --git a/include/linux/arm_mpam.h b/include/linux/arm_mpam.h
-> index f92a36187a52..30461cd71199 100644
-> --- a/include/linux/arm_mpam.h
-> +++ b/include/linux/arm_mpam.h
-> @@ -39,10 +39,10 @@ static inline int acpi_mpam_count_msc(void) { return -EINVAL; }
->   #endif
->   
->   #ifdef CONFIG_ARM64_MPAM_DRIVER
-> -int mpam_ris_create(struct mpam_msc *msc, u8 ris_idx,
-> +int mpam_ris_create(struct mpam_msc *msc, u64 ris_idx,
->   		    enum mpam_class_types type, u8 class_id, int component_id);
->   #else
-> -static inline int mpam_ris_create(struct mpam_msc *msc, u8 ris_idx,
-> +static inline int mpam_ris_create(struct mpam_msc *msc, u64 ris_idx,
->   				  enum mpam_class_types type, u8 class_id,
->   				  int component_id)
->   {
-> 
+And thank you to everyone who has spent some of their valuable time
+providing reviews, suggestions, criticisms, or tests on the various
+iterations of this patchset.
+
+Changes from V20:
+- Move PCI bridge async enablement to before its call to device_add
+- Use srcu to prevent ensure any active device_add is completed before
+  device_shutdown begins shutting down devices.
+
+Changes from V19:
+- Convert initial creation of shutdown_one_device to a code move with no
+  changes or side effects
+- Add a warning to device_move should some device ever mix need_parent_lock
+  with device_move in the future
+- Link a PCI virtual function as consumer of its associated physical
+  function to ensure proper shutdown order
+
+Changes from V18:
+- Fix deadlock and race condition on concurrent device_add
+- Use local variable to device_shutdown for caching async_shutdown
+- Added dev->p check to avoid NULL pointer deference and tell if the
+  device is not registered so no need to be shutdown. This is to handle
+  the cases when devices consumers list might have devices that are not
+  yet registered.
+
+Changes from V17:
+
+Fix mangled text in kernel parameter description
+Re-protect the list removal with the spinlock
+  * Hold a device reference to ensure the device cannot be freed before
+    attempting list removal
+
+Changes from V16:
+
+Drop spinlock before async subsystem call which uses GFP_KERNEL
+Handle that async shutdown can widen races between device shutdown and deletion
+  * __shutdown_one_device will immediately return if a device is dead
+  * Set shutdown device completion to complete when marking a device dead to
+      prevent waiting on a dead device
+  * Only late-access a parent pointer if device is in a non-dead state to
+      ensure the pointer is still valid
+
+Changes from V15:
+
+The async_shutdown bit field is converted to a device flags bit
+Convert all patches to use the flag bit accessor macros to set or check if
+  async shutdown should be used
+Added documentation on the kernel parameter to control use of async shutdown
+
+Changes from V14:
+
+Remove unneeded use of '!!' with boolean type
+
+Changes from V13:
+
+Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+ 
+Changes from V2:
+ 
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+David Jeffery (7):
+  driver core: warn should device_move try to move a need_parent_lock
+    device
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+  driver core: async device shutdown infrastructure
+  PCI: Link a virtual function to its physical function
+  PCI: Enable async shutdown support
+  scsi: Enable async shutdown support
+
+Tarun Sahu (2):
+  driver core: rely on put_device to free dev->p
+  driver core: prevent device_add() during system shutdown
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ drivers/base/base.h                           |   2 +
+ drivers/base/core.c                           | 269 +++++++++++++++---
+ drivers/pci/iov.c                             |  11 +-
+ drivers/pci/probe.c                           |   2 +
+ drivers/scsi/hosts.c                          |   2 +
+ drivers/scsi/scsi_sysfs.c                     |   3 +
+ include/linux/device.h                        |   2 +
+ 8 files changed, 260 insertions(+), 41 deletions(-)
+
+-- 
+2.55.0
 
