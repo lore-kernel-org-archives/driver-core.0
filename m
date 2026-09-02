@@ -1,38 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5256D3DAAC3;
-	Wed,  2 Sep 2026 07:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC12541D107;
+	Wed,  2 Sep 2026 09:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788334141; cv=none; b=mebSPKsbAolcnUaC9e5TKKaYLRngDL3EuYijCAZBcAngDBvMka4PKgruv0GsHuYpLoE0dX7mh//1R4xoNWeC05zsrKxBN70sS/BI5pMyD5QqVUiF2wqlUvdBTjLdLpkJGr++JD1o9Z+wTwJonU2J6Lw6uf6G2dOvHznQ8CKsyG4=
+	t=1788341422; cv=none; b=YXP+pgoZvdaxXvVnb2M5leZfjBTYGkt1T4gm2OFrO6KkuQr9+G8OpkhZ/xuy0hbuy3TTnR3WHLR8DWsBfykwt0NWxbNOe7AqEFN+YSyvy5wEp55rMKb5//w03r4FsVBzJOCTVh6KJT/fBksyeAS0d7DzL3AlGm2vhqFpxPjufpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788334141; c=relaxed/simple;
-	bh=pAfaN+jDCA2d0gxsMNOU7J3a/OQIiXUBd3dXX/RakV4=;
+	s=arc-20240116; t=1788341422; c=relaxed/simple;
+	bh=l4CcqLeTw2RJTTXu+564kHsC9lTF6y/VbYYD37/sXHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nP9uSp6A0g6SNlrcAyyvpvnZ1JgVMPqCKTvccgb2/tlDNCeoOr4EO2a0XG0iaswaH2ba+P6aDTUZn7YjNNYNV2elO+WP9FHuXJzOJWRvntyXvuLN5cyY46XK7NpHGPy/vx/GNv9o3aGFTL9AnC3Hly7P2wolwG4rsbBs//drISo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOIpN1l8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOiDvAXzydgomUVU0mL6tfZD77qRaqfz2gO/nH5i4QoYFoefDWo88fvxSg9xB0AvG84x4r4mLN/z9zx/ykaJ+eQThG/0A2NRq3NpIlp7aK/2AguB0W8pvLkA6Bnqjsp+5QNLRdyRF2Ie9X0oIlh7ghovUWZT8ojnrXKALoV17Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgWyBXoO; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOIpN1l8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587161F000E9;
-	Wed,  2 Sep 2026 07:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788334139;
-	bh=nsm2e+vuYYkeIEUmf/SuK3uUkXGDYr8hmbsdJyez/v4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AOIpN1l8+aTzQhC8rel45G1zUGjtyGXOCxC5bYbgvc/bOa8S8YFQRzPz+T9+qsuaF
-	 Xr7JdWKsgy9N0XHyiexLxOCoDNsxX7sQjxNIF6UrrrafPyUKdOPdQVRYJ06j32JSbq
-	 TAoa8d/lRfbqpFBPOvvhp02FT9SJjBHt7aVhc0CB2GQXN5Cowd/3pYZzb8Gitt5qts
-	 YX4VcrEQYyeJ+C0QiADCSS/HjstbBzIvtnyfPmr3rnIrLvcQQOiUrICvPU8hAAlnGy
-	 LlAlSzCxS4UmqPLyYYFHEgXHUg54H5lrbLxfESv91Si5Mgoze6TxpDI+dUcRHNxChr
-	 9me3BKcmitrvg==
-Date: Wed, 2 Sep 2026 10:28:56 +0300
-From: Leon Romanovsky <leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgWyBXoO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788341420; x=1819877420;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=l4CcqLeTw2RJTTXu+564kHsC9lTF6y/VbYYD37/sXHg=;
+  b=dgWyBXoOPfoj93LSs+c1ig75ESd8kpAFKIlD2/ira6kV5K4wOAqL1pQW
+   Eb7U7nXeUt+4YppCQPb/8bVOlkVQJH6ZTLpj5pW+f7Dwty8uhptvm5U18
+   5oud4QN9xHI3EYzy4MJJ641IutsBVYk3zLjbKQqhx8Gr0BfoHGrmOCtUA
+   NXNdC7MQPPipC8HpIwcnU24VwsjL9jiIEYVr/A7F6Wo7FB5v95vfNQkqQ
+   OEjv3BMeSx9nhb04pQBRbiSgtSoTktmvao8BYAexMSKkYBIprWKxUuPXe
+   4ZU6lhnFJeoRaOqt0nDEe8ppGlzXCo8nGeMYVm0qW7z+M40wzpwpmW3lZ
+   g==;
+X-CSE-ConnectionGUID: juBAZE0/RdGROFnk6ahBFg==
+X-CSE-MsgGUID: O1dnOKYkRRm4WE2UKobQ1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="106313859"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="106313859"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 02:30:20 -0700
+X-CSE-ConnectionGUID: DWk/CSPsR7ixET9NbbTVEg==
+X-CSE-MsgGUID: 1RzLDjxvRqqFxl0dAUs7dw==
+X-ExtLoop1: 1
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.47.46])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Sep 2026 02:30:13 -0700
+Date: Wed, 2 Sep 2026 17:30:12 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
 To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	ankita@nvidia.com, linux-coco@lists.linux.dev,
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
-	Aaron Tomlin <atomlin@atomlin.com>,
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, ankita@nvidia.com,
+	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
 	Alistair Francis <alistair.francis@wdc.com>,
 	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
 	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
@@ -54,7 +68,7 @@ Cc: Xu Yilun <yilun.xu@linux.intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
 	rick.p.edgecombe@intel.com, yilun.xu@intel.com
 Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
  Protocol (TDISP)
-Message-ID: <20260902072856.GQ24140@unreal>
+Message-ID: <apfspMWk6axWhx1w@yilunxu-OptiPlex-7050>
 References: <20260705220819.2472765-1-djbw@kernel.org>
  <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
  <amk7Xzm5jmz+6SPJ@ziepe.ca>
@@ -129,7 +143,5 @@ On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
 > 
 > Please, comment. I find these calls pretty productive syncups. So far we were not having Europe in these calls.
 
-Berlin (CEST, UTC+2)            03:00 – 04:00   Day 2
-No wonder that you don't have Europe :)
-
-Thanks
+I'm from china. I'd say every listed option is perfect to me. Thanks.
+> 
