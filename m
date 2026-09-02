@@ -1,181 +1,113 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF079363C6C
-	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 15:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29A54A9D70
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 16:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788361295; cv=none; b=IPCSH2QQfbfTriJu3agg0gTEv4P9leK54UCUl6i0zbDuJp6EBOJHPbYii/o3uoMn2+i0CuPE6eRPP2zg8tdfs0s5nEinQdUbgXCHCtYcN6L1bROvLxJJHH1PgwAUmHY5Iv79eu8Vo+/iaSIaq7Pl9oO9VRKPtDsZp+mOwbnvfY0=
+	t=1788364999; cv=none; b=HBUt3sI8aKVI5YiqVzXbVxWgfPoujCttdKsZ8eGNYWWvKCPFQJJafe2a+sNlEN1TnrwII/1mncAwhWl4fmhOKGY1qOiJdtHpvg4HbEOH/nqI0AHP3bI2hX9GGnmBDe+uwM9cXAjyzIZ5t7yO7wcYiwgCKyYPnRCVjHu/jebYhWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788361295; c=relaxed/simple;
-	bh=vyI0+5T8UYK55sjN7c+Akwn7k1qbx8c77K/++T6sd1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BkofXubTxY5MgE6lqEf22IDPHzF3Z2AVT8c/0YViEpTmGTh3O86T4DjAZcLCwJLbVJrYnC6oVMOTxUg/zawNdALw5sIJuAtslFVlLHOoFnCJX5tNDyZTILT5kHDxWcvw9+VWqd56iPAUzwub4aTwgRK0oD9dMoGHW7BPCUpWUaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=mUm22T8s; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1788364999; c=relaxed/simple;
+	bh=0lTk1OO+FAZyEjFRc6z7dc1s5Dj5L9dAr2btCTzBPfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JL3pc6WNdRHjRfBGIAaYVN3IXSW9NO3O0O0MQGEWT8I9WsibKyJmQxpx5NEq0+HIu1EZpwJCqjrZjvjKiTbx/WnxDNJk5N4vYEMKpgUvIKSPzj+/FuyxlVGIf17yEC6qiwg2y0FL3uR5N6vcWcTOxOjX9Jvq+kApf6KKi7G3q38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ImgA2jIb; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="mUm22T8s"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-930c0f9c1b1so127731485a.1
-        for <driver-core@lists.linux.dev>; Wed, 02 Sep 2026 08:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1788361288; x=1788966088; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=giebtW14WRSNN/oAZ2HvlFksj8A4SENo3e4Bwxaljok=;
-        b=mUm22T8sw0kzR3ZLDfp84gX7Bdx2VYarjREsz5tqfnDigOONKQv2LnXxlaTPlGKMVz
-         +CvVA71+qTGxv3eUnhEeRZsEtfb+rW3B1L8QlmnbIVZB1DioRu/czptV33w0zkgKwDJ7
-         YS8lLierDy9Ph3EMW7vfbFbk8GkanmCDXh5IZHPX2KuzvJi7hHVJdtNA68OfDwVmGQDX
-         ZPgExk4YjMVbHggaR3TJQxLeOqijXgd+jPT8LX8aTVORNXlj0awdGGJNcWq8MkDeR96E
-         zzp2ucen+gYm4kcgNiXl2Y4utQ555w8el70bPRNJctxX8wcfxnKPXZDPSTh2UtzfuKUV
-         gLGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788361288; x=1788966088;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=giebtW14WRSNN/oAZ2HvlFksj8A4SENo3e4Bwxaljok=;
-        b=fbG41Av3efug84hXKNXye4GNs+cftvTaRoDjnlyBNFaMayybJaMjqz3SeDK0HKnhhb
-         ar+3E7LyLazIw25pRnYAluMgcvcNIyPbTNxrLxh+3bSctkPhqaCN9zFEqrAMblNBSLZ4
-         +t2NtAifsMhueS2RRp9VP9Bf2onadMlG+LV4w5ENyT6Bi8klVaqMEWEN2mUfsdjliuaA
-         CwQV/iUXIVYp8VXhQoYcL8K5nTXfFnVpRyYpU+Ixc+PCPPpmMsBq9Po3z9X8qAdOTc1u
-         oDkMTqqyatfbWK8iHK4USmGrBJ2R+RrXbbTDKLJcvcQsnfcr7+vPKGH6SAsqYbqn3/5Q
-         89mg==
-X-Forwarded-Encrypted: i=1; AHgh+RqJ8KN0APgp3u5rZmHBzyK8QWNCEa1PYexsHxL5ERFlmz9+HKrKyWeD35Ln5vWKiEKoCF16kZJh0QVgvw==@lists.linux.dev
-X-Gm-Message-State: AFuF++lTVpAuHJ8T3RqSVfyigsMPtD5JLWq2o36YbQjs4pG0evR1L32O
-	qUdzToKLkzaq0IqeLPCsYHjynAY3cG94Hkdyjn+uYdpi9+3lEZVfgR2n4hlLVytWl28=
-X-Gm-Gg: AR+sD10mS7PSyLFo5BXbn4bHPFBIknfFzAyu2rGJRYbHuBXOZzg+IgEDroOGYBx6+90
-	iAvsxqtg95xx43Ys+B0EMAyQp1untGd512Y+fB3J/E4PWO8Gdw7LzlINwAkSHZM5RoHpVSor+7k
-	va2LLNBl2jzTDGkEIN4c37hwJ+RdhqLmnfPANq9LM41oC+VVJcuMrJ8ErMsPCmPsV1df1cDSaUo
-	yz5Tl5NWt45MaKWUxa0ZNZ5ByiPg3agXT6EfpUS7gN5eNl27pcy1MCt5/5GWx78s9mrfWohoocZ
-	CTOAaTplUwGgRzaiQmRKpz4UmQXTSGV2fqAiMCUzCaGLBjpX0yE5vVhbeDlSq4s88OC/VaedFsl
-	64750z7GU00LYYskMqohxxG36t8I2/tqxR3w6mHfpkiihYnaKyKYiECXUwOZ6KcHBYJtZlHRsXp
-	kNe2Ti3j+d/nwiVPHMhQuTVvH84bPuFlfsG2rxVMkH1e0q7hFZjQOOpjnYgCe+aZzGV3GdAZSWy
-	5cCm879WsSlO6lMG5nsVUHf5PVietCvpdxS9sR0D2h9yw==
-X-Received: by 2002:a05:620a:178c:b0:937:372a:b97 with SMTP id af79cd13be357-93960dd7c34mr628429685a.17.1788361287651;
-        Wed, 02 Sep 2026 08:01:27 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9395f157adesm227012985a.1.2026.09.02.08.01.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 08:01:26 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1x1mSr-0000000EU0M-3Bwb;
-	Wed, 02 Sep 2026 12:01:25 -0300
-Date: Wed, 2 Sep 2026 12:01:25 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com,
-	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
-	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>,
-	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
-	rick.p.edgecombe@intel.com, yilun.xu@intel.com,
-	Jiri Pirko <jiri@resnulli.us>, Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <20260902150125.GD2890729@ziepe.ca>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
- <amk7Xzm5jmz+6SPJ@ziepe.ca>
- <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
- <20260805005533.GB28508@ziepe.ca>
- <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
- <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ImgA2jIb"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36C88165C;
+	Wed,  2 Sep 2026 09:03:11 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5FD13F882;
+	Wed,  2 Sep 2026 09:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788364994; bh=0lTk1OO+FAZyEjFRc6z7dc1s5Dj5L9dAr2btCTzBPfo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ImgA2jIbtINMGd2+R/Rl46rp4G3B3E0TQYDSLKq3SfCHzQDlnZsS9zD0ReXQhStWe
+	 VGtQADzhMLwZ6PBDLu4J4Jc0qkXEblxHMr/clTbkx1Wvd3sgrzGNWYxrkMPF0vXu49
+	 rIZKlTP7dOcUiYCtDn7eZu4w7z/CTEIbjZUsn46w=
+Message-ID: <2ffd1231-2f59-446b-94c6-000fb987980d@arm.com>
+Date: Wed, 2 Sep 2026 18:03:09 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 12/15] arm_mpam: Fix get_cpumask_from_cache() to clear
+ mask on error
+To: Yin Li <yin.li@oss.qualcomm.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
+ Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, James Morse <james.morse@arm.com>,
+ Ben Horgan <ben.horgan@arm.com>, Bjorn Andersson <andersson@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
+ driver-core@lists.linux.dev, Srivathsa L Rao
+ <srivathsa.rao@oss.qualcomm.com>, Huang Yiwei
+ <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org
+References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+ <20260811-mpam-resctrl-dt-knp-support-v1-12-ea6397bead59@oss.qualcomm.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260811-mpam-resctrl-dt-knp-support-v1-12-ea6397bead59@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
-> On 2/9/26 12:12, Xu Yilun wrote:
-> > On Tue, Aug 04, 2026 at 09:55:33PM -0300, Jason Gunthorpe wrote:
-> > > On Tue, Aug 04, 2026 at 09:48:30AM +0800, Xu Yilun wrote:
-> > > 
-> > > > Glad to see you all here to make progress! Intel can also help on this.
-> > > > Can we have a meeting to discuss on these topics? As Alexey mentioned,
-> > > > previously we had a bi-weekly call, perhaps use that for our first
-> > > > meeting? Or what time works best for everyone?
-> > > 
-> > > I prefer we defer such community discussions till September, that
-> > > seems appropriate given some dates I've seen.
-> > 
-> > Hi Ankit & Jason,
-> > 
-> > Do we have a plan to schedule a meeting to discuss next steps?
-> > 
-> > If so, we can figure out a specific time on the Discord channel.
-> > https://discord.gg/KKqC438c
+Hi,
 
-> So I've been trying to find a time slot. Say, keep it on Thursdays
-> (USA) (kinda short notice), bi-weekly, we can do:
+On 8/11/26 15:30, Yin Li wrote:
+> If mpam_get_cpumask_from_cache_id() fails, the affinity mask may have
+> been partially filled before the error occurred. The caller has no way
+> to distinguish a partial mask from a valid one, so it may misuse the
+> incomplete result.
 
-I've asked several people in Europe to help on parts of this series,
-and combined with China/Aus someone is going to end up left out.
+But it returns an error, in which case any caller should ignore what's 
+in the affinity pointer?
+I am not sure that clearing the mask in necessarily the right solution.
+Either we leave it untouched (which might be tricky), or we check that 
+the callers restore or discard the affinity mask when the function 
+returns an error.
 
-I know people are anxious about their projects. In the short term I
-will volunteer to send patches (ie bug fixes!) to Linus in the CC area
-Dan was responsible for. Please email me if something needs some
-attention and we can figure it out.
+Did this trigger any real problem, or was it some bored^Woverzealous AI 
+review tool pointing that out?
 
-To fully move forward we need to establish a new TSM maintainer
-team. In my past experience a consensus has emerged off list, I
-suggest we try that here as well. Several people should be
-recruited. I will also volunteer to help train and launch a new team.
+Cheers,
+Andre
 
-I can say that several people from NVIDIA are working on the ideas in
-this patch series. Ankit is setting up a team to focus on upstream
-patches for all of CC inside NVIDIA. I've asked Jiri Pirko to work on
-the PCI evidence uAPI based on his deep netlink experience, and Leon
-Romanovsky to work on the binding problem/adversarial/trust level
-driver core idea. They will share their approaches for solving these
-problems as seperate proposals.
+> Clear the affinity mask before returning the error so the caller always
+> receives either a fully valid mask or an empty one.
+> 
+> Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> ---
+>   drivers/resctrl/mpam_devices.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index eac3bc695fd1..d8856864e89a 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -243,7 +243,12 @@ static int get_cpumask_from_cache(struct device_node *cache,
+>   		return -ENOENT;
+>   	}
+>   
+> -	return mpam_get_cpumask_from_cache_id(cache_id, cache_level, affinity);
+> +	err = mpam_get_cpumask_from_cache_id(cache_id, cache_level, affinity);
+> +	if (err)
+> +		/* Don't leave a partially-filled mask for the caller to misuse */
+> +		cpumask_clear(affinity);
+> +
+> +	return err;
+>   }
+>   
+>   static int mpam_dt_count_msc(void)
+> 
 
-> Scenario A:
-> Seattle (PDT, UTC-7)		07:00 – 08:00	Day 1
-> Atlantic Time (ADT, UTC-3)	11:00 – 12:00	Day 1
-> Berlin (CEST, UTC+2)		16:00 – 17:00	Day 1
-> India (IST, UTC+5:30)		19:30 – 20:30	Day 1
-> China (CST, UTC+8)		22:00 – 23:00	Day 1
-> Sydney (AEST, UTC+10)		00:00 – 01:00	Day 2 (I can do it once in 2 weeks)
-
-This is the only time Europe could reasonably participate in,
-obviously it is not OK for China and Aus.
-
-> Please, comment. I find these calls pretty productive syncups. So
-> far we were not having Europe in these calls.
-
-Calls are undoutably useful!
-
-> Alternatively, wait until the LPC in a month but I suspect not
-> everybody is going to be there.
- 
-LPC is not that far away, I think we should have a goal of having a
-consensus for or at LPC
-
-Regards,
-Jason
