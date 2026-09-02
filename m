@@ -1,193 +1,181 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020135.outbound.protection.outlook.com [52.101.195.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3964A441E
-	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 14:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.135
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788360743; cv=fail; b=LdjRj9PR6zcAsihCzJXMGf4AwLJ4YESh5ZTku2xa9+BZcJ6h1v/cpa2rg9W3ev4Hj09hycI+GTJpRvrs1CuCc8uy3LF/odwdj6uVfdYpd4nfO/Xy4IuCb0C1xelUEd7xuFkf7A/ckjJ0qX7GM7+H9sJ7tg1ndMFSkqnt1Ob16Qo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788360743; c=relaxed/simple;
-	bh=PjEjcWmp+455732UxJ1U12D5RS9z9ryhq01hyqCC3ac=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=aDitmcp1clMdes2Jvo1YT2BDEgmValXoJ9S9CS6of7LNNyqdAU9XzGLeH0VM9BS9UIz+ydo+vaGDhDAjxyfSmlkLB7b7V0lzt7WF3hfevgX3HLr55M50t4z+uxr/C7lcoFSV9DpIgCv4KEE7VONCRFRoLWo1lxKuknxab62HPOE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=K3+DZQkh; arc=fail smtp.client-ip=52.101.195.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF079363C6C
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 15:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788361295; cv=none; b=IPCSH2QQfbfTriJu3agg0gTEv4P9leK54UCUl6i0zbDuJp6EBOJHPbYii/o3uoMn2+i0CuPE6eRPP2zg8tdfs0s5nEinQdUbgXCHCtYcN6L1bROvLxJJHH1PgwAUmHY5Iv79eu8Vo+/iaSIaq7Pl9oO9VRKPtDsZp+mOwbnvfY0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788361295; c=relaxed/simple;
+	bh=vyI0+5T8UYK55sjN7c+Akwn7k1qbx8c77K/++T6sd1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BkofXubTxY5MgE6lqEf22IDPHzF3Z2AVT8c/0YViEpTmGTh3O86T4DjAZcLCwJLbVJrYnC6oVMOTxUg/zawNdALw5sIJuAtslFVlLHOoFnCJX5tNDyZTILT5kHDxWcvw9+VWqd56iPAUzwub4aTwgRK0oD9dMoGHW7BPCUpWUaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=mUm22T8s; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="K3+DZQkh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mzFo4fIfcIIx7G6+sp4tqqtnCxaFWn95tzzK+13edoYWxLVbrWGbVvquWo1+gf9Bz65IvWiuOHeAS3TbwwVKxYaq3FyDKGd56MTXQAJdQS++3zOxeLbeW3KsTCs6QdWQBqGylrFxuAgaA0iPJMzVrHlqZJsv4e7Kg5BYzw/U0ZtZK04tVwcytq2zAtKiVwZgzTmHe5fMbg95vKXMGlmnpyXKFUFUb+o6bkGCTk7htBshPrZPHb+uvL6cMP3OthAfUbyWpl45Sf5Je2TflfG8oBNLBlZspXqfYO6bAIg9OhwqQXG0pAo/ze6I1RU+BiLsAeEvm+dhwa5UghVXlGnTrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lmYGgPupStTm+vNCX+nA2mR1Zt/s2S6iTNDPlqp/eSc=;
- b=MrOSCxwn9iaD5Hd9QG2ACthqQvWUM7eg998qtU5JdaTeaJXpasHBS6D86W/WYKk+0BhB+g3SbyzD7sJmtzXkvsqTiQsXpBqa++kfQEcSr0CuQOyxuxMxnVowhWvrhNCRo62fXr8wRuofa79PHt7lk7XcPnlvtTbmrzuGZm1tgdIqSaqAl731XeGeIcdOAwFuY9sPg/ezA1tSUYE/+AXF26DMq425PoQQYL+umBGdIggPbPc8s6Tt+2ZLmfx9kOjuh9MtYwffVHiaEVYV2bklTRkL4XCGpr7hsSKeFt+DDVcfc2IUeSW3X6FvzFBFAfmWAq8OlP246ShAIRM69q1swQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lmYGgPupStTm+vNCX+nA2mR1Zt/s2S6iTNDPlqp/eSc=;
- b=K3+DZQkhka0OdLqiXeU91VBhJRk+scllZ2fagTwYqpX6XDMZK+2zU3D5DLqW6DAktkaUKm2JLdC7go74NAN5kY/ly3gf7OColCw60xSUwAVvhHY0BhNpeHoLJoDYCaG174wARg9PIIcld1dPLjO/HFE1kcUfmuTvjbGXzHDsGfc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LOAP265MB9160.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:499::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 14:52:16 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 14:52:16 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Sep 2026 15:52:15 +0100
-Message-Id: <DL4WZ011ISU6.30MN524IETGKI@garyguo.net>
-Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>
-Subject: Re: [PATCH v2 6/6] rust: workqueue: add ScopedWork for non-'static
- work items
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <tj@kernel.org>,
- <jiangshanlai@gmail.com>, <aliceryhl@google.com>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <daniel.almeida@collabora.com>, <tamird@kernel.org>, <acourbot@nvidia.com>,
- <work@onurozkan.dev>, <jhubbard@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260807165252.3849875-1-dakr@kernel.org>
- <20260807165252.3849875-7-dakr@kernel.org>
-In-Reply-To: <20260807165252.3849875-7-dakr@kernel.org>
-X-ClientProxiedBy: LO4P265CA0214.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:33a::9) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="mUm22T8s"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-930c0f9c1b1so127731485a.1
+        for <driver-core@lists.linux.dev>; Wed, 02 Sep 2026 08:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1788361288; x=1788966088; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=giebtW14WRSNN/oAZ2HvlFksj8A4SENo3e4Bwxaljok=;
+        b=mUm22T8sw0kzR3ZLDfp84gX7Bdx2VYarjREsz5tqfnDigOONKQv2LnXxlaTPlGKMVz
+         +CvVA71+qTGxv3eUnhEeRZsEtfb+rW3B1L8QlmnbIVZB1DioRu/czptV33w0zkgKwDJ7
+         YS8lLierDy9Ph3EMW7vfbFbk8GkanmCDXh5IZHPX2KuzvJi7hHVJdtNA68OfDwVmGQDX
+         ZPgExk4YjMVbHggaR3TJQxLeOqijXgd+jPT8LX8aTVORNXlj0awdGGJNcWq8MkDeR96E
+         zzp2ucen+gYm4kcgNiXl2Y4utQ555w8el70bPRNJctxX8wcfxnKPXZDPSTh2UtzfuKUV
+         gLGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788361288; x=1788966088;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=giebtW14WRSNN/oAZ2HvlFksj8A4SENo3e4Bwxaljok=;
+        b=fbG41Av3efug84hXKNXye4GNs+cftvTaRoDjnlyBNFaMayybJaMjqz3SeDK0HKnhhb
+         ar+3E7LyLazIw25pRnYAluMgcvcNIyPbTNxrLxh+3bSctkPhqaCN9zFEqrAMblNBSLZ4
+         +t2NtAifsMhueS2RRp9VP9Bf2onadMlG+LV4w5ENyT6Bi8klVaqMEWEN2mUfsdjliuaA
+         CwQV/iUXIVYp8VXhQoYcL8K5nTXfFnVpRyYpU+Ixc+PCPPpmMsBq9Po3z9X8qAdOTc1u
+         oDkMTqqyatfbWK8iHK4USmGrBJ2R+RrXbbTDKLJcvcQsnfcr7+vPKGH6SAsqYbqn3/5Q
+         89mg==
+X-Forwarded-Encrypted: i=1; AHgh+RqJ8KN0APgp3u5rZmHBzyK8QWNCEa1PYexsHxL5ERFlmz9+HKrKyWeD35Ln5vWKiEKoCF16kZJh0QVgvw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lTVpAuHJ8T3RqSVfyigsMPtD5JLWq2o36YbQjs4pG0evR1L32O
+	qUdzToKLkzaq0IqeLPCsYHjynAY3cG94Hkdyjn+uYdpi9+3lEZVfgR2n4hlLVytWl28=
+X-Gm-Gg: AR+sD10mS7PSyLFo5BXbn4bHPFBIknfFzAyu2rGJRYbHuBXOZzg+IgEDroOGYBx6+90
+	iAvsxqtg95xx43Ys+B0EMAyQp1untGd512Y+fB3J/E4PWO8Gdw7LzlINwAkSHZM5RoHpVSor+7k
+	va2LLNBl2jzTDGkEIN4c37hwJ+RdhqLmnfPANq9LM41oC+VVJcuMrJ8ErMsPCmPsV1df1cDSaUo
+	yz5Tl5NWt45MaKWUxa0ZNZ5ByiPg3agXT6EfpUS7gN5eNl27pcy1MCt5/5GWx78s9mrfWohoocZ
+	CTOAaTplUwGgRzaiQmRKpz4UmQXTSGV2fqAiMCUzCaGLBjpX0yE5vVhbeDlSq4s88OC/VaedFsl
+	64750z7GU00LYYskMqohxxG36t8I2/tqxR3w6mHfpkiihYnaKyKYiECXUwOZ6KcHBYJtZlHRsXp
+	kNe2Ti3j+d/nwiVPHMhQuTVvH84bPuFlfsG2rxVMkH1e0q7hFZjQOOpjnYgCe+aZzGV3GdAZSWy
+	5cCm879WsSlO6lMG5nsVUHf5PVietCvpdxS9sR0D2h9yw==
+X-Received: by 2002:a05:620a:178c:b0:937:372a:b97 with SMTP id af79cd13be357-93960dd7c34mr628429685a.17.1788361287651;
+        Wed, 02 Sep 2026 08:01:27 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9395f157adesm227012985a.1.2026.09.02.08.01.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 08:01:26 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1x1mSr-0000000EU0M-3Bwb;
+	Wed, 02 Sep 2026 12:01:25 -0300
+Date: Wed, 2 Sep 2026 12:01:25 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alexey Kardashevskiy <aik@amd.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com,
+	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
+	rick.p.edgecombe@intel.com, yilun.xu@intel.com,
+	Jiri Pirko <jiri@resnulli.us>, Leon Romanovsky <leon@kernel.org>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Message-ID: <20260902150125.GD2890729@ziepe.ca>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
+ <amk7Xzm5jmz+6SPJ@ziepe.ca>
+ <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
+ <20260805005533.GB28508@ziepe.ca>
+ <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
+ <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LOAP265MB9160:EE_
-X-MS-Office365-Filtering-Correlation-Id: 446379a4-81f8-456b-46a0-08df0901c798
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|23010399003|376014|7416014|22082099003|18002099003|56012099006|10067099003|6133799003|4143699003|921020;
-X-Microsoft-Antispam-Message-Info:
-	VwzKfyD3LpfA27Ja+ZH8GZjYHeYiYkeQzLSBaYuVLOSyVPepvkfWJ/pv3jb7zbO6iajF2G0R8+PEm8GW/Oj3U5nHyZrdOJ2U8zn1aq0NctYRxMJKYWW45K7SBMzxux/V3kvJILAh+BFH1lP+VsIseB+3BB5FCofEOQu1Bda7ZYLSNN3AZn7Vil1ib5a33abeXoFg9m7saI05fscosAT2657dV+pKUYdMEWOOTiIdJNySF8zRAg1vaqS/Qxdx9ZwVtK4T9YSLDuJBNxPLcBBSmxCOB0EV2hiI9Qb+GIAaeFHtkf7uYnT4B/loa+rPuSRxi4etxwQh7m3i1p3FfrHvDFleY+Qwb+oEpUwOFiX1UuBo0PM6NECJOPtLMXBfsJRfGFugy6eaSsP3eMPh4nY0vzvf8p2yd8ER/oBox67XXilgdbmMqq5cnMnLy11a2wDUX5S4J7vzdJTPBHUN7cLg5DlhxNsrcrHugR1asTrPYWMz/3VvadmDTVlCtBhNT+beX4hJsTzNG5E6dkG2dzqDDl8nhVDd+Ys8JwX2yWVdLSVsQNVgLmZyuRHauU4wOTp7zKHLAQCqH67y0n9bFP6MmQUnLUQfgMAMNv4TTg4fVFNhqnKG7HBIwOwJ1YkhyFUfimoSZGkg/pqgfE3GjbM/LJ+94hVyW1R2nuBVDm/4Gnjj3P6N7DE0ty4gR0KUbylqVvrFp9FQfB+59EGVs6NXeg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(23010399003)(376014)(7416014)(22082099003)(18002099003)(56012099006)(10067099003)(6133799003)(4143699003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RzJ0SmRrY3dKM0s1dTZmcmVoWWhoVU9aRTR0cVgvTlJvaXR1L0FRS3R1WElk?=
- =?utf-8?B?Mm5nWWFvUW5YYTI5d2FQNlJsT3YvaDRrU3o5QnU1TWZRRkdZZ0xmaWtuS0hY?=
- =?utf-8?B?WmthZm1KNWNtNXJML0Fhai83Q1hvcEV1VElnSmZMdk4zTndCNzBpRDFRM2Rs?=
- =?utf-8?B?Q2tydW5yajdXeTB1OVdqS2JMdlV1VVBHMEVRSkh1OTMyZzVVTWhBaXh1KzhS?=
- =?utf-8?B?cFd4R0w0NGppWnN2RWJrK3gwNkJzWk8wTzhzVDl5ZVBqcUc0QWo2T3Rqb1N3?=
- =?utf-8?B?ZjMrM2xGOFVtMnNnV3c0NjdETXJLeGx4YUxKZDltdy9aaitpVjExS0ltTU9Q?=
- =?utf-8?B?V0tyejB0OW9LSEM1TjJHODlJK2d1SHV6UDBnLzJiOXJZRHBrNFJqMVNrblA2?=
- =?utf-8?B?LzJGR1ZwOTBWZFVzdEUwY25Gbm04ZmJWVjZsMkxRZ1ZvTTlqVWpMeXN0alZ2?=
- =?utf-8?B?ODBoTmFxUHNCcVg2dHZOOW5MbEFnMHNNbFBPZnFGeXQ1aXU0YStpdHlpMHRa?=
- =?utf-8?B?UndYbEpMQloyOWtXUThGa3RPN1ZEOUR2Y0tNdlZRWFExUmMvUFhqcTdtdFU5?=
- =?utf-8?B?cE83ditHNUdEQ1BSTHZFWTRkQUt2c1k0N2xrK3J6YUFqZS9hU3BGd0ZuQWp2?=
- =?utf-8?B?cVZRQzMxN3hLVjFNZFNQeGROMTZWUkRRWWZZVkdKeVl1S3JDMm1nTVZzOTg5?=
- =?utf-8?B?dDFwZURtRVlmQlZVK2VhRGo2Z3lldGorMGpiZy84d29zYlVWOEpuVWpEeE1z?=
- =?utf-8?B?eXdpUm0yRGtRa1ZRVzNBNS8zaXpKeHRpQlRmdGNJVE5mRmRyb0luWTZobjNw?=
- =?utf-8?B?NWZKS1dLdGI2bTJHb09DQ0ZKdlZPRlkvaDJNS1VtNHpqWFY0OUV3N2ZGeFlq?=
- =?utf-8?B?Nld5MGp2azY1N3piK1E1aXlobGdiS1pzOTJHSnJGeG9zeXFFZkt3VGx0LzVt?=
- =?utf-8?B?ZTdka1QzaFpaU1BZMDRYbDJ1REZJK3hQNWZ6ajFVWnQ3RjNSakg3U2tJQ2pD?=
- =?utf-8?B?enFoU1c0K1hWTm5qTy9QNG9uTHVwRC9lMUw3ZXoycnJRRnBma1hvZGYvdThr?=
- =?utf-8?B?UFRwbEhoUDJyb3FoZ1A3ZC9vWDRVYkQ4QVV0WFRUcHI3SjI4SmwrOGJaaFVv?=
- =?utf-8?B?Q25NQWlDd1FTeW1YUnlGVDZIcitrRCs3aWZWKzNDcmxvcmpTOTJCdkl0ZkRZ?=
- =?utf-8?B?QitOOVh2RU9qUERZWTNhQUNXV2g3N3NDOThVSk1NdThvUUZzczVYY1VTTHdn?=
- =?utf-8?B?NE1sU3NsTXk5alc5ZFIrOTFsdGxWUWVFL3VBZkorMjNCU3R0M255ekxPeUJx?=
- =?utf-8?B?VnJUdXZFbjZlbUVoZElIcHVENm45UnFFOFlNa2xPQnEraDVXRkc1SVZIUWJN?=
- =?utf-8?B?OXlST29EdmFiUDhoYWtKKzlYWDV6TndSNDBPb0NLSzhNOUtybFJwMElibjhp?=
- =?utf-8?B?R0FmWjFVN0x0ZlJpaE1icDRJdlFqZWl5U0swSlowUXJtWHUzOEliZTIyNnZY?=
- =?utf-8?B?TU9MLzNFNEd2SytIaStuaGVETUNKRDJ2WkdUc1RaY01pdHFaZ1Rxd3UyTnRW?=
- =?utf-8?B?RHhlVndweWROakRhUjFRazh2dFp0NENoSE1VOW0rNGRxNEw4bkdYZklUL1JM?=
- =?utf-8?B?Wk9EZWp3NUNzNlYwUXpUam9YT0pEclhRTG9wVmRRa1Bsa3JHbHBnRzZPd1l0?=
- =?utf-8?B?Z3NBV1JWQW9rSWZmNG5SWkxSeG9oUTBrY2NqbXAwUHM5WE5DUnQ5aWdyb0RC?=
- =?utf-8?B?QS9pK2IwblNFbjEzQnpZdXQxc25mL1Y4VnhTUDkxR1YyT3RDbU52UU9PMFJE?=
- =?utf-8?B?K1VlQXJudkVFQVNlblVuUHNCeVBSKzV1QjZTODBrRnkzT3NLclRqY3NPSXBJ?=
- =?utf-8?B?cHR1VVdzcXBmd0J2Wi9uZUlwYXdYUnU3elg3cEZrQ1U5ckFWUTFpQVBvWUFy?=
- =?utf-8?B?TkMrcjdUc0w2Nm0rQXl5TmRndDhqcC91QXg5STFieXNDQ2tNOTFtQnVrZXBs?=
- =?utf-8?B?emVjQlpXNFRWWG5BVlpqYm95VW9Jb3JPTnZuaUdwOS9OMXZIdFJhMkdlQXVn?=
- =?utf-8?B?RVFPWGNNUDQyazlXUEQzbW5nOVdZWmcxa1hqVk1ER2hmYkxOZmZCYTZvUVg1?=
- =?utf-8?B?SS8zT1RoM2FSTG40QUFXVE9uSXhVNE1rOEt0YTVTbEttTTJ3WVc4eUtZTDNv?=
- =?utf-8?B?aHdncm5xOTR3OTN2YmQybGViNUFHNFoxOHE4djFtMlVIOUhmVGtacUZKQnNo?=
- =?utf-8?B?RThReFV5aHNUTzJQamFhSjJWTWRMaHZldWpDekl1REdXaUxXOU9ZcHQ1a0Ew?=
- =?utf-8?B?YjdyekkycnJQVDFCNVJ4SDdPVFFsS1ljWFVmeWl1VGdncURWMFZIUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 446379a4-81f8-456b-46a0-08df0901c798
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 14:52:15.9556
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NzjlC80tYFpCIPuR4q1Ae7Bw+peX+n9SdzdM/2IcS8bx7MN8kr/wyVDJn+mo6EGiJjDvBkUyvqUgeJ0fc+KHzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOAP265MB9160
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
 
-On Fri Aug 7, 2026 at 5:52 PM BST, Danilo Krummrich wrote:
-> Add ScopedWork<T>, a work item wrapper whose destructor calls
-> cancel_work_sync(), allowing T to carry non-'static lifetimes. Ownership
-> of the data is not transferred to the workqueue; instead, the
-> synchronous cancellation on drop guarantees the work function is not
-> running when the data is freed.
->
-> ScopedWork uses the existing Work/HasWork/WorkItem infrastructure with
-> NonNull<ScopedWorkRef<T>> as WorkItem::Pointer for the callback path,
-> and implements RawWorkItem for &ScopedWork<T> and &ScopedWorkRef<T> for
-> the enqueue path (requiring T: Sync for cross-thread shared access
-> safety).
->
-> Two enqueue paths are provided:
->   - Queue::enqueue_scoped() (unsafe): the caller must ensure the work
->     item is not forgotten.
->   - ScopedQueue::enqueue() (safe): when the work item's lifetime
->     satisfies the queue's 'scope bound.
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/workqueue/mod.rs    |  46 +++-
->  rust/kernel/workqueue/scoped.rs | 442 +++++++++++++++++++++++++++++---
->  2 files changed, 444 insertions(+), 44 deletions(-)
->
-> [snip]
->
-> +impl<T: ScopedWorkItem> ScopedWork<T> {
-> +    /// Creates a pin-initializer for a new scoped work item.
-> +    ///
-> +    /// Use [`new_scoped_work!`] to automatically provide the lock class=
- key.
-> +    #[inline]
-> +    pub fn new<E>(
-> +        name: &'static CStr,
-> +        key: Pin<&'static LockClassKey>,
-> +        init: impl PinInit<T, E>,
-> +    ) -> impl PinInit<Self, Error>
+On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
+> On 2/9/26 12:12, Xu Yilun wrote:
+> > On Tue, Aug 04, 2026 at 09:55:33PM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Aug 04, 2026 at 09:48:30AM +0800, Xu Yilun wrote:
+> > > 
+> > > > Glad to see you all here to make progress! Intel can also help on this.
+> > > > Can we have a meeting to discuss on these topics? As Alexey mentioned,
+> > > > previously we had a bi-weekly call, perhaps use that for our first
+> > > > meeting? Or what time works best for everyone?
+> > > 
+> > > I prefer we defer such community discussions till September, that
+> > > seems appropriate given some dates I've seen.
+> > 
+> > Hi Ankit & Jason,
+> > 
+> > Do we have a plan to schedule a meeting to discuss next steps?
+> > 
+> > If so, we can figure out a specific time on the Discord channel.
+> > https://discord.gg/KKqC438c
 
-This should just propagate error and return `E` (you might need the `? E`
-annotation for it).
+> So I've been trying to find a time slot. Say, keep it on Thursdays
+> (USA) (kinda short notice), bi-weekly, we can do:
 
-> +    where
-> +        Error: From<E>,
-> +    {
-> +        try_pin_init!(Self {
-> +            inner <- Opaque::pin_init(try_pin_init!(ScopedWorkRef::<T> {
-> +                work <- Work::new(name, key),
-> +                data <- init,
-> +            })),
-> +        })
-> +    }
-> +}
+I've asked several people in Europe to help on parts of this series,
+and combined with China/Aus someone is going to end up left out.
 
-Best,
-Gary
+I know people are anxious about their projects. In the short term I
+will volunteer to send patches (ie bug fixes!) to Linus in the CC area
+Dan was responsible for. Please email me if something needs some
+attention and we can figure it out.
 
+To fully move forward we need to establish a new TSM maintainer
+team. In my past experience a consensus has emerged off list, I
+suggest we try that here as well. Several people should be
+recruited. I will also volunteer to help train and launch a new team.
+
+I can say that several people from NVIDIA are working on the ideas in
+this patch series. Ankit is setting up a team to focus on upstream
+patches for all of CC inside NVIDIA. I've asked Jiri Pirko to work on
+the PCI evidence uAPI based on his deep netlink experience, and Leon
+Romanovsky to work on the binding problem/adversarial/trust level
+driver core idea. They will share their approaches for solving these
+problems as seperate proposals.
+
+> Scenario A:
+> Seattle (PDT, UTC-7)		07:00 – 08:00	Day 1
+> Atlantic Time (ADT, UTC-3)	11:00 – 12:00	Day 1
+> Berlin (CEST, UTC+2)		16:00 – 17:00	Day 1
+> India (IST, UTC+5:30)		19:30 – 20:30	Day 1
+> China (CST, UTC+8)		22:00 – 23:00	Day 1
+> Sydney (AEST, UTC+10)		00:00 – 01:00	Day 2 (I can do it once in 2 weeks)
+
+This is the only time Europe could reasonably participate in,
+obviously it is not OK for China and Aus.
+
+> Please, comment. I find these calls pretty productive syncups. So
+> far we were not having Europe in these calls.
+
+Calls are undoutably useful!
+
+> Alternatively, wait until the LPC in a month but I suspect not
+> everybody is going to be there.
+ 
+LPC is not that far away, I think we should have a goal of having a
+consensus for or at LPC
+
+Regards,
+Jason
