@@ -1,149 +1,171 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f8.google.com (mail-oo2-f8.google.com [74.125.231.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9830A4AE8B3
-	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 17:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC994372EC5
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 17:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788368972; cv=none; b=l2FlAHWELltWVfyNqPLQh1JEJYUVylVlu4otHcFEQnimnA0HsOawf9TihKz5LIFjC/yt7MKPoi/X+0UibgZZdsJXSEr1FfrN0WTaaVQrhCF/SdYx/yxnSwMiQ6Xju76E8+4NfP49APtVF4f2q0ECMiwJoFzOpjlWeRBja927KCg=
+	t=1788370418; cv=none; b=bYKBqUaENWHq+PmKkmHd1iCVgCT7FWb/WPY/BO9JWf+yXqv6g68noWi5DOk6vo2PCG4Ldk7Wil6VRLaaka26EfaL608S6YcyMe6dMG2jWd6b/WFIjbTLc2Oq43kRE027bxsMoWEF3vax1T/hLYndrRKZac+XVvXiRzNqWkBZsIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788368972; c=relaxed/simple;
-	bh=1XNAjcMfzxS737UbycscQLHar4hJeLnVfG7xL8UK+Sc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=eKbCXWgYEd/Bl8562/fXNeMT0/arGxwB3Aitawbwr/6ufyxH3TvfS3UmvC+m1FOGu76Yp1FdJU1S0SdfhL1crtLhNLGbTmc4dmXPpGHI/kCE+J1aOp/XiTAFPFJO5KWe0pnobtu0FdRy86IpHoB/gl6sM4f6+WUPtVgkmpZGW+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dhD+OkX0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dhD+OkX0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788368969;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=exa5f/DcwNCR5E0w8unUqAO11f1n98HF5VNU5M/lSuA=;
-	b=dhD+OkX0FJuiN/hGVAoxkxFYSGzp/knqyB3Gc9U96FNzrAbmotMm4L5LT873pOSae8g1AU
-	ab7M3NGoELyS1VaY4AkhyMnLzWB9hTVQUO9WKNP96vFuo3D51oNMuLOfvgJkfQiWDAYSJq
-	Kdemcp9Cw012NtyDeyEAtmLzrzFWHJc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-550-bn1786veOnyAjry3NGuzPg-1; Wed,
- 02 Sep 2026 13:09:26 -0400
-X-MC-Unique: bn1786veOnyAjry3NGuzPg-1
-X-Mimecast-MFC-AGG-ID: bn1786veOnyAjry3NGuzPg_1788368963
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 969BE1953994;
-	Wed,  2 Sep 2026 17:09:23 +0000 (UTC)
-Received: from djeffery-thinkpadp1gen3.rmtusga.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DEC121955D8D;
-	Wed,  2 Sep 2026 17:09:19 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Tarun Sahu <tarunsahu@google.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	kexec@lists.infradead.org,
-	"Ewan Milne" <emilne@redhat.com>,
-	"John Meneghini" <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	"Bart Van Assche" <bvanassche@acm.org>,
-	"John Garry" <john.g.garry@oracle.com>,
-	"Jeremy Allison" <jallison@ciq.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	"Pasha Tatashin" <tatashin@google.com>,
-	David Jeffery <djeffery@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 9/9] scsi: Enable async shutdown support
-Date: Wed,  2 Sep 2026 13:07:34 -0400
-Message-ID: <20260902170734.95504-10-djeffery@redhat.com>
-In-Reply-To: <20260902170734.95504-1-djeffery@redhat.com>
-References: <20260902170734.95504-1-djeffery@redhat.com>
+	s=arc-20240116; t=1788370418; c=relaxed/simple;
+	bh=kLApcgrDHHoImg7rDx5AlYGkOwXeH6Lwo5nfizTtL/g=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PI9V+UzqqOTZIwqgm0pfUoy0HQ8EBFZRO+qauPzB8Ms+SYbQRX0yX4qG1K/JKuMLGt70keUXOSMBGz/pptbdNW4rd2s4ACdwgYzKv745Y6nG4svj/imhmrhef22AblKCwz203W5R5z1dwRhS66ShtkdnzCKnz0F1MstiGrcmVps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f8.google.com with SMTP id 006d021491bc7-6b12d30261cso316356eaf.0
+        for <driver-core@lists.linux.dev>; Wed, 02 Sep 2026 10:33:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788370415; x=1788975215;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E6iyjV1fsTZcltn61mxS6dNsDIgFSmZJkRfo9pUhTJc=;
+        b=KyfDe0cpod1UU/M+pcvnvjkOUBGVZ99olu4FJollP/1QKC1HCVl2IXsDwkaWgW5722
+         W3HBC+sLEzYlQcyN4w1/j5e0N3lGFMK9yjyvyR4hUBQe3Rj5F/uGhhkGVW2mRtoZMi7/
+         oth4j2H7+UvJ2Czn9ezwVVHTm9VBSRnJI8lCroSWx2KyB+4g74zWL1QZwMXjnjsmrP13
+         gRtVcfh52vbBLYt9I4qMIfh6EW3VkxDK6zZ84nwfhbOWLB2ve9LmFS3D4o2XqXaCiZlh
+         K5LNGsYPfsvsH5mJFjc4jJPQ92f+hBbwJ+SDTKJ+3U7qjR1z+R55fnrY+ccZ523w4vYM
+         Av0Q==
+X-Gm-Message-State: AFuF++mvFc1JWAuq1/nVaET9uMXxk1OFf/yWmjAq9vDSyrO/KrVWKBb0
+	w2aD2DPCzgRx4AeXkFenUS92+SCtFEiToZTcl5PUW26UvbdJQryszDnODv6eYgM2QEK+o8sH2ht
+	rjszq/nD7/TyrYQ7CXmLppvSoD421Ktj0nF8vuXA5RN4f9N2mzheVhj2E6ycf0A==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: a1gM5UnJpITRW03YHbYB4vFPk40gjHjTWhp_XgQD5QI_1788368963
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-Received: by 2002:a05:6820:161e:b0:6a0:f44b:1265 with SMTP id
+ 006d021491bc7-6b47eac399fmr4904452eaf.4.1788370415542; Wed, 02 Sep 2026
+ 10:33:35 -0700 (PDT)
+Date: Wed, 02 Sep 2026 10:33:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a985def.e163c37b.143a1.000a.GAE@google.com>
+Subject: [syzbot] [kernfs?] stack segment fault in kernfs_rename_ns (2)
+From: syzbot <syzbot+80df2191816d8486bc51@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
+Hello,
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
+syzbot found the following issue on:
+
+HEAD commit:    594d90519502 af_unix: Unlink scc_entry in unix_del_edge().
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=17d87e49580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3e8a402093abe6b2
+dashboard link: https://syzkaller.appspot.com/bug?extid=80df2191816d8486bc51
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/672b53d154af/disk-594d9051.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6f5c69520cde/vmlinux-594d9051.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5f0629640136/bzImage-594d9051.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+80df2191816d8486bc51@syzkaller.appspotmail.com
+
+Oops: stack segment: 0000 [#1] SMP KASAN PTI
+CPU: 0 UID: 0 PID: 18482 Comm: syz.4.3463 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:kernfs_rename_ns+0x3a/0x800 fs/kernfs/dir.c:1828
+Code: ec 38 48 89 cb 48 89 54 24 10 49 89 f5 49 89 fe 49 bc 00 00 00 00 00 fc ff df e8 51 c6 51 ff 4d 8d 7e 30 4c 89 fd 48 c1 ed 03 <42> 80 7c 25 00 00 74 08 4c 89 ff e8 66 5f bf ff 49 83 3f 00 0f 84
+RSP: 0018:ffffc900038ff930 EFLAGS: 00010206
+RAX: ffffffff82753c3f RBX: 0000000000000000 RCX: 0000000000080000
+RDX: ffffc90003dc1000 RSI: 00000000000012b4 RDI: 00000000000012b5
+RBP: 0000000000000006 R08: ffff8880261ebe00 R09: 0000000000000008
+R10: 0000000000000007 R11: 0000000000000002 R12: dffffc0000000000
+R13: ffff8880232a3870 R14: 0000000000000000 R15: 0000000000000030
+FS:  00007facb7ebe6c0(0000) GS:ffff888124f58000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f12dd14a8f0 CR3: 00000000547f4000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ kobject_move+0x560/0x720 lib/kobject.c:569
+ device_move+0xe0/0x720 drivers/base/core.c:4689
+ hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
+ hci_conn_cleanup net/bluetooth/hci_conn.c:170 [inline]
+ hci_conn_del+0xc3d/0x1200 net/bluetooth/hci_conn.c:1308
+ hci_conn_hash_flush+0x189/0x260 net/bluetooth/hci_conn.c:2736
+ hci_dev_close_sync+0x7fc/0x10a0 net/bluetooth/hci_sync.c:5513
+ hci_dev_do_close net/bluetooth/hci_core.c:499 [inline]
+ hci_dev_close+0x108/0x260 net/bluetooth/hci_core.c:524
+ sock_do_ioctl+0x101/0x320 net/socket.c:1300
+ sock_ioctl+0x57a/0x7e0 net/socket.c:1421
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7facb6f9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007facb7ebe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007facb7225fa0 RCX: 00007facb6f9e0d9
+RDX: 0000000000000000 RSI: 00000000400448ca RDI: 0000000000000004
+RBP: 00007facb7035024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007facb7226038 R14: 00007facb7225fa0 R15: 00007ffed9e90828
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:kernfs_rename_ns+0x3a/0x800 fs/kernfs/dir.c:1828
+Code: ec 38 48 89 cb 48 89 54 24 10 49 89 f5 49 89 fe 49 bc 00 00 00 00 00 fc ff df e8 51 c6 51 ff 4d 8d 7e 30 4c 89 fd 48 c1 ed 03 <42> 80 7c 25 00 00 74 08 4c 89 ff e8 66 5f bf ff 49 83 3f 00 0f 84
+RSP: 0018:ffffc900038ff930 EFLAGS: 00010206
+RAX: ffffffff82753c3f RBX: 0000000000000000 RCX: 0000000000080000
+RDX: ffffc90003dc1000 RSI: 00000000000012b4 RDI: 00000000000012b5
+RBP: 0000000000000006 R08: ffff8880261ebe00 R09: 0000000000000008
+R10: 0000000000000007 R11: 0000000000000002 R12: dffffc0000000000
+R13: ffff8880232a3870 R14: 0000000000000000 R15: 0000000000000030
+FS:  00007facb7ebe6c0(0000) GS:ffff888125058000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffc1ac18158 CR3: 00000000547f4000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	ec                   	in     (%dx),%al
+   1:	38 48 89             	cmp    %cl,-0x77(%rax)
+   4:	cb                   	lret
+   5:	48 89 54 24 10       	mov    %rdx,0x10(%rsp)
+   a:	49 89 f5             	mov    %rsi,%r13
+   d:	49 89 fe             	mov    %rdi,%r14
+  10:	49 bc 00 00 00 00 00 	movabs $0xdffffc0000000000,%r12
+  17:	fc ff df
+  1a:	e8 51 c6 51 ff       	call   0xff51c670
+  1f:	4d 8d 7e 30          	lea    0x30(%r14),%r15
+  23:	4c 89 fd             	mov    %r15,%rbp
+  26:	48 c1 ed 03          	shr    $0x3,%rbp
+* 2a:	42 80 7c 25 00 00    	cmpb   $0x0,0x0(%rbp,%r12,1) <-- trapping instruction
+  30:	74 08                	je     0x3a
+  32:	4c 89 ff             	mov    %r15,%rdi
+  35:	e8 66 5f bf ff       	call   0xffbf5fa0
+  3a:	49 83 3f 00          	cmpq   $0x0,(%r15)
+  3e:	0f                   	.byte 0xf
+  3f:	84                   	.byte 0x84
+
+
 ---
- drivers/scsi/hosts.c      | 2 ++
- drivers/scsi/scsi_sysfs.c | 3 +++
- 2 files changed, 5 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e72055c1ebbb..75592f41ef39 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -272,6 +272,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	dev_set_async_shutdown(&shost->shost_gendev);
- 
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
- 
- 	device_enable_async_suspend(&shost->shost_dev);
-+	dev_set_async_shutdown(&shost->shost_dev);
- 
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index 9480432f650b..52e1e38dc027 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1387,6 +1387,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	dev_set_async_shutdown(&starget->dev);
- 
- 	return 0;
- }
-@@ -1413,6 +1414,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
- 
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	dev_set_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1432,6 +1434,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
- 
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	dev_set_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
--- 
-2.55.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
