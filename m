@@ -1,453 +1,865 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022093.outbound.protection.outlook.com [52.101.96.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94A44908C5;
-	Tue,  1 Sep 2026 16:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788281463; cv=fail; b=p+ODEcZvqNzgMWbEByqNoKSQrhrSAsoKcIVukCu+wirW3SV8m7MEQq8g7pZywwhjibdVConoYdkVs7fDTbqT4Jpr0n6bLDx/IcSsR2Rvd1KWOJF4AyDVHWNwG+NWyBEh/elGZEgtJc6Fb26/c7IV6zQD979p6hdx787WQtuvj3s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788281463; c=relaxed/simple;
-	bh=Xb4DD4uN8tS4xE64OPyY1srq63t2yRPPUCby23Jigzo=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=PopKeIw/jiuyHpn+01oQITcqiHzenuk2Wz/bLtKgLi6aM5wUokSeeN6V11SCqjmJACSfFb4iq7fyuZ3sGvPmQBWgCtlgnwJysWV/8FQyMXythKjZoBUKKqOsMpxaiUsKzVfuu/MH14ELmvQkLb1JrDw0vaNiquEnTogwh3ZfAmg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=m4dTYEfR; arc=fail smtp.client-ip=52.101.96.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CEC35F16C
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 01:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788313277; cv=none; b=Epepn6wvaZIw1hvmSUifcUgcXxyB0/xKjok4yQgUOGCkdILIptMgUpfiYg0aLuF/c2qZ1jf393Af3UIJUZhnuIuNgdu6KNs/R7QhNXaqYRgkhIq12HeI4glqlFUmFTDTYTGwdUDsAVHI16OqU0V4z1D6En3V27d6ji57nXK1Qyk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788313277; c=relaxed/simple;
+	bh=nFxAzaI1NWd6W+vxM0J+IZshyMwTOF2EF99ZwyCnnnQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ArnOBS42jf1WZ3levu9HQS9P/sEH5lrCgpd/fHtJHdoIePD67fSQdg7hUXhN6q+swvSRM3JdGFImBagHz1vNSeE9TJfN/KiC7TMZr4ppQ0ZpWk5qEPjcNceJ6fil6Fpjvnwn59U9j3pr+mxys9wIQ2BX2dtlSrjIu2AoE9qEh9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=i1kr6c/3; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="m4dTYEfR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BWBp2sWdRPYZgKbR8lf1gaRiP8ioxOR9ay/JNkbPSSA3FZ0aHvJMuFKj2zSLBZ39akVVI7MaVkETKOdxhGKha7NUO2atNtZqhAT5MpX+SKRQuEwFeHMPlJWU35gP1YNbmQg2X/x0XHbPrxuMcmvu0mDYQ0O8/E5N2RDpDDII/VZ7np9Rgit3kO+J+mvAnLSS2Mj96lgrkLAMQzpgW1XuSuioMg/oDf29cxNNpP1VUB/sC3u2q4bhnXJibAH7iiH/iZq7NLKijOq6he3gtS3fEmDKyN4x6ThlASygmcOSlwZERLsuzqF2JcxNuof2Ok6+ARhnzX+9MSUyB4rDMXy+gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QgNTWozGwZ/yHO7i+BJQmmZm1y8Oef8BDGqKEaOWIno=;
- b=k5EWXvDzi0pOeVlEOYb3V6hNSC5spPNS4cOW5ajh9TArParwE7WyH2FATW7jRtxpYuuU9lOpg2lWX74gHwQx9wYwtSrWQeEnMug/5kBIn/k26DbPn/GJICUC/KVx7fgbzepS3tiBb745ZiW5zzFRc4lGlSvOFq4v3hSwM8qiu6+TAp8h25plCNssOXJpgBkid2zxbFssMeDXWkwGuOS+J3zjq+fX0I4OsFbOXt8g8bWWf715BjDr3dgoo9HsxxrRg4StX6A7AUbuqca1Vj4pFs6Tp+6Txzpcz+uEpjRrnxxkmcpuAwsMBBaDAZA4mU5iGK8yycKRCATp9uO7uw4Fng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QgNTWozGwZ/yHO7i+BJQmmZm1y8Oef8BDGqKEaOWIno=;
- b=m4dTYEfRUVq28QfQdgRucZuvoLlpJLrVLMODuhvzViSFRuGFvi0ev//4AP0lAm7KP753yNaFYyPZ32CgGkzXzH4ra0DqnTWwOEK27WWvmVMULKWLFQxj+choAouAKg4+ivPn2dqMedxg6Uq5dN8Oyk/BFT8nPkY1HkAvqkFAcsU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CW1P265MB9199.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:272::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 16:50:46 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 16:50:46 +0000
-From: Gary Guo <gary@garyguo.net>
-Date: Tue, 01 Sep 2026 17:50:40 +0100
-Subject: [PATCH v4 16/16] rust: io: register: unify handling of register
- with/without bitfields
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-typed_register-v4-16-5552b1d59525@garyguo.net>
-References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
-In-Reply-To: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
- Gary Guo <gary@garyguo.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788281431; l=10728;
- i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=Xb4DD4uN8tS4xE64OPyY1srq63t2yRPPUCby23Jigzo=;
- b=NLIFSh0h4XvoG2uzJTeMnm/v6lFM4wgLIaHXPmrNyj/y3WHl8uaqEmxaRDsHLEyVImrkEB4g3
- wonaBr4v2CqD9iQ6NPZ4NiMT6f4QEpvR+f4WB06er8Df7PD417rg8bj
-X-Developer-Key: i=gary@garyguo.net; a=ed25519;
- pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
-X-ClientProxiedBy: PAZP264CA0173.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:236::16) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="i1kr6c/3"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=nFxAzaI1NWd6W+vxM0J+IZshyMwTOF2EF99ZwyCnnnQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788313257; v=1; x=1788918057;
+ b=i1kr6c/3my/ZYaH9CNdNrt3Z/rvQ3A5EPwCiJB6Coo3v7EddSGP7a6+E2O6/fvUw2JFt77q8
+ hGOIG3t7dULOXvspioF5PIn180YBbzmewcWqPyWKbKu+ylH089IkinHp5r75P4Vt+b2M6tsF54v
+ qvskdMPFL3kx9C7+3HYe7ICk=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id e424ffb7c1bf10c9;
+	Wed, 02 Sep 2026 01:40:57 +0000
+X-Mizu-Trace-ID: e424ffb7c1bf10c9
+X-Migadu-Flow: FLOW_OUT
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christian Brauner <christian@brauner.io>
+Cc: Meta kernel team <kernel-team@meta.com>,
+	linux-kselftest@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] selftests: cover kernfs dentry revalidation
+Date: Tue,  1 Sep 2026 18:40:50 -0700
+Message-ID: <20260902014050.499002-1-shakeel.butt@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB9199:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3530b8f8-7158-4fe2-0024-08df08492b78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|10070799003|376014|23010399003|366016|921020|6133799003|3023799007|10067099003|56012099006|5023799004|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	mWpfFP5PWkUzzSvgGbqUt155oTNY6yjCA6HphaUAMDsy1DTfV1re5zU5FJowo5tJtMFRng903OwUSOUhlyyAwUID0BLBhG5V3fKPQa1V8ZrI9jvycbWrW38g7rJQ0506z8qDbPuU83vvY/V4Ue9mlYmV3P2VS1D3ceukHLTGif86rCRcTtPjTf5Nxh+D8DgnMP8XH0ItgAQmDwlXocOb0veo93czoQz32RO5lBl6GxjM51N8GmfxCmmdqtgW8l0xZQjOYz2ywcMNVNqI+IVn6kFtzJ638Wz253GKVggiiKVdxRQHlkTVqBC8D709kKZP6GFhvDn41pF0hcesgNIqmtsVZADM9SoMrXP8s9BCRwyERJ48AzcPCGFvZef+rcy945udVXrPjH76wtrHk09/6RmvsLx8pVStYwC4Q1cecLyOsAr1Yat0SweWOaxUPlDF9zmezKCb1JXSyYmgFiG6wHVgw7kGsB2LH+zXMKmlMaWVN778E+ED2RPa1Os4psvGoKe2W7ySFVHClfhd3/OAf1DTAU6JNsiOfF1jdCAti40CrZYAwQcxudYYGSgJzB6sf0w1d6Fku9o9xfGTAqNM8yLMRWtgPvUDyTrkmACmQkdX2LMr7LUgqPdD4ro30Kr1rHSEieJwFvK9kEfFtR6BITy6X9B4qvkuO7ufe4PqEmViWgKXXxjUh9INsEqt1uDST8rwR3A7JDPaqF5XbXnwLg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(10070799003)(376014)(23010399003)(366016)(921020)(6133799003)(3023799007)(10067099003)(56012099006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dVJMb0drQVRaNVd1cW1xRkdHWitqY3R3Q1k5MHNoTU9sSmpsczQ1LzRRMzY1?=
- =?utf-8?B?RjJEVWxHc0hTYTFmaGlEUzFFdWNiSUxtZzlIajI1YzBqV1pabk9YWlB5UXlD?=
- =?utf-8?B?b3FTZTIvdW42Wmh2UHJSa0Y2UlBtRjR0QjRxUXMxR1Erak5QcXhSMllhTm56?=
- =?utf-8?B?cGtzRHFQcjRrcElZR1NrNitwY2orMVkreDZHbGIyQ1hiaXY5bjJqOVZDUjhI?=
- =?utf-8?B?YjIyN2UwMExqNk42QXhaeTNLUm5ZTlUzQUpwQWV0a2UrTVdsZ2ZiMW1SVVI5?=
- =?utf-8?B?Q016M1kwQkZxaFZaNW5tdm94TTZNZ3VhRi9JUW54eE4waG9ndjhXOW4xTkhm?=
- =?utf-8?B?ZDhHVWdnOXcwUFVtamZKQStMaVc2OVdVUjFnYS9ySG12QUNhZWJ6S2lsT1FN?=
- =?utf-8?B?M09xRXIzUkIvU1FLY2FTck93ZTRtN00vUm5hUEJVa2duNXhPTE04NWs3M1R3?=
- =?utf-8?B?RjJwajhlV3NXUm1nalF6T2ZvQzhtc3VCeXdraHgyMk9hUDNWK0g4Wkh5UlJo?=
- =?utf-8?B?SEkxL1lFblFGSkJKeWJtdS9DUXRaazlUcXlSRVZuYjF6U3g2MkpocDFya2R3?=
- =?utf-8?B?bndyaENWN2Q4ZVNSZ1hESmQwbFRwb1FKczVLU0ZRK2VqUUkvRDN2V2FpV1lV?=
- =?utf-8?B?Rlh2SHppMFIzWnVUa1BERzRtVHpQNXdUNkFLRjg3TFdmRkRweStzbWZ0SnVi?=
- =?utf-8?B?ZTVGN3VUUm9QNnI0K3lUNWMydS9sYys5SnhZOElTNWtrcEdWT3VuSlRuSm02?=
- =?utf-8?B?aW9HRDVNWjQ2NmQ4V2xjMlRmcW9yMUM3MFlNMFJ4N2RTOUdnemFRSjJiYVdT?=
- =?utf-8?B?TFhFaEpYS045bHQyL0l3N3FEbUt1MjFaVm9UQ3lGS05KMU8xTkQxSUJFeUtx?=
- =?utf-8?B?eWtSV2ttdER1bW8rS052dnFMeHU3RXorMTJzemQzYVhWQnd5M0pkQVVZZVJW?=
- =?utf-8?B?VGhZbG9tNGdoV3VSbGE3K0R5TkVpWWFDTyt5cjF4a0toSnp5Sy93b1RxeFN1?=
- =?utf-8?B?UDEvd0grRjJTR1pRWnVaSTBVaHppSHRSb3B3c2lkbmhtZTRYcStRRDNVcTV6?=
- =?utf-8?B?NGFDT2c4bGUrMGNETXVHdzNYeHdpWlAwenRNQTlGOW15WXB5b05aVDV0WlJK?=
- =?utf-8?B?TStHb29GbzdCeHZTSHFTamw4Vys4Y1FrQ1NoNDFwbER2c0ZyVUJIaE9CaWk0?=
- =?utf-8?B?cEE0bU0wQTQ2Q0liYmwzbUNlSnFXNkdyQ3hZYlFiTGkrSDl1emkxeHdjSjZh?=
- =?utf-8?B?MWpTbm8xM2dUWlFLZXZPZG9QU3llVEh0cWNqd3ZRUzIzU2YwanpsNGlKamE4?=
- =?utf-8?B?SXljZitIdERiNkhIVG9IcnFnbDR2L1R0cnViMVA1elVnOENCbzJDNHYxOER4?=
- =?utf-8?B?aUdxRXhkUi9nejI4dGs1amFBVStxRXFyQ29qK2IyTmpVSjBTd2RDNGpRdW9i?=
- =?utf-8?B?OGhKdUtyTkowYzROTDNpNlEvMTNzeTRNc3NWb3RRRWZkaUdZVVVJOWhyWlJW?=
- =?utf-8?B?TS9ZakpGM0MzT3dram5VS1pEalVjRVpXSVZoVldEZWN0Y3hjU05qeUxYV1hW?=
- =?utf-8?B?VmN1U1NwNTVRYVJEQTVuc1lxVitha1FiSnZaZDgrWTMvcFQyL3VPbXYwN2Mw?=
- =?utf-8?B?V3pPUDdGVVN6SmVsVk5LWkF0OGZRWmt0VXhRVWdycmplVlJDQWxYSVNaZ0xS?=
- =?utf-8?B?SVpPVXJXSldvcUN4cEhBRmxsRExmdEw4dGplZittZ0dHeXJXR0pvNkxJVE96?=
- =?utf-8?B?bDRXb24wc1dvNjBjTUZaSnlmeGlzcVU3Qjc0d2xLZVQyTFdSaDRUZFdsLzJO?=
- =?utf-8?B?dVI3YTZub3pLYkxxNlZkaWJ6alZ4YThhRXJOVjRFbUdKSkdGTjVBYTVpQnhz?=
- =?utf-8?B?VlNkU2ZLTWJTY2doSkdkcmI0QzJ0MU40QzV4T0N6WWs1TnA2MktaRk91S3ZJ?=
- =?utf-8?B?SGlid1F6Mmdtc0V0aXVRL0cvcWJLN3htS0I1L25LUFBkblkxR3dTL1BWd2w4?=
- =?utf-8?B?VVNIVkF5elZhb1lDTXlwQnNFdHo3RExma2t1TEJqOVkycDFLSlRLZlFIZGRQ?=
- =?utf-8?B?MFhMcDNqOStWc2ZsajZkRmZJQWw4YXJzRCtaTHBreFYxbEc3Znl6N01BYjhT?=
- =?utf-8?B?YWtlN1V0LzBqNStOci91SGEyeGlDUm9Ic1JWR3MyMDErTSsyOWNFcmxPOWhG?=
- =?utf-8?B?ZFdZaEhxYy80OTYzZENYZDBEY2V4c0hxdUVMM0VpWTg4bGZxQ1J1eUZCUUZp?=
- =?utf-8?B?d1pGNUVNOHNqdTV3TFczWFd3Y09LeVIzODFQUjFoQkl2dWh1Zk95OUxsL2cr?=
- =?utf-8?B?eUpRNGt5SGMyZkhXV3RqTkJGVHBCbVJpSjQ2TlE2dTdPWm9rc3paQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3530b8f8-7158-4fe2-0024-08df08492b78
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 16:50:46.5532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YEFY7iXfzIF53/I+w2/yUEcnSn71Jvqc8/nm3VTLG1vmx3dItL9780/ZDdwZoKKgEiUQC5tOJIzCyDh2ymlm1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB9199
+Content-Transfer-Encoding: 8bit
 
-Move the `FixedRegister` from a property of register to become a property
-of type. Name the new trait `FixedIoLoc` indicating if I/O location of a
-type is unique for a specific base. Thus, bitfields become just a special
-case of this (where type is unique because we're generating it in the
-register macro), and expose feature to registers without inline bitfield
-definition with the `#[unique]` attribute.
+kernfs_test only checked two xattr calls. It did not touch the part of
+kernfs that userspace hits most: the dentry cache.
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-Signed-off-by: Gary Guo <gary@garyguo.net>
+The kernel adds and removes kernfs nodes on its own, with no VFS call
+behind it, and removal cannot always unhash the dentries that are
+already cached. So ->d_revalidate() is what keeps the cache honest,
+let's add tests for it.
+
+Add tests that make the kernel change kernfs directly, instead of going
+through create and unlink:
+
+ - writing cgroup.subtree_control makes the kernel add and remove files
+   in every child cgroup. That checks two things: a cached negative
+   dentry is dropped once the file appears, and a cached positive one
+   is dropped once the file goes away.
+ - renaming a network interface renames the sysfs node under a dentry
+   that is already cached.
+ - sysfs mounted in a new network namespace must list that namespace's
+   interfaces and not the parent's, which covers the KERNFS_NS tagging
+   code.
+ - many lookups running against concurrent mkdir and rmdir. A lookup
+   may only succeed or fail with an errno that means "it is gone".
+ - open across removal, readdir returning each entry once, and a
+   telldir()/seekdir() round trip, which uses the name hash cookie in
+   kernfs_dir_pos().
+
+Test the other direction too: walking dentries that are already cached
+must not drop them. That is not just a slowdown. d_invalidate() calls
+detach_mounts(), so a dentry dropped by mistake also unmounts whatever
+is mounted under that directory.
+
+Both filesystems are needed. cgroup2 has no ->rename and is not
+namespace tagged. sysfs cannot be mounted with a set of children we
+control. The config fragment stops a kernel built with kselftest-merge
+from passing while it runs almost nothing.
+
+To confirm the tests really catch a broken backstop, kernfs_dir_changed()
+was stubbed to return false. 8 of the 11 tests then failed.
+
+Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
-Changes since v3:
-- Add a note that discourage `#[unique]` on primitives (Sashiko).
-- Fix array's bitfield check to check `bitfield.is_none()` instead of
-  `!unique` (Sashiko).
----
- rust/kernel/io/register.rs | 114 +++++++++++++++++++++------------------------
- rust/macros/io/register.rs |  58 ++++++++++++++---------
- 2 files changed, 89 insertions(+), 83 deletions(-)
+v2:
+ - netns fixture: rmdir() the mkdtemp() directory when the sysfs mount
+   fails.  The harness does not run TEARDOWN after a SETUP skip, so this
+   leaked one directory into /tmp per test.
+ - Drop the { cpu, cpu.stat } controller row.  cpu.stat lives in
+   cgroup_base_files[] and is added to every cgroup on the default
+   hierarchy regardless of the controller, so selecting that row would
+   have broken both dentry tests on a kernel built with MEMCG=n
+   CGROUP_PIDS=n CGROUP_SCHED=y.  Every file the cpu controller does own
+   is behind a Kconfig symbol, so there is no reliable replacement.
+ - Check in SETUP that the probe file is absent before any test enables
+   the controller, so a row naming a file the controller does not own
+   skips with a diagnostic rather than failing.
+ - ns_tag_isolates_class_net: stop requiring that a fresh netns holds
+   only "lo".  Fallback tunnel devices (tunl0, gre0, ...) are created in
+   every namespace unless net.core.fb_tunnels_only_for_init_net is set.
+   Check that sysfs shows exactly this namespace's set instead, via
+   if_nametoindex().
+ - open_after_rmdir_fails: make the read-after-removal check
+   unconditional.  It accepted a successful read, so a kernel returning
+   stale content would have passed.
+ - config: add CONFIG_NAMESPACES=y.  NET_NS sits inside "if NAMESPACES"
+   and NAMESPACES defaults to n under EXPERT, so olddefconfig would drop
+   NET_NS and every test would skip.  Drop CONFIG_MEMCG=y; SETUP takes
+   the first available controller, so CONFIG_CGROUP_PIDS alone is enough.
+ - Tidy the comments; drop some stray internal issue numbering.
 
-diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-index 9df7572aee9d..b6513fa0f412 100644
---- a/rust/kernel/io/register.rs
-+++ b/rust/kernel/io/register.rs
-@@ -121,61 +121,15 @@
-     io::IoLoc, //
- };
+ MAINTAINERS                                   |   1 +
+ tools/testing/selftests/filesystems/config    |   7 +
+ .../selftests/filesystems/kernfs_test.c       | 695 +++++++++++++++++-
+ 3 files changed, 702 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/filesystems/config
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 549df316f487..605fd2d47788 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14392,6 +14392,7 @@ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+ F:	fs/kernfs/
+ F:	include/linux/kernfs.h
++F:	tools/testing/selftests/filesystems/kernfs_test.c
  
--/// Trait implemented by registers with a fixed offset.
--pub trait FixedRegister: Sized {
--    /// Base type for this register.
--    type Base: ?Sized;
--
--    /// Start offset of the register.
--    ///
--    /// The interpretation of this offset depends on the type of the register.
--    const OFFSET: usize;
--}
--
- /// Allows `()` to be used as the `location` parameter of [`Io::write`](super::Io::write) when
--/// passing a [`FixedRegister`] value.
-+/// passing a [`FixedIoLoc`] value.
- impl<Base: ?Sized, T> IoLoc<Base, T> for ()
- where
--    T: FixedRegister<Base = Base>,
-+    T: FixedIoLoc<Base>,
- {
-     #[inline(always)]
-     fn offset(self) -> usize {
--        T::OFFSET
--    }
--}
--
--/// A [`FixedRegister`] carries its location in its type. Thus `FixedRegister` values can be used
--/// as an [`IoLoc`].
--impl<Base: ?Sized, T> IoLoc<Base, T> for T
--where
--    T: FixedRegister<Base = Base>,
--{
--    #[inline(always)]
--    fn offset(self) -> usize {
--        T::OFFSET
--    }
--}
--
--/// Location of a fixed register.
--pub struct FixedRegisterLoc<T: FixedRegister>(PhantomData<T>);
--
--impl<T: FixedRegister> FixedRegisterLoc<T> {
--    /// Returns the location of `T`.
--    #[inline(always)]
--    // We do not implement `Default` so we can be const.
--    #[expect(clippy::new_without_default)]
--    pub const fn new() -> Self {
--        Self(PhantomData)
--    }
--}
--
--impl<Base: ?Sized, T> IoLoc<Base, T> for FixedRegisterLoc<T>
--where
--    T: FixedRegister<Base = Base>,
--{
--    #[inline(always)]
--    fn offset(self) -> usize {
--        T::OFFSET
-+        T::LOCATION.offset()
-     }
+ KEXEC
+ M:	Andrew Morton <akpm@linux-foundation.org>
+diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
+new file mode 100644
+index 000000000000..7231710d5ce7
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/config
+@@ -0,0 +1,7 @@
++CONFIG_CGROUPS=y
++CONFIG_CGROUP_PIDS=y
++CONFIG_NAMESPACES=y
++CONFIG_NET=y
++CONFIG_NET_NS=y
++CONFIG_INET=y
++CONFIG_SYSFS=y
+diff --git a/tools/testing/selftests/filesystems/kernfs_test.c b/tools/testing/selftests/filesystems/kernfs_test.c
+index 84c2b910a60d..2178428b9665 100644
+--- a/tools/testing/selftests/filesystems/kernfs_test.c
++++ b/tools/testing/selftests/filesystems/kernfs_test.c
+@@ -2,8 +2,20 @@
+ #define _GNU_SOURCE
+ #define __SANE_USERSPACE_TYPES__
+ 
++#include <dirent.h>
++#include <errno.h>
+ #include <fcntl.h>
++#include <limits.h>
++#include <net/if.h>
++#include <sched.h>
+ #include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <time.h>
++#include <unistd.h>
++#include <sys/ioctl.h>
++#include <sys/mount.h>
++#include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <sys/xattr.h>
+ 
+@@ -34,5 +46,686 @@ TEST(kernfs_getxattr)
+ 	EXPECT_EQ(close(fd), 0);
  }
  
-@@ -188,6 +142,11 @@ impl<Base: ?Sized, T> OffsetLoc<Base, T> {
-     pub const fn new(offset: usize) -> Self {
-         Self(offset, PhantomData)
-     }
+-TEST_HARNESS_MAIN
++/*
++ * Exercise the kernfs dentry cache: lookup, revalidation of positive and
++ * negative dentries, readdir and namespace tagging.
++ *
++ * These drive kernfs from kernel context rather than VFS create/unlink,
++ * which is what ->d_revalidate() exists for: writing cgroup.subtree_control
++ * adds and removes files in every child cgroup with no VFS operation
++ * touching those names.
++ */
 +
-+    #[inline]
-+    pub const fn const_offset(self) -> usize {
-+        self.0
-+    }
- }
- 
- impl<Base: ?Sized, T> IoLoc<Base, T> for OffsetLoc<Base, T> {
-@@ -266,6 +225,17 @@ fn try_at(idx: usize) -> Option<RegisterArrayLoc<Self>>
-     }
- }
- 
-+/// Trait implemented by types that indicate there is a fixed I/O location for this given type.
-+///
-+/// Implementors can be used with [`Io::write_reg`](super::Io::write_reg).
-+pub trait FixedIoLoc<Base: ?Sized>: Sized {
-+    /// Type of [`FixedIoLoc::LOCATION`].
-+    type Location: IoLoc<Base, Self>;
++#define CG_SCRATCH	"kernfs_selftest"
++#define TEST_IFNAME	"kfstest0"
 +
-+    /// Location of this type within given base.
-+    const LOCATION: Self::Location;
++/*
++ * Controllers that add a file to each child cgroup when enabled.  The probe
++ * file must be owned by the controller: cgroup_base_files[] entries such as
++ * cpu.stat exist in every cgroup regardless, and every file the cpu
++ * controller does own is behind a Kconfig symbol, so cpu is not usable here.
++ */
++static const struct {
++	const char *name;
++	const char *probe_file;
++} controllers[] = {
++	{ "memory",	"memory.current" },
++	{ "pids",	"pids.current" },
++};
++
++static int find_cgroup2_root(char *buf, size_t len)
++{
++	char line[PATH_MAX * 2];
++	FILE *f;
++	int ret = -1;
++
++	f = fopen("/proc/self/mounts", "re");
++	if (!f)
++		return -1;
++
++	while (fgets(line, sizeof(line), f)) {
++		char mnt[PATH_MAX], type[64];
++
++		/* Octal escaping can expand a path fourfold; bound both %s. */
++		if (sscanf(line, "%*s %4095s %63s", mnt, type) != 2)
++			continue;
++		if (strcmp(type, "cgroup2"))
++			continue;
++		if (strlen(mnt) >= len)
++			break;
++		strcpy(buf, mnt);
++		ret = 0;
++		break;
++	}
++
++	fclose(f);
++	return ret;
 +}
 +
- /// Trait implemented by items that contain both a register value and the absolute I/O location at
- /// which to write it.
- ///
-@@ -283,26 +253,17 @@ pub trait LocatedRegister<Base: ?Sized> {
- 
- impl<Base: ?Sized, T> LocatedRegister<Base> for T
- where
--    T: FixedRegister<Base = Base>,
-+    T: FixedIoLoc<Base>,
- {
--    type Location = FixedRegisterLoc<Self::Value>;
-+    type Location = T::Location;
-     type Value = T;
- 
-     #[inline(always)]
--    fn into_io_op(self) -> (FixedRegisterLoc<T>, T) {
--        (FixedRegisterLoc::new(), self)
-+    fn into_io_op(self) -> (T::Location, T) {
-+        (T::LOCATION, self)
-     }
- }
- 
--/// Helper function for register alias implementation.
--///
--/// This is used to enforce base matching.
--#[doc(hidden)]
--#[inline(always)] // for const eval only
--pub const fn alias_offset<Base: ?Sized, Alias: FixedRegister<Base = Base>>() -> usize {
--    Alias::OFFSET
--}
--
- /// Helper function for register element alias implementation.
- ///
- /// This is used to enforce base matching and provide bounds checking.
-@@ -419,6 +380,35 @@ pub const fn element_alias_offset<Base: ?Sized, Alias: RegisterArray<Base = Base
- /// }
- /// ```
- ///
-+/// In case there is a fixed register associated with a specific type in the base, you can apply
-+/// `#[unique]` attribute which enables `write_reg` shorthand. This is automatically applied to
-+/// bitfields instantiated via the `register!` macro.
-+///
-+/// This should only be used when types meaningfully represent a register. For example, in the
-+/// previous `UART_RX` example, even if only a single register is defined with `u8` type, it is a
-+/// bad idea to annotate it with `#[unique]`.
-+///
-+/// ```no_run
-+/// # use kernel::{bitfield, io::*};
-+///
-+/// bitfield! {
-+///     pub struct Reset(u32) {
-+///         0:0 reset;
-+///     }
-+/// }
-+///
-+/// register! {
-+///     base: Region<0x1000>;
-+///
-+///     pub RESET: #[unique] Reset @ 0x100;
-+/// }
-+///
-+/// # fn test(mmio: Mmio<'_, Region<0x1000>>) {
-+/// // let mmio: Mmio<'_, Region<0x1000>>;
-+/// mmio.write_reg(Reset::zeroed().with_const_reset::<1>());
-+/// # }
-+/// ```
-+///
- /// ## Arrays of registers
- ///
- /// Some I/O areas contain consecutive registers that share the same field layout. These areas can
-diff --git a/rust/macros/io/register.rs b/rust/macros/io/register.rs
-index 7d3160c4873a..6a89e4b60735 100644
---- a/rust/macros/io/register.rs
-+++ b/rust/macros/io/register.rs
-@@ -63,6 +63,7 @@ struct Reg {
-     attrs: Vec<Attribute>,
-     vis: Visibility,
-     name: Ident,
-+    unique: bool,
-     ty: Type,
-     array: Option<RegArrayDef>,
-     offset: RegOffset,
-@@ -76,16 +77,26 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
-         let name = input.parse()?;
- 
-         let lh = input.lookahead1();
--        let (ty, bitfield_storage) = if lh.peek(Token![:]) {
-+        let (unique, ty, bitfield_storage) = if lh.peek(Token![:]) {
-             let _: Token![:] = input.parse()?;
--            (input.parse()?, None)
++static int write_file(const char *path, const char *val)
++{
++	ssize_t len = strlen(val);
++	int fd, ret;
 +
-+            let mut attrs = input.call(Attribute::parse_outer)?;
-+            let unique = attrs
-+                .extract_if(.., |attr| attr.path().is_ident("unique"))
-+                .count()
-+                != 0;
-+            if !attrs.is_empty() {
-+                Err(Error::new_spanned(&attrs[0], "unexpected attributes"))?
-+            }
++	fd = open(path, O_WRONLY | O_CLOEXEC);
++	if (fd < 0)
++		return -1;
++	ret = write(fd, val, len) == len ? 0 : -1;
++	close(fd);
++	return ret;
++}
 +
-+            (unique, input.parse()?, None)
-         } else if lh.peek(token::Paren) {
-             let content;
-             parenthesized!(content in input);
-             let bitfield_storage = Some(content.parse()?);
- 
-             // For bitfields, bitfield macro will generate a type with the same name as `name`.
--            (parse_quote!(#name), bitfield_storage)
-+            (true, parse_quote!(#name), bitfield_storage)
-         } else {
-             Err(lh.error())?
-         };
-@@ -150,6 +161,7 @@ fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
-             attrs,
-             vis,
-             name,
-+            unique,
-             ty,
-             array,
-             offset,
-@@ -193,6 +205,7 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             attrs,
-             vis,
-             name,
-+            unique,
-             ty,
-             array,
-             offset,
-@@ -207,7 +220,7 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-             RegOffset::Fixed { offset } => quote!(#offset),
-             RegOffset::Alias { alias } => {
-                 quote_spanned!(alias.span().resolved_at(span) =>
--                    ::kernel::io::register::alias_offset::<#base, #alias>()
-+                    ::kernel::io::register::OffsetLoc::<#base, _>::const_offset(#alias)
-                 )
-             }
-             RegOffset::ElementAlias { alias, idx } => {
-@@ -229,27 +242,30 @@ pub(crate) fn register(def: RegDef) -> Result<TokenStream> {
-         }
- 
-         match array {
--            None if bitfield.is_none() => outputs.extend(quote!(
--                #(#attrs)* #vis const #name: ::kernel::io::register::OffsetLoc<#base, #ty> =
--                    ::kernel::io::register::OffsetLoc::new(#offset);
--            )),
--
--            _ if bitfield.is_none() => Err(Error::new_spanned(
--                ty,
--                "defining without bitfield is not yet supported for this type of register",
--            ))?,
--
--            None => outputs.extend(quote_spanned!(span =>
--                impl ::kernel::io::register::FixedRegister for #name {
--                    type Base = #base;
--                    const OFFSET: usize = #offset;
-+            None => {
-+                if unique {
-+                    outputs.extend(quote!(
-+                        impl ::kernel::io::register::FixedIoLoc<#base> for #ty {
-+                            type Location = ::kernel::io::register::OffsetLoc<#base, #ty>;
-+                            const LOCATION: Self::Location = #name;
-+                        }
-+                    ))
-                 }
- 
--                #(#attrs)* #vis const #name: ::kernel::io::register::FixedRegisterLoc<#name> =
--                    ::kernel::io::register::FixedRegisterLoc::<#name>::new();
--            )),
-+                outputs.extend(quote_spanned!(span =>
-+                    #(#attrs)* #vis const #name: ::kernel::io::register::OffsetLoc<#base, #ty> =
-+                        ::kernel::io::register::OffsetLoc::new(#offset);
-+                ));
-+            }
- 
-             Some(def) => {
-+                if bitfield.is_none() {
-+                    Err(Error::new_spanned(
-+                        &ty,
-+                        "defining without bitfield is not yet supported for this type of register",
-+                    ))?
-+                }
++static bool file_has_word(const char *path, const char *word)
++{
++	char buf[4096], *tok, *save;
++	bool found = false;
++	ssize_t n;
++	int fd;
 +
-                 let size = &def.size;
-                 let stride = if let Some(stride) = &def.stride {
-                     outputs.extend(quote_spanned!(stride.span().resolved_at(span) =>
-
++	fd = open(path, O_RDONLY | O_CLOEXEC);
++	if (fd < 0)
++		return false;
++	n = read(fd, buf, sizeof(buf) - 1);
++	close(fd);
++	if (n < 0)
++		return false;
++	buf[n] = '\0';
++
++	for (tok = strtok_r(buf, "\n ", &save); tok;
++	     tok = strtok_r(NULL, "\n ", &save)) {
++		if (!strcmp(tok, word)) {
++			found = true;
++			break;
++		}
++	}
++	return found;
++}
++
++static bool path_is_mounted(const char *path)
++{
++	char line[PATH_MAX * 2];
++	bool found = false;
++	FILE *f;
++
++	f = fopen("/proc/self/mounts", "re");
++	if (!f)
++		return false;
++	while (fgets(line, sizeof(line), f)) {
++		char mnt[PATH_MAX];
++
++		if (sscanf(line, "%*s %4095s", mnt) != 1)
++			continue;
++		if (!strcmp(mnt, path)) {
++			found = true;
++			break;
++		}
++	}
++	fclose(f);
++	return found;
++}
++
++/* Shared by the stress tests below. */
++static bool stress_deadline(const struct timespec *end)
++{
++	struct timespec now;
++
++	clock_gettime(CLOCK_MONOTONIC, &now);
++	return now.tv_sec > end->tv_sec ||
++	       (now.tv_sec == end->tv_sec && now.tv_nsec >= end->tv_nsec);
++}
++
++FIXTURE(kernfs_cgroup)
++{
++	char scratch[PATH_MAX];		/* <cg2>/kernfs_selftest.<pid> */
++	char child[PATH_MAX];		/* <scratch>/child */
++	char probe[PATH_MAX];		/* child's controller file */
++	char scratch_sc[PATH_MAX];	/* scratch's cgroup.subtree_control */
++	char root_sc[PATH_MAX];		/* root's cgroup.subtree_control */
++	char enable[32];		/* "+<controller>" */
++	char disable[32];		/* "-<controller>" */
++	char mnt[PATH_MAX];		/* our own mount, if we made one */
++	bool mounted;
++	bool enabled_at_root;
++};
++
++/* A cgroup stays busy briefly after its last task exits. */
++static void rmdir_retry(const char *path)
++{
++	int i;
++
++	for (i = 0; i < 500; i++) {
++		if (!rmdir(path) || errno != EBUSY)
++			return;
++		usleep(10000);
++	}
++}
++
++/*
++ * Undo whatever SETUP managed to do.  The harness skips TEARDOWN after a
++ * failed or skipped SETUP, so SETUP must call this before returning early.
++ */
++static void kernfs_cgroup_undo(FIXTURE_DATA(kernfs_cgroup) *self)
++{
++	rmdir_retry(self->child);
++	rmdir(self->scratch);
++	if (self->enabled_at_root)
++		write_file(self->root_sc, self->disable);
++	if (self->mounted) {
++		umount2(self->mnt, MNT_DETACH);
++		rmdir(self->mnt);
++	}
++	self->enabled_at_root = false;
++	self->mounted = false;
++}
++
++FIXTURE_SETUP(kernfs_cgroup)
++{
++	char root[PATH_MAX], ctl[PATH_MAX];
++	const char *probe_file = NULL;
++	size_t i;
++
++	if (geteuid())
++		SKIP(return, "test needs to run as root");
++
++	/*
++	 * A private mount namespace stops our mounts leaking, but does not
++	 * isolate the cgroup hierarchy: cgroup2 has one default hierarchy
++	 * however many times it is mounted.  The scratch cgroups live in the
++	 * host's and must be removed, not discarded with the namespace.
++	 */
++	if (unshare(CLONE_NEWNS))
++		SKIP(return, "unshare(CLONE_NEWNS): %s", strerror(errno));
++	if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
++		SKIP(return, "make / private: %s", strerror(errno));
++
++	/* Use an existing cgroup2 mount if there is one, else make our own. */
++	if (find_cgroup2_root(root, sizeof(root))) {
++		strcpy(self->mnt, "/tmp/kernfs_selftest_cg2.XXXXXX");
++		if (!mkdtemp(self->mnt))
++			SKIP(return, "mkdtemp: %s", strerror(errno));
++		if (mount("none", self->mnt, "cgroup2", 0, NULL)) {
++			rmdir(self->mnt);
++			SKIP(return, "mount cgroup2: %s", strerror(errno));
++		}
++		self->mounted = true;
++		strcpy(root, self->mnt);
++	}
++
++	snprintf(self->root_sc, sizeof(self->root_sc),
++		 "%s/cgroup.subtree_control", root);
++	snprintf(ctl, sizeof(ctl), "%s/cgroup.controllers", root);
++
++	/* Named after our pid so we cannot collide with anything else. */
++	snprintf(self->scratch, sizeof(self->scratch), "%s/%s.%d", root,
++		 CG_SCRATCH, getpid());
++	snprintf(self->child, sizeof(self->child), "%s/child", self->scratch);
++	snprintf(self->scratch_sc, sizeof(self->scratch_sc),
++		 "%s/cgroup.subtree_control", self->scratch);
++
++	for (i = 0; i < ARRAY_SIZE(controllers); i++) {
++		if (!file_has_word(ctl, controllers[i].name))
++			continue;
++		snprintf(self->enable, sizeof(self->enable), "+%s",
++			 controllers[i].name);
++		snprintf(self->disable, sizeof(self->disable), "-%s",
++			 controllers[i].name);
++		probe_file = controllers[i].probe_file;
++
++		/*
++		 * A controller must be in the root's subtree_control before
++		 * it appears in our scratch cgroup.  Note if we enabled it,
++		 * so it can be put back.
++		 */
++		self->enabled_at_root = !file_has_word(self->root_sc,
++						       controllers[i].name);
++		if (self->enabled_at_root &&
++		    write_file(self->root_sc, self->enable)) {
++			self->enabled_at_root = false;
++			probe_file = NULL;
++			continue;
++		}
++		break;
++	}
++	if (!probe_file) {
++		kernfs_cgroup_undo(self);
++		SKIP(return, "no usable cgroup2 controller");
++	}
++
++	snprintf(self->probe, sizeof(self->probe), "%s/%s", self->child,
++		 probe_file);
++
++	/*
++	 * Only an unusable environment may skip.  A scratch cgroup named
++	 * after our own pid should always be creatable, so failing to make
++	 * one is a result -- skipping would let a broken kernel look green.
++	 */
++	if (mkdir(self->scratch, 0755)) {
++		int err = errno;
++
++		kernfs_cgroup_undo(self);
++		if (err == EROFS || err == EACCES || err == EPERM)
++			SKIP(return, "mkdir %s: %s", self->scratch,
++			     strerror(err));
++		ASSERT_EQ(err, 0) TH_LOG("mkdir %s: %s", self->scratch,
++					 strerror(err));
++	}
++	if (mkdir(self->child, 0755)) {
++		int err = errno;
++
++		kernfs_cgroup_undo(self);
++		ASSERT_EQ(err, 0) TH_LOG("mkdir %s: %s", self->child,
++					 strerror(err));
++	}
++
++	/*
++	 * The tests below need the probe file to appear and disappear with
++	 * the controller, so it must be absent now, before anything enables
++	 * it in the scratch cgroup.  Skip rather than fail: a probe file that
++	 * is already there means the table names one the controller does not
++	 * own, not that the kernel is broken.
++	 */
++	if (!access(self->probe, F_OK)) {
++		kernfs_cgroup_undo(self);
++		SKIP(return, "%s is not owned by the %s controller",
++		     probe_file, self->enable + 1);
++	}
++}
++
++FIXTURE_TEARDOWN(kernfs_cgroup)
++{
++	write_file(self->scratch_sc, self->disable);
++	kernfs_cgroup_undo(self);
++}
++
++/*
++ * Walking already-cached dentries must not invalidate them.  Spurious
++ * invalidation is not merely slow: d_invalidate() calls detach_mounts(), so
++ * an unrelated lookup would silently tear down any mount below.
++ */
++TEST_F(kernfs_cgroup, path_walk_does_not_invalidate)
++{
++	char src[] = "/tmp/kernfs_selftest_bind.XXXXXX";
++	char sub[PATH_MAX], probe[PATH_MAX];
++	int i;
++
++	snprintf(sub, sizeof(sub), "%s/sub", self->child);
++	ASSERT_EQ(mkdir(sub, 0755), 0);
++
++	if (!mkdtemp(src)) {
++		rmdir(sub);
++		SKIP(return, "mkdtemp: %s", strerror(errno));
++	}
++	if (mount(src, sub, NULL, MS_BIND, NULL)) {
++		int err = errno;
++
++		rmdir(sub);
++		rmdir(src);
++		SKIP(return, "bind mount onto a cgroup dir: %s", strerror(err));
++	}
++	ASSERT_TRUE(path_is_mounted(sub));
++
++	/* Walk a sibling path through the same directory, repeatedly. */
++	snprintf(probe, sizeof(probe), "%s/cgroup.procs", self->child);
++	for (i = 0; i < 8; i++) {
++		int fd = open(probe, O_RDONLY | O_CLOEXEC);
++
++		if (fd >= 0)
++			close(fd);
++	}
++
++	EXPECT_TRUE(path_is_mounted(sub));
++
++	umount2(sub, MNT_DETACH);
++	rmdir(sub);
++	rmdir(src);
++}
++
++/*
++ * A cached negative dentry must be invalidated when the kernel creates the
++ * name behind the dcache's back.  That is what kernfs_dir_changed() and
++ * kernfs_elem_dir::rev are for.
++ */
++TEST_F(kernfs_cgroup, negative_dentry_invalidated_by_kernel_create)
++{
++	struct stat st;
++
++	/* Caches a negative dentry for the probe file. */
++	ASSERT_EQ(stat(self->probe, &st), -1);
++	ASSERT_EQ(errno, ENOENT);
++
++	/* The kernel now creates it, with no VFS operation on that name. */
++	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
++
++	EXPECT_EQ(stat(self->probe, &st), 0);
++}
++
++/* The mirror image: a cached positive dentry must go when the node does. */
++TEST_F(kernfs_cgroup, positive_dentry_invalidated_by_kernel_remove)
++{
++	struct stat st;
++
++	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
++	/* Caches a positive dentry. */
++	ASSERT_EQ(stat(self->probe, &st), 0);
+ 
++	ASSERT_EQ(write_file(self->scratch_sc, self->disable), 0);
++
++	ASSERT_EQ(stat(self->probe, &st), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++/* Opening a removed node fails; it never returns stale content. */
++TEST_F(kernfs_cgroup, open_after_rmdir_fails)
++{
++	char path[PATH_MAX];
++	char buf[64];
++	int fd;
++
++	snprintf(path, sizeof(path), "%s/cgroup.procs", self->child);
++
++	fd = open(path, O_RDONLY | O_CLOEXEC);
++	ASSERT_GE(fd, 0);
++
++	ASSERT_EQ(rmdir(self->child), 0);
++
++	/* Lookup by path must fail. */
++	EXPECT_EQ(open(path, O_RDONLY | O_CLOEXEC), -1);
++	EXPECT_EQ(errno, ENOENT);
++
++	/*
++	 * An fd held across removal must fail rather than return stale
++	 * content.  rmdir() deactivates the node before it returns, so
++	 * kernfs_seq_start() fails to get an active reference.
++	 */
++	EXPECT_LT(read(fd, buf, sizeof(buf)), 0);
++	EXPECT_EQ(errno, ENODEV);
++	EXPECT_EQ(close(fd), 0);
++
++	ASSERT_EQ(mkdir(self->child, 0755), 0);
++}
++
++/* readdir returns every entry exactly once. */
++TEST_F(kernfs_cgroup, readdir_no_duplicates)
++{
++	char names[512][NAME_MAX + 1];
++	struct dirent *de;
++	int n = 0, i, j;
++	DIR *d;
++
++	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
++
++	d = opendir(self->child);
++	ASSERT_NE(d, NULL);
++	while ((de = readdir(d))) {
++		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++			continue;
++		ASSERT_LT(n, (int)ARRAY_SIZE(names));
++		strncpy(names[n], de->d_name, NAME_MAX);
++		names[n][NAME_MAX] = '\0';
++		n++;
++	}
++	closedir(d);
++
++	ASSERT_GT(n, 0);
++	for (i = 0; i < n; i++)
++		for (j = i + 1; j < n; j++)
++			EXPECT_STRNE(names[i], names[j]);
++}
++
++/*
++ * A telldir() cookie must resolve back to the same entry after seekdir().
++ * kernfs encodes the cookie as the node's name hash, so this covers
++ * kernfs_dir_pos() as well as plain iteration.
++ */
++TEST_F(kernfs_cgroup, readdir_seekdir_roundtrip)
++{
++	char names[512][NAME_MAX + 1];
++	struct dirent *de;
++	long pos[512];
++	int n = 0, i;
++	DIR *d;
++
++	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
++
++	d = opendir(self->child);
++	ASSERT_NE(d, NULL);
++
++	/* Record the cookie *before* reading each entry, with its name. */
++	while (1) {
++		long here = telldir(d);
++
++		de = readdir(d);
++		if (!de)
++			break;
++		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++			continue;
++		ASSERT_LT(n, (int)ARRAY_SIZE(pos));
++		pos[n] = here;
++		strncpy(names[n], de->d_name, NAME_MAX);
++		names[n][NAME_MAX] = '\0';
++		n++;
++	}
++	ASSERT_GT(n, 0);
++
++	/* Seeking back to a cookie must land on the entry it was taken at. */
++	for (i = 0; i < n; i++) {
++		seekdir(d, pos[i]);
++		de = readdir(d);
++		ASSERT_NE(de, NULL);
++		EXPECT_STREQ(de->d_name, names[i]);
++	}
++
++	closedir(d);
++}
++
++#define STRESS_SECS	2
++#define STRESS_DIRS	4
++#define STRESS_READERS	4
++
++/*
++ * Hammer lookup against creation and removal.  Revalidation holds no lock
++ * against the writers, so what makes it safe is that every answer it can
++ * give is one the caller already handles: a reader must only ever see
++ * success or an errno meaning "it went away", never garbage or a hang.
++ */
++TEST_F(kernfs_cgroup, lookup_vs_create_remove_stress)
++{
++	pid_t pids[STRESS_DIRS + STRESS_READERS];
++	struct timespec end;
++	int i, status, n = 0;
++
++	clock_gettime(CLOCK_MONOTONIC, &end);
++	end.tv_sec += STRESS_SECS;
++
++	for (i = 0; i < STRESS_DIRS; i++) {
++		pid_t pid = fork();
++
++		ASSERT_GE(pid, 0);
++		if (pid == 0) {
++			char dir[PATH_MAX];
++
++			snprintf(dir, sizeof(dir), "%s/s%d", self->scratch, i);
++			while (!stress_deadline(&end)) {
++				if (mkdir(dir, 0755) && errno != EEXIST)
++					_exit(10);
++				if (rmdir(dir) && errno != ENOENT &&
++				    errno != EBUSY)
++					_exit(11);
++			}
++			_exit(0);
++		}
++		pids[n++] = pid;
++	}
++
++	for (i = 0; i < STRESS_READERS; i++) {
++		pid_t pid = fork();
++
++		ASSERT_GE(pid, 0);
++		if (pid == 0) {
++			/* Start each reader on a different directory. */
++			unsigned int seq = i;
++
++			while (!stress_deadline(&end)) {
++				int which = seq++ % STRESS_DIRS;
++				char path[PATH_MAX];
++				struct stat st;
++				int fd;
++
++				snprintf(path, sizeof(path),
++					 "%s/s%d/cgroup.procs",
++					 self->scratch, which);
++
++				if (stat(path, &st) && errno != ENOENT &&
++				    errno != ENODEV)
++					_exit(20);
++
++				fd = open(path, O_RDONLY | O_CLOEXEC);
++				if (fd < 0) {
++					if (errno != ENOENT && errno != ENODEV)
++						_exit(21);
++				} else {
++					close(fd);
++				}
++
++				if (access(path, F_OK) && errno != ENOENT &&
++				    errno != ENODEV)
++					_exit(22);
++			}
++			_exit(0);
++		}
++		pids[n++] = pid;
++	}
++
++	for (i = 0; i < n; i++) {
++		ASSERT_EQ(waitpid(pids[i], &status, 0), pids[i]);
++		ASSERT_TRUE(WIFEXITED(status));
++		EXPECT_EQ(WEXITSTATUS(status), 0);
++	}
++
++	for (i = 0; i < STRESS_DIRS; i++) {
++		char dir[PATH_MAX];
++
++		snprintf(dir, sizeof(dir), "%s/s%d", self->scratch, i);
++		rmdir_retry(dir);
++	}
++}
++
++/*
++ * sysfs is namespace tagged (KERNFS_NS) and supports rename; cgroup2 does
++ * neither.  Run in a private netns with its own sysfs so the host is
++ * untouched.
++ */
++FIXTURE(kernfs_netns)
++{
++	char mnt[PATH_MAX];
++	char net[PATH_MAX];
++	bool mounted;
++};
++
++FIXTURE_SETUP(kernfs_netns)
++{
++	if (geteuid())
++		SKIP(return, "test needs to run as root");
++
++	if (unshare(CLONE_NEWNS | CLONE_NEWNET))
++		SKIP(return, "unshare(CLONE_NEWNS|CLONE_NEWNET): %s",
++		     strerror(errno));
++
++	/* Don't let our sysfs mount escape into the parent namespace. */
++	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
++
++	strcpy(self->mnt, "/tmp/kernfs_selftest_sysfs.XXXXXX");
++	ASSERT_NE(mkdtemp(self->mnt), NULL);
++
++	if (mount("none", self->mnt, "sysfs", 0, NULL)) {
++		rmdir(self->mnt);
++		SKIP(return, "mount sysfs: %s", strerror(errno));
++	}
++	self->mounted = true;
++
++	snprintf(self->net, sizeof(self->net), "%s/class/net", self->mnt);
++}
++
++FIXTURE_TEARDOWN(kernfs_netns)
++{
++	if (self->mounted)
++		umount2(self->mnt, MNT_DETACH);
++	rmdir(self->mnt);
++}
++
++/*
++ * sysfs must show this network namespace's interfaces, not the parent's.
++ *
++ * Do not assume a fresh netns contains only "lo": fallback tunnel devices
++ * (tunl0, sit0, gre0, ...) are created in every namespace unless
++ * net.core.fb_tunnels_only_for_init_net is set, so which names appear
++ * depends on the modules the host has.  Check the set instead --
++ * if_nametoindex() resolves in the current netns, so every name sysfs shows
++ * must resolve there, and the counts must agree.
++ */
++TEST_F(kernfs_netns, ns_tag_isolates_class_net)
++{
++	struct if_nameindex *idx, *i;
++	bool found_lo = false;
++	int n = 0, want = 0;
++	struct dirent *de;
++	DIR *d;
++
++	d = opendir(self->net);
++	ASSERT_NE(d, NULL);
++	while ((de = readdir(d))) {
++		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
++			continue;
++		EXPECT_NE(if_nametoindex(de->d_name), 0u)
++			TH_LOG("%s is not in this netns", de->d_name);
++		if (!strcmp(de->d_name, "lo"))
++			found_lo = true;
++		n++;
++	}
++	closedir(d);
++
++	idx = if_nameindex();
++	ASSERT_NE(idx, NULL);
++	for (i = idx; i->if_index; i++)
++		want++;
++	if_freenameindex(idx);
++
++	EXPECT_TRUE(found_lo);
++	EXPECT_EQ(n, want);
++}
++
++/*
++ * After a rename the old name must stop resolving and the new one must
++ * start, even though both dentries are already cached.
++ */
++TEST_F(kernfs_netns, rename_is_revalidated)
++{
++	char old_path[PATH_MAX], new_path[PATH_MAX];
++	struct ifreq ifr = {};
++	struct stat st;
++	int sk;
++
++	snprintf(old_path, sizeof(old_path), "%s/lo", self->net);
++	snprintf(new_path, sizeof(new_path), "%s/%s", self->net, TEST_IFNAME);
++
++	/* Warm both dentries: one positive, one negative. */
++	ASSERT_EQ(stat(old_path, &st), 0);
++	ASSERT_EQ(stat(new_path, &st), -1);
++	ASSERT_EQ(errno, ENOENT);
++
++	sk = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
++	ASSERT_GE(sk, 0);
++	strcpy(ifr.ifr_name, "lo");
++	strcpy(ifr.ifr_newname, TEST_IFNAME);
++	if (ioctl(sk, SIOCSIFNAME, &ifr)) {
++		close(sk);
++		SKIP(return, "SIOCSIFNAME: %s", strerror(errno));
++	}
++	close(sk);
++
++	EXPECT_EQ(stat(old_path, &st), -1);
++	EXPECT_EQ(errno, ENOENT);
++	EXPECT_EQ(stat(new_path, &st), 0);
++}
++
++TEST_HARNESS_MAIN
 -- 
-2.54.0
+2.53.0-Meta
 
