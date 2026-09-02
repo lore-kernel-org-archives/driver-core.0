@@ -1,147 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC12541D107;
-	Wed,  2 Sep 2026 09:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5787349B20B
+	for <driver-core@lists.linux.dev>; Wed,  2 Sep 2026 13:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788341422; cv=none; b=YXP+pgoZvdaxXvVnb2M5leZfjBTYGkt1T4gm2OFrO6KkuQr9+G8OpkhZ/xuy0hbuy3TTnR3WHLR8DWsBfykwt0NWxbNOe7AqEFN+YSyvy5wEp55rMKb5//w03r4FsVBzJOCTVh6KJT/fBksyeAS0d7DzL3AlGm2vhqFpxPjufpY=
+	t=1788354987; cv=none; b=qiJLiK8OVqKsfRxw6XjJfhkbDsi2XQhwUEvAFZgqixZwJ3c2XZyqHbqyUeSXrBDzoqhfP/N/v96IqoAvqFMgSN4/8fGVSJOfLEJaxP+Mpuaz5/nX7GTm1eaWu/oU6FzaWGuiu6mui244oUewP24HAsSM1QVbahWSyijfQQFELbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788341422; c=relaxed/simple;
-	bh=l4CcqLeTw2RJTTXu+564kHsC9lTF6y/VbYYD37/sXHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rOiDvAXzydgomUVU0mL6tfZD77qRaqfz2gO/nH5i4QoYFoefDWo88fvxSg9xB0AvG84x4r4mLN/z9zx/ykaJ+eQThG/0A2NRq3NpIlp7aK/2AguB0W8pvLkA6Bnqjsp+5QNLRdyRF2Ie9X0oIlh7ghovUWZT8ojnrXKALoV17Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgWyBXoO; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788354987; c=relaxed/simple;
+	bh=nZM6a7sRN8nf5e2sER84BlR+c03HLKK34Enpqkes2GM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t4FDaNWTQbU10hcizx2gybJWU6UXz4Fz6wFvu4h7QyV2g46SRD3C5qoTDNRFt4hupkIFMBxs+vXYiJ87tPirf4auixKYBq9zJaKKLReQ+qyMgwDYamGvz7cCi4oQgM94ntpcDpN1fc0RSfQBFl3rV3Nu0G+QJHikBEP/n+db+Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FrinuvsG; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgWyBXoO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788341420; x=1819877420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=l4CcqLeTw2RJTTXu+564kHsC9lTF6y/VbYYD37/sXHg=;
-  b=dgWyBXoOPfoj93LSs+c1ig75ESd8kpAFKIlD2/ira6kV5K4wOAqL1pQW
-   Eb7U7nXeUt+4YppCQPb/8bVOlkVQJH6ZTLpj5pW+f7Dwty8uhptvm5U18
-   5oud4QN9xHI3EYzy4MJJ641IutsBVYk3zLjbKQqhx8Gr0BfoHGrmOCtUA
-   NXNdC7MQPPipC8HpIwcnU24VwsjL9jiIEYVr/A7F6Wo7FB5v95vfNQkqQ
-   OEjv3BMeSx9nhb04pQBRbiSgtSoTktmvao8BYAexMSKkYBIprWKxUuPXe
-   4ZU6lhnFJeoRaOqt0nDEe8ppGlzXCo8nGeMYVm0qW7z+M40wzpwpmW3lZ
-   g==;
-X-CSE-ConnectionGUID: juBAZE0/RdGROFnk6ahBFg==
-X-CSE-MsgGUID: O1dnOKYkRRm4WE2UKobQ1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="106313859"
-X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="106313859"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 02:30:20 -0700
-X-CSE-ConnectionGUID: DWk/CSPsR7ixET9NbbTVEg==
-X-CSE-MsgGUID: 1RzLDjxvRqqFxl0dAUs7dw==
-X-ExtLoop1: 1
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.47.46])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Sep 2026 02:30:13 -0700
-Date: Wed, 2 Sep 2026 17:30:12 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, ankita@nvidia.com,
-	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
-	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>,
-	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
-	rick.p.edgecombe@intel.com, yilun.xu@intel.com
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <apfspMWk6axWhx1w@yilunxu-OptiPlex-7050>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
- <amk7Xzm5jmz+6SPJ@ziepe.ca>
- <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
- <20260805005533.GB28508@ziepe.ca>
- <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
- <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FrinuvsG"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCD83165C;
+	Wed,  2 Sep 2026 06:16:20 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A30C93F85F;
+	Wed,  2 Sep 2026 06:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788354984; bh=nZM6a7sRN8nf5e2sER84BlR+c03HLKK34Enpqkes2GM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FrinuvsGBjiqHG1fKHbjKVEc/tKXqp0wtshEmnfvUjyjLyTELzodoJkGmRzzJ1gFw
+	 dlS+RVttkI/+NxV494zJEE89bioVbeUa4vQhe3Ebb2Ig0xYg7U5M3KyG5GBlWufJeX
+	 S4urs7c71875WgziJfgKtHzFPOLDU09DaekDR3kY=
+Message-ID: <bd59c8b4-6b29-494d-b540-8feed38d0955@arm.com>
+Date: Wed, 2 Sep 2026 15:16:19 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 09/15] arm_mpam: Fix MSC MMIO window size to use
+ resource_size() instead of end - start
+To: Yin Li <yin.li@oss.qualcomm.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
+ Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, James Morse <james.morse@arm.com>,
+ Ben Horgan <ben.horgan@arm.com>, Bjorn Andersson <andersson@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
+ driver-core@lists.linux.dev, Srivathsa L Rao
+ <srivathsa.rao@oss.qualcomm.com>, Huang Yiwei
+ <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org
+References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+ <20260811-mpam-resctrl-dt-knp-support-v1-9-ea6397bead59@oss.qualcomm.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260811-mpam-resctrl-dt-knp-support-v1-9-ea6397bead59@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
-> 
-> 
-> On 2/9/26 12:12, Xu Yilun wrote:
-> > On Tue, Aug 04, 2026 at 09:55:33PM -0300, Jason Gunthorpe wrote:
-> > > On Tue, Aug 04, 2026 at 09:48:30AM +0800, Xu Yilun wrote:
-> > > 
-> > > > Glad to see you all here to make progress! Intel can also help on this.
-> > > > Can we have a meeting to discuss on these topics? As Alexey mentioned,
-> > > > previously we had a bi-weekly call, perhaps use that for our first
-> > > > meeting? Or what time works best for everyone?
-> > > 
-> > > I prefer we defer such community discussions till September, that
-> > > seems appropriate given some dates I've seen.
-> > 
-> > Hi Ankit & Jason,
-> > 
-> > Do we have a plan to schedule a meeting to discuss next steps?
-> > 
-> > If so, we can figure out a specific time on the Discord channel.
-> > https://discord.gg/KKqC438c
-> 
-> 
-> So I've been trying to find a time slot. Say, keep it on Thursdays (USA) (kinda short notice), bi-weekly, we can do:
-> 
-> Scenario A:
-> Seattle (PDT, UTC-7)		07:00 – 08:00	Day 1
-> Atlantic Time (ADT, UTC-3)	11:00 – 12:00	Day 1
-> Berlin (CEST, UTC+2)		16:00 – 17:00	Day 1
-> India (IST, UTC+5:30)		19:30 – 20:30	Day 1
-> China (CST, UTC+8)		22:00 – 23:00	Day 1
-> Sydney (AEST, UTC+10)		00:00 – 01:00	Day 2 (I can do it once in 2 weeks)
-> 
-> Scenario B:
-> Seattle (PDT, UTC-7)		18:00 – 19:00	Day 1
-> Atlantic Time (ADT, UTC-3)	22:00 – 23:00	Day 1
-> Berlin (CEST, UTC+2)		03:00 – 04:00	Day 2
-> India (IST, UTC+5:30)		06:30 – 07:30	Day 2
-> China (CST, UTC+8)		09:00 – 10:00	Day 2
-> Sydney (AEST, UTC+10)		11:00 – 12:00	Day 2
-> 
-> Scenario C (which is the current schedule):
-> Seattle (PDT, UTC-7)		20:00 – 21:00	Thursday, Sep 3
-> Atlantic Time Zone (ADT, UTC-3)	00:00 – 01:00	Friday, Sep 4
-> Berlin (CEST, UTC+2)		05:00 – 06:00	Day 2
-> India (IST, UTC+5:30)		08:30 – 09:30	Friday, Sep 4
-> China (CST, UTC+8)		11:00 – 12:00	Friday, Sep 4
-> Sydney (AEST, UTC+10)		13:00 – 14:00	Friday, Sep 4
-> 
-> The link is:
-> https://zoom-lfx.platform.linuxfoundation.org/meeting/93219227394?password=80705486-101a-4e19-8f11-0baaf92104be
-> 
-> but if we want to change the time - who do we contact? Or set up a new call (again, how)?
-> 
-> Please, comment. I find these calls pretty productive syncups. So far we were not having Europe in these calls.
+Hi,
 
-I'm from china. I'd say every listed option is perfect to me. Thanks.
+On 8/11/26 15:30, Yin Li wrote:
+> struct resource uses an inclusive end address, so the correct size is
+> end - start + 1. The previous calculation of end - start was off by one,
+> resulting in a mapped window one byte smaller than the actual resource.
+> Use resource_size() which correctly computes end - start + 1.
+
+Yes, thanks for catching this and making a patch. We found this 
+independently during other MPAM work, but no one got around to make a 
+patch ;-)
+
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+So this patch is independent from and non-conflicting with the DT work, 
+so either Ben or James pick this one directly, or you put those kind of 
+fixes first in the series, when you repost.
+
+Cheers,
+Andre
+
+> ---
+>   drivers/resctrl/mpam_devices.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index 1e082fb60e30..5d1854d97371 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -2296,7 +2296,7 @@ static struct mpam_msc *do_mpam_msc_drv_probe(struct platform_device *pdev)
+>   			dev_err_once(dev, "Failed to map MSC base address\n");
+>   			return ERR_CAST(io);
+>   		}
+> -		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
+> +		msc->mapped_hwpage_sz = resource_size(msc_res);
+>   		msc->mapped_hwpage = io;
+>   	} else {
+>   		return ERR_PTR(-EINVAL);
+> 
+
