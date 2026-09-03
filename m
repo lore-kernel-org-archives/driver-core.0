@@ -1,120 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4F5503BC7;
-	Thu,  3 Sep 2026 20:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF89412C08;
+	Thu,  3 Sep 2026 20:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788465767; cv=none; b=fndxilaMLvUR0wxrqq9uWi6dAnfOfAk0jEqHRVYOf9+qmyzUFH7B7Ohq+TW2lKiYvhjaEDWpN6uHPDPa+OFRgKLCECm2l2Xo6U5IEBwYmQknxBx7oyaMPsCmzv1tIHEx5ripTWLIqxoP6GjXPRVuGgcWL3JWdDoLVx5XJ6OkeQw=
+	t=1788466918; cv=none; b=f3uLb2Mk51o+wC44+O7W/smd55PRq6RRnNTFqnWznNKa7YWhRAZs5RgPdRVPxiaB5ABaEdFqSGYynv/pADujzem6Ik5Vhu3GW6l/tMZRJSxrvVP3m5u+nbnLep329YzVC8uuFD7C/8xhL+K21/H5QnD++ffMNTXuGX5fqSGQ8EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788465767; c=relaxed/simple;
-	bh=qJJ5raCRpgBI8ewp6BNw1ciVc1vyObw1PwwHYuqV6wE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VhAiOmP37RDDgLaFR23RkPHR6tSWaCgMEYyOBpgMSFBFImnvUm5DgGe56622f7iALBONgs3zXydzft6L2ZoPid43TBct9y1PxvDuL3NT9cApyfKnviijFWwlQUms91Xcew7JsLEX9JKCwgAki7bvrXUqYyup1MCpJo2YYbob4AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Se9ZMR/G; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788466918; c=relaxed/simple;
+	bh=BEPb16dmxnmQfZwf2ZnIPwOhZq4jG4NkOIexQXfMu0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Db13wuxu3VjQT8tHLv6H+86b7FeAU9i84oXzyuVT9MdmFgxaAiJZydTfqm2TdfK+EJsokgLy5SuO6/GEwJ8rvhi/f9o0VglpLOfcJIgP2TmFFl3cL8ckrVhzyS4bElFMd8aLQ67PGlz/uL6nr7HkAlRJnlXWXM8sr8dHuolzJNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gYOu04Hk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Se9ZMR/G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878A71F000E9;
-	Thu,  3 Sep 2026 20:02:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gYOu04Hk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A241F000E9;
+	Thu,  3 Sep 2026 20:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788465753;
-	bh=gz3U4hpdbHxsrgzXwzDUIpXw+xWWSplij4ZGhOwzFyg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Se9ZMR/G/E/eiv/UZyOf6tc0jWbzoIkfr+csBi9hlZSVTNWqlNKC8dORlxkpHaeys
-	 TgjZzL3vxSZHosXHwBtP0uFsTXB5ZtnDoJ3Aew+xpqiqgFpto9JwD29FmRHfpTopwp
-	 vDGqBlLtGh5IAATRJ98+i90aFRh7JAcNdW9raXulVNltif9ZDqAoRVCIHGZOigEw2T
-	 COiHbHZqHHwltH1bek2gT3Fb/EolTsr2pBKizoNMAAvHmj9mcZz+aRnsIxqotaQO7e
-	 tHYVOe38Upkrdi0Q6Q5B4nI4B9jGgZaOws7/RWsCMBo8mdGAwEIVlI84xvibw4ZS2n
-	 bBrfavgJZSWdw==
-Date: Thu, 3 Sep 2026 21:02:23 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Lukas Wunner <lukas@wunner.de>, Alexey Kardashevskiy <aik@amd.com>, Xu
- Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com,
- linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
- driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>, Alistair
- Francis <alistair.francis@wdc.com>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas
- <bhelgaas@google.com>, Daniel Gomez <da.gomez@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Dexuan Cui <decui@microsoft.com>, Donald Hunter
- <donald.hunter@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jakub Kicinski <kuba@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Sami Tolvanen
- <samitolvanen@google.com>, Samuel Ortiz <sameo@rivosinc.com>, Saravana
- Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>, "Fontenot,
- Nathan" <Nathan.Fontenot@amd.com>, rick.p.edgecombe@intel.com,
- yilun.xu@intel.com, Jiri Pirko <jiri@resnulli.us>, Leon Romanovsky
- <leon@kernel.org>, jonathan.cameron@oss.qualcomm.com
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <20260903210223.43ec3e03@jic23-huawei>
-In-Reply-To: <20260903175332.GN2890729@ziepe.ca>
-References: <20260705220819.2472765-1-djbw@kernel.org>
-	<4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
-	<amk7Xzm5jmz+6SPJ@ziepe.ca>
-	<anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
-	<20260805005533.GB28508@ziepe.ca>
-	<apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
-	<2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
-	<20260902150125.GD2890729@ziepe.ca>
-	<apl39vOiMPP7VloW@wunner.de>
-	<20260903175332.GN2890729@ziepe.ca>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1788466905;
+	bh=Eh/nvFFm4Bq2FVysbNaoCvb6EzkcxFMAm4c3sSZmWBs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gYOu04HkiAbUmILZyCgxllW/fQHH+aCjbX1XuAJNK9HGtDpgwPvt6cKeSqisXdChe
+	 msH02DBKSdxcA2nkJKWgkrBJtnqcKbEHypJRYNc8VeKUELo0d1XxuVSn++NpfOM5qz
+	 6Bmj6xTyF/ImU5lNJWpJOnWB4eXctkYn5fRyHN9pwjeGaXnUERqMcKdeyMPn98WzcN
+	 d854IB1HfHmF3v9LjUENkbU0Z9hU1TGa5KksOSnTXFInung5RAZN81mLZBO9xnEi8j
+	 mvF85bTj0w29DwiU4PuVm1CA45Jv/F0xnv3EH2BlAfLfz719Jt79w99V3/GXvr9WOP
+	 jQN1stgk5TxbA==
+Date: Thu, 3 Sep 2026 10:21:44 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <christian@brauner.io>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] kernfs: take kernfs_rename_lock for same-parent
+ renames too
+Message-ID: <apnW2A-0rHqhd8KE@slm.duckdns.org>
+References: <20260903040253.670020-1-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260903040253.670020-1-shakeel.butt@linux.dev>
 
-On Thu, 3 Sep 2026 14:53:32 -0300
-Jason Gunthorpe <jgg@ziepe.ca> wrote:
+Hello,
 
-> On Thu, Sep 03, 2026 at 03:36:54PM +0200, Lukas Wunner wrote:
-> > Dan was added as third devsec maintainer to host tsm.git:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm.git/
-> > 
-> > Jonathan and I retain access to both repositories.  
+On Wed, Sep 02, 2026 at 09:02:51PM -0700, Shakeel Butt wrote:
+...
+>   CPU0                                   CPU1
+>   kernfs_path_from_node() on /a/b/c
+>     reads the name of a, gets "a"
+>                                          renames a to a2
+>                                          renames b to b2
+>     reads the name of b, gets "b2"
+>     returns "/a/b2/c"
 > 
-> Fortunately they are on kernel.org so Konstantin can always recover
-> anything, we can get to that when there is a community consensus on
-> the new team.
-> 
-> In the short term Linus doesn't care so much about where the tree
-> comes from. Personally I'd rather leave that as is until the new team
-> is ready to put work into it. It looks like there a number of things
-> that may need preservation..
-> 
-> > > This is the only time Europe could reasonably participate in,
-> > > obviously it is not OK for China and Aus.  
-> > 
-> > FWIW, I'm likewise based in Europe, as is Jonathan.  
-> 
-> I was wondering if we should try to have two calls on opposite
-> sides.
+> This hits roots without KERNFS_ROOT_INVARIANT_PARENT: sysfs, where the
+> bad path can reach sysfs_warn_dup() and pr_cont_kernfs_path(), and
+> resctrl, which renames a mon group inside its mon_groups directory.
+> cgroup sets the flag, so it skips the lock and reads names under RCU
+> alone; that case needs something else and is not addressed here.
 
-I've shifted, now West Coast US.  However, given many things going
-on at the moment, my direct involvement in this may be limited for now.
+Well, I'm not sure this is a real problem. Do we even have places where
+multiple nodes along the hierarchy can be renamed? And the only thing we do
+with the formatted paths is printing them out somewhere.
 
-I'll be pulling in some other Qualcomm folk though to help out where
-we can. Most like mixture of US and India based folk.
-
+> So take the lock in both cases, and let kernfs_rcu_name() accept it the
+> way kernfs_parent() already does for ->__parent.  Same-parent renames
+> are rare, the lock is per filesystem, and the locked section is at most
+> three stores.  It also gives a future rename sequence counter one place
+> to sit that covers every rename.
 > 
-> > Obviously, one cannot separate discussing Dan's work from Dan.  
-> 
-> Yes, please lets all have patience and understanding
-> 
-> Personally I feel seeing the overall work finished and products using
-> it in the market will be a "in memorandum" dedication for Dan.
+> Fixes: 741c10b096bc ("kernfs: Use RCU to access kernfs_node::name.")
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-Fully agree with this sentiment as one of the ways to remember Dan.
+That said, it theoretically is a bug, so, why not?
 
-Jonathan
+Acked-by: Tejun Heo <tj@kernel.org>
 
-> 
-> Jason
+Thanks.
 
+-- 
+tejun
