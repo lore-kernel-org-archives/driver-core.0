@@ -1,156 +1,111 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013043.outbound.protection.outlook.com [40.107.201.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B941D49EC60;
-	Thu,  3 Sep 2026 12:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788438870; cv=fail; b=NDQhTfLdcSJbJXj72T8RkJ+jiVrJ/Li7VjZvgqFEsF5I0DLkFf5T0VseBavAo5XTv3CTGujdQRKgc6YQli0e2gc/V73qv3dnm03zic7/0hEzy9p9KBg29pegT9tHOzlVMgDP2GBh0hSdCD3dLvShz3yjv6ZVWajhvdwDKoBmNX0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788438870; c=relaxed/simple;
-	bh=0kg0xvEEnbOgiaQSmtT9s/fqQacZ93DrkDrMTMefXsk=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=rqF67Y7YAuhFpK8gcINA1hhdlC6iZLN5yk1tasKERvrNWiwx9Ws3cwYW82vXLA7qnPy7ZLHOLGpOLbscS/MTqHw+mOLFsgqY+GeUjimi8wYwKvaOCpYhsbTHRvn4jevSPpfbsUUga4IKth5Vt5NN/kUYQ27IWdmjC8uMRWTdZ98=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=T21nAGWC; arc=fail smtp.client-ip=40.107.201.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDEC3F4830
+	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 12:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788439278; cv=none; b=YEzxygIQ/L3oH81tFLdOxn0eWUGbyeP3siNxayhAnV6dhN9BIgB7RNtnXkSzbb1LpImwjeQdTUvaGHIufGABBZwdc06m2iKmB07S4jrLAljEljCNGaTVhd8ChWyRG63CUnCQ959Ac8MvcYhPB71twWG9IPZ1sJiM5PEpGUktluQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788439278; c=relaxed/simple;
+	bh=319TtROIp4k6HKXuhKK4mVyHm/0kJT6EedfSsyEPGV4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SxKAq9pJVO71S1q//h5eqYGSEbyhqwtdgrutkWAF2EM0H25gU7qfu2SDwy4Ld5jq5NhcRFRPiDaifdAytFcNl3EXWsAhNvdipnEquAyZNswv09ViEBcXFufHyxJuf7+7J+8EJwWxwomXgoAc7PXDDPgOYZ4k974gcgEO5lhlCCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gt8WHs0B; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="T21nAGWC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eKb2CtLcG2QoG55rha4zcWNiqFRMsJa+dSimlhdfDbvTSV9CKy64K9EKpDFA6Hg09fy4gnli2bPmz3RVjU8Ev/tWZsmRox+smtxAdEkGfPTdPPE7GhYnIVsqyUMLMisSq3yYdKVixBaorML03cc1WqV2n/RiRnEb0UTFsS6TCzDsCc7TfriWejX332ZwUJOjVt2ScWWXPKff9V86p/rSxHrmq+xIwHIoXSNMgvnAfrQQtOGjQiG89RU7dbKV6Sgt8+pJnwYYNlS7R4G9KLsRQ77xMgcMtrFWwnx56+3Q0VOM6T3T8atyIo1BICe2jHCWOEcaCwfd/spNHIU2SRRhDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0kg0xvEEnbOgiaQSmtT9s/fqQacZ93DrkDrMTMefXsk=;
- b=uoIXMlO57x7ZN83rzVqGi1DYDyl/4p2WoRbKH0ujSTPijriKcCMWWXSi/DP31XFTv3wgspDoviyliOEhD3fP3XSefC6lXJkzBKhnFWFt/nbT/09d6SY0kSnlNbnJ4GLG0UsguBL29I3/KDEBsY9AIW9iyFjL5p/JgNh29xBXyMher24SRM8I4c4ORLo+WzE+pB7JuzdWNBmR+8MmH5mOLLybx65QmBwVOwDH+bqdxVW2XXeYhPhY0+6Exu7yt49V3rXdkt2bARK7u1mnaVhPHDZzyGEj/wzMF0cLx8gRRIJQO76gdTv4Unp2z0TqIQ1S+eb8MwbyKjdqXDJRmYlKig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0kg0xvEEnbOgiaQSmtT9s/fqQacZ93DrkDrMTMefXsk=;
- b=T21nAGWCthlc1BPuz712Wc98OX6AufkLUaO19zEAB7LIE6gwyQUTITQMjal2me9uUftnh1KAOshznVC1QDAnpsWiyF/OksoySNKNVrVeUnRuzWm1eqU28ZOaPrEz1c9ga4rA92C58P/uNG2uA9YQi5IbUNNciX2rGujQ39Q3CSfEwLWKY08kwPWY2puGvVI8Nweou5cRT4XU4TPkdGdoZQ36fE+8Vn4qqt6QK+Oz52UQw7WMRlzrRZVN76pOz83wxJ2HoS+swoltQVmoepRVo1qn/kM0eutlKGDuSABydCtuYsuW0ub/xwEWwQDZCkFPytuqVzPHHb6f4+UNyYIy+g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by CY8PR12MB8194.namprd12.prod.outlook.com (2603:10b6:930:76::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 12:34:14 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0382.007; Thu, 3 Sep 2026
- 12:34:14 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 03 Sep 2026 21:34:11 +0900
-Message-Id: <DL5ONU6LGWGA.2X6IHS9OKOD9C@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v4 12/16] gpu: nova-core: use projection for PFALCON and
- PFALCON2 registers
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
- <20260901-typed_register-v4-12-5552b1d59525@garyguo.net>
-In-Reply-To: <20260901-typed_register-v4-12-5552b1d59525@garyguo.net>
-X-ClientProxiedBy: TY6PR01CA0026.jpnprd01.prod.outlook.com
- (2603:1096:405:3bb::19) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gt8WHs0B"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c2569aa5116so155286766b.0
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 05:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788439274; x=1789044074; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/OdGwx32ezn89YbAvB2ilQpl2ZjEbuFoBay+4NhbUp8=;
+        b=gt8WHs0B1OJwzVbErcF7NZvcu9mM7x4wsQmt45gO8+pxI83U5eTlp+e/hvucU2YmNv
+         XKOz3d4LwTR+DuBog6FmhiTqPi4G6F5nv4039uzK4XtTJdp1R2MaNy4ANjbbEIrgy1Qa
+         GXn4iY16m3OmgRNWvOTLaByY3Pd4ZO4/WZlAJ516gVJ6LVOdqa0QQmmZzGDOeAltYXo9
+         qSZnE6YnDBLyApmSi1GXCHntNtFs7MZYEjZXFZtuiZ0ibhUcD/djgKRlqbG9x+8xUo6o
+         AQ/HDsfO7Hf82qbNP+aBp5qfiCkYiQEfIx8/l+DUiT8o4LmiFpoeeQ26TrTMDRhr3bEl
+         bAWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788439274; x=1789044074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/OdGwx32ezn89YbAvB2ilQpl2ZjEbuFoBay+4NhbUp8=;
+        b=nawMrPZiR8D0aXqKYRIzuoWPAXyWTucmQPKQU/EcsjyyNTas2VRMv7ICn9XVGyN7Ge
+         6P5CKKND8NzTrgi9VayJ55eXxSEVjYC5gpAnxa8Har3cuEqm0JTO9mOJV0k7zR3zWf3q
+         QvgqD6mxMXWV5D9x6ZyTWa2Pjxlt/vk914jQuDCZsoUkC8KxqETeqyOXFU0GQKlN1QiV
+         umAQ7onbzM48qd63x/0Yc0f4+hiLXiPofMmXPmGi6OZv9UtIXdVG18CGrvYGYh0XJk1e
+         SysgWERZywW/JKg200JYoEpNPqOza68vxWwQ8zdMS3PdetFzBX0eDoH4vFFg/qGVyWfT
+         NJOA==
+X-Forwarded-Encrypted: i=1; AKwUvBxYNlKhEHAagVAHAovgwMwzanppu7zbIvxHubp4wkKyFQe80qgh5/uA3zgqBv8SShZoKph6vnuTW3iZ3g==@lists.linux.dev
+X-Gm-Message-State: AFuF++k3HWuffKfmWTTPjWEYimtS2h0Zye+F0Ds5TYZgEFvaFcB0xyQX
+	rtgdphdiiDovTmp0A7PG0164CU2+86nv/oYf8nP0AihtyZbsTGKLqbg4LqvgSTX2E7rzNScD
+X-Gm-Gg: AYBFou15BqwJ1xwa2vWWIckE+GqUwToInvZGwRBp/8ZKZcg0leZc8q4kiYfzjqCe1Cx
+	TDdZGsTfb5wnTh/dWJrm7ElC90jU7oEI8cX0NEGMkmWRBjoWC/oUEdYCm0u8vpSCedc1w5cZqWJ
+	OXSZcVISmZQvzS3retMqqpUfX0b0aZP0gK7I/o4fy5xLW9gxCmvCXKpi/foXeFou4A0rWpa4Hgt
+	MjQoAmajcVxTWQdI+Y1nP96sv4UrA01N0p9uk4OuvTfwH4IPxhLumwdgM0pBUIQIfL8FKob2HIo
+	U2YFCXN2d8hrCE8HUIP9zIr9NJYJqEZRlskA6/yyaw9JBQr9d/VZMs5nSmxAsAB0Qk/48zUZ9/n
+	0xgpBnbgqvvU2TNSbNqgiQeGJzh96V9y0A4IqLn3VyxyrM1SCWfKQvXBGOcdda15RYIqfV0SBjH
+	8vgdxG1W7Vpf/hYdItFT+oCMkZs1tPCNp8GFeR2pAsranSpak0AG5tXkxs+liZ2iMbe105NRlh8
+	Bgff6n1eXtJ+uG775cCnk5Cln1zFw+9J3mwGKM5wkUenQF3ZuEkPNqnDldq
+X-Received: by 2002:a17:907:970f:b0:c25:32b0:e56d with SMTP id a640c23a62f3a-c25efe0425emr292477266b.7.1788439274267;
+        Thu, 03 Sep 2026 05:41:14 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25f3a396b1sm93223066b.0.2026.09.03.05.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 05:41:13 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: Yohei Kojima <yk@y-koj.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] debugfs: warn if file creation failed due to uninitialized debugfs
+Date: Thu,  3 Sep 2026 17:41:11 +0500
+Message-ID: <20260903124111.87353-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <ai0m0atzc0cXT0yQ@desktop.y-koj.net>
+References: <ai0m0atzc0cXT0yQ@desktop.y-koj.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|CY8PR12MB8194:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65950a29-be80-429a-f33c-08df09b7a9f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|10070799003|366016|11063799006|10067099003|4143699003|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	+JVty70p2UYhgP8ftfQOWwi4fbXj2H47pJv77riIpJpzEpBgNOWjwv9vOA7oQaqaPzk6Sxuv6je3Ovn7EI+e3AKBMvCWLXtquppO6/WKuREhzR/XSx3R3MKc+vLi0zyugAZ1u0x1WzDxuBPxEsk9n6wnj25lj9f8m6Ea3kNZYObrRU4oToLzW5ZvrCHZXVR014isT+CqpO7r5jJXuPzdXh6lTGg7Qcfh4GR/+QCjgYYRrpzr6NJvDYdbmzJU9B2pLNqKDeXy7HJGN2TdX1kX1zcKX4hTPPnywb8xVtWZPiUQ0RKheOQiI97H6GFgjpoVlSQfkYInuMcTTDAGU8/DIQTvhbJZ4P+T2v0F5mdaDcv6TJWPJmHWve2jTsyGbAS4567YcXNlJ+R5D9yM0IDMxDQDf3aaCB+Pv0PqLcmr3Sy7r1tubxsDatcGZcCoXnYY3cB4iMRrG8JRJjkkRo/6SzdNqiX2LhI/tIADik2b/r+1IsoaK7l0LObwOMqsX2ztISpjh2ZGkrRA1T/zb6e9fEW5Pxbmdz+cXlIUMgwQOH0axtzLQYD0nDMiVXNGA7b/u3jw6rpgzDTxrvMsaf6Cls5oOofUn/mlIg9zP59PQHRyPxv6pO4q5WlQ+J1PCQ4lLNj4KwSku2xuq+MpS4QTv45eD1jAY2pBJ9drgEK+Gb0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(10070799003)(366016)(11063799006)(10067099003)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NWpXMmlibUZhVFNoYUgxMEZ4eWRraG5YSExvQkMrc1c5Vndrc2pvck92V2FJ?=
- =?utf-8?B?eXVDaHMvNVdLRXlWL3JpWFc4eUo1eHk5QmRyeE8zWGlxVkp3VHpOa3Ira3lZ?=
- =?utf-8?B?dGIyU09wTmZsNExlakJnMkNTMGJaZUZrVjZkY2Y0LzJsZjhkR0dIK3ZtYmJp?=
- =?utf-8?B?NDVZYThWRjUrMnpoZGhHUFE3WWJ5Uy9DOFNIc0xqbS8rMVk4aHh1bzVEV0Ji?=
- =?utf-8?B?N2h6dG5LVC85c05pWkcrVnVhOWpRVlJsYXA1bGZvODBxWDB3bVNmVVNCeEFV?=
- =?utf-8?B?RVlnLzN6SUpxL29UdXkyVFowd0tiVm1wbkMxL253M1Y4SXVVeVkzT3RKd1oy?=
- =?utf-8?B?dTN3SGd4QkFRSjY1TFZzNW5mdUxQQzZudHVZcytLT095SmVRN1dQemw4ejhn?=
- =?utf-8?B?Vy8vN1VlRzhSclgyYVl0c0R2dUI0ak5LQ25Za05FbVlLNXpPWEg1UXJYRFJh?=
- =?utf-8?B?QlpoYnN5RWE2dzNMSmRSbWlLUm95QTQ0eDhGT3ljd2JKVWNWbVBrS3ZqWW9y?=
- =?utf-8?B?aFJ6TE9yaktUSlJ0K1JvWkFKTHhpajAvVWhNQyt6Wk9KbGpZU1F4T2pINkFQ?=
- =?utf-8?B?Wnh5T0NDbFlCY2dMSm12VVluU1hnaVhoU1dKMTBWa0VzVnc1Smt6YWNhcFc1?=
- =?utf-8?B?b0JpZjVadVdJenY2eHltVFhlR05PZXFnZEdTL1QvV2ZvOXNSK3RYRXNlaUZZ?=
- =?utf-8?B?TFE2S3Bod2hxdk1tNkRocUpSNENjT2FtV1pHQ1llb2pUQWxBY2JNSExyUW1G?=
- =?utf-8?B?aTFlaFNpKzVka2JnMlVEM1Rta3BZQmtabjB5VWxleHNaZHFuQ2M3Q1h6UTN4?=
- =?utf-8?B?QmVyaER4bHZ0Ky9ISCtzeFRDZ1BwcnVPejQrTzExMFhETk9wenl4Ullnem90?=
- =?utf-8?B?ajdIazZIcUxqQ0Nua1VudmtaWXU5dDRGNkVKUFRzU3NBL1NVMnlGM3ZyM2Fm?=
- =?utf-8?B?eDgrSUVTZEpWZks0bGlqVnhKOHhYTitNYlZZRWFzRW4xSCtQcFpUOStLd3VW?=
- =?utf-8?B?T2VyeXFlVWpxcTNDZVh4TmdreWJ4dk9uOUwwMCtwVS9teStnd3RPQ1E1cFZu?=
- =?utf-8?B?Rk5pOGVGdlg5SUtwY05QUTh3ckl0MUh4MHdNc1hHOXRNMTQrSkI3VzlDT29w?=
- =?utf-8?B?MHZZVHJaRk1JUjdnenJFb1NLaDZrQ1MreEJzUGVzNzN3SUxPMmkvWnVtODV2?=
- =?utf-8?B?Q1BjM1diQWRNaGNQQTYvQllITUZBTzVQZFpKM2lmeVV2V3czNzMveFd3Z1dC?=
- =?utf-8?B?TEtqWk8zcGtyS3NkNTRyektyL1BYcUpjN2M0d29ERVQwZ1czb2x2VUViRmNh?=
- =?utf-8?B?VFNDQjJhTVBtcURXdTZIdUxzQ2cyYTYvYnBVTXg5Tno1dmhsODlIV2d0Z29F?=
- =?utf-8?B?RS90cmlwR252QkI4K0pWZ3daYWo2ZXQydnd4SXhib01JRUcxN213ZjlmWjg2?=
- =?utf-8?B?UkgrTmNZT25jOXlxZitIS0dtM3BURExVVHBMNHFncCtwSmlXaG5qR2lsMnRR?=
- =?utf-8?B?VkZoQXp4QjlWWlMwNkhhdWFhZENrWlZnV2hXM1VxaDB4K2lhWDhncVdTcURo?=
- =?utf-8?B?eUQvNlJBK3JJcjBtUVN1TEh0VVRxcVB0Sk54QnlVVUpDUTd4SzAvTDRieFJR?=
- =?utf-8?B?cnkwSFp6VGJJckVQRThwd3pwNTdjZTl1dG5oQnF0MksrTG5JU3kvK21rL2Vi?=
- =?utf-8?B?bHlZdStReFNDYTZBVjc0RWEzRlFTNXVZRmtXZU1lMzJSbkhIdGh5bTdsMmJj?=
- =?utf-8?B?bGRLNk4vWXdZNkIrQk9FVWdPNlU4b0RHUDNrZGFoTnBxVFkrbWJvMExnSkxk?=
- =?utf-8?B?ZXdsSWMrY09aUTNtNkRHeXRNL1hZdmdIWEVBUjY5Z3BqYmRUby83YUk2RVNL?=
- =?utf-8?B?MDdWQUhRWjJ5RHY0YVpBOU5JV3FmcXR1QkthSkhLMzlqcHJSLytHWlhaZ0Iv?=
- =?utf-8?B?cXJidHZnUkwzdzBZYUw4WXpPZGxlUzZVSHBuZVVsUWxtVmlqMDczcXNTL0xF?=
- =?utf-8?B?M1FCNTRKT2N0aDNLYVdQN3VtdGRVaUZwTFhuZUpNMGpsMngzWVF4dVQybGVq?=
- =?utf-8?B?WkQ4QkZOMmxMMEV3WVphYjIwWVdDWEFaQmoxVTFpa2t6cXZtY09wUmdGR3dT?=
- =?utf-8?B?azIzV2Z3RjNBQTEwZkU1QUhMTFdSMmgyUjhDMmd0R0wwNVlqTGJTRDlVd3ZN?=
- =?utf-8?B?ZCszNk1FVUxtMEFmSUpwSDNxUmZTK3hmRGNGQkdUbXA1NUM1dkhvL0pMaU52?=
- =?utf-8?B?bkJ1ckdYVzE1cW9sMk1uRmpkVmtHRTdXek14K1lBSGJnVGZuV3NXcWltYVpv?=
- =?utf-8?B?NmFWVEhKN2NsY21UVlVmdEQ4Qlg2ck5POWFBZTMrYW80U0dQWTJsMzdQNTlG?=
- =?utf-8?Q?PXTsbhSepxKlitVdGNZ3Wi1Grhkh1pbpkGvohVgtB/VoQ?=
-X-MS-Exchange-AntiSpam-MessageData-1: gBMZNCcvHDy0OA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65950a29-be80-429a-f33c-08df09b7a9f3
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 12:34:14.6038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XndIKNp6Nc5ASi7n5hserlYswfcENKgq3ailW1u9i/sen7FHJP7mw6Wn9DzL4jimyAkz3xe+rowHcPJtX1NDdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8194
+Content-Transfer-Encoding: 8bit
 
-On Wed Sep 2, 2026 at 1:50 AM JST, Gary Guo wrote:
-> Add fixed size region types `PFalconRegisters` and `PFalcon2Registers` an=
-d
-> update PFALCON and PFALCON2 registers to be fixed register on them and no=
-t
-> relative registers on `NovaRegisters`.
+On Sat, Jun 13, 2026 at 06:45:53PM +0900, Yohei Kojima wrote:
+> > While I understand your frustration when adding new code to the kernel
+> > that would trigger this, does it actually fail on a normal boot today?
 >
-> Update `Falcon` struct to store projected views when constructing and
-> access with `self.pfalcon` and `self.pfalcon2`.
->
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+> No. As far as I tested, no existing code faied there.
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+It does, with CONFIG_REF_TRACKER=y and CONFIG_DEBUG_FS=y.  Since this
+commit every boot here prints:
+
+  debugfs: Unable to create file 'net_refcnt@(____ptrval____)',
+    debugfs is not initialized yet
+  debugfs: Unable to create file 'net_notrefcnt@(____ptrval____)',
+    debugfs is not initialized yet
+
+This is not a race.  net_ns_init() is called directly from start_kernel(),
+before any initcall runs, and debugfs_init() is a core_initcall, so
+init_net's two ref_tracker directories always miss.  Nothing is actually
+lost - net/core/net_namespace.c re-registers them from a late_initcall(),
+and both files are present under /sys/kernel/debug/ref_tracker/ once the
+system is up - but the error is printed before that happens.
+
+I bisected it to this commit and sent a fix that keeps the warning for the
+case you were after:
+
+  https://lore.kernel.org/all/20260903115135.63210-1-mikhail.v.gavrilov@gmail.com/
+
+-- 
+Thanks,
+Mikhail
