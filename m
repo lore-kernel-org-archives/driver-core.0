@@ -1,46 +1,52 @@
-Received: from mta0.migadu.com (out-26.mta0.migadu.com [91.218.175.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE084EA374
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 21:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AEC3C7DEB;
+	Thu,  3 Sep 2026 22:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788470131; cv=none; b=lAOZkqHPn8KTr19SOMM46jnkdnASutiKl4bU3lmBy7A68WYVHkOTyjZD1CAkw6hvU6QhwiBCgxr5r36G/M0uqIR2RyGT01ZaRWsyKJofx+2eAPt/Fo/vShFFmpby+fkfyA8KQ+7zHVkJjQd4cf0AyA8FmqtuFQSmJdVq0MLVWCc=
+	t=1788473580; cv=none; b=abU00IZXqs2YHfNoA6SPqzxsWR/H6v0DGeKZZbN9cCX/Lbnvlnv2cGUVjBnnYgFYqoS8P98Yyk6IqwOebxprqrpi9JDaTnfY+Os8pe541SLFmWfo29fOR3ibSlfFfp99yt9mOG9XhB4AaSH0+mLbhncbJwdnHHQMNuyZpxHAnbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788470131; c=relaxed/simple;
-	bh=CedytQNxGbmNF46xxKUl3Am9LNsHrHhumNJs4hs2bxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGNUPNuy2wSBK/Q8NRZATbiJ5Df5CiW4h9ttlhE24ysqJgkhnFmPPGsXzcdMJ2VxtMP7BlNtzefU/2sVTt+7oBJjtzvU/bk9eIlrhzKEQipUTE1fm6YsuB7ygfkOIdN1YXe1QNi0LEXhOt4PZOrfvuAYiYlGKaNa8KB8Ed/lr8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C5E40Ukc; arc=none smtp.client-ip=91.218.175.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788473580; c=relaxed/simple;
+	bh=QdnVSXQN/uE7XNmn3QO8N6Xt7Xx9/gkLhZ32lfuhIMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=F+T2mzJqm1P+Y5rBz5zWiHsjPRbhE47wG0kjrw6WqFMfBA0Si//BlLHOD8POKn0wqPs9lTksTcZepiGHPQfDtjtxWvwwPCJ0+O2zJF28V0WcCcDrsg7IDuNZfWa00gToXsoROwdPPQ1Z9qmw7MArAAoxIspP8zvQH59OhPAHXtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJbE3cMi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C5E40Ukc"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=CedytQNxGbmNF46xxKUl3Am9LNsHrHhumNJs4hs2bxA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788470126; v=1; x=1789074926;
- b=C5E40UkczyMvNcc7Ft1lz3vCWGtHSqV4HrUujEwSde1QTKFwNIx9LhwrQWKqFqcUiMGfgGkO
- DE5nz7D8cTJy8gdszI1q8CJmitadlrei83m5vJ9j8fxyklboES57UvevcAp6QSjgyMT/pNFQ7go
- tMO+7Ir/J+4rRk66TGxywjWE=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 860a21b935749191;
-	Thu, 03 Sep 2026 21:15:25 +0000
-X-Mizu-Trace-ID: 860a21b935749191
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 3 Sep 2026 14:15:20 -0700
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Tejun Heo <tj@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Christian Brauner <christian@brauner.io>, Meta kernel team <kernel-team@meta.com>, 
-	linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] kernfs: fix up the unlocked attribute reads on the
- creation paths
-Message-ID: <apnjQmnNUNmVSggn@linux.dev>
-References: <20260903040253.670020-1-shakeel.butt@linux.dev>
- <20260903040253.670020-3-shakeel.butt@linux.dev>
- <apnX34sTUnMngU5k@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJbE3cMi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 101961F000E9;
+	Thu,  3 Sep 2026 22:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788473579;
+	bh=r4JP7hdJDIoyNzBn71IHHKs1H6EQq5IVkqb5Ov73g6U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=GJbE3cMiwk2m+HTjQDkXjeKFS1E9AOG2SjJmPZTC26+oeO6fguOgmcx6t05wmLZai
+	 NaxyHbQlDgCP80WxyJ9W65Jt/LhlnDfUBGEHDS7W+YiwpVt9cVe77eoHumW43S1OJR
+	 dToq0t3VuQllguK2eIVHdcJgALU73wI7aFzKvPcWl3poD4Yq3PLlStZC2CrLXiXoB9
+	 QTTVtYv9I3ih4/W5mWvF4X0QgWYNpFBcBSQDZdc65Di4GUvzN4ZbUh0l7ItHnSKqxX
+	 Bn+UH+0dODxrLrg/IUaiuzbpf4GNesb0sIV1mKjlga06zFtkfbW79CJ1rCYvqo1ytn
+	 7RUUoCcX/ayMg==
+Date: Thu, 3 Sep 2026 17:12:58 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Jeffery <djeffery@redhat.com>
+Cc: driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
+	Tarun Sahu <tarunsahu@google.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>, kexec@lists.infradead.org,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	John Garry <john.g.garry@oracle.com>,
+	Jeremy Allison <jallison@ciq.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Pasha Tatashin <tatashin@google.com>
+Subject: Re: [PATCH 7/9] PCI: Link a virtual function to its physical function
+Message-ID: <20260903221258.GA2263962@bhelgaas>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -49,56 +55,63 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apnX34sTUnMngU5k@slm.duckdns.org>
+In-Reply-To: <20260902170734.95504-8-djeffery@redhat.com>
 
-On Thu, Sep 03, 2026 at 10:26:07AM -1000, Tejun Heo wrote:
-> On Wed, Sep 02, 2026 at 09:02:53PM -0700, Shakeel Butt wrote:
-> > Two creation paths read a live node's attributes without holding
-> > kernfs_iattr_rwsem, which kernfs_iop_setattr() takes for writing.  They
-> > do not want the same fix.
-> > 
-> > kernfs_create_link() copies the target's ia_uid and then its ia_gid
-> > into the new link.  A chown of the target between the two reads leaves
-> > the link with the old uid and the new gid, an owner the target never
-> > had, when copying the target's owner is the whole point.  Read both
-> > fields under the rwsem.
-> > 
-> > kernfs_new_node() reads the parent's ia_gid for S_ISGID inheritance,
-> > and that one does not care which value it gets: the node does not exist
-> > yet, so nothing orders a racing chown against the creation either way.
-> > Taking the rwsem there would only serialize creation under a set-gid
-> > parent against a chown of that parent, to pick between two answers that
-> > are both right.  Mark the field read data_race() instead.
-> > 
-> > The pointer that leads to it is a different matter: __kernfs_iattrs()
-> > publishes kernfs_node::iattr with try_cmpxchg(), so there is no
-> > unmarked write for that read to pair with, and both sides read it with
-> > READ_ONCE() like the rest of fs/kernfs does.
-> > 
-> > The Fixes tag is for the symlink half.  kernfs_create_link() has read
-> > the pair without a lock since it started copying the target's owner at
-> > all; only the name of the lock its writer takes has changed since.  The
-> > data_race() is a marking rather than a fix.
-> > 
-> > Fixes: 488dee96bb62 ("kernfs: allow creating kernfs objects with arbitrary uid/gid")
-> > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+On Wed, Sep 02, 2026 at 01:07:32PM -0400, David Jeffery wrote:
+> With a PCI virtual function having the same bus for its parent
+> as the physical function it is associated with, there is no
+> explicit dependency between the two in the device tree. With
+> async shutdown, this can result in the PF being shutdown before the
+> VF has an opportunity to shutdown.
 > 
-> Acked-by: Tejun Heo <tj@kernel.org>
+> Link the VF as a consumer of the PF to note its dependency and
+> ensure clean shutdown ordering.
 > 
-> > +		if (attrs) {
-> > +			/*
-> > +			 * Unlocked on purpose: the gid is inherited onto a
-> > +			 * node that does not exist yet, so nothing orders a
-> > +			 * racing chown against this creation, and either
-> > +			 * value is correct.  The pointer above needs no such
-> > +			 * marking, __kernfs_iattrs() publishes it with
-> > +			 * try_cmpxchg().
-> > +			 */
-> > +			gid = data_race(attrs->ia_gid);
-> 
-> Nit: READ_ONCE() is likely the better fit as it's an intentional lockless
-> read whose value is used.
-> 
+> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> Tested-by: Laurence Oberman <loberman@redhat.com>
 
-Thanks TJ for the review. I will fix this in next version.
+Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
 
+> ---
+>  drivers/pci/iov.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+> index 9d408fb8ac25..9b74211c6ab4 100644
+> --- a/drivers/pci/iov.c
+> +++ b/drivers/pci/iov.c
+> @@ -382,14 +382,20 @@ int pci_iov_add_virtfn(struct pci_dev *dev, int id)
+>  	}
+>  
+>  	pci_device_add(virtfn, virtfn->bus);
+> +	if (!device_link_add(&virtfn->dev, &dev->dev, DL_FLAG_STATELESS)) {
+> +		rc = -ENOMEM;
+> +		goto failed1;
+> +	}
+> +
+>  	rc = pci_iov_sysfs_link(dev, virtfn, id);
+>  	if (rc)
+> -		goto failed1;
+> +		goto unlink;
+>  
+>  	pci_bus_add_device(virtfn);
+>  
+>  	return 0;
+> -
+> +unlink:
+> +	device_link_remove(&virtfn->dev, &dev->dev);
+>  failed1:
+>  	pci_stop_and_remove_bus_device(virtfn);
+>  	pci_dev_put(dev);
+> @@ -421,6 +427,7 @@ void pci_iov_remove_virtfn(struct pci_dev *dev, int id)
+>  	if (virtfn->dev.kobj.sd)
+>  		sysfs_remove_link(&virtfn->dev.kobj, "physfn");
+>  
+> +	device_link_remove(&virtfn->dev, &dev->dev);
+>  	pci_stop_and_remove_bus_device(virtfn);
+>  	virtfn_remove_bus(dev->bus, virtfn->bus);
+>  
+> -- 
+> 2.55.0
+> 
