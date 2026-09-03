@@ -1,42 +1,48 @@
-Received: from outbound.st.icloud.com (st-2002l-snip4-11.eps.apple.com [57.103.78.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-12.mta0.migadu.com [91.218.175.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343F3383985
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 16:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.78.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E3F4EBAF4
+	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 16:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788451265; cv=none; b=S9WJ3P13I0q0Df/BZoywLfzxixsnzU3JrW4lmVfNyluVXUtvS5YPby81dqMePXMx6IhElvMjJlbU9fGSeiYXnERhJNMOK/Tx6e7gAUg9If4tlo16tQzYjHDsTR7rIdv3oqmsQPZtKhxT/16UyGz8KsVLz04rxBRQax9av10Xkco=
+	t=1788451712; cv=none; b=RXms0yeoxd+5LWpt+zu8+3N9WPfweg2CQh++MCdpU5XuS3h+t9Z8Eo4WZxjXPGzGKVEgNgMKpS9Ll/q+RHVD9H8/7gqpDm/8qySa0fq7ffDfFw+VoF407v8MiIiIuwBzLjtlwQSk9LAoLMgxEJWQzTBFYDfSEWxbf678OfNeFpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788451265; c=relaxed/simple;
-	bh=k5Ge8HcmDCd+FWu0Lrs6QScjxxx+69yqtwILtEcklzY=;
+	s=arc-20240116; t=1788451712; c=relaxed/simple;
+	bh=LIb/7rrK5h/wT9lpdn6ra1OGGg+3Wy5Q15Bf/KyCPjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a488HscgcIVdDKUly99wKTQZSrO6lOF/wp+O0OCqMKj1s0AE15SnDVHWYjHk7/vL4tU1DYA5StmRzCmA756XWZRXfZQbkinDpvO4XwN3AZqmJ71UBd0KYUbKZHCAuj9U3tPnHPHYfd8uKFTf6vXyEAeDNtqTRWSdD9VOqqgURLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=bVq9vJdq reason="key not found in DNS"; arc=none smtp.client-ip=57.103.78.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=XaTwLR52EaklnQDd7XOSor1uPzr6KZ8tWt5c07lre3g/EwywCUPfjEj4oRftmw5Xd0miQYWIhw56XTu4VjWe88aP71ar/EavkDHGTHPqFk1Wv1iMrnqkU77RS6QXSlD8HnCoIdZRoK8YRQhbywFpK6+RgVi0p9QclrLUakGsod0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pLdJoR7h; arc=none smtp.client-ip=91.218.175.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="bVq9vJdq"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-3 (Postfix) with ESMTPS id 61AF31801255;
-	Thu, 03 Sep 2026 16:00:59 +0000 (UTC)
-X-ICL-RepId: 01a06800-83b0-7de5-8d5a-7cb31bd4fea1
-X-ICL-Out-Info: HUtFAUMHWwJACUgATUQeDx5WFlZNRAJCTQhJA0MBXBxHCVYCXAdLVxQEAVgtTkZZH1NWXQhDS1QUBAEeBlgBHB5cDBMfVFYEUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PCRQTXAcZBVcEGRVaCQpXUwBUIkcBZw9jRHVIdwhREXIUXAtYGVgbHAkUE1wHGQVXBAdYRxRHDg8TTAtHAlo0Vh9UGVoD
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; t=1788451262; x=1791043262; bh=Jj8UCgrJdUszNK3jbXxz4NAlHwQcjk4oFjg06Vcl0Io=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=bVq9vJdqJzMjP9UpvifMUAk0atntCQAFtwb5XbZStwZuzyZlCeyjrfVOekD8oxKUDb91Lx6a6z/stBHm6PWR0hMJJNsr0Ssal0493C1tq7JQ8ZyTRlQ4cMAcLED3CQIwhwPEay8gg5h5AJzHNZN2Wr83lsTR44vSh3JQhuLghW289nl3AqMBvaApT6nOcsEe9tBkzLTknbPGH+MzkuVXMv6oyH6qmF4zQ2hThSKX9lbw7i4p8/HbF9Huvj9tdA5xz4ZM1if7Xbsy4s2M2rP5XXk4gbXo1zjcxtVEEpAZD6ivS6xXfDDDbss2ilotAZIjOLIXr4z4ihx2CWDHtKjsww==
-mail-alias-created-date: 1719758601013
-Received: from desktop.y-koj.net (unknown [17.156.216.30])
-	by p00-icloudmta-asmtp-us-east-1a-100-percent-3 (Postfix) with ESMTPSA id 917FC18015DC;
-	Thu, 03 Sep 2026 16:00:57 +0000 (UTC)
-Date: Fri, 4 Sep 2026 01:00:54 +0900
-From: Yohei Kojima <yk@y-koj.net>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pLdJoR7h"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=LIb/7rrK5h/wT9lpdn6ra1OGGg+3Wy5Q15Bf/KyCPjQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788451708; v=1; x=1789056508;
+ b=pLdJoR7hoY4o6mwSvLsdRhvtJyNdOrVP1FKbkEKK3b2q4+1NRLxFSNTdRPpyfqC7ROxo2n1Y
+ dXS82xhprPZu4kXZHFmJjFBEawyN+gNeHVYBgQHMWFtJwsptn3e4xVkpPcMrPUPDhRbW++6g0vH
+ CodLf/idUhwvSuoIiDoKZxao=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id b4b3b84fd517c841;
+	Thu, 03 Sep 2026 16:08:18 +0000
+X-Mizu-Trace-ID: b4b3b84fd517c841
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 3 Sep 2026 09:08:17 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
+	Meta kernel team <kernel-team@meta.com>, linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] debugfs: don't warn about uninitialized debugfs for an
- error parent
-Message-ID: <apmZtlPdQ4L0Defz@desktop.y-koj.net>
-References: <20260903115135.63210-1-mikhail.v.gavrilov@gmail.com>
+Subject: Re: [PATCH 1/3] kernfs: take kernfs_rename_lock for same-parent
+ renames too
+Message-ID: <apmaTeNaULFmV7H4@linux.dev>
+References: <20260903040253.670020-1-shakeel.butt@linux.dev>
+ <2026090330-cytoplasm-resilient-900b@gregkh>
+ <6a990797.3e7a366d.3bd849.72d1SMTPIN_ADDED_BROKEN@mx.google.com>
+ <2026090351-turbofan-tux-d75e@gregkh>
+ <20260903060812.GA18952@shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -45,74 +51,82 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260903115135.63210-1-mikhail.v.gavrilov@gmail.com>
-X-Proofpoint-ORIG-GUID: yyiFFSsPbiTjWl8gw63iqguqpP02uVOm
-X-Proofpoint-GUID: yyiFFSsPbiTjWl8gw63iqguqpP02uVOm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAzMDEzOSBTYWx0ZWRfX4O1Bao4k5SI4
- +grjJ9wsb4tKMz7z6MbIz/HdHKic1pG8joO3gTB6FtKptrsNG0NUQLkSCrMmI9xTGviGwtHYakn
- Ps7wfqJOajxPmwgDJ/fNtXW4pkcsgQoSE4JD07Cm+syYeqerhXBJo47oXaRxUFIBSssn581hu6W
- 7Se12sdTZDMOLF67sUQimDQizNl87NqGVu3BOc2Q45k6Xn67sLZ5p7WJpiyht1NoRFUv9CKdXoZ
- Jd4wXtZ5CfffiVtUqGkqQ8uo68gTC0DzZmrbCxTItGohOYOYI/CN1RSxAHtKtGH2m3JEg/U37m+
- DPzNyIeZ5OKnBoi/PHqgm0SY/ia/zjsbAcYVGOKpz7/n+7lWKNgI5dfOzeUwYE=
-X-Authority-Info-Out: v=2.4 cv=Gp1PO01C c=1 sm=1 tr=0 ts=6a9999bb
- cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
- a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=jnl5ZKOAAAAA:8 a=pGLkceISAAAA:8
- a=YoNfM1Gq81bKbWdwTwgA:9 a=CjuIK1q_8ugA:10 a=RNrZ5ZR47oNZP8zBN2PD:22
-X-JNJ: AAAAAAABcvRuuPgrT2fBK/7sW09FN8wF5Q/IE+orH8L3c2RVKYdnAphX9QhXbPT+6IIU2paJV406Zv4kniSzgSY3CMLELY8qolru2FGUgUeBHgvEmbY7/xbD5/O4VcGrq9fnc6TTH0ltoHGrnQDpuGfhh54wuXli8csCbdLTIEYsZBbnMF9qoCwK+lG+8jc7UWnAMZcGLq+yXgPJlpT4z/MARaOV+TpNy5v+GJUxyZ9vMeMGAP0C22eaMTpHknMiTaTgOkdoTAQHjBw3M4/FOdAysG0THuhY8dqEmeUGOsVqJDum2dLVDjymevzaq6fplTnw/t/sVwIRJWbex0XSga91/iR+IYiMfMTDr1/ta8pEIdUgfHwHunNl6QiwGxooUhWiDSDF6W1THbRdwuaNv1V/wftqZ3TOQ95jTT31greldIEy7g9jnLmWUa0iNMFyWAa1/hvT0C6qgJrNmQiIDWLtSLEG0XNqQIrAaQjUfXj7tSvn2YAYpvr493HzkT/ypbxhm4btJrK8nJoJnhbj5s5Yc5882I24Fhht16wdPIM59ERXXgykaiSQ0IM/i4nw9Kl4kE1mRPPpOZqjBr6Q4r+/kASf3cwi1smyjMnhM81kLP18TjZhSTOgio4283KrZDpOTESBZ2+Gngjkq27wGRpOF1qqenG4vIy60Y2C80VOvoC5j0HCCCxDctAX4KuTIceZJSJf9eGbJ7en1pwQp9q6WXtVh7eRXkFcslzVca7WnbiBVpcuiHGKylyUU5rOZJB/z2WxWeZriP1HeUTw6vlQGB/7JNl1NxtDLLrkBSW5McmE7gW4s+xTvYZO0rfGhgo8z/LX11gY8wRCW7ENB6ixW8AUGono4+xEqZuNoCmGXvMYn8bmuQUhkhdSe25+FaG+zlqN7L2QEcVcn2VPQodxnxAkdhiZUGFE4oPTGjETjFYz58GxvLyBRDYGaXKSn5LQRN5+UlqILKAXn5ipXUU+e3G/epN
- F8uGghs3rKjDpqsDAvsEIj1XInRlnCj65ivQiy8egZfcg1v/r2cieOK1SovpnKR4TSlnXncwMf/lGJReDb5gv5HUgmjU+ve6yGsSb2K2jOzGjWzDx0fU2G5wAZB1dDLjdXqHe/7Nlbx077mj55C2JRn+T7Qd9qrv8hfpkoG1ir38RfkyetGxpicNMkX43PO5fT5dIQQq6HwOw8dA+qh2R32/vdu31qABgBkCWpclE+PrIItjItJhV9M4zPybYPy4pC9mI7ESd6poyDFlyHJFQL84kcRlxCotG8JNnnPav3w==
+In-Reply-To: <20260903060812.GA18952@shakeel.butt@linux.dev>
 
-On Thu, Sep 03, 2026 at 04:51:35PM +0500, Mikhail Gavrilov wrote:
-> Since commit c3a280ff728a
-> ("debugfs: warn if file creation failed due to uninitialized debugfs")
-> every boot with CONFIG_REF_TRACKER=y and CONFIG_DEBUG_FS=y prints two
-> errors before the root filesystem is mounted:
+On Wed, Sep 02, 2026 at 11:15:16PM -0700, Shakeel Butt wrote:
+> On Thu, Sep 03, 2026 at 07:41:53AM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Sep 02, 2026 at 10:37:21PM -0700, Shakeel Butt wrote:
+> > > On Thu, Sep 03, 2026 at 06:31:58AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Sep 02, 2026 at 09:02:51PM -0700, Shakeel Butt wrote:
+> > > > > kernfs_rename_ns() only takes kernfs_rename_lock when the rename moves
+> > > > > the node to a new parent.  A rename that keeps the same parent, like
+> > > > > renaming a network interface, changes kernfs_node::name with only
+> > > > > kernfs_rwsem held.  So the lock protects ->__parent but not ->name, and
+> > > > > a reader that wants a stable name has to take kernfs_rwsem, the same
+> > > > > lock every path lookup needs.
+> > > > > 
+> > > > > That also makes for a small but real bug.  kernfs_path_from_node()
+> > > > > takes kernfs_rename_lock for reading, and kernfs_path_from_node_locked()
+> > > > > then reads the name of each ancestor.  It reads each one once, so a
+> > > > > single same-parent rename only moves the answer from the old path to the
+> > > > > new one, but two of them landing inside one walk build a path that never
+> > > > > existed:
+> > > > > 
+> > > > >   CPU0                                   CPU1
+> > > > >   kernfs_path_from_node() on /a/b/c
+> > > > >     reads the name of a, gets "a"
+> > > > >                                          renames a to a2
+> > > > >                                          renames b to b2
+> > > > >     reads the name of b, gets "b2"
+> > > > >     returns "/a/b2/c"
+> > > > > 
+> > > > > This hits roots without KERNFS_ROOT_INVARIANT_PARENT: sysfs, where the
+> > > > > bad path can reach sysfs_warn_dup() and pr_cont_kernfs_path(), and
+> > > > > resctrl, which renames a mon group inside its mon_groups directory.
+> > > > > cgroup sets the flag, so it skips the lock and reads names under RCU
+> > > > > alone; that case needs something else and is not addressed here.
+> > > > > 
+> > > > > So take the lock in both cases, and let kernfs_rcu_name() accept it the
+> > > > > way kernfs_parent() already does for ->__parent.  Same-parent renames
+> > > > > are rare, the lock is per filesystem, and the locked section is at most
+> > > > > three stores.  It also gives a future rename sequence counter one place
+> > > > > to sit that covers every rename.
+> > > > > 
+> > > > > Fixes: 741c10b096bc ("kernfs: Use RCU to access kernfs_node::name.")
+> > > > > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> > > > > ---
+> > > > >  fs/kernfs/dir.c             | 28 +++++++++++++++-------------
+> > > > >  fs/kernfs/kernfs-internal.h |  9 ++++++++-
+> > > > >  2 files changed, 23 insertions(+), 14 deletions(-)
+> > > > 
+> > > > How was this found and tested?  Did you forget an Assisted-by: tag?
+> > > 
+> > > I am working on a series to improve kernfs_rwsem and going through
+> > > review-prompt with AI to review my series and these were existing 
+> > > issues AI found. I have created reproducers with AI for these and
+> > > tested that these patches those.
+> > 
+> > Then please read our documentation for how to properly document this
+> > usage of a LLM tool.
 > 
->   debugfs: Unable to create file 'net_refcnt@(____ptrval____)',
->     debugfs is not initialized yet
->   debugfs: Unable to create file 'net_notrefcnt@(____ptrval____)',
->     debugfs is not initialized yet
-
-Ugh... I should've noticed this...
-
-> Move the IS_ERR(parent) check above the debugfs_initialized() test.  A
-> caller passing an error parent is propagating an earlier failure, which is
-> the pattern debugfs documents and which the warning is not aimed at.  A
-> caller passing a valid or NULL parent too early - the case the warning was
-> added for - still gets it.
+> Sure
 > 
-> One behaviour change: an early caller with an error parent now gets
-> PTR_ERR(parent) back instead of -ENOENT.  All callers of these interfaces
-> are documented to ignore the return value.
-
-The new behavior looks better than the old one as it used to ignore
-parent's errno and just returned ERR_PTR(-ENOENT).
-
+> > 
+> > If you have reproducers, please add them to the kernfs tests as well as
+> > patches part of this series when you resend them.
+> >
 > 
-> Fixes: c3a280ff728a ("debugfs: warn if file creation failed due to uninitialized debugfs")
-> Link: https://lore.kernel.org/all/6d1dc775f7d5e754d734907514534054f682bac5.1781171918.git.yk@y-koj.net/
-> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> The reproducers are like stress tests and are targeting race conditions.
+> In one case delay was added to fully expose the race. I am not sure
+> selftests is the right place for this kind of tests. I can just publish
+> the reproducer on the list to have them on record if that is what you
+> are looking for.
 
-I tested this patch on x86_64 (Intel Core i7-14700K), Gentoo, v7.3-rc1
-(940de590b839), CONFIG_REF_TRACKER=y, CONFIG_DEBUG_FS=y, with KASAN and
-lockdep enabled.
+Greg, let me know what would you prefer. I can add selftests which execise the
+paths these bugs are on but to trigger the bug, more stress would be needed and
+still will not trigger the bug always.
 
-  $ diff -u before_patch after_patch 
-  --- before_patch        2026-09-03 23:46:02.856774818 +0900
-  +++ after_patch 2026-09-03 23:46:09.990259686 +0900
-  @@ -1,8 +1,6 @@
-   Yama: becoming mindful.
-   SELinux:  Initializing.
-  -debugfs: Unable to create file 'net_refcnt@(____ptrval____)', debugfs is not initialized yet
-   stackdepot: allocating hash table of 131072 entries via kvcalloc
-   stackdepot: allocating space for 8192 stack pools via kvcalloc
-  -debugfs: Unable to create file 'net_notrefcnt@(____ptrval____)', debugfs is not initialized yet
-   Mount-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
-   Mountpoint-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+Also I have inflight kernfs selftest patch [1] as well. I can combine that to
+this series. 
 
-Tested-by: Yohei Kojima <yk@y-koj.net>
-
-Thank you for reporting and fixing this during rc!
-
-Yohei
-
+[1] https://lore.kernel.org/all/20260902014050.499002-1-shakeel.butt@linux.dev/
