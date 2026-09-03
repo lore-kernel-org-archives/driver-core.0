@@ -1,198 +1,165 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010016.outbound.protection.outlook.com [52.101.46.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54435453A54;
-	Thu,  3 Sep 2026 11:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788436031; cv=fail; b=SEJUaSF++vuIf3h6naeD07HK6juZLZ70eKnOCVcctsJgcTmjHPVmeH+dFQ0Te6OaHgx9XocNvpyv/JL3ekVReNJwHUFR9pae588cl74aLje9azmZf4H5xJ8wHOEBjOralPncf1bMwZ6h9mJtOggy4PfyHVq78UYKUsCSyh0wkfA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788436031; c=relaxed/simple;
-	bh=JXkigm7UUwRmo86dGaMQAfS5+XpoVzFecfiJPMZhehI=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=spJmS9u2iWVIy178ijGhwtIdRiE4N2WrbhFqmF7lvYViEQhTFg+9H1fhk6BrG21j8wUjOXpMLm5JzsCn7OWjHfuy7DwePkXtyP9H4DcXmtGEW3eNlIkOrEWWTjQIXYSqB+DllHVMw5rXNz6636m04ZgKirL/2VN83WtjBq+j62c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GrsAvrTL; arc=fail smtp.client-ip=52.101.46.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEA449CF4B
+	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 11:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788436309; cv=none; b=t7d5PHXS6EYZTsxFDEnjMgQNU9CdJZHQcme0yXhH/bznJ/F/84b2v7m3BQxjKJRV6yt7m//i3WqKftNktNSyyXQ1cS52mHAFu26N32xY1AM/O/EmfX8rjnxVcVcwS4jwOORPuPTruXWkKrYo7dkD/QHGLmQHCk7B2lxnku/co7M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788436309; c=relaxed/simple;
+	bh=I/o0B+U6DalnOsTcEmAG0rK+NVMF2eOxour2nwHS6uM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDnTwslbb7R7Zke2v8w10pgw+goLkn0UQ333yljUGVNuf1B/QEpDiSf2Vojzp3bobWJkMpdX4mXv0RAjcqltwgy1W36D1YzctO6tNC4jAvX2OqVfnftMFj/tyYENEJPmb8v4S3GE58qXGuDxyAhxdfxaxhTSUfJWv9pB0vq/z94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q5jK9sxD; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GrsAvrTL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y1f+lNw4izv8OfmFoJUCJRB8CHZuLSHwehkahQTD6ZthwQiE9nGNl+Bcmac4YO3Pq8MkHB/OfQIYsF9Lhg3BSBs+QQdUV1ZBULPJotuUbi6iN11vXAff/1xFYSZQ0D2bPm0Q1A0Leaoxcn65he3bLrIv8bnFd8NTsU8HN7Bf8/u4WeXmMXkOp93G+V/voeuX4Y83A9Y4khPqOmJ0JHxXLL/N1dfK8hBj6MVnmBaiSXl5aNbDyhnjDc200Ilv1n2ewwdmocsOLygBI44rRcblAniUl9lspuit87Oj+J7Vz4VCC9655IoPQ0B7bEWwxp7bC3J2Wy0mJ97JeOS9ILs+Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nRD0bUK5Iurm8ftoMfilRqs7LIHBy+x14Lxlaqf46oA=;
- b=iZNWGKgnwOHe4bJoiltOfhnZwKV3sBlzRCOpeNrfjPeogreq6faCGpJoM/+Nio03mHNe7PCvo/cCPf7OKGFLBYigHAmKoogjHgGp15rr5i+TfL9e1I79v34sepaooGMO2X3qUOuJLkxq3brV8gRbVyYEplf8M/RHStjBFJisIPX2gYSk2SFvduyIxibfcOCpqQ1jYm9dL/1BMR+FTZ0Sfz+is3xWzW2x0zrQ6cOvW3DXXZB1z5sBPMd63jYMPbdxP2cgXlnyZFFsDwWAoe8lMjJYuapMLBnAVHvWjDYH8xeoOkeTuDIYQiOOlnnQquxgbrKvQTafKj7MW35JTYMr1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nRD0bUK5Iurm8ftoMfilRqs7LIHBy+x14Lxlaqf46oA=;
- b=GrsAvrTLJAFt5E7VRqH1tqW/m6Y2EeoZ9z0GTYwzCnpnrNJe0lWxJ0tLlUrmdFUShk6W0jk8bv7iHR7hD+fCxQ8DiGB3Lphz+O/kktzSKNzfvpTERg2JSXJLoXkjehKddLCq26j+BX+/FziSW+mYULdHL2azldbNvI7oF96WrfzVinUmOFgNcIMvFNnzzfhJIGaFF3a+2VtTheaPTAXfHh+jpbQCjRuxcehJBjMdOxkkgz2Tj/R5zf0QznMVwQZeiNr0FgzrSuICY6IWJElHgEaeF3VjW8CLwsFrGrreA0A78WQsAKxduIgXEZYWbfVTXiJ1vHRwTvqAHGRPxC6f1w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by PH7PR12MB9150.namprd12.prod.outlook.com (2603:10b6:510:2eb::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 11:46:58 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0382.007; Thu, 3 Sep 2026
- 11:46:58 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 03 Sep 2026 20:46:55 +0900
-Message-Id: <DL5NNNDKFTQZ.3IEWFNTS1GQ6I@nvidia.com>
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v4 02/16] rust: mem: add `transmute` with deferred size
- check
-Content-Transfer-Encoding: quoted-printable
-References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
- <20260901-typed_register-v4-2-5552b1d59525@garyguo.net>
-In-Reply-To: <20260901-typed_register-v4-2-5552b1d59525@garyguo.net>
-X-ClientProxiedBy: TYCP301CA0076.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::10) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q5jK9sxD"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c2544ff970dso330587166b.2
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 04:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788436300; x=1789041100; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2Uzx/sArEiSDEeDHsMNzdeWeAZ++sejZ/sbaE6acPVQ=;
+        b=Q5jK9sxDP1MRcc0Q3i51yeVM9ZOPu56LY/29hkhP4A0hEhIRelTUYBS3eq6ZPHw6bC
+         8MZpDXxdVzrSa/R8hWRARlkEZFXjadwIyxbp7o6Oy1c4rHqNw3LaV4mphmFQBl14EaCP
+         bcKGJOs/5XxQnELPtY+UApdVETSHQWNzW5g7AbENSlryWDcY244v4vsXCgVIswPGnVMs
+         jjMjZn2tn14QynYH5zhEuw2MlRNJXWtV5v28KoWfBbN/4yS1Pq9DO42xr0xhSicBtoUy
+         YwuwkyGcomse37G5g3wXRULA/F3UEgZV80929N2sxbTfplzrEbHqMOkxBhtVjq8tlMiZ
+         zjdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788436300; x=1789041100;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2Uzx/sArEiSDEeDHsMNzdeWeAZ++sejZ/sbaE6acPVQ=;
+        b=a1kgA5ojyrw14ykIiykfHh+8CPq6xlIT5mN0sN2/TxzRl2JeotqqgHtua+OQySRuDF
+         jb8UIcWtoBI2xT7z1v3vm2vCMIFSmoRfVvnvsjDD8XE7ZQWsKb8SVMfAUPd/PBwl7aXP
+         HxD038oLgs0vRe0S6ADuXbENv5qqGs3VuhMwoxm5isgXTW7+tR/BSGK0eRAFEINn6pBf
+         Vu3ZjqCF03NTza8YRYp7p5XyLtQ7i6Xg6wzm2aRJA/GU05H896JCnNLBTTOl79gXqqYE
+         irQBKp6WmOHdmLfbUAcG19YCbJ6m7IjjVtgsEvkPXupp/WomvCP0irbgBhvwcrEhyXOJ
+         EM+A==
+X-Forwarded-Encrypted: i=1; AKwUvBxJi/lc6NElkhRkzzYTdsrZ61mmnNAMnQfvlIkHDc0qCHoIpeQU1ZcYNU1oE4G6thlKPPa6vxCyD3VB/g==@lists.linux.dev
+X-Gm-Message-State: AFuF++liw8IHIETl0DmMKLI8tqkNhQAdrCpR7YmxGaUTTwetSrxxkUHb
+	bJ+3fgHKxBJAJu+ui96+EDS9wlz4vPk6wAvobZpIMrDO5cmCutj4siiS
+X-Gm-Gg: AYBFou2v6FUFlozYtx7bQvhgblQadMKKiNGyvpjQC/2YJJ8qjxVsjbadSUh7JBWfbcL
+	xCm35wtI2qnfarGag8DC8myw42cnFttsW51nv53XPLeQ0WGDKmdziWZei399fHH/Syab8cQpXAi
+	VWetxseCTxXSYPT49Qpd+wtXs092Y/CzXGjBbN19+mv+CHotT3CnUI/xYJVS7EqLoQYDyCr6Jgm
+	045nOD1HsGR+AqO0g2N4qwI6w62g7BIGPZP2Yx9BPDC7DHRB5R1iW/jR4I5L1ae0eiYadoXRH8j
+	XFovckRtkkOeHr/ThSXLv0JWu60sYSdJLnX+PyHa/k4iB3Z5kONf8nWSsWawztFshhc6IY2hXqg
+	xZqmMj4XUs/GAklrIPU5U1h0W1HT7Yu0m2S6GiSs08uNljf3oqDvBVyF7YBjbrLCPXXO9OsMPLq
+	tNxfjFxJXcw6ovS7CLojWxQv7r1mGgVOq8GUaxZ+0ySO1B2re7F+0D5uTQbNeeDmhrncqC6nRO4
+	2gouD+sngzXDkOmI9b9oC+LSQtBhNvO2Lpoz+2c87wV4ArDJTP353hcgCRw
+X-Received: by 2002:a17:907:3e93:b0:c24:6445:d19 with SMTP id a640c23a62f3a-c25d54e1bcbmr699666066b.17.1788436300312;
+        Thu, 03 Sep 2026 04:51:40 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25f41a104fsm87815766b.28.2026.09.03.04.51.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 04:51:39 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev
+Cc: Yohei Kojima <yk@y-koj.net>,
+	linux-kernel@vger.kernel.org,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH] debugfs: don't warn about uninitialized debugfs for an error parent
+Date: Thu,  3 Sep 2026 16:51:35 +0500
+Message-ID: <20260903115135.63210-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|PH7PR12MB9150:EE_
-X-MS-Office365-Filtering-Correlation-Id: 601f23e9-a296-4a42-b7bb-08df09b10f85
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|10070799003|366016|3023799007|11063799006|6133799003|10067099003|4143699003|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	3f9VPit8sLsNbddbnaoCSe6Tl7gQieIanyveNokvDBf1dQsy9nrtPRZfpTNG/kq4F4TbCSvJuDQMFh+wGGb8RnuGD0u0noO45ZVq8xEvAXTZsaKr8aOp/6MVF1gO1Q/GlX81HPCIPhc+lf6bKegxKKABGjw6uM45vxZxaqu9BsJ2vDIMoZ4AGEZ9NY85rzkhaOuT1UgSMr71oJJMyeQyZ+wn/ql8IHGzS6UnJCcZPyP+UGRt8or9o/o8UlKwWckzJgXKa3Uyh98bv6zuD5rFgRaAV3Kv2N7aoyPQi31C/FDnrQljYOVAjTvJhxNGOn1RlbcJR+WBsO0rjVGWXdmcT/gdZnD/Oyx3XzIOpi+BkdjqbZvzTvyhc8LKKiRmJpLcAUs+bI5iGaJMjxwuDQt6Oj+QYbTDQsSqI/Ufjy0tJBW7mqHzuqo/Ep3G35KH+C/AgaPAUXB0tOpo1bvD6FuaIzjz+KYdbmKssu3a97g+p/duyZ1TD0T/53qxRGmak9CGIDjV3QstacTpYy/6i0YtiLEGSU52EzmdYxQwR2XXS9+/uqvfKcAJ3dbOmuDMpJAL6lunLj4X2iu4ilbkKKGdpjLBEo4JpdTGf6I9rRl49F2y15UWTIK3v9e+8UXhziqLnm7ofEmistnotyHixWP2zH1D8DFZxtKGAYOrh+fcOWA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(10070799003)(366016)(3023799007)(11063799006)(6133799003)(10067099003)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UWZiS2tIYWV2ZGVCQTF2aDZRdzBzWC8rZHBlUFJqSnowTUZiWktIdklYY1Jp?=
- =?utf-8?B?S0k5WGxjWUNvbXBFS0p4cE5OajFuUzM5UnJMUVF6OUYycDRmREE3THoza2tH?=
- =?utf-8?B?L3ZXRTE5dG1Ia0xFN290S1RibDdUY0xrN2g3dGNQbVVQcU5tandtRGE5VkpI?=
- =?utf-8?B?Q0FoV09ONGpnR0VaNTRRY3htU1Jubk1OKzlYR1dYaWhCd0RmT3VSSEtLVGxI?=
- =?utf-8?B?VERsckhCQkhjZzhMMUVPaHhJZUkwOGVpazFZVFBZQ2xtSTdzT3pLaWhLZVNF?=
- =?utf-8?B?WUxSb0VsL2RmVkRVa0V3U2hKMkY2NlJiWkZXOXZ1cDBNQVZudE8xclVtdkVK?=
- =?utf-8?B?eWZxV1BXNVRQYU9GekxFVWgweU5tWFVUUmUvT1dYam1pQVF3V2xXNUF4aEs5?=
- =?utf-8?B?L1pxZU92REp5b3JpT1IrQWsrdVVxUUFGdEhsRWxWMjA3YmxMQzJwRUpYcGRQ?=
- =?utf-8?B?YkJuVzVUVkZpZ1oyVy8xTGVvMzVKOEh4RFFXSjNISHlYL2pMaVg1Q0JXWEFJ?=
- =?utf-8?B?L0g2NUNxVG9VWUc2ZVh3LzMzOEMrVkpTdkxDRDR1SEx5QVZRMnlPOTEvY0l2?=
- =?utf-8?B?dlduVmptbisvQVNqQ2VWSkIyZU9wQ0pPVDUvQk9sVko0cXYybmtraFhSbWhM?=
- =?utf-8?B?WUFQekczRVc4bFA3K2hxc0hOdjZmWWJFazdjY3BUNXBOVXVLN25BRS96a0Rp?=
- =?utf-8?B?MDZGQmZCSEQ4RWZPRXQzck5JUmFPTUZLTG9CSE9QcWMyVWpWQ3lLYVladG0r?=
- =?utf-8?B?VzRzZGNtWGwvTUs2bmFCaEJadmdndGxsWFZXckVnTE9zdXp4cnBTTUhxaEdl?=
- =?utf-8?B?ZFN6R3FPc09GVzlMQjJXV2d6UHE0M2JjSDZnR0VHcDhlVDdkeEprZlBjYThl?=
- =?utf-8?B?UmVNNDBBWHlHZlB6dThNYVYwR2hwd0tpZW5FRVhzWFl2L29OOFExTWRUbnY1?=
- =?utf-8?B?UU9rVHNVSWc4TElMZ0VUNFlCWXdOVUNJQkZHVVgvWWo3OTlNMURRbU8zUWFB?=
- =?utf-8?B?QmN0Q0l4eW5mNlpDM3hzamEvaTVBOGpYallJWmo0ZlM0cVpyYUJaY1Awd2p1?=
- =?utf-8?B?TCticnhmT1d3eERMRmdvbXdBakZtUUdqMHFuU21Vc01Ea0lXMWdUNWJaZnFp?=
- =?utf-8?B?Z0ZicWdvTXhNYmZndk5PYXp4d0p2NkNXWGVCdmdLMHJ3UFE4QXhnWEk2ZFU0?=
- =?utf-8?B?eFI2aitmcDFrMnZTWkl3TmJkd0UxOVkrS0ZOditxM2puNEUzT3JKbFlwTFBn?=
- =?utf-8?B?eE1YYVhPcGdMakZTbEZ1OHhhZ3V5M2F3dzhkbVVmK1ROeW5kWE95azNWLzU1?=
- =?utf-8?B?dVZ3TWdLeDZzWDlXV2lTSk1pQUhaRE0xMmlZSTlkeGtOL1JIQ2tPZk1YUTdz?=
- =?utf-8?B?WjNwVkJLUldwbHNPYnJXRDVmclYzRDcvLzhrdCsyem9IL0xaT0NqR0Z6VWJF?=
- =?utf-8?B?QUx3MCtaVXVnQ00yQ0tFdnhIRmYwUW9SZzY2cWorbktab2JCZkRuSTZWS1Iy?=
- =?utf-8?B?ZVZWcDBvQTRoN0hvdzU0RW9iMzF6aXhTdnVJT1h2RTNJMjFVSmc4WFZ2N2Zu?=
- =?utf-8?B?c3pLR3ZjQytYcnN2d2F0T3J6L2hGVXNXS29uaWpVSkJELytJMG9HZzZwODc0?=
- =?utf-8?B?S0ZkckdCUmdBNFlWK3lSTXhLSUFZNDFrOEZGZ0NqUWJxNmRSYk94cnF3cDkv?=
- =?utf-8?B?bGloVFNSSkxpYjMyQWdJaTlPZkFZZDVNc2ZVdzdTVGN3TGV6N05va0FPckZt?=
- =?utf-8?B?TEUrVUhHbDNjdDBycldKdHZBbnRvY29OanJnT0grc3l3citUOFZDV1JhSXhi?=
- =?utf-8?B?aTlET2xDZDhwNjkxd1p5dEo2YmVoczNEcjd3NWkySFlzdTVmT1B6M0MyaWRo?=
- =?utf-8?B?elNsL2RucmIwTzdtMnFMQXBoaU1qQlc0b0oxZWFUS1llRDE5U3ErcTZGcHBU?=
- =?utf-8?B?cktHSHBZbStXN0NzY1VMYnEvbDZVQXVUSmlvVlVBL3VITW5PL2g3TWRrcDAv?=
- =?utf-8?B?RHpHTk5xOUVoMHRUWUIvZWZDcHExNitpRlB1R1ZaVy82YVhlZVZ6VUxsZmg4?=
- =?utf-8?B?TWFwNzU2MWhkN0pGazEvd0dObzNtUFlab3RMY1l3QmJuYmtIdnBRU3B5Ukta?=
- =?utf-8?B?UkV4UzNKamVIN0J5YVZvZDUyWGluMUV3NElqcVM5MHRDNUV4d1NqSUgvQlNZ?=
- =?utf-8?B?eDBEQTArR3p3aFNnTjB3THNKR1JYSkdTY0x2UUNNc2hMUG4valhtVzdta3pL?=
- =?utf-8?B?NkZmL3VnYzBSVUNIVjEzdWxhaklDcjk2SUJjUnZnWUNxU2VvdXhPb1ZFYkVF?=
- =?utf-8?B?WXJKOGV4Y0NMd1MxbmlLd1hhQmp0SCtKemFGV2RzZXFBMUdJOVFrSGxjN1Na?=
- =?utf-8?Q?eMaMaqKFdshXDZwlbHh81/5Nfsf37aVphRtePGE1D/C8T?=
-X-MS-Exchange-AntiSpam-MessageData-1: qcx/dLjluq1slw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 601f23e9-a296-4a42-b7bb-08df09b10f85
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 11:46:58.5669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xo1kiwUc3aNDnWe2px7kZDlzr174jqsz24h3wRQTCgK9E3LWsB92d8iVZh+8j4euOaw+3/N5r9yvnSNSYjX6/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9150
+Content-Transfer-Encoding: 8bit
 
-On Wed Sep 2, 2026 at 1:50 AM JST, Gary Guo wrote:
-<...>
-> diff --git a/rust/kernel/mem.rs b/rust/kernel/mem.rs
-> new file mode 100644
-> index 000000000000..958e43bbcc3a
-> --- /dev/null
-> +++ b/rust/kernel/mem.rs
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Basic utilities for dealing with memory, values, and types.
-> +
-> +use crate::prelude::*;
-> +
-> +/// Transmute between two types.
-> +///
-> +/// Use this instead of [`core::mem::transmute`] when it is known that s=
-izes are identical but this
-> +/// cannot be proven by the compiler.
-> +///
-> +/// This is equivalent to Rust's `transmute_unchecked` intrinsics.
-> +///
-> +/// # Safety
-> +///
-> +/// All safety requirements of [`core::mem::transmute`] apply, plus that=
- the size `Src` and `Dst`
-> +/// must match.
-> +///
-> +/// # Example
+Since commit c3a280ff728a
+("debugfs: warn if file creation failed due to uninitialized debugfs")
+every boot with CONFIG_REF_TRACKER=y and CONFIG_DEBUG_FS=y prints two
+errors before the root filesystem is mounted:
 
-nit: IIUC the convention is to always use the plural `Examples`.
+  debugfs: Unable to create file 'net_refcnt@(____ptrval____)',
+    debugfs is not initialized yet
+  debugfs: Unable to create file 'net_notrefcnt@(____ptrval____)',
+    debugfs is not initialized yet
 
-> +///
-> +/// This can be used when types are known to have the same size, but onl=
-y at runtime.
-> +/// ```no_run
-> +/// # use core::any::TypeId;
-> +/// fn to_u32<T: 'static>(v: T) -> Option<u32> {
-> +///     if TypeId::of::<T>() !=3D TypeId::of::<u32>() {
-> +///         return None;
-> +///     }
-> +///
-> +///     // `core::mem::transmute` won't work here.
-> +///     // SAFETY: We've checked that `T` is u32!
-> +///     Some(unsafe { kernel::mem::transmute_unchecked(v) })
-> +/// }
-> +///
-> +/// to_u32(1u32);
+Nothing is actually wrong.  Both files show up under
+/sys/kernel/debug/ref_tracker/ once the system is up.  The kernel is
+reporting an error for a condition the caller has already accounted for.
 
-Missing closing code block here - interestingly, without it this block
-triggers a "function has unnecessary safety comment" warning.
+net_ns_init() runs directly from start_kernel(), before any initcall, and
+calls ref_tracker_dir_init() for init_net's two trackers.  debugfs_init()
+is a core_initcall, so debugfs cannot possibly be up at that point.  That
+is by design: ref_tracker_dir_debugfs() is documented as safe to call
+again later, and net/core/net_namespace.c has a late_initcall() that
+re-registers both directories once debugfs exists.
 
-With this,
+ref_tracker also states that intent to debugfs.  ref_tracker_debug_dir is
+initialised to ERR_PTR(-ENOENT) and only gets a real dentry in a
+late_initcall, so the early call hands debugfs_create_file() a parent that
+is already an error.  debugfs_start_creating() honours that and returns
+the parent error, but only after the new pr_err() has fired.
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Move the IS_ERR(parent) check above the debugfs_initialized() test.  A
+caller passing an error parent is propagating an earlier failure, which is
+the pattern debugfs documents and which the warning is not aimed at.  A
+caller passing a valid or NULL parent too early - the case the warning was
+added for - still gets it.
+
+One behaviour change: an early caller with an error parent now gets
+PTR_ERR(parent) back instead of -ENOENT.  All callers of these interfaces
+are documented to ignore the return value.
+
+Fixes: c3a280ff728a ("debugfs: warn if file creation failed due to uninitialized debugfs")
+Link: https://lore.kernel.org/all/6d1dc775f7d5e754d734907514534054f682bac5.1781171918.git.yk@y-koj.net/
+Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+---
+
+Tested on x86_64 (AMD Ryzen 9 7950X), Fedora, v7.3-rc1 plus fixes
+(940de590b839), CONFIG_REF_TRACKER=y, CONFIG_DEBUG_FS=y, with KASAN and
+lockdep enabled.
+
+Before the patch the two errors appear on every boot, and
+/sys/kernel/debug/ref_tracker/ still ends up with one net_refcnt@ and one
+net_notrefcnt@ file per network namespace, including the initial one -
+the early failure is recovered by the late_initcall() in
+net/core/net_namespace.c.
+
+After the patch the errors are gone and the same set of files is created.
+
+#regzbot introduced: c3a280ff728a9039c72cd64ad0b32bc3a28c25b2
+
+ fs/debugfs/inode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index e054e62919ec..a4d08bd3743b 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -368,6 +368,9 @@ static struct dentry *debugfs_start_creating(const char *name,
+ 	if (!debugfs_enabled)
+ 		return ERR_PTR(-EPERM);
+ 
++	if (IS_ERR(parent))
++		return parent;
++
+ 	if (!debugfs_initialized()) {
+ 		pr_err("Unable to create file '%s', debugfs is not initialized yet\n",
+ 		       name);
+@@ -376,9 +379,6 @@ static struct dentry *debugfs_start_creating(const char *name,
+ 
+ 	pr_debug("creating file '%s'\n", name);
+ 
+-	if (IS_ERR(parent))
+-		return parent;
+-
+ 	error = simple_pin_fs(&debug_fs_type, &debugfs_mount,
+ 			      &debugfs_mount_count);
+ 	if (error) {
+-- 
+2.55.0
+
