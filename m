@@ -1,165 +1,230 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010010.outbound.protection.outlook.com [52.101.56.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEA449CF4B
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 11:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788436309; cv=none; b=t7d5PHXS6EYZTsxFDEnjMgQNU9CdJZHQcme0yXhH/bznJ/F/84b2v7m3BQxjKJRV6yt7m//i3WqKftNktNSyyXQ1cS52mHAFu26N32xY1AM/O/EmfX8rjnxVcVcwS4jwOORPuPTruXWkKrYo7dkD/QHGLmQHCk7B2lxnku/co7M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788436309; c=relaxed/simple;
-	bh=I/o0B+U6DalnOsTcEmAG0rK+NVMF2eOxour2nwHS6uM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDnTwslbb7R7Zke2v8w10pgw+goLkn0UQ333yljUGVNuf1B/QEpDiSf2Vojzp3bobWJkMpdX4mXv0RAjcqltwgy1W36D1YzctO6tNC4jAvX2OqVfnftMFj/tyYENEJPmb8v4S3GE58qXGuDxyAhxdfxaxhTSUfJWv9pB0vq/z94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q5jK9sxD; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9281A6815;
+	Thu,  3 Sep 2026 12:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788436966; cv=fail; b=JyNiY0XXiuojzQxMDD/brHW5rQvJ3IsluWUe3EZbt2ykbmWDoIXFchmTM7EuHp+4/K/iFj15dnT/EooVYIxlId55muKIrxwEPMZrh/292rPOUU0EWL2pGAlFzniV5gG1kHEscAlDRuu+JI15TqUZprBGsE9F3yTjQRQU73MUGB4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788436966; c=relaxed/simple;
+	bh=GTCAKHhmV4uiUXcooCmdvo1kWT1uJnoxfFlCVC1H0eI=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=iUKwF0LEEaa7cFH5w2x3WPSFDGmRzxEA09Mt6wk3hstfS18DStlX72Hn1KRG80xQlNnVJEoe5WWeuG3Z2Ta7cMBJKbT7VI4Hgr8uS0BEiGhDHg7LgGvWMeJNdtdjhrFMwtKZHLemVpztaP1zPmlHa7x4R8EL2jwHAzSfhDUQrQ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QL2SYJqz; arc=fail smtp.client-ip=52.101.56.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q5jK9sxD"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c2544ff970dso330587166b.2
-        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 04:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788436300; x=1789041100; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2Uzx/sArEiSDEeDHsMNzdeWeAZ++sejZ/sbaE6acPVQ=;
-        b=Q5jK9sxDP1MRcc0Q3i51yeVM9ZOPu56LY/29hkhP4A0hEhIRelTUYBS3eq6ZPHw6bC
-         8MZpDXxdVzrSa/R8hWRARlkEZFXjadwIyxbp7o6Oy1c4rHqNw3LaV4mphmFQBl14EaCP
-         bcKGJOs/5XxQnELPtY+UApdVETSHQWNzW5g7AbENSlryWDcY244v4vsXCgVIswPGnVMs
-         jjMjZn2tn14QynYH5zhEuw2MlRNJXWtV5v28KoWfBbN/4yS1Pq9DO42xr0xhSicBtoUy
-         YwuwkyGcomse37G5g3wXRULA/F3UEgZV80929N2sxbTfplzrEbHqMOkxBhtVjq8tlMiZ
-         zjdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788436300; x=1789041100;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2Uzx/sArEiSDEeDHsMNzdeWeAZ++sejZ/sbaE6acPVQ=;
-        b=a1kgA5ojyrw14ykIiykfHh+8CPq6xlIT5mN0sN2/TxzRl2JeotqqgHtua+OQySRuDF
-         jb8UIcWtoBI2xT7z1v3vm2vCMIFSmoRfVvnvsjDD8XE7ZQWsKb8SVMfAUPd/PBwl7aXP
-         HxD038oLgs0vRe0S6ADuXbENv5qqGs3VuhMwoxm5isgXTW7+tR/BSGK0eRAFEINn6pBf
-         Vu3ZjqCF03NTza8YRYp7p5XyLtQ7i6Xg6wzm2aRJA/GU05H896JCnNLBTTOl79gXqqYE
-         irQBKp6WmOHdmLfbUAcG19YCbJ6m7IjjVtgsEvkPXupp/WomvCP0irbgBhvwcrEhyXOJ
-         EM+A==
-X-Forwarded-Encrypted: i=1; AKwUvBxJi/lc6NElkhRkzzYTdsrZ61mmnNAMnQfvlIkHDc0qCHoIpeQU1ZcYNU1oE4G6thlKPPa6vxCyD3VB/g==@lists.linux.dev
-X-Gm-Message-State: AFuF++liw8IHIETl0DmMKLI8tqkNhQAdrCpR7YmxGaUTTwetSrxxkUHb
-	bJ+3fgHKxBJAJu+ui96+EDS9wlz4vPk6wAvobZpIMrDO5cmCutj4siiS
-X-Gm-Gg: AYBFou2v6FUFlozYtx7bQvhgblQadMKKiNGyvpjQC/2YJJ8qjxVsjbadSUh7JBWfbcL
-	xCm35wtI2qnfarGag8DC8myw42cnFttsW51nv53XPLeQ0WGDKmdziWZei399fHH/Syab8cQpXAi
-	VWetxseCTxXSYPT49Qpd+wtXs092Y/CzXGjBbN19+mv+CHotT3CnUI/xYJVS7EqLoQYDyCr6Jgm
-	045nOD1HsGR+AqO0g2N4qwI6w62g7BIGPZP2Yx9BPDC7DHRB5R1iW/jR4I5L1ae0eiYadoXRH8j
-	XFovckRtkkOeHr/ThSXLv0JWu60sYSdJLnX+PyHa/k4iB3Z5kONf8nWSsWawztFshhc6IY2hXqg
-	xZqmMj4XUs/GAklrIPU5U1h0W1HT7Yu0m2S6GiSs08uNljf3oqDvBVyF7YBjbrLCPXXO9OsMPLq
-	tNxfjFxJXcw6ovS7CLojWxQv7r1mGgVOq8GUaxZ+0ySO1B2re7F+0D5uTQbNeeDmhrncqC6nRO4
-	2gouD+sngzXDkOmI9b9oC+LSQtBhNvO2Lpoz+2c87wV4ArDJTP353hcgCRw
-X-Received: by 2002:a17:907:3e93:b0:c24:6445:d19 with SMTP id a640c23a62f3a-c25d54e1bcbmr699666066b.17.1788436300312;
-        Thu, 03 Sep 2026 04:51:40 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25f41a104fsm87815766b.28.2026.09.03.04.51.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 04:51:39 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev
-Cc: Yohei Kojima <yk@y-koj.net>,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH] debugfs: don't warn about uninitialized debugfs for an error parent
-Date: Thu,  3 Sep 2026 16:51:35 +0500
-Message-ID: <20260903115135.63210-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QL2SYJqz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YryKrJgNuSlaqLoMbHrMCCftPZYs6l1RTMipnjjrNdIyRgAJzTeSCMzLi9PLqU8pZI625frnmFnXfByobEza+rRMFePpBLAZCVFneycHkZlKmU3+nEgf4zoFL/3hjS44kCG/kwXgr0i9jOCOON2oKQt76Dbukli5CQjE9jGwYmTlyWfwRbEXb5+FarVCMwkWUsiP24u/agsO5UsXl02Pqmvr/GBep3mOpYupDOPQn1r6gA2A0hJy9kLflyLOglUhz3U3njWSHv7HAQyuaGhy+XwahKWnWSf9u1Z9GOeOdPC9Rh1TZrUiXrhmUBxETJBTlqwpjLOm110XbhVJl6An1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jx7D1ZtXmbms/VaIzaX6EzVBmfkbKpHkWCIFaQWHz+8=;
+ b=zOJLkutMZQW8dplQxRrjzwhnj1x7AoHyICDSL2Udva3m1OUqNT2SJcR8LMOYtC8seITfE5t8Qe95jfAWe2EczW83otRVYUZSpO+a3kUxo7XRge5Y6E9YnF2VWJ9KKRroTRsEB+wSTzgSHnjVaYWbuEz7S+gvo3sf82iDa0Igo0cjoDSzQDSGQh2sQPqkMgEMq9wJLdusNebsaXynjcnCHCuawTTd/iVqCGhdhJw2PNecWjmZHrQsIYxM7ZuF2nywTJ/L3mnsBgRCG3KfNtMvGKgt3IUI5TmHBJpjC6keZyO1rhaRy+Dw7Wxvg3gyOv9Gwnqgx77m/tsScYT2ZI4G4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jx7D1ZtXmbms/VaIzaX6EzVBmfkbKpHkWCIFaQWHz+8=;
+ b=QL2SYJqz7BfuHFskGvJJ61GFLKAu/NRll0+xftCVzY8KqOR7KHROqH7JJ4qZeIcSzgZTFhTBHNPIBBRp9o1E2UdUDoIp2HiE8u9PcdHuarwJPaLWV4FM9G7bK0QuquVZpeWS+CjArVmLT9FwcnsQfMGBKP4+ILPB/hZf9Xufh86EcVF1elF9BsXBZjHZJIBwoudtrjbaBNtprRpXoJX1cX0FpyADDWqUTZmLm4jOy4ESZcRydXgeW6ZAFuP1+xAUJYNqT7HlErp+QhF/bWLxXMMZeP9PD0gPzcW5j+JO0Kmcz0cDnCNjq/QDuRcuAdmvlM1YgQCMWX3Br+v/+86uaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+ by SN7PR12MB7024.namprd12.prod.outlook.com (2603:10b6:806:26e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.12; Thu, 3 Sep
+ 2026 12:02:38 +0000
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0382.007; Thu, 3 Sep 2026
+ 12:02:37 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Sep 2026 21:02:34 +0900
+Message-Id: <DL5NZMOMIBDR.1EWZB3BBD7F0F@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v4 03/16] rust: mem: add `AsRepr` and `AsReprMut`
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Content-Transfer-Encoding: quoted-printable
+References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
+ <20260901-typed_register-v4-3-5552b1d59525@garyguo.net>
+In-Reply-To: <20260901-typed_register-v4-3-5552b1d59525@garyguo.net>
+X-ClientProxiedBy: TYCP286CA0305.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38b::16) To MW4PR12MB6873.namprd12.prod.outlook.com
+ (2603:10b6:303:20c::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|SN7PR12MB7024:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7bb75dc1-ce9e-42a6-9146-08df09b33f25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|10070799003|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	gqdVRmh5sydvVd3PE2RfrWp29tseAXybolZrwk0Wiw1Br9iszRvNOq3HkZ/m4Ffp3e6bfvcw4WqjiSLstskj17Fc8Z4ZCSXlLfJ/iMm0uGwLQ4w5fdyM1ypN0f3kKmPA4vkQhaZNKuplhcj0qvxnt3PYpwb3iFSa7RrkYawaHWDbIUgYwUUsAjfIbCc56QBco0O8y3GWFPk+fSNzqn/6jjGcHBMaTz+zm8hkd9tZTfsUq1DYCn//Y4sYGE2lUdzzAsu2h6PctpJhLfDl1oyWynd+d9IhDAXdgK5nkcFECuolY84FpQO4ag1OTEnhJnjJ3IdNf7CUTE7627D/iYIascTu2gxgW3ANH10tD0y5yv/pX/vV2nASOogLha3lu12EnKRwsnQzf6naZp8rkbTGahfi1EekB9rosEA5GGSG/6OZz+rcdEBl+uXPHBt7UwmHTvAyDX9j4irQX7C0uG+EmNsZXbV3GmUMGOODXUg6cAQya9yJWDnTWNeMKrwXQi3bZBPcHImlojapeqhYLh4wb7ng001fwD4ebQWCK2pzQakbKIjhOhfzCJoX8xbzl7MoaBNE/2HsM22iyqKZBqks/cCn/8fbNvlXozWRIobVluYOLotyKT8zOD+JtHpDUbxK2qEhiyKjwDX3APVLCO582XWFDfPCUE2eA5E7GxtMLTA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(10070799003)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TEJkY1p1b09vM0w4RmZ3MTByTlE4Rkh0bEZscUVna0RXbzhxaHRmcXQrRDZF?=
+ =?utf-8?B?ZC9hRnRrK25pWlA3RGd3U2tUc2lETWMrY1pIWnFLU2ZqNEt6dFdwYzBKUlhn?=
+ =?utf-8?B?K3I4ZEIwdTFRcEoydm1xQk9oVE4xMk5GWmxtTjlYU3lOY0dDR2NzeGlnQ2VU?=
+ =?utf-8?B?UHFxYUFhOURsLy94L0t0aFZjWXhmeDlCYnJJdXNWbGdNS1NLVWgvSmt4anpB?=
+ =?utf-8?B?ampkMytJRVJuN2pGRDJFMy9tRFJvOGZMYkRxN2krNGk4eEhaRGRyTndBclZn?=
+ =?utf-8?B?czd5Z2F4U05rS0YxeXp4OFo5U3Q3SjlGbU1CWVJPaEhXSUhWb0g3NWtMMlMz?=
+ =?utf-8?B?NnErZEJKbDFMK1Q0azNVaWI0UFZyQUZWSHpicVdaUnd4NmMzY1BIcW5lQXdo?=
+ =?utf-8?B?aXNtNXV5S0w1UlZJSkYwSFVkUEJxOTByWHhCUFRzcXFTOHd1aGZJUTdUVSt4?=
+ =?utf-8?B?Znh0cmFmanN1bzNseWlYU2xjWGJieWdVb2NZRUUyQy84Qms3elMxazBqQVdK?=
+ =?utf-8?B?RFRaZ21PcmNmemxOU0k2YnRCUXYvS25FbnVyVkpsUmNVblBrdHhiRXU0MWhy?=
+ =?utf-8?B?STVoVS9TNGJWekFoQVZZTS9kUlVkQlNNVmw1eFZTMUhjTFlnblE1cUFFeStH?=
+ =?utf-8?B?bHJoZ3JCS1VVOExpNnlDeXRNcUdIV0hPdTdrN3p6NWV4ckRLN0dRQVNjd3Z2?=
+ =?utf-8?B?aVBHZGg2bHFBdUFwdmI3bGNrM1ZhUm13SmEvcHZlWGN0bkNIRmZpMTVieXZs?=
+ =?utf-8?B?ejVYYVA0NVl4ZUYrenRKU3d0WWlNOUJnSms1M2xXZzNjZ2xlb3ljdk9taUpn?=
+ =?utf-8?B?ZnowYzkvUWdSQWJsdnZvRE84RERBVm5WdWhMYVNjOFRwcTBlaGlNcjdTTHRK?=
+ =?utf-8?B?N3ZWd3pEeE9udGRyZk5CektDcjNBZS9sRlltRUVWZFY4NmtpSU16aFNtRnNL?=
+ =?utf-8?B?b2JKWVlad2dPbGYzQVhLbWcrMUVQaDMycTlZVTl5WFMvZnhqeTAxQnVYSzRM?=
+ =?utf-8?B?T2RxRXVaYlNtbVZvbmx0cnYvb0lsbEJqdlNEUHJNQ0RoVmc2NTNEbW5vMVNL?=
+ =?utf-8?B?UzkzWEp4MzdoUlZPNmtRTEFJdkdWSHdoWis5a0lzR0NaNGRjZHdXMEdIYXJC?=
+ =?utf-8?B?Y0o1RlJpaUJrWWlPM29DSzROcnhxalRKOHhuZ1R1RURSVW8yZ1laWmRWM2JY?=
+ =?utf-8?B?akw5RE1SdktUNStxcmQwMktDeXM4b0Z3MHYvVml3TmkvMzBYSDdxRExWWXo1?=
+ =?utf-8?B?WGRXYjJFMDlRc01EWlY3U1l1QWFWRnFmVDdOVmUrbG5NcURvRmc1cjhoMlc1?=
+ =?utf-8?B?cWwzbWlvUkpvWmN4WllHajE0SE9mOGg1N2JUSWtDWUt4eXZkb2xndWJiVC9E?=
+ =?utf-8?B?aW9YZnRWU3FOd0VWaDNEZEs1elQ1RkhjUm5IbWxIbE5sTVlqbFR6SFRCbjNh?=
+ =?utf-8?B?M1l4NElDZHFLSHVQVm9XUE1nbXNWSE9ONW9yTURxaC9mb3F1VkYwaGtIN2xp?=
+ =?utf-8?B?V0FQWHk4RjVXeDJPSDl0VGppdWZGRUZTU2dHNGdqemFXdUtsWEZvbXJpK1gx?=
+ =?utf-8?B?M0ZoSmc0QXp6MC9LYjVMaFRKUzFsdjNKQmZNWmxnSWIwYlpkVHV2RFJWM1lq?=
+ =?utf-8?B?cyt6ak9CNkRGN0dvenVJU0hQU083Z29qWXduRHdJT0Rzd2NUWnkranpLUjBB?=
+ =?utf-8?B?TlNOeFZaUHdMeDcrUWVRQytxRmhYbk4rUjQ4YTcxbXgwR1doVng0VjE1cTN1?=
+ =?utf-8?B?TmlPTjJZT1pEKzRtUEl6R1RJc01sNWN4UUwyZHJhNVBHNk9xU1U5b1V2SkFO?=
+ =?utf-8?B?aU1MVm1ITE80WWJsOU1iTk1yV3VjdjVtRkI2aTExaUFQRlVKbHFzQVppUjlp?=
+ =?utf-8?B?azViMS8wMThSN0g1WjBSKzVEdTZIdTVhdHUvT3FMWWg1Y0JuRHBNTnc2ZlRC?=
+ =?utf-8?B?TEFjVHRuKzhXTko2R1hFUDhySFJGOXZTT0xZaVF3S0N6clVXMVllVS96My9P?=
+ =?utf-8?B?YS8yS0V4aHc3bW1DODRnaTc0U3pxNm5tSlRPekRZdFpjSDQ4N3FCaFM1MEhB?=
+ =?utf-8?B?S3VhZ1lidElLMm0vSDRQTFBoeXg0ZnhndFlxZENOQXdyYk84eUw1a0o2T3E5?=
+ =?utf-8?B?VGVtZko4MldDNlBqd0FVaFF0dU5DOThsQTIxNmZ0WnBqTE9scWIrSnBZWmlr?=
+ =?utf-8?B?MU1WNk0vUDJFeWQ1c2djTkZ3R1BteGErdDBjakpGRjkrMHN2eC9TNUV2TjVu?=
+ =?utf-8?B?eXlLZHk3ZWZnUm5WTSs0K1o4NVdNSWptdzJPa1J4SXFNc3lHTHZqMmx5b1Qw?=
+ =?utf-8?B?MWtTaG03U1luRWU1TnVyRTFXWTl3NVhMSlNkR1U4RDBzMUZuODd4YVBHaytO?=
+ =?utf-8?Q?oTbq8EHLbf0v3h7nE+uxIxpU0vHcot0dC37o8Hnw3pkZ5?=
+X-MS-Exchange-AntiSpam-MessageData-1: UfHS/1DEYE+NHQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bb75dc1-ce9e-42a6-9146-08df09b33f25
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 12:02:37.4181
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h5GpK4tQZ8qS25WPzEcZl92e0KzJ1rxs7ooySKSD4VwWKth/kMbSh1iCUBOfd2kxt7l0OB3f5G7YYKjMjfA0wg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7024
 
-Since commit c3a280ff728a
-("debugfs: warn if file creation failed due to uninitialized debugfs")
-every boot with CONFIG_REF_TRACKER=y and CONFIG_DEBUG_FS=y prints two
-errors before the root filesystem is mounted:
+On Wed Sep 2, 2026 at 1:50 AM JST, Gary Guo wrote:
+<...>
+> +/// Type that is layout-compatible with a primitive representation.
+> +///
+> +/// # Safety
+> +///
+> +/// - `Self` must have the same size and alignment as [`Self::Repr`].
+> +/// - `Self` can be [transmutable] to [`Self::Repr`].
+> +/// - Neither `Self` nor [`Self::Repr`] contains interior mutability.
+> +///
+> +/// The above basically says that `&Self` can be transmuted to `&Self::R=
+epr`.
+> +///
+> +/// [transmutable]: core::mem::transmute
+> +pub unsafe trait AsRepr: Sized {
+> +    /// Primitive representation of this type.
+> +    type Repr;
+> +
+> +    /// Convert from `&Self` to [`&Self::Repr`](AsRepr::Repr).
+> +    #[inline(always)]
+> +    fn as_repr(this: &Self) -> &Self::Repr {
+> +        // SAFETY: Per safety requirement of the trait.
+> +        unsafe { core::mem::transmute(this) }
+> +    }
+> +
+> +    /// Convert from `Self` to [`Self::Repr`].
+> +    #[inline(always)]
+> +    fn into_repr(this: Self) -> Self::Repr {
+> +        // SAFETY: Per safety requirement of the trait.
+> +        unsafe { transmute(this) }
+> +    }
+> +
+> +    /// Convert from [`Self::Repr`] to `Self`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `repr` must be a valid bit pattern of `Self` and satisfy type-sp=
+ecific invariants of it.
+> +    ///
+> +    /// Alternatively, if `repr` is previously obtained using [`Self::in=
+to_repr`], and each
+> +    /// `from_repr_unchecked` should corresponds to a unique `into_repr`=
+ call, then it is safe to
 
-  debugfs: Unable to create file 'net_refcnt@(____ptrval____)',
-    debugfs is not initialized yet
-  debugfs: Unable to create file 'net_notrefcnt@(____ptrval____)',
-    debugfs is not initialized yet
+nit: s/corresponds/correspond
 
-Nothing is actually wrong.  Both files show up under
-/sys/kernel/debug/ref_tracker/ once the system is up.  The kernel is
-reporting an error for a condition the caller has already accounted for.
+> +    /// call as well (this means that we're undoing a `into_repr` call g=
+etting the exact bytes
+> +    /// back).
+> +    ///
+> +    /// This method makes no guarantee if a `into_repr` corresponds to m=
+ultiple
+> +    /// `from_repr_unchecked` (i.e. copies are made), to allow for cases=
+ where `Repr` is a pointer
 
-net_ns_init() runs directly from start_kernel(), before any initcall, and
-calls ref_tracker_dir_init() for init_net's two trackers.  debugfs_init()
-is a core_initcall, so debugfs cannot possibly be up at that point.  That
-is by design: ref_tracker_dir_debugfs() is documented as safe to call
-again later, and net/core/net_namespace.c has a late_initcall() that
-re-registers both directories once debugfs exists.
+This part doesn't parse for me; maybe it is worth rephrasing?
 
-ref_tracker also states that intent to debugfs.  ref_tracker_debug_dir is
-initialised to ERR_PTR(-ENOENT) and only gets a real dentry in a
-late_initcall, so the early call hands debugfs_create_file() a parent that
-is already an error.  debugfs_start_creating() honours that and returns
-the parent error, but only after the new pr_err() has fired.
+Something like "No guarantee is made if the result of a `into_repr` is
+passed to multiple `from_repr_unchecked`" reads a bit better IMHO.
 
-Move the IS_ERR(parent) check above the debugfs_initialized() test.  A
-caller passing an error parent is propagating an earlier failure, which is
-the pattern debugfs documents and which the warning is not aimed at.  A
-caller passing a valid or NULL parent too early - the case the warning was
-added for - still gets it.
+<...>
+> +// SAFETY: `*mut T` has the same size and alignment with `*const c_void`=
+, and thus `*mut T` is
+> +// transmutable to `*const c_void`. Neither types contain interior mutab=
+ility.
+> +unsafe impl<T> AsRepr for *mut T {
+> +    type Repr =3D *const c_void;
+> +}
+> +
+> +// SAFETY: `*mut T` is transmutable from `*const c_void`.
+> +unsafe impl<T> AsReprMut for *mut T {}
+> +
+> +// SAFETY: `*const T` has the same size and alignment with `*const c_voi=
+d`, and is transmutable to
+> +// `*const c_void`. Neither types contain interior mutability.
+> +unsafe impl<T> AsRepr for *const T {
+> +    type Repr =3D *const c_void;
+> +}
+> +
+> +// SAFETY: `*const T` is transmutable from `*const c_void`.
+> +unsafe impl<T> AsReprMut for *const T {}
 
-One behaviour change: an early caller with an error parent now gets
-PTR_ERR(parent) back instead of -ENOENT.  All callers of these interfaces
-are documented to ignore the return value.
+These pointer impls have no user in the series, should we wait until we
+have one to add them?
 
-Fixes: c3a280ff728a ("debugfs: warn if file creation failed due to uninitialized debugfs")
-Link: https://lore.kernel.org/all/6d1dc775f7d5e754d734907514534054f682bac5.1781171918.git.yk@y-koj.net/
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
+In any case,
 
-Tested on x86_64 (AMD Ryzen 9 7950X), Fedora, v7.3-rc1 plus fixes
-(940de590b839), CONFIG_REF_TRACKER=y, CONFIG_DEBUG_FS=y, with KASAN and
-lockdep enabled.
-
-Before the patch the two errors appear on every boot, and
-/sys/kernel/debug/ref_tracker/ still ends up with one net_refcnt@ and one
-net_notrefcnt@ file per network namespace, including the initial one -
-the early failure is recovered by the late_initcall() in
-net/core/net_namespace.c.
-
-After the patch the errors are gone and the same set of files is created.
-
-#regzbot introduced: c3a280ff728a9039c72cd64ad0b32bc3a28c25b2
-
- fs/debugfs/inode.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index e054e62919ec..a4d08bd3743b 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -368,6 +368,9 @@ static struct dentry *debugfs_start_creating(const char *name,
- 	if (!debugfs_enabled)
- 		return ERR_PTR(-EPERM);
- 
-+	if (IS_ERR(parent))
-+		return parent;
-+
- 	if (!debugfs_initialized()) {
- 		pr_err("Unable to create file '%s', debugfs is not initialized yet\n",
- 		       name);
-@@ -376,9 +379,6 @@ static struct dentry *debugfs_start_creating(const char *name,
- 
- 	pr_debug("creating file '%s'\n", name);
- 
--	if (IS_ERR(parent))
--		return parent;
--
- 	error = simple_pin_fs(&debug_fs_type, &debugfs_mount,
- 			      &debugfs_mount_count);
- 	if (error) {
--- 
-2.55.0
-
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
