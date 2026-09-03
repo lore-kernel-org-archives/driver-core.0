@@ -1,108 +1,157 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90606476042
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 10:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788430863; cv=none; b=pKcHfKD1s/cQgPCbecoyfNfhypbCns8UiOEOeQIkTXfHbXwOwndtI7HK95NtP3G9TqUv0vY99wHydYCdfTWriB51tcVQdDUWP+Xnuup/5eelgi8hVVaSfzt1sueG/ECkg+DjymFiA6kAYdNjPPT8MLmWNDdw7+xPUJxsJr6koQM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788430863; c=relaxed/simple;
-	bh=uqwqtv4HZI5HpMsQoDCGWhq3u2CjHHMNfZIaOXsBz+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OXUWJVVzoilLjIJKhDbPeD4UFwnhu/lvAhJu7JF9ihmsUXOS3XP6BBCSvq3suX7MXjeLy9XRg8WzL+e5ZL0mR1LtEHtzdnhagmLRQx6UoncnpfHCwQXFhM7qK4W9xm6jwt+DdQWv+/5a3AV7TrC0tVBMXVjeFGFK1mOu9EYhOqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sIQGTAIK; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011001.outbound.protection.outlook.com [40.93.194.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D44421A08;
+	Thu,  3 Sep 2026 11:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788433465; cv=fail; b=TQWMTy2EL14Coa0SBpOhZ4bEMVIsxbKA5Thi8Dg9vHYDw9vlST17xuauC9aSroE4M2SPofNg6Bqw4609fcRw1Vm8lFEvr3GT847soXnHKSoYZpNhSYJYK8oK0EmgY/nTNePoaTuCRdT+h7onq7x917I+oCD7nx2/avjDOPQGyF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788433465; c=relaxed/simple;
+	bh=+HqFoxkBFsRs0mqC7Yk6o/E7MBL+bkHqToGENa+PTqA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=DbaHcNCNSvdf/pmgp/WTSX98rP6WaANE0oIaA2LgCqHnkWNlmPQ8mEK1baaTa29ueMycp/PbXiOKGMYbj5TeO9UjunUEBXtiAZvA83EirbVQn/Svtaqm0tgQjFTg/+54tq6L1R4HdslBL3zYjTBEjN1SwcpWXCJhKnaAMycnc44=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ssuw6Zv1; arc=fail smtp.client-ip=40.93.194.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sIQGTAIK"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E772F1596;
-	Thu,  3 Sep 2026 03:20:51 -0700 (PDT)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 755B83F673;
-	Thu,  3 Sep 2026 03:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788430855; bh=uqwqtv4HZI5HpMsQoDCGWhq3u2CjHHMNfZIaOXsBz+E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sIQGTAIKcoJmeLHUa3POLXVs5VNl3vDJyyr9w6j6XJtJm2QiMUwsB96ED1BgHPlcI
-	 s6d1TCUoVUP771ArHWeq9WhJYUqDEP6tVtNirIWo3UV2sxlV8UMTr3hogmY+ovPukE
-	 uZwXYZ1gzsA+XgrC0Bi47ei+EEOXRAyVuIMI1TJ0=
-Message-ID: <93eac14a-5ee5-40c8-accf-f623cf0e76de@arm.com>
-Date: Thu, 3 Sep 2026 11:20:50 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ssuw6Zv1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wmr3qW5gh3z+JKT30UpPb8akKc//luKW93wtBiDofW8two+2tWrJJ1PpbjrFt5vLoncHS0UZ6sWltY6EQYcyane7HYwD6CEfWjIMAJx80GDhhLZsLHfoYe1f+AekUSSol8Uwq+RY7M1Bk8dEi4I6x29cuVkEB4htABrNLDpyev05qmI3yjg0DYLpmztwESRvmuCmqHfEygEik7lUW3Ow20+Tk6IR4/PRhMTS2HGMrhoArnE0PxYrBPDQgtcYqF2YxUP5zXOJgJVZDURPtl5nTDrEzDJA/exkIN3DvoxtmHhaHPMcVhI48yo6s08mfspa8NwrYoGIIW+w5V//UVUMTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+HqFoxkBFsRs0mqC7Yk6o/E7MBL+bkHqToGENa+PTqA=;
+ b=s/9FTtPdmEPJoeBWMl5Sl9hgiUsZO4QBaBf2n/WvHCiRN4nzurGnP9/B6hh9BF+HDO7iw4s0ilDquiKKUWoksms6hO6YptE9LA13Q6T7G3hf0qVLsjcwxDRxu6kwAPEhK/69Ar7iehkAfgkV20T1yg6/TsIeZtOgVLCoykNGK4HDYCWusNnZVeztBAHzLNmHTw7IcL431QGVQy1OQ6rky6Frsd+TZA2csNSFCSs9ADsvAKVI3sFzTmnMw6fVNscT3CKz3X9Hw0xS6+xnPVR38P79MGsqcQkDZNHKnEh9o2/j2rlbz4JkIztsS4SIU1W+qV1M43yX8ba8/XJjtcXtPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+HqFoxkBFsRs0mqC7Yk6o/E7MBL+bkHqToGENa+PTqA=;
+ b=ssuw6Zv1l4YEXDNV+tBPhlrOcJ7vcjFUZjUAGODqhpnRwqDGCCLXds6GutCQGDv1rmvuj538Gjj59CbaYAwkccYZ5ZO/HyvI8iRp6iVHczNuU7po1YiIc8CgX9dDwzOK/LyAnCR8RgYvcNTbvWkVZpHQYGtL9kT/KT5F90bpwpmXQH3qPiuCaTZ5JrgW2L5jwabkGPynTp4poTsZLNniMoQ+emKveAtFFriZsJjngNPvTNjCc2vFb/exA6T+rXbZiAFGb/YCyoZ4YIZZ9WRNm6FsrImhGx45DcSAy9CewysHJ88zdhPATVQ4wkvECyIS2tXoiMaEyd2hJOT5Fl3xag==
+Received: from SAWPR12MB999267.namprd12.prod.outlook.com
+ (2603:10b6:806:55f::17) by DM6PR12MB4105.namprd12.prod.outlook.com
+ (2603:10b6:5:217::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Thu, 3 Sep
+ 2026 11:04:15 +0000
+Received: from SAWPR12MB999267.namprd12.prod.outlook.com
+ ([fe80::fe35:8a00:d9eb:40f9]) by SAWPR12MB999267.namprd12.prod.outlook.com
+ ([fe80::fe35:8a00:d9eb:40f9%6]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
+ 11:04:15 +0000
+From: Ankit Agrawal <ankita@nvidia.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Alexey Kardashevskiy <aik@amd.com>
+CC: Xu Yilun <yilun.xu@linux.intel.com>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>, Aaron Tomlin <atomlin@atomlin.com>, Alistair
+ Francis <alistair.francis@wdc.com>, "Aneesh Kumar K.V"
+	<aneesh.kumar@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas
+	<bhelgaas@google.com>, Daniel Gomez <da.gomez@kernel.org>, Danilo Krummrich
+	<dakr@kernel.org>, Dexuan Cui <decui@microsoft.com>, Donald Hunter
+	<donald.hunter@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Lukas
+ Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Sami
+ Tolvanen <samitolvanen@google.com>, Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>,
+	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>, "rick.p.edgecombe@intel.com"
+	<rick.p.edgecombe@intel.com>, "yilun.xu@intel.com" <yilun.xu@intel.com>, Jiri
+ Pirko <jiri@resnulli.us>, Leon Romanovsky <leon@kernel.org>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol
+ (TDISP)
+Thread-Topic: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Thread-Index:
+ AQHdDMrOwfwmCkkN7EeGRZV1a3LRYbaCujkAgAD+F4CACZTNAIABg4qAgCwWtACAAAJogIAA1ICAgAFKU/g=
+Date: Thu, 3 Sep 2026 11:04:15 +0000
+Message-ID:
+ <SAWPR12MB999267C6FBF531A0DCA843600BB0B62@SAWPR12MB999267.namprd12.prod.outlook.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com> <amk7Xzm5jmz+6SPJ@ziepe.ca>
+ <anFE7m164AmchTy/@yilunxu-OptiPlex-7050> <20260805005533.GB28508@ziepe.ca>
+ <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
+ <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+ <20260902150125.GD2890729@ziepe.ca>
+In-Reply-To: <20260902150125.GD2890729@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SAWPR12MB999267:EE_|DM6PR12MB4105:EE_
+x-ms-office365-filtering-correlation-id: 241f9116-a231-4a02-7f93-08df09ab1808
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ Pb9s+0ARL6sH2gxoOTwkA8fSL2nt07yGSCgyS4662f8LRuVNw3LRsYUneBJ91LmB8pt1Q4W45bcdx35LyvK/I+I037qHPjx8c5HbuDvCoXKm/aG3CmWmdO3vPkOTRXukLcLaB88In8L4yS+BSHhj93KhpXHltuLR6UnEVlzjvSVBYeO+y1tKzPIvOE66edHammKQ/GH/5ryZh/bMQsFKA5FQqEYlulhOifQ19bM45dCBstxDvoWQZGsTHYJChtnCukniypI9odEDTSzRnCEc5abRcB3gfyHVdCXztZSSH5o8K5XcPws086DnMZ0epSCVCIo5kYLvliLEdYDmCK4Bc9zIVtLkwOg645tfzubRJJhZEsIWvXRZdp+CDtlcN2H5G/Z4Gz6Ov5UzAh9yv4CI+Sbk1vPGw0WBQ42Hs+LE/cO1O9KiRVFwMh3N3wAXYKFBPOp20r7UwSQQVEEEiVgRQaOZKhq/gX8t03uKPX4NWL4SxE7r/bkg66GGoV7I4MEaY42X+QxQbYWwVGYFhFRTzudFySbjQ9hv0qcl3ji77C1P8yiBG6G/mr/lhHvo0SMovC8eLkelDZwuIFjZKTzoW8ZY9JnVaebMnDkF1PphqdSmBdO2u3nqhzGPtB02IB0vw3YHPNlrYgMD4lp3NHXyHAMX25xZMCQ8zPznuuufAlANQZ3lcW6tMH1EFZPi7TZpL84FyVgKMxifzSE85g2/zzVGRRxEN+6U3ar1J7Prgz8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SAWPR12MB999267.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?oXKKCQPGNYLrx6cyHrCNX97AM3di4hrx10+cBfxrEeZndVesSUq3OFch0h?=
+ =?iso-8859-1?Q?MO67eIyvwhAhOtsFfXsdXYJEPdw1oYPAzcaGQm7inDnkpysn5bhT/gMdkj?=
+ =?iso-8859-1?Q?9HXRO9D3X0kdxMy+xYYW9RX6MhGgdqdWUsGwALbJhKsF0hdWIly1lp0xOS?=
+ =?iso-8859-1?Q?uAymzch97J3fzz4zVhIhMOIk9Z7+q2taVGhxva50EqEebSn8dqYvjeRFnt?=
+ =?iso-8859-1?Q?eagK2ttl41BrvAdVOJeGcNfT8e+vnhP1MauTODbebPi1EpzKlMivgN/pI9?=
+ =?iso-8859-1?Q?1lknJxjtM7xnjilBKA/e9dTyp7lmKD+HyOwX4PBOBmiNOiIyiXt18WxGTd?=
+ =?iso-8859-1?Q?w9epQGOrPoIntfMPMbsRSMMHux8ceyrXTjgGHZSv3MO/r0+ne+cKXf2jIJ?=
+ =?iso-8859-1?Q?OXoBPbMk3sjBUErJDjB5nAd4cGCes9VdTNsU5WIFh6Z4W7AteahRRM7N+V?=
+ =?iso-8859-1?Q?0gR40IQfvAF5AFvHEahamS/em5UlnjbCSYWkv6WohAy4QxnvP+CWdK0evJ?=
+ =?iso-8859-1?Q?PJfjYWN9Ly5+ICLuw0zcM4RSXiUydo/Ptz9aP9WQgls5hOXbHBNyJhIeAe?=
+ =?iso-8859-1?Q?VpdDEHudmU+pZ0MsxYCsKVeTWm+xYToyMVpHPZqzlvBXN3XFzFiYHBFwK/?=
+ =?iso-8859-1?Q?AFoiNbg/An8Gqka7eVSlVJUNPWxXgEsUFQTMZBDNfTWkiIhaFsndmQUHHt?=
+ =?iso-8859-1?Q?5MzP+K8OVvk5kxhOQsGEyHS1iLyZaYAZ8NvMQAcQmpruimTmHcSx9O8x3I?=
+ =?iso-8859-1?Q?9uRxJfXmUNt78f6No2MZrCHQnLURUTRiHaRSYm0A8Im8jMo2uXI3V72SM9?=
+ =?iso-8859-1?Q?dRVGSBSiecb+iqllUNpaTOOMWLdy/fGLtJiEYd7IUJkxVAdY4sYXWOacSJ?=
+ =?iso-8859-1?Q?irCdW2E/V7geVZPIm8QBnB5Wdl0k9jv1FrsWwsiKJEnmStNRbvkEb/eX4b?=
+ =?iso-8859-1?Q?kohlKwzGHDS+g9mExyc/ZCVyDZdYKq9ui7EsontJLnxB5XAREFuKXotcRv?=
+ =?iso-8859-1?Q?T5IEIo+vQifJpdf5+aqhQX6AZ7FjPEgMlhdhzN3uDCDiokPQp4/OmFSJOT?=
+ =?iso-8859-1?Q?SPJ14slenuWzKUD0yzrUIBRnEuqYQlutlWWy3oI2/oJrheCgO3xbm6YUgv?=
+ =?iso-8859-1?Q?gZglpziNFwJx140O/KrhI6DjRrptcXyuxyKG2nezbFZQBVq/rAXOY/6zqg?=
+ =?iso-8859-1?Q?WhHYvnFL2PiCUsGt8Tu2VDJ1O4tasVmq2I31mvJ/hrmzIuUF/aSBK7kUld?=
+ =?iso-8859-1?Q?gYyEL5BZbVoLup70WXas/G8xQuBGgMaBb/SDHlnV6e6WAwHUjJ8rOHgCEA?=
+ =?iso-8859-1?Q?cMklalqkWrpSw+FZxAZcH+xsfxJFzcWYgig8qPhHiNIgZtDeG0qMuOMJGH?=
+ =?iso-8859-1?Q?yQS0QWh9V1EQJxi0POzJ3vT8RZF44FWkn3EbzYps48jpcuH7ZAR4/EkbSS?=
+ =?iso-8859-1?Q?50UMA3oazMSwjL5YM3MGLVR75+cpXJdQnjbhxqgWZg42YBWwY2lYdA4Lb2?=
+ =?iso-8859-1?Q?I2W9Y8Qw3DABb6FBih6HiNrGTfdJMv48ZoLD+PPUYVIPiM8XTIG5jTpEVm?=
+ =?iso-8859-1?Q?0JL+oDbukZw2bhP0bk7QNUUQ0PUCEVWb1vzii+5/i3uQPEaW63KmKjSFj1?=
+ =?iso-8859-1?Q?k+fN7E158g9s9lCglLvI0p2/uGI/+O6P5QpMwii9QpF8xPfjDwrdUgIa0j?=
+ =?iso-8859-1?Q?E1skPfxwejoUKs67Ug9xrnrS9DEohdyg+YTm8SRDYDuBWi0Lp4N9oFNrGH?=
+ =?iso-8859-1?Q?b1UP/JskrUy8xpsh1nhysXiVfZlz5jnZLAlQPyhLDvv9gN?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 09/15] arm_mpam: Fix MSC MMIO window size to use
- resource_size() instead of end - start
-To: Yin Li <yin.li@oss.qualcomm.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
- Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Konrad Dybcio <konradybcio@kernel.org>, James Morse <james.morse@arm.com>,
- Bjorn Andersson <andersson@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
- driver-core@lists.linux.dev, Srivathsa L Rao
- <srivathsa.rao@oss.qualcomm.com>, Huang Yiwei
- <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
- linux-kernel@vger.kernel.org
-References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
- <20260811-mpam-resctrl-dt-knp-support-v1-9-ea6397bead59@oss.qualcomm.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20260811-mpam-resctrl-dt-knp-support-v1-9-ea6397bead59@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SAWPR12MB999267.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 241f9116-a231-4a02-7f93-08df09ab1808
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2026 11:04:15.6575
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fIB8S2OH2/yIBjvDPamx3OrpT0IF9lgyBR4lVGp8lAOl+hRwEfQyCsowpb80S002+p2rfqNdQ4j3F4KdLoVDow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4105
 
-Hi Yin,
-
-On 11/08/2026 14:30, Yin Li wrote:
-> struct resource uses an inclusive end address, so the correct size is
-> end - start + 1. The previous calculation of end - start was off by one,
-> resulting in a mapped window one byte smaller than the actual resource.
-> Use resource_size() which correctly computes end - start + 1.
-> 
-> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-
-I just got a kernel ci report for this one which asks for tags:
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@intel.com/
-
-It doesn't look to give a useful fixes tag though. I'd go with this as that's where the error was
-introduced.
-
-Fixes: f04046f2577a ("arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate")
-
-Looks good to me.
-
-Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-
-Thanks,
-
-Ben
-
-> ---
->  drivers/resctrl/mpam_devices.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-> index 1e082fb60e30..5d1854d97371 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -2296,7 +2296,7 @@ static struct mpam_msc *do_mpam_msc_drv_probe(struct platform_device *pdev)
->  			dev_err_once(dev, "Failed to map MSC base address\n");
->  			return ERR_CAST(io);
->  		}
-> -		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
-> +		msc->mapped_hwpage_sz = resource_size(msc_res);
->  		msc->mapped_hwpage = io;
->  	} else {
->  		return ERR_PTR(-EINVAL);
-> 
-
+> I can say that several people from NVIDIA are working on the ideas in=0A=
+> this patch series. Ankit is setting up a team to focus on upstream=0A=
+> patches for all of CC inside NVIDIA. I've asked Jiri Pirko to work on=0A=
+> the PCI evidence uAPI based on his deep netlink experience, and Leon=0A=
+> Romanovsky to work on the binding problem/adversarial/trust level=0A=
+> driver core idea. They will share their approaches for solving these=0A=
+> problems as seperate proposals.=0A=
+=0A=
+I can volunteer for updating and refreshing the TDISP state machine=0A=
+part of this patch series based on the Jiri's uAPI.=
