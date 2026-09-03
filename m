@@ -1,162 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f8.google.com (mail-oo2-f8.google.com [74.125.231.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A80332EC1;
-	Thu,  3 Sep 2026 06:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A213F8232
+	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 07:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788418322; cv=none; b=B4xKrAZ7wGzhfOomtmnAuEQYhpOL0SaEvWad12xtKpMdimJlsx/UVafGP2daWyyFjciyUuE5BtbK4cpNSSU4oX53qqAF9pjbGuWedVpffy5wqN72OskFa0dTeZ3aWh2bPBusntUYnVfmwH9HdaXdBeQIOcfiKshtAvfbwvHWndU=
+	t=1788421181; cv=none; b=H4QHVvjrhJiFepBVf9ZXNdSBwjUbdiyuuMgUGORDbRA/FzlFZyVdV8Yd6vp92xf4SUhLisP7kRG3nRLVNaxf89cGrMVEF4dBAw8REDPlg7N3+OUiP2JqPYGUFfmlYA7SFzy+qsXnBYmRh3m8QlLhhLdj4fkXF66NSN3B5GMO9dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788418322; c=relaxed/simple;
-	bh=aZgF/Upb9K/OZiFLX1yerLvsEMo9DhiK02Fu0s3b3YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJoQOG/be7dT1FImlc41V6YXwjZWd5WXNyBEBhmStOV35SNUttZIoUl6twwAlDEP3hEBGOcFF35Qng8k+8g/donBjrmYDskF2dI1R1c8b55OKq13ddGBu5MSZyafmnsIXSkJeREE7pP0bP05ITVP/6lYHkeGoCleu9x5PcEIMJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YzqG5t/H; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YzqG5t/H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9CE1F000E9;
-	Thu,  3 Sep 2026 06:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788418320;
-	bh=vr5cCi0rpgJcIMNvNW0lZWsSJFLwrtXn++DANl8aBeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YzqG5t/HyXg3yDjTosqFWISU0tY5fDQeVBQAh0E2rxGdEIoh+F5PgERhw1+TrNGpz
-	 Z4MguECZSlyuAWXNx/qYjyCJBqE5WvzINrYnM7uSaOk7Si6qdRSOUw0zGE/E+ZFYOV
-	 VjZWG0y//qsU+ZWOy5b84KnMBAjIj3S3gHENnWt5OycJ/mBTWerhdM5ElUCgcKHa2f
-	 vxUrnD1o3qHMhGi6klxCAguPOr0WQfosG3MGjDF9WmuqWs5mweKABcM+HX7H+BnSQZ
-	 85/VMMNe633taGP4shqTj8+zqC/l1vM67/C87AGBVi9b+uQnNiKAFUHt3c0bfTbxnY
-	 5z8hj230E0qRg==
-Date: Thu, 3 Sep 2026 09:51:56 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alexey Kardashevskiy <aik@amd.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com,
-	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
-	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>,
-	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
-	rick.p.edgecombe@intel.com, yilun.xu@intel.com,
-	Jiri Pirko <jiri@resnulli.us>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <20260903065156.GX24140@unreal>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
- <amk7Xzm5jmz+6SPJ@ziepe.ca>
- <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
- <20260805005533.GB28508@ziepe.ca>
- <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
- <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
- <20260902150125.GD2890729@ziepe.ca>
- <yq5a5x0mzxhz.fsf@kernel.org>
+	s=arc-20240116; t=1788421181; c=relaxed/simple;
+	bh=k4LOqtUosmr6ZyknwbppLFe4OcI5ltMy4YYox8qoGag=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=J2NiEXw+M40hkL8w2ZiRpVKDJcnbNsCr8bNcerzMME4q8qUhpffRYXSPP3qzqOWycRdr5QsdF2+/uPCDqjGgXOkyTsY5veCg9fXzsP572vFHa9+2WuYCFwI6HikJsJY1vJOjjquuaGfx0qZqF5JeffV7eTC77vYjtwtf9c/ZLl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f8.google.com with SMTP id 006d021491bc7-6b128c3af4bso99121eaf.0
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 00:39:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788421178; x=1789025978;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QkbPX+/Gt8vrXhrXwYE9Oil0+rxtEjRaW6SUbOfN9XQ=;
+        b=F7UA7wcMA8gxeFwLAhr7bJoOPh06wegC36sImRpbsAFhq9wADNFVzTDUwLSZFgPgK0
+         VDY82U0grw5rQ6QT9Gv5WQCljrxeSGozftcUrd2noJarD2iQqCPB93gikvPJNAJ7Gx/i
+         oLZdPyt3zCRYu+DNDjTVE7AAS94nS6yzpB11bJdzb9eEo/0b5jSclzKcBxZxXQHm6d0/
+         25+LuJJ1a5Bqd6r8TV6BSihYxrO/Je72nYAi4VVjqdEhM1c+yUp6nwbZn5DjyaLWUrkW
+         GQ9z2snt3oxlauoMbe4nRnRnPNSqMRmFfunN6XdFLjpLQ1rK6bmKuNcrnRCGi9xXPgQm
+         O+cQ==
+X-Gm-Message-State: AFuF++ng0hr4nDR2uLz9pxbmCpKcNBx8gORJd9m6ig0aGVlUrEWifp73
+	Or7vxe2oUIEMTmgqCu+x5tlXOyp/wrmLsEt6tqcau4BM5SB/6m2tQJ0AsaFobxYYi1CBpmKpxND
+	a/fWwXm1JUVb6ID7xiilWgPZIkV1+lbheAZjOcYR90w7QT27g53EJu/eqZuK/bQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <yq5a5x0mzxhz.fsf@kernel.org>
+X-Received: by 2002:a05:6820:619:b0:6ae:9815:7c8e with SMTP id
+ 006d021491bc7-6b48102eaa1mr7838702eaf.21.1788421178408; Thu, 03 Sep 2026
+ 00:39:38 -0700 (PDT)
+Date: Thu, 03 Sep 2026 00:39:38 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a99243a.2e567484.299ffc.0008.GAE@google.com>
+Subject: [syzbot] [kernfs?] INFO: rcu detected stall in kernfs_fop_release (3)
+From: syzbot <syzbot+087d9dac1f398074ca9f@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 03, 2026 at 11:29:04AM +0530, Aneesh Kumar K.V wrote:
-> Jason Gunthorpe <jgg@ziepe.ca> writes:
-> 
-> > On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
-> >> On 2/9/26 12:12, Xu Yilun wrote:
-> >> > On Tue, Aug 04, 2026 at 09:55:33PM -0300, Jason Gunthorpe wrote:
-> >> > > On Tue, Aug 04, 2026 at 09:48:30AM +0800, Xu Yilun wrote:
-> >> > > 
-> >> > > > Glad to see you all here to make progress! Intel can also help on this.
-> >> > > > Can we have a meeting to discuss on these topics? As Alexey mentioned,
-> >> > > > previously we had a bi-weekly call, perhaps use that for our first
-> >> > > > meeting? Or what time works best for everyone?
-> >> > > 
-> >> > > I prefer we defer such community discussions till September, that
-> >> > > seems appropriate given some dates I've seen.
-> >> > 
-> >> > Hi Ankit & Jason,
-> >> > 
-> >> > Do we have a plan to schedule a meeting to discuss next steps?
-> >> > 
-> >> > If so, we can figure out a specific time on the Discord channel.
-> >> > https://discord.gg/KKqC438c
-> >
-> >> So I've been trying to find a time slot. Say, keep it on Thursdays
-> >> (USA) (kinda short notice), bi-weekly, we can do:
-> >
-> > I've asked several people in Europe to help on parts of this series,
-> > and combined with China/Aus someone is going to end up left out.
-> >
-> > I know people are anxious about their projects. In the short term I
-> > will volunteer to send patches (ie bug fixes!) to Linus in the CC area
-> > Dan was responsible for. Please email me if something needs some
-> > attention and we can figure it out.
-> >
-> > To fully move forward we need to establish a new TSM maintainer
-> > team. In my past experience a consensus has emerged off list, I
-> > suggest we try that here as well. Several people should be
-> > recruited. I will also volunteer to help train and launch a new team.
-> >
-> > I can say that several people from NVIDIA are working on the ideas in
-> > this patch series. Ankit is setting up a team to focus on upstream
-> > patches for all of CC inside NVIDIA. I've asked Jiri Pirko to work on
-> > the PCI evidence uAPI based on his deep netlink experience, and Leon
-> > Romanovsky to work on the binding problem/adversarial/trust level
-> > driver core idea. They will share their approaches for solving these
-> > problems as seperate proposals.
-> >
-> 
-> 
-> I can also help with the device trust and iommufd interfaces, as well as
-> the CCA DA pieces. We need to find someone to take on dma-buf, as that is
-> one area we have not yet integrated with the full TDISP flow.
+Hello,
 
-Given my recent involvement in dma-buf, I can try to fill that gap.
+syzbot found the following issue on:
 
-> 
-> >
-> >> Scenario A:
-> >> Seattle (PDT, UTC-7)		07:00 – 08:00	Day 1
-> >> Atlantic Time (ADT, UTC-3)	11:00 – 12:00	Day 1
-> >> Berlin (CEST, UTC+2)		16:00 – 17:00	Day 1
-> >> India (IST, UTC+5:30)		19:30 – 20:30	Day 1
-> >> China (CST, UTC+8)		22:00 – 23:00	Day 1
-> >> Sydney (AEST, UTC+10)		00:00 – 01:00	Day 2 (I can do it once in 2 weeks)
-> >
-> > This is the only time Europe could reasonably participate in,
-> > obviously it is not OK for China and Aus.
-> >
-> 
-> I'm based in India, and all the proposed times work for me. Who is based
-> in Europe?
+HEAD commit:    1b78070aaef6 Merge tag 'net-7.3-rc1' of git://git.kernel.o..
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=107d7d79580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
+dashboard link: https://syzkaller.appspot.com/bug?extid=087d9dac1f398074ca9f
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13dc2379580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1286ac15580000
 
-Jiri and I are in the European time zone.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/18856a03a9a3/disk-1b78070a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cc2bc68d7ef4/vmlinux-1b78070a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/05a5e00f8f91/bzImage-1b78070a.xz
 
-> 
-> Jason -> Canada ?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+087d9dac1f398074ca9f@syzkaller.appspotmail.com
 
-Yes
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	0-...!: (1 GPs behind) idle=c15c/1/0x4000000000000000 softirq=16029/16030 fqs=6
+rcu: 	(detected by 1, t=10504 jiffies, g=15973, q=1121 ncpus=2)
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 5842 Comm: udevd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:should_restart_cycle net/sched/sch_taprio.c:-1 [inline]
+RIP: 0010:advance_sched+0x2fe/0xc80 net/sched/sch_taprio.c:955
+Code: 89 f8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df 80 3c 08 00 74 08 4c 89 ff e8 3e fc 4b f8 4d 8b 3f 4d 39 e7 0f 84 a7 00 00 00 <48> 8b 04 24 48 8d 98 28 01 00 00 48 89 d8 48 c1 e8 03 48 b9 00 00
+RSP: 0018:ffffc90000007cf8 EFLAGS: 00000006
+RAX: 1ffff1100639ac28 RBX: 0000000000000000 RCX: dffffc0000000000
+RDX: 0000000001000001 RSI: 0000000000000000 RDI: 0000001db0a1a72b
+RBP: 0000000000000000 R08: 0000000001000001 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffff52000000f90 R12: ffff888031cd6910
+R13: 0000000000000001 R14: 0000001db0a1a72b R15: ffff888076d4bd40
+FS:  00007ff72c957880(0000) GS:ffff888124ce0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffe39b15f44 CR3: 0000000075580000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+ __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2124
+ hrtimer_interrupt+0x4cd/0xaa0 kernel/time/hrtimer.c:2243
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1051 [inline]
+ __sysvec_apic_timer_interrupt+0x102/0x430 arch/x86/kernel/apic/apic.c:1068
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa1/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:on_stack arch/x86/include/asm/stacktrace.h:58 [inline]
+RIP: 0010:stack_access_ok arch/x86/kernel/unwind_orc.c:409 [inline]
+RIP: 0010:deref_stack_reg arch/x86/kernel/unwind_orc.c:419 [inline]
+RIP: 0010:unwind_next_frame+0xb86/0x2550 arch/x86/kernel/unwind_orc.c:614
+Code: fc ff df 41 80 3c 04 00 74 09 e8 a5 7f bf 00 4c 8b 04 24 49 8d 50 f8 4d 8b 6e 10 48 b8 00 00 00 00 00 fc ff df 48 8b 4c 24 10 <0f> b6 04 01 84 c0 0f 85 3b 14 00 00 41 83 3e 00 0f 95 c0 49 39 d7
+RSP: 0018:ffffc90003cff8a0 EFLAGS: 00000246
+RAX: dffffc0000000000 RBX: 1ffff9200079ff2a RCX: 1ffff9200079ff29
+RDX: ffffc90003cffcb0 RSI: 0000000000000002 RDI: ffffc90003cff958
+RBP: 1ffffffff22401c0 R08: ffffc90003cffcb8 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8ed5c6e0 R12: 1ffff9200079ff2b
+R13: ffffc90003d00000 R14: ffffc90003cff948 R15: ffffc90003cf8000
+ arch_stack_walk+0x11b/0x150 arch/x86/kernel/stacktrace.c:25
+ stack_trace_save+0xa9/0x100 kernel/stacktrace.c:122
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kmem_cache_free+0x182/0x650 mm/slub.c:6626
+ seq_release+0x63/0x70 fs/seq_file.c:357
+ kernfs_fop_release+0x2f8/0x440 fs/kernfs/file.c:777
+ __fput+0x418/0xa50 fs/file_table.c:512
+ fput_close_sync+0x11f/0x240 fs/file_table.c:617
+ __do_sys_close fs/open.c:1560 [inline]
+ __se_sys_close fs/open.c:1545 [inline]
+ __x64_sys_close+0x7e/0x110 fs/open.c:1545
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff72ca51a67
+Code: 44 00 00 48 83 ec 10 48 63 ff 45 31 c9 45 31 c0 6a 01 31 c9 e8 ca 19 f9 ff 48 83 c4 18 c3 0f 1f 44 00 00 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 8b 15 61 b3 0d 00 f7 d8 64 89 02 b8
+RSP: 002b:00007ffe39b145d8 EFLAGS: 00000297 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000557f662c60d0 RCX: 00007ff72ca51a67
+RDX: 00007ff72cb2bea0 RSI: 0000557f662dc3e0 RDI: 0000000000000008
+RBP: 00007ff72cb2bff0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000297 R12: 0000000000000000
+R13: 3d45505954564544 R14: 3d5845444e494649 R15: 3d454d414e564544
+ </TASK>
+rcu: rcu_preempt kthread starved for 10474 jiffies! g15973 f0x0 RCU_GP_WAIT_FQS(5) ->state=R ->cpu=1
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:27496 pid:17    tgid:17    ppid:2      task_flags:0x208040 flags:0x00080000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5520 [inline]
+ __schedule+0x17d4/0x5820 kernel/sched/core.c:7270
+ __schedule_loop kernel/sched/core.c:7347 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7362
+ schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
+ rcu_gp_fqs_loop+0x30c/0x11f0 kernel/rcu/tree.c:2122
+ rcu_gp_kthread+0x9e/0x2b0 kernel/rcu/tree.c:2330
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 1 UID: 0 PID: 4986 Comm: udevd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:csd_lock_wait kernel/smp.c:363 [inline]
+RIP: 0010:csd_lock kernel/smp.c:396 [inline]
+RIP: 0010:smp_call_function_many_cond+0x628/0x1500 kernel/smp.c:944
+Code: 00 44 8b 3b 44 89 fe 83 e6 01 31 ff e8 51 51 0c 00 41 83 e7 01 75 07 e8 46 4c 0c 00 eb 3f f3 90 48 b8 00 00 00 00 00 fc ff df <41> 0f b6 04 04 84 c0 75 0f f7 03 01 00 00 00 74 1d e8 22 4c 0c 00
+RSP: 0018:ffffc90002e0f420 EFLAGS: 00000293
+RAX: dffffc0000000000 RBX: ffff8880b8643708 RCX: ffff88807e928000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc90002e0f570 R08: ffff88807e92959f R09: 1ffff1100fd252b3
+R10: dffffc0000000000 R11: 0000000000000000 R12: 1ffff110170c86e1
+R13: 0000000000000000 R14: ffff8880b8643700 R15: 0000000000000001
+FS:  00007ff72c957880(0000) GS:ffff888124de0000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffe39b19040 CR3: 000000007eae6000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __flush_tlb_multi arch/x86/include/asm/paravirt.h:46 [inline]
+ flush_tlb_multi arch/x86/mm/tlb.c:1361 [inline]
+ flush_tlb_mm_range+0x8ff/0x1090 arch/x86/mm/tlb.c:1435
+ dup_mmap+0x1758/0x1dc0 mm/mmap.c:1884
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x11a/0x480 kernel/fork.c:1595
+ copy_process+0x1e75/0x43e0 kernel/fork.c:2307
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2766
+ __do_sys_clone kernel/fork.c:2908 [inline]
+ __se_sys_clone kernel/fork.c:2892 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff72ca2d636
+Code: 89 df e8 6d e8 f6 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 52 89 c5 85 c0 75 31 64 48 8b 04 25 10 00 00
+RSP: 002b:00007ffe39b18a50 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007ffe39b18a58 RCX: 00007ff72ca2d636
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 0000557f662a4910 R08: 0000000000000000 R09: 0000557f662ac8e0
+R10: 00007ff72c957b50 R11: 0000000000000246 R12: 00007ffe39b18e10
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
 
-> Yilun -> China
-> Alexey -> Australia
-> Ankit Agarwal -> US ?
-> Aneesh -> India
 
-Thanks
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
