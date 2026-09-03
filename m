@@ -1,121 +1,162 @@
-Received: from mta0.migadu.com (out-220.mta0.migadu.com [91.218.175.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C4D37AA87
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 06:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A80332EC1;
+	Thu,  3 Sep 2026 06:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788416125; cv=none; b=q9PqZghO39194eK1MLmIyKpUMXnBlymowr6TCHhsaX/JIbo0QBjC+yg/7vwRLC/soMvms3AqOC20CnAXRr8Peel9AEYqM64MLMTy4QoxFI4ybA5VwCd79oBZSvCFcMz0qcnLPGnpiN7TmK8+CKkbgJDWp+tvDHXYW4qRDmVtuj4=
+	t=1788418322; cv=none; b=B4xKrAZ7wGzhfOomtmnAuEQYhpOL0SaEvWad12xtKpMdimJlsx/UVafGP2daWyyFjciyUuE5BtbK4cpNSSU4oX53qqAF9pjbGuWedVpffy5wqN72OskFa0dTeZ3aWh2bPBusntUYnVfmwH9HdaXdBeQIOcfiKshtAvfbwvHWndU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788416125; c=relaxed/simple;
-	bh=VW2G9+S+grYb3iReEIYAciUQOjbf6ENRNXOUTjyONew=;
+	s=arc-20240116; t=1788418322; c=relaxed/simple;
+	bh=aZgF/Upb9K/OZiFLX1yerLvsEMo9DhiK02Fu0s3b3YU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGqo41XXTsv7xOhpQLx5LbLt6rDetdfzSJtmHhakvjHn6ePiZMzARyYzvU039PN6bHqtu1OXpVOrctkHf9I5Tms5pZVwP+HYOkcKtp2r7jTucCYLqf/JmufwAyo5kd53ZsWhJg7KwDVyrp7D5PRmP8wTc2OJsQJZQjZ/dSN23Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tBm7ZQTX; arc=none smtp.client-ip=91.218.175.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=DJoQOG/be7dT1FImlc41V6YXwjZWd5WXNyBEBhmStOV35SNUttZIoUl6twwAlDEP3hEBGOcFF35Qng8k+8g/donBjrmYDskF2dI1R1c8b55OKq13ddGBu5MSZyafmnsIXSkJeREE7pP0bP05ITVP/6lYHkeGoCleu9x5PcEIMJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YzqG5t/H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tBm7ZQTX"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=VW2G9+S+grYb3iReEIYAciUQOjbf6ENRNXOUTjyONew=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788416121; v=1; x=1789020921;
- b=tBm7ZQTX2Dm6E5zwJFfDBpbZS3DL2Rs/wANv0RSwBMOXI4lXSHIXmYMy8p8cm2m4+Lh/kbE5
- xqJD8CWATxUJs4PCjcjjwxhxGwGSwfA7U014kcvM/Oi+qCSWyyRZScj8eneqDCWkUOhtHdUrqWs
- 3feaIJinHAYiEFgzb4CJClZU=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 4d603cdf1e5a2158;
-	Thu, 03 Sep 2026 06:15:21 +0000
-X-Mizu-Trace-ID: 4d603cdf1e5a2158
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 2 Sep 2026 23:15:16 -0700
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
-	Meta kernel team <kernel-team@meta.com>, linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] kernfs: take kernfs_rename_lock for same-parent
- renames too
-Message-ID: <20260903060812.GA18952@shakeel.butt@linux.dev>
-References: <20260903040253.670020-1-shakeel.butt@linux.dev>
- <2026090330-cytoplasm-resilient-900b@gregkh>
- <6a990797.3e7a366d.3bd849.72d1SMTPIN_ADDED_BROKEN@mx.google.com>
- <2026090351-turbofan-tux-d75e@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YzqG5t/H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9CE1F000E9;
+	Thu,  3 Sep 2026 06:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788418320;
+	bh=vr5cCi0rpgJcIMNvNW0lZWsSJFLwrtXn++DANl8aBeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YzqG5t/HyXg3yDjTosqFWISU0tY5fDQeVBQAh0E2rxGdEIoh+F5PgERhw1+TrNGpz
+	 Z4MguECZSlyuAWXNx/qYjyCJBqE5WvzINrYnM7uSaOk7Si6qdRSOUw0zGE/E+ZFYOV
+	 VjZWG0y//qsU+ZWOy5b84KnMBAjIj3S3gHENnWt5OycJ/mBTWerhdM5ElUCgcKHa2f
+	 vxUrnD1o3qHMhGi6klxCAguPOr0WQfosG3MGjDF9WmuqWs5mweKABcM+HX7H+BnSQZ
+	 85/VMMNe633taGP4shqTj8+zqC/l1vM67/C87AGBVi9b+uQnNiKAFUHt3c0bfTbxnY
+	 5z8hj230E0qRg==
+Date: Thu, 3 Sep 2026 09:51:56 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alexey Kardashevskiy <aik@amd.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com,
+	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>,
+	rick.p.edgecombe@intel.com, yilun.xu@intel.com,
+	Jiri Pirko <jiri@resnulli.us>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Message-ID: <20260903065156.GX24140@unreal>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
+ <amk7Xzm5jmz+6SPJ@ziepe.ca>
+ <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
+ <20260805005533.GB28508@ziepe.ca>
+ <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
+ <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
+ <20260902150125.GD2890729@ziepe.ca>
+ <yq5a5x0mzxhz.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2026090351-turbofan-tux-d75e@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <yq5a5x0mzxhz.fsf@kernel.org>
 
-On Thu, Sep 03, 2026 at 07:41:53AM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Sep 02, 2026 at 10:37:21PM -0700, Shakeel Butt wrote:
-> > On Thu, Sep 03, 2026 at 06:31:58AM +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Sep 02, 2026 at 09:02:51PM -0700, Shakeel Butt wrote:
-> > > > kernfs_rename_ns() only takes kernfs_rename_lock when the rename moves
-> > > > the node to a new parent.  A rename that keeps the same parent, like
-> > > > renaming a network interface, changes kernfs_node::name with only
-> > > > kernfs_rwsem held.  So the lock protects ->__parent but not ->name, and
-> > > > a reader that wants a stable name has to take kernfs_rwsem, the same
-> > > > lock every path lookup needs.
-> > > > 
-> > > > That also makes for a small but real bug.  kernfs_path_from_node()
-> > > > takes kernfs_rename_lock for reading, and kernfs_path_from_node_locked()
-> > > > then reads the name of each ancestor.  It reads each one once, so a
-> > > > single same-parent rename only moves the answer from the old path to the
-> > > > new one, but two of them landing inside one walk build a path that never
-> > > > existed:
-> > > > 
-> > > >   CPU0                                   CPU1
-> > > >   kernfs_path_from_node() on /a/b/c
-> > > >     reads the name of a, gets "a"
-> > > >                                          renames a to a2
-> > > >                                          renames b to b2
-> > > >     reads the name of b, gets "b2"
-> > > >     returns "/a/b2/c"
-> > > > 
-> > > > This hits roots without KERNFS_ROOT_INVARIANT_PARENT: sysfs, where the
-> > > > bad path can reach sysfs_warn_dup() and pr_cont_kernfs_path(), and
-> > > > resctrl, which renames a mon group inside its mon_groups directory.
-> > > > cgroup sets the flag, so it skips the lock and reads names under RCU
-> > > > alone; that case needs something else and is not addressed here.
-> > > > 
-> > > > So take the lock in both cases, and let kernfs_rcu_name() accept it the
-> > > > way kernfs_parent() already does for ->__parent.  Same-parent renames
-> > > > are rare, the lock is per filesystem, and the locked section is at most
-> > > > three stores.  It also gives a future rename sequence counter one place
-> > > > to sit that covers every rename.
-> > > > 
-> > > > Fixes: 741c10b096bc ("kernfs: Use RCU to access kernfs_node::name.")
-> > > > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
-> > > > ---
-> > > >  fs/kernfs/dir.c             | 28 +++++++++++++++-------------
-> > > >  fs/kernfs/kernfs-internal.h |  9 ++++++++-
-> > > >  2 files changed, 23 insertions(+), 14 deletions(-)
-> > > 
-> > > How was this found and tested?  Did you forget an Assisted-by: tag?
-> > 
-> > I am working on a series to improve kernfs_rwsem and going through
-> > review-prompt with AI to review my series and these were existing 
-> > issues AI found. I have created reproducers with AI for these and
-> > tested that these patches those.
+On Thu, Sep 03, 2026 at 11:29:04AM +0530, Aneesh Kumar K.V wrote:
+> Jason Gunthorpe <jgg@ziepe.ca> writes:
 > 
-> Then please read our documentation for how to properly document this
-> usage of a LLM tool.
+> > On Wed, Sep 02, 2026 at 12:20:51PM +1000, Alexey Kardashevskiy wrote:
+> >> On 2/9/26 12:12, Xu Yilun wrote:
+> >> > On Tue, Aug 04, 2026 at 09:55:33PM -0300, Jason Gunthorpe wrote:
+> >> > > On Tue, Aug 04, 2026 at 09:48:30AM +0800, Xu Yilun wrote:
+> >> > > 
+> >> > > > Glad to see you all here to make progress! Intel can also help on this.
+> >> > > > Can we have a meeting to discuss on these topics? As Alexey mentioned,
+> >> > > > previously we had a bi-weekly call, perhaps use that for our first
+> >> > > > meeting? Or what time works best for everyone?
+> >> > > 
+> >> > > I prefer we defer such community discussions till September, that
+> >> > > seems appropriate given some dates I've seen.
+> >> > 
+> >> > Hi Ankit & Jason,
+> >> > 
+> >> > Do we have a plan to schedule a meeting to discuss next steps?
+> >> > 
+> >> > If so, we can figure out a specific time on the Discord channel.
+> >> > https://discord.gg/KKqC438c
+> >
+> >> So I've been trying to find a time slot. Say, keep it on Thursdays
+> >> (USA) (kinda short notice), bi-weekly, we can do:
+> >
+> > I've asked several people in Europe to help on parts of this series,
+> > and combined with China/Aus someone is going to end up left out.
+> >
+> > I know people are anxious about their projects. In the short term I
+> > will volunteer to send patches (ie bug fixes!) to Linus in the CC area
+> > Dan was responsible for. Please email me if something needs some
+> > attention and we can figure it out.
+> >
+> > To fully move forward we need to establish a new TSM maintainer
+> > team. In my past experience a consensus has emerged off list, I
+> > suggest we try that here as well. Several people should be
+> > recruited. I will also volunteer to help train and launch a new team.
+> >
+> > I can say that several people from NVIDIA are working on the ideas in
+> > this patch series. Ankit is setting up a team to focus on upstream
+> > patches for all of CC inside NVIDIA. I've asked Jiri Pirko to work on
+> > the PCI evidence uAPI based on his deep netlink experience, and Leon
+> > Romanovsky to work on the binding problem/adversarial/trust level
+> > driver core idea. They will share their approaches for solving these
+> > problems as seperate proposals.
+> >
+> 
+> 
+> I can also help with the device trust and iommufd interfaces, as well as
+> the CCA DA pieces. We need to find someone to take on dma-buf, as that is
+> one area we have not yet integrated with the full TDISP flow.
 
-Sure
+Given my recent involvement in dma-buf, I can try to fill that gap.
 
 > 
-> If you have reproducers, please add them to the kernfs tests as well as
-> patches part of this series when you resend them.
->
+> >
+> >> Scenario A:
+> >> Seattle (PDT, UTC-7)		07:00 – 08:00	Day 1
+> >> Atlantic Time (ADT, UTC-3)	11:00 – 12:00	Day 1
+> >> Berlin (CEST, UTC+2)		16:00 – 17:00	Day 1
+> >> India (IST, UTC+5:30)		19:30 – 20:30	Day 1
+> >> China (CST, UTC+8)		22:00 – 23:00	Day 1
+> >> Sydney (AEST, UTC+10)		00:00 – 01:00	Day 2 (I can do it once in 2 weeks)
+> >
+> > This is the only time Europe could reasonably participate in,
+> > obviously it is not OK for China and Aus.
+> >
+> 
+> I'm based in India, and all the proposed times work for me. Who is based
+> in Europe?
 
-The reproducers are like stress tests and are targeting race conditions.
-In one case delay was added to fully expose the race. I am not sure
-selftests is the right place for this kind of tests. I can just publish
-the reproducer on the list to have them on record if that is what you
-are looking for.
+Jiri and I are in the European time zone.
+
+> 
+> Jason -> Canada ?
+
+Yes
+
+> Yilun -> China
+> Alexey -> Australia
+> Ankit Agarwal -> US ?
+> Aneesh -> India
+
+Thanks
