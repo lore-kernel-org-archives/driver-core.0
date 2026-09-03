@@ -1,131 +1,232 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB84B26B0A9
-	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 08:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788422734; cv=pass; b=bQmt12FQ6Bi2ZYCiQaXA/78vq5Sx28jnyJqhkLQwOFMU8pQHhYQKDE09ON5v16yFZcZZh3cbqo+yFCqTK1wk3Z/MAODqJpnCo1u8TMI3XsCJ7csz9DZZ8CT+3Whqo25R1IbckBZG7lcvIY1/zedvmFxMzJzVn4BaQ0HJF5K6XTE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788422734; c=relaxed/simple;
-	bh=fovmEqIqgVXpo5nek+CJqatjdeLkHXnTUt8Ymo9s1zI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CQV2NBxnhlpXdlAUgbkNidWDadgIzM0r21rkupoNwzWwOrL2UgZ/ualpk65tAVyR29o4RQb3AAfOP7iqD9VI6fbqT1uc1i0Nw4dWPcRm4AHHpRl20pMh4GqlZ1IHAbMDL68YSV6l2/7vUiAkLYXiOTcwauyppgSzcIECDDR19n8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7k9/uKC; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2C5389115
+	for <driver-core@lists.linux.dev>; Thu,  3 Sep 2026 08:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788422890; cv=none; b=s9agfAaDWrqEo+G6worNgvpexBgrjElOfGfsCYZwv2IOI7RMoLN9jB2cDgb4qmclaQac7Z/B11LRyV08OuFpcOhf9PG0eSbL0oqweHimSjr0+A9VW7Az4wvZNdh/uBwZCGslJf+DTscsU2vEZPLa4ADBm3vnlHcQs8xvM81UZX8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788422890; c=relaxed/simple;
+	bh=rGBBt0AxbtG8LzlxBHHSLHwFFdkl4bkEFjoyJFndGdM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QprrH6MOxH0h2d+RfgLlW3hZjurT/3Q5lDUM3yqwDNJ447sJK6gdHOy3csXQ8RyYg3i0V2aJcUYEdYLwjzdXsytz0ULdR02/AQlNwNA+lC/A8UXUnay3yjBThyDoMDX4jTO5cVzAptb2mX1OsaZE8lw71Jhdh61tTd0sXi6ps/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=g2m2scho; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JXxTwgKU; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7k9/uKC"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-69c600f76ccso2893332a12.0
-        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 01:05:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788422731; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s2h9Ujx8M3qh0s9+wOfKOHlEUKxoF/rGrFdaNwDshj0aqedmI5yGZRYg9UhQt7ozQg
-         g2fcpxoFKkaIMR79VOfpVWnZZCMrW9KRe0KENjBAj16/sDG7FAFFY6hcvATMe5fRD8JW
-         wUP+TKLQDx/1A5iw8Aa5e+YwiIb1q4fefnQUlsmuz5/Y/7QMOVMNtAFa8HXJpWKZ2L/r
-         RU8+JYgGtBoLvPbY9QifhG+i+t6mDFIOLoq4AelrCXyarPSFcOxTX/8EJPmscY0z7et7
-         aLkxMDT2MXzJcMWA3TDjKb+to1SBZVIr8B/JZpOr+OgnixtqAzv2Ii2U/rvLJBfOrmn2
-         L7IQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        fh=rjNlBzL2pdHzmqJloldHyB11mIwCZCAGdUK7BZI0W4c=;
-        b=Q5o03xtZrxyUwQQoCMywLxK7rE+wKHB18A35Yq2ByjLHQ8DHTCEQ1Jwq6sJ0UR5dhD
-         KBlBz+7WkYjZnGmMSgkfVQHyDuj3CUsVl2NhKFOpKiHxdOenza6UQUOkPO4U+9rRnLv8
-         OYTgZ+XSv5I+RuPHS0L7KSZNVSeB8RfY5tHpme9uOTd7c09U7Yt/vYL5lxinBrFJHxZB
-         NOzAyZybOFaaraZymn0bG0j7+UQUoUDmCFgJW9sQynekr+zvr9fyNYKtvwkp+47XC922
-         5EbPopVP+co076a/CBE8jH7aUG2ZZl7llzog3mzE3fMNWQu7GaBwdv9HlsTdNhQL3hP5
-         ChIA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="g2m2scho";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JXxTwgKU"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68382Xmi3549605
+	for <driver-core@lists.linux.dev>; Thu, 3 Sep 2026 08:08:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/twb88vPrIOizB1yi/dohC7S8ivyVgg3mYajZILtPNk=; b=g2m2scho9d8g4DQ4
+	vhNAbVQhjvIclQC7VYCIav95zlXkbCE+yzy+yE52d9T0Bscjn5NKwmxHUfV4WZA6
+	9f4aAIP8akF3YQr3RE32GW2kn/KjdiAaHnA8LFHflrprgYMA7C3RvTb3lUwguZkN
+	TTKKyoYZW3/1FN9hMuk2KoDF36491iOLCBlTx+vi26dEb1NAYyANIMAFCZr/nRFJ
+	D8o38d4TTxXrIAv+wJwnGD4urk3vQ03fe2EQnZF4psxhW5T2t7Xv1uHx36pN+WlH
+	2qtKNqaCpCZ8/fzvf4kkiKw0Ryjybpflw/aBX6Qm1blQZHDUTLBwQ3Mot/f9dQmO
+	6Lgqxg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gf51m00r0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 08:08:08 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc73f47bdcso25888805ad.3
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 01:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788422731; x=1789027531; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1788422888; x=1789027688; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        b=D7k9/uKCBUSWZRXXZMcOBJZhpD8Tp22o6uBE0HpfegWa4RiwPibvge1jzfnRG2OEwf
-         InDqG5dvMUTC/iacr7B21ben2f64sFrtiU/OrounzZjgccC+95xPc8lAjd6FG7t5ISed
-         IT32jg4Ik5d8qz9yoTM5hJcVgs4DUGtvJ/3XypNlpbk82BKK7W/2TtrZObiy9FVApiWB
-         3yY8x4uBEclXCymxmCxwxW7lo4ZR2IOqCNh4ghAokDH8SsM5mzV665xGLfXUZrzn0XIp
-         sZ95JkTANu4WMe+T/5XqCFIeMjLUUY5R0TajRO1tSCmGCA82o2qcr3/hnCpGRkqomB5Y
-         ymrg==
+        bh=/twb88vPrIOizB1yi/dohC7S8ivyVgg3mYajZILtPNk=;
+        b=JXxTwgKUt3xXQUuV55BNwAq2qRDT4d4skaRbtz4LR9AqMdlbvZoNgcbk/Jnqezf+WM
+         6AF82rU+0OhzFj68SrxBN0TPpe9BdyBzF3evFpkso+MARqhxp9ihErKY/HoXCvJ71N+w
+         uXif4v6w9AQt2XlDeZ7KyXpmBYq+tlgJsrcUWtkro0UUH5euEe6bN88DuGom358wHEdE
+         IYJmHL/1U4nvoflK8g6jkYtkhRVaX+NypvZ+4NHpPALluqHn56hhyBpTF07Pr45WQpnc
+         NG+JZZW7FAEwzt2kT0673BIjdfy/gfFx4wt6NhNMULxdk8Wi+wMaB7ECV8FQjnv9n4dC
+         zJXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788422731; x=1789027531;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=6SrVKYP6RqUW7pG//37NoHw2yaQK1BSwRv3M9s2+zc4=;
-        b=A1jNbIE3OvXr+J/6V57qTRWofhuryyZuZpRnoIk83dYcAvbeBqvOvMZq7NQuWB75J9
-         jvyNhxevxh53TE72jgC5Um4vF+0nzvnU9S4bc2SQWE8rDYR6rZeR2EFNqOWJibXSu77+
-         dgxu4XyVAoeII+dRXqMI4p1Wr50taaKPwKyLpxLE7x0fi1myOhzHdD8Gn98rAFR3ZJg6
-         EU4PIIky1Wun/oQ6exqY4J4ghbxmepJktifcBRCgK+CWhANcnkw6io+qHxZ44sdBYcz1
-         SMTsWw+0O79zySN2DC2oqbj9Pi5KobmIz1TFpgzyF1KIX40jIhmFCaq87u+yFPvJ9uwk
-         nZQA==
-X-Forwarded-Encrypted: i=1; AKwUvBxMiE6UxXDpaE/cN9EGubVJpuv5bjpiRsG9u1Tyng6zU0fT6xO5v80Xe5BOL+NqjXlAIQH+q+9Q42gM8Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++kcaSFXwglcrGjred8mJ6AIPeRMXdMuTv3zaAv/KSXDmNDdYhmg
-	QpqynVCwKAL8/f7gm7kUBb3azSECP1xs/CkTq79a58NhK6l+37s8zauSL2XcBa3d6b+rdM30yjy
-	1akpdtDgf1jAhC8F3sWjFblBBwlqiekk=
-X-Gm-Gg: AYBFou2TTT/+HHMZf9c9Ji6vzURgaltCYj7s6ui1rw+pMy3r0CccgedtgU/E6j0tE3u
-	Eux1oRFWYxKHNHJpUev+Mw/D88POrjR333ibt6h4+2BWei5Cw7GV1l7h8E/6NE6DlFzOURfrHZw
-	CzQPU4RbgB89Sx8fhpdgcJqZesgtDIyMK/V8YlC/Z7TbLHm8NFh5YT/5P/UrhBda2xwPTWftiRK
-	opUhhAXlELFiAArc5YIFn7ouG6YiEWy9bknDmkK0+ehuJYIGTEv0xjthaNKfedY4bmrBH/KL1E8
-	7ZpvMox2wOVU68qrgOZh0o1fJ2HvZ5f8+1ktYmcQJR0IF8IjP5Haqt2g
-X-Received: by 2002:a05:6402:2110:b0:6a3:87b7:b5a9 with SMTP id
- 4fb4d7f45d1cf-6a682ab9d91mr6190594a12.12.1788422731087; Thu, 03 Sep 2026
- 01:05:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788422888; x=1789027688;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/twb88vPrIOizB1yi/dohC7S8ivyVgg3mYajZILtPNk=;
+        b=GyES9+8WUq/9bMNzY+3xrLAr9fmf2WJKEtdAUmTZbhPpNCE2PTJSndx85nBeyhzCIj
+         KV3px0+PcfkTjwI4iejYzukz2KnHq07j+eE+7epBmXKNtC8Xn7v8PicYplfR+UvHBEBA
+         xtGXJapwV9y5w0V2r7nSp1m7BdUdPN/g0BVTV0sdkAWvjPiQuuFA1oGhdDYxVIpkK4cs
+         iDZUvNCa104gkINPSlFKEOqGWse0aqsLbV0o62EVEuaU6j6FohZKj+WdTODhk+ncaSo5
+         jXlWbSaTNrZoI9pCkb5DFoA069x9U6kLLoFRFBKA1mMbr9K2hsdPaI39nBvxKvjr3r+8
+         hD8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx7MW5aVcrCqH9y46O3DDjKaqt06h2XH/g48ZM42ui3qv4ChaEFkOyRHm9qwl7q2Jd/1YIJvyZxHZz3jA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kvV9vK1wiijQFbvDC0TdHTvHFY6MHZKMUB6QVlGPYhYve844AV
+	aGcbYGCg0xWXppz+lyZUHbDe+cFvUCJxyzaWKr9nKjoYP5jQCeTmQ8FU2IJ4EUIeZ/tXDvWpjZ0
+	gHXdboiyAgpUrpn1B00RG9KYJabg4tRm6Qwyb/2bSVblmSUSWFmB5SaF94Fado32xEQ==
+X-Gm-Gg: AYBFou2tAZuVTFSroc0eN1lH0DKbiTGcFkvqC+W7wnoEVT/0Xp/uF5MwRDclCc0d3+J
+	xGmqtZTVfvpFzSuXKqrPuP2TkeF6h49rZMWF64OoHKo9Ne6s9lo4AcrwEYaPfepOrsdB3g0AYSi
+	9e0kCrbYw7162Px4sowUuLCNznZRCD30fx6B1UQyIVbq647J0SIpqmgG7EOUjkuwwgBuR/YQqM+
+	zpP2hkGWYkSTxqvAn9y1cNDRKwp82iIm3VnOUNvskKwzeWvQD3zww3NpF4kfIbdFoqtn0+IAnuE
+	mpACoSV4AmUZj/qlN1YVDTIvEcF99+YSBRM2OdHwxEIo7bnoUE/LDQwMZ1bFNTCsKlv1YdFREt9
+	QjcEUt2OclMlQlGaiFw==
+X-Received: by 2002:a17:903:3243:b0:2cf:8131:75e8 with SMTP id d9443c01a7336-2daec71752emr159035605ad.13.1788422888060;
+        Thu, 03 Sep 2026 01:08:08 -0700 (PDT)
+X-Received: by 2002:a17:903:3243:b0:2cf:8131:75e8 with SMTP id d9443c01a7336-2daec71752emr159034745ad.13.1788422887485;
+        Thu, 03 Sep 2026 01:08:07 -0700 (PDT)
+Received: from [10.64.71.54] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dafec27963sm6060365ad.49.2026.09.03.01.08.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2026 01:08:06 -0700 (PDT)
+Message-ID: <1c4c197c-18fc-4209-b5ee-4ded811cb22b@oss.qualcomm.com>
+Date: Thu, 3 Sep 2026 16:07:58 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2026082042-coma-moody-5b4e@gregkh> <20260820084557.129908-1-khiemtranzo532001@gmail.com>
- <DKTWKZFYC6TL.2ZESRE0NWAV2T@kernel.org> <0198b9fe-4bc0-4e12-b788-85aa2c9f8162@rowland.harvard.edu>
- <DKU2J83B6IX6.2CG1WOB66WC39@kernel.org> <CAEe5be5OjseCMxGQP=QMd1L-muOTDguaay_-21moS1+xRNNNyw@mail.gmail.com>
- <DKZ6PZV65PYX.3M9UEZC4ZMLLC@kernel.org>
-In-Reply-To: <DKZ6PZV65PYX.3M9UEZC4ZMLLC@kernel.org>
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Date: Thu, 3 Sep 2026 15:05:19 +0700
-X-Gm-Features: AcwNN1WMKVWa1WK1FArX1_9QFOqs2KtBbQ6O2kt-cOvVQdr4bwbcIwMEhE1l-hw
-Message-ID: <CAEe5be4cJ5VPu88V4L7i0Pz+joSmJjBOpA=S9knbk44_-Rf9Og@mail.gmail.com>
-Subject: Re: [PATCH v4] driver core: avoid klist_remove() on unattached knode_driver
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com, stable@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 05/15] arm_mpam: Fix device_node refcount in DT
+ resource parsing
+To: Andre Przywara <andre.przywara@arm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
+        driver-core@lists.linux.dev,
+        Srivathsa L Rao
+ <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei
+ <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+        linux-kernel@vger.kernel.org
+References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+ <20260811-mpam-resctrl-dt-knp-support-v1-5-ea6397bead59@oss.qualcomm.com>
+ <e6d4bb93-66fa-4149-985d-87d895081ea0@arm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <e6d4bb93-66fa-4149-985d-87d895081ea0@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: CGT5AukfwOjZ_sjLt-VNXzsfzSEvobiA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAzMDA3MSBTYWx0ZWRfXyHJHe0iGlObj
+ YkBxum84F4Lrx+ew/yBzGufw6RdGFf1nIB8MJciBZ+W3AvpCymGZbph9qdI1ZDps5z6WNqmKi/b
+ +hfXTjRqhEr6lczJH0hSJfWcwLars2lVIlr0xTrOEYKgaltCzvSJ8lI0+hbQAqvQPybXTh8wXiN
+ F87Sb/1bS0A2wTsWbfk6yV1rRDW+ttGF0YyCZ9HWe2DNs710plwxva9kd28JkeelWfbwD200eao
+ jjmYKUrye061tX45IgipgUdPjLmt1vh7AJyM7F0zdrsVLpWJqE1mfHw4vZLGputVs1kT1RwmORd
+ iKpLXmxdWHBrYfZEfRGCNqBG5j3hZdD0I83s12EMpPcMaiyJ0jxDpFq4JkhzGEzIjkRDH7MmFxX
+ JIm57SoFS5f5zHS8AEXPZcr0HxM+W1Bxo9YG2o0nymPZQ1+ZogvIhsUqBmsxwtm/g0n+Wc2y0Q0
+ ecImxpqc/iXfj7kLrfQ==
+X-Authority-Analysis: v=2.4 cv=X8Ji7mTe c=1 sm=1 tr=0 ts=6a992ae8 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8 a=kWxAhM39eUj0LVJEsOAA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAzMDA3MSBTYWx0ZWRfX0k16+2kfvdjW
+ ofhnxOynDE2BLxYXNLj5o3mIDPuSETrEhUgitrNoTCk1ntdLd1i8Hd6kK/t/3HKUoQkb/RMOzmx
+ g+4bL9j6hUES5d4JH7n+JAySBaqxkUc=
+X-Proofpoint-ORIG-GUID: CGT5AukfwOjZ_sjLt-VNXzsfzSEvobiA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-03_02,2026-09-02_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609030071
 
-On Tue, Aug 26, 2026 at 09:14:00PM +0000, Danilo Krummrich wrote:
-  > So, for a fix that also goes into stable trees what you propose sounds
-  > reasonable, but eventually we should use the match() infrastructure instead.
 
-  I've implemented the approach you described:
 
-    - In usb_driver_claim_interface(), when !device_is_registered(dev),
-      skip setting dev->driver. Instead set two new fields on struct
-      usb_interface: claimed:1 and claimed_driver.
+On 9/2/2026 9:29 PM, Andre Przywara wrote:
+> Hi,
+> 
+> On 8/11/26 15:30, Yin Li wrote:
+>> When a cache-parented or memory-controller-parented MSC is probed via
+>> device tree, the parent node was assigned directly to a
+>> __free(device_node) variable without incrementing its reference count.
+>> Both the parent and the cache/memory variable are declared with
+>> __free(device_node), which causes the compiler to automatically insert
+>> an of_node_put() call for each variable when they go out of scope.
+>> Since both variables point to the same node but the reference count was
+>> only incremented once by of_get_parent(), the node ends up being
+>> released twice, causing a refcount underflow.
+> 
+> Yes, looks about right: there is another assignment to both memory and 
+> cache, they call of_parse_phandle(), which increments the refcount, so 
+> we need to do the same for the direct assignments, to get the free'ing 
+> done consistently.
+> 
+>> Use of_node_get() to take an explicit reference so each __free variable
+>> holds its own reference.
+>>
+>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> 
 
-    - In usb_set_configuration(), after device_add() succeeds, check
-      intf->claimed and call device_bind_driver() explicitly. This skips
-      ->probe() and attaches knode_driver to the driver's
-      klist, making teardown safe.
+Hi Andre,
 
-    - The __device_attach() dev->driver path in dd.c is left untouched
-      for w1 / ccwgroup / pata_parport.
+Thanks for the review and the Reviewed-by tag.
 
-  syzbot confirmed the fix; the reproducer no longer triggers:
+> ... though this should definitely be squashed into the respective DT 
+> patches. Feel free to do so.
+> 
 
-    Tested-by: syzbot+87188222c77c0dbbdb4d@syzkaller.appspotmail.com
-    Patch:      https://syzkaller.appspot.com/x/patch.diff?x=12af8b49580000
-    Dashboard:  https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
+You're right that these fixes should be squashed into the respective
+DT patches. I kept them as separate fix patches for now because those
+DT patches are based on James Morse's and Shanker's original unmerged
+work — this way the changes I made on top are easier to review in
+isolation. I plan to fold them back into the original patches once
+James and Shanker have had a chance to respond.
 
-  Will send v5 shortly with the syzbot Tested-by added and the subject
-  retitled to "usb: core: ..." since the change is scoped to USB only.
+> Cheers,
+> Andre
+> 
+>> ---
+>>   drivers/resctrl/mpam_devices.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/ 
+>> mpam_devices.c
+>> index 975ddab771b4..559fa09128b4 100644
+>> --- a/drivers/resctrl/mpam_devices.c
+>> +++ b/drivers/resctrl/mpam_devices.c
+>> @@ -280,7 +280,7 @@ static int mpam_dt_parse_resource(struct mpam_msc 
+>> *msc, struct device_node *np,
+>>           type = MPAM_CLASS_CACHE;
+>>       } else if (of_device_is_compatible(parent, "cache")) {
+>> -        cache = parent;
+>> +        cache = of_node_get(parent);
+>>           type = MPAM_CLASS_CACHE;
+>>       } else if (of_device_is_compatible(np, "arm,mpam-memory")) {
+>>           memory = of_parse_phandle(np, "arm,mpam-device", 0);
+>> @@ -290,7 +290,7 @@ static int mpam_dt_parse_resource(struct mpam_msc 
+>> *msc, struct device_node *np,
+>>           }
+>>           type = MPAM_CLASS_MEMORY;
+>>       } else if (of_device_is_compatible(np, "arm,mpam-memory- 
+>> controller-msc")) {
+>> -        memory = parent;
+>> +        memory = of_node_get(parent);
+>>           type = MPAM_CLASS_MEMORY;
+>>       } else {
+>>           /*
+>>
+> 
 
-  Could I get a Reviewed-by from you?
+-- 
+Thx and BRs,
+Yin
 
-  Thanks,
-  Kiennql
