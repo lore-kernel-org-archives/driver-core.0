@@ -1,138 +1,177 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E173F3293
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 11:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A2175A9D;
+	Fri,  4 Sep 2026 12:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788520704; cv=none; b=dbo4gRKwuF+fkVIFqKNog0HTkw4Q4KIi8xHy7MFI5HpDmO/aDm/ir+b8r/jE3+mXIgIwKjMXdiBfwkgGTNv97DLZZ2gF1o5OSUQ8nH2txJjVzq0lrRDRUDR8ZZQsUCX44oeQHJUFB0AMYDDXBmq8qR9YQvZd0yB7xGFXyfDsBYQ=
+	t=1788524508; cv=none; b=f/DYKgOf3sdEFtlRGGk1XFO7x/yaHZQ7aAlDy65lqcDr3euL7yhuNvT/pJ4PGw5LZ8ApnnYtVUZ8Ljt40Gty4ngUp6MrILDZMN6L2SQHwhZqYXhYhEiayJfJqbZ6Xhi4mC7TdmhMvoOuRs23BruNg8J6i4r90UC7Q036WACAni4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788520704; c=relaxed/simple;
-	bh=GzGdhUqHabJdT56/0Vx+2i4I/VGZGqigv9kQT5jq97k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RewheWpZtY35KhgLANvPHsAi9iKKYG5FGIt+2Sx3WxoePVNdZ3hFGUrbErb0lEvsS8kO/S2GedISrn+6uD9hdQa+i4RKgJ4RfAAV9j7o3udrZ8aeGyhPnj6OpLiUE6ep/GogIwlwwLH+YysCXOIGZvY9bjRMpT6auuCne50oI84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeOkfgn7; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788524508; c=relaxed/simple;
+	bh=dGEwsl/QZPhzvlA+Mi/r76rmR6CKptJayLW6wdJ2m34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PMWXxUwciM8KHX6iBG3U2r/Urag9dI7GBAXraBMj75kVDCRfVDuinA9xeNEq7vfsV++dznQyFlFPPk2ylSdin1k/7juNXsIdysgIntKayhj+j4skqMAfbTnhQM1kpDgBDOBAQ7J5roeC6DBCjseScJqTB4Yv/x+X4ypxakcsjWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YS/gc8PL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeOkfgn7"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso646200a12.0
-        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 04:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788520702; x=1789125502; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ru9Oqw83JdPP5GZWzgBwRJbCsmncN29/3DvUioCkWHY=;
-        b=PeOkfgn7i2TD7z7fHpJIFDKC+rnQjPooDRqda+r+hi7QJ8yeJZgSVPRQXKCrMN7crj
-         7OKHDRVriDdfJDKRzwyjx7uPlfzA1xSCMPk3sYSb2iOxxhKDTG1XZHhRuQo/AFcTRVDF
-         Up7gbYvDA3sLb+gmGpQ3JoWuFP6+vWJMUAGO4X4anKfP0Gf1Pg87/CaSxgIk6kjCjvVx
-         flIBwbZNRoZJMdIp245fBOqE1REPeP2EDLmY2IPoKgHMkCLaumN5WJjskBJ3ocK9H8nl
-         E0Ain3ZJgTTaS361UEU7iPo5afj+Jo3DON5x4uQ3zwml95HFKfOgpxyoNDi960WY9+vq
-         i+Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788520702; x=1789125502;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ru9Oqw83JdPP5GZWzgBwRJbCsmncN29/3DvUioCkWHY=;
-        b=N8CUDnPZGgZJa26zMaEkLDg9lCO1cLgUD6j1vQWfEXeYLJay9ULmkwo8uYArp2G70+
-         HAjkMLGOjdVzIjiuEydDBMzdoE/cLuCGM9FG7iNvWhmztI1GV7NwmF/Eudu5jqwW7nnB
-         fD/z/q1EWZAkoKxb5u0yR+NNzsFFaI+9zwDnLlpxarOXa0dFZB5/OpDWK6P78xBwZk+a
-         iF/Yo0uSYS7YGisdJh6yP1YiFAP+svljUpDTZPqejB3Z3i4SaGOzLQbSuntBK7YL83bk
-         c+YHJYYdkM4iR8ZQmtcoE+adFT0F1FPoxe+nnWOUnKe3Zd+PLKkIA9MMZ3CCEQl47Y4f
-         qIbg==
-X-Forwarded-Encrypted: i=1; AKwUvBz+K/cipZbrFp8DmNPs/1+rf+t6M5HuOq1vQMremalMmfnFVl4Kr5NdmmEY0OrSUQJ+PTSwf+jbLUZqIg==@lists.linux.dev
-X-Gm-Message-State: AFuF++mSP8fMd48zHppEeNbwNKBQU1UuoPtSpQq36AGnDIaUSEawk5IU
-	lhewoJ8zFC+M01t/V4pszVDAze5oI8xSHU43wyMGsJZSdwL/pu+TFx6o
-X-Gm-Gg: AYBFou0ILZHSh7a+JgQ1dxGTXs7BsfZQ1+qq6uKBAVGzfTMd2P7bz9TXVBaewk+W7aU
-	AjFcjq3zpoZy6uRAvsqPfNGrKyIRBTOM86UG9Z+h60XYg1jHZXqT6Ee1GHbAvgsmm9Y5YRGgnaI
-	s6VDYq2ZeW5woi4p4vcb2yuMfg2lDKLV82Mc+ONpvROE+aX2/hBxE8kjFt1LcMnUJPxv7r9Vihc
-	Z0W6pFbC2Xm/PXNDz9o9b1AAQscW42LNyrr60vtD75hnEQgq99pt2m0RiHgWHAkvYthVEJwt0DF
-	1tJavC71ed3nYjLSY5jJuTfsQP4DbaigXMGR7OZ/OfbCDHlXch/fq6U3LKKyNjX/5FBPLaTryIm
-	iif3f7RBZenDbHYirg2EHlMjiHstFL7B2tKOaspsArT6wEJE1VNXx4I+A4XL4N3rcXlUKJFtdib
-	b4XxS6YVZ+4w8CDyFa3PQyYgvpgNNmSTO3BrHZakHitW2MmRfHsvgGKN1F9TiyWdJ9I7/SkcOZX
-	EcdoQVQ05lXVB8=
-X-Received: by 2002:a17:90b:2b4e:b0:38c:a59b:5189 with SMTP id 98e67ed59e1d1-39b261d0d8emr8546870a91.15.1788520702508;
-        Fri, 04 Sep 2026 04:18:22 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa33e96sm6304088eec.12.2026.09.04.04.18.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:18:22 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YS/gc8PL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78D91F00A3D;
+	Fri,  4 Sep 2026 12:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788524505;
+	bh=n0Ai26c+BBRDL6nXffU6QVI3E3AyrZw/QywDCntvJXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YS/gc8PLWOxND3JfXW3uxDEITVnYv+tTnEDDPxhxeMRAKYroLEr8inBUP4WK83rLR
+	 zIuRyMuxYnD4xgXAcW3s4VF3Rjg7Vk8ZCHLprV0IdH+sEdREfcApZUE5zElmq0d84y
+	 NKrVJpBZEQUgErkhyHtAkmB7fXdZrRXKLnHckniA=
+Date: Fri, 4 Sep 2026 14:19:59 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Tejun Heo <tj@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH] driver core: fix typos in comments
-Date: Fri,  4 Sep 2026 16:48:14 +0530
-Message-ID: <20260904111816.31254-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
+Message-ID: <2026090432-outlying-glitch-9295@gregkh>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
+ <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+On Fri, Sep 04, 2026 at 11:25:01AM +0200, Petr Pavlu wrote:
+> On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
+> > Other kernel code might want to call add_taint_module() so pull it out
+> > and make it global.  If modules are not enabled, this defaults to a call
+> > to add_taint(), so all is fine.
+> > 
+> > Reviewed-by: Johan Hovold <johan@kernel.org>
+> > Tested-by: Johan Hovold <johan@kernel.org>
+> > Reviewed-by: Bradley Morgan <brads@mainlining.org>
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  include/linux/module.h | 10 ++++++++++
+> >  kernel/module/main.c   | 16 +++++++++++++---
+> >  2 files changed, 23 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index 96cc98568eea..f6f90cd88f15 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -29,6 +29,7 @@
+> >  #include <linux/srcu.h>
+> >  #include <linux/static_call_types.h>
+> >  #include <linux/dynamic_debug.h>
+> > +#include <linux/panic.h>
+> 
+> Note that I'm working on cleaning up linux/module.h to reduce its
+> preprocessed size. The main motivation is to shorten the compilation
+> time of all the small *.mod.c files. Since linux/module.h already
+> includes linux/panic.h indirectly, adding this include explicitly seems
+> fine to me for now. In the future, I think we should introduce something
+> like kernel/module/stubs.c where the CONFIG_MODULES=n variants of
+> add_taint_module() and other similar functions can live without bloating
+> linux/module.h.
+> 
+> >  
+> >  #include <linux/percpu.h>
+> >  #include <asm/module.h>
+> > @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct module *mod)
+> >  
+> >  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
+> >  
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok);
+> > +
+> >  #else /* !CONFIG_MODULES... */
+> >  
+> >  static inline struct module *__module_address(unsigned long addr)
+> > @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct module *mod)
+> >  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
+> >  {
+> >  }
+> > +
+> > +static inline void add_taint_module(struct module *mod, unsigned flag,
+> > +				    enum lockdep_ok lockdep_ok)
+> > +{
+> > +	add_taint(flag, lockdep_ok);
+> > +}
+> >  #endif /* CONFIG_MODULES */
+> >  
+> >  #ifdef CONFIG_SYSFS
+> > diff --git a/kernel/module/main.c b/kernel/module/main.c
+> > index d0e1e0bd2ad0..444d990c9983 100644
+> > --- a/kernel/module/main.c
+> > +++ b/kernel/module/main.c
+> > @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
+> >  		return -ENOENT;
+> >  }
+> >  
+> > -static inline void add_taint_module(struct module *mod, unsigned flag,
+> > -				    enum lockdep_ok lockdep_ok)
+> > +/**
+> > + * add_taint_module: add a taint flag if not already set for a specific module
+> > + * @mod: pointer to the module that caused the problem
+> > + * @flag: one of the TAINT_* constants.
+> > + * @lockdep_ok: whether lock debugging is still OK.
+> > + *
+> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
+> 
+> Nit: The final paragraph is mostly copied from the description of
+> add_taint() but I don't think it is quite right. The parameter name
+> should be lockdep_ok, not lockdebug_ok and the values are
+> LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
+> 
+> I suggest updating this part for both add_taint() and add_taint_module()
+> to something like:
+> 
+>  * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
+>  * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/base/property.c        | 2 +-
- drivers/base/transport_class.c | 2 +-
- include/linux/kernfs.h         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+How about I add another patch to the series that fixes up the
+documentation for both functions?  They both should be fixed up and I
+might as well get them in sync properly.
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index b136c339ddae..d8152fee72c3 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -705,7 +705,7 @@ bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
- EXPORT_SYMBOL_GPL(fwnode_name_eq);
- 
- /**
-- * fwnode_get_parent - Return parent firwmare node
-+ * fwnode_get_parent - Return parent firmware node
-  * @fwnode: Firmware whose parent is retrieved
-  *
-  * The caller is responsible for calling fwnode_handle_put() on the returned
-diff --git a/drivers/base/transport_class.c b/drivers/base/transport_class.c
-index 351c3d3ce6a0..2bee796601ed 100644
---- a/drivers/base/transport_class.c
-+++ b/drivers/base/transport_class.c
-@@ -7,7 +7,7 @@
-  *
-  * The basic idea here is to allow any "device controller" (which
-  * would most often be a Host Bus Adapter to use the services of one
-- * or more tranport classes for performing transport specific
-+ * or more transport classes for performing transport specific
-  * services.  Transport specific services are things that the generic
-  * command layer doesn't want to know about (speed settings, line
-  * condidtioning, etc), but which the user might be interested in.
-diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-index 351a5101c862..73786b567ccd 100644
---- a/include/linux/kernfs.h
-+++ b/include/linux/kernfs.h
-@@ -309,7 +309,7 @@ struct kernfs_ops {
- 	 * write() is bounced through kernel buffer.  If atomic_write_len
- 	 * is not set, a write larger than PAGE_SIZE results in partial
- 	 * operations of PAGE_SIZE chunks.  If atomic_write_len is set,
--	 * writes upto the specified size are executed atomically but
-+	 * writes up to the specified size are executed atomically but
- 	 * larger ones are rejected with -E2BIG.
- 	 */
- 	size_t atomic_write_len;
--- 
-2.48.1
+> > + */
+> > +void add_taint_module(struct module *mod, unsigned flag,
+> > +		      enum lockdep_ok lockdep_ok)
+> >  {
+> >  	add_taint(flag, lockdep_ok);
+> > -	set_bit(flag, &mod->taints);
+> > +	if (mod)
+> > +		set_bit(flag, &mod->taints);
+> >  }
+> >  
+> >  /*
+> > 
+> 
+> Otherwise, this looks ok to me. Feel free to add:
+> 
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
+Great, will do, and I'll do a v4 early next week with the documentation
+fixes.
+
+thanks,
+
+greg k-h
