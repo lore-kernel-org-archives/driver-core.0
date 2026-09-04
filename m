@@ -1,53 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-248.mta0.migadu.com [91.218.175.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A2175A9D;
-	Fri,  4 Sep 2026 12:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4532A385D64
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 14:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788524508; cv=none; b=f/DYKgOf3sdEFtlRGGk1XFO7x/yaHZQ7aAlDy65lqcDr3euL7yhuNvT/pJ4PGw5LZ8ApnnYtVUZ8Ljt40Gty4ngUp6MrILDZMN6L2SQHwhZqYXhYhEiayJfJqbZ6Xhi4mC7TdmhMvoOuRs23BruNg8J6i4r90UC7Q036WACAni4=
+	t=1788532445; cv=none; b=acv6ZpZ2KOCRnl0ZxRH9OEUQmwFboUVG8QEF+S76h7ZwxZWOn4c8u03PzeN9h4CYy/24bKBPU8cGrcxXH+K3SgdPDcgT3qUZZOSvXaf1kHcRUiw/8BCRh2t/aDPgvRmAk+xslKbeVHT5VWR/FKkbaeibe4kJZJm3F+10Kb/ytKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788524508; c=relaxed/simple;
-	bh=dGEwsl/QZPhzvlA+Mi/r76rmR6CKptJayLW6wdJ2m34=;
+	s=arc-20240116; t=1788532445; c=relaxed/simple;
+	bh=JuPH7/2Y2ltdy3iQbdznIQ0SDNwJB4Wc+2UbdaNxT08=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PMWXxUwciM8KHX6iBG3U2r/Urag9dI7GBAXraBMj75kVDCRfVDuinA9xeNEq7vfsV++dznQyFlFPPk2ylSdin1k/7juNXsIdysgIntKayhj+j4skqMAfbTnhQM1kpDgBDOBAQ7J5roeC6DBCjseScJqTB4Yv/x+X4ypxakcsjWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YS/gc8PL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=C+5X8oxBzankluwJ7YioHtUho5O1FPWLDNqXUmqqQuHT5s+26v/0Gy9TgP/MLwDETsBKuHg7bFt7hquG/k9t5E/gef9xGHnFIrmCGTmZYiRQPg3unAT8laBu13ENe+Z4vpIq+yvXoB71hTJ3cGs+CgLcI0mYDvOsxBJpsuBcvdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=m4EISlGi; arc=none smtp.client-ip=91.218.175.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YS/gc8PL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78D91F00A3D;
-	Fri,  4 Sep 2026 12:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788524505;
-	bh=n0Ai26c+BBRDL6nXffU6QVI3E3AyrZw/QywDCntvJXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YS/gc8PLWOxND3JfXW3uxDEITVnYv+tTnEDDPxhxeMRAKYroLEr8inBUP4WK83rLR
-	 zIuRyMuxYnD4xgXAcW3s4VF3Rjg7Vk8ZCHLprV0IdH+sEdREfcApZUE5zElmq0d84y
-	 NKrVJpBZEQUgErkhyHtAkmB7fXdZrRXKLnHckniA=
-Date: Fri, 4 Sep 2026 14:19:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
-Message-ID: <2026090432-outlying-glitch-9295@gregkh>
-References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
- <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
- <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="m4EISlGi"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=JuPH7/2Y2ltdy3iQbdznIQ0SDNwJB4Wc+2UbdaNxT08=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788532441; v=1; x=1789137241;
+ b=m4EISlGiatt4GsraXHBWXtiC8TfQBYyISziHrX2RAOPBEjJmo/+PBljbE759gL/5aQ2jOp+I
+ JRh5dLRSqCllTFiKDTQJ7c0E1iDX4/Cun6/cUnu7ph5ls8KQM5bYKM4X7mt/2YMPaT2vPazu95/
+ MApvzAdLaT3mPk2BXE8FbR9g=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 46051ea72cb9bae1;
+	Fri, 04 Sep 2026 14:33:51 +0000
+X-Mizu-Trace-ID: 46051ea72cb9bae1
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 4 Sep 2026 07:33:45 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
+	Meta kernel team <kernel-team@meta.com>, linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] selftests: cover kernfs dentry revalidation
+Message-ID: <aprVEyqOrdmuD-HN@linux.dev>
+References: <20260902014050.499002-1-shakeel.butt@linux.dev>
+ <20260904-kandidat-bergbahn-ersonnen-3a6dd1f1cf0e@brauner>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -56,122 +48,64 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+In-Reply-To: <20260904-kandidat-bergbahn-ersonnen-3a6dd1f1cf0e@brauner>
 
-On Fri, Sep 04, 2026 at 11:25:01AM +0200, Petr Pavlu wrote:
-> On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
-> > Other kernel code might want to call add_taint_module() so pull it out
-> > and make it global.  If modules are not enabled, this defaults to a call
-> > to add_taint(), so all is fine.
+On Fri, Sep 04, 2026 at 10:13:11AM +0200, Christian Brauner wrote:
+> On Tue, Sep 01, 2026 at 06:40:50PM -0700, Shakeel Butt wrote:
+> > kernfs_test only checked two xattr calls. It did not touch the part of
+> > kernfs that userspace hits most: the dentry cache.
 > > 
-> > Reviewed-by: Johan Hovold <johan@kernel.org>
-> > Tested-by: Johan Hovold <johan@kernel.org>
-> > Reviewed-by: Bradley Morgan <brads@mainlining.org>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > The kernel adds and removes kernfs nodes on its own, with no VFS call
+> > behind it, and removal cannot always unhash the dentries that are
+> > already cached. So ->d_revalidate() is what keeps the cache honest,
+> > let's add tests for it.
+> > 
+> > Add tests that make the kernel change kernfs directly, instead of going
+> > through create and unlink:
+> > 
+> >  - writing cgroup.subtree_control makes the kernel add and remove files
+> >    in every child cgroup. That checks two things: a cached negative
+> >    dentry is dropped once the file appears, and a cached positive one
+> >    is dropped once the file goes away.
+> >  - renaming a network interface renames the sysfs node under a dentry
+> >    that is already cached.
+> >  - sysfs mounted in a new network namespace must list that namespace's
+> >    interfaces and not the parent's, which covers the KERNFS_NS tagging
+> >    code.
+> >  - many lookups running against concurrent mkdir and rmdir. A lookup
+> >    may only succeed or fail with an errno that means "it is gone".
+> >  - open across removal, readdir returning each entry once, and a
+> >    telldir()/seekdir() round trip, which uses the name hash cookie in
+> >    kernfs_dir_pos().
+> > 
+> > Test the other direction too: walking dentries that are already cached
+> > must not drop them. That is not just a slowdown. d_invalidate() calls
+> > detach_mounts(), so a dentry dropped by mistake also unmounts whatever
+> > is mounted under that directory.
+> > 
+> > Both filesystems are needed. cgroup2 has no ->rename and is not
+> > namespace tagged. sysfs cannot be mounted with a set of children we
+> > control. The config fragment stops a kernel built with kselftest-merge
+> > from passing while it runs almost nothing.
+> > 
+> > To confirm the tests really catch a broken backstop, kernfs_dir_changed()
+> > was stubbed to return false. 8 of the 11 tests then failed.
+> > 
+> > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 > > ---
-> >  include/linux/module.h | 10 ++++++++++
-> >  kernel/module/main.c   | 16 +++++++++++++---
-> >  2 files changed, 23 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/linux/module.h b/include/linux/module.h
-> > index 96cc98568eea..f6f90cd88f15 100644
-> > --- a/include/linux/module.h
-> > +++ b/include/linux/module.h
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/srcu.h>
-> >  #include <linux/static_call_types.h>
-> >  #include <linux/dynamic_debug.h>
-> > +#include <linux/panic.h>
 > 
-> Note that I'm working on cleaning up linux/module.h to reduce its
-> preprocessed size. The main motivation is to shorten the compilation
-> time of all the small *.mod.c files. Since linux/module.h already
-> includes linux/panic.h indirectly, adding this include explicitly seems
-> fine to me for now. In the future, I think we should introduce something
-> like kernel/module/stubs.c where the CONFIG_MODULES=n variants of
-> add_taint_module() and other similar functions can live without bloating
-> linux/module.h.
-> 
-> >  
-> >  #include <linux/percpu.h>
-> >  #include <asm/module.h>
-> > @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct module *mod)
-> >  
-> >  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
-> >  
-> > +void add_taint_module(struct module *mod, unsigned flag,
-> > +		      enum lockdep_ok lockdep_ok);
-> > +
-> >  #else /* !CONFIG_MODULES... */
-> >  
-> >  static inline struct module *__module_address(unsigned long addr)
-> > @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct module *mod)
-> >  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
-> >  {
-> >  }
-> > +
-> > +static inline void add_taint_module(struct module *mod, unsigned flag,
-> > +				    enum lockdep_ok lockdep_ok)
-> > +{
-> > +	add_taint(flag, lockdep_ok);
-> > +}
-> >  #endif /* CONFIG_MODULES */
-> >  
-> >  #ifdef CONFIG_SYSFS
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index d0e1e0bd2ad0..444d990c9983 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
-> >  		return -ENOENT;
-> >  }
-> >  
-> > -static inline void add_taint_module(struct module *mod, unsigned flag,
-> > -				    enum lockdep_ok lockdep_ok)
-> > +/**
-> > + * add_taint_module: add a taint flag if not already set for a specific module
-> > + * @mod: pointer to the module that caused the problem
-> > + * @flag: one of the TAINT_* constants.
-> > + * @lockdep_ok: whether lock debugging is still OK.
-> > + *
-> > + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> > + * some noteworthy-but-not-corrupting cases, it can be set to true.
-> 
-> Nit: The final paragraph is mostly copied from the description of
-> add_taint() but I don't think it is quite right. The parameter name
-> should be lockdep_ok, not lockdebug_ok and the values are
-> LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
-> 
-> I suggest updating this part for both add_taint() and add_taint_module()
-> to something like:
-> 
->  * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
->  * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
+> I have to say I would appreciate trimmed-down commit messages with less
+> relative clauses. This reads very LLMy still. Especially for tests my
+> appetite for wading through multiple paragraphs of info is very low.
+> Same goes for the very wordy changelog below...
 
-How about I add another patch to the series that fixes up the
-documentation for both functions?  They both should be fixed up and I
-might as well get them in sync properly.
+My appologies, I will be more precise and concise in future.
 
-> > + */
-> > +void add_taint_module(struct module *mod, unsigned flag,
-> > +		      enum lockdep_ok lockdep_ok)
-> >  {
-> >  	add_taint(flag, lockdep_ok);
-> > -	set_bit(flag, &mod->taints);
-> > +	if (mod)
-> > +		set_bit(flag, &mod->taints);
-> >  }
-> >  
-> >  /*
-> > 
-> 
-> Otherwise, this looks ok to me. Feel free to add:
-> 
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+I assume the kernfs bug fixes [1] will also go to your vfs branch. I will send a
+v2 of that series with appropriate tags and will try to improve the commit
+messages as well. I have a followup improvements for kernfs_rwsem which I will
+base on vfs branch. Just wanted to give a headsup.
 
-Great, will do, and I'll do a v4 early next week with the documentation
-fixes.
+Thanks a lot, Christian.
 
-thanks,
-
-greg k-h
+[1] https://lore.kernel.org/all/20260903040253.670020-1-shakeel.butt@linux.dev/ 
