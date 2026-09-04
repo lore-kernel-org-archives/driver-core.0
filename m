@@ -1,281 +1,203 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7342D442FCE
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 08:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C3D44604F
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 09:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788511486; cv=none; b=saaVbJnla3EaO4xrInH9Xlfhyz8Be2GSkcz+Q/9nucQZ3w4YYodkWHO+Jj3r/9w+uvgqpmjLUcA4b4STgX7mHY3N+w3q/1zss+7iiomRZstBP3UtTHoHC6G0PDD7jiGqJqVIVoT81K60XA3rg0kR3s7dEeQiTHgGaFNHdndeU7g=
+	t=1788513907; cv=none; b=TzzF8iQckSOmJic46rMp1QK0I8RH9hpXyD4o/rRE0sd+62GsTrJP7WBgY8mtkGO3AthoM29NGBc3l8v3uVVDgNqhbVdLENHNNEHfUuWQIaA4ZScKqsVYE2AerZA2UXk53e2Mq2EycZvwrrz/T9iSGOBE1wOYf8TOXrq2bkoDFEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788511486; c=relaxed/simple;
-	bh=dBf9woEenUcrdHpAE9+HbQwGhboCEhnqgSoXFFUAH9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GgxPxou8wAZ4tqZlr3XKg8oh0jKssfVUS630zihBxvq5WwtdusbqucaZTqfddnT2jHtN1nBXAnAABWSqPdSaQ4cCVCMk5PF/ObSph6QqfEyCLKDIiG/MumSJXgXrWdnmY2ZieBVcFRWUhdiTkwgl84TQ5fTEJA00TWUwyXni3gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=StfAra5I; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1788513907; c=relaxed/simple;
+	bh=2X6NTd5o5cahP7ikmbjYlSQ9HSpozpUrhg4lY0w+n/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cl37FoXhK4UhJA5oqxWJEK2H76PjlFJP5NmIZ6cwg3GnlVed22Muu+o4vy568h6s52xcC/Q7Ly4W4r2eeX5vyO3e8ibJRiOHgC26lDYEGbkS4dxVYf568rJ2R1EUHwBI93zeBB40JakaGs/m21pzLZHq9bdp8RIOS9SrhFYnWoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=U+kq1KNr; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="StfAra5I"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-39b2ad862bdso491485a91.2
-        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 01:44:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="U+kq1KNr"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49ccfae359fso6045465e9.3
+        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 02:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788511484; x=1789116284; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7ZE0hpHw4voLLfSdVdvFiuLaZ8hcT2SD2vYw6zXNC1k=;
-        b=StfAra5IrYqVdSlCHczGSOzFXY4HDgRksGxIN2u0j90sfbAuKlJ0AtIlfgh1igtXd1
-         lOsHOgIuf0JUM9VKYznZcwqhaSOq3MuHDU45WgJbydbpH4TGRVHZokjNPr9dj+p1ugiy
-         CJurTeiv1eLyIRVNoIHTqdM3RH3AQhwKH02us=
+        d=suse.com; s=google; t=1788513903; x=1789118703; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=juEQFS8o8HO1Is63IJWO2O6D58EgoESYis0VW0w9IIA=;
+        b=U+kq1KNrOgWCTBlpfS5PSXWBlU0LXR02egKpa2gQQxZaHc53ZmO9unamHchhGu1GWD
+         ULlkJ7YPP+FoHi5lhelbMXY1gq69usTG+RGqXTPCaHLTLRhnY6Wzb+7OA2iL7a0kNUxY
+         4etajvBEQ5tTQA3BwLjjyRKzfQ4Ol37CSD2O5oOFPPnLAj4JyIyB4Af+Q7hO/lsA+yAw
+         qFmNg5a4jD471U1u7PoN8wDmfL28TocF+Sr+s8zRPg446HLZMcgQh2vW8NBZIIKKbVHx
+         ZMOMu1DEwFX835kPxw6fjT3njdn8rEvCrERQ8Uvd7F8iiqiwNogTJwP3bBrmotvzYsnD
+         Dw+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788511484; x=1789116284;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7ZE0hpHw4voLLfSdVdvFiuLaZ8hcT2SD2vYw6zXNC1k=;
-        b=lWPglwdb0d5i/9LtK6mSl2bnJ9z4bYbIRVQR73sJFNJjXUC5OMu6A18PuJbnkcrvMD
-         /uyEfzkz0627Vn3z4Ja+nhmdTqhaWJk9quzIscppewk575DqRB0sGbk3c+YiadSJKClJ
-         /YX63blSZwn7q0PrO0GhBGTUSK44IvMWcWM3pBAIN7Ze6QUitqi4lgHZPEdCYyJ1+P5p
-         iT5OLvEsuFUJ/WNDonSv24T3fQ2F/p9kqZbPEWzrwQJVe+V4MW7V9bG/6EeB//099OJ5
-         GEyvS+WbKXQaAgP7x4dGiSsfPrUiYA1FVHzEf0qdyzlnqDQ0fIRSJlwl6rcL9fDWZ5VO
-         lWIg==
-X-Forwarded-Encrypted: i=1; AKwUvBw5usOavlXgN/mxT0C+mtkuosrE1hCLjWXU4y7D05QsW5phjNMIgPH5+g1iXnUZoYry34dcyLCKJQNifQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mUOFMAPRSJ8uUtNHGG2DVHBOSD64nIZAyaKA7v0KfaEswALPhP
-	VyhgSa/x9aXkoOgftSjFFNl4oVhULku0IbCC8cETUxYcWxw3skWfBFLm81FWgISHTA==
-X-Gm-Gg: AYBFou1FS6XzKb+ljqSV58Y6L7x6y+1l1kK7SKKsrMU7yY/zT/Rj4lvU+sE0rStV7Q4
-	/You4t3eI9Ju+v5lcX6zykshjN3Xv/vf6iAgF0IB0hh5z5uADmn8NHaZZ9w24+6V9sJJ2FTY0dI
-	qV9JqX06wXnd63uED4zp44KwyY7gtRB9fObk/gXKcu+AQn3wIUtXVEKtiIM4z0IOD49zVNSP1IF
-	DNf3BvvNrKt3KLK55jE3e3z7Bpb2sAcL23ZtOEovbCkaX8CBwcsZhFAPQlVEEN5Lve0i0f6Vpza
-	fgwORUtwejYuSLgzoadDhvMw/gRak2YLTjQE2seUEIX3NPiR9LadHFbnfBC2gdmHcGv+F8JT6mi
-	X9r59zEWiQNSbE6VAEUbjwIxyocm1AUAHbc6ypmHf7h2g98PPBtjenQuC86lu6VrBzgG1tPNuDg
-	pTSJh9ICLchwPrg6+107xuBbOL849QPnlfqrOZSIuoOECzyNfKIGiTFEP90wgt6duh0VRm9GW9F
-	SWlpVvU6p/s4FFDeJYJ8uTaO9ri7oK7mTTVml38YI8g
-X-Received: by 2002:a17:90b:1c8b:b0:398:9bd5:490c with SMTP id 98e67ed59e1d1-39b26214502mr5922699a91.19.1788511483659;
-        Fri, 04 Sep 2026 01:44:43 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:343:bf21:3095:9c5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 01:44:43 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v8 16/16] arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
-Date: Fri,  4 Sep 2026 16:41:55 +0800
-Message-ID: <20260904084158.1341550-17-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
-In-Reply-To: <20260904084158.1341550-1-wenst@chromium.org>
-References: <20260904084158.1341550-1-wenst@chromium.org>
+        d=1e100.net; s=20251104; t=1788513903; x=1789118703;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=juEQFS8o8HO1Is63IJWO2O6D58EgoESYis0VW0w9IIA=;
+        b=dLXGPmpLyz9ENoYDk95z1HWoqhyZtZ9F3MjC0YMg39ifD0/nSeO+X8LpAPotaqDx8E
+         fY8R7uKrW1N/Td1WgXAo3h/6yT7FQn2VKoYS6vxUJH6JiGM+nnmD1d8dbgtboHy68KO/
+         veYJCdC8N2c2aCPVC24LhEYEd2lXUZ9S1O3s0DxCrVXIlvhtxbEwZnI6KZaDQKudSEIC
+         N6lY7X8O8fG43R1k3mLjBNQPds7H8ndiQLaf0xEyldEQGKDC/NlPQDyjJ6P10P27wxxE
+         4QwLMMFlvBDozVJ38FlVIAt4JNxN72FFzJ5Cj+dDiQ3cImkJiw2vLDOW9ekIBUeh1lyT
+         kd0w==
+X-Forwarded-Encrypted: i=1; AKwUvBzz3AI8e/sh90pT6c137SX/tWkm5JIti7i2eWPrBykG4ygPgui1wyVgNQ21wd9qDhVf/TldH/WtyZVjsw==@lists.linux.dev
+X-Gm-Message-State: AFuF++nbP2FE7EUQeqLacnD5DLPaKpc66XEFNImKB3JNtQjf0qRs4d/a
+	19RsM19CBqnS5rlrzhXUjB3zl/CoMkOdHGI7E0HlGFpEi+IZeA1FYzg5uUjXOP37cMU=
+X-Gm-Gg: AYBFou0DOH3EJZAGly/4C/tQukSRIY2PyqqyEH9YbJxdKzqhm0MJHoym0y92jSzskob
+	g/o1+VOTRXtO4GhYjQFPDykpYNoxMQadAqTcomHyxzgQNiuy56/S4hFG1j5SYHnZclx5ADRL5oZ
+	lnpJGVnpFBlVThWPqcFe8G2sxCWHxKVXjzdN9DDWdkR5qO6EsYiifUjXYvj8jmHqf6YNwT2TBso
+	XqTngU/ATA/XXMqCcYs0958SRtA0nKr3Kf29pX7UgqkdrY/NwgwZO1lRISNsU8A0D0/W8Ufo7E6
+	VyZumcEjjwdY1zDmkudVa2WfGB2u01HSk5JGHkFdhW7eKOCO5nJf7rEhc9ZXIfVS0MVR+kEIj5U
+	ZOB6CzyWvQFI07soGNaCWx1aknEdb9RBl82Wq7sixk173KPsvsVujJ1aIsr0QiqFQtPLnMsXIEB
+	aBx60sMu4gt03KUEXQzicwcha+QTUoqRyJ/hmbbHcjtZWlsvaimK1NYaPKreg5bXJBZSeuS8p74
+	FkdlDZ92xa7UVN5dHBAnOYi+QZ1YXFchfA=
+X-Received: by 2002:a05:600c:474a:b0:499:79b9:e220 with SMTP id 5b1f17b1804b1-49cf825d722mr44304815e9.10.1788513903166;
+        Fri, 04 Sep 2026 02:25:03 -0700 (PDT)
+Received: from ?IPV6:2a07:de40:8100:0:fc6c:f9a2:4a0a:6354? ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf770fcf5sm52989345e9.6.2026.09.04.02.25.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Sep 2026 02:25:02 -0700 (PDT)
+Message-ID: <a79a6a06-cc48-4036-882d-95e9b4cc01cf@suse.com>
+Date: Fri, 4 Sep 2026 11:25:01 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] module: pull out add_taint_module() to be public
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>
+References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
+ <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260904-bind_taint-v3-1-30025465f38a@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The MT8188 Geralt design features a chip-on-board WiFi/BT solution. This
-is a M.2 E-key WiFi/BT board layout directly inserted into the mainboard
-design. The connections to the rest of the board are almost the same as
-if it were a separate M.2 card. The only addition is the PMU_EN pin on
-the chip; on M.2 cards this would be tied to the primary power source.
+On 9/4/26 7:10 AM, Greg Kroah-Hartman wrote:
+> Other kernel code might want to call add_taint_module() so pull it out
+> and make it global.  If modules are not enabled, this defaults to a call
+> to add_taint(), so all is fine.
+> 
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Tested-by: Johan Hovold <johan@kernel.org>
+> Reviewed-by: Bradley Morgan <brads@mainlining.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  include/linux/module.h | 10 ++++++++++
+>  kernel/module/main.c   | 16 +++++++++++++---
+>  2 files changed, 23 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index 96cc98568eea..f6f90cd88f15 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -29,6 +29,7 @@
+>  #include <linux/srcu.h>
+>  #include <linux/static_call_types.h>
+>  #include <linux/dynamic_debug.h>
+> +#include <linux/panic.h>
 
-Model the chip-on-board WiFi/BT solution as a M.2 E-key slot with PCIe,
-USB and auxiliary signals. The PMU_EN pin, which enables the internal
-power controls and regulators, is modeled as a regulator fed by the
-pp3300_wlan regulator. Since power sequencing is now correctly modeled
-using the M.2 E-key slot, drop the "regulator-always-on" property one
-pp3300_wlan regulator. Also drop the comment in xhci2 saying "MT7921's
-power is controlled by PCIe".
+Note that I'm working on cleaning up linux/module.h to reduce its
+preprocessed size. The main motivation is to shorten the compilation
+time of all the small *.mod.c files. Since linux/module.h already
+includes linux/panic.h indirectly, adding this include explicitly seems
+fine to me for now. In the future, I think we should introduce something
+like kernel/module/stubs.c where the CONFIG_MODULES=n variants of
+add_taint_module() and other similar functions can live without bloating
+linux/module.h.
 
-Also drop the voltage range on the pp3300_wlan regulator. This
-"regulator" is just a load switch and does not provide any regulation.
+>  
+>  #include <linux/percpu.h>
+>  #include <asm/module.h>
+> @@ -770,6 +771,9 @@ static inline bool is_livepatch_module(struct module *mod)
+>  
+>  void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data);
+>  
+> +void add_taint_module(struct module *mod, unsigned flag,
+> +		      enum lockdep_ok lockdep_ok);
+> +
+>  #else /* !CONFIG_MODULES... */
+>  
+>  static inline struct module *__module_address(unsigned long addr)
+> @@ -877,6 +881,12 @@ static inline bool module_is_coming(struct module *mod)
+>  static inline void module_for_each_mod(int(*func)(struct module *mod, void *data), void *data)
+>  {
+>  }
+> +
+> +static inline void add_taint_module(struct module *mod, unsigned flag,
+> +				    enum lockdep_ok lockdep_ok)
+> +{
+> +	add_taint(flag, lockdep_ok);
+> +}
+>  #endif /* CONFIG_MODULES */
+>  
+>  #ifdef CONFIG_SYSFS
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index d0e1e0bd2ad0..444d990c9983 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -191,11 +191,21 @@ static inline int strong_try_module_get(struct module *mod)
+>  		return -ENOENT;
+>  }
+>  
+> -static inline void add_taint_module(struct module *mod, unsigned flag,
+> -				    enum lockdep_ok lockdep_ok)
+> +/**
+> + * add_taint_module: add a taint flag if not already set for a specific module
+> + * @mod: pointer to the module that caused the problem
+> + * @flag: one of the TAINT_* constants.
+> + * @lockdep_ok: whether lock debugging is still OK.
+> + *
+> + * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> + * some noteworthy-but-not-corrupting cases, it can be set to true.
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v2:
-- Drop default GPIO output state from kill pins pinconfig
----
- .../boot/dts/mediatek/mt8188-geralt.dtsi      | 92 ++++++++++++++++++-
- 1 file changed, 88 insertions(+), 4 deletions(-)
+Nit: The final paragraph is mostly copied from the description of
+add_taint() but I don't think it is quite right. The parameter name
+should be lockdep_ok, not lockdebug_ok and the values are
+LOCKDEP_STILL_OK / LOCKDEP_NOW_UNRELIABLE, not true / false.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-index dee946309121..73b5c0fdeae6 100644
---- a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-@@ -88,13 +88,11 @@ pp3300_z1: regulator-pp3300-z1 {
- 	pp3300_wlan: regulator-pp3300-wlan {
- 		compatible = "regulator-fixed";
- 		regulator-name = "pp3300_wlan";
--		regulator-always-on;
--		regulator-min-microvolt = <3300000>;
--		regulator-max-microvolt = <3300000>;
- 		enable-active-high;
- 		gpio = <&pio 12 GPIO_ACTIVE_HIGH>;
- 		pinctrl-0 = <&wlan_en>;
- 		pinctrl-names = "default";
-+		/* load switch */
- 		vin-supply = <&pp3300_z1>;
- 	};
- 
-@@ -161,6 +159,17 @@ ppvar_mipi_disp_avee: regulator-ppvar-mipi-disp-avee {
- 		vin-supply = <&pp5000_z1>;
- 	};
- 
-+	/* PMU_EN pin controls internal regulators and power sequence */
-+	wlan_pmu: regulator-wlan-pmu {
-+		compatible = "regulator-fixed";
-+		regulator-name = "wlan-pmu";
-+		enable-active-high;
-+		gpio = <&pio 145 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&wlan_pmu_en>;
-+		pinctrl-names = "default";
-+		vin-supply = <&pp3300_wlan>;
-+	};
-+
- 	reserved_memory: reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -195,6 +204,39 @@ adsp_dma_mem: memory@61000000 {
- 			no-map;
- 		};
- 	};
-+
-+	wifi-bt-connector {
-+		compatible = "pcie-m2-e-connector";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&m2_e_key_kill_pins>;
-+		vpcie1v8-supply = <&mt6359_vcn18_ldo_reg>;
-+		vpcie3v3-supply = <&wlan_pmu>;
-+		w-disable1-gpios = <&pio 13 GPIO_ACTIVE_LOW>;
-+		w-disable2-gpios = <&pio 14 GPIO_ACTIVE_LOW>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			/* PCIe for WiFi */
-+			port@0 {
-+				reg = <0>;
-+
-+				wifi_ep: endpoint {
-+					remote-endpoint = <&pcie_ep>;
-+				};
-+			};
-+
-+			/* USB for Bluetooth */
-+			port@2 {
-+				reg = <2>;
-+
-+				bt_ep: endpoint {
-+					remote-endpoint = <&usb2_ep>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &adsp {
-@@ -659,6 +701,22 @@ &pcie {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pcie_pins>;
- 	status = "okay";
-+
-+	pcie@0 {
-+		compatible = "pciclass,0604";
-+		reg = <0 0 0 0 0>;
-+		device_type = "pci";
-+		num-lanes = <1>;
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		port {
-+			pcie_ep: endpoint {
-+				remote-endpoint = <&wifi_ep>;
-+			};
-+		};
-+	};
- };
- 
- &pciephy {
-@@ -1002,6 +1060,13 @@ pins-bus {
- 		};
- 	};
- 
-+	m2_e_key_kill_pins: m2-e-key-kill-pins {
-+		pins-kill {
-+			pinmux = <PINMUX_GPIO13__FUNC_B_GPIO13>,
-+				 <PINMUX_GPIO14__FUNC_B_GPIO14>;
-+		};
-+	};
-+
- 	mipi_disp_avdd_en: mipi-disp-avdd-en-pins {
- 		pins-en-ppvar-mipi-disp {
- 			pinmux = <PINMUX_GPIO3__FUNC_B_GPIO3>;
-@@ -1174,6 +1239,13 @@ pins-bus {
- 		};
- 	};
- 
-+	wlan_pmu_en: wlan-pmu-en-pins {
-+		pins-wlan-pmu-en {
-+			pinmux = <PINMUX_GPIO145__FUNC_B_GPIO145>;
-+			output-low;
-+		};
-+	};
-+
- 	wlan_en: wlan-en-pins {
- 		pins-en-pp3300-wlan {
- 			pinmux = <PINMUX_GPIO12__FUNC_B_GPIO12>;
-@@ -1417,10 +1489,22 @@ vdosys1_ep_ext: endpoint@1 {
- };
- 
- &xhci2 {
--	/* no power supply since MT7921's power is controlled by PCIe */
- 	/* MT7921's USB BT has issues with USB2 LPM */
- 	usb2-lpm-disable;
- 	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			usb2_ep: endpoint {
-+				remote-endpoint = <&bt_ep>;
-+			};
-+		};
-+	};
- };
- 
- #include <arm/cros-ec-keyboard.dtsi>
+I suggest updating this part for both add_taint() and add_taint_module()
+to something like:
+
+ * Use @lockdep_ok = LOCKDEP_NOW_UNRELIABLE if something serious has gone wrong.
+ * For noteworthy but non-corrupting cases, use LOCKDEP_STILL_OK instead.
+
+> + */
+> +void add_taint_module(struct module *mod, unsigned flag,
+> +		      enum lockdep_ok lockdep_ok)
+>  {
+>  	add_taint(flag, lockdep_ok);
+> -	set_bit(flag, &mod->taints);
+> +	if (mod)
+> +		set_bit(flag, &mod->taints);
+>  }
+>  
+>  /*
+> 
+
+Otherwise, this looks ok to me. Feel free to add:
+
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
 -- 
-2.55.0.979.g7e5102b832-goog
-
+Thanks,
+Petr
