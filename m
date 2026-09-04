@@ -1,61 +1,61 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAFF3EAC71
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 08:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B04C3B1EF2
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 08:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788511436; cv=none; b=MsOTJ/QjnXQ/bTLdXo70DsOv88yry5S+PmSqPo4yBcm1pzHcGHgz06PvL7dL2x0ZIrl3QWvmGg5wuwci/ttVnSjh3YtMs//uFjeXgCvS3ToErgn0yRp/vh1OxbRM8SjvPrH/ZL3wbXi8ApZzD/m15/PcBJptnYlC1DQJW17MnkA=
+	t=1788511447; cv=none; b=gsLCXFh1H59odFgh7+PV1heLO1v3xFLBjm0HRPVNHp+UY+cxLr6/neN52EkQ9x2OREMr6QbDOD+loluhLp/9FNqH3aX7c2zZLUK37AuN5yDJh73nEtTCUFL182Bi/maha/2oquK8v3QmCjBUSBQZKwaxHOZg9/p6UXhNgPAQ7HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788511436; c=relaxed/simple;
-	bh=iO3DF4u+63xTtKP4FxOejaFf7KwQ2Ou9YoxBchLW4e0=;
+	s=arc-20240116; t=1788511447; c=relaxed/simple;
+	bh=mVnW+34H8pDaAYsu6do3l4kmcFOsUXTOE/2T16cFwQo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eBaCMmF4LZsbL/rPtWiWajzD+kGEVTQD4a89e/QqOR0PBrDmp35FmMRJcM3NafrseiYjjlvTHIE0VeJOOjqduMFw8m/n6km8YQJZee/zTAl5449j0CqZHcThes1yg3Qp0zrOqDaDgwytTbtIuBWNBH0Tpy5KGxX6oDa/oA4Gb3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FA6VeukX; arc=none smtp.client-ip=209.85.216.47
+	 MIME-Version; b=H/PV203eD8hAwFH2NyXV1vDWQFsi/IA8g/5Pmn37+l5XgyimTTAFzuTIysC0mtt+SZ3CGQ5Kliu21Z6Y0TgHOx4hg7l+EyKmxgP21+2S+Usxm0u9LR/SAMKWKltpjKRFZYQaVP9rfVRARLz6EnemFRp2JxLCeafUW4RUvaocLnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=By4PO3qk; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FA6VeukX"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3964dfb5b9aso972008a91.1
-        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 01:43:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="By4PO3qk"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso681833a12.1
+        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 01:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788511431; x=1789116231; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1788511440; x=1789116240; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7FkHDnS01ZrIUIFEZvu4Ez5qiW1Xnkoau5FbL5ZwNaU=;
-        b=FA6VeukXWyGPuogQeISKM6LMRn1QI6tHxamTHIB4Bw6U8+bDr/aW92GJwk0bdEwajJ
-         BmLZ9N79YsVK0dPrfRxjh8Gs/BbOeguHQNg4mbYmUlG1vhwIm54etgPQ2gSGZdnW+gT0
-         uYLiz9cTVyz9mqME0fse/QhzW58sB2lKgbwjc=
+        bh=KKk9MsFCuRaE3YN06XOCWIV3dU/ufhZe2dVPkS7i8qI=;
+        b=By4PO3qkJcd0S8nqx3XUKwvOFQ3oDJIcHx8o8caBWrQKndZ7tf6CAJ/uVUj8MCt1sZ
+         D6+TlOi+a7Qm70kIWYPFmqla7n8kmf/6C8tLoqUgz9xXH0SXO8uMbYFv2Sj5DA0Pb/oO
+         SVf7Wxm9KyhNCF3rC/oR/f8ZmKaTAx/vQjMpU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788511431; x=1789116231;
+        d=1e100.net; s=20251104; t=1788511440; x=1789116240;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7FkHDnS01ZrIUIFEZvu4Ez5qiW1Xnkoau5FbL5ZwNaU=;
-        b=MW5t57KEpfgUVYtts5IbJy8PDWuK+0vIW1Zv3PmCOT3WO766aQZ+3+VCjrsnzmQJtp
-         /TkrTQ3/25FoUei3+xdY75kwO0ARsUKULHaVywesWRLt3H32kGe5ez7d3Tx4M1YoBIu+
-         //guwJEhIJ4NHuHY7BVXbhBpW1m6eD0X65NayzFPwcEwQpCGYn1YKsTbIQ7HGd0v5pk5
-         XHZYXDCbbBoNgr6wUZZfIyT9gyad/ktlBe/VQR1nxtgUKuFpXTstxp101yNDUmmgwnX+
-         +0IVnfaXjTHeeO9i6Xz9uApWG9Py+N1HWXjxwg8S6D10LBRTEu57NVp5exuGx2MPMyJ0
-         mfPg==
-X-Forwarded-Encrypted: i=1; AKwUvByDAXb43DFFibNBNlS/qlTfzDOBvqPmtA+iPLRI4jxMtqeiii42iCVw44oJ61BQPSxcOHmN5L/xL+jPDQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lt4Tr0CpSG0ZyHWQdQhfxvlabuO6Le8sjdSzmKuiLtH8IZzFWJ
-	/+hbHz96w3Yc1M95GGFmm2SM4iXXNUE96ajVtJVbVu+j/GeQUzrvgT+LROTvvBgKrA==
-X-Gm-Gg: AYBFou1JLeRh0vaQshvVW6NA6mxzWPK5jMQSaqiY7l/KBtv5t+6SP8MzrhMot8azYmQ
-	wjXOV6HjW3qfOIfG+M2yt3Z2AJ4W17qziwW4qZkyK7lCE7YHV9cAfF+z5Cp9qca1/QrwHuuA5vA
-	ZpPdIkyfctPlQ8S0aeZMg0OU6onuBS1AQMzST4CAsAyKw3T+wBzAPmkv1rbA44PHb8tXXCHOXLD
-	WDiePA6bqTKG7XirK33g8gsGLmrff+KXFBR+ncThGXIlfFAOUOIAYpeoogM0d+yY23X+CO/h22p
-	7ifrwt3srX8ybm/sxnXOVWiOrY9R1ChWhlUePIdYeVn3JBhz+NjjDUcJzkGWRU8sFGbnln4Tp3q
-	7xSAZ3fpv4skg8JnftHRtJUh4J0R9/8vuFFdNpjnmK6+uezEsXvz/sQoh6OkKyzbDLp0aAuMlmS
-	HciiAet/3M3c+c6NilVUS4gISMrJ/CUCJrbHGiJrFvSmVDqN/G8bBoLHPglgKTZ2ElNFiXTx2rd
-	XCsATClZUIbya3bMeLnORAvXhdrp2FQsAEq4y47TbfONvXL8RRz5Bk=
-X-Received: by 2002:a17:90b:264c:b0:36b:bec8:94c5 with SMTP id 98e67ed59e1d1-39b2612f7dbmr7487531a91.10.1788511431512;
-        Fri, 04 Sep 2026 01:43:51 -0700 (PDT)
+        bh=KKk9MsFCuRaE3YN06XOCWIV3dU/ufhZe2dVPkS7i8qI=;
+        b=PEG+rpMtEF74Dy8pRMdHNP/3p8//++HWuTCW8p40V6mr/IQMpIDxTXP6TY2RjXBOOX
+         xeErUM7YGUP9wl3Wmd2vY1fQRfcRmum7lMVB8ILgnq0tw1d0Jq3uoZgKzBafSU+kUXsl
+         u3SpmGHn4Mxu5Rf2iGhy+ZdtP9dFywepPkoAIydk0/OrHWh0v5UQJTU/CT0qloVcGFBr
+         y6UTJdp5yr8amcUINkHpXDtDLH2uFXxTGKdSbujGrE2vdUbMrmenP9rUXJmG+58+nRdL
+         B7NwI+v+suL6WV3Y3gLATaGPa1AMgK5TUUrruVqP8p8anFXlZVOgh96dK8j/jykZiQ40
+         4OnA==
+X-Forwarded-Encrypted: i=1; AKwUvBxLZnM2P+8rgQqmA0MVJ4EIwqHBs+OU0XzURKy3cV8O35gj0jChJ/MDCHUQIXQ/lI3nWraMLbAff7OZ0A==@lists.linux.dev
+X-Gm-Message-State: AFuF++kPTWjwFFcM+ybS2uypQMmrl5TsnkOWnUp+YEOMc5QhuFMyy/6d
+	RlO4XAnkMk2s2CVa1UCrAgTieFE+/JvG0k/o6e1HoAV+NEHYrunC8wMUBurUdhmjZQ==
+X-Gm-Gg: AYBFou0t2/m0tsL78csXPd3ar8ougJVU8BCjhYSTJE8D46A4hBtrSzbvJoaseEWv0Rd
+	N1kf3x5yYPQZtaw/qflOn/R4Os0TC57ePamVL1ug9XoHT5A1jl694H248OP3Bb7P+/kwVhQwSdg
+	AB4/grrDrI722mCFEmDWHDOczg5zJ7YxUTqjHCMu451jdpx3yJpDxOswah2mWy7B+itfmeziAsY
+	1iaT1fhayuusnuyyR8nzi71gV5TwhcVu7RdTH1uTFvnWBoKHtj9LSkJHGPQ+w77KwWnosa6x8XF
+	XovM0v8u3c7PpeL2u/RdTnYAqcSVI33iOtYNCd0dfvtd18us6lDvXOcOX9vPueE2e1GV73toJdI
+	Ws44+GsYPmDOTZh+yMQhWGMOp4auif9/+N9Oqm37xSDS0UXsTyqWdG98EuttosJCBTh56biIkkg
+	rqjkYdrsJEz0E3l5b9xhEAAVJkzxU3w0/npcrnzZJonVYfZ5JwI/QIjim+14GiA4p+roODFmUMN
+	4lWkSVngsuki8r3YHcvTsk6HueJ/8S1zNBaJidAM0Hx
+X-Received: by 2002:a17:90a:d004:b0:398:c9be:cca8 with SMTP id 98e67ed59e1d1-39b2609f363mr7918987a91.2.1788511436740;
+        Fri, 04 Sep 2026 01:43:56 -0700 (PDT)
 Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:343:bf21:3095:9c5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.43.07
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.43.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 01:43:11 -0700 (PDT)
+        Fri, 04 Sep 2026 01:43:56 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Bartosz Golaszewski <brgl@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -84,9 +84,9 @@ Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
 	Manivannan Sadhasivam <mani@kernel.org>,
 	Alan Stern <stern@rowland.harvard.edu>,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v8 06/16] usb: hub: Associate port@ fwnode with USB port device
-Date: Fri,  4 Sep 2026 16:41:45 +0800
-Message-ID: <20260904084158.1341550-7-wenst@chromium.org>
+Subject: [PATCH v8 07/16] usb: core: Move struct usb_port and related APIs to port.h
+Date: Fri,  4 Sep 2026 16:41:46 +0800
+Message-ID: <20260904084158.1341550-8-wenst@chromium.org>
 X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
 In-Reply-To: <20260904084158.1341550-1-wenst@chromium.org>
 References: <20260904084158.1341550-1-wenst@chromium.org>
@@ -98,99 +98,241 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a USB hub port is connected to a connector in a firmware node
-graph, the port itself has a node in the graph.
+|struct usb_port| and its matching container_of() macro should live in
+its own port.h, matching the split we have for .c files.
 
-Associate the port's firmware node with the USB port's device,
-usb_port::dev. This is used in later changes for the M.2 slot power
-sequencing provider to match against the requesting port.
+Move them as described. Also move usb_port_is_power_on(), since in the
+next change its |struct usb_hub *| parameter will be changed to
+|struct usb_port *|, and becomes a non-static function that only
+references |struct usb_port|.
 
-To avoid potential conflicts with ACPI firmware nodes and then causing
-power management issues, only assign the firmware node if the hub's
-firmware node is not an ACPI firmware node.
+port.h is only included from hub.h, as a subsequent patch will directly
+use fields from |struct usb_port| in a static inline helper in hub.h.
+The USB internal headers don't have header guards to help with this.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Also drop 'extern' from the header declaration of usb_port_is_power_on().
+This is not needed in modern C.
+
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
-Changes since v5:
-- Added extra |struct fwnode_handle *| local variables to shorten lines
-  (Andy)
-- Added comment about passing fwnode_graph_get_port_by_id() return value
-  directly to device_set_node() (Andy)
-
 Changes since v4:
-- Dropped unused |hdev| variable
-- Added flags for fwnode_graph_get_port_by_id() with
-  FWNODE_GRAPH_DEVICE_DISABLED so that even incomplete
-  ports can be connected
+- Dropped 'extern' (Andy)
 
 Changes since v3:
-- Added missing fwnode_handle_put()
-
-Changes since v2:
-- Skip assignment if hub firmware node is ACPI node
+- New patch (Andy)
 ---
- drivers/usb/core/port.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/usb/core/hub.c  | 16 ----------
+ drivers/usb/core/hub.h  | 48 ++---------------------------
+ drivers/usb/core/port.c | 16 ++++++++++
+ drivers/usb/core/port.h | 68 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 86 insertions(+), 62 deletions(-)
+ create mode 100644 drivers/usb/core/port.h
 
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index c19c9912c740..7f58d753d77a 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -3243,22 +3243,6 @@ static bool hub_port_stop_enumerate(struct usb_hub *hub, int port1, int retries)
+ 	return port_dev->ignore_event;
+ }
+ 
+-/* Check if a port is power on */
+-int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus)
+-{
+-	int ret = 0;
+-
+-	if (hub_is_superspeed(hub->hdev)) {
+-		if (portstatus & USB_SS_PORT_STAT_POWER)
+-			ret = 1;
+-	} else {
+-		if (portstatus & USB_PORT_STAT_POWER)
+-			ret = 1;
+-	}
+-
+-	return ret;
+-}
+-
+ static void usb_lock_port(struct usb_port *port_dev)
+ 		__acquires(&port_dev->status_lock)
+ {
+diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+index 9ebc5ef54a32..de524c6da9fc 100644
+--- a/drivers/usb/core/hub.h
++++ b/drivers/usb/core/hub.h
+@@ -15,7 +15,9 @@
+ #include <linux/usb/ch11.h>
+ #include <linux/usb/hcd.h>
+ #include <linux/usb/typec.h>
++
+ #include "usb.h"
++#include "port.h"
+ 
+ struct usb_hub {
+ 	struct device		*intfdev;	/* the "interface" device */
+@@ -78,51 +80,6 @@ struct usb_hub {
+ 	struct list_head        onboard_devs;
+ };
+ 
+-/**
+- * struct usb port - kernel's representation of a usb port
+- * @child: usb device attached to the port
+- * @dev: generic device interface
+- * @port_owner: port's owner
+- * @peer: related usb2 and usb3 ports (share the same connector)
+- * @connector: USB Type-C connector
+- * @req: default pm qos request for hubs without port power control
+- * @connect_type: port's connect type
+- * @state: device state of the usb device attached to the port
+- * @state_kn: kernfs_node of the sysfs attribute that accesses @state
+- * @location: opaque representation of platform connector location
+- * @status_lock: synchronize port_event() vs usb_port_{suspend|resume}
+- * @portnum: port index num based one
+- * @is_superspeed cache super-speed status
+- * @usb3_lpm_u1_permit: whether USB3 U1 LPM is permitted.
+- * @usb3_lpm_u2_permit: whether USB3 U2 LPM is permitted.
+- * @early_stop: whether port initialization will be stopped earlier.
+- * @ignore_event: whether events of the port are ignored.
+- */
+-struct usb_port {
+-	struct usb_device *child;
+-	struct device dev;
+-	struct usb_dev_state *port_owner;
+-	struct usb_port *peer;
+-	struct typec_connector *connector;
+-	struct dev_pm_qos_request *req;
+-	enum usb_port_connect_type connect_type;
+-	enum usb_device_state state;
+-	struct kernfs_node *state_kn;
+-	usb_port_location_t location;
+-	struct mutex status_lock;
+-	u32 over_current_count;
+-	u8 portnum;
+-	u32 quirks;
+-	unsigned int early_stop:1;
+-	unsigned int ignore_event:1;
+-	unsigned int is_superspeed:1;
+-	unsigned int usb3_lpm_u1_permit:1;
+-	unsigned int usb3_lpm_u2_permit:1;
+-};
+-
+-#define to_usb_port(_dev) \
+-	container_of(_dev, struct usb_port, dev)
+-
+ extern int usb_hub_create_port_device(struct usb_hub *hub,
+ 		int port1);
+ extern void usb_hub_remove_port_device(struct usb_hub *hub,
+@@ -138,7 +95,6 @@ extern int usb_clear_port_feature(struct usb_device *hdev,
+ 		int port1, int feature);
+ extern int usb_hub_port_status(struct usb_hub *hub, int port1,
+ 		u16 *status, u16 *change);
+-extern int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus);
+ 
+ static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
+ {
 diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index b4452b665f59..c0a51d9b06a6 100644
+index c0a51d9b06a6..b2e953f137f8 100644
 --- a/drivers/usb/core/port.c
 +++ b/drivers/usb/core/port.c
-@@ -7,6 +7,7 @@
-  * Author: Lan Tianyu <tianyu.lan@intel.com>
-  */
+@@ -22,6 +22,22 @@ static int usb_port_block_power_off;
  
-+#include <linux/acpi.h>
- #include <linux/kstrtox.h>
- #include <linux/slab.h>
- #include <linux/string_choices.h>
-@@ -358,6 +359,11 @@ static void usb_port_device_release(struct device *dev)
- {
- 	struct usb_port *port_dev = to_usb_port(dev);
+ static const struct attribute_group *port_dev_group[];
  
-+	/*
-+	 * At this point ACPI nodes and swnodes have been removed by
-+	 * device_platform_notify_remove() in device_del().
-+	 */
-+	fwnode_handle_put(dev_fwnode(dev));
- 	kfree(port_dev->req);
- 	kfree(port_dev);
- }
-@@ -754,6 +760,7 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
- {
- 	struct usb_port *port_dev;
- 	struct usb_device *hdev = hub->hdev;
-+	struct fwnode_handle *fwnode = dev_fwnode(&hdev->dev);
- 	int retval;
- 
- 	port_dev = kzalloc_obj(*port_dev);
-@@ -782,6 +789,24 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
- 	port_dev->dev.driver = &usb_port_driver;
- 	dev_set_name(&port_dev->dev, "%s-port%d", dev_name(&hub->hdev->dev),
- 			port1);
++/* Check if a port is power on */
++int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus)
++{
++	int ret = 0;
 +
-+	/*
-+	 * ACPI FW nodes are associated later when device_register() happens.
-+	 * Skip assigning one here to avoid potential conflicts.
-+	 */
-+	if (!is_acpi_node(fwnode)) {
-+		struct fwnode_handle *port;
-+
-+		/*
-+		 * fwnode_graph_get_port_by_id() returns either a valid fwnode handle
-+		 * or NULL. Passing NULL to device_set_node() clears any associated
-+		 * fwnode. It is effectively a no-op here, since no fwnode has been
-+		 * assigned to the newly created device yet.
-+		 */
-+		port = fwnode_graph_get_port_by_id(fwnode, port1, FWNODE_GRAPH_DEVICE_DISABLED);
-+		device_set_node(&port_dev->dev, port);
++	if (hub_is_superspeed(hub->hdev)) {
++		if (portstatus & USB_SS_PORT_STAT_POWER)
++			ret = 1;
++	} else {
++		if (portstatus & USB_PORT_STAT_POWER)
++			ret = 1;
 +	}
 +
- 	mutex_init(&port_dev->status_lock);
- 	retval = device_register(&port_dev->dev);
- 	if (retval) {
++	return ret;
++}
++
+ static bool usb_port_allow_power_off(struct usb_device *hdev,
+ 				     struct usb_hub *hub,
+ 				     struct usb_port *port_dev)
+diff --git a/drivers/usb/core/port.h b/drivers/usb/core/port.h
+new file mode 100644
+index 000000000000..00f7500af336
+--- /dev/null
++++ b/drivers/usb/core/port.h
+@@ -0,0 +1,68 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * usb hub driver head file
++ *
++ * Copyright (C) 1999 Linus Torvalds
++ * Copyright (C) 1999 Johannes Erdfelt
++ * Copyright (C) 1999 Gregory P. Smith
++ * Copyright (C) 2001 Brad Hards (bhards@bigpond.net.au)
++ * Copyright (C) 2012 Intel Corp (tianyu.lan@intel.com)
++ *
++ *  move struct usb_port to this file.
++ */
++
++#include <linux/container_of.h>
++#include <linux/device.h>
++#include <linux/mutex_types.h>
++#include <linux/usb.h>
++
++#include <uapi/linux/usb/ch9.h>
++
++/**
++ * struct usb port - kernel's representation of a usb port
++ * @child: usb device attached to the port
++ * @dev: generic device interface
++ * @port_owner: port's owner
++ * @peer: related usb2 and usb3 ports (share the same connector)
++ * @connector: USB Type-C connector
++ * @req: default pm qos request for hubs without port power control
++ * @connect_type: port's connect type
++ * @state: device state of the usb device attached to the port
++ * @state_kn: kernfs_node of the sysfs attribute that accesses @state
++ * @location: opaque representation of platform connector location
++ * @status_lock: synchronize port_event() vs usb_port_{suspend|resume}
++ * @portnum: port index num based one
++ * @is_superspeed cache super-speed status
++ * @usb3_lpm_u1_permit: whether USB3 U1 LPM is permitted.
++ * @usb3_lpm_u2_permit: whether USB3 U2 LPM is permitted.
++ * @early_stop: whether port initialization will be stopped earlier.
++ * @ignore_event: whether events of the port are ignored.
++ */
++struct usb_port {
++	struct usb_device *child;
++	struct device dev;
++	struct usb_dev_state *port_owner;
++	struct usb_port *peer;
++	struct typec_connector *connector;
++	struct dev_pm_qos_request *req;
++	enum usb_port_connect_type connect_type;
++	enum usb_device_state state;
++	struct kernfs_node *state_kn;
++	usb_port_location_t location;
++	struct mutex status_lock;
++	u32 over_current_count;
++	u8 portnum;
++	u32 quirks;
++	unsigned int early_stop:1;
++	unsigned int ignore_event:1;
++	unsigned int is_superspeed:1;
++	unsigned int usb3_lpm_u1_permit:1;
++	unsigned int usb3_lpm_u2_permit:1;
++};
++
++#define to_usb_port(_dev) \
++	container_of(_dev, struct usb_port, dev)
++
++struct usb_hub;
++
++int usb_port_is_power_on(struct usb_hub *hub, unsigned int portstatus);
 -- 
 2.55.0.979.g7e5102b832-goog
 
