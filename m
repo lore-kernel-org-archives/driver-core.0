@@ -1,152 +1,349 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CA53AFCED
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 03:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA5B3B47DF
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 03:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788491891; cv=none; b=IjF8bV0B5MclR5YY9BlfzdC2HzzEL4N0loJyrIELXsDcSxJvY3r2xEddEOyqmvrwzm1Oram1C+KMR3iG3B+RsNFQB3RzLhdqbKeCw/U/NcAdSx008rlL1/cHHXflWKiSmMmyPg1IG7GEIeAL7vhDCplG31kviu3lGH+ebnoBkJI=
+	t=1788492445; cv=none; b=tI4/r0A61Iqk6C2q+bNLkfvAmbYnX40bCNjPjJY2JVtwN3MuzgeTyiiLRLJqW9QTSUktbAylZTgjTyVUWxtXq8kWJJpm5gu648/seTd9iF0LsW/YIADw6OZwZE6ttRoU3M2GEvfJNeL5mwVdJirpPIsmP7Hm61ZvwQFgAkNwe5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788491891; c=relaxed/simple;
-	bh=AIU6NGTW/RpZfTt6y2cuypcAmkoFDaCDqNNZTCJi0Bc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NxSNw9dx7k+NrW5r/p8EYarm+82yUx2hEhZMX/ZMBuFICVnY/FCIb50XO6qg3uOtWAx0Z3/xhiP5bR21hv+Y52PiSGgzSI5+JSB24SQjkfTHrVJtAOZoK3oIlpde4nRDBqqAgVHhcFWYAFUMFuUDEL1eQYnEGseFpKrBwD2KYMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=TMvCPDQy; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1788492445; c=relaxed/simple;
+	bh=AesykrXJpfqrFNrnBChKHhwctDryuGG+ptNWruYfUpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GGwRiVENFU5ynWmOzdMon3kItgicPGHPs684xtrYpt9ymP9YsD71M9Wl6tW/+4vNOBXsB+Rf3Wsc4BIElnPK8MCkUcDNmW65Tbor5Eg+hgai7DW2tuSFEaOKkbpPViUzFPuYAZQlA3kl6oZ+PhdADXKBhQf/B6W2pLuGux9hBZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jXnYvFX9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=H4+z+j6a; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="TMvCPDQy"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5303932c4f3so3554551cf.2
-        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 20:18:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jXnYvFX9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="H4+z+j6a"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6843K3ZR2543942
+	for <driver-core@lists.linux.dev>; Fri, 4 Sep 2026 03:27:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	sjHTMqkGx32+jzb8+TMRbJY/v2aqI13N3H53qRFfSL0=; b=jXnYvFX9XdAsTAYf
+	8DDfUjHmmp4xHIEsqGpn58oSYQFkSx6sDxzRd2jXmeB04OPHZ5BgoqK6MPO5huoq
+	zJsxotEIQYhibVSGA/2BjkRj9ST/vNlt6WaB0zljhyL/MEJpJ84h0QvyVqC9hGfc
+	W/Thx21eTzsp7oZLcPapgaDF3xgmG29G1THFpCmvkWhPiAIl02usogqMHe+dr9b4
+	VOdqoDXkISvo3pd9ODzUiMLYbhsZAIt9sQuA9tDmTr8EU30gMGTKzirxmbKL5Tkt
+	x5pd7Z21lY+7/r0SUdMHyevK1jWldDpPhd2xDhGJ5IcKW1GwbJNLUTXw/SMcrQYO
+	sx3PSg==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gf4ekmt84-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 03:27:22 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso856169a91.2
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 20:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1788491887; x=1789096687; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=TMvCPDQyOb/vTI12GLkN4vp7j6+ugwdbUzLy+CNCkZCnlED1/KJx8ZcvlrZaOWhudQ
-         f1nONftzN6Izwu/bGGkxNf9wLko47wzSo0ys/0cDPTNj8Pv8gPIStbk0abka1vj2KeAF
-         VJEhfqUOdiftbCra6JISz3WWsCq/OrQ2xdIfkvbPhxnBc8v5C7Yj4EWRF+jOKYUQWhd1
-         9ZAJ4EWitEes/aeLELL8Yl5h5n5b1tnr/qDJuOlMDZcUDaDjm3eMp6Ve2T0/gMR512ID
-         BH+vK9QSFcw1FE2lXhWvvuoU5OYfnCtNylatS0kqWsQxfFBuEQyz8phvLkg7tcpiRRV6
-         AC9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788491887; x=1789096687;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1788492442; x=1789097242; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
-        b=SrXYZ8UGHy4iz4lq+I7tY72do8KbyKCKS727gKyxLb7w4Vdg563IQmet5Q7+pc+w3Q
-         77jYuKIhdybYEj+6YFBi/9M4ClRMwGOgddOR/8+NMTJuzh4+8QfQJB9Y1gxBVWnhukOa
-         1rM35E57Ha2xVXY2uRO6c7zR78qj07F9lj0p7v3xFEkAY/d7Yqc245CrkvAIwyuxXqxM
-         KR01GjmDpf+GlQfFeyHtzF65ICUyR3/BOwti9LhchJGUSuOxOlsmqJ5fOyO8jXZ7fYY6
-         4V+V2eLL8nZe3VQOpMc+uBrM2tRgybLIABLIBX24yuvmpmwSJEekoCuJv1e4MAJn8ZZ1
-         ZfDA==
-X-Forwarded-Encrypted: i=1; AKwUvBxI5AwWw0X/s72pCa2DllUAgxLp+IuqqMuoJiXrdu1piwUk5x/rc+KpUR7VCxvQ3+4TAHrjrnM+ftElWQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++k/A9MIyqzJIrnbNjJckS0mfpCY8yuiVRbP7hMRV2ktXJUCFCQS
-	+Qi8N1rA+VnMgNyAUwo5yRXe4qGZKD+L49MoXaT7o2Ponvc4CuLoxCUnS9ZUjWVuIdo=
-X-Gm-Gg: AYBFou0MEKxOe0XMuvC2yk0X+d3RApZjoNjfIbWFYRDLaAwNhMtyV9XqHc9hBuHRgqR
-	E5OnCtRBaSXVFqLkPdhCB/2Nt1jiFgQnPkeLK7fw4pssCMUCSos3Hs9StIhB5v9srcGOdrrjMGo
-	3rLatR+4FV7BI/Q25OGM9QIzwzkUz6wZfiEIQkaxW8S6DSW4EzCYyOy12S6gC49wZAPaNCfNKyP
-	jGsQN7M9sZrSNfi3sP0nyTC3vlb5vlXZ5pv4YKL6l70lFesL2mfRDKS5KYHp7FZg1mT3M5Uw4Eo
-	+8CkhOTxkyKfohw7GncQnZIgbBRaijLorM3LiryFxhf+9IDwNz1J70eU9xD1teavmEmFrUJBHU1
-	QicFT287iSx3DjY+w5odALZ1AX16ZQXNm3IjAzTGL9djXJQiH0Rsvy30ksTMbID3l36bk9YX6Kb
-	xIvDsmwuqA0r6h1XAapub8ytA6mboXL0IDTRlersy5C0i1C14BsH9FKLiZe3d9WMaFlkd02aPi6
-	5Ag3SKEWyFOGYCWPVZ+a0A0BxrH6TVu9UKwU9xiUUvsas/NWHOsn+g=
-X-Received: by 2002:a05:622a:1c18:b0:52d:4f43:d5b0 with SMTP id d75a77b69052e-530548bc5e0mr43078621cf.22.1788491887027;
-        Thu, 03 Sep 2026 20:18:07 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305402a7b7sm11260161cf.3.2026.09.03.20.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 20:18:06 -0700 (PDT)
-Date: Thu, 3 Sep 2026 23:18:03 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Qiqi Li <liqiqi23@huawei.com>
-Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
-	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
-	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
-	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
-	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
-	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
-	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
-	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
-	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
- node hotplug
-Message-ID: <apo3bZab6qtCosQM@gourry-fedora-PF4VCD3F>
-References: <20260720193431.3841992-1-gourry@gourry.net>
- <20260720193431.3841992-26-gourry@gourry.net>
- <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
- <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
- <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+        bh=sjHTMqkGx32+jzb8+TMRbJY/v2aqI13N3H53qRFfSL0=;
+        b=H4+z+j6aKXrlDMJSmN6QgR27joxpoh18mNzpLcFnGJl/AqEu61nmGQCgIdxGOXdaXY
+         GRvd9035+XFN0NGaS9vh5ZuPo3dkHtZdTrzY/oH51IMxeAQnYpaYKTOounId8bYHCLqd
+         O17X6xM0oz3Mgoxctx5Ebp1dq5Ajuc9erAakecFKWoyIhIIWPoplMUDxgA/7lJ2GdcnZ
+         tL/XLhhNKZyOdUxZMX6PSf3QdBzLxlKFfi11lIJCTB8R4iA7GRU+lRmPcQ9zMGpBhQuY
+         0oRiU7rlYVrl/ScupYteiskyBF6/b8jlj9n2zKlU0AuQ22fdASeoxBQ8g/o3NClGaWOy
+         Mnrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788492442; x=1789097242;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sjHTMqkGx32+jzb8+TMRbJY/v2aqI13N3H53qRFfSL0=;
+        b=ErYce1q5ndQ4n6yzju60eXIbWs30hppNxIZTPu09TwfVwuSFeTUEXVybABxP8awdOS
+         nHYc2UdCuOcmhRuQVqrw5n8G/9YNPcJbo4EpHgOymBYtSNVuT2ZnbokWvupi3AaHQY0Y
+         5EH2V1CmmIX0/58cqG0uS6sZAkdYtQPXBc9WhcHSmNEFcgV5xYQfyFq9dpPByV2p6TVe
+         h6X6nsPI9k+4XCxkbN0yC2eVVlOiV7dSIQaHSMn+vpycyEps2jjTKvnKX5CqTY8DvTcb
+         hShyiYJjXOG3C2oDtNPV7A0fWLwUIYWKBFW1NVu0t91fRPdbNxBYyDf3M8GF8MxrvB7y
+         QDew==
+X-Forwarded-Encrypted: i=1; AKwUvBxp1PhjHmwWkLVdgtm41jB2z2Hd5va+c0lbw+2OtPeo7xrluHgZC84YYjLIq0t0ef5bDVWBfNxE68GIeA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mZPRGHxDgyexCa5jbavrTw9Qs0Y3oThyWFLLJnLkWrI4vYoyge
+	C3RDGiZaf540AnKyIQYXQ5qU3ZXTgmpw2r01g3OwFMJaDa9rX+5SeujlBUfFY/Y/dxs0ax6OUKy
+	qqFCGjCXMGwKaKTAViCQZmZ+zYh914lqF0WM/SifIHtDNthoP1qIgtv6bA4qWA9TnDw==
+X-Gm-Gg: AYBFou0PAmYsyP5r8KHilUukIbf/gxwZ+gq/2YKP4byQ1o1kE8rePmuBYZBve7fojHS
+	E0MuySRfjIIuIXToV25TFksIDTi84a3I+wbfK0eVhuRVa2czvs26RgRhDfGM91bl24lEeG6Frvh
+	1Y97Jy/aY0HRZzl9eYub4dKuNzb+4uhZkDnBH8g5sj5evj5vBvJlRy6IEXdFBLTafSpUInl/7rq
+	B50l3CfL9Pu1dz5OxNGnJ1ZG0kuZR+Dids676lXp9ktGNYZdh8FHeOvhLJQaGdsJtny98JpEGpw
+	he/9uKBwAEyOc5z8xeP/ssv6xdKog6mHlNy1lHQUMQh7XMgjPWdKX3NeLj9QBkxCl5nu1alyqWi
+	BVn9Su6kistylHdrdjC8QSgHkmGkvROZW5K4T8fJnfP3DEuv43v84ISDgCLVPQq9J
+X-Received: by 2002:a17:90b:534e:b0:398:ba0e:96f6 with SMTP id 98e67ed59e1d1-39b2624f0f4mr4828913a91.23.1788492441438;
+        Thu, 03 Sep 2026 20:27:21 -0700 (PDT)
+X-Received: by 2002:a17:90b:534e:b0:398:ba0e:96f6 with SMTP id 98e67ed59e1d1-39b2624f0f4mr4828842a91.23.1788492440928;
+        Thu, 03 Sep 2026 20:27:20 -0700 (PDT)
+Received: from [10.133.33.207] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260cd291sm1979514a91.6.2026.09.03.20.27.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2026 20:27:20 -0700 (PDT)
+Message-ID: <4de6c2bd-2f9e-41d8-84df-aa1a6545ae83@oss.qualcomm.com>
+Date: Fri, 4 Sep 2026 11:27:17 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 06/15] arm_mpam: Fix cache ID sentinel from ~0UL to
+ U32_MAX to match u32 return type
+To: Andre Przywara <andre.przywara@arm.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
+        driver-core@lists.linux.dev,
+        Srivathsa L Rao
+ <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei
+ <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
+        linux-kernel@vger.kernel.org
+References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
+ <20260811-mpam-resctrl-dt-knp-support-v1-6-ea6397bead59@oss.qualcomm.com>
+ <2dee8a67-3da9-4780-8528-6cdc9c748b0a@arm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <2dee8a67-3da9-4780-8528-6cdc9c748b0a@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 517lqjFQowDMeTrHOnwlP0RboYdsf1HY
+X-Proofpoint-GUID: 517lqjFQowDMeTrHOnwlP0RboYdsf1HY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDAzMCBTYWx0ZWRfX8vSdslNLM5LA
+ 4mSPmaRou1uSVplmroYGW97cvPgWUVGDfQUCDTUHE2HAKJbY+Ipo8H2DeDyMC8Bdjww0JxPSLsa
+ 1pEyqkqEUnE+VSgwN2r7wEY9f3pl1ReX59PDfv4OrjHqOkpM4u2bexQ01PPTQQ7LK2t+9TfkBtd
+ Kh29RknlowJzC6aGsQ/zLKoOQRJMW5OQdIDK2SSlv5XgAf3KDWOQPwfYrn6va08zpXEFLULrFqh
+ +ZSukzh4COfXSiJBIrUtzLSchYdFR8QgL34uBNdpSwq3f4M4ntHS2K7FrZKxcwOBgk+SGBZVnr+
+ SbSQup8D1j854w92ZtN6AQ+hv3t39jlhkReO507Ug+1y9GovarDgvkR/n9a5tGPUb6yog8Be+jL
+ b1jp1zMI1/M5drp1M6UYaVkEiEbo0ijqYqCvxdNvks9KeXyNlW4OnnRdsK9BNgWcNkC+bZUiyWG
+ 2r0PH3M1ZZrwnj/E+/w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDAzMCBTYWx0ZWRfX6wBERj0rEl2h
+ gfg3XFtZs3lq3MURfUMUdc0jUpLVRBpYSqYf6MgTa+otAWlKuDeTyF2C8VGSGfJK/oZYKrr2sG0
+ IkGwrP1XkeR6iaF4mWb8625TpfRONWk=
+X-Authority-Analysis: v=2.4 cv=PKc/P/qC c=1 sm=1 tr=0 ts=6a9a3a9a cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=usvcRaTLrWoK5MpvqOsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-04_01,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 clxscore=1015 phishscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609040030
 
-On Fri, Sep 04, 2026 at 09:05:39AM +0800, Qiqi Li wrote:
-> On 8/17/2026 8:49 AM, Gregory Price wrote:
-> > It would need to be reserved, and you could use numa emulation but
-> > that's clunky.  I have an RFC for exactly this issue - though i haven't
-> > pushed it further yet.
-> > 
-> > https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
+
+
+On 9/2/2026 9:49 PM, Andre Przywara wrote:
+> Hi,
 > 
-> Hi Gregory,
+> On 8/11/26 15:30, Yin Li wrote:
+>> cache_of_calculate_id() returns u32, but callers stored the result in
+>> unsigned long variables and compared against ~0UL. On 64-bit systems,
+>> U32_MAX (0xffffffff) assigned to unsigned long becomes 
+>> 0x00000000ffffffff,
+>> which does not equal ~0UL (0xffffffffffffffff), so invalid cache IDs are
+>> silently accepted instead of being rejected.
 > 
-> Sorry for the late reply.
+> Yes, I agree about this one, long is not right, it's u32 (acpi) or even 
+> a plain int elsewhere (get_cpu_cacheinfo_id()).
 > 
-> I took a look at the exclusive-node RFC. The approach looks useful for
-> device-backed private memory without a firmware-described NUMA node.
-> Thanks for the pointer.
+>>
+>> Fix by changing all cache ID and component ID variables that receive the
+>> return value of cache_of_calculate_id() to u32, and replace all ~0 and
+>> ~0UL sentinel comparisons with U32_MAX.
 > 
-> We are currently looking into the private-node and CRAM design as a
-> whole. I noticed that CRAM was not included with the v5 series, and saw
-> that others were also interested in a v5 version.
+> ... but am not so sure about the U32_MAX change. I think ~0U is a common 
+> idiom in the kernel to mean "mask of all 1's", and while U32_MAX is the 
+> same, the _MAX part is slightly misleading here, I think.
 > 
-> If you already have a CRAM branch or patches based on v5, even if they
-> are still work in progress, would you mind sharing them? It would be
-> very helpful for us to continue testing the overall design.
->
+> So I think this patch should focus on dropping the long and L parts, but 
+> keep the ~0U notation. Which means cacheinfo.c should not change, for 
+> instance.
+> 
+> And also I wonder if that should be split up: one part to fix the 
+> existing usage in v7.3-rc1, so basically the function prototype, and the 
+> other part for the newly introduced DT code, which should then be squashed.
+> 
 
-I dropped it off because it was starting to become unwieldly, but i am
-continuing to maintain a branch on my github:
+Hi Andre,
 
-https://github.com/gourryinverse/linux/commits/scratch/gourry/cramtest/cram_72/
+Thanks for the review.
 
-I have not posted a new version in some time and it has been reworked
-significantly in the past few months - but I plan to talk about this
-particular branch and the tests I've run with it at the device memory
-LPC micro-conference.
+On the types: agreed, and the patch already changes them from unsigned
+long to u32.
 
-I validated this branch against most in-tree (relevant) filesystems for
-the page-cache extension, but I imagine the anon-only version subset is
-the more immediately interesting for upstream development.
+On the sentinel: the patch currently uses U32_MAX, but you make a fair
+point that ~0U is the more common idiom for an all-ones mask and that
+_MAX reads a bit misleading here. I'll switch it back to ~0U and leave
+cacheinfo.c unchanged, so the patch focuses on just the long/UL type fix.
+(Drew raised the opposite on patch 02/15, but as a question rather than 
+a strong preference — Drew, please shout if you disagree.)
 
-I may include the anon-only version in v6, but I've been a bit busy
-shoring up the base private memory node core and implementing kernel
-selftests and LTP tests to ensure there's no userland api regressions.
+As discussed with Ben, I'll fold these type fixes back into the 
+respective inherited patches.
 
-I hope to get something out later this month.
+Thx and BRs,
+Yin
 
-~Gregory
+> Cheers,
+> Andre
+> 
+>>
+>> Also fix the sentinel values in cache_of_calculate_id() itself for
+>> consistency.
+>>
+>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+>> ---
+>>   drivers/base/cacheinfo.c        |  6 +++---
+>>   drivers/resctrl/mpam_devices.c  | 16 ++++++++--------
+>>   drivers/resctrl/mpam_internal.h |  2 +-
+>>   3 files changed, 12 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+>> index f75e7f64038b..a4e0d1d47e71 100644
+>> --- a/drivers/base/cacheinfo.c
+>> +++ b/drivers/base/cacheinfo.c
+>> @@ -229,7 +229,7 @@ static bool match_cache_node(struct device_node *cpu,
+>>   u32 cache_of_calculate_id(struct device_node *cache_node)
+>>   {
+>>       struct device_node *cpu;
+>> -    u32 min_id = ~0;
+>> +    u32 min_id = U32_MAX;
+>>       for_each_of_cpu_node(cpu) {
+>>           u64 id = of_get_cpu_hwid(cpu, 0);
+>> @@ -237,7 +237,7 @@ u32 cache_of_calculate_id(struct device_node 
+>> *cache_node)
+>>           id = arch_compact_of_hwid(id);
+>>           if (FIELD_GET(GENMASK_ULL(63, 32), id)) {
+>>               of_node_put(cpu);
+>> -            return ~0;
+>> +            return U32_MAX;
+>>           }
+>>           if (match_cache_node(cpu, cache_node))
+>> @@ -252,7 +252,7 @@ static void cache_of_set_id(struct cacheinfo 
+>> *this_leaf,
+>>   {
+>>       u32 id = cache_of_calculate_id(cache_node);
+>> -    if (id != ~0) {
+>> +    if (id != U32_MAX) {
+>>           this_leaf->id = id;
+>>           this_leaf->attributes |= CACHE_ID;
+>>       }
+>> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/ 
+>> mpam_devices.c
+>> index 559fa09128b4..ddc15249ec1e 100644
+>> --- a/drivers/resctrl/mpam_devices.c
+>> +++ b/drivers/resctrl/mpam_devices.c
+>> @@ -166,13 +166,13 @@ static void mpam_free_garbage(void)
+>>   /* Called recursively to walk the list of caches from a particular 
+>> CPU */
+>>   static void __mpam_get_cpumask_from_cache_id(int cpu, struct 
+>> device_node *cache_node,
+>> -                         unsigned long cache_id,
+>> +                         u32 cache_id,
+>>                            u32 cache_level,
+>>                            cpumask_t *affinity)
+>>   {
+>>       int err;
+>>       u32 iter_level;
+>> -    unsigned long iter_cache_id;
+>> +    u32 iter_cache_id;
+>>       struct device_node *iter_node __free(device_node) = 
+>> of_find_next_cache_node(cache_node);
+>>       if (!iter_node)
+>> @@ -187,7 +187,7 @@ static void __mpam_get_cpumask_from_cache_id(int 
+>> cpu, struct device_node *cache_
+>>        * during device_initcall(). Use cache_of_calculate_id().
+>>        */
+>>       iter_cache_id = cache_of_calculate_id(iter_node);
+>> -    if (iter_cache_id == ~0UL)
+>> +    if (iter_cache_id == U32_MAX)
+>>           return;
+>>       if (iter_level == cache_level && iter_cache_id == cache_id)
+>> @@ -202,7 +202,7 @@ static void __mpam_get_cpumask_from_cache_id(int 
+>> cpu, struct device_node *cache_
+>>    * The cacheinfo structures are only populated when CPUs are online.
+>>    * This helper walks the device tree to include offline CPUs too.
+>>    */
+>> -int mpam_get_cpumask_from_cache_id(unsigned long cache_id, u32 
+>> cache_level,
+>> +int mpam_get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
+>>                      cpumask_t *affinity)
+>>   {
+>>       int cpu;
+>> @@ -229,7 +229,7 @@ static int get_cpumask_from_cache(struct 
+>> device_node *cache,
+>>   {
+>>       int err;
+>>       u32 cache_level;
+>> -    unsigned long cache_id;
+>> +    u32 cache_id;
+>>       err = of_property_read_u32(cache, "cache-level", &cache_level);
+>>       if (err) {
+>> @@ -238,7 +238,7 @@ static int get_cpumask_from_cache(struct 
+>> device_node *cache,
+>>       }
+>>       cache_id = cache_of_calculate_id(cache);
+>> -    if (cache_id == ~0UL) {
+>> +    if (cache_id == U32_MAX) {
+>>           pr_err("Failed to calculate cache-id from cache node\n");
+>>           return -ENOENT;
+>>       }
+>> @@ -264,7 +264,7 @@ static int mpam_dt_parse_resource(struct mpam_msc 
+>> *msc, struct device_node *np,
+>>   {
+>>       int err = 0;
+>>       u32 class_id = 0;
+>> -    unsigned long component_id = 0;
+>> +    u32 component_id = 0;
+>>       struct device *dev = &msc->pdev->dev;
+>>       enum mpam_class_types type = MPAM_CLASS_UNKNOWN;
+>>       struct device_node *cache __free(device_node) = NULL;
+>> @@ -308,7 +308,7 @@ static int mpam_dt_parse_resource(struct mpam_msc 
+>> *msc, struct device_node *np,
+>>               return err;
+>>           }
+>>           component_id = cache_of_calculate_id(cache);
+>> -        if (component_id == ~0) {
+>> +        if (component_id == U32_MAX) {
+>>               dev_err_once(dev, "Failed to calculate cache-id\n");
+>>               return -ENOENT;
+>>           }
+>> diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/ 
+>> mpam_internal.h
+>> index def0e3a65c23..aa45d00bcd07 100644
+>> --- a/drivers/resctrl/mpam_internal.h
+>> +++ b/drivers/resctrl/mpam_internal.h
+>> @@ -470,7 +470,7 @@ int mpam_msmon_read(struct mpam_component *comp, 
+>> struct mon_cfg *ctx,
+>>               enum mpam_device_features, u64 *val);
+>>   void mpam_msmon_reset_mbwu(struct mpam_component *comp, struct 
+>> mon_cfg *ctx);
+>> -int mpam_get_cpumask_from_cache_id(unsigned long cache_id, u32 
+>> cache_level,
+>> +int mpam_get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
+>>                      cpumask_t *affinity);
+>>   #ifdef CONFIG_RESCTRL_FS
+>>
+> 
+
+-- 
+Thx and BRs,
+Yin
+
