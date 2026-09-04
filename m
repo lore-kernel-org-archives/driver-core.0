@@ -1,242 +1,152 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E93265623
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 03:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CA53AFCED
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 03:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788491537; cv=none; b=X0bMi9Z1kTLnPcW0k7AhhCzP2HwEU1yBZ/54bneTsj2KdawjOzyIljoUX70bWXzSmagt5h1FNI/NC6WzW22ZpQjb5ujUES+ZIDxFChmXtwadyaKBIieGMtNbHt39hEhYRt4wtfM+20DpE+nhTp6ODaR1DEUfYpz9x7p6p3eXl/Y=
+	t=1788491891; cv=none; b=IjF8bV0B5MclR5YY9BlfzdC2HzzEL4N0loJyrIELXsDcSxJvY3r2xEddEOyqmvrwzm1Oram1C+KMR3iG3B+RsNFQB3RzLhdqbKeCw/U/NcAdSx008rlL1/cHHXflWKiSmMmyPg1IG7GEIeAL7vhDCplG31kviu3lGH+ebnoBkJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788491537; c=relaxed/simple;
-	bh=Y95yniYLVZizFK9LcvuTZpHxT3C+HIs4lMFSHQEGUeU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kcgxKOKWu7nX4j6satHHuj+2CWlkxZdmlmopoxWe8D2QfUK7ZU4LUmEqObT5Dq5HcakeGFDCwgkA4Gg/y0pAxAdCZQIqi3vsUOB76vw2/k+pLZu4+DjTIQuBwqkQF2eqpgBSAm2ZowaHy4ViLgg2ojyW019SofJH4Bkz2Pwymh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YXa1PWzk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZeHLR/wR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788491891; c=relaxed/simple;
+	bh=AIU6NGTW/RpZfTt6y2cuypcAmkoFDaCDqNNZTCJi0Bc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NxSNw9dx7k+NrW5r/p8EYarm+82yUx2hEhZMX/ZMBuFICVnY/FCIb50XO6qg3uOtWAx0Z3/xhiP5bR21hv+Y52PiSGgzSI5+JSB24SQjkfTHrVJtAOZoK3oIlpde4nRDBqqAgVHhcFWYAFUMFuUDEL1eQYnEGseFpKrBwD2KYMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=TMvCPDQy; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YXa1PWzk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZeHLR/wR"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6842lBAH2473961
-	for <driver-core@lists.linux.dev>; Fri, 4 Sep 2026 03:12:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JYxawr2n1gJxIiwBliti1lTRD1HZQn72h83Vvz9XPv8=; b=YXa1PWzkYa+PpBQn
-	yuthV/+n/nwhMJa97ivv9cQNpOyPlzFI4yiMZgzn/I0VF0eweO1V5+DnPLtAaUHK
-	DPnMlBRjPKq/U+m7OsqL+aNtLw6vBIrhkqkHtqFJIFyVEwsuQmZhtmsQV+uUxXBJ
-	bmr/tAoa8/orQHhesVqwOmd3u7b0W0ltF5ysnAFmZY6OmRNJ1qUURWrkHz1EOybZ
-	CzNdYgCQ9nOrLUd7pQZvZ0BGNVI2el1i85dk1XUkCedwr7lxitiOgDQ/2DAaLJZW
-	jVp6tWNi9jcJM0HWZ2ZXZFlTZXpV66rpR7SKgFQh2f1O8N3TZjfFCv/904R6QMYu
-	paJcJw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gf4ekmryx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 03:12:14 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc39363cc88so710220a12.0
-        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 20:12:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="TMvCPDQy"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5303932c4f3so3554551cf.2
+        for <driver-core@lists.linux.dev>; Thu, 03 Sep 2026 20:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788491533; x=1789096333; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JYxawr2n1gJxIiwBliti1lTRD1HZQn72h83Vvz9XPv8=;
-        b=ZeHLR/wROaBSDgMAGufge1K4w+C9eQueOcSFBy1ZSCXXZIG0roLS43jKaSlmioj/Eq
-         DcMFoVCPkL6AQfjxuzXnGY3ZsUFyk9fvuTXkpbSs7/hLmBCL4JC7OzdI/0d1QaD5edsw
-         AbNVdVxiR9iBTZJf1DdSJv1gy4+RMpkyguWhYDwujhECH/9/cEQYhwHiM2r8es8R/kZt
-         XgTP7+/xUNVwc/hshNiNQBiEXe7dCJZLJe4Qhft0oeHIaejmvzFWtGRmmQ23RLuLhekh
-         fD7CPqKIda5NvApJCyAS3dIRf7Bk/Qw2FmRQb+TDBKQ6aqiNt1uYfC6gs+Cy7wbD1hYK
-         nVMA==
+        d=gourry.net; s=google; t=1788491887; x=1789096687; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
+        b=TMvCPDQyOb/vTI12GLkN4vp7j6+ugwdbUzLy+CNCkZCnlED1/KJx8ZcvlrZaOWhudQ
+         f1nONftzN6Izwu/bGGkxNf9wLko47wzSo0ys/0cDPTNj8Pv8gPIStbk0abka1vj2KeAF
+         VJEhfqUOdiftbCra6JISz3WWsCq/OrQ2xdIfkvbPhxnBc8v5C7Yj4EWRF+jOKYUQWhd1
+         9ZAJ4EWitEes/aeLELL8Yl5h5n5b1tnr/qDJuOlMDZcUDaDjm3eMp6Ve2T0/gMR512ID
+         BH+vK9QSFcw1FE2lXhWvvuoU5OYfnCtNylatS0kqWsQxfFBuEQyz8phvLkg7tcpiRRV6
+         AC9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788491533; x=1789096333;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JYxawr2n1gJxIiwBliti1lTRD1HZQn72h83Vvz9XPv8=;
-        b=aBMwvGwuM7ybUBnwSPKX0UCiNYS6NAAyLo00PgrrILkwbLe9hOogHkqShtzGq5VkAO
-         V7UT5Ph0df5LwfXe4x3WSfRYrrZeSN7sQmvyjkUF+9FbSM9ZM078mGFk6zsncX/Fkww+
-         7z5KHYJ3A9lVnd11SQFtXEqpE7Gk17SbSwks7ly4iiUpVIGLzpbx1bia7ZLrGwDcMtHV
-         i9PSxHwoLDVVQiUIZxKUyYAv9eLNKH98DHAyrJ6jTkidKv2LUSjWt23s+UtDROjGMvu5
-         I1fArpxeM/VAzYT9wmYYTdDd/ElB9z422Cdrm7/4yK7PV+bh5iR8+ECbw9xx+rFWenqf
-         ABLQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxfrS15zTGnjWccpEqm84ldKYscq4NmyZyEmF/n8ynzLnOIa7STbA7wXDsX0CJdzMMl1iSphqMl/+jxZQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++kV5PhrbRI/CKhBMDCOYHNGwUmmd3v2MKKOmVRMGcBdy/JdvZnY
-	haDuIx6lL6+NRTSjmrscLbIgZ4Oqy37yH7oxjbp/l38Hp1YHCzo6uBsbs5ozZTGwO8cPH0k7AIY
-	HrBwbxhtenVscnqNLZXpuLP4myGmcXXRtr1G35xkfmVgDV6INdy20qbzeaOiNUXsI/g==
-X-Gm-Gg: AYBFou07vaP16c+D1vd7jpJMiQI+UNJO//mn1/Qq3c5JjECzsH06vzB4jtj1fD1udB3
-	et68t0FSFhgL9JdGjH1KNJWzkTShrFjlR/rfRK1mScYGhGUwCOMvbhI0yR0deGfffvN2uhyP1/L
-	6+NtUS0Nkpt3l9ve8SYYri6nOqEoJyWoqNtH0T3zsG/8z9+8F+vvfQadLBksp0c5V09NOAOJfKz
-	6D4ck0s6SQqY4h9Fc3ArA+KjuTCaXQpyxFuZyBL3mI5Ba5hs6dMTnmr6qGoyxykAUeP50m+puom
-	C3MywD5BL1vB7IHuAsUzFP+NcrVrTYHqGIMzP0gt0mIM4cvCzz5RW5WZEOSgBg71cY2lzbWfcY1
-	UewaxhHXuz42JM/xOOM7uJgbpxsHkAAN96H7AQgeGWQfI3dVyaRsFzJzN6cKPmxrB
-X-Received: by 2002:a05:6a00:8c11:b0:847:9aa8:d3ce with SMTP id d2e1a72fcca58-861662d4cd9mr5413461b3a.2.1788491533045;
-        Thu, 03 Sep 2026 20:12:13 -0700 (PDT)
-X-Received: by 2002:a05:6a00:8c11:b0:847:9aa8:d3ce with SMTP id d2e1a72fcca58-861662d4cd9mr5413384b3a.2.1788491532557;
-        Thu, 03 Sep 2026 20:12:12 -0700 (PDT)
-Received: from [10.133.33.207] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152e2f1e0sm581870b3a.36.2026.09.03.20.12.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Sep 2026 20:12:12 -0700 (PDT)
-Message-ID: <460cc3a2-c9f8-493b-9958-9e0c9a80fdd6@oss.qualcomm.com>
-Date: Fri, 4 Sep 2026 11:12:05 +0800
+        d=1e100.net; s=20251104; t=1788491887; x=1789096687;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I82bST350eZ9tF0sXAbqbqSO4hf+URoRFBA/uGedV7I=;
+        b=SrXYZ8UGHy4iz4lq+I7tY72do8KbyKCKS727gKyxLb7w4Vdg563IQmet5Q7+pc+w3Q
+         77jYuKIhdybYEj+6YFBi/9M4ClRMwGOgddOR/8+NMTJuzh4+8QfQJB9Y1gxBVWnhukOa
+         1rM35E57Ha2xVXY2uRO6c7zR78qj07F9lj0p7v3xFEkAY/d7Yqc245CrkvAIwyuxXqxM
+         KR01GjmDpf+GlQfFeyHtzF65ICUyR3/BOwti9LhchJGUSuOxOlsmqJ5fOyO8jXZ7fYY6
+         4V+V2eLL8nZe3VQOpMc+uBrM2tRgybLIABLIBX24yuvmpmwSJEekoCuJv1e4MAJn8ZZ1
+         ZfDA==
+X-Forwarded-Encrypted: i=1; AKwUvBxI5AwWw0X/s72pCa2DllUAgxLp+IuqqMuoJiXrdu1piwUk5x/rc+KpUR7VCxvQ3+4TAHrjrnM+ftElWQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++k/A9MIyqzJIrnbNjJckS0mfpCY8yuiVRbP7hMRV2ktXJUCFCQS
+	+Qi8N1rA+VnMgNyAUwo5yRXe4qGZKD+L49MoXaT7o2Ponvc4CuLoxCUnS9ZUjWVuIdo=
+X-Gm-Gg: AYBFou0MEKxOe0XMuvC2yk0X+d3RApZjoNjfIbWFYRDLaAwNhMtyV9XqHc9hBuHRgqR
+	E5OnCtRBaSXVFqLkPdhCB/2Nt1jiFgQnPkeLK7fw4pssCMUCSos3Hs9StIhB5v9srcGOdrrjMGo
+	3rLatR+4FV7BI/Q25OGM9QIzwzkUz6wZfiEIQkaxW8S6DSW4EzCYyOy12S6gC49wZAPaNCfNKyP
+	jGsQN7M9sZrSNfi3sP0nyTC3vlb5vlXZ5pv4YKL6l70lFesL2mfRDKS5KYHp7FZg1mT3M5Uw4Eo
+	+8CkhOTxkyKfohw7GncQnZIgbBRaijLorM3LiryFxhf+9IDwNz1J70eU9xD1teavmEmFrUJBHU1
+	QicFT287iSx3DjY+w5odALZ1AX16ZQXNm3IjAzTGL9djXJQiH0Rsvy30ksTMbID3l36bk9YX6Kb
+	xIvDsmwuqA0r6h1XAapub8ytA6mboXL0IDTRlersy5C0i1C14BsH9FKLiZe3d9WMaFlkd02aPi6
+	5Ag3SKEWyFOGYCWPVZ+a0A0BxrH6TVu9UKwU9xiUUvsas/NWHOsn+g=
+X-Received: by 2002:a05:622a:1c18:b0:52d:4f43:d5b0 with SMTP id d75a77b69052e-530548bc5e0mr43078621cf.22.1788491887027;
+        Thu, 03 Sep 2026 20:18:07 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305402a7b7sm11260161cf.3.2026.09.03.20.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 20:18:06 -0700 (PDT)
+Date: Thu, 3 Sep 2026 23:18:03 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Qiqi Li <liqiqi23@huawei.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, arun.george@samsung.com, 
+	balbirs@nvidia.com, brendan.jackman@linux.dev, yuzenghui@huawei.com, 
+	apopple@nvidia.com, alucerop@amd.com, matthew.brost@intel.com, 
+	akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, osandov@osandov.com, 
+	jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 25/36] mm/memory_hotplug: support N_MEMORY_PRIVATE
+ node hotplug
+Message-ID: <apo3bZab6qtCosQM@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
+ <20260720193431.3841992-26-gourry@gourry.net>
+ <6840c720-8cb7-46bb-a652-040c130a4427@huawei.com>
+ <aoJaaYp30LnKLj1w@gourry-fedora-PF4VCD3F>
+ <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 09/15] arm_mpam: Fix MSC MMIO window size to use
- resource_size() instead of end - start
-To: Ben Horgan <ben.horgan@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-        Shanker Donthineni <sdonthineni@nvidia.com>,
-        Conor Dooley <conor+dt@kernel.org>, Fenghua Yu <fenghuay@nvidia.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, ganapatrao.kulkarni@oss.qualcomm.com,
-        trilok.soni@oss.qualcomm.com, devicetree@vger.kernel.org,
-        driver-core@lists.linux.dev,
-        Srivathsa L Rao
- <srivathsa.rao@oss.qualcomm.com>,
-        Huang Yiwei
- <huang.yiwei@oss.qualcomm.com>, aiqun.yu@oss.qualcomm.com,
-        linux-kernel@vger.kernel.org
-References: <20260811-mpam-resctrl-dt-knp-support-v1-0-ea6397bead59@oss.qualcomm.com>
- <20260811-mpam-resctrl-dt-knp-support-v1-9-ea6397bead59@oss.qualcomm.com>
- <93eac14a-5ee5-40c8-accf-f623cf0e76de@arm.com>
- <74b52fcc-10d0-4d45-8675-4a3431ff4b03@arm.com>
-Content-Language: en-US
-From: Yin Li <yin.li@oss.qualcomm.com>
-In-Reply-To: <74b52fcc-10d0-4d45-8675-4a3431ff4b03@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: kDF435k21YDW84XRqEj7pTuPnoIAN2qP
-X-Proofpoint-GUID: kDF435k21YDW84XRqEj7pTuPnoIAN2qP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDAyNyBTYWx0ZWRfXxnwHjfYx52Ap
- WKb5zKR1FYA5hg6qLxvTziGgI9i8+KwnMhsT2T3WbRt0nerpzeoPJc6s7UH5VatPHy4WaUm3Xab
- Qzsykv1CNtbN27mC4jOhyqFyOF2oUg3DcNXMG33/uZusLSSvdlcx/ULSXGBRhHjJr5o9lNgUV+D
- 5Wp0aww8YoDIU3pA5I0DulJrj4GZJIHRwwTVwQt6w6MV85rXWFFXREu4ZVf1XOzB7S2smXGW/gS
- FMYFRxgY68QWkgm7cDKq5Z3IpIczc2vhyZEWJWAO5p4po4Si0u+Q4oU3qDT+VcDsY5TgzL1eBPV
- d5DaoKCHPGkA6hOhIbdwTieTu9jUBfK/DEhmiF82Pv7eEszZ2EOrn0ZdstN/5ykcj6WKCMlQv7G
- sqc4AxZQVfxjjlvxCiqmZxI9KdAsGvkH0Wcyhx+QWeb272Sz/CRQJqseDry4YL/hpj4I0yCI6cW
- pC3+nuwFMC4r32PBjEw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDAyNyBTYWx0ZWRfX4od7TU5ZrUbk
- y7aDIq6fZN6BANUwhcyrotb2e3I8vYfrLLTWOlzT01JaNGi9wjx8Y7dw0EzxmBlT9oeUw8nqA6S
- 83b6D3qywYiU4MsXYkm3lTOXHhzJqZY=
-X-Authority-Analysis: v=2.4 cv=PKc/P/qC c=1 sm=1 tr=0 ts=6a9a370e cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8
- a=ZptWdTKgE_tpimiw5rkA:9 a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-04_01,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 bulkscore=0 clxscore=1015 phishscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609040027
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0334fe7d-d949-45f7-8914-3012cb11b740@huawei.com>
 
-
-
-On 9/3/2026 9:23 PM, Ben Horgan wrote:
-> Hi Yin,
+On Fri, Sep 04, 2026 at 09:05:39AM +0800, Qiqi Li wrote:
+> On 8/17/2026 8:49 AM, Gregory Price wrote:
+> > It would need to be reserved, and you could use numa emulation but
+> > that's clunky.  I have an RFC for exactly this issue - though i haven't
+> > pushed it further yet.
+> > 
+> > https://lore.kernel.org/all/20260610014517.253609-1-gourry@gourry.net/
 > 
-> On 03/09/2026 11:20, Ben Horgan wrote:
->> Hi Yin,
->>
->> On 11/08/2026 14:30, Yin Li wrote:
->>> struct resource uses an inclusive end address, so the correct size is
->>> end - start + 1. The previous calculation of end - start was off by one,
->>> resulting in a mapped window one byte smaller than the actual resource.
->>> Use resource_size() which correctly computes end - start + 1.
->>>
->>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
->>
->> I just got a kernel ci report for this one which asks for tags:
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@intel.com/
->>
->> It doesn't look to give a useful fixes tag though. I'd go with this as that's where the error was
->> introduced.
->>
->> Fixes: f04046f2577a ("arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate")
->>
->> Looks good to me.
->>
->> Reviewed-by: Ben Horgan <ben.horgan@arm.com>
+> Hi Gregory,
 > 
-> Scratch that. As Ilpo points out,[1], there is no functional bug but just some misleading naming
-> which never the less would be good to fix. This does require > in the warnings becoming >= though
-> and there would be no need for fixes tag. Do you agree with this analysis?
+> Sorry for the late reply.
 > 
-> Thanks,
+> I took a look at the exclusive-node RFC. The approach looks useful for
+> device-backed private memory without a firmware-described NUMA node.
+> Thanks for the pointer.
 > 
-> Ben
+> We are currently looking into the private-node and CRAM design as a
+> whole. I noticed that CRAM was not included with the v5 series, and saw
+> that others were also interested in a v5 version.
 > 
-> [1]
-> https://lore.kernel.org/lkml/03055fbc-281f-4ed9-9282-4853d560e17f@arm.com/T/#mdb57d40c888ff4ce656a9d9a00ecf5d99466530c
-> 
-> 
+> If you already have a CRAM branch or patches based on v5, even if they
+> are still work in progress, would you mind sharing them? It would be
+> very helpful for us to continue testing the overall design.
+>
 
-Hi Ben,
+I dropped it off because it was starting to become unwieldly, but i am
+continuing to maintain a branch on my github:
 
-Thanks, and thanks to Ilpo for the detailed analysis.
+https://github.com/gourryinverse/linux/commits/scratch/gourry/cramtest/cram_72/
 
-Agreed — the current code is functionally correct because 
-mapped_hwpage_sz holds the last mapped byte (end - start) rather than 
-the real size, and the ">" check matches that.
-My patch switched it to resource_size() but left the check as ">", which 
-actually breaks that balance and introduces a real off-by-one — the ">" 
-needs to become ">=" once the size is accurate. So there's no functional 
-bug in the original code, and no Fixes tag is needed.
+I have not posted a new version in some time and it has been reworked
+significantly in the past few months - but I plan to talk about this
+particular branch and the tests I've run with it at the device memory
+LPC micro-conference.
 
-I'll update the patch to switch to resource_size() and change the
-corresponding ">" checks to ">=" together, so the naming becomes
-accurate while keeping the behaviour unchanged. I'll also reword the
-commit message to describe this as a naming/readability cleanup rather
-than a bugfix.
+I validated this branch against most in-tree (relevant) filesystems for
+the page-cache extension, but I imagine the anon-only version subset is
+the more immediately interesting for upstream development.
 
+I may include the anon-only version in v6, but I've been a bit busy
+shoring up the base private memory node core and implementing kernel
+selftests and LTP tests to ensure there's no userland api regressions.
 
->>
->> Thanks,
->>
->> Ben
->>
->>> ---
->>>   drivers/resctrl/mpam_devices.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
->>> index 1e082fb60e30..5d1854d97371 100644
->>> --- a/drivers/resctrl/mpam_devices.c
->>> +++ b/drivers/resctrl/mpam_devices.c
->>> @@ -2296,7 +2296,7 @@ static struct mpam_msc *do_mpam_msc_drv_probe(struct platform_device *pdev)
->>>   			dev_err_once(dev, "Failed to map MSC base address\n");
->>>   			return ERR_CAST(io);
->>>   		}
->>> -		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
->>> +		msc->mapped_hwpage_sz = resource_size(msc_res);
->>>   		msc->mapped_hwpage = io;
->>>   	} else {
->>>   		return ERR_PTR(-EINVAL);
->>>
->>
-> 
+I hope to get something out later this month.
 
--- 
-Thx and BRs,
-Yin
-
+~Gregory
