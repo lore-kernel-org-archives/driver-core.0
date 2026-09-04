@@ -1,151 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84C4509F17
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 17:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B5F490BE0;
+	Fri,  4 Sep 2026 17:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788542683; cv=none; b=bm99rIS3LyYMOMbkTwtxw7EPUQX7ctdXpcQSptTCj7uiDDB9hAAXjATdoRQkIvRIGPqjUhwSju3gj+K4VWOG0W1BUtB2IaQ5xkwEE2ZKVOLtmLgd2cbx30EoabonUY+EXPs9sfGRYeBGWQz1vcVz2TLaEgZr4zZm9PkEG/wuCMw=
+	t=1788544707; cv=none; b=sn99m8Tvy46sMW+OdANyzkWI3MiP0ZLB3VDzgRSM2aPEGuZi1C+loMXo0reQqi0FjpFmS+iwI6Y+alhJe4FGEtvpCOFSZH4NwrawnhBR7bTAtgeLlaXGNIa0EjSFBsBd5zymkpLZq6cbhByylG4/mG7qv9x0KGrYBX/l3V8OyGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788542683; c=relaxed/simple;
-	bh=wzb03DLVgIj3vB7hKR26LkDSnhyToSK5dDUTYTCmeno=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WHKIY2S8N3s0+X6TsVygekDIfF0VdgiJz4seAXW2EV1NySxrrjCTyAgMhVYePuWfdXKEwklKUdTTh+2iYnZn1DdWr2KSFQHAKb7nwZOcG1cv3CyII+F381Y6/71Hg2qUG9C9YfJ1VOyyZWGxn5y1RpVq27il+tb8rmGJLggA1nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DSbCUAoa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788544707; c=relaxed/simple;
+	bh=HTjFSxIaUz0HkG0Fqpc3XJlOucy3l+W4m0MAeJmz5BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXz7Vxbw1glUvM/1pF08J23nIZSq67n6nSK9sSPv74xtXRFsz2BzAkYZxXLsEbFfd8U1JAUw3WukcOpBNU9jnf987n24lpM+ubxJvZR51iyL/BNInR9+oNA9n981rFnP86Q4BJEKa3vNYFBgDMx5fDrK6IlLorJbtrS0375qLlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vVcWPcqG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DSbCUAoa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4FC91F00ADE
-	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 17:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788542675;
-	bh=/CDqLznQvkVu7WQ3vZoYAE6ZEb2I+Dl4DDzf448Rh98=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=DSbCUAoaBf0BDfPe5nbw+AB5KH61cmX95b2H4GrECOmgcWubqAUSF+QTRSuXuKJ7W
-	 So0x0z73IE6ijUa/G9rzZeyi6XXSdOCJpEK1oP0odVfwTNd9h7hU4p7kbn9tbBzUkI
-	 oInQ77/mksSytpVmjMak/Lh1ZpwaM5Z7jIk/Jv59U6t216lhGAQBi4a+g3PJdstRji
-	 qrFVpmYGS3RsbLRcnKlpuulzpxXD2M11HxGYsFBaJtmdQNOmwYOOAU6PeH3T0Tjlz3
-	 dYfLpT7avAUwMSnxOhcRqJ7tStlmGT5PgYp+NABfyd5BpMETqLNwc/PXFTiF24ERqi
-	 9BoXQ1Qr/orZQ==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3a33307ecd9so14156911fa.2
-        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 10:24:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByaWsZx2pGEMVlSNNaXPXzdSbNoz2dXeoDrKoh0lgbRb7/RVb7Z029uPNNxrMtxwm0CDfuZi8L2xw5/Sg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kUnppeK/d7TPLmP28anZu3iiGQwgShNmsB9XKVfnw9WMtshWVl
-	ZnkLwcZdpJUn2vy4ISOO0dzqz6ozRoeV6e0LnCe2YwaEsqNlrO7LoCJ4O33IIps6v+1NXJBHhKv
-	YEZMxpBoLcv3hhY8Thtu9AYo87gsJBBo=
-X-Received: by 2002:a2e:a54f:0:b0:3a3:314d:115e with SMTP id
- 38308e7fff4ca-3a371bc73e4mr9829551fa.10.1788542673867; Fri, 04 Sep 2026
- 10:24:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vVcWPcqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49421F00A3D;
+	Fri,  4 Sep 2026 17:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788544705;
+	bh=rP0jvIe50D9VMNBI5Koq/QnFNW7rOKsTaV7j4xp9Y8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=vVcWPcqG1059ybsmrz21hgN6wQuwVgT6uzFHmLEnROtsmnN/CAYwVKSDtG9lGAiEU
+	 tkd1yZrHUaZHJ3eumLByHfJe9TNCknpujWUJKGpAWuMus+fTvh1G7TZqTS6TzxZoq+
+	 MFxyhH9d1b8/dxyRr8Dhs80vd4pcoiD8qcdKqe90=
+Date: Fri, 4 Sep 2026 19:52:37 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wei Deng <wei.deng@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related
+ APIs to port.h
+Message-ID: <2026090433-chair-tidings-5c99@gregkh>
+References: <20260904084158.1341550-1-wenst@chromium.org>
+ <20260904084158.1341550-8-wenst@chromium.org>
+ <2026090430-botanist-ungodly-0299@gregkh>
+ <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260904084158.1341550-1-wenst@chromium.org> <20260904084158.1341550-8-wenst@chromium.org>
- <2026090430-botanist-ungodly-0299@gregkh>
-In-Reply-To: <2026090430-botanist-ungodly-0299@gregkh>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 5 Sep 2026 01:24:20 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
-X-Gm-Features: AcwNN1XsOjcnbmZTa6fnJtFKjvQsiEWmd4_rlrVRXh_dounYDIlqWUAfitdifNU
-Message-ID: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
-Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related APIs
- to port.h
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wei Deng <wei.deng@oss.qualcomm.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
 
-On Sat, Sep 5, 2026 at 12:47=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
-> > |struct usb_port| and its matching container_of() macro should live in
-> > its own port.h, matching the split we have for .c files.
->
-> Why?
-
-This was requested by Andy. And to me it sort of made sense.
-
-> > Move them as described. Also move usb_port_is_power_on(), since in the
-> > next change its |struct usb_hub *| parameter will be changed to
-> > |struct usb_port *|, and becomes a non-static function that only
-> > references |struct usb_port|.
->
-> No, please don't do that unless you have a really good reason.
-
-Which part? Move the code?
-
+On Sat, Sep 05, 2026 at 01:24:20AM +0800, Chen-Yu Tsai wrote:
+> On Sat, Sep 5, 2026 at 12:47 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
 > >
-> > port.h is only included from hub.h, as a subsequent patch will directly
-> > use fields from |struct usb_port| in a static inline helper in hub.h.
-> > The USB internal headers don't have header guards to help with this.
+> > On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
+> > > |struct usb_port| and its matching container_of() macro should live in
+> > > its own port.h, matching the split we have for .c files.
 > >
-> > Also drop 'extern' from the header declaration of usb_port_is_power_on(=
-).
-> > This is not needed in modern C.
+> > Why?
+> 
+> This was requested by Andy. And to me it sort of made sense.
+> 
+> > > Move them as described. Also move usb_port_is_power_on(), since in the
+> > > next change its |struct usb_hub *| parameter will be changed to
+> > > |struct usb_port *|, and becomes a non-static function that only
+> > > references |struct usb_port|.
 > >
-> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> > Changes since v4:
-> > - Dropped 'extern' (Andy)
-> >
-> > Changes since v3:
-> > - New patch (Andy)
-> > ---
-> >  drivers/usb/core/hub.c  | 16 ----------
-> >  drivers/usb/core/hub.h  | 48 ++---------------------------
-> >  drivers/usb/core/port.c | 16 ++++++++++
-> >  drivers/usb/core/port.h | 68 +++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 86 insertions(+), 62 deletions(-)
-> >  create mode 100644 drivers/usb/core/port.h
->
-> hub.h is small enough, making a single .h file that is 68 lines long
-> for no real good reason isn't a good idea.  Odds are this will make the
-> build take longer as you now need to open/read/close another file.
+> > No, please don't do that unless you have a really good reason.
+> 
+> Which part? Move the code?
 
-OK. Andy, can you accept not doing the move?
+Please don't make a new .h file.
 
-> And if we really want to do this, it shouldn't be burried in the middle
-> of a long "enable this platform" series where people will miss it.
+Moving the function might make sense on its own if you need it in a
+different file later on, but do a move only, and then change things if
+you really need to do that.
 
-Well the code is also touched in this series, so it is related. Without
-the change, the code movement makes even less sense, as mentioned in the
-commit message.
+thanks,
 
-As for missing the patch, I can change the series name to something
-like "usb: Hook up pwrseq for USB power control on M.2 E-key slots".
-The series spans multiple subsystems and even the driver core, and the
-goal is to enable M.2 E-key slots, so hopefully that ticks all the boxes.
-Except which platform is affected that is.
-
-
-ChenYu
-
-
-
-
-> Thanks to Alan's review for making me notice it.
->
-> thanks,
->
-> greg k-h
->
+greg k-h
