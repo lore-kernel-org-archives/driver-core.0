@@ -1,872 +1,379 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FCA34EF04;
-	Fri,  4 Sep 2026 08:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0F33E9C1E
+	for <driver-core@lists.linux.dev>; Fri,  4 Sep 2026 08:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788509604; cv=none; b=Mc4OfRTlIb6dv+KEUmMjIkcyVtZbcHQ3R27f9pML9Pd0odn08zFYTmCeIelArp9NNQgtFzoSEvZ7adPEWMuKktQj2DtgWJjt/mr9z24JjKIQ0d22+4mSJ3mHxzB5fSJgznBLZM9AzP+8IdRcvxlDpZr9cvdrs53es74gwGh4Cn8=
+	t=1788511335; cv=none; b=by0nWPtLvXqDsJZ6J2bTCLz5h6tqufAuwho1WIFp844EsTDd2L6+YuCz9Sq84fQGhK73sht4RLsyDCiiHJbTgRf2uLNGUQSj5L46bcUbk5fSYCTFeIw2OBD0ogg5GKn+0/9JV/2UaXsu/C8v/wl/qiFrA15GA2h2LvpisJCrr9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788509604; c=relaxed/simple;
-	bh=uAio+xzvVw6PGlFC0ttYRMxmSQH1h5tMvrB2COjN2NU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gGhKd5bK0deLD71ONXMjRKk2TkZ691f89FdvsItO0mBN0QODmpGG31D/n2+2R7LOaB8YXAvXXG2Y6akeCMWZvRSpuZK4h09c1jc8fpzqeSksdbuR3f98+mAqIq2lkkr9luWFFErCYVGX+WG/ZGzkptEO8W/2VDW0L/4RvcPvwYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UT/datXU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788511335; c=relaxed/simple;
+	bh=g4xmnLSHh073Plg+hze15SlgOcRK/r//g8ChdV6m8Y0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PmF0eelNtsBywr4C4pB9vi7jaizZZ+4DbPAWG67A7jnitg1UC1n7mFEw0e9NewiZDIe5/j4Gjh5ebYUTMe37fnfspHymRPl3s40UlvTOR56lKsa5KDsLIdU7umqUyaQDHbwJ9hRwXnwsW/EhgBh1Ir18aXq1nEp9lvEm7HaCTWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZmwkYIR9; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UT/datXU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 944B21F00A3D;
-	Fri,  4 Sep 2026 08:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788509597;
-	bh=nUaZxjyDcYYSc/qqE/LnTlzY1Gd8czx0w9CMu4/XM+s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UT/datXUTnicILsrAq/2W0yG3v2Vnev9Q+gA+bLYPKPupZakTRN5GJ2oCe/bbVUhF
-	 k0kNrm0UkyBlrNgmP/TgglG6e2nApqe+VhRBwk1Dt+94yxcRIoT9/PS72FIoDrAEbW
-	 HG5e8zcKzuiRFMk9YUsPi3vRGubAP3xv+CRxIxPK27XyPQ2cdjAtrXZblR5fTniioN
-	 XHruEhXGCw5flMPSTZkv1ZhzYbeVgTQUmNtu5tFF+XB4IhmgEdeDZSGD3EsFv06g9f
-	 nLlLx0cnkwDwg5/dkBYkX0h8jlmw6S1g3Iw0Dk4NLtU4fM0MplIVpfYFCjk7l1+G7a
-	 vS7RcDygNNeww==
-Date: Fri, 4 Sep 2026 10:13:11 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
-	Meta kernel team <kernel-team@meta.com>, linux-kselftest@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] selftests: cover kernfs dentry revalidation
-Message-ID: <20260904-kandidat-bergbahn-ersonnen-3a6dd1f1cf0e@brauner>
-References: <20260902014050.499002-1-shakeel.butt@linux.dev>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZmwkYIR9"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-381b831d535so1190488a91.0
+        for <driver-core@lists.linux.dev>; Fri, 04 Sep 2026 01:42:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1788511331; x=1789116131; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NOL5R0SJrxWsGHji42XgvQwAqz+BPG+L9IvuYCKkAns=;
+        b=ZmwkYIR9DZIbdBZeceJHmtupAPf73omXwqlN0It0wzX4o4Z8NCNtvcRuihr+zNi4Pq
+         8qK/Thdlk16PROfAfrWCjEG+ov0euo4WZXv8CfAw6piJ1xaKxEKB5FWniBkZ2xthM2kg
+         YyaQn9B+zw2T4qTKGrC2dAyFbxcbpDaZZo7wQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788511331; x=1789116131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NOL5R0SJrxWsGHji42XgvQwAqz+BPG+L9IvuYCKkAns=;
+        b=WT5RNic8r8VsO1b+WeFQQqDnyMYgg9QpMzizByJ5BEt2siI1BlPWHLtQLi5tO6hFD8
+         SgHkq6GciwhMNIF1ipOwXmXAQuGmp56GxG1vqH/wvrWM05+JVeIuvwutzlc0De8vtXN+
+         nFt/w9Y0NSr79jA8ZDPDqdPvfPS87zz03/ktm4ApjpvvdfSVyjLuyddW6a35e+uiB3w6
+         MB9ORrtcbQsJi5lVspkvRs5B4VSwstdqMWnvcNR3VUOaCBJZPg6dXX7ARKmK7lLt4S04
+         TW1lYexjpyTCbYnGo2lTV9sy2RIkMa2L9cCnGIvzA3TgFpDeuaGnKyh78a3XzAt2Jbwm
+         ISIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwvnubLnc/NTA/PWmVfHzJP8GFCdVyuYlC4UOIQbCCQn2ngkUPoAjz1GktHGrnaLedAv9n9ibTN9YMIug==@lists.linux.dev
+X-Gm-Message-State: AFuF++mX61cdUHE+Rtx3oVejqraUHWcBMY8vHtxXcRPXp7bwWyDMrY8q
+	uTsjS/1DGaKvxo5gk6nmgT51AWq6bT6rbwZO2H1/Nt0yjqGiTzQ3BVeqMEAo2ZJl/Q==
+X-Gm-Gg: AYBFou20Y3MQEylmC9mE8YwGTWmcprAhyv1wMDZjQHjiex/9gVcJPN5uzyGUcmjPCHu
+	XD7Fhrd1FRu/P6r7iQ2z+0EbsTtwkMqIAGYjmDG8kpqy1a7oNwnIOM13+gyvJcLb2nBZjP6vYm9
+	SEqIZeH48QmzFSP72nVl7RnZkxA8aY37ETW+RgczLpvWfktWeRe+fFSmDE6vj4vLnEwZ2d0qJwM
+	Dd0AxmKjmcxKV7qwMJvvv/CX+9oVDoZ5N6rLpvdW7fO7NQIbAr6/COktozEhgojgRNTwnrQvp6k
+	LbXlRvWc4B5KcUEQfheD6oLXpzVWnljU21KcDMUazmhMnwsku8WbZPFdyjkzJZmamHgziOM/WA5
+	RBRy4sKFQr4VQpWVANq0Kgvlql0DHC88CurXfYs3MTCCwx9/hw3Nvg0HxTnEtL4StjxCHVh0gj/
+	4cJs0tgZp251ooRfKBqvyG+dWheskBYSI1JON6h/YGF2BUljKYHsXScjHv3V7k0FsTi0j4vSQrB
+	mGPLfiyUfd6j6DDxmKNOTfJlzAaAFacIK5f1mBn3vEW
+X-Received: by 2002:a17:90b:1d84:b0:396:4cbf:45a2 with SMTP id 98e67ed59e1d1-39b261e3b7fmr6052421a91.14.1788511330394;
+        Fri, 04 Sep 2026 01:42:10 -0700 (PDT)
+Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:343:bf21:3095:9c5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260fdf9asm3343538a91.9.2026.09.04.01.42.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 01:42:09 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v8 00/16] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+Date: Fri,  4 Sep 2026 16:41:39 +0800
+Message-ID: <20260904084158.1341550-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260902014050.499002-1-shakeel.butt@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 01, 2026 at 06:40:50PM -0700, Shakeel Butt wrote:
-> kernfs_test only checked two xattr calls. It did not touch the part of
-> kernfs that userspace hits most: the dentry cache.
-> 
-> The kernel adds and removes kernfs nodes on its own, with no VFS call
-> behind it, and removal cannot always unhash the dentries that are
-> already cached. So ->d_revalidate() is what keeps the cache honest,
-> let's add tests for it.
-> 
-> Add tests that make the kernel change kernfs directly, instead of going
-> through create and unlink:
-> 
->  - writing cgroup.subtree_control makes the kernel add and remove files
->    in every child cgroup. That checks two things: a cached negative
->    dentry is dropped once the file appears, and a cached positive one
->    is dropped once the file goes away.
->  - renaming a network interface renames the sysfs node under a dentry
->    that is already cached.
->  - sysfs mounted in a new network namespace must list that namespace's
->    interfaces and not the parent's, which covers the KERNFS_NS tagging
->    code.
->  - many lookups running against concurrent mkdir and rmdir. A lookup
->    may only succeed or fail with an errno that means "it is gone".
->  - open across removal, readdir returning each entry once, and a
->    telldir()/seekdir() round trip, which uses the name hash cookie in
->    kernfs_dir_pos().
-> 
-> Test the other direction too: walking dentries that are already cached
-> must not drop them. That is not just a slowdown. d_invalidate() calls
-> detach_mounts(), so a dentry dropped by mistake also unmounts whatever
-> is mounted under that directory.
-> 
-> Both filesystems are needed. cgroup2 has no ->rename and is not
-> namespace tagged. sysfs cannot be mounted with a set of children we
-> control. The config fragment stops a kernel built with kselftest-merge
-> from passing while it runs almost nothing.
-> 
-> To confirm the tests really catch a broken backstop, kernfs_dir_changed()
-> was stubbed to return false. 8 of the 11 tests then failed.
-> 
-> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
-> ---
+Hi everyone,
 
-I have to say I would appreciate trimmed-down commit messages with less
-relative clauses. This reads very LLMy still. Especially for tests my
-appetite for wading through multiple paragraphs of info is very low.
-Same goes for the very wordy changelog below...
+This is v8 of my attempt at integrating the power sequencing API into
+the USB core to support the USB connection on M.2 E-key slots. M.2
+E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
+Hopefully this is the last revision. The fwnode patches need a reviewed-by
+from the fwnode owners.
 
-> v2:
->  - netns fixture: rmdir() the mkdtemp() directory when the sysfs mount
->    fails.  The harness does not run TEARDOWN after a SETUP skip, so this
->    leaked one directory into /tmp per test.
->  - Drop the { cpu, cpu.stat } controller row.  cpu.stat lives in
->    cgroup_base_files[] and is added to every cgroup on the default
->    hierarchy regardless of the controller, so selecting that row would
->    have broken both dentry tests on a kernel built with MEMCG=n
->    CGROUP_PIDS=n CGROUP_SCHED=y.  Every file the cpu controller does own
->    is behind a Kconfig symbol, so there is no reliable replacement.
->  - Check in SETUP that the probe file is absent before any test enables
->    the controller, so a row naming a file the controller does not own
->    skips with a diagnostic rather than failing.
->  - ns_tag_isolates_class_net: stop requiring that a fresh netns holds
->    only "lo".  Fallback tunnel devices (tunl0, gre0, ...) are created in
->    every namespace unless net.core.fb_tunnels_only_for_init_net is set.
->    Check that sysfs shows exactly this namespace's set instead, via
->    if_nametoindex().
->  - open_after_rmdir_fails: make the read-after-removal check
->    unconditional.  It accepted a successful read, so a kernel returning
->    stale content would have passed.
->  - config: add CONFIG_NAMESPACES=y.  NET_NS sits inside "if NAMESPACES"
->    and NAMESPACES defaults to n under EXPERT, so olddefconfig would drop
->    NET_NS and every test would skip.  Drop CONFIG_MEMCG=y; SETUP takes
->    the first available controller, so CONFIG_CGROUP_PIDS alone is enough.
->  - Tidy the comments; drop some stray internal issue numbering.
-> 
->  MAINTAINERS                                   |   1 +
->  tools/testing/selftests/filesystems/config    |   7 +
->  .../selftests/filesystems/kernfs_test.c       | 695 +++++++++++++++++-
->  3 files changed, 702 insertions(+), 1 deletion(-)
->  create mode 100644 tools/testing/selftests/filesystems/config
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 549df316f487..605fd2d47788 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14392,6 +14392,7 @@ S:	Supported
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
->  F:	fs/kernfs/
->  F:	include/linux/kernfs.h
-> +F:	tools/testing/selftests/filesystems/kernfs_test.c
->  
->  KEXEC
->  M:	Andrew Morton <akpm@linux-foundation.org>
-> diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
-> new file mode 100644
-> index 000000000000..7231710d5ce7
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/config
-> @@ -0,0 +1,7 @@
-> +CONFIG_CGROUPS=y
-> +CONFIG_CGROUP_PIDS=y
-> +CONFIG_NAMESPACES=y
-> +CONFIG_NET=y
-> +CONFIG_NET_NS=y
-> +CONFIG_INET=y
-> +CONFIG_SYSFS=y
-> diff --git a/tools/testing/selftests/filesystems/kernfs_test.c b/tools/testing/selftests/filesystems/kernfs_test.c
-> index 84c2b910a60d..2178428b9665 100644
-> --- a/tools/testing/selftests/filesystems/kernfs_test.c
-> +++ b/tools/testing/selftests/filesystems/kernfs_test.c
-> @@ -2,8 +2,20 @@
->  #define _GNU_SOURCE
->  #define __SANE_USERSPACE_TYPES__
->  
-> +#include <dirent.h>
-> +#include <errno.h>
->  #include <fcntl.h>
-> +#include <limits.h>
-> +#include <net/if.h>
-> +#include <sched.h>
->  #include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <time.h>
-> +#include <unistd.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/mount.h>
-> +#include <sys/socket.h>
->  #include <sys/stat.h>
->  #include <sys/xattr.h>
->  
-> @@ -34,5 +46,686 @@ TEST(kernfs_getxattr)
->  	EXPECT_EQ(close(fd), 0);
->  }
->  
-> -TEST_HARNESS_MAIN
-> +/*
-> + * Exercise the kernfs dentry cache: lookup, revalidation of positive and
-> + * negative dentries, readdir and namespace tagging.
-> + *
-> + * These drive kernfs from kernel context rather than VFS create/unlink,
-> + * which is what ->d_revalidate() exists for: writing cgroup.subtree_control
-> + * adds and removes files in every child cgroup with no VFS operation
-> + * touching those names.
-> + */
-> +
-> +#define CG_SCRATCH	"kernfs_selftest"
-> +#define TEST_IFNAME	"kfstest0"
-> +
-> +/*
-> + * Controllers that add a file to each child cgroup when enabled.  The probe
-> + * file must be owned by the controller: cgroup_base_files[] entries such as
-> + * cpu.stat exist in every cgroup regardless, and every file the cpu
-> + * controller does own is behind a Kconfig symbol, so cpu is not usable here.
-> + */
-> +static const struct {
-> +	const char *name;
-> +	const char *probe_file;
-> +} controllers[] = {
-> +	{ "memory",	"memory.current" },
-> +	{ "pids",	"pids.current" },
-> +};
-> +
-> +static int find_cgroup2_root(char *buf, size_t len)
-> +{
-> +	char line[PATH_MAX * 2];
-> +	FILE *f;
-> +	int ret = -1;
-> +
-> +	f = fopen("/proc/self/mounts", "re");
-> +	if (!f)
-> +		return -1;
-> +
-> +	while (fgets(line, sizeof(line), f)) {
-> +		char mnt[PATH_MAX], type[64];
-> +
-> +		/* Octal escaping can expand a path fourfold; bound both %s. */
-> +		if (sscanf(line, "%*s %4095s %63s", mnt, type) != 2)
-> +			continue;
-> +		if (strcmp(type, "cgroup2"))
-> +			continue;
-> +		if (strlen(mnt) >= len)
-> +			break;
-> +		strcpy(buf, mnt);
-> +		ret = 0;
-> +		break;
-> +	}
-> +
-> +	fclose(f);
-> +	return ret;
-> +}
-> +
-> +static int write_file(const char *path, const char *val)
-> +{
-> +	ssize_t len = strlen(val);
-> +	int fd, ret;
-> +
-> +	fd = open(path, O_WRONLY | O_CLOEXEC);
-> +	if (fd < 0)
-> +		return -1;
-> +	ret = write(fd, val, len) == len ? 0 : -1;
-> +	close(fd);
-> +	return ret;
-> +}
-> +
-> +static bool file_has_word(const char *path, const char *word)
-> +{
-> +	char buf[4096], *tok, *save;
-> +	bool found = false;
-> +	ssize_t n;
-> +	int fd;
-> +
-> +	fd = open(path, O_RDONLY | O_CLOEXEC);
-> +	if (fd < 0)
-> +		return false;
-> +	n = read(fd, buf, sizeof(buf) - 1);
-> +	close(fd);
-> +	if (n < 0)
-> +		return false;
-> +	buf[n] = '\0';
-> +
-> +	for (tok = strtok_r(buf, "\n ", &save); tok;
-> +	     tok = strtok_r(NULL, "\n ", &save)) {
-> +		if (!strcmp(tok, word)) {
-> +			found = true;
-> +			break;
-> +		}
-> +	}
-> +	return found;
-> +}
-> +
-> +static bool path_is_mounted(const char *path)
-> +{
-> +	char line[PATH_MAX * 2];
-> +	bool found = false;
-> +	FILE *f;
-> +
-> +	f = fopen("/proc/self/mounts", "re");
-> +	if (!f)
-> +		return false;
-> +	while (fgets(line, sizeof(line), f)) {
-> +		char mnt[PATH_MAX];
-> +
-> +		if (sscanf(line, "%*s %4095s", mnt) != 1)
-> +			continue;
-> +		if (!strcmp(mnt, path)) {
-> +			found = true;
-> +			break;
-> +		}
-> +	}
-> +	fclose(f);
-> +	return found;
-> +}
-> +
-> +/* Shared by the stress tests below. */
-> +static bool stress_deadline(const struct timespec *end)
-> +{
-> +	struct timespec now;
-> +
-> +	clock_gettime(CLOCK_MONOTONIC, &now);
-> +	return now.tv_sec > end->tv_sec ||
-> +	       (now.tv_sec == end->tv_sec && now.tv_nsec >= end->tv_nsec);
-> +}
-> +
-> +FIXTURE(kernfs_cgroup)
-> +{
-> +	char scratch[PATH_MAX];		/* <cg2>/kernfs_selftest.<pid> */
-> +	char child[PATH_MAX];		/* <scratch>/child */
-> +	char probe[PATH_MAX];		/* child's controller file */
-> +	char scratch_sc[PATH_MAX];	/* scratch's cgroup.subtree_control */
-> +	char root_sc[PATH_MAX];		/* root's cgroup.subtree_control */
-> +	char enable[32];		/* "+<controller>" */
-> +	char disable[32];		/* "-<controller>" */
-> +	char mnt[PATH_MAX];		/* our own mount, if we made one */
-> +	bool mounted;
-> +	bool enabled_at_root;
-> +};
-> +
-> +/* A cgroup stays busy briefly after its last task exits. */
-> +static void rmdir_retry(const char *path)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < 500; i++) {
-> +		if (!rmdir(path) || errno != EBUSY)
-> +			return;
-> +		usleep(10000);
-> +	}
-> +}
-> +
-> +/*
-> + * Undo whatever SETUP managed to do.  The harness skips TEARDOWN after a
-> + * failed or skipped SETUP, so SETUP must call this before returning early.
-> + */
-> +static void kernfs_cgroup_undo(FIXTURE_DATA(kernfs_cgroup) *self)
-> +{
-> +	rmdir_retry(self->child);
-> +	rmdir(self->scratch);
-> +	if (self->enabled_at_root)
-> +		write_file(self->root_sc, self->disable);
-> +	if (self->mounted) {
-> +		umount2(self->mnt, MNT_DETACH);
-> +		rmdir(self->mnt);
-> +	}
-> +	self->enabled_at_root = false;
-> +	self->mounted = false;
-> +}
-> +
-> +FIXTURE_SETUP(kernfs_cgroup)
-> +{
-> +	char root[PATH_MAX], ctl[PATH_MAX];
-> +	const char *probe_file = NULL;
-> +	size_t i;
-> +
-> +	if (geteuid())
-> +		SKIP(return, "test needs to run as root");
-> +
-> +	/*
-> +	 * A private mount namespace stops our mounts leaking, but does not
-> +	 * isolate the cgroup hierarchy: cgroup2 has one default hierarchy
-> +	 * however many times it is mounted.  The scratch cgroups live in the
-> +	 * host's and must be removed, not discarded with the namespace.
-> +	 */
-> +	if (unshare(CLONE_NEWNS))
-> +		SKIP(return, "unshare(CLONE_NEWNS): %s", strerror(errno));
-> +	if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-> +		SKIP(return, "make / private: %s", strerror(errno));
-> +
-> +	/* Use an existing cgroup2 mount if there is one, else make our own. */
-> +	if (find_cgroup2_root(root, sizeof(root))) {
-> +		strcpy(self->mnt, "/tmp/kernfs_selftest_cg2.XXXXXX");
-> +		if (!mkdtemp(self->mnt))
-> +			SKIP(return, "mkdtemp: %s", strerror(errno));
-> +		if (mount("none", self->mnt, "cgroup2", 0, NULL)) {
-> +			rmdir(self->mnt);
-> +			SKIP(return, "mount cgroup2: %s", strerror(errno));
-> +		}
-> +		self->mounted = true;
-> +		strcpy(root, self->mnt);
-> +	}
-> +
-> +	snprintf(self->root_sc, sizeof(self->root_sc),
-> +		 "%s/cgroup.subtree_control", root);
-> +	snprintf(ctl, sizeof(ctl), "%s/cgroup.controllers", root);
-> +
-> +	/* Named after our pid so we cannot collide with anything else. */
-> +	snprintf(self->scratch, sizeof(self->scratch), "%s/%s.%d", root,
-> +		 CG_SCRATCH, getpid());
-> +	snprintf(self->child, sizeof(self->child), "%s/child", self->scratch);
-> +	snprintf(self->scratch_sc, sizeof(self->scratch_sc),
-> +		 "%s/cgroup.subtree_control", self->scratch);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(controllers); i++) {
-> +		if (!file_has_word(ctl, controllers[i].name))
-> +			continue;
-> +		snprintf(self->enable, sizeof(self->enable), "+%s",
-> +			 controllers[i].name);
-> +		snprintf(self->disable, sizeof(self->disable), "-%s",
-> +			 controllers[i].name);
-> +		probe_file = controllers[i].probe_file;
-> +
-> +		/*
-> +		 * A controller must be in the root's subtree_control before
-> +		 * it appears in our scratch cgroup.  Note if we enabled it,
-> +		 * so it can be put back.
-> +		 */
-> +		self->enabled_at_root = !file_has_word(self->root_sc,
-> +						       controllers[i].name);
-> +		if (self->enabled_at_root &&
-> +		    write_file(self->root_sc, self->enable)) {
-> +			self->enabled_at_root = false;
-> +			probe_file = NULL;
-> +			continue;
-> +		}
-> +		break;
-> +	}
-> +	if (!probe_file) {
-> +		kernfs_cgroup_undo(self);
-> +		SKIP(return, "no usable cgroup2 controller");
-> +	}
-> +
-> +	snprintf(self->probe, sizeof(self->probe), "%s/%s", self->child,
-> +		 probe_file);
-> +
-> +	/*
-> +	 * Only an unusable environment may skip.  A scratch cgroup named
-> +	 * after our own pid should always be creatable, so failing to make
-> +	 * one is a result -- skipping would let a broken kernel look green.
-> +	 */
-> +	if (mkdir(self->scratch, 0755)) {
-> +		int err = errno;
-> +
-> +		kernfs_cgroup_undo(self);
-> +		if (err == EROFS || err == EACCES || err == EPERM)
-> +			SKIP(return, "mkdir %s: %s", self->scratch,
-> +			     strerror(err));
-> +		ASSERT_EQ(err, 0) TH_LOG("mkdir %s: %s", self->scratch,
-> +					 strerror(err));
-> +	}
-> +	if (mkdir(self->child, 0755)) {
-> +		int err = errno;
-> +
-> +		kernfs_cgroup_undo(self);
-> +		ASSERT_EQ(err, 0) TH_LOG("mkdir %s: %s", self->child,
-> +					 strerror(err));
-> +	}
-> +
-> +	/*
-> +	 * The tests below need the probe file to appear and disappear with
-> +	 * the controller, so it must be absent now, before anything enables
-> +	 * it in the scratch cgroup.  Skip rather than fail: a probe file that
-> +	 * is already there means the table names one the controller does not
-> +	 * own, not that the kernel is broken.
-> +	 */
-> +	if (!access(self->probe, F_OK)) {
-> +		kernfs_cgroup_undo(self);
-> +		SKIP(return, "%s is not owned by the %s controller",
-> +		     probe_file, self->enable + 1);
-> +	}
-> +}
-> +
-> +FIXTURE_TEARDOWN(kernfs_cgroup)
-> +{
-> +	write_file(self->scratch_sc, self->disable);
-> +	kernfs_cgroup_undo(self);
-> +}
-> +
-> +/*
-> + * Walking already-cached dentries must not invalidate them.  Spurious
-> + * invalidation is not merely slow: d_invalidate() calls detach_mounts(), so
-> + * an unrelated lookup would silently tear down any mount below.
-> + */
-> +TEST_F(kernfs_cgroup, path_walk_does_not_invalidate)
-> +{
-> +	char src[] = "/tmp/kernfs_selftest_bind.XXXXXX";
-> +	char sub[PATH_MAX], probe[PATH_MAX];
-> +	int i;
-> +
-> +	snprintf(sub, sizeof(sub), "%s/sub", self->child);
-> +	ASSERT_EQ(mkdir(sub, 0755), 0);
-> +
-> +	if (!mkdtemp(src)) {
-> +		rmdir(sub);
-> +		SKIP(return, "mkdtemp: %s", strerror(errno));
-> +	}
-> +	if (mount(src, sub, NULL, MS_BIND, NULL)) {
-> +		int err = errno;
-> +
-> +		rmdir(sub);
-> +		rmdir(src);
-> +		SKIP(return, "bind mount onto a cgroup dir: %s", strerror(err));
-> +	}
-> +	ASSERT_TRUE(path_is_mounted(sub));
-> +
-> +	/* Walk a sibling path through the same directory, repeatedly. */
-> +	snprintf(probe, sizeof(probe), "%s/cgroup.procs", self->child);
-> +	for (i = 0; i < 8; i++) {
-> +		int fd = open(probe, O_RDONLY | O_CLOEXEC);
-> +
-> +		if (fd >= 0)
-> +			close(fd);
-> +	}
-> +
-> +	EXPECT_TRUE(path_is_mounted(sub));
-> +
-> +	umount2(sub, MNT_DETACH);
-> +	rmdir(sub);
-> +	rmdir(src);
-> +}
-> +
-> +/*
-> + * A cached negative dentry must be invalidated when the kernel creates the
-> + * name behind the dcache's back.  That is what kernfs_dir_changed() and
-> + * kernfs_elem_dir::rev are for.
-> + */
-> +TEST_F(kernfs_cgroup, negative_dentry_invalidated_by_kernel_create)
-> +{
-> +	struct stat st;
-> +
-> +	/* Caches a negative dentry for the probe file. */
-> +	ASSERT_EQ(stat(self->probe, &st), -1);
-> +	ASSERT_EQ(errno, ENOENT);
-> +
-> +	/* The kernel now creates it, with no VFS operation on that name. */
-> +	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
-> +
-> +	EXPECT_EQ(stat(self->probe, &st), 0);
-> +}
-> +
-> +/* The mirror image: a cached positive dentry must go when the node does. */
-> +TEST_F(kernfs_cgroup, positive_dentry_invalidated_by_kernel_remove)
-> +{
-> +	struct stat st;
-> +
-> +	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
-> +	/* Caches a positive dentry. */
-> +	ASSERT_EQ(stat(self->probe, &st), 0);
->  
-> +	ASSERT_EQ(write_file(self->scratch_sc, self->disable), 0);
-> +
-> +	ASSERT_EQ(stat(self->probe, &st), -1);
-> +	EXPECT_EQ(errno, ENOENT);
-> +}
-> +
-> +/* Opening a removed node fails; it never returns stale content. */
-> +TEST_F(kernfs_cgroup, open_after_rmdir_fails)
-> +{
-> +	char path[PATH_MAX];
-> +	char buf[64];
-> +	int fd;
-> +
-> +	snprintf(path, sizeof(path), "%s/cgroup.procs", self->child);
-> +
-> +	fd = open(path, O_RDONLY | O_CLOEXEC);
-> +	ASSERT_GE(fd, 0);
-> +
-> +	ASSERT_EQ(rmdir(self->child), 0);
-> +
-> +	/* Lookup by path must fail. */
-> +	EXPECT_EQ(open(path, O_RDONLY | O_CLOEXEC), -1);
-> +	EXPECT_EQ(errno, ENOENT);
-> +
-> +	/*
-> +	 * An fd held across removal must fail rather than return stale
-> +	 * content.  rmdir() deactivates the node before it returns, so
-> +	 * kernfs_seq_start() fails to get an active reference.
-> +	 */
-> +	EXPECT_LT(read(fd, buf, sizeof(buf)), 0);
-> +	EXPECT_EQ(errno, ENODEV);
-> +	EXPECT_EQ(close(fd), 0);
-> +
-> +	ASSERT_EQ(mkdir(self->child, 0755), 0);
-> +}
-> +
-> +/* readdir returns every entry exactly once. */
-> +TEST_F(kernfs_cgroup, readdir_no_duplicates)
-> +{
-> +	char names[512][NAME_MAX + 1];
-> +	struct dirent *de;
-> +	int n = 0, i, j;
-> +	DIR *d;
-> +
-> +	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
-> +
-> +	d = opendir(self->child);
-> +	ASSERT_NE(d, NULL);
-> +	while ((de = readdir(d))) {
-> +		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-> +			continue;
-> +		ASSERT_LT(n, (int)ARRAY_SIZE(names));
-> +		strncpy(names[n], de->d_name, NAME_MAX);
-> +		names[n][NAME_MAX] = '\0';
-> +		n++;
-> +	}
-> +	closedir(d);
-> +
-> +	ASSERT_GT(n, 0);
-> +	for (i = 0; i < n; i++)
-> +		for (j = i + 1; j < n; j++)
-> +			EXPECT_STRNE(names[i], names[j]);
-> +}
-> +
-> +/*
-> + * A telldir() cookie must resolve back to the same entry after seekdir().
-> + * kernfs encodes the cookie as the node's name hash, so this covers
-> + * kernfs_dir_pos() as well as plain iteration.
-> + */
-> +TEST_F(kernfs_cgroup, readdir_seekdir_roundtrip)
-> +{
-> +	char names[512][NAME_MAX + 1];
-> +	struct dirent *de;
-> +	long pos[512];
-> +	int n = 0, i;
-> +	DIR *d;
-> +
-> +	ASSERT_EQ(write_file(self->scratch_sc, self->enable), 0);
-> +
-> +	d = opendir(self->child);
-> +	ASSERT_NE(d, NULL);
-> +
-> +	/* Record the cookie *before* reading each entry, with its name. */
-> +	while (1) {
-> +		long here = telldir(d);
-> +
-> +		de = readdir(d);
-> +		if (!de)
-> +			break;
-> +		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-> +			continue;
-> +		ASSERT_LT(n, (int)ARRAY_SIZE(pos));
-> +		pos[n] = here;
-> +		strncpy(names[n], de->d_name, NAME_MAX);
-> +		names[n][NAME_MAX] = '\0';
-> +		n++;
-> +	}
-> +	ASSERT_GT(n, 0);
-> +
-> +	/* Seeking back to a cookie must land on the entry it was taken at. */
-> +	for (i = 0; i < n; i++) {
-> +		seekdir(d, pos[i]);
-> +		de = readdir(d);
-> +		ASSERT_NE(de, NULL);
-> +		EXPECT_STREQ(de->d_name, names[i]);
-> +	}
-> +
-> +	closedir(d);
-> +}
-> +
-> +#define STRESS_SECS	2
-> +#define STRESS_DIRS	4
-> +#define STRESS_READERS	4
-> +
-> +/*
-> + * Hammer lookup against creation and removal.  Revalidation holds no lock
-> + * against the writers, so what makes it safe is that every answer it can
-> + * give is one the caller already handles: a reader must only ever see
-> + * success or an errno meaning "it went away", never garbage or a hang.
-> + */
-> +TEST_F(kernfs_cgroup, lookup_vs_create_remove_stress)
-> +{
-> +	pid_t pids[STRESS_DIRS + STRESS_READERS];
-> +	struct timespec end;
-> +	int i, status, n = 0;
-> +
-> +	clock_gettime(CLOCK_MONOTONIC, &end);
-> +	end.tv_sec += STRESS_SECS;
-> +
-> +	for (i = 0; i < STRESS_DIRS; i++) {
-> +		pid_t pid = fork();
-> +
-> +		ASSERT_GE(pid, 0);
-> +		if (pid == 0) {
-> +			char dir[PATH_MAX];
-> +
-> +			snprintf(dir, sizeof(dir), "%s/s%d", self->scratch, i);
-> +			while (!stress_deadline(&end)) {
-> +				if (mkdir(dir, 0755) && errno != EEXIST)
-> +					_exit(10);
-> +				if (rmdir(dir) && errno != ENOENT &&
-> +				    errno != EBUSY)
-> +					_exit(11);
-> +			}
-> +			_exit(0);
-> +		}
-> +		pids[n++] = pid;
-> +	}
-> +
-> +	for (i = 0; i < STRESS_READERS; i++) {
-> +		pid_t pid = fork();
-> +
-> +		ASSERT_GE(pid, 0);
-> +		if (pid == 0) {
-> +			/* Start each reader on a different directory. */
-> +			unsigned int seq = i;
-> +
-> +			while (!stress_deadline(&end)) {
-> +				int which = seq++ % STRESS_DIRS;
-> +				char path[PATH_MAX];
-> +				struct stat st;
-> +				int fd;
-> +
-> +				snprintf(path, sizeof(path),
-> +					 "%s/s%d/cgroup.procs",
-> +					 self->scratch, which);
-> +
-> +				if (stat(path, &st) && errno != ENOENT &&
-> +				    errno != ENODEV)
-> +					_exit(20);
-> +
-> +				fd = open(path, O_RDONLY | O_CLOEXEC);
-> +				if (fd < 0) {
-> +					if (errno != ENOENT && errno != ENODEV)
-> +						_exit(21);
-> +				} else {
-> +					close(fd);
-> +				}
-> +
-> +				if (access(path, F_OK) && errno != ENOENT &&
-> +				    errno != ENODEV)
-> +					_exit(22);
-> +			}
-> +			_exit(0);
-> +		}
-> +		pids[n++] = pid;
-> +	}
-> +
-> +	for (i = 0; i < n; i++) {
-> +		ASSERT_EQ(waitpid(pids[i], &status, 0), pids[i]);
-> +		ASSERT_TRUE(WIFEXITED(status));
-> +		EXPECT_EQ(WEXITSTATUS(status), 0);
-> +	}
-> +
-> +	for (i = 0; i < STRESS_DIRS; i++) {
-> +		char dir[PATH_MAX];
-> +
-> +		snprintf(dir, sizeof(dir), "%s/s%d", self->scratch, i);
-> +		rmdir_retry(dir);
-> +	}
-> +}
-> +
-> +/*
-> + * sysfs is namespace tagged (KERNFS_NS) and supports rename; cgroup2 does
-> + * neither.  Run in a private netns with its own sysfs so the host is
-> + * untouched.
-> + */
-> +FIXTURE(kernfs_netns)
-> +{
-> +	char mnt[PATH_MAX];
-> +	char net[PATH_MAX];
-> +	bool mounted;
-> +};
-> +
-> +FIXTURE_SETUP(kernfs_netns)
-> +{
-> +	if (geteuid())
-> +		SKIP(return, "test needs to run as root");
-> +
-> +	if (unshare(CLONE_NEWNS | CLONE_NEWNET))
-> +		SKIP(return, "unshare(CLONE_NEWNS|CLONE_NEWNET): %s",
-> +		     strerror(errno));
-> +
-> +	/* Don't let our sysfs mount escape into the parent namespace. */
-> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-> +
-> +	strcpy(self->mnt, "/tmp/kernfs_selftest_sysfs.XXXXXX");
-> +	ASSERT_NE(mkdtemp(self->mnt), NULL);
-> +
-> +	if (mount("none", self->mnt, "sysfs", 0, NULL)) {
-> +		rmdir(self->mnt);
-> +		SKIP(return, "mount sysfs: %s", strerror(errno));
-> +	}
-> +	self->mounted = true;
-> +
-> +	snprintf(self->net, sizeof(self->net), "%s/class/net", self->mnt);
-> +}
-> +
-> +FIXTURE_TEARDOWN(kernfs_netns)
-> +{
-> +	if (self->mounted)
-> +		umount2(self->mnt, MNT_DETACH);
-> +	rmdir(self->mnt);
-> +}
-> +
-> +/*
-> + * sysfs must show this network namespace's interfaces, not the parent's.
-> + *
-> + * Do not assume a fresh netns contains only "lo": fallback tunnel devices
-> + * (tunl0, sit0, gre0, ...) are created in every namespace unless
-> + * net.core.fb_tunnels_only_for_init_net is set, so which names appear
-> + * depends on the modules the host has.  Check the set instead --
-> + * if_nametoindex() resolves in the current netns, so every name sysfs shows
-> + * must resolve there, and the counts must agree.
-> + */
-> +TEST_F(kernfs_netns, ns_tag_isolates_class_net)
-> +{
-> +	struct if_nameindex *idx, *i;
-> +	bool found_lo = false;
-> +	int n = 0, want = 0;
-> +	struct dirent *de;
-> +	DIR *d;
-> +
-> +	d = opendir(self->net);
-> +	ASSERT_NE(d, NULL);
-> +	while ((de = readdir(d))) {
-> +		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-> +			continue;
-> +		EXPECT_NE(if_nametoindex(de->d_name), 0u)
-> +			TH_LOG("%s is not in this netns", de->d_name);
-> +		if (!strcmp(de->d_name, "lo"))
-> +			found_lo = true;
-> +		n++;
-> +	}
-> +	closedir(d);
-> +
-> +	idx = if_nameindex();
-> +	ASSERT_NE(idx, NULL);
-> +	for (i = idx; i->if_index; i++)
-> +		want++;
-> +	if_freenameindex(idx);
-> +
-> +	EXPECT_TRUE(found_lo);
-> +	EXPECT_EQ(n, want);
-> +}
-> +
-> +/*
-> + * After a rename the old name must stop resolving and the new one must
-> + * start, even though both dentries are already cached.
-> + */
-> +TEST_F(kernfs_netns, rename_is_revalidated)
-> +{
-> +	char old_path[PATH_MAX], new_path[PATH_MAX];
-> +	struct ifreq ifr = {};
-> +	struct stat st;
-> +	int sk;
-> +
-> +	snprintf(old_path, sizeof(old_path), "%s/lo", self->net);
-> +	snprintf(new_path, sizeof(new_path), "%s/%s", self->net, TEST_IFNAME);
-> +
-> +	/* Warm both dentries: one positive, one negative. */
-> +	ASSERT_EQ(stat(old_path, &st), 0);
-> +	ASSERT_EQ(stat(new_path, &st), -1);
-> +	ASSERT_EQ(errno, ENOENT);
-> +
-> +	sk = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
-> +	ASSERT_GE(sk, 0);
-> +	strcpy(ifr.ifr_name, "lo");
-> +	strcpy(ifr.ifr_newname, TEST_IFNAME);
-> +	if (ioctl(sk, SIOCSIFNAME, &ifr)) {
-> +		close(sk);
-> +		SKIP(return, "SIOCSIFNAME: %s", strerror(errno));
-> +	}
-> +	close(sk);
-> +
-> +	EXPECT_EQ(stat(old_path, &st), -1);
-> +	EXPECT_EQ(errno, ENOENT);
-> +	EXPECT_EQ(stat(new_path, &st), 0);
-> +}
-> +
-> +TEST_HARNESS_MAIN
-> -- 
-> 2.53.0-Meta
-> 
+As for Sashiko's comment about fwnode_get_next_*() not putting the
+reference to @prev when @node is NULL, I plan to update the kernel-doc
+for all the functions in a separate patch later.
+
+Another one of Sashiko's comments is related to dropping the wakeup-source
+property from the PCIe node. AFAIK there is no alternative as there is
+no longer a node to put it in.
+
+Last, one comment from Qualcomm folks is that the port numbering
+conflicts with what the dwc3 bindings specify. IMHO the dwc3 bindings
+should be fixed, as the dwc3 controller embeds a XHCI for host mode,
+and XHCI port numbering should follow standard USB host hardware port
+numbering. I will send separate RFC patches for this.
+
+
+Changes since v7:
+- Mention in kernel-doc that the function does not return ports that
+  have no endpoints (Sakari) (patch 1)
+- Adapted to pwrseq_enable/disable() rename
+- Link to v7:
+  https://lore.kernel.org/all/20260724084328.3943997-1-wenst@chromium.org/
+
+Changes since v6:
+- Patch 3 (power: sequencing: Add pwrseq_get_state())
+  - Adopted enum for valid return codes (Bartosz)
+- Patch 10 (usb hub pwrseq integration)
+  - Added braces ("{}") to for loop in hub_is_port_power_switchable() (Andy)
+  - Adapted usb_port_is_power_on() to new pwrseq_get_state() function
+    return values (Bartosz)
+- Link to v6:
+  https://lore.kernel.org/all/20260721065413.2306137-1-wenst@chromium.org/
+
+Changes since v5:
+- Patch 1 (device property: Add fwnode_graph_get_port_by_id())
+  - Dropped left-over declaration in header (Sashiko)
+- Patch 3 (power: sequencing: Add pwrseq_power_is_on())
+  - Reverted back to returning -EINVAL if descriptor is NULL (Andy /
+    Bartosz)
+- Patch 6 (usb: hub: Associate port@ fwnode with USB port device)
+  - Added extra |struct fwnode_handle *| local variables to shorten lines (Andy)
+  - Added comment about passing fwnode_graph_get_port_by_id() return value 
+    directly to device_set_node() (Andy)
+- Patch 10 (usb hub pwrseq integration)
+  - Only assign port_dev->pwrseq if successfully retrieved pwrseq
+    descriptor (Andy)
+  - Dropped the pwrseq error pointer check in the release function
+    (Andy)
+  - Added check for port->pwrseq != NULL before calling
+    pwrseq_is_power_on() (API change from patch 3)
+- Link to v5:
+  https://lore.kernel.org/all/20260715085348.3457359-1-wenst@chromium.org/
+
+Changes since v4:
+- Added flags parameter to fwnode_graph_get_port_by_id() so users can
+  specify whether incomplete ports are returned or not (Sashiko)
+- Made pwrseq_power_is_on() return 1 if descriptor is NULL, i.e. if
+  the descriptor is optional, matching the other pwrseq consumer APIs
+- Added patch to swap out conditional set_bit()/clear_bit() with
+  assign_bit() (split out from "usb: hub: Power on connected M.2 E-key
+  connectors with power sequencing API") (Andy)
+- Call fwnode_graph_get_port_by_id() with FWNODE_GRAPH_DEVICE_DISABLED
+  so that even incomplete ports can be connected (Sashiko)
+- Dropped unused |hdev| variable from usb_hub_remove_port_device()
+  (Greg / Sashiko)
+- Dropped 'extern' from usb_port_is_power_on() header declaration (Andy)
+
+- Patch 10 (usb hub pwrseq integration)
+  - Rewrote usb_port_is_power_on() to better express intent and
+    restrictions of pwrseq API (Andy)
+  - Switched to dev_fwnode() in port_pwrseq_is_supported() (Andy)
+  - Added blank line separating normal variable declarations and __free()
+    type declarations (Andy)
+  - Split out assign_bit() rewrite (Andy)
+  - Moved pwrseq_put() to release function to avoid UAF (Sashiko)
+  - Added back pwrseq_power_off() call in usb_hub_remove_port_device();
+    otherwise power off could be delayed to object release
+  - Don't clear hub->ports[port1 - 1] in main error path;
+    by that time the port device is registered and sysfs attributes are
+    available to userspace (Sashiko)
+
+- Dropped blank line between __free() variable declaration and
+  subsequent use of the variable in conditional (Andy)
+- Added patch to split Bluetooth pwrseq units (Wei)
+- Link to v4:
+  https://lore.kernel.org/all/20260709095726.704448-1-wenst@chromium.org/
+
+Changes since v3:
+- Added missing stub function for !POWER_SEQUENCING (patch 3) (Sashiko)
+- Added missing fwnode_handle_put() (patch 5) (Sashiko)
+- Added new patch to move |struct usb_port| related declarations to
+  separate header (patch 6) (Andy)
+- Patch 9 (usb hub pwrseq integration)
+  - Adapted to move of usb_port_is_power_on() to port.c and port.h
+  - Simplified usb_hub_set_port_pwrseq() (Andy)
+  - Renamed usb_hub_set_port_pwrseq()'s "set" parameter to "on"
+  - Dropped usb_hub_restore_port_pwrseq() (use usb_hub_set_port_pwrseq()
+    with inverted argument)
+  - Fixed off-by-one access in hub_is_port_power_switchable() (Sashiko)
+  - Assign retval from dev_err_probe() instead of the other way around (Andy)
+  - Clear hub->ports[port1 - 1] in USB port error and remove paths to
+    avoid other threads from accidental UAF while the USB hub device is
+    being unwound (Sashiko)
+  - Short-circuit out of helpers if !IS_ENABLED(CONFIG_POWER_SEQUENCING)
+    to avoid errors from stub functions (Sashiko)
+- Drop redundant device node validity check; device_match_of_node()
+  does it internally (patch 11) (Andy)
+- Link to v3:
+  https://lore.kernel.org/all/20260703110317.1283411-1-wenst@chromium.org/
+
+Major changes since v2:
+- Removed changes for MT8192 Asurada family: one of the device is
+  shipped with RTL8822CE-VR, which is PCIe + UART and needs more work.
+- Removed changes for USB A ports: VBUS one the type A ports on
+  Chromebooks are not directly controllable from the OS and VBUS is
+  modeled as always on. As such the changes I made don't actually
+  change how the system works.
+- Added new pwrseq_power_is_on() function
+- Make new pwrseq integration effectively OF only by not assigning the
+  port fwnode if the hub's fwnode is an ACPI node
+- Added patch to convert remaining instances of directly setting/clearing
+  USB_PORT_FEAT_POWER to usb_hub_set_port_power()
+- Power sequencing state removed again in favor of state tracking by
+  pwrseq subsystem
+- Power sequencing descriptor again separately requested for HS and SS
+  ports
+- Dropped pwrseq_power_off() call before pwrseq_put(); the latter calls
+  the former implicitly if the power state was left on
+- Squashed DT binding revert and addition into one patch
+- Link to v2:
+  https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
+
+
+Major changes since v1:
+- No longer adding the "index" parameter the power sequencing API
+- Switched from OF graph to fwnode graph APIs
+- Tie "port@" node to usb_port device, and use this device as consumer
+  to acquire power sequencing descriptor
+- Power sequencing descriptor now only tied to USB 2.0 port to avoid
+  double reference
+- Power sequencing state tracking added
+- Link to v1
+  https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
+
+The series is based on next-20260901.
+
+
+Patch 1 and 2 add new fwnode graph helpers. These are used by the patch
+5 and 8, respectively.
+
+Patch 3 adds a new pwrseq_get_state() for power sequencer consumers
+to query the current request state. Note that this is not the _actual_
+state.
+
+Patch 4 swaps out the existing conditional set_bit()/clear_bit() with
+assign_bit(), which does the same thing.
+
+Patch 5 reworks the USB hub driver to return the actual error code from
+hub_configure() in hub_probe(). This is needed in the next patch to
+correctly return -EPROBE_DEFER returned by pwrseq_get() in patch 9.
+
+Patch 6 makes the USB port device associated with a "port@" fwnode if
+available. This depends on patch 1.
+
+Patch 7 moves some |struct usb_port| related stuff from hub.c and hub.h
+to port.c and port.h. No actual code or functionality is changed.
+
+Patch 8 changes usb_port_is_power_on() so that |struct usb_port*| is
+passed in instead of |struct usb_hub*|. This patch does not change any
+functionality.
+
+Patch 9 changes some USB hub port power control code that directly
+toggles USB_PORT_FEAT_POWER to use usb_hub_set_port_power().
+
+Patch 10 lets the USB hub driver look for power sequencers for each port.
+Currently this only works for M.2 E-key connections, but it could be
+extended to cover other cases. It should also make port reset via turning
+off the port VBUS work, even when VBUS is not directly controlled by the
+hub. This depends on patch 2 and 3 for the new helpers.
+
+Patch 11 reverts an incorrectly modeled OF graph connection for the
+MediaTek XHCI controller and adds a proper representation.
+
+Patch 12 adds matching pwrseq consumer by "port@" node to the M.2 slot
+driver. This is only used for the USB target, but there is no attempt
+to differentiate the connection type. The driver simply tries matching
+the "port@" node first, then falling back to the port parent or device's
+node.
+
+Patch 13 reworks the power sequencing targets for the E-key connector in
+the pcie-m2 driver to add targets for USB and SDIO. The former is used
+later on in this series.
+
+Patch 14 splits the Bluetooth power sequencing unit so that the USB and
+serdev consumers can separately toggle the actual state of W_DISABLE#2.
+This patch is purposefully not squashed into the previous one to provide
+a clear target for discussions.
+
+Patches 15 and 16 enable the M.2 E-key slots (or slot-like integration)
+found on MT8195 and MT8188 MediaTek-based Chromebooks. 
+
+
+This series unfortunately spans multiple trees. The way I see it:
+
+  - Patches 1 and 2 go through the driver core, and an immutable tag is
+    provided to be merged together with the USB patches.
+
+  - Patch 3 has an ack from Bartosz, and goes through the USB tree. But
+    Bartosz also wants an immutable branch/tag to have a copy in the
+    pwrseq tree.
+
+  - Patches 4 through 11 (all the USB related ones) go through the USB
+    tree, along with the dependencies above.
+
+  - Patches 12 through 14 go through the power sequencing tree.
+
+  - Patches 15 and 16 (device tree only) go through the soc tree via the
+    mediatek tree.
+
+Some of us discussed v1 at Embedded Recipes, and I believe Bartosz, Mani
+and I agree on this approach. The debate is likely going to be on
+whether this should be integrated into the USB core or not. I believe it
+should, so that the power sequencing timing is tied to the USB port
+being brought up. I do have a fallback option of just enabling the USB
+power sequencing target inside the M.2 slot driver if a valid OF graph
+connection is seen. But this is less desired for the reason given above.
+
+I hope we can get this merged in this cycle for v7.4.
+
+
+Thanks
+ChenYu
+
+
+[1] https://lore.kernel.org/all/20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com/
+
+Chen-Yu Tsai (16):
+  device property: Add fwnode_graph_get_port_by_id()
+  device property: Add fwnode_graph_get_next_port_endpoint()
+  power: sequencing: Add pwrseq_get_state()
+  usb: hub: Use assign_bit() in usb_hub_set_port_power()
+  usb: hub: Return actual error from hub_configure() in hub_probe()
+  usb: hub: Associate port@ fwnode with USB port device
+  usb: core: Move struct usb_port and related APIs to port.h
+  usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+  usb: hub: Use usb_hub_set_port_power() to control port power
+    everywhere
+  usb: hub: Power on connected M.2 E-key connectors with power
+    sequencing API
+  dt-bindings: usb: mediatek,mtk-xhci: Switch to ports for USB
+    connections
+  power: sequencing: pcie-m2: support matching on remote "port" node
+  power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+    connector
+  power: sequencing: pcie-m2: Split Bluetooth unit based on interface
+  arm64: dts: mediatek: mt8195-cherry: Add M.2 E-key slot
+  arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
+
+ .../bindings/usb/mediatek,mtk-xhci.yaml       |  17 ++-
+ .../boot/dts/mediatek/mt8188-geralt.dtsi      |  92 +++++++++++++++-
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |  73 ++++++++++++-
+ drivers/base/property.c                       |  56 ++++++++++
+ drivers/power/sequencing/core.c               |  19 ++++
+ drivers/power/sequencing/pwrseq-pcie-m2.c     |  64 ++++++++---
+ drivers/usb/Kconfig                           |   1 +
+ drivers/usb/core/hub.c                        |  72 ++++++------
+ drivers/usb/core/hub.h                        |  58 ++--------
+ drivers/usb/core/port.c                       | 103 +++++++++++++++++-
+ drivers/usb/core/port.h                       |  68 ++++++++++++
+ include/linux/property.h                      |   4 +
+ include/linux/pwrseq/consumer.h               |  12 ++
+ 13 files changed, 527 insertions(+), 112 deletions(-)
+ create mode 100644 drivers/usb/core/port.h
 
 -- 
+2.55.0.979.g7e5102b832-goog
+
