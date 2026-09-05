@@ -1,156 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B78453A44;
-	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC233403F8;
+	Sat,  5 Sep 2026 11:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788607778; cv=none; b=h/3dGEUC0KQ4DMFhr0AeO8d0z/5XfT9y/txVfCRtk1vK/t6xhnH7ois/1rbIYrbAm70D/3hgRJybOu2RZmGyO9vWy8cm75qp776nqqT3IWLyaezMKDGxVK1TAuaU+hgKXrfe1hIBAiNmYvA63DAiMZvgpXSiYvSY9Qx+mXxyiSw=
+	t=1788607931; cv=none; b=bDO6cH80FkxUF+GSOwPv3Up7DdFCSTRKZa7HKnBFQNpitdUVuoYglGkSNSy+ilX6MGiwAeaZotHpH8BdprQ9Mr1HUGfp9ZF/8tPWGPqlWBzyEjuuPKebzAyRqSuVMr3xcZRm/qB4TFS74FoHLcy9jR8nNLsxvrNW4ywJvf4mLwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788607778; c=relaxed/simple;
-	bh=6QlfVPFcF/JHSfLa9SAEC7zdo7QfY4euoKXQ/sK6GjQ=;
+	s=arc-20240116; t=1788607931; c=relaxed/simple;
+	bh=KPgCAQDaCR5IqGlKcjIldAVhoYnTXvtlBae0nNTIR90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I4DhT5+Oqv1zjwt6haNINqeSbolX7tp1C8AyQIUXxIE0XAb14t27OC4qvV+q7zmGR91M5eND7qJ8a/ONypobIbNYNmUvMOMGeAVQrqdtmUkJLKQh7+HxPASn6Gyf5gaQgEvZFGWRkPeAUEziqUeghMFaHjJNGO0pa3YAlumzfGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=syXLJRc8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rxtK6ujYqY0+PBxtPKoIwi85eUb0VIwPN4UaNCAlO0ma9WCMDPFpibwSDoGqCAYof/VrL7TfHjlKMEaPXz1uR7oCNuGDjM8YcEDfym8Em39oJsP8rjnQwcMwIVTtaKAckiWcfnivU1UVPAaT6o7yfsemdrHcy4jRgCAzMJTe//c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EI1FmdZQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="syXLJRc8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C691F00A3D;
-	Sat,  5 Sep 2026 11:29:36 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EI1FmdZQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 383661F00A3D;
+	Sat,  5 Sep 2026 11:32:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788607776;
-	bh=NJjp7hyLSGDcY0T4wPUidEv8MR3gxhn3/lAEx5oetG8=;
+	s=korg; t=1788607930;
+	bh=u1mCSdap8EpKqZ+b8GT203WeV+0ASGDGtnDxfJT8fAs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=syXLJRc8Qt140rlFiEVX2z6Ayz3tdNxSLO+4qNaGVJEUzBMblPT1YU8iiP9themzZ
-	 MO5S/OwEjQ7ZUQKELKXoG2fshz9qTTwazYyULIJszn0cQ6w+ByEwYHmnVH+VYKL7K4
-	 LeT6ll8QifcRley2chTb1MuFumJnjGGiDhw/Nai8=
-Date: Sat, 5 Sep 2026 13:27:51 +0200
+	b=EI1FmdZQETscHvLCnLj3TD8ezP5sTSS0FaYeDegsBiKQEd93ERGxLuzIFoAqmkAxT
+	 QVFYqZmzF2NfEN8L+y6m6ckPbreoexmSsO+1HDG8wxwIg/TcuKsYKqP/Sk0Yko1VnO
+	 caGI/HV1rlAf59FK6aT+GM6UYEhyQC82iyil5fTI=
+Date: Sat, 5 Sep 2026 13:30:24 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v3 0/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026090546-skimming-bundle-0655@gregkh>
-References: <20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org>
- <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wei Deng <wei.deng@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related
+ APIs to port.h
+Message-ID: <2026090516-nutshell-handiness-37f9@gregkh>
+References: <20260904084158.1341550-1-wenst@chromium.org>
+ <20260904084158.1341550-8-wenst@chromium.org>
+ <2026090430-botanist-ungodly-0299@gregkh>
+ <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
+ <2026090433-chair-tidings-5c99@gregkh>
+ <apvQlBEgHOW9MCxN@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9ac44f3f-1c67-4c37-aa72-255cec1578d2@gmx.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <apvQlBEgHOW9MCxN@ashevche-desk.local>
 
-On Fri, Sep 04, 2026 at 09:46:59PM +0200, Armin Wolf wrote:
+On Sat, Sep 05, 2026 at 11:19:32AM +0300, Andy Shevchenko wrote:
+> On Fri, Sep 04, 2026 at 07:52:37PM +0200, Greg Kroah-Hartman wrote:
+> > On Sat, Sep 05, 2026 at 01:24:20AM +0800, Chen-Yu Tsai wrote:
+> > > On Sat, Sep 5, 2026 at 12:47 AM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
+> > > > > |struct usb_port| and its matching container_of() macro should live in
+> > > > > its own port.h, matching the split we have for .c files.
+> > > >
+> > > > Why?
+> > > 
+> > > This was requested by Andy. And to me it sort of made sense.
+> > > 
+> > > > > Move them as described. Also move usb_port_is_power_on(), since in the
+> > > > > next change its |struct usb_hub *| parameter will be changed to
+> > > > > |struct usb_port *|, and becomes a non-static function that only
+> > > > > references |struct usb_port|.
+> > > >
+> > > > No, please don't do that unless you have a really good reason.
+> > > 
+> > > Which part? Move the code?
+> > 
+> > Please don't make a new .h file.
+> > 
+> > Moving the function might make sense on its own if you need it in a
+> > different file later on, but do a move only, and then change things if
+> > you really need to do that.
 > 
-> Am 04.09.26 um 07:10 schrieb Greg Kroah-Hartman:
-> > The ability to add and remove devices from a driver through the sysfs
-> > "bind" and "unbind" files was created all those decades ago as a way
-> > that kernel developers can iterate faster, and provide a debugging way
-> > for users to attempt to add a new device to a driver without having to
-> > rebuild their kernel.
-> > 
-> > This api over the years has been abused and recently come under a major
-> > fuzzing "attack" through tools like syzbot which decided that it would
-> > attempt to just randomly bind any driver to any type of device, causing
-> > loads of unneeded errors and pointless kernel patches to be generated by
-> > unsuspecting new developers.
-> > 
-> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > will be set on the driver if the bind/unbind sysfs files are ever
-> > written to.  This lets kernel developers "know" that a user is
-> > attempting to do something that is not normal, and as such, if the
-> > kernel breaks they get to keep the shiny pieces laying around on the
-> > floor.
-> > 
-> > The flag is 'Y' which was unused, and can remembered as the user is
-> > "yeeting" the device being operated on here (thrown with force without
-> > regard for the thing being thrown).
-> > 
-> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > as many times crashes/oops/warnings/failures happen within the callback,
-> > and the taint flag needs to be there to show what was being attempted.
-> > If it were to be set after the callback happens, the oops report would
-> > not properly reflect what foolishness was being attempted.
-> > 
-> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-> > the tool from hitting bind/unbind, should be run with panic_on_taint
-> > enabled so that they fall over and don't continue on, thinking that they
-> > actually found a real issue.
-> > 
-> > Userspace operations that rely on the bind/unbind files to work around
-> > the lack of will to upgrade a kernel image to a newer version with
-> > proper support for new devices, or the lack of will to submit valid
-> > device ids to driver authors, will still work properly, but now the
-> > kernel will be flagged in a way that will show that perhaps those users
-> > should reconsider their behavior and work to have the drivers properly
-> > support these devices in a "native" manner.
-> 
-> What about users that use driver_override together with vfio-pci? AFAIK
-> they still need to write to bind/unbind.
+> Isn't this file to break possible circular dependencies?
 
-As I state above, that is an abuse of this api.
-
-> Also i always liked the fact that the bind/unbind attributes make it very
-> easy in creating generic drivers. In fact, i am intending to use this feature
-> in order to add netlink support to the ACPI-WMI subsystem in the future.
-> I am planning to realize this thru a generic WMI driver that has to be manually
-> bound to a given WMI device to make it available over netlink, so having
-> users be able to write bind/unbind without potentially triggering a kernel panic
-> would be very nice.
-
-It's a taint flag being set, not a panic, showing developers that "hey,
-the user just did something odd here, ask them about it when handling
-this bug report."
-
-> Additionally, writing into the bind attribute still checks if the driver and the
-> device match:
-> 
-> /*
->  * Manually attach a device to a driver.
->  * Note: the driver must want to bind to the device,
->  * it is not possible to override the driver's id table.
->  */
-> static ssize_t bind_store(struct device_driver *drv, const char *buf, size_t count)
-> 
-> Because of this i would suggest that the taint (if at all) be added to the
-> driver_override attribute instead, because only with this attribute users can bind
-> random drivers to truly random devices.
-
-I had thought of that, but the force removal of drivers from devices
-wouldn't show up this way, which is one of the things that we do want to
-warn developers about.
-
-And, if we just did the driver_override taint, it would allow those
-drivers who claim to be "generic" like you are referring to, to keep
-"getting away with that" when it's obviously not true that they can
-handle any device for that bus, otherwise it would have automatically
-bound to it already (and no manual intervention would be needed.)
-
-By keeping the manual configuration of bind, you are forcing userspace
-to manually do work, while still a possible thing to do, now at least a
-developer who gets a bug report will _know_ it happened, which is why
-the taint flag is there.
-
-Does that make a bit more sense?
-
-thanks,
-
-greg k-h
+If so, that was not stated here at all...
