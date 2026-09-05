@@ -1,144 +1,137 @@
-Received: from mta1.migadu.com (out-82.mta1.migadu.com [95.215.58.82])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6E05474E
-	for <driver-core@lists.linux.dev>; Sat,  5 Sep 2026 19:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.82
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788635803; cv=none; b=MXw5Lk66OepviQEh1odGUuQ1q5J734NhAAQPyKhh9o/XEHW+Uq48h4FXWSLsGzb4q1r8YzOXZttBeUhV4yHtyPyoQK9T/loJrSW3jDTYg9GnwwBY654Glo67xtO+PYsYHhDLXONwCIC5YQXfUWOdhnyiYCxjZGhBLnApyPyeKNM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788635803; c=relaxed/simple;
-	bh=B7GMcmolD2T4Q/YoXp324L2Yk7TLtKzhIO850KXzPmo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mlPV0+xmE4ySNikLxEreL50AdKrvkekYgZ1NGscIGxKwV2vvyb5XEtDDlrKHy/bA70oz2t8Adl9CuYJBY+LxAW1HLU5vuzMMyHZpm+ffn8GQS0Y2Q39uKtrNNwASIH1ViedyHqNAOyR2kCCIo73Cooy8JP9XsVLZayb82iaLz8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Z1btD1VS; arc=none smtp.client-ip=95.215.58.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4053A1A9F91
+	for <driver-core@lists.linux.dev>; Sat,  5 Sep 2026 19:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788635932; cv=pass; b=UMJc319rHX2PIWjyDjeFQSs6A4MMJrM1CDbhb4G6jJnw9PYqlwa7ACMYSDob6p9rvAWMr+vJZCU7ywJYtvctSNKihBEvD2+hMNksMwNt9WQjnohJ2Dvsi4Ov4o2KPRdG370RPvRrGLc2t6pJSrNv+oJV5kRKtsKEnlYmKsSDKBk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788635932; c=relaxed/simple;
+	bh=1A9tdM4UxvEUDadWxG3NZidYXbKcok5wvUqTQR6GVlk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RvKO0+GTxpd8S8gcUhAQcrVLJTg2wtSkf+qruVJKnSuGUwm6Hq9QKHUqiXWxFvyMCZeCOkwF6kgCc/W+86/e2jV4Pu5aGPpkJWC0+mA72qcnc7SZwnMqBlfbKL6VJ4SKo1Ji8IZh8izv/c5cxPazgVXqMTf+yY5gkRtyOWxNgd8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V9Pei3Qo; arc=pass smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Z1btD1VS"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=B7GMcmolD2T4Q/YoXp324L2Yk7TLtKzhIO850KXzPmo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788635800; v=1; x=1789240600;
- b=Z1btD1VSkIcyATo5dTpvZO5bWxhKYGYQxcEgjnkyD1lkQ87UZ+UVSQTmEEnWQLt/0S0O8tMJ
- Kt613VwwjPxDf1pNkLWeipv7FNiw8Qp5p2qxMO+14edtZdIwylmlG3L3vEuSK5nQaPTKP2iCJrZ
- YflB+vcUulW8B/V2gKgTiWwI=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 52e3934d4d77491d;
-	Sat, 05 Sep 2026 19:16:40 +0000
-X-Mizu-Trace-ID: 52e3934d4d77491d
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>
-Cc: Meta kernel team <kernel-team@meta.com>,
-	linux-kselftest@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] kernfs: fix up the unlocked attribute reads on the creation paths
-Date: Sat,  5 Sep 2026 12:16:13 -0700
-Message-ID: <20260905191613.3143937-5-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260905191613.3143937-1-shakeel.butt@linux.dev>
-References: <20260905191613.3143937-1-shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9Pei3Qo"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b1a806664so170633a91.3
+        for <driver-core@lists.linux.dev>; Sat, 05 Sep 2026 12:18:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788635931; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GiUKGuwQt/G35QJrY0XGJkBjk0XZc+HHDyuFpEIiTiRbIrxC3yEWLNyh+NlTPrmLN7
+         Ku7yi+CYUQ7rlyQ/4W83lM4mpS6pHuHrTKCq8OW0ChSnUoMu05mDGycpQKSoVJDPOx2z
+         fPepdaPuFYBkoi3pmXZ5ckaLJASRQozwR3qVAFxbIFydbs+O4AtjvcS4nGjLBgDVyEo9
+         CLWV/mYD37iAVRgQ4z0kOtLnIElK9yiUgcPgeKvWaGu2PfRlp6ArSMkAr+UAnqsVvz3c
+         I+mZkGKPw84THM93FZdaCpUxwB7DzeV+SM8Y3LQ96P/m7oKGhwQwZ2yhUdBVOUwLkzbo
+         JROA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UrMnI4RvZpvC5+h4ZWEpWSIko85Oy8yeuJXFlCAJ2Is=;
+        fh=G66xPhCXwmaIdRI3mp++R7LrBkcVTpTMJxBAbITPpYI=;
+        b=FJrl2wUD39xZQDz0oMqbmvtWA8aX8nnEvxeKc9yV6EWnOa4LMNQ9rAoFoL5ovOz1ED
+         8nt2P5do+1xhIrskcejQ086vQouRzHcKMNRIQET5H1uZnewgcW6UUhPOEa3V0NKCgqpE
+         Zo1Z5LGYtUqDphJU6Ex613PtBbKVEtoK+aePSMlcBRlOZVBKSSlUWyTYYCmlnBwYXIwL
+         res2iTQzWiGcYNhV9GXU0+0pIm8soy9xaTq6xpnULH+GSoQbnktALc94Ggshiyho5SvF
+         /pWIsKUDSrR24Mi7zNbj63jgsIeQjGo6jXPXeB562SYUlFBhQDc6vlhcNbnQQ5f8rlTo
+         /eQg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788635931; x=1789240731; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UrMnI4RvZpvC5+h4ZWEpWSIko85Oy8yeuJXFlCAJ2Is=;
+        b=V9Pei3QoiFmHeUCk3mwRXF9/718n8xpxO5dDGDt83k4Vl6XxNvO9FalqExCz8izFZS
+         ogDeLb9a6fCp9Qgbw53kt39rXqh8uHGXpQ2J+Y8W80uRIxbbC1zOxhNggxGEq15suhpz
+         7af8eerdWMxY4iPUgTS/lSrhLftK64NXCD0J4B/dFPPMU+FwiJWa05ZqQnk8dDRYhZUZ
+         3RHFmkKweqivyOTScK0oV1mS9fIa/zL12C8sJyBtGo0psEhDyNnf4Eff/UUl8cZlvCRk
+         561XwrZ9lqzW8eIHR9urzTUINryfyNvcavCerNV5jPLi6+0b/pzCICeaUBy8FbUeR61g
+         s/ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788635931; x=1789240731;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UrMnI4RvZpvC5+h4ZWEpWSIko85Oy8yeuJXFlCAJ2Is=;
+        b=YWadofMNs1AbX/+ikVnrCHObFxG1bOTYrxUDHqU9TvNVdYrXvah91BF2Jdm5jYc4QK
+         w/acHs10UKZevqd3pDPjjJGFbDwixROzhzAgapdw+D3fVRFGCIAiWuoOY5Ww6QaJ+jlq
+         rP1G465g/m/Zj3IwDkiZcai/0YRCW58tLVzjS3dCIzVmInhV5af3QpOk6EPHUHfuCMvN
+         V6N7MZOyvDQA0rehlVfbHaWtrG5ZO7DWCpN9vePbrGxWrDonlWgG71Cij+sGLIj3il37
+         cJhtw+93ll27XVUrWZMfU5fy+l63uH4sYOJtSJNEnE4BM9mFB7NSqtvLttm3MeBMuN8d
+         Cxjw==
+X-Forwarded-Encrypted: i=1; AKwUvBzKCf+Q2GNas5G7RgyXmRnLJmEeUcEDp6m2KUyKV8SJkl4eC7am8NSRDldXTzIdzUzYblXANs5TwjwWRA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mpB7vLKgwuUrIC9ybwJFs9rEPsORHqk7In69JcagtvGsz0U8MT
+	IfQXOKm0gkih8xCjGvAqL76L3HWmLWDpV9bgQCPa3C3A1aNOcCzCuOuPIrCjuiqEoC2aPaZV3Ef
+	ZTGkq6YrjMgk4GaCHOdqFObdul3jyOog=
+X-Gm-Gg: AYBFou2FX1nA1EG7muiQmc1zVJn2n7QIJf3GXXQjBgDmM7Oq387+f2ATQ7CyQ2fnqzz
+	0T8TzVpyhp9Hzi9AErUmqsb+X2gSjj+v/3fjvBw9nBDfDSjuHbyjjfGf4HFiYfhI/hKuMWyv2yU
+	SvarhCeee7YcMiH2CX5oidHluGM6cp0ibG0lIR0B8o0yXwz7uzgAKFzFlAKfnXh1jIjiROioLMQ
+	idP2e3X7t5RoAq28GU7L6is6UMykY0ZAnpNz50YkgJqYG/Yxkxxb6T9NhlYE/nA0k7X/m/eg9Tg
+	K/QBXvk0ZK4ydfvohLMZTqAh7j0fKrg31dZB1XX9C2PTvdGjcy3w4ChW2lDTBV6y/uqR6+CVIXm
+	PjYyYfUS1nMMqqW6/Sm36h5mzGvg1hbukvc7DKSLpPeOjj8v+xWCAvDrt0w9/
+X-Received: by 2002:a17:90b:3843:b0:390:3936:8760 with SMTP id
+ 98e67ed59e1d1-39b3d3db82emr6481594a91.0.1788635930630; Sat, 05 Sep 2026
+ 12:18:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net> <20260901-typed_register-v4-2-5552b1d59525@garyguo.net>
+In-Reply-To: <20260901-typed_register-v4-2-5552b1d59525@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 5 Sep 2026 21:18:37 +0200
+X-Gm-Features: AcwNN1W_ZpD7BnW-6N9vI0Wb1kb0jyPzchOyBf701rQL7ntZoTH7GyzL5sIHsSA
+Message-ID: <CANiq72k4NQ6yJByyb73Sy+iwqVc=i5CuZy2b5uRVksA+gkr9qA@mail.gmail.com>
+Subject: Re: [PATCH v4 02/16] rust: mem: add `transmute` with deferred size check
+To: Gary Guo <gary@garyguo.net>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Two creation paths read a live node's attributes without holding
-kernfs_iattr_rwsem, which kernfs_iop_setattr() takes for writing.  They
-need different fixes.
+On Tue, Sep 1, 2026 at 6:50=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> +/// This can be used when types are known to have the same size, but onl=
+y at runtime.
+> +/// ```no_run
 
-kernfs_create_link() copies the target's ia_uid and then its ia_gid into
-the new link.  A chown of the target between the two reads leaves the
-link with the old uid and the new gid, an owner the target never had.
-Read both under the rwsem.
+Newline between them.
 
-kernfs_new_node() reads the parent's mode and ia_gid for S_ISGID
-inheritance.  Either value is fine there: the node does not exist yet,
-so nothing orders a racing chmod or chown against the creation.  Taking
-the rwsem would only pick between two answers that are both right.  Mark
-the reads with READ_ONCE() instead.
+> +///     // SAFETY: We've checked that `T` is u32!
 
-The pointer that leads to them is already fine: __kernfs_iattrs()
-publishes kernfs_node::iattr with try_cmpxchg(), and both sides read it
-with READ_ONCE(), like the rest of fs/kernfs.
+`u32`
 
-The Fixes tag is for the symlink half.  kernfs_create_link() has read
-the pair unlocked since it started copying the target's owner; only the
-name of the lock its writer takes has changed.  The READ_ONCE() markings
-are not a fix.
+> +/// This is typically used in generic code where it's known that type wi=
+ll have the same size, but
+> +/// the compiler cannot prove it generically.
+> +/// ```no_run
 
-Fixes: 488dee96bb62 ("kernfs: allow creating kernfs objects with arbitrary uid/gid")
-Acked-by: Tejun Heo <tj@kernel.org>
-Assisted-by: LLM
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- fs/kernfs/dir.c     | 12 +++++++++---
- fs/kernfs/symlink.c | 17 ++++++++++++++---
- 2 files changed, 23 insertions(+), 6 deletions(-)
+Same.
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 214c97130a8a..07abf59f0264 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -736,13 +736,19 @@ struct kernfs_node *kernfs_new_node(struct kernfs_node *parent,
- {
- 	struct kernfs_node *kn;
- 
--	if (parent->mode & S_ISGID) {
-+	/*
-+	 * The mode and the gid below are read unlocked on purpose: they feed
-+	 * a node that does not exist yet, so nothing orders a racing chmod or
-+	 * chown against this creation.
-+	 */
-+	if (READ_ONCE(parent->mode) & S_ISGID) {
- 		/* this code block imitates inode_init_owner() for
- 		 * kernfs
- 		 */
-+		struct kernfs_iattrs *attrs = READ_ONCE(parent->iattr);
- 
--		if (parent->iattr)
--			gid = parent->iattr->ia_gid;
-+		if (attrs)
-+			gid = READ_ONCE(attrs->ia_gid);
- 
- 		if (flags & KERNFS_DIR)
- 			mode |= S_ISGID;
-diff --git a/fs/kernfs/symlink.c b/fs/kernfs/symlink.c
-index 90e2b3221b83..3e53105d3abf 100644
---- a/fs/kernfs/symlink.c
-+++ b/fs/kernfs/symlink.c
-@@ -31,9 +31,20 @@ struct kernfs_node *kernfs_create_link(struct kernfs_node *parent,
- 	kuid_t uid = GLOBAL_ROOT_UID;
- 	kgid_t gid = GLOBAL_ROOT_GID;
- 
--	if (target->iattr) {
--		uid = target->iattr->ia_uid;
--		gid = target->iattr->ia_gid;
-+	/*
-+	 * A symlink takes its owner from its target, so both fields have to
-+	 * come from the same moment: read them under kernfs_iattr_rwsem, or
-+	 * a chown of the target racing this could leave the link with the
-+	 * old uid and the new gid.  The section ends before kernfs_add_one()
-+	 * takes kernfs_rwsem.
-+	 */
-+	scoped_guard(rwsem_read, &kernfs_root(target)->kernfs_iattr_rwsem) {
-+		struct kernfs_iattrs *attrs = READ_ONCE(target->iattr);
-+
-+		if (attrs) {
-+			uid = attrs->ia_uid;
-+			gid = attrs->ia_gid;
-+		}
- 	}
- 
- 	kn = kernfs_new_node(parent, name, S_IFLNK|0777, uid, gid, KERNFS_LINK);
--- 
-2.53.0-Meta
+> +    // SAFETY: transmute is safe with `IntoBytes` and `FromBytes` bounds=
+.
 
+`transmute`
+
+I think we could also link to the intrinsic and the `_neo` one,
+perhaps with a permalink to avoid drift if they go away, but not a big
+deal of course.
+
+Cheers,
+Miguel
