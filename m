@@ -1,153 +1,178 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021104.outbound.protection.outlook.com [52.101.100.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01ED13BB689
-	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 17:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788716217; cv=none; b=Bqc5RxeV0O/mYXKoB5gzZ1lnZ+d3wRZY4AZNyRKHPlSPKyINy2TOraP7t1m07WFJ0Jj6wAIbTe9eEkeTvIlAhGBcxFJP46CBN8NAfilEQUeODnCdv6WXREQwYP3VuNzUrFVME/eFjQRob+Bjl8iRzRw2MMMnqwOD96LkfZlcmJQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788716217; c=relaxed/simple;
-	bh=fYQ56hs4JZbOPzI9GDapvEN/e9D4SZhXgTO/mzH3DAU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W/AdnjI2f5LsaVRfRMCGojCGDUDFoWWa/OTikT3KHIbjhcl2+JUGLWRemgdFE8KYJJ+Je2h4ftGSHiwYx9AprdfiXDRN66AxD9bbrTGmmSDj1L93cZs8z9TL3obcwqOXp1q68e8jTezLEvars48TM63/bo8WtRxtZjAsaB96jhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=RdVz9rys; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585F53ACF02
+	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 20:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.104
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788725602; cv=fail; b=t0kiWJjGXCl3A8YdYfn4H353r4WOM75Gd04+3jR5kY4kp/jxgkkcqyIUcSeydzk74jtWU51aHAqGe2iw9aijKRdDSqBxCq1SujnlBt8UFYeL2sjwZhiTX3mwigf5xVub11ou2RcT0xAvY09rtAgHDOrLpSEwaR9t392ze0czyRQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788725602; c=relaxed/simple;
+	bh=GGeWFJXsHmKEdTinfRzA7jghKiwthK5rYypXiqbWVQc=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=eb8CzBfCMkl5Gcw7xTDApcEsDLQgXlmAxOtHqSTSAIRlr/O160hWkQLAAkby20H2v8RrNklAMuX7iMq7FqC5odOEN+Py9wRAga7D2oC2vANiLxJ425VI1uUZ57j+i6iDl5nzix1Ys7p9PLmxR73FspQ1hVMeVCRdI/IfiX7ih0w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ZXINFztP; arc=fail smtp.client-ip=52.101.100.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="RdVz9rys"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id D2E64240101
-	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 19:36:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1788716210;
-	bh=DOeFnrNegKPZyHyOuDBcouHZPqHJUHfv+oiAMmLgHoY=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=RdVz9ryswthqFHTLmaHrh1BVRMfru8WScy0hI54GYNGUefr5YqPGwvzdc5E+I3Pm4
-	 omrPXmyuzsg9REWFS+wF/T8nXe2oFgA9mAzu75FoYnVMHiep6GgYbC00lBmqfOsloz
-	 agnfw+W4YbPlWI1kZk/opMtVAg1oB5nm36HZYlHy++J/O2J3MvVSZ7+jJPLujVwmPl
-	 Jd2L/8CaYW1/X3MXMV8wVNY+3kMAPBXzk3AgLklIutPeLbQfmNoLnV84Cw8kNAvgGf
-	 Tn6BD4gUW3QPhrb9pIsSVvv5SVjnsTZoH2s4db4FuiQiZWGXj2a1RQLza0JLG0P38c
-	 TiaOoKKyR2dtQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hdHSb1mS9z9rxN;
-	Sun,  6 Sep 2026 19:36:47 +0200 (CEST)
-Message-ID: <af5938831d18728e484753a787400a404eb81e55.camel@posteo.de>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ZXINFztP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mzP7ySPjEE0hJ+lyqz8KOiuLybyZqZvurPf8jg+7PmrAi08p994NaiFQM4rekWnkbWWA2aO3GPKvAodd53X6moQMQD4EC3uqFjkheMcj4DtkzdWJyAmrzfqtS5KAxvrUwaT1YeVKZ5LVmyOcvtmf7PByEjUbk+QKArPsSTM9pv+9i7/dGWp18TOi6A9E10o721L+FKNSsJrrZgm7fu25nkbktgypctFmB6HRh6Cg5yH+K8D8J9k/FufZHeeu1YhziCR1gft9CB7zO6YMV1CBY/Y6cB9fNDnZpTG3iPKoOeD4Y7U+v50z2wRAHERXSAHi/rIKAepNrmipguZuz+JiPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sENCGh/9LNGCV1kNjp2RB5KbqwWBzyBwsNZKY7ySLDg=;
+ b=krVWzoAkWMJ9D7nAsJxrAr17pTJf5mBryvh6pPoxzKmMJpUhPeVvbGSCvkAqTXixMFCTI7xIPIq3qGKjur2EnX5StLERlwssl78sxTTd5PtSkROoAFsXwvpf9r7N3sP4haG+hMIfE8jiz/61nLF20IXUXwDXX6qI22j2iscjKR8oGvOoO1ujUN8L4giuAOmZrqcc5qUQ0ujnilymFRqtELUA5ctsacz1CzGr1/4tNCfs70HTf1sGO6yx005UIOURNCCGD7e4DNOjhJfomC7FCaa6aV2MTrSJD2m83O+fLCcWGVYkUkjFfY2f49JC91/HDJzwcVOvW4grH4p2wyWecQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sENCGh/9LNGCV1kNjp2RB5KbqwWBzyBwsNZKY7ySLDg=;
+ b=ZXINFztPj5CiWyVlwJVaYPHhZ18iyyT2z2Hg69l5f/1nuA/56qLTqlSBUm0t5jJtIaykkLIN7UsZMTfQGmsO2dKlKkedbXuNWPHRztIDN0mKPhJtj8QYvEvPKeC7kdaYnLsEl9wnUJ4uRPe0opI8IxcLVz/NPUgXvFaMCRd9zQA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by CWYP265MB9355.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:28a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Sun, 6 Sep
+ 2026 20:13:16 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0382.014; Sun, 6 Sep 2026
+ 20:13:16 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 06 Sep 2026 21:13:15 +0100
+Message-Id: <DL8IAYDEO7VG.1HPQR4U9S7H2Q@garyguo.net>
+Cc: "Ayush Singh" <ayush@beagleboard.org>, "Johan Hovold"
+ <johan@kernel.org>, "Alex Elder" <elder@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Eric Biggers"
+ <ebiggers@kernel.org>, "Ard Biesheuvel" <ardb@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, "Vlastimil Babka" <vbabka@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, "Uladzislau Rezki" <urezki@gmail.com>, "Jiri
+ Slaby" <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <greybus-dev@lists.linaro.org>, <linux-serial@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
 Subject: Re: [PATCH 5/5] rust: serdev: Pause receive callback before calling
  unbind
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Miguel Ojeda	 <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Daniel Almeida
- <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, Onur =?ISO-8859-1?Q?=D6zkan?=	
- <work@onurozkan.dev>, Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel	
- <ardb@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka	
- <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Uladzislau
- Rezki	 <urezki@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, "Rafael J.
- Wysocki"	 <rafael@kernel.org>, greybus-dev@lists.linaro.org,
- linux-serial@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	driver-core@lists.linux.dev
-Date: Sun, 06 Sep 2026 17:36:49 +0000
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Markus Probst"
+ <markus.probst@posteo.de>
+X-Mailer: aerc 0.22.0
+References: <20260906-rust_serdev_probe_refactor-v1-0-69cdae0074ec@posteo.de> <20260906-rust_serdev_probe_refactor-v1-5-69cdae0074ec@posteo.de> <DL8DCNMSENDS.3T14U5W1Y32IX@kernel.org>
 In-Reply-To: <DL8DCNMSENDS.3T14U5W1Y32IX@kernel.org>
-References: 
-	<20260906-rust_serdev_probe_refactor-v1-0-69cdae0074ec@posteo.de>
-	 <20260906-rust_serdev_probe_refactor-v1-5-69cdae0074ec@posteo.de>
-	 <DL8DCNMSENDS.3T14U5W1Y32IX@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-rnTpNxyRN/xwpGJ+AFb3"
+X-ClientProxiedBy: LO4P123CA0617.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:314::18) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWYP265MB9355:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18cf3252-cfb0-4f53-fb56-08df0c534940
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|10070799003|6133799003|10067099003|4143699003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	hcKaBGAvGXRaPMHLmoyOFdXwPmmbwFwbGi8jxli/VADhQ1qmgPzjHq9kzInkR6yMbcMgFENeXNCxNUUdMDDz6TUuZ1ic0u4eEbAsanMIHiQwGgINJfCiVFUPwf6MIcbgoK6zyg00amRU/kvNkRG2XkenWg7blOKGkB4FXJLxJheY8Jji/vPMRY0Ss/WbdkhiX87edPs3F8KWj4aaKcy7Jy/+E8N78iN0eQORoaIIzmw7f7fc8GBmKC4UoHaWT7JMZjoQGr67aqEMiPDHgLdt1n0WqNF/F/0SX/o8x1DvGuiwjWcFy5LTr20pbVgvH/tnW83WUC5mHY3ma8KEPga60yoQtZKMB4F3syRBTICD4QBWOE+NVnOpIiWwld6JceXU0pSImMBlXKUAGj6lclXew9ATpNS9XU0l0ja/+hEw9WtHJltSX1UcR1BezFqRiir+ieERG9a8KM5yW2SOWJJkkmzow9TlzaQHWiaVC1SYANgu0tSEwp1VHcuMURqM+JDkEaCiLkXv8OFr5pjzAGuNXgyZrWtIyLm4ZBwFQse9zK0nxW00z9acoRlXjG0YlXhFfmjqclXMtdCCaerQ2ZUt4rRZN//3U3RMJzEaHvuDnsJhFNnyvd+uwFzwcb1SKENiFIbJ/szVDIwnzQTUVSlRezL/rEvrs1Xiv+TfLB2/C2k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(10070799003)(6133799003)(10067099003)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SlJrSzJ4ZXhUcHNCNVNBZ3lZQjk4UDUzRytkcVFnWm13RWpYMUNOZmNsMEJx?=
+ =?utf-8?B?WXRRUkJCZkVMMEJibm52aThEUUR4MmRHZXFVYXlEYnB4alRSLzhKUkI3NDJu?=
+ =?utf-8?B?Z2pLY3diQ0VxQVJwYk9ScTJxK1UvR3BZQXNvYkJ3RVdDZ3czbW1TeXB1amZI?=
+ =?utf-8?B?Q09Leko1Rjc3TUJudThES3MzRWtqSUpURWNuU0l2c2lTQTM5SS8xNGdLWng5?=
+ =?utf-8?B?Vm0wWFBWOVhEOXhkTmtZTEdkOVI2NzZaM1doU0RMbi84dG15U29iWitQQjhV?=
+ =?utf-8?B?M3dPNmgzNjRWUklPSVlVVEpFSjRVTUJDK1hLVmk0SzZ3NklDNmVCQ3pLNFlS?=
+ =?utf-8?B?SUdsRmlmRUQ5TUx3VUhJUkZXU0JKaGY2L1doUGsrVTNnQ1hJVVdqdjk3L3Q1?=
+ =?utf-8?B?ZnhNYndENjVBc1NWSmNIa1dDTWJRR3Bhb0VrSEkxZFVlZlRFOFA5b3BxaWlv?=
+ =?utf-8?B?ZE9FclpnM3JvU2hOcEdGaE9weGZxbXl0WDRiY3Ivc1J5UHYyM1hYNm1IV3Ny?=
+ =?utf-8?B?djhUY3hjdXlGUTVISXBvdWh3S0VmVXJ5ZDRoL2Nwdlo4ZkozUjAySVQ5dDNN?=
+ =?utf-8?B?ZzhUQ2FUWXY0TDRKYUN1UUJjZlJDVzU3bWZiSmxWeVJQTW5BMW5KNVRkZlVp?=
+ =?utf-8?B?T3I3L0RJdlkxK2VjYWc1bmdQalYvM0pWcEdycTFOL2lpM0JRdUtyNW1pUVVI?=
+ =?utf-8?B?MnVZa1RvbTVNajRtKzMrNk9lZ1B2c3cyTHlqemR2SHo5b0hwaXl6WGp6bUlM?=
+ =?utf-8?B?OTIxUUJMN1U3ZDN4L2F0UDhoK1IwRVNsWHcvaFhFMmVySFFsWVNCeHowTGJt?=
+ =?utf-8?B?WEpBelQwbVFiL2VwS1JneUlQSEdLSy9JZ3JzTlRHb2hQbWJCd0VvdFROR2VM?=
+ =?utf-8?B?dVV2VVJnTzBiM3A5Ky9lV3pUN3pvNTFWVENiNm9oMzJGMXpRVmlTYTNFUHRP?=
+ =?utf-8?B?VzFqS01KSFNvWVE2bEc0STI4OWZ0YzVoN0ZBN0NkdjNsbFdQTXZCUEZuVFJB?=
+ =?utf-8?B?dVVzWENQK2M4YW5UUnU0bHhaM1EwRlhPOUQ3LzVZdEhIemtaSlVHQUEvK3My?=
+ =?utf-8?B?dC9xWklXRmlEMlJML2xwcWZqRDhOa0cxV0ZQRThsc0dkRWdJQkpJc1NDeThE?=
+ =?utf-8?B?N3FTaTdkZFg2aXM1aStmaUs2UDBzcEM2bjNwRTBPWHNVY0VvS0Ftd2puTzM0?=
+ =?utf-8?B?N1lDRlNTQlo1WVlodjA0d3dqKzUxNC83YzV6VURyLzJZZjBlelBMaVVxdGxn?=
+ =?utf-8?B?NWY0cDdlMUNyVEFvWWlLNHhFbmVpT2MwTUh2ZnloVUpSY3JsN1RmaUZQb3pM?=
+ =?utf-8?B?NWVVZm9WeldHS3pNcThrUWdic1pXckRGT0I4aTdoSUFaQlhoRFpQUFRQNHB2?=
+ =?utf-8?B?WnRmZktqaTZZbFpVb1RDYTNQaFNUazQ5VEJQRVFWemtQbnp5aTBPalJ5VHBy?=
+ =?utf-8?B?ZGhBb3B4dkZkKzFkcHdFQlFIN2xYbFlNNy95YWRIMVZhcFlOajdtUHMwSFEw?=
+ =?utf-8?B?RjN6V2VNQmIvdTY3UnAvbzdIMmp6N2FTRVFQMk1ZcmxSd3ByUEZqdlFoWU40?=
+ =?utf-8?B?STNrWEdlYjhnL3NIQndqa3ZkUkZSTGJxNXIxVDUvSndtY1NmZmlQU3RlOUtR?=
+ =?utf-8?B?WU9yUUl4ZDhGb25XK2FsTll5RGkrcTVkdWFyUzFSZFo3bzBtSUtJc2VnRjVs?=
+ =?utf-8?B?YWpFcTZTK3JSZkR3ZmVLYUxTRmZIUHE3cU1KR1p6RXpYaXNBLzNsc1RyY2Jq?=
+ =?utf-8?B?dVVlQWxwQU5xQ2VseGllNm9ZT1J0ajc3R2ZFbzVVWFVCUldpMjlCd1dlYTFx?=
+ =?utf-8?B?Ylc0dytZMDlGSjFwTTgxaVdhOElDT3dHZWRGZWhxMUlmeXZodVpDd1FPMUty?=
+ =?utf-8?B?dHdNakVDYUtIWFJzRklxcUY0NCtHbGw0RzEvai8wVGlPai9EZExTOUdxd2Fn?=
+ =?utf-8?B?ZG1zbmFpTDN5VGgrN1IrM1IxaXhkVFFVS0RoVnp4M1dOaGIzbkg3K2hrVDN5?=
+ =?utf-8?B?K3JhWnRIbGFBZWw2VFBaWWhsQ2pQQkR0TFlKL1lTRWw5R1grNXRDSWJSZUdT?=
+ =?utf-8?B?WWpBcktkczI2UlMybnRaME5VNTNWUkJLY0JqZFlxbER1UnY2MDE3a0tFdGU3?=
+ =?utf-8?B?RVZtRmhiMUZFbVNmUmJWSlk2WUYvbERkVjZVc1kwVTlhcVhGYzYxQUlxSHRF?=
+ =?utf-8?B?WUZ0eFlKOGhZeDQvbHdiMUhraEpvMlF3TWpybzkrcGtRTlNpeXcxZEV5aFBL?=
+ =?utf-8?B?YWFhRDB5VDBEeGNaSnBRK2V1Unh3TjZyR2Y1Z29WcW1WY3Y1V2JvZGxhL2Jy?=
+ =?utf-8?B?U0VUOXdqaTNOWGh1YnArWnlsWkxWb3Boc01XdFF1L1dzekhDdWFIUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18cf3252-cfb0-4f53-fb56-08df0c534940
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2026 20:13:16.1565
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M4tcOVlX0QXrkjS214mXjUDbenF9/QkyZTXuoWqQH1McpAHgIx5iXM149Hv1AFrVqPi9s1SMpGZLWqEeA6u2Zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWYP265MB9355
 
-
---=-rnTpNxyRN/xwpGJ+AFb3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, 2026-09-06 at 18:20 +0200, Danilo Krummrich wrote:
+On Sun Sep 6, 2026 at 5:20 PM BST, Danilo Krummrich wrote:
 > On Sun Sep 6, 2026 at 5:55 PM CEST, Markus Probst wrote:
-> > @@ -200,10 +203,14 @@ extern "C" fn receive_buf_callback(
-> >          // INVARIANT: `sdev` is valid for the duration of `receive_buf=
-_callback()`.
-> >          let sdev =3D unsafe { &*sdev.cast::<Device<device::BoundIntern=
-al>>() };
-> > =20
-> > -        // SAFETY: `receive_buf_callback` is only ever called after a =
-successful call to
-> > -        // `probe_callback`, hence it's guaranteed that `Device::set_d=
-rvdata()` has been called
-> > -        // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
-> > -        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow::<P=
-rivateData<'_, T>>() };
-> > +        // SAFETY:
-> > +        // - `receive_buf_callback` is only ever called after a succes=
-sful call to `probe_callback`,
-> > +        //   hence it's guaranteed that `Device::set_drvdata()` has be=
-en called and stored a
-> > +        //   `Pin<KBox<PrivateData<'_, T>>>`.
-> > +        // - `unbind_callback` calls `serdev_device_pause_rx` before a=
-ccessing the driver data,
-> > +        //   which guarantees that this function will not overlap with=
- it. Thus we have exclusive
-> > +        //   access.
-> > +        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow_mut=
-::<PrivateData<'_, T>>() };
->=20
+>> @@ -200,10 +203,14 @@ extern "C" fn receive_buf_callback(
+>>          // INVARIANT: `sdev` is valid for the duration of `receive_buf_=
+callback()`.
+>>          let sdev =3D unsafe { &*sdev.cast::<Device<device::BoundInterna=
+l>>() };
+>> =20
+>> -        // SAFETY: `receive_buf_callback` is only ever called after a s=
+uccessful call to
+>> -        // `probe_callback`, hence it's guaranteed that `Device::set_dr=
+vdata()` has been called
+>> -        // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
+>> -        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow::<Pr=
+ivateData<'_, T>>() };
+>> +        // SAFETY:
+>> +        // - `receive_buf_callback` is only ever called after a success=
+ful call to `probe_callback`,
+>> +        //   hence it's guaranteed that `Device::set_drvdata()` has bee=
+n called and stored a
+>> +        //   `Pin<KBox<PrivateData<'_, T>>>`.
+>> +        // - `unbind_callback` calls `serdev_device_pause_rx` before ac=
+cessing the driver data,
+>> +        //   which guarantees that this function will not overlap with =
+it. Thus we have exclusive
+>> +        //   access.
+>> +        let private_data =3D unsafe { sdev.as_ref().drvdata_borrow_mut:=
+:<PrivateData<'_, T>>() };
+>
 > This would break the driver core's lifetime design. Any kind of registrat=
 ion
 > (such as class device, auxiliary, IRQ, etc.) may borrow fields from the b=
@@ -155,36 +180,28 @@ us
 > device private data. The whole design is based on the guarantee that we n=
 ever
 > construct a mutable reference of the bus device private data.
-Thanks for the info.
 
-That explains why unbind doesn't provide a mutable reference on
-platform drivers either.
+Mutable references should be fine (of course, provided that the bus actuall=
+y
+serialize callbacks).
 
-I will drop the 2 patches in the next revision.
+It's only problematic now because in absence of pin-init self-reference, th=
+e
+immutable borrow is the only mechanism that prevent user from having multip=
+le
+mutable borrow of the data fields.
 
-Thanks
-- Markus Probst
+Say this code:
 
---=-rnTpNxyRN/xwpGJ+AFb3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+    struct MyDeviceData<'a> {
+        foo: Resource<'a>,
+        bar: Resource<'foo>,
+        baz: Resource<'bar>,
+    }
 
------BEGIN PGP SIGNATURE-----
+pin-init would make `foo` and `bar` be only visible immutably in the projec=
+tion,
+even from `Pin<&mut MyDeviceData<'_>>`, so the design is still sound.
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmqdpKkbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPS0FMP+wetPILltgePj1usw34G
-G1LpNzCmHz5Zf9lWEu7r/zcmkY97jmpnWr8KzoZARisOm+eiJxkAi9FUkQe6s5B5
-fnBQNDLyrLsqRj0a3z3pXhDzyKTXIaoMgSQ2m2f7yYpHS0yRfxWJGjdRd1PBNWyq
-gwy1XrPXJDoRWtG9unaBoF83qGdm9AfCJxGv3gRzVTdB7Dqu0EIKLyBkuRwYh6gK
-6kmA5/ZCLSnLTFCP10fCb/FBRy2kcvNM7QZZlXpyilOUpIO1IOMyTWibPWumF/pg
-l31COrAHGxD2xZCM+z8b1ROwhgsz4UsVMHi8JYxS9/kHVDKq/L+rJn5oGte+X9CL
-F7kBU2UB9AcOFW/+GdHzw4UfRnd+18cqWTUvEISbkbhKLgzik5ie4RZN/KgQIIGy
-ousGkCFf0TT5N7HQf6R2/dvUernOBcMCBykpPo6udngT7ez7fmwA1lrm4Gh3BIQH
-nRaxJ4b47/Z4ymjYy32LstfJqJYFX2vLsHVZUzqWz4RV372FUipSIL+/cTsc9hRU
-n1sRWZnNrQ+psZVJTBj00b0R9dMSJEXa4s7fe9LMlFloUAeEN73yeC45U4J7b7LB
-wViW2m9sJrYFArAQw0tQLLCSPAkJq5fQi5aYMFSifh1xS3PFYMMMP+QNghkhLSZw
-15QMwoNXu0oqGSmxCo0mvrj0
-=iM0o
------END PGP SIGNATURE-----
-
---=-rnTpNxyRN/xwpGJ+AFb3--
+Best,
+Gary
