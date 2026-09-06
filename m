@@ -1,73 +1,152 @@
-Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75027305E1F
-	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 16:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4C6365A1D
+	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 16:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788712454; cv=none; b=KO1NEInZufbD/bBTyvMvpli6JiS3beQYnbUu/o4oN47L5z3SIkECidNridNH0YOad6F6PGaxuh565LtzHD/i2n8aRNxXPwvaYRmc3R6iuD6Z7Aff8w81uuQpoFAqmBdOst15nsY6I6H2fQdh3kU0LDlxc/uCNynz3iX/kS9uO8o=
+	t=1788712668; cv=none; b=pExF0o1tNIJPHe/9E2uDhdvqzK5BU4wZUCLDI/cFS3tStYrM7RxwJZJG4O6xydg1J2NPJivI+v0N3CCoR2MpRrhxaTjYjevBICfHCTa5CthOL4+i0n4hfPQVc0Sij7IsVaEsQhrq/bMFo1mDhYfE0gLhTVMirWjjqzRwf7t8mJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788712454; c=relaxed/simple;
-	bh=b3kVj84r4nbAqIyLD+aBN8xgn+ET8/wsd+DqzDcxpE8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h/D5wzwQ7JYuHjRboCt56Hv3DBs9XZTuii8NdJ1ptMoRytYbMPEqQ67H5w8kQHukROvnrHSwK9h0TaPscXlfZzEokDxzCSCUWCPZ3mJ9kxo9bwraMFwueQ7NyAmBnlQUwMhFlq3x7K1EY0Xe3fLlExZeQp41S28O53G1Xg2leZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=gTqufNAE; arc=none smtp.client-ip=185.70.43.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1788712668; c=relaxed/simple;
+	bh=ya+LlWyHt4+HI4LvLhLTcPHQzAe6hbPkzc8Cc9HoXcs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gzriz1xtsW80SdZe2axGeRpKqUHl9UnsOR3daGC5EqvBZd+XTHCQ3COjGaaZoDm9Vu4ldAM9NAlyPfCMIih7OGa1KPqfeX0S3Lvx6j4C6dvt+hk0o23QyG5JX8CjiaeBB/8XmOh3W57V9n+bueoilFMyeX94FLBdiX/N99n66bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZH5IylK; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="gTqufNAE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1788712445; x=1788971645;
-	bh=JpuIpXLNS7ucE3uXpibnP0q4UP1mLVYob2ykzuW4zhk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=gTqufNAEOI6IJxet/0Loo9zYLXwWHYAdrOls/QQPvNbMSxlMuwqWBtvtN5lHWqCVy
-	 mfFDpTZDEO3uG32iN22LqB66pw1mOKiuu4IDAA6fav+Bgr7jMfL6HsW2UaL912R5kO
-	 GkN0Eubr6Symj5CcYVNfD59EAh7xmt2ityDMGIInpMoU2nSu+ItWPUrsP14IOrLEeg
-	 UwmVRN3bohqVuhPTJq4RfybQvC6sgiTSJr4wGHgBfEmS/lbKqTABuedpQuyXoK0NGu
-	 yUnu2kgWfePpRB1xBAlFFzXzAr1cXl00Vu8Nri3p2d9Y9tsMuW2666dBx4ZKzpfZEv
-	 6ZjlRPWjv3s6Q==
-Date: Sun, 06 Sep 2026 16:34:00 +0000
-To: Danilo Krummrich <dakr@kernel.org>
-From: Sagar Taunk <sagartaunk@proton.me>
-Cc: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "David S . Miller" <davem@davemloft.net>, Simon Horman <horms@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, Boqun Feng <boqun@kernel.org>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] rust: dma.rs: Migrate to zerocopy's `Frombytes/IntoBytes`
-Message-ID: <B1wdLMFZFXemfTYFSUvCGZXyNX5xgC5W6XRxxOFDr6bo-8MP6ObUobdRLgaYpkgGw-aWm-Dv8D9kfxeTheyiTWR1itrfyHoT_QmcEjXShK0=@proton.me>
-In-Reply-To: <DL8CO3P0U67U.10GU95WWXFSCN@kernel.org>
-References: <20260906102826.202874-1-sagartaunk@proton.me> <20260906102826.202874-4-sagartaunk@proton.me> <DL88TLWYE8H8.1FP5GCIYUL1BN@garyguo.net> <DL8CO3P0U67U.10GU95WWXFSCN@kernel.org>
-Feedback-ID: 130121444:user:proton
-X-Pm-Message-ID: ba3f9e3fb54b0085aafc592b018ecb1689e6e62d
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZH5IylK"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso40539825e9.2
+        for <driver-core@lists.linux.dev>; Sun, 06 Sep 2026 09:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788712665; x=1789317465; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ivyLPO2HZhtqk7cqP+57Dc0UEnfX7FjCnb9LTUCpQ7M=;
+        b=CZH5IylKBhcKLmtxClmMe+wxjJsTFiECEHGgl3QGWuOC8UJhreaaiQVfnG0ArclktK
+         NSq/sF6hg/bP8CPnIhgXpn3ve3YOQ/zuynnm3rkSogPZxLacy+Vi0uqhO1Kc5G/1zQ/l
+         4H8eNghIqEeD2dAN4fz0MylC8c6RiuGgZjhQHH08ctOXx6OtSt85o0jMlpARxyWOO+ue
+         eq9jkuVv069dptO6RmgOp2C8hC+2NlpYY6RrYSFUXNomO/UDVFqtIPvKt28/rTy0HA+z
+         TX6cl3r3WwV5vB1STBIRzFuH9WJs7UQs1EvSd3KatGPqJGlyAoF+yICVCE2xVzYOBMc2
+         t/rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788712665; x=1789317465;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ivyLPO2HZhtqk7cqP+57Dc0UEnfX7FjCnb9LTUCpQ7M=;
+        b=peq1Q594oHDTeUoHViWjiN/4ZRrvwsBaMFuv4H2clENGA6aREvugOBJ4Q0vq+nq5PN
+         A3/32Oxjkn3+dFSNWLX+lozfw3qv3EPJsGPQaXF5auF8UxnvdVya35wz/NPNRIVQoP7r
+         9q3QPz4zd5Wbrz56Gx69J6RIlDGIFYObVHGamnABJUVFtECcG4qZ44FhNtZ4XRbc12t3
+         mTVbq1ynaB6Edww9RY1AqALebymI/KdlBXGvMnRO+CyYcolE0wmefyaZJ47iD02BMvcF
+         XKLtnSLGtGSPn9BBBLof74u9jEX6IdEBUVtYeMkY19F+59UZWSSZCsbf/ZiGJkbby+t1
+         cvGg==
+X-Forwarded-Encrypted: i=1; AKwUvBxjFigMGfvUKc/Ovjy+5Jmj+mfhDIFkngEvBhC1fUMner90BkT3PGO89a1W2TjZD6J934Ex+SXwKmk4fg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lL9hZFhdYWCiYGKYXQ8bMiws+uFRadwXxKZY+dVg7f+op7lM+J
+	4anGnm9aXA/FR+iVxXYe4/hXMXO7rJaPx9Ewmcp3BSgOTGhEamGMxkR9
+X-Gm-Gg: AYBFou0b/D6HF+3E/PVuMORyWbzfmVy12lGu/TpjSAZ0YBDM/LSqIYlU1GinyOTsXHf
+	X2L687l5GoDW6WSpvTeokE/XwhQ3hximFnZnU3iZ2rBW/FTIgZJsKkvlYdPdDuoUevwAoLzV9Oz
+	Ur/GtfDnWxDn1tXjuSFP3hpuciIVY33KjDinrrLOxC/QAxG9PnYAzIxszgd/UHv1MQ/Mi3TnOmS
+	eNgQ8rIBzx8PETove6HKRJ7iwu/PXZYXH6ms5FqjC4IcKlTYKHp4KcaH9VaoAHFmTvoMYsc5eYF
+	5xY6cG4F0Kls3/QYbrEN8/6CatkVCFYNLBDsSOJ4pc6SM/UJkr4OGuw5AqHzKV+cKJ2Xn4yky13
+	LNddZrhX4/qsZCbvgwU62T/qE/tICncmeQYeh9+FBfHmlgkRXqmAQfFm9T1OXu/9S94/cQN1+sm
+	RrSaX4zBcMXI1eAKDiKIqIfp1Ny33PqiIiX635nL8SbjmTxpIW6Gli2w2zQuQeHpdqn5AAt9cH6
+	V1YIde1hPPfgUjhzYTY+2oPV/A=
+X-Received: by 2002:a05:600c:4e8f:b0:49d:4ef:bf70 with SMTP id 5b1f17b1804b1-49d04efc043mr96329235e9.10.1788712664882;
+        Sun, 06 Sep 2026 09:37:44 -0700 (PDT)
+Received: from localhost.localdomain (mob-5-93-26-136.net.vodafone.it. [5.93.26.136])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-485885c5bbdsm20907997f8f.36.2026.09.06.09.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 09:37:44 -0700 (PDT)
+From: Oleg Keri <okerixx@gmail.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Beata Michalska <beata.michalska@arm.com>,
+	Sumit Gupta <sumitg@nvidia.com>,
+	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v1 0/2] arm64/cpufreq: report and track frequencies above 4.19 GHz
+Date: Sun,  6 Sep 2026 18:37:13 +0200
+Message-ID: <cover.1788712186.git.okerixx@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I apologise, I only tested `rust/` for users and missed the drivers. I have=
-n't checked the `tyr` driver but it does break `nova-core` and I don't real=
-ly know how to migrate it.
+The Snapdragon X2 Elite (Glymur) is the first arm64 laptop part I have
+seen whose boost OPP, 4723200 kHz, sits above 4194304 kHz.  Two
+independent problems become visible there, both of which make the
+kernel believe a boosted CPU is running slower than it is.
 
-The `netlink.rs` patch does compile though should I resend only that or lea=
-ve it?
-If so, would it be a `v3` or should I send it as a new thread=20
+Patch 1 fixes an overflow in arch_freq_get_on_cpu(): the u64 product of
+the frequency scale and the reference frequency is truncated to
+unsigned int before being shifted back down, which wraps for any
+reference frequency above 2^32 / SCHED_CAPACITY_SCALE = 4194304 kHz.
 
+Patch 2 makes capacity_freq_ref follow the boost state.  It is latched
+once on CPUFREQ_CREATE_POLICY, and boost frequencies are excluded from
+policy->cpuinfo.max_freq while boost is off, so on a machine that boots
+with boost disabled it keeps the sustained maximum forever.  On arm64
+that saturates the AMU frequency scale at SCHED_CAPACITY_SCALE, so the
+scheduler cannot distinguish a boosted CPU from one at the sustained
+maximum, and arch_freq_get_on_cpu() cannot report above it.
 
-On Sunday, September 6th, 2026 at 9:18 PM, Danilo Krummrich <dakr@kernel.or=
-g> wrote:
+The order matters: patch 2 is what raises capacity_freq_ref past
+4194304 kHz on this machine, so patch 1 has to land with or before it.
 
-> On Sun Sep 6, 2026 at 2:47 PM CEST, Gary Guo wrote:
-> > I am surprised that just changing this is sufficient. Are all users of
-> > `CoherentBox` already have the both zerocopy and kernel traits implemen=
-ted?
->=20
-> No, and I think the uaccess patch won't compile either. It breaks
->=20
-> =09impl<T: KnownSize + AsBytes + ?Sized> debugfs::BinaryWriter for Cohere=
-nt<'_, T>
->=20
-> from the DMA code and I think it also breaks binder and tyr.
-> 
+Measured on a Lenovo Yoga Slim 7x Gen 11 (Glymur, 4032000 kHz
+sustained, 4723200 kHz boost), pinning a policy to a single OPP and
+timing a fixed workload on one of its CPUs:
+
+  requested OPP    time     cpuinfo_avg_freq
+  ---------------------------------------------------------
+  4032000 kHz      2.011s   4031325   (0.02% low)
+  4723200 kHz      1.726s    524283   before
+  4723200 kHz      1.726s   4032000   with patch 1 only
+  4723200 kHz      1.726s   4718587   with both  (0.10% low)
+
+The timings never change: 2.011 / 1.726 = 1.165 against a frequency
+ratio of 4723200 / 4032000 = 1.171, so the hardware was running at the
+requested frequency throughout.  Only the kernel's view of it was wrong.
+
+Note that cpuinfo_cur_freq still reports 4032000 kHz at the boost OPP
+on this machine.  That is a separate path -- scmi_dvfs_freq_get()
+asking firmware for the current performance level -- with no clamp in
+the kernel, and it is not addressed here.
+
+Oleg Keri (2):
+  arm64: topology: fix arch_freq_get_on_cpu() overflow above 4.19 GHz
+  cpufreq: update capacity_freq_ref when the boost state changes
+
+ arch/arm/include/asm/topology.h   |  1 +
+ arch/arm64/include/asm/topology.h |  1 +
+ arch/arm64/kernel/topology.c      |  5 +++--
+ arch/riscv/include/asm/topology.h |  1 +
+ drivers/base/arch_topology.c      | 19 +++++++++++++------
+ drivers/cpufreq/cpufreq.c         |  2 ++
+ include/linux/arch_topology.h     |  1 +
+ include/linux/cpufreq.h           |  7 +++++++
+ 8 files changed, 29 insertions(+), 8 deletions(-)
+
+base-commit: 9d80aa4617b32f5054c5aa471d06b66704854935
+-- 
+2.55.0
+
