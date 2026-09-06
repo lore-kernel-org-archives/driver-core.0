@@ -1,120 +1,173 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3783DA7D1
-	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 00:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788652906; cv=pass; b=aUlByS4ZyYcJ7q6zxd8V+ZpeCP8gfBd32DQiinQZLVPXk+3GUM3uwQDImgzenKZfGEWJzHmPEGnK7yV1pMiC+fV7a4omCrSk4zinUQ27Yq1wGyYLZnY9uYLgArNz+4VhikOefE9xh+GRNFT0V5t4Ob71w6JbxhebYNXdrtJ30zo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788652906; c=relaxed/simple;
-	bh=2MqN60FsZvPdTZbJyxVZaz/7XO+slkluE367ZcdhXfk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wy9xjIdvfu/BHv76brWMVnz4Y+cUOE7fkMSBJyA3VauTngRydVuXNkJ9iuq6l2llGd5KQ+oYwiZ0wP/M5jM8/jtzv5A3nvfDIoFGXeWwwVopw2jzawpmBM8+v7eJFUWaR6UFEzfaazlmjTG0co6Iovc9ZRbG5hzk+jyoWQnY2eQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9vOx79Q; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5874B3C2D
+	for <driver-core@lists.linux.dev>; Sun,  6 Sep 2026 07:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788679047; cv=none; b=khFj8kJgWGlFujm7f+tC7gAG1+EbA+bF2woTeLKCdUiybLhvBaZcsf9zICUYB5rLHMVnyixQXUpnhM5uyXR8uBxGgAcA8fsUZlDy6YK1W/4b+vAOQsCIS+g/Ic8rHVunwS0pDOHurbC6zlGAhkmFXpcxg3BR/zgRJH32rOIx+0w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788679047; c=relaxed/simple;
+	bh=rRCH8gt/5mOkrlJvq466GnwekETqDZn0YclcWLINKjM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eqVnByH3tuD25/Akw3fvgpr4yuTzQWgnlRC4q56PSxS8frB1wLG15QpGDik8hPddFUU8/Qlvb8xmD3KBeLqNbmoKzwSojzcu08wAGHbsNaaNy9FAnmF/1bZHgzhlFyjlbCFIf0aPnYxHsALWkM0l6QSJ0Xjm3JsE07SZeYHF178=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=MvPxCNF1; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9vOx79Q"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396672b2565so313782a91.0
-        for <driver-core@lists.linux.dev>; Sat, 05 Sep 2026 17:01:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788652905; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KWrzuFevc8W/oZDt0WvZmCKjRC5D8ER1NTSWItCxTE08GLhPMx9q+bzvfUEIGXahob
-         Q3bbThBvAqUf7sAbdvFCJYE8177+sZqEwMFcWPjIIwrLCFmcJK9zcFkqky6Rq/3u9sxM
-         2VBcXIjoXCizY2/EV7Yyflj45iSwcKjgqlMdcsrfDubvwwPA/1YaYjapRWfRPfjHF0tk
-         H1IltdyJknCJyvwyNmow+KC5VrGBif8gDQ9lcTyMpbQbHqYQkaUoWGwkbeSp/0CRCUKY
-         SCYsg9Z+X69r/0P+Mi0Ji6FgoQrsgx0yDpuJAaZnDeiaUQILN0AKrvf9EkRndoCG1Sla
-         kBQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2MqN60FsZvPdTZbJyxVZaz/7XO+slkluE367ZcdhXfk=;
-        fh=lcMBLsj8XejBdAJvG/LZQwIn1Dqx88L3tITWWmzbaYA=;
-        b=clc5FNK9uuj8f3qg4lXJr6Wh5U8DgRp2DUgKOwVoW7CCfv3luR1TdxVh2HwMzdqyNA
-         BgoMl8SMIpdSjHsxW9Sdlcf4ZSYSXBQEEYxgvBD47f+X4/e2aw1sgC0y0hnHjqqCE5eV
-         EWCeEstHMptENsND0hKqlTYKi+0121/6EjsKQb5zaXZLyH47BTrHRuOrQ54T35TIfuUU
-         C4DvFI+4Aghw1s1PUdT5iUmZWAaZjcVZxwvp2CDSc2ud61yfzJi7qLf30//pqjf+6Uco
-         vnlEgxnr5Leg0fs7QSQge1pdin6Lrs9K1BJb9OIQ8evq6r4ZQR3enFC0RdPVUGfWKEZg
-         MxpA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788652905; x=1789257705; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2MqN60FsZvPdTZbJyxVZaz/7XO+slkluE367ZcdhXfk=;
-        b=B9vOx79Q+EPdXo0OF6g2Mr3sG315yXYg1UL4HGbt110g25F0YkgZb3qlwOfXXBB2Z5
-         9WImc4ZEs4XVbeXMqmvy3gwUIMiQ4enIuEG/EXNI8dpOXsLEygAe+lmoatQ1Ynf/MgXO
-         5X6/3OIakvLUWSlUQBVa7KQyv/jhYV2aVL7cMzelzH8mqKaP8fYINON5MRWSum7iJYbY
-         hcxIcdaViRors25TD5qniyh5289mkrDwjiwZWukFIn3kT0l4uYWT+nLsnVB4e14+e+3C
-         KF5Q1QpDKTmQjEeIx1NJU2ZSx1olLg4wBiWTKszeFzWaGEtI+hOTti2PGHKNc6bun9br
-         U1gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788652905; x=1789257705;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2MqN60FsZvPdTZbJyxVZaz/7XO+slkluE367ZcdhXfk=;
-        b=UHa9Q7q2jgkiLhDiriX4EEPDgXzIy9oX11Rk13Lslx9I+4srBP3JQ20Evaf67j/62G
-         s2+/Xhw7WH7Az5SZBr4KEdp82ZIUChL83D0293V0hHAOQn+uzK92tw/FVe6sSqCknwWH
-         rU/jlVsgeTB/Y+pbeg9x5/L40zEgbDlwa8xbiAVzu4kH5shd5mtwR7kJnZFn6V0hfuW4
-         asWVvcU27Wo/xp7a7lcYEyKM3YhXcR22U50yYJx3AlimXrtCZfCzAVFFqIWjmqLB/Myp
-         e4k+yZfGVy3PdJxOhhgMt7qRouBCwpzWUqimRMVjW63d+EZIA7s4kKRm2NBETs6PgzoO
-         9PfQ==
-X-Forwarded-Encrypted: i=1; AKwUvByU1aGvo4D+3MfeOMmgSXFrjXKLOZOTzhTnyIvNfDWD5NMialrgunXAlupSXb8T5MGHIG78MrrWciomfw==@lists.linux.dev
-X-Gm-Message-State: AFuF++l8m19RwWPZJXb7gaSrHsGUNS19A9Sq41/S85xLAtDRaUTVPp5B
-	Bt9N6efjRp1obLTcnZAxPLedF3xhppavXaZkMPh7K57D0k8jNOrcNlftDQkid95ahtHJEKdkLGp
-	rM/VpzKWq8R+TE/Wc67swJvFkbZ19N64=
-X-Gm-Gg: AYBFou2n2v6p+MTohs7kEGHhv/j1QPOizGZ1dov5fbpts11mTDcanslf7fdg2zF09mp
-	sq6fgzEjshVQfDHiUafIO1JDLWHQnDZ493CIsuwVPkgMZVm6NJMutYiQ9d0uoLHWJQOe+KPikD3
-	KmcER9GN9b9yMQ6zQuyoWAAvUn/BxOAE0QhtKbOLpQQtjpk4lCouIYz9dUq8FBTyPz6J0k/fAhu
-	Emhhja3+AzouIQYiRxyCqM0N3q4Fbc2nb+hVJTuE4jIs7t2ky/k4J2BmOihdrjoscO7RqF9L+n4
-	sz0prqUf6sIy0f6ddCGzDF0TTrs36vKdDtHhEfFR+zHpWdiE0L1wHMijaSfzdHPTAL4X3Et6H1g
-	hl5EmK5AY4/YSvYRQ5aTxvpVQztJV5no114napi+IsbLnze8+bUzE35oAECa2
-X-Received: by 2002:a17:90b:3907:b0:398:bada:832b with SMTP id
- 98e67ed59e1d1-39b3d8a3d1cmr7786501a91.6.1788652904655; Sat, 05 Sep 2026
- 17:01:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="MvPxCNF1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1788679034; x=1788938234;
+	bh=QcZeDQsDI8IiVvV9Mls8GpNfSv4icCfhUiY5ki37lz8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=MvPxCNF1KkN0B4KlO+2tydyitMpD6nmu0S+meh+QVG/Jqi0l+n60HQPi5iXMufUDy
+	 t5W2oognASgqzodwaQNhKK1XZjXQ+NDgltuPB/Agl1BdEjJIGlbZJlreBIIUaizJJH
+	 il+44fAsfNLWDHZ9r6bPkNjHgMs7DyVU6ZDx1/8bHMlPmdHLujvoe0OVXG/YDr2d3O
+	 mjjZFsgd1cbfZDTzd+BVECiyGOtsRa/Dlii/8mfHgCKKD048lWjMrJ3Y0lRBpI0dBm
+	 vChuZ45xGiSUDxXE4pMDXsBAwJPAGq9ioGwGmSsOmGFzk6L7FDx99TTBPpigGJOI5n
+	 6RqGOt2+hi7gA==
+Date: Sun, 06 Sep 2026 07:17:09 +0000
+To: Danilo Krummrich <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Sagar Taunk <sagartaunk@proton.me>
+Cc: Sagar Taunk <sagartaunk@proton.me>
+Subject: [PATCH 3/3] rust: dma.rs: Migrate to zerocopy's `Frombytes/IntoBytes`
+Message-ID: <20260906071635.160615-4-sagartaunk@proton.me>
+In-Reply-To: <20260906071635.160615-1-sagartaunk@proton.me>
+References: <20260906071635.160615-1-sagartaunk@proton.me>
+Feedback-ID: 130121444:user:proton
+X-Pm-Message-ID: be199ad065d60aac636093b021cef3878b6f4e9c
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260901-typed_register-v4-0-5552b1d59525@garyguo.net>
- <20260901-typed_register-v4-3-5552b1d59525@garyguo.net> <CANiq72nxtehkGdb9RZpd=MsjWzp9euoLw=MmCzvcqOgxxEwymg@mail.gmail.com>
- <DL7RX130417U.10PL9U4D6JU9L@garyguo.net>
-In-Reply-To: <DL7RX130417U.10PL9U4D6JU9L@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 6 Sep 2026 02:01:31 +0200
-X-Gm-Features: AcwNN1XKuKFBV9qEAm_z4sB5Fo2qHcAE7av8dqRfbpy9oR-6X3rQ---1a2fINJY
-Message-ID: <CANiq72n2B=7TXtmtQXEC-VZQNZ6NQTkPsxnnNCiWWYb=U4TyZQ@mail.gmail.com>
-Subject: Re: [PATCH v4 03/16] rust: mem: add `AsRepr` and `AsReprMut`
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 6, 2026 at 1:32=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
->
-> I'm not sure why we'd want a self link.
+Replace explicit imports of `transmute::FromBytes`/`AsBytes` with
+zerocopy's equivalents.
 
-It is to follow the guideline about using intra-doc links on things
-that can be, which prevents mistakes and improves consistency, and in
-this case, for huge traits, it may help readers of the trait
-implementations section a bit.
+Link: https://github.com/Rust-for-Linux/linux/issues/1241
+Signed-off-by: Sagar Taunk <sagartaunk@proton.me>
+---
+ rust/kernel/dma.rs | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
-Cheers,
-Miguel
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 2ce09f8e90c6..9bd47f20c784 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -25,10 +25,6 @@
+     prelude::*,
+     ptr::KnownSize,
+     sync::aref::ARef,
+-    transmute::{
+-        AsBytes,
+-        FromBytes, //
+-    },
+     uaccess::UserSliceWriter, //
+ };
+ use core::{
+@@ -417,7 +413,7 @@ fn from(direction: DataDirection) -> Self {
+ /// ```
+ pub struct CoherentBox<T: KnownSize + ?Sized>(Coherent<T>);
+=20
+-impl<T: AsBytes + FromBytes> CoherentBox<[T]> {
++impl<T: IntoBytes + FromBytes> CoherentBox<[T]> {
+     /// [`CoherentBox`] variant of [`Coherent::zeroed_slice_with_attrs`].
+     #[inline]
+     pub fn zeroed_slice_with_attrs(
+@@ -454,7 +450,7 @@ pub fn init_at<E>(&mut self, i: usize, init: impl Init<=
+T, E>) -> Result
+=20
+         // SAFETY:
+         // - `ptr` is valid, properly aligned, and within this allocation.
+-        // - `T: AsBytes + FromBytes` guarantees all bit patterns are vali=
+d, so partial writes on
++        // - `T: IntoBytes + FromBytes` guarantees all bit patterns are va=
+lid, so partial writes on
+         //   error cannot leave the element in an invalid state.
+         // - The DMA address has not been exposed yet, so there is no conc=
+urrent device access.
+         unsafe { pin_init::raw_try_init(ptr, init)? };
+@@ -523,7 +519,7 @@ pub fn from_slice(
+     }
+ }
+=20
+-impl<T: AsBytes + FromBytes> CoherentBox<T> {
++impl<T: IntoBytes + FromBytes> CoherentBox<T> {
+     /// Same as [`CoherentBox::zeroed_slice_with_attrs`], but for a single=
+ element.
+     #[inline]
+     pub fn zeroed_with_attrs(
+@@ -554,7 +550,7 @@ fn deref(&self) -> &Self::Target {
+     }
+ }
+=20
+-impl<T: AsBytes + FromBytes + KnownSize + ?Sized> DerefMut for CoherentBox=
+<T> {
++impl<T: IntoBytes + FromBytes + KnownSize + ?Sized> DerefMut for CoherentB=
+ox<T> {
+     #[inline]
+     fn deref_mut(&mut self) -> &mut Self::Target {
+         // SAFETY:
+@@ -565,7 +561,7 @@ fn deref_mut(&mut self) -> &mut Self::Target {
+     }
+ }
+=20
+-impl<T: AsBytes + FromBytes + KnownSize + ?Sized> From<CoherentBox<T>> for=
+ Coherent<T> {
++impl<T: IntoBytes + FromBytes + KnownSize + ?Sized> From<CoherentBox<T>> f=
+or Coherent<T> {
+     #[inline]
+     fn from(value: CoherentBox<T>) -> Self {
+         value.0
+@@ -663,7 +659,7 @@ pub unsafe fn as_mut(&self) -> &mut T {
+     }
+ }
+=20
+-impl<T: AsBytes + FromBytes> Coherent<T> {
++impl<T: IntoBytes + FromBytes> Coherent<T> {
+     /// Allocates a region of `T` of coherent memory.
+     fn alloc_with_attrs(
+         dev: &device::Device<Bound>,
+@@ -753,7 +749,7 @@ pub fn init_with_attrs<E>(
+         // SAFETY:
+         // - `ptr` is valid, properly aligned, and points to exclusively o=
+wned memory.
+         // - If `raw_try_init` fails, `self` is dropped, which safely free=
+s the underlying
+-        //   `Coherent`'s DMA memory. `T: AsBytes + FromBytes` ensures the=
+re are no complex `Drop`
++        //   `Coherent`'s DMA memory. `T: IntoBytes + FromBytes` ensures t=
+here are no complex `Drop`
+         //   requirements we are bypassing.
+         unsafe { pin_init::raw_try_init(ptr, init)? };
+=20
+@@ -948,9 +944,9 @@ unsafe impl<T: KnownSize + Send + ?Sized> Send for Cohe=
+rent<T> {}
+ // methods that access the buffer contents (`field_read`, `field_write`, `=
+as_slice`,
+ // `as_slice_mut`) are `unsafe`, and callers are responsible for ensuring =
+no data races occur.
+ // The safe methods only return metadata or raw pointers whose use require=
+s `unsafe`.
+-unsafe impl<T: KnownSize + ?Sized + AsBytes + FromBytes + Sync> Sync for C=
+oherent<T> {}
++unsafe impl<T: KnownSize + ?Sized + IntoBytes + FromBytes + Sync> Sync for=
+ Coherent<T> {}
+=20
+-impl<T: KnownSize + AsBytes + ?Sized> debugfs::BinaryWriter for Coherent<T=
+> {
++impl<T: KnownSize + IntoBytes + ?Sized> debugfs::BinaryWriter for Coherent=
+<T> {
+     fn write_to_slice(
+         &self,
+         writer: &mut UserSliceWriter,
+--=20
+2.55.0
+
+
