@@ -1,194 +1,69 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53698525A89
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 18:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A4C3939A9;
+	Mon,  7 Sep 2026 20:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788806344; cv=none; b=Tanjeb8lx2xQ0W1/IB/M2HAV49B7fjeTgcxo3SwJMP/OEwa83/kSRkDfwmfN9tbD+xB8AqhvihwuI5zAy9aw4bwBCsE0ybzKeWev6V/HKibxJyzfhzfzBZECNSvhrzRqNnV1eeKxFVesfF05mk+046y5dUmFlRlM9yPK9+zYMf8=
+	t=1788814198; cv=none; b=HOVJqOD6nCuoq/Hrsu29ANE/vH/yhHBZQetiXcBgFV2FAHl4dMcA62NxnQ4yrN1lV1mpdPQtGQXlnarpD5TMMdYVYO5OopLGxzuGo90EblOkYpvMGCQ+rkXadicddMLGVWsuCiKjTfo8eci4rlV/ley6OrudgwTfSnypFckT0WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788806344; c=relaxed/simple;
-	bh=/QxrzAxux6bWMouCHMV1+hCntN9RpbBQ4/hJVHJrUA0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uP0i8G0XckC1eSHZo5MeYOxfTX8XnonWEo7WsNm4/DOsKzJM7rjsc5LgBTqF485TwoubH7pPABf5UcBM6levIoFH443fdqo0pVpUtm/vxdnCyvZm/u+4KZ+O9830eGds3FqkafQPP0tZT+joo5XmuJ9yLQD3dZr8ra9/dtXKUAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x3eF6-000000004hC-31Fg;
-	Mon, 07 Sep 2026 18:38:56 +0000
-Date: Mon, 7 Sep 2026 19:38:53 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Frank Wunderlich <frank.wunderlich@linux.dev>,
-	John Crispin <john@phrozen.org>,
-	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: [PATCH net-next v13 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <48a87a2c3deb41ab1d8710792312a1e4cb77fb94.1788783126.git.daniel@makrotopia.org>
-References: <cover.1788783126.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1788814198; c=relaxed/simple;
+	bh=J8FpCVGnSx9b966efow95hj11vmznk9UzF065rFOfow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R9rM5jy+A7Ot/DAn/poLMwg2KIeV0xGQpJyfjaicek0FCoxdcbbTBnKX/4rgXQKAMf5j1PtGV1pCOfEVEUt+H5F5RwMmeYW2p585PDSuF8Q019prILnEi8joXv/2G919DWwyjCCDazfy0R9L1uZvkh5SFID59//7ujXGax3nR78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbFfogPQ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbFfogPQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7951F00A3A;
+	Mon,  7 Sep 2026 20:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788814197;
+	bh=oYYECABPoDtBTOwvz59BoaO22gUwWREnK+6nh3tyNT8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=mbFfogPQJ6btxIZDR+rOcxb9Nc5JixT2mmcmiDMVArPov4NdZp0ccu4ORPWJezN0M
+	 N/PC21iYHYDvUDPRs/IYW2IMtvbJ7a1pfpgn4zbPnJuvEGiBsbbEH+aogQGNgXyh1G
+	 2MOomnS/eLR4HShSfdGWVDl5DSO8StoVq1UFJMVp45aborGrlxjjcQJaxnHjXRii5t
+	 U5UHCmsoye/w45wevfqDX98mlFW5i2DgHdAdFaq/9n9w3TwltHaANxNAbuaw/JPi+n
+	 j4XYeZ8zciJZz33eF1K9vmt+gWORpkdzcFwYrDlktTegBfMDiQz+MdojdM9uaoOQ2i
+	 KRormUBiHsKHA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Linkai Gong <gonglinkai@kylinos.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Keith Busch <kbusch@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drivers/base/node: fix UAF on device_register() failure
+Date: Mon,  7 Sep 2026 22:49:53 +0200
+Message-ID: <20260907204953.3762051-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260907024732.1452228-1-gonglinkai@kylinos.cn>
+References: <20260907024732.1452228-1-gonglinkai@kylinos.cn>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1788783126.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On Mon,  7 Sep 2026 10:47:32 +0800, Linkai Gong wrote:
+> [PATCH v3] drivers/base/node: fix UAF on device_register() failure
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+Applied, thanks!
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index d4a83fdcff7f..145cb8a4becf 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b23fb6f2f4ef..c97e710dda0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16246,6 +16246,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+[1/1] drivers/base/node: fix UAF on device_register() failure
+      commit: 6d7e9bc51d8f
+
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
