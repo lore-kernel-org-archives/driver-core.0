@@ -1,353 +1,135 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790AB38839E
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 05:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02902409295
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 06:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788759923; cv=none; b=Gv6OGGRV6ymDuOBvhXu78klnG+svyXesdVvX1a5A1bGjMJuI/vKdg1nVbi8RWo20nFC8+eoI6wLfuZg1QCoWb9s17h0hPgj9Ef1PkDA9UNS2GsdNPywVc9bd/zrfjMEpYb0Ycy9XUSiAeYxsyk7oR2BX9KbVfoTH2hJ4gTUnBhA=
+	t=1788763657; cv=none; b=mvwSf5z9rNOCTzkeftLjY4dZ65nECmgPRslLwfbiOEOOmtKRYvVAK/BmjUOQqLy+gWgowXfn+8FQizx/Ds/La8q0e5mXLR1gah0yJGE57xKQjNcnj2/rMqKOLPnIiTOA8mi2KgIWzN2TMI0jf/coVVizaxi6Lp9WFAvrzSN3St0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788759923; c=relaxed/simple;
-	bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bbbDzBCgsQd7CzpetiT9bJ0nGfwjuKoRUsHHJBb5Hs2nfX9JId4qOB0nPT2xPagn0Sw6jkGt6WqbSxsF61iFsestNnbwo7lorpr38GxxiOnQFNI3/8I6eIXYp+uIzdtbC5NSjYS1laORyvXqUsDAG+pSPp+cpb3K2U/mkvPeBoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=YPS8iNbN; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1788763657; c=relaxed/simple;
+	bh=GnJq7OFzqU3yVwU33wEMiUZavL/p2fo6PlQ7aO7+lBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CotYiWDsPGqkSmjk3oIYo6KaV0qMJTuCqBtSWKtQxZysSzSEGmMP2xj6d1Bf76cUex/6NcwZkeqQscGDvh85dwiX5UDkRvUCL1tRkYs+LguweYTvNF9TdB/B3WdBDUGMUNxkBCv4xQCKdBBrMZwkX3sC3sXXE1AlTj1YOFEkqQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hklaPQ2Z; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="YPS8iNbN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1788759912;
-	bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YPS8iNbNG9RvZGIDsyGJnqtiJcjBQYlGiwc1ROWqNmaL2IOvFrXvtFEUjjxoEc5oi
-	 095w1Ju927d8rJzJV5WIeUhrPdy5xmlAIANK0TFNoOSjrMMY0Pg58i2Aie0v3fkE2z
-	 tD6+HP/mVW8VGHcpqfadeNvmZxcxREwvMQMWaqIo=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 07 Sep 2026 07:45:02 +0200
-Subject: [PATCH v2 2/3] drivers: perf: Use __DEVICE_ATTR() macro to
- initialize dev_ext_attribute
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hklaPQ2Z"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c9e7391839cso3368707a12.0
+        for <driver-core@lists.linux.dev>; Sun, 06 Sep 2026 23:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788763654; x=1789368454; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Obcaema8mLbnmFBhxTp3oD6l+HUHR5TP+xdhdYT8HdM=;
+        b=hklaPQ2ZFcO1ia4YO/TvcVVeyZ2lPoRL6VhZKOpdekPeUEoFmSESNuUiQAFcEVlQRV
+         EBHnRHchp24Jy7QUd7MLu4nLlKLSRWCgHzM90a+8BKMimzgqVUeC1BreB5iaxUfEI0Tb
+         pwTm9GiRAbrFJCTmIt+qF9MmYMOpbK1Vh2lwL5r5ySPE8RnoqPYr+Xa4Z/bDJxZGVhS6
+         1TybVwygl3uFSQy86Hcq+EQdinWRPOEAd4P493lx5Zx/Tv2DDjQX8AWkeJgESj+B4MsC
+         Xd0lN6aRmAjSNjdQNeQ/YkfcPu1s1hF1Lguvu/eZvb0DoUPqHwE/oX1FdIa8lVcvovcT
+         xyVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788763654; x=1789368454;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Obcaema8mLbnmFBhxTp3oD6l+HUHR5TP+xdhdYT8HdM=;
+        b=I4qIX1z73Jdni5qCD3enBcxuKncqqLw7vVy9hBNpECmOZ6YVhjGEBwdLTmbiJPq/DV
+         uNQXKOG99C0Qlo3rSrAHekNXx8IKbIpJYtkqENnv6idnEio48PbBDu2uJ/HpzSnHoziq
+         zGv77j+kyQ/YqSGu7f0fCbC8rFPj5BXeEWSEMb2bseXAkCt8uDrJVnYMZq9wzZrEOYry
+         RFMRAq6GYiJBMH1NE9ZCG+mih0njGN/rQbDJ72glUlBOjKN4Va4XIf/KzfPQnc8c6jY4
+         Rme9mjSmGqAAwOsOHgyljLcoM8+Sq3ZVz42ZT9rORKVEkZ9jp/TKA1iUTiDY4N6cmyQh
+         u3dw==
+X-Forwarded-Encrypted: i=1; AKwUvBzmMLBkjoDhzshESArbbzKYC90JNlBA/xMMf1ci42qG6n1LdLKB5/myY+nAepQqrFG7bS/deLXM2iv1LQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++mV8Bnp0bvUijV7IvfTQCNc0AzzXVKsVqUrFfshfqYMlZobnK+o
+	oF9OdYUhlmFgHQVx5k4cVAX+Wfe4oEgcg6kh9GWU+8igdiocCpUt277U
+X-Gm-Gg: AYBFou2QCp4URzYyPVDAr9uu9ea6peOvA41J17A1fA1QiyLadgBPnC8D1znocuJfahk
+	u1uWB4hgQr5B+il/xsA4JqAexMrSPf1HmSPtok7ecPjMvr+1ZO2HTLpiJQIfRN+RYZbFhJqb45p
+	UEjx+MBb9gbZ8V+HZN5nblnPf8K25F6D7IrRSOAGZys9ns4cojTiUs8yvuTXGNRDotlmNx1CL64
+	wF8BrMQZKOTDZ9CgRHlyOgkeZYK1T5lyul0DeSEWNESpaYBpzi0rrlzPwOhbDh6hgVzZFrMz6cv
+	CX+rliuqHGdRYapYHdet91WEK1akx86pDR2gevxbhgcg9jdDLxr4j5QUxlQdTaDWzzFJgEELw6C
+	VTODsNXcV3eK6DTuriwJNvoz5ezVPTjU656LnhwAXrhe9a9lbvHJ3Iinq8MaI6URUl0ileY20sx
+	2LjGukD/wAbEiTou9JniRJHTYNkkHZxcODpiggIBOu2ePza1V4E/YuTCSKrSVKwSpzyTQXmz+U2
+	BvBqGYKUTCeug==
+X-Received: by 2002:a05:6a20:244a:b0:3da:1fc0:fb07 with SMTP id adf61e73a8af0-3da39d18791mr30838754637.6.1788763654025;
+        Sun, 06 Sep 2026 23:47:34 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-333c9db92b1sm24811158eec.9.2026.09.06.23.47.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 23:47:33 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Keerthy <j-keerthy@ti.com>,
+	Christian Loehle <christian.loehle@arm.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: [PATCH 0/5] driver core: fix typos and repeated words in comments
+Date: Mon,  7 Sep 2026 12:17:20 +0530
+Message-ID: <20260907064725.10686-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260907-sysfs-const-attr-dev_ext_attr-v2-2-bf53afe57071@weissschuh.net>
-References: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
-In-Reply-To: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jic23@kernel.org>, 
- Yushan Wang <wangyushan12@huawei.com>, Jijie Shao <shaojijie@huawei.com>, 
- Khuong Dinh <khuong@os.amperecomputing.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788759912; l=12208;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
- b=ceDGkuw5FvCesHSl7AwX4c6GgQs4jtq7D8STBSAwXKPtd3kbTyAoZ4/HhjydwRLIcF5Cw/uGk
- gWDsUqgs8ddB7q6pRTxFHQAhBSLHxf/waF6uXNDoYT6xdoKfzu6hFHf
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The upcoming constification of the device_show_*() callback
-signatures requires the users to handle the transition automatically.
+This corrects 5 misspellings and repeated words in comments.  Each is a
+separate patch so that any one of them can be dropped without touching
+the rest.
 
-Switch to the __DEVICE_ATTR() macro which can do this.
+Nothing outside comments changes.  Every touched C file was checked by
+dropping its comments, replacing each string literal with a placeholder
+and collapsing whitespace; what remained was identical before and after,
+so the compiled code cannot differ.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/perf/alibaba_uncore_drw_pmu.c       |  2 +-
- drivers/perf/arm-cci.c                      |  2 +-
- drivers/perf/arm-ccn.c                      |  2 +-
- drivers/perf/arm_cspmu/arm_cspmu.h          |  2 +-
- drivers/perf/arm_dsu_pmu.c                  |  2 +-
- drivers/perf/arm_spe_pmu.c                  |  6 +++---
- drivers/perf/cxl_pmu.c                      | 10 +++++-----
- drivers/perf/fsl_imx8_ddr_perf.c            |  2 +-
- drivers/perf/fujitsu_uncore_pmu.c           |  2 +-
- drivers/perf/hisilicon/hisi_pcie_pmu.c      |  2 +-
- drivers/perf/hisilicon/hisi_uncore_pmu.h    |  6 +++---
- drivers/perf/hisilicon/hns3_pmu.c           |  6 +++---
- drivers/perf/nvidia_t410_c2c_pmu.c          |  2 +-
- drivers/perf/nvidia_t410_cmem_latency_pmu.c | 12 ++++++------
- drivers/perf/qcom_l3_pmu.c                  |  8 ++++----
- drivers/perf/starfive_starlink_pmu.c        |  2 +-
- drivers/perf/xgene_pmu.c                    |  2 +-
- 17 files changed, 35 insertions(+), 35 deletions(-)
+The mistakes were found with scripts/checkpatch.pl against the list in
+scripts/spelling.txt.  The scanning, the edits and the changelogs were
+produced with Cursor running the claude-opus-5 model, from a request to
+find and fix spelling mistakes across the tree, and every correction was
+then re-checked by the comparison described above.  Words that name an
+identifier were left alone deliberately, even when they read as typos,
+because correcting the prose would make the comment disagree with the
+code it describes.
 
-diff --git a/drivers/perf/alibaba_uncore_drw_pmu.c b/drivers/perf/alibaba_uncore_drw_pmu.c
-index fc934bccf4a6..5b6d3a4736da 100644
---- a/drivers/perf/alibaba_uncore_drw_pmu.c
-+++ b/drivers/perf/alibaba_uncore_drw_pmu.c
-@@ -135,7 +135,7 @@ static ssize_t ali_drw_pmu_event_show(struct device *dev,
- 
- #define ALI_DRW_PMU_ATTR(_name, _func, _config)                            \
- 		(&((struct dev_ext_attribute[]) {                               \
--				{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
-+				{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config }   \
- 		})[0].attr.attr)
- 
- #define ALI_DRW_PMU_FORMAT_ATTR(_name, _config)            \
-diff --git a/drivers/perf/arm-cci.c b/drivers/perf/arm-cci.c
-index f0ef0a679e74..71035227f58b 100644
---- a/drivers/perf/arm-cci.c
-+++ b/drivers/perf/arm-cci.c
-@@ -132,7 +132,7 @@ static ssize_t __maybe_unused cci_pmu_event_show(struct device *dev,
- 
- #define CCI_EXT_ATTR_ENTRY(_name, _func, _config) 				\
- 	&((struct dev_ext_attribute[]) {					\
--		{ __ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
-+		{ __DEVICE_ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
- 	})[0].attr.attr
- 
- #define CCI_FORMAT_EXT_ATTR_ENTRY(_name, _config) \
-diff --git a/drivers/perf/arm-ccn.c b/drivers/perf/arm-ccn.c
-index c40da3450c8f..e3411bdf5c7c 100644
---- a/drivers/perf/arm-ccn.c
-+++ b/drivers/perf/arm-ccn.c
-@@ -216,7 +216,7 @@ static void arm_ccn_pmu_config_set(u64 *config, u32 node_xp, u32 type, u32 port)
- 
- #define CCN_FORMAT_ATTR(_name, _config) \
- 	struct dev_ext_attribute arm_ccn_pmu_format_attr_##_name = \
--			{ __ATTR(_name, S_IRUGO, device_show_string, \
-+			{ __DEVICE_ATTR(_name, S_IRUGO, device_show_string, \
- 			NULL), _config }
- 
- static CCN_FORMAT_ATTR(node, "config:0-7");
-diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
-index c4058d602477..93d5b062de8b 100644
---- a/drivers/perf/arm_cspmu/arm_cspmu.h
-+++ b/drivers/perf/arm_cspmu/arm_cspmu.h
-@@ -23,7 +23,7 @@
- #define ARM_CSPMU_EXT_ATTR(_name, _func, _config)			\
- 	(&((struct dev_ext_attribute[]){				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/arm_dsu_pmu.c b/drivers/perf/arm_dsu_pmu.c
-index bcbd19e075a5..8332eaca06dc 100644
---- a/drivers/perf/arm_dsu_pmu.c
-+++ b/drivers/perf/arm_dsu_pmu.c
-@@ -69,7 +69,7 @@
- #define DSU_EXT_ATTR(_name, _func, _config)		\
- 	(&((struct dev_ext_attribute[]) {				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-index b70f3fedf028..e298d6d6371e 100644
---- a/drivers/perf/arm_spe_pmu.c
-+++ b/drivers/perf/arm_spe_pmu.c
-@@ -172,9 +172,9 @@ static ssize_t arm_spe_pmu_cap_show_hex(struct device *dev,
- 	return sysfs_emit(buf, "0x%llx\n", arm_spe_pmu_cap_get(spe_pmu, cap));
- }
- 
--#define SPE_EXT_ATTR_ENTRY(_name, _func, _var)				\
--	&((struct dev_ext_attribute[]) {				\
--		{ __ATTR(_name, S_IRUGO, _func, NULL), (void *)_var }	\
-+#define SPE_EXT_ATTR_ENTRY(_name, _func, _var)					\
-+	&((struct dev_ext_attribute[]) {					\
-+		{ __DEVICE_ATTR(_name, S_IRUGO, _func, NULL), (void *)_var }	\
- 	})[0].attr.attr
- 
- #define SPE_CAP_EXT_ATTR_ENTRY(_name, _var)				\
-diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
-index 2c8a03cc11e4..a36cf792a2d0 100644
---- a/drivers/perf/cxl_pmu.c
-+++ b/drivers/perf/cxl_pmu.c
-@@ -216,11 +216,11 @@ static int cxl_pmu_parse_caps(struct device *dev, struct cxl_pmu_info *info)
- }
- 
- #define CXL_PMU_FORMAT_ATTR(_name, _format)\
--	(&((struct dev_ext_attribute[]) {					\
--		{								\
--			.attr = __ATTR(_name, 0444, device_show_string, NULL),	\
--			.var = (void *)_format					\
--		}								\
-+	(&((struct dev_ext_attribute[]) {						\
-+		{									\
-+			.attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),	\
-+			.var = (void *)_format						\
-+		}									\
- 		})[0].attr.attr)
- 
- enum {
-diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
-index dd8046265584..7553c5872600 100644
---- a/drivers/perf/fsl_imx8_ddr_perf.c
-+++ b/drivers/perf/fsl_imx8_ddr_perf.c
-@@ -214,7 +214,7 @@ static ssize_t ddr_perf_filter_cap_show(struct device *dev,
- 
- #define PERF_EXT_ATTR_ENTRY(_name, _func, _var)				\
- 	(&((struct dev_ext_attribute) {					\
--		__ATTR(_name, 0444, _func, NULL), (void *)_var		\
-+		__DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_var	\
- 	}).attr.attr)
- 
- #define PERF_FILTER_EXT_ATTR_ENTRY(_name, _var)				\
-diff --git a/drivers/perf/fujitsu_uncore_pmu.c b/drivers/perf/fujitsu_uncore_pmu.c
-index fa64146fcac6..db90e181b9a8 100644
---- a/drivers/perf/fujitsu_uncore_pmu.c
-+++ b/drivers/perf/fujitsu_uncore_pmu.c
-@@ -291,7 +291,7 @@ static void fujitsu_uncore_event_read(struct perf_event *event)
- 
- #define UNCORE_PMU_FORMAT_ATTR(_name, _config)				      \
- 	(&((struct dev_ext_attribute[]) {				      \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
- 		  .var = (void *)_config, }				      \
- 	})[0].attr.attr)
- 
-diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-index 0f55d871c67e..0a69d13fa453 100644
---- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
-+++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-@@ -110,7 +110,7 @@ static ssize_t hisi_pcie_event_sysfs_show(struct device *dev, struct device_attr
- 
- #define HISI_PCIE_PMU_FORMAT_ATTR(_name, _format)                              \
- 	(&((struct dev_ext_attribute[]){                                       \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),       \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),\
- 		  .var = (void *)_format }                                     \
- 	})[0].attr.attr)
- 
-diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.h b/drivers/perf/hisilicon/hisi_uncore_pmu.h
-index 3ffe6acda653..a4cb9ed7ea20 100644
---- a/drivers/perf/hisilicon/hisi_uncore_pmu.h
-+++ b/drivers/perf/hisilicon/hisi_uncore_pmu.h
-@@ -27,9 +27,9 @@
- #define HISI_MAX_COUNTERS	0x18
- #define to_hisi_pmu(p)	(container_of(p, struct hisi_pmu, pmu))
- 
--#define HISI_PMU_ATTR(_name, _func, _config)				\
--	(&((struct dev_ext_attribute[]) {				\
--		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
-+#define HISI_PMU_ATTR(_name, _func, _config)				     \
-+	(&((struct dev_ext_attribute[]) {				     \
-+		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
- 	})[0].attr.attr)
- 
- #define HISI_PMU_FORMAT_ATTR(_name, _config)		\
-diff --git a/drivers/perf/hisilicon/hns3_pmu.c b/drivers/perf/hisilicon/hns3_pmu.c
-index c157f3572cae..88a1129e9b90 100644
---- a/drivers/perf/hisilicon/hns3_pmu.c
-+++ b/drivers/perf/hisilicon/hns3_pmu.c
-@@ -405,9 +405,9 @@ static ssize_t hns3_pmu_filter_mode_show(struct device *dev,
- 	return len;
- }
- 
--#define HNS3_PMU_ATTR(_name, _func, _config)				\
--	(&((struct dev_ext_attribute[]) {				\
--		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }	\
-+#define HNS3_PMU_ATTR(_name, _func, _config)				     \
-+	(&((struct dev_ext_attribute[]) {				     \
-+		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
- 	})[0].attr.attr)
- 
- #define HNS3_PMU_FORMAT_ATTR(_name, _format) \
-diff --git a/drivers/perf/nvidia_t410_c2c_pmu.c b/drivers/perf/nvidia_t410_c2c_pmu.c
-index bff875f4f625..a41d5712da91 100644
---- a/drivers/perf/nvidia_t410_c2c_pmu.c
-+++ b/drivers/perf/nvidia_t410_c2c_pmu.c
-@@ -545,7 +545,7 @@ static struct attribute_group nv_c2c_pmu_peer_attr_group = {
- #define NV_C2C_PMU_EXT_ATTR(_name, _func, _config)			\
- 	(&((struct dev_ext_attribute[]){				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/nvidia_t410_cmem_latency_pmu.c b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-index 6c8e41598ec1..da91a51fe29e 100644
---- a/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-+++ b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-@@ -435,12 +435,12 @@ static struct attribute_group cmem_lat_pmu_identifier_attr_group = {
- 
- /* Format attributes. */
- 
--#define NV_PMU_EXT_ATTR(_name, _func, _config)			\
--	(&((struct dev_ext_attribute[]){				\
--		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
--			.var = (void *)_config				\
--		}							\
-+#define NV_PMU_EXT_ATTR(_name, _func, _config)					\
-+	(&((struct dev_ext_attribute[]){					\
-+		{								\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),	\
-+			.var = (void *)_config					\
-+		}								\
- 	})[0].attr.attr)
- 
- static struct attribute *cmem_lat_pmu_formats[] = {
-diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
-index e18d0f94e8d8..d036fa05aeab 100644
---- a/drivers/perf/qcom_l3_pmu.c
-+++ b/drivers/perf/qcom_l3_pmu.c
-@@ -609,10 +609,10 @@ static void qcom_l3_cache__event_read(struct perf_event *event)
- 
- /* formats */
- 
--#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				      \
--	(&((struct dev_ext_attribute[]) {				      \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
--		  .var = (void *) _config, }				      \
-+#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				        \
-+	(&((struct dev_ext_attribute[]) {				        \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
-+		  .var = (void *) _config, }				        \
- 	})[0].attr.attr)
- 
- static struct attribute *qcom_l3_cache_pmu_formats[] = {
-diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
-index 98e5ccee2fdc..d9843645554b 100644
---- a/drivers/perf/starfive_starlink_pmu.c
-+++ b/drivers/perf/starfive_starlink_pmu.c
-@@ -51,7 +51,7 @@
- 
- #define STARLINK_FORMAT_ATTR(_name, _config)				      \
- 	(&((struct dev_ext_attribute[]) {				      \
--		{ .attr = __ATTR(_name, 0444, starlink_pmu_sysfs_format_show, NULL), \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, starlink_pmu_sysfs_format_show, NULL), \
- 		  .var = (void *)_config, }				      \
- 	})[0].attr.attr)
- 
-diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
-index ab3623fab914..104cd0277b58 100644
---- a/drivers/perf/xgene_pmu.c
-+++ b/drivers/perf/xgene_pmu.c
-@@ -164,7 +164,7 @@ enum xgene_pmu_dev_type {
-  */
- #define XGENE_PMU_FORMAT_ATTR(_name, _config)		\
- 	(&((struct dev_ext_attribute[]) {		\
--		{ .attr = __ATTR(_name, S_IRUGO, device_show_string, NULL), \
-+		{ .attr = __DEVICE_ATTR(_name, S_IRUGO, device_show_string, NULL), \
- 		  .var = (void *) _config, }		\
- 	})[0].attr.attr)
- 
+Tested by building x86_64 defconfig at v7.3-rc1-269-gbc35965f6940, which
+is clean.  Nothing else was built, so any patch touching code that
+x86_64 defconfig does not compile has been read but not compiled.
+
+Hemanth Selam (5):
+  driver core: fix typo "sucessfully" in comment
+  thermal: fix typos in comments
+  tools/thermal: fix typo "binded" in comments
+  cpuidle: fix repeated word 'that' in comment
+  ACPI: NUMA: fix typo in log message
+
+ drivers/acpi/numa/srat.c                    |  2 +-
+ drivers/base/power/clock_ops.c              |  2 +-
+ drivers/cpuidle/cpuidle-tegra.c             |  2 +-
+ drivers/thermal/thermal_core.c              |  2 +-
+ drivers/thermal/thermal_of.c                |  4 ++--
+ drivers/thermal/ti-soc-thermal/ti-bandgap.c | 12 ++++++------
+ include/uapi/linux/thermal.h                |  8 ++++----
+ tools/thermal/tmon/sysfs.c                  |  2 +-
+ tools/thermal/tmon/tmon.h                   |  2 +-
+ tools/thermal/tmon/tui.c                    |  2 +-
+ 10 files changed, 19 insertions(+), 19 deletions(-)
 
 -- 
-2.55.0
+2.48.1
 
