@@ -1,140 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF4D448B81
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 09:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788772282; cv=none; b=AujOGSrE4x/onk/LtgRU9K7VjbDRroegaH4bRKiinId+hKvNFuqTKn9P7s14hE6SH6GD5fhaNB4LF4TolHnm2dZCMI60DuP6IKyGMm7JZ4ZApinJ1PyNIXIHNTXBscKD7VOI1J6XPmodT0LUxx8XMUz55QCSiqAaepwJ5bKhr64=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788772282; c=relaxed/simple;
-	bh=l2AIl/kpAuNoaMk+ybN1XBL0IKKOwb469zrWMKRoeIc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE7C448392
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 09:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788773079; cv=pass; b=MeW8JYiR1R1UiWsBkLB/St6U45oF4vCPxXTX26AvzXx1cbUOaYlSR0C3CPahQtLkzFlRRvoUijEFxkDG/BDLYvVwSW2aHYgCHCUvBTDN72yL01y0rG/oFBJD8Z+exOPBSOPIHhdbaQ2uNCEx50uuTyJH/Edo7XCbSbUmDY8MKSE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788773079; c=relaxed/simple;
+	bh=cSfmMGgIFwjjaaI7Bk9duU/SsMv1zgWa3X4ow3p9Z0U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VBKgnuvuAssFRK8cnbEIGG6HSwF1YClkeTfOwhGI0Zkal7r4XcL+EKCym+N7c4ut68auSUsoAVH2xjyW9r3yJJmAtGGAMFGiXmBT7cIxnNNgndlHF2JWLVSqmzz9wwxLyUsdk+5md+dP4+WQK9DgV5w1kLd/xZ/3HQY5GoZili8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdTgscoF; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=KU8RfTaGEiKFuH21zYwqVvFj/HXO54ClMLJLv5GGRVlxFYl3sxbXySK3EMupr1xjP8leFVsLnvgBu51YfnHnqpmZLBVpse4S72pArGrth4Ug2mV4tXDBQJNj1eZcO1ter/sd0F6PTFfiZVrNPF+HxEJ4k/omXe+vVx0zpufHWh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jsy8/jqM; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IdTgscoF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD7131F00A3D
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 09:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788772280;
-	bh=wG0WmAyOO3ymA3aJN2xgzJ3JTR+4gP9o+6XF/2CnAYs=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=IdTgscoFwSDPguPFeYOAZsoliELN9y/GF39IzGQLF/4nwW++it3mr7PIzvXofvAMw
-	 +dkXfLDdAp6XgtFAdcnXt3jBjOzv4qYLFqLWFRpAqc0qRpSeOAGxeOJd+lVw53rTh2
-	 QW5uZJVzZanhOeRFp76ORNitYKMlckRFeXPSdMDRCcUkG8tPFheiGoL73PQ3EFEuQK
-	 2gI3QcJVvxm9aEM8RqarGoh4l27/S5tun2i9oJjx1O52I3KS+W6qV8XsUpY0AqYHoM
-	 KPr+pi3kyTBeDg3rGBydm2nUDz1EZLTztYLfBR1Ov++a5qd3+o/KqGvssaTj2lEGAe
-	 j7qU+MQ7yT3DA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3a20dec69f9so26233651fa.3
-        for <driver-core@lists.linux.dev>; Mon, 07 Sep 2026 02:11:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy88ZZeC0KBmEppGJlMxVq6AMXrw7CnjrI/X2x5RLOQGAHwdi/B0cUpQY/IWCNtj5pjvi1HlcteTgv8Yw==@lists.linux.dev
-X-Gm-Message-State: AFuF++lMJb74eln8xDV9fHcVL3ba/EwRGs776ht/oqB+1Zzz9dHLGLCJ
-	6k0zKCihp7iGaBTLkwQud47ubwKiorwfkNm7nfXVbRL/je34X7xMWIxMH1Mfg0AsHkyGLzoYofk
-	lgj42hUiJt0/OiI64ebtQ0xlTAE5zH/U=
-X-Received: by 2002:a05:651c:43cc:20b0:3a3:7681:6d69 with SMTP id
- 38308e7fff4ca-3a376817499mr13635561fa.18.1788772279038; Mon, 07 Sep 2026
- 02:11:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jsy8/jqM"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-482dbe4d247so1864631f8f.2
+        for <driver-core@lists.linux.dev>; Mon, 07 Sep 2026 02:24:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788773075; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UKxNLMofIHe4cvXDWma01g+VX0Det/zDyPwvhVSu+8WMjSHHh1mhMd206Dg4ako/ez
+         xcoMZkOwy5CYGxz6PkWQRIK2UxRkF5fhIlqCpjQ2isc6VvD3G4bP9217UJ+hUx2f4Qet
+         2wFXRUr1S9HDBa5SQ9oP/Ns3ZLFoSgyLT6uSA5PmkoFE7WQ1/Z57MIIl229cE45U+X3/
+         HRhUKrTIb4lfqctT0u/dPUuPYZgk67gbxCXTxke1QoB457zOm4xmMq7wDHHBrN47csUH
+         62o5/FcDy0oMs+GglE91iUEp0NE2eC7GLJVq08nLjGE3uQN1OyqQAKxEBYDX3RdSyI2s
+         8UMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        fh=K9pEM5HuwPTXgK0tJot7R6MPxsWBjG29pEyXleM6tZc=;
+        b=F5FSZTwIBHlXVddeFyBM/KPZGx52Xlu5pGSqQ+NgUlE8x131bGrWMTpgxBNw8eDuky
+         j6LnDh/eig2HqBzKDFOXIojvW4CSl0lDq5f34yF3G+DgwGkZfbcXsVT9IhhAm0mXvaX1
+         8wRYAKE+MlVlntnml2lCSXxLsDvaBYeJV+VHe29S0BkGrXKR+0ES/ry12F7IpTZsgg4C
+         tBhBQvT9Crpg8EGL/8QVg4pYTr3RUchobL2ToTu9g4axuGpOU58ZwQVbm4UP2C4OAuZ1
+         zuV0YnyDKEv0F1bjdKUJDEJOr5qI6r3Ri6bVnu+t7LIsCT1A6bQ+j5XOEU7UCbnBRGfU
+         wm6A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788773075; x=1789377875; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        b=jsy8/jqMDxWtuS3bmyTOju9PIVNCZQvY1Ul3HJgGrex2GIT5uN/kQ9CfVWUzb9uqHO
+         3OkDqoybBHwVvD+8oxIZ5RC6idfODoLz4m1o53X6H0RE/3HQoqlIjlP6k7OKSMwnUCiA
+         jMYFXJR0uKyFLsMUCr9uqTKkEycywWkrGN29Yj0fdaZiTvCZOdEimW9Qh8/dGqKMR6c3
+         wMH8tD+1LwPOqM8eSl0pbmYhzlLC0mypk0fIwM/nvd/DJadCa1hjz4WA6yzUAeVQiPT2
+         XcCybNgi2wtiCB5CzjcdZPdLU4pSkd4DQ+f4ez3AeK/Qj3I+sv4/hpTDK9eeab30ffF9
+         CKeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788773075; x=1789377875;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hfGjfP8T35WEV6rGIAsKY4f5Rwo6my7dAG0voowddxQ=;
+        b=P8rmpAs7XzshymodifwTTJfXyq3uAA0N2/54IvE5EKHwymZ6QsGPob/yJ9+IvjCF2n
+         i0PEufrz/HQUmQ39PYosugpDOsXBuAgZULejSTjldiUsvLFf2dskfFin+C6OG7LmJRAZ
+         DWycBymDTM6rcGRIbhHqFHUe1Z3B5zXkHLK29eA62bm1kk4yegnpi6opaUWv0SDlbKUv
+         agbYMY39pn6gv63ch7+q08M1HgCgjWDeMDsdGjxcC8f0acUm5hk1U4FfcvxkNkQE+f0E
+         3tsVpxwzii2el4S7X6mmTU0yrx1P/BuiScsq0ICEm9JjFD8xaBIvzGs/1zQYUbnV/Kba
+         drkw==
+X-Forwarded-Encrypted: i=1; AKwUvBynX47Ym08qVI6JBS+Nb7exTiy3jP9SHuNWiLMbwoDix7v9ilBuwHC5CKJVtDcgE+NrWNSGZTEDF+6dLg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mZUh/Y64nV4AMlJCCGnspUHwTF/c4XyUTUZ1gcUJ3EWbNygbqX
+	3S5TTM/Jb5Rm0S7OZgpNH2UI/lEUOo3t4s0WMztL6gK/WZQIFKr5gGdU7J4lOxNC2V/+KEehJFX
+	bOnarKguc5I229KoPmsKP+5XTLOL5Ug7gu85viJ/I
+X-Gm-Gg: AYBFou3/Xc/vmuqC6iBNOBroyeENBKoDvnyMUy6c1348Gvi6OWGb7KRA2JfRiPkm8BE
+	J6Fw4G6IU4pkcLRgxXIqkAt50WRQplRjAuo1223hPirfzhwyj9erld/wwlIeq8lQx9VLv2bQV+U
+	w+uG9cvPE06fJWIdBq6/hqsK1n7380L/gs6MQgMKksG0M1xdel1asT4H94CLPRop0bZnqoICre3
+	aBJIO1+ttjTSFszrOfdeZFOOeeOFNvjEKbOR0Lpyb+CHlgt4V+NVH72fswOGs18om8vsTGnUXfc
+	1srSUjRNw3MrDYznV/bJrqetQQyPGLab0oo3UhzcOeGMDGWZ/gVsefDj6O11sRio1bH5fd5kBKC
+	YRd7N59siSmMQijCL6RMYiekCN4ExOSo=
+X-Received: by 2002:a05:6000:430b:b0:485:8ad6:3752 with SMTP id
+ ffacd0b85a97d-4858ad63a6fmr37026021f8f.5.1788773074197; Mon, 07 Sep 2026
+ 02:24:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260904084158.1341550-1-wenst@chromium.org> <20260904084158.1341550-8-wenst@chromium.org>
- <2026090430-botanist-ungodly-0299@gregkh> <CAGb2v65MSxL+r+wqMjPKVSh9aS1gkn8og6oBinSXDdipnoOyCQ@mail.gmail.com>
- <2026090433-chair-tidings-5c99@gregkh> <apvQlBEgHOW9MCxN@ashevche-desk.local> <2026090516-nutshell-handiness-37f9@gregkh>
-In-Reply-To: <2026090516-nutshell-handiness-37f9@gregkh>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 7 Sep 2026 17:11:06 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64QQ1OsQ0hEw+hrYuG2bEpBFf6AWNnbJB-O3qr3on_X5Q@mail.gmail.com>
-X-Gm-Features: AcwNN1Wpt14dNKe4B6humzooduMblAi6GFxjh3D2jQuOPYxWMei9coTZFdaWUGw
-Message-ID: <CAGb2v64QQ1OsQ0hEw+hrYuG2bEpBFf6AWNnbJB-O3qr3on_X5Q@mail.gmail.com>
-Subject: Re: [PATCH v8 07/16] usb: core: Move struct usb_port and related APIs
- to port.h
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wei Deng <wei.deng@oss.qualcomm.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
+ <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
+In-Reply-To: <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 7 Sep 2026 11:24:21 +0200
+X-Gm-Features: AcwNN1V4plkowyMHAsnIxTQwxzR-aYAz331pg1N8okzwNx7uKX70uWh-YG4Yx6I
+Message-ID: <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
+To: Gary Guo <gary@garyguo.net>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Asahi Lina <lina+kernel@asahilina.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 5, 2026 at 7:32=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
 >
-> On Sat, Sep 05, 2026 at 11:19:32AM +0300, Andy Shevchenko wrote:
-> > On Fri, Sep 04, 2026 at 07:52:37PM +0200, Greg Kroah-Hartman wrote:
-> > > On Sat, Sep 05, 2026 at 01:24:20AM +0800, Chen-Yu Tsai wrote:
-> > > > On Sat, Sep 5, 2026 at 12:47=E2=80=AFAM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Fri, Sep 04, 2026 at 04:41:46PM +0800, Chen-Yu Tsai wrote:
-> > > > > > |struct usb_port| and its matching container_of() macro should =
-live in
-> > > > > > its own port.h, matching the split we have for .c files.
-> > > > >
-> > > > > Why?
-> > > >
-> > > > This was requested by Andy. And to me it sort of made sense.
-> > > >
-> > > > > > Move them as described. Also move usb_port_is_power_on(), since=
- in the
-> > > > > > next change its |struct usb_hub *| parameter will be changed to
-> > > > > > |struct usb_port *|, and becomes a non-static function that onl=
-y
-> > > > > > references |struct usb_port|.
-> > > > >
-> > > > > No, please don't do that unless you have a really good reason.
-> > > >
-> > > > Which part? Move the code?
-> > >
-> > > Please don't make a new .h file.
-> > >
-> > > Moving the function might make sense on its own if you need it in a
-> > > different file later on, but do a move only, and then change things i=
-f
-> > > you really need to do that.
+> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
+> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
+> >> +        // SAFETY: We just successfully allocated a page, so we now h=
+ave ownership of the newly
+> >> +        // allocated page. We transfer that ownership to the new `Own=
+ed<Page>` object.
+> >> +        // Since `Page` is transparent, we can cast the pointer direc=
+tly.
+> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
 > >
-> > Isn't this file to break possible circular dependencies?
+> > This doesn't satisfy the safety requirements of Owned::from_raw()
+> > because the page may be used with vm_insert_page(), which increments it=
+s
+> > refcount and causes it to be shared the vma system, and this occurs
+> > before Page::release() is called.
 >
-> If so, that was not stated here at all...
+> I suppose the existing vm_insert_page() abstraction we have is already
+> problematic, because it uses `&Page`?
+>
+> Maybe we want to change the API to use `ARef<Page>` so it already has to =
+be
+> shared? Conceptually it takes a reference count from a `&Page`, which isn=
+'t
+> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&ARef<P=
+age>`
+> to be able to do that op.
 
-No. The code movement was purely done out of request by Andy [1]:
+Honestly, the problem is the safety requirements of Owned::from_raw().
+Pages have a "special" main reference, and free_page() does more than
+put_page(). It even does something when the refcount does not hit
+zero.
 
-    At a brief look this will be the only function that takes usb_port
-    instead of usb_hub in the entire hub.h (I don't count container_of()
-    as a function). With that being said I would rather see it to be moved
-    to port.c altogether (yes, it's more invasive change, but looks more
-    consistent).  I would even dare to move struct usb_port (and container_=
-of()
-    accompanied with that) and this function to port.h. This might require
-    a separate patch, though.
+The correct behavior for Page is to allow the user to hold one
+Owned<Page> whose drop calls free_page(), *plus* any number of
+ARef<Page> references that invoke put_page() on drop. This way, the
+owned page controls the special drop codepath.
 
-Putting the function in either .c file works, as it is referenced in both
-files. Possible circular dependencies was the result, not the cause, of
-the code movement.
-
-And the main changes to usb_port_is_power_on() are in the next patch.
-This one just moves the code and drops the "external".
-
-If the maintainers feel that the code movement or header addition is
-undesired, I will drop the movement. Or we can discuss reorganizing the
-code in a separate series.
-
-
-ChenYu
-
-[1] https://lore.kernel.org/all/ake09vk4fEv1D9QC@ashevche-desk.local/
+Alice
