@@ -1,64 +1,64 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37D540DB3F
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 06:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B805F411F8D
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 06:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788763662; cv=none; b=Z2IApnSFbeMCxYw8T1ZJq4rnVoNns1Hz69/9ReFKIOXURVNLLzUCdxA6jtbzgquaPUNtoC3cbUaFHmxRlFr7bSaUXz2WXTG70XFqP5i2gdXdGtW2H9XWt61ImrY1DEerGgBMcBYTUv1+9XbmAFetZf5LK5Dw+7Z412a7KUvj3nc=
+	t=1788763669; cv=none; b=IlogaDxTDtzbbQMZxvAkPaGXu3L4hLB26L4f9vYul2xPKr7b7AVtXW5TdBFWtCsZjn0dxJ/LrT7VsVscvEX0QbVgEMv/Oz3ewrs+t+A8O/OhpctuKnZIuFAtWCEp4RVNTv+vqVRKnI+7M8DQYv9W42nNkHFMe9w4Uo0q/Qnqbyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788763662; c=relaxed/simple;
-	bh=Q3bBIxz90yEEYsWH5ikWyXfUpYba5QGg5QwQbHT02IE=;
+	s=arc-20240116; t=1788763669; c=relaxed/simple;
+	bh=x+n4CsDHf+Aujek4+a1pPXZx82JkPYNueFhs42Dc/2I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WcW7QqxIXcUyie08QGbmiQwdCti3YS0b0iYMGeIOgPcs4p6dZRw3CY96b+60c2g4o0ICxz6XmiSWe7mSDyL2gAhnwrXzsfL917CMWN0Lor698xG2RIM0zo7Tp3pp/HUxuHlVmzCYPn4qdGGBr5jVa0vTIUGb5L879QwWSmuY+as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=raqRwJzT; arc=none smtp.client-ip=209.85.216.48
+	 MIME-Version; b=iwwEifyfqpJtFHR7KLyeKMiFXjPDo6QUmgg5qrnR3u9lkzxy3mzfnsRP2+cEvnRGXN5ttJJhCDn/X+ORtZbqfx8JqAqUd8K7XQ16uWjNDzMl4IGCbe3ideTOghWlXGLyB7MB/9KFwk1li87kBv9b4RRIsxassunpLFpd6pBr2Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqotj4eQ; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="raqRwJzT"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-39682983a0fso3467231a91.3
-        for <driver-core@lists.linux.dev>; Sun, 06 Sep 2026 23:47:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqotj4eQ"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso3156431a91.3
+        for <driver-core@lists.linux.dev>; Sun, 06 Sep 2026 23:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788763660; x=1789368460; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788763666; x=1789368466; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Rh6WnyF7wCSbyOvDJNwh7JY6+tMlKujEj6rsY7bD4mU=;
-        b=raqRwJzTEQlXROMO+KNtuMgMiqv9iMp2KnpYHQhwPZwZHvbcVu41RgwoDj/jWZG5nE
-         StIwBIZJu6jS6cNeQCIW5fCEwHMScgRjPlHAqw0WAWyaQrB+0isKxzZTp0IiuOJhjZlO
-         Lyo8XHbM8XBtDmsl2LPGNGf2q4Qc7nI+vBU6Qt/85oXuNGq2YjnkhnQBnyvHg73Iulps
-         8Ra8ddQiATGLSvVlkCl7sFQkSuyaOwvwS13ZmRaERPSDEigXYhMCwfbfa7fvFRZe5F8y
-         wyhvjoPcvVVSbw4iQVQmxGNjLa2h8C9sPUiJwWNR61u7EzlhxJ3z+h01oaLk5OZJyHCq
-         MZTw==
+        bh=6JqmZnYM/OOyRwgWKJJuvp7/Dkkhk+cDvs6k7nFOO2I=;
+        b=gqotj4eQ7c1WPckmr+Pl6tv0/vx9fPcgImq7lIQOq9DiL7HyXkWV/DfD7VbYoPHEwj
+         b9mcezXAu4sKbffpSZ8n5bkRbrxvmAZsqcPYWH/quESIwPv1U/U1fdMcWXH3jWqBsd3u
+         F/EVi8MvM4TE2YwzhuIjZbE7QYR3MJgaIhsiTDUjNx3fyarvKMoyn592ZGOMFSy3vQx2
+         qlufPb4CzswIMhtfdzaFo++y3TlTnGsj36v57AiOV+E4xRwjW/K6Bt9kDNFIjW7EGjeV
+         xdcymfNFDkRzVlnkQoVU9exhrqNfebfFG4FUZrBL0so3u6dRMV5NYAj3QIk69/rWlr8+
+         s4KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788763660; x=1789368460;
+        d=1e100.net; s=20251104; t=1788763666; x=1789368466;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Rh6WnyF7wCSbyOvDJNwh7JY6+tMlKujEj6rsY7bD4mU=;
-        b=f6wojv7SSEYFeUmwkruZSxxaMpYdpG0GAKfUM3K1x12BCwrgReZcfh/+gyv+TJ58IZ
-         ZeJUsa+jzfJSA6qDSFcvfrvTwAsH9n4HLbrkdxr63oZn9pKLQmLygU3Cp/7YLXUwit0/
-         mDLh1qVxv8h83YuIsxwcFcCU+x/4maYrAGGDGuySCX+JrrAlVnaLiKZijmkBGVUVGf3W
-         NbEGGbrYfUcPjFCpAoc3LSxoWsj1eGsVXQZFviZseDhoLqdatTd02K10j0rKSzbUwzw6
-         SX5OG5avLBFpjMFIiejnZHHZHumUeS/TvK+B6BF7sx+OKZTwls/uVWMbp6rAV6NFC8Hc
-         UkAg==
-X-Forwarded-Encrypted: i=1; AKwUvBwHOObD3zOu9ZvBC3flG36+v0JsncAO4WfqYgrRqK16orWBMFMUla4Hzw+LG+DiOz6PCDC9Y5awAYhsFQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++nyPxHIzTO30QgO49i5rY+PwS/aOcc1RAkuIfpPhJqa8k22ZiA0
-	/fPtUcKvOY+KOkBG6pmPad6MNY7pDd0BNvYLeVLQQDCPXGplddePsT0o
-X-Gm-Gg: AYBFou3t1rnIsMGy2ptiAgP4WcrQZgq3zUb4MtBIvrGC+QIP965WWTuthj4HUNNV7Ea
-	bRZnloNeU1iM9s1p+nFvt73JuhOq0YfFQhjMCz8JF4kojHp6rH9dlWs922BCGVEI5lFIwOslhyx
-	QoEkCmi8EY37Z7vcUbkhujs7mUQZnOh+06J76JsQ8RJWNHzZeyiQ+0a9vkWlFx8j2jnrTHQJ+jx
-	6QG19t4/xCrMmNE9RN3KxRVABEvF6hIBPGqBo0Ob64fZD7G/sOKiG82gaAMpO1lIGilYnZ1Ecld
-	bQoSaDCjAqOEUkMzZZ+GP0OR9D+HGq6LIsdc6x88hIgpWZpiasZOikvSObwWQ1HACT97raCuIgH
-	ESmssjAq2Gpx3x3pKKRce8AvxqDkOKd4bV/J5VqD0ERnHsvXm2VzmciL04cNp0wUjtLncoKiYk/
-	T52CfN+pk5nUxLaUS9+uXZz+HXckJG2wAJwggYEfXzF1eVc8Er4ZrMJE0Q3MoDyapkPl5vOHgEp
-	BWUBktB86ocng==
-X-Received: by 2002:a17:90b:5790:b0:398:9bd5:4910 with SMTP id 98e67ed59e1d1-39b2624f0ffmr31452068a91.23.1788763659995;
-        Sun, 06 Sep 2026 23:47:39 -0700 (PDT)
+        bh=6JqmZnYM/OOyRwgWKJJuvp7/Dkkhk+cDvs6k7nFOO2I=;
+        b=afbYHtyBZKcN4R33LqyBGMFyxuFIdSdzXjpNFiC4JTv8VGiAcyA70ETAXeIo56NayG
+         5cxVCnVGENaR+JwVA1Jdv4dVLR+PQixOr0ClQPVGRDov5S0OGvuPd5ZD1BuH735sZjd3
+         vh+bBcMzmjLZd3O9DaRr/EdoCvtVVq6Xjyd9XPBJ6/0qjozPNU9e6rnSLLgSxAmxwF0o
+         9C6ETwhELIhcy+m30/vEXL4ZkkFo9Q1u+Ha0vOta/iwURY1y5ga347V6OM04UJT3/qMh
+         EXUwkjo2kRPq7Ll7yntqLKwRazBaseHEBGO765hnDPkFma09+by4ltvwLnO0KYU2Fat7
+         xVLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBynn9De9m5dCSXof80daCr+XGwIJEY++bHvcyy/XZEUeSBJDBo6EP36yfrMwb8FR5+YhNF4omGkoAZuCg==@lists.linux.dev
+X-Gm-Message-State: AFuF++m8LZz6lJYY9Q8HmkZ1OvrcioWMXm/o42kmsg9qqij5xLhOcpBp
+	4DyBn7fapR4MWwKfDMG0Vhm+m+D5Eg9a9WzJFiNiH61A0RYFALxC3qeC
+X-Gm-Gg: AYBFou1irH1yUf8Mfdk93cmuVYjhlHBuMu9ZG4YTPfz09h1GZR8xUwyRAl90Ij0TBe6
+	OlhUDp9LG0K0KUkXZYn9FtahVcmnJjxlhL+mbpUPPMMcA5q5kOGMaN+OUSQ6ZJwwKKBa/UrQje9
+	9nx1cHNU7IF4Xkx5dtlJc55OWvixw2TBlTNT9Z9CI6SY/VoXpx66zpEe1bWq4+UkIMj5opE+5Ta
+	Z2RlAdAwymJCoCHZn1qBrgzqniVqon8M8Vt1SRxInEwr6Ger/VnMe1RHtzMv4ufytb5OLDEb/CQ
+	vAlvU5OTf9t2wjfOtaEkYtqHD8tPxANuZG/lC6ILUZaQVEkZEyhnvUJxr4kCNnxIxavphB9hCJY
+	lZYVf4lSDvFlK20mi3THTwVgrY6rEhZjJwODLwI3n4Pq2Zkcwaj4USyHS9RI/IZKvkxD2HHgyml
+	CNgKXv4iMOYoftjSdXZODPDI4MgC8W/aArhkQpYVuddg2z9cOsHzIdI75EeOQFdDycH69UmR/wR
+	IsyWU8YS7VWc5y7IgtPHEvk
+X-Received: by 2002:a17:90b:268d:b0:398:bdb0:adb7 with SMTP id 98e67ed59e1d1-39b261e1beemr34790323a91.16.1788763665963;
+        Sun, 06 Sep 2026 23:47:45 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-333c9db92b1sm24811158eec.9.2026.09.06.23.47.34
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-333c9db92b1sm24811158eec.9.2026.09.06.23.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 23:47:39 -0700 (PDT)
+        Sun, 06 Sep 2026 23:47:45 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
 	Len Brown <lenb@kernel.org>,
@@ -79,9 +79,9 @@ Cc: linux-pm@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-acpi@vger.kernel.org
-Subject: [PATCH 1/5] driver core: fix typo "sucessfully" in comment
-Date: Mon,  7 Sep 2026 12:17:21 +0530
-Message-ID: <20260907064725.10686-2-hemanth.selam@gmail.com>
+Subject: [PATCH 2/5] thermal: fix typos in comments
+Date: Mon,  7 Sep 2026 12:17:22 +0530
+Message-ID: <20260907064725.10686-3-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260907064725.10686-1-hemanth.selam@gmail.com>
 References: <20260907064725.10686-1-hemanth.selam@gmail.com>
@@ -93,29 +93,127 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct "sucessfully" to "successfully", reported by scripts/checkpatch.pl
-using the misspelling list in scripts/spelling.txt.  Only touches comments,
-no code changes.
+Fix typos in comments, reported by scripts/checkpatch.pl using the
+misspelling list in scripts/spelling.txt.  Only touches comments, no code
+changes.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- drivers/base/power/clock_ops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thermal/thermal_core.c              |  2 +-
+ drivers/thermal/thermal_of.c                |  4 ++--
+ drivers/thermal/ti-soc-thermal/ti-bandgap.c | 12 ++++++------
+ include/uapi/linux/thermal.h                |  8 ++++----
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_ops.c
-index 59bb37e8244c..3b8ba27802a8 100644
---- a/drivers/base/power/clock_ops.c
-+++ b/drivers/base/power/clock_ops.c
-@@ -250,7 +250,7 @@ EXPORT_SYMBOL_GPL(pm_clk_add);
+diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+index 82e2f0d8a26d..5db52de33398 100644
+--- a/drivers/thermal/thermal_core.c
++++ b/drivers/thermal/thermal_core.c
+@@ -1662,7 +1662,7 @@ EXPORT_SYMBOL_GPL(thermal_zone_device_unregister);
   *
-  * Add the clock to the list of clocks used for the power management of @dev.
-  * The power-management code will take control of the clock reference, so
-- * callers should not call clk_put() on @clk after this function sucessfully
-+ * callers should not call clk_put() on @clk after this function successfully
-  * returned.
+  * Return: On success returns a reference to an unique thermal zone with
+  * matching name equals to @name, an ERR_PTR otherwise (-EINVAL for invalid
+- * paramenters, -ENODEV for not found and -EEXIST for multiple matches).
++ * parameters, -ENODEV for not found and -EEXIST for multiple matches).
   */
- int pm_clk_add_clk(struct device *dev, struct clk *clk)
+ struct thermal_zone_device *thermal_zone_get_zone_by_name(const char *name)
+ {
+diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
+index 0217a49b08ae..f6566b5b916c 100644
+--- a/drivers/thermal/thermal_of.c
++++ b/drivers/thermal/thermal_of.c
+@@ -349,10 +349,10 @@ static bool thermal_of_should_bind(struct thermal_zone_device *tz,
+ }
+ 
+ /**
+- * thermal_of_zone_unregister - Cleanup the specific allocated ressources
++ * thermal_of_zone_unregister - Cleanup the specific allocated resources
+  *
+  * This function disables the thermal zone and frees the different
+- * ressources allocated specific to the thermal OF.
++ * resources allocated specific to the thermal OF.
+  *
+  * @tz: a pointer to the thermal zone structure
+  */
+diff --git a/drivers/thermal/ti-soc-thermal/ti-bandgap.c b/drivers/thermal/ti-soc-thermal/ti-bandgap.c
+index ba43399d0b38..5c028d25a565 100644
+--- a/drivers/thermal/ti-soc-thermal/ti-bandgap.c
++++ b/drivers/thermal/ti-soc-thermal/ti-bandgap.c
+@@ -332,7 +332,7 @@ static inline int ti_bandgap_validate(struct ti_bandgap *bgp, int id)
+  * ti_bandgap_read_counter() - read the sensor counter
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: resulting update interval in miliseconds
++ * @interval: resulting update interval in milliseconds
+  */
+ static void ti_bandgap_read_counter(struct ti_bandgap *bgp, int id,
+ 				    int *interval)
+@@ -352,7 +352,7 @@ static void ti_bandgap_read_counter(struct ti_bandgap *bgp, int id,
+  * ti_bandgap_read_counter_delay() - read the sensor counter delay
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: resulting update interval in miliseconds
++ * @interval: resulting update interval in milliseconds
+  */
+ static void ti_bandgap_read_counter_delay(struct ti_bandgap *bgp, int id,
+ 					  int *interval)
+@@ -394,7 +394,7 @@ static void ti_bandgap_read_counter_delay(struct ti_bandgap *bgp, int id,
+  * ti_bandgap_read_update_interval() - read the sensor update interval
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: resulting update interval in miliseconds
++ * @interval: resulting update interval in milliseconds
+  *
+  * Return: 0 on success or the proper error code
+  */
+@@ -427,7 +427,7 @@ int ti_bandgap_read_update_interval(struct ti_bandgap *bgp, int id,
+  * ti_bandgap_write_counter_delay() - set the counter_delay
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: desired update interval in miliseconds
++ * @interval: desired update interval in milliseconds
+  *
+  * Return: 0 on success or the proper error code
+  */
+@@ -471,7 +471,7 @@ static int ti_bandgap_write_counter_delay(struct ti_bandgap *bgp, int id,
+  * ti_bandgap_write_counter() - set the bandgap sensor counter
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: desired update interval in miliseconds
++ * @interval: desired update interval in milliseconds
+  */
+ static void ti_bandgap_write_counter(struct ti_bandgap *bgp, int id,
+ 				     u32 interval)
+@@ -486,7 +486,7 @@ static void ti_bandgap_write_counter(struct ti_bandgap *bgp, int id,
+  * ti_bandgap_write_update_interval() - set the update interval
+  * @bgp: pointer to bandgap instance
+  * @id: sensor id
+- * @interval: desired update interval in miliseconds
++ * @interval: desired update interval in milliseconds
+  *
+  * Return: 0 on success or the proper error code
+  */
+diff --git a/include/uapi/linux/thermal.h b/include/uapi/linux/thermal.h
+index 46a2633d33aa..36f3da2d6a7c 100644
+--- a/include/uapi/linux/thermal.h
++++ b/include/uapi/linux/thermal.h
+@@ -81,11 +81,11 @@ enum thermal_genl_event {
+ 	THERMAL_GENL_EVENT_CDEV_STATE_UPDATE,	/* Cdev state updated */
+ 	THERMAL_GENL_EVENT_TZ_GOV_CHANGE,	/* Governor policy changed  */
+ 	THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE,	/* CPU capability changed */
+-	THERMAL_GENL_EVENT_THRESHOLD_ADD,	/* A thresold has been added */
+-	THERMAL_GENL_EVENT_THRESHOLD_DELETE,	/* A thresold has been deleted */
++	THERMAL_GENL_EVENT_THRESHOLD_ADD,	/* A threshold has been added */
++	THERMAL_GENL_EVENT_THRESHOLD_DELETE,	/* A threshold has been deleted */
+ 	THERMAL_GENL_EVENT_THRESHOLD_FLUSH,	/* All thresolds have been deleted */
+-	THERMAL_GENL_EVENT_THRESHOLD_UP,	/* A thresold has been crossed the way up */
+-	THERMAL_GENL_EVENT_THRESHOLD_DOWN,	/* A thresold has been crossed the way down */
++	THERMAL_GENL_EVENT_THRESHOLD_UP,	/* A threshold has been crossed the way up */
++	THERMAL_GENL_EVENT_THRESHOLD_DOWN,	/* A threshold has been crossed the way down */
+ 	__THERMAL_GENL_EVENT_MAX,
+ };
+ #define THERMAL_GENL_EVENT_MAX (__THERMAL_GENL_EVENT_MAX - 1)
 -- 
 2.48.1
 
