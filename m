@@ -1,251 +1,392 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D86F4F4739
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 14:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788790029; cv=pass; b=UIOH7YRTVWhdM8ilH9RB6RqrMqP8sKqOuGubQz+vy5NDx2w5Ui2c/1v6aVKmwSmq8Vez3isKQbJpzHO2CKi8j8fRsKHSFo0lkJ4AH+L0T4XpYnk8H52BPujOgNOpA5Lou1bBP4xwjbz+iHBBUrBsu6mhjZzxJrwxUE/4seJ9udw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788790029; c=relaxed/simple;
-	bh=HvMD0whYP38ILXbRvW4RQd+DD6z86Cgv8Z7FhShCV6w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z+W7cRGzTWxkH4DwRBi/jywaag71eaUO3l0sqI8PdO3CqNxQcG8I6vrvMujZKJXnwQOUqkMnk8vfppM/fwPMBwZkrWGCjVyF3gPx9P2m0DarOeWOOCvqAGMuxpFQpFEbqsV8o7yB72TxuXZXS7bn5FllgRuPA2s6dYfBV9b/CvI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EsJl2rQB; arc=pass smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EsJl2rQB"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49ccfae359fso32182565e9.3
-        for <driver-core@lists.linux.dev>; Mon, 07 Sep 2026 07:07:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788790024; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oHJw/oOVJgToDNYZ6l7osuuZamqwNHjQjDU+VvVKN+g/s25mBQgipiSk3+lCMUK1Uo
-         IdNqLD0TuQMKt1sutsVvVP3beqlLIqPD4IRqXtuJFlm5eJz2j1xbpD5iai4FdwkiWdKI
-         zZ+j9JodGvY7oVchPdWk6O1Gn31RpjIee60v6nD6VyhSykqabvwL8UkKWt1Bn3wzkPkD
-         vbhxRJaoLcia5fFusyNzPgV1nzhxh6/7ruZcO9s4Y0YsGBqHKexPN20OCAURJv8zgm85
-         gE2Nha2sZ7bAvZSmAH1GqvX7+nFkUVW2erCpdZHH1Iv2aABQjAPz0S9a00GnCRkCQnEQ
-         BqxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        fh=Wdkho3R/p/sn6eIKgKh7e9WZXMt3QTKxIKnsk3EKAO4=;
-        b=kx4PdCe1gSNbgcQWeq7g1rmaRSiZAadMkP4++Tytq7+FZeNTqQ9V9TQOV1u0LIU19p
-         50kMZlMqyhOLD9JroujpdbooyFbrolXsY84X0bTB1B6V9kV5hIa6F28HsUfsFmLIaZnz
-         gBnqv3BERWMqCp7fdXmMV/upe7cBHBlDdL6sIMZTWVm6ji9FdR6YkCFUscA7Fy2EcP4J
-         W1TYLvUG9/djWXFKsMAJewWuBP4jqJNeMWf622Qc5GBuysbxTFyCAjFdQKzgTYt1v3QZ
-         hStJGfbAiBYKyWw1nGCqGWG2p2uxAAkhBTjoGLOx8gImUd0mimTFKux4riP9N1PhDv0U
-         SMGA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788790024; x=1789394824; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        b=EsJl2rQBoittSfSanJdWa8za3V83WmUP1h2ESOrY5PNI0lFc5CIe49GPe/j91ilXxB
-         T1IVuGOd7yKJXHFRchRz5/e2ch5XXE3vgctTaBSjaEEHUnmJq0AB9sBPS6CDanbeFMyB
-         No6sDglXmVU4ea3He4A2ouvvrAD4UQDdG9dKqrOTUMDB1EnoJDHtatc0goOwaNnv2SZK
-         pmkmxL/IX5bpBsxrb5E3WcvBLhfq+e80ArU4wv2eL/wRNegOFs8HmBTpg/8kmjm3TGhF
-         hrnyCfJLXK7uxNIeCk3hq+luCa8b/3HFC0IJDuuqjU3O8QcdAMW1JYLZcqr2+Q2EY708
-         v8dg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA0941CB4D
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 14:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788791561; cv=none; b=o7VV4LajniY7RWtOtZd+pbyRbMzythINTSIL8NdHC1bsuSie5k3YJMmCjeUw0UIYc5m+5rP4cLcoTbw/8lCJ0icybJgDU29Llzn+rzBj7i0hOcYWl33dfO1djUZF5Zac1Z7TGKpM2DSRKedPKyCXhRJLRSCiQMUkjnJwzb4E/JY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788791561; c=relaxed/simple;
+	bh=fBmJkFrjdbqQa9wtHbLrYELqEWWCgzQze+ARyBh4rsk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=K9bGffgYHO7bETTmvyfar542SODioefV9b/+/q3Q21a8G4DuWeLFx64ZbsFY7j2Bqp1B28rRYUuq8BuDpMjvh8l65XbY3dnl7o92nyNk9kAxkWAYgTnAw7CImsTmDa4PFz7JzzsUAJ45pR+dHECW365cznLizGHe1YsV3kS8LWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f11.google.com with SMTP id 006d021491bc7-6aaf6076546so1886637eaf.1
+        for <driver-core@lists.linux.dev>; Mon, 07 Sep 2026 07:32:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788790024; x=1789394824;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788791556; x=1789396356;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Vg2AiEFa68ARzliVtiEYWMnugqjIY8Sb5bHhQpyrHpw=;
-        b=kecnRduzxX9JGl1bG7Q5zWkD7A4Wm8zL+Ysdxpgwvqpi9CuizC+wPAlf8LFgIP00on
-         lcKCyFS+zLgPaC22eA7mEiGYTPXF120u+lB9tmjB8GC3Z5nNRseP3FZ6Oouv2UmzBKUL
-         sMY9Z61wCJUMACRq7HbviBq4r+LB3jd9jlFkBr5bfZ6VY0U2z+TCunFIV3SQnQtEnfQl
-         AQLXb8TGa/oVH5lOsXLXUTjEZQXzqSFSNeUNpN9kOFijpqfX1lsUS4LjLIISg76wPw4M
-         A4fIkw5X6ykkHxSsqOfSW7R0Rm8pJr/Ctyo8Vkc/DRcPJxPtJJYOjJB8KTGXT0myvruP
-         IVEg==
-X-Forwarded-Encrypted: i=1; AKwUvByfChcNTzzSJ1qFUtjg8ITAqarTkkCEd3HCnRtMmc/6gZENo0bz9AJcf1/kzOna2sOfAAtJAkhHXO4+ug==@lists.linux.dev
-X-Gm-Message-State: AFuF++mWMo7aGiSM66hy2J9RP0NQ+ffsNJAuctzNqWXbcjYYwF4d2RIW
-	S9QWhJAU58yVjAX9fwsY67TM3ZtaYdJEWYvnXCfA3WBvOUaaFxKoUwCyy0kEk0GV5MPNIuXZqAU
-	qdrFrziju9u1EkOXjKTyJKVmBeoM6M5dsoQZoCpS0
-X-Gm-Gg: AYBFou0iT3beyRCqsZCen/D1OQ0GSDtvzADs7PQzaHbn1PzPhS6ibhB2os/arhdHjKe
-	L7w6IzWy0Uy5I7egID3VHK3NmP7Sfw6N71bFNJL37GqGL2smNmilmHoPcocXsYh+nkE9TmTGGz0
-	NTCMxv8hc5kIZsoFGQoKPWLErYU5GJXOns7H6MOrl5mUpNjbOi2lLFPnwZI/KBAEg67NLI7fGZm
-	WXlxd5RWCXvD53oyMmrhtxSz4wTRhQNi+c6VmmsaIERf4U+DhrzN5agL0PyIAS+mL4a7sibSnTl
-	7BD8H17VVbHSFMc58HUPQ393Tl4Gc637RU1ev3nHMpwLsNfovyRUKWIkYJZITT32yhOWKUAun43
-	Uf0LlylUYxA004+nlrIuZSFxfKuCMgJU=
-X-Received: by 2002:a05:600c:620e:b0:49c:fc6c:be19 with SMTP id
- 5b1f17b1804b1-49cff2078b8mr196871015e9.31.1788790023400; Mon, 07 Sep 2026
- 07:07:03 -0700 (PDT)
+        bh=A8kkssp/3l33VQHdWcbtgleD7SI3txr/4Uxqa9iwhW4=;
+        b=D1JzBXmIh4VOhMqGP3Jx6QJ6nTcirSlgRaYF5dG/wP4h4Lrl6v7K1MlCyPwA5V9n0i
+         o42oiQIbNbm4jjWJUlYMO4D3Y7RDJX+1MYNyCwsSLlgou9O5wzeQaefo8onpCpu6lhB7
+         Cqxdjr0TjPzhcxtqyoQ+qJKiJDb7ydIFhP7M4HVcOi1UOp19NTmx7F41jnjJRWGqFE36
+         Alj+J6fe/Ek4shE/lP5whSLEPXIw7wX0LofSsIlXxDVKPygrGyGAbpQ0B75LGKFuglfS
+         JFPtuo/oQv1E7UoEWvglTWjooYmp8l70she8C9OrMsGV2oVpuN2qyPQl9n64O9ZiXzRe
+         dQfw==
+X-Forwarded-Encrypted: i=1; AKwUvBxk4YKSisgJR/CckPQ0GzTcwIYDP5wNRZjmvsVmBuaW3hRwGaaipJKddC4SwBI4CfA86Uh/eTZQm3tClQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lTaY3IgEnVy8WV4FrtziNdLHlI1R+MHtJBXaeEqwrwR7TWQvbL
+	9FEe2qrq8PeKYZq6K5rUGkL3x2GIIm/9YBPDboVZRn9xtCtNw8BQFxqXX0gjiPiyY06lGVI6ke6
+	O5qT23lYkXXH5ekTU9WINM5ScHqmkEbEEpFFur3Olqcyq1KR7iK75ZnJr5IA=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
- <20260824-unique-ref-v20-4-490735672187@kernel.org> <ao2WubjLtDuHvRzx@google.com>
- <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net> <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
- <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set> <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
- <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com> <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 7 Sep 2026 16:06:50 +0200
-X-Gm-Features: AcwNN1U77QgBa8sE7Mjd0WimH4SDjDY5r-Et6lPB5NUv3A9JgqpUTtiAXpyWSl8
-Message-ID: <CAH5fLgjYmvp1Ph3dYXnTKkAvWgNpgCAPeq_7PZhRai6pCNmVmw@mail.gmail.com>
-Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Ira Weiny <iweiny@kernel.org>, Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Asahi Lina <lina+kernel@asahilina.net>
+X-Received: by 2002:a4a:e904:0:b0:6b7:83c5:fdf0 with SMTP id
+ 006d021491bc7-6b783c603b3mr12556035eaf.49.1788791555747; Mon, 07 Sep 2026
+ 07:32:35 -0700 (PDT)
+Date: Mon, 07 Sep 2026 07:32:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a9ecb03.2bb5a69c.24b23c.0003.GAE@google.com>
+Subject: [syzbot] [pm?] WARNING: suspicious RCU usage in wakeup_source_unregister
+From: syzbot <syzbot+2d935ddaec3db1ab6f26@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 7, 2026 at 3:58=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
->
-> "Alice Ryhl" <aliceryhl@google.com> writes:
->
-> > On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg@ker=
-nel.org> wrote:
-> >>
-> >> Alice Ryhl <aliceryhl@google.com> writes:
-> >>
-> >> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> w=
-rote:
-> >> >>
-> >> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
-> >> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wrote:
-> >> >> >> +        // SAFETY: We just successfully allocated a page, so we=
- now have ownership of the newly
-> >> >> >> +        // allocated page. We transfer that ownership to the ne=
-w `Owned<Page>` object.
-> >> >> >> +        // Since `Page` is transparent, we can cast the pointer=
- directly.
-> >> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
-> >> >> >
-> >> >> > This doesn't satisfy the safety requirements of Owned::from_raw()
-> >> >> > because the page may be used with vm_insert_page(), which increme=
-nts its
-> >> >> > refcount and causes it to be shared the vma system, and this occu=
-rs
-> >> >> > before Page::release() is called.
-> >> >>
-> >> >> I suppose the existing vm_insert_page() abstraction we have is alre=
-ady
-> >> >> problematic, because it uses `&Page`?
-> >> >>
-> >> >> Maybe we want to change the API to use `ARef<Page>` so it already h=
-as to be
-> >> >> shared? Conceptually it takes a reference count from a `&Page`, whi=
-ch isn't
-> >> >> possible because `Page` is not `AlwaysRefCounted`, so it needs a `&=
-ARef<Page>`
-> >> >> to be able to do that op.
-> >> >
-> >> > Honestly, the problem is the safety requirements of Owned::from_raw(=
-).
-> >> > Pages have a "special" main reference, and free_page() does more tha=
-n
-> >> > put_page(). It even does something when the refcount does not hit
-> >> > zero.
-> >> >
-> >> > The correct behavior for Page is to allow the user to hold one
-> >> > Owned<Page> whose drop calls free_page(), *plus* any number of
-> >> > ARef<Page> references that invoke put_page() on drop. This way, the
-> >> > owned page controls the special drop codepath.
-> >>
-> >> This does not mesh well with the model of `Owned` behaving like
-> >> `UniqueArc` to `ARef` behaving like an `Arc`.
-> >
-> > It's a different case, I agree.
-> >
-> >> Please help me understand; with page having a main ref and an auxiliar=
-y
-> >> refcount, if we model that with a single `Owned<Page>` and a number of
-> >> `ARef<Page>`, what would happen in the case where the main ref (`Owned=
-`)
-> >> is dropped first? Is this legal?
-> >
-> > Yes, it's legal.
-> >
-> >> My intuition here would be to follow Garry's suggestion and have
-> >> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this is n=
-ot
-> >> an option?
-> >
-> > That would be the wrong ownership semantics. The C side increments the
-> > refcount rather than take ownership of a passed-in refcount, so the
-> > correct argument type is &Page.
->
-> Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
-> OK to increment the refcount from just a `&Page`.
+Hello,
 
-That's just a limitation in your traits. There is no problem with
-creating a refcount from just a &Page.
+syzbot found the following issue on:
 
-> > Now, for the use-case in Binder I believe we could switch to
-> > put_page(), as we don't need the extra stuff from free_page(), in
-> > which case we only want ARef<Page> and do not require Owned support.
-> > But as long as we are calling free_page(), it needs to not be
-> > clonable.
->
-> You are calling `__free_page` directly in binder? I could not find this
-> with grep except in the C binder. Is this code you are calling into from
-> Rust binder?
+HEAD commit:    841e384b841a Merge tag 's390-7.3-2' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11d94b9e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
+dashboard link: https://syzkaller.appspot.com/bug?extid=2d935ddaec3db1ab6f26
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Via the Drop of Page, not directly of course.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
->
-> > If the last reference to this page is speculative, it will be
-> > released by put_page() which only frees the first page of a
-> > non-compound allocation. [...] **If you want to use the page's
-> > reference count to decide when to free the allocation, you should
-> > allocate a compound page, and use put_page() instead of
-> > __free_pages().**
->
-> I guess this is what you are referring to? We could change `Page` to
-> this style as well and all would be fine I think?
->
-> At any rate, today I learned about Pfn walkers, compaction,
-> memory-failure, etc. that take transient refcounts
-> pages. With that in mind we need to reformulate the invariant of
-> `Ownable` to exclude optimistic transient references.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c871e5c1ff29/disk-841e384b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/056a12208699/vmlinux-841e384b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/09b9c08fc219/bzImage-841e384b.xz
 
-Yes we can switch Rust Binder to use put_page() and have Page not
-implement Ownable at all. That would be okay, because Binder's pages
-are not higher order. But this case still does highlight that
-Ownable<_> currently does not address the use-case where the
-Ownable<T> is a special reference there can only be one of, rather
-than a completely unique reference.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2d935ddaec3db1ab6f26@syzkaller.appspotmail.com
 
-For instance, the GPUVM abstraction would be another case where
-Ownable<_> could be used if we have this other model where Ownable<_>
-and ARef<_> are legal at the same time. Currently GPUVM uses a special
-UniqueRefGpuVm type to solve this problem.
+RBP: 00007fdafa94fdec R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558fe747d0 R11: 0000000000000246 R12: 0000000000000001
+R13: 00000000000927c0 R14: 0000000000076876 R15: 00007fdafa94fe40
+ </TASK>
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Tainted: G        W    L     
+-----------------------------
+kernel/rcu/srcutree.c:1468 Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section!
 
-Alice
+other info that might help us debug this:
+
+
+rcu_scheduler_active = 2, debug_locks = 1
+locks held by syz-executor/5675: 5, last CPU#0:
+ #0: ffffffff8ee35c10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff8ee35c10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm+0x10f/0x480 kernel/fork.c:1595
+ #1: ffff88807ed2c378 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:562 [inline]
+ #1: ffff88807ed2c378 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x195/0x1dc0 mm/mmap.c:1716
+ #2: ffff888025d09078 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:552 [inline]
+ #2: ffff888025d09078 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x221/0x1dc0 mm/mmap.c:1723
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x29/0x240 mm/pgtable-generic.c:290
+ #4: ffffc90000007cc0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0xd5/0x5f0 kernel/time/timer.c:1745
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 5675 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ lockdep_rcu_suspicious+0x140/0x1d0 kernel/locking/lockdep.c:6938
+ __synchronize_srcu+0x157/0x2f0 kernel/rcu/srcutree.c:1464
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister+0x129/0x3f0 drivers/base/power/wakeup.c:237
+ mmc_host_classdev_release+0x47/0x100 drivers/mmc/core/host.c:69
+ device_release+0xc4/0x1f0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x222/0x550 lib/kobject.c:737
+ call_timer_fn+0x18d/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers kernel/time/timer.c:2374 [inline]
+ __run_timer_base+0x652/0x8b0 kernel/time/timer.c:2386
+ run_timer_base kernel/time/timer.c:2395 [inline]
+ run_timer_softirq+0xb7/0x170 kernel/time/timer.c:2405
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:767
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:finish_task_switch+0x413/0xc60 kernel/sched/core.c:5371
+Code: 04 00 00 41 c7 84 24 20 0e 00 00 00 00 00 00 0f 1f 44 00 00 49 83 c4 48 4c 89 e7 e8 f7 ed 50 0a e8 d2 00 3a 00 fb 4c 8b 65 c8 <49> 8d bc 24 10 17 00 00 48 89 f8 48 c1 e8 03 42 0f b6 04 30 84 c0
+RSP: 0018:ffffc90004327020 EFLAGS: 00000206
+RAX: 00000000000f564d RBX: ffff8880b863c8e0 RCX: 8000000000000001
+RDX: 0000000000000006 RSI: ffffffff8e4744cc RDI: ffffffff8c6d9480
+RBP: ffffc90004327070 R08: ffffffff907a167f R09: 1ffffffff20f42cf
+R10: dffffc0000000000 R11: fffffbfff20f42d0 R12: ffff88803588ddc0
+R13: ffff8880b863c8b8 R14: dffffc0000000000 R15: 1ffff110170c791c
+ context_switch kernel/sched/core.c:5523 [inline]
+ __schedule+0x17e3/0x58f0 kernel/sched/core.c:7270
+ preempt_schedule_common+0x7f/0xd0 kernel/sched/core.c:7449
+ preempt_schedule_thunk+0x16/0x40 arch/x86/entry/thunk.S:12
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:201 [inline]
+ _raw_spin_unlock+0x41/0x50 kernel/locking/spinlock.c:213
+ spin_unlock include/linux/spinlock.h:401 [inline]
+ copy_pte_range mm/memory.c:1429 [inline]
+ copy_pmd_range+0x5176/0x5c10 mm/memory.c:1490
+ copy_pud_range mm/memory.c:1527 [inline]
+ copy_p4d_range mm/memory.c:1551 [inline]
+ copy_page_range+0xc82/0x1290 mm/memory.c:1637
+ dup_mmap+0xf17/0x1dc0 mm/mmap.c:1819
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x11a/0x480 kernel/fork.c:1595
+ copy_process+0x1e75/0x43e0 kernel/fork.c:2307
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2766
+ __do_sys_clone kernel/fork.c:2908 [inline]
+ __se_sys_clone kernel/fork.c:2892 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdafa5c6bd2
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007fdafa94fc60 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007fdafa94fc60 RCX: 00007fdafa5c6bd2
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007fdafa94fdec R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558fe747d0 R11: 0000000000000246 R12: 0000000000000001
+R13: 00000000000927c0 R14: 0000000000076876 R15: 00007fdafa94fe40
+ </TASK>
+BUG: sleeping function called from invalid context at kernel/rcu/srcutree.c:1472
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 5675, name: syz-executor
+preempt_count: 101, expected: 0
+RCU nest depth: 1, expected: 0
+locks held by syz-executor/5675: 5, last CPU#0:
+ #0: ffffffff8ee35c10 (dup_mmap_sem){.+.+}-{0:0}, at: dup_mm kernel/fork.c:1542 [inline]
+ #0: ffffffff8ee35c10 (dup_mmap_sem){.+.+}-{0:0}, at: copy_mm+0x10f/0x480 kernel/fork.c:1595
+ #1: ffff88807ed2c378 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:562 [inline]
+ #1: ffff88807ed2c378 (&mm->mmap_lock){++++}-{4:4}, at: dup_mmap+0x195/0x1dc0 mm/mmap.c:1716
+ #2: ffff888025d09078 (&mm->mmap_lock/1){+.+.}-{4:4}, at: mmap_write_lock_nested include/linux/mmap_lock.h:552 [inline]
+ #2: ffff888025d09078 (&mm->mmap_lock/1){+.+.}-{4:4}, at: dup_mmap+0x221/0x1dc0 mm/mmap.c:1723
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #3: ffffffff8ed5c6e0 (rcu_read_lock){....}-{1:3}, at: __pte_offset_map+0x29/0x240 mm/pgtable-generic.c:290
+ #4: ffffc90000007cc0 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0xd5/0x5f0 kernel/time/timer.c:1745
+Preemption disabled at:
+[<ffffffff81336576>] preempt_schedule_thunk+0x16/0x40 arch/x86/entry/thunk.S:12
+CPU: 0 UID: 0 PID: 5675 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ __might_resched+0x36a/0x4c0 kernel/sched/core.c:9234
+ __synchronize_srcu+0x1a1/0x2f0 kernel/rcu/srcutree.c:1472
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister+0x129/0x3f0 drivers/base/power/wakeup.c:237
+ mmc_host_classdev_release+0x47/0x100 drivers/mmc/core/host.c:69
+ device_release+0xc4/0x1f0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x222/0x550 lib/kobject.c:737
+ call_timer_fn+0x18d/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers kernel/time/timer.c:2374 [inline]
+ __run_timer_base+0x652/0x8b0 kernel/time/timer.c:2386
+ run_timer_base kernel/time/timer.c:2395 [inline]
+ run_timer_softirq+0xb7/0x170 kernel/time/timer.c:2405
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:767
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:finish_task_switch+0x413/0xc60 kernel/sched/core.c:5371
+Code: 04 00 00 41 c7 84 24 20 0e 00 00 00 00 00 00 0f 1f 44 00 00 49 83 c4 48 4c 89 e7 e8 f7 ed 50 0a e8 d2 00 3a 00 fb 4c 8b 65 c8 <49> 8d bc 24 10 17 00 00 48 89 f8 48 c1 e8 03 42 0f b6 04 30 84 c0
+RSP: 0018:ffffc90004327020 EFLAGS: 00000206
+RAX: 00000000000f564d RBX: ffff8880b863c8e0 RCX: 8000000000000001
+RDX: 0000000000000006 RSI: ffffffff8e4744cc RDI: ffffffff8c6d9480
+RBP: ffffc90004327070 R08: ffffffff907a167f R09: 1ffffffff20f42cf
+R10: dffffc0000000000 R11: fffffbfff20f42d0 R12: ffff88803588ddc0
+R13: ffff8880b863c8b8 R14: dffffc0000000000 R15: 1ffff110170c791c
+ context_switch kernel/sched/core.c:5523 [inline]
+ __schedule+0x17e3/0x58f0 kernel/sched/core.c:7270
+ preempt_schedule_common+0x7f/0xd0 kernel/sched/core.c:7449
+ preempt_schedule_thunk+0x16/0x40 arch/x86/entry/thunk.S:12
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:201 [inline]
+ _raw_spin_unlock+0x41/0x50 kernel/locking/spinlock.c:213
+ spin_unlock include/linux/spinlock.h:401 [inline]
+ copy_pte_range mm/memory.c:1429 [inline]
+ copy_pmd_range+0x5176/0x5c10 mm/memory.c:1490
+ copy_pud_range mm/memory.c:1527 [inline]
+ copy_p4d_range mm/memory.c:1551 [inline]
+ copy_page_range+0xc82/0x1290 mm/memory.c:1637
+ dup_mmap+0xf17/0x1dc0 mm/mmap.c:1819
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x11a/0x480 kernel/fork.c:1595
+ copy_process+0x1e75/0x43e0 kernel/fork.c:2307
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2766
+ __do_sys_clone kernel/fork.c:2908 [inline]
+ __se_sys_clone kernel/fork.c:2892 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdafa5c6bd2
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007fdafa94fc60 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007fdafa94fc60 RCX: 00007fdafa5c6bd2
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007fdafa94fdec R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558fe747d0 R11: 0000000000000246 R12: 0000000000000001
+R13: 00000000000927c0 R14: 0000000000076876 R15: 00007fdafa94fe40
+ </TASK>
+ODEBUG: object ffffc90000007a80 is NOT on stack ffffc90004320000, but annotated.
+------------[ cut here ]------------
+1
+WARNING: lib/debugobjects.c:672 at debug_object_is_on_stack lib/debugobjects.c:672 [inline], CPU#0: syz-executor/5675
+WARNING: lib/debugobjects.c:672 at lookup_object_or_alloc lib/debugobjects.c:705 [inline], CPU#0: syz-executor/5675
+WARNING: lib/debugobjects.c:672 at __debug_object_init+0x2c4/0x3c0 lib/debugobjects.c:798, CPU#0: syz-executor/5675
+Modules linked in:
+CPU: 0 UID: 0 PID: 5675 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:debug_object_is_on_stack lib/debugobjects.c:672 [inline]
+RIP: 0010:lookup_object_or_alloc lib/debugobjects.c:705 [inline]
+RIP: 0010:__debug_object_init+0x2c4/0x3c0 lib/debugobjects.c:798
+Code: cc cc cc 41 ff c7 44 89 3d c9 75 e8 15 48 c7 c1 80 9d 6d 8c 48 c7 c7 e0 9d 6d 8c 84 c0 48 0f 45 f9 48 89 de e8 4d fa 3d fc 90 <0f> 0b 90 e9 c0 fe ff ff e8 4f 1c 00 00 8b 05 a1 cd 6e 0a 3b 05 9f
+RSP: 0018:ffffc900000079b8 EFLAGS: 00010046
+RAX: 0000000000000050 RBX: ffffc90000007a80 RCX: 0978036a12caea00
+RDX: 0000000000000100 RSI: 0000000000000100 RDI: 0000000000000000
+RBP: ffff88803588dde0 R08: 0000000000000100 R09: 0000000000080000
+R10: 0000000000008000 R11: ffffffff8ec362b8 R12: 1ffff92000000f4c
+R13: ffff888021b995e8 R14: dffffc0000000000 R15: 0000000000000001
+FS:  000055558fe74500(0000) GS:ffff888124cd9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fdafb3556c8 CR3: 00000000640ca000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ __synchronize_srcu+0x1d5/0x2f0 kernel/rcu/srcutree.c:1475
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister+0x129/0x3f0 drivers/base/power/wakeup.c:237
+ mmc_host_classdev_release+0x47/0x100 drivers/mmc/core/host.c:69
+ device_release+0xc4/0x1f0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x222/0x550 lib/kobject.c:737
+ call_timer_fn+0x18d/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers kernel/time/timer.c:2374 [inline]
+ __run_timer_base+0x652/0x8b0 kernel/time/timer.c:2386
+ run_timer_base kernel/time/timer.c:2395 [inline]
+ run_timer_softirq+0xb7/0x170 kernel/time/timer.c:2405
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:767
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:784
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:finish_task_switch+0x413/0xc60 kernel/sched/core.c:5371
+Code: 04 00 00 41 c7 84 24 20 0e 00 00 00 00 00 00 0f 1f 44 00 00 49 83 c4 48 4c 89 e7 e8 f7 ed 50 0a e8 d2 00 3a 00 fb 4c 8b 65 c8 <49> 8d bc 24 10 17 00 00 48 89 f8 48 c1 e8 03 42 0f b6 04 30 84 c0
+RSP: 0018:ffffc90004327020 EFLAGS: 00000206
+RAX: 00000000000f564d RBX: ffff8880b863c8e0 RCX: 8000000000000001
+RDX: 0000000000000006 RSI: ffffffff8e4744cc RDI: ffffffff8c6d9480
+RBP: ffffc90004327070 R08: ffffffff907a167f R09: 1ffffffff20f42cf
+R10: dffffc0000000000 R11: fffffbfff20f42d0 R12: ffff88803588ddc0
+R13: ffff8880b863c8b8 R14: dffffc0000000000 R15: 1ffff110170c791c
+ context_switch kernel/sched/core.c:5523 [inline]
+ __schedule+0x17e3/0x58f0 kernel/sched/core.c:7270
+ preempt_schedule_common+0x7f/0xd0 kernel/sched/core.c:7449
+ preempt_schedule_thunk+0x16/0x40 arch/x86/entry/thunk.S:12
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:201 [inline]
+ _raw_spin_unlock+0x41/0x50 kernel/locking/spinlock.c:213
+ spin_unlock include/linux/spinlock.h:401 [inline]
+ copy_pte_range mm/memory.c:1429 [inline]
+ copy_pmd_range+0x5176/0x5c10 mm/memory.c:1490
+ copy_pud_range mm/memory.c:1527 [inline]
+ copy_p4d_range mm/memory.c:1551 [inline]
+ copy_page_range+0xc82/0x1290 mm/memory.c:1637
+ dup_mmap+0xf17/0x1dc0 mm/mmap.c:1819
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x11a/0x480 kernel/fork.c:1595
+ copy_process+0x1e75/0x43e0 kernel/fork.c:2307
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2766
+ __do_sys_clone kernel/fork.c:2908 [inline]
+ __se_sys_clone kernel/fork.c:2892 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdafa5c6bd2
+Code: 89 e7 e8 71 8b f7 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 66 89 c5 85 c0 75 3b 64 48 8b 04 25 10 00 00
+RSP: 002b:00007fdafa94fc60 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
+RAX: ffffffffffffffda RBX: 00007fdafa94fc60 RCX: 00007fdafa5c6bd2
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
+RBP: 00007fdafa94fdec R08: 0000000000000000 R09: 0000000000000001
+R10: 000055558fe747d0 R11: 0000000000000246 R12: 0000000000000001
+R13: 00000000000927c0 R14: 0000000000076876 R15: 00007fdafa94fe40
+ </TASK>
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	00 00                	add    %al,(%rax)
+   2:	41 c7 84 24 20 0e 00 	movl   $0x0,0xe20(%r12)
+   9:	00 00 00 00 00
+   e:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  13:	49 83 c4 48          	add    $0x48,%r12
+  17:	4c 89 e7             	mov    %r12,%rdi
+  1a:	e8 f7 ed 50 0a       	call   0xa50ee16
+  1f:	e8 d2 00 3a 00       	call   0x3a00f6
+  24:	fb                   	sti
+  25:	4c 8b 65 c8          	mov    -0x38(%rbp),%r12
+* 29:	49 8d bc 24 10 17 00 	lea    0x1710(%r12),%rdi <-- trapping instruction
+  30:	00
+  31:	48 89 f8             	mov    %rdi,%rax
+  34:	48 c1 e8 03          	shr    $0x3,%rax
+  38:	42 0f b6 04 30       	movzbl (%rax,%r14,1),%eax
+  3d:	84 c0                	test   %al,%al
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
