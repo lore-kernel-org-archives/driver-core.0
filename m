@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79178388E68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790AB38839E
 	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 05:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788759923; cv=none; b=JziXG8pyz1qu99eJTCXUSB7/carrkDGw98mIToRfCi6MHAhNxgC2SIG5BzIRbgrWkVYawFPG8AuPy8718Q32bxcJrRvnfjWwmy1cuo8NajkQC91EL1TdC7dcH5aLUiKvvTm4MBG5RlKO/8LsprIDThHUNnxXsL6+hm6cLHMiB/M=
+	t=1788759923; cv=none; b=Gv6OGGRV6ymDuOBvhXu78klnG+svyXesdVvX1a5A1bGjMJuI/vKdg1nVbi8RWo20nFC8+eoI6wLfuZg1QCoWb9s17h0hPgj9Ef1PkDA9UNS2GsdNPywVc9bd/zrfjMEpYb0Ycy9XUSiAeYxsyk7oR2BX9KbVfoTH2hJ4gTUnBhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788759923; c=relaxed/simple;
-	bh=74OyWk+S1XapnZa91tZh7QGJ8Z65Zq0I4MGM9fNJNk4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pnYsu32y/UGohjb1L0aJl4bFlHxdoxkZq9hwn6Vi2Tq8BAdR9aIT599d8SuF3NJJRm2nP7QOWhNoHOVitt6X0vW7EmMMjWEMbzQMm+ba2u/5K+2+CRptOJrZEkWkDLd6FMXq58XunGNRz5Ad6VvGibA8NoPU2pV8wMB8udJYYVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=A6HY3cV7; arc=none smtp.client-ip=159.69.126.157
+	bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bbbDzBCgsQd7CzpetiT9bJ0nGfwjuKoRUsHHJBb5Hs2nfX9JId4qOB0nPT2xPagn0Sw6jkGt6WqbSxsF61iFsestNnbwo7lorpr38GxxiOnQFNI3/8I6eIXYp+uIzdtbC5NSjYS1laORyvXqUsDAG+pSPp+cpb3K2U/mkvPeBoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=YPS8iNbN; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="A6HY3cV7"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="YPS8iNbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1788759912;
-	bh=74OyWk+S1XapnZa91tZh7QGJ8Z65Zq0I4MGM9fNJNk4=;
-	h=From:Subject:Date:To:Cc:From;
-	b=A6HY3cV701dgp4nehXyHi0uuEnDYEsK/ruMG+iGzYoQjZUV/M7TXnif6yPqj1WCHf
-	 u6SwqmxYz6xiFp1/Wb0+Xphev6GzjL+dE1p6VSs5jEWoFF42oV7/2jf4QHzK47dG/q
-	 rSXkrDVQq0zPLslfyMEAaaLBw5epZDE/IPsbgxso=
+	bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=YPS8iNbNG9RvZGIDsyGJnqtiJcjBQYlGiwc1ROWqNmaL2IOvFrXvtFEUjjxoEc5oi
+	 095w1Ju927d8rJzJV5WIeUhrPdy5xmlAIANK0TFNoOSjrMMY0Pg58i2Aie0v3fkE2z
+	 tD6+HP/mVW8VGHcpqfadeNvmZxcxREwvMQMWaqIo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH v2 0/3] driver core: Constify the signature of
- device_show/store_*()
-Date: Mon, 07 Sep 2026 07:45:00 +0200
-Message-Id: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
+Date: Mon, 07 Sep 2026 07:45:02 +0200
+Subject: [PATCH v2 2/3] drivers: perf: Use __DEVICE_ATTR() macro to
+ initialize dev_ext_attribute
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,11 +35,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOyw7CIBBFf6Vh7RjAitGV/2GapoVBcEENQ7FN0
- 3+3j7h2eZKbc+7ECKNHYrdiYhGzJ9+FBeShYNo14YngzcJMcqn4RUigkSyB7gIlaFKKYDDXOKR
- 6h9YqdbXGmhLZ4nhHtH7Y/I9qZ+rbF+q0SteF85S6OG4Hslh3v1b5p5UFcFCt1Lw8nY2S4v5BT
- 0Ta9e4YMLFqnucvwCtUS+EAAAA=
-X-Change-ID: 20260712-sysfs-const-attr-dev_ext_attr-dbf669fdfd4e
+Message-Id: <20260907-sysfs-const-attr-dev_ext_attr-v2-2-bf53afe57071@weissschuh.net>
+References: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
+In-Reply-To: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
 To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
  Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
  Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
@@ -58,37 +56,21 @@ Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788759912; l=2248;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788759912; l=12208;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=74OyWk+S1XapnZa91tZh7QGJ8Z65Zq0I4MGM9fNJNk4=;
- b=XvYmhK8g23TtkqqxN7yFFdmL3QKRYan/Vq1gOpl1Rbpx5vGwB2eFDVQ3yILkyDbE08ZBxinF5
- wad1OfZF2tjA5gvkgXhlADqWAri64DSYcu+XOo2XcNPH3zmUHKsUZII
+ bh=QM1RaMRYf7ZAFUu0L56y/M+PpGDxYRKN1uJfvbRAwN0=;
+ b=ceDGkuw5FvCesHSl7AwX4c6GgQs4jtq7D8STBSAwXKPtd3kbTyAoZ4/HhjydwRLIcF5Cw/uGk
+ gWDsUqgs8ddB7q6pRTxFHQAhBSLHxf/waF6uXNDoYT6xdoKfzu6hFHf
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Prepare for the constification of 'struct dev_ext_attribute' instances
-by changing the signature of the standard callback functions.
-The first two patches prepare some drivers to handle both the const and
-non-const callback variants.
+The upcoming constification of the device_show_*() callback
+signatures requires the users to handle the transition automatically.
 
-Intended for the driver-core tree.
+Switch to the __DEVICE_ATTR() macro which can do this.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Changes in v2:
-- Rebase on v7.3-rc1.
-- Cover a few more drivers in drivers/perf/.
-- Link to v1: https://patch.msgid.link/20260714-sysfs-const-attr-dev_ext_attr-v1-0-6b2c0435d621@weissschuh.net
-
----
-Thomas Weißschuh (3):
-      x86/mce: Use __DEVICE_ATTR() macro to initialize dev_ext_attribute
-      drivers: perf: Use __DEVICE_ATTR() macro to initialize dev_ext_attribute
-      driver core: Constify the signature of device_show/store_*()
-
- arch/powerpc/perf/hv-24x7.c                 |  2 +-
- arch/x86/kernel/cpu/mce/core.c              |  6 +++---
- drivers/base/core.c                         | 30 ++++++++++++++---------------
  drivers/perf/alibaba_uncore_drw_pmu.c       |  2 +-
  drivers/perf/arm-cci.c                      |  2 +-
  drivers/perf/arm-ccn.c                      |  2 +-
@@ -106,13 +88,266 @@ Thomas Weißschuh (3):
  drivers/perf/qcom_l3_pmu.c                  |  8 ++++----
  drivers/perf/starfive_starlink_pmu.c        |  2 +-
  drivers/perf/xgene_pmu.c                    |  2 +-
- include/linux/device.h                      | 14 +++++++-------
- 21 files changed, 61 insertions(+), 61 deletions(-)
----
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20260712-sysfs-const-attr-dev_ext_attr-dbf669fdfd4e
+ 17 files changed, 35 insertions(+), 35 deletions(-)
 
-Best regards,
---  
-Thomas Weißschuh <linux@weissschuh.net>
+diff --git a/drivers/perf/alibaba_uncore_drw_pmu.c b/drivers/perf/alibaba_uncore_drw_pmu.c
+index fc934bccf4a6..5b6d3a4736da 100644
+--- a/drivers/perf/alibaba_uncore_drw_pmu.c
++++ b/drivers/perf/alibaba_uncore_drw_pmu.c
+@@ -135,7 +135,7 @@ static ssize_t ali_drw_pmu_event_show(struct device *dev,
+ 
+ #define ALI_DRW_PMU_ATTR(_name, _func, _config)                            \
+ 		(&((struct dev_ext_attribute[]) {                               \
+-				{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
++				{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config }   \
+ 		})[0].attr.attr)
+ 
+ #define ALI_DRW_PMU_FORMAT_ATTR(_name, _config)            \
+diff --git a/drivers/perf/arm-cci.c b/drivers/perf/arm-cci.c
+index f0ef0a679e74..71035227f58b 100644
+--- a/drivers/perf/arm-cci.c
++++ b/drivers/perf/arm-cci.c
+@@ -132,7 +132,7 @@ static ssize_t __maybe_unused cci_pmu_event_show(struct device *dev,
+ 
+ #define CCI_EXT_ATTR_ENTRY(_name, _func, _config) 				\
+ 	&((struct dev_ext_attribute[]) {					\
+-		{ __ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
++		{ __DEVICE_ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
+ 	})[0].attr.attr
+ 
+ #define CCI_FORMAT_EXT_ATTR_ENTRY(_name, _config) \
+diff --git a/drivers/perf/arm-ccn.c b/drivers/perf/arm-ccn.c
+index c40da3450c8f..e3411bdf5c7c 100644
+--- a/drivers/perf/arm-ccn.c
++++ b/drivers/perf/arm-ccn.c
+@@ -216,7 +216,7 @@ static void arm_ccn_pmu_config_set(u64 *config, u32 node_xp, u32 type, u32 port)
+ 
+ #define CCN_FORMAT_ATTR(_name, _config) \
+ 	struct dev_ext_attribute arm_ccn_pmu_format_attr_##_name = \
+-			{ __ATTR(_name, S_IRUGO, device_show_string, \
++			{ __DEVICE_ATTR(_name, S_IRUGO, device_show_string, \
+ 			NULL), _config }
+ 
+ static CCN_FORMAT_ATTR(node, "config:0-7");
+diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
+index c4058d602477..93d5b062de8b 100644
+--- a/drivers/perf/arm_cspmu/arm_cspmu.h
++++ b/drivers/perf/arm_cspmu/arm_cspmu.h
+@@ -23,7 +23,7 @@
+ #define ARM_CSPMU_EXT_ATTR(_name, _func, _config)			\
+ 	(&((struct dev_ext_attribute[]){				\
+ 		{							\
+-			.attr = __ATTR(_name, 0444, _func, NULL),	\
++			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
+ 			.var = (void *)_config				\
+ 		}							\
+ 	})[0].attr.attr)
+diff --git a/drivers/perf/arm_dsu_pmu.c b/drivers/perf/arm_dsu_pmu.c
+index bcbd19e075a5..8332eaca06dc 100644
+--- a/drivers/perf/arm_dsu_pmu.c
++++ b/drivers/perf/arm_dsu_pmu.c
+@@ -69,7 +69,7 @@
+ #define DSU_EXT_ATTR(_name, _func, _config)		\
+ 	(&((struct dev_ext_attribute[]) {				\
+ 		{							\
+-			.attr = __ATTR(_name, 0444, _func, NULL),	\
++			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
+ 			.var = (void *)_config				\
+ 		}							\
+ 	})[0].attr.attr)
+diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+index b70f3fedf028..e298d6d6371e 100644
+--- a/drivers/perf/arm_spe_pmu.c
++++ b/drivers/perf/arm_spe_pmu.c
+@@ -172,9 +172,9 @@ static ssize_t arm_spe_pmu_cap_show_hex(struct device *dev,
+ 	return sysfs_emit(buf, "0x%llx\n", arm_spe_pmu_cap_get(spe_pmu, cap));
+ }
+ 
+-#define SPE_EXT_ATTR_ENTRY(_name, _func, _var)				\
+-	&((struct dev_ext_attribute[]) {				\
+-		{ __ATTR(_name, S_IRUGO, _func, NULL), (void *)_var }	\
++#define SPE_EXT_ATTR_ENTRY(_name, _func, _var)					\
++	&((struct dev_ext_attribute[]) {					\
++		{ __DEVICE_ATTR(_name, S_IRUGO, _func, NULL), (void *)_var }	\
+ 	})[0].attr.attr
+ 
+ #define SPE_CAP_EXT_ATTR_ENTRY(_name, _var)				\
+diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
+index 2c8a03cc11e4..a36cf792a2d0 100644
+--- a/drivers/perf/cxl_pmu.c
++++ b/drivers/perf/cxl_pmu.c
+@@ -216,11 +216,11 @@ static int cxl_pmu_parse_caps(struct device *dev, struct cxl_pmu_info *info)
+ }
+ 
+ #define CXL_PMU_FORMAT_ATTR(_name, _format)\
+-	(&((struct dev_ext_attribute[]) {					\
+-		{								\
+-			.attr = __ATTR(_name, 0444, device_show_string, NULL),	\
+-			.var = (void *)_format					\
+-		}								\
++	(&((struct dev_ext_attribute[]) {						\
++		{									\
++			.attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),	\
++			.var = (void *)_format						\
++		}									\
+ 		})[0].attr.attr)
+ 
+ enum {
+diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
+index dd8046265584..7553c5872600 100644
+--- a/drivers/perf/fsl_imx8_ddr_perf.c
++++ b/drivers/perf/fsl_imx8_ddr_perf.c
+@@ -214,7 +214,7 @@ static ssize_t ddr_perf_filter_cap_show(struct device *dev,
+ 
+ #define PERF_EXT_ATTR_ENTRY(_name, _func, _var)				\
+ 	(&((struct dev_ext_attribute) {					\
+-		__ATTR(_name, 0444, _func, NULL), (void *)_var		\
++		__DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_var	\
+ 	}).attr.attr)
+ 
+ #define PERF_FILTER_EXT_ATTR_ENTRY(_name, _var)				\
+diff --git a/drivers/perf/fujitsu_uncore_pmu.c b/drivers/perf/fujitsu_uncore_pmu.c
+index fa64146fcac6..db90e181b9a8 100644
+--- a/drivers/perf/fujitsu_uncore_pmu.c
++++ b/drivers/perf/fujitsu_uncore_pmu.c
+@@ -291,7 +291,7 @@ static void fujitsu_uncore_event_read(struct perf_event *event)
+ 
+ #define UNCORE_PMU_FORMAT_ATTR(_name, _config)				      \
+ 	(&((struct dev_ext_attribute[]) {				      \
+-		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
++		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
+ 		  .var = (void *)_config, }				      \
+ 	})[0].attr.attr)
+ 
+diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+index 0f55d871c67e..0a69d13fa453 100644
+--- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
++++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+@@ -110,7 +110,7 @@ static ssize_t hisi_pcie_event_sysfs_show(struct device *dev, struct device_attr
+ 
+ #define HISI_PCIE_PMU_FORMAT_ATTR(_name, _format)                              \
+ 	(&((struct dev_ext_attribute[]){                                       \
+-		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),       \
++		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),\
+ 		  .var = (void *)_format }                                     \
+ 	})[0].attr.attr)
+ 
+diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.h b/drivers/perf/hisilicon/hisi_uncore_pmu.h
+index 3ffe6acda653..a4cb9ed7ea20 100644
+--- a/drivers/perf/hisilicon/hisi_uncore_pmu.h
++++ b/drivers/perf/hisilicon/hisi_uncore_pmu.h
+@@ -27,9 +27,9 @@
+ #define HISI_MAX_COUNTERS	0x18
+ #define to_hisi_pmu(p)	(container_of(p, struct hisi_pmu, pmu))
+ 
+-#define HISI_PMU_ATTR(_name, _func, _config)				\
+-	(&((struct dev_ext_attribute[]) {				\
+-		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
++#define HISI_PMU_ATTR(_name, _func, _config)				     \
++	(&((struct dev_ext_attribute[]) {				     \
++		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
+ 	})[0].attr.attr)
+ 
+ #define HISI_PMU_FORMAT_ATTR(_name, _config)		\
+diff --git a/drivers/perf/hisilicon/hns3_pmu.c b/drivers/perf/hisilicon/hns3_pmu.c
+index c157f3572cae..88a1129e9b90 100644
+--- a/drivers/perf/hisilicon/hns3_pmu.c
++++ b/drivers/perf/hisilicon/hns3_pmu.c
+@@ -405,9 +405,9 @@ static ssize_t hns3_pmu_filter_mode_show(struct device *dev,
+ 	return len;
+ }
+ 
+-#define HNS3_PMU_ATTR(_name, _func, _config)				\
+-	(&((struct dev_ext_attribute[]) {				\
+-		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }	\
++#define HNS3_PMU_ATTR(_name, _func, _config)				     \
++	(&((struct dev_ext_attribute[]) {				     \
++		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
+ 	})[0].attr.attr)
+ 
+ #define HNS3_PMU_FORMAT_ATTR(_name, _format) \
+diff --git a/drivers/perf/nvidia_t410_c2c_pmu.c b/drivers/perf/nvidia_t410_c2c_pmu.c
+index bff875f4f625..a41d5712da91 100644
+--- a/drivers/perf/nvidia_t410_c2c_pmu.c
++++ b/drivers/perf/nvidia_t410_c2c_pmu.c
+@@ -545,7 +545,7 @@ static struct attribute_group nv_c2c_pmu_peer_attr_group = {
+ #define NV_C2C_PMU_EXT_ATTR(_name, _func, _config)			\
+ 	(&((struct dev_ext_attribute[]){				\
+ 		{							\
+-			.attr = __ATTR(_name, 0444, _func, NULL),	\
++			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
+ 			.var = (void *)_config				\
+ 		}							\
+ 	})[0].attr.attr)
+diff --git a/drivers/perf/nvidia_t410_cmem_latency_pmu.c b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
+index 6c8e41598ec1..da91a51fe29e 100644
+--- a/drivers/perf/nvidia_t410_cmem_latency_pmu.c
++++ b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
+@@ -435,12 +435,12 @@ static struct attribute_group cmem_lat_pmu_identifier_attr_group = {
+ 
+ /* Format attributes. */
+ 
+-#define NV_PMU_EXT_ATTR(_name, _func, _config)			\
+-	(&((struct dev_ext_attribute[]){				\
+-		{							\
+-			.attr = __ATTR(_name, 0444, _func, NULL),	\
+-			.var = (void *)_config				\
+-		}							\
++#define NV_PMU_EXT_ATTR(_name, _func, _config)					\
++	(&((struct dev_ext_attribute[]){					\
++		{								\
++			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),	\
++			.var = (void *)_config					\
++		}								\
+ 	})[0].attr.attr)
+ 
+ static struct attribute *cmem_lat_pmu_formats[] = {
+diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
+index e18d0f94e8d8..d036fa05aeab 100644
+--- a/drivers/perf/qcom_l3_pmu.c
++++ b/drivers/perf/qcom_l3_pmu.c
+@@ -609,10 +609,10 @@ static void qcom_l3_cache__event_read(struct perf_event *event)
+ 
+ /* formats */
+ 
+-#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				      \
+-	(&((struct dev_ext_attribute[]) {				      \
+-		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
+-		  .var = (void *) _config, }				      \
++#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				        \
++	(&((struct dev_ext_attribute[]) {				        \
++		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
++		  .var = (void *) _config, }				        \
+ 	})[0].attr.attr)
+ 
+ static struct attribute *qcom_l3_cache_pmu_formats[] = {
+diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
+index 98e5ccee2fdc..d9843645554b 100644
+--- a/drivers/perf/starfive_starlink_pmu.c
++++ b/drivers/perf/starfive_starlink_pmu.c
+@@ -51,7 +51,7 @@
+ 
+ #define STARLINK_FORMAT_ATTR(_name, _config)				      \
+ 	(&((struct dev_ext_attribute[]) {				      \
+-		{ .attr = __ATTR(_name, 0444, starlink_pmu_sysfs_format_show, NULL), \
++		{ .attr = __DEVICE_ATTR(_name, 0444, starlink_pmu_sysfs_format_show, NULL), \
+ 		  .var = (void *)_config, }				      \
+ 	})[0].attr.attr)
+ 
+diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
+index ab3623fab914..104cd0277b58 100644
+--- a/drivers/perf/xgene_pmu.c
++++ b/drivers/perf/xgene_pmu.c
+@@ -164,7 +164,7 @@ enum xgene_pmu_dev_type {
+  */
+ #define XGENE_PMU_FORMAT_ATTR(_name, _config)		\
+ 	(&((struct dev_ext_attribute[]) {		\
+-		{ .attr = __ATTR(_name, S_IRUGO, device_show_string, NULL), \
++		{ .attr = __DEVICE_ATTR(_name, S_IRUGO, device_show_string, NULL), \
+ 		  .var = (void *) _config, }		\
+ 	})[0].attr.attr)
+ 
+
+-- 
+2.55.0
 
