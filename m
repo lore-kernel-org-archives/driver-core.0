@@ -1,109 +1,220 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AB82DB79C
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 02:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E6537F8A7
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 05:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788749261; cv=none; b=MrhJFro/QQ9ciGNHsveyr8ZNefaQC2cr85J0lQxDl2jFQYmGjce3yYwE4mdfZg79ZXDa9csPb+zigt77MMLBVzYFSDg/XKyeoh6xTuW/EP0rdJnH0tZOjXJRvXnFASchSUlV7boP+xUHnlyS3T0sacafAXFTxds09FFL0B+QgTQ=
+	t=1788759923; cv=none; b=NXIrVcQEERCI5gyJBCLHbKgSykBdRAt3xX83ETAO6K8mca1OfADWx7R2sceWcK8ViU4yxATPnnG4qeF7MvKe9LXDKpcHCB+DmCcIavb0DBI6N9c1u9fYIesq71WyAHeJNLs+T5Bvr9Z0uT6llrVM4Xp4YhF89570fIAQwRBm8d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788749261; c=relaxed/simple;
-	bh=jZYY5NaJH+vzPmPiabk4EdnDnHng5JQYG4Vi0ch6uR4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m1T9TPmsNUN4t9R5fkSkqIbnk1dwN+qjMIFXRFCiMpr80e5mlDDUdhz6l6DPq+i06/jR8sP65+1cx3YU7IvTJJr1Xp+/7rjsC4UfNnDwTvSoOx3SWYqi2BiYX/BRjjXki/YBZhiJctJ9NM1NgwXTUWs8Ewu5OdrCq408hYw01L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7ae3ea62aa6611f19a56ed5b684f684d-20260907
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:c1e5e03d-6776-4f06-a688-68e4fb7cb5a4,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:56fa679ec0deb223dc4fca44739f3fbc,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|136|850|865|898,TC:nil,Content:0|15|50|9
-	9,EDM:-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
-	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 7ae3ea62aa6611f19a56ed5b684f684d-20260907
-X-User: gonglinkai@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <gonglinkai@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 74153910; Mon, 07 Sep 2026 10:47:35 +0800
-From: Linkai Gong <gonglinkai@kylinos.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Keith Busch <kbusch@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drivers/base/node: fix UAF on device_register() failure
-Date: Mon,  7 Sep 2026 10:47:32 +0800
-Message-Id: <20260907024732.1452228-1-gonglinkai@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260828012516.3591496-1-gonglinkai@kylinos.cn>
-References: <20260828012516.3591496-1-gonglinkai@kylinos.cn>
+	s=arc-20240116; t=1788759923; c=relaxed/simple;
+	bh=jHaxIQ3pA1eeWIle1Pk9J90EZmpff5RsKw2PfaVnl9A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=q6EPZS1lHhox9ovRG3qFum/NqmcXnqux4a722Hr7hJp2pwLFEKWfL4i15fngwo/Ymxj+gvtxPCDbGwbsItkktdhqWVckowRiOHG52RujjdnUN3EfU/rTmbhTK9vjaKkej6wHT6eWDjDD+vw83rS174mTfMvPyHYboIGaUO4Cxv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SfWSK/ah; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SfWSK/ah"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1788759912;
+	bh=jHaxIQ3pA1eeWIle1Pk9J90EZmpff5RsKw2PfaVnl9A=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=SfWSK/ahn06kZntBnbhT0gYtxboxUyXFW9sznUoNgaeOlkScL/EVWj5kKaLRsnxwj
+	 qMTCIvjn1ZFkBsUI621/mshp8jAEz3LFaTdQTx92ltJp+/r/7ijQnRwI9imYQl/R3l
+	 jWF+lfEnUxnVx74sACHqIQFXMyfW7+dmRlk0kr4s=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 07 Sep 2026 07:45:03 +0200
+Subject: [PATCH v2 3/3] driver core: Constify the signature of
+ device_show/store_*()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260907-sysfs-const-attr-dev_ext_attr-v2-3-bf53afe57071@weissschuh.net>
+References: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
+In-Reply-To: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jic23@kernel.org>, 
+ Yushan Wang <wangyushan12@huawei.com>, Jijie Shao <shaojijie@huawei.com>, 
+ Khuong Dinh <khuong@os.amperecomputing.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788759912; l=5954;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=jHaxIQ3pA1eeWIle1Pk9J90EZmpff5RsKw2PfaVnl9A=;
+ b=HSiLRH38g3xSkpGb5oIKBJaK+SOmvIEuNwqO/eqdT7KHt7JaySzEjU5t5xVPUxSbcL/2oSJ8q
+ Vg+/kfFlctnBza+sS9aoCZ//ve+6Dyrc1y3gZ5QVZWXlD8L1tbcV9W2
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-node_init_node_access() frees the access node with kfree() if
-device_register() fails. After device_register() the embedded device is
-initialized and must be released with put_device() so that
-node_access_release() can free it.
+Prepare for the constification of 'struct dev_ext_attribute' by changing
+the signature of the standard callback functions.
 
-Fixes: 08d9dbe72b1f ("node: Link memory nodes to their compute nodes")
-Signed-off-by: Linkai Gong <gonglinkai@kylinos.cn>
+Migrate the hv-24x7 driver in the same commit. It is the only user to
+manually assign one of the standard callbacks.
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-v3:
-- drop both goto labels; the error paths just return (Danilo)
+ arch/powerpc/perf/hv-24x7.c |  2 +-
+ drivers/base/core.c         | 30 +++++++++++++++---------------
+ include/linux/device.h      | 14 +++++++-------
+ 3 files changed, 23 insertions(+), 23 deletions(-)
 
-v2:
-- rename the free_name error label to put_device (Danilo)
-
- drivers/base/node.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 3da91929ad4e..dcdc8626627a 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -167,20 +167,19 @@ static struct node_access_nodes *node_init_node_access(struct node *node,
- 	dev->parent = &node->dev;
- 	dev->release = node_access_release;
- 	dev->groups = node_access_node_groups;
--	if (dev_set_name(dev, "access%u", access))
--		goto free;
-+	if (dev_set_name(dev, "access%u", access)) {
-+		kfree(access_node);
-+		return NULL;
-+	}
+diff --git a/arch/powerpc/perf/hv-24x7.c b/arch/powerpc/perf/hv-24x7.c
+index b0eedf185960..3e094dc7d76b 100644
+--- a/arch/powerpc/perf/hv-24x7.c
++++ b/arch/powerpc/perf/hv-24x7.c
+@@ -462,7 +462,7 @@ static struct attribute *device_str_attr_create_(char *name, char *str)
+ 	attr->var = str;
+ 	attr->attr.attr.name = name;
+ 	attr->attr.attr.mode = 0444;
+-	attr->attr.show = device_show_string;
++	attr->attr.show_const = device_show_string;
  
--	if (device_register(dev))
--		goto free_name;
-+	if (device_register(dev)) {
-+		put_device(dev);
-+		return NULL;
-+	}
- 
- 	pm_runtime_no_callbacks(dev);
- 	list_add_tail(&access_node->list_node, &node->access_list);
- 	return access_node;
--free_name:
--	kfree_const(dev->kobj.name);
--free:
--	kfree(access_node);
--	return NULL;
+ 	return &attr->attr.attr;
  }
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4c0c373998a1..5daa88fa724a 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2517,13 +2517,13 @@ static const struct sysfs_ops dev_sysfs_ops = {
+ 	.store	= dev_attr_store,
+ };
  
- #ifdef CONFIG_HMEM_REPORTING
+-#define to_ext_attr(x) container_of(x, struct dev_ext_attribute, attr)
++#define to_ext_attr(x) container_of_const(x, struct dev_ext_attribute, attr)
+ 
+ ssize_t device_store_ulong(struct device *dev,
+-			   struct device_attribute *attr,
++			   const struct device_attribute *attr,
+ 			   const char *buf, size_t size)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 	int ret;
+ 	unsigned long new;
+ 
+@@ -2537,19 +2537,19 @@ ssize_t device_store_ulong(struct device *dev,
+ EXPORT_SYMBOL_GPL(device_store_ulong);
+ 
+ ssize_t device_show_ulong(struct device *dev,
+-			  struct device_attribute *attr,
++			  const struct device_attribute *attr,
+ 			  char *buf)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 	return sysfs_emit(buf, "%lx\n", *(unsigned long *)(ea->var));
+ }
+ EXPORT_SYMBOL_GPL(device_show_ulong);
+ 
+ ssize_t device_store_int(struct device *dev,
+-			 struct device_attribute *attr,
++			 const struct device_attribute *attr,
+ 			 const char *buf, size_t size)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 	int ret;
+ 	long new;
+ 
+@@ -2566,19 +2566,19 @@ ssize_t device_store_int(struct device *dev,
+ EXPORT_SYMBOL_GPL(device_store_int);
+ 
+ ssize_t device_show_int(struct device *dev,
+-			struct device_attribute *attr,
++			const struct device_attribute *attr,
+ 			char *buf)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 
+ 	return sysfs_emit(buf, "%d\n", *(int *)(ea->var));
+ }
+ EXPORT_SYMBOL_GPL(device_show_int);
+ 
+-ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
++ssize_t device_store_bool(struct device *dev, const struct device_attribute *attr,
+ 			  const char *buf, size_t size)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 
+ 	if (kstrtobool(buf, ea->var) < 0)
+ 		return -EINVAL;
+@@ -2587,19 +2587,19 @@ ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
+ }
+ EXPORT_SYMBOL_GPL(device_store_bool);
+ 
+-ssize_t device_show_bool(struct device *dev, struct device_attribute *attr,
++ssize_t device_show_bool(struct device *dev, const struct device_attribute *attr,
+ 			 char *buf)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 
+ 	return sysfs_emit(buf, "%d\n", *(bool *)(ea->var));
+ }
+ EXPORT_SYMBOL_GPL(device_show_bool);
+ 
+ ssize_t device_show_string(struct device *dev,
+-			   struct device_attribute *attr, char *buf)
++			   const struct device_attribute *attr, char *buf)
+ {
+-	struct dev_ext_attribute *ea = to_ext_attr(attr);
++	const struct dev_ext_attribute *ea = to_ext_attr(attr);
+ 
+ 	return sysfs_emit(buf, "%s\n", (char *)ea->var);
+ }
+diff --git a/include/linux/device.h b/include/linux/device.h
+index aee79fd6b32b..90cdd77458bb 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -129,19 +129,19 @@ struct dev_ext_attribute {
+ 	void *var;
+ };
+ 
+-ssize_t device_show_ulong(struct device *dev, struct device_attribute *attr,
++ssize_t device_show_ulong(struct device *dev, const struct device_attribute *attr,
+ 			  char *buf);
+-ssize_t device_store_ulong(struct device *dev, struct device_attribute *attr,
++ssize_t device_store_ulong(struct device *dev, const struct device_attribute *attr,
+ 			   const char *buf, size_t count);
+-ssize_t device_show_int(struct device *dev, struct device_attribute *attr,
++ssize_t device_show_int(struct device *dev, const struct device_attribute *attr,
+ 			char *buf);
+-ssize_t device_store_int(struct device *dev, struct device_attribute *attr,
++ssize_t device_store_int(struct device *dev, const struct device_attribute *attr,
+ 			 const char *buf, size_t count);
+-ssize_t device_show_bool(struct device *dev, struct device_attribute *attr,
++ssize_t device_show_bool(struct device *dev, const struct device_attribute *attr,
+ 			char *buf);
+-ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
++ssize_t device_store_bool(struct device *dev, const struct device_attribute *attr,
+ 			 const char *buf, size_t count);
+-ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
++ssize_t device_show_string(struct device *dev, const struct device_attribute *attr,
+ 			   char *buf);
+ 
+ typedef ssize_t __device_show_handler_const(struct device *dev, const struct device_attribute *attr,
+
 -- 
-2.25.1
+2.55.0
+
