@@ -1,266 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837E443B6CB
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 08:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4146440655
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 08:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788769480; cv=none; b=OIKSjqi66ozSmvSBXoYV0x1rJhGvPRrwMo/7X7oq0CmO3v3aWTGVw6WI41GdttXYegshiYu5QMYX0kgO4mWLMa83bduHiSMObe7TpcH2Z/MTlCw1oq5Hy724JS3JIh4EtnuSBp+DiON1j7dNp0nC46mW6z5yg5gc8faoF6do82g=
+	t=1788770621; cv=none; b=h5j888dNQeFqTvJ8iWLRCwPLC1o06edgGNp4S0yCjjBNFP2DQar5AlL+dxiiqgvTJ7F538ZLRp4q+5mitns5oQ63P5xNRvKdriX3JlNkz63mVHbgHEf93XWv6k+FcL0cYQXHokwJnOwg7j4ZS3sNLsNsPFLg9K8iK1rNuN4HZEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788769480; c=relaxed/simple;
-	bh=Q7dC/WRFxfy2ZTVBn/CI0qq4K9fuw42CK8+hq8VoEhA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TyQQxhWSKcsHUw3KOlkvHMwlsDSKzdnA3nmUAeGcn9WmUGKq9jgbtniAY/2DckhZU8M+EnLzeYEMBoPE8j8dV3es44iORfOal9xV7ZRRqB/Xau0+/S1ucLdiHc9G1i3yRcLTwx4oirf0RSFn5QKPAibjR+kex/Lyu1YOiO+E+4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbEJ6elf; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbEJ6elf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520E01F00A3F
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 08:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788769478;
-	bh=PCVcsXAMckoFPKkzKtrThjz17kmFVFPOkwbdSUZv7lk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fbEJ6elfKVryfSj3Egsb58If7rF4UeAQU5ExOzx0fxhIUY/JiGAWLTvz3pylmbsur
-	 PHLV/Npiu72K8GzUS5VAZCPibaDsULoOMYpFFizY4VsTADXjvHpZAHLH82WjMNILy8
-	 3ixphYXK3ijcPuEuUPQsl7b395WhFY0/nD6ok1oNufT712GKjptHOIhuNEIStmmxHY
-	 VZp8cAoEUWPvWaJj35kVMJg6w0XRFBYd/aM2lFVsh4eKHwQfDejpJ1w1FHQu51bAZV
-	 r51AnSprAlk4R8C0yKDVw4F/qduiB1JOBAffiInpYHQ9K/k+Nybqsc9/dDAYP/u/mD
-	 llSL0AuZsT2YA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3a151eda82dso28526421fa.1
-        for <driver-core@lists.linux.dev>; Mon, 07 Sep 2026 01:24:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw7p+nLrZZdlyMUKwZlOeAhfI4WbVvtJaU2UHH3JV2jvrTgoj7n3CC6mvZLLmthkp5MNKbbErNP4Qp5FA==@lists.linux.dev
-X-Gm-Message-State: AFuF++k1Eaq1p0PMzStOCaA+Er9aAfHDCIup8CBlWVzBsYQAg+4yijNj
-	4mdrpZQBEwPHhkARb3akkQqgFqGgts+FWkSegkbmDuRYbPoUFjgW7c1KresO5UoJhEgZuAgLCsR
-	tVu3+bTfmm9KJRp3YL/egNekx/wIZJzw=
-X-Received: by 2002:a05:6512:acc:b0:5b6:421:a8fb with SMTP id
- 2adb3069b0e04-5b616f3dc7emr4986729e87.27.1788769476610; Mon, 07 Sep 2026
- 01:24:36 -0700 (PDT)
+	s=arc-20240116; t=1788770621; c=relaxed/simple;
+	bh=qlsiU5m0Vd7b370vVIEaEUez+m5Jb2nv6IPuPBiL5TI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=A5bFhWivi77yyynLNJUzpGf2XrGIjDjPFq16guhyQrnYsIMZau3DpmaYQubBNMA/JxL0T/UHDiaznsiz6gwCQvX+5iKMMIRrDB9ZjWXGKPzridClELvZWjmboDWYAsyGbyPMpkwu5zefr8lUOtsl/2wqHjbQYyYWvKOXVjHxi5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hdgLK1gYfz1K96b;
+	Mon,  7 Sep 2026 16:32:41 +0800 (CST)
+Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7606F40565;
+	Mon,  7 Sep 2026 16:43:34 +0800 (CST)
+Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
+ (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 7 Sep
+ 2026 16:43:33 +0800
+Message-ID: <0e7f0226-7e57-414c-8815-9f02d7165e26@hisilicon.com>
+Date: Mon, 7 Sep 2026 16:43:33 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <8753121.T7Z3S40VBb@rafael.j.wysocki>
-In-Reply-To: <8753121.T7Z3S40VBb@rafael.j.wysocki>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 7 Sep 2026 10:23:30 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iVB9RM=-shOPKqPXkyN3mkB2wyA-0b5aMpmXXwuBEqkw@mail.gmail.com>
-X-Gm-Features: AcwNN1ULBo9DFxc0AiqivzArZ3dVbCVdQdBDOjj3MbqviI-1ZJcTdImDQWQ6W7Y
-Message-ID: <CAJZ5v0iVB9RM=-shOPKqPXkyN3mkB2wyA-0b5aMpmXXwuBEqkw@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core/ACPI: Introduce companion_bus_register()
-To: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linux ACPI <linux-acpi@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] cpufreq: cppc: Add update_limits support for
+ Highest Performance changes
+To: Xueqin Luo <luoxueqin@kylinos.cn>, Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Viresh Kumar
+	<viresh.kumar@linaro.org>
+CC: Lifeng Zheng <zhenglifeng1@huawei.com>, Pierre Gondois
+	<pierre.gondois@arm.com>, Sumit Gupta <sumitg@nvidia.com>,
+	<linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
+	<linux-pm@vger.kernel.org>
+References: <20260807060848.832929-1-luoxueqin@kylinos.cn>
+ <20260807060848.832929-2-luoxueqin@kylinos.cn>
+Content-Language: en-US
+From: Jie Zhan <zhanjie9@hisilicon.com>
+In-Reply-To: <20260807060848.832929-2-luoxueqin@kylinos.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf200017.china.huawei.com (7.202.181.10)
 
-On Sun, Sep 6, 2026 at 6:03=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
-> wrote:
->
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> The ACPI bus type does not allow drivers to be registered, so the sysfs
-> attributes related to drivers created for it and its devices are
-> useless, and its drivers/ directory is always empty.  All of that is
-> confusing and wasteful.
->
-> To allow skipping the creation of those sysfs attributes, introduce
-> the concept of a "companion" bus (as a bus without drivers whose
-> devices can be bound to other devices and used by their drivers) and
-> add a special registration function for registering "companion" bus
-> types, companion_bus_register().
->
-> Use that function for registering the ACPI bus type.
->
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+
+
+On 8/7/2026 2:08 PM, Xueqin Luo wrote:
+> ACPI CPPC specification requires OSPM to re-evaluate the Highest
+> Performance register when Notify(0x85) is received for a processor
+> device.
+> 
+> Implement cppc_cpufreq_update_limits() to refresh the cached
+> highest_perf capability through cppc_get_highest_perf() and update
+> policy->cpuinfo.max_freq from Highest Performance. Use
+> refresh_frequency_limits() so policy->max follows the standard
+> cpufreq_set_policy() path.
+> 
+> cpuinfo.max_freq always tracks Highest Performance. When boost is
+> disabled but still supported, constrain policy->max by updating the
+> existing boost_freq_req (created in cpufreq_policy_init_qos) to
+> nominal, instead of hiding the hardware maximum in cpuinfo.
+> 
+> Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
 > ---
->  drivers/acpi/bus.c         |    8 -----
->  drivers/base/bus.c         |   66 ++++++++++++++++++++++++++++++++------=
--------
->  include/linux/device/bus.h |    1
->  3 files changed, 49 insertions(+), 26 deletions(-)
->
-> --- a/drivers/acpi/bus.c
-> +++ b/drivers/acpi/bus.c
-> @@ -1120,11 +1120,6 @@ EXPORT_SYMBOL_GPL(acpi_driver_match_devi
->                                ACPI Bus operations
->     ---------------------------------------------------------------------=
------ */
->
-> -static int acpi_bus_match(struct device *dev, const struct device_driver=
- *drv)
-> -{
-> -       return 0;
-> -}
-> -
->  static int acpi_device_uevent(const struct device *dev, struct kobj_ueve=
-nt_env *env)
->  {
->         return __acpi_device_uevent_modalias(to_acpi_device(dev), env);
-> @@ -1132,7 +1127,6 @@ static int acpi_device_uevent(const stru
->
->  const struct bus_type acpi_bus_type =3D {
->         .name           =3D "acpi",
-> -       .match          =3D acpi_bus_match,
->         .uevent         =3D acpi_device_uevent,
->  };
->
-> @@ -1451,7 +1445,7 @@ static int __init acpi_bus_init(void)
->          */
->         acpi_root_dir =3D proc_mkdir(ACPI_BUS_FILE_ROOT, NULL);
->
-> -       result =3D bus_register(&acpi_bus_type);
-> +       result =3D companion_bus_register(&acpi_bus_type);
->         if (!result)
->                 return 0;
->
-> --- a/drivers/base/bus.c
-> +++ b/drivers/base/bus.c
-> @@ -735,7 +735,7 @@ int bus_add_driver(struct device_driver
->         struct driver_private *priv;
->         int error =3D 0;
->
-> -       if (!sp)
-> +       if (!sp || !sp->drivers_kset)
-
-This will leak the reference to sp if sp itself is not NULL, but
-sp->drivers_kset is (as dutifully reported by Sashiko).
-
->                 return -EINVAL;
->
->         /*
-> @@ -930,15 +930,7 @@ static ssize_t bus_uevent_store(const st
->  static struct bus_attribute bus_attr_uevent =3D __ATTR(uevent, 0200, NUL=
-L,
->                                                      bus_uevent_store);
->
-> -/**
-> - * bus_register - register a driver-core subsystem
-> - * @bus: bus to register
-> - *
-> - * Once we have that, we register the bus with the kobject
-> - * infrastructure, then register the children subsystems it has:
-> - * the devices and drivers that belong to the subsystem.
-> - */
-> -int bus_register(const struct bus_type *bus)
-> +static int bus_register_internal(const struct bus_type *bus, bool use_dr=
-ivers)
->  {
->         int retval;
->         struct subsys_private *priv;
-> @@ -960,7 +952,7 @@ int bus_register(const struct bus_type *
->
->         bus_kobj->kset =3D bus_kset;
->         bus_kobj->ktype =3D &bus_ktype;
-> -       priv->drivers_autoprobe =3D 1;
-> +       priv->drivers_autoprobe =3D use_drivers;
->
->         retval =3D kset_register(&priv->subsys);
->         if (retval)
-> @@ -976,10 +968,12 @@ int bus_register(const struct bus_type *
->                 goto bus_devices_fail;
->         }
->
-> -       priv->drivers_kset =3D kset_create_and_add("drivers", NULL, bus_k=
-obj);
-> -       if (!priv->drivers_kset) {
-> -               retval =3D -ENOMEM;
-> -               goto bus_drivers_fail;
-> +       if (use_drivers) {
-> +               priv->drivers_kset =3D kset_create_and_add("drivers", NUL=
-L, bus_kobj);
-> +               if (!priv->drivers_kset) {
-> +                       retval =3D -ENOMEM;
-> +                       goto bus_drivers_fail;
-> +               }
->         }
->
->         INIT_LIST_HEAD(&priv->interfaces);
-> @@ -989,9 +983,11 @@ int bus_register(const struct bus_type *
->         klist_init(&priv->klist_devices, klist_devices_get, klist_devices=
-_put);
->         klist_init(&priv->klist_drivers, NULL, NULL);
->
-> -       retval =3D add_probe_files(bus);
-> -       if (retval)
-> -               goto bus_probe_files_fail;
-> +       if (use_drivers) {
-> +               retval =3D add_probe_files(bus);
-> +               if (retval)
-> +                       goto bus_probe_files_fail;
-> +       }
->
->         retval =3D sysfs_create_groups(bus_kobj, bus->bus_groups);
->         if (retval)
-> @@ -1016,9 +1012,41 @@ out:
->         kfree(priv);
->         return retval;
+>  drivers/cpufreq/cppc_cpufreq.c | 98 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 98 insertions(+)
+> 
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 6fe0e972952a..089f734f851b 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -855,6 +855,103 @@ static int cppc_cpufreq_set_boost(struct cpufreq_policy *policy, int state)
+>  	return 0;
 >  }
-> +
+>  
 > +/**
-> + * bus_register - register a driver-core subsystem
-> + * @bus: bus to register
+> + * cppc_cpufreq_sync_boost_limits - Sync boost flag, cpuinfo max and boost QoS
+> + * @policy: cpufreq policy
+> + * @boost_supported: whether highest_perf currently exceeds nominal_perf
 > + *
-> + * Once we have that, we register the bus with the kobject
-> + * infrastructure, then register the children subsystems it has:
-> + * the devices and drivers that belong to the subsystem.
+> + * Highest Performance can appear or disappear at runtime via Notify(0x85).
+> + *
+> + * cpuinfo.max_freq always tracks the hardware maximum derived from Highest
+> + * Performance so that sysfs reflects Notify(0x85) updates. Boost being off
+> + * is enforced by updating the existing boost_freq_req to nominal (capping
+> + * policy->max) rather than by hiding the hardware max in cpuinfo.
+> + * boost_freq_req itself is only created at policy init, not here.
 > + */
-> +int bus_register(const struct bus_type *bus)
+This comment seems excessive or redundant for an internal function.
+> +static void cppc_cpufreq_sync_boost_limits(struct cpufreq_policy *policy,
+> +					   bool boost_supported)
 > +{
-> +       return bus_register_internal(bus, true);
-> +}
->  EXPORT_SYMBOL_GPL(bus_register);
->
->  /**
-> + * companion_bus_register - register a companion bus type
-> + * @bus: companion bus to register
-> + *
-> + * A companion bus is a bus without drivers.  Devices that belong to it =
-can be
-> + * bound to other devices as their "companions" and represent interfaces=
- that
-> + * can be used by the drivers of those other devices.  They may also be =
-used for
-> + * the enumeration of those other devices.
-> + *
-> + * The ACPI bus is a specific example of a companion bus.
-> + *
-> + * Registering a companion bus is like registering a regular bus except =
-that it
-> + * skips the creation of sysfs interfaces related to drivers for @bus.
-> + */
-> +int companion_bus_register(const struct bus_type *bus)
-> +{
-> +       return bus_register_internal(bus, false);
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+> +	unsigned int highest_freq, nominal_freq, qos_freq;
+> +	int ret;
+> +
+> +	if (!boost_supported && policy->boost_enabled)
+> +		policy->boost_enabled = false;
+> +
+> +	policy->boost_supported = boost_supported;
+> +
+> +	highest_freq = cppc_perf_to_khz(caps, caps->highest_perf);
+> +	nominal_freq = cppc_perf_to_khz(caps, caps->nominal_perf);
+> +
+> +	/*
+> +	 * Report the current hardware maximum. If Highest dropped below
+> +	 * Nominal (unusual, but possible with test overrides), never
+> +	 * advertise more than Highest allows.
+> +	 */
+That's a weird error case.  Highest should never be less than Nominal.
+Do we really need to handle that?
+
+What I'm worried about are:
+1. We can't handle that cleanly because that violates the basic assumption
+of CPPC and things may go wrong everywhere.
+2. That creates dead code that may never run.
+> +	policy->cpuinfo.max_freq = highest_freq;
+> +
+> +	if (boost_supported && !policy->boost_enabled)
+> +		qos_freq = min(nominal_freq, highest_freq);
+> +	else
+> +		qos_freq = highest_freq;
+> +
+> +	/*
+> +	 * boost_freq_req is created in cpufreq_policy_init_qos() when
+> +	 * boost_supported is true at policy init. Runtime Highest changes
+> +	 * only update that existing request; they do not add or remove it.
+> +	 */
+Redundant comment, I think.
+> +	if (freq_qos_request_active(&policy->boost_freq_req)) {
+> +		ret = freq_qos_update_request(&policy->boost_freq_req,
+> +					      qos_freq);
+> +		if (ret < 0)
+> +			pr_debug("CPU%d: failed to sync boost QoS: %d\n",
+> +				 policy->cpu, ret);
+pr_err?
+> +	}
+> +
+> +	pr_debug("CPU%d: highest_perf=%u boost_en=%d cpuinfo_max=%u qos_max=%u\n",
+> +		 policy->cpu, caps->highest_perf, policy->boost_enabled,
+> +		 policy->cpuinfo.max_freq, qos_freq);
+This looks like a test print rather than a useful debug print that we may
+need to enable sometimes.
 > +}
 > +
-> +/**
->   * bus_unregister - remove a bus from the system
->   * @bus: bus.
->   *
-> @@ -1412,7 +1440,7 @@ struct device_driver *driver_find(const
->         struct kobject *k;
->         struct driver_private *priv;
->
-> -       if (!sp)
-> +       if (!sp || !sp->drivers_kset)
-
-And same here, so I will send a v2.
-
-Nevertheless, if you have any concerns or comments on this other than
-the above, please let me know.
-
->                 return NULL;
->
->         k =3D kset_find_obj(sp->drivers_kset, name);
-> --- a/include/linux/device/bus.h
-> +++ b/include/linux/device/bus.h
-> @@ -113,6 +113,7 @@ struct bus_type {
->         bool need_parent_lock;
+> +static void cppc_cpufreq_update_limits(struct cpufreq_policy *policy)
+> +{
+> +	struct cppc_cpudata *cpu_data;
+> +	struct cppc_perf_caps *caps;
+> +	u64 prev_highest_perf;
+> +	u64 highest_perf;
+> +	int ret;
+> +
+> +	guard(cpufreq_policy_write)(policy);
+> +
+> +	cpu_data = policy->driver_data;
+> +	caps = &cpu_data->perf_caps;
+> +
+> +	prev_highest_perf = caps->highest_perf;
+> +
+> +	ret = cppc_get_highest_perf(policy->cpu, &highest_perf);
+> +	if (ret)
+> +		return;
+> +
+> +	if (highest_perf == prev_highest_perf)
+> +		return;
+> +
+> +	caps->highest_perf = highest_perf;
+> +
+> +	/*
+> +	 * Re-evaluate boost capability/status based on the updated Highest
+> +	 * Performance. Boost is supported when highest_perf exceeds
+> +	 * nominal_perf.
+> +	 */
+> +	cppc_cpufreq_sync_boost_limits(policy,
+> +				       highest_perf > caps->nominal_perf);
+> +
+> +	refresh_frequency_limits(policy);
+> +
+> +	pr_debug("CPU%d: highest_perf updated %llu -> %llu\n",
+> +		 policy->cpu, prev_highest_perf, highest_perf);
+> +}
+> +
+>  static ssize_t show_freqdomain_cpus(struct cpufreq_policy *policy, char *buf)
+>  {
+>  	struct cppc_cpudata *cpu_data = policy->driver_data;
+> @@ -1048,6 +1145,7 @@ static struct cpufreq_driver cppc_cpufreq_driver = {
+>  	.init = cppc_cpufreq_cpu_init,
+>  	.exit = cppc_cpufreq_cpu_exit,
+>  	.set_boost = cppc_cpufreq_set_boost,
+> +	.update_limits = cppc_cpufreq_update_limits,
+>  	.attr = cppc_cpufreq_attr,
+>  	.name = "cppc_cpufreq",
 >  };
->
-> +int __must_check companion_bus_register(const struct bus_type *bus);
->  int __must_check bus_register(const struct bus_type *bus);
->
->  void bus_unregister(const struct bus_type *bus);
