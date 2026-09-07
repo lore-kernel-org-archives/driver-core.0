@@ -1,31 +1,31 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4146440655
-	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 08:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC1333262A
+	for <driver-core@lists.linux.dev>; Mon,  7 Sep 2026 08:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788770621; cv=none; b=h5j888dNQeFqTvJ8iWLRCwPLC1o06edgGNp4S0yCjjBNFP2DQar5AlL+dxiiqgvTJ7F538ZLRp4q+5mitns5oQ63P5xNRvKdriX3JlNkz63mVHbgHEf93XWv6k+FcL0cYQXHokwJnOwg7j4ZS3sNLsNsPFLg9K8iK1rNuN4HZEY=
+	t=1788770999; cv=none; b=RF8dA23+6UJgbpYPQwHC5YnhWuZUbACTGRsG0j6yV/Ha6BKp/JdpPsHKw+gsoCyBXgd0XVChDBZ7AxVswoCJa9NU8MSiX/SxS6IATBYKXj0Y/UjYPNzzFgCaIqNlBwDH0SrjyYGpKqlHK5suhWzX1iujAiiWJlmAAcJGSZ89Klo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788770621; c=relaxed/simple;
-	bh=qlsiU5m0Vd7b370vVIEaEUez+m5Jb2nv6IPuPBiL5TI=;
+	s=arc-20240116; t=1788770999; c=relaxed/simple;
+	bh=pH3II/1kOttsrioQX5Aapg02bskPjjORNKfZhPNOfa4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=A5bFhWivi77yyynLNJUzpGf2XrGIjDjPFq16guhyQrnYsIMZau3DpmaYQubBNMA/JxL0T/UHDiaznsiz6gwCQvX+5iKMMIRrDB9ZjWXGKPzridClELvZWjmboDWYAsyGbyPMpkwu5zefr8lUOtsl/2wqHjbQYyYWvKOXVjHxi5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.225
+	 In-Reply-To:Content-Type; b=rCQDhX7PWA0Jf9gknSvUAgT9LkK+wBLfMqFgX/IVCy/Pf21xAyUmyZr/ZR6A5h9GUjnvH2f5/mM7tG5uTNB6cF+IDaQG3RitYX80sua1kHeT0ccj5of84sY7ZAyisMZBTGvdS+hbaLFLUKbYbt5sSGnxofm3OqVxQwdUlu176OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.227
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
 Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hdgLK1gYfz1K96b;
-	Mon,  7 Sep 2026 16:32:41 +0800 (CST)
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4hdgTJ67xSznTVn;
+	Mon,  7 Sep 2026 16:38:44 +0800 (CST)
 Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7606F40565;
-	Mon,  7 Sep 2026 16:43:34 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 2DAE140565;
+	Mon,  7 Sep 2026 16:49:55 +0800 (CST)
 Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
  (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 7 Sep
- 2026 16:43:33 +0800
-Message-ID: <0e7f0226-7e57-414c-8815-9f02d7165e26@hisilicon.com>
-Date: Mon, 7 Sep 2026 16:43:33 +0800
+ 2026 16:49:54 +0800
+Message-ID: <d02f335a-c97d-49ad-85c0-2eacd744eb0c@hisilicon.com>
+Date: Mon, 7 Sep 2026 16:49:53 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -33,8 +33,8 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] cpufreq: cppc: Add update_limits support for
- Highest Performance changes
+Subject: Re: [PATCH v5 0/3] cpufreq: cppc: Handle Highest Performance changes
+ at runtime
 To: Xueqin Luo <luoxueqin@kylinos.cn>, Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
 	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Viresh Kumar
@@ -44,10 +44,9 @@ CC: Lifeng Zheng <zhenglifeng1@huawei.com>, Pierre Gondois
 	<linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
 	<linux-pm@vger.kernel.org>
 References: <20260807060848.832929-1-luoxueqin@kylinos.cn>
- <20260807060848.832929-2-luoxueqin@kylinos.cn>
 Content-Language: en-US
 From: Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20260807060848.832929-2-luoxueqin@kylinos.cn>
+In-Reply-To: <20260807060848.832929-1-luoxueqin@kylinos.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
@@ -56,151 +55,64 @@ X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
 
 
 On 8/7/2026 2:08 PM, Xueqin Luo wrote:
-> ACPI CPPC specification requires OSPM to re-evaluate the Highest
-> Performance register when Notify(0x85) is received for a processor
+> Hi Rafael, Pierre,
+> 
+> This series adds support for handling ACPI CPPC Highest Performance
+> register changes at runtime, triggered by Notify(0x85) on a processor
 > device.
 > 
-> Implement cppc_cpufreq_update_limits() to refresh the cached
-> highest_perf capability through cppc_get_highest_perf() and update
-> policy->cpuinfo.max_freq from Highest Performance. Use
-> refresh_frequency_limits() so policy->max follows the standard
-> cpufreq_set_policy() path.
-> 
-> cpuinfo.max_freq always tracks Highest Performance. When boost is
-> disabled but still supported, constrain policy->max by updating the
-> existing boost_freq_req (created in cpufreq_policy_init_qos) to
-> nominal, instead of hiding the hardware maximum in cpuinfo.
-> 
-> Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
-> ---
->  drivers/cpufreq/cppc_cpufreq.c | 98 ++++++++++++++++++++++++++++++++++
->  1 file changed, 98 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 6fe0e972952a..089f734f851b 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -855,6 +855,103 @@ static int cppc_cpufreq_set_boost(struct cpufreq_policy *policy, int state)
->  	return 0;
->  }
->  
-> +/**
-> + * cppc_cpufreq_sync_boost_limits - Sync boost flag, cpuinfo max and boost QoS
-> + * @policy: cpufreq policy
-> + * @boost_supported: whether highest_perf currently exceeds nominal_perf
-> + *
-> + * Highest Performance can appear or disappear at runtime via Notify(0x85).
-> + *
-> + * cpuinfo.max_freq always tracks the hardware maximum derived from Highest
-> + * Performance so that sysfs reflects Notify(0x85) updates. Boost being off
-> + * is enforced by updating the existing boost_freq_req to nominal (capping
-> + * policy->max) rather than by hiding the hardware max in cpuinfo.
-> + * boost_freq_req itself is only created at policy init, not here.
-> + */
-This comment seems excessive or redundant for an internal function.
-> +static void cppc_cpufreq_sync_boost_limits(struct cpufreq_policy *policy,
-> +					   bool boost_supported)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
-> +	unsigned int highest_freq, nominal_freq, qos_freq;
-> +	int ret;
-> +
-> +	if (!boost_supported && policy->boost_enabled)
-> +		policy->boost_enabled = false;
-> +
-> +	policy->boost_supported = boost_supported;
-> +
-> +	highest_freq = cppc_perf_to_khz(caps, caps->highest_perf);
-> +	nominal_freq = cppc_perf_to_khz(caps, caps->nominal_perf);
-> +
-> +	/*
-> +	 * Report the current hardware maximum. If Highest dropped below
-> +	 * Nominal (unusual, but possible with test overrides), never
-> +	 * advertise more than Highest allows.
-> +	 */
-That's a weird error case.  Highest should never be less than Nominal.
-Do we really need to handle that?
+> When the platform changes the Highest Performance value (e.g. due to
+> thermal or power budget adjustments), the OSPM must re-evaluate the
+> cached capability and propagate the change to the cpufreq policy,
+> the scheduler's CPU capacity model, and the frequency invariance
+> engine.
+Any real use case of this on platforms that run cppc_cpufreq drivers?
+Some addtional motivation may help.
 
-What I'm worried about are:
-1. We can't handle that cleanly because that violates the basic assumption
-of CPPC and things may go wrong everywhere.
-2. That creates dead code that may never run.
-> +	policy->cpuinfo.max_freq = highest_freq;
-> +
-> +	if (boost_supported && !policy->boost_enabled)
-> +		qos_freq = min(nominal_freq, highest_freq);
-> +	else
-> +		qos_freq = highest_freq;
-> +
-> +	/*
-> +	 * boost_freq_req is created in cpufreq_policy_init_qos() when
-> +	 * boost_supported is true at policy init. Runtime Highest changes
-> +	 * only update that existing request; they do not add or remove it.
-> +	 */
-Redundant comment, I think.
-> +	if (freq_qos_request_active(&policy->boost_freq_req)) {
-> +		ret = freq_qos_update_request(&policy->boost_freq_req,
-> +					      qos_freq);
-> +		if (ret < 0)
-> +			pr_debug("CPU%d: failed to sync boost QoS: %d\n",
-> +				 policy->cpu, ret);
-pr_err?
-> +	}
-> +
-> +	pr_debug("CPU%d: highest_perf=%u boost_en=%d cpuinfo_max=%u qos_max=%u\n",
-> +		 policy->cpu, caps->highest_perf, policy->boost_enabled,
-> +		 policy->cpuinfo.max_freq, qos_freq);
-This looks like a test print rather than a useful debug print that we may
-need to enable sometimes.
-> +}
-> +
-> +static void cppc_cpufreq_update_limits(struct cpufreq_policy *policy)
-> +{
-> +	struct cppc_cpudata *cpu_data;
-> +	struct cppc_perf_caps *caps;
-> +	u64 prev_highest_perf;
-> +	u64 highest_perf;
-> +	int ret;
-> +
-> +	guard(cpufreq_policy_write)(policy);
-> +
-> +	cpu_data = policy->driver_data;
-> +	caps = &cpu_data->perf_caps;
-> +
-> +	prev_highest_perf = caps->highest_perf;
-> +
-> +	ret = cppc_get_highest_perf(policy->cpu, &highest_perf);
-> +	if (ret)
-> +		return;
-> +
-> +	if (highest_perf == prev_highest_perf)
-> +		return;
-> +
-> +	caps->highest_perf = highest_perf;
-> +
-> +	/*
-> +	 * Re-evaluate boost capability/status based on the updated Highest
-> +	 * Performance. Boost is supported when highest_perf exceeds
-> +	 * nominal_perf.
-> +	 */
-> +	cppc_cpufreq_sync_boost_limits(policy,
-> +				       highest_perf > caps->nominal_perf);
-> +
-> +	refresh_frequency_limits(policy);
-> +
-> +	pr_debug("CPU%d: highest_perf updated %llu -> %llu\n",
-> +		 policy->cpu, prev_highest_perf, highest_perf);
-> +}
-> +
->  static ssize_t show_freqdomain_cpus(struct cpufreq_policy *policy, char *buf)
->  {
->  	struct cppc_cpudata *cpu_data = policy->driver_data;
-> @@ -1048,6 +1145,7 @@ static struct cpufreq_driver cppc_cpufreq_driver = {
->  	.init = cppc_cpufreq_cpu_init,
->  	.exit = cppc_cpufreq_cpu_exit,
->  	.set_boost = cppc_cpufreq_set_boost,
-> +	.update_limits = cppc_cpufreq_update_limits,
->  	.attr = cppc_cpufreq_attr,
->  	.name = "cppc_cpufreq",
->  };
+For example, a processor can age over time and its core frequency degrades.
+It's good if platforms can make OSPM and userspace aware of this.
+> 
+> The series is split into three patches:
+>   Patch 1: Core update_limits callback with boost QoS handling.
+>   Patch 2: Refactor autonomous perf bounds into a reusable helper
+>            and wire it into update_limits with error logging.
+>   Patch 3: Topology subsystem runtime capacity updates with
+>            validation, early-return optimization, and concurrent-safe
+>            normalization.
+> 
+> v4 -> v5:
+>   - Move cpu_data and caps pointer assignments after
+>     guard(cpufreq_policy_write) in cppc_cpufreq_update_limits() to
+>     avoid potential use-after-free if concurrent CPU offline frees
+>     driver_data before the lock is acquired (Sashiko)
+>   - Extract cppc_cpufreq_sync_boost_limits() from update_limits to
+>     handle boost_supported re-evaluation, cpuinfo.max_freq tracking,
+>     and boost_freq_req QoS update in a dedicated helper. The helper
+>     always updates the QoS request (even when boost becomes
+>     unsupported) to clear stale constraint values, and forcibly
+>     disables boost_enabled when boost disappears at runtime
+>   - Add highest_perf validation in topology_update_cpu_capacity():
+>     reject values below lowest_perf to prevent corrupted register
+>     reads from propagating into the scheduler capacity model
+>   - Add early-return in topology_update_cpu_capacity() when
+>     raw_capacity[cpu] is unchanged, avoiding redundant normalization
+>     and schedule_work() calls
+>   - Add zero capacity_scale guard in topology_update_cpu_capacity()
+>     to prevent division by zero in the normalization loop
+>   - Move guard(mutex) before the raw_capacity NULL check so that
+>     the pointer read is protected by the lock
+>   - Add CONFIG_GENERIC_ARCH_TOPOLOGY guard with no-op stub in
+>     arch_topology.h for configs where the topology subsystem is
+>     disabled
+> 
+> Xueqin Luo (3):
+>   cpufreq: cppc: Add update_limits support for Highest Performance
+>     changes
+>   cpufreq: cppc: Refactor autonomous perf bounds into helper
+>   arch_topology: Add topology_update_cpu_capacity() for runtime updates
+> 
+>  drivers/base/arch_topology.c   |  76 ++++++++++++++++
+>  drivers/cpufreq/cppc_cpufreq.c | 157 ++++++++++++++++++++++++++++++---
+>  include/linux/arch_topology.h  |  13 +++
+>  3 files changed, 233 insertions(+), 13 deletions(-)
+> 
