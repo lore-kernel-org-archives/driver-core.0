@@ -1,84 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571D13EB108;
-	Mon,  7 Sep 2026 21:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD09319D8AC;
+	Mon,  7 Sep 2026 22:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788815207; cv=none; b=XCDBeY/IakHKwDN6JztQhn+20dwuBVClyJF/KsoUI2O7IACnW1APgj5VYacFeXAeVNswXNWw+8vvW/OSfbTu5ok6So81APBpEaxRGolskXo8n5+D0hov1nzbo9jqS9WlB/iacriDKEdUAaQ9dj4oQ5+9J0PMG4o5gbOjKlDGfB0=
+	t=1788819863; cv=none; b=Ma6IyTwpiFNikjaHiMaWqSIwOYMHrL5/ZqPR7uiPI3ErjqUklsILFa7ZqkLw3OIy3s+KorOUvN3xoCWA3Cgx9/hMR3rrz+8go+z0OcrduES3TcPIjvrqZUKEB4GtUeguF2jOlvfsA2UMrinwaaSCkx5nm+rvZIIlVbRo70f7Mqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788815207; c=relaxed/simple;
-	bh=u0NXWeg/Httt9i9X81l4G9xFkgPmdQRSI5qAMBSyB1s=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:
-	 References:In-Reply-To; b=H4VXjbjL+Zx7vcrz6Jz03iC6av4tkza6qtlF7i/9O3ZPBNwnpuEzYixfZPFC5FbXL50f74D0X3Yn4uNr+nLfjqPPcIf71GZ6Ek5ci2uvFra9/10SzZ8FAlGLb5fVIHKi8T61BbKMZdnR92I+X+0eHJcMvgjE/Lqc2bvMpUCp7dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CaoOipGM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788819863; c=relaxed/simple;
+	bh=Ji4Kvu7LpQqhECYZ1pmgrD7b9aAuvcEK2ZryUdGXyQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ws3v4V1/o6XCnUhPaBEq7d2KeTw5GkCLSIitkVv+jKN+2oEE79KuYKi4vcolMc82SDNCvowJpWXJiUvgOJUKp5PaN4Ib1yyf2NRuqS7yS6oBr95qX3fQFl7I1WCeOm97dQw8F5/qZZmanVvDRA3Pu5CLkUOTJPij9qwDSdYBqBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jWbFJ4K7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CaoOipGM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9161F00A3A;
-	Mon,  7 Sep 2026 21:06:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jWbFJ4K7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 315A11F00A3A;
+	Mon,  7 Sep 2026 22:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788815206;
-	bh=90F9gpIn6ahg1Sh32fek9TE5xaVsZqJW6WdR2q7nJtE=;
-	h=Date:Subject:Cc:From:References:In-Reply-To;
-	b=CaoOipGMy+LRNytnbxmP9ZFmgaCGRcVpuOcDUxNDoNnDM+chAKVS3z/SXqC61FkUo
-	 hU5DbovmMj5tFB8LfDtshTKDvvGJdBPkrfS0YAj2pmLNy2AgCEyhsXk67NccTBz845
-	 oISqnvxdR/VOFI6UfhjeoO3O5Pu2gTZG8TzN2jYS0+MW58cq8ZUjLJL1vfChPKVAX4
-	 VvZkwdVgN7soN9BkH89HPHNFtn5ckczW6lmCuht7erv7PdPJ9CU9m6ObULR1/xi1wS
-	 RbNl564Rg+zj66OfqyUmjs2TD8gunPwNniUK0TyuOE32AKpROMJx9fLuku2w8wbovB
-	 rnv5+kbJs1aOw==
+	s=k20260515; t=1788819861;
+	bh=Ji4Kvu7LpQqhECYZ1pmgrD7b9aAuvcEK2ZryUdGXyQE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=jWbFJ4K7m6sh97A0VyTs+bdWzlhd15mB1KnG6i9jInZw/uY1abiISWLt7fsSjdlR4
+	 c+hLE3XzZHRZID4X84TFLpkV6hoBCSPsapuzEJW5ZagNAs2Dr7mFdtRQPm1SKixdb2
+	 4/d8zwybENmG3Fg4vVcSI4F+qSXousnmwa5RmHnTona09JHTCsCUOlkYPuEq3mlkvk
+	 gsp9iCW2nRQZtFr0HEuwZu+WRugX/IsPhcOKwDnvfqWPkq4BSFFi4phfhGFUDiVIJC
+	 Kt85rAMfVomYOfvfvr+Sv8B4eeyxzNqHfpD8bO65uQD2CxjXhZD4kdaQgvRSVU6t2c
+	 FD7Wv0NCGu11w==
+Date: Mon, 7 Sep 2026 23:24:16 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Thomas
+ Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Will Deacon <will@kernel.org>, Mark Rutland
+ <mark.rutland@arm.com>, Yushan Wang <wangyushan12@huawei.com>, Jijie Shao
+ <shaojijie@huawei.com>, Khuong Dinh <khuong@os.amperecomputing.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman
+ <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, "Christophe
+ Leroy (CS GROUP)" <chleroy@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] drivers: perf: Use __DEVICE_ATTR() macro to
+ initialize dev_ext_attribute
+Message-ID: <20260907232416.4b0fb386@jic23-huawei>
+In-Reply-To: <20260907-sysfs-const-attr-dev_ext_attr-v2-2-bf53afe57071@weissschuh.net>
+References: <20260907-sysfs-const-attr-dev_ext_attr-v2-0-bf53afe57071@weissschuh.net>
+	<20260907-sysfs-const-attr-dev_ext_attr-v2-2-bf53afe57071@weissschuh.net>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 07 Sep 2026 23:06:40 +0200
-Message-Id: <DL9E2EFLN138.3DMBLYEZRFW1R@kernel.org>
-Subject: Re: [PATCH 0/4] rust: dma: tie DMA allocations to the device's
- bound lifetime
-Cc: <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <robin.murphy@arm.com>, <a.hindborg@kernel.org>,
- <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <aliceryhl@google.com>,
- <acourbot@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <tmgross@umich.edu>, <tamird@kernel.org>, <work@onurozkan.dev>,
- <mmaurer@google.com>, <driver-core@lists.linux.dev>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260830193824.471089-1-dakr@kernel.org>
- <20260906153753.3207797-1-dakr@kernel.org>
-In-Reply-To: <20260906153753.3207797-1-dakr@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Sun Sep 6, 2026 at 5:37 PM CEST, Danilo Krummrich wrote:
-> On Sun, 30 Aug 2026 21:37:12 +0200, Danilo Krummrich wrote:
->> [PATCH 0/4] rust: dma: tie DMA allocations to the device's bound lifetim=
-e
->
-> Applied, thanks!
->
->   Branch: topic/rust-dma
->   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/drive=
-r-core.git
->
-> [1/4] rust: debugfs: drop 'static bound from ScopedDir file creation meth=
-ods
->       commit: 9dc6cedcd971
->
->       [ Remove unrelated change from Self to T. - Danilo ]
->
-> [2/4] rust: dma: tie CoherentHandle to the device's bound lifetime
->       commit: f6b56da8e1b8
-> [3/4] samples: rust_dma: separate driver type from driver data
->       commit: c3d4fd0e9d27
-> [4/4] rust: dma: tie Coherent and CoherentBox to the device's bound lifet=
-ime
->       commit: bed87375f90f
->
-> The patches are in the topic/rust-dma topic branch and will be merged int=
-o the
-> corresponding target branch soon.
+On Mon, 07 Sep 2026 07:45:02 +0200
+Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
 
-Merged into driver-core-next and drm-rust-next, thanks!
+> The upcoming constification of the device_show_*() callback
+> signatures requires the users to handle the transition automatically.
+>=20
+> Switch to the __DEVICE_ATTR() macro which can do this.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+
+Acked-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com> #for cxl_pmu
