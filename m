@@ -1,254 +1,231 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013026.outbound.protection.outlook.com [40.93.201.26])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB00039479C;
-	Tue,  8 Sep 2026 07:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788853919; cv=fail; b=jH2+2gwLr3Ov0m+bUKzBeog+Gthwjy3rmFMD5/PrHY1VVBV1MqT9vMv6FuhMOAFcTSJE+qAQsOVfykknhKb2ULhWrNXYumzMQ7eCSr+3XoIwx8/BFSWJ3ptM3QBrqt1JX0p4xOFeH8Q5aAgMapXR+FimXmEAY1jIQSfSKlwo+GY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788853919; c=relaxed/simple;
-	bh=HimOV5egXRGG0pix8ktdWIJFwIeFyuGSpFgPpdqDW7M=;
-	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=oQ2AJuT7AZbWoCA1XXwZY15tmPF1SbQ9M4rm/tFsprTrdEh9fFymJNx4L1jaHZFeReWB0xQKtCOM/MjN7UbgUuSk1k6XBPMNo6Ls4nuN9AFfqLG120yddwJZfndp7NrM2CtbWkk4WwQWpbaIxUpjPQ8EON5kK/geXGhvDzZMH2M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Zq6W5RE6; arc=fail smtp.client-ip=40.93.201.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7575847126A
+	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 08:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788856273; cv=none; b=XGTYmtDF1QYzI+c7rG9m1dL+XM97wA7zWR5xZnG5LO87yWnnnjwLYLf5fp7CHjYfqXFaiSvxL8sjwPVHZS6PjgQCxuqHqwb6E1awgv2N8quNbYMslpB+udTCzyGw3Ysx+VOTx9CDCXrVHlwfgR8xKyVF4oLzXouPIDRl8GM2N90=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788856273; c=relaxed/simple;
+	bh=w3Tm7OSjd6BtYdmn4xqgUFu2yGZW5nk0fGhOdZ9Hfc8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lg6TItl3K2k4dAT0z8g1vK9Ao1RbPKpU1KZWcFce5HG44+hz9LrLBxbY8MSCuOvrCskXq5z8oPk8z4CdmOWowdh2t3W4p2ccpfOANI98LDgaPbp21fKlAvqgBA88qdjHrERb8FNbIupUnTLgPWBVLrGYvHZxpe2EpaoPAEFl8J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hgOMcJBy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Aq6WcPQR; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zq6W5RE6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y2kvYzqXWPGJqBdLRUQJjT58uGvoizofJoA1suX13PywyrYUe65rMuAvsNI+lEiYpjNvbddLs6Y5aSVIcKkbZxMrCcWrCLMMzbS6POBzQZ90iRrXhXJ0IQ4uMYYN1ISDXjm1KOosuu/iZIFf3nJgWWmBvvquswIpOTusN7eGY8A6eKvgld3zfZ6oEF4EzEOZAXVoI3G9fyfWnXqU+fdJXmFd5/xu/3FTpZyAIlUTYapEJYPCBgSScM/hRZ5/JvVKJFs7MzuiHbFLfWRJWOcvrCEylsDyJ83Pa2x6lT6lNATV5ZuAIuAamM8Dn9jZNjkrGcdCCccKKfFRg/akMgrUFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rPApNo2KbfAhvT2e6KsDA3nbzBCHPhKUHyU6cOuC1AI=;
- b=vAbo+30CZFh0LT1YvZ9zd7qFqilhC2LGO5cyN2CRmBcul1uLmub15Q3KTrp1yRZXZkfSebTTgPKGKPyJpI310HnHqAffDcWL9rNLjA8Z/UY+lrHI3cTNSSFM3uSWqlleaBWP1It4mY970EH39Mml5zNwS8/rhTA3pRpskgDoU0aPGMwu40KchUjnsBJkyyK3Y3eGOAYFHnTU1Vr4+Chj56+JxUGiQCpxRvMFGq5U0FjpDFm1SSP2kRocsTuISxCOhi9MnYuyS7bi+kvV1IEtIjPR9fApCXIlXMFR/2ZpRbYYlf5RynXC38PyEPlPsKFr2L3V0xHVQwQrARKeGPlpRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rPApNo2KbfAhvT2e6KsDA3nbzBCHPhKUHyU6cOuC1AI=;
- b=Zq6W5RE6OpKHluzFtj8kDVb6Yp5wTF/J1sOcpeT3MOtLUyOYK1YHGTfD18pIIDqVIIu3ULM1n9TMv/s0NxA6FKwDdXfAVCQhOh4lz8IXU6/kdTA5CocRiZkrmGBAz3Ts4X61QWbhbPdSNwrupVClMs8j14h+pKqMwAA3/YBzLKwCvX2KAvF68XNLZhuXBrfyOzH773nRD2f9X6vHXm8wTivVbH4/HmclOVoIQVh4yWSI87P2DjHRdJo5PpoBRvMJZQiEIcrtJDqltRlAJhpsquxjL65r3LqQCC3imeT59kx3ZDngXOIZNOElmzRWp0NUPl288wvySjSttmGXPO20yQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6413.namprd12.prod.outlook.com (2603:10b6:8:ce::10) by
- LV5PR12MB9754.namprd12.prod.outlook.com (2603:10b6:408:305::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
- 2026 07:51:55 +0000
-Received: from DS0PR12MB6413.namprd12.prod.outlook.com
- ([fe80::e82a:6673:4142:37fa]) by DS0PR12MB6413.namprd12.prod.outlook.com
- ([fe80::e82a:6673:4142:37fa%5]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
- 07:51:55 +0000
-From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Tue, 08 Sep 2026 16:51:48 +0900
-Subject: [PATCH] rust: pci: add resource_flags accessor
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-pci-resource-flags-v1-1-269f29f81de6@nvidia.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDQAxA4atI1gZGWyp6FXExPxmbIiqJI4J49
- 47t8lu8d4KSMCl0xQlCOysvc0ZVFuDfdh4JOWRDbeqXaU2Dq2cU0iWJJ4yTHRVdY0Nw1rjHM0I
- OV6HIx2/aD39rch/y232C6/oCE4vBv3YAAAA=
-X-Change-ID: 20260907-pci-resource-flags-b7addba0b34f
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: John Hubbard <jhubbard@nvidia.com>, 
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
- nova-gpu@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Joel Fernandes <joelagnelf@nvidia.com>, 
- Eliot Courtney <ecourtney@nvidia.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: TY4P286CA0108.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:380::14) To DS0PR12MB6413.namprd12.prod.outlook.com
- (2603:10b6:8:ce::10)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hgOMcJBy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Aq6WcPQR"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6886LsE42154272
+	for <driver-core@lists.linux.dev>; Tue, 8 Sep 2026 08:31:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Sd8Q+d07StmL66OYNUcWRl
+	yrdGIgjLRVfqZtsm6rMMs=; b=hgOMcJByVLz7w9JLC94BM9yOam9yjfqwWZ4yo+
+	CJ9DtqfA1XHUkvznEmxJXTXxVCr3bvEXvmV9cZfo8YsDsU+7iOWJo3tkT4k0ZpAd
+	C3nCfLLA55cw9djNl18F22ziD65eJCvW7ZZ4gzmknM06EO2aHeCiJlh5jh09/sYU
+	k6yJ9LTxKCUBgmcS0KHk0pP4EuSMkEg5qXDnJrcqgrEHCRzxKx4RYukYQK57d4im
+	eZppcJvgnVwCoAizo5EqzIQRE1NuXDv/RLlSGExEvrhagrhMclzh7vdP7wqrX7fd
+	PfQvv91RzWY6dhIPGoYVfXt6JAx0oRBDddurbkyu15llhUeg==
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gj1rwjg56-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 08:31:11 +0000 (GMT)
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b2d1eb484aso6122694b6e.2
+        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 01:31:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788856270; x=1789461070; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Sd8Q+d07StmL66OYNUcWRlyrdGIgjLRVfqZtsm6rMMs=;
+        b=Aq6WcPQRHp+2OMyg5KUjX/qcdHS/Ek6zamTSXP8MffZUP83+aj50sdFGfui5WFQWx+
+         M2nG9UOyxtVaLDKFZyLFgKMXpV9CLPPJEuY5WKTjzV0N6PsU4zDkfD/OGxT8ErO9mN06
+         MRGPWnc9UiWU/I3kaECAvMMpo3ZW/un2frIFoJvS2AsbZiE6ho4lxbPlHRiuL2vI/m3/
+         mrd5oqj+KghzRJLynizoUWlcLNPQTUiGzAqKCAeMYlExI69bjmd9iJt/KtCF9lVGsRlc
+         jmAICVYcHO5x3ovctAHGDrZZkiCezagEuONM3GzE0SbY6JhrKYBE3JcixnHrFQ5MQS5l
+         sOmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788856270; x=1789461070;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Sd8Q+d07StmL66OYNUcWRlyrdGIgjLRVfqZtsm6rMMs=;
+        b=dzdjhwBXw0Tuw8oePyoWLaM/S0IM34ezH0aIfGp9KoFZdPrFdfhRxwUowiOhaLJ950
+         Ceo+5mDV8BF1JeridsQGNzoHyJdxy2YaX1pOCqcG68Uy/UTSy355WmqFwO/mTvIcAq7w
+         UGb5r9VHXFAqwjB+N1Z6ohsqya162IHVYrTptJ0UrHBCwy/ybWDRuDvrHEDR1cd7GP9Y
+         +5D+glbkEOmfrDK4zmaw0VaeyP5XrG+tWpExybIn4ojt7LlAUQivWzOUy3UoHFIBwUS9
+         g1A230UR8evL2VJMci/XCRbuknmyGkvYMm1r4MQ8qq1Fk1Fw45xrebeCaNtqlIv+cQaH
+         8dsg==
+X-Forwarded-Encrypted: i=1; AKwUvBzQbjTB2rI+R687iaNnGD1L2kmRHX6xB5KACixE+ckpsAOQpffeFHkcuq1V0nftfttyZ19AajSyqA+Wxw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mtriSqXyZE31X9lnMvGX0AxS4iSIpu50UxUfp73w7TyYpYMWEr
+	q/I5g3C5Ct5dC3VGstvptunQ5MnYJv0LLkBfyMgJ8EyrO84cifZ7n9XwAEsgRnJTV71BqJaZOEG
+	ItN2i/wOm3RpJZFPusJX4Fl0NFrX1FHx9/AH6Lo87djwW/z3Z/SoExtvNQ/lNiuzT4Gwlou7//Q
+	==
+X-Gm-Gg: AYBFou0X8tB76CcmCJOqj2BfsWtFc0DY62/K0ZQl/PSxqKNGLvtGj9SCru3WTCKT94a
+	W6hub0OkKZPRdaB0LgOvXaX2Fda7qpVp7UKQI9sg1ZtZrT2CkVQ/73peqtuuvjpLmSrNB8SA+Am
+	9lVx5rEy+yMyrEppYAa/U3HAp13W7lDR2PyWMK/OaqsnT1fItjy1utyFMFiru3BAJSzQMVeDRna
+	C7cAu3YzY/ueT862sLuok7xgm6CWOqGmjllqK8tmn6vfgURLiDeSETX98IjSQBLUQ6NyLCpBiIB
+	Tb2d4qqTqZeDeXTkLc2Yi0j2waZykMRYUkP8ywHybkN4zwWVhNLWAHHfHNkvmE+ND7xy2hwYM/O
+	nKPBx5vV5uUjnjdqyA/y1PPBQCeCppbQ1PJH/WgA5/tqc5FEThHP8fHcgnqQuxC9ZLyxu1MUdGV
+	VjVOu7qyGHF+ZSnRo=
+X-Received: by 2002:a05:6820:1623:b0:6b6:2601:63df with SMTP id 006d021491bc7-6b6fa3dd918mr16293422eaf.11.1788856270645;
+        Tue, 08 Sep 2026 01:31:10 -0700 (PDT)
+X-Received: by 2002:a05:6820:1623:b0:6b6:2601:63df with SMTP id 006d021491bc7-6b6fa3dd918mr16293402eaf.11.1788856270222;
+        Tue, 08 Sep 2026 01:31:10 -0700 (PDT)
+Received: from hu-anancv-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339bdf26c5sm34458641eec.27.2026.09.08.01.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 01:31:09 -0700 (PDT)
+From: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+Subject: [PATCH v2 0/2] sched/cpufreq: fix schedutil's boost frequency
+ handling
+Date: Tue, 08 Sep 2026 14:00:27 +0530
+Message-Id: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6413:EE_|LV5PR12MB9754:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb3ef9a0-f691-4dcc-fd4b-08df0d7e0d76
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|1800799024|7416014|376014|10067099003|6133799003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	DMG+ZRKD0Qes8P704mrWHTA39p9GUZ6TDK/Qz4BWOit8vRZr4GV5LamSHYduBfU31fiOZNrhh4RRHjg6mI4HkJJKd/d/1Nh8vynwGHK/nGPp9mDNK8iTgZol0TgtBX/fDiWGMYHa5VMbaVUXS8s2ZvuJdSYHTem528R80gZ3tjqVNPSM7hgB1CDhICEwJyPoPVQqCdiHEorTjrCvqmDSrwTzCZbd2f1lTn0de6sGX+ULGwFWhGB4uCcRJTStetcZ8D+gRHujjF2xzInSJj54aFZcvgzT4aF1/8dfbXODciicXt0YVvSYZoEhKBzxgHhFIqL7xmFEldwdXafYDAF94PBB9vCRZcU9/MzYh7CeODm6sIuPi6jRPZ8CBWM/lZe5wcAKJxoXB4tRJDv8ZjF45axnzMtkjCnyxu9U2kD4oHrptFOPh3cbiHa1QSc5+8Brw0L3xjRy1LsffoaYwtnFvJcjgbrIsWRi+gbcgaraCEQTNQTXnwITZOjymAlJ6tsl9REUwym05qkazAIMUGX4Yn4VtvMXLW9fhESNRRfhC8ySJNALnofqnc0+exQINMNanxhc+o+PI93qHAgA6a2BZQkpV1RGbTHxG/TmmUhr6RULGtWSDWcH0941/rsKyxWCCKUuNt84toaCc/sWgMqnh22L14RVCq26NaAVDoIwZSQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6413.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(1800799024)(7416014)(376014)(10067099003)(6133799003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TVlMaUpPN3NnSDgxbzVZME9pT3l5MlZidFZwOU5zaEp6NHljTDdZU3ZGSXl6?=
- =?utf-8?B?R0xTMGZTL0FZQmE1RGtjV2xpU1FsNlZlYzQvR1QreGxLSXlNbHpjMXk0N3p4?=
- =?utf-8?B?cXN3MjJzZFA3S1NZbW5ZYzlZOVFOYysxZ3d2bzVOKzRTdVUvQ0lmU0psSytx?=
- =?utf-8?B?WFlyNlhBZVVMMjNRNXhBMFA1RXZnOGxnVzhjdXdVTlVhVzE3dXcvakxBcXJl?=
- =?utf-8?B?RnN4QlFQdFdycFVFWVIrVFZ5TXVLcXFRWjRKQ3JVU1hxSUJlYTZQNUY0ZVIy?=
- =?utf-8?B?Q2dBWkhSUHpsaUYyaGY2dUZGaE1QY0xYaVh1aTdtcVVQRHpPYTBTMEd3SVFq?=
- =?utf-8?B?M3B4YTdxdWs4N2tqK0Erek9uSHFsS1RScE9uZU9uNGtVZVQ1NFhSSnNaN3Q5?=
- =?utf-8?B?eVFVVzg2QXZzSkZvd1d2a243dExLZklRUFF3MEJwMEFaejgyZzE2N0pyMHZp?=
- =?utf-8?B?ZWl1akExakhzakt4ajIyVE5YNEVsNHpTMWpkTk1wTElzZmRvR1pBeFZzZm55?=
- =?utf-8?B?UlZPbkppNDRZdGx2dDJHeE9LMUc0bFJNMFFyV0VMSHpMZzl6S0M3cWxYOEU2?=
- =?utf-8?B?eWtPb1M3aDM2ZU5JaVM0SnFDRTRXc1JRNHBkclJ1YlhrcFIxTlBOTFlaWFYw?=
- =?utf-8?B?MzFoUWFsanRsb3lUSEdRclJmMlRnMzE5VXl1Wk4zUC81cm9TTm9WbDQzMm5W?=
- =?utf-8?B?SDNsWm16S093c0Q4bDlFRnJ3dERqb04xcWgzdENsSVJMMlA3aVIwNU5ZemZI?=
- =?utf-8?B?WjBGMzhXNHg0dkF4OUdBd3pmbGxLSzRlOXNxOWdmRFJ0MUIvK29wdHdGMTA1?=
- =?utf-8?B?WjJKOGhGeWFCWnpELytwWVE1Z0l3UjhWdUdvU1ZtUU9XZGhqRjQvMzUxRmg1?=
- =?utf-8?B?ekp2c3pCOGg2YTFzZ3Z2RkdJejMyTk1lVytRT1dkRi9Gc3Iyc1dkaVNqMU1G?=
- =?utf-8?B?WUxzdytBRnRqeGh4VmxSTUw4eVJOVWtmbGNJTnU1bjhUSVRJdmczSysrR0ZX?=
- =?utf-8?B?ejlMSTdCU2RxWDNJMGhIbnBmaSsyYzN3K2FHOXNEZkxPMHdlelV5NFVKejdj?=
- =?utf-8?B?T2FCYSttdnJrUTYvdjlrUFFlNlNEOEFjSmpNQWRtajkzeVFqRXo0eEo4N1Bh?=
- =?utf-8?B?VHFEMWRvZXZtOTZqak5XM0t0OFNXdXVSbXFmZ0t2bEw3ZFpkRis4NVpncHR1?=
- =?utf-8?B?WVk5c281eVdHYVF5UTBQQXpwcEluYzBJbHBQdUZFdmhqVVp3dGc0VU5nRUg0?=
- =?utf-8?B?ME5zMUdUQ2Y3ZUphOW1qbnhHWWg0Y0ZScXVpK2luU21QQWNLZG0vTnNCaDZR?=
- =?utf-8?B?dFhsd2xDTm5rY1M3bXNhUDFVRmUydEJQOTR3YlhvMmZVVUpTWmZSTW9kZGxF?=
- =?utf-8?B?eGNQUHVqNmY2WVRsVWJTRVZCU2lzNjFoWk54RXluWmxrb0VFekF4MTA2TUZ1?=
- =?utf-8?B?bVFTeVdicHpwVGlZS1poR2FYdzRPOElMUWZTS1UvelVnTG5vSEFtWC80WkJU?=
- =?utf-8?B?RXRUZnpwdDMxN0pXWWdWVkVvTFl3bi94U2JhbUk2Mk04YkhnTFUxV3FwV2hK?=
- =?utf-8?B?aXFpVzhxcnN0ekJTV0piSXo0UFFBOEV4V2JvVk5nRDBvSE1ZUzRrcVlueWRi?=
- =?utf-8?B?VHE2Y2o2WlB4bndacmwwS0ZaVUpuZStmb1NndUFrWUVRek5hNktUK0JpcVVu?=
- =?utf-8?B?ckZWREZ4SFN3dDhwbVBRdDV0ZHdNTE9YeUwyOGJWOGRTZitGaDk2MklxWHhj?=
- =?utf-8?B?MmRQMmJVZVhKTEw0QkhnWVJmZ0o3SGtocTZPM1Y3ZU9Sbzk2a3N0WTljZmdK?=
- =?utf-8?B?YnpBZ29YUmpvTmJkRDkrdUIxdE5xQ1U1NGxqS3BGaDExUGdLcWhjREJUZVpD?=
- =?utf-8?B?SDlhWTZXT3F1Y2gzNy8rUEdjbWw1ZDNBM0ZqNW1lWWhXRWZoSExOeXRKZHQ2?=
- =?utf-8?B?QlFCL2QxYnVlM1hqU3BGTTcybFFBSWU3bGZhaXVOZG1pWGIzTzJNMElGb3J1?=
- =?utf-8?B?NEFielZsM210MER2SVVvYmpHVGlwdDhtc2FTbHpqeHd6R29VZ09XY0lrN3F1?=
- =?utf-8?B?NUFVZVpwVWdKczQ3MVdzSnRwdDQ3b0lZRWdJZ0lhYkpRZmlEdnJkSW5WcFcz?=
- =?utf-8?B?a2pqVWo4YkZMTTc3UWdVemdTNlU3RUpVd3QveEF5R0hTS05HcjUxejBtUFhY?=
- =?utf-8?B?dTFiaEJUQWUxNkNtU25iYStMQ0dZTFRNcm9YcmhHYU1ManMxZ0dPeW9sZDN5?=
- =?utf-8?B?MEswb1RLUzZLbW1UajhGcEo4SjUyaHAvN0VIRVk5dlFrRmlpbjBTN3VJYTdm?=
- =?utf-8?B?UVBUSlUxMk5nUlFGbm1lZU00bWVGWnVZYXdreTcxMk94Z3lNTEFWNUszN2Zs?=
- =?utf-8?Q?HSfk4BzQvoLenIBMP7yAa9ygOXxTpM5cyfdCGzuYxE2+z?=
-X-MS-Exchange-AntiSpam-MessageData-1: RHm4wEnHBwC2BA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb3ef9a0-f691-4dcc-fd4b-08df0d7e0d76
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6413.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 07:51:55.4240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OA6XqlZCFQa1h6ofczy78/pKUX/rv/s5b/tRLTTVWuZ8nat/e21mDsKRYDGYQ4ouDHwAxe01RmZfPRxfBCnnBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9754
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKPHn2oC/yXNywrCMBCF4Vcps3YgxFKDryIucpm0IyXRTCJK6
+ bsbdfnB4T8bCBUmgfOwQaEnC+fUoQ8D+MWmmZBDN2ilJ2XUiOIXCq3yii5nqRgLPRol/8Y+Dyu
+ nGQ1NLuqjOdnRQg/dC0V+/U4u17+luRv5+i3Dvn8ApIhJZ4YAAAA=
+To: Vincent Guittot <vincent.guittot@linaro.org>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-pm@vger.kernel.org, Ananthu C V <ananthu.cv@oss.qualcomm.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788856266; l=2472;
+ i=ananthu.cv@oss.qualcomm.com; s=20260903; h=from:subject:message-id;
+ bh=w3Tm7OSjd6BtYdmn4xqgUFu2yGZW5nk0fGhOdZ9Hfc8=;
+ b=tGBCDRsP0wtfdqur9nI0GMrBbRReTMEqqzZWSEV8y3A5wEF0lqrSdsIqA07dSz1q8JJEsw6UN
+ aOY+0FIGvGxC2beU6qunsJAFeonkty7SXl45FNPxD4SoBM6mdEQ05mk
+X-Developer-Key: i=ananthu.cv@oss.qualcomm.com; a=ed25519;
+ pk=gutNfLSMVTRkB+MxVviMFq9I07C5qPe9xHY2J5XCMpo=
+X-Authority-Analysis: v=2.4 cv=Ga8nWwXL c=1 sm=1 tr=0 ts=6a9fc7cf cx=c_pps
+ a=WJcna6AvsNCxL/DJwPP1KA==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=d1n3edTyWCSArfnwSPcA:9 a=QEXdDO2ut3YA:10
+ a=_Y9Zt4tPzoBS9L09Snn2:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDA4OCBTYWx0ZWRfX2UYD2x56Skag
+ SQOpKgQnBMnlFxChWPfCHiAaSJNjXlumB/KX7kzW88w6um6PNw3WO5La6VbG/8x20TIH3ZrI2dw
+ oyhjADSgzCui8AW/DWd7NyYhUQid9C19bMTEE7XFFPE2V6vopsmmaEDWpy1013LJjRO6NvBD1T+
+ pkCMPEaW4CJzSN95wyhYQ9TqVrX30xBJlp/3e9vMdA1FR2lTXG5Da+S/DAP3sWu9BhFkHqzvrVR
+ 8cW+Q1iGApsgnNuA2FWhlRV2/ipa/TWg9LjpI0MwYrUR6zCXK3VjIU2wXFnL7NY/lYA6XLt930V
+ uLkvcTUB/X0m07n26Q+Uvz/gY/7dn0DLwn3gmJydEoBqaKwRxqAqdvsCQi/D9tcSeSJ8wneQcVN
+ yrLqI4isz60c0aWnS2P8QsHRyDFFJqg365bC+inrvH3rt/b2T7jHQ3FzfGhcaIlg2+wmqQYMAMX
+ OmW6hd78xgX0xrT4M2A==
+X-Proofpoint-ORIG-GUID: iNLzBXnQWgjGFN2aaI3rBGg9R3gjXwKR
+X-Proofpoint-GUID: iNLzBXnQWgjGFN2aaI3rBGg9R3gjXwKR
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDA4OCBTYWx0ZWRfXzM99drQNJExV
+ Zvu6yuUo2RCQF8pElwHTXPZixdyjICj1ZDZMvV5vcy2OcohcFWAevEVOU1009DVrktY22hZaZKf
+ X741WEF6nMcuY+fR2bYe8QLa0XPkn7Y=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_01,2026-09-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 suspectscore=0 clxscore=1011 impostorscore=0
+ bulkscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609080088
 
-From: Joel Fernandes <joelagnelf@nvidia.com>
+Schedutil's ability to reach boost frequencies depends on two values
+being correct: policy max, which caps the resolved target frequency,
+and the per-CPU capacity frequency reference, which anchors the
+utilization-to-frequency mapping.
 
-Add a `Device::resource_flags()` method to the PCI Rust abstraction,
-wrapping the C-side static inline `pci_resource_flags()`.
+This series fixes a few gaps in how these values are maintained across
+boost transitions:
 
-The flags returned correspond to the `IORESOURCE` bitmask carried by a
-PCI BAR's `struct resource`.
+The per-CPU capacity frequency reference is set once at policy
+creation and never updated when boost is enabled afterwards, leaving
+schedutil unable to target boost frequencies even at full utilization.
+Track the max available (boost inclusive) frequency before policy
+comes online and use it to seed the capacity_freq_ref value, allowing
+schedutil to utilize the boost frequency values when boost is enabled
+later.
 
-The immediate motivation is BAR layout discovery on NVIDIA GPUs: a
-64-bit BAR consumes two consecutive Linux PCI resource slots (the lower
-32 bits at index N and the upper 32 bits at index N+1, with the latter
-having no flags or size of its own).
+The generic boost callback only raises cpuinfo max, never lowers it.
+Once boost is enabled, disabling it leaves cpuinfo max pinned at the
+boost ceiling, keeping policy max stuck there too. Also track the max
+available non-boost frequency and use the newly tracked max values to
+control boost frequencies when a frequency table is available, allowing
+the frequency to drop back to non boost values on boost disable. In
+the absense of a frequency table, the handling will fall back to using
+cpuinfo->max_freq, preserving the current behaviour.
 
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+Logs below for clear context:
+Intermediate values from the time_in_state output and logs from bench
+runs are truncated for brevity.
+
+Before fix
+----------
+
+boost  policy0  policy12  policy6
+
+0
+
+4454400
+
+4723200
+
+4723200
+
+355200 36958
+4454400 650
+4588800 0
+4723200 0
+
+After fix
+---------
+
+boost  policy0  policy12  policy6
+
+0
+
+4454400
+
+4723200
+
+4454400
+
+0
+
+355200 40147
+4454400 79
+4588800 0
+4723200 0
+
+355200 44834
+4454400 93
+4588800 25
+4723200 569
+
+Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
 ---
-This is patch 1 of Joel's nova-core mm prerequisites series [1],
-reposted with no code changes. The rest of that series was folded into
-the PRAMIN series [2], which is now in drm-rust-next and didn't carry
-this patch. The upcoming nova-core memory management changes still need
-resource_flags().
+Ananthu C V (2):
+      arch_topology: seed capacity_freq_ref with boost-aware max freq
+      cpufreq: fix schedutil not returning to non-boost freq when boost is disabled
 
-This is based on drm-rust-next.
-
-[1] https://lore.kernel.org/all/20260518180342.2387845-2-joelagnelf@nvidia.com/
-[2] https://lore.kernel.org/all/20260827-pramin-split-v3-0-24b24d7afc52@nvidia.com/
+ drivers/base/arch_topology.c |  3 ++-
+ drivers/cpufreq/cpufreq.c    | 14 +++++++++++++-
+ drivers/cpufreq/freq_table.c | 11 +++++++++++
+ include/linux/cpufreq.h      |  2 ++
+ 4 files changed, 28 insertions(+), 2 deletions(-)
 ---
- rust/helpers/pci.c         |  6 ++++++
- rust/kernel/io/resource.rs |  8 ++++++++
- rust/kernel/pci.rs         | 14 ++++++++++++++
- 3 files changed, 28 insertions(+)
-
-diff --git a/rust/helpers/pci.c b/rust/helpers/pci.c
-index a714cc2bfb7a..3686e405160d 100644
---- a/rust/helpers/pci.c
-+++ b/rust/helpers/pci.c
-@@ -19,6 +19,12 @@ __rust_helper resource_size_t rust_helper_pci_resource_len(struct pci_dev *pdev,
- 	return pci_resource_len(pdev, bar);
- }
- 
-+__rust_helper unsigned long rust_helper_pci_resource_flags(const struct pci_dev *pdev,
-+							   int bar)
-+{
-+	return pci_resource_flags(pdev, bar);
-+}
-+
- __rust_helper bool rust_helper_dev_is_pci(const struct device *dev)
- {
- 	return dev_is_pci(dev);
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index 17b0c174cfc5..0d3b34f83334 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -226,10 +226,18 @@ impl Flags {
-     /// Resource represents a memory region that must be ioremaped using `ioremap_np`.
-     pub const IORESOURCE_MEM_NONPOSTED: Flags = Flags::new(bindings::IORESOURCE_MEM_NONPOSTED);
- 
-+    /// Memory region uses a 64-bit address (consumes two consecutive PCI resource slots).
-+    pub const IORESOURCE_MEM_64: Flags = Flags::new(bindings::IORESOURCE_MEM_64);
-+
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     const fn new(value: u32) -> Self {
-         build_assert!(value as u64 <= c_ulong::MAX as u64);
-         Flags(value as c_ulong)
-     }
-+
-+    /// Wrap a raw `c_ulong` value returned by a C API into [`Flags`].
-+    pub(crate) const fn from_raw(value: c_ulong) -> Self {
-+        Flags(value)
-+    }
- }
-diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index 3ec897709e89..19a219847c17 100644
---- a/rust/kernel/pci.rs
-+++ b/rust/kernel/pci.rs
-@@ -17,6 +17,7 @@
-         from_result,
-         to_result, //
-     },
-+    io::resource,
-     prelude::*,
-     str::CStr,
-     types::Opaque,
-@@ -439,6 +440,19 @@ pub fn resource_len(&self, bar: u32) -> Result<bindings::resource_size_t> {
-         Ok(unsafe { bindings::pci_resource_len(self.as_raw(), bar.try_into()?) })
-     }
- 
-+    /// Returns the resource flags (`IORESOURCE_*`) of the given PCI BAR.
-+    pub fn resource_flags(&self, bar: u32) -> Result<resource::Flags> {
-+        if !Bar::index_is_valid(bar) {
-+            return Err(EINVAL);
-+        }
-+
-+        // SAFETY:
-+        // - `bar` is a valid bar number, as guaranteed by the above call to `Bar::index_is_valid`,
-+        // - by its type invariant `self.as_raw` is always a valid pointer to a `struct pci_dev`.
-+        let raw = unsafe { bindings::pci_resource_flags(self.as_raw(), bar.try_into()?) };
-+        Ok(resource::Flags::from_raw(raw))
-+    }
-+
-     /// Returns the PCI class as a `Class` struct.
-     #[inline]
-     pub fn pci_class(&self) -> Class {
-
----
-base-commit: e6a2c988ed96a5a3af51ed97ecba980521bf2fc0
-change-id: 20260907-pci-resource-flags-b7addba0b34f
+base-commit: 32b6ef9a5d0eca44f9cd91f52f4faa89f145a0de
+change-id: 20260804-schedutil-boost-frequency-handling-8e6bf2387a4a
 
 Best regards,
---  
-Eliot Courtney <ecourtney@nvidia.com>
+-- 
+Ananthu C V <ananthu.cv@oss.qualcomm.com>
 
