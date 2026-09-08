@@ -1,191 +1,284 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E985C503BCF
-	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 10:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C6853445A;
+	Tue,  8 Sep 2026 12:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788861801; cv=none; b=BVXSghew7NKqVfse/RwOLw15vu/k2DCh/YP8YP6sbDgjJo/lyJWtQJh/cqo24affnp4U7ejQKA4Y6mUBmSK2U0dVjyvy4Qjvf8X351utLv3EYk6s7f12zgWN1GQR4W73EzzBxkT5naJrsvxEG5S7d92n9lsIqO7lcmi76SONDHE=
+	t=1788869503; cv=none; b=XU70PoMpPBqJt2vBlQvOSFEHUwCcPCskCLo3YjYzu3kgTG4jzW7lZ1QPfpXjVcSviqrLEOipoV16ZTtsNDZ0L7mK8L6VpRSXFC/OE50DY5A7URyur384bFwsde6QtJK6g2mqxlxgjqP3zqUXYs5Dpq2tAi1ekfkoNe4AACXkY9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788861801; c=relaxed/simple;
-	bh=gU3el5vBaKIowxWErPSf+Ml57LVgUfxjbCElgrhuRcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FHyssHz8Dx0ihJt83JdN7OaavWGJAURHAvGMj8EuO6nJ825tui2fdoCdRPVblz281cuDdjD2Di5bhk6R+yJoF1Vmd4V9UkkKc5b9i3+vHpuw4MZzNgyTxZA2YwyrxVhjEF0I6ecGfIc68+du3Su/ibnFUH6hSXWzf/Ld4v1KAJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D0tFBxn8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=djcaMZTO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788869503; c=relaxed/simple;
+	bh=uaQ10Apwu67+uFdsBLzTilasS4liMjcczBaW2+tmNNE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MEg1n7RMP9s7MXT6cFwmuTAxCgP1ZAVezHH+ZvhSUCTT9FaJggmEpZvUgrcQexPJGd0o6Hv6qE+Gk0uOQ11HJNKFNT5XnmBErkMNo6YeSQGtdMqVAdKOcE8oDF01uD16rglY04Sgb1YbQZ2Xeo0vWC9QE6fV94hhkL1LI/vjY3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NGMrz+Uo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D0tFBxn8";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="djcaMZTO"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6886MPTA2156046
-	for <driver-core@lists.linux.dev>; Tue, 8 Sep 2026 10:03:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=rfmoRRos15ggGyuCj+3H9fL/
-	SgvX7ZnyDI13Z33CBSw=; b=D0tFBxn8ZVxw/JXA7I6wUpKQXpfGKOM3vRPs3IK8
-	5CL6MVDqRo1W1YViRBo6aRyRH2jaf+JTkAmAxuVvA683Bs/Tk84laBk7+BAVR9Jj
-	XoavlV7SedRkB6iU57sWromNNQkz/BA6uHlE1C56bSCnQqnoBXOGmDobLyoEQejp
-	OmSDyPOZNDKgqqHXrz1WKUYW+MIWh9XyIK3RfiUkDW6BrIRskJWU0zDjKMIQarYf
-	opqatafYdUE9ZvG4nuyUPIUqWvMavlLiqkTYHtLGG6ta5Hk/PQUnHIZYa9ol/cH7
-	fikja42WTLvPLzz+wNBQO946IB/BC3xU2Ci+SPNmEPessA==
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gj1rwjvhc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:03:18 +0000 (GMT)
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6b1b19eab8bso2387345eaf.0
-        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 03:03:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788861798; x=1789466598; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rfmoRRos15ggGyuCj+3H9fL/SgvX7ZnyDI13Z33CBSw=;
-        b=djcaMZTO1UwGSahZsrhmsg0A+8SS7fTfpjCqv9LmOuEb7nWv662hZ0zy2NPXmJthCE
-         k1p03Jn4ymrypxH5jUBrWuNSN9CLwpizULqQyCilkOl/iILgkbs410a+yuOaPTXl6Yd2
-         R5NdYzKnEq3uIgufO3oqbh4KVVvI42SntGXhjYtYFXVWN7/At2/cbY5Qa6lEa3N8aIcu
-         7ejF2cKyM9XnWAnYETcWVWvkbhbDeNrCvEw/IGu5m5wmkh7aIJeB1IBgno3M+6ZG4gkE
-         HBCY55hQ4ZgJUMVtyvA9C6NMnWw/DD3e9SnCRcdWBxEaP8fqPaTygkxC/Rqiyj7iz+xB
-         s8lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788861798; x=1789466598;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rfmoRRos15ggGyuCj+3H9fL/SgvX7ZnyDI13Z33CBSw=;
-        b=Ocggup6VAnyd65/7EHfnKNhtZqDGGTjyCNuF92It6/yG2E/fnQ7LPT5R5O7TckveLi
-         xSr06DFLDTKcuJjXTOUe/S8fb+/a+jfBaLx78v1LLnVXqKRmd9aCEQJ3aHI/QoyhnDtP
-         NWtj5GAuv6eRM3VLMud4vrFYLq7AhvKX3gB5ubCKGu4XCQ76lxYg7ZWnIfMgcbnIaJfZ
-         f55famS4Nuh4YLGbNI6dGRUQkAiYHE9vKVI9v1zBxXB072Mpge+0j2C9+BCVK4MDLOhC
-         Z0kzHcc4+CQhKifCA3U1GQ6fwbMBmVfDrmMSte5ks6/dvx4SUb+zle+ixG24jKXW1fYT
-         tXlA==
-X-Forwarded-Encrypted: i=1; AKwUvBwk2YgJ2r22yJI07QCeypWQOwO5CsktYZ3b9pQPYd4gJgJsAHgDnQKVSILGrCW9p7wMlAPK/T/KlNeN2Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++m2HG3XSDd2yKnrZWNjKizSKvhNS2FnFWfWtuIIfq9bnBHWwdYS
-	xOh3zjsBvJgFmkXfUKwhxChF65xohEVJSkdltxjN8X8mUlKLiJ5RMVBTTWFzUDpP4n8pZvJzA2H
-	AunzDNwkmu7p32V/ZqGp/R4HPXwfQf5MX5y43I/a4ok5fbEFf4yHZANmxQoOobAnsCQ==
-X-Gm-Gg: AYBFou0a6gVRiQxsv8zAhtSQJOhjwn6zSpC+SQ6DcvZYe07AaCGxRqjEUQNmB2KgELa
-	HqKD0aEyOrBI6u6g2KypqXagPwUu/02qRf8hqh++tGDoqydPnMpBwqT7VcpllDb/mFlHM9KEARK
-	xNjlDOGByzrkPcFHE+Gx5MQsAKpA9UGO3XSz24+wuNra7nVMS9tBTx4oTpTHSOXMXqqtWRyyoFQ
-	VN/kOsJYbkoCgIJoXAOiDH0xS21fG4XyIxHpE3WcS121OfSGHzb06qETD9KgYClCGAKdEEqQXHG
-	EUkwkwaOgnwIXdn0SYlU+0rrrxS06SVe08nitK4BT92BfETOaj1HyASEo56e947rTgCSC+fbx0q
-	nmrQ/r5vWU1QvJnD52zdVeBbeJX7UoG3j1IIh3olTS8sUbusQjYUD3zOQYbCrorO5NSqRXN+P6H
-	a7qY7gL3IhFtgc1jQ=
-X-Received: by 2002:a05:6820:988:b0:6b0:19bc:fd14 with SMTP id 006d021491bc7-6b6fe59c264mr15048386eaf.32.1788861798140;
-        Tue, 08 Sep 2026 03:03:18 -0700 (PDT)
-X-Received: by 2002:a05:6820:988:b0:6b0:19bc:fd14 with SMTP id 006d021491bc7-6b6fe59c264mr15048341eaf.32.1788861797698;
-        Tue, 08 Sep 2026 03:03:17 -0700 (PDT)
-Received: from hu-anancv-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-143240d86c3sm31124434c88.0.2026.09.08.03.03.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 03:03:17 -0700 (PDT)
-Date: Tue, 8 Sep 2026 15:33:12 +0530
-From: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] sched/cpufreq: fix schedutil's boost frequency
- handling
-Message-ID: <ap_a2uVHgjiNtL3I@hu-anancv-blr.qualcomm.com>
-References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NGMrz+Uo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836221F00A3A;
+	Tue,  8 Sep 2026 12:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788869462;
+	bh=Iogr4guSukTn7BNwHpl36e5eQOn5fbSrjKYt1mM0zZs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=NGMrz+UoNf/gzaQ74JTfvoy7vqEpiw+5cmO1q4iP3yGfSAjHDVAN4/CMNqORDPu4n
+	 HJl+Qq+4W8rI5VQ2LeiZLjAJlqVYQ4R5FU5MHyCF+oFtznk29zfKuTL5ZLchElsBNb
+	 0eJCxdkHcn1mvaRAmCxAu8WD9YZH/RgfqaJKn1EWHoMuT9EFFfyR+r+Ju1UjOUBm3e
+	 8KwKksoimiSzXS34OkSVnFOGIYz9tkgwPyHprsro/tRuNIUakklpM4RlWUmnJFCrSY
+	 wpu/sO5kJMg1HOOsq68qOmuarpS+zYwOP/2zS07HgExdpFKBauBYGI68RBci+m6JUw
+	 k0/p5zwRBIfFg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Lorenzo
+ Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R.
+ Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel
+ Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Trevor
+ Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
+ Lyude Paul
+ <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
+ =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
+ <tkjos@android.com>, Christian
+ Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
+ J.
+ Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
+ <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>,
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
+ <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Philipp Stanner
+ <phasta@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ driver-core@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-usb@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>
+Subject: Re: [PATCH v20 4/8] rust: page: convert to `Ownable`'
+In-Reply-To: <CAH5fLgjrQDWSPX-81TNdnc=AU3Jge57vUJ_SHCn8=uUyGfRq=g@mail.gmail.com>
+References: <20260824-unique-ref-v20-0-490735672187@kernel.org>
+ <20260824-unique-ref-v20-4-490735672187@kernel.org>
+ <ao2WubjLtDuHvRzx@google.com> <DL894TFXM5AT.2QOXN683UKXIF@garyguo.net>
+ <CAH5fLggAMfBcxprKJxs4JbieKadC_mKg4B0xNETOH1QUi72UGQ@mail.gmail.com>
+ <8733vlxmm8.fsf@t14s.mail-host-address-is-not-set>
+ <2dpwVpJS3VbfQ7CmE3HeY4IJSSMXTP_O9sSP3HHHUD7Z29RNEG4Hc0m8f94jKWjFlekcTXvIBA-QdGYrf8w1sw==@protonmail.internalid>
+ <CAH5fLgjEfZO9DwcUxaKCWd_hFUrXU+cxiwmRg1UnM2pKD6gPvg@mail.gmail.com>
+ <87zextw4c4.fsf@t14s.mail-host-address-is-not-set>
+ <CAH5fLgjYmvp1Ph3dYXnTKkAvWgNpgCAPeq_7PZhRai6pCNmVmw@mail.gmail.com>
+ <87qzj4w2nw.fsf@t14s.mail-host-address-is-not-set>
+ <BHf9mFp5zLg4GcKDzWhjsF9lzCPG1Pd8-nPd6b9HODeCiw9Nj9OAjU7aDmN6rnk-koAD37kW_flzkTMbOjp9Tg==@protonmail.internalid>
+ <CAH5fLgjrQDWSPX-81TNdnc=AU3Jge57vUJ_SHCn8=uUyGfRq=g@mail.gmail.com>
+Date: Tue, 08 Sep 2026 14:10:45 +0200
+Message-ID: <87mrtsvt8a.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Ga8nWwXL c=1 sm=1 tr=0 ts=6a9fdd66 cx=c_pps
- a=lkkFf9KBb43tY3aOjL++dA==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=fTh2YsA6urFVvDZ4lSoA:9 a=CjuIK1q_8ugA:10 a=k4UEASGLJojhI9HsvVT1:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDEwNiBTYWx0ZWRfXyBap27vFwVf9
- QBxM4Rj9O6fFLteRSX6tsg9Dnu8HGtQ8qWIBRtZP4R0onZlX2SveWi9Y8fJTInmYjWk2Sn6FLrC
- 3+6g0JtojD38xWzK4hkC8lFz6jkCoMBqGNVPj/OTf7HPpqmSYWs84GnK6KQ9kcE+veDQjfFaIz4
- LqFqyWrhL2/ZBefutrS24EPrh7sFp/BDP8eSOceGYLX4Ad7ChxREL4HaliIO5zr53NH32fqz4jb
- Ig+Fh7wI2J+3wdcINNvoYf1g8EbptbGa2A98rpjPalHd12gu12bl9sB/3MC1NajwJKbtG4/mflU
- 7IqnHk9mspxDRXqNbZvkPvRiOV/pzVDUXD/Mi3fJJkOiTfZaSuUtPRTcIGOSh/kMr9oAKz+qU5y
- pHmGoJ+cVwgU+eAHx9BvtzTGkKxBSiwkdyslRNZedI6CKJISYKXhtP5KhWTCg1BHt+3mMadUkj4
- STSYpiy70m/gFcmFBGQ==
-X-Proofpoint-ORIG-GUID: gL0TyuskXriGzEKvm6iWNyrB4Sl-gCWH
-X-Proofpoint-GUID: gL0TyuskXriGzEKvm6iWNyrB4Sl-gCWH
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDEwNiBTYWx0ZWRfX7AfeTeoXJBIB
- MylN+BUIBYSw6ECid6ItrlBxteGbrDQKW45E704US4QrfMA88sVwS7Ixaoplrth29Lh940hlTMb
- RUH2Y4NPDHuP7vx/nBMjaPEmhjUsIIg=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-08_01,2026-09-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- bulkscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609080106
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-It seems some mangling was done and all lines starting with hashes
-were considered comments and ignored, malforming the logs. Apologies
-for that, this is how it's supposed to look :)
+"Alice Ryhl" <aliceryhl@google.com> writes:
 
-Before fix
-----------
-# cd /sys/devices/system/cpu/cpufreq/
-# ls
-boost  policy0  policy12  policy6
-# cat boost
-0
-# cat policy6/scaling_max_freq
-4454400
-# echo 1 > boost
-# cat policy6/scaling_max_freq
-4723200
-# echo 0 > boost
-# cat policy6/scaling_max_freq
-4723200
-4723200
+> On Tue, Sep 8, 2026 at 11:00=E2=80=AFAM Andreas Hindborg <a.hindborg@kern=
+el.org> wrote:
+>>
+>> Alice Ryhl <aliceryhl@google.com> writes:
+>>
+>> > On Mon, Sep 7, 2026 at 3:58=E2=80=AFPM Andreas Hindborg <a.hindborg@ke=
+rnel.org> wrote:
+>> >>
+>> >> "Alice Ryhl" <aliceryhl@google.com> writes:
+>> >>
+>> >> > On Mon, Sep 7, 2026 at 2:38=E2=80=AFPM Andreas Hindborg <a.hindborg=
+@kernel.org> wrote:
+>> >> >>
+>> >> >> Alice Ryhl <aliceryhl@google.com> writes:
+>> >> >>
+>> >> >> > On Sun, Sep 6, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.ne=
+t> wrote:
+>> >> >> >>
+>> >> >> >> On Tue Aug 25, 2026 at 2:20 PM BST, Alice Ryhl wrote:
+>> >> >> >> > On Mon, Aug 24, 2026 at 01:17:56PM +0200, Andreas Hindborg wr=
+ote:
+>> >> >> >> >> +        // SAFETY: We just successfully allocated a page, s=
+o we now have ownership of the newly
+>> >> >> >> >> +        // allocated page. We transfer that ownership to th=
+e new `Owned<Page>` object.
+>> >> >> >> >> +        // Since `Page` is transparent, we can cast the poi=
+nter directly.
+>> >> >> >> >> +        Ok(unsafe { Owned::from_raw(page.cast()) })
+>> >> >> >> >
+>> >> >> >> > This doesn't satisfy the safety requirements of Owned::from_r=
+aw()
+>> >> >> >> > because the page may be used with vm_insert_page(), which inc=
+rements its
+>> >> >> >> > refcount and causes it to be shared the vma system, and this =
+occurs
+>> >> >> >> > before Page::release() is called.
+>> >> >> >>
+>> >> >> >> I suppose the existing vm_insert_page() abstraction we have is =
+already
+>> >> >> >> problematic, because it uses `&Page`?
+>> >> >> >>
+>> >> >> >> Maybe we want to change the API to use `ARef<Page>` so it alrea=
+dy has to be
+>> >> >> >> shared? Conceptually it takes a reference count from a `&Page`,=
+ which isn't
+>> >> >> >> possible because `Page` is not `AlwaysRefCounted`, so it needs =
+a `&ARef<Page>`
+>> >> >> >> to be able to do that op.
+>> >> >> >
+>> >> >> > Honestly, the problem is the safety requirements of Owned::from_=
+raw().
+>> >> >> > Pages have a "special" main reference, and free_page() does more=
+ than
+>> >> >> > put_page(). It even does something when the refcount does not hit
+>> >> >> > zero.
+>> >> >> >
+>> >> >> > The correct behavior for Page is to allow the user to hold one
+>> >> >> > Owned<Page> whose drop calls free_page(), *plus* any number of
+>> >> >> > ARef<Page> references that invoke put_page() on drop. This way, =
+the
+>> >> >> > owned page controls the special drop codepath.
+>> >> >>
+>> >> >> This does not mesh well with the model of `Owned` behaving like
+>> >> >> `UniqueArc` to `ARef` behaving like an `Arc`.
+>> >> >
+>> >> > It's a different case, I agree.
+>> >> >
+>> >> >> Please help me understand; with page having a main ref and an auxi=
+liary
+>> >> >> refcount, if we model that with a single `Owned<Page>` and a numbe=
+r of
+>> >> >> `ARef<Page>`, what would happen in the case where the main ref (`O=
+wned`)
+>> >> >> is dropped first? Is this legal?
+>> >> >
+>> >> > Yes, it's legal.
+>> >> >
+>> >> >> My intuition here would be to follow Garry's suggestion and have
+>> >> >> `vm_insert_page` take an `ARef<Page>`. Can you elaborate why this =
+is not
+>> >> >> an option?
+>> >> >
+>> >> > That would be the wrong ownership semantics. The C side increments =
+the
+>> >> > refcount rather than take ownership of a passed-in refcount, so the
+>> >> > correct argument type is &Page.
+>> >>
+>> >> Or `&ARef<Page>`? Because with `Page` being `Ownable` it would not be
+>> >> OK to increment the refcount from just a `&Page`.
+>> >
+>> > That's just a limitation in your traits. There is no problem with
+>> > creating a refcount from just a &Page.
+>>
+>> Yes, I agree. The limitation is by design. My point is, `vm_insert_page`
+>> can work fine with the `&ARef<Page>` type. So if that would be OK with
+>> you, I would patch that as part of this patch.
+>
+> IMO, Page should implement AlwaysRefcounted and this method should
+> take &Page. Anything else just adds limitations that are not needed.
+> But I'm ok not implementing Ownable for it.
 
-# echo 1 > boost
-# cat policy6/stats/time_in_state
-355200 36958
-4454400 650
-4588800 0
-4723200 0
+Ok, I think you have me convinced. Mainly because `Page` as it is has no
+benefit of exclusive access.
 
-After fix
----------
-# cd /sys/devices/system/cpu/cpufreq/
-# ls
-boost  policy0  policy12  policy6
-# cat boost
-0
-# cat policy6/scaling_max_freq
-4454400
-# echo 1 > boost
-# cat policy6/scaling_max_freq
-4723200
-# echo 0 > policy6/boost
-# cat policy6/scaling_max_freq
-4454400
+>> >> > Now, for the use-case in Binder I believe we could switch to
+>> >> > put_page(), as we don't need the extra stuff from free_page(), in
+>> >> > which case we only want ARef<Page> and do not require Owned support.
+>> >> > But as long as we are calling free_page(), it needs to not be
+>> >> > clonable.
+>> >>
+>> >> You are calling `__free_page` directly in binder? I could not find th=
+is
+>> >> with grep except in the C binder. Is this code you are calling into f=
+rom
+>> >> Rust binder?
+>> >
+>> > Via the Drop of Page, not directly of course.
+>> >
+>> >> From `__free_pages()` kernel-doc (`mm/page_alloc.c`):
+>> >>
+>> >> > If the last reference to this page is speculative, it will be
+>> >> > released by put_page() which only frees the first page of a
+>> >> > non-compound allocation. [...] **If you want to use the page's
+>> >> > reference count to decide when to free the allocation, you should
+>> >> > allocate a compound page, and use put_page() instead of
+>> >> > __free_pages().**
+>> >>
+>> >> I guess this is what you are referring to? We could change `Page` to
+>> >> this style as well and all would be fine I think?
+>> >>
+>> >> At any rate, today I learned about Pfn walkers, compaction,
+>> >> memory-failure, etc. that take transient refcounts
+>> >> pages. With that in mind we need to reformulate the invariant of
+>> >> `Ownable` to exclude optimistic transient references.
+>> >
+>> > Yes we can switch Rust Binder to use put_page() and have Page not
+>> > implement Ownable at all. That would be okay, because Binder's pages
+>> > are not higher order.
+>>
+>> As far as I can tell, we can also switch `Owned<Page>` to allocate the
+>> page with `__GFP_COMP` and use `put_page` in drop.
+>
+> I'm not entirely sure if __GFP_COMP is needed, since the page is order
+> zero to begin with, so I don't think it makes a difference.
 
-# cat policy6/boost
-0
-# cat policy6/stats/time_in_state
-355200 40147
-4454400 79
-4588800 0
-4723200 0
-# echo 1 > policy6/boost
-# cat policy6/stats/time_in_state
-355200 44834
-4454400 93
-4588800 25
-4723200 569
+With alignment on `Page: AlwaysRefCounted`, I think this becomes
+orthogonal. When we want to support allocations of more than one page,
+we should probably make them compound pages (folios) and manage them
+with the refcount (put_page), rather than non-compound high-order pages.
+But this can wait.
 
-Best,
-Ananthu
+>> > But this case still does highlight that
+>> > Ownable<_> currently does not address the use-case where the
+>> > Ownable<T> is a special reference there can only be one of, rather
+>> > than a completely unique reference.
+>>
+>> This is not the use case `Ownable` aims to solve.
+>
+> Maybe not, but then it doesn't apply to Page.
+
+I agree.
+
+>> > For instance, the GPUVM abstraction would be another case where
+>> > Ownable<_> could be used if we have this other model where Ownable<_>
+>> > and ARef<_> are legal at the same time. Currently GPUVM uses a special
+>> > UniqueRefGpuVm type to solve this problem.
+>>
+>> I am wondering if we can make case I intend to solve (Ownable is a
+>> unique reference) coexist with the "at most one of this ref can exist".
+>> The "at most one of this kind" sounds similar to the `ListArc` use case
+>> to me, which is a different problem.
+>
+> I think they can co-exist. If AlwaysRefcounted is implemented, it is
+> the ListArc use-case. If Refcounted but not AlwaysRefcounted is
+> implemented, it is UniqueArc use-case.
+
+I see.
+
+So for v21 I will implement RefCounted + AlwaysRefCounted for Page and
+drop the Ownable implementation, have alloc_page() return ARef<Page>,
+keep vm_insert_page() taking &Page, and switch Rust Binder to hold
+ARef<Page>.
+
+I will also include the SafePage/ExclusivePage series [1] in v21 as a user
+of `Ownable` with a few modifications. It will no longer be possible for
+this type to deref to `&Page`, due to `Page: AlwaysRefCounted` and
+`vm_insert_page` taking refcounts through `&Page`.
+
+Best regards,
+Andreas Hindborg
+
+[1] https://lore.kernel.org/rust-for-linux/20260605-page-additions-v2-0-03f=
+04c8fdbbf@kernel.org/
+
