@@ -1,82 +1,82 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC5459B663
-	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 17:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ED959B69D
+	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 17:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788889676; cv=none; b=R6xUUSs/HopZdQr2XuozmA1+HSKDuMI12nUTqsZnz/v4v3xdzXzc3MK7GqRelqN9VtHyTPcQaaVFt4JvmuEqHPYGSdORlC4C61kI/2+wY6Dmw0uBpmhNGumLDrgvz5ZNNubL1mAuwYwKOv4e65furx9O62/frJhU8/ClZEmnHho=
+	t=1788889677; cv=none; b=cGteuM3v6B+0Z2UmXu0XDba0tWVnt+nBIjMkE9VzLOsDcc0t6wIxhjYBktBFSh4dsrEIJQXkDfcwBZbR9FBiQ+UwHlqpSts4EqLJ3Lbw5Dmcz9Qu+LdD3w52EyY28Eo3THGt/kJr8N7I322mWo8MNL+Bn1UvHMdzFtaRYeCdhnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788889676; c=relaxed/simple;
-	bh=YCLRa58s7uyQdIbB8Ph134sD0TUv41BQ2FR6V6uf2cM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=hS2k+TWQQ2NQdH7dspHSf6fWrlbb0SL1oLeOHgrMxxM8HY0EBpY7qDWMFvZoUkNhhyWJFFNNsSRuwOiCJ+oeYYJe2/wTwHuxwzBUFryLxo2jqoMnG2B1oLB7KIFP5n0+yAs2Se/TF++TpxMIQyWzTVI4R2y0+9HuEQlDSAfc104=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N01awWuc; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1788889677; c=relaxed/simple;
+	bh=a7E1cAnanYVVkRWaKkPGdq4ia4gYC62syLjr8jr85LY=;
+	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
+	 To:Cc:Content-Type; b=pEADgObZgTyz8XO+xPsMXjMGuo4Iaz+fST2QYABt8SZWByCYkZXdJ2z2G92Wi8v2EufZPI2MiU+3NgRu1O7TPM3PU89zJk89ya0CcHZ6DWdA1VBGCTAUxrtjLbNC190AyUVJakctorxIphCyvts8eYsmF9GZJkiuTQX8ahx0BNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fEpD3lv0; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N01awWuc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fEpD3lv0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788889672;
+	s=mimecast20190719; t=1788889673;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=L/9EDTVW1f5os/f7T4ZyE6gcGjRjE8APgfGQstVr0ZE=;
-	b=N01awWuct1Q/NpyuCxN1KbPFeKAwwUMYIMyXF6YMQaMq8BZZ5F8+SGasmffaFbZXKBCYQC
-	ZBrddybfihiNNfBb7fRvqpL5NfbX6r1FLfE3OtNK4TDSdODozZNjGBJcaBsiezxXr8HoAv
-	xA5vE3+RCX5R6hR8P6hJeDn/t8tRA3w=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JmkVIyJpnqsnRkQ/AN9eH6zCUWkahngJ6micUwzJvZg=;
+	b=fEpD3lv02f04aYjZUVDaJ0R9SYa4aDVRsg65vmkOQMPwoEQm3Au4jIomW0c8DcTJOUnZys
+	HesPnXLSekdbMKESz+SiThvPnnkaqK+0mKwgLMY4sbExcru+vt+itLhNOJKmsxOUKVp3QV
+	y6v9+nMBSpvLFhX2VD32ROOYPBM/Bzw=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-378-eYb4TJt6Nv-gk-h2msRPHA-1; Tue, 08 Sep 2026 13:47:51 -0400
-X-MC-Unique: eYb4TJt6Nv-gk-h2msRPHA-1
-X-Mimecast-MFC-AGG-ID: eYb4TJt6Nv-gk-h2msRPHA_1788889671
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-9308eafb465so487697585a.2
-        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:47:51 -0700 (PDT)
+ us-mta-617-jSC11ekmO7S3SUEi859lPg-1; Tue, 08 Sep 2026 13:47:53 -0400
+X-MC-Unique: jSC11ekmO7S3SUEi859lPg-1
+X-Mimecast-MFC-AGG-ID: jSC11ekmO7S3SUEi859lPg_1788889672
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92e820609d9so778000585a.2
+        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:47:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788889671; x=1789494471;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=L/9EDTVW1f5os/f7T4ZyE6gcGjRjE8APgfGQstVr0ZE=;
-        b=ObrlAJVmIgLy8P1+Upcg/J2MZN8TlOTUCcz3wOYGoFxOSx99fH5d7O8Bz7MYeay7V7
-         oynPPJ88HYecomz4kGsZ21HVWpGdD9Oiv8ynb5k+77TnTd8tW3SFQQcZdsdcCwUes/e/
-         OgMFfwtLgTEZC7Wsq5+pJBYndyaZCYqnQeqqGK2ca0rn4wLlwM7aTpKsgNGvadHo55Eg
-         FIqlYX5PdTY2m28sGV6ejsuuIREjzOLQlVfN9EIzsK85ve61fCPXEmt8WHssyX317aiK
-         MWCL1S2XsiDYLFGlWeq5vK6KNBoSiRcvk1Bkb5k5lQm7eN2omYXATQd+9nZE6Iut+l4X
-         6BPg==
-X-Gm-Message-State: AFuF++m1GPyQfN5GWEfk2oSZfYEXdmMGfH0T/E8qQ8DwQHDqHYZl4wr8
-	LUTuPhL06DoFM57YvUacOzYqykFwjHgFz5bt6UycFWWnTqDOwrPbpAo9OdLRbjxiKf2qFgriZZj
-	p8wRZm5vOkCF6woPHcdkEy4U//XNPjPKBpgmUIXyNOcFjPYLpBlQKT1Fa4THB70eZK3Yj4Pk/U7
-	P12fdiP4Ae4BrM2hNEzB/zStqaTyyPDzv5YinNF4lWJ6WusmA=
-X-Gm-Gg: AYBFou11LEFSaF+3t1GJNrpRANqQsTkfFo/tjwaRcf9L2kcB5b31WxuhWVTCop3wpS3
-	9VJqbSO95D7mBQQaLRssbSbjoFD17WmtVsKqzA8Y3RjzPo82b5vA0VCDXzWVLTw9Fy+0hThcrH1
-	qeJVPke6pFhCvrrHkChlHvLumcNHYkjcw0yS70u6xUJEDemkcboTj5P1kks/WB1gxctTC9h1Fgx
-	tApB4VuXcXj6RHYWBzHi+xHX00HSS/cM2EiZ6gY4TZHm/AlV0KY0YH47gZwSvdcjBzUglQN8GLC
-	+dPuYeFpdOAgUjkqg8dHLuqEJ7XxKRIUwXVP1JavCYq2siQZHhA2w3yeQ0HC5uErMHZz+HcqLkl
-	i/gAZRNw3Q0sFo20r67uuRjjjiD28hAfXd0QbI94=
-X-Received: by 2002:a05:620a:227:b0:939:e76:cba5 with SMTP id af79cd13be357-93980426544mr2317502885a.32.1788889670853;
-        Tue, 08 Sep 2026 10:47:50 -0700 (PDT)
-X-Received: by 2002:a05:620a:227:b0:939:e76:cba5 with SMTP id af79cd13be357-93980426544mr2317454985a.32.1788889665304;
-        Tue, 08 Sep 2026 10:47:45 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788889672; x=1789494472;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JmkVIyJpnqsnRkQ/AN9eH6zCUWkahngJ6micUwzJvZg=;
+        b=ACSnv4sEWaYiITZhepmrn4zYwK1V6N2SiVtseIhtodGzy+jjuMcvzs95rQv1RJ9BS8
+         NaD8Aq9cSx9JiBS7rrsr4TenSkUPEG9zDhdvN+HeFuQPeqnbhTOUhlUXwLwdZn3Utvng
+         HbnTONI6e5SHeW7PzO6ACeUILPQPJ3r3+XcI3eBXDMNp0oD33WrDl2VR/as7OxHteOhl
+         j64YtgjqOc5oEvgLWlNnprePTv5IboO72JhFEODDkq/TKQinMpsooWazQWvhQCGYYiOQ
+         KxeALYgewUkDNK4HUPiHPtm+n5IOq9dkcEWNPg19sJLVo1QXwxiG57q1fwam6mcvJpfp
+         BMIg==
+X-Gm-Message-State: AFuF++k8qUNqkGRqTIxQIpgE6+lquAJn4yPe7p/1TFgI70VwADDxIYfW
+	+8jjY+kZycs4eMbQdyXVYr9+Lf93KRIlUgbwI0OZxdpOcdOqa672Olwn+jFn8byw1HzhhPvLBI7
+	b2m9gfqUf2pdJ5Vj98Fj9uyycDVDZCz680wpvVjRhZV5FqAzQ6BFgly/1gN7uJQEf8CHG2Gu12d
+	8nJj9oviyd1LVM335MU/kr2VLCSqyaa4SOj8ANVOpkKDuqCms=
+X-Gm-Gg: AYBFou38rTvhWfNt/nWQo/bPsS5t16sjZ3NgAS7i3GkZYTX/6rH9icpcNzRXWWcNYj7
+	SE0r4l2nhApWelWItlHyC3+y5JCatBoJq/cQZE5rD8Mwi7etE05Ed+r6SyVeE9zroP9QoLXXxKx
+	6FRy1cAsd0oKy8TSemoKuKmKMfzXNiV73kA3ID4ZDFM2dWXnrUvvG7fadyAs2qXmTjCcRXH5GcY
+	1zCpzJbdW9nelk+1BKdLuaggXdNgSkoDxZ4oGszNO48zqMGTmH5HT5wXOZbzcMvrCYhU86L2Igl
+	OPCxLxmmz/Ji0b/jFIkUCwsfOGiR+NqPulYZZsFjczWkLJP4yNqu4K6HzjaLG3yfDqNjKVa6q0B
+	uwX4XOmJArevULdcBajvekJqVpKt6B56zPu/4+EM=
+X-Received: by 2002:a05:620a:46a2:b0:939:3712:77df with SMTP id af79cd13be357-939803405c3mr3213725185a.21.1788889672242;
+        Tue, 08 Sep 2026 10:47:52 -0700 (PDT)
+X-Received: by 2002:a05:620a:46a2:b0:939:3712:77df with SMTP id af79cd13be357-939803405c3mr3213671985a.21.1788889666833;
+        Tue, 08 Sep 2026 10:47:46 -0700 (PDT)
 Received: from [192.168.1.3] (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9397fb9bac1sm1194093685a.35.2026.09.08.10.47.44
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9397fb9bac1sm1194093685a.35.2026.09.08.10.47.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 10:47:44 -0700 (PDT)
+        Tue, 08 Sep 2026 10:47:46 -0700 (PDT)
 From: Brian Masney <bmasney@redhat.com>
-Subject: [PATCH 0/4] driver: core: add subsys_platform_driver() to reduce
- boilerplate code in drivers
-Date: Tue, 08 Sep 2026 13:47:17 -0400
-Message-Id: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com>
+Date: Tue, 08 Sep 2026 13:47:18 -0400
+Subject: [PATCH 1/4] driver: core: add subsys_driver() macro
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDSwML3eLSpOLK4vjMvMyS5MScHF0D05S0FNO0JIM0AxMloK6CotS0zAq
- widGxED5QS1ZqcgnIGKXaWgApYv2WcwAAAA==
-X-Change-ID: 20260908-subsys_initcall-05dfd5fb0f04
+Message-Id: <20260908-subsys_initcall-v1-1-cbccf4cd4288@redhat.com>
+References: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com>
+In-Reply-To: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
  Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
@@ -86,98 +86,72 @@ Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
  linux-renesas-soc@vger.kernel.org, Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4126; i=bmasney@redhat.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2040; i=bmasney@redhat.com;
  s=20250903; h=from:subject:message-id;
- bh=YCLRa58s7uyQdIbB8Ph134sD0TUv41BQ2FR6V6uf2cM=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLIWeJmuupF5qfh/577Yn+n6AlwhRTy8z9+nMK7UN53dY
- njB8hdTRykLgxgXg6yYIsuSXKOCiNRVtvfuaLLAzGFlAhnCwMUpABP5y8DwV+bCmc9hUzsWllQ3
- T0866pnk3+b3w9Wt4l5L02+uoEu3rjAyzC//cKIqLmHOvw/rd5y/xuD2JExGfTFbQpY2n87nG8c
- fcwEA
+ bh=a7E1cAnanYVVkRWaKkPGdq4ia4gYC62syLjr8jr85LY=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGLIWeNn2tBU1Ni1/dSggNbqg+dfChvjbuQt/uU6Q59qeu
+ buBSUCwo5SFQYyLQVZMkWVJrlFBROoq23t3NFlg5rAygQxh4OIUgIlUcTMynEjas5VdRKHyXNSp
+ jwynb6XoznuXmfJN85R/9wbxuKPTTjAyzIwrYIzpUotZnHuvkkEkgW9DRFtASu7/n+a/65dJC07
+ nBQA=
 X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
  fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4icJsFeQMaMh_vY2qrm3G5jXrtoIu5lrQFPpHY5ZAOM_1788889671
+X-Mimecast-MFC-PROC-ID: K3-CMufbLDn9hbBKOoJtH3aS_AzihIhHGLC44T2gRcE_1788889672
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-There are a fair number of clk drivers that are registered at the
-subsys_initcall level since some clk drivers need to be initialized
-early for other drivers. Let's add a new macro
-subsys_platform_driver() similar module_platform_driver() to eliminate
-some boilerplate code in the drivers.
-
-This series converts the Qualcomm and Renesas clk drivers to show the
-code savings that can be achieved. Once this lands, I'll convert the
-remaining clk drivers this development cycle if all of this can go
-through the clk tree.
-
-Outside of drivers/clk, there are 364 drivers that use subsys_initcall
-and I am willing to convert those as well starting the next development
-cycle once this lands in Linus's tree.
+Add a new macro subsys_driver() to eliminate some boilerplate code in
+drivers that need to register earlier in the boot at the subsys_initcall
+level.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
+Assisted-by: Claude:claude-opus-4-8
 ---
-Brian Masney (4):
-      driver: core: add subsys_driver() macro
-      driver: core: platform: add subsys_platform_driver() macro
-      clk: qcom: convert drivers over to use subsys_platform_driver()
-      clk: renesas: convert drivers over to use subsys_platform_driver()
+ include/linux/device/driver.h | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
- drivers/clk/qcom/dispcc-x1e80100.c     | 12 +-----------
- drivers/clk/qcom/gcc-eliza.c           | 12 +-----------
- drivers/clk/qcom/gcc-glymur.c          | 12 +-----------
- drivers/clk/qcom/gcc-hawi.c            | 12 +-----------
- drivers/clk/qcom/gcc-kaanapali.c       | 12 +-----------
- drivers/clk/qcom/gcc-kuno.c            | 12 +-----------
- drivers/clk/qcom/gcc-milos.c           | 12 +-----------
- drivers/clk/qcom/gcc-nord.c            | 12 +-----------
- drivers/clk/qcom/gcc-qcm2290.c         | 12 +-----------
- drivers/clk/qcom/gcc-qcs615.c          | 12 +-----------
- drivers/clk/qcom/gcc-qcs8300.c         | 12 +-----------
- drivers/clk/qcom/gcc-qdu1000.c         | 12 +-----------
- drivers/clk/qcom/gcc-sar2130p.c        | 12 +-----------
- drivers/clk/qcom/gcc-sc7280.c          | 12 +-----------
- drivers/clk/qcom/gcc-sc8280xp.c        | 12 +-----------
- drivers/clk/qcom/gcc-sdx55.c           | 12 +-----------
- drivers/clk/qcom/gcc-sdx65.c           | 12 +-----------
- drivers/clk/qcom/gcc-sdx75.c           | 12 +-----------
- drivers/clk/qcom/gcc-shikra.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm4450.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm6115.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm6125.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm6375.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm7150.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8150.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8250.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8350.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8450.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8550.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8650.c          | 12 +-----------
- drivers/clk/qcom/gcc-sm8750.c          | 12 +-----------
- drivers/clk/qcom/gcc-x1e80100.c        | 12 +-----------
- drivers/clk/qcom/lpasscc-sc7280.c      | 12 +-----------
- drivers/clk/qcom/lpasscc-sdm845.c      | 12 +-----------
- drivers/clk/qcom/tcsrcc-eliza.c        | 12 +-----------
- drivers/clk/qcom/tcsrcc-glymur.c       | 12 +-----------
- drivers/clk/qcom/tcsrcc-kaanapali.c    | 12 +-----------
- drivers/clk/qcom/tcsrcc-sm8550.c       | 12 +-----------
- drivers/clk/qcom/tcsrcc-sm8650.c       | 12 +-----------
- drivers/clk/qcom/tcsrcc-sm8750.c       | 12 +-----------
- drivers/clk/qcom/tcsrcc-x1e80100.c     | 12 +-----------
- drivers/clk/qcom/videocc-sm8750.c      | 12 +-----------
- drivers/clk/renesas/r9a06g032-clocks.c |  8 +-------
- drivers/clk/renesas/renesas-cpg-mssr.c |  7 +------
- drivers/clk/renesas/rzg2l-cpg.c        |  7 +------
- drivers/clk/renesas/rzv2h-cpg.c        |  7 +------
- include/linux/device/driver.h          | 31 +++++++++++++++++++++++++++++++
- include/linux/platform_device.h        | 30 ++++++++++++++++++++++++++++++
- 48 files changed, 107 insertions(+), 487 deletions(-)
----
-base-commit: 944a035ecca915ae947905dcfb03f2b9dc6d032c
-change-id: 20260908-subsys_initcall-05dfd5fb0f04
+diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+index 768a1334c0a1..29fbc01ef06f 100644
+--- a/include/linux/device/driver.h
++++ b/include/linux/device/driver.h
+@@ -297,4 +297,35 @@ static int __init __driver##_init(void) \
+ } \
+ device_initcall(__driver##_init);
+ 
++/**
++ * subsys_driver() - Helper macro for drivers that don't do anything special
++ * in init/exit but have to register earlier, at subsys_initcall level, when
++ * built in. This eliminates a lot of boilerplate. Each driver may only use
++ * this macro once, and calling it replaces the init/exit boilerplate.
++ *
++ * @__driver: driver name
++ * @__register: register function for this driver type
++ * @__unregister: unregister function for this driver type
++ * @...: Additional arguments to be passed to __register and __unregister.
++ *
++ * This is meant to be a direct parallel of module_driver() above, but with
++ * the init call promoted to subsys_initcall() for built-in drivers so they
++ * are available earlier during boot. When built as a module subsys_initcall()
++ * collapses to module_init() and the normal module init/exit paths are used.
++ *
++ * Use this macro to construct bus specific macros for registering drivers,
++ * and do not use it on its own.
++ */
++#define subsys_driver(__driver, __register, __unregister, ...) \
++static int __init __driver##_init(void) \
++{ \
++	return __register(&(__driver), ##__VA_ARGS__); \
++} \
++subsys_initcall(__driver##_init) \
++static void __exit __driver##_exit(void) \
++{ \
++	__unregister(&(__driver), ##__VA_ARGS__); \
++} \
++module_exit(__driver##_exit)
++
+ #endif	/* _DEVICE_DRIVER_H_ */
 
-Best regards,
---  
-Brian Masney <bmasney@redhat.com>
+-- 
+2.55.0
 
