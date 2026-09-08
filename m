@@ -1,47 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E65E548579;
-	Tue,  8 Sep 2026 19:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5755A987A;
+	Tue,  8 Sep 2026 20:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788897398; cv=none; b=CpY8iogyAuRY7zaVO68WBiH1p0naML+hfir3yu9dZAitoubPu+pY7weBeN9nTKUdGt/d4gtJvwkbjoxIG2gtZc2JKtvMaj7AXyus0jv9t2345//PzSnPk+6Hy5mf8hB+/ALwDZTuxdYZrCz8noJB1BRuaWs98o0aN2UC00JRewI=
+	t=1788898052; cv=none; b=ok5GYNy44kCuPcmTDZlH1M9cM4Elk9LD+VabmJgZoJevsMIgPUN4e1gjQW2Z7zinqgmZFRHKmstktTRrel/wuIWAbGJeIAxLeGVoc5kRlloEc+COvKltFelDr3EHSHSixyMJnNIKKwT7GgUJrMJOA4XQgsnqNv8uOlI8cy5PYUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788897398; c=relaxed/simple;
-	bh=dhRmcjWikcj4PTT48pa64UM3Z3XiVBej7nBKNxMNLSk=;
+	s=arc-20240116; t=1788898052; c=relaxed/simple;
+	bh=+58J6D3CE4XJKlOjtrnHo4Q/C2s+g1wtC9m2MXhx4vs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g+44SO6A6hT6AfdP2k6ILSlAzRWK9PC9Lxam1hSUQlwhoJhSCR7ayQnmyUqNwvR2+LRpN5XVZ4uR/mgKFxihNCWggDqtpAonTwzwTegjJO8YTVcWFObPdqG3kAJCk6CEeYcYzMyKcyIzB1Jg/hi8TZYgbNPj/sjAp0JXSJlOB4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ei5MZjQh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=TbjNH00AxIpZ4OE2wrUlvIJQPAhSeYHKZNwFIoo4KwnX7rKm8979gsh6upAZmg97xTkHzXDRXg3ELZzd4d/gEQMXpcwilVEauxn1MssysD01ZmDkx39dF1O7m7XQVPWoGfOzT/0cKe1Mfj/jGQ2H0jbh2z9TgfWXck2RSy6fbTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGTJ7QR7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ei5MZjQh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7725C1F00A3A;
-	Tue,  8 Sep 2026 19:56:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGTJ7QR7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340F11F00A3D;
+	Tue,  8 Sep 2026 20:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788897397;
-	bh=vXhWQw22vhXAQ2gomRzDVD1jyGqiKml9QCCpuAJzC6k=;
+	s=k20260515; t=1788898049;
+	bh=iJOWJWZvof6Aiu8tr3s25l3nk9WBufyE2g4zQc4CtfM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=ei5MZjQhnv1BJZ4J4jb+4yGVs4QfDIeXmSd/v+LcQAbS04thRvfCeILdLXHdDOo5l
-	 cB1cEzL4ZurUh5asediffjsprVN3X6WBt7/6JezEycGc5SvgBN5ywWYRCYJAobIwGR
-	 EvwzGcSvoLr74k8E3DDlGgJ9Ys+xyEBEfTdRxVEnBoz+H5WdPhhL8ID5XsK4kGv4XS
-	 p3f1JVoI+nWUkaHlynnHrITNae9llhsy44HndAPOvYcwjMWk221vRFffnsFXDEvoG7
-	 UEgpkq7u2iC6Lhz6GkyhOJYm2R66XREDjqkp6y6YLdWa0RuKxJPfKmX2S/sK3OkxxB
-	 ggHUaEijiRGYg==
+	b=EGTJ7QR7Lt3NiLz+E6t3GFiwCY6WeF0N11n7PdlGiOiLrHZX4r4GptoeRIddmZ5ba
+	 a6blWerESKctCBmyVJ5tMc6GzZdW1+FEk+3SCFjPruF8n1+bicbrOdbdOVNSf8wxOH
+	 z160qZ1Ep/t9PsutCIQxDQMrY19tWAkzMVJH1hbXzDArdjSG/Xn8kkunk0sEIDy/+j
+	 bikHWmyYmGvzzlub4kNyvR7T/3xdLbvCgWSUfWDAFqLnUlQhFGGDGiCgv/duU+doRn
+	 bAoYE1++RXmodzQxuvH2Pq3+Vf2xVA1nuyWb9ucleVLCeCt2Fd5pOPfEuedQwP8MgW
+	 d9f/kiDOTZnnQ==
 From: Thomas Gleixner <tglx@kernel.org>
-To: Pranjal Shrivastava <praan@google.com>, iommu@lists.linux.dev
-Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, Robin
- Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Mostafa
- Saleh <smostafa@google.com>, Nicolin Chen <nicolinc@nvidia.com>, Daniel
- Mentz <danielmentz@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
- linux-arm-kernel@lists.infradead.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, rafael@kernel.org, Danilo Krummrich
- <dakr@kernel.org>, driver-core@lists.linux.dev, Pranjal Shrivastava
- <praan@google.com>
-Subject: Re: [PATCH v10 08/15] iommu/arm-smmu-v3: Cache and restore MSI config
-In-Reply-To: <20260908171712.356645-9-praan@google.com>
-References: <20260908171712.356645-1-praan@google.com>
- <20260908171712.356645-9-praan@google.com>
-Date: Tue, 08 Sep 2026 21:56:33 +0200
-Message-ID: <87pkyn1pqm.ffs@fw13>
+To: Zhu Ling <zhuling0805@qq.com>
+Cc: Zhu Ling <zhuling0805@qq.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Radu Rendec <radu@rendec.net>, Pavel Machek <pavel@kernel.org>, Len Brown
+ <lenb@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo
+ Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH] genirq/PM: Re-enable chained interrupts after hibernation
+In-Reply-To: <tencent_EB4BC71944911E53F173CF6B5D92EB1AA908@qq.com>
+References: <tencent_EB4BC71944911E53F173CF6B5D92EB1AA908@qq.com>
+Date: Tue, 08 Sep 2026 22:07:25 +0200
+Message-ID: <87mrtr1p8i.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -50,67 +46,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Tue, Sep 08 2026 at 17:17, Pranjal Shrivastava wrote:
-> +static void __maybe_unused arm_smmu_resume_msis(struct arm_smmu_device *smmu)
-> +{
-> +	/* Clear the MSI address regs as they reset to unknown value */
-> +	writeq_relaxed(0, smmu->base + ARM_SMMU_GERROR_IRQ_CFG0);
-> +	writeq_relaxed(0, smmu->base + ARM_SMMU_EVTQ_IRQ_CFG0);
-> +
-> +	if (smmu->features & ARM_SMMU_FEAT_PRI)
-> +		writeq_relaxed(0, smmu->base + ARM_SMMU_PRIQ_IRQ_CFG0);
-> +
-> +	if (!(smmu->features & ARM_SMMU_FEAT_MSI))
-> +		return;
-> +
-> +	if (!smmu->dev->msi.domain) {
-> +		dev_err(smmu->dev, "msi_domain absent during resume\n");
-> +		smmu->features &= ~ARM_SMMU_FEAT_MSI;
-> +		return;
+On Sat, Sep 05 2026 at 23:27, Zhu Ling wrote:
+> Chained interrupts remain enabled across suspend because they can be part
+> of a wakeup path. Consequently, suspend_device_irq() does not set
+> IRQS_SUSPENDED for them, and they do not have IRQF_FORCE_RESUME accounting.
+>
+> After restoring a hibernation image, the interrupt controller can have a
+> chained parent interrupt masked while the restored descriptor still marks
+> it started and enabled. For example, the restore kernel may initialize the
+> controller without probing the driver that installs the chained handler.
+> resume_irq() skips the parent in this state, leaving interrupts from the
+> devices below it blocked.
+>
+> Pass the hibernation restore context from dpm_resume_noirq() to the IRQ PM
+> code and force active chained interrupts through the existing force-resume
+> path. Set the disabled and masked state before enabling the interrupt so
+> that cached descriptor state cannot suppress the irqchip callback. Calling
+> irq_startup() alone on an already started and enabled interrupt can skip
+> the hardware access when the descriptor also records it as unmasked.
+>
+> Leave disabled and unstarted chained interrupts alone. Keep the existing
+> behavior for ordinary resume, hibernation thaw and recovery, and the early
+> syscore resume pass.
+>
+> Fixes: 0a0c5168df27 ("PM: Introduce functions for suspending and resuming device interrupts")
 
-If dev->msi.domain == NULL then arm_smmu_setup_msis() already cleared
-the MSI feature bit. Has it magically been set again or does resume run
-before init or does dev->msi.domain magically disappear during suspend?
+This fixes nothing than a theoretical problem hallucinated by a LLM and
+we don't fix hallucinations.
 
-I'm all for defensive programming, but this is voodoo and not structured
-defense.
-
-Aside of that dev->msi.domain is the patently wrong condition. For
-devices which instantiate a MSI device domain dev->msi.domain points to
-the MSI parent domain and not to the actual relevant device domain.
-
-You can't query that easily by chasing pointers (for a reason), but
-there is no point to do so. See below and the patch I sent you.
-
-> +	platform_device_msi_rewrite(smmu->dev, smmu->gerr_irq, arm_smmu_write_msi_msg);
-> +	platform_device_msi_rewrite(smmu->dev, smmu->evtq.q.irq, arm_smmu_write_msi_msg);
-> +
-> +	if (smmu->features & ARM_SMMU_FEAT_PRI)
-> +		platform_device_msi_rewrite(smmu->dev, smmu->priq.q.irq, arm_smmu_write_msi_msg);
-
-And that's exactly the point I made about sprinkling this stuff all over
-the place and thereby violating all layering rules.
-
-Done correctly this whole function boils down to:
-
-static void __maybe_unused arm_smmu_resume_msis(struct arm_smmu_device *smmu)
-{
-	/* Clear the MSI address regs as they reset to unknown value */
-	writeq_relaxed(0, smmu->base + ARM_SMMU_GERROR_IRQ_CFG0);
-	writeq_relaxed(0, smmu->base + ARM_SMMU_EVTQ_IRQ_CFG0);
-
-	if (smmu->features & ARM_SMMU_FEAT_PRI)
-		writeq_relaxed(0, smmu->base + ARM_SMMU_PRIQ_IRQ_CFG0);
-
-        msi_device_domain_restore_msi_msgs(smmu->dev, 0);
-}
-
-It just works simply because the function returns early when there is no
-domain or the domain is not a MSI device domain, which is correct
-because there is nothing to do when nothing is set up.
-
-But that results in too comprehensible code I fear.
+If that would be a real world problem then this change would cure the
+symptom and not the root cause.
 
 Thanks,
 
         tglx
+
