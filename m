@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D441550DB4;
-	Tue,  8 Sep 2026 14:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D775F55198D;
+	Tue,  8 Sep 2026 14:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788878970; cv=none; b=IemcyUmXgY1rKgYK/ENoNltEU2LpeLm/70aBnCVsrIRt3XSC2tC54KyWHfcGNJZixACwSJZ3rSw+lISj+rCbwwscoEm2ZNipw+6ABzDz/aIwNXNlpFL23w5BuuhvtyWhdw8qNzFzdvJp39TBfZ5TXYGJ4Dzqn9lXc4ObxrqDXaA=
+	t=1788879272; cv=none; b=LbOzp0UYEcNpODCE1g5bvSTKGXS4TrKg8GIKFA89kDmBgBMAclwn3O9OEZoHITA9hp9PodrUd0ctOfSbaYBWfp1OZPYzJJ1OHk4Y9ms1dkr3aZ766bbkoAfcTXincG9Ne0CZs3+Z2ZFqBhw1k4+NbqQCokvS69Cj4q/xcphM9E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788878970; c=relaxed/simple;
-	bh=7V8CrmpXDLAhOVIxzHUIE/UKXXpXvOlcR0d4qZnkIuE=;
+	s=arc-20240116; t=1788879272; c=relaxed/simple;
+	bh=5dw+qryRZikNmVIug02/kxEYHij5l2GQHcY87VBu5d0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DaBgSLAkZt/M3fE3evwfkdn56YMPXRGkBh6RljEws8iWQmgaF2tP3N1Qf86snhhd2kvGNdipWzHmgzK2msXPgejLm6bB8q3nsRIkiozXGMbAAqhstd/9ZW5lOlYeXo1Ft6w2oYC6+OrDawzKr0dJ/UWho6KrJmIEIsat9zqTOqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgR6fPXa; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=omcJpIczCnNnPvxb73ZF19Kcr26w5QrdpZSgKxOvnggMN098cGOy82yiN4CBv6YBxEgLrnnrdMEQZ57su59whmKVJ23A5fDWyPRgiSbEkYRo5a7RgJx0jYhIDFuIa8s3TE5yCs+8vEbeNRZXkt8Iy6tEicK8CokDA88wzIz5yrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmmjITwc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgR6fPXa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2C11F00A3A;
-	Tue,  8 Sep 2026 14:49:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmmjITwc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55E371F00A3A;
+	Tue,  8 Sep 2026 14:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788878950;
-	bh=+nE21pL7H2FPRV1VMx6YOpTaxK8YgRZmCUIsMOj3+4s=;
+	s=k20260515; t=1788879267;
+	bh=p5WMwhg5DWow/AzfvIAJ1KWuszYxFKNXszGIEaapODA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bgR6fPXaN7LxBuSjYNbY+7KFpWBckDJgp7D/lRKJsHuLoikVRR6x+SbAyB5fWcvXX
-	 VRlsRkYebcKkNhnBKDhA2akq5BItSIxQ0dU8wZqjixuCDcHVt3+Z+PzuwCGtFMWuaj
-	 EVcGPPWLjD8xCqLW0qYfU7YVWO3LCpdKxKHmPOHbWrferJDsRkuQrmMUIn/dO5+BEN
-	 JYCVl74VfYNn+1GKVXIs0tKOwiAOMdqEpVQ2mcZHI/ggdM4S8zt8kSujb5BuDM54nz
-	 9ll5z2OSbJ3lA5Vd7luLGBIWWyaQC/1f0ZzPrYuTqKRILPw5cO/Y1GIcweECS2g8Ft
-	 6n57jRaCI9PBQ==
-Message-ID: <2083d2e3-9e59-4c70-a79c-d8133316769f@kernel.org>
-Date: Tue, 8 Sep 2026 16:49:05 +0200
+	b=JmmjITwcKZ872d/zkzogQVodHJbxPEP5NvmPMwv2FRJbAa7NwrzOtaj9bOnjj0shu
+	 JCRBIdmkOX7ElWna4dxd6E2wNJ7lYHdYZ2oexXodgVaKoj8anQKtqLBwrlNvDZnQc0
+	 nGnWG+cvaVtD/ZxxUpK1pf5wdic/nDswHiIR+L/LDMs/PDtStJKOMaPhbcN5/hkP7f
+	 DOqA9zj/yMgOroEbONlvgKxJgR5mNO9vjFJh3UODgg6jsXnh+PPI0QodUlPAF3uEXB
+	 TWbs9xiR9QKjupBN76v1WWtlWnpWyJHzip2skVlWEFTmXgeBGSuyKbTrw1kXHYq87I
+	 FPjb2ip9D6ZRw==
+Message-ID: <3d212544-d955-41c6-8589-6c3d6c6f7b75@kernel.org>
+Date: Tue, 8 Sep 2026 16:54:23 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,11 +35,11 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] w1: use match() callback instead of hardwiring
- dev->driver
+Subject: Re: [PATCH 2/3] w1: move slave uevent into w1_slave_device_type
 To: Danilo Krummrich <dakr@kernel.org>
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20260820225430.1847356-1-dakr@kernel.org>
+ <20260820225430.1847356-2-dakr@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -85,40 +85,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260820225430.1847356-1-dakr@kernel.org>
+In-Reply-To: <20260820225430.1847356-2-dakr@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 21/08/2026 00:54, Danilo Krummrich wrote:
->  static const struct bus_type w1_bus_type = {
->  	.name = "w1",
-> +	.match = w1_match,
->  	.uevent = w1_uevent,
->  };
->  
->  struct device_driver w1_master_driver = {
->  	.name = "w1_master_driver",
->  	.bus = &w1_bus_type,
-> -	.probe = w1_master_probe,
->  };
->  
->  struct device w1_master_device = {
->  	.parent = NULL,
->  	.bus = &w1_bus_type,
-> +	.type = &w1_master_device_type,
->  	.init_name = "w1 bus master",
-> -	.driver = &w1_master_driver,
->  	.release = &w1_master_release
->  };
->  
-> @@ -195,8 +208,8 @@ static struct device_driver w1_slave_driver = {
->  struct device w1_slave_device = {
->  	.parent = NULL,
->  	.bus = &w1_bus_type,
-> +	.type = &w1_slave_device_type,
+> The bus-level w1_uevent() only ever added uevent variables (W1_FID,
+> W1_SLAVE_ID) for slave devices.
 
-This code is disabled, so probably should be cleaned up before we start
-improving it.
+I don't follow why only for slave. I see the w1_uevent() being part of
+w1_master_driver and so on as well.
+
+> 
+> Move the slave uevent logic into w1_slave_device_type.uevent where it
+> naturally belongs and remove the bus-level uevent callback entirely.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+> Compile-tested only, no hardware available.
+> 
+> I think the dev_dbg() stuff wasn't really  useful, so I dropped it.
+> ---
 
 
 Best regards,
