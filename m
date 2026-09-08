@@ -1,112 +1,335 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D775F55198D;
-	Tue,  8 Sep 2026 14:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51899592213
+	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 17:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788879272; cv=none; b=LbOzp0UYEcNpODCE1g5bvSTKGXS4TrKg8GIKFA89kDmBgBMAclwn3O9OEZoHITA9hp9PodrUd0ctOfSbaYBWfp1OZPYzJJ1OHk4Y9ms1dkr3aZ766bbkoAfcTXincG9Ne0CZs3+Z2ZFqBhw1k4+NbqQCokvS69Cj4q/xcphM9E0=
+	t=1788887838; cv=none; b=YkBTHdBAoVPnFOeoYZwWl45kWzfJxjz1eVtfojv135NJ3i/VyWE7kO1PlNWlyJP24f8USrfwk/PiVaUA2ZP6c1uzrlaV8XeyC4TMAF8hYfj7gLzA+eF7qMrkfm3ZRKGywmZRHD4r1fEBTRTAe3vIQlbek9pkQormYUQeuFsEC4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788879272; c=relaxed/simple;
-	bh=5dw+qryRZikNmVIug02/kxEYHij5l2GQHcY87VBu5d0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=omcJpIczCnNnPvxb73ZF19Kcr26w5QrdpZSgKxOvnggMN098cGOy82yiN4CBv6YBxEgLrnnrdMEQZ57su59whmKVJ23A5fDWyPRgiSbEkYRo5a7RgJx0jYhIDFuIa8s3TE5yCs+8vEbeNRZXkt8Iy6tEicK8CokDA88wzIz5yrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmmjITwc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788887838; c=relaxed/simple;
+	bh=h43DnnhMQfQnK6k+MSV6OppCdhfA5oBXWgGpBRgylHY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=i9FDh9qrmwvm6FA4z6akCXNm7S2zqhI9cowxiYheG4pQIsc+AzEHCcEd8KSsw9gI8yYsYSlbxr6VKcpvdZgrmB5xRP7jROGALdBPSfg7kMXOuGY1V4gNPLKFRNQUNSuEqDRt5bXpNMPG4Ebske9QhRJLyV3VFnpGX05CSTH5IDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ah8U3aSJ; arc=none smtp.client-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmmjITwc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55E371F00A3A;
-	Tue,  8 Sep 2026 14:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788879267;
-	bh=p5WMwhg5DWow/AzfvIAJ1KWuszYxFKNXszGIEaapODA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JmmjITwcKZ872d/zkzogQVodHJbxPEP5NvmPMwv2FRJbAa7NwrzOtaj9bOnjj0shu
-	 JCRBIdmkOX7ElWna4dxd6E2wNJ7lYHdYZ2oexXodgVaKoj8anQKtqLBwrlNvDZnQc0
-	 nGnWG+cvaVtD/ZxxUpK1pf5wdic/nDswHiIR+L/LDMs/PDtStJKOMaPhbcN5/hkP7f
-	 DOqA9zj/yMgOroEbONlvgKxJgR5mNO9vjFJh3UODgg6jsXnh+PPI0QodUlPAF3uEXB
-	 TWbs9xiR9QKjupBN76v1WWtlWnpWyJHzip2skVlWEFTmXgeBGSuyKbTrw1kXHYq87I
-	 FPjb2ip9D6ZRw==
-Message-ID: <3d212544-d955-41c6-8589-6c3d6c6f7b75@kernel.org>
-Date: Tue, 8 Sep 2026 16:54:23 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ah8U3aSJ"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2d02df2bf09so41528465ad.0
+        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:17:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788887835; x=1789492635; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tRT38o+RtNqhdho8KKvzNcE3k2cnMG1WINooE8PBOzY=;
+        b=ah8U3aSJTMLzMuFWlrBuIMWJUKC1S2s82FTfqvnygazU1pNM1ZnB37fUSmlWefNYAJ
+         4233PYJkNyHjH68GAA692W75IP5WC4XKjkHJPeJRP6Ogz0MiHq3K1EgnQNQ9d0pFwggO
+         jVDkWb37V6aZZbXa0I91UK2xKR8stOvImUXAiWR3Eb5HM2zmt7jhSTXbSR4c5QNfpVwQ
+         K7ytGiwFmwkvwP9TsU1dILLsujjdv21bleq0OkvJ0WCZ5v4D3wHOIRcnVtmtYz+ypGP1
+         WEmD7IHFqZoLXv4K9OfUudNYBUj/bs1HWguzQDNHf1CCZs1tbrHQaVf19ALdgMmXldAV
+         c1fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788887835; x=1789492635;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tRT38o+RtNqhdho8KKvzNcE3k2cnMG1WINooE8PBOzY=;
+        b=cKJaohXd2wJbof6RgEheA3s43n4d+iQz7mNAhvOxIT0cZwTHvgG8EUxln4RNHKFi6R
+         wHEAZFRNfjwgVK6jL8y5R7o4ood81EmFtiU37ZUWTzyQh/mgwscgxcdh2xqcChL0XmMm
+         XnMnT0AhyqqYRTngQ47okq4uA/I6L0atO9DXrJMuKPEwvwWCGV8LNXuLFFIhFfo8LcsC
+         kMsW+rIHe/+CamlXa8Aku9xTDlOtvOYQz/s5VZRRJ7potsjKn7VxPJzdWFUwhzgB+a2Z
+         znqRFI+6RL0ifygJJAl4Uib028nQAlRPQ7gs95XMwLOwh3aHlwERgWenuXHIFMfejMIM
+         +beQ==
+X-Forwarded-Encrypted: i=1; AKwUvBztfMoBW2Ot/IiIrTo3My/GCB+RkEcxVc5GgjR2a9n7ud77FTD2oiBQ6j0t0zjW0k65EK0dm9c5brSEXA==@lists.linux.dev
+X-Gm-Message-State: AFuF++l5rcrVR/CzJV0/ERUjtYRRDqpu+a7R4oEPW+Qdb7LghyfHPq5g
+	MpoqY9IpYksgDTz4j1rQgm6+GJRematbsJQUbT4u0coIn/UtiWf6lEX3R1HkzsJkWhovZJoOttt
+	GZA==
+X-Received: from pltt2.prod.google.com ([2002:a17:902:d142:b0:2cc:97d3:e244])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f546:b0:2d3:7c58:b0e1
+ with SMTP id d9443c01a7336-2db1212aa5bmr442361605ad.0.1788887835100; Tue, 08
+ Sep 2026 10:17:15 -0700 (PDT)
+Date: Tue,  8 Sep 2026 17:16:56 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] w1: move slave uevent into w1_slave_device_type
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260820225430.1847356-1-dakr@kernel.org>
- <20260820225430.1847356-2-dakr@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260820225430.1847356-2-dakr@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
+Message-ID: <20260908171712.356645-1-praan@google.com>
+Subject: [PATCH v10 00/15] iommu/arm-smmu-v3: Implement Runtime/System Sleep ops
+From: Pranjal Shrivastava <praan@google.com>
+To: iommu@lists.linux.dev
+Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Daniel Mentz <danielmentz@google.com>, 
+	Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
+	Danilo Krummrich <dakr@kernel.org>, Thomas Gleixner <tglx@kernel.org>, driver-core@lists.linux.dev, 
+	Pranjal Shrivastava <praan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 21/08/2026 00:54, Danilo Krummrich wrote:
-> The bus-level w1_uevent() only ever added uevent variables (W1_FID,
-> W1_SLAVE_ID) for slave devices.
+As arm-smmu-v3 rapidly finds its way into SoCs designed for hand-held
+devices, power management capabilities, similar to its predecessors, are
+crucial for these applications. This series introduces power management
+support for the arm-smmu-v3 driver.
 
-I don't follow why only for slave. I see the w1_uevent() being part of
-w1_master_driver and so on as well.
+Design
+======
+The arm-smmu-v3 primarily operates with in-memory data structures
+through HW registers pointing to these data structures. The proposed design
+makes use of this fact for implementing suspend and resume ops, centered
+around a software gate embedded in the command queue.
 
-> 
-> Move the slave uevent logic into w1_slave_device_type.uevent where it
-> naturally belongs and remove the bus-level uevent callback entirely.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
-> Compile-tested only, no hardware available.
-> 
-> I think the dev_dbg() stuff wasn't really  useful, so I dropped it.
-> ---
+1. CMDQ Gate (CMDQ_PROD_STOP_FLAG)
+To safely manage runtime PM without regressing performance on high core
+count servers or systems not opting for runtime power management,
+this series introduces a CMDQ_PROD_STOP_FLAG (bit 30) in the command
+queue's producer index. The flag acts as a Point of Commitment in the
+cmpxchg loop of arm_smmu_cmdq_issue_cmdlist(), ensuring no new indices
+are reserved once suspension begins.
+
+2. Suspend / Resume Flow
+The suspend operation follows a multi-stage quiesce sequence:
+  a. Stop Traffic: Sets SMMUEN=0 and GBPA=Abort to halt new transactions.
+  b. Gate CMDQ: Sets the CMDQ_PROD_STOP_FLAG to block new submissions.
+  c. Command Flush: Waits for any in-flight "owner" threads to commit
+     their reserved indices to hardware.
+  d. SW Quiesce: Waits for all concurrent threads to release the shared
+     cmdq->lock, ensuring no CPUs are left polling CONS register.
+  e. HW Drain: Polls the CMDQ until all committed commands are consumed.
+  f. IRQ Quiesce: Disables hardware IRQs and waits for racing handlers to
+     complete via synchronize_irq()
+
+Entering the suspend sequence implies that the device has no active
+clients. In v8, a surgical state-correction is added to runtime_suspend:
+if draining fails, the software trackers (cons and owner_prod) are forced
+to align with the masked producer index. This voids any stale commands for
+the next session and prevents deadlocks or spurious executions upon
+resumption.
+
+The resume operation clears the STOP_FLAG & performs a full device
+reset via arm_smmu_device_reset(), which re-initializes the HW using the
+SW-copies maintained by the driver and clears all cached configurations.
+
+3. Guarding Hardware Access and Elision
+The driver ensures the SMMU is active before hardware access via
+arm_smmu_rpm_get() and arm_smmu_rpm_put() helpers. To maintain code
+clarity, invalidation call-sites no longer perform manual elision checks;
+instead, elision is authoritative within the CMDQ submission path.
+
+The renamed helper, arm_smmu_is_active(), is preserved only for
+critical diagnostic (ATC), early-drop (Page Response), and gerror
+short-circuits. For ATC invalidations, devlinks must guarantee the SMMU
+is active if the endpoint is active; a WARN_ON_ONCE() catches
+inconsistencies.
+
+4. Implementation-Specific Quiescing (Tegra VCMDQ)
+Implementation-specific gating and draining are consolidated into
+a unified quiesce_and_drain_queues callback. The tegra241-cmdqv driver
+is updated to gate all active local virtual queues (VINTF0) before
+draining.
+
+5. Interrupt Re-config
+a. Wired irqs: The series refactors arm_smmu_setup_irqs to allow
+separate installation of handlers, aiding in correct re-initialization.
+
+b. MSIs: The series caches the msi_msg and restores it during resume
+via a new arm_smmu_resume_msis() helper.
+
+c. GERROR: Late-breaking global errors are captured and handled
+immediately after SMMU disablement during suspend to ensure no diagnostic
+information is lost.
+
+Scalability and Performance
+===========================
+A key design goal of this series is to ensure that high-performance
+systems (typically servers) that do not enable runtime PM are not
+penalized. By embedding a stop flag in the command queue's producer
+index and designing RPM helpers to perform only read-only checks when
+RPM is disabled, command submission on these systems incurs negligible
+overhead. Power-managed systems only utilize runtime PM atomics as
+necessary, ensuring that scalability is maintained across all hardware
+classes.
+
+Sashiko Reviews and Documentation
+=================================
+The series was run through Sashiko locally. In response to the review
+feedback, extensive verbose comments have been added across the series to
+thoroughly document hardware/software synchronization invariants, memory
+ordering dependencies (Point of Commitment, dma_wmb vs. smp_mb), and
+devlink power guarantees. Several edge-case race conditions, unmasking
+bugs, and resource leak paths were also addressed.
+
+[v10]
+ - Picked up common drain helpers from Nicolin's PRI series v3 [1].
+ - Introduced platform_device_msi_rewrite() in platform/msi core
+   (suggested by Jason).
+ - Fixed the stale interrupt issue caused by calling arm_smmu_setup_irqs()
+   early in probe (as reported by Sashiko in v9) by passing a bool to 
+   arm_smmu_device_reset() to ensure irqs aren't set-up again on resume.
+ - Fixed a CMDQ gate bypass race where threads waking from 
+   poll_until_not_full() could commit commands after STOP_FLAG was asserted
+ - Fixed a masking issue in __arm_smmu_cmdq_issue_cmdlist() & tegra241-cmdqv
+ - Added tegra241_vcmdq_wait_quiescent() to wait for in-flight owner threads
+ - Fixed VCMDQ drain loop error handling to continue draining remaining
+   queues rather than abandoning them on timeout (pointed by Sashiko in v9)
+ - Explicitly zeroed *_IRQ_CFG0 registers during resume as they reset to
+   unknown values.
+ - Cleared ARM_SMMU_FEAT_MSI on MSI setup fallback to avoid spurious
+   MSI rewrites on resume.
+ - Retitled GERROR patch to "Factor out arm_smmu_handle_gerror()" for clarity
+ - Handled devlink creation failure in arm_smmu_probe_device()
+ - Added checks for the retval of arm_smmu_rpm_get() in 
+   arm_smmu_disable_action() & arm_smmu_device_shutdown()
+ - Clarified rationale for asynchronous put in teardown and shutdown paths
+   where hardware has already been explicitly disabled.
+ - Documented safety of eliding ATC invalidations during suspend based on
+   PCIe link power states and devlink guarantees per Jason's comment.
+ - Fixed stack timer lifecycle in KUnit tests using timer_setup_on_stack()
+   and timer_destroy_on_stack(), and resolved mock register endianness.
+ - Added extensive verbose comments across the patches explaining locking,
+   synchronization invariants, and devlink power guarantees based on local
+   Sashiko review.
+ - Collected Reviewed-by tags from Jason Gunthorpe.
+ - Rebased onto latest arm/smmu/updates
+   [1] https://lore.kernel.org/all/cover.1788222485.git.nicolinc@nvidia.com/
+
+[v9]
+ - https://lore.kernel.org/all/20260728210928.1050849-1-praan@google.com/
+ - Replaced atomic_fetch_or_relaxed() with atomic_fetch_or() for
+   correct ordering while asserting the STOP_FLAG
+ - Moved arm_smmu_drain_queues() after the cmdq->lock wait loop in
+   runtime_suspend() as per feedback in v8.
+ - Refactored suspend sequence to use arm_smmu_disable_irqs() and
+   synchronize_irq() for safe GERROR handling.
+ - Fixed an off-by-one error in suspend polling timeouts.
+ - Dropped arm_smmu_cmdq_can_elide() check from inv_range
+ - Renamed arm_smmu_cmdq_can_elide() to arm_smmu_is_active().
+ - Removed redundant bitwise masking from owner_prod reads.
+ - Added comments to explain locking, gating and elision better.
+ - Added comments to explain secondary cmdq draining and gating.
+ - Rebased on arm/smmu/updates
+
+[v8]
+ - https://lore.kernel.org/all/20260601215909.3958732-1-praan@google.com/
+ - Centralized elision logic: dropped redundant checks from invalidation
+   call-sites; elision is now authoritative within the CMDQ layer.
+ - Renamed elision helper to arm_smmu_cmdq_can_elide() and preserved it
+   only for diagnostic/safety paths (ATC, GERROR, Page Response).
+ - Consolidated implementation-specific gating and draining into a
+   unified quiesce_and_drain_queues callback.
+ - Updated tegra241-cmdqv to gate virtual queues before draining,
+   addressing non-deterministic timeouts from guest-side submissions.
+ - Re-ordered probe sequence to enable pm_runtime only at the end,
+   aligning with SMMUv2 and simplifying error paths.
+ - Refactored KUnit tests for better, addressed Nicolin's comments & added
+   a multi-threaded kthread race test.
+ - Refactored RPM helpers to use early-return patterns for improved clarity.
+ - Collected R-bs from Nicolin.
+
+[v7]
+ - https://lore.kernel.org/all/20260527221407.1756491-1-praan@google.com/
+ - Rebased on the latest arm/smmu/updates branch (which has the removal of
+   struct arm_smmu_cmdq_ent merged)
+ - Converted manual cmpxchg loops in suspend/resume to use atomics
+ - Re-worked to elide invalidations solely based on the CMDQ_PROD_STOP_FLAG
+   via arm_smmu_can_elide(), dropping any need for pm_runtime_get_if_active
+ - Added an smp_mb() fence in the reset sequence to ensure that the SMMU
+   acquires all RAM updates made by newly un-gated threads before SMMUEN=1
+ - Implemented bitwise masking for the PROD register to prevent software
+   metadata (STOP_FLAG) bits from being written to physical hardware.
+ - Introduced a KUnit test suite to verify the CMDQ gating algorithm
+
+[v6]
+ - https://lore.kernel.org/all/20260414194702.1229094-1-praan@google.com/
+ - Replaced the atomic nr_cmdq_users counter with CMDQ_PROD_STOP_FLAG
+   to eliminate atomic overhead on high-core count servers.
+ - Implemented a 5-step quiesce sequence in runtime_suspend including
+   pipeline flushes and software completion barriers.
+ - Introduced arm_smmu_rpm_get_if_active() to elide TLB/CFG/ATC
+   invalidations when the SMMU is suspended.
+ - Added WARN_ON_ONCE() in invalidation paths to detect inconsistent
+   power states for active endpoints.
+ - Refined batch submission in __arm_smmu_domain_inv_range() to ensure
+   clean state when dropping batches.
+ - Refactored GERROR handling for better integration with suspend.
+ - Added Suggested-by tags for Daniel Mentz.
+
+[v5]
+ - https://lore.kernel.org/all/20260126151157.3418145-1-praan@google.com/
+ - Refactored GERROR handling into a helper function and invoked it during
+   runtime suspend after disabling the SMMU to capture any late-breaking
+   gerrors as suggested by Jason.
+ - Updated `arm_smmu_page_response` to be power-state aware and drop
+   page faults received while suspended.
+ - Included a patch from Ashish to correctly restore PROD and CONS
+   indices for tegra241-cmdqv after a hardware reset.
+ - Collected Reviewed-bys from Mostafa and Nicolin.
+
+[v4]
+ - https://lore.kernel.org/all/20251117191433.3360130-1-praan@google.com/
+ - Dropped the `pm_runtime_get_if_not_suspended()` API in favor of a
+   simpler, driver-specific biased counter (`nr_cmdq_users`) to manage
+   runtime PM state.
+ - Reworked the suspend callback to poll on the biased counter before
+   disabling the SMMU.
+ - Addressed comments for the MSI refactor.
+
+[v3]
+ - https://lore.kernel.org/all/20250616203149.2649118-1-praan@google.com/
+ - Introduced `pm_runtime_get_if_not_suspended` API to avoid races due
+   to bouncing RPM states while eliding TLBIs as pointed out by Daniel.
+ - Addressed Nicolin's comments regarding msi_resume and CMDQV flush
+ - Addressed Daniel's comments about CMDQ locking and draining
+ - Addressed issues related to draining the evtq and priq
+ - Dropped the code to identify and track user-space attachments
+
+[v2]
+ - https://lore.kernel.org/all/20250418233409.3926715-1-praan@google.com/
+ - Introduced `arm_smmu_rpm_get_if_active` for eliding TLBIs & CFGIs
+ - Updated the rpm helper invocation strategy.
+ - Drained all queues in suspend callback (including tegra241-cmdv)
+ - Cache and restore msi_msg instead of free-ing realloc-ing on resume
+ - Added support to identify and track user-space attachments
+ - Fixed the setup_irqs as per Nicolin & Mostafa's suggestions
+ - Used force_runtime_suspend/resume instead as per Mostafa's suggestion.
+ - Added "Reviewed-by" line from Mostafa on an unchanged patch
+
+[v1]
+ - https://lore.kernel.org/all/20250319004254.2547950-1-praan@google.com/
+
+Ashish Mhetre (1):
+  iommu/tegra241-cmdqv: Restore PROD and CONS after resume
+
+Nicolin Chen (2):
+  iommu/arm-smmu-v3: Add Q_POS() macro
+  iommu/arm-smmu-v3: Add arm_smmu_drain_queue() helper
+
+Pranjal Shrivastava (12):
+  iommu/arm-smmu-v3: Refactor arm_smmu_setup_irqs
+  iommu/tegra241-cmdqv: Add a helper to drain VCMDQs
+  iommu/arm-smmu-v3: Add a helper to drain cmd queues
+  platform-msi: Introduce platform_device_msi_rewrite()
+  iommu/arm-smmu-v3: Cache and restore MSI config
+  iommu/arm-smmu-v3: Factor out arm_smmu_handle_gerror()
+  iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to gate CMDQ submissions
+  iommu/tegra241-cmdqv: Add a helper to quiesce VCMDQs
+  iommu/arm-smmu-v3: Implement pm_runtime & system sleep ops
+  iommu/arm-smmu-v3: Enable pm_runtime and setup devlinks
+  iommu/arm-smmu-v3: Invoke pm_runtime before hw access
+  iommu/arm-smmu-v3: Add KUnit unit tests for Runtime PM
+
+ drivers/base/platform-msi.c                   |  37 +
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  20 +-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c  | 215 ++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 721 +++++++++++++++++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  29 +
+ .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    | 128 ++++
+ include/linux/msi.h                           |   2 +
+ 7 files changed, 1113 insertions(+), 39 deletions(-)
 
 
-Best regards,
-Krzysztof
+base-commit: df2908090cda368b01ff43709f51890076c56157
+-- 
+2.55.0.979.g7e5102b832-goog
