@@ -1,56 +1,56 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90285947E3
-	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 17:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD0B526AB1
+	for <driver-core@lists.linux.dev>; Tue,  8 Sep 2026 17:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788887849; cv=none; b=IMRKMJTG0Aq37Y9NtKdZ4cb8RkDVVN9jBWLY/IxS6kMzadDbLORfAPh6sZtEr32QHSoIVvWEJnKpzChz6YbQiRS93lJiZYTYHJYzwceq3ZFfp2YaMO6Wq+oZim4ZSeuLiauykJMR1hkaWTGP3icTCNzyuSR8ZDJ6DDvNN7sGnws=
+	t=1788887853; cv=none; b=jbBdrumKdcCeKXuh67YmZmEcVfYLGlu1ghZvbD+lO9rJ70MRGeCxSsT/YmKCoYTjyotqOfFdP3KPZpLBvjYaNbxlaCEDwi6wUWhCeCOYF/OcDbcxk9Pr2YXPzwN4e+sXik7Cp/WuUS1CsFt8TeoU6BGVFQxZiMI/n5uyzEpR/BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788887849; c=relaxed/simple;
-	bh=EeYRFuvs47t7QOAuP3JxTQjUsoFMrh6fRaikF9pBwaU=;
+	s=arc-20240116; t=1788887853; c=relaxed/simple;
+	bh=vMT/cJ3zaoQMUvK8SnLuLj7FZMK4HGZ4xexVkc4OlV4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=o56bNFsvwT1qAYJgyPfQDqt1GPLqXSUbE8bJV/Z8rPYZcmtut+hA2tATAQOrjzwnRIqGbuX38tIPi/7W7YLCK7FLPInbgV76j66Tb1ZDCSu0dm/7Y4BQIhAyQL2HnxLeFnuAOO+aAQcVsijl+iV+31p5w36GtIw/jwduLb0VbVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Upb9TR4L; arc=none smtp.client-ip=209.85.210.197
+	 To:Cc:Content-Type; b=oLV6qQYSiL2ev8loLyuSRKJPyYcsW2AHZZr1NTK0kfx00Q2xa8O8GPPcGjWetCJbvczN4Yy9HI9iGqoBrqYjkFagKfXiOx6WZ1xQ9BgOtK8KNrs3brWJELHVAMuTCmzXstdSsClkqU04t2V8BD9mLpC6EYFGLKKGAmRSgNcGlOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hSE7pGfH; arc=none smtp.client-ip=209.85.216.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Upb9TR4L"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-862728814fcso976151b3a.1
-        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:17:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hSE7pGfH"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so6021805a91.3
+        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 10:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1788887847; x=1789492647; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1788887849; x=1789492649; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jmQT3ZxOmdEiP4LKePsQlSnKUdnPc41UVBmmgnCjG8M=;
-        b=Upb9TR4LuFB0zPapn0cm6x8AKqnieQ1/AxWc2QbAEYHSTaqtPoIlPhaKETlM+//qgf
-         kQcOEWQovO7YXw6EjUk4d9XB4Grh9jDHgKYwtywRGP4SNG2pVVJ40vWVC3HoJ2kWU725
-         mr2AZ8AVsoBLI/hB/KcaRF7E+sPYOF3O69MH0bTzSJs5pIRPI1gOCguSEsyfKtA7lTr/
-         A+76jVfSlmHz4Rq4k3xgYbCcwOHsj9jnybQB5+RcVPRCQwg59P8vqCM+upGPxHz8R0oT
-         NOmgVi0czGDDGcoLBD8TwCyUTlXflLvjSd6pTpmMbQpzBgRqh3YGkbdXR4BJI9TvvXG7
-         crCQ==
+        bh=0XsMPvOE3afXsZVMyFMwLpKgTSpBthouLl9Pg3MA9sM=;
+        b=hSE7pGfHeFP8M5esD8fzrXaMKwtrp5r0jsxAyJSz3REh8RqsM+/S61Dt+bYvYk4el1
+         vPr/RYlv7Re+1kmRPyxh/RjaEOsK9nSsuvXbrDZmZyvEA0Ma9FLcA6X2aCY6RiysrbB7
+         FGxIqz/y8M4fIwNflvoxMxkxrjSJ1EZDPOWSmuIU5Atyh1cMTpYTGjFDO+KlY7HAzLiw
+         6vw/aIsgWEPUOifZ14EwE019h2tct63c/D54kGoS61P5JwO3RUZdisJqOSf1gRlLen3b
+         qRhPcBN1tkgVhee+eoVEfegkFjFQ19Hq+eRlS4uyFvp3wwXAD4BOGFXSKWczcGsePo7W
+         ZPaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788887847; x=1789492647;
+        d=1e100.net; s=20251104; t=1788887849; x=1789492649;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jmQT3ZxOmdEiP4LKePsQlSnKUdnPc41UVBmmgnCjG8M=;
-        b=FtThnQICR7+RnKpwobgfsPAbloEXpy3yLzgNB6NwDB4fHcjaoLCwnL7bQeZt1B3f3n
-         Ile4BS6dhIl7rzRsGQeugocxseLNF6Bjk4BxBFnloj5XeILFScl+zwKl+8wXXv+ZJ8JH
-         fdw8LBadTRLV8GFfkXR40X/ArgUPmFgqZkXg7pAgmfE0mCv8tJ0CJGz9hLDCQBn30jdW
-         /h4EuWc4CqOsSBlhRbAeF9z/ogawB87HOg04AxIf1YQNndksi0QtbTZ/tU00OnYJuCWP
-         m1MuM7kG8mOXasvrZnp8iRYHHeb0dhIcy4ilqB3i+p9I+L2pnH20JTBqskccdv9exCvk
-         bpsA==
-X-Forwarded-Encrypted: i=1; AKwUvBy0jJIo5XkfHttuBOuM/mKV1eg4+S41jTOskS5DSAkNcdMzS2+JMIzwQDQQDQhMDGM7e/PqH0NM0/sLiw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nsnlh2b2pKAlWJd9355OSga7SHpCs0SJ+faUK3l0q2g97UNELl
-	pKC/CzF09RzminEWIuRzuYK3/S1ZKUAB73+ikgGPrE3TWBgcdT6ixaWCT/b1NFJY11q5CbXTEL8
-	YiA==
-X-Received: from pfbhw1.prod.google.com ([2002:a05:6a00:8901:b0:851:d12e:df63])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:338d:b0:857:73e2:9104
- with SMTP id d2e1a72fcca58-8616be5fd03mr41477096b3a.20.1788887846875; Tue, 08
- Sep 2026 10:17:26 -0700 (PDT)
-Date: Tue,  8 Sep 2026 17:17:01 +0000
+        bh=0XsMPvOE3afXsZVMyFMwLpKgTSpBthouLl9Pg3MA9sM=;
+        b=Yul/amDQhmdRcSh2Jb5Tbx2KzTdwimIk2ztxTU1C4OiFB2qCCraT71B+rjvNTx7ceC
+         om+ukvgaTL/lssFCRCbqPNCfz691ED54BPf+kQACcXA2ghBH/jZeFQVDjF4ZvY0n/JIm
+         kqc1ChLgE1SXUoEc6y3jPAm1UC55NaGuzxVRtabjaEvKrMWppbwqQ+d06Sn6dd/EYkX/
+         QqORcMQWXN3XgaSlxVHwwGUnTsIhUyx1ekM9mmc9VVXq0DBumud0vUadCRb+juSaw8YA
+         E+QH4IrnnBsZ6xK7jsxvlyFkw4bwt46RknyND85CnWEQkQVE8dZz+Za6oytsdjrAW8t0
+         Etwg==
+X-Forwarded-Encrypted: i=1; AKwUvBzSTHCZG1xvnYgyNEFx5OzSWj3F+MnEsYI+pvlNq/xm8g8KhF/ch6cNUSCHsACHkWJjvcZvtxKivz38LA==@lists.linux.dev
+X-Gm-Message-State: AFuF++l6MCNPdlyesn1atyLtjfZLdbyJZROv1EWjNHEs71s6YHFH/hH1
+	tKefhckLq2nioPbAbmPlory22YgYXfKWihrWbeeki0+Q6cBK8Aque6d9yYa4kxNsXa2JJHzXqPd
+	PXw==
+X-Received: from pjbmv24.prod.google.com ([2002:a17:90b:1998:b0:39b:4485:d746])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:528e:b0:38e:ad9d:1161
+ with SMTP id 98e67ed59e1d1-39b25ee67f0mr45919989a91.0.1788887849350; Tue, 08
+ Sep 2026 10:17:29 -0700 (PDT)
+Date: Tue,  8 Sep 2026 17:17:02 +0000
 In-Reply-To: <20260908171712.356645-1-praan@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260908171712.356645-1-praan@google.com>
 X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
-Message-ID: <20260908171712.356645-6-praan@google.com>
-Subject: [PATCH v10 05/15] iommu/arm-smmu-v3: Add a helper to drain cmd queues
+Message-ID: <20260908171712.356645-7-praan@google.com>
+Subject: [PATCH v10 06/15] iommu/tegra241-cmdqv: Restore PROD and CONS after resume
 From: Pranjal Shrivastava <praan@google.com>
 To: iommu@lists.linux.dev
 Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -70,59 +70,44 @@ Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
 	Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
 	Danilo Krummrich <dakr@kernel.org>, Thomas Gleixner <tglx@kernel.org>, driver-core@lists.linux.dev, 
-	Pranjal Shrivastava <praan@google.com>, Jason Gunthorpe <jgg@nvidia.com>
+	Pranjal Shrivastava <praan@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Before we suspend SMMU, we want to ensure that all commands (especially
-ATC_INV) have been flushed by the CMDQ, i.e. the CMDQs are empty.
-Add arm_smmu_drain_cmdqs() that drains the command queue using the
-arm_smmu_drain_queue() helper.
+From: Ashish Mhetre <amhetre@nvidia.com>
+
+PROD and CONS indices for vcmdqs are getting set to 0 after resume.
+Because of this the vcmdq is not consuming commands after resume.
+Fix this by restoring PROD and CONS indices after resume from
+saved pointers.
 
 Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Ashish Mhetre <amhetre@nvidia.com>
 Signed-off-by: Pranjal Shrivastava <praan@google.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 27 +++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index d809b625f7fb..dc2fc02b5163 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -1028,6 +1028,33 @@ int arm_smmu_drain_queue(struct arm_smmu_device *smmu,
- 	return -ETIMEDOUT;
- }
+diff --git a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+index a394bf0f487f..c7989fcd2c62 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
++++ b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+@@ -567,6 +567,16 @@ static int tegra241_vcmdq_hw_init(struct tegra241_vcmdq *vcmdq)
+ 	/* Configure and enable VCMDQ */
+ 	writeq_relaxed(vcmdq->cmdq.q.q_base, REG_VCMDQ_PAGE1(vcmdq, BASE));
  
-+/*
-+ * Lockless, the caller must ensure that no concurrent command submissions
-+ * can happen (such as during suspend where clients are already quiesced).
-+ * Polling until PROD == CONS ensures all pending commands in the queue have
-+ * been consumed by the hardware.
-+ */
-+static int __maybe_unused arm_smmu_drain_cmdqs(struct arm_smmu_device *smmu)
-+{
-+	int ret, err;
-+
 +	/*
-+	 * We skip cmdq locking here since this helper is only called
-+	 * from contexts (like suspend) where the caller has already
-+	 * ensured that new command submissions are fully closed.
++	 * HW Registers reset to 0 when power-cycled. Restore them from their
++	 * SW copies to prevent executing stale/ghost commands after resume.
++	 * Note on RPM: Power-cycles can never happen when VCMDQs are assigned
++	 * to the Guests since the relevant frameworks (IOMMUFD / VFIO) hold
++	 * active PM references preventing suspend while VMs are active.
 +	 */
-+	ret = arm_smmu_drain_queue(smmu, &smmu->cmdq.q, true);
++	writel_relaxed(vcmdq->cmdq.q.llq.prod, REG_VCMDQ_PAGE0(vcmdq, PROD));
++	writel_relaxed(vcmdq->cmdq.q.llq.cons, REG_VCMDQ_PAGE0(vcmdq, CONS));
 +
-+	/* Drain all implementation-specific queues */
-+	if (smmu->impl_ops && smmu->impl_ops->drain_queues) {
-+		err = smmu->impl_ops->drain_queues(smmu);
-+		if (err)
-+			ret = err;
-+	}
-+
-+	return ret;
-+}
-+
- static void arm_smmu_page_response(struct device *dev, struct iopf_fault *unused,
- 				   struct iommu_page_response *resp)
- {
+ 	ret = vcmdq_write_config(vcmdq, VCMDQ_EN);
+ 	if (ret) {
+ 		dev_err(vcmdq->cmdqv->dev,
 -- 
 2.55.0.979.g7e5102b832-goog
 
