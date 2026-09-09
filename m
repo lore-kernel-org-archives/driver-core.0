@@ -1,220 +1,186 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022080.outbound.protection.outlook.com [52.101.101.80])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182AC57C72B
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 14:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788964055; cv=fail; b=q1yeiEbC2SSb7we25LGYvPjfZXiuw0dsE3byBdKuaNc5QCV6ZPG1eUumtUAMr8iWRD+pauYZWQm+6wSP1fxLV7QZJUOZBa/RSUtcBOY918AyOySjPSaRng/Gz2rfqTu0RJeU5aQrNARpLIrkj3E6IWEq+to1p15XgztfVWS+Bdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788964055; c=relaxed/simple;
-	bh=NAxMHPVkYMpKuG8nm+dSQvNYDP3TrIMajQ0ZZJrXQcY=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=tI43zBZeghhbn9/48IqN/6EpARQj/W/xyfsczZQcUkkynM6riXzlj43Q01lcK69mKRtjhtLLejHZRwH+EU+gfrHXg7g30IjJ7+3Xyp4pzbIp4Xp8KlUA9vLicNAobqVQdMRY8D3wZUq531WWXd/guDhXuzQYOlEvP0SdP7lV+Tg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=veh6BxPU; arc=fail smtp.client-ip=52.101.101.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96D55C327
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 14:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788964834; cv=none; b=dBD2hTKKd0ZgiuuJ9JcsWfR1ldLuR43E0kTxG5z7oC0cRmwbnSXDNmMkcyNPigcSXyKIf4EkjaHoC5uaAaaE3rgYKeFqOqOd8jOuVbf7W51X+N7u65HvQjUDJ5Ie3RnjJzzWjD26DNJnpmrQnXqEnNS4jyA5hZ7yeBOr4D+Bx0M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788964834; c=relaxed/simple;
+	bh=ncH773zu9pb68ueH4PuldOxRJVltvE/gmWzndPjXc+k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fA1uS5YDU1bnl+HVGTXf4UA12+gEVZscW/tmOCzp0vak2EgiYlPFGTZK/6c2AnwBPAEzldJkAdN+d0i0h+OKh3DTtdTW5JDcH78ICKQfCNx1WYHiDURv6GnwPuo2BBYrzw8J86JX1CFyynv36fn4UfJorQPbUkINLqAnieYux/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pv4l5QIg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZQXQ+/se; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="veh6BxPU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HiZJkS4bHPfqcwv2ao7b7oyG5tXXU5pZVv/0kCnONPEobmRQpiKJEl49zVYmmKC4xD7G73UCrG3TjekqXxmQOJW3em1x2FIaXMiZHb1X78TAYEwlJrXzDiILTNuphVc6VNfpoIxheFyd0mfH8vErXm8eRuaWFZjyXt8hzIEomXD7nesTl9ue4br7fDVte01uxotNgFM01hz3Z4OhCXh6wjqm1Ooks2jnvEGkD2nJ0qd1D+Rvr2usTpzl8WtdHxKbjmUck/fi226qIp57wugHevujKpM+L0pi4ErTvUbUdSt2EOKRMmeMZ4hP7f7nv88FV3+y7VeZLs4V0gVSLJ32vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ICdaOXurcO8yokYU8VvslJnbNAsfHus4vn8G0lbY/SY=;
- b=KJnigDquQfuFsqtkdb8JD+8JDZGNOqJ5uCWfa0oTbQTT6xYG3jsJ3FRU6ev1bnw42cpcBmdqZldSlJ5OHlr2ZOX7dWIS9PaGUda2sCR07miKJVo+AhXxG9NEwtdsS2ejD6CPVI/5sEt1VkbTNXg3mEXKe/3/6TscJIxuYDsVsgH8g5QMLOX13l6uv0CG0JCf/jhzzu8tuCWMcEq8FEsUxret7tl2ntlhmIBaqIsUkprUZ6YB6XdBuw0ReNnySKSvZ9qPnlWfT4el+lXuWhSRPo7yFEer9DctGXGAEmf0r3VUfDJ3v7v93TIIBCuQoLG+TltoChVxPIzLLIgEVRxvZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ICdaOXurcO8yokYU8VvslJnbNAsfHus4vn8G0lbY/SY=;
- b=veh6BxPU5rPz0g3P+9/p468TkGYnxy+bw96kBM5Kox0/ocvIQwsNTE4IZesCNoRzwAaym50bDCbIm28IZkVcSc1Wgpc/IQz7FcSmBvma2u1ziuil9kDNGBLOE9S7fQFO9a94Jqo2BolDpgjIH/ZL3hWzwDY0Xgrtkbj0WAVsyww=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LO9P265MB7566.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3ba::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
- 14:27:30 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0406.005; Wed, 9 Sep 2026
- 14:27:30 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Sep 2026 15:27:28 +0100
-Message-Id: <DLAUTUHIBW2P.3DI59ZSIQRI8K@garyguo.net>
-Cc: "Georgios Androutsopoulos" <georgeandrout13@gmail.com>, "Rafael J .
- Wysocki" <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira
- Weiny" <iweiny@kernel.org>, "Leon Romanovsky" <leon@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] rust: auxiliary: validate DeviceId name length
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.22.0
-References: <20260909033246.2779303-1-georgeandrout13@gmail.com>
- <2026090955-lustfully-fanning-33f9@gregkh>
- <DLAR1ECFC1WO.8NOBWPL6WM8E@nvidia.com>
-In-Reply-To: <DLAR1ECFC1WO.8NOBWPL6WM8E@nvidia.com>
-X-ClientProxiedBy: FR4P281CA0183.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::6) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pv4l5QIg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZQXQ+/se"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689BU4Kh2171694
+	for <driver-core@lists.linux.dev>; Wed, 9 Sep 2026 14:40:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wYpdvRYRq+NgDR2+bAGysqVrNIbeZhE6Rp8OwLP/TiM=; b=pv4l5QIg63CJ8cz6
+	uxg1ZcSuMQ8RNGqQgtV0FUaFN98nG2qEGqPgoJUA1J6NRrXIMO/RPTSdLWYUjfb0
+	8WqijyAFSRCaQYGWIQV9USbTPvuF8FKk+GfgAQzWGQNgRSqNzUDGsMlLS/XjPufj
+	26ZYb1bAhrKT+CMez3BsgNxfZgt2mI1FenKu5RtpHPdmlxZOSUKpI70wApwkvdfT
+	9RUAUN7LlnzRAw5ZDj2jpGix2sDnS0BjEjkSrNJh0T4Esn2/mmPspSBaB+cOfK7v
+	oandqRb02zfa6XzOrHaeYGmSvyYwozB5PoessXG8AHW0s2D0oAvvDGmifFNwDln5
+	5fmvhA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gk5rgh0bq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 14:40:31 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39b6416441eso6703769a91.1
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 07:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788964831; x=1789569631; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wYpdvRYRq+NgDR2+bAGysqVrNIbeZhE6Rp8OwLP/TiM=;
+        b=ZQXQ+/seXPOeMMgobkL5ZyyoIgFrEEosLbYM9M+wRgd7+/f/JAKwf9Gb9vCU+U7xsy
+         +iyVRgfkDcP/cP2WDKn2pYGAXw0f+X0Kcidrv+h4bwjdaSN/H+0Y9YcFyJ1sDKRn0NvY
+         jv73j+VJFcB+zM8Pp9tkFDqjrv3+2EOzgTco1/8TYM/N/bnq6nXmUViRgzsNUS3zXqLU
+         tT/BJVLe5Jp5L6CNFf9awcGreEEI7Pg0OrjFZF8sP1FDs+pE3VHNcQlNG+QmZT5jT1gK
+         r7O1CfV9+ifPWt3Klq4RSnj25VNVL+UWYjXfBjA6h6s3X5Zk/lt1QygTzC9tunZmr3eX
+         gkqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788964831; x=1789569631;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wYpdvRYRq+NgDR2+bAGysqVrNIbeZhE6Rp8OwLP/TiM=;
+        b=de2lLx34Th7EoIbJLzNZf0xFvCZSPyK5u1fPeATI8JfBlsXYh+LRPfo5TCqbULYjPz
+         W0/BrTpUxEMI2QOCouc92+xbzG8sPjHXV8mXDC73GHP579ZIVfXiR/EgtrN+UowKxYTm
+         xBYGZaHbryDJKJPM5idqvhMG95lCeGQQdEmbiSkTgC72TmNwC8iCIzQRtiv49rbV+IMc
+         D8aO4ItN1bZKbcMNwa+OTc2YRco9Jac8y8Q/FNtZU8vuMEdu3oT2QJCsb5zme19FqKI4
+         1oV2Gn6KNkMIzoli8YXQrrMa9LRcFFNfgVXLIXoStnrME2NT8JE2YWE7f5dfwALT/tAX
+         Btrg==
+X-Gm-Message-State: AFuF++lQuIa59+Ixa8QLWhbCrgjNaY9tGxaiR0sCWQzJNu1HX25IBxEd
+	P/XJDKzF60cNLK6P2icAoUckYkV9lrHrsxbP8VI19W2JrIGpwuJrSs4eHAGv2jQBKjr8uvV6x6A
+	1vshP+VPsMxTilvqbyjwMpSVytpzRNqqQPZZzcWNmeYdHJxhHT3IN+S081OwDEpdkFRtzaza+rw
+	==
+X-Gm-Gg: AYBFou103Nd/xiMiD5akjbVnI4p0Cmj1X7tlcy7k9RSQLAbbfY22e9ApQk/guXsp32v
+	jgPlFqCQLZcgILT3TS6q05/ihscFDF3d+Ai+F490UuX1XTlnHUlejs9W6Sjek/WXT6J19CLYXOc
+	+wGrvHp+P29CHWiMx0QRfXJLG7lgQ8t4ypGRlDCHe5VEU4nSpDapGpBMObPyU+8ev7YnSWVFoja
+	LFKrCl5ma5KeCpBYvTkoq9RnEtDjE6A297x4GD3Vf6HmWZjgsj4oaLHAPHmB6GOIs0UmOLJ8RgX
+	nRAuAcE3JNHJ8Jl/hhgNxzmzIANMkQ0oYUkC4wF6bePi5eqQSZq5N5tm45R/EXsFlpSEg6B62jx
+	4CQKwjncGDVyo9ZKRtp9V8vSOQV75qzQXqW5h2B+JJjCgmWDbNFfI57Za8UUQxhie+DA4AgZWSt
+	yO1DRzLzFttGKjF00=
+X-Received: by 2002:a17:90b:268d:b0:398:b71e:60c1 with SMTP id 98e67ed59e1d1-39d70ae1201mr1775750a91.12.1788964830426;
+        Wed, 09 Sep 2026 07:40:30 -0700 (PDT)
+X-Received: by 2002:a17:90b:268d:b0:398:b71e:60c1 with SMTP id 98e67ed59e1d1-39d70ae1201mr1775688a91.12.1788964829977;
+        Wed, 09 Sep 2026 07:40:29 -0700 (PDT)
+Received: from [10.50.42.20] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08c397b1sm38218933a91.8.2026.09.09.07.40.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 07:40:29 -0700 (PDT)
+Message-ID: <b01a3558-9107-4271-bdf0-6c3d548cef09@oss.qualcomm.com>
+Date: Wed, 9 Sep 2026 20:10:21 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO9P265MB7566:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3c902c6-25f4-4de7-a8c0-08df0e7e7b02
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|23010399003|376014|7416014|1800799024|4143699003|10067099003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	S5cykv89jeLIkSZ/a/+AWL+K8uIX1KCSztoZVNpGbJ0sOJksKxdWzT/8qQnlGiXGe3kOyhKKK/yvejGMVbNxJcBD55oD55R3Yd+sDLVIRhxhjocU1jbth7Rkp3HczlQlA8A6ZWFF8dQ3uyyOsLYhOpM7d1nP/KCONlPCW3HoZbvHjSYYITksSA5iUh8Ks5nv0VgPPw2KpNI1sN58OrjMBHnSTLwl6S/AR7wqZPMv5srmzPwv8m9LHzRxBVGqTxrpdCpxIi9m/sy4a/yEHaIIrIGRvu1oG10fjvf+t03VwEKTi4aT6Nyol+4P7/PZ4/wOILKrxR6veuTcAXwQnZXbhYteFqgBgtiVrbXxdFIjKOPSz/mBk2qm9eI19mAgJwqw/YJg/TavI2vUZPZJ1dDMhRDq8Q6rpVh4Z6lnlOnMwoqsbVsCvy9H4bSuqyyXtSZ6wgDF2R89yJ1pX1DKxAa6p+CH8au60HDcFW4Pd7pyWJp7N7O83genLV5K1RDbyxF7JxOU2Pgr8CpUHgDAp3Qxc1f8jIYfEBFr/8qAdj2/OgtZGgFESskeSSjNVxNSj7l8Brhyzi5YFPBvB6eKyzlGskmou7CgAtZad5TL1wY3eS32I2aR9nwsHlVHdMcRFjqbCudoJSxuKtGbIRSktOsCKHIjVCEP3fgJiIb5bHuAwi4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(23010399003)(376014)(7416014)(1800799024)(4143699003)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M2dWczhWMGovTlJoTmhBbnJzL2N4REJCOHgyRXpXTE10MFNCcVFKSGtWbmdB?=
- =?utf-8?B?eUllMzVOaGJMSk55VVZvc1k5R0VvUnB5ZWsxN3hFK0tkVC9KRUVxR21ZQmFq?=
- =?utf-8?B?Um5jaW1GaUZacWo4VGhKclVLQ0UvYk51ajVuK2lEM2hnU1JmYStOZHFDcXZj?=
- =?utf-8?B?Tm1tTVRCL3l3cjdCblhla1cxRjF4TDh6dkg5UzBsQllKQ0FKSko1WGVsWmRv?=
- =?utf-8?B?eGxXbkRkQit2OHpIZW84RGl3Vmx3dExKK29QaW5aQlYzUFNHYTVnU0JNS0g4?=
- =?utf-8?B?bjZrbEhJY01wK0I4eDRQOTZNUUg4b3JTTUx5b3lwcVhRZ25WRGJHTldTNFVq?=
- =?utf-8?B?UzlKa25kUWp2RkdtcGh2YkwzbVdIUEhtRGcwOWZUY3ArODZzK2VvNFlEZEph?=
- =?utf-8?B?amxSZWhBMkp0TEZTMlhCYmRXM2JNcTRicG9OVXhLNFZCRVVBbGZhbnVvVzl2?=
- =?utf-8?B?MFdRQ0grNURNeWRUTU5Fa1ZrZWhTOVM0OXZ6UFBOaXUzWUVWUFRhYk9xZU5y?=
- =?utf-8?B?T2c0RUtWU1R6RHJqbUhqdE9zbnFhSzBrNGFreHRRQStiTDc2LzRlZmJoRUJw?=
- =?utf-8?B?N1ZKcmtRNjVCeGk0RURzdDd3Qk85K3dNMjVmdGZXTzV3ZnhJaHZ0ajM4ZmZ1?=
- =?utf-8?B?a21VTmpMQm1PZ2FxSm1lZXhjZVlPK3FkdUpmWGdET1BjYWViS1NmRW1TZHdv?=
- =?utf-8?B?aXBpaUVPWWhhMTNqNkdqSkFvNU80dGFHMmtPMWlPVzM4QTg5bHZFNExva0tI?=
- =?utf-8?B?cFMybUhCVFNMYmRDQVpXbStSdjJXWE01Uk11S3BVUEVMOHVVVCs3b2F3bHdJ?=
- =?utf-8?B?RTBhNWNodkFoRDlqdi9yaHNCNjRIWnBnejVnN05Wc3BCejRiN0VZbktGZFIr?=
- =?utf-8?B?U2JaaTNnQzNPSlI4K1dWZk8xYXd0OHN2aWpCV01Dc2RQbnFGUDcxaHdZZHBV?=
- =?utf-8?B?bXcxL2p5UE54M3I5ZHphQTZOVk1MZWVRck5Cc2xwSXJSRnpnUWdaRENkNHlu?=
- =?utf-8?B?aUwzRlExTWlmN1BuUXBVb00zRUVIbEp0RzdsWkp2UFo1QlZSbDJBbDY4UUt4?=
- =?utf-8?B?ZFpSaFM4V2JiYUJqVWlxVU1QSWI3dklVNHoxUEVjZnQxc09aajFmckFhTkVM?=
- =?utf-8?B?NUlkUDRibktPOHFsTDU1c3NlTFFTSUY4c3lwZEV0TjZTd1diNFV3d2lqbDNL?=
- =?utf-8?B?UXFzNGRRKzFjdXBTd29VMUlCaTVIY2R6QXIvcTJZMVdUeWtTNXV1eEhCQ09y?=
- =?utf-8?B?Sm42S2tpd0JpdlNidjJnQ1hSYlJZemFQVm1jQ3ZPMDN5SXFHOEdqWWU1KzZV?=
- =?utf-8?B?Zzc3bkpwSFBOeWozazM3MHVjWmJrWVNJeUhyZ2tUVzFMc1NTeEU1UXRYeFVr?=
- =?utf-8?B?VURXaldVSGJiS1FDdlVLTHo0b1VOYjFMUkVoUDErUVROdEUxRnJVUmFUS3pI?=
- =?utf-8?B?d0N2WDhxbHRMTXBESW94c3BUUUp5Q0pSb0xHdUZ3WWRyQUJUcEp3UDJDQmkr?=
- =?utf-8?B?NmZEWnBRS25xZDFyTEVkMFNtbVkvZlRzMnpvWTB3Vy9FMDVBSE9FQnJ4UHNu?=
- =?utf-8?B?SHFrd1FRNzg4VlhUKzEzSEVnM2twMUJRc3Y2L2N5YVdrYVNua2tOam40ckxi?=
- =?utf-8?B?dnB1VlByY3NSVDdBYnN6eGU1S3k1MTVoMGh6VTY0OTBPUmlsek5sTHJvL3p1?=
- =?utf-8?B?VTFXUHJ0NWxyR3NmdlY3RUJCYVpPcFh3YXlybnNHdElzVTI5WHRnWVhITVg3?=
- =?utf-8?B?MUNYUG83Y0orUElPd0F0OHd1TUhsTWFDSTJjYlZxNDRhWXRHWVJaUlNLTzhi?=
- =?utf-8?B?b3dEWFlZYU9wNzE2VlRLUDUveDA0SW5LSEtVTlJNN1lRMkUzQzRjNERyNVRS?=
- =?utf-8?B?N0Z3azk4TUpnMlNkY2plVkFLbHQ3b3kySkxzRmhSYlNCME9NZUdkTTZkUExO?=
- =?utf-8?B?c0ZXS2daZHZ0azMxOFVKdlQ1UGZRWDdVQ2l5ay9oRU1MV2s4WWZPdTBwekhk?=
- =?utf-8?B?R3duVVc0WUxMQXJzUzRYZS9vVDVJSVlDc2F0Um1LU1JrcmtjSlFua21VbDNz?=
- =?utf-8?B?N2I1cE9IRGdZYlpxWWs3Y2lzeTFJcGl6Y25ITk5ldDdyT3RJZFZseVVYNTdw?=
- =?utf-8?B?QXM5RGZ6akdyQitweWNmY25IM3VaUjd1M1JyRUFxZ084dlREdmVmWWNXN0Iw?=
- =?utf-8?B?cTR0NGJFMnA1eHlrL0FTaVlORXpaV0c1MWZLdC84cTZlbUVZLzVSSEpaSFlQ?=
- =?utf-8?B?SHJqeW9QT0lscHAwNnF3cUVtZEJ1OUQrNWkxOVk1a3h2aGpMdkRKclJ3cG5G?=
- =?utf-8?B?N3MrYjlzUVNFNTMwejVKMDJ0V05NeDExTEpCekxWZ2FFRit5U2hrdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3c902c6-25f4-4de7-a8c0-08df0e7e7b02
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 14:27:30.3086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MKZLbEmB5mzwwpKLtnpJgU3dB0jyNWZeU2QyGKHQzIfPKSv67zClsU9VD4jmVPDdUsXrwD2ag3B7Tb0t1l3GMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7566
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] driver: core: add subsys_platform_driver() to reduce
+ boilerplate code in drivers
+To: Brian Masney <bmasney@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jerome Brunet <jbrunet+clk@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com>
+Content-Language: en-US
+From: Pankaj Patil <pankaj.patil@oss.qualcomm.com>
+In-Reply-To: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfX9m4B21wcMr7S
+ jNj0fHOacuyFtl8QQeYdHjmAH4wce3Bk8Cu3nvVbDr26QPAPVhmQM9N7E7BS7Lr7/dF4j3mQxK/
+ 6kZPv5bbyq2llpmwLRSAjZNbkGv/ohI=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfX2qwj/drNxT5b
+ iAl08UXQfpysW4XZ03+hVni8zpAKhSwmlSEsu9qupuTWSAEZHjWV5cHZ/EPEeCGzclF+YIrEu6O
+ eQR2irwWCr9K2whzEvspg6FD5uKZQJxZ0zzMX13ANp/N3o6Drph3l5n5h3C5dWzbjsicmt0Hs7q
+ RstoDjv5PFDnqN8t92sZXwrKxuCzAXx0F83zBtufzkhIwGv1KLLwkyOOCchEg5gv5AS6mkuYiJA
+ EIpS2bfwc337rwdb+nZYrz6MLhM47kj2/1gyWp6fQUSulcsxG1dY/N/DukDJTei0g1DZvjsOnh/
+ WERcrK8BweJxt1bQWQvBMfzoilbh6ez2EsRLV5XHCNGpfbzh8ZMlFv32Yo+PiwHkGdXgqr7kWVs
+ JVlgB1YMGdYrRZmbAk1tx4MWXI4rfefLNFGpDOp53c9lga92JGUgxDaXpM5axWqZBBIpCmiZ2C2
+ 0AgzjZhuJ+bL0kw4SJg==
+X-Authority-Analysis: v=2.4 cv=B6qJFutM c=1 sm=1 tr=0 ts=6aa16fdf cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=_6l-rGU-S9tz05y7jW4A:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-GUID: 4q5gBYp4BbkC4Anx-6yHt1elP9JgPHAG
+X-Proofpoint-ORIG-GUID: 4q5gBYp4BbkC4Anx-6yHt1elP9JgPHAG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_03,2026-09-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609090163
 
-On Wed Sep 9, 2026 at 12:29 PM BST, Alexandre Courbot wrote:
-> On Wed Sep 9, 2026 at 4:19 PM JST, Greg Kroah-Hartman wrote:
->> On Tue, Sep 08, 2026 at 11:32:46PM -0400, Georgios Androutsopoulos wrote=
-:
->>> `DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
->>> `auxiliary_device_id::name` array without checking that they fit. An
->>> oversized name is caught by the array bounds check, but the error
->>> reports an out-of-bounds index in the copy loop rather than the
->>> constraint the caller violated.
->>>=20
->>> Check the invariant explicitly instead, so the failure states the lengt=
-h
->>> limit rather than an array index.
->>>=20
->>> In a constant context exceeding the limit leads to a build error; at
->>> runtime it panics, so add a `# Panics` section for it.
->>>=20
->>> Fixes: ce735e73dd59 ("rust: auxiliary: add auxiliary device / driver ab=
-stractions")
->>> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
->>> ---
->>>  rust/kernel/auxiliary.rs | 10 ++++++++++
->>>  1 file changed, 10 insertions(+)
->>>=20
->>> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
->>> index 60dfbec8f330..1f3ba86d6d96 100644
->>> --- a/rust/kernel/auxiliary.rs
->>> +++ b/rust/kernel/auxiliary.rs
->>> @@ -137,10 +137,20 @@ macro_rules! module_auxiliary_driver {
->>> =20
->>>  impl DeviceId {
->>>      /// Create a new [`DeviceId`] from name.
->>> +    ///
->>> +    /// # Panics
->>> +    ///
->>> +    /// Panics if the combined module and device name, including the
->>> +    /// separator and trailing NUL, exceeds `AUXILIARY_NAME_SIZE` byte=
-s.
->>>      pub const fn new(modname: &'static CStr, name: &'static CStr) -> S=
-elf {
->>>          let name =3D name.to_bytes_with_nul();
->>>          let modname =3D modname.to_bytes_with_nul();
->>> =20
->>> +        assert!(
->>> +            modname.len().saturating_add(name.len()) <=3D bindings::AU=
-XILIARY_NAME_SIZE as usize,
->>> +            "auxiliary device ID is too long"
->>> +        );
->>
->> We really shouldn't panic, we should error out and fail the creation
->> instead.
->>
->> But what is placing the constraint of the name size here?  The C api
->> just takes a pointer, it doesn't care about the size, why does the rust
->> binding care?
->
-> Note that this is not a runtime panic, this method is only ever called
-> in const context by the `auxiliary_device_table!` macro, so a panic here
-> translates to a build error. The current code also panicks if the name
-> is larger than the target array, but it did so when the array was
-> accessed out-of-bounds, with a more obscure error message. What this
-> patch does is provide a better error message for a condition that was
-> already checked.
+On 9/8/2026 11:17 PM, Brian Masney wrote:
+> There are a fair number of clk drivers that are registered at the
+> subsys_initcall level since some clk drivers need to be initialized
+> early for other drivers. Let's add a new macro
+> subsys_platform_driver() similar module_platform_driver() to eliminate
+> some boilerplate code in the drivers.
+> 
+> This series converts the Qualcomm and Renesas clk drivers to show the
+> code savings that can be achieved. Once this lands, I'll convert the
+> remaining clk drivers this development cycle if all of this can go
+> through the clk tree.
+> 
+> Outside of drivers/clk, there are 364 drivers that use subsys_initcall
+> and I am willing to convert those as well starting the next development
+> cycle once this lands in Linus's tree.
+> 
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+> Brian Masney (4):
+>       driver: core: add subsys_driver() macro
+>       driver: core: platform: add subsys_platform_driver() macro
+>       clk: qcom: convert drivers over to use subsys_platform_driver()
+>       clk: renesas: convert drivers over to use subsys_platform_driver()
+> 
+>  drivers/clk/qcom/dispcc-x1e80100.c     | 12 +-----------
+>  drivers/clk/qcom/gcc-eliza.c           | 12 +-----------
+>  drivers/clk/qcom/gcc-glymur.c          | 12 +-----------
 
-Yeah, I think the message is good, however we don't need the panic annotati=
-on
-for const-eval-only code.
+Tested on Glymur-CRD
+Tested-by: Pankaj Patil <pankaj.patil@oss.qualcomm.com>
 
-Best,
-Gary
-
->
-> So while the patch is arguably an improvement, I would suggest to drop
-> its `Fixes:` tag as it doesn't really fixes a condition that wasn't
-> already checked. Also the commit message's "at runtime it panics" gives
-> the wrong idea of when this code is evaluated.
-
+[...]
+>  drivers/clk/renesas/rzg2l-cpg.c        |  7 +------
+>  drivers/clk/renesas/rzv2h-cpg.c        |  7 +------
+>  include/linux/device/driver.h          | 31 +++++++++++++++++++++++++++++++
+>  include/linux/platform_device.h        | 30 ++++++++++++++++++++++++++++++
+>  48 files changed, 107 insertions(+), 487 deletions(-)
+> ---
+> base-commit: 944a035ecca915ae947905dcfb03f2b9dc6d032c
+> change-id: 20260908-subsys_initcall-05dfd5fb0f04
+> 
+> Best regards,
+> --  
+> Brian Masney <bmasney@redhat.com>
+> 
+> 
 
