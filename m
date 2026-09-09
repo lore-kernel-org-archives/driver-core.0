@@ -1,178 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C693CB540;
-	Wed,  9 Sep 2026 14:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDA05616C0
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 15:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788965075; cv=none; b=a7G0gssj3vyIHBaiemz4UePfAYErWIwepk10R5DST3PFfXxPzXWrZfY8GvYjWAxj1igKpubknkkUir9Jvj/JQ+TxVR8cYmGOdQG+kJLd7YfosXSRpfEH2MaHL7vxnedJc+r5d4hE87XGg+bXWLrXkDatUBpRsvpLJrjhOIWlbfs=
+	t=1788966897; cv=none; b=T3zeeFNyJFG3dtOfI5Na0tEPs5qXM/9kGv72yXTbBamIUcTKKUA7epp0M01KQrXrkk3bp0fcjXotHRixoAOEDyMAQa0/AhZ+V4/0lfVqIfqaEbYMwas9G+s3bYoglvlYsAnKMwCODSy+hTrcn6PmV59MZNcbkK6bxPpsTQrYoZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788965075; c=relaxed/simple;
-	bh=bcRwefqWL8yLZa9DFjrrXLH3J4fyyyLy/rbqxf2tVWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X6GntyzfHy1QXbLRvxmN5szwOsH0Gb5PikYe/7ek1PO7w2bRC8xuEwOXkUEclb7h4i+0yy0ODtPta0NCWOanHQKU5mL/ZFANUg09U7zc/+luQEwPNZwipllUshKTkTHcXzsg6EGlfe3dD3CPdvl+gwEBZqCIixRlYbRZqhe0Gqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPtBvy3I; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPtBvy3I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D29C1F00A3A;
-	Wed,  9 Sep 2026 14:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788965074;
-	bh=DKryHpZeZQ6KARApTW1tXfW8/qhqsgo+z43g+o2hGEw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hPtBvy3IN+9aQnyz4FjXUv2U35jR+DaFAk4MR+MsSrqQhLw/B1mnW4ZEPKZrpTdE+
-	 5Ogl8ftbNdUYWnFiaFYJWzmD8F4P3iY1EPetUNz1Wwal0BHGoCqh2+bUQ7B3jW6Ft+
-	 DBiXy07xw4822CYgZWg666kPfO+OZtSSSXG6+YMavsrtZVwj8xa6MdG2D3k8iN6zH9
-	 zPK16JXMPsihlHKcb+Oe5URKgUnWWRkpWPLTvreGXHRPgldujKKXElm7QEefThm5j5
-	 7Xh6Q+pq+YTVKa1gIiDi7gO3NOt6xZ4daMQ6uJgLDq1fpTeEQVbizUDUbF7xulthht
-	 k7g1XmTUjheLQ==
-Message-ID: <0a7c5147-c193-417d-b1e0-203d9de11247@kernel.org>
-Date: Wed, 9 Sep 2026 16:44:24 +0200
+	s=arc-20240116; t=1788966897; c=relaxed/simple;
+	bh=CECANy83eJ476WV9+m8Z1DPlG6IR5GvieLQvKQjJhkQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ClOrhJEnHKTTkjQbarC/AlK9zYMPVE1rLC23//Cj0sV8RUh9IDtQW9KTOXSGMiZd4luo5roBGDXV5Q8oT6bw9PpIuo5thTe9mCUMOD60ogOirTPDfIpoCNpBOUK682Usuz9x5JMbv9iYKFeIRBu7WhtgPoV9B+wxZJlw5CDJZoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e5168ceso142953e0c.3
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:14:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788966895; x=1789571695;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=haSiNz9f37NiWVNy2OnhpaaLVM7uwzgfEK4yu5ZD+M0=;
+        b=M/uyN0CQdKPkFwGaRBbXDHhl0QrVKCLkvF91HeZHt9G0KUowcmUrPqhKQwIX9jzF1P
+         eRaV6CKoI3rA4EMxxk0+Z3VVWbpjWDfdbxPKFaFW25lrdewJTjk2EEdL9ZM0Wsvf4hE/
+         s37V05Wq5U2PHkIReavbD1pZlzRqtdcsJ9QQjTQkVbdiBTLm8uwZv2XrY/U7SAasKp3U
+         Nv7NU0pXu1wR8aCusb28oigQyCouc0xt3noo1263IjtbvEe1aa3lueMrMHUz1N9E2w+f
+         75mhfe1MRfMq266Nv+tn4uYI82lSFqmeZZ57wgMEzru8rITcwLaU6cnz93dFMRSONfCG
+         Znow==
+X-Forwarded-Encrypted: i=1; AKwUvBzS8XUeTE2NXSIzEICgmPJVLA1Zno+SIpgwf52HcsX67mKBOV4u2h5S8SRSKQjKg58DPiU57vwmgUOAig==@lists.linux.dev
+X-Gm-Message-State: AFuF++kRaU7LJR8h6exoL7AM3X7a1zkv+8ReXK9+sO6zoy6FG2tE9Ovx
+	S0l7XCUXiRzUpazLiMzdJPnVjo6mQke8ch/52gOxnMJDuGw+ZWEa0zOwwsOmaTYzcdxOgA==
+X-Gm-Gg: AYBFou0szL4LgB9WpXM8drn3U4XSBDSV36VrgHUSGMHFUlt0u+EdGKWKm4AS+psoixR
+	MsN759a1puUGDCGvuAkX2psEi2W+OihxJ/wMQH0Wrgcd5Wesvq6LfQ6YNVvlg3uPkvxYvW9pz93
+	2dK/zL8T6AAXB3GU/KgszWWky2XepheyvL2w2XHPzg1eLqmJYjf0aMtyuqDCPfPYz4ANiWpnAUB
+	1W2SNS3/RxicgpKKnVUhyinHbB+L6X2ThXXJ03HrH4NCmIropybfY9rX8HkipsgDACNuKoKmE7T
+	t2kGGMbmpWWM0aFc+owUS7U2dORYJsZEYpmos5YDjvQ5ZXhU5v8GcODThLKPAaxNuwzZh6ZL0vB
+	eP5YW5H/QB3gN7fjYMeHeOajpX52gnl7Sp4ikMy/nP8TP5fLw1XpTXL2wrrr9yrPtEg7W2pLKsz
+	GmbpSVtDeeDWjZa/cBpoW/zHsc/CJiGIodWNlhorh19xNxQxwhQy+7pcCpLeZ4NN62ARacmmtC2
+	ukCRJ1ocXUapJJv3yTh54/NKQFh6L4ogNtO
+X-Received: by 2002:a05:6122:6141:b0:5c7:ae9a:a056 with SMTP id 71dfb90a1353d-5c8336e3e3emr1271564e0c.8.1788966895438;
+        Wed, 09 Sep 2026 08:14:55 -0700 (PDT)
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com. [74.125.227.12])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c82ec51594sm1356918e0c.3.2026.09.09.08.14.54
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 08:14:54 -0700 (PDT)
+Received: by mail-vs2-f12.google.com with SMTP id ada2fe7eead31-785643199baso134522137.0
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:14:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByTxI8eM/Yqb0gI5ZrvJ5GINSr5G7al8JEvJSAwoNGyQbwwCtXSY/JC94FsGJxb+QpAsdRlGuYGVF0bAw==@lists.linux.dev
+X-Received: by 2002:a05:6102:f9a:b0:786:7a59:a313 with SMTP id
+ ada2fe7eead31-7907800afe0mr1252914137.13.1788966889473; Wed, 09 Sep 2026
+ 08:14:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
-To: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Oscar Salvador <osalvador@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com> <20260908-subsys_initcall-v1-1-cbccf4cd4288@redhat.com>
+In-Reply-To: <20260908-subsys_initcall-v1-1-cbccf4cd4288@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 9 Sep 2026 17:14:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXKQMn_3ZeCmjdPH1KiBDc83Eodp5vhOd+yZYwz7p0sJA@mail.gmail.com>
+X-Gm-Features: AcwNN1UB2bvnyx_MDMU6btLmRb2JR3XbtnsQvALz2JEMNNgbbOmmr-5JjuTx89A
+Message-ID: <CAMuHMdXKQMn_3ZeCmjdPH1KiBDc83Eodp5vhOd+yZYwz7p0sJA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] driver: core: add subsys_driver() macro
+To: Brian Masney <bmasney@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/9/26 15:33, David Hildenbrand (Arm) wrote:
-> Let's move it to sparse_init_one_section(). However, to keep early
-> boot processing working, we also have to initialize it in
-> sparse_sections_init().
-> 
-> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
-> Probably, something for another day.
-> 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  mm/sparse.c | 5 +++--
->  mm/sparse.h | 6 +++---
->  2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/mm/sparse.c b/mm/sparse.c
-> index 2b41ae36f20b8..2d0f2db34f4cf 100644
-> --- a/mm/sparse.c
-> +++ b/mm/sparse.c
-> @@ -177,7 +177,7 @@ static inline unsigned long first_present_section_nr(void)
->  
->  void __init sparse_sections_init(void)
->  {
-> -	unsigned long pfn, start_pfn, end_pfn;
-> +	unsigned long pfn, start_pfn, end_pfn, section_nr;
->  	int i, nid;
->  
->  	sparse_extreme_init();
-> @@ -187,9 +187,9 @@ void __init sparse_sections_init(void)
->  		mminit_validate_memmodel_limits(&start_pfn, &end_pfn);
->  
->  		for (pfn = start_pfn; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
-> -			unsigned long section_nr = pfn_to_section_nr(pfn);
->  			struct mem_section *ms;
->  
-> +			section_nr = pfn_to_section_nr(pfn);
->  			sparse_index_init(section_nr, nid);
->  			ms = __nr_to_section(section_nr);
->  			if (ms->section_mem_map)
-> @@ -201,6 +201,7 @@ void __init sparse_sections_init(void)
->  			__section_mark_present(ms, section_nr);
->  		}
->  	}
-> +	__highest_used_section_nr = section_nr;
->  }
+On Tue, 8 Sept 2026 at 19:47, Brian Masney <bmasney@redhat.com> wrote:
+> Add a new macro subsys_driver() to eliminate some boilerplate code in
+> drivers that need to register earlier in the boot at the subsys_initcall
+> level.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> Assisted-by: Claude:claude-opus-4-8
 
-Sashiko says that section_nr could be used uninitialized if the loop body
-doesn't run.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Certainly a very high regression.
+Gr{oetje,eeting}s,
 
-In a universe where a machine can boot without any memory?
-
-"This could occur if mminit_validate_memmodel_limits() clamps
-start_pfn and end_pfn to the same value, or if for_each_mem_pfn_range()
-yields no memory ranges."
-
-I think this can be ignored.
-
-
-Sashiko also thinks it found a pre-existing issue when updating
-ms->section_mem_map in sparse_init_one_section() when subsections already exist.
-
-That would be the case during ZONE_DEVICE hotplug only. Likely we should skip
-the sparse_init_one_section() if already initialized. I'll add this to my todo,
-but it has low priority.
+                        Geert
 
 -- 
-Cheers,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-David
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
