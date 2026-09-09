@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0F529D291;
-	Wed,  9 Sep 2026 17:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963263382C7;
+	Wed,  9 Sep 2026 17:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788973342; cv=none; b=pj7rzG0CDgfHJs6TA79U46UfXhbzojOgoKkrjgL5DtCg8ieFSI4fZhge09wFfbR3la82ut0sWhjzdGlUM9F9PKTxMaeAOC8ufGkzkSKgu8MUoFmlmAm6opCPX+VQpXZtRDujWIyK67yXaqSDRLgKbLI7iGus1hxTLC1oSJffCJk=
+	t=1788973769; cv=none; b=aMp+Vmi6S4e9ZIBh6RXG90pLFK8p7ZkZ26kX/nLoxINz3l5x/0wZKlDsO+WbH80uC9r9IJZF+T478Y2TrZ7j+FKBN6MnufdrnzZByx/qhEv9M6BWc5u158ufyDbs0Y/u/IRn1UcTgEQkSoQSime3k5tEPY07gaAkx+wnBLy/CZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788973342; c=relaxed/simple;
-	bh=nRyjr9gAPzzEWH3ZNwWFFh2AvVacwc7h1yyJgn+T160=;
+	s=arc-20240116; t=1788973769; c=relaxed/simple;
+	bh=YkEEeW/MRCXdhGf7c9Ry6UK+yMxZQOps4Vf86kiTgks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Djea6OcPk9zpFATtn3HJHscjHNF1mLx2bWlkI2JfKkc3B1CledvRyzSG3PafihxlbZNN0bzHSRUwAzBgmZpioDeoz1cIUZUVxFMatM9wXqfeyjd47yjDGAcPt7hnuiENxjVDstAA1zM7o3ivzTxwn/LurCllFEPWx1n3t25mZzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvHsEybh; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=C92ox7WkNdibPgNy0UFptY13v+M2sXmk9wk5sBjOzdBSFB+yrwNiuIC6tbonnDIh7SSqNhN5OYrEvJ7Fbfougu0OxzYhbmyVeN1o5NV04uV2BJ/nsPFFZOSTMslx1fiA9j5lckSqB2lINoIT2crb1EZZ4Qy+mbJcuAioZmklUrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNyzfKHe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvHsEybh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8C11F000FF;
-	Wed,  9 Sep 2026 17:02:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNyzfKHe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 662051F000FF;
+	Wed,  9 Sep 2026 17:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788973340;
-	bh=DE9TKoe8bwCUSFbC5qwEZF5hRWO7Ho+OMN9J/HSOi+4=;
+	s=k20260515; t=1788973768;
+	bh=aV+nOwJ5Gj3tu2lGPRWNLzdJqg3QTrStyGxv4qGWJgU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BvHsEybhbyBhohT255O8m66DWBprZJ0jHpZJ9nttr9EfnqWParDrLvXM68xOR+ceT
-	 adjAKMH8V9z7oUDawSh03tPXtiAkiFv2rMtMIEHmy+4/hsQ9YLvQjTBofwdOi1La8k
-	 l6kv4/TGLmc5Dlm5/3Yc3+/1jTE2vH3am+N2xfd/DyQDU0bvFavz5fIi5WMyNnK9Qi
-	 8D0qTO1D+YwbX7Dize9bFAE/ROsQpb6Fkel0iR1beFJtEPXy0BMGYUAZZ5SNn8J+GP
-	 HgHLrdn6YhpuSD6BBH9uAF713ewDuN163ZtMfdRbEQz+hBIGGnvE6yZ+SUz2yEG3ER
-	 cA8EdV8lCN9Mg==
-Date: Wed, 9 Sep 2026 19:02:11 +0200
+	b=YNyzfKHeuXIUl+W/PcDxkZrDmdeG6hDakZVShiQRZ0O44JliSmf+yf1kfjBnQgVch
+	 0tBQrA472BNig++FCUMuqjk1MRmRqMi+xYDALklMdKjCvpuviMyndXZO9d31bg1BGT
+	 DEuPtbx0DZPB9A19Ix+oR8Q7NjsLYs2iSJfA49SpjWumUDl7sEL9Leth0Hs4KoEazj
+	 J43gzrNFR5NUo3aPVBvgjZXdsoc1c9u/6ACOAogC1vkflSUwZgPM3XRaiDN4NGeBa/
+	 OwDKgrxtyjjf026wXT8dlONCA7Bb9FWePmO1mOSpztlmT70NkdyBMl1y80u4Mj7Pvl
+	 kyr9Qb39RBb1g==
+Date: Wed, 9 Sep 2026 19:09:19 +0200
 From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -53,11 +53,10 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
 	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 01/12] mm/sparse: move mem_section init to
- sparse_extreme_init()
-Message-ID: <aqGREyCqExRFNCQz@localhost.localdomain>
+Subject: Re: [PATCH 02/12] mm/sparse: refactor sparse_sections_init()
+Message-ID: <aqGSv_VPT1IKGgIs@localhost.localdomain>
 References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-1-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-2-008fc8d579fe@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -66,16 +65,32 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-1-008fc8d579fe@kernel.org>
+In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-2-008fc8d579fe@kernel.org>
 
-On Wed, Sep 09, 2026 at 03:32:54PM +0200, David Hildenbrand (Arm) wrote:
-> Let's just avoid another pair of ifdef inside a function. While at it,
-> switch to INTERNODE_CACHE_BYTES by just defining a fallback in cache.h
-> as well, given that the x86 variant already provides one.
+On Wed, Sep 09, 2026 at 03:32:55PM +0200, David Hildenbrand (Arm) wrote:
+> memory_present() really identifies+prepares all early sections so the
+> initialization in sparse_init() can properly iterating them to
+> initialize metadata.
+> 
+> Let's just inline memory_present() into sparse_sections_init() and
+> cleaning up the code a bit while at it: make it clear that we are operating
+> on pfns.
+> 
+> Note that we call set_section_nid() now only if the section
+> was not already created earlier. Now, there is no more inconsistency
+> between what we (temporarily) store in ms->section_mem_map and what
+> we store in our section->nid array.
 > 
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Acked-by: Oscar Salvador <osalvador@suse.de>
+
+Not sure if it was intentional, but it seems we lost the "Initialize memory section ..."
+comment.
+Do we want to put it back? Maybe for the folks that are not really
+familiar with all the memory section's inner stuff?
+
+Besides that, nice cleanup :-)
 
  
 
