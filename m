@@ -1,192 +1,116 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A3856C63E
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 18:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED683B8948
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 19:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788979683; cv=none; b=pzEb77LHB9nWU3jjVVMCGvmh3aVMy7IHjymQGahyOqoAw1J2YWpcLahfNv33MrHVRoZMVNyRPAfBZgZaV4adBKNWY0rmsn5Ia+busKO6iEDZhm8ZQ2o5ZutkkFsytc3Zbo65hNRLwxwdPyuD1Ku62S1lRdEmHnMKYOP8OqZH6M0=
+	t=1788981516; cv=none; b=oHhhEK8bsWh0cbvPxOyVGo8S4/noBdCaDRrpoIsoixeRHNkGvyG4JMQnp2xHce70E7jLh5ztzLlMO9tzVt9x/S8Yt5A1OoWz4SUrrxT3bhRYMdJVLHeGFquy7Q8G9M+raT+vL6pwkkLWYaFRNNXoPVlyj9J+OKJYeC8gLV4yjI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788979683; c=relaxed/simple;
-	bh=X9Oj+nD6PksoVwPex46w5iUq/QwuKEh/XSsAKCLpJWI=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T9yyZXOInITGNeb9k9O6pCegfN75epaty6C0hrD8dxgvZql1HgBs6QELuPQC9oR9CHCMpfAtwC20RHcCehzQzetreGlVvomoiq9IsdhXHmeAlX48g+p/rAtZrw7pTT9eUBhUPHokbJNesldWzC6plbyIGw0wOH4f7koIXupJZVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x4NKu-0000000043S-0ekq;
-	Wed, 09 Sep 2026 18:47:56 +0000
-Date: Wed, 9 Sep 2026 19:47:53 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
+	s=arc-20240116; t=1788981516; c=relaxed/simple;
+	bh=ZBF06lf9l3jjaPsie+l2gDKg30y0nMjdFIJaDuIFA3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OjdDb4ndvFbDI05iSEr7opetpEgLFTOr4Jj8MgaJwXUi6Fxl/bVGXNoE9A529T+qEGtWTRQYQ/1T4sZyY3Q/LCj7zj8w65CHxbsLsJtM3z2ZJLfxusHpDLBwbFDCazWQqvWthgVPBf6QZTJ8v589DzeKotnxWWxfuCk98KQivbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtf/qACy; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtf/qACy"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso59486335e9.1
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 12:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788981512; x=1789586312; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cQp1h+Nea1dCnGwxCQ5G9ZglVlG59gCPu/u14By/urM=;
+        b=mtf/qACyESSZ3qzSBcfsq3QskSWNn+w5FfrjZzUba9vjTGZpWCUGX3NMmOBWB5dAOC
+         jDarD9DOb4c7BGB+3V5IDfzDcr5ij7p2cbZDvbS9wVViWRHzcW++a74VdTnGPhjvVLRs
+         jEBXHT3Ohk4GLNK0kcG9lesCWDj3uGWK1KxvSCxxA5x1uqjOw+QG7K98cBid6Xut0k2U
+         pjeHFw7Swv6XeUkH5Wpf5rFGrz7aHABPntBRdSaUGExTsJ64MLLAd93mO0t3Fhh/80oS
+         5FV+qSTUu1HEYtIOpB9eWkx9NW10NClEIrhfur5qT+GTtn0IF4lGc9qoSC2z5+oe+GW5
+         2Jvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788981512; x=1789586312;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cQp1h+Nea1dCnGwxCQ5G9ZglVlG59gCPu/u14By/urM=;
+        b=XJIORJpGOPO5KOefp0WQwmge+DBuYZnGRpylA1MpzJfpkQOMwfFXkFlSN0xTXBizx7
+         VtBKNez5oQW+mP4AQLrfqhP6jBfsPbtqGzblKSRNx7tJZ5wtGU3jTQ9RwEKB4WtUuvcX
+         ukUzsQ5WF2WbdCiBjBPAlw/pja/QWNI5e8raM88QMAa8q+Q+io4JX+PF/jpoJLErv+tQ
+         nPjaxspPqMnEmC2N1LYLsWQzq8wCUqnGq+MJO2AwNtXPVOE1a2RuvSFzUBVheGhgGxhU
+         3JBx5qGntQnxEarEyCqSrtTgd0Uy9jhe3Li17n3MHJ2PiC4UY2pEqOKXI+fRPmWvrg9m
+         WyTw==
+X-Forwarded-Encrypted: i=1; AKwUvBwUEffHZ9OQZ6bTK3J328SSfva6aB768KjFYKhrbNZKx4rALq/XfQOyH/LIvcxXx2ZOXo1HlUufg/wGmw==@lists.linux.dev
+X-Gm-Message-State: AFuF++n2A5CKrjg49rsaoEPvqLXF0I/me0KQlQCgblI3yco/hSjfYsTv
+	sEMdQ8hojUfeYcgNZxaIJVg2shNVQhx2duiqis7YEcRWQ/X1NlRiR3OF
+X-Gm-Gg: AYBFou2sYpDC9OcoYQx1rZpcxKUlCEcBpi3SM9/h9iWohSfEGN29TQTD1MPqpsoeXyS
+	dyRfFGKptQGz6Tywj2spNAb9zyItfGloj35mToCOLgWyCGkPrsq6B3aKd7bBTu8xNufU3+CGOHW
+	diiXd/YM6FeXNXxY6a8wUIt+1Ye07hg5B3QA/AF5UYB1HhH2nM4m3OzkzjfdhTG5QaJtfn06zea
+	TfKaMJ2HqIsFgNafUJFZrlrnKN/6iRvW7rW+pDeuB7pGhNgzTu03wwOfQ6WvWiA08Vwe4W1r0Yy
+	GVSCs4E+JKcAFwFLbAhbMmE0ye70mrIPDLtFZFLhGExn2byzCCvo5pE18RrqUw79nHya0f9Pk4R
+	24dVkN/rWsP7+iCbXwXVbwW5W5Bpo5Pg6Nra9zX+hemGHo1viTel83+n6lTMzGkwyDILy/z1Wxc
+	8xz9lBEn/mg5MONxtWPL0DHu22+7mHC6rYt/zs+loetwpHIuVpe2Al/s+FoAyO04XWwmBGb6eiD
+	HpufOCAtwPCTNDoqqZcAGQ7004zNGwyiheEcQaGzfM=
+X-Received: by 2002:a05:600c:628c:b0:49c:e1cd:536 with SMTP id 5b1f17b1804b1-49d17a8745bmr144560705e9.12.1788981511672;
+        Wed, 09 Sep 2026 12:18:31 -0700 (PDT)
+Received: from localhost.localdomain (mob-31-26-103-238.net.vodafone.it. [31.26.103.238])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49d20fce7a7sm164538455e9.4.2026.09.09.12.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 12:18:29 -0700 (PDT)
+From: Oleg Keri <okerixx@gmail.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Beata Michalska <beata.michalska@arm.com>,
+	Sumit Gupta <sumitg@nvidia.com>,
+	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v14 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <b442cc1c7dc708aecef0e4044298c31a86959238.1788976064.git.daniel@makrotopia.org>
-References: <cover.1788976064.git.daniel@makrotopia.org>
+	Danilo Krummrich <dakr@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] arm64: topology: fix arch_freq_get_on_cpu() overflow above 4.19 GHz
+Date: Wed,  9 Sep 2026 21:18:16 +0200
+Message-ID: <178898149654.33757.7826789084252321894@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260909113625.000063be@oss.qualcomm.com>
+References: <20260909113625.000063be@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1788976064.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+Good point - that reads much better than reusing scale as scratch.  Taken
+for v2:
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-v14: no changes
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+	scale = arch_scale_freq_capacity(cpu);
+	freq = (scale * arch_scale_freq_ref(cpu)) >> SCHED_CAPACITY_SHIFT;
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 74 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+Same semantics, and it makes it obvious that both the multiply and the
+shift stay in 64 bits and only the final value is narrowed - which is the
+whole point of the fix.
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index d4a83fdcff7f..145cb8a4becf 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..5b24d8cb57bc
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version read from the same register word, so it is
-+       omitted whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the recovery fails, the loader needs a power cycle: ``devlink dev
-+flash`` then returns ``-EIO`` and says so in its extack message. The
-+driver only re-examines the switch when it binds, so on a board where
-+the switch can be power cycled on its own, unbind and rebind the driver
-+afterwards to have the recovered switch recognised.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b23fb6f2f4ef..c97e710dda0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16246,6 +16246,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+Agreed on leaving arch_scale_freq_capacity() out of the expression too.
+This file is arm64 only, so unsigned long is 64 bits and it would be safe
+here, but it stops being self-evident to the reader and the cast that
+would make it evident is worse than keeping the temporary.
+
+Thanks for the review.
