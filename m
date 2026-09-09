@@ -1,107 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD313E51F7;
-	Wed,  9 Sep 2026 07:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B718345FFBB
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 08:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788938390; cv=none; b=A+So/BXd0X0v/VcNToQSyc1otZVh0T5LIgztI0mt13GJeTUEz3GKUL9/g89XvXnbzQbG7bppxOvUOZSB88yHtI/SRdhA2raqL/QZwNpjPVNk+FawTedhoEwWm8XoXr1SQaylbBrbXbVT+rVCF06KPBYKcP7nlwxXd5KoJAyF440=
+	t=1788940902; cv=none; b=dNR36i1YDmLZehP95Ce5iQA3XlowftvOu1iLsXY7cJ1WwB7/pfh3PN3kwTWOVLKnQ/XgnLy19E5ylaMqBRjpeVW2btrf/HVTEZN9vGh7BKCFjvfJfSDBBi7fbHbAwI+q+jyZDVJs4lYGCuiSQKKs7vAur3RgbAu86nuskssGtO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788938390; c=relaxed/simple;
-	bh=iUEUHp1+6Zf6BwIRDEgsvqvIR9hlgm46o4EtujvoXAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q07AGIEmqp/37dI6BzkMeOHcM65Zb52kwydFyp52A9yLfjcnpdYmxj3SDXRgBEeUrQ9vQ8kOZtQxcHT7Bi5ub8TISQC6x+HNm1Eho+H6LjL9uIf/g8AvCzfNiNrPGTaGyZchCKYAs48KjLiPKYT2+CDDIO0WgmmbK3tmnZFmwG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xAoshE5b; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788940902; c=relaxed/simple;
+	bh=YpNIu094u+89RI5gbo3fzj/SYquKO/mDu0CC4YoNWpY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Thhxl7o9qOJCIn+U16PRfLEEIE3UUT/PTR4vqpGkd7Yci0ebzqI0AHm0wvv6UAzVKqcn0BHwy5O6PqY1X/xMqx4CG5bsK/kpTA++yoksFKLewVFMLjF4VagWP5eSRgtIqa8BK0c3hyHfUAUvZg4qftgw0x48MO2X5/13NH5rnHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BDgSr0ph; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xAoshE5b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB3F1F00A3A;
-	Wed,  9 Sep 2026 07:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788938388;
-	bh=N0q41QwdeiDQ87IXkq7d0znywJUQ5D2+Ee3mhNoWht8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xAoshE5bR042g6AaAnPQZdZsVgcZfhL7FlE4U6VNDtXcPEIEX7bVtEEQDQdta5j4D
-	 G2jBWpnUbRgvz4hW80WKanqSVjQJHZKVA5c3Gu0KbxcLRNgk2neK0IkBn0XWXcttnQ
-	 qRN/5btWA11WtSRdmdemynhdq30aWi+m87zsyIm8=
-Date: Wed, 9 Sep 2026 09:19:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <iweiny@kernel.org>, Leon Romanovsky <leon@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rust: auxiliary: validate DeviceId name length
-Message-ID: <2026090955-lustfully-fanning-33f9@gregkh>
-References: <20260909033246.2779303-1-georgeandrout13@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BDgSr0ph"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 108B81A1A74;
+	Wed,  9 Sep 2026 08:01:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CECDE60448;
+	Wed,  9 Sep 2026 08:01:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4029A11C7AF65;
+	Wed,  9 Sep 2026 10:01:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788940895; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=ZtdcF2IAi6h02JGk/dKLiRFO0qJ1c0YPMsIxctf2Hcg=;
+	b=BDgSr0phSF9eTr7FGs7OL4Rb6nuX1pBveI8epbY+7Mu/mSxmDwguvikis/PgB9CqbseSiI
+	BPDb3K79glmr2XnsijoDB2v/jm32uhxZwdS8YeOhVM0/cxWkBb955s/V8mbM2QzZPAwdZ+
+	XwnPLHqEvhzGpf7L5N79Pn+maASOkmYVy8wYFQpykh6NIWHVxzjhYMzDJMZPbg6EE7+Za7
+	/MgG/cIIEUbAfQc1pgTJmpJYX4D4rAizDly36KDmwfH71FhpGsdvaxnBHpbkpmqQdwifcd
+	IWDxgGbVgL9wK+WAP3jlrgLWrPMeNioa3QOrvlz3cyIBX5lXWPDTNNlj//3qfw==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Richard Cheng <icheng@nvidia.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Lizhi Hou <lizhi.hou@amd.com>
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v11 00/10] lan966x pci device: Add support for SFPs, PCI part
+Date: Wed,  9 Sep 2026 10:00:59 +0200
+Message-ID: <20260909080114.591938-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909033246.2779303-1-georgeandrout13@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Sep 08, 2026 at 11:32:46PM -0400, Georgios Androutsopoulos wrote:
-> `DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
-> `auxiliary_device_id::name` array without checking that they fit. An
-> oversized name is caught by the array bounds check, but the error
-> reports an out-of-bounds index in the copy loop rather than the
-> constraint the caller violated.
-> 
-> Check the invariant explicitly instead, so the failure states the length
-> limit rather than an array index.
-> 
-> In a constant context exceeding the limit leads to a build error; at
-> runtime it panics, so add a `# Panics` section for it.
-> 
-> Fixes: ce735e73dd59 ("rust: auxiliary: add auxiliary device / driver abstractions")
-> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-> ---
->  rust/kernel/auxiliary.rs | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-> index 60dfbec8f330..1f3ba86d6d96 100644
-> --- a/rust/kernel/auxiliary.rs
-> +++ b/rust/kernel/auxiliary.rs
-> @@ -137,10 +137,20 @@ macro_rules! module_auxiliary_driver {
->  
->  impl DeviceId {
->      /// Create a new [`DeviceId`] from name.
-> +    ///
-> +    /// # Panics
-> +    ///
-> +    /// Panics if the combined module and device name, including the
-> +    /// separator and trailing NUL, exceeds `AUXILIARY_NAME_SIZE` bytes.
->      pub const fn new(modname: &'static CStr, name: &'static CStr) -> Self {
->          let name = name.to_bytes_with_nul();
->          let modname = modname.to_bytes_with_nul();
->  
-> +        assert!(
-> +            modname.len().saturating_add(name.len()) <= bindings::AUXILIARY_NAME_SIZE as usize,
-> +            "auxiliary device ID is too long"
-> +        );
+Hi,
 
-We really shouldn't panic, we should error out and fail the creation
-instead.
+Previously, I sent a big picture series adding support for SFP ports
+available on the LAN966x PCI device [0].
 
-But what is placing the constraint of the name size here?  The C api
-just takes a pointer, it doesn't care about the size, why does the rust
-binding care?
+In this series patches touch several parts and sub-system in the kernel.
+Reviews have be done and it makes sense to split the series and send
+parts separately.
 
-thanks,
+This current series is the extraction of patches related to issues in
+the PCI subsystem. It has to be seen as a continuation of the big
+picture series but related to this specific core part.
 
-greg k-h
+Patches 1 to 6 introduce and use fw_devlink_set_device() in already
+existing code. No functional change but the introduction of the
+fw_devlink_set_device() wrapper.
+
+Patch 7 avoids a dangling pointer.
+
+Patches 8 and 9 fix fw_devlink issues specific to PCI and the
+device-tree nodes created during enumeration.
+
+Patch 10 avoids the usage of np->data and adds guards to prevent
+incorrect nodes removal.
+
+[0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Best regards,
+Hervé
+
+Changes:
+
+v10 -> v11
+  v10: https://lore.kernel.org/all/20260717145147.823749-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.3-rc1
+
+  - Patches 1 to 5
+    Add 'Reviewed-by: Richard Cheng'
+
+  - Patches 6, 7 and 8
+    Add 'Reviewed-by: Richard Cheng'
+    Add 'Acked-by: Manivannan Sadhasivam'
+
+  - Patch 9
+    Add 'Reviewed-by: Richard Cheng'
+
+  - Patch 10
+    Rework removing np->data usage in the PCI devicetree node creation
+    and removal.
+
+v9 -> v10
+  v9: https://lore.kernel.org/all/20260708100302.517792-1-herve.codina@bootlin.com/
+
+  - Patches 1 to 6
+    No changes
+
+  - Patch 7
+    Clear fwnode->dev also on error path.
+
+  - Patch 8
+    Clear fwnode->dev also on error path.
+
+  - Patch 9
+    No changes
+
+  - Patch 10 (New patch in v10)
+    Guard against node removal with incorrect np->data.
+
+v8 -> v9
+  v8: https://lore.kernel.org/all/20260630102804.413563-1-herve.codina@bootlin.com/
+
+  - Patch 7 (new patch in v9)
+    Clear fwnode->dev during root bridge node removal (avoid a dangling
+    pointer).
+
+  - Patch 8 (patch 7 in v8)
+    Clear fwnode->dev during PCI device node removal.
+
+v7 -> v8
+  v7: https://lore.kernel.org/all/20260511155930.34604-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.2-rc1
+
+  - patches 4 and 5
+    Add 'Reviewed-by: Andy Shevchenko'
+
+  - Other Patches
+    No other changes
+
+v6 -> v7
+
+  Rebase on top of v7.1-rc1
+
+  - Patch 1
+     Add Cc stable. Needed for patches 11 and 12
+
+  - Patches 2 to 5
+    No changes
+
+  - Patch 6
+     Add Cc stable. Needed for patch 13
+     Add 'Acked-by: Bjorn Helgaas'
+
+  - Patch 7
+     Fix a typo in commit log
+     Add Fixes tag + Cc stable
+     Add 'Acked-by: Bjorn Helgaas'
+
+  - Patch 8
+     Add Fixes tag + Cc stable
+     Add 'Acked-by: Bjorn Helgaas'
+Older iterations:
+  Patches 6 to 13 in the big picture series
+  https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Herve Codina (10):
+  driver core: fw_devlink: Introduce fw_devlink_set_device()
+  drivers: core: Use fw_devlink_set_device()
+  pinctrl: cs42l43: Use fw_devlink_set_device()
+  cxl/test: Use device_set_node()
+  cxl/test: Use fw_devlink_set_device()
+  PCI: of: Use fw_devlink_set_device()
+  PCI: of: Clear fwnode->dev during root bridge node removal and error
+    path
+  PCI: of: Set fwnode device of newly created PCI device nodes
+  PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge
+    node
+  PCI: of: Avoid np->data usage for the node changeset
+
+ drivers/base/core.c                      |  4 +-
+ drivers/pci/of.c                         | 48 +++++++++++++++---------
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c |  2 +-
+ include/linux/fwnode.h                   |  6 +++
+ include/linux/pci.h                      | 11 ++++++
+ tools/testing/cxl/test/cxl.c             |  4 +-
+ 6 files changed, 52 insertions(+), 23 deletions(-)
+
+-- 
+2.55.0
+
