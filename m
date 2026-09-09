@@ -1,168 +1,141 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012054.outbound.protection.outlook.com [40.93.195.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76E33A5449;
-	Tue,  8 Sep 2026 22:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788908139; cv=fail; b=jEEm1Tb5z+QRd2FdWrIK5a6lQYBQHL95/zAM5jx/6Evp+pDO6eo6noJgjLZ65155EOG2NjhwsSM03CYStO4KcP+RlfMCqlhsSq6QWqv6jQ0PXMJxudmwjOaYGonm1snehim7bWMrv/GCoEhLY2h/jEGg6nwQGbKsaUXavXFNltE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788908139; c=relaxed/simple;
-	bh=nqowp5NIoXXkwUk530wtOwlV8iwoXb5n0FlSNIih7bw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=NFwdUfpEaB+iCOlVEeJs4kBpB17FDIA9+PTfM1mhOvktpD+ctKp8nTOS5jCplJ0Xrytnf8Zc14Ifi0tyjt6A/MDfgRJiy24fMECZduVrkBoXG+Gvc3xuhutijAmWLN/sRz23xEm3BIeoFbZENzs3np7aNDAU4y0oGZKunZ+KdLM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=a0AUJkB8; arc=fail smtp.client-ip=40.93.195.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB2E492E42
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 03:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788924816; cv=none; b=ZLjPESxUWza9YVlNWDUjgqX32r4YfgPmXsdPTZzsC9ffFIJbO6Hiw89La/o8npyaG3l7+zJMZk5TuqGNiBJkqSn3qeAWXZTHLiJB3t7jtwt/u4NNpT8fEWDnrAV10IGY22EG/m99ZCJHIW6huVBGIkdlxR+QdpaX7qlslKXpLKA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788924816; c=relaxed/simple;
+	bh=9i9o/ilOEdPdQ52LKqv8CmqkloNbd+8uOtKzKeA/MzE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nhBTp1C9zS6OXTbcX48WvwvXzuLt9huZlAF9j88ybJn1t8lJjzBsiJz/9JUdM1fch74xzcNMyrfGlNp4fkSM5+JFFnxL9wMY6fockpfzPAL/1oz+7/WL13cBvtxrJZyZTko4ZTjJHF/WS9d09EPfWd6D1dlTGNhihMMqRQULzvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPmFY4cE; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="a0AUJkB8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=syV/DDqM4IChDItVs+UOmcftrx+NAnoFfOXQnTptuXtdtwtCBy/dAnLKP+ATjNvxG/DCoRMR2Xq2tezo9tiRI3boMxZJ5WyRXsL7H4rpDh68ddivvQfNVh8JQ+jKJmFK6UJgg/u444Pw7nhgUfElNTyOCtnECh5P+jqXURQEWI51cAbrkejVvpur2iWbwZxaX+LE4w7crqozhl8NQC448TMWJkldNqMtTT0mIn3w+ieRwhSTACVzXm1bYgbmnupU54QJtKSgV7MK+Y0QRqB65ThCvtp+PkAYj3MGe4xtOcnXQTFGQpFL/EyIorkHepZN3/P2frmq/95fCUXNNZRMDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FW9cBw+Km9TQxV23acpsXgx7qKC2O7bLEhjojxcjEoQ=;
- b=mV5ixwCDdYy5KCCqlGt+uwCatEex1FfZ+XAEtaQfU0js9RUyqK0SCu0a2ee8x6bWz1C9CYh9xR7KGEWw52Ef7x41u/EDKe6XXps8Ta3GNyi0j/e5fgFMVMTBXdvR2G+/x6o+chKvjrq8KvxCxLN6yzJnKxJQWrWwnPI1O7WjYE8nrDOU3zhMkoaeyyizDYvA7zowUN8fBMHE2e3k/l1fQQaZN3AS/ebw/X0NwaQ84X3+ogktUpHFjDBRfPz19gpXgCYFAmyBhGbcLwQA9mfy14HQ36c61d3ni1YeKKlzo7KjGqeFMr+5YA50S9k4iDGn2a/1Gz0ORn3gHxojV/7SBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FW9cBw+Km9TQxV23acpsXgx7qKC2O7bLEhjojxcjEoQ=;
- b=a0AUJkB8BNIWDLhb7DXFRChJJzGv/G4pHpAarMkLyKwnAWO83U7AcZbdmefZ0KCYXDt3PS1VvIt1+A/NOxb/1ZYn/zArqjx6akHLIkdKpV0UAQ6H5Tnwx1oZexgEXX9pLXAMvXutxlEBam1JbrLnvS9e1gkBL1glw5iRIV+ZWX5l+mHAtQbj3KaVLmb0ILz7lPUDDJa8ShTNojlY/AfNRyAkBU4JjV4y8ic6pw1AzedRSlgpdLSHIR16zVnXIJjHSGpW3miA1VUR+7oabNIWelDcJSxeCJe2vpyR9waWlN1UCwfEJ83dAqFTuAripIY8jBOqiCxFCG3T+V44CNCJng==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by PH0PR12MB8099.namprd12.prod.outlook.com (2603:10b6:510:29d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.13; Tue, 8 Sep
- 2026 22:55:33 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0406.005; Tue, 8 Sep 2026
- 22:55:32 +0000
-Date: Tue, 8 Sep 2026 19:55:31 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Pranjal Shrivastava <praan@google.com>, iommu@lists.linux.dev,
-	Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Daniel Mentz <danielmentz@google.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v10 07/15] platform-msi: Introduce
- platform_device_msi_rewrite()
-Message-ID: <20260908225531.GD2779763@nvidia.com>
-References: <20260908171712.356645-1-praan@google.com>
- <20260908171712.356645-8-praan@google.com>
- <87se3j1qgu.ffs@fw13>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87se3j1qgu.ffs@fw13>
-X-ClientProxiedBy: YT4PR01CA0502.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10c::11) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPmFY4cE"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-90e92b99ab9so36203806d6.2
+        for <driver-core@lists.linux.dev>; Tue, 08 Sep 2026 20:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788924813; x=1789529613; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Z0xYmUfmeEhmPnSVBSx2jrGqsQw1JgtPqNfXTg93gKs=;
+        b=FPmFY4cEWXP4Yoyl+kWlxLzNVsNDG6u9sQ6AhK4TVjhAekADERjwiEIQCGplGZmwJJ
+         E3S5hIaREAEhFOR/TCXtN/t7Uf0B2dWh9NpmUmxQGr/Qaome+tEv7h8Vg4kl7eK2enXT
+         kpIcbgRNo7Og7fcmcRR7MpabmXPUiIH6JXeQitUatBowPg0V6xNVwp4hCgQwINu698YV
+         HbWoAdxh2oFrhuz46lvnbJUGlaSaVefWdHtMKXlFDdH1QuuTxRFiW0RGVqhGfUQF+NDo
+         HxmXElxAGpvW0QP4gwoMEeV0fTo/ZhW78wVK1C2DVNwhmqNRk4rneaAR1f4Ae1c62Kqu
+         mMpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788924813; x=1789529613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Z0xYmUfmeEhmPnSVBSx2jrGqsQw1JgtPqNfXTg93gKs=;
+        b=E92a/oh/sk8wyV0ceyTdWA8GimUZc1TcGrtvoZHUPUUIXVUTn7T/CLCvJY3d5aQK1v
+         wubu3AWtV0/OF2tP6qrU3muU6TCAgMzd7GA8NvPjBgJfTWtUjQa6jex4/2oFw3U65Vnr
+         rAgTiIPyj2dxGhodMEw+yG0aGyfAWLicMqUFgjV6uRSD1ekmvaGW3a61HhEYt5Eth0by
+         9mjt87lXd4D2k9Xn2jnvJR0ZdV0Uy18qbon04gI2ssZkagL02/D2/wX8wEn2VwaD5uyf
+         UC57KYg2NG99WRkR+E+O2Jqgg6ujs6+mrq+QKDdx4S3SZkfzTrBAcKFvmiVakyrOMx2o
+         7vaQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzxYfulHzSWb/+Gxhzfg34SMwHRVM30kduMb9S7XrbWAnL7NAWu1wQSd4b+GIjega5ecq0rSmdO512cKw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lZchu7jujX/xFZD9XrbAx80ux7HpuTwgLldXhhZgdyNMB3dmNq
+	/c6o60jqQrI5KnyphmAMI4mwisiUpSwjPVTRDzBWVQd8i+vVHAkul+rD
+X-Gm-Gg: AYBFou2CzVKZngGnue2dTt735BhDXzu39n4Z/KgyG0mx7Xn8Voq3Wo9SnyVU+LJsHfI
+	eJQ4+oyXq3jseytEcszONtIkQqobW9LfUN+UfzMdHxPuDB8cBdfv6do+7Y69AgvfLKEMedV5sy6
+	QScH0vpoW9RttRnhdbtZgzp+JECqPYlhg6Wp3ROK/z+XB8pQI9ukJOCpFIlD07EYucAIe2s/FEF
+	GiJxF26buV7fPKg0EE3QcY/3X46bIKHU+J7SSbQ03WvbDj3h0zLMdN5I+lXKjq8Ov5MnNcR89Qy
+	xTeyBLYindRAtNcvgvBpBf2NsCOPoWb/bwiUtyYNncC9Tg8sLfJXkygrqGA9+9Fw8jkpDCzVZWF
+	tcpj6YnV1gbc3wMeNgpArISaZNuurvUpIvTNJSCsIbC2W03RRvGNwz2gFforreDTIoPrOPe+jZi
+	8JvuLZioWIzvyloSQoZ+95x851h2jeoYhFkWJVfw6a44qNUKOBoWCeSpnHBK2Oz8jgWScUMw==
+X-Received: by 2002:a05:6214:2b06:b0:910:345c:57e5 with SMTP id 6a1803df08f44-9103efeb90bmr420056646d6.37.1788924813465;
+        Tue, 08 Sep 2026 20:33:33 -0700 (PDT)
+Received: from tofu.. ([128.210.0.165])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9106ba5b95dsm11910696d6.21.2026.09.08.20.33.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 20:33:32 -0700 (PDT)
+From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Subject: [PATCH] rust: auxiliary: validate DeviceId name length
+Date: Tue,  8 Sep 2026 23:32:46 -0400
+Message-ID: <20260909033246.2779303-1-georgeandrout13@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|PH0PR12MB8099:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10719f8c-f378-4c72-1bcc-08df0dfc498e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|10067099003|4143699003|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	mE6T+Kvyd1zKdaOAuenwCz4Qw8iUWOyQ89+1BAfNvX7c60PgF/8Jv32H5XcCvdCKZBfjcgixIXDMhZinXfKtW0+mzk/J1eIkkP+Q9a7AYl+bZXuylRKoIgY+fumwLNvN3c94X23cvR19ZQJbWy50dlP17w74yq7kbpKu2jwM1bDZCm66ClX59uvDvCuMWoml0ecpIsQLCBnFrEqGjCLgVq90uQCAc+zAb71a+8puHGTdsoHk6DV5itEQCHZXzrx33DIYDr2PvCC7jkjOFO6Vv4GoR3Me0sYfKTAL6GfE4FAnqFKQR4vKvO+cOn8+v+BN5hPdOiVvfO6FkEG0aDi2KjFz9mw8c3fWYKfMj1UB96j/YQMyT9cULPHuLrjay+dXxMhOY+tDzOS+MFevabi2G5+lSOpVZF32x8iQJVoNRzNwYAm8wM8XCy0omGD1Wd3I1ADju0hQiaSqkkZ4QzW15VavaPw34829Y4wVDuZld1oHTZs15fayB07HOyW3F2TlPTK+AP85aB4xoz7B+Bc/PBGEsghDisz4sa41raV2p/ItUCjEu0ZQBmZqw2nV3m3mz/PtZddfqX+oIEy/Tj5n4muqYdflnMA+spuzhPzpcSWhkiItNJ8BZ4zEef6NkN96MuBwIeq0mwxISwSONIT8FiC2vxT7Andsjs5rBskPhi4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(10067099003)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4p2my+vb+DcjhO+8vGD82tp4tmOVRLZ59+xJobEQbJsNUm2qguvxWeJbKHt1?=
- =?us-ascii?Q?6kL9FPIakmJilcV8ZkhN3wf8VJCu6Ak6AuGp8JRNNiDTrMJgeDEBLnj2TZnO?=
- =?us-ascii?Q?N/IB4ERAZRiCh7tONvFQPaJF1wG3QVPN4PQLMzuVQZQ3+pq/mTNh8XDar6Jk?=
- =?us-ascii?Q?4FMgwzCcMM7tFNcrg3swXzj0y6V7pwQQur0BTQC1wr6QONMFHE3401iw+wpV?=
- =?us-ascii?Q?9Hmj3cdKvn3eRiJSKMkD5MRV9fKp2Fxchbde9wZTTZwXJwN7Jvhek9T/yKvM?=
- =?us-ascii?Q?xSEX+bwSXW3pGPhuB8G+UzhGMBJqPEouCMyWndPJuqnJM/CYApCLDlLCNgoM?=
- =?us-ascii?Q?GrHDBmBqTi85pV4934xdewznOoC85VsEct0Q9OYlWFy4TBcc0t1IEHTpoZ0D?=
- =?us-ascii?Q?SVZWeKR+Jj+YBz+v8QKBP/P+0YEMGE76oKViasMVmB6vrYTcqgBkDrt5HdjI?=
- =?us-ascii?Q?wKwPUYMJusud37ddZGtF4sav71rgcfCMeRHSnhDDR1kwW7niAbAAlQ/O00LT?=
- =?us-ascii?Q?70JQ0d9EbjHp1XjpJLh3jN8zCW+rm5AOrpSNEfXds5K+CcUPtV8bO9aSGHTM?=
- =?us-ascii?Q?1wmhtyGjgwos9OuLBcmX+9235SrlgF4GlTl5/WUgWdKQu+SQdUqiGgurCl1M?=
- =?us-ascii?Q?hwtNmacrquCfEnVdHbq+hVvQmuAfj7UdIKoJOhcFsST5mZyxg21j5h0biLEA?=
- =?us-ascii?Q?Mzero9V4ktJgnhmwQcj0dr+uGnoToEWPKf70DDhxuOlyvm4i9dNhpgeHdVam?=
- =?us-ascii?Q?Rqk9SO11lgxpFO0pxXtAXhTd+oVgQCj5723vE+cRlA0FNJ8EFoebuhmq1/wm?=
- =?us-ascii?Q?oN1Mkx+JNW0wagz8Hmcelu1vrybSxa1yeWV0j8dAGjYtAL1uRQs3hud+y4nc?=
- =?us-ascii?Q?0aBJ872VUS6QIGLNMPgBQF+u0cE1JrwD7U61LdX6VWwdAQ2SYlGpJR8R6xFt?=
- =?us-ascii?Q?iqzd3CYIFplf7gaLquJGIvwGHHM+X4g8CX2SvfHmaBlXtFgAFL0dMRMsCaiY?=
- =?us-ascii?Q?eUKVJTiW7lHTWC59GzS+4BctbMetDI97wP+daxRDWLsbW7T56S9/ahMO7qMX?=
- =?us-ascii?Q?DfVIf8B1sJ+5sKJdSyhKgrWZFukFLSFkU6wzJwRgpYjQJTokMBzTSUcZq2Ni?=
- =?us-ascii?Q?xj97xgs6jj62fH3WyOxRDod/1HNTxSecNsZyYRWamnb5psqFhevIlW3F9/mq?=
- =?us-ascii?Q?LVoGuOMLd6U6NQ9BEwyB+zDG2Qa1LoQo7Wv9xsoNIRCm/wpEpDCAW7SW7O5s?=
- =?us-ascii?Q?Z+VbKEhyWmTWnvpfjjXEOrokdvcFMqnT4lcoonfxfKGDuJzn6cpLNjgA+Lf0?=
- =?us-ascii?Q?jJQ9TYXIOohmEbsPXuLgcwoUs2mfS7jxIVboZmGVyNdxWZbYn28x4sf6RwtJ?=
- =?us-ascii?Q?F2vlqp14WcN3YfjqJzIAEg19hcx0xWQkwtlVBmitmKjHJtFk5NoJHw4TtK+q?=
- =?us-ascii?Q?UUPpQcP0bltouJiE/2CLZ7LR2Zw9LDd7yKC3A/fboup/1b5ktxKI7EMDT7pe?=
- =?us-ascii?Q?y4Ri28zgSTK+Z7l0hfpSFectuOpqRYtz4pYAfqUurn12z3RQzY46mBCqe9Wy?=
- =?us-ascii?Q?sLoBTdfjYZlyr9pKMuVFEKvWvVI0rUkN2LbLjEOZ0TlSh7hjFjoONuOeBdtq?=
- =?us-ascii?Q?6A3VC+/4rpmU2omgahGq774eXp1XHOMB79v7Ii9Sj5MhSi9sHDKW7BHVx+ks?=
- =?us-ascii?Q?9/0s2Cd8t5+5f0ZyCDivzhg9htSbsYuIi3f9kX55U2AOd6U5?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10719f8c-f378-4c72-1bcc-08df0dfc498e
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 22:55:32.8514
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ag6FPEdWL7gV0dzd6B1DWBmfSnPLa4w5w+E60GOn75E3BW6LN9vb1cv1ACrRkqpt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8099
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 08, 2026 at 09:40:49PM +0200, Thomas Gleixner wrote:
-> On Tue, Sep 08 2026 at 17:17, Pranjal Shrivastava wrote:
-> 
-> ...
-> > Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> 
-> Jason. You really should know better by now :(
+`DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
+`auxiliary_device_id::name` array without checking that they fit. An
+oversized name is caught by the array bounds check, but the error
+reports an out-of-bounds index in the copy loop rather than the
+constraint the caller violated.
 
-I know better enough to have pointed out that an open coded version of
-this in a driver should not be open coded in a driver and be made into
-proper helper, so you can see it :)
+Check the invariant explicitly instead, so the failure states the length
+limit rather than an array index.
 
-> > +	desc = irq_get_msi_desc(irq);
-> > +	if (!desc) {
-> > +		dev_err(dev, "Failed to get MSI descriptor for irq %u\n", irq);
-> > +		return;
-> > +	}
-> 
-> Doing this without having the underlying interrupt descriptor locked is
-> a recipe for an undebuggable disaster waiting to happen. It might be
-> "safe" in the context you are calling it but it's absolutely not safe in
-> general.
+In a constant context exceeding the limit leads to a build error; at
+runtime it panics, so add a `# Panics` section for it.
 
-Which is why we are here, I was wondering if the open coded
-implementation was even OK..
+Fixes: ce735e73dd59 ("rust: auxiliary: add auxiliary device / driver abstractions")
+Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+---
+ rust/kernel/auxiliary.rs | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> @@ -1775,3 +1775,34 @@ bool msi_device_has_isolated_msi(struct
->  	return arch_is_isolated_msi();
->  }
->  EXPORT_SYMBOL_GPL(msi_device_has_isolated_msi);
-> +
-> +void msi_device_domain_restore_msi_msgs(struct device *dev, unsigned int domid)
-> +{
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index 60dfbec8f330..1f3ba86d6d96 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -137,10 +137,20 @@ macro_rules! module_auxiliary_driver {
+ 
+ impl DeviceId {
+     /// Create a new [`DeviceId`] from name.
++    ///
++    /// # Panics
++    ///
++    /// Panics if the combined module and device name, including the
++    /// separator and trailing NUL, exceeds `AUXILIARY_NAME_SIZE` bytes.
+     pub const fn new(modname: &'static CStr, name: &'static CStr) -> Self {
+         let name = name.to_bytes_with_nul();
+         let modname = modname.to_bytes_with_nul();
+ 
++        assert!(
++            modname.len().saturating_add(name.len()) <= bindings::AUXILIARY_NAME_SIZE as usize,
++            "auxiliary device ID is too long"
++        );
++
+         let mut id: bindings::auxiliary_device_id = pin_init::zeroed();
+         let mut i = 0;
+         while i < modname.len() {
 
-Wonderful!
+base-commit: 28924df2a08f440c73991b83028032c901de2ae4
+-- 
+2.47.3
 
-Thanks,
-Jason
