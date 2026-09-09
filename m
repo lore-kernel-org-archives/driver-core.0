@@ -1,115 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19F853D0C2
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 11:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED665427F2;
+	Wed,  9 Sep 2026 11:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953276; cv=none; b=igx8k3ceK27B/MIkO4aFRKGv0WZ2xun1KwSzzu9W5sdSQGM3mxaPcvLymgUHUxZQpBegimsBd5HTGh7QFXF0LFy7QO8FRwrB2+OUF7r728oMnFF1dZjvbruZea+VFgWIvy2EKBxwRBzGUUQ8Fcmdfjj30G71NwhfWsxAwfDMmnc=
+	t=1788953366; cv=none; b=RH0kP8ebAAcRD0QXpTaAYD/U2XbTIivvnFpFIie4Fg5HwG3IE6Nua+w+fNnD8T5MzMkySKV88AJoodlaBngixLbVih3YFRKUsAUs2FsQJIAwtPwoNtJgSHBuO9j5FCNKdrUHT+V35zTdgnY4fhNgdU/7Tut/rQ9YA+Kb1Q8j6pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953276; c=relaxed/simple;
-	bh=JJBgofp2pe9RCsL65EmLQklp4DEK1h2O8rEip2QGCW4=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HvOULQEzUlNn2kLDxFa3p5VYGz2wpwL32wcpmxJDDSQNmpbMh7fOTC/3pF1UgYRRA1czm9E1mtl0MvSCEN1Y6n5WU9rPMNXWl5p3JlBN4sAy6KpabU5Bi+lJF1R0FkwcMAHiD9+1PgiFYm11JxnoLzuVg/LrHHnVfyHUC6VMcEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjiZ8XBd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788953366; c=relaxed/simple;
+	bh=5t2lkATIi7BZC0vRD7XUkmgQ9EM3eDdhwa1UQgM9Azs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=s3Bt037BMCPJmHVUbuPhu/TKQn2TbvmIoS5LxA6O19BX/2IC59rd3VkYlTffeCAf/D0j6gNL8lQb7CkWHlhfklAILhfrR/sFG8ei6GiZtOVc16M0DK3MNls9u7Sj7eCBfE0qKd4cCxikw/tiyCtrOxLKWvshmjUFS5gCEIL6hMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ad4Cajq9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjiZ8XBd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99C021F01562
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 11:27:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ad4Cajq9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409141F00A3A;
+	Wed,  9 Sep 2026 11:29:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788953273;
-	bh=3jiQyn42rIxemPjlFRLmdJmNQuLfss1eu61probES9o=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=fjiZ8XBdNPsN183InFRv0uIGqWcQgVMgWYF8Nz1i3uO8x3JtYZ027bGAYG6OmYwHS
-	 B34buxTmhnZs5QLlUGSuvQETka0bRRRQv1m3KwCA8AWUTmrPJ8skJDaxUfIMvGKZFE
-	 nisCHiXVdzZ3WopzUcXJ6LKJ04IuduKPvjfXxRXGS1T0OpbPIynxC/1IcjgUFquYPc
-	 9xWVH6oC6JVqyoYTgb1B6b2EBuWsioHAOP6Sc/C7+BpJqMhysnGtpfgiRtCCovCaDz
-	 51P2TvYfiwAP0lpTJT/MK/tMFl0mr181rUwldfJvyj2QkhLa6b4mTnX3VjPFFLH+IB
-	 30j4Slq3fgQSg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b808456308so325368e87.0
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 04:27:53 -0700 (PDT)
-X-Gm-Message-State: AFuF++klYF6gIRw0zcvGPqV9Oh39eaF180IPMIMwJMeTJfspO4tmo0kd
-	FIAZyyvWOZxtElHDwelBF3cmuU3mWRb+yLCcp0I7eq+bNYx+ZbQAwBdcIN8Izsu0qYRdttAAYQ1
-	xl5Uio0uYWqK7In+HaY2hSJD4XuZMRJSl6hD+lOlcog==
-X-Received: by 2002:a05:6512:3a8d:b0:5b4:a836:13f3 with SMTP id
- 2adb3069b0e04-5b6170525c5mr5848674e87.19.1788953272225; Wed, 09 Sep 2026
- 04:27:52 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:50 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:49 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260909080114.591938-7-herve.codina@bootlin.com>
+	s=k20260515; t=1788953364;
+	bh=WC7hKSBtPkgNxzwAYTZWfYgCBEV8gwtgoSM05bxD/M4=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=Ad4Cajq9O9K9hG9+AEr7VEyvKeZCvUzHFhYvzSabrKfJBxtuX/PUQViw68Ug8a5gd
+	 sErkz7zF5YqaPmV89jsASNjfPOlvszcdTjXuXCzPKX6LuAbOZ+QrlGNuS9ttE7kxM3
+	 3qbTSQLrl91S/q0JEie+NcXDUmBAYUE9cIpkBR3ua7GcIQGRlDqBKnPfHDrO6mtN6N
+	 nlcyS43VNSbPzjo875DIiptOm7dhd8LPW93Un24LIDf3IpALHH2etNw+pQihePtebJ
+	 lVzyVrlprChjXjHuMFZ/qGYBDgURYvERiAj4Spoxs/ptRVtl9ZdEH3rwlMcQKkhCmM
+	 Cuzs/bMw0FpxA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-7-herve.codina@bootlin.com>
-Date: Wed, 9 Sep 2026 04:27:49 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
-X-Gm-Features: AcwNN1XgkJRIkWr-Q-vmNlBTGGna2wUXbTKL0GfXX3gNNSE-nKv4XSkZWRFV2s4
-Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] PCI: of: Use fw_devlink_set_device()
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	stable@vger.kernel.org, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Richard Cheng <icheng@nvidia.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
-	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 09 Sep 2026 13:29:18 +0200
+Message-Id: <DLAR1FIFL0Y5.22A7AJKNW0YQP@kernel.org>
+Cc: "Georgios Androutsopoulos" <georgeandrout13@gmail.com>, "Rafael J .
+ Wysocki" <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Dave
+ Ertman" <david.m.ertman@intel.com>, "Ira Weiny" <iweiny@kernel.org>, "Leon
+ Romanovsky" <leon@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] rust: auxiliary: validate DeviceId name length
+References: <20260909033246.2779303-1-georgeandrout13@gmail.com>
+ <2026090955-lustfully-fanning-33f9@gregkh>
+In-Reply-To: <2026090955-lustfully-fanning-33f9@gregkh>
 
-On Wed, 9 Sep 2026 10:01:05 +0200, Herve Codina <herve.codina@bootlin.com> said:
-> The code set directly fwnode.dev field.
->
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Reviewed-by: Richard Cheng <icheng@nvidia.com>
-> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> ---
-> Cc stable because used by other patches with Fixes + Cc stable
-> ---
->  drivers/pci/of.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index a51dff91b196..0f45c5b72458 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -882,7 +882,7 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	 * bus. Avoid any new device creation.
->  	 */
->  	of_node_set_flag(np, OF_POPULATED);
-> -	np->fwnode.dev = &bridge->dev;
-> +	fw_devlink_set_device(&np->fwnode, &bridge->dev);
->  	fwnode_dev_initialized(&np->fwnode, true);
->
->  	ret = of_changeset_apply(cset);
-> --
-> 2.55.0
->
->
+On Wed Sep 9, 2026 at 9:19 AM CEST, Greg Kroah-Hartman wrote:
+> On Tue, Sep 08, 2026 at 11:32:46PM -0400, Georgios Androutsopoulos wrote:
+>> `DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
+>> `auxiliary_device_id::name` array without checking that they fit. An
+>> oversized name is caught by the array bounds check, but the error
+>> reports an out-of-bounds index in the copy loop rather than the
+>> constraint the caller violated.
+>>=20
+>> Check the invariant explicitly instead, so the failure states the length
+>> limit rather than an array index.
+>>=20
+>> In a constant context exceeding the limit leads to a build error; at
+>> runtime it panics, so add a `# Panics` section for it.
+>>=20
+>> Fixes: ce735e73dd59 ("rust: auxiliary: add auxiliary device / driver abs=
+tractions")
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+It's not actually fixing a bug, so I don't think this needs a Fixes: tag.
+
+>> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+>> ---
+>>  rust/kernel/auxiliary.rs | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>=20
+>> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+>> index 60dfbec8f330..1f3ba86d6d96 100644
+>> --- a/rust/kernel/auxiliary.rs
+>> +++ b/rust/kernel/auxiliary.rs
+>> @@ -137,10 +137,20 @@ macro_rules! module_auxiliary_driver {
+>> =20
+>>  impl DeviceId {
+>>      /// Create a new [`DeviceId`] from name.
+>> +    ///
+>> +    /// # Panics
+>> +    ///
+>> +    /// Panics if the combined module and device name, including the
+>> +    /// separator and trailing NUL, exceeds `AUXILIARY_NAME_SIZE` bytes=
+.
+
+I'd rather document that this is only intended to be called within device I=
+D
+table creation; in const context a panic is just a compile time error.
+
+>>      pub const fn new(modname: &'static CStr, name: &'static CStr) -> Se=
+lf {
+>>          let name =3D name.to_bytes_with_nul();
+>>          let modname =3D modname.to_bytes_with_nul();
+>> =20
+>> +        assert!(
+>> +            modname.len().saturating_add(name.len()) <=3D bindings::AUX=
+ILIARY_NAME_SIZE as usize,
+>> +            "auxiliary device ID is too long"
+>> +        );
+
+Isn't this missing to consider the separator and NULL terminator?
+
+>
+> We really shouldn't panic, we should error out and fail the creation
+> instead.
+
+This is only ever used from const context to construct the device ID table,=
+ e.g.
+as in
+
+	kernel::auxiliary_device_table!(
+	    AUX_TABLE,
+	    <NovaDriver as auxiliary::Driver>::IdInfo,
+	    [(
+	        auxiliary::DeviceId::new(NOVA_CORE_MODULE_NAME, AUXILIARY_NAME),
+	        ()
+	    )]
+	);
+
+and a panic in const context makes the compilation fail, so it works as
+intended.
+
+Unfortunately, we can't enforce that is function can only be called from co=
+nst
+context, so technically it could also be called outside of the device ID ta=
+ble
+in non-const context, but it would be odd to construct outside of a device =
+ID
+table.
+
+> But what is placing the constraint of the name size here?  The C api
+> just takes a pointer, it doesn't care about the size, why does the rust
+> binding care?
+
+I assume you were thinking of something else? This struct represents
+
+	#define AUXILIARY_NAME_SIZE 40
+=09
+	struct auxiliary_device_id {
+		char name[AUXILIARY_NAME_SIZE];
+		kernel_ulong_t driver_data;
+	};
