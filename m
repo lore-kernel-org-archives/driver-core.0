@@ -1,106 +1,150 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136554529B
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 15:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87F958124E
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 16:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788967197; cv=none; b=NOXKFlSGPIUd17+0Y6RGHYGnD8U8u8/DiXn5id4NTxb3E5dNCy++i5eYfyazefeZtT3r+MkYJxXgnloM1GoJ+ZGdqHO2FrEmUWmVOWKImjxfG2oafKYHzNTymEJgi6xn7Y5IdVliRrd1+RwlUIYxFUR6Fg4cEJUWRnTX8UGOPO4=
+	t=1788971284; cv=none; b=K8QfIGkjkYfGSmZc4Rlfp+M941gvHtitq3yuvfRLGuEIgSnzwAyxetnuyOH0vQHm9SQ6GJhYtOPRIGHRImXH7/v0cJnRbqf/Vcgt33b+lZYBHdWeksq+/ERxhhsKNgkWMbBGRJ88J+yWUcnkhMZHfXCWf+PAPB+epMtmEgPfTFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788967197; c=relaxed/simple;
-	bh=mQVTvUE5EMefp3N9PRRXFy1qIjow9eV0PSCua1TgAD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IQYsRIs3sARsiMAC+qGUmi503bJVBhPeLXLI1wnmX6/gCo0lwms8aEFc15GEAqzD9fmdyZr2LHX6icQrTXYzcW2emVsresU4Hb9aeUkphqjlImyrkqsm0KaBl3xCHVLwD0xogSgWoLdwhVNQ3i/yn02BuYY6gLjtPA4TMYTlaJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-97c7afa485bso3397806241.3
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:19:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788967194; x=1789571994;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ck7KwbjNu626e6RdS1sR80rNpHN5osHYGNVSLeBH+E4=;
-        b=YVGjDTirpoOpZDZXNq3p0RrsdpGBSS5BoOpXRqhJT1xxxDNKIuQlt5fB3O86h2w03c
-         a/Vc7sS1s+CWiNCfWxBdjRFYayyZB5isNhn14WC/yc+Zcy3Bgp+Llm+xG66uJr0D0XXm
-         o1JyyqF53U3WyAKXwjaDcHty49YvM00QEBqJR+I5VjwLqqeGrgOmnfuWmM67Q3uWd5mP
-         CiaYWa3VeDR3KwN2CeZJwD8cp0no1VuHNZaR1UMmFwJhkRZypMemaD43UaygwU5DQ4iT
-         nyGF2aRhLSFK2DOiS+6jBI6+AD2dnXKP3I2v6xjYfYbSoEQKjkxTu6V5Qbl9/HhARowb
-         682Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzYIUPRuuAqWlL/rgnv+pu6UpBDcompZZJtkjQsgZ7/MbvNGmy7r4JFFpaM2MMUq+QTbQCXTPlT1Lx2hw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nAje9TlFyjwR/wrDkSlVWRkCA/aNLK9xAIm2s00+1uVM7nloaq
-	U9+W4FNJwvZ+XrKCj6z43bEnz/saluwTjfK+Bo5WDvByD/dz+7bdbxKzIawTa7lrmkk=
-X-Gm-Gg: AYBFou1GMNgXgaOWcsoTb7KT6EeDBpGJ9LUX6gepb5WyZCwQfJ33Ll2cBAjKtTL9knB
-	KjV63jSeedJPxb91XTkIDadWnUtFCL/x8CK5UFJZOtCs/3DM8pqQ0kU+5kFbnvrTP/FQ10sW/FT
-	XEvR1iIAgl+hMHNNYdIbOYqX0QgydGTod6/2iozYxotEAZ+Tu2Rbfvi0pHNhdsqzKTENqh80cDI
-	Nsse6Km3DZM/4kDCnR4NS63RNk7BHToCT8WI0Ms0vip3qkVjycEXfP4KNFAnO/Hr9lkLScxvbiC
-	hviDrSvXee5WMl0BvmSr5B74gZF+LFsvTOubOT6cnRrqXTRHrqXjVICsNPJrHpxh/GvqplbwMNn
-	tp3nXvvx40zzjl9tMCatTPkYfkI2XQ7GZcOjVvkw5Sj51rpCSU7b03xNPZGVWvV1zlJQ6DiCYZW
-	qyb7ZaujzfytIiCDcKFvB9k4M1YkgETggywxF6S2ibtjU8sKRMxcC6rQxfCdZuc5ELnwYviV5ll
-	CMDRzctu2nq4YxP+vKdMxDE0w4ql3hZaWpu
-X-Received: by 2002:a05:6102:b02:b0:786:c86c:4f5e with SMTP id ada2fe7eead31-78a4a6e7023mr18453345137.3.1788967194445;
-        Wed, 09 Sep 2026 08:19:54 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a4764e321sm11532488137.0.2026.09.09.08.19.54
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 08:19:54 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-783fffcfb96so4593883137.0
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:19:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBw1Qk/Xrn/0WztOUnLcShbuNr2f5LXlrHPcChO9icffgXgDv4kMXp2xDhD3acRhRBA/c45zKnv3L5jNlg==@lists.linux.dev
-X-Received: by 2002:a05:6102:6b09:b0:77b:28c1:210e with SMTP id
- ada2fe7eead31-78f67ba56cbmr4525156137.1.1788967188938; Wed, 09 Sep 2026
- 08:19:48 -0700 (PDT)
+	s=arc-20240116; t=1788971284; c=relaxed/simple;
+	bh=Aw6ienXb8ek2QzVpJ5eT2Ml76EkHtd0wLw+gsBWxjZc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q/XEyq7kptnefZdOzV18G9lj2jokzE32uQOVK39WtUw38laMypqV/HtQCEUSp44dCudmoxtOLLqpfc6DlOivTlCUl/mmP8+krMzoXFEknN9ed1SF3C8Uj8ia7qBbUFbQuc91/mSXky1uouk7h5+IVcBEclsCteQSNZaeeSmnhPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TctVwUE6; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TctVwUE6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788971282; x=1820507282;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Aw6ienXb8ek2QzVpJ5eT2Ml76EkHtd0wLw+gsBWxjZc=;
+  b=TctVwUE6oahpu593wZ6G51LDjcHRCwrXggoGY99pCd+ujeDTNgDuXVAR
+   uUZau97pDjIvVLVQ2+bmuBN6VXudY86/6BQjyfXJ6xOZspBesaDha3QHE
+   j3jTatG1faiBz/l11wpovXHy6dX2UH3Ci2CTpB2pxqgbr/ocLAci1B+5g
+   0YDRGamYq4HobeJtveG6Pks+5UUg59bPALyJjC+lfsoBgnRiUZ3KwaoCe
+   Vc0hvNhoOxaD3BxqpOatNSL1F5V72NF2YQTAy0kIGeDgGvBLsP2Hu08EC
+   ZFHRFiqzjeb0DkAds7a5SKBNkXrIaizqZkJylKBBIx/IqhyLNGscTHOGa
+   w==;
+X-CSE-ConnectionGUID: TofS2Q9XQLuh8yj9Gk+lsg==
+X-CSE-MsgGUID: W5fERVCOQIitY1xvom7a3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100065437"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="100065437"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 09:28:02 -0700
+X-CSE-ConnectionGUID: Orf7ofH4TS6Swa5Lc3jYjg==
+X-CSE-MsgGUID: 2TEhRwPmRfSDpHTRopUjfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="275506954"
+Received: from aschende-mobl.amr.corp.intel.com (HELO [10.125.111.155]) ([10.125.111.155])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 09:28:00 -0700
+Message-ID: <124abd10-a6df-4256-b994-37c92218bac9@intel.com>
+Date: Wed, 9 Sep 2026 09:28:00 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com> <20260908-subsys_initcall-v1-4-cbccf4cd4288@redhat.com>
-In-Reply-To: <20260908-subsys_initcall-v1-4-cbccf4cd4288@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Sep 2026 17:19:37 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVhEuiukgHN3_KjQbOmeJo_+i6exDtJeidfm42S8sEx9g@mail.gmail.com>
-X-Gm-Features: AcwNN1WrudhTWyzE-dMx-744iV6jE5_0S03_iG05gjwf1BiOXXU0ML55Tupw88U
-Message-ID: <CAMuHMdVhEuiukgHN3_KjQbOmeJo_+i6exDtJeidfm42S8sEx9g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] clk: renesas: convert drivers over to use subsys_platform_driver()
-To: Brian Masney <bmasney@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] cxl/memdev: Fix poison debugfs vs unbind deadlock
+To: Guixin Liu <kanie@linux.alibaba.com>, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+Cc: linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
+References: <20260831124809.889829-1-kanie@linux.alibaba.com>
+From: Dave Jiang <dave.jiang@intel.com>
+Content-Language: en-US
+In-Reply-To: <20260831124809.889829-1-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Brian,
 
-On Tue, 8 Sept 2026 at 19:47, Brian Masney <bmasney@redhat.com> wrote:
-> Reduce boilerplate code in the drivers and convert them over to use
-> subsys_platform_driver().
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> Assisted-by: Claude:claude-opus-4-8
 
-Nice, thanks!
+On 8/31/26 5:48 AM, Guixin Liu wrote:
+> Writing a memdev poison debugfs file while cxl_mem is being unbound
+> deadlocks. Patch 2 fixes it by not waiting for the device lock in those
+> handlers. Patch 1 adds the trylock guard it uses.
+> 
+> Patch 2 does not build without patch 1, so the two need to travel
+> together.
+> 
+> Testing:
+> 
+> Reproduced on a QEMU CXL topology whose type3 devices advertise poison
+> inject support:
+> 
+>   while :; do echo 0 > /sys/kernel/debug/cxl/mem0/inject_poison; done &
+>   while :; do
+>       echo mem0 > /sys/bus/cxl/drivers/cxl_mem/unbind
+>       echo mem0 > /sys/bus/cxl/drivers/cxl_mem/bind
+>   done
+> 
+> Without the fix the unbind wedges within seconds. The three tasks
+> involved, from /proc/<pid>/stack:
+> 
+>   writer, state S, holds the debugfs reference and waits for the lock
+>     cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
+>     debugfs_attr_write+0x61/0xb0
+>     full_proxy_write+0xfc/0x1c0
+>     vfs_write+0x1d4/0xe60
+> 
+>   unbind, state D, holds the lock and waits for the reference to drain
+>     remove_one+0x27f/0x3d0
+>     debugfs_remove+0x44/0x60
+>     release_nodes+0xfa/0x2c0
+>     devres_release_all+0x113/0x1a0
+>     device_unbind_cleanup+0x76/0x260
+>     device_release_driver_internal+0x3eb/0x540
+>     unbind_store+0xde/0x100
+> 
+>   cxl_port workqueue, state D, blocked on the same lock
+>     device_release_driver_internal+0x96/0x540
+>     detach_memdev+0x79/0xb0 [cxl_core]
+>     process_one_work+0x6b0/0xfb0
+> 
+> The writer is in interruptible sleep and can be killed; the unbind
+> cannot, and because cxl_bus_wq is an ordered workqueue the wedged
+> detach_memdev() blocks every other CXL bus work item behind it.
+> 
+> With both patches applied, 46 unbind/bind cycles against the same writer
+> loop all completed, no task was left in D state, and the writer collected
+> 10920 EBUSY returns from the contended trylock. Note that lockdep stays
+> quiet either way: one leg of the cycle is the debugfs active_users
+> completion rather than a lock it tracks.
+> 
+> v1 -> v2:
+> - add the device_trylock() guard and use ACQUIRE(device_try, ...) instead
+>   of open-coding device_trylock()/device_unlock(), keeping the style the
+>   Fixes: commit established (Shaikh Kamaluddin)
+> - cut the changelog down to the failing condition, the consequence and
+>   the fix; the call graph and the reproducer live here instead
+> - say how the issue was found and how it was tested
+> 
+> v1:
+> https://lore.kernel.org/linux-cxl/\
+> 20260826125248.4003792-1-kanie@linux.alibaba.com/
+> 
+> Guixin Liu (2):
+>   driver core: Add conditional guard support for device_trylock()
+>   cxl/memdev: Fix deadlock between poison debugfs and cxl_mem unbind
+> 
+>  drivers/cxl/mem.c      | 14 ++++++++++----
+>  include/linux/device.h |  1 +
+>  2 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> 
+> base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Please rebase the patch series on Linus tags rather than cxl/next. Currently v7.3-rc2. It would be nice to get sashiko coverage. 
 
-Works fine, and no change in generated code (besides renaming a few
-functions), so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-As conflicts with renesas-clk are unlikely:
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
