@@ -1,131 +1,292 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+Received: from mail-oo2-f0.google.com (mail-oo2-f0.google.com [74.125.231.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F85755D893
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 15:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D032A3451A9
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 15:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788967034; cv=none; b=nE9idljO8z235q8A7wnpvgLpsNVL6GUj5YqTo6DIh0jHCCMWaf8SpLikDc4DrRGPARRGN823MAratRw+IvZI/hT2fc6nMirBmynRKHUzr0ElMPrKMg3mNBHXoVzPLnZCPzkC9nb5Wfpw5XBFiO/KVIvBZCS+SpnyD/BFUA6icGg=
+	t=1788967167; cv=none; b=eHekeqeI9A9mMditXi8Dl6taVcaPRgjpRiY+1jzzHK4xMhZpbfZnnpJX2S51Q5f3Rk+m0QQuZTdN8xPubMm3Ej8gtK3j7OTI78AMbl/QxUTszoyVhJJEzo+eOwRLS402XDv5T3Q7J0r6R+j0MyJ3PAMS3XVPFM76vdb9kwRWyRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788967034; c=relaxed/simple;
-	bh=50PWHOPz89VAgzShHbqe1+05LKceXOJguW/0waoh4rs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fNC3RiUQTU3CL6oL09aO6SXdQV0r/mXG6v+CK30fBz9+O/RKtDiPFe9VeS6GfN2hpr2vfFlmVqNPGrcrVjVOBCcI9fRakaPFPvMFAUInLyMszBG/M6yI8R4o7wyO9KZh5g8g0ZPHjuocPCoYDExN27NGdfoZ7ozxJvv1swZS538=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e4d9197so237610e0c.0
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:17:13 -0700 (PDT)
+	s=arc-20240116; t=1788967167; c=relaxed/simple;
+	bh=fBXbFpbcQbjFQINt1XxYvnOz0zlP+VZPixWHDI+5LpQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mgwJkuH+1MyXV3W4tj/GRpQ5UT7vDG/J9waFPUHlCEifaFB5Qq9z2eWd5UXMF/hu7ikie+Y7aC2WS63A8VlpXeJMRomkTCCRYWfMFTgYol+H9AgRxuOhzjKT/iai20eNHVIYzpyjq2k9o0TZXGlybvFFHJ5Eh8sa9r/JJ6cQdlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f0.google.com with SMTP id 46e09a7af769-801567830e7so125518a34.0
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:19:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788967032; x=1789571832;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=xngvRGlem5QBe9w72ZS3ISg4Zt8dZwRC6gUDQpCph0s=;
-        b=YOtf0HuEKERjRd2ygTP3FtCZUycskNbh/MB6M8Fu8jpSrGdS03I8MO4jZuQVcHRgia
-         Ffdni5VysJD1Pl5zUMy10Pxz42B5EaXA9NA19WcLMuzWk8UVj/Nm3S/TORQsbKkUxaJk
-         +F54HpcMDisTE/HuLJiIZnOpTw3dQAZ8l8SpWFhjzS8QcPWbBd2Pdo8qHJki4KCE9Uc5
-         djNVpMa8zLxRX10eJzOAMo3G9n34gWT5lDh0DKjmx6n3Y11pbblgyUhB2ebBIAywu2sd
-         Z6H2ZPk0LU1ewNK+YuM2BzHCiVUXIPoXwHFe3PfjA3lVxEdfJh2Jc0oPMDYox9jYBQp4
-         +7qg==
-X-Forwarded-Encrypted: i=1; AKwUvBwMfUxFn+/P6u5z7QceHKkxxM0Wwe6cjCDRfblSSWhFi9tq6sY0u9my9ntOK8AkI7hIbB5fd/LRwPDcmw==@lists.linux.dev
-X-Gm-Message-State: AFuF++mfbkUHSzvBmgDADiVH3rZ4tvsptl2092LFBSWQU6YRhONK5wG2
-	PhO9hW5VfIouFcD+5nqsVe1DP6yg8X717duOb9zthzIeR03nX0qoYoj+1Q08CCRczJyIHw==
-X-Gm-Gg: AYBFou2zH7wlQrlo0MM36/h2ybtn68xkTLFF7ZHj4YYH9UwNfTzeLavWLDtWxjn6T0W
-	gPSITsEE7jqLDLit0DPmwLKjFiJL9hm83jDFSmZW0dN6MgCwTwFUyNiuwPhalT8SaVsqHNrp+iz
-	Yt2kn+OJMThj3TOCC9GNyd3WXQTjw4RVcnvsjXnxanhdOO1d0kz/xhiR1TcslrHfbAcO1IJA1M3
-	RuzNLtbuQ0bsIoA5yRlwkEX3EjgfEyTFNYvifdqxVsOoXA3Y+oJCEWuOatsdyUNmQM70a8BH2Yj
-	I4vbte6boqXjGOv4XhYjYUNsjgr+OXYnvk43OsYbMoa6JoV/QXRjc5HMJi0LXn8K8q632K3iYjo
-	eepu4g5NdbhDI39QgNDd+RUlNsf13ymOxuZilozIxbIrEN7Ht5yZr7DsTtNTn5Wl18fh9AjPotk
-	+z8n+iQM64NXi8QHUmcFIj2iLW7BJnPER3mfic88EWFBbnrAzqR/M/nnRzu+psaq4NAVW8GFEiO
-	7MYdhMnkUf4tBWSYWempaYelqzAxDfJVFzAFYHenO9X/7n0Lg==
-X-Received: by 2002:a05:6122:21a8:b0:5c7:fb4e:2cee with SMTP id 71dfb90a1353d-5c83343f7d2mr1023916e0c.1.1788967031911;
-        Wed, 09 Sep 2026 08:17:11 -0700 (PDT)
-Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com. [74.125.226.204])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7ec23d459sm12498052e0c.9.2026.09.09.08.17.10
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 08:17:11 -0700 (PDT)
-Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-97e97e2c7d4so169350241.1
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 08:17:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByzrAZ7UC/b5M5LQOyrMT3BFxke9jlVClLWtcBP6Tw/ls5g2ciXqGdKGcKcs/Eof0JKWjZUi7Bt+I1etA==@lists.linux.dev
-X-Received: by 2002:a05:6102:159f:b0:77d:e064:2dc1 with SMTP id
- ada2fe7eead31-79072bd65e5mr1021149137.0.1788967030503; Wed, 09 Sep 2026
- 08:17:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788967164; x=1789571964;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=poVcBc/nmVPP4K5lL2InQVuUDiv4ng734KLoRF+5fug=;
+        b=m6+4EWWxYpv8CDuxW01mF+sLRWIL1zBEeTR/9sHzKyCF29DPRPTrP+1Ww7NXKpynj1
+         uwLeNP7YqZuhFZvtby2CQUk5xtyzvhRfo1JikS6UTBDFjaUUBGMzOR11K5m1V9Fb1Y1M
+         etTGlA67oH/oTombca30Vx132UIhQaVUkiBqZsUNH6yfnoBeIjtENg0voyHitdjbVW5I
+         Skm+MCDYwzSARVBSEhLTnjX0XA+OVuNO2jmAZiQeWoONBQ5uYSwsOHBYmpYQyy/nsBAf
+         BPdifFmb/jWY4UTLh82kMcIytfnab+3pUu4aHfYqpqumc67uYKSAnI0E/ZOfkUzfPr/r
+         MMgA==
+X-Forwarded-Encrypted: i=1; AKwUvBwvXiLFaxZB4XrGW1MiP7+1MRy/er1bnD//bc9+xinmG4bYk1me4+AyDl+TFStAdA4BAAiCi1gj7By4/w==@lists.linux.dev
+X-Gm-Message-State: AFuF++m/UIiZoznTI1Z2UtN9B5G8NSvlPDD3/t/V+JLozZYC5si56zYy
+	wZNGNOkA9mggHo1mwYPP0F9bfbDKIIquKBUEex8XI4fhuX+S3eIbWsEMcNpFZbnpSMT+lIgCWtu
+	GZduOfNt4VjViHXTJFb4PJrdOtqHtqtA+JfHEHQWbONoRPXYDwioItnd5Ecw=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260908-subsys_initcall-v1-0-cbccf4cd4288@redhat.com> <20260908-subsys_initcall-v1-2-cbccf4cd4288@redhat.com>
-In-Reply-To: <20260908-subsys_initcall-v1-2-cbccf4cd4288@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 9 Sep 2026 17:16:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUYJ-XSe22QnBREpxJH_hDVfV1CwkVjBqPK9AXTGJE1Aw@mail.gmail.com>
-X-Gm-Features: AcwNN1VLF1S9VM_rAd4lsusMxTGZ8B-oUTaocc800YUq_Bw4xg9-nPCuVEjF4tk
-Message-ID: <CAMuHMdUYJ-XSe22QnBREpxJH_hDVfV1CwkVjBqPK9AXTGJE1Aw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] driver: core: platform: add subsys_platform_driver() macro
-To: Brian Masney <bmasney@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+X-Received: by 2002:a05:6820:4b97:b0:6bd:5506:aadc with SMTP id
+ 006d021491bc7-6bd5506ae79mr4764719eaf.35.1788967164386; Wed, 09 Sep 2026
+ 08:19:24 -0700 (PDT)
+Date: Wed, 09 Sep 2026 08:19:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa178fc.f2639fcc.29487d.0008.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
+From: syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Brian,
+Hello,
 
-On Tue, 8 Sept 2026 at 19:47, Brian Masney <bmasney@redhat.com> wrote:
-> Add a new macro subsys_platform_driver() to eliminate some boilerplate
-> code in drivers that need to register earlier in the boot at the
-> subsys_initcall level.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> Assisted-by: Claude:claude-opus-4-8
+syzbot found the following issue on:
 
-Thanks for your patch!
+HEAD commit:    654ae5d73c05 Merge tag 'drm-fixes-2026-09-05' of https://g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11860cf9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
+dashboard link: https://syzkaller.appspot.com/bug?extid=7cab6a19619f1b8efc00
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> --- a/include/linux/platform_device.h
-> +++ b/include/linux/platform_device.h
-> @@ -376,6 +389,23 @@ static int __init __platform_driver##_init(void) \
->  } \
->  device_initcall(__platform_driver##_init); \
->
-> +/*
-> + * subsys_platform_driver_probe() - Helper macro for drivers that don't do
-> + * anything special in device init and have no exit, but need to register
-> + * earlier, at subsys_initcall level.  This eliminates some boilerplate.  Each
-> + * driver may only use this macro once, and using it replaces subsys_initcall.
-> + * This is meant to be a parallel of builtin_platform_driver_probe above, but
-> + * with the init call promoted to subsys_initcall so the provider is available
-> + * earlier during boot.
-> + */
-> +#define subsys_platform_driver_probe(__platform_driver, __platform_probe) \
-> +static int __init __platform_driver##_init(void) \
-> +{ \
-> +       return platform_driver_probe(&(__platform_driver), \
-> +                                    __platform_probe);    \
-> +} \
-> +subsys_initcall(__platform_driver##_init) \
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/90a1eb1b2bfe/disk-654ae5d7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/dcbbe9cf09c5/vmlinux-654ae5d7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c80eca6821dd/bzImage-654ae5d7.xz
 
-Nit: The backslash is not needed.
-Yeah, builtin_platform_driver_probe() has it, too...
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com
 
-> +
->  #define platform_create_bundle(driver, probe, res, n_res, data, size) \
->         __platform_create_bundle(driver, probe, res, n_res, data, size, THIS_MODULE, KBUILD_MODNAME)
->  extern struct platform_device *__platform_create_bundle(
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     
+------------------------------------------------------
+syz.6.857/9678 is trying to acquire lock:
+ffff88803cd16460 (sb_writers#6){.+.+}-{0:0}, at: ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
 
-Gr{oetje,eeting}s,
+but task is already holding lock:
+ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
 
-                        Geert
+which lock already depends on the new lock.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+the existing dependency chain (in reverse order) is:
+
+-> #4 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5908 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
+       inode_lock_shared include/linux/fs.h:1039 [inline]
+       lookup_slow+0x42/0x70 fs/namei.c:1935
+       walk_component fs/namei.c:2282 [inline]
+       lookup_last fs/namei.c:2789 [inline]
+       path_lookupat+0x5e8/0xc40 fs/namei.c:2813
+       filename_lookup+0x202/0x590 fs/namei.c:2842
+       kern_path+0x37/0x50 fs/namei.c:3036
+       lookup_bdev+0xd8/0x2a0 block/bdev.c:1268
+       bdev_file_open_by_path+0x82/0x330 block/bdev.c:1123
+       add_device drivers/mtd/devices/block2mtd.c:279 [inline]
+       block2mtd_setup2.isra.0+0x2ee/0xbd0 drivers/mtd/devices/block2mtd.c:459
+       block2mtd_setup+0xbd/0xd0 drivers/mtd/devices/block2mtd.c:476
+       param_attr_store+0x199/0x300 kernel/params.c:591
+       module_attr_store+0x58/0x80 kernel/params.c:906
+       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x6af/0x1050 fs/read_write.c:687
+       ksys_write+0x12a/0x250 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (param_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5908 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       ieee80211_rate_control_ops_get net/mac80211/rate.c:221 [inline]
+       rate_control_alloc net/mac80211/rate.c:267 [inline]
+       ieee80211_init_rate_ctrl_alg+0x1df/0x3b0 net/mac80211/rate.c:1008
+       ieee80211_register_hw+0x2c1e/0x4580 net/mac80211/main.c:1561
+       mac80211_hwsim_new_radio+0x2b08/0x6510 drivers/net/wireless/virtual/mac80211_hwsim_main.c:6138
+       init_mac80211_hwsim+0x5e2/0x6f0 drivers/net/wireless/virtual/mac80211_hwsim_main.c:7624
+       do_one_initcall+0x11c/0x6f0 init/main.c:1357
+       do_initcall_level init/main.c:1419 [inline]
+       do_initcalls init/main.c:1435 [inline]
+       do_basic_setup init/main.c:1455 [inline]
+       kernel_init_freeable+0x6ea/0x7b0 init/main.c:1670
+       kernel_init+0x21/0x1e0 init/main.c:1560
+       ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #2 (rtnl_mutex){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5908 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       rtnl_lock net/core/rtnetlink.c:80 [inline]
+       rtnetlink_rcv_msg+0x371/0xe90 net/core/rtnetlink.c:7138
+       netlink_rcv_skb+0x159/0x420 net/netlink/af_netlink.c:2556
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x585/0x850 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x8b0/0xda0 net/netlink/af_netlink.c:1900
+       sock_sendmsg_nosec net/socket.c:800 [inline]
+       __sock_sendmsg net/socket.c:815 [inline]
+       sock_sendmsg+0x394/0x410 net/socket.c:838
+       splice_to_socket+0xb3c/0x11a0 fs/splice.c:884
+       do_splice_from fs/splice.c:936 [inline]
+       do_splice+0x109c/0x1fa0 fs/splice.c:1349
+       __do_splice+0x33b/0x370 fs/splice.c:1431
+       __do_sys_splice fs/splice.c:1634 [inline]
+       __se_sys_splice fs/splice.c:1616 [inline]
+       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&pipe->mutex){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5908 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       pipe_lock fs/pipe.c:91 [inline]
+       pipe_lock+0x69/0x80 fs/pipe.c:88
+       iter_file_splice_write+0x1fd/0x10b0 fs/splice.c:682
+       do_splice_from fs/splice.c:936 [inline]
+       do_splice+0x109c/0x1fa0 fs/splice.c:1349
+       __do_splice+0x33b/0x370 fs/splice.c:1431
+       __do_sys_splice fs/splice.c:1634 [inline]
+       __se_sys_splice fs/splice.c:1616 [inline]
+       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (sb_writers#6){.+.+}-{0:0}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+       check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+       validate_chain kernel/locking/lockdep.c:3924 [inline]
+       __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
+       lock_acquire kernel/locking/lockdep.c:5908 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+       __sb_start_write include/linux/fs/super.h:19 [inline]
+       sb_start_write include/linux/fs/super.h:125 [inline]
+       mnt_want_write+0x6f/0x420 fs/namespace.c:494
+       ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+       lookup_open+0x1255/0x1990 fs/namei.c:4567
+       open_last_lookups fs/namei.c:4767 [inline]
+       path_openat+0xa2c/0x2440 fs/namei.c:4997
+       do_file_open+0x20e/0x430 fs/namei.c:5029
+       do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
+       do_sys_open fs/open.c:1423 [inline]
+       __do_sys_openat fs/open.c:1439 [inline]
+       __se_sys_openat fs/open.c:1434 [inline]
+       __x64_sys_openat+0x12d/0x210 fs/open.c:1434
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  sb_writers#6 --> param_lock --> &ovl_i_mutex_dir_key[depth]
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ovl_i_mutex_dir_key[depth]);
+                               lock(param_lock);
+                               lock(&ovl_i_mutex_dir_key[depth]);
+  rlock(sb_writers#6);
+
+ *** DEADLOCK ***
+
+locks held by syz.6.857/9678: 2, last CPU#1:
+ #0: ffff88802ba66460 (sb_writers#13){.+.+}-{0:0}, at: lookup_open+0x150/0x1990 fs/namei.c:4451
+ #1: ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ #1: ffff888058c6e948 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 9678 Comm: syz.6.857 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2059
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2191
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3181
+ check_prevs_add kernel/locking/lockdep.c:3300 [inline]
+ validate_chain kernel/locking/lockdep.c:3924 [inline]
+ __lock_acquire+0x1492/0x1ec0 kernel/locking/lockdep.c:5254
+ lock_acquire kernel/locking/lockdep.c:5908 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5865
+ percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+ percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+ __sb_start_write include/linux/fs/super.h:19 [inline]
+ sb_start_write include/linux/fs/super.h:125 [inline]
+ mnt_want_write+0x6f/0x420 fs/namespace.c:494
+ ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+ lookup_open+0x1255/0x1990 fs/namei.c:4567
+ open_last_lookups fs/namei.c:4767 [inline]
+ path_openat+0xa2c/0x2440 fs/namei.c:4997
+ do_file_open+0x20e/0x430 fs/namei.c:5029
+ do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2d2539e159
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f2d261d2028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f2d25625fa0 RCX: 00007f2d2539e159
+RDX: 0000000000000040 RSI: 0000200000000180 RDI: ffffffffffffff9c
+RBP: 00007f2d25435024 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000023 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2d25626038 R14: 00007f2d25625fa0 R15: 00007ffeef1e4b18
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
