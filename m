@@ -1,263 +1,263 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DC93DC861
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 19:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788981858; cv=none; b=d+Jjg7FDuK1m7ka8OQyWIP7l+Ab/X1t+PIVswN5jJePSCqvF0JSz+Q6NsnYq8GuWcD9wrfNO9WtFezsMLRJaP//tf61VGMPepRU+CzYEYz7XdPCOOiZ0anz/fkaU+W8jUo6tD9gVXOD+ssDHntENivsIuFFmqqVL0cIyZ3EAqKU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788981858; c=relaxed/simple;
-	bh=nEewE9vNn2GKeus40xjVARF+cnc+CRqiCdYnkkQKlwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZrM13w48M76XIKResEn/0ALvF4ROP89JRPmo7lq8bCAJLGLWNGbHKlaDt5fiujPhHomX2PNVopVuVw2QDGO+l4VJhnxIau5dfGkdOj2UB2T63oC0Sk9UA9QRfAmjRpkCmRY8P80CW1WtWg2ttvo1nzlD5Ak0w+lCQbS4/3JNa+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kv+hPdAE; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B03958038A
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 20:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788985953; cv=pass; b=BSjdmIHgEBFw75V9RLwfLvtfHWSCKSkoie3T8uOKBNcQqGVlb8QYY6iiz2iDkR3PSp3C6FHj3Y2lBfmTMy8nPQE55SRiDA55ZxaS+DA3zsniQFWJgAQMBQJ8YZscMwigINiKNVVYtizXBcqOHvjZy/Arck6bE8sfApRau8Vnf00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788985953; c=relaxed/simple;
+	bh=RDnvDdT3gqyBnSoIqf9qQ2y2LD/nCKQusFnx59PqfCg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cIYmYumKtpzwIQut7Jg+loHGTWu+GRXN/va2LsU5td+0B0e9xntckmZEgSdQvjRh+DOLSNiZOuWZoc/wAK+CnSPEEzQrtFSj4aPVfudAUtQ0HzuVGLV9VEP4p+JxTqNF2gCAvq4OQ1L1WBg/WXoz1fhg9rwncbvLL5LLqyD+F1g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFPs+uqi; arc=pass smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kv+hPdAE"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so73008785e9.1
-        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 12:24:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFPs+uqi"
+Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4b37a30eae7so1348055b6e.3
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 13:32:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788985945; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fSw1II4B/moKNdUH5EJiLwtur+r9OLvWP3geu3wmYIgucH6VVy9HO82IYax92joa3Q
+         t35GUnNvaCuPXLeCdWe2kyQDLMhSa7taXsfOJ1OPTjxeOpJewY/qbUFFrwhr6o/x9MnM
+         jKtjYL5RETFYHibuDFEHxHVrSiUghia+/Ge2psri+Le5NaOQ659TfMEvtdp+n6ImEMcY
+         RHMf1gpQfOXKZL2STvWhkG/GbDto3WWjA4iF+OAlf03Ivd403GXKYO6prh6tXdz2+DNW
+         FyxlGtURMWnHOPcg85LO5Lc2PSox+lzlSu3IKlXrWxOLHC18JPuBGTp7+6UDx/1nnHF4
+         RuDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aGmxbhzdNURowH0NhYZYh+4kKqv4nS/H+afPTxx5XOs=;
+        fh=uaP052N3jM8P3X7QglrJ1sHlYnraOODcgsEntZ2ZkmM=;
+        b=Jm9JtmYVJ4MeNEVLqkISDqtXev7uasctMAsXsPsaqeunXgtfb9gn2kYQj6LE12ZssP
+         kLeoV1wJ3LPR5kSwXk9frGno91jD1PWnH4DEJcO0yZMa5TbKamA0m7Mz1Aq02XIYpVzE
+         mpKwc0btSx37dIxbMyL0zy1pgt2n1/SVKpdLoa4erHQOBfjF/Pty1h0PfVDr6eMYScfJ
+         CVlBq4d+dF35ProwlmtItpl/spuE6z5utrsv5UEagSFE4j7Wrsb6FH0m0GIju1kaAzoL
+         QXP+XHdb0EIPV0wXZl3RgUUYLhbu5vd/w/7rtL1KLFBoHMrKhZ0b/eJB/FpN5O1vOIc8
+         dcYQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788981854; x=1789586654; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xU/TVU9R6QqVQBU8DMj4Dr025QCTEz1Y5w5z0voxEUA=;
-        b=Kv+hPdAE2/zdYzuk26lwEtTdTpjt70pEAFKyUoFTA7SaxyVfawuu1eLruGX4Dk03xC
-         bp2P14shlkZRWag3+eA7pVEfP++6/L/Yr0y7TCJ+yjOuckGf8Ykcr0zXvunidkaFPrC7
-         p6LvbkesQAK/kVR0Nm6BUdhZ+nA1bBX/ImHA/WJapjYQLlwFu0RtNaLC2s0T40CpAjZA
-         TzCkiQ2tMm1TwuKV4lddngmg68CIjFk5k7xbpTnxkuS6cMM86NQ4aC40Hcm6NqO7jY4n
-         OdeyZb/thnr4Pg0UFrfii5+EVRS69P4qy8/DGPN5ZjmGc30n1c8g5rE05V4f+kOnE1Xk
-         2x6w==
+        d=gmail.com; s=20251104; t=1788985945; x=1789590745; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aGmxbhzdNURowH0NhYZYh+4kKqv4nS/H+afPTxx5XOs=;
+        b=DFPs+uqiQ+oQ17LKpW06FP2QPovzuOE95c5oLhrZaCaoDfr6a+2pbD5LfNTbh+ZfAI
+         omPS7Gcq9XXyjHMOvTsito//vkmCmFk6bQ7EfwqiOT8cAkZy7mOcVgz+qsXmBkmZiafA
+         qnACDQUd4dzFOq9LYec3476Qa1Urd5CbwQmN1rSJX6NO3vLKPd+RF2NuNVPkqDqQc7NF
+         iMNEXwImlC7FW6vbsnNCu1BX9gkyHSZaY9ZdlxcUU4+y9gdZH7hKCIzcdNMK8zpiMxW4
+         3CM64I9RfIOq/vGMG4xN4ZuZK6GoT6UiVPAFfAh00gjyFeaUUg6EOUZUChHWtIKVLoqU
+         9bIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788981854; x=1789586654;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xU/TVU9R6QqVQBU8DMj4Dr025QCTEz1Y5w5z0voxEUA=;
-        b=tYFzZfvFzu4mRkx4jgPPFQ6CQDDveLGoOUmMOXLmqC6zKjgSQCn8IBlxmZ7YfMGheh
-         EvHBA1w3TIih0K72R5DswxgMPDvG8AW0o47vo4nKentK4laefGR0htD7zmHUagh3zbfu
-         rTHR64UAF0vwDSimrQ3Ylj33EVqZrMgN3iBwffzQgCKkKdxSdEKZK76uCD/rno3AUOWw
-         2K12rf3sC7txXmkgIQj3Mv1uKj3ACBF0UThnEvEJh3dAYzOj3me4TVUCydLhgcMMs+FY
-         keYE5EEJ72oVCdv3pgfZ42e7Mxtt9fcaggKn/IavL+he4CO+nY/3YbBZfEgpPG6Q97Rr
-         Spng==
-X-Forwarded-Encrypted: i=1; AKwUvBxEDPYrpSTvNzwxYRIfbDBS2nyMWPbhYpFaK+nwJ375cv9hV5ifdCRsd9umZtSudYaJnM6iubzd/D5j6w==@lists.linux.dev
-X-Gm-Message-State: AFuF++lKbX4SHw42m+bFkQApFT6JTqrk2hb6WGIr9USCGvRfGanSAWUt
-	aGdV+6wOEEBCZ2MtXLgFI3aj5bd6/eMlokcRJYVb2YydESM1M+PiwFSW
-X-Gm-Gg: AYBFou3M+xnASy0TV/r9liYIf9ytyRZuAsblT87OO1qDs7uA/Ck+XpsZ0jA4WmEyxpt
-	caWSO6kgDJUDCS5BUL+2iQTAZ0NpN22MeAc6UXacbFXyC/nRucZhR/o1jIYhczzPkf/U4ox9DLq
-	UB8h1LEbB82iD4nmku/93YqtCo4V0PRRNg4XGoptwaAE4tkwicAf8cl/iBbLDzsUuTES8QoWwaU
-	/+6G+xeav50bY/hx1B+hb4h3CFzt3/rn5DeX9Vd5DnD82GtBBsqjtTSyea8d600FX5ZLXsCF7lG
-	xPXaIXYBr2Mmnryq59mHZM8Buu4M8KyNHJXq4j+1U2VdK2a8C9XlzCBYmzUfSw98p6i6YrXXJ89
-	CF4g54fj+SbmBNDVjwl+2jWlDJ7CYMhfj8JqA5mDAj8aeyxRVjrG3z1OG7kIK6PCItzfU4U+qCY
-	cu576n/zPr2sLITcHInKAov8wBQ5rr+bYmA/EF0mt8msMj+2+86xvWJ3px2alLkAlJ86we9Douy
-	WsF+W8KnP/Krl68KaD2tLy2ent6lEmGgrFPt5m8ukI8VskaLxV9WRU=
-X-Received: by 2002:a05:600c:c173:b0:49c:cedc:3c36 with SMTP id 5b1f17b1804b1-49cf82a514cmr391436765e9.16.1788981854243;
-        Wed, 09 Sep 2026 12:24:14 -0700 (PDT)
-Received: from localhost.localdomain (mob-31-26-103-238.net.vodafone.it. [31.26.103.238])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49d26bf9490sm10925625e9.9.2026.09.09.12.24.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 12:24:12 -0700 (PDT)
-From: Oleg Keri <okerixx@gmail.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Sumit Gupta <sumitg@nvidia.com>,
-	Beata Michalska <beata.michalska@arm.com>,
-	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: [PATCH v2 2/2] cpufreq: update capacity_freq_ref when the boost state changes
-Date: Wed,  9 Sep 2026 21:23:51 +0200
-Message-ID: <20260909192351.33910-3-okerixx@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260909192351.33910-1-okerixx@gmail.com>
-References: <20260909192351.33910-1-okerixx@gmail.com>
+        d=1e100.net; s=20251104; t=1788985945; x=1789590745;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aGmxbhzdNURowH0NhYZYh+4kKqv4nS/H+afPTxx5XOs=;
+        b=BhLKZWbhU5F/3sC7sRZtPoUpCWpDvgUQkyAZFd8nB9xALs1/CFseCaTw0p0vijKAp+
+         2urwJ6EUUownXCzVuxUlekuBeRqTSdVLLTXdq/l126FlROlWFI8LOzozjWibZRWmV0fu
+         Czk3rwfXeMhoieYNfL7nTF4pMq7mpWV0mGELPRuvwNeq7cZ1lmjUSUOwvuXdOBbVnCJs
+         +HPqX9ZaxPVbMgKxhIf6ODo+lrt21T68+Qiehq1pAOZKK4pm6E7BpOp7VLCfRWi6Glwt
+         FiCk8gVyBJ4KAOI7vcKESVVtvMu8ku7178M2kCAGpcfU5PKgPXbwdSkEbM3CWSKnd9KG
+         DkXw==
+X-Forwarded-Encrypted: i=1; AKwUvBzJ5mttiZwVhgutQaEka9oxTn5v4OGWFXmfSII1hYz2gLqaoDVzUky65Jn/5kiIJyahNo6uL8LuNJY9+g==@lists.linux.dev
+X-Gm-Message-State: AFuF++k5yLzoE4L8NMmA+fUJ7Zhu4J9ThIrzf1OKvoDMdxwB5vWChS8C
+	PP+oMlIvQcda2rTUHEB/AzsppWvb1pUU3CKye/I5hv90ei4Hp65/pVOqtDQWkypZeDuIBgbmt5p
+	zB1+kbVmLPfTdw5wUBP9nY9i8jBunepw=
+X-Gm-Gg: AYBFou3tp5j6zIFXIC/wNgXXcXJGgZJB4e+6XheGitjLEgltLSpfb7fQL+Llo9VlIiP
+	FEZgVoA++QJbJSRDBK5vU7c/DzEIh/wsDGUjHt0RwRajcOElrd+FclPo3hNW1La25smgmqdqfjP
+	lDuS3MMtxsxOSqpp9MXHLwFSr/66nW1zDg6j1nc+amUAdBblLRXUm3rvL1Sj7OUG0bMKb1cXGYy
+	3IJoCc2FyiG7pMYBHfgug1W3DXD7aA0D+qfmJWecqIvYIgg4FikZNM9x9PMyaH+ymGQ+K3weI+E
+	V1MjMjKhnf9OCoHmQr9I3dE3sMhonn7mo9I/fp58m3H8Yeh1VT05bCbISWjvrF1Z8PLQkwe9Zgh
+	6aCDsuhoestBUxg==
+X-Received: by 2002:a05:6808:199b:b0:4b3:7a14:6b25 with SMTP id
+ 5614622812f47-4c0250d649emr9426459b6e.14.1788985944982; Wed, 09 Sep 2026
+ 13:32:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260909033246.2779303-1-georgeandrout13@gmail.com>
+ <2026090955-lustfully-fanning-33f9@gregkh> <DLAR1FIFL0Y5.22A7AJKNW0YQP@kernel.org>
+In-Reply-To: <DLAR1FIFL0Y5.22A7AJKNW0YQP@kernel.org>
+From: George Androutsopoulos <georgeandrout13@gmail.com>
+Date: Wed, 9 Sep 2026 16:32:14 -0400
+X-Gm-Features: AcwNN1UhJN0ysufwaCf-45J3Jdkut3tQFJ3a4uYdflnPIbeGW7A1nWp9glQ99fI
+Message-ID: <CAESH5oeL4+rgO1PODjza1PiTzvfOBmCP_WtUoAyaejwSCcQkSQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: auxiliary: validate DeviceId name length
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Leon Romanovsky <leon@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-capacity_freq_ref is latched from policy->cpuinfo.max_freq by
-init_cpu_capacity_callback() on CPUFREQ_CREATE_POLICY, and never
-updated afterwards.
+On Wed, Sep 9, 2026 at 7:29=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+> It's not actually fixing a bug, so I don't think this needs a Fixes: tag.
 
-cpufreq_frequency_table_cpuinfo() excludes CPUFREQ_BOOST_FREQ entries
-while boost is disabled, so on a system that boots with boost off the
-latched value is the non-boost maximum.  Enabling boost later raises
-policy->cpuinfo.max_freq but leaves capacity_freq_ref behind.
+Agreed, dropping it in v2.
 
-Two things then go wrong on arm64, where the AMU drives frequency
-invariance.  amu_scale_freq_tick() caps the computed scale at
-SCHED_CAPACITY_SCALE, so a CPU running above capacity_freq_ref
-saturates at 1024: the scheduler cannot tell a boosted CPU from one at
-the sustained maximum, and utilisation is underestimated.  And
-arch_freq_get_on_cpu(), which reverses that computation, cannot report
-more than capacity_freq_ref, so cpuinfo_avg_freq is pinned to the
-non-boost maximum.
+> I'd rather document that this is only intended to be called within device=
+ ID
+> table creation; in const context a panic is just a compile time error.
 
-On a Snapdragon X2 Elite (Glymur) laptop with a 4032000 kHz sustained
-and a 4723200 kHz boost OPP, cpuinfo_avg_freq reads exactly 4032000
-while the CPU runs at 4723200; a fixed workload completes in 1.72 s
-rather than the 2.01 s that frequency would imply.
+Agreed, replacing the `# Panics` section with that in v2.
 
-Factor the update out of init_cpu_capacity_callback() into
-topology_update_freq_ref() and call it from policy_set_boost(), which
-is the common path for the global boost knob, the per-policy one, and
-the CPU online path.
+> >>      pub const fn new(modname: &'static CStr, name: &'static CStr) -> =
+Self {
+> >>          let name =3D name.to_bytes_with_nul();
+> >>          let modname =3D modname.to_bytes_with_nul();
+> >>
+> >> +        assert!(
+> >> +            modname.len().saturating_add(name.len()) <=3D bindings::A=
+UXILIARY_NAME_SIZE as usize,
+> >> +            "auxiliary device ID is too long"
+> >> +        );
+>
+> Isn't this missing to consider the separator and NULL terminator?
 
-Signed-off-by: Oleg Keri <okerixx@gmail.com>
----
- arch/arm/include/asm/topology.h   |  1 +
- arch/arm64/include/asm/topology.h |  1 +
- arch/riscv/include/asm/topology.h |  1 +
- drivers/base/arch_topology.c      | 19 +++++++++++++------
- drivers/cpufreq/cpufreq.c         |  2 ++
- include/linux/arch_topology.h     |  1 +
- include/linux/cpufreq.h           |  7 +++++++
- 7 files changed, 26 insertions(+), 6 deletions(-)
+I believe both are covered. `to_bytes_with_nul()` includes each string's
+terminator, and after the copy loop `modname`'s NUL is overwritten
+with the `.` separator, so `modname.len() + name.len()` is exactly the
+required capacity.
 
-diff --git a/arch/arm/include/asm/topology.h b/arch/arm/include/asm/topology.h
-index ad36b6570067..a776a79885ee 100644
---- a/arch/arm/include/asm/topology.h
-+++ b/arch/arm/include/asm/topology.h
-@@ -11,6 +11,7 @@
- #ifndef CONFIG_BL_SWITCHER
- /* Replace task scheduler's default frequency-invariant accounting */
- #define arch_set_freq_scale topology_set_freq_scale
-+#define arch_update_freq_ref topology_update_freq_ref
- #define arch_scale_freq_capacity topology_get_freq_scale
- #define arch_scale_freq_invariant topology_scale_freq_invariant
- #define arch_scale_freq_ref topology_get_freq_ref
-diff --git a/arch/arm64/include/asm/topology.h b/arch/arm64/include/asm/topology.h
-index b9eaf4ad7085..a4b96a7ee4a5 100644
---- a/arch/arm64/include/asm/topology.h
-+++ b/arch/arm64/include/asm/topology.h
-@@ -22,6 +22,7 @@ void update_freq_counters_refs(void);
- /* Replace task scheduler's default frequency-invariant accounting */
- #define arch_scale_freq_tick topology_scale_freq_tick
- #define arch_set_freq_scale topology_set_freq_scale
-+#define arch_update_freq_ref topology_update_freq_ref
- #define arch_scale_freq_capacity topology_get_freq_scale
- #define arch_scale_freq_invariant topology_scale_freq_invariant
- #define arch_scale_freq_ref topology_get_freq_ref
-diff --git a/arch/riscv/include/asm/topology.h b/arch/riscv/include/asm/topology.h
-index fe1a8bf6902d..a363d72c174f 100644
---- a/arch/riscv/include/asm/topology.h
-+++ b/arch/riscv/include/asm/topology.h
-@@ -11,6 +11,7 @@
- /* Replace task scheduler's default frequency-invariant accounting */
- #define arch_scale_freq_tick		topology_scale_freq_tick
- #define arch_set_freq_scale		topology_set_freq_scale
-+#define arch_update_freq_ref		topology_update_freq_ref
- #define arch_scale_freq_capacity	topology_get_freq_scale
- #define arch_scale_freq_invariant	topology_scale_freq_invariant
- #define arch_scale_freq_ref		topology_get_freq_ref
-diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-index 8c5e47c28d9a..79eb1681065d 100644
---- a/drivers/base/arch_topology.c
-+++ b/drivers/base/arch_topology.c
-@@ -317,6 +317,18 @@ bool __init topology_parse_cpu_capacity(struct device_node *cpu_node, int cpu)
- 	return !ret;
- }
- 
-+void topology_update_freq_ref(const struct cpumask *cpus, unsigned int max_freq)
-+{
-+	int cpu;
-+
-+	for_each_cpu(cpu, cpus) {
-+		per_cpu(capacity_freq_ref, cpu) = max_freq;
-+		freq_inv_set_max_ratio(cpu,
-+				       per_cpu(capacity_freq_ref, cpu) * HZ_PER_KHZ);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(topology_update_freq_ref);
-+
- void __weak freq_inv_set_max_ratio(int cpu, u64 max_rate)
- {
- }
-@@ -392,7 +404,6 @@ init_cpu_capacity_callback(struct notifier_block *nb,
- 			   void *data)
- {
- 	struct cpufreq_policy *policy = data;
--	int cpu;
- 
- 	if (val != CPUFREQ_CREATE_POLICY)
- 		return 0;
-@@ -403,11 +414,7 @@ init_cpu_capacity_callback(struct notifier_block *nb,
- 
- 	cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->related_cpus);
- 
--	for_each_cpu(cpu, policy->related_cpus) {
--		per_cpu(capacity_freq_ref, cpu) = policy->cpuinfo.max_freq;
--		freq_inv_set_max_ratio(cpu,
--				       per_cpu(capacity_freq_ref, cpu) * HZ_PER_KHZ);
--	}
-+	topology_update_freq_ref(policy->related_cpus, policy->cpuinfo.max_freq);
- 
- 	if (cpumask_empty(cpus_to_visit)) {
- 		if (raw_capacity) {
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 96515880b4ac..a70805a1d9d3 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -594,6 +594,8 @@ static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
- 		return ret;
- 	}
- 
-+	arch_update_freq_ref(policy->related_cpus, policy->cpuinfo.max_freq);
-+
- 	return 0;
- }
- 
-diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
-index ebd7f8935f96..4974f5e1a7fe 100644
---- a/include/linux/arch_topology.h
-+++ b/include/linux/arch_topology.h
-@@ -31,6 +31,7 @@ static inline unsigned long topology_get_freq_scale(int cpu)
- 
- void topology_set_freq_scale(const struct cpumask *cpus, unsigned long cur_freq,
- 			     unsigned long max_freq);
-+void topology_update_freq_ref(const struct cpumask *cpus, unsigned int max_freq);
- bool topology_scale_freq_invariant(void);
- 
- enum scale_freq_source {
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index 35ce665edfd8..5b904e13eb21 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -1235,6 +1235,13 @@ void arch_set_freq_scale(const struct cpumask *cpus,
- }
- #endif
- 
-+#ifndef arch_update_freq_ref
-+static __always_inline
-+void arch_update_freq_ref(const struct cpumask *cpus, unsigned int max_freq)
-+{
-+}
-+#endif
-+
- /* the following are really really optional */
- extern struct freq_attr cpufreq_freq_attr_scaling_available_freqs;
- extern struct freq_attr cpufreq_freq_attr_scaling_boost_freqs;
--- 
-2.55.0
+At the boundary, `DeviceId::new(c"a", <37 bytes>)` stores "a." plus 37
+bytes plus the NUL, which is 1 + 1 + 37 + 1 =3D 40 and is accepted; one
+byte more is rejected.
 
+> Unfortunately, we can't enforce that is function can only be called from =
+const
+> context, so technically it could also be called outside of the device ID =
+table
+> in non-const context, but it would be odd to construct outside of a devic=
+e ID
+> table.
+
+Ideally that would be enforced rather than documented. Miguel pointed at
+Gary's `#[const_eval_only]` [1] in the other branch, and `DeviceId::new()`
+looks like a good candidate for it: it exists only to build device ID
+tables, so a non-const call is a mistake rather than a supported use.
+
+For v2 I will document the intent, and the attribute can be applied as a
+follow-up once that series lands.
+
+[1] https://lore.kernel.org/rust-for-linux/20260903-cv-v2-0-e93b1613e40c@ga=
+ryguo.net/
+
+
+On Wed, Sep 9, 2026 at 7:29=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> On Wed Sep 9, 2026 at 9:19 AM CEST, Greg Kroah-Hartman wrote:
+> > On Tue, Sep 08, 2026 at 11:32:46PM -0400, Georgios Androutsopoulos wrot=
+e:
+> >> `DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
+> >> `auxiliary_device_id::name` array without checking that they fit. An
+> >> oversized name is caught by the array bounds check, but the error
+> >> reports an out-of-bounds index in the copy loop rather than the
+> >> constraint the caller violated.
+> >>
+> >> Check the invariant explicitly instead, so the failure states the leng=
+th
+> >> limit rather than an array index.
+> >>
+> >> In a constant context exceeding the limit leads to a build error; at
+> >> runtime it panics, so add a `# Panics` section for it.
+> >>
+> >> Fixes: ce735e73dd59 ("rust: auxiliary: add auxiliary device / driver a=
+bstractions")
+>
+> It's not actually fixing a bug, so I don't think this needs a Fixes: tag.
+>
+> >> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+> >> ---
+> >>  rust/kernel/auxiliary.rs | 10 ++++++++++
+> >>  1 file changed, 10 insertions(+)
+> >>
+> >> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+> >> index 60dfbec8f330..1f3ba86d6d96 100644
+> >> --- a/rust/kernel/auxiliary.rs
+> >> +++ b/rust/kernel/auxiliary.rs
+> >> @@ -137,10 +137,20 @@ macro_rules! module_auxiliary_driver {
+> >>
+> >>  impl DeviceId {
+> >>      /// Create a new [`DeviceId`] from name.
+> >> +    ///
+> >> +    /// # Panics
+> >> +    ///
+> >> +    /// Panics if the combined module and device name, including the
+> >> +    /// separator and trailing NUL, exceeds `AUXILIARY_NAME_SIZE` byt=
+es.
+>
+> I'd rather document that this is only intended to be called within device=
+ ID
+> table creation; in const context a panic is just a compile time error.
+>
+> >>      pub const fn new(modname: &'static CStr, name: &'static CStr) -> =
+Self {
+> >>          let name =3D name.to_bytes_with_nul();
+> >>          let modname =3D modname.to_bytes_with_nul();
+> >>
+> >> +        assert!(
+> >> +            modname.len().saturating_add(name.len()) <=3D bindings::A=
+UXILIARY_NAME_SIZE as usize,
+> >> +            "auxiliary device ID is too long"
+> >> +        );
+>
+> Isn't this missing to consider the separator and NULL terminator?
+>
+> >
+> > We really shouldn't panic, we should error out and fail the creation
+> > instead.
+>
+> This is only ever used from const context to construct the device ID tabl=
+e, e.g.
+> as in
+>
+>         kernel::auxiliary_device_table!(
+>             AUX_TABLE,
+>             <NovaDriver as auxiliary::Driver>::IdInfo,
+>             [(
+>                 auxiliary::DeviceId::new(NOVA_CORE_MODULE_NAME, AUXILIARY=
+_NAME),
+>                 ()
+>             )]
+>         );
+>
+> and a panic in const context makes the compilation fail, so it works as
+> intended.
+>
+> Unfortunately, we can't enforce that is function can only be called from =
+const
+> context, so technically it could also be called outside of the device ID =
+table
+> in non-const context, but it would be odd to construct outside of a devic=
+e ID
+> table.
+>
+> > But what is placing the constraint of the name size here?  The C api
+> > just takes a pointer, it doesn't care about the size, why does the rust
+> > binding care?
+>
+> I assume you were thinking of something else? This struct represents
+>
+>         #define AUXILIARY_NAME_SIZE 40
+>
+>         struct auxiliary_device_id {
+>                 char name[AUXILIARY_NAME_SIZE];
+>                 kernel_ulong_t driver_data;
+>         };
