@@ -1,132 +1,111 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597072DEA98
-	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 09:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2B53D170C
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 09:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945728; cv=none; b=tY7tQhRlkHWAszLCb1w32tx475wBFKQl1OASzuxQljZolOg8ErfV8JBHtNitS5QE9GCRJ1R7O837/u2OFOqTaadOMr1klk+GYFUKkNTPAyf48Xqcg53WQEgYFU8H+pu4hhPzcaPa0cERO+nYCveO6wuYxZXSw9L26uieMbZiWts=
+	t=1788945791; cv=none; b=hI2Tx1THKXFbJrgvwkS7w7R3k/toSOcnAEtTBUB7u8DSKa/RsK497Mhozvku6l9OcE+EhYxlS4C7xWG/WHzkn04mPrIvcJ1l2Wm0959qfM9bo92dyqoWLoaorPntdAjeEadEWElwF++FD0TnVKTCRtsJpBr6b4fcv7R5PTdTW0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945728; c=relaxed/simple;
-	bh=gNUT8TLwO5DgBH0uO3QMIS5xz0NKOg4F8TJJa8dx/kM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UibtRHI2Wf1n8wjZLkwQY9Swmwz+5upVylRhWlCQNuH7tnlC2f8GDmU4Ue6RG9vIKXST720EG4ofDb2kT9WzO7/Qz/gX1pozJcUMRZ0SacZ9h+AX4R7Eek49Wvq57cwOaM+mmw00mvLe4rVYq7ig8chfuvK8fFmfFup6eG2DnM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=tpJ65pER; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1788945791; c=relaxed/simple;
+	bh=MDBBmeOGt1jJA2QyqYyZpKdJgVhokM9Hyvk+N6kJG7Y=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p/+6fGGp1JDpZ+7XTzNXel323Jv4Ry4nxlamDFZ333QiT7PRb7W4k5NUnIcayj/HkLLJwputE08eszNid8NNuhakdQQqTG0FvbgrzK4wrUlydfwd7USAKmMr3GaSrKeMtjHLYWPnNgbUPxF/XVMMcOaf5xp6iLQQO7zaEOGLABg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xv8ei3Eh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="tpJ65pER"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1788945713; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=5z9gyjJYLD5MOc6TEyKbb4OVWgXZum9SGaVXKpjKU2A=;
-	b=tpJ65pER0xlLtC9qyH+nPriY9KBFW4vkFzkkQhjYng9cOuvbNMPk91oPt2G0k8UtnxUT+7pKr/yil6Fj9qd5NYn7BzVhKA00ruPhSfVsaOu9qLkoJx7NeYhY5TKCIaTAU7k7W3Jekm2ksmUggLZUcC/CbBfa4DPJNsRDMECq0BY=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XAePP5E_1788945710;
-Received: from 30.178.68.218(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XAePP5E_1788945710 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 09 Sep 2026 17:21:51 +0800
-Message-ID: <60ecd01c-92ef-4d36-b03f-c13e0455f51c@linux.alibaba.com>
-Date: Wed, 9 Sep 2026 17:21:50 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xv8ei3Eh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973DC1F01559
+	for <driver-core@lists.linux.dev>; Wed,  9 Sep 2026 09:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788945789;
+	bh=osuKNlWwkgDC1U1icT/Qoh45Es9k9O509Xjy31GoFe8=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Xv8ei3EhJ4HgzbOdGsjteUPopCkw4XU2rkVeC9+Yfe1nKnNiNuCsJxA2oGOVTwAin
+	 saUDbUkbRvVy4G8RMb+sD2xLpnoZ+wb5cFTZpHBb/r3XXd7BgseV4AD9YSzORRN1Qo
+	 P6+hM6WkOb7MTC6McLuApcRQCfbbCx9L9oRk3VjEbTuhLzsp4hXtg3FOsuAsAody6o
+	 OwWw9b+uJ7KWWbwXq3MgiXGRa4JZiV1mxJaSS7zepZzVlygSaortBcOxlQoHcOw9Zp
+	 P8pkZZRMSUTymuvBe/OaVF0AQH8Bu8SUO6au2gniraylnozvssr9Ux9ggfAylFPJnU
+	 VMchAFHffC2ew==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b76694fb7aso326815e87.0
+        for <driver-core@lists.linux.dev>; Wed, 09 Sep 2026 02:23:09 -0700 (PDT)
+X-Gm-Message-State: AFuF++m2jlqb3q2XiC6PmqTEKQ81HHjKPSlEFFhTGqh17oPyGxgK+eAu
+	5T2GBs6a7I5+0Ti5piUC6+QwAf8fUEK7GFBjWtSZJzgz5WNR+aMWp9N6LYEqBnyGJnkfKo0PYme
+	Z55hH+5x44KgGVRrT5QNwKBvD0IZ9/0H2tGJKCm7raQ==
+X-Received: by 2002:a05:6512:1286:b0:5b7:668a:e8cb with SMTP id
+ 2adb3069b0e04-5b7668aeb82mr414082e87.31.1788945788232; Wed, 09 Sep 2026
+ 02:23:08 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 02:23:07 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 02:23:06 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260909080114.591938-6-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] cxl/memdev: Fix poison debugfs vs unbind deadlock
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
- Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
-Cc: linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
-References: <20260831124809.889829-1-kanie@linux.alibaba.com>
-In-Reply-To: <20260831124809.889829-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-6-herve.codina@bootlin.com>
+Date: Wed, 9 Sep 2026 02:23:06 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MfqbjoARAQQ65fpwn8Y8SMXt7BAfvhtfzOj6iQUEYnAPQ@mail.gmail.com>
+X-Gm-Features: AcwNN1WZ09Q1SV1ODjBdPMqkfOrJoPMMt-CtgzyA6h5c6HSsWVZpQuvsCQtR_OE
+Message-ID: <CAMRc=MfqbjoARAQQ65fpwn8Y8SMXt7BAfvhtfzOj6iQUEYnAPQ@mail.gmail.com>
+Subject: Re: [PATCH v11 05/10] cxl/test: Use fw_devlink_set_device()
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Richard Cheng <icheng@nvidia.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
+	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi, gently ping on this patchset, Any feedback would be appreciated. thanks.
+On Wed, 9 Sep 2026 10:01:04 +0200, Herve Codina <herve.codina@bootlin.com> said:
+> The code set directly fwnode.dev field.
+>
+> Use the dedicated fw_devlink_set_device() helper to perform this
+> operation.
+>
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Richard Cheng <icheng@nvidia.com>
+> ---
+>  tools/testing/cxl/test/cxl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
+> index 547ebc97bf59..e21e45fe1572 100644
+> --- a/tools/testing/cxl/test/cxl.c
+> +++ b/tools/testing/cxl/test/cxl.c
+> @@ -1678,7 +1678,7 @@ static void mock_companion(struct acpi_device *adev, struct device *dev)
+>  	device_initialize(&adev->dev);
+>  	fwnode_init(&adev->fwnode, NULL);
+>  	device_set_node(dev, &adev->fwnode);
+> -	adev->fwnode.dev = dev;
+> +	fw_devlink_set_device(&adev->fwnode, dev);
+>  }
+>
+>  #ifndef SZ_64G
+> --
+> 2.55.0
+>
+>
 
-Best Regards,
-Guixin Liu
-
-在 2026/8/31 20:48, Guixin Liu 写道:
-> Writing a memdev poison debugfs file while cxl_mem is being unbound
-> deadlocks. Patch 2 fixes it by not waiting for the device lock in those
-> handlers. Patch 1 adds the trylock guard it uses.
->
-> Patch 2 does not build without patch 1, so the two need to travel
-> together.
->
-> Testing:
->
-> Reproduced on a QEMU CXL topology whose type3 devices advertise poison
-> inject support:
->
->    while :; do echo 0 > /sys/kernel/debug/cxl/mem0/inject_poison; done &
->    while :; do
->        echo mem0 > /sys/bus/cxl/drivers/cxl_mem/unbind
->        echo mem0 > /sys/bus/cxl/drivers/cxl_mem/bind
->    done
->
-> Without the fix the unbind wedges within seconds. The three tasks
-> involved, from /proc/<pid>/stack:
->
->    writer, state S, holds the debugfs reference and waits for the lock
->      cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
->      debugfs_attr_write+0x61/0xb0
->      full_proxy_write+0xfc/0x1c0
->      vfs_write+0x1d4/0xe60
->
->    unbind, state D, holds the lock and waits for the reference to drain
->      remove_one+0x27f/0x3d0
->      debugfs_remove+0x44/0x60
->      release_nodes+0xfa/0x2c0
->      devres_release_all+0x113/0x1a0
->      device_unbind_cleanup+0x76/0x260
->      device_release_driver_internal+0x3eb/0x540
->      unbind_store+0xde/0x100
->
->    cxl_port workqueue, state D, blocked on the same lock
->      device_release_driver_internal+0x96/0x540
->      detach_memdev+0x79/0xb0 [cxl_core]
->      process_one_work+0x6b0/0xfb0
->
-> The writer is in interruptible sleep and can be killed; the unbind
-> cannot, and because cxl_bus_wq is an ordered workqueue the wedged
-> detach_memdev() blocks every other CXL bus work item behind it.
->
-> With both patches applied, 46 unbind/bind cycles against the same writer
-> loop all completed, no task was left in D state, and the writer collected
-> 10920 EBUSY returns from the contended trylock. Note that lockdep stays
-> quiet either way: one leg of the cycle is the debugfs active_users
-> completion rather than a lock it tracks.
->
-> v1 -> v2:
-> - add the device_trylock() guard and use ACQUIRE(device_try, ...) instead
->    of open-coding device_trylock()/device_unlock(), keeping the style the
->    Fixes: commit established (Shaikh Kamaluddin)
-> - cut the changelog down to the failing condition, the consequence and
->    the fix; the call graph and the reproducer live here instead
-> - say how the issue was found and how it was tested
->
-> v1:
-> https://lore.kernel.org/linux-cxl/\
-> 20260826125248.4003792-1-kanie@linux.alibaba.com/
->
-> Guixin Liu (2):
->    driver core: Add conditional guard support for device_trylock()
->    cxl/memdev: Fix deadlock between poison debugfs and cxl_mem unbind
->
->   drivers/cxl/mem.c      | 14 ++++++++++----
->   include/linux/device.h |  1 +
->   2 files changed, 11 insertions(+), 4 deletions(-)
->
->
-> base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
