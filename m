@@ -1,162 +1,169 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010021.outbound.protection.outlook.com [40.93.198.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-58.mta1.migadu.com [95.215.58.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13B6242D67;
-	Thu, 10 Sep 2026 04:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789014252; cv=fail; b=m89zRFVcksPga5GV140rRUSTD0Z68ADfUbt17pSr7KXnAJi4hx8w6YTxnBFBxoohvNdXGsbKQ8grgCHDrBDVCn8LJ5gFCq2nRWpySC3N5kdn24TbDBkLRyPLuHHvSoa3Po/Ew3+9Arbztr6akbjCVzNCk5zItqaMxD45SrYHVqc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789014252; c=relaxed/simple;
-	bh=dj0iXWPCsodIPPxibSA0ZiQs6p/B0Jma0FM54ecQHx4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KN5Z2vlJwUsAmbw4yJvjIkeIeReUjyYM7/afW9CkxDSFIDvOQwo6uRWBTr+YuC5IL3hdRO/V3n8SR1xN6JQjHGGwLzCeXPlX3dMf5TgYxbSWiVHYxiHRBhNoyaMrj21v+u9KM/WIKBIG1JdD5K+JsI975+d8WTraOTFhoxFcZDw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AJlUmYCP; arc=fail smtp.client-ip=40.93.198.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BC03AD52E
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 04:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.58
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789016077; cv=none; b=HT3uGgrvzf5tw5ZOEub09XDcNTpvT/Re7xHocGj7JijNvx4KhSZxMCAj0ZQudwmOfCRp0slgPaSqaiDoiSANdaQz1dZSd3SaLsnKEbCyEV7Wzp7BSHg5N4OqwWcd5GVamXzMSarD7w+rAyw5tbs/edYwOz0BGHRimL+u8uSIiWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789016077; c=relaxed/simple;
+	bh=V383zAfWwZwigQCsoN9reju52t9jYgCgai+gj9LwMlE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DM+f6N9uFLhLuGyu/oAv/v0Z99TTtO+vtoHR47GwFFt5+HTcYfViroJpdo+W8PkwbjZVYtTLNZFejhxUEaqhha6LqFcOhR1LoFxxtiyIAjJCrrzRsAiPcj3TPud51ePuc5+q45q/r0Cd/0N+GsqI6NjwBApWSpsMocR19wfH1f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ycwy6mei; arc=none smtp.client-ip=95.215.58.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AJlUmYCP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dtLinWauMWcVYQtt7CsNQJFC6MAveP4w7UOl0OaGSIvTrq0qFLlHH13WuzOzXs1GWdrqFOZ79VpW1tvVHncfyYvLGWBR1qMJCvcavhKtAL8f4Zn0aak49gLrXmACm6ZndRpf4yEGM3ikyvoz1mfWQc8GjdXvBcmntVWgzObK2gTmB6NFYccB7uYiGjBOSSH9zHM+Nl0acxIjWZ8yRaCjrCz03iJzRWBr6ROgE6WmPPpUZYZymUcXN7hHiXaBlOlAi+WK5if3ubI9owyFv1chX9K0Prs0iRtblPGcG8ovMyQpUtX3/aR6AMVDv/WEvbfp03qpDojwJpPZn9ItF4NnAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zpbah0L05eiHmHOtHjK+Nv7fX2cEcb14L0k+7z5InzE=;
- b=f46DfiIU4TROv1ln2PotB/s2ft+MNWxlBWMMuOi446aX1YSA4TxBgLzV8N/5OsK8rENIjsmln6DVMW+18tTzzujmiWPriMi34wWPp8F828s/hhOWq4rceetd9ZaKLZPJfF2MvFnarn+YwoezBG2fA+iwufEvkB3VysO6kMwvRTrsd3Mj2W1yaI3IvhCUnhOVQ34gsSH7s+1OtgWk9z/vivPuHvupOS2Nku01UcmQbKrhZfxkDZL+LidmtmLLdOAEhsugZZlF0SfMb6WfmJ+kUyfqS6PZ6Pbace6c45mXtOm91RRdZNFpFoXzbBiXXEZkFKIhdoFmWjjF01U3LS0ARA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zpbah0L05eiHmHOtHjK+Nv7fX2cEcb14L0k+7z5InzE=;
- b=AJlUmYCPxxiLrjMyTysSA+DC0ozTDnYjKdCj7iftKBYpmmTpSgwU1AoJ8bPNmbZJv1uineSwCl5xnosomU+AOfuKHSqfPMalPTArUFX0KQBvxbG6rvdxnjk2oBbmH4qDqAfd8oaX+Mh8FcowahY0YBwvTAcSNtSM3dzuSkq/04h9TJ78UwOJbbZrjIpVAcXEpve9mPZKdVqWzbSGK3YxpN0KOBHP6QTKj4E3cMg+QjlqRExMROjbm+K3ete7HguJBLaum+rRJLI857n+AwyEk6SpUXxcWnYTrehTTFAPEE5HV6L+u90YNBaM7ZEcyfbqblg/GPk8E6mWGqMZsjxFgw==
-Received: from CH0PR03CA0062.namprd03.prod.outlook.com (2603:10b6:610:cc::7)
- by PH7PR12MB8428.namprd12.prod.outlook.com (2603:10b6:510:243::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Thu, 10 Sep
- 2026 04:24:00 +0000
-Received: from CH1PEPF0000AD76.namprd04.prod.outlook.com
- (2603:10b6:610:cc:cafe::3a) by CH0PR03CA0062.outlook.office365.com
- (2603:10b6:610:cc::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.9 via Frontend Transport; Thu, 10
- Sep 2026 04:23:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH1PEPF0000AD76.mail.protection.outlook.com (10.167.244.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Thu, 10 Sep 2026 04:23:59 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 9 Sep
- 2026 21:23:45 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 9 Sep
- 2026 21:23:44 -0700
-Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46 via Frontend
- Transport; Wed, 9 Sep 2026 21:23:36 -0700
-Date: Wed, 9 Sep 2026 21:23:34 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, <joro@8bytes.org>,
-	Robin Murphy <robin.murphy@arm.com>, <rafael@kernel.org>, Danilo Krummrich
-	<dakr@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
-	<aneesh.kumar@kernel.org>
-CC: Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Gavin Shan <gshan@redhat.com>, Vikram Sethi <vsethi@nvidia.com>, "Anshuman
- Khandual" <anshuman.khandual@arm.com>, Shanker Donthineni
-	<sdonthineni@nvidia.com>, Mostafa Saleh <smostafa@google.com>,
-	<rppt@kernel.org>, Thomas Huth <thuth@redhat.com>, Marc Zyngier
-	<maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>, <kas@kernel.org>,
-	Kohei Enju <enju.kohei@fujitsu.com>, Shaopeng Tan
-	<tan.shaopeng@jp.fujitsu.com>, Ard Biesheuvel <ardb@kernel.org>, James Morse
-	<james.morse@arm.com>, Steven Price <steven.price@arm.com>, Sang-Heon Jeon
-	<ekffu200098@gmail.com>, Omar Sandoval <osandov@fb.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Jinjie Ruan <ruanjinjie@huawei.com>, Sam Edwards
-	<cfsworks@gmail.com>, Douglas Anderson <dianders@chromium.org>, "Florian
- Fainelli" <florian.fainelli@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>,
-	Huacai Chen <chenhuacai@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
-	Pranjal Shrivastava <praan@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<iommu@lists.linux.dev>, <driver-core@lists.linux.dev>, Sonang Patel
-	<sonangp@nvidia.com>, Ankit Agrawal <ankita@nvidia.com>
-Subject: Re: [PATCH v1 8/8] iommu/arm-smmu-v3: Probe a guest-level Realm
- VSMMU via RSI commands
-Message-ID: <aqIwxldvOHWlNGRu@nvidia.com>
-References: <cover.1789010941.git.nicolinc@nvidia.com>
- <df25452641dc126eb334a1bfbe5eee16cc8a8953.1789010941.git.nicolinc@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ycwy6mei"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=V383zAfWwZwigQCsoN9reju52t9jYgCgai+gj9LwMlE=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789016065; v=1; x=1789620865;
+ b=Ycwy6meiQDardmQnsuA2o8+Q1jqbuMOcFF/iEBAK7xTxmprsHrd1VPZ8Yw4P7y/5PaVRympP
+ Lu1ZGnaprVAt62yeBhgq8VJoEmHD6/zdfc/cgdn8SVn9ANb2WVwFWJ/VvwZUdVDa+gJK2IF2AyA
+ E+28I+9xvjTgVlG9evMVIIv8=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 38b1e1fbd4224c91;
+	Thu, 10 Sep 2026 04:54:15 +0000
+X-Mizu-Trace-ID: 38b1e1fbd4224c91
+X-Migadu-Flow: FLOW_OUT
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christian Brauner <christian@brauner.io>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kernfs: don't hold kernfs_rwsem across notification delivery
+Date: Wed,  9 Sep 2026 21:54:06 -0700
+Message-ID: <20260910045406.485295-1-shakeel.butt@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <df25452641dc126eb334a1bfbe5eee16cc8a8953.1789010941.git.nicolinc@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD76:EE_|PH7PR12MB8428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8622a8be-86b3-47af-3b3c-08df0ef35621
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|7416014|376014|23010399003|18002099003|22082099003|4143699003|56012099006|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	+i4wPFj5cGmEckAhb82HfaZ0U2wR7LoMXv2UBB8KGaydHcVkXQCsrdDQHfhZby0wDmOGWcYz/vaID/yt2LGsa8WyRinztTzK/HelVhUOV+LctuDONR4DnqhGWC69+TstBHLQN5ckzwTb8rpp3vcUDUluhNvmT57yytK13V2tdJ2ELfhk43TXf5cyEJeVqwwtWHdO7axBqiiJAI7SX3RqSMewM5+iZH7AVGcGkY5gDbYrAPWH/BrvnzmggTYuHmnUOmUgFFWOvNgHY2N0E7nYyBmFE2o9oPohKWr99iCohUUx+IYMWpsYrR9eDT5n81/NBkq4zIhb+4+XroWwZxGxh3riblS+Zo8LR2k8EZzxTg2BMliYBRQ35RHtkwIqEXmog8qyZlP8Muq7qHm2/p23EZnX6rXAhfIlIHsmz/ftGT/3fM+1bFjx3+DClZBtDNmiYCzYP7YC1ziUbHMi79URnTMQq/w0DZPm9MkwkasW8y2ofFR5eammDkglXSYaeK2awINlmgVshxt9O9ZwbBZ97Hh7IOW8eZVjtqpmkY6tdoN2QuqqXtwDbq63/08G4u7O2huC7yLUeVucMhXu3A8xM1+sYnzbnGprpD6gX2RvI2BJWyo+uAtMlYPsw0DziOkMy4+vbZI1Gl9yrDqVQ2LHpU1fr5Ug7MT9AfTCdIrvPB93OMb89V8OQz1XTBfS/YnSRcKIP0OlhMVTXYES+xmAbA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(7416014)(376014)(23010399003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	LAbdey40vYp7bX9NRE3y0w4lP7WUfJHEyfHTe7IMjC9n9Ppte6FWrr7DERNYPVL1A3MoSvL2bjoj6xoTV1JZ2ZCmFo5aVe2kjGSlpdg+ymL5YNhqg2FxqYedTRjILTQ4+omnQS4qpguv7kzSG96ZAAZBP29pW/IQ0ci8QxvFh3232siXf/r03WFyNRWyQgwERRBEeImDdeHqbSBbNzoq5ed1QN8tuzkW3KBqN9u335VS7onkvwVq65+NsGvJJO4DUb59owdmoymTfpyQ3K881KHjmLl/hM42IUsT1hLQ0ewKPe+15mtkmoLJZd7WiXvnOqXNkyWcWsQuzGzU9pj3TK3GfPboZWq/W4+P7JV8+tKFISbd7UwDcKz7LQSOWw0yULs7rPxgwYch9FYub2uLpvAUHEZAdPtVzvaXwrQjlnXSGLLSsF1Npaee4qaP+I4Y
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 04:23:59.3585
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8622a8be-86b3-47af-3b3c-08df0ef35621
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD76.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8428
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 09, 2026 at 08:32:51PM -0700, Nicolin Chen wrote:
-> @@ -5542,6 +5591,12 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
->  	}
->  	ioaddr = res->start;
->  
-> +	if (is_realm_world()) {
-> +		ret = arm_smmu_probe_realm_vsmmu(smmu, res);
-> +		if (ret)
-> +			return ret;
+Recently at Meta we noticed that on multi-tenant systems, a workload
+under extreme memory pressure negatively impacts unrelated workloads and
+system daemons like below [1] and fb-oomd [2]. Mainly we observed that
+system daemons were stuck on kernfs_rwsem in cgroup-related interfaces
+for long periods of time.
 
-Sashiko pointed out a new finding (didn't appear in my local runs)
-that arm_smmu_impl_probe() would allow an untrusted hypervisor to
-provide a malicious ACPI/DT table specifying a vendor extension.
+On further inspection, we found that the workload under pressure had
+registered inotify watches on its memory.events and was continuously
+receiving limit-hitting notifications. The cgroup notification is done in
+kernfs_notify_workfn(), which holds kernfs_supers_rwsem and kernfs_rwsem
+and calls fsnotify(), which allocates the event with
+kmalloc(GFP_KERNEL_ACCOUNT|__GFP_RETRY_MAYFAIL) charged to the watching
+cgroup, which is already under memory pressure. So the notify worker
+ended up in memory reclaim of a cgroup already under pressure, and itself
+kept triggering the limit notifications.
 
-I think it's valid, So, we likely need a guard, until impl has RMM
-level support with additional RSI validation:
+This notification path takes the locks in read mode, but a waiting writer
+blocks all future readers. That is exactly what is happening in the Meta
+fleet, and it leaves daemons that are critical to the reliability of the
+system stuck for long periods of time.
 
--	smmu = arm_smmu_impl_probe(smmu);
--	if (IS_ERR(smmu))
--		return PTR_ERR(smmu);
-+	if (!is_realm_world()) {
-+		smmu = arm_smmu_impl_probe(smmu);
-+		if (IS_ERR(smmu))
-+			return PTR_ERR(smmu);
-+	}
+Commit 400188ae361a ("kernfs: Acquire kernfs_rwsem in
+kernfs_notify_workfn().") added kernfs_rwsem just to safely read
+kernfs_node::name.  Let's sample the name once before the loop and drop
+the lock.  kernfs_supers_rwsem still covers the list, and the removal
+paths take that one for reading too, so a stalled worker can still hold
+a removal up once a mount or unmount is queued behind it.
 
-Nicolin
+Two things change for a watcher.  A name longer than NAME_MAX now gives
+an event with no name, where before it gave one with the full name;
+fsnotify() takes the name as optional, so the event still arrives.  And
+the name and the parent are no longer sampled under one lock, so a rename
+between the two would name a file against the directory it moved to.
+That cannot happen today: kernfs_notify() rejects anything that is not a
+file, and no caller of kernfs_rename_ns() renames one.
+
+[1] https://github.com/facebookincubator/below
+[2] https://github.com/facebookincubator/oomd
+
+Fixes: 400188ae361a ("kernfs: Acquire kernfs_rwsem in kernfs_notify_workfn().")
+Assisted-by: LLM
+Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+---
+ fs/kernfs/file.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 8e0e90c93372..7e3800526b1e 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -904,9 +904,12 @@ static loff_t kernfs_fop_llseek(struct file *file, loff_t offset, int whence)
+ 
+ static void kernfs_notify_workfn(struct work_struct *work)
+ {
+-	struct kernfs_node *kn;
++	char name_buf[NAME_MAX + 1];
+ 	struct kernfs_super_info *info;
++	struct kernfs_node *kn;
+ 	struct kernfs_root *root;
++	struct qstr name;
++	bool have_name;
+ repeat:
+ 	/* pop one off the notify_list */
+ 	spin_lock_irq(&kernfs_notify_lock);
+@@ -922,14 +925,20 @@ static void kernfs_notify_workfn(struct work_struct *work)
+ 	root = kernfs_root(kn);
+ 	/* kick fsnotify */
+ 
++	/*
++	 * Sample the name once so kernfs_rwsem need not be held across the
++	 * loop.  A name that does not fit is reported without one; fsnotify()
++	 * takes the name as optional, so a watcher loses the name and not the
++	 * event.
++	 */
++	have_name = kernfs_name(kn, name_buf, sizeof(name_buf)) >= 0;
++	name = QSTR(name_buf);
++
+ 	down_read(&root->kernfs_supers_rwsem);
+-	down_read(&root->kernfs_rwsem);
+-	list_for_each_entry(info, &kernfs_root(kn)->supers, node) {
++	list_for_each_entry(info, &root->supers, node) {
+ 		struct kernfs_node *parent;
+ 		struct inode *p_inode = NULL;
+-		const char *kn_name;
+ 		struct inode *inode;
+-		struct qstr name;
+ 
+ 		/*
+ 		 * We want fsnotify_modify() on @kn but as the
+@@ -941,15 +950,14 @@ static void kernfs_notify_workfn(struct work_struct *work)
+ 		if (!inode)
+ 			continue;
+ 
+-		kn_name = kernfs_rcu_name(kn);
+-		name = QSTR(kn_name);
+ 		parent = kernfs_get_parent(kn);
+ 		if (parent) {
+ 			p_inode = ilookup(info->sb, kernfs_ino(parent));
+ 			if (p_inode) {
+ 				fsnotify(FS_MODIFY | FS_EVENT_ON_CHILD,
+ 					 inode, FSNOTIFY_EVENT_INODE,
+-					 p_inode, &name, inode, 0);
++					 p_inode, have_name ? &name : NULL,
++					 inode, 0);
+ 				iput(p_inode);
+ 			}
+ 
+@@ -962,7 +970,6 @@ static void kernfs_notify_workfn(struct work_struct *work)
+ 		iput(inode);
+ 	}
+ 
+-	up_read(&root->kernfs_rwsem);
+ 	up_read(&root->kernfs_supers_rwsem);
+ 	kernfs_put(kn);
+ 	goto repeat;
+-- 
+2.53.0-Meta
+
