@@ -1,62 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC64B3E1D0B;
-	Thu, 10 Sep 2026 07:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99DF341684B
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 08:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789027159; cv=none; b=ZIplQ7nwJyAkJZfMCj9DwrGPSKbvrnaUkKrBNlLyPKW++1x0blqleg9LgJo6FZcMeUzJYY6WAVvb9QjuNTOlqft//9KaHl5AOWTJevSvzec1FC5k8FykEPYOnPkcocXHwcrYRCmFdBPxhJBZJQhUEQ6OZ3v8ThExiMPMcsBiTeQ=
+	t=1789028917; cv=none; b=F8ZEp9W/n/qtln97nIgH1LFJan57THZ1DxWF+w4qlEHzGX+IQZJ0oXIsLyQpEkFL9Y4/i/urdM2O+pDzcnojWTfMVq2Pey41Hz/Xe99Puv6mVcJWyFJjtjcGZHh1ekfYwZjH37Crec+HrHkq1+DKip1LCfOBXebn+LKFZz6AWU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789027159; c=relaxed/simple;
-	bh=QBEqFvG49KXMsUBHY3b3Wrm2c+A9EmPSlprClXsGqzg=;
+	s=arc-20240116; t=1789028917; c=relaxed/simple;
+	bh=3meVQBKw5bq+scBGcadQotIqs8mTlAqN2EfNgH/DC+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aF5b0e499MWA1/WYXGo4AZV2n/xflwEXQeXfQYLgc8LrmdBzPJtLRYOGuPdgONfqlmDtfXpVMTBkdRb6HMfnWlpcxU63mHoJeivpg7dO7CcxcbZdD8E6kh+s7L/K7wlbW+fTFDsmoM7lIR7LSrJS9c8Gt3rTHIz9F2LhcNhU634=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQFA2UmQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=X8t7Ct0km4ApfoEX1zs9rbqAux3uOVhAOQ4NwDZrHohBRGxjIsxP454OXF0LPWw36jVoqrIpHgeLBd+1hwEsqQKxTcBI6n7sykToP/sGfM5y35fwPa56/4UNcTNbnqZpGZF+QZtrDd13hzmfV+8i8AzuvVdcvPpR8ZbjblM018Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XGpizOx6; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQFA2UmQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD62B1F000FF;
-	Thu, 10 Sep 2026 07:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789027157;
-	bh=NRs/chg0KdnpHvHLY9kfJ9kqDasmfHkg3JlNvfdFpxc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NQFA2UmQHMnTly+2eXTG8Pj8f+tmN8nLepBmX5vYFNjVw1HfO3ezcE2e3msAZcGKZ
-	 Nj85KlHQ7ImLxXVhEMr+AXBT/ULU3Zh58BBiYEUMCZqu6PX/SkPJqMSjP/vdKr/sZ1
-	 Cw0SThBCYzl9SW8qCmYWP0gGyLp6/njf2s0ydXIJBfvnFG7iJgU0/dbdRvT+LNQq8B
-	 vI+IaR3JxmLvUBbRZBwNJxifjFC1r4u+XndAlj32yr5YoDSkSOfFpfnaouIaJwP1Za
-	 e/HMCoMOkXuEQ0wm5waUt0AjJkPOFVYQJSJFxLrgvOB+YGpM24gUHIfypCoQ9/EgJK
-	 Hinjfj/aUvopQ==
-Date: Thu, 10 Sep 2026 09:59:08 +0200
-From: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 07/12] mm/sparse: remove pfn_in_present_section()
-Message-ID: <aqJjTE04G1A1l0A3@localhost.localdomain>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XGpizOx6"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5F451570;
+	Thu, 10 Sep 2026 01:28:25 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 41B4F3F7B4;
+	Thu, 10 Sep 2026 01:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789028909; bh=3meVQBKw5bq+scBGcadQotIqs8mTlAqN2EfNgH/DC+I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XGpizOx6IoDqL+wGAhDW9ImK/xbkcpp36Tl57accRVuBqgrx/+c5Ev+08536uewl0
+	 kHd0G2CqjFHNzjfqWjdbBboVkOzmGj/I46e74EQLshovhCH16y/PjFbNIkjtD8EJ37
+	 Nn9ktAE7ceOsMMqnnoIrsVHQwoBW1i5Gj6JyvUTg=
+Date: Thu, 10 Sep 2026 10:28:16 +0200
+From: Beata Michalska <beata.michalska@arm.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	tmgross@umich.edu, daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com, work@onurozkan.dev,
+	samitolvanen@google.com, acourbot@nvidia.com,
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] rust: add runtime PM support
+Message-ID: <aqJqICNMitP3JTJw@arm.com>
+References: <20260826131213.1820408-1-beata.michalska@arm.com>
+ <20260826131213.1820408-2-beata.michalska@arm.com>
+ <aqEox8rYYBcfxtrN@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -65,17 +50,23 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-7-008fc8d579fe@kernel.org>
+In-Reply-To: <aqEox8rYYBcfxtrN@google.com>
 
-On Wed, Sep 09, 2026 at 03:33:00PM +0200, David Hildenbrand (Arm) wrote:
-> Unused, let's remove it.
+On Wed, Sep 09, 2026 at 09:37:11AM +0000, Alice Ryhl wrote:
+> On Wed, Aug 26, 2026 at 03:10:55PM +0200, Beata Michalska wrote:
+> > +/// Result type returned by runtime PM callbacks.
+> > +pub type PMCallbackResult<T> = Result<Option<T>, (Option<T>, Error)>;
 > 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> So I think my number one feedback is that it would be really nice to get
+> rid of this Option.
+Guess this can be done. And I'm assuming that's for both Options here (?)
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
-
- 
-
--- 
-Oscar Salvador
-SUSE Labs
+---
+BR
+Beata
+> 
+> > +/// Runtime PM data stored within the `struct device_private' during
+> 
+> Should be ` ... ` rather than ' to render correctly in html docs.
+> 
+> Alice
