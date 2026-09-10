@@ -1,33 +1,33 @@
-Received: from mta0.migadu.com (out-69.mta0.migadu.com [91.218.175.69])
+Received: from mta1.migadu.com (out-168.mta1.migadu.com [95.215.58.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300C42E7F2C
-	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 00:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2C72FD1A5
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 00:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000638; cv=none; b=Y86Fj0dazVM8hyX9QyrfEbzPydNVEv8EeQAk8vOR15W8T3PZQu5+Fg6MVyLRZy7f1jprjl/p/UYdmXaCFi7+HVFjI9kFumtumH6e4OSMeZpKMZ15tjLtf45EDYoVoG/seQXk/HaSBXQOk5/RgW1BBpgnvzqdVnp341Me6qj9X0A=
+	t=1789000641; cv=none; b=Bebj9veydqcywh89SFQFeyQlwtLHs/XJv1ymrztO32XafZrp4Cmaz6TIj6uS2hPuydzS2qYmG2kO3ssLi4sVVA0PRReRnn3OIF8vxFf897nEcgZv29NfjKZOXo7u0AQp45/LO3Zh/SfWxa2KuIOKXQCw5krDyzc3wwIaoFLs/pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000638; c=relaxed/simple;
-	bh=VvDtTR/RJe/lGiTbv0IzpIOqzSLy55lISYIRUs31UtE=;
+	s=arc-20240116; t=1789000641; c=relaxed/simple;
+	bh=jkhCgg/Ol2NrqjC9zGZTLPFKrW8MH6tEHmgZVAhmkGk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AyXKTsYESIM6weNpim9NRKqJetQkC0jwiFWXyh5kK48xTOoOvhv2QXSTPZhY1g0vE9JZGwyxKmF2nYjaSPeBqwrMRyTb3NdFZhQ5SMNYv2gS/3PkAgkfix7n+zl5moIjJTOtx8+qAhE1S6ahMiohnh1gN1yk2hqhfStDIu7IUXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qRT417SB; arc=none smtp.client-ip=91.218.175.69
+	 MIME-Version; b=g00YPPkNm1LzszbRKhhXofVvA7naeukBQITSfjXjzTmi9n0evmX5XgS2Pz8frEH1i0QDClANruOiVI2aT7kOutg7ChH9FZE4uYuCQmYIxY6otaBBYbwk6QPpTk7zHE+LPpm9CCRyt5npPS+o0HPJvnXizy1PqBlsYyhMovwpcSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZYl6sI/r; arc=none smtp.client-ip=95.215.58.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qRT417SB"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZYl6sI/r"
 X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=VvDtTR/RJe/lGiTbv0IzpIOqzSLy55lISYIRUs31UtE=;
+DKIM-Signature: a=rsa-sha256; bh=jkhCgg/Ol2NrqjC9zGZTLPFKrW8MH6tEHmgZVAhmkGk=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789000634; v=1; x=1789605434;
- b=qRT417SBJO59Wu5dQvM0w3RF7K8/c7DW14I5BD1jhHGdKPqkPDA1oQw3c/A1dVWHyujC2mkq
- IWdpVEQJDZbga9z2eORhj2RTP43UQ8YDuVABfnL0dcUyFTyT6NGsMcbGEx7HqiTYmvAmS/HHOk4
- CVbxc8U3yG7SsduunASy9vwM=
+ t=1789000636; v=1; x=1789605436;
+ b=ZYl6sI/rHOSYiTKa6oH2NzwEOmpPP2+Xb/AJnbcierr2tS6Ym/azX9zlYTJImqZMZ3/Y4s/u
+ 0kQcqpsICdz424aEnUS4jepOKeRiMtWDWOp58ekWv9w3zBBGG3/V8EQVXv5QbILXe2ig6WW9hoZ
+ +9prpb8AD2nS9NPITnIAEJW8=
 X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id ec4f0e322a026764;
-	Thu, 10 Sep 2026 00:37:14 +0000
-X-Mizu-Trace-ID: ec4f0e322a026764
+Received: by smtp.migadu.com with ESMTPS id 05243076f2be2f89;
+	Thu, 10 Sep 2026 00:37:16 +0000
+X-Mizu-Trace-ID: 05243076f2be2f89
 X-Migadu-Flow: FLOW_OUT
 From: Shakeel Butt <shakeel.butt@linux.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -38,9 +38,9 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-fsdevel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kernfs: don't repeat or skip an entry when readdir resumes
-Date: Wed,  9 Sep 2026 17:36:48 -0700
-Message-ID: <20260910003650.1680854-2-shakeel.butt@linux.dev>
+Subject: [PATCH 2/3] kernfs: don't hold kernfs_rwsem across dir_emit()
+Date: Wed,  9 Sep 2026 17:36:49 -0700
+Message-ID: <20260910003650.1680854-3-shakeel.butt@linux.dev>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260910003650.1680854-1-shakeel.butt@linux.dev>
 References: <20260910003650.1680854-1-shakeel.butt@linux.dev>
@@ -52,130 +52,172 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-readdir keeps its place as a name hash in ctx->pos and pins the entry in
-file->private_data.  If that entry is gone when the listing comes back,
-kernfs_dir_pos() searches the rbtree for the hash and keeps whatever
-node the descent stopped on.  That is the entry before or after the
-missing one, depending on the shape of the tree.
+kernfs_fop_readdir() holds kernfs_rwsem for reading across the whole
+listing, dir_emit() included.  dir_emit() copies to userspace, so it can
+fault into reclaim while holding the lock that every create, remove and
+rename in the hierarchy needs.  sysfs and cgroupfs have one per machine.
 
-Landing before it repeats an entry the previous getdents(2) call already
-reported.  Landing after it, kernfs_dir_next_pos() calls rb_next() and
-steps over an unreported entry.
+Under memory pressure the monitoring daemons fault on their own
+getdents(2) buffer with it held:
 
-With children A(10), B(20), C(30):
+        below: page allocation stall for 120 secs: order:0,
+        mode:0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_ZERO|__GFP_COMP)
+        nodemask=(null),cpuset=hostcritical.slice,mems_allowed=0
+        Call Trace:
+         <TASK>
+         dump_stack_lvl+0x5d/0x80
+         __alloc_frozen_pages_noprof+0x5f4d/0x6300
+         ? memcg_list_lru_alloc+0x73/0x320
+         ? ima_file_check+0xd0/0x7d0
+         vma_alloc_folio_noprof+0x145/0x560
+         handle_mm_fault+0x17c9/0x2720
+         ? find_vma+0x27/0x30
+         do_user_addr_fault+0x39f/0x6e0
+         exc_page_fault+0x8f/0x110
+         asm_exc_page_fault+0x22/0x30
+        RIP: 0010:filldir64+0xd7/0x1a0
+        [Code:/RSP:/RAX:..R15: register block elided]
+         kernfs_fop_readdir+0x2de/0x420
+         iterate_dir+0x8c/0x1f0
+         __se_sys_getdents64+0x61/0xe0
+         ? copy_page_from_iter+0x860/0x860
+         do_syscall_64+0x6a/0x250
+         entry_SYSCALL_64_after_hwframe+0x4b/0x53
+         </TASK>
 
-  report A, ctx->pos = 10
-                                    A removed
-  kernfs_dir_next_pos(10, A)
-    A is gone, the search for 10 stops at B
-    rb_next(B) -> C, so B is never reported
+Commit 9aab10a0249e ("kernfs: Don't re-lock kernfs_root::kernfs_rwsem in
+kernfs_fop_readdir().") took the lock drop out because dir_emit() was
+handed kernfs_node::name, which a rename can free.  So copy the name
+under the lock and emit the copy, and pass it to the resume so that a
+resume within one call keys on (hash, ns_id, name) and not on the hash
+alone.
 
-Only the repeat happens today, between two getdents(2) calls.  The skip
-needs the pinned entry to go away inside one call, which the next patch
-allows when it drops kernfs_rwsem around dir_emit().
+A listing is no longer atomic within one getdents(2) call, which for
+most sysfs and cgroup directories is all of it.  POSIX leaves that
+unspecified for an entry added or removed since opendir(3).
 
-Before the commit 4e4d6d860b93 the descent kept a node only on the way
-left, which is a search for the first entry at or after the hash.  That
-commit moved the assignment to the top of the loop, where it runs on
-right turns too.  Restore that search, and step forward only when the
-pinned entry is still there rather than when the hash matches, since two
-entries in one directory can share a hash.
-
-While here, kernfs_dir_next_pos() called the hash @ino.  It is never an
-inode number, so name it @hash.
-
-Fixes: 4e4d6d860b93 ("sysfs: Add s_hash to sysfs_dirent and order directory entries by hash")
+Fixes: 9aab10a0249e ("kernfs: Don't re-lock kernfs_root::kernfs_rwsem in kernfs_fop_readdir().")
 Assisted-by: LLM
 Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
- fs/kernfs/dir.c | 43 ++++++++++++++++++++++++++++---------------
- 1 file changed, 28 insertions(+), 15 deletions(-)
+ fs/kernfs/dir.c | 52 +++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 37 insertions(+), 15 deletions(-)
 
 diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 07abf59f0264..24a927c85123 100644
+index 24a927c85123..f7cd2be67e1a 100644
 --- a/fs/kernfs/dir.c
 +++ b/fs/kernfs/dir.c
-@@ -1903,9 +1903,16 @@ static int kernfs_dir_fop_release(struct inode *inode, struct file *filp)
- 	return 0;
- }
+@@ -1905,11 +1905,11 @@ static int kernfs_dir_fop_release(struct inode *inode, struct file *filp)
  
-+/*
-+ * Find where a listing left off.  @resumed says whether @pos is still that
-+ * entry; if not, the first entry at or after @hash is returned instead.
-+ */
+ /*
+  * Find where a listing left off.  @resumed says whether @pos is still that
+- * entry; if not, the first entry at or after @hash is returned instead.
++ * entry; if not, the search falls back to @hash, keyed by @name if given.
+  */
  static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
--	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos)
-+	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos,
-+	bool *resumed)
+ 	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos,
+-	bool *resumed)
++	const char *name, bool *resumed)
  {
-+	if (resumed)
-+		*resumed = false;
- 	if (pos) {
- 		int valid = kernfs_active(pos) &&
- 			rcu_access_pointer(pos->__parent) == parent &&
-@@ -1913,23 +1920,26 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
- 		kernfs_put(pos);
- 		if (!valid)
- 			pos = NULL;
-+		else if (resumed)
-+			*resumed = true;
- 	}
- 	if (!pos && (hash > 1) && (hash < INT_MAX)) {
- 		struct rb_node *node = parent->dir.children.rb_node;
--		u64 ns_id = kernfs_ns_id(ns);
-+
-+		/*
-+		 * Keep a node only on the way left, so the search ends on the
-+		 * first entry at or after @hash.  The empty name sorts before
-+		 * every entry sharing the hash, so it lands on the first.
-+		 */
- 		while (node) {
--			pos = rb_to_kn(node);
-+			struct kernfs_node *kn = rb_to_kn(node);
+ 	if (resumed)
+ 		*resumed = false;
+@@ -1928,13 +1928,13 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
  
--			if (hash < pos->hash)
-+			if (kernfs_name_compare(hash, "", ns, kn) < 0) {
-+				pos = kn;
+ 		/*
+ 		 * Keep a node only on the way left, so the search ends on the
+-		 * first entry at or after @hash.  The empty name sorts before
+-		 * every entry sharing the hash, so it lands on the first.
++		 * first entry after the key.  An empty @name sorts before all
++		 * entries sharing the hash, so it lands on the first of them.
+ 		 */
+ 		while (node) {
+ 			struct kernfs_node *kn = rb_to_kn(node);
+ 
+-			if (kernfs_name_compare(hash, "", ns, kn) < 0) {
++			if (kernfs_name_compare(hash, name ?: "", ns, kn) < 0) {
+ 				pos = kn;
  				node = node->rb_left;
--			else if (hash > pos->hash)
-+			} else {
- 				node = node->rb_right;
--			else if (ns_id < kernfs_ns_id(pos->ns))
--				node = node->rb_left;
--			else if (ns_id > kernfs_ns_id(pos->ns))
--				node = node->rb_right;
--			else
--				break;
-+			}
- 		}
- 	}
- 	/* Skip over entries which are dying/dead or in the wrong namespace */
-@@ -1945,10 +1955,13 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
+ 			} else {
+@@ -1955,12 +1955,13 @@ static struct kernfs_node *kernfs_dir_pos(const struct ns_common *ns,
  }
  
  static struct kernfs_node *kernfs_dir_next_pos(const struct ns_common *ns,
--	struct kernfs_node *parent, ino_t ino, struct kernfs_node *pos)
-+	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos)
+-	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos)
++	struct kernfs_node *parent, loff_t hash, struct kernfs_node *pos,
++	const char *name)
  {
--	pos = kernfs_dir_pos(ns, parent, ino, pos);
--	if (pos) {
-+	bool resumed;
-+
-+	pos = kernfs_dir_pos(ns, parent, hash, pos, &resumed);
-+	/* Step over @pos only if it survived; two entries can share a hash. */
-+	if (pos && resumed) {
+ 	bool resumed;
+ 
+-	pos = kernfs_dir_pos(ns, parent, hash, pos, &resumed);
+-	/* Step over @pos only if it survived; two entries can share a hash. */
++	pos = kernfs_dir_pos(ns, parent, hash, pos, name, &resumed);
++	/* Step over @pos only if it survived; @name handles it if not. */
+ 	if (pos && resumed) {
  		do {
  			struct rb_node *node = rb_next(&pos->rb);
- 			if (!node)
-@@ -1978,7 +1991,7 @@ static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+@@ -1979,34 +1980,55 @@ static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+ 	struct dentry *dentry = file->f_path.dentry;
+ 	struct kernfs_node *parent = kernfs_dentry_node(dentry);
+ 	struct kernfs_node *pos = file->private_data;
++	char *name __free(kfree) = NULL;
+ 	struct kernfs_root *root;
+ 	const struct ns_common *ns = NULL;
+ 
+ 	if (!dir_emit_dots(file, ctx))
+ 		return 0;
+ 
++	/*
++	 * One buffer for the call, so each name can be copied out before
++	 * dropping kernfs_rwsem.  PATH_MAX: kernfs bounds no single name.
++	 */
++	name = kmalloc(PATH_MAX, GFP_KERNEL);
++	if (!name)
++		return -ENOMEM;
++
+ 	root = kernfs_root(parent);
+ 	down_read(&root->kernfs_rwsem);
+ 
  	if (kernfs_ns_enabled(parent))
  		ns = kernfs_info(dentry->d_sb)->ns;
  
--	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
-+	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos, NULL);
+-	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos, NULL);
++	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos, NULL, NULL);
  	     pos;
- 	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
- 		const char *name = kernfs_rcu_name(pos);
+-	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
+-		const char *name = kernfs_rcu_name(pos);
++	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos, name)) {
+ 		unsigned int type = fs_umode_to_dtype(pos->mode);
+-		int len = strlen(name);
+ 		ino_t ino = kernfs_ino(pos);
++		int len;
++
++		len = strscpy(name, kernfs_rcu_name(pos), PATH_MAX);
+ 
+ 		ctx->pos = pos->hash;
+ 		file->private_data = pos;
+ 		kernfs_get(pos);
+ 
+-		if (!dir_emit(ctx, name, len, ino, type)) {
+-			up_read(&root->kernfs_rwsem);
++		/*
++		 * getname() caps a path, so only an in-kernel caller can get
++		 * here.  Skip the entry rather than report a truncated name.
++		 */
++		if (WARN_ON_ONCE(len < 0))
++			continue;
++
++		/*
++		 * dir_emit() can fault, so run it unlocked.  @pos is pinned
++		 * above and kernfs_dir_pos() rechecks it on the way back.
++		 */
++		up_read(&root->kernfs_rwsem);
++		if (!dir_emit(ctx, name, len, ino, type))
+ 			return 0;
+-		}
++		down_read(&root->kernfs_rwsem);
+ 	}
+ 	up_read(&root->kernfs_rwsem);
+ 	file->private_data = NULL;
 -- 
 2.53.0-Meta
 
