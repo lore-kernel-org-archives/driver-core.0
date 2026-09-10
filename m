@@ -1,135 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE54E3C9ED5;
-	Thu, 10 Sep 2026 09:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CB73C13EE;
+	Thu, 10 Sep 2026 09:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789030955; cv=none; b=nWjVHlIYupapATZPcZaDu3r3XAycvBCvmyrT9WtkKb51nr5242wAjbh/Ta4wEWZC9O0QNukj+7wK4WHxo3VQEnc48R5QYp0xUPDn5730fchLzywBJ0LQd+IAWtrYQN6KW1fNbcOroVMYByzAlk2uijBC1XxECY5yaZWp7AnCSPg=
+	t=1789031617; cv=none; b=DNuksMPWhLJORlW2OrHELVyMSDql1A6fsrjDhS2BW7rDKCgoPvpT6mSgmVuHDq+LPIkhXufvIwJIPXPl1xKMs1cBI5gO7NV7oKq8kVHYaiFUSUOdZRpSarvxIwIygPaYByyPjkNVFax3etKbb2/di51oMNi+/nxvQhxBYi6o5lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789030955; c=relaxed/simple;
-	bh=WHW93VvrHeXgOCjNosfBMI4vPnTOHHkUoJXKjGlJMdY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hFlmSFtP82uGRHKtPxj/xTkKkKdPliRU+4zg6b9afpduo9ddj9rk6nc8EkrcdNqJhbpxBN8Vd2AyoO7dq7LDEJei4DkNv9ipr/mdOOzcP3C3Nq44F3NPcDcgujRpWw5sYBGE8hH8fsLV6MpHSH8PA0gbrGwR5TQs1Rr1+jDQE9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=If5M6sRe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789031617; c=relaxed/simple;
+	bh=876bPQkmr+qSfmJnN/IbXQk6MFFq7aT9u81fC/kyu54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WNLcbh6trwjdSFeeaBnT9nrkjeI6Tyvx9s5/TRzOm1Z/XyBElKnqPqh+Tq//+dAwWSK9MYJxiMJslc1r+jFroYjTk6phWla6ozDDcyJWFWZd0v6K+btGyaEu+g/XQlg4ykU/dCHI/4boba3wDfvVeyMrHhGYq36HBxJ4Yd+cnvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyPvGHc4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="If5M6sRe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4011F00893;
-	Thu, 10 Sep 2026 09:02:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyPvGHc4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE2331F000FF;
+	Thu, 10 Sep 2026 09:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789030954;
-	bh=bi6HQbpS7WbVT11MZapyDiTA6f2yGohKV5fr13xqRJc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=If5M6sReucxfAa8nllZsBD5rzyKL9ELmN7J++KhzVHXMFwuo+ywIXweYK0qHvKt73
-	 1DlZC6yieZdrctVpoPbK8xAnJ01MqKDgn8JNOrREKfLrtY3kuk1QD0WFmmwZvIkpKc
-	 cjwQhwi6gfGiK1mJpr70MGacbhPTAkvMJSrfODwcnkW7h00u9xgR6Tozex936pATmf
-	 Y/e3g5Q+e44jwwElZlmy2drakal4M8C3ZYhzWEtU1LZSzTfNXyLU3yRFX7wXmiz5xW
-	 ThtO/NXMID8mQwyR1hAETqMn3NvdBwCEMEnIpbQLdGFzMn0iPU5Qgbppp1CAYsoqRp
-	 rYXsEVBqyS45Q==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Thu, 10 Sep 2026 11:00:05 +0200
-Subject: [PATCH v21 1/9] rust: alloc: add `KBox::into_non_null`
+	s=k20260515; t=1789031608;
+	bh=zEeFtMUHn3s+PI/cg5N17MVY4nHEBTOfJ4ioYjja5j0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XyPvGHc4wMCN7XnUzQUlQv10dHqh7HO9TkjaWiDpqVTCqUZ4CKmIoiz+rzPcl393j
+	 rIr/J7DuGFP9ozSMcRGKBgArgVJ+vGtlpUubDEgaYE5Vzdq6UW9s1oKqS6erMBJjYF
+	 SPn4FVdbHQyZXkXx/ixOwaCHQW3+hbhiDYYkbisYcgnWLijvhtX8jhLnBH+PL4XmMl
+	 0X8GngpShNpiBLxjcnPi2mLIa/G/Kv5WyR4GlLBYjl4gpWQl0s7YVeY5awvfbIrCTf
+	 WbID137Cnw9Gz6smokOCSQR3sQF+L/7Wc84ygpecTcamLUtAKNJQ9w39t3KgLMKJle
+	 sFyI2xY8WPRwg==
+Message-ID: <c2239ef2-10f4-4c87-a23a-2753f1e18d27@kernel.org>
+Date: Thu, 10 Sep 2026 11:13:18 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr handling
+To: "Oscar Salvador (SUSE)" <osalvador@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
+ <aqJrblWch-lajp3k@localhost.localdomain>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aqJrblWch-lajp3k@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260910-unique-ref-v21-1-e83257373062@kernel.org>
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
-In-Reply-To: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Ira Weiny <iweiny@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
- Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
- linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-usb@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1188; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=WHW93VvrHeXgOCjNosfBMI4vPnTOHHkUoJXKjGlJMdY=;
- b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBqonGhYtutHmW3K5/iWt2PtNR0EOOEvKOh8GOE3
- cAXhRn6VpqJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCaqJxoQAKCRD6UCkIqsW9
- 0PiAEAC1ZaUVBOkvlRXYa1uoG7fv8BkX7iuoYs3OUE6Xs7RBS7CbugsVYpLdGgml2yB5Xo/AfF1
- lOrJHP03TKEIawI0QIjvbDUNXrYGXND3iwPfW4oW9EKyBDMM7aQlMGM2ptkYJDcGzux3kw7pAqx
- zYjptUpVSESYUlKv7c6+bSMK1AeydAw1bt04eyJrzPRMgus+QTTFKWMkFU2w4n/A2Vybuz6QDSb
- +gMpzM9B3XcB5EYFx92khT1NMRiQsSRHxCc54Ro6JbS9nA7SFf4X1SRG2ZwFwEYJQw4+P2eXu/B
- kn8z2qUOFN7+DY5TEDT7kwV+OE7FFgKaMjSOLZh48VmeDrw9fYdtqIKT7xIuy1KqplTIuTjsNpb
- Iy++9Nqzy8yEHUWDqdzclvjSepDS5DSFpG5VMDldAC4AENbijZpOJVJwq41LMojHASK+t1NsF2T
- t6P+wfaQTuumBObShygOAi7WRMKfgFIBmoMisdn0c5sE+W1UPIzdRH53GVM7b8aY6Q+rsRPEu32
- rNoYVKX1ZCSGlH/Cai+CxLnb58kRzvOkj9jCMjG804rAMG2AgG+ExQoP1ymqRN4D8kik1NLlEy3
- 5yp5HL4qYcm91XRinv0cXg5icrFwfKuSpkpNl0UuMdJs9OSwTJV3P5cjHJpDbgZcd/sKdO+4yNt
- KzVWbdwXn+Hi8TQ==
-X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
- fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Add a method to consume a `Box<T, A>` and return a `NonNull<T>`. This
-is a convenience wrapper around `Self::into_raw` for callers that need
-a `NonNull` pointer rather than a raw pointer.
+On 9/10/26 10:33, Oscar Salvador (SUSE) wrote:
+> On Wed, Sep 09, 2026 at 03:33:01PM +0200, David Hildenbrand (Arm) wrote:
+>> Let's move it to sparse_init_one_section(). However, to keep early
+>> boot processing working, we also have to initialize it in
+>> sparse_sections_init().
+>>
+>> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
+>> Probably, something for another day.
+> 
+> What is the worry there?
+> 
+> sparse_init_one_section() calls should run sequentally due to the memhotplug
+> lock, so there should not be parallel updates there?
 
-Assisted-by: LLM
-Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
----
- rust/kernel/alloc/kbox.rs | 9 +++++++++
- 1 file changed, 9 insertions(+)
+If you have something consuming __highest_used_section_nr while concurrently
+updating it, you might get torn reads/writes that mess up the value on the
+reader side.
 
-diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-index c63d6acdbb6f9..27c31120c3854 100644
---- a/rust/kernel/alloc/kbox.rs
-+++ b/rust/kernel/alloc/kbox.rs
-@@ -211,6 +211,15 @@ pub fn leak<'a>(b: Self) -> &'a mut T {
-         // which points to an initialized instance of `T`.
-         unsafe { &mut *Box::into_raw(b) }
-     }
-+
-+    /// Consumes the `Box<T, A>` and returns a `NonNull<T>`.
-+    ///
-+    /// Like [`Self::into_raw`], but returns a `NonNull`.
-+    #[inline]
-+    pub fn into_non_null(b: Self) -> NonNull<T> {
-+        // SAFETY: `Box::into_raw` returns a valid pointer.
-+        unsafe { NonNull::new_unchecked(Self::into_raw(b)) }
-+    }
- }
- 
- impl<T, A> Box<MaybeUninit<T>, A>
+For example, mm/compaction.c consuming __highest_used_section_nr.
+
+I don't think this is critical, so I decided to spell it out instead of fixing
+it right away.
 
 -- 
-2.51.2
+Cheers,
 
-
+David
