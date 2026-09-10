@@ -1,131 +1,95 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F52A53CA82
-	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 17:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB089346E5E;
+	Thu, 10 Sep 2026 20:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059747; cv=none; b=FgG1KK5XlfHMUkmCEibiXzPmUtNrQ08Y2FfvMif0QV02sI/Ky08LZJJM8KWvx2Z9LAGtYDPd3O6FkQHwiybykK3tSSXeLtVAgIckSVhnUtkbYD0aMDT2+n7oXXpXhI29fYVxgF055NfpnRqLCgnRRQrFYWXUjdZsgbUkicwoaZY=
+	t=1789071332; cv=none; b=SP70djA0/Gy0GG1MuBMPIRqSR/CVcsk1k2ooGGrmeiKDot5+CG9qm/fyXmy7KIkd3oTkM2bWbBg6vCD3k17wBBW+G3yrE4/soHA1YCLa3Vm7G/418WYdF3x0uqOU5OjWISvwKKV+VzAgS11EfvZa5AZkCX5joIR2n7XlBvQLCVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059747; c=relaxed/simple;
-	bh=Sq+3ZPDvtDiwDZEiPtzE5bg4NQcIOhzYCUKUumcK7+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E3+u6PiOG74TSQFkuDvX5Vu0VhRYbqpO+LK+TycHHysnQ5dHk9W3ygTU+/G01dSyz7QceoTyWchJD4kHqVrO218t2wVEkmLER9oasKMEEhm++CMhydLXNUv9D21JkEZ/HdoZ/hMnoN95tX1LXc6gaCIxklqqJQgdeS+oUdlp1qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Xnm7bTnB; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1789071332; c=relaxed/simple;
+	bh=dCg6Mn1CYLLoqEy9g8sJNQhK1FmN1t7oByZF7qquY+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FfdGaDqHhpWosowCwKsNoPCI0v67QeP6LgbGMXCFFTOoDJmXUUHbXLgI4KfXUkxy0Hd+TtkHopqPzbTgkjiS/nnf89ba/0xDYEczCcFN/97TgFaeUWdruB1k1FoTCfyefI/niwZvese/7t0FEneD6EqfNVpIpzqZyJjemqYTL4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAVbE3qM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xnm7bTnB"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a9a20a5e72so50895a12.0
-        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 10:02:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1789059733; x=1789664533; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u+7YvFjPPo9k/FqxxQZH7F6PYUlcKWqkhxEgYotuD+A=;
-        b=Xnm7bTnBWappZmSTF9mVSiYF9SIIYhr2QJK5dhOTNLCxsroKJ9tx3MG3VPRUE3sfo6
-         RwRpZewG+7mN2uBhy9HIhANjz1DD72r6QrsjTLcImaLP70iczE6hoBJkA1kE7gTVEc1R
-         s8zNZSf16Ho1kIj2LuiZrb0cB4JSrBXjpwapg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789059733; x=1789664533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u+7YvFjPPo9k/FqxxQZH7F6PYUlcKWqkhxEgYotuD+A=;
-        b=EuLp0jbo9XHxBqYMOJNnf2DAceLKzUN3epYOgtDTta0kPtPuDDOWMJejj1L5IfXo7n
-         yrsA/YdMD46vCgLNG+eeLJ2NroocyZoZzRJRcBtGG2cauEon3QNl5FRk0b0v5DwfFJy5
-         /KScrjIF5f2JIjHi2WXB6aWQnkmjSGqE2gVJbu5FbhOFGwxiSmbq0pxvM3ad99LabCTy
-         DikHD0UnOdAs3+a9Jfj2JcPTaB9wpbukugRqO7MoJzL3vuXuF8LhVnFKhEGi+TrtpK/V
-         eB5nF7PQKoq6SdtDbGr784+eku3J4ui2Mrqrv8MzEWqNhj1Cwws/Jxzkg0kBiBj2ck3s
-         Jqhw==
-X-Forwarded-Encrypted: i=1; AKwUvBzNswPqI5FeBI13dTKrv3Yx78XfghfKaqZdw53VaPFs3IcfdS7tDGrxteRSb1Bxak+Da1cExWBBaSLs8Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++kvrdeZS4zQuJhMV8d0QZKkMJy4sVaFnXWWtbMX3BuKuXo+Ur4Z
-	Kn55LCkeJEFhbSfF43DFEtLlcLAVY59Tz/jjEtbIXlvXWIyCyuCQ1j4x7HoqPOOjYjtckUmfvgO
-	8EFUffw==
-X-Gm-Gg: AYBFou1zil98xkuDh3YkUW5zbpY7y0UJpZ3RVwV3yPtcqgkPBXgJ1/XUUMRBLXp27Aj
-	KwdWVgaZQUBEQLQb4OeThZEyf0SdnHd7yFB69KnEHvfQgLVUR+Na5e5S1jJ+yxPL8pi1UGA9Mnc
-	Wld5gKnHIv6zEkBz6Xv6niXSMWF9fwyZndozVCbBLDjcxjohItjQdQfPylkS6/vD8nCAPllO7dX
-	uSYwkDokUNsW8YJNr/SPd/IrHIfAxrjAjN1s85KWfzP5mWS+5VIBvmYkwgwOXCaVrRr1oy/XODF
-	17Ke7gLNMpwyqj4G28bNuqqaHvpSJ8ckaiAkyAh5HS5K4F4jUV2nf2y2RU1sQYHXMHMj5kFEwNz
-	RUbxinOBAhIHeWD+XlCx6P+0/wWbnmi4qWTRduWWToTG2cnrgFL5cAe8OvqwT+iDiL8AmwmzEw9
-	qJnZFZBoWyYh7wcvsXf2w/yNtk5YWllNN1lTW8m8xfCoe1xXUOitQstwzFPyjk1EpyrAgXLaDlA
-	PZvLiniZaLeicKMlAS8lUmlqxKGlDriuI+vISDriNEJJewG
-X-Received: by 2002:a17:906:f591:b0:c20:f529:2d6a with SMTP id a640c23a62f3a-c260ca339fdmr1702272866b.22.1789059732624;
-        Thu, 10 Sep 2026 10:02:12 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d03644bsm954387466b.6.2026.09.10.10.01.54
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 10:01:59 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso820455e9.2
-        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 10:01:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwf61GlKvxZIdFRjx5GuY7ji/mERxrVm71tZ5cBi9+dC8m+LdGcRnxAOetK3Pvh2RLLqg85HUDexHNCdQ==@lists.linux.dev
-X-Received: by 2002:a05:6000:658:b0:484:4817:85db with SMTP id
- ffacd0b85a97d-485872b5c09mr38411439f8f.14.1789059713626; Thu, 10 Sep 2026
- 10:01:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAVbE3qM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF851F000FF;
+	Thu, 10 Sep 2026 20:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789071327;
+	bh=kSHhek88oHTukDtNQ/ULnDv09i2DEERy//o7RaNfW+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iAVbE3qM6DNbfCx8nNl8O9n6gMWeqa/oY1v3rfnFeG6HqKBu9T0cf3aVp2Cl7xVWy
+	 uSH13Ki6m4B/ptHElyWpFUi74IucdiuLUdITIOth+sG0yLhnm/W/SSjignAUHaCpN1
+	 +Ffn99rZP6I1EH2CUSxcu4Io6nmhogByY6ospHkCDJzrROxVph0PhcfVbJ4UvftOzm
+	 WciPMDHLDe8Q8e4AaAGkVeajYB4/V+e047cbXkXLr04XaasGEZLxjjL2ntz/8xDraN
+	 mbNJ34dW7ofbQ/0oQg1MMEFrHruAMKCAm2FG3okpvZIS/LiS61YNpl32UOO2ZspzNZ
+	 JnHq85tzdsThw==
+Date: Thu, 10 Sep 2026 10:15:26 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <christian@brauner.io>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] kernfs: don't repeat or skip an entry when readdir
+ resumes
+Message-ID: <aqMP3hRFEazxZkeN@slm.duckdns.org>
+References: <20260910003650.1680854-1-shakeel.butt@linux.dev>
+ <20260910003650.1680854-2-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260909224818.2177311-1-mrungta@google.com>
-In-Reply-To: <20260909224818.2177311-1-mrungta@google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 10 Sep 2026 10:01:40 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WFBmq3kniULxcXNsKgY-Zrb82JfaX5uRWVewQi_tJyJw@mail.gmail.com>
-X-Gm-Features: AcwNN1Xl_nzhNtJWsI6953UZiPelgeSEkWzryufpn6N_ETw7Yj-N-KcRVJNqhak
-Message-ID: <CAD=FV=WFBmq3kniULxcXNsKgY-Zrb82JfaX5uRWVewQi_tJyJw@mail.gmail.com>
-Subject: Re: [PATCH v2] PM: sleep: Add DPM watchdog to prepare/late/early/noirq/complete
- phases
-To: Mayank Rungta <mrungta@google.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910003650.1680854-2-shakeel.butt@linux.dev>
 
-Hi,
+On Wed, Sep 09, 2026 at 05:36:48PM -0700, Shakeel Butt wrote:
+> readdir keeps its place as a name hash in ctx->pos and pins the entry in
+> file->private_data.  If that entry is gone when the listing comes back,
+> kernfs_dir_pos() searches the rbtree for the hash and keeps whatever
+> node the descent stopped on.  That is the entry before or after the
+> missing one, depending on the shape of the tree.
+> 
+> Landing before it repeats an entry the previous getdents(2) call already
+> reported.  Landing after it, kernfs_dir_next_pos() calls rb_next() and
+> steps over an unreported entry.
+> 
+> With children A(10), B(20), C(30):
+> 
+>   report A, ctx->pos = 10
+>                                     A removed
+>   kernfs_dir_next_pos(10, A)
+>     A is gone, the search for 10 stops at B
+>     rb_next(B) -> C, so B is never reported
+> 
+> Only the repeat happens today, between two getdents(2) calls.  The skip
+> needs the pinned entry to go away inside one call, which the next patch
+> allows when it drops kernfs_rwsem around dir_emit().
+> 
+> Before the commit 4e4d6d860b93 the descent kept a node only on the way
+> left, which is a search for the first entry at or after the hash.  That
+> commit moved the assignment to the top of the loop, where it runs on
+> right turns too.  Restore that search, and step forward only when the
+> pinned entry is still there rather than when the hash matches, since two
+> entries in one directory can share a hash.
+> 
+> While here, kernfs_dir_next_pos() called the hash @ino.  It is never an
+> inode number, so name it @hash.
+> 
+> Fixes: 4e4d6d860b93 ("sysfs: Add s_hash to sysfs_dirent and order directory entries by hash")
+> Assisted-by: LLM
+> Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-On Wed, Sep 9, 2026 at 3:48=E2=80=AFPM Mayank Rungta <mrungta@google.com> w=
-rote:
->
-> Extend the DPM watchdog to wrap device_prepare, device_suspend_late,
-> device_suspend_noirq, device_resume_noirq, device_resume_early, and
-> device_complete callbacks. If a driver hangs during these transitions,
-> the watchdog will fire and dump a stack trace to help identify the
-> offending driver.
->
-> To prevent false-positive timeouts, the watchdog is set only after
-> waiting for subordinate (during suspend) and superior (during resume)
-> devices. With this change, DPM watchdog coverage is extended across all
-> phases of system sleep transitions.
->
-> Signed-off-by: Mayank Rungta <mrungta@google.com>
-> ---
-> v2:
->  - Extend DPM watchdog to device_prepare and device_complete callbacks.
->  - Update commit subject and description to reflect coverage across all
->    system sleep phases.
-> v1:
->  - Initial version adding DPM watchdog to late/early/noirq phases.
->
-> Testing:
->  - Tested on an ARM64 SoC (Pixel platform running a 6.18-based kernel wit=
-h
->    DPM watchdog enabled; Android 6.18 kernel has latest DPM changes
->    backported).
->  - Verified hang simulation in device_prepare and device_complete
->    triggers DPM watchdog panic and stack trace as expected.
->
->  drivers/base/power/main.c | 31 ++++++++++++++++++++++++++++---
->  1 file changed, 28 insertions(+), 3 deletions(-)
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Thanks! I guess you dropped my (and Tzung-Bi's) Reviewed-by tags
-because of the minor changes between v1 and v2? They look right to me,
-so:
+Thanks.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- 
+tejun
