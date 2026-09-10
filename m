@@ -1,77 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD43471410;
-	Thu, 10 Sep 2026 11:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C9A4854F1
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 11:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789039192; cv=none; b=jTDa66VmSVDwsENCC+/BSR0gJJQfiFRBPUMEcZ9dPbITGY4NPOjokRECbzT4TuXmAkToj6hUy+yoXN/Nqihk/TwXZTUIisL5tWtc7DeRQ4+BAk/Z876EJbBfFV88eWbs94hUTxn5t7QgNX5kPS4BSkhVHQac10vi3PrLMZnb9pU=
+	t=1789040012; cv=none; b=jyyn4K1A1cEkM77kq7aP9/sngc2xVQ4PCJGIKrUhsRHrnKLYnPFlBuRolbpGPxFezmYwAwx1By/t1AF+qhMpU5+q1QDojnr101tYEnbgY2zP2ek0Aa2wfJiErqLGQXQY8AeIFiVa3Xbr97RSAKWpeeUnjX2MJJL6CLPGNm9CdXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789039192; c=relaxed/simple;
-	bh=jxu3v2QFCV9IUGoG0j9/Ea4s4XZ7IxfpGzHOthAj5q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XCDVOz67QTy/TTvmjdp9IjooK4EF6OdVpf2BHnsdsXCZVaRvHgls09X+8e/zbJYS2aDle7OjKETVEHyPRCAsHJi7VM/fEdoHpigIsY63lqMCG8s4rgqIVTShdN+xD0jMSvFIXrM7cC1IpSdVoteSLck4C+jRbFAJR4IAkOY+3gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoIY3w2Q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789040012; c=relaxed/simple;
+	bh=xav01cWb7UfRw+/zADMlupD2mv8vBFYf13jNjGCM9nI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KVYZiVasfj0JTFwg4s7d0V3J6qutTbasf4cUmwK2Kwz/AO6EfWUECmVIrb1QvO2l2gW8Ncar7ZcVg4AMAjsPfY09ND9fTZuKiWonpHsi4jrGoYa/WNh141yMpHJbLkoRMd32rabdGEEmIpy0tGb3fgpLnzuleGrW3fx8kZy0urA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UJixB0Xn; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoIY3w2Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159A51F000FF;
-	Thu, 10 Sep 2026 11:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789039189;
-	bh=1ApEXUcpJ89jR6HctP+NREZMTq8XUQ1GJdVxfzj0gJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LoIY3w2Q2hnK2Z+LPSbGyj6isJCHWNGVG133iPvY+T+HZH3ou+n9NL5rR/NohPagI
-	 8Xf5x9ee5hlI4mr/XISAK6NUN1i0UQHN60oaQxNHD1w2sTwAM1u6zjBQ9LFQXYY8Ae
-	 Z5WZgBT5UASo53e7QI0dXJWoIY90gRuGBvQJcFQA+eYspmeMi3JqQkUxntN7q0NyR4
-	 X/joJ6ALDVqVkSzGJuzoeKGH6tH5KPlPOKyiA+I4KyUx1dOiOOqc3ULC/5w8tE7q8W
-	 DKlgJ5CGuVn1jrtaj5b0WXQOokWSEoSO+YUFft/uzY2m/oaylpnosowt+s7m/NS0Lf
-	 9DvOhsNe+rfcQ==
-Date: Thu, 10 Sep 2026 13:19:30 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Ramesh Errabolu <ramesh@linux.ibm.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-s390@vger.kernel.org, driver-core@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lukas Wunner <lukas@wunner.de>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
-	Leon Romanovsky <leon@kernel.org>, Niklas Schnelle <schnelle@linux.ibm.com>, 
-	Peter Oberparleiter <oberpar@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
-	Gerd Bayer <gbayer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Farhan Ali <alifm@linux.ibm.com>
-Subject: Re: [PATCH v6 1/1] PCI: hotplug: Add 'uevent' sysfs attribute to
- trigger slot events
-Message-ID: <4kgsoygussviswxzlw6xeppexugrzigmjexpddqvlhg5ebokyv@n6q2fkz4orlz>
-References: <20260807180127.62471-1-ramesh@linux.ibm.com>
- <20260807180127.62471-2-ramesh@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UJixB0Xn"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1789040003; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=/i3q1wLaYdF92QzBpwkFRgnN8pGiovO2LZPbzL46DOA=;
+	b=UJixB0XniyO1hWB5CTy4e07k1XsZtwLeTN4WwUmyKTYBq1dW4OXxfrHt2DauBLLa4rgcBCh/kiTN7FQGEUGFb3M0thXfmDruf1+p/KPdm+H270Yp64aH1olsOwrRKsE9x6fdiUO+l3a6kxJRtgph425kNB9l/ZRJuoq9ZqlqLik=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R551e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XAhUml._1789039684;
+Received: from 30.178.66.249(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XAhUml._1789039684 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 10 Sep 2026 19:28:05 +0800
+Message-ID: <ea74384f-714a-495a-8d78-d47a9657e05e@linux.alibaba.com>
+Date: Thu, 10 Sep 2026 19:28:03 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cxl/memdev: Fix deadlock between poison debugfs
+ and cxl_mem unbind
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
+References: <20260910094017.4032170-1-kanie@linux.alibaba.com>
+ <20260910094017.4032170-3-kanie@linux.alibaba.com>
+ <2026091013-deepness-astronaut-471a@gregkh>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <2026091013-deepness-astronaut-471a@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260807180127.62471-2-ramesh@linux.ibm.com>
 
-On Fri, Aug 07, 2026 at 01:01:27PM -0500, Ramesh Errabolu wrote:
-> Add a write-only 'uevent' sysfs attribute for synthesizing
-> uevents for a PCI slot. This extends the existing uevent
-> support which emits a KOBJ_ADD uevent in pci_hp_add() with
-> the ability to replay such uevents for cold plugged devices.
-> As such events are only emitted by hotplug capable PCI slots
-> so is the support for synthesizing them.
-> 
-> The change was validated by manually triggering 'add' uevent
-> for a specific hotplug PCI slot:
-> 
->     $ echo "add $(uuidgen)" | sudo tee   \
->                 /sys/bus/pci/slots/<slot-id>/uevent
-> 
-> Signed-off-by: Ramesh Errabolu <ramesh@linux.ibm.com>
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-- Mani
+在 2026/9/10 17:52, Greg Kroah-Hartman 写道:
+> On Thu, Sep 10, 2026 at 05:40:17PM +0800, Guixin Liu wrote:
+>> The poison debugfs handlers take the memdev device lock so that the
+>> region lookup sees a stable cxlmd->dev.driver. debugfs holds a reference
+>> on the file across the handler, and cxl_mem unbind removes that file
+>> while holding the very same device lock, so a handler that waits for the
+>> lock deadlocks against a concurrent unbind.
+>>
+>> Both tasks then hang. The unbind side is uninterruptible, and it also
+>> blocks the memdev detach work, which runs on an ordered workqueue and so
+>> stalls every other CXL bus work item.
+>>
+>> Take the lock with the trylock guard and return -EBUSY instead of
+>> waiting. An unbind that wins the race removes the file first and the
+>> write fails with -ENOENT.
+>>
+>> Found by code inspection. Reproduced by writing inject_poison in a loop
+>> while unbinding and rebinding cxl_mem, and confirmed fixed by the same
+>> test.
+> Why would anyone normally "unbind" cxl_mem at all?  That will taint
+> kernels soon, so you don't normally want to do that, right?
+>
+> And debugfs is root-only, so this is a "root did something bad, and gets
+> to keep the mess", right?  This should not ever be a normal operation.
+Agreed, nobody should unbind cxl_mem in production. The sysfs unbind is
+in the reproducer only because it's the cheapest trigger.
 
--- 
-மணிவண்ணன் சதாசிவம்
+The window itself is not sysfs-unbind specific.
+The debugfs directory is torn down from a devm action, so every path 
+that ends
+in device_release_driver_internal() hits the same wait: rmmod cxl_mem, 
+and the
+memdev detach work that PCI hot-remove schedules. That detach path is 
+the third
+task in the reproducer stack, the one wedged on cxl_bus_wq.
+A poison write racing an rmmod or a hot-remove is not root misbehaving,
+and no taint flags it either.
+
+Best Regards,
+Guixin Liu
+> thanks,
+>
+> greg k-h
+
