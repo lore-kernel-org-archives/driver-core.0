@@ -1,49 +1,47 @@
-Received: from mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F205D2F3C3D
-	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 00:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4665030D3FA;
+	Thu, 10 Sep 2026 01:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000646; cv=none; b=mGCjbvsJDXv5I8/U3qHedjHQrobIJhQYVkd+sgFuNpoa/RTA9NYSh2g8Mmnvm7v3FxIoLAq8/hTwH67jIXd9coDDx5nysikPbNB7q+t7NsNk/Sy/CaHIYzxFagSehRNPgvgxI/A3gVTKW7k7hxA4lxJh3lSTRCaLIovW77VUoc8=
+	t=1789002207; cv=none; b=Aq9XH/asiTjUGrh6+lg8hUQdccYNE3fcEi9o0n54IMu/hJjb4VKaoTwwZKC0jpY04iX5qrjR6BnEctVZow41QZ+zjzEnXH+xFggymSNtcu9ucRBmNIwJFpfjGRgQKnoBtXnqHOzrNey5PP/6vxat3Ci4pVDZTbGj32JnFCOo+K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000646; c=relaxed/simple;
-	bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
+	s=arc-20240116; t=1789002207; c=relaxed/simple;
+	bh=xb7+ZUruM1MJTCPd1YL0SgedH7s3Jo7Il8pcGJEyajc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fDqgmCpTl3W2yBqZaqAZDaasutpykcBcT82Ihu72QMgDPpR4XFv5Knyrq4w956gDT7MIewcvg1H9/iicVjgENKB5eFRRrfvQmVUJFzqUT3gOb4BvwTNn0+rszh62l0Iii3X7qJG/qNS2UMhcr7YL2YKF83Gml212ZwX8aGokpSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=coBrfMfo; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 MIME-Version; b=qiONrMWnZLtqW+4sIYnmr+ow2W/BMFUavxapsUApNBtZkhqHLM7WCUS5IDdJO5tF5vMr4xxtltpV8chc1r5ZUZRNHl+Qmz6E19y9A+v4dq/iZFnxutxQTKuWYkEgrbadtD64uPSJfj6YA4hbbWwcr4CTtSRMOur0Syge9+pYQ0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/+plz5J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="coBrfMfo"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=zzpjwUswTpyP7wYlZgMyj5G/NFUunoQdPWTRIzTl6y4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789000642; v=1; x=1789605442;
- b=coBrfMfoZqFV+JnTschN94anQXzG2OClqhI4DP7TwgUu6ew7MYIqMQIpe0xjzhb4Mi4OC+1u
- kC/nG0XZplE6TNdFo7k+iA3UA8AQceobUPKZbR44RJcBlJouGHzfGCPPfmjGbNZKInuqworTNBE
- cCReVHEeU6Zn1Htbpn2cSKv8=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id a5b9adec7da825de;
-	Thu, 10 Sep 2026 00:37:22 +0000
-X-Mizu-Trace-ID: a5b9adec7da825de
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] selftests: cover readdir resuming at a removed entry
-Date: Wed,  9 Sep 2026 17:36:50 -0700
-Message-ID: <20260910003650.1680854-4-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260910003650.1680854-1-shakeel.butt@linux.dev>
-References: <20260910003650.1680854-1-shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/+plz5J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27BC1F000FF;
+	Thu, 10 Sep 2026 01:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789002206;
+	bh=TIG2T2i4jA9WjB+FPHW3l0yqt0ufR3BV4sxNXqQXvbA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=P/+plz5Jh01msgLnAOw6O9rOmCvIUQCuKf6y16U4QTaMj+o08bMbhENcCLTw2LUBD
+	 ztHlidR4af6Y9OPnAsIqLHlFoYNh4Z0XLJUYsZvatv0qIMFXX/Y0pZHozWRk5jBTLO
+	 OG7uMzM3CzSjjwkczQARyIOqFx99BhQofcuCuf+dYGg0rld2xoVx0Ro6PjW5+XYgCN
+	 wMze7vliC92EwG4Y+OKm5Sjid6kOKZvhKeZeIxQoZAfBjd1QZzgWHW7UZXJJNwtfs6
+	 UGcc5ZdDQkvtQQwS+8uwaBKmWvdDcVlvqej3KUrK4jJt+s+n3OPrKRD/ePFKONoyLp
+	 6P2nfljn1XLig==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: aliceryhl@google.com,
+	boris.brezillon@collabora.com,
+	dakr@kernel.org,
+	markus.probst@posteo.de,
+	patches@lists.linux.dev,
+	sashal@kernel.org,
+	stable@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 6.18 445/583] rust: devres: fix race condition due to nesting
+Date: Thu, 10 Sep 2026 03:03:10 +0200
+Message-ID: <20260910010310.429807-1-ojeda@kernel.org>
+In-Reply-To: <20260909134253.387396612@linuxfoundation.org>
+References: <20260909134253.387396612@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,255 +50,100 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kernfs tests list only directories that do not change, so nothing
-covers the entry a listing stopped on being gone when it comes back.
+On Wed, 09 Sep 2026 15:42:10 +0200 Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>
+> -        try_pin_init!(&this in Self {
+> +        let callback = Self::devres_callback;
+> +        let inner = Arc::pin_init(
+> +            try_pin_init!(Inner {
+> +                data <- Revocable::new(data),
+> +            }),
+> +            GFP_KERNEL,
+> +        )?;
+> +        let devres_inner = inner.clone();
 
-readdir_resume_at_removed_entry takes a telldir(3) cookie for every
-entry, then removes each entry in turn, seeks to its cookie and reads
-the rest; nothing reported before it may come back.  This is a resume
-between two getdents(2) calls, and it fails without "kernfs: don't
-repeat or skip an entry when readdir resumes".
+The compiler complains here:
 
-readdir_resume_vs_internal_remove is a resume inside one call, which
-"kernfs: don't hold kernfs_rwsem across dir_emit()" opens.  It churns
-cgroup.subtree_control rather than calling rmdir(2), which cannot reach
-that window because iterate_dir() holds the listed directory's i_rwsem
-for the whole listing.  It is a stress test, has not been seen to catch
-the ordering bug, and keeps the window busy for lockdep and KASAN.  It
-fails if the churn died and skips if the listings never overlapped it,
-so it cannot pass having listed a static directory.
+    error[E0277]: the trait bound `impl pin_init::PinInit<Inner<T>, error::Error>: pin_init::PinInit<_, E>` is not satisfied
+       --> rust/kernel/devres.rs:141:13
+        |
+    140 |           let inner = Arc::pin_init(
+        |                       ------------- required by a bound introduced by this call
+    141 | /             try_pin_init!(Inner {
+    142 | |                 data <- Revocable::new(data),
+    143 | |                 revocation <- Completion::new(),
+    144 | |             }),
+        | |              ^
+        | |              |
+        | |______________the trait `pin_init::PinInit<_, E>` is not implemented for `impl pin_init::PinInit<Inner<T>, error::Error>`
+        |                this tail expression is of type `impl PinInit<Inner<T>, Error>`
+        |
+        = help: the following other types implement trait `pin_init::PinInit<T, E>`:
+                  <AlwaysFail<T> as pin_init::PinInit<T, ()>>
+                  <ChainPinInit<I, F, T, E> as pin_init::PinInit<T, E>>
+                  <ChainInit<I, F, T, E> as pin_init::PinInit<T, E>>
+                  <core::result::Result<T, E> as pin_init::PinInit<T, E>>
+    note: required by a bound in `init::InPlaceInit::pin_init`
+       --> rust/kernel/init.rs:155:31
+        |
+    155 |     fn pin_init<E>(init: impl PinInit<T, E>, flags: Flags) -> error::Result<Self::PinnedSelf>
+        |                               ^^^^^^^^^^^^^ required by this bound in `InPlaceInit::pin_init`
 
-Assisted-by: LLM
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- .../selftests/filesystems/kernfs_test.c       | 200 ++++++++++++++++++
- 1 file changed, 200 insertions(+)
+    error[E0282]: type annotations needed for `Arc<T>`
+       --> rust/kernel/devres.rs:140:13
+        |
+    140 |         let inner = Arc::pin_init(
+        |             ^^^^^
+    ...
+    147 |         let devres_inner = inner.clone();
+        |                                  ----- type must be known at this point
+        |
+    help: consider giving `inner` an explicit type, where the type for type parameter `T` is specified
+        |
+    140 |         let inner: Arc<T> = Arc::pin_init(
+        |                  ++++++++
 
-diff --git a/tools/testing/selftests/filesystems/kernfs_test.c b/tools/testing/selftests/filesystems/kernfs_test.c
-index 6e74da91ebca..01cd58e5e41e 100644
---- a/tools/testing/selftests/filesystems/kernfs_test.c
-+++ b/tools/testing/selftests/filesystems/kernfs_test.c
-@@ -8,6 +8,7 @@
- #include <limits.h>
- #include <net/if.h>
- #include <sched.h>
-+#include <signal.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-@@ -17,6 +18,7 @@
- #include <sys/mount.h>
- #include <sys/socket.h>
- #include <sys/stat.h>
-+#include <sys/syscall.h>
- #include <sys/xattr.h>
- 
- #include "kselftest_harness.h"
-@@ -472,6 +474,204 @@ TEST_F(kernfs_cgroup, readdir_no_duplicates)
- 			EXPECT_STRNE(names[i], names[j]);
- }
- 
-+#define RESUME_DIRS	24
-+
-+/*
-+ * Resuming at an entry that has gone must carry on after it, never before.
-+ * Take a cookie for every entry, then remove each one, seek to its cookie
-+ * and read the rest; nothing already reported may come back.
-+ */
-+TEST_F(kernfs_cgroup, readdir_resume_at_removed_entry)
-+{
-+	/* The cgroup's own control files are listed alongside ours. */
-+	char names[128][NAME_MAX + 1];
-+	long pos[128];
-+	char path[PATH_MAX];
-+	struct dirent *de;
-+	int n = 0, i, j;
-+	DIR *d;
-+
-+	for (i = 0; i < RESUME_DIRS; i++) {
-+		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
-+		ASSERT_EQ(mkdir(path, 0755), 0);
-+	}
-+
-+	/* Record the cookie before reading each entry, with its name. */
-+	d = opendir(self->scratch);
-+	ASSERT_NE(d, NULL);
-+	while (1) {
-+		long here = telldir(d);
-+
-+		de = readdir(d);
-+		if (!de)
-+			break;
-+		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+			continue;
-+		ASSERT_LT(n, (int)ARRAY_SIZE(pos));
-+		pos[n] = here;
-+		strncpy(names[n], de->d_name, NAME_MAX);
-+		names[n][NAME_MAX] = '\0';
-+		n++;
-+	}
-+	closedir(d);
-+	ASSERT_GT(n, 1);
-+
-+	for (i = 0; i < n; i++) {
-+		/* Only the directories we made can be removed and put back. */
-+		if (strncmp(names[i], "e", 1))
-+			continue;
-+
-+		snprintf(path, sizeof(path), "%s/%s", self->scratch, names[i]);
-+		ASSERT_EQ(rmdir(path), 0);
-+
-+		/* Reopen so the seek has to reach the kernel. */
-+		d = opendir(self->scratch);
-+		ASSERT_NE(d, NULL);
-+		seekdir(d, pos[i]);
-+		while ((de = readdir(d))) {
-+			if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+				continue;
-+			for (j = 0; j < i; j++)
-+				ASSERT_STRNE(de->d_name, names[j])
-+					TH_LOG("resuming at %s (gone) went back to %s",
-+					       names[i], names[j]);
-+		}
-+		closedir(d);
-+
-+		ASSERT_EQ(mkdir(path, 0755), 0);
-+	}
-+
-+	for (i = 0; i < RESUME_DIRS; i++) {
-+		snprintf(path, sizeof(path), "%s/e%02d", self->scratch, i);
-+		EXPECT_EQ(rmdir(path), 0);
-+	}
-+}
-+
-+#define CHURN_ROUNDS	400
-+#define CHURN_BUFSZ	512	/* small, so a listing takes several calls */
-+
-+/*
-+ * The files appear at the end of the enabling write and go at the start of
-+ * the disabling one, so the window where they exist is the short one.
-+ */
-+#define CHURN_DWELL_ON	2000
-+#define CHURN_DWELL_OFF	200
-+
-+struct kernfs_dirent64 {
-+	unsigned long long	d_ino;
-+	long long		d_off;
-+	unsigned short		d_reclen;
-+	unsigned char		d_type;
-+	char			d_name[];
-+};
-+
-+/*
-+ * The same resume, but inside one getdents(2) call.  rmdir(2) cannot reach
-+ * that window because iterate_dir() holds the listed directory's i_rwsem
-+ * for the whole listing; cgroup.subtree_control can, having no VFS
-+ * operation on the names it adds and removes.  The files that are not the
-+ * controller's stay throughout, so each must appear exactly once.
-+ *
-+ * A stress test: it has not been seen to catch the ordering bug, and is
-+ * here to keep the unlocked window under load for lockdep and KASAN.
-+ */
-+TEST_F(kernfs_cgroup, readdir_resume_vs_internal_remove)
-+{
-+	char buf[CHURN_BUFSZ] __attribute__((aligned(8)));
-+	char stable[128][NAME_MAX + 1];
-+	int nstable = 0, i, r;
-+	int withctl = 0, without = 0;
-+	int seen[128], status;
-+	pid_t churner;
-+	DIR *d;
-+
-+	/* With the controller off, whatever is left is what must persist. */
-+	ASSERT_EQ(write_file(self->scratch_sc, self->disable), 0);
-+	d = opendir(self->child);
-+	ASSERT_NE(d, NULL);
-+	for (;;) {
-+		struct dirent *de = readdir(d);
-+
-+		if (!de)
-+			break;
-+		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
-+			continue;
-+		ASSERT_LT(nstable, (int)ARRAY_SIZE(stable));
-+		strncpy(stable[nstable], de->d_name, NAME_MAX);
-+		stable[nstable][NAME_MAX] = '\0';
-+		nstable++;
-+	}
-+	closedir(d);
-+	ASSERT_GT(nstable, 0);
-+
-+	churner = fork();
-+	ASSERT_GE(churner, 0);
-+	if (churner == 0) {
-+		for (;;) {
-+			if (write_file(self->scratch_sc, self->enable))
-+				_exit(10);
-+			usleep(CHURN_DWELL_ON);
-+			if (write_file(self->scratch_sc, self->disable))
-+				_exit(11);
-+			usleep(CHURN_DWELL_OFF);
-+		}
-+	}
-+
-+	for (r = 0; r < CHURN_ROUNDS; r++) {
-+		int fd = open(self->child, O_RDONLY | O_DIRECTORY);
-+		int extra = 0;
-+		int n;
-+
-+		ASSERT_GE(fd, 0);
-+		memset(seen, 0, sizeof(seen));
-+
-+		while ((n = syscall(SYS_getdents64, fd, buf, sizeof(buf))) > 0) {
-+			int off = 0;
-+
-+			while (off < n) {
-+				struct kernfs_dirent64 *de = (void *)(buf + off);
-+				bool known = false;
-+
-+				off += de->d_reclen;
-+				for (i = 0; i < nstable; i++)
-+					if (!strcmp(de->d_name, stable[i])) {
-+						seen[i]++;
-+						known = true;
-+					}
-+				if (!known && strcmp(de->d_name, ".") &&
-+				    strcmp(de->d_name, ".."))
-+					extra++;
-+			}
-+		}
-+		ASSERT_GE(n, 0);
-+		EXPECT_EQ(close(fd), 0);
-+
-+		if (extra)
-+			withctl++;
-+		else
-+			without++;
-+
-+		for (i = 0; i < nstable; i++)
-+			ASSERT_EQ(seen[i], 1)
-+				TH_LOG("round %d: %s seen %d times",
-+				       r, stable[i], seen[i]);
-+	}
-+
-+	/* The churn must have been running, or the listings prove nothing. */
-+	EXPECT_EQ(kill(churner, SIGKILL), 0);
-+	ASSERT_EQ(waitpid(churner, &status, 0), churner);
-+	ASSERT_TRUE(WIFSIGNALED(status) && WTERMSIG(status) == SIGKILL)
-+		TH_LOG("churner exited on its own: status %d", status);
-+
-+	/*
-+	 * They also have to have overlapped it.  How much depends on the
-+	 * machine, so say the race could not be arranged rather than fail.
-+	 */
-+	if (!withctl || !without)
-+		SKIP(return, "listings did not span the churn: %d with, %d without",
-+		     withctl, without);
-+}
-+
- /*
-  * A telldir() cookie must resolve back to the same entry after seekdir().
-  * kernfs encodes the cookie as the node's name hash, so this covers
--- 
-2.53.0-Meta
+    error[E0282]: type annotations needed
+       --> rust/kernel/devres.rs:158:17
+        |
+    158 |                 Arc::as_ptr(&inner).cast_mut().cast(),
+        |                 ^^^^^^^^^^^         -------- type must be known at this point
+        |                 |
+        |                 cannot infer type of the type parameter `T` declared on the struct `Arc`
+        |
+    help: consider specifying the generic argument
+        |
+    158 |                 Arc::<T>::as_ptr(&inner).cast_mut().cast(),
+        |                    +++++
 
+This diff would work, similar to commit 9aa64d2503c6 ("rust: devres:
+embed struct devres_node directly"), but I wonder if the sequence of
+backports was not intended like this:
+
+    diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+    index 67471946f2b5..0cafe7ba28c8 100644
+    --- a/rust/kernel/devres.rs
+    +++ b/rust/kernel/devres.rs
+    @@ -137,7 +137,7 @@ pub fn new<E>(dev: &Device<Bound>, data: impl PinInit<T, E>) -> Result<Self>
+             Error: From<E>,
+         {
+             let callback = Self::devres_callback;
+    -        let inner = Arc::pin_init(
+    +        let inner = Arc::pin_init::<Error>(
+                 try_pin_init!(Inner {
+                     data <- Revocable::new(data),
+                     revocation <- Completion::new(),
+
+I hope that helps!
+
+Cc: Markus Probst <markus.probst@posteo.de>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alice Ryhl <aliceryhl@google.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: driver-core@lists.linux.dev
+
+Cheers,
+Miguel
