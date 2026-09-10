@@ -1,190 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D464BE44C;
-	Thu, 10 Sep 2026 15:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777BD4AA591
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 15:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789053327; cv=none; b=Aj784+1oz4ZvErNpI3uEZmJswbjhEggvqr3G0XThTvf8FBpRB+vb37Uzgd3d9m92amipHtXhxN7ZttziIf7SQZENteu9FvtKpZOoI6/yC8noOyZflG83hQkDsAmMxiViWNY9oImyx7/8x2ruXh8HDG0UbCxQgXR+NWgUBEIQ0so=
+	t=1789054777; cv=none; b=kPlLHBWK8ftcneRHGTi886hkNF5tvN3vgwUgiW5BtsbqP0sPkAk5gxvMpczRckpmqwu509bgUTtbl5gE0Yj0brEcsXOVWw0J8JxdKc5nT+D9AOxe4yy2nQYfgZ0CLQcxlQwTBgQKtj65jq21AR5FCRHIBhgiB66c/cxv5fYVjy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789053327; c=relaxed/simple;
-	bh=ffb815Sk7SvWr8R4++zCIiYhle6cC/UPA1DRcUOZMdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rUcAsfyAIrKh1LxBXXFei5l4AyWCfj9qaaEGPzZIJP/Zjx6K2v3F4VLw/a7j2gMflUjLrPjAWNKtHF8eRK/Ky5U5sEogH+lCziO5X6bb2kqFcID9eJS1C+nsVxzxLfQLg+5XQgxBvW5ztTBdwQho4quuLrnXKz/nSENnd/NAwDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChFiY7I3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789054777; c=relaxed/simple;
+	bh=yWG+hoDEtLJ/6H3nP82927cNZvMVB+giKJZJxO/9hwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NXGoeja69psxrJV81EuZpON/rkaIfoO2KX4wUI1h5B2FyU/mqCDOIi786bKlyhyjUSwP2T1bs8lIOQUr4y7uVWll3M4QhIW9kPJozuAnVL3PJkn3GAsVQomY5pvSFnXWBPL9i+YZ1TtBWPVBZLF0btIu1FlviYLnL65Kcm9AvXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrW+T4p5; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChFiY7I3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E86291F000FF;
-	Thu, 10 Sep 2026 15:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789053318;
-	bh=sEjaO8gOjD9f0+2IPCgP2BKjHuk9oDJMBENGv6o5iiw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ChFiY7I337QtzPmO3e7pcxLcEiMW3c1lGj7lAr0LVceobI2YDbaaxxmH1dC6zorIl
-	 2CRvuMT7kg+rqXci4EFF4yJVGlkA9vNas9C0TInFKFDfqxKNb1rFMxCNo3/1UDihoW
-	 0haaIsYy1dqa2/uNbuReA4WEbIKSJUekxWb70+W2gE8zsXlrbQXX9zzoKrfBQfs+Xn
-	 AhtS0iR5gFi2a/NG5ov/TJGW8Jqkth5BTSjOvDdr8srlm7rb/N3mlos5XxV9Sf5lLX
-	 LTajdiF1XC6BWLtjJtFqM4hjql8Y6Q2miG/DHnk/ybv8hIF0IVrw5RJ/A5GY1rJrk0
-	 60aIeb92PeZwg==
-Message-ID: <73b9f7b5-1c4c-4b03-92a4-8b093a5c9a04@kernel.org>
-Date: Thu, 10 Sep 2026 17:15:06 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrW+T4p5"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76ef1d0so14626391cf.0
+        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 08:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789054774; x=1789659574; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LVg0q1Ig+XeCRC/Adf+hBiNx1miS6vJUHYevs12aWqM=;
+        b=LrW+T4p5NQH8UOXS2Uqv0CZSak0w95rHX4GseMg76mugBYeUvIDIldhYJi+S8U1B1C
+         Q1Un+CLdFpjgpoB3mHh08y50h8js/R2ttU4ftv6QLKlxJh4AeNfOALoaJI2Zch8YOSzX
+         1Cb22qZzRyeOeE+aIhqHHB4rVYomPSr7J11END68mipo/petaw9JYBS0M68wRodYYfbs
+         O5MZ4N7zWJrYtasVGejMUdd71lLkbmked+XBjshn8v8nOGafMz4ZtL2aob0OBW476KbM
+         vKa7KHCgM8kW/GQwYVW2hlVA8Zaj7ZXbw6qoOR0k+Hmc/GfIB2//SEerZutzrCjm0AmX
+         mcWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789054774; x=1789659574;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LVg0q1Ig+XeCRC/Adf+hBiNx1miS6vJUHYevs12aWqM=;
+        b=mPjGCV6fTS+xXjkUyrIYHpWaYryhwLZYF+qrcp/y+Ly7oCUvgErJPfmOABiNJura0E
+         O1ycjsmVd6duZrezfIdb+bJPL62Gqed7LdIr9WRSUTYqrVKz3F1MYjx6uyLGXAp8Hg7F
+         nVm3+0V4GJH5bAWq4Nq9mVfznOqhukrnxGW2gVcEmok136Kh8FHXit6+5Ov8FbndHlzb
+         +gg1hABrzB0o7wZX8AP6UdUNkhK0KIW8bCVZj7cwgkXCixEtNvkHbiWEVVrtRg03dEAC
+         MEZloDmQzl1/gF0eKiB6LVkoxAR/HrGshmfeLftEp1KdS9ht2+oswjHvLgFxZS68cUAQ
+         V9Qw==
+X-Forwarded-Encrypted: i=1; AKwUvBzyUKjpTaGWQ7pn43hRWMwOpJoflHmKptHftmpKGodISx68sYvJ1hGVjfiyF2zL3j4hQ9zhcL+FmekBfg==@lists.linux.dev
+X-Gm-Message-State: AFuF++k/u/EijVPwa9W2JFIbPyWwBxkD7AULwNq9RbZE4Qlwk4c+/Y3L
+	TLXH6ofxoY8GD2RdBV33oRLIomqL9dQZuxVW+eowJHQwOiPSwgsfc+qG
+X-Gm-Gg: AYBFou14cCjsGJ5nm5fUmBeW1aHHm8/EysxSgc/7aLRcM1WEzw8B+SS9YOtD4p/Fz41
+	QVIzNrTdZBeW02Vq98vlsT/Obk3fwRdurpmUW8WdMDR0FumfiWdMLU4ia/VguHWoQ+syaiTmPNE
+	0Rrn49D/xsPantwONTX1DkazCTzIJtIAuincesK7tOV14h1ybLUOEhyMRjEd0GHqKPbdn5IcH6W
+	frX69ArilmwpdS76PMq1bWpJ6fJpegxPLlooDdmauQAw99/DfMUVuugNijsn55R13cTHNh4rBwd
+	D/swh5zOb554DT1jTlI+SEaVXYn5bI5QLZkW2rBIBNpWF8jmYGLkgdvYaMZzyRl8c0gaJHtPhS4
+	cxaVoUPDhJUII6BFrbUOV24GN/3i3Pd0Q+3oPgITpQAAzXsO2xeAa/WBSdE7wdtB75Q24Mk6r1H
+	SHsv9gWGq3G2Fp29xanZp9p/4gXCJHAhDUj/a0zLgoQAZo4eq4FdjyfsPs40pL5y56ZEkDCSOpg
+	RJ3iwyx
+X-Received: by 2002:ac8:5a8d:0:b0:530:6ffd:1ce8 with SMTP id d75a77b69052e-530aedb7cbbmr100110721cf.41.1789054773862;
+        Thu, 10 Sep 2026 08:39:33 -0700 (PDT)
+Received: from tofu.. ([128.210.0.165])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305413ce9dsm170860171cf.11.2026.09.10.08.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 08:39:33 -0700 (PDT)
+From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Subject: [PATCH v2] rust: auxiliary: validate DeviceId name length
+Date: Thu, 10 Sep 2026 11:38:44 -0400
+Message-ID: <20260910153844.3987791-1-georgeandrout13@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/12] mm/memory_hotplug: drop CONFIG_HAVE_ARCH_PFN_VALID
- handling from pfn_to_online_page()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Oscar Salvador <osalvador@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-12-008fc8d579fe@kernel.org>
- <aqLB0Fe_bCRSph9E@gremlin>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aqLB0Fe_bCRSph9E@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/10/26 16:47, Lorenzo Stoakes (ARM) wrote:
-> On Wed, Sep 09, 2026 at 03:33:05PM +0200, David Hildenbrand (Arm) wrote:
->> Drop CONFIG_HAVE_ARCH_PFN_VALID handling, as CONFIG_HAVE_ARCH_PFN_VALID
->> is never used with CONFIG_MEMORY_HOTPLUG, as the latter depends on
->> CONFIG_SPARSEMEM_VMEMMAP. Make sure it stays that way.
-> 
-> So argument is:
-> 
-> mm/Makefile:
-> 
-> memory-hotplug-$(CONFIG_MEMORY_HOTPLUG) += memory_hotplug.o
-> 
-> Is memory_hotplug.c even compiled at all?
-> 
-> mm/Kconfig:
-> 
-> menuconfig MEMORY_HOTPLUG
-> 	bool "Memory hotplug"
-> 	select MEMORY_ISOLATION
-> 	depends on SPARSEMEM_VMEMMAP
-> 	depends on ARCH_ENABLE_MEMORY_HOTPLUG
-> 	depends on 64BIT
-> 	select NUMA_KEEP_MEMINFO if NUMA
-> 
-> $ cd arch
-> $ rg HAVE_ARCH_PFN_VALID
-> Kconfig
-> 1762:config HAVE_ARCH_PFN_VALID
-> 
-> arm/Kconfig
-> 94:	select HAVE_ARCH_PFN_VALID
-> 
-> arm/mm/init.c
-> 121:#ifdef CONFIG_HAVE_ARCH_PFN_VALID
-> 
-> arm/include/asm/page.h
-> 178:#ifdef CONFIG_HAVE_ARCH_PFN_VALID
-> 
-> m68k/Kconfig.cpu
-> 23:	select HAVE_ARCH_PFN_VALID
-> 40:	select HAVE_ARCH_PFN_VALID
-> 
-> arc/Kconfig
-> 463:	select HAVE_ARCH_PFN_VALID
-> 
-> All of arm, m68k and arc are 32-bit arches so by definition MEMORY_HOTPLUG
-> can't be selected.
-> 
->>
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> 
-> So LGTM and:
-> 
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> 
->> ---
->>  mm/memory_hotplug.c | 9 ++-------
->>  1 file changed, 2 insertions(+), 7 deletions(-)
->>
->> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
->> index b428da66d279c..58ce35cb48f57 100644
->> --- a/mm/memory_hotplug.c
->> +++ b/mm/memory_hotplug.c
->> @@ -344,6 +344,8 @@ struct page *pfn_to_online_page(unsigned long pfn)
->>  	struct dev_pagemap *pgmap;
->>  	struct mem_section *ms;
->>
->> +	BUILD_BUG_ON(IS_ENABLED(CONFIG_HAVE_ARCH_PFN_VALID));
-> 
-> Haha nicest way of removing some later code I've seen. Just make it not compile
-> if such a thing happens :)
+`DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
+`auxiliary_device_id::name` array without checking that they fit. An
+oversized name is caught by the array bounds check, but the error
+reports an out-of-bounds index in the copy loop rather than the
+constraint the caller violated.
 
-Better be safe than sorry :)
+Check the invariant explicitly instead, so the failure states the length
+limit rather than an array index.
 
-Thanks!
+This should only be reached when constructing a device ID table, so the
+failure is a compile time error. Document that intent.
 
+Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+---
+Changes in v2:
+- Drop Fixes: following feedback from Danilo Krummrich and Alexandre
+  Courbot.
+- Replace the `# Panics` section with a note that this is for device ID
+  table construction, following feedback from Danilo Krummrich and Gary
+  Guo.
+- Reword the commit message so it does not suggest runtime evaluation,
+  following feedback from Alexandre Courbot.
+- Link to v1: https://lore.kernel.org/rust-for-linux/20260909033246.2779303-1-georgeandrout13@gmail.com/
+---
+ rust/kernel/auxiliary.rs | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index 60dfbec8f330..2ace0428e45e 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -137,10 +137,18 @@ macro_rules! module_auxiliary_driver {
+ 
+ impl DeviceId {
+     /// Create a new [`DeviceId`] from name.
++    ///
++    /// This is only intended to be called in const context, when constructing a
++    /// device ID table, where exceeding `AUXILIARY_NAME_SIZE` is a compile time error.
+     pub const fn new(modname: &'static CStr, name: &'static CStr) -> Self {
+         let name = name.to_bytes_with_nul();
+         let modname = modname.to_bytes_with_nul();
+ 
++        assert!(
++            modname.len().saturating_add(name.len()) <= bindings::AUXILIARY_NAME_SIZE as usize,
++            "auxiliary device ID is too long"
++        );
++
+         let mut id: bindings::auxiliary_device_id = pin_init::zeroed();
+         let mut i = 0;
+         while i < modname.len() {
+
+base-commit: 28924df2a08f440c73991b83028032c901de2ae4
 -- 
-Cheers,
+2.47.3
 
-David
