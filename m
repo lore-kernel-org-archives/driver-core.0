@@ -1,149 +1,131 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777BD4AA591
-	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 15:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F52A53CA82
+	for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 17:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054777; cv=none; b=kPlLHBWK8ftcneRHGTi886hkNF5tvN3vgwUgiW5BtsbqP0sPkAk5gxvMpczRckpmqwu509bgUTtbl5gE0Yj0brEcsXOVWw0J8JxdKc5nT+D9AOxe4yy2nQYfgZ0CLQcxlQwTBgQKtj65jq21AR5FCRHIBhgiB66c/cxv5fYVjy4=
+	t=1789059747; cv=none; b=FgG1KK5XlfHMUkmCEibiXzPmUtNrQ08Y2FfvMif0QV02sI/Ky08LZJJM8KWvx2Z9LAGtYDPd3O6FkQHwiybykK3tSSXeLtVAgIckSVhnUtkbYD0aMDT2+n7oXXpXhI29fYVxgF055NfpnRqLCgnRRQrFYWXUjdZsgbUkicwoaZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054777; c=relaxed/simple;
-	bh=yWG+hoDEtLJ/6H3nP82927cNZvMVB+giKJZJxO/9hwY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NXGoeja69psxrJV81EuZpON/rkaIfoO2KX4wUI1h5B2FyU/mqCDOIi786bKlyhyjUSwP2T1bs8lIOQUr4y7uVWll3M4QhIW9kPJozuAnVL3PJkn3GAsVQomY5pvSFnXWBPL9i+YZ1TtBWPVBZLF0btIu1FlviYLnL65Kcm9AvXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrW+T4p5; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789059747; c=relaxed/simple;
+	bh=Sq+3ZPDvtDiwDZEiPtzE5bg4NQcIOhzYCUKUumcK7+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E3+u6PiOG74TSQFkuDvX5Vu0VhRYbqpO+LK+TycHHysnQ5dHk9W3ygTU+/G01dSyz7QceoTyWchJD4kHqVrO218t2wVEkmLER9oasKMEEhm++CMhydLXNUv9D21JkEZ/HdoZ/hMnoN95tX1LXc6gaCIxklqqJQgdeS+oUdlp1qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Xnm7bTnB; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrW+T4p5"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76ef1d0so14626391cf.0
-        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 08:39:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xnm7bTnB"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6a9a20a5e72so50895a12.0
+        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 10:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789054774; x=1789659574; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LVg0q1Ig+XeCRC/Adf+hBiNx1miS6vJUHYevs12aWqM=;
-        b=LrW+T4p5NQH8UOXS2Uqv0CZSak0w95rHX4GseMg76mugBYeUvIDIldhYJi+S8U1B1C
-         Q1Un+CLdFpjgpoB3mHh08y50h8js/R2ttU4ftv6QLKlxJh4AeNfOALoaJI2Zch8YOSzX
-         1Cb22qZzRyeOeE+aIhqHHB4rVYomPSr7J11END68mipo/petaw9JYBS0M68wRodYYfbs
-         O5MZ4N7zWJrYtasVGejMUdd71lLkbmked+XBjshn8v8nOGafMz4ZtL2aob0OBW476KbM
-         vKa7KHCgM8kW/GQwYVW2hlVA8Zaj7ZXbw6qoOR0k+Hmc/GfIB2//SEerZutzrCjm0AmX
-         mcWA==
+        d=chromium.org; s=google; t=1789059733; x=1789664533; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u+7YvFjPPo9k/FqxxQZH7F6PYUlcKWqkhxEgYotuD+A=;
+        b=Xnm7bTnBWappZmSTF9mVSiYF9SIIYhr2QJK5dhOTNLCxsroKJ9tx3MG3VPRUE3sfo6
+         RwRpZewG+7mN2uBhy9HIhANjz1DD72r6QrsjTLcImaLP70iczE6hoBJkA1kE7gTVEc1R
+         s8zNZSf16Ho1kIj2LuiZrb0cB4JSrBXjpwapg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789054774; x=1789659574;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LVg0q1Ig+XeCRC/Adf+hBiNx1miS6vJUHYevs12aWqM=;
-        b=mPjGCV6fTS+xXjkUyrIYHpWaYryhwLZYF+qrcp/y+Ly7oCUvgErJPfmOABiNJura0E
-         O1ycjsmVd6duZrezfIdb+bJPL62Gqed7LdIr9WRSUTYqrVKz3F1MYjx6uyLGXAp8Hg7F
-         nVm3+0V4GJH5bAWq4Nq9mVfznOqhukrnxGW2gVcEmok136Kh8FHXit6+5Ov8FbndHlzb
-         +gg1hABrzB0o7wZX8AP6UdUNkhK0KIW8bCVZj7cwgkXCixEtNvkHbiWEVVrtRg03dEAC
-         MEZloDmQzl1/gF0eKiB6LVkoxAR/HrGshmfeLftEp1KdS9ht2+oswjHvLgFxZS68cUAQ
-         V9Qw==
-X-Forwarded-Encrypted: i=1; AKwUvBzyUKjpTaGWQ7pn43hRWMwOpJoflHmKptHftmpKGodISx68sYvJ1hGVjfiyF2zL3j4hQ9zhcL+FmekBfg==@lists.linux.dev
-X-Gm-Message-State: AFuF++k/u/EijVPwa9W2JFIbPyWwBxkD7AULwNq9RbZE4Qlwk4c+/Y3L
-	TLXH6ofxoY8GD2RdBV33oRLIomqL9dQZuxVW+eowJHQwOiPSwgsfc+qG
-X-Gm-Gg: AYBFou14cCjsGJ5nm5fUmBeW1aHHm8/EysxSgc/7aLRcM1WEzw8B+SS9YOtD4p/Fz41
-	QVIzNrTdZBeW02Vq98vlsT/Obk3fwRdurpmUW8WdMDR0FumfiWdMLU4ia/VguHWoQ+syaiTmPNE
-	0Rrn49D/xsPantwONTX1DkazCTzIJtIAuincesK7tOV14h1ybLUOEhyMRjEd0GHqKPbdn5IcH6W
-	frX69ArilmwpdS76PMq1bWpJ6fJpegxPLlooDdmauQAw99/DfMUVuugNijsn55R13cTHNh4rBwd
-	D/swh5zOb554DT1jTlI+SEaVXYn5bI5QLZkW2rBIBNpWF8jmYGLkgdvYaMZzyRl8c0gaJHtPhS4
-	cxaVoUPDhJUII6BFrbUOV24GN/3i3Pd0Q+3oPgITpQAAzXsO2xeAa/WBSdE7wdtB75Q24Mk6r1H
-	SHsv9gWGq3G2Fp29xanZp9p/4gXCJHAhDUj/a0zLgoQAZo4eq4FdjyfsPs40pL5y56ZEkDCSOpg
-	RJ3iwyx
-X-Received: by 2002:ac8:5a8d:0:b0:530:6ffd:1ce8 with SMTP id d75a77b69052e-530aedb7cbbmr100110721cf.41.1789054773862;
-        Thu, 10 Sep 2026 08:39:33 -0700 (PDT)
-Received: from tofu.. ([128.210.0.165])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5305413ce9dsm170860171cf.11.2026.09.10.08.39.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 08:39:33 -0700 (PDT)
-From: Georgios Androutsopoulos <georgeandrout13@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <iweiny@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Georgios Androutsopoulos <georgeandrout13@gmail.com>
-Subject: [PATCH v2] rust: auxiliary: validate DeviceId name length
-Date: Thu, 10 Sep 2026 11:38:44 -0400
-Message-ID: <20260910153844.3987791-1-georgeandrout13@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20251104; t=1789059733; x=1789664533;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u+7YvFjPPo9k/FqxxQZH7F6PYUlcKWqkhxEgYotuD+A=;
+        b=EuLp0jbo9XHxBqYMOJNnf2DAceLKzUN3epYOgtDTta0kPtPuDDOWMJejj1L5IfXo7n
+         yrsA/YdMD46vCgLNG+eeLJ2NroocyZoZzRJRcBtGG2cauEon3QNl5FRk0b0v5DwfFJy5
+         /KScrjIF5f2JIjHi2WXB6aWQnkmjSGqE2gVJbu5FbhOFGwxiSmbq0pxvM3ad99LabCTy
+         DikHD0UnOdAs3+a9Jfj2JcPTaB9wpbukugRqO7MoJzL3vuXuF8LhVnFKhEGi+TrtpK/V
+         eB5nF7PQKoq6SdtDbGr784+eku3J4ui2Mrqrv8MzEWqNhj1Cwws/Jxzkg0kBiBj2ck3s
+         Jqhw==
+X-Forwarded-Encrypted: i=1; AKwUvBzNswPqI5FeBI13dTKrv3Yx78XfghfKaqZdw53VaPFs3IcfdS7tDGrxteRSb1Bxak+Da1cExWBBaSLs8Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++kvrdeZS4zQuJhMV8d0QZKkMJy4sVaFnXWWtbMX3BuKuXo+Ur4Z
+	Kn55LCkeJEFhbSfF43DFEtLlcLAVY59Tz/jjEtbIXlvXWIyCyuCQ1j4x7HoqPOOjYjtckUmfvgO
+	8EFUffw==
+X-Gm-Gg: AYBFou1zil98xkuDh3YkUW5zbpY7y0UJpZ3RVwV3yPtcqgkPBXgJ1/XUUMRBLXp27Aj
+	KwdWVgaZQUBEQLQb4OeThZEyf0SdnHd7yFB69KnEHvfQgLVUR+Na5e5S1jJ+yxPL8pi1UGA9Mnc
+	Wld5gKnHIv6zEkBz6Xv6niXSMWF9fwyZndozVCbBLDjcxjohItjQdQfPylkS6/vD8nCAPllO7dX
+	uSYwkDokUNsW8YJNr/SPd/IrHIfAxrjAjN1s85KWfzP5mWS+5VIBvmYkwgwOXCaVrRr1oy/XODF
+	17Ke7gLNMpwyqj4G28bNuqqaHvpSJ8ckaiAkyAh5HS5K4F4jUV2nf2y2RU1sQYHXMHMj5kFEwNz
+	RUbxinOBAhIHeWD+XlCx6P+0/wWbnmi4qWTRduWWToTG2cnrgFL5cAe8OvqwT+iDiL8AmwmzEw9
+	qJnZFZBoWyYh7wcvsXf2w/yNtk5YWllNN1lTW8m8xfCoe1xXUOitQstwzFPyjk1EpyrAgXLaDlA
+	PZvLiniZaLeicKMlAS8lUmlqxKGlDriuI+vISDriNEJJewG
+X-Received: by 2002:a17:906:f591:b0:c20:f529:2d6a with SMTP id a640c23a62f3a-c260ca339fdmr1702272866b.22.1789059732624;
+        Thu, 10 Sep 2026 10:02:12 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d03644bsm954387466b.6.2026.09.10.10.01.54
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 10:01:59 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso820455e9.2
+        for <driver-core@lists.linux.dev>; Thu, 10 Sep 2026 10:01:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwf61GlKvxZIdFRjx5GuY7ji/mERxrVm71tZ5cBi9+dC8m+LdGcRnxAOetK3Pvh2RLLqg85HUDexHNCdQ==@lists.linux.dev
+X-Received: by 2002:a05:6000:658:b0:484:4817:85db with SMTP id
+ ffacd0b85a97d-485872b5c09mr38411439f8f.14.1789059713626; Thu, 10 Sep 2026
+ 10:01:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260909224818.2177311-1-mrungta@google.com>
+In-Reply-To: <20260909224818.2177311-1-mrungta@google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 10 Sep 2026 10:01:40 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WFBmq3kniULxcXNsKgY-Zrb82JfaX5uRWVewQi_tJyJw@mail.gmail.com>
+X-Gm-Features: AcwNN1Xl_nzhNtJWsI6953UZiPelgeSEkWzryufpn6N_ETw7Yj-N-KcRVJNqhak
+Message-ID: <CAD=FV=WFBmq3kniULxcXNsKgY-Zrb82JfaX5uRWVewQi_tJyJw@mail.gmail.com>
+Subject: Re: [PATCH v2] PM: sleep: Add DPM watchdog to prepare/late/early/noirq/complete
+ phases
+To: Mayank Rungta <mrungta@google.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-`DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
-`auxiliary_device_id::name` array without checking that they fit. An
-oversized name is caught by the array bounds check, but the error
-reports an out-of-bounds index in the copy loop rather than the
-constraint the caller violated.
+Hi,
 
-Check the invariant explicitly instead, so the failure states the length
-limit rather than an array index.
+On Wed, Sep 9, 2026 at 3:48=E2=80=AFPM Mayank Rungta <mrungta@google.com> w=
+rote:
+>
+> Extend the DPM watchdog to wrap device_prepare, device_suspend_late,
+> device_suspend_noirq, device_resume_noirq, device_resume_early, and
+> device_complete callbacks. If a driver hangs during these transitions,
+> the watchdog will fire and dump a stack trace to help identify the
+> offending driver.
+>
+> To prevent false-positive timeouts, the watchdog is set only after
+> waiting for subordinate (during suspend) and superior (during resume)
+> devices. With this change, DPM watchdog coverage is extended across all
+> phases of system sleep transitions.
+>
+> Signed-off-by: Mayank Rungta <mrungta@google.com>
+> ---
+> v2:
+>  - Extend DPM watchdog to device_prepare and device_complete callbacks.
+>  - Update commit subject and description to reflect coverage across all
+>    system sleep phases.
+> v1:
+>  - Initial version adding DPM watchdog to late/early/noirq phases.
+>
+> Testing:
+>  - Tested on an ARM64 SoC (Pixel platform running a 6.18-based kernel wit=
+h
+>    DPM watchdog enabled; Android 6.18 kernel has latest DPM changes
+>    backported).
+>  - Verified hang simulation in device_prepare and device_complete
+>    triggers DPM watchdog panic and stack trace as expected.
+>
+>  drivers/base/power/main.c | 31 ++++++++++++++++++++++++++++---
+>  1 file changed, 28 insertions(+), 3 deletions(-)
 
-This should only be reached when constructing a device ID table, so the
-failure is a compile time error. Document that intent.
+Thanks! I guess you dropped my (and Tzung-Bi's) Reviewed-by tags
+because of the minor changes between v1 and v2? They look right to me,
+so:
 
-Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
----
-Changes in v2:
-- Drop Fixes: following feedback from Danilo Krummrich and Alexandre
-  Courbot.
-- Replace the `# Panics` section with a note that this is for device ID
-  table construction, following feedback from Danilo Krummrich and Gary
-  Guo.
-- Reword the commit message so it does not suggest runtime evaluation,
-  following feedback from Alexandre Courbot.
-- Link to v1: https://lore.kernel.org/rust-for-linux/20260909033246.2779303-1-georgeandrout13@gmail.com/
----
- rust/kernel/auxiliary.rs | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-index 60dfbec8f330..2ace0428e45e 100644
---- a/rust/kernel/auxiliary.rs
-+++ b/rust/kernel/auxiliary.rs
-@@ -137,10 +137,18 @@ macro_rules! module_auxiliary_driver {
- 
- impl DeviceId {
-     /// Create a new [`DeviceId`] from name.
-+    ///
-+    /// This is only intended to be called in const context, when constructing a
-+    /// device ID table, where exceeding `AUXILIARY_NAME_SIZE` is a compile time error.
-     pub const fn new(modname: &'static CStr, name: &'static CStr) -> Self {
-         let name = name.to_bytes_with_nul();
-         let modname = modname.to_bytes_with_nul();
- 
-+        assert!(
-+            modname.len().saturating_add(name.len()) <= bindings::AUXILIARY_NAME_SIZE as usize,
-+            "auxiliary device ID is too long"
-+        );
-+
-         let mut id: bindings::auxiliary_device_id = pin_init::zeroed();
-         let mut i = 0;
-         while i < modname.len() {
-
-base-commit: 28924df2a08f440c73991b83028032c901de2ae4
--- 
-2.47.3
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
