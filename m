@@ -1,168 +1,81 @@
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AB1472527
-	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 09:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B303D1CC1;
+	Fri, 11 Sep 2026 09:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789118406; cv=none; b=efM9D4/aGFfO6j9YJkhvPNj5rN2ZIGhzr2ZtXtLGL1c1Ras1yYJ+WfVo/cLq2GIi0MQHAwy8zV0WOoh7FWMv6aHJE3Wzgi34YUxGJ+Nq1SzziLdyst6Rst1YNQvGmm3j0Ws6PMOeanpKQ0Uuxcl8KC5W9fraFYu/tiE8WWHEyGU=
+	t=1789120410; cv=none; b=sI+FVEvnqiXUOt5H4h/Mh0di+wCz890nos+dVuzKRiCbI5Ctw9zXvStMlmeuJFDLtqk/dnafTUSKiT1lo5kKNIRHuqQCUuNltmZMvyMrhHHSKpbVV61iAG8Dy6GAu3HGcPVOcGkRrU92okX7b0JTnfIk6LsOxbBMXqOD9QFDj0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789118406; c=relaxed/simple;
-	bh=LQHKUmm2L3VPczAzSrySIOYelc6UVvj0GiEVXj92Iww=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gfjFSCBw/zEwwWtTSvzL/2HHLcI4MFB1BMofksc2APgArUGXIbV95/Or0o1L4IwCq0fHSnjdC0317r+PE0644Gm6N5fyB7zUk3y8tCtBonrDaMMDjD6mXozjWAESsh0HdQlvTWpRqUbMnLP+FVeVTqSmNPx7y8a7rA+5UPK/b4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SQ5r+Ikl; arc=none smtp.client-ip=209.85.221.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1789120410; c=relaxed/simple;
+	bh=cWvBrZ5EzEWY6B5Q4YEGoEOGnwb0qHO6eV7PAuHhU4c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CkrA2UBQ5oW2wk/Gxg2amalaK9ekDZflqKJczLOWZsszJR2Zb+4i9L68/nmDf0NIaJGBjYmHs/qXIOWzRgB4geA3isTzWbjwTuMbrCJopc/xGjKrUNHN6eo+VVGR1wQLnVwmq6sawy+rYeSMzxs/i/K/epPoxdZXGIPrpjFgpuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jI6QsPls; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SQ5r+Ikl"
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48589603501so379167f8f.3
-        for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 02:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789118401; x=1789723201; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NZtTwWLqkTlApSCCjwtFSfuFmwluELYL36xqCuH39yY=;
-        b=SQ5r+IklUyMRevkZo1+0tqd6ZFuda0WT5H5Nar0rhzHDINJ6OQafgQ3Z6Tmluaefql
-         jlBgItIA3TXQ4CMNmKCxgMNE912poovhg3+EhxRNE6SzoB21OeWbklKF5jpzwIqQlBWZ
-         iBhargCRlUHk4oie9ZouPqoRS5TaxzyEpuSeNnnAef+bfyyMa+TGyxSKMMHu1+pR1/rU
-         UiKZA0Y68f/9SixFzpcNDHGo7MFl3YG5rEfNQenUBsZtK9PkxstobX50in0tQl7su3XQ
-         1CJ2BuSS/GoZMPCxNXTJYmt/xPvic0wm54I2+MwZkoED7yHe/StilHx9I0EI64lkCSeb
-         NCsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789118401; x=1789723201;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NZtTwWLqkTlApSCCjwtFSfuFmwluELYL36xqCuH39yY=;
-        b=bO9+N9+6xaGlHFaOp1ZyKemMo7XM23ks1pibHi7QP641HKnr18DFqyDhF1D7W1wYjc
-         +QqbJI9NBw1NGb9iFOBJ4hFXgrkkNT5xCCiRxiGQhkQJkGhRJ5koDxXpOXcbmlDav5Ev
-         1QnCAp4Xi+n8+FsIIkw+wU6TUbxLCxiA7MJSKwisJWpV0tpJlP1DLSWPYKhfc/AAWIhZ
-         mG6pq8uvRSo7CNQKN6/9/LKGEU3JaThqhfpyR/PMh/d17qT5dtzY8XqkcPmKlmo3aV6u
-         0p01fS/D7Z0IbrFHHxG2VSsIGW3K8A8c57kd/tIirxwFwhsVDg1dDQshfnvezYId+8pG
-         NPIw==
-X-Forwarded-Encrypted: i=1; AKwUvByWLC7nN4PxIHH5qCINIuv7jvN1HYCclKk2YYRYeGhv97R0dRpxnEzHGDijQbNAZ1zefSkjHF3yg8lh8A==@lists.linux.dev
-X-Gm-Message-State: AFuF++nhP8AsyHkH84WNTI7NINLMUvZw+qJYQR6xM7mygV0u7nVGd2Sc
-	ib9kynLIuGerLT2O9wWizTXcYJrF1DlOf+xdaZKWlHA/2YGuSbzNkIpHia29dIbWF3ts2eTqVtV
-	qPagqNMarj/Rs8maF0w==
-X-Received: from wmga6.prod.google.com ([2002:a05:600c:2d46:b0:499:b8f0:3186])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:8490:20b0:49d:e0c:e560 with SMTP id 5b1f17b1804b1-49e61983771mr27226365e9.4.1789118400242;
- Fri, 11 Sep 2026 02:20:00 -0700 (PDT)
-Date: Fri, 11 Sep 2026 09:19:58 +0000
-In-Reply-To: <20260910-unique-ref-v21-6-e83257373062@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jI6QsPls"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1497F1F00893;
+	Fri, 11 Sep 2026 09:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789120408;
+	bh=LLy8nolpz9uz95Ne/GucVTFVjWJLSRBAQmDU2+FWe6c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jI6QsPls7xGEz13RXALI6DJxVDSNFWrxXBpHqRbDt/rn7xRKmDSTLKAM8E6TITD/X
+	 DU1YVXWOGQN/CEdx5HkgW4h0NMyqGWfEtJsiUwM57sewh02XPucNUAQjqoN+3Ka2Zs
+	 bh5GGKHNhdprvfFmCPsLFKijA+WZW8/zdP2NSW7ppQUMxROUwT/mOMno7AzDE0w+bC
+	 B5uaKxNy6+745bQ29nQ27+atwM5nSJHgQwG0hwl3t2eNsvuRIbfjRrmQWEZlHOAjFL
+	 jBShVcBzzxydy87Djv6DnhYzjKhT3DS7l63Hk/id/tlw0yzpvVA3Up6T3HNQrSVqQT
+	 8cnr/LORcLaNw==
+Message-ID: <4c376405-17ec-4dc2-a5a5-662d1dc3cf85@kernel.org>
+Date: Fri, 11 Sep 2026 11:53:22 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org> <20260910-unique-ref-v21-6-e83257373062@kernel.org>
-Message-ID: <aqPHvi1xFnMXvYLW@google.com>
-Subject: Re: [PATCH v21 6/9] rust: Add `OwnableRefCounted`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, Lyude Paul <lyude@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
-	Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	"Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=" <kwilczynski@kernel.org>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
-	Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Philipp Stanner <phasta@kernel.org>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] rust: pci: add resource_flags accessor
+To: Eliot Courtney <ecourtney@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
+ nova-gpu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joel Fernandes <joelagnelf@nvidia.com>
+References: <20260908-pci-resource-flags-v1-1-269f29f81de6@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20260908-pci-resource-flags-v1-1-269f29f81de6@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 10, 2026 at 11:00:10AM +0200, Andreas Hindborg wrote:
-> From: Oliver Mangold <oliver.mangold@pm.me>
+On 9/8/26 9:51 AM, Eliot Courtney wrote:
+> From: Joel Fernandes <joelagnelf@nvidia.com>
 > 
-> Types implementing one of these traits can safely convert between an
-> `ARef<T>` and an `Owned<T>`.
+> Add a `Device::resource_flags()` method to the PCI Rust abstraction,
+> wrapping the C-side static inline `pci_resource_flags()`.
 > 
-> This is useful for types which generally are accessed through an `ARef`
-> but have methods which can only safely be called when the reference is
-> unique, like e.g. `block::mq::Request::end_ok()`.
+> The flags returned correspond to the `IORESOURCE` bitmask carried by a
+> PCI BAR's `struct resource`.
 > 
-> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
-> [ Andreas: Fix formatting, update documentation, fix error handling in
->   examples. ]
-> Assisted-by: LLM
-> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> The immediate motivation is BAR layout discovery on NVIDIA GPUs: a
+> 64-bit BAR consumes two consecutive Linux PCI resource slots (the lower
+> 32 bits at index N and the upper 32 bits at index N+1, with the latter
+> having no flags or size of its own).
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+> ---
+> This is patch 1 of Joel's nova-core mm prerequisites series [1],
+> reposted with no code changes. The rest of that series was folded into
+> the PRAMIN series [2], which is now in drm-rust-next and didn't carry
+> this patch. The upcoming nova-core memory management changes still need
+> resource_flags().
+> 
+> This is based on drm-rust-next.
 
->  /// Types that specify their own way of performing allocation and destruction. Typically, this trait
->  /// is implemented on types from the C side.
->  ///
-> -/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type. This
-> -/// is useful when it is desirable to tie the lifetime of the reference to an owned object, rather
-> -/// than pass around a bare reference. [`Ownable`] types can define custom drop logic that is
-> -/// executed when the owned reference [`Owned<Self>`] pointing to the object is dropped.
-> +/// Implementing this trait allows types to be referenced via the [`Owned<Self>`] pointer type.
-> +///  - This is useful when it is desirable to tie the lifetime of an object reference to an owned
-> +///    object, rather than pass around a bare reference.
-> +///  - [`Ownable`] types can define custom drop logic that is executed when the owned reference
-> +///    of type [`Owned<_>`] pointing to the object is dropped.
-
-This diff looks like it should be in the patch introducing Ownable.
-
-> +/// # #![expect(clippy::disallowed_names)]
-> +/// # use core::ptr::NonNull;
-> +/// # use kernel::alloc::{flags, kbox::KBox, AllocError};
-> +/// # use kernel::sync::aref::{ARef, RefCounted};
-> +/// # use kernel::sync::atomic::Acquire;
-> +/// # use kernel::sync::Refcount;
-> +/// # use kernel::types::{Owned, Ownable, OwnableRefCounted};
-> +///
-
-This newline will appear weirdly in generated docs because no content is
-shown above it. Consider not hiding the imports.
-
-> +pub trait OwnableRefCounted: RefCounted + Ownable + Sized {
-> +    /// Checks if the [`ARef`] is unique and converts it to an [`Owned`] if that is the case.
-> +    /// Otherwise it returns again an [`ARef`] to the same underlying object.
-> +    fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, ARef<Self>>;
-> +
-> +    /// Converts the [`Owned`] into an [`ARef`].
-> +    fn into_shared(this: Owned<Self>) -> ARef<Self>;
-> +}
-
-This trait provides two methods that have very different conditions for
-existing, IMO.
-
-The into_shared() method is so likely to exist, that I would almost
-consider placing it on the Ownable trait.
-
-pub trait Ownable {
-    unsafe fn release(this: NonNull<Self>);
-
-    fn into_shared(this: Owned<Self>) -> ARef<Self>
-    where
-    	Self: Refcounted;
-}
-
-On the other hand, I think try_from_shared() is more likely to be a
-tricky operation you cannot necessarily implement, and as such it can be
-on its own separate trait like you have here.
-
-At the very least, I can easily imagine that some types can never become
-unique again after having been shared.
-
-Alice
+Acked-by: Danilo Krummrich <dakr@kernel.org>
