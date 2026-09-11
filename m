@@ -1,105 +1,126 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F143BED7A
-	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 22:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1F025A2C6;
+	Fri, 11 Sep 2026 23:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789165314; cv=none; b=FazC5sqT8fhoOTI9Ng1Lz1tNivH4LuFbKFIDm7AkQmBMYskqwcmM2xKFY/e4w0J0L8esu6Uwg6kNJcUtQJ/pygJTSf8ZKkWhfHnhvMb0UnIe6ZzCLZlply28v5afyd3L4Ql7Ss03sV9SuaazGSb8X4DzEdnXCO+uphgW0qNWU3w=
+	t=1789168156; cv=none; b=EgdMy89TUn8I5uxZ5J7/0b3+9vUm0UxuCS7SFGq3PWMZTHC65b2rD5OhkjWKKm5sfhfPd/dvR6MfU4vVHzHeIZ0/JOvVJoLL3AJUyqUSQ8LjpryYTShQyNKVfyiWiHHJdN2/tI7WlZgIk1efGWt/DHFcpgNSxTEdc1XqyutbORk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789165314; c=relaxed/simple;
-	bh=0bKbFA6rTlExsl6Cq0rBiqoF5/Pq5eHAPxz7mw8aMnE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d51vtD3bBUb7ox1qHdSojqhZ7LeInIWy3S/SbNqUXIxfoxsyzyChVC1K/CSOqq7hYwRZh6mSEpQ6J8Q1KdHxhJWU+QSUWfR3zN27r5+AeZTHz60HssrXT64e055T1pXWoyLYMDhDaWELS+q242WSS/QB7tGchEILpYhACRIfTBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tJGvlgsA; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789168156; c=relaxed/simple;
+	bh=CymmYiRgBPmwWvpAZuotQEH/kPy51FRClbyn5orchBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LjShMJ7TNC07KfUoX2buAG4hqgegN4S+u4biU2buUjYd2CtRQrhea7ovyMeNGHNiT8SbpqT1ZeyZXZY/VuAI6IMf+jSHNqPOyGbaq4SxyQugHnV0LegsspJzlVDxMJ4/ei3HqSfPK29e3WkH09KavT8cSc4+1Lmaqu0YvXYMJgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm8GeF4f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tJGvlgsA"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccff31419so543565e9.3
-        for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 15:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789165309; x=1789770109; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PMkIufKt71ok5WIE343MhLBROfiL7lwrRjMZxsGxKkw=;
-        b=tJGvlgsAl0SPE/RbSfCsDN/I7IRwDiXGekg71GsFBONnV1mzZnyghsIOdv/vgOY18J
-         NKnRMNZgyKz6BgnEJeftr3ldBa2jAD1v59agiWlhg/lHxseUuwFLAFOD4HImcOzYOtGJ
-         VZxfwIn10AUpXmqQsguofY+xEDWDM1cvoaydOKovfC+3o8Aps1wmNhQI+DnfXrSlp5Nh
-         x/E57CXoV11BzrGzXxZDN3VGycQ/RhtI2EchD6PLh0ji6O6D+E5QKHad0+wvsQtFGg3i
-         rgLksQ4qcvKqakBeFb+kor0Iri6zrOpcDfpeD+0tucYVQBqSSebbUtBKark9qSG6+FI9
-         QBbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789165309; x=1789770109;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PMkIufKt71ok5WIE343MhLBROfiL7lwrRjMZxsGxKkw=;
-        b=IiqVZYOxKw8i4W9FiulWk9DHqvw1eHCevEkhzPIoqAp+kZ0Yp15yoB5snR3pHvpuEx
-         1p15BT0lBb73UutCFVYFP5ZZj1gtzZ/rx2PM29R3yilWf+F0Ab6MXsOqVpG2yQ8MFNQK
-         pZCp+oXZ6mCRUNfx+t4K2vFcKTTSA9RsRsbNpL+d4y3KhZxNZgr4p+izdaiC2WXxvV24
-         8sGgvyYPohKIbPWMLBK41yAlmTFOP0J01y/rkKJCL3rA1wPc38tr76MUjmtHYflraKyd
-         TV6IfrtKZWLBSC3woskp4SOJ37vxFdw9uptTkKHCO+eiYjBsWHYFsxsvejouHPlYMSsA
-         M/Zg==
-X-Forwarded-Encrypted: i=1; AKwUvBxoG+r30xYnPC+XFRkZu5nPMoQi3YYZSzvmH51DI7Mafoh7NXGpsMk+0RdiPaT9MG+s5BMIMuEvcS+aTQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++m5anyGzp7//UTzE6wSsceJu1PvpYV7RMAVaesFM66E1mLyI3mM
-	1AKk2W709gm0R1SurZrM46HfxneEgodQnB4kJdFvT6+weWb+6CSIOm8K
-X-Gm-Gg: AYBFou2G65WCuRNoH01+ZiCDYhGVJTbb6saK3iF5H3IC6iOx/0lIkzormzdiwukEWEd
-	32ACgaFDDYGqJpym8xKDV+1G8KrEbpl1zmbsndBmqJG83up7fGK8VX1KGYYN69E6GtSiy+X1KlE
-	aOuQUAOLwXP8WP1VJBGEDlXQfeOjyekXN1dTpIGKUOlfeP3wPNznFB3tRCcPDjznGaHUSy+ecGt
-	0TAHwxDxg2hf1Pfm/yi0SocBvyzjorkpaqzfaDPneDWm1asAkLEzu3+gE57DBafDcI6uZLlF2Ip
-	8aDgAhM5fHHUkAeRLlBDiDln3cwxCd8EGs9cjTzZNBlLK8t58j3cXCob2/VgdBtB7dKcYUiAv9u
-	vrZf6gU8PaLoLoGXsRBR/QnzFgSazamfE84F9WoUEFBvkJUC+qG5MphNN47aOJcnz3vFwuF7moC
-	PeZ1UU/fGOkIefLqOxJCSRjO4ouIzs3rZ3mhN8qXsfD0sSlDTMzJ0qNAqx8PFZzvK9sVyG9519x
-	DUTJxYgSrtCX8M3QyNHzLbIgfk/+Ju4IwxKtGalIH9KUwLLs68nLq9mOK7aj+ch+ycu5G8viO96
-	tU4b+4aHrLj6TxWaE6tGE8pmp5cJehCuswKU
-X-Received: by 2002:a05:600c:138c:b0:49c:fa21:1c84 with SMTP id 5b1f17b1804b1-49e6cc078b0mr1148525e9.25.1789165308867;
-        Fri, 11 Sep 2026 15:21:48 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-095-114-033-154.95.114.pool.telefonica.de. [95.114.33.154])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb2ecf2esm9720604f8f.2.2026.09.11.15.21.47
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 11 Sep 2026 15:21:47 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Luben Tuikov <ltuikov89@gmail.com>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kobject: Fix the kobj_set_name reference in kset_register() kernel-doc
-Date: Sat, 12 Sep 2026 00:20:29 +0200
-Message-Id: <20260911222029.7267-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm8GeF4f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259161F00893;
+	Fri, 11 Sep 2026 23:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789168155;
+	bh=iDhVegdwkibgQqjiYTJPliTOFap1UcaMZtnEWIWLDQ8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Mm8GeF4ffUxR7RXMKYaW7kOP5J/xdO5N0sDyByd6daZXW3Fc35wQ6WebbntgGk+hT
+	 s+gAQe+ZITKfOI9ae9qzTOngjxzhbn+c57OT61lziZqaakKvDn7xX+fhsBp+KRac/p
+	 tYdRcNousMovf/o6552Ngtp4AbROaqMe141uOk8dBH2CB8+B1yzRyC6KxAvSlrbu2P
+	 B0RdXQRMigdZ5HEZjSv8HEdQYAh/SjYovJBPR0IM7s39y5h0YPBW/+e4KViae1GuZf
+	 ct1QX/ouO9oD5XUwVbS4kzJcQAULXkRaWAq7PkxN0XRUJQ8CfQ+XXVsfYN1O5y3IRd
+	 OsFGp8Ft4jgFg==
+Date: Sat, 12 Sep 2026 00:09:08 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: Davidlohr Bueso <dave@stgolabs.net>, Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, Ira Weiny
+ <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Shaikh Kamaluddin
+ <shaikhkamal2012@gmail.com>, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] cxl/memdev: Fix deadlock between poison debugfs
+ and cxl_mem unbind
+Message-ID: <20260912000908.5df0b62f@jic23-hlaptop>
+In-Reply-To: <08cbc221-a4b5-4674-ae5e-4e7b5df9293e@linux.alibaba.com>
+References: <20260910094017.4032170-1-kanie@linux.alibaba.com>
+	<20260910094017.4032170-3-kanie@linux.alibaba.com>
+	<20260910220329.20b62302@jic23-hlaptop>
+	<08cbc221-a4b5-4674-ae5e-4e7b5df9293e@linux.alibaba.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The kernel-doc comment of kset_register() refers to kobj_set_name, which
-does not exist. The name is kobject_set_name. Say kobject_set_name.
+On Fri, 11 Sep 2026 11:04:47 +0800
+Guixin Liu <kanie@linux.alibaba.com> wrote:
 
-Fixes: 1662cea4623f ("kset: fix memory leak when kset_register() returns error")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- lib/kobject.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> =E5=9C=A8 2026/9/11 05:03, Jonathan Cameron =E5=86=99=E9=81=93:
+> > On Thu, 10 Sep 2026 17:40:17 +0800
+> > Guixin Liu <kanie@linux.alibaba.com> wrote:
+> > =20
+> >> The poison debugfs handlers take the memdev device lock so that the
+> >> region lookup sees a stable cxlmd->dev.driver. debugfs holds a referen=
+ce
+> >> on the file across the handler, and cxl_mem unbind removes that file
+> >> while holding the very same device lock, so a handler that waits for t=
+he
+> >> lock deadlocks against a concurrent unbind.
+> >>
+> >> Both tasks then hang. The unbind side is uninterruptible, and it also
+> >> blocks the memdev detach work, which runs on an ordered workqueue and =
+so
+> >> stalls every other CXL bus work item.
+> >>
+> >> Take the lock with the trylock guard and return -EBUSY instead of
+> >> waiting. An unbind that wins the race removes the file first and the
+> >> write fails with -ENOENT.
+> >>
+> >> Found by code inspection. Reproduced by writing inject_poison in a loop
+> >> while unbinding and rebinding cxl_mem, and confirmed fixed by the same
+> >> test.
+> >>
+> >> Fixes: 574eda81d0a7 ("cxl/memdev: Hold memdev lock during memdev poiso=
+n injection/clear")
+> >> Suggested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+> >> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com> =20
+> > Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+> >
+> > Probably not one to rush in but nice to clean up the deadlock even if it
+> > is a little hard to hit.  If it is possible to test with a hot remove
+> > flow even better.  You should be able to do that with emulation in qemu
+> > if you don't have hardware capable of safe hotplug operations. =20
+> Sure, I reproduced this on hot-remove situation:
+>=20
+> debugfs writer, state S, waits for the memdev lock
+>  =C2=A0 =C2=A0 =C2=A0 cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
+...
 
-diff --git a/lib/kobject.c b/lib/kobject.c
-index e7b010a989fb9e4a4ddb105989ced638ce02ccd6..942ee439f06ef8962386ac9b7b37ce60b29e83a6 100644
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -855,7 +855,7 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
-  * kset_register() - Initialize and add a kset.
-  * @k: kset.
-  *
-- * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
-+ * NOTE: On error, the kset.kobj.name allocated by() kobject_set_name()
-  * is freed, it can not be used any more.
-  */
- int kset_register(struct kset *k)
+> With this patch, the hot-remove flow completed normally.
+
+Nice. Thanks for doing that.
+
+>=20
+> > =20
+> >> ---
+> >> checkpatch reports "do not use assignment in if condition" twice, on t=
+he
+> >> two ACQUIRE_ERR() lines. Those are pre-existing: the unpatched file and
+> >> the Fixes: commit report the same two, this patch only swaps the lock
+> >> class on them, and the combined form is what all 40 ACQUIRE_ERR() call
+> >> sites in drivers/cxl use. =20
+> > We should fix that up. Oddly I thought we had, but guess not. =20
+> I think we should fix this in checkpatch.pl, like this:
+>  =C2=A0 =C2=A0 if ($c =3D~ /\bif\s*\(.*[^<>!=3D]=3D[^=3D].*/s &&
+>  =C2=A0 =C2=A0+=C2=A0 =C2=A0 $c !~ /=3D\s*ACQUIRE_ERR\s*\(/) {
+
+There are a few other macros that are wrappers of ACQUIRE_ERR
+that should be covered in such a patch as well.  If you have
+time send a patch!
+
+Thanks,
+
+Jonathan
