@@ -1,190 +1,158 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010059.outbound.protection.outlook.com [52.101.201.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3DC233955
-	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 03:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789095897; cv=none; b=NpFuDf1I50FO59JYstkzCOV1fDzWNkd4Le3AKxE0IfwwCcY6GgLrQMvSuA+aqfTrvPeL8vnCd5L61nG+TXjHtldEqSDwFOEpVR0r0/HY85TvA4NLdGdB/F9Cdk+oWgMbrYVfyaUFMulQcxFDWRiB6uNMCCFcF6m5ctugDGXOh14=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789095897; c=relaxed/simple;
-	bh=bjPqM+VcAh+a8P+z2VF87uFLQb8BoJHn2ALVw76/q5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A0v3RZ5RTn4RV05V9IpHaSSLXTvTtS+RrRPyT7IuKLRjfhMyCMA/dvBCkamWDAIQndC8xHWSwrLG8SFTUwOtxONIXPOt2CvwNErqoM2awxYidIw4Jmuf9XfAs2ZdkfBAR011JSgKmBXh5vwmDud/s7ZOPqLzrGyiqxGJpZudcds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=bCwtoeUj; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF63428B4FA
+	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 05:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789103953; cv=fail; b=VV8UyUnxDNXl5WNGQCW/67wFPCLV6gx+3bp2CMBBtN3vbUTfUAK6ooAgPuli/4QwyBwuaJmYccMSNaBt3NyhWYhE1b0gFNOUGAIoI9z2FtXAER27cXB3gKT20QPxfxHoCYN2OQLJ0whfcSVgCRMb1BMC23jSqf3kR29zdpKKPZw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789103953; c=relaxed/simple;
+	bh=OYWm0yuc1e5dZeCoFZmSc2vtbUBaKxmgAAKPACEiSzU=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=ewOVk2+XEDxxqMP6E2N8+EJg+n69eKwEB3dJ39ovX+ZA9UfW8V6f75DqFX9RtvA54VC9NrF0ezsl0GdRnKVY1Hh/F2n4qv7DP31mlOyHw9s9BT4JL1eSWqzHcb44GgyZ75Xf8W4tQ3C0smMPhuxiCUtf+3sGByMQLN4NspG4WQM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ME5WaYTe; arc=fail smtp.client-ip=52.101.201.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="bCwtoeUj"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1789095890; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=3kVmsQaMhqsIG0MvYJHhgvzSNDEwObtxOXNo3bJOxEY=;
-	b=bCwtoeUjTcxLcxr3iDFhbJHNbtIBzEcREMqyShRpEaPW7DOq/3XU1di6a5fg2cKuSe6lIQMz3KSqcKtGNQYwOPT3j7Vo+8WCTREAS+pAl5ItMgGc67gN/Od5GDIKQ//SzMTztNGqVt+x0+JCfq/0t4PkZfwa7SXPgJTTXxR1j+o=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XAj1iZq_1789095888;
-Received: from 30.178.68.176(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XAj1iZq_1789095888 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 11 Sep 2026 11:04:49 +0800
-Message-ID: <08cbc221-a4b5-4674-ae5e-4e7b5df9293e@linux.alibaba.com>
-Date: Fri, 11 Sep 2026 11:04:47 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ME5WaYTe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tqsS380ga+/QZOdS9FgkvOj/lfarWcTcKazpDd8Le3l1S5bfq7iEqR9/gMYWwKn966mOAaPFhCizkzZlnfBEAg1p13qFxWDjcWfllmPhZ6kR5LJurC3YaXRmIbQQ5gbNNlCuCSYgFMa2CwN9eJ44ddeiUZXGx9p6YsIvl1KjVVZz5RZE4GGu5EHTNb9Oy/a0/aXzyFO32nkO2EJRsaswYr55JB8ocpcFqDtGRaAql80LZ1a6Svrb6HMUrKAqkA5/XN6WZpKnc++vpbQkdDwusn0dv8KnSfvkRrC1OPQKpJrg1anm8QvBf6WmNXL6PA7JLnon41X2oCA0O+8uazDYPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OYWm0yuc1e5dZeCoFZmSc2vtbUBaKxmgAAKPACEiSzU=;
+ b=gG4nDcoDujX+3z2tIWU0lTGkdhBDerfj91n9S/LExnn4o0cjwr7rjn6BUJOfJXNw0Lals93DxltCHr0ghN5bQYT1iLki8UEPGBG4kNUTgROL4MMq5DzbWnirqk6ljDWxLcheBwUeI34wqnXbXFCJOPr2bIf90QO2POUBWckfpd5Gac5fhnJYvvYRT7K3EMusH245OBhyXVNoFFV2c1M+2bhtX24dxxxyjuvAZ1p89JiREcWFBYvuvIBITQNUr7Tc7ysIF/WGao9x/VqCWXmKVrIFKQuFEY2PFurkDP7vJQzTHLcJDPzjMbdmFOGTTLMcXJE545/3ldN7LpZlHlQh7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OYWm0yuc1e5dZeCoFZmSc2vtbUBaKxmgAAKPACEiSzU=;
+ b=ME5WaYTeeRT4QTJ8NVUjINhzq7Hq1OX9COGBmz0R6SyyMa4cvpKA4GyhzlcSTZE8mtQbCsqS7UthXCuxyh5zpASGBWdu7bskjrOO97E2qDbQFKWBmwUYPptvYuNOG771zY41tdxMPPElvjUO9NODb6ZIUFBvmCsyd3iabGw3lz7AtOLX/UyWw2Or2TDzA98BZvmbw/HX5lQoc/KogRe506yvyAwQG8YelA++dTm7IXR65VWge4TEFRJeJ+GVFi6CO7/tgJqQxbq32+r9C9JeZtLZjblEttUxsuxMhiN2XR0jWCfPeoHHhwHuUNsICZTE9RcukcIgO1agqx3NVa9zOQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+ by DS7PR12MB5814.namprd12.prod.outlook.com (2603:10b6:8:76::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.9; Fri, 11 Sep 2026 05:19:02 +0000
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
+ 05:19:02 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 11 Sep 2026 14:19:00 +0900
+Message-Id: <DLC8EZJDCFY5.15IEPAK1M7ZW@nvidia.com>
+To: "Georgios Androutsopoulos" <georgeandrout13@gmail.com>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira Weiny"
+ <iweiny@kernel.org>, "Leon Romanovsky" <leon@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] rust: auxiliary: validate DeviceId name length
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20260910153844.3987791-1-georgeandrout13@gmail.com>
+In-Reply-To: <20260910153844.3987791-1-georgeandrout13@gmail.com>
+X-ClientProxiedBy: TY6P286CA0031.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:3b7::12) To MW4PR12MB6873.namprd12.prod.outlook.com
+ (2603:10b6:303:20c::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] cxl/memdev: Fix deadlock between poison debugfs
- and cxl_mem unbind
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Davidlohr Bueso <dave@stgolabs.net>, Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
- Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>,
- linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
-References: <20260910094017.4032170-1-kanie@linux.alibaba.com>
- <20260910094017.4032170-3-kanie@linux.alibaba.com>
- <20260910220329.20b62302@jic23-hlaptop>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20260910220329.20b62302@jic23-hlaptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|DS7PR12MB5814:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a4d40ac-10d5-4fbe-47a1-08df0fc4313f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|376014|7416014|23010399003|1800799024|10067099003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	eW2j9BRSpTix0PXc9LIo5BwYFrN0DDmQvHJNyh4r1EWxdBjHVXLZOFmawUbbOhnitaxapioEF/5O0PVp7MU2BOpWbORdQRL88Vb/ExLml9EJL0SiW9wxnaQNvBuALWIk0jwyY3+cNoAlxirNGk5/YYmJu9vB2ke37isWFF0P7mO9bkvdOyZN4/kz2SYTuqYuosMB/AnBMNgsx3+QQyuT4sq/LYQ1E1kUnUhWi3sMEZUWnumYNNm42spLbz7bXQMypH4ZjRzuP+NjLo4R8ahddnP4p0gMzFMB/yAqlRDkysdTComayuExMCvjxnue6fiYlMHPpnsTychVOM/JOXjisp9ea+IRb68ARFOZLj+VK+k9tRkbPtxLrHN9IFD73IssPqxkBoWhpwHP+LjV11wDDILaqmY8wPqmA+3vm8nBD2z5yEWmjbar2DGmO8qBdWLq0YT4x3pL+m3yWOpLtSO28chXZy8GNpQrvD9XIoeRzU8aQJIwdx9OfeBtsPS2KNJtcV/Me0l1DoeDhgsWFH2rJlMY87F7UI5ZeLN0VGt0JHtoTRiKZa5+o3O2imT7YXO/jHPQ5DOeCo1Yrn5R7DFLV1BvVvQrKDMqgGv8vZX3NICVMZ4lzuJemi9iLePpKMR+WIDvVXRvd3lI6OlZKxycDNhzJWOGEKPdfBdhVpE99WM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(7416014)(23010399003)(1800799024)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?enpzajliSE56TGVmcVNMZVZJWHJCWlhMaUdhMEZ2c0ltd0h5QmVwVThZa1VS?=
+ =?utf-8?B?eEc5RzFPK1NoOS92TTgyTDNKSFRvd2ZERy9EK3VoL1lBUlJXTlVYVXdxNVBG?=
+ =?utf-8?B?MjhLU3U0MmY3Nk50TGJscVpTc0J2ZFJwZTltTnZOVVNNZHRNT0NBV3o0Mnlw?=
+ =?utf-8?B?Z1hFdG9FT05HOWRibGxyQ0FzbjNnOVV4UGwwcjZobjRhUzMzTFFLZWlTaWdG?=
+ =?utf-8?B?eG9VZDlFR1RvT3IvSXlZZy91bElwdkx4MmJJWE85anFQZU9kNGQ0Mk9kWGQr?=
+ =?utf-8?B?c0Z3YklkWG0ybUtIWitBamtTYjUvUGNreU1pTSs3Zi84YXYrZzJIUk0vazJC?=
+ =?utf-8?B?S0w3RzZia1E1cVhMVHJmTUJRaVpUMXB2WnEwLzZhZWN1YUFpb2pMeWZSSFRl?=
+ =?utf-8?B?VmlFbUxIaWRoc0NnOXFHeGVTMllqNWVjOXgzZ212cmlvYnpoWkd2ZmFNSTRj?=
+ =?utf-8?B?bklXTzdmQ2ZtaFQ5V3BudytqS1VScWRJMFBmUG5TTXNsdE9RdkE0amRLeUhm?=
+ =?utf-8?B?ZXFRVDJzWmc2c296aVhRcnJGMCtjYTdFaGtLK0Zad1QzRVh4cFRua3JubXcr?=
+ =?utf-8?B?Z21zaDlubWxiRE1wK0Z1UkNZTFE3eTZrcmJlWEtSMjJVS0loNDZncXRqNThL?=
+ =?utf-8?B?QklBREplUFJ6MHlQVGlGT3dHaVAvcURvb1Bid21rZFpVc09LUGkrempBU0gw?=
+ =?utf-8?B?OUFGRnRiejNtdldJL2twNzg5Q0lKWXpJL0I3RmlmalJOL1FWOVdUVzB4Zm5h?=
+ =?utf-8?B?L2Y1UDdUK3BrWGo2QUFmKzZyMUQvTVp5T2JlanR3SkZLQlVSd1dJTzBJR2FS?=
+ =?utf-8?B?VGdXT1ZNM1R6elF1VmNwUUxWRXdrQ1I2bi9RRTJzaGsyaVFnVEwvQk1ubXpq?=
+ =?utf-8?B?WVZXTGpFdlpGTDRIRVVSalAwTWZPS05UVVo1S2UrVEZSdGtGWjJQZGpwUkFh?=
+ =?utf-8?B?bHdkVU53TElVWHdiVUZwZW5LQ3BlTjJOaHAyT3RES3UvU3BuclJrb2U2bXVi?=
+ =?utf-8?B?bk1nenM5OGFLMGZpYUp6OHZCU3pyY0RhZWdHVk94YVl5ZVpRQnYyKytUVlZI?=
+ =?utf-8?B?Y3EzSk1neEs4dDVoSjJSUXJyUXhhMFNDN3kwRFpTelhlS3dJSFFYR0dTdElt?=
+ =?utf-8?B?V0JMQlJJMzhPNHpYN3hTYUJNSnZERkxvZ1pZdWJWUFltOVY1dHJLQ1Z5WVJm?=
+ =?utf-8?B?RkhDSytzS29NbjhMY292NHBYajdPRHcxL29tSkZqMGFNcldxTHFjMlNRVlZn?=
+ =?utf-8?B?Qy9NaytNREZFcVFEWnRMRXR1WWxLbXNOOU55WkJTbjN3NXgyK21HcnN4d09l?=
+ =?utf-8?B?ZkdNdDBJVXZscHdzWk5pRy9UdVZXb0RjazVDRk1teG9FbFFUdmFQRmc4aFBm?=
+ =?utf-8?B?RmRCK2hwa01qQ3d6SEdiTUlaSmlvT3J1MVRCVjQzVHVFMmxqeU9aUEVBNDlm?=
+ =?utf-8?B?OE9WTUpGUXJlZzVQT0xuQUtXNHA5V0IzVFR1TDRnTFY3V21UcXR1anZvVVdt?=
+ =?utf-8?B?bDNlUmpuRk15K0gwV1FpS0JtbG1BeE5YT29oWjJPVy95cFFxYXZLa2FTSE1h?=
+ =?utf-8?B?QkNiZ1dTekRTeEF1ekFaNlBPMTJ6c1BCU0owUG0yUmJ0aGVxYzl2cWUwdFdM?=
+ =?utf-8?B?dE8vMXRld0s5ZkRYRm44Y3NNVHFtUXFxQlc4bVhBUkI3YU9iaVVsSjZSSHlB?=
+ =?utf-8?B?MXN1SmRlZXd2QmIxeDgrR3ZLN0kvNWpBWlhZdEtVdnZtUEs4Z0JzWVFPbzA5?=
+ =?utf-8?B?alFzN3pzQzVrM1EvL3p1cVYwdzd0ZHdCL2tLSjBwbUhzZWF2WDlOWEZzTGgz?=
+ =?utf-8?B?Umh3VUsyc2ZHcFRSOGpiUDJCc2lZRWx0Q1E3WTBEbXEvSS9nS0Y3c0x1dytk?=
+ =?utf-8?B?bVdZWUNKbStrbkowVTc5WEhwS1U2eHpldEVwUGtXa0ZvMVFUeFVWcjBZcGVy?=
+ =?utf-8?B?V1dBUGNQWU5iMFpvaWludlgzQkpTOHFUUXg4WXI0UnhSSldTMm5pRFh3ajlD?=
+ =?utf-8?B?NkFrL2tpSWpWNkZkdnZ3R0VPK2RVdUttOEVFRGcxU3RsSlVJdGNPM1F4c1V0?=
+ =?utf-8?B?OEw1TG9UeVJHSUg4V01WKzY1R3lFMktVeXVBYVlKMlZqUkJGYVY0NnRSc25l?=
+ =?utf-8?B?cVdoU3JqeDFqTitrejFrVm94eWNxV3MyaTVOT3pRMThQNEViVy93Q21udzdU?=
+ =?utf-8?B?L3FSVWlZUDQ2c3FIOG13cGJSZmhsME1ZbUVSYko5Q2kxSkFTdVBjZ0p4MkhB?=
+ =?utf-8?B?OFdqbzQ4ZG9LeHc0ZVJtOEVoOG1sZ2ZGazJvR2RJdzVCNm1QMFlmbS9ISFFm?=
+ =?utf-8?B?WFl0T21wREZpQ0IvQ3krVVpSUDBINHo3YU8vZWlsSDhyYmVFZHZkWnFYWHo5?=
+ =?utf-8?Q?xSOB+rNuySxEwzJs7iNW2lsgzh8gPWLtkH7cDBzRC2jIW?=
+X-MS-Exchange-AntiSpam-MessageData-1: BM1lOK2VV/Dd2w==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a4d40ac-10d5-4fbe-47a1-08df0fc4313f
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 05:19:02.5129
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: npk5VRwKAVuC037P4sB6oAsMim6L5pk0+9ywIXqWjk7s6Z7GaoF/6Nc6wGRAfmwIm29Z6PkYa+xZFtXjNQlC4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5814
 
-
-
-在 2026/9/11 05:03, Jonathan Cameron 写道:
-> On Thu, 10 Sep 2026 17:40:17 +0800
-> Guixin Liu <kanie@linux.alibaba.com> wrote:
+On Fri Sep 11, 2026 at 12:38 AM JST, Georgios Androutsopoulos wrote:
+> `DeviceId::new()` copies `modname` and `name` into the fixed 40-byte
+> `auxiliary_device_id::name` array without checking that they fit. An
+> oversized name is caught by the array bounds check, but the error
+> reports an out-of-bounds index in the copy loop rather than the
+> constraint the caller violated.
 >
->> The poison debugfs handlers take the memdev device lock so that the
->> region lookup sees a stable cxlmd->dev.driver. debugfs holds a reference
->> on the file across the handler, and cxl_mem unbind removes that file
->> while holding the very same device lock, so a handler that waits for the
->> lock deadlocks against a concurrent unbind.
->>
->> Both tasks then hang. The unbind side is uninterruptible, and it also
->> blocks the memdev detach work, which runs on an ordered workqueue and so
->> stalls every other CXL bus work item.
->>
->> Take the lock with the trylock guard and return -EBUSY instead of
->> waiting. An unbind that wins the race removes the file first and the
->> write fails with -ENOENT.
->>
->> Found by code inspection. Reproduced by writing inject_poison in a loop
->> while unbinding and rebinding cxl_mem, and confirmed fixed by the same
->> test.
->>
->> Fixes: 574eda81d0a7 ("cxl/memdev: Hold memdev lock during memdev poison injection/clear")
->> Suggested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
->> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+> Check the invariant explicitly instead, so the failure states the length
+> limit rather than an array index.
 >
-> Probably not one to rush in but nice to clean up the deadlock even if it
-> is a little hard to hit.  If it is possible to test with a hot remove
-> flow even better.  You should be able to do that with emulation in qemu
-> if you don't have hardware capable of safe hotplug operations.
-Sure, I reproduced this on hot-remove situation:
-
-debugfs writer, state S, waits for the memdev lock
-       cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
-       simple_attr_write_xsigned.isra.0+0x1ca/0x2c0
-       debugfs_attr_write+0x61/0xb0
-       full_proxy_write+0xfc/0x1c0
-       vfs_write+0x1d4/0xe60
-       ksys_write+0x11f/0x250
-       do_syscall_64+0xe2/0x560
-       entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-irq/28-pciehp, state D, holds the memdev lock, waits for the debugfs 
-reference to drain
-       remove_one+0x27f/0x3d0
-       __simple_recursive_removal+0x183/0x4a0
-       debugfs_remove+0x44/0x60
-       release_nodes+0xfa/0x2c0
-       devres_release_all+0x113/0x1a0
-       device_unbind_cleanup+0x76/0x260
-       device_release_driver_internal+0x3eb/0x540
-       bus_remove_device+0x28a/0x540
-       device_del+0x371/0x930
-       cdev_device_del+0x1d/0xf0
-       cxl_memdev_unregister+0x1c/0x70 [cxl_core]
-       release_nodes+0xfa/0x2c0
-       devres_release_all+0x113/0x1a0
-       device_unbind_cleanup+0x76/0x260
-       device_release_driver_internal+0x3eb/0x540
-       pci_stop_bus_device+0x122/0x170
-       pci_stop_and_remove_bus_device+0x16/0x30
-       pciehp_unconfigure_device+0x1b4/0x3b0
-       pciehp_disable_slot+0xf9/0x2e0
-       pciehp_handle_disable_request+0x81/0x100
-       pciehp_ist+0x29f/0x410
-       irq_thread_fn+0x8b/0x160
-       irq_thread+0x189/0x320
-       kthread+0x329/0x410
-       ret_from_fork+0x33b/0x670
-       ret_from_fork_asm+0x1a/0x30
-
-cxl_port workqueue, state D, waits for the memdev lock
-       device_release_driver_internal+0x96/0x540
-       detach_memdev+0x79/0xb0 [cxl_core]
-       process_one_work+0x6b0/0xfb0
-       worker_thread+0x4dd/0xd30
-       kthread+0x329/0x410
-       ret_from_fork+0x33b/0x670
-       ret_from_fork_asm+0x1a/0x30
-
-With this patch, the hot-remove flow completed normally.
-
+> This should only be reached when constructing a device ID table, so the
+> failure is a compile time error. Document that intent.
 >
->> ---
->> checkpatch reports "do not use assignment in if condition" twice, on the
->> two ACQUIRE_ERR() lines. Those are pre-existing: the unpatched file and
->> the Fixes: commit report the same two, this patch only swaps the lock
->> class on them, and the combined form is what all 40 ACQUIRE_ERR() call
->> sites in drivers/cxl use.
-> We should fix that up. Oddly I thought we had, but guess not.
-I think we should fix this in checkpatch.pl, like this:
-     if ($c =~ /\bif\s*\(.*[^<>!=]=[^=].*/s &&
-    +    $c !~ /=\s*ACQUIRE_ERR\s*\(/) {
+> Signed-off-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
 
-Best Regards,
-Guixin Liu
->>   drivers/cxl/mem.c | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/cxl/mem.c b/drivers/cxl/mem.c
->> index 798e5c369cfc..3959ec963026 100644
->> --- a/drivers/cxl/mem.c
->> +++ b/drivers/cxl/mem.c
->> @@ -50,8 +50,13 @@ static int cxl_debugfs_poison_inject(void *data, u64 dpa)
->>   	struct cxl_memdev *cxlmd = data;
->>   	int rc;
->>   
->> -	ACQUIRE(device_intr, devlock)(&cxlmd->dev);
->> -	if ((rc = ACQUIRE_ERR(device_intr, &devlock)))
->> +	/*
->> +	 * Never wait for this lock: the debugfs proxy holds a file reference
->> +	 * across the callback and unbind removes the file under the same
->> +	 * device lock, so waiting here deadlocks against unbind.
->> +	 */
->> +	ACQUIRE(device_try, devlock)(&cxlmd->dev);
->> +	if ((rc = ACQUIRE_ERR(device_try, &devlock)))
->>   		return rc;
->>   
->>   	return cxl_inject_poison(cxlmd, dpa);
->> @@ -65,8 +70,9 @@ static int cxl_debugfs_poison_clear(void *data, u64 dpa)
->>   	struct cxl_memdev *cxlmd = data;
->>   	int rc;
->>   
->> -	ACQUIRE(device_intr, devlock)(&cxlmd->dev);
->> -	if ((rc = ACQUIRE_ERR(device_intr, &devlock)))
->> +	/* Never wait, per the inject path above. */
->> +	ACQUIRE(device_try, devlock)(&cxlmd->dev);
->> +	if ((rc = ACQUIRE_ERR(device_try, &devlock)))
->>   		return rc;
->>   
->>   	return cxl_clear_poison(cxlmd, dpa);
+That's not an essential change, but its concise and helpful to some
+degree, so:
 
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
