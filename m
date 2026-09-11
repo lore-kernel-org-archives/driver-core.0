@@ -1,52 +1,53 @@
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEA34A6CF1
-	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 17:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9262B35F60A
+	for <driver-core@lists.linux.dev>; Fri, 11 Sep 2026 17:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789146977; cv=none; b=mne1/yJ5IEJd8SQKG50aw3400w05EuCQy76tN7GP3GAMkUmv4ppaGzueWjQfzRfBluvNkHwie8DGu+L91jN0i0r7cQ++UQhL04xr31dbKhAylIkfE+ZtPtZHDMvAzHiOhqlbrF8IuQ81TlpNWA+Ayqf0OHALVLcxmoW31zomu8o=
+	t=1789147012; cv=none; b=dw5J/TwQS3n96P6c6klZOyLkkfPkO/DUxbpaZdVyK+lkaQ/s5jYwEZ26pUsUy55uHFKplFT8z2FXIKTlui36vYEGZFUoPXzpgOdE62qv2ZxIv+g/of8bErg64p0CbPFnNO7tsW+fYNeQw0tJ+DXXDWDrkQxzdhdfxWFI+YZipYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789146977; c=relaxed/simple;
-	bh=yB+ItLzWlbPERpOrkWuof7cPgdxc63+FGmhcfwra3fE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AD4BjxLod8fqUNYMSpucpxNtpwthO7e66yyHjW/c6RExTep0rDX7sXT1q6m5WvW4PPF9qgCHU0qCFUrRzbJJMno9Y0A8/Ahy4Di61x7ztCm7EtUW6WLFobMIplWnVi9aHKAUP0Lc1me0PfSj2+PsbybcOmUdMvnT4r+yXfCq8ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=QXdNomoy; arc=none smtp.client-ip=34.218.115.239
+	s=arc-20240116; t=1789147012; c=relaxed/simple;
+	bh=OOmYs78njMGAnSGfJaQ4/fl+J5yhJV1OC69mnehpDKA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kzfL75URCqwBf8GdBmV3ffnykrVj6GGFU3v+xzJsnaygoSpXyTjPwjMCPiK69aSAOr3U2NV0rnd9Ops4rbdwUXjnrC5Ki+15+Dl6+IwOFRzGHHUXgIY9GdsGV6DpH315ILtM/kV0UhtFAmOh1SEMUPrS0NyQdGoy0kUhRIqu4jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=f8mlXy3w; arc=none smtp.client-ip=52.26.1.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="QXdNomoy"
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="f8mlXy3w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1789146973; x=1820682973;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=j5Kqb/RUyMY4Nz6pGMPYL0q3ntFXYLXjxg//I1YmKB8=;
-  b=QXdNomoy/vp1qzpwotJxXJvT9yEvLKaW44OoG5+6EGv1cSVJKU9fZmAz
-   mjA8CsFWyDfDp9EnrnIh1Oyp3eaUAc9gO8nnHPQ4L5+CD5c0Mrscjlfj3
-   OuStAGx5BxkuriM1tQdHjuqktd8ujHWeEKrr8nt6i/L2MOGqg4cKnQP5A
-   z5zdy0eUPJ2evbh80+1yeKLiaSuMVWzBZWI56YdCoIKOS4Qe1elI6+DP7
-   +eAx9lPoe4TY0uxeERd6/D/z5oEBuI9/GwqkilfmTPD4jgp3l6KZscX79
-   HJiOmkVBi5in9lWVETw8QeCbdRnCLfHVwS+/66SoI4MTP3c3M+nGXNMD6
-   Q==;
-X-CSE-ConnectionGUID: bB0ZI/mgR6q73bo++5gQ5A==
-X-CSE-MsgGUID: jHIt/5KMSDy4C2WAuSnDHw==
+  t=1789147008; x=1820683008;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=VJ/Lv9xzHTgJ/YWyMhQoHx3nkzCch6+KqzX45lY2slk=;
+  b=f8mlXy3wXqymYLQ5P9/vahnXaqA1VLpzKZjF0lmHntNjTnBXvTiU5wZu
+   z9/vqGCcgE3EXa+r6bjDAOB89Lw10GTwilafZvMPl402VtJ79E9axQsS0
+   Gfb6r/f68d4KiXRZQeixqTlJgLG0R9ztFGQpFzVZMPnPOkhZJKmVXxeyg
+   8JuFUyh8n1POgcP6ilCBbmXyl4yjttkUGaz5L3tOoReEVuOQ4QI1EOnap
+   EZUv14EVdGNZ1bDv3VCP/L7N/1Mc09J55kCn7uOPcnW3jl/Vcdjleit1M
+   v1qNVoW4+2BjftZTIS1z6ZvvduTXdbT/DRtuFrMgxmpixkObMS3MMLCp5
+   A==;
+X-CSE-ConnectionGUID: wnZGw2+gTWyyM6NOlrh0MA==
+X-CSE-MsgGUID: c26vrvdhR2a+LgWs/qLU+g==
 X-IronPort-AV: E=Sophos;i="6.27,97,1787011200"; 
-   d="scan'208";a="28232612"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 17:16:10 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:6049]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.37.160:2525] with esmtp (Farcaster)
- id 2562d9df-1979-4259-ba7c-82e5f8929071; Fri, 11 Sep 2026 17:16:09 +0000 (UTC)
-X-Farcaster-Flow-ID: 2562d9df-1979-4259-ba7c-82e5f8929071
+   d="scan'208";a="28474596"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 17:16:43 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:14607]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.113:2525] with esmtp (Farcaster)
+ id 82d1ba25-0aa1-4a52-9a0f-35e693a3abce; Fri, 11 Sep 2026 17:16:43 +0000 (UTC)
+X-Farcaster-Flow-ID: 82d1ba25-0aa1-4a52-9a0f-35e693a3abce
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Fri, 11 Sep 2026 17:16:09 +0000
+ Fri, 11 Sep 2026 17:16:42 +0000
 Received: from dev-dsk-sakacpav-1a-480d1124.eu-west-1.amazon.com
  (172.19.96.155) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46; Fri, 11 Sep 2026
- 17:16:07 +0000
+ 17:16:41 +0000
 From: Pavol Sakac <sakacpav@amazon.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo
 	<tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
@@ -55,10 +56,12 @@ CC: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Andy
  Shevchenko" <andriy.shevchenko@linux.intel.com>, Xu Yang <xu.yang_2@nxp.com>,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	<nh-open-source@amazon.com>
-Subject: [PATCH 0/3] kernfs, driver core: Cut per-node lock traffic in bulk registration
-Date: Fri, 11 Sep 2026 19:16:02 +0200
-Message-ID: <20260911-vfopt-s3-v1-0-66e3602f76f7@amazon.de>
+Subject: [PATCH 1/3] kernfs: activate nodes while linking them
+Date: Fri, 11 Sep 2026 19:16:03 +0200
+Message-ID: <20260911171639.68348-1-sakacpav@amazon.de>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260911-vfopt-s3-v1-0-66e3602f76f7@amazon.de>
+References: <20260911-vfopt-s3-v1-0-66e3602f76f7@amazon.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -67,97 +70,66 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Registering VFs in parallel, introduced in [1], runs into three lock
-costs in kernfs and the driver core. Two scale with the number of
-sysfs nodes created: the kernfs root rwsem is write-taken twice per
-node, and every inode ID is allocated under kernfs_idr_lock. The third
-scales with the number of devices: get_device_parent()'s glue
-directory lookup walks a flat list under the global gdp_mutex.
+kernfs_add_one() links a new node, releases kernfs_rwsem, and takes it
+again through kernfs_activate(). A new node has no descendants, so the
+second hold only activates that node.
 
-The glue directory is how the driver core groups class devices under a
-parent that is not itself a class device: when vfio-pci binds, each VF
-gets a "vfio-dev" glue directory holding its vfio-dev class device.
-get_device_parent() finds or creates it by walking the class's flat
-glue_dirs list under gdp_mutex, so with thousands of VFs each
-registration walks thousands of entries - quadratic work, serialized
-on one global mutex.
+Activate ordinary nodes before releasing the linking hold, removing a
+second write-side acquisition and the linked-but-inactive interval.
+KERNFS_ROOT_CREATE_DEACTIVATED roots retain explicit subtree activation.
 
-Patch 1 (kernfs) activates a new node inside the same kernfs_rwsem
-write hold that links it: one write acquisition per node instead of
-two. Patch 2 (driver core) indexes glue directories by parent kobject
-in an rbtree, replacing the linear walk; gdp_mutex still serializes as
-before. Patch 3 (kernfs) pre-allocates inode IDs in batches of 16,
-caches them per CPU, and installs the node pointer with an RCU store
-via idr_replace(), cutting kernfs_idr_lock acquisitions 16x.
+Removing the unlock-to-lock pair also removes its publication ordering.
+The in-tree lockless ID lookups use CREATE_DEACTIVATED roots and retain
+kernfs_activate(); unsynchronized callers cannot rely on observing a
+node.
 
-Lock statistics and SR-IOV init time for 4x PF (NVMe, 255 VFs each), on
-the reproducer from the parallel VF initialization cover letter [1]:
+Assisted-by: LLM
+Signed-off-by: Pavol Sakac <sakacpav@amazon.de>
+---
+ fs/kernfs/dir.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-  lock_stat:
-  Lock                     wait: Before     After   contentions: Before   After
-  iommu_probe_device_lock      10471 ms   9154 ms                   841     783
-  &vfio.group_lock              3614 ms   3823 ms                   736     730
-  &root->kernfs_rwsem           1834 ms   1285 ms                116316   55459
-  &root->kernfs_idr_lock           5 ms      0 ms                  4580      77
-
-  iommu_probe_device_lock and vfio.group_lock are shown for scale;
-  neither is touched by this series - they are addressed by the
-  IOMMU [2] and VFIO [3] series posted separately.
-
-  kernfs_rwsem write acquisitions  168302 (2/node) -> 84661 (1/node)
-  kernfs_idr_lock acquisitions     83641 -> 5229 (batch 16)
-  gdp_mutex avg hold               18 -> 7 us (2040 acq. both arms)
-
-  Stage                 SR-IOV init time:
-  S0 (baseline)         3027 ms
-  S1                     999 ms
-  S2                     995 ms
-  S3 (this series)       991 ms
-
-Reproducer disclaimer:
-I lean primarily on lock_stat numbers to defend the improvements. In
-the reproducer, the residual iommu_probe_device_lock dominates the
-window and masks the later series' wall-time gains; reducing that lock
-further is out of scope for this set. On real hardware the five series
-together cut SR-IOV initialization by 65%, more in [1].
-
-The staged sysfs RFC [4] builds on top of these changes (mainly the
-IDR batching).
-
-This series adds a KUnit suite. The lock_stat and timing figures come
-from the public reproducer. The full series has also been tested on
-current datacenter server hardware with thousands of VFs.
-
-
-[1] https://lore.kernel.org/r/20260911-vfopt-s1-v1-0-693271dc0226@amazon.de
-[2] https://lore.kernel.org/r/20260911-vfopt-s2-v1-0-fff3db7e01c2@amazon.de
-[3] https://lore.kernel.org/r/20260911-vfopt-s4-v1-0-98ba1d2ef7ab@amazon.de
-[4] https://lore.kernel.org/r/20260911-vfopt-s5-v1-0-fa4cacdb6ca8@amazon.de
-
-Pavol Sakac (3):
-  kernfs: activate nodes while linking them
-  driver core: Index class glue directories by parent kobject
-  kernfs: batch inode ID allocation per CPU
-
- drivers/base/base.h                  |   4 +
- drivers/base/core.c                  | 112 +++++--
- drivers/base/test/.kunitconfig       |   1 +
- drivers/base/test/Kconfig            |  12 +
- drivers/base/test/Makefile           |   2 +
- drivers/base/test/glue-dir-test.c    | 466 +++++++++++++++++++++++++++
- drivers/base/test/root-device-test.c | 215 ++++++++++++
- fs/kernfs/dir.c                      | 139 +++++++-
- fs/kernfs/kernfs-internal.h          |   3 +
- fs/sysfs/mount.c                     |   3 +-
- include/linux/kernfs.h               |  13 +
- 11 files changed, 930 insertions(+), 40 deletions(-)
- create mode 100644 drivers/base/test/glue-dir-test.c
-
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 82bbaeb326aa..d68bce0b0b41 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -41,6 +41,8 @@ static bool kernfs_active(struct kernfs_node *kn)
+ 	return __kernfs_active(kn);
+ }
+ 
++static void kernfs_activate_one(struct kernfs_node *kn);
++
+ static bool kernfs_lockdep(struct kernfs_node *kn)
+ {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+@@ -855,17 +857,16 @@ int kernfs_add_one(struct kernfs_node *kn)
+ 	}
+ 
+ 	up_write(&root->kernfs_iattr_rwsem);
+-	up_write(&root->kernfs_rwsem);
+ 
+ 	/*
+-	 * Activate the new node unless CREATE_DEACTIVATED is requested.
+-	 * If not activated here, the kernfs user is responsible for
+-	 * activating the node with kernfs_activate().  A node which hasn't
+-	 * been activated is not visible to userland and its removal won't
+-	 * trigger deactivation.
++	 * A freshly linked node has no descendants, so activating just @kn
++	 * under the linking hold is equivalent to the kernfs_activate()
++	 * walk; CREATE_DEACTIVATED roots keep deferred activation.
+ 	 */
+-	if (!(kernfs_root(kn)->flags & KERNFS_ROOT_CREATE_DEACTIVATED))
+-		kernfs_activate(kn);
++	if (!(root->flags & KERNFS_ROOT_CREATE_DEACTIVATED))
++		kernfs_activate_one(kn);
++
++	up_write(&root->kernfs_rwsem);
+ 	return 0;
+ 
+ out_unlock:
 -- 
 2.47.3
 
