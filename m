@@ -1,110 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F87373BF2;
-	Sat, 12 Sep 2026 12:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DDF3F4831
+	for <driver-core@lists.linux.dev>; Sat, 12 Sep 2026 13:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789216742; cv=none; b=nnMu5KW2ic1FzEd00kF1rFzxk8zumCIgyyPO11sAt/jGxbSeOZhKuMxl2/7l2btpsZ7krYM7jPHIFUbuvByjimVxcQXCZFOlbQB152DCe0i+0uSw3k7Gq7C34vtaYlN2IxiLlo7zZHMnX8SrDh36mSyIEMVhJhU7hjuu6P6Mp/I=
+	t=1789218751; cv=none; b=Ti9DHcpNg6o2B4f3vRthtMqj0evqJsvcfaPfrQs2FzCyDiuZY3ryxsT5V4Xgp/+fGIkkXQH7sWqm2r7lKnP3ZWf7DpjmSFkGc0gkYpK92v9ffHj3BitCUgq+V9tvtq9SbXcf4uzFJeIY8W2X/IhykYnc1l4PeuRss0u+Ae+6T3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789216742; c=relaxed/simple;
-	bh=A6/3MCg9R79ckuXy//FTcJ984yL2uDU8Tu77/oKLL9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGOlVUT4+iYKbIvK0qZp4RCdwn7G1H62uMHBvL3CEv+Gm9bp0dm4ChS6wxThx1PWxnQ5TnRqU7JjPcNj6MMw4nF9WgYUDAT1g80OdYO+ct6UZfb/DzhkaluI45K1lwQ48mQSM2WwqFqnXPJw4TAsKAFVjmdfR9ILhtGSIAAc1lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OU/qQOMZ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OU/qQOMZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5EB1F000FF;
-	Sat, 12 Sep 2026 12:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789216741;
-	bh=f7BZbyDY4BGxf9J7NMaAvN3pKH3axxWfzqLfVJA35v0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OU/qQOMZrx3Zfqb5o9u572FP0my6GnkeeCUTqpIb0ST/RHPATM0Moxl6lszbMkFDP
-	 O9SQzueAd87sGWu3/t4q+zCik7MFb/iLfZqO1TtuezOql9f+ROwJSSg7qKhIrSrVe8
-	 66+fqXkNO2UDPb9l++ZXDS1ffyB1BvyRNZQdFCl55pS6afvAOJhbzJydCAlsAxPOD5
-	 5WcMZKjPGMF7Bv3ijEyvUgHT3vsVamb2Q5aAg1A7LeKzXni6lefcIfxTUY2Euk0Jxo
-	 BSBzBswY1Ng/whLpV4+0FNH3XTo5DhxUszNayfGVP518mTc/yPk1SQxvIq/FGQx642
-	 Sn5mm3mXZ6TIg==
-Date: Sat, 12 Sep 2026 20:38:56 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Linus Walleij <linusw@kernel.org>, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v12 3/3] gpio: Leverage revocable for accessing struct
- gpio_chip
-Message-ID: <aqVH4Fl7pew8PKf1@tzungbi-laptop>
-References: <20260908134223.13638-1-tzungbi@kernel.org>
- <20260908134223.13638-4-tzungbi@kernel.org>
- <CAMRc=McssNYy09bnzUpf9LEB94UOWimyVZNOrKRPn1EUVF8iTg@mail.gmail.com>
+	s=arc-20240116; t=1789218751; c=relaxed/simple;
+	bh=pf8vft2OCRXfyVBhB/1xms9mjJbuVLOVRj6rx1v/t3o=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=MBCsv3ZfejCsWETvGcscENhST+aAj9llvn9ZQFUR1L+90EEuckWIgyB8cperLoTHnxWO3csRF1VRFm6IzJfyBor0DDBe9PNKn9QJzmWZuzoDI4JPNmJUt4uHdzY5WkAEDXBgZzl+keWbkVENjlvtxZCzghRI64V2tqaP/CKvOt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6b1abf73d1fso1049846eaf.3
+        for <driver-core@lists.linux.dev>; Sat, 12 Sep 2026 06:12:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789218748; x=1789823548;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OOOHAReRcyjsStR8QbdtPKY9OMu0/G8QzfemZB555nw=;
+        b=oo2NuzwspK+va27UXudn1zb/MdAM4Jue3ms3im352LQzMON/qykDTlOw5ma+U/WrFO
+         tQMQA/Vsc1OhGnScYDX/K+En9fncIlEYZBSg98PcfwNnqE3vd6W/gvRNYfhoWjndEPOJ
+         V1vCtUH0+Y+EAdhbT1f8SIaChrXpg/cSp47bXPCMTq9Rbtgb90SzRcTkEAnfJqYiJI6B
+         IIrPqss0wD7qIyXWTeBSVCIKQCS2yzrGH2kq72yMddtvBvy5uaj7q0lvYjj0n9Ub9BAV
+         b3mnxBZj1EVpmJy93xArFfju3mgMP7Mvb0Ba2EnMOmY8jecgR4KGMiEOmuoPv8iRDMmK
+         dziw==
+X-Forwarded-Encrypted: i=1; AKwUvByibBle4tQVy5/3kCudXAtpCZJYp5Y1KOkAulf0V28vqoQkP3kR65lcP1uj2sufzYjLgVanqfVjmTKonw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mYIW8WCBWEZwT5X3c/jU4ePH0oWSOW00lf7ddisYQlCJqmKjSG
+	J9X2ZQPsx5e00saSKY/jl5urlmRM6801KNUPlkTJo4gucXMUNXsHxTJp79VxVS2oVLP1yYYNWPs
+	wlhub0vDy8Q6cp+4hDaAkvi9gNyGEWuTvrRZfRC4GlSFoRS6F5nHAXKW/DtA=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=McssNYy09bnzUpf9LEB94UOWimyVZNOrKRPn1EUVF8iTg@mail.gmail.com>
+X-Received: by 2002:a05:6820:2083:b0:6c2:3441:9b03 with SMTP id
+ 006d021491bc7-6c24ceaf609mr1530618eaf.21.1789218748306; Sat, 12 Sep 2026
+ 06:12:28 -0700 (PDT)
+Date: Sat, 12 Sep 2026 06:12:28 -0700
+In-Reply-To: <6aa178fc.f2639fcc.29487d.0008.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa54fbc.f2639fcc.29487d.003d.GAE@google.com>
+Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
+From: syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 10, 2026 at 12:32:48AM -0700, Bartosz Golaszewski wrote:
-> On Tue, 8 Sep 2026 15:42:23 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> > The underlying chip can be removed asynchronously.  `gdev->srcu` is used
-> > to ensure the synchronization before accessing `gdev->chip`.
-> >
-> > Revocable encapsulates the details.  Leverage revocable for accessing
-> > the struct gpio_chip and remove the `gdev->srcu`.
-> >
-> > Tested-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > ---
-> 
-> Could you address the following issue pointed out by sashiko?
-> 
-> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > index 66d2325bfae87..a7d3c4d9018c8 100644
-> > --- a/drivers/gpio/gpiolib.c
-> > +++ b/drivers/gpio/gpiolib.c
-> > @@ -898,10 +897,10 @@ static void gpiodev_release(struct device *dev)
-> >  	synchronize_srcu(&gdev->desc_srcu);
-> >  	cleanup_srcu_struct(&gdev->desc_srcu);
-> >
-> > +	revocable_put(&gdev->chip_rev);
-> >  	ida_free(&gpio_ida, gdev->id);
-> >  	kfree_const(gdev->label);
-> >  	kfree(gdev->descs);
-> > -	cleanup_srcu_struct(&gdev->srcu);
-> >  	kfree(gdev);
-> >  }
-> 
-> Could this cause a use-after-free crash during concurrent device removal?
-> 
-> The revocable object chip_rev is embedded directly in the gpio_device struct.
-> The new access cleanup pattern drops the SRCU lock before dropping the kref
-> on the revocable object.
-> 
-> During asynchronous device removal, revocable_revoke() executes
-> synchronize_srcu() to wait for readers. Because the reader drops the SRCU lock
-> first, revocable_revoke() will unblock, proceed to gpio_device_put(gdev), and
-> gpiodev_release() will execute kfree(gdev) while the reader thread is still
-> active.
-> 
-> The reader thread will then attempt to call kref_put() on the chip_rev that is
-> embedded inside the now-freed gdev.
+syzbot has found a reproducer for the following issue on:
 
-While callers who use embedded allocations should properly pin the container,
-the revocable primitive itself shouldn't rely on that.
+HEAD commit:    5225b8eec4c9 mailmap: update entry for Jens Axboe
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=104c82d1580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
+dashboard link: https://syzkaller.appspot.com/bug?extid=7cab6a19619f1b8efc00
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=144c82d1580000
 
-I have fixed this in v13[1] by caching the flag locally inside the handle,
-ensuring the teardown never touches the container's memory after unlocking
-SRCU.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com
 
-[1] https://lore.kernel.org/all/20260912123529.7951-2-tzungbi@kernel.org
+block2mtd: error: cannot open device /tmp/ovl_bug_7ivaQs/merged/nonexistent
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz-executor469/6041 is trying to acquire lock:
+ffff888024d8c460 (sb_writers#6){.+.+}-{0:0}, at: ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+
+but task is already holding lock:
+ffff88805802a7a8 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ffff88805802a7a8 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #4 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       down_read+0x99/0x4c0 kernel/locking/rwsem.c:1574
+       inode_lock_shared include/linux/fs.h:1039 [inline]
+       lookup_slow+0x42/0x70 fs/namei.c:1935
+       walk_component fs/namei.c:2282 [inline]
+       lookup_last fs/namei.c:2789 [inline]
+       path_lookupat+0x5e8/0xc40 fs/namei.c:2813
+       filename_lookup+0x202/0x590 fs/namei.c:2842
+       kern_path+0x37/0x50 fs/namei.c:3036
+       lookup_bdev+0xd8/0x2a0 block/bdev.c:1268
+       bdev_file_open_by_path+0x82/0x330 block/bdev.c:1123
+       add_device drivers/mtd/devices/block2mtd.c:279 [inline]
+       block2mtd_setup2.isra.0+0x2ee/0xbd0 drivers/mtd/devices/block2mtd.c:459
+       block2mtd_setup+0xbd/0xd0 drivers/mtd/devices/block2mtd.c:476
+       param_attr_store+0x199/0x300 kernel/params.c:591
+       module_attr_store+0x58/0x80 kernel/params.c:906
+       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+       iter_file_splice_write+0x830/0x10b0 fs/splice.c:736
+       do_splice_from fs/splice.c:936 [inline]
+       do_splice+0x109c/0x1fa0 fs/splice.c:1349
+       __do_splice+0x33b/0x370 fs/splice.c:1431
+       __do_sys_splice fs/splice.c:1634 [inline]
+       __se_sys_splice fs/splice.c:1616 [inline]
+       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (param_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       kernel_param_lock kernel/params.c:604 [inline]
+       param_attr_store+0xec/0x300 kernel/params.c:589
+       module_attr_store+0x58/0x80 kernel/params.c:906
+       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x6af/0x1050 fs/read_write.c:687
+       ksys_write+0x12a/0x250 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (&of->mutex){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       kernfs_fop_write_iter+0x2c2/0x5f0 fs/kernfs/file.c:336
+       iter_file_splice_write+0x830/0x10b0 fs/splice.c:736
+       do_splice_from fs/splice.c:936 [inline]
+       do_splice+0x109c/0x1fa0 fs/splice.c:1349
+       __do_splice+0x33b/0x370 fs/splice.c:1431
+       __do_sys_splice fs/splice.c:1634 [inline]
+       __se_sys_splice fs/splice.c:1616 [inline]
+       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&pipe->mutex){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
+       pipe_lock fs/pipe.c:91 [inline]
+       pipe_lock+0x69/0x80 fs/pipe.c:88
+       iter_file_splice_write+0x1fd/0x10b0 fs/splice.c:682
+       do_splice_from fs/splice.c:936 [inline]
+       do_splice+0x109c/0x1fa0 fs/splice.c:1349
+       __do_splice+0x33b/0x370 fs/splice.c:1431
+       __do_sys_splice fs/splice.c:1634 [inline]
+       __se_sys_splice fs/splice.c:1616 [inline]
+       __x64_sys_splice+0x187/0x250 fs/splice.c:1616
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (sb_writers#6){.+.+}-{0:0}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+       __sb_start_write include/linux/fs/super.h:19 [inline]
+       sb_start_write include/linux/fs/super.h:125 [inline]
+       mnt_want_write+0x6f/0x420 fs/namespace.c:494
+       ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+       lookup_open+0x1255/0x1990 fs/namei.c:4567
+       open_last_lookups fs/namei.c:4767 [inline]
+       path_openat+0xa2c/0x2440 fs/namei.c:4997
+       do_file_open+0x20e/0x430 fs/namei.c:5029
+       do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
+       do_sys_open fs/open.c:1423 [inline]
+       __do_sys_openat fs/open.c:1439 [inline]
+       __se_sys_openat fs/open.c:1434 [inline]
+       __x64_sys_openat+0x12d/0x210 fs/open.c:1434
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  sb_writers#6 --> param_lock --> &ovl_i_mutex_dir_key[depth]
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ovl_i_mutex_dir_key[depth]);
+                               lock(param_lock);
+                               lock(&ovl_i_mutex_dir_key[depth]);
+  rlock(sb_writers#6);
+
+ *** DEADLOCK ***
+
+locks held by syz-executor469/6041: 2, last CPU#2:
+ #0: ffff88802a68c460 (sb_writers#13){.+.+}-{0:0}, at: lookup_open+0x150/0x1990 fs/namei.c:4451
+ #1: ffff88805802a7a8 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ #1: ffff88805802a7a8 (&ovl_i_mutex_dir_key[depth]){++++}-{4:4}, at: lookup_open+0xb13/0x1990 fs/namei.c:4458
+
+stack backtrace:
+CPU: 2 UID: 0 PID: 6041 Comm: syz-executor469 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+ lock_acquire kernel/locking/lockdep.c:5942 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+ percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+ percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
+ __sb_start_write include/linux/fs/super.h:19 [inline]
+ sb_start_write include/linux/fs/super.h:125 [inline]
+ mnt_want_write+0x6f/0x420 fs/namespace.c:494
+ ovl_create_object+0x130/0x3b0 fs/overlayfs/dir.c:705
+ lookup_open+0x1255/0x1990 fs/namei.c:4567
+ open_last_lookups fs/namei.c:4767 [inline]
+ path_openat+0xa2c/0x2440 fs/namei.c:4997
+ do_file_open+0x20e/0x430 fs/namei.c:5029
+ do_sys_openat2+0x10f/0x1e0 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x12d/0x210 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fadca23e437
+Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007fff380044d0 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 000055555dddf400 RCX: 00007fadca23e437
+RDX: 0000000000000042 RSI: 00007fadca277192 RDI: ffffffffffffff9c
+RBP: 00007fadca2770fe R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000000001a4 R11: 0000000000000202 R12: 000055555dde1770
+R13: 0000000000000026 R14: 00007fff380045a0 R15: 0000000000000002
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
