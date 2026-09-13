@@ -1,141 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2111A6816;
-	Sun, 13 Sep 2026 09:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789292969; cv=none; b=GExvjF2FS6EeXrEs0CgDO4m0/mAwR3iGvMMtG+bcTMWWRuqNz6Oz+sTf7zoxoqIkFNxU8cYFGfvnEUdmfdyCU6AiLJYs5BPdw0AcrNZqjyTGPL/YRwX7EXjUeJ5dga8TtMfkg+c9IZWEsHfjbyE2xYGSKaXhP9J1ww3Lp0E1N4Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789292969; c=relaxed/simple;
-	bh=mGAg4rKunkIul1QDQuUassVbQndYIl+aQxGofMURzUU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j1e5p6dHcuhzvGG3zBN5qpb7Syoo4ew9znIajUKqZavGbH5IOrAT6bSYOdasCqrTpVgVS17Lwle6H370aL1VSlW/kHfAYbLrmMPooG20oR0c3qsWEH7EwhXg1dP+jBHeruJlPWBd0XFkky/wgYgky197VPX1Tox9FjpsOaNO/Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfBvxpKE; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D35A3F104B
+	for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 14:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789310601; cv=pass; b=Km2JvKxYGoBR0rEsVmL290WKSIXYMJYd2FIUA4S3vK74/5rVXAF1OWUUOOX/94c6qfwrfaOVZhQqGQR9YNNjfBVWxmJe6L3wMnCFiKW33F8anp+1hmVwjhyuoduKxCJETKAQO2k9fCqa8rpcZD0T6PpyobyFFxsoqG1KWrGdgok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789310601; c=relaxed/simple;
+	bh=s50I1f+RlATnyS7ncxttVC4STee39n4jtfw1TIV5Yo8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ps19FSCw82rm3VcUjJLv1dS4mAFoxvdv+VE0gNNKdsagCvHYqSf/noYAFfjPntEXFaWQXZAFJ0Yra9uI9snibFZGVYf4yZgc24l4VxVeQzmw8Wg6EBtOq3vy0wLVb+I9VXkWTRTXUEwhrSI+O69qmRQmjhI/LDi7G74zcwb42e8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nvcHKyIF; arc=pass smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PfBvxpKE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DC51F000FF;
-	Sun, 13 Sep 2026 09:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789292967;
-	bh=Tg5IU0+H9KMkSOpIVEYusfjm6bIb4fQEllwynyz0EVc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=PfBvxpKEvpJ5VLvXhFNDyHaYXB+ow/oOmmQUHohuPRTQ5OidCuKr72NVna21Lhj74
-	 r5JNth+EicGcrCC7nWRPU3KP7VvVO3pSw3SMgGmOSz4IhFnNf6O4Pe/2yjIehooC1j
-	 V5gfQBN3V7CSTiFObippk57pdzCBTAaYjhpBs8h86PcRmrAVE5mHCe8CBXR8sdZ9lI
-	 hOiIl8GhtQRUZJhWmq4v0gpGo2yCDfi4JJ5+JCDbKJMzUMLQpHEY7eL23wcPEXXOYK
-	 YUZArZv4sXfKDhvHqKab4q5jTSS5LAjaBXREtzk2jtVz45lYaQ3li0P61UqlG1ww9i
-	 AGBthjzkxuVUQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Trevor
- Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>,
- Lyude Paul
- <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve
- =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, Todd Kjos
- <tkjos@android.com>, Christian
- Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>, "Rafael
- J.
- Wysocki" <rafael@kernel.org>, Dave Ertman <david.m.ertman@intel.com>, Leon
- Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
- Hallyn <sergeh@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan
- Kara <jack@suse.cz>, Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski
- <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Philipp Stanner <phasta@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, driver-core@lists.linux.dev,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-usb@vger.kernel.org, Oliver Mangold
- <oliver.mangold@pm.me>, Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH v21 4/9] rust: rename `AlwaysRefCounted` to `RefCounted`.
-In-Reply-To: <DLCHKYBQ3WF1.B8YPUTAKNM7@garyguo.net>
-References: <20260910-unique-ref-v21-0-e83257373062@kernel.org>
- <20260910-unique-ref-v21-4-e83257373062@kernel.org>
- <CAH5fLghUQW5urTfLCCDT4BhuqoFVoLUAG46TS-SxaS37bJcgWQ@mail.gmail.com>
- <DLCHKYBQ3WF1.B8YPUTAKNM7@garyguo.net>
-Date: Sun, 13 Sep 2026 11:49:12 +0200
-Message-ID: <875x09v5uv.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nvcHKyIF"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b7be8dbabfso840720e87.2
+        for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 07:43:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789310597; cv=none;
+        d=google.com; s=arc-20260327;
+        b=s09P0g1Xw2F7s1SgPGJZOdxL2vwl+CvVF/h5cEaTAqTuXBTYImiNwGVZF4AUGmYSgg
+         BbhH3+qEgInPQ2kc9szK9qTHPijyigD1jWEE/v1ua+PbJ7YxaglgoefSTGsbcUhryUvB
+         xucUkIk6fhP6HRpXjS99WJmaQzIdORCWieGFBtmKnn2B+OrMsM7Vlpu0kwndPHwZvbsq
+         X7aYEI3kdWQGCmlcaYZz45d2kevE2ovYZPZ7ZXfEiluGlzGY3QdD9JPdvQdiKbifCPS4
+         DeBJOuOndWe7pau7pifKhlN8x8TOgZv/5jys+hfJk7A86JQqIgGPgIWM++Ltg7O2vwPA
+         Ts4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        fh=eVkaMDVLH9lo5mu920IsFVwnoskeXYSro91FJVBAAx8=;
+        b=r8QOct5mAM6vn0i72bxLV4x+Oez6yeIQCk0fTUKWMEJpEJlK06oSm3Iv3AV2nQP8tI
+         +QxEMvDzhhf/kSZSz1XkAoNgAYn96O8+eBZemvuu8D8Z9lkQjPwOoZPs2Od9MkxiLokf
+         xs/tjOV4pca70AehPGJMvOqXhAZnTJ7aLLLBq3pPSkb119SJ7D7324J2Lj6IE5ZDg+Fu
+         AUzHs80EkZ/PDWmS/PFcLY8E0d9DlDR8/gm0a9fuSmVRg11vk87HGUGj7qCE5a3fifCt
+         YWhCfRn4MvREhoKizo6xzZ5VuhtmY/X4eqOPs8pZ7X8SgK2X+VF/nr3QPvdLBRtLWRYE
+         mIlg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789310597; x=1789915397; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        b=nvcHKyIFjwetpt+UIfbM7euByDk0eNStjkwMFQ4b7XFZcZZBN3iJcQbxMGgz+LY9d5
+         pILGpAhnNfEJW53MYMCQpHYbWbAkoiK/aZogrrfblEaulAYIsoHHgrtuWcR8hhq73BTg
+         Epfm1T9a+D+rERsSaWNmx606IsHaiZ+I97qe92aQY8zsTizSXNdHHJ6drnmwrEkT4oCe
+         rFZ/lGwb/SHyTjQU/ksTVoEvjr7zetN8O65qCP/ADamKuviosWrJgSN58yp25DLUB0J8
+         L+diFSLbb7v5Lgbktg2oXkxTTZyemGVsqGMzKeXdd4dfn4sbRpeJ5HPf/MR73RkZSnZb
+         D3Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789310597; x=1789915397;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=gDlSeCeZClgynUnsugyjmVlBCsPDuPwIPykfDcGyfzM=;
+        b=UYNm4Sdp4WeywzAf9bkJVOYaZq+TyHTTsesQZuTVq1wtIRiGv5IJ9DrRxL/9AIjXLD
+         yf3Ilnx3R3dKRkAWSH8PVDw4T4bO4aMVz7TyM/u37G9SF5pZw63MzR/zLt7s32h+twSC
+         eznvN2Zh7ym/jOjVctwcNk8vcL/BcAI1eP48qtZcRKEYfSRmucGwse65R+PEN2RfJyzl
+         VJ8N3CEeH2mbYocm+TX04HP+ZvHjlZR0myTh9jow06wMdukpJCGhItpzsb6fIRpxkUvr
+         IlYxYUQZb8pvTBJhlknmNNk/RJUlrOkHRN1f3w6AfU5ilkZ8kOSVUBeeHs9D4Cb5xtIW
+         dYGg==
+X-Forwarded-Encrypted: i=1; AKwUvBwCyuchR4X4YX8NDjdd3c/7pekNC5LMbYwJS0F3uyJPXaolBafqo3XOOZ9nZaGq6Y20fwsMETsa8JsONw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mm1xhbDSNvm26xaF88XgZNwChq4IBza9I9MhWGhiAjpk53GU8V
+	Val0v4c+bTsiu4L2UlTV6wCdsw7vyPkK1ZokXQoX/RT7ANYq4m1wg7lD3bPWNZfxWAsTzDZH9RL
+	ITNPtmFEVNlbFJM7kpjKRvrxIwsZU3tA=
+X-Gm-Gg: AYBFou1NHhkKjKAZqHNiwpvWsVmC0KTja4yfyCw23cob9qoIwA6949Zsnx6NepDCtG1
+	Jz20vspUEN+10jGmNPfyjE4+RizsFlpTSZVO62xDAcNQEHZjKggXtSuMPHMe8fdlQ5ns/E5Fl+s
+	umXo6RLenof4QLzm7pM5vvk/Z12VJs1opCiFo6XGNpTolOJMHJRjpvdawQNd6UHryLBrzbLKC9t
+	tZTkR5oK0WecCsfP4eYAtZit1hHkSGtFzpCD6PBitUGFxdZUI6kSTLsxuPx/6D+dIY1G825M5L1
+	dNYiPoFN0rsh1S2SdesX+gtNX6ps740p3xIfE2KFdk/VsjYLhMCbmtsCttQt/tkyWtOeXBFRoDx
+	BnM2xWlTiJIy6tKg=
+X-Received: by 2002:a05:6512:108c:b0:5b7:6682:17b8 with SMTP id
+ 2adb3069b0e04-5b8a8ef6a7fmr1282624e87.37.1789310596997; Sun, 13 Sep 2026
+ 07:43:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Sun, 13 Sep 2026 22:43:04 +0800
+X-Gm-Features: AcwNN1X5pmsda_UiZ5ntCUgJCNHKWL9vQ4K7aO1nbiEQVANFLK5Pbt5CxzkS2Uk
+Message-ID: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
+Subject: [REGRESSION] kernfs: empty cgroup rmdir latency after
+ delete-notification changes
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-"Gary Guo" <gary@garyguo.net> writes:
+Hi T.J.,
 
-> On Fri Sep 11, 2026 at 10:08 AM BST, Alice Ryhl wrote:
->> On Thu, Sep 10, 2026 at 11:01=E2=80=AFAM Andreas Hindborg <a.hindborg@ke=
-rnel.org> wrote:
->>>
->>> From: Oliver Mangold <oliver.mangold@pm.me>
->>>
->>> There are types where it may both be reference counted in some cases and
->>> owned in others. In such cases, obtaining `ARef<T>` from `&T` would be
->>> unsound as it allows creation of `ARef<T>` copy from `&Owned<T>`.
->>>
->>> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T=
->`
->>> would require) and a marker trait to indicate that the type is always
->>> reference counted (and not `Ownable`) so the `&T` -> `ARef<T>` conversi=
-on
->>> is possible.
->>>
->>> - Rename `AlwaysRefCounted` to `RefCounted`.
->>> - Add a new unsafe trait `AlwaysRefCounted`.
->>> - Implement the new trait `AlwaysRefCounted` for the newly renamed
->>>   `RefCounted` implementations. This leaves functionality of existing
->>>   implementers of `AlwaysRefCounted` intact.
->>>
->>> Suggested-by: Alice Ryhl <aliceryhl@google.com>
->>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->>> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->>> [ Andreas: Updated commit message and rebase on rust-next (7.2) ]
->>> Acked-by: Igor Korotin <igor.korotin.linux@gmail.com>
->>> Acked-by: Danilo Krummrich <dakr@kernel.org>
->>> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
->>> Reviewed-by: Gary Guo <gary@garyguo.net>
->>> Assisted-by: LLM
->>> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->>
->> This has a lot of safety comments of the form "This does not implement
->> Ownable, *therefore* it can implement AlwaysRefcounted". But I think
->> the safety comment should instead explain that it's okay to create an
->> ARef<_> from an &_ for this type. The fact that Ownable is not
->> implemented is not sufficient argument.
->>
->> Alice
->
-> Yeah, I think for types that currently implement `AlwaysRefCounted` and d=
-oes not
-> have a new `Ownable` form, it should keep saying that "this is always ref=
-erence
-> counted".
+I found an increase in empty cgroup removal latency across 507d8ce13f5b
+("kernfs: Don't set_nlink for directories being removed") and eea5d2bb34ba
+("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabled,
+rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
+The result held in two independent runs.
 
-Makes sense, I will fix them.
+The workload creates an empty cgroup v2 leaf under a private parent with
+the CPU controller enabled, checks it with stat(), and removes it. It
+places no tasks in the leaf and does not register any inotify watches.
+I time mkdir() and rmdir() separately; stat() is outside both timed regions.
 
-Best regards,
-Andreas Hindborg
+These are consecutive source states, not different release kernels:
 
+  base:   f917dc56060a, before both changes
+  guard:  507d8ce13f5b, the nlink race protection
+  notify: eea5d2bb34ba, plus the deletion notifications
 
+For the second run with sched_ext disabled, the medians of the nine
+sample means per boot were:
 
+                         boot A       boot B
+  base                    6.504        6.528 us/rmdir
+  guard                   6.956        6.922 us/rmdir
+  notify                  9.553        9.558 us/rmdir
+
+The first change added 6.05-6.95%; the second added a further 37.33-38.08%.
+Each run used fresh boots in base-A/guard-A/notify-A/notify-B/guard-B/base-B
+order. Each point had nine samples of 128 removals, after 16 warmups.
+I used an i7-12700KF, CPU0, full preemption, the performance governor and
+Turbo disabled. These three kernels used the same toolchain and configuration,
+apart from LOCALVERSION. I used the same control binary throughout.
+Removal sample CV stayed below 3%, and endpoint drift stayed below 2%.
+The result also held after dropping the first sample.
+A similar slowdown was also observed with sched_ext enabled, both with
+and without cgroup callbacks.
+
+Separate, untimed traces showed 26 kernfs nodes removed per leaf. The
+guard change doubled the attribute write-lock entries from 26 to 52.
+The notify change added 26 inode lookups. A return-value probe found one
+directory inode and 25 NULL results. These counts do not show how much
+time each step costs, or that a lookup returning NULL can safely be skipped.
+
+I understand that the notifications and race protection are needed.
+A local root-reuse prototype saved about 4-5%, but did not recover most
+of the increase; it is not a complete fix.
+
+A separate v7.2-A / 2f0c1cf72f46 (7.3-rc2) / v7.2-B check gave
+9.919 / 9.719 / 9.953 us/rmdir with the same control binary. Mainline was
+2.02-2.36% faster, with sample CV below 0.75% and old-end drift of 0.35%.
+Both versions still removed 26 nodes and made 26 inode lookups per leaf.
+The later name-hash change was on the measured path, but this comparison
+does not isolate its effect or repeat the exact-commit test above.
+
+Results, configuration identities and the tested workload:
+https://github.com/lcf0399/linux-regression-evidence/tree/b1eef2a0fb18babbf8e0d5832b63a655bfd28926/kernfs-empty-cgroup-removal
+
+Do you see a safe way to reduce this per-node removal work while keeping
+the notification and race fixes?
+
+Thanks,
+Chengfeng
