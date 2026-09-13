@@ -1,35 +1,36 @@
 Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D532F2773E4;
-	Sun, 13 Sep 2026 21:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB5A385D99;
+	Sun, 13 Sep 2026 21:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789333732; cv=none; b=aTeL1PTtlhv64ZYJbY4Y3Cy9xvXo3dLlFW66FosjW9DbG+Zf15ZWwD2b/oCDyV/Fmrsd2EzencwIhBqDoZlChUrzBJWbLjhUheMtT2OBZGg+rU6mGOZNpEVX2DbyWoWuf+IoDZWs0EAjA5wi9tdSdeYfKHC4nXNs4uD6GcpNTTw=
+	t=1789334027; cv=none; b=kFHg/2IbC5xVHjg1h8JGJgbbS68sxUrkf6MKbATPlzQDuSTI4/KxjWMLdcyVNnfHOxOpaCSEFe6qUfzz6f+xnSE9YuTdmBTo78TUNlauszsd1lZLi3GcxPN6jl3VwQsbPG2/1FqxVcAIM9rQL/+KiiZB7a+SzXbWMh29khkybHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789333732; c=relaxed/simple;
-	bh=3xNCv3SnT48TuYnliag8Bk7AVkdX7pKFEQAlaBFdBH0=;
+	s=arc-20240116; t=1789334027; c=relaxed/simple;
+	bh=DzSFHRV3zOFFCm1Go+rK4cpdDjKv6Cdst3eWt/ksoF0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hoZwmtXOrlsoKj3XrrOOlnRmuy/ZZqB3rHDKKir7T8VUMlQv0V76QEZSGErL+Fz59kGYFpia4HBDBNexel9uIPuvsd/IIFgocry9AneBjcjvxHtHX6U4qnk1xjCTIUL2OWgq+80NjlecGgNp/s5P3fKCCRQPPctAlISoEN8Eq2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=gNeodVX7; arc=none smtp.client-ip=91.216.248.203
+	 MIME-Version; b=d/cRbK+XsVEg8cl1MPYcRuK75VI67Ab7o55oPleupT/e1szmzUYTOT1Ndtrk5N8gZ26vTojNOe7J9eiqOK5bcvM1tN/FKk8aEoLNxvutZaDATWVHvi9TroslIdQmdbZwcKDOabPUSynm13vlEK0Y+41LNGy1/LJmuN/yBI8wJsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=Kp3LF3yG; arc=none smtp.client-ip=91.216.248.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="gNeodVX7"
+	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="Kp3LF3yG"
 From: Matteo Kloiber <kernel@matt3o12.de>
+X-Lima-ML-UUID: 2fbc39a2-13f5-4230-8f8b-cc3368733281
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
-	s=securedbylima-20230709; t=1789333728;
-	bh=3xNCv3SnT48TuYnliag8Bk7AVkdX7pKFEQAlaBFdBH0=;
+	s=securedbylima-20230709; t=1789333683;
+	bh=DzSFHRV3zOFFCm1Go+rK4cpdDjKv6Cdst3eWt/ksoF0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gNeodVX7TzeceRRgx4Ydsps/z73ttUdXg47D3c1ub60rePywFnE4wltDIhQ7n7twN
-	 YCY1gO/6IH311sfLCUVs8NLMS1Ke9oLl9Lh26u1O1a6cxsFdZbZCCKBfN1ya9roA2I
-	 xznQ21T+6jZdN923TW4G/cBcFjV8jpi23TBOojOtnL4JSJOL1aB6JYIGs1Ca+t7Fny
-	 b2A38wGn7XTh8BrX61XUdqB2+YZIMiblxlwKSe0upuXny7F33PtIS1CxTz4hjdWdot
-	 +9ytZtlSvQ3Y/+YgldmzyU9CJiEMQrtDeZ737WRgMroS3jehElxpWlaDDpH011AjfG
-	 IDk/1c+WZGS0g==
-To: dakr@kernel.org,
-	acourbot@nvidia.com
-Cc: aliceryhl@google.com,
+	b=Kp3LF3yGmb2/UWK2NrqqMLhKi+aI+viD6AmyNRJLVSleyYJ8wNr2hmStTlj8kQq4+
+	 +O0o7M/aicxnIboJ8NrSVI6t3Lx8owtE1tDqMnHJJS7HLuArlMN5lmdkVJ5q/nXU28
+	 kdclNABqJiGznU8ayXUJbp98qtWMakf5Y/cK4sTyeqooGhlX5nfVJk5O0y+M4rSlxL
+	 TfoZlRPQO7jsREdWDNtjolBNaqXSi4dGS++O/G+jHQC/mFmAHCILnUNR54L7eAiKsY
+	 gNX+1XM/hosKfWCdad4gw1RExFeUbsL79cglDoX2uiMAPPx8+ajPVe0dlkTNwXp/P2
+	 acxKXHnARExpQ==
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: dakr@kernel.org,
+	aliceryhl@google.com,
 	ojeda@kernel.org,
 	airlied@gmail.com,
 	simona@ffwll.ch,
@@ -41,14 +42,13 @@ Cc: aliceryhl@google.com,
 	dri-devel@lists.freedesktop.org,
 	driver-core@lists.linux.dev,
 	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matteo Kloiber <kernel@matt3o12.de>
-Subject: [PATCH v2 2/2] rust: scatterlist: honor the device's maximum segment size
-Date: Sun, 13 Sep 2026 23:08:28 +0200
-Message-ID: <20260913210828.125655-3-kernel@matt3o12.de>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] gpu: nova-core: declare unlimited DMA max segment size
+Date: Sun, 13 Sep 2026 23:07:01 +0200
+Message-ID: <20260913210706.125278-1-kernel@matt3o12.de>
 X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260913210828.125655-1-kernel@matt3o12.de>
-References: <20260913210828.125655-1-kernel@matt3o12.de>
+In-Reply-To: <DL8PWSOK6S11.3T0U8AX63YFO1@nvidia.com>
+References: <20260831233215.287881-1-kernel@matt3o12.de> <20260831233215.287881-2-kernel@matt3o12.de> <DL8PWSOK6S11.3T0U8AX63YFO1@nvidia.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -57,64 +57,25 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SGTable::new() caps segment length at dma_max_mapping_size() only, which
-limits the DMA mapping path (e.g. swiotlb), not the device itself. The
-per-device limit from dma_set_max_seg_size() is ignored, so contiguous
-page segments can be longer than the declared max segment size,
-potentially causing problems for future drivers that use this
-abstraction.
+On Mon Sep 7, 2026 at 11:10 AM JST, Alexandre Courbot wrote:
+> Note: new kernel policy [1] asks that the specific model is not named, so
+> this should just be `Assisted-by: LLM`.
 
-Fixes: 05aa6fb1c21d ("rust: scatterlist: Add abstraction for sg_table")
-Signed-off-by: Matteo Kloiber <kernel@matt3o12.de>
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
----
- rust/helpers/dma.c         |  5 +++++
- rust/kernel/scatterlist.rs | 12 ++++++++++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
+Got it, thanks! I was checking what other people did and noticed a lot of
+mentions of Claude, etc., so I went with it. Changed for v2.
 
-diff --git a/rust/helpers/dma.c b/rust/helpers/dma.c
-index 9fbeb507b08c..ff8f24dae9df 100644
---- a/rust/helpers/dma.c
-+++ b/rust/helpers/dma.c
-@@ -49,3 +49,8 @@ __rust_helper void rust_helper_dma_set_max_seg_size(struct device *dev,
- {
- 	dma_set_max_seg_size(dev, size);
- }
-+
-+__rust_helper unsigned int rust_helper_dma_get_max_seg_size(struct device *dev)
-+{
-+	return dma_get_max_seg_size(dev);
-+}
-diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
-index b83c468b5c63..44eeafed05e3 100644
---- a/rust/kernel/scatterlist.rs
-+++ b/rust/kernel/scatterlist.rs
-@@ -350,15 +350,23 @@ fn new(
-             page_vec.push(page.as_ptr(), flags)?;
-         }
- 
-+        // Cap segments at both the DMA mapping-path limit and the device's declared
-+        // max segment size.
-+        //
-         // `dma_max_mapping_size` returns `size_t`, but `sg_alloc_table_from_pages_segment()` takes
-         // an `unsigned int`.
-         //
-         // SAFETY: `dev.as_raw()` is a valid pointer to a `struct device`.
--        let max_segment = match unsafe { bindings::dma_max_mapping_size(dev.as_raw()) } {
-+        let max_mapping_size = match unsafe { bindings::dma_max_mapping_size(dev.as_raw()) } {
-             0 => u32::MAX,
--            max_segment => u32::try_from(max_segment).unwrap_or(u32::MAX),
-+            max_mapping_size => u32::try_from(max_mapping_size).unwrap_or(u32::MAX),
-         };
- 
-+        // SAFETY: `dev.as_raw()` is a valid pointer to a `struct device`.
-+        let max_seg_size = unsafe { bindings::dma_get_max_seg_size(dev.as_raw()) };
-+
-+        let max_segment = max_mapping_size.min(max_seg_size);
-+
-         Ok(try_pin_init!(&this in Self {
-             // SAFETY:
-             // - `page_vec` is a `KVec` of valid `struct page *` obtained from `pages`.
--- 
-2.51.2
+> Thanks, this patch looks correct and I would like to merge it early, but
+> one thing about the comment: it carries way more context than needed and
+> reads heavily, as is often the case when AI-generated. For instance,
+> "declare that to the DMA layer" is obvious from the method we are
+> calling. Make sure to give a human pass to such comments as they can
+> make the code tedious when they accumulate.
 
+Thanks! I agree. I was unsure about that and decided to leave a bit more
+in for the review. I'll just use your comment verbatim.
+
+> Since this seems to be your first patch, this is a good opportunity to
+> practice sending a v2. :)
+
+Yes, submitting patches to the mailing list was certainly a new experience.
+Thank you for your help and time so far!
