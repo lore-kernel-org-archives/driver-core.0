@@ -1,209 +1,466 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57F03793CA
-	for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 16:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789316279; cv=pass; b=UYzaw5lOtykDXlQGpw686z5lUKovsnV0HJu/S/5Xi/m9sFpNlxFsnMDBeeXRzELlvV3HOSErlkYhf/4WBwHi62KvRViZtNhJfj8aEafoz66DnuOPpP1D9qHrZkKzV6ieIHV+s35JcIOHMhKAsykVeNLAbcIsX/dkE013pP6cFn4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789316279; c=relaxed/simple;
-	bh=qrjaa3A/zSN3z/kTwF5pNuuhb8WEmUsn7IuE9lN2/WE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DnK2rV6vZxvis5jsjb2oJCh0kVs4fwmc/M3Wwk/0//xmUr5m/+hJu0uILZjmVEQeo4DXuCIDbBBXiQ6DHYkQfhqUvi+CnnGT2yvYFFmCq4/dUuqjhF2ZUOUIOPvooT5o5CKLMokjB4pUbauSLlddH8Fdp2q4CW7WHMzGRtF6lEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=biKHytqZ; arc=pass smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="biKHytqZ"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b5e50eb70so26635e9.1
-        for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 09:17:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789316273; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lHzweVvse3g+U+plU93HC6Q+FpM2IEAmNGbVEdOQUU6WYPJNfWEkUVuD4885QCcfvN
-         lkI/G80jOl2Df1zUozviLx13+rAu0siy0h8F6u4b/NF3nhm/7GMxP7GHHLtzt0myj0Rw
-         LL1udEPYuxkZ4V3fdy/J25OjiHWnnU/SiSMKAp5yX6rQqYjT3o4CETaIpMq9mqzMaf0g
-         ExyV5bbOBdpQf++8918zY+4jx9+BkAbYZQQeGUakPJ3VnzYNN7DuaEIf/NGMbSR5AGu6
-         CvlwlqftFRqBYI2w+iA81qUywMAfyp15ew7dviTA05R91HQWiOhTsFXWY53tgfS+oJu3
-         lyvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yt+Ej+RFTyAlxOsRS7i/kggIDyE3eMtCY51oxHgQhKU=;
-        fh=+XP0BEfA2raE0spXQEglmUVuSURwMKv86NlIabyICCQ=;
-        b=n5JOA6KMzHHI701+wz7WMWoT9jqkTESBCYABU/S8EoCixBeQtk86/yRxRjRyei0Fsh
-         i/jKBTfs81pIaGNpxFwgCD2Ov4QQdVLR7H6NDDbnoIez2j3gbo80uf9qwzwGh8qg4D7y
-         SPOijVXLzXXDAT5WwQyES6eu9vVoLnKGfrW9CY2X6wDpT4kxR0A1a/ixfuFqHyvQX8yS
-         0pQCNd9Bt7psjjve4zlIfrJpxBpe06uPox2yk86x8Wqq7OAQJLKhIFJdYzyZbfH5NqRL
-         IMWQ4sNg1mG8++DExnNVjUMiGdbmhaFpIY3ohDrrDjydx9emJSCh93VOVdYM80UKs1d5
-         lrgQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789316273; x=1789921073; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yt+Ej+RFTyAlxOsRS7i/kggIDyE3eMtCY51oxHgQhKU=;
-        b=biKHytqZjB+esaY1+mT9jeC63olO28Z/cOzdhc/4rAkrXqMnhryRPlPYqiWRQNMBjQ
-         MynGTP+pcY0r/CqJ+Gt4sxhfp/4unG9vF4bwYjwDzzLvshttcAT7NmQMaFA3Jq92YIr2
-         Gg7wOD8hh1t0E6WRBWnRCYh8FS0WcQqy2an0rbYRjh+Dx/VRJZ/oLsy40FGul9ACUBq6
-         +3DQX/E4kSXlbIdN+zibDUpVfxsCbfj8KVnmQPC566bWDvw9xkQQ5kHl+GpioFe2Bwqn
-         XasR/dcmB71rvUo+kC8dHupavmJlhKWG/xJx4VPnVZDN160PcyDHSpyDPc9juanVqJbO
-         4pFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789316273; x=1789921073;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yt+Ej+RFTyAlxOsRS7i/kggIDyE3eMtCY51oxHgQhKU=;
-        b=TV2TzQf3xj04Mr/tDuqcKYmZzesiikEvfQpEC9Bz/w7q+Hw1zx5WuRds5ECqh/6xsD
-         2x/M6628nVTGRkEOHrpC36sqRvZeNV0mfTglFOv/JRPbkwHqGQGT6LzqbokVXoTy/Hr8
-         hWbIbluQWYN/nJzmkDZ8Ln2f5L1VTZ9gYeKZCPNip36iTDtB2p8BSLlwN8l/Q+GWb4CW
-         KHOMzXVmqQ6vG7CoCgoQoR3I7+fmvcdtKfEjnFOcUVHi9MgY0R2n5W7ynZFXtOQwZl1h
-         wgvj3QeczRZrF3jepLd9Rn58VfEmKa2bewY0BpsQgmxflEUgLGIGfxxKtb9GOXRQlIRY
-         fY1g==
-X-Forwarded-Encrypted: i=1; AKwUvBylXQ3Nq6a1KWfuHDhVApSBYuvRf9BYe+zL1z/8BGujhdch0RyTlFe5il4+CMacBAtwXuTC6Jw3yq4Qyg==@lists.linux.dev
-X-Gm-Message-State: AFuF++k3m6f+/zaqOwhx0ole2M8Dd9f46XkwVq3hlUUePaVq8VCqZzcO
-	16rTDyrbR3SJYIYvCBniAyyI3P0d3ebOvdUt8QfnS3jcALAU9aXtrL1VTnk6pZ38HraM3hGDsZ6
-	8whMAyh/Cv3EgZPN0bkwTcz9378NBAPwRrDxhXiv8
-X-Gm-Gg: AYBFou1s9EN7QQnVcIm0xagyH8a7nzD5P5+uWnNmN3YipjZ26gmkJaHMs6QrjM4qSt7
-	pqPEvnKmp48Us65nGsHAfxQ+m4druMsFQPs003X4Bgff7bJ2IB0pnOUZ66FDJpUhMHU5e1Kt3l2
-	HfyX0eVI567kDcodKHkcmcjubIc+NYjfU+X5WN0U2m8bd0F+scfd9vUX/ivNw9NuDAJBv8HW4Fp
-	1jPSM6NUIWyK91RYvV7C2ncBcmg8Z1zjF9Ga0ejtpU2FWTObsURWynhPtdWkDkUcjJPxNC87dfT
-	tpt3Vmy7yNqE/8JdWEy9I0bPEdIF3QapB/ygWN5DtHTn8k9x3ZDxWfVp0Lr1abnRACXSI0E2Rtp
-	et54JWkzB0w==
-X-Received: by 2002:a05:600c:3593:b0:49a:d4d9:e417 with SMTP id
- 5b1f17b1804b1-49e754445b3mr671735e9.6.1789316272535; Sun, 13 Sep 2026
- 09:17:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E338635DA42
+	for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 18:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789322478; cv=none; b=ROLglvlBASLPzadHe2D8HBxd24+GVPaCZ7k3dL/YvRwIGSK7iEs5/MFXlNGEh3HckxdZ+fpNITh0i9QuRVVROh2BoavweKolKzi6j5NYttNe15XmXRqtlr5gZtrpHy81zkAwy3RUR/MWEnFqFTqGt9PE4GGhzSUMNTCzbcvclWw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789322478; c=relaxed/simple;
+	bh=RhzsvRX1VzjwckuWRlqcbA5bkyy0BtvJK7P60E9IuLs=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ULnEhoB2uKmvBhKWPkxBlnmjXbcpgDZM3w/uK8hovmQA5fYfD6jZhQ64+Hnv3g5d7qhPdV/YPyxFyb2PWtJShXa5BqAaBPRJmG2viKbEZ9TkC7TBhf/MsdLRIOqi/K3rDMrEXe+c0YCG+faJozsXN8699QcO8j9ZLhZjcTnipTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
+	 (Exim 4.100)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1x5oVc-000000003Px-0A5B;
+	Sun, 13 Sep 2026 18:00:56 +0000
+Date: Sun, 13 Sep 2026 19:00:51 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH net-next v15 0/6] net: dsa: mxl862xx: devlink flash and rescue
+Message-ID: <cover.1789175618.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
- <aqa7KgIJYGgf7INk@slm.duckdns.org> <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
-In-Reply-To: <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Sun, 13 Sep 2026 09:17:40 -0700
-X-Gm-Features: AcwNN1UGrvqbq3HFY7pcrIOl_jX8tfzTKZIUJ5QTX30rH2G51YS_Yo5JvuNEb8Q
-Message-ID: <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
-Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
- delete-notification changes
-To: Chengfeng Lin <lin2530632123@gmail.com>
-Cc: Tejun Heo <tj@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jan Kara <jack@suse.cz>, 
-	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Sep 13, 2026 at 8:47=E2=80=AFAM Chengfeng Lin <lin2530632123@gmail.=
-com> wrote:
->
-> Hi Tejun,
->
-> Thanks. I found this during research into kernel performance regressions,
-> using a microbenchmark of cgroup creation and removal. This was not
-> prompted by a production issue.
->
-> I reported it to document the added removal cost and ask whether some
-> of it could be reduced while preserving the fixes. I agree that the
-> roughly 3 us increase per removal does not, by itself, demonstrate a
-> significant impact on real workloads.
->
-> Thanks,
-> Chengfeng
->
-> Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=A5=E5=
-=91=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Hello,
-> >
-> > On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
-> > > I found an increase in empty cgroup removal latency across 507d8ce13f=
-5b
-> > > ("kernfs: Don't set_nlink for directories being removed") and eea5d2b=
-b34ba
-> > > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disabl=
-ed,
-> > > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
-> > > The result held in two independent runs.
-> >
-> > I don't want to make cgroup removal unnecessarily expensive but at the =
-same
-> > time it's not an operation that I consider to be a hot path, so as long=
- as
-> > the operaiton can finish in a reasonable amount of time and single digi=
-t us
-> > definitely is, performance of rmdir usually isn't something which is hi=
-gh in
-> > priority. Can you please detail why this matters for you?
-> >
-> > Thanks.
-> >
-> > --
-> > tejun
+This series adds "devlink dev flash" and "devlink dev info" support to
+the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
+MCUboot loader recoverable through the same path.
 
-Hi Chengfeng and Tejun,
+The switch is flashed over the loader's clause-22 SMDIO download
+interface after the firmware API has rebooted it into MCUboot, and the
+driver reinitialises through a deferred detach and re-probe once the
+new image runs. A switch found in MCUboot at probe registers in a
+reduced rescue mode with firmware version 0.0.0, so the same flash flow
+recovers it; an interrupted download is drained in the background
+first. The deferred re-probe comes from a new driver-core helper,
+device_schedule_reprobe(), since a driver-owned work item can neither
+survive a racing rmmod nor synchronise its detach with
+device_shutdown(). fwupd's devlink plugin carries the matching quirks
+[17].
 
-We use this kernfs IN_DELETE_SELF feature on Android where multiple
-cgroups are created and removed frequently on a per-application basis,
-but we hadn't noticed a significant delay due to the inotify
-functionality during cgroup removal. It's probably masked by much
-larger delays (milliseconds) we regularly see due to unreleated issues
-with cgroup locks like priority inversion with cgroup_mutex, and
-contention for cgroup_threadgroup_rwsem.
+Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: repeated flash
+cycles, recovery of a download interrupted by a crash, and a flash after
+a hard reset into the loader. The helper was runtime-tested on Intel
+AX101 with PROVE_LOCKING and DEBUG_OBJECTS_WORK [11].
 
-As far as what we can do, I think avoiding inode lookups for kernfs
-nodes that never had an inode created should improve the situation. It
-doesn't eliminate the locking overhead, which I don't think can easily
-be eliminated. The code below doesn't deal with inode eviction either,
-but at least files which are never accessed won't introduce the inode
-lookup overhead.
+Changes since v14 [19]:
+ - patch 3: skip the detach while probing is blocked, which
+   device_shutdown() does before its walk reaches any device, instead of
+   a per-device flag set only once the walk arrives; validate the device
+   and snapshot the parent, its locking requirement and the bound driver
+   under the device lock; keep -EPROBE_DEFER out of the re-probe error
+   path so it cannot overwrite a deferred probe reason (all found by
+   Sashiko AI review)
+ - patch 4: treat the closing END write as advisory, since the loader
+   has verified the image by then, and admit only the flash task's own
+   firmware reads past block_host instead of every read from every
+   context (found by Sashiko AI review)
+ - patch 5: classify a status register left in the download handshake as
+   a loader needing a power cycle rather than as running firmware, give
+   the loader one step to publish its next state before ruling it out
+   after a failed clause-45 wait, abort the drain polls as soon as
+   teardown asks for it instead of stalling unbind for up to 17 s, and
+   pair the rescue_mode accesses with WRITE_ONCE()/READ_ONCE() (all
+   found by Sashiko AI review)
+ - patch 6: asic.rev comes from the CHIP ID registers as well, and -EIO
+   means the driver gave up on the recovery, which may need a rebind
+   rather than a power cycle (found by Sashiko AI review)
+ - Andrew's Reviewed-by is kept on patches 1, 2, 4 and 6; the changes to
+   4 and 6 are the two small ones above and a documentation reword
+ - the same review asks again whether patch 1 should install
+   .flash_update only for drivers implementing the callback, as v4 did;
+   it stays unconditional as Andrew asked in v9. Its remaining findings
+   are not acted on either: the pre-existing window in
+   __device_release_driver() where a ->shutdown() can interleave with a
+   release, which every unbind path shares; the recorded driver pointer,
+   which an unbind and rebind within the delay can match again at the
+   cost of one spurious re-probe; and the get_stats64() re-arm race in
+   remove(), which predates this series and is fixed separately for net
+ - the changes to patches 3 to 6 were written with an LLM coding
+   assistant working from the Sashiko findings and reviewed by hand; the
+   Assisted-by tags on those patches record this
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 4f9ade82b08a..3ec9f79b1aa2 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -1523,6 +1523,9 @@ static void kernfs_clear_inode_nlink(struct
-kernfs_node *kn)
-        struct kernfs_root *root =3D kernfs_root(kn);
-        struct kernfs_super_info *info;
+Changes since v13 [18]:
+ - patch 5: initialise the SerDes state once mxl862xx_wait_ready() has
+   cached the firmware version, still before the rescue-mode early
+   return, so PCS setup can depend on the running firmware
+ - picked up Andrew's Reviewed-by on patches 1 and 4; the one on patch 5
+   is not carried as that patch changed
+ - the Sashiko review of v13 repeats the ABA finding on patch 3 dismissed
+   in v13 and marks the two __device_release_driver() windows and the
+   get_stats64() re-arm race as pre-existing; no change
+ - the change to patch 5 was written with an LLM coding assistant
+   working from a report against a downstream tree and reviewed by
+   hand; the Assisted-by tag on that patch records this
 
-+       if (!(kn->flags & KERNFS_INODE_INITED))
-+               return;
-+
-        lockdep_assert_held_read(&root->kernfs_supers_rwsem);
+Changes since v12 [13]:
+ - v12 went out just as net-next closed for the 7.3 merge window. The
+   helper of patch 3 was then posted on its own, with conversions of the
+   existing open-coded users in iwlwifi, hci_h5 and btintel_pcie, most
+   recently as v3 [14], which Greg's patch bot deferred past the merge
+   window; Hans de Goede reviewed and tested the helper and the hci_h5
+   conversion there on RTL8723BS hardware [15][16]. The Sashiko review
+   of that posting found the same issues in the helper as the review of
+   v12 did, so patch 3 here supersedes the helper patch of that series;
+   once this series is merged, the conversions follow as patches for
+   bluetooth-next and wireless-next. On the userspace side, fwupd's
+   devlink plugin has meanwhile gained the quirks for these switches
+   [17]
+ - patch 3: queue the re-probe on system_freezable_wq, so one pending
+   across system suspend runs after resume instead of detaching a
+   suspended device or racing its late suspend callbacks; record at
+   scheduling time whether the parent needs locking instead of reading
+   dev->bus, which may be gone with its module once the device was
+   unregistered; let __device_release_driver() report whether it
+   released the driver, so an administrative unbind that wins the race
+   inside the device links loop is not undone by the re-attach (all
+   found by Sashiko AI review); use dev_err_probe() for the re-probe
+   error path (Hans de Goede)
+ - patch 4: stop the stats poll with disable_delayed_work_sync() in the
+   flash path, so a racing get_stats64() re-arm is a no-op, and drop the
+   early return in the work function; the v12 reordering of remove()
+   is gone as well, since the get_stats64() race it addressed predates
+   this series and needs a fix of its own (found by Sashiko AI review)
+ - two further findings of the same review are not acted on: the
+   recorded driver pointer could in theory match a different driver
+   loaded at the same address within the delay, which would cost that
+   driver one spurious detach and re-probe; and the final put_device()
+   from the work could call a release() whose module was unloaded in
+   the meantime, which is the same hazard every asynchronous device
+   reference in the core carries, the async probe helper included
+ - the changes to patches 3 and 4 were written with an LLM coding
+   assistant working from the Sashiko findings and reviewed by hand; the
+   Assisted-by tags on those two patches record this
 
-        list_for_each_entry(info, &root->supers, node) {
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 38b28aa7cd02..f8b4a8b8ade4 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -208,6 +208,10 @@ static void kernfs_init_inode(struct kernfs_node
-*kn, struct inode *inode)
-        set_default_inode_attr(inode, kn->mode);
-        kernfs_refresh_inode(kn, inode);
+Changes since v11 [12]:
+ - patch 3: pin the parent device across the deferred re-probe and take
+   the parent lock across device_attach() on buses that need it; a
+   reference on the child alone left a freed dev->parent dereferenced
+   under __device_driver_lock() (found by Sashiko AI review)
+ - patch 4: cancel the stats poll after dsa_unregister_switch() so a
+   racing get_stats64() cannot re-arm it against freed priv; and keep
+   the host blocked for writes across the post-flash readiness poll,
+   letting only the flash path's own reads reach the new firmware
+   (found by Sashiko AI review)
 
-+       down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
-+       kn->flags |=3D KERNFS_INODE_INITED;
-+       up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
-+
-        /* initialize inode according to type */
-        switch (kernfs_type(kn)) {
-        case KERNFS_DIR:
-diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-index e21b2f7f4159..87f074ce19d3 100644
---- a/include/linux/kernfs.h
-+++ b/include/linux/kernfs.h
-@@ -113,6 +113,7 @@ enum kernfs_node_flag {
-        KERNFS_EMPTY_DIR        =3D 0x1000,
-        KERNFS_HAS_RELEASE      =3D 0x2000,
-        KERNFS_REMOVING         =3D 0x4000,
-+       KERNFS_INODE_INITED     =3D 0x8000,
- };
+Changes since v10 [10]:
+ - new patch 3: driver core: add device_schedule_reprobe(), as posted
+   in the RFC [11], used to schedule the post-flash and post-drain re-probe with
+   device_schedule_reprobe() instead of a driver-owned work item.
+ - the dsa_switch allocation returns to devres. Keeping it out of
+   devres only defused the remaining check-vs-detach window, which the
+   core helper closes outright
+ - scheduling the re-probe is now the one step that can fail after the
+   switch was flashed, since the helper allocates its work item
+   internally and v10's allocate-up-front dance is no longer possible.
+   An -ENOMEM there is a system-wide condition no driver-level message
+   or recovery improves, so flash_update just returns it (unbind and
+   rebind reinitialises the driver), and a drain whose hand-off fails
+   still marks recovery failed so devlink does not keep promising a
+   retry
 
--T.J.
+Changes since v9 [9]:
+ - Harmonised the SB PDI timeouts. The verify wait is now one constant
+   shared by the flash and drain paths (15 s), the 1-byte mailbox step
+   is another (2 s) used by the drain and by both detection waits, and
+   the per-slice write budget drops from 120 s to 60 s. The last-slice
+   flush, which cannot see the boundary between programming and
+   verifying, gets the sum of the two.
+ - The post-flash and post-drain reprobe no longer detaches a device
+   that has been shut down or unbound, and the dsa_switch is allocated
+   outside devres so a lost race cannot leave dsa_switch_find() reading
+   freed memory. This was a live bug in v9's patch 3 as well, reachable
+   by rebooting within 500 ms of a flash.
+ - A failed reprobe hand-off after a successful drain now logs and
+   fails flashing outright, instead of leaving devlink answering "retry
+   shortly" for good. Dropped heal_lock and mxl862xx_stop_work() with
+   it: the lock only made the flag test and the queueing atomic, which
+   is not the guarantee the comment claimed, and the reprobe's own
+   check is what actually decides now.
+ - A loader that publishes READY but never services the register-read
+   challenge now reports -ENXIO rather than propagating -ETIMEDOUT, and
+   the documented return sets of mxl862xx_rescue_mode_detect() and
+   mxl862xx_rescue_drain_finish() match what the code returns.
+ - Commit message for patch 4 no longer claims a running firmware is
+   "left untouched" (the presence probe writes two mailbox scratch
+   registers, inert to a firmware that does not read them), says that
+   an SB PDI window away from the OTP reset offsets also yields
+   -ENODEV, and describes the -ENXIO outcome above.
+ - Commented why STAT == 0 during a drain is unambiguous: by the
+   r_remain == 0 rule the loader cannot be both inside the receive loop
+   asking for a chunk and publishing a verdict.
+ - Documented that a switch power cycled on its own needs the driver
+   unbound and rebound before a failed recovery is re-examined.
+
+Changes since v8 [8]:
+ - install the flash_update devlink op unconditionally and return
+   -EOPNOTSUPP from the trampoline for drivers without the callback,
+   instead of a second devlink_ops permutation (Andrew Lunn)
+ - picked up Andrew's Reviewed-by on patches 2 and 5, given on v5
+
+Changes since v7 [7]:
+ - most of the changes below address findings of the Sashiko AI reviews
+   of v7
+ - the MCUboot loader's transfer completion was reverse-engineered to
+   settle two of them: it publishes an image verification verdict in its
+   status register, finalises without the END magic once a 2 s timeout
+   expires, and keeps the host's byte count visible while it programs a
+   chunk. The interrupted-download drain therefore no longer sends END,
+   which a loader still in its receive loop consumes as a byte count and
+   underflows its receive counter on, and the flash path now reports a
+   rejected image instead of a write timeout
+ - refuse a second devlink dev flash while the previous one's reprobe is
+   still pending, and stop publishing a zeroed firmware version after a
+   failed transfer
+ - initialise the SerDes state before the rescue-mode early return, so a
+   successful rescue-mode flash cannot hand phylink an unconfigured PCS
+ - do not fail probe from the wedged-download branch of the rescue
+   detection, which a download interrupted with exactly one byte
+   outstanding would trigger, and report a failed recovery through
+   devlink rather than refusing every flash for good
+ - reset the SB PDI mailbox before probing it, log the drain's progress,
+   and correct the protocol and register comments throughout
+
+Changes since v6 [6]:
+ - reprobe from a single delayed work item instead of a kthread spawned
+   by a workqueue kickoff; the kthread existed only to drop the module
+   reference from core code, but its creation-failure path did the racy
+   module_put() from module text anyway and could strand the driver
+   bound with skip_teardown set. The collapsed form matches
+   iwl_trans_reprobe_wk(), and a failed reprobe now leaves the device
+   unbound like a failed probe
+ - only signal END on a successful transfer; a failure leaves the loader
+   mid-payload, where END is read as a byte count and can underflow the
+   receive counter, so return the error and let the reprobe recover
+ - add cond_resched() to the payload loop so a long transfer over a
+   bit-banged MDIO bus under CONFIG_PREEMPT_NONE does not trip the
+   soft-lockup detector
+ - drop the cached firmware version and chip id on a failed flash so
+   devlink dev info stops reporting the pre-flash version until the
+   reprobe
+ - report the firmware version under DEVLINK_INFO_VERSION_GENERIC_FW
+   instead of a bare "fw" string
+ - correct the SB PDI header comment's SMDIO register map and expand the
+   note on why closing the shared conduit is safe
+
+Changes since v5 [5]:
+ - run the post-flash reprobe from a kthread that drops the module
+   reference with module_put_and_kthread_exit() from core code, fixing
+   a use-after-free where a work item's trailing module_put() could
+   return into module text a racing rmmod had freed; a workqueue kickoff
+   spawns the kthread off the devlink caller where kthread_create() can
+   return -EINTR
+ - send END on every flash failure from the ready handshake onward so an
+   aborted transfer lets MCUboot reboot instead of leaving it waiting
+ - after the background drain finalises an interrupted download, reprobe
+   and let the probe-time detection re-classify the switch, so a valid
+   image a last-moment interruption left bootable comes up as running
+   firmware; rescue_drain() no longer inspects or reports the outcome
+ - re-read the SB PDI status register once more after a poll timeout
+   expires, so a preempted poll cannot report a spurious -ETIMEDOUT
+ - bail out of the periodic stats poll when the flash teardown has set
+   WORK_STOPPED, closing a get_stats64() re-arm race
+ - allocate the reprobe kickoff before disturbing the switch, so an
+   -ENOMEM cannot leave it flashed but never reprobed
+ - omit asic.id/asic.rev when the CHIP ID read returned 0, instead of
+   publishing a bogus "0000" for fwupd to match firmware against
+ - treat the flashless-download loop (STAT 0xc33c) as an unsupported
+   configuration and fail probe with -ENODEV instead of advertising it
+   as flashable
+
+Changes since v4 [4]:
+ - report the numeric chip part number and version read from the
+   static CHIP ID registers as the "asic.id" and "asic.rev" fixed
+   versions instead of a model-name string, which does not belong in
+   a devlink version identifier (Jakub Kicinski)
+ - report the running firmware version as the "stored" version too,
+   since the switch boots it from its own flash, so userspace can
+   distinguish a flash-backed part from a flashless one by the
+   presence of "stored" without a future API change
+ - run the post-flash reprobe from a self-contained work item again
+   instead of the v4 kernel thread, which tripped the hung-task
+   watchdog while parked across the flash and returned -EINTR from
+   kthread_create() when the devlink command was interrupted
+ - re-read the new firmware version through the reprobe's fresh probe
+   and drop the SYS_MISC_FW_VERSION exemption from the host block
+ - raise the firmware command poll timeout so the FW_UPDATE command
+   that reboots into MCUboot is not cut short
+ - detect the switch state from the value MCUboot publishes in the SB
+   PDI STAT register (loader ready, wedged download, or running
+   firmware), confirming a live console loader with a register-read
+   challenge, instead of trusting a bare SMDIO scratch write
+ - fail probe with -ENODEV over SB PDI when the switch does not respond
+   at all (absent, unpowered, or misdescribed in the device tree)
+   instead of letting the clause-45 API flood the log with CRC errors
+ - drain a wedged interrupted download back to a clean ready state
+   from a background work item so the multi-minute recovery never
+   holds the devlink instance lock, reporting no firmware version and
+   refusing flash with -EBUSY until it completes
+ - report the rescue-mode null firmware version "0.0.0" as both the
+   running and stored version, matching the running/stored reporting
+   above
+ - split the devlink documentation into its own patch and add
+   Documentation/networking/devlink/mxl862xx.rst describing the info
+   versions and the flash update behaviour (Jakub Kicinski)
+ - include example "devlink dev info" outputs in the commit messages
+   of patches 3 and 4 (Jakub Kicinski)
+
+Changes since v3 [3]:
+ - only install the flash_update devlink op for switches whose
+   driver implements it, so the devlink core rejects unsupported
+   requests before fetching the firmware file from userspace
+ - run the deferred reprobe from a kernel thread which ends in
+   module_put_and_kthread_exit() instead of a work item that
+   dropped its module reference while still executing module code
+ - fail firmware API read commands with -ENODEV after the update
+   has finished instead of faking success with an unfilled buffer,
+   which could send port_fdb_dump() into an endless loop
+ - keep the host block in place across the post-update version
+   query by exempting SYS_MISC_FW_VERSION from block_host instead
+   of briefly lifting the block, and write all blocking flags under
+   the MDIO bus lock
+ - check the return value of all SB PDI control writes; a failed
+   address write during the half-bank switch could otherwise place
+   the second half of the payload at the wrong flash offset
+ - initialise the progress notification deadline from jiffies so
+   notifications are not suppressed on 32-bit systems shortly
+   after boot
+ - log a distinct diagnostic when rescue mode detection fails on an
+   SMDIO bus error instead of silently treating it as not being in
+   rescue mode
+ - flush the switchdev deferred queue after closing the ports so
+   the bridge's deferred STP DISABLED transitions reach the
+   firmware while it is still running instead of failing against
+   the host block with "failed to set STP state" errors
+ - treat -ENODEV as successful deletion in port_mdb_del() so the
+   post-update teardown no longer leaves host MDB entries behind
+   for the DSA core to report when the tree is torn down
+
+Changes since v2 [2]:
+ - validate the firmware image, including both CRCs, before taking
+   down any ports, so that a malformed file is rejected without
+   disturbing the running switch and without the needless flash and
+   reprobe cycle it previously triggered
+ - reject images whose declared payload sizes overflow when summed
+   (check_add_overflow) or sum up to zero; the latter previously
+   erased the flash without writing anything back
+ - allocate the reprobe work item and take the module and device
+   references before starting the update, so scheduling the reprobe
+   can no longer fail after the switch has been pushed into MCUboot
+ - prevent the stats poll work from being re-armed and cancel the
+   CRC error work before starting the transfer
+ - check the host-blocking flags in mxl862xx_api_wrap() under the
+   MDIO bus lock to close the race window where an API command
+   which had already passed the check could reach the bus after the
+   switch rebooted into MCUboot
+ - check the return value of SB PDI data word writes so a failed
+   MDIO transaction aborts the transfer instead of being noticed
+   only through a corrupted image
+ - report a per-model chip name (e.g. "MaxLinear MxL86252") as the
+   devlink "asic.id" fixed version instead of the devicetree
+   compatible string, whose comma is awkward for userspace
+   consumers such as fwupd (see discussion on v2 patch 3)
+ - report the canonical null version "0.0.0" instead of
+   "mcuboot-rescue" as the running firmware version in rescue mode,
+   so that version-comparing update tools like fwupd treat every
+   available release as an upgrade and offer it for recovery
+
+Changes since RFC [1]:
+ - detect a switch stuck in MCUboot rescue mode at probe, register
+   the switch without any ports and report "mcuboot-rescue" as the
+   running firmware version, so devlink flash can recover from a
+   failed or interrupted update (Andrew Lunn)
+ - clarify in the commit message of patch 2 that the per-transaction
+   MDIO bus locking is about other, non-switch devices on the same
+   MDIO bus (Andrew Lunn)
+ - mention in the commit message of patch 3 that closing the ports
+   also stops phylib from polling the switch-internal PHYs during
+   the transfer (Andrew Lunn)
+ - split up run-on sentence and explain the dynamically allocated
+   reprobe work item instead of just pointing at iwlwifi in the
+   commit message of patch 3 (Manuel Ebner)
+ - use kzalloc_obj() (Manuel Ebner)
+ - state the actual duration of a complete flash and reprobe cycle
+   (just under a minute) in comments and the commit message, and
+   clarify that the timeout values are generous upper bounds
+   (Manuel Ebner)
+
+[1] https://lore.kernel.org/all/ak0J-HgzMRea53om@makrotopia.org/
+[2] https://lore.kernel.org/all/cover.1783988826.git.daniel@makrotopia.org/
+[3] https://lore.kernel.org/all/cover.1784513694.git.daniel@makrotopia.org/
+[4] https://lore.kernel.org/all/cover.1784665017.git.daniel@makrotopia.org/
+[5] https://lore.kernel.org/all/cover.1784945329.git.daniel@makrotopia.org/
+[6] https://lore.kernel.org/all/cover.1785119999.git.daniel@makrotopia.org/
+[7] https://lore.kernel.org/all/cover.1785274610.git.daniel@makrotopia.org/
+[8] https://lore.kernel.org/all/cover.1785389905.git.daniel@makrotopia.org/
+[9] https://lore.kernel.org/all/cover.1785728574.git.daniel@makrotopia.org/
+[10] https://lore.kernel.org/all/cover.1786294649.git.daniel@makrotopia.org/
+[11] https://lore.kernel.org/all/anpxFdwNxk0XwPjQ@makrotopia.org/
+[12] https://lore.kernel.org/all/cover.1786773971.git.daniel@makrotopia.org/
+[13] https://lore.kernel.org/all/cover.1786922210.git.daniel@makrotopia.org/
+[14] https://lore.kernel.org/all/cover.1787281239.git.daniel@makrotopia.org/
+[15] https://lore.kernel.org/all/c461462f-de0b-43e8-ac9e-541013f5f8da@oss.qualcomm.com/
+[16] https://lore.kernel.org/all/7ffe0c2e-0742-488a-ab6c-1dc2fabc049c@oss.qualcomm.com/
+[17] https://github.com/fwupd/fwupd/commit/e50c9e5ab39d31242e664efbbf441fd46d15a0cd
+[18] https://lore.kernel.org/all/cover.1788783126.git.daniel@makrotopia.org/
+[19] https://lore.kernel.org/all/cover.1788976064.git.daniel@makrotopia.org/
+
+Daniel Golle (6):
+  net: dsa: add devlink flash_update callback to dsa_switch_ops
+  net: dsa: mxl862xx: add SMDIO clause-22 register access
+  driver core: add device_schedule_reprobe()
+  net: dsa: mxl862xx: add devlink flash_update and info_get
+  net: dsa: mxl862xx: recover switch stuck in MCUboot rescue mode
+  net: dsa: mxl862xx: document devlink flash and info support
+
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/mxl862xx.rst |   81 ++
+ MAINTAINERS                                   |    1 +
+ drivers/base/dd.c                             |  126 +-
+ drivers/net/dsa/mxl862xx/Makefile             |    2 +-
+ drivers/net/dsa/mxl862xx/mxl862xx-api.h       |   10 +
+ drivers/net/dsa/mxl862xx/mxl862xx-cmd.h       |    2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.c        | 1101 +++++++++++++++++
+ drivers/net/dsa/mxl862xx/mxl862xx-fw.h        |   20 +
+ drivers/net/dsa/mxl862xx/mxl862xx-host.c      |   65 +
+ drivers/net/dsa/mxl862xx/mxl862xx-host.h      |    2 +
+ drivers/net/dsa/mxl862xx/mxl862xx-phylink.c   |    2 +
+ drivers/net/dsa/mxl862xx/mxl862xx.c           |  153 ++-
+ drivers/net/dsa/mxl862xx/mxl862xx.h           |   37 +
+ include/linux/device.h                        |    2 +
+ include/net/dsa.h                             |    3 +
+ net/dsa/devlink.c                             |   13 +
+ 17 files changed, 1605 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.c
+ create mode 100644 drivers/net/dsa/mxl862xx/mxl862xx-fw.h
+
+
+base-commit: 31f961de2f90fbf52eb2d4e15b3eeaa09f9b4fc2
+prerequisite-patch-id: 0000000000000000000000000000000000000000
+-- 
+2.55.0
