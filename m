@@ -1,207 +1,84 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21CA8632B
-	for <driver-core@lists.linux.dev>; Sun, 13 Sep 2026 18:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CF325B09D;
+	Sun, 13 Sep 2026 21:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789322591; cv=none; b=P1qhe2F33Of2d5Qhbz08UTzCcofYaGiMoe7Q3LldLQUKR9BX7+ZvxbOOVqvLXDVSPTa3WejuLUmz1bgIKqFiiD4fIM/qZ5NTeKSwq9/mO+d4Vv3O4eXyLOw3Yh5ZudZXgQf3FXT08sOW6lW2r+i4kjDccjUk0twGmFXJqNCd7cM=
+	t=1789333702; cv=none; b=qfzEfxQ1lwwDO0iJKerZEtGHRcs56bpIg0/vhypSM8xFzQLN9vRX71jS8BkmUBArR6AnqB5rZMYxez3vXPQFGon36FO7bY9Cve/6HNLIGUSEWPZE5pVDsCVFU61Cn6GHgfe1zqBIYbbOn3cwEmISrFAvERVuurraF0CIOR0yUno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789322591; c=relaxed/simple;
-	bh=xcsNo1ScdEJsW+6umVOn5HTt2ylvMNlCfHIC81wIJ1E=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mTvFQHLXajz9jQzawZirGyVNG4n0Op+Ji7BrAUhDWSRQsgS4408gQoPJZ0B0buGrEW19G5iL6Rk9EZFBBUk+jEpguw9cKWX6MvJ4Jt6DPIRc1pqYSKh9uuVbuaMqUo8XgraGRZmWjQeTiYKNg8th2sYm1kJaHk063llAJYn6FLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x5oXh-000000003TG-1s6U;
-	Sun, 13 Sep 2026 18:03:05 +0000
-Date: Sun, 13 Sep 2026 19:03:02 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v15 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <c0d50bd459b97f4f5efd8a4fc09ab4f9ee4d605a.1789175618.git.daniel@makrotopia.org>
-References: <cover.1789175618.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1789333702; c=relaxed/simple;
+	bh=1nOAV41JRiEkn7rHromEqYHd1MBILhut8xZP4SO300o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZrJ5znDq725Es6b5VYEGQuKxNUhVTHXyBEUuWwiOebKIW6arQSyYRQVFx+e++2zgXP33oUWqYu0rPv9CD4uVwgyMz5a+OJfnBpqoH3HeEtN0qqnayySnNJ/R7Yrv7mmNx/r6aIfA0MfqJ2u7XKzxBmHagjROGNVO/bDOaTUxPsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=BXef/1Tp; arc=none smtp.client-ip=91.216.248.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="BXef/1Tp"
+From: Matteo Kloiber <kernel@matt3o12.de>
+X-Lima-ML-UUID: 9c5bb7f3-3e9d-46dc-8fa5-ceb4fbd37a3b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
+	s=securedbylima-20230709; t=1789333698;
+	bh=1nOAV41JRiEkn7rHromEqYHd1MBILhut8xZP4SO300o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BXef/1Tpn9tEOQ71hlicYdSa9GNetRhnazrr8IzSC0hPFio8yIOHVRZii8jjGlGKA
+	 uigpdKC1FkoDDrAgALHIT+zDfqHCE3FoUNu9unVqYTnt+YHqdDrfjSw0g+QnsQurjM
+	 HTulRh93xlwRv268q8HDF0M2H0WFaAQ/yh8DzI8f+3t2jhPln8+GMoMfZcKM3bDI9U
+	 70ACkYfs9D0CWhanETkOTFPxKyPpFXGS4aTi++aH4qE3qR0l/0OS8ezVtgwssFYgJy
+	 rDlPJOtXl3hfK+Ja7Tmuu29+uNDMkNuNOh5mymZbaiDe9E+cZy50YuEAJeM0MzY7go
+	 NtGp0P+H+4N3A==
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: dakr@kernel.org,
+	aliceryhl@google.com,
+	ojeda@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	abdiel.janulgue@gmail.com,
+	daniel.almeida@collabora.com,
+	robin.murphy@arm.com,
+	a.hindborg@kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum segment size
+Date: Sun, 13 Sep 2026 23:08:03 +0200
+Message-ID: <20260913210806.125589-1-kernel@matt3o12.de>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
+References: <20260831233215.287881-1-kernel@matt3o12.de>  <20260831233215.287881-3-kernel@matt3o12.de>  <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1789175618.git.daniel@makrotopia.org>
+Content-Transfer-Encoding: quoted-printable
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
-
-Assisted-by: LLM
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
----
-v15:
- - asic.rev is read from the CHIP ID registers as well, not from one
-   register word shared with asic.id (found by Sashiko AI review)
- - -EIO says the driver gave up on the recovery, which may need a driver
-   rebind rather than a power cycle, and an interrupted opening
-   handshake is reported the same way (found by Sashiko AI review)
-v14: no changes
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
-
-
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 81 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 83 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
-
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index d4a83fdcff7f..145cb8a4becf 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..7cbd538a5f3d
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,81 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version, read from the CHIP ID registers as well. Both
-+       values are published behind the same check, so it is omitted
-+       whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware. A
-+complete flash and reprobe cycle takes about one minute.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the driver gives up on the recovery, ``devlink dev flash`` returns
-+``-EIO`` and says so in its extack message. The switch then needs a
-+power cycle, a driver rebind, or both: the driver only re-examines the
-+switch when it binds, so on a board where the switch can be power
-+cycled on its own, unbind and rebind the driver afterwards to have the
-+recovered switch recognised.
-+
-+A download interrupted during its opening handshake, before the image
-+header reached the loader, is reported the same way. The loader waits
-+for a header that no later session can supply, so that state needs a
-+power cycle.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b23fb6f2f4ef..c97e710dda0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16246,6 +16246,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
--- 
-2.55.0
+On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:=0D
+> I guess what this last paragraph wants to state is that no user is=0D
+> affected by this patch? There is another subtle user though: the Rust=0D
+> DMA sample.=0D
+=0D
+Yes, that's what I meant. I missed the sample, but it wouldn't make a=0D
+difference anyway. So I just removed the paragraph in v2.=0D
+=0D
+> nit: if we rename this variable, let's name it `max_mapping_size` for=0D
+> consistency.=0D
+=0D
+Agreed. Fixed. Let me know if everything is fixed in v2.=0D
+=0D
+> It also means that without patch 1, nova-core would split the firmware=0D
+> into hundreds of 64KB SG entries, which is not breaking but still=0D
+> something we want to avoid. The correct fix is to make sure that=0D
+> `dma_set_max_seg_size` is called by the driver, and while we are at it=0D
+> we also want every driver to call `dma_set_mask_and_coherent`. Ideally=0D
+> we would use the type system to make sure that both functions are called=
+=0D
+> before any DMA operation can take place (using a safe interface), but=0D
+> I'm not quite sure yet how we can do this.=0D
+=0D
+This sounds sensible indeed. Should I open a thread regarding that on Zulip=
+?=0D
