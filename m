@@ -1,267 +1,128 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022073.outbound.protection.outlook.com [52.101.96.73])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C576045D91C;
-	Mon, 14 Sep 2026 13:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789391833; cv=fail; b=mfEhJVCx99d+9JuQBK+lXfaCxTIP8xCKaOlDLllld62IF8IHDefluRtABlyT8GScvjDZyFkORDQiw5fe678+WURzRJfWZtonItiSOTRTnvPJGPwVcBAmrO33qN2UKn7QYHu89dpXwqOTh2jJbtLsRIF1O2lUMYWW9vGse+FS1I4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789391833; c=relaxed/simple;
-	bh=zc22fahG+NYjEoLLjZ08RGMLXtmktlvGXXvMzhCjoCc=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=qe/eBWCo1c91Ft4URylBrPMeY5evI4Tfn3ObhEmcftxhios24R2s2T0d3/y2CSOARUxvmCOSIq7HjARWCrYjqM9BG6Qgw5E4uX+/6EICwTazRuJJTvRGJxoJBsEtyUQkZe4S4duW5ZsYYXbrGl7PrcRfK3RhXkql+Z7nBeTMjrQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=eBI5kn/2; arc=fail smtp.client-ip=52.101.96.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE60046C4C5;
+	Mon, 14 Sep 2026 13:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789394237; cv=none; b=sqZxaMpz/0uI1++WkuZJiTpwgIOd13P6Pvl74jOu3RF5E2uLLO450S//PgsbOR8XO47285J1oUdgiysijhDf3fP9cdaEqOHIuoSqydt/ljoKftpDDNP/TenF8HHDyY3B7odCmPcHYlDO1/t544t1lnMiS0H0tk6NjfN+00bTdo8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789394237; c=relaxed/simple;
+	bh=HGlYVddOLYKv650ZKhm+9atcEI4BlwBVnvlFLb1GRek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iQZjSbjzNCGAbQp+66XJkGQW46NHxlQehtl5MvEGimGIqPhdrTzfvsUR7fkxprg2NBqA0YLm/7MBFFQA+GX8+UPohF9HDL2/rYPL7818OWuCCxnkcWdYv0yddZaLvJZcW2vn6ZxFXk8r7k8l5qHd2EZcncmkzCb778MA/mVLFvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K20TONwx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="eBI5kn/2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ngE3QemPJ1zHAgxXFKNwu3kBcMk3MyrL092erhBV23/+Sw+EAvQi+3MGMgmsg+mCHcJD8fn+m3x9Lioa9b4Ur/0xUeGyITYLqpFSoBWHVdAF2nd77raZH9xmDfk1N+taIGi7QL5X10BZ1AoEftPQ3uR9IwWtyDaOWYeXmdk+3hisILfSWIzrBO+918BjS46FtULl8iJVStFxj67IwJUvUD5GTI/OFMT88DzwGA8+51C23MVB3OW3aRaxbUGIlp4U6hd7HIDGXbWFJoaDIHj7EP5H7BrfCIK6cJS88+oHalN/2ran5hp3J5cvcLhfcu0doo4hBNHCqNeKIaaayzaGdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+B6zwW0pDoAX2j+1ACWzrALCOmcASKRedeCtGZyG7tc=;
- b=ynotGlBX3ycf07+JJhOXPE/poMVBFKXeBTNcL3pPYPLzVJSYa6tnIyMIyLL/TR/86GyZR4mmyZioM9AuiFmuiUzeQ8fF0UPcnQaVO5RNHk3uryWGQvF2BI8QFRaW21QywVNTiT9XOkjAGDvTnY+IGyYn38UwuFjQReEHanVoFVF0RVwcMOEkvNnvPSkmCJeov8er76bYqGGe4O2Ojq1Rsj8bfNLdsgggkfS84PFwZ8JcM9CsYPDuOlH96dQI8CKO/i23srJZNWXyK/pi0aTdb5PoCCsa1AD3+lEgaJkdMN/kOK4BLeXC7SRVFARKRy9wFWSD0NWoda/C3FSuRlww0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+B6zwW0pDoAX2j+1ACWzrALCOmcASKRedeCtGZyG7tc=;
- b=eBI5kn/2l7X3OvrKQwScjLY3LTYvOj9evLFzG7HI15s7jQIdDjBhAEhdg5Y1VTMEqTBic63cdvlRP3kQu72BGMOpyaJnN/VD1Uuruckfa0ZzXO5ViwRgR7WVxB7QhPxney50oKbSFR504XsX7Ah0MnFcIpZdzadY5tSv0p7/BIM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LO4P265MB3712.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1cf::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 13:17:05 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 13:17:05 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Sep 2026 14:17:04 +0100
-Message-Id: <DLF2GNSEGHKR.2UI219W5RK94F@garyguo.net>
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
- segment size
-From: "Gary Guo" <gary@garyguo.net>
-To: "Robin Murphy" <robin.murphy@arm.com>, "Gary Guo" <gary@garyguo.net>,
- "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>
-Cc: "Matteo Kloiber" <kernel@matt3o12.de>, <aliceryhl@google.com>,
- <ojeda@kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <a.hindborg@kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.22.0
-References: <20260831233215.287881-1-kernel@matt3o12.de>
- <20260831233215.287881-3-kernel@matt3o12.de>
- <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
- <20260913210806.125589-1-kernel@matt3o12.de>
- <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
- <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
- <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
- <ea8caba1-eb78-40cd-b025-e8c02009f2d7@arm.com>
-In-Reply-To: <ea8caba1-eb78-40cd-b025-e8c02009f2d7@arm.com>
-X-ClientProxiedBy: LO3P265CA0033.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::16) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K20TONwx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49541F000FF;
+	Mon, 14 Sep 2026 13:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789394235;
+	bh=Q3jTCo5Zrmr3wVVQs4J2MuJx8Av/2jYs7lg8QKqp49E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=K20TONwxzBEU1Zu7mkOTxd5YED8e+Y59q7/Yo0oiBrkANvddumCkJS+TvSxyNaeIF
+	 H45l9C8qjM7zl5GyjASyOdXb6m8/wN+FaFnD2IaNwzKJOyajVYG3F8spJMUf2M/1oc
+	 yE1+/JgGFYg5HMgg1xYmgJ2j3Am/tt+OrGB9kq9EG/CU6kFxYHpCzaEPe3qRa+EZSx
+	 eHv08z08nJgSYyJ3itkk5py9mOenvfgjWjLJ4vwXKO3M90FrXVf1oz0280tjyTghcA
+	 AixxEX7dmnMCpPNluxp6KPGtAoYGKi8oG8WkCbbWBEO11HtFE/kEFNPxuHOyZ/UB4q
+	 5Q6xl0UDo3zMw==
+Message-ID: <9f28f634-9015-4b62-a197-0414122ddd4c@kernel.org>
+Date: Mon, 14 Sep 2026 15:57:02 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO4P265MB3712:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3ce9a61-4756-41fb-7af5-08df12627884
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|376014|7416014|23010399003|1800799024|366016|56012099006|4143699003|10067099003|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	0xzLNacJkbs2Oh5UcuzSaU+SsjBYGXHlXteto+O38V1QQC1q5pU/MYwOYZT1db1km8ndFSEb27H5gCG2z5z7NWOSa+Pfmry174wAUvRjB5avPx7nS7rHAhlhTXnb9G1C3nED06xT3Rt0T5dA8WoPYupLCdkPKYWyH+FUPDMgxDgrRd5xoraDdOQJ0lPgioZjief/gU6n2c8eRywHrO72KNbbncLHUyAqZQ9fPpbj9VUofy+uRzqzdkUgNlqjN3MO0o3HIbypcyKd3M16nu3LBbvLvm8VsVlCz2VKOip5GCL3Hik+1eWjQqB/fhAe7r0h6ozJg6hXVJfQn3JVvpNOhrgJsjgRKOKpiTmTvHK9Dyr4LwlZHk5oEtbklBZq4Ud+OzuQ91Kbl0PAKmMSKpsW1QH15awfWSy9SZcUT2ncuLLCkcKdBoKFZ1u1l9XrtatqgZz7NAK87k4Kb/vgDm5xt69fJ5DSWd5/+ddO+j/hiyGS3g3HzUbFu7zQ473AMc6TH8b//O2EBoQzoBUDGjAbdRp9iYaAJ68H06JVFXDvQijXfU+LUOGgrL9um74a8chsgmeZ6mzOmgUV8QSPBNQBK3Ep17On84c1n6M4oGqiN1RcURjLsj3Z7EQF6jVVgSWv9R6jHjcu9k47SRLHrUhX9P/1BK8LddMbR/xXr0rNi4k=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(23010399003)(1800799024)(366016)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TkhlM1ZER0haTHNiQlI2MEdjeEZJTDhZSjh3ZDlEZ0NvYmxUVmlyS1pxb0NG?=
- =?utf-8?B?RzlxZXlaUnlnNm5kVE52S0NHVU1OZTRnYnJuTkRXV0hMMXI0emJzUnJNVGpa?=
- =?utf-8?B?UmJ5N08yOUdsWHltdlFmQTJnVzNPYU1wVklqLzh0bUEvTUtONThOMDNXNEtm?=
- =?utf-8?B?Z3RSTE1JcHVjSzFRYnZyUkpqeDBLUUFRdVQ5ZkJYU3laM0ZYRjNZV2hHcGxx?=
- =?utf-8?B?eXBYdWRIa3lqSlpXZnFFTklKQWE3ejZ3QkhKZExES2lkMUZVT0pTRWtFa0cv?=
- =?utf-8?B?NGhPM3hVUm9DR2RrL2x2enJsUGlpUy9adWtYRnY2a1pDRHpYdFhaZlF5ZGd4?=
- =?utf-8?B?YVljNlM3UHBFQkVjOTZyRURpRUV0QTMzUnlFbXhUUHpQNk9SQUh6MmxPaGN5?=
- =?utf-8?B?eUs0dTEvcFJBaDI3aFpjekQvMVlYdmpXYmFmWE1tUTFGL2VVdkR6RlIvcXhr?=
- =?utf-8?B?YmFjZk11UjdlV1FkeldkTWNDUTRvdW1sRTlISGp2Ny9XcU5GQVJMQXVMRndB?=
- =?utf-8?B?OXBRNnRqR1RCTVlSbVlvcE8vaGJPQmtJU0FCTFNZeW1OUVZNaGhGaVMzbnBW?=
- =?utf-8?B?Wkg5ZGFYL21RVXRCZi9HWUdkbGtOcTNaNmxMUDdULzF4M3FidzVBMDNsdzNi?=
- =?utf-8?B?RjRtOVJUUnVVdTBCNk12aXI3Wkg0bU9NMHM3bEtTdzFpS2JmazducEJwV1Iz?=
- =?utf-8?B?L1RVSy93YmtrMzBwdWp1cEVBcnBHbTJWd3JrUm0zYmdTUDZnOVF2TmI1Q01h?=
- =?utf-8?B?dHV6ZnIyckJXeFdxOTJteGJiWm0wRmJTenlvaFBaNk01MTNwa3pVOVJCOHJH?=
- =?utf-8?B?QmNjcklkUnoxMVcwNzhhZHdibGNtYzdrZkhoSWY5QTJhZHFVNkRCdHMxK1py?=
- =?utf-8?B?OXdQbDdhWTgvc1M3L0V1VDc5bGZBb0hrUjZacUdveUtUUEVnZWxjYmdmQjRj?=
- =?utf-8?B?THJHOFRXMmNrZFVabVUxRXdRd2dkdmFjUC8yV3F0b01hSEhMNWttU1N1RGlW?=
- =?utf-8?B?Y282ckRJaFVRdlZNbllyWk1HWkZlNUtDN1JIbTRJVDhzaGxKelJVTTVqMzRL?=
- =?utf-8?B?SXNJeFUvTVZjcHFSeUh6alkwZkFrRVJPK1hUN0JiNUJCbGxnSUJkVXZZNWR1?=
- =?utf-8?B?YjBtQXl2c21EajVMSEZYWkRGcUtaN3Z3ZDdONGJsV2ZCWkNMTlZLMk9laWNY?=
- =?utf-8?B?ZUhuWEErdlFXdXliQUtlaG9wcldaT0xrMjliSE9ldjVJRHJma0phQmJLd3lB?=
- =?utf-8?B?bkVNM0VYSXJnckNtQklpclhpMXErcGloVTExRDlocWhoZkNhMDc0NmorRG9k?=
- =?utf-8?B?a0sxK013bjd6Wm9hNmx2TGJWckw0TitWeUdCL1pXZ1daUnhsNUkyUHEyR3d5?=
- =?utf-8?B?eHB3eVJCQSs0OU4zYXJiMEJIdHFBVmMxSUxISFlOQmxxRitaRk4vVFVtTE05?=
- =?utf-8?B?bFQxNXU1ODhqUmJQUkFTeEF6VFRNNlJjVWRmN2h2d2h2MGdEZzR1TFlFTFNp?=
- =?utf-8?B?Mml6dTBlNkUvalFpaG4zL1QvYmx2ci94YXRiMW5FRXpCT2hoc0hLSGEyQ0hy?=
- =?utf-8?B?ZWw5ZU9kRTIwbFFHb0FwSW93VjJWZHp5ZGVaS1YxWjg3RGY4WEFyTExOSUFw?=
- =?utf-8?B?K0Z2OGx5T1hzMU1xNWREZXBLRHNpQjFFZ1QzQkNNVHRISjBHNjB3ajc4MC81?=
- =?utf-8?B?SW9odW5BdStCOEltZHEybTVPalhCWmc3TXl0U1lnSVgyemFKMEtYUElwY2Yx?=
- =?utf-8?B?dFZZaFI2NzJCcDB0UkFpMHJLdFJsRzFRVjdUcDV2eFp3azJ2cW5La244ZEdk?=
- =?utf-8?B?emRjbXd3RDFVUkh5amZienY4SHpVdFNJNHdWL1k5VWlMVmtYQTZpV2dERFp4?=
- =?utf-8?B?NjlIeWhESlczdWxRTmUxYmR5WFJlRW1oay95dWpjTmYwS1VtNm93YUNLYzFB?=
- =?utf-8?B?MG1mZ2NUYjJFSVZYdFlLZ3EzM251bkJCRXhrUW9uM0dDVGtjc1JYcnJFMkJ3?=
- =?utf-8?B?aWVTU0oxZjJBajRvQkIvd0FYYnh4QzJ0T2ZJNk1WT1RRZ2ZHL3VPM2sySEpB?=
- =?utf-8?B?ZjJSV0htUGlpMUtYZ2xHend6WkRTMUliN2NnNC96NlJ1UjdMTHM0V1o0YWk4?=
- =?utf-8?B?RnpjUU4rNmU4TWM1N3FuRXNMaTRsTzBOQXdlakJ6OWJ6aVJPQlBoamVGMTRn?=
- =?utf-8?B?bEZYdzR3UGdmMnBmUDg1MzUzdXI1RUh1bFV3cTgrcXNaWUNCOHlDV2trTWtG?=
- =?utf-8?B?eis0RkVVcGZwUHBTV054R0FIM3V2TlBYUlphemZLVE43UmVMYmNrS0FIc2VY?=
- =?utf-8?B?R2RwU0pxSlZpSmlXb0dPMGF0ZXlVOW52V0pCWFZqZ01YcmtaVDV1QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3ce9a61-4756-41fb-7af5-08df12627884
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 13:17:04.9353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: naYlezvMFkp+IN7C4s1DvpOz/1P6HGal/BaqmR1u09oIRVZI99OhjVKR07MBmIZVG2vXZ6fR7gujz+xBuOGIzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB3712
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/12] mm/sparse: rename __highest_present_section_nr to
+ __highest_used_section_nr
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Baoquan He <baoquan.he@linux.dev>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
+ <20260909-b4-sparsemem_cleanups-v1-6-008fc8d579fe@kernel.org>
+ <178937914266.4188640.6188797346240816067.b4-review@b4>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <178937914266.4188640.6188797346240816067.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon Sep 14, 2026 at 1:17 PM BST, Robin Murphy wrote:
-> On 14/09/2026 11:22 am, Gary Guo wrote:
->> On Mon Sep 14, 2026 at 10:58 AM BST, Danilo Krummrich wrote:
->>> On Mon Sep 14, 2026 at 2:45 AM CEST, Alexandre Courbot wrote:
->>>> On Mon Sep 14, 2026 at 6:08 AM JST, Matteo Kloiber wrote:
->>>>> On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:
->>>>>> It also means that without patch 1, nova-core would split the firmwa=
-re
->>>>>> into hundreds of 64KB SG entries, which is not breaking but still
->>>>>> something we want to avoid. The correct fix is to make sure that
->>>>>> `dma_set_max_seg_size` is called by the driver, and while we are at =
-it
->>>>>> we also want every driver to call `dma_set_mask_and_coherent`. Ideal=
-ly
->>>>>> we would use the type system to make sure that both functions are ca=
-lled
->>>>>> before any DMA operation can take place (using a safe interface), bu=
-t
->>>>>> I'm not quite sure yet how we can do this.
->>>>>
->>>>> This sounds sensible indeed. Should I open a thread regarding that on=
- Zulip?
->>>>
->>>> Probably not necessary, the mailing-list has a larger audience and is
->>>> the right place for this. I expect people will jump in here with their
->>>> thoughts.
->>>
->>> The problem with those is not that they must strictly be called before
->>> allocating DMA memory, but they must not be called concurrently with ot=
-her DMA
->>> operations, such as allocating DMA memory, as it would technically be a=
- data
->>> race.
->>=20
->> Do they really have to be called *before* allocating DMA memory, not do =
-they
->> just need not be called *concurrent* to DMA memory allocation?
->
-> Similar to DMA masks, the segment parameters should be set appropriately=
-=20
-> before any dma_map_sg() operation. Plus since they likely influence=20
-> scatterlist geometry, that means typically they're also going to need to=
-=20
-> be set before building the scatterlist to be mapped in the first place.
+On 9/14/26 11:45, Mike Rapoport wrote:
+>>  /*
+>> - * There are a number of times that we loop over NR_MEM_SECTIONS,
+>> - * looking for section_present() on each.  But, when we have very
+>> - * large physical address spaces, NR_MEM_SECTIONS can also be
+>> - * very large which makes the loops quite long.
+>> - *
+>> - * Keeping track of this gives us an easy way to break out of
+>> - * those loops early.
+>> + * Looping over all memory sections is expensive, especially if NR_MEM_SECTIONS
+> ... all possible ... maybe?
 
-Right, in that case I think we have the following options:
+Ack, thanks!
 
-1.  Have setters these being unsafe, with precondition that they must be do=
-ne
-    before creation of DMA mappings.
+-- 
+Cheers,
 
-2.  Have a `dma_info()` method like Danilo mentioned. However, we cannot ex=
-pose
-    `&Device<Core<'_>>` inside such callbacks, because otherwise driver wou=
-ld be
-    able create DMA mappings. This however is too restrictive to be the onl=
-y way
-    of setting DMA masks, because Nova needs to access the bar before setti=
-ng the
-    DMA masks.
-
-3.  Use wrapper type instead of generics for typestate. Then, we can expres=
-s the
-    pattern of typestate transformation (generics cannot do this because we
-    always place it behind a reference).
-
-    For example, we can have `Device` to mean `Device<Normal>`, and then ha=
-ve
-    `Bound<Device>` to mean `Device<Bound>` (both of which are behind a sha=
-red
-    reference, like today, and `Bound<D>` can deref to `&D`).
-
-    Then, for `Core` typestate, we can instead have
-
-        struct Core<'a, D>(&'a Bound<Device>);
-
-    where it's passed by value. We can then define the DMA setters methods =
-to
-    operate on `Core` like we did today, but safely. Instead of providing a
-    `Deref` impl that turns `&Core<'_, D>` to `&Bound<D>`, we only implemen=
-t
-    forwarding functions for APIs that can work without DMA configured (e.g=
-. PCI
-    bar).
-
-    Then, provide a `into_bound()` method which *consumes* `Core<'a, D>` an=
-d
-    give out `&'a Bound<Device>` (this is why typestate generics cannot wor=
-k,
-    because `&'a Device<Core<'_>>` is Copy and we cannot represent the owne=
-rship
-    consumption).
-
->
-> I don't think there's any expectation that they would ever change=20
-> *between* different mappings - especially given the underlying hardware=20
-> properties they represent - so while that might technically be possible=20
-> in the C API if the caller can enforce sufficient ordering, it should be=
-=20
-> fine to rule it out in the Rust abstraction if that makes things easier=20
-> to reason about.
->
-> Thanks,
-> Robin.
->
->> If it's the former, we can require these to require mutable reference in=
-stead,
-
-Correction: this should say "latter".
-
-Best,
-Gary
-
->> so the probe takes `Pin<&'bound mut Device<Core<'_>>>` which still deref=
-s to
->> `&'bound Device<Bound>`, but Rust will require the shared reference to n=
-ot
->> co-exist with the mutable reference.
->>=20
->> Best,
->> Gary
->>=20
-
-
+David
