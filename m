@@ -1,183 +1,127 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020084.outbound.protection.outlook.com [52.101.195.84])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B22242DA4D;
-	Mon, 14 Sep 2026 10:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789381330; cv=fail; b=gg7tbIrSeDgdc0QK9Tm39J2Evl+Xaf7IQMdYEDxQJ7feVnGU2qYa/GwxfdXQz6qKMz8hzep9ok443mYkOenPfmXYAeqnFGb6LvuIj72rNs/qsyug2F952SX1V0vNZNCtodaLTFeODo9Ep6ChsXiF64FgGBna3p1xdAAGMsCaoec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789381330; c=relaxed/simple;
-	bh=gYRtcGDYkkRviq5o15+S8PLSQ0aqsRdZm3yvBYfB+bE=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=k94Udl+mg5TGeTFjwkm4wbtiD/GCA+s8pTSWQSANhZC4JbkiOCDDccnGebyqVnhmE80ds0jdqHWg/r2S2PSAqeP+QO77V3CpgYGQLCHiX/ZnyE23Cpoc6zIDFArsDQtYTffhakzs9SGC4i/+jEvf5QIhxxIlsNXTVh9E1r4ZnrQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Z2a5XJ04; arc=fail smtp.client-ip=52.101.195.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E6344607C
+	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 12:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789387716; cv=none; b=Tp+y8lhEd730tUOdQFYtcLLfMm8cNYPEJYRYpAvDoa7cF8J13llZbySr5GccBrBV6kyFM8mRz+kyL74l7zfUthGeZJ+/GgZKsbCdjgVo5W3PrzXYOvtGb/E/Q7bSjjh2e3rUPkD4hvb/MNqxkyfOjWM4qaJRnUf00epYtOtjbFw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789387716; c=relaxed/simple;
+	bh=NC1NwQKsHYBC4W/bQV+uSy2pO18TO5/x0ZqTnykSVeQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=leVmfolje896+yvnkVghlyAd+qFSx5k7Uv9U3kGkLxEqcOYMHE57ZlfQYooJZo8jWEca+KtJVf2oT+VHV0hMDyYWX1YSGTgM6sG+8PfyRyMla/uGQJg1b8J1HPUPDhDcssMz0h4UrYcLBsOrgsNCFjLI+h4ujyU2covH24m5iBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UEKFYjix; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Z2a5XJ04"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cXDV9CdS2vklAjgZ7NgwrcvGDYjaq4dxgVShTnCYf+3QH1oIoa/WI+am36FHfcs2Vx9gmZ5711F0GFDVeUPBqDlO60BrdCag0MLy7Yi5OS6KMEpY6LOOYwG6uDkK5uTPg7+UoIgzbqabM6RR4vzpmz0bMoQZeLE24ZJGoB1KSyL1EWpO0iNPWH89dpHiOTPkNMs6gaKnt4sTACf8RX5kVP/c8hsf5dgKd+cj1xjdvNZJVVjKy0YSS9zti168owmJDEbsvozpwpjlxkcdiitPlu9QA2YTDcomOZSKE6+d3TuNzud9NZimwVmKb2rRyn+VO9sKFU1o9TOuynyebGZkIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gYRtcGDYkkRviq5o15+S8PLSQ0aqsRdZm3yvBYfB+bE=;
- b=iju7NcaTifPVKl2OZP941gkBjKzBmnEoEfAz3WCjWgA52d3b4F8nWGFQvXsAsWb2D6pzZ3kBmQdJxGEYMSUPkR0kTKm/G+sfwuB9vIGJIYos5fbAJ1uZK8cEdMkPil2kRpEeX+/x5/qwaOd3uz97Cwo3SaExGTGmfCwWbeT0KQ0d7FQXc6qJyl3D/4sTcLbGZKIW/K7KDuv5yvEc96ONIi5KK/GWF41yNcgn6fzEoawZRGdmqcSHQq62kwy16TV4OWO5s3jsuIP2GgYAYqEBGJlpurLenv9y9A5cleKAzCp9A/P/vqZ88Xd/M6fYpSNaeaV0L99v04gNkzI+2Dp0Tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gYRtcGDYkkRviq5o15+S8PLSQ0aqsRdZm3yvBYfB+bE=;
- b=Z2a5XJ049lZNTdrNk9RmVvz0YvZE0YGkZbLjLOPKamy/dvLTEZF+GwPF/Omd9H1tE9fgjfh8hhUg7TwlB/CvIZ/m/UodkA7uW8jHTVgn59zbZA9PEcOCcieyLzGPFRZcmzN5MTW5jZm7tBkDlsqmflqHI07z7bUmRSUb/Hzbo6o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWXP265MB2294.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:7e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Mon, 14 Sep
- 2026 10:22:05 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%4]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 10:22:05 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Sep 2026 11:22:03 +0100
-Message-Id: <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
-Cc: "Matteo Kloiber" <kernel@matt3o12.de>, <aliceryhl@google.com>,
- <ojeda@kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <robin.murphy@arm.com>, <a.hindborg@kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
- segment size
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260831233215.287881-1-kernel@matt3o12.de>
- <20260831233215.287881-3-kernel@matt3o12.de>
- <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
- <20260913210806.125589-1-kernel@matt3o12.de>
- <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
- <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
-In-Reply-To: <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
-X-ClientProxiedBy: ZR0P278CA0089.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:22::22) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UEKFYjix"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1789387709; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=WOvNHO/makQxazXDsT74fUNymOpRp92pqQX4GPvZCvI=;
+	b=UEKFYjixp8SVrdWqrldSSNT9lf+scALunMJpiAJ0Vj2J+UeFEVVoRnSxa6h4p/dEQMwhx0ZBV4GMeV4nF9UiD50rZcGWI/+TACODGksV2AaAfhspp4hv7boGlK8XV2W2nGe2Q48Y/pqUbG2iUTb8mxHDchP5KZ7g3rJ/qznlXvw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XAwT.b0_1789387707;
+Received: from 30.178.84.243(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XAwT.b0_1789387707 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 14 Sep 2026 20:08:28 +0800
+Message-ID: <87a780a4-7e69-46df-bbce-a3c021a0b44b@linux.alibaba.com>
+Date: Mon, 14 Sep 2026 20:08:26 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWXP265MB2294:EE_
-X-MS-Office365-Filtering-Correlation-Id: efcbb828-5013-4fb9-0567-08df124a067d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|10070799003|366016|7416014|376014|1800799024|10067099003|6133799003|56012099006|22082099003|18002099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	yOcqdK/eu3nuawZ43IYtw3QptthGRaaTmqK0sidpTGaZtrAlcK1S4hSSY1TAVDvsxshmZzLD0wUkITiMoa8lsUp0QRu0DpGApSf9fA27NL+YMmJF2NPlACYIZZxLMnsK6zkx0ZMIuaQPsKaKccObbjux7X6L9ajM2xeuwJWTmhYzGwIV2mphLW05X7W8sa2Dk3kIUILvZ6rLKoQjItUNzpBc+S6n3eJrvvYn1FxjUB6mb9hHEgN5iYhsYXxbKQxTLn8xIC1486wvj1oVtzY8atRiMlrKIuXGRne5nPir9OOK22Vw1pDmMka5DcJq59DkdhYAZ9CQkEkfc7WNLYrNbic0xqCEKS8pu1dOn31kGPQ8obtNtFzCoWrlWIdxNr0clmLGYcVEoYO0c9QGm4AmSQ+1v70z9RWc9HOSqAqgcLt0ilmMxrvKJ2rphREy4PF8807z96BiFRKm1k4okzagdJnCKJd5cbiDYpchEl++1cE0nXeml6J24UFH+a6cuG8WvlmUtKLqOq9P5j71Koym4SPLpdKv/9CHA6MvgVmX891+Nm01BU3KmZkAs7WLeFudlWmffix3R/wvPWdhtUc0PNGqPD62q9M3q37mUN0V6DMKmqEFkGT2j3bzjnvNy6NKu6YDDddv51MCFdTW9/DpoTdm0zLLG065hVYJ99m8juA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(7416014)(376014)(1800799024)(10067099003)(6133799003)(56012099006)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MGorc3ZSNEdkRlVldnVySnB5YzRTanBWbVRxQzB1RVVQdmcrUkovaDhHb3ZU?=
- =?utf-8?B?dmsrV3NGR203bXNmYkJKT1JEOXIrenE1RzFoNVBaejZzZmd6VlJyV2xtTzNB?=
- =?utf-8?B?SWd2NnlCWk5tR2dmQmNqZ3VtbjVCcUh2NUNvTnUyNnk0Njh2Q3JTbFd0MzRI?=
- =?utf-8?B?NVdYeEF4QnRpTmJWZk5Hd3ZsUzhsTDNLQzhIUXRzV2YwUEp6Y0lQTUR0OHlm?=
- =?utf-8?B?cUl5MzRQbC9iYnNwSGtyRlYzL1g2UGlxOG5Ib1oycHBKdWdDRURqMmRMeHFv?=
- =?utf-8?B?YTYvUHYwb1RVU1JZWVNIL2VVT21WbFhMeGhSb2kza2NDMTZuS3dtdWE5MXlK?=
- =?utf-8?B?U2NDYU1sQVBIZGVzQkFIdUZJQXNxZjBEWWRBN3RGeGlKSTZYR1V4RFdOQTd3?=
- =?utf-8?B?VHZKcFQ4QTlQSGdxQjhRMll6NXNnUGZ6QmREVkFCMUl2VmZCTGdpTGI0Q3ls?=
- =?utf-8?B?SXBRTDU5OVViQUQ4UWE1U1A4UG9weVhIdnRQckpuUFpjbkpJa3B5MHJkN0pQ?=
- =?utf-8?B?UyszMm9tRlBjalVQNHFVd2xzQXNKZmp5VmdLcU0wVklQN2wwL2NFbVYyMVE0?=
- =?utf-8?B?a0VsM2N6ZE5sRXJFUHZYZFE3SzNqem5JenlKQkp2MytxemNMN1hUYTllaExt?=
- =?utf-8?B?UlpsSmtNWnBzQUprcVlnZHR3VHUvVStNZy9SOCtoVURhREcyRjRIK0lJN1lD?=
- =?utf-8?B?NjVtWTNPVHhWbDhyV2J0ZVBzeUl3aE9YcVV2U0xKWmdWbytPSlJudFVsbUcr?=
- =?utf-8?B?SGlyWTEzSFhrNzR6VW44MGczUjhRZUYzNHlac0dKemt2L3g0TEhiK2ZzYkhG?=
- =?utf-8?B?UERscXFJWElpTVNZWU9FdU1uWGdHZWpCaUt4VFM0cnFKVlFWanhncU54TUZW?=
- =?utf-8?B?bVRyTllGZjFQdXlHOWlvMG9wSFRYcnViekpMZzFQaHJlQ0NtS0x3dzY2K0s2?=
- =?utf-8?B?dkVyOHg2VzVXWXQ5dWJkUFBIMkg3Kytqemo0b1M3cEVzKzNPVFFPN0VhTG0y?=
- =?utf-8?B?bjZpeHpGb016Zm1VR25TaHVvU2p1K3BZM2V3aFcyWjRTQzNNMzFpM3F0eDVU?=
- =?utf-8?B?MkFHTVRHRDhZYjVkL040a3czdmNoWDJFcEZxTjkvMmNuMTRPNklJcm1rOUFr?=
- =?utf-8?B?RC9jT2pGUEg4ODRxNEx1Nk5kQnNvb3pvYnk3QTh4amIxcEtESlJOeFpBVjVy?=
- =?utf-8?B?TjdVTk9xOTZrUkdYcEpLVjlGa0JMTW94WW1NcUsxWGRFMm55c3Y0T1NoaFJT?=
- =?utf-8?B?WEljUXZERmc2MFFaTmFrekJhdURjc09LcGFlWHhlTjM4WE5Yb3RaSHFhMUdq?=
- =?utf-8?B?bC9hWXVJUXYrVXArcXZqUUFRU2dINmQ3eXhLSDkvblppVjlEZi9LRjd6cWlp?=
- =?utf-8?B?bzFpWlhOZmlKeUlmQUVOZkNGZUYvaXBaekQ3VkpyM1A3U0E2QWtKckk4OGEw?=
- =?utf-8?B?QXVIeGp5d0FsL2FNbWxkd2VYY3lRN29SdERPazZLb01SK2VSODdiTXh5enZs?=
- =?utf-8?B?UFNWc2ZWRkpseGpLL0k2aTc0a3Z5c3Q5MDE4emwvaUhBeXUvUE1memk0WS9l?=
- =?utf-8?B?K2xIbVJrQnFrZTZSMFFRaWZMM3ZMMnRsN1hXRGd6dWNjSEtuYjI1TXRZZHcr?=
- =?utf-8?B?b0tNekF5TjlCK3IxbHk0Z0xiSGkwZVN1dFVJN2xsRjhsbFpXREJ4aTZBV0VR?=
- =?utf-8?B?Y0ZHckgzZlBNRDduTGZUU1hnSVgzV3ZLYllwTHlEaWJUYU5hWVFybWtXcVlG?=
- =?utf-8?B?OHZWN2czbE5DTDJrdVRsOUlnZE1YVXlrcHVhd0xlVjQ0WW5YVHR1YVhObUg5?=
- =?utf-8?B?MERhT3F4Ni9CQmlTUTd1MTFzaFNZRUVQajV1bzNzLzFjZ1ZrMEV0a1V3VFRV?=
- =?utf-8?B?YktBNG4wR3o3dkpIc01QY2pLTWxHc0Z4MVZSa0F5MzF1Z2VGaWp1Vm5idHUv?=
- =?utf-8?B?NGREOHVhd0Q4c3dkQjJMTGxiSHZBaWF1NWhPSDJVVGNIODVLR244bnJDeGtO?=
- =?utf-8?B?L2lnaVJBcXVQS2pKaEU2Tm9EN0RXRjdoOTNOQnl3NS9OTjFrOVRNOHdTUk50?=
- =?utf-8?B?cTlKZVRzanJrQzdyeC9vU2lJaG9YeWNIUnFIRmxPSmhsWjJiSS9qVUxUWXZR?=
- =?utf-8?B?c2RMYlQ3aU1SK3VPb1dGTHhST2QyQ0VFWXJQSGJ4U252SVBDS1QwamN5WlV5?=
- =?utf-8?B?b2lmQmQyYVFKVTcraW9RT3Y2d0Fhd05mUW9kQ1AwZEJCNUU4Z0NFdHVSSWZ2?=
- =?utf-8?B?Wk1NbXMxaGpTMEJrc2U2ZkhJTkhIaEM5TFdvZFU2ZDA2T01zb0UzQUY0Zjd0?=
- =?utf-8?B?OWptRzZDM3NIcTFoNFBpUllzb2hqT3lueEhNWHhVUlBCYkg4QzhpZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: efcbb828-5013-4fb9-0567-08df124a067d
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 10:22:05.6534
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lG4giFXkxdAKmF+AO97HPKS0ra49m1/FtrI0MlpckY/D4BvpCcxxGSMss5OHL9qInAVh1VbBjFf323AhWlObIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2294
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cxl/memdev: Fix deadlock between poison debugfs
+ and cxl_mem unbind
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>, Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
+References: <20260910094017.4032170-1-kanie@linux.alibaba.com>
+ <20260910094017.4032170-3-kanie@linux.alibaba.com>
+ <20260910220329.20b62302@jic23-hlaptop>
+ <08cbc221-a4b5-4674-ae5e-4e7b5df9293e@linux.alibaba.com>
+ <20260912000908.5df0b62f@jic23-hlaptop>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20260912000908.5df0b62f@jic23-hlaptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon Sep 14, 2026 at 10:58 AM BST, Danilo Krummrich wrote:
-> On Mon Sep 14, 2026 at 2:45 AM CEST, Alexandre Courbot wrote:
->> On Mon Sep 14, 2026 at 6:08 AM JST, Matteo Kloiber wrote:
->>> On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:
->>>> It also means that without patch 1, nova-core would split the firmware
->>>> into hundreds of 64KB SG entries, which is not breaking but still
->>>> something we want to avoid. The correct fix is to make sure that
->>>> `dma_set_max_seg_size` is called by the driver, and while we are at it
->>>> we also want every driver to call `dma_set_mask_and_coherent`. Ideally
->>>> we would use the type system to make sure that both functions are call=
-ed
->>>> before any DMA operation can take place (using a safe interface), but
->>>> I'm not quite sure yet how we can do this.
->>>
->>> This sounds sensible indeed. Should I open a thread regarding that on Z=
-ulip?
->>
->> Probably not necessary, the mailing-list has a larger audience and is
->> the right place for this. I expect people will jump in here with their
->> thoughts.
+
+
+在 2026/9/12 07:09, Jonathan Cameron 写道:
+> On Fri, 11 Sep 2026 11:04:47 +0800
+> Guixin Liu <kanie@linux.alibaba.com> wrote:
 >
-> The problem with those is not that they must strictly be called before
-> allocating DMA memory, but they must not be called concurrently with othe=
-r DMA
-> operations, such as allocating DMA memory, as it would technically be a d=
-ata
-> race.
+>> 在 2026/9/11 05:03, Jonathan Cameron 写道:
+>>> On Thu, 10 Sep 2026 17:40:17 +0800
+>>> Guixin Liu <kanie@linux.alibaba.com> wrote:
+>>>   
+>>>> The poison debugfs handlers take the memdev device lock so that the
+>>>> region lookup sees a stable cxlmd->dev.driver. debugfs holds a reference
+>>>> on the file across the handler, and cxl_mem unbind removes that file
+>>>> while holding the very same device lock, so a handler that waits for the
+>>>> lock deadlocks against a concurrent unbind.
+>>>>
+>>>> Both tasks then hang. The unbind side is uninterruptible, and it also
+>>>> blocks the memdev detach work, which runs on an ordered workqueue and so
+>>>> stalls every other CXL bus work item.
+>>>>
+>>>> Take the lock with the trylock guard and return -EBUSY instead of
+>>>> waiting. An unbind that wins the race removes the file first and the
+>>>> write fails with -ENOENT.
+>>>>
+>>>> Found by code inspection. Reproduced by writing inject_poison in a loop
+>>>> while unbinding and rebinding cxl_mem, and confirmed fixed by the same
+>>>> test.
+>>>>
+>>>> Fixes: 574eda81d0a7 ("cxl/memdev: Hold memdev lock during memdev poison injection/clear")
+>>>> Suggested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+>>>
+>>> Probably not one to rush in but nice to clean up the deadlock even if it
+>>> is a little hard to hit.  If it is possible to test with a hot remove
+>>> flow even better.  You should be able to do that with emulation in qemu
+>>> if you don't have hardware capable of safe hotplug operations.
+>> Sure, I reproduced this on hot-remove situation:
+>>
+>> debugfs writer, state S, waits for the memdev lock
+>>         cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
+> ...
+>
+>> With this patch, the hot-remove flow completed normally.
+> Nice. Thanks for doing that.
+>
+>>>   
+>>>> ---
+>>>> checkpatch reports "do not use assignment in if condition" twice, on the
+>>>> two ACQUIRE_ERR() lines. Those are pre-existing: the unpatched file and
+>>>> the Fixes: commit report the same two, this patch only swaps the lock
+>>>> class on them, and the combined form is what all 40 ACQUIRE_ERR() call
+>>>> sites in drivers/cxl use.
+>>> We should fix that up. Oddly I thought we had, but guess not.
+>> I think we should fix this in checkpatch.pl, like this:
+>>       if ($c =~ /\bif\s*\(.*[^<>!=]=[^=].*/s &&
+>>      +    $c !~ /=\s*ACQUIRE_ERR\s*\(/) {
+> There are a few other macros that are wrappers of ACQUIRE_ERR
+> that should be covered in such a patch as well.  If you have
+> time send a patch!
+>
+> Thanks,
+>
+> Jonathan
+Sure, I have already done that, please see: [PATCH] checkpatch: don't 
+flag ACQUIRE_ERR() assignments in if conditions
 
-Do they really have to be called *before* allocating DMA memory, not do the=
-y
-just need not be called *concurrent* to DMA memory allocation?
-
-If it's the former, we can require these to require mutable reference inste=
-ad,
-so the probe takes `Pin<&'bound mut Device<Core<'_>>>` which still derefs t=
-o
-`&'bound Device<Bound>`, but Rust will require the shared reference to not
-co-exist with the mutable reference.
-
-Best,
-Gary
+Best Regards,
+Guixin Liu
 
