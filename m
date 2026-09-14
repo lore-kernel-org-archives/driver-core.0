@@ -1,131 +1,184 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460DC4756B2;
-	Mon, 14 Sep 2026 13:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BF73BB134;
+	Mon, 14 Sep 2026 14:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789394348; cv=none; b=EeUK/vDYFao1bMWz3xtvV09FIecQYMtxwNhLYViNx5es9sfjT3KfGiLrciEVAo+eWwwi03eQdECI6M5MI/pwa8CjdTm0xhYK5FkLpTVmyyntVYPdhLnYDhzVa2xLzKIBYME437K9Whrx8S8q/2Nrnh1yRF42oND7fAmnKhLDNd0=
+	t=1789396255; cv=none; b=dyx3/1t+CQ523ok6vFpG8nLKoezQ+rDXqywydJxTqx7tKrO1aRSsNjBTbnAq6qQApNag9qzogyeX59kkYXY90Cf2dBqjd9r/T3quNihE1oPv+u35bptPSpTJHWxIn9pOZcSQhrhgSzO6AeLhg0/gDZ8zsUepeJ7FXvze7Gv3sFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789394348; c=relaxed/simple;
-	bh=Qg9LwbOdaMGkf7CVB6H1EXHo6FAE8pG54xWV86tXFvw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kYej3LpqCjkIWCX4NSbG3MoaVeFP/kfJ1HPi1CwypLfHAX8uqdTJTkEWYFiXMzMlyWKT03V0e/AmqoLv4JyugJbmGn0iBGyvzSEDmpb5xBT6x5MzEs+TQhCVGfSmYz8aKOBd++wMT5mzhV7KbV9lCRmg0sJXIe1fOMJHsuvcSO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CibaVAqP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789396255; c=relaxed/simple;
+	bh=H96wjuuBOZ9l+qPrAsLg02Mb1gl8IaRXEedwtI84byM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=urBBlW3K/HqGI27AHE6t/WjyscWl0YF4L3/CEI07gffloZZDcznkY53L9tmNTYPTM4Zn2UiU4FmVWrQR5u+689Y0ud4GwBvK4td2GhjgKNXPpsZwgeIM4ajhN1C1fkZJhr9gZlh4OHD8Yby7SxogTbhMYGU58vJa/oSoJ7rqErM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UdOka88T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CibaVAqP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22DA81F000FF;
-	Mon, 14 Sep 2026 13:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789394347;
-	bh=9DEU6QsyXChy/GNzbkJuNaSb8Hkm06ZCmsscDaeUHKc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CibaVAqPIiF/6RRTs79s4K8eiz9mDHOvYrBjBHoXQXg8uD7COKeiH4kxt+ve1ygC4
-	 3FLhWybNVg2rVs2eI1XbR4YbzHvFgLPoMDvZrVtj9NVzbW0RXnza0/gpGUUFo1rt6b
-	 v1JwZn4gW4Lk1DCw7J94hAR4e3GdJwqi1OJ784ONbUCMH1n+fvFmG6h2BqoQBWjEDm
-	 szq3ulHIdtoVvM+L74W4URViePKeV6PCkoFHEQwqrQX7nM+gr8HRq0H4LwIbHzthNe
-	 CBZU4qXHOZKE9nkzph7NzQ0e/3PbYeJrBJibvyglzdMJ/pr781zvji8od5RYSUIeq5
-	 /pB1vNK2fpVsQ==
-Message-ID: <56f1171f-b7c3-47f5-8fee-0320eafcfd2d@kernel.org>
-Date: Mon, 14 Sep 2026 15:58:54 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UdOka88T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D841F000FF;
+	Mon, 14 Sep 2026 14:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789396252;
+	bh=5DDu/i8F7CfME2M9V7A9fVs9AnBB0/zE0PZdH5IOtd4=;
+	h=From:Subject:Date:To:Cc;
+	b=UdOka88T09ASL0PXRvO30+gEhyo707Onj+bi2XeDQRmMPnUAzRI/r2DJwdr7GsDMK
+	 sCIWQsyGSkx+s4U+MckFMuUab2qymH0amDuDVf2x84+TOKuzWZxi5mIoiCK4jJ6R17
+	 5vz4vtcWGK4A23kUlxrmSa9ClD9vzny+lmLgZgw4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Date: Mon, 14 Sep 2026 16:30:30 +0200
+Message-Id: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] mm/sparse: remove SECTION_MARKED_PRESENT and
- further cleanups
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Oscar Salvador <osalvador@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <178937914266.4188640.7965323974267420342.b4-review@b4>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <178937914266.4188640.7965323974267420342.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTQrCMBAF4KtI1kYmv62uvIeIJE2qI5JKkhZFe
+ ndTRVTQ5YM335sbST6iT2Q1u5HoB0zYhRLkfEaagwl7T9GVTDhwDTVX1GJwu2wwZOokVJWtK7C
+ NJOXgHH2Llwe22T5z6u3RN3kSpsYBU+7i9bE2sKn3gvUnPDAKVHELqpVmqVWzPmHoL23XB2dy+
+ XDRxT2ZJgb+gQj2hfCCsEI7LRhnwv5HxBtZgvxCREEEAFdSq1bU5jcyjuMdFyR6ZEoBAAA=
+X-Change-ID: 20260825-bind_taint-d4077b870bc4
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Bradley Morgan <brads@mainlining.org>, 
+ Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Johan Hovold <johan@kernel.org>
+X-Mailer: b4 0.17-dev-362b8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5415;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=H96wjuuBOZ9l+qPrAsLg02Mb1gl8IaRXEedwtI84byM=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkrWAW4Gsorj7c2cE37q1/W1r9eqlTc+teel5MYyhT6t
+ gT+ld7dEcvCIMjEICumyPJlG8/R/RWHFL0MbU/DzGFlAhnCwMUpABOJ2Mswz7i9yjY2sn9GY9jq
+ HxGbVu6u4Dv1mGEOt8Kk2cHWFTttYp3FVq/8t2PBV98QAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-On 9/14/26 11:45, Mike Rapoport wrote:
-> On Wed, 09 Sep 2026 15:32:53 +0200, David Hildenbrand (Arm) <david@kernel.org> wrote:
->> mm/sparse: remove SECTION_MARKED_PRESENT and further cleanups
->>
->> SECTION_MARKED_PRESENT is really only needed during boot, where we
->> can instead just rely on SECTION_IS_EARLY_BIT by setting that flag
->> earlier.
->>
->> Some preparations for doing that conversion and some cleanups in the same
->> (sparse) area.
->>
->> [...]
-> 
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> 
+The ability to add and remove devices from a driver through the sysfs
+"bind" and "unbind" files was created all those decades ago as a way
+that kernel developers can iterate faster, and provide a debugging way
+for users to attempt to add a new device to a driver without having to
+rebuild their kernel.
 
-Thanks for the review!
+This api over the years has been abused and recently come under a major
+fuzzing "attack" through tools like syzbot which decided that it would
+attempt to just randomly bind any driver to any type of device, causing
+loads of unneeded errors and pointless kernel patches to be generated by
+unsuspecting new developers.
 
--- 
-Cheers,
+Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+will be set on the driver if the bind/unbind sysfs files are ever
+written to.  This lets kernel developers "know" that a user is
+attempting to do something that is not normal, and as such, if the
+kernel breaks they get to keep the shiny pieces laying around on the
+floor.
 
-David
+The flag is 'Y' which was unused, and can remembered as the user is
+"yeeting" the device being operated on here (thrown with force without
+regard for the thing being thrown).
+
+Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+as many times crashes/oops/warnings/failures happen within the callback,
+and the taint flag needs to be there to show what was being attempted.
+If it were to be set after the callback happens, the oops report would
+not properly reflect what foolishness was being attempted.
+
+Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+the tool from hitting bind/unbind, should be run with panic_on_taint
+enabled so that they fall over and don't continue on, thinking that they
+actually found a real issue.
+
+Userspace operations that rely on the bind/unbind files to work around
+the lack of will to upgrade a kernel image to a newer version with
+proper support for new devices, or the lack of will to submit valid
+device ids to driver authors, will still work properly, but now the
+kernel will be flagged in a way that will show that perhaps those users
+should reconsider their behavior and work to have the drivers properly
+support these devices in a "native" manner.
+
+Finally, the bind/unbind files can find real use-after-free issues with
+some drivers by forcing the process to happen virtually without having
+to rely on manual removal processes.  Those real bugs should still be
+worked on, but by adding this taint flag, developers can more easily
+determine bug reports that are actually worth looking at.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Changes in v4:
+- add documentation fixup for add_taint() and add_taint_module()
+- Link to v3: https://patch.msgid.link/20260904-bind_taint-v3-0-30025465f38a@linuxfoundation.org
+
+Changes in v3:
+- Fixes based on sashiko review:
+  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+    build properly, AGAIN.
+- Link to v2: https://patch.msgid.link/20260831-bind_taint-v2-0-1082d631213b@linuxfoundation.org
+
+Changes in v2:
+- rebase on 7.3-rc1
+- Add changelog text to describe panic_on_taint and how it should be set
+  for tools like syzbot.
+- Add changelog text to describe why 'Y' was picked.
+- Fixes based on sashiko review:
+  - Make add_taint_module() handle a NULL for module pointer, fixing a
+    problem with built-in drivers.
+  - Fix up prototype for when CONFIG_MODULES is disabled so it will
+    actually build properly.
+  - rst table header fixes.
+- Link to v1: https://patch.msgid.link/20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org
+
+To: Luis Chamberlain <mcgrof@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+To: Sami Tolvanen <samitolvanen@google.com>
+To: Aaron Tomlin <atomlin@atomlin.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-modules@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-trace-kernel@vger.kernel.org
+
+---
+Greg Kroah-Hartman (3):
+      module: pull out add_taint_module() to be public
+      module: fix up documentation for add_taint() and add_taint_module()
+      driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers
+
+ Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
+ drivers/base/bus.c                            |  3 ++
+ include/linux/module.h                        | 10 ++++++
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/module/main.c                          | 17 +++++++--
+ kernel/panic.c                                | 10 +++---
+ tools/debugging/kernel-chktaint               |  8 +++++
+ 8 files changed, 73 insertions(+), 33 deletions(-)
+---
+base-commit: 704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
+change-id: 20260825-bind_taint-d4077b870bc4
+
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
