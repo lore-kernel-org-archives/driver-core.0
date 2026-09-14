@@ -1,284 +1,176 @@
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D9949C4DF
-	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 18:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789409314; cv=pass; b=j3o2Ntqwck4HCoMVAFus88FcWQhvLW63UQSC7P1cMInqpeaWhUrnQx9lempEeoLem802dX9ma4HVWGShozChlPCAo7OpRUTquNdIKd+VR8wpYJlzurbNzo2EWSft4LXXZFs43VZCa3YlL1F/mEJhSkiKouRZ5xTku82e9H/G9+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789409314; c=relaxed/simple;
-	bh=nrL7HxkxpCYK37KcSgRy3IUkJkgNJYps77Sf88qk4eo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YzYTBFKCH0M0JJLJx5hEfuRmBWDxNR6QYkqlENceavR/Ri+/hzx0tntJtr+JsYR/capnILl3D9fkCxpTdNty77J1xmX3l1xrY2ny3pAFydbbSALrYEyDNXyZKBTl2j6H6mJ83a9+dTjkBVDvhA3py6v637+MfVgqnG7ihoPyn0Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ccz7MOBE; arc=pass smtp.client-ip=74.125.230.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B54137B40C;
+	Mon, 14 Sep 2026 18:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789410896; cv=none; b=KlwmunIkETA0BjRjrIUCV+K/sPlmR+HcFwx3btXYa2ehQoUB3hwMm6T7K96566B5BzPqL+kXdWbbOs99fqtw1w7q4OvOzcd3rZ4A8Q/oAVFmu/y9M8qua8lOUEDzyUtk2WWyLWMMawu2FIC5VJQKgJOhDnkFL2w6p6qcoi0Vz3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789410896; c=relaxed/simple;
+	bh=HeEHSOmnu6L0MO+BvK8YZCzbsf5XxGPND3GMPmB3hBs=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HpqfeJEZfQ4aKfCQPdC1KG/8AlA3Ez7FV+hWwgBmTnvO+bGWU7Amn0afj5hmMauunLRVR2bTPTHlbBIplbUYGkXLeuUeiSMCMAeYFKunbDe1P9UVhmyHtEZ7KCN/u+PYjz/hZ8GLcO8DtkqllwN5bYDWV8N1qJ0wzvJj2oeDuUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nqJaG1dc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ccz7MOBE"
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff176d5bso24519051fa.2
-        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 11:08:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789409300; cv=none;
-        d=google.com; s=arc-20260327;
-        b=k6eK9cZpjp64HsIKon5gWURC9XczYkPiKpng8mSkKCu1pRGi+ECJii4mdkhBlJqhlx
-         SbJyz4z9iAMIq6lZokGUq73fw7dgcpw6Uc5rnx9mWtCzLCgTStufivpVc1akixjuSQI3
-         IfmYe+Np4Y/mSougmdmpy+w3+Q5iI5cAJFE8G1nEnqsE9p0qF2YgtiPUYyyQNzHsvwST
-         9M3KiVGIpJT67360ZqkIytTtRwEi/poWMVOL54wkWN4npZxHgQzjs+wz4bU5boaSpSan
-         ahlkv5lUe9vNWQS+/kQvWv87ffVjOOh8YQBqlKpY99txhIt3Bn/Er5TVoiUpiXh59zTL
-         7R+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
-        fh=gwrwPL6RD398RJhCiFd3tkHxpX9Pys9CpXpUBMO1n6c=;
-        b=GPmbsB9Ag8Ae/JNFrNSfPvQO+QBics9Z58ymV8GYXR5RfVyfDX9YtPjFjy0QHyZlv7
-         edf7R9DfhsxAsWQXOLkmVr1PPGt8/w14yWpxKKL2AhPjCd/A3BbUpC7GY8CE+1h/ihxz
-         iycf+DRrWEaNSufywF8M843100i5+aQgI7XkWiGrklYFtjelnytsNkbbAVx+L9reFGfS
-         X2kJNIRAWbKjOR+x3sXp27z7txOMfb0oa6YRiiXnFBTjwQSpEfOBLc7oIUCyNuwDJdFx
-         Un7e6UBpg45rXrKktjKk1sQay/xxNpRWxOxlVRl+DZYm2FvaQpuJpOJRD5oOzWVfbqLE
-         ttHg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789409300; x=1790014100; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
-        b=Ccz7MOBEWpo7G/k8SXryggL+oRiSo+ASPZ70qjvQwpSQO2Ej9CXW28mkIxqeYyB67+
-         OlPpjR52qYLzNOclf7nbZDGJw8pLzuzYW8woM0h9es+WAHqWpsK0Ssj7wJitvDc65GDR
-         B7CcrtUoW42loDEccJFqYLAVUlpC7iGy+qhJISASCdLiWBpSCCFDDlgV1uEQMlbQ3sH7
-         aOjHvcUMIN5alu7Bs21fUd8sCz56If/rfhsUqeaUbHUWa4JLgqmoURmJzic+KTN9WuvB
-         LsjFKrK1hC+//Kwn2znFwuL4LlY7Ubj75ThPg2lnunpO9+QKnUkqqJPh3TwFOP25LNKY
-         J7EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789409300; x=1790014100;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
-        b=rVtGQO7syGuSgRWUZyiXs7EgPu+fFiU+qYyBqSn94p+yvaPCc1monfvQr7ZmOVuju1
-         ptnrM2iIULsN9M0wb13uYqvtey+bl+Zf8BSusqlt+/RtsZtcp0M5oczfD1dJAMLUGKr5
-         zIzWMT+L3GxxGDdkXANOacDxf5p6b4pnZrbrBUe26f44g3RSv/3F6YBi9OMYMmnzF+lw
-         feVAo/y9WIxaBphbd6Fin3bTbPFDssVBpaaxOcjfZX1P7O0TbN75h3UahWkDqs8ZVRVe
-         eD/zqUpEDNrVvzmphH2E2npXwRTY5tBkfN6JWH34BGd3b8zHHi/fktKZnLGl7Yo6jv/v
-         w6hg==
-X-Forwarded-Encrypted: i=1; AKwUvByPk9MBVfZbiyisbmeUfcTP3hAMfUpfsGy1aYlIBRYrf1mLDKcqKP30f9Gu3FxMaJALjexaxlf6t+dMmA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nBtCPO7PAB7ZhbbvkQ8EQglDqIwuYxTV6ICLZ/CMU6B/T6VGl5
-	EVZ7j6bR+G8eLJLfM0xFbZs4b5wYi5i9wQA/xOGx7KPMIRuNh0o5Nd9FYRFDVfqpCtQchKfbIpk
-	7KT82iEYUoaRZtgnYjtlEqHYfBUELiN4=
-X-Gm-Gg: AYBFou13gH6TxcHgSmF4VIi04ODFAjwdvnDJXu1gKUxBTetr5ewS52KLNLJtkIzVISL
-	NnlFixO+r2X3w1qSvYMqT8QKlz0xKZi9X/DA1EIXQjiUkd4M/zFirG69umRNQjpFkVrNvg1ofNv
-	v+TWAINW8wGmC41/PwUnf7cGdCEetdsOVrS0US0mXOC/UXNGiRMYolcyTSeFOOwSK+CwTg+QUqg
-	3icG6yl1alnfSbHHsct42b6BiDpoCCs0NmNrdJFGnKw05bGNJY2LZPOYl5qRfUA/lC7rGmXSHsb
-	McAXsgOW3y9XRkmjOJYKet3a/6XTbWxIRMn2Z4Vn7Pan4NUHHCcoT/SlE3632lZPgbDWk0uln9Q
-	qxF7oxC2WWDVxnw==
-X-Received: by 2002:a2e:8a86:0:b0:3a1:4f33:f60e with SMTP id
- 38308e7fff4ca-3a5c8904fa7mr13824431fa.8.1789409299251; Mon, 14 Sep 2026
- 11:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqJaG1dc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7899A1F00893;
+	Mon, 14 Sep 2026 18:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789410893;
+	bh=zuQ/cNLib+ohmA59rvN9InBTbPJi2qXYvtBFBlrAdGE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=nqJaG1dcJayOMBnu2uuw6XjZBRPU4XOcId6PE3UBFB3sRu3lUaLGUlZtyXgSn88a8
+	 DhWyLabQW0B7ttHmNuRjKNGJaNz6sZWDDGKxsDuyeV5dwWecayGIogEJo00EFxRYF1
+	 AfkTTllMlvrTaecUvImio6rGTNXivEC6drRXfnz/3uqvskNnLfVcblG1pZfJi5tF38
+	 6DDKwCFNy7qHTR8xUqe0GKAFPRzpSfyI4o2idA016BQKpqJJcIxCZ0KaAPgHJyayxL
+	 e9OKOl59Fd/MjcuFHX8aFuwmm/oFlxtJf2jYqdZ/Zgc6g+lEfkO2W3s5wrAzyf8ktm
+	 14qstqILo3K/w==
+Subject: Re: [PATCH net-next v15 1/6] net: dsa: add devlink flash_update
+ callback to dsa_switch_ops
+From: netdev-bot+sashiko@kernel.org
+To: daniel@makrotopia.org
+Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Date: Mon, 14 Sep 2026 18:34:51 +0000
+Message-ID: <178941089199.22033.6731579125161335389@kernel.org>
+In-Reply-To: =?utf-8?q?=3Ca35ce7431d32ff6802e1bd1d5f0988756cd91e82=2E1789175?=
+ =?utf-8?q?618=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+References: =?utf-8?q?=3Ca35ce7431d32ff6802e1bd1d5f0988756cd91e82=2E17891756?=
+ =?utf-8?q?18=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
- <aqa7KgIJYGgf7INk@slm.duckdns.org> <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
- <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
-In-Reply-To: <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
-From: Chengfeng Lin <lin2530632123@gmail.com>
-Date: Tue, 15 Sep 2026 02:08:06 +0800
-X-Gm-Features: AcwNN1VjX10xVedHjffuUUEznl-luy-airmCt-rJgo7haX1ZQMrAAmn74RSRo6w
-Message-ID: <CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>
-Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
- delete-notification changes
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Tejun Heo <tj@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jan Kara <jack@suse.cz>, 
-	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi T.J.,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-Thanks for the patch. Your changes reduced rmdir() latency by
-21.87-22.86% in the same empty-cgroup benchmark, with sched_ext disabled.
+Critical: 0 · High: 0 · Medium: 0 · Low: 1
 
-I tested these two states on 2f0c1cf72f46 (7.3-rc2):
+- [Low] net/dsa/devlink.c installs `.flash_update =
+  dsa_devlink_flash_update` unconditionally in the single shared…
 
-  A: baseline + Shakeel's file-handle decoding read-lock fix [1]
-  B: A + your INODE_INITED changes, without modifying your code
+--
 
-I used the original binary on the bare-metal i7-12700KF, pinned to CPU0,
-with full preemption, the performance governor and Turbo disabled.
-Both kernels used GCC 15.2 and the same config except LOCALVERSION.
+net: dsa: add devlink flash_update callback to dsa_switch_ops
 
-The clean timing sequence used four fresh boots: A1 -> B1 -> B2 -> A2.
+This adds a devlink_flash_update callback to dsa_switch_ops and a
+trampoline in net/dsa/devlink.c that forwards devlink dev flash requests
+to the driver. The trampoline is installed unconditionally in
+dsa_devlink_ops and returns -EOPNOTSUPP when the driver does not
+implement the callback.
 
-                     A1       B1       B2       A2
-  rmdir (us)        9.727    7.600    7.548    9.784
-
-Each value is the median of nine sample means. Each sample contains
-128 measured removals after 16 warmups. All four B/A comparisons showed
-the improvement above. Removal CVs were below 2.03%. The drift between
-boots was +0.59% for A and -0.68% for B. The improvement held after
-dropping the first sample from each boot.
-
-Separate, untimed traces showed the same 26 kernfs nodes per removal,
-but ilookup() calls fell from 26 to 1. Deletion lock counts were unchanged.
-Basic checks of file/directory deletion notifications and link counts
-with FDs held open passed on both kernels.
-
-I also timed the full mkdir() -> stat() -> rmdir() sequence using a
-separate binary on the same kernels. The latest continuous follow-up used
-four fresh boots, with nine samples per boot. Each sample had 16 warmups
-and 32 measured sequences, with no pauses between them. The full sequence
-fell from 30.07-30.65 us to 27.97-28.34 us, a 5.77-8.76% reduction.
-The maximum CV was 1.76%, and boot drift stayed below 2% in both states.
-In the earlier continuous follow-up with 128 operations per sample, the
-full sequence was 5.15-6.52% shorter, but CVs of 4.52-6.46% were too high
-to establish a stable overall improvement percentage.
-
-Untimed tracing placed the added write lock in first stat(), during inode
-initialization. The patch skips lookups for nodes whose inodes were never
-initialized; it does not move those lookups into stat(). The individual
-mkdir() and stat() timings remained too variable to quantify their changes.
-
-I also checked whether the benefit persisted with less frequent operations.
-For this diagnostic, I added 50 and 200 ms pauses between sequences,
-outside the timers. I kept 16 warmups and 32 measured sequences per sample.
-rmdir() still saved 2.10-2.58 us, but its baseline rose from about 10 us
-to 18 us, reducing the percentage gain. The full sequence was 0.66-2.85%
-shorter, with a maximum CV of 1.53%.
-
-I included [1] because the file-handle path on this base lacks
-kernfs_rwsem protection. Source review suggests a possible wait cycle
-when that path recreates an evicted inode. Initialization waits for
-kernfs_iattr_rwsem, while removal holds it and waits for I_NEW to clear.
-I have not reproduced this possible deadlock in the kernel.
-Does the base for your diff already include [1] or equivalent locking?
-
-[1] [PATCH v2 3/4] kernfs: don't lose IN_DELETE_SELF
-    when decoding a file handle
-https://lists.openwall.net/linux-kernel/2026/09/05/828
-
-Results and reproducers:
-https://github.com/lcf0399/linux-regression-evidence/tree/f101b1b9c0d3dfce0=
-7f81b11ca2da2c252150e4c/kernfs-empty-cgroup-removal/bare-metal/inode-inited
-
-Thanks,
-Chengfeng
-
-T.J. Mercier <tjmercier@google.com> =E4=BA=8E2026=E5=B9=B49=E6=9C=8814=E6=
-=97=A5=E5=91=A8=E4=B8=80 00:17=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, Sep 13, 2026 at 8:47=E2=80=AFAM Chengfeng Lin <lin2530632123@gmai=
-l.com> wrote:
-> >
-> > Hi Tejun,
-> >
-> > Thanks. I found this during research into kernel performance regression=
-s,
-> > using a microbenchmark of cgroup creation and removal. This was not
-> > prompted by a production issue.
-> >
-> > I reported it to document the added removal cost and ask whether some
-> > of it could be reduced while preserving the fixes. I agree that the
-> > roughly 3 us increase per removal does not, by itself, demonstrate a
-> > significant impact on real workloads.
-> >
-> > Thanks,
-> > Chengfeng
-> >
-> > Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=A5=
-=E5=91=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > Hello,
-> > >
-> > > On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
-> > > > I found an increase in empty cgroup removal latency across 507d8ce1=
-3f5b
-> > > > ("kernfs: Don't set_nlink for directories being removed") and eea5d=
-2bb34ba
-> > > > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disa=
-bled,
-> > > > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
-> > > > The result held in two independent runs.
-> > >
-> > > I don't want to make cgroup removal unnecessarily expensive but at th=
-e same
-> > > time it's not an operation that I consider to be a hot path, so as lo=
-ng as
-> > > the operaiton can finish in a reasonable amount of time and single di=
-git us
-> > > definitely is, performance of rmdir usually isn't something which is =
-high in
-> > > priority. Can you please detail why this matters for you?
-> > >
-> > > Thanks.
-> > >
-> > > --
-> > > tejun
->
-> Hi Chengfeng and Tejun,
->
-> We use this kernfs IN_DELETE_SELF feature on Android where multiple
-> cgroups are created and removed frequently on a per-application basis,
-> but we hadn't noticed a significant delay due to the inotify
-> functionality during cgroup removal. It's probably masked by much
-> larger delays (milliseconds) we regularly see due to unreleated issues
-> with cgroup locks like priority inversion with cgroup_mutex, and
-> contention for cgroup_threadgroup_rwsem.
->
-> As far as what we can do, I think avoiding inode lookups for kernfs
-> nodes that never had an inode created should improve the situation. It
-> doesn't eliminate the locking overhead, which I don't think can easily
-> be eliminated. The code below doesn't deal with inode eviction either,
-> but at least files which are never accessed won't introduce the inode
-> lookup overhead.
->
-> diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-> index 4f9ade82b08a..3ec9f79b1aa2 100644
-> --- a/fs/kernfs/dir.c
-> +++ b/fs/kernfs/dir.c
-> @@ -1523,6 +1523,9 @@ static void kernfs_clear_inode_nlink(struct
-> kernfs_node *kn)
->         struct kernfs_root *root =3D kernfs_root(kn);
->         struct kernfs_super_info *info;
->
-> +       if (!(kn->flags & KERNFS_INODE_INITED))
-> +               return;
+> diff --git a/net/dsa/devlink.c b/net/dsa/devlink.c
+> index ed342f345692b..25311a87cbc56 100644
+> --- a/net/dsa/devlink.c
+> +++ b/net/dsa/devlink.c
+> @@ -20,6 +20,18 @@ static int dsa_devlink_info_get(struct devlink *dl,
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> +static int dsa_devlink_flash_update(struct devlink *dl,
+> +				    struct devlink_flash_update_params *params,
+> +				    struct netlink_ext_ack *extack)
+> +{
+> +	struct dsa_switch *ds = dsa_devlink_to_ds(dl);
 > +
->         lockdep_assert_held_read(&root->kernfs_supers_rwsem);
->
->         list_for_each_entry(info, &root->supers, node) {
-> diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-> index 38b28aa7cd02..f8b4a8b8ade4 100644
-> --- a/fs/kernfs/inode.c
-> +++ b/fs/kernfs/inode.c
-> @@ -208,6 +208,10 @@ static void kernfs_init_inode(struct kernfs_node
-> *kn, struct inode *inode)
->         set_default_inode_attr(inode, kn->mode);
->         kernfs_refresh_inode(kn, inode);
->
-> +       down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
-> +       kn->flags |=3D KERNFS_INODE_INITED;
-> +       up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+> +	if (!ds->ops->devlink_flash_update)
+> +		return -EOPNOTSUPP;
 > +
->         /* initialize inode according to type */
->         switch (kernfs_type(kn)) {
->         case KERNFS_DIR:
-> diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-> index e21b2f7f4159..87f074ce19d3 100644
-> --- a/include/linux/kernfs.h
-> +++ b/include/linux/kernfs.h
-> @@ -113,6 +113,7 @@ enum kernfs_node_flag {
->         KERNFS_EMPTY_DIR        =3D 0x1000,
->         KERNFS_HAS_RELEASE      =3D 0x2000,
->         KERNFS_REMOVING         =3D 0x4000,
-> +       KERNFS_INODE_INITED     =3D 0x8000,
->  };
->
-> -T.J.
+> +	return ds->ops->devlink_flash_update(ds, params, extack);
+> +}
+> +
+
+[ ... ]
+
+> @@ -169,6 +181,7 @@ dsa_devlink_sb_occ_tc_port_bind_get(struct devlink_port *dlp,
+>  
+>  static const struct devlink_ops dsa_devlink_ops = {
+>  	.info_get			= dsa_devlink_info_get,
+> +	.flash_update			= dsa_devlink_flash_update,
+
+[Severity: Low]
+Since dsa_devlink_ops is shared by every DSA switch, does this make
+devlink->ops->flash_update non-NULL even for the majority of drivers that
+do not set ds->ops->devlink_flash_update?
+
+The devlink core uses that pointer as the capability gate for the whole
+feature, in devlink_nl_flash_update_doit():
+
+	if (!devlink->ops->flash_update)
+		return -EOPNOTSUPP;
+	...
+	ret = request_firmware_direct(&params.fw, file_name, devlink->dev);
+	if (ret) {
+		NL_SET_ERR_MSG_ATTR(info->extack, nla_file_name,
+				    "failed to locate the requested firmware file");
+		return ret;
+	}
+
+	devlink_flash_update_begin_notify(devlink);
+	ret = devlink->ops->flash_update(devlink, &params, info->extack);
+	devlink_flash_update_end_notify(devlink);
+
+With that early return now unreachable for DSA, two behaviour changes seem
+to follow for switches that do not implement the callback:
+
+- devlink dev flash with a missing or unreadable file returns -ENOENT with
+  the extack "failed to locate the requested firmware file" instead of the
+  previous -EOPNOTSUPP, which hides the fact that the device cannot be
+  flashed at all.
+
+- a DEVLINK_CMD_FLASH_UPDATE / DEVLINK_CMD_FLASH_UPDATE_END notification
+  pair is multicast for a device where no flash takes place.
+
+Does the same apply to the legacy ioctl path?  DSA user ports have no
+ethtool_ops->flash_device, so ethtool_flash_device() falls back to the
+attached devlink instance:
+
+	if (!dev->ethtool_ops->flash_device) {
+		req->devlink = netdev_to_devlink_get(dev);
+		return 0;
+	}
+
+and devlink_compat_flash_update() carries the same gate that is now dead
+for DSA:
+
+	if (!devlink->ops->flash_update) {
+		ret = -EOPNOTSUPP;
+		goto out_unlock;
+	}
+
+so ethtool -f swpN file would read the file and emit the begin/end
+notifications before failing.
+
+There is also devlink_flash_component_get(), which infers component-update
+support from ops->info_get being non-NULL; DSA's info_get trampoline is
+installed unconditionally too, so a component request on a switch without
+either callback now gets past that check as well.
+
+The commit message covers part of this:
+
+    the devlink core will then have fetched the firmware file from
+    userspace before the request fails, which is acceptable for an
+    operation as infrequent as a firmware update.
+
+Could the errno change from -EOPNOTSUPP to -ENOENT and the emitted
+FLASH_UPDATE/FLASH_UPDATE_END notifications be mentioned there as well, or
+alternatively the ops table selected based on
+ds->ops->devlink_flash_update?
+
+>  	.sb_pool_get			= dsa_devlink_sb_pool_get,
+>  	.sb_pool_set			= dsa_devlink_sb_pool_set,
+>  	.sb_port_pool_get		= dsa_devlink_sb_port_pool_get,
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789175618.git.daniel%40makrotopia.org
