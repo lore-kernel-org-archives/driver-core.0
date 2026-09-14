@@ -1,298 +1,308 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A834A480DEC;
-	Mon, 14 Sep 2026 14:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C4F847A88C
+	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 14:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789396263; cv=none; b=cwcQcCJUMHfrXwM9yMxGgriRuyu6li7jgm/CJjgYm3MnDZ7gNcVwTl4MtGbiyMKMWgv6MOUCGtsH9ocz8YzBr5CjTTsOR1bcvGwSAk94XyVRvSJCClhnV/LmjvhydaduVLYczIZiBTtpOluTRDE1EnVAnKD2koLiA+nhRXGh7+I=
+	t=1789396874; cv=none; b=kxptMNoa6uPkOHenTDlvahl+Dr+qAgsSgL8JRaO5pZHrMbQjvdWkHFlsLpoZqMMD1bG933KjEqQ2TvzJO3pJkhhCc3gDl+9EasmqX9q5Rz15/pNAbo7kRMYJdIh7lVmtyAOvhqq7fx4hZk5dqtppOP491zWBFhUe9550Dbh2Yx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789396263; c=relaxed/simple;
-	bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AWdnjTuNq/keWl4o4qGMJHcbqWV/uCsCo2Tglsqexf1OswmDIlDoHXqMLYXLJLCYcv3XDT508GHxkTFovqZFpku5snkm0jrEapqt0REPBuWItX7NwBxNfqglVs3TvBWW+o0lbDxbpvv+KHi6bF/wuoj7TbZeP8mjht5MRDXpD6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oX+q0OYO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789396874; c=relaxed/simple;
+	bh=+FD/VOEtpkJiv8RtMGh6Vj4oR48HBb21Vg/klWs5GCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BikMKJoMZTmQf3/7zGpbdyUnRD2HMHpfW+KJjmB+szC6d6MWio07Pit26Pb8Bqlg8TA3QOmZSHOScUFSHjfRtpl2Hvbvpt8r3YlEup6CzeYT38QkTg4DkteqkbIUfD9ZB5AlRJjZ5VmkOJ1RP64jaYqLd0J4DAl/mgbJBk2wdOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jgiJAwIo; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oX+q0OYO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824541F000FF;
-	Mon, 14 Sep 2026 14:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789396261;
-	bh=QU/gZVED0AtjJX6+GC2V0P7psA+KVinUaVQghPSJtXw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oX+q0OYO1Fktez0rwXQHiVnV+hWx4Kv7NlHOJGc7Y4bbZyCPD80FO1KcxhSpBfbYX
-	 X++G0vdPmuBOKbkgMFl2U3G1wS7V1NvnCp4W8x7oTys1xs8hwXO5UaWq2TASnRagEG
-	 zhwpPDJwB20IhdrlkZivltLl7K4/RF0a8GokOf40=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Mon, 14 Sep 2026 16:30:33 +0200
-Subject: [PATCH v4 3/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jgiJAwIo"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5243A152B;
+	Mon, 14 Sep 2026 07:41:07 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B47243F86F;
+	Mon, 14 Sep 2026 07:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789396870; bh=+FD/VOEtpkJiv8RtMGh6Vj4oR48HBb21Vg/klWs5GCY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jgiJAwIoSHIjCWQqVPLqNO7n+iJfGzSlu/Ud1uOI0smhjd9zQB9s/xtX48CKL4iyb
+	 Q5PsiKuuCfBfl3SzAIlv/fg/ih8mRQrrXEQ5VxG4UfsLJC3bIOrrstYMxwcYykJHnW
+	 rt3H+NV3j1sGU2yb047zYBp1fvaUvW+YlgFDMzKI=
+Message-ID: <f71cfbcc-2e53-4e37-bb98-693996542396@arm.com>
+Date: Mon, 14 Sep 2026 16:41:04 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 03/10] dt-bindings: arm: Add MPAM MSC binding
+To: Yin Li <yin.li@oss.qualcomm.com>, James Morse <james.morse@arm.com>,
+ Rob Herring <robh@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
+ Ben Horgan <ben.horgan@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Reinette Chatre <reinette.chatre@intel.com>, Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
+Cc: Drew Fustini <fustini@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, trilok.soni@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, ganapatrao.kulkarni@oss.qualcomm.com,
+ Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+ Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ devicetree@vger.kernel.org
+References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
+ <20260914-mpam-resctrl-dt-knp-support-v2-3-bf6645bb2f65@oss.qualcomm.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260914-mpam-resctrl-dt-knp-support-v2-3-bf6645bb2f65@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-bind_taint-v4-3-eadf8a090903@linuxfoundation.org>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-In-Reply-To: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Bradley Morgan <brads@mainlining.org>, 
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.17-dev-362b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10654;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=Z3E1hZeNvURbzCH4DGhMWQZAayLO6QmTSTK8h0higAc=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkrWIWK++seileE2bVHfp3Rr9rS6XP9Kp9pw7fmFX/rj
- 95emn6zI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZieZxhwaWmQ6+s72aJf4qc
- 8zYtu/qL11G7WoZ51p6S8fsUbC5PsLgtIiRvonpy7aqzAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-The ability to add and remove devices from a driver through the sysfs
-"bind" and "unbind" files was created all those decades ago as a way
-that kernel developers can iterate faster, and provide a debugging way
-for users to attempt to add a new device to a driver without having to
-rebuild their kernel.
+Hi,
 
-This api over the years has been abused and recently come under a major
-fuzzing "attack" through tools like syzbot which decided that it would
-attempt to just randomly bind any driver to any type of device, causing
-loads of unneeded errors and pointless kernel patches to be generated by
-unsuspecting new developers.
+On 9/14/26 11:37, Yin Li wrote:
+> From: Rob Herring <robh@kernel.org>
+> 
+> The binding is designed around the assumption that an MSC will be a
+> sub-block of something else such as a memory controller, cache controller,
+> or IOMMU. However, it's certainly possible a design does not have that
+> association or has a mixture of both, so the binding illustrates how we can
+> support that with RIS child nodes.
+> 
+> A key part of MPAM is we need to know about all of the MSCs in the system
+> before it can be enabled. This drives the need for the genericish
+> 'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
+> until a h/w specific driver potentially enables the h/w.
+> 
+> Cc: James Morse <james.morse@arm.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> ---
+>   .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 199 +++++++++++++++++++++
+>   1 file changed, 199 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+> new file mode 100644
+> index 000000000000..53a6fdbbf05f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+> @@ -0,0 +1,199 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
+> +
+> +description: |
+> +  The Arm MPAM specification can be found here:
+> +
+> +  https://developer.arm.com/documentation/ddi0598/latest
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: arm,mpam-msc                   # Further details are discoverable
+> +      - const: arm,mpam-memory-controller-msc
 
-Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-will be set on the driver if the bind/unbind sysfs files are ever
-written to.  This lets kernel developers "know" that a user is
-attempting to do something that is not normal, and as such, if the
-kernel breaks they get to keep the shiny pieces laying around on the
-floor.
+But that doesn't match the examples below, does it? Don't we want to 
+allow just "arm,mpam-msc", but also the memory controller string, with 
+"arm,mpam-msc" as a fallback?
+I guess the pattern should then look similar to interrupt-names below?
 
-The flag is 'Y' which was unused, and can remembered as the user is
-"yeeting" the device being operated on here (thrown with force without
-regard for the thing being thrown).
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: A memory region containing registers as defined in the MPAM
+> +      specification.
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    items:
+> +      - description: error (optional)
+> +      - description: overflow (optional, only for monitoring)
+> +
+> +  interrupt-names:
+> +    oneOf:
+> +      - items:
+> +          - enum: [ error, overflow ]
+> +      - items:
+> +          - const: error
+> +          - const: overflow
+> +
+> +  arm,not-ready-us:
+> +    description: The maximum time in microseconds for monitoring data to be
+> +      accurate after a settings change. For more information, see the
+> +      Not-Ready (NRDY) bit description in the MPAM specification.
+> +
+> +  numa-node-id: true # see NUMA binding
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  '^ris@[0-9a-f]+$':
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      RIS nodes for each resource instance in an MSC. These nodes are required
+> +      for each resource instance implementing known MPAM controls
+> +
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - arm,mpam-cache
+> +          # Memory bandwidth
+> +          - arm,mpam-memory
+> +
+> +      reg:
+> +        minimum: 0
+> +        maximum: 0xf
+> +
+> +      cpus:
+> +        description:
+> +          Phandle(s) to the CPU node(s) this RIS belongs to. By default, the parent
+> +          device's affinity is used.
+> +
+> +      arm,mpam-device:
+> +        $ref: /schemas/types.yaml#/definitions/phandle
+> +        description:
+> +          By default, the MPAM enabled device associated with a RIS is the MSC's
+> +          parent node. It is possible for each RIS to be associated with different
+> +          devices in which case 'arm,mpam-device' should be used.
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +dependencies:
+> +  interrupts: [ interrupt-names ]
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    L3: cache-controller@30000000 {
+> +        compatible = "arm,dsu-l3-cache", "cache";
+> +        cache-level = <3>;
+> +        cache-unified;
+> +
+> +        ranges = <0x0 0x30000000 0x800000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        msc@10000 {
+> +            compatible = "arm,mpam-msc";
+> +
+> +            reg = <0x10000 0x2000>;
+> +            interrupts = <1>, <2>;
+> +            interrupt-names = "error", "overflow";
+> +            arm,not-ready-us = <1>;
+> +            /* CPU affinity implied by parent cache node  */
+> +        };
+> +    };
+> +
+> +    mem: memory-controller@20000 {
+> +        compatible = "foo,a-memory-controller";
+> +        reg = <0x20000 0x1000>;
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +
+> +        msc@21000 {
+> +            compatible = "arm,mpam-memory-controller-msc", "arm,mpam-msc";
+> +            reg = <0x21000 0x1000>;
+> +            interrupts = <3>;
+> +            interrupt-names = "error";
+> +            arm,not-ready-us = <1>;
+> +            numa-node-id = <1>;
+> +        };
+> +    };
+> +
+> +    iommu@40000 {
+> +        reg = <0x40000 0x1000>;
+> +
+> +        ranges;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        msc@41000 {
+> +            compatible = "arm,mpam-msc";
+> +            reg = <0 0x1000>;
+> +            interrupts = <5>, <6>;
+> +            interrupt-names = "error", "overflow";
+> +            arm,not-ready-us = <1>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            ris@2 {
+> +                compatible = "arm,mpam-cache";
+> +                reg = <0>;
+> +                // TODO: How to map to device(s)?
 
-Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-as many times crashes/oops/warnings/failures happen within the callback,
-and the taint flag needs to be there to show what was being attempted.
-If it were to be set after the callback happens, the oops report would
-not properly reflect what foolishness was being attempted.
+Maybe we should remove this example, if it isn't ready yet?
 
-Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-the tool from hitting bind/unbind, should be run with panic_on_taint
-enabled so that they fall over and don't continue on, thinking that they
-actually found a real issue.
+Cheers,
+Andre
 
-Userspace operations that rely on the bind/unbind files to work around
-the lack of will to upgrade a kernel image to a newer version with
-proper support for new devices, or the lack of will to submit valid
-device ids to driver authors, will still work properly, but now the
-kernel will be flagged in a way that will show that perhaps those users
-should reconsider their behavior and work to have the drivers properly
-support these devices in a "native" manner.
-
-Finally, the bind/unbind files can find real use-after-free issues with
-some drivers by forcing the process to happen virtually without having
-to rely on manual removal processes.  Those real bugs should still be
-worked on, but by adding this taint flag, developers can more easily
-determine bug reports that are actually worth looking at.
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Tested-by: Johan Hovold <johan@kernel.org>
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/admin-guide/tainted-kernels.rst | 52 ++++++++++++++-------------
- drivers/base/bus.c                            |  3 ++
- include/linux/panic.h                         |  3 +-
- include/trace/events/module.h                 |  3 +-
- kernel/panic.c                                |  5 +--
- tools/debugging/kernel-chktaint               |  8 +++++
- 6 files changed, 46 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 9ead927a37c0..abbf5e3dd749 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -79,30 +79,31 @@ which bits are set::
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--===  ===  ======  ========================================================
--Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
--  0  G/P       1  proprietary module was loaded
--  1  _/F       2  module was force loaded
--  2  _/S       4  kernel running on an out of specification system
--  3  _/R       8  module was force unloaded
--  4  _/M      16  processor reported a Machine Check Exception (MCE)
--  5  _/B      32  bad page referenced or some unexpected page flags
--  6  _/U      64  taint requested by userspace application
--  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
--  8  _/A     256  ACPI table overridden by user
--  9  _/W     512  kernel issued warning
-- 10  _/C    1024  staging driver was loaded
-- 11  _/I    2048  workaround for bug in platform firmware applied
-- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
-- 13  _/E    8192  unsigned module was loaded
-- 14  _/L   16384  soft lockup occurred
-- 15  _/K   32768  kernel has been live patched
-- 16  _/X   65536  auxiliary taint, defined for and used by distros
-- 17  _/T  131072  kernel was built with the struct randomization plugin
-- 18  _/N  262144  an in-kernel test has been run
-- 19  _/J  524288  userspace used a mutating debug operation in fwctl
--===  ===  ======  ========================================================
-+===  ===  =======  ========================================================
-+Bit  Log  Number   Reason that got the kernel tainted
-+===  ===  =======  ========================================================
-+  0  G/P        1  proprietary module was loaded
-+  1  _/F        2  module was force loaded
-+  2  _/S        4  kernel running on an out of specification system
-+  3  _/R        8  module was force unloaded
-+  4  _/M       16  processor reported a Machine Check Exception (MCE)
-+  5  _/B       32  bad page referenced or some unexpected page flags
-+  6  _/U       64  taint requested by userspace application
-+  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
-+  8  _/A      256  ACPI table overridden by user
-+  9  _/W      512  kernel issued warning
-+ 10  _/C     1024  staging driver was loaded
-+ 11  _/I     2048  workaround for bug in platform firmware applied
-+ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
-+ 13  _/E     8192  unsigned module was loaded
-+ 14  _/L    16384  soft lockup occurred
-+ 15  _/K    32768  kernel has been live patched
-+ 16  _/X    65536  auxiliary taint, defined for and used by distros
-+ 17  _/T   131072  kernel was built with the struct randomization plugin
-+ 18  _/N   262144  an in-kernel test has been run
-+ 19  _/J   524288  userspace used a mutating debug operation in fwctl
-+ 20  _/Y  1048576  device was manually bound or unbound from a driver
-+===  ===  =======  ========================================================
- 
- Note: The character ``_`` is representing a blank in this table to make reading
- easier.
-@@ -189,3 +190,6 @@ More detailed explanation for tainting
-  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
-      to use the devices debugging features. Device debugging features could
-      cause the device to malfunction in undefined ways.
-+
-+ 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
-+     successfully bound or removed a device from a driver.
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index d17bd91490ee..c51ad96d4de4 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/mutex.h>
- #include <linux/sysfs.h>
-+#include <linux/panic.h>
- #include "base.h"
- #include "power/power.h"
- 
-@@ -241,6 +242,7 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && dev->driver == drv) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		device_driver_detach(dev);
- 		err = count;
- 	}
-@@ -264,6 +266,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && driver_match_device(drv, dev)) {
-+		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		err = device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index f1dd417e54b2..8e7250b0e913 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -88,7 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
- #define TAINT_RANDSTRUCT		17
- #define TAINT_TEST			18
- #define TAINT_FWCTL			19
--#define TAINT_FLAGS_COUNT		20
-+#define TAINT_FORCED_BIND		20
-+#define TAINT_FLAGS_COUNT		21
- #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
- 
- struct taint_flag {
-diff --git a/include/trace/events/module.h b/include/trace/events/module.h
-index e5a006be9dc6..19df3e39bba4 100644
---- a/include/trace/events/module.h
-+++ b/include/trace/events/module.h
-@@ -26,7 +26,8 @@ struct module;
- 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
- 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
- 	{ (1UL << TAINT_CRAP),			"C" },		\
--	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
-+	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
-+	{ (1UL << TAINT_FORCED_BIND),		"Y" })
- 
- TRACE_EVENT(module_load,
- 
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 892045d8409e..a4dbb6b8cd2b 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
- 	TAINT_FLAG(TEST,			'N', ' '),
- 	TAINT_FLAG(FWCTL,			'J', ' '),
-+	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
- };
- 
- #undef TAINT_FLAG
-@@ -862,9 +863,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
-  * exact size is allocated dynamically; the initial buffer remains
-  * as a fallback if allocation fails.
-  *
-- * The verbose taint string currently requires up to 327 characters.
-+ * The verbose taint string currently requires up to 344 characters.
-  */
--#define INIT_TAINT_BUF_MAX 350
-+#define INIT_TAINT_BUF_MAX 370
- 
- static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
- static char *taint_buf __refdata = init_taint_buf;
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index e1571c04afb5..d8628be37214 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -211,6 +211,14 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "Y"
-+	echo " * device was manually bound or unbound from a driver (#20)"
-+fi
- echo "Raw taint value as int/string: $taint/'$out'"
- 
- # report on any tainted loadable modules
-
--- 
-2.55.0
+> +            };
+> +        };
+> +    };
+> +
+> +    msc@80000 {
+> +        compatible = "foo,a-standalone-msc";
+> +        reg = <0x80000 0x1000>;
+> +
+> +        clocks = <&clks 123>;
+> +
+> +        ranges;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        msc@10000 {
+> +            compatible = "arm,mpam-msc";
+> +
+> +            reg = <0x10000 0x2000>;
+> +            interrupts = <7>;
+> +            interrupt-names = "overflow";
+> +            arm,not-ready-us = <1>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            ris@0 {
+> +                compatible = "arm,mpam-cache";
+> +                reg = <0>;
+> +                arm,mpam-device = <&L2_0>;
+> +            };
+> +
+> +            ris@1 {
+> +                compatible = "arm,mpam-memory";
+> +                reg = <1>;
+> +                arm,mpam-device = <&mem>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> 
 
