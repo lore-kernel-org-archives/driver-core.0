@@ -1,198 +1,157 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964AF48423F
-	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 16:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2493147ECCF
+	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 16:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789403279; cv=none; b=KkQH2ZAWEHFQiyFdaElhKR4Hht5CWVss6Pyk4oXZ49xwSrIHPsk/62fWwhEw9j6tats5jCo87hIo8sIGmeddQecKURcgolMBQrU9M4n8aSZJwluIAGmRWt1ts5fuEVI3MU9qgw6cV/fRVAft2XUde+A7B5tNK16Qoh+jGTZNOWI=
+	t=1789403907; cv=none; b=YlP5ERJikURAR45hbMbAWln4Lfgadqn8R0FQoJYTv4hICGhShTH9xeMLqyyLlJvNPvnuYJyrl/FQv5DJjXYqAPTAkozPH20zDoGd/DBUxQV+41He669iDG1itjY8rGY9hbpdU6DTt0jhxtJ+j4XJBZNshowLOiPOsO6ASRAORS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789403279; c=relaxed/simple;
-	bh=sQY0TThHghxIfp8KboBCBc75srHSsUEv16U815Yfydc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L0dHnZE2AQ9PUdYoqu3YLcFuX2k5Sys/l204V1EqVL2sIpv+k83TcI4tSDTahvANHTWnA4NXYGHiqsSimDMST/KbWgZQtx8D7mMJtGteJZz0nTvftjR8g61yRe/L2A5Dz8leDJwTP8lKTRpPCmcS9BeVKFyUkrQ4CDFk7lH1+Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=cirAC4FG; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="cirAC4FG"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 702B8152B;
-	Mon, 14 Sep 2026 09:27:53 -0700 (PDT)
-Received: from [192.168.178.6] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D0413F86F;
-	Mon, 14 Sep 2026 09:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789403277; bh=sQY0TThHghxIfp8KboBCBc75srHSsUEv16U815Yfydc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cirAC4FGrhJGYPUG7XRJUMiRncb9Y005W8jPcrGLfGenZTt1KgfL+E8HJKSuuju9E
-	 nIPVRvh0KVqF82Dw4FPp8YPTT9z8V5Web9prKX60NeRf0sQQ4BnFcXKidrufjeoMoT
-	 JVLNjGEK3cV0C//IxzagPJYj+bf+79c0SJzSt1Kc=
-Message-ID: <2f7f671e-eace-4a6b-8a0b-20151f81d34d@arm.com>
-Date: Mon, 14 Sep 2026 18:27:54 +0200
+	s=arc-20240116; t=1789403907; c=relaxed/simple;
+	bh=x6SqZ9Bnlp7yK7hFGhAkybXar8lsgtKvbSy4K/3aM7o=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bTxPWHEcavw1fW/YOgrCLy7Ibk5INoVCV1zPYSQOMGxvpLDeB87xkdSVDDSsPE9x6Of0obMAtkUF/t0Xd92D1wfKHWKrDujFIVenIkzfFEK1RZoi1Css+l9AYDdDpDVdfr43XgEKpYVkCq0CuL0n3ZyX7Md17YngIROCluEq0uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo2-f11.google.com with SMTP id 006d021491bc7-6aaf6076546so1896308eaf.1
+        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 09:38:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789403905; x=1790008705;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=12sDc1dvbHhFyr+KZsnVGB1XgTrOLqUuU3x0ZaD5uXk=;
+        b=oH5gF7pQR3iy5wmR/yA4BZZ4b9LouDfFoVvfmIfEXY/XmRrzcZAgnyi8lvG6+hVcNl
+         YmNJEuW1+F8AKUqPUpDuKMv/tphMHK88j3rEifBKWOyH58Vr9uAIsNAPmPfCO21VAEdO
+         64dmIjw5BqW6PoniUs3AXypysbPhZmjvzgL+0WE1n1rrzDN8NB0ZeS2IAycdNTC/vFZ6
+         p6C4xNfhBCMO+ZBrzMMhVwF9JANtLoUOuOKdwpHDDsSbo+uapO0AJTJO6gvIk6waNZXQ
+         8oSc0XuKrT44Jd+q9zKF08TrjUarJ+oBJJ5FnxTUmg/K0mdOAXE7vtryiQnV9Ql2XpVT
+         5rdQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwWeo47ek8JqGyis361lkd6Ha9cUGk9R01lqqJYnxZfSUyrDHv2DJw1Ukx1a8w+m6B0rVOvnMv3Nc5+Ig==@lists.linux.dev
+X-Gm-Message-State: AFuF++lt+yYri/32bU/ez2/DABZxh61/YyAW4Nqykro2Dg4suTWrK0bT
+	2N6Xsb0sgAB9OzxW7Ym9DrpE+A5Qgd2RwHV5cTlwGbYFNjyHN0vANO7peoFt4O9bDtRCe0Rrn6v
+	fvrEgheLfOAkiCDhWx5m6h0HzDhkICC6z88xBXCjUt6WqJkvKt6JI8Ayuy7Y=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] sched/cpufreq: fix schedutil's boost frequency
- handling
-To: Ananthu C V <ananthu.cv@oss.qualcomm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-pm@vger.kernel.org
-References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:f013:b0:6c1:d6a4:9268 with SMTP id
+ 006d021491bc7-6c54214b30cmr1842072eaf.5.1789403905073; Mon, 14 Sep 2026
+ 09:38:25 -0700 (PDT)
+Date: Mon, 14 Sep 2026 09:38:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aa82301.a211d2ce.1a5198.0296.GAE@google.com>
+Subject: [syzbot] [kernel?] KASAN: global-out-of-bounds Read in bus_uevent_store
+From: syzbot <syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 08.09.26 10:30, Ananthu C V wrote:
-> Schedutil's ability to reach boost frequencies depends on two values
-> being correct: policy max, which caps the resolved target frequency,
-> and the per-CPU capacity frequency reference, which anchors the
-> utilization-to-frequency mapping.
-> 
-> This series fixes a few gaps in how these values are maintained across
-> boost transitions:
-> 
-> The per-CPU capacity frequency reference is set once at policy
-> creation and never updated when boost is enabled afterwards, leaving
-> schedutil unable to target boost frequencies even at full utilization.
-> Track the max available (boost inclusive) frequency before policy
-> comes online and use it to seed the capacity_freq_ref value, allowing
-> schedutil to utilize the boost frequency values when boost is enabled
-> later.
-> 
-> The generic boost callback only raises cpuinfo max, never lowers it.
-> Once boost is enabled, disabling it leaves cpuinfo max pinned at the
-> boost ceiling, keeping policy max stuck there too. Also track the max
-> available non-boost frequency and use the newly tracked max values to
-> control boost frequencies when a frequency table is available, allowing
-> the frequency to drop back to non boost values on boost disable. In
-> the absense of a frequency table, the handling will fall back to using
-> cpuinfo->max_freq, preserving the current behaviour.
-> 
-> Logs below for clear context:
-> Intermediate values from the time_in_state output and logs from bench
-> runs are truncated for brevity.
-> 
-> Before fix
-> ----------
-> 
-> boost  policy0  policy12  policy6
-> 
-> 0
-> 
-> 4454400
-> 
-> 4723200
-> 
-> 4723200
-> 
-> 355200 36958
-> 4454400 650
-> 4588800 0
-> 4723200 0
-> 
-> After fix
-> ---------
-> 
-> boost  policy0  policy12  policy6
-> 
-> 0
-> 
-> 4454400
-> 
-> 4723200
-> 
-> 4454400
-> 
-> 0
-> 
-> 355200 40147
-> 4454400 79
-> 4588800 0
-> 4723200 0
-> 
-> 355200 44834
-> 4454400 93
-> 4588800 25
-> 4723200 569
-> 
-> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-> ---
-> Ananthu C V (2):
->       arch_topology: seed capacity_freq_ref with boost-aware max freq
->       cpufreq: fix schedutil not returning to non-boost freq when boost is disabled
-> 
->  drivers/base/arch_topology.c |  3 ++-
->  drivers/cpufreq/cpufreq.c    | 14 +++++++++++++-
->  drivers/cpufreq/freq_table.c | 11 +++++++++++
->  include/linux/cpufreq.h      |  2 ++
->  4 files changed, 28 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 32b6ef9a5d0eca44f9cd91f52f4faa89f145a0de
-> change-id: 20260804-schedutil-boost-frequency-handling-8e6bf2387a4a
-IMHO, this makes sense, also the coordination via cpufreq_pressure
-(policy->max).
+Hello,
 
-On ARM64 Juno R0:
+syzbot found the following issue on:
 
-# cat /sys/devices/system/cpu/cpu*/cpu_capacity
-446
-1024
-1024
-446
-446
-446
+HEAD commit:    50d05c7c76c9 Merge tag 'landlock-7.3-rc3' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15489c8e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=85bc5cc2fc7394d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=9a321aea9d851b299486
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17de9905580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f042d1580000
 
-# cat /sys/devices/system/cpu/cpufreq/boost
-0
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-50d05c7c.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/303a0ade8f9e/vmlinux-50d05c7c.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/70b8ca71442b/bzImage-50d05c7c.xz
 
-cat
-/sys/devices/system/cpu/cpu{0,1}/cpufreq/scaling_{available,boost}_frequencies
-450000 575000 700000
-775000 850000
-450000 625000 800000
-950000 1100000
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com
 
-# cat /sys/devices/system/cpu/cpu{0,1}/cpufreq/cpuinfo_{min,max}_freq
-450000
-700000
-450000
-800000
+==================================================================
+BUG: KASAN: global-out-of-bounds in kobject_action_type lib/kobject_uevent.c:86 [inline]
+BUG: KASAN: global-out-of-bounds in kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+Read of size 1 at addr ffffffff8d72559f by task syz.0.17/5917
 
-# dmsg | grep policy
+CPU: 2 UID: 0 PID: 5917 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ kobject_action_type lib/kobject_uevent.c:86 [inline]
+ kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+ bus_uevent_store+0x3d/0x90 drivers/base/bus.c:917
+ bus_attr_store+0x74/0xb0 drivers/base/bus.c:172
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6af/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
+ __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf702efec
+Code: Unable to access opcode bytes at 0xf702efc2.
+RSP: 002b:00000000ffa3eb5c EFLAGS: 00000296 ORIG_RAX: 0000000000000004
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080000280
+RDX: 000000000000ff0a RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
 
-[3.323564] cpufreq_update_pressure(): policy->related_cpus=[0,3-5]
-policy->max=700000 pressure=102                                      (*)
-[3.333206] cpufreq_update_pressure(): policy->related_cpus=[1-2]
-policy->max=800000 pressure=280
+The buggy address belongs to the variable:
+ kobject_actions+0xdff/0x4e80
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xd725
+flags: 0xfff00000002000(reserved|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000002000 ffffea000035c948 ffffea000035c948 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner info is not present (never set?)
+
+Memory state around the buggy address:
+ ffffffff8d725480: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 06 f9 f9
+ ffffffff8d725500: f9 f9 f9 f9 00 00 01 f9 f9 f9 f9 f9 00 00 02 f9
+>ffffffff8d725580: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 07 f9 f9
+                            ^
+ ffffffff8d725600: f9 f9 f9 f9 00 00 06 f9 f9 f9 f9 f9 00 04 f9 f9
+ ffffffff8d725680: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 05 f9 f9
+==================================================================
 
 
-# echo 1 > /sys/devices/system/cpu/cpufreq/boost
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-# dmsg | grep policy
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-[ 1511.188932] policy->related_cpus=[1-2] pressure=0
-[ 1511.189050] policy->related_cpus=[0,3-5] pressure=0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-# echo 0 > /sys/devices/system/cpu/cpufreq/boost
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-# dmsg | grep policy
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-[  204.951039] cpufreq_update_pressure(): policy->related_cpus=[1-2]
-policy->max=800000 pressure=280
-[  204.951223] cpufreq_update_pressure(): policy->related_cpus=[0,3-5]
-policy->max=700000 pressure=79                                       (*)
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-(*) This is the only small issue I see. The pressure=102 is pressure
-based on purely uarch differences (max_capacity(0,3-5)=578) whereas
-pressure=79 later is based on uarch + max frequency differences
-(max_capacity(0,3-5)=446).
+If you want to undo deduplication, reply with:
+#syz undup
