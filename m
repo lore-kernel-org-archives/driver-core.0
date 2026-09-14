@@ -1,157 +1,284 @@
-Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2493147ECCF
-	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 16:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.139
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789403907; cv=none; b=YlP5ERJikURAR45hbMbAWln4Lfgadqn8R0FQoJYTv4hICGhShTH9xeMLqyyLlJvNPvnuYJyrl/FQv5DJjXYqAPTAkozPH20zDoGd/DBUxQV+41He669iDG1itjY8rGY9hbpdU6DTt0jhxtJ+j4XJBZNshowLOiPOsO6ASRAORS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789403907; c=relaxed/simple;
-	bh=x6SqZ9Bnlp7yK7hFGhAkybXar8lsgtKvbSy4K/3aM7o=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bTxPWHEcavw1fW/YOgrCLy7Ibk5INoVCV1zPYSQOMGxvpLDeB87xkdSVDDSsPE9x6Of0obMAtkUF/t0Xd92D1wfKHWKrDujFIVenIkzfFEK1RZoi1Css+l9AYDdDpDVdfr43XgEKpYVkCq0CuL0n3ZyX7Md17YngIROCluEq0uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo2-f11.google.com with SMTP id 006d021491bc7-6aaf6076546so1896308eaf.1
-        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 09:38:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D9949C4DF
+	for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 18:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789409314; cv=pass; b=j3o2Ntqwck4HCoMVAFus88FcWQhvLW63UQSC7P1cMInqpeaWhUrnQx9lempEeoLem802dX9ma4HVWGShozChlPCAo7OpRUTquNdIKd+VR8wpYJlzurbNzo2EWSft4LXXZFs43VZCa3YlL1F/mEJhSkiKouRZ5xTku82e9H/G9+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789409314; c=relaxed/simple;
+	bh=nrL7HxkxpCYK37KcSgRy3IUkJkgNJYps77Sf88qk4eo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YzYTBFKCH0M0JJLJx5hEfuRmBWDxNR6QYkqlENceavR/Ri+/hzx0tntJtr+JsYR/capnILl3D9fkCxpTdNty77J1xmX3l1xrY2ny3pAFydbbSALrYEyDNXyZKBTl2j6H6mJ83a9+dTjkBVDvhA3py6v637+MfVgqnG7ihoPyn0Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ccz7MOBE; arc=pass smtp.client-ip=74.125.230.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ccz7MOBE"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff176d5bso24519051fa.2
+        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 11:08:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789409300; cv=none;
+        d=google.com; s=arc-20260327;
+        b=k6eK9cZpjp64HsIKon5gWURC9XczYkPiKpng8mSkKCu1pRGi+ECJii4mdkhBlJqhlx
+         SbJyz4z9iAMIq6lZokGUq73fw7dgcpw6Uc5rnx9mWtCzLCgTStufivpVc1akixjuSQI3
+         IfmYe+Np4Y/mSougmdmpy+w3+Q5iI5cAJFE8G1nEnqsE9p0qF2YgtiPUYyyQNzHsvwST
+         9M3KiVGIpJT67360ZqkIytTtRwEi/poWMVOL54wkWN4npZxHgQzjs+wz4bU5boaSpSan
+         ahlkv5lUe9vNWQS+/kQvWv87ffVjOOh8YQBqlKpY99txhIt3Bn/Er5TVoiUpiXh59zTL
+         7R+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
+        fh=gwrwPL6RD398RJhCiFd3tkHxpX9Pys9CpXpUBMO1n6c=;
+        b=GPmbsB9Ag8Ae/JNFrNSfPvQO+QBics9Z58ymV8GYXR5RfVyfDX9YtPjFjy0QHyZlv7
+         edf7R9DfhsxAsWQXOLkmVr1PPGt8/w14yWpxKKL2AhPjCd/A3BbUpC7GY8CE+1h/ihxz
+         iycf+DRrWEaNSufywF8M843100i5+aQgI7XkWiGrklYFtjelnytsNkbbAVx+L9reFGfS
+         X2kJNIRAWbKjOR+x3sXp27z7txOMfb0oa6YRiiXnFBTjwQSpEfOBLc7oIUCyNuwDJdFx
+         Un7e6UBpg45rXrKktjKk1sQay/xxNpRWxOxlVRl+DZYm2FvaQpuJpOJRD5oOzWVfbqLE
+         ttHg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789409300; x=1790014100; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
+        b=Ccz7MOBEWpo7G/k8SXryggL+oRiSo+ASPZ70qjvQwpSQO2Ej9CXW28mkIxqeYyB67+
+         OlPpjR52qYLzNOclf7nbZDGJw8pLzuzYW8woM0h9es+WAHqWpsK0Ssj7wJitvDc65GDR
+         B7CcrtUoW42loDEccJFqYLAVUlpC7iGy+qhJISASCdLiWBpSCCFDDlgV1uEQMlbQ3sH7
+         aOjHvcUMIN5alu7Bs21fUd8sCz56If/rfhsUqeaUbHUWa4JLgqmoURmJzic+KTN9WuvB
+         LsjFKrK1hC+//Kwn2znFwuL4LlY7Ubj75ThPg2lnunpO9+QKnUkqqJPh3TwFOP25LNKY
+         J7EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789403905; x=1790008705;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1789409300; x=1790014100;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=12sDc1dvbHhFyr+KZsnVGB1XgTrOLqUuU3x0ZaD5uXk=;
-        b=oH5gF7pQR3iy5wmR/yA4BZZ4b9LouDfFoVvfmIfEXY/XmRrzcZAgnyi8lvG6+hVcNl
-         YmNJEuW1+F8AKUqPUpDuKMv/tphMHK88j3rEifBKWOyH58Vr9uAIsNAPmPfCO21VAEdO
-         64dmIjw5BqW6PoniUs3AXypysbPhZmjvzgL+0WE1n1rrzDN8NB0ZeS2IAycdNTC/vFZ6
-         p6C4xNfhBCMO+ZBrzMMhVwF9JANtLoUOuOKdwpHDDsSbo+uapO0AJTJO6gvIk6waNZXQ
-         8oSc0XuKrT44Jd+q9zKF08TrjUarJ+oBJJ5FnxTUmg/K0mdOAXE7vtryiQnV9Ql2XpVT
-         5rdQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwWeo47ek8JqGyis361lkd6Ha9cUGk9R01lqqJYnxZfSUyrDHv2DJw1Ukx1a8w+m6B0rVOvnMv3Nc5+Ig==@lists.linux.dev
-X-Gm-Message-State: AFuF++lt+yYri/32bU/ez2/DABZxh61/YyAW4Nqykro2Dg4suTWrK0bT
-	2N6Xsb0sgAB9OzxW7Ym9DrpE+A5Qgd2RwHV5cTlwGbYFNjyHN0vANO7peoFt4O9bDtRCe0Rrn6v
-	fvrEgheLfOAkiCDhWx5m6h0HzDhkICC6z88xBXCjUt6WqJkvKt6JI8Ayuy7Y=
+        bh=YqfeFaksCtRDL645H6Ma8BX+7yBDF05G4zL3//smvsI=;
+        b=rVtGQO7syGuSgRWUZyiXs7EgPu+fFiU+qYyBqSn94p+yvaPCc1monfvQr7ZmOVuju1
+         ptnrM2iIULsN9M0wb13uYqvtey+bl+Zf8BSusqlt+/RtsZtcp0M5oczfD1dJAMLUGKr5
+         zIzWMT+L3GxxGDdkXANOacDxf5p6b4pnZrbrBUe26f44g3RSv/3F6YBi9OMYMmnzF+lw
+         feVAo/y9WIxaBphbd6Fin3bTbPFDssVBpaaxOcjfZX1P7O0TbN75h3UahWkDqs8ZVRVe
+         eD/zqUpEDNrVvzmphH2E2npXwRTY5tBkfN6JWH34BGd3b8zHHi/fktKZnLGl7Yo6jv/v
+         w6hg==
+X-Forwarded-Encrypted: i=1; AKwUvByPk9MBVfZbiyisbmeUfcTP3hAMfUpfsGy1aYlIBRYrf1mLDKcqKP30f9Gu3FxMaJALjexaxlf6t+dMmA==@lists.linux.dev
+X-Gm-Message-State: AFuF++nBtCPO7PAB7ZhbbvkQ8EQglDqIwuYxTV6ICLZ/CMU6B/T6VGl5
+	EVZ7j6bR+G8eLJLfM0xFbZs4b5wYi5i9wQA/xOGx7KPMIRuNh0o5Nd9FYRFDVfqpCtQchKfbIpk
+	7KT82iEYUoaRZtgnYjtlEqHYfBUELiN4=
+X-Gm-Gg: AYBFou13gH6TxcHgSmF4VIi04ODFAjwdvnDJXu1gKUxBTetr5ewS52KLNLJtkIzVISL
+	NnlFixO+r2X3w1qSvYMqT8QKlz0xKZi9X/DA1EIXQjiUkd4M/zFirG69umRNQjpFkVrNvg1ofNv
+	v+TWAINW8wGmC41/PwUnf7cGdCEetdsOVrS0US0mXOC/UXNGiRMYolcyTSeFOOwSK+CwTg+QUqg
+	3icG6yl1alnfSbHHsct42b6BiDpoCCs0NmNrdJFGnKw05bGNJY2LZPOYl5qRfUA/lC7rGmXSHsb
+	McAXsgOW3y9XRkmjOJYKet3a/6XTbWxIRMn2Z4Vn7Pan4NUHHCcoT/SlE3632lZPgbDWk0uln9Q
+	qxF7oxC2WWDVxnw==
+X-Received: by 2002:a2e:8a86:0:b0:3a1:4f33:f60e with SMTP id
+ 38308e7fff4ca-3a5c8904fa7mr13824431fa.8.1789409299251; Mon, 14 Sep 2026
+ 11:08:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f013:b0:6c1:d6a4:9268 with SMTP id
- 006d021491bc7-6c54214b30cmr1842072eaf.5.1789403905073; Mon, 14 Sep 2026
- 09:38:25 -0700 (PDT)
-Date: Mon, 14 Sep 2026 09:38:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aa82301.a211d2ce.1a5198.0296.GAE@google.com>
-Subject: [syzbot] [kernel?] KASAN: global-out-of-bounds Read in bus_uevent_store
-From: syzbot <syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: <CANGjgdn=H50AaA-+O_GA-hkE9UwLANmkjx1zRsKUzxF5za8VfQ@mail.gmail.com>
+ <aqa7KgIJYGgf7INk@slm.duckdns.org> <CANGjgd=f9n7zEZS=xi71y_dY6Uk75_qgP9qVDkYBusNz9sp2sg@mail.gmail.com>
+ <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
+In-Reply-To: <CABdmKX2Oer9wrxWdR8s48Czro8H51HY+S_mfnUj-RvhjCM1RgA@mail.gmail.com>
+From: Chengfeng Lin <lin2530632123@gmail.com>
+Date: Tue, 15 Sep 2026 02:08:06 +0800
+X-Gm-Features: AcwNN1VjX10xVedHjffuUUEznl-luy-airmCt-rJgo7haX1ZQMrAAmn74RSRo6w
+Message-ID: <CANGjgdmKg1_QyzhCSh03T4RStw5_znnhqmFFS8TVwQbm-sZZbA@mail.gmail.com>
+Subject: Re: [REGRESSION] kernfs: empty cgroup rmdir latency after
+ delete-notification changes
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Tejun Heo <tj@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jan Kara <jack@suse.cz>, 
+	driver-core@lists.linux.dev, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi T.J.,
 
-syzbot found the following issue on:
+Thanks for the patch. Your changes reduced rmdir() latency by
+21.87-22.86% in the same empty-cgroup benchmark, with sched_ext disabled.
 
-HEAD commit:    50d05c7c76c9 Merge tag 'landlock-7.3-rc3' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15489c8e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=85bc5cc2fc7394d9
-dashboard link: https://syzkaller.appspot.com/bug?extid=9a321aea9d851b299486
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17de9905580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f042d1580000
+I tested these two states on 2f0c1cf72f46 (7.3-rc2):
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-50d05c7c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/303a0ade8f9e/vmlinux-50d05c7c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/70b8ca71442b/bzImage-50d05c7c.xz
+  A: baseline + Shakeel's file-handle decoding read-lock fix [1]
+  B: A + your INODE_INITED changes, without modifying your code
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com
+I used the original binary on the bare-metal i7-12700KF, pinned to CPU0,
+with full preemption, the performance governor and Turbo disabled.
+Both kernels used GCC 15.2 and the same config except LOCALVERSION.
 
-==================================================================
-BUG: KASAN: global-out-of-bounds in kobject_action_type lib/kobject_uevent.c:86 [inline]
-BUG: KASAN: global-out-of-bounds in kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
-Read of size 1 at addr ffffffff8d72559f by task syz.0.17/5917
+The clean timing sequence used four fresh boots: A1 -> B1 -> B2 -> A2.
 
-CPU: 2 UID: 0 PID: 5917 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- kobject_action_type lib/kobject_uevent.c:86 [inline]
- kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
- bus_uevent_store+0x3d/0x90 drivers/base/bus.c:917
- bus_attr_store+0x74/0xb0 drivers/base/bus.c:172
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf702efec
-Code: Unable to access opcode bytes at 0xf702efc2.
-RSP: 002b:00000000ffa3eb5c EFLAGS: 00000296 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000080000280
-RDX: 000000000000ff0a RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
+                     A1       B1       B2       A2
+  rmdir (us)        9.727    7.600    7.548    9.784
 
-The buggy address belongs to the variable:
- kobject_actions+0xdff/0x4e80
+Each value is the median of nine sample means. Each sample contains
+128 measured removals after 16 warmups. All four B/A comparisons showed
+the improvement above. Removal CVs were below 2.03%. The drift between
+boots was +0.59% for A and -0.68% for B. The improvement held after
+dropping the first sample from each boot.
 
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xd725
-flags: 0xfff00000002000(reserved|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000002000 ffffea000035c948 ffffea000035c948 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner info is not present (never set?)
+Separate, untimed traces showed the same 26 kernfs nodes per removal,
+but ilookup() calls fell from 26 to 1. Deletion lock counts were unchanged.
+Basic checks of file/directory deletion notifications and link counts
+with FDs held open passed on both kernels.
 
-Memory state around the buggy address:
- ffffffff8d725480: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 06 f9 f9
- ffffffff8d725500: f9 f9 f9 f9 00 00 01 f9 f9 f9 f9 f9 00 00 02 f9
->ffffffff8d725580: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 07 f9 f9
-                            ^
- ffffffff8d725600: f9 f9 f9 f9 00 00 06 f9 f9 f9 f9 f9 00 04 f9 f9
- ffffffff8d725680: f9 f9 f9 f9 00 06 f9 f9 f9 f9 f9 f9 00 05 f9 f9
-==================================================================
+I also timed the full mkdir() -> stat() -> rmdir() sequence using a
+separate binary on the same kernels. The latest continuous follow-up used
+four fresh boots, with nine samples per boot. Each sample had 16 warmups
+and 32 measured sequences, with no pauses between them. The full sequence
+fell from 30.07-30.65 us to 27.97-28.34 us, a 5.77-8.76% reduction.
+The maximum CV was 1.76%, and boot drift stayed below 2% in both states.
+In the earlier continuous follow-up with 128 operations per sample, the
+full sequence was 5.15-6.52% shorter, but CVs of 4.52-6.46% were too high
+to establish a stable overall improvement percentage.
 
+Untimed tracing placed the added write lock in first stat(), during inode
+initialization. The patch skips lookups for nodes whose inodes were never
+initialized; it does not move those lookups into stat(). The individual
+mkdir() and stat() timings remained too variable to quantify their changes.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I also checked whether the benefit persisted with less frequent operations.
+For this diagnostic, I added 50 and 200 ms pauses between sequences,
+outside the timers. I kept 16 warmups and 32 measured sequences per sample.
+rmdir() still saved 2.10-2.58 us, but its baseline rose from about 10 us
+to 18 us, reducing the percentage gain. The full sequence was 0.66-2.85%
+shorter, with a maximum CV of 1.53%.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+I included [1] because the file-handle path on this base lacks
+kernfs_rwsem protection. Source review suggests a possible wait cycle
+when that path recreates an evicted inode. Initialization waits for
+kernfs_iattr_rwsem, while removal holds it and waits for I_NEW to clear.
+I have not reproduced this possible deadlock in the kernel.
+Does the base for your diff already include [1] or equivalent locking?
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+[1] [PATCH v2 3/4] kernfs: don't lose IN_DELETE_SELF
+    when decoding a file handle
+https://lists.openwall.net/linux-kernel/2026/09/05/828
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Results and reproducers:
+https://github.com/lcf0399/linux-regression-evidence/tree/f101b1b9c0d3dfce0=
+7f81b11ca2da2c252150e4c/kernfs-empty-cgroup-removal/bare-metal/inode-inited
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Thanks,
+Chengfeng
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+T.J. Mercier <tjmercier@google.com> =E4=BA=8E2026=E5=B9=B49=E6=9C=8814=E6=
+=97=A5=E5=91=A8=E4=B8=80 00:17=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sun, Sep 13, 2026 at 8:47=E2=80=AFAM Chengfeng Lin <lin2530632123@gmai=
+l.com> wrote:
+> >
+> > Hi Tejun,
+> >
+> > Thanks. I found this during research into kernel performance regression=
+s,
+> > using a microbenchmark of cgroup creation and removal. This was not
+> > prompted by a production issue.
+> >
+> > I reported it to document the added removal cost and ask whether some
+> > of it could be reduced while preserving the fixes. I agree that the
+> > roughly 3 us increase per removal does not, by itself, demonstrate a
+> > significant impact on real workloads.
+> >
+> > Thanks,
+> > Chengfeng
+> >
+> > Tejun Heo <tj@kernel.org> =E4=BA=8E2026=E5=B9=B49=E6=9C=8813=E6=97=A5=
+=E5=91=A8=E6=97=A5 23:03=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > Hello,
+> > >
+> > > On Sun, Sep 13, 2026 at 10:43:04PM +0800, Chengfeng Lin wrote:
+> > > > I found an increase in empty cgroup removal latency across 507d8ce1=
+3f5b
+> > > > ("kernfs: Don't set_nlink for directories being removed") and eea5d=
+2bb34ba
+> > > > ("kernfs: Send IN_DELETE_SELF and IN_IGNORED"). With sched_ext disa=
+bled,
+> > > > rmdir() went from about 6.5 us to 9.6 us, an increase of 46-47%.
+> > > > The result held in two independent runs.
+> > >
+> > > I don't want to make cgroup removal unnecessarily expensive but at th=
+e same
+> > > time it's not an operation that I consider to be a hot path, so as lo=
+ng as
+> > > the operaiton can finish in a reasonable amount of time and single di=
+git us
+> > > definitely is, performance of rmdir usually isn't something which is =
+high in
+> > > priority. Can you please detail why this matters for you?
+> > >
+> > > Thanks.
+> > >
+> > > --
+> > > tejun
+>
+> Hi Chengfeng and Tejun,
+>
+> We use this kernfs IN_DELETE_SELF feature on Android where multiple
+> cgroups are created and removed frequently on a per-application basis,
+> but we hadn't noticed a significant delay due to the inotify
+> functionality during cgroup removal. It's probably masked by much
+> larger delays (milliseconds) we regularly see due to unreleated issues
+> with cgroup locks like priority inversion with cgroup_mutex, and
+> contention for cgroup_threadgroup_rwsem.
+>
+> As far as what we can do, I think avoiding inode lookups for kernfs
+> nodes that never had an inode created should improve the situation. It
+> doesn't eliminate the locking overhead, which I don't think can easily
+> be eliminated. The code below doesn't deal with inode eviction either,
+> but at least files which are never accessed won't introduce the inode
+> lookup overhead.
+>
+> diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> index 4f9ade82b08a..3ec9f79b1aa2 100644
+> --- a/fs/kernfs/dir.c
+> +++ b/fs/kernfs/dir.c
+> @@ -1523,6 +1523,9 @@ static void kernfs_clear_inode_nlink(struct
+> kernfs_node *kn)
+>         struct kernfs_root *root =3D kernfs_root(kn);
+>         struct kernfs_super_info *info;
+>
+> +       if (!(kn->flags & KERNFS_INODE_INITED))
+> +               return;
+> +
+>         lockdep_assert_held_read(&root->kernfs_supers_rwsem);
+>
+>         list_for_each_entry(info, &root->supers, node) {
+> diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+> index 38b28aa7cd02..f8b4a8b8ade4 100644
+> --- a/fs/kernfs/inode.c
+> +++ b/fs/kernfs/inode.c
+> @@ -208,6 +208,10 @@ static void kernfs_init_inode(struct kernfs_node
+> *kn, struct inode *inode)
+>         set_default_inode_attr(inode, kn->mode);
+>         kernfs_refresh_inode(kn, inode);
+>
+> +       down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+> +       kn->flags |=3D KERNFS_INODE_INITED;
+> +       up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+> +
+>         /* initialize inode according to type */
+>         switch (kernfs_type(kn)) {
+>         case KERNFS_DIR:
+> diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+> index e21b2f7f4159..87f074ce19d3 100644
+> --- a/include/linux/kernfs.h
+> +++ b/include/linux/kernfs.h
+> @@ -113,6 +113,7 @@ enum kernfs_node_flag {
+>         KERNFS_EMPTY_DIR        =3D 0x1000,
+>         KERNFS_HAS_RELEASE      =3D 0x2000,
+>         KERNFS_REMOVING         =3D 0x4000,
+> +       KERNFS_INODE_INITED     =3D 0x8000,
+>  };
+>
+> -T.J.
