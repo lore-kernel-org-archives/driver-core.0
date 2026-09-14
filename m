@@ -1,138 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EB33F825B;
-	Mon, 14 Sep 2026 09:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51D63438BE;
+	Mon, 14 Sep 2026 09:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789379175; cv=none; b=fgZKESLUffj8YArByJsbB3Nc4dFztdIyIJp/M8fYEUbGvgqXoeSMcsJ2o16E06Ym5XhxsTUhzLcOZKSFHIfAUjH8xACWVpm8MEl5WR6VO+BuplIvDTWHgkdWc06IyMKlBwwWqjbgM66ZktTCCuzjt/XRyjOiPUGfaUNebAB6p7A=
+	t=1789379890; cv=none; b=ioPtxw567Q1UfyT7U355c26hLxRbpDEVDsWzqvzTSC0PvMloIQCEUJIC4jp+/QuG9KnwAU1JuM+/r1iwJ7MGy427Jq2HIPjdReYiFsc+d2GQVv/nCbC83FaYu4Y+B+iEGplLsv+cUtwfwLuts4hzKDmWVKALMZeJy6Whc6K4iH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789379175; c=relaxed/simple;
-	bh=doZxfhpF6hvf0gcxK7uRWwyRWA+MJzUVsTcoo96jtag=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=h1U+UtFVXj+s6M/F1WFn8eWXDz0UxGldhZYHbRq6ZmgBEE2KLfPvfdJS5nOUn52oRWrzzeY861gJ3kjJMncrsaKfjGXbYFHsIPOYe7mjWdWD0CsaiDmkTg43LRmaNbZzZDHgOqe9AYDNs3boWQCMw4W+GGYeRQJWnyhVYaqGI00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoSdDPpd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789379890; c=relaxed/simple;
+	bh=b53VofDGPRM1GBlgP66ZMJ0fkJDmyWLK7QstQpHO3rw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=j92YqIJbduMWAbMaIJx6uFQW2+8/Qv0sWBJveknNH8hELxZIi46tOqrKC4hfNSDYX0+rFj+y1NAEClLXVrFnOp+ahX5+nr0xOmuTuzS93QhgnvoUzNMEahWZ4V5YNwkK4iatCidxku20/bVvdNSMcr8+7alBmrgmQL6s39wIor4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCse/liL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoSdDPpd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BEDD1F000FF;
-	Mon, 14 Sep 2026 09:46:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCse/liL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF0B1F000FF;
+	Mon, 14 Sep 2026 09:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789379173;
-	bh=/w/yGurtybehOwgo3KZ5MtwGNopaX2l3ZWxQhrI/85Y=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=PoSdDPpdW32kxBczwsKCrd5toPOsoIyhPcPK9FiUfGkj3x5y0v+SAosM+sn1cnDum
-	 o25n96uPkUuGm029v1FSIAaIFNGwsKSE8Vb6kK4Y9yyJZh7yChPVBiR2j44yBszqy6
-	 JP0a6pKr6Z1buyENK3qx0dh9Qki64F5P3Tyl3hply3f01IVFpKWer+YCMfg4w6zJGN
-	 Fmoe15bYffq8L4eom5ZuV/gKwhuM0MsDYBfgReyUMKCHel9Dj7DgtQN006rLmQRQQ1
-	 Y7oafEqq5E/ldoHhGaj4k0iKCxD62L+jMME8zge0K3eerMm0gKFowRRpt1FAJwlFYJ
-	 yP44ZVUvsctfw==
+	s=k20260515; t=1789379888;
+	bh=NV5ysSYUzr7wTam47Xgr5BpP0ObkoK7ZWem9Cub+zLY=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=OCse/liLHwkV5ghS83TJD0nEEp3k/7NCtbvhQpsWjEHvSX13i3c4WIlqNwyrkiN3n
+	 bNUu0o7vcMjxsIly8au6ZzJqUCQ7hhKCZeGJtmOGYoJGdkgaYk196+JKHelCepjJOo
+	 y/eWwie63/vQ408vRMnBnzEAuP8BvOJof92ByeDwp86warvGOzDD5r1loM0OS1juaa
+	 hA9FzMwU44A9t4WjW7bld8O+Q3NCEz4+LdunqtSDZbtEmrEkJ4XIfy3i5tPhtbBejn
+	 wbXl++57n9Ybwf+JSsRuiiFfuhf4yarwOAPjZgV1KF+6sc3yEe42d+HuSAgLLzj9ft
+	 ayANgIx7PCmqQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 08/12] mm/sparse: move __highest_used_section_nr
- handling
-From: Mike Rapoport <rppt@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Barry Song <baohua@kernel.org>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Brendan Jackman <brendan.jackman@linux.dev>, 
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
- Oscar Salvador <osalvador@suse.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org
-In-Reply-To: <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
-References: <20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org>
- <20260909-b4-sparsemem_cleanups-v1-8-008fc8d579fe@kernel.org>
-Date: Mon, 14 Sep 2026 12:45:42 +0300
-Message-Id: <178937914266.4188640.2229667310976793135.b4-review@b4>
-X-Mailer: b4 0.17-dev
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 14 Sep 2026 11:58:04 +0200
+Message-Id: <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
+Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
+ segment size
+Cc: "Matteo Kloiber" <kernel@matt3o12.de>, <aliceryhl@google.com>,
+ <ojeda@kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
+ <robin.murphy@arm.com>, <a.hindborg@kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260831233215.287881-1-kernel@matt3o12.de>
+ <20260831233215.287881-3-kernel@matt3o12.de>
+ <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
+ <20260913210806.125589-1-kernel@matt3o12.de>
+ <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
+In-Reply-To: <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
 
-> Let's move it to sparse_init_one_section(). However, to keep early
-> boot processing working, we also have to initialize it in
-> sparse_sections_init().
-> 
-> Should we use READ_ONCE/WRITE_ONCE with __highest_used_section_nr?
-> Probably, something for another day.
-
-Surely not in sparse_sections_init() ;-)
-
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+On Mon Sep 14, 2026 at 2:45 AM CEST, Alexandre Courbot wrote:
+> On Mon Sep 14, 2026 at 6:08 AM JST, Matteo Kloiber wrote:
+>> On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:
+>>> It also means that without patch 1, nova-core would split the firmware
+>>> into hundreds of 64KB SG entries, which is not breaking but still
+>>> something we want to avoid. The correct fix is to make sure that
+>>> `dma_set_max_seg_size` is called by the driver, and while we are at it
+>>> we also want every driver to call `dma_set_mask_and_coherent`. Ideally
+>>> we would use the type system to make sure that both functions are calle=
+d
+>>> before any DMA operation can take place (using a safe interface), but
+>>> I'm not quite sure yet how we can do this.
+>>
+>> This sounds sensible indeed. Should I open a thread regarding that on Zu=
+lip?
 >
-> diff --git a/mm/sparse.c b/mm/sparse.c
-> index 2b41ae36f20b8..2d0f2db34f4cf 100644
-> --- a/mm/sparse.c
-> +++ b/mm/sparse.c
-> @@ -177,7 +177,7 @@ static inline unsigned long first_present_section_nr(void)
->  
->  void __init sparse_sections_init(void)
->  {
-> -	unsigned long pfn, start_pfn, end_pfn;
-> +	unsigned long pfn, start_pfn, end_pfn, section_nr;
->  	int i, nid;
->  
->  	sparse_extreme_init();
-> @@ -187,9 +187,9 @@ void __init sparse_sections_init(void)
->  		mminit_validate_memmodel_limits(&start_pfn, &end_pfn);
->  
->  		for (pfn = start_pfn; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
-> -			unsigned long section_nr = pfn_to_section_nr(pfn);
->  			struct mem_section *ms;
->  
-> +			section_nr = pfn_to_section_nr(pfn);
->  			sparse_index_init(section_nr, nid);
->  			ms = __nr_to_section(section_nr);
->  			if (ms->section_mem_map)
-> @@ -201,6 +201,7 @@ void __init sparse_sections_init(void)
->  			__section_mark_present(ms, section_nr);
->  		}
->  	}
-> +	__highest_used_section_nr = section_nr;
->  }
->  
->  #ifndef CONFIG_SPARSEMEM_VMEMMAP
-> diff --git a/mm/sparse.h b/mm/sparse.h
-> index 7c5d82ceb7142..a3af4967fd5c5 100644
-> --- a/mm/sparse.h
-> +++ b/mm/sparse.h
-> @@ -97,6 +97,9 @@ static inline void sparse_init_one_section(struct mem_section *ms,
->  
->  	BUILD_BUG_ON(SECTION_MAP_LAST_BIT > PFN_SECTION_SHIFT);
->  
-> +	if (section_nr > __highest_used_section_nr)
-> +		__highest_used_section_nr = section_nr;
-> +
->  	/*
->  	 * We encode the start PFN of the section into the mem_map such that
->  	 * page_to_pfn() on !CONFIG_SPARSEMEM_VMEMMAP can simply subtract it
-> @@ -114,9 +117,6 @@ static inline void sparse_init_one_section(struct mem_section *ms,
->  static inline void __section_mark_present(struct mem_section *ms,
->  		unsigned long section_nr)
->  {
-> -	if (section_nr > __highest_used_section_nr)
-> -		__highest_used_section_nr = section_nr;
-> -
->  	ms->section_mem_map |= SECTION_MARKED_PRESENT;
->  }
->  
+> Probably not necessary, the mailing-list has a larger audience and is
+> the right place for this. I expect people will jump in here with their
+> thoughts.
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+The problem with those is not that they must strictly be called before
+allocating DMA memory, but they must not be called concurrently with other =
+DMA
+operations, such as allocating DMA memory, as it would technically be a dat=
+a
+race.
 
--- 
-Sincerely yours,
-Mike.
+Now, we can't really have drivers define them statically (e.g. in the drive=
+r
+trait) as there may be cases where it depends on the runtime state or prope=
+rties
+of the device queried at runtime. Sometimes it is also defined through OF
+properties (which from a kernel perspective are runtime values too).
 
+For the same reason it is also pretty hard to invent a type state pattern f=
+or
+those setters that is not getting ridiculously complex without much value, =
+which
+is why we just kept them unsafe for the time being.
+
+The best option to get rid of the unsafe would probably be to use atomics
+instead. It would however be a rather big change, what makes it a bit of a =
+hard
+sell, given that the reason of this unsafe is more on the theoretical side =
+of
+things.
+
+Theoretically, we could also optimize the situation for when it is statical=
+ly
+known, e.g. some dma::Config trait that can be implemented, such that the b=
+us
+can set the before calling probe(). But we'd really want this to work per d=
+evice
+ID table entry, as it may differ between supported devices. But that might =
+not
+be quite straight forward without associated_type_defaults. The simplest th=
+ing I
+could think of is some callback, such as
+
+	fn dma_info(id_info: Option<&Self::IdInfo>) -> DmaInfo
+
+which is called before probe(), but that's not great either. Maybe there is=
+ a
+good solution for this, but I'd first want to exhaust getting the setters s=
+afe.
