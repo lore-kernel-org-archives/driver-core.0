@@ -1,218 +1,294 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012031.outbound.protection.outlook.com [40.107.209.31])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264C93D47A3;
-	Tue, 15 Sep 2026 04:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789447962; cv=fail; b=tbjmpvQyl/+mFFxl16QYEX79uX5hZa2vfQXxaVreR/ORHTgGevicx6XP+3oNHKtXKB6R6xAExv+qtszpqsdzWBqG3kk6W/OL5/7Z8T8E3nWJ2iumdMc9RaY2GbAB+uPNeX9JVby/6Htz5vsm8T8nb24oAKl4ezFCFHBbyw1IU5w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789447962; c=relaxed/simple;
-	bh=/hqbPRs/8dJSA4f0qBiKclYcjZqP7FEPUWNGbbkqr/E=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=hPkfcsmX6YN5WAm96FTLhC1IJJAnzkXs11hZgSQAc3+ZJhSfoDcCTdyZC7Vz70WnDogiNBUhqSwUieRhz8rdfLEngh3AyebhdXHIDsTT3kNN524CLfUL/frx5MRk8FHJUMU/gi8fuG7an2YxHnYU27MVAHs++5Kv/Gdo04znWDU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E7DcL1rY; arc=fail smtp.client-ip=40.107.209.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D7B37DAB1
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 06:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789454984; cv=none; b=FD8r6xBhdy7yBoIqY2+evPAY4hUTjtSYNF5cETT20Gjy0XL6CvpUbbFwuqXOa5qVe/gsRUO5+0Pn9wHL5Spadxg3NUGU5Oe/CBLNjVcCfXrX/akpaPljUcDvnXIKUctmP61rK9RKM9Ate2gBFbQ1/8YZSK7tzsV3Eq1bY6lYB7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789454984; c=relaxed/simple;
+	bh=ZbTAF2j0r2Op/LAAPfyyyvdgIIrZok0Yq0iZ9vaa8t0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HuVOuoZPiYFTp/IZPKpgKBpwLZcikWGCCt/JNmlltKEMgmL55C0PRMh9eHJq8R/p+kO81C+SJdd2zWCgMoJnEj1knHmwSWAoWdWMBA5YAH6jWsxF2NnSMmPXRYV4hVkX6wDfavZ/S266Tk92qEg5HIyvR+q8xTUi5HeiHKLLZVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gNmVBalg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IRMLcUez; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E7DcL1rY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lib8XDOmO8OPwndE4zWf9p+8H58dFCgzRuS9lz7WFCExRxLXoa/egxg+K6JoXHhP+gt6QoyVAC9M0a15uZfm/shEOJYDciGpH7BzTXaxfrmrOEbu28NJ6nmJ07Ebp51w8K/5Ad5yyoctFQcewCTgl2mRy0X+0UWnqRDNpKr3AayH3kqtT/GarP/TAxjPkB6FZ69kQjGWUU02Va1WuOmVrEOf//l+lGbjyY3+V91x9XSVd0y0hUkWDRJY7Fd8jx4S5ibAH1XzRwE3B5/BN7ofsppfLd+MV+xECQ5XVuP4TLG2KIYCMefE2kg3n+XKby4am3N6RXBNiE94RC2uV7Cv6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/hqbPRs/8dJSA4f0qBiKclYcjZqP7FEPUWNGbbkqr/E=;
- b=GGWyoBAlm+6M045GCOX4LqZ1NLwFYodU3CWrZIaSaorwtNVf/7hklMqMK4IzKBpUXKSAlBw3wJJZ80Nx5r3cXypRm3WuyniZoz9fVljEf8oFouc7PG+vpnMU3PCK4MjOVAoMNOzyS2qraOcIUOes9nyTcgt/Dc1xmAVpz3ritx02uin7E47fM6/pQXiV7Bvf9V2We9CC51gVmC5MSV8ZZHaVJ/djAcpltZQUiwz26fBfecLt8grqTCug417+aba85OfFMDtCV95FG+2qyhmc349XeOBmRwQsRxCtJN/YoZ1AEHse8RHWQ88FDM5hYnz8PNv69oIZ+EtXNXe9BRt++w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/hqbPRs/8dJSA4f0qBiKclYcjZqP7FEPUWNGbbkqr/E=;
- b=E7DcL1rYarXnlND1KvP17KzjEREvpganTx6gBC714i+QnfHByiln07I0kX+nrTybeWOjCq6eAQNeCWrlpvsU157YSL6mg8LxcHyWwU3Sxp5WH1USsRKzUbb0BX0tAbSx7Edxx8zSNu5I7Tfh5YwsX01ahYMvig0ojRM1fyiP0Yf2SlI/JE9c6ejOXMfUVo6e5Dl5MMdpeOU1eVzdR3TkmpDTehDoO5nFG/CHrudVOaLykiRgb7GGnQfbOtueffwHT5iWMMDF4Sea1mz+Iqf5J3djiyEMa0P7OxlX3zNPOfZ2UOt1UdAu9+8UhwI0zOVTw2MRVThTisySmPCexiMnyQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by SA5PPFC3F406448.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e0) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Tue, 15 Sep
- 2026 04:52:36 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
- 04:52:36 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Sep 2026 13:52:32 +0900
-Message-Id: <DLFMCWWIALSU.2RHGOMHHCOJS@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Matteo Kloiber"
- <kernel@matt3o12.de>, <aliceryhl@google.com>, <ojeda@kernel.org>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <a.hindborg@kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
- segment size
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-References: <20260831233215.287881-1-kernel@matt3o12.de>
- <20260831233215.287881-3-kernel@matt3o12.de>
- <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
- <20260913210806.125589-1-kernel@matt3o12.de>
- <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
- <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
- <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
- <DLFM6SJH6L3P.9YG5DXQPR3TX@nvidia.com>
-In-Reply-To: <DLFM6SJH6L3P.9YG5DXQPR3TX@nvidia.com>
-X-ClientProxiedBy: FR2P281CA0114.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::6) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gNmVBalg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IRMLcUez"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F6Z2Zc4048761
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 06:49:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	+Nc4AZwLTj1I7GRxfu534U6zn9icG3vx3KriT4jFrAs=; b=gNmVBalgTx95N20z
+	ls/kWo9gIk+XQ8zgF73UzVRMFd2JS8yeeHmAPH1mQuIEROmJ+dupukvO539fHm2D
+	eiTrm/TfwukpsAbuSH3+KCaypBEgXxxPBAbhtxi0cw2UDvefnmycL37aaoTP2oFo
+	yHxW/p3DORQoaFFvAyfXD37WaAVLe7qZwthRCbNHRkWa42Ecuxvvjrttt3VudYuk
+	MEowVnZvfpcxlco8L9+CqZ1s77K3hFLiJy5BrecSs5pv9Ywjua3I5XMzth6CSy8w
+	Iu8UGtMC1eIaq/u+Y+uLnf7pKVRq+TyqR79/MpPyAFn5NYE2fjHWjLN9FMPITvAM
+	2ynUAw==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpyea0dvq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 06:49:42 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e8e864ef0so7164487a91.0
+        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 23:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789454982; x=1790059782; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+Nc4AZwLTj1I7GRxfu534U6zn9icG3vx3KriT4jFrAs=;
+        b=IRMLcUeze9EPtjerGYz60atTP1V+sG/r5ub4tzVQIXQGoKYYEEA9t72ZrS0tOSK8Kf
+         GvmzbgRoUsUA61qjMXQRIRAGpitJ8unfM/HT9CixJ+Nf3BF5gX5XEQLKgrymJZhr2Yc9
+         BwFLRcSSJ4QWtuKjSbNg6wpcu43x0r3xKd5yb4Pwn/YBbkDIc4NiG7YxJZDITDZ84WzG
+         bp2/OCoLN2F0j9xwGVJBVU9Q+X4fUIDMN+YYLQlPkxABcT0RXXHdl5GoDjHEwjZx9eSd
+         RJ3jBOkNf8S0U3F5IG7VE2MAN+t1r9fFDeFAusIUGBMbvwSIrNjzC+E43IZPoaSvxnRR
+         L8uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789454982; x=1790059782;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+Nc4AZwLTj1I7GRxfu534U6zn9icG3vx3KriT4jFrAs=;
+        b=CvSLcAMkIVlIegxlGLNz947CP1R/49t9ev9gzFMK1EVfEcVJFnPa3sswZZ7beFtMP7
+         ssYvgn+KY5fMJwNrpRui8FaX0yvfdSkBAHXmoYQumU6akjX9qC7pxAGtFzGzH5wMylWY
+         kiZzcZW7rajAhlI4qJnZG1vXN8geOsZwGBo8lSiLxNQj47o984KJp81H+tLCCg0yulv4
+         vVPXCqnbAzpegPIeN//JCLvbmo69HPMztiL8Us6Y6Nh/QI2xkK/NyenKfg1yB3cvJP5v
+         Mv/7Oz2+sKJpaMTDZ5isi9pABWfjVcyYm1zR+xKVoDmfxQIKc109JwsWhwLLV0C/jeKM
+         GjrA==
+X-Forwarded-Encrypted: i=1; AKwUvBy/OxJIVhh1jme/IK704IDYX4C7GEzRSWcBnmkRYP/NzEk4iDlX/axXbb4IGosnqDXO5vY1bTJuOZVmDg==@lists.linux.dev
+X-Gm-Message-State: AFuF++ksbzB6eI8z1wD4BFYCNGnF6iCl5mVky2sf5EGY9o3QBhMJgmX5
+	Vym4pFa8zpyZB7jHQdw6ypXcY6GupMuP0+IQtQyJfkwtv1qlA8nujTSYN6zcrEXFpH0C3PW+1rD
+	BmdxF7dxbIiCaGev3UBeaoCtRXtxw03BU3JVZU0ZrRQYXvgt8I0e9IQpIlf49cKOXug==
+X-Gm-Gg: AYBFou1mdcWD4+VhHhhuMkq9wIicsYSowT0fMq8Q9nVQKkT686hIqSq9xp6+IVA7hu2
+	Z7ve/xmoIRwiBxty065UHgo3MZQFMgLjrAXoAgqSUYPSaZC8/yiGgnZOCOJHM3YJzddNXO2sLz8
+	8dgmImW7L/Oh4cj07xnwVWPsPvDqF9LWvxEK4YF0DzI0xLozMOdqP0IVX+KODUhmvi7vQf1q8Tz
+	gDMBlXV6rNSDIyiJqJ1EnTPrdakNeRAcTpdD+HTfTHrYitBs5pJTEGF6tVQUzZ2MbxAgAFwJXij
+	X9k/ptMw5i/edPwGLkHtDEVwlhE0+Z0hhFouTMkDa5i9B+updkxo/mkgIZWeM+y33iD0DTWbaPU
+	9KVaEOOLEkfwXEVL2/NZySkHSP8aHA+xvzi7FXlAwYKy0WDzTDqCL4ZBAsdxnpQ4=
+X-Received: by 2002:a05:6a20:a120:b0:3d0:8abe:9e08 with SMTP id adf61e73a8af0-3db404b735amr13965344637.3.1789454981807;
+        Mon, 14 Sep 2026 23:49:41 -0700 (PDT)
+X-Received: by 2002:a05:6a20:a120:b0:3d0:8abe:9e08 with SMTP id adf61e73a8af0-3db404b735amr13965269637.3.1789454981337;
+        Mon, 14 Sep 2026 23:49:41 -0700 (PDT)
+Received: from [10.133.33.86] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c6529a71sm6207225a12.5.2026.09.14.23.49.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2026 23:49:40 -0700 (PDT)
+Message-ID: <a340505d-9495-4f68-8ed1-c7e8772c28e4@oss.qualcomm.com>
+Date: Tue, 15 Sep 2026 14:49:31 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|SA5PPFC3F406448:EE_
-X-MS-Office365-Filtering-Correlation-Id: 168d0703-7cff-45bf-fcf3-08df12e52954
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|23010399003|376014|6133799003|22082099003|18002099003|3023799007|56012099006|10067099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	djy+lgqyDfgX6I6hNf7B8yFmitB31UmrDUMpyIruM2V7fCT8LMlSGpMjx1Bi5LBOU1AqA54pFq5luleNL0bZjj93PEFn6JOUSWlE4L854fPDBUA7iCJWwgDa/2VqbgyCJAS7/Zbo5a81AduFo2f7d7tberWvZM49rFefjvfcFIklKpOoZLaNpBYXrWrjeJD2WuqbI2yRrCwyIGAh0ZyI2tSCEQLvAdPrr8MIEK6qroRsWxzjqSJGEl9scujlkUfR0V4VZT+7A/G9OvfqEZ0bsVOVp7wAaBo0wbi8T+GqYOttuzb/wOm2oMIigSbN2Z6fOUf1Xgszkc33UN4uPkkntrdMMfl76KNMySC8tJv+41VeNlRNaXXk+ZVL4B5LAySnw2SAFXUbENINwK1pa9G0jZgP9TLBjGML0LAmcdxKHAugT0xYS9Gy1xVLw8wjsKKJNWfK3jI07tdKoHd34mrPA+FSy2AJkzJhC/T8NSG3Cx+HTn1TW021NryU3HJdKW6RGfm9uXcPN6qCZcMw1rwIIKm2eo3Z1NTiw0qSKKbtpv2n2YHATNGUXmIaYT1DTc0t9Qxv4MqrjtU5l8a782hsyjd9FNDw6bFu37OaxauMWce7rbA5EqEwCJjuR49BH3Z0QeCBHEOssRVdahIXk9PTJugRdZnqf97Jrzgv/aooMJc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(23010399003)(376014)(6133799003)(22082099003)(18002099003)(3023799007)(56012099006)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bnh4a0I2TG1iTWxCeDNieWptRGJTY2ZNa0lraWdRWTQwbHpGUEpQZG4wazBk?=
- =?utf-8?B?MGxUWkNLZ1BqZDVzM2RuYXFPRUFUNTAxMStTUWJJZW1BSGdqSXR3djhTTDho?=
- =?utf-8?B?NzlBWmRkSEhsOXlPSEJ5YlZsbW9iekJmZ3MzMURoTktnRXRNaWVEV3liYzFu?=
- =?utf-8?B?d08wZlhzQ0RvVFdrTEJRcUdRRHZJMm1lU2V0MThQclErRm1wUEw2N1pFVitQ?=
- =?utf-8?B?QzBkZHVKQVluWllza1c2dUl2Q2lqVzlYQ0d4TzRvTXZVbEcxaHUrczczNXhN?=
- =?utf-8?B?d1NFUjViVjdZMjlzR3Y1ZVM4SUVqN2FWd1RBUlhUb01lSlYzdmhhSXVxd3Rx?=
- =?utf-8?B?YStyTEEveStrcURIZU1PRjNzTVM1MklyaHNhZ3cwdy9EWCtCaXNoNUl2STlR?=
- =?utf-8?B?bHhnSnFaUElkWE9tUjRqakI2bTdHU3RVVldhTW5aWFQzN3FaQUx4QWRQNTkz?=
- =?utf-8?B?TmhZeFduQVZuT0k0RnJtZTd2Yy92YjJpTVRlakpIUHlDZFlCTDQvb1VkSUpI?=
- =?utf-8?B?SVZDTFkxdlRhYWl1ZFd6WlUwcXhsUC94SERpb2ZTNHU0ZzN4QmVmekZlSEJN?=
- =?utf-8?B?YnM4U2l5Q2F6dVRJZTgwRkRRRkd4VkM0SkY5YnBiTTZNY2VsSmlZZ2V6QkZC?=
- =?utf-8?B?blJOWjJwQk9tNTJaYkEzeENiT3p4RXUyaUFFVnB4c0FDUm9MV084aDY2RXox?=
- =?utf-8?B?ZlZvN2kxNk9jTkZXVERKelozVWg2cHZQNG5rSjc3L2loSGQ2S3ZMUHJkSkI3?=
- =?utf-8?B?M1hlZFFwSDhYOG9qRHdFbGhyazBWNnRPME9SMGxCQmw5M3FSbkVHRTlxSllV?=
- =?utf-8?B?dkk2MTVvZ00zeVhvRks1UVE3TWVKS0NiUGR0elpuY2kvRmdMeEJMOGNjT3BY?=
- =?utf-8?B?d3EwVStqbGc5aGVFNUxxSDZPeGQ4OGdxcGtORUJybkNuYUFkTW5YSFJwZCti?=
- =?utf-8?B?ZUJJbW1tQlBRUWYyYmlRRXl2RkZ1YnphUm4weHp0eUhVK25NL3l0N0pMc0Rk?=
- =?utf-8?B?aVhjUHVSeUdzYWprc1h6dk9rVE5RQzhsNG9lL0tYd3NHQXp3dFBGb2luKzhx?=
- =?utf-8?B?bDZnVGhGMU40YlNQVElNL1o4MFV1UG9MMmc4ckMyQUp2Zm04b2luYTlvdGpH?=
- =?utf-8?B?QWJjV1JLUlkwckREcmN4bDgwaXp0VlFnZUdIekhCSE1vRkMxc3IwRkpNbVdE?=
- =?utf-8?B?R1J2dEFjSHJ6ZWYxVTB3Z1lOTkRES2tGMEdKTUJxOTU0cUpLa0R5TFBqVGVO?=
- =?utf-8?B?OGtMeWdJc2xSV29MZnFkWXltdllmVHJhTjh0dVNkMEJkYktNRzRoblNjTzA3?=
- =?utf-8?B?QzJvaDFwUnN6dVlYZ3A5dXVBTFEvU3pGNm8yZ0RHOUNNTWZvU0drd09peVNx?=
- =?utf-8?B?U3ZkbCsveStiR0pocGtwSUIzb09PTjRoem1TQ1QvY1ZqQ0o0ZXZiUFNKeUp4?=
- =?utf-8?B?Mmg4RC9QVDg1Z0R5RG43Q29IZng4aUVwM0U3cklidWpLZExuajVFRzFMZUxa?=
- =?utf-8?B?dnY2djA0WTFLdmtSclltVTQrTHZnTzlYVGtteTR1NFZGSWRtd0VzcExYaEJU?=
- =?utf-8?B?eWR2eER5bjM0UXRBc0ZKc3NzUnhkQ042UEovSUZhV0dFU1RLblRyRjRGT0xq?=
- =?utf-8?B?bkE1U0NQVDhnTWtyVGJRblcxMm1WVWV5d3lrQVZuRmVsL2NYeHFJWUg3Vjdq?=
- =?utf-8?B?dWpIS0JEZWtpbjhnUTlEY3E4MWhjMTA1UFo5NStVREZkOHljYTJaWklKWnZF?=
- =?utf-8?B?bk84VkUzMHBwZi80UGNzK2Mvc0FsdkJRSUxGU08vTkROZEpRWGxPbkU1THFl?=
- =?utf-8?B?eTdnMm5TdzNIaVpMS2hPRk1TM3ZrY01DR0ROSlJxRldKUVdlY0Ywd3ZJOCt2?=
- =?utf-8?B?bS8xZVRtaWRGaUdNYWRLaWlxQkxlUWpHSUhNL1l4ZFFCeWRjSHBXVVk5S1ZY?=
- =?utf-8?B?b3VtVEhiaktRRG5lK1lyS0pEMkZkR2VjYmRqTjY1TWFHMUVUc3FxYTdZSllo?=
- =?utf-8?B?MFNuK0l6dFQybFdaVFY3amI5QjlkMC9IeitMMEp6ZzNoWnRxOFVycENRckhs?=
- =?utf-8?B?dGJpVUk0Y0hyaTRRZHJsWEMrQXVTTGc2cnpCd0dUU2FxOG5HQTczb1VLZDZp?=
- =?utf-8?B?bk9DWnRLaFVzVVhaY3NaNG54Z3BrcXBkQVBtMktyUXN5a3kxTVJoRldzWVhv?=
- =?utf-8?B?aWQxbUhndmkrUlRubjRPS2RzWHJiSW1rNlZ3WWtkdUc0RGRkQXhXcEtJQXpB?=
- =?utf-8?B?TVBFdStxOHZ1RGhHU0pacEVMNVppVWlnQ3FVeHBrS2hQblBYdElMQXhLMktI?=
- =?utf-8?B?YkNWeGtlUXg2VEhCMlZrZEtNUzJpQVMrWmM0NCttMThjelV6eld5dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 168d0703-7cff-45bf-fcf3-08df12e52954
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 04:52:36.1080
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zoBVpvfYb7OtD5KctVUXey2bnFOxq0XmFldZ/3pVWixw9yqhks1nRtcAi8WBoFX6SlLd018Ds+jiknUoagedpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFC3F406448
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 04/10] cacheinfo: Expose the code to generate a
+ cache-id from a device_node
+To: Andre Przywara <andre.przywara@arm.com>,
+        James Morse
+ <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Ben Horgan
+ <ben.horgan@arm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas
+ <catalin.marinas@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
+Cc: Drew Fustini <fustini@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+        trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+        ganapatrao.kulkarni@oss.qualcomm.com,
+        Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
+ <20260914-mpam-resctrl-dt-knp-support-v2-4-bf6645bb2f65@oss.qualcomm.com>
+ <317682e8-63e7-4047-9106-deea7bf96388@arm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <317682e8-63e7-4047-9106-deea7bf96388@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: X0ttT8EYpuOMfZYnz8Xfep0w-E-S4QIf
+X-Authority-Analysis: v=2.4 cv=cehHPXDM c=1 sm=1 tr=0 ts=6aa8ea86 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=NSEGM1D4AEf8_kYA:21 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=oVi2SUvWo6HSE3DLJdEA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: X0ttT8EYpuOMfZYnz8Xfep0w-E-S4QIf
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDA5NiBTYWx0ZWRfX4gYFw3WMCcnP
+ 1/iVSFc4j/xcaoGI9uyQOwziHaIzn5JtAsF0d4Drl66Suk+DGaeRoVP7tIL4gVhyX+jRdv0OzvX
+ YMH/45rf5dDdsfUwujm5x4/Ke8IHaJ8=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDA5NiBTYWx0ZWRfX1yRGPsBUuVMx
+ 9/0GOqlN8S3nN+u/0vmUr8iOhhzBsHCgJkY6F0F2cKJekM4MsZ7XLk3JFGT3aZWJylpkVu6WbXF
+ KRl9n8aCV/8E4uI87v5u26HatnK6froAlZM0kcnvHJSn/BhnrMK0Dzw94OQ6K5U6X6m17zrzCtN
+ xMxFDBtLs+Qa47BBclv0I8xYvD3zSVSqohqD5gPI8X+P7jrkGpNZMOegEGX9rQVcOt+UVUnkBmW
+ T0kRBCBWSo8bG/K5TlOt0zKhzcE5317mErVeLfG0jhInAuHOpdehw4ve1M8/WEFUpVyK4LCFCoj
+ yewlxftfZzlAkywuBHHIzOxqx7sJDWSmiJ5vAP7f7dXEq4JVlSQIuEDNXGLELSQCaR8rCP4uEBi
+ nj5uFmFWuwj6XYIE3XWiONGsE3IqV1qnxyHbzUbzRUgqhmmz52ZnQWew0tUqLiCY6atI2rQE5qL
+ W1sXGHadia7KZ9ZwgRg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_02,2026-09-14_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150096
 
-On Tue Sep 15, 2026 at 1:44 PM JST, Alexandre Courbot wrote:
-> On Mon Sep 14, 2026 at 7:22 PM JST, Gary Guo wrote:
->> On Mon Sep 14, 2026 at 10:58 AM BST, Danilo Krummrich wrote:
->>> On Mon Sep 14, 2026 at 2:45 AM CEST, Alexandre Courbot wrote:
->>>> On Mon Sep 14, 2026 at 6:08 AM JST, Matteo Kloiber wrote:
->>>>> On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:
->>>>>> It also means that without patch 1, nova-core would split the firmwa=
-re
->>>>>> into hundreds of 64KB SG entries, which is not breaking but still
->>>>>> something we want to avoid. The correct fix is to make sure that
->>>>>> `dma_set_max_seg_size` is called by the driver, and while we are at =
-it
->>>>>> we also want every driver to call `dma_set_mask_and_coherent`. Ideal=
-ly
->>>>>> we would use the type system to make sure that both functions are ca=
-lled
->>>>>> before any DMA operation can take place (using a safe interface), bu=
-t
->>>>>> I'm not quite sure yet how we can do this.
->>>>>
->>>>> This sounds sensible indeed. Should I open a thread regarding that on=
- Zulip?
->>>>
->>>> Probably not necessary, the mailing-list has a larger audience and is
->>>> the right place for this. I expect people will jump in here with their
->>>> thoughts.
->>>
->>> The problem with those is not that they must strictly be called before
->>> allocating DMA memory, but they must not be called concurrently with ot=
-her DMA
->>> operations, such as allocating DMA memory, as it would technically be a=
- data
->>> race.
->>
->> Do they really have to be called *before* allocating DMA memory, not do =
-they
->> just need not be called *concurrent* to DMA memory allocation?
->>
->> If it's the former, we can require these to require mutable reference in=
-stead,
->> so the probe takes `Pin<&'bound mut Device<Core<'_>>>` which still deref=
-s to
->> `&'bound Device<Bound>`, but Rust will require the shared reference to n=
-ot
->> co-exist with the mutable reference.
->
-> As Danilo pointed out [1] from a strict safety perspective they must not
-> be called concurrently to DMA allocations. So there is not a hard need
-> to call them before.
->
-> But my point is different: until patch 1 of this series, nova-core
-> didn't do anything particularly wrong but was operating with an
-> inaccurate DMA segment size. Which is currently inconsequential as long
-> as you don't set `CONFIG_DMA_API_DEBUG`, but will become sub-optimal if
-> patch 2 gets merged (which it should be, otherwise more DMA-limited
-> devices could start misbehaving).
->
-> The thing is that every driver *really* should set their DMA mask and
-> max segment size ASAP, but at the moment this is done through two unsafe
-> functions that are very easy to overlook.
->
-> And practically speaking, is there a reason *not* to do that setup
-> before allocating objects?
->
-> So I am thinking that maybe we could have a kind of `DeviceDma` type
-> which construction involves setting the core DMA parameters (or
-> acknowledging the defaults), and to which all allocations would be tied.
-> IOW, Danilo's DMA allocations rework [2] would tie to that `DeviceDma`
-> object (which itself would be tied to the bound device) instead of the
-> device itself.
->
-> [1] https://lore.kernel.org/DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org
-> [2] https://lore.kernel.org/20260830193824.471089-1-dakr@kernel.org
 
-Sorry, I typed this message while travelling (and offline) and sent it
-before noticing there has been new replies that make most of it
-irrelevant.
+
+On 9/14/2026 8:26 PM, Andre Przywara wrote:
+> Hi,
+> 
+> On 9/14/26 11:37, Yin Li wrote:
+>> From: James Morse <james.morse@arm.com>
+>>
+>> The MPAM driver identifies caches by id for use with resctrl. It
+>> needs to know the cache-id when probe-ing, but the value isn't set
+>> in cacheinfo until device_initcall(). Even after device_initcall(),
+>> the cache-id is only available if at least one CPU associated with
+>> the cache is online.
+>>
+>> Instead of making the driver wait, expose the code that generates the
+>> cache-id. The parts of the MPAM driver that run early can use this to
+>> set up the resctrl structures before cacheinfo is ready in
+>> device_initcall().
+>>
+>> Signed-off-by: James Morse <james.morse@arm.com>
+>> [ Yin Li: fix context conflicts in cacheinfo.c and cacheinfo.h; guard the
+>>    cache_of_calculate_id() declaration with CONFIG_OF to prevent build
+>>    errors when CONFIG_OF is not set ]
+> 
+> You can shorten that part in square brackets: doing adjustments due to 
+> rebasing is surely implied, and you can shorten the rest, like:
+> [ Yin Li: guard cache_of_calculate_id() prototype ]
+> 
+> Speaking of which ...
+> 
+>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+>> ---
+>>   drivers/base/cacheinfo.c  | 17 ++++++++++++-----
+>>   include/linux/cacheinfo.h |  3 +++
+>>   2 files changed, 15 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+>> index 9f9c72727a05..f75e7f64038b 100644
+>> --- a/drivers/base/cacheinfo.c
+>> +++ b/drivers/base/cacheinfo.c
+>> @@ -226,8 +226,7 @@ static bool match_cache_node(struct device_node *cpu,
+>>   #define arch_compact_of_hwid(_x)    (_x)
+>>   #endif
+>> -static void cache_of_set_id(struct cacheinfo *this_leaf,
+>> -                struct device_node *cache_node)
+>> +u32 cache_of_calculate_id(struct device_node *cache_node)
+>>   {
+>>       struct device_node *cpu;
+>>       u32 min_id = ~0;
+>> @@ -238,15 +237,23 @@ static void cache_of_set_id(struct cacheinfo 
+>> *this_leaf,
+>>           id = arch_compact_of_hwid(id);
+>>           if (FIELD_GET(GENMASK_ULL(63, 32), id)) {
+>>               of_node_put(cpu);
+>> -            return;
+>> +            return ~0;
+>>           }
+>>           if (match_cache_node(cpu, cache_node))
+>>               min_id = min(min_id, id);
+>>       }
+>> -    if (min_id != ~0) {
+>> -        this_leaf->id = min_id;
+>> +    return min_id;
+>> +}
+>> +
+>> +static void cache_of_set_id(struct cacheinfo *this_leaf,
+>> +                struct device_node *cache_node)
+>> +{
+>> +    u32 id = cache_of_calculate_id(cache_node);
+>> +
+>> +    if (id != ~0) {
+>> +        this_leaf->id = id;
+>>           this_leaf->attributes |= CACHE_ID;
+>>       }
+>>   }
+>> diff --git a/include/linux/cacheinfo.h b/include/linux/cacheinfo.h
+>> index fc879ac4cc4f..c33bb3c8bd63 100644
+>> --- a/include/linux/cacheinfo.h
+>> +++ b/include/linux/cacheinfo.h
+>> @@ -113,6 +113,9 @@ int acpi_get_cache_info(unsigned int cpu,
+>>   #endif
+>>   const struct attribute_group *cache_get_priv_group(struct cacheinfo 
+>> *this_leaf);
+>> +#ifdef CONFIG_OF
+> 
+> Why is that, exactly? First IIUC it's quite uncommon to use #ifdef 
+> guards around prototypes (unless they are stubbed without the symbol 
+> defined). Using types protected by those symbols if certainly another 
+> reason, and it looks like this would be the case here, but I had no 
+> trouble building the kernel for x86, where CONFIG_OF is not defined.
+> So can you share a .config example (or give a hint) as to where this 
+> fails building?
+> And if it does, wouldn't it be better to always include <linux/of.h> in 
+> that file instead? I think I see a similar pattern elsewhere (rfkill- 
+> gpio.c, sound/ac97/bus.c).
+> 
+
+Hi Andre,
+
+On the #ifdef CONFIG_OF: I also verified that removing the guard doesn't
+break the build. However, since the implementation in cacheinfo.c is
+itself guarded by #ifdef CONFIG_OF, exposing the prototype
+unconditionally could cause a link error on CONFIG_OF=n builds if called
+from outside the ARM64/MPAM path. A more idiomatic approach might be to
+use a stub to keep the header consistent with the implementation:
+
+   #ifdef CONFIG_OF
+   u32 cache_of_calculate_id(struct device_node *np);
+   #else
+   static inline u32 cache_of_calculate_id(struct device_node *np)
+   {
+       return ~0U;
+   }
+   #endif
+
+Would that work for you? Otherwise I'm happy to just drop the guard in
+the next version.
+
+Thanks,
+Yin
+
+
+> Cheers,
+> Andre
+> 
+> 
+>> +u32 cache_of_calculate_id(struct device_node *np);
+>> +#endif
+>>   /*
+>>    * Get the cacheinfo structure for the cache associated with @cpu at
+>>
+> 
+
+-- 
+Thx and BRs,
+Yin
+
