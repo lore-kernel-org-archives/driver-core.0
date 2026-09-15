@@ -1,75 +1,87 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C484B3911D5
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 02:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A466A3D5640
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 02:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789439613; cv=none; b=LiE1G21wgosqbHvfP50mrJStrUn0ir96mql8R3lgNzKpuRdRNDnupzAiU2e/txNTxg/XGRPQAzQipxpG2AEYWBxalRj1kUFy8hzF4usGl7vuJjWzhit/g++TW2+FEiVysuEZ7LH6PTj4GW/tAL7oaPZmih5tIfek+YDrFhXGuxg=
+	t=1789440576; cv=none; b=Lhi2bfTZHCUin3qMFduKerpL7raABSS3eVUMHhxHku88vyeCTihTEdx2/2OBaaQHqZplxILMsADlETLmVILhcGQY45ofK6JkAsH7dwkMWYkBWa4ihf3lp7q1rzcvbxZ0xFwSyzZkn+Gt1iyz24hlCchrjKr8HwqLzILEA/xTUk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789439613; c=relaxed/simple;
-	bh=1PKsPxfydHEXgauA8PzNG0629hOylKv5vC+7wf1sydc=;
+	s=arc-20240116; t=1789440576; c=relaxed/simple;
+	bh=EqMM7tTheAmiO2pL0AejZmpC4UNuhUpme9BMfGc+edc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GSATrhgnWHyLx4cpkYQ0DFjW/FBbtRzEfJlsiAhXIqG0qHbM1E2dpVWjtdfiOh3x2YzCLAeRiaBJBW7s1jZ00d0o9i1dZ55rzV+b4Q2bloe1p8tFhQocPsPdx+dykbveJJO4KtoM0mrroxmn9KsNan/BiexmY7SIihNBgp2j0wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net; spf=pass smtp.mailfrom=themaw.net; dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b=jz4fOWxv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rYdtuKyk; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	 In-Reply-To:Content-Type; b=L0p+HNbaQcp8JJFkDU0OwwhWPOS0vsVlWUdfhZ+0/xgW+yg7nNeg8/hX/W/5ux6iFWSnAiz5EY/SDASP6lbOzqLwrqBo0rYAvpPck1UYgr75/lYmizh0AZAG/Lqb1EOh9qRMZHGD7T11TJOGmTkGbRFC4Xa1pQLkrBEFDYwb9hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Fl7YelN8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EHlYHUHJ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="jz4fOWxv";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rYdtuKyk"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id E7ED1EC05C1;
-	Mon, 14 Sep 2026 22:33:29 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Mon, 14 Sep 2026 22:33:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789439609;
-	 x=1789526009; bh=1PKsPxfydHEXgauA8PzNG0629hOylKv5vC+7wf1sydc=; b=
-	jz4fOWxvqpqHpHUCpaXErZXqKWZXkRwDdFPSrZJsW+GZVB1gXWNOwlSOlBwued2J
-	bD7MTJfNqAuez0zNDdPXUPOBaztimhDMttBGJU3W1/LRw3gTOG3WILi+ZEBE3dla
-	qzrqqQjgOcEePAeU0WrFJLMBVKOWx+5OFSzCP44WA0mR2c7KJTq1KimlUTwWOaFo
-	4pQ3FokBLnoHus2Wg0dY+8sGBuKgfLbNCoH0Ai2ZcEJefGhbaEbCVfL61XOim3r/
-	5WJHVt7UIV01UpTbuD4j+SpzjkYL4vKgOZzywIX/6rRlLOnKiMHYaWxK9/FBjmZP
-	HuIyic9H9sgRjWXzT3KxNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789439609; x=
-	1789526009; bh=1PKsPxfydHEXgauA8PzNG0629hOylKv5vC+7wf1sydc=; b=r
-	YdtuKykZHqo4n9Y2BdebzD//DIfG+IyHfwrM6Fo8sQAK8Teugl+a/uzJW+6obQV6
-	qSrUuMAmtrmhcO8XyuwmPeghGCuiB4cZinnT8c5fQTFS+N0WJFdqZOhf7nkN7baO
-	UImZHceNGGxcKiz31YWHYE8fTiSA4QWWavEs3+c24kNNT7koE0nO72wlMXWQWQLr
-	qhgu5FHI994ketRL9D6ik3jdgzoLYw3sOU6GsvTJVuvvd0IMxOvCeA95xNxD8ZYP
-	3Ejit5QJXtAq2iR3P17JSCxPNnk9A/3mzSek8YCaeZuIFsbffrE4mqdsEjj0VpJM
-	E53MyulKt/+GJlHbJzr4g==
-X-ME-Sender: <xms:ea6oaoqpuQLN6cjzIUCnR_2at-bvCJRv4OvSLMwz-GSUUEN6ZY_gRg>
-    <xme:ea6oavHhOAD0lMK62Q1FVIHcivlpZVOYhDj9xcnwxy9tCTcYxtEVkDcpk5ciQY9Uf
-    uwdOD8XjmsrD1nybET70grSVGeNJRTAgmnTOKMcFrRTLL_7zQ>
-X-ME-Received: <xmr:ea6oat61aURBJNQQq6B-LWOfrcd5uQ4-LJozHmGp8D_3-zTXTrSXAoJW8AJFurYpW5sxBNF9qNfZplRINyLBixS_-j1gQjRPrTJJxefmkkWlQi_9oLEvxIg>
-X-ME-Proxy-Cause: dmFkZTEMc3mhCo0AfY0ceXzitodwcFHZTu8xfjlZlGigJeHbz+Egqlsb4SHQ6LAHi/IX6a
-    XL9n0wCnXfOnILNU+NDW210vGYWsqnhxZD/tehXsuWPRoqQ+OOu0FGm4XLKftVJ+8gUWW4
-    DiIEjUFmd7kgENbaGqIQseNFaGvAnpqK0A2x0eBdQ1clcws8QLWRfu8QLQdA6zJ05XKr6S
-    tBJtHiTCzioUQAn+QmSxX5Hy2CI/wWA1+74xccbJU4p2l2cwVX7fLp2mJPbJrgaR6p0EwJ
-    JK608D67cFfUrtL2ODDa35218JRwGSoDr6+boq6i/x7PZwuBiVW+JMM205/suz77Jl0cCg
-    IGkJSRPhbhw+iZ0zylCayt28bsgxQNgPOcjOr7o8CsYAyt/DpKgYr0b7RNaWU4PznRydPz
-    wiL45gVpfdDtbHPNB4ZaMcTIQzHu5DMORbPVbFx7Upzw+vA2l3XEvo0L/0wNu/wgeXV5Xp
-    BOyRZQu8Z3AIyXj9jBZGF2sOGG8XGLDi321AkSmIjdzmod9ljwxl4Nu2g2ooB8I7Odk4h/
-    F7+6c6dYU6l4qOvFdk1W0+58/kYX8rP8I9chipNHVjWqIzLIxZ2t0A4a4aDqQhlcbVE/Sj
-    lZIjYYvPU8OI6ddd1YPD+mPcHqHWCrWSel37Q1XsC3aqE7b2AbcFFmyZXFOg
-X-ME-Proxy: <xmx:ea6oanfK277olv1BM83EdpuLZBl7hYw4W_R4wUQwt7U_sqOnmHBUKg>
-    <xmx:ea6oao5X1gZKfAB9mX2gV1gaWUnao-y1XuEGCMhoOc4D5Avu_EXU-g>
-    <xmx:ea6oas_cSYc7ZT7JaOeqU9lQNiDNuI3GreDiEbF-wLRlQXWLdkTG-g>
-    <xmx:ea6oaiHWxmMrKGc4VHT3U2f_uv_wPFZjJuObacaniBu1fO3FyvxVtA>
-    <xmx:ea6oaqCHyptHrbv1p3tSk0y31IfIeHnQF_Xf3Vof9y37wvX7c4ESl6Rq>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Sep 2026 22:33:26 -0400 (EDT)
-Message-ID: <3f5cfc95-8b09-424e-93c6-ec958daa1137@themaw.net>
-Date: Tue, 15 Sep 2026 10:33:22 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fl7YelN8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EHlYHUHJ"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F2nThx2992682
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 02:49:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	N5L/sut4FAKbjGdymDCKaX2hkXlq96ynrY1kfZ9pBAY=; b=Fl7YelN818eUZTu1
+	0Kzflq90g7OCnKCWBJgKVz0EOsFkpXAHATYPPJoWI0f7W8CmKsdS6gTpcz9DneIg
+	H5zVO+yu/8JQmTB5p/6nzQrXcv5DvdTTl8tw9+QDpWvIsCzXKVrNHWwCrn/8n7h6
+	eMUyFXWcU76o/b0O901lhOAqp3q7HdV6UYg0Ep8hRicHAyG9X84o9JV/zV7ejPYq
+	Q/pYa13wA5453I2eMTN8Q/zL19Ma0jiriEc4REQk1P7H6EwZvPNbbTuCS1QfBH+v
+	QP5jZ3UVK7yPcf2WxRPk+Nl/WYlVEFHBO5RvFq3hVhXC+t4QBuU3MNj3xiH+uko1
+	ZVFF/Q==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpdevuy5t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 02:49:33 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39de4a68f7cso2677546a91.1
+        for <driver-core@lists.linux.dev>; Mon, 14 Sep 2026 19:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789440572; x=1790045372; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N5L/sut4FAKbjGdymDCKaX2hkXlq96ynrY1kfZ9pBAY=;
+        b=EHlYHUHJ4sYe09yCtd4D7rsJyEBic8gGShHNHsSvUxGTwLr7Svzp4LaeUo4ZOR6TWW
+         1svItTsAHcHnhJww2v0ulsaPalHMlVJbQ4DWb4wuN8I/quw9FheQMyqPVncjpUNQK9bn
+         hoZFXe2veAxbd/Nvn0A0mlljd/ot1dR/dLfqvKjt16XY6f0/W8JUg+wUcBqfikGz4mG7
+         Qq1EYaiRMC9NMMGnLIKqVpYdrI6WWEj6dTWIJYvzBg1E8smy2rhzcty2RB1CKGVTZsVN
+         G6Xh1ED5dCR7OinxW1q7+qG469/WyrtVvMRb2V7iL6Q3Z3JZnaeYqDgyc6r2FD21Zs2D
+         Hjvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789440572; x=1790045372;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N5L/sut4FAKbjGdymDCKaX2hkXlq96ynrY1kfZ9pBAY=;
+        b=YZY2e2T+P8+iW5XwbnAQ9AG6nDo2tJaVryFtuZQKGBfHvoTSlWlsQRYIGG6+vu/F+X
+         qTmF4NewRBjZErJcK50EB1jxkGCSaCwLsjDHuUanIvamIY9Qyexnk3w31Eg1uNdbATwD
+         VJ5KgyzS18ZvOCZg+n2S9f6sI+k4VKYIoYzl4N7g5KAWaZvtN/zo1slK+9oHw8OddmhT
+         3Suygo1918LrfdRcvE/+RvqrzHFS2uzOt//UF76utjzKQzU35bso7DT1RdFXf9GdE+Yb
+         y4NoJ07VFUxMgS+x9IFpBczxvh75jkuDRrkuw3w6+FwWddNij6xCJkvphB2GeA9aw75t
+         f6eg==
+X-Forwarded-Encrypted: i=1; AKwUvByge8pxpeFO07aK9o1qkNklD488VCpLl3kTLOqq3xk9QVEVkh5asmv6uZdEMZjJRgnQNAEBeqHNWRuAXA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mK/LvZx6JPD9QJpZIXTzUi8ocvyEtcrM+2FQulNFPiFErPx8Gu
+	oUdZHaQngzcOLoItNp/etskIYgBrVk0UGJWhko7Y3QhOyfs5IUiJmPDrUSU50njAgFEBiFFmVGa
+	kMj5ioCg+3v6VPnKZ5xMlrp+NiW94+qNlOYcTAhWoZ2lONvnIjW7lS8RX3GKJeZLn2Q==
+X-Gm-Gg: AYBFou346af+MvXP2RXjqZgC1uocxfV/X4CUYXAWQaDcDFeISeWseP4/+kRqXSsz2Ou
+	AHKpU/cqbfjW66ScZWjRpDurC7Q2PhPlntMDoFIEyYtDVTILz7DlJ9WOTUBiAUdYCvi6MVVAbHm
+	aAEZYEgpmGidDS7OUVul1tCU2t62hzrScWkm3+n+PHMKFNfylj2x2AMlN7keJB1uvEaBY0AnuUz
+	4/yfcYsBaaQediyw9duNZcS9Q+355gFlcMC2cfDgaEDqOfznbB5QboKO2BIBJ+4riIWIE7Yw7xT
+	SG21MDlApGcEm7wfPW2Y95JNYeT1GVCdUXXfFOBhXhl0cbunLKxEvhHLETUVPvvzGSBiKgw/U1c
+	ZKSUsJaj72iUa7ZkcHyfKy8imCfvu0DyrfrRK9rpjh8xj6v3rH+H4xJDT3owYLSI=
+X-Received: by 2002:a17:90b:1c83:b0:39e:27e:21b3 with SMTP id 98e67ed59e1d1-39e027e229fmr2339998a91.9.1789440572250;
+        Mon, 14 Sep 2026 19:49:32 -0700 (PDT)
+X-Received: by 2002:a17:90b:1c83:b0:39e:27e:21b3 with SMTP id 98e67ed59e1d1-39e027e229fmr2339934a91.9.1789440571725;
+        Mon, 14 Sep 2026 19:49:31 -0700 (PDT)
+Received: from [10.133.33.86] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfda39eb4sm2127854a91.8.2026.09.14.19.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2026 19:49:31 -0700 (PDT)
+Message-ID: <38215e79-34b6-4731-9853-d7f529861162@oss.qualcomm.com>
+Date: Tue, 15 Sep 2026 10:49:22 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -77,101 +89,177 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] kernfs: Remove kernfs_rwsem from dentry revalidation
-To: Sandeep Dhavale <dhavale@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo
- <tj@kernel.org>, Christian Brauner <christian@brauner.io>,
- Meta kernel team <kernel-team@meta.com>, driver-core@lists.linux.dev,
- cgroups@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260821050507.2161607-1-shakeel.butt@linux.dev>
- <20260821050507.2161607-5-shakeel.butt@linux.dev>
- <CAB=BE-QMyzKT-o=gbhdp3g8JSqQgRiTFzxTX9vEBmCttABrmdw@mail.gmail.com>
- <aqRWuffGKczUhegT@linux.dev>
- <CAB=BE-SjW76gWr0kZcPnEjXOwt90vCV0TJeFuYEGV1Kt4Y1HWw@mail.gmail.com>
- <aqTB1AVmFVs08T19@linux.dev>
- <CAB=BE-S-fOqvjj5s=M588tdUDDgDMAxOF7SE6Sm-9vara3=snw@mail.gmail.com>
-Content-Language: en-AU
-From: Ian Kent <raven@themaw.net>
-Autocrypt: addr=raven@themaw.net;
- keydata= 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
-In-Reply-To: <CAB=BE-S-fOqvjj5s=M588tdUDDgDMAxOF7SE6Sm-9vara3=snw@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 03/10] dt-bindings: arm: Add MPAM MSC binding
+To: Andre Przywara <andre.przywara@arm.com>,
+        James Morse
+ <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Ben Horgan
+ <ben.horgan@arm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas
+ <catalin.marinas@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
+Cc: Drew Fustini <fustini@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+        trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+        ganapatrao.kulkarni@oss.qualcomm.com,
+        Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
+ <20260914-mpam-resctrl-dt-knp-support-v2-3-bf6645bb2f65@oss.qualcomm.com>
+ <f71cfbcc-2e53-4e37-bb98-693996542396@arm.com>
+ <07d32b4c-1f00-45e5-b318-0f28bbb46f33@arm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <07d32b4c-1f00-45e5-b318-0f28bbb46f33@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 12/9/26 11:28, Sandeep Dhavale wrote:
-> Hi Shakeel,
->> I don't see how reclaim can set dentry->d_inode = NULL for a dentry with
->> elevated dentry->d_lockref.count because kernfs_dop_revalidate gets the dentry
->> whose dentry->d_lockref.count is elevated. Reclaim specifically skips such
->> dentries.
-> Thank you for your input! That may explain why I am unable to reproduce led by
-> memory stress narrative. Let me attempt to reproduce this first and I
-> will provide an update.
-
-It looks possible the dentry isn't negative, instead it might be possible
-
-it's a use after free of the inode. There are functions that are called
-
-directly by file systems that use kernfs.
-
-
-I always thought that was the reason for the lock, not so much a need to
-
-synchronise with the VFS (eg. in ref-walk mode it's likely the inode read
-
-lock is held).
-
-
-I wonder if there's a concurrent remove going on when this happens?
-
-
-You could enable debug logging and see if you can see any node removal log
-
-messages. The logging isn't very chatty so it might be difficult to get
-
-further context from it but it could provide a lead to follow up on.
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: IQbBr4q61MlljkKWuNDAsPqntNc8txLd
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDAzNiBTYWx0ZWRfX3CM77grD4yJI
+ XwVeMNhtTE9TirXDI7mwpGYr7fVTyG8ti0CSeOsEMPQuY2I3nNMxKde38YQIxjS1oFVGXTAGVCm
+ l3ETTTvFeWDZvxW070+50UVWerdNWAU=
+X-Proofpoint-GUID: IQbBr4q61MlljkKWuNDAsPqntNc8txLd
+X-Authority-Analysis: v=2.4 cv=ftpJ914f c=1 sm=1 tr=0 ts=6aa8b23d cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=gEfo2CItAAAA:8 a=7CQSdrXTAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=uI_jzqnufFvfmlbxwmcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22 a=sptkURWiP4Gy88Gu7hUp:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDAzNiBTYWx0ZWRfX/4/sfZazJHQq
+ FoxZEFjzESFl7XkI+0dYXG07vUb6yJqxB15lZNinimVwGlF0y0VnpNp6e2dJajxwIySVYul2BsB
+ TqRBfUxcaP5t4kdgDVgMqYm3DgQcyG+bEQT33Dqo0lahrOaxitBqVz/2BNDBtTAn3xeYP3fNvlv
+ IKKSKZJamskIt1lvDScqE2iQj0+z6f1rLVss55r//JSxnZJ/adkqspL7xnsJre3yVoS7+Dk2GjL
+ ggW+yhuG6uZEe9s7cQcgNCfOX1gGrC2CZoA2tBilQYc7Vi15cld7WH0/pMgq2gjKGQy3qIPrsLb
+ En9VeRSc3UnFVfarBtmzxuzpAhnRhGXty0pADVXITnDi4aIip7vJ7pYrooTlau96pfC5a8s1TbE
+ SYJlgbxQzr0PrKFXxpBOy9q5Afxycb8jRcJZui3jKgZRAE8WzSflhSAEe0xxM7vgcjyq0gaYtlk
+ QJyKwgzEyirnDR62OHQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_01,2026-09-14_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 phishscore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609150036
 
 
-Ian
+
+On 9/14/2026 10:50 PM, Andre Przywara wrote:
+> Hi,
+> 
+> On 9/14/26 16:41, Andre Przywara wrote:
+>> Hi,
+>>
+>> On 9/14/26 11:37, Yin Li wrote:
+>>> From: Rob Herring <robh@kernel.org>
+>>>
+>>> The binding is designed around the assumption that an MSC will be a
+>>> sub-block of something else such as a memory controller, cache 
+>>> controller,
+>>> or IOMMU. However, it's certainly possible a design does not have that
+>>> association or has a mixture of both, so the binding illustrates how 
+>>> we can
+>>> support that with RIS child nodes.
+>>>
+>>> A key part of MPAM is we need to know about all of the MSCs in the 
+>>> system
+>>> before it can be enabled. This drives the need for the genericish
+>>> 'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
+>>> until a h/w specific driver potentially enables the h/w.
+>>>
+>>> Cc: James Morse <james.morse@arm.com>
+>>> Signed-off-by: Rob Herring <robh@kernel.org>
+>>> Signed-off-by: James Morse <james.morse@arm.com>
+>>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+>>> ---
+>>>   .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 199 ++++++++++ 
+>>> + ++++++++++
+>>>   1 file changed, 199 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml 
+>>> b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+>>> new file mode 100644
+>>> index 000000000000..53a6fdbbf05f
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+>>> @@ -0,0 +1,199 @@
+>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
+>>> +
+>>> +description: |
+>>> +  The Arm MPAM specification can be found here:
+>>> +
+>>> +  https://developer.arm.com/documentation/ddi0598/latest
+>>> +
+>>> +maintainers:
+>>> +  - Rob Herring <robh@kernel.org>
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - const: arm,mpam-msc                   # Further details are 
+>>> discoverable
+>>> +      - const: arm,mpam-memory-controller-msc
+>>
+>> But that doesn't match the examples below, does it? Don't we want to 
+>> allow just "arm,mpam-msc", but also the memory controller string, with 
+>> "arm,mpam-msc" as a fallback?
+>> I guess the pattern should then look similar to interrupt-names below?
+> 
+> Just seeing that you fix this and other things up in patch 08/10 later.
+> I think it's confusing to have this split now for a v2 still. I wouldn't 
+> be aware of previous review of this original patch, so it doesn't really 
+> matter. Please squash them.
+> 
+> So I think you should merge 07/10 and 08/10 into their original patches, 
+> otherwise reviewers might just get confused.
+> 
+> But you might wait for a bit with a repost, to see if there are more 
+> generic comments on DT support.
+> 
+
+Hi Andre,
+
+Good catch on the compatible issue in 03/10: you're right, "items" 
+requires both strings to be present, whereas we want to allow standalone 
+"arm,mpam-msc" or the two-item combination. This is fixed in 08/10 using 
+"oneOf"; the iommu example with the TODO is also fixed there.
+
+On squashing: sorry for the confusion and agreed on both points. Since 
+this is still an RFC and the original authors haven't commented yet, 
+I've kept the fixes as separate patches to make it easier for them to 
+review. I'll squash them in the next version.
+
+Thanks for your quick review!
+
+Yin
+
+> Cheers,
+> Andre
+> 
+> 
+
+-- 
+Thx and BRs,
+Yin
 
