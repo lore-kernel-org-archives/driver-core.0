@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F485480DCA
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B2A485CF9
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469927; cv=none; b=lfn9baIk0+RZffN//J0rGia85dwXU9XW73wdlh+qip+0vCubiH/m6EwOd8EGJzigRQG2YeocqA9rSTO0/W1eW80ouY/vKj4ReMoY8FGSsdgQ5GbE1X8/9x+skp/Xt0TN4obhvmXhbW4TMfEphgtIRQzO7POl8v0q1cWWRbHPHlk=
+	t=1789469928; cv=none; b=R6XjkbNyeDM7Aa2alFsSWYQK0ifEiubgRw2gX3Irk5uN8knA6Xv0ThpP3F/9UlVeLqxH6dGRQlCnYUN/N3sTLegE32pys1fJzM1xbw3TqyIQbNdLr/nga19daKq7MEJ81usBH8066H/cy3+H2FePBklgZboBHiE5RVRr3XL7dwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469927; c=relaxed/simple;
-	bh=dY0q2inShOf1iFynSL7QntpUqtr/LiL5XlMbuV1S8Mo=;
+	s=arc-20240116; t=1789469928; c=relaxed/simple;
+	bh=sBlK784vZ/oqRMvO5qMK02PMD1Gt0+oIJw0QmxBvQ2A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TU9h2+tk+i8kdkuuSev/JN94gxpEcL+q3iI3Z2E1RUnNm0JwL1hUzYLKvIFDxWFLer2Rf9fQ0kTkpQvqZ8ooo2hcmQ7Zm+eEXJVC6T5bTfIhpt47UbkuA9zIP547RhjtfZ5tGLZXryVqreP44hTIGmFjlJm7r0qE3Ta0FITiVFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WxtgckeJ; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=ZGifDtaX+f+A/3uwkz1Tt0Rjf+mvj0Wh3mcFpftaEWjGOWK8GwhRRAGrWSUoc/yl7WFBMwuiUjaKjyd9rqXeYghvmBBIjSpW42nk/oG0/r2MSGdZAh1HliENKBWX5uqfuHotom1Ilm1pWte1+KGBHLX4ggTWpNQTNV2jLRiqvNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oPTvglxf; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WxtgckeJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oPTvglxf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1789469923;
-	bh=dY0q2inShOf1iFynSL7QntpUqtr/LiL5XlMbuV1S8Mo=;
+	s=mail; t=1789469924;
+	bh=sBlK784vZ/oqRMvO5qMK02PMD1Gt0+oIJw0QmxBvQ2A=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WxtgckeJhvCgXFGvJfSYT3jGdEnLSYaMoIrkJ5L2WBeZlBA+c+eAVMcbSxWNdB6MJ
-	 sbdKcx6bBOAuPLzaux0qSbUsPwJ1ILU68WcqLbk+IdTZ50oI30JNMQh+3vybSFp1Oe
-	 tMLs/OjPhfMg4FABc2v4xs2ta8MzN54obg6Ly9dvLvruEtgSkazWNmeNP7b8MAucBj
-	 gN0EFCdncviE0OKTdNGXUD4EATyJLt8UK5s4KXF01zEoeF/hmWMITezoqpgi3ozNWD
-	 Ep3EGhq/Db+iaTdK3LZ9XL0vVA4lt/J8WLP1wWa5bIu1DuovxNzWllhqcBEBOnD6AP
-	 nc4mC376zLbRg==
+	b=oPTvglxf1y1Q5InX+Qtm4qblgd5bYGkk/CBKck5i5h0bb1eIQi5EkqiOdxBQtxLus
+	 KpkBNnHPvBecAmROpFK3kKYz3SvRS51+nmJZMf/bUR+K1HF23Z7RfERzlsMoADFlE+
+	 L4IEYMO/Q6+s1Imgj4xRuvb9lJkOEufpKML/typHwrOj1RtrXLDfUTfUpKn+ehd67M
+	 x58/UJ6BuQmNa34V7R2c3cIUU/8uJS8OrOVUuxfgW4vvw9VPrnsgjN+scMG1OwCmTK
+	 ZGiONEJ1SMVfdFGVL/rhsG0YUeofmpUFfCSmpV+G5veyjErwKgIQhiIgaPMfFZ1Bme
+	 V/VNc8dPg28pQ==
 Received: from laura.lan (unknown [100.64.0.215])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: laura.nao)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E5B0917E09B5;
-	Tue, 15 Sep 2026 12:58:42 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0053617E0A27;
+	Tue, 15 Sep 2026 12:58:43 +0200 (CEST)
 From: Laura Nao <laura.nao@collabora.com>
-Date: Tue, 15 Sep 2026 12:57:35 +0200
-Subject: [PATCH 2/9] rust: io: drop the CONFIG_64BIT restriction on system
- memory u64 access
+Date: Tue, 15 Sep 2026 12:57:36 +0200
+Subject: [PATCH 3/9] drm/tyr: add MappedBo, a kernel BO with an
+ always-valid CPU mapping
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-tyr-interfaces-v1-2-5d28f1f75aca@collabora.com>
+Message-Id: <20260915-tyr-interfaces-v1-3-5d28f1f75aca@collabora.com>
 References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
 In-Reply-To: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -68,38 +68,147 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel@collabora.com, Laura Nao <laura.nao@collabora.com>
 X-Mailer: b4 0.14.3
 
-SysMemBackend's IoCapable<u64> impl is currently gated on CONFIG_64BIT,
-copying the MMIO backend's restriction. MMIO needs that gate because
-readq() is not available on 32bit. System memory has no such dependency:
-a u64 volatile load/store compiles on any architecture, it's just not
-single-copy atomic on 32bit.
+From: Daniel Almeida <daniel.almeida@collabora.com>
 
-Drop the gate so u64-backed types, such as bitfields, work on 32bit too.
-Document the non-atomicity at the impl instead of enforcing it at build
-time.
+Firmware sections need CPU access at well-defined points: once at load
+time to copy the section payload in, and, for the shared section, for
+the lifetime of the driver to talk to the CSF interface blocks.
 
-Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Introduce MappedBo, which pairs a KernelBo with one persistent vmap so
+the GPU mapping and the CPU mapping share a single lifetime, and hold it
+in Section instead of the bare KernelBo. Section payload initialization
+now writes through the persistent mapping.
+
+This is the foundation for resolving firmware-reported MCU virtual
+addresses into validated views of the shared section: the object that
+owns both mappings is the natural place for those checks to live.
+
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 Signed-off-by: Laura Nao <laura.nao@collabora.com>
 ---
- rust/kernel/io.rs | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tyr/fw.rs  | 14 ++++++-------
+ drivers/gpu/drm/tyr/gem.rs | 49 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+), 7 deletions(-)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index de8ef8e2aec4..a85ddd07cb7f 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -1428,7 +1428,9 @@ fn io_write(view: SysMem<'_, $ty>, value: $ty) {
- impl_sysmem_io_capable!(u8);
- impl_sysmem_io_capable!(u16);
- impl_sysmem_io_capable!(u32);
--#[cfg(CONFIG_64BIT)]
-+// Unlike MMIO, that needs `readq` which is not available on 32-bit, a
-+// system-memory `u64` access compiles on any target. It is just not
-+// single-copy atomic on 32-bit.
- impl_sysmem_io_capable!(u64);
+diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
+index 19bdeee858ce..fb4d47ab35a3 100644
+--- a/drivers/gpu/drm/tyr/fw.rs
++++ b/drivers/gpu/drm/tyr/fw.rs
+@@ -144,7 +144,7 @@ struct Section<'drm> {
+     // Keep the BO backing this firmware section so that both the
+     // GPU mapping and CPU mapping remain valid until the Section is dropped.
+     #[expect(dead_code)]
+-    mem: gem::KernelBo<'drm>,
++    mem: Arc<gem::MappedBo<'drm>>,
+ }
  
- impl IoCopyable for SysMemBackend {
+ /// Loaded firmware with sections mapped into MCU VM.
+@@ -171,13 +171,13 @@ fn drop(&mut self) {
+ }
+ 
+ impl<'drm> Firmware<'drm> {
+-    fn init_section_mem(dev: &Device, mem: &mut KernelBo<'drm>, data: &KVec<u8>) -> Result {
++    fn init_section_mem(dev: &Device, mem: &gem::MappedBo<'drm>, data: &KVec<u8>) -> Result {
+         if data.is_empty() {
+             return Ok(());
+         }
+ 
+-        let vmap = mem.bo().vmap::<0>()?;
+-        let size = mem.bo().size();
++        let vmap = mem.vmap();
++        let size = mem.size();
+ 
+         if data.len() > size {
+             dev_err!(dev, "fw section {} bigger than BO {}", data.len(), size);
+@@ -235,13 +235,13 @@ pub(crate) fn new(
+ 
+                 let va = u64::from(parsed.va.start);
+ 
+-                let mut mem = KernelBo::new(
++                let mem = gem::MappedBo::new(KernelBo::new(
+                     ddev,
+                     vm.clone(),
+                     size,
+                     KernelBoVaAlloc::Explicit(va),
+                     parsed.vm_map_flags,
+-                )?;
++                )?)?;
+ 
+                 let section_start = parsed.data_range.start as usize;
+                 let section_end = parsed.data_range.end as usize;
+@@ -252,7 +252,7 @@ pub(crate) fn new(
+                 let bytes = fw_data.get(section_start..section_end).ok_or(EINVAL)?;
+                 data.extend_from_slice(bytes, GFP_KERNEL)?;
+ 
+-                Self::init_section_mem(dev, &mut mem, &data)?;
++                Self::init_section_mem(dev, &mem, &data)?;
+ 
+                 sections.push(Section { data, mem }, GFP_KERNEL)?;
+             }
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 3bf3787f5c3f..4763b5b2cd80 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -136,6 +136,12 @@ pub(crate) fn new(
+     pub(crate) fn bo(&self) -> &Bo {
+         &self.bo
+     }
++
++    /// Returns the GPU virtual address range occupied by this buffer.
++    #[expect(dead_code)]
++    pub(crate) fn va_range(&self) -> Range<u64> {
++        self.va_range.clone()
++    }
+ }
+ 
+ impl Drop for KernelBo<'_> {
+@@ -158,3 +164,46 @@ fn drop(&mut self) {
+         }
+     }
+ }
++
++/// A kernel-owned buffer object with an always-valid kernel (CPU) mapping.
++///
++/// This pairs a [`KernelBo`] with a persistent vmap of its backing GEM object,
++/// so the GPU mapping and the CPU mapping share one lifetime. Consumers that
++/// need CPU access to the buffer contents (e.g. the firmware interface blocks
++/// in the CSF shared section) hold an `Arc<MappedBo>` instead of creating
++/// short-lived vmaps at every use site.
++pub(crate) struct MappedBo<'drm> {
++    /// Persistent CPU mapping of `kernel_bo`'s backing object.
++    ///
++    /// Declared before `kernel_bo` so the mapping is dropped first.
++    vmap: shmem::VMapOwned<BoData>,
++    /// The underlying kernel-owned buffer object.
++    #[expect(dead_code)]
++    kernel_bo: KernelBo<'drm>,
++}
++
++impl<'drm> MappedBo<'drm> {
++    /// Wraps `kernel_bo` together with a persistent CPU mapping of its buffer.
++    pub(crate) fn new(kernel_bo: KernelBo<'drm>) -> Result<Arc<Self>> {
++        let vmap = kernel_bo.bo.owned_vmap::<0>()?;
++        Ok(Arc::new(Self { vmap, kernel_bo }, GFP_KERNEL)?)
++    }
++
++    /// Returns the persistent CPU mapping of the buffer.
++    pub(crate) fn vmap(&self) -> &shmem::VMapOwned<BoData> {
++        &self.vmap
++    }
++
++    /// Returns the GPU virtual address range occupied by the buffer.
++    pub(crate) fn va_range(&self) -> Range<u64> {
++        self.kernel_bo.va_range()
++    }
++}
++
++impl core::ops::Deref for MappedBo<'_> {
++    type Target = Bo;
++
++    fn deref(&self) -> &Bo {
++        self.vmap.owner()
++    }
++}
 
 -- 
 2.39.5
