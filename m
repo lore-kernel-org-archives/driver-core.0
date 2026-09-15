@@ -1,92 +1,211 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010030.outbound.protection.outlook.com [52.101.201.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8A2433E7C
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 04:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789446962; cv=none; b=kUfdxE6b/SC2J0xkQOqyvxteC5nsugYUsgGyQ2A3H7jbMQJxY1c3qD5SgYsq428PXv8pip29BM//W9NKLxnsnIGsA+1u1xkF8Hu0X8qs7cB8vgazK4YRaXeNlXVrJa2wX4afndU69B8iVt6ulLnSOrqqiEEdx4mg72H1UmYpmjE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789446962; c=relaxed/simple;
-	bh=fV0P8oC4XejGVLUDGNjYYJFloM7WZQ6GtX6gRj/qFMA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qhEiDcAfYeITh4I0t5vLjNAHwyKLGlb0ENUIiZnDkPgHOv8XwllssNMaSpVD6H4MxVGVRD+6qsnv7G3qjG59D8L+Z5oYgJorXoNwwpWbdlVWDT+0F8DB6i3wycSwf8k2md0snaagjgZ7eHJjL1oqEbpZSy8huZC6STByRBVxW/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowAAn_O8oy6hq2cQICA--.32678S2;
-	Tue, 15 Sep 2026 12:35:52 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: dakr@kernel.org
-Cc: driver-core@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	rafael@kernel.org,
-	rob.herring@calxeda.com,
-	sudeep.holla@kernel.org,
-	lkml@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH 5/6] driver core: cpu: Fix OF node reference leak in register_cpu() error path
-Date: Tue, 15 Sep 2026 04:35:23 +0000
-Message-Id: <20260915043523.1725991-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65589396588;
+	Tue, 15 Sep 2026 04:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789447483; cv=fail; b=hL0FnIkNObICquEGGmuCpIqBd1iA3FsPiWd1nj9zZy38nVotu9ntr3XJu7ief/IJ4bzvr1UMD6Zt8/saQw6wUWDl8dE/x6E25St61qFRARDHZeHhlCnDWSbaUyHUzUAPdLLBd4JA/4+QJCXcpB96asP48F5Za/qk6qdb0gJp210=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789447483; c=relaxed/simple;
+	bh=CaQpeH7XgBmFN/9CT+OqKVfRtnxe/tbkmKNW+Cj0OWE=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=nEt9VXXUVhvQA2u0KWx7SJ2QOJw4c5pxui5E+GxGAIMQ36o+G4IJHcrmE+DyH969ENyPF7OkhIbXQYFDhCgvLv6gxS9wChKEWvNwGwXpQASSMQYfNfkPXkrCKxEXWzCU8eJ1tdfPLWszg5N3rLlxHVGDEzhzC17fN294eeIzHHs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=V4tY1wGS; arc=fail smtp.client-ip=52.101.201.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="V4tY1wGS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HebIEByVPgnWL5N2RQfMwzen7kHIma+c2jZHDpdQyyljEzIY/fyFPZj9mgzyywaaYyNhiZJQ/O69nSFLGI4HGsGg7IPQkyMjypO6/5AA4La8+TIrQHuhbfIYV9W0pOGujZaCoO0PLWeYcraoiWV88BL1MXaDW740USpX8FZsYgIKsKrePked1VrOIR9m+D9wHV1uItA6Sx3TLuMNnZvnKkn3y9rOF5cExf8nG6Fy3X7jlx2IV1TSObd64TBNMbKiVW6kbSiSQp4O1fv8cD34CKc3tOOnQ+6vGZ7JBwI/ysvxW0iyAOY7OJv7vKJcfo78fAqCElYpvTgzM/1I2/Mf8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CaQpeH7XgBmFN/9CT+OqKVfRtnxe/tbkmKNW+Cj0OWE=;
+ b=QWDPpGY71w1CUdo/bjVHLC/XWR37gh509T/wYKNgjh0yv7lsalMTcC3v1kw/fnoCeAZ9b+aQRS5UWR4QTsnDSO2r5NuI0/ypaoTpV9S7pybu0rF2rock/TyYqgLnzIDsrvhU2tJz3VH3NYgbDX3YkI9kyudWju+T/d/Ukcv1fBALI8Z6U2iMOxNjgJZcs8CLOTlM0AhsLM59tCwdNdhgK1lDmN1xmJxQIDJeSpbXNLdnHDIkA+Q7FlMktnRcqNZ8JjlHA61/XLVF8zEmxms4I7pyi+F4+KbZT47BzL7/Hu4FMT9pU2v+N5sEAId7Z1IGOkJSJk54yatMv3bC5DvGiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CaQpeH7XgBmFN/9CT+OqKVfRtnxe/tbkmKNW+Cj0OWE=;
+ b=V4tY1wGSIZJ7FphAhfVUVACY+XiLi1VFaodhMWtAzz+Ks+Ak3x1Odvhc82wIuipcWCz/nBh/OrbH9KPsWRSwfcMGINv3DeB87E07AV+7mUV8GXS2w/GSiKT92buGldTMT7j+hTw21+rKgmIhE+fkA48oNW5A82fUl83LNYF67kbNQ0ZQ39Rj0D2foL1P9MUFT9aUHX0y+Oh6JQKbyHwAxAOoXQyrLqBi0F8v9RJwBmldn2Zx2nHZdbsFGXHq0ji999E0vW2uUa80cVmqEs02pqnhLdtHyjUnrj+q3TnDWnXewK7Qq8zNKDu/DjnWAMvkARLpn2btQbFeuAaSTEt6TQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+ by SA1PR12MB7444.namprd12.prod.outlook.com (2603:10b6:806:2b3::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
+ 2026 04:44:37 +0000
+Received: from MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
+ ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
+ 04:44:37 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 15 Sep 2026 13:44:33 +0900
+Message-Id: <DLFM6SJH6L3P.9YG5DXQPR3TX@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Matteo Kloiber"
+ <kernel@matt3o12.de>, <aliceryhl@google.com>, <ojeda@kernel.org>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
+ <a.hindborg@kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
+ segment size
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Content-Transfer-Encoding: quoted-printable
+References: <20260831233215.287881-1-kernel@matt3o12.de>
+ <20260831233215.287881-3-kernel@matt3o12.de>
+ <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
+ <20260913210806.125589-1-kernel@matt3o12.de>
+ <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
+ <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
+ <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
+In-Reply-To: <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
+X-ClientProxiedBy: FR5P281CA0006.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f2::16) To MW4PR12MB6873.namprd12.prod.outlook.com
+ (2603:10b6:303:20c::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAn_O8oy6hq2cQICA--.32678S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrKrW3ZrWfZw1DAry5tFyDAwb_yoW8Jr45pF
-	4UGa9Ivr9rWF4Ikw40vFyjqFyj9a12yFWrW3W8Gw1a9rs8Xr98J390qFWYg3WrG3ykA3W3
-	try5JrWfury8A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
-	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
-	x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
-	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
-	JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYx
-	BIdaVFxhVjvjDU0xZFpf9x0JUtgA7UUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwMLA2qowpAg5AAAsY
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|SA1PR12MB7444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99ca7c5c-9cdb-4ab6-6dc8-08df12e40ba8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|4143699003|11063799006|56012099006|6133799003|22082099003|18002099003|10067099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	vF5jhJX53D5OPW8HbB5i3p2QyDFBVhesl6u5Rv8C5DM+nadGOEs0nhJ2ACEF+2PJUGPfpOTiyDy2o4tMCem9CuUhfEV0xT8dsBXLsgCSHqzhpsiVJU5Wvemm/un1YLwojWE/CLgr2HiBqEX9RTEnWueylhnQPtg0/Z2CamBLjgPqqfNLalqVeRI/A73r7xchMOQxac1gDU3N928GBPH6DfRQZeKlgy5Diq2UWa2t2wdrFz13QBUzkBvZ+j/mPPvXdrJlx8w55fAfF+D6mIujgYwaO8AoPp0kkJJy1Hv+oc5BYUa1YN0V9nj4edsJ5SGUf7k7A4bDwyUasjZaiqbLqanJ62o4rL6ADDBRe1I8q5zam32Jo2kHAG1q4m40U7hEyFsqNB48HAEZ0Mpq5eHqAMSLT+4rBEWbVFdGJkDw9ytBZ0I6cL9le1peGH28xAi/eEC15I/YhEBuN0qjz7T1noFXu92LhqGsDAbYdgVOhWlhYU3ord/Bh1ECmBZLQN1jifT2IYazoZMaQdx1gmXgxH98h7Cm4j+rf3woAijAucVR0edTRepOT/rIsENp2NmEyOEX99RPIbA8tFkTS/4AgVpKLMV3hhEdrdqXQlzkeVAztEGTj8Ba/6urwjwaygS80MaoD4jyrHX/wVmrsf79WMtzz0qsjsVRiYQgmY404wk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(4143699003)(11063799006)(56012099006)(6133799003)(22082099003)(18002099003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SlhBWkJUUmZodDRGQzhDMW1vSE5DRWx5bzRvbURNcG9rTDZWbmFHLzZtTGxR?=
+ =?utf-8?B?b2pLTmlIT0puaUVuaDFuSGI5bGh4WGpYeUFJZkkzSXFIbDJVTktrUzZsdDZW?=
+ =?utf-8?B?dHp0RG02RmFxWmhzM3pHY0pEYkRGdTBaUWhzcEtTczBkNjRXYWErV3NBVHYv?=
+ =?utf-8?B?Q3diUS9mUVQ4NEtxNUV0RFJnOXdtNlRwUkx4NzluclFvK0orQjdWWWd0RWtt?=
+ =?utf-8?B?OTQyYXgrdlFET0Q1d1JQRmZSZEcrbXVMRGtWcjJtUmZZa09vMUt2dHFQRlA1?=
+ =?utf-8?B?UHNkS3lEaUZnY1VtUnBaOTYzYmNGV1VzbzBtcW4vdHE1NXRRNVk5ckFjU0g2?=
+ =?utf-8?B?aG1zTVdOK21rak5uRWpZN3VmWU1ibzVNSGJ4OWxqVzI5b2dscGxXblZWekxY?=
+ =?utf-8?B?NDQ4aFB6SlVCTFBQcGhMeXo1MEp6eW11T0d1TEp3T0EwbENTOHUvb2lZMWhY?=
+ =?utf-8?B?NVh3UWYydncvc0F6TVdQeHpPNW82TWd5RzBIenJ0NGhrSDRHT2FUbE9kYi8r?=
+ =?utf-8?B?RnBrVE9XUTBmMlByWDBtTGhwUUZ1ZlNJcDgwMHNVQ1RBNW8zUHJmVVdKcmJy?=
+ =?utf-8?B?blQzbmlHcWtkZ2t4M1BCRHZ4RGtVZ0llaHRNT1RKbkNaREpHSGsrTktaOExS?=
+ =?utf-8?B?aHFsajQxOEdIZm01cFVDc1FjNCtuUGdXajY0SmVSVHJVdFhuZFNuZVgzNEJL?=
+ =?utf-8?B?elBTbVJjYko5am9DcnFjK0RWbUVsNDlUZ2djc0tnOFlXeXNKN0VrZkRXbWxV?=
+ =?utf-8?B?MGFKN2FpbEVNdDVhcHI4eVkveEZKYjBDeWRLVW9lbllzOGZzRm5DekNxSXkx?=
+ =?utf-8?B?RHBHSFZ3U2NmWGp4bkY5R2QzU1J4aU4rVDdBRkJNRGVuODlQOWk2aDFUYi9O?=
+ =?utf-8?B?R3o0RXE1YUtidlF4d3V4cG1rOEZhSi9vcmVLOGlRdUs0NjUzeURjUFFXdGd6?=
+ =?utf-8?B?WC8vY0o1V2psL3MrRmgvQW54M0hGUUtPUGNLQkpKQUhmMmNjdldqQXNLSFBF?=
+ =?utf-8?B?OERzbGhUdDF6VG0xdXZXeGpVQ1k4ZTFNMzV5WnRuc3NvRitoWkxTa2FJN1p6?=
+ =?utf-8?B?MTAzOW1Wdk43NzFldDBTNVlKbVlPSkx4RDdORUZUUFMvS0JJdDF1Q08xZWYv?=
+ =?utf-8?B?YVZWOVhaRHlEbjFKUDhJZmh5SWdNMXY1TnMxRnk2UXU0eUpXSGJqK2pTTXV5?=
+ =?utf-8?B?WGQ2ZUZ5K3lMV3NtYjVjQk5jT09MSkM0ckJ6VnNseTNzM1J3WC9yMmtOeVdY?=
+ =?utf-8?B?aW5Lc3FyYkxkeUx4cEdwdjl5WXNFUFdwVi95bVY0YWlaRVQwTExsVWM1NzFR?=
+ =?utf-8?B?S0JlcDlyaDI2TmdUeDJDT1M2WVhzM3RzL0o3TDVFQ1N2eVRXOExzREdwQWRX?=
+ =?utf-8?B?UmZaMXpjd2N1VUp5UjMrdFl1bzRrZnV4V2w1MmJkYXEvQk1FRkpRZXVqOWZt?=
+ =?utf-8?B?cFN2UFdRa0c2UW5CQkFCMjFrc1M0UThUcWRKcUpKTHBuVVNodWM2UmFlbEFr?=
+ =?utf-8?B?OENUTmhHcXFhOGFSL2FUUk9WMk51TFkrT1pHWitLbG9iTEU2Vzl6L2Vxb1Ro?=
+ =?utf-8?B?NUdiQ2E3Y0szOU52T0IrNmswWk84THVlYVJnU3Z3emxnMEpsU1I1MXNVb2JJ?=
+ =?utf-8?B?MUtxN3ZlMk9TQ1h1TUFBVzZ5MVB0NGpCWnB1cjNkbS9sRURxVmpmWVlRdExE?=
+ =?utf-8?B?V3hBcnZ0Yk10NXVBWmRMMlc2QWNaTW42NWlXRmhhbDB0ak9TK2hTRUNLRERB?=
+ =?utf-8?B?SWRzY1RmRVVHRURqeHY2Z2JXQlBad2R5TGNzWmFSd21LK0U5TllLYVZBOFpR?=
+ =?utf-8?B?QVVqZmpPdlRpQ2lwZDVwY0N1K2NZd3pUeFhqdGU1WjZtNjRHMHA1ajByWW1j?=
+ =?utf-8?B?SHUyT3F2dnE2N2ticFlSZks1T3RvVFJwRDRDQVJjRkYzTG9JWGtmK0l0UjlR?=
+ =?utf-8?B?RXpmZUd4NExJWWNwVmdJdW1LNXUvQitNenBNdXg4NjhxZlFYWjcvR1lFOTdB?=
+ =?utf-8?B?SFEwcFhKeWdZVlhFRlVqVWZDNG1xSjNCNFpoNklJTDhRNkxOMy94eXNuWDRL?=
+ =?utf-8?B?ZEQvTUFiU0hWWldVcEZoaU00dEo0ZS9vTmxoa2dPdUVXSGJIMlJPcUw0a3pC?=
+ =?utf-8?B?U2JQUnMrUkdrNUFwN2VKMmpRVnA1MHdnTkhkUHpVazhqdXJOMzJVdS9rZkdu?=
+ =?utf-8?B?WnVqTjloUnUwZXFBVDhMSk9adjVsM1dqVjkraXBLT0NlNzhQUnBpTXR1TjlH?=
+ =?utf-8?B?bHI1R3B4RFlnamZ2TDIwN3gyb2Ztb0trRWhKMjJrbUgvSVYyaGt6N1NZaTdk?=
+ =?utf-8?B?UFROd1d0eGhkTEZMdGJ5aEJEV0NpNWxJVmV4MExBbFkzWVQ4YVUrdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99ca7c5c-9cdb-4ab6-6dc8-08df12e40ba8
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 04:44:37.1889
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oRNvMYLlZHig8LIScHkMmMEMUyu+foHvY/FLxCvGS/njkMWZH1vdEFxzF+SMBpLtbbCpcu2I4SgdurimIU88ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7444
 
-register_cpu() assigns the device node returned by of_get_cpu_node(),
-which comes with a reference, to cpu->dev.of_node.  If device_register()
-fails, the error path calls put_device() and returns, but nothing ever
-drops the OF node reference: cpu_device_release() is empty and the
-driver core does not put dev->of_node on the failure path, so each
-failed registration leaks a reference on the device node.
+On Mon Sep 14, 2026 at 7:22 PM JST, Gary Guo wrote:
+> On Mon Sep 14, 2026 at 10:58 AM BST, Danilo Krummrich wrote:
+>> On Mon Sep 14, 2026 at 2:45 AM CEST, Alexandre Courbot wrote:
+>>> On Mon Sep 14, 2026 at 6:08 AM JST, Matteo Kloiber wrote:
+>>>> On Mon Sep 7, 2026 at 11:43 AM JST, Alexandre Courbot wrote:
+>>>>> It also means that without patch 1, nova-core would split the firmwar=
+e
+>>>>> into hundreds of 64KB SG entries, which is not breaking but still
+>>>>> something we want to avoid. The correct fix is to make sure that
+>>>>> `dma_set_max_seg_size` is called by the driver, and while we are at i=
+t
+>>>>> we also want every driver to call `dma_set_mask_and_coherent`. Ideall=
+y
+>>>>> we would use the type system to make sure that both functions are cal=
+led
+>>>>> before any DMA operation can take place (using a safe interface), but
+>>>>> I'm not quite sure yet how we can do this.
+>>>>
+>>>> This sounds sensible indeed. Should I open a thread regarding that on =
+Zulip?
+>>>
+>>> Probably not necessary, the mailing-list has a larger audience and is
+>>> the right place for this. I expect people will jump in here with their
+>>> thoughts.
+>>
+>> The problem with those is not that they must strictly be called before
+>> allocating DMA memory, but they must not be called concurrently with oth=
+er DMA
+>> operations, such as allocating DMA memory, as it would technically be a =
+data
+>> race.
+>
+> Do they really have to be called *before* allocating DMA memory, not do t=
+hey
+> just need not be called *concurrent* to DMA memory allocation?
+>
+> If it's the former, we can require these to require mutable reference ins=
+tead,
+> so the probe takes `Pin<&'bound mut Device<Core<'_>>>` which still derefs=
+ to
+> `&'bound Device<Bound>`, but Rust will require the shared reference to no=
+t
+> co-exist with the mutable reference.
 
-Release the OF node with of_node_put() on the error path.  It is safe
-to access cpu->dev.of_node after put_device(), since the statically
-allocated struct cpu is never freed by cpu_device_release().
+As Danilo pointed out [1] from a strict safety perspective they must not
+be called concurrently to DMA allocations. So there is not a hard need
+to call them before.
 
-Fixes: f86e4718f24b ("driver/core: cpu: initialize of_node in cpu's device struture")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/base/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+But my point is different: until patch 1 of this series, nova-core
+didn't do anything particularly wrong but was operating with an
+inaccurate DMA segment size. Which is currently inconsequential as long
+as you don't set `CONFIG_DMA_API_DEBUG`, but will become sub-optimal if
+patch 2 gets merged (which it should be, otherwise more DMA-limited
+devices could start misbehaving).
 
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index 875abdc9942e..bc96725c8d4c 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -431,6 +431,7 @@ int register_cpu(struct cpu *cpu, int num)
- 	error = device_register(&cpu->dev);
- 	if (error) {
- 		put_device(&cpu->dev);
-+		of_node_put(cpu->dev.of_node);
- 		return error;
- 	}
- 
--- 
-2.34.1
+The thing is that every driver *really* should set their DMA mask and
+max segment size ASAP, but at the moment this is done through two unsafe
+functions that are very easy to overlook.
 
+And practically speaking, is there a reason *not* to do that setup
+before allocating objects?
+
+So I am thinking that maybe we could have a kind of `DeviceDma` type
+which construction involves setting the core DMA parameters (or
+acknowledging the defaults), and to which all allocations would be tied.
+IOW, Danilo's DMA allocations rework [2] would tie to that `DeviceDma`
+object (which itself would be tied to the bound device) instead of the
+device itself.
+
+[1] https://lore.kernel.org/DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org
+[2] https://lore.kernel.org/20260830193824.471089-1-dakr@kernel.org
