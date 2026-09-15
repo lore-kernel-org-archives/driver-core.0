@@ -1,160 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99E0409281;
-	Tue, 15 Sep 2026 06:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789455402; cv=none; b=Yhs4qBzCRujwyws2V9FmUDiUeObIQe+vGfW4usRF+oM9q0K2a6ofm+2u3aLpkEymnLPt3MLnWVZeotPw/kR40Rngm/aBZqoLEaJwPpVGqjMVpJCA8j/BKt+fEabcgxXKM8HrBSnAKkyUNXc2/qA6pDNGEVvEsDNdAiz9NLmiR/w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789455402; c=relaxed/simple;
-	bh=NeRBepR5Zz7RMQ5iLba4Tw0X/ZIZN1DT6n2hYyHWm34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ED0TuMxFFenRBxT+O8Fx733bqh6uuNciUe+tnC5WANsVPQk7sZG+DT1MuAiw5jn2q+NLYaLOR9NW6vUOwiOMYz3M9iYQ4BcFbPXXG5YnH2J1Mjvqn+UUwcnnOF6m4O68Q7/uH9YTsWG9Zx5M156Lwjnp9pgiGptBhejuefYq6I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opLVeqeS; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7973A784F
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 07:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789459117; cv=pass; b=KpK4jE8p+JJJblA4jmeoPoRckYpaZwm/4VX4HPmJ56eQaXPH1Csk7Y8Txh4KSOpSn+GU47Ir+16THV0Utlt5uJou1eacaK+3GhSB6MfKmObSfApkav5eZ6iCGCBelAlsr06Tl8+QH/RXlGygyJrg4IzscFlAWUazOs13qQrYIBA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789459117; c=relaxed/simple;
+	bh=m+QNxznO+HXTgUeCgcEy5d2xUE+4TuNok1338BQwzsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JAZcxuH6naIXAFPsuOeUVtnEGejEtGaUkdqhKS27v/YmhgHj2AjHcDo95USX6bknu8dL7fgihkYbzxRNt5sLp/F8bYodvXA3Nolimc193jctTLE68suoqS/i0ckXnUuEw0pR8lBG3f7xXvsxTK8eE87kmKy/UwRgEGquZkfMGPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fj5r4R2z; arc=pass smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opLVeqeS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBEBA1F000FF;
-	Tue, 15 Sep 2026 06:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789455401;
-	bh=iUEddWOFS6fHOKRXcDJByNFtvflAjvsvy6k9vJ5MeeA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=opLVeqeSzjUOWD0xEMAImiR1vGyYsNRwzSINVrs0Y80Qg2LwBZDphmrn2M4SV1Nyb
-	 /8pF3RZ8meeD53mow/pnbwsz5co4vUanf8laLU+l1kO5uOYSu2y8KUzouxH/yPcLZ9
-	 1U0JfdLQbOwV0PWPU2egm1tVXQ9Hfm9vYJGeoGAdCfFTC1fGNKHv16O5pYS/Pfm8/A
-	 NOeriloIpP3EV6Urreb1nb35DS2Hc73oF8TRop8SdNUmdacfRJzZQpSWaHh9RloR/H
-	 LSRXvv1cqlBRSC0aSNjXItyOi/V93hxWzAovC80ypUPpIFBCur5wZ4ppDz3UZ/dw5N
-	 F+nrsYv9SPueA==
-Message-ID: <436ca5b3-ac0b-4313-9ed3-66c73181686c@kernel.org>
-Date: Tue, 15 Sep 2026 08:56:35 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fj5r4R2z"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f55efe5so430889366b.2
+        for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 00:58:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789459113; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iDifvaWorpq+gGn9KC+yNTtTLFo/TUZq5LK9A3sg73PM+SuICssfgeYfnUdTWYAb2o
+         H0qcfd8svHw9xR4sVQkA8siIaW9Bby13mxNOaaYAXLAYbWIOgx3av26uuEvzxmGzAIYc
+         P8oa6pbdq3XpgBMqwF1r6NII5juru+tr/E4DRbePZU8appd5II1nhlMsp50CXK99y2QJ
+         xg1yROpgIm+NebaGdr1B7dMeh6+p7kjnEWd+lBm4P9C/mS0rcVs8F22d3AiGYEwsVxyz
+         lALM41NSnvRL/Sp8cmxU74Tq9kqv+edtd70x0s0lbfNR0Jkh4EtpHu1CFfsVFxUSmqhr
+         4uUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ofwNGJG0cUmDsej5vrEKKI6garptsrxwAcW3JjuPf6A=;
+        fh=zqri3dzRSPDQK/33cyMas5ke5n+b1QQZ3QIJhEZkmdQ=;
+        b=bJb2US/lsjYSqIvD52mrm9mlpNVlIBHKVJgpiUbC8btTKaBkAvKyQB5Q8NvKogydcX
+         MnS15TmgeEGevLhyKBgDZtX0KZnHI5xMrFODsxxB78VFBZzQLQaYDjuUQnvl0+ThwPUT
+         ugPPeIJ2RYwNsmEpNueR3BFVeganj+bRIm5Hw0TZo4yl1MmrYoviYcC4VX4oZqMRzbyr
+         SXmX4y5ZO02EnfFR8XFWXgdvyCOkX78yMZDEuvvByME45O3k8bB+hLJEANoyJijG7M8z
+         FO1SVA+AGTRMy5ZFRRU8gYkuDD9420rfNjEMLziLB+5A3U3WoQgOWbASxCg1iSusoD2x
+         AVwg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1789459113; x=1790063913; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ofwNGJG0cUmDsej5vrEKKI6garptsrxwAcW3JjuPf6A=;
+        b=Fj5r4R2zcQEhVZErFLGt45u6r3PyzBjdhzkRFwHaarwVYDuH9wNbv7oquPh/GMN1Pt
+         0U2TcbA8iWFsfUSdT4L91QHKkEoBjac3vaAw7bjF4e3bP/VDxyLChcc0Rpdv39hyt1Tg
+         YvLk6JZwiCktyHIbXOnDodjVdIizQBCupFMWdong7CMKxDENsq49C6Mj/AEcSBoMl2F/
+         D7DkUxqv43helX65OldLSaJawveUw+M0gSMqoXUdmiGOwHULyFY7Nll18KDki2v+7wyZ
+         YsaC8n/2wPsVK6trHOyX7TYF87GSdEKSu7w8AmCXehxh8ha9FK+EbzSY0SD4o1id0T2f
+         KXJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789459113; x=1790063913;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ofwNGJG0cUmDsej5vrEKKI6garptsrxwAcW3JjuPf6A=;
+        b=D6QgXG0wB2mbAXdIePVCzuZfsQGOlB17QohhdftX5+fgzLHCqXh7X0AN0NkX6jiz7e
+         9cUMCmA9aWRyVIsHNJgQhT+mAey4ABj3d7GFe73Sf7MxvxLxDibit2bKuQ9Cg/bwVG7I
+         1GX8OYQ1deMIKrK70Clysr4CCYk1E9kPY+RUtBNgVHzcGily8eojSkOpZu8SwtE43///
+         pRATEadpX+CibuQWtO3LIS85nKsh2M3+UwXgHrc30r0hU2u1a3opm7PsH1hEwLIKZh/1
+         ijmN+gK+T3LTDQbXTnClowZBwxw1SEe44/DFCorMTKCK7onPz4zzm5GfM7jn/507oiBX
+         ufOg==
+X-Forwarded-Encrypted: i=1; AKwUvBzHNke5Qz+M4cZCzFYGij/CuC0utUX5alWOh2bB07eaz/as9hfdMTjlwKwbHJCpG9CuiI6Djnuc5n3voA==@lists.linux.dev
+X-Gm-Message-State: AFuF++nkfz+7mhD3gnH+rLn/hdY42ZNigtbcBHbt/1EcHfVbr0EaQ4F0
+	5u3LUy8K6yREho5VBFjQeuSX2loxKwJ2TzZpC1T9HF8b6eigrHOIiohPasHrF9QQRlJsDxszCyf
+	P6bU+PK3MfI5JGT2kDczfwlAcZNWlNXRneTZ0gCgfvA==
+X-Gm-Gg: AYBFou3sNPU03thqaBkoIibWkDFeR5/ZCHmUOU0oXWriyh+OxDt2BYwiFFe2XmJfgNS
+	heLe5/YtvPwmZH5MAfpT8HbOjcdxi22+y1p0zn0QKbqcDWZciW5hq56urv8vaUUbszy0QUEw5m5
+	URUREGZKp8rz4OWhrTqNOkuDPx0Z7fKaiv7KY2fNsnhGxB1HFNTZFimpxQ+BWGhNSwa/XMPS4Fs
+	GJAK8xjqKn7+muqkdR/NbC5hRosgQT0TUVb0Dyjm9ZJKWZNRQ8YJ+wk2gurHx5gPw+E95d5Zwno
+	VMzkIG/6JL/wdzMbpnq811FmOw/n5GtrZ0iNo8Jrk7ervd/HBELbPaj4I+DwMCIWK80WU3ZK5CF
+	Z0UuDZtmz7M8=
+X-Received: by 2002:a17:907:1ca7:b0:c24:87e3:b8b8 with SMTP id
+ a640c23a62f3a-c29b85faa3bmr386122266b.17.1789459113184; Tue, 15 Sep 2026
+ 00:58:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] mm: Move default_gfp() into gfp_types.h
-To: Kees Cook <kees@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- linux-mm@kvack.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20260914223212.i.829-kees@kernel.org>
- <20260914223219.901347-1-kees@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20260914223219.901347-1-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
+ <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
+In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
+From: Vincent Guittot <vincent.guittot@linaro.org>
+Date: Tue, 15 Sep 2026 09:58:21 +0200
+X-Gm-Features: AcwNN1URr28u1JIvo7rjZT7TO6K2gihzqmBU2b4Y5-nAgC1kqqegrh2tO_zRhII
+Message-ID: <CAKfTPtCR8SnQwpxzE-=WXenhTU=Hv5hrf7Vz22tMipX7uP_xxA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arch_topology: seed capacity_freq_ref with
+ boost-aware max freq
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/15/26 00:32, Kees Cook wrote:
-> Using default_gfp() only depends on the GFP_KERNEL value. Move
-> default_gfp() into gfp_types.h so that future use in devres.h doesn't
-> require pulling in all of gfp.h.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
-Incidentally I was thinking if default_gfp(...) usage should be extended
-also for the legacy kmalloc() API. Because it's going to still have users,
-buffers are needed for many things that are not objects (structs). Mike is
-converting many unnecessary page allocator usages to kmalloc(PAGE_SIZE, ...)
-often with GFP_KERNEL, so that would be neater too...
-
+On Tue, 8 Sept 2026 at 10:31, Ananthu C V <ananthu.cv@oss.qualcomm.com> wrote:
+>
+> capacity_freq_ref, the per-CPU frequency-invariance reference used by
+> schedutil, is seeded from policy->cpuinfo.max_freq at policy creation.
+> If boost frequencies are filtered out of the frequency table because
+> boost isn't yet enabled at boot, max_freq only reflects the non-boost
+> ceiling, so capacity_freq_ref never learns about boost frequencies for
+> the policy's lifetime. Enabling boost later raises policy->max, but
+> capacity_freq_ref stays stale, leaving schedutil unable to scale
+> utilization or target a frequency above the non-boost maximum.
+>
+> Track the highest frequency in the table regardless of boost state
+> (max_table_freq) and seed capacity_freq_ref with max(cpuinfo.max_freq,
+> max_table_freq), so the invariance reference is boost-aware from boot
+> regardless of whether boost is currently enabled. Runtime enforcement,
+> still handled by policy->max, is unaffected.
+>
+> Suggested-by: Vincent Guittot <vincent.guittot@linaro.org>
+> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
 > ---
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: "Liam R. Howlett" <liam@infradead.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Brendan Jackman <brendan.jackman@linux.dev>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: <linux-mm@kvack.org>
-> ---
->  include/linux/gfp.h       | 4 ----
->  include/linux/gfp_types.h | 4 ++++
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index 872bc53f32ec..b62e2fd53cb4 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -13,10 +13,6 @@
->  struct vm_area_struct;
->  struct mempolicy;
->  
-> -/* Helper macro to avoid gfp flags if they are the default one */
-> -#define __default_gfp(a,b,...) b
-> -#define default_gfp(...) __default_gfp(,##__VA_ARGS__,GFP_KERNEL)
-> -
->  static inline bool gfpflags_allow_blocking(const gfp_t gfp_flags)
->  {
->  	return !!(gfp_flags & __GFP_DIRECT_RECLAIM);
-> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-> index 190191411009..b1cd143f3c42 100644
-> --- a/include/linux/gfp_types.h
-> +++ b/include/linux/gfp_types.h
-> @@ -382,4 +382,8 @@ enum {
->  			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
->  #define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
->  
-> +/* Helper macro to avoid gfp flags if they are the default one */
-> +#define __default_gfp(a,b,...) b
-> +#define default_gfp(...) __default_gfp(,##__VA_ARGS__,GFP_KERNEL)
+>  drivers/base/arch_topology.c | 3 ++-
+>  drivers/cpufreq/freq_table.c | 6 ++++++
+>  include/linux/cpufreq.h      | 1 +
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+> index 8c5e47c28d9a..da94f77441da 100644
+> --- a/drivers/base/arch_topology.c
+> +++ b/drivers/base/arch_topology.c
+> @@ -404,7 +404,8 @@ init_cpu_capacity_callback(struct notifier_block *nb,
+>         cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->related_cpus);
+>
+>         for_each_cpu(cpu, policy->related_cpus) {
+> -               per_cpu(capacity_freq_ref, cpu) = policy->cpuinfo.max_freq;
+> +               per_cpu(capacity_freq_ref, cpu) = max(policy->cpuinfo.max_freq,
+> +                                                     policy->cpuinfo.max_table_freq);
+
+I will let cpufreq maintainer comment about the need for a
+policy->cpuinfo.max_table_freq field or not but otherwise you can use
+something similar to [1] to find your max table freq:
+[1] https://lore.kernel.org/all/CAKfTPtBji8dkr5ixhtZjkyrWLA68TF-KHLrNYWoewPWLyuUd4A@mail.gmail.com/
+
+diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+index da94f77441da..92966be712d5 100644
+--- a/drivers/base/arch_topology.c
++++ b/drivers/base/arch_topology.c
+@@ -405,7 +405,7 @@ init_cpu_capacity_callback(struct notifier_block *nb,
+
+        for_each_cpu(cpu, policy->related_cpus) {
+                per_cpu(capacity_freq_ref, cpu) = max(policy->cpuinfo.max_freq,
+-
+policy->cpuinfo.max_table_freq);
++
+cpufreq_frequency_table_max(policy));
+                freq_inv_set_max_ratio(cpu,
+                                       per_cpu(capacity_freq_ref, cpu)
+* HZ_PER_KHZ);
+        }
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index 419c71ccff7c..e40f915b7119 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -1109,6 +1109,17 @@ static inline int
+cpufreq_frequency_table_target(struct cpufreq_policy *policy,
+        return idx;
+ }
+
++static inline unsigned int cpufreq_frequency_table_max(struct
+cpufreq_policy *policy)
++{
++       int idx;
++
++       if (!policy->freq_table)
++               return policy->cpuinfo.max_freq;
++
++       idx = cpufreq_frequency_table_target(policy, UINT_MAX, 0,
+UINT_MAX, CPUFREQ_RELATION_H);
++       return policy->freq_table[idx].frequency;
++}
++
+ static inline int cpufreq_table_count_valid_entries(const struct
+cpufreq_policy *policy)
+ {
+        struct cpufreq_frequency_table *pos;
+
+>                 freq_inv_set_max_ratio(cpu,
+>                                        per_cpu(capacity_freq_ref, cpu) * HZ_PER_KHZ);
+>         }
+> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
+> index ea994647abc8..4984142dc08a 100644
+> --- a/drivers/cpufreq/freq_table.c
+> +++ b/drivers/cpufreq/freq_table.c
+> @@ -33,11 +33,15 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
+>         struct cpufreq_frequency_table *pos, *table = policy->freq_table;
+>         unsigned int min_freq = ~0;
+>         unsigned int max_freq = 0;
+> +       unsigned int max_table_freq = 0;
+>         unsigned int freq, i;
+>
+>         cpufreq_for_each_valid_entry_idx(pos, table, i) {
+>                 freq = pos->frequency;
+>
+> +               if (freq > max_table_freq)
+> +                       max_table_freq = freq;
 > +
->  #endif /* __LINUX_GFP_TYPES_H */
-
+>                 if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
+>                     && (pos->flags & CPUFREQ_BOOST_FREQ))
+>                         continue;
+> @@ -57,6 +61,8 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
+>         if (policy->cpuinfo.max_freq < max_freq)
+>                 policy->cpuinfo.max_freq = max_freq;
+>
+> +       policy->cpuinfo.max_table_freq = max_table_freq;
+> +
+>         if (min_freq == ~0)
+>                 return -EINVAL;
+>         else
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index 35ce665edfd8..3f3b1380251a 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -45,6 +45,7 @@ enum cpufreq_table_sorting {
+>  struct cpufreq_cpuinfo {
+>         unsigned int            max_freq;
+>         unsigned int            min_freq;
+> +       unsigned int            max_table_freq; /* Highest valid frequency in the table */
+>
+>         /* in 10^(-9) s = nanoseconds */
+>         unsigned int            transition_latency;
+>
+> --
+> 2.43.0
+>
