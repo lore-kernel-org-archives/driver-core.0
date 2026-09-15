@@ -1,41 +1,41 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B42480DCA
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F91149480A
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469933; cv=none; b=QTO0Xe3/Dq6euxhN4J0sdvSRmEnD7Y08HHBLYFHjD4R+lfd2Qwjt3gN5B5a95m50PkU9wzgh9dbQ+VUqW7SUH173Fn+7tQrELr/tWWW3NnIh7URB/QU6CfoVSFZFTMKeH3lTiGO5qEFNmGeimrnjyjc+bsgxjephc1MvlH6Wt+M=
+	t=1789469935; cv=none; b=aqt6a2ZvwlAy2jrgfvifE5kRHoBMxBM9mDF//+lpPvHgUNkmTZoCUh3RtrKthUZ9upPhSbHuAP8g7j1eYDSBMoRX9EPM+GV3zXBveJNMk0iRwdyZqa6hsv/oBdRfRpfAXldagmqmKUSCKQuog1GHCJ6+9YjtT6hHC7i2rk2ZZ10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469933; c=relaxed/simple;
-	bh=jXuaTQjPyb4xO9pssUnGVMqVXbt5axrUd8ntimRL17Q=;
+	s=arc-20240116; t=1789469935; c=relaxed/simple;
+	bh=mGyHBUk4Ns0kXI70CLz1ZsEzeBa/vNXnoECqgc6Bdxw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lZZ/ugW0xzcGC8xzJXsI1+wumQVIe3PfxWAlScJm9NFaUBb4VNS5WP3Qv2FTvh/Hd8yKOuU/Ek1J0lUAB50lq3OciJiwYYK11nkgwLxtDc0l6sMTmOCjLA/sKphOEL3d5F60QjiDSAJqnXWAKVCnErZh9OiYYgD4GwVcttkgrLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EuRWrGyM; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=BPVxXpJY3LOJVoJBSQJH41TfTWjZsPUeDTVI49r5L3LBGHRSInNOCdZJayPHhTDavbq7b5bXyk7fJvlCdgyFZKTuh8DWaDfn+XcVXRZI0bkONMo17pniXy/dGPQm1PpptNyDL3MYtnulJK8O5ibnZ30BtH6d3lInXgBGH376RH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JgX5dGtx; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EuRWrGyM"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JgX5dGtx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1789469929;
-	bh=jXuaTQjPyb4xO9pssUnGVMqVXbt5axrUd8ntimRL17Q=;
+	s=mail; t=1789469930;
+	bh=mGyHBUk4Ns0kXI70CLz1ZsEzeBa/vNXnoECqgc6Bdxw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EuRWrGyMky5sqC2YY0KHkT9vd7lfG6XfE1C6AXwg9Sxar+zp542kUsEtrP54q+S19
-	 dQCMCwi7UusMNH15rABFI9MDB1J5nA4ej2I+FsBQO2t7M114ZNJmASeUVxgqcstY5d
-	 KfX2H/abrloNI2RJRhau3vAOSl3tR0cxL7OfTJquXIw0rFsdwh8e41pJVPZO/qriEN
-	 ueDBZKQ5BdWN7lnribqS4MPvV+0u1XQUycHz10+enc7l1PGZCZCQJM/0ashg6EvQ1U
-	 hEX6pdUMvkJoGedcYSOwUGlXdvOxpUkUwapUFakk/7D8jMacevqVyUGHZ8eTtWAiga
-	 AO+JzHEZn/7rA==
+	b=JgX5dGtxYpiMLJkqPwTn9oGAn86BeaHhzgYslHtdbXx6q4rSwYMyS1nA3JaLuBaaB
+	 TJ0DbqmNODvxhEA5lspXvSs7SbAyiQ7XVW4Qp1hWGBY6iDAi1bCPo2CIR4+q0JdNFw
+	 mlYCvwTN/WTo6aEChG2w4m6H8+1lLcrTE2HQDq3SAl/A1I0yKgBChEObjLk405gt3w
+	 K54IzlohmTC12QOCT2Qac8IMyJvdqTVnXgi0VcbuX6Qtxo2WPhpj2TunFtQwUt6uUC
+	 qU6+cpDUGD8n8aHyHZLexXbn/VgBKymLndqXxxPjQQsj6TKCLwZxWV3JAYMcrYBZJM
+	 iOcLR88vuQalQ==
 Received: from laura.lan (unknown [100.64.0.215])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: laura.nao)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9E42717E0E01;
-	Tue, 15 Sep 2026 12:58:48 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C0B4117E0E2F;
+	Tue, 15 Sep 2026 12:58:49 +0200 (CEST)
 From: Laura Nao <laura.nao@collabora.com>
-Date: Tue, 15 Sep 2026 12:57:40 +0200
-Subject: [PATCH 7/9] rust: time: add arch_timer_get_rate wrapper
+Date: Tue, 15 Sep 2026 12:57:41 +0200
+Subject: [PATCH 8/9] drm/tyr: program CSF global interface
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-tyr-interfaces-v1-7-5d28f1f75aca@collabora.com>
+Message-Id: <20260915-tyr-interfaces-v1-8-5d28f1f75aca@collabora.com>
 References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
 In-Reply-To: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
@@ -68,85 +68,368 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Deborah Brouwer <deborah.brouwer@collabora.com>
 X-Mailer: b4 0.14.3
 
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
+Initialize the CSF global (GLB) interface after firmware boot.
 
-Provide a safe Rust wrapper for arch_timer_get_rate().
+Program the GLB input block with initial configuration:
+- enable allocation across all present shader cores
+- set power-off, progress, and idle timers
 
-The Rust binding calls a C helper that returns 0 when the ARM
-architectural timer is not available or not yet initialized. Map this to
-Option<u32> to make the absence of a valid rate explicit to Rust callers.
+Then update GLB_REQ to enable persistent features and trigger
+configuration updates, and ring the global doorbell to notify the MCU.
 
-This allows Rust drivers to query the system timer frequency and
-select appropriate time sources when programming hardware timeouts.
-
+Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Co-developed-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Laura Nao <laura.nao@collabora.com>
 ---
- rust/helpers/time.c |  6 ++++++
- rust/kernel/time.rs | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/tyr/driver.rs        |   2 +-
+ drivers/gpu/drm/tyr/fw.rs            |   6 +-
+ drivers/gpu/drm/tyr/fw/interfaces.rs | 222 +++++++++++++++++++++++++++++++++--
+ 3 files changed, 219 insertions(+), 11 deletions(-)
 
-diff --git a/rust/helpers/time.c b/rust/helpers/time.c
-index 32f495970493..70fda31bd758 100644
---- a/rust/helpers/time.c
-+++ b/rust/helpers/time.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index bf1cb32e374d..2dcf33ec93ea 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -159,7 +159,7 @@ fn probe<'bound>(
+         )?;
  
-+#include <clocksource/arm_arch_timer.h>
- #include <linux/delay.h>
- #include <linux/ktime.h>
- #include <linux/timekeeping.h>
-@@ -38,3 +39,8 @@ __rust_helper void rust_helper_udelay(unsigned long usec)
- {
- 	udelay(usec);
+         firmware.boot()?;
+-        firmware.enable_global_interface()?;
++        firmware.enable_global_interface(&gpu_info, &core_clk)?;
+ 
+         let reg_data = pin_init!(TyrDrmRegistrationData {
+                 pdev,
+diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
+index 5abd50238ca6..1499ffdef51f 100644
+--- a/drivers/gpu/drm/tyr/fw.rs
++++ b/drivers/gpu/drm/tyr/fw.rs
+@@ -14,6 +14,7 @@
+ //! [`Section`]: crate::fw::Section
+ 
+ use kernel::{
++    clk::Clk,
+     device::{
+         Bound,
+         Device, //
+@@ -370,7 +371,7 @@ fn stop(&self) -> Result {
+     }
+ 
+     /// Enable the global interface.
+-    pub(crate) fn enable_global_interface(&self) -> Result {
++    pub(crate) fn enable_global_interface(&self, gpu_info: &GpuInfo, core_clk: &Clk) -> Result {
+         let shared_section = self.shared_section()?;
+         let version = interfaces::probe_version(&shared_section.mem)?;
+ 
+@@ -379,7 +380,7 @@ pub(crate) fn enable_global_interface(&self) -> Result {
+         match version.major().get() {
+             1..=4 => match &mut *self.global_iface.lock() {
+                 FwIfaces::V1(iface) => {
+-                    iface.enable(shared_section)
++                    iface.enable(&self.iomem, shared_section, gpu_info, core_clk)
+                 }
+             },
+             0 => {
+@@ -391,6 +392,5 @@ pub(crate) fn enable_global_interface(&self) -> Result {
+                 Err(ENODEV)
+             }
+         }
+-
+     }
  }
-+
-+__rust_helper u32 rust_helper_arch_timer_get_rate(void)
-+{
-+	return arch_timer_get_rate();
-+}
-diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
-index 6c0a5e8090d0..6c48ce21984a 100644
---- a/rust/kernel/time.rs
-+++ b/rust/kernel/time.rs
-@@ -423,6 +423,36 @@ fn div(self, rhs: Self) -> Self::Output {
+diff --git a/drivers/gpu/drm/tyr/fw/interfaces.rs b/drivers/gpu/drm/tyr/fw/interfaces.rs
+index 1cdfef2340c9..673ebeafb68e 100644
+--- a/drivers/gpu/drm/tyr/fw/interfaces.rs
++++ b/drivers/gpu/drm/tyr/fw/interfaces.rs
+@@ -96,11 +96,15 @@
+ //! version can be read before the layout is known.
+ //!
+ 
+-use crate::fw::Section;
+-
+ mod v1;
+ 
+ mod layout;
++use crate::{
++    driver::IoMem,
++    fw::Section,
++    gpu::GpuInfo,
++    regs::doorbell_block::DOORBELL, //
++};
+ 
+ use iface::{
+     FwInterface,
+@@ -108,8 +112,17 @@
+     IfaceBlock, //
+ };
+ use kernel::{
+-    io::io_read,
+-    prelude::*,  //
++    bindings::SZ_1K,
++    clk::Clk,
++    num::Bounded,
++    io:: {
++        io_read,
++        io_write,
++        register::Array,
++        Io, //
++    },
++    prelude::*,
++    time::arch_timer_get_rate, //
+ };
+ 
+ /// Offset from GLB_CONTROL_BLOCK start to the first GROUP_CONTROL block.
+@@ -280,7 +293,6 @@ pub(super) fn new(view: MappedBoViewMut<'drm>) -> Result<Self> {
+         }
+ 
+         /// Returns the write token for this block.
+-        #[expect(dead_code)]
+         pub(super) fn io(&mut self) -> IoMutToken<'_, 'drm, B> {
+             IoMutToken(self)
+         }
+@@ -761,6 +773,7 @@ fn from(exc_type: CsFatalExceptionType) -> Self {
      }
  }
  
-+/// Returns the ARM architecture timer frequency in Hz, if available.
++use glb::*;
+ use v1::*;
+ 
+ /// The per-version type profile of the CSF interface.
+@@ -860,6 +873,72 @@ pub(super) fn new() -> Result<Self> {
+     }
+ }
+ 
++/// Converts a timeout in microseconds to a timeout field value and timer source.
 +///
-+/// This function queries the system-wide ARM architecture timer frequency.
-+/// The architecture timer provides a consistent time source across all CPU cores.
++/// The firmware supports two timer sources:
++/// - System timestamp (arch timer): preferred when available, so the timeout
++///   tracks real elapsed time independently of GPU clock rate.
++/// - GPU cycle counter: fallback when the system timestamp is unavailable.
 +///
-+/// Returns `None` if:
-+/// - The ARM architecture timer is not available (`CONFIG_ARM_ARCH_TIMER` not enabled)
-+/// - The timer rate is zero (not initialized)
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::time::arch_timer_get_rate;
-+///
-+/// if let Some(rate) = arch_timer_get_rate() {
-+///     // Use `rate`.
-+/// }
-+/// ```
-+pub fn arch_timer_get_rate() -> Option<u32> {
-+    // SAFETY: The C helper is available in all configs; it calls
-+    // `arch_timer_get_rate()`, which falls back to an inline stub returning 0
-+    // when CONFIG_ARM_ARCH_TIMER is disabled.
-+    let rate = unsafe { bindings::arch_timer_get_rate() };
-+    if rate == 0 {
-+        None
-+    } else {
-+        Some(rate)
++/// Returns the encoded timeout value and the selected timer source.
++fn conv_timeout(core_clk: &Clk, timeout_us: u32) -> Result<(u32, TimestampSource)> {
++    // The max timeout is determined by the 31 bit size of the timeout field.
++    let max_timeout = (1u32 << 31) - 1;
++    let core_rate = core_clk.rate().as_hz() as u64;
++
++    let (timer_rate, timer_source) = match arch_timer_get_rate() {
++        Some(rate) => (u64::from(rate), TimestampSource::SystemTimestamp),
++        _ if core_rate != 0 => (core_rate, TimestampSource::GpuCounter),
++        _ => return Err(EINVAL),
++    };
++
++    let timeout_in_cycles = u64::from(timeout_us) * timer_rate;
++
++    // The hardware stores the represented timeout value with a shr(10) to save space.
++    let timeout_shift = u64::from(SZ_1K);
++    let us_per_second = 1_000_000u64;
++
++    let timeout_val = timeout_in_cycles.div_ceil(us_per_second * timeout_shift);
++    let timeout_val = timeout_val.min(u64::from(max_timeout)) as u32;
++
++    Ok((timeout_val, timer_source))
++}
++
++/// Request/acknowledge communication between Tyr and CSF.
++struct GlobalInterfaceRequests<'a, 'drm> {
++    /// Global input block where driver writes requests.
++    input: &'a mut FwInterfaceMut<'drm, GlbInputV1>,
++    /// Global output block where firmware writes acknowledgements.
++    output: &'a FwInterface<'drm, GlbOutputV1>,
++}
++
++impl<'a, 'drm> GlobalInterfaceRequests<'a, 'drm> {
++    fn new(
++        input: &'a mut FwInterfaceMut<'drm, GlbInputV1>,
++        output: &'a FwInterface<'drm, GlbOutputV1>,
++    ) -> Self {
++        Self { input, output }
++    }
++
++    /// Use to make requests, where simply changing the bit value is
++    /// sufficient to make a request; the bit value has no meaning in itself.
++    fn toggle_requests(&mut self, reqs_mask: GLB_REQ) -> Result {
++        let reqs_mask_val = reqs_mask.into_raw();
++
++        let cur_ack_val = io_read!(self.output, .ack).into_raw();
++
++        // Calculate which bits to toggle based on ACK state
++        let toggled_bits = (cur_ack_val ^ reqs_mask_val) & reqs_mask_val;
++
++        let cur_req_val = io_read!(&*self.input, .req).into_raw();
++        let preserved_bits = cur_req_val & !reqs_mask_val;
++        let new_val = toggled_bits | preserved_bits;
++
++        io_write!(self.input.io(), .req, GLB_REQ::from_raw(new_val));
++        Ok(())
 +    }
 +}
 +
- impl Delta {
-     /// A span of time equal to zero.
-     pub const ZERO: Self = Self { value: 0 };
+ /// State of the global interface.
+ enum GlobalInterfaceState<'drm> {
+     /// Interface is not yet initialized.
+@@ -963,7 +1042,13 @@ pub(super) fn new() -> Result<Self> {
+     /// This reads the firmware's control block to set up the global input/output
+     /// interfaces; it configures timers and shader core allocation; and it discovers
+     /// available CSG interfaces.
+-    pub(crate) fn enable(&mut self, shared_section: &Section<'drm>) -> Result {
++    pub(crate) fn enable(
++            &mut self,
++            io: &IoMem<'_>,
++            shared_section: &Section<'drm>,
++            gpu_info: &GpuInfo,
++            core_clk: &Clk,
++        ) -> Result {
+         // Drop any previous state first.
+         // This lets enable() run again after an MCU reset.
+         self.state = GlobalInterfaceState::Disabled;
+@@ -986,7 +1071,7 @@ pub(crate) fn enable(&mut self, shared_section: &Section<'drm>) -> Result {
+         );
+ 
+         let input_va = io_read!(&glb_control, .input_va).value().get();
+-        let glb_input = FwInterfaceMut::<GlbInputV1>::new(mem.try_view_mut(
++        let mut glb_input = FwInterfaceMut::<GlbInputV1>::new(mem.try_view_mut(
+             input_va.into(),
+             GlbInputV1::ARCH_SIZE as u64,
+             core::mem::size_of::<GlbInputV1>() as u64,
+@@ -999,6 +1084,14 @@ pub(crate) fn enable(&mut self, shared_section: &Section<'drm>) -> Result {
+             core::mem::size_of::<GlbOutputV1>() as u64,
+         )?)?;
+ 
++        Self::configure_glb_input(&mut glb_input, gpu_info, core_clk)?;
++        Self::configure_glb_requests(&mut glb_input, &glb_output)?;
++
++        io.write(Array::at(0), DOORBELL::zeroed().with_ring(true));
++
++        // Wait for the firmware to acknowledge the initial global configuration.
++        GlobalInterfaceRequests::new(&mut glb_input, &glb_output);
++
+         // Read how many CSG interfaces exist.
+         let csg_num = io_read!(&glb_control, .group_num).value().get();
+ 
+@@ -1041,6 +1134,121 @@ pub(crate) fn enable(&mut self, shared_section: &Section<'drm>) -> Result {
+         Ok(())
+     }
+ 
++    /// Programs GLB input-block configuration registers.
++    ///
++    /// Writes shader core allocation and timer values. These settings are applied
++    /// by firmware only after the corresponding GLB_REQ bits are updated.
++    fn configure_glb_input(
++        glb_input: &mut FwInterfaceMut<'drm, GlbInputV1>,
++        gpu_info: &GpuInfo,
++        core_clk: &Clk,
++    ) -> Result {
++        // Make all present shader cores available for endpoint allocation.
++        io_write!(
++            glb_input.io(),
++            .alloc_en,
++            GLB_ALLOC_EN::zeroed().with_mask(gpu_info.shader_present)
++        );
++
++        // Configure power-down delay for shader and tiler domains.
++        // The firmware powers down a domain after it has been idle for this duration,
++        // and cancels the timeout if work arrives before expiry.
++
++        // Power-down delay after idle, in microseconds.
++        const PWROFF_HYSTERESIS_US: u32 = 10_000;
++        let (pwroff_timeout, pwroff_source) = conv_timeout(core_clk, PWROFF_HYSTERESIS_US)?;
++        let pwroff_timeout = Bounded::<u32, 31>::try_new(pwroff_timeout).ok_or(EINVAL)?;
++        io_write!(
++            glb_input.io(),
++            .pwroff_timer,
++            GLB_PWROFF_TIMER::zeroed()
++                .with_timeout(pwroff_timeout)
++                .with_timer_source(pwroff_source)
++        );
++
++        // Configure forward progress timeout.
++        //
++        // Keep this aligned with panthor, which programs a fixed GPU-cycle timeout.
++        // The real-time duration therefore varies with the GPU clock rate (e.g. ~5.24 s
++        // at 500 MHz, longer at lower frequencies).
++        //
++        // The hardware stores the timeout in units of 1024 cycles, so encode the raw
++        // cycle count by shifting right by 10.
++        const PROGRESS_TIMEOUT_CYCLES: u32 = 5 * 500 * 1024 * 1024;
++        const PROGRESS_TIMEOUT_SCALE_SHIFT: u32 = 10;
++        let progress_timeout = PROGRESS_TIMEOUT_CYCLES >> PROGRESS_TIMEOUT_SCALE_SHIFT;
++        io_write!(
++            glb_input.io(),
++            .progress_timer,
++            GLB_PROGRESS_TIMER::zeroed().with_timeout(progress_timeout)
++        );
++
++        // Configure the delay before reporting the GPU as idle.
++        const IDLE_HYSTERESIS_US: u32 = 800;
++        let (idle_timeout, idle_source) = conv_timeout(core_clk, IDLE_HYSTERESIS_US)?;
++        let idle_timeout = Bounded::<u32, 31>::try_new(idle_timeout).ok_or(EINVAL)?;
++        io_write!(
++            glb_input.io(),
++            .idle_timer,
++            GLB_IDLE_TIMER::zeroed()
++                .with_timeout(idle_timeout)
++                .with_timer_source(idle_source)
++        );
++
++        Ok(())
++    }
++
++    /// Programs GLB_REQ and ACK IRQ mask after GLB input registers are configured.
++    ///
++    /// This sets desired persistent states, toggles configuration-update requests,
++    /// and returns the GLB_REQ bits that must be acknowledged by firmware.
++    fn configure_glb_requests(
++        glb_input: &mut FwInterfaceMut<'drm, GlbInputV1>,
++        glb_output: &FwInterface<'drm, GlbOutputV1>,
++    ) -> Result<GLB_REQ> {
++        // Firmware updates GLB_ACK (output block) in response to GLB_REQ.
++        // GLB_ACK_IRQ_MASK selects which of these updates trigger a host interrupt.
++        io_write!(
++            glb_input.io(),
++            .ack_irq_mask,
++            GLB_ACK_IRQ_MASK::zeroed()
++                .with_cfg_progress_timer(true)
++                .with_cfg_alloc_en(true)
++                .with_cfg_pwroff_timer(true)
++                .with_idle_enable(true)
++                .with_idle_event(true)
++                .with_counter_enable(true)
++        );
++
++        // Requests whose value represents the desired persistent state.
++        let cur_req = io_read!(&*glb_input, .req);
++        io_write!(
++            glb_input.io(),
++            .req,
++            cur_req.with_idle_enable(true).with_counter_enable(true)
++        );
++
++        let mut request_field = GlobalInterfaceRequests::new(glb_input, glb_output);
++
++        // Fields that require toggle semantics.
++        let toggle_mask = GLB_REQ::zeroed()
++            .with_cfg_progress_timer(true)
++            .with_cfg_alloc_en(true)
++            .with_cfg_pwroff_timer(true);
++
++        request_field.toggle_requests(toggle_mask)?;
++
++        // All fields we want to wait for completion on (REQ == ACK).
++        let ack_mask = GLB_REQ::zeroed()
++            .with_cfg_progress_timer(true)
++            .with_cfg_alloc_en(true)
++            .with_cfg_pwroff_timer(true)
++            .with_idle_enable(true)
++            .with_counter_enable(true);
++
++        Ok(ack_mask)
++    }
++
+     /// Initialize CSG interfaces.
+     ///
+     /// This uses the previously read CSG count to create and enable each CSG interface.
 
 -- 
 2.39.5
