@@ -1,186 +1,159 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010063.outbound.protection.outlook.com [52.101.46.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94C3C1970;
-	Tue, 15 Sep 2026 14:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789482862; cv=none; b=rsGTO/TstIbVH+SaCtaVdFqtQiPNSH8frIeBWt9b8leHg05NueCT3oyFqVic74C5NdDjOuBpJJzElCKOcMGkuXKikSm7tfPvzA9gX665x1BxtKSVVdOUl+lkw6lfNcstDQl3Jqs4LVevWc+lNLMBRXSvU6egUxxdGlCzpDNaJpo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789482862; c=relaxed/simple;
-	bh=8bv+/h4lZvkpcyPGdIrWEtBJS/FfAgOnu6jxAERwwzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VrQ6n+nf4h7+9Uwcd3VGUR5Y8y1EcC60fqRjq1T2uNXjgDxVBdpxsZn19vV4G1zGTeJJh/ToGjcRhmLBm5NiXPh56PQ9S55lpq28zyIXfDhlHWUhWoIekMRKozKWNjKn2QvE5BrgLnH+J5Nst6vdrQwpi72YZXAdHEg4vRiBF+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=rxIZo+ME; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6D4406269
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 16:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789488525; cv=fail; b=XLb2Fu6rLRcP8Lbz2F4JpHeHOLch1odWGt/Lnij/2qeuO4e2slhkHE15pxRKSPzTeXuFQvsSqgykXaNAjMC0TTLHUgbzw9pwqvXMI0jciI9pJCQvOqzQVgLVMEsFyB5JVZPpi2OakzU49k+eeAyq4UG3GkiRh8Lu2lHDZ80YqwY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789488525; c=relaxed/simple;
+	bh=MEww73xE6tsSAtf0vQTZBkI8DFIVSuVfcrbOPnpeDPw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=APqqREqwI57jrXuqU99JKnEqoqYHWiyJ3RXbqxvFfkjsd8R5cheJITW5rYZ5NAgirhOuTaBwUAEggyFNkTbjXYAwxe11XY5cKNV+L6EokIjLB3MgnUHjP1wVToPeK3kbdojTFFUhv9D7Ib11RQi3xdbOPvClOEx8+nXWrAJUHaE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Z1ySL211; arc=fail smtp.client-ip=52.101.46.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="rxIZo+ME"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lDBTit4NoXLRMGpd4sVgLpWCd4j9Sa9yMZ+BGUjsUHM=; b=rxIZo+ME/rnXqtE9cMmhwEEDF8
-	herFmWck0rdzUOYTwXmZp0pi2WTQkMtFZNmZgCe0aEf9jVCe0Fu1nbdZWoIal6/iUa2akZj1+HXbC
-	+GLyz8VgoecklgzBC+RQ0T30hnVb2tPPJHlVdbwNN12DbSHBCszNGMMRvZDagv7QXAylN+YTwSUpT
-	EKdKzj8I1gZugRwDY3wWMw3szm63xr/sJAZZ9dyFVm//APAxrwVmHwFgeCM7y89NHhxaUXsVXvy/7
-	0aLs3fr2d8hoF0rhzA/vk7+SaxeIokLEUqWp9SqGvSmnLn5m+JK1SaAXp6Ycl37ZbKo9tDy/xHHr/
-	i7HszdgA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x6UEZ-004Scw-23;
-	Tue, 15 Sep 2026 14:34:07 +0000
-Date: Tue, 15 Sep 2026 07:33:59 -0700
-From: Breno Leitao <leitao@debian.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: David Hildenbrand <david@kernel.org>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, kas@kernel.org, Zi Yan <ziy@nvidia.com>, hannes@cmpxchg.or, 
-	shakeel.butt@linux.dev, "Liam R. Howlett" <liam@infradead.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, x86@kernel.org, Lorenzo Stoakes <ljs@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Mike Rapoport <rppt@kernel.org>, kernel-team@meta.com, kexec@lists.infradead.org, 
-	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org, rmikey@meta.com, driver-core@lists.linux.dev, riel@surriel.com, 
-	harry@kernel.org
-Subject: Re: [PATCH v5 5/9] mm/memory-failure: efi: record hardware-poisoned
- frames into the poisoned-memory table
-Message-ID: <aqlVkbx8j5cQ3eNX@gmail.com>
-References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
- <20260915-hwpoison-kho-v5-5-3bc7a57bd503@debian.org>
- <20260915133629.700EE1F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Z1ySL211"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=msDXQ66WMHVPci4MjcGtitQ283oWDfCUq7Wj5x72FeKjbJDYZFdBzMKGBIJOuf0KKw9HmSUuqZDw7hE1ugsaDEvqiLK8FBBi+J6E0n/TBkEjbTs+LBz83+RHeu+HB+zuiDIbcHEhR1KjSswMKQWHQjyHSnxvbjduJFZ1GVp4AmcEBzXnplQg6AdRZvMKfl3jsRezuOsVjf6Y0QkHR4LI2vdZ48cYnXYt/9UJIDu0tC/xnX9t63mO/x1LyPq1anLF+gOERPtDrWMIQ6UfbBBbzXrEVK1ZAcj37iULxam/BXa7oA0K27QeNBgJoAJF6I4ZobzUaEz0NLb32IDSVYjSng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S7VdYid/QSljHyFcPAqgqXv2dzDepeb4AIAjIfcLG0Y=;
+ b=v5IPVHQqTH0bf1rD0h3CTltCTK8PzlOTWMLSQM0Muq50uU7DQZr9oILWEBcR88fMSJbQPa0Vi9RTQnUljXMdhPx5ypJe5PIjnnYbsq1mBzg8+A7FSQNktBRsqwVwNfHjO0DzWvQL32wpQ6phDK36c/xv1QOKgvG7gXhYBWzju1Xrjj594pDZhrTE3dO7HnjmyRGeUeCptdOEybWgcbVrcc6cwdjLHb7atOSlCMAyFKT++jtZoU4Ht6bQ56rBjVz0SCUwSd+M5+/lmM3GPw7ZdJzbXyLOK92iTbqa7biifxoIlc3vpVtmzd/C5Peg5+H0T3pMtyiKzrNPE4QLOSkCTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S7VdYid/QSljHyFcPAqgqXv2dzDepeb4AIAjIfcLG0Y=;
+ b=Z1ySL2110/Jvsbya9Gk/gavD59at/F1492afqpEga95JizI+eSHJ0pmJuD1SNkDH/MHZKBViAN2O5N9VeJtmOuwWu3kq3Wm8bIjFERK2PSVV7/4Ay65pAig67lDTwdJRyVMkB9gTySDonbTwAR0IywjFQK8IP3qvqQKQavVZDtQ=
+Received: from PH0PR07CA0026.namprd07.prod.outlook.com (2603:10b6:510:5::31)
+ by CY8PR12MB7538.namprd12.prod.outlook.com (2603:10b6:930:95::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
+ 2026 16:08:36 +0000
+Received: from MW1PEPF00016160.namprd21.prod.outlook.com
+ (2603:10b6:510:5:cafe::5a) by PH0PR07CA0026.outlook.office365.com
+ (2603:10b6:510:5::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.12 via Frontend Transport; Tue,
+ 15 Sep 2026 16:08:35 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ MW1PEPF00016160.mail.protection.outlook.com (10.167.249.91) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.0 via Frontend Transport; Tue, 15 Sep 2026 16:08:35 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 15 Sep
+ 2026 11:08:34 -0500
+Received: from [192.168.0.226] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Tue, 15 Sep 2026 11:08:31 -0500
+Message-ID: <e6f44689-e5e6-42c3-af55-d19c2a22575d@amd.com>
+Date: Tue, 15 Sep 2026 21:38:29 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915133629.700EE1F000FF@smtp.kernel.org>
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] sched/cache: Refresh LLC capacity across CPU hotplug
+To: Davi Chaves Azevedo <davichazbh@gmail.com>, <peterz@infradead.org>,
+	<mingo@redhat.com>
+CC: Chen Yu <yu.c.chen@intel.com>, Vincent Guittot
+	<vincent.guittot@linaro.org>, Valentin Schneider <vschneid@redhat.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Tim Chen
+	<tim.c.chen@linux.intel.com>, <chen.yu@linux.dev>,
+	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260911134825.420748-1-davichazbh@gmail.com>
+ <20260911220229.1368887-1-davichazbh@gmail.com>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <20260911220229.1368887-1-davichazbh@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW1PEPF00016160:EE_|CY8PR12MB7538:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8af1bc23-b59b-4114-043b-08df134398c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700016|23010399003|18002099003|22082099003|4143699003|11063799006|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	h2wcnOZXDY43N9UQ6BiflInUr51nMCwgJYMDHmWjocJl5UKazx519MfWBouMGzjgMqiB2rLunsJyIjdBxeZUw912d/YkLR+pRhUcZJEDpAg9+ud/qmG9cOzyJiTfQSV7PDmUAVijYnz3FAJz8efgaV2lHoMB96qqPE2nZv6hQLkvh4Fhlr3aTOjBYieff68pua2CZzfD/8PbMMeeXbjxD23u9M6Dnqhkv81dXqt6uRlVWz7A0RB73jJyACI7h+kIuhkkMGjQ2xEVwkSY/pOixVEv++Av73R6iZKOvh1DwxAle3+SD1PuN6vexJimjQBkFG3n2eEKXXvR84IwMo73VxxKFZRRyE1Sr9iaKcYc3yWx+TmX30AMbCKusqgX0Fbp6MmlYVcPtQxLVeiEJG9h0QoBFxmiF0X28wWHdbi6FYbcEbHnyFqGNp2pECadGoceAYv6ElMsEbz26iYYFLJuRE02SO3G8s37U8SSNYmKvJr6L1vLu1zmCZHtFPgxei0HsanncV/LEJDNxOEmbenfjZ+lSDyoe7mwGTHy6u8pye9TSDtIjo5O2FYswA0esWxeRlK3xENt67cGqw6VFB+U9WLl/PbYcicVqB5ciqhv5j8JqjqKGYoAynZM2LvC3114jQh5HByC4ZY4ug0pVGDHzt6L9l+4Fu6qyeM4DhxTc8lBSOnQ/9kvSv5ns01Cm+5mSblW/ZisaPPLn/3dZSvyTA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700016)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	TqRzcpFslih6GuQ9aEcPWaf1/Bw7oAwdr+2UAe5u+BPqhdXMDz3FgcGzxCF3PDFk/xdNhgz6dUse0x6QaCC674ei6SLp+U2wsBzIup7de8imMudWUzWy85JHIiv/JZ7i4gJCkMbjuTw8g6BS0ECk9CPUia930y63jSnsmGX6vXhRzNIGwcol8nCcyoz77L85CQRvIudcaKUxVLF0BvNNBM6tYlnqK6EKOgNCz3l9956Syv23JAYKsC7FPbeFbzO2O3PVAsnl95TPoYd2HXs/FmoX+oxWIXTSo8cJ+Qn0OtQdobXuU94rxYFXmOhyVDqKS+rnqP26AFQOxWHYrN9yNwKcOzfb9FiK4qJNqPvfXNujJsNDc5XsI4arreUG99gAYbNbBmfMxx75XFeYy7hBJeLGfKQq79lnUGLtyV01xgfuM2gUQojuw0BHsZWWTiHQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 16:08:35.5395
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8af1bc23-b59b-4114-043b-08df134398c6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MW1PEPF00016160.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7538
 
-On Tue, Sep 15, 2026 at 01:36:29PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [Critical] efi: memblock_add() with PAGE_ALIGN_DOWN forces adjacent MMIO into system RAM
-> - [High] efi: ABI breakage in linux_efi_poisoned_memory due to native word size
-> - [Medium] mm: hard memory failures on soft-offlined pages are omitted from EFI table
-> --
-> 
-> commit e69689c81050c18119d69206dc9a7cb1e2fa4eeb
-> Author: Breno Leitao <leitao@debian.org>
-> 
-> mm/memory-failure: efi: record hardware-poisoned frames into the poisoned-memory table
-> 
-> This commit hooks memory_failure() hard offline reports into the EFI
-> poisoned memory table so that they persist across kexec. Soft-offlined
-> pages are deliberately excluded to prevent predictive offlining from
-> becoming a permanent loss.
-> 
-> > diff --git a/drivers/firmware/efi/poison.c b/drivers/firmware/efi/poison.c
-> > index 3f12db3dc9b84..847592862f01d 100644
-> > --- a/drivers/firmware/efi/poison.c
-> > +++ b/drivers/firmware/efi/poison.c
-> > @@ -91,3 +91,30 @@ void __init efi_poisoned_memory_reserve(void)
-> >  	memblock_add(start, end - start);
-> >  	memblock_reserve(start, end - start);
-> 
-> [Severity: Critical]
-> Does this forcefully override the firmware's memory map for adjacent 4KB
-> chunks on larger page architectures? 
-> 
-> On architectures like ARM64 where the kernel page size can be 16KB or
-> 64KB, EFI memory descriptors remain 4KB. If the EFI poisoned memory table
-> occupies a 4KB region within a 64KB page, rounding down to the kernel
-> page boundary expands the range.
-> 
-> This could force adjacent 4KB EFI regions containing firmware MMIO or
-> reserved non-RAM regions into system RAM via memblock_add(). If the
-> kernel later maps these regions with Write-Back caching attributes in the
-> direct map, could this cause fatal Machine Check Exceptions or SError
-> panics during speculative CPU accesses?
+Hello Davi,
 
-arm64 already rounds every EFI descriptor outward via
-memrange_efi_to_native(), so it adds no new class of over-mapping, and
-reserve_regions() adds and reserves this WB ACPI-reclaim table anyway
-moments later.
-
-So, it doesn't seem relevant?!
-
-> > diff --git a/include/linux/efi.h b/include/linux/efi.h index
-> > dd3263456dd4a..56402fdccd114 100644 --- a/include/linux/efi.h +++
-> > b/include/linux/efi.h @@ -1288,8 +1288,10 @@ struct
-> > linux_efi_poisoned_memory {
+On 9/12/2026 3:32 AM, Davi Chaves Azevedo wrote:
+> The scheduler scales LLC capacity by the fraction of cache-sharing CPUs
+> covered by a domain:
 > 
-> [Severity: High] Does the linux_efi_poisoned_memory ABI structure
-> break on architectures where the native word size differs from the
-> firmware? 
+>   llc_bytes = cache_size * span_weight / shared_weight
 > 
-> The struct uses an unsigned long flexible array for the bitmap, which
-> alters the element size depending on the kernel bitness (4 bytes on
-> 32-bit and 8 bytes on 64-bit). efi_poison_geometry_valid() rejects
-> tables where the size is not a multiple of sizeof(unsigned long). 
+> During CPU teardown, sched_cpu_deactivate() rebuilds scheduler domains
+> before cacheinfo_cpu_pre_down() removes the CPU from shared_cpu_map. The
+> new domains therefore use the old sharing weight. The later call to
+> sched_update_llc_bytes() looks up the departing CPU's sd_llc, which has
+> already been detached, and returns without correcting the surviving CPUs.
 > 
-> If a 32-bit EFI firmware generates this table, it will use 4-byte
-> alignment and a 32-bit word array. Because CONFIG_EFI_POISONED_MEMORY
-> is 64-bit only, the 64-bit kernel will evaluate sizeof(unsigned long)
-> as 8 and reject perfectly valid 32-bit firmware tables as malformed. 
+> On a Ryzen 5 7535U with twelve logical CPUs sharing a 16 MiB LLC,
+> offlining one SMT sibling left the remaining CPUs with:
 > 
-> Since bit array layouts also differ across word sizes on big-endian
-> architectures, should this firmware-to-kernel ABI boundary use
-> fixed-size types like u32 or u64 instead?
+>   llc_bytes = floor(16777216 * 11 / 12) = 15379114 bytes
+> 
+> The correct capacity is still 16777216 bytes. On systems with active
+> cache-aware scheduling, an underestimated capacity can cause
+> exceed_llc_capacity() to reject aggregation for a process whose footprint
+> would fit. Unchanged cpuset partitions sharing the physical cache can
+> also retain stale capacity when a CPU comes online in another partition.
+> 
+> Pass the cache-sharing mask already retained by cacheinfo to the
+> scheduler update. Refresh every surviving CPU using its own LLC domain
+> so that each partition receives the correct share. This also preserves
+> the correction needed as cache-sharing maps grow during boot.
+> 
+> Keep the existing CPU-hotplug and scheduler-domain synchronization. The
+> update remains on the hotplug path; no steady-state scheduling operation
+> or persistent allocation is added.
+> 
+> Fixes: 7030513a0877 ("sched/cache: Calculate the LLC size and store it in sched_domain")
+> Signed-off-by: Davi Chaves Azevedo <davichazbh@gmail.com>
+> Reviewed-by: Chen Yu <yu.c.chen@intel.com>
 
-That is not the case, because this feature depends on 64-bits and
-!BIG_ENDIAN.
+Feel free to include:
 
-In fact, CONFIG_EFI is depends on OF && !CPU_BIG_ENDIAN
-> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c index
-> > a2ca8df501cae..d9b8be696aac3 100644 --- a/mm/memory-failure.c +++
-> > b/mm/memory-failure.c
-> [ ... ]
-> > @@ -1326,6 +1327,8 @@ static int action_result(unsigned long pfn,
-> > enum mf_action_page_type type, if (type != MF_MSG_ALREADY_POISONED
-> > && type != MF_MSG_PFN_MAP) { num_poisoned_pages_inc(pfn);
-> > update_per_node_mf_stats(pfn, result); +		/* Only hard
-> > offlines are carried over to the next kernel. */
-> > +		efi_hwpoison_record_pfn(pfn); }
-> 
-> [Severity: Medium] Does placing efi_hwpoison_record_pfn() inside this
-> conditional block unintentionally skip recording hard errors on
-> previously soft-offlined pages? 
-> 
-> Soft-offline marks a page with PageHWPoison but intentionally does not
-> record it in the EFI table to avoid permanent loss for predictive
-> errors. 
-> 
-> If a genuine hard, uncorrectable error later occurs on that same page,
-> memory_failure() will see the existing PageHWPoison flag and pass
-> MF_MSG_ALREADY_POISONED to action_result(). 
-> 
-> By coupling the EFI recording to the meminfo stat increments, genuine
-> hard errors on soft-offlined pages are omitted from the EFI table.
-> Could this allow the next kernel to map and crash on physically broken
-> RAM?
+Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
 
-Yes, this one is real, thanks.
+-- 
+Thanks and Regards,
+Prateek
 
-soft_offline_page() reaches num_poisoned_pages_inc() through
-page_handle_poison() and never calls action_result(), so the hook does
-not need the MF_MSG_ALREADY_POISONED guard to keep soft offlines out of
-the table. That guard is there for the stats, and coupling to it drops a
-hard error on a page that was soft-offlined earlier.
-
-The frame is not lost for good -- the next kernel hands it out, the error
-comes back and is recorded then -- but that is one machine check per
-kexec that this series exists to avoid.
-
-I will move the call out of the stats guard in v6, keeping MF_MSG_PFN_MAP
-excluded since that path is not System RAM
