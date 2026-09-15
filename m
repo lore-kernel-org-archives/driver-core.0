@@ -1,41 +1,41 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76616480DCA
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFF747DF87
+	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 10:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469925; cv=none; b=n9KiyHP7RykvcOB/Y3o4iLyo742Q/FdRVDSfGJCL3PB3//94tspWfUVlDmzVC8YxzrtGYRLO2/sCWyS1BjoxuXEkXbApZ4Fc25evM+l3o4ReOFJFlt9L53r5FwR6mMiDyBaUvJ/WjP2GkLXKmXjspY9zbUXlTsH/VP8aCJc5V+o=
+	t=1789469926; cv=none; b=n9z9jrjOpY3q/Et053PQ5gebK6aWSQqrrhXItqY/lXjS5l2hnr6XLwZ3JwSqXy3kQMC+BfTbOvcEghGkYx23Gc0byovziSUr4E1WOishPEmYrAH3mSHRp8lU8mUrvy1CV4DyZfZHgff92LQOmqHEHTtfeGXSn4HVptbTfQA7hsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469925; c=relaxed/simple;
-	bh=gVA4+XqbNNN1F9sDkQOd4SN/aK3Sgp3hL/xbCmqatQc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Qe/x9aqwl9/so1OFR3YRk9GYjIorbMiYCUjyIGEfIeb/sqMOJdDCm7qIrKAESu+XoTIWf27fOIlm/qf0ML+Dj++VXaTDbGPkuacBFG5AZDEVczK2yn5Ycmns//OhaQrIQy3Il1+TvUM5qphqhlJLEvfJljIWcmLRorxr0MsuUUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EE+Fyqwa; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1789469926; c=relaxed/simple;
+	bh=EinmufHSmWsSZi36V8OczT/8JlbhoN6rgawaCWvpYwU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EO5uupeNnVd5T3da0r0+PH0ev4h2Ut/bY2AGfqKsK0qRKRhbKN/pJtE2R2DFefoRqdCOHdG8Lv2n+HAlNJwNpIafxZYNPTXWYJ/FL2sr2F9vYbaymLcVQyPRIvyW6wfH9m203sYd8zti6ZiRWGlRBShauGSC9PNYiXqYSuY38tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=epit2y1k; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EE+Fyqwa"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="epit2y1k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1789469921;
-	bh=gVA4+XqbNNN1F9sDkQOd4SN/aK3Sgp3hL/xbCmqatQc=;
-	h=From:Subject:Date:To:Cc:From;
-	b=EE+FyqwaR3Lk17Pd8O2X0VdbC09nCwtrdZGShfgIcNKn/U2GNP64mYRE5Kx4hI87D
-	 IHnF2sKTgysjng/YvvLpTttJFYCsyACiKFQqxcSm6ghj/SWC4GxghMaWyZwiK+YF1J
-	 ADIDQIJGkJOH7HYny4wu7eVILcywtvKbBBfH56lhyrZvUhf0NS18A4oeEzy51UyQ93
-	 xJUzuo5LI0ze/KjHOz3dNJlbSEm7sY4wQm1fex0DHfpVqAOoqtyEGCuRu2mTd1d+E+
-	 KWSubUzc/pgVcsZujzGIss4OebSs4q5SjQuflWMMfaYT0uXR3COW7aYbHApUiMcIqH
-	 CRkYRJ8anr5pw==
+	s=mail; t=1789469922;
+	bh=EinmufHSmWsSZi36V8OczT/8JlbhoN6rgawaCWvpYwU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=epit2y1kZDG4wDoVwOH1kf4G68g73h1WzNpdoRTrmK+VMxm3qSe06GGbZP8lwxhlw
+	 j0bevHnFMTyvo2AsVht8I1WfwMk734E3U17AZZMLxuagIpfTVsW4xQ3NqGRfgVNHRV
+	 S0t7uh8AlHRNIE63ApdF7Bp0St5bBKZB//O4GFFUzR50rlcpvif2LD5ewwGGSoEe1M
+	 jlSbaUgdaUltnJgUc9P5zeq5h0t7gsajmXpGuLNuk5uGh6kpzr8nCBXxR3SBdvOfLZ
+	 nV2kQRDOaDPgIVxYe1HhU5c2hMSTzRwa/+LGA2kuOv99i/vQhiaWFm6KW1ktXZ6UyL
+	 t/y5PP59BGh6g==
 Received: from laura.lan (unknown [100.64.0.215])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: laura.nao)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id AD1F417E091A;
-	Tue, 15 Sep 2026 12:58:40 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CD47117E0962;
+	Tue, 15 Sep 2026 12:58:41 +0200 (CEST)
 From: Laura Nao <laura.nao@collabora.com>
-Subject: [PATCH 0/9] drm/tyr: add CSF firmware interface support
-Date: Tue, 15 Sep 2026 12:57:33 +0200
-Message-Id: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
+Date: Tue, 15 Sep 2026 12:57:34 +0200
+Subject: [PATCH 1/9] drm/tyr: validate presence of CSF shared section
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,10 +44,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJ0kqWoC/x2NQQ6CMBAAv0L27CZtEaN+xXgo7SJ7cDW7xUAIf
- 6d4nEwms4KRMhncmxWUfmz8kQr+1EAao7wIOVeG4MLF3ZzHsiiyFNIhJjJsc+68811oz1eoUR+
- NsNcoaTyyrG/UyQoKzeXwX6WB5//w8dy2HSgQfmWAAAAA
-X-Change-ID: 20260901-tyr-interfaces-3dd510152348
+Message-Id: <20260915-tyr-interfaces-v1-1-5d28f1f75aca@collabora.com>
+References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
+In-Reply-To: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
  Daniel Almeida <daniel.almeida@collabora.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -66,88 +65,47 @@ To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
  kernel@collabora.com, Laura Nao <laura.nao@collabora.com>, 
- Deborah Brouwer <deborah.brouwer@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>
+ Deborah Brouwer <deborah.brouwer@collabora.com>
 X-Mailer: b4 0.14.3
 
-This series follows up to [1], which adds support for firmware loading
-and MCU booting to the Tyr driver. The changes included here were
-originally introduced in its v4, then dropped to reduce the scope of
-the series, and have been adjusted to work with the HRT (Higher-Ranked
-Lifetime Types) driver architecture and I/O projections support recently 
-introduced.
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-The series adds support for the Command Stream Frontend (CSF) firmware
-interfaces, enabling communication between the Tyr driver and the MCU
-through shared memory.
+The firmware binary must have a shared section for communicating with
+the MCU. Check for this section after parsing and fail with -EINVAL if it
+is missing.
 
-The firmware binary is first validated to contain the shared section
-used for this communication. Firmware sections that need CPU access get
-a persistent CPU mapping alongside their GPU mapping, kept for the
-lifetime of the driver in the case of the shared section. This is the
-foundation for resolving firmware-reported MCU virtual addresses into
-validated views of the shared section: addresses are represented with a
-dedicated McuVa type nd are resolved into bound-checked and
-alignment-checked views. Read-only blocks (control, output) use a freely
-cloneable view, while writable blocks (input) use a view that takes an
-exclusive claim on its byte range, removing the need for locking around
-the interface state.
-
-The global (GLB), command stream group (CSG), and command stream (CS)
-interfaces are implemented on top of this, providing access to the
-firmware control, input, and output blocks and allowing discovery of the
-available CSGs and CSs at runtime. The interface is versioned:
-GLB_VERSION is read once at probe time to select the layout matching the
-firmware's generation.
-
-The global interface is initialized and programmed during probe and its
-readiness is notified through the Job IRQ.
-
-A safe wrapper for arch_timer_get_rate() is also added for programming
-the GLB timers, and the CONFIG_64BIT restriction on system memory u64
-accesses is dropped so the register bitfields used by these interfaces
-work on 32-bit too.
-
-This series is based on drm-rust-next and depends on:
-- [PATCH v6 0/2] drm/tyr: add Job IRQ handling [2] and its dependencies
-
-[1] https://lore.kernel.org/all/20260728-fw-boot-b4-v10-0-9187aefa3f2f@collabora.com/
-[2] https://lore.kernel.org/all/20260728-tyr-irq-v2-v6-0-15c90baed949@collabora.com/
-
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 Signed-off-by: Laura Nao <laura.nao@collabora.com>
 ---
-Daniel Almeida (2):
-      drm/tyr: add MappedBo, a kernel BO with an always-valid CPU mapping
-      drm/tyr: add McuVa and claim-checked MappedBo views
+ drivers/gpu/drm/tyr/fw/parser.rs | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Deborah Brouwer (2):
-      drm/tyr: validate presence of CSF shared section
-      rust: time: add arch_timer_get_rate wrapper
+diff --git a/drivers/gpu/drm/tyr/fw/parser.rs b/drivers/gpu/drm/tyr/fw/parser.rs
+index c4d0ad1d7899..8bddaa1f0aa2 100644
+--- a/drivers/gpu/drm/tyr/fw/parser.rs
++++ b/drivers/gpu/drm/tyr/fw/parser.rs
+@@ -197,6 +197,20 @@ pub(super) fn parse(&mut self) -> Result<KVec<ParsedSection>> {
+             return Err(EINVAL);
+         }
+ 
++        // Validate that the firmware contains the required shared memory section.
++        let has_shared_section = parsed_sections
++            .iter()
++            .any(|section| section.va.start == super::CSF_MCU_SHARED_REGION_START);
++
++        if !has_shared_section {
++            dev_err!(
++                self.cursor.dev,
++                "No shared section found at 0x{:08x} in firmware\n",
++                super::CSF_MCU_SHARED_REGION_START
++            );
++            return Err(EINVAL);
++        }
++
+         Ok(parsed_sections)
+     }
+ 
 
-Laura Nao (5):
-      rust: io: drop the CONFIG_64BIT restriction on system memory u64 access
-      drm/tyr: drop unused KernelBo::bo() function
-      drm/tyr: add CSF firmware interface support
-      drm/tyr: program CSF global interface
-      drm/tyr: wait for global interface readiness
-
- drivers/gpu/drm/tyr/driver.rs               |   33 +-
- drivers/gpu/drm/tyr/fw.rs                   |  148 ++-
- drivers/gpu/drm/tyr/fw/interfaces.rs        | 1524 +++++++++++++++++++++++++++
- drivers/gpu/drm/tyr/fw/interfaces/layout.rs |  152 +++
- drivers/gpu/drm/tyr/fw/interfaces/v1.rs     | 1230 +++++++++++++++++++++
- drivers/gpu/drm/tyr/fw/irq.rs               |    1 -
- drivers/gpu/drm/tyr/fw/parser.rs            |   14 +
- drivers/gpu/drm/tyr/gem.rs                  |  334 +++++-
- rust/helpers/time.c                         |    6 +
- rust/kernel/io.rs                           |    4 +-
- rust/kernel/time.rs                         |   30 +
- 11 files changed, 3432 insertions(+), 44 deletions(-)
----
-base-commit: d1aec98b17f6ee395097b08ccb03c16d725d4ed1
-change-id: 20260901-tyr-interfaces-3dd510152348
-
-Best regards,
 -- 
-Laura Nao <laura.nao@collabora.com>
+2.39.5
 
