@@ -1,51 +1,62 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A053BE620
-	for <driver-core@lists.linux.dev>; Tue, 15 Sep 2026 13:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1895633C1B4;
+	Tue, 15 Sep 2026 14:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789480778; cv=none; b=BHUk89hYInMNoGCUgqNzyONAlb7eX7HKpI1Fiacl+6V6quQ21pPLroq9x8uhDMCbaewwYts3IwILC2YTfHpIRr2nFIZkZ90XoX+CiaOboYAyqaQEOIQLO5EchIgi5Dj/fCf3+SNQ3mt+lnqg+8oBHwCI82xC22Sz1HtJJEUa1mY=
+	t=1789480855; cv=none; b=kxPDNrsCesDPGDX5jLx3PYbfwus1SyLy9PHqQkURGXBuqU1wey98b/oCJF9FZeZUvWaO8fRQAB2d2DuARfQMWoiHRTnvU7HYlxHMO5N+RF00mKSqmilQGnY1ePQ03LAwXjp/VRjG2wds08qMb/JdYw8LFdxNXDk5atyeDIxpcx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789480778; c=relaxed/simple;
-	bh=MPNwDySajHBTgQoxxPTy4tz7FJNKza+ZVwhy6UjvdYw=;
+	s=arc-20240116; t=1789480855; c=relaxed/simple;
+	bh=+5wQwKbqcBslcbuDlmsI4q6fFTEx6nmV4uQisRE6REo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YdLc4O821eVQIlzJubFk086mgirH2sDoaidyTPV9RzTvDA8zcpf9sU8P1HeymzfzSEr0c+rbd3cPGZ2QStWtUGPG77sV+TtGVgyoHOr52aEGfA+np+xZkso4X/G3OUNC1hA44sT36NQbZ5vK0ooS3+88mpat9oBtJyvaCZyIXGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x6Th5-000000000fl-1rZv;
-	Tue, 15 Sep 2026 13:59:31 +0000
-Date: Tue, 15 Sep 2026 14:59:27 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	driver-core@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	linux-wireless@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] device_schedule_reprobe(): core helper and
- conversions
-Message-ID: <aqlPPyblTK8c6-zZ@makrotopia.org>
-References: <anpxFdwNxk0XwPjQ@makrotopia.org>
- <2026081139-strenuous-greasily-f4e5@gregkh>
- <cb0d42dd-4755-49a8-8a05-297e4283914e@oss.qualcomm.com>
- <2026081133-crazy-enquirer-97ce@gregkh>
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1fWFpyZICjcgJ6n6s1/ai+wjJpnshqsL3znFixWiC27IXDAxwhsnh0kkCeDTMGXIc6O3a6zrQFs2f6tZ75rVI81g6RO4bv5MVKJbvL70p9BsA/ce+xZUFWQ4Z7dHRNvjqb6VzU+qQrDGvdqsLIZahuKBhQKD/V75V7gJLSAEKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=vqajrmCt; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="vqajrmCt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=P0JxQYBjmO1vYJSywAUW1OOBMLXNRVrkgSCeVPxsXPU=; b=vqajrmCt1aMjHrgjKgf9nsMc8t
+	1HTSPbrZ2Nu9GG4g/qb+VIW8VrZfKXNfmRiDThFCCgEbVDUPaF2MOej9pzOvolOO1Q4ULqu61+vWA
+	JUHnoFVkpIBkIeFhbh44R1GkHpUH4RmS/d8uEKQHexTpSubRTJ9JmtyjJP5ZB71J43qi+QIxG0miR
+	JC65jdSlXGG3axUCE8+IDglXpMmSaBmLQyZ8pivc9K5fqmz88ngwG++duTsmzfmH7dJnPqJVHuvQo
+	Z58o30vNw2QLRJymW71I3AEVrmdxMAUI0O3y/MSbGXx0CDPON0t7fbMHwIjQ6x6hWv69xAJRAf1gQ
+	09t+H54A==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x6Thi-004RXm-32;
+	Tue, 15 Sep 2026 14:00:11 +0000
+Date: Tue, 15 Sep 2026 07:00:02 -0700
+From: Breno Leitao <leitao@debian.org>
+To: sashiko-bot@kernel.org
+Cc: Suren Baghdasaryan <surenb@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Mike Rapoport <rppt@kernel.org>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Zi Yan <ziy@nvidia.com>, Miaohe Lin <linmiaohe@huawei.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, shakeel.butt@linux.dev, kas@kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, x86@kernel.org, hannes@cmpxchg.or, 
+	Thomas Gleixner <tglx@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Ingo Molnar <mingo@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, kernel-team@meta.com, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	rmikey@meta.com, riel@surriel.com, harry@kernel.org, kexec@lists.infradead.org, 
+	linux-efi@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v5 3/9] mm/memory-failure: libstub: install the
+ poisoned-memory EFI table
+Message-ID: <aqlPIbH1zCHtPNcZ@gmail.com>
+References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
+ <20260915-hwpoison-kho-v5-3-3bc7a57bd503@debian.org>
+ <20260915131527.AFB261F0089A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -54,90 +65,47 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026081133-crazy-enquirer-97ce@gregkh>
+In-Reply-To: <20260915131527.AFB261F0089A@smtp.kernel.org>
+X-Debian-User: leitao
 
-On Tue, Aug 11, 2026 at 05:07:47PM +0900, Greg Kroah-Hartman wrote:
-> That feels a bit better, as long as this code really is "safe" :)
->
-> So, how can this be tested and fixed up so it isn't an RFC anymore?
+On Tue, Sep 15, 2026 at 01:15:27PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] mm: efi: integer overflow in poisoned memory bitmap allocation on 32-bit
+> --
+> 
+> commit 591eef51f672049b14b50a75d67dac823925a19a
+> Author: Breno Leitao <leitao@debian.org>
+> 
+> mm/memory-failure: libstub: install the poisoned-memory EFI table
+> 
+> This commit introduces a new poisoned-memory EFI table installed by the stub.
+> It sizes a bitmap based on the UEFI memory map to describe the RAM span and
+> allocates it as EFI_ACPI_RECLAIM_MEMORY so the next kernel does not take it
+> as free RAM.
+> 
+> > diff --git a/drivers/firmware/efi/libstub/efi-stub-helper.c b/drivers/firmware/efi/libstub/efi-stub-helper.c
+> > index 48f93f7758e9e..9c66e06c972c5 100644
+> > --- a/drivers/firmware/efi/libstub/efi-stub-helper.c
+> > +++ b/drivers/firmware/efi/libstub/efi-stub-helper.c
+> 
+> [ ... ]
+> 
+> > +static struct linux_efi_poisoned_memory *efi_poison_alloc(u64 phys_base,
+> > +							  u64 bitmap_size)
+> > +{
+> > +	struct linux_efi_poisoned_memory *pm;
+> > +	efi_status_t status;
+> > +
+> > +	status = efi_bs_call(allocate_pool, EFI_ACPI_RECLAIM_MEMORY,
+> > +			     sizeof(*pm) + bitmap_size, (void **)&pm);
+> 
+> [Severity: High]
+> Could this allocation size wrap around on 32-bit EFI architectures if the
+> memory map is extremely sparse?
 
-The helper went out as v2 [1] and v3 [2] on its own, and it now travels
-as patch 3 of the mxl862xx devlink flash series [3], whose driver is
-its first user: that driver reflashes a DSA switch over MDIO and has no
-in-place path back, so it reinitialises through a deferred detach and
-re-probe. Patch 4 of that series does not link without the helper and
-the series cannot be split around it, so what it needs from the driver
-core is an ack on that patch.
+This feature is limited to 64-bits only, so, these wraps on 32-bit
+architectures are not real:
 
-On testing. Every firmware flash and every recovery in that series ends
-in device_schedule_reprobe(), so the helper is on the path of all of
-the following, run on an MxL86252C switch of the BananaPi R4 Pro 8X: an
-upgrade through fwupd; a reboot issued while a flash was running, which
-waits for the transfer to finish; a host crash in the middle of a
-transfer, whose wedged download the driver drains in the background
-before re-probing; and a power cut in the middle of a transfer, after
-which the bootloader came up ready and fwupd flashed the switch back to
-a released firmware. That kernel was built with PROVE_LOCKING,
-PROVE_RCU, DEBUG_LOCK_ALLOC, DEBUG_MUTEXES, DEBUG_SPINLOCK,
-DEBUG_RT_MUTEXES, DEBUG_WW_MUTEX_SLOWPATH, DEBUG_ATOMIC_SLEEP, KASAN
-(generic), UBSAN, DETECT_HUNG_TASK and SOFTLOCKUP_DETECTOR, on PREEMPT,
-and the logs were clean.
-
-On the fixing up, since the version in this thread:
-
-The helper adds no state to the driver core. That version grew a
-shutdown_done bit in struct device_private, set from device_shutdown();
-the work now tests defer_all_probes instead, which device_shutdown()
-and dpm_prepare() both set before they touch any device. base.h and
-core.c are untouched, so the patch is dd.c and device.h only.
-
-Nothing is locked in the caller's context, and the parent is neither
-pinned nor locked. Recording dev->parent and taking
-__device_driver_lock() meant the device lock was taken where the caller
-stands, which inverted against the devlink instance lock that a devlink
-flash holds across the call, and a pinned parent can be replaced by
-device_move() without any device lock held. The work now takes
-device_lock(dev) alone, and a bus that sets need_parent_lock is refused
-with -EINVAL when the re-probe is scheduled. usb_bus_type is the only
-such bus in the tree, and the three conversions re-probe PCI and serdev
-devices, so none of them is refused.
-
-__device_release_driver() reports whether it released the driver, and
-takes an abort_if_blocked flag. It drops the device lock while busy
-consumer links are unbound; on re-acquisition it re-checks
-defer_all_probes and abandons the release, which closes the window
-where a ->remove() could follow a ->shutdown() on the same device. Only
-the deferred re-probe passes true, since an administrative unbind has
-to complete and driver_detach() would spin on a device it never
-released. Because the work learns whether it was the call that released
-the driver, an unbind winning that race is no longer undone by the
-re-attach.
-
-The work runs on system_freezable_wq rather than the unbound queue
-Marco commented on, so a re-probe pending across system suspend runs
-once the system has resumed, instead of detaching a suspended device or
-racing its late suspend callbacks.
-
--EPROBE_DEFER is kept out of the re-probe error path, where
-dev_err_probe() would have recorded it as the device's deferred probe
-reason. The kernel-doc no longer promises that an administrative unbind
-is never undone, which unbind_store() does not guarantee, and it now
-states the calling context and the freezable behaviour.
-
-The conversions of the open-coded users in iwlwifi, hci_h5 and
-btintel_pcie follow once the helper is merged, which is the part that
-removes the module_get(THIS_MODULE) you objected to. Hans reviewed and
-tested the helper and the hci_h5 conversion on RTL8723BS hardware
-[4][5]; the helper has changed materially since, so I have not carried
-those tags over.
-
-[1] https://lore.kernel.org/all/cover.1787185594.git.daniel@makrotopia.org/
-[2] https://lore.kernel.org/all/cover.1787281239.git.daniel@makrotopia.org/
-[3] https://lore.kernel.org/all/cover.1789175618.git.daniel@makrotopia.org/
-[4] https://lore.kernel.org/all/c461462f-de0b-43e8-ac9e-541013f5f8da@oss.qualcomm.com/
-[5] https://lore.kernel.org/all/7ffe0c2e-0742-488a-ab6c-1dc2fabc049c@oss.qualcomm.com/
-
-Thanks,
-
-
-Daniel
+config EFI_POISONED_MEMORY
+	def_bool y
+	depends on EFI_STUB && MEMORY_FAILURE && 64BIT
