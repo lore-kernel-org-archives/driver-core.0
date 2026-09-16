@@ -1,29 +1,30 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D56232470E
-	for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 02:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6BC3ABD99
+	for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 02:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789527308; cv=none; b=hRCbZyXc4a9+BEgXT26NBN9wYL+JeENzrKGQzJL+V1Wg/gzBgByanEUtrLld5d24NBMnR0BI/CpL4L+aoBEZdJCOHkXYc3FIcYhKa8QzV2GGws8QxwoZB8sClKpZ5jWw1fFIdwVjfWUBOSFoHjeRcm6kKfWq1uQp1kKDUI9qZ6Y=
+	t=1789527308; cv=none; b=QLAJb2s2F/0X/927vi+a3LQSjTEpHI5pAsR8mf5w5MEaUKBpfPGCTgN9saOSFqS1E9bMWXfIT5K0ZZyvW9UXLRQxdWkfdrs/MyA1IE6hwHJr++QcKDAfGxSXW3nL8h4t72bdYoOBFSbmOJT4h8Gee2SNRtCPA71G1WmKldwFjlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789527308; c=relaxed/simple;
-	bh=XoyW/LqrHyY96ZKhhusUTDPQzvSPWv9Pwq9/zGRx6kc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vti2skvXYslaw1GW0x3aIv7ywHMjx1mtT+ZCt6Yn6e1ndHsme5JPlxC8JOvzDfHx9hwbELwWjJ4aO9ksytwizZ0KG6rTlfhDgejdyfqf8rM4nyLdvN6nd3/97wTNOSiSxQ1K+pDS8WV8Cqri1lvuX7oWPn/CTHQfMiTmT7l1Pzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=B6FHRIkp; arc=none smtp.client-ip=115.124.30.118
+	bh=rL1SlxlboT+xU3xDfLuqZVnsswgHWbnEJP9FpsUvB6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DR1TuUSWDUsav4PcqKHBc8PfFE1Acc6QqxJMTRRm/YuH2RndNnx+8AyiyWKIHtIqqt7VkX6zSCGphY1L4J2iMENAZvCY+6CuTcSdm6VlpmL23wsyHQgB3jjhsI094k7U0XZh2n3SGguPr3Ai4xCgO1uoBuTGyIemz2zW5Zb6dYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=I1cqelpP; arc=none smtp.client-ip=115.124.30.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="B6FHRIkp"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="I1cqelpP"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1789527303; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=Fkjz7gi2nwbPl6/DxAeMgmmXt6CPx/IGyGzZ9JlNlh8=;
-	b=B6FHRIkpiR+2IfpXBmC9iU/sYD/38UqmN5akFVYv6a8knUdIxERJagCRmyEERXtjdd5jvJN+lVKP85eVS2/HIFcy/paMeiCLLKKOn0Qp9W5PHIInZ+RIzFcBvLEOqXc/03fOfiZ8JbU18b3EkwvSQtlt8Udk44nYlXoNnk0cFG8=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XB3US2U_1789527300;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB3US2U_1789527300 cluster:ay36)
+	t=1789527304; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=Si7iK59nmwwa75IabvkYisPeqH5JMlD9Vvc8Qm8oKGk=;
+	b=I1cqelpPo4wVlDGWiTgCj0BS0YtOV2UVMzR5DDj8Rs79Mrsw1u00//KmwNe5aUJDBQMi2/ZPazJqJZOF5y+/uqdWIW4SxAmQCcepOZ51zVhL38kYhWzmkA/Ebq78TAKIxGE3enMqBDqQ1KiKQcpjIZEBAOFBJofckyxWNZetLQY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R391e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XB3dFVT_1789527303;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB3dFVT_1789527303 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 16 Sep 2026 10:55:01 +0800
+          Wed, 16 Sep 2026 10:55:03 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
 To: Davidlohr Bueso <dave@stgolabs.net>,
 	Jonathan Cameron <jic23@kernel.org>,
@@ -39,10 +40,12 @@ To: Davidlohr Bueso <dave@stgolabs.net>,
 	Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
 Cc: linux-cxl@vger.kernel.org,
 	driver-core@lists.linux.dev
-Subject: [PATCH v4 0/2] cxl/memdev: Fix poison debugfs vs unbind deadlock
-Date: Wed, 16 Sep 2026 10:54:51 +0800
-Message-ID: <20260916025453.3532614-1-kanie@linux.alibaba.com>
+Subject: [PATCH v4 2/2] cxl/memdev: Fix deadlock between poison debugfs and cxl_mem unbind
+Date: Wed, 16 Sep 2026 10:54:53 +0800
+Message-ID: <20260916025453.3532614-3-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260916025453.3532614-1-kanie@linux.alibaba.com>
+References: <20260916025453.3532614-1-kanie@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -51,100 +54,76 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Writing a memdev poison debugfs file while cxl_mem is being unbound
-deadlocks. Patch 2 fixes it by not waiting for the device lock in those
-handlers. Patch 1 adds the trylock guard it uses.
+The poison debugfs handlers take the memdev device lock so that the
+region lookup sees a stable cxlmd->dev.driver. debugfs holds a
+reference on the file across the handler, and cxl_mem unbind removes
+that file while holding the very same device lock, so a handler that
+waits for the lock deadlocks against a concurrent unbind.
 
-Patch 2 does not build without patch 1, so the two need to travel
-together.
+The trigger is any teardown that detaches cxl_mem from the memdev
+while a poison write is in flight: unbinding or unloading cxl_mem or
+cxl_pci, or removing the endpoint PCI device, including hot-remove.
 
-Testing:
+Both tasks then hang. The unbind side is uninterruptible, and it also
+blocks the memdev detach work, which runs on an ordered workqueue and so
+stalls every other CXL bus work item.
 
-Reproduced on a QEMU CXL topology whose type3 devices advertise poison
-inject support:
+Take the lock with the trylock guard and return -EBUSY instead of
+waiting. An unbind that wins the race removes the file first and the
+write fails with -ENOENT.
 
-  while :; do echo 0 > /sys/kernel/debug/cxl/mem0/inject_poison; done &
-  while :; do
-      echo mem0 > /sys/bus/cxl/drivers/cxl_mem/unbind
-      echo mem0 > /sys/bus/cxl/drivers/cxl_mem/bind
-  done
+The poison inject and clear files are a debug ABI for expert users,
+mostly device vendors, to test the poison capabilities of their
+devices. Mixing a poison write with cxl_mem teardown is not a supported
+use of the interface, but when it happens anyway the cost should be a
+failed write, not a hung kernel.
 
-Without the fix the unbind wedges within seconds. The three tasks
-involved, from /proc/<pid>/stack:
+Found by code inspection. Reproduced by writing inject_poison in a loop
+while unbinding and rebinding cxl_mem, and confirmed fixed by the same
+test. Also reproduced the same deadlock with those writes racing a
+pciehp hot-remove of the memdev; with this patch the hot-remove flow
+completes normally.
 
-  writer, state S, holds the debugfs reference and waits for the lock
-    cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
-    debugfs_attr_write+0x61/0xb0
-    full_proxy_write+0xfc/0x1c0
-    vfs_write+0x1d4/0xe60
+Fixes: 574eda81d0a7 ("cxl/memdev: Hold memdev lock during memdev poison injection/clear")
+Suggested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/cxl/mem.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-  unbind, state D, holds the lock and waits for the reference to drain
-    remove_one+0x27f/0x3d0
-    debugfs_remove+0x44/0x60
-    release_nodes+0xfa/0x2c0
-    devres_release_all+0x113/0x1a0
-    device_unbind_cleanup+0x76/0x260
-    device_release_driver_internal+0x3eb/0x540
-    unbind_store+0xde/0x100
-
-  cxl_port workqueue, state D, blocked on the same lock
-    device_release_driver_internal+0x96/0x540
-    detach_memdev+0x79/0xb0 [cxl_core]
-    process_one_work+0x6b0/0xfb0
-
-The writer is in interruptible sleep and can be killed; the unbind
-cannot, and because cxl_bus_wq is an ordered workqueue the wedged
-detach_memdev() blocks every other CXL bus work item behind it.
-
-The same deadlock shows up with a pciehp hot-remove racing the writer
-loop: the pciehp thread hits the same debugfs_remove() drain holding
-the memdev lock, and the hot-remove wedges the same way. With both
-patches applied the hot-remove flow completes normally.
-
-With both patches applied, 46 unbind/bind cycles against the same writer
-loop all completed, no task was left in D state, and the writer collected
-10920 EBUSY returns from the contended trylock. Note that lockdep stays
-quiet either way: one leg of the cycle is the debugfs active_users
-completion rather than a lock it tracks.
-
-v3 -> v4:
-- reword the patch 2 commit message per Alison: enumerate the teardown
-  paths that race a poison write into an unbind, and state that mixing
-  poison writes with cxl_mem teardown is not a supported use of this
-  debug ABI, though the fix keeps the cost of doing so to a failed write
-- add the pciehp hot-remove reproduction, reported during v3 review,
-  to the patch 2 commit message
-- collect Jonathan's Reviewed-by on both patches (no code change)
-
-v1 -> v2:
-- add the device_trylock() guard and use ACQUIRE(device_try, ...) instead
-  of open-coding device_trylock()/device_unlock(), keeping the style the
-  Fixes: commit established (Shaikh Kamaluddin)
-- cut the changelog down to the failing condition, the consequence and
-  the fix; the call graph and the reproducer live here instead
-- say how the issue was found and how it was tested
-
-v2 -> v3:
-- rebase onto v7.3-rc2 (master), per Dave's request to send the series
-  against Linus's tags rather than cxl/next
-
-v1:
-https://lore.kernel.org/linux-cxl/20260826125248.4003792-1-kanie@linux.alibaba.com/
-
-v2:
-https://lore.kernel.org/linux-cxl/20260831124809.889829-1-kanie@linux.alibaba.com/
-
-v3:
-https://lore.kernel.org/linux-cxl/20260910094017.4032170-1-kanie@linux.alibaba.com/
-
-Guixin Liu (2):
-  driver core: Add conditional guard support for device_trylock()
-  cxl/memdev: Fix deadlock between poison debugfs and cxl_mem unbind
-
- drivers/cxl/mem.c      | 14 ++++++++++----
- include/linux/device.h |  1 +
- 2 files changed, 11 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/cxl/mem.c b/drivers/cxl/mem.c
+index 798e5c369cfc..3959ec963026 100644
+--- a/drivers/cxl/mem.c
++++ b/drivers/cxl/mem.c
+@@ -50,8 +50,13 @@ static int cxl_debugfs_poison_inject(void *data, u64 dpa)
+ 	struct cxl_memdev *cxlmd = data;
+ 	int rc;
+ 
+-	ACQUIRE(device_intr, devlock)(&cxlmd->dev);
+-	if ((rc = ACQUIRE_ERR(device_intr, &devlock)))
++	/*
++	 * Never wait for this lock: the debugfs proxy holds a file reference
++	 * across the callback and unbind removes the file under the same
++	 * device lock, so waiting here deadlocks against unbind.
++	 */
++	ACQUIRE(device_try, devlock)(&cxlmd->dev);
++	if ((rc = ACQUIRE_ERR(device_try, &devlock)))
+ 		return rc;
+ 
+ 	return cxl_inject_poison(cxlmd, dpa);
+@@ -65,8 +70,9 @@ static int cxl_debugfs_poison_clear(void *data, u64 dpa)
+ 	struct cxl_memdev *cxlmd = data;
+ 	int rc;
+ 
+-	ACQUIRE(device_intr, devlock)(&cxlmd->dev);
+-	if ((rc = ACQUIRE_ERR(device_intr, &devlock)))
++	/* Never wait, per the inject path above. */
++	ACQUIRE(device_try, devlock)(&cxlmd->dev);
++	if ((rc = ACQUIRE_ERR(device_try, &devlock)))
+ 		return rc;
+ 
+ 	return cxl_clear_poison(cxlmd, dpa);
 -- 
 2.43.7
 
