@@ -1,194 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B883ACF17
-	for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 01:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789522493; cv=fail; b=XwE0k3rREkyAO8RApwIJ58S1ScpNuW12atugx4BqPbX7LDhLNCbZnV8uZeL3ES7uzITRDOC4eEgJ/GR9M+RE8BaNykYJ5DvK9GRQ3NzbVfXNyN8GXwFveeydBE5ZZVbVIYQtsXTPXhOBmNFQjWEUpjurZq5+xSXercjyayQwWco=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789522493; c=relaxed/simple;
-	bh=7yhLYzLiWtQw6InsVT7sC5vEFgErz8e8Aq79GGgwTFM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dwKqlnmMjXBGgDenNkswyauVlVWl0UHaNA0SBffhtPeULB+7L1dJ2zZyYa2sTucWBrFeJJZjkwPsITSs/NI+gMtVWDYsSoS9JqAVe/4kKiinhOgN0lLkcaBk4trpT4+aU2nNNYGePbi36APjPCtQ+DSHAdgYiugr9CsLONpOl88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBA1FRrO; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FF436C9CC
+	for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 02:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789525425; cv=none; b=Vihn6Nei3VaznE6C0FqLouRoBA9gc2+t544aEMFyuxDIiY4Cj5TNOBvRbhj1lVLLgC+LN2WOj8qZfN44Xf56v5UdwesDf9RqCm1K43Ds5LmkNYQVPOmQhcqcEmi4opwnkK/3Iq3FSG5xkyCZbtN39aoj/WZlIAGr9kuw5z37c8Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789525425; c=relaxed/simple;
+	bh=puT/ppyGNW9K4uhsVUxK2IaxkKQ5g83w65cyGw5+uNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hrYyL5zv/sHbXGV00TTvXmqWf+d4+b01O5ccerSddnbTeWucL9YibUxXRvqii5vgIENqwdtd6xM+172zwUYZnLIxTjKDpaxCLUhhyQEvoAQNmM5Y6mFt+qrHN6UE1LY62vegsL5B+Iro8+IumERaKN+oJx6W+T8Q6L+cB1d45Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=u90hduyc; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBA1FRrO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789522490; x=1821058490;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=7yhLYzLiWtQw6InsVT7sC5vEFgErz8e8Aq79GGgwTFM=;
-  b=aBA1FRrOIxCNMCd2gQNaGs/pVvLNGjlFyzLY75T7ZVGroZK1ScwLdTlG
-   Z6B2ShFnKSBHkreqiGw1SEBULfhSUChQvktHM8vyviWl7XTh/c2g2bHkM
-   lNCL/Srmd0CXBZCkTNHQOMdGnQ2+ZAzKVYNAWlL1ULYLuFlZRyr810uwV
-   zd0kSWqKP4yFFbsinjkyLVqsN2fWfEQHtX/fPJve1w+UExn8KpXwW+TOh
-   fhQBzQ/ly7T2fno5bHkuocKIs+WVDRqs64RbnQv+pJsOutDi/4GiJLVYx
-   yNxX7vM0RgKNUhpTRuetHXro8NZzcmuf3qDKpLTREHe8GuLoKSnR8M6HE
-   w==;
-X-CSE-ConnectionGUID: HyJJWceWTSaCv+vgxWR7lg==
-X-CSE-MsgGUID: WYaMBmysSBGF28Cmvv1MDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89654912"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89654912"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 18:34:47 -0700
-X-CSE-ConnectionGUID: AFqbcRRuTjCvaMtO9fDImg==
-X-CSE-MsgGUID: K/yhXFd0TIeJ7AyUZ+f6bA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273148864"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 18:34:47 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 15 Sep 2026 18:34:46 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Tue, 15 Sep 2026 18:34:46 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.8) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 15 Sep 2026 18:34:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vDaSiXT0MgEdCYh6R5hSwUVE+OsB8VTU8n1vVFG2vqSJKXIiSsJn7iow2GCjCQ0nJUpIKhVNiOvVawoJ914iEYzZSmaT3IItDT1hleBy8jc3HcS/TJ7GvZB/pyc5j7my8Nb4cSbqL16X/S7RTY1/Sn98Uo1m9JSX/ozGLgiklA3n/k9FWvjh6ccsyvuiGEV1Zrh8VCwox7DkuRJQd5oxhoW4DtTGM1yQy+hBw50z77GBuEUztMS0AYp9Bm7kepKWJZXQrhyHf8XrqifrOhzxpdZDC9Xx+4KMaRhEuOIRXY7XuvpMRqkM3sJVNzcTCkY2OGc5A2gBc46ucF5rUZyKPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1cKq4GNvS6/iShiTOudkvSl+xkxbkxIFzftI2ck1pxU=;
- b=opE37wMtaOLx06B5E6IhMRfz+Ry+GZ3ygkp677GEU49/f4JtavgsYI+bxwbrPbSs4cuGsJ6NKrIBm+C5BFISzKTBijzmYKBrY60VI5f/Qe0NT8oJWYTar7G/pGauD5SIV9U0rjyPIUJccVSkhWkVfoEZHu+IfWo4T+o3+kFgoIP/NmiFvD9tfmvQ9BFs/yu1NA43j+PO0hHoPnvZrEgj6OtAwK5YckT27EWMU2ltsnZok2G/pW9Wt0M0f2JmlFtDUYA0olP3LWGM5qkV7l9U6mU09v2eLH3jGeNH+jv3P/Z9Zt2oXuoxVoVMRAW3J4X7dOsaPi70k/s97/gE48Ws5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
- DS4PR11MB349881.namprd11.prod.outlook.com (2603:10b6:8:514::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
- 2026 01:34:43 +0000
-Received: from DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::3058:1480:e4ac:5765]) by DM4PR11MB6020.namprd11.prod.outlook.com
- ([fe80::3058:1480:e4ac:5765%4]) with mapi id 15.21.0406.007; Wed, 16 Sep 2026
- 01:34:43 +0000
-Message-ID: <f0283779-63e3-455b-8d2b-147bf77a73fa@intel.com>
-Date: Wed, 16 Sep 2026 09:34:33 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] sched/cache: Refresh LLC capacity across CPU hotplug
-To: Davi Chaves Azevedo <davichazbh@gmail.com>
-CC: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>, Valentin Schneider
-	<vschneid@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
-	Tim Chen <tim.c.chen@linux.intel.com>, <chen.yu@linux.dev>,
-	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<kprateek.nayak@amd.com>
-References: <20260911220229.1368887-1-davichazbh@gmail.com>
- <20260915175714.2015751-1-davichazbh@gmail.com>
-Content-Language: en-US
-From: "Chen, Yu C" <yu.c.chen@intel.com>
-In-Reply-To: <20260915175714.2015751-1-davichazbh@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0191.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::6) To DM4PR11MB6020.namprd11.prod.outlook.com
- (2603:10b6:8:61::19)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="u90hduyc"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1789525412; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=D2Vd93Xxo8fnHooGRkQzdFblSLYSVhR33i+MffFi558=;
+	b=u90hduycFE8IxjHfwZReNAbTir6SxwbRdB3udgBzgS3HJxRwWQMCQvbcahnVyPsIZJLf6aRroLa4fiznDAXPbSg+Zq5GqsAiF8l+lNUVhTKdSUPDCdsJ6AUjYdSIz2HzX1dFW+6E189NM1bZgLieF5atvCWgZtNLJmrp7iQtUq0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R251e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0XB3O-WM_1789525410;
+Received: from 30.178.84.130(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0XB3O-WM_1789525410 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 16 Sep 2026 10:23:31 +0800
+Message-ID: <d732049c-8c55-4932-85bb-d39995268d5c@linux.alibaba.com>
+Date: Wed, 16 Sep 2026 10:23:29 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|DS4PR11MB349881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 656823c4-ecf1-4dd7-b969-08df1392aeda
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|18002099003|22082099003|4143699003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 0dlJ+8IQ9cLlbRcpy6SQaWGah967HQAoRZzEvOoqurHXutU9ESZwioZvd2JPxrCzx3GGZaR3vj8WSrRWQWrgDsnHBQA9Wfh14hxWDfqZR3iukE8BDZW3RjH95lH/t9R2EzK0+gLswIY56s0tfeQ/Fh9Qb+AP0WVjA5euSWNUvHzdrZJYoIxvEEGUnehd6eKkoM/Im/ZwDAEIKtDIES9gQnsPjP4QJUrR3MX/fxzC8iWq17PhNpqGBgYD6VbvDS3Bh8sv8AWTTFLkUmef3V0F5lXowmQ+hMtIKIEODdVUygcOfGgEuMUyj9bD/+5+D3ao+wviYYupJ9BK1RilEF//6L/gYS0GzQHbzSOg5TDcflvPtVCAdvx2mGWrDnJJAXrR9HCUoF44jH3+xrNmYKtzEG0yMnkhhz/OlpkgFZCCFuqll/bUSjYXmu5K/pnYY0D+sjJbZUnbFdff/UPOyzehDIeYK7XAusfiTwIY4jxwkK2l1d7WDe6ipb97IOyoCPIcl7GlO5HhUxGpQEjlDLtB4J+9ViSr4qtaCm2IWdzp2fyRquMn9boBK+rJdDcyqanUkj0HljkDqolVK9r/3UOYZy5p+CkBce5ejQmfG48gCfU6azyje/4CQohsHn/1B5qZrWaoJhi4g2lHsPLbCXRv8ToolJ/AVJ6jWzekY2WfSgA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(18002099003)(22082099003)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEdOdkR3SjdDSEJmOFIwVVJWai9tVkNyd21IOXR2c1FKOGpuREJFZnU3VGNw?=
- =?utf-8?B?QzdEOWtQQkg5Mk1GdUV6NEtBck5rYkVVbHplRWswNEhINDY3UzQ4T0dnTkYr?=
- =?utf-8?B?OU5TRjQwWkw1ZnlYNHFlS1JOQmJWNHJENjcwY2d5cnJieG0vcndLMGo1NDVz?=
- =?utf-8?B?elpnV3g2TDY5VTA1ZlBJaTBieUNyY1d0ZW4vNWtuNmt4M2pjOW9WeWZWb0J2?=
- =?utf-8?B?M28rOTRMKytxSjh1VnNPOXlvV0paUDV2c2o0dWRINFUvaVpJZVd3UTY3VDh1?=
- =?utf-8?B?bTRmcWdKeFNZdEUzak90dUY0YU1CdVpySlI5b0dldGdLUnVEbExjQWtBVVBJ?=
- =?utf-8?B?S2o4OGVCSjBHZEpqVm9sZEpnUk0xVnFQdEUwSXdqTzRiZXByeWNEN1Joa1ov?=
- =?utf-8?B?Szl4Q294RjFyZDdEZE05amNodTBrcGNQd0IrK0xCRlgwSVJzejVsb3gvV1NI?=
- =?utf-8?B?ZXFEQjE5Vmd6S0lpcXRhYTdxVy9kNXovaTlGdi92bWg2bFJtTnYvdFl6d0lN?=
- =?utf-8?B?ZjlDTVQwL0MyOEwzbTZCU3NUM3B2ei8vVk1iSEp6WEJva0NjVUZQNENOK3VQ?=
- =?utf-8?B?R3VaYTNKRVRUSlBlcFRpeTVoVWpSNHlMd3dFcWY2ZVZ5S1VCVW9FaFFMK0pp?=
- =?utf-8?B?Y3JaV2krSzJLSW1mL1JhcngycitrdHdLZTFXYXJ1V3ZDR09TUWtqNytNZFRL?=
- =?utf-8?B?b0FFMHNXVnk0dkMxNDF2UlQvaTFDM0lyTU03NWFwRXZWRWxPMG9sdExmemFF?=
- =?utf-8?B?dkIzUURtSm5TalFWdlg2WW1CMFh0M3BFbit5OWpER0hKWkJDK0p6ME40OFZM?=
- =?utf-8?B?OGpWeHdVejhqT0hEaVh3Z3R2ZkRWZlNMZFJ5YTF6WUVrUG5NVmpBVTdxRzR2?=
- =?utf-8?B?YXhQR2pad2VFbCs1dHVCUlFmZ1g3QjVid09GYk1ZNlN6OEZYWWhLNiszeFlm?=
- =?utf-8?B?M1huSW1yTHV6QUl2eWtUYjd1N1E0bDZqbERoeWtuM2lKbXZMVTJUd1ZoT05W?=
- =?utf-8?B?M05aL3VaaFYrNFhxREVqbTRpT29hZkhnSlVWU0FtZUZaQmJNd0pvV2FZNjgv?=
- =?utf-8?B?VW95dU14Q1NoRUpuVkdCQ25kN3dlRlVDOTJiYnZEYXFyQVJ6RXpQOHJ0T09p?=
- =?utf-8?B?S2RwTzFQbGk1cHZGVjRHbU93aERMQzZjellNbUpxM3FYSEcxRmdVRnd1ekpi?=
- =?utf-8?B?MGpXQVA1clVMWjRacXdtRG5NbVhUQnkrdHFNdUhySkpaUUd0d1l2VEFLV3NQ?=
- =?utf-8?B?dUhpQjdQYW1VZDM3QXpnbzUyc0pXYXJzVkdrTU5HdmlCYThOZnI4WEFjeDNs?=
- =?utf-8?B?WC9YR0twRFhRcG54YWsxZEhTQ2QvUW5KNmdmejBHRW90WjBzNUc5eUg5a2hC?=
- =?utf-8?B?bi9mTHBmTVdPdE9JRGlDNTBveUVXM05jV2dQTEJnREduS210enJWQTlNc1lR?=
- =?utf-8?B?czZGbWhSdUlnTm9RMkxNd3ZkTjVySTNsWUZwTkl6a3B2aW5oT0xPMjVBd0pG?=
- =?utf-8?B?V3BUSGZzUldtbDcxMktaL3dDWkNPUmpXSG16UjhZek5uL0NZVUlFWEp1RnBr?=
- =?utf-8?B?dWFUdmxiUHhTb1dKZlB2K3kxRVZmMmxXM0RCd2l1MW1IZFNXVTFXVkZUZHlB?=
- =?utf-8?B?WWNBOXVhNDAzQTcxR2ROL0dORUdIMEwvYnJIOFQ1Ny9QWW5PaVBKekRlWCtM?=
- =?utf-8?B?TVVESVpObkJqM3FySkdLV0RrVERaNDk5SmZVamtGUWZuVE8yZTRiVk5TWmw2?=
- =?utf-8?B?UW02MHA4Rmo3WFNUOXpkenUvcjl2M1lBK0NyRHZYWG05cVlBRXVsRjZPcFY2?=
- =?utf-8?B?NWd5eHJma2tsZElRa0phQjY3bWJzOFdodyszTTkwWmMvbXluMGxqWW4ydksr?=
- =?utf-8?B?b3lUZHRjTzFML1JUWjVGZzNtVmc2amF4VVE1UW9kK2JPMTh4K25RMlM1MThV?=
- =?utf-8?B?U1BsRzc5MXFIYmtSdllGV0xSd255VUpzOU1jQW1rU2JtV2cwcjQ3ZUtTN0tW?=
- =?utf-8?B?T2c3MHRJbGJEZ2FIVjFNQUY2RjY4VmRwalRLWi93M1BVYkh1WWNQblhFMVVY?=
- =?utf-8?B?a0REaHNqWGVIcm56TXZTUEs2UHVuNVpTSS91UCt2RGxsM3pNa1lOMURJVlkr?=
- =?utf-8?B?Y3VzOXBkMm1EL1pRTUxPdzJGOERHZXBzSmFoYmhlUmZ1RER1OFNlYVJuTU40?=
- =?utf-8?B?VmxPVEJOSHNhRnhDRE1ZNG5iUkU1engxSlV6SzJWcjFHYjdQbUxHdlQyY0JR?=
- =?utf-8?B?TCtQWkhHY0ZxU2hQRDk1TkdzRFJXclFNMmUwQWV2RmVxZUVPZG95bDVKUWtB?=
- =?utf-8?B?ZzlkTDA2bDY2TG1KVlBETTBxYlpPUnVhMGVWaGxXdGlQSGFTSThkUT09?=
-X-Exchange-RoutingPolicyChecked: BOcPzm6kpsgg9ckD0dg6RgUhggtDY7vtMYe/HAM7iFEC7m/ggkl7RKvFK4l/W/a67T0L4Byy66p1klJkQkNlz9fLiaLUpho+SRh+dIGjDoO45dlHOthKCgvJt2ZcXASjEftgtoF0twm/l8Nntf3Bqf2WWJNuxhlxg5p809BaLhzJwBkE5Xg/XLEn5TdBGKq/IcmRtnAfkTxCWyDnauznQblqfTW6POZF9vkXYCHRjMkCRfqeJSMsqyxmZQpPfHipkKLXvY0tmA9kuo5rht+8fCRqn5h0HYYzpdhmOppdWMEPzamDI/0obRTLmv+mkFYZkOUH7M0VvZB7O+PzUfumAg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 656823c4-ecf1-4dd7-b969-08df1392aeda
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 01:34:43.2745
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xsVCZ4yBk+Mwb4K/429/Gl43GYPeWWfGgYfjskoal+bsI48THwXSNGHyGJXkg1IOn+q5gsakQq79KJlGh/t6Iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR11MB349881
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cxl/memdev: Fix deadlock between poison debugfs
+ and cxl_mem unbind
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ Dave Jiang <dave.jiang@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+ Li Ming <ming.li@zohomail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Shaikh Kamaluddin <shaikhkamal2012@gmail.com>,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
+References: <20260910094017.4032170-1-kanie@linux.alibaba.com>
+ <20260910094017.4032170-3-kanie@linux.alibaba.com>
+ <20260910220329.20b62302@jic23-hlaptop>
+ <08cbc221-a4b5-4674-ae5e-4e7b5df9293e@linux.alibaba.com>
+ <20260912000908.5df0b62f@jic23-hlaptop>
+ <87a780a4-7e69-46df-bbce-a3c021a0b44b@linux.alibaba.com>
+ <aqmeBfIj08J4Uqsv@aschofie-mobl2.lan>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <aqmeBfIj08J4Uqsv@aschofie-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 9/16/2026 1:57 AM, Davi Chaves Azevedo wrote:
-> Hi Prateek,
-> 
-> 
-> 
-> Thanks for the review and testing. I've added both tags to my local patch,
-> 
-> with no code changes.
-> 
-> 
-> 
-> Tim, may I include your Reviewed-by? Chenyu, may I include your Tested-by
-> 
-> for the Ryzen and Xeon checks you reported too?
-> 
 
-Sure,
-Tested-by: Chen Yu <yu.c.chen@intel.com>
 
-thanks,
-Chenyu
+在 2026/9/16 03:35, Alison Schofield 写道:
+> On Mon, Sep 14, 2026 at 08:08:26PM +0800, Guixin Liu wrote:
+>>
+>> 在 2026/9/12 07:09, Jonathan Cameron 写道:
+>>> On Fri, 11 Sep 2026 11:04:47 +0800
+>>> Guixin Liu <kanie@linux.alibaba.com> wrote:
+>>>
+>>>> 在 2026/9/11 05:03, Jonathan Cameron 写道:
+>>>>> On Thu, 10 Sep 2026 17:40:17 +0800
+>>>>> Guixin Liu <kanie@linux.alibaba.com> wrote:
+>>>>>> The poison debugfs handlers take the memdev device lock so that the
+>>>>>> region lookup sees a stable cxlmd->dev.driver. debugfs holds a reference
+>>>>>> on the file across the handler, and cxl_mem unbind removes that file
+>>>>>> while holding the very same device lock, so a handler that waits for the
+>>>>>> lock deadlocks against a concurrent unbind.
+>>>>>>
+>>>>>> Both tasks then hang. The unbind side is uninterruptible, and it also
+>>>>>> blocks the memdev detach work, which runs on an ordered workqueue and so
+>>>>>> stalls every other CXL bus work item.
+>>>>>>
+>>>>>> Take the lock with the trylock guard and return -EBUSY instead of
+>>>>>> waiting. An unbind that wins the race removes the file first and the
+>>>>>> write fails with -ENOENT.
+>>>>>>
+>>>>>> Found by code inspection. Reproduced by writing inject_poison in a loop
+>>>>>> while unbinding and rebinding cxl_mem, and confirmed fixed by the same
+>>>>>> test.
+>>>>>>
+>>>>>> Fixes: 574eda81d0a7 ("cxl/memdev: Hold memdev lock during memdev poison injection/clear")
+>>>>>> Suggested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+>>>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>>>> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+>>>>>
+>>>>> Probably not one to rush in but nice to clean up the deadlock even if it
+>>>>> is a little hard to hit.  If it is possible to test with a hot remove
+>>>>> flow even better.  You should be able to do that with emulation in qemu
+>>>>> if you don't have hardware capable of safe hotplug operations.
+>>>> Sure, I reproduced this on hot-remove situation:
+>>>>
+>>>> debugfs writer, state S, waits for the memdev lock
+>>>>          cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
+>>> ...
+>>>
+>>>> With this patch, the hot-remove flow completed normally.
+>>> Nice. Thanks for doing that.
+>>>
+>>>>>> ---
+>>>>>> checkpatch reports "do not use assignment in if condition" twice, on the
+>>>>>> two ACQUIRE_ERR() lines. Those are pre-existing: the unpatched file and
+>>>>>> the Fixes: commit report the same two, this patch only swaps the lock
+>>>>>> class on them, and the combined form is what all 40 ACQUIRE_ERR() call
+>>>>>> sites in drivers/cxl use.
+>>>>> We should fix that up. Oddly I thought we had, but guess not.
+>>>> I think we should fix this in checkpatch.pl, like this:
+>>>>        if ($c =~ /\bif\s*\(.*[^<>!=]=[^=].*/s &&
+>>>>       +    $c !~ /=\s*ACQUIRE_ERR\s*\(/) {
+>>> There are a few other macros that are wrappers of ACQUIRE_ERR
+>>> that should be covered in such a patch as well.  If you have
+>>> time send a patch!
+>>>
+>>> Thanks,
+>>>
+>>> Jonathan
+>> Sure, I have already done that, please see: [PATCH] checkpatch: don't flag
+>> ACQUIRE_ERR() assignments in if conditions
+> Hi Guixin,
+>
+> I tried same about a year ago and it was not merged, find it here:
+>
+> https://lore.kernel.org/linux-cxl/20250815010645.2980846-1-alison.schofield@intel.com/
+>
+> Note that we in CXL land decided to keep using this syntax and ignore
+> those checkpatch 'suggestions'.
+>
+> Send me link to your checkpatch patch (can't find it? ) and I will review it.
+>
+> -- Alison
+Here is my patch:
 
-> 
-> 
-> Thanks,
-> 
-> Davi
+https://lore.kernel.org/all/20260916020921.3480730-1-kanie@linux.alibaba.com/
+
+Best Regards,
+Guixin Liu
+>
+>> Best Regards,
+>> Guixin Liu
+>>
+
