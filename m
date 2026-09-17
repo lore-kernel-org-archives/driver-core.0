@@ -1,160 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4364ABBCE
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 19:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7416F3CE4A7;
+	Thu, 17 Sep 2026 19:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789672023; cv=none; b=npwZuQZULjPRb8unnvlaiFX/iqhE81BxFsUKevjd3wCNTuzjmxa4446u710gEV0eY6sNwfwNnGhEDNiZLSzurBnD98yCJJDBlPNlgFNxQqmfiR2vhyqTTYusIiWBmbkRIIJxDKF/gozJkCl1zYz5avIUDjlgTGmPZiZafgJ0TgI=
+	t=1789672295; cv=none; b=U0Q+8x/SVpycq8S+cNDxbTHLtzZpZFr1mqsp4dblBu0TI1dPsGk3n8j1om8WFnEXBfP6zGZtgUYDFSo05xdPLtVJPJ7xlH2FMpc6hyVN1f/qFQrw5lL9u4N+ZSfK+K3DaNMKp/glVLvq0NRNfkOTVnun+aI31sM4qKwoodz1n98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789672023; c=relaxed/simple;
-	bh=3MNB59KuRrONZ1G4/oINcksRsjMdTDrarM9Aa+nyIaY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tuleCaxBQsD0vYDfFYuCMYfiqsQSfyy80RjWKKp2X+uCBK1boRBg+r3vR3OevaYhzpFsewUGbxXHPJOo3merdb3gy1GuCNBn9zAF2UiccpFCDZv4xGJudYTJPJMzs3nTnDdEElP8C9k8EFZBUDyI0kzdU8hhQcvj4AZFUo9vABE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAYfKMLf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789672295; c=relaxed/simple;
+	bh=8dYhBMXq0lCNW7h93AAm4heQkK2nmjWl479zcNgduso=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nCuzK4P3r5LlDwvFBBvxMFM6+GAHmEKbfn+tmZWb2rl86RrUakP93o7xhotOn087Vt81SlikywTckNsekV6l6feIjD6HBZwOjy33A8V7kro894gl6iDDF9uwkcsT+MW4yz+xKmTE4loeEv9sSbZdqrkE0+XSbIdFiuvW39rpBY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ubw9lIfx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAYfKMLf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053E31F0089C
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 19:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789672022;
-	bh=Bm3bnAq+YUUR/05QEONsbFO18RrWasKhSRqIzvk/6E4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=mAYfKMLfmtOqwPNLtdZlPnkcN5w99Zy3LF08ILlrcSCD3t1/tGHTeP4FGL2DNcozo
-	 gfiwabU6CCgg7ANpJ1h78WITQKlY5+w1PVBLHhMZrnHFk6PwVJG23DTNT71X1B/oXl
-	 RB7UhH44xwMUIjt5B90R+JC3pzOAOCAqERv9zMqnFyfb8oX3hLIvQwFEDhkQoWhXWg
-	 bXLaI8/GrJOunLLAcgJieajaNbEw3eZ3G700JgHOoD1IS21RgbCDoTH5RISzt2SjKM
-	 UoKRuk4ae8/eiuUAy4XIQPipe9FojHNOrFjzo5tLpu/Wb+hfb2xeRZ0eQ7qwQhjqHf
-	 PZKsSNdakszrg==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f16f15so1172730e87.3
-        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 12:07:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxIxLJKj6nr6IcK2FLJzTKEydkbO6kz/1I8/nGMd350EW+8jiqmr0T4YPmbnZEFFlRqC/MiILilHuLrOQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++ndcj4HLccO1HkuhKge0M1RYYwOTi0wcBSf7DYqIVVsYx6K/iUB
-	ic+HrLvKvnNviAmrj4hrnL1ZjSO0HwaRbEblsk+t5cvT0FA2FAIL54xZN/6T+boLHDLeVS74E4g
-	+Z7KMJPi06DeV8jGOunexLQu3W0RCOEs=
-X-Received: by 2002:a05:6512:640b:b0:5b6:1603:7c8b with SMTP id
- 2adb3069b0e04-5b8b6655c9cmr3287892e87.18.1789672020252; Thu, 17 Sep 2026
- 12:07:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ubw9lIfx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A1E1F000FF;
+	Thu, 17 Sep 2026 19:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789672294;
+	bh=MTTm78Ankb9u9LQFqOxbeYNmtoWKaSyc6HDOI0Os6I8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ubw9lIfxYo84FLhWxI5gCf4j8KFHqBkva54/0sA3Ev+gkcw2VhaYfRiAQqrAxuhna
+	 mCEPG7KLQJhkZvVaxgA7xZ7dP2YkDpEgI/nAA32ZdMhQ4zZaQ0mISKNZ6NT3J5vGhX
+	 Yz1ltnlWQf0zr4lCIrWY5GsBy+gEvbujYgo+iEAw=
+Date: Thu, 17 Sep 2026 18:40:47 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Adarsh Das <adarshdas950@gmail.com>
+Cc: rafael@kernel.org, dakr@kernel.org, driver-core@lists.linux.dev,
+	stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
+Subject: Re: [PATCH v2] kobject: fix uevent socket use-after-free on net
+ namespace delete
+Message-ID: <2026091732-armored-lilac-fec9@gregkh>
+References: <20260917144206.85836-1-adarshdas950@gmail.com>
+ <20260917170826.102362-1-adarshdas950@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
- <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
-In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 17 Sep 2026 21:05:37 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jbYHcEWqqO3YSbwyeHBLkYCFn+_nQ9Ktt3yYPPcNH6LQ@mail.gmail.com>
-X-Gm-Features: AcwNN1VasRWS8HiJHGDy74pWeVE-itua9NNF64RwExFD0rkuQM7IztWuAAwbQd8
-Message-ID: <CAJZ5v0jbYHcEWqqO3YSbwyeHBLkYCFn+_nQ9Ktt3yYPPcNH6LQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arch_topology: seed capacity_freq_ref with
- boost-aware max freq
-To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917170826.102362-1-adarshdas950@gmail.com>
 
-On Tue, Sep 8, 2026 at 10:31=E2=80=AFAM Ananthu C V <ananthu.cv@oss.qualcom=
-m.com> wrote:
->
-> capacity_freq_ref, the per-CPU frequency-invariance reference used by
-> schedutil, is seeded from policy->cpuinfo.max_freq at policy creation.
-> If boost frequencies are filtered out of the frequency table because
-> boost isn't yet enabled at boot, max_freq only reflects the non-boost
-> ceiling, so capacity_freq_ref never learns about boost frequencies for
-> the policy's lifetime. Enabling boost later raises policy->max, but
-> capacity_freq_ref stays stale, leaving schedutil unable to scale
-> utilization or target a frequency above the non-boost maximum.
->
-> Track the highest frequency in the table regardless of boost state
-> (max_table_freq) and seed capacity_freq_ref with max(cpuinfo.max_freq,
-> max_table_freq), so the invariance reference is boost-aware from boot
-> regardless of whether boost is currently enabled. Runtime enforcement,
-> still handled by policy->max, is unaffected.
->
-> Suggested-by: Vincent Guittot <vincent.guittot@linaro.org>
-> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+On Thu, Sep 17, 2026 at 10:38:26PM +0530, Adarsh Das wrote:
+> When a network namespace is deleted, we free its uevent socket. But
+> sometimes a device in that namespace is still being removed and tries to
+> send a uevent through that socket. The socket is already freed, so KASAN
+> reports a use-after-free.
+> 
+> This patch attempts the fix of taking a lock around both the send path
+> and the free path, and clear the pointer before freeing so nobody uses
+> it after free.
+> 
+> Reported-by: syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
+> Link: https://syzkaller.appspot.com/bug?extid=4393dfdddf166f2de2b0
+> Tested-by: syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
+> Tested-by: Adarsh Das <adarshdas950@gmail.com>
+> Assisted-by: Cursor AI
+> Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
 > ---
->  drivers/base/arch_topology.c | 3 ++-
->  drivers/cpufreq/freq_table.c | 6 ++++++
->  include/linux/cpufreq.h      | 1 +
->  3 files changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-> index 8c5e47c28d9a..da94f77441da 100644
-> --- a/drivers/base/arch_topology.c
-> +++ b/drivers/base/arch_topology.c
-> @@ -404,7 +404,8 @@ init_cpu_capacity_callback(struct notifier_block *nb,
->         cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->related_cpus=
-);
->
->         for_each_cpu(cpu, policy->related_cpus) {
-> -               per_cpu(capacity_freq_ref, cpu) =3D policy->cpuinfo.max_f=
-req;
-> +               per_cpu(capacity_freq_ref, cpu) =3D max(policy->cpuinfo.m=
-ax_freq,
-> +                                                     policy->cpuinfo.max=
-_table_freq);
+>  lib/kobject_uevent.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+> 
+> diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+> index ddbc4d7482d2..ecba33abb6b1 100644
+> --- a/lib/kobject_uevent.c
+> +++ b/lib/kobject_uevent.c
+> @@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
+>  						    devpath);
+>  	else {
+>  		const struct net *net = container_of(ns, struct net, ns);
+> +		struct uevent_sock *ue_sk;
+>  
+> -		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
+> -						  action_string, devpath);
+> +		mutex_lock(&uevent_sock_mutex);
 
-So isn't capacity_freq_ref supposed to correspond to the CPU capacity
-returned by arch_scale_cpu_capacity()?
+Can't you use a guard to make this a lot cleaner?
 
-If that's the case and boost was disabled when the CPU capacity was
-computed, how can cpuinfo.max_table_freq correspond to that capacity?
+thanks,
 
->                 freq_inv_set_max_ratio(cpu,
->                                        per_cpu(capacity_freq_ref, cpu) * =
-HZ_PER_KHZ);
->         }
-> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
-> index ea994647abc8..4984142dc08a 100644
-> --- a/drivers/cpufreq/freq_table.c
-> +++ b/drivers/cpufreq/freq_table.c
-> @@ -33,11 +33,15 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_po=
-licy *policy)
->         struct cpufreq_frequency_table *pos, *table =3D policy->freq_tabl=
-e;
->         unsigned int min_freq =3D ~0;
->         unsigned int max_freq =3D 0;
-> +       unsigned int max_table_freq =3D 0;
->         unsigned int freq, i;
->
->         cpufreq_for_each_valid_entry_idx(pos, table, i) {
->                 freq =3D pos->frequency;
->
-> +               if (freq > max_table_freq)
-> +                       max_table_freq =3D freq;
-> +
->                 if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
->                     && (pos->flags & CPUFREQ_BOOST_FREQ))
->                         continue;
-> @@ -57,6 +61,8 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_poli=
-cy *policy)
->         if (policy->cpuinfo.max_freq < max_freq)
->                 policy->cpuinfo.max_freq =3D max_freq;
->
-> +       policy->cpuinfo.max_table_freq =3D max_table_freq;
-> +
->         if (min_freq =3D=3D ~0)
->                 return -EINVAL;
->         else
-> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-> index 35ce665edfd8..3f3b1380251a 100644
-> --- a/include/linux/cpufreq.h
-> +++ b/include/linux/cpufreq.h
-> @@ -45,6 +45,7 @@ enum cpufreq_table_sorting {
->  struct cpufreq_cpuinfo {
->         unsigned int            max_freq;
->         unsigned int            min_freq;
-> +       unsigned int            max_table_freq; /* Highest valid frequenc=
-y in the table */
->
->         /* in 10^(-9) s =3D nanoseconds */
->         unsigned int            transition_latency;
->
-> --
+greg k-h
