@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D43A3921C1
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFCC4A2609
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789640909; cv=none; b=lD26Jku5rvxbM0sgAKZU4/8pe0ectXF/bVPMX2XeuvWUWRvdN7sVHaIaD1kCPWZZnqlV1GqlVQDjCWzKc7EaBJ8tURJ+pA1UuWJ640oTzOG7vHa7hfehDdPO8RcM4QdrZlXinajFHxruw4Y1211G1gJnRB/4kRgbVUzwXZTXZGA=
+	t=1789641113; cv=none; b=FjB/9f9iOhJVn3AAuONiTKSqRFz21PFjH1dtfozjoEU4o7oh3hUplfwwYxBITNkswWegfiS55xthsf8GWHpcdWbw144TFzHVu2RPDEVhaFyq9thsdM3O+Se77gfzBmPSVGOSdx0b/5mn1cDok8mAWUI+JjLyDg1eIK76Z3Qj/bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789640909; c=relaxed/simple;
-	bh=/KGrvuzO5WgI2djWZCnyXfveLevJfivnlQ9jhj/0M7Q=;
+	s=arc-20240116; t=1789641113; c=relaxed/simple;
+	bh=Az1NTaTuqv2Z4fxUHIUgSUcjzTph0EfLku+jKq4xMGk=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gUQHOSoXmU18r7aT2A9VZ27hvgoYLlyNf2zaik4fAx/sc767NO4aMk5uQlz77io2vV3k3s+SPhCMtecdOJVhi0s1BMy4LgCzN5as7eWgW8jGEpo3GbHtE1hqCcExu68rHs7CgHz3zjUtEOFsniu4yaJAVOMqgdbs1Wx6XNzf1TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eno8RS3B; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=VQpH/SmmQbFvkVi3Z0cJMKmUWaml+uc2A5m+ycplRYkEupV7hWo860i3beiLlEimYsP1jxxdyO91HCHOc0EQm2BSAL+VJgponZ/zKTTwurVDmlv9FZKHNOeqZoTPIv2tKnj1OyKXGDRP/awp2mJXL5H2A3bptDqyNTd5NMHMmgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yfmw+7QB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eno8RS3B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9591F0089F
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:28:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yfmw+7QB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620A71F0089F
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789640902;
-	bh=fUnCmQJMiMWVZ5F6RQNnetI76cz8E/J8n7008wDjvaw=;
+	s=k20260515; t=1789641105;
+	bh=X6y0i64G8XR5kWUDmoKYu5is4U9uRtb6q6ksCG34bnA=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=eno8RS3Bzcy/1R+Ef38g17VWIzzAmMZusPCGws5p73k6TOV8xG5oRpp8fHU/N0bJD
-	 RQDWwUukZO4I1gBidY5VtIqV3ERGOs7sIs2QiRw+a27nyBFUtk6Zh3Ly2lls2sLVSI
-	 9SsWNdnri7yvuusUJRYfG5n8CfXeppYvgxiUzCHzdSU7+tE3YDanuMHBNua8wxZeQz
-	 oyDuKp7AMo8ca4HZ9Iefj0TzLiUtXXOhfTYaXXrtX+PFbmbu9zZYgRPPOaKuw/R+l9
-	 mtU8DWuDXQhevoh//F7161bfE3hBbkTjOs9ms2frkniWNYXQzG6/UDTvUvIqyZjIv3
-	 1E9b5cA+7E4dg==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a5d0ad9b89so5482771fa.2
-        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 03:28:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwhBQSB0OO506mMmpaPMoPQ+wkxRY/41RV2vbG9ec1sbr4C86hTytNXr7nD4bS900HGlRbmFNU+9IGEZA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lPabcZqcTjYJ9M+tDszCjiUPbXm46OshPW0jsja6QwPCNfqlHM
-	2o9xL3N/ALyqbPcLFyq2H5eGp2lGPdKWu7h4oUXqGa4OiiMtGK9iuWHC8Ttp6mA8xqaK675XLMC
-	zVkX6AD6h/UXgUIkjlk8gt3SG04YoCZ93Q1GQqMB1yg==
-X-Received: by 2002:a2e:a595:0:b0:3a3:74b9:8a7d with SMTP id
- 38308e7fff4ca-3a5dca03df0mr10502251fa.22.1789640901382; Thu, 17 Sep 2026
- 03:28:21 -0700 (PDT)
+	b=Yfmw+7QBKwvhgdIt/Pey/q7cKNhwLiGX9VCJQrM5k54TQMMj3qoQXrSTdhh0XzUG5
+	 1UmMObj1Z81wzQiSFt7lOxJzzdtF5LqzvuFDbIZPf666rpR0D+gDGv0vweUXnzL/qv
+	 3uKrbI+KdTti/XIfwbzrds4CstNiVRElBR52iLMVjHAwuReXcB9rQ9/g5ngnyllEDq
+	 3jaVINU5iBAysjrDOuSs+x5UJNB9ul7b04K2RIqrKtj3RGQBvRDw/TfHW8128SpvG8
+	 5VVWnkijILlrv/1z+K09HfpO2eYnGC2XP2nM5doNSbcxKAR0Xmv3F3e1WwG7s7D+5p
+	 yDYsfeDdMqZUQ==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b76668f4ddso241476e87.1
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 03:31:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxnMRHcEcSnz4Spe/WTj06CR7I6p0i572u+dF9srHuCzrt7O5Kk/8cOsyHStqe4sTMNVrfaorFq/03Xuw==@lists.linux.dev
+X-Gm-Message-State: AFuF++kTHDu+BCmWiMmIOQHyVE+gJbTTd0CIpacfRGXoja3n7wSDl37Q
+	T9kZjE1pkMTajNbRLe7Ij8q4JsBWiIrf2tJdmJX2EKV39Jzj9HWHg2vZvqCxvSw+tSCAdw67P6v
+	/2QhiqJUUkN6426yIBT/nhU+X4MF5snzUSnpekP3lcg==
+X-Received: by 2002:a05:6512:6698:10b0:5b7:6665:1028 with SMTP id
+ 2adb3069b0e04-5b8ba5dabe5mr536793e87.9.1789641104047; Thu, 17 Sep 2026
+ 03:31:44 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 06:28:20 -0400
+ HTTPREST; Thu, 17 Sep 2026 06:31:42 -0400
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 06:28:20 -0400
+ HTTPREST; Thu, 17 Sep 2026 06:31:42 -0400
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260912123529.7951-1-tzungbi@kernel.org>
+In-Reply-To: <20260912123529.7951-4-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260912123529.7951-1-tzungbi@kernel.org>
-Date: Thu, 17 Sep 2026 06:28:20 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MfohVc8Cg0exc6EQggiq_QgYTpQHLF-OomKFwWO_Ay2gw@mail.gmail.com>
-X-Gm-Features: AcwNN1Wk-k5l4_dC4zg7mrE7Or59D0lDd35pgExi6SmDys6wSdeqpqTNlj0MpCg
-Message-ID: <CAMRc=MfohVc8Cg0exc6EQggiq_QgYTpQHLF-OomKFwWO_Ay2gw@mail.gmail.com>
-Subject: Re: [PATCH v13 0/3] drivers/base: Introduce revocable
+References: <20260912123529.7951-1-tzungbi@kernel.org> <20260912123529.7951-4-tzungbi@kernel.org>
+Date: Thu, 17 Sep 2026 06:31:42 -0400
+X-Gmail-Original-Message-ID: <CAMRc=Mc-jfNSsGMFOhisSjqj+oTg=F=qshT-PnAj0hNRq1YF8g@mail.gmail.com>
+X-Gm-Features: AcwNN1WHTK_ZaQL8Joo86WLcYu_OJK6Bh5z_a4jrWdowNu63hZMOOqCp1G1Hm-E
+Message-ID: <CAMRc=Mc-jfNSsGMFOhisSjqj+oTg=F=qshT-PnAj0hNRq1YF8g@mail.gmail.com>
+Subject: Re: [PATCH v13 3/3] gpio: Leverage revocable for accessing struct gpio_chip
 To: Tzung-Bi Shih <tzungbi@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Bartosz Golaszewski <brgl@kernel.org>, 
@@ -62,28 +62,20 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
 	Danilo Krummrich <dakr@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 12 Sep 2026 14:35:26 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> This series introduces the "revocable" mechanism, a synchronization
-> primitive designed to prevent Use-After-Free errors.
+On Sat, 12 Sep 2026 14:35:29 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> The underlying chip can be removed asynchronously.  `gdev->srcu` is used
+> to ensure the synchronization before accessing `gdev->chip`.
 >
-> - Patch 1 introduces the revocable which is an implementation of ideas
->   from the talk [1][2].
+> Revocable encapsulates the details.  Leverage revocable for accessing
+> the struct gpio_chip and remove the `gdev->srcu`.
 >
-> - Patch 2 adds KUnit test cases.
->
-> - Patch 3 transitions the UAF prevention logic within the GPIO core
->   (gpiolib) to use the "revocable" mechanism.
->
->   The existing code aims to prevent UAF issues when the underlying GPIO
->   chip is removed.  The patch replaces that custom logic with the
->   generic "revocable" API, which is designed to handle such lifecycle
->   dependencies.  There should be no changes in behavior.
->
-> Since v9, there are two ways to manage the resource provider handle.
-> - Embedded allocation: patch 3 is the user.
-> - Dynamic allocation: no user yet; I could find it later.
->
-> [1] https://lpc.events/event/17/contributions/1627/
-> [2] https://lpc.events/event/19/contributions/2262/
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> Bartosz: I dropped your T-b tag.  The patch itself didn't change too
+>          much however the revocable core changed a bit.
 
-Tested-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+I re-added it for the entire series. This patch looks good to me. The rest
+seems to still have some issues pointed out by sashiko that I think should be
+addressed. As I said before: I'm OK with this being introduced.
+
+Bart
