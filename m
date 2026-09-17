@@ -1,87 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F8204DDB32
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 15:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563EA4ABBD4
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 16:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789660551; cv=none; b=P66Vdx9xM4+mRtA/sDtgGdwpEC5o96PvXk5FyKDJUyO/TIkNep4fbYqC6Wsy1C7Wgjf7SnHMIsP0ARatVSmQOn8GaPOEthgkprS+74kbtx7y3ZoEY5IzVgE62P4QWxPqRjarS5OTv07baW9xyX+kAk1+HYoXYR6Rm9bARj59kQg=
+	t=1789661119; cv=none; b=Z+yGNAo86PPKv+Qzzu19Awns+uGJS61synwNQ/Udzokm5ehUgFTbUH0CfbjtdXO0x6FCYpfih9ugz6AfzVxTRk1AWWuuaU2/1G+gimL5wg1M/7D/ZKgCcB1f8+wwr1M9fuywe2TCYeVjeJ2fJYkUOJ2aXMFvNawy6njtZNfHhHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789660551; c=relaxed/simple;
-	bh=pu6OxP7sHRarHbFxvyGvIy2jdeMp3whl0Ww+2w+Yqk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FKbpMBSHM6APC7JtFS5vf+vPniRrb0AVFD5BzQTgeZYs+3Acn0v9bVrlzO5oUC1yvZktK5sSs5ybsDlwug0228xu8q76JIvC6u0KAmT4KK6+uZjDCuHGEQWxmzEdU8v+2SgpCnSHGI4MXdWGkqfxAUNQWtc2PJEPGzDzx8g20W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=FLgeeuFP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789661119; c=relaxed/simple;
+	bh=WZ/X1J+FgtaaLh8+x4jOo5vLn+ulOLLCnMUuIfGdG9g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QO02FSd/Pc9N4VNRBqBqpl5z8OYiprPyqgsmQmJVR7fOK81b5bhYb7j1i5N4vPX5rbvInyUWo6xwYT88oSWIn9PU3j9cF8PC35Lf3NEP6PiDPBBRmrfrBuhCeyK9/UTNfCHFHLoqRExODYKH80RLJ2RtZHsksTMupG0LClD82Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sMOx3u5j; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="FLgeeuFP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0819A1476;
-	Thu, 17 Sep 2026 08:55:46 -0700 (PDT)
-Received: from [192.168.178.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA3B53F7B4;
-	Thu, 17 Sep 2026 08:55:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789660549; bh=pu6OxP7sHRarHbFxvyGvIy2jdeMp3whl0Ww+2w+Yqk4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FLgeeuFP12OYalq4ufgX2DESTMiE2Tp/2noR1ohfQnyzFdFKH/4YTsCF7BL2DiffS
-	 yxR8VV9A+e9avG4QOYLmvQPUlvbQisERazLgW5Sg35hefwU7+8YHgN/SAyL/A5/1+4
-	 JIApr13pTg/Sab2zAkV1CufEkYRfeIXMoxFgX9VE=
-Message-ID: <b7fbe8bc-56b4-4705-b5d8-4a377eb062ee@arm.com>
-Date: Thu, 17 Sep 2026 17:55:44 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sMOx3u5j"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so7947455e9.0
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 09:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789661115; x=1790265915; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gla01MaALvns0Dwp2tgzeez6/2m4FJ1qC2kzsmKt4Ew=;
+        b=sMOx3u5jyQsGKjMUAbLIp5K/pA7n7lTOFaZR6cBLe+yUUhXrMj2jnqHeZho33CyqiH
+         BffdGQ8rToL1n5bmcFF3UiaTglqpgfLfSeMJTsQygT2Bsv/KiQEpdpeE+PR/bO392xwo
+         065N5BrqKrb9jUyzQSckIqSXtfC/umVfLu7sZ+5iO5YcLRca9VVorAZGK5WeUxHM2CMB
+         X1Vnmho2n+iwHGOCyAkOrlGbmcXa1Qc3Vs7NM98mPOn0K35QZ26RI08c7FS5ZuBz6EjH
+         mw9GknePfCUPoO+twHzlFlRurSymd9kn38yyU6Rzg6u2Wtp+de6MBLvCo1KbY7JyR9Ci
+         FXTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789661115; x=1790265915;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gla01MaALvns0Dwp2tgzeez6/2m4FJ1qC2kzsmKt4Ew=;
+        b=Yk9GtrgPbQLz5YdOgwiKARYChIdnNmaCsPThUWecVbG3BgfBuH9uk4K/fHM3pf5wYo
+         AKZRnFtcxPiTFmaz/ivlc4W2TF4h6WwaXxRTWsjRSZHx1pB9mrG1B+b4h/jUvhOf/5cA
+         I7xG8w+mIYT99mdBElgJBjomlccLkEp898dZt8Bkr4yYSvFbzpOYbn42HZ92MpmJld3o
+         B+KxJ8OwQS9sXlAI+zRbbtqki9FpxIBdlwqWV7TMHRA7pKoLCHBInsHBD0Lr/XTw5nLd
+         VB0Hc2NrrIeElIFC8h7EAdEhstBlm5GpqHWfE8U+tre8aiN0HBUjC+umHz7embTK4xX7
+         uINg==
+X-Forwarded-Encrypted: i=1; AKwUvBwRSW7X7D+TmuGSw2O/NaAIi/8ccIDqAONhM7LCfXy7z8MiX4AOABUOcPIfNY0aKF+2Ize2CS5XhA3Iyg==@lists.linux.dev
+X-Gm-Message-State: AFuF++n6ynFatHc9BkmaB0yMf4yX+logJ7K4KgEg1//ygOwJK5yijlzB
+	9N1yXzl6NdhpSWFkotasRbJjgAM/5wFiuGoKCWZwnCpSydeU4tzDYEfL
+X-Gm-Gg: AYBFou013WuuenSlrqSBiP6VuRXabjwEDzuIYPz594FsD73NZ4lobn8eFwkaVpix1hw
+	o3K0vMvVFm11dESdeFkb97cDYC9OnUisz6p37H4zzIBg0NFwCmIKm2WMQ/ugDqQI2GZBFj3/74I
+	98HfCZH2hvdv/tu0+bnm+yyDVtuuTKEVZbmvunO94AmkF3tC5Jzpz7VJKOxj3Fpt8jPfbpcJE3g
+	GIHSXIPiwjcO6eNvnVZ4mV4e58htR1YD5Ekltn+PbhzxGosEocXWI+lxmX+tucaGVZo6NiXenlH
+	mfS72derDlqxmaFr3QAFDF7776xk/8wh7I1yQig9VwSE+aJ09ogkttXVpR/KaJVudulgxpdaL6n
+	lmYDDPQdHt3On7x+VhiDpHy4ui/2owou+vulcqJBSKsOVsrB6iHMsPKAPcMB9JObgJJW2/qxjDJ
+	vHjrxGrvh3PrbbTsj4ssquJmGx84gTvRrKF8aS+D2gqqZ7aZnHUZR/WmnHTNUHzYmGiHIs/DpCv
+	nPan45lpg==
+X-Received: by 2002:a05:600c:8b8a:b0:49d:1f10:8b9f with SMTP id 5b1f17b1804b1-49eac463921mr112202255e9.7.1789661115499;
+        Thu, 17 Sep 2026 09:05:15 -0700 (PDT)
+Received: from localhost.localdomain ([94.252.75.113])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4870bf3494dsm15649963f8f.28.2026.09.17.09.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 09:05:15 -0700 (PDT)
+From: Oleg Keri <okerixx@gmail.com>
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] sched/cpufreq: fix schedutil's boost frequency handling
+Date: Thu, 17 Sep 2026 18:05:06 +0200
+Message-ID: <178966110618.2386.17602156528185920946@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
+References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] arm64: topology: fix arch_freq_get_on_cpu()
- overflow above 4.19 GHz
-To: Peter Zijlstra <peterz@infradead.org>, Oleg Keri <okerixx@gmail.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Sumit Gupta <sumitg@nvidia.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>,
- linux-pm@vger.kernel.org
-References: <20260917125112.2283-1-okerixx@gmail.com>
- <20260917125112.2283-2-okerixx@gmail.com>
- <20260917153224.GJ4121339@noisy.programming.kicks-ass.net>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260917153224.GJ4121339@noisy.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17.09.26 17:32, Peter Zijlstra wrote:
-> On Thu, Sep 17, 2026 at 02:51:11PM +0200, Oleg Keri wrote:
+Hi Ananthu,
 
-[...]
->> diff --git a/include/linux/topology.h b/include/linux/topology.h
->> index 709a2dcf4c73..0a4ee12a98d5 100644
->> --- a/include/linux/topology.h
->> +++ b/include/linux/topology.h
->> @@ -351,4 +351,6 @@ static inline unsigned long topology_get_cpu_scale(int cpu)
->>  
->>  void topology_set_cpu_scale(unsigned int cpu, unsigned long capacity);
->>  
->> +#define cap_scale(v, s)		((v)*(s) >> SCHED_CAPACITY_SHIFT)
-> 
-> This might not be a very good generic helper, since it relies on either
-> of the variables to be u64 for correctness.
+Tested both patches on a Lenovo Yoga Slim 7x Gen 11 (Glymur,
+scmi-cpufreq) on top of next-20260915.
 
-So moving it to a static inline function instead?
+1/2: with boost off at boot the little cores get cpu_capacity=553,
+which matches the 4723200 boost maximum as the reference (4032000
+would give 647). A workload pinned to cpu6 runs at 4032000 with boost
+off and 4723200 with boost on, 3.14 s against 2.50 s.
 
-static inline u64 cap_scale(u64 value, u64 scale)
-{
-       return value * scale >> SCHED_CAPACITY_SHIFT;
-}
+2/2:
+
+  # cat policy6/scaling_max_freq
+  4032000
+  # echo 1 > boost
+  # cat policy6/scaling_max_freq
+  4723200
+  # echo 0 > boost
+  # cat policy6/scaling_max_freq
+  4032000
+
+One observation: policy6/cpuinfo_max_freq still reads 4723200 after
+boost is switched off again.
+
+Tested-by: Oleg Keri <okerixx@gmail.com> # Lenovo Yoga Slim 7x Gen 11
