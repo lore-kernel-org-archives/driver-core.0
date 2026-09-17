@@ -1,120 +1,160 @@
-Received: from mx01.bremer-it.com (mx01.bremer-it.com [85.215.132.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769887081A
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 18:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.215.132.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4364ABBCE
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 19:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789669524; cv=none; b=OIcfJwva8H/iAK2dd6YpdTLGlYiCLipfi69Fcs46cq3etXHDZhqlfQqe7xLWNZbHBQ6NLbjzPEvyg3woanITucD4qnMPdXG1t5LEQadRG+ogIprafFdwDZenSD7WoKxUz7hHVxLbcGv621ZU9EOxZY/PTl7d4S/cG6E5R02C/iA=
+	t=1789672023; cv=none; b=npwZuQZULjPRb8unnvlaiFX/iqhE81BxFsUKevjd3wCNTuzjmxa4446u710gEV0eY6sNwfwNnGhEDNiZLSzurBnD98yCJJDBlPNlgFNxQqmfiR2vhyqTTYusIiWBmbkRIIJxDKF/gozJkCl1zYz5avIUDjlgTGmPZiZafgJ0TgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789669524; c=relaxed/simple;
-	bh=sEVn6acemqbDqDRUrltQ7xP6Mhnk6B6XIPfeACjrJOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2FY1w6ZQ4rJzQF/1TnXPzCliEhxvaaVm1QjoPgRnM+CHMn+so//QchpBVhWJnAlE5d2ED/lyzZtXpPfXt3IcvkudOaaERLtzptZFNnWYcgJHArCE2Qx7O1BAaOl27WdLOmmBkpAgRNnc2QhFZhUUkRfRsA7C/WjpZ6jv50U3I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org; spf=pass smtp.mailfrom=barelysecure.org; dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b=Ho2sf6EZ; arc=none smtp.client-ip=85.215.132.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barelysecure.org
+	s=arc-20240116; t=1789672023; c=relaxed/simple;
+	bh=3MNB59KuRrONZ1G4/oINcksRsjMdTDrarM9Aa+nyIaY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tuleCaxBQsD0vYDfFYuCMYfiqsQSfyy80RjWKKp2X+uCBK1boRBg+r3vR3OevaYhzpFsewUGbxXHPJOo3merdb3gy1GuCNBn9zAF2UiccpFCDZv4xGJudYTJPJMzs3nTnDdEElP8C9k8EFZBUDyI0kzdU8hhQcvj4AZFUo9vABE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAYfKMLf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b="Ho2sf6EZ"
-Received: from cashel.logfs.org (c-98-33-96-243.hsd1.ca.comcast.net [98.33.96.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by mx01.bremer-it.com (Postfix) with ESMTPSA id 0924920ACF;
-	Thu, 17 Sep 2026 20:15:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=barelysecure.org;
-	s=dkim68; t=1789668960;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PDA2dRaD2XYs4viDCKuQp0KcwdHL+fraeSFF/rd3WCM=;
-	b=Ho2sf6EZ0GEmRoN/Lyy36L1qAS8HAezzKWkwIRJZCR/OtOfg99UN84vRrDDaZXijoo9QPo
-	mPCpw2r8TICt4Yn3UJNPl7UQEL/sAQ0Tt0tGptIOVIcjE7DRhl+bVX16Sn+LiBppXna+bo
-	7azGI8MQR6RCPBM6sUFnRJ7tEB1PsxV2x4LCknC2mihA5l7+53ZR2BN8911Z+htK3pYBwV
-	2buMslcwXNpZ8V9fgwOVFz+eb/ZFkCAD9fu+5EfQ5yBlNc08q/9R6+HCkDTBn0LC/gjsCN
-	xLpnuNWusBGHN+/x+cgIXg8XInXRzSVVrGMpABwn7G1sR5bYvDmS7+mIOjN4gA==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=joern@lazybastard.org smtp.mailfrom=joern@barelysecure.org
-Date: Thu, 17 Sep 2026 11:15:53 -0700
-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@barelysecure.org>
-To: Chris Roy <iam@thechris.in>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com,
-	richard@nod.at, vigneshr@ti.com, joern@lazybastard.org
-Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-Message-ID: <aqwuWWMwdIcx3704@cashel.logfs.org>
-References: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
- <6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
- <CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
- <2026091753-broadness-bootie-b683@gregkh>
- <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAYfKMLf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053E31F0089C
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 19:07:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789672022;
+	bh=Bm3bnAq+YUUR/05QEONsbFO18RrWasKhSRqIzvk/6E4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=mAYfKMLfmtOqwPNLtdZlPnkcN5w99Zy3LF08ILlrcSCD3t1/tGHTeP4FGL2DNcozo
+	 gfiwabU6CCgg7ANpJ1h78WITQKlY5+w1PVBLHhMZrnHFk6PwVJG23DTNT71X1B/oXl
+	 RB7UhH44xwMUIjt5B90R+JC3pzOAOCAqERv9zMqnFyfb8oX3hLIvQwFEDhkQoWhXWg
+	 bXLaI8/GrJOunLLAcgJieajaNbEw3eZ3G700JgHOoD1IS21RgbCDoTH5RISzt2SjKM
+	 UoKRuk4ae8/eiuUAy4XIQPipe9FojHNOrFjzo5tLpu/Wb+hfb2xeRZ0eQ7qwQhjqHf
+	 PZKsSNdakszrg==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f16f15so1172730e87.3
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 12:07:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxIxLJKj6nr6IcK2FLJzTKEydkbO6kz/1I8/nGMd350EW+8jiqmr0T4YPmbnZEFFlRqC/MiILilHuLrOQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++ndcj4HLccO1HkuhKge0M1RYYwOTi0wcBSf7DYqIVVsYx6K/iUB
+	ic+HrLvKvnNviAmrj4hrnL1ZjSO0HwaRbEblsk+t5cvT0FA2FAIL54xZN/6T+boLHDLeVS74E4g
+	+Z7KMJPi06DeV8jGOunexLQu3W0RCOEs=
+X-Received: by 2002:a05:6512:640b:b0:5b6:1603:7c8b with SMTP id
+ 2adb3069b0e04-5b8b6655c9cmr3287892e87.18.1789672020252; Thu, 17 Sep 2026
+ 12:07:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
-X-Spam-Level: *
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 14.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:7922, ipnet:98.32.0.0/11, country:US];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[7cab6a19619f1b8efc00];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FROM_HAS_DN(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[barelysecure.org:s=dkim68];
-	URIBL_BLOCKED(0.00)[c-98-33-96-243.hsd1.ca.comcast.net:rdns];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Server: server01
-X-Rspamd-Queue-Id: 0924920ACF
-X-Spamd-Bar: +
+References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
+ <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
+In-Reply-To: <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 17 Sep 2026 21:05:37 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jbYHcEWqqO3YSbwyeHBLkYCFn+_nQ9Ktt3yYPPcNH6LQ@mail.gmail.com>
+X-Gm-Features: AcwNN1VasRWS8HiJHGDy74pWeVE-itua9NNF64RwExFD0rkuQM7IztWuAAwbQd8
+Message-ID: <CAJZ5v0jbYHcEWqqO3YSbwyeHBLkYCFn+_nQ9Ktt3yYPPcNH6LQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arch_topology: seed capacity_freq_ref with
+ boost-aware max freq
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2026 at 01:28:22PM +0530, Chris Roy wrote:
+On Tue, Sep 8, 2026 at 10:31=E2=80=AFAM Ananthu C V <ananthu.cv@oss.qualcom=
+m.com> wrote:
 >
->  drivers/mtd/devices/block2mtd.c | 118 ++++++++++++++++++++-----
->  1 file changed, 98 insertions(+), 20 deletions(-)
-[...]
->  /* Static info about the MTD, used in cleanup_module */
->  static LIST_HEAD(blkmtd_device_list);
-> +/* Protects blkmtd_device_list and early-boot paramline updates */
-> +static DEFINE_MUTEX(block2mtd_mutex);
-> +static struct workqueue_struct *block2mtd_wq;
+> capacity_freq_ref, the per-CPU frequency-invariance reference used by
+> schedutil, is seeded from policy->cpuinfo.max_freq at policy creation.
+> If boost frequencies are filtered out of the frequency table because
+> boost isn't yet enabled at boot, max_freq only reflects the non-boost
+> ceiling, so capacity_freq_ref never learns about boost frequencies for
+> the policy's lifetime. Enabling boost later raises policy->max, but
+> capacity_freq_ref stays stale, leaving schedutil unable to scale
+> utilization or target a frequency above the non-boost maximum.
+>
+> Track the highest frequency in the table regardless of boost state
+> (max_table_freq) and seed capacity_freq_ref with max(cpuinfo.max_freq,
+> max_table_freq), so the invariance reference is boost-aware from boot
+> regardless of whether boost is currently enabled. Runtime enforcement,
+> still handled by policy->max, is unaffected.
+>
+> Suggested-by: Vincent Guittot <vincent.guittot@linaro.org>
+> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+> ---
+>  drivers/base/arch_topology.c | 3 ++-
+>  drivers/cpufreq/freq_table.c | 6 ++++++
+>  include/linux/cpufreq.h      | 1 +
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+> index 8c5e47c28d9a..da94f77441da 100644
+> --- a/drivers/base/arch_topology.c
+> +++ b/drivers/base/arch_topology.c
+> @@ -404,7 +404,8 @@ init_cpu_capacity_callback(struct notifier_block *nb,
+>         cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->related_cpus=
+);
+>
+>         for_each_cpu(cpu, policy->related_cpus) {
+> -               per_cpu(capacity_freq_ref, cpu) =3D policy->cpuinfo.max_f=
+req;
+> +               per_cpu(capacity_freq_ref, cpu) =3D max(policy->cpuinfo.m=
+ax_freq,
+> +                                                     policy->cpuinfo.max=
+_table_freq);
 
-This is just awful taste.  You are inside a file called "block2mtd".
-The prefix to the mutex an workqueue add absolutely nothing.  Calling
-them just plain "mutex" and "wq" would have been a better choice.
+So isn't capacity_freq_ref supposed to correspond to the CPU capacity
+returned by arch_scale_cpu_capacity()?
 
-Good names should tell the human reader something.  What is the mutex
-protecting?  What is the purpose of the workqueue?  Pick a name that
-gives us some information like that, please!
+If that's the case and boost was disabled when the CPU capacity was
+computed, how can cpuinfo.max_table_freq correspond to that capacity?
 
-
-You seem to have used AI to write this code, so the bad name choice was
-presumably also done by AI.  But you are still associating your own good
-name with the code.  You should try not to harm your good name by
-letting things like this slide through unchallenged.
-
-Jörn
-
---
-Do not stop an army on its way home.
--- Sun Tzu
+>                 freq_inv_set_max_ratio(cpu,
+>                                        per_cpu(capacity_freq_ref, cpu) * =
+HZ_PER_KHZ);
+>         }
+> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
+> index ea994647abc8..4984142dc08a 100644
+> --- a/drivers/cpufreq/freq_table.c
+> +++ b/drivers/cpufreq/freq_table.c
+> @@ -33,11 +33,15 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_po=
+licy *policy)
+>         struct cpufreq_frequency_table *pos, *table =3D policy->freq_tabl=
+e;
+>         unsigned int min_freq =3D ~0;
+>         unsigned int max_freq =3D 0;
+> +       unsigned int max_table_freq =3D 0;
+>         unsigned int freq, i;
+>
+>         cpufreq_for_each_valid_entry_idx(pos, table, i) {
+>                 freq =3D pos->frequency;
+>
+> +               if (freq > max_table_freq)
+> +                       max_table_freq =3D freq;
+> +
+>                 if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
+>                     && (pos->flags & CPUFREQ_BOOST_FREQ))
+>                         continue;
+> @@ -57,6 +61,8 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_poli=
+cy *policy)
+>         if (policy->cpuinfo.max_freq < max_freq)
+>                 policy->cpuinfo.max_freq =3D max_freq;
+>
+> +       policy->cpuinfo.max_table_freq =3D max_table_freq;
+> +
+>         if (min_freq =3D=3D ~0)
+>                 return -EINVAL;
+>         else
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index 35ce665edfd8..3f3b1380251a 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -45,6 +45,7 @@ enum cpufreq_table_sorting {
+>  struct cpufreq_cpuinfo {
+>         unsigned int            max_freq;
+>         unsigned int            min_freq;
+> +       unsigned int            max_table_freq; /* Highest valid frequenc=
+y in the table */
+>
+>         /* in 10^(-9) s =3D nanoseconds */
+>         unsigned int            transition_latency;
+>
+> --
