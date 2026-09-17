@@ -1,80 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6F64B1D0F;
-	Thu, 17 Sep 2026 09:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F1674BF948
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 09:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789638020; cv=none; b=t72EL6S7KgN+pzYgzDXgCgHdZnbFdrlmv2JB6vMR2sEHqfMZhyw+TDFDgXqopek2kUPu85eVOKONtAW53hg0Qmddrxco7vIj9uSs6CXyu4pBxC0h6YQClfpg7iUjkDo8EchkBSI0w1s7zcTxpDu5x5qXK30Hb1Y31U/7jhMVpuU=
+	t=1789639090; cv=none; b=DmA2zgv8CqS0ObgiPjP74oXcg80l4Ddy9Ix/FNmPZo5fbkeQI7V4Khx7YCHjeArXTHUeZbizK6auDBSiSFgHk7jW//udeRcPQIixm7g38sOKQE2LbzbJdosTG0Z7M5bJ83D2A/n4FLHj++kfeEMVqpEMXC048dpG1Fh/t7Nvar0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789638020; c=relaxed/simple;
-	bh=dYKhPsTzVH4KrFqy9k+jmhgSz5dJCz2S4pWY10zrzPo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mBSDAwCdkjfoWDMPRBZponyeZB/N30C/IyTzrtyBI8iDBZXJS/X/+28dMiSpC/wEqLhLcxnQesX/toroH5qJSL8dPrbGkAoXDmIM7tKRWJqQgyoIlz2o1EWDnbzPdn5vIVxBqTUgvUP09mExUGJFv1w30+/Q7qmwzLnrYlkmrkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pj+pbhe8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789639090; c=relaxed/simple;
+	bh=VXqLon1IWeQzTI8dDj4hKxc7saHoW6A0Hg3046jh/QI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qzrM+Fu1TDWqpo7huRP17Jx2+TGcJrQHLPfTGeIe6y8jogoJunuoHRNwBTcTokgbz5QXJO0nBHaW/5plIy05vRc6zV1S0OUoHf9ASuthA7ClHRjah8Hzosinc9kc6DrlFX8DG5MDCl6PWup7TY9KYxQE0qxFCWBGWwvyMOa4O+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vja3M8VA; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pj+pbhe8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C301F00893;
-	Thu, 17 Sep 2026 09:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789638001;
-	bh=Oer9j0DWbCwhco3vi5BHRvWEzq7DRzgjgVjzSG/KR2s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Pj+pbhe8Qj5Dw9OpUiShqFgGBt1I3DkuWfnr6JonXQxPsPNmtCs+SV9+Qz1uzqtaB
-	 F2fHUY/Ectz+DfzFM2YOzxYgqZ17inpfjymvVHnS9pwlW0v6pBGUKWPgkDLEeuhlro
-	 sz5xlDWE5CEZCrjStzJuYzCy7oYB5wFZGO6bEnxT6uXgkaSZxTSH3CCk+4+ROAJyQU
-	 Rip76Ah5eyACJ6e2velsVOGgabq5jdEA/EB9b5DJVR8dimgbm2MqkUIEWgZTOdTDDv
-	 0nst5BX3m2Z4hCwG1CKiLSDkRvm5BM2Wz7Xcf1zJjHNWwdjbNUWvm7618QtS5y+dvX
-	 t6hCSqEDTeDnw==
-From: Christian Brauner <brauner@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Christian Brauner <brauner@kernel.org>, 
- Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260910045406.485295-1-shakeel.butt@linux.dev>
-References: <20260910045406.485295-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH] kernfs: don't hold kernfs_rwsem across notification
- delivery
-Message-Id: <20260917-keimzelle-koordinaten-sparsam-ca35d792d848@brauner>
-Date: Thu, 17 Sep 2026 11:39:47 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vja3M8VA"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7CA91476;
+	Thu, 17 Sep 2026 02:57:58 -0700 (PDT)
+Received: from [10.57.74.102] (unknown [10.57.74.102])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD88E3F7B4;
+	Thu, 17 Sep 2026 02:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789639082; bh=VXqLon1IWeQzTI8dDj4hKxc7saHoW6A0Hg3046jh/QI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vja3M8VABVOrmZ2ChYzc/upsrhetTGKhEnf/pEqYK+HiSbSu/clHPeW+o3eKoIK4Z
+	 0+Wx3stikCeAmbXeqVmEvNHb/v78HBmo4ovtzTcV7kdJ1PuFCDwMqvcvyMeHDTyFTu
+	 Uj8E/utZDL2YEdMx2GCJKyelvgXqlKah9PS1wewY=
+Message-ID: <f8b0745c-d265-4112-90fe-79a08ad01553@arm.com>
+Date: Thu, 17 Sep 2026 11:57:57 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cpufreq: update capacity_freq_ref when the boost
+ state changes
+To: Oleg Keri <okerixx@gmail.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Russell King <linux@armlinux.org.uk>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Sudeep Holla <sudeep.holla@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, driver-core@lists.linux.dev,
+ linux-pm@vger.kernel.org, jonathan.cameron@oss.qualcomm.com,
+ sibi.sankar@oss.qualcomm.com
+References: <20260910063440.4677-1-okerixx@gmail.com>
+ <20260910063440.4677-3-okerixx@gmail.com>
+Content-Language: en-GB
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20260910063440.4677-3-okerixx@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=911; i=brauner@kernel.org;
- h=from:subject:message-id; bh=dYKhPsTzVH4KrFqy9k+jmhgSz5dJCz2S4pWY10zrzPo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt3ppr+UGWs6Tp/i/PyBxrhbznvEUrjjGUT9vNfWpV0
- 9SFkfvaO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbia8TwV6j68wF2pRWiqT8T
- OU6nsyo8ijxR5JnxstRk0eNP6xk+uTMyTDvGMNmnfvmFXUzRi15LFoZvX/b+fV2tTc3ZvVtbH+/
- dxg4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, 09 Sep 2026 21:54:06 -0700, Shakeel Butt wrote:
-> kernfs: don't hold kernfs_rwsem across notification delivery
+On 10.09.26 08:34, Oleg Keri wrote:
+> capacity_freq_ref is latched from policy->cpuinfo.max_freq by
+> init_cpu_capacity_callback() on CPUFREQ_CREATE_POLICY, and never
+> updated afterwards.
+> 
+> cpufreq_frequency_table_cpuinfo() excludes CPUFREQ_BOOST_FREQ entries
+> while boost is disabled, so on a system that boots with boost off the
+> latched value is the non-boost maximum.  Enabling boost later raises
+> policy->cpuinfo.max_freq but leaves capacity_freq_ref behind.
+> 
+> Two things then go wrong on arm64, where the AMU drives frequency
+> invariance.  amu_scale_freq_tick() caps the computed scale at
+> SCHED_CAPACITY_SCALE, so a CPU running above capacity_freq_ref
+> saturates at 1024: the scheduler cannot tell a boosted CPU from one at
+> the sustained maximum, and utilisation is underestimated.  And
 
-Applied to the vfs-7.4.kernfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.kernfs branch should appear in linux-next soon.
+IMHO, this is where the concept of 'cpufreq pressure' on CPU capacity
+comes in.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+The cpu_capacity value is calculated based on highest_perf.	(1)
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+In case you start with 'boost == 0' nominal_perf might might be lower
+than highest_perf.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+cpufreq_update_pressure() calculates this value:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.kernfs
+cpufreq_pressure = Cmax * (1 - fcapped - fmax)			(2)
 
-[1/1] kernfs: don't hold kernfs_rwsem across notification delivery
-      https://git.kernel.org/vfs/vfs/c/23985e2b1f31
+[ fcapped = policy->max, fmax = capacity_freq_ref ]
 
+Example on RADXA Orion 06 CPU10:
+
+$ grep . /sys/devices/system/cpu/cpu10/acpi_cppc/*
+...
+/sys/devices/system/cpu/cpu10/acpi_cppc/highest_perf:7876
+/sys/devices/system/cpu/cpu10/acpi_cppc/lowest_freq:800
+/sys/devices/system/cpu/cpu10/acpi_cppc/lowest_nonlinear_perf:2520
+/sys/devices/system/cpu/cpu10/acpi_cppc/lowest_perf:2520
+/sys/devices/system/cpu/cpu10/acpi_cppc/nominal_freq:2500
+/sys/devices/system/cpu/cpu10/acpi_cppc/nominal_perf:6600   <-- hacked
+/sys/devices/system/cpu/cpu10/acpi_cppc/reference_perf:1000
+...
+
+# cat /sys/devices/system/cpu/cpu10/cpu_capacity	<-- (1)
+984
+
+# cat /sys/devices/system/cpu/cpu10/cpufreq/boost
+0
+
+dmesg (added log)
+
+[    8.065337] cpufreq_update_pressure(): policy->related_cpus=[10-11]
+policy->max=2500000 pressure=173			<-- (2)
+
+# echo 1 > /sys/devices/system/cpu/cpufreq/boost
+
+# cat /sys/devices/system/cpu/cpu10/cpufreq/boost
+1
+
+dmesg (added log)
+
+[38137.194134] cpufreq_update_pressure(): policy->related_cpus=[10-11]
+policy->max=3031666 pressure=0				<-- (2)
+
+The task scheduler gets informed via:
+
+get_actual_cpu_capacity(int cpu)
+
+  capacity = arch_scale_cpu_capacity(cpu);
+
+  capacity -= max(hw_load_avg(cpu_rq(cpu)), cpufreq_get_pressure(cpu));
+                                            ^^^^^^^^^^^^^^^^^^^^
+  return capacity;
+
+[...]
