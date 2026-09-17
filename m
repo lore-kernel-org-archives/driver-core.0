@@ -1,151 +1,114 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BEA4FDA4F
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 17:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D795012A1
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 18:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789664914; cv=none; b=rQQnv6MAL+dZWfxrN9TGA4PK5eq8rMH55UiadaJ208feuDh4dwXsap0l0WKpp+h9bYykJr3W1hMljjXITyac6n94cx8Ktz7+/nKX6uqqD0sKwkmuAxkHVm1P0YlMXkSK+iOEsWuH5TIdNnZtw0KR4wtJEuN8JrP0qH0vU0hkmrs=
+	t=1789668721; cv=none; b=szt0wPphW9UjpmQfB8iE8C+P11eSt3jL45zcPOFQD21b+zH9Fm9U64/CdtNh+WgcoaAuaM8H2gvMe9ge1JkXX4G3UtDMcvl0yfKp2VwnaU+dwaHQ/3gVLTRISK0VPrZe7WNZs/LA3xEHedhtKPvO+nOZs2FTKTvMZxO/eZNTPlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789664914; c=relaxed/simple;
-	bh=KjkJcTuJHjrmVijk9slNWWr20w469I1INEteAa7loK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KxZnAyhY/lpujc7XBpDFFkGmn+tvj8Zer7DqYyf48s15ZFNd2tuxbnJ5Bu210MLZl29t1VwIqCaO1bkXWX+rzhbWCpxgT5MKDr8SM/KmNT9A0Bs+kd/Yx2qSeoVo8UljIJY4O/CKppv1xCE7mowfUPa498NkQt3ax4j3a7jRFmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJEN40iW; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789668721; c=relaxed/simple;
+	bh=JdBVjgiLF+LfTWyDPjdZ0Ler+mATxkgx/NrxbmnfWcA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iKReJQvFcBDeUV5RU/iVr+L4SdFPuyyfPSJt02ULMdz7vNMSOiUjbosLNu/R3X+qWxcvKrKzDnIbWy8qte1nQVxtsZAdyAguqNkfJPQ0JLN7FhsOPKcZDYJTyVJ65FmrJn13Veolvyo9XLXupL5nny9sqyShyB/7zZx1KJN/4g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+G7xJwL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJEN40iW"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747f05ffdso9357195ad.1
-        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:08:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789664913; x=1790269713; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=auzHkbE4quU1N/0aznjpHRbsdXF6x1Ysfc7XFJa0Adc=;
-        b=aJEN40iWObrn4NGRol15JdsMxzLsRAqzSngnypsStrfECUHFee0WkAoww46Nj9r8wI
-         ezmsemgCVcm7756NdNvOkT5R7Kg2kqcg7OLl45HdHf6QHuxkv3Wmuukm0pO+y1rVzPjw
-         +aBSjDMYEMwSnPKwdXC6/5cct73rLDhH35MENN//lfiTcJlGR/8oXEGckLEyCM/qmwM2
-         bieoqZfrXjkSrmFpfiLhBNUmchiq/+oVJcURdFh/7v2TuhsGgUYUOVWlYbKOf5oCQdQD
-         4wFqAxE+jaxl8LO/Ac5GfPJqFOZcWehW3zEV2P57AxokPbcUYk0OK/pQ+tt6Yem3XqVT
-         Hg/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789664913; x=1790269713;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=auzHkbE4quU1N/0aznjpHRbsdXF6x1Ysfc7XFJa0Adc=;
-        b=QKQcf2mcC7bCHid1NmRHPUuikdjbS5D2POU5U9MAJvzUF+PEEnzovHv3x/fKjAotIt
-         b9TE8i5RRlpXMGsmEgWG0Af4KJlLmLmWnrPVSiwhFPWYRov84KEdMVzupCfP8VgNUA+n
-         uyBHIwH+CsRDKPNjU7nUwDDoWzPkd+4GEcFnyeU5G+PiVzoc+6Hrtu8m28G4OdNWK4bP
-         /CS7Wx8CmN9hc3T1JIoI/S5/NbbtUTZLj+BcJBF73eXlyd/DWN8Z7F9NDzlIpiimlOmF
-         bTTw8r83rhJyNI4KVO0FKYd+n908vT3k++Zo2/N5BNxRgeNcjg8l4FPWmEShPcXJeCDb
-         kgMw==
-X-Forwarded-Encrypted: i=1; AKwUvBw/XWJ4MOvq0Iw+2QnJaGDonw2WyOpOG8hPm4MCIe79CO1chxuzUkJZ0+LxiKme9WIE3ku8W2LZTPxOKg==@lists.linux.dev
-X-Gm-Message-State: AFuF++lpouMYxRUuM5xvOS4IRD8im1gATYWc516+XYw7EZ7WTUSvZ6Xr
-	3iPHpXfXLB0iUZWzgUCXZ0C09Hde0K79tGFlkpCuNzjJvQi2QVETlvs6
-X-Gm-Gg: AYBFou2T+iZnDsE9/4hCjM+7erBfOHPd6k/FSEwTRzj7NLKTTnlt/Swb/FVEIe6w5Jx
-	CwK/cGRO0wdT9n51wjmrv38hvzucTHRSVouzb6GgX5vlUmtIjiF/lDf4f95OxLuxmq48cmXr5oW
-	4poOFsnod/Xc2SNX5g4vbg7oDHDUJDg5sdK5UBfWH6hcPxTEmLbpmz8Ohk0cKLIiNQW0T/vIWo6
-	ftIL6n6h2Q+W5m71sraz4+oOX8rDHP5Ilwl4MXMgVzUuyszLeS1loY1q9ANYMPeH2wqVEd2v11t
-	IcOCwXuTwWv/37MnpLPxIMdbUUfQioeMapslY21mxDLFuFhW2/9uuxPERdh/F/EOvvxOiIeacuU
-	hmIVtou4smMnwrzEzrrIQJPepX+hqrTpiOl98JN6+iTeh72pvhTP3otIKWKjjUc9QgslDa7Lgd0
-	sst2KLMULcZ6r3W4ljsij2oDx9JO6Px88QkcQ0Q+AOBtZHd5eKK90WWScozmdsnmM8Yul5pOh+s
-	EeLNoCdvb90
-X-Received: by 2002:a17:902:ed45:b0:2dd:ad74:ac2c with SMTP id d9443c01a7336-2ddad74ade4mr14163785ad.30.1789664912433;
-        Thu, 17 Sep 2026 10:08:32 -0700 (PDT)
-Received: from archlinux ([2402:e280:411b:ec:aa93:b1ec:5a6b:5fce])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd89d8fe2esm30438215ad.6.2026.09.17.10.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 10:08:31 -0700 (PDT)
-From: Adarsh Das <adarshdas950@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: rafael@kernel.org,
-	dakr@kernel.org,
-	driver-core@lists.linux.dev,
-	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Adarsh Das <adarshdas950@gmail.com>,
-	syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
-Subject: [PATCH v2] kobject: fix uevent socket use-after-free on net namespace delete
-Date: Thu, 17 Sep 2026 22:38:26 +0530
-Message-ID: <20260917170826.102362-1-adarshdas950@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260917144206.85836-1-adarshdas950@gmail.com>
-References: <20260917144206.85836-1-adarshdas950@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+G7xJwL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E623E1F008A0
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 18:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789668717;
+	bh=EbP28uDo6ifWQjSsYPtF0OSTEKqjklYhZOU78M+KyY0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Y+G7xJwLW1LYbtGwg+BSMto+sa7T13bwFfVcO/nSzbV+X/a2kXwoS66ZDqCSffJlR
+	 fIVIrynIDz0Q18sK/+hyeVKqYGiSfwc9jQpuFlvQqaNG+kyqWHZJ6whX9P1yb5JaVG
+	 /a6fl/9ndJFmJvUbun1k4fhuUxWx57tHAx1/AenPiyO50oAbQbDvcacqHfnLbXLOde
+	 oBCz4NZOxSslkLNGJT2ENIMATMGX7xQ0qSH39X5eea9dJT6SXQIF+SsLWXs8GEMz+g
+	 PzdqFPpqQZ7wHh9x66toIkw/GAuy8Nd96zf8WYs1t2SCqZSR7jLzSaVMoPpO4qgV9/
+	 hi9wWVLSWSXEQ==
+Received: by mail-lr2-f23.google.com with SMTP id 38308e7fff4ca-3a306a4f735so10020571fa.1
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 11:11:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzgYKlUH683lmAH29sKA5YrJKMEPADAkUoxo5SgEmHezLVqTT3jaDQNSy8xRz5lU70DBqayqzAapcxRTw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lDjxGt51JtV0/znMyqjptXfMH6KuWZtHH472RCKMO8+K7nOQah
+	2DnV8kRtW1t6Ufs0Sxg82ZgM8okQ22itUM3d5LBemeVCV42Lugr6vLDJ3oetwuAkFBZIvIDWnDu
+	u/zgtlKEi4MtVEJtWsVDfkAnECHWMwX0=
+X-Received: by 2002:a2e:be86:0:b0:3a3:27f6:69b9 with SMTP id
+ 38308e7fff4ca-3a5dc99e99fmr14666301fa.11.1789668716222; Thu, 17 Sep 2026
+ 11:11:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
+ <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
+ <CAKfTPtCR8SnQwpxzE-=WXenhTU=Hv5hrf7Vz22tMipX7uP_xxA@mail.gmail.com>
+In-Reply-To: <CAKfTPtCR8SnQwpxzE-=WXenhTU=Hv5hrf7Vz22tMipX7uP_xxA@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 17 Sep 2026 20:10:32 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hkgMK=4Vksm2wwBV9cENRPGELVifcCZgaGD33=7CZTKg@mail.gmail.com>
+X-Gm-Features: AcwNN1XspAB1t0lbFuIcMtXYYLIlMwemR7Tvz3-dS82Fe1yBm31AMh89Igc0VZE
+Message-ID: <CAJZ5v0hkgMK=4Vksm2wwBV9cENRPGELVifcCZgaGD33=7CZTKg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arch_topology: seed capacity_freq_ref with
+ boost-aware max freq
+To: Vincent Guittot <vincent.guittot@linaro.org>, Ananthu C V <ananthu.cv@oss.qualcomm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When a network namespace is deleted, we free its uevent socket. But
-sometimes a device in that namespace is still being removed and tries to
-send a uevent through that socket. The socket is already freed, so KASAN
-reports a use-after-free.
+On Tue, Sep 15, 2026 at 9:58=E2=80=AFAM Vincent Guittot
+<vincent.guittot@linaro.org> wrote:
+>
+> On Tue, 8 Sept 2026 at 10:31, Ananthu C V <ananthu.cv@oss.qualcomm.com> w=
+rote:
+> >
+> > capacity_freq_ref, the per-CPU frequency-invariance reference used by
+> > schedutil, is seeded from policy->cpuinfo.max_freq at policy creation.
+> > If boost frequencies are filtered out of the frequency table because
+> > boost isn't yet enabled at boot, max_freq only reflects the non-boost
+> > ceiling, so capacity_freq_ref never learns about boost frequencies for
+> > the policy's lifetime. Enabling boost later raises policy->max, but
+> > capacity_freq_ref stays stale, leaving schedutil unable to scale
+> > utilization or target a frequency above the non-boost maximum.
+> >
+> > Track the highest frequency in the table regardless of boost state
+> > (max_table_freq) and seed capacity_freq_ref with max(cpuinfo.max_freq,
+> > max_table_freq), so the invariance reference is boost-aware from boot
+> > regardless of whether boost is currently enabled. Runtime enforcement,
+> > still handled by policy->max, is unaffected.
+> >
+> > Suggested-by: Vincent Guittot <vincent.guittot@linaro.org>
+> > Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+> > ---
+> >  drivers/base/arch_topology.c | 3 ++-
+> >  drivers/cpufreq/freq_table.c | 6 ++++++
+> >  include/linux/cpufreq.h      | 1 +
+> >  3 files changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.=
+c
+> > index 8c5e47c28d9a..da94f77441da 100644
+> > --- a/drivers/base/arch_topology.c
+> > +++ b/drivers/base/arch_topology.c
+> > @@ -404,7 +404,8 @@ init_cpu_capacity_callback(struct notifier_block *n=
+b,
+> >         cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->related_cp=
+us);
+> >
+> >         for_each_cpu(cpu, policy->related_cpus) {
+> > -               per_cpu(capacity_freq_ref, cpu) =3D policy->cpuinfo.max=
+_freq;
+> > +               per_cpu(capacity_freq_ref, cpu) =3D max(policy->cpuinfo=
+.max_freq,
+> > +                                                     policy->cpuinfo.m=
+ax_table_freq);
+>
+> I will let cpufreq maintainer comment about the need for a
+> policy->cpuinfo.max_table_freq field or not
 
-This patch attempts the fix of taking a lock around both the send path
-and the free path, and clear the pointer before freeing so nobody uses
-it after free.
-
-Reported-by: syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
-Link: https://syzkaller.appspot.com/bug?extid=4393dfdddf166f2de2b0
-Tested-by: syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
-Tested-by: Adarsh Das <adarshdas950@gmail.com>
-Assisted-by: Cursor AI
-Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
----
- lib/kobject_uevent.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
-
-diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-index ddbc4d7482d2..ecba33abb6b1 100644
---- a/lib/kobject_uevent.c
-+++ b/lib/kobject_uevent.c
-@@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
- 						    devpath);
- 	else {
- 		const struct net *net = container_of(ns, struct net, ns);
-+		struct uevent_sock *ue_sk;
- 
--		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
--						  action_string, devpath);
-+		mutex_lock(&uevent_sock_mutex);
-+		ue_sk = net->uevent_sock;
-+		if (ue_sk && ue_sk->sk)
-+			ret = uevent_net_broadcast_tagged(ue_sk->sk, env,
-+							  action_string,
-+							  devpath);
-+		mutex_unlock(&uevent_sock_mutex);
- 	}
- #endif
- 
-@@ -804,13 +810,17 @@ static int uevent_net_init(struct net *net)
- 
- static void uevent_net_exit(struct net *net)
- {
--	struct uevent_sock *ue_sk = net->uevent_sock;
-+	struct uevent_sock *ue_sk;
- 
--	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
--		mutex_lock(&uevent_sock_mutex);
-+	mutex_lock(&uevent_sock_mutex);
-+	ue_sk = net->uevent_sock;
-+	net->uevent_sock = NULL;
-+	if (ue_sk && sock_net(ue_sk->sk)->user_ns == &init_user_ns)
- 		list_del(&ue_sk->list);
--		mutex_unlock(&uevent_sock_mutex);
--	}
-+	mutex_unlock(&uevent_sock_mutex);
-+
-+	if (!ue_sk)
-+		return;
- 
- 	netlink_kernel_release(ue_sk->sk);
- 	kfree(ue_sk);
--- 
-2.55.0
-
+Well, there are cpufreq drivers that don't use frequency tables at
+all, so I'd rather not add it.
