@@ -1,108 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B3E4ED185;
-	Thu, 17 Sep 2026 16:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC37C3370EC;
+	Thu, 17 Sep 2026 16:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789661385; cv=none; b=izrw9IAWm/60/KWXJxQhc02WS8PLEpwz0iznmzeHUoKo70VPaOvx2vu6fwKcL943D+JBfekzJx7bmBDRg/hmO/DTn+W+PRDaqne+ZozPNAfcypD4OZjgCYpRdUWiSmf8RSF97MF7HPRoH4via9Lh14CnQRKDTm8/F5SolwH5zVw=
+	t=1789661488; cv=none; b=C3EoOm1NARQPH374r6D+2r9XSLKGbG/llwFXeGx2+a5dA+DTXVIR/QgBDfKOw9Ee595CmsnY1A1/YkvbnP2k1qLCNUzx7jbyzj9ch+Iq8iM+sRgmACOL/q9PptGrdBOjWhLraFb3cl4v/Ipai+E6aiRFXb78JiQ9Wbupj3Y0+O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789661385; c=relaxed/simple;
-	bh=y5azVuUQo0EKF38LkZBCTZ34UL5VDnoxn5clT/4I1jM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k8Bg9NA8+5oDaNOjU1UPyrWzdty7wF92ieRDFF89PKtUg0CXH939MiM8olam9/dkDUwLS1IxVxsvDU2xmn2wOASh+l5nJiSaLT4+Jd9FJf4ifesf6OGC9A7AscqnBDpMnupDwReuRzfM9ky1SfY/qOM9H8Fbz9lSkCRxOBpAWeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NLYO0Hfc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789661488; c=relaxed/simple;
+	bh=ArXTOPKWVCATv1fOfsoP2J6QBP1TeCp6Y1pnym5RlvM=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bcragbTUmnUEpIHV4ZQi5jqeM7DCQ6FWRXo3eJAX0rdy9MsQNow/sFjvcn4UiDcurCj60s0XQhTn0GqEJjidm4/SLqN9ha/jE41R8FAY67YTP0q7ZJynak99++cbT2uWrGDroyYXX9BFc2d6c9xk0xWV7WtMpR/TSOzMmmtfNow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jfnxw57I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NLYO0Hfc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E14001F00898;
-	Thu, 17 Sep 2026 16:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789661384;
-	bh=kr5LGH29uDKquRiQJXiJGsHjLAXb24yTBoZUaAV3cJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NLYO0HfcQp1DARE5KfoKBObCkPc/3sDlDJIXN08teLGPNvzNzIQQkbzmbL8rN2kPp
-	 /qKUUng5fwkeqdh6SvjbcXEka2CaJL/UKxW4HlJJOFPCMgoBTu2X6EBHDubJGdEmbZ
-	 epd97epfWyCRtUF5kN2t1AQJOE7Wc+KPHCD/14y8=
-Date: Thu, 17 Sep 2026 16:21:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Adarsh Das <adarshdas950@gmail.com>
-Cc: dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, rafael@kernel.org,
-	stable@vger.kernel.org,
-	syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com
-Subject: Re: [PATCH] kobject: fix uevent socket use-after-free on net
- namespace delete
-Message-ID: <2026091753-bootleg-manicotti-5c1a@gregkh>
-References: <2026091756-widen-doozy-399c@gregkh>
- <20260917151830.89024-1-adarshdas950@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jfnxw57I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605401F000FF;
+	Thu, 17 Sep 2026 16:11:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789661486;
+	bh=Ebsh1KMx217fm158u7uy5sWFmLM+nujOSFOT3DBKvTQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Jfnxw57IHeUaAY+x7hQqS2llkegFEAZwuBKAMKOMQFqR9ACyrvF7o693hrVAngWop
+	 MOwEzQilTcj6fREzhuGH7+od+yHMnYnMrlHKW9/GRSlfi7aKvvehWcrwAqwkYFYtBW
+	 qdqK1//cpCqQnHI+QXyM4FpEP99aDbfyPDhSLhrupnPl7rqyMDUHrRGVZX28DZCWQE
+	 j7myKMRy1OXBxJxhS9OUSJPHjZzn5Pzhol1JlxykLv7j6CYDT2cPzrlNJG0WQrYB/9
+	 UBSRj1GiD5RseX0jI7rMACUl4WgyURUkkp7dnyrRZStqAE++yJYfdiyZf8JLYKnOFc
+	 XuG8MwUhgrjOw==
+Subject: Re: [PATCH net-next v16 1/6] net: dsa: add devlink flash_update
+ callback to dsa_switch_ops
+From: netdev-bot+sashiko@kernel.org
+To: daniel@makrotopia.org
+Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Date: Thu, 17 Sep 2026 16:11:24 +0000
+Message-ID: <178966148491.22033.3197063094980170397@kernel.org>
+In-Reply-To: =?utf-8?q?=3C38abd1efa0da34be260c5799a18df401b7494a0a=2E1789477?=
+ =?utf-8?q?568=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+References: =?utf-8?q?=3C38abd1efa0da34be260c5799a18df401b7494a0a=2E17894775?=
+ =?utf-8?q?68=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917151830.89024-1-adarshdas950@gmail.com>
 
-A: http://en.wikipedia.org/wiki/Top_post
-Q: Were do I find info about this thing called top-posting?
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider:
 
-A: No.
-Q: Should I include quotations after my reply?
+Critical: 0 · High: 0 · Medium: 0 · Low: 1
 
-http://daringfireball.net/2007/07/on_top
+- [Low] Installing `.flash_update = dsa_devlink_flash_update`
+  unconditionally in the single shared `dsa_devlink_ops` removes the…
 
-On Thu, Sep 17, 2026 at 08:48:30PM +0530, Adarsh Das wrote:
-> Hi,
-> 
-> Sorry, I wasn't aware of the Assisted-by tag before. Should I send a
-> V2 with it?
+--
 
-Please do.
+net: dsa: add devlink flash_update callback to dsa_switch_ops
 
-> For testing I ran syzbot's C repro with -smp 4 on master, with
-> multiple parallel instances of the repro. I was able to reproduce
-> the bug:
-> 
->   BUG: KASAN: slab-use-after-free in kobject_uevent_env+
->   Read of size 8 at addr ffff88800fa7f090 by task kworker/u16:5
->   CPU: 3
->   Workqueue: ib-unreg-wq ib_unregister_work
->   Call Trace:
->     kasan_report
->     kobject_uevent_env+0xc71/0xd90
->     device_del+0x7c7/0xcf0
->     disable_device+0x1d2/0x260
->     __ib_unregister_device+0x26b/0x400
->     ib_unregister_work+0x19/0x30
->     worker_thread
->     kthread
->   Allocated by task 498:
->     uevent_net_init+0xe5/0x340
->     setup_net
->     copy_net_ns
->     unshare_nsproxy_namespaces
->     ksys_unshare
->   Freed by task 63:
->     kfree
->     ops_undo_list
->     cleanup_net
->     worker_thread
->   The buggy address belongs to the cache kmalloc-32 of size 32
-> 
-> With this patch applied, I ran the same repro repeatedly (including
-> parallel runs) and did not see the KASAN error anymore.
+This adds a devlink_flash_update callback to dsa_switch_ops and a
+trampoline in net/dsa/devlink.c that forwards to it, returning
+-EOPNOTSUPP when the driver does not implement the callback. The
+.flash_update op is installed unconditionally in the shared
+dsa_devlink_ops table.
 
-Did syzbot also test this?
+> diff --git a/net/dsa/devlink.c b/net/dsa/devlink.c
+> index ed342f345692b..25311a87cbc56 100644
+> --- a/net/dsa/devlink.c
+> +++ b/net/dsa/devlink.c
+> @@ -20,6 +20,18 @@ static int dsa_devlink_info_get(struct devlink *dl,
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> +static int dsa_devlink_flash_update(struct devlink *dl,
+> +				    struct devlink_flash_update_params *params,
+> +				    struct netlink_ext_ack *extack)
+> +{
+> +	struct dsa_switch *ds = dsa_devlink_to_ds(dl);
+> +
+> +	if (!ds->ops->devlink_flash_update)
+> +		return -EOPNOTSUPP;
+> +
+> +	return ds->ops->devlink_flash_update(ds, params, extack);
+> +}
+> +
 
-And I have no context here at all, sorry, please realize that some of us
-get 1000+ emails a day...
+[ ... ]
 
-thanks,
+> @@ -169,6 +181,7 @@ dsa_devlink_sb_occ_tc_port_bind_get(struct devlink_port *dlp,
+>  
+>  static const struct devlink_ops dsa_devlink_ops = {
+>  	.info_get			= dsa_devlink_info_get,
+> +	.flash_update			= dsa_devlink_flash_update,
 
-greg k-h
+[Severity: Low]
+This isn't a bug as such, since the commit message states the trade-off,
+but is the full extent of the behaviour change on switches without the
+callback covered?
+
+Since dsa_devlink_ops is shared by every DSA switch, the core gate in
+devlink_nl_flash_update_doit() now always passes:
+
+net/devlink/dev.c:devlink_nl_flash_update_doit() {
+	if (!devlink->ops->flash_update)
+		return -EOPNOTSUPP;
+	...
+	file_name = nla_data(nla_file_name);
+	ret = request_firmware_direct(&params.fw, file_name, devlink->dev);
+	...
+	devlink_flash_update_begin_notify(devlink);
+	ret = devlink->ops->flash_update(devlink, &params, info->extack);
+	devlink_flash_update_end_notify(devlink);
+}
+
+So on a switch that does not set ds->ops->devlink_flash_update, a flash
+request now reads the entire userspace-named file from the firmware search
+paths into kernel memory before dsa_devlink_flash_update() gets to return
+-EOPNOTSUPP.
+
+Beyond the -ENOENT versus -EOPNOTSUPP change already described, does this
+also mean that on such switches a flash request becomes a file-existence
+probe of the firmware search paths, performs an unbounded read of a
+/lib/firmware file into kernel memory, and emits a FLASH_UPDATE /
+FLASH_UPDATE_END pair to devlink monitors for an operation that can never
+succeed?
+
+For reference, path traversal is not a concern here:
+_request_firmware() rejects names containing ".." via
+name_contains_dotdot(), and the operation requires CAP_NET_ADMIN.
+
+Would it be worth mentioning the firmware read and the notifications for
+switches without the callback in the commit message, in addition to the
+errno change?
+
+>  	.sb_pool_get			= dsa_devlink_sb_pool_get,
+>  	.sb_pool_set			= dsa_devlink_sb_pool_set,
+>  	.sb_port_pool_get		= dsa_devlink_sb_port_pool_get,
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1789477568.git.daniel%40makrotopia.org
