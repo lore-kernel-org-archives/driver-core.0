@@ -1,89 +1,143 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B7D9599A36
-	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 14:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oi2-f43.google.com (mail-oi2-f43.google.com [74.125.231.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A954CEE51
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 14:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789655708; cv=none; b=qQi6MOA2bxEO5SYs8fxzdx41Xa6DAb6MK1lgL7XDSpj9b0gSH3XETJedFaZ4Yzhp7Ci3KppVZ93hfD2BasWCjbDxpbL+n8ka7ILs0LepszrI3h9g8CxaHrkuuqkEcB+liuHZ0tvDCmrsrNp3+f1jxyT9DZLWyccrmoDeNTWIwTU=
+	t=1789656150; cv=none; b=dk5uw/fGhun4bBIYw8v3v9+N8TBR8vFY/HSPIM/mWhQc3kt/IgJkdKovCSI1Ph+bpbpbxauanarLkmClF6qGqZieDQ27BJp8gXq9zQNkwLLZIROsM3G6jgD+B4wLZUvDsxw+GvV6ElXmwLIQKr4LPs28k8w77+Y21Ty7Ns35Vr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789655708; c=relaxed/simple;
-	bh=mobytS+1K2rkJCeo1bg8kHuJ2xKRSO5VB5xXMn9bBS4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnYUHZ5Xx5zQKmr/3YxV63DQENJZThjPGvMptcZ1DwZCMNRFCHgxifsd4qB3EguHL4YoCMdmPzmU/0P+1V6ofrgR2K/mDP45AG9U8co8gVLmRojy+w7VyljJ541Bsh+7CYAtk20KqCYRdN8PED2xlL7MrQe5CNXk9YGPnSbDZqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=iqHXQy1J; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789656150; c=relaxed/simple;
+	bh=kw4TipmbKGg8CFX/QSiBbtXEfjEf0OiG5AFkDXCIye0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GFQ5ptW/z21OcI6FcYo1wSPjfCCozCKyd/uR64ysIrE9jl/q4/JSd0/hcchqWOoP4k6kzM4bpfsVQ/QNdwPcDwJ6+/MvZr2SOd0kBWt67Eqme3YJ3u0vw5Lf2wr0WsbHcEtpjNT3Xy7jzTEu57HXMMYMDxGQdxAqrwl0Vx9C2Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0HfwUz8; arc=none smtp.client-ip=74.125.231.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="iqHXQy1J"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2CAD1476;
-	Thu, 17 Sep 2026 07:35:00 -0700 (PDT)
-Received: from [192.168.178.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 735AC3F86F;
-	Thu, 17 Sep 2026 07:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789655704; bh=mobytS+1K2rkJCeo1bg8kHuJ2xKRSO5VB5xXMn9bBS4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iqHXQy1JB2qQbP3MjChIwmtzj+93Umn86ZBQsDSTZGKWutkkKFuWxAmMh4B7G882X
-	 t49S9TiQH/OuzPpJBUWpvJugzd9EYUqw5JPodoZqA2xm0egrEQGISGahSQQIcAPjYi
-	 b6b5wjWLuz+I6I/cz1LfWsLlsqLcc06ls9uP3LJw=
-Message-ID: <bddc9273-fe02-4984-bfe9-5078e9e6e111@arm.com>
-Date: Thu, 17 Sep 2026 16:34:58 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0HfwUz8"
+Received: by mail-oi2-f43.google.com with SMTP id 46e09a7af769-805440319deso550569a34.2
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 07:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789656136; x=1790260936; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VLiAuQyw2H6SVXJcusiyWm3lbA7Z/rT3zG0bbVq+oY8=;
+        b=U0HfwUz8iAEheYzkkCA99r4hre/0qhxL8MQvNnN4KtsCRaxaK/b+CLJpwZtfPxv1yR
+         Pxh852OvjVP1RygCDHxnqJmEgUcpkPnZ/UQ6ulgnBQ0ROVelnHxUA7lFBeNJpu44OImR
+         vIznun0Q5Qbf5FkVwZ/elDgLvZ7dHkXexGUoN+5q2H+6hGimNPCElYEJRS+eiViMt5Ca
+         IV2xgB1Dl7OOTRxN/9COIKLHS2ftSehGK5+lOoRqVjwU9UvsXTFMnb8vuRB8oHljXzwg
+         ssfam3iNySFHDfJgy2Qt+Bg/cbw/MTxguIFdaVUZzd2Bu2lhrO/VQd7oOOshhHXRdF9+
+         wWgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789656136; x=1790260936;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VLiAuQyw2H6SVXJcusiyWm3lbA7Z/rT3zG0bbVq+oY8=;
+        b=P47it5OoYjpGAosZPGm5R7wn+FHU1JGrqHBejhBpXRqoAaTI8SRVtDfB2eD4Ik3Hip
+         tFVCkg9wMccmqgMdkgDcXNKhkqBR/dxxqa249ZHsWUF2wB0sSM/ou3hXLcuGVbOOG/cG
+         x63kh4ogA+kI3ZePHkUiYLLfhfuJbKTpM+/CviGK7tZuUaZAhdJ69MBmJfs2Rsyc2mXf
+         h8w8m3C7P2zL/q4UNKwBA8IUw9XMQTvhHAIY2i8bLqFbVgp+9Pvxy9NPesf6Qpk08zX2
+         1O2VION0vFHr3z9QvdmrxWfmkp5owEL17g8ek51mR7ZgX1qAGRJOp0z+fWVa8i/cTg6T
+         HAvg==
+X-Forwarded-Encrypted: i=1; AKwUvBzTiJZ0y57Lmx+73XI4IBjsOEUyFCQFpsmRr0z5AoWujaYejMmehIJTAc2lhpz6+92ZVyhD4sQGDcYx/g==@lists.linux.dev
+X-Gm-Message-State: AFuF++lHjzrFgTEXVrjKPUrOqX+xyeCYzbKAZO38dK04IIQdwdJV2+/i
+	6w9xqzwFKKAcbe8en2tiuixT19p73fypHwA23gZ0P2Q569Z0HqgJ/4lKF04V8/2Q
+X-Gm-Gg: AYBFou0B+EnxgyZSpsKForOtbKALjK1mDSf0/9DZx/UEVfXE0ONN1rQVEoQ+6IjvdHa
+	sNg9nx54rtIMZsX4+deZ3IwMU08dnnVXci5V0Y4oIJ/gpqmXnS7D/MQvBaV+Roiuhm/4S/VTwMa
+	RjJwfvIL4aBCPlN68HL7dgqLpQZDoc6Tgjrj5xji36UqcweNq8SMMdUEe34uw8zYqa+UscIoQEl
+	mXLOTWwBo2pdVkCkBs4uNaEyzHL4rBlEezicShQAudFolUGGE+e9I0gy9XtuWcKFe7PYTaDSxnG
+	QvtpJftH9mJVa/Kt2nmKhGEksBpzNgaIwsuEJIzwBwSYWu26VeqRr8c/nrzhtzgzp4pX69L21CU
+	gOFaa9PtSISSClGn9OtUJ3GTQ6IjtBJA/flSZFfsREKz0Qy5NodE7nEYn48SH6TMxN9foMxt6Al
+	8uUH1YPNddZPIj4Vb8eELtRshghOu+x5pM2uWdsU/Zc2vLjImpcMRPKd2U6Z5nLsPNaVxqc6Dk
+X-Received: by 2002:a05:6830:6b09:b0:7fa:ac4f:77d with SMTP id 46e09a7af769-80b2f9e3449mr6878507a34.28.1789656135911;
+        Thu, 17 Sep 2026 07:42:15 -0700 (PDT)
+Received: from archlinux ([2402:e280:411b:ec:aa93:b1ec:5a6b:5fce])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-80c4619a868sm3092468a34.8.2026.09.17.07.42.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 07:42:15 -0700 (PDT)
+From: Adarsh Das <adarshdas950@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: rafael@kernel.org,
+	dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Adarsh Das <adarshdas950@gmail.com>,
+	syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
+Subject: [PATCH] kobject: fix uevent socket use-after-free on net namespace delete
+Date: Thu, 17 Sep 2026 20:12:06 +0530
+Message-ID: <20260917144206.85836-1-adarshdas950@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] arch_topology: use the boost frequencies for
- capacity_freq_ref
-To: Oleg Keri <okerixx@gmail.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Sumit Gupta <sumitg@nvidia.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>,
- linux-pm@vger.kernel.org
-References: <20260917125112.2283-1-okerixx@gmail.com>
- <20260917125112.2283-3-okerixx@gmail.com>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260917125112.2283-3-okerixx@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17.09.26 14:51, Oleg Keri wrote:
-> capacity_freq_ref is latched from policy->cpuinfo.max_freq by
-> init_cpu_capacity_callback() on CPUFREQ_CREATE_POLICY.
-> cpufreq_frequency_table_cpuinfo() excludes CPUFREQ_BOOST_FREQ entries
-> while boost is disabled, so on a system that boots with boost off the
-> reference is the non-boost maximum and stays there.
-> 
-> Once boost is enabled the CPU runs above its reference.  On arm64, where
-> the AMU drives frequency invariance, amu_scale_freq_tick() caps the scale
-> at SCHED_CAPACITY_SCALE, so the scheduler cannot tell a boosted CPU from
-> one at the sustained maximum, and arch_freq_get_on_cpu() cannot report
-> above the reference, so cpuinfo_avg_freq is pinned to it.
-> 
-> CPPC based systems do not have the problem: their reference comes from
-> highest_perf, and a disabled boost shows up as cpufreq pressure.  Do the
-> same for frequency table drivers and take the highest valid table entry,
-> boost entries included, as the reference.  With boost off
-> cpufreq_update_pressure() then reports the difference as pressure.
+When a network namespace is deleted, we free its uevent socket. But
+sometimes a device in that namespace is still being removed and tries to
+send a uevent through that socket. The socket is already freed, so KASAN
+reports a use-after-free.
 
-Ah, you want to fix this for 'frequency table' drivers.
+This patch attempts the fix of taking a lock around both the send path
+and the free path, and clear the pointer before freeing so nobody uses
+it after free.
 
-IMHO,
-https://lore.kernel.org/r/20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com
-is trying the same at the moment.
+Reported-by: syzbot <syzbot+4393dfdddf166f2de2b0@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=4393dfdddf166f2de2b0
+Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
+---
+ lib/kobject_uevent.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-[...]
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..ecba33abb6b1 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -411,9 +411,15 @@ static int kobject_uevent_net_broadcast(struct kobject *kobj,
+ 						    devpath);
+ 	else {
+ 		const struct net *net = container_of(ns, struct net, ns);
++		struct uevent_sock *ue_sk;
+ 
+-		ret = uevent_net_broadcast_tagged(net->uevent_sock->sk, env,
+-						  action_string, devpath);
++		mutex_lock(&uevent_sock_mutex);
++		ue_sk = net->uevent_sock;
++		if (ue_sk && ue_sk->sk)
++			ret = uevent_net_broadcast_tagged(ue_sk->sk, env,
++							  action_string,
++							  devpath);
++		mutex_unlock(&uevent_sock_mutex);
+ 	}
+ #endif
+ 
+@@ -804,13 +810,17 @@ static int uevent_net_init(struct net *net)
+ 
+ static void uevent_net_exit(struct net *net)
+ {
+-	struct uevent_sock *ue_sk = net->uevent_sock;
++	struct uevent_sock *ue_sk;
+ 
+-	if (sock_net(ue_sk->sk)->user_ns == &init_user_ns) {
+-		mutex_lock(&uevent_sock_mutex);
++	mutex_lock(&uevent_sock_mutex);
++	ue_sk = net->uevent_sock;
++	net->uevent_sock = NULL;
++	if (ue_sk && sock_net(ue_sk->sk)->user_ns == &init_user_ns)
+ 		list_del(&ue_sk->list);
+-		mutex_unlock(&uevent_sock_mutex);
+-	}
++	mutex_unlock(&uevent_sock_mutex);
++
++	if (!ue_sk)
++		return;
+ 
+ 	netlink_kernel_release(ue_sk->sk);
+ 	kfree(ue_sk);
+-- 
+2.55.0
+
