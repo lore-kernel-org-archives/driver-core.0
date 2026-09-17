@@ -1,99 +1,265 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D184BD34F;
-	Thu, 17 Sep 2026 16:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBEB52CCEA
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 16:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789662258; cv=none; b=X/V0TT5zDIIcDN4+Ah3v+2Ghz9BudC6sVhXxldP9kflcej2+Fo16Y2newAH2cpia9Xt83AIu0Q3Ta+6ODGoBmnaOO/qeBMPM6pZ0qSbXD6ticf26L3OOJACcnzk6zwB03RYnPWSowbJnsxG7OmwKQzE2PxqS/bsP1yu7pMFNbS8=
+	t=1789663085; cv=none; b=XfUUA3WguvYEDloY+uDr+hYs5sD0uDZiVDzadg96cIoqFUIV8rtVmeoyPTuLUAZiFGcQUkF7HrIls32/6C+Hr/5qZ0DYS2SaUjVlsaaa+DPUfUZ+Woc1OrVKxQvlAeBOiV73XCDd5r0jPagUw/h3N6Vx8OdfSNov8Eb48r07cvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789662258; c=relaxed/simple;
-	bh=Agz2OBwfyMw7HSP4k52XwefCBTQXRZbqPYpbtyQGd3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XmFT4TXMn8vW24eOrcTIDaNa2NROOExYdA7iJ84wHMjh+bIS6TxWFTIywat3Jll1zxfTs0xf6VPPYpCJy68IeD/8Ywa7vSMBd1bxjuYJhq65533z9b886Yj6cIZbpxtUaNvHMbOt6iFZwSAR0B12vSYfB2qYu3FHKrzgd4U6xBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iZokQmM9; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789663085; c=relaxed/simple;
+	bh=tomqwYs3b4/kk3pFc1hZjpd9buxpLuKVrCK92eKFFsc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=a1/D665ysqoMTJgzbuFWmwOEKkwbkDN3L+wNElL/ennBcs147nPXEZJL+kmRWkTnPxDtjWkN9pycej93OSCVYiFkNUJtJ1LWcE9KcOGGE1VX+eU+ozQXcigP00uJxw2eQG8px+v8EsYcEZ4nzvZXXAQMz/BmUVTpqG+BVwh+yqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NffUYsZ/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iZokQmM9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AKWHLTxliGt+Tbh7hwbvU0Fa4GfVYbsFsDmdsrV9fPw=; b=iZokQmM9eeTmNj/Y8blbt93mJj
-	5nwCSYOY/Pz/KAn70rWT6LUTfoGacPYa8LliAl+x79Z923zcIhM1bg1O3rErc5emL1u7AjAB2jhex
-	6+nOJYYCPx/L8Pvj24vMocvdw2JEjDuGyf99pNQEreXkYQZLSzRpbHBN6tFL7htkdU9eFPic8NtS1
-	4HdgOGD7GsIgSczdUauGDNEhRm/kBmBFERnmlDUO55f79v4jeFRducwm0z5Qvc0agteaA/SQCLgtX
-	p9QwFI87Lu/CMI9x3Usecy9SA2PoP8SWn/1+sNT+/yVb8L5xV8OiyN2ro6wysEwqFKGFwhA7aGIia
-	uk9Srrzw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7Eu9-0000000B18W-2nOB;
-	Thu, 17 Sep 2026 16:24:09 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 45739303078; Thu, 17 Sep 2026 18:24:09 +0200 (CEST)
-Date: Thu, 17 Sep 2026 18:24:09 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>
-Cc: Oleg Keri <okerixx@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Sumit Gupta <sumitg@nvidia.com>,
-	Beata Michalska <beata.michalska@arm.com>,
-	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NffUYsZ/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789663081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Si8zLeNr5HVaa/HbF+snmzr6SClEtv7y1MqbEP7B9LU=;
+	b=NffUYsZ/og/DBY9vLOLpoUCfrbkbCDEGwmlix0kRKkgVITQNOUd/gMCQ0OHskDRNPXgM26
+	yJZFbe1H6Ut1XkJlT3yW75NoUAkR3Lm1fV03yHl/J/tVlGCTnmpzsayWlg0aX/STdTgti1
+	qPfbCAWHSY/XQOaGNrOfudK+d0tO6CY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-339-LzXgoNBONWS1JKDYRfyZYA-1; Thu,
+ 17 Sep 2026 12:37:56 -0400
+X-MC-Unique: LzXgoNBONWS1JKDYRfyZYA-1
+X-Mimecast-MFC-AGG-ID: LzXgoNBONWS1JKDYRfyZYA_1789663074
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 94E5F18301BE;
+	Thu, 17 Sep 2026 16:37:53 +0000 (UTC)
+Received: from djeffery-thinkpadp1gen3.rmtusga.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 81AC51800352;
+	Thu, 17 Sep 2026 16:37:49 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: driver-core@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] arm64: topology: fix arch_freq_get_on_cpu()
- overflow above 4.19 GHz
-Message-ID: <20260917162409.GQ4121339@noisy.programming.kicks-ass.net>
-References: <20260917125112.2283-1-okerixx@gmail.com>
- <20260917125112.2283-2-okerixx@gmail.com>
- <20260917153224.GJ4121339@noisy.programming.kicks-ass.net>
- <b7fbe8bc-56b4-4705-b5d8-4a377eb062ee@arm.com>
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Tarun Sahu <tarunsahu@google.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	kexec@lists.infradead.org,
+	"Ewan Milne" <emilne@redhat.com>,
+	"John Meneghini" <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	"Bart Van Assche" <bvanassche@acm.org>,
+	"John Garry" <john.g.garry@oracle.com>,
+	"Jeremy Allison" <jallison@ciq.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	"Pasha Tatashin" <tatashin@google.com>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v22 0/9] shut down devices asynchronously
+Date: Thu, 17 Sep 2026 12:37:35 -0400
+Message-ID: <20260917163744.191748-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b7fbe8bc-56b4-4705-b5d8-4a377eb062ee@arm.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: MsNq4A_o-SfeyqGgL_5pYq2JvRYPbKlwugMX1RMZYVQ_1789663074
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Thu, Sep 17, 2026 at 05:55:44PM +0200, Dietmar Eggemann wrote:
-> On 17.09.26 17:32, Peter Zijlstra wrote:
-> > On Thu, Sep 17, 2026 at 02:51:11PM +0200, Oleg Keri wrote:
-> 
-> [...]
-> >> diff --git a/include/linux/topology.h b/include/linux/topology.h
-> >> index 709a2dcf4c73..0a4ee12a98d5 100644
-> >> --- a/include/linux/topology.h
-> >> +++ b/include/linux/topology.h
-> >> @@ -351,4 +351,6 @@ static inline unsigned long topology_get_cpu_scale(int cpu)
-> >>  
-> >>  void topology_set_cpu_scale(unsigned int cpu, unsigned long capacity);
-> >>  
-> >> +#define cap_scale(v, s)		((v)*(s) >> SCHED_CAPACITY_SHIFT)
-> > 
-> > This might not be a very good generic helper, since it relies on either
-> > of the variables to be u64 for correctness.
-> 
-> So moving it to a static inline function instead?
-> 
-> static inline u64 cap_scale(u64 value, u64 scale)
-> {
->        return value * scale >> SCHED_CAPACITY_SHIFT;
-> }
+These patches are rebased against the driver-core tree's driver-core-next
+branch and should also apply against recent linux-next. Changes for v18 are
+contained in patch 3.
 
-Yes, that would be much better defined.
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
+
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
+
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
+
+And thank you to everyone who has spent some of their valuable time
+providing reviews, suggestions, criticisms, or tests on the various
+iterations of this patchset.
+
+Changes from V21:
+- Check a device is alive before accessing its bus pointer
+
+Changes from V20:
+- Move PCI bridge async enablement to before its call to device_add
+- Use srcu to prevent ensure any active device_add is completed before
+  device_shutdown begins shutting down devices.
+
+Changes from V19:
+- Convert initial creation of shutdown_one_device to a code move with no
+  changes or side effects
+- Add a warning to device_move should some device ever mix need_parent_lock
+  with device_move in the future
+- Link a PCI virtual function as consumer of its associated physical
+  function to ensure proper shutdown order
+
+Changes from V18:
+- Fix deadlock and race condition on concurrent device_add
+- Use local variable to device_shutdown for caching async_shutdown
+- Added dev->p check to avoid NULL pointer deference and tell if the
+  device is not registered so no need to be shutdown. This is to handle
+  the cases when devices consumers list might have devices that are not
+  yet registered.
+
+Changes from V17:
+
+Fix mangled text in kernel parameter description
+Re-protect the list removal with the spinlock
+  * Hold a device reference to ensure the device cannot be freed before
+    attempting list removal
+
+Changes from V16:
+
+Drop spinlock before async subsystem call which uses GFP_KERNEL
+Handle that async shutdown can widen races between device shutdown and deletion
+  * __shutdown_one_device will immediately return if a device is dead
+  * Set shutdown device completion to complete when marking a device dead to
+      prevent waiting on a dead device
+  * Only late-access a parent pointer if device is in a non-dead state to
+      ensure the pointer is still valid
+
+Changes from V15:
+
+The async_shutdown bit field is converted to a device flags bit
+Convert all patches to use the flag bit accessor macros to set or check if
+  async shutdown should be used
+Added documentation on the kernel parameter to control use of async shutdown
+
+Changes from V14:
+
+Remove unneeded use of '!!' with boolean type
+
+Changes from V13:
+
+Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+ 
+Changes from V2:
+ 
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+David Jeffery (7):
+  driver core: warn should device_move try to move a need_parent_lock
+    device
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+  driver core: async device shutdown infrastructure
+  PCI: Link a virtual function to its physical function
+  PCI: Enable async shutdown support
+  scsi: Enable async shutdown support
+
+Tarun Sahu (2):
+  driver core: rely on put_device to free dev->p
+  driver core: prevent device_add() during system shutdown
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ drivers/base/base.h                           |   2 +
+ drivers/base/core.c                           | 269 +++++++++++++++---
+ drivers/pci/iov.c                             |  11 +-
+ drivers/pci/probe.c                           |   2 +
+ drivers/scsi/hosts.c                          |   2 +
+ drivers/scsi/scsi_sysfs.c                     |   3 +
+ include/linux/device.h                        |   2 +
+ 8 files changed, 260 insertions(+), 41 deletions(-)
+
+-- 
+2.55.0
+
