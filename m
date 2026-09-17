@@ -1,122 +1,106 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp153-163.sina.com.cn (smtp153-163.sina.com.cn [61.135.153.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D2E4D09F6
-	for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 21:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536A2302155
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 04:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789595536; cv=none; b=bp/2QSLPzUWdXKJf5jvWvQBQwuUSdmj33Ip45EYeHKIk57BJ0/xfzTrtCgbilTomYxdia947NTeHAzdjJ6q1R1C3ckjgiLVZAC++C/R+LvojVnR1CrLqSc4SC7qZ2im62L9AJ5+skq+qBwFJ43oepHdf4DI+2XU6FrC8qKwjd+M=
+	t=1789619059; cv=none; b=pJnfdqaOLTV3O3DYBPDJjxaCMuxTM5Z81+/b+XvabNPq7IUNpO4BcB28UH+8bQPj6EDT25tCo9SWodVZD9w/3ER/kq9MD0tkuLjUN/gKc99CljlVpe3dvWehEcBU1wv6KvYEew+YUz3rDsmr71umitaKIXAdnaRtlRD+9aevVxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789595536; c=relaxed/simple;
-	bh=ZMxQf8RZ+U7jVt0gI4uDmJSeU0wx5e3K+4UKflrYXNI=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=ryrUTzcN6jMngbeP/whfJIl28WVFH9vXYfikBufwYzFQ7R82Wf3g5XQE89Ynog+CUqRhuGKTsTKrA294P8aGm0i9a6aj9JnuWV9mZR4KLTgbfx/NtMl5x52n2iPTh15X1zhng/MRuLRV5FVNecvZgtX1Fj/GkFTqsXF0TT2h5zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-48e5de5a23cso375991b6e.0
-        for <driver-core@lists.linux.dev>; Wed, 16 Sep 2026 14:52:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789595522; x=1790200322;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=zFc4CLn8Ksn0EWC/9yT5PyB5de0IgZnza8mZSbtO8B8=;
-        b=Ju0eeF2OQgFg+nxrVo5i7N8Jru87gP3XnJ06Oq1TZ4BuOK5JDlEqtFPXQT2lh3nu7n
-         SHkIwhF6IqtNFum9uI1jRLm3ofg7Td3p++UqU1O6iXBlRm3qDauHUFDX+un1mgWw4meb
-         hnHV3j1oQUo7KoLXyGCmZp259UEVmoHivoAaDauKYllV5FPAUcwWqjCBPREM+dSxoKUI
-         gfIQ4F+xQtsmr8ikGE/364vYCEAAPGLHMmMg+xILTs2d6IBJXMq50xl5p4ehLZH90ZR6
-         KUnaU9eGGBqmdvqWKTJXPjL2mEhNE+tpoL1D+CQ5sM3k3beoYsqOPTjzP7aMbOAlNcJl
-         Ki3g==
-X-Forwarded-Encrypted: i=1; AKwUvByAOhqnSu+Jb1tQOUCkiuLhX/9rsSw84jXw62hzSMdwrJrLtoaERM88onIQjyKN0JYNP4ddUIgLvSHZwQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++kv5lK914dCDcECsbL0gINuveYE0qiIRNfZQ7SDbwZ2rr4QgotS
-	rSVBI4R22sOtVFgLMZCnA2M9QGW9VOaQZ644EjDEw8iJqqtx8z7X8x6vwFBWVMbI8Js1XtIWljM
-	MU4L7lGiOLecWy+urj12xu/+wImTIx8p7MBCMjOabNO3iVkb7lGtVUCTXJbI=
+	s=arc-20240116; t=1789619059; c=relaxed/simple;
+	bh=NCd1M4BYCsVVcnfJn7CPMrWRew8MFVBraGEWWKIOQSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BJBAXzLBl4mw/QS7JgdS86Y87RdS2+VSDcsdRFg9rhghQZPHri4gi+s5ultVupZ6byC6of6sraz9Sh4GpGOiQmsg64fwYuL07+UmNQqCqaoxNjrzqqODSJOeWIvigfgB48EjR/kc9P5IbuwUbis1RRKVuHUkrtLJurtno34UiNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=ThhMmKXk; arc=none smtp.client-ip=61.135.153.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="ThhMmKXk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1789619053;
+	bh=XIDlTScOG9QnL6L081k6czMCkrQnIa7NpQIs6PMtKVY=;
+	h=From:Subject:Date:Message-ID;
+	b=ThhMmKXkW21fxDmwATCGnoiq9qjNZhyYH/dca9gEN1wys2ihq57zszPdaU6v5iYKi
+	 1dShuuo/gtR33kl9yC+nLS8oi5i4SRJO57caiGIhQX/ux2yKXDsvzm2sDlhsiO19nc
+	 3v1f58EMz4W6tYz1qDlSI9VrqDqYLZ+F6GBHyKlE=
+X-SMAIL-HELO: lxu-ped-host..
+Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
+	by sina.com (10.54.253.32) with ESMTP
+	id 6AAB6B6000003938; Thu, 17 Sep 2026 12:24:02 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=eadavis@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=eadavis@sina.com
+X-SMAIL-MID: 9779204456617
+X-SMAIL-UIID: BC0889522A6D4250A62018007C6511F2-20260917-122402-1
+From: Edward Adam Davis <eadavis@sina.com>
+To: gregkh@linuxfoundation.org
+Cc: dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	eadavis@sina.com,
+	linux-kernel@vger.kernel.org,
+	rafael@kernel.org,
+	syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] sysfs: prevent writing excessively large files
+Date: Thu, 17 Sep 2026 12:24:00 +0800
+Message-ID: <20260917042400.985424-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026091641-tanned-bust-37f2@gregkh>
+References: <2026091641-tanned-bust-37f2@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1795:b0:4c3:9892:96fe with SMTP id
- 5614622812f47-4ca499ce7edmr6641854b6e.3.1789595522515; Wed, 16 Sep 2026
- 14:52:02 -0700 (PDT)
-Date: Wed, 16 Sep 2026 14:52:02 -0700
-In-Reply-To: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
-Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-From: syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	iam@thechris.in, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Edward Aadm Davis <eadavis@sina.com>
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-WARNING: ODEBUG bug in lookup_object_or_alloc
+On Wed, 16 Sep 2026 18:44:06 +0100, Greg KH wrote:
+> On Wed, Sep 16, 2026 at 06:19:30PM +0800, Edward Adam Davis wrote:
+> > From: Edward Aadm Davis <eadavis@sina.com>
+> >
+> > On Wed, 16 Sep 2026 09:17:56 +0200, Greg KH wrote:
+> > > > Since atomic_write_len is not configured for sysfs_file_kfops_rw, a large
+> > > > file write via sysfs_kf_write() may result in an out-of-bounds read when
+> > > > checking for the null terminator of a string element in the kobject_actions
+> > > > array within kobject_action_type(), potentially hitting:
+> > >
+> > > What sysfs file are you hitting this on?
+> > Regular sysfs files.
+> 
+> Which one, all?
+/sys/bus/acpi/uevent
+> 
+> > > > BUG: KASAN: global-out-of-bounds in kobject_action_type lib/kobject_uevent.c:86 [inline]
+> > > > BUG: KASAN: global-out-of-bounds in kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+> > > > Read of size 1 at addr ffffffff8d72559f by task syz.0.17/5917
+> > > > Call Trace:
+> > > >  kobject_action_type lib/kobject_uevent.c:86 [inline]
+> > > >  kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+> > > >  bus_uevent_store+0x3d/0x90 drivers/base/bus.c:917
+> > > >  bus_attr_store+0x74/0xb0 drivers/base/bus.c:172
+> > > >  sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+> > > >  kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+> > > >  new_sync_write fs/read_write.c:595 [inline]
+> > > >  vfs_write+0x6af/0x1050 fs/read_write.c:687
+> > > >
+> > > > Add atomic_write_len for sysfs_file_kfops_rw and sysfs_file_kfops_wo
+> > > > properly.
+> > > >
+> > > > Fixes: f6acf8bb6a40 ("sysfs, kernfs: introduce kernfs_ops")
+> > >
+> > > What changed to suddenly cause this to show up now if this has been
+> > > present for decades?
+> > This issue has always existed. It remained undetected simply because the
+> > buffer lengths typically passed when writing to `/sys/bus/acpi/uevent`
+> > happened to be reasonably appropriate.
+> 
+> So what changed to cause this to show up now?
+Starting from f6acf8bb6a40.
 
-ODEBUG: object ffffc90007cdf850 is on stack ffffc90007cd8000, but NOT annotated.
-------------[ cut here ]------------
-1
-WARNING: lib/debugobjects.c:672 at debug_object_is_on_stack lib/debugobjects.c:672 [inline], CPU#0: syz-executor162/6029
-WARNING: lib/debugobjects.c:672 at lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705, CPU#0: syz-executor162/6029
-Modules linked in:
-CPU: 0 UID: 0 PID: 6029 Comm: syz-executor162 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:debug_object_is_on_stack lib/debugobjects.c:672 [inline]
-RIP: 0010:lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705
-Code: c4 60 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc 83 c5 01 89 2d a0 1f 7d 1a 4c 89 e6 48 c7 c7 c0 39 62 8c e8 21 ae eb ff 90 <0f> 0b 90 e9 82 31 fe 03 83 c5 01 89 2d 7f 1f 7d 1a 49 39 c4 73 da
-RSP: 0018:ffffc90007cdf6c0 EFLAGS: 00010082
-RAX: 0000000000000050 RBX: ffff88802cb1d738 RCX: 0000000000000000
-RDX: 0000000000000050 RSI: ffffffff81ea1339 RDI: fffff52000f9bec9
-RBP: 0000000000000001 R08: 0000000000000007 R09: 0000000000000000
-R10: 8000000000000001 R11: 0000000000000001 R12: ffffc90007cdf850
-R13: ffff888034204b00 R14: 0000000000000000 R15: 0000000000000000
-FS:  00005555811b5400(0000) GS:ffff8880d5b57000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00005555811b8778 CR3: 000000002bbd8000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- lookup_object_or_alloc lib/debugobjects.c:682 [inline]
- __debug_object_init+0x2a9/0x3d0 lib/debugobjects.c:798
- __init_work+0x51/0x60 kernel/workqueue.c:697
- block2mtd_setup_defer+0xd7/0x1d0 drivers/mtd/devices/block2mtd.c:504
- block2mtd_setup+0x9c/0x1e0 drivers/mtd/devices/block2mtd.c:529
- param_attr_store+0x199/0x300 kernel/params.c:591
- module_attr_store+0x58/0x80 kernel/params.c:906
- sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
- kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
- iter_file_splice_write+0x830/0x10b0 fs/splice.c:736
- do_splice_from fs/splice.c:936 [inline]
- do_splice+0x109c/0x1fa0 fs/splice.c:1349
- __do_splice+0x33b/0x370 fs/splice.c:1431
- __do_sys_splice fs/splice.c:1634 [inline]
- __se_sys_splice fs/splice.c:1616 [inline]
- __x64_sys_splice+0x187/0x250 fs/splice.c:1616
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa1c31b3437
-Code: 48 89 fa 4c 89 df e8 98 1d 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffce5a2ac20 EFLAGS: 00000202 ORIG_RAX: 0000000000000113
-RAX: ffffffffffffffda RBX: 00005555811b5400 RCX: 00007fa1c31b3437
-RDX: 0000000000000005 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 00007fa1c31ec0fe R08: 0000000000000026 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00005555811b7770
-R13: 0000000000000026 R14: 00007ffce5a2aca0 R15: 0000000000000002
- </TASK>
-
-
-Tested on:
-
-commit:         238650ef Merge tag 'powerpc-7.3-4' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=143de115580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8c5c3949d762a91f
-dashboard link: https://syzkaller.appspot.com/bug?extid=7cab6a19619f1b8efc00
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=17ade115580000
-
+cheers,
+Edward
