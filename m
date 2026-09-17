@@ -1,93 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3B336EAB0;
-	Thu, 17 Sep 2026 10:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D43A3921C1
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789639754; cv=none; b=pV9XaJQE1YdVb1i1RyUhGCT1xiI0dZJizcX+74D3cDsvIUq9X5jiZlagfkj0rvqYGT7vcDo6L3e3G3xzVm/rqvsmwoGgzwNwbiBtaVMSo4XzdMjMOiokgqy1alJdWBQ1g9wTRr2VTXaXeZzJ35el93lnL5gjoa7/TrF+k3Be/Ss=
+	t=1789640909; cv=none; b=lD26Jku5rvxbM0sgAKZU4/8pe0ectXF/bVPMX2XeuvWUWRvdN7sVHaIaD1kCPWZZnqlV1GqlVQDjCWzKc7EaBJ8tURJ+pA1UuWJ640oTzOG7vHa7hfehDdPO8RcM4QdrZlXinajFHxruw4Y1211G1gJnRB/4kRgbVUzwXZTXZGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789639754; c=relaxed/simple;
-	bh=2X37nh7K5uVquc+LvQVufKLrvahJ/uPC5JXRwMnPEgo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Y7ffUDCwIQvEdaTNwex1fTW5k/oxei52S0qtZYVdWJYAFG8IR2IaR8Tu8m/hyQw0f87XGScJrnsuNDkjdMxmFb3muLWSTIJ/g4JmC3eaolexDvtpkgpo4xCQHuRrN5uXL4gNIRD7oUgyPfGP8BPQH6fGutG50QhUnzYB89YhOzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UCKHVYT4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789640909; c=relaxed/simple;
+	bh=/KGrvuzO5WgI2djWZCnyXfveLevJfivnlQ9jhj/0M7Q=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gUQHOSoXmU18r7aT2A9VZ27hvgoYLlyNf2zaik4fAx/sc767NO4aMk5uQlz77io2vV3k3s+SPhCMtecdOJVhi0s1BMy4LgCzN5as7eWgW8jGEpo3GbHtE1hqCcExu68rHs7CgHz3zjUtEOFsniu4yaJAVOMqgdbs1Wx6XNzf1TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eno8RS3B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCKHVYT4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859471F000FF;
-	Thu, 17 Sep 2026 10:09:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eno8RS3B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9591F0089F
+	for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 10:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789639753;
-	bh=0aMOmJdQxMNrdF46i58nol3JmFvCWCcIPMuGuEg79b0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=UCKHVYT4kzDe/1nQP1C7+Q9WDxQ32Mb+uWSm0mOCF/nohyQRwpvyZcRZrXkAoOyFD
-	 Fj7zMGLBU5bVlEewRso97kXKzTfilgUHnEBUsC9IvLcWsiSEJQtjCnhhRzA4r4fqKI
-	 CHJsEw6qtGb556u/MAlAbZYWdOpGsAxJjWFQwU87kFNOn/3FZBjqjpMOgVhsbQmRR7
-	 xKS6pA6eT8mfCSCkCX9aC2QzDNrmcxEVT5sbvIgKQ5A8XFf+hgVIRHIfFtOkTao0Ue
-	 nG5qakaj6QWXBZjmViqutu9lqM75Y6kchm98J0qn73iRmaSJRRBfnNIbBRyHbEs9G4
-	 ELvHjnuzucRsA==
-From: Christian Brauner <brauner@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Christian Brauner <brauner@kernel.org>, 
- Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260911182815.1992483-1-shakeel.butt@linux.dev>
-References: <20260911182815.1992483-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH v2 0/4] kernfs: don't hold kernfs_rwsem across
- dir_emit()
-Message-Id: <20260917-gewesen-favorisieren-zurechnen-8a2d2c23a5ed@brauner>
-Date: Thu, 17 Sep 2026 12:09:07 +0200
+	s=k20260515; t=1789640902;
+	bh=fUnCmQJMiMWVZ5F6RQNnetI76cz8E/J8n7008wDjvaw=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=eno8RS3Bzcy/1R+Ef38g17VWIzzAmMZusPCGws5p73k6TOV8xG5oRpp8fHU/N0bJD
+	 RQDWwUukZO4I1gBidY5VtIqV3ERGOs7sIs2QiRw+a27nyBFUtk6Zh3Ly2lls2sLVSI
+	 9SsWNdnri7yvuusUJRYfG5n8CfXeppYvgxiUzCHzdSU7+tE3YDanuMHBNua8wxZeQz
+	 oyDuKp7AMo8ca4HZ9Iefj0TzLiUtXXOhfTYaXXrtX+PFbmbu9zZYgRPPOaKuw/R+l9
+	 mtU8DWuDXQhevoh//F7161bfE3hBbkTjOs9ms2frkniWNYXQzG6/UDTvUvIqyZjIv3
+	 1E9b5cA+7E4dg==
+Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a5d0ad9b89so5482771fa.2
+        for <driver-core@lists.linux.dev>; Thu, 17 Sep 2026 03:28:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwhBQSB0OO506mMmpaPMoPQ+wkxRY/41RV2vbG9ec1sbr4C86hTytNXr7nD4bS900HGlRbmFNU+9IGEZA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lPabcZqcTjYJ9M+tDszCjiUPbXm46OshPW0jsja6QwPCNfqlHM
+	2o9xL3N/ALyqbPcLFyq2H5eGp2lGPdKWu7h4oUXqGa4OiiMtGK9iuWHC8Ttp6mA8xqaK675XLMC
+	zVkX6AD6h/UXgUIkjlk8gt3SG04YoCZ93Q1GQqMB1yg==
+X-Received: by 2002:a2e:a595:0:b0:3a3:74b9:8a7d with SMTP id
+ 38308e7fff4ca-3a5dca03df0mr10502251fa.22.1789640901382; Thu, 17 Sep 2026
+ 03:28:21 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Sep 2026 06:28:20 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Sep 2026 06:28:20 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260912123529.7951-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-db0b7
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1479; i=brauner@kernel.org;
- h=from:subject:message-id; bh=2X37nh7K5uVquc+LvQVufKLrvahJ/uPC5JXRwMnPEgo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSt3uPaNGPJNImHb7/mizzknPXL0Pbtsb1d+4S6F+92a
- sg78TT5a0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEHJ8x/JV5zRo8nceum5vl
- ee6M2U2iYnd1xGa/Xl1xanXRHYGLPdsZGebZvNwe+njjxFLhZStnXjrzQ33TVo3qCJngs0eVzwh
- 8nMYAAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+References: <20260912123529.7951-1-tzungbi@kernel.org>
+Date: Thu, 17 Sep 2026 06:28:20 -0400
+X-Gmail-Original-Message-ID: <CAMRc=MfohVc8Cg0exc6EQggiq_QgYTpQHLF-OomKFwWO_Ay2gw@mail.gmail.com>
+X-Gm-Features: AcwNN1Wk-k5l4_dC4zg7mrE7Or59D0lDd35pgExi6SmDys6wSdeqpqTNlj0MpCg
+Message-ID: <CAMRc=MfohVc8Cg0exc6EQggiq_QgYTpQHLF-OomKFwWO_Ay2gw@mail.gmail.com>
+Subject: Re: [PATCH v13 0/3] drivers/base: Introduce revocable
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 11 Sep 2026 11:28:11 -0700, Shakeel Butt wrote:
-> kernfs: don't hold kernfs_rwsem across dir_emit()
-> 
-> kernfs_fop_readdir() takes kernfs_rwsem for reading and holds it for the
-> whole listing, dir_emit() included.  dir_emit() copies into a userspace
-> buffer, so it can fault, and under memory pressure that fault goes to
-> reclaim.
-> 
-> [...]
+On Sat, 12 Sep 2026 14:35:26 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> This series introduces the "revocable" mechanism, a synchronization
+> primitive designed to prevent Use-After-Free errors.
+>
+> - Patch 1 introduces the revocable which is an implementation of ideas
+>   from the talk [1][2].
+>
+> - Patch 2 adds KUnit test cases.
+>
+> - Patch 3 transitions the UAF prevention logic within the GPIO core
+>   (gpiolib) to use the "revocable" mechanism.
+>
+>   The existing code aims to prevent UAF issues when the underlying GPIO
+>   chip is removed.  The patch replaces that custom logic with the
+>   generic "revocable" API, which is designed to handle such lifecycle
+>   dependencies.  There should be no changes in behavior.
+>
+> Since v9, there are two ways to manage the resource provider handle.
+> - Embedded allocation: patch 3 is the user.
+> - Dynamic allocation: no user yet; I could find it later.
+>
+> [1] https://lpc.events/event/17/contributions/1627/
+> [2] https://lpc.events/event/19/contributions/2262/
 
-Applied to the vfs-7.4.kernfs branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.kernfs branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.kernfs
-
-[1/4] kernfs: don't repeat or skip an entry when readdir resumes
-      https://git.kernel.org/vfs/vfs/c/5ebcb578adee
-[2/4] kernfs: resume readdir on the full entry key
-      https://git.kernel.org/vfs/vfs/c/45126ed80bb1
-[3/4] kernfs: don't hold kernfs_rwsem across dir_emit()
-      https://git.kernel.org/vfs/vfs/c/341c65579de5
-[4/4] selftests: cover readdir resuming at a removed entry
-      https://git.kernel.org/vfs/vfs/c/a4354906005d
-
+Tested-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
