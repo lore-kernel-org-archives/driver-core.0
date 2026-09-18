@@ -1,275 +1,180 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FDB502780
-	for <driver-core@lists.linux.dev>; Fri, 18 Sep 2026 13:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739252; cv=pass; b=BqVTpnVcoj7f+k8m2swAInfnjfR+W6q8SUSxJsZeBwKFnOzSjgN8juARHoiEd1Fy+LQknM8+CYOcfVQiaMcNyxLdPJfJFvOEyJdqQgNYgc6N3a1myKqXeiT9apv5piR78DEG4wdGem7tkK+C/eBMu+VhYJomm6W9ZMUSzpabTQ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739252; c=relaxed/simple;
-	bh=fudkRpOvqijVuJwy/VHO9zMcAmf9hSjmeOSE6UueqG0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cq92U4h5l1Xhh48tEzYJKjo9RoIN3We4PF/F9jTaH2wJIFq287ubcasVErMVlq+1fc+infN0N4ZDonXCuusN7ciHISfPy3BZ1kaehm9rlM7QmSnMZC2vtiHqwRWZtPB+CYsKfJOCLZ/8tsfNtym4HqROQrncYe1q+5jwZDgpRwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NveJ+CK4; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A59F5013D0;
+	Fri, 18 Sep 2026 15:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789745018; cv=none; b=ZWl6zEViUDfFfXjmoYoR3XbhCXezJkNIz/AJHVABiG8bqA7NZyHRh1+HBPtG23QEczrdwPB2sgXb15cXqjdruHloi2GAYfhbYpVZcZABbTcGFQq8wPHzRq6RVTDfcF4IjPBYEG0gtxUCwIVUCZgFpC5loza3Fpba8ThxZF8INi8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789745018; c=relaxed/simple;
+	bh=AgtCk1IR2NnW2csAy3ZG2AVpreeujXaGKrRl+JM98QE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FFsyCMLGtKHPUYhMnQe2pYf+oiCSsKp0Sa/US5uOmf5LyLGGEsmZIIldblAWuQUCDZA2ZXWAt30WGKngyWHFwgS0zz220sHqf8lBSh6C9U6ovmFTomtX8u4YODEo+RXEzStFk98o3Wpr233+W7hbRicRUTSFV/z1oOJ3CJWT8lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Rd/CzOJ4; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NveJ+CK4"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f6c7a58so100334866b.2
-        for <driver-core@lists.linux.dev>; Fri, 18 Sep 2026 06:47:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789739249; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TkMhTn4Ozf0YYs7HMMRUmE7xd4lUk3ti+YWaRC6zNnRmTcHGTaQRNh3y/xibWzAnxz
-         ADerYcUTj6tRTBZJP4eg8T/cWhm5TW3c8YbtIbLDvmH/dZtPtC59ZugAwk+QuRlQUR0T
-         AuAsxlbhSdc1+3UAI9keqDt9x6D9njLV0/oqIEM306XxODibZJ91HnuunCXOxDFj+lKO
-         L+7K3bjdMrnZDaaLAaZ2vIypgdDiA+d+uZeswRbWCpZg9qYAL8uV4k9wodlUObVA7fBN
-         oHTJcxehsFxwuMMsthDWdqiMqeN5p019ByPgY525ar1fcB0iQjlcpePyzsNnfR0GU1ZY
-         lETQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QO8ZLWws9kX6Lxf9eVXFyTYmcZBNVguGNqNy3JkPkOY=;
-        fh=cwu1w9wXC4hjtHo2ALxZbYa1Cv9OE2zm9jrZmA5KIOw=;
-        b=UMe8iZIqB8ndlNdnlq1K7E1NjU5mCkohdnJ3+fuHGbXnwCb9bPDOcxl6nPshzJRkHk
-         wj4HuLvPcFeK8w04Fekig+T7dlgxptItqJF9YABi9dtDwYNWYWkxaafCAvRUb5dC9v/A
-         yKI9wXdRbbsJZyWIKeG4QFK1TfIVxLzEPMYoxo0j0MtHgNPtPNjGQvPuL6XU8vwJBXwU
-         WBBukULx0e6F2+fmLIlL4AXq+4Zr6v+tlPsZ52I4vzui7DiqD8JTOgePAVl/J8oIepcE
-         y+4DLA/5QaWUXnpgY98RHq+KBtHNUrAwXpqK43dF1gEMg4LuVyqWX0Jz/NT1fVHbZlFY
-         n7mg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1789739249; x=1790344049; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QO8ZLWws9kX6Lxf9eVXFyTYmcZBNVguGNqNy3JkPkOY=;
-        b=NveJ+CK4xdwPPvpsqoX55rCUeMf2G2nLmdBXPE8MlJ6Yfh3LUADVz9Er/7QkovJuos
-         oUkuUiBrlNpZc0RECRjcPXOIHSCu/8+/fDuAoa9/3ILSDyVb/ufah6dM7BzQn9WVrVvd
-         yo1jByaZN9Go9WO+E/IZDf0AwNxLw8EagBOvywQLrdqLXz7LF6W2Mnz7kBwvIugmWEoQ
-         KElT2fVOz+82qBAWJ6kQ3I1u1Q49Y9VGAtL8FIho/b3cPNeMqqlk+Km3G6zxim3s8bEL
-         dV8sHIUscSsUanfYIMWjNOCwlI9CHsWW/dSS89EAJGPkA6kC9evcwSnK+lj6QYjGhpHS
-         dQaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789739249; x=1790344049;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QO8ZLWws9kX6Lxf9eVXFyTYmcZBNVguGNqNy3JkPkOY=;
-        b=2mvO15xrF3drHhbbtdtrNB4veFjaPcDyNu1WISHtmwUTerorLpKXOe/eEOmtP73CQk
-         LXTSSHqPD7NziVuqBeLC8fJXyFoegaLO3708O/X2YId+GnU52snK5/Cas3xT/Jk5emkm
-         cQ7KgNQiVgzbF3zSj3F01kFhkkLp7DzBUUV+31U/5fv3Lhs76rJCnmXjHJDkpTpcgUby
-         LlUaeovp71w8i2La3OH7ZEU2YYy3XK+naXWEtgF04bdvWEDR25Eq3CXJH5UYFnXGuJcK
-         PDm8jnLaKarSQGISjzexllZwGSMAVT8GWkMq2qvLNIQaztdPNepmEv+KsLFQJ88mJKeg
-         E1mw==
-X-Forwarded-Encrypted: i=1; AKwUvBybw8pPN4dRw9Qvh96OXEKOwDYNuYMDfNJE81wQ8ebrz64gMD2Yc15ujpC0ew88/jIiL+ttHpOD1ixq7w==@lists.linux.dev
-X-Gm-Message-State: AFuF++nmisTanSTzg7fiTRygYmq7AbGcgrUpDG4iyG+ZxUrNBPBGBgEA
-	BxcTQcP0XrEQf7jr6+YonWsIowTHLt6uBuYPECHGCAKxeRusEjah68n4jtyQCOYy3F3tVM5tI/6
-	fw5P7V9qihbHN7MIYBbLWKoK+0ry0Ax66kuD71XrAGQ==
-X-Gm-Gg: AYBFou0WgbISRFw3t2J4Zq7FgmIiFI4/WEfE6ReLS7eT0tb8stOQMI4lA2hQc8D+ndw
-	J9L/tMWZ4/uFpmfkCmDiPch3ckTpT/PM7GK2e14u2g+2O80o5Deb32j4FJez3PW2d+1MJ5U47kz
-	vLD6+j0sx3GqYNs9dNKSILesOrl+5bGf+K9sjR5+HLzT06qZ2GdLIViDT2G2Aj4h7x4raVuzvt/
-	jHMf0YluJb1NnuR7NRmqhgK9K92BnJH5/WH4ndah30Ut+oGIidchzEF10tAfYbVD2AXCUKPSsv1
-	Lg4gA+NDZVnHNP9UFzPsoFP1Kb61i37RCDFA2e2QvcAVmQHZIHY/UiQ7v1egb7wUmlLbj6zyoUm
-	PVL5dsHyuheOA
-X-Received: by 2002:a17:907:1ca4:b0:c26:1649:47b4 with SMTP id
- a640c23a62f3a-c2a15b992d7mr309203166b.42.1789739248591; Fri, 18 Sep 2026
- 06:47:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Rd/CzOJ4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wEcH5E4AEzqLkF0Ir17t22goJx7MrsfhZ+RepQ30l9U=; b=Rd/CzOJ4Wdpu0aeXB7YKPQv3Px
+	AjPJ9UARjooUYAYq3DQxrzJq+fUfuC5JUayYjmsvt8yCxCbZj0VeTNPtxZLNFTM8YMGDnrpqBM+Yq
+	b/WUexOikEof1KpPd+VepJJAc8Dd6Ym2ANAzqeLfjDmhnYKZmNAouR29ft6Rmnr1cjRHt/D95Tq6J
+	ktHYO3BsruwP/wwhSUheRPB8nqU8mlkq/t99Xgierr9euxpXG/HqAPyUQeiLSPVuSeLsQYjTB5bbc
+	rNocdUJT8Ii177MByzY5QFDdsCVelqAU2U7i1reluFG+QDcod7VoHIYunualBSHBhMS57u3Gwj1r5
+	yJ0+/IgQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x7aQN-006oxZ-1y;
+	Fri, 18 Sep 2026 15:22:51 +0000
+Date: Fri, 18 Sep 2026 08:22:42 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, kas@kernel.org, 
+	kexec@lists.infradead.org, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, hannes@cmpxchg.or, 
+	shakeel.butt@linux.dev, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, rmikey@meta.com, riel@surriel.com, harry@kernel.org, 
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v5 7/9] drivers/base/memory: count inherited poisoned
+ frames into the block
+Message-ID: <aq1RaH0eE0hZfNpr@gmail.com>
+References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
+ <20260915-hwpoison-kho-v5-7-3bc7a57bd503@debian.org>
+ <de41b78a-8471-4832-be0c-35d410a4499a@kernel.org>
+ <aqpczrtIwSG948iv@gmail.com>
+ <b8ad366a-a019-4462-9dce-f687f60ee7f2@kernel.org>
+ <aqvHHHuWJ-y4WRJZ@gmail.com>
+ <caac2cb9-8faa-49bc-ae8a-47c5fd7b7e58@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
- <20260908-schedutil-boost-frequency-handling-v2-1-25312a713699@oss.qualcomm.com>
- <CAJZ5v0jbYHcEWqqO3YSbwyeHBLkYCFn+_nQ9Ktt3yYPPcNH6LQ@mail.gmail.com>
- <CAKfTPtBkv2yG6ne2FG5NUY9QfeY2XTYg=GKnyzoFawkweK-EYA@mail.gmail.com>
- <CAJZ5v0h+ibqtvTyOqG+iy2vOLCXx9WwfHSoUu1URDCvzBYU_sA@mail.gmail.com>
- <CAKfTPtATz-aToAVh4sGsTRKM+0sOoVW4AC6gjufAjrFyZg1zFA@mail.gmail.com> <CAJZ5v0i_QYa-LcrK1U1VZjZZiJ3d-9hPbMdBbaGoqMds0BAU6w@mail.gmail.com>
-In-Reply-To: <CAJZ5v0i_QYa-LcrK1U1VZjZZiJ3d-9hPbMdBbaGoqMds0BAU6w@mail.gmail.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Fri, 18 Sep 2026 15:47:15 +0200
-X-Gm-Features: AcwNN1W01KcSqUZt1AGSU22f1iJKGB9-Hw3ulW0-SUdG6V6LxuDXDp0Zb6T8r5k
-Message-ID: <CAKfTPtB2YZDy11sXgu06v9WBORBeMQ6z5riCfajyqvC_kAfXLg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arch_topology: seed capacity_freq_ref with
- boost-aware max freq
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Ananthu C V <ananthu.cv@oss.qualcomm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <caac2cb9-8faa-49bc-ae8a-47c5fd7b7e58@kernel.org>
+X-Debian-User: leitao
 
-On Fri, 18 Sept 2026 at 15:34, Rafael J. Wysocki (Intel)
-<rafael@kernel.org> wrote:
->
-> On Fri, Sep 18, 2026 at 2:36=E2=80=AFPM Vincent Guittot
-> <vincent.guittot@linaro.org> wrote:
-> >
-> > On Fri, 18 Sept 2026 at 14:05, Rafael J. Wysocki (Intel)
-> > <rafael@kernel.org> wrote:
-> > >
-> > > On Fri, Sep 18, 2026 at 8:24=E2=80=AFAM Vincent Guittot
-> > > <vincent.guittot@linaro.org> wrote:
-> > > >
-> > > > On Thu, 17 Sept 2026 at 21:07, Rafael J. Wysocki (Intel)
-> > > > <rafael@kernel.org> wrote:
-> > > > >
-> > > > > On Tue, Sep 8, 2026 at 10:31=E2=80=AFAM Ananthu C V <ananthu.cv@o=
-ss.qualcomm.com> wrote:
-> > > > > >
-> > > > > > capacity_freq_ref, the per-CPU frequency-invariance reference u=
-sed by
-> > > > > > schedutil, is seeded from policy->cpuinfo.max_freq at policy cr=
-eation.
-> > > > > > If boost frequencies are filtered out of the frequency table be=
-cause
-> > > > > > boost isn't yet enabled at boot, max_freq only reflects the non=
--boost
-> > > > > > ceiling, so capacity_freq_ref never learns about boost frequenc=
-ies for
-> > > > > > the policy's lifetime. Enabling boost later raises policy->max,=
- but
-> > > > > > capacity_freq_ref stays stale, leaving schedutil unable to scal=
-e
-> > > > > > utilization or target a frequency above the non-boost maximum.
-> > > > > >
-> > > > > > Track the highest frequency in the table regardless of boost st=
-ate
-> > > > > > (max_table_freq) and seed capacity_freq_ref with max(cpuinfo.ma=
-x_freq,
-> > > > > > max_table_freq), so the invariance reference is boost-aware fro=
-m boot
-> > > > > > regardless of whether boost is currently enabled. Runtime enfor=
-cement,
-> > > > > > still handled by policy->max, is unaffected.
-> > > > > >
-> > > > > > Suggested-by: Vincent Guittot <vincent.guittot@linaro.org>
-> > > > > > Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-> > > > > > ---
-> > > > > >  drivers/base/arch_topology.c | 3 ++-
-> > > > > >  drivers/cpufreq/freq_table.c | 6 ++++++
-> > > > > >  include/linux/cpufreq.h      | 1 +
-> > > > > >  3 files changed, 9 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_t=
-opology.c
-> > > > > > index 8c5e47c28d9a..da94f77441da 100644
-> > > > > > --- a/drivers/base/arch_topology.c
-> > > > > > +++ b/drivers/base/arch_topology.c
-> > > > > > @@ -404,7 +404,8 @@ init_cpu_capacity_callback(struct notifier_=
-block *nb,
-> > > > > >         cpumask_andnot(cpus_to_visit, cpus_to_visit, policy->re=
-lated_cpus);
-> > > > > >
-> > > > > >         for_each_cpu(cpu, policy->related_cpus) {
-> > > > > > -               per_cpu(capacity_freq_ref, cpu) =3D policy->cpu=
-info.max_freq;
-> > > > > > +               per_cpu(capacity_freq_ref, cpu) =3D max(policy-=
->cpuinfo.max_freq,
-> > > > > > +                                                     policy->c=
-puinfo.max_table_freq);
-> > > > >
-> > > > > So isn't capacity_freq_ref supposed to correspond to the CPU capa=
-city
-> > > > > returned by arch_scale_cpu_capacity()?
-> > > >
-> > > > capacity_freq_ref is the frequency that has been used when computin=
-g
-> > > > the capacity at boot
-> > >
-> > > I get it, and so it is what I wrote above: The frequency of the CPU
-> > > when running at the arch_scale_cpu_capacity() performance level.
-> > > Isn't it?
-> >
-> > Original it was not strictly tight to arch_scale_cpu_capacity but to a
-> > ref capacity but it ended up being arch_scale_cpu_capacity
->
-> OK
->
-> > >
-> > > > and it should not change at runtime wether the
-> > > > boost is enabled or not, otherwise you will have some fluctuation o=
-n
-> > > > the system capacity that will create issue with PELT and scheduler
-> > >
-> > > So the capacity should be constant and consequently, capacity_freq_re=
-f
-> > > should be constant.
-> > >
-> > > Also, if boost is not enabled when capacity_freq_ref is set and there
-> > > are frequency levels marked as "boost" in the table, it cannot be the
-> > > maximum frequency in the table because that's not what is used for
-> > > computing the capacity.
-> >
-> > I'm not sure I follow your last point above. It's not because boost
-> > isn't enabled at boot time that we can't the highest boost OPP in the
-> > table as a ref freq to compute  arch_scale_cpu_capacity. In this case,
-> > the CPU will have a pressure on its capacity until the boost is
-> > enabled. Do I miss something ?
->
-> Well, I'm not sure if my understanding is correct.
->
-> Suppose that the cpufreq driver has a frequency table which is
-> processed by cpufreq_table_validate_and_sort(), right after the
-> driver's ->init() has returned.
->
-> That function calls cpufreq_frequency_table_cpuinfo() for the first
-> time and policy->cpuinfo.max_freq is set.  However, if boost is not
-> enabled (that is, cpufreq_boost_enabled() returns false or
-> policy->boost_enabled is false), it only takes frequency table entries
-> without CPUFREQ_BOOST_FREQ into account, so policy->cpuinfo.max_freq
-> is one of those frequencies.
->
-> I would think that the CPU capacity has already been set at this point
-> and now the question arises whether or not it corresponds to
-> policy->cpuinfo.max_freq because that is what is assumed by
-> init_cpu_capacity_callback() invoked subsequently (via the
-> cpufreq_policy_notifier_list chain).
+On Fri, Sep 18, 2026 at 02:18:03PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/17/26 15:01, Breno Leitao wrote:
+> > On Wed, Sep 16, 2026 at 04:51:40PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 9/16/26 11:35, Breno Leitao wrote:
+> >>>
+> >>> hmmm, I am not sure I see it that way.
+> >>>
+> >>> The loop only runs for a block the bitmap marks. On a machine with nothing
+> >>> recorded the bitmap is all zeros, the range_contains_poisoned_memory() check
+> >>> right above it returns false, and the loop never executes.
+> >>>
+> >>> What every boot does pay is that check, once per block. The stub installs
+> >>> the table whether or not anything was ever recorded in it, so this is not a
+> >>> NULL test: it is two 64-bit divisions by the unit size plus a
+> >>> find_next_bit() over the single word a 128M block covers at one bit per 2M.
+> >>>
+> >>> The real cost (that "for loop above"), comes when you kexec (not on cold
+> >>> boot -- given the bitmap is empty), and you are trying to init
+> >>> a memory block that has poisoned pages into it. Which seems the right
+> >>> trade-off, no?
+> >>>
+> >>> That said, can we do better? Yes. The silly win is to let the table say
+> >>> whether anything was ever recorded in it, something like a
+> >>> linux_efi_poisoned_memory->empty that the first recorded frame clears,
+> >>> and return on that before the bitmap is reached at all.
+> >>>
+> >>> Is this what you are looking for, or something more drastic?
+> >>
+> >> Ah, that magical "range_contains_poisoned_memory" does a bitmap scan?
+> >>
+> >> I'm sorry, but that is absolutely confusing.
+> >>
+> >> There is no way someone will figure out that range_contains_poisoned_memory()
+> >> queries some efi specific bitmap that won't even be able to represent any memory
+> >> outside of it's range.
+> >>
+> >> I don't really have time to give a better solution, but starting with the
+> >> naming, range_contains_poisoned_memory() is just absolutely misleading.
+> > 
+> > Fair point, I'll clean up the naming in the next revision.
+> > 
+> > I'll also add that ->empty field, which should help locate this bit
+> > faster and may let us skip the bitmap query entirely on the happy path.
+> > 
+> > Anything else you'd like addressed?
+> > 
+> > Good to know this moved the needle from "David hates this feature" to
+> > "David only hates the naming" -- I'll take that as progress.  :-P
+> 
+> ;)
+> 
+> I think the crucial part is to find a way to cleanly distinguish our source of
+> information, and also how the source does only apply to some memory.
 
-init_cpu_capacity_callback() will normalize the capacity of all CPUs
-once all cpufreq drivers have been probed and it will then trigger a
-rebuild of the sched domain with these final CPUs' capacity
+Right, we have two source for poisoned page information, today.
 
->
-> The $subject patch seems to suggest that the answer is "no" and the
-> capacity really corresponds to the highest frequency in the table
-> which may be flagged with CPUFREQ_BOOST_FREQ.  Is that always the case
-> though and if not, then how can we tell?
->
-> > Can the boost OPP be added later?
->
-> Not really.  It is already there in the frequency table, but the
-> question is if that's the capacity OPP.  I guess we need to assume so?
+1) LINUX_EFI_POISONED_MEMORY: Used to track memory block that got
+   poisioned, and will be passed around during kexec.
+2) PG_hwpoison on struct page: Used by the memory subsystem to avoid
+   touching it.
 
-okay, I was just to confirm that this can't happen
+And I understand that this design is fine, and we want to be easy to
+identify what we are querying on function name. For instance,
+I understand you confusion in range_contains_poisoned_memory() came
+from:
 
->
-> > We keep taking the max between freq table and cpuinfo.max_freq fo the
-> > case where the boost freq is not listed is the freq table or there
-> > isno freq table. Or there is another way to get teh boost freq in thsi
-> > later case ?
->
-> No, I think it's the only way.
->
-> So init_cpu_capacity_callback() should find the highest frequency in
-> the table (regardless of whether or not the "boost" flag is set) and
-> set capacity_freq_ref to that one for each CPU UUIC.
+range_contains_poisoned_memory():
+   * What the caller reads: 
+	* "is any memory in this range hardware poisoned?"
+   * What actually runs:
+	* "is any bit set in an EFI table that a PREVIOUS kernel wrote,
+	   at 2 MiB granularity, for this memory region?"
 
-yes
+So, I think think this is a naming issue, and I need to think more about
+it. Maybe appending efiposioned (on data that is coming from EFI config
+table). Let me think more about it.
 
->
-> That's roughly what the patch does, but it can get away without adding
-> a new field to struct cpufreq_policy.
+> Regarding this patch here, I'd assume it's sufficient.
+> 
+> But I do wonder why we are walking pages when we have a bitmap to walk/process
+> at hand?
 
-Yes, That was my point: we don't need a new field to find the highest
-frequency in the table (including Boost OPP)
+Because the counter has to agree with the page flag, and the page flag is
+not the bitmap.
 
-Thanks
+PG_hwpoison in a block is the union of every source that poisoned a
+frame; the inherited EFI table is one of them, and it is the coarse and
+partial one.
 
->
-> And the changelog needs to be rewritten to tell the true story.
+You might ask why I do not just count the bits set in the bitmape and
+multiply by the frames a unit covers.
+
+That was my first try. It over-counts: a bit stands for a whole 2M unit,
+but only the frames that reach __free_pages_core() get flagged -- CMA
+comes back through __free_pages(), the initrd and __init memory through
+free_reserved_pages(), and KHO-preserved frames never get an initialised
+struct page at all.
+
+And the over-count cannot be undone later. 
+
+If the walk itself is what bothers you, the way out is not the bitmap
+but counting as we flag: hwpoison_boot_page() already knows the pfn, so
+it can bump a per-block-id counter in a small memblock array that
+memblk_nr_poison_init() then just reads.
+
+Exact by construction, no walk. Happy to go that way instead if you
+prefer it.
