@@ -1,38 +1,38 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A4A4ABBB3;
-	Fri, 18 Sep 2026 10:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF954B04B2;
+	Fri, 18 Sep 2026 10:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789725875; cv=none; b=rLm274Mfb/iMcFWMnP69EfFPtc7e3e6dtug6HvBYdXMdXwZfKUJQIPL+31YQnPxOz1dKaZPEVvjyBnv52/TY6IvWuiuZIJ95tu2CGoRVeLOtsf8cbUoOzb6KebwlwDEeEorncyKw65kK9ryNqEbZ4Rz+DlkCLY/taAydWjC9zZs=
+	t=1789725876; cv=none; b=AWifLkBcMIxhk6yQZ9I6SWxjrsV7cYvKLQwA64oEm6nx+KJnIP9pvrBW/OtHSmNt9R3IyLZTA/bAwcSjewseeWjPpmjbpOHEm7FaWFwjOYUvy1ryLw7zUntIzqHSyYXGChxWMdI65w/vWJ0xkf42gkEaGcy+2nxa0COt9EYM+3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789725875; c=relaxed/simple;
-	bh=Ygfamq+zVCgcwFeC3h6mtl26Diwqy0m0fQ1dYnRCot0=;
+	s=arc-20240116; t=1789725876; c=relaxed/simple;
+	bh=p/IWpq+C7u+MF6XwAB7/2JQrgRcXiQhePJ2btwJFrYI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ncz5a5KnG1jAwEklA7ueGgsZJhegyX+FGwZLf1xK2Zor57GTmFACQYZni2IRm6ETnymRBJxfBr7dSvziX3CrLgt4NrA5C3Pzmd+aULrUcSLf9Xfhv8SLD48CEuG5SEFq5L6slMHYYNQF9kBXLPSlhCqoL+2hqjfJ09zrcRUDQP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=h20MzYgr; arc=none smtp.client-ip=113.46.200.223
+	 MIME-Version:Content-Type; b=WvRERY+UAQauYhAwMSRFwgr+vZHXG6hnmXKW3ivtSS8F771N3aELaA+IZlh6vVnEg0xX1YeObcYv3kEw+6CjvIIUWEn1dIHZjrtlbNb0+TG70DTtP+P3u25XqcCNZpcSsAijw107Kld/TL0eaLSeocHZ5Sbz6j0XGBpMDJGbi4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=BckyjycA; arc=none smtp.client-ip=113.46.200.226
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="h20MzYgr"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="BckyjycA"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=20ZJiQbk77XpGyt2zLlFzhTV8L6cgd0AT+Mg72ZNP+o=;
-	b=h20MzYgrtfLEEV4IsF22m8M0aeU+9fIDiLpJWraCVTgEvlTBvhYu0irkyY7dZ8KlR25j3eFDX
-	uDHiuEi34Vyc2FyCL6c39JSfjX+M3Cz00j/vkUz1PTc66H//7kIYPJQEJrTEE3IZKzXvZCqcFXg
-	laCNtc/NvKopW2lnm4CTtD4=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hmScJ5pDBzmVWf;
-	Fri, 18 Sep 2026 17:53:20 +0800 (CST)
+	bh=zufRRvpwVHCucp4/a8wU/krIeaWea9Chc2jByLlFL4c=;
+	b=BckyjycAl3ciFIMoUA4aZPGw9VUPen7PpwqZaxbivk06HsP2G2e1o1OYRpVjCGxZ5ScmXWiON
+	VLeKRZcC4u9YJAKQArJ+X4FgbKFWIz3sdq8RcX+POy8ZO6Pxq07qezk90rBm7yrQxrk4UOcJCME
+	uqEZBVLJJhWv39vUktkr7hk=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4hmScN3dtKzKm8V;
+	Fri, 18 Sep 2026 17:53:24 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id DC0BB40586;
-	Fri, 18 Sep 2026 18:04:20 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 17A674057C;
+	Fri, 18 Sep 2026 18:04:28 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 18 Sep
- 2026 18:04:19 +0800
+ 2026 18:04:26 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
@@ -58,9 +58,9 @@ To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
 	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
 	<driver-core@lists.linux.dev>, <kexec@lists.infradead.org>,
 	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>
-Subject: [PATCH v5 08/17] LoongArch: kexec_file: Fix a modified_cmdline leak
-Date: Fri, 18 Sep 2026 18:04:33 +0800
-Message-ID: <20260918100442.3841135-9-ruanjinjie@huawei.com>
+Subject: [PATCH v5 13/17] crash: Assert device_hotplug_lock in crash_get_memory_ranges_nolock()
+Date: Fri, 18 Sep 2026 18:04:38 +0800
+Message-ID: <20260918100442.3841135-14-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260918100442.3841135-1-ruanjinjie@huawei.com>
 References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
@@ -75,47 +75,66 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
  kwepemk200008.china.huawei.com (7.202.194.74)
 
-load_other_segments() allocates modified_cmdline and stores it in
-image->arch.cmdline_ptr.  machine_kexec_prepare() then copies it to
-KEXEC_CMDLINE_ADDR and overwrites the pointer, so the heap buffer is
-leaked on every successful kexec_file_load().
+crash_get_memory_ranges_nolock() walks memblock, which memory hotplug
+modifies under device_hotplug_lock.  A caller that does not hold the lock
+can race with memblock_double_array() and iterate a freed regions array.
 
-Free the buffer after the copy.
+Add device_hotplug_lock_assert_held() and call it at the top of the
+function so that such callers are caught by lockdep.
 
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Kexin Liu <liukexin@kylinos.cn>
-Cc: Youling Tang <tangyouling@kylinos.cn>
-Cc: Qiang Ma <maqianga@uniontech.com>
-Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
-Cc: George Guo <guodongtai@kylinos.cn>
-Cc: stable@vger.kernel.org
-Fixes: d162feec6b6e ("LoongArch: Add preparatory infrastructure for kexec_file")
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- arch/loongarch/kernel/machine_kexec.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/base/core.c    | 5 +++++
+ include/linux/device.h | 1 +
+ kernel/crash_core.c    | 7 +++++++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/arch/loongarch/kernel/machine_kexec.c b/arch/loongarch/kernel/machine_kexec.c
-index 1883cae93bc3..19ccc91b6f2a 100644
---- a/arch/loongarch/kernel/machine_kexec.c
-+++ b/arch/loongarch/kernel/machine_kexec.c
-@@ -14,6 +14,7 @@
- #include <linux/mm.h>
- #include <linux/of_fdt.h>
- #include <linux/reboot.h>
-+#include <linux/slab.h>
- #include <linux/sched.h>
- #include <linux/sched/task_stack.h>
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4c0c373998a1..c04adc457a96 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2420,6 +2420,11 @@ void unlock_device_hotplug(void)
+ 	mutex_unlock(&device_hotplug_lock);
+ }
  
-@@ -56,6 +57,7 @@ int machine_kexec_prepare(struct kimage *kimage)
- 		 */
- 		memcpy((void *)KEXEC_CMDLINE_ADDR, (void *)kimage->arch.cmdline_ptr,
- 					strlen((char *)kimage->arch.cmdline_ptr) + 1);
-+		kfree((void *)kimage->arch.cmdline_ptr);
- 		kimage->arch.cmdline_ptr = (unsigned long)KEXEC_CMDLINE_ADDR;
- 	} else {
- 		/* Find the command line */
++void device_hotplug_lock_assert_held(void)
++{
++	lockdep_assert_held(&device_hotplug_lock);
++}
++
+ int lock_device_hotplug_sysfs(void)
+ {
+ 	if (mutex_trylock(&device_hotplug_lock))
+diff --git a/include/linux/device.h b/include/linux/device.h
+index aee79fd6b32b..9cca8c8bd372 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1261,6 +1261,7 @@ do { \
+ void lock_device_hotplug(void);
+ void unlock_device_hotplug(void);
+ int lock_device_hotplug_sysfs(void);
++void device_hotplug_lock_assert_held(void);
+ int device_offline(struct device *dev);
+ int device_online(struct device *dev);
+ 
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index 760ca9822a13..852a5f51d472 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -338,6 +338,13 @@ int crash_get_memory_ranges_nolock(struct crash_mem **mem_ranges)
+ 	struct crash_mem *cmem;
+ 	int ret;
+ 
++	/*
++	 * Callers must serialize against memory hotplug by holding
++	 * device_hotplug_lock, otherwise the memblock iteration below can
++	 * race with memblock_double_array() and read freed memory.
++	 */
++	device_hotplug_lock_assert_held();
++
+ 	max_nr_ranges = arch_get_system_nr_ranges();
+ 	if (!max_nr_ranges)
+ 		return -ENOMEM;
 -- 
 2.34.1
 
