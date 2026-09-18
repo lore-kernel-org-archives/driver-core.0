@@ -1,89 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AADD2EEE8A;
-	Fri, 18 Sep 2026 15:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0353515F9;
+	Fri, 18 Sep 2026 16:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789746835; cv=none; b=DHSWBHU2lCublLHbjrpNT4TXoUTqfl7Qc1F+NPZXdxHEx+UqoSOPitAghU3qPWjbKUGX5g2dP93jj8i0xBSEmcM6Xxdf/YQOM3PQlM4ZldvXNxSLrL51K5MMRqI9Ygxe3iONFAOxD+9fm7QjkkKMf+7dvnLBCZ04SCMRdbgyl1w=
+	t=1789749549; cv=none; b=fqpg+IN0WbjsntQbWx0tdXlKonUT/c5oIksd6WCxa3iVlnRPs1uj+fRo0t+0y30xXFW+Nzd95piDJPyMamcZrH1lyuXj/FE2Xae8iAEAYu2HekoPLH5JhTgWtZ1Uvt2MiyglH1vPA6iMMZRxmaTOezlz2hb23PcQhco/mAViIvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789746835; c=relaxed/simple;
-	bh=Zz0HowFz1DRXJxqvbviPYdYtj5Lq4iMssj0Vb4eQCqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hTeUfzXJbnpRh3g9wpPpK8yQEu/6c0dUIu62puuaijCVb/tSzACWU6UFH4AykWuWdGrxRuEMk+pudyXIjFS3YktPI1SDn1+BWeTtqSEWrxlOM4Sffqpk9Gx/FKjG3PISSs5MAfZm05N/7+8hh3OBWyg+HdY4ygcb/nYcILmrvwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IIEriSXV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789749549; c=relaxed/simple;
+	bh=yKgqDhth18rfq4TSlyCvIyYEuIgAYU4N900hfByc7S0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=MFJZfyyeYURrrVrGFH7LTR0q16blkOw1aSvSxS6u+LQx5EnHaKPDzm4Ys+2B0O4K0jTm6B4boyA4qmdSrVvcswEm+pfthaCs+MhmTMBBrG0t9Doh11jMwZtz5/bYdF/GVTRDIc0cg/6tZtUQgNd7F1vhOgAvn06adwI9Hof+cfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PzvJbrnV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IIEriSXV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C5BA1F000FF;
-	Fri, 18 Sep 2026 15:53:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PzvJbrnV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 052EC1F000FF;
+	Fri, 18 Sep 2026 16:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789746834;
-	bh=lbVpbtgdB6gGZcR4lzgAB3myFCTkj71uHlYAh1fjtFc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IIEriSXVzQQIbmH/FW5DBcrqsy76Yaczc0C0Ik4WHYjVQnzytaQllHxVnCbSmc/wf
-	 3ip1FhCfubcWvgEFGaFqhoSBjDlBrbvhIHU25A/1RM1nk2BmIm70/Hxw8/S+DydAV0
-	 3SGFaiA3XRt4FWTK9+c0V8lv5q/l4wftpnHooY14rs1ubyLM6hw2/hfF2VKKSwVh1e
-	 FhOV+8MyczBeZB8UNCkeyseDoJ5Ct12tMLHGuGVDnY5b3vFJgGhlAZihGM0UyCgXsG
-	 35aKDXN/yNndhmB4yIr2PssE15X1XCIQ3h0rbbmm3vNlaIAaUfJsNDydr5HXuEh6Xe
-	 SOp7bD+QGVffA==
-Date: Fri, 18 Sep 2026 16:53:52 +0100
-From: Harry Yoo <harry@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	sashiko-reviews@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, hannes@cmpxchg.or, 
-	Borislav Petkov <bp@alien8.de>, Danilo Krummrich <dakr@kernel.org>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, x86@kernel.org, kas@kernel.org, 
-	Suren Baghdasaryan <surenb@google.com>, Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Oscar Salvador <osalvador@suse.de>, "Rafael J. Wysocki" <rafael@kernel.org>, shakeel.butt@linux.dev, 
-	Johannes Weiner <hannes@cmpxchg.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Ard Biesheuvel <ardb@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Mike Rapoport <rppt@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Ingo Molnar <mingo@redhat.com>, linux-mm@kvack.org, kexec@lists.infradead.org, 
-	linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rmikey@meta.com, kernel-team@meta.com, driver-core@lists.linux.dev, 
-	riel@surriel.com
-Subject: Re: [PATCH v5 6/9] mm/memory-failure: efi: answer whether a range is
- poisoned
-Message-ID: <aq1eWgGenthqMNd7@thinkstation>
-References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
- <20260915-hwpoison-kho-v5-6-3bc7a57bd503@debian.org>
- <20260915134535.C3FC91F00899@smtp.kernel.org>
- <edafd246-0bd8-4335-9037-77f552968b56@kernel.org>
- <aq1Xr4b7BXZForCe@gmail.com>
+	s=k20260515; t=1789749548;
+	bh=b5Zrlq13Fo17ThZWJD48N0yBnSkZxyrfKbw9LMfDzNo=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=PzvJbrnVDw1/FGRQjNdgtxkja4g0UKdhJ6ysQeKqAjw3SPoQdbPUDDDVRezIlzPRn
+	 BizmkSglTWN3z27ESnNWnNJ/BNE/5Pf134Kuopamm2cqa+Vg4m4fskohwsleBAZ2kq
+	 8VeG45ejMxOfvV8B5nlzi3rG7isstYgL+7Zzmi6JW51Bc5581vIt00jI9nQCcL0h5r
+	 TJA42xr+2N1e8Upe7jJRd6iYP4RmP4V22zWBn1trh8Pak11rKzlZgEkDRtY82x6XWn
+	 gOXrlr0hA3dXINFz3CQ2chmBvyX/TG7t9RH5RVc3N8nvBO6tGulEJzrciuRym+vaZ4
+	 UoBQJcmt+Ps+Q==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aq1Xr4b7BXZForCe@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 18 Sep 2026 18:39:02 +0200
+Message-Id: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Cc: "Luis Chamberlain" <mcgrof@kernel.org>, "Petr Pavlu"
+ <petr.pavlu@suse.com>, "Daniel Gomez" <da.gomez@kernel.org>, "Sami
+ Tolvanen" <samitolvanen@google.com>, "Aaron Tomlin" <atomlin@atomlin.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Steven Rostedt"
+ <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Mathieu
+ Desnoyers" <mathieu.desnoyers@efficios.com>, "Bradley Morgan"
+ <brads@mainlining.org>, "Aleksandr Nogikh" <nogikh@google.com>,
+ <linux-modules@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-trace-kernel@vger.kernel.org>, "Johan
+ Hovold" <johan@kernel.org>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+In-Reply-To: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
 
-On Fri, Sep 18, 2026 at 08:27:40AM -0700, Breno Leitao wrote:
-> On Wed, Sep 16, 2026 at 08:44:30AM +0200, David Hildenbrand (Arm) wrote:
-> > On 9/15/26 15:45, sashiko-bot@kernel.org wrote:
-> > >> The bitmap an earlier kernel filled in gets in this one through EFI,
-> > >> but nothing reads it back yet.
-> > >>
-> > >> Introduce range_contains_poisoned_memory(), which the page allocator
-> > >> will use to ask about a block before handing it out.
-> > >>
-> > >> Signed-off-by: Breno Leitao <leitao@debian.org>
-> > >
-> > > Sashiko has reviewed this patch and found no issues. It looks great!
-> > >
-> >
-> > David has reviewed this mail and it annoyed him.
-> 
-> Breno is curious what annoyed David here.
+On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> The ability to add and remove devices from a driver through the sysfs
+> "bind" and "unbind" files was created all those decades ago as a way
+> that kernel developers can iterate faster, and provide a debugging way
+> for users to attempt to add a new device to a driver without having to
+> rebuild their kernel.
+>
+> This api over the years has been abused and recently come under a major
+> fuzzing "attack" through tools like syzbot which decided that it would
+> attempt to just randomly bind any driver to any type of device, causing
+> loads of unneeded errors and pointless kernel patches to be generated by
+> unsuspecting new developers.
+>
+> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> will be set on the driver if the bind/unbind sysfs files are ever
+> written to.  This lets kernel developers "know" that a user is
+> attempting to do something that is not normal, and as such, if the
+> kernel breaks they get to keep the shiny pieces laying around on the
+> floor.
+>
+> The flag is 'Y' which was unused, and can remembered as the user is
+> "yeeting" the device being operated on here (thrown with force without
+> regard for the thing being thrown).
+>
+> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> as many times crashes/oops/warnings/failures happen within the callback,
+> and the taint flag needs to be there to show what was being attempted.
+> If it were to be set after the callback happens, the oops report would
+> not properly reflect what foolishness was being attempted.
+>
+> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> the tool from hitting bind/unbind, should be run with panic_on_taint
+> enabled so that they fall over and don't continue on, thinking that they
+> actually found a real issue.
+>
+> Userspace operations that rely on the bind/unbind files
 
-Harry assumed David was annoyed by Sashiko replying with
-every 'LGTM' email :-)
+I agree that this should be avoided.
 
--- 
-Cheers,
-Harry / Hyeonggon
+But I also think the biggest offender really is driver_override. Specifical=
+ly,
+on a hot-pluggable bus a driver must be complient with the device driver
+lifecycle rules and hence shouldn't break on bind/unbind. I think it would =
+be
+nice to not taint the kernel for such busses, and only taint on driver_over=
+ride,
+as I think we'd still want the bug reports for such cases.
+
+But I think this is fine to leave for a follow-up.
+
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+
+> to work around
+> the lack of will to upgrade a kernel image to a newer version with
+> proper support for new devices, or the lack of will to submit valid
+> device ids to driver authors, will still work properly, but now the
+> kernel will be flagged in a way that will show that perhaps those users
+> should reconsider their behavior and work to have the drivers properly
+> support these devices in a "native" manner.
+>
+> Finally, the bind/unbind files can find real use-after-free issues with
+> some drivers by forcing the process to happen virtually without having
+> to rely on manual removal processes.  Those real bugs should still be
+> worked on, but by adding this taint flag, developers can more easily
+> determine bug reports that are actually worth looking at.
+>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
