@@ -1,133 +1,161 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A2E4322E6
-	for <driver-core@lists.linux.dev>; Fri, 18 Sep 2026 17:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A599C51C33D;
+	Fri, 18 Sep 2026 17:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752595; cv=none; b=j2AxRMutVM77D3AOGuQnRl5qCamBxeGmSsWwQ2BE+P0YplhsCsLbywwC4lb02pUePTWDndVOAATOFwS1t6+Zzaj8+pM9VPt7sVV/uqE6EOMiNJIenvPj1G1dNALlUDFa0vaqTSXPbU7Siv9LqQN/io9dXall5+i2X6nYARQpr+4=
+	t=1789752770; cv=none; b=WnK6T2rlAG9dcngu+ahCzTnKlnyyAK1k+CIL2Qs4Yh0q0Bhfv6kV5RlCS6yyiDsCM8TrZbpg0LbKX8LlsgymsweP6pHejVfeMlHuRo+PaRNJT6a3NDpuxJiPqttItbL2v83bq6WMtJmOJI5+3LsF56L/MIUiEeq3Kaw0IwLf6BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752595; c=relaxed/simple;
-	bh=1tm+AoINV4L0DvNzsG7gAL49kbFMoxpgRosliSqN+rM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=G/pbVRh5ohugVRQS46I3FZqYd01mM+L8bWML2mtGWvqHDQza8xI4RmNifYPLkCmJDCqbqTNx9HDI5i+ipHZWqiulKF9czhlVqKSfqtrP9KTkLMNAGa7Y900QZTBtiWPeont8nled+qruFfP1NQhhcC73SbS+dRpvAQvvhVXuAV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=HDkpRqJZ; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=3XiiCKBo; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1789752770; c=relaxed/simple;
+	bh=+MipdwgB9d8LhkU7pI5Fn9ExzsC+2EygZrsOkOi4Gvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nhTn2txLjEVPQ7OTVfBORbWcrD1Zx7GAhSiQAe7zXF7YwgfkSng/6Qr1jkvs5JQ1+CpAGVdESWj7t/MVOB2OT22jIRYRdflr4vSOs56a1cQHLie59OUjdKxAj7Gyy72l66jWVmzc8LzrAGSeFhmsT8hVZ8blQFzC3te5LRfycyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0aQiQJ9d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="HDkpRqJZ";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="3XiiCKBo"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789752577; bh=1dl4tmqft2dG4MFdNCM1smn
-	Ytjht1tHIKCyecdkRmjI=; b=HDkpRqJZVr8TL8Fkk5XJ1YJQ3JKdWNDF6Dvz6sK7t555pTWVA5
-	9+Cm698R50pHkoL9Mg1ZQoSUcHyOij0yBorfNWlLYUFtmEwsf6f4u23zyvuYV3nDtxpNUYLjQ/P
-	7kqDUrrm3IgKPoObcgI7KnJdt/wVBWhrEyP2ysCNtT7kXYvE6XAMP/mkhc/UKYzH82PJfO0NFI1
-	j3bYCr7pCYuha2nlNCrVh0jfM6o3IbhUoSKFC0zjXdXFLCfE44pO2KNrxDaQuhrGO4o5p2gNkbc
-	47sgj7QQxa6B8/gqZatfx3mRX/i435W+dC74xKppg5/FUmNgZZeUPl8H8yOEge5qKxw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789752577; bh=1dl4tmqft2dG4MFdNCM1smn
-	Ytjht1tHIKCyecdkRmjI=; b=3XiiCKBoVXkz5w7h2YTLDkGnQG8EO73zQ+/Fv0ZwZfOhKoim5A
-	98WmeNqIRXZ0MA7FUVAIvcxS9vUMB9IHtVDg==;
-Date: Fri, 18 Sep 2026 18:29:37 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>
-CC: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_0/3=5D_driver_co?=
- =?US-ASCII?Q?re=3A_add_TAINT=5FFORCED=5FBIND_fo?=
- =?US-ASCII?Q?r_when_userspace_manually_messes_with_devices_and_drivers?=
-In-Reply-To: <2026091850-geriatric-overfull-3370@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org> <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <2026091850-geriatric-overfull-3370@gregkh>
-Message-ID: <BF545013-EC9D-4939-BBFC-F51B277EEB84@mainlining.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0aQiQJ9d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A6F31F00898;
+	Fri, 18 Sep 2026 17:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789752765;
+	bh=BuanVriHcbqPQQUX4nBe3Unkk+xi8JLt3kizAHx+IBo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=0aQiQJ9d5eoc2Rb8gAjNDbnU3FpbauR/JR6FyNbuTEWhJ46MztAJ8sf2FZj6mjPIi
+	 vKFjWNxFdk7gagEEktZOERwqu81UFrQriLKCLF/wnbWAFbhTQEMCVQuzjAHxELt+3z
+	 FPRJc09qZ2P6+fWM1SD6G/waL7EdMWzG4rAe2MgY=
+Date: Fri, 18 Sep 2026 18:30:49 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: Guixin Liu <kanie@linux.alibaba.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Shaikh Kamaluddin <shaikhkamal2012@gmail.com>,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH v4 0/2] cxl/memdev: Fix poison debugfs vs unbind deadlock
+Message-ID: <2026091839-pennant-imperfect-0e46@gregkh>
+References: <20260916025453.3532614-1-kanie@linux.alibaba.com>
+ <be97d805-94e7-48a0-9812-446d08dab7ce@intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be97d805-94e7-48a0-9812-446d08dab7ce@intel.com>
 
-On 18 September 2026 18:25:38 BST, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
->> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
->> > The ability to add and remove devices from a driver through the sysfs
->> > "bind" and "unbind" files was created all those decades ago as a way
->> > that kernel developers can iterate faster, and provide a debugging way
->> > for users to attempt to add a new device to a driver without having to
->> > rebuild their kernel.
->> >
->> > This api over the years has been abused and recently come under a
->major
->> > fuzzing "attack" through tools like syzbot which decided that it would
->> > attempt to just randomly bind any driver to any type of device,
->causing
->> > loads of unneeded errors and pointless kernel patches to be generated
->by
->> > unsuspecting new developers.
->> >
->> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND,
->which
->> > will be set on the driver if the bind/unbind sysfs files are ever
->> > written to.  This lets kernel developers "know" that a user is
->> > attempting to do something that is not normal, and as such, if the
->> > kernel breaks they get to keep the shiny pieces laying around on the
->> > floor.
->> >
->> > The flag is 'Y' which was unused, and can remembered as the user is
->> > "yeeting" the device being operated on here (thrown with force without
->> > regard for the thing being thrown).
->> >
->> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback
->happens,
->> > as many times crashes/oops/warnings/failures happen within the
->callback,
->> > and the taint flag needs to be there to show what was being attempted.
->> > If it were to be set after the callback happens, the oops report would
->> > not properly reflect what foolishness was being attempted.
->> >
->> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to
->keep
->> > the tool from hitting bind/unbind, should be run with panic_on_taint
->> > enabled so that they fall over and don't continue on, thinking that
->they
->> > actually found a real issue.
->> >
->> > Userspace operations that rely on the bind/unbind files
->> 
->> I agree that this should be avoided.
->> 
->> But I also think the biggest offender really is driver_override.
->Specifically,
->> on a hot-pluggable bus a driver must be complient with the device driver
->> lifecycle rules and hence shouldn't break on bind/unbind. I think it
->would be
->> nice to not taint the kernel for such busses, and only taint on
->driver_override,
->> as I think we'd still want the bug reports for such cases.
->> 
->> But I think this is fine to leave for a follow-up.
->
->Yeah, let's see how this goes, thanks for the review!
->
+On Fri, Sep 18, 2026 at 08:26:28AM -0700, Dave Jiang wrote:
+> 
+> 
+> On 9/15/26 7:54 PM, Guixin Liu wrote:
+> > Writing a memdev poison debugfs file while cxl_mem is being unbound
+> > deadlocks. Patch 2 fixes it by not waiting for the device lock in those
+> > handlers. Patch 1 adds the trylock guard it uses.
+> > 
+> > Patch 2 does not build without patch 1, so the two need to travel
+> > together.
+> > 
+> > Testing:
+> > 
+> > Reproduced on a QEMU CXL topology whose type3 devices advertise poison
+> > inject support:
+> > 
+> >   while :; do echo 0 > /sys/kernel/debug/cxl/mem0/inject_poison; done &
+> >   while :; do
+> >       echo mem0 > /sys/bus/cxl/drivers/cxl_mem/unbind
+> >       echo mem0 > /sys/bus/cxl/drivers/cxl_mem/bind
+> >   done
+> > 
+> > Without the fix the unbind wedges within seconds. The three tasks
+> > involved, from /proc/<pid>/stack:
+> > 
+> >   writer, state S, holds the debugfs reference and waits for the lock
+> >     cxl_debugfs_poison_inject+0x25/0xa0 [cxl_mem]
+> >     debugfs_attr_write+0x61/0xb0
+> >     full_proxy_write+0xfc/0x1c0
+> >     vfs_write+0x1d4/0xe60
+> > 
+> >   unbind, state D, holds the lock and waits for the reference to drain
+> >     remove_one+0x27f/0x3d0
+> >     debugfs_remove+0x44/0x60
+> >     release_nodes+0xfa/0x2c0
+> >     devres_release_all+0x113/0x1a0
+> >     device_unbind_cleanup+0x76/0x260
+> >     device_release_driver_internal+0x3eb/0x540
+> >     unbind_store+0xde/0x100
+> > 
+> >   cxl_port workqueue, state D, blocked on the same lock
+> >     device_release_driver_internal+0x96/0x540
+> >     detach_memdev+0x79/0xb0 [cxl_core]
+> >     process_one_work+0x6b0/0xfb0
+> > 
+> > The writer is in interruptible sleep and can be killed; the unbind
+> > cannot, and because cxl_bus_wq is an ordered workqueue the wedged
+> > detach_memdev() blocks every other CXL bus work item behind it.
+> > 
+> > The same deadlock shows up with a pciehp hot-remove racing the writer
+> > loop: the pciehp thread hits the same debugfs_remove() drain holding
+> > the memdev lock, and the hot-remove wedges the same way. With both
+> > patches applied the hot-remove flow completes normally.
+> > 
+> > With both patches applied, 46 unbind/bind cycles against the same writer
+> > loop all completed, no task was left in D state, and the writer collected
+> > 10920 EBUSY returns from the contended trylock. Note that lockdep stays
+> > quiet either way: one leg of the cycle is the debugfs active_users
+> > completion rather than a lock it tracks.
+> > 
+> > v3 -> v4:
+> > - reword the patch 2 commit message per Alison: enumerate the teardown
+> >   paths that race a poison write into an unbind, and state that mixing
+> >   poison writes with cxl_mem teardown is not a supported use of this
+> >   debug ABI, though the fix keeps the cost of doing so to a failed write
+> > - add the pciehp hot-remove reproduction, reported during v3 review,
+> >   to the patch 2 commit message
+> > - collect Jonathan's Reviewed-by on both patches (no code change)
+> > 
+> > v1 -> v2:
+> > - add the device_trylock() guard and use ACQUIRE(device_try, ...) instead
+> >   of open-coding device_trylock()/device_unlock(), keeping the style the
+> >   Fixes: commit established (Shaikh Kamaluddin)
+> > - cut the changelog down to the failing condition, the consequence and
+> >   the fix; the call graph and the reproducer live here instead
+> > - say how the issue was found and how it was tested
+> > 
+> > v2 -> v3:
+> > - rebase onto v7.3-rc2 (master), per Dave's request to send the series
+> >   against Linus's tags rather than cxl/next
+> > 
+> > v1:
+> > https://lore.kernel.org/linux-cxl/20260826125248.4003792-1-kanie@linux.alibaba.com/
+> > 
+> > v2:
+> > https://lore.kernel.org/linux-cxl/20260831124809.889829-1-kanie@linux.alibaba.com/
+> > 
+> > v3:
+> > https://lore.kernel.org/linux-cxl/20260910094017.4032170-1-kanie@linux.alibaba.com/
+> > 
+> > Guixin Liu (2):
+> >   driver core: Add conditional guard support for device_trylock()
+> >   cxl/memdev: Fix deadlock between poison debugfs and cxl_mem unbind
+> > 
+> >  drivers/cxl/mem.c      | 14 ++++++++++----
+> >  include/linux/device.h |  1 +
+> >  2 files changed, 11 insertions(+), 4 deletions(-)
+> > 
+> 
+> For the series
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> 
+> Greg,
+> I can take the patches through the CXL tree if you ack the first patch. Thanks!
 
-Famous last words :) 
+Please do!
 
-(I see no regression but AI finds mysteries)
-
->greg k-h
-
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
