@@ -1,53 +1,69 @@
-Received: from calculus.sigma-star.at (calculus.sigma-star.at [188.245.196.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1159388E63
-	for <driver-core@lists.linux.dev>; Sat, 19 Sep 2026 07:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.245.196.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B98134D4DE
+	for <driver-core@lists.linux.dev>; Sat, 19 Sep 2026 08:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789803759; cv=none; b=o8BW+Ej0rX9WB5l0j8Pv7ARaeoTi+Xx6LUnSWBwNa7osaZ4FIDzbFlDrOExbr7Na2SuI46QkNbGkfqh+PWdUs9oGMLcAk4YfJIfroYLkan7ZtfjDIrA5G3dGRYFbA82edwqR2SIcUe+FblCyOdHKa/sePuWiFnXIqH7wifsiuqE=
+	t=1789806305; cv=none; b=dZeLNCFj+IcbxGi+s9uGkeEzCObNvYOFzgZ2cNl+85awB2pVwykXPuDxf7LxkArB8MlZn0glHF10FGsJGUANOZlxpRnrad6D5I3caedep7Z8uzoCByeZJAR/w1gk0xj/3ZNnCafq+YUW8Qo9ROZkqHhX/94glzEpfNhponFroSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789803759; c=relaxed/simple;
-	bh=+be4Xw1gxU0oyoWeB/FkizQKsrB7PwjheqScq1kRY30=;
-	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=jhiaPqKvlVOR+Dpoj42/t3T52dK4xZXhL9nSkp8H/2/fhUtzZpqEkp2o/OQoVkJOlwv4il9zhONG43N2pxPY5rutcMx6bUOI3MFPcTVbHtMAYVo3QP2MK48LUKUC5jD2n1iq3oNqShZ9EeNgWDlczHtVi3s+aVMdaeRqpIHy9L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; dkim=permerror (0-bit key) header.d=nod.at header.i=@nod.at header.b=6fFKz/kN; dkim=pass (2048-bit key) header.d=nod.at header.i=@nod.at header.b=rAmDeOW4; arc=none smtp.client-ip=188.245.196.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+	s=arc-20240116; t=1789806305; c=relaxed/simple;
+	bh=A8auyNhtEuZ3z/ymr7Ywj+due7d7kFFg96HOAkuK8BU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=I32BJefXV/SlSbWkbqAC6nwYkXIDTFBrN5tHLzYJLOg/LFZnBTzM18uCZBnOCqF14SqJ4W/yG1DcQq3znr2Tdi/v0fjBYiXvAXaJBXWahq153/K5oOSRqbQX/QCghWa0+IGifIM+axKY8QlvB1SJfyMuccGxI0eDrh5Au4R0Q7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GpJkWGyD; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=nod.at header.i=@nod.at header.b="6fFKz/kN";
-	dkim=pass (2048-bit key) header.d=nod.at header.i=@nod.at header.b="rAmDeOW4"
-DKIM-Signature: v=1; a=ed25519-sha256; s=v1-ed25519-20260901; d=nod.at; c=relaxed/relaxed; r=y;
-	h=Date:Message-ID:Subject:To:From; t=1789803745; bh=YP8vnLhklWgFXgieU8N+ZD3
-	bF6ZH1bbcm6B02tsqZaA=; b=6fFKz/kNl8A+tDwZQVk2PZ5Lrl5fFoEF1iEY1/FtdDhse5L9vG
-	9V6J4mIudcW1v76utgCZF050QvMqKBZ3mqBA==;
-DKIM-Signature: v=1; a=rsa-sha256; s=v1-rsa-20260901; d=nod.at; c=relaxed/relaxed; r=y;
-	h=Date:Message-ID:Subject:To:From; t=1789803745; bh=YP8vnLhklWgFXgieU8N+ZD3
-	bF6ZH1bbcm6B02tsqZaA=; b=rAmDeOW4469rHGd9hRodDaCFJCurw8tO9o7On31U4bR0wC8u9/
-	irYiuyUvizb/WJHP4xTA1T0WOxPRX8pDvSjRx8v4IXmP2nQzIZd8/hYq1fw113aCqGv35hUTSG3
-	Q4f/U/cIahmSdM6g+xA0vQyQwPMl1e4PQGpCYGTQ/LD5VhIObKWWAKqzf2/Ldn1MY9B9lkZQI57
-	eSpGo0siNIUXWRYSmGIFWvo6X4Q7I9JhiSBbdvVLu8wASDODiR2DcGlA7WLWPyLainvv3ed8B08
-	7VwbSA9VjqL++MKWzBYUsLWQpyQfUXlb31Fp6dm0w1OriQks/H43/8UDVPklY9NfeuA==;
-From: "Richard Weinberger" <richard@nod.at>
-To: =?utf-8?Q?J=C3=B6rn_Engel?= <joern@barelysecure.org>, 
-	"Chris Roy" <iam@thechris.in>
-Cc: "Greg KH" <gregkh@linuxfoundation.org>, 
-	"syzbot" <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>, 
-	<dakr@kernel.org>, <driver-core@lists.linux.dev>, 
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<rafael@kernel.org>, <syzkaller-bugs@googlegroups.com>, 
-	<linux-mtd@lists.infradead.org>, <miquel.raynal@bootlin.com>, 
-	<vigneshr@ti.com>, <joern@lazybastard.org>
-Subject: AW: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-Message-ID: <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
-In-Reply-To: <aqwuWWMwdIcx3704@cashel.logfs.org>
-References: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
-	<6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
-	<CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
-	<2026091753-broadness-bootie-b683@gregkh>
-	<CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
-	<aqwuWWMwdIcx3704@cashel.logfs.org>
-Date: Sat, 19 Sep 2026 07:42:25 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GpJkWGyD"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-484366874b0so829105f8f.2
+        for <driver-core@lists.linux.dev>; Sat, 19 Sep 2026 01:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789806302; x=1790411102; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qpDnZPzt3eeYFUUVAX0CfXPjosI2peSH7zQcL7jvG6I=;
+        b=GpJkWGyDQvOZtXLVIsSRyC+mGeulKkM7H1XWqMzSolsynWcz8RK+UU2NOC/587IZnn
+         ygyns/M14QC5TAQpmrkLcJORu1TkQr5hL0B0Lj+nuu0hAByG7grA59KH22TiyPE+rgBn
+         40W5kwae71++YmTm+nUU+j3+d44+ZRa3ttDa8Hqba3zYobOWmjtEzFxsvjfiaJuGiof3
+         8xvjRVBjEwH+TzMLcNCEmocQYM8wRkHqhLM17GcCJyNH+X2SKANDaKY9nPCQftskyaJ2
+         G5CCp+S9G95xAll/vvaEOAP412gUMqIrFa11LHnCvMQaJqnczQxUl/cpNfm9xUoeD2fj
+         2+4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789806302; x=1790411102;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=qpDnZPzt3eeYFUUVAX0CfXPjosI2peSH7zQcL7jvG6I=;
+        b=ojBsMUp9zH0jcfRGNmXAIWmE6iD8tMlWumHw9F7tztVeIeXplCTOalww1daNWQ/cqA
+         Bd5J9N71DFdOPln0Bs1oZ9UulEdz8uODc1042EljwCCTrE/YsqmV/YtbmJs/iDAPcXoE
+         Hl3fR3DwIcem6eR61OmncA3t+Oy+r6gwlBU3sFx3WZnDOHF7oeQsVwz7Ko9s7iGwHsR/
+         HmfyjUUPCaxS+iS4qmt/ZTuTyPx3V2BLJCecee2DiBnmIISPnlAeSnxkFlcMrPaH3PCw
+         5MiUmyuBEKSu4I0N0+EY9hQ4CVhj5GJYD9sULpHU6RQwocUw+PcctotfXVJbwWxpDeBH
+         PvGw==
+X-Forwarded-Encrypted: i=1; AKwUvBx/LDj0VANpxCfsKI2YOjpR2qxY91mugNEyDDr5w6kFPKRIfIvj6C6dwVeNTx3aTYOsEqkt6vlMGnRNWw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lj123Xspdfx+hxpSTiWXY2UAiFRNAUmwb6vP/XHZfsu5FwFy0q
+	3h4IPEjK1lWv9pzxc6wXAWUTwZHz8/qXro+9h51ah2tGa8ZE6oPuK7JauxkFhg==
+X-Gm-Gg: AYBFou1nGSTkb8IINhOnVtYrMGe1Pc+2x8Z2RAer6fz8qnVFCZ5PKaMDtq1KEGeWq/k
+	G6mV+NzQ+JNxY7Yab4Cw5eNpqfDfzED6l7ZPhZto1uscnPHNTH9j86rxCUaSpUC/2whObNnLdUu
+	wtOk/XMp17sesrmP8TPKqtb4jVAWGw6+YvIqI+mAvYNrSiDw4sNZFhHfL/h9E7WsKhoZWf+8tiI
+	a4QCr8aV3x3U1V4PO7s8lEEGV04D0OBfJ/xOnXCePJdrtGLtOFiLq0pN66DJgc3Bltsa3imv9A5
+	gGawwjAaq6TLvpSiHkrkvHc9fnC2BHixKkH/cxLSKX5qsmcBq5J3oLHCK0fypnfwXS5x4+xPKtF
+	b8j3wrB9MixSFqRh5osZPw0/drH7kWO0KtwmPEXybo3+MXw++GeqwNTNoyhBhlw7BRAMG4Ba//S
+	QX55Th3+22EwMr7UXAjO1tEh2HU1QQCUYVy6XJJw4+hYW0TsEvmQeqMcFImBMhPdY2gM9trIF86
+	0WYNIWUA2LPjXPIuurQyE4LCjofhgjjWgpg88elJi7E6RQ4IHMEaoWll9OZJFoWno7jtlAdcGUW
+	aqf0wHFLWFswRw5FFugG5B7VOqUm3EU8ZmArDpip9veGNBQDtE63AiKiFLzKj+ocGkAEMYCGi4U
+	iU55gEqAhEHriqh1Dhv5NK50OFUuOr6JzgxyDK6H5gDPY2A==
+X-Received: by 2002:a05:600c:8709:b0:49d:870:7a69 with SMTP id 5b1f17b1804b1-49fc573514bmr121069665e9.12.1789806302202;
+        Sat, 19 Sep 2026 01:25:02 -0700 (PDT)
+Received: from [192.168.1.187] ([2a02:8308:4092:11f0::f9f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc5755c40sm124608575e9.3.2026.09.19.01.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 01:25:01 -0700 (PDT)
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Sat, 19 Sep 2026 10:24:28 +0200
+Subject: [PATCH] PM: runtime: call pm_runtime_dont_use_autosuspend() on
+ reinit()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -55,38 +71,77 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260919-move-dont-use-autosuspend-v1-1-f6e2d1315c23@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0atIZgOxBUWvIg7FRs1gK40VQby7x
+ fEN/z+gnIQVhuqBxJeoxFDQ1BXMmwsro/hiMGRa6pse93gx+hhOzMro8hk168HBIxmy1razMx1
+ B6Y/Ei9z/e5ze9wMZmtPeawAAAA==
+X-Change-ID: 20260919-move-dont-use-autosuspend-0203336ca270
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>
+Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
+ Joshua Crofts <joshua.crofts1@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789806301; l=1969;
+ i=joshua.crofts1@gmail.com; s=20260530; h=from:subject:message-id;
+ bh=A8auyNhtEuZ3z/ymr7Ywj+due7d7kFFg96HOAkuK8BU=;
+ b=7Kqg/mFBM8Y3F5ZHoSq29REYCM9b0RIiz5Uue+7gez/oLWEK/pBUXiVEvtaljGJsmanqtLFVE
+ HBQn3CT01BvCStZiii4oh0mGMspJqebT/5/T+/RBwhoSnpOE9G4Jl6Y
+X-Developer-Key: i=joshua.crofts1@gmail.com; a=ed25519;
+ pk=RTDOoVwgeL4oFdASj9U+cxJuIjXuXk73zkjnGOJKbEo=
 
-Am Thu, Sep 17, 2026, 20:16 schrieb J=C3=B6rn Engel <joern@barelysecure.org>=
-:
-> On Thu, Sep 17, 2026 at 01:28:22PM +0530, Chris Roy wrote:
-> >
-> >  drivers/mtd/devices/block2mtd.c | 118 ++++++++++++++++++++-----
-> >  1 file changed, 98 insertions(+), 20 deletions(-)
-> [...]
-> >  /* Static info about the MTD, used in cleanup_module */
-> >  static LIST_HEAD(blkmtd_device_list);
-> > +/* Protects blkmtd_device_list and early-boot paramline updates */
-> > +static DEFINE_MUTEX(block2mtd_mutex);
-> > +static struct workqueue_struct *block2mtd_wq;
->=20
-> This is just awful taste.  You are inside a file called "block2mtd".
-> The prefix to the mutex an workqueue add absolutely nothing.  Calling
-> them just plain "mutex" and "wq" would have been a better choice.
->=20
-> Good names should tell the human reader something.  What is the mutex
-> protecting?  What is the purpose of the workqueue?  Pick a name that
-> gives us some information like that, please!
->=20
->=20
-> You seem to have used AI to write this code, so the bad name choice was
-> presumably also done by AI.  But you are still associating your own good
-> name with the code.  You should try not to harm your good name by
-> letting things like this slide through unchallenged.
+Add a pm_runtime_dont_use_autosuspend() call to pm_runtime_reinit() to
+ensure autosuspend is disabled on driver teardown.
 
-While we're here, maybe it's time to add a decent configfs interface to
-this driver instead of configuring through module parameters.
-That way also multiple instances are possible.
+Suggested-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+---
+If a driver doesn't use devm_* functions for automatic cleanup on
+teardown and autosuspend is enabled during probe, it should also be
+disabled on teardown in a _remove() function or equivalent. However,
+due to bad documentation, driver authors usually omit the
+pm_runtime_dont_use_autosuspend() call on teardown.
 
-Thanks,
-//richard
+Reason for investigating: this week, several patches popped up in
+the linux-iio mailing list, adding these missing calls to several
+IIO drivers. For some reason I ended up writing a cocci script to
+find other instances of this and found ~195 offending drivers.
+
+After a discussion with Frank Li on the matter [1] when sending a similar
+patch adding these missing calls to the clk subsystem, we arrived to the
+idea of actually adding the dont_use_autosuspend() call to
+pm_runtime_reinit() and have driver core handle this instead of
+submitting 195+ patches to amend the issue.
+
+[1] https://lore.kernel.org/all/aq1N863eJpD_ZrLU@SMW015318/
+---
+ drivers/base/power/runtime.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index fab38bc98113..9a37f6162fe0 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1874,6 +1874,9 @@ void pm_runtime_reinit(struct device *dev)
+ 	if (dev->power.runtime_status == RPM_ACTIVE)
+ 		pm_runtime_set_suspended(dev);
+ 
++	if (dev->power.use_autosuspend)
++		pm_runtime_dont_use_autosuspend(dev);
++
+ 	if (dev->power.irq_safe) {
+ 		spin_lock_irq(&dev->power.lock);
+ 		dev->power.irq_safe = 0;
+
+---
+base-commit: 40288c9206c17eb66a603262e06a58d300d0f279
+change-id: 20260919-move-dont-use-autosuspend-0203336ca270
+
+Best regards,
+-- 
+Kind regards,
+Joshua Crofts
+
