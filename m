@@ -1,85 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from calculus.sigma-star.at (calculus.sigma-star.at [188.245.196.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C9A3AAF65;
-	Sat, 19 Sep 2026 01:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1159388E63
+	for <driver-core@lists.linux.dev>; Sat, 19 Sep 2026 07:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.245.196.96
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789780039; cv=none; b=A+rhS95dyOGQS4ZqiaYJ5Ir6RPn+DpcWV9uG36E2i8NO/daM6O2B3Au+/aMen+LOwko9PZAwcdv3hAcvXt3uQKeluWw5zZ2I7RcDU6XSXi05DEOqnTJDp5fSbm16StmpwJAFa3a0YFcqKReJ/ofF6Khd2BBiplHLlB6yPHSet6E=
+	t=1789803759; cv=none; b=o8BW+Ej0rX9WB5l0j8Pv7ARaeoTi+Xx6LUnSWBwNa7osaZ4FIDzbFlDrOExbr7Na2SuI46QkNbGkfqh+PWdUs9oGMLcAk4YfJIfroYLkan7ZtfjDIrA5G3dGRYFbA82edwqR2SIcUe+FblCyOdHKa/sePuWiFnXIqH7wifsiuqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789780039; c=relaxed/simple;
-	bh=5oNs9PI8NLa0Dd8AKOjBrnydgdrAbQsvVrK1J57eKP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qsxtk0Gc1UWZ3HbpKuHkfzskQtefsvXEkx8Ir9CbLcnAs9o2GSgbE02dXJIdJn2cfu7rD2jxlDEZe3OlN/Rt2WT+Be8FAbUP0oawOq/EiwDIAS2QOb5TRHgxCWxZn7HwENgscQ7QBHCnvdrcOAJaCC+Kq6GSSJocjrm8OWddm7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqY6X/wg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789803759; c=relaxed/simple;
+	bh=+be4Xw1gxU0oyoWeB/FkizQKsrB7PwjheqScq1kRY30=;
+	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=jhiaPqKvlVOR+Dpoj42/t3T52dK4xZXhL9nSkp8H/2/fhUtzZpqEkp2o/OQoVkJOlwv4il9zhONG43N2pxPY5rutcMx6bUOI3MFPcTVbHtMAYVo3QP2MK48LUKUC5jD2n1iq3oNqShZ9EeNgWDlczHtVi3s+aVMdaeRqpIHy9L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; dkim=permerror (0-bit key) header.d=nod.at header.i=@nod.at header.b=6fFKz/kN; dkim=pass (2048-bit key) header.d=nod.at header.i=@nod.at header.b=rAmDeOW4; arc=none smtp.client-ip=188.245.196.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqY6X/wg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18E21F00898;
-	Sat, 19 Sep 2026 01:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789780031;
-	bh=54z5SHlzrtBebb/X3YpRpc4JfK56SguCLPAt7r3wZ0s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DqY6X/wgf0ZvI/qmkkkq9008FZOOCDULO9vS7BK1OVjEmpBq1O6JjpH4ziCEq0bNu
-	 Ppik+IosP5jIqP98FvLJBLVFTGMRFlzLGb+YuVUdIU+NHUQk2obZheMTB8sTgB9XQc
-	 HvZOTereYSkhF/hRriYf00wDHLTlXYaSTSBf/7bMRVxuaD+z4Z0GR7+YLQM8LePxZK
-	 g6Br32OKZ/YvToD9FbX431FwVqze0AkzkMfseiaRoqSqR98GuPJRnlrsCltIgZVYk6
-	 qRkVygyRYk4f9H/wFXZRAmHZaWL1auJsOJIUgK8hZ0gM8yF0gRfe1dygrfWn07r/y2
-	 S82iN4am91sNg==
-Date: Fri, 18 Sep 2026 18:07:09 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Andrew Lunn
- <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH net-next v16 0/6] net: dsa: mxl862xx: devlink flash and
- rescue
-Message-ID: <20260918180709.2fe12c2c@kernel.org>
-In-Reply-To: <cover.1789477568.git.daniel@makrotopia.org>
-References: <cover.1789477568.git.daniel@makrotopia.org>
+	dkim=permerror (0-bit key) header.d=nod.at header.i=@nod.at header.b="6fFKz/kN";
+	dkim=pass (2048-bit key) header.d=nod.at header.i=@nod.at header.b="rAmDeOW4"
+DKIM-Signature: v=1; a=ed25519-sha256; s=v1-ed25519-20260901; d=nod.at; c=relaxed/relaxed; r=y;
+	h=Date:Message-ID:Subject:To:From; t=1789803745; bh=YP8vnLhklWgFXgieU8N+ZD3
+	bF6ZH1bbcm6B02tsqZaA=; b=6fFKz/kNl8A+tDwZQVk2PZ5Lrl5fFoEF1iEY1/FtdDhse5L9vG
+	9V6J4mIudcW1v76utgCZF050QvMqKBZ3mqBA==;
+DKIM-Signature: v=1; a=rsa-sha256; s=v1-rsa-20260901; d=nod.at; c=relaxed/relaxed; r=y;
+	h=Date:Message-ID:Subject:To:From; t=1789803745; bh=YP8vnLhklWgFXgieU8N+ZD3
+	bF6ZH1bbcm6B02tsqZaA=; b=rAmDeOW4469rHGd9hRodDaCFJCurw8tO9o7On31U4bR0wC8u9/
+	irYiuyUvizb/WJHP4xTA1T0WOxPRX8pDvSjRx8v4IXmP2nQzIZd8/hYq1fw113aCqGv35hUTSG3
+	Q4f/U/cIahmSdM6g+xA0vQyQwPMl1e4PQGpCYGTQ/LD5VhIObKWWAKqzf2/Ldn1MY9B9lkZQI57
+	eSpGo0siNIUXWRYSmGIFWvo6X4Q7I9JhiSBbdvVLu8wASDODiR2DcGlA7WLWPyLainvv3ed8B08
+	7VwbSA9VjqL++MKWzBYUsLWQpyQfUXlb31Fp6dm0w1OriQks/H43/8UDVPklY9NfeuA==;
+From: "Richard Weinberger" <richard@nod.at>
+To: =?utf-8?Q?J=C3=B6rn_Engel?= <joern@barelysecure.org>, 
+	"Chris Roy" <iam@thechris.in>
+Cc: "Greg KH" <gregkh@linuxfoundation.org>, 
+	"syzbot" <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>, 
+	<dakr@kernel.org>, <driver-core@lists.linux.dev>, 
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<rafael@kernel.org>, <syzkaller-bugs@googlegroups.com>, 
+	<linux-mtd@lists.infradead.org>, <miquel.raynal@bootlin.com>, 
+	<vigneshr@ti.com>, <joern@lazybastard.org>
+Subject: AW: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
+Message-ID: <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
+In-Reply-To: <aqwuWWMwdIcx3704@cashel.logfs.org>
+References: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
+	<6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
+	<CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
+	<2026091753-broadness-bootie-b683@gregkh>
+	<CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
+	<aqwuWWMwdIcx3704@cashel.logfs.org>
+Date: Sat, 19 Sep 2026 07:42:25 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 15 Sep 2026 14:09:03 +0100 Daniel Golle wrote:
-> This series adds "devlink dev flash" and "devlink dev info" support to
-> the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
-> MCUboot loader recoverable through the same path.
-> 
-> The switch is flashed over the loader's clause-22 SMDIO download
-> interface after the firmware API has rebooted it into MCUboot, and the
-> driver reinitialises through a deferred detach and re-probe once the
-> new image runs. A switch found in MCUboot at probe registers in a
-> reduced rescue mode with firmware version 0.0.0, so the same flash flow
-> recovers it; an interrupted download is drained in the background
-> first. The deferred re-probe comes from a new driver-core helper,
-> device_schedule_reprobe(), since a driver-owned work item cannot
-> survive a racing rmmod, nor give up its detach once the core has
-> blocked probing for a shutdown. fwupd's devlink plugin carries the
-> matching quirks [17].
-> 
-> Patch 3 is a driver-core change and patch 4 does not link without it,
-> so the series needs a driver-core ack before net-next can take it.
-> 
-> Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
-> through fwupd; a reboot issued while a flash was running, which waits
-> for the transfer to finish; a host crash mid-transfer, whose wedged
-> download the background drain recovered; and a power cut mid-transfer,
-> after which the loader came up ready and fwupd flashed the switch from
-> 0.0.0 back to a released firmware.
+Am Thu, Sep 17, 2026, 20:16 schrieb J=C3=B6rn Engel <joern@barelysecure.org>=
+:
+> On Thu, Sep 17, 2026 at 01:28:22PM +0530, Chris Roy wrote:
+> >
+> >  drivers/mtd/devices/block2mtd.c | 118 ++++++++++++++++++++-----
+> >  1 file changed, 98 insertions(+), 20 deletions(-)
+> [...]
+> >  /* Static info about the MTD, used in cleanup_module */
+> >  static LIST_HEAD(blkmtd_device_list);
+> > +/* Protects blkmtd_device_list and early-boot paramline updates */
+> > +static DEFINE_MUTEX(block2mtd_mutex);
+> > +static struct workqueue_struct *block2mtd_wq;
+>=20
+> This is just awful taste.  You are inside a file called "block2mtd".
+> The prefix to the mutex an workqueue add absolutely nothing.  Calling
+> them just plain "mutex" and "wq" would have been a better choice.
+>=20
+> Good names should tell the human reader something.  What is the mutex
+> protecting?  What is the purpose of the workqueue?  Pick a name that
+> gives us some information like that, please!
+>=20
+>=20
+> You seem to have used AI to write this code, so the bad name choice was
+> presumably also done by AI.  But you are still associating your own good
+> name with the code.  You should try not to harm your good name by
+> letting things like this slide through unchallenged.
 
-Having the "rescue mode" which only allows flashing a better / working
-FW is fairly common these days. Did you consider driving the operation
-more from user space. Let the user devlink reload into flashing mode,
-and devlink reload back into normal operation mode?
+While we're here, maybe it's time to add a decent configfs interface to
+this driver instead of configuring through module parameters.
+That way also multiple instances are possible.
+
+Thanks,
+//richard
