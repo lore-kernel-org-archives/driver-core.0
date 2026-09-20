@@ -1,280 +1,153 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mx01.bremer-it.com (mx01.bremer-it.com [85.215.132.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0217042E405
-	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 14:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34577175A62
+	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 16:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.215.132.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789914617; cv=none; b=RaUMsdF5kXgFpEoboE7+fwC5T8h2r+gfGiuv5B466bkN2D+oPxRucGwCnN5KQ5XcdXoPUYb/WUTCIUh/SVdyp+aEpBAAbBRIc6dIVrdg1G4hnDlbDst5xZiqgp/kadSd5o0KLgMRe+3zEJT/2ko1K9TezP3y/GRYxWzmJKdcvG0=
+	t=1789921214; cv=none; b=SJwm3mBvl5qvZqX42/NgK07PFQZS242rdd/uqM7l9ymk1E4YuH4yE0zR/kHzlfXh28UDKo+o2hCC147DpQceV8II+LneutmMAILQO2uaYv/G8ZrBXXndwr4A9pN+OTDRa9tU3B6qlRduhBPx5GyGsSGByoggnzw2Pyf0dQmMAgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789914617; c=relaxed/simple;
-	bh=xmTFRFw7V/HU3JXIe69biF6uXSYP9tKIxk/FBu1sWo0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lpNvniL3xt5DndGDsOhKRBSWNlk4ggmsvRvhMzd9ATv1MfKOm06dWA86M+hpazpRqV4KKEs0EV6m3jhD9Cbqf2qPT59rMIMFSSEYuZI4gEONP/pOZmqBK0Qv14o+R3a5kf6tcV0ia8haFVsYxp+gyONo3Fs33tKmLoA5eXlmlR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=mupY/qTf; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1789921214; c=relaxed/simple;
+	bh=ubkkTfaMqizEHBodgwhw7A2axVhp1Rna3AheFznZwu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t55Zm1/Mt/EBB96kaHCaltYVD4HCAyDnl538NFUMSRrkXzm3Rtos/E1sBJfeCMXDpcaNQNlZlZ3p+4WqCL8abeb8OLSWk+9bQumIm/PNRPTtF3cYN5tB0Q+dTs/IJK0t4y/6gTgkf2dScXUfU9BFBkF/raOzMkBGBXVQSNjM4gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org; spf=pass smtp.mailfrom=barelysecure.org; dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b=3YalKCb5; arc=none smtp.client-ip=85.215.132.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barelysecure.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="mupY/qTf"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id D36DD240101
-	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 16:30:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1789914601;
-	bh=UTm4yQVbwMpMizb1S87Kb2YZ7hCkc36LgIfvhH/1KKk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=mupY/qTf3Ksh8UBh7StrsKqT0NUoZ+PQO6O2O+xCg66yRfGKDLaGRs/UmzCsxVeFF
-	 BF6igW3w2rOOy6j9v25Q18ajKBog/nW/BRVArkwGk0mz7xNqllMli+ALWSVYat/kva
-	 ITCSGTvNqoi3SjRdIEC4T0OQiNaFSlEUC3L6Ewoi1FEclBP3HBDb5ueAfSglIb2yqY
-	 mxNgoqB4F79ElN/isUBZ/9fNP9ehl29zZ3FixYZ3roBGg0UkXI2Ax0VkWkBLy84FyP
-	 DQSouiKGnfewli8a+qGrxyeMpahbRorU/K8AMJuqchJjkHN50o5E0iNxRw0mmst7ap
-	 z5tvfFYSaS+YA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hnpfZ4dVpz9rxD;
-	Sun, 20 Sep 2026 16:29:58 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-Date: Sun, 20 Sep 2026 14:30:00 +0000
-Subject: [PATCH v2 2/3] rust: serdev: Replace `active` mutex with receive
- pause
+	dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b="3YalKCb5"
+Received: from cashel.logfs.org (c-98-33-96-243.hsd1.ca.comcast.net [98.33.96.243])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by mx01.bremer-it.com (Postfix) with ESMTPSA id AF3AE20C28;
+	Sun, 20 Sep 2026 18:19:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=barelysecure.org;
+	s=dkim68; t=1789921202;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=leCY6IsGKPR9u06vq7iyJf19QaSegMxEOFrGed/5/2I=;
+	b=3YalKCb5xHQYiS4vB3j6hbAivOC3XOtW04FXWFKeBLJnECBZc2BzVkgJfjyCQF0dAfEdEu
+	NfsvPiAas9aeBdI119wstcK5kEvK3ohHaMONdlFXBTbTNMss+hFFYeazcpkmPP1pLdeluy
+	hXb2NPRVvNg1aI7fn/6O7hlVZ97ypts9+t+eUYbGPytRiAaPBvf4pJac6jEqVUmoSIzAOP
+	515KrHmjJ5ot44Q8UPtlfbvZQ3TfMFTMwFE5zIYgiIb8326MA5x83773cx7CFS2XQf1eYE
+	9cmgC6dzIprn8jVvn7Y6NcHYfZ9SuSQ+We55gWTXSR5rYoKKHrWDS2/R4OX0Yw==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=joern@lazybastard.org smtp.mailfrom=joern@barelysecure.org
+Date: Sun, 20 Sep 2026 09:19:55 -0700
+From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@barelysecure.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Chris Roy <iam@thechris.in>, Richard Weinberger <richard@nod.at>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>,
+	dakr@kernel.org, driver-core@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rafael@kernel.org, syzkaller-bugs@googlegroups.com,
+	linux-mtd@lists.infradead.org, vigneshr@ti.com,
+	Adarsh Das <adarshdas950@gmail.com>
+Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
+Message-ID: <arAHq0imD-Gm_bOc@cashel.logfs.org>
+References: <CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
+ <2026091753-broadness-bootie-b683@gregkh>
+ <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
+ <aqwuWWMwdIcx3704@cashel.logfs.org>
+ <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
+ <CAE2Bdm3FqBPAMxqKoz_h1cw+OXpm=LJHdJjsME_Jy966tqhq_A@mail.gmail.com>
+ <aq6gJTYTpTr8sYPj@cashel.logfs.org>
+ <CAE2Bdm3K+ZnrfB7xzkg=2fzMs7AmJzdF3aYCpN00h90TR6FMog@mail.gmail.com>
+ <aq6sd2Z3nZuAYbMG@cashel.logfs.org>
+ <87cxu8axvh.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-rust_serdev_probe_refactor-v2-2-43b855162f5d@posteo.de>
-References: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
-In-Reply-To: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
-To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, 
- Jiri Slaby <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>, 
- Sashiko Bot <sashiko-bot@kernel.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6499;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=xmTFRFw7V/HU3JXIe69biF6uXSYP9tKIxk/FBu1sWo0=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqr+3hdAQL5ne9/6sq8Hf8jnAp1RJtJDa83lLjy
- Dmj0q73lkiJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaq/t4RsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9Lvbw//RsIfTq/cUbCp3WvwHgwjuE9TRVG+waI
- FF3hpNhlQ7RQZepyQUz79EkFTPhIUrcTXyeIBSZ7M/QlBGsDB61aaQPoBR81RnOqNfGYF6BF1Yk
- 1JHG7DLWtBM4qC4jvAJPRxATHKoEA1Y2R8Rsvc4zG+BsAjiI2dWlw2R80b/vQyu+rJFsmF/FwnR
- 4jUFweDIdZVslWeLNgXKqVw2PEuJRWXOf/T4KNndwOVoxvtgd6YdbvpYwlghZunD1MeElWrVQTX
- jzPhHRTYD6zzqnmiscDe05eEDZd+eXLFf08uIBLyiwzo6v2jsEwmoVRjdoJo7J+Ojdd2mzDDhQi
- 4sOcDXKHCLm2TaS0RJI7gLerOeWzHII4ocf8nfQEFaF2sOts1HiPSfMnF/+j4ZKF5TUUH/1BZ4x
- zyn2yeN+F0GcsJlK4hSeOXeob3XW0pZWM5WCGV6Tw1aKs/Lddln3iqgtYcCV7DXAFf8u4S9ao0I
- A4EIxHtgogqLTDxWYrgR/U0udEhw0ydcuG70gzUF7giPCNcOAl5ldtojzF/D2BR77ZABKtGM0kb
- tX/GXuA8WFqpGiA+Cob7tCxL7ADweXLk0sXEbEwXzszlhRTqNeuJ46yM3TvT3otXASoXZfBuFRZ
- gz3Gg/c47OGlBVIdaZmthrDf/vEhwItGWdfjWtLOTgOtbhLZeZvE=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cxu8axvh.fsf@bootlin.com>
+X-Spam-Level: **
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [2.17 / 14.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	BAYES_SPAM(0.77)[78.91%];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[7cab6a19619f1b8efc00];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ASN(0.00)[asn:7922, ipnet:98.32.0.0/11, country:US];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_ZERO(0.00)[0];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[barelysecure.org:s=dkim68];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	FREEMAIL_CC(0.00)[thechris.in,nod.at,linuxfoundation.org,syzkaller.appspotmail.com,kernel.org,lists.linux.dev,vger.kernel.org,googlegroups.com,lists.infradead.org,ti.com,gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[barelysecure.org:from_smtp,barelysecure.org:from_mime];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Server: server01
+X-Rspamd-Queue-Id: AF3AE20C28
+X-Spamd-Bar: ++
 
-There are currently 2 race conditions:
-- in probe if `Driver::probe` returns Err
-- in unbind
-. In those cases the driver data will be set to NULL before the serdev
-device was closed. If data is received while the driver data is dropped,
-the `receive_buf_callback` might try to access the `active` mutex on a
-null pointer.
+Hello Miquèl
 
-Removing the need for `receive_buf_callback` to lock the `active` mutex
-fixes these.
+On Sun, Sep 20, 2026 at 02:52:18PM +0200, Miquel Raynal wrote:
+> 
+> Not saying this would be a bad move, it would be highly inconsistent
+> with the current code base. Every single allocation in the kernel is
+> checked. Such a change, without a documented and agreed upon method,
+> would lead to dozens fuzzing AIs sending patches to add the "missing"
+> check.
 
-Fixes: 99f59aa82341 ("rust: add basic serial device bus abstractions")
-Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/linux-serial/20260905000836.C8FC91F00A3D@smtp.kernel.org/
-Closes: https://lore.kernel.org/linux-serial/20260903222159.70A911F000E9@smtp.kernel.org/
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- rust/kernel/serdev.rs | 60 ++++++++++++---------------------------------------
- 1 file changed, 14 insertions(+), 46 deletions(-)
+If your argument is that such a change would be inappropriate for the
+patch in question, I totally agree with you.
 
-diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
-index 17ca504b7f8d..c16d6593a8d2 100644
---- a/rust/kernel/serdev.rs
-+++ b/rust/kernel/serdev.rs
-@@ -13,13 +13,9 @@
-         to_result,
-         VTABLE_DEFAULT_ERROR, //
-     },
--    new_mutex,
-     of,
-     prelude::*,
--    sync::{
--        aref::AlwaysRefCounted,
--        Mutex, //
--    },
-+    sync::aref::AlwaysRefCounted,
-     time::Jiffies,
-     types::{
-         Opaque,
-@@ -103,40 +99,11 @@ pub struct PrivateData<'bound, T: Driver> {
-     #[pin]
-     driver: UnsafeCell<MaybeUninit<T::Data<'bound>>>,
-     open: UnsafeCell<bool>,
--    /// Whether `receive_buf_callback` is allowed to call `Driver::receive`.
--    ///
--    /// If locked, the receive_buf_callback will be blocked on data reception.
--    /// This is the case while the driver is being probed or while [`PrivateData`] is being dropped.
--    /// This is necessary, because we need to open the serdev device before the driver has been
--    /// probed in order to allow it to be configured, which allows `receive_buf_callback` to be
--    /// called. Thus we need to block data until probe completes and the driver data becomes
--    /// initialized.
--    ///
--    /// If unlocked and true, the receive_buf_callback will forward the data to
--    /// `Driver::receive`. This is the normal state of operation.
--    ///
--    /// If unlocked and false, the receive_buf_callback will throw away the data.
--    /// This is only the case, if the serdev device is open and
--    /// - the driver returned an error in probe
--    /// or
--    /// - the driver data already has been dropped, because it was unbound.
--    #[pin]
--    active: Mutex<bool>,
- }
- 
- #[pinned_drop]
- impl<T: Driver> PinnedDrop for PrivateData<'_, T> {
-     fn drop(self: Pin<&mut Self>) {
--        let mut active = self.active.lock();
--        if *active {
--            // SAFETY:
--            // - We have exclusive access to `self.driver`.
--            // - `self.driver` is guaranteed to be initialized.
--            unsafe { (*self.driver.get()).assume_init_drop() };
--            *active = false;
--        }
--        drop(active);
--
-         // SAFETY: We have exclusive access to `self.open`.
-         if unsafe { *self.open.get() } {
-             // SAFETY: `self.sdev.as_raw()` is guaranteed to be a pointer to a valid
-@@ -170,7 +137,6 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-                 sdev: &**sdev,
-                 driver: MaybeUninit::<T::Data<'_>>::zeroed().into(),
-                 open: false.into(),
--                active <- new_mutex!(false),
-             }))?;
-             // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
-             let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
-@@ -178,11 +144,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-                 // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
-                 drop(unsafe { sdev.as_ref().drvdata_obtain::<PrivateData<'_, T>>() });
-             });
--            let mut active = private_data.active.lock();
--
-             // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-             unsafe { bindings::serdev_device_set_client_ops(sdev.as_raw(), Self::OPS) };
- 
-+            // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+            unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
-+
-             // SAFETY: The serial device bus only ever calls the probe callback with a valid pointer
-             // to a `serdev_device`.
-             to_result(unsafe { bindings::serdev_device_open(sdev.as_raw()) })?;
-@@ -199,12 +166,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-             // - `private_data.driver` is pinned.
-             let result = unsafe { pin_init::raw_try_init(driver.as_mut_ptr(), data) };
- 
--            *active = result.is_ok();
--
--            drop(active);
--
-             result.map(|()| {
-                 private_data.dismiss();
-+
-+                // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+                unsafe { bindings::serdev_device_resume_rx(sdev.as_raw()) };
-+
-                 0
-             })
-         })
-@@ -231,6 +198,12 @@ extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
-         let data_pinned = unsafe { Pin::new_unchecked(data.assume_init_ref()) };
- 
-         T::unbind(sdev, data_pinned);
-+
-+        // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+        unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
-+
-+        // SAFETY: We already established that `data` is guaranteed to be initialized.
-+        unsafe { data.assume_init_drop() };
-     }
- 
-     extern "C" fn receive_buf_callback(
-@@ -248,11 +221,6 @@ extern "C" fn receive_buf_callback(
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
-         let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
--        let active = private_data.active.lock();
--
--        if !*active {
--            return length;
--        }
- 
-         // SAFETY: No one has exclusive access to `private_data.driver`.
-         let data = unsafe { &*private_data.driver.get() };
+I would disagree with an argument of "we should do the wrong thing for
+the sake of consistency".  If indeed it is the wrong thing, we should
+stop doing it.  Then we can regain consistency by not doing the wrong
+thing anywhere.  In other words, consistency is irrelevant.  The only
+question should be whether such a change is right or wrong.
 
--- 
-2.55.0
+There is also the practical consideration that changing the kmalloc
+interface will lead to thousands of changes throughout the kernel and
+requires a large time commitment from someone.  If nobody volunteers to
+be that someone, it might still be better to stick with the status quo
+for now.
 
+
+So making an entirely theoretical "if I were king for a day" kind of
+argument, I don't think GFP_KERNEL allocations should have to check for
+failure.  Neither should userspace callers to malloc.  An interface that
+frequently returns errors is pretty safe, as callers with broken error
+handling are quickly detected and fixes.  An interface that almost never
+returns errors is dangerous, as broken error handling in callers becomes
+common and will eventually lead to bizarre hard-to-reproduce failures.
+
+One of my roles in my last job was to fix userspace malloc and one of my
+fixes was to ensure it would never return an allocation failure.  If it
+returned, the caller received what it requested.  If that wasn't
+possible, the process would crash.  A crashing process isn't exactly
+desired, but it beats unpredictable behavior triggered by broken error
+handlers.  And dealing with a single error path costs significantly less
+cognitive effort than dealing with thousands of error handlers
+everywhere in the code base.
+
+Anyway, since I am not volunteering to spend a significant chunk of my
+time, this is just the opinion of someone that doesn't matter.  Feel
+free to reject it.
+
+Jörn
+
+--
+Why do musicians compose symphonies and poets write poems?
+They do it because life wouldn't have any meaning for them if they didn't.
+That's why I draw cartoons.  It's my life.
+-- Charles Shultz
