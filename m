@@ -1,175 +1,211 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696E23D3D11
-	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 18:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789929254; cv=pass; b=AKEIkKMA+FjwmTt6gr5IMGvoOEHlnsaMZKrfhK1m5qiktFaJ5w9W54bJcrXTEJ8yWSzpLvHpimjYYFc4IjzTcz74vlmCaSGMbzpPDymQBmEpKSo1WdRvMcgpCXarfM1t3cJn/f4TMwgkfEgvs/AfbXMf5Bajkaq/ALClcjBDatc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789929254; c=relaxed/simple;
-	bh=SQV2oiqKeznGQCDrUMB6LypdK9wv6yvcWGpy0dftZ94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IpwmSRfh+SS7FcA+71gkkjbYe6DhXAeFKpeYbw9jANJpF2M99F5t5/KGZPUCivxZTplibCTq54vsF5malzgWI7sJTb0H8Knuztibr/laJqASf6dAs8kvjltPDx43HCBTQoJ7afdxM3P+OZ605vZSkmd20xeEB882KjGc1Zop9Dk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thechris.in; spf=pass smtp.mailfrom=thechris.in; dkim=pass (2048-bit key) header.d=thechris.in header.i=@thechris.in header.b=FsQgMw6d; arc=pass smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thechris.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thechris.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349032DECBA;
+	Sun, 20 Sep 2026 18:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789930131; cv=none; b=UKr1uMmidUwpnsST6/YSntYELiemp1dnPV76TMi+RC92AeQOOEXLJYwXDseRrQI54peBhUCsIq3Qs7K0ml81UKjjVNTQNuG4EZ42eAeHob8gUtbpVH46/at+tkjzP2fYdHl21UVCICBNmLIs+PY0ngizaQIkZH6N3kvno8NEsC8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789930131; c=relaxed/simple;
+	bh=GOPsJOreXNlAaKcxbVqRAVMFHexBe7rS+9iBLMLqoSE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0J9ouFmMHgnMGfo1ITWGC/eJVhmiQB1fmmOt2SoPONnCs63BYtmUIlXSTk0ObqZJ+dDlPKVzlTEuEyxRcGmYeDYGk0EeeEC8OTmrIaYxA02MbNUth17ZTRWa06ItkrY/mXfVrwrrY5lXeh8WjmNgTTxxpAODJHCvjMZ5XxkzVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xQsC6X39; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thechris.in header.i=@thechris.in header.b="FsQgMw6d"
-Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43daa8f4so14249917b3.3
-        for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 11:34:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789929252; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kRyry5umiDvofZ7bmRLk/hVKh1OcfnKr/ZOKtm1hRSZqr+vIwPnzZ1Fw+JKKdRKjKS
-         wB4qR3dOwn7sa+eSQyx8O2KH8Wh70ibOho57dvsAvAZMiDkRyqr6tjkWomBbOXJFcYh3
-         nWu/l2e1QCv15a6pbrKXq9JxYBwSNU6ZtYpuu3sk/3YictwJtlvVxsFRWqy6Qk4e5yR0
-         FGXjLxdGinBz7SjvoHuef9uC9jcKvXsEI7Y61im4p0S6+A7vQZ3iUxwWvog3jxqMs9f+
-         31SnYvGEJ7eB1bzo0+HQQpTQ4nq1/D7zg2PhITDQzPfwqL90AuDXqqQAkY2G8SlqDKuP
-         ctog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fxPbHcmjqdMbT/W0TK75dgYdyLTxWsOSVmrzLuv05+Y=;
-        fh=FsPMeJDaP0m61QG1O+yvWfUEJjIvwYZTqs2uEIWx3o8=;
-        b=ojOeCbeNq53PfMxe3pwYRWv9xLIetoWpSN3AtRfCpC73wGI3COEXd/oXADhtIHPhGl
-         MFLte0EX8ea6WrdM0xIy/afOKhHNWtD7XHxk5sEsZu5JHY1UG9G30PbsiHnlpHBHbHwk
-         EsRE6PLEO29PO6s31OL4ctEWizlPfI6qhUFhP6zfa+vD/un6zemEdmCGikRtxXmqCD0x
-         5rgHooQFq3pf2G1iWXISWFNrpiItbz32pcdscHw3Mh4xA52vwCqTWZMXUQVwNskQc/tp
-         I44Ap28NvTVq0J26myDzZ4wiQ9ES2io4/XdPuPOFfouHZGX98v6Ai/tYlYZk81EnhKOV
-         1t+A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thechris.in; s=google; t=1789929252; x=1790534052; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fxPbHcmjqdMbT/W0TK75dgYdyLTxWsOSVmrzLuv05+Y=;
-        b=FsQgMw6dy5EINuXXe1ngllYqLe53kldB6CxEi2FSkSh55iDuZ8vwRcaS99EbuaWA3Y
-         5mUyj9oQbWasCJlg1yocGOfqnzxX5I5li3URnDh36nvDtIKc6+UnUWaLp196T3wBDBxO
-         QTvjSJ0PCYJef7QnLpj6K4q/KYKXwH5oBal61jsotWiyX7j/DPFDg/4DwgWiIAvaicqp
-         cem6VD9593CwPARjgMOb4Kmwc3/SFKwbioJP85TjwBMiTRr0qQ9uA2SIioEGr4YhOZm/
-         Z6HAGCqPn5Y6qJvmUQuQ+ohIGAO7UJqO3kOLtwJKJ6fwuGrWGybVq+F0RfoF40KFmyx8
-         gy1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789929252; x=1790534052;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fxPbHcmjqdMbT/W0TK75dgYdyLTxWsOSVmrzLuv05+Y=;
-        b=oK1VSYQDDRZrB4qatYNoaKNzKxVBthwjbz1Dvek6JH6mVgUWs6C3QTePQhessSPc49
-         Fy145mnMprx8U6oKnJB17QGXHT8CvboEZG+Sl33ADU0KsJAhAV378ynqVpGWwjhAVG8O
-         vgC0wYBFpdl8ifNqsmJIwC20RdMNVHklLDEmQW6PFz+LjuQntcD89tnyIzJoWdEh4URz
-         La6huho0a7a7R2AcWrrMP9U+o0SjyUw6bG6iZ6KSVC5ptlAR5K1p+ZSKTCK1g9ae9oMZ
-         c2t6AiYi6mrKlbHLvy7P3vKO55Inb4lcAM/8SzivNu4JV20Cete8hJCEIis8X0IbnO7W
-         ge2A==
-X-Forwarded-Encrypted: i=1; AKwUvBw7pO5XRFn0qoOxCHqp92UpCFayKazpm+4URZhQTJTf37Q4Jp/45nfMyhmO+6s4PO5flk5HH079WyneVQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mXkMCml+MegfPGnE2W40oLg6WOcTWZtryPIybX936cwFrXS9jQ
-	Sr53Pjg+F30KbN4+eWj8gz+Z/DCMUMFYdCfN7q7+0uXnJjDlvp1EOFvu/9xp41Ktu5TgBeP5QOA
-	LcHN9Y9/koC37Ec7QSzbCR04V39Zxf9/X2V9SXcqdpC4=
-X-Gm-Gg: AYBFou1hyI84bDstSELAxewgSKvoFnbDqqL08bx07DZuLlILpw18kFBsC6O6za5HtU/
-	sEHTZ9WnKBXGeQi9hQFFfJrlYEFxcgdhiWPDbXFjJ6bp1QIpj983vQlbaguQknFCOo44Fpw1Exy
-	S0BDux1/OO1dh/Z8LWebzDcVArbon2jBplASAZvQRByCRJXf+StyxcZRsCppmnDx0fT5AN31p2w
-	vU7lCS2YvMWV5ZZNTTlN5pP6pCsAGHOMmPma09coQ98rQemxJmC97jya/JD+A1iW7O5wTmT0icb
-	oXVrEmmQrXfYY4F+sMlQd7xHXzLLtxyKCAUOuQGIekdki0l778qxnVa9Rm1IhIVSTbdQ79RFStH
-	Jvc84RMvE5G3ZW8b1U9jSvy9/KDvPZUTmXMrFxHWMb609kD9SjNqNsnHr92Ng5UU//aFrxbZnzk
-	nCgHgjNsvus4hO0IolWjqB9o+1
-X-Received: by 2002:a05:690c:e24b:20b0:873:5bd1:98b6 with SMTP id
- 00721157ae682-89736b37e64mr15478617b3.40.1789929252348; Sun, 20 Sep 2026
- 11:34:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xQsC6X39"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PaGTwvteuyHqrGuks83fVCl+/8rXJ3r1PwfsllqphCA=; b=xQsC6X39EcIhsWPsQupsJArG8u
+	6VcTENCIP9yRgwbMRUcO3TiX7Eb9RQ2OPm1d1pp7RIEu16AFGqaWNLuFdOZwzXN/UrdAJGM+p9NPs
+	oD5/QZ+iXA4rz5VwNG5pdc4gV5GH2DtblLt1tjKFLTD+dmGlmQvOAK06rW6nJprUNJNb2+vuzTHjV
+	zA5xEK5FJ4bV1ZC3Fms6216/tExXOSEChvQ8BzYEWaavrK2/N5flEQ3eD2E4BLoMlJIHe1KKaJRYP
+	McneMq3osP4BRNZoFmy2wpo1NpXtIv/LZsiximNMf0bNbTSfxMrhPiwv/ITwc1mxjnHZazkvc6sTd
+	AnsrcXkQ==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x8Mac-00000000GMc-3jzi;
+	Sun, 20 Sep 2026 18:48:38 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH] debugfs: clarify return values when disabled
+Date: Sun, 20 Sep 2026 11:48:36 -0700
+Message-ID: <20260920184836.3925972-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
- <2026091753-broadness-bootie-b683@gregkh> <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
- <aqwuWWMwdIcx3704@cashel.logfs.org> <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
- <CAE2Bdm3FqBPAMxqKoz_h1cw+OXpm=LJHdJjsME_Jy966tqhq_A@mail.gmail.com>
- <aq6gJTYTpTr8sYPj@cashel.logfs.org> <CAE2Bdm3K+ZnrfB7xzkg=2fzMs7AmJzdF3aYCpN00h90TR6FMog@mail.gmail.com>
- <aq6sd2Z3nZuAYbMG@cashel.logfs.org> <87cxu8axvh.fsf@bootlin.com> <arAHq0imD-Gm_bOc@cashel.logfs.org>
-In-Reply-To: <arAHq0imD-Gm_bOc@cashel.logfs.org>
-From: Chris Roy <iam@thechris.in>
-Date: Mon, 21 Sep 2026 00:04:00 +0530
-X-Gm-Features: AcwNN1XxQ2tTnCe51T1q51ULBvx85COBmsrgwZB0hguL-K1VAzqspcbd4FKQXzI
-Message-ID: <CAE2Bdm2TpoA9ctHGhvtrDePvz11Yf3koyiw9S4WvY0jS5jZSuQ@mail.gmail.com>
-Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-To: =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@barelysecure.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Greg KH <gregkh@linuxfoundation.org>, 
-	syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>, dakr@kernel.org, 
-	driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com, linux-mtd@lists.infradead.org, 
-	vigneshr@ti.com, Adarsh Das <adarshdas950@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-#syz set subsystems: mtd
+debugfs can be disabled at kconfig time (# CONFIG_DEBUG_FS is not set)
+or by using "debugfs=off" on the kernel command line.
 
+The return values for some debugfs functions in these 2 cases can be
+different. Describe those differences.
 
-Regards,
-- Chris
+No code changes.
 
-"But how could you live and have no story to tell?"
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
-On Sun, 20 Sept 2026 at 21:50, J=C3=B6rn Engel <joern@barelysecure.org> wro=
-te:
->
-> Hello Miqu=C3=A8l
->
-> On Sun, Sep 20, 2026 at 02:52:18PM +0200, Miquel Raynal wrote:
-> >
-> > Not saying this would be a bad move, it would be highly inconsistent
-> > with the current code base. Every single allocation in the kernel is
-> > checked. Such a change, without a documented and agreed upon method,
-> > would lead to dozens fuzzing AIs sending patches to add the "missing"
-> > check.
->
-> If your argument is that such a change would be inappropriate for the
-> patch in question, I totally agree with you.
->
-> I would disagree with an argument of "we should do the wrong thing for
-> the sake of consistency".  If indeed it is the wrong thing, we should
-> stop doing it.  Then we can regain consistency by not doing the wrong
-> thing anywhere.  In other words, consistency is irrelevant.  The only
-> question should be whether such a change is right or wrong.
->
-> There is also the practical consideration that changing the kmalloc
-> interface will lead to thousands of changes throughout the kernel and
-> requires a large time commitment from someone.  If nobody volunteers to
-> be that someone, it might still be better to stick with the status quo
-> for now.
->
->
-> So making an entirely theoretical "if I were king for a day" kind of
-> argument, I don't think GFP_KERNEL allocations should have to check for
-> failure.  Neither should userspace callers to malloc.  An interface that
-> frequently returns errors is pretty safe, as callers with broken error
-> handling are quickly detected and fixes.  An interface that almost never
-> returns errors is dangerous, as broken error handling in callers becomes
-> common and will eventually lead to bizarre hard-to-reproduce failures.
->
-> One of my roles in my last job was to fix userspace malloc and one of my
-> fixes was to ensure it would never return an allocation failure.  If it
-> returned, the caller received what it requested.  If that wasn't
-> possible, the process would crash.  A crashing process isn't exactly
-> desired, but it beats unpredictable behavior triggered by broken error
-> handlers.  And dealing with a single error path costs significantly less
-> cognitive effort than dealing with thousands of error handlers
-> everywhere in the code base.
->
-> Anyway, since I am not volunteering to spend a significant chunk of my
-> time, this is just the opinion of someone that doesn't matter.  Feel
-> free to reject it.
->
-> J=C3=B6rn
->
-> --
-> Why do musicians compose symphonies and poets write poems?
-> They do it because life wouldn't have any meaning for them if they didn't=
-.
-> That's why I draw cartoons.  It's my life.
-> -- Charles Shultz
+ Documentation/admin-guide/kernel-parameters.txt |    3 +
+ Documentation/filesystems/debugfs.rst           |   24 ++++++++++++--
+ fs/debugfs/file.c                               |    6 ++-
+ fs/debugfs/inode.c                              |   22 +++++++++---
+ include/linux/debugfs.h                         |    5 +-
+ 5 files changed, 47 insertions(+), 13 deletions(-)
+
+--- linux-next-20260918.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20260918/Documentation/admin-guide/kernel-parameters.txt
+@@ -1201,7 +1201,8 @@ Kernel parameters
+ 			        get a -EPERM as result when trying to register files
+ 				or directories within debugfs.
+ 				This is equivalent of the runtime functionality if
+-				debugfs was not enabled in the kernel at all.
++				debugfs was not enabled in the kernel at all,
++				except that the latter returns -ENODEV.
+ 			Default value is set in build-time with a kernel configuration.
+ 
+ 	debugpat	[X86] Enable PAT debugging
+--- linux-next-20260918.orig/include/linux/debugfs.h
++++ linux-next-20260918/include/linux/debugfs.h
+@@ -110,8 +110,9 @@ struct dentry *debugfs_create_file_short
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value -%ENODEV will be
++ * returned. If debugfs is enabled in the kernel build but is disabled
++ * on the kernel command line, the value -%EPERM will be returned.
+  *
+  * If fops points to a struct debugfs_short_fops, then simple_open() will be
+  * used for the open, and only read/write/llseek are supported and are proxied,
+--- linux-next-20260918.orig/Documentation/filesystems/debugfs.rst
++++ linux-next-20260918/Documentation/filesystems/debugfs.rst
+@@ -41,7 +41,17 @@ dentry pointer which can be used to crea
+ clean it up at the end).  An ERR_PTR(-ERROR) return value indicates that
+ something went wrong.  If ERR_PTR(-ENODEV) is returned, that is an
+ indication that the kernel has been built without debugfs support and none
+-of the functions described below will work.
++of the functions described below will work. If the kernel was built with
++debugfs support but it has been disabled by using "debugfs=off" on the
++kernel command line, ERR_PTR(-EPERM) is returned.
++
++.. note::
++
++  It's expected that most callers should _ignore_ the errors returned
++  by this function. Other debugfs functions handle the fact that the "dentry"
++  passed to them could be an error and they don't crash in that case.
++  Drivers should generally work fine even if debugfs fails to init or is
++  disabled.
+ 
+ The most general way to create a file within a debugfs directory is with::
+ 
+@@ -57,7 +67,17 @@ implement the file's behavior.  At a min
+ operations should be provided; others can be included as needed.  Again,
+ the return value will be a dentry pointer to the created file,
+ ERR_PTR(-ERROR) on error, or ERR_PTR(-ENODEV) if debugfs support is
+-missing.
++missing.  If the kernel was built with debugfs support but it has been
++disabled by using "debugfs=off" on the kernel command line, ERR_PTR(-EPERM)
++is returned.
++
++.. note::
++
++  It's expected that most callers should _ignore_ the errors returned
++  by this function. Other debugfs functions handle the fact that the "dentry"
++  passed to them could be an error and they don't crash in that case.
++  Drivers should generally work fine even if debugfs fails to init or is
++  disabled.
+ 
+ Create a file with an initial size, the following function can be used
+ instead::
+--- linux-next-20260918.orig/fs/debugfs/file.c
++++ linux-next-20260918/fs/debugfs/file.c
+@@ -1205,8 +1205,10 @@ static const struct file_operations fops
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+- * be returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_create_blob(const char *name, umode_t mode,
+ 				   struct dentry *parent,
+--- linux-next-20260918.orig/fs/debugfs/inode.c
++++ linux-next-20260918/fs/debugfs/inode.c
+@@ -339,8 +339,10 @@ MODULE_ALIAS_FS("debugfs");
+  * doesn't exist or an error occurs, %NULL will be returned.  The returned
+  * dentry must be passed to dput() when it is no longer needed.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_lookup(const char *name, struct dentry *parent)
+ {
+@@ -562,8 +564,10 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_si
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  *
+  * NOTE: it's expected that most callers should _ignore_ the errors returned
+  * by this function. Other debugfs functions handle the fact that the "dentry"
+@@ -660,8 +664,10 @@ EXPORT_SYMBOL(debugfs_create_automount);
+  * unloaded, you are responsible here.)  If an error occurs, ERR_PTR(-ERROR)
+  * will be returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
+ 				      const char *target)
+@@ -820,6 +826,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+  * returned.
++ * If debugfs is not enabled in the kernel build, the value %-ENODEV
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value %-EPERM
++ * will be returned.
+  */
+ int __printf(2, 3) debugfs_change_name(struct dentry *dentry, const char *fmt, ...)
+ {
