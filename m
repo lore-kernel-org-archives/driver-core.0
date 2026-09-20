@@ -1,41 +1,42 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2187638B7BC
-	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 14:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0217042E405
+	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 14:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789914610; cv=none; b=nG5BZBPRHFImMx7/NCC1QW19lbrFqB69LE2zxWB/AS8r9PckN+NdJKRywihw3/3hRpyHMsIanRZ+/e647yIQs992VPPsNQqvTeTAFfirp8VJvlGvyRZj/XDEBcspg4TkQHEIqOmor1QgHWVD2A0QGHunDDauoAexKk4MXjvDURI=
+	t=1789914617; cv=none; b=RaUMsdF5kXgFpEoboE7+fwC5T8h2r+gfGiuv5B466bkN2D+oPxRucGwCnN5KQ5XcdXoPUYb/WUTCIUh/SVdyp+aEpBAAbBRIc6dIVrdg1G4hnDlbDst5xZiqgp/kadSd5o0KLgMRe+3zEJT/2ko1K9TezP3y/GRYxWzmJKdcvG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789914610; c=relaxed/simple;
-	bh=gtrf5uOt82c7/rVU8WCA3r1r7MxeXQuRVqXxLWgqDhY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dGKv7CdnQxyyl5W3aMMrRniiz+pVyIusEOS9OTG0rtSb4oJVtLDggvEaes0GwlfTdI0iB06z8JmlXtMFeRB+sdwpGP4if4OKvn2iGcD9Td6bB5ag2z+he27/K9QKJyeAp7v6M3qJSOvEBIupYd/xxe1aLRFGDVO25IaLNlIW6ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=GR8qFwQY; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1789914617; c=relaxed/simple;
+	bh=xmTFRFw7V/HU3JXIe69biF6uXSYP9tKIxk/FBu1sWo0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=lpNvniL3xt5DndGDsOhKRBSWNlk4ggmsvRvhMzd9ATv1MfKOm06dWA86M+hpazpRqV4KKEs0EV6m3jhD9Cbqf2qPT59rMIMFSSEYuZI4gEONP/pOZmqBK0Qv14o+R3a5kf6tcV0ia8haFVsYxp+gyONo3Fs33tKmLoA5eXlmlR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=mupY/qTf; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="GR8qFwQY"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="mupY/qTf"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id D8C92240027
-	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 16:29:57 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id D36DD240101
+	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 16:30:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1789914597;
-	bh=pgLhCZYOO/PX1JQd43YKhm+MmLsFri71XvNNQdR9VmU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
-	b=GR8qFwQY3GtX/se/8oZc/8GBfiMFtxeCPHjk+bCvWUi+sUdhXaGiLG6RrKGV583bd
-	 7gV6+P44XXsxO0LhxzD0DXawfxfnlGoxdO2WQ4yyfRGs7PMRO4mVjg1fdSIbx5UkfU
-	 /raFUtuGoDtnEPsyyzGJnQJEqHlO1HrAEUl9vDkMHkxqEhust+RUZrMvjIw9GMYfFj
-	 uAjVv7FrX3kwdEw7PgBGKiOnVlPCTbWkzViO8Qd7g5qJRRZ/4ZDUKU6/gmJ5U/WxfQ
-	 PuJquWevLf3GMjqotn54zYG5/6fsX9qJAyDQIXC/yEabJIbSV9dkPe0CVycV82kvp0
-	 qS4Nu5wPtW/NQ==
+	s=1984.8680eb; t=1789914601;
+	bh=UTm4yQVbwMpMizb1S87Kb2YZ7hCkc36LgIfvhH/1KKk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
+	b=mupY/qTf3Ksh8UBh7StrsKqT0NUoZ+PQO6O2O+xCg66yRfGKDLaGRs/UmzCsxVeFF
+	 BF6igW3w2rOOy6j9v25Q18ajKBog/nW/BRVArkwGk0mz7xNqllMli+ALWSVYat/kva
+	 ITCSGTvNqoi3SjRdIEC4T0OQiNaFSlEUC3L6Ewoi1FEclBP3HBDb5ueAfSglIb2yqY
+	 mxNgoqB4F79ElN/isUBZ/9fNP9ehl29zZ3FixYZ3roBGg0UkXI2Ax0VkWkBLy84FyP
+	 DQSouiKGnfewli8a+qGrxyeMpahbRorU/K8AMJuqchJjkHN50o5E0iNxRw0mmst7ap
+	 z5tvfFYSaS+YA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hnpfT4g8dz9rxD;
-	Sun, 20 Sep 2026 16:29:53 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4hnpfZ4dVpz9rxD;
+	Sun, 20 Sep 2026 16:29:58 +0200 (CEST)
 From: Markus Probst <markus.probst@posteo.de>
-Subject: [PATCH v2 0/3] rust: serdev: Refactor
-Date: Sun, 20 Sep 2026 14:29:56 +0000
-Message-Id: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
+Date: Sun, 20 Sep 2026 14:30:00 +0000
+Subject: [PATCH v2 2/3] rust: serdev: Replace `active` mutex with receive
+ pause
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,11 +45,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32OSw6DIBRFt2LeuBhE1NhR99EYg/BaaaJYQNLGu
- PfiZ9zhyf0u4NBqdHBNFrAYtNNmjMAuCchejE8kWkUGRllJa1oQOzvfxpDC0E7WdNhafAjpjSU
- UWUc5zwsuKogFU1T0Zy+/Nwe7uXuh9Fvj6bD4nuOqP2zQCYdEmmHQ/pqEKs2JlTls6V67OPLdn
- 4ZsN5+nyn+nQkYoKWupBFJacZS3yTiPJlUIzbquPxMetNACAQAA
-X-Change-ID: 20260905-rust_serdev_probe_refactor-0e2b044354a7
+Message-Id: <20260920-rust_serdev_probe_refactor-v2-2-43b855162f5d@posteo.de>
+References: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
+In-Reply-To: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
 To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
  Alex Elder <elder@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -70,21 +69,21 @@ Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>, 
  Sashiko Bot <sashiko-bot@kernel.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1273;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6499;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=gtrf5uOt82c7/rVU8WCA3r1r7MxeXQuRVqXxLWgqDhY=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqr+3gvTJr6cqaYfz5Vw3yhB7EWtEV/YdSs1AUD
- w6WJRBuo5yJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaq/t4BsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KW8w/9HuHjXeOcd92NBg6xAO19K/UFdTR7eDP
- YeteX4wugeC0F6B5C/Ieui0UTiUPkmEFEYPpNy60jJhnuxs+DEsgFXjvASmOL0Wjh1MmD5gqswC
- MovC3dbK2ycM7XR4JF5X6hxnX4wJr2ihAZRALX1Kf4HhZdxFPdH3uST5h37bLakHTUS0O6f7Dxo
- ECRc6t8pp4FwtaVX1+Sb9jhdd9DKFWtI9IS9c/SEJprzlcIX4DqgG/+07fjBzfF/5J1CYLYMZIp
- V63Mh8EGy+pOTP0o+o3NiSu0khNG+bAEiPN0yIJsVIOrip0s1cIj6QBVMA6gg996O/x5VA8Bagn
- 2zWeY0GDo9vwdvOY6iQwatlSUIanP7HQ/mlc6HNvqM1FzXlaI+xq/Co78TauyjY0PXkHMj9PO0X
- 9IuUlp7eKfJzYQhojxXMaIb059M1tcIiOLeNtqlhQDIytpJlgzoRfmx0+VN0B4PdWvWUfQNwa9a
- Qko141s0mEQMTxs+OA5dfQOBpbNjCUU/bLKFX7mKtlo1kSFUAry8ZzAx8DEBK/9OVnV/P2c6wsU
- 0/wlVy+QprhY8DIgjftb8AZ6QM0/zOvfiTEILkBNssT2zeekiKWKGqw4XiBD7+VGm24eHxxNMHQ
- 0O/Pgb6iNIAjmgsHXYFphnEU06fKgEgXk/lBXrfzGShLp0n6IdKA=
+ bh=xmTFRFw7V/HU3JXIe69biF6uXSYP9tKIxk/FBu1sWo0=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqr+3hdAQL5ne9/6sq8Hf8jnAp1RJtJDa83lLjy
+ Dmj0q73lkiJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaq/t4RsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9Lvbw//RsIfTq/cUbCp3WvwHgwjuE9TRVG+waI
+ FF3hpNhlQ7RQZepyQUz79EkFTPhIUrcTXyeIBSZ7M/QlBGsDB61aaQPoBR81RnOqNfGYF6BF1Yk
+ 1JHG7DLWtBM4qC4jvAJPRxATHKoEA1Y2R8Rsvc4zG+BsAjiI2dWlw2R80b/vQyu+rJFsmF/FwnR
+ 4jUFweDIdZVslWeLNgXKqVw2PEuJRWXOf/T4KNndwOVoxvtgd6YdbvpYwlghZunD1MeElWrVQTX
+ jzPhHRTYD6zzqnmiscDe05eEDZd+eXLFf08uIBLyiwzo6v2jsEwmoVRjdoJo7J+Ojdd2mzDDhQi
+ 4sOcDXKHCLm2TaS0RJI7gLerOeWzHII4ocf8nfQEFaF2sOts1HiPSfMnF/+j4ZKF5TUUH/1BZ4x
+ zyn2yeN+F0GcsJlK4hSeOXeob3XW0pZWM5WCGV6Tw1aKs/Lddln3iqgtYcCV7DXAFf8u4S9ao0I
+ A4EIxHtgogqLTDxWYrgR/U0udEhw0ydcuG70gzUF7giPCNcOAl5ldtojzF/D2BR77ZABKtGM0kb
+ tX/GXuA8WFqpGiA+Cob7tCxL7ADweXLk0sXEbEwXzszlhRTqNeuJ46yM3TvT3otXASoXZfBuFRZ
+ gz3Gg/c47OGlBVIdaZmthrDf/vEhwItGWdfjWtLOTgOtbhLZeZvE=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -130,34 +129,152 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-The following has been changed:
-- introduce a new C serdev API to fix race conditions and simplify rust
-  code. Should also be useful on the C side.
-- fix race conditions
-- simplify rust code
+There are currently 2 race conditions:
+- in probe if `Driver::probe` returns Err
+- in unbind
+. In those cases the driver data will be set to NULL before the serdev
+device was closed. If data is received while the driver data is dropped,
+the `receive_buf_callback` might try to access the `active` mutex on a
+null pointer.
 
+Removing the need for `receive_buf_callback` to lock the `active` mutex
+fixes these.
+
+Fixes: 99f59aa82341 ("rust: add basic serial device bus abstractions")
+Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/linux-serial/20260905000836.C8FC91F00A3D@smtp.kernel.org/
+Closes: https://lore.kernel.org/linux-serial/20260903222159.70A911F000E9@smtp.kernel.org/
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
-Changes in v2:
-- fix missing memory barriers in serdev apis
-- use `tty_buffer_restart_work` instead of `tty_flip_buffer_push`
-- use `tty_buffer_flush_work` instead of exclusively locking the mutex
-- add `#[inline]` to `PrivateData::driver_data`
-- remove patches for mutable references
-- Link to v1: https://patch.msgid.link/20260906-rust_serdev_probe_refactor-v1-0-69cdae0074ec@posteo.de
+ rust/kernel/serdev.rs | 60 ++++++++++++---------------------------------------
+ 1 file changed, 14 insertions(+), 46 deletions(-)
 
----
-Markus Probst (3):
-      tty: serdev: Export functions to pause receive_buf callback calls
-      rust: serdev: Replace `active` mutex with receive pause
-      rust: serdev: Simplify callbacks
+diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
+index 17ca504b7f8d..c16d6593a8d2 100644
+--- a/rust/kernel/serdev.rs
++++ b/rust/kernel/serdev.rs
+@@ -13,13 +13,9 @@
+         to_result,
+         VTABLE_DEFAULT_ERROR, //
+     },
+-    new_mutex,
+     of,
+     prelude::*,
+-    sync::{
+-        aref::AlwaysRefCounted,
+-        Mutex, //
+-    },
++    sync::aref::AlwaysRefCounted,
+     time::Jiffies,
+     types::{
+         Opaque,
+@@ -103,40 +99,11 @@ pub struct PrivateData<'bound, T: Driver> {
+     #[pin]
+     driver: UnsafeCell<MaybeUninit<T::Data<'bound>>>,
+     open: UnsafeCell<bool>,
+-    /// Whether `receive_buf_callback` is allowed to call `Driver::receive`.
+-    ///
+-    /// If locked, the receive_buf_callback will be blocked on data reception.
+-    /// This is the case while the driver is being probed or while [`PrivateData`] is being dropped.
+-    /// This is necessary, because we need to open the serdev device before the driver has been
+-    /// probed in order to allow it to be configured, which allows `receive_buf_callback` to be
+-    /// called. Thus we need to block data until probe completes and the driver data becomes
+-    /// initialized.
+-    ///
+-    /// If unlocked and true, the receive_buf_callback will forward the data to
+-    /// `Driver::receive`. This is the normal state of operation.
+-    ///
+-    /// If unlocked and false, the receive_buf_callback will throw away the data.
+-    /// This is only the case, if the serdev device is open and
+-    /// - the driver returned an error in probe
+-    /// or
+-    /// - the driver data already has been dropped, because it was unbound.
+-    #[pin]
+-    active: Mutex<bool>,
+ }
+ 
+ #[pinned_drop]
+ impl<T: Driver> PinnedDrop for PrivateData<'_, T> {
+     fn drop(self: Pin<&mut Self>) {
+-        let mut active = self.active.lock();
+-        if *active {
+-            // SAFETY:
+-            // - We have exclusive access to `self.driver`.
+-            // - `self.driver` is guaranteed to be initialized.
+-            unsafe { (*self.driver.get()).assume_init_drop() };
+-            *active = false;
+-        }
+-        drop(active);
+-
+         // SAFETY: We have exclusive access to `self.open`.
+         if unsafe { *self.open.get() } {
+             // SAFETY: `self.sdev.as_raw()` is guaranteed to be a pointer to a valid
+@@ -170,7 +137,6 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+                 sdev: &**sdev,
+                 driver: MaybeUninit::<T::Data<'_>>::zeroed().into(),
+                 open: false.into(),
+-                active <- new_mutex!(false),
+             }))?;
+             // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
+             let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
+@@ -178,11 +144,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+                 // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
+                 drop(unsafe { sdev.as_ref().drvdata_obtain::<PrivateData<'_, T>>() });
+             });
+-            let mut active = private_data.active.lock();
+-
+             // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
+             unsafe { bindings::serdev_device_set_client_ops(sdev.as_raw(), Self::OPS) };
+ 
++            // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
++            unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
++
+             // SAFETY: The serial device bus only ever calls the probe callback with a valid pointer
+             // to a `serdev_device`.
+             to_result(unsafe { bindings::serdev_device_open(sdev.as_raw()) })?;
+@@ -199,12 +166,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
+             // - `private_data.driver` is pinned.
+             let result = unsafe { pin_init::raw_try_init(driver.as_mut_ptr(), data) };
+ 
+-            *active = result.is_ok();
+-
+-            drop(active);
+-
+             result.map(|()| {
+                 private_data.dismiss();
++
++                // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
++                unsafe { bindings::serdev_device_resume_rx(sdev.as_raw()) };
++
+                 0
+             })
+         })
+@@ -231,6 +198,12 @@ extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
+         let data_pinned = unsafe { Pin::new_unchecked(data.assume_init_ref()) };
+ 
+         T::unbind(sdev, data_pinned);
++
++        // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
++        unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
++
++        // SAFETY: We already established that `data` is guaranteed to be initialized.
++        unsafe { data.assume_init_drop() };
+     }
+ 
+     extern "C" fn receive_buf_callback(
+@@ -248,11 +221,6 @@ extern "C" fn receive_buf_callback(
+         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
+         // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
+         let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
+-        let active = private_data.active.lock();
+-
+-        if !*active {
+-            return length;
+-        }
+ 
+         // SAFETY: No one has exclusive access to `private_data.driver`.
+         let data = unsafe { &*private_data.driver.get() };
 
- drivers/tty/serdev/core.c           |  50 ++++++++++-
- drivers/tty/serdev/serdev-ttyport.c |  38 ++++++++
- include/linux/serdev.h              |   6 ++
- rust/kernel/serdev.rs               | 167 ++++++++++++------------------------
- 4 files changed, 147 insertions(+), 114 deletions(-)
----
-base-commit: c2cd463d6ee7d55a3ec0719d93c49ff99022d58f
-change-id: 20260905-rust_serdev_probe_refactor-0e2b044354a7
+-- 
+2.55.0
 
