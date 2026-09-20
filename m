@@ -1,131 +1,114 @@
-Received: from mx01.bremer-it.com (mx01.bremer-it.com [85.215.132.167])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA182ED141
-	for <driver-core@lists.linux.dev>; Sat, 19 Sep 2026 15:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.215.132.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954343C3F42;
+	Sun, 20 Sep 2026 03:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789832326; cv=none; b=c5KKWcabG3DDXVJsIl7b1N3PGZZFo4ZYD8RIH79ISxSZj4205m8zgo4ihbHDMQhuJr4le2e6C4X21nPQmuPfGXuHbYwFhib18+T4DBHjDuKTOH17532p6P6GM/CxuZlOvrdarlQLW29iLMDIRx+AY0iJdFrw76O/KuXDGkWDJR0=
+	t=1789874052; cv=none; b=T3iqDdpccWsmar4p411Xi9A87JInAGHcRBwIHe54SGnO4JWiue407AbMsDzvOzDubSy4WkmbCV6h7PodSWoCpssMG1Lh+ZLXsm6xwDTOAxIALJRRM4J1h9iEwtXH5UPFzSKMfRyNohqDmLV2LtorHA+gkc2oiDVCq8tz6+MB0cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789832326; c=relaxed/simple;
-	bh=BF8pL6nodpXg5IJe53MWqpHT0WPpO6V2L/EhWOWVsoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O1+FI85tcHvTnQJMZKftMO7saZZaHbzgvz7vSlElZLiAgd5TedV2+9AEL80CLF9EELCfZTEfErhZN3r82hE7KuB7NX1lTXPOLEDEvS7ElirjStLoCilt+C3KAZAEI655XNqv8D1vSp4j2lOH9bd6ePHB/bx8JuWlguv5sbe0Pwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org; spf=pass smtp.mailfrom=barelysecure.org; dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b=XlHzrTiw; arc=none smtp.client-ip=85.215.132.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=barelysecure.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barelysecure.org
+	s=arc-20240116; t=1789874052; c=relaxed/simple;
+	bh=HAMi7+oZdiukKChTrHSeSa7wUVBgpWSMFhtujEm4BfA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Zx3Jdfn97GvfLGQ7m62oXSagV2yoNq1YY9uQ1zQGRrabqEx1qkPOsnZi9Hg55hOUqJ67d546CTFSP5SkrnxJjDwhkeu78F0jQB2SrrnYu5UPyiQjREVGE7Eq1ecSJCzmITM673GM2nzhEc5aSwm0t5X9QJ+ER3ojIQaQtSU9nnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=vdnPyXL/; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=barelysecure.org header.i=@barelysecure.org header.b="XlHzrTiw"
-Received: from cashel.logfs.org (c-98-33-96-243.hsd1.ca.comcast.net [98.33.96.243])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by mx01.bremer-it.com (Postfix) with ESMTPSA id E311520C1B;
-	Sat, 19 Sep 2026 17:38:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=barelysecure.org;
-	s=dkim68; t=1789832318;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6aw+V5r2LHIE5oFHzmqB4KZ1PpJUZDTMqnLQbkowUUc=;
-	b=XlHzrTiwzZ9IFzbTcCAHxMd+6nyZjyXkIaxyhFGWvrAyqyugbWnoKMPmkET5mGk7/2xdp/
-	0lS3aNJGcNLFaqUbveZ7dS8gwb70QxD/U1cFStoIg/LYfpNa9ItVJfHCLoszX3k9VzZGpi
-	cgPbQvJ3DcSYjlgxGxTiS+WRZ+NtuP7MUXHQPPnuHrUZW+wlfhMg/5br3SJP7lPgNwcCS2
-	TJ7u81vimKlc2o14zthGmnlQQqHQKNp5WsKf4tfYkTqx5wcDu63bmn1VuzjcPJRBFCEW0b
-	PkGWZ875smpAbx3Jyxlwy4KER2Fn1fnIVOos5ElVbspvGaUoN5Qu62EKvULWog==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=joern@lazybastard.org smtp.mailfrom=joern@barelysecure.org
-Date: Sat, 19 Sep 2026 08:38:31 -0700
-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@barelysecure.org>
-To: Chris Roy <iam@thechris.in>
-Cc: Richard Weinberger <richard@nod.at>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	syzbot <syzbot+7cab6a19619f1b8efc00@syzkaller.appspotmail.com>,
-	dakr@kernel.org, driver-core@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rafael@kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com,
-	vigneshr@ti.com, Adarsh Das <adarshdas950@gmail.com>
-Subject: Re: [syzbot] [fs?] possible deadlock in ovl_create_object (2)
-Message-ID: <aq6sd2Z3nZuAYbMG@cashel.logfs.org>
-References: <CAE2Bdm3NuEHshrG6K2boKAnCQUvT5SX79cP9nPgS2s1afzY1hg@mail.gmail.com>
- <6aab0f82.e91c2013.3bdb06.0009.GAE@google.com>
- <CAE2Bdm2wzxj-J0TM8F+3SVnu0W3HeiROW97U4qvBeyHKdHJFmg@mail.gmail.com>
- <2026091753-broadness-bootie-b683@gregkh>
- <CAE2Bdm14hif17B8RTAE+PhWEps5Fzh=WPurZeSNp9C6TqCKumg@mail.gmail.com>
- <aqwuWWMwdIcx3704@cashel.logfs.org>
- <mu82xsi6.76ee613a-07fb-48b1-9336-99e8780e8b6e@nod.at>
- <CAE2Bdm3FqBPAMxqKoz_h1cw+OXpm=LJHdJjsME_Jy966tqhq_A@mail.gmail.com>
- <aq6gJTYTpTr8sYPj@cashel.logfs.org>
- <CAE2Bdm3K+ZnrfB7xzkg=2fzMs7AmJzdF3aYCpN00h90TR6FMog@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="vdnPyXL/"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Y6VD7DCnH5Wvn+wLxKkGYY5QQQQVDg52h78IKUBAQi8=;
+	b=vdnPyXL/sZl6KsrVijZZPPrCyCxRV/tFodClDTuKzGvY6Af9QA/vmT7WI7iRz+JtR0iJaghc9
+	rWMdPn+sthbDccaL/g5uqlDOWi+EKPS9b8rocHseUe3ni4l7EY17RAxGh2/pEBTk4sDiwv9WLI3
+	CaDH9HqNKl1QubrRmWw4cks=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hnWPr3jKKz1prQs;
+	Sun, 20 Sep 2026 11:02:56 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id C57E740537;
+	Sun, 20 Sep 2026 11:13:58 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Sun, 20 Sep 2026 11:13:55 +0800
+Message-ID: <97dce1c2-827a-437f-bff0-9c7057cc2923@huawei.com>
+Date: Sun, 20 Sep 2026 11:13:54 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/17] crash: Rework and add arm64 crash hotplug
+ support
+To: Breno Leitao <leitao@debian.org>
+CC: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <chleroy@kernel.org>,
+	<ritesh.list@gmail.com>, <sshegde@linux.ibm.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
+	<rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
+	<ruirui.yang@linux.dev>, <kees@kernel.org>, <thuth@redhat.com>,
+	<gshan@redhat.com>, <ardb@kernel.org>, <james.morse@arm.com>,
+	<yeoreum.yun@arm.com>, <sourabhjain@linux.ibm.com>, <robh@kernel.org>,
+	<coxu@redhat.com>, <tangyouling@kylinos.cn>, <liukexin@kylinos.cn>,
+	<guodongtai@kylinos.cn>, <maqianga@uniontech.com>,
+	<zhangtianyang@loongson.cn>, <blum@kernel.org>, <adityag@linux.ibm.com>,
+	<chao.gao@intel.com>, <kas@kernel.org>, <vishal.l.verma@intel.com>,
+	<seanjc@google.com>, <piliu@redhat.com>, <jbouron@amazon.com>,
+	<me@linux.beauty>, <mclapinski@google.com>, <graf@amazon.com>,
+	<bgwin@google.com>, <eric.devolder@oracle.com>, <hbathini@linux.ibm.com>,
+	<takahiro.akashi@linaro.org>, <lizhengyu3@huawei.com>, <palmer@rivosinc.com>,
+	<x86@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <driver-core@lists.linux.dev>,
+	<kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
+ <aq0UR62q6gGJUQ49@gmail.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <aq0UR62q6gGJUQ49@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE2Bdm3K+ZnrfB7xzkg=2fzMs7AmJzdF3aYCpN00h90TR6FMog@mail.gmail.com>
-X-Spam-Level: **
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.27 / 14.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	BAYES_SPAM(0.87)[80.13%];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[7cab6a19619f1b8efc00];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	ASN(0.00)[asn:7922, ipnet:98.32.0.0/11, country:US];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ZERO(0.00)[0];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[barelysecure.org:s=dkim68];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	FREEMAIL_CC(0.00)[nod.at,linuxfoundation.org,syzkaller.appspotmail.com,kernel.org,lists.linux.dev,vger.kernel.org,googlegroups.com,lists.infradead.org,bootlin.com,ti.com,gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[c-98-33-96-243.hsd1.ca.comcast.net:rdns,barelysecure.org:from_smtp,barelysecure.org:from_mime];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Server: server01
-X-Rspamd-Queue-Id: E311520C1B
-X-Spamd-Bar: ++
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Sat, Sep 19, 2026 at 08:58:51PM +0530, Chris Roy wrote:
+
+
+在 2026/9/18 18:41, Breno Leitao 写道:
+> On Fri, Sep 18, 2026 at 06:04:25PM +0800, Jinjie Ruan wrote:
+>> When CPU or memory hotplug events occur, the elfcorehdr in the kdump
+>> image becomes stale, potentially leading to incomplete crash dumps.
 > 
-> I'd rather not bolt a redesign onto this fix.
+> Looking through the series, it seems to mix bug fixes with new
+> feature work. Would it make sense to split out the fixes so they
+> can land independently, and keep the new features as a separate
+> patchset?
 
-Good decision!
+Hi, Breno,
 
-> > Is this check necessary? [...] Looks like the kernel is still
-> > undecided whether checks are necessary or not.
+Thanks for the review. I agree with splitting the series. I will
+separate the bug fixes into an independent patchset so you can pick them
+up more easily. Please note that the arm64 crash hotplug feature depends
+on these fixes, so they need to land first. I will send out the split
+patches soon.
+
 > 
-> I will keep it. kzalloc()/kstrdup() under plain GFP_KERNEL can still
-> return NULL under real memory pressure (no __GFP_NOFAIL here), and
-> dropping it would be inconsistent with the kstrdup() check two lines
-> below.
+> I'm currently rolling out crashdump CMA across the Meta fleet, so
+> right now I care mostly about picking up isolated bug fixes. As it
+> stands, it's difficult to tell which patches are fixes and which
+> are features.
 
-My foggy mind is slowly waking up.  GFP_ATOMIC can return NULL.  If
-you're trying to allocate memory from an interrupt handler or similar,
-you cannot afford to wait for memory reclaim to happen.  Those calls
-definitely need a check and a reasonable plan what to do in case of
-failure.
+Only the last three patches are related to the feature, and all the
+preceding patches are bug fixes. I will separate them out.
 
-GFP_KERNEL should be able to block and wait, so there really is no
-excuse for kmalloc to return NULL or for the callers to need a check.
 
-But your decision of not pulling too many decisions into a single patch
-is still a good decision.  Even if my logic is sound, removing checks
-from kmalloc callers should be a separate effort.
+-- 
+Best regards,
+Jinjie
 
-J�rn
-
---
-I don't understand it. Nobody does.
--- Richard P. Feynman
