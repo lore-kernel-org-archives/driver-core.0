@@ -1,159 +1,107 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A2830D3E5;
-	Sun, 20 Sep 2026 03:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F136E3D16FD
+	for <driver-core@lists.linux.dev>; Sun, 20 Sep 2026 05:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789876404; cv=none; b=sc8BY6QKlgKomEamU2Mdft56Np3d2RVsKyito2E5Nu9y/2LdRWj4zBSH3vM0Tx9UYMjsCALvFzN+I9IBdyx6/fHCthhVfKDdSFrX/OfRek+dwAF3JB4p9Bn3JDgCzDm1KoPAb3mHAJ2jN7Ua9E41G6tUcvAQ8XjmGNib5pfcc0I=
+	t=1789882759; cv=none; b=H154ZhgRUva9qoXRbRhmsltJTcNVI75hhQH/5+S9c0ez+jBCuGXkx+bahprIwsFE7fxONwJr1+58Hw9pswsfJtjVCE4hMdg8Q5zp1pBP4o+uY7qbzYuVuaW260qYLst4K2WhUtmffM3Vgqo3Oda2se7ZJU/skK8ujnsEmVzW0EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789876404; c=relaxed/simple;
-	bh=k2L4g+5YFCXxxft5ZvUMFRHA8kcSLTON1PROu97WIJ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FEXlaIe19lB77iZ6PBDBusQu+8TsMSBAPU8yl2gSbPQiE3rghV3pUqfJZp0X+xsWLGcan965VGvKiCeGNsSAQ1WkdKD8kAfVHj3QtX8KrlIpxXeScNwV2MbfTk2cssQn9rb6S1Fkb+A/j9TLRgD9ZDhVT4h4YJa+L1wkC6W146w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=rF0Ks1OV; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="rF0Ks1OV"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=tlRuK8oy4p5tnkX98fUn+MG7+GepzpfRQqepp1VDdiI=;
-	b=rF0Ks1OVp5HjgPVdwO3vQJK5rTKW6B2t+TaIafWOspsRr/x2OEimEnA3Y1/krDlFP7+YZPvyG
-	wJIUAx17deeeASsWoW/3sf4A4bz6SS6FzoZgdnjTbEsn+xbijr4z/yaIvZIjme1/WUcWKbfgM22
-	Tv7akItYW11zMpSyr8HODo4=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4hnXHF4FgQzLlSh;
-	Sun, 20 Sep 2026 11:42:17 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8B33A40565;
-	Sun, 20 Sep 2026 11:53:18 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- kwepemk200008.china.huawei.com (7.202.194.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Sun, 20 Sep 2026 11:53:16 +0800
-Message-ID: <a6772b15-0229-40f3-be55-0d9ed229c0a1@huawei.com>
-Date: Sun, 20 Sep 2026 11:53:15 +0800
+	s=arc-20240116; t=1789882759; c=relaxed/simple;
+	bh=KUtjs6FgOjsyLkOFxgBaigUiwew9qgi3NFDBAcDMWv0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BUetgVbX5Xij+x2sYNrhl66Q6RlsGeRGj99ihvHo0e+jctaoXdfy2cYSCRuE1R9uh0bS1vH1al9DaDZAfqgGxC/HDwLKhiHYq3P8+XdoDsJLvaZBkdM+T99yklNNrg5J5fExwcKHPN2pVNNx4QhAJhYoHENOyIVejinY3qcqyZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.162.235.101])
+	by mtasvr (Coremail) with SMTP id _____wD30H13ca9qOVomAQ--.23770S3;
+	Sun, 20 Sep 2026 13:39:04 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.162.235.101])
+	by mail-app2 (Coremail) with SMTP id zC_KCgDHFMl1ca9q4MSLBA--.35390S2;
+	Sun, 20 Sep 2026 13:39:02 +0800 (CST)
+From: Jiacheng Xu <stitch@zju.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: vishal.moola@gmail.com,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	akpm@linux-foundation.org,
+	driver-core@lists.linux.dev,
+	Jiacheng Xu <stitch@zju.edu.cn>
+Subject: [PATCH v3] kobject: fix out-of-bounds access in kobject_action_type()
+Date: Sun, 20 Sep 2026 13:37:26 +0800
+Message-ID: <20260920053726.22626-1-stitch@zju.edu.cn>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <16559d89.19644.1a037110cc7.Coremail.stitch@zju.edu.cn>
+References: <16559d89.19644.1a037110cc7.Coremail.stitch@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 17/17] arm64: crash: Add crash hotplug support
-To: <sashiko-reviews@lists.linux.dev>, <tglx@kernel.org>,
-	<ritesh.list@gmail.com>, <mark.rutland@arm.com>, <chao.gao@intel.com>,
-	<kas@kernel.org>, <linuxppc-dev@lists.ozlabs.org>, <yeoreum.yun@arm.com>,
-	<x86@kernel.org>, <baoquan.he@linux.dev>, <hbathini@linux.ibm.com>,
-	<sourabhjain@linux.ibm.com>, <linux-kernel@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <jbouron@amazon.com>,
-	<dave.hansen@linux.intel.com>, <rafael@kernel.org>, <coxu@redhat.com>,
-	<akpm@linux-foundation.org>, <gshan@redhat.com>, <vishal.l.verma@intel.com>,
-	<ruirui.yang@linux.dev>, <seanjc@google.com>, <bgwin@google.com>,
-	<chenhuacai@kernel.org>, <pasha.tatashin@soleen.com>, <kees@kernel.org>,
-	<me@linux.beauty>, <npiggin@gmail.com>, <maddy@linux.ibm.com>,
-	<thuth@redhat.com>, <graf@amazon.com>, <palmer@rivosinc.com>,
-	<chleroy@kernel.org>, <guodongtai@kylinos.cn>, <zhangtianyang@loongson.cn>,
-	<eric.devolder@oracle.com>, <catalin.marinas@arm.com>, <leitao@debian.org>,
-	<driver-core@lists.linux.dev>, <piliu@redhat.com>, <kernel@xen0n.name>,
-	<dakr@kernel.org>, <pratyush@kernel.org>, <sshegde@linux.ibm.com>,
-	<tangyouling@kylinos.cn>, <adityag@linux.ibm.com>, <rppt@kernel.org>,
-	<mclapinski@google.com>, <takahiro.akashi@linaro.org>,
-	<linux-arm-kernel@lists.infradead.org>, <will@kernel.org>, <ardb@kernel.org>,
-	<gregkh@linuxfoundation.org>, <lizhengyu3@huawei.com>, <linux-mm@kvack.org>,
-	<james.morse@arm.com>, <linux-fsdevel@vger.kernel.org>, <mpe@ellerman.id.au>,
-	<mingo@redhat.com>, <bp@alien8.de>, <blum@kernel.org>, <robh@kernel.org>,
-	<hpa@zytor.com>, <liukexin@kylinos.cn>, <maqianga@uniontech.com>
-CC: <kexec@lists.infradead.org>
-References: <20260918100442.3841135-1-ruanjinjie@huawei.com>
- <20260918100442.3841135-18-ruanjinjie@huawei.com>
- <20260918103657.0CC341F000FF@smtp.kernel.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260918103657.0CC341F000FF@smtp.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+X-CM-TRANSID:zC_KCgDHFMl1ca9q4MSLBA--.35390S2
+X-CM-SenderInfo: qtrxiiaqttimo62m3hxhgxhubq/
+X-CM-DELIVERINFO: =?B?6+2IkAXKKxbFmtjJiESix3B1w3tMoM3snk/k5SVzZVydjEqe1eefKHnLf95EnB4iem
+	egWwQkFDeLwlqL5lzEaRMYLHIYeLkY9kwH+qefAODLgNNC5oIwDjHnHuA84Faspe9V2ONg
+	XhsWVp2R/a+JezvqnT2XguWHTWSWDw9kjeBztpJ5
+X-Coremail-Antispam: 1Uk129KBj93XoW7Kw4DWF1DKrW3Jry5ZrW3CFX_yoW8ArykpF
+	Wa9w13trykJw47Gws8K3ZYgFW3Ga1ktryUGF90vws3K3yY93ZYganxKr1Duw13GF4rAw12
+	qa4jgw4Y9FWUZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvvb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
+	3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+	WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
+	cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuY
+	vjxU7xwIDUUUU
 
+kobject_action_type() compares the input against each known action
+using strncmp() and then indexes the action string using count_first
+to check for an exact-length match.
 
+An embedded NUL can make strncmp() return zero even when count_first
+exceeds the length of the action string. For example, the five-byte
+input "add\0X" makes the parser access kobject_actions[KOBJ_ADD][5],
+which is beyond the end of the "add" string.
 
-在 2026/9/18 18:36, sashiko-bot@kernel.org 写道:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] kexec: arch_crash_get_elfcorehdr_size() exports undersized buffer when MEMORY_HOTPLUG is disabled
-> --
-> 
-> commit fd293f9cfd1a12554d9352f4ad58fc9f85721fa3
-> Author: Jinjie Ruan <ruanjinjie@huawei.com>
-> arm64: crash: Add crash hotplug support
-> 
-> This commit introduces kernel mechanisms to update only the elfcorehdr
-> on memory hotplug events for arm64. It adds ARCH_SUPPORTS_CRASH_HOTPLUG 
-> and implements arch-specific functions to handle memory hotplug, avoiding
-> full kdump image reloads from userspace.
-> 
-> Link: https://lore.kernel.org/all/20240529133446.28446-1-Jonathan.Cameron@huawei.com/
-> 
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index b5a51b0ef9440..96de2660b1cbb 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -1720,6 +1720,9 @@ config ARCH_DEFAULT_CRASH_DUMP
->>  config ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
->>  	def_bool CRASH_RESERVE
->>  
->> +config ARCH_SUPPORTS_CRASH_HOTPLUG
->> +	def_bool y
->> +
-> 
-> [Severity: High]
-> Does unconditionally enabling ARCH_SUPPORTS_CRASH_HOTPLUG here expose an
-> undersized buffer to userspace when CONFIG_MEMORY_HOTPLUG is disabled?
-> 
-> Since CONFIG_HOTPLUG_CPU natively selects CONFIG_CRASH_HOTPLUG on
-> architectures that support it, having this default to 'y' allows
-> CRASH_HOTPLUG to be active even without MEMORY_HOTPLUG. This leads to the
-> size calculation issue below.
-> 
-> [ ... ]
->> diff --git a/arch/arm64/kernel/crash.c b/arch/arm64/kernel/crash.c
->> new file mode 100644
->> index 0000000000000..08dc9b952498e
->> --- /dev/null
->> +++ b/arch/arm64/kernel/crash.c
-> [ ... ]
->> +unsigned int arch_crash_get_elfcorehdr_size(void)
->> +{
->> +	unsigned long phdr_cnt;
->> +
->> +	/* A program header for possible CPUs, vmcoreinfo and kernel_map */
->> +	phdr_cnt = 2 + num_possible_cpus();
->> +	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
->> +		phdr_cnt += CONFIG_CRASH_MAX_MEMORY_RANGES;
->> +
-> 
-> [Severity: High]
-> Is this calculation missing the static memory ranges when
-> CONFIG_MEMORY_HOTPLUG is disabled?
-> 
-> If compiled with CONFIG_HOTPLUG_CPU=y (which natively selects
-> CONFIG_CRASH_HOTPLUG) and CONFIG_MEMORY_HOTPLUG=n, phdr_cnt is computed as
-> exactly 2 + num_possible_cpus(). This does not account for the mandatory
-> memblock ranges from arch_get_system_nr_ranges(). 
+Check the action string length with strlen() instead of indexing it
+with the input-derived offset. This rejects malformed action strings
+containing embedded NUL bytes with -EINVAL instead of invoking
+undefined behavior.
 
-Will fix it in v6.
+Fixes: 60a96a59569b ("Driver core: accept all valid action-strings in uevent-trigger")
+Signed-off-by: Jiacheng Xu <stitch@zju.edu.cn>
+Reviewed-by: Vishal Moola (Fractile) <vishal.moola@gmail.com>
+---
+Changes in v3:
+- Document rejection of action strings containing embedded NUL bytes.
+- Correct the Fixes tag.
+- Correct the malformed-input example.
+- Add Vishal Moola's Reviewed-by tag.
 
-> 
-> Unlike x86 or powerpc which might survive this due to heavily padded
-> CONFIG_NR_CPUS_DEFAULT values, arm64's precise num_possible_cpus() leaves
-> zero headroom. As a result, the exported maximum elfcorehdr size is strictly
-> smaller than the required size to hold static memory ranges, and any attempt
-> to arm kdump (kexec -p) will fail because kexec-tools cannot load the crash
-> kernel into the undersized segment.
-> 
+ lib/kobject_uevent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..b03562301bfe 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -83,7 +83,7 @@ static int kobject_action_type(const char *buf, size_t count,
+ 	for (action = 0; action < ARRAY_SIZE(kobject_actions); action++) {
+ 		if (strncmp(kobject_actions[action], buf, count_first) != 0)
+ 			continue;
+-		if (kobject_actions[action][count_first] != '\0')
++		if (strlen(kobject_actions[action]) != count_first)
+ 			continue;
+ 		if (args)
+ 			*args = args_start;
 -- 
-Best regards,
-Jinjie
+2.51.0
 
