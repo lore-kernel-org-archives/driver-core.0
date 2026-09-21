@@ -1,95 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BD233E347;
-	Mon, 21 Sep 2026 09:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46724356770;
+	Mon, 21 Sep 2026 09:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789982374; cv=none; b=gnsxemvv1RTNvsibQ1MgdA5hWcHIIvCE5FPBOUSgXBBBL995miEwTPEfPwHII6R3O7xKox8AlB3hNRdartriHHVw93EtjvdW1fSdgsUHduXbiByeJeizHG59O831CHc30QsIIeu7N0RtUrlRLrVDq9pXbqvclZVZW+8hvOJSEXI=
+	t=1789982395; cv=none; b=I6CAo7fvPyoTzkIrF/3hYiaS9WmBSmRKZO3ARqTxhfbB/4Rr3MflWBsNaf5rCLhL1j+owE3QFQYw4IIPYjnaX7Cr47vqImS/pwUpG1ZGoor5HEU+W32FgA92uLdnWgAxGhF2GlxMP8hvGLnlXHiZ9IA4as5Q9UY+RBWUaNAIi0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789982374; c=relaxed/simple;
-	bh=BAxtUZVQ1BEYK1Q+cUz5K5rGE5XaRoSXjcP5B8FiVhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R6Kfj0lIKnybAAVN51keI/4Pb4BbXShJVTXpxGF1hMkIeBtpCBdsZFGktKebnx3s6ZwUjTbd9ASdvIt/lpV+C5O2p7EEX5hi/BUj4DvRucJxJIMjieS/Uikl6JVUClUoRhDsDtmYxvwP126kVFBeRTYV5FFTzbohZXrCByPmpK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n6jqQI6c; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789982395; c=relaxed/simple;
+	bh=AENc5PoN4tg4eog3EuDY2lgukB8xBmNUVdIdsr8Byh4=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=jasqd055AJnHojN8efHyJqC+Kyq6oyuwNwPLh4+55TnY0O7VxRjXvVYB2eXgFF3PcaAiRQ7wG8cxTFaHFUKN/FCaJP6eEWNI5gqjzWV3NkN0Iyz+01YXO9lP3Db3mlVeMIbujyZD12QTU35nXeRNCqBg2kSapCH80ZjXF/8OB1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HgcUGeAD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n6jqQI6c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D441F00893;
-	Mon, 21 Sep 2026 09:19:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HgcUGeAD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE231F000FF;
+	Mon, 21 Sep 2026 09:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789982373;
-	bh=0UAv8K4XD4cycLfQCkBui2xNduC/+GZFY8oysMlPaiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n6jqQI6coi+v507hq9aEUwfNtE3GwdYgdrln2+SuviKlaqvcdJeD1wAdxiRpJ7yP7
-	 ih4vRUD/NEPlRRB1z9RwhZjjeulJNbTvO7XpqtPaYOUl+T/0UKaCfj9KRk781y2bhE
-	 3kmb2VR3FRrl4EBGx0m5FMyozYeqLQmWvLQD/MWznELJEfS7xMyEFvBvhuRbc59lji
-	 uFHFV4UQsG9yhrsKMcJ+UWQU1sfgdv0R9RgArGrrM2hK8uWaiEW5mg3+yx1svPRWgs
-	 3YF2h+ft6HiBay6TZvn2wyRL+g5ngLleWLIxomg8eMNPnXkMEBnxtzr/s/8sCh60Ga
-	 g09XORlSf3VHg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id E67361AC52F4; Mon, 21 Sep 2026 10:19:29 +0100 (BST)
-Date: Mon, 21 Sep 2026 11:19:29 +0200
-From: Mark Brown <broonie@kernel.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH RFC 2/4] regcache: use the regmap scoped lock guard
-Message-ID: <arD2oclSWsFo551s@sirena.co.uk>
-References: <20260921-regmap-lock-guard-v1-0-cdbd97b46074@nxp.com>
- <20260921-regmap-lock-guard-v1-2-cdbd97b46074@nxp.com>
+	s=k20260515; t=1789982393;
+	bh=lYPW2EitrWksOeNywbT4ACddfE8LBXRuHuJ++AYnkVg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=HgcUGeADs7/M03n4e2fM1RNJ+WDOaeSKU+QjIz/LtyFBUbeVb4L6/srXNM6s+yLNv
+	 lemuTopLmR2RY1n46up1y6lfw2TMG+aXggHsOLTYpKvTSW+vgKxMx6SkvQeFQps3ws
+	 LZmwqCnE+K8/UsHYTHgJgNTPjKAMTLM+s8evUKg2waXxzx3eq6dsntJvuKU8eTySRy
+	 n36264uQDAJ9ioRxlPfRKtNGms4PwRu3OHjhXWjPEXx3gi/RjiBAl7Ew39lMayDC/6
+	 xPzGfGJQuRTpNBCK4aGXsXkjg0/RZfLekSNvS3HBjltpptS1F1D56r968uAhWjn0Vv
+	 hAK7VnVuwYw0w==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 12/14] crash: Normalize the kexec_load elfcorehdr at
+ load time
+Reply-To: sashiko-reviews@lists.linux.dev
+To: zhangtianyang@loongson.cn, chleroy@kernel.org, eric.devolder@oracle.com, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, dakr@kernel.org, guodongtai@kylinos.cn, hpa@zytor.com, kernel@xen0n.name, chao.gao@intel.com, pasha.tatashin@soleen.com, npiggin@gmail.com, coxu@redhat.com, liukexin@kylinos.cn, seanjc@google.com, bgwin@google.com, rppt@kernel.org, bp@alien8.de, kai.huang@intel.com, sshegde@linux.ibm.com, kees@kernel.org, mpe@ellerman.id.au, tglx@kernel.org, jbouron@amazon.com, yeoreum.yun@arm.com, "Jinjie
+ Ruan" <ruanjinjie@huawei.com>, maddy@linux.ibm.com, gregkh@linuxfoundation.org, will@kernel.org, pratyush@kernel.org, akpm@linux-foundation.org, robh@kernel.org, tangyouling@kylinos.cn, piliu@redhat.com, hbathini@linux.ibm.com, mark.rutland@arm.com, chenhuacai@kernel.org, me@linux.beauty, mclapinski@google.com, dave.hansen@linux.intel.com, ritesh.list@gmail.com, x86@kernel.org, linux-arm-kernel@lists.infradead.org, leitao@debian.org, palmer@rivosinc.com, maqianga@uniontech.com, james.morse@arm.com, takahiro.akashi@linaro.org, linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev, vishal.l.verma@intel.com, catalin.marinas@arm.com, graf@amazon.com, sourabhjain@linux.ibm.com, mingo@redhat.com, ruirui.yang@linux.dev, rafael@kernel.org, baoquan.he@linux.dev, thuth@redhat.com
+Cc: kexec@lists.infradead.org, ruanjinjie@huawei.com
+In-Reply-To: <20260921090450.807575-13-ruanjinjie@huawei.com>
+References: <20260921090450.807575-1-ruanjinjie@huawei.com>
+ <20260921090450.807575-13-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Sep 2026 09:19:51 +0000
+Message-Id: <20260921091951.BDE231F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v5kXPfViKL/8hu/e"
-Content-Disposition: inline
-In-Reply-To: <20260921-regmap-lock-guard-v1-2-cdbd97b46074@nxp.com>
-X-Cookie: Too clever is dumb.
 
-
---v5kXPfViKL/8hu/e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 21, 2026 at 02:03:34PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
+> For kexec_load() the kernel does not build the elfcorehdr, so it is only
+> rewritten by the first crash hotplug event.  CPU hotplug events do not
+> change the elfcorehdr, but they may run without device_hotplug_lock
+> (e.g. CPU offlining during suspend), so they cannot perform that rewrite
+> without racing with memory hotplug.
 >=20
-> Convert the open-coded map->lock()/map->unlock() users in regcache.c
-> to the regmap scoped guard introduced for regmap.c. Use
-> scoped_guard(regmap, ...) where the locked region is a subsection of
+> Normalize the elfcorehdr once when the crash image is installed via
+> crash_hotplug_prepare_elfcorehdr(), while device_hotplug_lock can still
+> be taken safely, and let the hotplug paths skip CPU events entirely.
+> Architectures that do not need the rewrite  (e.g. powerpc) treat
+> KEXEC_CRASH_HP_NONE as a no-op.
+>=20
+> The x86 crash hotplug handler now skips CPU hotplug events
+> unconditionally, so nothing reads image->elfcorehdr_updated anymore.
+> Drop the field and the code that maintains it.
+> [ ... ]
+> Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Cc: Pratyush Yadav <pratyush@kernel.org>
+> Cc: Dave Young <ruirui.yang@linux.dev>
+> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-> @@ -432,73 +428,69 @@ int regcache_sync(struct regmap *map)
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-> +		for (i =3D 0; i < map->patch_regs; i++) {
-> +			sync_ret =3D _regmap_write(map, map->patch[i].reg, map->patch[i].def);
-> +			if (sync_ret !=3D 0) {
-> +				dev_err(map->dev, "Failed to write %x =3D %x: %d\n",
-> +					map->patch[i].reg, map->patch[i].def, sync_ret);
-> +				goto out;
-> +			}
->  		}
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260921090450.8075=
+75-1-ruanjinjie@huawei.com?part=3D12
 
-This has the mixing scoped guard and goto thing I keep raising.
-
---v5kXPfViKL/8hu/e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqw9qEACgkQJNaLcl1U
-h9C5Sgf8CHVp1uXi4cp0tdlSFoEnyqAgDHGMKqIiwKdP5Jq939YLRYuE/Bc73nLY
-ycuIOwC7YgIGIEAsLaQtPCOJh6Str+RDJftvKcm2drP865gLAFRUE9xrNokEhAA0
-PdKZszF28DL/33YcUBHX6Hft5tcUkBCKMH201zsmNZNCDc5Type6QVa71k71iDXF
-Q2eDCDX1Fk+IaxVyfLdc5E/scVdhXJ2ZHJuk+dAqUoucHjidqvoALslZfSXLzLQQ
-On2L20Ez4P4ABl7/LwpNbWKYERnTXjBkgH0Mf2l07yGbcb9taUII4caLDpeXvQDV
-Tc60HnJHEp3MFylTr/AQjXFbTTzuug==
-=QPFd
------END PGP SIGNATURE-----
-
---v5kXPfViKL/8hu/e--
