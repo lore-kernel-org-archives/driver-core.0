@@ -1,275 +1,359 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC31429039
-	for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 10:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5622E7378
+	for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 10:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789986866; cv=none; b=avueS/zrjtrOOJRyAUjOZ4mydHwe6kPu63D6UInjo595hE3TwyHx2GUh93kwdH1e6w+JbJAZstonzJxeviAGGytTVki/MDwqRWk9+RXa0JYzj+jdHBUs3TJSLmmfT7vC9MGw7LGZUh5W+PwNaabYitZg1Ye0aUnasrHcqRjxNQM=
+	t=1789987911; cv=none; b=S8ULib+N7RD9ejgMHameBOsXUPspF7cyysf8RD9CgxlpHosW14Dsz9byqEKKksUL0TW7HnqjKMfY0sigFEDyhgkSimvWQxLgmavyi9ggAry9fa590HS/ROJ3oKrFgFRJuKPdCDZZPrFxcPoFsrx7uP8qLCWADzrc4ytjuDa4vfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789986866; c=relaxed/simple;
-	bh=6ZJ3HBAnVi+bv1R4+LyR1jyVZOUmRtIha+fA6X4PIG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FcAMJOPfCdiz825u0+wOlA1vnG20hgPlNmKi6raBB4yrhV8ZNxooTMtY4D+tFxKaw7oyTQve42yhKJMOaVHgbGlZxHRGQS/9yGx9qsuaPPEA+DW0+4mH6CxJaI7CX5Z1vJxmlpoAmuwJcLXSYsvuLWCKUCX5yspZlSVgFV9I3jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nu1c+OU3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hJ1rWflQ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789987911; c=relaxed/simple;
+	bh=B7xAGKbm+zUqgFqse1/7beuuqa6SMNRQ6ULAavpm9uA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D7G6qKicnbjfsinH0xTGGt8V68k/Vpo/VmMeVZe7Cn4LMKQP3uCzrkonVzWdeow6zYO91tF25lN1vl2T/JJwgJlbcVAWfsbPq1uVFMJ9a1iQMPZmdCELekYrdac99aNlpPjUADK0ek8JtjgG6ND7ud/sdZfcTNpyyMYuSTQiobI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=g2eF+tgh; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nu1c+OU3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hJ1rWflQ"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68L79kja1458259
-	for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 10:34:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Mt2TVAdkOz3CF4PuiPRZmQqH4poHoWLAlrUjVkVCVjQ=; b=nu1c+OU3hIqzGgFj
-	jVf5TTMFH4V2cSCPP8rAK0s1cdFt507jvo/V59KgggbOp/B4jcrDZNsiw0/ACb1w
-	CnFU9vI8ZKyYGrxvNwVdspi8Gffc+L17Mb76eV7WNAxSUQUEMgDu7eq4fuvpigQR
-	TobJg08iAUqEU96LvQGlUq8i27dm4JRT3oVX8PnGwcVyXDTigZvU2aadSWbZLJzF
-	GbkTZ5WfD/+pm7dHlLZgU91xGahBn1LE6USIcnhPQA2KrizKK/zvSj0DuYA24C3d
-	JuAGPRHCu0aptBRhZYPhG8YyeQ6X3Mxlnt6iLsd5MI8DhR9uXXv7IYArkoDQUHJR
-	HZEOHQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gtt3v9xj1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 10:34:24 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so4010764a91.3
-        for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 03:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789986864; x=1790591664; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Mt2TVAdkOz3CF4PuiPRZmQqH4poHoWLAlrUjVkVCVjQ=;
-        b=hJ1rWflQHHgPnfXFMWc4qqXJ838WgmhpftZuax4NtDmXRedvYMKI7g1EW19KTNx8t4
-         Q65kRtjLVaURK3RsPTeCvEQj4XgDVZpO2CPVw21j+ul+rcNVVuAFBErUi5M7QuD6fehA
-         vVIeWRxuI3cByGAyiEPTqT1VoIpeDyVJQlctG9Z5ywODGChLuTUn71IvhwLA9IDLhCiL
-         9iTZbIKGrbF/YbHgpPtLp7jh0Otbnk5uf5ciOrMrFDgIpleRBdjC6RLZ4lb9K1wS+XnD
-         hJtOuy57uMorskjkS5O3ElFCGgegSM3sgcsVsZv+UwqVpmEb3LjFzHaN3QyfTeYU8WzR
-         XawA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789986864; x=1790591664;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Mt2TVAdkOz3CF4PuiPRZmQqH4poHoWLAlrUjVkVCVjQ=;
-        b=EeTU950HyNhUFr366AY9plSkVtUYWV4vaoxN3uYBUk37edTU6Gjy/RGXMWxrfPfleU
-         8rFQz2t/4ffamX72DGixx8BTbOAsVPRBmcXdhzsRWXJa67J+b3bskEHkTPAv1FjYNcHK
-         fpVfS3ch/Q+qD9INljtPnSUaeXNKkS8OFL3Q7y/Pa/8J6ECI/hiJvVwRMe0H5MQfctNQ
-         gtyYBoDrglLfIehWA8z1pEpcCo8xnMlty6Vs7XMVHWuLPEIAnnijkplFiLCXMBQ8Qxcd
-         kBzGB+HWrZGWNd4b/r7mAX/vhtXHNuUFL0Wsmcof4XULnDbMFFDRksE+QS6EobSC/Nrs
-         w7/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzsGHCBMXMzITLGmvmCuET6BK8c11YABRlAiWOuOcxgbuP4nc564cgucbIxjtpkQuBPmfNYnBuItP5lqw==@lists.linux.dev
-X-Gm-Message-State: AFuF++n9EvqVCYPrwt+dbGxxy+HLqNPWuQ0XdT+yeLNMk9BvxxkgzrN5
-	Fxfz4wiICHD4E/EM1WLhhf+NKjBccym5g+EaJwWY1osLOADUkYZi6LajdRbfQIxVXqQ9LViDwS/
-	F3csKz19ddfkXn1Vxf+9k4TIvXkcyuBe2pUXa3YcsV5ePI0eXEnMuqfOCoZ557AAB5Q==
-X-Gm-Gg: AYBFou3e7BbCf9d8v0TEzlw2UC0DxlHbByG3kp8tnHQPFGwKbJF07hY58nebasBZWvu
-	9hM01TlJxmmetBDlmMSYUUMasvnaASy0WhV/9Mejwrr6qSCYTmOvOKmlhPjkqXU2UJMhclKfVBl
-	OxwCfId6g1yQK3muJbF9/9eUbzy46eLGHVOg7k3NrQhYvbKD4K4o8qJZceSpR3+cr6L9oi66i29
-	jJZ0e3v2PNvqr+xFghFJ5rL0wEBIVfl9FzjBdqzAl8vVPEqnh1iv1M1T/c5eydKYcj8nfj4KLzM
-	FpxtdRVbHE2kQgp+0OU4a0Bv6iRPUBbbRLPI/j3KFOggzDu1B+iWgOLcqmrbmnAb94CR8swW19e
-	u3ok5gWXvwZKu5tiu9bO7h8QrX0491AbknBCLgTMYZonD0PzehRQ54ID9aIYBP/3jNk4DqnRgm9
-	Nho9bfXnfAkULqHOk=
-X-Received: by 2002:a17:90b:3909:b0:39e:1f16:6167 with SMTP id 98e67ed59e1d1-39e54aa348bmr15999914a91.3.1789986863566;
-        Mon, 21 Sep 2026 03:34:23 -0700 (PDT)
-X-Received: by 2002:a17:90b:3909:b0:39e:1f16:6167 with SMTP id 98e67ed59e1d1-39e54aa348bmr15999870a91.3.1789986863056;
-        Mon, 21 Sep 2026 03:34:23 -0700 (PDT)
-Received: from hu-anancv-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144d55f299fsm33596738c88.15.2026.09.21.03.34.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 03:34:22 -0700 (PDT)
-Date: Mon, 21 Sep 2026 16:04:16 +0530
-From: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-To: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>, linux-kernel@vger.kernel.org,
-        driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-        Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/2] cpufreq: fix schedutil not returning to non-boost
- freq when boost is disabled
-Message-ID: <arEIKD11YRH6YoHz@hu-anancv-blr.qualcomm.com>
-References: <20260908-schedutil-boost-frequency-handling-v2-0-25312a713699@oss.qualcomm.com>
- <20260908-schedutil-boost-frequency-handling-v2-2-25312a713699@oss.qualcomm.com>
- <05c00750-7fc2-49d4-9336-7beb33fd9380@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="g2eF+tgh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1789987907;
+	bh=B7xAGKbm+zUqgFqse1/7beuuqa6SMNRQ6ULAavpm9uA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=g2eF+tghtShQlmNjeFmqjYC+9ICEz6zMeUMFuAAzj72BOBbXpaKD3xXYm0PY4zwqF
+	 Zqzq+mrP/dLj0yPzxYlTael9GD+uRYOEC6sqTCGrx2d74JpcQrxWnwqeIfz5CvDlU9
+	 u5iEiz3aEI636MIYcXz+d0eK2CjII3nTLlNy45xqUV6g6aPysCgfpjtQsl/FnNYEwI
+	 E0Fe/hyw2jWUn1QbF0lvfjcYnokgaVIMZm137OQD2GYH0ESOLy3sinO9MppOEWAwd9
+	 tnF3utAoDi9BV8EhQD3lZ5bGgsGPl0UCOZNJVcYeY1kTjLA01CycD/rDqV0jddI1/q
+	 BZc8aE1sPBbGg==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F0F7C17E03B6;
+	Mon, 21 Sep 2026 12:51:46 +0200 (CEST)
+Message-ID: <0133cf19-709b-41f0-8f2e-e7ffede3ac1c@collabora.com>
+Date: Mon, 21 Sep 2026 12:51:46 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <05c00750-7fc2-49d4-9336-7beb33fd9380@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Ytia1IYX c=1 sm=1 tr=0 ts=6ab10830 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3w5Ww3LrqGCV8gR0HSsA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: LuefeFGyS8cy013B23hjHHmaKneRNtPg
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDE1MyBTYWx0ZWRfXxLED5x1XIXPB
- X4mxVerFB7/Y5mtJb2c8p4RaR6nQ4Tt4Qdn7gAjtuuRHMtXECEiqhGMue/JR+TXCbTdvPCfnFnd
- noE0smYqWHn9UPBKSLqLn4mPLOibL0g=
-X-Proofpoint-GUID: LuefeFGyS8cy013B23hjHHmaKneRNtPg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDE1MyBTYWx0ZWRfX1bMKWxFNXZE0
- 2BIsYbGED1CGg1MShaJ2rmPtm6rjqzLnB9YFVdhQjawuatq6jKds8qOlXByi7JnBsTEVGzBxgnP
- cXD8KluohWhpc0SNxe9AbLVaj1aEx3mI5QRguTttmZctiOMoVtvr1QdAoJf1BlEN/9FfnlgsweC
- YB7hL0pqYntXWx2/Y4mnKjrvpDdeANOTQIfF9i22t4XapBVjzdy+qhnceYJNSi5g4CvpUHqrMdT
- oTz7P+8ioMxt2x6h9TiMmAWFFBG8HERGd9ex0X16P7y5O9SXxdTcdPsHDvRWj2+Kp/1wLpv9+WB
- AECzdQuarCiIlTbmuUcBn+cbeBetkACBwAthurEIViKNQbAWrupTFE7xBbvWAvtgPdncbKMLj5g
- +hvSbbX925X8TmP0HQKDB/2NlhIgNFonscFhFt/A38lQPJVzDPlH/i9F7XzbeDDtWxAdloJUNlR
- zSLqKNYW6/R2IMAN2Yw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
- clxscore=1015 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609210153
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/15] usb: enable M.2 E-key slot USB with pwrseq
+To: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>
+References: <20260916075745.3549953-1-wenst@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260916075745.3549953-1-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Zhongqiu,
+On 9/16/26 09:57, Chen-Yu Tsai wrote:
+> Hi everyone,
+> 
+> This is v9 of my attempt at integrating the power sequencing API into
+> the USB core to support the USB connection on M.2 E-key slots. M.2
+> This series was previously titled "arm64: mediatek: Add M.2 E-key slot
+> on Chromebooks", which caused it to be missed by the USB maintainers.
+> E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
+> Hopefully this is the last revision. The fwnode patches need a reviewed-by
+> from the fwnode owners.
+> 
+> As for Sashiko's comment about fwnode_get_next_*() not putting the
+> reference to @prev when @node is NULL, I plan to update the kernel-doc
+> for all the functions in a separate patch later.
+> 
+> Another one of Sashiko's comments is related to dropping the wakeup-source
+> property from the PCIe node. AFAIK there is no alternative as there is
+> no longer a node to put it in.
+> 
+> Last, one comment from Qualcomm folks is that the port numbering
+> conflicts with what the dwc3 bindings specify. IMHO the dwc3 bindings
+> should be fixed, as the dwc3 controller embeds a XHCI for host mode,
+> and XHCI port numbering should follow standard USB host hardware port
+> numbering. I will send separate RFC patches for this.
+> 
+> Changes since v8:
+> - Moved Sashiko-related comments from commit message body to footer
+> - Collected tags from Sakari
+> - Dropped USB port related code movement to usb/core/port.[ch]
+> - Link to v8:
+>    https://lore.kernel.org/all/20260904084158.1341550-1-wenst@chromium.org/
+> 
+> Changes since v7:
+> - Mention in kernel-doc that the function does not return ports that
+>    have no endpoints (Sakari) (patch 1)
+> - Adapted to pwrseq_enable/disable() rename
+> - Link to v7:
+>    https://lore.kernel.org/all/20260724084328.3943997-1-wenst@chromium.org/
+> 
+> Changes since v6:
+> - Patch 3 (power: sequencing: Add pwrseq_get_state())
+>    - Adopted enum for valid return codes (Bartosz)
+> - Patch 10 (usb hub pwrseq integration)
+>    - Added braces ("{}") to for loop in hub_is_port_power_switchable() (Andy)
+>    - Adapted usb_port_is_power_on() to new pwrseq_get_state() function
+>      return values (Bartosz)
+> - Link to v6:
+>    https://lore.kernel.org/all/20260721065413.2306137-1-wenst@chromium.org/
+> 
+> Changes since v5:
+> - Patch 1 (device property: Add fwnode_graph_get_port_by_id())
+>    - Dropped left-over declaration in header (Sashiko)
+> - Patch 3 (power: sequencing: Add pwrseq_power_is_on())
+>    - Reverted back to returning -EINVAL if descriptor is NULL (Andy /
+>      Bartosz)
+> - Patch 6 (usb: hub: Associate port@ fwnode with USB port device)
+>    - Added extra |struct fwnode_handle *| local variables to shorten lines (Andy)
+>    - Added comment about passing fwnode_graph_get_port_by_id() return value
+>      directly to device_set_node() (Andy)
+> - Patch 10 (usb hub pwrseq integration)
+>    - Only assign port_dev->pwrseq if successfully retrieved pwrseq
+>      descriptor (Andy)
+>    - Dropped the pwrseq error pointer check in the release function
+>      (Andy)
+>    - Added check for port->pwrseq != NULL before calling
+>      pwrseq_is_power_on() (API change from patch 3)
+> - Link to v5:
+>    https://lore.kernel.org/all/20260715085348.3457359-1-wenst@chromium.org/
+> 
+> Changes since v4:
+> - Added flags parameter to fwnode_graph_get_port_by_id() so users can
+>    specify whether incomplete ports are returned or not (Sashiko)
+> - Made pwrseq_power_is_on() return 1 if descriptor is NULL, i.e. if
+>    the descriptor is optional, matching the other pwrseq consumer APIs
+> - Added patch to swap out conditional set_bit()/clear_bit() with
+>    assign_bit() (split out from "usb: hub: Power on connected M.2 E-key
+>    connectors with power sequencing API") (Andy)
+> - Call fwnode_graph_get_port_by_id() with FWNODE_GRAPH_DEVICE_DISABLED
+>    so that even incomplete ports can be connected (Sashiko)
+> - Dropped unused |hdev| variable from usb_hub_remove_port_device()
+>    (Greg / Sashiko)
+> - Dropped 'extern' from usb_port_is_power_on() header declaration (Andy)
+> 
+> - Patch 10 (usb hub pwrseq integration)
+>    - Rewrote usb_port_is_power_on() to better express intent and
+>      restrictions of pwrseq API (Andy)
+>    - Switched to dev_fwnode() in port_pwrseq_is_supported() (Andy)
+>    - Added blank line separating normal variable declarations and __free()
+>      type declarations (Andy)
+>    - Split out assign_bit() rewrite (Andy)
+>    - Moved pwrseq_put() to release function to avoid UAF (Sashiko)
+>    - Added back pwrseq_power_off() call in usb_hub_remove_port_device();
+>      otherwise power off could be delayed to object release
+>    - Don't clear hub->ports[port1 - 1] in main error path;
+>      by that time the port device is registered and sysfs attributes are
+>      available to userspace (Sashiko)
+> 
+> - Dropped blank line between __free() variable declaration and
+>    subsequent use of the variable in conditional (Andy)
+> - Added patch to split Bluetooth pwrseq units (Wei)
+> - Link to v4:
+>    https://lore.kernel.org/all/20260709095726.704448-1-wenst@chromium.org/
+> 
+> Changes since v3:
+> - Added missing stub function for !POWER_SEQUENCING (patch 3) (Sashiko)
+> - Added missing fwnode_handle_put() (patch 5) (Sashiko)
+> - Added new patch to move |struct usb_port| related declarations to
+>    separate header (patch 6) (Andy)
+> - Patch 9 (usb hub pwrseq integration)
+>    - Adapted to move of usb_port_is_power_on() to port.c and port.h
+>    - Simplified usb_hub_set_port_pwrseq() (Andy)
+>    - Renamed usb_hub_set_port_pwrseq()'s "set" parameter to "on"
+>    - Dropped usb_hub_restore_port_pwrseq() (use usb_hub_set_port_pwrseq()
+>      with inverted argument)
+>    - Fixed off-by-one access in hub_is_port_power_switchable() (Sashiko)
+>    - Assign retval from dev_err_probe() instead of the other way around (Andy)
+>    - Clear hub->ports[port1 - 1] in USB port error and remove paths to
+>      avoid other threads from accidental UAF while the USB hub device is
+>      being unwound (Sashiko)
+>    - Short-circuit out of helpers if !IS_ENABLED(CONFIG_POWER_SEQUENCING)
+>      to avoid errors from stub functions (Sashiko)
+> - Drop redundant device node validity check; device_match_of_node()
+>    does it internally (patch 11) (Andy)
+> - Link to v3:
+>    https://lore.kernel.org/all/20260703110317.1283411-1-wenst@chromium.org/
+> 
+> Major changes since v2:
+> - Removed changes for MT8192 Asurada family: one of the device is
+>    shipped with RTL8822CE-VR, which is PCIe + UART and needs more work.
+> - Removed changes for USB A ports: VBUS one the type A ports on
+>    Chromebooks are not directly controllable from the OS and VBUS is
+>    modeled as always on. As such the changes I made don't actually
+>    change how the system works.
+> - Added new pwrseq_power_is_on() function
+> - Make new pwrseq integration effectively OF only by not assigning the
+>    port fwnode if the hub's fwnode is an ACPI node
+> - Added patch to convert remaining instances of directly setting/clearing
+>    USB_PORT_FEAT_POWER to usb_hub_set_port_power()
+> - Power sequencing state removed again in favor of state tracking by
+>    pwrseq subsystem
+> - Power sequencing descriptor again separately requested for HS and SS
+>    ports
+> - Dropped pwrseq_power_off() call before pwrseq_put(); the latter calls
+>    the former implicitly if the power state was left on
+> - Squashed DT binding revert and addition into one patch
+> - Link to v2:
+>    https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
+> 
+> 
+> Major changes since v1:
+> - No longer adding the "index" parameter the power sequencing API
+> - Switched from OF graph to fwnode graph APIs
+> - Tie "port@" node to usb_port device, and use this device as consumer
+>    to acquire power sequencing descriptor
+> - Power sequencing descriptor now only tied to USB 2.0 port to avoid
+>    double reference
+> - Power sequencing state tracking added
+> - Link to v1
+>    https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
+> 
+> The series is based on next-20260901.
+> 
+> 
+> Patch 1 and 2 add new fwnode graph helpers. These are used by the patch
+> 5 and 8, respectively.
+> 
+> Patch 3 adds a new pwrseq_get_state() for power sequencer consumers
+> to query the current request state. Note that this is not the _actual_
+> state.
+> 
+> Patch 4 swaps out the existing conditional set_bit()/clear_bit() with
+> assign_bit(), which does the same thing.
+> 
+> Patch 5 reworks the USB hub driver to return the actual error code from
+> hub_configure() in hub_probe(). This is needed in the next patch to
+> correctly return -EPROBE_DEFER returned by pwrseq_get() in patch 9.
+> 
+> Patch 6 makes the USB port device associated with a "port@" fwnode if
+> available. This depends on patch 1.
+> 
+> Patch 7 changes usb_port_is_power_on() so that |struct usb_port*| is
+> passed in instead of |struct usb_hub*|. This patch does not change any
+> functionality.
+> 
+> Patch 8 changes some USB hub port power control code that directly
+> toggles USB_PORT_FEAT_POWER to use usb_hub_set_port_power().
+> 
+> Patch 9 lets the USB hub driver look for power sequencers for each port.
+> Currently this only works for M.2 E-key connections, but it could be
+> extended to cover other cases. It should also make port reset via turning
+> off the port VBUS work, even when VBUS is not directly controlled by the
+> hub. This depends on patch 2 and 3 for the new helpers.
+> 
+> Patch 10 reverts an incorrectly modeled OF graph connection for the
+> MediaTek XHCI controller and adds a proper representation.
+> 
+> Patch 11 adds matching pwrseq consumer by "port@" node to the M.2 slot
+> driver. This is only used for the USB target, but there is no attempt
+> to differentiate the connection type. The driver simply tries matching
+> the "port@" node first, then falling back to the port parent or device's
+> node.
+> 
+> Patch 12 reworks the power sequencing targets for the E-key connector in
+> the pcie-m2 driver to add targets for USB and SDIO. The former is used
+> later on in this series.
+> 
+> Patch 13 splits the Bluetooth power sequencing unit so that the USB and
+> serdev consumers can separately toggle the actual state of W_DISABLE#2.
+> This patch is purposefully not squashed into the previous one to provide
+> a clear target for discussions.
+> 
+> Patches 14 and 15 enable the M.2 E-key slots (or slot-like integration)
+> found on MT8195 and MT8188 MediaTek-based Chromebooks.
+> 
+> 
+> This series unfortunately spans multiple trees. The way I see it:
+> 
+>    - Patches 1 and 2 go through the driver core, and an immutable tag is
+>      provided to be merged together with the USB patches.
+> 
+>    - Patch 3 has an ack from Bartosz, and goes through the USB tree. But
+>      Bartosz also wants an immutable branch/tag to have a copy in the
+>      pwrseq tree.
+> 
+>    - Patches 4 through 10 (all the USB related ones) go through the USB
+>      tree, along with the dependencies above.
+> 
+>    - Patches 11 through 13 go through the power sequencing tree.
+> 
+>    - Patches 14 and 15 (device tree only) go through the soc tree via the
+>      mediatek tree.
+> 
+> Some of us discussed v1 at Embedded Recipes, and I believe Bartosz, Mani
+> and I agree on this approach. The debate is likely going to be on
+> whether this should be integrated into the USB core or not. I believe it
+> should, so that the power sequencing timing is tied to the USB port
+> being brought up. I do have a fallback option of just enabling the USB
+> power sequencing target inside the M.2 slot driver if a valid OF graph
+> connection is seen. But this is less desired for the reason given above.
+> 
+> I hope we can get this merged in this cycle for v7.4.
+> 
 
-On Fri, Sep 18, 2026 at 05:15:07PM +0800, Zhongqiu Han wrote:
-> Hi Ananthu,
-> 
-> On 9/8/2026 4:30 PM, Ananthu C V wrote:
-> > Commit 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if
-> > max boost is known") introduced a guard for cpuinfo max updates to only
-> > increase, to preserve driver-set values above the freq table maximum,
-> > causing cpuinfo max to be stuck at boost frequency even when boost is
-> > disabled.
-> > 
-> > Unconditionally track the highest non-boost frequency (max_base_freq)
-> > in the freq table. When a freq table is available, use max_table_freq/
-> > max_base_freq instead of cpuinfo->max_freq to control boost values, so
-> > the value can decrease again when boost is disabled.
-> 
-> This issue does not appear to be limited to schedutil, so the subject
-> seems too restrictive.
+Series is
 
-That makes sense, I'll update it on the next run.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> > 
-> > Fixes: 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if max boost is known")
-> 
-> I already commented on the Fixes: tag in v1.
-> https://lore.kernel.org/all/3a20b69e-b072-4723-925f-514d8162e259@oss.qualcomm.com/#t
-> 
-> IMO it should be: 6e39ba4e5a82 ("cpufreq: Add boost_freq_req QoS
-> request")
-> 
-> Could you please comment on this?
+Cheers,
+Angelo
 
-The specific issue we are trying to fix is that once boost is disabled the
-frequency is not able to come down to a non boost value, which was introduced
-by the upward guard added in 538b0188da46. Consequently, if that guard is removed,
-the issue does not exist. So it makes sense to add a fixes for that specific
-commit.
-
-> > Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-> > ---
-> >   drivers/cpufreq/cpufreq.c    | 14 +++++++++++++-
-> >   drivers/cpufreq/freq_table.c |  5 +++++
-> >   include/linux/cpufreq.h      |  1 +
-> >   3 files changed, 19 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> > index 0d0df986fa3d..a13e72711597 100644
-> > --- a/drivers/cpufreq/cpufreq.c
-> > +++ b/drivers/cpufreq/cpufreq.c
-> > @@ -574,6 +574,7 @@ static ssize_t show_local_boost(struct cpufreq_policy *policy, char *buf)
-> >   static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
-> >   {
-> > +	unsigned int max_freq;
-> >   	int ret;
-> >   	if (policy->boost_enabled == enable)
-> > @@ -587,7 +588,18 @@ static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
-> >   		return ret;
-> >   	}
-> > -	ret = freq_qos_update_request(&policy->boost_freq_req, policy->cpuinfo.max_freq);
-> > +	if (policy->freq_table) {
 > 
-> acpi-cpufreq has a freq table but never sets CPUFREQ_BOOST_FREQ, so
-> max_table_freq == max_base_freq == _PSS P0 here, and the real boost
-> ceiling kept in cpuinfo.max_freq is lost. It seems that the condition
-> needs to be "does the freq table list boost frequencies" rather than "is
-> there a freq table" — e.g. recorded during the table scan, the same way
-> boost_supported is derived from the flags in
-> cpufreq_table_validate_and_sort(). And then:
-> 
-> if (policy->cpuinfo.boost_in_table) {
->     xxx;
-> }
-
-That makes sense. I think the best thing to do here will be to export/move
-policy_has_boost_freq from freq_table.c and reuse it. Comments on this are
-welcome.
-
-> > +		max_freq = enable ? policy->cpuinfo.max_table_freq :
-> > +				    policy->cpuinfo.max_base_freq;
-> > +
-> > +		if (!max_freq)
-> > +			/* when the freq table contains only boost frequencies */
-> > +			max_freq = policy->cpuinfo.max_table_freq;
-> > +	} else {
-> > +		max_freq = policy->cpuinfo.max_freq;
-> > +	}
-> > +
-> > +	ret = freq_qos_update_request(&policy->boost_freq_req, max_freq);
-> >   	if (ret < 0) {
-> >   		policy->boost_enabled = !policy->boost_enabled;
-> >   		cpufreq_driver->set_boost(policy, policy->boost_enabled);
-> > diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
-> > index 4984142dc08a..7e183e16162d 100644
-> > --- a/drivers/cpufreq/freq_table.c
-> > +++ b/drivers/cpufreq/freq_table.c
-> > @@ -34,6 +34,7 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
-> >   	unsigned int min_freq = ~0;
-> >   	unsigned int max_freq = 0;
-> >   	unsigned int max_table_freq = 0;
-> > +	unsigned int max_base_freq = 0;
-> >   	unsigned int freq, i;
-> >   	cpufreq_for_each_valid_entry_idx(pos, table, i) {
-> > @@ -42,6 +43,9 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
-> >   		if (freq > max_table_freq)
-> >   			max_table_freq = freq;
-> > +		if (!(pos->flags & CPUFREQ_BOOST_FREQ) && freq > max_base_freq)
-> > +			max_base_freq = freq;
-> > +
-> >   		if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
-> >   		    && (pos->flags & CPUFREQ_BOOST_FREQ))
-> >   			continue;
-> > @@ -62,6 +66,7 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
-> >   		policy->cpuinfo.max_freq = max_freq;
-> >   	policy->cpuinfo.max_table_freq = max_table_freq;
-> > +	policy->cpuinfo.max_base_freq = max_base_freq;
-> >   	if (min_freq == ~0)
-> >   		return -EINVAL;
-> > diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-> > index 3f3b1380251a..419c71ccff7c 100644
-> > --- a/include/linux/cpufreq.h
-> > +++ b/include/linux/cpufreq.h
-> > @@ -46,6 +46,7 @@ struct cpufreq_cpuinfo {
-> >   	unsigned int		max_freq;
-> >   	unsigned int		min_freq;
-> >   	unsigned int		max_table_freq; /* Highest valid frequency in the table */
-> > +	unsigned int		max_base_freq; /* Highest non-boost frequency in the table */
-> >   	/* in 10^(-9) s = nanoseconds */
-> >   	unsigned int		transition_latency;
-> > 
+> Thanks
+> ChenYu
 > 
 > 
-> -- 
-> Thx and BRs,
-> Zhongqiu Han
-
-Best,
-Ananthu
+> [1] https://lore.kernel.org/all/20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com/
+> 
+> Chen-Yu Tsai (15):
+>    device property: Add fwnode_graph_get_port_by_id()
+>    device property: Add fwnode_graph_get_next_port_endpoint()
+>    power: sequencing: Add pwrseq_get_state()
+>    usb: hub: Use assign_bit() in usb_hub_set_port_power()
+>    usb: hub: Return actual error from hub_configure() in hub_probe()
+>    usb: hub: Associate port@ fwnode with USB port device
+>    usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+>    usb: hub: Use usb_hub_set_port_power() to control port power
+>      everywhere
+>    usb: hub: Power on connected M.2 E-key connectors with power
+>      sequencing API
+>    dt-bindings: usb: mediatek,mtk-xhci: Switch to ports for USB
+>      connections
+>    power: sequencing: pcie-m2: support matching on remote "port" node
+>    power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+>      connector
+>    power: sequencing: pcie-m2: Split Bluetooth unit based on interface
+>    arm64: dts: mediatek: mt8195-cherry: Add M.2 E-key slot
+>    arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
+> 
+>   .../bindings/usb/mediatek,mtk-xhci.yaml       | 17 +++-
+>   .../boot/dts/mediatek/mt8188-geralt.dtsi      | 92 ++++++++++++++++++-
+>   .../boot/dts/mediatek/mt8195-cherry.dtsi      | 73 ++++++++++++++-
+>   drivers/base/property.c                       | 56 +++++++++++
+>   drivers/power/sequencing/core.c               | 19 ++++
+>   drivers/power/sequencing/pwrseq-pcie-m2.c     | 64 ++++++++++---
+>   drivers/usb/Kconfig                           |  1 +
+>   drivers/usb/core/hub.c                        | 69 +++++++++-----
+>   drivers/usb/core/hub.h                        | 14 ++-
+>   drivers/usb/core/port.c                       | 80 +++++++++++++++-
+>   include/linux/property.h                      |  4 +
+>   include/linux/pwrseq/consumer.h               | 12 +++
+>   12 files changed, 447 insertions(+), 54 deletions(-)
+> 
