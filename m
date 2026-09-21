@@ -1,86 +1,171 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297103ADB8D
-	for <driver-core@lists.linux.dev>; Mon, 21 Sep 2026 19:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118673F1051;
+	Mon, 21 Sep 2026 19:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790020043; cv=none; b=IaYK6rxvfmRkJB6huPXBjnXSI+Cf+6TRL3Js7PMktpaogHBNZqCu8jXlxvqKksjnbIIz6o5jDwNi0cs5iZughiI4ieC+eoW/6bLb80ilcASBJZfHAE1u/1Cn3qyRm1S7qrZc7xwP/78vhz65C/hwxXLBBOltLc3Xk3rBpPFO7t4=
+	t=1790020755; cv=none; b=Fy2kABAGLDRsH5PRnwgiId36eYHQu1s1h/j6xjdgMAkhvYuzGbtUN/xIvhQrYP/6DtdRfW9Yx5nLwLzzLglSd/EGzXlW5qajwBlPYJ3z6Sp8dNvoXktPrGy9oZHfTMuc28bybxLXcCEQmtl/6myZl7qtwgiFbmBNi4Blw+euOrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790020043; c=relaxed/simple;
-	bh=BcnEdl8QDnPqGivNaUv7+XCrZTH93GaYtfPRvDAlIUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TnZ0+yxBMp1AF0cc6kA0mSy2rSG2YN1CrJGjhH4AvKsPV/xKnTGHKMy8cOFKzpMAeNw1o9/uVjGSQpCjZ1iM6k0VG1DO8DqgyctdlN8Wsc3THS4nncJyVoJZIRTK4/2DiOogeom7rMHFT8BC8H/P8dKXyF8C4xIVUlVO5RorceI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nz8FspN0; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790020755; c=relaxed/simple;
+	bh=Av9neL0LEVkPlIU1KnqHDojloJ3A/Q9yM5MGKwqz6Z0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q40lFonglCdh5oxAXV9ap9gXQx2hQzfSC5uRvcoSap6TCLlMOW1TsszdcHRF5zsXkzRK2sMByxrsiJpMGtauGiniKWxy3oVLy5Hhusx9Cfp8J93HACVPDEuqXk21XdWMlaCNItYHw7pZM6fPTjx5RgceiLzoXIVP5q/19izt0EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sl18dBiu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nz8FspN0"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97E3D19F6;
-	Mon, 21 Sep 2026 12:47:16 -0700 (PDT)
-Received: from [10.57.75.12] (unknown [10.57.75.12])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7769F3F86C;
-	Mon, 21 Sep 2026 12:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790020040; bh=BcnEdl8QDnPqGivNaUv7+XCrZTH93GaYtfPRvDAlIUc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nz8FspN0pLBCdbpMaLV6xXFKibR6EyNm0OYxDS1JWJv0pGrc01MsCyANO9tYHfF20
-	 SYOxqilDpslCPZDQoPtPIyY2/Q1GMDfkPcGbuGznjqfgonX1i4i5ivEEUvNz3t2KhA
-	 7sSj9y8X06NV8QYcNCILO3VHs8gbhL0+iezIPg0U=
-Message-ID: <651d6392-984e-4363-8ef6-94a23be615d7@arm.com>
-Date: Mon, 21 Sep 2026 20:47:15 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sl18dBiu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 882BE1F000FF;
+	Mon, 21 Sep 2026 19:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790020752;
+	bh=iyANBTrd7/pQCJull/2ya68CuRnYwJGmlUALpFhfxZM=;
+	h=From:Subject:Date:To:Cc;
+	b=Sl18dBiuA4/EcO/wURcyJXVuiTjSKzlt0ZDnKrZ5DJGIgt1rmqDll6IZBY1wAtpO7
+	 XTBMmLJIWLjdgi2EL5+yBmWA7R4uaeIldDhBCR9wcrzy3NfqCnrHDTHYXoayI4kJRk
+	 dcSFZ9lgaTQeRv0VSUU30KLeJZfzWqFlOMoNdtIFO1PPltCeAMpi9Cbdu7WJ2qQpwL
+	 MBa+i1zskmQrAOobZZhLzibU5sMolxgcgEepK4ENj1qOiN3zqd7R39uxym0bKelLHg
+	 Rr8djNbHAnLlGg6+6VvWodq8iGgVslYeN/nOaG86PoI1jBU9eRRDD/2ZKmeBPKaCgf
+	 r31F22OT7n6dA==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH v2 00/13] mm/sparse: remove SECTION_MARKED_PRESENT and
+ further cleanups
+Date: Mon, 21 Sep 2026 21:58:52 +0200
+Message-Id: <20260921-b4-sparsemem_cleanups-v2-0-54d81d65e125@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] cpufreq: cppc: Handle Highest Performance changes
- at runtime
-To: Jie Zhan <zhanjie9@hisilicon.com>, Xueqin Luo <luoxueqin@kylinos.cn>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Lifeng Zheng <zhenglifeng1@huawei.com>,
- Pierre Gondois <pierre.gondois@arm.com>, Sumit Gupta <sumitg@nvidia.com>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-pm@vger.kernel.org, Ionela Voinescu <Ionela.Voinescu@arm.com>
-References: <20260807060848.832929-1-luoxueqin@kylinos.cn>
- <d02f335a-c97d-49ad-85c0-2eacd744eb0c@hisilicon.com>
-Content-Language: en-US
-From: Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <d02f335a-c97d-49ad-85c0-2eacd744eb0c@hisilicon.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHyMsWoC/3WNyw6CMBBFf8XM2poWqxRX/ochhpYBqlDIDBAN4
+ d/lsXZ5knvPmYCRPDLcDhMQjp59GxaIjgdwVRZKFD5fGCIZXaVRWlgtuMuIscHm6WrMwtCxMNZ
+ pq2OptDvD8u0IC//ZvI90Zx7sC12/ytZF5blv6buFR7Xu9kYikz+NUQkppDSFM/klTgq8v5EC1
+ qeWSkjnef4B29vNdM0AAAA=
+X-Change-ID: 20260814-b4-sparsemem_cleanups-8bc4b47014c3
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Kairui Song <kasong@tencent.com>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Baoquan He <baoquan.he@linux.dev>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Brendan Jackman <brendan.jackman@linux.dev>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
+ Oscar Salvador <osalvador@suse.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org, Seongjun Hong <hsj0512@snu.ac.kr>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3671; i=david@kernel.org;
+ h=from:subject:message-id; bh=Av9neL0LEVkPlIU1KnqHDojloJ3A/Q9yM5MGKwqz6Z0=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLI29jQWPntcY31479w5PF+UeARMPh39VhNd7ON83GDRY
+ 45yNbP9HaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAExkfRXDP0XnLbs+1z7pU53L
+ 8axpTfXE2/IfTrxlaA28+VFsh6bqpceMDFs2vRJtqbwXJNS4wl1zMff8iSK7/hzfrJDdtuHSquT
+ EqwwA
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On 9/7/26 09:49, Jie Zhan wrote:
-> 
-> 
-> On 8/7/2026 2:08 PM, Xueqin Luo wrote:
->> Hi Rafael, Pierre,
->>
->> This series adds support for handling ACPI CPPC Highest Performance
->> register changes at runtime, triggered by Notify(0x85) on a processor
->> device.
->>
->> When the platform changes the Highest Performance value (e.g. due to
->> thermal or power budget adjustments), the OSPM must re-evaluate the
->> cached capability and propagate the change to the cpufreq policy,
->> the scheduler's CPU capacity model, and the frequency invariance
->> engine.
-> Any real use case of this on platforms that run cppc_cpufreq drivers?
-> Some addtional motivation may help.
-> 
-> For example, a processor can age over time and its core frequency degrades.
-> It's good if platforms can make OSPM and userspace aware of this.
+SECTION_MARKED_PRESENT is really only needed during boot, where we
+can instead just rely on SECTION_IS_EARLY_BIT by setting that flag
+earlier.
 
-+1
-If this is still current then I'd love to see a resend with a fix to affect
-the entire policy at once, not just policy->cpu and I'd propose for now
-also limiting highest_perf at first probe and ignoring any
-highest_perf_new > highest_perf, until we have a compelling case / platform
-that uses it, because IMO it does make everything more complicated.
-(+CC Ionela)
+Some preparations for doing that conversion and some cleanups in the same
+(sparse) area.
 
-> [snip]
+Tested on x86 with and without memory hotplug through virtio-mem.
+
+---
+Changes in v2:
+- Rebased to mm-unstable
+- Add "scripts/gdb: mm.py: remove fallbacks for SECTION_HAS_MEM_MAP and
+  SECTION_IS_EARLY"
+- Improve comment in mmzone.h for __highest_used_section_nr
+- Improve comment in fs/proc/page.c for get_max_dump_pfn()
+- Move __highest_used_section_nr handling directly into
+  __section_mark_present() callers and use max()
+- Make pfn const in sparse_metadata_init_nid()
+- Take care of .clang_format
+- Smaller patch description fixes
+- Link to v1: https://patch.msgid.link/20260909-b4-sparsemem_cleanups-v1-0-008fc8d579fe@kernel.org
+
+To: Andrew Morton <akpm@linux-foundation.org>
+To: David Hildenbrand <david@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+To: Michal Hocko <mhocko@suse.com>
+To: Kairui Song <kasong@tencent.com>
+To: Qi Zheng <qi.zheng@linux.dev>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+To: Barry Song <baohua@kernel.org>
+To: Axel Rasmussen <axelrasmussen@google.com>
+To: Yuanchu Xie <yuanchu@google.com>
+To: Wei Xu <weixugc@google.com>
+To: Baoquan He <baoquan.he@linux.dev>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: Brendan Jackman <brendan.jackman@linux.dev>
+To: Johannes Weiner <hannes@cmpxchg.org>
+To: Zi Yan <ziy@nvidia.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+To: Kieran Bingham <kbingham@kernel.org>
+To: Oscar Salvador <osalvador@suse.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-cxl@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+
+---
+
+David Hildenbrand (Arm) (13):
+      mm/sparse: move mem_section init to sparse_extreme_init()
+      mm/sparse: refactor sparse_sections_init()
+      mm/sparse: move initialization of section metadata to sparse_metadata_init()
+      mm/sparse: rename and cleanup sparse_init_nid()
+      mm/sparse: cleanup sparse_init_one_section()
+      mm/sparse: rename __highest_present_section_nr to __highest_used_section_nr
+      mm/sparse: remove pfn_in_present_section()
+      mm/sparse: move __highest_used_section_nr handling
+      scripts/gdb: mm.py: remove fallbacks for SECTION_HAS_MEM_MAP and SECTION_IS_EARLY
+      mm/sparse: remove SECTION_MARKED_PRESENT
+      mm/sparse: remove flags parameter from sparse_init_one_section()
+      fs/proc/page: clarify comment in get_max_dump_pfn()
+      mm/memory_hotplug: drop CONFIG_HAVE_ARCH_PFN_VALID handling from pfn_to_online_page()
+
+ .clang-format           |   2 +-
+ drivers/base/memory.c   |   2 +-
+ fs/proc/page.c          |   7 +--
+ include/linux/cache.h   |   1 +
+ include/linux/mmzone.h  |  43 ++++---------
+ mm/compaction.c         |   2 +-
+ mm/memory_hotplug.c     |   9 +--
+ mm/sparse-vmemmap.c     |   4 +-
+ mm/sparse.c             | 160 +++++++++++++++++++++++-------------------------
+ mm/sparse.h             |  19 ++----
+ scripts/gdb/linux/mm.py |   8 +--
+ 11 files changed, 108 insertions(+), 149 deletions(-)
+
+---
+
+base-commit: 8d61431ed2607386b427752505379536eb634ce8
+
+change-id: 20260814-b4-sparsemem_cleanups-8bc4b47014c3
+
+--
+
+Cheers,
+
+David
+
