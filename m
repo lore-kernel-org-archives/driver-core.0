@@ -1,332 +1,301 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4CC49B5A2
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 21:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C9153446B
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 22:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790111166; cv=none; b=vDPFyzdsWUvazKt9lORZY3fR78KFF+ya+0NddKFDZhmTEw9Qy4IQEzZNP7cEFG5q2OI7ygFMCnVf5ySr5x7ApfXXie+bozzfFXZTaUCeLqpW1xLv8a7cYTWFKHBB+Nav2Q+1TBmAMVlzpGxgS0rwk4igRYmTEHsP2gbnFfXPsyk=
+	t=1790114710; cv=none; b=nWDNqHQ4qVPgVqa03qbK4+G07NdOiZjqNpx9hcWeyYbUpnqjYz/nSBhJag/7NAwty01SQcDp9nRKHUbKThItB0Jkimq4Z6OrrNAnLZQnABDhUbEzzjGkqDt83PqUYQtFp8HD2nmKesKlqYW5/hrBxhCOR8Iqu+OyL+RCdnrT3+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790111166; c=relaxed/simple;
-	bh=9Dv0Y/BGh3R8PeSvjophk2YPpeulfdBgLbKzqOhLo4Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=px1ADcCcgEqAN8gqUoaZNmWXretGAu1kZtjZXhUGhNzMBKULydqMlE8yqwn8e2KnCvN4Ilp3ZTgpEKDwSIB7mOJg1bJz+fQoTXwFgq4jVhWEcUgL7IQTbVTN0SZchinfMIbjZReQ03exGrh5zPEEuSoRRChAZTTKfpjtps0udwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=BVPf6FMy; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1790114710; c=relaxed/simple;
+	bh=RRH1Vy+Zp/3SPkBGo9aHf3zXVNOp+j6j9mQwfJznZmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wiu8wQ4yk4cWtjQLqiyoNnifIyHFK6WeFKnw2tfLUPNgVbb91N3jca1Arb0Br71HxhyR2oZKwN1pG2Jmb4Lh0JEn0DVUCrtE2EFZLIAiT8kF9SlQ7OeNtNvj4vtzCIixtnyrJvmFUBvpNivGzrdkcuJk5Xdp36FWVz8Fnd4VS0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=l38qcA3r; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="BVPf6FMy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1790111089; x=1790715889; i=w_armin@gmx.de;
-	bh=HPj6QE4B/HefE3yLab3sUv06uJRi8t/2qBCqZDYS9/A=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=BVPf6FMyTeIyxJMRjkg4iy0eYXktcUzQwdvMkeZ7WJAxtCckYxOGRZ3tTnvXwj5J
-	 +MhhbNRexm4GKX7XJxofDjMyztapU8G93s33wGkwg758e/YJxMqfr7g1CTlV5xWCn
-	 9gtodpcZWuMtHXc4IepVXto86qHxeo/p6kN6+msHm/334a5uXA7oG1rP2tXvbD+yd
-	 mw5fG7rCLZNlbwug98cynB5QYfy0ovFIxss11iE+AMOYY39/3OdTd+5wHCpNpLf+B
-	 59EYHM+UkKCPoOPGOAj7pWftPeVvQO+oHd9yZhW5DRZIPWmb/wmFYVK5W7/oPb0uw
-	 0umH3cvZ6h0J6AQb2A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHoRA-1wwSD040xC-00HAHh; Tue, 22
- Sep 2026 23:04:49 +0200
-Message-ID: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
-Date: Tue, 22 Sep 2026 23:04:46 +0200
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="l38qcA3r"
+Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-939656ff6d9so33842185a.1
+        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 15:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790114700; x=1790719500; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=anrpgiCeXWmBr1az5PEHzf4nylW2QouLqia/wBZNbT4=;
+        b=l38qcA3ruEEgOBMe3SeUXSmMNDH4t2bVlv3U+1ESUAAVw5LiVKbuu5ADHTld1yIhSB
+         5t6W2hwwswTjHYfPFCKp69jJGRrUZ6FP4M+meMjPe6Yt/KgcGpW7Izr1BuZapXlj66Rg
+         ZB2vi9aY57lUCuspxGsBYvIS2DMHbXwAQw/f7FHT7fGITrJNPyOO/aFMIVfQY/R/LGa1
+         6DrzF+W1CfGmd6H/uW0yYhM/YcwACijbzk72cAM1d+TcEDRYNHfLjECZEKGgEq8nNrcl
+         4M4jCn6HzhEQrtgHCSEwn0d2We9m9PrKrwlJd79AMCWp5TWRXfY0DuqSZA3Pn6Ho+bNZ
+         9oyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790114700; x=1790719500;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=anrpgiCeXWmBr1az5PEHzf4nylW2QouLqia/wBZNbT4=;
+        b=xMRG8cawiQhFCUKjMVKj5uJz2hQBZU0U0tMabYMdPlyit8i+xUTYCZSUMuZgb1qk+P
+         ULHu6WuBlARKSf+xhJEM/bVvaT1WjwLSoSFpJYdXcXX/Xm2oxeI/xrlZYpfznKMeQIiw
+         8pve4iFlJfPnAfyUPDBGpeiZBdjfWgq/B2dLpT4ClLp8MyD4g+srYji6/2dQMMU/7cN+
+         v+hn13+dLMzd7G30WkJMO/d6mZ+O7zxTrzQreAbu8z4eX7g4+LEKF8pLycmoMlO/awzL
+         xfKbDTk0/Mhh6A4gbLzdNcLLv99jaNdP8OkpVnvCJkX6C9IUHTP2gUZblWVrYmaHcGAU
+         O3rw==
+X-Forwarded-Encrypted: i=1; AKwUvBw7G4N7cJLsvmJB+pvi441zl0hXbJr8M+I1SQRQMjmjlxQha/BWfJNPRQBcNq5QNPJAFIhbfsrC45DvFg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mmx2MhbUm/yufRVBm3Dajl1tsyPtw2qVg8QPxlUzE1BW4GRuae
+	gl4F5vDqPBKpTwI4gH9rG8pyE8dkQORDb84YG3mMy9t4xHIhKWbLF6aGKM1Z/Rbxw+o=
+X-Gm-Gg: AYBFou3WspBdlUfS6xC1GT0w/rwRf22mGz2udgensjNO937+mf4h7JgF6LviZTZ4cCe
+	Sloh6im8D19li9iEpCTwdsj3nLRNURAzJzTY5USdwpvud5HeA6qVg/pnez7US1m5hmcgPc1myHo
+	80mhI7bb0dWsLzggaOcDe+2fFudQC+hPVlr5KcsMX+uQTjCkQW5USwJBuRIoPmTlHDjHaFnDT8E
+	+3ZTy7+ny+Bz3pNmjmw/VVMDl3cjJ+cgqwJgyx6syc01lgPDANzGtXeswBoLnM0/9bw7gUHj0Mo
+	a+LZK7OB9oKxQ0Jp7Q3whR/AJjNxECa6FxUz3yVj87th/veE7FqmR/k6ZWtNtNlKtYTTDMY/AjS
+	JE+oPO7u1LA5n18qPZPMtIcVrVobsJnFlNF+f5N+kpuJs/i7fSWbrOOpzW/TcI5ydNp0GOq5rdp
+	zLDSq8tbPo0NCF3aKRc2xDXS3JvZgEb4+7lpCVBWhzQEGJdhc2BDvtfAv07QnVaAQ5zPU9TYW68
+	lQRKf7oa/jN4yB395jA5J/aMebwydKWXNDfR7tC9Nq3RZv5AMk3KUU=
+X-Received: by 2002:a05:620a:4890:b0:939:a1cc:f234 with SMTP id af79cd13be357-93c2509dec2mr122764985a.5.1790114700080;
+        Tue, 22 Sep 2026 15:05:00 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c284a1cd9sm4296985a.39.2026.09.22.15.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 15:04:59 -0700 (PDT)
+Date: Tue, 22 Sep 2026 18:04:56 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Arun George/Arun George <arun.george@samsung.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com, hokyoon.lee@samsung.com, wj28.lee@samsung.com, 
+	gost.dev@samsung.com, vikash.k5@samsung.com, d.bueso@samsung.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <arL2eTRaDeR3DCQx@gourry-fedora-PF4VCD3F>
+References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
+ <20260720193431.3841992-1-gourry@gourry.net>
+ <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+ <amJGUuBZ2857QjDB@gourry-fedora-PF4VCD3F>
+ <360067785.01790071202608.JavaMail.epsvc@epcpadp1new>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-To: David Lechner <dlechner@baylibre.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WC7Q3H3s8ZsHb6GZdlAH2xhbLNtKPMe9amNYtSfQcE1J7vdyDAD
- oaZxnVdrivGNmsT1JMOr3xUOZQxBJ8xLk6rh2KvA9bA8/6tc+D+LysIS906O/DpMgKS+ktn
- l1Kdz2RqzTEneLk5opZq55AEXwMmUeKoQ/eku4K1a3dtOjllrJ1SIufdF46AndHkdZsK7TY
- 1YrgmsEz6BLYETy1qazqg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PuQ2TbBFUU0=;SPWpip2IlpAv3IU5dtJ3vj3wwSh
- mWEFIf5PZIEMGoAtF2eh2aZnPwv/3W2IzK2zspl2NPE3vfCu0rnEaIbHwXMrufXtM1M1eJ+WI
- iR0AawKQzrh1W5YwTqvwq+smK/K7BtsswG6aZjMbPyjmqGwaK1URdq3KnAZoK3N+AqvTClnJ2
- OsrUSxLLg9zna66m2DLUVDeUdY4ZL+3voCgT218TF0bpCKUqYgr0wERw3elcwYxhMaxFxeTl2
- VzHpHGROrizy3uB53ha0Otw4x1Vf2wVuUf4/u2/x6sh4Cj5lOHKmUoFJWn9Ap4GUL+bCxzmh4
- j0MvtrwGMLzeej2MSb9woVSdXRbi8So3IOXGZgNejDk8if+BVYUyYb6i1wBXjPt3WOInaztob
- Au2+hZfRBWIDq7hmpISQG5LUlzHyjDkqTzGuoYD5Q03sGg+zQ3rqGlJwCViyLRsEORqbewbIp
- 4de86objcidEHXL8B4Evwz1oxBvsqG+2hzZGc9qjx1bINbv8eNY9/CapyH27ZSKXtBD6gzGBj
- aHYHM2trGZkFTp2a2spVtczzBRFmtwit+fzrXGDDz8D2LvGapcyQbu1lXyOLbFakibL+Pv+7u
- dWhucl+AmLcmOWFNS8IC7bumeTnXu4GPvAP9P0TxDbApaYkO4ztJCAeBPvGAjTL8IXgc5eUrC
- nLvFeFAuoweREf2syCzpG0tycrGmREVuhx7+0rmy+SF5e96n/wZi53vZV2fdNkCQfFqf+fCaz
- Ko1aHJpOkyQ2376lh+bw2+E2OrwGzz9odmCILPZOCVdpnm+b8K2680QeplfAM6VhFQHwmj68s
- YwNaGeNRIJDE0rCSvWzaLZMpy9lIMgqAPxKFHlviqC6dF8yfiK/EI/gFblFYcNjHbu9r4D0Lg
- ldJRhXx1H7FFw0kImAh0t79RMiTMXGh8IfAIMFJlRm/ZQRVfOf2cmYGPxVBFWLIJ8gxLb5Rsh
- WIUhzOU4djpBgNWBu/lDb91XIyQW9KRM/9o1n5/2fFMjyZm2Da2PDemY+9lDz8FY7EzfbXgyy
- g9bg/3iPrHDNEfIFc1yFs4QzpCi026af792gLwWEU6hlH3PB4qx1tj6AS1JoHpS/MCpJ/We99
- C+Va2OPIA0c1MIgcoJQ4etQ8r3gdMG9MyO9QYNSNhkKVTqYr8b+3kjS6cxP4WtTOJy3fo59qs
- 1kZCX+qsnoTER0OVnG/pNgRB1BLW5l1Pmn+xr/zKyhPZ9FX8CoJE78/cjeU8aqR7Qtwb9KrqK
- 93N4G/6bYfF0HsDphKTVCGGQbSRZ5InnUcghRlUWS1rwLZP1p+3cMA02Hm/5cZJfKw4zkkHyy
- hhp4phxHTPseBklDnpETi4fPL5K9pVRYAtw2+JTcA16UPnN/Z6YPxvoGandbH1EXIgj9/ewRV
- ERsPOxqiitXGvf9BSd5bB+Kpo4/WcGX14HaamPy/lZN+duChNKlJCKwB81ZG1HTxdA9hfXFI/
- vExjYp1NLgyS2O7TO9rT1ZHS1QJN9/SklStlyPavfou8TjU61Sq6F000L7VEtlLslHVurReGH
- 26eeKTVOniD/5PoM62C6LCxHiGWOj8D/AmU+z+d+cijncGULHqSjF5bYHnVXlXEqi2Do2JETr
- 8RjRxSaQLmSpEe3GL8/s2ZSbrrut0tzlmIv/zAXtbif4QA362V1twYDstSwmbhOgYyC4m/beE
- Ah+iHe2dn1YUkfuCt7oQxXp1w06ydEU6D2ibWzCVbdXSV6V+02QthDpNjKEQf/eub03BOwhde
- isinA8zW7n7CLeXjNFE8ccXZLYjzS/fW1/Fjbg/2WsAVhHnW1TgEDa+/bcMGjwQh/DQ4OhA+E
- GsawsPmGm3J+YXgO7Zu+bYfz+wPLGW6zAFdJNnJUWtKPCPUSL7N6pJbCeRQPZp41YMefM4Pe4
- jrsspGa2Z/79sUYlxEKVJGC8pR3UveJmQ2s6GFmJtGDJJLW6hXz1Z4WycG/Gq4sG0UzadKFRL
- DQNF/+WBygpPjVb/nPLxIB7UD7Yutoe6P1c2lkNdMdWKhTkij/64IgyQhoyxBjN/VNWbVYwTX
- ZgLwRqZVOX9Mil/e2HRLELYAnGMvBKwv7qFAj0O3BWscvep5v5lyJspGcVXjAHaEpR+8I5V7O
- J7JNUwteWfl98STZoZAL9yk9wgfjvgNS11vK4FRasgCMV8aGXltJGmNk7CaNlfeMnq+rENpHz
- RN9wT/tq3DnyCQ9UEXHK6hrBASL5sNqmDoW8y2snHC3OfqcVyM2WpzJYCDKHNer26sVLSkSot
- OxdU028ge8chcZ+VHQppD12/Cx+SLK/Vn+XixdXpdeAdcSL4iy4T2X6bF7/uhwWCYHRVCAPxL
- fz6p1zHnsxI/XLEti9rawjkqZxv0TVXHS0Z5j+DnyfaxW0EArnQotac/WCoRAGUCHWlesn07l
- hC6TTjZB5emUCau1gr5BDULOSCTp1JKpGLxGPoijb1h4q7S5uFdzMI++Mhe9biKAAHv4AMAvq
- KWZkuMwxjvx2aq4c1vfTW+0YDHcdJUCMsConG5x9gt51Ulo5B9Ju4hiJnzbDFtvzRlG+cUAVn
- 5PHoRad8QERHnjrMhkdZuApSO66vTbgVLHGaUyOvWkqjqF2em8AsXwqe1L80zWXcS+rrVluDw
- G/a2smlHFIb2q81UwANfumGm2FJXq9JwJLI5/L0yq1432sGriS3l+4v8rUumf2xo+ENQtsEHg
- yrHF2UVxr6HgcehBYbcH9FVYPDscVtdIH+4Zp++gt1sbKix1rblE5QTZu4/atqG/z+4mC8spL
- HpVrFCP3FFWLjLv1bwTcP3B2FnAuOYI+u2jYpS/q+myvo7voqN9zqV24Ini7FypZE9ikVUFFO
- GbMdfpFLF95UlbulxH1iDeeQHduh1Q2U9opTcB0DXBxkO1KcmmVM4AgA3/9oshv+b/kyvOy6G
- 5r1W1aII4b5YMkEHKOPy4EVELPpa14GoH97PIeaMDHpkZJmakw0ktpmrohU0pWy381Y2LYSNV
- uGE6U7K6xN2lKRxkUfdGKqTalPqA897/IRZeJBdhdvZzZrHOYkO88SZMogzade/J1QqfDLvEK
- W7zwKOtvtNa/L8FnBfn7uZX2D7gtb3PspiFCtmE0KjCzVPfd9DK1ut6uWDiTGnBFlpWudd6Tv
- IPASEvxU2RM/Z2JWLdIax0hOOnV+/+apH8lK8L/7b4mXeJDXYqdcQZIIIi07woQor5KZSPLgL
- V+N6WsvlB8/KURCJwdcKXehDX2Q/AJr6F+6dxhKHfTUiPBZ5QjMZJ9CI/ehwr2LnaUPHFdLuC
- 5hbgL69uqyow6rjgL9DX1SV6iB7StUxHMYuPM/CN5fYJ0W2+yWB/h3zsP4OXQJYXSrn7odT2h
- 4VHwW2jT/+EFOSEI515k9uzjkw3qr4vzOZA+y04q8zri9fplP6YcreuPnOZyGON4tgVH97xMV
- wzt1e32Z40ra/yTYl3KdkBXImBV0ynl2ooIPkJ4SLbW4N38TA1MKgJgGh4x1vrKSkXbKXcnw2
- 1ljjvsiG4qQyZrLIf15BVIOX/lllY8VOH1xUBapnc28Ud350zZUKFuWSNdyMLutedQX8jtHSI
- AnNMqbujh7L2ndLNFrye1TLeC9jheu/VUlau5xOF5UtGYCZo/33uIbvnqiQLs5RMxLOzYJpO8
- 53gv10ynmcvxf4gk7XO8mOhm6QSJLFkp8eA0V85Tot/RweeoMkwkygFUaTlzlKWMYTLUzReBS
- IqCoap89cNfntwdFeP/XZ1VCo0ZKJUPqlEIfhaYhJQjowrDdYV/fKyzlSTzxRceVJCTZHUU3J
- je5PKtiLsT96ABiWL1f1KQKiLQS6ixVuNUnT+6Y2Fm42zsg8jgGq5P4Ely/F4YdF6vuU24tob
- VhVuKhrG1X+7v32Y5CYIiEEGHJLYLBo1mv/JHwOsWgkgfEug0lBtUFvSLQtoK7iWqxslGKPBM
- hIYgImvyoS4BkWm7uXxlvgAB8plQlTg0ZYwBMl2yaRoY7wEh55AVknF9/S3HplHEJCZowlWsv
- FC3qM1sZvCK/p0i0CSIrzCZZDuKTuqNxTZG/hzoRJnatPg230dGUO+TkZOXOC6BhXLuNgc75x
- y7xUG3KrNWO4ELfepWDSx3UvLAI17PJpaxYXwNh/ehD+l9lzJJr1iG/F2D92/uUWIosb9EZAi
- Hy/8fW3zO0K8UyMHrHr27tC+xQx+bKfk7BrCBBkKqKNW10Rpi3/V/75fmmRc3oWtTv7hB2o1U
- 3gWzGnoelVOMLcdwWWUISf0ITC3SIZ8Ip6UGmgSjzU/M88R0ThBzxP7rdNpmsjodYVFdg+sag
- Lijvpl8HJgnjFDGYUXF3BlY8XiLltjdZT8iMqbm/h0fWBzmy1oM/qDgoST5Mftdz3LE2KwpEv
- r+UOSP56G3kIIS8l7Y/GWBnOy1SUbjXWyX6yrX7DEiMjcNkltSfsjnD7L/XLtGNaKaY4E2gJo
- /86VZmzUtafmuPf8/mZGlw/e4igBu4rtkjq3Vl/mTQ3UPxg/7z7v3j7zYayLvstJpT1YkaMPD
- Pmb5tc4JPQQi82kLDXpoSwX6LbJIBCjhs3roe9sMO7UI0aK89NIpPmw01pdlkF3gsQGRqZK9u
- j4eYerTJBh97sJXeXqLR4jlmXXTaTEQ+BGpDBtdRHl7qS1NqrPvUAIK1qnYccS6/A5wQccgwC
- 5FWFBWQkyAYyBFeh2LB+bmg8EVZu9J+ObDNrVBWewYFjNB1hqsFbYzGW0zZYxgqecswmD70y2
- wXU6dbON4/xaVTYW6An4VJ6ZoWfyOPpKzWdhddVJu6Ul6oaAWEXhr63sIvvBn5qhT4h88R2YV
- ID2374a/rcj7vAMVuiZ5utcOzhAfWTR17oCOb9scLOge9hAhXbkASetEHNsYhkYpZZPzVeXaY
- Jh6B/zSh5sPJoniyB0rJIZZxb5i+pQPqHaPOuV1BExbjZ5u/fkvHjlpv9QqRjPkUXyAjZQfgp
- gNevCD9+Bxn06H0hbq86OHZDlNI3szTXxZSsYwKEEnv1k6oVdtAWgvdqJZaJwwOv2NMrbY/Nj
- NFOqRZI4qWiKZIBRj5UGrIqYeDkoa40orvLYse3wdLQxhztOJKRy8om5NcT0evYHKGEvumv5Q
- eaMOjOYLCQstvPMAypGXuW/Du8/nvFlQ4K6JblX8Y9mA+9W7Kc0Sd8vD2fgykGb5jetBDJg0y
- PQmLCVW/OLPwQ3ZF9sDH+bgNyVx2l07IEwNVJckwa7tnk+FuezfwFvGp1i4ssecBbdLkVZGBK
- uLGNVeW7T1Y4cIx9MhHItbpyyMYWwtBpgT670Tu37VVqkvyZDKZ6LNoo4vviY1M5Ar6R6lQhO
- uXPAKX2qr7DuApmW/RpaXTJIXA+tQa7QOcGuUobbwPHtjffSNGcpke/gqsACGEcxV8bxCWunK
- YKqiZ0pP0HqLDQFmRbrZpolHe9zwYm8DU5EiZw6jHXYNlUZfy0a2CFyBwquCBSfBSo8FldWTA
- t/AgCNgbxMbc9Y+xXnN3vXcp8yR+u2Z4jsTu3mI7Izqgy/dJO3hF0PtLEcsQv0GoDA0QC4q0n
- stvPlNVL7P7l67DF4/PiPyFCWLuOmF00Kvido/Ptrs+J6ZUTlklVnY3xmVsdWhelS0nEPOLd6
- oZpuz6xqnbX08zRDXM6eJBhmMKrGKfiT2ZhF5jK5/OQF98n2wGreRs5xB7BHx2MhnbOv1eZno
- iAd1DbkWf/ZNrzkRQ7BaE0BejxegOfqI5Mn7qNI4yQOVhTFzZ346A+999f2jEA5AYcICCbwXC
- xUnBknAxkYCkp0V3le2Z+MV5MFaZ8sxNrrNGjOthuKNDF5OhVTx9jdZmyKQodQ298QobLp+2M
- xWGN/1H5D24ch7Z4qwff6cWy8q92xOUKa5zhmeLem9pEy+D3xjJa7P+KxGqWs98c4YX83cpH+
- RIDclSdPs7EdPTyV+cQ9emossCQnjHtrCVKJAarS9cdNjWvzrEDq1NUPu0fqZBzS7RMhQ+hAv
- EigDKROk1RwhmLWWByC9Tvg9qsigpPGRPqpF8tBhkruB+8lHISNpaeDgrvzSjQpyu9jG4fpgX
- N6IlU8Lx64EpITFhw1oPkSuI1ncqbAzBr2lOU6MpAhqQ1ysgwVEHNJLMAU/O5XZbBDQJnlE+3
- VXZm1gU0XeLGG5jHqU7Rtnbd3Ix1oWfOPsoOuusfWtw2KcAyGJZ7tyZKMFbCa1bbrOxxq1FJL
- gnZQ/gdLMzUVI5ErJ3l+cls9HN/ngyBGqdChm5hoAoadHXgrUS22bFSkVJ8dvkqzCCcze4ckS
- Tu3bZHucahmk4qA2NTs5/3o2vY+h71uLMfofFJZ9glK1VaklzotsjUoVHj4qu8zzDVEfwlsH0
- VKRtgDFJIT0wWcnN8BAfSw7Y1y+eOOfJ717ku0TufC0sVlp1BJt/k4xnk0ALUVB/ysUQVqZMA
- NNcojz3ZwxYyD1OkzUZ4DdcScb0mS8MA1iT1VD65hX6dwVu5PDbPUPHPkvfaUXvNN+6EbAhW4
- Mbz06IpVbstePJ/LEY8LXhgweA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <360067785.01790071202608.JavaMail.epsvc@epcpadp1new>
 
-Am 22.09.26 um 15:40 schrieb David Lechner:
+On Tue, Sep 22, 2026 at 03:27:44PM +0530, Arun George/Arun George wrote:
+> Hi Gregory,
+> 
+> Thanks for sharing the working branch.
+> 
+> Some of us at Samsung are testing the series (both v4 & v5) on a 
+> compression capable CXL expander and are observing encouraging results.
+>
 
-> On 9/22/26 2:39 AM, Uwe Kleine-K=C3=B6nig wrote:
->> On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
->>> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
->>>> The ability to add and remove devices from a driver through the sysfs
->>>> "bind" and "unbind" files was created all those decades ago as a way
->>>> that kernel developers can iterate faster, and provide a debugging wa=
-y
->>>> for users to attempt to add a new device to a driver without having t=
-o
->>>> rebuild their kernel.
->>>>
->>>> This api over the years has been abused and recently come under a maj=
-or
->>>> fuzzing "attack" through tools like syzbot which decided that it woul=
-d
->>>> attempt to just randomly bind any driver to any type of device, causi=
-ng
->>>> loads of unneeded errors and pointless kernel patches to be generated=
- by
->>>> unsuspecting new developers.
->>>>
->>>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, whi=
-ch
->>>> will be set on the driver if the bind/unbind sysfs files are ever
->>>> written to.  This lets kernel developers "know" that a user is
->>>> attempting to do something that is not normal, and as such, if the
->>>> kernel breaks they get to keep the shiny pieces laying around on the
->>>> floor.
->>>>
->>>> The flag is 'Y' which was unused, and can remembered as the user is
->>>> "yeeting" the device being operated on here (thrown with force withou=
-t
->>>> regard for the thing being thrown).
->>>>
->>>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happe=
-ns,
->>>> as many times crashes/oops/warnings/failures happen within the callba=
-ck,
->>>> and the taint flag needs to be there to show what was being attempted=
-.
->>>> If it were to be set after the callback happens, the oops report woul=
-d
->>>> not properly reflect what foolishness was being attempted.
->>>>
->>>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to ke=
-ep
->>>> the tool from hitting bind/unbind, should be run with panic_on_taint
->>>> enabled so that they fall over and don't continue on, thinking that t=
-hey
->>>> actually found a real issue.
->>>>
->>>> Userspace operations that rely on the bind/unbind files
->>> I agree that this should be avoided.
->>>
->>> But I also think the biggest offender really is driver_override. Speci=
-fically,
->>> on a hot-pluggable bus a driver must be complient with the device driv=
-er
->>> lifecycle rules and hence shouldn't break on bind/unbind. I think it w=
-ould be
->>> nice to not taint the kernel for such busses, and only taint on driver=
-_override,
->>> as I think we'd still want the bug reports for such cases.
->>>
->>> But I think this is fine to leave for a follow-up.
->> I fully agree. I'm fine and support tainting on driver_override, but
->> bind/unbind are used occasionally in my bubble and I consider drivers
->> not handling that properly buggy.
+This is really cool, thank you so much for spending the cycles to test.
 
-I fully agree with this, drivers should correctly implement the lifecycle =
-model
-and not just break when being unbound at a improper time. Drivers sufferin=
-g from
-this can easily break this way when unloading the associated kernel module=
-, so this
-taint is no solution.
+I'm working on getting a v6 out soon.  Glad to see the progress!
 
-> In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedge=
-d
-> chip.
->
-> A few examples where other reset methods were reject in favor of unbind/=
-bind:
->
-> https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
->
-> 	This needs documenting as it's custom ABI. Note that we don't often
-> 	accept custom ABI. Particularly not a hook that seems to reset the
-> 	device. If you want to do that, unbind and rebind the whole drive[r]
-> 	so we are in a known state etc.
->
-> https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
->
-> 	Firstly as stated below, we don't provide interfaces for this
-> 	because it's a heavy weight process that is most of the effort of
-> 	unbinding and rebinding the driver. So if you need to reset, do that.
->
-> https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
->
-> 	The solution is to run it once at driver bind. Similar to reset
-> 	below, if the usecase needs to re do it then unbinding and rebinding
-> 	the driver reflects the fact we are taking it effectively offline
-> 	for a while.
->
-I also consider bind/unbind to be an official API to interact with devices=
-,
-so i want to use them in the future with the WMI subsystem.
+> Good things first! We feel that the isolation using private nodes and 
+> the capability selection using NODE_PRIVATE_CAP_* work functionally well 
+> for the compressed memory use cases.
+> 
+> On improvement points, we observed much higher 'page_faults', 
+> 'allocation_stalls' etc. which contributed to the higher tail latencies 
+> in some tests. I hope these are already part of the optimization plans. 
+> The higher latencies might have resulted from the write_protection 
+> applied to the private node, I believe.
+> 
 
-AFAIK the underlying reason for this series is that some drivers break whe=
-n
-being bound to unsupported devices. However IMHO drivers should verify tha=
-t
-they support a given device inside their .probe callback, and the associat=
-ed
-bus should only match devices with drivers that explicitly claim support f=
-or
-those devices (ignoring driver_override).
+Yes, this is expected, and I think there are questions about how it
+should be optimized both in a provisioning sense and a software sense.
 
-Can we get some example bugs uncovered this way?
+For example, exposing a full memory expander as 100% compressible may
+not make sense - given that this could many a lot of memory.  I have
+some data that shows it may make more sense to split a memory expander
+into two regions to better fit the compressible region to meet the
+actual capacity the cold-tail is capable of consuming.
 
-Thanks,
-Armin Wolf
+On the software side there may be some ability to adjust this at
+runtime with hotplug instead of requiring a reboot, but I think that
+needs to be experimented with.
 
->> So please let's do
->>
->> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
->> index c51ad96d4de4..ce8fb14ea19a 100644
->> --- a/drivers/base/bus.c
->> +++ b/drivers/base/bus.c
->> @@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *d=
-rv, const char *buf,
->>  =20
->>   	dev =3D bus_find_device_by_name(bus, NULL, buf);
->>   	if (dev && dev->driver =3D=3D drv) {
->> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->>   		device_driver_detach(dev);
->>   		err =3D count;
->>   	}
->> @@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv=
-, const char *buf,
->>  =20
->>   	dev =3D bus_find_device_by_name(bus, NULL, buf);
->>   	if (dev && driver_match_device(drv, dev)) {
->> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->>   		err =3D device_driver_attach(drv, dev);
->>   		if (!err) {
->>   			/* success */
->> @@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device =
-*dev,
->>   {
->>   	int ret;
->>  =20
->> +	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->>   	ret =3D __device_set_driver_override(dev, buf, count);
->>   	if (ret)
->>   		return ret;
->>
->> (plus the needed documentation adaptions and maybe a rename
->> s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
->>
->> Best regards
->> Uwe
+> On the tools side, we used MLC and Taobench for the tests.
+> 
+
+Great! I also have some TaoBench and fio results i'm looking to share,
+glad to have some additional peer review using Tao.
+
+> Note that our intention for this phase of experiments was to test only 
+> the 'private node' layer based isolation, and not the cram and below 
+> layers for the compressed memory. Therefore we did not enable/utilize 
+> the compression capability in the hardware for these set of experiments 
+> (enabling compression would require the cram level ballooning/memory 
+> shrinking and cxl level interfacing driver to the compression device). 
+> That would be different set of experiments where we would be testing the 
+> cram balloon shrinkers and our alternate algorithms (upstream targeted). 
+> So cram and below layers were used only for enumeration of private node 
+> regions for these tests and not for the run-time memory shrinkers.
+> 
+
+Agreed, i'm looking forward to getting past the isolation bits and get
+more focused on the compression implementation details.
+
+> ======= Test Methodology ==============
+> 
+> We explored these 3 cases:
+> 
+>     1) (Baseline – existing CXL infra):  DRAM 16GB + CXL 32GB. Here we 
+> used the existing CXL driver infra to enable the device. No private node 
+> is involved. And compression is disabled on device.
+> 
+>     2) (private node in default write protected path): DRAM 16GB + CXL 
+> Private Node 32GB. Here private node infra is used to enable the device. 
+> And compression is disabled on device.
+> 
+>     3) (private node with no write protection): DRAM 16GB + CXL Private 
+> Node 32GB. Here private node infra is used to enable the device without 
+> the write protection/fencing enabled. Compression is disabled on device. 
+> We could not complete these runs as they resulted in kernel panics. 
+> Guess the code path is not stable yet for this (We had hoped that case 1 
+> and case 3 results would be similar). We also observed some unmovable 
+> page warnings logs in 'dmesg' before crash (might be related to the 
+> panic). Adding the log snippets at the end.
+> 
+
+Very similar to my test setup, seems like good signal we are of similar
+mind on the use case.  (For readers: there was no coordination here).
+
+I personally did not test private-node without write protection,
+although it makes sense to test the throughput of a demotion-only
+node as a baseline.  Smart.
+
+My guess is there was probably a reclaim throughput issue, or there may
+have been a bug in the v4/v5 code.  I will look at adding some pressure
+tests to my suite that test demotion-only explicitly.
+
+> ========= Results summary ===================
+> 
+> Private (CRAM) node performance is lower compared to a normal CXL memory 
+> allocation path. VM stats shows more page_faults and allocation_stalls 
+> on the private node case. Could it be the allocator waits for migration 
+> path to demote pages to private node? Or the actual hot pages in dram 
+> got demoted to private node to make space during overwrites? We will try 
+> further analysis on this.
+> 
+
+- allocator waits for migration?
+  
+  Yes.  And worse, once the node is full, migration will fail and you'll
+  swap directly from the top tier and reduce your reclaim behavior on
+  the lower node.  It becomes very important to push proactive reclaim
+  on a demotion-only tier to ensure there is sufficient headroom to
+  receive demotions in the future, since direct-reclaim basically never
+  targets a lower-tier on the first pass.
+
+  There's a big discussion about whether tiered systems need to invert
+  their reclaim behavior (reclaim from the lowest node first to find
+  progress there, then do demotion - rather than the other way around).
+
+- Hot pages in dram 
+
+  Also yes.  The comparison to make isn't only against a raw CXL node,
+  but also against Zswap or Zram or Swap.  How does the workload fair
+  on a system with 16GB RAM and 32GB Zswap/Swap?
+
+  This is important context.
+
+> ========== MLC Experiments ====================
+> 
+> CMD:
+>    $./mlc --loaded_latency -j0 -c0 -b1g -k1-15 -W5 -r
+> 
+> Experiment Results:
+> 
+> 1. (Baseline) DRAM 16GB + CXL 32GB
+> 
+> Inject  Latency Bandwidth
+> Delay   (ns)    MB/sec
+> ================
+>   00000  686.18   40137.5
+>   00002  686.69   40124.0
+>   00008  709.74   40362.7
+...
+> 2. (private node in default write protected path)
+>      DRAM 16GB + CXL Private Node(Uncompressed) 32GB
+> 
+> Inject  Latency Bandwidth
+> Delay   (ns)    MB/sec
+> ================
+>   00000  320.09   12186.2
+>   00002  543.42   22726.1
+>   00008  482.11   28385.2
+...
+> Takeaway: Our MLC tests show a trade-off between the two configurations. 
+> During low inject delay, the private Node is faster. But when inject 
+> delay goes high, the baseline shows better latency. Could it be the TLB 
+> cache effects?
+> 
+
+These latency results suggest to me that the memory being tested was
+always DRAM, though the initial memory fault would have been CXL.
+
+i.e. even if the memory was faulted directly onto the node via
+mempolicy, the very first write to it would have caused promotion.
+
+If you dropped the write protection you'd probably see it equals the
+baseline.
+
+The bandwidth numbers support this.  Higher stall, but faster latency
+means the migration was more beneficial for latency than letting the
+memory sit on CXL.
+
+Neat.  I'm not sure these results are particularly useful in describing
+how a workload would react.
+
+> --------------------------------------------------------------------
+> Case 3 dmesg log snippet:
+> 
+> [   82.525741] page: refcount:1 mapcount:0 mapping:0000000000000000 
+> index:0x0 pfn:0x5f5800
+> [   82.525753] flags: 
+> 0x17ffffc0002000(reserved|node=0|zone=2|lastcpupid=0x1fffff)
+> [   82.525762] raw: 0017ffffc0002000 ffefc85717d60008 ffefc85717d60008 
+> 0000000000000000
+> [   82.525764] raw: 0000000000000000 0000000000000000 00000001ffffffff 
+> 0000000000000000
+> [   82.525766] page dumped because: unmovable page
+> ..............
+> 
+
+Was this memory hotplugged via cram.c or did you replicate the code and
+hotplug it another way?  If so, did you hotplug it as ZONE_NORMAL or
+ZONE_MOVABLE?
+
+For a compressed tier, it must always be hotplugged as ZONE_MOVABLE,
+without exception, because otherwise it can allow a GUP pin or kernel
+allocation that would eventually become permanently stuck there - and by
+definition of a compression tier must be 100% movable memory.
+
+~Gregory
