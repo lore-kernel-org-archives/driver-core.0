@@ -1,116 +1,153 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF81456DF7
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 09:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757D04CA788
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 09:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790069366; cv=none; b=h2kg+tAqPVPyI36wb6eVMSCkSi5H25pLRJ8UqzBTxQvpD//2hzYZ1yzRHesulnWILmdbjcJ8u4xGED1d/n8BM4PoJ3FnddGZBZTKteQQceQiWQBDBG67adeBE54zovqq2gIw0WpUgabe7GNF5e1UyedOB55H1bUsbsoUh8kFjxg=
+	t=1790071106; cv=none; b=QscLk/cxc0qZzSNERKlAhkOH6sIxE0WXPG1j2p0NwfnrnaLxes496EEpdVlAJfVQWfbXta6+ppqXCF8VaYhvsxNhcOHtszC6bvrsjeI/W5LNCn9dSZeM+oa29ly9QjNNvgRu8Rzg9Atk9Qknh2FEB31VGx/30+qCtY7BFaIbYzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790069366; c=relaxed/simple;
-	bh=j2jR10kCHvpHCNyicsNRz78S1Ffisd+3RzqfY0lLzkI=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=CKmHmGh00MYG/6ePCQfWCGDJMPSqow7DcCQInd5q/rQfVxz25H2EBtPUD6l6uxdpTClJQoFV5H+IY8gso/b4wyNojvSjjMMVkMQNrmhz6qY8d/MY6kjnxHvEsRI9Z61KEeis2hqCASEbxaY2AsCFd9k5hLRDQcNd+5l0mfZvhM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=stpcFFVU; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1790071106; c=relaxed/simple;
+	bh=zYbfbPSv4oN0DQRZXu+ig0WpHZAE1jueUN/5aUe+dpQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hFPOkEcXdWCwn1O7pm/iHo67B/9NJ/q1/WCJPPtudn3AJcKmV8Qmg88wfGFO4zQyNU2dm9Vc/4CyHrNvJ4igoPf0Vo3Buz/ug022txHG/x71U117C0X+OSnKAaMR1a51wntRm3xtMQjX1OU/RHAN95XQxiXpQaHRA83XxUAlhp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=c3QLVBky; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="stpcFFVU"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=HGkT9Ui8IWBvThLwNwtH5JiFUDnabT7ULMWL9InJHFU=;
-	b=stpcFFVUA5sWEn3kkPHrfPiLr8qBRiZbNZDh7aVd9XnAuytPymZceOrcl8vSrbJBulCPVDCTw
-	olYFpOv609kH+6MaWDjwTkqVpeODVsVsPvdBngDQ3tJ8srYzmm23k97FGyQxixbsn8Vuj4RMKxU
-	zUe4jbOpnHoBTAbKsk4aHxI=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4hpvd5362fz1T4JM;
-	Tue, 22 Sep 2026 17:17:29 +0800 (CST)
-Received: from whupemk100004.china.huawei.com (unknown [7.152.185.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 69CFE202E6;
-	Tue, 22 Sep 2026 17:29:19 +0800 (CST)
-Received: from [10.173.124.160] (10.173.124.160) by
- whupemk100004.china.huawei.com (7.152.185.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 22 Sep 2026 17:29:15 +0800
-Subject: Re: [PATCH v5 0/9] mm/memory-failure: keep hardware-poisoned pages
- out of the next kexec
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <rmikey@meta.com>, <riel@surriel.com>,
-	<harry@kernel.org>, <linux-cxl@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <kernel-team@meta.com>, Ard Biesheuvel
-	<ardb@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Naoya
- Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton
-	<akpm@linux-foundation.org>, <kas@kernel.org>, <kexec@lists.infradead.org>,
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam
- R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner
-	<hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Oscar Salvador
-	<osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
-	<hannes@cmpxchg.or>, <shakeel.butt@linux.dev>
-References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
- <d6e35901-f74d-bf81-75d3-bac4b26d9d72@huawei.com>
- <arJBkNOgbR8NrgFP@gmail.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <16baab50-692c-308b-d60d-1b0a328df1e3@huawei.com>
-Date: Tue, 22 Sep 2026 17:29:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="c3QLVBky"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so21399605e9.3
+        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 02:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1790071102; x=1790675902; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
+        b=c3QLVBky+a+r/8iQ6N+F6FYbzYyzrNfBkBbfLdxuBsLj6tl4eG8iktcOD+TEIACUNB
+         OOaIWxim/rlD5q17fJpvFmd/UtCfoORL6AyCp/heMcVpAZe0P/x28mQNXpH2YqKHCAbA
+         fqVFyHI6+Vf/g+b+mUxLdO6gGxNy9hYUokRNU6HeK9r3HIx04UCoSz9fXkCXfK+pNufL
+         AuHAFtKuEqURtf6YId4Rfoo48uegRR5JRpAaHJem91Ag/gP6l0POBq+FLCc0RstMtLYi
+         r+xAsElcWWnjXlmQI6QxsUQH62A8nhLMx4ai3ZvA3XXTP5ghS6HrmzZ0td32ADUqjKqt
+         f8bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790071102; x=1790675902;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nZUNZdA2VreC5ZuzVVTaU77y9kWQRV4FmcQNBHWyLvk=;
+        b=1W6YCQDL7HqjxvTg9Uvs4myvHLxd/Zs8znmdCaDOEzWLNAfaux3i16Ic2OOHalLM1i
+         KhL9/+H9Xm1eFg9wSbfxL/Xifoe2/R/1devAUkIgn5BH1z7GDRktIGgExMVfHSmt643e
+         NroCeMpOkBiatpep0h+0QstQfXIteU5Z5vwd4kzvfAIhMpdkS8Z/z+LZyU5Bxc8KGz9K
+         f6pgzZUWj1w0AsLHL2mCeHbhtmtjVWsM+J4Z/O16NiYrErd8NPjRFUr/kibmLGn+Q0Wa
+         vF7H7cyj/Mpru0GABjQg/Jgi/hYxn1/LWuD5oGlx7rljf/o6G1qw5GAWWVS6qcvN9dDP
+         aUjA==
+X-Forwarded-Encrypted: i=1; AKwUvBy35lb5R23mgnwfgGArJ5hU2kH4xumBOBeZKGzUzT41tgocvb9yg82TkvhoRXkJzFNnmYOpY8R9JLw2CQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++mVZYG+EJJCrywTZ4p/kL6QtyXy0jUIoICjEVbkb+D665CkJ6XT
+	ynoXH+9Jb2Z40D1Ap4PCoOJJvyze4jXCpkjSJD9q1Gu3q0oC2mHonULPLSAFqLyIOUQ=
+X-Gm-Gg: AYBFou0hB/q06yXVtXhbcVEzggfCXc7jpvBZH1PfXEEbXyUzsPDes+x25Vyuz3yGcVg
+	O0PrYmxdvp5pq9pC42A7rG6v5GzGztp++q3L18o9f5JP1C+PGWGThkfa7UmRmpydB+CpwX+3Fv9
+	BMk+01OWFiEcURoTD4Qb3NYdS1+PSlmvqPvbIRO8OgnwFzsvrQ463J4lk6yRFnmf9GKm2PfcsSg
+	3aT/b23qYQQJuEu+z5qUS+GvElbk1SI5fxjp0/e5fqoJVLnf57F026GWpLxFqwt4kot3tACI8Oc
+	QkQWhkqKaQFp4jRDkvWzpuFtK2Q7PlwWOb1xSQoQeUUtwv5QKPVNVeIMC+P4Krv8MS02lOWrl4d
+	W6wGC3OueqH8sM6KHTjUrxQefZECdXPF/52fIgOAjcIMzG8qcUftOu4Ylf5iV+9SFNnt+2GneII
+	KIEZksNvqU5kY+eU5g9UnlskcTw/XTOy+RXo9kVJl9KaiDdytYrR+eaXdmMljEVAKQzjiCrRTv6
+	PMJ/ZWNo+d3qwYdBDoHQPYDNaBcO7YajXsoAamgJfoLSXUDxeocae3qXf+Cy1iv+nKbJU+UMKIW
+	tKcPG4ZpV0R6SxxHGqjXWalaQ8XgAWVKb/6bLY+v
+X-Received: by 2002:a05:600c:a0a:b0:49e:84bf:6110 with SMTP id 5b1f17b1804b1-49fc56dbb49mr199597855e9.6.1790071101618;
+        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdab0c240sm27108755e9.4.2026.09.22.02.58.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 02:58:21 -0700 (PDT)
+Message-ID: <2bf82e0b-a032-4ee7-8d93-c5604222723d@suse.com>
+Date: Tue, 22 Sep 2026 11:58:18 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <arJBkNOgbR8NrgFP@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] Bring includes in linux/kmod.h up to date
+To: petr.pavlu@suse.com
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
+ <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
+ linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+ bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
 Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- whupemk100004.china.huawei.com (7.152.185.74)
 
-On 2026/9/22 17:14, Breno Leitao wrote:
-> Hello Miaohe,
+On 9/11/26 4:46 PM, Petr Pavlu wrote:
+> The usermode helper declarations were previously provided by linux/kmod.h
+> but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+> moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+> files that use usermode helpers and remove linux/kmod.h where it is no
+> longer needed.
 > 
-> On Tue, Sep 22, 2026 at 02:27:59PM +0800, Miaohe Lin wrote:
->>> A bit is never cleared, which is a known limitation: it stands for a
->>> whole unit, so an unpoison of one frame cannot tell whether the unit as a
->>> whole is good again.
->>
->> Thanks for your patches. I have a question about unpoison: If a bit is never
->> cleared, after we do some memory-failure+unpoison tests, kexec will lose the
->> tested memory without reboot?
+> Also add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
 > 
-> Correct, A bit stands for a 2M unit, so every tested page that falls in
-> a distinct unit costs 2M in each kernel after the kexec.
+> Finally, clean up linux/kmod.h so that it includes only the headers that it
+> actually requires, importantly removing the compat linux/umh.h include.
 > 
-> Worth being precise about the state today: the unpoison itself works.
-> The frame goes back to the allocator and num_poisoned_pages drops. Only
-> the bit stays, so the next kernel poisons the frame again. Test loop
-> in, memory out, and nothing gives it back.
+> This cleanup is motivated by trying to reduce the preprocessed size of
+> linux/module.h, which includes linux/kmod.h. linux/module.h appears in
+> roughly 15k #include directives across the kernel. This makes it a "hot"
+> header, so it should avoid pulling in unnecessary definitions. Note that
+> this series doesn't immediately improve the situation, since most of the
+> files included by linux/kmod.h are, for now, also included by
+> linux/module.h through other paths.
 > 
-> Important to say that nothing block us from unpoison the bitmap, and in
-> fact my initial patchset had it. I also _think_ we should unpoison the
-> bitmap once we unpoison the page. 
-> 
-> I have just kept it out of this patch in order to simplify the patchset and
-> get the basis correct, and then evolve on top of it.
-> 
+> Apologies for the wide distribution. Acked-bys are appreciated.
 
-Makes sense to me. Thanks for your work.
+I've queued the series on modules-next for 7.4-rc1.
 
-> That said, If you think this is a must have in first patchset, I am more
-> than happy to do it now, but just keep it in mind that it will grow the
-> patchset by about 2 extra functions.
-> 
-> Thanks the review,
-> --breno
-> .
-> 
-
+-- 
+Thanks,
+Petr
