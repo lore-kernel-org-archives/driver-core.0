@@ -1,211 +1,111 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B163C3F44
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 07:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B361E3B38A9
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 08:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790062783; cv=none; b=N+Nkpvf9K0KnWbK2UBMMiL9y432n/d/te6XWzAG3x/hOlU9vsqczxfXnKXoCyEFUFwFbsrvHJM1AI6xndst36wD2kCYsuHKwJKRb00N/0xFQZRrUrNoeLQhwVdKRmKy6GV8W+oSwJLBXqnVxrBBF/iM0C+pcFsLTK4a6vUz5fvc=
+	t=1790064427; cv=none; b=dCmTIoCea49YMIrr30wFYklqoioUan3pTti4/SzD+T3cT5k6/DXgODSpLkRuGn8CT6C+3eQZ5QzzKw9j+aoIL1h3BtNuVZI3my0nbuG0PQbhvxrxD5/L+fJrDix5zp+BC/PY1qCn0Lndv7pa7mDqglcB3zIHZOel/RCV5n9pU1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790062783; c=relaxed/simple;
-	bh=dl5o9oQr5B5N85FSOPgTlq/lZbjtY8w27lkb6yxJJ5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GF4fGTg5a3btpRUNl7vMJ4IUJqYX27aW+vkHf03Ppa/JW0RBKhHoN//aNspaIKxTZ2Yhk3/C46t9cpavE9Mm9duvnwOIRpfZRNT08EUWUIIMJbBgnHG9xfwKrKEEidwdsenL8x6XrHda1EA990Ms7ynRlrV+HE54zO97/7/2Xks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=mPPKs/s3; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1790064427; c=relaxed/simple;
+	bh=cB4FZPFGZEQzYGYS86n3W200daWOvuyV72CbgzKsGHs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 In-Reply-To:References; b=Cq8UCXLWEJSUWQZ3jswrXgBUbfOCHgIpD7SIV87ZxcloviuqB3GDLUSXSgTw6VP+lJc4BL+POH1fCcwpnbRAzksnvt+JM1RPwHPlql2jr0MWyfA4Qv0+TaAoFUZmyWpMsiYG6zDgVhyc3AowLLsLvoM70K6CfxJbyz30eEzeCBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lvf9EUVm; arc=none smtp.client-ip=95.215.58.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="mPPKs/s3"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48583cc7ab1so1805042f8f.2
-        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 00:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790062778; x=1790667578; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hNYq47O4Ws8Dm5U8XTWW+CRMw749gUzSYK16o/QDHGk=;
-        b=mPPKs/s3t51cizHoroiZNjUH8TJXjfPiCd8piGo0zpirCkbDNHn/tdLTdcSIBf5PxM
-         vS+d6GE66PGKOvDdBqH2FxBC7oNyoZaBDBrGZ+8DBJgSAXtQkfherGovKCNUS+K6hS7u
-         DPS+GU2rAerK40se9qdg/oX9mf06vr/Zjyy0URt9IW7yBz7Sz86CaOWP0GOj9eaTEkVo
-         M7/3+vKPkXUqe+S7jteD7ZWSbBfnhsZS188D21b78vMkSyKxKgLWNVFQ1DeIsItiTDBX
-         gv7QE5j06WTebgJXmtyZzPPSnW1cpFTHWueqPyeq1u1p2dy6J01AhhAG4doHyxhk3FpW
-         KXNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790062778; x=1790667578;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hNYq47O4Ws8Dm5U8XTWW+CRMw749gUzSYK16o/QDHGk=;
-        b=ZHK8cSQDPQXOlWXhRPiMjMPQrqFu1TNsKfXvGlW1J1oc+BZ4nIvyEhSFiQ5H+WjFw6
-         W97RQXWRO6B4NtDuMC7IUedQ8kLUiNe8kAVJjizylPg6NTMYlbTAyZvN+gQ+TUomUbgQ
-         nSmoZQk1GCvASfNw/GEEiRrnmwzwepLJdDVnaglgwfT3dxFzkJxIM/uul/wbuwCNgbF2
-         x+g97h6LV8of0XQedUVPT17FyFzjs2fTwq8s0xTryiCwzEEKgY9SVEwH0EXR+P9OY5hg
-         kwfyVEKCcPpqgMJyY18we2tMEWB/j0qCVwJobErdVFisbiH96wyzpO7qCYxa6r9u1xht
-         TtHA==
-X-Forwarded-Encrypted: i=1; AKwUvBwCc3Tv4CLFWKuupfiyNh+Eg0byJ47W62eZ7vSVQJEyUDPoeUXzoZhjUgC7IHDA4B7klq13tVYBH1Odfg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kfcQyaUrrlhsuiUNMA7sBaERpkbWE1oSVHnxbRfho6M7k9upET
-	+UoeHp7fEGzwoIviqNBFobp6RMTK9xZgCWKSIEi0ivH2Tsb3kmLHYBoKOBiX/uYbC1M=
-X-Gm-Gg: AYBFou1tWIpK/O/RMNXDuHiqCD4zgPthleIZrVsXBC/zqz9z2eekAZIYfnBzNmvDlUq
-	/VAtYnIAUUGNC0665paD/IZDl50IIiaDq9M2pvLB0rV6LPpUtgGn5kPFijGvnj3TK0dR+Pr5JhO
-	Kha3Xj+iifijbTfWDxg3gRzmIrTmJTCuedqT/TvL/H0bnn9RCOXoe5Lp19GPRLKfkB+aLSZKR5/
-	ipNH9mKlIt/IuIKjWbSZbT+l7OP7mwokxATjra6YwDzrhO8eh4Z1VBGdQKkutjpAJWjObDNLkiA
-	i8IZmQlcSdopi6eBaQtCa3BU+FipGcGz5szq8KAo6Rv7CbM+atZXUOtmdWR64i2x9OuMt6kzSlx
-	AmlR1UinY/2y9BTZjp1Gm1F6x+/wWpT5FuZWEfXoriAN/aNAwOBbmu8hryl6l9bjSjlxH5V9PqC
-	VnoMgApgE1NsLLEDD2/4Q2j4+JMdaeVRpqqSPH0J8BzJNMavb8dL2poGkIxZdfNxl+vnK6YMMSc
-	J7/A8nszlxSAQKJ0W8+F5P8MyGsfkY9yrC9ku8RPz6ehSNVV3kljJANPVt6qQ==
-X-Received: by 2002:a05:6000:3111:b0:487:8ef:2fcf with SMTP id ffacd0b85a97d-4871e26b86fmr18280691f8f.38.1790062777241;
-        Tue, 22 Sep 2026 00:39:37 -0700 (PDT)
-Received: from localhost (p200300f65f19a9041d0e57515b2ea4c8.dip0.t-ipconnect.de. [2003:f6:5f19:a904:1d0e:5751:5b2e:a4c8])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48862788f61sm2993133f8f.26.2026.09.22.00.39.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 00:39:36 -0700 (PDT)
-Date: Tue, 22 Sep 2026 09:39:35 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <arIvG0nx4LXG9nlW@monoceros>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lvf9EUVm"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=cB4FZPFGZEQzYGYS86n3W200daWOvuyV72CbgzKsGHs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790064415; v=1; x=1790669215;
+ b=Lvf9EUVmJhdRZQobQnfL0Rkgf4hnI5XohrOcCJbxr3bYMcUxXocm+zICEyADiWWJICZYnpcc
+ t+DfaU8uJP/oIdb9FQJzIoELY3aURKIi2NEu9hASzWjqRXz079D5QULozg59Glblsfx5wtqEybb
+ ZvlxYpHK12DA6kNqK1pVfESo=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by mta12.migadu.com with ESMTPS id 426168b88e5d5557;
+	Tue, 22 Sep 2026 08:06:55 +0000
+X-Mizu-Trace-ID: 426168b88e5d5557
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ikoios7rdkqzgpee"
-Content-Disposition: inline
-In-Reply-To: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 22 Sep 2026 16:06:50 +0800
+Message-Id: <DLLOVHIKRXPY.3AGBAPAM8F9WV@linux.dev>
+From: "Troy Mitchell" <troy.mitchell@linux.dev>
+To: "Sudeep Holla" <sudeep.holla@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>
+Cc: "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon"
+ <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-riscv@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>, "Troy
+ Mitchell" <troy.mitchell@linux.dev>
+Subject: Re: [PATCH RFC 2/3] arch_topology: Parse die nodes in /cpu-map
+In-Reply-To: <20260921-rational-frisky-jerboa-0f2ff0@sudeepholla>
+References: <20260920-riscv-die-topology-rfc-v1-0-071c0bf61d5f@linux.dev>
+ <20260920-riscv-die-topology-rfc-v1-2-071c0bf61d5f@linux.dev>
+ <20260921-rational-frisky-jerboa-0f2ff0@sudeepholla>
+Content-Transfer-Encoding: 7bit
 
-
---ikoios7rdkqzgpee
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+--2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
-> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
-> > The ability to add and remove devices from a driver through the sysfs
-> > "bind" and "unbind" files was created all those decades ago as a way
-> > that kernel developers can iterate faster, and provide a debugging way
-> > for users to attempt to add a new device to a driver without having to
-> > rebuild their kernel.
-> >
-> > This api over the years has been abused and recently come under a major
-> > fuzzing "attack" through tools like syzbot which decided that it would
-> > attempt to just randomly bind any driver to any type of device, causing
-> > loads of unneeded errors and pointless kernel patches to be generated by
-> > unsuspecting new developers.
-> >
-> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > will be set on the driver if the bind/unbind sysfs files are ever
-> > written to.  This lets kernel developers "know" that a user is
-> > attempting to do something that is not normal, and as such, if the
-> > kernel breaks they get to keep the shiny pieces laying around on the
-> > floor.
-> >
-> > The flag is 'Y' which was unused, and can remembered as the user is
-> > "yeeting" the device being operated on here (thrown with force without
-> > regard for the thing being thrown).
-> >
-> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > as many times crashes/oops/warnings/failures happen within the callback,
-> > and the taint flag needs to be there to show what was being attempted.
-> > If it were to be set after the callback happens, the oops report would
-> > not properly reflect what foolishness was being attempted.
-> >
-> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-> > the tool from hitting bind/unbind, should be run with panic_on_taint
-> > enabled so that they fall over and don't continue on, thinking that they
-> > actually found a real issue.
-> >
-> > Userspace operations that rely on the bind/unbind files
->=20
-> I agree that this should be avoided.
->=20
-> But I also think the biggest offender really is driver_override. Specific=
-ally,
-> on a hot-pluggable bus a driver must be complient with the device driver
-> lifecycle rules and hence shouldn't break on bind/unbind. I think it woul=
-d be
-> nice to not taint the kernel for such busses, and only taint on driver_ov=
-erride,
-> as I think we'd still want the bug reports for such cases.
->=20
-> But I think this is fine to leave for a follow-up.
+> Where is the associated bindings ? Am I missing to check it in the series
+> or it is really missing ? It is essential to add any code using the bindi=
+ng.
 
-I fully agree. I'm fine and support tainting on driver_override, but
-bind/unbind are used occasionally in my bubble and I consider drivers
-not handling that properly buggy.
+I left the binding out to get initial feedback on the topology model,
+but I agree it should be available for review alongside the code.
 
-So please let's do
+The cpu-map binding lives in dt-schema. I have now opened a draft PR [1]
+with the proposed dieN hierarchy. The PR also links back to this kernel
+series.
 
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index c51ad96d4de4..ce8fb14ea19a 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *drv, =
-const char *buf,
-=20
- 	dev =3D bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && dev->driver =3D=3D drv) {
--		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		device_driver_detach(dev);
- 		err =3D count;
- 	}
-@@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv, co=
-nst char *buf,
-=20
- 	dev =3D bus_find_device_by_name(bus, NULL, buf);
- 	if (dev && driver_match_device(drv, dev)) {
--		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 		err =3D device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-@@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device *dev,
- {
- 	int ret;
-=20
-+	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
- 	ret =3D __device_set_driver_override(dev, buf, count);
- 	if (ret)
- 		return ret;
+> Also how does it align with ACPI implementation ? It is preferred to be
+> in parity here, so we need some binding there as well IMHO.
 
-(plus the needed documentation adaptions and maybe a rename
-s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
+This series does not implement ACPI die discovery and leaves die_id at
+-1 on that path. I agree that DT and ACPI should describe the same
+topology model.
 
-Best regards
-Uwe
+RISC-V does not define topology fields in hart IDs. PPTT can describe
+intermediate processor hierarchy nodes, but I could not find an explicit
+die indicator in the ACPI 6.6 processor-node flags. Is there an existing
+PPTT convention for identifying die boundaries that we should follow?
 
---ikoios7rdkqzgpee
+Would it be acceptable to add DT support first, keeping ACPI die IDs
+unknown until that mapping is agreed, or should the ACPI mapping be
+defined as part of this RFC?
+
+Link: https://github.com/devicetree-org/dt-schema/pull/208 [1].
+
+--=20
+Troy Mitchell
+
+--2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqyMLQACgkQj4D7WH0S
-/k5o6wf/QvL9FWWzFHpKfbzsuAgBOWn5AxVXK3QYhCnvpoqfBJNUrHxYRK4N19fK
-lu4zMQZiIF3pIma55K4HT/BspgIU2PEntjwd3qv5PXAJVEIC4zi94t6jtsjwzfyh
-ICPjAIOv/7a9Hs+DxIFIYAynmaljcmJ9KJQFX+THv55SkTbrvlMBJy5hf8TaH/He
-ZKqYDooGLkS4SnRCuALcqrfQ1nFewrCtmGAPrycGrRrmozUmhsbkWpKdPig0wtfg
-y0qv6g2TrwzvGsclwxgMYqEmLjdVs4GRzN5dnqIdnaTXlk1WtEtJlx4wZ6Ff53dV
-aolAtJZL8PkYcEJ0fpeNtFJvZzxMbg==
-=j+xR
+iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCarI3GiEcdHJveS5taXRj
+aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC/dtgEAw8G9zoZFaHkE
+oAhSnQKlX8ec/LwA/1LdZjuOaqjDmOsBAIqD7X1Vd3GQdkDDrnwDkXKuMRP0FRGz
+9ZibisfJBz8N
+=lRK8
 -----END PGP SIGNATURE-----
 
---ikoios7rdkqzgpee--
+--2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d--
