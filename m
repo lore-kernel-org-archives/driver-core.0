@@ -1,111 +1,100 @@
-Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B361E3B38A9
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 08:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F4049E5DC;
+	Tue, 22 Sep 2026 09:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790064427; cv=none; b=dCmTIoCea49YMIrr30wFYklqoioUan3pTti4/SzD+T3cT5k6/DXgODSpLkRuGn8CT6C+3eQZ5QzzKw9j+aoIL1h3BtNuVZI3my0nbuG0PQbhvxrxD5/L+fJrDix5zp+BC/PY1qCn0Lndv7pa7mDqglcB3zIHZOel/RCV5n9pU1Q=
+	t=1790068496; cv=none; b=l828bet+qsIN/KPM5YgOM70JZY+8k8fWuJsKCZM1Wk3uUghXA8rzF1V9rIz/sARhGelRpu2HwyAn2CFnlwoyehpX+gulyQUxnc/LrQnyuXMhwTIp3qBPmVtTXZY0CpiIj7jRqwZucAk+PyAA2z030lD2S+C1e1EhzxTJ6B2gwes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790064427; c=relaxed/simple;
-	bh=cB4FZPFGZEQzYGYS86n3W200daWOvuyV72CbgzKsGHs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 In-Reply-To:References; b=Cq8UCXLWEJSUWQZ3jswrXgBUbfOCHgIpD7SIV87ZxcloviuqB3GDLUSXSgTw6VP+lJc4BL+POH1fCcwpnbRAzksnvt+JM1RPwHPlql2jr0MWyfA4Qv0+TaAoFUZmyWpMsiYG6zDgVhyc3AowLLsLvoM70K6CfxJbyz30eEzeCBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lvf9EUVm; arc=none smtp.client-ip=95.215.58.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790068496; c=relaxed/simple;
+	bh=G6g/Ns3DsSE6wdQG/IaMe18C9Nn3sdmR1q26SH/yjGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQTHjXVtzbz92Vh7+fWyBSFovkMb0WM2/Z6dXBtW62BpXxKsrBrz1GTEe+CcPca+dzdeR+Yy6SlkQVGespk7JjMUBFm/IwdLBIGTwoDTgWynBHiKufMIN29ykk4cIO8KHK3ovR/Bz4RHl7Rz0QE6mwOb9FNAOsHDtoWFS6RadLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=eUPTj9eA; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lvf9EUVm"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=cB4FZPFGZEQzYGYS86n3W200daWOvuyV72CbgzKsGHs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790064415; v=1; x=1790669215;
- b=Lvf9EUVmJhdRZQobQnfL0Rkgf4hnI5XohrOcCJbxr3bYMcUxXocm+zICEyADiWWJICZYnpcc
- t+DfaU8uJP/oIdb9FQJzIoELY3aURKIi2NEu9hASzWjqRXz079D5QULozg59Glblsfx5wtqEybb
- ZvlxYpHK12DA6kNqK1pVfESo=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by mta12.migadu.com with ESMTPS id 426168b88e5d5557;
-	Tue, 22 Sep 2026 08:06:55 +0000
-X-Mizu-Trace-ID: 426168b88e5d5557
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="eUPTj9eA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FH7I6UR6jBDl/t2avlBDN/FfwVeJE6mNz3ibf6d5W4E=; b=eUPTj9eAaXcbs4q80PbAeG7F41
+	9081MjBXTkIMWK+8zT65gf+PM19anFfCRJOI6aZDApSOMevfYWb7efc71TgWLRLz8Exj/Nz6e3oNX
+	mp/w6EYIlF0u9JFuQE14R4PxwI4XFehfbZAkhGeX6EqqO11Jmi9aD8og1r8c2WBbO+aoH++ZsQDTq
+	5MI3ibU0iCpKRWkSKqMVcUfHWhXxDKZrlmTSKxjS4cR2YGJ5D5lcnutLJShjnAq+FsJHp6txXpr3P
+	VyHyIM4Le5aXVewo0dNiv1C6zkiqmZda9lDVm/dor3vG7NOQtXJd4UBmw/Yn3VZTs1fK3FRW1640T
+	s6m1xKKg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x8wa5-002sKz-0P;
+	Tue, 22 Sep 2026 09:14:29 +0000
+Date: Tue, 22 Sep 2026 02:14:20 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, rmikey@meta.com, riel@surriel.com, harry@kernel.org, 
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, kernel-team@meta.com, 
+	Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, kas@kernel.org, 
+	kexec@lists.infradead.org, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Oscar Salvador <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, hannes@cmpxchg.or, 
+	shakeel.butt@linux.dev
+Subject: Re: [PATCH v5 0/9] mm/memory-failure: keep hardware-poisoned pages
+ out of the next kexec
+Message-ID: <arJBkNOgbR8NrgFP@gmail.com>
+References: <20260915-hwpoison-kho-v5-0-3bc7a57bd503@debian.org>
+ <d6e35901-f74d-bf81-75d3-bac4b26d9d72@huawei.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 22 Sep 2026 16:06:50 +0800
-Message-Id: <DLLOVHIKRXPY.3AGBAPAM8F9WV@linux.dev>
-From: "Troy Mitchell" <troy.mitchell@linux.dev>
-To: "Sudeep Holla" <sudeep.holla@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Ghiti" <alex@ghiti.fr>
-Cc: "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon"
- <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-riscv@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>, "Troy
- Mitchell" <troy.mitchell@linux.dev>
-Subject: Re: [PATCH RFC 2/3] arch_topology: Parse die nodes in /cpu-map
-In-Reply-To: <20260921-rational-frisky-jerboa-0f2ff0@sudeepholla>
-References: <20260920-riscv-die-topology-rfc-v1-0-071c0bf61d5f@linux.dev>
- <20260920-riscv-die-topology-rfc-v1-2-071c0bf61d5f@linux.dev>
- <20260921-rational-frisky-jerboa-0f2ff0@sudeepholla>
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6e35901-f74d-bf81-75d3-bac4b26d9d72@huawei.com>
+X-Debian-User: leitao
 
---2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hello Miaohe,
 
-> Where is the associated bindings ? Am I missing to check it in the series
-> or it is really missing ? It is essential to add any code using the bindi=
-ng.
+On Tue, Sep 22, 2026 at 02:27:59PM +0800, Miaohe Lin wrote:
+> > A bit is never cleared, which is a known limitation: it stands for a
+> > whole unit, so an unpoison of one frame cannot tell whether the unit as a
+> > whole is good again.
+> 
+> Thanks for your patches. I have a question about unpoison: If a bit is never
+> cleared, after we do some memory-failure+unpoison tests, kexec will lose the
+> tested memory without reboot?
 
-I left the binding out to get initial feedback on the topology model,
-but I agree it should be available for review alongside the code.
+Correct, A bit stands for a 2M unit, so every tested page that falls in
+a distinct unit costs 2M in each kernel after the kexec.
 
-The cpu-map binding lives in dt-schema. I have now opened a draft PR [1]
-with the proposed dieN hierarchy. The PR also links back to this kernel
-series.
+Worth being precise about the state today: the unpoison itself works.
+The frame goes back to the allocator and num_poisoned_pages drops. Only
+the bit stays, so the next kernel poisons the frame again. Test loop
+in, memory out, and nothing gives it back.
 
-> Also how does it align with ACPI implementation ? It is preferred to be
-> in parity here, so we need some binding there as well IMHO.
+Important to say that nothing block us from unpoison the bitmap, and in
+fact my initial patchset had it. I also _think_ we should unpoison the
+bitmap once we unpoison the page. 
 
-This series does not implement ACPI die discovery and leaves die_id at
--1 on that path. I agree that DT and ACPI should describe the same
-topology model.
+I have just kept it out of this patch in order to simplify the patchset and
+get the basis correct, and then evolve on top of it.
 
-RISC-V does not define topology fields in hart IDs. PPTT can describe
-intermediate processor hierarchy nodes, but I could not find an explicit
-die indicator in the ACPI 6.6 processor-node flags. Is there an existing
-PPTT convention for identifying die boundaries that we should follow?
+That said, If you think this is a must have in first patchset, I am more
+than happy to do it now, but just keep it in mind that it will grow the
+patchset by about 2 extra functions.
 
-Would it be acceptable to add DT support first, keeping ACPI die IDs
-unknown until that mapping is agreed, or should the ACPI mapping be
-defined as part of this RFC?
-
-Link: https://github.com/devicetree-org/dt-schema/pull/208 [1].
-
---=20
-Troy Mitchell
-
---2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJcEABYKAD8WIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCarI3GiEcdHJveS5taXRj
-aGVsbEBsaW51eC5zcGFjZW1pdC5jb20ACgkQmAnvgPkzNC/dtgEAw8G9zoZFaHkE
-oAhSnQKlX8ec/LwA/1LdZjuOaqjDmOsBAIqD7X1Vd3GQdkDDrnwDkXKuMRP0FRGz
-9ZibisfJBz8N
-=lRK8
------END PGP SIGNATURE-----
-
---2e2b99b56de2a9e6360ff5979e30d653e8172a1b1e603da005f3ee51c34d--
+Thanks the review,
+--breno
