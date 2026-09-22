@@ -1,128 +1,183 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE03C52FE4E
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 16:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A1045D19E
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 17:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790094875; cv=none; b=u6faVg9lIcwKLxfxjVRpNrlINoqSz6QCXdLwWYC4sXPc1s5VGt1LGXGeNXe+zndGODcpffHjkNOedHDjKmY5PUkFsFVNMbeK8+zYbbYoiNcojrhDu9aKND5cKYWhk8old9apIqYBIWA6nOuOfT4F612HrDJYBIFlFzFVHG4bcEk=
+	t=1790099508; cv=none; b=XPn3Sg0GU1TDIpAOjS651FfCdRIBWqfUq3ioAB8ERmdieZWP2al8Ng/ebIsn/3IDAdRm98vWhq4stxLEWXBIOUTWKQ6HIF8M6Vq23NL5yJzW6mDlHVlmAUrKepKNjQNYPtOe1XVL8dQ2Iy8vuLvkiWfi//hCysSRChNPF2Ldhwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790094875; c=relaxed/simple;
-	bh=cKbRWUWUNFCMJjKOH3yHgRtEpoahj/lRVoNkkOfXTsg=;
+	s=arc-20240116; t=1790099508; c=relaxed/simple;
+	bh=FQ9DS5iesg+Q/BcYhBZQGjCZ4nBfFql6vYXIjbJBC2A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P1cn9IDi+JuTvWHbW7b7KHTs4hBjx06Z7tMW7nAYyegq14i1Rm78X0F792qQYde4CwrZWAzXfRPe6U1C8hvB/f/re78xVOuAnF9jXcTIpyo97RSSFg2igSDRf4opWa25UoExyiKqYzl5R3qcXYDbPjICOCtlSKFblVaznctgyyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AB0zXoy1; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=rMvdtLa/3Q/i53PCgV8YabKDLd8hkRbj37UY92hGz+hBV7M3Fsqsn0uHDo5ZlALr8Yw/ZzPq5FUkdm4769aLAwfmawQKXujFfo13sspZ2dpPLmEkfy6Ee8TbNgwvCECLhu9oJ3JONU6EetGRfNqoEz8uZ59Z3++Hnc1dQOoXHLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxBYbrYm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AB0zXoy1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790094872;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cKbRWUWUNFCMJjKOH3yHgRtEpoahj/lRVoNkkOfXTsg=;
-	b=AB0zXoy1Yvcm012ebd22g93OJbpurDQn8u1uHe5d8RzsT3ZMpvCxh+yo0EUJqXz7bfpG5G
-	PKjxa7qRnG1F6zZ1ph085yF6pgjNLW2brVmm5iZ6VKBRiBZG/P9YOQ0hCC7epr0C7KjsEH
-	+G6OYZB0KHfZrCFF7neyM9Bu0OgJUss=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-513-xnGhDw66NdCiP8o3Lv269w-1; Tue, 22 Sep 2026 12:34:31 -0400
-X-MC-Unique: xnGhDw66NdCiP8o3Lv269w-1
-X-Mimecast-MFC-AGG-ID: xnGhDw66NdCiP8o3Lv269w_1790094871
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5c82fe2ba8aso42114e0c.0
-        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 09:34:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790094871; x=1790699671;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cKbRWUWUNFCMJjKOH3yHgRtEpoahj/lRVoNkkOfXTsg=;
-        b=GF+V9D/DUkw7MusYFmVAiNeg9u0uEfln3WyhFxTzBPPB6XpyOsLvb0wbCzhd1q2JAj
-         CCxKOiwbjHp5Afjc/ukhBfLs/2MI9BQ3iMLqOtj7qzbofWAiq0GBed2bdPzsAn8BSHoz
-         zSaztbtI6X29VCqzI5DTZkkhWNoSP/HJpNDmZSj8lylsnl6bT4yHk/tfK9/5+mEI6xsD
-         OFTnawiigNnFannRRdOzGxrm6DWHN9HmtdnPH5M5/vvuRH2YzoZFDAtGbsY7Q7VBokq9
-         nP9m22fUudL5PB9r4fI2aztXVizu2LPmgQZQ1bgPqtbHQHL2jnk4in66fmo5dwwz3Tpg
-         +rpA==
-X-Gm-Message-State: AFuF++mJFiluWtQpvlMfGXDf/OO19275I0c1SKnyd25rQxJ4fPbhQYQ7
-	ru4YtrFTEyW2kGqTO0m6J9ZaXLfR8+QZilSC3ORfQoe9O0B+bG5mhPdk8HjRSJlzVhKjLxmMDB2
-	fS7Knr4xl6qNSrEMoNsLB99JcCylICFl/RZrZl//+YpPV782StSmjGkPonpGqLNpf0RveQVeDjl
-	URlTonzXwtJuvSCM24k+q+GBD6LKK9eaU4wUXrzvrfIvMSs2eovw==
-X-Gm-Gg: AYBFou1gFt/9R76nbo+4hSbCRyoCj4Bxaf7a6icws7SpImv76r2g0uW1lvyAQZF1PDY
-	adhVD23y7M319PVvqIc+KUnsPgUNym+cppENnx+l0mQ4GX/KYvWLOrCQPcHnpWs9OGPsKeQWXP2
-	MFTKgfKLTHlq3tHDOzacwkYJPVlzs4tZFsA5R3ejzaer9xGjQ5Jf1E7vfYjWf9Ox0NQcLELp9ar
-	Q9ykYXmOvojyP2DkpDfPqP0Dj3wjp2aKgxHgi8wl9YmlRe5IgpQUBRcM2X0jFcICyAchFgGvPo=
-X-Received: by 2002:a05:6122:4d01:b0:5c2:b01f:e503 with SMTP id 71dfb90a1353d-5c9f15bb2a3mr57776e0c.7.1790094870713;
-        Tue, 22 Sep 2026 09:34:30 -0700 (PDT)
-X-Received: by 2002:a05:6122:4d01:b0:5c2:b01f:e503 with SMTP id
- 71dfb90a1353d-5c9f15bb2a3mr57708e0c.7.1790094870278; Tue, 22 Sep 2026
- 09:34:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxBYbrYm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1C751F0089A
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 17:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790099505;
+	bh=pyNJDOLEfgLP4wzZmF4hygcfkmD+D8SQrjWiUmYWiXI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=GxBYbrYmMFsz5Vy+b6kBzPICmhxv00Xd2udX52Rym4khkegAoa2WbXpqvMrYcJ5mP
+	 vjH63qxGez2wu2NvDv7qGD8f5sQwpaxOaAw/cQXyINCjVaoloNXuDGTzsnQvxdA2Mh
+	 qbObK8Kx1P+jhbxxQxZ9Rvd3qWMF0hmCs5/rstrboxPB0O8DPUc8yXS2kR5+oKMnTm
+	 NT4p2YN8ifmCK4m94lpb97h0TZF6Yw4OLjl8PM/pbtlo0Oe2WOOVi6A0MUM3TD9R87
+	 CCo3ePHreZHnD+nOHS23u0VRmGOcuhHIe19833LcilBTrBwZ/tZmhYDqyoiK1oba6Y
+	 heRZ7PJ0uj5Kg==
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f16c81so24542e87.2
+        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 10:51:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByVwcMUHFJle6Q/MFOZaPA6cCskoJR/ZIqOiFOwQU20Fevsr19rE9s39IEcomfaZ04I05FWfaRSGSs9VA==@lists.linux.dev
+X-Gm-Message-State: AFuF++ml5AwrVJg3m3TCPDzj7omr6t7u/eygtbMQckB8XR3vi1chezpe
+	6gFQNkb/Ou/n/UBLfeMPamyrue/9TrFWCkOkgQlrxvZmtYJrNttpA1CcFMxbpSyraunxGQ6Z/VV
+	63wyFsSS85r/lIHXW3P6+xv+4FW8C80M=
+X-Received: by 2002:a05:6512:1552:20b0:5b8:c147:f370 with SMTP id
+ 2adb3069b0e04-5b8d89c69abmr4823e87.52.1790099504207; Tue, 22 Sep 2026
+ 10:51:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260917163744.191748-1-djeffery@redhat.com>
-In-Reply-To: <20260917163744.191748-1-djeffery@redhat.com>
-From: David Jeffery <djeffery@redhat.com>
-Date: Tue, 22 Sep 2026 12:34:19 -0400
-X-Gm-Features: AclHuK_gOIIAGH-J9mfA_6kGZQPoZd_UXxbRIgUMsQf82GPy6D8kJfhp32jIMog
-Message-ID: <CA+-xHTE65H=WSU4kavq7dC=FkaMVKuEZiNw5-o5DekRpgRkDeA@mail.gmail.com>
-Subject: Re: [PATCH v22 0/9] shut down devices asynchronously
-To: driver-core@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, Tarun Sahu <tarunsahu@google.com>, 
-	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, kexec@lists.infradead.org, 
-	Ewan Milne <emilne@redhat.com>, John Meneghini <jmeneghi@redhat.com>, 
-	"Lombardi, Maurizio" <mlombard@redhat.com>, Bart Van Assche <bvanassche@acm.org>, 
-	John Garry <john.g.garry@oracle.com>, Jeremy Allison <jallison@ciq.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, Pasha Tatashin <tatashin@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Op7b0hOI76-8ta-nMVyWv_s6flQKa-MiXLM1iy3bs4Q_1790094871
-X-Mimecast-Originator: redhat.com
+References: <20260921-mb-pm-main-v1-0-1d4cbd9d2b2c@vt.edu> <20260921-mb-pm-main-v1-1-1d4cbd9d2b2c@vt.edu>
+In-Reply-To: <20260921-mb-pm-main-v1-1-1d4cbd9d2b2c@vt.edu>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Tue, 22 Sep 2026 19:50:11 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jw=xzCw5Z_uDDKjAR_4BTPrEM51AXZQWGnbqSfB6wBYg@mail.gmail.com>
+X-Gm-Features: AcwNN1W_WS704PDKarrDmCWjByh9KWW-Gc20nNiTf3MCqf6ACST5po8eafukvBM
+Message-ID: <CAJZ5v0jw=xzCw5Z_uDDKjAR_4BTPrEM51AXZQWGnbqSfB6wBYg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM: sleep: publish pm_transition with release semantics
+To: jaidevshastri@vt.edu
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2026 at 12:37=E2=80=AFPM David Jeffery <djeffery@redhat.com=
-> wrote:
+On Tue, Sep 22, 2026 at 3:24=E2=80=AFAM Jaidev Shastri via B4 Relay
+<devnull+jaidevshastri.vt.edu@kernel.org> wrote:
 >
-> These patches are rebased against the driver-core tree's driver-core-next
-> branch and should also apply against recent linux-next. Changes for v18 a=
-re
-> contained in patch 3.
+> From: Jaidev Shastri <jaidevshastri@vt.edu>
 >
-> This patchset allows the kernel to shutdown devices asynchronously and
-> unrelated async devices to be shut down in parallel to each other.
->
-> Only devices which explicitly enable it are shut down asynchronously. The
-> default is for a device to be shut down from the synchronous shutdown loo=
-p.
->
-> This can dramatically reduce system shutdown/reboot time on systems that
-> have multiple devices that take many seconds to shut down (like certain
-> NVMe drives). On one system tested, the shutdown time went from 11 minute=
-s
-> without this patch to 55 seconds with the patch. And on another system fr=
-om
-> 80 seconds to 11.
->
-> And thank you to everyone who has spent some of their valuable time
-> providing reviews, suggestions, criticisms, or tests on the various
-> iterations of this patchset.
->
-> Changes from V21:
-> - Check a device is alive before accessing its bus pointer
->
+> Each dpm_*() phase function stores the current transition to
+> pm_transition with a plain store before it schedules the asynchronous
+> device callbacks. dev_pm_skip_resume() and pm_hibernate_is_recovering()
+> read pm_transition.event from those callbacks, on other CPUs, with plain
+> loads.
 
-And this has resolved Sashiko's last complaint. Sashiko found no
-issues with the v22 patchset.
+So how *exactly* is the race possible?
 
-David Jeffery
-
+> Store the event with smp_store_release() and read it with
+> smp_load_acquire().
+>
+> Found with MBCheck, a static herd7-based memory consistency checker.
+>
+> Signed-off-by: Jaidev Shastri <jaidevshastri@vt.edu>
+> ---
+>  drivers/base/power/main.c | 28 +++++++++++++++++++---------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index e130da428..bf4b4fd1b 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -78,7 +78,8 @@ static int async_error;
+>   */
+>  bool pm_hibernate_is_recovering(void)
+>  {
+> -       return pm_transition.event =3D=3D PM_EVENT_RECOVER;
+> +       /* Pairs with the smp_store_release() in the dpm_*() phase functi=
+ons. */
+> +       return smp_load_acquire(&pm_transition.event) =3D=3D PM_EVENT_REC=
+OVER;
+>  }
+>  EXPORT_SYMBOL_GPL(pm_hibernate_is_recovering);
+>
+> @@ -682,10 +683,13 @@ static void dpm_watchdog_clear(struct dpm_watchdog =
+*wd)
+>   */
+>  bool dev_pm_skip_resume(struct device *dev)
+>  {
+> -       if (pm_transition.event =3D=3D PM_EVENT_RESTORE)
+> +       /* Pairs with the smp_store_release() in the dpm_*() phase functi=
+ons. */
+> +       int event =3D smp_load_acquire(&pm_transition.event);
+> +
+> +       if (event =3D=3D PM_EVENT_RESTORE)
+>                 return false;
+>
+> -       if (pm_transition.event =3D=3D PM_EVENT_THAW)
+> +       if (event =3D=3D PM_EVENT_THAW)
+>                 return dev_pm_skip_suspend(dev);
+>
+>         return !dev->power.must_resume;
+> @@ -902,7 +906,8 @@ static void dpm_noirq_resume_devices(pm_message_t sta=
+te)
+>         trace_suspend_resume(TPS("dpm_resume_noirq"), state.event, true);
+>
+>         async_error =3D 0;
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>
+>         mutex_lock(&dpm_list_mtx);
+>
+> @@ -1052,7 +1057,8 @@ void dpm_resume_early(pm_message_t state)
+>         trace_suspend_resume(TPS("dpm_resume_early"), state.event, true);
+>
+>         async_error =3D 0;
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>
+>         mutex_lock(&dpm_list_mtx);
+>
+> @@ -1230,7 +1236,8 @@ void dpm_resume(pm_message_t state)
+>
+>         trace_suspend_resume(TPS("dpm_resume"), state.event, true);
+>
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>         async_error =3D 0;
+>
+>         mutex_lock(&dpm_list_mtx);
+> @@ -1595,7 +1602,8 @@ static int dpm_noirq_suspend_devices(pm_message_t s=
+tate)
+>
+>         trace_suspend_resume(TPS("dpm_suspend_noirq"), state.event, true)=
+;
+>
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>         async_error =3D 0;
+>
+>         mutex_lock(&dpm_list_mtx);
+> @@ -1798,7 +1806,8 @@ int dpm_suspend_late(pm_message_t state)
+>
+>         trace_suspend_resume(TPS("dpm_suspend_late"), state.event, true);
+>
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>         async_error =3D 0;
+>
+>         wake_up_all_idle_cpus();
+> @@ -2091,7 +2100,8 @@ int dpm_suspend(pm_message_t state)
+>         devfreq_suspend();
+>         cpufreq_suspend();
+>
+> -       pm_transition =3D state;
+> +       /* Pairs with the smp_load_acquire() in dev_pm_skip_resume(). */
+> +       smp_store_release(&pm_transition.event, state.event);
+>         async_error =3D 0;
+>
+>         mutex_lock(&dpm_list_mtx);
+>
+> --
+> 2.43.0
+>
+>
