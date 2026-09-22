@@ -1,287 +1,239 @@
-Received: from quail.birch.relay.mailchannels.net (quail.birch.relay.mailchannels.net [23.83.209.151])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022096.outbound.protection.outlook.com [52.101.96.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CCD4A68A9
-	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 19:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.83.209.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790106298; cv=none; b=strpAH3NlSx47Yrq+3PAizADjC+Rg+asReugnznLOU/WDClbPLvX+9kkfnbw+R8kfXK7IKoe/+L9+QG0NowHYGHqlf3OGx7nZk6znRe0x4UMk+nUGXwJZeC5YqxCxsLORwvBD5Hi2TAQXJCI+6ps5EknjaOdyyjgSWWPjAdN+os=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790106298; c=relaxed/simple;
-	bh=VZ1siS7xTNAhWQlCzpVc4gscwrJNvuqdWAZNtG9MlnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xa6K+uO+2wwalok12QvM9xVwNQxlf+cyubc94Bn8bOpbCFvz767nQMp+SkHkftMj3gJOcHz2V09vItxInuwQ+fVOR3vV9Xi/vfcvWQYIyr5Ak8SfiZ8W0u7O6ky3DEUkBmflFf/Xqn9Pamz8ZMjGSfEUj0KzzxUSsdBTupu9kuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaehlcke.net; spf=pass smtp.mailfrom=kaehlcke.net; dkim=pass (2048-bit key) header.d=kaehlcke.net header.i=@kaehlcke.net header.b=oLTaMvI8; arc=none smtp.client-ip=23.83.209.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaehlcke.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaehlcke.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FB936D9E7
+	for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 19:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.96
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790107016; cv=fail; b=HBvacRIK2/mu/JO6ca47iWaO53fmd0HF4Rzdgk4134TJ4IKgz4IU32FI7e8uADqzsJ4xTGfrcO+XmrfQIJGVrlYSbLJJbxzHASjzsG9pRTLAC9a0+A/cinRNWT8kFdtw6RPtrYpDGCqOhAa892mMCiukkWf1gTKhae4YBivkoQ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790107016; c=relaxed/simple;
+	bh=4qNytIU/DSDbJ6vTxc4dLg52m44pONNpbJvHo+GJR5o=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=oH/DtBj3Rb6XQV1jUxvjyiJ+MeS/wOfZ3kkMYGVSzLKC4HRj6veXMMJHaNCwo3u+WM7tigzM7gcpYLlKQu2SCBajVUbhOKxPatqCKMhEAu90q1DJOYNB9sHspJMFBF8s9dCSQHyCm3BoEsCrZ5lAZGVSFQsEbFcDb6Hk9i8PWgY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=UUSb6C5q; arc=fail smtp.client-ip=52.101.96.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kaehlcke.net header.i=@kaehlcke.net header.b="oLTaMvI8"
-X-Sender-Id: dreamhost|x-authsender|matthias@kaehlcke.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 81CBF8C21C8;
-	Tue, 22 Sep 2026 19:19:01 +0000 (UTC)
-Received: from pdx1-sub0-mail-a203.dreamhost.com (trex-green-9.trex.outbound.svc.cluster.local [100.99.242.205])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 3D4B28C1F5D;
-	Tue, 22 Sep 2026 19:19:01 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|matthias@kaehlcke.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|matthias@kaehlcke.net
-X-MailChannels-Auth-Id: dreamhost
-X-White-Shade: 20a291dd35d68a00_1790104741363_1945273157
-X-MC-Loop-Signature: 1790104741363:957160975
-X-MC-Ingress-Time: 1790104741363
-Received: from pdx1-sub0-mail-a203.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.99.242.205 (trex/8.0.2);
-	Tue, 22 Sep 2026 19:19:01 +0000
-Received: from bielski.sytes.net (unknown [79.117.203.148])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: matthias@kaehlcke.net)
-	by pdx1-sub0-mail-a203.dreamhost.com (Postfix) with ESMTPSA id 4hq8z86XFNzRK;
-	Tue, 22 Sep 2026 12:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaehlcke.net;
-	s=dreamhost; t=1790104741;
-	bh=6Hr6Gc85beWAWBHxVe+VIi8zg8VzPZDdvD/Wvy27PMc=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=oLTaMvI8ROD+DN9xUk684TXhp/uvnJTB0e1PoBHshztKB6TbaPUxTctMU4W8wkexI
-	 9iWCUA6kilUJL5Eiw/9D/8LCOsQCYXT58fRVtNVX+egEkmCu5imdKvYz8rxK3+pKtZ
-	 UbL7BxiltmMM+JggLkHCyDKC6KIe5bwBtAJ1HN0HusAyO6t2g76c6qUYG8M0QRwc0A
-	 ozFkLn0+tUeE0wHwao2+zsZaz7vnP63Jr+WecIdnlrzwYkIzt3lZKzgrOP9msgdDDW
-	 zYAs2Wtx2Bo7Xgi7rCXNa3eOcxRuV3osLJs92ZKU/BK5QqDViMMnGabn2FIg9U3KHv
-	 AgPPbKaOKx1vQ==
-Received: by bielski.sytes.net (Postfix, from userid 1000)
-	id 556E280E1C; Tue, 22 Sep 2026 12:18:58 -0700 (PDT)
-Date: Tue, 22 Sep 2026 21:18:58 +0200
-From: Matthias Kaehlcke <matthias@kaehlcke.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] rust: debugfs: add primitive type bindings
-Message-ID: <9306c51f937e4bb4026e68d862b64b16f6894282.1790103860.git.matthias@kaehlcke.net>
-Mail-Followup-To: Matthias Kaehlcke <matthias@kaehlcke.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>, driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="UUSb6C5q"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XogQcQ/Zy+WwnyyxAl+dKf/9BvPUl+IIUrSU5+MLM6SUKVkk/3rlwtKoI3rxU1Q+Op2TnJxKPQoHwTH6LuYzLTQv18sm5jedw+vhasnVsauUIQhobM5XhP577nHIPAmJmSPXzOJ+N5EkJ5KqCeoOH4TPvGf7ScVXXbxj+HrLw8VBHoETWNPIo76U9wPb01CU8qVALcQuoCNRTwsM0P6Q8niX51TivK7GRbV2XYJItuvYiKoTJEl1dyicKU2ir+uTD7cr0OlieSWB3YeTPmFPbm88WUrc33e9e2970iXEE7E9dbxQE2yXM6xtlQ+g/Mf684la+QGQKz26zf6zwtQq/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=osBfJJ4rJm5eY2erc4V674hCwuT+xpYPkOrWRt5Uuww=;
+ b=BaPpSAVXpF2QYnu1D4hLL7Jgnu9cm1cfJCs9/qadl9cH8kAFLpkD06nEfh4acEZkkazmFIz4xqQ1deuO/C+5MMM8ISGwsZwI1L/x4AV+0uiuKlukkat5rbbnzm9NC5ygmxsUtN6bi4HwPvyE89NZehdQtx+f0yK7EDVBqvRPUhYuzx+9k4V7xYDnpuc+ubo0pWEASXbRD332ASM0BV2Xbs5NcgIV/26V98grLJUkSztzVZF+r/k/MHuti4qXFlUQwJPjNGlXKm95zjPhpUmlTirAVXOtb+ErfmTtyhxh/MasXemRp2d/e9t3EwT+5oMeko2mEQWrLfBN5C5bmAx+sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=osBfJJ4rJm5eY2erc4V674hCwuT+xpYPkOrWRt5Uuww=;
+ b=UUSb6C5qYkaFnYAjbzrvWU4nA2aNPNVOl6k3S8cXzyiz4ql3NJ3z/m1eZjseaWr7k1UasmiPckS8/xLVNdvCtXicSqANoFBAyTE/9t7hdtGZw0YQzMXXXNlTIgLvfFJsiSpPmDwvsYY0wIIwxBIVXCALq5y0yJcRxLuslbpf1g0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by CW1P265MB8942.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:27b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
+ 2026 19:56:48 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.012; Tue, 22 Sep 2026
+ 19:56:48 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 22 Sep 2026 20:56:47 +0100
+Message-Id: <DLM3Z2E1V1J2.4VUZLWQVEQTT@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Laura Nao" <laura.nao@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "David Airlie" <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>,
+ "Frederic Weisbecker" <frederic@kernel.org>, "Lyude Paul"
+ <lyude@redhat.com>, "Thomas Gleixner" <tglx@kernel.org>, "Anna-Maria
+ Behnsen" <anna-maria@linutronix.de>, "John Stultz" <jstultz@google.com>,
+ "Stephen Boyd" <sboyd@kernel.org>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <kernel@collabora.com>, "Deborah Brouwer" <deborah.brouwer@collabora.com>
+Subject: Re: [PATCH 7/9] rust: time: add arch_timer_get_rate wrapper
+X-Mailer: aerc 0.22.0
+References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
+ <20260915-tyr-interfaces-v1-7-5d28f1f75aca@collabora.com>
+In-Reply-To: <20260915-tyr-interfaces-v1-7-5d28f1f75aca@collabora.com>
+X-ClientProxiedBy: LO4P123CA0579.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:276::20) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB8942:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56787703-5741-4c16-3a91-08df18e3a358
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|7416014|376014|22082099003|18002099003|10067099003|56012099006|4143699003|3023799007|921020|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	L0+B3S7ogzUehDkUhOlMVX1zLY58g1+HpleXNGPALcUMIHyhK2Ui0G2043ZrZlq27SUBuqDKTbHTJfw5g5KKr90iviobYgFT8HCNHPFaprAZEL1a1Nna0bYdL+7DZLytUfYjkMEIaYCs+fp8fY2jTGbtnZ8eAIlIXMiOb54s4yl+FX66b22+Ph8xkzhR6sHdO4JpwJIT40AEN7s2wAJWekxZTETjbKr9jOqcPpMua2gXjTNHMYRUvcgENX0DlfyjX2YrTyCtRj4wit4PGiQV6ndZVVSvtQkOQGo6edDDqItOwCjkTyYwsRlrQ+hsOtD86qRGwG+wP9L1czIP59BSpFBj/IGe9JYZliQTibc9r5uVam4o3ZpWnTmBrH+jhDhcHVSa4LPHtkzE5cjihq1V2VDYxqdYru/IY2GTVcMZwSCOze0cpjKoeh1MRW4n+7zOwyDpD+hKen4EqZmhJhwCR7zFPxAmZk0zmCNnqIJYJl/BFeYjubYbju7eWp4NA6Vc2wiBCxRrpN7wBH8PKKfWoViFkXFRY7HricHA/ZMvIWB9OZXilxg2oEnfK6dCGOtGAj+qDwhhfc4mX8D7I3hbXRkzpZAB5FRjdAAKewd1jdmuk3R+0qUfGIQ/m+g/3AZfRquOioujl+eEmicckvtkH0Rw8QwYudJ9iqoqVI9yev9rt01RTvmgzWe3VEGLibNIAbn82z82hqQj1Bk0oqS2cw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(7416014)(376014)(22082099003)(18002099003)(10067099003)(56012099006)(4143699003)(3023799007)(921020)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UVh2RTFyRk1GTTJ3LzhpK0o3NDkwbG5WWWhRbjZvT3U2aXRLNmdqTlRkd0E0?=
+ =?utf-8?B?U2hmdnptQmllMmdUajVndXBtZW93QXFwRmszSmNvYkRvb00wU096cDdBdldv?=
+ =?utf-8?B?ZnhzV29qckdLUFU1eDdtbDZ3Y1NmZU5TUWN4QkdRZ0gyV0xUekdzUlJxb29m?=
+ =?utf-8?B?eEFOSWF0UWN4YTJIcWdWTDVlQ081V0ptTjhaSFMwSjZrRDdaL2dKNjhrc1RR?=
+ =?utf-8?B?SjRIRkNuSUVxTXpVbWVHMjJrNGYySW5GWEowaVl0cEdpVUQrbEFBZ2hlU0t2?=
+ =?utf-8?B?NFV6L24zMlBNRlo4T3N2TGJGeU5zbGNXUXJoRGNBKzRlWHAzNGIweGFWanhZ?=
+ =?utf-8?B?akNxNnpPQS9kaUU5aXdqZC9TdVhCQVBsa0w5WTdudFl5dnM3RHc5b05CU0RD?=
+ =?utf-8?B?RVh6bVc0YTJuL2g2UmdDcW9UWHNqQms5YlRrU2NqZlBhdmYwYnNuRmZxYXE0?=
+ =?utf-8?B?MVJkcit1MmdkWmlROS9wWmpJZ2dlTW1RRFJ5eGRGbHY3MTBOQWcrenJtaVNu?=
+ =?utf-8?B?WkczWHVFOG5YVHB2WTdQdVNaUmg2ZDM0M1BoM3B5M2RHYURzOEZqcTkydnE5?=
+ =?utf-8?B?VlBUWEk2L081OVdsa284NlVLMG5Oc3F0eGVTcy95UExnT2pTL2Q5TmdCU1V2?=
+ =?utf-8?B?S3owazNieTRpTW53c3grSXpudVlFY0w5OHV3TW5MeVNFa2pTZkUwMDRRVC9y?=
+ =?utf-8?B?TFRCek9BNXJNSzlyS0pEZmp6Qk5kNU5PbzlMTTIyR2laazVEemZDS0x6ZEVS?=
+ =?utf-8?B?NGpyRFRJV0ZraUY5RG5oMkFJMm1iaGk0cVJ3MHUzSmUwRFJTamVLNTkzRExh?=
+ =?utf-8?B?ODFXc3ZWOTFjRTgvOFZOa0lTRkJUZWw2Yy9lZ3Z5d3JKT1BLREEvWUVOVllh?=
+ =?utf-8?B?ZWJnbGpKbDFCUFh6YmtNOVVLTUJWdzZ5V1lqN2FEOCt0aFZ0OGR3dHdhTVg1?=
+ =?utf-8?B?a1RGQXBuOWV2NWtVaExrcitjUHRCcmJmcDhERjh4ZUtzRytERFpZN2pjUWk0?=
+ =?utf-8?B?VkdwWUZlbll1MUY1RjN2WWoyMGpDeHgzVENRUUpBcU8ydURCdnFyK0lwU2My?=
+ =?utf-8?B?RTdTeU4xZDdaMDB0Z0xkdzlwL1FNWHJ5bkNvZGlsTWNBWFJ0ckhnRENkMGU3?=
+ =?utf-8?B?VWxTZGlzN2xVbmErVms0Q203Tkx0Q2JGdXVYY0Jwb1h3dExrUUZSMGpDcTY2?=
+ =?utf-8?B?bmtBKzF0aVpLaHRWYTdpMGYyaEVwN0w0VkZqa3QzdiszL2FHNDZNYTVLVlI3?=
+ =?utf-8?B?MnY3NTRJWlVtYzhCVTBzNTJOSFExSGR6YnJFc1pFcnQ2dGFldCtHUzNjLzlo?=
+ =?utf-8?B?YjM4ekRPa0pkSUdNdmpFN0hoWUlDbFNBWUdDeEd4cE1BSGR3a3p3SlRTblBp?=
+ =?utf-8?B?bUc5dUFZRnkyOVpQMzVKZGxxb2FJM2FjOFFWT05MOTVwY0VsQVMydEI0Q1RB?=
+ =?utf-8?B?cWRDSzBwdUUwVkNCaURKNitQK1liaGc3MGFxbTd3Zm1xdTE5anpyMUV3bGFi?=
+ =?utf-8?B?c1JnMGRZMmtjQm1VZCtpZnZLUFQ0QzJLTjVvaDUzdFFhaGNnU3d2K3Yxc1ov?=
+ =?utf-8?B?dm5nV0tKMmQvbkplM3N2VXZlUjdLbkh1ZjVYV1YvM2NXeXJaQ244MjdJRHhl?=
+ =?utf-8?B?K3hRMVZhMG5NZm1zbWlhTlVjVy94emJNR05VT2dqT2xwRjVqb0JLWlJ2VnFH?=
+ =?utf-8?B?MUFtZWZDaTllVVpjM0pIcnlHcDBKZitFWFRKVWpHOStEbXEvclNYMFZLUHVs?=
+ =?utf-8?B?S2h1b2o3ZTBRSGU3clA3VmR1V0wzdU5QUkFOdktNdmpZK3U4Z3owamZaSUNN?=
+ =?utf-8?B?ZG1xSCsyTWhpWG9vR1lQazA0Vm9pZUlLeTdGYUZ1clo1MnJhdUdtM0xsckJr?=
+ =?utf-8?B?bGZSa2plUGV6SGVNcDRtTks2N20xRVA5Z1NoMlROWnNjUE90SEs0NDhRRGR6?=
+ =?utf-8?B?RzVZcW5nS21kWVhPZ0FIRngySHRaMmlTVzlrRTNGM0V3aitVTjJiZ2JpR3dD?=
+ =?utf-8?B?WVdZTitpbDg1OHhmUWxycG1nbUM4bVdjTUdBMUZ6OUVlck5acG85R0ZxNk9R?=
+ =?utf-8?B?VGRhcE1UMnF6NWVuWUF5VDI0VGpKOEU4M3JDM0xNUEVpaXVveTB6eW5DVU1E?=
+ =?utf-8?B?SXdFL1ZpNEZVTmF6clpFTC8zelpLRU92NVpnVEx3dlVjUlZVQXVxWXdHQ3pX?=
+ =?utf-8?B?cnVtN09GZUY5WnpLRUsxMFc5R1BPTWc3RjlkQmtCRWh0bW9MT1hxREkyTWVk?=
+ =?utf-8?B?RlNUSndaZHBXNEQ1WnlxL2NCTVZBeVgwOEkrZk9KYUJLS3NKSXZDbFVGdFpK?=
+ =?utf-8?Q?knpQ4LMMfRBZ1fZQBw?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56787703-5741-4c16-3a91-08df18e3a358
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 19:56:48.7632
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hq9mW4WTKwOslkHpgeHxBPnXMMOIE8ZW4CWKd4joe91wpVAexjB6H5ceMLTeOq/vKrvgTVp4rIpzh+I/35+hjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8942
 
-Introduce `impl_debugfs_primitive!` to implement debugfs attribute
-creation for native Rust primitive types by wrapping C debugfs creation
-helpers.
+On Tue Sep 15, 2026 at 11:57 AM BST, Laura Nao wrote:
+> From: Deborah Brouwer <deborah.brouwer@collabora.com>
+>
+> Provide a safe Rust wrapper for arch_timer_get_rate().
+>
+> The Rust binding calls a C helper that returns 0 when the ARM
+> architectural timer is not available or not yet initialized. Map this to
+> Option<u32> to make the absence of a valid rate explicit to Rust callers.
+>
+> This allows Rust drivers to query the system timer frequency and
+> select appropriate time sources when programming hardware timeouts.
+>
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> Signed-off-by: Laura Nao <laura.nao@collabora.com>
+> ---
+>  rust/helpers/time.c |  6 ++++++
+>  rust/kernel/time.rs | 30 ++++++++++++++++++++++++++++++
+>  2 files changed, 36 insertions(+)
+>
+> diff --git a/rust/helpers/time.c b/rust/helpers/time.c
+> index 32f495970493..70fda31bd758 100644
+> --- a/rust/helpers/time.c
+> +++ b/rust/helpers/time.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> =20
+> +#include <clocksource/arm_arch_timer.h>
 
-Signed-off-by: Matthias Kaehlcke <matthias@kaehlcke.net>
----
- rust/kernel/debugfs.rs       | 52 +++++++++++++++++++++
- samples/rust/rust_debugfs.rs | 91 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 143 insertions(+)
+The header is from arm_arch_timer. I wonder if we want this to be exported =
+from
+somewhere like kernel::arch::arm::time?
 
-diff --git a/rust/kernel/debugfs.rs b/rust/kernel/debugfs.rs
-index d7b8014a6474..bec600c67a06 100644
---- a/rust/kernel/debugfs.rs
-+++ b/rust/kernel/debugfs.rs
-@@ -400,6 +400,58 @@ pub fn scope<'a, T: 'a, E: 'a, F>(
-     }
- }
- 
-+/// Implements `debugfs` interface operations for a single primitive type.
-+///
-+/// This macro generates the necessary FFI wrappers and glue code to expose
-+/// a specific primitive type (e.g., `u32`, `bool`) to the `debugfs` filesystem.
-+///
-+/// # Type Support
-+///
-+/// Accepts standard integer primitives (`u8` through `u64`, `x8` through `x64`),
-+/// `bool`, and `usize`.
-+///
-+/// # Examples
-+///
-+/// ```rust,ignore
-+/// impl_debugfs_primitive!(u32, create_u32, debugfs_create_u32);
-+/// ```
-+macro_rules! impl_debugfs_primitive {
-+    ($type:ty, $fn_name:ident,$c_func:ident) => {
-+        impl Dir {
-+            /// Creates a debugfs entry for a primitive `$type` value inside this directory.
-+            ///
-+            /// # Safety
-+            ///
-+            /// `value` must point to a valid memory location that outlives this directory `Dir`
-+            /// (e.g., inside a pinned driver state structure or a `static` location).
-+            pub unsafe fn $fn_name(&self, name: &CStr, mode: u16, value: *mut $type) {
-+                let parent_ptr = match self.0.as_deref() {
-+                    Some(entry) => entry.as_ptr(),
-+                    None => core::ptr::null_mut(),
-+                };
-+
-+                // SAFETY: `name` is a valid CStr. `parent_ptr` points to a valid parent
-+                // dentry or NULL. The caller guarantees that `value` outlives the debugfs node.
-+                unsafe {
-+                    bindings::$c_func(name.as_char_ptr(), mode, parent_ptr, value);
-+                }
-+            }
-+        }
-+    };
-+}
-+
-+// Bind native Rust primitive types to their corresponding C debugfs helpers.
-+impl_debugfs_primitive!(u8, create_u8, debugfs_create_u8);
-+impl_debugfs_primitive!(u16, create_u16, debugfs_create_u16);
-+impl_debugfs_primitive!(u32, create_u32, debugfs_create_u32);
-+impl_debugfs_primitive!(u64, create_u64, debugfs_create_u64);
-+impl_debugfs_primitive!(u8, create_x8, debugfs_create_x8);
-+impl_debugfs_primitive!(u16, create_x16, debugfs_create_x16);
-+impl_debugfs_primitive!(u32, create_x32, debugfs_create_x32);
-+impl_debugfs_primitive!(u64, create_x64, debugfs_create_x64);
-+impl_debugfs_primitive!(bool, create_bool, debugfs_create_bool);
-+impl_debugfs_primitive!(usize, create_size_t, debugfs_create_size_t);
-+
- #[pin_data]
- /// Handle to a DebugFS scope, which ensures that attached `data` will outlive the DebugFS entry
- /// without moving.
-diff --git a/samples/rust/rust_debugfs.rs b/samples/rust/rust_debugfs.rs
-index 77c19a437695..b2ef8c71f7ee 100644
---- a/samples/rust/rust_debugfs.rs
-+++ b/samples/rust/rust_debugfs.rs
-@@ -34,6 +34,7 @@
- use core::str::FromStr;
- use kernel::{
-     acpi,
-+    c_str,
-     debugfs::{
-         Dir,
-         File, //
-@@ -79,6 +80,8 @@ struct RustDebugFs {
-     array_blob: File<Mutex<[u8; 4]>>,
-     #[pin]
-     vector_blob: File<Mutex<KVec<u8>>>,
-+    #[pin]
-+    primitive_values: PrimitiveValues,
- }
- 
- #[derive(Debug)]
-@@ -87,6 +90,36 @@ struct Inner {
-     y: u32,
- }
- 
-+struct PrimitiveValues {
-+    u8: u8,
-+    u16: u16,
-+    u32: u32,
-+    u64: u64,
-+    x8: u8,
-+    x16: u16,
-+    x32: u32,
-+    x64: u64,
-+    size_t: usize,
-+    bool: bool,
-+}
-+
-+impl PrimitiveValues {
-+    fn new() -> Self {
-+        Self {
-+            u8: 8,
-+            u16: 16,
-+            u32: 32,
-+            u64: 64,
-+            x8: 0x88,
-+            x16: 0x1616,
-+            x32: 0x32323232,
-+            x64: 0x6464646464646464,
-+            size_t: 12345678,
-+            bool: true,
-+        }
-+    }
-+}
-+
- impl FromStr for Inner {
-     type Err = Error;
-     fn from_str(s: &str) -> Result<Self> {
-@@ -171,9 +204,67 @@ fn new<'a, 'b>(
-                     c"vector_blob",
-                     new_mutex!(kernel::kvec!(0x42; SZ_4K)?),
-                 ),
-+                primitive_values <- PrimitiveValues::new(),
-                 _debugfs: debugfs,
-                 pdev: pdev.into(),
-             }
-         }
-+        .pin_chain(|this| {
-+            // SAFETY: primitive values live until the module is dropped
-+            unsafe {
-+                this._debugfs.create_u8(
-+                    c_str!("u8"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.u8) as *mut _,
-+                );
-+                this._debugfs.create_u16(
-+                    c_str!("u16"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.u16) as *mut _,
-+                );
-+                this._debugfs.create_u32(
-+                    c_str!("u32"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.u32) as *mut _,
-+                );
-+                this._debugfs.create_u64(
-+                    c_str!("u64"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.u64) as *mut _,
-+                );
-+                this._debugfs.create_x8(
-+                    c_str!("x8"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.x8) as *mut _,
-+                );
-+                this._debugfs.create_x16(
-+                    c_str!("x16"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.x16) as *mut _,
-+                );
-+                this._debugfs.create_x32(
-+                    c_str!("x32"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.x32) as *mut _,
-+                );
-+                this._debugfs.create_x64(
-+                    c_str!("x64"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.x64) as *mut _,
-+                );
-+                this._debugfs.create_bool(
-+                    c_str!("bool"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.bool) as *mut _,
-+                );
-+                this._debugfs.create_size_t(
-+                    c_str!("usize"),
-+                    0644,
-+                    core::ptr::addr_of!(this.primitive_values.size_t) as *mut _,
-+                );
-+            }
-+
-+            Ok(())
-+        })
-     }
- }
--- 
-2.47.3
+Best,
+Gary
+
+>  #include <linux/delay.h>
+>  #include <linux/ktime.h>
+>  #include <linux/timekeeping.h>
+> @@ -38,3 +39,8 @@ __rust_helper void rust_helper_udelay(unsigned long use=
+c)
+>  {
+>  	udelay(usec);
+>  }
+> +
+> +__rust_helper u32 rust_helper_arch_timer_get_rate(void)
+> +{
+> +	return arch_timer_get_rate();
+> +}
+> diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
+> index 6c0a5e8090d0..6c48ce21984a 100644
+> --- a/rust/kernel/time.rs
+> +++ b/rust/kernel/time.rs
+> @@ -423,6 +423,36 @@ fn div(self, rhs: Self) -> Self::Output {
+>      }
+>  }
+> =20
+> +/// Returns the ARM architecture timer frequency in Hz, if available.
+> +///
+> +/// This function queries the system-wide ARM architecture timer frequen=
+cy.
+> +/// The architecture timer provides a consistent time source across all =
+CPU cores.
+> +///
+> +/// Returns `None` if:
+> +/// - The ARM architecture timer is not available (`CONFIG_ARM_ARCH_TIME=
+R` not enabled)
+> +/// - The timer rate is zero (not initialized)
+> +///
+> +/// # Examples
+> +///
+> +/// ```
+> +/// use kernel::time::arch_timer_get_rate;
+> +///
+> +/// if let Some(rate) =3D arch_timer_get_rate() {
+> +///     // Use `rate`.
+> +/// }
+> +/// ```
+> +pub fn arch_timer_get_rate() -> Option<u32> {
+> +    // SAFETY: The C helper is available in all configs; it calls
+> +    // `arch_timer_get_rate()`, which falls back to an inline stub retur=
+ning 0
+> +    // when CONFIG_ARM_ARCH_TIMER is disabled.
+> +    let rate =3D unsafe { bindings::arch_timer_get_rate() };
+> +    if rate =3D=3D 0 {
+> +        None
+> +    } else {
+> +        Some(rate)
+> +    }
+> +}
+> +
+>  impl Delta {
+>      /// A span of time equal to zero.
+>      pub const ZERO: Self =3D Self { value: 0 };
+
+
