@@ -1,281 +1,354 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011019.outbound.protection.outlook.com [52.101.70.19])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7174570CF
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 12:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790166451; cv=fail; b=szy+6HPkGab9P95zXStikqciWoyOgUWtOs5oznF269HpZyqD6/84iGcCH3RHngXnfkLaekEv2CEgDkZC0w+DxvVfXy9iZI5BVDMsxexzAH2gryJImxyVv1AM2Ln8zYaemr09O0qgP8XiMFxbkrSO9LPfQsLrM2lc1H/+trYi8Eo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790166451; c=relaxed/simple;
-	bh=rsOqpE8WfhWWNP9wcabPrYxAEecyDyL6pN4iHofBpgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=OL8DllQAu+QyRwiIEot0vg1a8mI31SYImmf+THJDD3PpaPb2/GVpWtaS6lpynSYsccqxfadwv2DdbKdfcWZJAZEt+HIOrQBI9xt+kjOFvg3b2GRgkkmSqqcS5FDBFfgUq9B1wfybymfwKRqo6o79YVQIw3S23oFJR5Z5yNoci7k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=hTCcLolz; arc=fail smtp.client-ip=52.101.70.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443235E955
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 13:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790170316; cv=none; b=S59AXvXGGVqyCoV7dyAxpzKtaXrf7DSyxooTUohI7+ZEPVwRdIwIOBKR2pq4479lLsnVF0ehpJ1yFAirkNuwU362OdWelt0W5ZiID/mBHdb37lvNCXoJXonRHT1Ufvpv3RSTiB9EubQ52qYtpsH3cqvhBcaPKQ24DWvns4CByZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790170316; c=relaxed/simple;
+	bh=5nxX6dp8DDtAiiY/fJP0IjGNNSnwnrx/4A5bdqLvMKE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BBAFPJIXxM6sOEP8Iw738vlAjFbOH8wmeYcDJybJ6LLh6nmDmwMhnqBhWCV3bLa/ikcQ3QhOVihqzDsNyADEuPdBWeG7NBnZp8kA9sHwVNuvZd2iUCBsrwKsJf12IIqhRSKiwHdONbbpPxf5imZFIWEJwpzmjL2c/AQ4w0a4vpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=LOW3q2pJ; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="hTCcLolz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i8jKKUhu+JFOMuYfFtKm2Tkm3TjkFRy90dzXyA657SfdQCYTvm3XrZahP/TPaDlDPXBcj/EVzNHXIenr6sryMKG8agpT8J01OLvhlI9uGkFKdH2JLFlwaEGmNW/9xxBfWikn/+c1MoYS509GxKfE7yPGgorDNoKtAGnO7iTrY1TKk8AH8mPv6jcXefAmPf5FB+9S0cjsAXH/a1jzGzp2GkGc2zAbobqanQq+tUiKkukSdai9E1P0Ni0KYARIDSfLyMR0Ios+GHZ8G+uURxU/ByYhewJ7IT5adNIlO2bah9xI4WHNhb8iVS4bmgxQ3w9OSIIcvyzCHaAhwE4XuLmVBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sw7m9ei6+Ro/6Aq4X7DE508umiDrDH1wYyODwHzDvXk=;
- b=gZmr4dBpxWHqwxcIp7qALwgysteOwuDkhsjvDV2RJPC8bcpUjSx7YKHaXP2Zun5jFoth3pgqL6MlKdxmlvCX7y4+Jj9GEqeB7eITvh4bkoCFQ5GuUEQgsOGf3RfJEM9uOsqes5R2KGTNX1vXXpoE2cRxRkec2+RJbXvtU30NPlntSG7NgTkoPfq31fbYsoXKth0RZeJQLWiADb3FOjYp2JD3ItziMrKaBZXXrNnmdieLlvbvbwjkdpucdEsimBp3/RZkzW+FG5S2rvZW9Cyy10FiPeG6KJ/kOyN+ibRfwmZtpUmHnyTsaM0NGjckF84CUcaELfmATglXHsMH0M/hRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sw7m9ei6+Ro/6Aq4X7DE508umiDrDH1wYyODwHzDvXk=;
- b=hTCcLolz1nHmJ+yEWvyCvhnewpXhLscwPEKg1mBdtFdKIdoxTJCaA2tKZ7yLzDcZh7DppiL4gcejtdz93pNDkzx7gKKXQbI/ba1EBoCvXUvo3e5d3SOK1eN5V9vt+wbURacdjccU4TEYzzEHmkp06qhZfT/80O4fGYoCC3ay4Tw3hTUoUIWOHiog8c1uCKXe/9PBSnrd19KBQNEgcNc+rrhqWg4plh8M6jaXuBxzxNUp83ji3L+vcB/RVCmmNTOZLqVU1beHGpFivtTb7i1bUFFJUKY2XSs20ezVAhc6Rg+qVtJdGo9h2p/ftDaPIJn/TxphKhCqgCGU27Po87aEaw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
- by AS8PR04MB9510.eurprd04.prod.outlook.com (2603:10a6:20b:44a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 12:27:26 +0000
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 12:27:26 +0000
-Date: Wed, 23 Sep 2026 20:31:47 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH RFC v2 2/4] regcache: use the regmap scoped lock guard
-Message-ID: <arPGs0VioH17XEr5@shlinux89>
-References: <20260922-regmap-lock-guard-v2-0-0c9d426427bd@nxp.com>
- <20260922-regmap-lock-guard-v2-2-0c9d426427bd@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922-regmap-lock-guard-v2-2-0c9d426427bd@nxp.com>
-X-ClientProxiedBy: MA5PR01CA0290.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:21b::15) To AM8PR04MB7874.eurprd04.prod.outlook.com
- (2603:10a6:20b:24d::9)
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="LOW3q2pJ"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 80581240027
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 15:31:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1790170311;
+	bh=wGCiWecGOgpeuSnRUc7veF+BLjBlyufTqs69WvVzBNY=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=LOW3q2pJ/NLuKmgklCtpEVndA5vb+BztUIJ3VaM/xBI/XaG8PZY1MGK4K9OxUjc6T
+	 tCJEcJG7K41ZUdgnbnidA3Z3VS+u1AXNgOHZi66DSjNzd1oe0PqG1mLZj4MhDLiJCJ
+	 6SAnlZVXJT82+0JiTBocPbwtdddxT3byWLEwizc4GipoR50PjbNO0KvWsrv+Y97UQA
+	 zv+QTkNwZLgOMpxEEOVEhXFo8tGZ+SI25d2N87vJ7NVv8wCci4PeCtJaMYf0XQ8qXW
+	 L+iZ+Pb/vkxWBMXr7Q7pjteddg23+SnJmLlXiKGJd+FKT7/6/QZ9FM+QxF6mHdbGQM
+	 mfW09A+Yi0lyg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4hqdD20PYvz6tsb;
+	Wed, 23 Sep 2026 15:31:46 +0200 (CEST)
+Message-ID: <2fcec4f3cd70a41e282505ff5c99b19e5809aead.camel@posteo.de>
+Subject: Re: [PATCH v2 1/3] tty: serdev: Export functions to pause
+ receive_buf callback calls
+From: Markus Probst <markus.probst@posteo.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
+ Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
+ Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Eric Biggers	
+ <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Lorenzo Stoakes	
+ <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"	
+ <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Jiri Slaby	
+ <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev
+Date: Wed, 23 Sep 2026 13:31:49 +0000
+In-Reply-To: <2026092356-chatting-dust-3de9@gregkh>
+References: 
+	<20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
+	 <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
+	 <2026092356-chatting-dust-3de9@gregkh>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-69hyOdobKMKNJBb5gHBc"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|AS8PR04MB9510:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9505f6ad-9e42-411b-c139-08df196e06ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|23010399003|19092799006|1800799024|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	BCLdvEFzgR5Cz+DOzfCZdGQoADEluNJcSxQIhyk0LRNqfG4KszLsNFsC/JmDfCIJIdiLXkkhv8qnUVKMMDynZWmwmVUPgtqElJjF+c2VbPfCLccRtXa7uI/ufgy6xduU6ZKP+tUpMoITHFK8UjddIBhymSVBd0CvS1hpxCrq9YlWYuVXNAayFTtKduAG6DkJvViLooxPLLRc3/E4ho5ktIisd7q/x/mNDdnvF3ibDm5IgSvYj6g/tSK7II+UFdz/1dC/mN1ufWbdSfTTUlb8S+GLLRfkfyMjsI0iznMrvGQvvJIFvQhuJ/4EmadRbkvFeDPRGQ2GmOr5kr+3rusXxGkgUQJY3t+C7X/BbJWRthJDowQ/J3f9xf1InVrl5lBenUqvbXiVF/eX7RS8hi7T6MQrJTxasyN5cl08RK7x/6D1vRz+c46JS2TBLBKbBBsW//Jo5cu1Z2Si7CRly1jInENRRfUk0o6wOeR+tCm5Jp+G8e181KaBneHkVjnrblnxEwhsjv2WALxHM+tJwHOVBDUitfgMBMNSEUDn+0n9Xp7ktGMzuBNFj3pKqggJ2jvCseSUfYgoG6TjKc8JXKikIjOBg+05g2y3yA0qoSnMNFYBA9hGKCsDhzZYxmc89OKiezhEA+sLje01GQKhWwvTPxHfzgWuFpTHXqpRPT9i95s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(19092799006)(1800799024)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0gS36ACWKm8PhFDFfhzDg3ERt9eYFGa1a8QA+TTxv0dTLaTM7D/T/WsxrFWW?=
- =?us-ascii?Q?3errdqlMSQTZyuKKWrkRSH2OnL+EPRuA78s9reXkNjMfB+ADGlW5nBeQFIRN?=
- =?us-ascii?Q?BPc3ZT+88HDt1EQn/PXJ2PhKVx0StjvHAMcH2viUMlT37DqcByru88pdb49s?=
- =?us-ascii?Q?qL2Nkz6ZczztCHGwFQ8pMgyBPiNTkXrwKo3Qw/Lew7v17xikdAaRFuVDG7TJ?=
- =?us-ascii?Q?U8QQEWZUGHV5rzMPAnjvifpkMDe+z2B8rAe6NQfhxFZeNilntTC3jZNJke8O?=
- =?us-ascii?Q?nA/07VwdDGhohZGF5aPADPKw76Bg6HdvwNqGVyX209wmen67V9BddTKGiRmb?=
- =?us-ascii?Q?7sNAnX+RtMqEqgzi0JNXhGnjKTtHLTmHcWvEkQuASctS4StK0l2gWIyr2WMV?=
- =?us-ascii?Q?4D/QhUuH6PaYunbTyg1ndggVYSCh11uBBNjaXcVU7s9P16jpFyrZQzmMfaOp?=
- =?us-ascii?Q?nJ14ymDeJbm1gyEw4RqntBuxGUJLHr0X2+MTFptHrGrjkGhRslxeL7aN+jyX?=
- =?us-ascii?Q?yFtQFoETEnTLvcJkcSJGlpILnOSJFjlnWiQHT9ycd+83Dt7XT9DCzngdlp0x?=
- =?us-ascii?Q?/AF8zgr1VzgdJFol4bkAkkQ+aF0Jto7hRibxauzn9yrOf2BIxQ9e4Tn04qHj?=
- =?us-ascii?Q?EC7baruErX24eU7e+ZFCSPR38qso+tnMs+Q+tInfNEcZdeDHFSVVIvmVpJHx?=
- =?us-ascii?Q?bKbRwqH7gL878nKUap7wEha18PP6JqRSMk2Spc7foXuvrTeyC5zqKrPmQ/5U?=
- =?us-ascii?Q?7O6pXAx79EMlADJogPwuW0lCGbYl+7p1a4XKGzqY+9DsoHmmkQETx2H8EUxS?=
- =?us-ascii?Q?Vy1UBV2XldIPTGbBclDZq41e2+DPBBzJ9XvTGONmB5PU31MN4s+JRXiDzfaa?=
- =?us-ascii?Q?UnBGsyr8gpCVPDzsXJCZuKbh9gT3aaW7kBkWPTA1d4X2hjZnA4D7hNP/ZNbt?=
- =?us-ascii?Q?sWGJMbDyRRqpVsZb/1ExWzc2ig5hSjhHIvd6BbdNt/1o6rYZ6nkXRJEY/lpu?=
- =?us-ascii?Q?Q7Kk+faRK7ycQlvZQ7LcLnb0mxe37WzMRtqWp+kgxeZ/NBbZcTqrQjkIrKvo?=
- =?us-ascii?Q?9qGDVcTH7/9Th/pfFjT/JAxXMmvC5aB5cbVOF2DBbKazZIVI8n77wUd+OwWy?=
- =?us-ascii?Q?D9nW370oqZcFzJwz6O6IMCYagDCfEAjqeI6RcBBfHbk2dhmh3vgQtvImLZO6?=
- =?us-ascii?Q?Nc8RbEXjw1q6b6gpsBMMAinNmpJkM9W8zst02ENPVhHqW8KamX/sRCaYyhTl?=
- =?us-ascii?Q?U6MdO2jicwO1zX84IGeMb9T9UCkgli36m9ffR2Ea99nOXZymxslZTxoDacum?=
- =?us-ascii?Q?MdvWtiWi5t9c6i/ITJtV47b4UgCpvXJEvbGcp7d4SzHvdkUwH1v3IDRtGaFr?=
- =?us-ascii?Q?S1hSXQbi/VVK9Xl5qvJr7Xj0Rk50EiO5JlXOdMhdOzXL5QTSDPOPVCc3dreh?=
- =?us-ascii?Q?T9df3tPch1bMQfkfuQu6mQ9VP/1dAqc0a5yaY3+vh/I5l+dRYRUTPkqzQIZ4?=
- =?us-ascii?Q?kYRm841emnHLyTeZbw4m9yir/87eEH6z7FdMZG7NBt3SG7nb/vn31dtYSWBv?=
- =?us-ascii?Q?TCCwUwzLT6Gh6+MnV0hniYHEogLxVVtubiXJxVLHTiRL7rrRqyC3Ya2iYknF?=
- =?us-ascii?Q?mF5YuCYQc6f7B4nf8Wp2IFrFgvONOe7KLuWAFJeN/VwNYOqjr69GiJWcWZRI?=
- =?us-ascii?Q?81acLT1Sy8DvKIhA2IavBgmx4QV9TTx2TEhg1OIos2aBBhWC9pOwTzCUWgBC?=
- =?us-ascii?Q?cgtakJhOYXUh2PcLJaDRFERF3l+VVAbxfilaRYu5pxVSuqgUB4TL?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9505f6ad-9e42-411b-c139-08df196e06ae
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 12:27:26.1925
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WZUcCIFzZvX2D+VGoCWY/Ac1p33SmozWusHH6V7Fu3Bj/rlwhdy59hvp9P7eCAD0KFgX6GryrVYiJ060+cXc0vxg9RYCslgrg6BUrax+M+/bzupR28QxRU5pOCR6SHSe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9510
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Tue, Sep 22, 2026 at 07:10:56PM +0800, Peng Fan (OSS) wrote:
->From: Peng Fan <peng.fan@nxp.com>
->
-...
->diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
->index 0d58d900a2ca..d030fcbe11d9 100644
->--- a/drivers/base/regmap/regcache.c
->+++ b/drivers/base/regmap/regcache.c
->@@ -225,9 +225,8 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
-> 	if (map->cache_ops->init) {
-> 		dev_dbg(map->dev, "Initializing %s cache\n",
-> 			map->cache_ops->name);
->-		map->lock(map->lock_arg);
->-		ret = map->cache_ops->init(map);
->-		map->unlock(map->lock_arg);
->+		scoped_guard(regmap, map)
->+			ret = map->cache_ops->init(map);
-> 		if (ret)
-> 			goto err_free_reg_defaults;
 
-Sashiko reported that goto and scoped_guard should not be used in one
-function per cleanup.h.
+--=-69hyOdobKMKNJBb5gHBc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Actually goto does not break scoped_guard. Anyway, to follow cleanup.h
-rule, I may need to use a helper saying:
+On Wed, 2026-09-23 at 12:35 +0200, Greg Kroah-Hartman wrote:
+> On Sun, Sep 20, 2026 at 02:29:58PM +0000, Markus Probst wrote:
+> > These functions will be used to simply the serdev rust abstraction. It
+> > also contributes to the fixing of 2 race conditions in the serdev rust
+> > abstraction.
+> >=20
+> > Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> > ---
+> >  drivers/tty/serdev/core.c           | 50 +++++++++++++++++++++++++++++=
++++++++-
+> >  drivers/tty/serdev/serdev-ttyport.c | 38 ++++++++++++++++++++++++++++
+> >  include/linux/serdev.h              |  6 +++++
+> >  3 files changed, 93 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> > index 7500efcdfc21..7d24f16710cb 100644
+> > --- a/drivers/tty/serdev/core.c
+> > +++ b/drivers/tty/serdev/core.c
+> > @@ -187,6 +187,51 @@ void serdev_device_close(struct serdev_device *ser=
+dev)
+> >  }
+> >  EXPORT_SYMBOL_GPL(serdev_device_close);
+> > =20
+> > +/**
+> > + * serdev_device_pause_rx() - pause data receive
+> > + * @serdev:	serdev device
+> > + *
+> > + * Pause calls to receive_buf.
+> > + *
+> > + * The caller must guarantee that this does not run concurrently with
+> > + * `serdev_device_open` or `serdev_device_close`.
+> > + *
+> > + * Note that if a call to receive_buf is currently executed, the funct=
+ion will
+> > + * sleep until it has finished.
+> > + */
+> > +void serdev_device_pause_rx(struct serdev_device *serdev)
+> > +{
+> > +	struct serdev_controller *ctrl =3D serdev->ctrl;
+> > +
+> > +	if (!ctrl || !ctrl->ops->pause_rx)
+> > +		return;
+> > +
+> > +	ctrl->ops->pause_rx(ctrl);
+> > +}
+> > +EXPORT_SYMBOL_GPL(serdev_device_pause_rx);
+> > +
+> > +/**
+> > + * serdev_device_resume_rx() - resume data receive
+> > + * @serdev:	serdev device
+> > + *
+> > + * Resume calls to receive_buf.
+> > + *
+> > + * The caller must guarantee that this does not run concurrently with
+> > + * `serdev_device_open` or `serdev_device_close`.
+> > + *
+> > + * This can be called even if not paused to ensure data receive is act=
+ive.
+> > + */
+> > +void serdev_device_resume_rx(struct serdev_device *serdev)
+> > +{
+> > +	struct serdev_controller *ctrl =3D serdev->ctrl;
+> > +
+> > +	if (!ctrl || !ctrl->ops->resume_rx)
+> > +		return;
+> > +
+> > +	ctrl->ops->resume_rx(ctrl);
+> > +}
+> > +EXPORT_SYMBOL_GPL(serdev_device_resume_rx);
+> > +
+> >  static void devm_serdev_device_close(void *serdev)
+> >  {
+> >  	serdev_device_close(serdev);
+> > @@ -398,6 +443,7 @@ EXPORT_SYMBOL_GPL(serdev_device_break_ctl);
+> >  static int serdev_drv_probe(struct device *dev)
+> >  {
+> >  	const struct serdev_device_driver *sdrv =3D to_serdev_device_driver(d=
+ev->driver);
+> > +	struct serdev_device *sdev =3D to_serdev_device(dev);
+> >  	int ret;
+> > =20
+> >  	ret =3D dev_pm_domain_attach(dev, PD_FLAG_ATTACH_POWER_ON |
+> > @@ -405,7 +451,9 @@ static int serdev_drv_probe(struct device *dev)
+> >  	if (ret)
+> >  		return ret;
+> > =20
+> > -	return sdrv->probe(to_serdev_device(dev));
+> > +	serdev_device_resume_rx(sdev);
+> > +
+> > +	return sdrv->probe(sdev);
+> >  }
+> > =20
+> >  static void serdev_drv_remove(struct device *dev)
+> > diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/s=
+erdev-ttyport.c
+> > index bab1b143b8a6..e8aa89e733bd 100644
+> > --- a/drivers/tty/serdev/serdev-ttyport.c
+> > +++ b/drivers/tty/serdev/serdev-ttyport.c
+> > @@ -7,8 +7,10 @@
+> >  #include <linux/tty.h>
+> >  #include <linux/tty_driver.h>
+> >  #include <linux/poll.h>
+> > +#include "../tty.h"
+> > =20
+> >  #define SERPORT_ACTIVE		1
+> > +#define SERPORT_PAUSE_RX	2
+> > =20
+> >  struct serport {
+> >  	struct tty_port *port;
+> > @@ -32,6 +34,14 @@ static size_t ttyport_receive_buf(struct tty_port *p=
+ort, const u8 *cp,
+> >  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
+> >  		return 0;
+> > =20
+> > +	if (test_bit(SERPORT_PAUSE_RX, &serport->flags))
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * Ensure writes by the driver are visible before allowing traffic to=
+ resume.
+> > +	 */
+> > +	smp_mb__after_atomic();
+>=20
+> This scares me.  Why not use a real lock?=C2=A0
+>=20
+I can use locks to make it less "fragile". But I don't I think I need
+them.
 
-int regmap_map_cache_ops_init(regmap)
-{
-	guard(regmap)(map);
+> WHat's the issue here, you
+> need this to be "flushed" before this call:
+>=20
+> > +
+> >  	ret =3D serdev_controller_receive_buf(ctrl, cp, count);
+>=20
+> here?
+>=20
+> And you just tested a bit, you didn't set a bit, so what are you trying
+> to ensure is written exactly?
+This should be an acquire load operation (paired with the release store
+operation in `ttyport_resume_rx`).
 
-	return regmap->cache_ops->init(map);
-}
+It ensures that any writes before calling `ttyport_resume_rx` are
+visible in the `serdev_controller_receive_buf` invocation.
 
-I will look into make the helper to support other cache_ops in V3. and
-avoid mix goto and scoped_guard in one function.
+
+For instance, in the Rust abstraction the following will be called in
+order in probe (with the following patches):
+
+- serdev_device_pause_rx
+- serdev_device_open
+- dev_set_drvdata
+- serdev_device_resume_rx
+
+This atomic lock effectively ensures in this example that the set
+device driver data is visible to `ttyport_receive_buf` before
+`SERPORT_PAUSE_RX` is unset in `ttyport_resume_rx`.
+
+>=20
+>=20
+> > =20
+> >  	dev_WARN_ONCE(&ctrl->dev, ret > count,
+> > @@ -156,6 +166,32 @@ static void ttyport_close(struct serdev_controller=
+ *ctrl)
+> >  	tty_release_struct(tty, serport->tty_idx);
+> >  }
+> > =20
+> > +static void ttyport_pause_rx(struct serdev_controller *ctrl)
+> > +{
+> > +	struct serport *serport =3D serdev_controller_get_drvdata(ctrl);
+> > +	struct tty_struct *tty =3D serport->tty;
+> > +
+> > +	set_bit(SERPORT_PAUSE_RX, &serport->flags);
+> > +
+> > +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
+>=20
+> What keeps this bit from being set right after you test it?
+The statement "The caller must guarantee that this does not run
+concurrently with `serdev_device_open` or `serdev_device_close`." in
+the kdoc of `serdev_device_pause_rx` does.
+>=20
+>=20
+>=20
+> > +		tty_buffer_flush_work(tty->port);
+> > +}
+> > +
+> > +static void ttyport_resume_rx(struct serdev_controller *ctrl)
+> > +{
+> > +	struct serport *serport =3D serdev_controller_get_drvdata(ctrl);
+> > +	struct tty_struct *tty =3D serport->tty;
+> > +
+> > +	/*
+> > +	 * Ensure writes by the driver are visible before allowing traffic to=
+ resume.
+> > +	 */
+> > +	smp_mb__before_atomic();
+> > +	clear_bit(SERPORT_PAUSE_RX, &serport->flags);
+> > +
+> > +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
+>=20
+> Same here.  Are you sure you don't need locks?  This feels wrong.
+Same as above.
 
 Thanks
-Peng
+- Markus Probst
 
+>=20
+> thanks,
+>=20
+> greg k-h
 
-> 	}
->@@ -246,9 +245,8 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
-> 	if (map->cache_ops->populate &&
-> 	    (map->num_reg_defaults || map->reg_default_cb)) {
-> 		dev_dbg(map->dev, "Populating %s cache\n", map->cache_ops->name);
->-		map->lock(map->lock_arg);
->-		ret = map->cache_ops->populate(map);
->-		map->unlock(map->lock_arg);
->+		scoped_guard(regmap, map)
->+			ret = map->cache_ops->populate(map);
-> 		if (ret)
-> 			goto err_free;
-> 	}
->@@ -259,9 +257,8 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
-> err_exit:
-> 	if (map->cache_ops->exit) {
-> 		dev_dbg(map->dev, "Destroying %s cache\n", map->cache_ops->name);
->-		map->lock(map->lock_arg);
->-		map->cache_ops->exit(map);
->-		map->unlock(map->lock_arg);
->+		scoped_guard(regmap, map)
->+			map->cache_ops->exit(map);
-> 	}
-> err_free_reg_defaults:
-> 	kfree(map->reg_defaults);
->@@ -281,9 +278,8 @@ void regcache_exit(struct regmap *map)
-> 	if (map->cache_ops->exit) {
-> 		dev_dbg(map->dev, "Destroying %s cache\n",
-> 			map->cache_ops->name);
->-		map->lock(map->lock_arg);
->-		map->cache_ops->exit(map);
->-		map->unlock(map->lock_arg);
->+		scoped_guard(regmap, map)
->+			map->cache_ops->exit(map);
-> 	}
-> 
-> 	kfree(map->reg_defaults);
->@@ -584,20 +580,14 @@ EXPORT_SYMBOL_GPL(regcache_sync_region);
-> int regcache_drop_region(struct regmap *map, unsigned int min,
-> 			 unsigned int max)
-> {
->-	int ret = 0;
->-
-> 	if (!map->cache_ops || !map->cache_ops->drop)
-> 		return -EINVAL;
-> 
->-	map->lock(map->lock_arg);
->+	guard(regmap)(map);
-> 
-> 	trace_regcache_drop_region(map, min, max);
-> 
->-	ret = map->cache_ops->drop(map, min, max);
->-
->-	map->unlock(map->lock_arg);
->-
->-	return ret;
->+	return map->cache_ops->drop(map, min, max);
-> }
-> EXPORT_SYMBOL_GPL(regcache_drop_region);
-> 
->@@ -615,12 +605,11 @@ EXPORT_SYMBOL_GPL(regcache_drop_region);
->  */
-> void regcache_cache_only(struct regmap *map, bool enable)
-> {
->-	map->lock(map->lock_arg);
->+	guard(regmap)(map);
-> 	WARN_ON(map->cache_type != REGCACHE_NONE &&
-> 		map->cache_bypass && enable);
-> 	map->cache_only = enable;
-> 	trace_regmap_cache_only(map, enable);
->-	map->unlock(map->lock_arg);
-> }
-> EXPORT_SYMBOL_GPL(regcache_cache_only);
-> 
->@@ -639,10 +628,9 @@ EXPORT_SYMBOL_GPL(regcache_cache_only);
->  */
-> void regcache_mark_dirty(struct regmap *map)
-> {
->-	map->lock(map->lock_arg);
->+	guard(regmap)(map);
-> 	map->cache_dirty = true;
-> 	map->no_sync_defaults = true;
->-	map->unlock(map->lock_arg);
-> }
-> EXPORT_SYMBOL_GPL(regcache_mark_dirty);
-> 
->@@ -659,11 +647,10 @@ EXPORT_SYMBOL_GPL(regcache_mark_dirty);
->  */
-> void regcache_cache_bypass(struct regmap *map, bool enable)
-> {
->-	map->lock(map->lock_arg);
->+	guard(regmap)(map);
-> 	WARN_ON(map->cache_only && enable);
-> 	map->cache_bypass = enable;
-> 	trace_regmap_cache_bypass(map, enable);
->-	map->unlock(map->lock_arg);
-> }
-> EXPORT_SYMBOL_GPL(regcache_cache_bypass);
-> 
->@@ -680,12 +667,10 @@ bool regcache_reg_cached(struct regmap *map, unsigned int reg)
-> 	unsigned int val;
-> 	int ret;
-> 
->-	map->lock(map->lock_arg);
->+	guard(regmap)(map);
-> 
-> 	ret = regcache_read(map, reg, &val);
-> 
->-	map->unlock(map->lock_arg);
->-
-> 	return ret == 0;
-> }
-> EXPORT_SYMBOL_GPL(regcache_reg_cached);
->
->-- 
->2.51.0
->
->
+--=-69hyOdobKMKNJBb5gHBc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmqz1MEbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSdo4QAKqh+41BIzuT07DLtuHX
+qipyb598cM9aO5TTZR/y4p41aobSRfaDFJmG8hXktXo53cpp20XKt6SslxlBefGi
+mvrrPbBlM2tZHw8Z0sASMBGSN8eQCoUgbAnOT6KM27aTDs0itD/OjY/GmUTlQVdr
+C/qV28ISajCrRIorI/CB8M9iGxJaD88SsDJoU7dnnaRJgkoADGxbiTweltUxUdhb
+Vs+hJURxIy6MS3f0mrs4kS1GXJo2gnSpRKT8akqdZqEkr1oSI33Fi1eHs/JE2LN+
+AyGeqxg7F5BIoZdd3GTNXtA+Ykr5si82Oy/dyphLxmrfWQHvZ0vmCfOpyJaehc1W
+JQaOKzmKtZfkctpNUqcmgbYS3pjGv2KfvYiWbT5z/I5vCog5GMiidwn/cD++QCUD
+2ek2Oxk+B1XloPEPeHg+Dj2R2+osuMCA+NROEBxtjaEk7LvLZxrlWOm9udhZtG/S
+Ro+EE6VB9O3MfuJOkYNgETbNdzMyTtMGj1zXBiY8N9JapxfKB6ZnGbvZUncjTjzh
+r5yuO3Bp3jOuax0uZyunuPbEeux7qrC4KkBDr8WTwtnv/2jCpw8wqT14H4rR903f
+WO3XTuUXarprGS2pWZp0xD0K4S5Vw1ua8+IWwl81IH73/TeXwLFfvTCKTSScfj3d
+WyavN7LBbOeLFcSPyKDPyACr
+=kPQr
+-----END PGP SIGNATURE-----
+
+--=-69hyOdobKMKNJBb5gHBc--
