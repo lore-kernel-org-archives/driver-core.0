@@ -1,185 +1,281 @@
-Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
+Received: from mail-wr2-f17.google.com (mail-wr2-f17.google.com [74.125.225.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B207414DFA
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 05:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4421343DEAA
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 06:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790139725; cv=none; b=YNDQIhr9oq+ff0x/QMaVK9QjdN57+p0M2ZRgjSGlJ8YyKxodp5ApG+S/VWGjSL+TzE815T2TifFAxY4bHkuboNWnwfmL5VUw3EQ5yPsElpEABGLcP9vjdHrHetpfyFUrtQ3qchh9xcwmEIdXECiHHw7512zzlMCtBvp3p1+uQ3Q=
+	t=1790144961; cv=none; b=BpvFrmoGPfi4xTh0KKd4vOXL7u66Oqo1q4wByTEJ6omaHVyEK2WdQdGTIeswgXJ0qIiO2W+PiqU6DO/wdZ/VWOQezXWGp9dFvXo3nUiwd0Pea3oSCmVHnw4RBrRpQlkhM3MmzK1VKaOl7GlqqwHjnARzdz3UJK/jKOYanZ6/Mpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790139725; c=relaxed/simple;
-	bh=Ne424r/36je1ilOD3xcuRjIqebPC+88WgD6Zv6z4z2Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ShWRkEhCygkli0duMgWHeUeTTPTFlaTr5UgNLTzbrQkGw43TQIRzZbcuYmZrjxHKu4Lssz5JvjZvu0WDSYzrlCuNNd3i1XTBVp7QURt+2KXRDEJubiI4Du2Nx+BiU89RzUk8szdkoOTNeE2l7H99wJ+5JOIgtcYXQbrcNe/+BXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MqqukM1i; arc=none smtp.client-ip=91.218.175.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790144961; c=relaxed/simple;
+	bh=2P1/Y+7yd2b38wkBtdBMXr+oehxAhkxnhsbRjMjb8Ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p1Tm0kJMSy/km+WLeuXdqOfgnE6UlR0XqHPCdLxxiS2K0NF19J7aqrB3xA2cvIHPBtfisbuYg9ydIQ0fsQf+q/v2j6Radu+GjH2IbL3tV30QxZYv0dQmVvjRz4HtCnB1M0IbBsarLOVlDG+mQbqV75JiCNL//0IFP8Lru+Sxjtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=KyxTVAqh; arc=none smtp.client-ip=74.125.225.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MqqukM1i"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=Ne424r/36je1ilOD3xcuRjIqebPC+88WgD6Zv6z4z2Q=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790139722; v=1; x=1790744522;
- b=MqqukM1iIkX8IkBIEf0Je2ojvZGcQG9vOPWG/aCg/t84hFTKtICfewFYpI2/duZAbHww/dGd
- BvG5Cqu6fmG95Ma/Tvzt22aMe2DDh6sSPlG4GZrXiM2ZtCKEM+ZalQ2V5BlHmMZzigU7ckvwLlX
- SZhQOFrUQVnndOwB7DR3bteo=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 690595ff149c6af3;
-	Wed, 23 Sep 2026 05:02:02 +0000
-X-Mizu-Trace-ID: 690595ff149c6af3
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Cc: Paul McKenney <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] kernfs, cgroup: track holders of the cgroupfs locks
-Date: Tue, 22 Sep 2026 22:01:24 -0700
-Message-ID: <dc9606b5cf7cd2d6f326917db6a9bbc44dc88f9e.1790139577.git.shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1790139577.git.shakeel.butt@linux.dev>
-References: <cover.1790139577.git.shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="KyxTVAqh"
+Received: by mail-wr2-f17.google.com with SMTP id ffacd0b85a97d-484366874b0so347212f8f.2
+        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 23:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790144951; x=1790749751; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IqBBUCm9D3kcAtSAGWx9YPoXXMR7IIvhwpg10TQoYm0=;
+        b=KyxTVAqhFZEOqHB6qf6T/adxtBufh8G1wEO9JMwa2QICif9anXa+j67NwOvmGf+pTG
+         Vnz33i+sfYXB9AoIBE/0QY6vOecNr8QGl2Rm846FM96O6lt6ERG7k3/Ze1iX0AGGiGzs
+         IiKjvIn0BWjnTHyNepu/jv8GDD66v6E4Phk3eU4b7vMnQGTPyipjMj2c2odzxFXvgF3d
+         nnZuGpbQsnJQUosnTcqWZ6pRX5h4HXa7/GEs7DVHWCAAPgU9bBNTls73zGl2/BVpoAu6
+         McFiyURQuYFjx5zQRRZ701hAXh3Fl1D28zaO8IBQxE29r1vUz0pSzaZDGSSXI13Y1YI1
+         7wOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790144951; x=1790749751;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IqBBUCm9D3kcAtSAGWx9YPoXXMR7IIvhwpg10TQoYm0=;
+        b=s7u692l6Ki+dOtMsz2t6VNm14D2a/cLlaBCJO21zgwpdBZlMNbf7ZdLYxsxoDuwNCE
+         VxQnVZKv4ZSKBxBrHPZKxl6tMdfr9rzSdP78Xl/t8VqRRehkQ3tdWCWt5ks42lCGfxBX
+         PTX7n7xzGH4jPn0BaW0RteBj2i3mJLm+mmG1M+m2BA64wL9aAUzKeLY32vDAcbBo6vWo
+         Bm56gAqrJmNkJa1oL12syDQVEb5sZstIWvy0jo99rD2+n6fCQYwjyIfhLkwSHVtIwsdm
+         nT8CXesDX69+J2Az09KP8BFFgmRuOo9u/1NQMRlldVCXJmSX6+wU9rzBLCLCiqmDxd4N
+         9KoA==
+X-Forwarded-Encrypted: i=1; AKwUvBzDbSuj8n2heO6d4elVsk2tMQdKwDQgrUaBe0Zy9bZWVpPoDZJS2FVDU6+jgnVZYo8zJNYKLDgSXl0oig==@lists.linux.dev
+X-Gm-Message-State: AFuF++mpSoRINJSTvOpmKMyyPa+FKyRFsnrIuTEOtX4A4tyBsALYYJwr
+	KtDOQ5AOKzEz/xJy9J+xfe31tAo0mc994j5BXEQRtGa625QRmtMiHYo0CiEVNctJJbQ=
+X-Gm-Gg: AYBFou1R2uFgeDAA3zjpd0QUAHcT7lrtdVSCcpcThRJyrpxNuMl/qUHUgoIoThAoNpX
+	QOdb9q8UN/PHkBmxRcfrKebIXsxQHmYI0XaIgq6RCQkZHeuwYhNUrOspe9vkZkV/IcJ6Zb/W1hL
+	kFi2OhxH0WVlY2hbNRag0Ce/ewY3bI4s69zeJ92ENuTXl9I5fh3pgC2YHgsvFhsxDJ9o3rVZUfs
+	ZGmRCEoz4rg98Pv4Ww3L5kS4fGUn3rs3xHi4tET0UDfv22m0pnHYkXC/fa5TtOpDwzl1W2Wbq8v
+	PNEjlfe0cutDXkXpsoUZBR2Bw2MMdwTOc0TSQMswSzFMoLlraRiC0/WNtma6o4HUmWmCcNx2Wg3
+	d3AKPcCF6W6UuwiT89+uEkNGrKvgjbBtwADvrBXQuTAFtVqDXWTlByyASzAOGNvv+4s0oEbqOKh
+	T43+1U03gSwFg12N41XOsqNK7wql9lPdhfwb7lUQdLRbI+ZPKwDeK+o3rvQohJcLngnXs/ZYb3S
+	TrA1uY2nN8or5w=
+X-Received: by 2002:a05:6000:40dd:b0:487:27f6:a4db with SMTP id ffacd0b85a97d-48867092e81mr2065474f8f.43.1790144951218;
+        Tue, 22 Sep 2026 23:29:11 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4886876c1fdsm4980428f8f.14.2026.09.22.23.29.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 23:29:09 -0700 (PDT)
+Date: Wed, 23 Sep 2026 08:29:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: David Lechner <dlechner@baylibre.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <arNuIicuNMmA7E3K@monoceros>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m4tmncbnbg4g756x"
+Content-Disposition: inline
+In-Reply-To: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 
-Opt the cgroupfs kernfs rwsems, cgroup_mutex and cgroup_threadgroup_rwsem
-in to lock holder tracking.
 
-Add KERNFS_ROOT_TRACK_LOCK_HOLDERS, which opts in a root's kernfs_rwsem,
-kernfs_iattr_rwsem and kernfs_supers_rwsem, and pass it from
-cgroup_setup_root(). Other kernfs users have their own roots, so only
-cgroupfs is affected. All three are held across work that can allocate,
-so a holder stuck in reclaim can stall many other cgroupfs operations;
-kernfs_iattr_rwsem is write-held across kernfs_iattrs(), which allocates
-with GFP_KERNEL.
+--m4tmncbnbg4g756x
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
 
-cgroup_mutex is taken by every cgroup create, destroy and migrate, and is
-held across the same kind of work, so a stalled holder stalls the whole
-cgroupfs control plane.
+On Tue, Sep 22, 2026 at 11:04:46PM +0200, Armin Wolf wrote:
+> Am 22.09.26 um 15:40 schrieb David Lechner:
+>=20
+> > On 9/22/26 2:39 AM, Uwe Kleine-K=F6nig wrote:
+> > > On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> > > > On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > > > > The ability to add and remove devices from a driver through the s=
+ysfs
+> > > > > "bind" and "unbind" files was created all those decades ago as a =
+way
+> > > > > that kernel developers can iterate faster, and provide a debuggin=
+g way
+> > > > > for users to attempt to add a new device to a driver without havi=
+ng to
+> > > > > rebuild their kernel.
+> > > > >=20
+> > > > > This api over the years has been abused and recently come under a=
+ major
+> > > > > fuzzing "attack" through tools like syzbot which decided that it =
+would
+> > > > > attempt to just randomly bind any driver to any type of device, c=
+ausing
+> > > > > loads of unneeded errors and pointless kernel patches to be gener=
+ated by
+> > > > > unsuspecting new developers.
+> > > > >=20
+> > > > > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND,=
+ which
+> > > > > will be set on the driver if the bind/unbind sysfs files are ever
+> > > > > written to.  This lets kernel developers "know" that a user is
+> > > > > attempting to do something that is not normal, and as such, if the
+> > > > > kernel breaks they get to keep the shiny pieces laying around on =
+the
+> > > > > floor.
+> > > > >=20
+> > > > > The flag is 'Y' which was unused, and can remembered as the user =
+is
+> > > > > "yeeting" the device being operated on here (thrown with force wi=
+thout
+> > > > > regard for the thing being thrown).
+> > > > >=20
+> > > > > Note, the taint flag gets set _BEFORE_ the bind/unbind callback h=
+appens,
+> > > > > as many times crashes/oops/warnings/failures happen within the ca=
+llback,
+> > > > > and the taint flag needs to be there to show what was being attem=
+pted.
+> > > > > If it were to be set after the callback happens, the oops report =
+would
+> > > > > not properly reflect what foolishness was being attempted.
+> > > > >=20
+> > > > > Fuzzing tools like syzbot, that doesn't have hand-crafted rules t=
+o keep
+> > > > > the tool from hitting bind/unbind, should be run with panic_on_ta=
+int
+> > > > > enabled so that they fall over and don't continue on, thinking th=
+at they
+> > > > > actually found a real issue.
+> > > > >=20
+> > > > > Userspace operations that rely on the bind/unbind files
+> > > > I agree that this should be avoided.
+> > > >=20
+> > > > But I also think the biggest offender really is driver_override. Sp=
+ecifically,
+> > > > on a hot-pluggable bus a driver must be complient with the device d=
+river
+> > > > lifecycle rules and hence shouldn't break on bind/unbind. I think i=
+t would be
+> > > > nice to not taint the kernel for such busses, and only taint on dri=
+ver_override,
+> > > > as I think we'd still want the bug reports for such cases.
+> > > >=20
+> > > > But I think this is fine to leave for a follow-up.
+> > > I fully agree. I'm fine and support tainting on driver_override, but
+> > > bind/unbind are used occasionally in my bubble and I consider drivers
+> > > not handling that properly buggy.
+>=20
+> I fully agree with this, drivers should correctly implement the lifecycle=
+ model
+> and not just break when being unbound at a improper time. Drivers sufferi=
+ng from
+> this can easily break this way when unloading the associated kernel modul=
+e, so this
+> taint is no solution.
+>=20
+> > In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedg=
+ed
+> > chip.
+> >=20
+> > A few examples where other reset methods were reject in favor of unbind=
+/bind:
+> >=20
+> > https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
+> >=20
+> > 	This needs documenting as it's custom ABI. Note that we don't often
+> > 	accept custom ABI. Particularly not a hook that seems to reset the
+> > 	device. If you want to do that, unbind and rebind the whole drive[r]
+> > 	so we are in a known state etc.
+> >=20
+> > https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
+> >=20
+> > 	Firstly as stated below, we don't provide interfaces for this
+> > 	because it's a heavy weight process that is most of the effort of
+> > 	unbinding and rebinding the driver. So if you need to reset, do that.
+> >=20
+> > https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
+> >=20
+> > 	The solution is to run it once at driver bind. Similar to reset
+> > 	below, if the usecase needs to re do it then unbinding and rebinding
+> > 	the driver reflects the fact we are taking it effectively offline
+> > 	for a while.
+> >=20
+> I also consider bind/unbind to be an official API to interact with device=
+s,
+> so i want to use them in the future with the WMI subsystem.
+>=20
+> AFAIK the underlying reason for this series is that some drivers break wh=
+en
+> being bound to unsupported devices. However IMHO drivers should verify th=
+at
+> they support a given device inside their .probe callback, and the associa=
+ted
+> bus should only match devices with drivers that explicitly claim support =
+for
+> those devices (ignoring driver_override).
+>=20
+> Can we get some example bugs uncovered this way?
 
-cgroup_threadgroup_rwsem is taken for read on every fork and exit, and
-usually for write on migration, so a stalled holder can stall process
-creation on the whole machine.
+There is a related set of mail threads, that however are not the trigger
+for Greg's effort.=20
 
-The last two are statically defined, so opt them in from cgroup_init().
-That runs after jump_label_init() and before anything can take either
-lock.
+Initially I suggested to protect the pwm-tegra driver from attaching
+to unexpected devices via a check in .probe():
 
-signal->cgroup_threadgroup_rwsem, used with favordynmods, is left alone.
-Its readers also hold cgroup_threadgroup_rwsem, so they are counted
-already, and its writer only blocks the process being migrated.
+   https://lore.kernel.org/linux-pwm/ed943d9be3b785514e0f65a5b8c13a78aba7a0=
+90.1789741839.git.u.kleine-koenig@baylibre.com/
 
-These opt-ins are for a policy that reads the count. On their own they
-only turn on the static branch, so they should go in with that policy.
+Thierry suggested a dedicated flag in struct device_driver instead
+allowing to opt out of the driver_override mechanism:
 
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- fs/kernfs/dir.c        |  5 +++++
- include/linux/kernfs.h |  7 +++++++
- kernel/cgroup/cgroup.c | 27 ++++++++++++++++++++++++++-
- 3 files changed, 38 insertions(+), 1 deletion(-)
+   https://lore.kernel.org/linux-pwm/20260922-driver-override-opt-out-v1-0-=
+58c35ded3b83@nvidia.com/
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index cc6288d5b4cc..1116bb38c1ff 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -1035,6 +1035,11 @@ struct kernfs_root *kernfs_create_root(struct kernfs_syscall_ops *scops,
- 	init_rwsem(&root->kernfs_rwsem);
- 	init_rwsem(&root->kernfs_iattr_rwsem);
- 	init_rwsem(&root->kernfs_supers_rwsem);
-+	if (flags & KERNFS_ROOT_TRACK_LOCK_HOLDERS) {
-+		rwsem_track_holder(&root->kernfs_rwsem);
-+		rwsem_track_holder(&root->kernfs_iattr_rwsem);
-+		rwsem_track_holder(&root->kernfs_supers_rwsem);
-+	}
- 	INIT_LIST_HEAD(&root->supers);
- 	rwlock_init(&root->kernfs_rename_lock);
- 
-diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-index 73786b567ccd..ea2efdc5277e 100644
---- a/include/linux/kernfs.h
-+++ b/include/linux/kernfs.h
-@@ -156,6 +156,13 @@ enum kernfs_root_flag {
- 	 * Renames must not change the parent node.
- 	 */
- 	KERNFS_ROOT_INVARIANT_PARENT		= 0x0010,
-+
-+	/*
-+	 * Track the holders of this root's rwsems (see
-+	 * CONFIG_TRACK_LOCK_HOLDERS).  Use it for roots whose locks are
-+	 * shared so widely that a stalled holder stalls unrelated work.
-+	 */
-+	KERNFS_ROOT_TRACK_LOCK_HOLDERS		= 0x0020,
- };
- 
- /* type-specific structures for kernfs_node union members */
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 804318ae160e..87d66aae2558 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -2191,11 +2191,18 @@ int cgroup_setup_root(struct cgroup_root *root, u32 ss_mask)
- 	kf_sops = root == &cgrp_dfl_root ?
- 		&cgroup_kf_syscall_ops : &cgroup1_kf_syscall_ops;
- 
-+	/*
-+	 * Track the holders of the cgroupfs kernfs locks.  They are held
-+	 * across work that can charge memory, so a holder stuck in reclaim
-+	 * can stall many other cgroupfs operations.  Other kernfs users have
-+	 * their own roots and are not affected.
-+	 */
- 	root->kf_root = kernfs_create_root(kf_sops,
- 					   KERNFS_ROOT_CREATE_DEACTIVATED |
- 					   KERNFS_ROOT_SUPPORT_EXPORTOP |
- 					   KERNFS_ROOT_SUPPORT_USER_XATTR |
--					   KERNFS_ROOT_INVARIANT_PARENT,
-+					   KERNFS_ROOT_INVARIANT_PARENT |
-+					   KERNFS_ROOT_TRACK_LOCK_HOLDERS,
- 					   root_cgrp);
- 	if (IS_ERR(root->kf_root)) {
- 		ret = PTR_ERR(root->kf_root);
-@@ -6552,6 +6559,24 @@ int __init cgroup_init(void)
- 	get_user_ns(init_cgroup_ns.user_ns);
- 	cgroup_rt_init();
- 
-+	/*
-+	 * cgroup_mutex is taken by every cgroup create, destroy and migrate
-+	 * and is held across work that can allocate, so a holder stuck in
-+	 * reclaim stalls the whole cgroupfs control plane.
-+	 *
-+	 * cgroup_threadgroup_rwsem is taken for read by fork and exit, and
-+	 * usually for write by migration, so a stalled holder can stall
-+	 * process creation on the whole machine.
-+	 *
-+	 * Neither can be held yet, as rest_init() has not run.
-+	 *
-+	 * signal->cgroup_threadgroup_rwsem is not tracked.  Its readers hold
-+	 * cgroup_threadgroup_rwsem too, so they are counted already, and its
-+	 * writer only blocks the process being migrated.
-+	 */
-+	mutex_track_holder(&cgroup_mutex);
-+	percpu_rwsem_track_holder(&cgroup_threadgroup_rwsem);
-+
- 	cgroup_lock();
- 
- 	/*
--- 
-2.53.0-Meta
+I think Greg was motivated by syzcaller triggering various exceptions
+using driver_override.
 
+So my opinion on the right way forward is:
+
+ - Given that there are only very few drivers that are supposed to be
+   used for a driver override, there should be an opt-in (instead of the
+   opt-out that Thierry suggested).
+
+ - The changes from this thread (i.e. make usage of bind/unbind result
+   in a taint) should be dropped. I wrote earlier that I'm ok with a
+   taint for a usage of driver_override, but with the previous item
+   implemented, I don't think that is necessary.
+
+Best regards
+Uwe
+
+--m4tmncbnbg4g756x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqzcbIACgkQj4D7WH0S
+/k5/RAf/SE7NQiSIqLNn4DRqC5N/7ANJOhVQL7lvqZeGImpxnvizJPahFAQ5wgHr
+TqvOjwfgQW2cjqr0dT1HbkBIxqhE/FQQPy/wGiSAEwVqGPoaf3NQ2+EJhFtbkW3A
+UhHydl1NRAl0lJI3aDHu8yvr2fYi1JsjVoGk6bEHLa8H3g4mxV09GAmn5486tQ6N
+WbofIbgRNtpIYlMN9eWRKKBBB8j/EQvMHXZwBIy05z/jru237w9UWObXjS/FhwD6
+ktITAnnTBacmzUAC1u5hm2Z3lpH88/MCe014xcIal73LJ1HgVnwnjH7uaBmRrzsR
+r/G6IKsL4nPw3DX9iCQvpNDM+a44MQ==
+=ea/U
+-----END PGP SIGNATURE-----
+
+--m4tmncbnbg4g756x--
