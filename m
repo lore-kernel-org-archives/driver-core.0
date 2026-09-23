@@ -1,115 +1,231 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D647FAF3;
-	Wed, 23 Sep 2026 10:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B64148EC91;
+	Wed, 23 Sep 2026 10:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790159419; cv=none; b=TiAMJCHaiANN6aLwA3ebbiDM8avj5VKPstVD7nLqscJqyFYRvXxEuyHzwNe2NYrhZQLG0Rm64IjA5i/xUH8ocdQxpz1JYTcU10xt9lN57gC5Je9l5X6E5p3f2xBjI2pOReKGais5Yx9nd+tOhQKTXsVEklSeZ+gHsca57ga5n6Q=
+	t=1790159761; cv=none; b=TSyLTjjSDoSMs0lUcZeQW4mD9qZeZtQ8UALnrTqbuirjJbb4izvbHwkg3ED/1Ma9wJ9wKubTwC5Z4xEwnhXeQA0kIdVfWekJ2sxbASuB8EzS60Q3BkQDKe9sAUviUWvcXvN4UdEcN9OIc2ekRN+VEmgNTX575AxWQuPTgkV9ypY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790159419; c=relaxed/simple;
-	bh=4apTzgSnK41fmpqyWoxUgweK1yzL409akGVwvF+wtlg=;
+	s=arc-20240116; t=1790159761; c=relaxed/simple;
+	bh=eZIHb0J5aaBGeIdNifmxvKv3Vw/+/WIteprI/Fa0klk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sx+Z04u6+rMaU7FjWnWOG5DlT3h8jO21Wd8CosnLU/MMZ8I3Te6aqvv80Mvs2gdLD3SnZeNHo2ouT0hMML5fvqX3SSTQ4iq0CGgo0ytTTzKojaz/uArntoObWpE+EfDHEPH3KSowUD41cPul/x7Od376I0QXxFY5S7nUukSDIqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I+FgPbZ4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XtKcoBkQ563Q3stbd+KEFvBsYon4anBPGJBj+YDWcBi7W2X3D+JCVA+xKpYBy1/qEZTamzGivHHSQqaZXeVZi64YR7DIN8l6XbGLp4Uk9K5MMdU7H36D+pkLVY+z934EcbkwA7JUU+3UnCJWP0CdQdOA7phzBmzWsppdIWeJnS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wmuSkB+N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I+FgPbZ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEBA41F000FF;
-	Wed, 23 Sep 2026 10:29:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wmuSkB+N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB881F000FF;
+	Wed, 23 Sep 2026 10:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790159399;
-	bh=6mPB5sAXT6Vhv1gBFH2na4lrNkRozl/FMt/dP7OxjRk=;
+	s=korg; t=1790159742;
+	bh=NzYqyRImwYBZyIwILNRFj1XIoNhIukvodGkX+t4dqx4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I+FgPbZ4GvlC7BewOKRNZweanpyegBPw+Z7yAFipreUI0p/iDWPygp288TTzg9fNW
-	 wG6Yil8IMbspsRFI6ZRrV4LujFy4JyuBlEph2Ub330vypNF3BGsVDnezRyMqqWWtxx
-	 NYdOIla4kATkpDlNoDD//vIXw3e1SpHRXfpR7u/g=
-Date: Wed, 23 Sep 2026 12:29:56 +0200
+	b=wmuSkB+NF6zhenRzL6ZxseHK0xfUQm55nueP399xmc5vKVdJ4+9GFCzKp1UAo4UjD
+	 Rc1EHV8hSgTinHbN7TTeJ/LV/+k6ng1H2i0JVVFTZlozSje8HiceldUJe8+jcscTuI
+	 bvrLRp2yk/fFaK5fl5XxDZb48OSB5+hqRVLuprFE=
+Date: Wed, 23 Sep 2026 12:35:38 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+To: Markus Probst <markus.probst@posteo.de>
+Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026092348-victory-erased-0e5a@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
+	greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] tty: serdev: Export functions to pause
+ receive_buf callback calls
+Message-ID: <2026092356-chatting-dust-3de9@gregkh>
+References: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
+ <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <arOfHEsGGglNse7T@monoceros>
+In-Reply-To: <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
 
-On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:
-> > No, drivers should NOT have to do that in their .probe() function,
-> > that's what we moved away from decades ago!  The match function should
-> > handle all of that for you, otherwise it's contant duplication
-> > everywhere that is unneeded.
+On Sun, Sep 20, 2026 at 02:29:58PM +0000, Markus Probst wrote:
+> These functions will be used to simply the serdev rust abstraction. It
+> also contributes to the fixing of 2 race conditions in the serdev rust
+> abstraction.
 > 
-> Well then you have to accept that root can provoke a null pointer
-> exception (e.g. by forcing the pwm-tegra driver on a device) because at
-> least with today's platform bus match function such a match is ok.
-
-Agreed, yes, root can cause a crash and can do tons of horrible things
-much worse than this, that's not the issue.
-
-That's why this taint is there, to make it obvious that this is not a
-"real" bug at all.
-
-> > Please, learn from our history, don't make the same mistakes.
-> > 
-> > Now I might be convinced that driver_override is the way to go here, but
-> > it still feels really odd as again, bind/unbind was created as a driver
-> > debugging option only, it should NOT be a normal operation that any user
-> > should rely on.  The driver should "just work" properly instead, without
-> > requiring manual bind work, as that's not a good model at all.
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> ---
+>  drivers/tty/serdev/core.c           | 50 ++++++++++++++++++++++++++++++++++++-
+>  drivers/tty/serdev/serdev-ttyport.c | 38 ++++++++++++++++++++++++++++
+>  include/linux/serdev.h              |  6 +++++
+>  3 files changed, 93 insertions(+), 1 deletion(-)
 > 
-> I agree in principle, but (in my case wifi) drivers are buggy sometimes
-> (due to missing documentation and/or engineering effort) and being able
-> to rebind the driver instead of rebooting to get a working device again
-> is very useful.
+> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> index 7500efcdfc21..7d24f16710cb 100644
+> --- a/drivers/tty/serdev/core.c
+> +++ b/drivers/tty/serdev/core.c
+> @@ -187,6 +187,51 @@ void serdev_device_close(struct serdev_device *serdev)
+>  }
+>  EXPORT_SYMBOL_GPL(serdev_device_close);
+>  
+> +/**
+> + * serdev_device_pause_rx() - pause data receive
+> + * @serdev:	serdev device
+> + *
+> + * Pause calls to receive_buf.
+> + *
+> + * The caller must guarantee that this does not run concurrently with
+> + * `serdev_device_open` or `serdev_device_close`.
+> + *
+> + * Note that if a call to receive_buf is currently executed, the function will
+> + * sleep until it has finished.
+> + */
+> +void serdev_device_pause_rx(struct serdev_device *serdev)
+> +{
+> +	struct serdev_controller *ctrl = serdev->ctrl;
+> +
+> +	if (!ctrl || !ctrl->ops->pause_rx)
+> +		return;
+> +
+> +	ctrl->ops->pause_rx(ctrl);
+> +}
+> +EXPORT_SYMBOL_GPL(serdev_device_pause_rx);
+> +
+> +/**
+> + * serdev_device_resume_rx() - resume data receive
+> + * @serdev:	serdev device
+> + *
+> + * Resume calls to receive_buf.
+> + *
+> + * The caller must guarantee that this does not run concurrently with
+> + * `serdev_device_open` or `serdev_device_close`.
+> + *
+> + * This can be called even if not paused to ensure data receive is active.
+> + */
+> +void serdev_device_resume_rx(struct serdev_device *serdev)
+> +{
+> +	struct serdev_controller *ctrl = serdev->ctrl;
+> +
+> +	if (!ctrl || !ctrl->ops->resume_rx)
+> +		return;
+> +
+> +	ctrl->ops->resume_rx(ctrl);
+> +}
+> +EXPORT_SYMBOL_GPL(serdev_device_resume_rx);
+> +
+>  static void devm_serdev_device_close(void *serdev)
+>  {
+>  	serdev_device_close(serdev);
+> @@ -398,6 +443,7 @@ EXPORT_SYMBOL_GPL(serdev_device_break_ctl);
+>  static int serdev_drv_probe(struct device *dev)
+>  {
+>  	const struct serdev_device_driver *sdrv = to_serdev_device_driver(dev->driver);
+> +	struct serdev_device *sdev = to_serdev_device(dev);
+>  	int ret;
+>  
+>  	ret = dev_pm_domain_attach(dev, PD_FLAG_ATTACH_POWER_ON |
+> @@ -405,7 +451,9 @@ static int serdev_drv_probe(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	return sdrv->probe(to_serdev_device(dev));
+> +	serdev_device_resume_rx(sdev);
+> +
+> +	return sdrv->probe(sdev);
+>  }
+>  
+>  static void serdev_drv_remove(struct device *dev)
+> diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
+> index bab1b143b8a6..e8aa89e733bd 100644
+> --- a/drivers/tty/serdev/serdev-ttyport.c
+> +++ b/drivers/tty/serdev/serdev-ttyport.c
+> @@ -7,8 +7,10 @@
+>  #include <linux/tty.h>
+>  #include <linux/tty_driver.h>
+>  #include <linux/poll.h>
+> +#include "../tty.h"
+>  
+>  #define SERPORT_ACTIVE		1
+> +#define SERPORT_PAUSE_RX	2
+>  
+>  struct serport {
+>  	struct tty_port *port;
+> @@ -32,6 +34,14 @@ static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp,
+>  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
+>  		return 0;
+>  
+> +	if (test_bit(SERPORT_PAUSE_RX, &serport->flags))
+> +		return 0;
+> +
+> +	/*
+> +	 * Ensure writes by the driver are visible before allowing traffic to resume.
+> +	 */
+> +	smp_mb__after_atomic();
 
-Fine, use it!  Just don't expect that to be "normal".
+This scares me.  Why not use a real lock?  WHat's the issue here, you
+need this to be "flushed" before this call:
 
-> So yes, theoretically bind/unbind isn't needed, but theory and practise
-> differ in practise.
+> +
+>  	ret = serdev_controller_receive_buf(ctrl, cp, count);
 
-Agreed, but again, don't rely on this as a "real" solution fo ranything.
+here?
 
-> OK, as a compromise: Let's keep the taint (after all that's not
-> destroying any functionality, just adding a hint for bug reports),
-> and make driver_override opt-in, which should close an attack surface
-> (mostly for fuzzers?) and so reduce the amount of bug reports instead of
-> marking a part of them as tainted only.
+And you just tested a bit, you didn't set a bit, so what are you trying
+to ensure is written exactly?
 
-How is that going to change anything?  Confused.
+
+>  
+>  	dev_WARN_ONCE(&ctrl->dev, ret > count,
+> @@ -156,6 +166,32 @@ static void ttyport_close(struct serdev_controller *ctrl)
+>  	tty_release_struct(tty, serport->tty_idx);
+>  }
+>  
+> +static void ttyport_pause_rx(struct serdev_controller *ctrl)
+> +{
+> +	struct serport *serport = serdev_controller_get_drvdata(ctrl);
+> +	struct tty_struct *tty = serport->tty;
+> +
+> +	set_bit(SERPORT_PAUSE_RX, &serport->flags);
+> +
+> +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
+
+What keeps this bit from being set right after you test it?
+
+
+
+> +		tty_buffer_flush_work(tty->port);
+> +}
+> +
+> +static void ttyport_resume_rx(struct serdev_controller *ctrl)
+> +{
+> +	struct serport *serport = serdev_controller_get_drvdata(ctrl);
+> +	struct tty_struct *tty = serport->tty;
+> +
+> +	/*
+> +	 * Ensure writes by the driver are visible before allowing traffic to resume.
+> +	 */
+> +	smp_mb__before_atomic();
+> +	clear_bit(SERPORT_PAUSE_RX, &serport->flags);
+> +
+> +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
+
+Same here.  Are you sure you don't need locks?  This feels wrong.
+
+thanks,
 
 greg k-h
