@@ -1,354 +1,216 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443235E955
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 13:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DFA5349D7
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 13:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790170316; cv=none; b=S59AXvXGGVqyCoV7dyAxpzKtaXrf7DSyxooTUohI7+ZEPVwRdIwIOBKR2pq4479lLsnVF0ehpJ1yFAirkNuwU362OdWelt0W5ZiID/mBHdb37lvNCXoJXonRHT1Ufvpv3RSTiB9EubQ52qYtpsH3cqvhBcaPKQ24DWvns4CByZ4=
+	t=1790171150; cv=none; b=rwOylBUozajzMiIq8WsMWdcuBTLVuOJrk4SzG/+yL6V12WTtA79rl2R+WsggtxRQWI7Bp8E1slnYd22JAlzFOFwjWh01+Mvo/jzFDwoMvk4e5v7X8GxZsLfqwwUepSy+nswzTd7yEiZ2dWdzRrFNpvQNCj25dXB0wNOY8RGf7VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790170316; c=relaxed/simple;
-	bh=5nxX6dp8DDtAiiY/fJP0IjGNNSnwnrx/4A5bdqLvMKE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BBAFPJIXxM6sOEP8Iw738vlAjFbOH8wmeYcDJybJ6LLh6nmDmwMhnqBhWCV3bLa/ikcQ3QhOVihqzDsNyADEuPdBWeG7NBnZp8kA9sHwVNuvZd2iUCBsrwKsJf12IIqhRSKiwHdONbbpPxf5imZFIWEJwpzmjL2c/AQ4w0a4vpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=LOW3q2pJ; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1790171150; c=relaxed/simple;
+	bh=hAUIAJP2KyIPOrXkm/QtyPmhhjrZyPRauTKH3tyreRE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BkMzRWsUr5TLJxAmM4kapmPLEf7WuNi/usuGmaSSe3HpVKlzlRoN35f1P59El/8K3NYmeF21nLDjJWE8+GiuR2B4BLtPJlSlasTrY2gule7gwgwiVYE3dV3vciDRjhyWpF+11LTjI7fPP1du7qByAbS/fd7WEkSoI9hFVYMgRfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NHhZfGyt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gAg/X4Lt; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="LOW3q2pJ"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 80581240027
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 15:31:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1790170311;
-	bh=wGCiWecGOgpeuSnRUc7veF+BLjBlyufTqs69WvVzBNY=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=LOW3q2pJ/NLuKmgklCtpEVndA5vb+BztUIJ3VaM/xBI/XaG8PZY1MGK4K9OxUjc6T
-	 tCJEcJG7K41ZUdgnbnidA3Z3VS+u1AXNgOHZi66DSjNzd1oe0PqG1mLZj4MhDLiJCJ
-	 6SAnlZVXJT82+0JiTBocPbwtdddxT3byWLEwizc4GipoR50PjbNO0KvWsrv+Y97UQA
-	 zv+QTkNwZLgOMpxEEOVEhXFo8tGZ+SI25d2N87vJ7NVv8wCci4PeCtJaMYf0XQ8qXW
-	 L+iZ+Pb/vkxWBMXr7Q7pjteddg23+SnJmLlXiKGJd+FKT7/6/QZ9FM+QxF6mHdbGQM
-	 mfW09A+Yi0lyg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hqdD20PYvz6tsb;
-	Wed, 23 Sep 2026 15:31:46 +0200 (CEST)
-Message-ID: <2fcec4f3cd70a41e282505ff5c99b19e5809aead.camel@posteo.de>
-Subject: Re: [PATCH v2 1/3] tty: serdev: Export functions to pause
- receive_buf callback calls
-From: Markus Probst <markus.probst@posteo.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
- Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
- Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Eric Biggers	
- <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Lorenzo Stoakes	
- <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"	
- <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Jiri Slaby	
- <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev
-Date: Wed, 23 Sep 2026 13:31:49 +0000
-In-Reply-To: <2026092356-chatting-dust-3de9@gregkh>
-References: 
-	<20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
-	 <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
-	 <2026092356-chatting-dust-3de9@gregkh>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-69hyOdobKMKNJBb5gHBc"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NHhZfGyt";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gAg/X4Lt"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NBbY0p3028025
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 13:45:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=; b=NHhZfGytzmWFyCsj
+	Zbq1+A+FQqTZC64KnzfYTjTVPG4qQ2PppdfaDev7x8JA0PLgl8xEusRGtaUk2Jnu
+	dktSsj6AkBdohfO4tO1sewfq6TnnSSJAfWsSJiulrAuLH1YzPMPiVH1eN1YzL+gr
+	rXl5tjJO3b9ESRI7PcAkNumaqBIipyJqWDIi7+ikcMskQZRd0A3wRk2DfxasF1it
+	2mcq9TNtRWWuNicMFsLObGoyuSiP7WGMx9NrG7MnL3ooMu+9W0VVVhVHfTo5swQf
+	RGt6T1OymuOg3EfZA02+riv6lxDfUWyRTWk+mzOgJ+2ZyLA7Gl/eBGkdBvnXp9gg
+	Mxdl+Q==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvbwas3sq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 13:45:47 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-7a760965865so70618137.3
+        for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 06:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790171146; x=1790775946; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
+        b=gAg/X4LtWQSSwkdCZanQXrp6WWWxRDYOl9sEVtEmS17VL/LELEm6HKDknza6IGq/GB
+         uBDpQuDVwl4R1qCdGmmJ7XN/ETbiq/b1bhsmrtqQcaQ4A1yqugamv3gloPoe0c1a8Syg
+         5S8YVRYJf3hMtYzBHJ/Sb2cJOyLKzGPuzCNSyeE9/mbH0CvHtQWVk7ruH+E2xqFzP+kV
+         9pLA9R7O//6PT6sdZ1le+dMpy7clBUvNV0yleaELTRMBKB2k6mirTHEdLU0+M/YurqQ5
+         hIGCH6eequ6YUp1+d9XOzGKBepijk6TYMRO3Tyc8cVJxH84/n4joO/UNNtqcAhIRO0ne
+         bipQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790171146; x=1790775946;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
+        b=UUX7KEXy06+nXKIvRneuW3enJD90e5lapIogRf2URL4/dZ18K9BphxhUb6GU+qLSsq
+         XF3NYxqYPJwmcfS9o8hKLr2XbznzQt8Mo50fM0t0TTxo1aolCcbQtLOQ9TskydG7M9ki
+         41DGjfKD8IOgdNK2GY9kJ/6tWQ2QyEx1+MTLWTEypduy9wFhQtZwxseTHYrCResvazQo
+         OORW3aX2BHHI+p1nelx+jxsd6dgFrOIC63hANyYovdr7bFQR/jt07lq51c/UOpbl544G
+         NKi0uCXIVOb317Azj0CzTN4W+1eJaZ8ExOqA8oEsGtttKX8B5wqzuTqTiUtfMEiZ+W6Q
+         9Ntg==
+X-Forwarded-Encrypted: i=1; AKwUvBw1Ub/MIbNG4BlabgPomNYLEPFXHKEBSdHcfpzWRGAw1XiwaZN1D2s8r6GpDW+UpC+EOAX4V5ePn3uRtQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++nF7yemczac8jqhGQPdq9gMMugrsbeRfju3NaObBkRscpR2j++l
+	TqFE7/FQKV8LwuHBZ7PHnAvAh3uZPdYMjFq8rHhYqKRvxM8ZhHfPVW8x9Qjtudtjxc+HHjsvOIa
+	56RpMF2G6/71naRrKSZQb/T+cuw/NfwRcU9N4rgn/Rrg3xcrlOEtt9p+HVYFXIx4IWg==
+X-Gm-Gg: AYBFou0PsaVip09jiAE4sjSvEo3k0LMTNTcdkKI7YhsweM0DD6va5wYPHQhog1mIC34
+	fYOvgjiMHPVzRJDnJl1Mb77F3BLd3Sg9s5vSHMQBie/u/JpxqiK96ithlaweiaj82njm0rPa0Tz
+	0XlZPdK9v6LXxE4GwYeu3veOlvaMzaItfZQo238CDqjCfb1hkBZZTEUPJ3D46glqIK0wLFHnEcy
+	g4sVl7cuXyuE5YcCIaFv0eqnzImzITQPRK7YW5hMDmAojqRcCclTVVxCOyyBlJ7a/viP3UUN7rs
+	3LZLn4ToZ6ekAeygkws0wuMTKh0zkKhqo0/K/7wDzCuQkZEY1wcIgsieblJEpKQxAS1MLKJapL8
+	HQBT1zkZ7LWIRh7U3XY5kJA==
+X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548263137.2.1790171146492;
+        Wed, 23 Sep 2026 06:45:46 -0700 (PDT)
+X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548220137.2.1790171145961;
+        Wed, 23 Sep 2026 06:45:45 -0700 (PDT)
+Received: from [192.168.202.12] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aab37478c9sm1722267a12.0.2026.09.23.06.45.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 06:45:44 -0700 (PDT)
+Message-ID: <32bceb7e-d06b-4537-9d34-91bfe27f4ff7@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 15:45:40 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/16] usb: hub: Associate port@ fwnode with USB port
+ device
+To: wens@kernel.org
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger
+ <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260721065413.2306137-1-wenst@chromium.org>
+ <20260721065413.2306137-7-wenst@chromium.org>
+ <c6526ba0-be08-46c6-a501-1b161939657c@oss.qualcomm.com>
+ <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX636z3xMb7kGM
+ dmv62sdGdB9V5oJUTKs1Nd29av5JNyvIbFsepx0oXRSKe3p+iVqfNQ5qWn4EGa++p0vpKBZSb1I
+ svAi0YXzd2bMR2dfAf8nPou3/0S0oUAi3HrKVsolycebmWZ5AA/oPdxbW2V9BN/9wxTU0R5oiJ+
+ dLxjtgmvMmZEg5xixsvjK10lKe5tcfzU95ctGGFTzgFzVgqRo5/Gf49A55ie1+11+i5y0BotCbo
+ iupVZQn/PY0fHjVnN7tD6EgDT2yJGxiwn7Gx5CY96fgUl2KSCWAQyQIlWNvJ/sQTzApiEZs+v13
+ 1tkS3Dhb3VdkZbffqJoxGjhUzKeNhTrC/Xyt3F4k7pdBhLVPzxydBmBQCC8l/9GYWnJPR8kwsY5
+ f0e2X4i9xUCNnVclTKt+OdeabgnQvvyrLawMYNBWV2d5w4nfvKscSyldx3fMP7ZJ1r48MOMF9eG
+ 80sEmaNqGxJPiSuuTrg==
+X-Authority-Analysis: v=2.4 cv=HfuB3SE8 c=1 sm=1 tr=0 ts=6ab3d80b cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=M7ONEjnSaIfHBpTaVFwA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=gYDTvv6II1OnSo0itH1n:22
+X-Proofpoint-GUID: 3MHrJ4avI5RZtZlhF476LA3ZVOhi2IPF
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX4Y/Ybh70r4IG
+ 9hr5hajtchzgcmbpYrQZETcWJaEBx22opUovaG5f4DobhnpRkrA6fb4gFRX77OOWF8D6Ihu+vug
+ +juTH+mbT1iPOLfQKfu8C2Qqu/H+jZc=
+X-Proofpoint-ORIG-GUID: 3MHrJ4avI5RZtZlhF476LA3ZVOhi2IPF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230054
 
+On 9/4/26 12:30 PM, Chen-Yu Tsai wrote:
+> (dug this out of my kernel.org email)
+> 
+> On Fri, Jul 31, 2026 at 10:44 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>
+>> On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
+>>> When a USB hub port is connected to a connector in a firmware node
+>>> graph, the port itself has a node in the graph.
 
---=-69hyOdobKMKNJBb5gHBc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Wed, 2026-09-23 at 12:35 +0200, Greg Kroah-Hartman wrote:
-> On Sun, Sep 20, 2026 at 02:29:58PM +0000, Markus Probst wrote:
-> > These functions will be used to simply the serdev rust abstraction. It
-> > also contributes to the fixing of 2 race conditions in the serdev rust
-> > abstraction.
-> >=20
-> > Signed-off-by: Markus Probst <markus.probst@posteo.de>
-> > ---
-> >  drivers/tty/serdev/core.c           | 50 +++++++++++++++++++++++++++++=
-+++++++-
-> >  drivers/tty/serdev/serdev-ttyport.c | 38 ++++++++++++++++++++++++++++
-> >  include/linux/serdev.h              |  6 +++++
-> >  3 files changed, 93 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-> > index 7500efcdfc21..7d24f16710cb 100644
-> > --- a/drivers/tty/serdev/core.c
-> > +++ b/drivers/tty/serdev/core.c
-> > @@ -187,6 +187,51 @@ void serdev_device_close(struct serdev_device *ser=
-dev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(serdev_device_close);
-> > =20
-> > +/**
-> > + * serdev_device_pause_rx() - pause data receive
-> > + * @serdev:	serdev device
-> > + *
-> > + * Pause calls to receive_buf.
-> > + *
-> > + * The caller must guarantee that this does not run concurrently with
-> > + * `serdev_device_open` or `serdev_device_close`.
-> > + *
-> > + * Note that if a call to receive_buf is currently executed, the funct=
-ion will
-> > + * sleep until it has finished.
-> > + */
-> > +void serdev_device_pause_rx(struct serdev_device *serdev)
-> > +{
-> > +	struct serdev_controller *ctrl =3D serdev->ctrl;
-> > +
-> > +	if (!ctrl || !ctrl->ops->pause_rx)
-> > +		return;
-> > +
-> > +	ctrl->ops->pause_rx(ctrl);
-> > +}
-> > +EXPORT_SYMBOL_GPL(serdev_device_pause_rx);
-> > +
-> > +/**
-> > + * serdev_device_resume_rx() - resume data receive
-> > + * @serdev:	serdev device
-> > + *
-> > + * Resume calls to receive_buf.
-> > + *
-> > + * The caller must guarantee that this does not run concurrently with
-> > + * `serdev_device_open` or `serdev_device_close`.
-> > + *
-> > + * This can be called even if not paused to ensure data receive is act=
-ive.
-> > + */
-> > +void serdev_device_resume_rx(struct serdev_device *serdev)
-> > +{
-> > +	struct serdev_controller *ctrl =3D serdev->ctrl;
-> > +
-> > +	if (!ctrl || !ctrl->ops->resume_rx)
-> > +		return;
-> > +
-> > +	ctrl->ops->resume_rx(ctrl);
-> > +}
-> > +EXPORT_SYMBOL_GPL(serdev_device_resume_rx);
-> > +
-> >  static void devm_serdev_device_close(void *serdev)
-> >  {
-> >  	serdev_device_close(serdev);
-> > @@ -398,6 +443,7 @@ EXPORT_SYMBOL_GPL(serdev_device_break_ctl);
-> >  static int serdev_drv_probe(struct device *dev)
-> >  {
-> >  	const struct serdev_device_driver *sdrv =3D to_serdev_device_driver(d=
-ev->driver);
-> > +	struct serdev_device *sdev =3D to_serdev_device(dev);
-> >  	int ret;
-> > =20
-> >  	ret =3D dev_pm_domain_attach(dev, PD_FLAG_ATTACH_POWER_ON |
-> > @@ -405,7 +451,9 @@ static int serdev_drv_probe(struct device *dev)
-> >  	if (ret)
-> >  		return ret;
-> > =20
-> > -	return sdrv->probe(to_serdev_device(dev));
-> > +	serdev_device_resume_rx(sdev);
-> > +
-> > +	return sdrv->probe(sdev);
-> >  }
-> > =20
-> >  static void serdev_drv_remove(struct device *dev)
-> > diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/s=
-erdev-ttyport.c
-> > index bab1b143b8a6..e8aa89e733bd 100644
-> > --- a/drivers/tty/serdev/serdev-ttyport.c
-> > +++ b/drivers/tty/serdev/serdev-ttyport.c
-> > @@ -7,8 +7,10 @@
-> >  #include <linux/tty.h>
-> >  #include <linux/tty_driver.h>
-> >  #include <linux/poll.h>
-> > +#include "../tty.h"
-> > =20
-> >  #define SERPORT_ACTIVE		1
-> > +#define SERPORT_PAUSE_RX	2
-> > =20
-> >  struct serport {
-> >  	struct tty_port *port;
-> > @@ -32,6 +34,14 @@ static size_t ttyport_receive_buf(struct tty_port *p=
-ort, const u8 *cp,
-> >  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
-> >  		return 0;
-> > =20
-> > +	if (test_bit(SERPORT_PAUSE_RX, &serport->flags))
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * Ensure writes by the driver are visible before allowing traffic to=
- resume.
-> > +	 */
-> > +	smp_mb__after_atomic();
->=20
-> This scares me.  Why not use a real lock?=C2=A0
->=20
-I can use locks to make it less "fragile". But I don't I think I need
-them.
+>> But something I faced when I was poking at USB4 was that dt-bindings
+>> currently assume every controller is effectively single-port and the
+>> of_graph ports under it represent HS/SS lanes, i.e. the entire
+>> "ports" subnode represents a single USB port
+> 
+> Which controller is this? AFAIK for xHCI hosts there currently is no
+> "ports" node specified in the common usb-hcd.yaml binding. I plan to
+> add this separately, as it can already be used for USB A connectors.
 
-> WHat's the issue here, you
-> need this to be "flushed" before this call:
->=20
-> > +
-> >  	ret =3D serdev_controller_receive_buf(ctrl, cp, count);
->=20
-> here?
->=20
-> And you just tested a bit, you didn't set a bit, so what are you trying
-> to ensure is written exactly?
-This should be an acquire load operation (paired with the release store
-operation in `ttyport_resume_rx`).
+DWC3, the qcom flavor specifically (qcom,snps-dwc3)
 
-It ensures that any writes before calling `ttyport_resume_rx` are
-visible in the `serdev_controller_receive_buf` invocation.
+> The kernel maps every downstream port of the root hub to a separate
+> node. On the XHCI it is more complicated because it has two root hubs,
+> one for HS and one for SS. I'm not familiar with the hardware specifics
+> but they seem to map into one common namespace, so you probably get
+> ports 1~8 for HS and then 9~12 for SS. Note the number of ports is
+> different. This is just an example from my x86 workstation. And on
+> x86 each port is mapped to a different ACPI node.
+> 
+>> I think the solution here would be to do ports {} under the controller
+>> and have every one of them have 2 endpoints (for HS and SS
+>> respectively) - then, each DT-port would correspond to a USB port
+>> (sorta like in the hub case, minus the hubs are split for HS/SS so
+>> they have just a single endpoint under each port)
+> 
+> But the hardware descriptors actually give two ports, one for HS and one
+> for SS. And in the case of dwc3, I suspect that they always come with
+> one downstream HS port and (optionally) one downstream SS port. So the
+> binding is actually correct, except for the numbering.
 
+Ohh yeah I overlooked the HS/SS port split.. I think you're right!
 
-For instance, in the Rust abstraction the following will be called in
-order in probe (with the following patches):
+> I'm looking into the dwc3 case. Changing the numbering might actually
+> not break anything. Linux seems to just need one *a* graph connection,
+> but doesn't care about the number. I looked through some other projects:
+> 
+> - FreeBSD doesn't use the OF graph for anything
+> - U-boot doesn't use the OF graph for USB
+> - OpenBSD doesn't support dwc3, only the XHCI in dwc3, and doesn't use the
+>   OF graph for USB
+> - coreboot doesn't use the OF graph for anything
+> - Zephyr doesn't support dwc3
+> - TF-A doesn't use the OF graph for anything
+> - EDK2 doesn't support dwc3 and doesn't support OF graph
+> - OP-TEE doesn't support dwc3 and doesn't support OF graph
+> 
+>> But that comes with a big breakage, as always..
+> 
+> As I mentioned, it probably isn't as large of a breakage.
 
-- serdev_device_pause_rx
-- serdev_device_open
-- dev_set_drvdata
-- serdev_device_resume_rx
+That's very welcome for a change! Thanks for checking all of them.
 
-This atomic lock effectively ensures in this example that the set
-device driver data is visible to `ttyport_receive_buf` before
-`SERPORT_PAUSE_RX` is unset in `ttyport_resume_rx`.
-
->=20
->=20
-> > =20
-> >  	dev_WARN_ONCE(&ctrl->dev, ret > count,
-> > @@ -156,6 +166,32 @@ static void ttyport_close(struct serdev_controller=
- *ctrl)
-> >  	tty_release_struct(tty, serport->tty_idx);
-> >  }
-> > =20
-> > +static void ttyport_pause_rx(struct serdev_controller *ctrl)
-> > +{
-> > +	struct serport *serport =3D serdev_controller_get_drvdata(ctrl);
-> > +	struct tty_struct *tty =3D serport->tty;
-> > +
-> > +	set_bit(SERPORT_PAUSE_RX, &serport->flags);
-> > +
-> > +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
->=20
-> What keeps this bit from being set right after you test it?
-The statement "The caller must guarantee that this does not run
-concurrently with `serdev_device_open` or `serdev_device_close`." in
-the kdoc of `serdev_device_pause_rx` does.
->=20
->=20
->=20
-> > +		tty_buffer_flush_work(tty->port);
-> > +}
-> > +
-> > +static void ttyport_resume_rx(struct serdev_controller *ctrl)
-> > +{
-> > +	struct serport *serport =3D serdev_controller_get_drvdata(ctrl);
-> > +	struct tty_struct *tty =3D serport->tty;
-> > +
-> > +	/*
-> > +	 * Ensure writes by the driver are visible before allowing traffic to=
- resume.
-> > +	 */
-> > +	smp_mb__before_atomic();
-> > +	clear_bit(SERPORT_PAUSE_RX, &serport->flags);
-> > +
-> > +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
->=20
-> Same here.  Are you sure you don't need locks?  This feels wrong.
-Same as above.
-
-Thanks
-- Markus Probst
-
->=20
-> thanks,
->=20
-> greg k-h
-
---=-69hyOdobKMKNJBb5gHBc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmqz1MEbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSdo4QAKqh+41BIzuT07DLtuHX
-qipyb598cM9aO5TTZR/y4p41aobSRfaDFJmG8hXktXo53cpp20XKt6SslxlBefGi
-mvrrPbBlM2tZHw8Z0sASMBGSN8eQCoUgbAnOT6KM27aTDs0itD/OjY/GmUTlQVdr
-C/qV28ISajCrRIorI/CB8M9iGxJaD88SsDJoU7dnnaRJgkoADGxbiTweltUxUdhb
-Vs+hJURxIy6MS3f0mrs4kS1GXJo2gnSpRKT8akqdZqEkr1oSI33Fi1eHs/JE2LN+
-AyGeqxg7F5BIoZdd3GTNXtA+Ykr5si82Oy/dyphLxmrfWQHvZ0vmCfOpyJaehc1W
-JQaOKzmKtZfkctpNUqcmgbYS3pjGv2KfvYiWbT5z/I5vCog5GMiidwn/cD++QCUD
-2ek2Oxk+B1XloPEPeHg+Dj2R2+osuMCA+NROEBxtjaEk7LvLZxrlWOm9udhZtG/S
-Ro+EE6VB9O3MfuJOkYNgETbNdzMyTtMGj1zXBiY8N9JapxfKB6ZnGbvZUncjTjzh
-r5yuO3Bp3jOuax0uZyunuPbEeux7qrC4KkBDr8WTwtnv/2jCpw8wqT14H4rR903f
-WO3XTuUXarprGS2pWZp0xD0K4S5Vw1ua8+IWwl81IH73/TeXwLFfvTCKTSScfj3d
-WyavN7LBbOeLFcSPyKDPyACr
-=kPQr
------END PGP SIGNATURE-----
-
---=-69hyOdobKMKNJBb5gHBc--
+Konrad
