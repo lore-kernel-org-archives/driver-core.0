@@ -1,229 +1,236 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC5137F338
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93FB372EF5
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790131005; cv=none; b=S3RZZCGinQ8OB7759oHmrcSgpiXXaUGv1ZA142e4ZmVS8qD7xPB+4BcZuB9aqLSceAlBXn4pxNBPEUAcy/J2+S9OZP43zGXPWiUnFy3UGKtaeglojuZjD2/cejEvPkpzX8rxD+9g/pc8I+l5G88ZkcTv3mRE4eiy+UuAoiGjWMg=
+	t=1790132398; cv=none; b=j3MiVtyKnH1XG6uqNdNitdhFkkKSqx1x8Fbd3E3MRJ23O9c2aEmz6TVDxcDtPWst/30Sv2FrMjNn8TylmNZPxvdV4riIVuN5eG82+iCLRT1YHNEG9joJg7CXEH7nEZANFtVbOD4Zn5tXugPRIB29YcQQnnYmakYikZ67wbOSA48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790131005; c=relaxed/simple;
-	bh=8HSKNZVjdiIi+cplSdO+PtQgeeN5fbHnotSMEBFEFVM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBLM88MQuIjPrCaQU4+n6VjTNaVVO22gjDpcFTAuVEo7BpP8xVf4DzpXte+ufiIAPKplO17Hy+I2DMprYcqKKsYuRLjixBLoEXrDo+QMSduuCFI1t6T24N50F67StFezoite7BhcTV0MuwwIjsbsLpC71hiomUbHYpy7dOgnceY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1x9Cqc-0000000032G-25JD;
-	Wed, 23 Sep 2026 02:36:38 +0000
-Date: Wed, 23 Sep 2026 03:36:35 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v17 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <ac0b51c0505596d1523b3d471b497a0c5515108e.1790130482.git.daniel@makrotopia.org>
-References: <cover.1790130482.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1790132398; c=relaxed/simple;
+	bh=RMKbGXPUS+GUMUHxSbHbcqX4rPxmEL/XQKVk0tP4MBw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CTTb38ND18yzEP1RmWeGxHXqLZE4CBh6a/tEqs9gS8IBMEETPk4WfhxKvrbn96q7VFF3ZwgJKMeWDeVsjIhoOIWJ+kECUkIfxEqgdyEvEopnovmU78l0CD38wBPzjrMT9ircK4hX62LYkq4eyd/WERcf6F6LDGcbuZQHBU6CsZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wq8YoPsK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cMvLtKD7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wq8YoPsK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cMvLtKD7"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MJBkpV3897620
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=; b=Wq8YoPsKkFmdS5IQ
+	27CNPJF4Y55SVu/HVYyhJ+VIYXGt78vPWF7zB24f8c3q0F4/dmqjBrBOeqW4kslh
+	10sIcD5NF2b6j8inY0eB+x9WOI15zG8Zx3ESCSqye8V6gXYr7JEOppFdyJMpy6E6
+	rRubpQAz0M+zTx6UZ5VkeUDEIuUljlCbUzV/6kupOgE9bHwQ7669E6S2onpLYCiZ
+	RY6jkAP6q+jjy98CVye6d6Ylcy/VVZvN0b0TJeHkY93wJvT39bm2EbuJJFKvGJIW
+	3jY7lxYS5KUk2AisHm4cizcPrIAZdEaOjPB6HBvpz6HxXNmtczNJYJ6u6K6VUw2M
+	kJKP+w==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guyma1p48-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:55 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39b6416441eso780183a91.1
+        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 19:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790132390; x=1790737190; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=;
+        b=cMvLtKD7pI7lf7QlEBfMsT+LDwc+0AFn8u+2oPzMZwk1yYJcQwxxPLC7QHcjQ2r542
+         3kukb00u+05m/IgNg68qlKVBAFPSkevDzRmotl7Evi7hiZbXiFW66lRzOCApskAm9s8o
+         vuv3URJSSesJfrUZ7WmbXCkpacH3o1mfBDYAJ/pTYsd2fy1z4Xd+XBVfaBAJFUe/04bi
+         Gdvj7KQ/nCs80DFh0JbWoiQz5uebhHlgfVJvj+2cnifomcKE6NY9MOWFhV3FrTEN+/pr
+         /ZPhsTumNOHi6u/IdvSUoK9zYaCSNOSBzaZZqL+/BAYT+jrEaPvIaU4xWldEUtXeqXE5
+         M7SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790132390; x=1790737190;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=;
+        b=M2fsKqZXH73NVmg/mGY0w2lEXcmKITNajSLl17i0Yyw5NlLLumwd9UZ+1MWjbl710f
+         jisIcZH3YzwKJWrISD943JvhsQhqJRl2UM/ZtJVdCIoM1HoA1WvgfZM4k2/vk/CMMl9q
+         jTUDROHTx+H4lxh7+wWiAfBKVFBuofFoJQ43fisGrIf/2A59y7DPqwESI5lo8slGVlie
+         YuOdzSW0x9Ej9MB3Zn7P6TEpxm3qw2GoQXNFAmqv/s/ir588yEfs+i7CfLqO/+M6JaYn
+         0Swl2506MitMjt3WV3C09JlAhUcJmSAG6vhTFnO9GmM3ItE/sOHm/EmpCQLrpmX2BD1J
+         HRyw==
+X-Forwarded-Encrypted: i=1; AKwUvBxJAqgdtYKw4XgizA/Lg3Ia1hPMYuaYR7jEiasm+0NkMWtpZvMYxP1JGx51gjE88KogzNvznVjddnonhg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lQTwL9nRA0L8088RIDPTP+Y5PY4PzogQ4ZlZT9Z3m5oUZxq9jy
+	JbpR9GV4opDY27tVYCq/vBAeilI3lMRt45gNlqksJ+IFytz0rO9BuRPnspf6BEz6eREICMN8q6t
+	kPn59bnpDCiysA1S6aWyQ6pfa9n/c/gciLNbBiKVLO6/KNz6oy9v4LA5ek7d3ePtyIA==
+X-Gm-Gg: AYBFou36PHdlrIumOiWdOkT0kN0NZcSJQdqJTsD++s/NYDyTQTxntECxq3RyAajNZUK
+	QAv2ZMLZURE7zmhBccEB/Vy+yQTiJEjWP2LUWf0siyt63HSgn1wRl2lc1si47lZXf8CxHIQ+w2V
+	wkugpm3vGGREgfrGBheTO1djjg3Rw7IlHTIntwwegYGfw/GS9VyKWkw7dBfu2vPYejesZ3uF6d5
+	VAlBI8G4Q93A85ZGGyM/fJ3DMlyzOu0Mj2uC6vF7SrlotvOVZ7Vswen/YUD1pYYpQY40M/TshY3
+	a9mdJBTDQNEmATObtk5c7RTPWh7c/g1JuY24P0z0PvJuc5/j6JBa5cmakykrVcqaVDHgD9/q08O
+	g686JM+dDv9A9RtKnm1ANMRnLMnQIqF5d1enjhZ05wSQzCruAEnh5FK099nY9m8Q=
+X-Received: by 2002:a17:90b:4a0a:b0:39e:6c68:c789 with SMTP id 98e67ed59e1d1-3a07e71cc99mr1203578a91.63.1790132390112;
+        Tue, 22 Sep 2026 19:59:50 -0700 (PDT)
+X-Received: by 2002:a17:90b:4a0a:b0:39e:6c68:c789 with SMTP id 98e67ed59e1d1-3a07e71cc99mr1203540a91.63.1790132389605;
+        Tue, 22 Sep 2026 19:59:49 -0700 (PDT)
+Received: from [10.133.33.57] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df6a5de5c8sm3352105ad.60.2026.09.22.19.59.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 19:59:49 -0700 (PDT)
+Message-ID: <272abb48-8f13-4fe8-a7ab-bfa353f1f8ec@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 10:59:19 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1790130482.git.daniel@makrotopia.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 07/10] arm_mpam: Fix mpam_dt_create_foundling_msc()
+ to create MSC platform devices
+To: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Ben Horgan
+ <ben.horgan@arm.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas
+ <catalin.marinas@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+        Drew Fustini
+ <fustini@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>,
+        Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+        trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+        ganapatrao.kulkarni@oss.qualcomm.com,
+        Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
+ <20260914-mpam-resctrl-dt-knp-support-v2-7-bf6645bb2f65@oss.qualcomm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <20260914-mpam-resctrl-dt-knp-support-v2-7-bf6645bb2f65@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Nn_hjXp-gfKpY0z8hkIzDdRLYE7DbNvq
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAxMSBTYWx0ZWRfX8zlURkXKob7D
+ 7IsYt2j61q9mWpgGAc2U1QEq8lkn7RUu7rhq54NGEERZNJCAZZOX/fQOjnbB89o9gJEM+fN3RI7
+ PFj64gGZzVUqmXKsnDXzxLjoagjEwAg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAxMSBTYWx0ZWRfX+6Gj+PD02OcI
+ J2TlVI4TuKIZWa/llw1vv0RT6zZ9Pyrfqp/rXhseW7mjwmu/YXBIsPxJEONSwhaguqiWtNSqAyC
+ jsxFZ0fuSFtnfS9ig2Jbx9InyQFU/Nps2yOr0e0MeS0m6xo/ttrMHiFs2fD6EiZ1jqw8MyV9HPS
+ ysVQF3pD7GjtZ/IsTYYlhTDk/fBz6YkaL7PTUCJ7sn9nw6lE55aCUUFBbRexo967P4jPSZDgtg6
+ ul3royeK9PiVX2GrUcA8gHrTarQkXWqTwD78O+BSKTyWkq55DvpxjNnTvOlFxq69nzM4bkTzNpC
+ greQmDvmq1VYuWallQoxjvZ/b65e5RwgPz3o/SygHYt9JC7B2Kx5127hmw13WjPhDQA0WyHbGVd
+ vbk+/3xk8WWYYRdyRXBFS1R1czYrDyqtESqzQWTeMHbCHpWKXNw1DpH7paTdDVIxXuNlmkKm0ce
+ kZV1OKKdpXH4DuXBTVQ==
+X-Authority-Analysis: v=2.4 cv=N828hG9B c=1 sm=1 tr=0 ts=6ab340ab cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=2UIP8dk73OJ_h1EwUPsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-GUID: Nn_hjXp-gfKpY0z8hkIzDdRLYE7DbNvq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-22_03,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0 spamscore=0
+ impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230011
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
 
-Assisted-by: LLM
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
----
-v17: no changes
-v16:
- - document that a reboot waits for a running flash and that one
-   requested afterwards is refused, and that a bus error ends the
-   download recovery for good
- - title-case the "Flash Update" heading, as the other devlink driver
-   documents do
- - say that the ports come back down from a flash, that a reprobe which
-   cannot be scheduled needs a rebind, and which of the two recovery
-   failures needs a power cycle and which a rebind (found by Sashiko AI
-   review)
-v15:
- - asic.rev is read from the CHIP ID registers as well, not from one
-   register word shared with asic.id (found by Sashiko AI review)
- - -EIO says the driver gave up on the recovery, which may need a driver
-   rebind rather than a power cycle, and an interrupted opening
-   handshake is reported the same way (found by Sashiko AI review)
-v14: no changes
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
 
----
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 91 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 93 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+On 9/14/2026 5:37 PM, Yin Li wrote:
+> The original code created a platform device for the cache node itself
+> rather than for the MSC, so the MSC was never created. Instead, walk
+> the cache's children using for_each_child_of_node_scoped() and create
+> the platform device for the MSC child node, skipping cache parents
+> that firmware has marked disabled.
+> 
+> Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> ---
+>   drivers/resctrl/mpam_devices.c | 27 ++++++++++++---------------
+>   1 file changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index 480e38cfa86d..7ef3ed55b066 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -2366,23 +2366,20 @@ static struct platform_driver mpam_msc_driver = {
+>    */
+>   static void mpam_dt_create_foundling_msc(void)
+>   {
+> -	struct platform_device *pdev;
+> -	struct device_node *cache;
+> -
+> -	for_each_compatible_node(cache, NULL, "cache") {
+> -		struct device_node *cache_device;
+> -
+> -		if (of_node_check_flag(cache, OF_POPULATED))
+> -			continue;
+> -
+> -		cache_device = of_find_matching_node_and_match(cache, mpam_of_match, NULL);
+> -		if (!cache_device)
+> +	for_each_compatible_node_scoped(cache, NULL, "cache") {
+> +		if (!of_device_is_available(cache))
+>   			continue;
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 1af780c811ee..53d3ef16d13f 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..793f3521f505
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,91 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version, read from the CHIP ID registers as well. Both
-+       values are published behind the same check, so it is omitted
-+       whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash Update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware; they
-+come back registered but down, so userspace brings them up again. A
-+complete flash and reprobe cycle takes about one minute. In the rare
-+case that the reprobe cannot be scheduled at all, ``devlink dev
-+flash`` reports that error and the driver stays bound to a switch it
-+no longer tracks until it is unbound and rebound. A reboot started
-+while an update is running waits for the transfer to finish, and an
-+update requested after the system has begun shutting down is refused
-+with ``-ENODEV``.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the driver gives up on the recovery, ``devlink dev flash`` returns
-+``-EIO`` and says so in its extack message. The drain runs once and is
-+never resumed, so a failed MDIO transaction ends it as well. A loader
-+that stops answering the drain needs a power cycle; a completed drain
-+whose reprobe could not be scheduled, and a drain a bus error cut
-+short, need only a driver rebind. The driver re-examines the switch
-+when it binds and at no other time, so a power cycle on a board where
-+the switch can be cycled on its own still has to be followed by an
-+unbind and rebind for the recovered switch to be recognised.
-+
-+A download interrupted during its opening handshake, before the image
-+header reached the loader, is reported the same way. The loader waits
-+for a header that no later session can supply, so that state needs a
-+power cycle.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e3ce77c839b0..db2b36581067 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16248,6 +16248,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
+Hi,
+
+As sashiko-bot said：Checking of_device_is_available(cache) here 
+introduces a mismatch with mpam_dt_count_msc(), which only checks 
+whether the MSC node itself is available, not its parent cache. And in 
+practice, cache nodes are rarely if ever marked as disabled in the 
+device tree, so this check adds unnecessary inconsistency without a real 
+benefit.
+
+I'll remove the cache availability check in the next version to keep the 
+two consistent.
+
+Thanks,
+Yin
+
+
+> -		of_node_put(cache_device);
+>   
+> -		pdev = of_platform_device_create(cache, "cache", NULL);
+> -		if (!pdev)
+> -			pr_err_once("Failed to create MSC devices under caches\n");
+> +		for_each_child_of_node_scoped(cache, child) {
+> +			if (!of_match_node(mpam_of_match, child))
+> +				continue;
+> +			if (!of_device_is_available(child))
+> +				continue;
+> +			if (of_node_check_flag(child, OF_POPULATED))
+> +				continue;
+> +			if (!of_platform_device_create(child, NULL, NULL))
+> +				pr_err("Failed to create MSC device for %pOF\n", child);
+> +		}
+>   	}
+>   }
+>   
+> 
+
 -- 
-2.55.0
+Thx and BRs,
+Yin
+
