@@ -1,236 +1,259 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-204.mta1.migadu.com [95.215.58.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93FB372EF5
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800A237E2E2
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 05:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790132398; cv=none; b=j3MiVtyKnH1XG6uqNdNitdhFkkKSqx1x8Fbd3E3MRJ23O9c2aEmz6TVDxcDtPWst/30Sv2FrMjNn8TylmNZPxvdV4riIVuN5eG82+iCLRT1YHNEG9joJg7CXEH7nEZANFtVbOD4Zn5tXugPRIB29YcQQnnYmakYikZ67wbOSA48=
+	t=1790139700; cv=none; b=Ts1jDYGrmxLZxBrwSXbenu88vM6t+UGIWo7R/yPxPRJFezYZHsj7XJyMT3TSngBA6snYiyGU1UA7I44XDd9Y3qlyfOzQe8DE+s/U3QmY3iM84nzJ6L/pUn7DWiUMM+WWqhHiSL0ENx7K4F7+S1S0bh+4TC83ew5FY8DZKsjSkk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790132398; c=relaxed/simple;
-	bh=RMKbGXPUS+GUMUHxSbHbcqX4rPxmEL/XQKVk0tP4MBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTTb38ND18yzEP1RmWeGxHXqLZE4CBh6a/tEqs9gS8IBMEETPk4WfhxKvrbn96q7VFF3ZwgJKMeWDeVsjIhoOIWJ+kECUkIfxEqgdyEvEopnovmU78l0CD38wBPzjrMT9ircK4hX62LYkq4eyd/WERcf6F6LDGcbuZQHBU6CsZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wq8YoPsK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cMvLtKD7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790139700; c=relaxed/simple;
+	bh=r/3KOrdYUmNwVxOcGvSaTbUTTWcz2w7l4T8WkfBT2jM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JhObPWoIesbVjmfOYik7ZGbChlYDryk+TQmYAbP77XAZYdI5JYWdLAMS1ZP+GoL/SCz3lUY4HhAYTN3kpyoFHBl5D2bRQQ0EP6hV/ygX8izOPWcJa1nMbye1LJBLa40l3KafU+PXbOi5JebIgQuv1YenboDb6GkqKel+fn1p0f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=q+yng8TP; arc=none smtp.client-ip=95.215.58.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wq8YoPsK";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cMvLtKD7"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MJBkpV3897620
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=; b=Wq8YoPsKkFmdS5IQ
-	27CNPJF4Y55SVu/HVYyhJ+VIYXGt78vPWF7zB24f8c3q0F4/dmqjBrBOeqW4kslh
-	10sIcD5NF2b6j8inY0eB+x9WOI15zG8Zx3ESCSqye8V6gXYr7JEOppFdyJMpy6E6
-	rRubpQAz0M+zTx6UZ5VkeUDEIuUljlCbUzV/6kupOgE9bHwQ7669E6S2onpLYCiZ
-	RY6jkAP6q+jjy98CVye6d6Ylcy/VVZvN0b0TJeHkY93wJvT39bm2EbuJJFKvGJIW
-	3jY7lxYS5KUk2AisHm4cizcPrIAZdEaOjPB6HBvpz6HxXNmtczNJYJ6u6K6VUw2M
-	kJKP+w==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guyma1p48-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 02:59:55 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39b6416441eso780183a91.1
-        for <driver-core@lists.linux.dev>; Tue, 22 Sep 2026 19:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790132390; x=1790737190; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=;
-        b=cMvLtKD7pI7lf7QlEBfMsT+LDwc+0AFn8u+2oPzMZwk1yYJcQwxxPLC7QHcjQ2r542
-         3kukb00u+05m/IgNg68qlKVBAFPSkevDzRmotl7Evi7hiZbXiFW66lRzOCApskAm9s8o
-         vuv3URJSSesJfrUZ7WmbXCkpacH3o1mfBDYAJ/pTYsd2fy1z4Xd+XBVfaBAJFUe/04bi
-         Gdvj7KQ/nCs80DFh0JbWoiQz5uebhHlgfVJvj+2cnifomcKE6NY9MOWFhV3FrTEN+/pr
-         /ZPhsTumNOHi6u/IdvSUoK9zYaCSNOSBzaZZqL+/BAYT+jrEaPvIaU4xWldEUtXeqXE5
-         M7SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790132390; x=1790737190;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Wv7VUHWdp7FOHwnmCDQTxgbKyh+3nz706HoUphQe+oo=;
-        b=M2fsKqZXH73NVmg/mGY0w2lEXcmKITNajSLl17i0Yyw5NlLLumwd9UZ+1MWjbl710f
-         jisIcZH3YzwKJWrISD943JvhsQhqJRl2UM/ZtJVdCIoM1HoA1WvgfZM4k2/vk/CMMl9q
-         jTUDROHTx+H4lxh7+wWiAfBKVFBuofFoJQ43fisGrIf/2A59y7DPqwESI5lo8slGVlie
-         YuOdzSW0x9Ej9MB3Zn7P6TEpxm3qw2GoQXNFAmqv/s/ir588yEfs+i7CfLqO/+M6JaYn
-         0Swl2506MitMjt3WV3C09JlAhUcJmSAG6vhTFnO9GmM3ItE/sOHm/EmpCQLrpmX2BD1J
-         HRyw==
-X-Forwarded-Encrypted: i=1; AKwUvBxJAqgdtYKw4XgizA/Lg3Ia1hPMYuaYR7jEiasm+0NkMWtpZvMYxP1JGx51gjE88KogzNvznVjddnonhg==@lists.linux.dev
-X-Gm-Message-State: AFuF++lQTwL9nRA0L8088RIDPTP+Y5PY4PzogQ4ZlZT9Z3m5oUZxq9jy
-	JbpR9GV4opDY27tVYCq/vBAeilI3lMRt45gNlqksJ+IFytz0rO9BuRPnspf6BEz6eREICMN8q6t
-	kPn59bnpDCiysA1S6aWyQ6pfa9n/c/gciLNbBiKVLO6/KNz6oy9v4LA5ek7d3ePtyIA==
-X-Gm-Gg: AYBFou36PHdlrIumOiWdOkT0kN0NZcSJQdqJTsD++s/NYDyTQTxntECxq3RyAajNZUK
-	QAv2ZMLZURE7zmhBccEB/Vy+yQTiJEjWP2LUWf0siyt63HSgn1wRl2lc1si47lZXf8CxHIQ+w2V
-	wkugpm3vGGREgfrGBheTO1djjg3Rw7IlHTIntwwegYGfw/GS9VyKWkw7dBfu2vPYejesZ3uF6d5
-	VAlBI8G4Q93A85ZGGyM/fJ3DMlyzOu0Mj2uC6vF7SrlotvOVZ7Vswen/YUD1pYYpQY40M/TshY3
-	a9mdJBTDQNEmATObtk5c7RTPWh7c/g1JuY24P0z0PvJuc5/j6JBa5cmakykrVcqaVDHgD9/q08O
-	g686JM+dDv9A9RtKnm1ANMRnLMnQIqF5d1enjhZ05wSQzCruAEnh5FK099nY9m8Q=
-X-Received: by 2002:a17:90b:4a0a:b0:39e:6c68:c789 with SMTP id 98e67ed59e1d1-3a07e71cc99mr1203578a91.63.1790132390112;
-        Tue, 22 Sep 2026 19:59:50 -0700 (PDT)
-X-Received: by 2002:a17:90b:4a0a:b0:39e:6c68:c789 with SMTP id 98e67ed59e1d1-3a07e71cc99mr1203540a91.63.1790132389605;
-        Tue, 22 Sep 2026 19:59:49 -0700 (PDT)
-Received: from [10.133.33.57] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df6a5de5c8sm3352105ad.60.2026.09.22.19.59.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 19:59:49 -0700 (PDT)
-Message-ID: <272abb48-8f13-4fe8-a7ab-bfa353f1f8ec@oss.qualcomm.com>
-Date: Wed, 23 Sep 2026 10:59:19 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="q+yng8TP"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=r/3KOrdYUmNwVxOcGvSaTbUTTWcz2w7l4T8WkfBT2jM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790139695; v=1; x=1790744495;
+ b=q+yng8TPcyFxsDvSbqG8oTGr0ug4gwN/5hZ59fr1F+6qCVd/ueFPDxADGAhTKeC0vxVxx7c6
+ h6M4WRNpczNHImtJuA6hYnaytHb7/YB5Ntm/0gvN1K9M0NdDKThgD27tDWuE5r7Al+cAJWZOEHs
+ 9MKspDij1PYx6+4iDEYCGELI=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id a7693e6eafe49b3b;
+	Wed, 23 Sep 2026 05:01:35 +0000
+X-Mizu-Trace-ID: a7693e6eafe49b3b
+X-Migadu-Flow: FLOW_OUT
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Waiman Long <longman@redhat.com>
+Cc: Paul McKenney <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christian Brauner <christian@brauner.io>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Meta kernel team <kernel-team@meta.com>,
+	cgroups@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] locking: opt-in tracking of sleeping lock holders
+Date: Tue, 22 Sep 2026 22:01:17 -0700
+Message-ID: <cover.1790139577.git.shakeel.butt@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 07/10] arm_mpam: Fix mpam_dt_create_foundling_msc()
- to create MSC platform devices
-To: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
-        Shanker Donthineni <sdonthineni@nvidia.com>,
-        Ben Horgan
- <ben.horgan@arm.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas
- <catalin.marinas@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Fenghua Yu
- <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-        Drew Fustini
- <fustini@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>,
-        Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-        trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
-        ganapatrao.kulkarni@oss.qualcomm.com,
-        Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
-        Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        devicetree@vger.kernel.org
-References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
- <20260914-mpam-resctrl-dt-knp-support-v2-7-bf6645bb2f65@oss.qualcomm.com>
-Content-Language: en-US
-From: Yin Li <yin.li@oss.qualcomm.com>
-In-Reply-To: <20260914-mpam-resctrl-dt-knp-support-v2-7-bf6645bb2f65@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Nn_hjXp-gfKpY0z8hkIzDdRLYE7DbNvq
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAxMSBTYWx0ZWRfX8zlURkXKob7D
- 7IsYt2j61q9mWpgGAc2U1QEq8lkn7RUu7rhq54NGEERZNJCAZZOX/fQOjnbB89o9gJEM+fN3RI7
- PFj64gGZzVUqmXKsnDXzxLjoagjEwAg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAxMSBTYWx0ZWRfX+6Gj+PD02OcI
- J2TlVI4TuKIZWa/llw1vv0RT6zZ9Pyrfqp/rXhseW7mjwmu/YXBIsPxJEONSwhaguqiWtNSqAyC
- jsxFZ0fuSFtnfS9ig2Jbx9InyQFU/Nps2yOr0e0MeS0m6xo/ttrMHiFs2fD6EiZ1jqw8MyV9HPS
- ysVQF3pD7GjtZ/IsTYYlhTDk/fBz6YkaL7PTUCJ7sn9nw6lE55aCUUFBbRexo967P4jPSZDgtg6
- ul3royeK9PiVX2GrUcA8gHrTarQkXWqTwD78O+BSKTyWkq55DvpxjNnTvOlFxq69nzM4bkTzNpC
- greQmDvmq1VYuWallQoxjvZ/b65e5RwgPz3o/SygHYt9JC7B2Kx5127hmw13WjPhDQA0WyHbGVd
- vbk+/3xk8WWYYRdyRXBFS1R1czYrDyqtESqzQWTeMHbCHpWKXNw1DpH7paTdDVIxXuNlmkKm0ce
- kZV1OKKdpXH4DuXBTVQ==
-X-Authority-Analysis: v=2.4 cv=N828hG9B c=1 sm=1 tr=0 ts=6ab340ab cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=2UIP8dk73OJ_h1EwUPsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: Nn_hjXp-gfKpY0z8hkIzDdRLYE7DbNvq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-22_03,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230011
+
+This series adds a cheap way to answer one question:
+
+  Is this task holding a lock that other tasks may be waiting for?
+
+The answer is a count in task_struct. Only the locks that ask to be
+tracked are counted. The mechanism introduced here is planned to be used
+by solutions for shared lock isolation scenarios [1].
+
+The problem
+===========
+
+A task that stalls while holding a widely shared lock does not just slow
+itself down. Everything waiting behind that lock slows down too, and
+those waiters can be from unrelated cgroups.
+
+This is an isolation failure. Pressure in one workload leaks into an
+unrelated workload through a shared lock, and the second workload has no
+way to defend itself.
+
+The case we hit is memory. An allocation made while holding a lock can
+get stuck in reclaim, either because a memcg limit is being enforced or
+because the machine is low on memory. If the lock is cgroup_mutex or
+kernfs_rwsem, every other cgroup operation on the machine waits for that
+reclaim, whichever cgroup caused it.
+
+Knowing the task holds such a lock lets the allocator treat it
+differently:
+
+ - under a memcg limit, skip the throttling that enforcement does
+   inline, and leave it for the return to user space, where memory.high
+   is enforced anyway;
+
+ - under global pressure, let the allocation reach the memory reserves
+   so it finishes instead of waiting for reclaim.
+
+Either way the task gets out of the critical section quickly, and the
+pressure is still accounted for.
+
+CPU limits have the same shape of problem, and the scheduler has already
+paid to avoid it: commit e1fad12dcb66 ("sched/fair: Switch to task based
+throttle model") stopped throttling a task the moment its cpu.max quota
+runs out, and now defers it to the return to user space, so a task
+cannot be stopped in the middle of a critical section. That works
+without knowing anything about locks, because it defers for every task.
+The allocator cannot do the same, because dropping the inline work for
+everybody may cause more isolation issues due to global memory pressure,
+or make the system unstable by fully depleting the memory reserves.
 
 
+Why not something that already exists
+=====================================
 
-On 9/14/2026 5:37 PM, Yin Li wrote:
-> The original code created a platform device for the cache node itself
-> rather than for the MSC, so the MSC was never created. Instead, walk
-> the cache's children using for_each_child_of_node_scoped() and create
-> the platform device for the MSC child node, skipping cache parents
-> that firmware has marked disabled.
-> 
-> Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-> Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-> ---
->   drivers/resctrl/mpam_devices.c | 27 ++++++++++++---------------
->   1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-> index 480e38cfa86d..7ef3ed55b066 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -2366,23 +2366,20 @@ static struct platform_driver mpam_msc_driver = {
->    */
->   static void mpam_dt_create_foundling_msc(void)
->   {
-> -	struct platform_device *pdev;
-> -	struct device_node *cache;
-> -
-> -	for_each_compatible_node(cache, NULL, "cache") {
-> -		struct device_node *cache_device;
-> -
-> -		if (of_node_check_flag(cache, OF_POPULATED))
-> -			continue;
-> -
-> -		cache_device = of_find_matching_node_and_match(cache, mpam_of_match, NULL);
-> -		if (!cache_device)
-> +	for_each_compatible_node_scoped(cache, NULL, "cache") {
-> +		if (!of_device_is_available(cache))
->   			continue;
+Everything in the tree that can answer the question is too expensive,
+and the ones that are cheap enough cannot answer it.
 
-Hi,
+Too expensive:
 
-As sashiko-bot said：Checking of_device_is_available(cache) here 
-introduces a mismatch with mpam_dt_count_msc(), which only checks 
-whether the MSC node itself is available, not its parent cache. And in 
-practice, cache nodes are rarely if ever marked as disabled in the 
-device tree, so this check adds unnecessary inconsistency without a real 
-benefit.
+ - lockdep. lock_is_held_type() answers exactly this, for every sleeping
+   lock type including the rw_semaphore read side. It is the only thing
+   in the tree that does. But the cost cannot be trimmed down to it:
+   DEBUG_LOCK_ALLOC selects DEBUG_SPINLOCK, DEBUG_MUTEXES and LOCKDEP,
+   and LOCKDEP selects STACKTRACE and KALLSYMS_ALL. Measured here on
+   will-it-scale, x86_64: DEBUG_LOCK_ALLOC costs 36-53% throughput and
+   PROVE_LOCKING 39-70%, and task_struct grows from 4096 to 6784 bytes.
+   lockdep also answers about one named lock, so the caller would have
+   to know the set of interesting locks and test each one.
 
-I'll remove the cache availability check in the next version to keep the 
-two consistent.
+ - BPF on the lock primitives [1]. This works, and we prototyped it:
+   fentry on the down_*() exits, fexit on the up_*() entries, per task
+   depth in task storage. It cost about 8% throughput against the same
+   policy hooking a single function, because the probe fires on every
+   down_read() in the kernel and only then compares the address.
 
-Thanks,
-Yin
+Cannot answer it:
+
+ - The locks' own owner fields. A mutex, an rt_mutex and a write held
+   rw_semaphore know their owner. The rw_semaphore read side does not,
+   and that is the side that matters. kernel/locking/rwsem.c says why:
+   "Ideally we would like to track all the readers that own a rwsem, but
+   the overhead is simply too big." percpu_rw_semaphore is the same, by
+   design: its readers are spread over per-CPU counters.
+
+ - hung-task blocker tracking. task->blocker records what a task waits
+   for, not what it holds, and inherits the same rwsem reader gap.
+
+ - Lock tracepoints. The two that fire on every acquire and release are
+   inside #ifdef CONFIG_LOCKDEP. The ones that need no lockdep only fire
+   on contention. The closest, contended_release, is holder side but
+   fires at release, after the decision has to be made.
+
+ - A new PF_ flag set by the callers. Save and restore cannot express
+   non-LIFO release, and sleeping locks are released out of order all
+   the time: take A, take B, release A, and the flag is cleared while B
+   is still held. Getting that right needs a counter, which is this
+   series with hand written call sites. The cgroupfs kernfs rwsems alone
+   are taken in 37 places, and missing one is silent.
+
+ - Reusing PF_MEMALLOC. It means "I am reclaiming, let me into the
+   reserves": it grants ALLOC_NO_WATERMARKS and skips direct reclaim. A
+   cgroupfs walker holding kernfs_rwsem across many allocations would
+   drain the reserves rather than politely skip a throttle.
+
+ - rwsem_is_locked() and friends say somebody holds the lock, not you.
+
+This series inverts that: instead of a lock knowing its many readers,
+each task knows how many interesting locks it holds.
+
+The opt-in is a spare bit of a word the lock already has, bit 3 of
+rw_semaphore::count and of mutex::owner, or existing padding, so on
+64-bit no lock grows. With CONFIG_TRACK_LOCK_HOLDERS=n the locking code
+is unchanged. With it built in but nothing opted in, the hooks are a
+static branch that has not been patched in, so every lock still runs the
+instructions it ran before.
 
 
-> -		of_node_put(cache_device);
->   
-> -		pdev = of_platform_device_create(cache, "cache", NULL);
-> -		if (!pdev)
-> -			pr_err_once("Failed to create MSC devices under caches\n");
-> +		for_each_child_of_node_scoped(cache, child) {
-> +			if (!of_match_node(mpam_of_match, child))
-> +				continue;
-> +			if (!of_device_is_available(child))
-> +				continue;
-> +			if (of_node_check_flag(child, OF_POPULATED))
-> +				continue;
-> +			if (!of_platform_device_create(child, NULL, NULL))
-> +				pr_err("Failed to create MSC device for %pOF\n", child);
-> +		}
->   	}
->   }
->   
-> 
+The patches
+===========
 
+ 1  the core: the counter, the static key, the hooks, Kconfig
+ 2  rw_semaphore support
+ 3  mutex support
+ 4  percpu_rw_semaphore support
+ 5  KUnit tests
+ 6  documentation
+ 7  opt in the cgroupfs locks: the kernfs rwsems, cgroup_mutex and
+    cgroup_threadgroup_rwsem
+
+
+Testing
+=======
+
+19 KUnit tests in kernel/locking/lockholder_kunit.c. Sixteen check that
+the count always matches the number of opted-in locks the task holds,
+across every way each lock type can be taken and dropped: fast and slow
+paths, failed trylocks, out of order release, downgrade_write(), the
+percpu handover calls, cleanup.h guards, and a second task to check the
+counts are per task. Three cover what the opt-in changes besides the
+count: that an opted-in but unheld lock still reads unlocked, that
+*_track_holder() refuses a lock that is already held, and that the
+non_owner rwsem calls warn and do not count.
+
+  tools/testing/kunit/kunit.py run --kunitconfig=kernel/locking/ lockholder
+
+They pass in four configurations: UML, x86_64, x86_64 with
+PROVE_LOCKING, DEBUG_MUTEXES and DEBUG_RWSEMS, and x86_64 with
+PREEMPT_RT. The debug one earns its place twice over: it compiles the
+mutex fast paths out, so every acquire and release goes through the slow
+paths that rebuild the flag word, and it is the only one that runs the
+non_owner test, as without CONFIG_DEBUG_LOCK_ALLOC those calls are
+defined to plain down_read() and up_read(). That test skips in the other
+three. A full x86_64 build with modules is clean.
+
+
+[1] https://lore.kernel.org/20260921192559.2619635-1-shakeel.butt@linux.dev/
+
+Shakeel Butt (7):
+  locking: add opt-in tracking of sleeping lock holders
+  locking/rwsem: track holders of opted-in rw_semaphores
+  locking/mutex: track holders of opted-in mutexes
+  locking/percpu-rwsem: track holders of opted-in percpu_rw_semaphores
+  locking/selftests: add KUnit tests for lock holder tracking
+  Documentation/locking: document sleeping lock holder tracking
+  kernfs, cgroup: track holders of the cgroupfs locks
+
+ Documentation/locking/index.rst               |   1 +
+ .../locking/lock-holder-tracking.rst          | 168 ++++
+ MAINTAINERS                                   |   1 +
+ fs/kernfs/dir.c                               |   5 +
+ include/linux/kernfs.h                        |   7 +
+ include/linux/lockholder.h                    | 119 +++
+ include/linux/mutex.h                         |  14 +
+ include/linux/percpu-rwsem.h                  |  42 +
+ include/linux/rtmutex.h                       |  11 +
+ include/linux/rwsem.h                         |  65 +-
+ include/linux/sched.h                         |   8 +
+ kernel/Kconfig.locks                          |  16 +
+ kernel/cgroup/cgroup.c                        |  27 +-
+ kernel/exit.c                                 |   4 +
+ kernel/fork.c                                 |   3 +
+ kernel/locking/.kunitconfig                   |   4 +
+ kernel/locking/Makefile                       |   2 +
+ kernel/locking/lockholder.c                   |  19 +
+ kernel/locking/lockholder_kunit.c             | 741 ++++++++++++++++++
+ kernel/locking/mutex.c                        |  79 +-
+ kernel/locking/mutex.h                        |  48 +-
+ kernel/locking/percpu-rwsem.c                 |  28 +
+ kernel/locking/rtmutex_api.c                  |  36 +-
+ kernel/locking/rtmutex_common.h               |   3 +
+ kernel/locking/rwsem.c                        |  96 ++-
+ lib/Kconfig.debug                             |  13 +
+ 26 files changed, 1539 insertions(+), 21 deletions(-)
+ create mode 100644 Documentation/locking/lock-holder-tracking.rst
+ create mode 100644 include/linux/lockholder.h
+ create mode 100644 kernel/locking/.kunitconfig
+ create mode 100644 kernel/locking/lockholder.c
+ create mode 100644 kernel/locking/lockholder_kunit.c
+
+base-commit: next-20260922
 -- 
-Thx and BRs,
-Yin
-
+2.47.3
