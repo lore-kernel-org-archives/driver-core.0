@@ -1,122 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0ED40F758
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 19:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790190791; cv=none; b=klCOnbQPqvwTZMv/cN5PfAp0xbayw/4Jxoxlb20cK7rEcHrbnHyt12LsM57FQ3PqzGEw6U7nmofsroE069k3o0WdnSRUrNsqQ1o4LJtK524bIlNBZ9mXhiZoyUL7e8amv0luJPWzE8BQYqi93pEbeCcZB74mmQjXOOCEqWDJVe4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790190791; c=relaxed/simple;
-	bh=QkMRJqPJl7ePcYGGV7fY2eFNdHZRVJFUL4xJqCIlvU8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WrlcpXj17Dyn1lvZJ1q0ynr/JXckEMse/+LbD10c07S8mO47j5kPGjETHlgqZAcDHZmG8eHGYw50mlEAe/HPkp/Ww+SO3XpCRR1kagwMH8f/DeGzjM+JyA3r+O23EVEQfq43rfbEKqK6yIMbqapIohg9LHmJniONOf8uhPATHOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8DGJ3tt; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2A13C1F
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 20:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790196189; cv=pass; b=OByYZNuR0zXpXOnGlGJFiDV4ekDucTq9CtfcmMAzZSco2RsM6zLwOSaywi0rEvO84t4DXY5ZeN53MrRBmVEUJQFWvMjPQhvz+1MNSKbSK61aTDk/CuAF3UuofUCmWQvlSylMNLIQyUIn5p2++4hk4xyLsPb06AMCNSQTygDLv/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790196189; c=relaxed/simple;
+	bh=cQpgbVCfz1vyJ7PhUgvYbUvDkQyLBFh/zIn1QkfzTtE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ZrrWJ6TbgFf+D/y9mIOYTfsjXapGdPQMd31GM0xVoTyxgjSH5JBPbr91hLq8a+B5Wz5259rAE1iEcRL+btdU9cPnbywqeoAdeZjCL7emfR5H4YykGzfqhmCDP5HoV+MjgfalO6knXJIxRj+bJgcWTWD8bJ1UB0im5Lij50PnlK0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=gK9GgW7F; arc=pass smtp.client-ip=165.173.182.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8DGJ3tt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDD91F0089A
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 19:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790190790;
-	bh=I76f4OHyDlcX5rVdz+1/GZlzDhbdolScIBFIjAnh+HA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=L8DGJ3tt3GYF2k6tfb6Ccw8S91G7x148MzspOh6k+eauNkAAOz3oV5gZuvUEbDo4w
-	 UkIdvB8Ffh7FG4n/WPMkRspVMz0+WGzeAXMY7Xa3Hfqc/VOqC+ZXpGpmYqC7UjLbWP
-	 g+SlNwnSpgZNeC9hoVItl64tKSl7Yr/0O5EbSK5pYZR57rvKL+REZVlvjxxqt79bH+
-	 o8xhOciG2Q4d6XODDqUU2ZpgR9K1kc1qrCK92GV8dP6ZgHuwGiN/0zUXd9fFUp9qtA
-	 WVtZaFz7480LHw4TXf2MVLCVXRKFs73gLUilFAriYNO+4DrHjNrEcVkAPaRSTnAGC3
-	 ZIrZoZxNPZzRA==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a612404718so10738191fa.2
-        for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 12:13:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzkr3JxFB0zfqAu1iNA3i/cCG1iw5ZJGoAE6GUjfcVGNk/IubvjLCZOkC4QsldbKo16GcxtCVs0GpcleA==@lists.linux.dev
-X-Gm-Message-State: AFuF++kFeMrlVmh+71dNjpsGWSBd0zYXwdhTSyINi+tzW3jNEZnGio3E
-	t18fDMCz2SQW7dXjXX7UE/+fyUXeUqjcltl7po88+Um+uByl/TRn+7z1mgWS2RcecUcyUWjJK8+
-	hr8o2teVttTrW60lyV48mWflV1EmH2V4=
-X-Received: by 2002:a2e:be90:0:b0:3a1:b658:feac with SMTP id
- 38308e7fff4ca-3a63c0df7a6mr418261fa.13.1790190788472; Wed, 23 Sep 2026
- 12:13:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="gK9GgW7F"
+ARC-Seal: i=1; a=rsa-sha256; t=1790196154; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=J8Qty4xuAwmy9p1FDA6M4MKIbduEQW68wW5K4RMKvg8qAeHjvbdt6gLa560gn5SKk1/3ODoSz+B2LiVShTnEffY774x4pasKBFCtCaWX0DMMZzQRqYxO27sWZqCxf6F3iNts4KA0msRVm/K5Umrv+AasYLLUCBFALEgb3a3u9os=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790196154; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xo7cgqIIFuStSgCn4luUGcQPHzo3wUQwdn1Qq+BTVqQ=; 
+	b=VBP0PCfW+ucS19AZr6VA2IULlPDugAlAIpeQwf0OWzJJEfklrHFGXPKce+yFKmMbUa4yoOjafYG8YkUU5dykK4KC2vX+B+Y/3fCU9SRlk1waiQeEQw4fUQ5LqUr8loaVKY01yAFrKHztVNX79a+vqpFBuXel2u7bS92KclvLlLw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790196154;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
+	bh=xo7cgqIIFuStSgCn4luUGcQPHzo3wUQwdn1Qq+BTVqQ=;
+	b=gK9GgW7FLv0FVaPmeWXVOMiQb9TTQjskMlrMhkP8EZyo/jX1CKGHWQ0N4vnJzwr2
+	8I0KBZ0v6hseD7/Xhwd52EoxDtpeeUnNiz14hQfR+09smb7Gc+miE9elMMzw7lsXhGQ
+	pCmhQUJi9rL9Nfsfu8+xvXlvBOBhewEkTfu6U2ZM=
+Received: by smtp.zohomail.com with SMTPS id 1790196153019663.532298405788;
+	Wed, 23 Sep 2026 13:42:33 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <6329043.lOV4Wx5bFT@rafael.j.wysocki> <SN6PR02MB41577ECCDB3E757B8859AE7FD4822@SN6PR02MB4157.namprd02.prod.outlook.com>
- <CAJZ5v0juW=oum7jULzHeTbaG2Ame=ge3nitsKDz_05Xs6wQqZA@mail.gmail.com>
- <CAJZ5v0gG30TSY=di+TULEvbB3GxxFNcLvx=xT2i1aFgfiNjnmA@mail.gmail.com> <CAJZ5v0i_SO7yJSQMJqENVnO1cYbkCSHzwzkO4EvxbriNQ_ksGQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0i_SO7yJSQMJqENVnO1cYbkCSHzwzkO4EvxbriNQ_ksGQ@mail.gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 23 Sep 2026 21:11:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gt8+tRT92y3hPnGXmFvpG1AfqvFC6jRbfV6gxGMy8e1g@mail.gmail.com>
-X-Gm-Features: AclHuK8Jy2YHw6VOFjUIhdVb8r-z2f9I08RuDXiI3nHZDK0KyDP9zyBNWmx2rOc
-Message-ID: <CAJZ5v0gt8+tRT92y3hPnGXmFvpG1AfqvFC6jRbfV6gxGMy8e1g@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
+Subject: Re: [PATCH 4/9] drm/tyr: add McuVa and claim-checked MappedBo views
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260915-tyr-interfaces-v1-4-5d28f1f75aca@collabora.com>
+Date: Wed, 23 Sep 2026 17:42:13 -0300
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Lyude Paul <lyude@redhat.com>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ John Stultz <jstultz@google.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ kernel@collabora.com
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <C027787C-A04B-40AC-B0EF-62F0BBC156F9@collabora.com>
+References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com>
+ <20260915-tyr-interfaces-v1-4-5d28f1f75aca@collabora.com>
+To: Laura Nao <laura.nao@collabora.com>
+X-Mailer: Apple Mail (2.3901.100.1.1.11)
+X-ZohoMailClient: External
 
-On Wed, Sep 23, 2026 at 8:50=E2=80=AFPM Rafael J. Wysocki (Intel)
-<rafael@kernel.org> wrote:
->
-> On Wed, Sep 23, 2026 at 8:31=E2=80=AFPM Rafael J. Wysocki (Intel)
-> <rafael@kernel.org> wrote:
-> >
-> > On Wed, Sep 23, 2026 at 7:32=E2=80=AFPM Rafael J. Wysocki (Intel)
-> > <rafael@kernel.org> wrote:
-> > >
-> > > On Wed, Sep 23, 2026 at 7:06=E2=80=AFPM Michael Kelley <mhklinux@outl=
-ook.com> wrote:
-> > > >
-> > > > From: Rafael J. Wysocki <rafael@kernel.org> Sent: Wednesday, Septem=
-ber 9, 2026 9:41 AM
-> > > > >
-> > > > > The ACPI bus type does not allow drivers to be registered, so the=
- sysfs
-> > > > > attributes related to drivers created for it and its devices are
-> > > > > useless, and its drivers/ directory is always empty.  All of that=
- is
-> > > > > confusing and wasteful.
-> > > > >
-> > > > > To allow skipping the creation of those sysfs attributes, introdu=
-ce a
-> > > > > "companion" bus type concept and add a special registration funct=
-ion for
-> > > > > registering "companion" bus types, companion_bus_register().
-> > > > >
-> > > > > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > >
-> > > > As a heads up, this patch breaks Linux guests booting on Hyper-V.
-> > > > Something goes wrong in the VMBus driver getting loaded and
-> > > > initialized (drivers/hv/vmbus_drv.c).
-> > >
-> > > This patch doesn't affect anything except for bus registration and
-> > > driver addition and lookup for the ACPI bus type.
-> > >
-> > > > It may be that the VMBus
-> > > > driver is doing something wrong or making an invalid assumption.
-> > > > I'll debug the problem today or tomorrow, but any insight you can
-> > > > offer would be appreciated. I'm working with linux-next20260921.
-> > >
-> > > No idea what's going on.
-> >
-> > Actually, you may try to restore the stub .match() callback for
-> > acpi_bus_type because the lack of it causes 1 to be returned by
-> > driver_match_device(), so if any driver points to acpi_bus_type as its
-> > bus by mistake, the check will now succeed.
->
-> Which shouldn't matter though because driver_match_device() is only
-> called in 3 places and none of them is reachable for acpi_bus_type
-> after the $subject patch AFAICS.
+Hi Laura,
 
-Well, not quite.
+It=E2=80=99s been a while since I wrote this, and I now see this could =
+use some
+improvements.
 
-If a driver with an incorrect bus is passed to driver_attach(), it
-will iterate over devices on that bus and call __driver_attach() for
-each of them.  If driver_match_device() succeeds then, the device will
-be passed to driver_probe_device() and it will not be good.
+I think the first problem is that this conflates "MappedBo" with "the =
+MappedBo
+backing the shared region". As soon as we try to add more users, this =
+will be a
+problem. I propose that we split this into two types that build upon =
+each other:
 
-So it may be worth checking after all.
+a) a generic layer MappedBo, which remains roughly as-is:
+
+gem.rs:
+
+pub(crate) struct MappedBo<'drm> {
+  vmap: shmem::VMapOwned<BoData>,
+  bo: KernelBo<'drm>,
+}
+
+impl<'drm> MappedBo<'drm> {
+  // pub(crate) API:
+
+  // no Arc, McuMappedBo has to hold it by value, otherwise a second =
+holder
+  // could write around the claims.
+  fn new(bo: KernelBo<'drm>) -> Result<Self>
+  fn va_range(...) -> ...
+  fn vmap(...) -> ...
+}
+
+impl Deref for MappedBo<'_> { type Target =3D Bo ... }
+
+
+b) A MCU-specific BO type with the claims + offset logic:
+
+fw/mcu_bo.rs:
+
+pub(super) struct McuVa(...) + related McuVa impls.
+
+#[pin_data]
+pub(super) struct McuMappedBo<'drm> {
+  bo: MappedBo<'drm>, // private, no accessor
+
+  #[pin]
+  claims: Mutex<KVec<Range<u64>>>
+}
+
+impl<'drm> McuMappedBo<'drm> {
+  // pub super API
+
+  // builds its own MappedBo, checks the 32-bit range before allocating =
+and
+  // copies the section data from the fw binary before any view can =
+exist.
+  new(ddev, mcu_vm: Arc<Vm<'drm>>, va: McuVa, size: u64, flags: =
+VmMapFlags,
+      data: &[u8]) -> Result<impl PinInit<Self,Error>> {...}
+
+  // views borrow: &'a self instead of self: &Arc<Self>
+  fn try_view<'a>(&'a self, va: McuVa, len: u64, reach: u64)
+      -> Result<McuView<'a>>
+  fn try_view_mut<'a>(&'a self, va: McuVa, len: u64, reach: u64)
+      -> Result<McuViewMut<'a>>
+}
+
+c) Views get renamed to McuView, McuViewMut:
+
+#[derive(Clone)]
+pub(super) struct McuView<'a> {
+  vmap: &'a VMapOwned<BoData>,
+  base: u64,
+  range: Range<u64>,
+  reach: u64, // <=E2=80=94=E2=80=94=E2=80=94=E2=80=94 Store this
+}
+
+pub(super) struct McuViewMut<'a> {
+  view: McuView<'a>,
+  claims: &'a Mutex<KVec<Range<u64>>>,
+}
+
+impl<'a> Deref for McuViewMut<'a> {
+  type Target =3D McuView<'a>;
+  fn deref(&self) -> &Self::Target {
+    &self.view
+  }
+}
+
+impl Drop for McuViewMut<'_> {
+  // return claim here.
+}
+
+
+>=20
+> +// SAFETY: `MappedBo` may move between threads: the CPU mapping's =
+address is
+> +// valid from any thread; `KernelBo`'s teardown (GPU unmap through =
+`Arc<Vm>`
+> +// and the GEM object release) goes through thread-safe C APIs; and =
+the only
+> +// interior mutability (`claims`) is mutex-protected.
+> +unsafe impl Send for MappedBo<'_> {}
+> +// SAFETY: `&MappedBo` exposes the mutex-protected claims table, the =
+`Deref`
+> +// surface to the GEM object (thread-safe C APIs), and the mapping =
+itself,
+> +// whose contents are only ever accessed through volatile operations. =
+The
+> +// memory is shared with the MCU by design, so concurrent access is =
+part of
+> +// the model rather than a race the type system must rule out.
+> +unsafe impl Sync for MappedBo<'_> {}
+
+
+I don=E2=80=99t think we need a manual implementation here.
+
+The rest of the patch looks good to me.
+
+=E2=80=94 Daniel
+
+
