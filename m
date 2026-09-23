@@ -1,98 +1,184 @@
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2406740926E
-	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 08:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4589C439340;
+	Wed, 23 Sep 2026 09:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790153407; cv=none; b=PRclx0Z4JJzho1BzBIS027Sq+4e0XGgs0/g+O3pbf7rFPQo0TiADB2zbc8HIapMLZNJ3H5nRT92IXZST0ey66CK7X1p1vY4LxPkyhLDuoJc92hLHTq1auQ9lFurlaeO8NX/DvXe97cjcPsvthuXs6Ye6aOEPgbDT35nzawE0r0w=
+	t=1790155940; cv=none; b=KREUtRkA3b4aDJDKSuiuPI/8myn4ZdPjEPcpTGr6s36kyyuOCCqM7/RXyx/HpnycHG1jerNC5/BZy2YjPoeuFcglN38hzkDd4qBwLQhNbgxXlkqJCc8acgCze6q/FUmoyPC3yW1MIRFS0X6kwLnGLThhBzjPAO15cmkyXQ//36Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790153407; c=relaxed/simple;
-	bh=2XHh08DSWyQ2Lla9nNvrGWSyFGkMaNolE/nGXFIv2Do=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gdLeUcKjxA7tDbzKFfqxoQnD4P+vtKZeLl21xejiRS90ABhWofrX76CUbXCEegxj9qkNS2gWOXgeAWMmzN9ycdC6z2T9yMozd0SGqNUcsEDlV0ESkrnqDYSuN8pMWZ5ZwCGWRZM7COUxHDgG57zAPXnKB9WpI0ACAWikSMeqS8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NBdmsw94; arc=none smtp.client-ip=209.85.208.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1790155940; c=relaxed/simple;
+	bh=XECchcwy6WjKG99wcXn6E/WpZJTYWLBwpuJb8u5vjQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3hsRBLjVinwGDnynHcYEITc7/FHmzvE9FIYoXzT+GQ6teeMwq7iWslurt9+jVTCD8WdAWdhR1pwwHR+5Z7DjZdelBueFAqxOpsxrtkO3mjaa9VuzBu+MYulssVi1ApEOE8Wks1Fv+HbueiW2FXbfDCye6Gi++3oIG15Qgu4GXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZXKb5Klq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NBdmsw94"
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6a615ab0c06so833625a12.2
-        for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 01:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790153404; x=1790758204; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/V4JJZVNuiDLsMZrmNpJjlcNEhUviMYM4KAzEYYNoVE=;
-        b=NBdmsw94tSZU2S4dooMlsMZ3uzgJ3/EZcO8jYdyVb7qFrxc9VPMX9NHOxEsJ5sHaJe
-         zpLGf5jWYVEvovLnwbjG1aX2AJrcOhutGLNpoXoGlaBk4fiMM+fQ5WCHObq+CsRondqU
-         z5o4lqIwNB7QwtNLHd9fTLE9HAJehZn1NANkXIGFF+51nXouUnuuWs6+ftZBkIIYcqjZ
-         gNSCZR0omHL6gxMpu6pdEKoWpVxh2ButNIOVeHHsiH5Yp2vZ5d6FXGNr9jEk6GBTj8aI
-         rfk0invGVrd5SJGei47adZO3EP9FeSQIf+nPpsLnM7RTfRWxaIGZ+Q67BnaM3iBv+E3Q
-         xPeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790153404; x=1790758204;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/V4JJZVNuiDLsMZrmNpJjlcNEhUviMYM4KAzEYYNoVE=;
-        b=o25/+T6EbabF09iw+E/V/LHbw/st6FVIq5VLVlUqu4VKlZkdjGhwH09E9s0nmhG1DN
-         seprGgJ6sW5TKfYU+HIFSa5yRWh7ylYS158f5VlIZGyy0xQ5BSHoyd6oMiCJhm+hwpUS
-         38OsRe1TwGxtZk0ITdVMlAo69ym710NKLlGmi5jB8W7uaBGNTEfD81WSGB3L5DIdVqxm
-         ufZoiqX2PEQ1hIQtVf23RcPNkL8AzmILaH0oUcvTxL+cmzxYMLX8pA2ZAooRO5v5L+dM
-         c6k/zUaSERls+R2d6RxecL+bd6bYRY4Q52m1562jWwqGpJYtZlNDJJr15rHUFwioFHqx
-         yDzA==
-X-Forwarded-Encrypted: i=1; AKwUvBzke+jUFimVczYaCu4hyP95HOvJ5KWGacpMio2a1bJdHdeKgFZQ6n0I9vbxz/e1/XNBMrDCaH36NpVxTQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++k0jZqaFKemSgRFTJTS8QnvFIomt/Z6ehNsBqs/WYEIkM2EnoMn
-	ZepJt+zPv56yD8jwsMRB+lV1+pieBRb/LirnwGwaoGbuVLjGdTRCn/bI1cn5yIvxihX/Oc0xsD2
-	DAKeow8v7sGkBFxqrwg==
-X-Received: from edxs21.prod.google.com ([2002:a05:6402:1655:b0:6a6:6326:bdd8])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:a0cc:b0:6aa:734b:1a1f with SMTP id 4fb4d7f45d1cf-6aab3b5bb34mr1568561a12.25.1790153404051;
- Wed, 23 Sep 2026 01:50:04 -0700 (PDT)
-Date: Wed, 23 Sep 2026 08:50:02 +0000
-In-Reply-To: <20260915-tyr-interfaces-v1-9-5d28f1f75aca@collabora.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZXKb5Klq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E3BE1F00893;
+	Wed, 23 Sep 2026 09:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790155939;
+	bh=QQBKEqJ2+JI0vz7P4rY5Fvd5mWr3I5LswTIfs2maAzU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZXKb5Klqlx2H0rFKbT554b6ih7cReXnC3p/VYJ4hTpAckzJNawQoZxSaBBgubctIf
+	 3dr66M2PGYnCeb8JTuMkcOF6KpQASN0v9kMLPuVgE7gQyc/hR6/CM1d6C10+tF+f6e
+	 tLMMpz4XbV5b0mJphgSIIFOb21wQiou44yXcFJi8=
+Date: Wed, 23 Sep 2026 11:27:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026092321-province-yearly-44aa@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260915-tyr-interfaces-v1-0-5d28f1f75aca@collabora.com> <20260915-tyr-interfaces-v1-9-5d28f1f75aca@collabora.com>
-Message-ID: <arOSuojQNLcO6m8r@google.com>
-Subject: Re: [PATCH 9/9] drm/tyr: wait for global interface readiness
-From: Alice Ryhl <aliceryhl@google.com>
-To: Laura Nao <laura.nao@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, kernel@collabora.com, 
-	Deborah Brouwer <deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 
-On Tue, Sep 15, 2026 at 12:57:42PM +0200, Laura Nao wrote:
->          io.write_reg(MCU_CONTROL::zeroed().with_req(McuControlMode::Auto));
->  
->          if let Err(e) = poll::read_poll_timeout(
-> -            || Ok((io.read(MCU_STATUS), io.read(JOB_IRQ_RAWSTAT))),
-> -            |(mcu_status, irq_rawstat)| {
-> -                mcu_status.value() == McuStatus::Enabled && irq_rawstat.glb()
-> -            },
-> +            || Ok(io.read(MCU_STATUS)),
-> +            |status| status.value() == McuStatus::Enabled,
->              time::Delta::from_millis(1),
->              time::Delta::from_millis(100),
->          ) {
+On Tue, Sep 22, 2026 at 11:04:46PM +0200, Armin Wolf wrote:
+> Am 22.09.26 um 15:40 schrieb David Lechner:
+> 
+> > On 9/22/26 2:39 AM, Uwe Kleine-König wrote:
+> > > On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> > > > On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > > > > The ability to add and remove devices from a driver through the sysfs
+> > > > > "bind" and "unbind" files was created all those decades ago as a way
+> > > > > that kernel developers can iterate faster, and provide a debugging way
+> > > > > for users to attempt to add a new device to a driver without having to
+> > > > > rebuild their kernel.
+> > > > > 
+> > > > > This api over the years has been abused and recently come under a major
+> > > > > fuzzing "attack" through tools like syzbot which decided that it would
+> > > > > attempt to just randomly bind any driver to any type of device, causing
+> > > > > loads of unneeded errors and pointless kernel patches to be generated by
+> > > > > unsuspecting new developers.
+> > > > > 
+> > > > > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > > > > will be set on the driver if the bind/unbind sysfs files are ever
+> > > > > written to.  This lets kernel developers "know" that a user is
+> > > > > attempting to do something that is not normal, and as such, if the
+> > > > > kernel breaks they get to keep the shiny pieces laying around on the
+> > > > > floor.
+> > > > > 
+> > > > > The flag is 'Y' which was unused, and can remembered as the user is
+> > > > > "yeeting" the device being operated on here (thrown with force without
+> > > > > regard for the thing being thrown).
+> > > > > 
+> > > > > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > > > > as many times crashes/oops/warnings/failures happen within the callback,
+> > > > > and the taint flag needs to be there to show what was being attempted.
+> > > > > If it were to be set after the callback happens, the oops report would
+> > > > > not properly reflect what foolishness was being attempted.
+> > > > > 
+> > > > > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > > > > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > > > > enabled so that they fall over and don't continue on, thinking that they
+> > > > > actually found a real issue.
+> > > > > 
+> > > > > Userspace operations that rely on the bind/unbind files
+> > > > I agree that this should be avoided.
+> > > > 
+> > > > But I also think the biggest offender really is driver_override. Specifically,
+> > > > on a hot-pluggable bus a driver must be complient with the device driver
+> > > > lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
+> > > > nice to not taint the kernel for such busses, and only taint on driver_override,
+> > > > as I think we'd still want the bug reports for such cases.
+> > > > 
+> > > > But I think this is fine to leave for a follow-up.
+> > > I fully agree. I'm fine and support tainting on driver_override, but
+> > > bind/unbind are used occasionally in my bubble and I consider drivers
+> > > not handling that properly buggy.
+> 
+> I fully agree with this, drivers should correctly implement the lifecycle model
+> and not just break when being unbound at a improper time. Drivers suffering from
+> this can easily break this way when unloading the associated kernel module, so this
+> taint is no solution.
 
-Does the io.write_reg(JOB_IRQ_CLEAR::zeroed().with_glb(true)) line after
-this read_poll_timeout() also need to be removed?
+It's a "solution" in that it tells the developer "hey, the user did
+something odd and unsupported".  rmmod is also not a normal operation,
+there's no requirement that it actually work as it's usually a "best
+effort" type of thing.
 
-Alice
+> > In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedged
+> > chip.
+> > 
+> > A few examples where other reset methods were reject in favor of unbind/bind:
+> > 
+> > https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
+> > 
+> > 	This needs documenting as it's custom ABI. Note that we don't often
+> > 	accept custom ABI. Particularly not a hook that seems to reset the
+> > 	device. If you want to do that, unbind and rebind the whole drive[r]
+> > 	so we are in a known state etc.
+> > 
+> > https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
+> > 
+> > 	Firstly as stated below, we don't provide interfaces for this
+> > 	because it's a heavy weight process that is most of the effort of
+> > 	unbinding and rebinding the driver. So if you need to reset, do that.
+> > 
+> > https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
+> > 
+> > 	The solution is to run it once at driver bind. Similar to reset
+> > 	below, if the usecase needs to re do it then unbinding and rebinding
+> > 	the driver reflects the fact we are taking it effectively offline
+> > 	for a while.
+> > 
+> I also consider bind/unbind to be an official API to interact with devices,
+> so i want to use them in the future with the WMI subsystem.
+
+Why?
+
+> AFAIK the underlying reason for this series is that some drivers break when
+> being bound to unsupported devices. However IMHO drivers should verify that
+> they support a given device inside their .probe callback, and the associated
+> bus should only match devices with drivers that explicitly claim support for
+> those devices (ignoring driver_override).
+
+No, drivers should NOT have to do that in their .probe() function,
+that's what we moved away from decades ago!  The match function should
+handle all of that for you, otherwise it's contant duplication
+everywhere that is unneeded.
+
+Please, learn from our history, don't make the same mistakes.
+
+Now I might be convinced that driver_override is the way to go here, but
+it still feels really odd as again, bind/unbind was created as a driver
+debugging option only, it should NOT be a normal operation that any user
+should rely on.  The driver should "just work" properly instead, without
+requiring manual bind work, as that's not a good model at all.
+
+thanks,
+
+greg k-h
