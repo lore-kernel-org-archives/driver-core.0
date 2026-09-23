@@ -1,231 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp153-166.sina.com.cn (smtp153-166.sina.com.cn [61.135.153.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B64148EC91;
-	Wed, 23 Sep 2026 10:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BDF1A6838
+	for <driver-core@lists.linux.dev>; Wed, 23 Sep 2026 10:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790159761; cv=none; b=TSyLTjjSDoSMs0lUcZeQW4mD9qZeZtQ8UALnrTqbuirjJbb4izvbHwkg3ED/1Ma9wJ9wKubTwC5Z4xEwnhXeQA0kIdVfWekJ2sxbASuB8EzS60Q3BkQDKe9sAUviUWvcXvN4UdEcN9OIc2ekRN+VEmgNTX575AxWQuPTgkV9ypY=
+	t=1790160951; cv=none; b=jDV1kHQR+pF3OktjtVwqX3TGTbXLo2l7G+R9Z5Pp+GjLKT6H3I6MWFeBimBMJzr1NboyXWf3NablBbbJMr6AUvczH1Q0E2h2t8EFL45hmWZPQLQ+oIxm72Dql5a3/WianVpwaWt2+gWr8OsAhYJGa+dUX71ijdS2/JkjBeLtUpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790159761; c=relaxed/simple;
-	bh=eZIHb0J5aaBGeIdNifmxvKv3Vw/+/WIteprI/Fa0klk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtKcoBkQ563Q3stbd+KEFvBsYon4anBPGJBj+YDWcBi7W2X3D+JCVA+xKpYBy1/qEZTamzGivHHSQqaZXeVZi64YR7DIN8l6XbGLp4Uk9K5MMdU7H36D+pkLVY+z934EcbkwA7JUU+3UnCJWP0CdQdOA7phzBmzWsppdIWeJnS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wmuSkB+N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790160951; c=relaxed/simple;
+	bh=zmC3b6pdxiH/U/JC0k/shEkrMtbgQW3YUdxmHb5/QkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dvnRL8BjRdIYuq1hSQHPGv8ivNnAqLVwj5ZE6gRC2e83voFMd9jmmySakdnWHijG0Z8uscwmfkJYH8LkbZqZqgcHIffPBUYCnZngb9DYcFlCfvZLXa7/ZgCgfN1fH41ZJ73FYXWolvOwtHWCOvR/5LJXN8OeCLxDhiGe2/2dZtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=sDeIKjt+; arc=none smtp.client-ip=61.135.153.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wmuSkB+N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB881F000FF;
-	Wed, 23 Sep 2026 10:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790159742;
-	bh=NzYqyRImwYBZyIwILNRFj1XIoNhIukvodGkX+t4dqx4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wmuSkB+NF6zhenRzL6ZxseHK0xfUQm55nueP399xmc5vKVdJ4+9GFCzKp1UAo4UjD
-	 Rc1EHV8hSgTinHbN7TTeJ/LV/+k6ng1H2i0JVVFTZlozSje8HiceldUJe8+jcscTuI
-	 bvrLRp2yk/fFaK5fl5XxDZb48OSB5+hqRVLuprFE=
-Date: Wed, 23 Sep 2026 12:35:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markus Probst <markus.probst@posteo.de>
-Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] tty: serdev: Export functions to pause
- receive_buf callback calls
-Message-ID: <2026092356-chatting-dust-3de9@gregkh>
-References: <20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de>
- <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="sDeIKjt+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1790160943;
+	bh=3ld3E1kieTmSwQvUOMXsxB6JXXsMC+E/XubT+M7MaWk=;
+	h=From:Subject:Date:Message-ID;
+	b=sDeIKjt+ZnO4OZ3TjNwPasg33LLdBCXoRO/Sd8+r/s6j6pHmuc4xfWTrCfi05ZV1O
+	 pRD/3GS2zixZ3ppEb6A5rVQTLMLsvok3wVdh3SVQgKy0dfRSBnaXuxtngCYvFL7vPR
+	 jEVjk8/uZR+1feP3pUgzJ0JjBsVussN7/XBouwTA=
+X-SMAIL-HELO: lxu-ped-host..
+Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
+	by sina.com (10.54.253.33) with ESMTP
+	id 6AB3B01B00003731; Wed, 23 Sep 2026 18:55:30 +0800 (CST)
+X-Sender: eadavis@sina.com
+X-Auth-ID: eadavis@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=eadavis@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=eadavis@sina.com
+X-SMAIL-MID: 5415726684944
+X-SMAIL-UIID: 4882B670D1F1403D930C985F4290CF71-20260923-185530-1
+From: Edward Adam Davis <eadavis@sina.com>
+To: eadavis@sina.com
+Cc: dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rafael@kernel.org,
+	kay.sievers@vrfy.org,
+	syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH v2] kobject: optimize count first value
+Date: Wed, 23 Sep 2026 18:55:22 +0800
+Message-ID: <20260923105522.43514-1-eadavis@sina.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260917075615.999497-1-eadavis@sina.com>
+References: <20260917075615.999497-1-eadavis@sina.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920-rust_serdev_probe_refactor-v2-1-43b855162f5d@posteo.de>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 20, 2026 at 02:29:58PM +0000, Markus Probst wrote:
-> These functions will be used to simply the serdev rust abstraction. It
-> also contributes to the fixing of 2 race conditions in the serdev rust
-> abstraction.
-> 
-> Signed-off-by: Markus Probst <markus.probst@posteo.de>
-> ---
->  drivers/tty/serdev/core.c           | 50 ++++++++++++++++++++++++++++++++++++-
->  drivers/tty/serdev/serdev-ttyport.c | 38 ++++++++++++++++++++++++++++
->  include/linux/serdev.h              |  6 +++++
->  3 files changed, 93 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
-> index 7500efcdfc21..7d24f16710cb 100644
-> --- a/drivers/tty/serdev/core.c
-> +++ b/drivers/tty/serdev/core.c
-> @@ -187,6 +187,51 @@ void serdev_device_close(struct serdev_device *serdev)
->  }
->  EXPORT_SYMBOL_GPL(serdev_device_close);
->  
-> +/**
-> + * serdev_device_pause_rx() - pause data receive
-> + * @serdev:	serdev device
-> + *
-> + * Pause calls to receive_buf.
-> + *
-> + * The caller must guarantee that this does not run concurrently with
-> + * `serdev_device_open` or `serdev_device_close`.
-> + *
-> + * Note that if a call to receive_buf is currently executed, the function will
-> + * sleep until it has finished.
-> + */
-> +void serdev_device_pause_rx(struct serdev_device *serdev)
-> +{
-> +	struct serdev_controller *ctrl = serdev->ctrl;
-> +
-> +	if (!ctrl || !ctrl->ops->pause_rx)
-> +		return;
-> +
-> +	ctrl->ops->pause_rx(ctrl);
-> +}
-> +EXPORT_SYMBOL_GPL(serdev_device_pause_rx);
-> +
-> +/**
-> + * serdev_device_resume_rx() - resume data receive
-> + * @serdev:	serdev device
-> + *
-> + * Resume calls to receive_buf.
-> + *
-> + * The caller must guarantee that this does not run concurrently with
-> + * `serdev_device_open` or `serdev_device_close`.
-> + *
-> + * This can be called even if not paused to ensure data receive is active.
-> + */
-> +void serdev_device_resume_rx(struct serdev_device *serdev)
-> +{
-> +	struct serdev_controller *ctrl = serdev->ctrl;
-> +
-> +	if (!ctrl || !ctrl->ops->resume_rx)
-> +		return;
-> +
-> +	ctrl->ops->resume_rx(ctrl);
-> +}
-> +EXPORT_SYMBOL_GPL(serdev_device_resume_rx);
-> +
->  static void devm_serdev_device_close(void *serdev)
->  {
->  	serdev_device_close(serdev);
-> @@ -398,6 +443,7 @@ EXPORT_SYMBOL_GPL(serdev_device_break_ctl);
->  static int serdev_drv_probe(struct device *dev)
->  {
->  	const struct serdev_device_driver *sdrv = to_serdev_device_driver(dev->driver);
-> +	struct serdev_device *sdev = to_serdev_device(dev);
->  	int ret;
->  
->  	ret = dev_pm_domain_attach(dev, PD_FLAG_ATTACH_POWER_ON |
-> @@ -405,7 +451,9 @@ static int serdev_drv_probe(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> -	return sdrv->probe(to_serdev_device(dev));
-> +	serdev_device_resume_rx(sdev);
-> +
-> +	return sdrv->probe(sdev);
->  }
->  
->  static void serdev_drv_remove(struct device *dev)
-> diff --git a/drivers/tty/serdev/serdev-ttyport.c b/drivers/tty/serdev/serdev-ttyport.c
-> index bab1b143b8a6..e8aa89e733bd 100644
-> --- a/drivers/tty/serdev/serdev-ttyport.c
-> +++ b/drivers/tty/serdev/serdev-ttyport.c
-> @@ -7,8 +7,10 @@
->  #include <linux/tty.h>
->  #include <linux/tty_driver.h>
->  #include <linux/poll.h>
-> +#include "../tty.h"
->  
->  #define SERPORT_ACTIVE		1
-> +#define SERPORT_PAUSE_RX	2
->  
->  struct serport {
->  	struct tty_port *port;
-> @@ -32,6 +34,14 @@ static size_t ttyport_receive_buf(struct tty_port *port, const u8 *cp,
->  	if (!test_bit(SERPORT_ACTIVE, &serport->flags))
->  		return 0;
->  
-> +	if (test_bit(SERPORT_PAUSE_RX, &serport->flags))
-> +		return 0;
-> +
-> +	/*
-> +	 * Ensure writes by the driver are visible before allowing traffic to resume.
-> +	 */
-> +	smp_mb__after_atomic();
+The user writes to the regular sysfs file "/sys/bus/acpi/uevent\000" is
+as follows:
 
-This scares me.  Why not use a real lock?  WHat's the issue here, you
-need this to be "flushed" before this call:
+write(r0, &(0x7f0000000280)='add\x00', 0xff0a);
 
-> +
->  	ret = serdev_controller_receive_buf(ctrl, cp, count);
+From the parameters of write, we can know that: buffer is 'add\x00', and
+buffer count is 0xff0a.
 
-here?
+Since atomic_write_len was 0, kernfs_fop_write_iter() would silently truncate
+the buffer count 0xff0a to PAGE_SIZE.
 
-And you just tested a bit, you didn't set a bit, so what are you trying
-to ensure is written exactly?
+In kobject_action_type(), the strncmp() successfully stops at the null
+terminator for "add". Then the code directly attempts to access index 4095
+of the 4-byte string literal "add" via kobject_actions[action][count_first],
+potentially hitting:
 
+BUG: KASAN: global-out-of-bounds in kobject_action_type lib/kobject_uevent.c:86 [inline]
+BUG: KASAN: global-out-of-bounds in kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+Read of size 1 at addr ffffffff8d72559f by task syz.0.17/5917
+Call Trace:
+ kobject_action_type lib/kobject_uevent.c:86 [inline]
+ kobject_synth_uevent+0x79d/0x7d0 lib/kobject_uevent.c:200
+ bus_uevent_store+0x3d/0x90 drivers/base/bus.c:917
+ bus_attr_store+0x74/0xb0 drivers/base/bus.c:172
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6af/0x1050 fs/read_write.c:687
 
->  
->  	dev_WARN_ONCE(&ctrl->dev, ret > count,
-> @@ -156,6 +166,32 @@ static void ttyport_close(struct serdev_controller *ctrl)
->  	tty_release_struct(tty, serport->tty_idx);
->  }
->  
-> +static void ttyport_pause_rx(struct serdev_controller *ctrl)
-> +{
-> +	struct serport *serport = serdev_controller_get_drvdata(ctrl);
-> +	struct tty_struct *tty = serport->tty;
-> +
-> +	set_bit(SERPORT_PAUSE_RX, &serport->flags);
-> +
-> +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
+When the buffer does not contain parameters, we take the smaller of the
+buffer string's actual length and the buffer count provided by the user
+as count_first.
 
-What keeps this bit from being set right after you test it?
+Fixes: 5c5daf657cb5 ("Driver core: exclude kobject_uevent.c for !CONFIG_HOTPLUG")
+Reported-by: syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9a321aea9d851b299486
+Tested-by: syzbot+9a321aea9d851b299486@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@sina.com>
+---
+v1 -> v2: change to optimize kobject
 
+ lib/kobject_uevent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..09dbee6d8815 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -78,7 +78,7 @@ static int kobject_action_type(const char *buf, size_t count,
+ 		count_first = args_start - buf;
+ 		args_start = args_start + 1;
+ 	} else
+-		count_first = count;
++		count_first = min_t(size_t, strnlen(buf, count), count);
+ 
+ 	for (action = 0; action < ARRAY_SIZE(kobject_actions); action++) {
+ 		if (strncmp(kobject_actions[action], buf, count_first) != 0)
+-- 
+2.43.0
 
-> +		tty_buffer_flush_work(tty->port);
-> +}
-> +
-> +static void ttyport_resume_rx(struct serdev_controller *ctrl)
-> +{
-> +	struct serport *serport = serdev_controller_get_drvdata(ctrl);
-> +	struct tty_struct *tty = serport->tty;
-> +
-> +	/*
-> +	 * Ensure writes by the driver are visible before allowing traffic to resume.
-> +	 */
-> +	smp_mb__before_atomic();
-> +	clear_bit(SERPORT_PAUSE_RX, &serport->flags);
-> +
-> +	if (test_bit(SERPORT_ACTIVE, &serport->flags))
-
-Same here.  Are you sure you don't need locks?  This feels wrong.
-
-thanks,
-
-greg k-h
