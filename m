@@ -1,77 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FEB4A43E0;
-	Thu, 24 Sep 2026 15:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE25741C2F2;
+	Thu, 24 Sep 2026 17:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265097; cv=none; b=s0wh7SBO24tMqlBlSeU9H396oHnq0IUNyRE6ThhHNu9PJEyqa4fHRX0xFVEU3RwPlFk/A5dZzkAksh02CNg5o0ZbyFNZATtJbRF8Tis2OyPEr5mT3Hm+rBmGW74eZYLrJrj4bYiX+etc/Xnab37dHnx7EvKJ2TJ/oWCUZ3iUq4k=
+	t=1790270519; cv=none; b=Bk2LJ8UCRjfD0wpBr4XZjj6cdMaB7sQ265Vjhyq2oHm/jd/mViusGWOiQIeLwf8pfmBr6U6qfOaFznEAHsTqbW6KgReiTmlhuytvWsksAf2wyuAp0e6NHmP6V5dC7iKvlN1IEMsa718YJG9f3DJUnju5pZ7XmAl+k6ZF1XZVarg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265097; c=relaxed/simple;
-	bh=g8nqpWtSdRFFA7zC1/NnTF3asdU7qapypnaqduZYaYA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XJhNk3N03Hkxpxj7XJxgQ9TCYqu7eBMz1YvHsNu2MwP9RKMbc07e2LUXuZrslRuiH2+ggvFli3yYZNVoug0WKilp92Qewksc4Z80uk9woMeWDWdRpQQ571V3ABQmBBe59BqOw8Yas8BuLueV2tpEwWmuF7jmb9hWQbNFdmWAVek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iDR2bj4E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790270519; c=relaxed/simple;
+	bh=HBC3YtGwOS/hrQSLCFzW0giR+SP29nfbPT/65wjTmVA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=XUC8jGV1QR2ZSkQx3ts8bLV/6ok1XPswRPVuRq1ERQP4pj+Za2WZeIBsAiWfJt0B4bFwQRk7se1J9Ela42j3tKQiyakwEnEXmbSbOGREnVdCTrmRq+YU1H9xv9a6+yPp+IkSKB6NjlboeOqegsJuwCe1AwpB4UIqdKgozXbgoA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfWJgHjt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iDR2bj4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA371F000FF;
-	Thu, 24 Sep 2026 15:51:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfWJgHjt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488BC1F000FF;
+	Thu, 24 Sep 2026 17:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790265094;
-	bh=3UvAeCPkumitIVweVNw8lQWGNCzkNqkC9oqTuxhecZA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=iDR2bj4Emd18d4ZRFVP7SInUoSNDbs0E2W6YM7La8ufGrBspNrvprqm48RIbA1xb8
-	 k6rWXRzcCMsR4xBZ2SQPiGAB2WMBQubhv+ikZQaz5CexlPw0VEN7TGiZMxnlMOVe1R
-	 kVCg7L1eubknEiL0VRNbci92eU//NJQCPt7t8eW0tjTa/gPaeh/JJWHeY1pE0njWK4
-	 hDxBmumdJ/043wjcbEERIBfdqO/OLZOndjhR0/FakY8e9GYPZIVqx9Q0vIa99v6ved
-	 g7Au1m/4GiFI7Qx+qVpoQuOiKc/PQo+g/y8mx2sSlVcD9fQNMmApURcOaAw26KY0Qr
-	 FB9Stu7SJge7g==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Matteo Kloiber <kernel@matt3o12.de>
-Cc: dakr@kernel.org,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	ojeda@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	abdiel.janulgue@gmail.com,
-	daniel.almeida@collabora.com,
-	robin.murphy@arm.com,
-	a.hindborg@kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/2] rust: honor the maximum DMA segment size
-Date: Thu, 24 Sep 2026 17:51:27 +0200
-Message-ID: <20260924155127.96245-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260913210828.125655-1-kernel@matt3o12.de>
-References: <20260913210828.125655-1-kernel@matt3o12.de>
-X-Patch-Reply: applied
+	s=k20260515; t=1790270517;
+	bh=HBC3YtGwOS/hrQSLCFzW0giR+SP29nfbPT/65wjTmVA=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=lfWJgHjti98TQemT6CHMxITv1UlfN1h+FF2he8rd4Q5Ic4jxUwIFecS0eOKr40yQ4
+	 YHBo5xMEnjywMrKcrxgGss1rotB9Dhh7WBV7B+7YmfNmjkzupCxcxlWV4qtNPMBb19
+	 NCcQSAH1WjA1znQLZbVRkXRxOvyd5i6qrtjxshOqEzYugWHh3F8kOquEoipqlTSjnN
+	 RczjE7Jl5QLWCaRAZQ0G6EKGllepLt1WRUw1R+cBfuqVwi9sW5/Z7Sa7fkYZK84djZ
+	 HIIieVSQvMEryHL4lEbfZ80JF4ueoeMSfCCZV1b2KFlWj4heNIDwsJyFLkpPtxJ4ZM
+	 PhPwumnfqGC2w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Thu, 24 Sep 2026 19:21:51 +0200
+Message-Id: <DLNPXJ4WPH4L.2MBUGV1TAESYY@kernel.org>
+Subject: Re: [PATCH v3] rust: io: convert ResourceSize into a transparent
+ newtype
+Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Tamir Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Robin
+ Murphy" <robin.murphy@arm.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>
+To: "Lorenzo Delgado" <lnsdev@proton.me>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260920-resource-size-newtype-v3-1-9451444e83bb@proton.me>
+In-Reply-To: <20260920-resource-size-newtype-v3-1-9451444e83bb@proton.me>
 
-On Sun, 13 Sep 2026 23:08:26 +0200, Matteo Kloiber wrote:
-> [PATCH v2 0/2] rust: honor the maximum DMA segment size
+On Sun Sep 20, 2026 at 2:13 PM CEST, Lorenzo Delgado wrote:
+> `ResourceSize` is a bare type alias for `resource_size_t`, so it
+> inherits every integer operation and `as` cast. That allows operations
+> that make no sense for the size of a hardware resource, such as mixing
+> it with unrelated integers or truncating it with a cast.
+>
+> Wrap it in a `#[repr(transparent)]` newtype so each conversion at a
+> boundary is explicit. The representation is unchanged, so this is
+> ABI-identical; only the spelling at the FFI boundary changes. Provide
+> `from_raw`/`into_raw`, `From` in both directions, and a fallible
+> `TryFrom<ResourceSize> for usize`. On 64-bit, where `resource_size_t`
+> is a `u64`, also implement `FromSafeCastArch<ResourceSize> for usize`,
+> so code that is specific to 64-bit can keep the conversion infallible.
 
-Applied, thanks!
+This looks good now, but it makes me notice that dma_len() shouldn't return
+ResourceSize in the first place.
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+The length of a single SG segment is bounded by max_segment_size, which is =
+also
+unsigned int.
 
-[2/2] rust: scatterlist: honor the device's maximum segment size
-      commit: c15c5befd6d6
+So, I think we should change dma_len() to just return u32 (I'm also fine wi=
+th a
+new type, but it might be slighly overkill).
 
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays).
+I'd usually pick this patch regardless and leave that for a follow-up, as i=
+t is
+a separate issue. But if we change dma_len() first, we only have to update =
+tyr
+once, whereas if change it after we end up touching nova and tyr twice.
 
-The patch is in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+Thanks,
+Danilo
