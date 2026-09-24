@@ -1,90 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from rusty.tulip.relay.mailchannels.net (rusty.tulip.relay.mailchannels.net [23.83.218.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE25741C2F2;
-	Thu, 24 Sep 2026 17:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611B74189B9
+	for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 17:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.83.218.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790270519; cv=none; b=Bk2LJ8UCRjfD0wpBr4XZjj6cdMaB7sQ265Vjhyq2oHm/jd/mViusGWOiQIeLwf8pfmBr6U6qfOaFznEAHsTqbW6KgReiTmlhuytvWsksAf2wyuAp0e6NHmP6V5dC7iKvlN1IEMsa718YJG9f3DJUnju5pZ7XmAl+k6ZF1XZVarg=
+	t=1790270648; cv=none; b=GbqjZLbt/8152smvCTh4nly0bCkAkXiydGjvCyUV2zUX4uVy51JWNWveHzyuFM9EA8FZXL9+DrdYD+Rt6oX72qGV7hrAouyQyBoc9017rcaI+TKyiyHIxtngLuG6ngb5JjQyjR7T/afJfljqvxxyJLPxBbPaSXqi7qD9Sbt+Uh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790270519; c=relaxed/simple;
-	bh=HBC3YtGwOS/hrQSLCFzW0giR+SP29nfbPT/65wjTmVA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=XUC8jGV1QR2ZSkQx3ts8bLV/6ok1XPswRPVuRq1ERQP4pj+Za2WZeIBsAiWfJt0B4bFwQRk7se1J9Ela42j3tKQiyakwEnEXmbSbOGREnVdCTrmRq+YU1H9xv9a6+yPp+IkSKB6NjlboeOqegsJuwCe1AwpB4UIqdKgozXbgoA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfWJgHjt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790270648; c=relaxed/simple;
+	bh=oK/xA9gVMbI2vKHE5I6Vbh18NsrBzHCiAkSaKj73Mww=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I/QMhG4cLIxW13SaeQm1DSOARI0q+NJ4m0774ack2hSyY2lksva8nxgNOlCzS84VRtqcP36KC1iV9eymmyKYD1h20oOlpWjSJUmXy1KlEDYRhCGCF1Ov1jDjV7pO3XGGvs0oeStJUEQA/TUGCewvuxKjF2KnzOUJKZzqAV2320A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaehlcke.net; spf=pass smtp.mailfrom=kaehlcke.net; dkim=pass (2048-bit key) header.d=kaehlcke.net header.i=@kaehlcke.net header.b=hI6zYUEY; arc=none smtp.client-ip=23.83.218.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kaehlcke.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaehlcke.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfWJgHjt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488BC1F000FF;
-	Thu, 24 Sep 2026 17:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790270517;
-	bh=HBC3YtGwOS/hrQSLCFzW0giR+SP29nfbPT/65wjTmVA=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=lfWJgHjti98TQemT6CHMxITv1UlfN1h+FF2he8rd4Q5Ic4jxUwIFecS0eOKr40yQ4
-	 YHBo5xMEnjywMrKcrxgGss1rotB9Dhh7WBV7B+7YmfNmjkzupCxcxlWV4qtNPMBb19
-	 NCcQSAH1WjA1znQLZbVRkXRxOvyd5i6qrtjxshOqEzYugWHh3F8kOquEoipqlTSjnN
-	 RczjE7Jl5QLWCaRAZQ0G6EKGllepLt1WRUw1R+cBfuqVwi9sW5/Z7Sa7fkYZK84djZ
-	 HIIieVSQvMEryHL4lEbfZ80JF4ueoeMSfCCZV1b2KFlWj4heNIDwsJyFLkpPtxJ4ZM
-	 PhPwumnfqGC2w==
+	dkim=pass (2048-bit key) header.d=kaehlcke.net header.i=@kaehlcke.net header.b="hI6zYUEY"
+X-Sender-Id: dreamhost|x-authsender|matthias@kaehlcke.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id E0A429415F2;
+	Thu, 24 Sep 2026 17:23:59 +0000 (UTC)
+Received: from pdx1-sub0-mail-a251.dreamhost.com (100-100-64-102.trex-nlb.outbound.svc.cluster.local [100.100.64.102])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 971039407FB;
+	Thu, 24 Sep 2026 17:23:59 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|matthias@kaehlcke.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|matthias@kaehlcke.net
+X-MailChannels-Auth-Id: dreamhost
+X-Quick-Bubble: 5ccb675256e08514_1790270639729_550259935
+X-MC-Loop-Signature: 1790270639729:3222096326
+X-MC-Ingress-Time: 1790270639728
+Received: from pdx1-sub0-mail-a251.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.100.64.102 (trex/8.0.2);
+	Thu, 24 Sep 2026 17:23:59 +0000
+Received: from bielski.sytes.net (unknown [79.117.203.148])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: matthias@kaehlcke.net)
+	by pdx1-sub0-mail-a251.dreamhost.com (Postfix) with ESMTPSA id 4hrLKW1x34z1049;
+	Thu, 24 Sep 2026 10:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaehlcke.net;
+	s=dreamhost; t=1790270639;
+	bh=oK/xA9gVMbI2vKHE5I6Vbh18NsrBzHCiAkSaKj73Mww=;
+	h=Date:From:To:Subject:Content-Type;
+	b=hI6zYUEYJ7jh3RACo1sEpEjZTEeIGgBBCUEDiBnxWxOh4qd73H14tMFPAiu9DKnOC
+	 Uap4FB/xAddmxtoN6inSKbdVr/mi4LL9RmjG+Tk6+nHxzt1ZD0wcrIilxlpzF1Etdz
+	 WZyo3YvlSA/ZpY8tJXUsKG4mlRfUiGDlzLWboX2n4xmeonku6W654h79m6ogaGJM5r
+	 v/9VI7up29nkQ00iILGbmTtrlbPNe3P68KQL4sg37ENVq083dB8FFKKz0Meol8f/a4
+	 byDaD+1uSa2v4IfftFSsKOLj+KRYQgjAMW9h0iswmI5wFSOPmS66CercPDFpdnudxS
+	 YWh6OXX9CRgFg==
+Received: by bielski.sytes.net (Postfix, from userid 1000)
+	id 716C380E18; Thu, 24 Sep 2026 10:23:56 -0700 (PDT)
+Date: Thu, 24 Sep 2026 19:23:56 +0200
+From: Matthias Kaehlcke <matthias@kaehlcke.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alice Ryhl <aliceryhl@google.com>, driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: debugfs: add primitive type bindings
+Message-ID: <20260924172356.qut7abzafz7xwbqv@bielski>
+Mail-Followup-To: Matthias Kaehlcke <matthias@kaehlcke.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alice Ryhl <aliceryhl@google.com>, driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <9306c51f937e4bb4026e68d862b64b16f6894282.1790103860.git.matthias@kaehlcke.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Sep 2026 19:21:51 +0200
-Message-Id: <DLNPXJ4WPH4L.2MBUGV1TAESYY@kernel.org>
-Subject: Re: [PATCH v3] rust: io: convert ResourceSize into a transparent
- newtype
-Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Tamir Duberstein" <tamird@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Robin
- Murphy" <robin.murphy@arm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>
-To: "Lorenzo Delgado" <lnsdev@proton.me>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260920-resource-size-newtype-v3-1-9451444e83bb@proton.me>
-In-Reply-To: <20260920-resource-size-newtype-v3-1-9451444e83bb@proton.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9306c51f937e4bb4026e68d862b64b16f6894282.1790103860.git.matthias@kaehlcke.net>
 
-On Sun Sep 20, 2026 at 2:13 PM CEST, Lorenzo Delgado wrote:
-> `ResourceSize` is a bare type alias for `resource_size_t`, so it
-> inherits every integer operation and `as` cast. That allows operations
-> that make no sense for the size of a hardware resource, such as mixing
-> it with unrelated integers or truncating it with a cast.
->
-> Wrap it in a `#[repr(transparent)]` newtype so each conversion at a
-> boundary is explicit. The representation is unchanged, so this is
-> ABI-identical; only the spelling at the FFI boundary changes. Provide
-> `from_raw`/`into_raw`, `From` in both directions, and a fallible
-> `TryFrom<ResourceSize> for usize`. On 64-bit, where `resource_size_t`
-> is a `u64`, also implement `FromSafeCastArch<ResourceSize> for usize`,
-> so code that is specific to 64-bit can keep the conversion infallible.
+El Tue, Sep 22, 2026 at 09:18:58PM +0200 Matthias Kaehlcke ha dit:
 
-This looks good now, but it makes me notice that dma_len() shouldn't return
-ResourceSize in the first place.
+> Introduce `impl_debugfs_primitive!` to implement debugfs attribute
+> creation for native Rust primitive types by wrapping C debugfs creation
+> helpers.
 
-The length of a single SG segment is bounded by max_segment_size, which is =
-also
-unsigned int.
+I realized most of the functionality is already there, regular decimal
+attributes can be created using Dir::read_write_file() or
+Dir::read_only_file(), with 'data' being of a type like Atomic<u32>
+or Mutex<u8>, similar to the 'counter' example in the sample driver.
 
-So, I think we should change dma_len() to just return u32 (I'm also fine wi=
-th a
-new type, but it might be slighly overkill).
-
-I'd usually pick this patch regardless and leave that for a follow-up, as i=
-t is
-a separate issue. But if we change dma_len() first, we only have to update =
-tyr
-once, whereas if change it after we end up touching nova and tyr twice.
-
-Thanks,
-Danilo
+Sorry for the noise :)
