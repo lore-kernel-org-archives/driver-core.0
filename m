@@ -1,185 +1,77 @@
-Received: from mta0.migadu.com (out-240.mta0.migadu.com [91.218.175.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504464A99A1
-	for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 15:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FEB4A43E0;
+	Thu, 24 Sep 2026 15:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265077; cv=none; b=uMy9F6PMjjinuK3GY7wkWROpgpX/8626PZK1VB6uAYSfvwHoE/gFeUDIAK41sMjI6G6Fj2KkzAtzZA0kdHoQOKGfj/Qm3kECLTzO85qZuhsNJb5eYw78yUupwbN5DJI1RIsVWhrM3V2ddbDMdVxJVNhp/CkxMNfqNsTT/zzxnDY=
+	t=1790265097; cv=none; b=s0wh7SBO24tMqlBlSeU9H396oHnq0IUNyRE6ThhHNu9PJEyqa4fHRX0xFVEU3RwPlFk/A5dZzkAksh02CNg5o0ZbyFNZATtJbRF8Tis2OyPEr5mT3Hm+rBmGW74eZYLrJrj4bYiX+etc/Xnab37dHnx7EvKJ2TJ/oWCUZ3iUq4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265077; c=relaxed/simple;
-	bh=Ne424r/36je1ilOD3xcuRjIqebPC+88WgD6Zv6z4z2Q=;
+	s=arc-20240116; t=1790265097; c=relaxed/simple;
+	bh=g8nqpWtSdRFFA7zC1/NnTF3asdU7qapypnaqduZYaYA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oyLquWKCAJNGRthsxYDfp4fb8RGM0kGctptMBCdpYNrH/aCStLaAa92Snh7sXVjUXoPe1G8QDO10Ldmi2AnFDQuvcl2NkRpZ1Zf6ukjYeMiVSZaImV0pCPuRUIRKGEHBcaA7jinwLg8bVg+TTW90tQPsgvlec9X2f4mGYdT2U1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BXtvTzyd; arc=none smtp.client-ip=91.218.175.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 MIME-Version:Content-Type; b=XJhNk3N03Hkxpxj7XJxgQ9TCYqu7eBMz1YvHsNu2MwP9RKMbc07e2LUXuZrslRuiH2+ggvFli3yYZNVoug0WKilp92Qewksc4Z80uk9woMeWDWdRpQQ571V3ABQmBBe59BqOw8Yas8BuLueV2tpEwWmuF7jmb9hWQbNFdmWAVek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iDR2bj4E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BXtvTzyd"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=Ne424r/36je1ilOD3xcuRjIqebPC+88WgD6Zv6z4z2Q=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790265073; v=1; x=1790869873;
- b=BXtvTzydL7v0prAOoASk9PdgJnEKqHbiY+HJNs6fIR7O7l/a3uP/XWHZWcxYlO3tMYyO8k50
- /Uq0JKIfVz4FNIKXgw/1MXAIVGphWUhGVCDKVBWzjy+/pYtXPTweyyAeMXXgk1mfbgfl/tBSkFM
- 8chGPsdYDDBDSOzqeFUm4Da4=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id df65bdec98111fa4;
-	Thu, 24 Sep 2026 15:51:12 +0000
-X-Mizu-Trace-ID: df65bdec98111fa4
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Cc: Paul McKenney <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iDR2bj4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA371F000FF;
+	Thu, 24 Sep 2026 15:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790265094;
+	bh=3UvAeCPkumitIVweVNw8lQWGNCzkNqkC9oqTuxhecZA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=iDR2bj4Emd18d4ZRFVP7SInUoSNDbs0E2W6YM7La8ufGrBspNrvprqm48RIbA1xb8
+	 k6rWXRzcCMsR4xBZ2SQPiGAB2WMBQubhv+ikZQaz5CexlPw0VEN7TGiZMxnlMOVe1R
+	 kVCg7L1eubknEiL0VRNbci92eU//NJQCPt7t8eW0tjTa/gPaeh/JJWHeY1pE0njWK4
+	 hDxBmumdJ/043wjcbEERIBfdqO/OLZOndjhR0/FakY8e9GYPZIVqx9Q0vIa99v6ved
+	 g7Au1m/4GiFI7Qx+qVpoQuOiKc/PQo+g/y8mx2sSlVcD9fQNMmApURcOaAw26KY0Qr
+	 FB9Stu7SJge7g==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Matteo Kloiber <kernel@matt3o12.de>
+Cc: dakr@kernel.org,
+	acourbot@nvidia.com,
+	aliceryhl@google.com,
+	ojeda@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	abdiel.janulgue@gmail.com,
+	daniel.almeida@collabora.com,
+	robin.murphy@arm.com,
+	a.hindborg@kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
 	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 7/7] kernfs, cgroup: track holders of the cgroupfs locks
-Date: Thu, 24 Sep 2026 08:50:25 -0700
-Message-ID: <20260924155025.949998-8-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260924155025.949998-1-shakeel.butt@linux.dev>
-References: <20260924155025.949998-1-shakeel.butt@linux.dev>
+Subject: Re: (subset) [PATCH v2 0/2] rust: honor the maximum DMA segment size
+Date: Thu, 24 Sep 2026 17:51:27 +0200
+Message-ID: <20260924155127.96245-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260913210828.125655-1-kernel@matt3o12.de>
+References: <20260913210828.125655-1-kernel@matt3o12.de>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Opt the cgroupfs kernfs rwsems, cgroup_mutex and cgroup_threadgroup_rwsem
-in to lock holder tracking.
+On Sun, 13 Sep 2026 23:08:26 +0200, Matteo Kloiber wrote:
+> [PATCH v2 0/2] rust: honor the maximum DMA segment size
 
-Add KERNFS_ROOT_TRACK_LOCK_HOLDERS, which opts in a root's kernfs_rwsem,
-kernfs_iattr_rwsem and kernfs_supers_rwsem, and pass it from
-cgroup_setup_root(). Other kernfs users have their own roots, so only
-cgroupfs is affected. All three are held across work that can allocate,
-so a holder stuck in reclaim can stall many other cgroupfs operations;
-kernfs_iattr_rwsem is write-held across kernfs_iattrs(), which allocates
-with GFP_KERNEL.
+Applied, thanks!
 
-cgroup_mutex is taken by every cgroup create, destroy and migrate, and is
-held across the same kind of work, so a stalled holder stalls the whole
-cgroupfs control plane.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-cgroup_threadgroup_rwsem is taken for read on every fork and exit, and
-usually for write on migration, so a stalled holder can stall process
-creation on the whole machine.
+[2/2] rust: scatterlist: honor the device's maximum segment size
+      commit: c15c5befd6d6
 
-The last two are statically defined, so opt them in from cgroup_init().
-That runs after jump_label_init() and before anything can take either
-lock.
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-signal->cgroup_threadgroup_rwsem, used with favordynmods, is left alone.
-Its readers also hold cgroup_threadgroup_rwsem, so they are counted
-already, and its writer only blocks the process being migrated.
-
-These opt-ins are for a policy that reads the count. On their own they
-only turn on the static branch, so they should go in with that policy.
-
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- fs/kernfs/dir.c        |  5 +++++
- include/linux/kernfs.h |  7 +++++++
- kernel/cgroup/cgroup.c | 27 ++++++++++++++++++++++++++-
- 3 files changed, 38 insertions(+), 1 deletion(-)
-
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index cc6288d5b4cc..1116bb38c1ff 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -1035,6 +1035,11 @@ struct kernfs_root *kernfs_create_root(struct kernfs_syscall_ops *scops,
- 	init_rwsem(&root->kernfs_rwsem);
- 	init_rwsem(&root->kernfs_iattr_rwsem);
- 	init_rwsem(&root->kernfs_supers_rwsem);
-+	if (flags & KERNFS_ROOT_TRACK_LOCK_HOLDERS) {
-+		rwsem_track_holder(&root->kernfs_rwsem);
-+		rwsem_track_holder(&root->kernfs_iattr_rwsem);
-+		rwsem_track_holder(&root->kernfs_supers_rwsem);
-+	}
- 	INIT_LIST_HEAD(&root->supers);
- 	rwlock_init(&root->kernfs_rename_lock);
- 
-diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
-index 73786b567ccd..ea2efdc5277e 100644
---- a/include/linux/kernfs.h
-+++ b/include/linux/kernfs.h
-@@ -156,6 +156,13 @@ enum kernfs_root_flag {
- 	 * Renames must not change the parent node.
- 	 */
- 	KERNFS_ROOT_INVARIANT_PARENT		= 0x0010,
-+
-+	/*
-+	 * Track the holders of this root's rwsems (see
-+	 * CONFIG_TRACK_LOCK_HOLDERS).  Use it for roots whose locks are
-+	 * shared so widely that a stalled holder stalls unrelated work.
-+	 */
-+	KERNFS_ROOT_TRACK_LOCK_HOLDERS		= 0x0020,
- };
- 
- /* type-specific structures for kernfs_node union members */
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 804318ae160e..87d66aae2558 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -2191,11 +2191,18 @@ int cgroup_setup_root(struct cgroup_root *root, u32 ss_mask)
- 	kf_sops = root == &cgrp_dfl_root ?
- 		&cgroup_kf_syscall_ops : &cgroup1_kf_syscall_ops;
- 
-+	/*
-+	 * Track the holders of the cgroupfs kernfs locks.  They are held
-+	 * across work that can charge memory, so a holder stuck in reclaim
-+	 * can stall many other cgroupfs operations.  Other kernfs users have
-+	 * their own roots and are not affected.
-+	 */
- 	root->kf_root = kernfs_create_root(kf_sops,
- 					   KERNFS_ROOT_CREATE_DEACTIVATED |
- 					   KERNFS_ROOT_SUPPORT_EXPORTOP |
- 					   KERNFS_ROOT_SUPPORT_USER_XATTR |
--					   KERNFS_ROOT_INVARIANT_PARENT,
-+					   KERNFS_ROOT_INVARIANT_PARENT |
-+					   KERNFS_ROOT_TRACK_LOCK_HOLDERS,
- 					   root_cgrp);
- 	if (IS_ERR(root->kf_root)) {
- 		ret = PTR_ERR(root->kf_root);
-@@ -6552,6 +6559,24 @@ int __init cgroup_init(void)
- 	get_user_ns(init_cgroup_ns.user_ns);
- 	cgroup_rt_init();
- 
-+	/*
-+	 * cgroup_mutex is taken by every cgroup create, destroy and migrate
-+	 * and is held across work that can allocate, so a holder stuck in
-+	 * reclaim stalls the whole cgroupfs control plane.
-+	 *
-+	 * cgroup_threadgroup_rwsem is taken for read by fork and exit, and
-+	 * usually for write by migration, so a stalled holder can stall
-+	 * process creation on the whole machine.
-+	 *
-+	 * Neither can be held yet, as rest_init() has not run.
-+	 *
-+	 * signal->cgroup_threadgroup_rwsem is not tracked.  Its readers hold
-+	 * cgroup_threadgroup_rwsem too, so they are counted already, and its
-+	 * writer only blocks the process being migrated.
-+	 */
-+	mutex_track_holder(&cgroup_mutex);
-+	percpu_rwsem_track_holder(&cgroup_threadgroup_rwsem);
-+
- 	cgroup_lock();
- 
- 	/*
--- 
-2.53.0-Meta
-
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
