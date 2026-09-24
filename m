@@ -1,246 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB06C427FA2
-	for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 07:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA881279329;
+	Thu, 24 Sep 2026 08:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790235000; cv=none; b=bq8ajy9zPMpkK6GxfstUhaWWMalzt5QEeoxhV6sy44wrneuuLgRCNk/eIb+8BL6uB21OmCa9ob7NJKBmDcyGS2P2UdkBaM/sxN8RXeR+BICluPo9MykO9ggUYLtQLv0tLIwbBggziGLCLDXwSVq5F8xzREOgJ0jeL4UFb8tH45Q=
+	t=1790237166; cv=none; b=KJDHBT7tqHTYpxipAGLv/Q2itldlMDMMHnBAtQWFKIsSMOnSzK/T0+Ybzunf5IuRCbuMMO89BPHegVKl50aQTnUVGK4PfjpSpspyISNHfV98Wg9hq0emuwHfdUl6OmL6X9QH+1OX1WFmTrproIHdpfECitkVBxdvGuySEBxGtzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790235000; c=relaxed/simple;
-	bh=CMvlXvQYKT+sEUJAuGnvK2SuGOnVwIle5gvPOXA8pbM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Iv/882DpkWhG/vRa+s6Q0/sXpEVe4pVxX/WJkow7LJaA08qPRHOULI0ZA6ykAy5VUPlWFtuR9XXaOAzs6CbkSqsth2h1sJRnUA8JlD2pHoDCQEEHUtwzeyIcAF6DUKx5EH1KBdtd3u1KSLzvONxFoYfjFieEiT4cNILvsgIse9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCIcLM0N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790237166; c=relaxed/simple;
+	bh=fMy5L3onQ/mCMbk9uvhdtszHR00Q4pNzwNngSluHJU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CbzH2U6efl9iMVXLs22pWZGs8iFylIswIYWoEfp/TihVqLI4lr5QvHEPwDJYHb2iAx/PNulORULBz6fmg5rzdN5Ex18E8rhbZV06KlGCj39ej2qgf2GXuDeyU19aoDgpuYL6cTplIGgK+cC2yzwWix4qidWFI8A5Dy5cUwITgro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=F9wM4CdT; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCIcLM0N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82A731F008A2
-	for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 07:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790234998;
-	bh=o6e4OwppNAvQffTq3Mizz05+V9H4+0j9jUd7tnJWyV8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LCIcLM0N99+Hbop+wqdHdOkenjitA5y/3608MdBzkOzFotLGp6gVNHaSFVDWw0R5p
-	 aF01uR+29naehlScZFBv5fnawbZg5H9xR4NOcv0D43X6Z47e2HhzZ+0OLenR3Mbgr+
-	 qZgvMTTC+VLE1zySrodN36DdX7fRUxq2jU8uVNwZk1/WLcIkLvqiCnLQqWJ8h9GdTO
-	 DGy3Ox7GEfYF64dQZtvL6cRwI2FmliT+l9xrBZcwk5Zwaq1ecQ1D1cm4NHu7i+ycC1
-	 B3f2YKA3eNBuxabLGwJ6GapVklHVMMN7mQiLYK9PS+gPWBlOoy5l9GWERgZY6cDzMh
-	 bGWLEtDSHTJKA==
-Received: by mail-ed2-f31.google.com with SMTP id 4fb4d7f45d1cf-6aab226e7c8so3121473a12.2
-        for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 00:29:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwt2J+Z1Sq54oUSp3YgvePWLwCEXygL734zk5F43V/o7ANU1I9xBSp4UKZrG53ORxYEGAKY8Py0oA/RhA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nU0YShEL32bqtqai4zeeiQYzvEY6WGDr/cOqV9CkEYKu4aGtV8
-	NAUg43kIMjOnXMtQKZ85vICYO6ew8ufkasm5rB4avK1/LRURsVXTA0MzOrhTcZ5/DgbuH7ZYW1v
-	wdnFQ4PwIJxn3JFDv3qJpK69F6bc8Lec=
-X-Received: by 2002:a05:6402:454c:b0:6a9:a362:4646 with SMTP id
- 4fb4d7f45d1cf-6aac8f6a1cfmr1047631a12.14.1790234997231; Thu, 24 Sep 2026
- 00:29:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="F9wM4CdT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D4pwJDZWOqh/hw3D17gGVEdJvGYroglznr17ndoiVvg=; b=F9wM4CdTNbYPVU80xe6fdTWnzF
+	bvdZA245J9hWqzvUER1qYYN4LlttZZfSmKidXPwnldI4ShJmTtHG5O1WMEcPMpkvM7wlTBgZZvvWg
+	MGz0MsjR0Zx4sE5VS6JwP8pUwcH5lejuK39d9GRjOIJoskT9TP8+KoKzwR8z/6ryebh4Ux5s5huCa
+	Cvt9jmsnWd/8Co0lbE614AZEsUUYGArsEGAcQsnEdCbEitSCMQO5lgRQfRfABYhP+w72dKWzMC6OF
+	/jxTaFkxPZM3t0EN6vXHQ9rl/I7VLD1MzaRvdEoxtL0yrHT6nLx1FsC7/v5qVbg69S5rvfjxbEj8v
+	T1lu1IMA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1x9eSl-0000000FhPN-1wnb;
+	Thu, 24 Sep 2026 08:05:52 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 97186300756; Thu, 24 Sep 2026 10:05:50 +0200 (CEST)
+Date: Thu, 24 Sep 2026 10:05:50 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Paul McKenney <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Meta kernel team <kernel-team@meta.com>, cgroups@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] locking: opt-in tracking of sleeping lock holders
+Message-ID: <20260924080550.GI2009045@noisy.programming.kicks-ass.net>
+References: <cover.1790139577.git.shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com> <20260626-clk-sync-state-v1-1-4156d8196dc8@redhat.com>
-In-Reply-To: <20260626-clk-sync-state-v1-1-4156d8196dc8@redhat.com>
-From: Saravana Kannan <saravanak@kernel.org>
-Date: Thu, 24 Sep 2026 00:29:45 -0700
-X-Gmail-Original-Message-ID: <CACRMN=dAxriWU7Age3g9o_d6zyz8hj2p76vHXJSs7sCFxSwuWw@mail.gmail.com>
-X-Gm-Features: AclHuK-NBcm4IMn1oaE4L5Cw3_gYXDaNTrtvMEQJ9SGgnBgHjAAixNmXtLBSKIk
-Message-ID: <CACRMN=dAxriWU7Age3g9o_d6zyz8hj2p76vHXJSs7sCFxSwuWw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] driver: core: introduce dev_add_sync_state()
-To: Brian Masney <bmasney@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Xuyang Dong <dongxuyang@eswincomputing.com>, 
-	Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
-	Hans de Goede <johannes.goede@oss.qualcomm.com>, Maxime Ripard <mripard@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Abel Vesa <abelvesa@kernel.org>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1790139577.git.shakeel.butt@linux.dev>
 
-On Fri, Jun 26, 2026 at 9:33=E2=80=AFAM Brian Masney <bmasney@redhat.com> w=
-rote:
->
-> We have cases where a device node represents a provider for multiple
-> types of resources, like clocks, power-domains, resets, etc. We
-> currently have dev_set_drv_sync_state() where a framework or driver
-> can set the sync_state callback for a device node, however it currently
-> only supports a single sync_state callback.
->
-> The pmdomain subsystem currently sets up a sync_state callback in the
-> core framework, and the clk subsystem will setup it's own separate
-> sync_state callback in the core framework. These can collide with each
-> other on some types of devices that have multiple types of resources.
-> Additionally, some clk drivers already have their own separate
-> sync_state callback already defined.
->
-> Let's introduce support for allowing drivers and frameworks to add their
-> own sync_state callback via a new function dev_add_sync_state() so that
-> multiple sync_state callbacks can coexist.
+On Tue, Sep 22, 2026 at 10:01:17PM -0700, Shakeel Butt wrote:
 
-I had already thought about this scenario when I implemented the
-framework. Your driver should just set its sync_state() callback and
-that my_drv_sync_state() will simply call the sync state helper
-functions provided by the relevant frameworks.
+> Shakeel Butt (7):
+>   locking: add opt-in tracking of sleeping lock holders
+>   locking/rwsem: track holders of opted-in rw_semaphores
+>   locking/mutex: track holders of opted-in mutexes
+>   locking/percpu-rwsem: track holders of opted-in percpu_rw_semaphores
+>   locking/selftests: add KUnit tests for lock holder tracking
+>   Documentation/locking: document sleeping lock holder tracking
+>   kernfs, cgroup: track holders of the cgroupfs locks
 
-This link list is adding a lot of code without any clear benefit. And
-it also doesn't work for drivers that might care for a particular
-sequence of framework sync_state() callbacks. Instead your are forced
-to follow whatever order in which the frameworks are adding the sync
-state callbacks to your device.
-
-I don't think this patch is a good idea.
-
--Saravana
-
->
-> Link: https://lore.kernel.org/linux-clk/CAPx+jO9JiV16ePLk59hTQzEMnA96Va6N=
-s4jqJbwyZ6oTT0AjXA@mail.gmail.com/
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> Assisted-by: Claude:claude-opus-4-6
-> ---
->  drivers/base/base.h    |  7 +++++++
->  drivers/base/core.c    | 29 +++++++++++++++++++++++++++++
->  include/linux/device.h | 11 +++++++++++
->  3 files changed, 47 insertions(+)
->
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index a5b7abc10ff0..339db4afbeb4 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
-> @@ -178,6 +178,8 @@ static inline bool dev_has_sync_state(struct device *=
-dev)
->
->         if (!dev)
->                 return false;
-> +       if (!list_empty(&dev->sync_state_list))
-> +               return true;
->         drv =3D READ_ONCE(dev->driver);
->         if (drv && drv->sync_state)
->                 return true;
-> @@ -188,10 +190,15 @@ static inline bool dev_has_sync_state(struct device=
- *dev)
->
->  static inline void dev_sync_state(struct device *dev)
->  {
-> +       struct sync_state_entry *entry;
-> +
->         if (dev->bus->sync_state)
->                 dev->bus->sync_state(dev);
->         else if (dev->driver && dev->driver->sync_state)
->                 dev->driver->sync_state(dev);
-> +
-> +       list_for_each_entry(entry, &dev->sync_state_list, node)
-> +               entry->fn(dev);
->  }
->
->  int driver_add_groups(const struct device_driver *drv,
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 4d026682944f..acc12f402dd3 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -2612,6 +2612,7 @@ EXPORT_SYMBOL_GPL(device_show_string);
->  static void device_release(struct kobject *kobj)
->  {
->         struct device *dev =3D kobj_to_dev(kobj);
-> +       struct sync_state_entry *entry, *tmp;
->         struct device_private *p =3D dev->p;
->
->         /*
-> @@ -2625,6 +2626,11 @@ static void device_release(struct kobject *kobj)
->          */
->         devres_release_all(dev);
->
-> +       list_for_each_entry_safe(entry, tmp, &dev->sync_state_list, node)=
- {
-> +               list_del(&entry->node);
-> +               kfree(entry);
-> +       }
-> +
->         kfree(dev->dma_range_map);
->         kfree(dev->driver_override.name);
->
-> @@ -3239,12 +3245,35 @@ void device_initialize(struct device *dev)
->         INIT_LIST_HEAD(&dev->links.consumers);
->         INIT_LIST_HEAD(&dev->links.suppliers);
->         INIT_LIST_HEAD(&dev->links.defer_sync);
-> +       INIT_LIST_HEAD(&dev->sync_state_list);
->         dev->links.status =3D DL_DEV_NO_DRIVER;
->         dev_assign_dma_coherent(dev, dma_default_coherent);
->         swiotlb_dev_init(dev);
->  }
->  EXPORT_SYMBOL_GPL(device_initialize);
->
-> +int dev_add_sync_state(struct device *dev,
-> +                          void (*fn)(struct device *dev))
-> +{
-> +       struct sync_state_entry *entry;
-> +
-> +       if (!dev || !dev->driver)
-> +               return 0;
-> +
-> +       list_for_each_entry(entry, &dev->sync_state_list, node)
-> +               if (entry->fn =3D=3D fn)
-> +                       return 0;
-> +
-> +       entry =3D kmalloc_obj(*entry);
-> +       if (!entry)
-> +               return -ENOMEM;
-> +
-> +       entry->fn =3D fn;
-> +       list_add_tail(&entry->node, &dev->sync_state_list);
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(dev_add_sync_state);
-> +
->  struct kobject *virtual_device_parent(void)
->  {
->         static struct kobject *virtual_dir =3D NULL;
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 7b2baffdd2f5..b7a3dd4b56ed 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -642,6 +642,8 @@ enum struct_device_flags {
->   * @driver_override: Driver name to force a match.  Do not touch directl=
-y; use
->   *                  device_set_driver_override() instead.
->   * @links:     Links to suppliers and consumers of this device.
-> + * @sync_state_list: List of sync_state callbacks added by subsystem
-> + *             frameworks (e.g. clk, genpd) via dev_add_sync_state().
->   * @power:     For device power management.
->   *             See Documentation/driver-api/pm/devices.rst for details.
->   * @pm_domain: Provide callbacks that are executed during system suspend=
-,
-> @@ -723,6 +725,7 @@ struct device {
->                                          */
->
->         struct dev_links_info   links;
-> +       struct list_head        sync_state_list;
->         struct dev_pm_info      power;
->         struct dev_pm_domain    *pm_domain;
->
-> @@ -1137,6 +1140,14 @@ static inline int dev_set_drv_sync_state(struct de=
-vice *dev,
->         return 0;
->  }
->
-> +struct sync_state_entry {
-> +       struct list_head        node;
-> +       void                    (*fn)(struct device *dev);
-> +};
-> +
-> +int dev_add_sync_state(struct device *dev,
-> +                          void (*fn)(struct device *dev));
-> +
->  static inline void dev_set_removable(struct device *dev,
->                                      enum device_removable removable)
->  {
->
-> --
-> 2.54.0
->
+Not sure what's gone wrong, but I only have a partial set. If you want
+me to look at them, send me whole set.
