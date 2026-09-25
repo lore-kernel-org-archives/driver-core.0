@@ -1,84 +1,93 @@
-Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3804F7993
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 21:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6E6509EE5
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 23:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790371172; cv=none; b=Ig5b+1VVUg3Q8uJjgGg7nTgvQeh6V3+/WuQaXPUaIlytdwZGHnAVeUeWoVgWHkU622N4XswsTUu2WCKIo/YVY5FlQ1tG47OY/8DNeXqUn3nR37DzoxOMscfKR02AcJA+Uptuv9A4ATywkRi1avyntk31PN8Kv9+906gEQyBTzZY=
+	t=1790377386; cv=none; b=EYlKQ3SRHJBLmqhq9va67M03IwK/Ca8nfJJxHEgQbrElgd8Aw/kf3GyKyhDRSPuHbLGvvIg0a2NZpiU/csqK2hSO9dv6SkmuddWTLrHuEjkTIvnmyRWE4dpxBZqcnu+olekcviPoERphHyE6vl5G9rDShDlsN9sWayDj25PHWUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790371172; c=relaxed/simple;
-	bh=+ycUu4Lrfdhzd9jKGwQrR5OBQYug2brCLTLBMKycAlE=;
+	s=arc-20240116; t=1790377386; c=relaxed/simple;
+	bh=jandskfkITyjC7rvkXLAEoCYbYIdJkGLy5tzhgU6M4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufOiQe4OwWhSrsksj8iU/xCqGlUeyy0XMKmN1kS9TM3Hpcy5vrV3p0svEtCE8w6CXXW3U+2o19wKnQuRh5eUUDo+d7+ib6TcR86Li8WcdHSBkHyelCDCOqH8nB/el0v1UNpUHyKtvPKve+diRbfKFg9gNk1yUiEyxOyCpxna78w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuMeVvmN; arc=none smtp.client-ip=74.125.229.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/CTLjLUhWvlpyUbu58zMTlbTbxE8vsxiiWIisIJMltUxiUO72uQvGeTHLW3LCCEoBc5/p9eTyIAmJFtyg/zsWet8xUxkbD+FBgn7+trInvwwmCUC8MrD1NHfCuJBzOMmoeJA2640Y/qDMpI2euxiP+Bnv9ZcajR9cGC9EtqQlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Yqw8MZro; arc=none smtp.client-ip=74.125.230.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuMeVvmN"
-Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-33bb1a50f6fso730543eec.2
-        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 14:19:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Yqw8MZro"
+Received: by mail-qk2-f43.google.com with SMTP id af79cd13be357-93a2a8c29c4so143742185a.3
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 16:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790371170; x=1790975970; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1790377383; x=1790982183; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
-        b=GuMeVvmN9YupdhYPuwuEGH/FN5+OMJPv+B7YsI0NYzbPG1lh2EqhaWjUpSXBftAxNK
-         n/PaqD4wLi+zuA/pqZkl1KFp4E5ED3qwCpcSqy2KUFfuUbaofySO6gb4VL1nzEqvZADK
-         MC+qDv5LchtMINOzWGlSQXwnvYhWmL1C3Td+PnANXlvn75C1GJe2isCjwRKk9zHEK8p/
-         xSrQ2C/zDuIUzSxxkDNFQzODjWnY622wRW4P1N+/W+ngiYJ7tj1qCKqrVCmsYfUrnFPU
-         x8Yk6hpgAA+ZaWytrnAH6OrSV3lZRuOAt8TFXeKE8YN2NbRqUO6m2Zm+zM/PQCoHVUUR
-         d+vA==
+        bh=PiEVC1BfM3JbJHmz6IrQSpeOS1QFhfgMFnl3j26Htjk=;
+        b=Yqw8MZro9UDKKrc1IJUOAwv2O8lyw6cCFSbq2IDce6k9h09f6wA0Oi8GrcJxL32nOn
+         qHYT/pWTKDlp6ogNvZFoyI51AmWVIlsEFLWWqSMGlo0IAchVcrSzEaIB2RCoRrvo4kMi
+         c/WBEfCWGlU70hXQf4i/id74pS28OhsYCN4DWCUXh44OErUJMUtGJUNgwK6Vhft7QwDw
+         zzzf0S3vi4vo6uFsoKtyVavTtrHbGtUN+/n3v5W2Ahtx3HcMe/qxrsg+5Qn6zkj8qxBb
+         6y1iAttdsLkOBZPE4NtiLuHUVVxl0+JukHucFj2R3YjuHqhd8dYmIYdk1ibKChWe2O/O
+         WqGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790371170; x=1790975970;
+        d=1e100.net; s=20260707; t=1790377383; x=1790982183;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
-        b=o5w4yzm3vtbIsClfSxgsCWKEUy6TEj0MAgfkPX6dAyvGQrEFHgbR5QFC6/jmlvLPJL
-         w9Ylhi5/e7fkmQQe5db8bmROs91dRDgmHJ7DEF+XS5AmhucsqNx71H+jCb9Wclg7jWUD
-         z3vpN2b+Kgk7W+qFfFCMFbnoNj6U0ZeUEobmSPRev6ZqrtBhpo3L1geG23pZNDGm42Fe
-         QYOeima63CbB5rjs8xcQs444PZX2DapDVImrBqXbKhTHirPs9dGwcqp2T5sjEtJF7oJL
-         8dYh9SNHElXhuBJAtXZ2PhnAeWSKwrh9TWfc4F1g+LdtKrzWET5USIlWW8STfkrRvmJw
-         C0vA==
-X-Forwarded-Encrypted: i=1; AKwUvByPLPawteAyoxhABabwoQQlqjrMTimN10YIE7h9LgFlRgaqTt/2RDM8jU4ESCyEY+hX0QSM9Ftq1D70Iw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nCS41PcNhozyFyUZ1GFM69n1LYpI29fNGPZXStI5gplThCBqCs
-	02doWclOpPLTBuxrU5iSgv1iMeow33iLBXfvC3or3VP37vx+kjR9V0JOpFePVEcb
-X-Gm-Gg: AYBFou1sjz2c1L0kPg3n9tXJT4Sgqm6OuZQkYV+vg9OCkUiGoXDaZHQTAO83rs4Z+Mu
-	plEkHIQfmjzO8kAaW37AVLEZX5PUJeBfGrrsCYCYKeq1foMakgX98CAM/8PqSq1nB9whgyiow7J
-	dfQueXsxb5ThxtJqHD+kVFIdt48fFo3hjADCtOkLyrIO1pRzrFN58sidxLDC9in7x0f5cQcxDW3
-	lvecsgvruY37tRGzkR7bnxp58vt3WFSEvXFxjbSXpYPcTizOEKrzfabUYH5UxqhqmSV6K/2yP0M
-	IRyYNJj2Qarq9VUUnEEWIylOzkn+vnbELyD8pO6H9lhwhAjHMitDosaf3LKYcXSk9t2FuubQ52x
-	m2FlDdFuq/Vi82S1TqyGdwIWYKMrNrp5RLNaE8jKWnC4BTZclwGFvjMN0FidnHJStl8cd4ex3vw
-	/mDbcItIwwu1NUgo4nh/F2oAFHshMUW9uSvyWLDQnC5ND7bdS+nLUXciqvbRgn1erMIP152JHkn
-	hDRMthhvSuANTqRuM6tGG4p221xqrwadwjLkNA=
-X-Received: by 2002:a05:7300:dd48:b0:33b:eb33:9f70 with SMTP id 5a478bee46e88-34272a41d89mr1027757eec.37.1790371169410;
-        Fri, 25 Sep 2026 14:19:29 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3416e4c2f50sm8029385eec.27.2026.09.25.14.19.27
+        bh=PiEVC1BfM3JbJHmz6IrQSpeOS1QFhfgMFnl3j26Htjk=;
+        b=lex68/+fasarzJ3gEHv9jvcZLWfFrqsGogXNDeROjo+rNQBoEgTPEnpBSP6mdlgtp4
+         nSt8ZXpICsp0LAePVw8v8jfPabG62n/qFFIvsd03OLaah4Cf5aj7IK7yw510sISkkQiT
+         JdvaOTcEwThgToW5wTW8RWC2uZqzqorFO7ZeT6PKaiFEcyGgyHiNK3kJr2F2XvYLiiG/
+         JAtbe0AbIOmyVBhiWDQVg1R/0zEvV8/RLMuIIw8cd7ptGLxRVAQ9m6losqwBYfWU8qZ5
+         DMFWhAwcOWRfYeA+m9qLnr3K0SlOMd7KNnhNssyk4Yahba9MJw9cbykZMhaPYDzCQv1+
+         J9Jg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/dU2tg7cGy+rWG5ngUQCbmFXbIni30a0AchqCQUpURUBL7+Ass+SGLAGxbrwktueOV91WR4mzQ8rK1Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++kYovGWz30hirTrpC0oJbme4T/28CUYRJb/vUBo1ZUcDITJhgqn
+	GTWqqvPWGSo55vWEWt/JFuKMYeTVj/c3Au6ym8rwrBPypqMWPvYHZIP7jpsZxCQ5scM=
+X-Gm-Gg: AYBFou0rQ+Km0j89K1tfu8BN+qZE4kGsBBVkZSDeu02H5iPi/Tl5f+3ogBMSKhKDA9s
+	Xxj45qeFzfENRGLPs1MEZwrngJxhMxG977FxoUL1T1quGRA6j5AQ+4G0UQkc5T817zN8ZEL1v9G
+	4WLtVDcMujvn/sC3QLqW5PoYGAGRDWCE4a/z3S5lc5aaRed8FXx+hPnGw8ABLCCOXt5HgEEPFkF
+	QLduIcQf0t1nlYDQNF1eVoqYZndiQs4fuurSoiVUtDaJYO9OCVgns3z/n5UokiZ7P7081FQ0di8
+	cfY/gzM6vGL84fbnKmwhYKYPoS2WNVF3/9HE8Kgh5OtuGQfOAJ4/+R+HHeExZpYxk27mfjPN9lO
+	hdn9sPj3RfHbfJkqJ65x4cmhIkk0zEV35NO+a7vFC+FzIFBBCaoYnvUsLs9BZEi/Zpx8iWgYS0s
+	btuD/aJYZYT+M6fdOoNJdhd5EEMG1xQQkTEjVvJEvc33eHSZ5MbYvnP/iMGv/AijOSL+3vToNRU
+	S+66XJENgT3gUgx1ItmOsLscegHxdKKDp+uqNvNc+ckDF7tLsTi3Gk=
+X-Received: by 2002:a05:620a:2614:b0:93a:2bdc:cd57 with SMTP id af79cd13be357-93c43b7f72amr755724385a.2.1790377382584;
+        Fri, 25 Sep 2026 16:03:02 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c4493af29sm290317085a.28.2026.09.25.16.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 14:19:28 -0700 (PDT)
-Date: Fri, 25 Sep 2026 14:19:25 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <arbkvK54vT7SIyjV@google.com>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
- <apA8n524yIn-g6ep@hovoldconsulting.com>
+        Fri, 25 Sep 2026 16:03:02 -0700 (PDT)
+Date: Fri, 25 Sep 2026 19:02:59 -0400
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: Zhigang.Luo@amd.com, arun.george@samsung.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <arb0mV23QmRVDtB3@gourry-fedora-PF4VCD3F>
+References: <20260720193431.3841992-1-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -87,53 +96,201 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apA8n524yIn-g6ep@hovoldconsulting.com>
+In-Reply-To: <20260720193431.3841992-1-gourry@gourry.net>
 
-On Thu, Aug 27, 2026 at 03:33:19PM +0200, Johan Hovold wrote:
-> On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
-> > The ability to add and remove devices from a driver through the sysfs
-> > "bind" and "unbind" files was created all those decades ago as a way
-> > that kernel developers can iterate faster, and provide a debugging way
-> > for users to attempt to add a new device to a driver without having to
-> > rebuild their kernel.
-> > 
-> > This api over the years has been abused and recently come under a major
-> > fuzzing "attack" through tools like syzbot which decided that it would
-> > attempt to just randomly bind any driver to any type of device, causing
-> > loads of unneeded errors and pointless kernel patches to be generated by
-> > unsuspecting new developers.
-> > 
-> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > will be set on the driver if the bind/unbind sysfs files are ever
-> > successfully written to.  This lets kernel developers "know" that a user
-> > is attempting to do something that is not normal, and as such, if the
-> > kernel breaks they get to keep the shiny pieces laying around on the
-> > floor.
-> > 
-> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > as many times crashes/oops/warnings/failures happen within the callback,
-> > and the taint flag needs to be there to show what was being attempted.
-> > If it were to be set after the callback happens, the oops report would
-> > not properly reflect what foolishness was being attempted.
-> > 
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Mon, Jul 20, 2026 at 03:33:54PM -0400, Gregory Price wrote:
+> This series introduces the concept of "Private Memory Nodes", which
+> are opted into two basic functionalities by default:
+>   - page allocation (mm/page_alloc.c)
+>   - OOM killing
 > 
-> This makes it clear that this is a development tool, and it is a good
-> compromise preferable to adding unnecessary complexity or suppressing
-> the attributes completely just to prevent root from shooting themselves
-> in the foot:
-> 
-> Reviewed-by: Johan Hovold <johan@kernel.org>
-> Tested-by: Johan Hovold <johan@kernel.org>
 
-bind/unbind without overrides should not necessarily be treated as a
-development tool. For example with I2C devices you may want to unbind
-the functional driver, perform firmware update from userspace, and bind
-the device again. This will ensure that driver is not confused and at
-the same time you do not need to put into the kernel code that is
-dormant 99.9999 percent of the time.
+All, I wanted to preface v6 with an update, I probably won't be sending
+it out on-list before LPC (i've been a bit noisey as it is, I'll give
+it a rest).
 
-Thanks.
 
--- 
-Dmitry
+But I would like to give you the highlights for those interested.
+
+The latest working branch can be found here:
+https://github.com/gourryinverse/linux/tree/scratch/gourry/managed_nodes/rfc6-nonuma
+
+You will find the following:
+
+- There is no depedency on exported alloc_flags (willy, i found a way),
+  but there is a need for `folio_alloc_private()` to explicitly ask
+  for the ALLOC_ZONELIST_PRIVATE.
+
+- feature bits have been converted to node_state[] bits
+
+- N_MEMORY_COMMON was added to mean "common memory" - i.e. the existing
+  N_MEMORY set.  A private node is now defined as !N_MEMORY_COMMON.
+
+- opt-out sites no longer check for !N_MEMORY_PRIVATE, they instead
+  iterate over node_state[N_MEMORY_COMMON].  This is *much* cleaner.
+
+- opt-in sites get to define bits in terms of their own service, e.g.
+
+  /* for each reclaimable node */
+  for_each_node_mask_state(..., N_MEMORY_RECLAIM) {
+     ...
+  }
+
+  Or maybe even:
+
+  for_each_reclaimable_node()    :)
+
+
+- There are only 2 node features in the base set:
+
+  N_MEMORY_RECLAIM    -  generic reclaim runs on the node
+  N_MEMORY_COMPACTION -  compaction will run on the node
+
+  You'll notice there's no userland numa control support, more on this
+  in a moment.
+
+  This is all you need to have functional device-private coherent
+  memory that uses the page allocator.
+
+  Disabling N_MEMORY_RECLAIM does not necessarily mean you're prevented
+  from using vmscan.c and the LRU - it just means we'd need to expose an
+  interface for a !N_MEMORY_RECLAIM node to explicitly ask for reclaim
+  to operate on it.
+
+  Tiering (Demotion) *to* a node is not supported.  We can probably
+  debate whether this should mean tiering *from* a node should be
+  supported or not as well.  This is easy to change.
+
+
+- The working branch also includes a minimal compressed-ram service
+  that only supports anonymous memory.
+
+  Supporting file-backed memory (and shmem) is a whole different can
+  of worms that deserves its own discussion.
+
+  I will post this as a separate RFC from the base set, but it is
+  available to play with on my working branch.
+
+
+- I ship a basic dax driver for the base series, `anondax` which allows
+  existing devices to online a private node with both compaction and
+  reclaim support for testing.  This enables this use case:
+
+  fd = open(/dev/my_device, ..., O_DIRECT);
+  buf = mmap(fd, ..., MAP_SHARED)
+  my_file = open(myfile, ...);
+  read(buf, myfile); /* fault directly onto device memory */
+
+  With swap (and no tiering), this gives you a private over-commitable
+  node for which aspiring drivers can use to implement their own
+  mmu_notifier callback stream to manage device page tables and such.
+
+
+- The reason mempolicy (and user numa in general) is not supported is a
+  critical relationship between the OOM killer and page allocator.
+
+  In trivial scenarios, if a consumer of a private node overshoots and
+  causes an OOM - it will be the largest consumer and be chosen as the
+  victim.
+
+  If there are many consumers - what actually happens in practice is the
+  oom killer attempts to select a victim based on *task* policy... which
+  makes every task a candidate.  This leads to, among other things,
+  either an OOM storm and/or a full blown panic because a victim cannot
+  be located (depending on the constraints).
+
+  I've concluded that as-is, this is not tractable. But also, it is not
+  actually needed if the devices provide their own chardev to provide
+  a basic wrapper around folio_alloc_private().
+
+  This unfortunately means potential users like guest_memfd are unlikely
+  to be able to use the nodes without hard-coding the allocator
+  interface, as opposed to a mempolicy.
+
+  I think it's possible instead to *maybe* add N_MEMORY_USER_MIGRATION
+  and allow for explicit movement between nodes, but not full blown
+  mempolicies.
+
+  The relationship between page_alloc, cpuset, mempolicy, and the oom
+  killer is just too tight to allow allocations without the use of
+  __GFP_THISNODE - which the private allocation interface will enforce.
+
+
+As it stands, the series has been heavily minimized in both line count
+and patch number.
+
+The base series is ~22 commits with the scary diffstat below, but many
+of the core mm/ patches are similar to the patch below - with nearly
+all of the real complexity happening in reclaim and memory hotplug.
+
+despite the branch name, I intend to drop RFC from here-on, everything
+else required for the base series is in mm-new.
+
+
+See you at LPC
+~Gregory
+
+-------
+
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 7bdcdb57652f8..cd61566b44fa1 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -2266,7 +2266,7 @@ static int __add_folio_for_migration(struct folio *folio, int node,
+        if (is_zero_folio(folio) || is_huge_zero_folio(folio))
+                return -EFAULT;
+
+-       if (folio_is_zone_device(folio))
++       if (!folio_is_common_memory(folio))
+                return -ENOENT;
+
+        if (folio_nid(folio) == node)
+@@ -2390,7 +2390,7 @@ static int do_pages_move(struct mm_struct *mm, nodemask_t task_nodes,
+                err = -ENODEV;
+                if (node < 0 || node >= MAX_NUMNODES)
+                        goto out_flush;
+-               if (!node_state(node, N_MEMORY))
++               if (!node_state(node, N_MEMORY_COMMON))
+                        goto out_flush;
+
+                err = -EACCES;
+@@ -2475,7 +2475,7 @@ static void do_pages_stat_array(struct mm_struct *mm, unsigned long nr_pages,
+                if (folio) {
+                        if (is_zero_folio(folio) || is_huge_zero_folio(folio))
+                                err = -EFAULT;
+-                       else if (folio_is_zone_device(folio))
++                       else if (!folio_is_common_memory(folio))
+                                err = -ENOENT;
+                        else
+                                err = folio_nid(folio);
+
+
+ Documentation/ABI/stable/sysfs-devices-node |  21 +++++++++++++++++
+ Documentation/admin-guide/cgroup-v2.rst     |   7 ++++++
+ Documentation/mm/physical_memory.rst        |  15 ++++++++++++-
+ drivers/base/node.c                         |  67 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/dax/kmem.c                          |   2 +-
+ include/linux/gfp.h                         |   6 +++++
+ include/linux/memory_hotplug.h              |   2 +-
+ include/linux/mmzone.h                      |  45 +++++++++++++++++++++++++++++++++++++
+ include/linux/node.h                        |  12 ++++++++++
+ include/linux/nodemask.h                    |  53 ++++++++++++++++++++++++++++++++++++++++++-
+ kernel/cgroup/cpuset.c                      |  39 ++++++++++++++++++++++++++------
+ kernel/sched/fair.c                         |   6 ++---
+ mm/compaction.c                             |  21 +++++++++++------
+ mm/damon/ops-common.c                       |  15 ++++++++-----
+ mm/damon/vaddr.c                            |  20 +++++++++++++----
+ mm/huge_memory.c                            |   2 +-
+ mm/internal.h                               |  22 ++++++++++++++++++
+ mm/khugepaged.c                             |   9 ++++++--
+ mm/ksm.c                                    |   8 ++++---
+ mm/madvise.c                                |   6 ++---
+ mm/memory-tiers.c                           |  25 +++++++++++----------
+ mm/memory_hotplug.c                         | 109 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------
+ mm/mempolicy.c                              |  51 +++++++++++++++++++++++++-----------------
+ mm/migrate.c                                |   6 ++---
+ mm/mm_init.c                                |  22 +++++++++---------
+ mm/page_alloc.c                             | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
+ mm/page_alloc.h                             |   5 +++++
+ mm/vmscan.c                                 |  31 +++++++++++++++-----------
+ 28 files changed, 585 insertions(+), 157 deletions(-)
