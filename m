@@ -1,274 +1,241 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-wr2-f42.google.com (mail-wr2-f42.google.com [74.125.225.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6034CDA2D
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 18:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFFB47F3C0
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 18:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790359421; cv=none; b=gxt0y1dzDQWcGO+GlXSr6srXjPtKDjIRTl1R4xkhRc42lV3eU6VFmW7JQGM+nJP9D6p/PagXLxdJYmy+a0IrBuF4wJif+60dkoGP4oHdEu066gMQqvsgRE+l8IuCT0oW1XMGjkYK+/L6Sj2otVEfKOmPWDko6sENLrUhsZK81W4=
+	t=1790360458; cv=none; b=YOoftMut9u3T5Qwot+H4rh279a8+ekcihUrmcsJ5Yulzl11II/9HkjPhSBJMbN16KTS4lu0buL4A9rFMjGKZMa3PGK4wrTNMo/u+OBxlthaHVD6sda79ZBTC/HuVFm+rNipLsr2c0uzQ94eBfPLL9g8gyvOL+Om/8vOf5qRT+ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790359421; c=relaxed/simple;
-	bh=9WMHF+OHSITVcxou8oXsCNs7bqvndQmUaAq4mexKulc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j6qSX5GBjtHk4Aht6IfuFW5pWjseLT/oVSk70VGVPHzJ3HkVMAjyY6dk3hLID7z9o7vLlF3W1IBM4JJT6U7Rx7p8srrAS82k333asjD7lm2iEVOKMaKzyXvfTbdBVKKyaFW+mn5OeZzrJEDe2iwQowbJgYmJLl8vFQfMcJaYWYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCK5LMFo; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790360458; c=relaxed/simple;
+	bh=ZdDl2k6VSNRAjMa5sv67qNx0uk5Bqx9XHKnqQE++CRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qKkahyIO53fVdgyNuYBN7VqLNAGhl54uueulSF7heiJGIiUH4yPnRKDBcLwCqYIlHuVfCjONcK9w1y3ms1EEctnATQvDbowFHNBDT/SQIND0NUUp1Q+KwjfRsdIVju+TaVuvntc0rA9cg+5VrkZ0UAX1XBm2di0JEE5y+L06/nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=begj5KMp; arc=none smtp.client-ip=74.125.225.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCK5LMFo"
-Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d46e4cdccso9790247b3.1
-        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 11:03:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="begj5KMp"
+Received: by mail-wr2-f42.google.com with SMTP id ffacd0b85a97d-4888598e4f9so62067f8f.0
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 11:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790359417; x=1790964217; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jQMqDoXS5hmMS94pm40dP6RGo8yiKpCUOJDdJtjp2gs=;
-        b=cCK5LMFomUbv5PnvmPmHNdfbnYBlzmduSdU2/3ljP1cSWdj9Kf//Z0YeTglLl9vVB5
-         wP7sbd1j5NWgcuDVCc2Xr9SjL2OddLS6O1p1rk5b9TD4gG2yer/XE8/zWrmd4tYdpVkF
-         J8+I+GVSS3ez1cH8g09GcDp3G7XMWrX5N3NOyQ/ijemF7T7dQHLccFwqDs+MB25g+20X
-         vBy+W/8Yf2eIiGvlspH0h7aa4D1SSAdDieQ1PxdDP9X9HvqRfsdGBcdiT0XWyswbhUZx
-         IqQJ4PWjRU6FjOJmzdWnDdQWLeQ+OIex0eNLtBB0PUOrfXBmhEzc5v2PJ4Q6gHVqJD++
-         OiqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790359417; x=1790964217;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1790360453; x=1790965253; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jQMqDoXS5hmMS94pm40dP6RGo8yiKpCUOJDdJtjp2gs=;
-        b=szm+IymupIi+wqC+7dJZC8VvoOlLbhrWWRwwOWqr74YuGqW3fVt//toM80WcBfQ/fH
-         tuQwgZ2vNAXvtpetARG0Jz0OyLeJZdek37nuGqTqmmZaqi2YrP+PDL4VXLHcCRmbsBS3
-         +DZz071VvZ0UfvHL3tWOkE/9Qw8hLmAAv3uNT4CsnqE6OHAYdDwrv0NEsx7DhFpvYSUg
-         i5VHwxVAXK04UR12XGaes36tuMwmiumD8jm2eSbQTOWLuPGl3Syw9EiTRgjGD2B2DFQG
-         Y1YbV30w0ZfdKkc3mivv2rIWSfcCN7HcbcHx4vfE/QcAu9QczUbrLqyIgwnI5wh3RmZG
-         VYTw==
-X-Forwarded-Encrypted: i=1; AKwUvBzmHsjOpDkwK8MvlEaCWdfATbiKrcTbhEXX9NLKFo6s3i4KnlkQNeWOwxNXKS6aBT0Iks6HGD/OkU2kIQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++kyVtbPKfygKXzW28ccGBbU1bD2ucuqwqd1TTxTfvh4ScKXzT8A
-	5854WtV5YvxJRhvSdTyJnJlKN5RLCR6Z2ytilcLsyTdT1MZZuMLe17je
-X-Gm-Gg: AYBFou0kuyV9BWQ0rS52RHiniYD82k+DvsX+9+BfIA/Ga/mevW+5/P4e6SizLJH/yXY
-	53BJCoqWPsofMIsLe+pRL15eyOgv9sLNC0aEa5g2G6IC98YavenGHcuvuii45gtD3lRcyZsuUC/
-	37hBBIalUqhRrqTMwAhbFijyJ8HK+X4F//662JE4/0X1gdrNYFwRw3/LTEH0vesrQR02Fi6hCXF
-	cVVyyJqmu4iLel+kEhJ1MgRXbbEOObXbDc9aO5KZYA8whjd7RefuiiOt9vvafADJGKVYCQ0CEY4
-	mLqmSQo4TOWqkSWgSGKoZP6YQQKImi8tMzQ6XCTKl4pNQszcbvIFUxgwFTz2QMgNRUm0bw2G/V6
-	OAiM8ge2njKUPK91gcQ2HBVt7LlRQfHtRTv80Q73BeeLx9QGuao7xHUUYAxM1TJI1fyn4VRyasO
-	fHlEyd7V3bzXZ2d3ySZxGkJ4JnmUweMB8JjddxV1ietJlfW3wSj3btGFpMT/8+mF7pXgddsjuV4
-	68=
-X-Received: by 2002:a05:690e:b4b:b0:672:a678:da59 with SMTP id 956f58d0204a3-6740c2a76c3mr1631246d50.108.1790359416590;
-        Fri, 25 Sep 2026 11:03:36 -0700 (PDT)
-Received: from suesslenovo ([71.132.185.69])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740efb13fasm1359157d50.18.2026.09.25.11.03.35
+        bh=HbJed3QIlE5is+wfCiIzfB4icHHTL/FXBZcCdh6MKMc=;
+        b=begj5KMp91OzZ4A0PSuKStufwQ/It2JdlD9FEBqPfaABj331Y1UxXBpDjq2y5niwql
+         9fhIo6RXzCnq8AxOZkAAPFr9JlcZ1qsNgZw0iAFALpmxQgL/TUPAWL8TkHT50hD6p0rY
+         KvF8ncdm9HhmrZkOIU7T1ktBNknCHCSodb8cHqnYA9tdTMwpSYYvMc0Ltn9GY/n3E+07
+         uR5zVis1L5vxa9Cn9iFiHaNGDvVwNeqt7NtGCpAa6SLPMJ0ls6LgTvRiDFOaQAVrfw2M
+         7xIaEFnR4Qdq6N3/bWIgXi6thaXd9lyDsvyrLcUZwH/h1xamzbtx31Pxv4hnHER4roQ2
+         urzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790360453; x=1790965253;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HbJed3QIlE5is+wfCiIzfB4icHHTL/FXBZcCdh6MKMc=;
+        b=0UnmSFLC4uShahuXI4gXxeJxflY+9KDcf/Tth3nSvgvDcdCJIZO1GZXEkIl1cVVuY7
+         4rXb5ao1I7E0R2jt7Sg399GBD7gUHNkkubX5diF7SM+oBkow84Z5nm1GY6lQTGNHbObA
+         C1Xy6atTLd0J0Xp1RDTt/HWgDdjDU+IuhEUqmtpiat/kZMSO7C9+k+T/ExDeNKt6OgTL
+         jyFENMAM8hTvJyk02YYqCT/NGnT47oB2qUEckprWEJWA4hEZ0h5kBOpjtjEDBxHpAQpO
+         miBi1Q3UQvjlzB8kD5o2V5qHE0NJQnXWzh99rvF0PA/z5lDYgvHEqJho68iT7FMJK1me
+         DDGg==
+X-Forwarded-Encrypted: i=1; AKwUvBxxaU1V2Y9QrdPbM5/GOKdtiCSAyU43+fm85Wi08U9hR8mh5mDBb7xn9ou34i83sPjtlcDSNEZBXBpeWg==@lists.linux.dev
+X-Gm-Message-State: AFuF++ny8O9V47IMS2VLELBc3Af8yKGmAjh8zjggoj6HinEHcP4GBi72
+	dtEAi3vdfQuZJg2ZvPQpHylRIxNl1rq8TL9rBvr1XYt1D5WBpopkL5GpGi3yi4t6p+E=
+X-Gm-Gg: AYBFou0FhDVHoAK/PTvHhawI3C2v/KwIdKFeAh8L4DEJTNMm2kj5yML2ZBKgZJr/58I
+	dV87Cpe1FboxHPxEphiloGti8Tu9i0qfv/3B3CFVmlmUvHAM9FR/DDl91tPzJIbsmyX7ROt128p
+	nOxkJrBRuNz97iEfurQRCOYVamBJlbrYJc7KBQj6q1EGHvUdQlEgd0hgUbxQDEy4sTQ2r7WXWDC
+	Tnyx7UMfTfD+E1MXchEScU4bXD5zMeGK+QLsBu9ALRFW1RRixLvw9mbg4f/F7Isz+G96iwdORHt
+	1yi4wxh/etlmLLKhfS//bOb2EmGHNf8CejUvGshC+/Zlggb3vTXCsf3iilDdEaaN1fAQO1hJ8qd
+	RWATgGLmaQLzJskgQ+r6SP6KKyEPnVwdPELynKCg0Q0d4fTnkyl7nnV5k/+AzwXGjWMC2HOTBex
+	RQ8FUoJZdtaS4UH60jl3Fr9JBMoQSTIixB1ecMNxlVfMijOJqnpx1QovyxDcQlB9MLpBc4R6jhs
+	4+XdVbn52EiNCFevSTyj9uGzEaFBSgVFCdjzorNc8GpRXPv2+3dLNvTQXZyzw==
+X-Received: by 2002:a5d:6f05:0:b0:487:8c7:a275 with SMTP id ffacd0b85a97d-4887166bba6mr12471077f8f.0.1790360453543;
+        Fri, 25 Sep 2026 11:20:53 -0700 (PDT)
+Received: from localhost (p200300f65f19a904b61bffe3a87d7bb6.dip0.t-ipconnect.de. [2003:f6:5f19:a904:b61b:ffe3:a87d:7bb6])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4887a2acb4dsm8909485f8f.0.2026.09.25.11.20.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 11:03:36 -0700 (PDT)
-Date: Fri, 25 Sep 2026 14:03:05 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
-	amir73il@gmail.com, senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, 
-	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <araxO4ze0KZBz756@suesslenovo>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+        Fri, 25 Sep 2026 11:20:53 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH] Add TAINT_DRIVER_OVERRIDE for usage of driver_override
+Date: Fri, 25 Sep 2026 20:20:40 +0200
+Message-ID: <20260925182041.1025371-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260924104831.1081137-1-caixinchen1@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6316; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=ZdDl2k6VSNRAjMa5sv67qNx0uk5Bqx9XHKnqQE++CRc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqtrt5auzK2O3znYA5mSO75OtU4S4MLYgfvL8SR fExzta4CP+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCara7eQAKCRCPgPtYfRL+ TgXBB/4ipbjI6msdOdOEh0N1yvy5qoA1pPLxBUK+WO0FZ4y07WBzGVebN2SFV1WLEuqGhxOGPiA lRoDLT1Y0fv+jICbdribCbx1WDBpkM4Z9ZGpQTpiohUhE/OZG2pFnTRlQWJTGm6C8nFA/2aMC24 WPAmCCkkonSxzTWTWFa8t3Z8pIsyMBv9ZzUL6e2izfQQ+GscGlpdFWHVQqiHrLSCsirRPFXFO8e YBpOgaKJg48nUyjb5K/Tv4JGgyE+jvLtmCRqBP2cs3ebSzP1an54iIN3ttm5LgFetJ2pOpQ4znH F2erxa9l5WWsxpsou0IytKTz1nTp4w5rW38OCCdm/N633Aj5
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> This series adds two new Landlock filesystem access rights,
-> LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> which control access to file and directory metadata such as inode
-> attributes (mode, ownership, timestamps), extended attributes and POSIX
-> ACLs.  It picks up the work from the "landlock: add chmod and chown
-> support" series [1] and follows the coarse-grained grouping discussed in
-> that thread [2]: instead of separate chmod/chown rights, metadata
-> operations are grouped into one read and one write right.
-> 
-> Landlock evaluates access rights on a per-path basis, but the metadata
-> related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> object.  Patches 1-7 therefore first pass struct path instead of dentry
-> through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> refactoring with no behavior change, split so that every patch builds
-> and works on its own:
->
-I like these patches, but is the ability to read metadata already
-sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-directory?
+Commit fcbfaffee51a ("driver core: add TAINT_FORCED_BIND for when
+userspace manually messes with devices and drivers") introduced a taint
+for usage of bind/unbind sysfs files that manually trigger driver probe
+and remove respectively.
 
-The one case I see this being different is:
+For drivers that do their resource management correctly (which is also
+needed for module unloading) bind and unbind for matching devices are
+not critical operations. The thing that makes bind and unbind unsafe is
+that drivers can be forced on devices that originally don't match using
+driver_override. The result is that e.g. of_device_get_match_data()
+returns NULL despite all .of_match_table entries having a non-NULL
+.driver_data member which yields a NULL pointer exception for several
+drivers. And given that after setting a driver_override a manual bind is
+only one way a driver can be bound to an unexpected device, a separate
+taint for such an override is justified.
 
-1. if you wanted to grant read access to the file, but not metadata
-read access, but I can't think of any usecase for being able to read
-the contents of a file, but not the metadata. (see below)
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello,
 
-2. If you had the absolute path already and didn't need READ_DIR.
+I first considered to just set TAINT_FORCED_BIND when driver_override is
+written to. But IMHO it's very useful to differentiate for reported bugs
+if bind/unbind was used in combination with driver_override or not.
 
-I see introducing this READ_METADATA as causing potential
-hard-to-diagnose issues.
+Also if only bind/unbind was used and driver_override not, a resulting
+problem is worth fixing (opposed to what is considered for
+bind+driver_override).
 
-Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+IMHO it would also be fine to drop TAINT_FORCED_BIND, but let time prove
+how many reports we get with TAINT_FORCED_BIND but without
+TAINT_DRIVER_OVERRIDE.
 
-The program can technically open the file with the READ_FILE permission,
-but it may error out because the stat() on it beforehand failed.
-It's pretty common for programs to do that kind of thing (stat before
-open), like for checking for config files (strace bash and you see it
-stat .profile, /etc/profile)
+Best regards
+Uwe
 
-There may be other bugs, because being able to set permissions to read
-a file *but not read it's metadata* isn't possible currently in posix
-acl and userspace may not work well if that assumption no longer holds.
+ Documentation/admin-guide/tainted-kernels.rst | 6 +++++-
+ drivers/base/bus.c                            | 1 +
+ include/linux/panic.h                         | 3 ++-
+ include/trace/events/module.h                 | 3 ++-
+ kernel/panic.c                                | 3 ++-
+ tools/debugging/kernel-chktaint               | 8 ++++++++
+ 6 files changed, 20 insertions(+), 4 deletions(-)
 
-So maybe WRITE_METADATA is good enough?
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index abbf5e3dd749..75750a9533e9 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -74,7 +74,7 @@ a particular type of taint. It's best to leave that to the aforementioned
+ script, but if you need something quick you can use this shell command to check
+ which bits are set::
+ 
+-	$ for i in $(seq 20); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
++	$ for i in $(seq 21); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
+ 
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -103,6 +103,7 @@ Bit  Log  Number   Reason that got the kernel tainted
+  18  _/N   262144  an in-kernel test has been run
+  19  _/J   524288  userspace used a mutating debug operation in fwctl
+  20  _/Y  1048576  device was manually bound or unbound from a driver
++ 21  _/Z  2097152  a driver was forced on a non-matching device
+ ===  ===  =======  ========================================================
+ 
+ Note: The character ``_`` is representing a blank in this table to make reading
+@@ -193,3 +194,6 @@ More detailed explanation for tainting
+ 
+  20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
+      successfully bound or removed a device from a driver.
++
++ 21) ``Z`` If userspace wrote to a `driver_override` sysfs file opening the gate
++     for unexpected driver binding.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index c51ad96d4de4..6e91210aab45 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -513,6 +513,7 @@ static ssize_t driver_override_store(struct device *dev,
+ {
+ 	int ret;
+ 
++	add_taint_module(drv->owner, TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
+ 	ret = __device_set_driver_override(dev, buf, count);
+ 	if (ret)
+ 		return ret;
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index 23976b1dfdb6..e6e24d8afcf7 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -90,7 +90,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+ #define TAINT_TEST			18
+ #define TAINT_FWCTL			19
+ #define TAINT_FORCED_BIND		20
+-#define TAINT_FLAGS_COUNT		21
++#define TAINT_DRIVER_OVERRIDE		21
++#define TAINT_FLAGS_COUNT		22
+ #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+ 
+ struct taint_flag {
+diff --git a/include/trace/events/module.h b/include/trace/events/module.h
+index 19df3e39bba4..c7cdb1f53bc6 100644
+--- a/include/trace/events/module.h
++++ b/include/trace/events/module.h
+@@ -27,7 +27,8 @@ struct module;
+ 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
+ 	{ (1UL << TAINT_CRAP),			"C" },		\
+ 	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
+-	{ (1UL << TAINT_FORCED_BIND),		"Y" })
++	{ (1UL << TAINT_FORCED_BIND),		"Y" },		\
++	{ (1UL << TAINT_DRIVER_OVERRIDE),	"Z" })
+ 
+ TRACE_EVENT(module_load,
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b824b68fcb08..f5476a61f6f3 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -826,6 +826,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	TAINT_FLAG(TEST,			'N', ' '),
+ 	TAINT_FLAG(FWCTL,			'J', ' '),
+ 	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
++	TAINT_FLAG(DRIVER_OVERRIDE,		'Z', ' '),
+ };
+ 
+ #undef TAINT_FLAG
+@@ -862,7 +863,7 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
+  * exact size is allocated dynamically; the initial buffer remains
+  * as a fallback if allocation fails.
+  *
+- * The verbose taint string currently requires up to 344 characters.
++ * The verbose taint string currently requires up to 364 characters.
+  */
+ #define INIT_TAINT_BUF_MAX 370
+ 
+diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
+index d8628be37214..14d8febd6b16 100755
+--- a/tools/debugging/kernel-chktaint
++++ b/tools/debugging/kernel-chktaint
+@@ -219,6 +219,14 @@ else
+ 	addout "Y"
+ 	echo " * device was manually bound or unbound from a driver (#20)"
+ fi
++
++T=`expr $T / 2`
++if [ `expr $T % 2` -eq 0 ]; then
++	addout " "
++else
++	addout "Z"
++	echo " * a driver was forced on a non-matching device (#21)"
++fi
+ echo "Raw taint value as int/string: $taint/'$out'"
+ 
+ # report on any tainted loadable modules
+-- 
+2.56.0.rc1
 
-Interested in your thoughts,
-Justin
->   1: notify_change() and its callers
->   2: inode_setsecctx hook (must come before 3: the SELinux and Smack
->      implementations call __vfs_setxattr_locked internally)
->   3: xattr helpers, which also drops a redundant EVM xattr size sanity
->      check whose vfs_getxattr() call only has a dentry and therefore
->      cannot be migrated to the new path-based signature
->   4: POSIX ACL helpers
->   5: inode_setattr hook
->   6: inode xattr hooks
->   7: inode POSIX ACL hooks
-> 
-> Two deliberate scoping decisions for this refactor:
-> 
-> - The hooks consistently take struct path rather than struct file.  The
->   VFS call sites involved (chmod(2), chown(2), utimensat(2), xattr(2)
->   and ACL syscalls) operate on paths, and several of them (lstat(2),
->   lchown(2), llistxattr(2), ...) have no struct file to begin with.
-> 
-> - struct inode_operations->setattr still receives (idmap, dentry, attr).
->   Only the VFS boundary (notify_change()) and the LSM hook layer see the
->   path, which keeps the refactor contained to fs/attr.c and the LSM
->   infrastructure instead of touching every filesystem.
-> 
-> Patches 8-12 then implement the new rights, their tests, the sandboxer
-> sample and the documentation.  Semantics:
-> 
-> - READ_METADATA covers stat(2) and friends, getxattr(2) and friends,
->   listxattr(2) and friends, and POSIX ACL reads.
-> - WRITE_METADATA covers chmod(2), chown(2), utimensat(2), setxattr(2),
->   removexattr(2) and friends, and POSIX ACL set and remove.
-> - Only explicit metadata changes requested by user space are restricted.
->   Implicit changes performed by the kernel (e.g. timestamp updates on
->   write(2), size changes on truncate(2)) are not, and neither are
->   chmod(2)/chown(2) calls that change nothing (e.g. chown(2) with
->   (-1, -1), which never reaches the hook), matching the SELinux
->   inode_setattr behavior.
-> - Kernel-internal accesses performed with override_creds() (e.g.
->   overlayfs, cachefiles) and kernel threads without a Landlock domain
->   (e.g. nfsd, ksmbd) are not restricted.
-> 
-> The Landlock ABI version is incremented from 11 to 12.
-> 
-> The series is based on linux-next commit 5c4d4169604b ("Add linux-next
-> specific files for 20260921").
-> 
-> Testing: each patch has been built for aarch64 (gcc, -Werror) and the
-> landlock selftests (445 tests, including the new ones) pass in QEMU on
-> aarch64; base_test reports ABI v12.
-> 
-> [1] https://lore.kernel.org/all/20220827111215.131442-1-xiujianfeng@huawei.com/
-> [2] https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
-> 
-> Assisted-by: opencode: glm-5.3
-> 
-> Cai Xinchen (12):
->   fs: pass struct path to notify_change()
->   LSM: pass struct path to the inode_setsecctx hook
->   fs: pass struct path to xattr helpers
->   fs: pass struct path to POSIX ACL helpers
->   LSM: pass struct path to the inode_setattr hook
->   LSM: pass struct path to the inode xattr hooks
->   LSM: pass struct path to the inode posix acl hooks
->   landlock: Add READ_METADATA and WRITE_METADATA access rights
->   landlock: Implement metadata access hooks
->   selftests/landlock: Add tests for metadata access rights
->   samples/landlock: Add metadata rights to sandboxer
->   Documentation: Update landlock doc for metadata rights
-> 
->  Documentation/userspace-api/landlock.rst     |  11 +-
->  drivers/base/devtmpfs.c                      |   6 +-
->  drivers/block/zloop.c                        |   4 +-
->  fs/attr.c                                    |  20 +-
->  fs/cachefiles/interface.c                    |   6 +-
->  fs/cachefiles/xattr.c                        |  32 +-
->  fs/coredump.c                                |   2 +-
->  fs/ecryptfs/inode.c                          |  34 +-
->  fs/exfat/file.c                              |   3 +-
->  fs/fat/file.c                                |   3 +-
->  fs/inode.c                                   |   7 +-
->  fs/internal.h                                |  17 +-
->  fs/namei.c                                   |   7 +-
->  fs/nfsd/nfs4ctl.h                            |   4 +-
->  fs/nfsd/nfs4state.c                          |  14 +-
->  fs/nfsd/nfs4xdr.c                            |   2 +-
->  fs/nfsd/state.h                              |   2 +-
->  fs/nfsd/vfs.c                                |  73 +++--
->  fs/open.c                                    |  18 +-
->  fs/overlayfs/copy_up.c                       |   4 +-
->  fs/overlayfs/inode.c                         |   4 +-
->  fs/overlayfs/overlayfs.h                     |  39 ++-
->  fs/overlayfs/xattrs.c                        |  13 +-
->  fs/posix_acl.c                               |  46 +--
->  fs/smb/server/smb2pdu.c                      |  77 ++---
->  fs/smb/server/smb_common.c                   |   2 -
->  fs/smb/server/smbacl.c                       |  21 +-
->  fs/smb/server/tests/smbacl_kunit.c           |   6 +-
->  fs/smb/server/vfs.c                          | 111 +++----
->  fs/smb/server/vfs.h                          |  39 +--
->  fs/smb/server/vfs_cache.c                    |   3 +-
->  fs/utimes.c                                  |   3 +-
->  fs/xattr.c                                   |  96 +++---
->  include/linux/fs.h                           |   6 +-
->  include/linux/landlock.h                     |   4 +-
->  include/linux/lsm_hook_defs.h                |  29 +-
->  include/linux/posix_acl.h                    |  21 +-
->  include/linux/security.h                     |  65 ++--
->  include/linux/xattr.h                        |  22 +-
->  include/uapi/linux/landlock.h                |  26 +-
->  samples/landlock/sandboxer.c                 |  17 +-
->  security/commoncap.c                         |  22 +-
->  security/integrity/evm/evm_crypto.c          |   8 +-
->  security/integrity/evm/evm_main.c            |  36 ++-
->  security/integrity/ima/ima_appraise.c        |  17 +-
->  security/landlock/fs.c                       |  86 ++++++
->  security/landlock/limits.h                   |   2 +-
->  security/landlock/syscalls.c                 |   2 +-
->  security/security.c                          |  99 +++---
->  security/selinux/hooks.c                     |  49 +--
->  security/smack/smack_lsm.c                   |  62 ++--
->  tools/testing/selftests/landlock/base_test.c |   2 +-
->  tools/testing/selftests/landlock/fs_test.c   | 309 ++++++++++++++++++-
->  53 files changed, 999 insertions(+), 614 deletions(-)
-> 
-> -- 
-> 2.18.0.huawei.25
-> 
-> 
