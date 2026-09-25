@@ -1,156 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D525B49A3C8;
-	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E067C483BC6
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 10:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790333008; cv=none; b=o8qmG1BkDX6vS6OGCVCvHxVcbG9osMjYDUJhZ0KUR0l3yVnAJy+yMuIeOhrjBpjsqNtSY4HwBuAJWLQjs0WgLHR3EvaxWQdhhbtwPv9oI2brCYwMicA4Gabj4pFqyxVFj1q7xfe8BN/xRqTXPi2wmRLM59El1gWH9gOUB0/PZEE=
+	t=1790333681; cv=none; b=eLIKxGds8vS8buosXBsi0IUkXxfGxnIKnZHccd/dxROV3EG4JxqpZl1T6/ukjnllVPKkc1/xhYP2pxuPi1Z39dFOB47otX51B/rXTN/JOA0+Mg0gL0KaV6eoSeZVcYoYAJx8i6pxcB3Y2bbeZL3rw68p5PvEb1fcM7caeB4PSr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790333008; c=relaxed/simple;
-	bh=jPWO8NRa+f0g0v8dbKCK2h3llHZx7aafBFUVGLf4TaM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AyktKFbinxiSGwju8C9HE7yEGd3F+6luLjM/OxLguwv4j3KEjBtPPcrKA3GZdbqHWter0sRHJUN0poOVG25IvMfYyXVUjbdUuB/SWtvZUITV//XBH8FzC9H+VnXwJCJD1nxyNpIlpHeybLZ/7QmoB5y7K2p4VlQzuoGeQ8pQk14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFnPZ3FP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790333681; c=relaxed/simple;
+	bh=eW3NlcY9rz1RWvEA+xMyp3+IKIZ5dfni2x0WYBdu1Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNKT7P0u+7jDAiEQM63Wfxt/Rt299ScKqLCOm+puQCidfBJGPlBK+TYUQcKvovQW3Lh+615en9AvQPAFjXWFs9ko0VqCjZ0vAd7K2zxiBHneROI3qG62pQyRMR3CZiy8n4zd92eRekTxl6lEvJWWaYnDNXnQ7Q9B8tuRtCvzS2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfXaNQZA; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFnPZ3FP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 57C5CC2BCF5;
-	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790333008;
-	bh=jPWO8NRa+f0g0v8dbKCK2h3llHZx7aafBFUVGLf4TaM=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=NFnPZ3FP/8F1OoewYjeni1ZY/a1kRs38FIUf2j3LOylDc1YbfB23fKRCE5oHGZmio
-	 0nMbbjLKGEUFFvdrwh5vhx8gKa1rs9B1nqru62OVqce04swom3QiXqZDHAKHmspmln
-	 jmDVLUGqrYz+hI7TlxXTnUU5ZQcb1o8K6J2ezCFd43ukarr3I4h4tg2Vly7Kf1VrOZ
-	 gOGcqw5Zn3dvPVuxxUFqusaLCOfEXoETBL4BJjoYUlGv+tpIrZ9gxmN6WjHVfevXxX
-	 VVMN75kXkNYhhJPY6/fn/BfpJ/EhzWW6BOfSSfowver+dRSOAW+xT678aQmfZqVM5e
-	 oeaxvVdQBqlmg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 337C5C98321;
-	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Fri, 25 Sep 2026 20:43:22 +1000
-Subject: [PATCH] regmap: Drop map lock during cache init and exit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfXaNQZA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790333676; x=1821869676;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eW3NlcY9rz1RWvEA+xMyp3+IKIZ5dfni2x0WYBdu1Zc=;
+  b=nfXaNQZAyd5IA5S9xs3EqC9L95gphtZ9ekbApnu6XFCv5fNTAnLe2Y49
+   7u3UzeXwRCsh076PfEFNJZQVFQquqczwSTNLaafP44qDwlGPDyIE4+0Hk
+   MkDhy8RxGCiYm755VqP8Y0HNx5jtcBkTRtHdktF6YUVUH8Mg100oKS0at
+   TfhAG9+eewNkGcJdQc5KtyG7pSkDs2iThY8RrD9h5/jThwklcSS1r2R7M
+   GmO2ZBfNXRY0yLBmyeWKOq3dyUcOX4d0wYJmjk6d9p4205qGybkCXYxfX
+   VVnd2IRLX6CKbwXgAE1elCWfOFtHbTyBUpZii9LOoy7syD4p0mzMjcoDH
+   g==;
+X-CSE-ConnectionGUID: MqU0nMzAQ72KzBSF8+pfuw==
+X-CSE-MsgGUID: eT8tIE0HRm6TJ8X1a7kONQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90076213"
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="90076213"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 03:54:34 -0700
+X-CSE-ConnectionGUID: t7/XvLctRKC6Kwl9xjQKSQ==
+X-CSE-MsgGUID: 4Z7fXr+dSeaftPoz/pks3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="272883219"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.27])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 03:54:29 -0700
+Date: Fri, 25 Sep 2026 13:54:26 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+Message-ID: <arZS4vwxps01dGb7@ashevche-desk.local>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arZDwutoadki7tiZ@ashevche-desk.local>
+ <arZNL9BnTGK0Klwc@red-moon>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-regcache-lifecycle-submit-v1-1-83b75ca79d96@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQrCMBBG4auUWRuIVSN6FXGRjH+agTbKTBWl9
- O5Gl9/ivYUMKjA6dwspXmJyrw3bTUdcYh3g5NZMve+DP/UHpxg4coEbJYM/PMLZM00yu+M+70J
- I8Dkxtf6hyPL+vy/X5hQNLmmsXH7HKdoMpXX9AqTUvreEAAAA
-X-Change-ID: 20260925-regcache-lifecycle-submit-74f366be0fbc
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- asahi@lists.linux.dev, Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790333007; l=3198;
- i=michael.reeves077@gmail.com; s=fedora-20260918;
- h=from:subject:message-id;
- bh=bhjdNcpqzJyQqu6KoQ8twHsi4wLo39lzrrDM3q6SV2U=;
- b=dUG6HMWKRqJlIop9DgRJPb3yaHf2oRN1ulewe0RSquIucnpgEeaD4QYiU0nCrYihnyo2OHmbE
- ZqaWLU/lz7nCNl5ztbqyWdqV8WQL4Uud5DiTfVkChm4nrPoRdWuzwbm
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=VJ0TvyQ9TvfzYZa908YSE9kpkjFLLD5luv0bERu+boc=
-X-Endpoint-Received: by B4 Relay for
- michael.reeves077@gmail.com/fedora-20260918 with auth_id=1035
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arZNL9BnTGK0Klwc@red-moon>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Michael Reeves <michael.reeves077@gmail.com>
+On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
+> On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
+> > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
 
-On systems with CONFIG_PROVE_RAW_LOCK_NESTING enabled, Apple GPIO probe
-triggers an "Invalid wait context" lockdep warning.
+...
 
-The driver uses a regmap with a raw spinlock and REGCACHE_FLAT. During
-regcache_init(), regcache_flat_init() allocates memory while holding the
-raw spinlock. The memory allocator can acquire a non-raw spinlock, which
-causes an invalid raw-to-non-raw lock nesting error. The abbreviated call
-chain is:
+> > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
+> > > +						  const char *propname,
+> > > +						  unsigned int index, u32 *value)
+> > > +{
+> > > +	u32 *values;
+> > > +	int ret, count;
+> > > +
+> > > +	count = fwnode_property_count_u32(fwnode, propname);
+> > > +	if (count < 0)
+> > > +		return count;
+> > > +
+> > > +	if (index >= count)
+> > > +		return -ENOENT;
+> > > +
+> > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > +	if (!values)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
+> > > +	if (!ret)
+> > > +		*value = values[index];
+> > 
+> > Use standard pattern, id est
+> > 
+> > 	if (ret)
+> > 		...
+> > 
+> > > +	kfree(values);
+> > 
+> > You want to use __free()
+> > 
+> > > +	return ret;
+> > > +}
+> > 
+> > I believe the whole approach is suboptimal, if you wish get indexed value (but why?)
+> 
+> Why what (that's what the irq_get() interface requires ?) I agree it is
+> suboptimal - the whole point of the series is an RFC on using properties
+> to store GSI number/flags, then how to read them we will optimize it
+> when/if we agree that's the approach to be taken.
 
-  apple_gpio_pinctrl_probe
-    regcache_init
-      regcache_flat_init
-        __kmalloc_noprof
-          __pcs_replace_empty_main
-            refill_objects
-              _raw_spin_lock_irqsave
+Why to have indexed APIs. The callers usually do not want a single item from an
+array, they want all of them or a big pile (exception is the array of strings,
+but we have matching functions for that).
 
-GFP_ATOMIC does not make this lock nesting valid.
+As per approach, this patch is against device property and I don't think we are
+going to agree on the approach taken in *this* patch.
 
-Holding the map lock during cache allocation and exit is not needed:
+> > it needs to be retrieved as that in the guts of ACPI. Allocating memory for the whole
+> > array to retrieve a single element is simply wrong.
 
-- Cache allocation occurs before the regmap is published.
-- Cache destruction occurs only after all users stop access.
-- regmap_reinit_cache() requires callers to prevent concurrent access.
+...
 
-Commit fd4ebc07b4df ("regmap: Hold the regmap lock when allocating and
-freeing the cache") added the lock for Maple tree lockdep validation.
-The current Maple tree backend uses internal locking, and cache
-population is now separate from cache allocation.
+> > > +#define ACPI_IRQ_PROP_GSI		"linux,acpi-gsi"
+> > > +#define ACPI_IRQ_PROP_GSI_TRIGGER	"linux,acpi-gsi-trigger"
+> > > +#define ACPI_IRQ_PROP_GSI_POLARITY	"linux,acpi-gsi-polarity"
+> > 
+> > Oh... This sounds like a big ugly hack.
+> 
+> That does not help much I am afraid.
+> 
+> What's a ugly hack ? Property names ? Using properties for this purpose ?
 
-Remove map locking from the cache init and exit callbacks. Keep map
-locking for cache population and normal register access.
+Yes, properties started with "linux," for some core functionality.
+Yes, using properties for this also doesn't sound right. I think the problem
+here is in the table specifications or somewhere that deep. That's why we
+ended up in this series.
 
-Fixes: fd4ebc07b4df ("regmap: Hold the regmap lock when allocating and freeing the cache")
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
-Tested on Apple M3 MacBook Air (T8122):
+> Again, it is an RFC for this specific reason and I mentioned that in the
+> cover letter, thank you for your inputs.
 
-- All 4 GPIO controllers probe successfully with lockdep enabled.
-- The "Invalid wait context" warning no longer occurs.
-- All 549 regmap KUnit tests pass (38 test groups).
----
- drivers/base/regmap/regcache.c | 6 ------
- 1 file changed, 6 deletions(-)
+And here we have a discussion started :-)
 
-diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
-index 0d58d900a..b137ded7f 100644
---- a/drivers/base/regmap/regcache.c
-+++ b/drivers/base/regmap/regcache.c
-@@ -225,9 +225,7 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
- 	if (map->cache_ops->init) {
- 		dev_dbg(map->dev, "Initializing %s cache\n",
- 			map->cache_ops->name);
--		map->lock(map->lock_arg);
- 		ret = map->cache_ops->init(map);
--		map->unlock(map->lock_arg);
- 		if (ret)
- 			goto err_free_reg_defaults;
- 	}
-@@ -259,9 +257,7 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
- err_exit:
- 	if (map->cache_ops->exit) {
- 		dev_dbg(map->dev, "Destroying %s cache\n", map->cache_ops->name);
--		map->lock(map->lock_arg);
- 		map->cache_ops->exit(map);
--		map->unlock(map->lock_arg);
- 	}
- err_free_reg_defaults:
- 	kfree(map->reg_defaults);
-@@ -281,9 +277,7 @@ void regcache_exit(struct regmap *map)
- 	if (map->cache_ops->exit) {
- 		dev_dbg(map->dev, "Destroying %s cache\n",
- 			map->cache_ops->name);
--		map->lock(map->lock_arg);
- 		map->cache_ops->exit(map);
--		map->unlock(map->lock_arg);
- 	}
- 
- 	kfree(map->reg_defaults);
+P.S. Looks like I was too quick to jump into this thread. I will wait for
+others to share their view on all this.
 
----
-base-commit: 5dd1818b15d98d4a20806cd00b1b40320b06004f
-change-id: 20260925-regcache-lifecycle-submit-74f366be0fbc
-
-Best regards,
 -- 
-Michael Reeves <michael.reeves077@gmail.com>
+With Best Regards,
+Andy Shevchenko
 
 
