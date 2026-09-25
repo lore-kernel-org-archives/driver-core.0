@@ -1,189 +1,183 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C98842E437;
-	Fri, 25 Sep 2026 05:34:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011CD396565;
+	Fri, 25 Sep 2026 07:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790314467; cv=none; b=QUvrrp+2snOGWsNoBG41DpqTLZ0WIKCEUP9+hEG/oZTH/YnEdeCot/LtWnNCB+e+iLOfBynrN6+W05zh+fD1+FCESBrT595OtDk79/noby54FIcEt2xFpnsHOaP7hc+vrWonUHdDpqfI0opZwZMQa8s3EiUQ7J1hcwCJJ1Gf0IQ=
+	t=1790322496; cv=none; b=lawZxCXYgzKmrlzD5Avhq3NUMtuE3czn87AdPQt8OPFORIQN37++vVT8ABvBC2rB8On6cYifT9BTPfnz7HFMHbQnWXOqHw37guMnjSnyx+hZh9uoLrTjurRnaI6thVfqSy9sNSNGPYL/e6k8JgPI9UK1BsvgT9ddEs25LIXevnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790314467; c=relaxed/simple;
-	bh=fU6Wbsft1wL3tiHwqhy+D4YuGagBlWpYiM4Mto7kixQ=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kDz60ZD5leSI5aeb/izj+gm2w4fAnGkayycqlYV3I4jZq+j+W0j79vanqu7DTba/NALTXwr75u/jhPSlY6aiH5+OI+iPvRim9TcoIGCvlgd1z3KF/NAmdnFdkJf+8eQqjMbKhHuvLO96o04U5h+mWBIDdWt2jx46ky7VMPa+noo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qacdg9Si; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790322496; c=relaxed/simple;
+	bh=SCHiXFdq6KEtcx5hSoM38EazV3GUoVg4pkxUdXCDRts=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=r+xi4h/u97WGbd4nB5ls8iCJ29qpekCHMfQW/6yo0Xn2fCuo4L4Zdo0S+TtUjDF7oD1yWjxME2mjPoZWH8kkUd1U99fzqKzpgaFdo8vThN6chJK6lEwHutl06mj7mDS8jEEfPz1a4wtAPCGzkKFCuwLoSBxdMSLNVK8lrJ6tMDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6/gWjyJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qacdg9Si"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF211F00893;
-	Fri, 25 Sep 2026 05:34:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6/gWjyJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E95351F000FF;
+	Fri, 25 Sep 2026 07:48:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790314465;
-	bh=0zjee7LBZp4ThBjD99PhmhzgGuaGV/k+FawOuYMWgkM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Qacdg9SiUc7GylU/vTNMtldVIANA8q3ZTJiKCcida94JY+XPlspz4KcFWd1X8l9TF
-	 1KoQtbXV0HQqFj7F+eAbQ+/ALcC3+ThAL0eSuOIzX5buQg+Aj4d5Gf6chIDO7gIhAI
-	 nbioD7M/3qXB8d+YXh5zRcvr1Cq3z+AUEjM6KDdaBo/q0an599Rox+LVCuKUw//Zmf
-	 m+RJiJhZ4R0m4mqbPJbluwhXVwHWCwl7ua8H6N4z8Vhhtv2Z2nXAkl5qQ0bZs69f8X
-	 i9B0RnQYA/yM4J7DxJ06cBZc6jvgQFvGFAzZ90yga4MQZkAPhPkNPrH0kc1Qct0lVu
-	 gyCTMxg3Nt+jQ==
-Subject: Re: [PATCH net-next v17 6/6] net: dsa: mxl862xx: document devlink
- flash and info support
-From: netdev-bot+sashiko@kernel.org
-To: daniel@makrotopia.org
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
- linux@armlinux.org.uk, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Fri, 25 Sep 2026 05:34:23 +0000
-Message-ID: <179031446380.2160803.7779219284987374198@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cac0b51c0505596d1523b3d471b497a0c5515108e=2E1790130?=
- =?utf-8?q?482=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-References: =?utf-8?q?=3Cac0b51c0505596d1523b3d471b497a0c5515108e=2E17901304?=
- =?utf-8?q?82=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1790322494;
+	bh=vl10PLh4YCEMYuVn95R7Yn6YMorNMjxNfr83ppRhiKY=;
+	h=From:Subject:Date:To:Cc;
+	b=k6/gWjyJcALTAmN4nMuUepNHeDDwULRUDA7JG5mVJrUzIBomVL4dMkXoQqY9hMBH+
+	 13vj0OjjmjLLxNos+PE5p+3Jjjg1ZzA/DCiqJAth0qwBeXI/SQ55d0xTajkQp5/AEg
+	 3dI+eqw4s8qRmX/ByVv7nWRqI+8gXf+rQm9uY7/Koyt4WmQmoqYLX7Yvf0gpgaWa1g
+	 dLJAROnU8ss5A9qcfc9vMFohI6cexXCZAwl/6/d1A2KhvQqFlFN8Ol3eqJ/6dt3hWS
+	 sTqXYc14jNrBl7OraYO5YvKDhOqfnlA/uI2B3QFS+vOR+e3pwwQe3olwQw3ZASMlh2
+	 A/PeO26kjMW3Q==
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: [PATCH RFC 00/11] ACPI: ARM64: Implement IRQ mapping probe
+ deferral for static table devices
+Date: Fri, 25 Sep 2026 09:47:59 +0200
+Message-Id: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNQQrCMBBFr1Jm7UCNkhK3ggdwK11kkqmOSBsnq
+ Qildzfq8j0+7y+QWYUzHJoFlF+SZRorbDcNhJsfr4wSK4NpjW2d2aMPSTAXXyRg8fSoA31i0ok
+ YIw+saB25zlLszC5C7STlQd6/jwucT0fo/zLPdOdQvnVY1w/uzzKeigAAAA==
+X-Change-ID: 20260924-acpi-static-table-irq-probe-defer-69b976bd723d
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, Robin Murphy <robin.murphy@arm.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev, 
+ linux-watchdog@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>
+X-Mailer: b4 0.15.2
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+On ACPI ARM64 some platform devices (ie SMMUs, MPAM, MMIO MEM timer) are
+created when the respective static ACPI table (GTDT, IORT, MPAM) entries
+are parsed and the platform device resources, inclusive of their 
+IRQ number are stashed in the platform device resources to be used by
+device drivers at probe time to retrieve the resource values.
 
-Low priority / nit picks for your consideration:
+For IRQs, this works well as long as interrupt controller drivers
+managing IRQs for those devices are probed before the code creating
+the  IRQ mapping out of static table GSI numbers is run, in that the
+interrupt controller drivers create the IRQ domain that allow the actual
+IRQ mappings.
 
-- [Low] mxl862xx.rst says that "In the rare case that the reprobe cannot
-  be scheduled at all, ``devlink dev flash`` reports that error and the…
-- [Low] The "Rescue lifecycle" overview comment at the top of
-  drivers/net/dsa/mxl862xx/mxl862xx-fw.c says "devlink dev info exposes…
+So far, that's always been the case on ACPI ARM64 systems given that
+IRQs were routed to the GICv<5 interrupt controllers (wired and MSI)
+and those controllers drivers probe earlier than any code creating
+GSI mappings out of static ACPI table entries.
 
---
+With the advent of GICv5 - wired IRQs (former GICv3 SPIs) can be routed
+to a GICv5 IWB; the IWB is modelled as a device and its IRQ domain
+is created when the IWB driver probes - that might be later than
+the device drivers for platform devices created out of static ACPI tables
+probe, resulting in failures to map the IRQs because the IRQ domain is not
+registered yet so the IRQ mapping cannot be resolved.
 
-net: dsa: mxl862xx: document devlink flash and info support
+This RFC series aims at solving this issue and should be used as
+a starting point to build a solution and hopefully get some feedback.
 
-This adds Documentation/networking/devlink/mxl862xx.rst. The new file
-describes the devlink info versions and how flash update behaves,
-including recovery from MCUboot rescue mode. The file is linked from the
-devlink index and added to the driver's MAINTAINERS entry.
+PATCH 4 is a fixlet, I included with the series since I noticed
+while updating the arch MEM MMIO timer driver.
 
-> diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-> new file mode 100644
-> index 0000000000000..793f3521f505f
-> --- /dev/null
-> +++ b/Documentation/networking/devlink/mxl862xx.rst
-> @@ -0,0 +1,91 @@
+Herein below, some technical details behind the patchset decisions
+and questions to be addressed.
 
-[ ... ]
+================
+Misc design info
+================
 
-> +Flash Update
-> +============
-> +
-> +The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-> +The signed firmware image is transferred to the switch over the same
-> +MDIO bus which is also used to manage the switch, then verified and
-> +installed by the MCUboot bootloader running on the switch. All ports
-> +of the switch are closed for the duration of the update and the driver
-> +reprobes the switch after it has rebooted into the new firmware; they
-> +come back registered but down, so userspace brings them up again. A
-> +complete flash and reprobe cycle takes about one minute. In the rare
-> +case that the reprobe cannot be scheduled at all, ``devlink dev
-> +flash`` reports that error and the driver stays bound to a switch it
-> +no longer tracks until it is unbound and rebound. A reboot started
+The main idea behind the patchset is relying on software nodes
+properties to allow static tables parsing code to stash GSI number,
+trigger and polarity (and possibly its "name") into the device
+secondary firmware node so that the device drivers can retrieve
+their values in a uniform manner when the device drivers probe,
+the same way it is done on OF.
 
-[Severity: Low]
-Does this hold on every path through mxl862xx_devlink_flash_update()?
-The reprobe scheduling error is only returned and logged when the
-transfer succeeded:
+I converted IORT table platform devices to provide an example of
+what it looks like and check whether that's the right direction of travel.
 
-drivers/net/dsa/mxl862xx/mxl862xx-fw.c:mxl862xx_devlink_flash_update() {
-    ...
-	priv->skip_teardown = true;
-	mutex_unlock(&priv->mdiodev->bus->mdio_lock);
-    ...
-	err = device_schedule_reprobe(ds->dev, MXL862XX_FW_REPROBE_DELAY_MS);
-	if (!ret && err)
-		dev_err(ds->dev,
-			"flash: new firmware is running but re-probe could not be scheduled (%pe); unbind and rebind to reinitialise\n",
-			ERR_PTR(err));
+The secondary software node are linked to the primary ACPI static fwnode
+that are already created for IORT platform devices.
 
-	return ret ? ret : err;
-}
+A question I have about this approach is that resources for a given
+device are stored in separate data, struct resource for MMIO address
+space and secondary fwnode for IRQ properties.
 
-Suppose mxl862xx_flash_firmware() or mxl862xx_wait_ready() failed, and
-device_schedule_reprobe() then also returned -ENOMEM or -EINVAL. In that
-case the reprobe error is not returned, and the dev_err() that tells the
-user to rebind is skipped.
+I am not sure either that using software node properties for this
+purpose is the right approach.
 
-skip_teardown has already been set unconditionally. With no reprobe
-pending, nothing clears it. Would every later flash then fail here until
-a manual rebind?
+At least, by creating "standard" properties we can make the parsing
+uniform, instead of relying on a per driver platform data to stash
+GSI information as it is done for the arch MMIO mem timer.
 
-	if (priv->skip_teardown) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "a previous flash awaits its reprobe");
-		return -EBUSY;
-	}
+I decided to handle the arch MMIO timer conversion differently as
+a point solution. Converting the arch MMIO timer to software nodes
+would require creating an ACPI static fwnode per-frame and would
+complicate things for not much. Instead, I just stash the GSI
+number and properties in static data per frame (that exists already,
+struct arch_timer_mem_frame) at GTDT parse time that can be
+used by the driver later to map the GSI when the MMIO timer driver
+probes.
 
-The document says -EBUSY only means that a rescue recovery is in
-progress. Should the code report the reprobe failure on this path too?
-Or should the document mention this -EBUSY and the rebind it needs?
+acpi_register_gsi() was augmented to return -EPROBE_DEFER to handle
+a missing IRQ domain and therefore enabling probe deferral.
 
-> +while an update is running waits for the transfer to finish, and an
-> +update requested after the system has begun shutting down is refused
-> +with ``-ENODEV``.
+The fwnode API was augmented as well so that device drivers can actually
+retrieve IRQ numbers using standard platform device APIs:
 
-[ ... ]
+platform_get_irq*()
 
-> +If the driver gives up on the recovery, ``devlink dev flash`` returns
-> +``-EIO`` and says so in its extack message. The drain runs once and is
-> +never resumed, so a failed MDIO transaction ends it as well. A loader
-> +that stops answering the drain needs a power cycle; a completed drain
-> +whose reprobe could not be scheduled, and a drain a bus error cut
-> +short, need only a driver rebind. The driver re-examines the switch
-> +when it binds and at no other time, so a power cycle on a board where
-> +the switch can be cycled on its own still has to be followed by an
-> +unbind and rebind for the recovered switch to be recognised.
+when the fwnode itself is an ACPI static fwnode value.
 
-[Severity: Low]
-This paragraph documents the -EIO case. The rescue lifecycle comment at
-the top of drivers/net/dsa/mxl862xx/mxl862xx-fw.c was added earlier in
-this series, and it still says:
+I tested this on a GICv5 FVP model by re-routing MMIO timer, SBSA watchdog
+and SMMUv3 IRQs to an IWB and checking that IRQ mappings and probe deferral
+work.
 
- * devlink dev info exposes the fw version (the "flashable" signal) only once at
- * READY; flash_update returns -EBUSY until then, and reprobes to WSP firmware
- * on success.
+Feedback more than welcome.
 
-However, once rescue_failed is set, mxl862xx_devlink_flash_update()
-returns -EIO permanently:
+Signed-off-by: Lorenzo Pieralisi <lpieralisi@kernel.org>
+---
+Lorenzo Pieralisi (11):
+      ACPI: irq: Return -EPROBE_DEFER on missing IRQ domain
+      ACPI: Introduce irq_get() for static fwnodes
+      driver core: platform: Add static ACPI nodes IRQ retrieval/mapping code
+      clocksource/drivers/arm_arch_timer_mmio: Dispose IRQ mappings on probe failure
+      clocksource/drivers/arm_arch_timer_mmio: Implement arch mem timer deferred probe
+      ACPI: GTDT: Convert SBSA watchdog to IRQ properties
+      ACPI/IORT: Convert IORT devices to IRQs software-node properties
+      watchdog: sbsa: Handle IRQ probe deferral
+      iommu/arm-smmu: Add arm-smmu IRQ mapping -EPROBE_DEFER handling
+      iommu/arm-smmu-v3: Add IRQ mapping -EPROBE_DEFER handling
+      perf/arm-smmu-v3-pmu: Add IRQ mapping -EPROBE_DEFER handling
 
-	if (READ_ONCE(priv->rescue_failed)) {
-		NL_SET_ERR_MSG_MOD(extack, "download recovery failed");
-		return -EIO;
-	}
+ drivers/acpi/arm64/gtdt.c                   |  90 ++++++----
+ drivers/acpi/arm64/iort.c                   | 250 ++++++++++++++++------------
+ drivers/acpi/irq.c                          |   6 +
+ drivers/acpi/property.c                     |  69 +++++++-
+ drivers/base/platform.c                     |   6 +
+ drivers/clocksource/arm_arch_timer_mmio.c   | 123 ++++++++++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   8 +
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       |   6 +-
+ drivers/perf/arm_smmuv3_pmu.c               |   3 +
+ drivers/watchdog/sbsa_gwdt.c                |   2 +
+ include/clocksource/arm_arch_timer.h        |   4 +
+ include/linux/acpi.h                        |   4 +
+ 12 files changed, 426 insertions(+), 145 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260924-acpi-static-table-irq-probe-defer-69b976bd723d
 
-rescue_failed is set in three cases:
+Best regards,
+--  
+Lorenzo Pieralisi <lpieralisi@kernel.org>
 
-- mxl862xx_rescue_heal_work_fn(), when the drain fails
-- mxl862xx_rescue_heal_work_fn(), when the post-drain reprobe cannot be
-  scheduled
-- mxl862xx_rescue_mode_detect(), for an interrupted opening handshake
-
-In each of these cases the loader never reaches READY.
-
-Could that comment be updated to mention the -EIO state, so that it
-matches both the code and this document?
-
-> +
-> +A download interrupted during its opening handshake, before the image
-> +header reached the loader, is reported the same way. The loader waits
-> +for a header that no later session can supply, so that state needs a
-> +power cycle.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1790130482.git.daniel%40makrotopia.org
