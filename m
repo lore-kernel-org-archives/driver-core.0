@@ -1,245 +1,311 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazolkn19012080.outbound.protection.outlook.com [52.103.20.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33B74E13F7
-	for <driver-core@lists.linux.dev>; Thu, 24 Sep 2026 21:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790286461; cv=fail; b=ECmy2OjW5M86wkH6ROUovRJ5wJxoivpHhWMtbFXb0ccFHjNKAH4q66E2Q/p6fdG0C2zz18/zrSPCBE8PiDcPrdCx5HzbmCLWo6cTDu2IEWao2DcC0SEMR5oGBp3q9zyRo39G6IfxCdS+zZ26XLMJ+yVUD+mRRlDIN2aTm8n26sM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790286461; c=relaxed/simple;
-	bh=lcOO92/DZ1EigeYzdAjfO6w1t9mKBSaboXGMU4BY+ig=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BLZoBeaNhwc3zHsXjLBQM9LbvljbJ2ywouwWJvtv8Ed9VHmcooI4/jEWqfX+WeV/IvwDG4rmKTo7ZkUlkpZ3Fh7l8HtA1utUS54VyFwpV2wXHmVTPq7B7AY2Kqmv9B+t77GMYwX95ISanxa2C0lcWALukmHOzXLisbpSKi7OObE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=PfEe49mD; arc=fail smtp.client-ip=52.103.20.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D83343899;
+	Fri, 25 Sep 2026 05:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790314462; cv=none; b=aeTpwQsFAsMnfL0F5qHMKa/oH/mhBYn35bTUK0H9k3hLnvwTwY41kUBnpYlwDva/Oa84/Jn1viXn8FwmOoRLc/4STrvL75U2pcA5Nm5t5ihKvLmzEdMrZZo/b/pqpJq7yhqQipNRBmgc11x//49CtDPGHVKdxBEvdQulUOufOEo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790314462; c=relaxed/simple;
+	bh=YlDLmTYGf+OMZSoeyItVG+ZNdULTD/7HAmwKxJQPA30=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RwGZz0SglZMnE5kDG4jRLh9qRhTHVOkIalHhLL0UjWkZ5/fG7bE8Oi+6jRwRw0w/8zqERyIx48yAcqRG3wrd2Ce2/xocZ27Wr+ru/RW4CN2sTDnYTzVcDDsi9ikiavWaxaidNmz9ZuLLTj1w1Cg31lwA2zVS0D+81RtPof/qPAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T9SoKbxc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="PfEe49mD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yraSWWrY1LhNP9+90mPyiohsBUGSoUnlcmV32IIrD46rKlTvJMmfiZtulAltlB5PmAgG5WFezEg/claRHLhHRbTwShg5bNEXUVxiU2w7O4rxR3Y+TJ9pj1zm2x/oMaQcbi5coxHBOenmBC2F63Lgiq8/obO4cjCatNNPnOMzxIQVnOJjrcTEjlDg3l6DFUIGHUVTSzVtABdTJyJqFiCWlBrERX9Z7J88RlnyLxMtSdNVP2MJ613Pu7c5afD14NELhTxjFw4FU7OnuWEbUHNogz34dvqP8gRwVZomMr7ugOvBOjo5yzATfx8sj7DM58oMkUFi9juzAjNX0AixBKrcVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lcOO92/DZ1EigeYzdAjfO6w1t9mKBSaboXGMU4BY+ig=;
- b=GG6zcm6dey7ATOQORhsoB8D3hKepK5Ihea5YbamsqQwLvAR5pGIWWyfVRIsvjWdRBTJ2Jv07pgLMvRF67DRYg/kdAiXllQbVKjYR8/2dh5OyhYjQDwO6/rjcWgp/JwDfuI9kPwomEepEhTUIuxGm0PVFjOdZPC4VE/hYSqBtcFRQ8Q/FyLLVGnLXu35rkQCcMYCNx7JntBLxXJqhvzDUykICpwKXxhcjHSvDgm8akWcnGtpj00EvxrLXLt+WMK7F385Joi7zXvNVnYb0JFb4hjv0+cE4FguapL2rQVc0AGBvzr7SAmYHQAr/98WtYCuAl06p9y+Uhg9MaBlAvPMuUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lcOO92/DZ1EigeYzdAjfO6w1t9mKBSaboXGMU4BY+ig=;
- b=PfEe49mDrsci3C/arwgKmkKsmCKp+Csl1TXUTrnPMVZtRhJsTt+acS1jVJedJlCqhSphaza4C8WQnWCU7qKF/db9uw/5674B+6Jhi+Z4PCrQDWQRGuMgKvrn4uu+YF8vzumGOpsU4yVBeHew0PeVJH2u6VzBYvk0O8JN9o46cSpzSvXl90F93qgBAO22l4kW6LDNUWjF1PTU9FJVlsm/FvoO9HWPwbq1UrLgZqlBZ9Gdk5AA/P1tSV7Wf5cFosvdzGpcBPtBXY2D+j5HIhMXlxvNYE4PUxZzC9QC8IJjn/WfC+sXhw5axKyJybpqlKexVc4QeR+DIpl99J9czx5/+A==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by SA2PR02MB7530.namprd02.prod.outlook.com (2603:10b6:806:149::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 21:47:33 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%5]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
- 21:47:33 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-CC: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Linux on Hyper-V List
-	<linux-hyperv@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, LKML
-	<linux-kernel@vger.kernel.org>, Linux Driver Core Development
-	<driver-core@lists.linux.dev>
-Subject: RE: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
-Thread-Topic: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
-Thread-Index: AQFaPXDaltCSjsbsGnWHrXxa2Wl6TgHIwnweAqCrIxkCHW0AebewI5kQ
-Date: Thu, 24 Sep 2026 21:47:33 +0000
-Message-ID:
- <SN6PR02MB41573FD4D03A4083E4C4C689D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <6329043.lOV4Wx5bFT@rafael.j.wysocki>
- <SN6PR02MB41577ECCDB3E757B8859AE7FD4822@SN6PR02MB4157.namprd02.prod.outlook.com>
- <SN6PR02MB41575266A4580339E186E5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
- <CAJZ5v0i2oawbWzrVro1gGx2=hYOhjXPNJWDJ6LsNCq1WOxfHGQ@mail.gmail.com>
-In-Reply-To:
- <CAJZ5v0i2oawbWzrVro1gGx2=hYOhjXPNJWDJ6LsNCq1WOxfHGQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|SA2PR02MB7530:EE_
-x-ms-office365-filtering-correlation-id: 446dda36-b3d3-47de-d0fd-08df1a8570d6
-x-microsoft-antispam:
- BCL:0;ARA:14566002|31061999003|37011999003|12121999013|19110799012|24021099003|55001999006|51005399006|8060799015|15080799012|13091999003|8062599012|25010399006|56899033|440099028|3412199025|102099032|40105399003|12091999003|2607281247196008;
-x-microsoft-antispam-message-info:
- =?utf-8?B?SEVuZHVGc2xMeGNxUWxmc3FFb2dxMnd5R1AwQ0x4N1RUampWNlV1YjN3b09i?=
- =?utf-8?B?YlI2UE1uclQ0eW80Yk1idEpWd25nNHoxSEExbzVSNDdCSENDVkgrRnlKdUkx?=
- =?utf-8?B?SG9iRmhyZmhyZnlJWVZ5ZHFobEVSTitncTB2VXRJM1ZEcGpNdk13SXpneGpr?=
- =?utf-8?B?V2VNNTZLQUdxT2diL2xZSnhLWXhhSXcrUlhyOUNRYy9jbUtyR0hiMzR3Q245?=
- =?utf-8?B?UTZJd0RGQXB3RTBqR2dhQlhKY0pPUDdhSHUwM2V5S0dyTnBSYVdrc3RaZWYz?=
- =?utf-8?B?ZGs5RUZDRnRmSlBhMmwydXY2blhaUTBEVUVvMWtJaXhybW8xZ25IZSsxc0tq?=
- =?utf-8?B?aU8rMmNiVEZkWllITHp0d3lMUTNTKzd2WVQzemoyLzNid0xjZjNKd1U5UlVL?=
- =?utf-8?B?aHN0SERnbk0rUVN0N2svU0JRdFVjVHhxOWp6elBDa0YzRWZ2Zk84WlJxUDhT?=
- =?utf-8?B?UE01dktrN1dVWHFpaDM5SHI4dExyQVlnYkRnY0FJUFVTQVlKb0VLdWFkbk9M?=
- =?utf-8?B?NDZZUmJCVTBpSU5Da1h4cmZKQUtHN256V0tXdFRabkxyLy9iYVk5K3JzV0Yy?=
- =?utf-8?B?UnFVNFRGOVZyTHBTcFBDTjRTcDRNN1pGTFJINFA5ZVZEcVR5WHQvNWJNMXV6?=
- =?utf-8?B?SGlaRllMZndtdm91SDhXRG5uUFBXd2padnlzblBBTW0zY2huM2tScUVuTlMr?=
- =?utf-8?B?UnRxWEdkUTUvdUFnUG5GS0xQZFhwZFpPaStmTVFNMjV6VXZvUWgyTmo4TExU?=
- =?utf-8?B?STBYSTFIY3FubExGRnMzVTV1VThqNVpWbjRLSUJQT1hhTldvalI1SlM1akNW?=
- =?utf-8?B?T0hGSCtSVGV4T25XR3Q2Y0hkOHMvUGJpUEFmanNMZHg2YU1tVGdzVGJlbmlZ?=
- =?utf-8?B?aUlmVkt6NEpPdkxyR3RNalhDNnplMGRFUUhKLzJoOENxU3d6a2M5NDRzamcz?=
- =?utf-8?B?bHFyOWE1N056UDJQZTBNUUZpb3ZqV2NSWHVoQzRXcXg3clR1THdxZ2dkM2xj?=
- =?utf-8?B?L0FHZFlVS0hYWXNlV3BrV1AvWktRa3lwQnJ5U3VkWUJaOHlRRUxsWVFuQTB2?=
- =?utf-8?B?ejZNd1pkeEpxU0VhVXlyZUNFaDk1RjUwVi9Qd1BKc3NPK0lTUWRjN2pZblVG?=
- =?utf-8?B?UEZjQ3RheVRjaStzZitoc094bG16L1VzZEJGN25OaGFtblZuWUE0aWdFbmd6?=
- =?utf-8?B?Q21LWDZCZVhSK3h6cG9UNEo5VGcyUjVqa2M0N0JJN2xZOVYvVmJyVmFneXU5?=
- =?utf-8?B?VnVpbnJOQnY2enMzNDdUbzZjd0NOVnNMWnMwMmwrdEdVOEgvanY1cFJSVHFv?=
- =?utf-8?B?NXkrcHE5WE1LU3FuUFBZRmdwQWhKN2taVFhOK3JFWkpPK1B3cXEwbkUxcnJo?=
- =?utf-8?B?d09lUG9zUHpqY3cyNTJNTHNhbWt1QXpUbkt3K2VsalhYS2xSL2hldzA5ZlYv?=
- =?utf-8?B?eGc3Y1EvMm50VEpzQ21FRFZualFOMTc1dkV0UTRwbndtRG9pSC9aS2N0cjR0?=
- =?utf-8?Q?I1rIFM=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TDh6aGlsQWhXVUovSm16L2R5OW42VzBpcGdXZ0pmZE1tdHU0cmVhU3FWVnpZ?=
- =?utf-8?B?amZ5Z0lpVmdZVEQyK1A4eURRSU1qSkNVM2pvQmNwcENKeUhHYWtPNmdZa2hO?=
- =?utf-8?B?dFFobnRZdVoxaDJ3QnVHZUExbVhLUHFkYmMySlhpV1hEZjVoa1QrK3hPSy91?=
- =?utf-8?B?UVRLL0xuSEVZM1hKd1k5ak45RCtSdW5LSHdMUTY0WUFwalFVU3ptR0gybWZS?=
- =?utf-8?B?NEFmOWNmbm5XR1UyK3N0SWxEbytOQ3RvZlN2cjcreEtZa0tLd2twQ0lxbmNE?=
- =?utf-8?B?TGNDRmI0M0VyQ3M3b0M5NzNpSE1NQVpFNGZ5ZnJjWUhLUHpRcC9HUUFrYjYr?=
- =?utf-8?B?UDFZT0hueXFYTUNtWGNoS21yNTJVODNSM1NKUjUzVjdhR0tSQjNlNmpXeWpw?=
- =?utf-8?B?TkpwTkNoQVIvbkNxeGo3WUYxZkdLdTJmaW9jcHljRVFHVXVhYngySUlYOUxH?=
- =?utf-8?B?Z3Rwa3VRUnVBVzJjd2htODhYaUxua0FOVGdFb1FkeTBjNTFRMW1RMm1hc0lr?=
- =?utf-8?B?blc4eVFhZUVwanNyRjhjMHZtZWQ2ZXFZRnZmTUZHeUN3S1Q2NTg1TUxjZkw3?=
- =?utf-8?B?Um1HdFpUQjIvOFhaek10cXBKMlIyelpNYjFkcTFYY2hBVm93OU1QTVdybldk?=
- =?utf-8?B?M25KZnpWdmtJQUJwVDNkK0xTZlpyQXZjVWJ5b3gzc2k1VkpzVnpLekFlRFNu?=
- =?utf-8?B?Zkk2ZHZKbHp4bXZrMDJLbkU5d2RVb2lNdWVqR1RHT01hYXNJOWkvb2ppQ00x?=
- =?utf-8?B?bUU5OHhqMGx5bDZmM05IT2g1ZnRFS1hsWTJtdjBVK0Q2QUNBcGljS0JkVGJx?=
- =?utf-8?B?VkdGS216WkpIRVd3MDZ4VWxScG53MFNrbERhUzMrQ2J1NjhWc1RVZGhMRTRj?=
- =?utf-8?B?bUxlQmtsLzdoZDhLaXowTmhNVUtiWHNybnlHcU1nMksyOEpNbFYvQ2huRWdz?=
- =?utf-8?B?OFc0U3BhVmh4OTNQa1FWa3dENlMxQ0JtclovSVI1WFhrN0o2Sm05bmxCR3V2?=
- =?utf-8?B?TnkxeDMyYWZYRnJ0RnRaSzJxQUdsK1d5VEhmUEZZMk0xbUdkdXFhaXE1SlBU?=
- =?utf-8?B?bk5SQUxDamFYRitUbUpTYWZFeTFlWjBrdXZXZ1kxOGVseklmVzE4VzFDdHVE?=
- =?utf-8?B?bW00c0ljVStzZmVWSUFZYU1iTTQ3SE5wQ0lhU0pTL0hycTY5aVVlWE9iWFRF?=
- =?utf-8?B?bGRHdHN1Y2JwSEFlTFc5dlU5NWVXd2ZYNUN1QXZjUkR6blZDWERSdy9yU2Nv?=
- =?utf-8?B?SVJ5Z2hkb2hJcDdQc0xsTk9OdGVxc1lBV21uV1QxMEdPdXpNN2xDdWZ2Sk8y?=
- =?utf-8?B?ZEFZbFB2KzhEUkFtYjlVQ0h5TUhVcDNlcWEwa3h2TjlKV1lIQjc2MmFVSTJy?=
- =?utf-8?B?QVVHcWVQWEJ0MFJGZ1gvb0dIZlJId0xxRzQzWk5CRkRLTW4xYjdZdTVDcnRZ?=
- =?utf-8?B?ekVmN0VkQXAxV2JDSE5iT0FzQkY5eTJ3NlJoMTJSV1I0cjZDeWlQOXVrb1BC?=
- =?utf-8?B?dTBZUkpXNUlvZHEvU2NJV1haV2lFLzRUSnlhRWFNd211dnJZYklhclJkeEo5?=
- =?utf-8?B?TnRVLzlwWlYzWnoxQ254SGlHRkF5Z2I1OTBpc2dvMTJ6YUdac3M4cUMxK0s4?=
- =?utf-8?B?ZnZDMmNnUmU4WU9NZXRQVzQyQlNQVmQ4THo4OExiTHoxVFUxaXV6MGtZQWNr?=
- =?utf-8?B?MTRWbzFTaHRFQkdVZ3BZS3BoWGFtZ3NaWmh6bGpMbVBoQTFtQUFFMjRCdThX?=
- =?utf-8?B?MDdYZTFPQ01ldVdxZ2xDK0Jsb25aOGpmbnJtbGFwUER4bk84T1NIZDRDTTY4?=
- =?utf-8?Q?3zD3qtTF9NJgQ+3DijGlf1OBOJccr6RlbvKaU=3D?=
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T9SoKbxc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C001F000FF;
+	Fri, 25 Sep 2026 05:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790314460;
+	bh=N7FhqT8hGabdEId+z3AaWAtoEMimGgShF1rW8+udDbI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=T9SoKbxczKonmTCKj+pNMsK85DF1j+yR7tCjg4rhdcuLBKSkLfs+PUA9J3kQuuTZf
+	 mRefrIJ95ox9jAXi8JNhblYjewH/gd+SRKQ2L2gpo1GnA5o8VQO0YTK8l6XRDEAEzQ
+	 7ImWD6ThW3S+gvHFndy5TYuY6Ia1MbMcpJOAP4WFPq8zg7ZuBloPi3nsyk6ButnlJO
+	 Rh9dwf+fEVgIQ32Tvod8wdIUItzEcTFDyGXhexPFfbrybUKhxX1500XGB1Z//obTIk
+	 wQTSw3LTI2ZrbKn7G2x//dT400B+DURdVCPzHZ1Wc6kmIZh/Qlssffp8ucbUPH0kUR
+	 hrO9q6dndn3HQ==
+Subject:
+ Re: [PATCH net-next v17 3/6] driver core: add device_schedule_reprobe()
+From: netdev-bot+sashiko@kernel.org
+To: daniel@makrotopia.org
+Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
+ linux@armlinux.org.uk, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
+Date: Fri, 25 Sep 2026 05:34:18 +0000
+Message-ID: <179031445878.2160803.13040631254359751357@kernel.org>
+In-Reply-To: =?utf-8?q?=3Cacb746142c5e9d06fd592db29872b55869735faf=2E1790130?=
+ =?utf-8?q?482=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+References: =?utf-8?q?=3Cacb746142c5e9d06fd592db29872b55869735faf=2E17901304?=
+ =?utf-8?q?82=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 446dda36-b3d3-47de-d0fd-08df1a8570d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2026 21:47:33.5416
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7530
 
-RnJvbTogUmFmYWVsIEouIFd5c29ja2kgKEludGVsKSA8cmFmYWVsQGtlcm5lbC5vcmc+IFNlbnQ6
-IFRodXJzZGF5LCBTZXB0ZW1iZXIgMjQsIDIwMjYgMTE6NDUgQU0NCj4gDQo+IE9uIFRodSwgU2Vw
-IDI0LCAyMDI2IGF0IDg6MjPigK9QTSBNaWNoYWVsIEtlbGxleSA8bWhrbGludXhAb3V0bG9vay5j
-b20+IHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogTWljaGFlbCBLZWxsZXkgPG1oa2xpbnV4QG91dGxv
-b2suY29tPiBTZW50OiBXZWRuZXNkYXksIFNlcHRlbWJlciAyMywgMjAyNiAxMDowNiBBTQ0KPiA+
-ID4NCj4gPiA+IEZyb206IFJhZmFlbCBKLiBXeXNvY2tpIDxyYWZhZWxAa2VybmVsLm9yZz4gU2Vu
-dDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgOSwgMjAyNiA5OjQxIEFNDQo+ID4gPiA+DQo+ID4gPiA+
-IFRoZSBBQ1BJIGJ1cyB0eXBlIGRvZXMgbm90IGFsbG93IGRyaXZlcnMgdG8gYmUgcmVnaXN0ZXJl
-ZCwgc28gdGhlIHN5c2ZzDQo+ID4gPiA+IGF0dHJpYnV0ZXMgcmVsYXRlZCB0byBkcml2ZXJzIGNy
-ZWF0ZWQgZm9yIGl0IGFuZCBpdHMgZGV2aWNlcyBhcmUNCj4gPiA+ID4gdXNlbGVzcywgYW5kIGl0
-cyBkcml2ZXJzLyBkaXJlY3RvcnkgaXMgYWx3YXlzIGVtcHR5LiAgQWxsIG9mIHRoYXQgaXMNCj4g
-PiA+ID4gY29uZnVzaW5nIGFuZCB3YXN0ZWZ1bC4NCj4gPiA+ID4NCj4gPiA+ID4gVG8gYWxsb3cg
-c2tpcHBpbmcgdGhlIGNyZWF0aW9uIG9mIHRob3NlIHN5c2ZzIGF0dHJpYnV0ZXMsIGludHJvZHVj
-ZSBhDQo+ID4gPiA+ICJjb21wYW5pb24iIGJ1cyB0eXBlIGNvbmNlcHQgYW5kIGFkZCBhIHNwZWNp
-YWwgcmVnaXN0cmF0aW9uIGZ1bmN0aW9uIGZvcg0KPiA+ID4gPiByZWdpc3RlcmluZyAiY29tcGFu
-aW9uIiBidXMgdHlwZXMsIGNvbXBhbmlvbl9idXNfcmVnaXN0ZXIoKS4NCj4gPiA+ID4NCj4gPiA+
-ID4gU2lnbmVkLW9mZi1ieTogUmFmYWVsIEouIFd5c29ja2kgPHJhZmFlbC5qLnd5c29ja2lAaW50
-ZWwuY29tPg0KPiA+ID4NCj4gPiA+IEFzIGEgaGVhZHMgdXAsIHRoaXMgcGF0Y2ggYnJlYWtzIExp
-bnV4IGd1ZXN0cyBib290aW5nIG9uIEh5cGVyLVYuDQo+ID4gPiBTb21ldGhpbmcgZ29lcyB3cm9u
-ZyBpbiB0aGUgVk1CdXMgZHJpdmVyIGdldHRpbmcgbG9hZGVkIGFuZA0KPiA+ID4gaW5pdGlhbGl6
-ZWQgKGRyaXZlcnMvaHYvdm1idXNfZHJ2LmMpLiBJdCBtYXkgYmUgdGhhdCB0aGUgVk1CdXMNCj4g
-PiA+IGRyaXZlciBpcyBkb2luZyBzb21ldGhpbmcgd3Jvbmcgb3IgbWFraW5nIGFuIGludmFsaWQg
-YXNzdW1wdGlvbi4NCj4gPiA+IEknbGwgZGVidWcgdGhlIHByb2JsZW0gdG9kYXkgb3IgdG9tb3Jy
-b3csIGJ1dCBhbnkgaW5zaWdodCB5b3UgY2FuDQo+ID4gPiBvZmZlciB3b3VsZCBiZSBhcHByZWNp
-YXRlZC4gSSdtIHdvcmtpbmcgd2l0aCBsaW51eC1uZXh0MjAyNjA5MjEuDQo+ID4NCj4gPiBIZXJl
-J3Mgd2hhdCBJJ3ZlIGxlYXJuZWQgc28gZmFyOg0KPiA+DQo+ID4gMSkgVGhlIHByb2JsZW0gaXMg
-YXBwYXJlbnRseSBkdWUgdG8gc3lzdGVtZC11ZGV2ZCBiZWluZyB1bmFibGUNCj4gPiB0byBsb2Fk
-IG1vZHVsZXMgd2l0aCB0aGUgVk1CdXMgYnVzIGRyaXZlciBvciBhbnkgb2YgdGhlDQo+ID4gaW5k
-aXZpZHVhbCBkcml2ZXJzIGZvciBWTUJ1cyBkZXZpY2VzLg0KPiA+DQo+ID4gMikgSSdtIHRlc3Rp
-bmcgb24gVWJ1bnR1IDIwLjA0IHdpdGggc3lzdGVtZCB2ZXJzaW9uIDI0NS4gVGhlDQo+ID4gcHJv
-YmxlbSByZXByb2R1Y2VzIG9uIGEgZGlmZmVyZW50IDIwLjA0IGluc3RhbmNlLiBCdXQgZXZlcnl0
-aGluZw0KPiA+IHdvcmtzIGNvcnJlY3RseSBvbiBVYnVudHUgMjQuMDQgd2l0aCBzeXN0ZW1kIHZl
-cnNpb24gMjU1Lg0KPiA+DQo+ID4gMykgSWYgdGhlIFZNQnVzIGJ1cyBkcml2ZXIgYW5kIGtleSBW
-TUJ1cyBkZXZpY2UgZHJpdmVycyBhcmUNCj4gPiBjb21waWxlZCBhcyBidWlsdC1pbiBpbnN0ZWFk
-IG9mIGFzIG1vZHVsZXMsIHRoZSBVYnVudHUgMjAuMDQgc3lzdGVtDQo+ID4gd2lsbCBib290Lg0K
-PiA+DQo+ID4gNCkgSWYgSSBrZWVwIHlvdXIgcGF0Y2gsIGJ1dCBjaGFuZ2UgY29tcGFuaW9uX2J1
-c19yZWdpc3RlcigpIHRvDQo+ID4gcGFzcyAidHJ1ZSIgYXMgdGhlIHNlY29uZCBhcmd1bWVudCBp
-bnN0ZWFkIG9mICJmYWxzZSIsIHRoZW4gdGhlDQo+ID4gL3N5cy9idXMvYWNwaS9kcml2ZXJzIGRp
-cmVjdG9yeSBpcyBjcmVhdGVkIGFzIGJlZm9yZSwgYW5kIGV2ZXJ5dGhpbmcNCj4gPiB3b3Jrcy4g
-QWxzbywgb25seSBhZGRpbmcgYmFjayB0aGUgLm1hdGNoIGZ1bmN0aW9uIGFzIHlvdSBzdWdnZXN0
-ZWQNCj4gPiBkb2VzIG5vdCBtYWtlIGFueSBkaWZmZXJlbmNlLg0KPiA+DQo+ID4gNSkgVGhlIFZN
-QnVzIGJ1cyBpcyBlbnVtZXJhdGVkIGluIHRoZSBBQ1BJIERTRFQuIFRoZSBpbmRpdmlkdWFsDQo+
-ID4gc3ludGhldGljIGRldmljZXMgdGhhdCBhcmUgbG9naWNhbGx5IG9uIFZNQnVzIGFyZSBub3Qg
-LS0gdGhleSBhcmUNCj4gPiAib2ZmZXJlZCIgYnkgSHlwZXItViB0byB0aGUgZ3Vlc3QgYXQgcnVu
-dGltZSB2aWEgYSBjdXN0b20gcHJvdG9jb2wuDQo+ID4gVGhlIHN5bnRoZXRpYyBkZXZpY2VzIGVu
-ZCB1cCB3aXRoIHBhdGhzIGxpa2U6DQo+ID4NCj4gPiAvc3lzL2RldmljZXMvTE5YU1lTVE06MDAv
-TE5YU1lCVVM6MDAvQUNQSTAwMDQ6MDAvTVNGVDEwMDA6MDAvPHNvbWUgR1VJRD4NCj4gDQo+IFdo
-aWNoIGlzIHJhdGhlciB1bmZvcnR1bmF0ZS4NCj4gDQo+IFRoZXkgc2hvdWxkIGFwcGVhciB1bmRl
-ciB0aGUgTVNGVDEwMDA6MDAgcGxhdGZvcm0gZGV2aWNlIGNvcnJlc3BvbmRpbmcNCj4gdG8gdGhl
-IEFDUEkgZGV2aWNlIHdpdGggdGhlIHNhbWUgbmFtZS4NCg0KSG1tbS4gSW4gdGhlIHBhdGggYWJv
-dmUgTVNGVDEwMDA6MDAgaXMgdGhlIFZNQnVzIGJ1cyBkZXZpY2UgZnJvbQ0KdGhlIERTRFQuIEl0
-cyAicGF0aCIgdmFsdWUgaXMgIlxfU0JfLlZNT0QuVk1CUyIsIHdoaWNoIG1hdGNoZXMgdGhlDQpE
-U0RULg0KDQpVbmRlciAvc3lzL2RldmljZXMvcGxhdGZvcm0sIHRoZXJlIGlzIG5vIGVudHJ5IGZv
-ciBNU0ZUMTAwMDowMC4NCkFuZCB1bmRlciAvc3lzL2J1cy9wbGF0Zm9ybS9kZXZpY2VzLCBNU0ZU
-MTAwMDowMCBpcyBhIHN5bWxpbmsgdG8NCg0KLi4vLi4vLi4vZGV2aWNlcy9zeXN0ZW0vY29udGFp
-bmVyL0FDUEkwMDA0OjAwL01TRlQxMDAwOjAwDQoNCkNhbiB5b3UgcHJvdmlkZSBhbnkgbW9yZSBk
-ZXRhaWwgb24gaG93IHRoaXMgc2hvdWxkIGJlPyBBbmQgYW0gSQ0KY29ycmVjdCB0aGF0IHRoZXNl
-IHBhdGhzIGFyZSBnb3Zlcm5lZCBieSB0aGUgcGFyZW50IHJlbGF0aW9uc2hpcHMNCm9mIHRoZSAi
-c3RydWN0IGRldmljZSJzPw0KDQo+IA0KPiBBbnl3YXksIGl0IGxvb2tzIGxpa2Ugb2xkZXIgc3lz
-dGVtZCBtYXkgYmUgdGhpbmtpbmcgdGhhdCB0aGV5IGFyZSBBQ1BJDQo+IGRldmljZXMgYW5kIG1h
-eSBiZSBsb29raW5nIGZvciBkcml2ZXJzIGluIC9zeXMvYnVzL2FjcGkvZHJpdmVycy8uDQo+IA0K
-PiBUbyBraW5kIG9mIGNoZWNrIHRoYXQgdGhpcyBpcyB0aGUgY2FzZSwgY2FuIHlvdSByZXBsYWNl
-ICJ1c2VfZHJpdmVycyINCj4gd2l0aCAidHJ1ZSIgaW4gdGhlIGZpcnN0IGNoZWNrIGluIGJ1c19y
-ZWdpc3Rlcl9pbnRlcm5hbCgpIG9ubHkgKHdpdGgNCj4gdGhlICRzdWJqZWN0IHBhdGNoIGFwcGxp
-ZWQsIG9mIGNvdXJzZSk/ICBUaGF0IHdvdWxkIGxlYXZlIHRoZQ0KPiAiZHJpdmVycyIgZGlyZWN0
-b3J5IGluIHBsYWNlLCBidXQgaXQgd291bGQgc2tpcCB0aGUgY3JlYXRpb24gb2YgdGhlDQo+IHBy
-b2JlIGZpbGVzLg0KDQpUaGUgVk0gYm9vdHMgcHJvcGVybHkgd2l0aCB0aGF0IGNoYW5nZS4gSnVz
-dCB0byBjb25maXJtLCB1bmRlcg0KL3N5cy9idXMvYWNwaSwgdGhlICJkZXZpY2VzIiBhbmQgImRy
-aXZlcnMiIGRpcmVjdG9yaWVzIGFyZSB0aGVyZSwNCmFsb25nIHdpdGggInVldmVudCIuIEFuZCBv
-ZiBjb3Vyc2UsICJkcml2ZXJzIiBpcyBlbXB0eS4gQnV0DQpkcml2ZXJzX2F1dG9wcm9iZSBhbmQg
-ZHJpdmVyc19wcm9iZSBhcmUgbm90IHByZXNlbnQuDQoNCj4gDQo+ID4gTXkgY29uY2x1c2lvbiBp
-cyB0aGF0IGZvciBzb21lIHJlYXNvbiwgdGhlIG9sZGVyIHN5c3RlbS11ZGV2ZCBoYXMNCj4gPiBh
-IGRlcGVuZGVuY3kgb24gdGhlIC9zeXMvYnVzL2FjcGkvZHJpdmVycyBkaXJlY3RvcnkgYmVpbmcg
-cHJlc2VudC4NCj4gPiBUaGlzIGlzbid0IGEga2VybmVsIHByb2JsZW0gcGVyIHNlLCBidXQgdGhl
-cmUncyBhbiBpbXBsaWNpdCBBQkkgb2Ygc29ydHMNCj4gPiB0aGF0IGFzc3VtZXMgdGhlIGV4aXN0
-ZW5jZSBvZiB0aGUgImRyaXZlcnMiIGRpcmVjdG9yeS4NCj4gPg0KPiA+IFRvIGNvbmZpcm0gYWxs
-IHRoaXMgbW9yZSBwcmVjaXNlbHksIEknbSB0cnlpbmcgdG8gZmluZCBhIGNsZXZlciB3YXkNCj4g
-PiB0byBnZXQgYW4gc3RyYWNlIG9mIHN5c3RlbWQtdWRldmQgd2hlbiBpdCBlcnJvcnMgb3V0IGR1
-ZSB0byB0aGUNCj4gPiBtaXNzaW5nICJkcml2ZXJzIiBkaXJlY3RvcnksIGFuZCBzb21laG93IHJl
-bGF0ZSB0aGF0IGJhY2sgdG8gdGhlDQo+ID4gZ2l0IGhpc3Rvcnkgb2Ygc3lzdGVtZC11ZGV2ZC4N
-Cj4gPg0KPiA+IFRob3VnaHRzPw0KPiANCj4gV2VsbCwgdGhlIGZhY3Qgb2YgbGlmZSBpcyB0aGF0
-IGl0IGNhbid0IGNvcGUgd2l0aCB0aGUgY2hhbmdlcyBtYWRlIGJ5DQo+IHRoZSAkc3ViamVjdCBw
-YXRjaCwgYnV0IG1heWJlIHdlIGNhbiBnZXQgYXdheSB3aXRoIGEgc2ltcGxlciBvbmUsIHNvDQo+
-IHBsZWFzZSBjaGVjayB0aGUgYWJvdmUuDQo+IA0KPiBJJ2xsIGRyb3AgdGhlICRzdWJqZWN0IHBh
-dGNoIGZyb20gbGludXgtbmV4dCBhdCBsZWFzdCBmb3Igbm93Lg0KPiANCj4gQlRXLCBkbyB5b3Ug
-a25vdyB3aHkgdm1idXNfYWNwaV9hZGQoKSBkb2VzIHRoaXM6DQo+IA0KPiBBQ1BJX0NPTVBBTklP
-Tl9TRVQoJmRldmljZS0+ZGV2LCBkZXZpY2UpOw0KPiANCj4gd2hpY2ggZXNzZW50aWFsbHkgYXR0
-ZW1wdHMgdG8gbWFrZSBhbiBBQ1BJIGRldmljZSBiZWNvbWUgYW4gQUNQSQ0KPiBjb21wYW5pb24g
-b2YgaXRzZWxmIGFuZCBpcyB1c2VsZXNzIGFuZCBicm9rZW4/DQoNCkluZGVlZCwgdGhhdCBsb29r
-cyB1c2VsZXNzIGFuZCBicm9rZW4uIEkgbmVlZCB0byBnbyBzdHVkeSB0aGUNCmhpc3RvcnkuIEkg
-YWRkZWQgdGhhdCBsaW5lIG9yaWdpbmFsbHkgd2hlbiBtYWtpbmcgc3VyZSB0aGUgQUNQSQ0KX0ND
-QSBzZXR0aW5nIGluIHRoZSBWTUJ1cyBlbnRyeSBvZiB0aGUgRFNEVCB3YXMgcHJvcGFnYXRlZA0K
-dG8gdGhlIHN5bnRoZXRpYyBkZXZpY2VzIG9uIHRoZSBWTUJ1cy4gQnV0IHRoYXQgd2FzIGJlZm9y
-ZQ0KdGhlIFZNQnVzIGRyaXZlciB3YXMgbW9kaWZpZWQgdG8gbW9kZWwgaXQgYXMgYSBwbGF0Zm9y
-bSBkZXZpY2UuDQpUaGFua3MgZm9yIHBvaW50aW5nIHRoYXQgb3V0LCBhbmQgSSdsbCBmb2xsb3cg
-dXAuDQoNCk1pY2hhZWwNCg==
+Thank you for your contribution! Sashiko AI review found 5 potential
+issue(s) to consider.
+
+Critical: 0 · High: 0 · Medium: 1 (1) · Low: 4 (1)
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] device_reprobe_work_fn() treats any `defer_all_probes == true`
+  as a permanent shutdown.
+- [Low] device_schedule_reprobe() (drivers/base/dd.c) reads the driver
+  with `drv = READ_ONCE(dev->driver)` and holds no lock or reference on…
+- [Low] device_reprobe_work_fn() identifies the binding only by
+  `dev->driver == rp->drv && !strcmp(dev->driver->name, rp->drv_name)`.
+- [Low] device_reprobe_work_fn() treats a re-probe as failed only when
+  `ret < 0 && ret != -EPROBE_DEFER`, where ret comes from…
+- [Low] The commit message says 'Nothing is locked or validated in the
+  caller's context', but device_schedule_reprobe() does check the device…
+
+Pre-existing issues:
+- [Medium] device_reprobe_work_fn() checks defer_all_probes once, under
+  device_lock(), and then calls __device_release_driver().
+- [Low] The commit message's first paragraph gives, as motivation, the
+  module-text epilogue race (put_device(); kfree();…
+
+--
+
+driver core: add device_schedule_reprobe()
+
+This commit adds device_schedule_reprobe() to the driver core. It queues a
+freezable delayed work item that detaches and re-probes a device, but only
+if the device is still bound to the same driver, matched by pointer and
+name. The work function is built-in text, so callers don't need a module
+reference, and buses that take the parent lock to bind are refused.
+
+> Drivers that need a deferred re-probe of their own device open-code a
+> work item in module text. iwlwifi (iwl_trans_schedule_reprobe(), for a
+> firmware crash a lighter restart cannot fix) and hci_h5
+> (h5_btrtl_resume(), RTL devices lose their firmware state over suspend)
+> both end that work function with put_device(); kfree();
+> module_put(THIS_MODULE);, where a concurrent rmmod can free the module
+> text the epilogue is still executing.
+
+[Severity: Low]
+This is a pre-existing issue and was not introduced by this patch, but
+neither of the two drivers given as motivation is converted anywhere in the
+series. At the end of the series, iwl_trans_reprobe_wk() in iwl-trans.c and
+h5_btrtl_reprobe_worker() in hci_h5.c still end with:
+
+	put_device(reprobe->dev);
+	kfree(reprobe);
+	module_put(THIS_MODULE);
+
+Could the commit message say these conversions are left for later? As
+written, it reads as though the series deals with these drivers.
+
+> Nothing is locked or validated in the caller's context, so the helper
+> may be called with the device lock held, as the PM callbacks, ->remove()
+> and ->shutdown() hold it.
+
+[Severity: Low]
+Is "validated" accurate here? device_schedule_reprobe() does check the
+device in the caller's context:
+
+	if (!drv || !dev->bus || dev->bus->need_parent_lock || !dev->p ||
+	    dev->p->dead || !device_is_registered(dev))
+		return -EINVAL;
+
+The kernel-doc also lists these -EINVAL conditions.
+
+What seems to be true is that nothing is locked. The checks are unlocked
+snapshots, and the work repeats them under device_lock(). Could the
+sentence say that instead?
+
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index f6525a7ee8c54..a26a6b0eaef5b 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -1436,3 +1436,118 @@ void driver_detach(const struct device_driver *drv)
+
+[ ... ]
+
+> +static void device_reprobe_work_fn(struct work_struct *work)
+> +{
+
+[ ... ]
+
+> +	device_lock(dev);
+> +	/*
+> +	 * rp->drv is only compared, never dereferenced: the driver it points
+> +	 * to may have been unregistered and freed. The saved name rejects a
+> +	 * freed address the allocator has since handed to another driver.
+> +	 */
+> +	if (!defer_all_probes && !dev->p->dead && dev->driver == rp->drv &&
+> +	    !strcmp(dev->driver->name, rp->drv_name)) {
+
+[Severity: Medium]
+Can a pending request be lost for good if its timer fires between
+dpm_prepare() and dpm_complete()?
+
+dpm_prepare() sets defer_all_probes through device_block_probing(), and
+dpm_complete() clears it again, so in that window the block is only
+temporary. When this check fails, the work goes straight to kfree(rp) and
+nothing re-queues the request.
+
+The kernel-doc relies on system_freezable_wq being frozen during that
+window. Freezable workqueues are only frozen by freeze_kernel_threads(),
+through try_to_freeze_tasks(false)->freeze_workqueues_begin().
+kernel_kexec() with preserve_context (CONFIG_KEXEC_JUMP) does:
+
+	error = freeze_processes();
+	...
+	error = dpm_suspend_start(PMSG_FREEZE);
+
+and never calls freeze_kernel_threads(). With CONFIG_SUSPEND_FREEZER=n,
+suspend_freeze_processes() doesn't freeze anything at all.
+
+In those cases, wouldn't the work run while defer_all_probes is set, skip
+the detach and free the request? That contradicts the kernel-doc's "one
+pending across system suspend runs once the system has resumed".
+
+For the mxl862xx flash user later in the series, priv->skip_teardown would
+stay set. Further flashes would be refused with "A previous flash is still
+waiting for its reprobe" until someone unbinds and binds the device by
+hand.
+
+[Severity: Low]
+Can this check tell the binding that made the request from a later binding
+of the same driver? Driver names are unique per bus, so the (pointer, name)
+pair also matches any later bind of the same driver. That includes:
+
+  - a sysfs unbind followed by a bind within the delay (500 ms for
+    mxl862xx)
+  - a module reload that places the static struct device_driver at the
+    same address
+  - a second request queued while the first one is still pending
+
+In each case, the stale work would detach and re-probe a fresh instance
+that never asked for it. device_schedule_reprobe() doesn't coalesce
+requests and returns no handle, so ->remove() cannot cancel a pending one.
+
+With the later mxl862xx user, one sequence is:
+
+  - the rescue-path reprobe fires during a flash
+  - ->remove() waits in mxl862xx_flash_shutdown()
+  - the flash queues another request
+  - that second request re-probes the new instance again
+
+The kernel-doc lists "is no longer bound, is bound to a different driver"
+as skip conditions. It doesn't mention that an unbind followed by a rebind
+to the same driver still triggers the re-probe. The v15 revision documented
+this. Should the kernel-doc say so again?
+
+> +		__device_release_driver(dev, NULL);
+> +		detached = true;
+> +	}
+
+[Severity: Medium]
+This isn't a bug introduced by this patch, since the window is in
+__device_release_driver(). However, the helper makes it reachable from a
+timer.
+
+defer_all_probes is checked only once, above. __device_release_driver()
+can then drop dev->mutex:
+
+	while (device_links_busy(dev)) {
+		__device_driver_unlock(dev, parent);
+		device_links_unbind_consumers(dev);
+		__device_driver_lock(dev, parent);
+		...
+		if (dev->driver != drv) {
+
+In that window device_shutdown() can call device_block_probing(), take
+device_lock(dev), and call ->shutdown() on the device, which is still
+bound. When the work takes the lock back, dev->driver is unchanged, so it
+goes on to device_remove(). device_block_probing() waits only for
+probe_count, not for a release that is already running.
+
+The commit message and kernel-doc describe this as a pre-existing
+limitation. system_freezable_wq is not frozen during reboot, though. Is
+->remove() after ->shutdown() safe for drivers whose ->shutdown() powers
+the hardware off?
+
+> +	device_unlock(dev);
+> +
+> +	if (detached) {
+> +		ret = device_attach(dev);
+> +		if (ret < 0 && ret != -EPROBE_DEFER)
+> +			dev_err_probe(dev, ret,
+> +				      "re-probe failed, device left unbound\n");
+> +	}
+
+[Severity: Low]
+Can this message ever print when the re-probe fails? really_probe() turns
+->probe() errors into positive values:
+
+	ret = -ret;
+
+Then __device_attach_driver() does:
+
+	ret = driver_probe_device(drv, dev);
+	if (ret < 0)
+		return ret;
+	return ret == 0;
+
+So device_attach() returns 0 in both main failure cases: when ->probe()
+fails, and when no driver matches because it was unregistered in between.
+
+call_driver_probe() already logs a failed ->probe(). The no-match case,
+though, leaves the device unbound without any message. Is the ret < 0
+check reachable for the "A failed re-probe leaves @dev unbound" case that
+the kernel-doc describes?
+
+[ ... ]
+
+> +int device_schedule_reprobe(struct device *dev, unsigned int delay_ms)
+> +{
+> +	const struct device_driver *drv;
+> +	struct device_reprobe *rp;
+> +
+> +	drv = READ_ONCE(dev->driver);
+
+[ ... ]
+
+> +	rp = kzalloc_obj(*rp);
+> +	if (!rp)
+> +		return -ENOMEM;
+> +
+> +	rp->drv_name = kstrdup(drv->name, GFP_KERNEL);
+
+[Severity: Low]
+What keeps drv valid here? dev->driver is read without the device lock and
+without a reference on the driver or its module. drv->name is then
+dereferenced after the sleeping kzalloc_obj().
+
+If a caller isn't serialized against the driver being unbound or its
+module being unloaded, can drv->name point into freed module memory?
+
+The callers in this series look fine:
+
+  - mxl862xx_devlink_flash_update() runs under the devlink instance lock,
+    which ->remove() waits for
+  - mxl862xx_rescue_heal_work_fn() is cancelled with cancel_work_sync() in
+    ->remove()
+
+The Context line says "May be called from any process context", though.
+Should it say the caller must be the bound driver, in a context that its
+->remove() waits for?
+
+Also, the commit message says the pointer is "only ever compared, never
+dereferenced". That holds for the stored rp->drv, but not for this path.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1790130482.git.daniel%40makrotopia.org
