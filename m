@@ -1,93 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C564E8E08
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 16:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA413B14C7
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 17:01:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790354412; cv=none; b=pY0u5ikqWY8ilHkUenxmSs/sO/LQIs+bL2IHre+WLEhclg6OL6Rafo8PRAJ5ewlbjmkMGy7U6U6udwUGdntWiCBVYIdykbhbKdqtZY+jFoIMNroHjScRWOH8pit/6/qmaIhJdLcHoGhEsjUyUthNakKSmmLmy6jlRjgt5lixYOI=
+	t=1790355700; cv=none; b=scfKqHrYrgUc2WOs7YFDUyifXsZLeFBtWRCABSg8FeMMOUDYwe9fWsmR625ICq2ogNiaUggOvwAvZI1Z+y1t+5UWk9eY2zkw2zu8ZcMFbHkTUkrerNjbwycrMbHgw+jWPqvBJ8ASkFULQZb9Urqk9wJSQVtddef6npLp4xBLZvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790354412; c=relaxed/simple;
-	bh=LnFCumRPW5KkkTADLpdYawZ4Ym7zY4tKFvbDYPg3oPo=;
+	s=arc-20240116; t=1790355700; c=relaxed/simple;
+	bh=ae+7nNWeaOcwtzoJ8g8zJTapU9Co0WkBDAjHguCRKVQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nA47JcI/vHGrbeDocy4h12iysVIFQV7K1E9JMtBGY7+rkhLo6oZ6fXnAdOkVyB9BtNGy7qeNqJlaQGmW20eS1fLjaq2DXNLCJPQGybJGPqbbbtgFtVCfJCMvot6jNeK123OMpelQ4F6uiCafO6DjkXpgaB6CRdbi7GZvhI6WlLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Da4kxrr7; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=KGgV/VIMCVbXuHJ5OOZH9PZz6WdQxZWtn+qZEEV4xxzWodZxlODnKbNgoTLkJT1ywlY8jkudsj8kaPSsbKcntfftd7evKULbqNE6x36Od4wf2TOojvx+nIWdJlftEUSXm1CDy3E84qvSXxFrMhIWvLveQk/c4sfkc6JKPnpXvPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnMpzoBu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Da4kxrr7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5AE21F0089B
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 16:40:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnMpzoBu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314891F00899
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 17:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790354406;
-	bh=LnFCumRPW5KkkTADLpdYawZ4Ym7zY4tKFvbDYPg3oPo=;
+	s=k20260515; t=1790355694;
+	bh=0ffWHiQbZIsxSI5BXBygJAUPT1n/Ksw/KozICfj7llQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Da4kxrr7dMbJ32AyfEX245OU5vO+hGYp+YxW5c6M2i8h8OVAwUI7Cbu3rS49JXuM6
-	 a5mRllx20Kf7Gu/kdQ/IyGqoaboeBvciomnz1Ltjll/+/PTVGyrDaqe1+gA0Y47xvO
-	 DJoQAKx1nVc374htNwc85lEzwp/HzzgNsyWcivEgs6GNNsa4xQ7SR0aSNCwfjftMEj
-	 cccMdGVqXQl6XIqK2VHbFzt3jUe8mCt6GpGV5NYIZku/bFtx+d0J3lOdzd8Fxf8KZk
-	 7R6CbsVHXoMTRatNOkm3PicYGfrsVqIju8y1V2ITIroph3ga0NTfCm9KmL9d0MlWCD
-	 TaRaThs668h0A==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a5d0ad9b89so8998751fa.2
-        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 09:40:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByAnLqwS0PAWOqFvCvAL1YeozGxV09mB329UvtnH017hbRy3zoLEAZc0Udv/lYXeU2DZIBd6P3K0UHtTQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lAZISsC74LMCarWjXGOpKsuruhoAvxDXTnIycN9J2WAsNfRmzY
-	kta/pJb+atDFtFioyUlMzz6Z3CTEsJbQR0LsCfGp7DV+gnaDR50sr28KtiY+IZYNg5omXW7RlXu
-	VaHdCxT+iPYlCT8at8zOHv2LM5Ph8xQo=
-X-Received: by 2002:a05:651c:154a:b0:3a3:74b9:8a79 with SMTP id
- 38308e7fff4ca-3a63c30cb49mr16943651fa.18.1790354405251; Fri, 25 Sep 2026
- 09:40:05 -0700 (PDT)
+	b=NnMpzoBuP6u0rUip0usj+vy4a1nH3PDmnC/0VjqdKczZwipFNTo6diGuH080ku/3c
+	 hEBNkWJVLilry6lGZAIOwRlusA0jZcNLLzv88ZnbXXZRJ3eeeGigEpxBMIn8tfDFmZ
+	 zBoBx11HY4qLoDbgZ/4yH/3irgR94ve+4en4SRX+AIIhdRhKkLI+qHIULytblXp/CR
+	 +SnX3Snp/EvNITIVus7J+YcLjuTJ2327kkfOTMeFojcRjimBAl4wfppMzxMqrDbrwu
+	 lmvG+bvu95J8cQQo/szt0sUsW6SRGZ4Us9pFy2VeufbRU6ZB8ihZVhHP7hFxaIik3k
+	 UZhWCBi+LI5mQ==
+Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a6595b02ebso1042871fa.0
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 10:01:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByIemwvi3S0vyvZ3a+MyIS3/tgzbzZT5yMJo497arkZEPlJ4iP1M56tSvJT0BlOdNnPs/dxTu99uFvZIg==@lists.linux.dev
+X-Gm-Message-State: AFuF++kRZEOuR3ve8V1zkj9ZUfa1cFgvwkd7VPkXwH3xqwBvYAf890h1
+	VRmpMq43ofeYKFMx5g6ug7eqx4z3eCCeU2LdT0UogXGW0rkPf1Mx0C1kWFlZRQLLa9bLXduXzNO
+	nJ87grVRmtMJoc05ZlireRGfcAuH7qmo=
+X-Received: by 2002:a05:651c:890:b0:3a5:b507:dfb with SMTP id
+ 38308e7fff4ca-3a64caf4363mr6778101fa.29.1790355692625; Fri, 25 Sep 2026
+ 10:01:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <12985239.O9o76ZdvQC@rafael.j.wysocki> <SN6PR02MB415753ABAFF3119B85B4DEEFD4802@SN6PR02MB4157.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB415753ABAFF3119B85B4DEEFD4802@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20260909224818.2177311-1-mrungta@google.com> <CAD=FV=WFBmq3kniULxcXNsKgY-Zrb82JfaX5uRWVewQi_tJyJw@mail.gmail.com>
+ <aqQBFxCjSdPmFJXh@google.com>
+In-Reply-To: <aqQBFxCjSdPmFJXh@google.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 25 Sep 2026 18:38:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iT49TDwYFHOpeSgci3dEySae-ggdwYFeh4YnAY=qD2Zg@mail.gmail.com>
-X-Gm-Features: AclHuK92Clwh4unR71Db_V9est7mnsRaI26kEfG495yOxv53OK9E3laP1v2FN2s
-Message-ID: <CAJZ5v0iT49TDwYFHOpeSgci3dEySae-ggdwYFeh4YnAY=qD2Zg@mail.gmail.com>
-Subject: Re: [PATCH v3] driver core/ACPI: Introduce companion_bus_register()
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Linux Driver Core Development <driver-core@lists.linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, Hyper-V List <linux-hyperv@vger.kernel.org>
+Date: Fri, 25 Sep 2026 18:59:53 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hBTGdBo-sgooV6_wscQLm9qv3bSnCqyUTODc5wDi4ecA@mail.gmail.com>
+X-Gm-Features: AclHuK9rAcNfhTZvYquNzX8E_7QQVb0DrSRQ4EHHrRqgHRPmhGpKmAZJUHyj-Kw
+Message-ID: <CAJZ5v0hBTGdBo-sgooV6_wscQLm9qv3bSnCqyUTODc5wDi4ecA@mail.gmail.com>
+Subject: Re: [PATCH v2] PM: sleep: Add DPM watchdog to prepare/late/early/noirq/complete
+ phases
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Mayank Rungta <mrungta@google.com>
+Cc: Doug Anderson <dianders@chromium.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 25, 2026 at 6:38=E2=80=AFPM Michael Kelley <mhklinux@outlook.co=
+On Fri, Sep 11, 2026 at 3:24=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Thu, Sep 10, 2026 at 10:01:40AM -0700, Doug Anderson wrote:
+> > On Wed, Sep 9, 2026 at 3:48=E2=80=AFPM Mayank Rungta <mrungta@google.co=
 m> wrote:
+> > >
+> > > Extend the DPM watchdog to wrap device_prepare, device_suspend_late,
+> > > device_suspend_noirq, device_resume_noirq, device_resume_early, and
+> > > device_complete callbacks. If a driver hangs during these transitions=
+,
+> > > the watchdog will fire and dump a stack trace to help identify the
+> > > offending driver.
+> > >
+> > > To prevent false-positive timeouts, the watchdog is set only after
+> > > waiting for subordinate (during suspend) and superior (during resume)
+> > > devices. With this change, DPM watchdog coverage is extended across a=
+ll
+> > > phases of system sleep transitions.
+> > >
+> > > Signed-off-by: Mayank Rungta <mrungta@google.com>
+> > > ---
+> > > v2:
+> > >  - Extend DPM watchdog to device_prepare and device_complete callback=
+s.
+> > >  - Update commit subject and description to reflect coverage across a=
+ll
+> > >    system sleep phases.
+> > > v1:
+> > >  - Initial version adding DPM watchdog to late/early/noirq phases.
+> > >
+> > > Testing:
+> > >  - Tested on an ARM64 SoC (Pixel platform running a 6.18-based kernel=
+ with
+> > >    DPM watchdog enabled; Android 6.18 kernel has latest DPM changes
+> > >    backported).
+> > >  - Verified hang simulation in device_prepare and device_complete
+> > >    triggers DPM watchdog panic and stack trace as expected.
+> > >
+> > >  drivers/base/power/main.c | 31 ++++++++++++++++++++++++++++---
+> > >  1 file changed, 28 insertions(+), 3 deletions(-)
+> >
+> > Thanks! I guess you dropped my (and Tzung-Bi's) Reviewed-by tags
+> > because of the minor changes between v1 and v2? They look right to me,
+> > so:
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 >
-> From: Rafael J. Wysocki <rafael@kernel.org> Sent: Friday, September 25, 2=
-026 2:24 AM
-> >
-> > The ACPI bus type does not allow drivers to be matched to devices, so
-> > the sysfs attributes related to drivers created for it are useless and
-> > their existence is confusing.
-> >
-> > Moreover, it is better to prevent drivers from being registered and
-> > looked up for a bus like that.
-> >
-> > To allow skipping the creation of those sysfs attributes and preventing
-> > driver registration and lookup for the ACPI bus type, introduce a
-> > "companion" bus type concept and add a special registration function
-> > for registering "companion" bus types, companion_bus_register().
-> >
-> > The "drivers" directory under the ACPI bus type is still needed because
-> > there are versions of systemd that depend on it [1].
-> >
-> > Link: https://lore.kernel.org/linux-acpi/SN6PR02MB41575266A4580339E186E=
-5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com/ [1]
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> Tested this against 7.3.0-rc2, running on my Ubuntu 20.04 instance
-> with the older systemd, and as a Hyper-V guest. The VM booted
-> as expected, whereas the boot failed with v2 of this patch.
->
-> Tested-by: Michael Kelley <mhklinux@outlook.com>
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+> They look right to me too:
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Thank you!
+Applied as 7.4 material, thanks!
