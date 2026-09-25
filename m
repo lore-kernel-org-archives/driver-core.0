@@ -1,106 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B398486436
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 09:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2CC48822A
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 09:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790328918; cv=none; b=iOvDSFfBYEQ3dVGgqZvEk9NpNKWUyDy3PlZ2KLI1OUbmlRc/eaKnsuS5Y/EjaYcerP6l9Wx3AZywl8EgA3TeXzqu5mSGqkelZUyWosWsYO1XHSW2rvXxMQxwyU4wRtQJo+dz089KnRWArf46Pb2QkhPUgwxqYdfS2qyEZJQjjOU=
+	t=1790329522; cv=none; b=edixawdOgUMKx4mO6BvTY5gpihNRmoTHuGb+DWLcdlXWc26+6jWBO4gECZ/SZVGanMSYtqWKzSYsG8xxRte8vr8JCp/5+cA3FXrnrArTURwyguYRA4N/O/dAFCi/hWKfSgQOiOI3+aMJyUCMedsEwuD4gRzFRyyjVmESzKxysNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790328918; c=relaxed/simple;
-	bh=DDAoA13Z8+rHS9pPf8eE11524ZJOa7eHz1ryfQ2IOIc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Le/ZD1B6pjV3zCH3thFtu5lmeV3zL8HJ8JICq1VBDmH13tOXfkzlF0dOIF9/KO1lrMq4FufyYvjM1G2Ozb5ZUqXlo034TDdQouK5HN4cFkx2CeumgyQQJY/aDGZSwHJ5VPDQgCi6lhA9y002sIYln9qevWZ9RxyGjiV7sxIuNTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YmWOf3lv; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790329522; c=relaxed/simple;
+	bh=u03sCXgRX7pcyePoPYi95dX0Tff82Nq1OTABJ1meNc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fw2HNQ8S+8N3BNXwEZpiraQXrGMFWR9rybXlqh1DEC34tQ6pA+tfFNYD6IAm5OVzbaolep/Z3nTkhPF5+Yq9Gfh942bJY70rP/4Irf59LBf9BsRW93ZqqJv9Z+Znzlq6WixbRYpWJwC7tqGg8uT2gKumqRiKfhoJ2UB7ArY6mwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1nmoBxH; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmWOf3lv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1nmoBxH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790328916; x=1821864916;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DDAoA13Z8+rHS9pPf8eE11524ZJOa7eHz1ryfQ2IOIc=;
-  b=YmWOf3lvSOWeKLNqDzsUVu80g0khTamVWfGJHpptMgc57SBwlZUu4zoe
-   6n6lQmvrIVpwJOlkA3etGAyBvXKmhFaTeEFvvBY4BfZwurWL17Q9WsUE2
-   v66vJ+YAu85eBu5I4qSXT1uVJXWuEG+QfmUG6VC7CcOFC2TXR49S6HLT4
-   VcCyJGFuYbkSkzgjySvaYkWKCskOFNoNG27Qe+jS8v6+nZFsESGmAE70J
-   ILDqWubU8MR6HMlsMRZzdy9hYOk8LoTKgZaEz8wHyI+SeMiNpj3eiIUzr
-   7yEBVgqaE/NwjsmUsW+3SlLPRH4DwvDqDZugt9cmKRXk9kEwKHa3wXMo/
-   A==;
-X-CSE-ConnectionGUID: RuOIH9c7R1+8MFUfedLVpQ==
-X-CSE-MsgGUID: DHvKhrLYS4O0/uhmu/13IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="116640895"
+  t=1790329521; x=1821865521;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u03sCXgRX7pcyePoPYi95dX0Tff82Nq1OTABJ1meNc0=;
+  b=f1nmoBxH6kK+qiwur8BkUgvRtWP2QTgTaa6cX7eRhpsRVmy1PMwsfV6U
+   3ZbahELlgc0V68L3EjGaOT5tU75kXCXuomYRKRQ5pjcz2gEslAVkTHUn1
+   wP1SGsfRR5k0FxmwmJuUuRf/SJVVd0ubp7R0tBX6SRgJKQ1yMIDlMmgo/
+   721kW4+7dyUHeCKVtBuGOVtVChnDcbYMo5VyAAYuMxIX/3HTuqxZfr5A0
+   /lVRnZZFPOxMrCQRsEIdqdGSu80lgnZs1PuAKy3VHNKdOO7ZOhQ64S0b6
+   5Pc7sAts5NWVO6YJUkejnYXFdTZl2es0DlkZDi+xaOtzUCDTclS6ngLmg
+   Q==;
+X-CSE-ConnectionGUID: nuV5QnSdQxKH4LSdYXxtbA==
+X-CSE-MsgGUID: GAhvNe/URyu9BB+N3t+yDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90019985"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="116640895"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 02:35:15 -0700
-X-CSE-ConnectionGUID: o748zX7PTHK637eUrNQGBg==
-X-CSE-MsgGUID: 0ijMl8OxRIai1FCC/5NBLg==
+   d="scan'208";a="90019985"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 02:45:20 -0700
+X-CSE-ConnectionGUID: wdn0TnkBRpSrePz8THZskQ==
+X-CSE-MsgGUID: lcRbf3LGT5+3e3PDRzZSIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="272103426"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2026 02:35:13 -0700
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: driver-core@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	dawid.osuchowski@linux.intel.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH] driver core: platform: Simplify platform_device_alloc()
-Date: Fri, 25 Sep 2026 11:39:28 +0200
-Message-Id: <20260925093928.3765486-1-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.34.1
+   d="scan'208";a="277458396"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.27])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 02:45:15 -0700
+Date: Fri, 25 Sep 2026 12:45:13 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH RFC 01/11] ACPI: irq: Return -EPROBE_DEFER on missing IRQ
+ domain
+Message-ID: <arZCqRJHaCp-pgWI@ashevche-desk.local>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-1-2c62125d0085@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260925-acpi-static-table-irq-probe-defer-v1-1-2c62125d0085@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-There is no need to double check the 'pa' object.
+On Fri, Sep 25, 2026 at 09:48:00AM +0200, Lorenzo Pieralisi wrote:
+> acpi_register_gsi() might fail if the IRQ domain a GSI belongs to has
+> not been registered yet by the respective interrupt controller driver.
+> 
+> Return -EPROBE_DEFER in this case so that the mapping can be retried
+> later by deferring the probe for the driver that requested the IRQ
+> mapping.
+> 
+> Signed-off-by: Lorenzo Pieralisi <lpieralisi@kernel.org>
 
-Reviewed-by: Dawid Osuchowski <dawid.osuchowski@linux.intel.com>
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- drivers/base/platform.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index b45d41b018ca..461ffcddad2c 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -620,16 +620,17 @@ struct platform_device *platform_device_alloc(const char *name, int id)
- 	struct platform_object *pa;
- 
- 	pa = kzalloc(sizeof(*pa) + strlen(name) + 1, GFP_KERNEL);
--	if (pa) {
--		strcpy(pa->name, name);
--		pa->pdev.name = pa->name;
--		pa->pdev.id = id;
--		device_initialize(&pa->pdev.dev);
--		pa->pdev.dev.release = platform_device_release;
--		setup_pdev_dma_masks(&pa->pdev);
--	}
-+	if (!pa)
-+		return NULL;
- 
--	return pa ? &pa->pdev : NULL;
-+	strcpy(pa->name, name);
-+	pa->pdev.name = pa->name;
-+	pa->pdev.id = id;
-+	device_initialize(&pa->pdev.dev);
-+	pa->pdev.dev.release = platform_device_release;
-+	setup_pdev_dma_masks(&pa->pdev);
-+
-+	return &pa->pdev;
- }
- EXPORT_SYMBOL_GPL(platform_device_alloc);
- 
+You may keep the Cc list under the '---' cutter, so this noise won't make
+the commit message. The email will be still send to the respective people
+and someone can harvest it in the lore archive if needed in the future
+(when commit gets accepted).
+
+Note, you may keep that part in your local Git tree (in the commit message)
+and handle with `b4 trailers`.
+
+> ---
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
