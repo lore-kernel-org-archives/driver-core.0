@@ -1,75 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CED2E7394;
-	Fri, 25 Sep 2026 15:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B269D4D37CC
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 15:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790350399; cv=none; b=OmosOmyB+EacXZLbU5q0h8E/mfRoiZXChjAvFN1wFPg4DAKbqcIDyLZ75dYfhAFduGR+xzeXIVGGBCz5dMzm5SwqxxWRxT83BNzmmO5hxlAEmnFdQjY6d3OOc2Q7unyHms97BrVIBSiv5LlRrAfyvBZ/Gqom4D8zW5G7Z7rMW6k=
+	t=1790350404; cv=none; b=lLi3I0Ej0j6baZ6+YOG+LIojp4QPr7rQsM10nJoSonCKGdSAqMs/1r2ZCKGxNeE58lvuQKKlsCPqxhXvqvvnvSbF+eyGPS0CHmXGJJYW/9E0X796ctKdGsOhclZ5bnoezqIF24IxT2fHtO2C49sl+wy+0oT1EkNaXp1B43tZlW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790350399; c=relaxed/simple;
-	bh=2QtlFg1TQBLFoWLLR+xnMLhwaH/oGyTYdOxAvK0TVDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rVMEKKJId9nhkQRg1YfVpkjD2iivCBM28SW2RG1O0rUjip1VghFAumynSBg7c6UhjdWgPCwJqORCZfdaO9A1EDU95OfA227+EwP2sALvs8rZT2RyQGWQBQB8cNgvNxeDf7rMsYY8aVX87TuCCtjH0G5tW7UXlYBps9DZJSWNugw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlJNduoW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790350404; c=relaxed/simple;
+	bh=jbNVAk+OkDb7djIuHrzYgHW689hWDBX8CwCo7YvnX/o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g0t+ebEy6+eze8+vNkivjEcVfKpD/5KZ2GZ9m7RX3YpGOw8799hoAjtvpvC85V7t70dmY1rP1ArBaf9xSxGAECJe/XT9BjL30xkE+fo7ah3PequGQPQwkv8OecNZYdigtgifxLyCH8A7nkWpJnaSIA5B6jBnLH4cfeu6h+RU47g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJEOptSo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlJNduoW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EFB11F000FF;
-	Fri, 25 Sep 2026 15:33:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJEOptSo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEDC1F00898
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 15:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790350398;
-	bh=nM7l79drUPilYt35VeJ3ygXZ+22Hcj/BVqiTPeeQn04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PlJNduoW1gaAsBwzDG24uVvzEEqhy3uQuCIDvpwyLa9NDQxiTTKO33Kxmdrmh19rt
-	 oBLewGSVUqt6LSczA2CWf0wIrCuS1ZSioEnyd+7sC5yuA3bl12xzGtF2GcMInIpJWD
-	 BYilMI4hge5yVPYHJsg+yVpB7+l/1Zz0xfp2S4XUfHXDv45xL2ns2oqGbWjyd8cX8H
-	 Kel44pOx+Stw1fKK98CWoUX6LK5issBOuk5pwvaqBUAU2wsCb0BNp39dYgvfDBiYHQ
-	 dY1DFDMOUpJwHx1ysd7Uo/QTBKV0Qfu88fSqbSsMsCpcwLeKxOTdsyh1NiW+y5WcKj
-	 BKGOoABoJp74A==
-Date: Fri, 25 Sep 2026 17:33:03 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net
-Cc: gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, dlemoal@kernel.org, 
-	hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
-	yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, 
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, 
-	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
-	chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
-	omosnacek@gmail.com, casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, 
-	daniel@iogearbox.net, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, ecryptfs@vger.kernel.org, 
-	exfat@lists.linux.dev, linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20260925-zahnersatz-hielt-lerche-141893658522@brauner>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+	s=k20260515; t=1790350402;
+	bh=46Ao4VjYR8dIxW1+9XEQXLH/O/o/q50obgWXmJ78FCM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QJEOptSoTA53O7Vlu0uIrHHjF0vHyi+PX3kGmaQv0Q7SfbS5tJ9xauoPuV7+fVvkg
+	 cAlP9MFfbCZxUxj+PggCqKIRQPcdOSgGWfG3s42R9xp4QJjaGJq1mtPC3r9VXc741k
+	 O3Pu9HvSmkiFueUO+wHFXRLg0QBclbmb67iWeWuGQhrUHy5k72d+POaqMJvQK3rX7Q
+	 /1X1dyyELzx4Y6pRPLM0FOJizBQiUuvqobhqlSwp3UKR5dbKyFzYPiu382ZI0k3dGN
+	 cUGMbKA5z6EtonXI+qJAyl2BEPbqKLOudqj/ciDxMuI4xTGEJg2go2Lw9c6FRhFmn/
+	 bDb1VV/q7t10A==
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a5d0ad9b89so8435981fa.2
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 08:33:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwr6x33mA5dj+mL5CmYqysCb48Z8Nw4tGBZ2MSz7/dfutN+5dljP1LCcOOI4PYcA5GpgTa0gT/f0m2rrw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mfrMhUNbgz6vBxcJn9DDDHfX7KXnC2au7UO4VSQnlK1tCnhxEV
+	Yz5wNqNEzKBPUj6bj+tV3ypI+OvQnOc9ZHpzBmLkgZsdqM1javBFWAuAG0mHuftnYeCq0kjfzmN
+	BuJ/wKYla+7vH2T29MqUYVMpTK+HYKjM=
+X-Received: by 2002:a2e:be11:0:b0:3a3:2ff2:f818 with SMTP id
+ 38308e7fff4ca-3a63c30cc59mr17816311fa.13.1790350400829; Fri, 25 Sep 2026
+ 08:33:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260924104831.1081137-1-caixinchen1@huawei.com>
+References: <12985239.O9o76ZdvQC@rafael.j.wysocki> <DLOD6E6L35CN.KDDA9DEG9WP0@kernel.org>
+In-Reply-To: <DLOD6E6L35CN.KDDA9DEG9WP0@kernel.org>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 25 Sep 2026 17:31:43 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iVCs8qtfHcT9ZMEVSzjPVQqaLPpP3HXuFVWUy72nPwXQ@mail.gmail.com>
+X-Gm-Features: AclHuK_BTeX0TEHJmDgkOdFgecHf8SrpoMQgEO6UlwU0dLvUHLE7J3ttsfhnS-o
+Message-ID: <CAJZ5v0iVCs8qtfHcT9ZMEVSzjPVQqaLPpP3HXuFVWUy72nPwXQ@mail.gmail.com>
+Subject: Re: [PATCH v3] driver core/ACPI: Introduce companion_bus_register()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Linux Driver Core Development <driver-core@lists.linux.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Michael Kelley <mhklinux@outlook.com>, 
+	Hyper-V List <linux-hyperv@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> This series adds two new Landlock filesystem access rights,
-> LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> which control access to file and directory metadata such as inode
-> attributes (mode, ownership, timestamps), extended attributes and POSIX
-> ACLs.  It picks up the work from the "landlock: add chmod and chown
-> support" series [1] and follows the coarse-grained grouping discussed in
-> that thread [2]: instead of separate chmod/chown rights, metadata
-> operations are grouped into one read and one write right.
+On Fri, Sep 25, 2026 at 1:34=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Fri Sep 25, 2026 at 11:23 AM CEST, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > The ACPI bus type does not allow drivers to be matched to devices, so
+> > the sysfs attributes related to drivers created for it are useless and
+> > their existence is confusing.
+> >
+> > Moreover, it is better to prevent drivers from being registered and
+> > looked up for a bus like that.
+> >
+> > To allow skipping the creation of those sysfs attributes and preventing
+> > driver registration and lookup for the ACPI bus type, introduce a
+> > "companion" bus type concept and add a special registration function
+> > for registering "companion" bus types, companion_bus_register().
+> >
+> > The "drivers" directory under the ACPI bus type is still needed because
+> > there are versions of systemd that depend on it [1].
+>
+> Maybe we should also add a brief note above kset_create_and_add("drivers"=
+, ...)
+> why we retain the directory even if !use_drivers.
 
-This is mostly fine for me. @Michael, for the fs side of things I would
-give you a stable branch vfs-7.*.shared.landlock.path that you can pull
-once this is ready.
+Yeah, won't hurt.  I'll add one, or somebody will try to "fix" it in the fu=
+ture.
+
+> > Link: https://lore.kernel.org/linux-acpi/SN6PR02MB41575266A4580339E186E=
+5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com/ [1]
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+
+Thanks!
