@@ -1,216 +1,274 @@
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5742F4CE68D
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 17:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6034CDA2D
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 18:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790359122; cv=none; b=tufI2kZCsvObtmRRzLlTU9g4XeOXyDVdP91kaSq3N4/sHjAw/D3hftfInfP11RcU0lT3OJ4562JccJ+JTH7frMawhVYmQCXJmHqnAlLJDON66w4ZUeLu4DcerO1QT0qaW0tmw+AvJHIGqLMR+94ky46tBDEaE+3u2C9GBNNv3i8=
+	t=1790359421; cv=none; b=gxt0y1dzDQWcGO+GlXSr6srXjPtKDjIRTl1R4xkhRc42lV3eU6VFmW7JQGM+nJP9D6p/PagXLxdJYmy+a0IrBuF4wJif+60dkoGP4oHdEu066gMQqvsgRE+l8IuCT0oW1XMGjkYK+/L6Sj2otVEfKOmPWDko6sENLrUhsZK81W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790359122; c=relaxed/simple;
-	bh=tqYkFdlB+Gf3zGxRIPlgH5brUkSD/ZzDRxUCCGmPAVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cD3o5oDxdZJE0PlECmvc/f8FCxVl9PiWv5u18XHHzHr59aOFE4yd00hvxmQdPCZkhxwbGYG54NuL+mDXgC/0FEP9v91nWaOLoajfeu0NS9TPndr/GCUM+/VYDP9h/Xx6kkyynDpFWRX+VlU8EB1nm+p3wDCIGxmdPgHlA/bY7gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nS9nGBOm; arc=none smtp.client-ip=74.125.229.42
+	s=arc-20240116; t=1790359421; c=relaxed/simple;
+	bh=9WMHF+OHSITVcxou8oXsCNs7bqvndQmUaAq4mexKulc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j6qSX5GBjtHk4Aht6IfuFW5pWjseLT/oVSk70VGVPHzJ3HkVMAjyY6dk3hLID7z9o7vLlF3W1IBM4JJT6U7Rx7p8srrAS82k333asjD7lm2iEVOKMaKzyXvfTbdBVKKyaFW+mn5OeZzrJEDe2iwQowbJgYmJLl8vFQfMcJaYWYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCK5LMFo; arc=none smtp.client-ip=74.125.224.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nS9nGBOm"
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-3411e0ace58so1354225eec.0
-        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 10:58:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCK5LMFo"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d46e4cdccso9790247b3.1
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 11:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790359119; x=1790963919; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gZCZSkaZCcGJ3FNhL9nh22Z+U7H+uDG8KzVr1CK3Xzs=;
-        b=nS9nGBOmWDjUv+7SwveCGppxuJEiGGBbDZDyWdDT80vxjb0OSgjOS4pi7ksfK0SDHh
-         elv+qnHp7uLC7pFFTaKQpbfDtgLLsnqbNj3zn1/LRrvJ5Qp+4NAHASos46IcEkY+Smy4
-         y6IWpnE2R5cAjR8G7rbWa00FUtaIye2nTF8wSmws5vd8ak+eyDpUvQyw8OqCwmlAGUSo
-         Zg5Z55Q8MEYc0ZGThNtc3VI1LfJVKo9NTfLxjVVE+CJKWpsa2ZCqdrv+6g2I84eRg6kf
-         HBPKoz5Pcyhna2L73x55yCOyG5hK+Z6IgRYvgLHnB1yvZyVB9tONxHJgIHyrr3GBdTqu
-         TVbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790359119; x=1790963919;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1790359417; x=1790964217; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gZCZSkaZCcGJ3FNhL9nh22Z+U7H+uDG8KzVr1CK3Xzs=;
-        b=c6cpzG8y/sr3/k1NoXSPQwfsggumNFT6YU/99xpcyJpy1YPiYNx04qE8EsppmZkctK
-         bVDfA6Hr4HyXdkuk+76y52c/trs2jyZDmbeLTCykJG6mI0ChsXOosi9OBpw5m+5pYLyJ
-         PZ7F36XevLpIkQrcs6ShMQN2w45dnzFW/tFhN7HKsumQA8pRIO0tmoRXZ8s7jkhfMSAT
-         31U8l3FqwrRwu9Yv6OVjiuX1PrwlM8D0JHiH3YNJzx1fRtMu1Mh3psHOYoBABLJZVkrq
-         6/otv245kcjIVbYFHho/ltzFb+zk4qyg//2hG1d+9ssUvYrmuXa0UZtnEpGcTtLuiZu3
-         xznw==
-X-Gm-Message-State: AFuF++nM8dCkUu8rDBmgB6A8FZXBH4H/vStv7elTymFFb4/o7YSaYLog
-	jYj5BPy9SGsUDPFU7vo5RjGrqIhLeeIE3RIsRBRLy4tnUyweAx4A/gFL
-X-Gm-Gg: AYBFou02dC+f4BTMKObjmq+JTJ9S4hSmhTS6T83p65hKPzDZLW4+42pi8KOdwpN1iXy
-	0W5y3AH68t0BemoCFpCO1Il6IIXFDkpzYOGDKOyhS+HDAO+kDillDQKaeMLBW14/8+/zHubDXiW
-	3k0kciot22kfd+hazrnYV5L1Ka69ZlAiPRyyrfkmC25l4IZkFj+H40Bqh2FpRpvLaW/lB5gfek5
-	o6I6dy43RBM5aVPCtOicb0pnuALsdi4own5aBeCLLqjgu0GjtyvOApLtc7jpfzffSr9E/nvQDov
-	4fpmJUcjwgExGb36Sv0dCqTuOqqg5sxbmckelMDitQZivFSQKUTxyAfIYKciVTult8X+3oiyTYC
-	ufG1N4edWHO8+bgj6AHvNhR2po7Jtdw7FgpU+THNugGgqX5b5wZsjnmZvvQZy5pPUxA1ASfYm92
-	t1S3tvwxZkv2cHLt5aMREKb3FPkgKWm5QbgTEAnoIhjRSLgcF+NkS/aJZQ+84xFqk=
-X-Received: by 2002:a05:7301:5804:b0:33b:e3c8:a757 with SMTP id 5a478bee46e88-342705b865cmr1251812eec.1.1790359118916;
-        Fri, 25 Sep 2026 10:58:38 -0700 (PDT)
-Received: from beelink.. ([187.13.30.172])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144172d8asm7651125eec.5.2026.09.25.10.58.36
+        bh=jQMqDoXS5hmMS94pm40dP6RGo8yiKpCUOJDdJtjp2gs=;
+        b=cCK5LMFomUbv5PnvmPmHNdfbnYBlzmduSdU2/3ljP1cSWdj9Kf//Z0YeTglLl9vVB5
+         wP7sbd1j5NWgcuDVCc2Xr9SjL2OddLS6O1p1rk5b9TD4gG2yer/XE8/zWrmd4tYdpVkF
+         J8+I+GVSS3ez1cH8g09GcDp3G7XMWrX5N3NOyQ/ijemF7T7dQHLccFwqDs+MB25g+20X
+         vBy+W/8Yf2eIiGvlspH0h7aa4D1SSAdDieQ1PxdDP9X9HvqRfsdGBcdiT0XWyswbhUZx
+         IqQJ4PWjRU6FjOJmzdWnDdQWLeQ+OIex0eNLtBB0PUOrfXBmhEzc5v2PJ4Q6gHVqJD++
+         OiqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790359417; x=1790964217;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jQMqDoXS5hmMS94pm40dP6RGo8yiKpCUOJDdJtjp2gs=;
+        b=szm+IymupIi+wqC+7dJZC8VvoOlLbhrWWRwwOWqr74YuGqW3fVt//toM80WcBfQ/fH
+         tuQwgZ2vNAXvtpetARG0Jz0OyLeJZdek37nuGqTqmmZaqi2YrP+PDL4VXLHcCRmbsBS3
+         +DZz071VvZ0UfvHL3tWOkE/9Qw8hLmAAv3uNT4CsnqE6OHAYdDwrv0NEsx7DhFpvYSUg
+         i5VHwxVAXK04UR12XGaes36tuMwmiumD8jm2eSbQTOWLuPGl3Syw9EiTRgjGD2B2DFQG
+         Y1YbV30w0ZfdKkc3mivv2rIWSfcCN7HcbcHx4vfE/QcAu9QczUbrLqyIgwnI5wh3RmZG
+         VYTw==
+X-Forwarded-Encrypted: i=1; AKwUvBzmHsjOpDkwK8MvlEaCWdfATbiKrcTbhEXX9NLKFo6s3i4KnlkQNeWOwxNXKS6aBT0Iks6HGD/OkU2kIQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++kyVtbPKfygKXzW28ccGBbU1bD2ucuqwqd1TTxTfvh4ScKXzT8A
+	5854WtV5YvxJRhvSdTyJnJlKN5RLCR6Z2ytilcLsyTdT1MZZuMLe17je
+X-Gm-Gg: AYBFou0kuyV9BWQ0rS52RHiniYD82k+DvsX+9+BfIA/Ga/mevW+5/P4e6SizLJH/yXY
+	53BJCoqWPsofMIsLe+pRL15eyOgv9sLNC0aEa5g2G6IC98YavenGHcuvuii45gtD3lRcyZsuUC/
+	37hBBIalUqhRrqTMwAhbFijyJ8HK+X4F//662JE4/0X1gdrNYFwRw3/LTEH0vesrQR02Fi6hCXF
+	cVVyyJqmu4iLel+kEhJ1MgRXbbEOObXbDc9aO5KZYA8whjd7RefuiiOt9vvafADJGKVYCQ0CEY4
+	mLqmSQo4TOWqkSWgSGKoZP6YQQKImi8tMzQ6XCTKl4pNQszcbvIFUxgwFTz2QMgNRUm0bw2G/V6
+	OAiM8ge2njKUPK91gcQ2HBVt7LlRQfHtRTv80Q73BeeLx9QGuao7xHUUYAxM1TJI1fyn4VRyasO
+	fHlEyd7V3bzXZ2d3ySZxGkJ4JnmUweMB8JjddxV1ietJlfW3wSj3btGFpMT/8+mF7pXgddsjuV4
+	68=
+X-Received: by 2002:a05:690e:b4b:b0:672:a678:da59 with SMTP id 956f58d0204a3-6740c2a76c3mr1631246d50.108.1790359416590;
+        Fri, 25 Sep 2026 11:03:36 -0700 (PDT)
+Received: from suesslenovo ([71.132.185.69])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740efb13fasm1359157d50.18.2026.09.25.11.03.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 10:58:38 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Subject: [PATCH] debugfs: fix UAF and double-free in debugfs_str read/write
-Date: Fri, 25 Sep 2026 14:58:27 -0300
-Message-ID: <20260925175831.3701812-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 25 Sep 2026 11:03:36 -0700 (PDT)
+Date: Fri, 25 Sep 2026 14:03:05 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
+	amir73il@gmail.com, senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, 
+	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
+	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <araxO4ze0KZBz756@suesslenovo>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924104831.1081137-1-caixinchen1@huawei.com>
 
-debugfs_write_file_str() stores the new string via rcu_assign_pointer()
-and frees the old one after synchronize_rcu().  However,
-debugfs_read_file_str() dereferences file->private_data without holding
-an RCU read-side critical section, so synchronize_rcu() in a concurrent
-writer can return—and kfree() the old pointer—before the reader finishes
-using it (use-after-free).
+On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> This series adds two new Landlock filesystem access rights,
+> LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> which control access to file and directory metadata such as inode
+> attributes (mode, ownership, timestamps), extended attributes and POSIX
+> ACLs.  It picks up the work from the "landlock: add chmod and chown
+> support" series [1] and follows the coarse-grained grouping discussed in
+> that thread [2]: instead of separate chmod/chown rights, metadata
+> operations are grouped into one read and one write right.
+> 
+> Landlock evaluates access rights on a per-path basis, but the metadata
+> related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> object.  Patches 1-7 therefore first pass struct path instead of dentry
+> through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> refactoring with no behavior change, split so that every patch builds
+> and works on its own:
+>
+I like these patches, but is the ability to read metadata already
+sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+directory?
 
-Additionally, two concurrent writers both read the same `old` pointer
-before either calls rcu_assign_pointer().  When both subsequently call
-kfree(old) a double-free results.
+The one case I see this being different is:
 
-Fix both issues:
+1. if you wanted to grant read access to the file, but not metadata
+read access, but I can't think of any usecase for being able to read
+the contents of a file, but not the metadata. (see below)
 
- - Read path: wrap the pointer dereference and string copy inside
-   rcu_read_lock()/rcu_read_unlock(), using rcu_dereference() and
-   GFP_ATOMIC to keep the allocation within the critical section.
+2. If you had the absolute path already and didn't need READ_DIR.
 
- - Write path: serialize concurrent writers with inode_lock(), and use
-   rcu_dereference_protected() to read `old` under the held lock.  The
-   lock is released before synchronize_rcu()+kfree() so readers are not
-   blocked during the grace period.
+I see introducing this READ_METADATA as causing potential
+hard-to-diagnose issues.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
----
- fs/debugfs/file.c | 50 ++++++++++++++++++++++++++--------------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
 
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -1018,34 +1018,32 @@
- 			      size_t count, loff_t *ppos)
- {
- 	struct dentry *dentry = F_DENTRY(file);
--	char *str, *copy = NULL;
--	int copy_len, len;
-+	char *str, *copy;
-+	int len;
- 	ssize_t ret;
- 
- 	ret = debugfs_file_get(dentry);
- 	if (unlikely(ret))
- 		return ret;
- 
--	str = *(char **)file->private_data;
-+	/*
-+	 * Pair with rcu_assign_pointer() in debugfs_write_file_str().
-+	 * Without this critical section, synchronize_rcu() in a concurrent
-+	 * writer can complete and free the string before we finish reading it.
-+	 */
-+	rcu_read_lock();
-+	str = rcu_dereference(*(char __rcu **)file->private_data);
- 	len = strlen(str) + 1;
--	copy = kmalloc(len, GFP_KERNEL);
--	if (!copy) {
--		debugfs_file_put(dentry);
--		return -ENOMEM;
--	}
-+	copy = kmemdup(str, len, GFP_ATOMIC);
-+	rcu_read_unlock();
- 
--	copy_len = strscpy(copy, str, len);
- 	debugfs_file_put(dentry);
--	if (copy_len < 0) {
--		kfree(copy);
--		return copy_len;
--	}
--
--	copy[copy_len] = '\n';
-+	if (!copy)
-+		return -ENOMEM;
- 
-+	copy[len - 1] = '\n';
- 	ret = simple_read_from_buffer(user_buf, count, ppos, copy, len);
- 	kfree(copy);
--
- 	return ret;
- }
- 
-@@ -1061,40 +1059,48 @@
- 	if (unlikely(r))
- 		return r;
- 
--	old = *(char **)file->private_data;
-+	/*
-+	 * Serialize concurrent writers: without this lock two simultaneous
-+	 * calls can both read the same 'old' pointer and double-free it.
-+	 */
-+	inode_lock(file_inode(file));
-+	old = rcu_dereference_protected(*(char __rcu **)file->private_data,
-+					lockdep_is_held(&file_inode(file)->i_rwsem));
- 
- 	/* only allow strict concatenation */
- 	r = -EINVAL;
- 	if (pos && pos != strlen(old))
--		goto error;
-+		goto unlock;
- 
- 	r = -E2BIG;
- 	if (pos + count + 1 > PAGE_SIZE)
--		goto error;
-+		goto unlock;
- 
- 	r = -ENOMEM;
- 	new = kmalloc(pos + count + 1, GFP_KERNEL);
- 	if (!new)
--		goto error;
-+		goto unlock;
- 
- 	if (pos)
- 		memcpy(new, old, pos);
- 
- 	r = -EFAULT;
- 	if (copy_from_user(new + pos, user_buf, count))
--		goto error;
-+		goto unlock;
- 
- 	new[pos + count] = '\0';
- 	strim(new);
- 
- 	rcu_assign_pointer(*(char __rcu **)file->private_data, new);
-+	inode_unlock(file_inode(file));
- 	synchronize_rcu();
- 	kfree(old);
- 
- 	debugfs_file_put(dentry);
- 	return count;
- 
--error:
-+unlock:
-+	inode_unlock(file_inode(file));
- 	kfree(new);
- 	debugfs_file_put(dentry);
- 	return r;
+The program can technically open the file with the READ_FILE permission,
+but it may error out because the stat() on it beforehand failed.
+It's pretty common for programs to do that kind of thing (stat before
+open), like for checking for config files (strace bash and you see it
+stat .profile, /etc/profile)
 
--- 
-2.43.0
+There may be other bugs, because being able to set permissions to read
+a file *but not read it's metadata* isn't possible currently in posix
+acl and userspace may not work well if that assumption no longer holds.
+
+So maybe WRITE_METADATA is good enough?
+
+Interested in your thoughts,
+Justin
+>   1: notify_change() and its callers
+>   2: inode_setsecctx hook (must come before 3: the SELinux and Smack
+>      implementations call __vfs_setxattr_locked internally)
+>   3: xattr helpers, which also drops a redundant EVM xattr size sanity
+>      check whose vfs_getxattr() call only has a dentry and therefore
+>      cannot be migrated to the new path-based signature
+>   4: POSIX ACL helpers
+>   5: inode_setattr hook
+>   6: inode xattr hooks
+>   7: inode POSIX ACL hooks
+> 
+> Two deliberate scoping decisions for this refactor:
+> 
+> - The hooks consistently take struct path rather than struct file.  The
+>   VFS call sites involved (chmod(2), chown(2), utimensat(2), xattr(2)
+>   and ACL syscalls) operate on paths, and several of them (lstat(2),
+>   lchown(2), llistxattr(2), ...) have no struct file to begin with.
+> 
+> - struct inode_operations->setattr still receives (idmap, dentry, attr).
+>   Only the VFS boundary (notify_change()) and the LSM hook layer see the
+>   path, which keeps the refactor contained to fs/attr.c and the LSM
+>   infrastructure instead of touching every filesystem.
+> 
+> Patches 8-12 then implement the new rights, their tests, the sandboxer
+> sample and the documentation.  Semantics:
+> 
+> - READ_METADATA covers stat(2) and friends, getxattr(2) and friends,
+>   listxattr(2) and friends, and POSIX ACL reads.
+> - WRITE_METADATA covers chmod(2), chown(2), utimensat(2), setxattr(2),
+>   removexattr(2) and friends, and POSIX ACL set and remove.
+> - Only explicit metadata changes requested by user space are restricted.
+>   Implicit changes performed by the kernel (e.g. timestamp updates on
+>   write(2), size changes on truncate(2)) are not, and neither are
+>   chmod(2)/chown(2) calls that change nothing (e.g. chown(2) with
+>   (-1, -1), which never reaches the hook), matching the SELinux
+>   inode_setattr behavior.
+> - Kernel-internal accesses performed with override_creds() (e.g.
+>   overlayfs, cachefiles) and kernel threads without a Landlock domain
+>   (e.g. nfsd, ksmbd) are not restricted.
+> 
+> The Landlock ABI version is incremented from 11 to 12.
+> 
+> The series is based on linux-next commit 5c4d4169604b ("Add linux-next
+> specific files for 20260921").
+> 
+> Testing: each patch has been built for aarch64 (gcc, -Werror) and the
+> landlock selftests (445 tests, including the new ones) pass in QEMU on
+> aarch64; base_test reports ABI v12.
+> 
+> [1] https://lore.kernel.org/all/20220827111215.131442-1-xiujianfeng@huawei.com/
+> [2] https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
+> 
+> Assisted-by: opencode: glm-5.3
+> 
+> Cai Xinchen (12):
+>   fs: pass struct path to notify_change()
+>   LSM: pass struct path to the inode_setsecctx hook
+>   fs: pass struct path to xattr helpers
+>   fs: pass struct path to POSIX ACL helpers
+>   LSM: pass struct path to the inode_setattr hook
+>   LSM: pass struct path to the inode xattr hooks
+>   LSM: pass struct path to the inode posix acl hooks
+>   landlock: Add READ_METADATA and WRITE_METADATA access rights
+>   landlock: Implement metadata access hooks
+>   selftests/landlock: Add tests for metadata access rights
+>   samples/landlock: Add metadata rights to sandboxer
+>   Documentation: Update landlock doc for metadata rights
+> 
+>  Documentation/userspace-api/landlock.rst     |  11 +-
+>  drivers/base/devtmpfs.c                      |   6 +-
+>  drivers/block/zloop.c                        |   4 +-
+>  fs/attr.c                                    |  20 +-
+>  fs/cachefiles/interface.c                    |   6 +-
+>  fs/cachefiles/xattr.c                        |  32 +-
+>  fs/coredump.c                                |   2 +-
+>  fs/ecryptfs/inode.c                          |  34 +-
+>  fs/exfat/file.c                              |   3 +-
+>  fs/fat/file.c                                |   3 +-
+>  fs/inode.c                                   |   7 +-
+>  fs/internal.h                                |  17 +-
+>  fs/namei.c                                   |   7 +-
+>  fs/nfsd/nfs4ctl.h                            |   4 +-
+>  fs/nfsd/nfs4state.c                          |  14 +-
+>  fs/nfsd/nfs4xdr.c                            |   2 +-
+>  fs/nfsd/state.h                              |   2 +-
+>  fs/nfsd/vfs.c                                |  73 +++--
+>  fs/open.c                                    |  18 +-
+>  fs/overlayfs/copy_up.c                       |   4 +-
+>  fs/overlayfs/inode.c                         |   4 +-
+>  fs/overlayfs/overlayfs.h                     |  39 ++-
+>  fs/overlayfs/xattrs.c                        |  13 +-
+>  fs/posix_acl.c                               |  46 +--
+>  fs/smb/server/smb2pdu.c                      |  77 ++---
+>  fs/smb/server/smb_common.c                   |   2 -
+>  fs/smb/server/smbacl.c                       |  21 +-
+>  fs/smb/server/tests/smbacl_kunit.c           |   6 +-
+>  fs/smb/server/vfs.c                          | 111 +++----
+>  fs/smb/server/vfs.h                          |  39 +--
+>  fs/smb/server/vfs_cache.c                    |   3 +-
+>  fs/utimes.c                                  |   3 +-
+>  fs/xattr.c                                   |  96 +++---
+>  include/linux/fs.h                           |   6 +-
+>  include/linux/landlock.h                     |   4 +-
+>  include/linux/lsm_hook_defs.h                |  29 +-
+>  include/linux/posix_acl.h                    |  21 +-
+>  include/linux/security.h                     |  65 ++--
+>  include/linux/xattr.h                        |  22 +-
+>  include/uapi/linux/landlock.h                |  26 +-
+>  samples/landlock/sandboxer.c                 |  17 +-
+>  security/commoncap.c                         |  22 +-
+>  security/integrity/evm/evm_crypto.c          |   8 +-
+>  security/integrity/evm/evm_main.c            |  36 ++-
+>  security/integrity/ima/ima_appraise.c        |  17 +-
+>  security/landlock/fs.c                       |  86 ++++++
+>  security/landlock/limits.h                   |   2 +-
+>  security/landlock/syscalls.c                 |   2 +-
+>  security/security.c                          |  99 +++---
+>  security/selinux/hooks.c                     |  49 +--
+>  security/smack/smack_lsm.c                   |  62 ++--
+>  tools/testing/selftests/landlock/base_test.c |   2 +-
+>  tools/testing/selftests/landlock/fs_test.c   | 309 ++++++++++++++++++-
+>  53 files changed, 999 insertions(+), 614 deletions(-)
+> 
+> -- 
+> 2.18.0.huawei.25
+> 
+> 
