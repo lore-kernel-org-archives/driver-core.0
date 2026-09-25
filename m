@@ -1,108 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390D44CC29A
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 19:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46754EA366
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 19:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790364694; cv=none; b=sh10hLYESPm+PGGUtsB8F+x3Kj4je4Bau0oomqjwCn1Y26O1RAjZ7LPrrmk1BN51DmFRwuLktLCKflZLV4kUvWeTCLcN4PmSo8vXgLWTKKTLah8DXwG09Kpe9R+7QSNZrsGznu4rzjOs+QOllUfaMDvEHj9eRoWmr7s+eHwZbcc=
+	t=1790365902; cv=none; b=KZmd6HElHruyTNL6NlsAXrzgfc7BbIRISWTYl7QNvIP8izs2Dl5E+IICsB4ItA4OgRTJeod8e4o4Dy7NJX4NE3fBIrTeCyFE4ypTmalMMAkDW/6yILvo85gfneoV0MkSw+uNowcCEGQLtStQQOItMfC0Ncq6PVcbev6Vx6Qc+ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790364694; c=relaxed/simple;
-	bh=bQpiDAkN8PFpxGCZhmyWfwZ5uGOq8rQmBqjhIP8KmzY=;
+	s=arc-20240116; t=1790365902; c=relaxed/simple;
+	bh=2pKdO3h1Su01tEz4Iq9muFSMNq+nPhG24Qel2AaGW1Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RsYAivCNE7RrADX0V0WjpAXtFH2yIy18Q1HZYYmCLGlsuGqaETCIZlBhXhO7H7ka23DShILLPRknT0ULMKL2bPQb04MBNJxPCm5EFDsd6onJ0gzRTSCqg/yvsMKdJfhvCDdiq0VaTUDPzlBjQMpif+yXMDT/6OlVBsrocWdGNtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SpEtQ5D+; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=LraQUA8t3VtfcDsIyyeQ7NDCPTs7HU727ZTQpWSyycjErKgt4HgrjegLSH2+4/tviib9GI8qUK832ZsMrLNO0VvbHfaICL/wA59LqkYFYNZU+tz2EaUK1N9AVr+MPvcf7LER/Xx3+68ac3D5bEGv7/igaEiBvK9c6T8w+9es2HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mQQSQ7lq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpEtQ5D+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E213E1F00899
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 19:31:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mQQSQ7lq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B211F0089E
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 19:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790364692;
-	bh=wdWQ30emSDP4qcVrkdnvjNPbDT0awLP6/Wq6pXd/aiA=;
+	s=k20260515; t=1790365901;
+	bh=4B7e94SXd49oJbq/xM76z20C0J2FDWZN5SoKxn3ph4s=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=SpEtQ5D+cpSAeGghBbByC9WkZOOimQ4lLNYvc2IES/XraDZ0i5dEFdgeEIi4E5eRG
-	 z0+ZVqaMv68sesDwFQROZyeUAiDzDwutjMbYqeJut6mgM5zu5zh64PuKkiGUFjfoLi
-	 xRYkHU8tXimQGPknGgl/5137/NG91OrjVJSqQYDf3jcVmzUnWy6A+KyE4GsJINGM0D
-	 wgR9+4PQwnuk8l2jEI+ASBekc+oYqFEEyRC1AbQiN7oMPgbW79YG9ohxo0smchi234
-	 HOpB6K+0F368zkYfn+9fIRv2wUyh3W+6Z1CDfOEPGfeKCIxKm++wFHr6Wacjcz8GVd
-	 Jg3Zbx6a9N1vw==
-Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a659f68ac6so1492321fa.0
-        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 12:31:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBz80WzEkCZfJKcghy2Le4qnP9UV8M67uzxUZasRxftAC5JKsRWQaOlFFao/YldCVEgPVL2crU0k7vCUmg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nSt3/n+xsidP6pgM4dvGnebXs+dh3/DoXMIG1lVbDSc2G4m7oN
-	pNhXSviKzg9mYCjDXaSIF6D3BCFmj/UpaRtDhFPyjC6RZ8nBnor3ByW+SgT85Mepdi1PPSYB4Ew
-	y0ybBhx7dO2jfsIGQ/ukQOYSoxu9CB+g=
-X-Received: by 2002:a2e:bc16:0:b0:3a4:9b64:9811 with SMTP id
- 38308e7fff4ca-3a63c0de06amr17290141fa.15.1790364691303; Fri, 25 Sep 2026
- 12:31:31 -0700 (PDT)
+	b=mQQSQ7lqhEbPy0Bg5CRVfBLmVjYDS+qOSYrWWuqQylY29b4CLgO6VoDpv+O7TJHEh
+	 w4JFrKhvkJNl8h+H/izj+4IGC02IJdOjZOzCFGw/J+kCuoUGGem3BV+7KdEEpDJ1kf
+	 2W8tYoG3QN+scWDa2JWd0bt52WrnuTvaXQ6/B0JSrXXADUfpwYbe2C6ixDceAIQCe2
+	 zrFnRSQPeWnVXXOJeaH07kjwnZ2ZDiqjXj8GtJLRpseLZjGquzr/SrREIID2FqTJn8
+	 mSVi+/BI0Deb/ltW3HLm37wnL+ro+YnW2fbWR3bH846utxAnXX31BCsLe3o+cH9GV4
+	 l0zzvES3O/jcA==
+Received: by mail-lr2-f32.google.com with SMTP id 38308e7fff4ca-3a3156692e3so3919181fa.0
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 12:51:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByfW7xbJi75/P3u2iBkBKNBHORqBXUS9UjJyn7HzgUrtwL8j8RC841Rtdjy4OmzOiV79bIPcuEgg9YRfA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kL7IdT4PWj/puf0BhYQ9zNlvU49WGYP5Ztk90WzQK+ZWWLWNob
+	hgRm3iwR2IxHC/sM7yTZeZBCt6N0VkAvBmmQ9/ut2PshNVv13DTQ5/5sEGXKixQUq1FmsOr2E2q
+	NZ3lO9RiZtPR2dZ4qgJx8GIPfIf4jy7Q=
+X-Received: by 2002:a05:651c:54f:b0:3a4:9881:8de0 with SMTP id
+ 38308e7fff4ca-3a63bf5cf4cmr14741281fa.7.1790365899771; Fri, 25 Sep 2026
+ 12:51:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260916211317.433349-1-superm1@kernel.org>
-In-Reply-To: <20260916211317.433349-1-superm1@kernel.org>
+References: <20260919-move-dont-use-autosuspend-v1-1-f6e2d1315c23@gmail.com>
+In-Reply-To: <20260919-move-dont-use-autosuspend-v1-1-f6e2d1315c23@gmail.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 25 Sep 2026 21:29:53 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hhnrwBuZK=enaAc3XYAchveAYjsqykfuYfT2qotRMtng@mail.gmail.com>
-X-Gm-Features: AclHuK-cyn3LGeOhIcKp7elU2kLQVMA3nE8eF9NLLpbDIO69bKhlbmZz-TbeD8Y
-Message-ID: <CAJZ5v0hhnrwBuZK=enaAc3XYAchveAYjsqykfuYfT2qotRMtng@mail.gmail.com>
-Subject: Re: [PATCH] PM: Add resume event mapping for PMSG_POWEROFF
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>
-Cc: mario.limonciello@amd.com, rafael@kernel.org, lenb@kernel.org, 
-	pavel@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org, 
-	Eric Naim <dnaim@cachyos.org>, linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Date: Fri, 25 Sep 2026 21:50:02 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jzj0QdaYvYcUOF=h5JkV-oYmRZ3U+v4gtrmPkJnGNpTg@mail.gmail.com>
+X-Gm-Features: AclHuK9N0CY2rxHQrszYK4T8Nsdnpx1GicGt8vAlTD-qOhnRvw_jso2Nf_Tn79s
+Message-ID: <CAJZ5v0jzj0QdaYvYcUOF=h5JkV-oYmRZ3U+v4gtrmPkJnGNpTg@mail.gmail.com>
+Subject: Re: [PATCH] PM: runtime: call pm_runtime_dont_use_autosuspend() on reinit()
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Frank Li <Frank.Li@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 16, 2026 at 11:13=E2=80=AFPM Mario Limonciello (AMD)
-<superm1@kernel.org> wrote:
+On Sat, Sep 19, 2026 at 10:25=E2=80=AFAM Joshua Crofts <joshua.crofts1@gmai=
+l.com> wrote:
 >
-> PM_EVENT_POWEROFF (0x0800) and PMSG_POWEROFF were already defined in
-> include/linux/pm.h. Add the resume_event() which is used when a shutdown
-> sequence needs to be aborted and the system should return to normal
-> operation.
+> Add a pm_runtime_dont_use_autosuspend() call to pm_runtime_reinit() to
+> ensure autosuspend is disabled on driver teardown.
 >
-> This completes the PMSG_POWEROFF infrastructure needed to support
-> differentiating between hibernation and shutdown sequences when
-> re-using callbacks for common code.
->
-> Hibernation is started by writing a hibernation method (such as 'platform=
-'
-> 'shutdown', or 'reboot') to use into /sys/power/disk and writing 'disk' t=
-o
-> /sys/power/state.
->
-> Later shutdown will be initiated with the reboot() syscall with arguments
-> on whether to halt the system or power it off.
->
-> Tested-by: Eric Naim <dnaim@cachyos.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> Suggested-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
 > ---
->  drivers/base/power/main.c | 2 ++
->  1 file changed, 2 insertions(+)
+> If a driver doesn't use devm_* functions for automatic cleanup on
+> teardown and autosuspend is enabled during probe, it should also be
+> disabled on teardown in a _remove() function or equivalent. However,
+> due to bad documentation, driver authors usually omit the
+> pm_runtime_dont_use_autosuspend() call on teardown.
 >
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e130da4281410..7265553ba24ca 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1472,6 +1472,8 @@ static pm_message_t resume_event(pm_message_t sleep=
-_state)
->                 return PMSG_RECOVER;
->         case PM_EVENT_HIBERNATE:
->                 return PMSG_RESTORE;
-> +       case PM_EVENT_POWEROFF:
-> +               return PMSG_ON;
-
-Why should it be PMSG_ON?
-
-pm_op() doesn't actually take PM_EVENT_ON into account, so I'm not
-sure how the change helps.
-
->         }
->         return PMSG_ON;
->  }
-> --
-> 2.53.0
+> Reason for investigating: this week, several patches popped up in
+> the linux-iio mailing list, adding these missing calls to several
+> IIO drivers. For some reason I ended up writing a cocci script to
+> find other instances of this and found ~195 offending drivers.
 >
+> After a discussion with Frank Li on the matter [1] when sending a similar
+> patch adding these missing calls to the clk subsystem, we arrived to the
+> idea of actually adding the dont_use_autosuspend() call to
+> pm_runtime_reinit() and have driver core handle this instead of
+> submitting 195+ patches to amend the issue.
+>
+> [1] https://lore.kernel.org/all/aq1N863eJpD_ZrLU@SMW015318/
+> ---
+>  drivers/base/power/runtime.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index fab38bc98113..9a37f6162fe0 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -1874,6 +1874,9 @@ void pm_runtime_reinit(struct device *dev)
+>         if (dev->power.runtime_status =3D=3D RPM_ACTIVE)
+>                 pm_runtime_set_suspended(dev);
+>
+> +       if (dev->power.use_autosuspend)
+> +               pm_runtime_dont_use_autosuspend(dev);
+> +
+>         if (dev->power.irq_safe) {
+>                 spin_lock_irq(&dev->power.lock);
+>                 dev->power.irq_safe =3D 0;
+>
+> ---
+
+Applied as 7.4 material, thanks!
