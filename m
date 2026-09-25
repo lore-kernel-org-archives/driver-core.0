@@ -1,98 +1,139 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E473955EA
-	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 20:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3804F7993
+	for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 21:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790368250; cv=none; b=EE+zleFJ5BlpOBkY4H2KzUH+KcTMAsjxwI4c1gXxKpRdqW4oYl4gySjh7U6EbCn/Z2kBUMAm7tf3TQOA6sFv/SR6/hFVTpZNxJOBhV7Yr3JWp5eWQenpuu/IA6Mhk4V1a5CjOMH+AgRuYA7AxiVbxqoi5AR08erlLQ1G57SdB44=
+	t=1790371172; cv=none; b=Ig5b+1VVUg3Q8uJjgGg7nTgvQeh6V3+/WuQaXPUaIlytdwZGHnAVeUeWoVgWHkU622N4XswsTUu2WCKIo/YVY5FlQ1tG47OY/8DNeXqUn3nR37DzoxOMscfKR02AcJA+Uptuv9A4ATywkRi1avyntk31PN8Kv9+906gEQyBTzZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790368250; c=relaxed/simple;
-	bh=IvmJC+wnoMKmtznA56KVh+cnnldg9D+xK7StRD9xfgw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=r1/RcFjU7Fz1S84CZWWpoRJcksFs3uiX2+uUUeqfsBbUzcmOYq4xtv4367Nqom9WAvfMQCI2YdOlZH0Y/a/gLzQ3acd97hW6n4hVxePCvyHUlWASJWxvuDiAU9s/cEgDiVlRcfCWhdlyTwkrW8laazU3GAXFd9YInb56sC55/xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=R/wLDUhv; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=cjxl5yN/; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790371172; c=relaxed/simple;
+	bh=+ycUu4Lrfdhzd9jKGwQrR5OBQYug2brCLTLBMKycAlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ufOiQe4OwWhSrsksj8iU/xCqGlUeyy0XMKmN1kS9TM3Hpcy5vrV3p0svEtCE8w6CXXW3U+2o19wKnQuRh5eUUDo+d7+ib6TcR86Li8WcdHSBkHyelCDCOqH8nB/el0v1UNpUHyKtvPKve+diRbfKFg9gNk1yUiEyxOyCpxna78w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuMeVvmN; arc=none smtp.client-ip=74.125.229.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="R/wLDUhv";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="cjxl5yN/"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790368236; bh=mGecoquQS03nc45mEusf/0T
-	7jpG+ELP0oFHt185c/9c=; b=R/wLDUhvneiSr8D/xNGzLXYeVPKdlXPYYKPp8bZ0yA8+wBeJx+
-	jiA8n1ZorQ6VCRHRRPWq4F4WFsgZySSu78M/Z2WIqR5a0YKxbnkYBeM3OmtTtFdKD88Xjve+1WO
-	QeLvB9aaaF/z+/qw8etz+x6/wMofTlYnTVqiZArAhdNg8AmCgwepLwL+tHnaiXaf+HUdv16rySP
-	+ZKmNbH/XMXGE0rSVjlfbQqNVjqoj1V3lWzNRd1V0q5xupgVj3wgud2zQSgjb2XuaW4lUJI7nNp
-	jyguD8vpxlcx14d2ychp7ZHoq/bZNzYaWtPhd7RHfGLevx3RrATj5+jKpEtsiHxBItA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790368236; bh=mGecoquQS03nc45mEusf/0T
-	7jpG+ELP0oFHt185c/9c=; b=cjxl5yN/mUcKXC59gh0I0U1DWuxO0I5hWFkpUfgXUIZAEbhRGC
-	DWM1beTjfTFUg0qQJVf9gOxW9UYh338BKUAg==;
-Date: Fri, 25 Sep 2026 21:30:34 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: =?ISO-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Johan Hovold <johan@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH] Add TAINT_DRIVER_OVERRIDE for usage of driver_override
-In-Reply-To: <arbYJUnMkb8Mqbam@monoceros>
-References: <20260925182041.1025371-2-u.kleine-koenig@baylibre.com> <arbYJUnMkb8Mqbam@monoceros>
-Message-ID: <897D45CE-C577-4DCB-90BA-5DA45AEA307B@mainlining.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuMeVvmN"
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-33bb1a50f6fso730543eec.2
+        for <driver-core@lists.linux.dev>; Fri, 25 Sep 2026 14:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790371170; x=1790975970; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
+        b=GuMeVvmN9YupdhYPuwuEGH/FN5+OMJPv+B7YsI0NYzbPG1lh2EqhaWjUpSXBftAxNK
+         n/PaqD4wLi+zuA/pqZkl1KFp4E5ED3qwCpcSqy2KUFfuUbaofySO6gb4VL1nzEqvZADK
+         MC+qDv5LchtMINOzWGlSQXwnvYhWmL1C3Td+PnANXlvn75C1GJe2isCjwRKk9zHEK8p/
+         xSrQ2C/zDuIUzSxxkDNFQzODjWnY622wRW4P1N+/W+ngiYJ7tj1qCKqrVCmsYfUrnFPU
+         x8Yk6hpgAA+ZaWytrnAH6OrSV3lZRuOAt8TFXeKE8YN2NbRqUO6m2Zm+zM/PQCoHVUUR
+         d+vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790371170; x=1790975970;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
+        b=o5w4yzm3vtbIsClfSxgsCWKEUy6TEj0MAgfkPX6dAyvGQrEFHgbR5QFC6/jmlvLPJL
+         w9Ylhi5/e7fkmQQe5db8bmROs91dRDgmHJ7DEF+XS5AmhucsqNx71H+jCb9Wclg7jWUD
+         z3vpN2b+Kgk7W+qFfFCMFbnoNj6U0ZeUEobmSPRev6ZqrtBhpo3L1geG23pZNDGm42Fe
+         QYOeima63CbB5rjs8xcQs444PZX2DapDVImrBqXbKhTHirPs9dGwcqp2T5sjEtJF7oJL
+         8dYh9SNHElXhuBJAtXZ2PhnAeWSKwrh9TWfc4F1g+LdtKrzWET5USIlWW8STfkrRvmJw
+         C0vA==
+X-Forwarded-Encrypted: i=1; AKwUvByPLPawteAyoxhABabwoQQlqjrMTimN10YIE7h9LgFlRgaqTt/2RDM8jU4ESCyEY+hX0QSM9Ftq1D70Iw==@lists.linux.dev
+X-Gm-Message-State: AFuF++nCS41PcNhozyFyUZ1GFM69n1LYpI29fNGPZXStI5gplThCBqCs
+	02doWclOpPLTBuxrU5iSgv1iMeow33iLBXfvC3or3VP37vx+kjR9V0JOpFePVEcb
+X-Gm-Gg: AYBFou1sjz2c1L0kPg3n9tXJT4Sgqm6OuZQkYV+vg9OCkUiGoXDaZHQTAO83rs4Z+Mu
+	plEkHIQfmjzO8kAaW37AVLEZX5PUJeBfGrrsCYCYKeq1foMakgX98CAM/8PqSq1nB9whgyiow7J
+	dfQueXsxb5ThxtJqHD+kVFIdt48fFo3hjADCtOkLyrIO1pRzrFN58sidxLDC9in7x0f5cQcxDW3
+	lvecsgvruY37tRGzkR7bnxp58vt3WFSEvXFxjbSXpYPcTizOEKrzfabUYH5UxqhqmSV6K/2yP0M
+	IRyYNJj2Qarq9VUUnEEWIylOzkn+vnbELyD8pO6H9lhwhAjHMitDosaf3LKYcXSk9t2FuubQ52x
+	m2FlDdFuq/Vi82S1TqyGdwIWYKMrNrp5RLNaE8jKWnC4BTZclwGFvjMN0FidnHJStl8cd4ex3vw
+	/mDbcItIwwu1NUgo4nh/F2oAFHshMUW9uSvyWLDQnC5ND7bdS+nLUXciqvbRgn1erMIP152JHkn
+	hDRMthhvSuANTqRuM6tGG4p221xqrwadwjLkNA=
+X-Received: by 2002:a05:7300:dd48:b0:33b:eb33:9f70 with SMTP id 5a478bee46e88-34272a41d89mr1027757eec.37.1790371169410;
+        Fri, 25 Sep 2026 14:19:29 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3416e4c2f50sm8029385eec.27.2026.09.25.14.19.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 14:19:28 -0700 (PDT)
+Date: Fri, 25 Sep 2026 14:19:25 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <arbkvK54vT7SIyjV@google.com>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
+ <apA8n524yIn-g6ep@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <apA8n524yIn-g6ep@hovoldconsulting.com>
 
-On 25 September 2026 21:28:29 BST, "Uwe Kleine-König"
-<u.kleine-koenig@baylibre.com> wrote:
->Hello David,
->
->On Fri, Sep 25, 2026 at 08:20:40PM +0200, Uwe Kleine-König wrote:
->> Commit fcbfaffee51a ("driver core: add TAINT_FORCED_BIND for when
->> userspace manually messes with devices and drivers") introduced a taint
->> for usage of bind/unbind sysfs files that manually trigger driver probe
->> and remove respectively.
->> 
->> For drivers that do their resource management correctly (which is also
->> needed for module unloading) bind and unbind for matching devices are
->> not critical operations. The thing that makes bind and unbind unsafe is
->> that drivers can be forced on devices that originally don't match using
->> driver_override. The result is that e.g. of_device_get_match_data()
->> returns NULL despite all .of_match_table entries having a non-NULL
->> .driver_data member which yields a NULL pointer exception for several
->> drivers. And given that after setting a driver_override a manual bind is
->> only one way a driver can be bound to an unexpected device, a separate
->> taint for such an override is justified.
->> 
->> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
->
->Sashiko found an issue in the oneline shell script, I fixed that in a
->separate commit because it wasn't introduced in my patch.
->
->Also I violated my own rule not to send patches directly before calling
->it a day and so missed to squash in the build fix that Sashiko also
->found 🤦.
->
+On Thu, Aug 27, 2026 at 03:33:19PM +0200, Johan Hovold wrote:
+> On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> > 
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> > 
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > successfully written to.  This lets kernel developers "know" that a user
+> > is attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> > 
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> > 
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> This makes it clear that this is a development tool, and it is a good
+> compromise preferable to adding unnecessary complexity or suppressing
+> the attributes completely just to prevent root from shooting themselves
+> in the foot:
+> 
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Tested-by: Johan Hovold <johan@kernel.org>
 
-Hah! A emoji 🥺
+bind/unbind without overrides should not necessarily be treated as a
+development tool. For example with I2C devices you may want to unbind
+the functional driver, perform firmware update from userspace, and bind
+the device again. This will ensure that driver is not confused and at
+the same time you do not need to put into the kernel code that is
+dormant 99.9999 percent of the time.
 
->I wait a bit before sending a v2, but if you want to take a glimpse
->already on the changes I did, look at
->
->	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git driver_override-taint
->
->Best regards
->Uwe
->
+Thanks.
 
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+-- 
+Dmitry
