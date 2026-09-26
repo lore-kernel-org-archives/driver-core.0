@@ -1,280 +1,139 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346AF379998
-	for <driver-core@lists.linux.dev>; Sat, 26 Sep 2026 08:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AF5126C02
+	for <driver-core@lists.linux.dev>; Sat, 26 Sep 2026 12:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790411912; cv=none; b=sQRM4x8RWGkGuVa6xVZFAU6TNu6JLh6t3T+K4pbdebDIirsRusqbzBBHfSmrFDlOfSgnq9/Le4NPou0i5t1YrjLfJ+fX94OKvapuEtCGsCAKTSd7UW/t0zyhUyWkAYjP+9aA64T1GLW8+clPef+sebyBFVG4IyU4PO9ct/MF3l4=
+	t=1790426138; cv=none; b=ZglPzFt04tqDi2Cm6maEoFIooxumeHXsmEilZ8Eq02Fb+eESAytQFY0s5cU1u0lEbPvx+j6R8PqvRZNWBxKQh7T+kI86CUPjCp/n9vgiLZh1EwzDl8Ot4y52oOz77AsTgXuYv3JARAgWNO2imal1spJQBU5T5ELJJrqQDb0Qi+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790411912; c=relaxed/simple;
-	bh=dg1L5YWtdAyboMbKumSCH8z23MTRvvFyqARphfS6bXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMOd1qLo60EStDpm0q6zanQbv1rUMAAyPwRGu9oExxPJy+iP+ctDye+vhIwdrqFLaSA92t1VoS1JoebUAylphqziFLI7iT/zAu0tUe4v6sZeI/My6jK4sPil6i2Gb8oL/XNTK2QXqlCyJ3BU07zIRU7cUbCwrylF4MKZDbY+q+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aszNx6Ui; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aszNx6Ui"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so17754065e9.1
-        for <driver-core@lists.linux.dev>; Sat, 26 Sep 2026 01:38:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790411906; x=1791016706; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c9e9Ohjh62jjpKVoXb3eLlcbg9rHFeTPk+yn3uYWypA=;
-        b=aszNx6UiflGIgBTS2f1z2zZ3uU/lX5c/WgvL3DgAohqdVICLJfVb3Dtnh+cykkPTSX
-         oCcJWP7+JywOXeUVKLeXG48oWXOgvKzzy3gqhIQM9z7HEqiQdV0jRvxg2hBy0IuTrJQ2
-         vMRTYx2qndqYZL96sU6o55BkSUbW4noUlR+BQmqjVCPSeYJVoiWwRXfMGqy2aBwgSGWL
-         RWJlVdnt8ii/iWKB22ap3T5yoXLZEF1XvpvwTvjso2AFnIE9baaaOpRphT0uRZJnvwUy
-         TaghvrCmldoYYJqaJpUdVeC4Uf7WfOKzYoVBiiReOAUMqTQd2Qny6X2uhBbHiFPgwss5
-         FkVQ==
+	s=arc-20240116; t=1790426138; c=relaxed/simple;
+	bh=slBGIbI3G8ZiTKTUdMCbpKgIfQy7TPzfJ6xzJrssSAQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=OS/+hO/yqBDDMBTh0nvtDVCOf62fI/TXNMFTIqTlLuklwgBUkjd7XhB6mgwdGx/VS/mKt1MY1kES69C1vo7q3fh4QK0S3THKioyPMzzGx335WFrskNLG/LHVEki9EZp5p6PDO/fW1Ej6WKVxJncFtaLH0bVhyO8A94g17FvJdw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b28dbf4197so3458566b6e.2
+        for <driver-core@lists.linux.dev>; Sat, 26 Sep 2026 05:35:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790411906; x=1791016706;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20260707; t=1790426136; x=1791030936;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=c9e9Ohjh62jjpKVoXb3eLlcbg9rHFeTPk+yn3uYWypA=;
-        b=BEGdjDj21J8j6rS3Z25Y7sc1zq9xxIhJEbxzeNzaVolq7uwD/XU5Dfuq+LymPVoHyq
-         SP+027IyQb15yn0qhwz1wMcXIAzDg674kMu7Wvb3B8gPHORGovvFvYf0y2gmMGRsIsKQ
-         FwUiXYBJxhj3iRSypgdwb5SQTv7nmjF2PAyZvPebOHTo1drgU9Jk8Yc047oN91pvz0mI
-         6xLYAH8j+Xuy/FEJyouxYovpvt9IhOF/yj88JlBzTs6ITbvluMx68DRJGqHeEtK3U33W
-         wzssc/LAIgPjetAMcRqfj7fkfu5X3D7qya3Mc9e4VEFOH4CXb2CW7g7J0ERtzfpdjZSK
-         pF0Q==
-X-Forwarded-Encrypted: i=1; AKwUvByMjx803wUVZqWWmHiGz2Vve6/ytHN5UwtkD1rxjNlYtGhpMu06kqswIf/fornici9vjpqgqOSXtyVqDg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kLs5XjMFUCRKdBrkTlNQq1BMl5tkOUqJpt2+x8yzxuhVseAMq3
-	oUTBkEXnQtxpBEg0tnlLcFsN6mOwIKmTJTKibS6Wh4WJvpFaz6fCKbTu
-X-Gm-Gg: AYBFou0vDautmj3mBYaYwmUdG+o3pKreJHxSm33+K6WhYG9Ezm5sULoW0Kyg1BYRoyB
-	cAInsU47CxxKsJiUMvnNPXJjeSV8nVtLpOhNvi+ABxfhiUijbCCwmKy/Z74dI2213sVEL2ynLND
-	TBvkPd/dI3kNUJ4tedqoESztuvQ62nOw6Vj0dtsjBQ4NwfdfzVjsbm4LnzpZO7Cdamz1QdysbhF
-	kuX5cKlqF0PXjxwRJhcbDqhK7R6gY2pDhVajLEsNSxUbQtHRop09PZxXuNh1TCGYxkdHIOvRIWZ
-	/Kz02YH3Cb8czL9czkp3nvN8bCpFxJJM9h+2crIpkY/78JvBkvwpYgO1QFrwgZnzNfCsLGl8Jm4
-	3RaNTEuElEPM7p5czFGQVnGgo7/Lh/ebWyZvyVtNGv/zsE27dxzuwwQb11OCI1OpahCuiknO3rQ
-	TN88pBuiHSAPkZznwoPh0rox48SXmu9RwAxYYOIWgnEny2izzlhcqyU7vKSgpKYCl/jdZ8Sjl0Z
-	h8wU1QB6XLnIVXgrv4wnVs=
-X-Received: by 2002:a05:600c:1d02:b0:49f:fd66:5fe0 with SMTP id 5b1f17b1804b1-49ffd6661a7mr12811255e9.9.1790411906263;
-        Sat, 26 Sep 2026 01:38:26 -0700 (PDT)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5de4de4sm215396785e9.8.2026.09.26.01.38.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 01:38:25 -0700 (PDT)
-Date: Sat, 26 Sep 2026 10:38:24 +0200
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
-	zohar@linux.ibm.com, roberto.sassu@huawei.com,
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
-	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 09/12] landlock: Implement metadata access hooks
-Message-ID: <20260926.a96402fcbd4b@gnoack.org>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <20260924104831.1081137-10-caixinchen1@huawei.com>
+        bh=aVqt2vou1NcEwe72+sENJCcdZ9urh1SIdV7Spebfc2o=;
+        b=XbiH98a4A152ddOKhCfNYCGGGGAH4jXBVaMzm4n0hEg6Yw7UWF8ok5wr/HcdkpB++C
+         uGhnksY7fE/Vp08TONYmf54hGAv+oK4bz7hiS7KBt5DCpKZvOpWOUj9Wrcc+a8+yPi1w
+         dWAkcf83aQwoFpjaqpXH2jUYZRCTUA5mhG+hwMrLbhuJdZhd2jqqKVQZMihbyDgLIfDb
+         gDG0BZmoiE7hyahB8LAQJBir12XCRdFD0r1PItKPe5POjqixYBSnJsZXKOm1Cr+rBwvx
+         GwnDY0SX0w/ufkTB/adFJaa3vzNCqkQL08L3jL893v2WOI36Xnag92Sv3cyoZ2IvjRk7
+         mdvw==
+X-Forwarded-Encrypted: i=1; AKwUvBxu+hAXVnPVRfXuLhOxfY+YfgqtEIQIXhVqzwlCz2rcsYz5zPHV3fv5lEAy5AZz3ZyVIZd4GNjEHJg8oQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lvxOLLH4alafUtP/hWBKD+LGBVVgwGFopII9wYmKttpF1caNtg
+	B+TJnCaOe+vKPFSRpcijrJgCNtSQXTKaXlW7Yuubv/JLnZllR/fSCvbDfWJ/01ZrpLWxykC+a4D
+	sxfcPjR+b9CzXKZYyqOE/tinc7afpwUuP4w1VGn1rzpxirtBfmYmFawy+eyY=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260924104831.1081137-10-caixinchen1@huawei.com>
+X-Received: by 2002:a05:6808:670f:b0:4d6:90d3:e18c with SMTP id
+ 5614622812f47-4d72ea5ea92mr9088325b6e.53.1790426136099; Sat, 26 Sep 2026
+ 05:35:36 -0700 (PDT)
+Date: Sat, 26 Sep 2026 05:35:36 -0700
+In-Reply-To: <6a85402f.ae6ddae5.3da009.0007.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab7bc18.e548f532.1ca396.002d.GAE@google.com>
+Subject: Re: [syzbot] [kernel?] WARNING in __dynamic_dev_dbg
+From: syzbot <syzbot+6102f1c3a0ea8073fd64@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, rafael@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 24, 2026 at 06:48:28PM +0800, Cai Xinchen wrote:
-> Implement the LANDLOCK_ACCESS_FS_READ_METADATA and
-> LANDLOCK_ACCESS_FS_WRITE_METADATA access rights by hooking the
-> inode_getattr, inode_setattr, inode_setxattr, inode_getxattr,
-> inode_listxattr, inode_removexattr, inode_set_acl, inode_get_acl and
-> inode_remove_acl LSM hooks, which now receive a struct path thanks to
-> the preceding VFS and LSM refactoring.
-> 
-> The following system calls are now controlled:
-> 
-> - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
->   friends, listxattr(2) and friends, and POSIX ACL reads via
->   inode_getattr, inode_getxattr, inode_listxattr and inode_get_acl
->   (READ_METADATA)
-> - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
->   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
->   utime(2), setxattr(2) and friends, removexattr(2) and friends, and
->   POSIX ACL set and remove via inode_setattr, inode_setxattr,
->   inode_removexattr, inode_set_acl and inode_remove_acl
->   (WRITE_METADATA)
-> 
-> Both new rights are added to ACCESS_FILE as they apply to both files
-> and directories.
-> 
-> hook_inode_setattr only restricts explicit metadata changes, i.e. it
-> checks WRITE_METADATA only when the ia_valid mask contains
-> ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
-> Metadata changes that the kernel performs implicitly, such as
-> timestamp updates on write(2) or size changes on truncate(2), are
-> therefore not restricted, and neither are chmod(2)/chown(2) calls
-> that do not change any attribute (e.g. chown(2) with -1/-1, which is
-> a no-op that never reaches the hook), matching the behavior of the
-> SELinux inode_setattr hook.
-> 
-> Kernel-internal accesses performed with override_creds() (e.g.
-> overlayfs and cachefiles) are not affected because Landlock domains
-> are attached to credentials, and kernel threads without a Landlock
-> domain (e.g. nfsd and ksmbd) are not restricted either.
-> 
-> Assisted-by: opencode: glm-5.3
-> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
-> ---
->  security/landlock/fs.c | 86 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
-> 
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index cab43892ec2f..e58b2aa0da65 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -318,6 +318,8 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
->  	LANDLOCK_ACCESS_FS_EXECUTE | \
->  	LANDLOCK_ACCESS_FS_WRITE_FILE | \
->  	LANDLOCK_ACCESS_FS_READ_FILE | \
-> +	LANDLOCK_ACCESS_FS_READ_METADATA | \
-> +	LANDLOCK_ACCESS_FS_WRITE_METADATA | \
->  	LANDLOCK_ACCESS_FS_TRUNCATE | \
->  	LANDLOCK_ACCESS_FS_IOCTL_DEV | \
->  	LANDLOCK_ACCESS_FS_RESOLVE_UNIX)
-> @@ -1676,6 +1678,81 @@ static int hook_path_truncate(const struct path *const path)
->  	return current_check_access_path(path, LANDLOCK_ACCESS_FS_TRUNCATE);
->  }
->  
-> +static int hook_inode_getattr(const struct path *const path)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_READ_METADATA);
-> +}
-> +
-> +static int hook_inode_setattr(const struct path *const path,
-> +			      struct iattr *const attr)
-> +{
-> +	/*
-> +	 * Explicit metadata changes (i.e. mode, ownership, and timestamps
-> +	 * set with utimes() and friends) require
-> +	 * LANDLOCK_ACCESS_FS_WRITE_METADATA.  Implicit timestamp updates
-> +	 * (e.g. ATTR_CTIME set for a write) and size changes (handled by
-> +	 * the truncate hooks) are not restricted.
+syzbot has found a reproducer for the following issue on:
 
-Nit: It feels like this comment about implicit timestamp updates
-(especially the size change) should go in the top-level documentation
-for the WRITE_METADATA right?  setattr() can not result in a size
-change, after all, AFAIK?
+HEAD commit:    e8e60d3ddd25 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f66a05580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=375776a45e10c065
+dashboard link: https://syzkaller.appspot.com/bug?extid=6102f1c3a0ea8073fd64
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+userspace arch: arm64
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=149b92c9580000
 
-Remark on the side, apart from truncation, normal writes into the file
-can of course also change its size ;-) and ATTR_ATIME and ATTR_MTIME
-also come to mind as implicit metadata changes.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6102f1c3a0ea8073fd64@syzkaller.appspotmail.com
 
-> +	 */
-> +	if (!(attr->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID |
-> +				ATTR_TIMES_SET | ATTR_TOUCH)))
-> +		return 0;
-> +
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
-> +}
-> +
-> +static int hook_inode_setxattr(const struct path *const path,
-> +			       const char *const name,
-> +			       const void *const value, const size_t size,
-> +			       const int flags)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
-> +}
-> +
-> +static int hook_inode_getxattr(const struct path *const path,
-> +			       const char *const name)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_READ_METADATA);
-> +}
-> +
-> +static int hook_inode_listxattr(const struct path *const path)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_READ_METADATA);
-> +}
-> +
-> +static int hook_inode_removexattr(const struct path *const path,
-> +				  const char *const name)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
-> +}
-> +
-> +static int hook_inode_set_acl(const struct path *const path,
-> +			      const char *const acl_name,
-> +			      struct posix_acl *const kacl)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
-> +}
-> +
-> +static int hook_inode_get_acl(const struct path *const path,
-> +			      const char *const acl_name)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_READ_METADATA);
-> +}
-> +
-> +static int hook_inode_remove_acl(const struct path *const path,
-> +				 const char *const acl_name)
-> +{
-> +	return current_check_access_path(path,
-> +					LANDLOCK_ACCESS_FS_WRITE_METADATA);
-> +}
-> +
->  /**
->   * unmask_scoped_access - Remove access right bits in @masks in all layers
->   *                        where @client and @server have the same domain
-> @@ -2100,6 +2177,15 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
->  	LSM_HOOK_INIT(path_unlink, hook_path_unlink),
->  	LSM_HOOK_INIT(path_rmdir, hook_path_rmdir),
->  	LSM_HOOK_INIT(path_truncate, hook_path_truncate),
-> +	LSM_HOOK_INIT(inode_getattr, hook_inode_getattr),
-> +	LSM_HOOK_INIT(inode_setattr, hook_inode_setattr),
-> +	LSM_HOOK_INIT(inode_setxattr, hook_inode_setxattr),
-> +	LSM_HOOK_INIT(inode_getxattr, hook_inode_getxattr),
-> +	LSM_HOOK_INIT(inode_listxattr, hook_inode_listxattr),
-> +	LSM_HOOK_INIT(inode_removexattr, hook_inode_removexattr),
-> +	LSM_HOOK_INIT(inode_set_acl, hook_inode_set_acl),
-> +	LSM_HOOK_INIT(inode_get_acl, hook_inode_get_acl),
-> +	LSM_HOOK_INIT(inode_remove_acl, hook_inode_remove_acl),
->  	LSM_HOOK_INIT(unix_find, hook_unix_find),
->  
->  	LSM_HOOK_INIT(file_alloc_security, hook_file_alloc_security),
-> -- 
-> 2.18.0.huawei.25
-> 
+------------[ cut here ]------------
+field width 1163001896 out of range
+WARNING: lib/vsprintf.c:2654 at set_field_width lib/vsprintf.c:2654 [inline], CPU#1: syz-executor257/5017
+WARNING: lib/vsprintf.c:2654 at vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2918, CPU#1: syz-executor257/5017
+Modules linked in:
+CPU: 1 UID: 0 PID: 5017 Comm: syz-executor257 Not tainted syzkaller #0 PREEMPT 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/14/2026
+pstate: 634000c5 (nZCv daIF +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+pc : set_field_width lib/vsprintf.c:2654 [inline]
+pc : vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2918
+lr : set_field_width lib/vsprintf.c:2654 [inline]
+lr : vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2918
+sp : ffff8000950d6b10
+x29: ffff8000950d6b60 x28: 00000000007fffff x27: ffff8000873d6422
+x26: 0000000045520028 x25: ffff8000950d6bd8 x24: 0000000000000402
+x23: ffff8000950d6f18 x22: ffff800087abd600 x21: ffff8000950d6bf0
+x20: ffff8000950d6ecb x19: dfff800000000000 x18: 0000000000000000
+x17: ffff8000839f990c x16: ffff800083a13a68 x15: 0000fffff4c1bf60
+x14: 0000000000000747 x13: 0000000000000001 x12: 0000000000000003
+x11: 0000000000000000 x10: 0000000000000002 x9 : a322e52aa42a7400
+x8 : a322e52aa42a7400 x7 : ffff8000804823d8 x6 : 0000000000000000
+x5 : 0000000000000001 x4 : 0000000000000000 x3 : ffff8000802f3e90
+x2 : 0000000100000000 x1 : ffff0000d38bd880 x0 : 0000000000000000
+Call trace:
+ set_field_width lib/vsprintf.c:2654 [inline] (P)
+ vsnprintf+0xb9c/0xd10 lib/vsprintf.c:2918 (P)
+ va_format lib/vsprintf.c:1725 [inline]
+ pointer+0x5e8/0x6b4 lib/vsprintf.c:2577
+ vsnprintf+0x618/0xd10 lib/vsprintf.c:2953
+ vprintk_store+0x344/0xb94 kernel/printk/printk.c:2307
+ vprintk_emit+0x1bc/0x514 kernel/printk/printk.c:2455
+ dev_vprintk_emit+0x2ec/0x3b4 drivers/base/core.c:5000
+ dev_printk_emit+0xe0/0x130 drivers/base/core.c:5011
+ __dynamic_dev_dbg+0x1b4/0x254 lib/dynamic_debug.c:904
+ dtv_property_process_get+0x26bc/0x2838 drivers/media/dvb-core/dvb_frontend.c:1595
+ dvb_get_property drivers/media/dvb-core/dvb_frontend.c:2397 [inline]
+ dvb_frontend_handle_ioctl+0x1644/0x2424 drivers/media/dvb-core/dvb_frontend.c:2478
+ dvb_frontend_do_ioctl+0x124/0x278 drivers/media/dvb-core/dvb_frontend.c:2101
+ dvb_usercopy+0x2a4/0x4d4 drivers/media/dvb-core/dvbdev.c:996
+ dvb_frontend_ioctl+0x68/0x8c drivers/media/dvb-core/dvb_frontend.c:2115
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __arm64_sys_ioctl+0x154/0x1cc fs/ioctl.c:583
+ __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
+ invoke_syscall+0x98/0x244 arch/arm64/kernel/syscall.c:49
+ el0_svc_common+0xec/0x23c arch/arm64/kernel/syscall.c:121
+ do_el0_svc+0x4c/0x5c arch/arm64/kernel/syscall.c:140
+ el0_svc+0x60/0x1d8 arch/arm64/kernel/entry-common.c:796
+ el0t_64_sync_handler+0x44/0x104 arch/arm64/kernel/entry-common.c:815
+ el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:606
+irq event stamp: 7442
+hardirqs last  enabled at (7441): [<ffff80008688206c>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:210 [inline]
+hardirqs last  enabled at (7441): [<ffff80008688206c>] _raw_spin_unlock_irqrestore+0x38/0x98 kernel/locking/spinlock.c:221
+hardirqs last disabled at (7442): [<ffff800080485188>] vprintk_store+0x13c/0xb94 kernel/printk/printk.c:2287
+softirqs last  enabled at (7400): [<ffff8000801382ec>] local_bh_enable include/linux/bottom_half.h:33 [inline]
+softirqs last  enabled at (7400): [<ffff8000801382ec>] put_cpu_fpsimd_context arch/arm64/kernel/fpsimd.c:251 [inline]
+softirqs last  enabled at (7400): [<ffff8000801382ec>] do_sve_acc+0x32c/0x4b8 arch/arm64/kernel/fpsimd.c:1332
+softirqs last disabled at (7398): [<ffff8000801380cc>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (7398): [<ffff8000801380cc>] get_cpu_fpsimd_context arch/arm64/kernel/fpsimd.c:234 [inline]
+softirqs last disabled at (7398): [<ffff8000801380cc>] do_sve_acc+0x10c/0x4b8 arch/arm64/kernel/fpsimd.c:1308
+---[ end trace 0000000000000000 ]---
+==================================================================
+BUG: KASAN: slab-out-of-bounds in hex_st
 
-On the Landlock side, the implementation looks quite straightforward,
-without having double checked for missing hooks now.  This commit is
-probably fine as soon as we have agreement on the LSM hook changes.
 
-–Günther
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
