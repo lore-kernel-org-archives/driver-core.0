@@ -1,153 +1,123 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012019.outbound.protection.outlook.com [52.101.48.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427F61DFFB
-	for <driver-core@lists.linux.dev>; Sat, 26 Sep 2026 22:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790463412; cv=fail; b=n67UJWSfJkUzGmlfugziQoR6RBG/24QHqFjTg+SbjKiEEWJIDtx2sueG1Y6fJAKTShwvpp3Pt1+ByTzqwrJ5tsBkRt7B4uJDdDtFN/GJBr187s5qJr/Ntnn7fgl1d4RHlx0ebMRP/9l60qicSkCpAckAZ5AerUk8lv+KpZFT6KA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790463412; c=relaxed/simple;
-	bh=xUPWQ800eLQQcyH5sZclyIiO/GUIeD0pODtikaZ8tv8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U7xk7Q/lfN+YQrjrVFkHST/XkzirmLZSUpSBVLYlCYbVyzB4q9Q95oWL5QC8ryZgkSngIqeJWuc8mzHoBCzNkBXC9jPh7TnrCErRhzIrC5k7LpoKyQ+pfEk91fY5bUl17cMKPj8q8jp64NIE6+eyjT8zj6e676HH20Rb+wgQUDg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=aqK64J3g; arc=fail smtp.client-ip=52.101.48.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3803C108E
+	for <driver-core@lists.linux.dev>; Sun, 27 Sep 2026 08:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790496213; cv=none; b=VzV74RanAjhjLXJtHDkD1WYpKipE+ET0Uzejoz8T6mAIsNgY5ufXFCOKsAGRXR5o2vkKkoun8lPUYWg4GixpgHj3viA1DotyqqSGjoZKIRmfKKWpZ3TuNSdH3fyMUbhPNmCqD8dA8TfXe1qhHaPKJYGPtLdQZVH1EJD3B8PE6lo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790496213; c=relaxed/simple;
+	bh=4ZZ2di/+pb9o/IsfYKwMlhKyrT2armIhgZm0R4Ikzdw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nsAUL155CGI3T26RnD2lCuRbjxbg50y10rkhlzEgCl5jMgZMnJF4Zhg+wWu0wW2b78KljN1aZk40donVq4s2gCbOj1Dja88aI4p/5aOCSheqV7HY09JhJV8wbicFcc4fs+4vyRCRPpykcEVD8qNjO4hCd8czSlb6tQE7ZbIWusc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=YBGnUsZ6; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="aqK64J3g"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W+py5s88hKSIPqQa5uxWr2FLuywAbY76GNKa0OGDRy3kmKt2PX3WJf/iUHtY0MaCnhEsQbhz/9bUlGqJQuGp0rr0HXeXw46Myotxrn7aNCapescXslaZWhX7QE1IuYCCPKLWTV/WvQveklBq+oJeo+1CH7aYR++eqOYdcGXW1qVbQ+Fe0uV8J6fFHNewKI2AoQxT6zZIK/zuxY3kOWJUOStlCAojjMwlDg0ABiBJfTX75z08H9uTEssKCgY6+iDBcnmkXAsxELZ08oJ/9ZoAC8ML/nt2UEg63R1aTMNntiUy80LESFp3uFLOFvOgA5C+gq6OZ219DNMmrfEkULSIMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BfJzFdOs5VKC9YLj1q4duN/TcmGQENRk69UGDSIRpQ=;
- b=puMX0nNRRp7peOEB0ObWH18jNhf6plmVvLEuNvMbjuS0QMYBc70yGNHppx81VbjX3gJ+BE1HqZniSkd34yr/tvQ4MARZzvKwf/5JI+cdDV+68lnzEltB0fx2uS3sY4VPCtwV/Qz8VOA6EIdmUnAqfnw4uDXTbeN0jQKPNgRDKvr7mrvP3SEQ4SZD3NbNNMYnfplLfKEbmvb15fu448uRR9DtTR3bi8TTw+EnclfXnqxSIX1LgWL9t9uXKtnefGr0yjQ4D3XOGs710EQiqABYGwivtk9xOl3DreEj6AMdO/glKVTzFxaMPqngQeu7ca6cosr30YMhQF/a5747xw5Hfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BfJzFdOs5VKC9YLj1q4duN/TcmGQENRk69UGDSIRpQ=;
- b=aqK64J3gzSj5gmeAPg8Jwn4mNP4kmLvY7uZYq60ZViGqmnzP+w6sQx7kKNRxF0dhcalCd3klqkDlzTFpY8DVmie8SDQk/mR+oSJJ69ltg2FMK2shUsgyebnrHfktJNUrrcf4wCwOGr2ByY5+pWQFGaA0JowNw0YtlcAYOzqiQ1A=
-Received: from DSZP220CA0006.NAMP220.PROD.OUTLOOK.COM (2603:10b6:5:280::14) by
- CYYPR12MB8940.namprd12.prod.outlook.com (2603:10b6:930:bd::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.19; Sat, 26 Sep 2026 22:56:44 +0000
-Received: from DM2PEPF00003FC5.namprd04.prod.outlook.com
- (2603:10b6:5:280:cafe::4f) by DSZP220CA0006.outlook.office365.com
- (2603:10b6:5:280::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.23 via Frontend Transport; Sat,
- 26 Sep 2026 22:56:44 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DM2PEPF00003FC5.mail.protection.outlook.com (10.167.23.23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Sat, 26 Sep 2026 22:56:43 +0000
-Received: from ausmlimonci-lx1.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Sat, 26 Sep
- 2026 17:56:42 -0500
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: <rafael@kernel.org>, <pavel@kernel.org>, <lenb@kernel.org>,
-	<gregkh@linuxfoundation.org>, <dakr@kernel.org>
-CC: "Mario Limonciello (AMD)" <superm1@kernel.org>, Eric Naim
-	<dnaim@cachyos.org>, <linux-pm@vger.kernel.org>,
-	<driver-core@lists.linux.dev>
-Subject: [PATCH v2] PM: Add resume event mapping for PMSG_POWEROFF
-Date: Sat, 26 Sep 2026 17:55:51 -0500
-Message-ID: <20260926225555.2916525-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="YBGnUsZ6"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffb83bf7aso7613295e9.2
+        for <driver-core@lists.linux.dev>; Sun, 27 Sep 2026 01:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790496209; x=1791101009; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kH5LGmE2trMrU+13M5071tiqEPhiiJkpOWdRzaL+Evo=;
+        b=YBGnUsZ6WhzpgpCZaoXq1IhWN1DjpGDTQ15iEeHfB030/Zp8NkZ/STVorwtvao0Khw
+         zVtifze9kFlba2KvN6aSmalkGvHCeiLlGUz8Qhm4I982RjecuXqMQJSvvS3h2rwTiiAm
+         JEx/JwXGAq0tFN0qW++VKcv/yGs2i0PeEUJx8+/MFxelhGAct2hzthrTc96ksFv8ze4/
+         K/0f6st1XNfK9nWgX+wFBSvrEggNrMPC8hM+Gg7C6yRDfqCKtloKCTfg+RwJFKIS0cL3
+         8Z8OWDMH5ejvmsK050GkWf6KKK4aLEX1DWqNCyuGd6YZYGG6ZoqXgA1EI9b0Xb+nGjqG
+         J5Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790496209; x=1791101009;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kH5LGmE2trMrU+13M5071tiqEPhiiJkpOWdRzaL+Evo=;
+        b=PXorrxz2wTpNxlBun64dlVuLSEEkRXu1/h1L+8ktkvYPMFiypUy1IG7MJSv6bXPGa9
+         ar/AA9UK4GYMe/Vh2t2WfHCbYW2HXY7LseUlxPTt7zbeA+i79g7/Gr4R5c+2bMl032i6
+         LE1OSPVMzN9bq4pQJfuSTsgHXqHLocaZ5b6sH3FiFFHOTZEZt7SOhp+K7WsrRITgmv1+
+         QmZIS+YWrFbqx2v7dGBG+qPQMGQm7uJKd0j+CMWotMe9AKDxff1OfVvv3sxizsAkzxiH
+         nHCl9lc6tXEGxk1wxKQKxm5IU6rAfvUz/tfyJFmo0HIVWR9+NOJk/CLqtzu2Ev5sHxsg
+         N0xg==
+X-Forwarded-Encrypted: i=1; AKwUvBw2tROTLEpPwENLjsEtjZqL1WG7gDObJQANjbbLsyvKKDhT9Ota7AeLJMkrWvrQkDkH7TsYP+9riqeuuw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mTuwlUMrG52r+7g8gs3xHO6MGtQTbfembuDqoKdw5gf1zoejwP
+	EMw+4VIlerhIG9RWpffzk5+HYZdFt1gEFnsyZ8TJVUCJOJU/UUDbN8DuJo7sUvK3vrw=
+X-Gm-Gg: AYBFou3AIZ0qyouYKFcESYkTnrbXIARdrLml3eMJ7mZuTYv7cU1TABR91/NY/V5q4JG
+	TqmUkVGjB/kqUZ5ozZDTvUTZEApIy1PrYhCcRxMN1v39IeXBm9vewxWjvfpHMDAJvUA4KoGLd6O
+	ZSLy3jRmz0Dcnu/7rtborEIvUxrUWQEH2GBZM9yLZ+fcIgDntKbkb3XVxWFrc3JdGixsxANKxRl
+	CHeOf8neZT5oEdcJwhd0TXQ3CZwX368+ahyr2ZlqQRamfokpBmybKQCzTBvU/aVctPcx6CxPRq5
+	jWBpZAjAs6IcsAO9pKru6mmtMRnw9BqP49sUqT1dgu9GnGsIPsMWmh74c0pzVuWLsbFyyp1qsAe
+	eoCBlrGx0K6svTrYTlulj+utS0L9rSOOpb7S0N03zFqUYJWkXMk8lLdnY5EcleOm26bavlvGq8I
+	3bm5VHmdptk3KMsi7mE12isuyxPcUbyASm51QaASEhr1mkSe/tC1Znfs+KMchT4KXTOkfIDh7Fd
+	qzY
+X-Received: by 2002:a05:600c:4e49:b0:49d:1cc7:5ec3 with SMTP id 5b1f17b1804b1-49fe66d456cmr171785125e9.9.1790496209196;
+        Sun, 27 Sep 2026 01:03:29 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a00179c729sm63585265e9.15.2026.09.27.01.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 01:03:27 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add TAINT_DRIVER_OVERRIDE for usage of driver_override
+Date: Sun, 27 Sep 2026 10:03:13 +0200
+Message-ID: <cover.1790495516.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1283; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=4ZZ2di/+pb9o/IsfYKwMlhKyrT2armIhgZm0R4Ikzdw=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBquM3DZpAEY/1qXSx1yNsHVv4KnRSueYBYOf66H f4NSu623b6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCarjNwwAKCRCPgPtYfRL+ TmedB/wIL1pKq46pdok16UqLQfrrEc06L1+RBQndLWnrZ8UNQ/TmrVWJXZrAgdr3BPlQiu/LT8s y/6xrF/vMS/zFp7qIdnb8anTH6ixuPChaSqKC2DnX1jqkKcfFMjACp0TnAX4n8Mx91T02TysHdv 8mOCkg7/3j54MfdaS65xcMfplJNqO2KTkpp5fpgvVRquIjDU+FKDtMn2osdxaTOZvRV02pJ0TIx SOhppFGxQvDqR6bHtQvBxon93JPG/CL7EcgYBG23tMtfwTeLg0LC38uF1il7sIUrDM+fpjX1Wqn Wise8We5/fL1fQsQECI75oj/miYcTq7DLgPuqKXYJg/QSkub
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC5:EE_|CYYPR12MB8940:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ff9f9a4-2044-47f0-ac0a-08df1c216f8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|36860700016|82310400026|1800799024|11063799006|56012099006|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	9BxH/jdJrcmv0DeaoEBgb2NPS0Ifz/USVf0icHoyErLqZTFDnB1SFeNrvg2j07g3bj9kHqEr8oe8mbWN6KJntn/jjMyQ7TrP6ZhprXpg5CQrqQ/KcP3KjheAkzETUdWB7nDyuUV4B2IQV5EaYZxaPGXvnPezcwcv36T5R0tLYa4oDZFwr1LkGPUi3Bb9D9o4j5jxMYpdN9lOpMPdLkaCaL+tdlMhiZcBG8DXEIHzhJi5hm7jqwAmjvMJJlocNJELQZbEQPAVcZQGW/paO8+Brarslwnwax3ixs7/BUwSSBvHCLYgxJ9pL59/jFaCgcG3tS/Uhohrky9X90G6wzXxiyRLEx6g9Wi60aCJ5yjAvSBLa7nCf/5K1XL3FmK7jPn8jUTwrdMTCBxPwGRRDAORR+ydxtu4YOGrC5TNgaAXTJ7WqppZXBKGePwKwpHHaYD+uLxxZyaMPlN/nZOXCI390zIHphLbm0De5sxm0DHXa6Iaq6r/Ry2DRztdrSfa9WhhRiC2/BT8adH/DjrbFbHcRtnyPZKPcf1vztQ3927mdFCF+DCA89vglziD5o+X9ouZRKzDesoa6T8nMllYjxWq/c633yQHwRQBFcflmdk3Fb/8ZZiSpIu3+EDwin6WIFujjCEN9nbyABm+iO9Z7GytbqxszXHjDigo9vyWeSNyF3h8591l0+ZU+9pm95zGZdaUM+oBtDc0gZ8nDuHxH1J2rQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(36860700016)(82310400026)(1800799024)(11063799006)(56012099006)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Ucx3tL2cmLxiaTF5bmXErqpFazBZd8BMrMEFZuLqgEIhlpd8GgO5zi7FVcOhDLg5C5xsN702xrnNXEaiTnhL6Ba1x6oPtvX5OFAwIUdt4LKAozyR0xjpExjI3/gW3J8PyLaKCGCNO2+w3ph18wbwhJjYyerDTFTw06YMjaKmzHmji+P2bobwpadA1XtMKS+1H5Fl1/UsqNrUjxIOpOyGzYva9B0bPn16WCp7QVca4b0nBrtW+xiQkc4vlO6HFyxnNkiREnNbClbc2oxSFdWKKfzFgZv/gKOFTxZPM3O35qHtGjZJOuekOq3JbV1cQuzsogOviYaFdTMwNaRAe3wUiKKChfchkzvfVH7nu6t+eVYUndms45Kaho+eMfjlCqeenWj1g5HBtHpD7Ck6pvKFbWvedU/tHR4m/vpx2JP5+j0l7GmI4zOieCHWbll7l7CD
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2026 22:56:43.9995
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff9f9a4-2044-47f0-ac0a-08df1c216f8b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DM2PEPF00003FC5.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8940
 
-From: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Hello,
 
-PM_EVENT_POWEROFF (0x0800) and PMSG_POWEROFF were already defined in
-include/linux/pm.h, and pm_op(), pm_late_early_op() and pm_noirq_op()
-already dispatch PM_EVENT_POWEROFF to the same ops->poweroff*() callbacks
-as PM_EVENT_HIBERNATE.  Add the matching entry to resume_event() so that
-when a poweroff suspend sequence is aborted (for example a device's
-->poweroff_noirq() callback fails and the PM core rolls the
-already-suspended devices back), those devices are resumed with
-PMSG_RESTORE and their ->restore*() callbacks run.
+the changes since (implicit) v1 that is available at
+https://lore.kernel.org/driver-core/20260925182041.1025371-2-u.kleine-koenig@baylibre.com
 
-Map it to PMSG_RESTORE, mirroring the existing PM_EVENT_HIBERNATE
-handling.  This is correct because both events suspend via
-ops->poweroff*(), whose counterpart is ops->restore*().  Mapping to
-PMSG_ON would be a no-op: it is what the default return already yields,
-and pm_op()/pm_late_early_op()/pm_noirq_op() have no PM_EVENT_ON case,
-so they would return NULL and silently skip every resume callback on the
-abort path.
+ - new patch fixing an already existing tiny issue that Sashiko found
+ - Fix a build failure that I found before sending v1, but failed to
+   squash into the patch
+ - Added review tags by Bradley Morgan and Armin Wolf
 
-This completes the PMSG_POWEROFF infrastructure needed to support
-differentiating between hibernation and shutdown sequences when
-re-using callbacks for common code.
+IMHO this taint is superior to TAINT_FORCED_BIND, but I hesitate to drop
+the forced-bind one. On the other hand it might be better to drop it now
+(before hitting a mainline release) to not burn the used letter to
+indicate that taint?!
 
-Hibernation is started by writing a hibernation method (such as 'platform'
-'shutdown', or 'reboot') to use into /sys/power/disk and writing 'disk' to
-/sys/power/state.
+Best regards
+Uwe
 
-Shutdown is initiated with the reboot() syscall with arguments on whether
-to halt the system or power it off.
+Uwe Kleine-König (2):
+  docs: admin-guide: Handle TAINT_FORCED_BIND when parsing
+    /proc/sys/kernel/tainted
+  Add TAINT_DRIVER_OVERRIDE for usage of driver_override
 
-Tested-by: Eric Naim <dnaim@cachyos.org>
-Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
----
- drivers/base/power/main.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/admin-guide/tainted-kernels.rst | 6 +++++-
+ drivers/base/bus.c                            | 1 +
+ include/linux/panic.h                         | 3 ++-
+ include/trace/events/module.h                 | 3 ++-
+ kernel/panic.c                                | 3 ++-
+ tools/debugging/kernel-chktaint               | 8 ++++++++
+ 6 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index e130da4281410..2ed687e3e6b11 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -1471,6 +1471,7 @@ static pm_message_t resume_event(pm_message_t sleep_state)
- 	case PM_EVENT_QUIESCE:
- 		return PMSG_RECOVER;
- 	case PM_EVENT_HIBERNATE:
-+	case PM_EVENT_POWEROFF:
- 		return PMSG_RESTORE;
- 	}
- 	return PMSG_ON;
+
+base-commit: f5f84daefcd92d7a630066635ecea1433ed5eac7
 -- 
-2.43.0
+2.47.3
 
