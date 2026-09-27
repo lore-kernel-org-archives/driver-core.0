@@ -1,79 +1,56 @@
-Received: from mail-vs2-f39.google.com (mail-vs2-f39.google.com [74.125.227.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFA03B14C3
-	for <driver-core@lists.linux.dev>; Sun, 27 Sep 2026 20:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EFB3BB661;
+	Sun, 27 Sep 2026 22:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790541097; cv=none; b=mZRvpwhBSNH5I1BdvdxKq5qY/z/Yrqzmt+r9UHJoUatAx2GXiNgIrQolVWNbL5Rkb4mp0WqaTpjnmnzGUkEtnCQrVbLUKXglSKqYNmtwWqN/ZIEuI4xqLINbAtjYCwjF246VHYjdibp7Qcn3e9YGEeD+nhZNeL3FnbLXJUUgdFI=
+	t=1790549641; cv=none; b=JWyubjgMT9CF1DAsjCQzlPyz6XnrN0ig0e7xL/eBbR+ld/iHwqf4xoLYkqEn/j23C/GUkdfoziYvgSNu7L9zAXPVnwSXUQEJfs6LFb5f8NfyldXceBcjxV3muUCdNdUlQ8s1ANXKxT+r89jCqF7LVW7V4fABUMPPxENPINIbS7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790541097; c=relaxed/simple;
-	bh=ECmiUnCsuf0PP00J9EUGstc34FNcT446eF3bYmlaxYM=;
+	s=arc-20240116; t=1790549641; c=relaxed/simple;
+	bh=xC9euzdpfWQA6clWp09WVE/7sgF5HEkIjOsWgJhhgTE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZoyB6gMTGEV1JEGo0fL+SBJ+52/v9jHIqBR2UksfETgWAynoqh5X6THeENYQBOX+83DcKArjAvWX4rnbuif8eMV7SI90vdg9oRhB//C6W0nAQ+XcNusgyxDwVtoubZhjd++glTSibFSacpcE6RkDZLdCBzSCSNpX8CAXONFoJ3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMhJ+nCb; arc=none smtp.client-ip=74.125.227.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:MIME-Version; b=lujh6DGJD09q1B3ff4zuXczW+Feoyu75KGzVEUsD8cyu0ZoK/XoFAeGaq4InekaARYci93+/9V0mDgmzama9RlZ/Hj1YE2wubTONM+d4SGskl7lwafbs6W2HWbZt8r/WDhS1yHTcCBhJxOya1E+v8FkymKnVhVSfcj/wWP38Bnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=QPxsBAyX; arc=none smtp.client-ip=91.216.248.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMhJ+nCb"
-Received: by mail-vs2-f39.google.com with SMTP id 71dfb90a1353d-5cca96ec1feso650546e0c.1
-        for <driver-core@lists.linux.dev>; Sun, 27 Sep 2026 13:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790541094; x=1791145894; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+Kdmoy3jfQwTDOQRMgPKKjPEVV/7jynijwAv/AC0y/g=;
-        b=PMhJ+nCbO2mgDiqHiy1+Rwu2VBAuu+DeOEyEwaKNoCKA4Bk+X5qNaomFKhI5k4BuT/
-         mDw6mSp7eZ5ry0cfwd4DF8On0867cgzSH0dak9oROi8F0a4+jX0q5wM6sT+rzin2dPAz
-         oQfGuXFe6h8IwKmMoACXy/qoS5o425/1Itc/srEsbEr7Gr863LBNDxflLgAO025K0GTP
-         We+4A1A0RJtgfup27FgQ+xIHMupT7GRhlR70NtpweZUqQUATtprKc6SwCzaa+QvWfu1K
-         qZOzf2vRlL+a4KNgnGZDJp10oURbN50p+tFQp3A2//6kcqoydWvyxj3fY3J2R3TV0rBm
-         +4LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790541094; x=1791145894;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+Kdmoy3jfQwTDOQRMgPKKjPEVV/7jynijwAv/AC0y/g=;
-        b=OYEbYHbMkJQlByieSj9L9GTztwystZB20JWm7NxpIpeU1gcyL8H5wa1Q7q2AMmYDtq
-         NxczHWhEtevXzo6fCW0WkzJisNAwi3CDBpz1RC6txzxtgSVJu5Db35brbmHpKn/lKSUj
-         Tx02Ypn+7U/x1ee2X2NlBERpCmLZCIhcZAcjEVtkjyeoZyu2S7P78I9U5whMw4sSKJMK
-         0JN3nsAzoWYkfEi99pwccCPmqXfywHQLT1LZeECbF7zg0bEOUhcx7U/YxwkwsCRvl84n
-         LUkWLqkEb0KiadeHMLDovxCoa8GRI15Gbiazpk1pOy9rEfHl34GMWnX7G4K+UFzExqJd
-         ZcAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwTjCPu81B4sUkbYwXQEkVsSS/dquLyQGWExKJQJrZGAKct4N4ehwA5HWz7tQizrvwgW4fh6ZWzIkijkw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ4mIwptPDqUO4DmNKMB6UUM8XnIemluK2FEhg9ahOXRW7Oe5kn
-	ldP5sDnnMF72MhjwWBVjx09WHaG8iUWdxT7Eue8bMA8iVrhgunAjB71i
-X-Gm-Gg: AYBFou2SHYoQW0xUuSlRMXxW7tT8fhXOAXnCI3dKC96F7G5ojR4NckDaJqZ1lZZzm9k
-	RvNBd938dMrbqZNmxgCyX6sjAwTdhwpuO6Ebm7Lxn9ejfXXM1kNvHQUjbvD4Qea9a7iI6TPwe5M
-	eYdUKu8beAcUW1J0zrgrS8TS27Xr7XU9DgHwV3QE6tEVIJeyJuRo6o4ekYOGJmWOPogBlWz9PWG
-	eH/C6cr6mOxc0E1+Ycg/ySaN6owRT43625Pu4sG6/5LQCq5B1gYZB6azhCx5v/v5tnYWi0DICR0
-	WUQQ+l8XQ8wFX16RL3k0vFW8Y7zRFgBp6JHbqXKq+JVqEGvYvHPbeYHq81sgRPdTX5cv700RQKC
-	JQL76M98krGA9oDWwKvvNNN7HPnqIpcULY72lAS7KE6k03BYNvoihnKT63W+wXHYlNSyvbsNuwq
-	VelYBgrCQ/vLl6CFixClco2ABgm6n4DARaf8KM9eKc1cU2Dqo6wmJrgERzGtFxDgA=
-X-Received: by 2002:a05:6122:3d10:b0:5c9:a618:bbf7 with SMTP id 71dfb90a1353d-5cb0c628f53mr4928551e0c.23.1790541094465;
-        Sun, 27 Sep 2026 13:31:34 -0700 (PDT)
-Received: from beelink.. ([187.13.30.172])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5cde4f99222sm6419782e0c.4.2026.09.27.13.31.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 13:31:33 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: johan@kernel.org,
+	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="QPxsBAyX"
+From: Matteo Kloiber <kernel@matt3o12.de>
+X-Lima-ML-UUID: 7b21bed0-f515-40d2-8fad-e214b5c9faf0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
+	s=securedbylima-20230709; t=1790549158;
+	bh=xC9euzdpfWQA6clWp09WVE/7sgF5HEkIjOsWgJhhgTE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QPxsBAyXObGEqRuVtVwk+kG/MmUHlCLH7ftmtL5BWr2j8oaZf0M4V9Q3kIBZ9zV+2
+	 uylOzjCrgcHThRhe5hs4jq2HvGiNof6YkMwPPkWx3ToNAJplgp+cp0SpLJ0eZShIhP
+	 cL9aqqpJMKK1jiCRLqPoDgiKaEH3N2yN8bY7vVrd8qp8ScHRVQw3QGZxZ9UKv/+oAR
+	 xLVSKeXX1+T/jtMI9IQloUVQvaHzI/703WAmDE/7Jdc8d2wO5bvZAMStVQq6a1vbR5
+	 RNVGTGvhjnpL8x33L1GqLVpWnHzdQflfLmVHlzU0CgiRtDVX2EmxDPhXofOm2Jdl3V
+	 I/ygm44GFUvqA==
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	aliceryhl@google.com,
+	ojeda@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	abdiel.janulgue@gmail.com,
+	daniel.almeida@collabora.com,
+	a.hindborg@kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
 	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	sashiko-bot@kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Subject: Re: [PATCH v4 1/2] debugfs: fix use-after-free in debugfs_read_file_str()
-Date: Sun, 27 Sep 2026 17:31:24 -0300
-Message-ID: <20260927203124.2060754-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026092720-sandblast-heroism-30c8@gregkh>
-References: <2026092720-sandblast-heroism-30c8@gregkh>
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum segment size
+Date: Mon, 28 Sep 2026 00:44:43 +0200
+Message-ID: <20260927224446.1053037-1-kernel@matt3o12.de>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <DLHH0K25NLX5.616R4D860TXU@nvidia.com>
+References: <20260831233215.287881-1-kernel@matt3o12.de> <20260831233215.287881-3-kernel@matt3o12.de> <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com> <20260913210806.125589-1-kernel@matt3o12.de> <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com> <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org> <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net> <ea8caba1-eb78-40cd-b025-e8c02009f2d7@arm.com> <DLF2GNSEGHKR.2UI219W5RK94F@garyguo.net> <DLF3BLOLU8HS.1AXNNXWVQUFNU@kernel.org> <DLHH0K25NLX5.616R4D860TXU@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -82,43 +59,163 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 27, 2026 at 06:37:40PM +0200, Greg Kroah-Hartman wrote:
-> Please don't use a LLM to write a changelog text without crediting it :(
+First of all, thanks for merging my first two patches and sorry about my late reply.
 
-To clarify, I did use Claude Code during the process, but only as an
-additional reviewer for spelling and grammar, minor rewording, formatting,
-and as a sanity check for obvious mistakes.
-I wrote the patch and changelog myself, and the technical analysis,
-implementation, KASAN testing, reproducer, and verification were all done
-by me.
-I should have been clearer about that when you asked earlier, apologies.
-Given that limited use, would you still prefer that I add an Assisted-by
-tag for the LLM in v5?
+What I think Alex meant and what I agree with is that the new API should focus on
+making semantic bugs harder, not to necessarily make it easier to write safer
+drivers. That being said, I think we can do both with this change.
 
-My background is security research -- I spend most of my time auditing
-code for memory safety issues and race conditions, among other things,
-which is how I ended up looking at this code after sashiko flagged the
-missing RCU protection.
+The key change here is that we introduce a structure that defines dma
+parameters for a device. This structure deliberately has no default
+implementation and new fields should be added even if they require changes for
+all dma drivers.
 
-> This is probably not right, don't do loops like this.  Either fail or
-> succeed, don't loop.
+```
+pub struct Params {
+    pub streaming_mask: DmaMask,
+    pub coherent_mask: DmaMask,
+    pub max_seg_size: NonZeroU32,
+}
+```
 
-Agreed.  I'll follow Danilo's guidance from [1] and keep the
-implementation simple -- single allocation with GFP_NOWAIT, no retry.
+Suppose, we didn't have `max_seg_size` before and only discovered it later. We
+would add it and the compiler would guide us to any drivers that will need to
+consider an appropriate value for `max_seg_size`.
 
-> Again, let's see the real use case here, what is hitting this in
-> userspace today and what debugfs kernel files are causing it?
+If rust was bigger in the kernel, this could be quite a bit of work, requiring
+coordination with other maintainers, but I would call this a feature because it
+actually requires everyone to at least consider what the right value is instead
+of forgetting to set it.
 
-The writable callers in mainline are:
+The same is also true for new drivers. Authors do not have to be omniscient of
+all dma related settings and instead just fill out the struct and already have
+some important ones set.
 
-  drivers/interconnect/debugfs-client.c  src_node/dst_node (0600)
-  drivers/soundwire/debugfs.c            firmware_file (0200)
+If a parameter is only important for some drivers but those drivers should not
+forget it, we could make it an Option so that drivers that really don't need
+a parameter can set it to `None`, but they had to think about it at least.
 
-I am not aware of this being hit in the field.  The race exists
-because the write path uses synchronize_rcu() + kfree() but the
-read path does not hold rcu_read_lock().
+I think, instead of discussing different possibilities, it might be easier to
+discuss code directly. Taking Alex's example, I went ahead and wrote a small
+LLM assisted PoC. I'm happy to share it here or in another thread, but here are
+the main changes:
 
-[1] https://lore.kernel.org/driver-core/DLPDB44JJRGJ.3K6JNS746M7QC@kernel.org/
+1. The PCI and platform probe callbacks receive a unique setup token:
 
-thanks,
-Aldo
+```rust
+    fn probe<'bound>(
+        dev: &'bound Device<device::Core<'_>>,
+        dma: dma::Setup<'bound>,
+        id_info: Option<&'bound Self::IdInfo>,
+    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
+```
+
+The bus driver creates this token and drivers cannot obtain another one from
+the device. 
+
+2. `setup.configure(params)` consumes the token, applies the parameters through
+   the C DMA setters, and returns a `dma::Handle<'bound>` on success.  This
+   combines the setters and `finish()` from Alex's outline into one call.
+
+```
+pub fn configure(self, params: Params) -> Result<Handle<'bound>> {
+    let dev = self.dev.as_raw();
+
+    // SAFETY: `dev` is valid and its DMA parameters are initialized by the bus. The `Setup`
+    // invariants exclude concurrent DMA operations and other parameter setters. Consuming
+    // the unique token prevents reconfiguration after a handle has been issued.
+    unsafe {
+        to_result(bindings::dma_set_mask(dev, params.streaming_mask.value()))?;
+        to_result(bindings::dma_set_coherent_mask(dev, params.coherent_mask.value()))?;
+        bindings::dma_set_max_seg_size(dev, params.max_seg_size.get());
+    }
+
+    Ok(Handle { dev: self.dev })
+}
+```
+
+3. The handle contains a bound device reference and is copyable, but provides
+   no way to reconfigure DMA:
+
+```rust
+#[derive(Clone, Copy)]
+pub struct Handle<'bound> {
+  dev: &'bound device::Device<Bound>,
+}
+```
+
+4. Allocation and mapping APIs now require a Handle. 
+
+For example, scatter list now takes:
+
+```
+pub fn new<'a>(
+  dma: dma::Handle<'a>,
+  pages: P,
+  dir: dma::DataDirection,
+  flags: alloc::Flags,
+) -> impl PinInit<Self, Error> + 'a {
+```
+
+The PoC uses Handle for coherent allocations, owned scatterlists, and DRM
+scatterlist mappings.
+
+5. Each pci/platform driver that uses DMA configures its own `Params`. Let's
+   look at `samples/rust/rust_dma.rs`:
+
+```rust
+fn probe<'bound>(
+    pdev: &'bound pci::Device<Core<'_>>,
+    setup: dma::Setup<'bound>,
+    _info: Option<&'bound Self::IdInfo>,
+) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
+    pin_init::pin_init_scope(move || {
+        dev_info!(pdev, "Probe DMA test driver.\n");
+
+        let mask = DmaMask::new::<64>();
+
+        let dma = setup.configure(dma::Params {
+            streaming_mask: mask,
+            coherent_mask: mask,
+            max_seg_size: const { NonZeroU32::new(u32::SZ_64K).unwrap() },
+        })?;
+
+        let ca: Coherent<'_, [MyStruct]> =
+            Coherent::zeroed_slice(dma, TEST_VALUES.len(), GFP_KERNEL)?;
+
+        for (i, value) in TEST_VALUES.into_iter().enumerate() {
+            io_project!(ca, [panic: i]).copy_write(MyStruct::new(value.0, value.1));
+        }
+
+        let size = 4 * page::PAGE_SIZE;
+        let pages = VVec::with_capacity(size, GFP_KERNEL)?;
+
+        let sgt = SGTable::new(dma, pages, DataDirection::ToDevice, GFP_KERNEL);
+
+        Ok(try_pin_init!(Self::Data {
+            pdev,
+            ca,
+            sgt <- sgt,
+        }))
+    })
+}
+```
+
+What I am not 100% sure about is how we should handle drivers that don't use
+dma. Currently I just discarded the setup token like suggested, for example
+`samples/rust/rust_driver_auxiliary.rs`:
+
+```rust
+impl pci::Driver for ParentDriver {
+  fn probe<'bound>(
+    pdev: &'bound pci::Device<Core<'_>>,
+    _dma: kernel::dma::Setup<'bound>,
+    _info: Option<&'bound Self::IdInfo>,
+  ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound { ... }
+}
+```
+
+But maybe it would make sense to introduce a C API such as: `debug_no_dma` and
+have the bus call it unless configure was called first. This would then trigger
+a debug warning if a marked rust device calls any C APIs that use DMA
+regardless. But this could also very well be a worthwhile follow up.
