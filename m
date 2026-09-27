@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD7D41D125;
-	Sun, 27 Sep 2026 17:00:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8E02D5937;
+	Sun, 27 Sep 2026 17:12:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790528409; cv=none; b=ppKgArbwOc66SSdHyZnZ3JFcEPmOgR+BOFWa/RWysQyKuRQl7qu15xV+LaEHNgpksC8iq5OaMiYKN085F3yedVm7SmmA++o8pHW5NmTrqlN4EVLd4arqI/61OxGr3aGcoCmyulW+G/0X53JLadBYM/3RlcatIk90Cd9w4BBVvG0=
+	t=1790529129; cv=none; b=ZtzvDkecQLPiNGp+n3x8UuqKKHAdiYwuGsd1gLfPOr618JFBeOUl3F+90ZzBRH3ukaqpbz3LPvqhiurWfngqJ1wxteVoxFIM3Np4PpGjNrIrrstyZnEjFtzvXXpj6ZCAMrTzdz/ecGR5mWJGv+BvlSSMuFaNGW2IW0Q5VF86pnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790528409; c=relaxed/simple;
-	bh=sG5OmntsyQY2kGG1RL/Mk3RTQOOCAyi5JOZOM3WSASU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=RhdEqG9qJ+pfpacWKfvZ0oieziH5j4n9tqzDNgQB7IXjTcpFY4nVBq37Qlg8PXLguarMA5WkbtCBNDdBEc++hDypwuBMspDlH5fiDNVLXgNYVHcQLcMBpkh9tyGIP1uPVCBifd1PPxvM5YJ9yGFDUVuyHCt853jcfaO3kWLmh0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkrAKeup; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790529129; c=relaxed/simple;
+	bh=l2rdfyuPF2zzfUOT3dDgb10HJN+CTB0CbkCjWUMcnj0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=UMuQy3+JFdJtz6svL0BbKJZ7+aA1uzcGNNcr3A3tAy/puJlXs9nPccl7jwJYHhuHfhzbtWCHXrrsr+ndvvdlUUEyqymYNvkrMHgmheITRO+zqB45OTVARXWE0pl3rIgmKs3pfyOQ1BhjmK1S44g8E9f/iomdu/YVPeO+QycRHxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SuxHZEKd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkrAKeup"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EEFF1F000FF;
-	Sun, 27 Sep 2026 17:00:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SuxHZEKd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7661F000FF;
+	Sun, 27 Sep 2026 17:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790528407;
-	bh=pig8rHiI3gmS1VE5nWeQKVUAxumenyXFLI/BlsZUFV8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=QkrAKeupWsSokXmcfGZlH1waDtv2HQGQ2Dwn09VAhiNsuYCFY7ggrbQIcIbESIsfU
-	 DlBuqxB5XDkZV9dkRkcz5FbVNvnoey5mDZJrAHkU6V4zy11Z7UdBm+wCEUY7jXMJQ7
-	 HGNago4SfCatPlqjFVUWNV8pUdVRhJrXQfGIZDbOJ4N4knN2liCowcIkrHgbhwzbFe
-	 n3Kzm6CP9hTP2E+Y6AgdxXTakQjRnGOfiMjr0SuFeN7Au85i8l05hDzblbWCxgVq8R
-	 R/Co6JUnjIhCEFuRgUUGluSzzJ8g/EYpqhZSyr0VGWS3gnOU/Sq2vdtOZfmfh+lQwr
-	 18TPGAONa7T6w==
+	s=k20260515; t=1790529128;
+	bh=DN8VjDZQcUARJxOzypVnhQuk4bQIW1/LaeRVnuefdhA=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=SuxHZEKd12HuABQoVmKdtypHJaHvdUmTj8zBolY9FVMubi3Mv4FC5aFZYflwCA8Eu
+	 E4eul18dJZma40f3BB2mnlNi4LZOmH5LtZ3Vpf9ND0iNt0yFNn8HcEe301H50cBUZt
+	 QipMzwTxV/ZAlXnfTqrfvhnf5eEGPJl1fTL83WNoI32wY0rFIqAEVlZUnzunYOMNUe
+	 PLqdJJbdDaA9w4Ly1xOmLTOYKA/3Ditrs3owQhYjRt5sPw73qzHyP0nPLaL/LjqIHI
+	 soS/ofU6DplEd2PzR4cY7lxd89gVmjLP1D6ZBYUnafr29aL8jIe6riQHu0iLPH24ig
+	 tsx5XvPsTIkSg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,52 +34,41 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 27 Sep 2026 19:00:04 +0200
-Message-Id: <DLQ9CHM33ZFK.3HZOB0LIGXGVT@kernel.org>
-Subject: Re: [PATCH v4 1/2] debugfs: fix use-after-free in
- debugfs_read_file_str()
-Cc: "Aldo Ariel Panzardo" <qwe.aldo@gmail.com>, <rafael@kernel.org>,
- <johan@kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, "sashiko . dev"
- <sashiko-bot@kernel.org>
-To: "Greg KH" <gregkh@linuxfoundation.org>
+Date: Sun, 27 Sep 2026 19:12:04 +0200
+Message-Id: <DLQ9LOHGKFWY.2L399J3OOVOCM@kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <DLPDB44JJRGJ.3K6JNS746M71C@kernel.org>
- <20260926195844.1296333-1-qwe.aldo@gmail.com>
- <20260926195844.1296333-2-qwe.aldo@gmail.com>
- <2026092720-sandblast-heroism-30c8@gregkh>
-In-Reply-To: <2026092720-sandblast-heroism-30c8@gregkh>
+Subject: Re: [PATCH v2 2/2] Add TAINT_DRIVER_OVERRIDE for usage of
+ driver_override
+Cc: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, "Johan
+ Hovold" <johan@kernel.org>, "Aaron Tomlin" <atomlin@atomlin.com>, "Bradley
+ Morgan" <brads@mainlining.org>, "Thierry Reding"
+ <thierry.reding@kernel.org>, "David Lechner" <dlechner@baylibre.com>,
+ "Armin Wolf" <W_Armin@gmx.de>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-trace-kernel@vger.kernel.org>
+References: <cover.1790495516.git.u.kleine-koenig@baylibre.com>
+ <01d7a085e56b860e83b65c96ff3dd86c4498804b.1790495516.git.u.kleine-koenig@baylibre.com> <DLQ0BIYP96RN.Z0L5I17RQMRQ@kernel.org> <2026092702-negation-stoppable-b86e@gregkh>
+In-Reply-To: <2026092702-negation-stoppable-b86e@gregkh>
 
-On Sun Sep 27, 2026 at 6:37 PM CEST, Greg KH wrote:
-> This is probably not right, don't do loops like this.  Either fail or
-> succeed, don't loop.
+On Sun Sep 27, 2026 at 6:50 PM CEST, Greg Kroah-Hartman wrote:
+> Huh?  That feels wrong, can't we fix s390 and spi instead?  Ok, maybe
+> not s390, but why is spi doing that?
 
-Please see [1], where I listed a couple of alternatives (e.g. use GFP_NOWAI=
-T and
-accept allocation failures).  I'm not very opinionated about which of the
-options we use, but GFP_ATOMIC seems wrong for this.
+Solely to preserve SPI's existing output; when driver_override is unset, SP=
+I has
+always printed "\n", whereas most other buses print "(null)\n".
 
-> Again, let's see the real use case here, what is hitting this in
-> userspace today and what debugfs kernel files are causing it?
+I.e. SPI previously did
 
-Not sure if this was hit in the field, but in any case, the reader lacks th=
-e RCU
-read-side critical section required by the writer's reclamation.
+	sysfs_emit(buf, "%s\n", spi->driver_override ? : "");
 
-As mentioned in [1], there is also a separate caller-side race in SoundWire=
- [2]:
-nothing prevents a concurrent write from freeing the string while
-request_firmware() is using it.
+now it does
 
-This is also why I think the API is a bit of a footgun. Fixing the debugfs
-reader won't address these caller-side accesses; something like the synchro=
-nized
-accessors suggested in [1] could address the broader API issue.
+	sysfs_emit(buf, "%s\n", dev->driver_override.name ?: "");
 
-Thanks,
-Danilo
+and the driver core does
 
-[1] https://lore.kernel.org/driver-core/DLPDB44JJRGJ.3K6JNS746M7QC@kernel.o=
-rg/
-[2] https://elixir.bootlin.com/linux/v7.2.7/source/drivers/soundwire/debugf=
-s.c#L268
+	sysfs_emit(buf, "%s\n", dev->driver_override.name);
+
+The driver-core behavior matches most other buses (except SPI and AP).
+Switching SPI to it would have changed the userspace-visible value.
