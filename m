@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40F329D26E;
-	Sun, 27 Sep 2026 10:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF5F253951;
+	Sun, 27 Sep 2026 14:07:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790503440; cv=none; b=tBOjk05xTQb+DsoCU2mA7/bOlSmBXMKi8GTh2rrtZ9UvP04qxe1d8IGZitCSISzcJrkZms5JyiFHPm/aGatKz58FJiSDg3xRsE+DtKT0n4bT3LeE5KyCPPLrNwRqKmRIqCU4tUnOWyLd67sRDEFbK88uWZFntv17FidjrqO8DSM=
+	t=1790518054; cv=none; b=qLW0lLvRkmk+03ADFm3QV2sUEfjiSl8hNF3D99Om8jENfXVOxD1IaJyIbCuzq1UJzE1BFZ7L0DvLxhnW6HUPNB0FYLrXppAMQ14QT9C/DotvsmPqMmRhfuj2GDl8RbODVYhM52m46CPEk46TEYPlKVNArX32toZvc7UKPXYIYkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790503440; c=relaxed/simple;
-	bh=4KGLi4gSyELeGxSkDuzjSrP89T8TGx3u4g3+Iu7u2Bg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=h40NlHyVytuHdDokGcVbGzOCHzSAQLU4TXBMh4HSbdqk+bYdeVZZ3pGOIIYoBP/q5s9yZJ22UsGkHhNDydG2909u0aB5/tfWypp158wGjbqC2CSDfC2pqnXfBkOOHSPbaGlaF+O3wW9bKCApmoYsaj5KcozRQ606dLGAPDrt1ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fwYAqKWa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790518054; c=relaxed/simple;
+	bh=4XxtY1joI+GxK7rNlfy/ULaHWIihMCj3oltfCGsOwts=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From; b=nyCb1zXKgWhqvC9WNWNhZafOZoXYfo3rshL17Uy4lfCVKnxngFISD3uIM+ILK0XEW4DOIwkzinodtwE5vRGyJYZ4z++NgKjZ9BaZtei0P9Bet+WJFdh811J4ATS7Hgf0IZXsbKytcshCm5NH4qJ0OXLntAy/B9oKVV2bHnXYWIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAahmdhu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fwYAqKWa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D4A1F000FF;
-	Sun, 27 Sep 2026 10:03:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAahmdhu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB371F000FF;
+	Sun, 27 Sep 2026 14:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790503438;
-	bh=vSAEpTH9DBndtzCbmrq/IUQLiscwjOxqMlpY9CqtZVo=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=fwYAqKWazJD73aQHbtuhcIxGbu9/F3SSGHR7G/Bv/Vlrs7CZ/5TT6xEBfQL9AOzzr
-	 WPzYqW+TILeSfO6ZU1nLjjClxds6MoIxmUiaiM8wvoCi3FcQ3/JeiL6F2tgka42lBA
-	 g3KfjQ2LIpXzkHwFKulXWT6KkuXfkyhFaJAuAZIJ1Lv4d3ymYkkGMCqrtTVJvFg3iG
-	 SJBgFMc0OpZsWFS58yJFAgZM0idNpggMJDn4KObNgzD+L9XsyTxTuRiymSnXQh/xKa
-	 1AdoxiPuKIjply4THmitca8YoOPiL6QwQeVhs+S6XjVuO9a9JTMoGwmxFS+T2WTA5x
-	 Wsb2NeSHC6Tsw==
+	s=k20260515; t=1790518052;
+	bh=2WioDkk6Q69qVFg/TCcbAyo5qjY6ls9WVGEgvrPuON8=;
+	h=Date:Subject:Cc:To:From;
+	b=WAahmdhuvWlEpWXvJb2p4o+K740q2VMlGEur4rv42QmeNBq5UaU6IPXxbOqJWqM7q
+	 Ywwk9b3pVnzDaRnwzZC32ENvVEKx6WE+d/c0U3hLuNzlY2Vq7mHlK+wjFyvhJoRZmF
+	 S36/i+s54FY0KeuaPN7gNHI3Ugr6Torbm8RsisEVR6HuSG5CXcXvXeDi5/FytAOTIy
+	 nrlL5LZJ9JTTLTvqcwrtRGVfT5QyAHrnAk689UzhTJ9htfu66zOeRRmxlMB4BnlijZ
+	 oFyuqmFPkSSCFMp7ZIVqIvosyKLwKkSXy+rAbcG4Ra9reEDAk6ZFkY3wo0UG5y9blH
+	 4VdlOko2i217w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,78 +33,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 27 Sep 2026 12:03:54 +0200
-Message-Id: <DLQ0HUM8AV99.3DNY5MRA2AZSO@kernel.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Date: Sun, 27 Sep 2026 16:07:29 +0200
+Message-Id: <DLQ5OCF91IVM.1KEJWJ4BPRT27@kernel.org>
+Subject: [GIT PULL] Driver core fixes for 7.3-rc5
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Saravana Kannan"
+ <saravanak@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+To: "Linus Torvalds" <torvalds@linux-foundation.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 2/2] Add TAINT_DRIVER_OVERRIDE for usage of
- driver_override
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
- <johan@kernel.org>, "Aaron Tomlin" <atomlin@atomlin.com>, "Bradley Morgan"
- <brads@mainlining.org>, "Thierry Reding" <thierry.reding@kernel.org>,
- "David Lechner" <dlechner@baylibre.com>, "Armin Wolf" <W_Armin@gmx.de>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-trace-kernel@vger.kernel.org>
-References: <cover.1790495516.git.u.kleine-koenig@baylibre.com>
- <01d7a085e56b860e83b65c96ff3dd86c4498804b.1790495516.git.u.kleine-koenig@baylibre.com> <DLQ0BIYP96RN.Z0L5I17RQMRQ@kernel.org>
-In-Reply-To: <DLQ0BIYP96RN.Z0L5I17RQMRQ@kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 
-On Sun Sep 27, 2026 at 11:55 AM CEST, Danilo Krummrich wrote:
-> On Sun Sep 27, 2026 at 10:03 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
->> Commit fcbfaffee51a ("driver core: add TAINT_FORCED_BIND for when
->> userspace manually messes with devices and drivers") introduced a taint
->> for usage of bind/unbind sysfs files that manually trigger driver probe
->> and remove respectively.
->>
->> For drivers that do their resource management correctly (which is also
->> needed for module unloading) bind and unbind for matching devices are
->> not critical operations. The thing that makes bind and unbind unsafe is
->> that drivers can be forced on devices that originally don't match using
->> driver_override. The result is that e.g. of_device_get_match_data()
->> returns NULL despite all .of_match_table entries having a non-NULL
->> .driver_data member which yields a NULL pointer exception for several
->> drivers. And given that after setting a driver_override a manual bind is
->> only one way a driver can be bound to an unexpected device, a separate
->> taint for such an override is justified.
->>
->> Reviewed-by: Bradley Morgan <brads@mainlining.org>
->> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
->> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
->
-> Suggested-by: Danilo Krummrich <dakr@kernel.org>
-> Link: https://lore.kernel.org/driver-core/DLIL9H50MALI.3JROXYEEUM3KU@kern=
-el.org/
->
->> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
->> index c51ad96d4de4..7d5dc016a457 100644
->> --- a/drivers/base/bus.c
->> +++ b/drivers/base/bus.c
->> @@ -513,6 +513,7 @@ static ssize_t driver_override_store(struct device *=
-dev,
->>  {
->>  	int ret;
->> =20
->> +	add_taint_module(NULL, TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
->>  	ret =3D __device_set_driver_override(dev, buf, count);
->
-> There are buses (such as SPI) which unfortunately have to call
-> __device_set_driver_override() directly.
->
-> I think it would be better to move the taint into __device_set_driver_ove=
-rride()
-> and properly document the purpose of __device_set_driver_override().
+Hi Linus,
 
-Of course I meant to say to create a new forwarding function for this purpo=
-se,
-such that we do not taint for device_set_driver_override().
+Please pull this driver-core fix.
 
-Maybe device_store_driver_override() or device_set_driver_override_store()?
+Thanks,
+Danilo
 
-> It only exists as SPI and AP are a bit special; both print "\n" when
-> driver_override is not set, whereas all other buses (and thus the driver-=
-core)
-> produce "(null)\n" in this case. I.e. it should never get any new users.
->
-> Thanks,
-> Danilo
+The following changes since commit df2908090cda368b01ff43709f51890076c56157=
+:
 
+  Linux 7.3-rc2 (2026-09-06 15:07:20 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
+ tags/driver-core-7.3-rc5
+
+for you to fetch changes up to 77be3641f3e3a56e42a5ed889372ef395a933f3c:
+
+  debugfs: don't warn about uninitialized debugfs for an error parent (2026=
+-09-11 23:13:07 +0200)
+
+----------------------------------------------------------------
+Driver core fixes for 7.3-rc5
+
+- Suppress spurious "debugfs is not initialized yet" boot warnings when
+  the caller passes an error parent to debugfs file creation; callers
+  propagating an earlier failure should not trigger the warning
+
+----------------------------------------------------------------
+Mikhail Gavrilov (1):
+      debugfs: don't warn about uninitialized debugfs for an error parent
+
+ fs/debugfs/inode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
