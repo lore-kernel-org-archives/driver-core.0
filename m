@@ -1,110 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C522641C2FB;
-	Sun, 27 Sep 2026 16:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B22041A55D;
+	Sun, 27 Sep 2026 16:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790527065; cv=none; b=jFkmoYOHX+THMjg3tHi/JYgRWMLR5lEIApt3Rl9w6XE3vwla/HEjQ7jANiNPtrEiCqqhwXT0jZfGWd43n3Inb9q70f512y2DdQqc53soTw+M9QvVQB26Gb6DYSk9E1ClR5ybonlhOIy00H2tciv1VFWmqJNZJOTDWC+XsfHAf8k=
+	t=1790527180; cv=none; b=uGS4VJYILNBk6cFvm/+zGsuWp8XTuLTs0IXb8xRiTPGWw7vYYbgSYRZC0ZhPv1hJHv9/r73giwD2o3hzqWcxwWgPleRSEOEAonYityminphIzIIt7KOfF3tDkeoQ2EZ2900BnLG8YU1JjPSUYYJDAs4One8RioRqurh/GMDs4/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790527065; c=relaxed/simple;
-	bh=M/NFzj8OEFrNGPQuuo4fGjDtu5l7gJnd8bMxL+lqVeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2J02jfaNCu6NXwPDqv+BrTqD4tEy3JgvF9MdPTLOJHqZwVuuffrubiU4ymc9aA4lwAhOXVMUdZsOZ2vCFDJjl2mWpAen2bo8B2/HnkbkANhqXidKs/jFuSRmrn5sasxefVvfZiOjvp3WCW0+ru1/hq6fCoHXLPS2Pq79yZ5foY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tGe7M+PN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790527180; c=relaxed/simple;
+	bh=FhQzjK+6z6ZIUkFNOPKFSAT+3V/h1heXwjRcjUeTUH0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j5hnBnhTi4dalEeqedlCufrzO2S3cRHoVIb0arhtGYqGcCPQ0NuZRdKHtF7edKR0MPDI2Nh+qlgV7rFjh+8k249+Gn6BcLO8vQ5BZMMh/FS6Dafp3GVLj9pwuSjPhYn3GEJtuClFmuYtHP1Y7EU/R7suOJN7GRs1I08nrxIRinY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DiskZ7hW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tGe7M+PN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1862A1F000FF;
-	Sun, 27 Sep 2026 16:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790527062;
-	bh=1AWgvTM+pZyE6W5mmvnna6CoVJIc9soTBPvNd+0KX7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tGe7M+PNSOwmicDEoEp1ZZdlvKdW9wWXG9qUznp7c/T82LcMw7F04m04YMJSwQMMr
-	 qufm2LElMfz3UnVxa7ivTB3ilxXRUV6UmJelwts93Fy7/dFeLZ4QTYhN/0ZjB7eeSl
-	 KpGHhZaqlG60mgJxQoIGWV9nkEH5+P6N1bl578Mk=
-Date: Sun, 27 Sep 2026 18:37:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Cc: rafael@kernel.org, dakr@kernel.org, johan@kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, "sashiko . dev" <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v4 1/2] debugfs: fix use-after-free in
- debugfs_read_file_str()
-Message-ID: <2026092720-sandblast-heroism-30c8@gregkh>
-References: <DLPDB44JJRGJ.3K6JNS746M71C@kernel.org>
- <20260926195844.1296333-1-qwe.aldo@gmail.com>
- <20260926195844.1296333-2-qwe.aldo@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DiskZ7hW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=SpN6W4lEFND+VB5enmbsYW3nADzfTCDefHGu6aNuhLI=; b=DiskZ7hWcTpUGtBR+tqkbK0ts1
+	wJKx0tOjugHbL2qFHlP1MVHuvHstCvHwOnRSKgjaZn6h955HQ/gFjeZv59EHMfJjZXhdGoZW74NX5
+	x0GVkbo+uHOfuo89K0DvDQKerl5RCEnij76Cp5t7u5lgPxYDm+uVlQsqmTMna6PaZQORd/UrqGEgG
+	CSgPZeCMpfwb6mWFaFFmT13baDfzLZV3uXzeeKKA7yC6oIndMxgv4GorxglzHfpSeghhlY8nZd0yU
+	ZbcVZOXxPg5NMTP+pdNnfkpYhtCVfSm0TlwPBSiVdf4yzuUGRvmrjLjX4FfPkd0gE6XKzaADONxHl
+	fnCqNjxg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xAruS-0000000GblG-3LYl;
+	Sun, 27 Sep 2026 16:39:28 +0000
+Message-ID: <ff6eb658-3930-47d5-9d5d-3e9460d7c0d3@infradead.org>
+Date: Sun, 27 Sep 2026 09:39:22 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260926195844.1296333-2-qwe.aldo@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs: admin-guide: Handle TAINT_FORCED_BIND when
+ parsing /proc/sys/kernel/tainted
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ Bradley Morgan <brads@mainlining.org>, Danilo Krummrich <dakr@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org
+References: <cover.1790495516.git.u.kleine-koenig@baylibre.com>
+ <4f89ceaf98172dbfb788832ad3204c8739653b31.1790495516.git.u.kleine-koenig@baylibre.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <4f89ceaf98172dbfb788832ad3204c8739653b31.1790495516.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 26, 2026 at 04:58:43PM -0300, Aldo Ariel Panzardo wrote:
-> debugfs_write_file_str() publishes a new string pointer via
-> rcu_assign_pointer(), waits for a grace period with synchronize_rcu(),
-> then frees the old string.
-> 
-> debugfs_read_file_str() dereferences file->private_data without holding
-> an RCU read-side critical section: it loads the pointer, calls strlen()
-> on it, and then copies the string.  If a concurrent writer completes
-> synchronize_rcu() and kfree()s the old string between the load and the
-> use, the reader accesses freed memory.
-> 
-> Fix by measuring the string length under rcu_read_lock(), allocating
-> with GFP_KERNEL outside the critical section, and then copying with
-> strscpy() under a second rcu_read_lock().  If the current string no
-> longer fits the allocated buffer, retry with a PAGE_SIZE allocation
-> which is the upper bound enforced by the write path.
 
-Please don't use a LLM to write a changelog text without crediting it :(
 
+On 9/27/26 1:03 AM, Uwe Kleine-König wrote:
+> tainted-kernels.rst contains a small script to check which taint bits
+> are set in /proc/sys/kernel/tainted. Add one more loop iteration to also
+> handle the newly added TAINT_FORCED_BIND bit.
 > 
-> Cc: stable@vger.kernel.org
-> Assisted-by: sashiko.dev <sashiko-bot@kernel.org>
-> Signed-off-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+> Also simplify by starting the loop at 0 and save substracting 1 for each
+> usage of the loop counter.
+> 
+> Fixes: fcbfaffee51a ("driver core: add TAINT_FORCED_BIND for when userspace manually messes with devices and drivers")
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks.
+
 > ---
->  fs/debugfs/file.c | 39 +++++++++++++++++++++++++--------------
->  1 file changed, 25 insertions(+), 14 deletions(-)
+> Hello,
 > 
-> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-> index 08de6652a..f9a1f7739 100644
-> --- a/fs/debugfs/file.c
-> +++ b/fs/debugfs/file.c
-> @@ -1018,7 +1018,7 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
->  			      size_t count, loff_t *ppos)
->  {
->  	struct dentry *dentry = F_DENTRY(file);
-> -	char *str, *copy = NULL;
-> +	char *str, *copy;
->  	int copy_len, len;
->  	ssize_t ret;
+> feel free to squash this into fcbfaffee51a without author attribution if
+> that is considered a good idea.
+> 
+> Best regards
+> Uwe
+> 
+>  Documentation/admin-guide/tainted-kernels.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index abbf5e3dd749..a208811ad525 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -74,7 +74,7 @@ a particular type of taint. It's best to leave that to the aforementioned
+>  script, but if you need something quick you can use this shell command to check
+>  which bits are set::
 >  
-> @@ -1026,26 +1026,37 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
->  	if (unlikely(ret))
->  		return ret;
+> -	$ for i in $(seq 20); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
+> +	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i&1));done
 >  
-> -	str = *(char **)file->private_data;
-> -	len = strlen(str) + 1;
-> -	copy = kmalloc(len, GFP_KERNEL);
-> -	if (!copy) {
-> -		debugfs_file_put(dentry);
-> -		return -ENOMEM;
-> -	}
-> +	len = 0;
-> +	for (;;) {
+>  Table for decoding tainted state
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is probably not right, don't do loops like this.  Either fail or
-succeed, don't loop.
-
-Again, let's see the real use case here, what is hitting this in
-userspace today and what debugfs kernel files are causing it?
-
-thanks,
-
-greg k-h
+-- 
+~Randy
