@@ -1,146 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8E12931E9;
-	Mon, 28 Sep 2026 08:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1E0489887
+	for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 08:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790585424; cv=none; b=YSVNQvOF7kdgOjd6+pKnLgjmLGCaEZosXHGPptmwrKf6wCt3fof2mjrHJ+R87TJm574eYHy3cEwlKeNdwZYKlNfGVtQDMsrWFvkd9oSrfvJOTNv54zuTqmS+J3CWMi/UcWtFFZmKbrQ9ClSoGkTSlYSoqhTlouFJxys9u5gDeCA=
+	t=1790585456; cv=none; b=WmCDtue9IJ4fFKOaH+U8/TmtDZufQ0QAq0sdU+j0yfTvhKY15JOX/iLbuXGvv+6AxgmvvsafaOF62eKkCAT5ONEAOpDddvtz3C87DqJet5E8XlSPRHGPs2/30FW6Vm6lWuACG8okDb5gzraaeh6csC3CIvh2AR4jdNguBY2/b3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790585424; c=relaxed/simple;
-	bh=7xqsvgBUdY0jvRKC//ezf518jUci4xRkjMuj7wAJTI4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=um25eGTusDMjs+On1Z1DBngrkyc8RRjkCG744MAro7VL2CoQYeaM0u3iaNc5b8IiPXg57B3B63O+dPHPGbvRGzhTPblOdjIET92Iij2PB0Oo2Ro4g0PSh8BITssGU/lRq9W4R+P4xHMLaW8yIzMEerI34T+MWPjpx9fgPqNjznw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iEK97vav; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790585456; c=relaxed/simple;
+	bh=ksMx5jUd01eto0BA4SnkhzEOtLlkbUgiTZg+BUNu+Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hfaXE2rvlOiTMWj0Q1TZdfF5jm06B6xw2o2XDZttwwQGXhvKoQcaiS2fmSHogazDA3yYUOoaxxcHUltttq4of2z9JpbWUql2OXQn+BzfiQXAfd2ww+RfaOPc42efIhBgEugsKhCWP631oHsfp4jA+Ni86X2wUoICQ3l2a1u9Eck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=KY/xqwK9; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iEK97vav"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07EE51F000FF;
-	Mon, 28 Sep 2026 08:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790585422;
-	bh=Xux5ZPoLqrz1mbftErEicTW9loRDj4oR9SfIqryQVFI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iEK97vavCrO6FGamvL6w7E2I1MX2GZCebpDkO0cMSJDvo5xQ2vNNjADjci6TP8N29
-	 b8f5WsNIuHiiAVePejbUiD2f14ejjCMal/GCUjIpIQcT74Gun81v7NHdK2Qm42IMCn
-	 7yrkD2JQqZC3M8VbYDcqxuGS8IbhDUEdbAyK4k0BgbhaG1CS5D+9XqaUVVL7X0I6o7
-	 fReqiFglUmaWiN2BlAbXClfp2HnuyMig/dz67ReP7rtvxpERkOiDkfJTJ/t/SPpeS1
-	 7uKDXsEYc3REZnADw9w8J+97lG7Kzs/sY9a6AjOEiFY2bkpohtKyBzjjxopxg2+1jP
-	 x6teGcrUOIaqg==
-Message-ID: <9009312f-0ffb-4425-ab82-1eb7e52a4646@kernel.org>
-Date: Mon, 28 Sep 2026 10:50:11 +0200
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="KY/xqwK9"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e71cdb22bso20147925e9.2
+        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 01:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790585452; x=1791190252; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pNftRw2tWysHYpxWpyBTAFrax0w98I7jfRta/SXIr50=;
+        b=KY/xqwK9KdoVvqNSN6mJo4IFHhKvCdGJQl0z+pJjWlYK69YGBWs5XMKNpQbYernbUW
+         XuQJ+tU1VbpjnYHk7LFZHpob0CWXRrrKMLlpP/3/pjEcSCpx1KvLtVerdx0OrwQmR3X+
+         yxi4aRLVVIcucrv5ZGK8+LArgZccGKXLTpof30CAydchwDdiyTJSAdbKH9YMZ0AM1Oqj
+         JDY3FspJI3ZC4Q2gAanjsdgCtfUyDDXhJ8kxs0LuCzYjcnOxOd9b+77UZTnCqF9ytXz3
+         LLc1mlCgs1NvLpKrRrea47ZnD1tJ1yXCJMoN73zCN27NeeF+y4XQrAoszznTjHF1ELEm
+         UtIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790585452; x=1791190252;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pNftRw2tWysHYpxWpyBTAFrax0w98I7jfRta/SXIr50=;
+        b=nrOmADr9aXJ/Sf9TV0nUKg6S5sh5oHXvAQsV8DOoMcGwdRzr2iWpBn/xatvx9F5Ujj
+         GmU8wN17ud1gSiMDVYXw81TIoKe5/f1GVODTDsm1l4ShjhRsprStgk0wOqjOqWyYdCgN
+         Csx9Fz55UeGvOqmMMw8rV263vHUXfDrMO88qUmzvSQvAzL67mMd/rfBRbVEkdE7WXeY7
+         q3GT0JwdVpshGUFuGAFs4F21kD0NeweU7Vbz3zLS60OG1zRyffJrnNY44JMPDUZI5cLE
+         lFR17SsU/TuZT9f4zFBnNwivQ7jOu39n8LfobC5wTWXZCgXP1hzjE//j8qM2saJaKgtj
+         tZew==
+X-Forwarded-Encrypted: i=1; AKwUvByIRS1EssuMWeBcgYHExwCYHg6cFamquCuKRTdEq0eH6Sp164bzUJkgimfWUO3cOine9ZQWFxlJQxhoeA==@lists.linux.dev
+X-Gm-Message-State: AFuF++knXbd2FpTXYB1FGCTg9QDbCPlEfM/Sr2vB1D8K/2945EHOJ4li
+	nFrlCpLVIJ38jxaKcXHhnVdbhgniDTpGx1rMB5dD2yw7rPljU/QYPCYKJIy5sJTIBe1irBXM+78
+	JRGvi
+X-Gm-Gg: AYBFou2lZH8QqyWAtoQKXWMVbTo6F1SRQeQBCy7QZhQUnxvyHgZoP3FzuE/Dl6AaTVH
+	DYs0xgcmXeDVPcMH4Et1/EE5UzDtSAMv95+iZyEK6L8UZQAw7TlI73CsQBsYoUT4GXxSISeuQb+
+	WvGCIZUZfqL2RIQzG1CJUOEkDTNEO5LLI1swWvkklLp1zIfpxFXlniXkMnx2fapBMSzPLZg9VdH
+	hjBLJRpzJxPerNEJPdzQFW5hsv1Hl+yKf9Wyq9O3lC8QYD+/YM4Cgcg74CNY2867qaaqCqz17Wk
+	9dpRhwBbqVzgFPoW4KMZ/ubWvF2vK8r6G/cGLeZIcdCb5/J47lXoZu5UnHLnu4D5FYb9b+bJbHZ
+	e/tw060G7/zTFlPDutpDXjj3IE/3K5aPkJ1nZ2radwZSc/Sweko+ElXuQVvmA0U9leL5DDdCpCJ
+	TEIzxz/1DnMvEikI+2yaUCDhSeh3qMoepwMa6agi5XlQ8me2LHLyVrlfoQhIEMGLEK1x19e/1sP
+	0CdsxJlM5svKT41Bpu0c/1k39WC6wmA1F37oPCaABci8ZPf6NQG+MMYmleF+FU=
+X-Received: by 2002:a05:600c:6085:b0:49c:eb04:1c49 with SMTP id 5b1f17b1804b1-49fe66cccd4mr219278595e9.13.1790585452000;
+        Mon, 28 Sep 2026 01:50:52 -0700 (PDT)
+Received: from localhost (p200300f65f19a904b8075b4cf431dac8.dip0.t-ipconnect.de. [2003:f6:5f19:a904:b807:5b4c:f431:dac8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a001778312sm295599625e9.8.2026.09.28.01.50.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 01:50:51 -0700 (PDT)
+Date: Mon, 28 Sep 2026 10:50:50 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Johan Hovold <johan@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
+	Bradley Morgan <brads@mainlining.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] Add TAINT_DRIVER_OVERRIDE for usage of
+ driver_override
+Message-ID: <aromsiCXLfGRRTFC@monoceros>
+References: <cover.1790495516.git.u.kleine-koenig@baylibre.com>
+ <01d7a085e56b860e83b65c96ff3dd86c4498804b.1790495516.git.u.kleine-koenig@baylibre.com>
+ <DLQ0BIYP96RN.Z0L5I17RQMRQ@kernel.org>
+ <DLQ0HUM8AV99.3DNY5MRA2AZSO@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/13] mm/sparse: remove SECTION_MARKED_PRESENT
-To: Dave Young <ruirui.yang@linux.dev>
-Cc: David Carlier <devnexen@gmail.com>, akpm@linux-foundation.org,
- axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- baoquan.he@linux.dev, brendan.jackman@linux.dev, dakr@kernel.org,
- driver-core@lists.linux.dev, gregkh@linuxfoundation.org, hannes@cmpxchg.org,
- jan.kiszka@siemens.com, kasong@tencent.com, kbingham@kernel.org,
- liam@infradead.org, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, ljs@kernel.org, mhocko@suse.com, osalvador@suse.de,
- qi.zheng@linux.dev, rafael@kernel.org, rppt@kernel.org,
- shakeel.butt@linux.dev, surenb@google.com, vbabka@kernel.org,
- weixugc@google.com, yuanchu@google.com, ziy@nvidia.com,
- devel@lists.crash-utility.osci.io, kexec@lists.infradead.org,
- Baoquan He <baoquan.he@linux.dev>
-References: <20260921-b4-sparsemem_cleanups-v2-10-54d81d65e125@kernel.org>
- <20260927192013.144672-1-devnexen@gmail.com>
- <655c509e-318f-48bc-8183-2b1274dd05ac@kernel.org> <aroezLexo1WoeYI7@darkstar>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aroezLexo1WoeYI7@darkstar>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="akr7ood6yiztdqxp"
+Content-Disposition: inline
+In-Reply-To: <DLQ0HUM8AV99.3DNY5MRA2AZSO@kernel.org>
 
-On 9/28/26 10:01, Dave Young wrote:
-> Cced kexec list.
-> 
-> On Mon, Sep 28, 2026 at 09:28:08AM +0200, David Hildenbrand (Arm) wrote:
->> On 9/27/26 21:20, David Carlier wrote:
->>>
->>> Hi David,
->>
->> Hi!
->>
->>>
->>> It seems dropping SECTION_MARKED_PRESENT_BIT shifts the other section flags down
->>> one bit. crash hardcodes SECTION_HAS_MEM_MAP as (1UL << 1) in
->>> pfn_to_map(), so it now tests SECTION_IS_ONLINE: offline and
->>> ZONE_DEVICE sections no longer resolve to a struct page. makedumpfile
->>> only checks bit 0 and is fine.
->>
->> Thanks. To be expected when relying on kernel internals.
->>
->> Which makes me wonder why makedumpfile
->> (https://github.com/makedumpfile/makedumpfile) not require any such information.
->>
->>>
->>> Keep bit 0 reserved, or export the bits via vmcoreinfo?
->> We could export it, or crash can simply detect the change based on the kernel
->> version. I remember the latter was done in makedumpfile in the past (although we
->> export it).
->>
->> I can send a separate patch to export it.
-> 
-> Thanks David.   Checking kernel internals via kernel version is not a good idea
-> due to the downstream kernels.
 
-Patch at:
+--akr7ood6yiztdqxp
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/2] Add TAINT_DRIVER_OVERRIDE for usage of
+ driver_override
+MIME-Version: 1.0
 
-https://lore.kernel.org/r/20260928-section_has_mem_map-v1-1-4129f6ba2838@kernel.org
+On Sun, Sep 27, 2026 at 12:03:54PM +0200, Danilo Krummrich wrote:
+> On Sun Sep 27, 2026 at 11:55 AM CEST, Danilo Krummrich wrote:
+> > On Sun Sep 27, 2026 at 10:03 AM CEST, Uwe Kleine-K=F6nig wrote:
+> >> Commit fcbfaffee51a ("driver core: add TAINT_FORCED_BIND for when
+> >> userspace manually messes with devices and drivers") introduced a taint
+> >> for usage of bind/unbind sysfs files that manually trigger driver probe
+> >> and remove respectively.
+> >>
+> >> For drivers that do their resource management correctly (which is also
+> >> needed for module unloading) bind and unbind for matching devices are
+> >> not critical operations. The thing that makes bind and unbind unsafe is
+> >> that drivers can be forced on devices that originally don't match using
+> >> driver_override. The result is that e.g. of_device_get_match_data()
+> >> returns NULL despite all .of_match_table entries having a non-NULL
+> >> .driver_data member which yields a NULL pointer exception for several
+> >> drivers. And given that after setting a driver_override a manual bind =
+is
+> >> only one way a driver can be bound to an unexpected device, a separate
+> >> taint for such an override is justified.
+> >>
+> >> Reviewed-by: Bradley Morgan <brads@mainlining.org>
+> >> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+> >> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> >
+> > Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> > Link: https://lore.kernel.org/driver-core/DLIL9H50MALI.3JROXYEEUM3KU@ke=
+rnel.org/
 
--- 
-Cheers,
+I came up with the idea on my own, but ok, will add that reference.
 
-David
+> >> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> >> index c51ad96d4de4..7d5dc016a457 100644
+> >> --- a/drivers/base/bus.c
+> >> +++ b/drivers/base/bus.c
+> >> @@ -513,6 +513,7 @@ static ssize_t driver_override_store(struct device=
+ *dev,
+> >>  {
+> >>  	int ret;
+> >> =20
+> >> +	add_taint_module(NULL, TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
+> >>  	ret =3D __device_set_driver_override(dev, buf, count);
+> >
+> > There are buses (such as SPI) which unfortunately have to call
+> > __device_set_driver_override() directly.
+> >
+> > I think it would be better to move the taint into __device_set_driver_o=
+verride()
+> > and properly document the purpose of __device_set_driver_override().
+>=20
+> Of course I meant to say to create a new forwarding function for this pur=
+pose,
+> such that we do not taint for device_set_driver_override().
+
+What is the rationale to exclude device_set_driver_override()?
+
+For the dynamic spi device creation I like it to trigger the taint. For
+sound/soc/samsung/i2s.c it looks as if device_set_driver_override() is
+just the lazy way to make the created device bind and there is no reason
+to stick to normal binding. And why does it call device_attach()?
+Shouldn't that trigger automatically after platform_device_add()?
+Also in drivers/slimbus/qcom-ngd-ctrl.c the call to
+device_set_driver_override() seems redundant.
+
+> Maybe device_store_driver_override() or device_set_driver_override_store(=
+)?
+>=20
+> > It only exists as SPI and AP are a bit special; both print "\n" when
+> > driver_override is not set, whereas all other buses (and thus the drive=
+r-core)
+> > produce "(null)\n" in this case. I.e. it should never get any new users.
+
+I guess it's API and thus hardly changable, but I like "\n" better, and
+if it's only because "(null)" might be a driver name and there is no way
+to distinguish the situation after
+
+	echo '(null)' > driver_override
+
+=66rom the normal state.
+
+Best regards
+Uwe
+
+--akr7ood6yiztdqxp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmq6KmcACgkQj4D7WH0S
+/k4tNggAkYtGcQAPyu8XTaClLG0gxNYnKAAmDN9QKId+ihiRZzuPUBAUg2aq5JFd
+atIgGOszQ7cAqkGYZwudUgNJSpcRAPViCFkD55CdU+Sos6yQPplGBBnfj8fBcvF5
+MH+9+rtZwxxQOxpldtK2QdvIO7Wp4Zb2Hflf19aH/97OjqqUC+7psxDrf8q0Iulx
+M6pa+FHu60G4Pecn2C1pTAsoMCB2T+5H/8TFVDgi0IHqT3RgGd5Zde3YdKiQ6eQ/
+g4qTol5GLxjr07cyPhaKsCAVaH+QYVNN4aEfskOs2cDSKFyt9eiNgP3Ftc2OgaUs
+fEqVVNKz567R3lt3Dj2QXxwWi+aLhQ==
+=LCur
+-----END PGP SIGNATURE-----
+
+--akr7ood6yiztdqxp--
