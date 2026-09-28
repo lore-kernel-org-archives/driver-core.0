@@ -1,40 +1,33 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F155B44C50F;
-	Mon, 28 Sep 2026 06:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F61945D18C;
+	Mon, 28 Sep 2026 07:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790578347; cv=none; b=GhwIK7rpTDFxDUOJlupaujJhou+zSk77wFLi5hZRFNnsm1pkbtt4aPdoBulJG9nAfmlQ+udvIlmgpD+QiO+mzLfn1qoJjI8UjT8TVLnUEoblB0gOfRk1E7bbIUjRqMoFE5AQdmezaGL8w9mQsKyi5Yd3bAGz2TJUUt91yWkUzJc=
+	t=1790580505; cv=none; b=L1xY9A0p1UR5hqZsZSum/fdKpjR+JFA46YKj4EDSgWsoSXAj+TbIAGgEGJECq9JAjpMAa8M0pnCaBoJx0zoQ+5QrSfEPJsA4FTY0wW8v5Nhunxo1tVyZPKg/BXTNMf4f4Cygs/KYoUAakzZr7h1PtP/7+g6Yqe8V33QHMNu3bVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790578347; c=relaxed/simple;
-	bh=l99O4EFuTYgaVlJE6vpUwnoIBIsWomYu6FImDHQefNw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Pcc4+n5IQamy6p4GXCQFIaMjKD5/vQh/ap5biYCdEQHtTg3vdY+Nf5fyt9VlzdICR3Rp9prLIyepv1SpmMXZqb5bE4mhOeZyAlrn9NPiH8cidCQm2QZ3Co7MtTPc/gj4ImoOk8etUBNP3ZReiHmMapeKKaezTDMGHLQMVQiutGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=tZ+wKmOM; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1790580505; c=relaxed/simple;
+	bh=csRyCxe/qJkiN65GCK4ubCkbvG2vCXI+W2GLfeoaQhM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ix+Lp5mXzyOIj4Yl5cVqHQW3pEsu+nd0S6jRIEipjIVzlOYdNmyc7LHTcgRyR7txhaNmGMfjHeuUiaTuT1K7xg6QZCH+Hwt+Cewg3F3rLJo4WLkwc0/dnQ8xhqeZM1vYqbA0dAn1NWj159wDc0q6om9hGUHGh6fPim0xoeZSGnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dkt6xH2J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="tZ+wKmOM"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=bF8dwco2OpD4jw+50IjUaWbm2lJ2kGH1r7RGZwU0W0U=;
-	b=tZ+wKmOMTbZczy4gL36DV6korVrDaOkEMaU77eNpngM0R1q31v2+V3uXwl+/ZcznRLqzPasUl
-	eIce1fwk7YKmARooBYj6Lqiw3GAaNlYP/36f2E2tCuWM4AXAFAu9UNw4dtAJP6Ye0pJE5lBixZP
-	fRIxJ9kXCs/c6I2hGflDe9Q=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4htWrY3DnCzKmWP;
-	Mon, 28 Sep 2026 14:39:57 +0800 (CST)
-Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2F7F640572;
-	Mon, 28 Sep 2026 14:52:09 +0800 (CST)
-Received: from [10.67.109.91] (10.67.109.91) by whupemk100010.china.huawei.com
- (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 28 Sep
- 2026 14:52:03 +0800
-Message-ID: <a6a40c38-0e1c-4a3f-a705-e4a38c575c25@huawei.com>
-Date: Mon, 28 Sep 2026 14:52:02 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dkt6xH2J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF2B1F000FF;
+	Mon, 28 Sep 2026 07:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790580501;
+	bh=+LksHqZozTtq7yO6KkjuEVP0ofhwJNDCQXPtObKD/1k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Dkt6xH2JXFEogH+25ymBukI9dCfxA3hNo12nOX8K2n5a6a4QY62Q+ke8no/A5HEVB
+	 qZ/L/nhs6YtNxqoHfgLG/Sf2dgwVZrYX0LSF4B9KXmr+XJcClAUwyIu5ELJKVvR+s8
+	 n/2gaj3xYxQWF8eiji3ZzJMe9XyxijisYWdV6bSTlX7mWI7PrQOY+SkCFPa3Ya5Xhl
+	 Cp9NLzhGBwux1m6QmGi1Wd1JYxXgtzvHpZnD4pjRp59Mo9zpbYS6NBLwVZLIyEl71R
+	 fp/89MDqsFlPFFStUrxWH+ltvJYMqlt9WzAZ4YlEs5MMHdOMEHPBy24QJ6zAyFygMI
+	 PGgXai9Hc1Zxw==
+Message-ID: <655c509e-318f-48bc-8183-2b1274dd05ac@kernel.org>
+Date: Mon, 28 Sep 2026 09:28:08 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,189 +35,104 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-To: =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack3000@gmail.com>
-CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
-	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
-	<dlemoal@kernel.org>, <hch@lst.de>, <axboe@kernel.dk>,
-	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
-	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
-	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
-	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
-	<tom@talpey.com>, <miklos@szeredi.hu>, <amir73il@gmail.com>,
-	<senozhatsky@chromium.org>, <chenxiaosong@chenxiaosong.com>,
-	<zohar@linux.ibm.com>, <roberto.sassu@huawei.com>,
-	<dmitry.kasatkin@gmail.com>, <eric.snowberg@oracle.com>,
-	<stephen.smalley.work@gmail.com>, <omosnacek@gmail.com>,
-	<casey@schaufler-ca.com>, <nanx95726@gmail.com>, <djwong@kernel.org>,
-	<daniel@iogearbox.net>, <linux-security-module@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
-	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
-	<linux-nfs@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
-	<linux-cifs@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
-	<selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<xiujianfeng@huawei.com>, <lujialin4@huawei.com>, <bpf@vger.kernel.org>,
-	<kpsingh@kernel.org>, <matt@bobrowski.net>, <alexei.starovoitov@gmail.com>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <20260926.e0135fe7712f@gnoack.org>
+Subject: Re: [PATCH v2 10/13] mm/sparse: remove SECTION_MARKED_PRESENT
+To: David Carlier <devnexen@gmail.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, baoquan.he@linux.dev,
+ brendan.jackman@linux.dev, dakr@kernel.org, driver-core@lists.linux.dev,
+ gregkh@linuxfoundation.org, hannes@cmpxchg.org, jan.kiszka@siemens.com,
+ kasong@tencent.com, kbingham@kernel.org, liam@infradead.org,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
+ mhocko@suse.com, osalvador@suse.de, qi.zheng@linux.dev, rafael@kernel.org,
+ rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com,
+ vbabka@kernel.org, weixugc@google.com, yuanchu@google.com, ziy@nvidia.com,
+ devel@lists.crash-utility.osci.io
+References: <20260921-b4-sparsemem_cleanups-v2-10-54d81d65e125@kernel.org>
+ <20260927192013.144672-1-devnexen@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Cai Xinchen <caixinchen1@huawei.com>
-In-Reply-To: <20260926.e0135fe7712f@gnoack.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- whupemk100010.china.huawei.com (7.152.184.41)
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260927192013.144672-1-devnexen@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for review!
+On 9/27/26 21:20, David Carlier wrote:
+> On Mon, Sep 21, 2026 at 09:59:02PM +0200, David Hildenbrand (Arm) wrote:
+>>  enum {
+>> -	SECTION_MARKED_PRESENT_BIT,
+>>  	SECTION_HAS_MEM_MAP_BIT,
+>>  	SECTION_IS_ONLINE_BIT,
+>>  	SECTION_IS_EARLY_BIT,
+> 
+> Hi David,
 
-I will link the feature request
-(https://github.com/landlock-lsm/linux/issues/11) in the v2 cover letter.
+Hi!
 
-For https://github.com/landlock-lsm/linux/issues/18, the current
-READ_METADATA cannot solve this problem, and I don't have a good idea 
-for now.
+> 
+> It seems dropping SECTION_MARKED_PRESENT_BIT shifts the other section flags down
+> one bit. crash hardcodes SECTION_HAS_MEM_MAP as (1UL << 1) in
+> pfn_to_map(), so it now tests SECTION_IS_ONLINE: offline and
+> ZONE_DEVICE sections no longer resolve to a struct page. makedumpfile
+> only checks bit 0 and is fine.
 
-For path_* rename, I'd rather keep the inode_* names:
+Thanks. To be expected when relying on kernel internals.
 
-* There is precedent for the mismatch: the inode_getattr hook
-   upstream already takes a "const struct path *" (this series just
-   aligns the other metadata hooks with it).
+Which makes me wonder why makedumpfile
+(https://github.com/makedumpfile/makedumpfile) not require any such information.
 
-* The path_* prefix has an established meaning in the LSM hook
-   interface: it denotes the pathname-based (TOMOYO/AppArmor-style)
-   hooks that are invoked at the VFS path level *before* the
-   corresponding inode_* hook, as a paired, duplicate check
-   serving a different class of LSMs.  For example, a chmod(2)
-   currently runs security_path_chmod() (fs/open.c, for TOMOYO and
-   AppArmor) and then, via notify_change(),
-   security_inode_setattr() (for SELinux, Smack and now Landlock);
-   vfs_mknod() similarly calls both security_path_mknod() and
-   security_inode_mknod().  Renaming inode_setattr to
-   path_setattr would put two path_-prefixed hooks with different
-   call contracts into the same syscall, and path_chown(path,
-   uid, gid) next to a path_setattr(path, attr) would read as a
-   redundant pair, even though they belong to different hook
-   families.  Landlock itself already uses the path_* family for
-   its real path-level hooks (e.g. path_truncate for the TRUNCATE
-   right), so mixing renamed inode hooks into that prefix would
-   also blur its own hook table.
+> 
+> Keep bit 0 reserved, or export the bits via vmcoreinfo?
+We could export it, or crash can simply detect the change based on the kernel
+version. I remember the latter was done in makedumpfile in the past (although we
+export it).
 
-* If the consensus is that these hooks should be renamed, I think
-   that should be a standalone, tree-wide rename series (including
-   inode_getattr), so that BPF programs only break once instead of
-   twice.
+I can send a separate patch to export it.
 
-On 9/26/2026 4:27 PM, Günther Noack wrote:
-> On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
->> This series adds two new Landlock filesystem access rights,
->> LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
->> which control access to file and directory metadata such as inode
->> attributes (mode, ownership, timestamps), extended attributes and POSIX
->> ACLs.  It picks up the work from the "landlock: add chmod and chown
->> support" series [1] and follows the coarse-grained grouping discussed in
->> that thread [2]: instead of separate chmod/chown rights, metadata
->> operations are grouped into one read and one write right.
->>
->> Landlock evaluates access rights on a per-path basis, but the metadata
->> related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
->> inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
->> inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
->> object.  Patches 1-7 therefore first pass struct path instead of dentry
->> through the metadata-related VFS helpers and LSM hooks.  This is a pure
->> refactoring with no behavior change, split so that every patch builds
->> and works on its own:
->>
->>    1: notify_change() and its callers
->>    2: inode_setsecctx hook (must come before 3: the SELinux and Smack
->>       implementations call __vfs_setxattr_locked internally)
->>    3: xattr helpers, which also drops a redundant EVM xattr size sanity
->>       check whose vfs_getxattr() call only has a dentry and therefore
->>       cannot be migrated to the new path-based signature
->>    4: POSIX ACL helpers
->>    5: inode_setattr hook
->>    6: inode xattr hooks
->>    7: inode POSIX ACL hooks
->>
->> Two deliberate scoping decisions for this refactor:
->>
->> - The hooks consistently take struct path rather than struct file.  The
->>    VFS call sites involved (chmod(2), chown(2), utimensat(2), xattr(2)
->>    and ACL syscalls) operate on paths, and several of them (lstat(2),
->>    lchown(2), llistxattr(2), ...) have no struct file to begin with.
->>
->> - struct inode_operations->setattr still receives (idmap, dentry, attr).
->>    Only the VFS boundary (notify_change()) and the LSM hook layer see the
->>    path, which keeps the refactor contained to fs/attr.c and the LSM
->>    infrastructure instead of touching every filesystem.
->>
->> Patches 8-12 then implement the new rights, their tests, the sandboxer
->> sample and the documentation.  Semantics:
->>
->> - READ_METADATA covers stat(2) and friends, getxattr(2) and friends,
->>    listxattr(2) and friends, and POSIX ACL reads.
->> - WRITE_METADATA covers chmod(2), chown(2), utimensat(2), setxattr(2),
->>    removexattr(2) and friends, and POSIX ACL set and remove.
->> - Only explicit metadata changes requested by user space are restricted.
->>    Implicit changes performed by the kernel (e.g. timestamp updates on
->>    write(2), size changes on truncate(2)) are not, and neither are
->>    chmod(2)/chown(2) calls that change nothing (e.g. chown(2) with
->>    (-1, -1), which never reaches the hook), matching the SELinux
->>    inode_setattr behavior.
->> - Kernel-internal accesses performed with override_creds() (e.g.
->>    overlayfs, cachefiles) and kernel threads without a Landlock domain
->>    (e.g. nfsd, ksmbd) are not restricted.
->>
->> The Landlock ABI version is incremented from 11 to 12.
->>
->> The series is based on linux-next commit 5c4d4169604b ("Add linux-next
->> specific files for 20260921").
->>
->> Testing: each patch has been built for aarch64 (gcc, -Werror) and the
->> landlock selftests (445 tests, including the new ones) pass in QEMU on
->> aarch64; base_test reports ABI v12.
->>
->> [1] https://lore.kernel.org/all/20220827111215.131442-1-xiujianfeng@huawei.com/
->> [2] https://lore.kernel.org/all/abc960a1-e66e-792e-6869-cfd201c29dbe@digikod.net/
-> Thank you for sending this patch set!
->
-> Some meta-remarks at the beginning:
->
-> * You might want to link the bugtracker feature request:
->    https://github.com/landlock-lsm/linux/issues/11
-> * In the final version, I think it's preferred to merge patches 8
->    (adding the access right enums) and 9 (adding the LSM hooks that use
->    them).  Having the feature as an atomic commit makes it harder to
->    accidentally mess it up during a backport, because you can't patch 8
->    without 9.
-> * As Paul alluded to, the changes to the LSM hook interface and to the
->    existing callers in VFS are likely the hardest part of this patch
->    set.  Alexei from the BPF subsystem has also reiterated recently
->    that he wants BPF to be looped into such changes.  BPF hooks do not
->    give the same backwards compatibility guarantees as the syscall
->    layer, but there are existing users of LSM hooks specifically
->    through the BPF LSM.
->
-> * In https://github.com/landlock-lsm/linux/issues/18, we came across
->    statfs(), which returns file system meta-information based for the
->    file system that a given file belongs to.  I have weak confidence
->    that READ_METADATA would be the right access right to protect this
->    with, but it's a somewhat related operation.  Maybe you have some
->    thoughts on this?
->
-> More concrete questions:
->
-> * If a "inode" LSM hook gets a "path" argument now, should it be
->    renamed from "inode_..." to "path_..."?
->
->    (Maybe the BPF people can chime in about to what extent that would
->    cause additional churn for BPF users, in a situation where they
->    anyway already need to make a change due to the changing function
->    signature?)
->
-> –Günther
+-- 
+Cheers,
+
+David
