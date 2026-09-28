@@ -1,79 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFA7320A14;
-	Mon, 28 Sep 2026 05:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE98370AE0;
+	Mon, 28 Sep 2026 06:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790573731; cv=none; b=gRAIoZb7wobCgHxHI7XeoQANNC62V9A7o9tT3Lq1Ww4lT8KV1XiFBOjeyhTJ7yAzCovAr4daCCaSiY5rVdXJZQCmB+HuH2JmZ5pBtjMvQQeOKq29R9QSevVZPavkqNKPPOQ97He+57wfcnQhdk3UWEHrR2mfwV1uyM5AjrP+B7w=
+	t=1790576360; cv=none; b=ExPKGgblfPlM4BNGTd7meJIFp9cRXkmcaANMYEZD0JlVeTrwratVZS4+krE9v0AuTqbZeBwd7kWBK5zR8oqRz7PRID2qtuAQUk4uzugErmilS8tM7xFoMRjXvMjLh/NrD2Jt1ovtYqCfzsHv/sLbj0iqIO0Gv4S+cp+CZf59TJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790573731; c=relaxed/simple;
-	bh=eNAOnS3k805oxJmXLzSCijqlFpgfljf7mwkqK+tBxXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HDxnpdf5rxDNpPDqW+RQe+/4FsK7anVnCyLEpjcoutPc1OrXT3X7ln5pNPMrjtCl3dTBY9z1fHWAuDb5JixGQjLRnSG16kiZ0AgsSimsxZspuMAzmzVb+DKcqKtlU+V8+YVQc0c+4hbVb501tuumJzWEhrKHeQwh3ni/8CdAtx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zr3YWIZP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790576360; c=relaxed/simple;
+	bh=4fL1geGwR/vTw2pP+aud257yMQC2kIMBAThqmN3v7XE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=tcgQAugebzns6PvivHglY1Q3BAeWg822Q0LhpPQKYLye9TB7Ue9YbBDZUBLvwiEBIZypGvU4J7hhHMHRyZ69eBpvnxxQsb9B/d3V2V0Tl3s6dml8c8gxzb+KEQsqk9YvARhl0KkEFXuDZF6qLJ3mCyT/RAZiqynLKaopWHeGlmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=XvJLuFVF; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zr3YWIZP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E61E1F000FF;
-	Mon, 28 Sep 2026 05:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790573729;
-	bh=/dLADSu3KzJa7qy3ofcif53MVtk/tUV3iTYwz4zg3pU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=zr3YWIZPIwIRAyTjqFr84y1KYsnMnNSMQETqn+qV6IhkkoEgiTryl+K4eDz2DAL7N
-	 AnbzMuUa9N8FCDKVMOVQ+3qka+uBgcFWsRz6NslPmeOdUf6rCSbxkPGgrubaCR9OSD
-	 F7IdJvOQ21EQ847U/DR6T0/J1OhCxLfsnK8YAfTA=
-Date: Mon, 28 Sep 2026 07:35:27 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Aldo Ariel Panzardo <qwe.aldo@gmail.com>, rafael@kernel.org,
-	johan@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	"sashiko . dev" <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v4 1/2] debugfs: fix use-after-free in
- debugfs_read_file_str()
-Message-ID: <2026092854-script-safehouse-be1c@gregkh>
-References: <DLPDB44JJRGJ.3K6JNS746M71C@kernel.org>
- <20260926195844.1296333-1-qwe.aldo@gmail.com>
- <20260926195844.1296333-2-qwe.aldo@gmail.com>
- <2026092720-sandblast-heroism-30c8@gregkh>
- <DLQ9CHM33ZFK.3HZOB0LIGXGVT@kernel.org>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="XvJLuFVF"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=hQEbXTR0WO6OLctre3xEpANMZkBOustPdfsjT/vetaI=;
+	b=XvJLuFVFKIsF5clGxrSoqwAGVY+g3ugM68udF3ON7tQ/lQLwaMuoYIolmm9/YnF1e05w8Iw8K
+	PDQnaD7jO+WxUfz/naLxHMBEuQrIGqHIYfxDCR1YoRyqyy6HAML1dNc1Gcw3j4CInQXfpbQm9P0
+	yW8zOpXooIbBwC6YE0IqSuo=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4htW6Y0jfbzKm5t;
+	Mon, 28 Sep 2026 14:07:01 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id CAABB40563;
+	Mon, 28 Sep 2026 14:19:12 +0800 (CST)
+Received: from [10.67.109.91] (10.67.109.91) by whupemk100010.china.huawei.com
+ (7.152.184.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 28 Sep
+ 2026 14:19:06 +0800
+Message-ID: <7161a5f0-0176-45c3-9e78-d90e39cf4288@huawei.com>
+Date: Mon, 28 Sep 2026 14:19:05 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLQ9CHM33ZFK.3HZOB0LIGXGVT@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC -next 09/12] landlock: Implement metadata access hooks
+To: =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack3000@gmail.com>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
+	<dlemoal@kernel.org>, <hch@lst.de>, <axboe@kernel.dk>,
+	<viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
+	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
+	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <miklos@szeredi.hu>, <amir73il@gmail.com>,
+	<senozhatsky@chromium.org>, <chenxiaosong@chenxiaosong.com>,
+	<zohar@linux.ibm.com>, <roberto.sassu@huawei.com>,
+	<dmitry.kasatkin@gmail.com>, <eric.snowberg@oracle.com>,
+	<stephen.smalley.work@gmail.com>, <omosnacek@gmail.com>,
+	<casey@schaufler-ca.com>, <nanx95726@gmail.com>, <djwong@kernel.org>,
+	<daniel@iogearbox.net>, <linux-security-module@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <linux-unionfs@vger.kernel.org>,
+	<linux-cifs@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+	<selinux@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<xiujianfeng@huawei.com>, <lujialin4@huawei.com>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <20260924104831.1081137-10-caixinchen1@huawei.com>
+ <20260926.a96402fcbd4b@gnoack.org>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20260926.a96402fcbd4b@gnoack.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-On Sun, Sep 27, 2026 at 07:00:04PM +0200, Danilo Krummrich wrote:
-> On Sun Sep 27, 2026 at 6:37 PM CEST, Greg KH wrote:
-> > This is probably not right, don't do loops like this.  Either fail or
-> > succeed, don't loop.
-> 
-> Please see [1], where I listed a couple of alternatives (e.g. use GFP_NOWAIT and
-> accept allocation failures).  I'm not very opinionated about which of the
-> options we use, but GFP_ATOMIC seems wrong for this.
-> 
-> > Again, let's see the real use case here, what is hitting this in
-> > userspace today and what debugfs kernel files are causing it?
-> 
-> Not sure if this was hit in the field, but in any case, the reader lacks the RCU
-> read-side critical section required by the writer's reclamation.
-> 
-> As mentioned in [1], there is also a separate caller-side race in SoundWire [2]:
-> nothing prevents a concurrent write from freeing the string while
-> request_firmware() is using it.
-> 
-> This is also why I think the API is a bit of a footgun. Fixing the debugfs
-> reader won't address these caller-side accesses; something like the synchronized
-> accessors suggested in [1] could address the broader API issue.
+You are right.
 
-Ick, how about we just delete it then?  I thought we had removed debugfs
-string functions already because of problems like this in the past...
+I will change in the next version
 
-thanks,
-
-greg k-h
+On 9/26/2026 4:38 PM, Günther Noack wrote:
+> Nit: It feels like this comment about implicit timestamp updates
+> (especially the size change) should go in the top-level documentation
+> for the WRITE_METADATA right?  setattr() can not result in a size
+> change, after all, AFAIK?
