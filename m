@@ -1,224 +1,196 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812534F3EDB
-	for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 16:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314A04EFFA6
+	for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 17:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790613986; cv=none; b=K5jNnB6Ozp2ZG/NGxPR2tNfoVKDFa2sZQq0WkXbviY5YazRwqzBhzFRPlVc7rgsoUizAeUEO2mhe/cPr7LWLCm7d+hjM4f7j/vML3ciKNn86zNaBON1N+pDcAzP0Ic+vxQXWimjPxgLWpn6Kj5R28RrYYT1A0FEbMzHuqJzqO5k=
+	t=1790615651; cv=none; b=h0kVDcQvrpf16R1YjPHjr6LWsNe92Ve9wp2dkuydkFP38l7HwHVRU/MPKnx9sCdLombQY+Fco29FB8kS+iVfegPhHPKop6wNkRBdhgFrN5DNoiojffSc/JSJN/2eE3mejcJoAny43BAVD48S5aDry1cGLx0D/1e/nPltba6UhtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790613986; c=relaxed/simple;
-	bh=IRU2W/F7ydrMgwoGdU2UuwMijKY9e9YvoS9hsuSBwsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KBCTMFmniAokQ1xdgbXhJJfA+Jyoppr8QBp9iugHY4DPyPg0OI8T330326CbxxifweqvW5rSCztPcII8iWUCe/K8vVmHVv2f6pXLUmky1yVfuOajZLMCf+mMJqrFXa1FI7PItpRkdYh9L6c8akLldlvE2pDXc3eyg4+P5fUKKs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=WlwlbQ5W; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1790615651; c=relaxed/simple;
+	bh=MbYUL73La3phT6CWXVxz3A2hkcPLAKJyAdn49kkRKFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iB09zHJ4HAPI9aDUL0zrCtEv/RT3PSJ9Oy57vrBoHZvlfoU1JMDBRqYpIG1/CMp+MyFraxEMWsSVrFpTDKiQ/bZOyHVDRIZBCsqPWrEgDKfS4pyVi/b1NHPolBT9Dlp0lgktSU7RwvdRxpR02Liisw2QVFxA0na0CgPOkFLEM8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SNrKlZMB; arc=none smtp.client-ip=74.125.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="WlwlbQ5W"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a00713639cso8453325e9.1
-        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 09:46:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNrKlZMB"
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4ab20a33so3456978d50.1
+        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 10:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790613981; x=1791218781; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kBVitcn3HaXdH3tAuDPIdNFeAeEbc5tyl1/mlq5F0y8=;
-        b=WlwlbQ5Wmp85Dm8qZmK7pGdXcg2mnOEf1ydiWKjvqnETnpVeUzDDTCuuBzGOiHZeIu
-         s94WkAykdEi9cB5Yl7DltOpGhVUC3NPv/q7WJoZDHIOw6XxbMa5P7wxMHcIpivK8m6WB
-         baOFJLtHN5h3e0Yz12nItlSxk3Cancn0E1/viVNY7K0nr7i747/coGG5fsGUxicbeIb6
-         8Qh6bQsuSNqxbJUUKhkLhAldvey0ASDqkIMT2ZB6jAiBMualR/PdvfZk8eims8F3ursM
-         bpH91TCtN2vktAF7InR1y5ArUWHhDHv5/uZqSZYEmdxpePU7iKoJsa2yXs+GtAncN8uQ
-         A8RQ==
+        d=gmail.com; s=20251104; t=1790615647; x=1791220447; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MmJ/EW0KwY0F0cm8LaUC3Fhj6N704NFs3EmzLQEffnQ=;
+        b=SNrKlZMBh1LEzSbpm9z3rmgXqK5kpSih8rCv5OAI13ZHTDh1gLV4+XABm07gamevXp
+         w5ZJYgkBV9wmIPaz8PXUZBMSa1KdM41bEeh7kHpgipnkHzuAFribXPqEyskDm0ky+2h9
+         ZS1LMBQMhPh6PnUgO0BVpnuIsFTJVPYId/XKDFFlDN6RUvfMhfEtxzB1uwKxKVjkRlBJ
+         Q5m6RmF1i+3Ac3bCH0mZkjZTGdi33wyziN179na8KtypXJYP4LJHDC9/SSxo47hFHoxa
+         dKsJgCBy5MGnKtgKM+Zt2B+Aox3iA+jwK+YUV6i0Ow6Cus4fDlgFdSQgUrthLIU402n5
+         czrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790613981; x=1791218781;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kBVitcn3HaXdH3tAuDPIdNFeAeEbc5tyl1/mlq5F0y8=;
-        b=RZN0AJ2Hqwl2ItDy2vlowwPpp+KoohkM335WPPwCPeM6xn2Jntw6MD05uWqEKyF3oC
-         lyV7GLV3xGkz77imiVqZfp1ChT48Y6xnq/w0Ap3Zq7K5Ron4e5AGjfW1AqzKZCtpuBdy
-         SbDof2qa5gX4O0eDVVr3Ja/GPO01/2//6EGdEhxVofi+GxgyoY6BoWht2DfBicN+IWcj
-         hjRqPtSjYm+FXb1B9J+7wNPB8uTtDri/ztPIeaQxk2X1fleKDgFHHKupkBbj+4k2f3Gf
-         uQTNidX3VkTtcl3we+RiUja5W2WLrUsblERuXVPv9cBDvCGOsA6dO0flNtakFzqg05is
-         eIlQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxeSy57NLKM1YyDBjVzXrgjI2V8vBI4+xyFaHuYvYaZs/8V5WvjumNLGLuDYHW/imYjRk4UezEQn9Gh1A==@lists.linux.dev
-X-Gm-Message-State: AFuF++l989G7NvQVUpWeMMbC+E24VbNQpFxpoJr3hUKsNUYoeXDHsXGc
-	QrKwb5NHfmxHw+ZFwBRgiO28dRUFIvIVmt9ezV6vxdmAbR4s9BbCnwOTEbH1HJDpDNBDkAqmHvw
-	gaUMP
-X-Gm-Gg: AYBFou1EVkyEnUPPKJ/MHZhkR70taHlREcEd2wPslChyOlhi/XUg68xtWtLjwdhH7GG
-	r52pVD4+Vclel/XJKumfZJ1Yfe7vfM//4KccgcaylZSLnBCRbyp53H4V/unlIPoocnFEsVN8CxJ
-	0Wo/58Iar2f10UEbcfcEd23bDNMcT88Lpg035mYQRyiUVoRwhX18emGCHQVJAWY8eU/+4IIq/T6
-	XjjMmvDfikc0/gwGKjmJhKYfnOd+9nScPSGLpq9yZdkfSmQ77ombx8bZq4GLi/HeMn7vQF2GB1S
-	VKN+i2OTTQOghWNpNh9e6pTC927Ly3mUBnei9MPReRQHymjbcbexSQ6yq+XAPQQ9fkBiBBkqgss
-	3dJpXRZD4FDo0zrLn173Y1LAvEJ03MVcBtN2aeyBNoQvPXZvRAZXd7SrHG1v2458e0Bod2VjRbJ
-	3BR1BRyQUqO5BUqO8LMUr0xguAxQIugtFTtyDIzlXkHS7pwCxYwRUHioM5PexSG2XotHDrjaBrd
-	68chAHF1jJgMwJAxr3mCnWiujxbm94OwYSvTlqL7UwyOmAllKxt/rfLhGSEIw==
-X-Received: by 2002:a05:600c:34c3:b0:49c:e27c:6b10 with SMTP id 5b1f17b1804b1-49fe66abcebmr238472845e9.3.1790613980612;
-        Mon, 28 Sep 2026 09:46:20 -0700 (PDT)
-Received: from localhost (p200300f65f19a90433f74747aea68541.dip0.t-ipconnect.de. [2003:f6:5f19:a904:33f7:4747:aea6:8541])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a00cf9dfdbsm7840575e9.1.2026.09.28.09.46.19
+        d=1e100.net; s=20260707; t=1790615647; x=1791220447;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=MmJ/EW0KwY0F0cm8LaUC3Fhj6N704NFs3EmzLQEffnQ=;
+        b=Df2LSINCQCnY25yr3DWCcQ0CUyTZnNnM4F3lJikrHpW0mGNMLibVqVIZOp9Knrc2CH
+         Cs9bbsJybyZ5WZZU/+GX6xWCsrwaTsGiO7XySJw7sOcdCyeHrNPHnw5fAzviQD7o3RTC
+         8upfMOYo5ioGpWVN9RRlt7C6cHL+LnSpp2jBlUL2remu03U3qjvQWHarr8ggah9CYT18
+         CK+Kdfy75iKvHvYWcOmBhijmXZ6f5HB54zH6GNWxECT9KfYfY5sE+dMJoX7vRgewSGH2
+         H5xgYPR2zfa5Gv2a7F5ZJ5Zj96BpZ3kwuA6GV2d9OMvgF37JOMvQNuKdRD/+t13DoWN0
+         /A7A==
+X-Forwarded-Encrypted: i=1; AKwUvBx028m+vsKcCEtzyA7+Nq9bqLwpnHgGOkG6+a9fOU1uu/gjG1BC03k3DJdOYoU1AR1D+Jf652thcyJGeQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLovj5LHYud7cqLYiMNX/XeKqNdgC1PKFn+YafriPMSRhkzrwrd
+	r7Rjy6r92Hlb6lm6fFZhzTuz2Xol+M9c/uz/60tvmOCEXZJm8QNSSvlD
+X-Gm-Gg: AYBFou3qMTinHPqBKeiVyGaTq9z4cZ+mM+iSjuxaodeXU9pvHUKkHs3kurxBUm55XgS
+	oqZtDHMyLNXbonAztm4y9Elu5CXYq5mRSxFvANOKxc7sgRyRf/STjmkkkQpITKKt0DX9pcMg79A
+	ZD96kcHBDInYvWt48nbWy8MTNLCWGNw07TWBac+OHN+9SneXK7HgaCCZaqz3bnFlZWW9ToXc/ZG
+	MKc9SbqGEqXjqp3Vi+SnbyZYOueKBXo+0f5sioQjC/COThNj/fgntpEbdhkJsSd7JFMQsdvkGOg
+	3j0wuR3/3Xf+wgQ0EKwhUh+d0mRYgmdsn1mE4FznmF0pqYQ/cna5YNQgn3vskKd2718gUni/j8F
+	/iPQfnF8PwP3qnNRnPksQPYbO2GUE0KqM1JGtulYwLkslqSZCpzQBqtDZyHUabmiN6VFrHmWWPH
+	8VKt92V/Vt5l3oYL4bzYhdjgcDjPaacGArw2XiYqg50jPeOKBR65t1o/1Ob/OoZOTcOsKxmxrmJ
+	QE=
+X-Received: by 2002:a53:ac98:0:b0:671:1398:648d with SMTP id 956f58d0204a3-674111a8a77mr3399078d50.9.1790615647178;
+        Mon, 28 Sep 2026 10:14:07 -0700 (PDT)
+Received: from suesslenovo ([71.132.185.69])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6740ee940a0sm4752038d50.3.2026.09.28.10.14.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 09:46:20 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] driver core: Disable driver overriding by default
-Date: Mon, 28 Sep 2026 18:46:04 +0200
-Message-ID:  <0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1790612298.git.u.kleine-koenig@baylibre.com>
-References: <cover.1790612298.git.u.kleine-koenig@baylibre.com>
+        Mon, 28 Sep 2026 10:14:06 -0700 (PDT)
+Date: Mon, 28 Sep 2026 13:13:35 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>
+Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net, 
+	gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, dlemoal@kernel.org, 
+	hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com, 
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, nanx95726@gmail.com, 
+	djwong@kernel.org, daniel@iogearbox.net, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, xiujianfeng@huawei.com, 
+	lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arqcbjWLN1CLkL_Y@suesslenovo>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4517; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=IRU2W/F7ydrMgwoGdU2UuwMijKY9e9YvoS9hsuSBwsA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqupnQXtmetdwonLbuWV3cp3DItvNYU+nxUZMPs Drb2kiCLtqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCarqZ0AAKCRCPgPtYfRL+ TtC1B/9PRFfnE52MTB+mR2lBFxb6IxKPVxuYEvwJ7YvS1EzIcolMOKEKUVvnfEe5jXfTK5B0Cro A/zfdE8VAxurLtwvIv732TsBtjiV+Lh2n+IM85NNZZSYHjClpZzVi+EboG8XYsTe0xKfzvQN21j KeeBhZsfXDXOL69lNvmETkApIsPNMAoAreOdS5WX7Yn2OYom/6q706iW4ovd1vwPdxnifEOuHJw 56XzQg29bz0NNel3KiUl5hpgdK9hhz6iyxm0o+Wa5SkRBJFoqVTYU9D0J+QPHZViidcNNBiR+Tx yucsf5jhFsMKgqkArIKDasDwmC0a25IXdPuFRMGFSJm6qPi2
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260926.255b951d3013@gnoack.org>
 
-Driver overriding is useful only in a very limited set of situations
-and then only with very few drivers that are designed to support that.
+On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> Hello!
+> 
+> On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > This series adds two new Landlock filesystem access rights,
+> > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > which control access to file and directory metadata such as inode
+> > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > operations are grouped into one read and one write right.
+> > > 
+> > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > refactoring with no behavior change, split so that every patch builds
+> > > and works on its own:
+> > >
+> > I like these patches, but is the ability to read metadata already
+> > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > directory?
+> > 
+> > The one case I see this being different is:
+> > 
+> > 1. if you wanted to grant read access to the file, but not metadata
+> > read access, but I can't think of any usecase for being able to read
+> > the contents of a file, but not the metadata. (see below)
+> > 
+> > 2. If you had the absolute path already and didn't need READ_DIR.
+> > 
+> > I see introducing this READ_METADATA as causing potential
+> > hard-to-diagnose issues.
+> > 
+> > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > 
+> > The program can technically open the file with the READ_FILE permission,
+> > but it may error out because the stat() on it beforehand failed.
+> > It's pretty common for programs to do that kind of thing (stat before
+> > open), like for checking for config files (strace bash and you see it
+> > stat .profile, /etc/profile)
+> > 
+> > There may be other bugs, because being able to set permissions to read
+> > a file *but not read it's metadata* isn't possible currently in posix
+> > acl and userspace may not work well if that assumption no longer holds.
+> >
+* posix acl and linux DAC.
 
-Disallow matching via driver_override unless the driver explicitly
-allows it or the safe guard is disabled using the
-"allow_driver_override" kernel parameter.
+> > So maybe WRITE_METADATA is good enough?
+> 
+> The existing use cases are the combinations of (a) READ_DIR
+> allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> two access rights overlap slightly, it seems likely that for a given
+> directory or file, users will want to either grant both, or deny both.
+> 
+> At the moment, where the (not yet existing) READ_METADATA is
+> implicitly always allowed, the problematic case is the one where the
+> Landlock user wants to deny READ_DIR, but where much of the same
+> metadata is still available through stat() and the various
+> get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> [1])
+> 
+> In my view the READ_METADATA right closes a gap that READ_DIR left
+> open (which is also potentially surprising to callers if they did not
+> read the docs closely).  Also, if its implementation is symmetric to
+> WRITE_METADATA, I feel that it's worth having it in the same patch
+> set.
+> 
+> –Günther
+> 
+> P.S.: I know, even after we can control stat(), there are likely ways
+> to infer the presence of a file by observing Landlock error codes.
+> This would be nice to fix as well, but is harder to do without
+> controlling the path walk itself [2].  But also, the fact that this is
+> currently not controllable is not an excuse for leaving READ_METADATA
+> open IMHO.
+>
+I'm still sort of concerned about the case where read access is allowed,
+but metadata isn't, due to how many applications will not cleanly handle
+such an unexpected condition. You can reproduce this with a seccomp
+policy forbidding stat().
 
-Implementation detail: device_match_driver_override() isn't a static
-inline any more. It grew a certain complexity (e.g. a pr_info()) and so
-was made a regular exported function.
+Would it make sense to have the existing READ rights
+(READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+if READ_METADATA is handled? Reading a file's contents should always
+imply that you can read the metadata.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/base/bus.c            | 43 +++++++++++++++++++++++++++++++++++
- include/linux/device.h        | 26 ++-------------------
- include/linux/device/driver.h |  2 ++
- 3 files changed, 47 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index c51ad96d4de4..d294c198ab0c 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -606,6 +606,49 @@ int bus_add_device(struct device *dev)
- 	return error;
- }
- 
-+static int __read_mostly allow_driver_override;
-+
-+static int __init allow_driver_override_setup(char *str)
-+{
-+	allow_driver_override = 1;
-+
-+	return 1;
-+}
-+__setup("allow_driver_override", allow_driver_override_setup);
-+
-+/**
-+ * device_match_driver_override() - Match a driver against the device's driver_override.
-+ * @dev: device to check
-+ * @drv: driver to match against
-+ *
-+ * Returns > 0 if a driver override is set and matches the given driver, 0 if a
-+ * driver override is set but does not match, or < 0 if a driver override is not
-+ * set at all.
-+ */
-+int device_match_driver_override(struct device *dev,
-+				 const struct device_driver *drv)
-+{
-+	guard(spinlock)(&dev->driver_override.lock);
-+	if (dev->driver_override.name) {
-+		int ret = !strcmp(dev->driver_override.name, drv->name);
-+
-+		if (ret > 0) {
-+			if (!allow_driver_override && !drv->support_driver_override) {
-+				pr_info("Suppress driver override binding. Allow %ps to do overriding or boot with allow_driver_override on cmdline\n",
-+					drv);
-+				return -1;
-+			}
-+
-+			add_taint_module(drv->owner,
-+					 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
-+		}
-+
-+		return ret;
-+	}
-+	return -1;
-+}
-+EXPORT_SYMBOL_GPL(device_match_driver_override);
-+
- /**
-  * bus_probe_device - probe drivers for a new device
-  * @dev: device to probe
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 4dac5e09b74c..a142bf384f1e 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -892,30 +892,8 @@ static inline bool device_has_driver_override(struct device *dev)
- 	return !!dev->driver_override.name;
- }
- 
--/**
-- * device_match_driver_override() - Match a driver against the device's driver_override.
-- * @dev: device to check
-- * @drv: driver to match against
-- *
-- * Returns > 0 if a driver override is set and matches the given driver, 0 if a
-- * driver override is set but does not match, or < 0 if a driver override is not
-- * set at all.
-- */
--static inline int device_match_driver_override(struct device *dev,
--					       const struct device_driver *drv)
--{
--	guard(spinlock)(&dev->driver_override.lock);
--	if (dev->driver_override.name) {
--		int ret = !strcmp(dev->driver_override.name, drv->name);
--
--		if (ret > 0)
--			add_taint_module(drv->owner,
--					 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
--
--		return ret;
--	}
--	return -1;
--}
-+int device_match_driver_override(struct device *dev,
-+				 const struct device_driver *drv);
- 
- /**
-  * device_iommu_mapped - Returns true when the device DMA is translated
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index 29fbc01ef06f..0153cfcbe1b9 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -56,6 +56,7 @@ enum probe_type {
-  * @bus:	The bus which the device of this driver belongs to.
-  * @owner:	The module owner.
-  * @mod_name:	Used for built-in modules.
-+ * @support_driver_override: driver_override only works if this is true.
-  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
-  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
-  * @of_match_table: The open firmware table.
-@@ -104,6 +105,7 @@ struct device_driver {
- 	struct module		*owner;
- 	const char		*mod_name;	/* used for built-in modules */
- 
-+	bool support_driver_override;
- 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
- 	enum probe_type probe_type;
- 
--- 
-2.47.3
-
+Thanks,
+Justin
+> [1] https://docs.kernel.org/userspace-api/landlock.html#filesystem-flags
+> [2] https://github.com/landlock-lsm/linux/issues/9
