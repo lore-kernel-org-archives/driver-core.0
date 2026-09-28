@@ -1,181 +1,182 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011027.outbound.protection.outlook.com [52.101.57.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251564E3223;
-	Mon, 28 Sep 2026 15:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790607951; cv=fail; b=sLDWb9Ls0lorinplds+gY8miMTjJqZQq+ulXbeiDNciqOwcrH7/4CmfrzPVA/xSflU5HHKaDCHjUkl5UKtLngSm8dQ3SGijZKIUyBTRruCGp/WnxRW/wnomNHhJvuOrnRtzEsuhsIL8+wLvwyZ/jr5cqkt5/ppF+U1NUoLhtHl4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790607951; c=relaxed/simple;
-	bh=EnEuBFzhMBi+VVnpgZpEqjhAwBGYVHouBns/rpNqI9k=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=msGCl95HTvWjhR5grIomwPG6DZvyQon+AhYTykYFCPNdOzIdKEhv9ModV5eSZBVnKu/DQ0eyY4aazVBqbnA7AIMg/R+fif8S5T49xBAhBr9g7ES/QQf48c3Ggx/mZEX8rCwTE+mXZGta7lAVxmOtHwzPKMctEmSbWL4XjRbFqqE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=efVL6Z6l; arc=fail smtp.client-ip=52.101.57.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261594E3ED9;
+	Mon, 28 Sep 2026 16:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790612154; cv=none; b=kKHK3Cc0J6Qk4kvQ2nis3OxjN0S+fKrSrCYidn5KnRKfwmccwD4RwqoWof3iqAhfou0ATD2t0HjZ7G1S/XtHishzpXU/qAqhFsdPKlWTuPnKCnarBbOujkEGr9gaR0lYLwFxs8iHwegUv9LfZgc90mOgWjo6EYYUlYXaQidJZRs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790612154; c=relaxed/simple;
+	bh=NBi35zgVWB8MqkxkWlsVFiB0wIq4HnqVXz0vrvfr3U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyxLxBx8QxSk4Lfn3Tn53BYCSyw8tJQD5dBeRWKipGgMHcmjJi35hr4e9WbS2B6fLf8kv/cqhVMWaJG71eqh9teBOyuPJxPYm4EqNGGif9xQ3+ZvIF5fmq+3+X1J1TSKJaqngNBHqX+YeFZU71pY7dKqSarGN9+q11sUEL6RSFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7TBTail; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="efVL6Z6l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fpdM6+dAGumO+3o40RS11jR9lRnNDDx8OSqrmy7uPoYwq6XP8dIAUXXEWf2UJLpwn04GUdErxCC6+n+UiJ5/OsCPlpgNQtMHvHTmtLy0tnUKsvhaq7qgI0BdWYhOB3a/fcPTX75N+a0eVa2odazcWlO8z4lusk2pZAw0F1/Q1Mttpf/r4zBjC7pEtXd2dsecgATDEkzWPwVqFBak2DRtIVn4J7eXYGW1A9lQOU+m4kTH8vazaVGn/JtiAYOUm9D8cbMLBp/5kDR0YUv/m8PDPSvmNTOSyoKtVwJtGXEIojlgHHHWNhn+cZN584GYUEGy4JYpJFs4qbmaFrW0FxPeiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bs+Lk4KNk6jd0j66sPCNvJAzAvBniaNtPdV7KAQ9lGU=;
- b=YDflsoYTMjfMT5eo2k/06CuT2hiiGpPG4ugthdAHRtbVKfiYPQBFKAtSaNIyM7jIvYlt448N4zgM/UIyZ9FvfIs4s3DhFZ3dPTnTQ3P+JPxUQm5K3wiWbmRZo4pkr8cr4sST2zYr5WgvEGHSdfXgeLKL7gtwziiLZ8sZOC9SCvGBM8v7MNnvfPsJ7tqdwM8t9+4X4v45Y0TYIzyqk2Kixb2VjNlGIYDFoHm6/PFqebnt5LADDmbh21frKw4kjpisCRXCImi40ENWrwlp3AeF7knayqC7v9iYV6nBRJ+FNabpbPjoxUkq4JLarfccasOvkctsJ6NDq3TY/D0ISSnzHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bs+Lk4KNk6jd0j66sPCNvJAzAvBniaNtPdV7KAQ9lGU=;
- b=efVL6Z6l7ls+7sFoMz4SMDiiBfF2mweYfVjYSh0cb/wmAtF6IrCMV4IWSLAFThfDwoeX14iJEq91BIy4n4wvqKnltmb/ba1Ekx6d9M/RXirpZZUJJyF5VsezvsH9ztjJ7yVVhjwlI/IIGcIC2MeFffqzomXaQaYLfbAVC6jH0au/9dA3jAzr58SbkYm2LYSq3KeshsUvQ8iBp9KAetyCKCysKt4egNLhnliLKubv52qJAMq8dsda5FhUXrHlbOY+lEnqilNhbOvy66r4hB7g0fgprSV6heruogX/pNms2YiIkaDTCPGMr66XbtSGTrjk9YpOGnlY3m+hW6x1eQmeoA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by PH7PR12MB8777.namprd12.prod.outlook.com (2603:10b6:510:26b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Mon, 28 Sep
- 2026 15:05:37 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 15:05:36 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Sep 2026 00:05:34 +0900
-Message-Id: <DLR1JCUWS824.35QJU45D2W9ZE@nvidia.com>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- "Robin Murphy" <robin.murphy@arm.com>, <aliceryhl@google.com>,
- <ojeda@kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <a.hindborg@kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum
- segment size
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Matteo Kloiber" <kernel@matt3o12.de>
-References: <20260831233215.287881-1-kernel@matt3o12.de>
- <20260831233215.287881-3-kernel@matt3o12.de>
- <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com>
- <20260913210806.125589-1-kernel@matt3o12.de>
- <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com>
- <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org>
- <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net>
- <ea8caba1-eb78-40cd-b025-e8c02009f2d7@arm.com>
- <DLF2GNSEGHKR.2UI219W5RK94F@garyguo.net>
- <DLF3BLOLU8HS.1AXNNXWVQUFNU@kernel.org>
- <DLHH0K25NLX5.616R4D860TXU@nvidia.com>
- <20260927224446.1053037-1-kernel@matt3o12.de>
-In-Reply-To: <20260927224446.1053037-1-kernel@matt3o12.de>
-X-ClientProxiedBy: TYCP286CA0293.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::11) To MW4PR12MB6873.namprd12.prod.outlook.com
- (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7TBTail"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B11C1F000FF;
+	Mon, 28 Sep 2026 16:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790612145;
+	bh=l63NqOrmYS7OWhnyJ46rzvQOga2GpeIrimZGoJ6BZws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E7TBTailbJXOF3b09WyFbluQXA60619reCTcV7CQ8hJeZCyDd6THls1fDs19vu297
+	 rR8SB4jBUdSOQTOpSseq0eWB41RvN0qZxgmRWpVKttlRSOeEIH2zcQaW2s1qEQs69+
+	 7GHhCbXYaYZwxllF7ZgNBetbO0b5OTBSLiFcOwWXoZ70fNgQIn9EVOG7QvsjSN86h9
+	 bR9/gaur1nLKsyx/xu1xCgSsZcueblotdLbcBhLHDeKYXMNEY3/kvd0/mYVIRkENTn
+	 OTrF6qIVtKG2xPxWS4ltlL1jAN4ULI0HH5IKQvP7EWRacMLtO9t5xcrqInQ+Ur/f3K
+	 t5632UFq8n2PQ==
+Date: Mon, 28 Sep 2026 18:15:37 +0200
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+Message-ID: <arqSqcoWAkhy-8do@red-moon>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arZDwutoadki7tiZ@ashevche-desk.local>
+ <arZNL9BnTGK0Klwc@red-moon>
+ <arZS4vwxps01dGb7@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|PH7PR12MB8777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fce4a14-44d6-424e-1ffe-08df1d71f39a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|7416014|366016|10070799003|4143699003|6133799003|3023799007|10067099003|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	q0wBw0FubBj04YrQ3eKngc4RJi9kUEwF9Oh2jFdO4unQqCJCXRkc6NIplCQfWPTaXqhvwck/TRZLpbqXkWqMW1jOPZ/g/E+Em/sHH24N9XQOkNJY3ZlL6MVIck9vJO5YgaS6PmEEaorbymh3lljvVOExsmmAFXAxii+TyVjpjfTEPjqu3EMGUlAdabCvUDX3BzT/QAgUEVdFtInSn4e02wB6RXLyDIwiQKhjGvRTQICXXuWy72+AGksFfOhfVDnRpnUyHJRn0duKn2IGzyOcTkCmJay/uwtzndqX7on7n6kSazzV7VJxMhW4IaJ5EUVmzXmoPjMj6yl6qiuyMaUo1aqF5tvyh2C2ogeT+71oJaCpQFHRNTbH01gG0+nucK+6SpCex4NBbBeVlR8ATT9W2R4TlkBGuH6bngkSZkwhQJvhxcLJiafjvJdGeyzebvKEwSxv586mAJMTSnUJSzicH/LGqllvn3V0eINXZKvpV0QCHVtblPxk3nZn98AXjEW8E9LGA2mpwSEI5h3D83moAp4zG/+1VpClWZzdAXvNyhj9obRSsYvEALm4BgJexFkJqcvpWAZQl5AZGWpRee5X82wk/0g2L8VDExzKGk32Qtr7OHMjjnsAB/614fkrxkPnFPe0ux3AOZEfEkPeUDc3vRI46sK96kcd0wZqGMs92KY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(7416014)(366016)(10070799003)(4143699003)(6133799003)(3023799007)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SkZEa2tIVHFBU2hxek5uWmpUV2x5cnBEak4yNzRnRDU5eng2SHdqT3BxT1Z6?=
- =?utf-8?B?QVR3NXl1bVh2MDRBOXA0QWR1M3kxQk9tZG84K3VRbytNSFJMV0VSbDdIOFox?=
- =?utf-8?B?MCs0QXQzV3gxc3ZESWhXRnd3YWtEVGJ6Q2duZVRZMmsxWFRwd3huMk5QZUdY?=
- =?utf-8?B?aTNUQU9KQ2hiSzNScy9TOHBveTlqbVduZjRva01hNlVXVkkwK3dEbE9sVVg1?=
- =?utf-8?B?a0oyVTFkcElVM3o5ZlNCTThUTFNLczlwdElHOGxlWWhTVCtibkxXOG0ydmZt?=
- =?utf-8?B?d1pCd3QwUmFMcXBqNGNnL3RoSmx1NEpiM2NPVmJYRUtlRVArU21nUkJwVFI5?=
- =?utf-8?B?N3FzQ2tOcWVOaG5wRkJYTmVOUFFJV1J3Vit4KzBadHlaTGtWb0RjTWtZSHlP?=
- =?utf-8?B?NGpuUzFSdi9IWjFaa2JuM0NrcHF3dk1PdmhNM21FakNXOXI2ZHVFV1UvNGVV?=
- =?utf-8?B?RXpvMjFML1FTM1FlWlQ5NG5GK0hqSVlEbmI0WHBpSW5DUFNDM3JKNS9QSEVC?=
- =?utf-8?B?TWdBQUE2ZHBvVk5NRS8razd1RjNHRnJtbmlVYVBuSG9sN2VMc3lMazR3VUF0?=
- =?utf-8?B?cWJDYU1oYmtRZHovc2QxeHRCTkpMSTNjRVhPZk9XOUwzZC9KaWVpQ3poMlFh?=
- =?utf-8?B?bjhKbkt3ZjhvY0U4eGFmMkVpQ1ZoSmZMN0c2T2hqT3JoRXRpbnpXTkw4OGxr?=
- =?utf-8?B?ZmE2R2RUbDdIcE1RU3RzTG85TTc5YVI4L3hqYUxsUkxNMFJwQVdJd091dXly?=
- =?utf-8?B?WWV6MXVoc21ndi90MUZmMmxWeUtTWERnNnN1U2RyWmlMY0tMTnJUS3l4bFc1?=
- =?utf-8?B?cnFYdFh0WWllYWI2OEZMZkdBYmpiWEVpQTZRdUtoQnNhNE9PUjZPRXpZa1BI?=
- =?utf-8?B?QThncjNNUWdGNWE4dU1aWXVMK2xTUUkvak54akRhOHNDNnhDOHpBUVNFMzVQ?=
- =?utf-8?B?am0zYlVNejlGblVOanNhZHl0VS9iZitkMHUyU3FsZThKVzQ0RmRwOVg5VUdt?=
- =?utf-8?B?QWZHaFBxK3M5NE5hckdna3hCTStRN3c0UmJMSGFRVzBrRTVLRkdKOVJ4U0lH?=
- =?utf-8?B?WWNJdFJXYUt5WTFoSFN1a3lSZktvRjR1d1dtZzJKeGllcVNSZmkwWDUzZlJF?=
- =?utf-8?B?NkxZOUV2WGg4WnFrVEQybHVTdlhIVWtHbzJCZ3FWL1I1bWpqNGltRU1SS0ZL?=
- =?utf-8?B?dEZZZ2NWeHVkZVR6Zm54SEk5TmNHNldhL0RNanpwTEdidHRpWGxpWGcrQkJF?=
- =?utf-8?B?dysxTm9ZdTA2RCs3MVM5Zi92L3EvMXIrSHMwV3YwcW9NcDNXSXh3UURUY1Iv?=
- =?utf-8?B?OEozdS9yTTlWVnpIMWlPSVdUUWowNlBBRzdNWElySlJtL01za083cnVrUnNz?=
- =?utf-8?B?VjFDeHl4dEJZMnorNGZvWVZERlZiWE4rdXJBRmZWaEVlRGdXSHdVUUNoUHNh?=
- =?utf-8?B?YWRMcGRkKzF6Yi9MSEJ1OWR4a1k4OVBTSjNxcm1QTWtxSGUxUU1qdCtLenpD?=
- =?utf-8?B?WnZVaEdtMXNUemNKa0h6MTcxSVdJTnVDb2RRTjZFdjB3M0VkbWlacFl5SVZo?=
- =?utf-8?B?aWN3Q2JidjlVdmsyS3Y5Nm1tU3VkTWZuU3JxWnVFN0Z5bWh3MWcxcm9MLzRz?=
- =?utf-8?B?aXBWN1BOdG9uUGxjeGdCcUJmcXVNaGhqL3laelU0N3BtS25LU05SdUdkUUpL?=
- =?utf-8?B?VGx6ZHlNd0d4R0VueGtlNkY5b09ydzBNWmtOYlhxQnZORkN6R2RiY0hMaGxW?=
- =?utf-8?B?UmdKZkFSWk9ZMG9WVldvZk01SXZ1TFVpcHlDMmF5ODc5SHAvMTg2L1FNcWVo?=
- =?utf-8?B?RTd6dlRWbjY4VmhtSFFmVmd4dSsvakJyajAxTW5mZXlSOGZhcm13Uk5lSnRK?=
- =?utf-8?B?aHNxc3UxUWxNcE9NdFpNQkd3SkJkSHRNd2dURXFydzBzbFhWd0NraFdhdysv?=
- =?utf-8?B?R0VIMmw2azg1YU1ZWTNVMDlSKzFqK0VJT3lFbVRTMVRuQXl0bzFKUGZWd3dz?=
- =?utf-8?B?eVNDd3h6YXVLRk5EQUxNdStRMHdJVk9EUFpBNTBmNE1xSE4xR1VPUHFXa1ZQ?=
- =?utf-8?B?OGRhY3NPeVA5MEFMZUpOSE45T08ycmpxQTdKNDBFOHhkUkl2S3ZvcC9neGJk?=
- =?utf-8?B?OHRPSlV2Wk0xcWxCTjZKWE1wN1lzblRVL2RLVm1xaTJEWGpoS05BMnA2V21n?=
- =?utf-8?B?UVdPbG95cGxLRlJ0OCtnc01XM1ZpaGFkSkpjRWt4RW5vbm51SlV6UkY0TTNY?=
- =?utf-8?B?T2Q3b2NCK21EbmpFa1VBd01la095OUNUQk5xZVUvYnEraWNmUmxEWllkclRK?=
- =?utf-8?B?ckxJVW5CdVY0NlRrd1dRM1d3Z25PY08wSUV4cEFueUwyYnFDZE1MbG9lZUZ0?=
- =?utf-8?Q?3faFla+qNncFn3OxTWNOWzts1VDS29yDuYUDHo2MJJVBa?=
-X-MS-Exchange-AntiSpam-MessageData-1: BMzafcVNJRDXqQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fce4a14-44d6-424e-1ffe-08df1d71f39a
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2026 15:05:36.8353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EemIVQqhBmk591juynpPE5g07gkTehlSQxzYEeZQp75beP96yy/8fXLxBYorUoZ6OUXaYELHrTEPWjOZLFQUYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8777
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arZS4vwxps01dGb7@ashevche-desk.local>
 
-On Mon Sep 28, 2026 at 7:44 AM JST, Matteo Kloiber wrote:
-> First of all, thanks for merging my first two patches and sorry about my =
-late reply.
->
-> What I think Alex meant and what I agree with is that the new API should =
-focus on
-> making semantic bugs harder, not to necessarily make it easier to write s=
-afer
-> drivers. That being said, I think we can do both with this change.
->
-> The key change here is that we introduce a structure that defines dma
-> parameters for a device. This structure deliberately has no default
-> implementation and new fields should be added even if they require change=
-s for
-> all dma drivers.
-<...>
+On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
+> On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
+> > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
+> 
+> ...
+> 
+> > > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
+> > > > +						  const char *propname,
+> > > > +						  unsigned int index, u32 *value)
+> > > > +{
+> > > > +	u32 *values;
+> > > > +	int ret, count;
+> > > > +
+> > > > +	count = fwnode_property_count_u32(fwnode, propname);
+> > > > +	if (count < 0)
+> > > > +		return count;
+> > > > +
+> > > > +	if (index >= count)
+> > > > +		return -ENOENT;
+> > > > +
+> > > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > > +	if (!values)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
+> > > > +	if (!ret)
+> > > > +		*value = values[index];
+> > > 
+> > > Use standard pattern, id est
+> > > 
+> > > 	if (ret)
+> > > 		...
+> > > 
+> > > > +	kfree(values);
+> > > 
+> > > You want to use __free()
+> > > 
+> > > > +	return ret;
+> > > > +}
+> > > 
+> > > I believe the whole approach is suboptimal, if you wish get indexed value (but why?)
+> > 
+> > Why what (that's what the irq_get() interface requires ?) I agree it is
+> > suboptimal - the whole point of the series is an RFC on using properties
+> > to store GSI number/flags, then how to read them we will optimize it
+> > when/if we agree that's the approach to be taken.
+> 
+> Why to have indexed APIs. The callers usually do not want a single item from an
+> array, they want all of them or a big pile (exception is the array of strings,
+> but we have matching functions for that).
+> 
+> As per approach, this patch is against device property and I don't think we are
+> going to agree on the approach taken in *this* patch.
 
-Thanks for the detailed plan; I think it mostly makes sense.
+Coming back to this, what is needed here is a way to stash the GSI number,
+flags and name in stardard storage (like OF nodes IRQ properties, ACPI objects
+_CRS, etc).
 
-A few details that we have discussed offline with Danilo:
+To give you some background, I thought about adding an array of:
 
-- The `probe` methods should not take the `dma::Setup` token directly,
-  but rather a bus-specific struct that contains it and can be augmented
-  with other capabilities. Drivers would have to deconstruct it using
-  the `..` operator to make sure code doesn't break if we add new tokens
-  to it.
-- The token should not assume default parameters and only call functions
-  corresponding to parameters explicitly set; converting the token to a
-  handler means the driver acknowledged all the settings, so we should
-  not make any parameter mandatory (the doc should of course detail what
-  drivers *should* do).
+GSI [number, flags, name]
 
-With that and your plan I believe you have a solid basis to send a
-RFC/PoC. :)
+to the ACPI static fwnode itself. Then basically the irq_get() API has got
+all the information it needs from the primary fwnode; while doing that I
+thought that this might have been a bit like reinventing software nodes
+(granted, software node properties are ways more general that what I suggest
+above and I don't expect any other property to be ever added to static fwnodes)
+that's why I put together the series as it is, precisely to understand what's
+best.
+
+When you say "against device property", what do you mean precisely ?
+
+I suppose you mean that this approach goes against software node properties
+usage guidelines ?
+
+Anyway, again, it is just to provide some context, we are talking about
+a bunch of platform devices, it is nice to have a generic solution but
+it has to be simple enough too given its scope, I understand very well
+your concern with this approach as-is - it is there to find a way
+forward together and show what the problem is.
+
+Thanks,
+Lorenzo
+
+> > > it needs to be retrieved as that in the guts of ACPI. Allocating memory for the whole
+> > > array to retrieve a single element is simply wrong.
+> 
+> ...
+> 
+> > > > +#define ACPI_IRQ_PROP_GSI		"linux,acpi-gsi"
+> > > > +#define ACPI_IRQ_PROP_GSI_TRIGGER	"linux,acpi-gsi-trigger"
+> > > > +#define ACPI_IRQ_PROP_GSI_POLARITY	"linux,acpi-gsi-polarity"
+> > > 
+> > > Oh... This sounds like a big ugly hack.
+> > 
+> > That does not help much I am afraid.
+> > 
+> > What's a ugly hack ? Property names ? Using properties for this purpose ?
+> 
+> Yes, properties started with "linux," for some core functionality.
+> Yes, using properties for this also doesn't sound right. I think the problem
+> here is in the table specifications or somewhere that deep. That's why we
+> ended up in this series.
+> 
+> > Again, it is an RFC for this specific reason and I mentioned that in the
+> > cover letter, thank you for your inputs.
+> 
+> And here we have a discussion started :-)
+> 
+> P.S. Looks like I was too quick to jump into this thread. I will wait for
+> others to share their view on all this.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
