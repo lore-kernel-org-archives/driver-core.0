@@ -1,221 +1,98 @@
-Received: from mx1.mail-out.lima-city.de (mx1.mail-out.lima-city.de [91.216.248.203])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EFB3BB661;
-	Sun, 27 Sep 2026 22:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD6036195A;
+	Mon, 28 Sep 2026 05:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790549641; cv=none; b=JWyubjgMT9CF1DAsjCQzlPyz6XnrN0ig0e7xL/eBbR+ld/iHwqf4xoLYkqEn/j23C/GUkdfoziYvgSNu7L9zAXPVnwSXUQEJfs6LFb5f8NfyldXceBcjxV3muUCdNdUlQ8s1ANXKxT+r89jCqF7LVW7V4fABUMPPxENPINIbS7g=
+	t=1790572473; cv=none; b=fbwL/IKt9YeKVoN28iqBXb7cUo8evejmW4V66Rx9nVAXd/sXNWlgIMKYQA2DEkdjHaD6FFDSmsgpv7O3Swm3p443ywEBZl1SvKyAnD04YeInGILRrGRGlRY7lOkDyKr8hj4NvMhhxLlL944Q4m88gDcuK0eyBNyiZ1pzl1RZ++c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790549641; c=relaxed/simple;
-	bh=xC9euzdpfWQA6clWp09WVE/7sgF5HEkIjOsWgJhhgTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lujh6DGJD09q1B3ff4zuXczW+Feoyu75KGzVEUsD8cyu0ZoK/XoFAeGaq4InekaARYci93+/9V0mDgmzama9RlZ/Hj1YE2wubTONM+d4SGskl7lwafbs6W2HWbZt8r/WDhS1yHTcCBhJxOya1E+v8FkymKnVhVSfcj/wWP38Bnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de; spf=pass smtp.mailfrom=matt3o12.de; dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b=QPxsBAyX; arc=none smtp.client-ip=91.216.248.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matt3o12.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matt3o12.de
+	s=arc-20240116; t=1790572473; c=relaxed/simple;
+	bh=t8vWTi17bZjzu97QihdDCBRUxbsMrReoLp+F91eNGlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9e/h7ur1KObOEjfDjftUP94vxWUR7UCrzODQoWH0V3hO8mxHtBpZ284QDXmZ/E871LnhHKf9AmMRW00TXZC4PHgDTTZIqW8RNATvvCVmJB3jOxGuzjkEvvkUJzfQUbSHlv+Sa4ZAQCIAW0DjJv/VHN7vXO7v2FL7Rw2zekSrMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=z6I+Sp4u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matt3o12.de header.i=@matt3o12.de header.b="QPxsBAyX"
-From: Matteo Kloiber <kernel@matt3o12.de>
-X-Lima-ML-UUID: 7b21bed0-f515-40d2-8fad-e214b5c9faf0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matt3o12.de;
-	s=securedbylima-20230709; t=1790549158;
-	bh=xC9euzdpfWQA6clWp09WVE/7sgF5HEkIjOsWgJhhgTE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QPxsBAyXObGEqRuVtVwk+kG/MmUHlCLH7ftmtL5BWr2j8oaZf0M4V9Q3kIBZ9zV+2
-	 uylOzjCrgcHThRhe5hs4jq2HvGiNof6YkMwPPkWx3ToNAJplgp+cp0SpLJ0eZShIhP
-	 cL9aqqpJMKK1jiCRLqPoDgiKaEH3N2yN8bY7vVrd8qp8ScHRVQw3QGZxZ9UKv/+oAR
-	 xLVSKeXX1+T/jtMI9IQloUVQvaHzI/703WAmDE/7Jdc8d2wO5bvZAMStVQq6a1vbR5
-	 RNVGTGvhjnpL8x33L1GqLVpWnHzdQflfLmVHlzU0CgiRtDVX2EmxDPhXofOm2Jdl3V
-	 I/ygm44GFUvqA==
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Robin Murphy <robin.murphy@arm.com>,
-	aliceryhl@google.com,
-	ojeda@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	abdiel.janulgue@gmail.com,
-	daniel.almeida@collabora.com,
-	a.hindborg@kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] rust: scatterlist: honor the device's maximum segment size
-Date: Mon, 28 Sep 2026 00:44:43 +0200
-Message-ID: <20260927224446.1053037-1-kernel@matt3o12.de>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <DLHH0K25NLX5.616R4D860TXU@nvidia.com>
-References: <20260831233215.287881-1-kernel@matt3o12.de> <20260831233215.287881-3-kernel@matt3o12.de> <DL8QLYLQJEL1.3F653J67DYZ47@nvidia.com> <20260913210806.125589-1-kernel@matt3o12.de> <DLEMH1X0KQA1.D1PYVJD0E6SR@nvidia.com> <DLEY8AHWZFCQ.QUHP2NHJW1QX@kernel.org> <DLEYQNUGTQYU.34AISCMMZXG8B@garyguo.net> <ea8caba1-eb78-40cd-b025-e8c02009f2d7@arm.com> <DLF2GNSEGHKR.2UI219W5RK94F@garyguo.net> <DLF3BLOLU8HS.1AXNNXWVQUFNU@kernel.org> <DLHH0K25NLX5.616R4D860TXU@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z6I+Sp4u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A091F000FF;
+	Mon, 28 Sep 2026 05:14:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790572471;
+	bh=d5G8KDzWD3+Z+7AlD6YRuKE+rOIimOn2l/IBQGRPiSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=z6I+Sp4u5aHOlATRBbNS2irdtSUeBXdKEqAYNkpGHDaSjOMWqq4FRo8Bv47g2cB0m
+	 nnNxjezx2AnMeThsnOOZMVHnd7Tv2DzMRnNsia2AxoijEq7guP+bexBmSzClnKQxIr
+	 VSTdVQavdFoISLnu/m5pibk9q8arYpd7G9tRkENM=
+Date: Mon, 28 Sep 2026 07:14:28 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Hyeontaek Lim <jennystr233@gmail.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	syzbot+d164947c037324221043@syzkaller.appspotmail.com
+Subject: Re: [PATCH] kobject_uevent: fix OOB read in kobject_action_type()
+Message-ID: <2026092806-life-amazingly-e68d@gregkh>
+References: <20260927174241.36888-1-jennystr233@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260927174241.36888-1-jennystr233@gmail.com>
 
-First of all, thanks for merging my first two patches and sorry about my late reply.
+On Mon, Sep 28, 2026 at 02:42:41AM +0900, Hyeontaek Lim wrote:
+> kobject_action_type() matches a user-supplied action string against
+> the short "add"/"remove"/"change"/... literals in kobject_actions[]
+> using strncmp() with a length (count_first) derived from the size of
+> the user-supplied buffer (up to the first space, or the whole write).
+> 
+> strncmp() correctly stops comparing as soon as it hits a NUL byte in
+> either string, so a caller can make it report a "match" against a
+> short literal like "add" by embedding a NUL right after "add" in an
+> otherwise much longer buffer (e.g. write "add\0" followed by 391
+> bytes of arbitrary padding, with no space, so count_first stays at
+> the full write length).
+> 
+> The subsequent bounds check then indexes the matched literal at that
+> same, much larger offset:
+> 
+>     if (kobject_actions[action][count_first] != '\0')
+> 
+> which reads far past the end of the 4-byte "add" literal, into
+> whatever object happens to follow it in .rodata (observed to land
+> inside uevent_helper_sysctl_table on the reporter's build).
+> 
+> Fix this by checking the literal's real length against count_first
+> before doing the strncmp()/indexing at all, instead of trusting that
+> a strncmp() "match" implies the lengths agree.
+> 
+> Reported-by: syzbot+d164947c037324221043@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=d164947c037324221043
+> Signed-off-by: Hyeontaek Lim <jennystr233@gmail.com>
+> ---
+>  lib/kobject_uevent.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+> index xxxxxxx..xxxxxxx 100644
+> --- a/lib/kobject_uevent.c
+> +++ b/lib/kobject_uevent.c
+> @@ -78,10 +78,11 @@ static int kobject_action_type(const char *buf, size_t count,
+>  		count_first = count;
+> 
+>  	for (action = 0; action < ARRAY_SIZE(kobject_actions); action++) {
+> +		if (strlen(kobject_actions[action]) != count_first)
+> +			continue;
+>  		if (strncmp(kobject_actions[action], buf, count_first) != 0)
+>  			continue;
+> -		if (kobject_actions[action][count_first] != '\0')
+> -			continue;
+>  		if (args)
+>  			*args = args_start;
+>  		*type = action;
+> 
 
-What I think Alex meant and what I agree with is that the new API should focus on
-making semantic bugs harder, not to necessarily make it easier to write safer
-drivers. That being said, I think we can do both with this change.
-
-The key change here is that we introduce a structure that defines dma
-parameters for a device. This structure deliberately has no default
-implementation and new fields should be added even if they require changes for
-all dma drivers.
-
-```
-pub struct Params {
-    pub streaming_mask: DmaMask,
-    pub coherent_mask: DmaMask,
-    pub max_seg_size: NonZeroU32,
-}
-```
-
-Suppose, we didn't have `max_seg_size` before and only discovered it later. We
-would add it and the compiler would guide us to any drivers that will need to
-consider an appropriate value for `max_seg_size`.
-
-If rust was bigger in the kernel, this could be quite a bit of work, requiring
-coordination with other maintainers, but I would call this a feature because it
-actually requires everyone to at least consider what the right value is instead
-of forgetting to set it.
-
-The same is also true for new drivers. Authors do not have to be omniscient of
-all dma related settings and instead just fill out the struct and already have
-some important ones set.
-
-If a parameter is only important for some drivers but those drivers should not
-forget it, we could make it an Option so that drivers that really don't need
-a parameter can set it to `None`, but they had to think about it at least.
-
-I think, instead of discussing different possibilities, it might be easier to
-discuss code directly. Taking Alex's example, I went ahead and wrote a small
-LLM assisted PoC. I'm happy to share it here or in another thread, but here are
-the main changes:
-
-1. The PCI and platform probe callbacks receive a unique setup token:
-
-```rust
-    fn probe<'bound>(
-        dev: &'bound Device<device::Core<'_>>,
-        dma: dma::Setup<'bound>,
-        id_info: Option<&'bound Self::IdInfo>,
-    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
-```
-
-The bus driver creates this token and drivers cannot obtain another one from
-the device. 
-
-2. `setup.configure(params)` consumes the token, applies the parameters through
-   the C DMA setters, and returns a `dma::Handle<'bound>` on success.  This
-   combines the setters and `finish()` from Alex's outline into one call.
-
-```
-pub fn configure(self, params: Params) -> Result<Handle<'bound>> {
-    let dev = self.dev.as_raw();
-
-    // SAFETY: `dev` is valid and its DMA parameters are initialized by the bus. The `Setup`
-    // invariants exclude concurrent DMA operations and other parameter setters. Consuming
-    // the unique token prevents reconfiguration after a handle has been issued.
-    unsafe {
-        to_result(bindings::dma_set_mask(dev, params.streaming_mask.value()))?;
-        to_result(bindings::dma_set_coherent_mask(dev, params.coherent_mask.value()))?;
-        bindings::dma_set_max_seg_size(dev, params.max_seg_size.get());
-    }
-
-    Ok(Handle { dev: self.dev })
-}
-```
-
-3. The handle contains a bound device reference and is copyable, but provides
-   no way to reconfigure DMA:
-
-```rust
-#[derive(Clone, Copy)]
-pub struct Handle<'bound> {
-  dev: &'bound device::Device<Bound>,
-}
-```
-
-4. Allocation and mapping APIs now require a Handle. 
-
-For example, scatter list now takes:
-
-```
-pub fn new<'a>(
-  dma: dma::Handle<'a>,
-  pages: P,
-  dir: dma::DataDirection,
-  flags: alloc::Flags,
-) -> impl PinInit<Self, Error> + 'a {
-```
-
-The PoC uses Handle for coherent allocations, owned scatterlists, and DRM
-scatterlist mappings.
-
-5. Each pci/platform driver that uses DMA configures its own `Params`. Let's
-   look at `samples/rust/rust_dma.rs`:
-
-```rust
-fn probe<'bound>(
-    pdev: &'bound pci::Device<Core<'_>>,
-    setup: dma::Setup<'bound>,
-    _info: Option<&'bound Self::IdInfo>,
-) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
-    pin_init::pin_init_scope(move || {
-        dev_info!(pdev, "Probe DMA test driver.\n");
-
-        let mask = DmaMask::new::<64>();
-
-        let dma = setup.configure(dma::Params {
-            streaming_mask: mask,
-            coherent_mask: mask,
-            max_seg_size: const { NonZeroU32::new(u32::SZ_64K).unwrap() },
-        })?;
-
-        let ca: Coherent<'_, [MyStruct]> =
-            Coherent::zeroed_slice(dma, TEST_VALUES.len(), GFP_KERNEL)?;
-
-        for (i, value) in TEST_VALUES.into_iter().enumerate() {
-            io_project!(ca, [panic: i]).copy_write(MyStruct::new(value.0, value.1));
-        }
-
-        let size = 4 * page::PAGE_SIZE;
-        let pages = VVec::with_capacity(size, GFP_KERNEL)?;
-
-        let sgt = SGTable::new(dma, pages, DataDirection::ToDevice, GFP_KERNEL);
-
-        Ok(try_pin_init!(Self::Data {
-            pdev,
-            ca,
-            sgt <- sgt,
-        }))
-    })
-}
-```
-
-What I am not 100% sure about is how we should handle drivers that don't use
-dma. Currently I just discarded the setup token like suggested, for example
-`samples/rust/rust_driver_auxiliary.rs`:
-
-```rust
-impl pci::Driver for ParentDriver {
-  fn probe<'bound>(
-    pdev: &'bound pci::Device<Core<'_>>,
-    _dma: kernel::dma::Setup<'bound>,
-    _info: Option<&'bound Self::IdInfo>,
-  ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound { ... }
-}
-```
-
-But maybe it would make sense to introduce a C API such as: `debug_no_dma` and
-have the bus call it unless configure was called first. This would then trigger
-a debug warning if a marked rust device calls any C APIs that use DMA
-regardless. But this could also very well be a worthwhile follow up.
+Hasn't this been resolved already?
