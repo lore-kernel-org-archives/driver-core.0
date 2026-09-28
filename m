@@ -1,196 +1,87 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C894E01E7
-	for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 17:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8FC37E5D5;
+	Mon, 28 Sep 2026 17:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790616376; cv=none; b=cY0Q0M/u3eJpu2TorixkRO2ScItGTEyFmhN7DYsRuBB00J+H83C8TSnCmQvBqMjBzuBTAv1vY5sLk9UbLnz+PB5qvWJnJfpf/upn3AhsEKkOzDaHksTjknpVyjWZcyWtOcmKRHs2SDo1x8w/FL9A0uofaVYHmkCnsBn1DrJ5EAM=
+	t=1790616710; cv=none; b=o8/6MkKsIIabuqw17oXICEcD2BG60SXW7euuMUNmo7eejvjAIkGY08e/cL0ZGKR3ShWEO/V0ffe6dPM8e7ZH9/VSvq7C9WO18N4mak1lY+Qq5qjbknHEOCC9Spc5x1w0t++rnx4Efan9IEg1+daVMkyJRUN5b0HBkbHZyieeQhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790616376; c=relaxed/simple;
-	bh=T7OC4nRKMqVmwsULaxUEz3joufpd8djcs976zl8/Xqs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=PsB02tMjRkCPzc3JEMniboLrSZOp+3NiiRZ/8x56RTaN+08H5RwYjd1HO6tTJLMnRKyu9cRIXH+V0E3NMa7EFTizh7BPZ2eMrekLr+xAHyu1AeSqDZgkFGVSOgrtPVC4PsgfMA99N2RCcHyUwAWu6b+TvC5vE35ZIXk78Bn4HfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=kEDemRW4; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=LZiEExpp; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790616710; c=relaxed/simple;
+	bh=YUNsQKbdoNdkmOn7hVMkhLGJNjStR4GPA47+J2XShC8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=XUaZluBHcAUa5rWPFATkTa0mwj+e7WuBcgBhxQAMeVlRSiNyt+59UroxutIDhyOQy+yAI7YlevqXlhYjdK0ws3SDj94rF9jVT+hvj0rQcnV6XtAhqVn+dS9OkoZW+LYGBPmp5Gq61KkXtxFOe4vtVnpJNxJB1g/pc0aZvWypmCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaaRP7xu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="kEDemRW4";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="LZiEExpp"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790616362; bh=Rq2Uefl/uDCN7yy0qsArfdj
-	su0GCBTJ02syOpjDKKZk=; b=kEDemRW4+UXB9cS1f9DM3xfwhqwsotLmJb1c13CLs/dKj4hFUh
-	YSmnhZwF4d4o6YcwFGtyLrf31AkqrbKsRnniTXgHngHhwnHFPQ7cAYCDIZ9kqnHI4LBLOhhDGA7
-	/IzNjxkBfeeka7I7MzrvQkWUBVROUkR/0SIqtThKFcvKFeROwfhXYIxmP5K/SRRq5FF02qknkcm
-	wtuQA9PgO2jZeKKRGLvXIdKvZ2Q5F79WJjgYbJub11udAmD/0B0nNcwFUHaYSqZFhN4KXkCGJHf
-	BDgfD3KJtrClVWqiJR4OP6gM4A3Ngz+9ad2J4ZC/CJ8S7wtyEN5kUvzVpwPuQsxgNUw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790616362; bh=Rq2Uefl/uDCN7yy0qsArfdj
-	su0GCBTJ02syOpjDKKZk=; b=LZiEExpp7DcwHYhootugj93yJytnQtp+LJx/MmLanZOOVipSDt
-	en8Mn2d2YcS4yvm54Sc/INR5wOmKiN8TpmDg==;
-Date: Mon, 28 Sep 2026 18:26:03 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: =?ISO-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Johan Hovold <johan@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] driver core: Disable driver overriding by default
-In-Reply-To: <0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com>
-References: <cover.1790612298.git.u.kleine-koenig@baylibre.com> <0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com>
-Message-ID: <F984EAAA-9F4F-4BB9-AD6A-E19888014738@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaaRP7xu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96E5F1F000FF;
+	Mon, 28 Sep 2026 17:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790616709;
+	bh=YUNsQKbdoNdkmOn7hVMkhLGJNjStR4GPA47+J2XShC8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aaaRP7xu4vYzsbzzIB1ARh5jRF/4XJXKwPf+eveA2AT8Jqgpt1Dnjgyzvhb6dw3MN
+	 s5SsekoSkivHHuRMmjC8WK+SNNa6oKFRebBMX+pN+jDJMgAGxCCLmBp3y5icFGCyhq
+	 koLG98wagBmCJ91hpHOfudtH6lk7UG6sxDevYDhmrwIL+e6sTydtzOC05AhgMH5nAw
+	 VhsKAc6sD+RdhsMIBV2DVLUmCWQ+TBtLqTSr+vRei2d6ksq1uQcIEXUBbTV1E41N5c
+	 FPQgqNF2AvWgUTJmSpxqa1beS5wNqni9CREmTJ+4t9aZH1Me00wySFaMVs7FJ3kIdV
+	 Gx2ByASjD6MFg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 11/12] Documentation/mm: Document the crash memaction
+ registry
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mikulas Patocka" <mpatocka@redhat.com>, "David Hildenbrand" <david@kernel.org>, "David
+ Howells" <dhowells@redhat.com>, "Michal Hocko" <mhocko@suse.com>, "James
+ Bottomley" <James.Bottomley@HansenPartnership.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Peter
+ Xu" <peterx@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Jann
+ Horn" <jannh@google.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "Saravana
+ Kannan" <saravanak@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Gregory
+ Price" <gourry@gourry.net>, "Catalin Marinas" <catalin.marinas@arm.com>, "Mike
+ Snitzer" <snitzer@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Harry
+ Yoo" <harry@kernel.org>, "Mimi Zohar" <zohar@linux.ibm.com>, "Matthew Brost" <matthew.brost@intel.com>,
+ =?utf-8?b?SmFuIFNlYmFzdGlhbiBHw7Z0dGU=?= <linux@jaseg.de>, "Paul Moore" <paul@paul-moore.com>, "Rob
+ Herring" <robh@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Nico
+ Pache" <nico.pache@linux.dev>, "Baoquan He" <baoquan.he@linux.dev>, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Muchun Song" <muchun.song@linux.dev>, "Kiryl
+ Shutsemau" <kas@kernel.org>, "Dev Jain" <dev.jain@arm.com>, "Arnd Bergmann" <arnd@arndb.de>, "David
+ S. Miller" <davem@davemloft.net>, "Suren Baghdasaryan" <surenb@google.com>, "Serge
+ E. Hallyn" <serge@hallyn.com>, "Will Deacon" <will@kernel.org>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Mike Rapoport" <rppt@kernel.org>, "Benjamin
+ Marzinski" <bmarzins@redhat.com>, "Jarkko Sakkinen" <jarkko@kernel.org>, "Pratyush
+ Yadav" <pratyush@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Byungchul
+ Park" <byungchul@sk.com>, "Lance Yang" <lance.yang@linux.dev>, "Brendan
+ Jackman" <brendan.jackman@linux.dev>, "Baolin Wang" <baolin.wang@linux.alibaba.com>, "Dave
+ Young" <ruirui.yang@linux.dev>, "Zi Yan" <ziy@nvidia.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Barry
+ Song" <baohua@kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>, "Mark
+ Rutland" <mark.rutland@arm.com>, "Pedro Falcato" <pfalcato@suse.de>, "Johannes
+ Weiner" <hannes@cmpxchg.org>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Vlastimil Babka" <vbabka@kernel.org>, "James
+ Morris" <jmorris@namei.org>, "Oscar Salvador" <osalvador@suse.de>, "Rik van
+ Riel" <riel@surriel.com>, "Usama Arif" <usama.arif@linux.dev>, "Alasdair
+ Kergon" <agk@redhat.com>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, "Eric Biggers" <ebiggers@kernel.org>, linux-security-module@vger.kernel.org, conor+dt@kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, kexec@lists.infradead.org, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, keyrings@vger.kernel.org, driver-core@lists.linux.dev, linux-integrity@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arch@vger.kernel.org
+In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-11-e511e9ee2329@jaseg.de>
+References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+ <20260928-crash-memaction-upstream-20260921-v3-11-e511e9ee2329@jaseg.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Sep 2026 17:31:44 +0000
+Message-Id: <20260928173144.96E5F1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-On 28 September 2026 17:46:04 BST, "Uwe Kleine-König"
-<u.kleine-koenig@baylibre.com> wrote:
->Driver overriding is useful only in a very limited set of situations
->and then only with very few drivers that are designed to support that.
->
->Disallow matching via driver_override unless the driver explicitly
->allows it or the safe guard is disabled using the
->"allow_driver_override" kernel parameter.
->
->Implementation detail: device_match_driver_override() isn't a static
->inline any more. It grew a certain complexity (e.g. a pr_info()) and so
->was made a regular exported function.
->
->Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
->---
-> drivers/base/bus.c            | 43 +++++++++++++++++++++++++++++++++++
-> include/linux/device.h        | 26 ++-------------------
-> include/linux/device/driver.h |  2 ++
-> 3 files changed, 47 insertions(+), 24 deletions(-)
->
->diff --git a/drivers/base/bus.c b/drivers/base/bus.c
->index c51ad96d4de4..d294c198ab0c 100644
->--- a/drivers/base/bus.c
->+++ b/drivers/base/bus.c
->@@ -606,6 +606,49 @@ int bus_add_device(struct device *dev)
-> 	return error;
-> }
-> 
->+static int __read_mostly allow_driver_override;
->+
->+static int __init allow_driver_override_setup(char *str)
->+{
->+	allow_driver_override = 1;
->+
->+	return 1;
->+}
->+__setup("allow_driver_override", allow_driver_override_setup);
->+
->+/**
->+ * device_match_driver_override() - Match a driver against the device's driver_override.
->+ * @dev: device to check
->+ * @drv: driver to match against
->+ *
->+ * Returns > 0 if a driver override is set and matches the given driver, 0 if a
->+ * driver override is set but does not match, or < 0 if a driver override is not
->+ * set at all.
->+ */
+> Describe the crash memaction registry, including its kernel and userspace
+> interfaces, allocation lifetime rules, and current limitations.
+>=20
+> Signed-off-by: Jan Sebastian G=C3=B6tte <linux@jaseg.de>
 
-Nice!
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260928-crash-mema=
+ction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de?part=3D11
 
-I mean, others may provide nits, but I'm rarely a nit guy
-
->+int device_match_driver_override(struct device *dev,
->+				 const struct device_driver *drv)
->+{
->+	guard(spinlock)(&dev->driver_override.lock);
->+	if (dev->driver_override.name) {
->+		int ret = !strcmp(dev->driver_override.name, drv->name);
->+
->+		if (ret > 0) {
->+			if (!allow_driver_override && !drv->support_driver_override) {
->+				pr_info("Suppress driver override binding. Allow %ps to do overriding or boot with allow_driver_override on cmdline\n",
->+					drv);
->+				return -1;
->+			}
->+
->+			add_taint_module(drv->owner,
->+					 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
->+		}
->+
->+		return ret;
->+	}
->+	return -1;
->+}
->+EXPORT_SYMBOL_GPL(device_match_driver_override);
->+
-> /**
->  * bus_probe_device - probe drivers for a new device
->  * @dev: device to probe
->diff --git a/include/linux/device.h b/include/linux/device.h
->index 4dac5e09b74c..a142bf384f1e 100644
->--- a/include/linux/device.h
->+++ b/include/linux/device.h
->@@ -892,30 +892,8 @@ static inline bool device_has_driver_override(struct device *dev)
-> 	return !!dev->driver_override.name;
-> }
-> 
->-/**
->- * device_match_driver_override() - Match a driver against the device's driver_override.
->- * @dev: device to check
->- * @drv: driver to match against
->- *
->- * Returns > 0 if a driver override is set and matches the given driver, 0 if a
->- * driver override is set but does not match, or < 0 if a driver override is not
->- * set at all.
->- */
->-static inline int device_match_driver_override(struct device *dev,
->-					       const struct device_driver *drv)
->-{
->-	guard(spinlock)(&dev->driver_override.lock);
->-	if (dev->driver_override.name) {
->-		int ret = !strcmp(dev->driver_override.name, drv->name);
->-
->-		if (ret > 0)
->-			add_taint_module(drv->owner,
->-					 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
->-
->-		return ret;
->-	}
->-	return -1;
->-}
->+int device_match_driver_override(struct device *dev,
->+				 const struct device_driver *drv);
-> 
-> /**
->  * device_iommu_mapped - Returns true when the device DMA is translated
->diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
->index 29fbc01ef06f..0153cfcbe1b9 100644
->--- a/include/linux/device/driver.h
->+++ b/include/linux/device/driver.h
->@@ -56,6 +56,7 @@ enum probe_type {
->  * @bus:	The bus which the device of this driver belongs to.
->  * @owner:	The module owner.
->  * @mod_name:	Used for built-in modules.
->+ * @support_driver_override: driver_override only works if this is true.
->  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
->  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
->  * @of_match_table: The open firmware table.
->@@ -104,6 +105,7 @@ struct device_driver {
-> 	struct module		*owner;
-> 	const char		*mod_name;	/* used for built-in modules */
-> 
->+	bool support_driver_override;
-> 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
-> 	enum probe_type probe_type;
-> 
->
-
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
