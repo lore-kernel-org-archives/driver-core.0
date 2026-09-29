@@ -1,56 +1,56 @@
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291FC3FF1A5
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF30141DEC9
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653543; cv=none; b=fIc4jmAsPxZcaPt5IyevYAfMzEGNhvr/7PGIOXZrWNSvgGkJ4/JwQRNvWZx8SVQB/Q/YfMjccPEIpK3zQXO7Foo610Ghed2WyiX6P5M/bVGDN+o8Dg9JJoYK/gCqlGmUGPh/u+DWC8Zk4f++Iklpg4rCCOlBL5PZlZNJg5PBtfg=
+	t=1790653546; cv=none; b=PoxYCfcwXVHcCeW6RVHFoE5jFXcU3XPpMLUZNFInidCebM4X7BPSA4Wf54FYNb2DeHHjV94qPIPFDaguEGvT2aXpR4qjC+b1eQ/yUhP+/IjKSNpjfCTzeJTVwSTJlqVkU5vK6YyuT2po2QfvImE8M3Cb4Q/fxPuVy9Uky7qTTAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653543; c=relaxed/simple;
-	bh=rAWcJCCi9A6gOKRWLlYQUftC1yte/SSOlRW13UF9bXE=;
+	s=arc-20240116; t=1790653546; c=relaxed/simple;
+	bh=uZ6gY/m1/uNPwW0ngnSZ50aeviMaNpqsykMbkfZBHTw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=giKBI3sS6RUzC68HM9ru94fSJoqnhbojZU8gkOBHmlihPPSXqfZ3Egf6CgjIh+gVGBglQv+WmwIGrNv1B8fhQJK7zG1wFTmLtCW3DWkrhvCfF00Of/1EVT3vtLKZO2Rgv9Nmi/+3G+l55KN2Z+1hO7aiBmtENL5cJQqNCfeBudk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q9JoblNB; arc=none smtp.client-ip=209.85.215.199
+	 To:Cc:Content-Type; b=dgqlTWBlUrPJvayCAhGj1TawGKemcYkLKfxerA4vm2n4hjtNx5s6OP0A6F9kjMgIbpZ8ZZRYAOS/zvXQhTEu+qxaVorHoIUilIWwrEAuGv/jtGphXhTCbNf2+aFWiUG+IMMablRS4MDNNK/Hax3REqGEhVwI+GWK99JnunApmyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a3tTKVbl; arc=none smtp.client-ip=209.85.215.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q9JoblNB"
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc11b5dd54dso5561273a12.3
-        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:45:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a3tTKVbl"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc7361c62b9so2624566a12.3
+        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790653541; x=1791258341; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1790653544; x=1791258344; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HWQbzPnJHI/UQ6xRoFaSMFgVnf7una/rhjMJI3MVJUs=;
-        b=q9JoblNBbojPSTLgb4A8Z6jSgWJ833VfeHrLynAZVR1VTcyNKaHeptQ34KWYF4L/9B
-         ZmkDVVNRnno99g2Cv1Xs2amAp7VkUXXwJN3qUnHjTF3ZS9pUzdf2EqAtblYgsuwo8mFA
-         qYhT7G58dMqyJ7VeBjmbXooBNTdihFnYO2OOFFvF/5NwafOjjSixReFPS4oT+TaoNG+t
-         tq1I+5E4StspQfSHsHPhf72ZiZAjA72fiPda+XTj9XxcQ8eqV0ZXN734tlQ0SlNdm3/u
-         y//ZyIY4po1AM0p+H7VGRl7nbba7wTNj78XcX8QfJmeIzXxsMui4jpBPfvMk0h9f1RG7
-         GEbg==
+        bh=pamITFUcwnp5TeeHCBPmUcU036kd5Sty9zaNaR/GKjI=;
+        b=a3tTKVblOxioY6EXdRig1cMNmynXScbhnu/Lfhvl3fyn1Tbi6RK2rJqZ+GpjC2L1VX
+         vUltnxvCdQO9N71YqfmWyBpxq3ICeS21fYumsEBpvMobDhX6Cv2BQ76q4x/55KNgU09D
+         8S8N90QgVtzl/5B+KkVCbwX1DmWPYsenJ4bMMBbkUEf3Z0Brpz0wkf1oH/E+O0NHIUqI
+         ZPKtglRq00B7lxFUQK7rY3w7ra4VAH6Byo/c4vLlV6HEaIRZRnULkIt4CSUai1AT9ErS
+         +gLGaWdZElHn38kB7Hc9uhY7S53l9rrAvqhqZ5x/VypIi+JG/t1wN9LjxBPN4TCf5KR2
+         U9Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790653541; x=1791258341;
+        d=1e100.net; s=20260707; t=1790653544; x=1791258344;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HWQbzPnJHI/UQ6xRoFaSMFgVnf7una/rhjMJI3MVJUs=;
-        b=TODgayjq4QWWeOe7qoDFOTOkuHTVwcxrOJ6696Mo3KjD9KjPlwtgS4/RuA0W/NgCoW
-         wUZ4nuaWuAH0PGk1cKXpYYe8N/EKfwgMqEkr53PG5jMTfJc3gDD7RWm+viGnORv3ucyY
-         cPAU10IiLSmYyMq8ZmQmqXYMbH+weS2yg1PB7oWJLVHprzK7f83xpGbl6rzAoGVUcg3K
-         i4DUo92SiD9q+GClWwghs7U6iGqmX7k4G1jVABIY04mw1rJmmgP2AqS+OATyih9ShCS3
-         yVG41D29YaP5fEhFlTKwLSK7qEojlezWfI/73BQ/huTZG4SrYCSNoMbJ3VkHY/IZDa2d
-         hgXg==
-X-Forwarded-Encrypted: i=1; AKwUvBw2O52GDo2xqsf2YdfKrjJiVa2cIcu6p6ZRZRppR/8dYc6P7+7iAeCVRfHxumLJhuTenhCqknJdJ54Z5A==@lists.linux.dev
-X-Gm-Message-State: AFuF++mUa87mN8nRlL1N9h9CQ/sl1aQKe7iVeJiEochCPIH3F4FO3NWb
-	T/Tk+o7XIN474VGIE29VJUna85m+ymhp3jCy8JA5CeHRXFN8TveQfT4DsmiOdfsEOh3kngRF95b
-	VVQ==
-X-Received: from pgc13.prod.google.com ([2002:a05:6a02:2f8d:b0:cc7:4d12:8a9a])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4324:b0:3d1:e510:9052
- with SMTP id adf61e73a8af0-3de0e6f3973mr13463950637.7.1790653541112; Mon, 28
- Sep 2026 20:45:41 -0700 (PDT)
-Date: Tue, 29 Sep 2026 03:45:03 +0000
+        bh=pamITFUcwnp5TeeHCBPmUcU036kd5Sty9zaNaR/GKjI=;
+        b=Pmy1ELnMdyZUjDAnqFEKNecwgJs1Qyv2SehTHtk9SuAJWUHvxhX+vltSkxfjGkJ69X
+         koQmv8OlOOK96vdcb5rroWlKI3a4oVfNC4196sd2x/Ucs/M3wS083gOqyRLhx1kwUirh
+         GB6cZkA/QTz2/ZY6MklLI3KVRfAbm0Ko8qwuoIlaaqmHUw8SUM7WviN+FEUXpkW1qgdy
+         8AeK97DFBSlzuFw6ElyhG5CQUigGxEcIz2KDbtygaAkgY5wyPCnbeNh7jYe7wSjfxZMI
+         kne9mSiIBX/PEA69BnM/9aH3TX+lhNegTrH/hdki1XcyhWPDloCP5sYdOT0QPP5MnYL/
+         Y7Ng==
+X-Forwarded-Encrypted: i=1; AKwUvBze2+zexoExO0AvS8y1RUZq5j1WjWgczd3fBo8GgJQGsJl87GIMrBPP5Ogrb5l8U2xg7TDCs82uEHWJzA==@lists.linux.dev
+X-Gm-Message-State: AFuF++k2cG8uVXA0MnwP8+GchvxbWm+ttpbiDgU+JtJwC05WTq4YnMAH
+	N0nevgqkYoc7YMjioat5mrCtA2cVS8/hnOiUoPAwjfAXIbaGPkiah/ciw/Hl10vIChZHSghLrgx
+	TQA==
+X-Received: from pfbdl3.prod.google.com ([2002:a05:6a00:4903:b0:884:2224:5f7d])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:244f:b0:3de:6873:84d1
+ with SMTP id adf61e73a8af0-3de6873856fmr3745913637.74.1790653543715; Mon, 28
+ Sep 2026 20:45:43 -0700 (PDT)
+Date: Tue, 29 Sep 2026 03:45:04 +0000
 In-Reply-To: <20260929034510.2023173-1-praan@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260929034510.2023173-1-praan@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260929034510.2023173-10-praan@google.com>
-Subject: [PATCH v11 09/16] iommu/arm-smmu-v3: Restore MSI config on resume
+Message-ID: <20260929034510.2023173-11-praan@google.com>
+Subject: [PATCH v11 10/16] iommu/arm-smmu-v3: Factor out arm_smmu_handle_gerror()
 From: Pranjal Shrivastava <praan@google.com>
 To: iommu@lists.linux.dev
 Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -72,51 +72,57 @@ Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
 	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
 	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Pranjal Shrivastava <praan@google.com>
+	Pranjal Shrivastava <praan@google.com>, Jason Gunthorpe <jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The SMMU's MSI configuration registers (*_IRQ_CFGn) containing target
-address, data and memory attributes lose their state when the SMMU is
-powered down.
+The GERROR register's state might be lost when the SMMU is powered down
+during runtime suspend, requiring the suspend sequence to handle any
+pending errors before the hardware state is lost.
 
-Introduce arm_smmu_resume_msis() to zero the *_IRQ_CFG0 registers (which
-reset to unknown values) and restore the cached MSI messages across the
-device's MSI domain via msi_device_domain_restore_msi_msgs().
+Refactor the gerror handling logic into a helper function. Subsequent
+patches will invoke it from the runtime suspend callback after disabling
+the SMMU, ensuring that any late-breaking gerrors are logged and ack'ed
+before the hardware state is lost.
 
-In addition, clear ARM_SMMU_FEAT_MSI if MSI setup fails and the driver
-falls back to wired IRQs, preventing spurious MSI resume attempts.
-
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
 Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-Reviewed-by: Mostafa Saleh <smostafa@google.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Pranjal Shrivastava <praan@google.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index dc2fc02b5163..7347d3ecdae8 100644
+index 7347d3ecdae8..a123810fac57 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -4779,6 +4779,19 @@ static void arm_smmu_write_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
- 	writel_relaxed(ARM_SMMU_MEMATTR_DEVICE_nGnRE, smmu->base + cfg[2]);
+@@ -2406,10 +2406,10 @@ static irqreturn_t arm_smmu_priq_thread(int irq, void *dev)
+ 
+ static int arm_smmu_device_disable(struct arm_smmu_device *smmu);
+ 
+-static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
++/* Lockless; must ensure that there are no concurrent callers */
++static irqreturn_t arm_smmu_handle_gerror(struct arm_smmu_device *smmu)
+ {
+ 	u32 gerror, gerrorn, active;
+-	struct arm_smmu_device *smmu = dev;
+ 
+ 	gerror = readl_relaxed(smmu->base + ARM_SMMU_GERROR);
+ 	gerrorn = readl_relaxed(smmu->base + ARM_SMMU_GERRORN);
+@@ -2452,6 +2452,13 @@ static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
+ 	return IRQ_HANDLED;
  }
  
-+static void __maybe_unused arm_smmu_resume_msis(struct arm_smmu_device *smmu)
++static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
 +{
-+	/* Clear the MSI address regs as they reset to unknown value */
-+	writeq_relaxed(0, smmu->base + ARM_SMMU_GERROR_IRQ_CFG0);
-+	writeq_relaxed(0, smmu->base + ARM_SMMU_EVTQ_IRQ_CFG0);
++	struct arm_smmu_device *smmu = dev;
 +
-+	if (smmu->features & ARM_SMMU_FEAT_PRI)
-+		writeq_relaxed(0, smmu->base + ARM_SMMU_PRIQ_IRQ_CFG0);
-+
-+	/* No-op if no MSI device domain was instantiated (e.g. wired IRQs) */
-+	msi_device_domain_restore_msi_msgs(smmu->dev, MSI_DEFAULT_DOMAIN);
++	return arm_smmu_handle_gerror(smmu);
 +}
 +
- static void arm_smmu_setup_msis(struct arm_smmu_device *smmu)
+ static irqreturn_t arm_smmu_combined_irq_thread(int irq, void *dev)
  {
- 	int ret, nvec = ARM_SMMU_MAX_MSIS;
+ 	struct arm_smmu_device *smmu = dev;
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
