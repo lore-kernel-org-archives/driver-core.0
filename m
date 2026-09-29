@@ -1,344 +1,255 @@
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazolkn19011004.outbound.protection.outlook.com [52.103.1.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51D4459ACC
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653562; cv=none; b=uW7xh6McbYVH/7qMTgHOUXOtQwQB9A4uFBO5N6MIskyHianWr9C7lksyYpJ1wpZC01EVU78yxDrBQBVYJ2R1GrNm/ze4ayABT7syPRKAm+acXiqIquzP60VnDVWwdmRINAvrqq1By58L1ENiSfxeStC1Np0b6fhIv7HkU1hR/B8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653562; c=relaxed/simple;
-	bh=RV9BRd3bDPRHxs8h+GEdjYXEZL77i6dCc2nVia+FuaU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KsH47+W1VKD3aFPuWdp3o2ccfnOckkudqHIAPR+m4aqR3PQmS1DULkK7IGce7bULu1aAzmLooLP2u6dan5jdo2+voyKBU77JKVJecdi0XSwjiMqgy7LqTSyzVrf4Z0+8aNZKrbKtNv1bOwTQDo1eDUcqmepEtkf61xZta/SwaLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p9EdL5Y1; arc=none smtp.client-ip=209.85.216.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0419737A820
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.1.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790653919; cv=fail; b=WGXpoPVgc+sV6CKMg7jAZpHAtOfx2IRhJIQUcia59C284RmL+WxOkbK4eFzuclD1HStSk2k+kbzr2WUcGw5Bk6ntJRPcqzlpqZHmcSSM8CftMtJnuZs30+BG7knmqHDUEffEZPeLNGuKmypa6MLYjKC+NMZTySpu0ZrFr+Mb7X8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790653919; c=relaxed/simple;
+	bh=1g4SnE0xZEXlAj5Oqk+oA/3+Ssrs3HFTIVDEWCIAVfc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BC/76k/xLqAqQ/eoiAIWEAJUXdrZ0dYANVIpEjddPDrEsbRzWUpxEeCpjBAwr9OH16/ZrEFetIkKomwAajMn8hZX3DLVzCRyNRM6wTsbIzW12kBFMUwD0Nb0Gur4DoefWb1fUseg38oRVzyqHSU3GPhartjFuBsUDKitHRjfGUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=C2KKuZVS; arc=fail smtp.client-ip=52.103.1.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p9EdL5Y1"
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3a47a81e70bso1390953a91.0
-        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790653560; x=1791258360; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1q1rUCYuMozZipImZqMvE4+Ndw0NLK5Ay3DBtmbY5AU=;
-        b=p9EdL5Y1JTHx3aDNqwidLHcLgaEIvXB7K6TCowh65CGIBfwHkuLAhCQeWiWUDPnlEh
-         prk+b6UmnA9dBieuNHMHwNaJXRgf2G9fjsxcPZJTdLsBExbQhR3IgeMl73OhgZVAclB4
-         WjEk1lqq0a5+scPMVuQIYBON2UrDP9U72Hj8pTvWM8O1PdbOa1089yPPXqg1EvhLieCn
-         uIkiSarRTGbu/4Ms0ZpE0EOdNNgyEis14e+OZqNo7pPRRjKkNq5f2EKThUJSAxRQNcEx
-         Dzm8ApK3CsLY1/0mRZlBXxIZxS9Aa0Ps8XkjldqO/MtOK3vZ0cBE4BgSbgP0KOaWQgAF
-         umWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790653560; x=1791258360;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1q1rUCYuMozZipImZqMvE4+Ndw0NLK5Ay3DBtmbY5AU=;
-        b=LdfNKnje/D8iuyhS88yr//EhHybu7h/3gUFYfuDsB4UHUStn9LFMhxLGPDneAAHrl4
-         F1PBOjf4pJzz4/uf/PNzdhw3Z7hSc6DH9+tOacKrMoLvse1sbDHKBcD+Pier9txUwH/h
-         BQpow9qzoVXOrXMTw1FbcXj1FCkZM7I8H4n8GEHjjp35JtiNpP7JJ5v1q9jB40UhOVTk
-         KpWKxp3s8d4NwC6fc9nuyf2ZIMq7L0dImN2rqkXqDb3ftkb6+o2qp3N5iqt+oYesRe/0
-         SVKbV1xug7raZBjVNJXj/4q9RgAZgIo2pJQi/7RQJLJVjcdxzD3iKC5duHhIEoJzCgaN
-         nNmw==
-X-Forwarded-Encrypted: i=1; AKwUvBx3Ciet6Azbq1K13JGiFwKztnkgaYMmc3adsqpsNOs8kZqhzURiHtZyo7YmWqKz3/edVTfuZ8NAlARJjQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJfglRIsalU5WJSdZNir3gbEFQ8cdFn2Sa/dyi/NzY6nW5yguOh
-	yuWpAI0ORfiIPlwgqXM3QnElQHqu1IF/aBeZR/2N+JOeFSHO4jkF1EZuEitiMXg5aBSeFiuP95l
-	B0w==
-X-Received: from pgbcw4.prod.google.com ([2002:a05:6a02:4284:b0:cc7:b387:6d4b])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:55d0:b0:398:9bd5:490b
- with SMTP id 98e67ed59e1d1-3a098cdbb1fmr12417808a91.18.1790653559658; Mon, 28
- Sep 2026 20:45:59 -0700 (PDT)
-Date: Tue, 29 Sep 2026 03:45:10 +0000
-In-Reply-To: <20260929034510.2023173-1-praan@google.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="C2KKuZVS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y2s2V5Po1y+K003xZyZvdUYlFsajcygTRSCHkvfBWUDWGoW9rLEpDdJ7/J+VOyqjALwSqAXVUIrd0/lORXyG5Byx4wgiE6ocRTVy3Iaqa9vii57rIuSyGmfuKBE8+vJbwUTr9xFJG87FkEBlFNNT0Z3HLB+MIXLbnxxgZBeJFzRSulqfFDIgmKRq3V77c8qiUEZ3GX7mqF/yaND+dHAeYpUVWYgvwmcCYxSOYYfHT5Ko2R08hloMd+cQQnSjrGlKzH0wGa3SnV95CxI+TPHSUgZ9W5gYCJmH/SkNLXcT7h0Jf9UJSsb61sNnQ7LMOm5lGe1WNNIXsyJ+ycDUHTmjJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1g4SnE0xZEXlAj5Oqk+oA/3+Ssrs3HFTIVDEWCIAVfc=;
+ b=GzgaOGU3L6hm8z3w6vUkKbOuFAaLwprCS3MtusU4izdzy0tVBI9E0OLNx5JIy0h0+/AYklah4EPm1z9SG9bMrbQ+xviRTCMFMcrnZib3GT7Z0EmMnVAcxSnlVBeqn1YwKz6lUkkTjhs14eGCdOOmoXYFkpUUsRvVGXmWVnhQjuQJmqaQSQUuEYRvMfzc7EkAoTkdFWdM4Tx1kBDoYZEEYVDqpX4KyIKDoPXY+7+l+NYoOfMZnHIZH4oEIITNDH5+8TqOckqpD3ywrY5XxCoz8xoDMhNV44kaM8+O/xr9vqbTv3SxSPjX1/DnsZ5M3hQXIcv8PGSPs+Op2h3nntEqLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1g4SnE0xZEXlAj5Oqk+oA/3+Ssrs3HFTIVDEWCIAVfc=;
+ b=C2KKuZVS482T/QYrATkQaAyUFBJFQzWbeVbu9vLqzMqxyEuv2DsvrtoOqbGg+kRnlDLQw3oRmXx5m+AlsWMYCuJeVufTEPvnHlNrYm+KXLkhfjnpqu406r9GShV4SxPrqng/onsPMU1Z5iwEDvXGe3YS4r13NlEuugTlCo9Jw75EP8R0vtNrgRRQkH+V1m9KNjQtBRML2zKWL7uq/OqvBYcqDAWouleMG2jdFiVR2pkW3Z2wMKF60sdHe2mG6SIYprxmh1YVZgIpNZ3q5xiXQP/KbzIAQPPznELS1VdAdGOIQZmA1YFp4K9LC6IPV81JThNwcbs2KFu3yxWvZfp0eg==
+Received: from BN7PR02MB4148.namprd02.prod.outlook.com (2603:10b6:406:f6::17)
+ by SJ0PR02MB8735.namprd02.prod.outlook.com (2603:10b6:a03:3e2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Tue, 29 Sep
+ 2026 03:51:54 +0000
+Received: from BN7PR02MB4148.namprd02.prod.outlook.com
+ ([fe80::6007:d1a1:bcf9:58ef]) by BN7PR02MB4148.namprd02.prod.outlook.com
+ ([fe80::6007:d1a1:bcf9:58ef%3]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
+ 03:51:53 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+CC: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Linux on Hyper-V List
+	<linux-hyperv@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, LKML
+	<linux-kernel@vger.kernel.org>, Linux Driver Core Development
+	<driver-core@lists.linux.dev>
+Subject: RE: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
+Thread-Topic: [PATCH v2] driver core/ACPI: Introduce companion_bus_register()
+Thread-Index:
+ AQFaPXDaltCSjsbsGnWHrXxa2Wl6TgHIwnweAqCrIxkCHW0AebewI5kQgADFfQCABfDe4A==
+Date: Tue, 29 Sep 2026 03:51:53 +0000
+Message-ID:
+ <BN7PR02MB4148BD853CAD15C755B2B472D48C2@BN7PR02MB4148.namprd02.prod.outlook.com>
+References: <6329043.lOV4Wx5bFT@rafael.j.wysocki>
+ <SN6PR02MB41577ECCDB3E757B8859AE7FD4822@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <SN6PR02MB41575266A4580339E186E5D9D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <CAJZ5v0i2oawbWzrVro1gGx2=hYOhjXPNJWDJ6LsNCq1WOxfHGQ@mail.gmail.com>
+ <SN6PR02MB41573FD4D03A4083E4C4C689D4812@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <CAJZ5v0i0cRV1cE47RvTkcvbh=O+FO_8Fj84q6QJQ7xxhqRGgyQ@mail.gmail.com>
+In-Reply-To:
+ <CAJZ5v0i0cRV1cE47RvTkcvbh=O+FO_8Fj84q6QJQ7xxhqRGgyQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN7PR02MB4148:EE_|SJ0PR02MB8735:EE_
+x-ms-office365-filtering-correlation-id: d6cea00b-d2a1-4e0c-8285-08df1ddcffe5
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|25010399006|8062599012|51005399006|8060799015|55001999006|19110799012|13091999003|37011999003|24021099003|31061999003|15080799012|40105399003|2607281247196008|30101999006|56899033|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?dUVqV0wwVGlYMHYxWUxwaFQvejVlMVYxMkhnN01Gd3BsU21nNk9sdGE4M0Rl?=
+ =?utf-8?B?cWxsUTh5NzJCSlBDZCtUenFBL0RMdUJGdlF5cldwUlZhaGZQOW1hbGNiSWRt?=
+ =?utf-8?B?NndJYmVRSFZmNXNSb29Ib1pXQVMvKy95bzRady9scThkR0I1L3dQb0RmMlkw?=
+ =?utf-8?B?WlU3emNKNFR2K2dnNEhSS1dFYTRFcmFVTXo0TlJqUnlyTFg2bHRHMjMxNDd5?=
+ =?utf-8?B?WmdvUExlWnRucnZzaVJZSjRpbnNDZnFxUEQxTUtHalg4R0QrUUhXUXl4WFhk?=
+ =?utf-8?B?cHhMN1dZOFEveVAycjU0eXJQaUJKTVRpK09LaTFkZWFmSnhMbm9zSUptY3VU?=
+ =?utf-8?B?c0d1S0svV29xQ0NmNkdCQVZ0c21VdmRQWWtQNzVkNHNwQVh4QTZjczFUdFRl?=
+ =?utf-8?B?cWRnRDNRUW1FSE8rNmpLOFhtbDYzL3E2UStJVlMwU0trc1l0MGhpSkN1bk9h?=
+ =?utf-8?B?SkVvZG9HbXIzY2RLQmkxWGZRaDM3YVoxN3d1b0RMbzByVSt0b1pkNFo3ZEpC?=
+ =?utf-8?B?eFRqMnNwSVpwUkt2czQwT0JnUTlza05nQUZyQkpabkR3M2dDZG1vdjJ4THVo?=
+ =?utf-8?B?cnBTODNXclAwMTRvbUp3OWdXT29QSWhxOWdqMy9yWUJsRGh5K1NvUEozY2ZE?=
+ =?utf-8?B?UjJtZHAwNGdVK2IvNFlZZzJwWVBPTE9nWUdMVmRrZWU0eDFNZkNsdjg0YWFR?=
+ =?utf-8?B?RHlLTllpL3hKbG1mdXk3SFJSVmNucWtMSGtCZldzN0JlODk0V1FNQzlRcWFx?=
+ =?utf-8?B?aHRwbzFlbzR3MWE1T1ljakV4bng0dmNvblhUNmVyTHd0VGFPYWZ3bzhGRVM0?=
+ =?utf-8?B?Snk0Um83U2pqVGJwTU9lTXhFNFNRcWZMRnB5b1lWSnFnM2hpVmpPWEpiUG95?=
+ =?utf-8?B?V0xTYWNRUUdQL0Z6YjB6U254MGRZUFhzZVdXWk9JbjhPSEloTnFqRGhOd05F?=
+ =?utf-8?B?NjBLTVdnSG1GSXNQcEtHRkFvSysrK08vNFp4NnRGT2ppd0lsc0pncGJnSFFB?=
+ =?utf-8?B?QytMMFAzc29tSEZNdjRVQnE1U2ZQVVZNS1puN2Frd3V2QXYwdHlwOXh2VGdG?=
+ =?utf-8?B?c3dJSGJCMk4vYUJJNU84SlZ0N3FhOWhoYXBtUkFUNHlsYXZjQndzeHBwL1JS?=
+ =?utf-8?B?OG5LRW5BTE5qM09FSzBoWTd2ejU1ckw2bUY1UjV6eFFmUTl2ekJCS3BON1A3?=
+ =?utf-8?B?WTN3WTVXL3U5WkRjR3R3UE9LL01aOVp1M1hOcjZ5V09Hdm9OYmFGVlpuWXVr?=
+ =?utf-8?B?eFVRTjRzR2tIaXY0NWZsc0wwNXA1L2MrWlRNeWNuaXk3NHp5NHdmR2M3Y1Uw?=
+ =?utf-8?B?WUZ4MFFoNUMyUlFTUTExbUxTODM1dnRLVVhhRDFFQ2MwT2YrWjVCaTE5MVE1?=
+ =?utf-8?B?QWFHMllIemFKYVZLUEwxZkhlbVhQK3o3ZlBkamlRaUFpSnZEQlEzNHR6MWVP?=
+ =?utf-8?Q?AvM5Esxj?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?L3NhR2VEaEVPSjB6SHBUemF4NEdLeGh0QUN6OUM4TnFWeUMwTEZVcHJZMEkv?=
+ =?utf-8?B?WTBYMDVFWCswOGxDanlwQnlZR3RpRllvaFAvWHVubi9OV1ZzMWN2Rzh6RGM5?=
+ =?utf-8?B?cWFnVEYwVTUrSlI2U2NQZnVSNzAxeWdDM3kxTFNUOGZUQ2NMMG42QVI4VjZ2?=
+ =?utf-8?B?aWVmeWdkMm40TkpoV2ZvK0RQeGNhWnRURXI1TEdoMnRzY0JjK0lLT0ZPRjFl?=
+ =?utf-8?B?eHFnQ0RHc2VPS0lvQ1JHNzlDb1poRktlR0Y0VnIrdHRNYTdBOVVzSFFEZTZ1?=
+ =?utf-8?B?T2F0L0c5dmMrTGxXTWw4V3UrVUM3b0R1YjVTSjZ6Mm5mSWVpUE45dUdIQmFp?=
+ =?utf-8?B?ekRiMFpubDMxRlFmYTgwbTMvZjZDNHJGZUxVT2ZqcEdpNFRwRHFTWG5maFBH?=
+ =?utf-8?B?ckR2OGN3R0pGengwRGJtRlo2UThXRTYwMXMydHFVaU5wRkdGRVovK2xnOG1E?=
+ =?utf-8?B?eEx2TGxDUXcvdmNma2IwM2o2T0VmbWloalBGVUgwS3QrK3BVVzBmQll2UE5K?=
+ =?utf-8?B?azlOcmtJZ3hLOSs3bkF1RXRHYnRvUTdRdHVReW0wN3MvaFV2eFByM1BQYTdl?=
+ =?utf-8?B?Rk5lUTBEdG1OMlZrVzYrQmdvNFJYcktjTEhQemwyUzBVVXNGSFJIN042WXY3?=
+ =?utf-8?B?Qll3SzRzZTdITkR4c3dEUS9uNjl0YTZqeTZvUnNEZVRGM0p0dmxrV052cHhH?=
+ =?utf-8?B?TlVYdTFjQTh3MnNtYXV3YmkyL1BjNkhITnlQOFBleGxLeWRENE12N29KQUsr?=
+ =?utf-8?B?MzRsOVhpa2RtV2dBRmVzNzVZZnlKS1I2c3hZY1BQL3lUajZLemFjQ2FSc1RG?=
+ =?utf-8?B?T3dVanZZcHczdkpFQnRCMDdYS1E5MStIcXJtNTV1V0ZGTVQ3WUl3ampwaktR?=
+ =?utf-8?B?RkljTDlpRWlVNXptYUpJdEI4Tk9ZTGoyZmk3eFFiUXZaNUdmTlhwNTdwSTZy?=
+ =?utf-8?B?QzJROElyUmZVbU5LS2xRNSt3VFl3aEZBNUZuOFVzMEUrV0I2bWZ4TDZGdnVo?=
+ =?utf-8?B?ZzhqakhOUGRaK29TYk1UNGMzOWk4WnNIU2d5ZHlsdS9NNTNUd3FxV05wd1BJ?=
+ =?utf-8?B?VjFjMnNGZzhBZStMTlQxZWpKb3piK3F2TkFoK2tUVWdPTWp5K0tlemNidU9M?=
+ =?utf-8?B?YXdFWThBempoMmhzd2tzZGZJMHp2ZzF2V0ZtZVd5RTIvL3dMT3B1TjhkU1po?=
+ =?utf-8?B?aFFEZksxQVhHUUtOQ2kvR081SFB1TFJUK2MzRGJObFhJTk00TUlGL3c1MVFC?=
+ =?utf-8?B?L3JhNUIxN0NrZEhhcjV2MzJkVTlnYmRGNnp3Q2lsbjBNWnJ6KytCSmwrRTkw?=
+ =?utf-8?B?cGZpWTMyeDIybDlHUlVIRmR1RzZXSzBOWlNWbUYwbFhCRlA2WHM3TnhRVVRi?=
+ =?utf-8?B?dzBNS004amM4WG9lRS9QbjNmYm9UMVNUdjQvcXFBNHNxbllhWnZsVHI2OFh6?=
+ =?utf-8?B?UWRLRUJka3FEQ2Z6blBrMHZhN3hBdS9YR3RjMXRLbmd4N1QyMzFzUGV3M0xk?=
+ =?utf-8?B?WFBUUUxhV25yLzNaZENxM2FoNGMydEY0MUdqU0ZEOFNtRjJlUThlMkNvYnhi?=
+ =?utf-8?B?R2xJV1ZSUlB0S3owTzVleTZmSkVqS0ozRlhreCswU2RqcHhPMExmelhDOHJ6?=
+ =?utf-8?B?OWk4ZEtHSlM5bkZQVkNyWGMzZVJUQWNGNXFrZWhKbS96TnBJL0xFTnluUTUr?=
+ =?utf-8?B?akJERlBoQmpnaXhYaU93TXlYeXVsS2RmbnJhZXlRLyt1UFJlQ1ZwTjIyZ1Zv?=
+ =?utf-8?B?ZSt0OWx4Y3c2V2EvVmhVN2g3a0JiRVJnZlZQWGE2S0g4bGVsdmhKb3VFdC9m?=
+ =?utf-8?Q?p5mBs5Cqhe0Y84f51kuO4HHv4io5M4Ey3RP6c=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260929034510.2023173-1-praan@google.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260929034510.2023173-17-praan@google.com>
-Subject: [PATCH v11 16/16] iommu/arm-smmu-v3: Add KUnit unit tests for Runtime PM
-From: Pranjal Shrivastava <praan@google.com>
-To: iommu@lists.linux.dev
-Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Daniel Mentz <danielmentz@google.com>, 
-	Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org, 
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Bjorn Helgaas <bhelgaas@google.com>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Pranjal Shrivastava <praan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4148.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6cea00b-d2a1-4e0c-8285-08df1ddcffe5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Sep 2026 03:51:53.2818
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB8735
 
-Introduce kunit selftests to verify the Runtime PM elision gating,
-post-suspend elisions and progress on resumption under active
-invalidation load. Simulate concurrent HW suspension using a timer.
-Mock all HW registers and CMDQ buffers by allocating them on RAM.
-Make the mock CMDQ self-consuming to avoid hitting queue_full scenarios.
-
-Signed-off-by: Pranjal Shrivastava <praan@google.com>
----
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c  | 215 ++++++++++++++++++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   1 +
- 2 files changed, 216 insertions(+)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c
-index add671363c82..97c1e907717d 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c
-@@ -3,6 +3,10 @@
-  * Copyright 2024 Google LLC.
-  */
- #include <kunit/test.h>
-+#include <linux/delay.h>
-+#include <linux/kthread.h>
-+#include <linux/sched.h>
-+#include <linux/timer.h>
- #include <linux/io-pgtable.h>
- 
- #include "arm-smmu-v3.h"
-@@ -771,6 +775,215 @@ static void arm_smmu_v3_invs_test(struct kunit *test)
- 	kfree(test_b);
- }
- 
-+struct arm_smmu_mock_cmdq {
-+	/*
-+	 * Mock register in RAM. Typed as __le32 to match writel_relaxed()
-+	 * endianness without calling readl_* accessors directly on RAM.
-+	 */
-+	__le32 mock_prod_reg;
-+};
-+
-+/* Helper to allocate a self-consuming mock cmdq */
-+static void arm_smmu_v3_test_init_mock_cmdq(struct kunit *test,
-+					    struct arm_smmu_device *smmu,
-+					    struct arm_smmu_mock_cmdq *mock)
-+{
-+	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-+	unsigned long *mock_valid_map;
-+	u64 *mock_base;
-+
-+	mock_base = kunit_kzalloc(test, 1024 * sizeof(struct arm_smmu_cmd), GFP_KERNEL);
-+	mock_valid_map = kunit_kzalloc(test, BITS_TO_LONGS(1024) * sizeof(long), GFP_KERNEL);
-+
-+	KUNIT_ASSERT_NOT_NULL(test, mock_base);
-+	KUNIT_ASSERT_NOT_NULL(test, mock_valid_map);
-+
-+	smmu->features = 0;
-+	/* 1024 entries */
-+	cmdq->q.llq.max_n_shift = 10;
-+	cmdq->q.ent_dwords = CMDQ_ENT_DWORDS;
-+	cmdq->q.base = (__le64 *)mock_base;
-+	cmdq->valid_map = (atomic_long_t *)mock_valid_map;
-+
-+	/* Self-Consuming, prod == cons always ensures queue empty */
-+	cmdq->q.prod_reg = (__force void __iomem *)&mock->mock_prod_reg;
-+	cmdq->q.cons_reg = (__force void __iomem *)&mock->mock_prod_reg;
-+
-+	atomic_set(&cmdq->q.llq.atomic.prod, 0);
-+	atomic_set(&cmdq->q.llq.atomic.cons, 0);
-+	atomic_set(&cmdq->owner_prod, 0);
-+	mock->mock_prod_reg = cpu_to_le32(0);
-+}
-+
-+struct arm_smmu_test_timer_context {
-+	struct arm_smmu_device *smmu;
-+	struct timer_list timer;
-+	bool suspended;
-+};
-+
-+static void arm_smmu_v3_test_rpm_timer_callback(struct timer_list *t)
-+{
-+	struct arm_smmu_test_timer_context *ctx =
-+		timer_container_of(ctx, t, timer);
-+	struct arm_smmu_cmdq *cmdq = &ctx->smmu->cmdq;
-+
-+	/* Simulate a concurrent suspend event interrupting the invalidations */
-+	atomic_or(CMDQ_PROD_STOP_FLAG, &cmdq->q.llq.atomic.prod);
-+	WRITE_ONCE(ctx->suspended, true);
-+}
-+
-+/*
-+ * Verify SMMU PM Runtime gating, elision, and post-suspend resumption
-+ * safety sequentially under active stress.
-+ */
-+static void arm_smmu_v3_rpm_test_stress_race(struct kunit *test)
-+{
-+	struct arm_smmu_cmd cmd = arm_smmu_make_cmd_cfgi_all();
-+	struct arm_smmu_test_timer_context timer_ctx = {0};
-+	struct arm_smmu_device mock_smmu = smmu;
-+	struct arm_smmu_cmdq *cmdq = &mock_smmu.cmdq;
-+	struct arm_smmu_mock_cmdq mock = {0};
-+	u32 stopped_prod;
-+	int i;
-+
-+	arm_smmu_v3_test_init_mock_cmdq(test, &mock_smmu, &mock);
-+
-+	timer_ctx.smmu = &mock_smmu;
-+
-+	timer_setup_on_stack(&timer_ctx.timer, arm_smmu_v3_test_rpm_timer_callback, 0);
-+	mod_timer(&timer_ctx.timer, jiffies + msecs_to_jiffies(10));
-+
-+	/* Execute the unmap storm until the timer triggers */
-+	while (!READ_ONCE(timer_ctx.suspended)) {
-+		if (arm_smmu_cmdq_issue_cmdlist(&mock_smmu, cmdq, &cmd, 1, false))
-+			break;
-+		usleep_range(50, 100);
-+	}
-+
-+	timer_shutdown_sync(&timer_ctx.timer);
-+	timer_destroy_on_stack(&timer_ctx.timer);
-+
-+	/* Establish the post-storm prod_reg index */
-+	stopped_prod = le32_to_cpu(mock.mock_prod_reg);
-+
-+	/*
-+	 * Attempt multiple unmaps while the SMMU is disabled (STOP_GATE is set)
-+	 * Every single invalidation must get elided and return 0. The prod_reg
-+	 * shall remain completely frozen after all of these submissions.
-+	 */
-+	for (i = 0; i < 1000; i++) {
-+		if (arm_smmu_cmdq_issue_cmdlist(&mock_smmu, cmdq, &cmd, 1, false))
-+			break;
-+	}
-+	KUNIT_EXPECT_EQ(test, stopped_prod, le32_to_cpu(mock.mock_prod_reg));
-+
-+	/*
-+	 * Clear the STOP_FLAG (resume the SMMU). A new invalidation must
-+	 * now successfully commit prod_idx & move the prod_reg by exactly 1.
-+	 */
-+	atomic_andnot(CMDQ_PROD_STOP_FLAG, &cmdq->q.llq.atomic.prod);
-+	KUNIT_EXPECT_EQ(test, 0, arm_smmu_cmdq_issue_cmdlist(&mock_smmu, cmdq, &cmd, 1, false));
-+	KUNIT_EXPECT_EQ(test, Q_POS(&cmdq->q.llq, stopped_prod + 1),
-+			le32_to_cpu(mock.mock_prod_reg));
-+}
-+
-+struct arm_smmu_test_kthread_context {
-+	struct arm_smmu_device *smmu;
-+	int error;
-+};
-+
-+static int arm_smmu_v3_test_kthread_worker(void *data)
-+{
-+	struct arm_smmu_cmd cmd = arm_smmu_make_cmd_cfgi_all();
-+	struct arm_smmu_test_kthread_context *ctx = data;
-+	struct arm_smmu_cmdq *cmdq = &ctx->smmu->cmdq;
-+
-+	while (!kthread_should_stop()) {
-+		if (arm_smmu_cmdq_issue_cmdlist(ctx->smmu, cmdq, &cmd, 1, false))
-+			WRITE_ONCE(ctx->error, 1);
-+		usleep_range(50, 100);
-+	}
-+	return 0;
-+}
-+
-+KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_kthread_stop, kthread_stop, struct task_struct *);
-+
-+static void arm_smmu_v3_rpm_test_kthread_race(struct kunit *test)
-+{
-+	struct arm_smmu_test_kthread_context *ctx;
-+	struct arm_smmu_device *mock_smmu;
-+	struct arm_smmu_mock_cmdq *mock;
-+	struct task_struct *thread1, *thread2;
-+	u32 stopped_prod;
-+	int i;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	mock_smmu = kunit_kzalloc(test, sizeof(*mock_smmu), GFP_KERNEL);
-+	mock = kunit_kzalloc(test, sizeof(*mock), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, ctx);
-+	KUNIT_ASSERT_NOT_NULL(test, mock_smmu);
-+	KUNIT_ASSERT_NOT_NULL(test, mock);
-+
-+	*mock_smmu = smmu;
-+	ctx->smmu = mock_smmu;
-+	arm_smmu_v3_test_init_mock_cmdq(test, mock_smmu, mock);
-+
-+	thread1 = kthread_run(arm_smmu_v3_test_kthread_worker, ctx, "smmu_w1");
-+	if (IS_ERR(thread1)) {
-+		KUNIT_FAIL(test, "Failed to spawn kthread 1\n");
-+		return;
-+	}
-+	if (kunit_add_action_or_reset(test, kunit_action_kthread_stop, thread1)) {
-+		KUNIT_FAIL(test, "Failed to register cleanup for kthread 1\n");
-+		return;
-+	}
-+
-+	thread2 = kthread_run(arm_smmu_v3_test_kthread_worker, ctx, "smmu_w2");
-+	if (IS_ERR(thread2)) {
-+		KUNIT_FAIL(test, "Failed to spawn kthread 2\n");
-+		return;
-+	}
-+	if (kunit_add_action_or_reset(test, kunit_action_kthread_stop, thread2)) {
-+		KUNIT_FAIL(test, "Failed to register cleanup for kthread 2\n");
-+		return;
-+	}
-+
-+	/* Wait for worker threads to start and issue initial commands */
-+	for (i = 0; i < 20; i++) {
-+		if (le32_to_cpu(READ_ONCE(mock->mock_prod_reg)) > 0)
-+			break;
-+		usleep_range(1000, 2000);
-+	}
-+	KUNIT_EXPECT_GT(test, le32_to_cpu(READ_ONCE(mock->mock_prod_reg)), 0);
-+
-+	/* Gate the CMDQ */
-+	atomic_or(CMDQ_PROD_STOP_FLAG, &mock_smmu->cmdq.q.llq.atomic.prod);
-+
-+	/* Wait for in-flight submissions to settle */
-+	for (i = 0; i < 50; i++) {
-+		stopped_prod = le32_to_cpu(READ_ONCE(mock->mock_prod_reg));
-+		usleep_range(1000, 2000);
-+		if (stopped_prod == le32_to_cpu(READ_ONCE(mock->mock_prod_reg)))
-+			break;
-+	}
-+
-+	usleep_range(1000, 2000);
-+	KUNIT_EXPECT_EQ(test, stopped_prod, le32_to_cpu(READ_ONCE(mock->mock_prod_reg)));
-+
-+	/* Open the gate and wait for worker threads to resume */
-+	atomic_andnot(CMDQ_PROD_STOP_FLAG, &mock_smmu->cmdq.q.llq.atomic.prod);
-+	for (i = 0; i < 20; i++) {
-+		if (le32_to_cpu(READ_ONCE(mock->mock_prod_reg)) != stopped_prod)
-+			break;
-+		usleep_range(1000, 2000);
-+	}
-+	KUNIT_EXPECT_NE(test, stopped_prod, le32_to_cpu(READ_ONCE(mock->mock_prod_reg)));
-+
-+	kunit_release_action(test, kunit_action_kthread_stop, thread2);
-+	kunit_release_action(test, kunit_action_kthread_stop, thread1);
-+	KUNIT_EXPECT_EQ(test, 0, READ_ONCE(ctx->error));
-+}
-+
- static struct kunit_case arm_smmu_v3_test_cases[] = {
- 	KUNIT_CASE(arm_smmu_v3_write_ste_test_bypass_to_abort),
- 	KUNIT_CASE(arm_smmu_v3_write_ste_test_abort_to_bypass),
-@@ -797,6 +1010,8 @@ static struct kunit_case arm_smmu_v3_test_cases[] = {
- 	KUNIT_CASE(arm_smmu_v3_write_cd_test_sva_clear),
- 	KUNIT_CASE(arm_smmu_v3_write_cd_test_sva_release),
- 	KUNIT_CASE(arm_smmu_v3_invs_test),
-+	KUNIT_CASE(arm_smmu_v3_rpm_test_stress_race),
-+	KUNIT_CASE(arm_smmu_v3_rpm_test_kthread_race),
- 	{},
- };
- 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 89ffa8346478..62fc758d8044 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -991,6 +991,7 @@ int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_IF_KUNIT(arm_smmu_cmdq_issue_cmdlist);
- 
- static int arm_smmu_cmdq_issue_cmd_p(struct arm_smmu_device *smmu,
- 				     struct arm_smmu_cmd *cmd, bool sync)
--- 
-2.56.0.rc1.315.gc6ed9934b7-goog
-
+RnJvbTogUmFmYWVsIEouIFd5c29ja2kgKEludGVsKSA8cmFmYWVsQGtlcm5lbC5vcmc+IFNlbnQ6
+IEZyaWRheSwgU2VwdGVtYmVyIDI1LCAyMDI2IDI6MDggQU0NCj4gDQo+IE9uIFRodSwgU2VwIDI0
+LCAyMDI2IGF0IDExOjQ34oCvUE0gTWljaGFlbCBLZWxsZXkgPG1oa2xpbnV4QG91dGxvb2suY29t
+PiB3cm90ZToNCj4gPg0KPiA+IEZyb206IFJhZmFlbCBKLiBXeXNvY2tpIChJbnRlbCkgPHJhZmFl
+bEBrZXJuZWwub3JnPiBTZW50OiBUaHVyc2RheSwgU2VwdGVtYmVyIDI0LCAyMDI2IDExOjQ1IEFN
+DQo+ID4gPg0KPiA+ID4gT24gVGh1LCBTZXAgMjQsIDIwMjYgYXQgODoyM+KAr1BNIE1pY2hhZWwg
+S2VsbGV5IDxtaGtsaW51eEBvdXRsb29rLmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IEZy
+b206IE1pY2hhZWwgS2VsbGV5IDxtaGtsaW51eEBvdXRsb29rLmNvbT4gU2VudDogV2VkbmVzZGF5
+LCBTZXB0ZW1iZXIgMjMsIDIwMjYgMTA6MDYgQU0NCj4gPiA+ID4NCj4gPiA+ID4gSGVyZSdzIHdo
+YXQgSSd2ZSBsZWFybmVkIHNvIGZhcjoNCj4gPiA+ID4NCj4gPiA+ID4gMSkgVGhlIHByb2JsZW0g
+aXMgYXBwYXJlbnRseSBkdWUgdG8gc3lzdGVtZC11ZGV2ZCBiZWluZyB1bmFibGUNCj4gPiA+ID4g
+dG8gbG9hZCBtb2R1bGVzIHdpdGggdGhlIFZNQnVzIGJ1cyBkcml2ZXIgb3IgYW55IG9mIHRoZQ0K
+PiA+ID4gPiBpbmRpdmlkdWFsIGRyaXZlcnMgZm9yIFZNQnVzIGRldmljZXMuDQo+ID4gPiA+DQo+
+ID4gPiA+IDIpIEknbSB0ZXN0aW5nIG9uIFVidW50dSAyMC4wNCB3aXRoIHN5c3RlbWQgdmVyc2lv
+biAyNDUuIFRoZQ0KPiA+ID4gPiBwcm9ibGVtIHJlcHJvZHVjZXMgb24gYSBkaWZmZXJlbnQgMjAu
+MDQgaW5zdGFuY2UuIEJ1dCBldmVyeXRoaW5nDQo+ID4gPiA+IHdvcmtzIGNvcnJlY3RseSBvbiBV
+YnVudHUgMjQuMDQgd2l0aCBzeXN0ZW1kIHZlcnNpb24gMjU1Lg0KPiA+ID4gPg0KPiA+ID4gPiAz
+KSBJZiB0aGUgVk1CdXMgYnVzIGRyaXZlciBhbmQga2V5IFZNQnVzIGRldmljZSBkcml2ZXJzIGFy
+ZQ0KPiA+ID4gPiBjb21waWxlZCBhcyBidWlsdC1pbiBpbnN0ZWFkIG9mIGFzIG1vZHVsZXMsIHRo
+ZSBVYnVudHUgMjAuMDQgc3lzdGVtDQo+ID4gPiA+IHdpbGwgYm9vdC4NCj4gPiA+ID4NCj4gPiA+
+ID4gNCkgSWYgSSBrZWVwIHlvdXIgcGF0Y2gsIGJ1dCBjaGFuZ2UgY29tcGFuaW9uX2J1c19yZWdp
+c3RlcigpIHRvDQo+ID4gPiA+IHBhc3MgInRydWUiIGFzIHRoZSBzZWNvbmQgYXJndW1lbnQgaW5z
+dGVhZCBvZiAiZmFsc2UiLCB0aGVuIHRoZQ0KPiA+ID4gPiAvc3lzL2J1cy9hY3BpL2RyaXZlcnMg
+ZGlyZWN0b3J5IGlzIGNyZWF0ZWQgYXMgYmVmb3JlLCBhbmQgZXZlcnl0aGluZw0KPiA+ID4gPiB3
+b3Jrcy4gQWxzbywgb25seSBhZGRpbmcgYmFjayB0aGUgLm1hdGNoIGZ1bmN0aW9uIGFzIHlvdSBz
+dWdnZXN0ZWQNCj4gPiA+ID4gZG9lcyBub3QgbWFrZSBhbnkgZGlmZmVyZW5jZS4NCj4gPiA+ID4N
+Cj4gPiA+ID4gNSkgVGhlIFZNQnVzIGJ1cyBpcyBlbnVtZXJhdGVkIGluIHRoZSBBQ1BJIERTRFQu
+IFRoZSBpbmRpdmlkdWFsDQo+ID4gPiA+IHN5bnRoZXRpYyBkZXZpY2VzIHRoYXQgYXJlIGxvZ2lj
+YWxseSBvbiBWTUJ1cyBhcmUgbm90IC0tIHRoZXkgYXJlDQo+ID4gPiA+ICJvZmZlcmVkIiBieSBI
+eXBlci1WIHRvIHRoZSBndWVzdCBhdCBydW50aW1lIHZpYSBhIGN1c3RvbSBwcm90b2NvbC4NCj4g
+PiA+ID4gVGhlIHN5bnRoZXRpYyBkZXZpY2VzIGVuZCB1cCB3aXRoIHBhdGhzIGxpa2U6DQo+ID4g
+PiA+DQo+ID4gPiA+IC9zeXMvZGV2aWNlcy9MTlhTWVNUTTowMC9MTlhTWUJVUzowMC9BQ1BJMDAw
+NDowMC9NU0ZUMTAwMDowMC88c29tZSBHVUlEPg0KPiA+ID4NCj4gPiA+IFdoaWNoIGlzIHJhdGhl
+ciB1bmZvcnR1bmF0ZS4NCj4gPiA+DQo+ID4gPiBUaGV5IHNob3VsZCBhcHBlYXIgdW5kZXIgdGhl
+IE1TRlQxMDAwOjAwIHBsYXRmb3JtIGRldmljZSBjb3JyZXNwb25kaW5nDQo+ID4gPiB0byB0aGUg
+QUNQSSBkZXZpY2Ugd2l0aCB0aGUgc2FtZSBuYW1lLg0KPiA+DQo+ID4gSG1tbS4gSW4gdGhlIHBh
+dGggYWJvdmUgTVNGVDEwMDA6MDAgaXMgdGhlIFZNQnVzIGJ1cyBkZXZpY2UgZnJvbQ0KPiA+IHRo
+ZSBEU0RULiBJdHMgInBhdGgiIHZhbHVlIGlzICJcX1NCXy5WTU9ELlZNQlMiLCB3aGljaCBtYXRj
+aGVzIHRoZQ0KPiA+IERTRFQuDQo+ID4NCj4gPiBVbmRlciAvc3lzL2RldmljZXMvcGxhdGZvcm0s
+IHRoZXJlIGlzIG5vIGVudHJ5IGZvciBNU0ZUMTAwMDowMC4NCj4gDQo+IC9zeXMvZGV2aWNlcy9w
+bGF0Zm9ybS8gY29udGFpbnMgcGxhdGZvcm0gZGV2aWNlcyB0aGF0IHdlcmUgY3JlYXRlZA0KPiB3
+aXRob3V0IHBhcmVudHMuICBNU0ZUMTAwMDowMCBoYXMgYSBwYXJlbnQsIHNvIGl0IGlzIG5vdCB0
+aGVyZS4NCj4gDQo+ID4gQW5kIHVuZGVyIC9zeXMvYnVzL3BsYXRmb3JtL2RldmljZXMsIE1TRlQx
+MDAwOjAwIGlzIGEgc3ltbGluayB0bw0KPiA+DQo+ID4gLi4vLi4vLi4vZGV2aWNlcy9zeXN0ZW0v
+Y29udGFpbmVyL0FDUEkwMDA0OjAwL01TRlQxMDAwOjAwDQo+ID4NCj4gPiBDYW4geW91IHByb3Zp
+ZGUgYW55IG1vcmUgZGV0YWlsIG9uIGhvdyB0aGlzIHNob3VsZCBiZT8gQW5kIGFtIEkNCj4gPiBj
+b3JyZWN0IHRoYXQgdGhlc2UgcGF0aHMgYXJlIGdvdmVybmVkIGJ5IHRoZSBwYXJlbnQgcmVsYXRp
+b25zaGlwcw0KPiA+IG9mIHRoZSAic3RydWN0IGRldmljZSJzPw0KPiANCj4gWWVzLCB5b3UgYXJl
+LCBhbmQgdGhpcyBpcyB0aGUgcGxhdGZvcm0gZGV2aWNlIEknbSB0YWxraW5nIGFib3V0LiAgVGhl
+DQo+IGZpcm13YXJlX25vZGUgc3ltYm9saWMgbGluayB1bmRlciBpdCBzaG91bGQgcG9pbnQgdG8N
+Cj4gL3N5cy9kZXZpY2VzL0xOWFNZU1RNOjAwL0xOWFNZQlVTOjAwL0FDUEkwMDA0OjAwL01TRlQx
+MDAwOjAwLy4NCj4gDQo+IFRoZSBpZGVhIGlzIHRoYXQgdGhlIG9iamVjdHMgdW5kZXIgL3N5cy9k
+ZXZpY2VzL0xOWFNZU1RNOjAwLw0KPiBjb3JyZXNwb25kIHRvIG5vZGVzIGluIHRoZSBBQ1BJIG5h
+bWVzcGFjZSBhbmQgdGhleSBtYXkgb3IgbWF5IG5vdA0KPiBjb3JyZXNwb25kIHRvIHBoeXNpY2Fs
+IHBpZWNlcyBvZiBoYXJkd2FyZS4gIFRoZXkgYXJlIHJlZmVycmVkIHRvIGFzDQo+ICJBQ1BJIGRl
+dmljZXMiLCBidXQgaW4gZmFjdCB0aGV5IHJlcHJlc2VudCBwbGF0Zm9ybSBmaXJtd2FyZQ0KPiBp
+bnRlcmZhY2VzIHRoYXQgY2FuIGJlIGFzc29jaWF0ZWQgd2l0aCBkZXZpY2VzIC0gdGhhdCdzIHdo
+ZXJlIHRoZQ0KPiBmaXJtd2FyZV9ub2RlIGFuZCBwaHlzaWNhbF9ub2RlIHN5bWxpbmtzIGNvbWUg
+aW50byBwbGF5Lg0KPiANCj4gQWNjb3JkaW5nbHksIGFkZGluZyBjaGlsZHJlbiB0aGF0IGRvIG5v
+dCBjb3JyZXNwb25kIHRvIG5vZGVzIGluIHRoZQ0KPiBBQ1BJIG5hbWVzcGFjZSBpcyBjb25mdXNp
+bmcgYW5kIGdlbmVyYWxseSBxdWVzdGlvbmFibGUuICBDaGlsZHJlbg0KPiBzaG91bGQgYmUgYWRk
+ZWQgdW5kZXIgZGV2aWNlcyBwb2ludGVkIHRvIGJ5IHRoZWlyIHBoeXNpY2FsX25vZGUNCj4gc3lt
+bGlua3MuDQo+IA0KDQpUbyBmb2xsb3cgdXAgb24geW91ciBvYnNlcnZhdGlvbnMgYWJvdXQgdGhl
+IHBhcmVudGluZyBvZiB0aGUNClZNQnVzIHN5bnRoZXRpYyBkZXZpY2VzLCBpdCdzIGEgcmVsYXRp
+dmVseSBlYXN5IGZpeCB0byBwYXJlbnQgdGhlbQ0KdG8gdGhlIFZNQnVzIHBsYXRmb3JtIGRldmlj
+ZS4gVGhlbiB0aGV5IGFwcGVhciBhczoNCg0KL3N5cy9kZXZpY2VzL3N5c3RlbS9jb250YWluZXIv
+QUNQSTAwMDQ6MDAvTVNGVDEwMDA6MDAvPHNvbWUgR1VJRD4NCg0KL3N5cy9kZXZpY2VzL3BsYXRm
+b3JtIHN0aWxsIGRvZXMgKm5vdCogY29udGFpbiBNU0ZUMTAwMDowMC4gSSByZWFkDQp5b3VyIHBy
+ZXZpb3VzIGNvbW1lbnQgdG8gbWVhbiB0aGF0IHRoaXMgaXMgY29ycmVjdCBzaW5jZQ0KTVNGVDEw
+MDA6MDAgaGFzIGEgcGFyZW50Lg0KDQovc3lzL2J1cy9wbGF0Zm9ybS9kZXZpY2VzL01TRlQxMDAw
+OjAwIGlzIGEgc3ltbGluayB0bw0KLi4vLi4vLi4vZGV2aWNlcy9zeXN0ZW0vY29udGFpbmVyL0FD
+UEkwMDA0OjAwL01TRlQxMDAwOjAwLCBqdXN0DQphcyBiZWZvcmUuIEFuZCB0aGlzIGlzIGFsc28g
+cHJlc3VtYWJseSBjb3JyZWN0Lg0KDQpGV0lXLCBldmVuIHdpdGggdGhlc2UgZGV2aWNlcyBjb3Jy
+ZWN0bHkgcGFyZW50ZWQsIHJlbW92aW5nDQovc3lzL2J1cy9hY3BpL2RyaXZlcnMgc3RpbGwgY2F1
+c2VzIHN5c3RlbS11ZGV2ZCB2MjQ1IHRvIG5vdCBsb2FkDQp0aGUgZHJpdmVyIG1vZHVsZXMuIEFs
+bCBhbG9uZywgdGhlcmUgaGFzIGJlZW4gdGhpcyBlcnJvciBtZXNzYWdlOg0KDQogICAgIEZhaWxl
+ZCB0byBzY2FuIHN1YnN5c3RlbXM6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCg0KdGhhdCBJ
+IGNhbiBub3cgYXR0cmlidXRlIHRvIHN5c3RlbS11ZGV2ZCwgYmFzZWQgb24gbG9va2luZw0KYXQg
+aXRzIHNvdXJjZSBjb2RlLiBUaGUgY29kZSBpcyBhIGJpdCBoYXJkIHRvIHVuZGVyc3RhbmQgaW4g
+YQ0KcXVpY2sgcGVydXNhbCwgYnV0IHByZXN1bWFibHkgIk5vIHN1Y2ggZmlsZSBvciBkaXJlY3Rv
+cnkiIGlzDQpyZWZlcnJpbmcgdG8gL3N5cy9idXMvYWNwaS9kcml2ZXJzLg0KDQpGaW5hbGx5LCB2
+bWJ1c19hY3BpX2FkZCgpIGRvaW5nDQoNCiAgICBBQ1BJX0NPTVBBTklPTl9TRVQoJmRldmljZS0+
+ZGV2LCBkZXZpY2UpOw0KDQppcyBpbnRlbnRpb25hbCBhbmQgbmVlZGVkIGluIGEgcGVydmVyc2Ug
+c29ydCBvZiB3YXkgd2hlbg0KVk1CdXMncyBtYWluIGlkZW50aXR5IGlzIGl0cyBBQ1BJIGRldmlj
+ZSBpbnN0ZWFkIG9mIGl0cw0KcGxhdGZvcm0gZGV2aWNlLiBJdCdzIG5lZWRlZCB0byBtYWtlIGRl
+dmljZV9nZXRfZG1hX2F0dHIoKQ0Kd29yaywgYXMgaXQgZmluZHMgdGhlIEFDUEkgY29tcGFuaW9u
+IG9mIGl0cyBhcmd1bWVudC4NCldoZW4gdGhlIEFDUEkgZGV2aWNlIGl0c2VsZiBwYXNzZWQgYXMg
+dGhlIGFyZ3VtZW50IHRvDQpkZXZpY2VfZ2V0X2RtYV9hdHRyKCksIHRoZSBsb29wYmFjayBtYWtl
+cyBpdCBwcm9wZXJseQ0KZ2V0IHRoZSBETUEgY29oZXJlbmNlIGF0dHJpYnV0ZSBzcGVjaWZpZWQg
+Zm9yIFZNQnVzIGluDQp0aGUgRFNEVC4gQnV0IGlmIHRoZSBWTUJ1cyBkcml2ZXIgaW5zdGVhZCB1
+c2VzIHRoZSBwbGF0Zm9ybQ0KZGV2aWNlIGFzIHRoZSBtYWluIGlkZW50aXR5IGZvciBWTUJ1cywg
+dGhlIGxvb3BiYWNrDQpiZWhhdmlvciBpcyBubyBsb25nZXIgbmVlZGVkLg0KDQpJIGludGVuZCB0
+byBzdWJtaXQgYSBwYXRjaCB0byBtYWtlIHRoZSBwYXJlbnRpbmcgY2hhbmdlLA0KYW5kIHJlbW92
+ZSB0aGUgQUNQSV9DT01QQU5JT05fU0VUKCkuIEJ1dCBiZWZvcmUgZG9pbmcNCnNvLCBJIG5lZWQg
+dG8gd29yayBvdXQgYSBwYXJlbnRpbmcgaXNzdWUgaW4gdGhlIEh5cGVyLVYgdmlydHVhbA0KUENJ
+IGRyaXZlci4NCg0KUXVlc3Rpb246IERvIHlvdSBoYXZlIGtub3dsZWRnZSBvZiBhbnkgdXNlciBz
+cGFjZQ0KdXRpbGl0aWVzIHRoYXQgbWlnaHQgYnJlYWsgaWYgdGhlIFZNQnVzIHN5bnRoZXRpYyBk
+ZXZpY2VzDQphcmUgbm93IGF0IGEgZGlmZmVyZW50IHBhdGggdW5kZXIgL3N5cz8gSSBkb24ndCBr
+bm93IHdoYXQNCnV0aWxpdGllcyBtaWdodCBiZSByZWFkaW5nIHRoaXMgc3R1ZmYuIFRoZXJlIGFy
+ZSBIeXBlci1WDQpzcGVjaWZpYyB1dGlsaXRpZXMsIGJ1dCBldmVyeXRoaW5nIHRoZXkgbG9vayBh
+dCBpcyB1bmRlcg0KL3N5cy9idXMvdm1idXMsIGFuZCBpdHMgc3RydWN0dXJlIGlzbid0IGNoYW5n
+aW5nICh0aG91Z2gNCnRoZSBzeW50aGV0aWMgZGV2aWNlIHN5bWxpbmtzIGNvcnJlY3RseSBwb2lu
+dCB0byB0aGUgbmV3DQpsb2NhdGlvbikuDQoNCkkgYXBwcmVjaWF0ZSB5b3VyIGhlbHAgYW5kIGNv
+bnN1bHRhdGlvbi4gSSd2ZSBsZWFybmVkDQpzb21ldGhpbmcuIDotKQ0KDQpNaWNoYWVsDQo=
