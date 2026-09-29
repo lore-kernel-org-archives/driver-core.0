@@ -1,161 +1,197 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0573E5A0F
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 05:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22B644237B;
+	Tue, 29 Sep 2026 08:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790661211; cv=none; b=i7rtsRMkC8k4FRcvbnkNdyPLcsQj5TNl2GnvS59jvOlxHOeVHt8sTunsJMts/H4Tkej9M2hg4uX3hUnIjxq/zOc41u/WdMwDZX+Cra+QKCvMHBf9b+EKYQZ2Ux/O18msKHkwIPhG8wT3Vfq7vKJB1COOO2aif2+T9GIdgSM0gCw=
+	t=1790670931; cv=none; b=ZYkB0+1RgtWw1Dblxqmoab+C13hKHdIxjLyarm6d0xPuRX5qjlYy7iTONMy+x+GamP9BuKdfxlcMidTurugcSrij1oeA2A5XPyqcrdr7f63+io+uzPbz1fKDLt6rZJAvmYoDnhf85mJKUbN2I3ZLs2QGDwmo4qPyu8rvM7mfYiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790661211; c=relaxed/simple;
-	bh=ngp0Z71bP8R1r8qPJz7GJYV+9s7Y/H9eYdP6lvbeJRY=;
+	s=arc-20240116; t=1790670931; c=relaxed/simple;
+	bh=kNdKZLl6i7jqrQV3FjlqFRTok3uN4f7E2c8tVW1je+k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJgRUxfIL8n7z0zJHArGiViKrqYm04bDvTg4KvRodlFAefdjI1cV84EPFXvg7YUETQkt4vFd0JhyjLce474DXKpfu7B2kdcSYLyMEiaDzpLG3LDz0x5c/9GbCzBdaVCYyx9mKkjxmvGhvLXIPKPaEMLXMyNiIpQ4S2TLlwK0b7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=PKVJ9Gr9; arc=none smtp.client-ip=74.125.225.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=C69kGf5BpOiMpZk+ptqN78IGg6qNSye8N7hqRRJ17jy3JKpWbpA5e3uncwGVknVjlfbJXSdWAUhtIrej1AiaJ0RK2fDZO/nyA19U43MlbM1p5hjfW1/LeXW9An/O8CnHfXHNj6VXTgFqCpXfCX+a6asRH+h7f3wvzBKTX5Zm/yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzv5DjUY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="PKVJ9Gr9"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887840c529so1361523f8f.1
-        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 22:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790661207; x=1791266007; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ngp0Z71bP8R1r8qPJz7GJYV+9s7Y/H9eYdP6lvbeJRY=;
-        b=PKVJ9Gr9ELRuQAMFOssXGBjlyCkvgyXMBmRDY/xBlAoMM4JvSUzhtYAY1dZprs6NQh
-         kUP0tlraxpsUJhdxBX1u/82OVHk0Uzys7zDLlvwl53MdzdwtYtxuFFBhF1Wp1qQJ2lEQ
-         VI/DG1CqOhp2jPJxz2KWW0+a6BK5R8U2PmIgdE0yaj0Pk/0uvPdwb1ZOUyqXyKo6DVzA
-         zrU3dd9sa8Y7K/VyxXb5YaWzruKJtaUzCRPgCxtMRIWk0BEjaErdgR2Zq/g8ibOm8rnw
-         ni7AOJfM+/NjdzixpDumgciR3mNIciJxXB7Xin54fmvFq2TAJY2LCWAzHoGbHD4+SeUA
-         B/7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790661207; x=1791266007;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ngp0Z71bP8R1r8qPJz7GJYV+9s7Y/H9eYdP6lvbeJRY=;
-        b=0+/qrd3aIBM6Pbi8Ch2COM/acLLiVjNgMOXTRNcJbq+I3ECmgRplRBYV7JfWwwAQKD
-         38PU95l2yM0oqdcV+5PeEb1WjhIdax0oo6VuADLjvVVwt6f3D1/b2NiPlHuGdrzy7n6X
-         X1j+NQQIZosf458jdd34KZNBiPagvT+UkQKiKzdariH4yQV46YS1fCJ5GPf2NGRevzJR
-         wVQn8RhXEOK7mm/5usODAtS7ulB/bAWOQwdoX/Uw1ZtMUMLNj8ZqlH5Tx0BIy7estAG9
-         5xcjhmcBnkkEewJNB9QbHKEypQGZ8GHSc8nVvO7kdGsj3bZBMZV3phfMlQe74bFI5S4f
-         aYdg==
-X-Forwarded-Encrypted: i=1; AKwUvBxMonkMJyqSvukgX0DA/iydvn8DPqxK2oeb7ThLogsKYbI59q4wWHRhNgDdf5a2aLBk1xnqAnoZPkWujw==@lists.linux.dev
-X-Gm-Message-State: AFuF++mTySVcwct64llLooQUU0Wm43EEnXrv87tW7sqNqQcTDUOqkkFJ
-	PwUkvtr6qd0wGK8ITHIeKp99re7JGyGIHJTJTd4ERLp3cICBTcscTdfhyqGEtO95or4=
-X-Gm-Gg: AYBFou2aQLt4u2TgvLMOhc3UQgwbLkN/cTcanX+V7YkAJ1qPF12yPJWt3/sKbYmXaK0
-	rKeA4+VwrsAJL5OgwzA2jJ3KAjiofU7xoOCnW4rW5lLPG3ZkuAwdlMJG5sOng7NEm17ru9tdMJE
-	yA+YuVD4hhG8/WXxBSQ9FstLRrQYaSmvsScPRvyKIwvOWe7X9DMKg321X0c8gVA4lb/yqNxCc7e
-	Xv+yQ8ETQs/ZYf249SdWBaFEFnlTZHbk4W01RXbtM5y9LAKDFqfXj1HjvwemMb4y+z96Z+Pk/nk
-	TRrhu7qs0QbY58q72xqW4jj/ApDbJFS8HlGKVWOqAjZ7zlKAIC8R9fhc9cOiX4E8WT3+6RrQxTN
-	9+2QHQNStTfT603WN6otfU38Nw6ePZoRQfeAZHI0L1S9twqar2ymrrSGR3LUMlTD2qVFAgzYZVs
-	nc7gqtpksH9QXbMLamumFKTcgk80U/mZyfpzEVOPbNJhQTTJBCjm0UWzVEWDvyfsLea67l7XlOv
-	xk=
-X-Received: by 2002:a05:600c:1daa:b0:4a0:ec5:46d9 with SMTP id 5b1f17b1804b1-4a00ec54708mr13164425e9.0.1790661207369;
-        Mon, 28 Sep 2026 22:53:27 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a00d10bb26sm36434675e9.0.2026.09.28.22.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 22:53:25 -0700 (PDT)
-Date: Tue, 29 Sep 2026 07:53:23 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Johan Hovold <johan@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
-	Bradley Morgan <brads@mainlining.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Add TAINT_DRIVER_OVERRIDE for usage of
- driver_override
-Message-ID: <artRKXU0jygdcxx3@monoceros>
-References: <cover.1790612298.git.u.kleine-koenig@baylibre.com>
- <DLR4AMFM8QZ2.36R6G0LD9D53Q@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzv5DjUY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13BE91F000FF;
+	Tue, 29 Sep 2026 08:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790670926;
+	bh=2NyRzIReUFpHHyp3XlwggkALVWJPA/gL7KG202E2vU8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bzv5DjUYSZqxbWHy24p82D5CELfUCgHWSnWaAvnxovZhlX7ZEwP88pnXG7ARxlzzT
+	 dezGTV1dC+/D5HDSKe0BjJW4Okyxd26ohnjCal4+9PLVat3dYe6HfY+7Vyp9gBSE/h
+	 161zqvJE5i5xSizFkgxXoZdNX/G+OYgqPivPkvZTbUNu12gSnUpqG6DFIBsFsXbpeV
+	 rRJeg21n2N2boDEpwDqOroqpFCL0sR8qQVycmV7+aREl+UYrQ9LXKMF+9pzsFSQOyx
+	 G+ZQiRjD3caN1YIxcd5JU8H+122P3kKWHo0wFtyyJfNMOk+J5MhlSXyTDebY8QoRW0
+	 NksM1glalOQ7Q==
+Date: Tue, 29 Sep 2026 09:35:21 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] driver core: hand off fwnode ownership when shared
+ fwnode owner is rejected
+Message-ID: <20260929-abstract-accomplished-lynx-3edcbc@sudeepholla>
+References: <20260928-driver-core-v1-1-0846bb8e0f32@nxp.com>
+ <20260928-conscious-spectral-manul-19bc10@sudeepholla>
+ <arsYvrYaQIr1lwbT@shlinux89>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nmkyuzojfuhp3rl4"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DLR4AMFM8QZ2.36R6G0LD9D53Q@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arsYvrYaQIr1lwbT@shlinux89>
+
+On Tue, Sep 29, 2026 at 09:47:42AM +0800, Peng Fan wrote:
+> Hi Sudeep,
+> 
+> On Mon, Sep 28, 2026 at 01:09:08PM +0100, Sudeep Holla wrote:
+> >On Mon, Sep 28, 2026 at 07:49:01PM +0800, Peng Fan (OSS) wrote:
+> >> From: Peng Fan <peng.fan@nxp.com>
+> >> 
+> >> When multiple devices share the same fwnode (e.g. the SCMI bus creates
+> >> both "pinctrl" and "pinctrl-imx" devices for SCMI_PROTOCOL_PINCTRL), only
+> >> the first device registered becomes the fwnode owner (fwnode->dev, set in
+> >
+> >This has been rejected in the past. Apart from the trigger in -next,
+> >anything else has changed ?
+> 
+> When both pinctrl-scmi.c and pinctrl-imx-scmi.c are built into the
+> kernel Image, both drivers call module_scmi_driver() at init time, which
+> goes through:
+>   scmi_driver_register()
+>     → scmi_protocol_table_register(id_table)
+>       → scmi_protocol_device_request()
+>         → scmi_device_request_notifier()
+>           → scmi_create_protocol_devices(fwnode, ..., "pinctrl-imx")
+> So the on-demand path already creates both "pinctrl" and "pinctrl-imx"
+
+Yes, but this particular device is i.MX specific issue as it should
+have never been there. So I will discard that in any future discussion.
+Use the SCMI pinmux driver and get rid of SCMI pinctrl-imx.
+
+> devices for protocol@19, sharing the same fwnode, regardless of
+> scmi_std_id_table. aac4e67d6eb9 just added a second path that does
+> the same thing earlier - the fundamental problem existed before it.
+> 
+> This issue has been here for 2 years.
+
+Thanks for clarifying this. You initial email seem to directly blame
+the commit in -next. Please don't bring that commit into discussion then.
+It was completely misleading.
+
+> I proposed a patch in scmi side [1][2], but never made into mainline.
+> [1] https://lore.kernel.org/all/CAGETcx87Stfkru9gJrc1sf=PtFGLY7=jrfFaCzK5Z4hq+2TCzg@mail.gmail.com/
+> [2] https://lore.kernel.org/arm-scmi/ZryUgTOVr_haiHuh@pluto/
+> 
+> The issue is not specific to pinctrl w/o imx.
+> 
+
+Agreed. Perf/cpufreq is another possible issue you have brought up IIRC.
+Since cpufreq must not have dependency like pinmux, we should be able to solve
+it in some other way.
+
+> The problem is that two devices share one fwnode, the first one registered
+> claims fwnode->dev, and if it never binds, driver_bound() of the second
+> device skips the dangling consumer pickup because fwnode->dev != dev.
+> 
+
+Agreed, but it shouldn't be the normal case unless there is a strong need
+and there is the dependency you mention or you mess up by creating duplicate
+devices like pinmux-imx. That's you own doing, sorry.
 
 
---nmkyuzojfuhp3rl4
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/3] Add TAINT_DRIVER_OVERRIDE for usage of
- driver_override
-MIME-Version: 1.0
+[...]
 
-On Mon, Sep 28, 2026 at 07:15:12PM +0200, Danilo Krummrich wrote:
-> On Mon Sep 28, 2026 at 6:46 PM CEST, Uwe Kleine-K=F6nig wrote:
-> > Note that different to Danilo's suggestion I don't differentiate between
-> > driver_overrides setup in userspace and those setup in kernel space.
-> > IMHO all are bad and there are alternatives for the legitimate cases.
->=20
-> I agree that the implementation - i.e. (ab)using driver override - the af=
-fected
-> subsystems have chosen is wrong.
->=20
-> But, there is a difference between picking the wrong implementation and b=
-eing
-> semantically wrong to a point that we need to taint the kernel.
->=20
-> So, yes this should be cleaned up, but we should not taint the kernel for
-> otherwise correct code. Otherwise we could as well taint the kernel for e=
-very
-> other abuse of an API.
+> >
+> >Does dropping i.MX specials from list of devices solves the problem ?
+> 
+> No - dropping "pinctrl-imx" from scmi_std_id_table would not fix it
+> when both drivers are built-in, because scmi_protocol_device_request()
+> from the driver registration path still creates both devices.
+> 
 
-My position on that is: Do the global change now and help the subsystems
-to clean up the mess. In my experice waiting with changes until all
-affected parties are smooth with it is a recipe for failure.
+OK, thanks for the confirmation.
 
-> > I think applying this complete patch set and keeping fcbfaffee51a ("dri=
-ver
-> > core: add TAINT_FORCED_BIND for when userspace manually messes with dev=
-ices and
-> > drivers") is too much, so this series serves mainly as discussion groun=
-d for
-> > choosing a sane way to prevent fuzzing results of only mild interest an=
-d stop
-> > patch sets harding drivers for driver_override handling.
-> > My preference would be to revert (or drop) fcbfaffee51a and then only
-> > apply patch #3. Maybe also keep patch #2 to taint if
-> > "allow_driver_override" is provided.
->=20
-> Agreed, but as mentioned in [1], I think it is also reasonable to only ke=
-ep
-> TAINT_FORCED_BIND for buses that do not support hotplug in the first plac=
-e.
->=20
-> [1] https://lore.kernel.org/driver-core/DLIL9H50MALI.3JROXYEEUM3KU@kernel=
-=2Eorg/
+> >I am more than happy to drop i.MX special in the code and let you
+> >sort the pinmux mess you guys have created.
+> 
+> I understand the concern about platform-specific code in the standard
+> table. But the issue is not specific to pinctrl-imx - it is a generic
+> fw_devlink gap that affects any bus creating multiple devices per fwnode.
+> The same structural pattern exists for SCMI_PROTOCOL_PERF ("perf" +
+> "cpufreq") and SCMI_PROTOCOL_SENSOR ("hwmon" + "iiodev").
+> 
 
-Fine for me, that would mean to apply the whole series and restrict
-TAINT_FORCED_BIND to "static" busses.
+Yes perf/cpufreq case I recall and we should be able to work out something.
+Sensor has no dependency like pinmux and shouldn't be a problem. Have you
+faced real issue with it ?
 
-Best regards
-Uwe
+> Cristian also shared his insights before, in [3].
+> 
+> "
+> ....while other drivers exists that share the usage of the same protocol
+> (HWMON/IIO GENPD/CPUFREQ), they use the same protocol to achieve different
+> things in different subsytems...and they are anyway impacted (even to a less
+> degree) by this fw_devlink issue AFAIU so the problem indeed exist also
+> out of pinctrl-imx
+> "
+> 
+> [3] https://lore.kernel.org/all/Z65U2SMwSiOFYC0v@pluto/
+> 
 
---nmkyuzojfuhp3rl4
-Content-Type: application/pgp-signature; name="signature.asc"
+I agree and that's what I mean above.
 
------BEGIN PGP SIGNATURE-----
+> >
+> >And also I remember you creating situation disabling cpufreq in the cmdline.
+> >Will that be ever used on those i.MX platforms ?
+> 
+> For the PERF pair, both drivers bind successfully today so there is no
+> issue in practice. But if "perf" (the fwnode owner) fails probe while
+> "cpufreq" binds, the same fwnode ownership deadlock occurs. This is not
+> about disabling cpufreq - it is about the owner device failing to bind
+> for any reason.
+> 
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmq7UlEACgkQj4D7WH0S
-/k5Ltgf/VeTTEIetbw5CxkvMrdNO+abbUIbuqST/lOMuzUIceHqJNYOIMDMmyjkw
-xj1U7U4uEbm/xPTPwPmeqmAaW5N0yLxTw8aM+N+/c8aZF9BAGIVB5oZxmKMYC9Ui
-vcvs4rDvokk3GKxvKaRagr8oxD4JjNWAJY+6aO4DpcWQGcYdLDoSThTsQkZeiU3h
-tF6qBM90NoLUwVRpYsAWplhY6UYcspHYpQqZGlHnTXZRXPQ3aw13N/I75qi4YYzk
-0zKiyYJt+1rsujTnSL5iMOjcCdYWjhq42qsmSdalfBhWdn4USszYLkdP+SiftCN4
-WKQQxD58vg8NQh3dgBjs7fQRXgFy3Q==
-=Igh3
------END PGP SIGNATURE-----
+Thanks for the explanation.
 
---nmkyuzojfuhp3rl4--
+> >
+> >I am not against the patch if others are OK.
+> 
+> Thanks. The patch fixes a generic fw_devlink gap in driver_bound()
+> where a device binding successfully on a shared fwnode cannot resolve
+> dangling consumers of child fwnodes because it is not the fwnode owner.
+> The fix follows the existing fwnode->dev ownership discipline (only
+> writing fwnode->dev when it is NULL, owned by self, or owned by a
+> driverless device) and handles all three scenarios:
+> 1. Owner probe rejected (-ENODEV/-ENXIO) - owner hands off in
+> really_probe() failure path
+> 2. Owner rejected earlier, fwnode now unowned - sibling re-acquires
+> in driver_bound()
+> 3. Owner's driver never compiled/loaded - sibling takes over from
+> driverless owner in driver_bound()
+> 
+> 
+> If driver core maintainers have better solution for the case that
+> multiple devices share one fwnode, I would appreciate.
+> 
+
+IIRC, they don't want to use 2 device pointing to same fwnode.
+
+-- 
+Regards,
+Sudeep
