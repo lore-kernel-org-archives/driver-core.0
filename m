@@ -1,274 +1,240 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F9E51615F
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 11:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EBB51D51F
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 12:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790681929; cv=none; b=MAdGqudDdCuuaObpq+owgNuTUYvS//zstPRb/liYhzWxe490P318pHhR6E9pRvmo4rXZBTs6F9wcQr/G4pTxllMd4Yn15DA5MI6SQq8SCX070ryupXFTfDrF/TmsGhTX93RPrviBUw1mHqi0J3uHFeyVvdnP/MSbldJAu8fvUUI=
+	t=1790683974; cv=none; b=iFGrosyfB1ALiOB5+BlKtBw3Ok8Bp5S0duH5l51uwinN8ka9DqL7sL+RDlm9MYG3dJSc/bCeBk6Wb45OzlgdXwjlYIVp8v0oYfo8W0XgRBgZTOgTIz1z8CRumx1OJM6dKK9E5IFmuvigmSjEXdpNXsyVNk7WfczUWZxRj0DfQAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790681929; c=relaxed/simple;
-	bh=IRkPQ48QnFX19GoN/M4c8BIX+Ad9l2A+S+ag7idBrDI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=udDDt+0BaAjfw27SLI2nBKj3FSA6/WsEg32Ko145GcP/GO/13bUwBA9Z61xcikV7KBwOtcKds/jAkepf5JIfYEfMjUqUhNUu4CvlkgMOQBPBt6tLgd5GY0tPlmFtmtewEzWPFXQG+kUIRL4rmsCdpY1NjpgnQaxObtNlaydsJbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Y+ToRTXC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TazzfrWb; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790683974; c=relaxed/simple;
+	bh=aOHR2S9JoDTNHa4EinckRR5sM8LP9tsgVirzxTuKr0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RABLvqygCtd48XiFNkx1lJen1hWyMC5aonsJIECCO9mb9vsjtGAqHNgOV57q2idQHA2ERjU5DXUMQWr0n67uiz3/HMdBED3yad+ooQkagA28w9IhPcQaNSwXGpg2Wpx12fO/Pm7it1j6FVjMOxVchIfFgoL6JbcuoLc8pV84zBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pRGrVGJz; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y+ToRTXC";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TazzfrWb"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TAj9DG069864
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 11:38:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sjuBHnNOqcpw5ApUs2RooCq8aTsOYyQ4QeK2GhXHYlI=; b=Y+ToRTXCNjUAfeFE
-	C/6ElZeFVpKv0drkZ59SiNBa+mh/wd0ne1qZtFd57k9DSn4zDhaGZvxxXJzDztYF
-	6VVedoYihiJ36xnYCLBMCqeCNntkxyElKg/T8/aqvBKPIWfOzjHaC6zVcb7wiLGs
-	hAtoOwhPMnm7C/YPyd5xuWTafLsMyAGzth881TIVaaHJpOPufD5fcR/PVbrWSzR4
-	ZDf4o9vx3iJm0Fnr9VIFNneyuNH3yRvvTht1sgj3j14CqUiJOfRnzYLGYSDf13AD
-	0pUl7dnf++XUSCbk3wcyFN6S2uBw9WRw74yJC/5tcPwxKQ6/lvdkbwCgS6JcxM5t
-	zy5wbA==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h01vkjjey-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 11:38:43 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-34344599f01so2409174eec.0
-        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 04:38:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pRGrVGJz"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a00713639cso15277335e9.1
+        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 05:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790681922; x=1791286722; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sjuBHnNOqcpw5ApUs2RooCq8aTsOYyQ4QeK2GhXHYlI=;
-        b=TazzfrWbLErLqA+y3qyovW6Ev54BTA1bjsWOdyNsjF8HyNjwP8w8ArYxakuUzVqJMw
-         c70968bn1tzwK+ZnRJK+MHecF61hHEkwH8s4sAm1RPb3mDbsyhYvkMziMYY93dM2fc0i
-         HTuWg0juuguF5nI5SYNyFug8uL+nOoYAvKNT5wWATA9XbD8Ss5XDEbW4GmYhodidSMcT
-         lAba9T4oa8tDB2PmmcE4379Ezg6BkHjCaioRMCRhoDqV3npfTbGwhe5WdFPUF9rR24u7
-         yPBuIuqnPrhWSjE6uidlytPsJY6nZg0Z1jgPg/3+OvVM6B4kkHBfVi32o3hUtEmujMBg
-         ABCg==
+        d=google.com; s=20251104; t=1790683970; x=1791288770; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=pRGrVGJzxsq1JVVac1f+sPbRjtU7lM3SZBCnGHVHvjR53rUugijw/kddJRgVWbTOjq
+         vJnXClOZ4RJXVIJFwCCyS5U7asfWK9au7kqc7tmOUsAEIJVm1sjjLHvB/BY9BxbbyC8u
+         zUHBuoT1r4zrVg5q6kAgQ/jwGg5C/AG0RyRXke3xxvI5gEQrQqaLck9cfEunRldAoQyg
+         ENqjDWGTGr9afLLkD0S16FOJa7DdGPIFutg2Yd5Bk7VHyGAHq5fdVh7ezKpoFKvfdDuy
+         46u+RpOnNC6eohhx784jLq8EzMzh4I7/xh0MSYvNKmsxJ33hV+NKJcsT1wgBLVs2CaE2
+         b+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790681922; x=1791286722;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sjuBHnNOqcpw5ApUs2RooCq8aTsOYyQ4QeK2GhXHYlI=;
-        b=DDtK8e3ypToprdYH7IUHm2bVQrCY/ztXmsPr6sb13L/iVQwswIvmyWS8t3gi8CHX21
-         nsb7hBhDL2Luj2Jh4EQHbVVx2QcCGO7it4/lLu+gUWKhTPD+Sjn+GxEj01FNGJwAjLEe
-         Yial3xlSshdyafS47AQKx3CMBJdO6E23C61fbMwItRT73fSaQD5bWoOgxB3sqd0zz/EY
-         65/9QP9HhAWtorFQoG8zw3T7hEKdBHQQXC823vjrrlQIp/DwwsAjuzdhTJr7kpxKzCi+
-         ckBYzUfRjkK9ZuQFsm8j4wzfBWpPZZAb5sqgXs2OmzeDxDybEAl9EZRuylHu1D0wqqAn
-         UVhw==
-X-Forwarded-Encrypted: i=1; AKwUvBwBRtcc5LKc/YkYbGHZUCR8DO/Np/oyQVhyLzBIpSUZarfUkCNg88esEm0CjjiQJ8C4QxT3CTBTPcPG4g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJB4rWU3m7joF9p+yiYdBFUQP4VDtKL99+URuLL0oy3mCaobpm1
-	kqLGJYJpenWJsAqkBLVtfWO2Rs9XmBX/sWbiB8x2XsPfr8kLFJpM8gUQoI906MtX9vxxyMJUZEh
-	RzUM7ZxYOGJo6D/cZrHgsmZ8UVbavzZbvte7avggCYcxMuMXTXPmkUUfWbU5XuG6eYg==
-X-Gm-Gg: AYBFou1cCAivmvgzbCWK4OfHkw2hv8Bkdm73GhDSyk2mSSbA0CfjN3Zbp9ClWQQ/n0/
-	3BCxcoyvP5xI6ROk21YdJEstEKkpbgYjRLO2ukqGR0jYBYnsTm/J7Ls2lgdI+9xQF3eYbytjj5r
-	0e/AeFd9wRiaQH1Mr4XKg7xURrhNWJlHU5HzCE/ahsDETFqeqqSX/9x8BFHf8KDNk4VhHOKlrBI
-	DdU9eHnkJoQvqq5E8yz6rhYBmn66itrZOjYJW5Kfm5YOXzT9O+bUlEYJWL/MggW2pZsIVFnrU0K
-	4lNihRtw0bm8bEZVd0hiEoAvZN01DE72a4HkTRrwqcVZVVIGn7u+9bhR+VanpgWIT5J7AR/8Ukb
-	jO04bKKzAVoTbj3kgONYefDkOuflxAzM0zfXlJ9hh9LzTx2iuNq/4MOteeqU45rMftr3xQHXV1/
-	/phkBXqz65PZ0Dj3Q=
-X-Received: by 2002:a05:7300:b90a:b0:343:4dcc:d29a with SMTP id 5a478bee46e88-3434dcce606mr16197177eec.28.1790681922161;
-        Tue, 29 Sep 2026 04:38:42 -0700 (PDT)
-X-Received: by 2002:a05:7300:b90a:b0:343:4dcc:d29a with SMTP id 5a478bee46e88-3434dcce606mr16197123eec.28.1790681921508;
-        Tue, 29 Sep 2026 04:38:41 -0700 (PDT)
-Received: from hu-anancv-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145d0fc9fsm37145604eec.25.2026.09.29.04.38.37
+        d=1e100.net; s=20260707; t=1790683970; x=1791288770;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=mjqeFEgqWoHvcHQU7Bh5rmWZN18/JbXY/FUuDaZcrIydzDt3EKUa+NDzC/yOQNg+nA
+         MaOjFEzoAkX0SMj6v0n/w8qMjis/Yk97XMTIZG1huu6ZBsfM/PfBnu7wFxjgcXEQs8e4
+         MKYqKsOuqIdRSWxwrfn1nQsQXZyA++EVEAhqECtPoOc4SGF4++VvgxVwPYUB7pPWNVN5
+         UjbSVg0zsVkq5SZsMXBSCD3xf+yCQB+c/ogHh2wBKLFVBk2VMK5LEsxO/PclfuGz7GCk
+         5E4+EOg4sOWwMTjbjjwd8AovV3dM0YVX+Y1sccpuLWygEh6FPRswzh7W6tgy7ZbNjDHL
+         PNPA==
+X-Forwarded-Encrypted: i=1; AKwUvBwTn/NppE+weUpY3ksvrd1hvc5dLL58ub9B70EQ4Dk86s3xSLSOP3s8ZX2F9a40tCpQiEk8+M0lVc+Obw==@lists.linux.dev
+X-Gm-Message-State: AFuF++m69mWV8hToPSm4lxlZfqvtzsv4kNMWApd4Voea0qaOiEUuFSyJ
+	CuahXRLdl5e0RnQvm2qUrwyyNrvrxO9CEcw9U3DscTW7zFsqPZlGgOk1QmoCcDnT3w==
+X-Gm-Gg: AYBFou3tqvo0UN69Y3XRe6XpTuDr9NwhllnHy72xFVZLx0a/ivPklen6u9THfhryFQa
+	7qaPAuvU4CyaVOhD+rB7E+g8UXMZxMMvkgX4hSpw5j1Kmz5sxOoXlNrZp411j6ccdXiRgPr/CCM
+	bEYwy+NXdn+tGyf3I1vWNqFlklm0Il/w4hFbofcpPfpfKEerm+IeI3Zp+3aVttE75bcsBeC1Izq
+	MY4ZrwhLvPFzuxKZM4U8hkxxJqUYz6G8tQq2r1cGzWmd0S8mw+0c1tl4KTnO4BsgXD3uUqfvk+f
+	c23c2JjPSepb3sVgWVVNPz0J/Xg0aEmIm2rJupMvoNU5fi4Cwbs3bPGEXt2ZA9CBUEqeXxL4w0z
+	DufdIdmD/7zyRmJ1PSNkDzNz2a9n6liNL5bIAoDRPnbqcr5SYWSJ/kWFIDfhMtYLF+RLDujVmIN
+	K9AROL+/wOhIXI/i9b+uxkEZ5zb4bo1ugWpCc+roYHSvU8RRlNUxlpeEMsDZoYBnY42UfmShc71
+	gYtPwb6R6ak1nmSyr7FKGWYY2vokg==
+X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr302281505e9.33.1790683968737;
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:ce20:1d4f:298a:2070])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a013b8f6f5sm4087715e9.10.2026.09.29.05.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 04:38:41 -0700 (PDT)
-From: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-Date: Tue, 29 Sep 2026 17:08:07 +0530
-Subject: [PATCH v3 2/2] cpufreq: fix policy max not returning to non-boost
- freq on boost disable
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Date: Tue, 29 Sep 2026 14:12:42 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
+	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
+	zohar@linux.ibm.com, roberto.sassu@huawei.com,
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
+	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
+	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arurOphe6QIx2Zr8@google.com>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
+ <arqcbjWLN1CLkL_Y@suesslenovo>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
-References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
-In-Reply-To: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jie Zhan <zhanjie9@hisilicon.com>,
-        Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-pm@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Oleg Keri <okerixx@gmail.com>,
-        Ananthu C V <ananthu.cv@oss.qualcomm.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790681906; l=4806;
- i=ananthu.cv@oss.qualcomm.com; s=20260903; h=from:subject:message-id;
- bh=IRkPQ48QnFX19GoN/M4c8BIX+Ad9l2A+S+ag7idBrDI=;
- b=IXje9iJZJznKOH54JVQd3nu1rEXtSKUyWr1zXv8ANd3q3Y8tn+bLjdFRhZ2pBZa6Imz3RWOHQ
- c5nkPHitCXICHMBd9pYCH1G9canzcpyjXv521zmVY19/DHGmPvrSL48
-X-Developer-Key: i=ananthu.cv@oss.qualcomm.com; a=ed25519;
- pk=gutNfLSMVTRkB+MxVviMFq9I07C5qPe9xHY2J5XCMpo=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA0NiBTYWx0ZWRfX2TMbKLB/PHOQ
- cRZ/bQLemt3vqAwqMvOkydyslnBBitPcGhvAaVHTy9faRAmqzviOqQVO+uCaSigdyS8iDpMY19H
- 8nOkDJ82msqTJm/WRVkQhjZwYsDbeGAmKb6K6Rx91ajgylek0TuI7lkw4yDdilYDX3wR4iRFzcq
- p73dn+YJeteHMfwlscU70lhKCB9W05bbxbLbr9LqyYzynPtrnpEfkLKc50gxAzvK7pFFilUX9/H
- LFldvZNkGzi5H/06v0EYZdkrhyv92QhgvM+UowN4IOT+8wPkWCysuViiPBort1rOzndC1BHSY3t
- EGsL7cUz77DrLHocUV6p6Fy0at6yLpJJwywc9qjzqvXApEWIq0PEfEh+nlAg4GA76OVJic7dhCJ
- j2Qegjw9WOIC8E7zcgCyXlH6WvRvdX4VwMrBXhMzl3x5GDy36JcAK/eKXUUE0mQbS1HWgFr0UYQ
- NEKDl/A7Kj0CaO2GWBg==
-X-Proofpoint-GUID: sw49nyDNHQwiCIV2j-wPsgrjCjHcVJNX
-X-Authority-Analysis: v=2.4 cv=VcVir1p9 c=1 sm=1 tr=0 ts=6abba343 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=2yvpktbjYSEXaF6n4vkA:9 a=QEXdDO2ut3YA:10
- a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-ORIG-GUID: sw49nyDNHQwiCIV2j-wPsgrjCjHcVJNX
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA0NiBTYWx0ZWRfX8wx5NMd6RnJB
- LJfQpKoqYw/ZBkboPwO72rXw8vWLUZBqQMtzeNLWXYiyZqxJ9hr3ReaR7TP5OHpdfyigc0OBgfd
- At0A18J01ZH+lYBzNpLMvnTJDH+xPHs=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 malwarescore=0 adultscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609290046
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arqcbjWLN1CLkL_Y@suesslenovo>
 
-Commit 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if
-max boost is known") introduced a guard for cpuinfo max updates to only
-increase, to preserve driver-set values above the freq table maximum.
-Later commit db80ad776cd2 ("cpufreq: Remove driver default policy->min/max
-init") dropped the 'policy->max = max_freq' assignment from
-cpufreq_frequency_table_cpuinfo, leaving that one-way-guard to be the only
-path for cpuinfo max and consequently policy max to be updated, causing
-both values to be stuck at boost frequency even when boost is disabled.
+On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
+> On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> > Hello!
+> > 
+> > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > > This series adds two new Landlock filesystem access rights,
+> > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > > which control access to file and directory metadata such as inode
+> > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > > operations are grouped into one read and one write right.
+> > > > 
+> > > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > > refactoring with no behavior change, split so that every patch builds
+> > > > and works on its own:
+> > > >
+> > > I like these patches, but is the ability to read metadata already
+> > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > > directory?
+> > > 
+> > > The one case I see this being different is:
+> > > 
+> > > 1. if you wanted to grant read access to the file, but not metadata
+> > > read access, but I can't think of any usecase for being able to read
+> > > the contents of a file, but not the metadata. (see below)
+> > > 
+> > > 2. If you had the absolute path already and didn't need READ_DIR.
+> > > 
+> > > I see introducing this READ_METADATA as causing potential
+> > > hard-to-diagnose issues.
+> > > 
+> > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > > 
+> > > The program can technically open the file with the READ_FILE permission,
+> > > but it may error out because the stat() on it beforehand failed.
+> > > It's pretty common for programs to do that kind of thing (stat before
+> > > open), like for checking for config files (strace bash and you see it
+> > > stat .profile, /etc/profile)
+> > > 
+> > > There may be other bugs, because being able to set permissions to read
+> > > a file *but not read it's metadata* isn't possible currently in posix
+> > > acl and userspace may not work well if that assumption no longer holds.
+> > >
+> * posix acl and linux DAC.
+> 
+> > > So maybe WRITE_METADATA is good enough?
+> > 
+> > The existing use cases are the combinations of (a) READ_DIR
+> > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> > two access rights overlap slightly, it seems likely that for a given
+> > directory or file, users will want to either grant both, or deny both.
+> > 
+> > At the moment, where the (not yet existing) READ_METADATA is
+> > implicitly always allowed, the problematic case is the one where the
+> > Landlock user wants to deny READ_DIR, but where much of the same
+> > metadata is still available through stat() and the various
+> > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> > [1])
+> > 
+> > In my view the READ_METADATA right closes a gap that READ_DIR left
+> > open (which is also potentially surprising to callers if they did not
+> > read the docs closely).  Also, if its implementation is symmetric to
+> > WRITE_METADATA, I feel that it's worth having it in the same patch
+> > set.
+> > 
+> > –Günther
+> > 
+> > P.S.: I know, even after we can control stat(), there are likely ways
+> > to infer the presence of a file by observing Landlock error codes.
+> > This would be nice to fix as well, but is harder to do without
+> > controlling the path walk itself [2].  But also, the fact that this is
+> > currently not controllable is not an excuse for leaving READ_METADATA
+> > open IMHO.
+> >
+> I'm still sort of concerned about the case where read access is allowed,
+> but metadata isn't, due to how many applications will not cleanly handle
+> such an unexpected condition. You can reproduce this with a seccomp
+> policy forbidding stat().
+> 
+> Would it make sense to have the existing READ rights
+> (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+> if READ_METADATA is handled? Reading a file's contents should always
+> imply that you can read the metadata.
 
-Unconditionally track the highest non-boost frequency (max_base_freq)
-in the freq table. If boost frequencies are available, use the highest
-frequency from the table/max_base_freq instead of cpuinfo->max_freq to
-control boost values, so the value can decrease again when boost is
-disabled.
+I am wary of situations where the handling of access rights implicity
+implies other access rights.  We have discussed such schemes in the
+past (e.g. we considered a design for RESOLVE_UNIX where we'd have
+both a "scoped" and a "access_fs" right that would interact with each
+other), but in the end we always settled for approaches where such
+interactions would not be necessary.  One of the concerns was that it
+would complicate "best effort" fallback logic in all Landlock
+libraries and in the countless places where people use the syscalls
+directly.
 
-Fixes: db80ad776cd2 ("cpufreq: Remove driver default policy->min/max init")
-Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
----
- drivers/cpufreq/cpufreq.c    | 16 +++++++++++++++-
- drivers/cpufreq/freq_table.c |  9 ++++++++-
- include/linux/cpufreq.h      |  3 +++
- 3 files changed, 26 insertions(+), 2 deletions(-)
+To throw another option in the mix.  (To be clear, I have only 70%
+confidence, so feel free to push back, but it feels like it might
+work?):
 
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 96515880b4ac..5e6afb6f8826 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -574,6 +574,8 @@ static ssize_t show_local_boost(struct cpufreq_policy *policy, char *buf)
- 
- static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
- {
-+	unsigned int max_freq;
-+	unsigned int max_table_freq;
- 	int ret;
- 
- 	if (policy->boost_enabled == enable)
-@@ -587,7 +589,19 @@ static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
- 		return ret;
- 	}
- 
--	ret = freq_qos_update_request(&policy->boost_freq_req, policy->cpuinfo.max_freq);
-+	max_table_freq = cpufreq_frequency_table_max(policy);
-+
-+	if (policy_has_boost_freq(policy)) {
-+		max_freq = enable ? max_table_freq : policy->cpuinfo.max_base_freq;
-+
-+		if (!max_freq)
-+			/* when the freq table contains only boost frequencies */
-+			max_freq = max_table_freq;
-+	} else {
-+		max_freq = policy->cpuinfo.max_freq;
-+	}
-+
-+	ret = freq_qos_update_request(&policy->boost_freq_req, max_freq);
- 	if (ret < 0) {
- 		policy->boost_enabled = !policy->boost_enabled;
- 		cpufreq_driver->set_boost(policy, policy->boost_enabled);
-diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
-index ea994647abc8..820ed4559f6c 100644
---- a/drivers/cpufreq/freq_table.c
-+++ b/drivers/cpufreq/freq_table.c
-@@ -14,7 +14,7 @@
-  *                     FREQUENCY TABLE HELPERS                       *
-  *********************************************************************/
- 
--static bool policy_has_boost_freq(struct cpufreq_policy *policy)
-+bool policy_has_boost_freq(struct cpufreq_policy *policy)
- {
- 	struct cpufreq_frequency_table *pos, *table = policy->freq_table;
- 
-@@ -27,17 +27,22 @@ static bool policy_has_boost_freq(struct cpufreq_policy *policy)
- 
- 	return false;
- }
-+EXPORT_SYMBOL_GPL(policy_has_boost_freq);
- 
- int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
- {
- 	struct cpufreq_frequency_table *pos, *table = policy->freq_table;
- 	unsigned int min_freq = ~0;
- 	unsigned int max_freq = 0;
-+	unsigned int max_base_freq = 0;
- 	unsigned int freq, i;
- 
- 	cpufreq_for_each_valid_entry_idx(pos, table, i) {
- 		freq = pos->frequency;
- 
-+		if (!(pos->flags & CPUFREQ_BOOST_FREQ) && freq > max_base_freq)
-+			max_base_freq = freq;
-+
- 		if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
- 		    && (pos->flags & CPUFREQ_BOOST_FREQ))
- 			continue;
-@@ -57,6 +62,8 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy)
- 	if (policy->cpuinfo.max_freq < max_freq)
- 		policy->cpuinfo.max_freq = max_freq;
- 
-+	policy->cpuinfo.max_base_freq = max_base_freq;
-+
- 	if (min_freq == ~0)
- 		return -EINVAL;
- 	else
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index f048c925fd98..7bb58405e004 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -45,6 +45,7 @@ enum cpufreq_table_sorting {
- struct cpufreq_cpuinfo {
- 	unsigned int		max_freq;
- 	unsigned int		min_freq;
-+	unsigned int		max_base_freq; /* Highest non-boost frequency in the table */
- 
- 	/* in 10^(-9) s = nanoseconds */
- 	unsigned int		transition_latency;
-@@ -791,6 +792,8 @@ struct cpufreq_frequency_table {
- 
- int cpufreq_frequency_table_cpuinfo(struct cpufreq_policy *policy);
- 
-+bool policy_has_boost_freq(struct cpufreq_policy *policy);
-+
- int cpufreq_frequency_table_verify(struct cpufreq_policy_data *policy);
- 
- int cpufreq_generic_frequency_table_verify(struct cpufreq_policy_data *policy);
+Is this similar to the "truncate" right?
+----------------------------------------
 
--- 
-2.43.0
+With "truncate", there was an existing common operation (open(2) with
+O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
+for the truncation access right.  But that was in fact OK.  The way we
+resolved it at the time was by documenting very loudly that WRITE_FILE
+and TRUNCATE access rights should always be requested in lockstep, if
+TRUNCATE is handled.
 
+If READ_DIR and READ_FILE do in fact read and return metadata to the
+user, maybe the right thing would be to do it the same way here and
+*require* that we have READ_METADATA to do these operations?
+
+(READ_METADATA is automatically allowed as long as it's not handled,
+so that approach does not break existing programs.  Programs who
+consciously start handling READ_METADATA must simply take into account
+that reading directories and opening files for reading requires
+READ_METADATA.)
+
+(BTW, I can see it for reading directories, but I am not sure I fully
+follow the argument why opening files for reading means that you can
+read the metadata?  Can't that be guarded on fstat()-like operations?)
+
+—Günther
