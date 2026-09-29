@@ -1,101 +1,51 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EBB51D51F
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 12:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283B53E4C7B;
+	Tue, 29 Sep 2026 15:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790683974; cv=none; b=iFGrosyfB1ALiOB5+BlKtBw3Ok8Bp5S0duH5l51uwinN8ka9DqL7sL+RDlm9MYG3dJSc/bCeBk6Wb45OzlgdXwjlYIVp8v0oYfo8W0XgRBgZTOgTIz1z8CRumx1OJM6dKK9E5IFmuvigmSjEXdpNXsyVNk7WfczUWZxRj0DfQAM=
+	t=1790697390; cv=none; b=M7vZdPfn1q8Rul7K5gcdWnBh8rFwczq3/s4uoSnSsHTRvRfigRVFnCxQahYhlprAGPggCH5QrXlj1FK8Ft56kM2NIZ1T4hIUcB3bEs6E64aTY2NSYV+vptrma65mIzrb/4OS5GuQCoASPXwgAn8s7EEnq/Og0YZ1hSE3OvJXvB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790683974; c=relaxed/simple;
-	bh=aOHR2S9JoDTNHa4EinckRR5sM8LP9tsgVirzxTuKr0g=;
+	s=arc-20240116; t=1790697390; c=relaxed/simple;
+	bh=zegh4LFoKhBqjlXiI/g7/A5pNiFDzaVN2JRWluqZ1Xs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RABLvqygCtd48XiFNkx1lJen1hWyMC5aonsJIECCO9mb9vsjtGAqHNgOV57q2idQHA2ERjU5DXUMQWr0n67uiz3/HMdBED3yad+ooQkagA28w9IhPcQaNSwXGpg2Wpx12fO/Pm7it1j6FVjMOxVchIfFgoL6JbcuoLc8pV84zBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pRGrVGJz; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LfnGE25W9PpedAum7FaOgwLjfY66Ubt93hDi4ZE2AXl8/CKeh0z1EEeh23t/NyoDLt4it62Rxvhzoui99Vv2QCAM3Xh9RBemIUjAv4YZrKtesNO7SsC1Y+Gx+07KQ6QIUYPAi1cSyIr+jBEsuV63/6ol5ArXrrDY/t+ZL3u0s6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRCvzG7Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pRGrVGJz"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a00713639cso15277335e9.1
-        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 05:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790683970; x=1791288770; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
-        b=pRGrVGJzxsq1JVVac1f+sPbRjtU7lM3SZBCnGHVHvjR53rUugijw/kddJRgVWbTOjq
-         vJnXClOZ4RJXVIJFwCCyS5U7asfWK9au7kqc7tmOUsAEIJVm1sjjLHvB/BY9BxbbyC8u
-         zUHBuoT1r4zrVg5q6kAgQ/jwGg5C/AG0RyRXke3xxvI5gEQrQqaLck9cfEunRldAoQyg
-         ENqjDWGTGr9afLLkD0S16FOJa7DdGPIFutg2Yd5Bk7VHyGAHq5fdVh7ezKpoFKvfdDuy
-         46u+RpOnNC6eohhx784jLq8EzMzh4I7/xh0MSYvNKmsxJ33hV+NKJcsT1wgBLVs2CaE2
-         b+8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790683970; x=1791288770;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
-        b=mjqeFEgqWoHvcHQU7Bh5rmWZN18/JbXY/FUuDaZcrIydzDt3EKUa+NDzC/yOQNg+nA
-         MaOjFEzoAkX0SMj6v0n/w8qMjis/Yk97XMTIZG1huu6ZBsfM/PfBnu7wFxjgcXEQs8e4
-         MKYqKsOuqIdRSWxwrfn1nQsQXZyA++EVEAhqECtPoOc4SGF4++VvgxVwPYUB7pPWNVN5
-         UjbSVg0zsVkq5SZsMXBSCD3xf+yCQB+c/ogHh2wBKLFVBk2VMK5LEsxO/PclfuGz7GCk
-         5E4+EOg4sOWwMTjbjjwd8AovV3dM0YVX+Y1sccpuLWygEh6FPRswzh7W6tgy7ZbNjDHL
-         PNPA==
-X-Forwarded-Encrypted: i=1; AKwUvBwTn/NppE+weUpY3ksvrd1hvc5dLL58ub9B70EQ4Dk86s3xSLSOP3s8ZX2F9a40tCpQiEk8+M0lVc+Obw==@lists.linux.dev
-X-Gm-Message-State: AFuF++m69mWV8hToPSm4lxlZfqvtzsv4kNMWApd4Voea0qaOiEUuFSyJ
-	CuahXRLdl5e0RnQvm2qUrwyyNrvrxO9CEcw9U3DscTW7zFsqPZlGgOk1QmoCcDnT3w==
-X-Gm-Gg: AYBFou3tqvo0UN69Y3XRe6XpTuDr9NwhllnHy72xFVZLx0a/ivPklen6u9THfhryFQa
-	7qaPAuvU4CyaVOhD+rB7E+g8UXMZxMMvkgX4hSpw5j1Kmz5sxOoXlNrZp411j6ccdXiRgPr/CCM
-	bEYwy+NXdn+tGyf3I1vWNqFlklm0Il/w4hFbofcpPfpfKEerm+IeI3Zp+3aVttE75bcsBeC1Izq
-	MY4ZrwhLvPFzuxKZM4U8hkxxJqUYz6G8tQq2r1cGzWmd0S8mw+0c1tl4KTnO4BsgXD3uUqfvk+f
-	c23c2JjPSepb3sVgWVVNPz0J/Xg0aEmIm2rJupMvoNU5fi4Cwbs3bPGEXt2ZA9CBUEqeXxL4w0z
-	DufdIdmD/7zyRmJ1PSNkDzNz2a9n6liNL5bIAoDRPnbqcr5SYWSJ/kWFIDfhMtYLF+RLDujVmIN
-	K9AROL+/wOhIXI/i9b+uxkEZ5zb4bo1ugWpCc+roYHSvU8RRlNUxlpeEMsDZoYBnY42UfmShc71
-	gYtPwb6R6ak1nmSyr7FKGWYY2vokg==
-X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr302281505e9.33.1790683968737;
-        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:ce20:1d4f:298a:2070])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a013b8f6f5sm4087715e9.10.2026.09.29.05.12.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
-Date: Tue, 29 Sep 2026 14:12:42 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
-	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
-	zohar@linux.ibm.com, roberto.sassu@huawei.com,
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
-	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <arurOphe6QIx2Zr8@google.com>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <araxO4ze0KZBz756@suesslenovo>
- <20260926.255b951d3013@gnoack.org>
- <arqcbjWLN1CLkL_Y@suesslenovo>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRCvzG7Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABFD1F00898;
+	Tue, 29 Sep 2026 15:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790697388;
+	bh=kUBh2UQP/V2sa5bNZn9dZqHFYt04+I/d8vGdQpNZwKU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eRCvzG7QJ9jLj7BJK6RrWjjT/eKzdSsIW+sliNHAwl1b/hqW0pJtBAVFkMEVjEPuW
+	 w+eueV3gA+tQxA1gbl0RVElWmSrUsk4TYrw9j2CS+Z2aizS9HL1o017OWHqo20Zqnb
+	 w86XvJHoMgdQjrBMWSAyCyjfBgFhF/etwD+OLzkZtwZjz1Pm3oJ9k5W6gZJAE4n1jU
+	 Vvhctr8U5xdGjo+RDzQq9Kf96wMuZf8Vd4SdcVvC2CXC3LowX27utvA4hSRThSanmy
+	 k2uCOMxcM4ON2WveK2yJHmlbZ4vWVHGJ3Plh/+wHrT3AMAd2QyQvyXIAMLObyuN3L8
+	 Osdd0fH0y8HIA==
+Date: Tue, 29 Sep 2026 16:56:24 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] driver core: hand off fwnode ownership when shared
+ fwnode owner is rejected
+Message-ID: <20260929-dazzling-gray-sawfly-cfd671@sudeepholla>
+References: <20260928-driver-core-v1-1-0846bb8e0f32@nxp.com>
+ <20260928-conscious-spectral-manul-19bc10@sudeepholla>
+ <arsYvrYaQIr1lwbT@shlinux89>
+ <20260929-abstract-accomplished-lynx-3edcbc@sudeepholla>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -105,136 +55,159 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <arqcbjWLN1CLkL_Y@suesslenovo>
+In-Reply-To: <20260929-abstract-accomplished-lynx-3edcbc@sudeepholla>
 
-On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
-> On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
-> > Hello!
+On Tue, Sep 29, 2026 at 09:35:21AM +0100, Sudeep Holla wrote:
+> On Tue, Sep 29, 2026 at 09:47:42AM +0800, Peng Fan wrote:
+> > Hi Sudeep,
 > > 
-> > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
-> > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> > > > This series adds two new Landlock filesystem access rights,
-> > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> > > > which control access to file and directory metadata such as inode
-> > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
-> > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
-> > > > support" series [1] and follows the coarse-grained grouping discussed in
-> > > > that thread [2]: instead of separate chmod/chown rights, metadata
-> > > > operations are grouped into one read and one write right.
-> > > > 
-> > > > Landlock evaluates access rights on a per-path basis, but the metadata
-> > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
-> > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> > > > refactoring with no behavior change, split so that every patch builds
-> > > > and works on its own:
-> > > >
-> > > I like these patches, but is the ability to read metadata already
-> > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-> > > directory?
-> > > 
-> > > The one case I see this being different is:
-> > > 
-> > > 1. if you wanted to grant read access to the file, but not metadata
-> > > read access, but I can't think of any usecase for being able to read
-> > > the contents of a file, but not the metadata. (see below)
-> > > 
-> > > 2. If you had the absolute path already and didn't need READ_DIR.
-> > > 
-> > > I see introducing this READ_METADATA as causing potential
-> > > hard-to-diagnose issues.
-> > > 
-> > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
-> > > 
-> > > The program can technically open the file with the READ_FILE permission,
-> > > but it may error out because the stat() on it beforehand failed.
-> > > It's pretty common for programs to do that kind of thing (stat before
-> > > open), like for checking for config files (strace bash and you see it
-> > > stat .profile, /etc/profile)
-> > > 
-> > > There may be other bugs, because being able to set permissions to read
-> > > a file *but not read it's metadata* isn't possible currently in posix
-> > > acl and userspace may not work well if that assumption no longer holds.
+> > On Mon, Sep 28, 2026 at 01:09:08PM +0100, Sudeep Holla wrote:
+> > >On Mon, Sep 28, 2026 at 07:49:01PM +0800, Peng Fan (OSS) wrote:
+> > >> From: Peng Fan <peng.fan@nxp.com>
+> > >> 
+> > >> When multiple devices share the same fwnode (e.g. the SCMI bus creates
+> > >> both "pinctrl" and "pinctrl-imx" devices for SCMI_PROTOCOL_PINCTRL), only
+> > >> the first device registered becomes the fwnode owner (fwnode->dev, set in
 > > >
-> * posix acl and linux DAC.
+> > >This has been rejected in the past. Apart from the trigger in -next,
+> > >anything else has changed ?
+> > 
+> > When both pinctrl-scmi.c and pinctrl-imx-scmi.c are built into the
+> > kernel Image, both drivers call module_scmi_driver() at init time, which
+> > goes through:
+> >   scmi_driver_register()
+> >     → scmi_protocol_table_register(id_table)
+> >       → scmi_protocol_device_request()
+> >         → scmi_device_request_notifier()
+> >           → scmi_create_protocol_devices(fwnode, ..., "pinctrl-imx")
+> > So the on-demand path already creates both "pinctrl" and "pinctrl-imx"
 > 
-> > > So maybe WRITE_METADATA is good enough?
-> > 
-> > The existing use cases are the combinations of (a) READ_DIR
-> > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
-> > two access rights overlap slightly, it seems likely that for a given
-> > directory or file, users will want to either grant both, or deny both.
-> > 
-> > At the moment, where the (not yet existing) READ_METADATA is
-> > implicitly always allowed, the problematic case is the one where the
-> > Landlock user wants to deny READ_DIR, but where much of the same
-> > metadata is still available through stat() and the various
-> > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
-> > [1])
-> > 
-> > In my view the READ_METADATA right closes a gap that READ_DIR left
-> > open (which is also potentially surprising to callers if they did not
-> > read the docs closely).  Also, if its implementation is symmetric to
-> > WRITE_METADATA, I feel that it's worth having it in the same patch
-> > set.
-> > 
-> > –Günther
-> > 
-> > P.S.: I know, even after we can control stat(), there are likely ways
-> > to infer the presence of a file by observing Landlock error codes.
-> > This would be nice to fix as well, but is harder to do without
-> > controlling the path walk itself [2].  But also, the fact that this is
-> > currently not controllable is not an excuse for leaving READ_METADATA
-> > open IMHO.
-> >
-> I'm still sort of concerned about the case where read access is allowed,
-> but metadata isn't, due to how many applications will not cleanly handle
-> such an unexpected condition. You can reproduce this with a seccomp
-> policy forbidding stat().
+> Yes, but this particular device is i.MX specific issue as it should
+> have never been there. So I will discard that in any future discussion.
+> Use the SCMI pinmux driver and get rid of SCMI pinctrl-imx.
 > 
-> Would it make sense to have the existing READ rights
-> (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
-> if READ_METADATA is handled? Reading a file's contents should always
-> imply that you can read the metadata.
 
-I am wary of situations where the handling of access rights implicity
-implies other access rights.  We have discussed such schemes in the
-past (e.g. we considered a design for RESOLVE_UNIX where we'd have
-both a "scoped" and a "access_fs" right that would interact with each
-other), but in the end we always settled for approaches where such
-interactions would not be necessary.  One of the concerns was that it
-would complicate "best effort" fallback logic in all Landlock
-libraries and in the countless places where people use the syscalls
-directly.
+Anyways, I cooked up a patch that may prevent the issue with pinmux.
+See if something like below on top -next helps.
 
-To throw another option in the mix.  (To be clear, I have only 70%
-confidence, so feel free to push back, but it feels like it might
-work?):
+Regards,
+Sudeep
 
-Is this similar to the "truncate" right?
-----------------------------------------
+-->8
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 25197197db8e..cee7cc777724 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -60,13 +60,6 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ 	pr_debug("Requesting SCMI device (%s) for protocol %x\n",
+ 		 id_table->name, id_table->protocol_id);
 
-With "truncate", there was an existing common operation (open(2) with
-O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
-for the truncation access right.  But that was in fact OK.  The way we
-resolved it at the time was by documenting very loudly that WRITE_FILE
-and TRUNCATE access rights should always be requested in lockstep, if
-TRUNCATE is handled.
+-	if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT) &&
+-	    !IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX)) {
+-		pr_warn("SCMI Raw mode active. Rejecting '%s'/0x%02X\n",
+-			id_table->name, id_table->protocol_id);
+-		return -EINVAL;
+-	}
+-
+ 	/*
+ 	 * Find the matching protocol rdev list and then search of any
+ 	 * existent equally named device...fails if any duplicate found.
+@@ -181,12 +174,35 @@ static void scmi_protocol_device_unrequest(const struct scmi_device_id *id_table
+ 	}
+ }
 
-If READ_DIR and READ_FILE do in fact read and return metadata to the
-user, maybe the right thing would be to do it the same way here and
-*require* that we have READ_METADATA to do these operations?
++static bool scmi_device_id_in_std_id_table(const struct scmi_device_id *id)
++{
++	for (int i = 0; scmi_std_id_table[i].name[0]; i++) {
++		if (scmi_std_id_table[i].protocol_id == id->protocol_id &&
++		    !strcmp(scmi_std_id_table[i].name, id->name))
++			return true;
++	}
++
++	return false;
++}
++
+ static int scmi_protocol_table_register(const struct scmi_device_id *id_table)
+ {
+ 	const struct scmi_device_id *entry;
+ 	int ret;
 
-(READ_METADATA is automatically allowed as long as it's not handled,
-so that approach does not break existing programs.  Programs who
-consciously start handling READ_METADATA must simply take into account
-that reading directories and opening files for reading requires
-READ_METADATA.)
+ 	for (entry = id_table; entry->name[0]; entry++) {
++		if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT) &&
++		    !IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX)) {
++			pr_warn("SCMI Raw mode active. Rejecting '%s'/0x%02X\n",
++				entry->name, entry->protocol_id);
++			ret = -EINVAL;
++			goto err_unrequest;
++		}
++
++		/* Standard devices are created independently of their drivers. */
++		if (scmi_device_id_in_std_id_table(entry))
++			continue;
++
+ 		ret = scmi_protocol_device_request(entry);
+ 		if (ret)
+ 			goto err_unrequest;
+@@ -195,8 +211,11 @@ static int scmi_protocol_table_register(const struct scmi_device_id *id_table)
+ 	return 0;
 
-(BTW, I can see it for reading directories, but I am not sure I fully
-follow the argument why opening files for reading means that you can
-read the metadata?  Can't that be guarded on fstat()-like operations?)
+ err_unrequest:
+-	while (entry != id_table)
+-		scmi_protocol_device_unrequest(--entry);
++	while (entry != id_table) {
++		--entry;
++		if (!scmi_device_id_in_std_id_table(entry))
++			scmi_protocol_device_unrequest(entry);
++	}
 
-—Günther
+ 	return ret;
+ }
+@@ -206,8 +225,10 @@ scmi_protocol_table_unregister(const struct scmi_device_id *id_table)
+ {
+ 	const struct scmi_device_id *entry;
+
+-	for (entry = id_table; entry->name[0]; entry++)
+-		scmi_protocol_device_unrequest(entry);
++	for (entry = id_table; entry->name[0]; entry++) {
++		if (!scmi_device_id_in_std_id_table(entry))
++			scmi_protocol_device_unrequest(entry);
++	}
+ }
+
+ static bool scmi_device_is_transport(const struct scmi_device *scmi_dev)
+@@ -545,21 +566,9 @@ static const struct scmi_device_id scmi_std_id_table[] = {
+ 	{ SCMI_PROTOCOL_VOLTAGE, "regulator" },
+ 	{ SCMI_PROTOCOL_POWERCAP, "powercap" },
+ 	{ SCMI_PROTOCOL_PINCTRL, "pinctrl" },
+-	{ SCMI_PROTOCOL_PINCTRL, "pinctrl-imx" },
+ 	{ },
+ };
+
+-static bool scmi_device_id_in_std_id_table(const struct scmi_device_id *id)
+-{
+-	for (int i = 0; scmi_std_id_table[i].name[0]; i++) {
+-		if (scmi_std_id_table[i].protocol_id == id->protocol_id &&
+-		    !strcmp(scmi_std_id_table[i].name, id->name))
+-			return true;
+-	}
+-
+-	return false;
+-}
+-
+ /**
+  * scmi_device_create  - A method to create one or more SCMI devices
+  *
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx-scmi.c b/drivers/pinctrl/freescale/pinctrl-imx-scmi.c
+index 613552e35070..b259a526ccc1 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx-scmi.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx-scmi.c
+@@ -354,7 +354,7 @@ static int scmi_pinctrl_imx_probe(struct scmi_device *sdev)
+ }
+
+ static const struct scmi_device_id scmi_id_table[] = {
+-	{ SCMI_PROTOCOL_PINCTRL, "pinctrl-imx" },
++	{ SCMI_PROTOCOL_PINCTRL, "pinctrl" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(scmi, scmi_id_table);
+
