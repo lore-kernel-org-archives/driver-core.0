@@ -1,56 +1,56 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF30141DEC9
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14FA43031A
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653546; cv=none; b=PoxYCfcwXVHcCeW6RVHFoE5jFXcU3XPpMLUZNFInidCebM4X7BPSA4Wf54FYNb2DeHHjV94qPIPFDaguEGvT2aXpR4qjC+b1eQ/yUhP+/IjKSNpjfCTzeJTVwSTJlqVkU5vK6YyuT2po2QfvImE8M3Cb4Q/fxPuVy9Uky7qTTAs=
+	t=1790653549; cv=none; b=FBeYqznGTN5uf3n9+ABfdhLvMn+zEDdHaTFieo0yOa1vdHKDj84mWsNIJnutDWb5pLfeqCq/M3tkF+33dokie79MQTiAtf5u8ro6hfMAW/Ayc7+KV2GTziYsItJDUuoRImiaGbtO9uL75Q6u03827U9v9Rq5UIGtAsfqYZuL/eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653546; c=relaxed/simple;
-	bh=uZ6gY/m1/uNPwW0ngnSZ50aeviMaNpqsykMbkfZBHTw=;
+	s=arc-20240116; t=1790653549; c=relaxed/simple;
+	bh=emN7DAxtSRLF415z6jBFS1BVT82Ombe4VPgOdgIfbVQ=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dgqlTWBlUrPJvayCAhGj1TawGKemcYkLKfxerA4vm2n4hjtNx5s6OP0A6F9kjMgIbpZ8ZZRYAOS/zvXQhTEu+qxaVorHoIUilIWwrEAuGv/jtGphXhTCbNf2+aFWiUG+IMMablRS4MDNNK/Hax3REqGEhVwI+GWK99JnunApmyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a3tTKVbl; arc=none smtp.client-ip=209.85.215.197
+	 To:Cc:Content-Type; b=UeJiNaaH59tH7sXyNgiP9j4AGyq4lcaMXWmWlQ4jsXrAlaIZG6DrlmNtQyUVg2NIc8gwBQja8kbf1wHXY3HyB2qh2iu6q5C+vGEig50ZjL7vZWgSuAL7OQGDARbJGM/FAlzJNKzOrkl7LLh9WNGNypDmAQZ+za5ZwZZOG5Ause8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TjK7VLK2; arc=none smtp.client-ip=209.85.215.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a3tTKVbl"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc7361c62b9so2624566a12.3
-        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:45:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TjK7VLK2"
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cc51591102fso2532130a12.1
+        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790653544; x=1791258344; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1790653547; x=1791258347; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pamITFUcwnp5TeeHCBPmUcU036kd5Sty9zaNaR/GKjI=;
-        b=a3tTKVblOxioY6EXdRig1cMNmynXScbhnu/Lfhvl3fyn1Tbi6RK2rJqZ+GpjC2L1VX
-         vUltnxvCdQO9N71YqfmWyBpxq3ICeS21fYumsEBpvMobDhX6Cv2BQ76q4x/55KNgU09D
-         8S8N90QgVtzl/5B+KkVCbwX1DmWPYsenJ4bMMBbkUEf3Z0Brpz0wkf1oH/E+O0NHIUqI
-         ZPKtglRq00B7lxFUQK7rY3w7ra4VAH6Byo/c4vLlV6HEaIRZRnULkIt4CSUai1AT9ErS
-         +gLGaWdZElHn38kB7Hc9uhY7S53l9rrAvqhqZ5x/VypIi+JG/t1wN9LjxBPN4TCf5KR2
-         U9Ng==
+        bh=DJUc8W66LdXd5niQlho6vVTddWB/e8RRGn6UCJy7ACg=;
+        b=TjK7VLK2j3nbvQRsjpt37Fe7nGHuPdbTlq2s5g96u8UrfbZpov3s1NReTOE16PZjvD
+         TxEfehYjVFJnYUsSLJtqgmKmW/cNEokDbgt2OoU7eHMCOu4Vt9EOdgA+y1RLrP4QbwjJ
+         n+YF8PPgJW1chc1qepNkJCICVzaKI5bNV1fs7FmxsBCS5BCNQyK3b95lykOkspHkcD8K
+         nrR55dLsv5Gasw3KTLM8X7frBXC0J/gruUeeiufLS1pjMBFEYHWFMYzW6mZbWizmg7iN
+         ck5vp7rQSg6uFBAasja1iJGBhzyddD5WNESJ1lI4yA0xMH0etsKUTpucyL7NBlGzuZyc
+         KWsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790653544; x=1791258344;
+        d=1e100.net; s=20260707; t=1790653547; x=1791258347;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pamITFUcwnp5TeeHCBPmUcU036kd5Sty9zaNaR/GKjI=;
-        b=Pmy1ELnMdyZUjDAnqFEKNecwgJs1Qyv2SehTHtk9SuAJWUHvxhX+vltSkxfjGkJ69X
-         koQmv8OlOOK96vdcb5rroWlKI3a4oVfNC4196sd2x/Ucs/M3wS083gOqyRLhx1kwUirh
-         GB6cZkA/QTz2/ZY6MklLI3KVRfAbm0Ko8qwuoIlaaqmHUw8SUM7WviN+FEUXpkW1qgdy
-         8AeK97DFBSlzuFw6ElyhG5CQUigGxEcIz2KDbtygaAkgY5wyPCnbeNh7jYe7wSjfxZMI
-         kne9mSiIBX/PEA69BnM/9aH3TX+lhNegTrH/hdki1XcyhWPDloCP5sYdOT0QPP5MnYL/
-         Y7Ng==
-X-Forwarded-Encrypted: i=1; AKwUvBze2+zexoExO0AvS8y1RUZq5j1WjWgczd3fBo8GgJQGsJl87GIMrBPP5Ogrb5l8U2xg7TDCs82uEHWJzA==@lists.linux.dev
-X-Gm-Message-State: AFuF++k2cG8uVXA0MnwP8+GchvxbWm+ttpbiDgU+JtJwC05WTq4YnMAH
-	N0nevgqkYoc7YMjioat5mrCtA2cVS8/hnOiUoPAwjfAXIbaGPkiah/ciw/Hl10vIChZHSghLrgx
-	TQA==
-X-Received: from pfbdl3.prod.google.com ([2002:a05:6a00:4903:b0:884:2224:5f7d])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:244f:b0:3de:6873:84d1
- with SMTP id adf61e73a8af0-3de6873856fmr3745913637.74.1790653543715; Mon, 28
- Sep 2026 20:45:43 -0700 (PDT)
-Date: Tue, 29 Sep 2026 03:45:04 +0000
+        bh=DJUc8W66LdXd5niQlho6vVTddWB/e8RRGn6UCJy7ACg=;
+        b=AKQeutRlA64CBBPCz8m7Lp7lA8qmfpKrE3AW2ZwtVuk//jc0gggR0CtCp1dUFW8Im0
+         8Vx1C+Ijge3KNA9rOspCNxDV7oEvc0dla78LV0R+J/e10skBNyjMq+kon7na54IETNtd
+         1iYsnDsroyttqInUV4UdLILz0S7PBvHl+fA1E6HE/WMfEAVjDJaHuCoqQY9/sPN4qRQZ
+         ABgu3P5RPO5aT91y+hssbvsr4THfZTeFIX1Bka5suNjZVVDk1+YYABnm/ETGQamj0es3
+         AbsMUQtf/59KJ7uvdGUGy892aD/u2EuhtC6M04vUM2g9X4d9y/x4r73OZiXcjCukIkWH
+         hVqg==
+X-Forwarded-Encrypted: i=1; AKwUvBw01qrdOMO0+L7zlJzzF1/XO6oeSPGWMBj2l7NhFHBCH81Lpz4/dM31KQaEsiYZolTWOqfjR+DV1jcsIA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kfpQaZhV6Txwmo8HW/dWRk1HpSs9ucNtmuvbNDX4e0ko2RurGY
+	SHGbS57zdUxB/0TIwLqBtQ2zsz0crl1RARrEJYF5EcVnFgtrwGpF9p2YqJRACrHasAiTO45LSbC
+	/cQ==
+X-Received: from pgdf1.prod.google.com ([2002:a05:6a02:5141:b0:cc7:56f1:71ad])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:6f06:b0:3d3:ae40:51e5
+ with SMTP id adf61e73a8af0-3de0e750b0dmr13391618637.25.1790653546468; Mon, 28
+ Sep 2026 20:45:46 -0700 (PDT)
+Date: Tue, 29 Sep 2026 03:45:05 +0000
 In-Reply-To: <20260929034510.2023173-1-praan@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260929034510.2023173-1-praan@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260929034510.2023173-11-praan@google.com>
-Subject: [PATCH v11 10/16] iommu/arm-smmu-v3: Factor out arm_smmu_handle_gerror()
+Message-ID: <20260929034510.2023173-12-praan@google.com>
+Subject: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to gate
+ CMDQ submissions
 From: Pranjal Shrivastava <praan@google.com>
 To: iommu@lists.linux.dev
 Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
@@ -72,57 +73,118 @@ Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
 	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
 	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Pranjal Shrivastava <praan@google.com>, Jason Gunthorpe <jgg@nvidia.com>
+	Pranjal Shrivastava <praan@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The GERROR register's state might be lost when the SMMU is powered down
-during runtime suspend, requiring the suspend sequence to handle any
-pending errors before the hardware state is lost.
+Introduce a new bit flag, CMDQ_PROD_STOP_FLAG (bit 30), in the command
+queue's producer index to safely gate command submissions during device
+suspension.
 
-Refactor the gerror handling logic into a helper function. Subsequent
-patches will invoke it from the runtime suspend callback after disabling
-the SMMU, ensuring that any late-breaking gerrors are logged and ack'ed
-before the hardware state is lost.
+The flag embeds the suspend state directly into the existing global state
+The flag is checked in the cmpxchg loop in arm_smmu_cmdq_issue_cmdlist(),
+which acts as a Point of Commitment, ensuring that no indices are
+reserved or committed once the SMMU begins suspending.
 
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+This prevents a situation of "abandoned batches" where indices are
+incremented but commands are never written, which would otherwise
+lead to timeout during the drain poll.
+
+Update queue_inc_prod_n() to preserve this flag during index
+calculations, ensuring that any in-flight commands that successfully
+passed the point of commitment can proceed to completion while the
+flag remains set.
+
+Suggested-by: Daniel Mentz <danielmentz@google.com>
 Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Pranjal Shrivastava <praan@google.com>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++++++++++--
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  5 +++
+ 2 files changed, 38 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 7347d3ecdae8..a123810fac57 100644
+index a123810fac57..7f89e2306942 100644
 --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2406,10 +2406,10 @@ static irqreturn_t arm_smmu_priq_thread(int irq, void *dev)
- 
- static int arm_smmu_device_disable(struct arm_smmu_device *smmu);
- 
--static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
-+/* Lockless; must ensure that there are no concurrent callers */
-+static irqreturn_t arm_smmu_handle_gerror(struct arm_smmu_device *smmu)
+@@ -218,7 +218,8 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
+ static u32 queue_inc_prod_n(struct arm_smmu_ll_queue *q, int n)
  {
- 	u32 gerror, gerrorn, active;
--	struct arm_smmu_device *smmu = dev;
- 
- 	gerror = readl_relaxed(smmu->base + ARM_SMMU_GERROR);
- 	gerrorn = readl_relaxed(smmu->base + ARM_SMMU_GERRORN);
-@@ -2452,6 +2452,13 @@ static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
- 	return IRQ_HANDLED;
+ 	u32 prod = Q_POS(q, q->prod) + n;
+-	return Q_OVF(q->prod) | Q_POS(q, prod);
++
++	return Q_OVF(q->prod) | Q_STOP(q->prod) | Q_POS(q, prod);
  }
  
-+static irqreturn_t arm_smmu_gerror_handler(int irq, void *dev)
-+{
-+	struct arm_smmu_device *smmu = dev;
+ static void queue_poll_init(struct arm_smmu_device *smmu,
+@@ -726,13 +727,42 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+ 	do {
+ 		u64 old;
+ 
++		/*
++		 * If the SMMU is suspended/suspending, any new CMDs are elided.
++		 * This loop is the Point of Commitment. If we haven't cmpxchg'd
++		 * our new indices yet, we can safely bail. Once the indices are
++		 * committed, we MUST write valid commands to those slots to
++		 * avoid indefinite polling in the drain function.
++		 */
++		if (Q_STOP(llq.prod)) {
++			local_irq_restore(flags);
++			return 0;
++		}
 +
-+	return arm_smmu_handle_gerror(smmu);
-+}
+ 		while (!queue_has_space(&llq, n + sync)) {
+ 			local_irq_restore(flags);
 +
- static irqreturn_t arm_smmu_combined_irq_thread(int irq, void *dev)
- {
- 	struct arm_smmu_device *smmu = dev;
++			/* Avoid waiting for space if the SMMU is suspending */
++			if (Q_STOP(READ_ONCE(cmdq->q.llq.prod)))
++				return 0;
++
+ 			if (arm_smmu_cmdq_poll_until_not_full(smmu, cmdq, &llq))
+ 				dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
+ 			local_irq_save(flags);
+ 		}
+ 
++		/*
++		 * If we exited the polling loop because the queue finally
++		 * has space, but the STOP_FLAG was set during the poll,
++		 * we must abort immediately. If we proceed, we will
++		 * commit new commands beyond the Point of Commitment while
++		 * the SMMU is suspending.
++		 */
++		if (Q_STOP(llq.prod)) {
++			local_irq_restore(flags);
++			return 0;
++		}
++
+ 		head.cons = llq.cons;
+ 		head.prod = queue_inc_prod_n(&llq, n + sync) |
+ 					     CMDQ_PROD_OWNED_FLAG;
+@@ -779,7 +809,8 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+ 		/* b. Stop gathering work by clearing the owned flag */
+ 		prod = atomic_fetch_andnot_relaxed(CMDQ_PROD_OWNED_FLAG,
+ 						   &cmdq->q.llq.atomic.prod);
+-		prod &= ~CMDQ_PROD_OWNED_FLAG;
++		/* Strip all metadata flags */
++		prod &= CMDQ_PROD_IDX_MASK;
+ 
+ 		/*
+ 		 * c. Wait for any gathered work to be written to the queue.
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index deefb17e31eb..794b258550dd 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -394,6 +394,11 @@ static inline unsigned int arm_smmu_cdtab_l2_idx(unsigned int ssid)
+ #define CMDQ_ERR_CERROR_ATC_INV_IDX	3
+ 
+ #define CMDQ_PROD_OWNED_FLAG		Q_OVERFLOW_FLAG
++#define CMDQ_PROD_STOP_FLAG		(1U << 30)
++#define Q_STOP(p)			((p) & CMDQ_PROD_STOP_FLAG)
++
++/* Mask out software-only metadata flags to get the pure queue index/wrap bits */
++#define CMDQ_PROD_IDX_MASK		~(CMDQ_PROD_STOP_FLAG | CMDQ_PROD_OWNED_FLAG)
+ 
+ struct arm_smmu_cmd {
+ 	u64 data[CMDQ_ENT_DWORDS];
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
