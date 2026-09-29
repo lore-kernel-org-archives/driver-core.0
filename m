@@ -1,277 +1,306 @@
-Received: from mail-yx2-f42.google.com (mail-yx2-f42.google.com [74.125.224.170])
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218AC367B74
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 17:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ADD37AA9E
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 17:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702909; cv=none; b=NC8r7GF5Z24xguDw/IbSwbH5jjjdfnSOAlqnhKPgh9ltoYSmy38pNe8MLqhX41FNq7VZV4Nwgj7LZJQ1vej/W8lDxYPuPfBAyFVc4CTEwMBIDSuVhbyvZWrpqmDw9LZMXg2aB6QPAyqxE8AXCFF+yY7FU2Lp88TPEdP8sy5Axy4=
+	t=1790703978; cv=none; b=NegjrRGmvOdfFjsRbPM/VKK5u4BsZGHbtkZ5z46pWCJT6a3/vTp3XXbDmnipD5ha6FAKrp3BAx0Izecx44H/khkxUjoPe1QoLlkbaIKKz/Dj7w1/jchXJ9XLs1VS4gjr1UeUj7ZkYLKOz8kh4ur7tVCK1Xy70aezx11NrHnGtiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702909; c=relaxed/simple;
-	bh=8j0qcZ7vyE2oW02nLC5r3IqAcVdJURVPkUEwZFw3aeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G9P4/PGfdNPnjoMBOs/blU4I9Nruv0ojarDukkbQ4DvB0yHrj1VcuC21A84X6X1SVeyhF1192uiOAgfj6F3kOAHOkDzHKXeuEznLUYT0oDc/LQybc9YADyVLdgd3AueGYuPBbtCxMH1mZcmIPw9Gatflze5xeGVBTVaUxfrNqPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n5L1uGL7; arc=none smtp.client-ip=74.125.224.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790703978; c=relaxed/simple;
+	bh=pX0O1N/iExQoutAb2M1W6KhpTgI/Vgqip3LabVNat2E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WliKhi+Xtw92MZ2sM4wKBvNjJrH6iH0A841STHZNl+Ke3BRcRjoUE0XniZBQHH9nBMi8R1GueqOj/5sYESuLaG39AnK1rJDHHPadeTj1MV5X3LAH8XfeaTSeyiZxI2M8EXy/bmdp/skU/SlCsmPWUARM2JkvP4fIsCyTrE3IoYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu; spf=pass smtp.mailfrom=uci.edu; dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b=klTKBmeb; arc=none smtp.client-ip=74.125.229.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uci.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n5L1uGL7"
-Received: by mail-yx2-f42.google.com with SMTP id 00721157ae682-8961cca9193so64547667b3.3
-        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 10:28:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b="klTKBmeb"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33c11ef641aso4758674eec.1
+        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 10:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790702896; x=1791307696; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H7AYhx7OwLQEIiRZQ0G71SBDDoW0tSj1yBVOElXugj8=;
-        b=n5L1uGL70mMHjLePnNmHTuTu1/sgzoik1MgQN9DMgUm7Sdh5eT0jdCsvCQJrHMETo5
-         SQY4t0whfX6+is29o0cHNJw8ceRnY6s1moGDE1pwZf+Vn+24SWr7uLroH7DPcOpZm0my
-         bP/hEynFPqjQhHKYq7pThYLZ//5iIhCweUkRf4nipF7IfavmJFr/hZGDsD6+jqPaXFi8
-         6Q905hIVvSUPoKPuthHdNt2p4MPXvX3bD3yJ1h29sogysLTAZEfl2oXHkz4i5961rCue
-         vrrWbA436zHMTTxkqHx68WTLC9m/tpoP7tGPO6fYShltJCOX+E7KnCsJJSw2XBGRsEj3
-         ON/Q==
+        d=uci.edu; s=google; t=1790703976; x=1791308776; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zVgzFvrslYB1Eb5rNO5WS9AESHYq7uJ3gpsSGpcF1Vw=;
+        b=klTKBmebexX7KkIPsG4h+7Sm+8J4cTC9ew4mPV/wAIj9OsoaokpJbt0vyWlKcz30zq
+         i7WZuuIz8CPe9Tz6bjz4kE+f04efIMIIiO8la5W9hJ/Gn2OzOEzlBDpIJHN1PkSMXDz7
+         4YgLzGsn7D8G82ZXOaD7UtChWWISvT+4Vm2oClZLuhMY6G74wTxFZ0ZW2eewwGTDTm6x
+         giSjbibc2toUYmugvNdRy47Y7R50KWesYFWB4v9tTv6xKNP+SwmepfkPyhkuh24wTFE2
+         d+G3u34zXBdNG4Zd1YXB4YhLPsDlpnk0l5CHK9BxujD2Wt/HRAhz6wuj1HYCqr/CReRF
+         m+aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790702896; x=1791307696;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=H7AYhx7OwLQEIiRZQ0G71SBDDoW0tSj1yBVOElXugj8=;
-        b=OcvvakeF8LvXKA5a61HoNdvXWOP6vz1E0QhbnTogd0OrOSGIChp9j7wFWtQUHlSm32
-         7TVSNHY2CUcla8x9TjzWEd6XUueKweRNxQDYG2AaerJ9M8fdbqcMgqCbpdG1eNoXgSJq
-         ev8dB9Rv/nQeywXeYmsiqq16tKHNdflE1IqiDMQwaRBVEzzOt5bhKRE99+/oNJu2/ncJ
-         pcUHr1xDqnKbPTqEtY7UmLDawHMOnMjHkngl6gdMZmbUZnA0eLPr6Kw9hBOzIe6KLHbv
-         iyAl17+OoNcgtiNyLAWqJQiRjXMHgkuEZsVz/wc9GUZS+l4U5K5NsB8IdF96oWEq1EI8
-         d5zg==
-X-Forwarded-Encrypted: i=1; AKwUvBxsJ5FrVpLOu8BFeBiidx8jat80TNWNElYHWvImLTeR7N5/IT2s8lQs2UDmxoaeXo7KP4P0qABDAbpUTA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKYrWkWvUwwUc6QEKOzWezn7n39tX/4rCTde41OaSYoBYo3dLUv
-	d2w+4QuCVDsQ/2yEHzg8SVEq9QJCN/7gPq9PVgTNagEFkIr2fd3p/g70
-X-Gm-Gg: AYBFou2ZOby/qHOq0DMA0fFm8Xe3H13XPbtN4ZZ/LLsVfcOZyCAaddEkVNdfDwCI7J4
-	Dvh9wmW19Th/zS+0nwO94ZmZkqoCKNx4Rx6Ol3NldPWMyZ+gvvulFdo7cNZk7Lsc/9NWTQ8sfWS
-	fnDFCr0mg2pXnOyCx0XKoYCCaKZChvLWFaTrIXfF79Wt5L7BNxuVNJkC0dw/J4eJ3Ck7Oze9pMu
-	ijBYwlmN2922pthRnfCu9X/hboSLYLnONZEXXybqla0SNfrdYBamaKXuWH/6d1/u/wnaEtSbDo8
-	6he9CinpXZRPPDN6jTu/1DuybB+5F+JTQjO2OBa7f9ePZQSea+5dnV3KZXnJG5fBj1XJ+apGc7L
-	Y4vRoO2QSiWzKNzmtM45QTxQ52lIfKBFFYUZNdKFWomwRRam30LqhqHrTZCOVwYd6eYLURhPd8q
-	hBMPm5fYg3N3ZQkZ17r0LiAq6xq+q2nue974fmOaIAYW5oP++ZHieq9c4Zn9zlisVeCWKQDixxk
-	93okuu2BNfc8Q==
-X-Received: by 2002:a05:690c:348a:b0:8a8:889d:2db with SMTP id 00721157ae682-8a8889d085amr56610267b3.34.1790702896362;
-        Tue, 29 Sep 2026 10:28:16 -0700 (PDT)
-Received: from suesslenovo ([71.132.185.69])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8abce9ead49sm1450107b3.28.2026.09.29.10.28.15
+        d=1e100.net; s=20260707; t=1790703976; x=1791308776;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zVgzFvrslYB1Eb5rNO5WS9AESHYq7uJ3gpsSGpcF1Vw=;
+        b=JantIHoIhtS0kPVAQe0V4P1mpkFshWP305phgVB/eCVDmzsa8VxTDseh6jQLkp/POk
+         0DvGYkpAQqFL3Ab/yatkagGtkAG5PrnDpb2FQEnzb6+8yQnouPKsQ3Ss8C8SQNtCUFCd
+         c9hjTA4GhND8IQceFJCDbWp3dZHmvtW+p7UqNkHumF5aOqjOO9Q2bjg47pXii1U7Ehyg
+         F7S8WuAO+/pxYsby4LywZz8nsSqO32sXJOabbuV0+y9Ky2zSB5DmOcpC3bDVI5eKPjYz
+         TnUkMAMc6DaCGRutshWzoF9dtgdiO16XloLUmM3ASagMCOxnxrblI3OT0AQTpBvEY86R
+         +mCQ==
+X-Forwarded-Encrypted: i=1; AKwUvByL8Qd4vQkqt1MkDqCgsUb/C+yRQCOUvsIujAR0PB2QSV+Rhk/zr4jmIcVaGoZp3VZpANvoDqsalwzyJA==@lists.linux.dev
+X-Gm-Message-State: AFuF++laglK+AIQFBPpUIA6/dw6I1T04Peinz8cBvJhSQYQcjaWD7dA6
+	c3wWmNU49zVtfKTsigcZ71tuVsVDSaTE116v4/lryOrE0J03DW9URjAK8REaN8u8RuA=
+X-Gm-Gg: AYBFou023/7PeSwGhJE7kaRWw6Vo44rYLXgGw7B1qo+VgptJNjr74EAQDN5B2Ya662e
+	x4LzQT3YTotm1iv4nBj06UwMcG+da3rcghWAVPqGob/JpuVDC+LGIznwjyuOvxxtXZxS7M0geHj
+	ClueVG71f+o/v9KTWBLf7VTtAz1fqqKxozVjZXeCi5hbK4YPeGP7S2Qfcyx6MU8bOAvgIm3PPoq
+	DMzt1fxvL1h8w2/bdo3aPqN2QnkMVyJ+Ol3oH0P4l01Rly4N40Jia0RK2AhqG0O0xYr3KsjIxkX
+	jZ2XtFcX/bfrdjVmZD85aexYDsNgLDI9WCHHfMn59ayegnBXUIhA7VGNzNQ2Gw74PrJ2r40fMwv
+	V+iWZBM2O58ws+WtSp/RuLkwvgnpSFo3XsYUecQlVopvwUsqBXsD0oOUxhFL3DFg4TlKTXoLtaw
+	qh0t/rmeDz3B5rJSgou782bq2REInC+AQfNmvRUhwWUQtQUVuog/MMkXkB134KIur2SkxucPpnv
+	pK0XltQkFN9qZjps64kn2BKSTHZ2odmP7A92a3SiEvA7g==
+X-Received: by 2002:a05:7300:51fa:b0:34a:cb0e:f4e5 with SMTP id 5a478bee46e88-34c6827ffebmr46251eec.40.1790703975628;
+        Tue, 29 Sep 2026 10:46:15 -0700 (PDT)
+Received: from guest1.. (charm.ics.uci.edu. [128.195.4.118])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-34c32072ee7sm731120eec.0.2026.09.29.10.46.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 10:28:15 -0700 (PDT)
-Date: Tue, 29 Sep 2026 13:27:44 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
-	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, dlemoal@kernel.org, 
-	hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
-	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
-	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com, 
-	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, nanx95726@gmail.com, 
-	djwong@kernel.org, daniel@iogearbox.net, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, xiujianfeng@huawei.com, 
-	lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <arvjb0HJYh1KyEBB@suesslenovo>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <araxO4ze0KZBz756@suesslenovo>
- <20260926.255b951d3013@gnoack.org>
- <arqcbjWLN1CLkL_Y@suesslenovo>
- <arurOphe6QIx2Zr8@google.com>
+        Tue, 29 Sep 2026 10:46:14 -0700 (PDT)
+From: Priya Bala Govindasamy <pgovind2@uci.edu>
+To: dakr@kernel.org,
+	aliceryhl@google.com,
+	daniel.almeida@collabora.com,
+	ojeda@kernel.org
+Cc: boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	work@onurozkan.dev,
+	me@kloenk.dev,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	ardalan@uci.edu,
+	zhiyunq@cs.ucr.edu,
+	dzueck@uci.edu,
+	pgovind2@uci.edu
+Subject: [PATCH 0/1] rust: io: Fix `Region::drop` releasing nested resources from the wrong parent
+Date: Tue, 29 Sep 2026 17:46:12 +0000
+Message-Id: <cover.1788901318.git.pgovind2@uci.edu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <arurOphe6QIx2Zr8@google.com>
 
-On Tue, Sep 29, 2026 at 02:12:42PM +0200, Günther Noack wrote:
-> On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
-> > On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
-> > > Hello!
-> > > 
-> > > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
-> > > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> > > > > This series adds two new Landlock filesystem access rights,
-> > > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> > > > > which control access to file and directory metadata such as inode
-> > > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
-> > > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
-> > > > > support" series [1] and follows the coarse-grained grouping discussed in
-> > > > > that thread [2]: instead of separate chmod/chown rights, metadata
-> > > > > operations are grouped into one read and one write right.
-> > > > > 
-> > > > > Landlock evaluates access rights on a per-path basis, but the metadata
-> > > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> > > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> > > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> > > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
-> > > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> > > > > refactoring with no behavior change, split so that every patch builds
-> > > > > and works on its own:
-> > > > >
-> > > > I like these patches, but is the ability to read metadata already
-> > > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-> > > > directory?
-> > > > 
-> > > > The one case I see this being different is:
-> > > > 
-> > > > 1. if you wanted to grant read access to the file, but not metadata
-> > > > read access, but I can't think of any usecase for being able to read
-> > > > the contents of a file, but not the metadata. (see below)
-> > > > 
-> > > > 2. If you had the absolute path already and didn't need READ_DIR.
-> > > > 
-> > > > I see introducing this READ_METADATA as causing potential
-> > > > hard-to-diagnose issues.
-> > > > 
-> > > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
-> > > > 
-> > > > The program can technically open the file with the READ_FILE permission,
-> > > > but it may error out because the stat() on it beforehand failed.
-> > > > It's pretty common for programs to do that kind of thing (stat before
-> > > > open), like for checking for config files (strace bash and you see it
-> > > > stat .profile, /etc/profile)
-> > > > 
-> > > > There may be other bugs, because being able to set permissions to read
-> > > > a file *but not read it's metadata* isn't possible currently in posix
-> > > > acl and userspace may not work well if that assumption no longer holds.
-> > > >
-> > * posix acl and linux DAC.
-> > 
-> > > > So maybe WRITE_METADATA is good enough?
-> > > 
-> > > The existing use cases are the combinations of (a) READ_DIR
-> > > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
-> > > two access rights overlap slightly, it seems likely that for a given
-> > > directory or file, users will want to either grant both, or deny both.
-> > > 
-> > > At the moment, where the (not yet existing) READ_METADATA is
-> > > implicitly always allowed, the problematic case is the one where the
-> > > Landlock user wants to deny READ_DIR, but where much of the same
-> > > metadata is still available through stat() and the various
-> > > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
-> > > [1])
-> > > 
-> > > In my view the READ_METADATA right closes a gap that READ_DIR left
-> > > open (which is also potentially surprising to callers if they did not
-> > > read the docs closely).  Also, if its implementation is symmetric to
-> > > WRITE_METADATA, I feel that it's worth having it in the same patch
-> > > set.
-> > > 
-> > > –Günther
-> > > 
-> > > P.S.: I know, even after we can control stat(), there are likely ways
-> > > to infer the presence of a file by observing Landlock error codes.
-> > > This would be nice to fix as well, but is harder to do without
-> > > controlling the path walk itself [2].  But also, the fact that this is
-> > > currently not controllable is not an excuse for leaving READ_METADATA
-> > > open IMHO.
-> > >
-> > I'm still sort of concerned about the case where read access is allowed,
-> > but metadata isn't, due to how many applications will not cleanly handle
-> > such an unexpected condition. You can reproduce this with a seccomp
-> > policy forbidding stat().
-> > 
-> > Would it make sense to have the existing READ rights
-> > (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
-> > if READ_METADATA is handled? Reading a file's contents should always
-> > imply that you can read the metadata.
-> 
-> I am wary of situations where the handling of access rights implicity
-> implies other access rights.  We have discussed such schemes in the
-> past (e.g. we considered a design for RESOLVE_UNIX where we'd have
-> both a "scoped" and a "access_fs" right that would interact with each
-> other), but in the end we always settled for approaches where such
-> interactions would not be necessary.  One of the concerns was that it
-> would complicate "best effort" fallback logic in all Landlock
-> libraries and in the countless places where people use the syscalls
-> directly.
-> 
-> To throw another option in the mix.  (To be clear, I have only 70%
-> confidence, so feel free to push back, but it feels like it might
-> work?):
-> 
-> Is this similar to the "truncate" right?
-> ----------------------------------------
-> 
-> With "truncate", there was an existing common operation (open(2) with
-> O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
-> for the truncation access right.  But that was in fact OK.  The way we
-> resolved it at the time was by documenting very loudly that WRITE_FILE
-> and TRUNCATE access rights should always be requested in lockstep, if
-> TRUNCATE is handled.
-> 
-> If READ_DIR and READ_FILE do in fact read and return metadata to the
-> user, maybe the right thing would be to do it the same way here and
-> *require* that we have READ_METADATA to do these operations?
-> 
-> (READ_METADATA is automatically allowed as long as it's not handled,
-> so that approach does not break existing programs.  Programs who
-> consciously start handling READ_METADATA must simply take into account
-> that reading directories and opening files for reading requires
-> READ_METADATA.)
-> 
-> (BTW, I can see it for reading directories, but I am not sure I fully
-> follow the argument why opening files for reading means that you can
-> read the metadata?  Can't that be guarded on fstat()-like operations?)
->
-Many standard libraries will call stat before / after opening a file to
-allocate a buffer matching the file size. Or to figure out if mmap
-is more efficient than opening it directly.
+Resending this because I think it was lost.
 
-So Python's open().read() or Go's os.ReadFile they may throw an error
-when opening the file, making it look as if the file is inaccessible
-when its contents are. They make the assumption that if a file is
-readable, the metadata is too.
+Dear Linux kernel maintainers,
 
-There's also a lot of metadata that is already leaked by just having
-READ_FILE. FS_IOC_GETFLAGS/FS_IOC_FSGETXATTR ioctl / fileattr_get are
-unrestrictable and allow you to see inode attributes. There's also
-access(2) which isn't restricted here and allows you to see your rights
-on the file. The size can be found by simply seeking to the beginning
-and end. So much of the metadata is obtainable with just READ_DIR/READ_FILE.
+We are developing a tool called FerroLens to detect potential
+unsound behavior in Rust code in the Linux kernel. The tool
+internally uses an LLM to detect bugs.
+We then perform manual analysis to verify these reports.
+FerroLens reported the following bug in rust/kernel/io/resource.rs:
 
-...
+Io resource regions can be requested beneath a specified parent 
+resource. `Resource::request_region()` passes self as the parent to 
+`__request_region()`. But `Region` does not retain that parent.
 
-Another problem I'm just realizing is that this READ_METADATA
-right is inconsistent with open file descriptor behavior. With most
-rights, already open file descriptors are exempted, but here, fstat,
-(and the other stat-family calls which takes a file descriptor) become
-denied even on already open files. It's a catch 22 here, if you change
-the fstat to not apply to opened files, then READ_FILE becomes a bypass
-for READ_METADATA. But if you leave it as is, then it's inconsistent with
-the other Landlock rights wrt already opened files.
+`Region::drop()` calls `release_mem_region()` or `release_region()`
+to release the `Resource`.
+Both of these functions start searching for the region to release 
+from the global resource root. They also do not search inside busy 
+regions. So they may not find a child region if it is nested 
+under a busy parent. This leaves the child still allocated. But the 
+remaining fields of the child `Region` are freed, including the 
+`name` Cstring that it owned. 
 
-Which isn't the end of the world, but just shows that either
-approach is going to have it's quirks. 
+Therefore, for nested regions, `Region::drop()` may fail to find 
+and release the child region. 
+This can lead to resource leaks and leaving the name pointer dangling.
 
-I think it would be better to just avoid the cat and mouse game here
-of trying to seperate READ_FILE/READ_METADATA and either require
-READ_METADATA be specified with READ_FILE if READ_METADATA is handled
-like Gunther proposed, or have READ_FILE imply READ_METADATA.
+Here is a PoC to demonstrate this issue:
 
-Documenting it strongly is OK too, but really there are really zero
-usecases where you'd want to grant READ_FILE without READ_METADATA
-so it would need to be made extremely clear.
+// SPDX-License-Identifier: GPL-2.0
 
-Thanks,
-Justin
+//! Demonstrate that `Region::drop` releases relative to the global resource
+//! root instead of the parent passed to `Resource::request_region`.
 
-> —Günther
+use core::ptr;
+
+use kernel::{
+    bindings,
+    io::{
+        resource::Flags,
+        PhysAddr, Resource, ResourceSize,
+    },
+    str::CStr,
+    prelude::*,
+};
+
+module! {
+    type: ResourceParentPoc,
+    name: "resource_parent_poc",
+    authors: ["Priya Govindasamy"],
+    description: "PoC for releasing a nested Region with the wrong parent",
+    license: "GPL",
+    params: {
+        start: u64 {
+            default: 0x1000_0000,
+            description: "Start of the temporary 4 KiB iomem reservation",
+        },
+    },
+}
+
+const PARENT_SIZE: ResourceSize = 0x1000;
+const CHILD_OFFSET: PhysAddr = 0x100;
+const CHILD_SIZE: ResourceSize = 0x100;
+
+/// Obtain the underlying C resource pointer from its transparent Rust wrapper.
+fn resource_to_raw(resource: &Resource) -> *mut bindings::resource {
+    ptr::from_ref(resource).cast_mut().cast()
+}
+
+struct ResourceParentPoc;
+
+impl kernel::Module for ResourceParentPoc {
+    fn init(_module: &'static ThisModule) -> Result<Self> {
+        let start: PhysAddr = module_parameters::start
+            .value()
+            .try_into()
+            .map_err(|_| EINVAL)?;
+        let child_start = start.checked_add(CHILD_OFFSET).ok_or(EINVAL)?;
+
+        // Check the complete parent interval too, since __request_region uses
+        // `start + size - 1` internally.
+        start.checked_add(PARENT_SIZE - 1).ok_or(EINVAL)?;
+
+        // `Resource::from_raw` is crate-private. This is the equivalent cast
+        // for this out-of-tree PoC.
+        let iomem_root_ptr = ptr::addr_of_mut!(bindings::iomem_resource);
+        // SAFETY:
+        // - `iomem_resource` is a permanent, valid C `struct resource`.
+        // - `Resource` is a transparent wrapper around that type.
+        // - `Resource` uses interior mutability for access to the C object.
+        let iomem_root = unsafe { &*iomem_root_ptr.cast::<Resource>() };
+
+        // This parent is a normal busy region reachable from iomem_resource.
+        // If the selected address conflicts with another busy resource, load
+        // the module with a different `start=` value.
+        let parent = iomem_root
+            .request_region(
+                start,
+                PARENT_SIZE,
+                c"resource-parent-poc-parent".to_cstring()?,
+                Flags::IORESOURCE_MEM,
+            )
+            .ok_or(EBUSY)?;
+
+        let parent_raw = resource_to_raw(&parent);
+
+        // This call is safe Rust. Because Region dereferences to Resource, it
+        // requests a busy child directly underneath the busy parent.
+        let child = parent
+            .request_region(
+                child_start,
+                CHILD_SIZE,
+                c"resource-parent-poc-child".to_cstring()?,
+                Flags::IORESOURCE_MEM,
+            )
+            .ok_or(EBUSY)?;
+
+        let child_raw = resource_to_raw(&child);
+
+        pr_info!(
+            "resource_parent_poc: parent={:#x}-{:#x}, child={:#x}-{:#x}\n",
+            start,
+            start + PARENT_SIZE - 1,
+            child_start,
+            child_start + CHILD_SIZE - 1
+        );
+        pr_info!(
+            "resource_parent_poc: dropping child; Region::drop will search from iomem_resource\n"
+        );
+
+        // Region::drop calls release_mem_region(child_start, CHILD_SIZE).
+        // __release_region starts at iomem_resource, encounters the enclosing
+        // busy parent, refuses to descend into it, and emits:
+        //
+        //   Trying to free nonexistent resource <...>
+        //
+        // Consequently the child remains linked under `parent`.
+        drop(child);
+
+        // SAFETY: `parent_raw` is still owned by `parent`, which is alive, and
+        // no other code modifies this private child list during this PoC.
+        let child_was_not_released = unsafe { (*parent_raw).child == child_raw };
+        if !child_was_not_released {
+            pr_err!("resource_parent_poc: child unexpectedly disappeared from its parent\n");
+            return Err(EIO);
+        }
+
+        pr_info!(
+            "resource_parent_poc: confirmed: child is still linked under the original parent\n"
+        );
+
+        //check if child's name was freed
+        let name_ptr = unsafe { (*child_raw).name };
+
+        if name_ptr.is_null() {
+            pr_info!("resource_parent_poc: accessing the child's name now is: (null)\n");
+        } else {
+            let name = unsafe { CStr::from_char_ptr(name_ptr) };
+            pr_info!("resource_parent_poc: accessing the child's name now is: {}\n", name);
+        }
+
+        // Clean up the allocation that Region::drop failed to release. Unlike
+        // Region::drop, this supplies the parent used for the child request.
+        //
+        // SAFETY:
+        // - `parent_raw` points to the live parent region.
+        // - The exact child interval is currently a busy region immediately
+        //   underneath that parent, as checked above.
+        unsafe { bindings::__release_region(parent_raw, child_start, CHILD_SIZE) };
+
+        // SAFETY: `parent_raw` remains valid until `parent` is dropped below.
+        if !unsafe { (*parent_raw).child.is_null() } {
+            pr_err!("resource_parent_poc: explicit child cleanup failed\n");
+            return Err(EIO);
+        }
+
+        pr_info!("resource_parent_poc: explicit cleanup with the correct parent succeeded\n");
+
+        // This parent was requested relative to iomem_resource, so its normal
+        // Region::drop path is correct now that it has no child.
+        drop(parent);
+
+        Ok(Self)
+    }
+}
+
+impl Drop for ResourceParentPoc {
+    fn drop(&mut self) {
+        pr_info!("resource_parent_poc: unloaded\n");
+    }
+}
+
+
+
+Output:
+[423973.510861] resource_parent_poc: resource_parent_poc: parent=0xff000000-0xff000fff, child=0xff000100-0xff0001ff
+[423973.510929] resource_parent_poc: resource_parent_poc: dropping child; Region::drop will search from iomem_resource
+[423973.510985] resource: Trying to free nonexistent resource <0x00000000ff000100-0x00000000ff0001ff>
+[423973.511029] resource_parent_poc: resource_parent_poc: confirmed: child is still linked under the original parent
+[423973.511032] resource_parent_poc: resource_parent_poc: accessing the child's name now is: 
+[423973.511055] resource_parent_poc: resource_parent_poc: explicit cleanup with the correct parent succeeded
+
+
+Priya Bala Govindasamy (1):
+  rust: io: Fix `Region::drop` releasing nested resources from the wrong
+    parent
+
+ rust/kernel/io/mem.rs      |  4 ++--
+ rust/kernel/io/resource.rs | 38 ++++++++++++++++++++------------------
+ 2 files changed, 22 insertions(+), 20 deletions(-)
+
+-- 
+2.34.1
+
