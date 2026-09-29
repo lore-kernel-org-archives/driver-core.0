@@ -1,107 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE36357D08;
-	Tue, 29 Sep 2026 10:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59515509EF7;
+	Tue, 29 Sep 2026 10:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790676162; cv=none; b=KvUC2CRtxwULpCJEnwk0bEoPddKFxzam94k4Y/rDACuawS59Ms6PqR1xKbQgHVHTxyF2xzgrPQGIEHIJGUgNeJ5GDywBVlJpMb90KB1z2M8hZoVfhYuPvf0YCX6uPuwepoayRMHsbdQvqE3KUF3Ze5UI4gTrV13gCw0SLytulkg=
+	t=1790677697; cv=none; b=a5gBkyV39SdrXTZL7woO2kkQYayIBJ0Z0t7B5pe8A2DQpjjfHEy/o/81zaX01cv9wjQe440QtknRXpTjCjaC9j3xzA+QFZgDnwylPbF+6tXG/ZSHl/R6kXjW0qKMCx6Xcpk8wXYt9n9OBkAq30PL4e7ug+SRXK4J7SpZBRq75w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790676162; c=relaxed/simple;
-	bh=Ckh2edlgD8pSknkf616R4gEWATYDE58unwFe5zCxFh4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Aeq97/vrdMOgFTCIcVbgUw0Htwaf/Emf1wnm1KTZkB0r+rAvJH+51hNkzM+H4AoCoWa/QhV2HrF58BmxQvWhCyvRELBp3xHFdScE7CyEs0uVvBS3SWz+piO0PTGXUANzkEuuoJTdnMRGbSYadFDW+hsysD9xhDTRf/jbpg8PKoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P27SZoG7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790677697; c=relaxed/simple;
+	bh=Pt41P2HkVTv+6/n7KRKAcTRCUaZVj0J09lRCJkOVm44=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=nkgwiURarHf1cvKLTuvxBDbyG/nJaHxltk6e7A6i1CghKLdidYEoXrhke7LpDHrYzd4dhTk4Yr7tQy830HenYJ4a5fTo1U0LhZKrdZ5ycpzhe6iXWvsxgVAjOvBbkzYeuVd5MdVO1ZPqoSeogrLqEDPh27aWKb1v2n3r+QqoG5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kUHoJEBA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P27SZoG7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54B841F00899;
-	Tue, 29 Sep 2026 10:02:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kUHoJEBA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093F71F000FF;
+	Tue, 29 Sep 2026 10:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790676154;
-	bh=36q4a2p+FUw1btR0MIsYjhi8bRxVrc6Pe96L4kpGQpY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=P27SZoG7S+tUMJ2AMrw+Ul9q5TVxIE/LrfXT7whMv0Hp20IJoXP2uzaQhzPyryn11
-	 jtcPe1Cm1CU2KX8ob7tkSngfRN+rD6xzzs4rg5LiW+BoSXHh4b/7fGJMnvvVkXnhIf
-	 QBHfQI1p/j1har32HQmWnGJ2Y1WEtApwIqSGjZbdocvLTxJfeBNHSaNFAOSwYBsT1Y
-	 9kUzAhfyiOW6TdbMORQ1sJUmAR7E5bPXNIgkSLein/svsyMY535DYe5PRXNjxnNCso
-	 UB+aL8zvfI9jq48p8aTpYRb5LCOMymudSUWFOpKpD4cTFeGzuBjiRadY/IIQw7UbNl
-	 djmCDMZNNEByA==
-From: Mark Brown <broonie@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Peng Fan <peng.fan@nxp.com>
-In-Reply-To: <20260924-regmap-lock-guard-v3-0-8a6127223c16@nxp.com>
-References: <20260924-regmap-lock-guard-v3-0-8a6127223c16@nxp.com>
-Subject: Re: [PATCH RFC v3 0/4] regmap: convert map->lock/unlock users to a
- scoped guard
-Message-Id: <179062150526.139547.3870545428656485907.b4-ty@b4>
-Date: Mon, 28 Sep 2026 19:51:45 +0100
+	s=k20260515; t=1790677691;
+	bh=Pt41P2HkVTv+6/n7KRKAcTRCUaZVj0J09lRCJkOVm44=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=kUHoJEBATUUTerwTqkCcMB9GDs9SaFTHuyIfkL2Z/HPutRHJoBV71p3REv01T1myC
+	 rOwZ328EqBt6UW0EcBQqjX4YD2Kt3DaMh/hs6NZMURQIUykxpdQmotTC1qXP1OD3rS
+	 WjICtSjcQh1RjrvEGcpCpPEUuLSGYsmCnNYtltw29//b6f6gPNj2F1cvTDhkjwbdSc
+	 StTCXJCXD4YmQAo2Q77WSONLTIu/Gvt1qlZXtA6KDOUADnkAFP6CtNdfGCCrcc7hKR
+	 HbjbhgMcHhKHiZN/+TLeyRIxtAeVOUh9bSOih62q74gL90fLbw39ijnL1GAeIhuCg5
+	 FQgGBk3AeJTOA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1660; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Ckh2edlgD8pSknkf616R4gEWATYDE58unwFe5zCxFh4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqu4y3UhkEt0UETSd83e2WBmjH2m6tw1TPQYFRn
- fsNp4dftfOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaruMtwAKCRAk1otyXVSH
- 0LPrB/9NFa28KPT0lcapOxqeM1/p6G6IrExV4sxqMXF12+mviXbuxblizSFnSC/jPotky7yU/LB
- SqAv17tRlzRo3UtcWdElls6ASA35yWFRjxKmtqhXTQSzV+/mXhn5bYiOmzFQzK4CEeRsm4ItBGP
- JqXnMc9A7XWuR70IEpg8WKuquwwYPBKUw4VaiYG4R1XI8cgMnLOVwCfwDb2hGvDJP/9Dv8b8fQR
- Sd5fUnhiF/EHHOJSQwyRYMYzm47RD75iXXU4LMlivvzxi8m9aV8aB5c2PWYp7POTD6gRdXWQLFT
- GCSRB0LAkLlibsCJxtVyo6tsuVZCvtOr0tUNvs3WbPHvOLLa
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 12:28:07 +0200
+Message-Id: <DLRQ9H3ROCH0.3KR62BLPWK0VW@kernel.org>
+Subject: Re: [PATCH v3 0/3] Add TAINT_DRIVER_OVERRIDE for usage of
+ driver_override
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
+ <johan@kernel.org>, "Aaron Tomlin" <atomlin@atomlin.com>, "Bradley Morgan"
+ <brads@mainlining.org>, "Thierry Reding" <thierry.reding@kernel.org>,
+ "David Lechner" <dlechner@baylibre.com>, "Armin Wolf" <W_Armin@gmx.de>,
+ <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-trace-kernel@vger.kernel.org>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <cover.1790612298.git.u.kleine-koenig@baylibre.com>
+ <DLR4AMFM8QZ2.36R6G0LD9D53Q@kernel.org> <artRKXU0jygdcxx3@monoceros>
+In-Reply-To: <artRKXU0jygdcxx3@monoceros>
 
-On Thu, 24 Sep 2026 14:30:51 +0800, Peng Fan (OSS) wrote:
-> regmap: convert map->lock/unlock users to a scoped guard
-> 
-> The regmap lock is taken by calling the lock and unlock callbacks
-> directly at every call site:
-> 
-> 	map->lock(map->lock_arg);
-> 	...
-> 	map->unlock(map->lock_arg);
-> 
-> [...]
+On Tue Sep 29, 2026 at 7:53 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
+> On Mon, Sep 28, 2026 at 07:15:12PM +0200, Danilo Krummrich wrote:
+>> On Mon Sep 28, 2026 at 6:46 PM CEST, Uwe Kleine-K=C3=B6nig wrote:
+>> > Note that different to Danilo's suggestion I don't differentiate betwe=
+en
+>> > driver_overrides setup in userspace and those setup in kernel space.
+>> > IMHO all are bad and there are alternatives for the legitimate cases.
+>>=20
+>> I agree that the implementation - i.e. (ab)using driver override - the a=
+ffected
+>> subsystems have chosen is wrong.
+>>=20
+>> But, there is a difference between picking the wrong implementation and =
+being
+>> semantically wrong to a point that we need to taint the kernel.
+>>=20
+>> So, yes this should be cleaned up, but we should not taint the kernel fo=
+r
+>> otherwise correct code. Otherwise we could as well taint the kernel for =
+every
+>> other abuse of an API.
+>
+> My position on that is: Do the global change now and help the subsystems
+> to clean up the mess. In my experice waiting with changes until all
+> affected parties are smooth with it is a recipe for failure.
 
-Applied to
+I do see an advantage in having the taint in match() rather than store(), s=
+o I
+prefer that too.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.4
+But again, I do not feel comfortable to taint the kernel for something that=
+ does
+use the wrong API but otherwise behaves correctly and shouldn't taint the k=
+ernel
+at all.
 
-Thanks!
+We have six users of device_set_driver_override() outside of a userspace
+reachable scope. Did you have a look at how hard they are to fix? Do you pl=
+an to
+provide patches?
 
-[1/4] regmap: convert lock/unlock to a scoped guard
-      https://git.kernel.org/broonie/regmap/c/80328b41ea28
-[2/4] regcache: use the regmap scoped lock guard
-      https://git.kernel.org/broonie/regmap/c/23f1120dcbea
-[3/4] regcache: rbtree: use the regmap scoped lock guard
-      https://git.kernel.org/broonie/regmap/c/555a1bd78bbc
-[4/4] regmap: debugfs: use the regmap scoped lock guard
-      https://git.kernel.org/broonie/regmap/c/9999d5a07ee0
+>> > I think applying this complete patch set and keeping fcbfaffee51a ("dr=
+iver
+>> > core: add TAINT_FORCED_BIND for when userspace manually messes with de=
+vices and
+>> > drivers") is too much, so this series serves mainly as discussion grou=
+nd for
+>> > choosing a sane way to prevent fuzzing results of only mild interest a=
+nd stop
+>> > patch sets harding drivers for driver_override handling.
+>> > My preference would be to revert (or drop) fcbfaffee51a and then only
+>> > apply patch #3. Maybe also keep patch #2 to taint if
+>> > "allow_driver_override" is provided.
+>>=20
+>> Agreed, but as mentioned in [1], I think it is also reasonable to only k=
+eep
+>> TAINT_FORCED_BIND for buses that do not support hotplug in the first pla=
+ce.
+>>=20
+>> [1] https://lore.kernel.org/driver-core/DLIL9H50MALI.3JROXYEEUM3KU@kerne=
+l.org/
+>
+> Fine for me, that would mean to apply the whole series and restrict
+> TAINT_FORCED_BIND to "static" busses.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+That sounds fine to me.
