@@ -1,207 +1,355 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F253C9897;
-	Tue, 29 Sep 2026 02:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B077D331EA6
+	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 03:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790648157; cv=none; b=pECIXcVw7zsGj2hzbRwKNRmtnfA17uD0jS4bLIVLHMzKx6o7W4vdRnbDGGhrYsDd+k0qOYLznLeugOVQoAhzSrj1H2brrkuT0+d6dJBUDZxO98IWbQTys1GTDC/QEZcfGLnG7e+Scyyryo4SpoBrkUABCSn/PQYO6LylwHCt8Cw=
+	t=1790653517; cv=none; b=YEcImK7qiiblgvkRPRfCFJkRgc9CU1mWZdbpnbdaPL0swSKTbjwOwVdsK16QNAOSFkEmk1efwPFd1/VqCksbpmxT+RDbVvoQMoSZZY3M5g4SM95TfjENcPJGyiWCLC7mzM2oxA/7uLLIYWpqcvHsEIxAkLlPklJHvwkH81zrbQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790648157; c=relaxed/simple;
-	bh=kgJIJiorfmegbLQpmMw87fy8GcE4P8Xu+wJwCGKZGyA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dvFqR2sLnx2gVkfuIxsY4/4z4aJbrMrOq7foxKHGCWAn6XnzbA9PAmjfXgEkGv+z+nN83wUE6OTFKbsXKILGHHgHkrcpupSFJ60/lLYzpZhMYj2t4DRyHsWsJIVhqu8krvz4BEXrKci/J/SYLsNl1EhOlg2ZqzM9amxqqqS+NVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ky48MWZx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790653517; c=relaxed/simple;
+	bh=UMj3kPup5rOtdbCDZGtJ8MF/ZKJmrTvkrZY3OKIGpKA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fHVkhLTcboW28MnTbw/mm/HE3+Wayggpq6cPFbl6OquuTWeB8CUP9BUwln9TAAedWinvWnYwPsA5pQfphVZL+VK3WgqPmqJnTg7g17zV7KqCzhIQVTrGMApozbvlZATWeARvD+Kxcu0LffHHmdcauSzXO0B/QSSk+nIV+Hcl2nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=b2I3NOwH; arc=none smtp.client-ip=209.85.210.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ky48MWZx"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D78F3C4AF12;
-	Tue, 29 Sep 2026 02:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790648156;
-	bh=kgJIJiorfmegbLQpmMw87fy8GcE4P8Xu+wJwCGKZGyA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ky48MWZx0sll4Wkkayz0XBpT+fy9x9ItAkkj6H1ZMKSHUpJ/D26bYtCDcxckEEO1v
-	 r1ZgkANtangIpoTh8Ts2zFFPapi3i1w9nMnlVRM0z8zU5TEm/6VituobzEFMXk6pm9
-	 Pe7tvUCSTkBRoVwVq4WMV/Pwzn1j9XJNMyXUPy7VDOgdJTnW7LeDVZOq2wVk5rgjZO
-	 +eNboxW3M2VqRv97MWI63HVWFc2NxtjPNvFGMQlEIVgKsRvFRRK9xiqlvMgwp+ljFs
-	 qYiyIlHiQ93a4soMB3Mn/qEw2AZEz5LNjvfMHiurf8OQzyvxEsVm5t2QkAZWmrNuCu
-	 FTK1duwc6FqaA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50BCCA5FAD;
-	Tue, 29 Sep 2026 02:15:56 +0000 (UTC)
-From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Tue, 29 Sep 2026 10:16:01 +0800
-Subject: [PATCH v3 11/11] drm/tyr: gem: map cached BOs for
- DRM_PANTHOR_BO_WB_MMAP
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="b2I3NOwH"
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8814bf38f80so2341986b3a.1
+        for <driver-core@lists.linux.dev>; Mon, 28 Sep 2026 20:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790653514; x=1791258314; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cO5CSezgILdCLgBGPoB5QW8zV3ggyW4Ktr4y/Mx2zCY=;
+        b=b2I3NOwHpGr5wQhiEsCJXta7Qp7zIPkcRd8S+rrSMcAchs4XUuaaIlXXeMild3qV/0
+         DjR+YRMtOQBKvhBwgiK3ZrzPmrrV6WDlvINe/2AuX+kmLU+KN6Foqf5zgWXIHoftTk8l
+         0jMRJJ7fCFcY97q9oNIdO0qKf0KtVjSljLpLxYeINVGIT75qdKfGPHr+CvjW2+YQLyty
+         FxhmquRWKQZ5St5mvV++zV7np1WlOVw2CFfw4UbiiOg300efSCo5Z4KbP1PFDaHYducw
+         GYAKcLT4op1WF+v8DIR8Kzon9Fz+h0vlOGRlVdtg5kv4tqMnfJ1Dt6vDIw8OTkjlO1LC
+         WpJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790653514; x=1791258314;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cO5CSezgILdCLgBGPoB5QW8zV3ggyW4Ktr4y/Mx2zCY=;
+        b=B1dC6ERg3sgj9bPEqlKu7YsCbNYSbpmaQxyUvtyFAMP962z1rIyQOlmfOm1yz7/8KU
+         uGKTXzH/NmCO11mc2YRqhqmyUozPo5P9zyfAeKh8zNkdrXCfsffla9Q7ESrtSTanrE5s
+         apNmwqGZAPH55T7wfEHnTUhbfUSJXMPmUG2toWP41LAgP10Wd0qmlaqDTwYwlYDLrhv9
+         CmywVXelNIiYW0+YrSVfPCu7oH/gbacYCKvBB3gG84hcJFxSDUXvajlOV/8H/VKDN2pl
+         UGFDOso/L/l81CGiijOlcBynt1RDDnb6xECnbw2jZW8VpMvwh/GJir1hHucv+9gM2IZp
+         n4Aw==
+X-Forwarded-Encrypted: i=1; AKwUvBwoqXTRqy9iLy1vK9QWfFy1QiyIhAC3tSee1yHlvoN7JybHJJTJf10xXVugGdpa7T9JeEuA1JkowSi4Gw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lnvI4bZyOlAJosvH/Hru7fYYphriCBYbFGts3nRjMYRov4TKqg
+	2KdCYgXMxjMkLo11uQDkcS4nbSoydWqGZ6kFjNL6Ua451m+OD7GCUXKu4RADJ9rBh4PznlWLd5A
+	lyQ==
+X-Received: from pfbem34.prod.google.com ([2002:a05:6a00:3762:b0:87f:b894:8564])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1a8d:b0:883:54dc:7892
+ with SMTP id d2e1a72fcca58-88354dc7c05mr3977977b3a.52.1790653513709; Mon, 28
+ Sep 2026 20:45:13 -0700 (PDT)
+Date: Tue, 29 Sep 2026 03:44:54 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260929-tyr-ioctls-v3-11-26955fb111d5@kylinos.cn>
-References: <20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn>
-In-Reply-To: <20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org, 
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org, 
- driver-core@lists.linux.dev, Ke Sun <sunke@kylinos.cn>, 
- Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790648153; l=4490;
- i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=g7NGH5IK+aKtnhOkcQHFTWmHIOxfBCihbd0P5WoqQL0=;
- b=3TYcDisu+8tPh0DWXNRfpV5bBe9WRoBYxN9JY4oYTdWJov6P7C+AhjOGumle2IqoLRv1/fWqp
- NZbE20qeANwD0kgYkAYQ5k5+Da55KLb3OBdWAViztwHGvzRBpjBMc9R
-X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
- pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
-X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
- auth_id=950
-X-Original-From: Ke Sun <sunke@kylinos.cn>
-Reply-To: sunke@kylinos.cn
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+Message-ID: <20260929034510.2023173-1-praan@google.com>
+Subject: [PATCH v11 00/16] iommu/arm-smmu-v3: Implement Runtime/System Sleep ops
+From: Pranjal Shrivastava <praan@google.com>
+To: iommu@lists.linux.dev
+Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Daniel Mentz <danielmentz@google.com>, 
+	Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org, 
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Bjorn Helgaas <bhelgaas@google.com>, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
+	Pranjal Shrivastava <praan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Sami Tolvanen <samitolvanen@google.com>
+As arm-smmu-v3 rapidly finds its way into SoCs designed for hand-held
+devices, power management capabilities, similar to its predecessors, are
+crucial for these applications. This series introduces power management
+support for the arm-smmu-v3 driver.
 
-Userspace may request a cacheable CPU mapping for a buffer it accesses
-frequently. Accept DRM_PANTHOR_BO_WB_MMAP in bo_create and map the
-buffer cached when the flag is set. Coherent devices already map
-cached. NO_MMAP and WB_MMAP together are rejected with EINVAL.
+Design
+======
+The arm-smmu-v3 primarily operates with in-memory data structures
+through HW registers pointing to these data structures. The proposed design
+makes use of this fact for implementing suspend and resume ops, centered
+around a software gate embedded in the command queue.
 
-On non-coherent platforms userspace owns the CPU cache maintenance
-around GPU access to these buffers.
+1. CMDQ Gate (CMDQ_PROD_STOP_FLAG)
+To safely manage runtime PM without regressing performance on high core
+count servers or systems not opting for runtime power management,
+this series introduces a CMDQ_PROD_STOP_FLAG (bit 30) in the command
+queue's producer index. The flag acts as a Point of Commitment in the
+cmpxchg loop of arm_smmu_cmdq_issue_cmdlist(), ensuring no new indices
+are reserved once suspension begins.
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-[ Split the BO_CREATE validation and add the WB_MMAP flag checks
-  from the original. - Alvin ]
-Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
----
- drivers/gpu/drm/tyr/file.rs | 25 +++++++++++++++++++------
- drivers/gpu/drm/tyr/gem.rs  | 18 +++++++++++-------
- 2 files changed, 30 insertions(+), 13 deletions(-)
+2. Suspend / Resume Flow
+The suspend operation follows a multi-stage quiesce sequence:
+  a. Stop Traffic: Sets SMMUEN=0 and GBPA=Abort to halt new transactions.
+  b. Gate CMDQ: Sets the CMDQ_PROD_STOP_FLAG to block new submissions.
+  c. Command Flush: Waits for any in-flight "owner" threads to commit
+     their reserved indices to hardware.
+  d. SW Quiesce: Waits for all concurrent threads to release the shared
+     cmdq->lock, ensuring no CPUs are left polling CONS register.
+  e. HW Drain: Polls the CMDQ until all committed commands are consumed.
+  f. IRQ Quiesce: Disables hardware IRQs and waits for racing handlers to
+     complete via synchronize_irq()
 
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 526eb1d53de42..9ed16c5a8099a 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -256,19 +256,32 @@ pub(crate) fn bo_create(
-         bocreate: &mut uapi::drm_panthor_bo_create,
-         file: &TyrDrmFile,
-     ) -> Result<u32> {
--        if bocreate.size == 0
--            || bocreate.pad != 0
--            || bocreate.flags & !uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP != 0
--        {
-+        if bocreate.size == 0 || bocreate.pad != 0 {
-             dev_err!(
-                 ddev.as_ref(),
--                "Invalid BO_CREATE params: size={}, pad={}, flags={:#x}\n",
-+                "Invalid BO_CREATE params: size={}, pad={}\n",
-                 bocreate.size,
--                bocreate.pad,
-+                bocreate.pad
-+            );
-+            return Err(EINVAL);
-+        }
-+
-+        let no_mmap = uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP;
-+        let wb_mmap = uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_WB_MMAP;
-+        let valid_flags = no_mmap | wb_mmap;
-+
-+        if bocreate.flags & !valid_flags != 0 {
-+            dev_err!(
-+                ddev.as_ref(),
-+                "Invalid BO_CREATE flags: {:#x}\n",
-                 bocreate.flags
-             );
-             return Err(EINVAL);
-         }
-+        if bocreate.flags & no_mmap != 0 && bocreate.flags & wb_mmap != 0 {
-+            dev_err!(ddev.as_ref(), "BO_CREATE: NO_MMAP conflicts with WB_MMAP\n");
-+            return Err(EINVAL);
-+        }
- 
-         if bocreate.exclusive_vm_id != 0 {
-             dev_err!(ddev.as_ref(), "BO_CREATE: exclusive_vm_id not supported\n");
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 95e5537e7174b..21b59690d1fc1 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -17,7 +17,8 @@
-     sync::{
-         aref::ARef,
-         Arc, //
--    }, //
-+    },
-+    uapi, //
- };
- 
- use crate::{
-@@ -63,13 +64,16 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
- /// Type alias for Tyr GEM buffer objects.
- pub(crate) type Bo = gem::shmem::Object<BoData>;
- 
--/// Returns whether a BO should be mapped write-combine given the device's
--/// DMA coherence.
--pub(crate) fn should_map_wc(coherent: bool) -> bool {
-+/// Returns whether a BO should be mapped write-combine.
-+pub(crate) fn should_map_wc(coherent: bool, flags: u32) -> bool {
-     if coherent {
-         return false;
-     }
- 
-+    if flags & uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_WB_MMAP != 0 {
-+        return false;
-+    }
-+
-     true
- }
- 
-@@ -86,7 +90,7 @@ pub(crate) fn new_object(
- 
-     let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
- 
--    let map_wc = should_map_wc(coherent);
-+    let map_wc = should_map_wc(coherent, flags);
-     let bo = Bo::new(
-         ddev,
-         aligned_size,
-@@ -118,7 +122,7 @@ pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice, coherent: bool) -> Result<AR
-         ddev,
-         4096,
-         shmem::ObjectConfig {
--            map_wc: should_map_wc(coherent),
-+            map_wc: should_map_wc(coherent, 0),
-             parent_resv_obj: None,
-         },
-         BoCreateArgs { flags: 0 },
-@@ -176,7 +180,7 @@ pub(crate) fn new(
-             ddev,
-             bo_size,
-             shmem::ObjectConfig {
--                map_wc: should_map_wc(coherent),
-+                map_wc: should_map_wc(coherent, 0),
-                 parent_resv_obj: None,
-             },
-             BoCreateArgs { flags: 0 },
+Entering the suspend sequence implies that the device has no active
+clients. In v8, a surgical state-correction is added to runtime_suspend:
+if draining fails, the software trackers (cons and owner_prod) are forced
+to align with the masked producer index. This voids any stale commands for
+the next session and prevents deadlocks or spurious executions upon
+resumption.
 
+The resume operation clears the STOP_FLAG & performs a full device
+reset via arm_smmu_device_reset(), which re-initializes the HW using the
+SW-copies maintained by the driver and clears all cached configurations.
+
+3. Guarding Hardware Access and Elision
+The driver ensures the SMMU is active before hardware access via
+arm_smmu_rpm_get() and arm_smmu_rpm_put() helpers. To maintain code
+clarity, invalidation call-sites no longer perform manual elision checks;
+instead, elision is authoritative within the CMDQ submission path.
+
+The renamed helper, arm_smmu_is_active(), is preserved only for
+critical diagnostic (ATC), early-drop (Page Response), and gerror
+short-circuits. For ATC invalidations, devlinks must guarantee the SMMU
+is active if the endpoint is active; a WARN_ON_ONCE() catches
+inconsistencies.
+
+4. Implementation-Specific Quiescing (Tegra VCMDQ)
+Implementation-specific gating and draining are consolidated into
+a unified quiesce_and_drain_queues callback. The tegra241-cmdqv driver
+is updated to gate all active local virtual queues (VINTF0) before
+draining.
+
+5. Interrupt Re-config
+a. Wired irqs: The series refactors arm_smmu_setup_irqs to allow
+separate installation of handlers, aiding in correct re-initialization.
+
+b. MSIs: The genirq/msi core caches the msi_msg in
+irq_chip_write_msi_msg() and provides msi_device_domain_restore_msi_msgs(),
+which arm_smmu_resume_msis() invokes during resume.
+
+c. GERROR: Late-breaking global errors are captured and handled
+immediately after SMMU disablement during suspend to ensure no diagnostic
+information is lost.
+
+Scalability and Performance
+===========================
+A key design goal of this series is to ensure that high-performance
+systems (typically servers) that do not enable runtime PM are not
+penalized. By embedding a stop flag in the command queue's producer
+index and designing RPM helpers to perform only read-only checks when
+RPM is disabled, command submission on these systems incurs negligible
+overhead. Power-managed systems only utilize runtime PM atomics as
+necessary, ensuring that scalability is maintained across all hardware
+classes.
+
+Sashiko Reviews and Documentation
+=================================
+The series was run through Sashiko locally. In response to the review
+feedback, extensive verbose comments have been added across the series to
+thoroughly document hardware/software synchronization invariants, memory
+ordering dependencies (Point of Commitment, dma_wmb vs. smp_mb), and
+devlink power guarantees. Several edge-case race conditions, unmasking
+bugs, and resource leak paths were also addressed.
+
+[v11]
+ - Replaced platform_device_msi_rewrite() and driver-side msi_msg caching
+   with generic genirq/msi core support as suggested and provided by tglx
+   (Thomas Gleixner):
+   * Cache desc->msg in irq_chip_write_msi_msg() and document why the
+     assignment in __pci_write_msi_msg() remains for direct callers.
+   * Provide msi_device_domain_restore_msi_msgs() in kernel/irq/msi.c.
+   * Update arm_smmu_resume_msis() to call msi_device_domain_restore_msi_msgs()
+     and drop manual msi_msg caching from arm_smmu_write_msi_msg().
+ - Rebased onto v7.3-rc4.
+
+[v10]
+ - https://lore.kernel.org/all/20260908171712.356645-1-praan@google.com/
+ - Picked up common drain helpers from Nicolin's PRI series v3 [1].
+ - Introduced platform_device_msi_rewrite() in platform/msi core
+   (suggested by Jason).
+ - Fixed the stale interrupt issue caused by calling arm_smmu_setup_irqs()
+   early in probe (as reported by Sashiko in v9) by passing a bool to 
+   arm_smmu_device_reset() to ensure irqs aren't set-up again on resume.
+ - Fixed a CMDQ gate bypass race where threads waking from 
+   poll_until_not_full() could commit commands after STOP_FLAG was asserted
+ - Fixed a masking issue in __arm_smmu_cmdq_issue_cmdlist() & tegra241-cmdqv
+ - Added tegra241_vcmdq_wait_quiescent() to wait for in-flight owner threads
+ - Fixed VCMDQ drain loop error handling to continue draining remaining
+   queues rather than abandoning them on timeout (pointed by Sashiko in v9)
+ - Explicitly zeroed *_IRQ_CFG0 registers during resume as they reset to
+   unknown values.
+ - Cleared ARM_SMMU_FEAT_MSI on MSI setup fallback to avoid spurious
+   MSI rewrites on resume.
+ - Retitled GERROR patch to "Factor out arm_smmu_handle_gerror()" for clarity
+ - Handled devlink creation failure in arm_smmu_probe_device()
+ - Added checks for the retval of arm_smmu_rpm_get() in 
+   arm_smmu_disable_action() & arm_smmu_device_shutdown()
+ - Clarified rationale for asynchronous put in teardown and shutdown paths
+   where hardware has already been explicitly disabled.
+ - Documented safety of eliding ATC invalidations during suspend based on
+   PCIe link power states and devlink guarantees per Jason's comment.
+ - Fixed stack timer lifecycle in KUnit tests using timer_setup_on_stack()
+   and timer_destroy_on_stack(), and resolved mock register endianness.
+ - Added extensive verbose comments across the patches explaining locking,
+   synchronization invariants, and devlink power guarantees based on local
+   Sashiko review.
+ - Collected Reviewed-by tags from Jason Gunthorpe.
+ - Rebased onto latest arm/smmu/updates
+   [1] https://lore.kernel.org/all/cover.1788222485.git.nicolinc@nvidia.com/
+
+[v9]
+ - https://lore.kernel.org/all/20260728210928.1050849-1-praan@google.com/
+ - Replaced atomic_fetch_or_relaxed() with atomic_fetch_or() for
+   correct ordering while asserting the STOP_FLAG
+ - Moved arm_smmu_drain_queues() after the cmdq->lock wait loop in
+   runtime_suspend() as per feedback in v8.
+ - Refactored suspend sequence to use arm_smmu_disable_irqs() and
+   synchronize_irq() for safe GERROR handling.
+ - Fixed an off-by-one error in suspend polling timeouts.
+ - Dropped arm_smmu_cmdq_can_elide() check from inv_range
+ - Renamed arm_smmu_cmdq_can_elide() to arm_smmu_is_active().
+ - Removed redundant bitwise masking from owner_prod reads.
+ - Added comments to explain locking, gating and elision better.
+ - Added comments to explain secondary cmdq draining and gating.
+ - Rebased on arm/smmu/updates
+
+[v8]
+ - https://lore.kernel.org/all/20260601215909.3958732-1-praan@google.com/
+ - Centralized elision logic: dropped redundant checks from invalidation
+   call-sites; elision is now authoritative within the CMDQ layer.
+ - Renamed elision helper to arm_smmu_cmdq_can_elide() and preserved it
+   only for diagnostic/safety paths (ATC, GERROR, Page Response).
+ - Consolidated implementation-specific gating and draining into a
+   unified quiesce_and_drain_queues callback.
+ - Updated tegra241-cmdqv to gate virtual queues before draining,
+   addressing non-deterministic timeouts from guest-side submissions.
+ - Re-ordered probe sequence to enable pm_runtime only at the end,
+   aligning with SMMUv2 and simplifying error paths.
+ - Refactored KUnit tests for better, addressed Nicolin's comments & added
+   a multi-threaded kthread race test.
+ - Refactored RPM helpers to use early-return patterns for improved clarity.
+ - Collected R-bs from Nicolin.
+
+[v7]
+ - https://lore.kernel.org/all/20260527221407.1756491-1-praan@google.com/
+ - Rebased on the latest arm/smmu/updates branch (which has the removal of
+   struct arm_smmu_cmdq_ent merged)
+ - Converted manual cmpxchg loops in suspend/resume to use atomics
+ - Re-worked to elide invalidations solely based on the CMDQ_PROD_STOP_FLAG
+   via arm_smmu_can_elide(), dropping any need for pm_runtime_get_if_active
+ - Added an smp_mb() fence in the reset sequence to ensure that the SMMU
+   acquires all RAM updates made by newly un-gated threads before SMMUEN=1
+ - Implemented bitwise masking for the PROD register to prevent software
+   metadata (STOP_FLAG) bits from being written to physical hardware.
+ - Introduced a KUnit test suite to verify the CMDQ gating algorithm
+
+[v6]
+ - https://lore.kernel.org/all/20260414194702.1229094-1-praan@google.com/
+ - Replaced the atomic nr_cmdq_users counter with CMDQ_PROD_STOP_FLAG
+   to eliminate atomic overhead on high-core count servers.
+ - Implemented a 5-step quiesce sequence in runtime_suspend including
+   pipeline flushes and software completion barriers.
+ - Introduced arm_smmu_rpm_get_if_active() to elide TLB/CFG/ATC
+   invalidations when the SMMU is suspended.
+ - Added WARN_ON_ONCE() in invalidation paths to detect inconsistent
+   power states for active endpoints.
+ - Refined batch submission in __arm_smmu_domain_inv_range() to ensure
+   clean state when dropping batches.
+ - Refactored GERROR handling for better integration with suspend.
+ - Added Suggested-by tags for Daniel Mentz.
+
+[v5]
+ - https://lore.kernel.org/all/20260126151157.3418145-1-praan@google.com/
+ - Refactored GERROR handling into a helper function and invoked it during
+   runtime suspend after disabling the SMMU to capture any late-breaking
+   gerrors as suggested by Jason.
+ - Updated `arm_smmu_page_response` to be power-state aware and drop
+   page faults received while suspended.
+ - Included a patch from Ashish to correctly restore PROD and CONS
+   indices for tegra241-cmdqv after a hardware reset.
+ - Collected Reviewed-bys from Mostafa and Nicolin.
+
+[v4]
+ - https://lore.kernel.org/all/20251117191433.3360130-1-praan@google.com/
+ - Dropped the `pm_runtime_get_if_not_suspended()` API in favor of a
+   simpler, driver-specific biased counter (`nr_cmdq_users`) to manage
+   runtime PM state.
+ - Reworked the suspend callback to poll on the biased counter before
+   disabling the SMMU.
+ - Addressed comments for the MSI refactor.
+
+[v3]
+ - https://lore.kernel.org/all/20250616203149.2649118-1-praan@google.com/
+ - Introduced `pm_runtime_get_if_not_suspended` API to avoid races due
+   to bouncing RPM states while eliding TLBIs as pointed out by Daniel.
+ - Addressed Nicolin's comments regarding msi_resume and CMDQV flush
+ - Addressed Daniel's comments about CMDQ locking and draining
+ - Addressed issues related to draining the evtq and priq
+ - Dropped the code to identify and track user-space attachments
+
+[v2]
+ - https://lore.kernel.org/all/20250418233409.3926715-1-praan@google.com/
+ - Introduced `arm_smmu_rpm_get_if_active` for eliding TLBIs & CFGIs
+ - Updated the rpm helper invocation strategy.
+ - Drained all queues in suspend callback (including tegra241-cmdv)
+ - Cache and restore msi_msg instead of free-ing realloc-ing on resume
+ - Added support to identify and track user-space attachments
+ - Fixed the setup_irqs as per Nicolin & Mostafa's suggestions
+ - Used force_runtime_suspend/resume instead as per Mostafa's suggestion.
+ - Added "Reviewed-by" line from Mostafa on an unchanged patch
+
+[v1]
+ - https://lore.kernel.org/all/20250319004254.2547950-1-praan@google.com/
+
+Ashish Mhetre (1):
+  iommu/tegra241-cmdqv: Restore PROD and CONS after resume
+
+Nicolin Chen (2):
+  iommu/arm-smmu-v3: Add Q_POS() macro
+  iommu/arm-smmu-v3: Add arm_smmu_drain_queue() helper
+
+Pranjal Shrivastava (12):
+  iommu/arm-smmu-v3: Refactor arm_smmu_setup_irqs
+  iommu/tegra241-cmdqv: Add a helper to drain VCMDQs
+  iommu/arm-smmu-v3: Add a helper to drain cmd queues
+  genirq/msi: Cache MSI message in irq_chip_write_msi_msg()
+  iommu/arm-smmu-v3: Restore MSI config on resume
+  iommu/arm-smmu-v3: Factor out arm_smmu_handle_gerror()
+  iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to gate CMDQ submissions
+  iommu/tegra241-cmdqv: Add a helper to quiesce VCMDQs
+  iommu/arm-smmu-v3: Implement pm_runtime & system sleep ops
+  iommu/arm-smmu-v3: Enable pm_runtime and setup devlinks
+  iommu/arm-smmu-v3: Invoke pm_runtime before hw access
+  iommu/arm-smmu-v3: Add KUnit unit tests for Runtime PM
+
+Thomas Gleixner (1):
+  genirq/msi: Provide msi_device_domain_restore_msi_msgs()
+
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  20 +-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-test.c  | 215 ++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 702 +++++++++++++++++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  29 +
+ .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    | 128 ++++
+ drivers/pci/msi/msi.c                         |   6 +
+ include/linux/msi.h                           |   2 +
+ kernel/irq/msi.c                              |  46 ++
+ 8 files changed, 1109 insertions(+), 39 deletions(-)
+
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
 -- 
-2.43.0
-
+2.56.0.rc1.315.gc6ed9934b7-goog
 
