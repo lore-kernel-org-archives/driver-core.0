@@ -1,64 +1,108 @@
-Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch [83.166.143.169])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD6F560ABB
-	for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 18:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF9526A1AC
+	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 00:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790707928; cv=none; b=JOsqurnRVQ6fuxDjw+2vjbgVEya7LFoR7NXpFTg/tUEI6w9e7tkNVZuaXljLnkdeojqqEWX1Dm1rjZkUeCYaZNqcrLrS9rgWVbgh6Gc0AF2cpelTUiATUxMFbRYn8XmZ28xq1w4HfBesGVkROAKLVijXGpT6JbkTO/ZnTiFoZyU=
+	t=1790728691; cv=none; b=CvqF7D3LqjWKr1d1JNIMaz0K0+FCdAR1e2BSKeyJuzTPSwe5oDhz2xQ9J7kiXS3neVXjGFr4wOaGBs+PVHhl0RZFjQbpxWRdy+q8gdjd5D9h23IC3+qH+KjBtY+bOrSUnwHT6hrpUXf1cTaX/XbMAk4N6Djt07GNfc/O+svt5gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790707928; c=relaxed/simple;
-	bh=XG42HsU/sMqXC+2mZyZtlSTX6jXkUuV0jGL7ftsUi1c=;
+	s=arc-20240116; t=1790728691; c=relaxed/simple;
+	bh=lDQv8VNO6G/soX/VtU2MWJkebNPtrgeVeBYGPflNv8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FErFM+tdiLTUwM40poEcFNd2bE2qeVKEYaVcjM2crLx/kWt4+ubVBVhEXuclZ/ZOn37FMY3GM9XB/hlxt83YZc4nJCSrMqNc5YB0b0I1OogNLenAKGxLzh/TCkzK2cVYfgYqPV/uBR5Uu7d2JcYQE8h/TLK4SsJfneu6Gv13j7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=NmkxKvYY; arc=none smtp.client-ip=83.166.143.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/muKyFRZtWS+UeUR/w1e3ShoCJhNw0TWbQMfz2wFQoX5S49TQqoxgN9Hr4IOPSllM39IL43zKqavGqmIHwH8imzePF8ukIZZIBTblIWPEyLETEB1R7rIMLWL2K2PwxacN9dIA/MLzB5V6MWjoSiHjNsL06FGbQspVOqVzQH+lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a5CGJ63s; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=e9+VPdH8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="NmkxKvYY"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hvS2p2l3bzgtN;
-	Tue, 29 Sep 2026 20:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1790707921;
-	bh=n8m+1/BomLkKgTbR4X98Agh5NHkdrJRlqsVG38xM61s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NmkxKvYY7IAkYpsQSw34+uAQW9dfJv3xKt7fsNkRohVNKzr5oP5BjUWuF2NdOi79t
-	 vvs4m9cuI+bBBRuJQAVOoHW1oRrA18o+pALFKcTK6U8VOdF0aQDADis65isVXer8D4
-	 UtHi4jAnDX1/It25jO4gSTSKy338JFE41uy/4218=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hvS2b4dnJzppl;
-	Tue, 29 Sep 2026 20:51:51 +0200 (CEST)
-Date: Tue, 29 Sep 2026 20:51:47 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, Cai Xinchen <caixinchen1@huawei.com>, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
-	amir73il@gmail.com, senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, 
-	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20260929.Ahgoo4yeetai@digikod.net>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <araxO4ze0KZBz756@suesslenovo>
- <20260926.255b951d3013@gnoack.org>
- <arqcbjWLN1CLkL_Y@suesslenovo>
- <arurOphe6QIx2Zr8@google.com>
- <arvjb0HJYh1KyEBB@suesslenovo>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a5CGJ63s";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e9+VPdH8"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TNPk9p2011478
+	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 00:38:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=DihlMyvHEyVrVer9hDXtw89b
+	IAPj1z5S1SGkXU3ZFzU=; b=a5CGJ63sjO8ovHEMsXAudd/im6jBlkmBPClNu3/A
+	3DUskr40A0eTyQkOcUh/Qvn2KJ/9P8JF2DOHpoySV5rmce3213gAGsfFPfYctJqN
+	ck8RXSvaGxPSc88VpB/6g6v4xePBeD7hqrslAwaXG8HyW0f9kscfOK+fO3Cnp0il
+	iw1LBbaH09sPHRJhBqkQWIIX2rV/IouRt0JHAew80kEHFeEhsRpPv8nl2MY2qJvB
+	I2RYLgM8BJ4D7EFq+ryaNsHt/jzGuOEI3jmHote/9Wue4mVPlC8nD43zVNfm6c8M
+	jFQW/g9La5zqpIVvFL2sP5Alm1lxkKdHgrSvXSL1xvI8Cg==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h0j0ehf36-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 00:38:08 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-147be78cd56so1342121c88.1
+        for <driver-core@lists.linux.dev>; Tue, 29 Sep 2026 17:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790728688; x=1791333488; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DihlMyvHEyVrVer9hDXtw89bIAPj1z5S1SGkXU3ZFzU=;
+        b=e9+VPdH8G/emzCSb3sFSdqJMKSiNMLSIulUtHfBSmEYrsIDyQpOdbuRZN5mTade3/N
+         Bxeo0lscyLWBCPdH3X7V21Fkf4E8W1nxe8VOwIpuOwjqcyG5ZGprCbURP/YCvPqHyy2V
+         G1eqHvpqZBpEdYyibOp4dn+jd1T0hFYL1l0t5kIJkOLBwC4Jl7qKceL6npy9uH2oIWTE
+         Uk81WkFWAg3NxaYyYEeLXDUJHEKk+VoVQSBp8i0vJ3oFkkBbXSpJssXzMz/UsUCA1sQr
+         97fp7giRXk6AbZBX6aHeokdso0GIk78ml4/SogXwyTrgnhn/L3+EWSvUwCaH/pZuZ4L/
+         rFIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790728688; x=1791333488;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DihlMyvHEyVrVer9hDXtw89bIAPj1z5S1SGkXU3ZFzU=;
+        b=uUonEYfSGoP4jrnx9PISMnbG6i6t1GJ9nT51LBGEmLiDFadj4P7tL3bUo6zws0JuBe
+         yzAP27dfOt3hs0hSZaSif50UYUIsBbU/msBgVLGdofxRWQvoAo/ZzVm+BRkC8UMePiR8
+         9MhdZpS1Z5OSRhdBI9b5EU4OVmmcfr1MCEwFBzsGhNfCuv5E7Ea3Y1gPDP8VjaHojSWO
+         3g0BhOwuH5xbAWRWhAUHL7rkTN0QiFNQ6HliHyCHTYBEjggGt0GjjSx0fjaZBsIjHwjb
+         XqO6Q+ANOcZACiZT+fhkXoeIQPZn8q1rVK2kTzamwrNUiSPTeNlmHc7YNUf/LOigShx/
+         3V1A==
+X-Forwarded-Encrypted: i=1; AKwUvBw83VGF+IeJBGqm4SZeH7vaYbUVSZBGSbi3YQSNz+eqTVojmw7lVmgHMYAuh4SLvm1J46zYrjSxdUA+gw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lIABwGf8chdPFWfKomeUup9DkHa5doSrVZsM8mLG9kDMXLS/SP
+	85nidRFAMxaQn5S+CmVpWJyLSPttnZl7gEODZ3zhszAMPfNOmdJ15oEEUiFYQiZZRD5qH3H+BOu
+	UpY+Hmx4J3aLXysPOfzueh8NzHXi4xBnbVmogJmI6bS2+DcI1HKluUNkvW72pcUo5JA==
+X-Gm-Gg: AYBFou1T4+BQApCa/lTd57IvFRcTLZLXk+D1XCYr3ub0toV1dOy+e9mqh4oJlQEoeKR
+	Fdjb2AIiXB0MVwvDKRlhKcvwutG70ndd9ZNtU5A6+ut7Ixp4Oxu8qmEhp0j1o7PCTCjaBK2TJoi
+	zzgHGrBjmqkf74UVPQML0lPJ9ItARJXf2eDK9idR+yPkYBl5RpOI8SzElHHH4IwtlaUmp7vnUZT
+	wbdO1ShLE+ChxMOelZgu0MYyjxTv/6OV21byAf4v8AbBFb/X0Sk59Kf4A4MUBPwvFpV+k4NnrgF
+	HsOKAzs6YPYI8UrFkgiG44F4vj+xZyLHpSBZp9RMZ5g5nDRIIheiqD6AhXWVyq3qpA+LfNpH8YM
+	NeY1K3NvjTYNUHo8RVsmyBg2ZmObUXcO2R1yRpg0nvYcnrVSd
+X-Received: by 2002:a05:7022:f401:b0:143:868a:20c1 with SMTP id a92af1059eb24-14ca00a17c2mr1398058c88.46.1790728687791;
+        Tue, 29 Sep 2026 17:38:07 -0700 (PDT)
+X-Received: by 2002:a05:7022:f401:b0:143:868a:20c1 with SMTP id a92af1059eb24-14ca00a17c2mr1397989c88.46.1790728686996;
+        Tue, 29 Sep 2026 17:38:06 -0700 (PDT)
+Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14c60c55d41sm1917754c88.1.2026.09.29.17.38.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 17:38:06 -0700 (PDT)
+Date: Tue, 29 Sep 2026 17:38:04 -0700
+From: Ashok Raj <ashok.raj@oss.qualcomm.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Thomas Gleixner <tglx@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
+        linux-watchdog@vger.kernel.org, Ashok Raj <ashok.raj@oss.qualcomm.com>
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+Message-ID: <arxZ7BAya5ntRi6t@hu-ashoraj-lv.qualcomm.com>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arr3IhF0bwN4uzUP@hu-ashoraj-lv.qualcomm.com>
+ <art5m5QPXAOAvkvW@red-moon>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -67,196 +111,165 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <arvjb0HJYh1KyEBB@suesslenovo>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <art5m5QPXAOAvkvW@red-moon>
+X-Authority-Analysis: v=2.4 cv=cqgOAF4i c=1 sm=1 tr=0 ts=6abc59f0 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=p-kz3MFidYKym44KqwAA:9
+ a=QEXdDO2ut3YA:10 a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-GUID: 2sJifuZPUshWtNdd3Oh_EG8CXOF0qHfz
+X-Proofpoint-ORIG-GUID: 2sJifuZPUshWtNdd3Oh_EG8CXOF0qHfz
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAwMSBTYWx0ZWRfX3q0cog3zt5ns
+ wD4W7gMa/b8rXhR75i8+396oS4xcJRpCLSLXX53maarjnubyfBe3uyyUYzURKK1f+8NTFiaBT3w
+ AI+9d4Q2JEp5q6kmB2Ph4b9HjXGsjh4=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAwMSBTYWx0ZWRfX28qkTdar+7sH
+ 0P7dFbJkQTUvtAfJJrRD5X8sQJv63B9WsExXBX09vMKwuTwVI3s2q8qwWfaFI/lAaswdfINH0uu
+ edIWyWBmaWENuQLKO0RfugI3IbzxhVKmktsQmCfUegkiBc6OG+YVyK470aadN9PxYnwxknsOSzI
+ o9LH+Z8sM82jDoA9eKnQcsEInIX/g98okojYPaLpm5qpjMIdYQtiaOZIGr/+XIOv9XFYxqJhJA8
+ +9z61J0jh6kJ+6dHeWgMf5ZKF98fl9u4ZjxwQjH6OaYS5lTMONOVLr68ccQKF6CDKsnV+GNNg6b
+ GknDrx40z6DMFfXb3DF+KZQ6A3PfjGlXOB/eD1Kjh/sXxvu4qGjsEn/JZu2TSkGM4gKUEocgcVE
+ NVxIQJ2IzOXKb7mxlabRfvhNROQiICJAG1ZijLX6CErxC0yDYfZS1IuixysAu2eCP62oy6cjlxJ
+ +DMh4cA80TlmYoyr3tg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300001
 
-On Tue, Sep 29, 2026 at 01:27:44PM -0400, Justin Suess wrote:
-> On Tue, Sep 29, 2026 at 02:12:42PM +0200, Günther Noack wrote:
-> > On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
-> > > On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
-> > > > Hello!
-> > > > 
-> > > > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
-> > > > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> > > > > > This series adds two new Landlock filesystem access rights,
-> > > > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> > > > > > which control access to file and directory metadata such as inode
-> > > > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
-> > > > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
-> > > > > > support" series [1] and follows the coarse-grained grouping discussed in
-> > > > > > that thread [2]: instead of separate chmod/chown rights, metadata
-> > > > > > operations are grouped into one read and one write right.
-> > > > > > 
-> > > > > > Landlock evaluates access rights on a per-path basis, but the metadata
-> > > > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> > > > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> > > > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> > > > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
-> > > > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> > > > > > refactoring with no behavior change, split so that every patch builds
-> > > > > > and works on its own:
-> > > > > >
-> > > > > I like these patches, but is the ability to read metadata already
-> > > > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-> > > > > directory?
-> > > > > 
-> > > > > The one case I see this being different is:
-> > > > > 
-> > > > > 1. if you wanted to grant read access to the file, but not metadata
-> > > > > read access, but I can't think of any usecase for being able to read
-> > > > > the contents of a file, but not the metadata. (see below)
-> > > > > 
-> > > > > 2. If you had the absolute path already and didn't need READ_DIR.
-> > > > > 
-> > > > > I see introducing this READ_METADATA as causing potential
-> > > > > hard-to-diagnose issues.
-> > > > > 
-> > > > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
-> > > > > 
-> > > > > The program can technically open the file with the READ_FILE permission,
-> > > > > but it may error out because the stat() on it beforehand failed.
-> > > > > It's pretty common for programs to do that kind of thing (stat before
-> > > > > open), like for checking for config files (strace bash and you see it
-> > > > > stat .profile, /etc/profile)
-> > > > > 
-> > > > > There may be other bugs, because being able to set permissions to read
-> > > > > a file *but not read it's metadata* isn't possible currently in posix
-> > > > > acl and userspace may not work well if that assumption no longer holds.
-> > > > >
-> > > * posix acl and linux DAC.
+On Tue, Sep 29, 2026 at 10:40:59AM +0200, Lorenzo Pieralisi wrote:
+> On Mon, Sep 28, 2026 at 04:24:18PM -0700, Ashok Raj wrote:
+> > 
+> > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
+> > > To describe and map GSIs for firmware nodes created out of ACPI static
+> > > table entries in a uniform way it is required to define some standard
+> > > properties and attach them to ACPI static fwnode as secondary nodes.
 > > > 
-> > > > > So maybe WRITE_METADATA is good enough?
-> > > > 
-> > > > The existing use cases are the combinations of (a) READ_DIR
-> > > > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
-> > > > two access rights overlap slightly, it seems likely that for a given
-> > > > directory or file, users will want to either grant both, or deny both.
-> > > > 
-> > > > At the moment, where the (not yet existing) READ_METADATA is
-> > > > implicitly always allowed, the problematic case is the one where the
-> > > > Landlock user wants to deny READ_DIR, but where much of the same
-> > > > metadata is still available through stat() and the various
-> > > > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
-> > > > [1])
-> > > > 
-> > > > In my view the READ_METADATA right closes a gap that READ_DIR left
-> > > > open (which is also potentially surprising to callers if they did not
-> > > > read the docs closely).  Also, if its implementation is symmetric to
-> > > > WRITE_METADATA, I feel that it's worth having it in the same patch
-> > > > set.
-> > > > 
-> > > > –Günther
-> > > > 
-> > > > P.S.: I know, even after we can control stat(), there are likely ways
-> > > > to infer the presence of a file by observing Landlock error codes.
-> > > > This would be nice to fix as well, but is harder to do without
-> > > > controlling the path walk itself [2].  But also, the fact that this is
-> > > > currently not controllable is not an excuse for leaving READ_METADATA
-> > > > open IMHO.
-> > > >
-> > > I'm still sort of concerned about the case where read access is allowed,
-> > > but metadata isn't, due to how many applications will not cleanly handle
-> > > such an unexpected condition. You can reproduce this with a seccomp
-> > > policy forbidding stat().
+> > > Define properties names to describe GSIs and their trigger-mode/polarity,
+> > > and implement an irq_get() callback for static fwnodes so that core code
+> > > can retrieve and map IRQs for ACPI static fwnodes in standard manner.
 > > > 
-> > > Would it make sense to have the existing READ rights
-> > > (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
-> > > if READ_METADATA is handled? Reading a file's contents should always
-> > > imply that you can read the metadata.
+> > > An empty stub for property_read_string_array() is also added, so that
+> > > the fwnode_irq_get_byname() interface falls back (through
+> > > fwnode_property_read_string_array()) to the secondary
+> > > fwnode to grab the "interrupt-names" property.
+> > > 
+> > > Signed-off-by: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> > > Cc: Bartosz Golaszewski <brgl@kernel.org>
+> > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > > ---
+> > >  drivers/acpi/property.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++-
+> > >  include/linux/acpi.h    |  4 +++
+> > >  2 files changed, 72 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> > > index 8ee5a1f0eb48..c609100c08db 100644
+> > > --- a/drivers/acpi/property.c
+> > > +++ b/drivers/acpi/property.c
+> > > @@ -1766,7 +1766,74 @@ static int acpi_fwnode_irq_get(const struct fwnode_handle *fwnode,
+> > >  
+> > >  DECLARE_ACPI_FWNODE_OPS(acpi_device_fwnode_ops);
+> > >  DECLARE_ACPI_FWNODE_OPS(acpi_data_fwnode_ops);
+> > > -const struct fwnode_operations acpi_static_fwnode_ops;
+> > > +
+> > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
+> > > +						  const char *propname,
+> > > +						  unsigned int index, u32 *value)
+> > > +{
+> > > +	u32 *values;
+> > > +	int ret, count;
+> > > +
+> > > +	count = fwnode_property_count_u32(fwnode, propname);
+> > > +	if (count < 0)
+> > > +		return count;
+> > > +
+> > > +	if (index >= count)
+> > > +		return -ENOENT;
+> > > +
+> > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > +	if (!values)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
+> > > +	if (!ret)
+> > > +		*value = values[index];
+> > > +
 > > 
-> > I am wary of situations where the handling of access rights implicity
-> > implies other access rights.  We have discussed such schemes in the
-> > past (e.g. we considered a design for RESOLVE_UNIX where we'd have
-> > both a "scoped" and a "access_fs" right that would interact with each
-> > other), but in the end we always settled for approaches where such
-> > interactions would not be necessary.  One of the concerns was that it
-> > would complicate "best effort" fallback logic in all Landlock
-> > libraries and in the countless places where people use the syscalls
-> > directly.
-> > 
-> > To throw another option in the mix.  (To be clear, I have only 70%
-> > confidence, so feel free to push back, but it feels like it might
-> > work?):
-> > 
-> > Is this similar to the "truncate" right?
-> > ----------------------------------------
-> > 
-> > With "truncate", there was an existing common operation (open(2) with
-> > O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
-> > for the truncation access right.  But that was in fact OK.  The way we
-> > resolved it at the time was by documenting very loudly that WRITE_FILE
-> > and TRUNCATE access rights should always be requested in lockstep, if
-> > TRUNCATE is handled.
-> > 
-> > If READ_DIR and READ_FILE do in fact read and return metadata to the
-> > user, maybe the right thing would be to do it the same way here and
-> > *require* that we have READ_METADATA to do these operations?
-> > 
-> > (READ_METADATA is automatically allowed as long as it's not handled,
-> > so that approach does not break existing programs.  Programs who
-> > consciously start handling READ_METADATA must simply take into account
-> > that reading directories and opening files for reading requires
-> > READ_METADATA.)
-> > 
-> > (BTW, I can see it for reading directories, but I am not sure I fully
-> > follow the argument why opening files for reading means that you can
-> > read the metadata?  Can't that be guarded on fstat()-like operations?)
-> >
-> Many standard libraries will call stat before / after opening a file to
-> allocate a buffer matching the file size. Or to figure out if mmap
-> is more efficient than opening it directly.
+> > You lookup with a propname, and then qualify with and index? is it
+> > possible to have the different index but same propname? 
 > 
-> So Python's open().read() or Go's os.ReadFile they may throw an error
-> when opening the file, making it look as if the file is inaccessible
-> when its contents are. They make the assumption that if a file is
-> readable, the metadata is too.
-> 
-> There's also a lot of metadata that is already leaked by just having
-> READ_FILE. FS_IOC_GETFLAGS/FS_IOC_FSGETXATTR ioctl / fileattr_get are
-> unrestrictable and allow you to see inode attributes. There's also
-> access(2) which isn't restricted here and allows you to see your rights
-> on the file. The size can be found by simply seeking to the beginning
-> and end. So much of the metadata is obtainable with just READ_DIR/READ_FILE.
-> 
-> ...
-> 
-> Another problem I'm just realizing is that this READ_METADATA
-> right is inconsistent with open file descriptor behavior. With most
-> rights, already open file descriptors are exempted, but here, fstat,
-> (and the other stat-family calls which takes a file descriptor) become
-> denied even on already open files. It's a catch 22 here, if you change
-> the fstat to not apply to opened files, then READ_FILE becomes a bypass
-> for READ_METADATA. But if you leave it as is, then it's inconsistent with
-> the other Landlock rights wrt already opened files.
+> What is the question :) ? It is to retrieve a property value at a specific
+> index.
 
-Indeed, these access rights should follow the
-LANDLOCK_ACCESS_FS_TRUNCATE mechanic.
+Gah... I'm wondering what was my question as well :-)
 
+See below: acpi_static_fwnode_irq_get() calls this read_string_array() multiple
+times from within the same function.. 
+
+Sorry for the terse message, apologies.
 > 
-> Which isn't the end of the world, but just shows that either
-> approach is going to have it's quirks. 
+> > Alternately you can send the list to caller and they can use the ones
+> > they need?
+> > 
+> > 
+> > > +	kfree(values);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int acpi_static_fwnode_read_string_array(const struct fwnode_handle *fwnode,
+> > > +						const char *propname,
+> > > +						const char **val, size_t nval)
+> > > +{
+> > > +	/* Route string handling to secondary software nodes */
+> > > +	return -EINVAL;
+> > > +}
+> > > +
+> > > +static int acpi_static_fwnode_irq_get(const struct fwnode_handle *fwnode,
+> > > +				      unsigned int index)
+> > > +{
+> > > +	u32 gsi, trigger, polarity;
+> > > +	int ret;
+> > > +
+> > > +	if (!fwnode->secondary)
+> > > +		return -ENODEV;
+> > > +
+> > > +	fwnode = fwnode->secondary;
+> > > +
+> > > +	ret = acpi_static_fwnode_read_u32_prop_index(fwnode, ACPI_IRQ_PROP_GSI,
+> > > +						index, &gsi);
+> > > +	if (ret)
+> > > +		return ret == -ENOENT ? -ENXIO : ret;
+> > > +
+> > > +	ret = acpi_static_fwnode_read_u32_prop_index(fwnode, ACPI_IRQ_PROP_GSI_TRIGGER,
+> > > +						index, &trigger);
+> > > +	if (ret)
+> > > +		return ret == -ENOENT ? -ENXIO : ret;
+> > > +
+> > > +	ret = acpi_static_fwnode_read_u32_prop_index(fwnode, ACPI_IRQ_PROP_GSI_POLARITY,
+> > > +						index, &polarity);
+
+For each of the above calls for read_u32_prop_index() the allocation,
+copy a value and does free it. 
+
+Instead you could read the whole array, and just get each value and
+discard it once? 
+
+> > > +	if (ret)
+> > > +		return ret == -ENOENT ? -ENXIO : ret;
+> > 
+> > Consolidate return to one place? 
 > 
-> I think it would be better to just avoid the cat and mouse game here
-> of trying to seperate READ_FILE/READ_METADATA and either require
-> READ_METADATA be specified with READ_FILE if READ_METADATA is handled
-> like Gunther proposed, or have READ_FILE imply READ_METADATA.
-> 
-> Documenting it strongly is OK too, but really there are really zero
-> usecases where you'd want to grant READ_FILE without READ_METADATA
-> so it would need to be made extremely clear.
-
-What about a program that just need to read files? We can think about
-sanboxes such as those used in web browsers, but that applies to other
-tailored processes that don't need/want to access metadata e.g., for
-confidentiality or personal information (UID, timestamp) concerns.
-
-This is similar to FILE_WRITE vs. TRUNCATE: most of the time we want
-them to be grouped.
-
+> Yes it can (and trigger and polarity can be just one property "flags", FWIW),
+> if we agree that's what will do, which I doubt.
 > 
 > Thanks,
-> Justin
-> 
-> > —Günther
-> 
+> Lorenzo
+
+-- 
+/ashok.raj
+ashok.raj@oss.qualcomm.com
+Qualcomm Inc
