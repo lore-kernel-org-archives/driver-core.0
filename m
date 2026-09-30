@@ -1,116 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F8D314A60
-	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 19:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550A040B6D4
+	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 19:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790797744; cv=none; b=qmXfdfik4bhQJRHHIliswjGdGeFGCRWOuVnmszDr/h/YP8VMSlbjSuXcNjuO155PD/PMExy4NUqhf+J34fMVXa+f0cs6a/2JXzFpoWJDxW501VCj38ZrMNoAkQnxdlURTM2D4WxkI/5gV55ym+eAVXHSfUc6NhxQC4X6BFcAgCc=
+	t=1790798242; cv=none; b=Jb2JmMWhOi5Jssgc9c5+AEVMxXQODoYCt11Aalf6PdAwReUgvpNwl70HWR3TEWSzhFtPC72aszbcimRjP4FeEirC7Vx+wgtDuF/tn3TmAU/PKf8uPISLYh66uXs+FlwmLnzVArEf3S3raJhEGUGpWKYDUOfBUpcGWFVthA21xic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790797744; c=relaxed/simple;
-	bh=myQqBieHiWKiOjMnQIC0ziq72zmXUUPZFf9RyzdeKJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YUeMz0yNHWYInEmHNTcsYiRk9pek9JMZWpT1BQ2GZ98gSy8Ho9jlHnTgfPwKymqu3GuZYFSUpqpr3Wzh3+DRuvlFMmEdnyJj2dvGh6AMylVXvg3pg2AveEyIwvYsfpajaH/3M2uZ+PhAT13l39UKacU68HhuWMt7+0RBZL0UmJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZ6v8ZXq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790798242; c=relaxed/simple;
+	bh=9TZtF4f7bLDr7C03aF5gVG6cbsSVdEXlq+L5u/iiSUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flhB3n4LY+gfQ6PGMn8qclK7HW+M1YDMuAJ79XQPmgeggOMrktEmVgKV7OFtzSznJgySJ/OG3jG6iukTf3LHzoZH7sbQmuWvUL0VLvRceBekQEv5h/m3RJg4EQSMpm6aW7rENNHJPiyMc+v0k7dDaESvSfZR+VmhvCRzau+1Plo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dErUmZ7W; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZ6v8ZXq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F171F0089B
-	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 19:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790797741;
-	bh=709ZP/ZOeKPQAyWNpel/jI0FKMQWx87Cu/pwLT9LTAk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jZ6v8ZXq69oNgakWf1hdF/FkURiv5tiMG/EbqbFI3XUmNrcsJLaOQxI6+AAE7Cm+p
-	 ES1ma1y3oUqa4oNBpuCOE51Cgf9Ps5TDN2NKOTY329VLWjKx+jzSTuK/Y+3uAOaoe/
-	 1cu1wkaJ2N9WmYjMXfl/rmi2qprrw7lvlzCarU3SbO4TOFz+jj/96FMgnFY84LBY8K
-	 MKL+ABu2vxwVsX/nnzewIrmbfi+yktGXsLI7wrXoZYxDbGlfb+UzW+9/VohUDUFpLO
-	 /8dSO0Ysd9xpBVsLa04BHkjxghw6sbCxhRhZSVIUKiRoSTrK+r0tYPIMMtGPcahOab
-	 HZcTuKs+APfrA==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba44044ff8so56662e87.3
-        for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 12:49:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwFDHdDi22+QPYewzXYs6ywf/a5onSB+JkNpdgSVib7RzhNzq2HqWXWlKa3utyi7B436OK1q1u1Y5ugTQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJwgfxJNE0pv0cCn2mkESsSJ7qdEQvFaWNkQMGkEgqLubX6I3OI
-	iyT52LEELq1/LGehF0bAEEuflCisew5ryaVm/IXZGmthgVWeMjN3SorRZRlqXfvExwCvz7lRIj8
-	PYXzhMywLXEs05+Q2QuyTwI1y/Th5vZ4=
-X-Received: by 2002:a05:6512:31cf:b0:5b4:7d9d:16d7 with SMTP id
- 2adb3069b0e04-5ba405fe2a7mr1006578e87.11.1790797739431; Wed, 30 Sep 2026
- 12:48:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dErUmZ7W"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2d3b445a84fso15685ad.1
+        for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 12:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790798241; x=1791403041; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JZWZuvgsWyt2x87h19X7B7J9Ed8aIg0FhoKfAr4PEqA=;
+        b=dErUmZ7WHsMnACf3oAxFLi9K7hcCEUzhhn4w3NY3N500yziR6Y38ewlpuqdZJKhDV4
+         un7TSO0yB98L3yiZv8LQelejN+5XoKYYPA9ppQ1/TUHLnr83dQCwPt+XQIM8gBweH1hN
+         iMNxoyCbCR0FnawKZfpdiOeLBuYhGdciql3dJ9GCKd7pm+m/0NwgKFnHym9xyXh2CYf6
+         PShS3MRYaVLQ/JVReKjo1vR9pwTPFMMMCxiFngYo/vHAmLr8IFzh2/DrA9Db1y7Dp+0O
+         Q7BhwuwWD/k7MojWFyk2F10go8kK3v12coGGrzWFoCjaqn0IeQL4zOOLkdW2Z6IFiKWv
+         QerA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790798241; x=1791403041;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JZWZuvgsWyt2x87h19X7B7J9Ed8aIg0FhoKfAr4PEqA=;
+        b=KwMuPQRiqWcUY21L2vH+amCTPwLIVpehGTOeGGn46p3oQdNsXtH3AURJJ8xKHzhVaJ
+         gFeebmJ3Z211f1PRCQum2FLKDDkQImauxD/Fde19145KCNZ6E5W+jh3KEehuTrlV7dLk
+         frVIFKp1zRgL+LCY+8eni4D1SXPUWtHDShcZE/6qvcU9mcPkFPf/YbvRxP1SLPPxavvt
+         PgehyN06/fkZFZ6swiX3ho++ydyKq5QUE+p8e7sKdD4dVr2Zb1SzEdvNj9xmUY0joydO
+         idR8RwCKUBWZ2/hpS4AwB/uCc7lzESm/GgCF+WkL3snGl0pb/Yt4daVeShhPqIK2VTQf
+         Asyg==
+X-Forwarded-Encrypted: i=1; AKwUvBy5SIKTcpvhUt9/ldTJP+BAzrBlS10taspzrQymPIGSF3+snH//e5iehzDlYFrILV2cQ8MPCJgWqeHAJg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKXWF/UXlnNjVl4XRsHJKtno/icR4iGXBbHzqEbeKFk4Sx/WlhZ
+	nYn+IOhktS0pwu286vFDkZIvMEWNqq0sHF3jXMNkLI5ilTSoK4eAynXpxy/7C+HgIQ==
+X-Gm-Gg: AYBFou0NSZALtiZJJnv5Vk9MwLUxV4M47HPAOkaSJ9UO5+h9eQNsox3LZ2UDFwPbRRp
+	olSPdTsjwMmdeRccSvZTi5tJyM09I8v7u9LrjPULZ6/QH2p5TfDtZsJMXfmjLypopTBbhilXlQG
+	jqLcQPx1zPcZ3+R8Y6eJHobsnuNHo78tkFiseoZcq1xoreH9UepFHUkFCymzL88ipoPjYi5a6YN
+	RDmzOoyT3hrWsbX7N4XwraC7BNEtLpSTb6Dj2c42aOSqTpmGNcyDdcw3yXvL2hy7nYfUeZb1rRx
+	mXIhxBZ+osm5EkU5GQFogZEjm5IghUHPUO9z1/ue9rRCerJgnWsy4LWAgILNg/KHTQ3O5mwd8on
+	ES/Y+s7yy4v5ujyoJ6nEIYqFP8HywKhxY497ZO8YKoz89eMPCZMQ4pQiB36caQU9onMpm7U6LW9
+	2fIWkAjcfDww1WcEapm4h/BnsqVKHnwR1CgnVKI2IBicXKgVVVSzcpjRdSZQmdpXyPq3BpTrqiU
+	wL3E7ID17nz/LpIAv/bs5G8VsImC2bKactp
+X-Received: by 2002:a17:902:c946:b0:2bd:3bfd:74f1 with SMTP id d9443c01a7336-2e3015b273amr1215915ad.2.1790798240054;
+        Wed, 30 Sep 2026 12:57:20 -0700 (PDT)
+Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4f475f4aasm742177a91.12.2026.09.30.12.57.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 12:57:19 -0700 (PDT)
+Date: Wed, 30 Sep 2026 19:57:12 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>,
+	Daniel Mentz <danielmentz@google.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
+Subject: Re: [PATCH v11 12/16] iommu/tegra241-cmdqv: Add a helper to quiesce
+ VCMDQs
+Message-ID: <ar1pmNRMKDDJCIkz@google.com>
+References: <20260929034510.2023173-1-praan@google.com>
+ <20260929034510.2023173-13-praan@google.com>
+ <ar1cxFvuzIc2dpmi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260926225555.2916525-1-mario.limonciello@amd.com>
-In-Reply-To: <20260926225555.2916525-1-mario.limonciello@amd.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 30 Sep 2026 21:47:12 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h0S1vBBpmwzdR_cOJrYPCAYZGAUDAnGtftyJtq6_3jSA@mail.gmail.com>
-X-Gm-Features: AclHuK9Ps7GYqYQfIKz69y37zF1XWPcN95R_tBi7HKNRISplJrjhuorL1ZGcubc
-Message-ID: <CAJZ5v0h0S1vBBpmwzdR_cOJrYPCAYZGAUDAnGtftyJtq6_3jSA@mail.gmail.com>
-Subject: Re: [PATCH v2] PM: Add resume event mapping for PMSG_POWEROFF
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: rafael@kernel.org, pavel@kernel.org, lenb@kernel.org, 
-	gregkh@linuxfoundation.org, dakr@kernel.org, 
-	"Mario Limonciello (AMD)" <superm1@kernel.org>, Eric Naim <dnaim@cachyos.org>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ar1cxFvuzIc2dpmi@nvidia.com>
 
-On Sun, Sep 27, 2026 at 12:56=E2=80=AFAM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> From: "Mario Limonciello (AMD)" <superm1@kernel.org>
->
-> PM_EVENT_POWEROFF (0x0800) and PMSG_POWEROFF were already defined in
-> include/linux/pm.h, and pm_op(), pm_late_early_op() and pm_noirq_op()
-> already dispatch PM_EVENT_POWEROFF to the same ops->poweroff*() callbacks
-> as PM_EVENT_HIBERNATE.  Add the matching entry to resume_event() so that
-> when a poweroff suspend sequence is aborted (for example a device's
-> ->poweroff_noirq() callback fails and the PM core rolls the
-> already-suspended devices back), those devices are resumed with
-> PMSG_RESTORE and their ->restore*() callbacks run.
->
-> Map it to PMSG_RESTORE, mirroring the existing PM_EVENT_HIBERNATE
-> handling.  This is correct because both events suspend via
-> ops->poweroff*(), whose counterpart is ops->restore*().  Mapping to
-> PMSG_ON would be a no-op: it is what the default return already yields,
-> and pm_op()/pm_late_early_op()/pm_noirq_op() have no PM_EVENT_ON case,
-> so they would return NULL and silently skip every resume callback on the
-> abort path.
->
-> This completes the PMSG_POWEROFF infrastructure needed to support
-> differentiating between hibernation and shutdown sequences when
-> re-using callbacks for common code.
->
-> Hibernation is started by writing a hibernation method (such as 'platform=
-'
-> 'shutdown', or 'reboot') to use into /sys/power/disk and writing 'disk' t=
-o
-> /sys/power/state.
->
-> Shutdown is initiated with the reboot() syscall with arguments on whether
-> to halt the system or power it off.
->
-> Tested-by: Eric Naim <dnaim@cachyos.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> ---
->  drivers/base/power/main.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e130da4281410..2ed687e3e6b11 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1471,6 +1471,7 @@ static pm_message_t resume_event(pm_message_t sleep=
-_state)
->         case PM_EVENT_QUIESCE:
->                 return PMSG_RECOVER;
->         case PM_EVENT_HIBERNATE:
-> +       case PM_EVENT_POWEROFF:
->                 return PMSG_RESTORE;
->         }
->         return PMSG_ON;
-> --
+On Wed, Sep 30, 2026 at 12:02:28PM -0700, Nicolin Chen wrote:
+> On Tue, Sep 29, 2026 at 03:45:06AM +0000, Pranjal Shrivastava wrote:
+> > The tegra241-cmdqv driver supports vCMDQs which need to be quiesced using
+> > the STOP_FLAG. The current driver implementation only uses VINTF0 for
+> > vCMDQs owned by the kernel which need to be stopped. Add a helper that
+> > sets the CMDQ_PROD_STOP_FLAG on these vCMDQs.
+> > 
+> > Consolidate this logic by renaming the implementation hook to
+> > quiesce_and_drain_queues and ensuring that the tegra241-cmdqv driver
+> > gates all active local virtual queues before starting the drain loop.
+> > Additionally, clear the STOP_FLAG in tegra241_vcmdq_hw_init() as a part
+> > of tegra241_cmdqv_hw_reset().
+> 
+> This whole suspend routine is missing the CMDQV flags.
+> 
+> vintf->enabled and vcmdq->enabled must be cleared when the system
+> does suspend, via tegra241_vintf_hw_deinit(vintf0).
+> 
+> So, instead of quiesce_and_drain_queues, perhaps we need a suspend
+> callback that:
+>  - set stop flags to all lvcmdqs
+>  - wait for all lvcmdqs being drained
+>  - hw_deinit vintf0 and its lvcmdqs
+> 
 
-Applied as 7.4 material, thanks!
+Interesting. I had thought about that but Ashish was able to test a
+previous series (which def didn't de-init vintf0 & lvcmdqs in it) so I
+dropped that thought..
+
+Looking at it again though, leaving the enabled flags stale is actually
+worse than I thought.. on resume, the CFGI_ALL / TLBI_*_ALL issued by
+arm_smmu_device_reset() go through get_secondary_cmdq(), which still
+sees vintf0 & its lvcmdqs as enabled and hands back an lvcmdq with the
+STOP_FLAG still set.. so those invalidations get silently elided until
+impl->device_reset re-inits vintf0 (after SMMUEN=1). Thanks for catching
+this!
+
+I'm planning to add an impl->suspend op now.. that will cover this, and
+also the late breaking IRQ changes you're referring to in the other
+thread. Roughly:
+ - set STOP_FLAG on all lvcmdqs
+ - wait for owners & drain all lvcmdqs
+ - handle any pending CMDQV errors
+ - tegra241_vintf_hw_deinit(vintf0)
+
+I'll call it from arm_smmu_runtime_suspend() before gating the main
+CMDQ, so the CMD_SYNC in tegra241_vcmdq_hw_flush_timeout() still goes
+through and any late cmd simply falls back to smmu->cmdq.
+
+(Will drop the extra line removal as well).
+
+Thanks,
+Praan
