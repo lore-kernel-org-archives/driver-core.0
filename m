@@ -1,132 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEBC31A556;
-	Wed, 30 Sep 2026 08:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75DA3115BD
+	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 09:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790756651; cv=none; b=PPoFyuihcUU0afwK0uODv89rw+gU9T62inwfu99lyV172fLzWY7dzyeo/aYaKjCtJewGdBY665Zd6IJfFlHTrpQ250CvIQ1t/uECfs2xIE0GSXNLFYPPuOenZfFpl4oogzuH4dQ2LQ4GNLS1CTSBm21x0+6lJUiIQecVwe71ub4=
+	t=1790759437; cv=none; b=sihHBX69yj65Q0fb+R1A+euVsQ9RgQsscTd6/EwVh41IEM037wRFDWEBkKq1JJwPh2B19gccmR6G0wSceBU+TkMHPbOdNiT1p97cgPYBuJMPVF+xhqI/gfv6GrLCK0S7xCJr+TUQiDsZgORZ0Xft+UAIA1vMTI6pdJRTyvwf1j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790756651; c=relaxed/simple;
-	bh=Nq1KK/gkrmyH9eg27Vk4Rc5Pn9C2KHuC2TSuc24nN5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tgNtYVieEXlv2dImqbP58Tfr2FubmC6eHvMB3yYNxFasJp5wUhExlxWpvVUkP4LtgSnZ8fU719jmLIY1kJntChBMIVIbo2JnyM/BcV2tyTxHDRkJ/NxC6kTW8Rjqe6t7fAnDyiJxwKw7SqgFZZi4chxSoGMRNwciwiEZ+lenSV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ym4ArElR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790759437; c=relaxed/simple;
+	bh=y1dRcM1u4ia4jyoRkwNbhGlt1395IprSJeY5SdwYuVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c+UOeexrTYJAl4eZFCWCAkCYsPUJCnphdTeF8HpgtxeQzmllSF7BxBKB+DsEEhXz50vAziG8Qhzjv8SWLCzuvGxg+dEsPkhETxes0X1AnBXaHDbSusGox+VlZGXyqXakO81ZLYlA6JuC7hRlamkb2y0W3+YK54l0XLXD2edPkbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lm49Ypzt; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ym4ArElR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688A51F000FF;
-	Wed, 30 Sep 2026 08:24:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790756649;
-	bh=piGrZQhEosLer1f4tCmw1AsxMn1klfui0wcCvJ8Apfo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ym4ArElRSLj0tGJSVcq17WZp8pahdWFaYpgfCq8UfagivBEeDAosG3xwOCC8aheFa
-	 glfrILG1Atj42WC+40DPceVZjWDuB+fFhR+bz6zgayMqpY77lXS0fNUXaPGOZV/4OZ
-	 IMEf1mBcuQgassN95A8B41cnXJbVWcXguw3FxCyiV0FZ0qV4BRDI+lMJj/LN1juumw
-	 8tI2tRQtFesI9RNS7SXwcahr1EUBr14YP5T1T9GB2cqzjz838BdqiQJgyxaLNoKrFn
-	 K6s1jgM6XRJOG/FTNxreTB6W4e/9jIONUaxAw5/WWlkj/69K8TTM8CVxSorRKj2PHd
-	 kjq6uBMiUzq0w==
-Date: Wed, 30 Sep 2026 09:24:05 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lm49Ypzt"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48b042e00f7so23186f8f.0
+        for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 02:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790759435; x=1791364235; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y1dRcM1u4ia4jyoRkwNbhGlt1395IprSJeY5SdwYuVk=;
+        b=Lm49YpztZJfTMMZNF7cSLp5O1QwEYVuTGrz75/JsTRAMoQ8Prr6VvQtM/1j2LLhXst
+         PZdXD8gHWJPWE6+tqgy7mITsDavfNlWD+2jKURZKPPRaRQYm+mnczg9FsGRN8Ac+B444
+         LB+y0R6zQPyTg9HKKwQMJaITJp5HmynmTKU/DmrhitTiFNSZpL7nxpVWjibJAp8i+Wdd
+         IN+bb0MG7i2ubmGr/PKzjZooWNVTEtXosr4JQZKjl/77Qrr3l11Xi0Fg1bQJTTGvaWIO
+         xef3wQddvARyP87tl8MOneXcb2FsDcrPIpEdsxg9k722IKAsYpv6ljTIaEr6E/F2whuI
+         Fi1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790759435; x=1791364235;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y1dRcM1u4ia4jyoRkwNbhGlt1395IprSJeY5SdwYuVk=;
+        b=mAEYvfxlP8lEtrrjwRuCypmf4jfJ5iCyPVm8p5LizYpGVDqZzXpheN+DCXAtXhzy3s
+         cp2/rngeom3HTPWcQtkIOlWMJbWVvtSDjzTuvr4dhOYBcvihBuzMx9gHqR9F1mO9wbIL
+         T/V1Wu4MDlQAoCXZ0v7toJhHfy6lEwZQ2nWOHBs8TWsTOaic/PAFYCcSSaRxStuN1WVu
+         rkbMTZHosJcG1+HHWe99lDww5LIxjJ4trOLsy6fFDUaszmYN2APsQfS5BM/FSeDVvVSq
+         +By5ZFtuWTwtgO+9dfpqmzKxHMzj3zn6PeB+tCUTygv2Fn3EWCXTkqKp+H7RcJiokN0i
+         h2Ng==
+X-Forwarded-Encrypted: i=1; AKwUvBwBHyeUogbGdH7ACeaMtw840kR7o/PYfRMQ/BuVvMH+k3rPe0hYxBtKWNBMz0jWNSSer0BrMZ1ZE/7Qfg==@lists.linux.dev
+X-Gm-Message-State: AFuF++m1faa7/FMChWfuAtZmlvlKxShjxcyYz3o7M6irFq4QljIA5cDF
+	JpnVkrAZGIUzvANRZ+CWDF9rrMl2PeIKni280qJI8bkyH6TLKMTuXEFB
+X-Gm-Gg: AYBFou1I5HL5cF3MmahXGWoXtWmN5h+bWIgXs7iYblCraAWd3rwuStZj9JeXivfSPs1
+	5+tRfhzNhG77+st3Ok3vjSOwPkbpMJrinjVrB1NRdOtL7UToMuWHlL/4LYh7Dxy2dFMw5EGBCNi
+	n1trlN49Bu/uamiXuyORKYcyu/qfwbNqW5UxkinXah4uvOXju1dSUPm01mW63JeeRR3hiFkLm/6
+	ZezxPKKTLsE/eVHHcqEC3ZT5yFYVrxuEDVBTgXIn54fvyViRY9ZCAvGB3S4sOTjM2rjDh5MzJTo
+	r4LEQ0r0YA62shV/TaglFmGainqJNSFMeBqvv7mvRHjn88Ati7SPBPfE2ABEt/adT6RYCOT4VRi
+	dd56+E505jKSOsGLTW6SgAXtIuFilYytiMYYgSficPfBiZGGANqEDIdklH3aqBDoCoPLntyaU5O
+	PyoOqOarv91jYcnU0CMcZYvhfAUrJhJPiaoKx9fbNUtSg/BhXWt9sCI0c9bCIoiF1o4iNVsjDV3
+	TLB6aOKgGXc7WDR247h
+X-Received: by 2002:a05:600c:840d:b0:4a0:108:3b54 with SMTP id 5b1f17b1804b1-4a01b128472mr12394495e9.32.1790759434607;
+        Wed, 30 Sep 2026 02:10:34 -0700 (PDT)
+Received: from localhost.localdomain ([194.154.195.114])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a0175161c2sm45458125e9.4.2026.09.30.02.10.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 02:10:33 -0700 (PDT)
+From: Oleg Keri <okerixx@gmail.com>
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
 	Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: hand off fwnode ownership when shared
- fwnode owner is rejected
-Message-ID: <20260930-swinging-bear-of-diversity-44e4b4@sudeepholla>
-References: <20260928-driver-core-v1-1-0846bb8e0f32@nxp.com>
- <20260928-conscious-spectral-manul-19bc10@sudeepholla>
- <arsYvrYaQIr1lwbT@shlinux89>
- <20260929-abstract-accomplished-lynx-3edcbc@sudeepholla>
- <20260929-dazzling-gray-sawfly-cfd671@sudeepholla>
- <ary048HBAkJB4WR9@shlinux89>
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jie Zhan <zhanjie9@hisilicon.com>,
+	Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Subject: Re: [PATCH v3 0/2] sched/cpufreq: fix schedutil's boost frequency handling
+Date: Wed, 30 Sep 2026 11:10:24 +0200
+Message-ID: <179069242536.2121.14601372514436460845@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
+References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ary048HBAkJB4WR9@shlinux89>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 30, 2026 at 03:06:11PM +0800, Peng Fan wrote:
-> Hi Sudeep,
-> 
-> On Tue, Sep 29, 2026 at 04:56:24PM +0100, Sudeep Holla wrote:
-> >On Tue, Sep 29, 2026 at 09:35:21AM +0100, Sudeep Holla wrote:
-> ...
-> >> Yes, but this particular device is i.MX specific issue as it should
-> >> have never been there. So I will discard that in any future discussion.
-> >> Use the SCMI pinmux driver and get rid of SCMI pinctrl-imx.
-> >> 
-> >
-> >Anyways, I cooked up a patch that may prevent the issue with pinmux.
-> >See if something like below on top -next helps.
-> >
-> >Regards,
-> >Sudeep
-> >
-> >-->8
-> >diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> >index 25197197db8e..cee7cc777724 100644
-> >--- a/drivers/firmware/arm_scmi/bus.c
-> >+++ b/drivers/firmware/arm_scmi/bus.c
-> >@@ -60,13 +60,6 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
-> > 	pr_debug("Requesting SCMI device (%s) for protocol %x\n",
-> > 		 id_table->name, id_table->protocol_id);
-> >
-> >-	if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT) &&
-> >-	    !IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX)) {
-> >-		pr_warn("SCMI Raw mode active. Rejecting '%s'/0x%02X\n",
-> >-			id_table->name, id_table->protocol_id);
-> >-		return -EINVAL;
-> >-	}
-> >-
-> > 	/*
-> > 	 * Find the matching protocol rdev list and then search of any
-> > 	 * existent equally named device...fails if any duplicate found.
-> >@@ -181,12 +174,35 @@ static void scmi_protocol_device_unrequest(const struct scmi_device_id *id_table
-> > 	}
-> > }
-> >
-> Move static const struct scmi_device_id scmi_std_id_table[] here to avoid
-> build failure.
-> 
+Tested on a Lenovo Yoga Slim 7x Gen 11 (Glymur): boost off 4032000,
+boost on 4723200, back to 4032000 when boost is disabled again.
 
-Thanks, it shows that I didn't even build test it. Sorry for that.
-
-I may have to split this patch as multiple things are being changed. I will
-post something later in the week or next week and target as fix for v7.4
-
-> >+static bool scmi_device_id_in_std_id_table(const struct scmi_device_id *id)
-> >+{
-> >+	for (int i = 0; scmi_std_id_table[i].name[0]; i++) {
-> >+		if (scmi_std_id_table[i].protocol_id == id->protocol_id &&
-> >+		    !strcmp(scmi_std_id_table[i].name, id->name))
-> >+			return true;
-> >+	}
-> >+
-> >+	return false;
-> >+}
-> >+
-> 
-> Tested your patch it works well, the pinmux issue gone. A very clean fix.
-> 
-> If you post a formal patch, feel free to add my
-> Tested-by: Peng Fan <peng.fan@nxp.com>
-> 
-
-Thanks for testing and glad it worked.
-
--- 
-Regards,
-Sudeep
+Tested-by: Oleg Keri <okerixx@gmail.com> # Lenovo Yoga Slim 7x Gen 11
