@@ -1,183 +1,247 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8AD4C14E6
-	for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 11:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790767384; cv=none; b=ZRmeMekbrS78KYphZ286y7B2L83kUSvtZPe19DPgi+1uxtibiYdAxvvYro56gWhWAQ6tJAgnjNOJKfhzYLNRlFD7QpSt8ChiNhccCD1CPO3zGKft9perKP/bE8m9yopZXNjY+tavdvMt15NLfY991/K5zo5pTvKdSzHQafCXyBE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790767384; c=relaxed/simple;
-	bh=Uoz7OiW5a5Rxdk4fzcsOgp/2ExBRWbtOLfudw/aJhAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XyuN0GZSwKpRKPtz7kYPNKdZSgSyCf0UVz+88D28psTsnOw/aZUCq7Pg9mhxa3S6eXN7pUzMPqsFa8e3hYe0Xtxggnoy6diNOjegApe9Jgta0qEb9INXnSz753ESUhZlYXZM5Ijkf9vKKftYfAi0CtZj4YYOVrI0KNueBNdmLiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=ZbLl7vVd; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A8250E5A3;
+	Wed, 30 Sep 2026 14:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790777666; cv=fail; b=SmwkDkOFB5C12yqlAzwX/StIrcDA4F3fssZa5fb5gjLMXaIESvWuFo0qcOa0jPPG2pINYhVro1YlbxQSEgHeHgfeEdX3Bs8maDTN6LGbFyBfet9spurIppa1mZhzinl4kL98DIRgPD+PsEi1azV2wsb8A/meg9erJ91OdKd8wbY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790777666; c=relaxed/simple;
+	bh=ltkRISFvbSKIEE1CbhX/vHfXzBTzd/EEQ15DmlC8LKY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=C4tIph9DDvvNDU/WG0n4Ug7Ob847E+lwBlEkxwYoQyZF0J/RBZmFl6zc2QM+OHMEQu8QRxEAq/xk6u/94SWm8yeJwjUx1Cb0sd8Mqw6UQgYpDGqsgmSqIoFXIGZf/WonEK2yy34SmoXpn2Zuv95eEHdXhLsSJipKgzI8yyPqZeU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IA5i0DM6; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="ZbLl7vVd"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so33170525e9.1
-        for <driver-core@lists.linux.dev>; Wed, 30 Sep 2026 04:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1790767379; x=1791372179; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=e55mgJNEP3D1NSQjWmS61DjoJXdbupSLRhSCnVOpVu8=;
-        b=ZbLl7vVd/lntENOEAFDuTqmgtz/p8kLQRy+XlP0ehfGUf66+S2wA+Jwb+nBbmvaPQj
-         LzMgBe+ApHzyPi6N0t9gsbVLU2ga66rCLCo13P9M8f9gYwnqiuGm0qWAueNTAp2cC14e
-         s+YMRbNH0Oha5si5CKOQpCT/BCW5xEFDby/nsOPN2HBCH+xvrST3I8UjsEBgRgHKqRiZ
-         ua/qW7YYG/fPchqpbdxDCvWaySWnHHZ6YO4J1Ux34WjNrvft2oAA+EbEzeK510YDMSjP
-         2KQvbu/DPrdriMzr1rTRRGoImszzYFFARZ+FXg1cACJ/4m0U0L+AXjrO3hqaQ8NlH7fR
-         wbtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790767379; x=1791372179;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e55mgJNEP3D1NSQjWmS61DjoJXdbupSLRhSCnVOpVu8=;
-        b=YtAh2mpqRK2bTnDVh7s25SwmzFXSltsowzsEvnW0uQyRmPCVlrK+zWVu97JFIzdiJp
-         TXw8OIms594UZCTNfgTqpddtRKV6Bs8rzz1e/RIZVHarF29H7eH/WZr/oeZZpf75RuwQ
-         oHbDY6NR5bm5OpumGM0M1vObyy0TgjbTlcr+S6VlhoyRlKm3tzwzLjX8DQd6EedSYFUL
-         RC8YRhESjMhye6NaWV4wwOn3Ujdg7p+ry8srlmwT6I8wNe5SfdLjEpaclhgBvQVB+SwM
-         msqCkUD95bSe0WH+OJAq4yR6Zy8iKxuQEHhQCX2r5SjgWk78+LcI4XQWG6/66S7pzO9M
-         Cl/A==
-X-Forwarded-Encrypted: i=1; AKwUvBzEMbdfdSEA8nP7OyfauC+9JuKHFUkwedrr5SjSjciK3DFukQrupy04p3GPdJX4BZd/9dGEJrpiDVN0hg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nsCX7hRwqN/+/SP0mFAKngl0aFro+fxqz2mIpaUVdAGzoGJyhM
-	GyNeL61MDal3VwFQJy8gb3ptebGhrPsKRc8sg+n7dUD1aQJKGMwW0v2MJgXPPW8RXVQ=
-X-Gm-Gg: AYBFou1dPfRozKz2f8V2QlrP0aF+faysYN0OCKw4PxMIQl9P3O/nNFs7FSCqHI25PBn
-	TgjKspHizWvn2vY7bL1row9S6aVA6yOa/KM1RUkvmY4SCAXmwU975wcsb3BBi5rf1dQr8EfA/oM
-	YNI58J7npPUBIL0QekMo61yCa83Hccv0+lVD6eL9glSn/Ir0xhi/IVIL0KNBagQD8meGeMYO5tV
-	cDTn1ASD8E6O6ehsXDoymALLQ63GlfrSx2oLqlRC7nUJ2cDMLN6jsdHavsIkN07CIdIOUbru6A+
-	Ju5xVkx2n/ciTNqRIe3hUsJyv4mWIYqpOvWFq97Wo/BaBITx2eR0mNO1/KaoksiZ/q2tlVy+0Fi
-	+MWPe13iO4okOEwzvAkfGwByfbBfnzXTwKAzNB+NdHvb1c4DuZpGjW77WMD84faUJnDkzaNXL7v
-	WWhbollMaAELpP8Roln9k+4k+qX5h2EJ7QW8VEv2cy9cMwa5fCsx/MvfFh4i0ypkfaj2cJrY8Cr
-	vRjcLX5hA==
-X-Received: by 2002:a05:600c:4e42:b0:49f:ffdc:939d with SMTP id 5b1f17b1804b1-4a01aff206cmr18971015e9.9.1790767379170;
-        Wed, 30 Sep 2026 04:22:59 -0700 (PDT)
-Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0174e161bsm74971595e9.5.2026.09.30.04.22.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 04:22:58 -0700 (PDT)
-Date: Wed, 30 Sep 2026 13:22:54 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alexey Kardashevskiy <aik@amd.com>, 
-	Xu Yilun <yilun.xu@linux.intel.com>, ankita@nvidia.com, linux-coco@lists.linux.dev, 
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev, Aaron Tomlin <atomlin@atomlin.com>, 
-	Alistair Francis <alistair.francis@wdc.com>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Samuel Ortiz <sameo@rivosinc.com>, 
-	Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>, 
-	"Fontenot, Nathan" <Nathan.Fontenot@amd.com>, rick.p.edgecombe@intel.com, yilun.xu@intel.com, 
-	Leon Romanovsky <leon@kernel.org>, Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <arzr32ZDComnfmny@FV6GYCPJ69>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IA5i0DM6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790777651; x=1822313651;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ltkRISFvbSKIEE1CbhX/vHfXzBTzd/EEQ15DmlC8LKY=;
+  b=IA5i0DM6h+05yLgY+wDEumR2DKEcpd0Ow7ELUBzc8h9fWmfhomTMnMhS
+   ZQ7mbZShhVYwVh/untT63X608Tu8Q1Qe+QDcAEZPFZIMCrA0Bf7z3qHGq
+   jVhJApagILDG8YcPSorg4tsih9lbRPOPPT0GVzix2roVhqIr8SAgAj0nG
+   +7aOezHtS2Y9xTH+S5VTsJye5qt3opIOrUwyRGr99omzD2KMCC1IihqBl
+   v4Ww93WPVcH7AHQH1CbSpBGyWELvg7NXCJh9F+r/IJyXENyH5mb7E8Ped
+   mt04merQJLi0eZEjFEMIdmDp4qzvaUxjYOUSsaU0pHWUQe+4SiN7IfSbJ
+   g==;
+X-CSE-ConnectionGUID: D/33b/CxSoGCCSC2lMPt0Q==
+X-CSE-MsgGUID: 9mnPilGiRG6Z2174edTs/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90568779"
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="90568779"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 07:14:07 -0700
+X-CSE-ConnectionGUID: WzbIP/zRTOiCPaIA2RWW5w==
+X-CSE-MsgGUID: 0he5KZnfTsKWYQI6g+ikxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="272153344"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 07:14:06 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 30 Sep 2026 07:14:05 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 30 Sep 2026 07:14:05 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.2) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 30 Sep 2026 07:14:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EKZ0h5Ori6kZXmgLsg////jPXnbBaR6nGAdKqcs/iioQ5EiXQqKMlgUrg2MKECnnspv0CEyIMhgAJ5EtV0Lt1uRjj2A8Px/QFB7ppLk2nEWTN9t9C8dxW+RE0J4UU2hce4WhH9SAJsHGAnJreIkuLL7L2N12OHiAdvLqsOe5yXNXAKiA4v+cszoU2DZJKCPcBByO/1j4RQhJPucuIpOqft6cF9/9u0yVV8r9Bi6QZOUv+m0cQI64EyEZchqr1lUobfOHE5ApRvtNTw5Uydl5JDMNDzoeOagdOlTHR8TiTDfmsNckksKj9ewNfcWjmHUoUcRLVnTiYbqtqILBTijWZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E0+9/Cvz7qqyxd49c3RjmlyYoCvRV+3+YlRxFnXKAtg=;
+ b=U8phz+VDDB21vPxeiUdytmP7axTvDvJMUu5I1nwlkCk+F4IMOv7gEpZhJnB4Drq4uo9rAc+e+5zenZiNNARxrpzKNMDt+JQ5L4ccm5IAJDtWdn9shYjv2h+5mLkxyAF1QNUGsYQGXPgONli2zIz+I7WZ5DuSCbb0K6Vj2V0SQrrQhPyMy7iBohEiXEWjQk7/eZG8JfLku+xZy2zB9ZuZx0MiGwK80jMl1zoJxcVM+MpP9GHy0z9hz9nh6tHwKkfgxKjbp5tJw/HUrcM2BE33hp+ou6afwxJ43uXaIi/5fo55C/6v51UH9xERl+n++YoJnsMDTYx344UMS6L99Pb03w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4306.namprd11.prod.outlook.com (2603:10b6:a03:1bb::17)
+ by SJ0PR11MB4798.namprd11.prod.outlook.com (2603:10b6:a03:2d5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Wed, 30 Sep
+ 2026 14:14:02 +0000
+Received: from BY5PR11MB4306.namprd11.prod.outlook.com
+ ([fe80::ac99:92ea:20f1:af39]) by BY5PR11MB4306.namprd11.prod.outlook.com
+ ([fe80::ac99:92ea:20f1:af39%5]) with mapi id 15.21.0451.024; Wed, 30 Sep 2026
+ 14:14:02 +0000
+Message-ID: <b32438d2-4470-44b6-aa62-b691f93a2b9c@intel.com>
+Date: Wed, 30 Sep 2026 08:14:00 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol
+ (TDISP)
+To: Jiri Pirko <jiri@resnulli.us>
+CC: <linux-coco@lists.linux.dev>, <linux-pci@vger.kernel.org>,
+	<driver-core@lists.linux.dev>
 References: <20260705220819.2472765-1-djbw@kernel.org>
- <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com>
- <amk7Xzm5jmz+6SPJ@ziepe.ca>
- <anFE7m164AmchTy/@yilunxu-OptiPlex-7050>
- <20260805005533.GB28508@ziepe.ca>
+ <4c43da3e-c598-48cf-8491-cb958e574c9c@amd.com> <amk7Xzm5jmz+6SPJ@ziepe.ca>
+ <anFE7m164AmchTy/@yilunxu-OptiPlex-7050> <20260805005533.GB28508@ziepe.ca>
  <apeF/peEzdxvKeWR@yilunxu-OptiPlex-7050>
  <2e721509-0aee-47ee-b17a-688876e02f74@amd.com>
- <20260902150125.GD2890729@ziepe.ca>
- <apl39vOiMPP7VloW@wunner.de>
- <apqSAQykEK3MF9AO@FV6GYCPJ69>
+ <20260902150125.GD2890729@ziepe.ca> <apl39vOiMPP7VloW@wunner.de>
+ <apqSAQykEK3MF9AO@FV6GYCPJ69> <arzr32ZDComnfmny@FV6GYCPJ69>
+Content-Language: en-US
+From: "Quigley, David" <david.quigley@intel.com>
+In-Reply-To: <arzr32ZDComnfmny@FV6GYCPJ69>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0174.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::29) To BY5PR11MB4306.namprd11.prod.outlook.com
+ (2603:10b6:a03:1bb::17)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apqSAQykEK3MF9AO@FV6GYCPJ69>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4306:EE_|SJ0PR11MB4798:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f635cec-1d11-484d-ec06-08df1efd1435
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|4143699003|11063799006|6133799003|3023799007|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: J162ciqXfo4BkthFszKxkvhTegMJv/Iz0gn92NKearuZtZvdVGxs5nomgJY4uvoBJLOEtKegwEYqc0MKRTyYAeMuHpfeb2K/gkYDG0zfFaY+Ttj5Eg6hPlkkGywsyq0MhS9nhKw/qiG2lZtNj1M+UTAcZNiWV9U8HmvbV/XXb5K1UZlYSOJWfLcDC/QDxZlq2GGR4KJPbDvgP5iLqWmqdb4fSYI0A/M28VZrFDOPvtTXPQa8tWQoOdHIWrLz3K/o01xZ/NxR/22ZRLbUuXEUa7sgSzSl714renhqknjGl6gN0PK+jRUulVtiiNQaXDjPm7k3Wu4eW88wdlkp+8tK+9s79+XU9Q1VC5CIaTgCQpjpK/AIYydUM9K0rzayqRh0cSSGpJONk2To/RMKkv35tXlwRBl6X9gJGRKO1o+ZK8WQ1HZHVsKzoIU6MTNfFkec56jSbu0Mk6oRBUwmnc8YNs39tI1n2QcIazI3whkmH9Tbe7TrdRGCAz5hHLRqPluwlx0PQVLL483OTDpYIwSXQg3ue/cvZD+i/BE70xK6WWNflqiTqGgguhMzWD55uWTz0NDsSFNBN1yjXajqNGHYMHucs6FCLamYOzNCMb85P7qdyy45uVbu0YecKoHYHE/A
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4306.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(4143699003)(11063799006)(6133799003)(3023799007)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkMzV3RVMXZURXNWT0FvbEFKZ2ZNN3FXOXN3WlgybmxOZDRacWxOUlF3MkhV?=
+ =?utf-8?B?bWMyQTNySFk2Ti9VcTJmQWJUa0FZTTltVk1PTkpkOGsxek5pdWt4R0FFM2x4?=
+ =?utf-8?B?WFJaM28yRXoxT2lnL01kTE5WRklMZE13MTRSeGQ1ckFyM0FzNlhpZS85YmxQ?=
+ =?utf-8?B?aWlOM2h0ZW5HN2RNdlp4NjRlNG91RStWOG1OM3dRSWw0OFlCTFZnRjhOYnFC?=
+ =?utf-8?B?VFY4emR2Y0RWUjI4akR0dFlzN0ltdVJFU1V0N0hXTUw3TnNMRXoxNG4yNFhZ?=
+ =?utf-8?B?YkxGMEg5T2R0UC9oUk1ad3J1UkRmRmQ5YkFIY3JESkUvNUprNisvdkVUVU5V?=
+ =?utf-8?B?ZVZ3UWdRZFBUMXU5VzhMMHdVVHhRd3dGRnNURjYvbTlVRmo5UHlQUmJjQWNm?=
+ =?utf-8?B?amxWZmZoeU5rb240dkFRZU1tRnRMYXpIM2hJREdxSGVBYlVNNW9oblRGcHFN?=
+ =?utf-8?B?TFpqc2VJVURhYmFQSm1UM2lma052cXlkMEg1ZmlYVVpOc2ptZWIwbTVsQkVv?=
+ =?utf-8?B?OWFrd3hSOVZSRnZjNlhpbHdmZjFORFNrUzEyQ1dTU0lWbG9aWnBvbkNzd0hz?=
+ =?utf-8?B?RkJYbDZjT1dMdVltVlVSb0FKcGpjaU4yYUlFNTQ3MWU3bllYMmpDUjZIdk5G?=
+ =?utf-8?B?eG5udVNBSDllY3RWd1JhUmorUlNxZVJKU2Q1UnZTNGlkbmpNc245RFFQbThC?=
+ =?utf-8?B?UjhYZnVyYndSckNwcUEvN0U4aWZJMnJrRy9vRUxpQXVFU3pTSnY0UFJBWklP?=
+ =?utf-8?B?TDZDT3c0ejhuUGhRdXJJZWRrV01OdFZTVDdCclljSlpkampvRHptSjdTUWtm?=
+ =?utf-8?B?T3l5cG5VSmhlbGFpYzdYUURFUmlZRWphSzFjS1ZzQXBqRGZTL0xFblVkZ05D?=
+ =?utf-8?B?RThLZm1wViszdGxwT3hUak9Wc0JqMmc3MzFYajhiYzBTclNNcHV0eEE3S09x?=
+ =?utf-8?B?aUtLUkZMK2NORU9XM2phMzc3MkU1NlZDSDBXVUM3WU1obUhJak8rRWowdmw5?=
+ =?utf-8?B?YUFRVkVubE5nQWJTNTJiQnk4cVp4TzBudjJYM0VUNTV5QWlCU3RaejhrNG43?=
+ =?utf-8?B?WGxTSHgzTFcrNE9KOHQyK2lxczFhNEJJNUFVRk9PeDZLYTdibU5HSUQxRWlF?=
+ =?utf-8?B?bS8rV25rQXpmWEhibHBQNnRubGNZODlJR0RPMXdybmRnOG9lTjR3Ly9xc1Ir?=
+ =?utf-8?B?MCt6SUV5MVhqWVBwNzhERUhiL2k0MlFCQUdjeWdqbHpqWXY3TXV1Ry9wc0Jl?=
+ =?utf-8?B?Q0tnNXJvbEE2L2tpZms4UVB3Umd0aXB2dUI0N3ZiZDF2MWZoTkI3aFVkdVZ5?=
+ =?utf-8?B?V1ppOUt0eUhrOTh1S28rZVBHN2pudGw3OUg4REJhdHhqTGNXbHF0cXZiNURZ?=
+ =?utf-8?B?Z1AyU3dldmlzZlVIQTlmUkZ1NzJPK3dPVWNmMUdHbnFVdVZQM2ljdWxqLzdI?=
+ =?utf-8?B?NWtJbGFaKytOTDRNaHlFUGxsVEdBZ3U2MGpkT2pxc216SzE0dUlKcVlONlhp?=
+ =?utf-8?B?WE9SaitDc3lDQ2RTVllhL2xmZEk4SXJQbCtxaVl6TGw1WVVNbWk4bStmUnJ3?=
+ =?utf-8?B?eHN4YjYxaTlUdXRhRHBXTGN6WFczMkpLRUY2VTRDV1lzb0dlaEJDelNNREcr?=
+ =?utf-8?B?Nk93QnhqSm5CVG01dWdRbHRWbEs4aXRVZGVPL25OeCttRzU3MWRRY282QUhO?=
+ =?utf-8?B?SEpIdzMwWXpObm0wMU11czlmM1QwcW9Ub0VJTll3REd4UWJGQ2F4d1JCR3BL?=
+ =?utf-8?B?MllocndvWFVUMWpSSHA5UFlJWGN5UFVwSU8yTU1NU1htT0REc3UxK1dtRmFY?=
+ =?utf-8?B?STE3MmJsYjlXd2xPWk1pRWN2UWs0d0pwRFIyeEhWektPOHdRb21iV0dOTmhi?=
+ =?utf-8?B?MHdMK0dyb3ZGYXl3UWUvR1g5SzNRWkw4Z1JJRmdqU1YwZ2dXZ1VySnozZ1ph?=
+ =?utf-8?B?OGZhMGFPTDEzcXB0L1RnNU1JV0o4K3Fxa0RPdVE5VzZDcDEvOUIvMGVCNXhD?=
+ =?utf-8?B?OUdDOFF4ZmFoMXhvbGxQN0RYUXFLUlUxQzlFN2hlRVRQQVV2ZkRrdmtFUGM4?=
+ =?utf-8?B?STdMb3FLb2dxSG45aEErM2JzRmttUmZ4V2VzMEtRRnVoWW9teHYzeXpORUZJ?=
+ =?utf-8?B?QnJ4ZEtKTWNrVzU5U3Z2RG5RSi9ja2xhQXdGMTVDSWVIRHk3RUJ0Q2FHc3pI?=
+ =?utf-8?B?ekFzOTJWVXhycUsrZUE1YVVnT2FhZmY3UUV3NUxWWTRtdUxXK21iS3pkN3I2?=
+ =?utf-8?B?Y0VNMno1MXppZUhxd3pCdEFOWkYwUkhrb1d0ZlA0MGFQaEpsR1ZZWWExdVUy?=
+ =?utf-8?B?SjM4NWUyTnFMc25VYXNlblpESlhkVjBQTko5OVpucGpHa3pXWGc5UT09?=
+X-Exchange-RoutingPolicyChecked: bHBWZc9hlrV/HEVjlJVyDuppL+XLOfDYl9L4KqHmWnzIhEPQtm+K9DzZMVOk+7pNH1xBdiZKvMhu/UKZiWGKHs4XVinceTG4OOAE4x0JWaVzgOSLHprZdtSwTNP9lSikCKPSLHh5umNTsVHe32Lwa9bCmwOEZv6JYCBzOsk70uXxQEZXaILVgBTYH6gd6k5qB/PtzSt/liFnR606YnFmErxQwshqlh0Dl9lCV5NvzwMxXI0ciEMe2e/u8CNTvpfxHTPN61jTKg1tbBoazCloFDyzOiT+mya3T4uOZDJ31PypuVs2K382t68TnCs2PUpW1o55CmHiw1ki5sgmxFGF2A==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f635cec-1d11-484d-ec06-08df1efd1435
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4306.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 14:14:02.5571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F2dIkLwccDNxdumtd87wAJmjdvBeiKpHrIFsTICrY2nvJy5D4HTKWsCZeCRJJuEZTSEI07unav1JSqwwG02+VQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4798
+X-OriginatorOrg: intel.com
 
-Fri, Sep 04, 2026 at 11:52:12AM +0200, jiri@resnulli.us wrote:
->Thu, Sep 03, 2026 at 03:36:54PM +0200, lukas@wunner.de wrote:
->>[+cc Jonathan, start of thread is here:
->>https://lore.kernel.org/all/20260902150125.GD2890729@ziepe.ca/
->>]
+Is there a way for this to be posted as its own patch set so we can 
+provide feedback inline? Also do we have any other potential uses for 
+your proposed ctlv mechanism or is attestation the only user at the moment?
+
+On 9/30/2026 5:22 AM, Jiri Pirko wrote:
+> Fri, Sep 04, 2026 at 11:52:12AM +0200, jiri@resnulli.us wrote:
+>> Thu, Sep 03, 2026 at 03:36:54PM +0200, lukas@wunner.de wrote:
+>>> [+cc Jonathan, start of thread is here:
+>>> https://lore.kernel.org/all/20260902150125.GD2890729@ziepe.ca/
+>>> ]
+>>>
+>>> On Wed, Sep 02, 2026 at 12:01:25PM -0300, Jason Gunthorpe wrote:
 >>
->>On Wed, Sep 02, 2026 at 12:01:25PM -0300, Jason Gunthorpe wrote:
+>> [..]
+>>
+>>
+>>>> I've asked Jiri Pirko to work on
+>>>> the PCI evidence uAPI based on his deep netlink experience
+>>> netlink isn't well suited to transport large blobs because the nlattr
+>>> len is u16.  (The len of the enclosing nlmsg is u32, which is sufficient.)
+>>>
+>>> Previous approaches, including the one proposed by Dan in this series,
+>>> work around the problem by splitting the blob into a sequence of nlattrs.
+>>> I think we should instead extend the netlink protocol with 32-bit "jumbo"
+>>> attributes.
+>>>
+>>> I suggest we reserve bit 13 of nla_type as NLA_F_JUMBO and use the
+>>> the first 4 bytes after the struct nlattr header as length (if the
+>>> jumbo flag is set).
+>>>
+>>>
+>>> A second problem is that the size of a socket buffer's linear data
+>>> is limited.  Also, copying the blob into the nlmsg is a bit wasteful
+>>> and we'd want zero copy instead.  The solution I've come up with is
+>>> to attach the pages backing the blob as fragments to the skb.
+>>> It's very simple, overcomes the skb size limitation and allows for
+>>> zero-copy:
+>>>
+>>> https://github.com/l1k/linux/commit/6e73bb999128
+>>>
+>>> That commit is from January and the time I've been able to devote
+>>> to this has since been limited as my employer prioritized various
+>>> AER feature gaps and fixes.
+>>>
+>>> I worked on this for native PCI device authentication, which faces
+>>> the same netlink blob issue as TSM-mediated authentication.
+>>> Both should use the same uABI for evidence exposure.  Additionally,
+>>> native device authentication may be used by non-PCI buses such as
+>>> ATA or SCSI.  The uABI should work for those use cases as well.
+>> Not sure if netlink as actually the best fit for this purpose,
+>> for large blob transfers ioctl-based iface is probably much more
+>> convenient. I'm working on a uapi framework that make the best of
+>> netlink and takes it over to a fd-based ioctl. I call it CTLV, here's
+>> a link to an early pre-RFC draft:
+>>
+>> https://github.com/jpirko/linux_mlxsw/commits/wip_ctlv_pre_rfc_draft1/
+>>
+> [..]
 >
+> Following up on this, I have a very early draft of an attestation
+> framework here:
 >
->[..]
+> https://github.com/jpirko/linux_mlxsw/commits/wip_attestation_pre_rfc_draft1/
 >
+> It introduces a provider-neutral, fd-based interface for evidence
+> retrieval, userspace verdicts tied to exact device/evidence generations,
+> measurement registers and their journal, events, and device-security
+> state transitions. Large evidence is written directly to referenced
+> buffers instead of being split across Netlink messages.
 >
->>
->>> I've asked Jiri Pirko to work on
->>> the PCI evidence uAPI based on his deep netlink experience
->>
->>netlink isn't well suited to transport large blobs because the nlattr
->>len is u16.  (The len of the enclosing nlmsg is u32, which is sufficient.)
->>
->>Previous approaches, including the one proposed by Dan in this series,
->>work around the problem by splitting the blob into a sequence of nlattrs.
->>I think we should instead extend the netlink protocol with 32-bit "jumbo"
->>attributes.
->>
->>I suggest we reserve bit 13 of nla_type as NLA_F_JUMBO and use the
->>the first 4 bytes after the struct nlattr header as length (if the
->>jumbo flag is set).
->>
->>
->>A second problem is that the size of a socket buffer's linear data
->>is limited.  Also, copying the blob into the nlmsg is a bit wasteful
->>and we'd want zero copy instead.  The solution I've come up with is
->>to attach the pages backing the blob as fragments to the skb.
->>It's very simple, overcomes the skb size limitation and allows for
->>zero-copy:
->>
->>https://github.com/l1k/linux/commit/6e73bb999128
->>
->>That commit is from January and the time I've been able to devote
->>to this has since been limited as my employer prioritized various
->>AER feature gaps and fixes.
->>
->>I worked on this for native PCI device authentication, which faces
->>the same netlink blob issue as TSM-mediated authentication.
->>Both should use the same uABI for evidence exposure.  Additionally,
->>native device authentication may be used by non-PCI buses such as
->>ATA or SCSI.  The uABI should work for those use cases as well.
+> For this series, the intent is to replace the device-evidence
+> Generic Netlink UAPI and the draft PCI/TSM evidence-accept UAPI.
+> It does not replace PCI/TSM connect/disconnect or lock/unlock,
+> nor the underlying device-trust, SPDM/IDE/TDISP, MMIO, or
+> DMA machinery.
 >
->Not sure if netlink as actually the best fit for this purpose,
->for large blob transfers ioctl-based iface is probably much more
->convenient. I'm working on a uapi framework that make the best of
->netlink and takes it over to a fd-based ioctl. I call it CTLV, here's
->a link to an early pre-RFC draft:
->
->https://github.com/jpirko/linux_mlxsw/commits/wip_ctlv_pre_rfc_draft1/
->
-
-[..]
-
-Following up on this, I have a very early draft of an attestation
-framework here:
-
-https://github.com/jpirko/linux_mlxsw/commits/wip_attestation_pre_rfc_draft1/
-
-It introduces a provider-neutral, fd-based interface for evidence
-retrieval, userspace verdicts tied to exact device/evidence generations,
-measurement registers and their journal, events, and device-security
-state transitions. Large evidence is written directly to referenced
-buffers instead of being split across Netlink messages.
-
-For this series, the intent is to replace the device-evidence
-Generic Netlink UAPI and the draft PCI/TSM evidence-accept UAPI.
-It does not replace PCI/TSM connect/disconnect or lock/unlock,
-nor the underlying device-trust, SPDM/IDE/TDISP, MMIO, or
-DMA machinery.
-
-The branch currently contains the core, a simulation provider with
-tests, and a TDX provider demonstrating the provider boundary.
-The PCI/TSM provider is not implemented yet.
-
-
+> The branch currently contains the core, a simulation provider with
+> tests, and a TDX provider demonstrating the provider boundary.
+> The PCI/TSM provider is not implemented yet.
