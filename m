@@ -1,84 +1,308 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7941E4A688D;
-	Thu,  1 Oct 2026 13:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1FE2F3C10
+	for <driver-core@lists.linux.dev>; Thu,  1 Oct 2026 13:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790860758; cv=none; b=ocU/v3Syp1UM8oLfeplSU5Wa9jL4JRXBindLfZrAO8QlhW0/RRP/rompwy5ieAecBMXrQeQDnRgd5rCWDcG3UaVB/k+WcH+VJLkBLTxSeixnT+mrMikcl6Hm6wu9fwO5YlY6I+ymz+bentPBJu7i1hn6yKq+zr7cryjMk1kvAvQ=
+	t=1790862476; cv=none; b=fGK4ie0GeASlpWNuZiGyMF56lItJS2k2nksAuhrhLf9f+SHpMMvM3Kb4/x19Kgx0gjjrtGtuwu2qYeO0C38AV4OWK2KyIVSXSJRgKF0gmIzIfjkIrU6qJ5xwUvtML95kpZ4wWPp4MYlqD0aYM8BKwASTA5PcxBhdXCpdKDlUZ9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790860758; c=relaxed/simple;
-	bh=n3ht7i9wvEQCRO5Tfn/BQFxtlXYVkDMnrVBK7Jm/1Cc=;
+	s=arc-20240116; t=1790862476; c=relaxed/simple;
+	bh=gA8S2Zv1xNNyDX4iYS17032tJpE3+n+24wFdKWnzALg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MqqIU3tPRBiiGp0+3NqIE9nMoHCdOH/Gc+NqEHf+LAcNjxov62wFCTiFXxsC1MfTe4Lw427bXnBgRlTHdDf+CAfm+AMM+y1z4HG38cu/eggkD+DNw6IPTN8EsGZ80/LfIUrdITLWOs7ktRgCQIRD8nCvDe1E03RA4E+n3WPCYPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Z8nExqUY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=swYBUmD+5fYK4+OUpduxt/bCNr5j2n1QkQp4rVPBb9OAdPdd3kwKzDz5S1XWFCOk0tRvKMSLC7K7eC5RIcUeMl6Uh7f3X4kgn4dkvl9LwMPOy7FqJgddSGj+NYGyJ4nCqBp2+s1m1s75m7gjP4ffUBdXDzw2pGD+BcdhGF1SJfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cUfm2IHJ; arc=none smtp.client-ip=74.125.224.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Z8nExqUY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 788921F000FF;
-	Thu,  1 Oct 2026 13:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790860756;
-	bh=CE1NOSSLrczNGc3jgPGiT/nO5QTS2f9fCjw4RbC3cmE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z8nExqUY8Ta8l8uUEfESP9Y+FiEG2B1Jrr7K2DNeSGYOu+o1/J4XjlrjtIs6MiwYe
-	 k7NHmI3x+Ua41WzqhaP2HS+7JVRR1Bil2PEQKYMoOciAbfkLaXGf30kszF+gWihGxe
-	 WIbroZ2g4sdv3QbnYZ/frd8+c9JBEM6rwzmorl5A=
-Date: Thu, 1 Oct 2026 15:19:09 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Yichong Chen <chenyichong@uniontech.com>, rafael@kernel.org,
-	djakov@kernel.org, quic_mdtipton@quicinc.com, vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] debugfs: make debugfs_create_str() read-only
-Message-ID: <2026100139-deviancy-direction-edea@gregkh>
-References: <20260807100053.1089834-1-chenyichong@uniontech.com>
- <2026100153-unmanaged-impart-3adf@gregkh>
- <DLTIZ3CNCQDS.24NN9OMJG7AXA@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cUfm2IHJ"
+Received: by mail-yx2-f40.google.com with SMTP id 956f58d0204a3-66e4aa8d881so6911183d50.1
+        for <driver-core@lists.linux.dev>; Thu, 01 Oct 2026 06:47:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790862470; x=1791467270; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CEmshy0XDjhpiyv3Dhm414kHwT2h52SJeHo7PfDF82c=;
+        b=cUfm2IHJA/4pFrc2R6pcgxGaM6f1UAA+m0/YxXVF3W0bVsmwgfbtrQhHhFca359brW
+         1IdqTSSdloePdu+mq5gewWWjm0xWdLMsYawpgmiVFu3/ZxvY384PjxnW8WFw75ZkE64G
+         NQeLyTyQz50PRdH/yMkRmTDOYPuBC1mu9dL3e22xJm61xt/S/uxlvmBLV6pFU7QGIXCs
+         yGcK4lRwf18wCaKD3Kt2tq6TTWVRO+EjU+dRGX6MslBNx6QIRj9+Xa8h7+fathkfxrLb
+         rBL7Jln6JHjAy0OGoTCPWFH7Gf7Oqv8HeOZNlxH1PvoILWJDrfleZi0d0rqCVrCjQcz8
+         c1YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790862470; x=1791467270;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=CEmshy0XDjhpiyv3Dhm414kHwT2h52SJeHo7PfDF82c=;
+        b=nMwTdpjjndUKERff8ObCOzAILwCDGC3Mr+0jdNECowEu2UJTplMSB02zFoyqbu1WvJ
+         nIeJoUwQmB3GY6wtxOxmPtoIWlNVbFt3HEGZ1PdWJoOBHKqiwYHAgjszjvukmdzC44Qa
+         853Bkno/6NuAeJN4VJGETmn/50iV8qBexwuqXUoNEYCC8BW/Bv4g1VHhsajq5f5hsgv1
+         ra5z7OZ5lOWSMNVTRSNzm7tzW3bRvPKNbJwdP92Yg77LvJ0tRcJvJrPOx7CGfvUTwTfL
+         qp0aViIOWv8vxgw4SL4cTcRWR2bHMBk77EUBMNtFZ8ImE5phOmFR20UDORJcfn7vUAB7
+         4DjQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz57IrmGJAAHRIyKEEw1TtMwkSiEP70Xd/zxsLaYDqZe7dbFEy3TclPlY2sFW/fGV7YxY9N8pXXiy6UuA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lrIi1ZDveAvtuDnMaDxJ0s88WRl7SkKKt9xYJqUl4udEnB2IKE
+	dr5nkR9idmeF/x80DcrV3YbHTbYexZ8dgXaIC9Az55b2yVZI6wcF3dzr
+X-Gm-Gg: AYBFou1HRcH2atWqjBRQd7AeF34BR4sjEpdQXyZsCeITSSr7dqsvoXaSctxTvy6Wxi7
+	Opx6S3HtX+Unj3mheEGOQMUHVv/hiZxFy0Fbbx+0VNgERfz/uRA10bhsMMwQaoSLJFxPDqfTt/S
+	59Y2Agg6M8deKAeJabl1C82sZJRcDkuhBwf0zMbxnPlDQ4iB7loS9fwDklkcqjGiV7pmqiDae2T
+	GZW1HMKnnq5nmUPNnWRRtC5M1gW1SoIWpUr1nVAGK9Jjl+6aeEvx30xc94Q9oW3cW4BSTPQD18A
+	ZbNL2k8l7nFnzNMROyTGdz54j+JxnuvmOVI8eM3CQ7xrrbDG3V6MZF9YF61Q/ZafwaTdu1NcRDU
+	NjeeqUeXhmTADkyrbjW9B+TVyrJkvhb5E5yg2rWC5214YjbNaaYZXcH5FGUpltOaAmMwIhWXKlK
+	DvCdjRTE2LU5Hny3ZiwLGVnXJwL5hpaXvazlPqkVVGfVhem5wH7+A6bKWJBMURR2dIS/CZJzNNW
+	qLr
+X-Received: by 2002:a05:690e:ca:b0:675:6e73:fbdd with SMTP id 956f58d0204a3-67683572f34mr1849533d50.88.1790862470241;
+        Thu, 01 Oct 2026 06:47:50 -0700 (PDT)
+Received: from suesslenovo ([71.132.185.69])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8acdab5665fsm10834727b3.6.2026.10.01.06.47.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 06:47:49 -0700 (PDT)
+Date: Thu, 1 Oct 2026 09:47:18 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, Cai Xinchen <caixinchen1@huawei.com>, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
+	amir73il@gmail.com, senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, 
+	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
+	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <ar5hdxmv2Ohqqxqj@suesslenovo>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
+ <arqcbjWLN1CLkL_Y@suesslenovo>
+ <arurOphe6QIx2Zr8@google.com>
+ <arvjb0HJYh1KyEBB@suesslenovo>
+ <20260929.Ahgoo4yeetai@digikod.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DLTIZ3CNCQDS.24NN9OMJG7AXA@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260929.Ahgoo4yeetai@digikod.net>
 
-On Thu, Oct 01, 2026 at 03:10:45PM +0200, Danilo Krummrich wrote:
-> On Thu Oct 1, 2026 at 2:51 PM CEST, Greg KH wrote:
-> > On Fri, Aug 07, 2026 at 06:00:50PM +0800, Yichong Chen wrote:
-> >> debugfs_create_str() has a generic write implementation that replaces the
-> >> backing string.  Concurrent writers can race and free the same old string
-> >> twice.
-> >> 
-> >> Instead of adding more locking to the generic helper, convert the existing
-> >> writable in-tree users to local file operations and make
-> >> debugfs_create_str() read-only.
-> >> 
-> >> Changes since v2:
-> >> - Use scoped mutex guards in the interconnect and SoundWire conversions.
-> >> - Clarify why GFP_KERNEL is safe in the interconnect conversion after the
-> >>   RCU read-side critical section is removed.
-> >> - Drop the unnecessary firmware_file = NULL assignment in the SoundWire
-> >>   exit path.
-> >> - Use WARN() instead of WARN_ONCE() so each writable debugfs_create_str()
-> >>   caller can be reported.
-> >
-> > Sorry for the delay, now applied.
+On Tue, Sep 29, 2026 at 08:51:47PM +0200, Mickaël Salaün wrote:
+> On Tue, Sep 29, 2026 at 01:27:44PM -0400, Justin Suess wrote:
+> > On Tue, Sep 29, 2026 at 02:12:42PM +0200, Günther Noack wrote:
+> > > On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
+> > > > On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> > > > > Hello!
+> > > > > 
+> > > > > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > > > > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > > > > > This series adds two new Landlock filesystem access rights,
+> > > > > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > > > > > which control access to file and directory metadata such as inode
+> > > > > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > > > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > > > > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > > > > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > > > > > operations are grouped into one read and one write right.
+> > > > > > > 
+> > > > > > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > > > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > > > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > > > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > > > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > > > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > > > > > refactoring with no behavior change, split so that every patch builds
+> > > > > > > and works on its own:
+> > > > > > >
+> > > > > > I like these patches, but is the ability to read metadata already
+> > > > > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > > > > > directory?
+> > > > > > 
+> > > > > > The one case I see this being different is:
+> > > > > > 
+> > > > > > 1. if you wanted to grant read access to the file, but not metadata
+> > > > > > read access, but I can't think of any usecase for being able to read
+> > > > > > the contents of a file, but not the metadata. (see below)
+> > > > > > 
+> > > > > > 2. If you had the absolute path already and didn't need READ_DIR.
+> > > > > > 
+> > > > > > I see introducing this READ_METADATA as causing potential
+> > > > > > hard-to-diagnose issues.
+> > > > > > 
+> > > > > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > > > > > 
+> > > > > > The program can technically open the file with the READ_FILE permission,
+> > > > > > but it may error out because the stat() on it beforehand failed.
+> > > > > > It's pretty common for programs to do that kind of thing (stat before
+> > > > > > open), like for checking for config files (strace bash and you see it
+> > > > > > stat .profile, /etc/profile)
+> > > > > > 
+> > > > > > There may be other bugs, because being able to set permissions to read
+> > > > > > a file *but not read it's metadata* isn't possible currently in posix
+> > > > > > acl and userspace may not work well if that assumption no longer holds.
+> > > > > >
+> > > > * posix acl and linux DAC.
+> > > > 
+> > > > > > So maybe WRITE_METADATA is good enough?
+> > > > > 
+> > > > > The existing use cases are the combinations of (a) READ_DIR
+> > > > > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> > > > > two access rights overlap slightly, it seems likely that for a given
+> > > > > directory or file, users will want to either grant both, or deny both.
+> > > > > 
+> > > > > At the moment, where the (not yet existing) READ_METADATA is
+> > > > > implicitly always allowed, the problematic case is the one where the
+> > > > > Landlock user wants to deny READ_DIR, but where much of the same
+> > > > > metadata is still available through stat() and the various
+> > > > > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> > > > > [1])
+> > > > > 
+> > > > > In my view the READ_METADATA right closes a gap that READ_DIR left
+> > > > > open (which is also potentially surprising to callers if they did not
+> > > > > read the docs closely).  Also, if its implementation is symmetric to
+> > > > > WRITE_METADATA, I feel that it's worth having it in the same patch
+> > > > > set.
+> > > > > 
+> > > > > –Günther
+> > > > > 
+> > > > > P.S.: I know, even after we can control stat(), there are likely ways
+> > > > > to infer the presence of a file by observing Landlock error codes.
+> > > > > This would be nice to fix as well, but is harder to do without
+> > > > > controlling the path walk itself [2].  But also, the fact that this is
+> > > > > currently not controllable is not an excuse for leaving READ_METADATA
+> > > > > open IMHO.
+> > > > >
+> > > > I'm still sort of concerned about the case where read access is allowed,
+> > > > but metadata isn't, due to how many applications will not cleanly handle
+> > > > such an unexpected condition. You can reproduce this with a seccomp
+> > > > policy forbidding stat().
+> > > > 
+> > > > Would it make sense to have the existing READ rights
+> > > > (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+> > > > if READ_METADATA is handled? Reading a file's contents should always
+> > > > imply that you can read the metadata.
+> > > 
+> > > I am wary of situations where the handling of access rights implicity
+> > > implies other access rights.  We have discussed such schemes in the
+> > > past (e.g. we considered a design for RESOLVE_UNIX where we'd have
+> > > both a "scoped" and a "access_fs" right that would interact with each
+> > > other), but in the end we always settled for approaches where such
+> > > interactions would not be necessary.  One of the concerns was that it
+> > > would complicate "best effort" fallback logic in all Landlock
+> > > libraries and in the countless places where people use the syscalls
+> > > directly.
+> > > 
+> > > To throw another option in the mix.  (To be clear, I have only 70%
+> > > confidence, so feel free to push back, but it feels like it might
+> > > work?):
+> > > 
+> > > Is this similar to the "truncate" right?
+> > > ----------------------------------------
+> > > 
+> > > With "truncate", there was an existing common operation (open(2) with
+> > > O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
+> > > for the truncation access right.  But that was in fact OK.  The way we
+> > > resolved it at the time was by documenting very loudly that WRITE_FILE
+> > > and TRUNCATE access rights should always be requested in lockstep, if
+> > > TRUNCATE is handled.
+> > > 
+> > > If READ_DIR and READ_FILE do in fact read and return metadata to the
+> > > user, maybe the right thing would be to do it the same way here and
+> > > *require* that we have READ_METADATA to do these operations?
+> > > 
+> > > (READ_METADATA is automatically allowed as long as it's not handled,
+> > > so that approach does not break existing programs.  Programs who
+> > > consciously start handling READ_METADATA must simply take into account
+> > > that reading directories and opening files for reading requires
+> > > READ_METADATA.)
+> > > 
+> > > (BTW, I can see it for reading directories, but I am not sure I fully
+> > > follow the argument why opening files for reading means that you can
+> > > read the metadata?  Can't that be guarded on fstat()-like operations?)
+> > >
+> > Many standard libraries will call stat before / after opening a file to
+> > allocate a buffer matching the file size. Or to figure out if mmap
+> > is more efficient than opening it directly.
+> > 
+> > So Python's open().read() or Go's os.ReadFile they may throw an error
+> > when opening the file, making it look as if the file is inaccessible
+> > when its contents are. They make the assumption that if a file is
+> > readable, the metadata is too.
+> > 
+> > There's also a lot of metadata that is already leaked by just having
+> > READ_FILE. FS_IOC_GETFLAGS/FS_IOC_FSGETXATTR ioctl / fileattr_get are
+> > unrestrictable and allow you to see inode attributes. There's also
+> > access(2) which isn't restricted here and allows you to see your rights
+> > on the file. The size can be found by simply seeking to the beginning
+> > and end. So much of the metadata is obtainable with just READ_DIR/READ_FILE.
+> > 
+> > ...
+> > 
+> > Another problem I'm just realizing is that this READ_METADATA
+> > right is inconsistent with open file descriptor behavior. With most
+> > rights, already open file descriptors are exempted, but here, fstat,
+> > (and the other stat-family calls which takes a file descriptor) become
+> > denied even on already open files. It's a catch 22 here, if you change
+> > the fstat to not apply to opened files, then READ_FILE becomes a bypass
+> > for READ_METADATA. But if you leave it as is, then it's inconsistent with
+> > the other Landlock rights wrt already opened files.
 > 
-> This series fell through the cracks on my end. I also reported this issue in [1]
-> and I agree making debugfs_create_str() read-only is the best fix for now.
+> Indeed, these access rights should follow the
+> LANDLOCK_ACCESS_FS_TRUNCATE mechanic.
+>
+Ahh good idea. Forgot about that! So associate the
+READ_METADATA right with the fd at open time like with truncate.
+> > 
+> > Which isn't the end of the world, but just shows that either
+> > approach is going to have it's quirks. 
+> > 
+> > I think it would be better to just avoid the cat and mouse game here
+> > of trying to seperate READ_FILE/READ_METADATA and either require
+> > READ_METADATA be specified with READ_FILE if READ_METADATA is handled
+> > like Gunther proposed, or have READ_FILE imply READ_METADATA.
+> > 
+> > Documenting it strongly is OK too, but really there are really zero
+> > usecases where you'd want to grant READ_FILE without READ_METADATA
+> > so it would need to be made extremely clear.
 > 
-> However, it duplicates code and I think having a proper helper as suggested in
-> [1] would be nice follow-up.
+> What about a program that just need to read files? We can think about
+> sanboxes such as those used in web browsers, but that applies to other
+> tailored processes that don't need/want to access metadata e.g., for
+> confidentiality or personal information (UID, timestamp) concerns.
 > 
-> [1] https://lore.kernel.org/driver-core/DLPDB44JJRGJ.3K6JNS746M7QC@kernel.org/
+> This is similar to FILE_WRITE vs. TRUNCATE: most of the time we want
+> them to be grouped.
+> 
+Your argument is persuasive :)
 
-Yes, that would be nice, but for read-only debugfs strings, let's keep
-writable ones away if at all possible :)
+I still have open questions about file_getattr(2)
+and the FS_* ioctls above, which I don't think are handled by this
+READ_METADATA right. access(2) is a seperate question, but I'm
+unsure if that's worth it/in scope for restricting.
 
-thanks,
+(I think WRITE_METADTA also doesn't handle file_setattr(2) and
+the FS_IOC_FSSETFLAGS ioctls)
 
-greg k-h
+Justin
+> > 
+> > Thanks,
+> > Justin
+> > 
+> > > —Günther
+> > 
