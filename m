@@ -1,228 +1,139 @@
-Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B730E45562A
-	for <driver-core@lists.linux.dev>; Thu,  1 Oct 2026 10:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790852032; cv=pass; b=ZwwKoxrsz8Hflyq+AGwrEb1x/i8YY/V8krm2OPI99NiV1SbLS01Du63hqdvZlpi1semchfLOtGL8/3mrCxJQb4hUK0pfasNrpwHmqq1JdHm84y5z1SUzn/lNiXUXdiyOzNdp6b7PLDGqBig6L/TsjJb01CTcvLIbffDtZ09BJ1s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790852032; c=relaxed/simple;
-	bh=Fs1edfuHx1in4X4WdK3upBMt8kh7e3INqc862LZOi+0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AIcptElLpMaimJsswJqWUTtF1EdwAoRNS9JgB233HUSeRPJDBbY/5RPkiUUR6pY1QkBFdv0O92+0vrBpP2m6ihITNndviafhGscx3E6SBgVNOYKSQIWiR1ZnQgntGJN/zIfIMyxGDZd2nbw/THAUutRCrvRAOkvw607Nmj/8e+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Qj2JRp6G; arc=pass smtp.client-ip=74.125.224.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D919047729D
+	for <driver-core@lists.linux.dev>; Thu,  1 Oct 2026 11:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790853548; cv=none; b=Y6bCWOCDoThZHnO1XV2gc69FZvUtL5tYsgYhkDMfPkZuzgd6NeCxRmUzMvaHa+a6mWIvruYBiSC3Yp8iX2Ph7P98WuoqlcbWcXNQGM4bYCmUXDQ8QN9UZBjVj2f/+0MXkoHG7a0LhcEV+kYwjNwDg4qHegk7DGbCoQd3cD79fT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790853548; c=relaxed/simple;
+	bh=T5hkxiLK5QweA8xYY2b0kNgTq2KlMqL9lNVwKAsYRXE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=sQGf3NZHUyClisVGR8XRfFR69NFolajj8DStwjLfr/4+vfDFSSJ5OIxGpB2m7GoMArXqJeX/jbcw9DOO1S6s7oV2n/oAA97sKbkGYn4aUXxiL7MmBwe3WFovkLfjrY7/mr8kJShXH/FhVMddTc2YO56gmQzwA6GnIwyM+KL0XyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V1o6PgNA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qj2JRp6G"
-Received: by mail-yx2-f40.google.com with SMTP id 956f58d0204a3-6756a6320f6so2404703d50.2
-        for <driver-core@lists.linux.dev>; Thu, 01 Oct 2026 03:53:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790852028; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bpbXZ3oZd80bur+hyrk3VSXlk5Zzf7Ko4a0ofulCN+a278B2xiIM7EmHNvN9InyYnQ
-         KjaewC0nJDz8J+0F+QXCYCIn08EOHsnRx9AKqCjbnh2I225WDOe7FKBr2BodgdY/sk77
-         JcIK3dpoX8TCPBKVctHPe0z727gxkJxlXyOTQmr0QarNHOszrk2e1+MHX23JZY+FurEO
-         mBHzH/iovEg9+DtrXGZWTpVwFE+tu0J/uW7YvgM1+3PS4bv1iVmXd+wqXZg9N093XNx5
-         Zo/VuurbflS3pb9SY7C9ipe8ObbRE/aylZQO69JyDWNFR3r3wq5xRxiuALoefinwcch1
-         p+TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vEbjjiBAb1Gv1/q3JktK2vYVX0s4JpnfBYopaxaaLpw=;
-        fh=y5IAzT2zvxWmVhC5iBg9EtvX2b8++k/mN0z6oWvEAn4=;
-        b=nUPOyTYtIJn081EQsH3tc19wilDDhbt0bNvn/ahzCc7Kv/0wC8S4SxGi1O3OAAdWzG
-         3zIinndu2ZZJq1WofutwNINgR0ILz5kNPK7SR2upQYYBipZ5oFJzZe5TPZ5YVvexNASO
-         /+5pI6GMAm8wolaOxfogpPKli2Aj5OUGYc4W3U/NsdQals3AibBPLgg2lXaya/Zio7tF
-         VWaf4HfnreKk8enpPN+uUn33UDpBo9bIyM5Munc4o09SS+JTBolUQCrWEhwL9M6HNVNa
-         JnVc4zsJs+AibrhgAd6ZM4LRFrrsYNSV6PHmY0HlQblZE9OBqssHMc/42/mX4lSoAeIJ
-         KV5A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1790852028; x=1791456828; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vEbjjiBAb1Gv1/q3JktK2vYVX0s4JpnfBYopaxaaLpw=;
-        b=Qj2JRp6Gq/FkKlTK6+D5W2Wenh3PNd8wogZCA8tmgXBVoUOq/k8vIWtVbHFhxlGX/3
-         hil6AaAonGil+QkAvNaU82sU5KJkMdI1AMrrh6xq6Q4kgeVlAf5/cV5J3puikSw/t4oa
-         M9YjqyYRGLhoty3KkQ0LqwrZuIYj4juiRMHMo=
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V1o6PgNA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790853545;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
+	b=V1o6PgNA4zxy+F9XprzEF5YjbxwedLINpdiqwyGa1wuN6xQ/g8dZM7WzX8pvEbL/LC68OF
+	C34X2cSzTMPxQuhc4xC4MxHBe5VpJtL+PnQ4MnBKI/3tfKhLkdGMNc8CvGf3+E7+s+71yu
+	tZ9RD/qRRjEUnJtx08W/CgojpF2ZDsY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-434-5Pw8oI2yP9qZ5edOc8xe_A-1; Thu, 01 Oct 2026 07:19:04 -0400
+X-MC-Unique: 5Pw8oI2yP9qZ5edOc8xe_A-1
+X-Mimecast-MFC-AGG-ID: 5Pw8oI2yP9qZ5edOc8xe_A_1790853543
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48b00febba3so1109260f8f.1
+        for <driver-core@lists.linux.dev>; Thu, 01 Oct 2026 04:19:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790852028; x=1791456828;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vEbjjiBAb1Gv1/q3JktK2vYVX0s4JpnfBYopaxaaLpw=;
-        b=fiGa4JIh5DbKEurWbMN5TBpIx09gPoGPHrs9EpUavWFpv7bvq7kkyY1zW76Ex9d88x
-         z/R2U0bicwKt5Q9gwJKM6yECRp/Cypt3uag1P1hnfq9fed5Ueru7S41Gvmig34B+vUlp
-         +3CVUenJ5Z5QtWXciYYCphA0B6SJ0SpvrYyTnShDeMR42ebOiq1i9UlSElCLfGmwtGzQ
-         7eO2lEuhzlHFpaLdW/9Bg8jX0zPGAXGzgnbybUa2+olmR1xfrDvGKnZXZ7h+ZUtnxFVg
-         76XOQzUbnEopZxUNwI0VCkY2CK9gn83Z7DZ+3oymp2gGAjCN5FIRddYHkXiSRVovRaQ3
-         X5UA==
-X-Forwarded-Encrypted: i=1; AKwUvBweFO3Hn+u5M+jKuoGkEa761BUrF3gS/kb0SrCSzfPLKm6JcWAcu5JI7ouPTlz2b1JFNyo7MvQeDNIB9A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLlhqntwKYUL1eQqTCZY7URvQhBsT1wOKhdd6eb6xlz+TtI38Js
-	5VbF9jTUVvG7z5+K2F++9xCz07OLeNUV6Eus9boiRr/G+ri5JL70UH+ngas4Y9kLdg5f7Lw06iJ
-	IusYrN9Samk91HGVuzW62R9I5vVl9ErWWiw7ITO8w
-X-Gm-Gg: AYBFou1n8V785Ore6pKQj+aH1k5CMGj5KstIkkH+d86XoJroG/FRjdK9qi956XuhOxr
-	M2hMVVutYeaQQJZLWv1z6yFUw7Q19UmBD0zEGKZk3sdHsgSqhnSlqYbewI67jhnQWHddZKY2nxr
-	5ZMtCp03xVSyyD9Y2V9hAE0mCsuPFthPaa5qT/Tl/tddN2hA2v//8O51wBKfeFSpdNsEI/wHPe9
-	ROCwba7lA2gnF9t8udqnySleV4hHUEGY58aXrX7DaWEXXuhBIhCp/3keOeAcDE/tuh282VSAeEe
-	r54DJzKTI2QYv3H9mSiHQdKHIqKSj7G9zFpxaW116x8ZCH2KcqvP5rXcP2Qa5XxfVZPJ9iHsQ0x
-	e2sr4KpBYAA==
-X-Received: by 2002:a05:690e:4105:b0:676:9954:81ef with SMTP id
- 956f58d0204a3-676995489a9mr323421d50.14.1790852028003; Thu, 01 Oct 2026
- 03:53:48 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790853543; x=1791458343;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
+        b=idjBF1cnKfUNcleWUEyQewCMRHupGyuS/fq76qNomiVc7/aT22bJXCL0iQudCFmDva
+         EqElYHw9o7Ihoqj6d7hwwdquhTLf0WjapK+nczZ9+UXiIgFs6oouPdXwgYVr0nWzZXEu
+         yG4ui+FECUgUyMfJV++S4Endx0UUvQKNf6O2zY9pljQBb52dK1C7+8bH1I7AImOvCtFC
+         LxfaxMCpqFqDHxTu06C7O5wZgOQyxuB0SZZy5H8IH8vjKUdoViCKixtrI9G0RxFqnz//
+         JupPyJxEk1xKJ+xNnPseBKwvkod3+3CMilqDNMa3iRaei1zpalMYMu0N4z2vZOthDNoB
+         pzWg==
+X-Forwarded-Encrypted: i=1; AKwUvBw/S0Qxi+ffdVv8K4hJAui2hCeToOQzKshQ4e1Il9pT2eMtYXR6yHwS4UPLxp/JgcIXAsaeGiIgsE6i8Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYId/3KQVrDsq+qvhDmYGMs95Tgy3997i9+ma7V4z3+RDK6VVR+D
+	HD4R2KBA0ntFfesLOg5oFlDeHqa/kEZSjLk7ea9LrTzGsJfyDO7uTLaBrPwlxW3PqC/GFPiVvBZ
+	myqgQ0LEw0sLBsdykC9sicOzXTrhZS3UwYlaJ0v9hwKEwN6TCYXGraiQdvTbPYHvf
+X-Gm-Gg: AYBFou0yz4HGw0RKn8YhbqFvIMJiuoLOsfeq8mP5GPZzdm1ZQtmA1ZLr7u6F7YYruXk
+	032e+hHA7jRMKBmwoLYTAS8Fh62i7ILFJ2mIMDk8bhKT1DP/A+b+WFaTSX7KleZo4pncUDRpSUg
+	R0Qkdmf3jTo87Ewk8kjioXkVsFbTivHhWYkBQXyorJZD7MJu5+upK+liN8HBPy2Cenhn/OD+3W1
+	ruQ2XJAYPxxIc9uFjVjVOrzr2uKtAjjsvIObDZ2RH6hnQOVtm9QFrz8oGQDbkYnQquc1heS4NoH
+	FCV2H+8DFSxg6ZO+gFQmWfTTF1eqDRpwq/7kB6gKZRPeon6S1KyfANfnvtWx35PjSqi2G8wNLK+
+	xWi7BUIyxr5e5eyawk7jhgL3eD16RobsRWxbIPq3sv5ihqq3S+7CU1ufCLkTArNMG8iwiYXTBKw
+	==
+X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7951994f8f.51.1790853543342;
+        Thu, 01 Oct 2026 04:19:03 -0700 (PDT)
+X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7951958f8f.51.1790853542917;
+        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
+Received: from [192.168.188.234] (ip232-47-231-195.pool-bba.aruba.it. [195.231.47.232])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b068ff96dsm5707719f8f.8.2026.10.01.04.19.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
+Message-ID: <80fdcb30-be96-49da-8499-2c673e95b75b@redhat.com>
+Date: Thu, 1 Oct 2026 13:19:01 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260916075745.3549953-1-wenst@chromium.org> <20260916075745.3549953-7-wenst@chromium.org>
-In-Reply-To: <20260916075745.3549953-7-wenst@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 1 Oct 2026 18:53:36 +0800
-X-Gm-Features: AclHuK_wafiRDk696txMZ3q8q7Qaz4NsP-wYkipLMPcHq1r5tW6zotnKrD-_NRc
-Message-ID: <CAGXv+5GdBUafk6niG-UMDx=z6LJQ6iHAWhDpm1Ly2ce6CQDaxg@mail.gmail.com>
-Subject: Re: [PATCH v9 06/15] usb: hub: Associate port@ fwnode with USB port device
-To: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v18 0/6] net: dsa: mxl862xx: devlink flash and
+ rescue
+To: Daniel Golle <daniel@makrotopia.org>, Jiri Pirko <jiri@resnulli.us>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+References: <cover.1790426599.git.daniel@makrotopia.org>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <cover.1790426599.git.daniel@makrotopia.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: p4kBvnhXRh4U3BJyZOunsI-r3SnIABWrzJjXZMRurcA_1790853543
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 16, 2026 at 3:58=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> When a USB hub port is connected to a connector in a firmware node
-> graph, the port itself has a node in the graph.
->
-> Associate the port's firmware node with the USB port's device,
-> usb_port::dev. This is used in later changes for the M.2 slot power
-> sequencing provider to match against the requesting port.
->
-> To avoid potential conflicts with ACPI firmware nodes and then causing
-> power management issues, only assign the firmware node if the hub's
-> firmware node is not an ACPI firmware node.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v5:
-> - Added extra |struct fwnode_handle *| local variables to shorten lines
->   (Andy)
-> - Added comment about passing fwnode_graph_get_port_by_id() return value
->   directly to device_set_node() (Andy)
->
-> Changes since v4:
-> - Dropped unused |hdev| variable
-> - Added flags for fwnode_graph_get_port_by_id() with
->   FWNODE_GRAPH_DEVICE_DISABLED so that even incomplete
->   ports can be connected
->
-> Changes since v3:
-> - Added missing fwnode_handle_put()
->
-> Changes since v2:
-> - Skip assignment if hub firmware node is ACPI node
-> ---
->  drivers/usb/core/port.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> index b4452b665f59..c0a51d9b06a6 100644
-> --- a/drivers/usb/core/port.c
-> +++ b/drivers/usb/core/port.c
-> @@ -7,6 +7,7 @@
->   * Author: Lan Tianyu <tianyu.lan@intel.com>
->   */
->
-> +#include <linux/acpi.h>
->  #include <linux/kstrtox.h>
->  #include <linux/slab.h>
->  #include <linux/string_choices.h>
-> @@ -358,6 +359,11 @@ static void usb_port_device_release(struct device *d=
-ev)
->  {
->         struct usb_port *port_dev =3D to_usb_port(dev);
->
-> +       /*
-> +        * At this point ACPI nodes and swnodes have been removed by
-> +        * device_platform_notify_remove() in device_del().
-> +        */
-> +       fwnode_handle_put(dev_fwnode(dev));
->         kfree(port_dev->req);
->         kfree(port_dev);
->  }
-> @@ -754,6 +760,7 @@ int usb_hub_create_port_device(struct usb_hub *hub, i=
-nt port1)
->  {
->         struct usb_port *port_dev;
->         struct usb_device *hdev =3D hub->hdev;
-> +       struct fwnode_handle *fwnode =3D dev_fwnode(&hdev->dev);
->         int retval;
->
->         port_dev =3D kzalloc_obj(*port_dev);
-> @@ -782,6 +789,24 @@ int usb_hub_create_port_device(struct usb_hub *hub, =
-int port1)
->         port_dev->dev.driver =3D &usb_port_driver;
->         dev_set_name(&port_dev->dev, "%s-port%d", dev_name(&hub->hdev->de=
-v),
->                         port1);
-> +
-> +       /*
-> +        * ACPI FW nodes are associated later when device_register() happ=
-ens.
-> +        * Skip assigning one here to avoid potential conflicts.
-> +        */
-> +       if (!is_acpi_node(fwnode)) {
-> +               struct fwnode_handle *port;
-> +
-> +               /*
-> +                * fwnode_graph_get_port_by_id() returns either a valid f=
-wnode handle
-> +                * or NULL. Passing NULL to device_set_node() clears any =
-associated
-> +                * fwnode. It is effectively a no-op here, since no fwnod=
-e has been
-> +                * assigned to the newly created device yet.
-> +                */
-> +               port =3D fwnode_graph_get_port_by_id(fwnode, port1, FWNOD=
-E_GRAPH_DEVICE_DISABLED);
+On 9/26/26 15:48, Daniel Golle wrote:
+> This series adds "devlink dev flash" and "devlink dev info" support to
+> the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
+> MCUboot loader recoverable through the same path.
+> 
+> The switch is flashed over the loader's clause-22 SMDIO download
+> interface after the firmware API has rebooted it into MCUboot, and the
+> driver reinitialises through a deferred detach and re-probe once the
+> new image runs. A switch found in MCUboot at probe registers in a
+> reduced rescue mode with firmware version 0.0.0, so the same flash flow
+> recovers it; an interrupted download is drained in the background
+> first. The deferred re-probe comes from a new driver-core helper,
+> device_schedule_reprobe(), which the bound driver calls without a
+> module reference; it also replaces the open-coded self-reprobe that
+> iwlwifi, hci_h5 and btintel_pcie carry, whose work function frees its
+> own module text from under a racing rmmod. fwupd's devlink plugin
+> carries the matching quirks [17].
+> 
+> Patch 3 is a driver-core change and patch 4 does not link without it,
+> so the series needs a driver-core ack before net-next can take it.
+> 
+> Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
+> through fwupd; an unbind and a reboot issued while a flash was running,
+> which wait out the transfer and announce the wait; a host crash and a
+> power cut mid-transfer, recovered by the background drain and by the
+> rescue path on the next boot; and an unbind and a reboot issued while a
+> background drain was running, which abort the drain at once and let it
+> resume and complete on the rebind or reboot.
+> 
+> Changes since v17 [23]:
 
-After AI hinted, I found some dwc3 hardware to test this on.
+Out of sheer curiosity, what represent the number in the square brackets?
 
-"port1" needs to be remapped using usb_hcd_find_raw_port_number() when the
-hub is the root hub. Otherwise both HS and SS ports end up getting the
-same port node, which is incorrect.
+More feedback from clashiko. Requests about comments clarification
+are IMHO mostly pedant and could be ignored, but AFAICS there are a
+few actionable items on patches 3 and 4.
 
-Same needs to be done for "usb_of_get_connect_type(hdev, port1)" some
-lines above the diff context.
+/P
 
-This mapping is currently only done in usb_acpi_get_companion_for_port()
-and usb_alloc_dev().
-
-
-> +               device_set_node(&port_dev->dev, port);
-> +       }
-> +
->         mutex_init(&port_dev->status_lock);
->         retval =3D device_register(&port_dev->dev);
->         if (retval) {
-> --
-> 2.55.0.1032.g73a4cd73de-goog
->
