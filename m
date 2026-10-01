@@ -1,261 +1,165 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010034.outbound.protection.outlook.com [52.101.201.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2475172E9
-	for <driver-core@lists.linux.dev>; Thu,  1 Oct 2026 14:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790865005; cv=none; b=FcbtonWl8r8su2wYbzt1CY+iFhQnNFfoLgawyA9v3SRocfRPbGNTbKK22f+g6jMoDoNYf0DdQm6QOzI8Z6urLiJjs/dofIhZ34xiF0OEBo4XV+cm1k88YRFD3MPvH6EmSmIxK+S5zVfF4Vw7bHv75j/SjE8RYuQ/070n+VPZeIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790865005; c=relaxed/simple;
-	bh=Jd7ZjyfT1Jy7sXz3l2TUFT7uAkdK6nTu3zC4BU9inpU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ao33GYZeEeyUBM8zGqFF77p9WgtwurlDZxp6Ebmw+PxXF+rE2ALaKbpIcLB9w5UPKFEFgtq/+VSc09S61VQlaM7kg3chn4qrn5gzBBQ0F4iapHDhn9Wp0O/FsOcneSyWTQVSbZv0AU8zzhAtoIzXvLrjKA7XYRqTv7DSOKLPqio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VAVXhkvL; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7855E35203C;
+	Thu,  1 Oct 2026 18:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790877845; cv=fail; b=psgAaiB/lvuQghaZFIJlo1ktyC+PMD47Brn1Ej682YMjIblAhQi9gq/cNE0EOtkCh1u0Q/zfkj06zJSnKrv8icgqDbR0h+QcxLbP8Rrlyq2BuG29nVxgBc6gcQmkwJzBc4X5Hdkq6EZoHy81yufq/AP0Lw4hpnQUoWQSt8KeSfs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790877845; c=relaxed/simple;
+	bh=VqGTCKRuYElGPMelr7Hcniu8dxhZkgKSaYvWC/wOoog=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QcGqxBtfmnocvqPaRlzEnQQoNYC5bq7YN09GG6rd4bd2ojrK706u+o3Xg8A0B1xEi46YDrkiDTgXKU7kDXTRCJ5DPRw1RG3ODnmT+F6EA4s77yp+Ib4kdZ1oF1kSvlA9CscWh3Y00aZBIaa5VKQx+gStDXnYCOykPoAby8HvgTg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=B1/pFQmp; arc=fail smtp.client-ip=52.101.201.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VAVXhkvL"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id DF1721A10B4;
-	Thu,  1 Oct 2026 14:29:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B005F60341;
-	Thu,  1 Oct 2026 14:29:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 29BDF10328149;
-	Thu,  1 Oct 2026 16:29:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790864984; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=0Y7Il35wh5W2YG7C50SKv6f4WUuvO6mAZrG/RT2vKJY=;
-	b=VAVXhkvLIi4JU7+P1mVpWT6vungkXOOM93sH6mHyy1rY99a/g2WQ5NrRlT1H4qcZx7plbv
-	iGGsIkxYK5oOQ/Uyw77WIOdW6A3qA4QPGXJtZSiJyFxB9/bAwZT5aUpdwR0kQGhDCzfRco
-	fF/3B0/Q0coB4ekCSPB8LGMZKbY9XIXlyXYtX9NOfwmiftJtKaRkL2qbZbGnMy3V9/K9dv
-	C31wBoLxoD6Dt3WId3Eu6lTIXppacN7zvcYTVwATp9C8KkDgL2+XJNFH+HNJENZz1d7uPY
-	VG0YHjWYPluIuhRIErHrdvf46Eihp/Vy54vtJC3XqF1nfZSH1sA/qDXxTa4KoQ==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Richard Cheng <icheng@nvidia.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Lizhi Hou <lizhi.hou@amd.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable+noautosel@kernel.org
-Subject: [PATCH v12 10/10] PCI: of: Avoid np->data usage for the node changeset
-Date: Thu,  1 Oct 2026 16:28:10 +0200
-Message-ID: <20261001142815.277550-11-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261001142815.277550-1-herve.codina@bootlin.com>
-References: <20261001142815.277550-1-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="B1/pFQmp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xy6da2qPodJIsDQqngwaR2iUoXx2910zW9htXnU5AtSjbQkBJGloDVbPwMupTsIj/SNyyMiWBWjXniPjtitL0DDUN9h8IWi5+h6yxhakPx9xvYchHbnQw/see7AH5rjQPtkLnul3ccaGjsEVyEbQYUL/fLyepM+vt3N5YCZeoeF3XxivA1Hd5IJpRDYUv0VQ1EgreRFHKMnRZY0HeRclziEvcWmQ8AysGW/gDZWNCnyOOHhLqtFznKr5oCtngxNqsCHamSloFg/PmUQaxFpWNWWOKbPFK9BoRbxD0XqfgpQ3s7ZM4oxMEEJ1+WQ6NeY28jDKhYo7XrMOFBxdy4HX7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4eZIu0ByKLmylD9kPONKLCE9vBYmRBQGjGZ2s2bJrus=;
+ b=euRsKXMO0ToLWk4Jjp0pSduwXQ4TFpHPNHjeu8TV810ANucRaS0E9eRl3DHpOj2+hJ+2tvPe0WH/DoQAznB6tJ1yipMK+6oO95FfwNuGBLR+cd7UVqQ7GX9cM+QDU31kZPtjEL0SDKzOQr8iWRkiTBOE7HBEYyPC2yjmug1ZwKiTwSE9rb3ncAtN1lLmm+BBsL15wcl9zpMDq+x9rlj25yfIKF5punXpNErOHUxKT6ZaMEoKdPpI4Ll4FZW0UzXoFWRmQNw3gFvhD+wvG7ap1BgoWSfq7s0TbUNxeRhamIVF/dTuxYFT46OkCNAxHgVeetn3qurbxMoNzn8X1DKeNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4eZIu0ByKLmylD9kPONKLCE9vBYmRBQGjGZ2s2bJrus=;
+ b=B1/pFQmpPID7YyqJCyTJFW1LX1bGYGWSPWcgcyrHfM8fXb2PVF6O/s7VoFNvoIXHm2KdKjH7EW6aAQqfAldyC/Auz4V5D1dPsHtdE/sIEXQeH2KZLhyp9q0g5SQyuAZi7o0UTA012qNiPdwzCfLAoTyN9iIwoHqUNli4SlNGQChoqTia3gQVaaHijGfaspmSAImdVpKMHKxfghxnBno5lMT0o/SAulb5zNonny2ATZw6IHaiFG2ln0B4XcUOQSFD4ku6YUFMidpa4YN5J/MP5tJgzxt0l4EJ3GB7iw1If0pwg+O5lAgffRgylbh1SYWSaVut81uzo97g85KwBJtwdg==
+Received: from DS7P221CA0008.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:25b::6) by
+ LV5PR12MB9804.namprd12.prod.outlook.com (2603:10b6:408:303::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.24; Thu, 1 Oct 2026 18:03:53 +0000
+Received: from BN2PEPF0000A802.namprd02.prod.outlook.com
+ (2603:10b6:8:25b:cafe::41) by DS7P221CA0008.outlook.office365.com
+ (2603:10b6:8:25b::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.18 via Frontend Transport; Thu, 1
+ Oct 2026 18:03:53 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 216.228.117.160) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN2PEPF0000A802.mail.protection.outlook.com (10.167.245.171) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Thu, 1 Oct 2026 18:03:52 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 1 Oct
+ 2026 11:03:19 -0700
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 1 Oct
+ 2026 11:03:19 -0700
+Received: from nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49 via Frontend
+ Transport; Thu, 1 Oct 2026 11:03:17 -0700
+Date: Thu, 1 Oct 2026 11:03:15 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Pranjal Shrivastava <praan@google.com>
+CC: <iommu@lists.linux.dev>, Will Deacon <will@kernel.org>, Joerg Roedel
+	<joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe
+	<jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>, Daniel Mentz
+	<danielmentz@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
+	<linux-arm-kernel@lists.infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>, Bjorn Helgaas <bhelgaas@google.com>,
+	<linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, <rafael@kernel.org>, "Danilo
+ Krummrich" <dakr@kernel.org>, <driver-core@lists.linux.dev>
+Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
+ gate CMDQ submissions
+Message-ID: <ar6gY9grmdMZcN/M@nvidia.com>
+References: <20260929034510.2023173-1-praan@google.com>
+ <20260929034510.2023173-12-praan@google.com>
+ <ar1yNtr7Kp2OTcDd@nvidia.com>
+ <ar3yWUmi8E0k37Ml@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ar3yWUmi8E0k37Ml@google.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000A802:EE_|LV5PR12MB9804:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23d0559a-662a-498c-2550-08df1fe65a7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|7416014|376014|1800799024|36860700016|11063799006|10067099003|56012099006|6133799003|22082099003|4143699003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	bDxz9yFGwjoJn0RAmb3GE1jqkjl0Zyp+Q1PYxMrmRs+2ZrA1RCq8sc8UQO5OAYwSZxWUVZYz7h4caXz+ZuuVCmG91PylSZi7y0obkvBNeVWcQe+Ae9jopgG7P6IWXsq/LzIfmwAiOaUcPdKtIypT7BONjlSYQANnd2facUH/ZJDcOAs/mvrySivSjnq/SaflsJONLIDaLHpQBrlu1Eiz1YFXb3i1MzS0B7eIUuDP3UoBPKz8KewGWAaw6tL9/F9pEROZjw79LQi+O1Q1URJqImLyI0SKCaFqwStxSwMOWwKIX4L8aWqOdM87xf6EyKVSInvg8O5hGvB3bfD0mTNevMPNdVHjnm96sE5PpGG5C9HqdXdMv1sE8mgGWedTR7RgSVfC1NlF4ZG3Al4l2tAwBwx5MSmxwQ9KJ4iNk48agPKb1H0vZaZUL5CCXx8TLv/xGfq4q+Hcg2JoacPNb1Ppd5xvrpj+MlMUA01lLMMEUv5DZC4KlowuciAeR1+g6mw/9OkQopwYRi30OIzIBVvXyA9o2Y2TOGpvpGIFo8QBOztmPplER54v39qbNRIAN8eqcWI0e2LSNqo2F744j8cnV+Cx/qpU8Up+UCRAGLwqkPp2CceThz+zond8YBzjru6y5Zjwyn1VqnNIN7RpsYro7+UiRCT2CF/AJOhzG6lxbJf/R3Qg8fC91P3qhx/pTrbTSqv9GGh89NNpc3D2+wi+Sg==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(7416014)(376014)(1800799024)(36860700016)(11063799006)(10067099003)(56012099006)(6133799003)(22082099003)(4143699003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	k2xrJW3QqDsnltYje1YGRGmX0cMLlc3eo8fJ2lHJYiTu5v3Ds/DVRmc1zHv0r/sU/oJCCEBj+3blKf4bkHUxnxLTpA7nueHEG725kmn82nxQu8Hq2SJfXXs168PpfMnRm5ViZ7F76if4jxhSFRFeoAEEtnr24j2ZQfdMrlt2w1sev+SBvdeep+UHeiwT0CEE0gMr2zZAQjT7nF8NO5EvwZkqrnVaZaOdugiqqpA1/YKykYN4kBzYYAtHxh3NGWn6dxroffyqydcjGur43l9/f6C0C+sQA3p3nrXmXCxT/vqML3RrHzRb+iInkK2iwJ4wVN0kB+G7+8SwWNHpvMZqlKzElGj6//LLrudZfhrE37YeiTg1p61vMBZfgR+IymlhQqz0JTx2hpGLVPRUPpMiWgB7fsDfXTsS3qOtIXzZqMtjuTJmEFpYl6NAMRqY11xV
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 18:03:52.9217
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23d0559a-662a-498c-2550-08df1fe65a7e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000A802.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9804
 
-of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-whether the node is dynamic but not whether it has valid private data.
+On Thu, Oct 01, 2026 at 05:40:41AM +0000, Pranjal Shrivastava wrote:
+> On Wed, Sep 30, 2026 at 01:33:58PM -0700, Nicolin Chen wrote:
+> > We may get away from the TLB maintenance. But ATC can be the case
+> > broken by the stop flag?
+> > 
+> 
+> Not really, I guess Sashiko missed the comment in a later patch. This
+> was discussed with Jason in v9 [1].
+> 
+> The key thing is that ATC_INVs can't be issued by the time we set this
+> flag anyway.. if we're in the suspend callback, the PCIe EP is already
+> suspended, so none of the ATC invalidation TLPs would be responded to.
 
-During the node creation, an OF changeset is used and this changeset is
-stored in np->data to be available for removal functions.
+Okay.
 
-If, for instance, a PCI host bridge is created using a device-tree
-overlay, the related node will have the dynamic flag set but np->data
-will be NULL. This leads to NULL pointer dereferences.
+> I'd addressed this in the RPM patch with a comment right above this check:
+> 
+>          * Note that eliding ATC invalidations (CMDQ_OP_ATC_INV) is safe
+>          * because client PCIe endpoints are guaranteed to be suspended
+>          * (via device links) before the SMMU is suspended. With the PCIe
+>          * links in a low-power state, no new TLPs can be transmitted.
+>          * It is strictly the responsibility of the client/endpoint driver
+>          * to quiesce DMA and ensure that the ATC state is cleared across
+>          * power state transitions.
+> 
+> i.e. we only start eliding once *all* consumers are RPM suspended, so
+> the "endpoint in D0" scenario can't happen.. and a suspended PCIe
+> function shouldn't be issuing translated requests anyway.
 
-Checking for a non-NULL np->data pointer to determine if the node has
-been created by the PCI node creation process is not enough. Indeed,
-on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-(e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-additions and populates np->data with its own structure, such as a
-struct pci_dn. In that case, np->data is not NULL but it is not related
-to our changeset stored during the PCI node process creation.
+Maybe move it to this PATCH-11?
 
-Avoid the usage of np->data to store the changeset used during the PCI
-node creation. Store our changeset in a more relevant structure: either
-struct pci_dev when the node is created for a PCI device or struct
-pci_host_bridge when the node is created for the PCI host bridge.
+> So we can't issue ATC_INVs during suspend (the EP is already down), nor
+> during resume (the SMMU resumes *before* the EP is made active). The EP
+> can't use its ATC while suspended, and if it loses power/resets on the
+> way back to D0 (from D3cold, or D3hot with No_Soft_Reset=0), it comes 
+> back with an empty ATC.. same assumption the PCI reset path makes today
+> (pci_dev_reset_iommu_prepare()).
 
-With that done, no ambiguity remains on removal. Indeed, this changeset,
-if non-NULL, is the one used during PCI node creation. Check and use
-this changeset on the removal process.
+In that case, would the STOP flag be too late? It's only set in
+the middle of the SMMU suspend. So, an ATC command (via doamin
+invalidation) might be issued prior to the Point of Commitment,
+which will be timed out due to the unresponding EP?
 
-Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
-Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-Cc: <stable+noautosel@kernel.org> # Issue not triggered but could be a problem
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- drivers/pci/of.c    | 26 ++++++++++++++------------
- include/linux/pci.h | 11 +++++++++++
- 2 files changed, 25 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 0a5797652e18..d6339720e710 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -733,14 +733,16 @@ void of_pci_remove_node(struct pci_dev *pdev)
- 	struct device_node *np;
- 
- 	np = pci_device_to_OF_node(pdev);
--	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-+	if (!pdev->cset || !np)
- 		return;
- 
- 	fw_devlink_set_device(&np->fwnode, NULL);
- 	device_remove_of_node(&pdev->dev);
--	of_changeset_revert(np->data);
--	of_changeset_destroy(np->data);
-+	of_changeset_revert(pdev->cset);
-+	of_changeset_destroy(pdev->cset);
- 	of_node_put(np);
-+	kfree(pdev->cset);
-+	pdev->cset = NULL;
- }
- 
- void of_pci_make_dev_node(struct pci_dev *pdev)
-@@ -800,18 +802,17 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
- 	if (ret)
- 		goto out_clear_devlink_dev;
- 
--	np->data = cset;
--
- 	ret = device_add_of_node(&pdev->dev, np);
- 	if (ret)
- 		goto out_revert_cset;
- 
-+	pdev->cset = cset;
-+
- 	kfree(name);
- 
- 	return;
- 
- out_revert_cset:
--	np->data = NULL;
- 	of_changeset_revert(cset);
- out_clear_devlink_dev:
- 	fw_devlink_set_device(&np->fwnode, NULL);
-@@ -829,15 +830,17 @@ void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge)
- 	struct device_node *np;
- 
- 	np = pci_bus_to_OF_node(bridge->bus);
--	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-+	if (!bridge->cset || !np)
- 		return;
- 
- 	fw_devlink_set_device(&np->fwnode, NULL);
- 	device_remove_of_node(&bridge->bus->dev);
- 	device_remove_of_node(&bridge->dev);
--	of_changeset_revert(np->data);
--	of_changeset_destroy(np->data);
-+	of_changeset_revert(bridge->cset);
-+	of_changeset_destroy(bridge->cset);
- 	of_node_put(np);
-+	kfree(bridge->cset);
-+	bridge->cset = NULL;
- }
- 
- void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-@@ -899,8 +902,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	if (ret)
- 		goto out_clear_devlink_dev;
- 
--	np->data = cset;
--
- 	/* Add the of_node to host bridge and the root bus */
- 	ret = device_add_of_node(&bridge->dev, np);
- 	if (ret)
-@@ -910,6 +911,8 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	if (ret)
- 		goto out_remove_bridge_dev_of_node;
- 
-+	bridge->cset = cset;
-+
- 	kfree(name);
- 
- 	return;
-@@ -917,7 +920,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- out_remove_bridge_dev_of_node:
- 	device_remove_of_node(&bridge->dev);
- out_revert_cset:
--	np->data = NULL;
- 	of_changeset_revert(cset);
- out_clear_devlink_dev:
- 	fw_devlink_set_device(&np->fwnode, NULL);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index d31a8d107b1e..7b0ba9ec7b5c 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -339,6 +339,9 @@ struct pcie_link_state;
- struct pci_sriov;
- struct pci_p2pdma;
- struct rcec_ea;
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+struct of_changeset;
-+#endif
- 
- /* struct pci_dev - describes a PCI device
-  *
-@@ -598,6 +601,10 @@ struct pci_dev {
- 	u8		tph_mode;	/* TPH mode */
- 	u8		tph_req_type;	/* TPH requester type */
- #endif
-+
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+	struct of_changeset *cset; /* Changeset used for OF node creation */
-+#endif
- };
- 
- static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
-@@ -670,6 +677,10 @@ struct pci_host_bridge {
- 	unsigned int	broken_l1ss_resume:1;	/* Resuming from L1SS during
- 						   system suspend is broken */
- 
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+	struct of_changeset *cset; /* Changeset used for OF node creation */
-+#endif
-+
- 	/* Resource alignment requirements */
- 	resource_size_t (*align_resource)(struct pci_dev *dev,
- 			const struct resource *res,
--- 
-2.55.0
-
+Nicolin
