@@ -1,46 +1,39 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896963AFCEB
-	for <driver-core@lists.linux.dev>; Thu,  1 Oct 2026 11:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E359649EC4E;
+	Thu,  1 Oct 2026 12:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790855368; cv=none; b=vCigo7365Y7eU+ANZnl94PNWA49yyQRrGO+ChwGbI5fr3D1Iv2p7xk4bh+r9zZ6mm2mlh7ey6Ohqa7yPXt8+t5lAnf9+HsrfBxWHcYs9Ycu7dD4XIyB9RdUeWQ9+e+qgA5/2UHt0VRGbocnzn9BAdyFo4ZqedylUm0zndK1IGvI=
+	t=1790859075; cv=none; b=MC0nj079E9NcwEeM18ADry4Gp7Ho+t5UgGt3q7yJ6D6nQrAAiDmAO2JjoAzcwPxnk/5MatoMnAPZEqbduPDXCzPyo8mYO4q+q+ewgl2Hg3gU+prGEjSNC21J0dI4GLJAQT1qP9fgwakhjHuCyfyZoPy8xSq7NuqeJqAbZaVJWTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790855368; c=relaxed/simple;
-	bh=oSurIycWFJu5mYdSyi3k9h1p3i/2qt0KW0D+rzArpJQ=;
+	s=arc-20240116; t=1790859075; c=relaxed/simple;
+	bh=9zwE3it0X/SnR7JPTJCFFCGzWsvCI3Ts+3EP1gH61IM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOyj01bmMfGSLg7aPRO4UnXJ4wXsiac3URk/HL85Qyy3HYvtych7EwOJ2Lb2mBF1LqcpbKP9iesa4eVe0oUS+fXbtojyQrBDfCeBFSI0hh6qkyyFCrdZQCmWkrKA2tR0xiQ0R9eNwvV0tmmio9K6SAcOUQ4p3g86bpKHvH572/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100.1)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1xCFHp-000000003yB-08ah;
-	Thu, 01 Oct 2026 11:49:17 +0000
-Date: Thu, 1 Oct 2026 12:49:09 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH net-next v18 0/6] net: dsa: mxl862xx: devlink flash and
- rescue
-Message-ID: <ar5ItRk_FL1ZJGBj@makrotopia.org>
-References: <cover.1790426599.git.daniel@makrotopia.org>
- <80fdcb30-be96-49da-8499-2c673e95b75b@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=u38JkURPXQhz647dtdASHYkd7TgX9ixK946TPBgVc2vzNY//HelYWi+3VyBeMNlYiDzOUU/zXXfzo7mPoooz+nT478R2mmoyflMUihdVP+rOhJSRQVbX9zYV+wmvasQJNWHq+l1gE2eGdA/UStK74eaYV8nfsHRUaadkSX/GhcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2K+v1eTw; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2K+v1eTw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F17561F000FF;
+	Thu,  1 Oct 2026 12:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790859073;
+	bh=+djwyJDzMgBoU15oSzdHcTZ6n15+RfZnhqPlr0XbuLw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=2K+v1eTw3+jJXNdnbRTVEIEwnsQtV0YZLkQagVar9LZgouJm6tHqx3t59WxT/UdzE
+	 pd4uZ2cahRDtuiXKBHrOH393TVPbkayC30in1ttx0d4BqxZ0Z4tBvNT/f3vyrLSYTZ
+	 HBzOGiAx3+XsdNtWlZXzkOwNsNqdHOoEyGUJnI1o=
+Date: Thu, 1 Oct 2026 14:51:07 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: rafael@kernel.org, dakr@kernel.org, djakov@kernel.org,
+	quic_mdtipton@quicinc.com, vkoul@kernel.org,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] debugfs: make debugfs_create_str() read-only
+Message-ID: <2026100153-unmanaged-impart-3adf@gregkh>
+References: <20260807100053.1089834-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -49,55 +42,26 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <80fdcb30-be96-49da-8499-2c673e95b75b@redhat.com>
+In-Reply-To: <20260807100053.1089834-1-chenyichong@uniontech.com>
 
-On Thu, Oct 01, 2026 at 01:19:01PM +0200, Paolo Abeni wrote:
-> On 9/26/26 15:48, Daniel Golle wrote:
-> > This series adds "devlink dev flash" and "devlink dev info" support to
-> > the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
-> > MCUboot loader recoverable through the same path.
-> > 
-> > The switch is flashed over the loader's clause-22 SMDIO download
-> > interface after the firmware API has rebooted it into MCUboot, and the
-> > driver reinitialises through a deferred detach and re-probe once the
-> > new image runs. A switch found in MCUboot at probe registers in a
-> > reduced rescue mode with firmware version 0.0.0, so the same flash flow
-> > recovers it; an interrupted download is drained in the background
-> > first. The deferred re-probe comes from a new driver-core helper,
-> > device_schedule_reprobe(), which the bound driver calls without a
-> > module reference; it also replaces the open-coded self-reprobe that
-> > iwlwifi, hci_h5 and btintel_pcie carry, whose work function frees its
-> > own module text from under a racing rmmod. fwupd's devlink plugin
-> > carries the matching quirks [17].
-> > 
-> > Patch 3 is a driver-core change and patch 4 does not link without it,
-> > so the series needs a driver-core ack before net-next can take it.
-> > 
-> > Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
-> > through fwupd; an unbind and a reboot issued while a flash was running,
-> > which wait out the transfer and announce the wait; a host crash and a
-> > power cut mid-transfer, recovered by the background drain and by the
-> > rescue path on the next boot; and an unbind and a reboot issued while a
-> > background drain was running, which abort the drain at once and let it
-> > resume and complete on the rebind or reboot.
-> > 
-> > Changes since v17 [23]:
+On Fri, Aug 07, 2026 at 06:00:50PM +0800, Yichong Chen wrote:
+> debugfs_create_str() has a generic write implementation that replaces the
+> backing string.  Concurrent writers can race and free the same old string
+> twice.
 > 
-> Out of sheer curiosity, what represent the number in the square brackets?
-
-Those a are classic footnote references to the URLs listed on the bottom,
-below the (lengthy...) history section of the cover letter. Maybe I should
-move the URLs above the history section?
-
+> Instead of adding more locking to the generic helper, convert the existing
+> writable in-tree users to local file operations and make
+> debugfs_create_str() read-only.
 > 
-> More feedback from clashiko. Requests about comments clarification
-> are IMHO mostly pedant and could be ignored, but AFAICS there are a
-> few actionable items on patches 3 and 4.
+> Changes since v2:
+> - Use scoped mutex guards in the interconnect and SoundWire conversions.
+> - Clarify why GFP_KERNEL is safe in the interconnect conversion after the
+>   RCU read-side critical section is removed.
+> - Drop the unnecessary firmware_file = NULL assignment in the SoundWire
+>   exit path.
+> - Use WARN() instead of WARN_ONCE() so each writable debugfs_create_str()
+>   caller can be reported.
 
-Yeah, I saw that, was about to prepare v19 and go into the next round
-of mecha wars[1]. Patch 3 (the device-core one) should be perfect before
-going in as it's (hopefully) about to become core infrastructure.
+Sorry for the delay, now applied.
 
-
-[1]: Fighting against Sashiko reminds me a lot of
-https://en.wikipedia.org/wiki/Neon_Genesis_Evangelion
+greg k-h
