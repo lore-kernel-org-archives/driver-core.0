@@ -1,91 +1,76 @@
-Received: from mail-dl2-f12.google.com (mail-dl2-f12.google.com [74.125.229.140])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D23E4F96CB
-	for <driver-core@lists.linux.dev>; Fri,  2 Oct 2026 16:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00F44F5E03
+	for <driver-core@lists.linux.dev>; Fri,  2 Oct 2026 18:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790959673; cv=none; b=XQdJ5CqxtB8DpeOWTmB8vhx4x+AZvm5QaNFjDUUBqqgsG05ik72dwGkFDD9D48/+1zg01+2CY72EpHWQ8rIgWjT9KZNVfzNBE8Ew79Cfzkt3C+VS9qH2dHVXSwBuKj5BJ46HbeNF0/DBH2VTQazihtZgnpU4VoE5+YGi3h7BzFI=
+	t=1790965726; cv=none; b=lyVmnPHkp8TvS9a54NIE/MayVqT/ccInyBBsYp6Y7Wuv5PWoysMWs0PSmloJ3ISgcX2Swch9M3hxDQc3UROUE72/kjIw/u03djXKxLeiZlx72+TQ3Spvl97FLj7RFop+uX8Pw7zIA3W4JQsOYJk/6ezJKDuTImCVnqxIMn0Oaxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790959673; c=relaxed/simple;
-	bh=GfLGRzNdrUQtKcYv331zMoj3Gl5JEVaaZYE2NszLXF8=;
+	s=arc-20240116; t=1790965726; c=relaxed/simple;
+	bh=37xW3bXnNDjppoFLWCR/oa4xzrjQIHEZAETiL9CojqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZlEhYpE5HKeE0SR7MVAzaDob4LyiVZc06WAqWPcv10heVo6d7bmRBscW1/G0dPYenZGltaLFFB1frSMNhhDrKO65M1vxSzFlovb575KtYfNiy/oWfG2fLJna4/41gTYhnezuKAWic4pVB7dL88JIVzJGjuM+IqIYFlVWBh3DBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=VUXVExKJ; arc=none smtp.client-ip=74.125.229.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=evFh/0Bh847bF63Z+TobSzC+6NDfEbt6R/TMaZ+/OzIwP/GUfStE2O5BYFZWOBV8QIJlIEW3QOJTlga3D7NwHsh2PvB661PSHXH4gIGYOrUcoKoNCJJ76alOvBtB0Kx037lZ9E08xCJ8S+YmNhSZAv6zcecWJGlZKKvRxTn9zGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=scTZiPai; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="VUXVExKJ"
-Received: by mail-dl2-f12.google.com with SMTP id a92af1059eb24-142dd04edb5so2117245c88.2
-        for <driver-core@lists.linux.dev>; Fri, 02 Oct 2026 09:47:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="scTZiPai"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5332bc442ebso1757011cf.1
+        for <driver-core@lists.linux.dev>; Fri, 02 Oct 2026 11:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1790959670; x=1791564470; darn=lists.linux.dev;
+        d=rowland.harvard.edu; s=google; t=1790965716; x=1791570516; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=M8FgFfsrFu7NaKoGhtbGJNDz2Gwi+BLzqOzLKsff8ag=;
-        b=VUXVExKJdzjwxxUASQbA0olS6bdDtGiHPSVI8fkGytb6GlUpDko+osshnn8BB3MITT
-         W0QMjNGdx9E9FYaDTVje3/HS47Z3QA9S3uVrkXiBgjXGhVaUHaOuA0La/FeMR6a3Qlz2
-         4ty1exHbP0rY0MeLeIn+OERCcNDwELIp8535HamLsU7RyA0i5eI/MZHqVyxw9n+R6Lr8
-         YwpSwL8dfW0im7rnAjO/eb63GbxAWZZaaLeULGKLPY59umRWeNxXaAKBatmGIKckdzLh
-         1TyhCE7+dYs6DT2YdqOfOx7jOar+gW63UPjfolRKpPya1oXIz1w0MEsQlyTtxl5ZnsYj
-         i/Gg==
+        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
+        b=scTZiPai4Ar2NWV5W3WcVEOPnJPFPTP5mfpO0W4z/Gt+TGGhh9QENeXpUrMVEtxmWN
+         dYvYIvMgQgsroWBcsmgAD13aZLywyGMtkIHCG3i72b9nh6Vun0OMLCQEIpkIIsA3o3Cc
+         skJ2Bf/aWwc8EvtmjQiecLJfMxWyZ6QlCPx8bm02evyTAMfEQK+H+Nxbhmhup8g1bJZe
+         RO05SrjPvHV+XjJBJS7P8Fp8b0iuc8OXFHgIxTMJP+JP63rz85GvBUlZgiVtpr6MBGYE
+         9U55yfrOvwwC2MmJgV5WQbu9yYgKFkG/wZ4C+OEJd9hd4lzqQTNbkYGB/wSz6Qb4I421
+         Ge9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790959670; x=1791564470;
+        d=1e100.net; s=20260707; t=1790965716; x=1791570516;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=M8FgFfsrFu7NaKoGhtbGJNDz2Gwi+BLzqOzLKsff8ag=;
-        b=yurJCHRS0yLmUOpeD1u7L8uIH4Xp6M8QDm87kc6JlgCtB8874yRdwfqxnd3iykWVRp
-         mB462EvCYLH9DoNNIqYL1TTcgB/rLqHmLABCIufJWVx8ulXKG+udnOATcE9jxYeoWusN
-         DcM7I+pGGUsZHrAEL18rFCbZZ4sB/VOny0eDKz0rdek3sTIQzZKlKePcgF8h/CRIyJAg
-         njK0Q0+UUpuLwLHnPytSHe34Ts6qTNnIAGS2v6StqFqjI6v+lpoWT2KHoMVAKXF8j/pJ
-         WTqWLRZao+VLm6Qlk+knEZXKstrtw01ivhEvdoh4qF2ZT4f+HudV3wZQqcmX2iZsDDq1
-         NfiA==
-X-Forwarded-Encrypted: i=1; AKwUvBzZ2YOkSSfLdolvXMM3KFQ+YnxT10qlPgHfm6CUzcAviwPKOe+YoKyRb8Ia66HNaxoxdIZXD4e69axA2Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++k7oyGh115irLO/QYiu11FyKDZECho7gzbKa+t0yzcKa8t9BGQp
-	4K7+RtLEoBbkJiPvZR38KSBLeYk3NIey2OWrDh87g3khpb6B4nzFor8/7aOijJKU/SE=
-X-Gm-Gg: AYBFou0aTvv60N2yZ99uMjVrLAb3BP662mGylwnsD7sYywZEZ0Nv96mDxj/6bKVLawx
-	f9/aU+MF1nKXZv38JcMHcDXfsGIuWDPAjY7p0Y+LbgKvqA5ySJqUO3PgDDgpAUpy29xTQe2ZPbT
-	MBU6ivyw41U42tk2m1F+9KOjPnkzIHlYC4+ieKEnpO0VWesNVXT67payULLzAkJsacVvrtxIKkv
-	W3hJUX0n+6/kCv4ZV+xe7iXPlCWjd3zxvWYqcwuN3+c2eaesFNpySMU30j+wYmOrYq3Ei1cNuNJ
-	f9Lqqu/gHstOmLW65VtJyr7YLXA+08L1RqkjPOQUUlx5jGp/Qm/opEN6fjFYs2QrRmh+/2m4Y3k
-	64meuZ+g0aSp20Fi9LJPFjbhc4Vy0sqboQrm/DbtkGu9D3KkwJn/5cIwL48TgM/wH/ISssIQFmP
-	PH8GdMyLDTK+r3Y+I2TFKqLTbkLADLlQIEr0Z0Suv9XLnh
-X-Received: by 2002:a05:7022:5f1c:b0:146:852d:60b7 with SMTP id a92af1059eb24-1508932185fmr1788544c88.8.1790959670092;
-        Fri, 02 Oct 2026 09:47:50 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14f45fee0afsm8489793c88.5.2026.10.02.09.47.49
+        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
+        b=XIIbnqjgTt4VMRMaq6nWpx7JOztvq53/De3Gu6/puryUh2k84b+liZFYRlMk7YIap5
+         d+M2NQjt0wHz8nnm8kgCF6H6Hz80GstTbvyL864XI5rJ6Adc+hFe+FMxATyiptLCut0Q
+         Kl+HNoPFM5znSUjkMnbHFDUmBZoOGmDY+HO25XgWF1lsSN8XfpamhNkxCYQt97MeCcnc
+         VntxPLgQBnAZK/pR6ze60gKeQkl59G8dpDx1ZgMrFjeRjrRGCy3mtQB+4CxDkMnKQG/8
+         CSAKJeTk0XEbtxVV7L3UL/tZO0q0PtUCHThzSKEt3xVN+SWMQfY6fewamJW4nmb8cX+y
+         EoXg==
+X-Forwarded-Encrypted: i=1; AKwUvBwdLmc9MO6qKUq6sj6n5XkIK5Q/TNtwvg8xeMYeJaGDAXr4Q7buFRasRCDh/YY1ij9DKtmgtD6yOsndxw==@lists.linux.dev
+X-Gm-Message-State: AFuF++ketuYOraZHJi8rS5hVjYAPC+SdmAkvcOhr+BXj6BPdZsWmEjTd
+	uEWOzq0Ddij2Scw+jdvehjEgDMDu8dIqiSK1UbPetCPVXv3YOKkv2qOzTO6Rkqjzpw==
+X-Gm-Gg: AYBFou04uJJO/PO9TBkgVCMEwLued/foDB9I/EcCsNrnKi2OkDyFnRZdU5Y5Dbk75lA
+	w7po6X3nLtZHoWm9h5fpkDJgt4j0Df5MzCFg1JtjEEvBLt80yJfpr6n36jv789k1IL1Hu3IMRW+
+	Wmqo3xUv/myBbv6/8eVLt0PoNApn/7wBOqwmiP8jB9BrxrvbTdDu3Owx+5Y2TWr/ibYq84gQRrY
+	Jz5njqCTBim4+yIssK/jNs0ZNg4RChTwhqoeKtx1dNPBER4hRooDlTiX7VnhaH1Cq7GBF/O0dhX
+	m4hG+PdXBps0LKSfSz7LpndPlxn/9v/OS6n6ofSHf7BtIOabghSCvaVFmbTq8A5wK77aFItPaeV
+	9UfEjyDcs8XDsbX0Zb7sYAlaa+AO8Yk1nuV+bgdlCXJJlPvG+n/SN7wOIZaqwjwVzAnFrzfbAu7
+	4q/8MbI43Eo5+uG6beQxvwpwlcnhYmRKZlGgHD4gUvqmqkk21QTX62PcLX3Zu/550oUmJeyN4A6
+	eTczhru+w==
+X-Received: by 2002:ac8:6f0e:0:b0:532:af50:8d7d with SMTP id d75a77b69052e-53511e71255mr2084371cf.33.1790965715552;
+        Fri, 02 Oct 2026 11:28:35 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5350d54de14sm7781361cf.20.2026.10.02.11.28.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 09:47:49 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xCgQG-000000008FP-19Pb;
-	Fri, 02 Oct 2026 13:47:48 -0300
-Date: Fri, 2 Oct 2026 13:47:48 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Pranjal Shrivastava <praan@google.com>, iommu@lists.linux.dev,
-	Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Daniel Mentz <danielmentz@google.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
- gate CMDQ submissions
-Message-ID: <20261002164748.GD3481470@ziepe.ca>
-References: <20260929034510.2023173-1-praan@google.com>
- <20260929034510.2023173-12-praan@google.com>
- <ar1yNtr7Kp2OTcDd@nvidia.com>
- <ar3yWUmi8E0k37Ml@google.com>
- <ar6gY9grmdMZcN/M@nvidia.com>
+        Fri, 02 Oct 2026 11:28:34 -0700 (PDT)
+Date: Fri, 2 Oct 2026 14:28:32 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
+	johan@kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@kernel.org
+Subject: Re: [PATCH] usb: core: don't set drvdata to NULL in
+ usb_unbind_interface()
+Message-ID: <c47f59d7-366a-4588-9742-b6e484c1c996@rowland.harvard.edu>
+References: <20261002145455.3392703-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -94,33 +79,102 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ar6gY9grmdMZcN/M@nvidia.com>
+In-Reply-To: <20261002145455.3392703-1-dakr@kernel.org>
 
-On Thu, Oct 01, 2026 at 11:03:15AM -0700, Nicolin Chen wrote:
-
-> > So we can't issue ATC_INVs during suspend (the EP is already down), nor
-> > during resume (the SMMU resumes *before* the EP is made active). The EP
-> > can't use its ATC while suspended, and if it loses power/resets on the
-> > way back to D0 (from D3cold, or D3hot with No_Soft_Reset=0), it comes 
-> > back with an empty ATC.. same assumption the PCI reset path makes today
-> > (pci_dev_reset_iommu_prepare()).
+On Fri, Oct 02, 2026 at 04:52:49PM +0200, Danilo Krummrich wrote:
+> usb_unbind_interface() serves as the remove() callback of struct
+> usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
+> device private data pointer.
 > 
-> In that case, would the STOP flag be too late? It's only set in
-> the middle of the SMMU suspend. So, an ATC command (via doamin
-> invalidation) might be issued prior to the Point of Commitment,
-> which will be timed out due to the unresponding EP?
+> However, the driver core code already sets the bus device private data
+> pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
+> which makes the call redundant.
+> 
+> In addition, it can create unexpected NULL pointer dereference scenarios
+> when drivers use managed APIs.
+> 
+> 	int probe(struct usb_interface *intf,
+> 		  const struct usb_device_id *id)
+> 	{
+> 		struct data *data;
+> 		int ret;
+> 
+> 		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
+> 		if (!data)
+> 			return -ENOMEM;
+> 
+> 		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
+> 		if (ret)
+> 			return ret;
+> 
+> 		...
+> 	}
+> 
+> 	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
+> 			       char *buf)
+> 	{
+> 		struct usb_interface *intf = to_usb_interface(dev);
+> 		struct data *data = usb_get_intfdata(intf);
+> 
+> 		/* Potential NULL pointer dereference */
+> 		return sysfs_emit(buf, "%u\n", data->value);
+> 	}
+> 
+> Nothing prevents usb_unbind_interface() to race with foo_value_show()
+> and set usb_set_intfdata(intf, NULL).
+> 
+> Besides that, the Rust driver core code manages a driver's bus device
+> private data and destroys it in device_unbind_cleanup().
+> 
+> If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
+> driver core code sees NULL, and hence skips the destructor of the bus
+> device private data, which leaks all its resources.
 
-How can you ever fix that?
+Aren't there a few interface drivers that explicitly set the intfdata 
+value to NULL in their own ->remove() routines?  If you haven't checked 
+for that, you might want to.
 
-How does power management really work, is it expected that the end
-device is already quieted by its driver?
+> Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
+> move it to usb_driver_release_interface(), which manually calls the
+> remove() callback of struct usb_driver, and hence can't rely on the
+> driver core.
+> 
+> Cc: stable@kernel.org
+> Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
 
-Could the first step in power management install a blocked STE? Then
-we don't have to worry about ATC desync and that automatically stops
-generating new ATC invalidations if we go and detact the domains too
+Makes sense,  IIRC, that line was added mostly as a convenience for 
+drivers, anyway.
 
-Maybe I'm wondering if power management should involve the core code
-so it detaches all the domains from the device, setups up blocking and
-then the iommu itself could power ofF?
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Jason
+Alan Stern
+
+>  drivers/usb/core/driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> index 7f33fe5ba03b..412174270fbf 100644
+> --- a/drivers/usb/core/driver.c
+> +++ b/drivers/usb/core/driver.c
+> @@ -497,7 +497,6 @@ static int usb_unbind_interface(struct device *dev)
+>  	} else {
+>  		intf->needs_altsetting0 = 1;
+>  	}
+> -	usb_set_intfdata(intf, NULL);
+>  
+>  	intf->condition = USB_INTERFACE_UNBOUND;
+>  	intf->needs_remote_wakeup = 0;
+> @@ -644,6 +643,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
+>  	} else {
+>  		device_lock(dev);
+>  		usb_unbind_interface(dev);
+> +		dev_set_drvdata(dev, NULL);
+>  		dev->driver = NULL;
+>  		device_unlock(dev);
+>  	}
+> 
+> base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+> -- 
+> 2.56.0
