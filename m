@@ -1,131 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4566D4C8FFF;
-	Fri,  2 Oct 2026 14:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672B48164E;
+	Fri,  2 Oct 2026 14:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790952046; cv=none; b=q6MgogrJEL6IgnXikg4dnMei1OJoEpS2HqnudEqMiooTbneA36pZ9Tb5wXf8fnQ9hc7Pm5KOVd8m25msrFjvyl9FxAXZya95nOCF6YWYv+Y0BleN3hH3DjJ9E+fxawtISSEjIVZpwGs5FXttiFJH6fSlSVgI7GMpRv7dCM/jTQk=
+	t=1790953159; cv=none; b=OaL5dIvu6iHUH6tjUMoeFArNPkBD/b1jK+l1wLQejADTrL+4xgYhnJX0jIoolagXJmxSnwOvnz5KsN3K8jLEvez7dyzRTcBpDxzKBgMCXL9PPrC2RIhk4Lrjeonm1rvkOyWG/JpQ5QCGHuuUP4UuWgX6MR4pdXRL9SLs/bnUeKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790952046; c=relaxed/simple;
-	bh=uRVzb4q9OnjD7ysKCgL73yda96KR80dS+yOvFv+JzNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bUJh9f/eohYKWbDMHvx8u8GXhXASpbHTqF/i5EQRYb1wXTHn31C3hMpSFQUQXjDPPqRIzAhAYrtPUOuRkCELlIy8FBj+wanlx8kR+rIxfwVT6aN7Qado0hQ4G9ikHkhqecd91Dpol9igM0l6qvWDo5MKG4w2Bdi6hatynMi83rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+Y7btEI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790953159; c=relaxed/simple;
+	bh=vf2U29OfDqQi6TRh/hgKlKMu8NiB7PFe0yRgU6x8me4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n+kzX6I7YMmY3mzqaXKL1JgV5cFOWfr01wOj4xOfNJAK6mu6CGAGTuPcqLxtZrfddtPJYs+NUhc0Lyr+pKxj79gHUk7/Lg8Oj6+PoswnG7e/bm/tjsX/XWA4LSirCLraq4eFdd49vNM2Yhqj555iUQYeiZWfY5n/ryQ1ZtRqVvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUO2iVyk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+Y7btEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BCA1F000FF;
-	Fri,  2 Oct 2026 14:40:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUO2iVyk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FD471F000FF;
+	Fri,  2 Oct 2026 14:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790952041;
-	bh=dcnYXBA3CEuai0qXprr2+qcXQPtBfgGrYCuvMwsvpIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J+Y7btEI6wVH8SHpWF1hvukTyWhiFXJzzVeJkL7+bJGU19zujfqJ/unjYCWogXMTo
-	 aR9J8tb2IzpQO9Nb4ks1OtNadABO6C9qhhlrQHafo/jjjY5Iwc87tuv9QkTZJSBcfh
-	 vuzJ7tVkEN1RnisC829oVeGHm8bywCGfw2N2JGNHhprrqcLBllUy4wG7Z0h/JvbHjx
-	 ldxLi67QqiIzfBNBc1SYRN9+r4lN4aHwLdRxtRRrqG/rPjwJl5nkxsnIVg+7uAFZQR
-	 06TR50wzBjO9S3VxX83nEhVID8nzGTuPE7ytLOnDW6Ow0OPXOTC1dJ+u9+A8Wnrs3+
-	 s2mpJcE2gB+rw==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xCeRC-00000009jua-3wyb;
-	Fri, 02 Oct 2026 16:40:38 +0200
-Date: Fri, 2 Oct 2026 16:40:38 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <ar_CZkY_keyTrWqX@hovoldconsulting.com>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
- <apA8n524yIn-g6ep@hovoldconsulting.com>
- <arbkvK54vT7SIyjV@google.com>
+	s=k20260515; t=1790953158;
+	bh=xLtGezXul7Lj/dxXMiIF/tLM+YjmDyHC+PudCRBWjuI=;
+	h=From:To:Cc:Subject:Date;
+	b=KUO2iVykTMNViRDrZGkYaO3rR2SRq4gUejZxbCaT6mDw6NwYI5c9cTSLkc2vYPN20
+	 pWL7L85l6yqF4NOhYfCc31YMYz524SsTYr4l8JzA34l+m4jVV9SZqphTcUNmzv+vAj
+	 tmSydLctovKJURteR6HUhFNPMTidC+xFhjIehkLB+TZqh62u0QJ6tSeyhCkXIA/+BP
+	 xTAYOvqYrvCeC1OkQK0ZG3Ykecfjf6KFJz4Ysc5TQqhs07b1SPkRSOuNmZtNyxtX6B
+	 JH8vCxclsIZIXr7vi5+M/TqpkJkk7/P2wzik5WKHPEAUByPF2cErFGWvnzKW8J72pT
+	 I2RHsqrb1mzHA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael.j.wysocki@intel.com,
+	dakr@kernel.org,
+	johan@kernel.org
+Cc: linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@kernel.org
+Subject: [PATCH] usb: core: don't set drvdata to NULL in usb_unbind_interface()
+Date: Fri,  2 Oct 2026 16:52:49 +0200
+Message-ID: <20261002145455.3392703-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arbkvK54vT7SIyjV@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 25, 2026 at 02:19:25PM -0700, Dmitry Torokhov wrote:
-> On Thu, Aug 27, 2026 at 03:33:19PM +0200, Johan Hovold wrote:
-> > On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
-> > > The ability to add and remove devices from a driver through the sysfs
-> > > "bind" and "unbind" files was created all those decades ago as a way
-> > > that kernel developers can iterate faster, and provide a debugging way
-> > > for users to attempt to add a new device to a driver without having to
-> > > rebuild their kernel.
-> > > 
-> > > This api over the years has been abused and recently come under a major
-> > > fuzzing "attack" through tools like syzbot which decided that it would
-> > > attempt to just randomly bind any driver to any type of device, causing
-> > > loads of unneeded errors and pointless kernel patches to be generated by
-> > > unsuspecting new developers.
-> > > 
-> > > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > > will be set on the driver if the bind/unbind sysfs files are ever
-> > > successfully written to.  This lets kernel developers "know" that a user
-> > > is attempting to do something that is not normal, and as such, if the
-> > > kernel breaks they get to keep the shiny pieces laying around on the
-> > > floor.
-> > > 
-> > > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > > as many times crashes/oops/warnings/failures happen within the callback,
-> > > and the taint flag needs to be there to show what was being attempted.
-> > > If it were to be set after the callback happens, the oops report would
-> > > not properly reflect what foolishness was being attempted.
-> > > 
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > This makes it clear that this is a development tool, and it is a good
-> > compromise preferable to adding unnecessary complexity or suppressing
-> > the attributes completely just to prevent root from shooting themselves
-> > in the foot:
-> > 
-> > Reviewed-by: Johan Hovold <johan@kernel.org>
-> > Tested-by: Johan Hovold <johan@kernel.org>
-> 
-> bind/unbind without overrides should not necessarily be treated as a
-> development tool. For example with I2C devices you may want to unbind
-> the functional driver, perform firmware update from userspace, and bind
-> the device again. This will ensure that driver is not confused and at
-> the same time you do not need to put into the kernel code that is
-> dormant 99.9999 percent of the time.
+usb_unbind_interface() serves as the remove() callback of struct
+usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
+device private data pointer.
 
-Yeah, there are some other uses of these attributes that essentially
-involves switching to a user space driver (vfio, i2c-dev, libusb, ...).
+However, the driver core code already sets the bus device private data
+pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
+which makes the call redundant.
 
-This is still a bit of a foot gun as many subsystems do not expect their
-devices to live on hotpluggable buses and will break in various ways
-unless you know what you are doing or happen to be lucky. So I think
-tainting the kernel is still warranted.
+In addition, it can create unexpected NULL pointer dereference scenarios
+when drivers use managed APIs.
 
-This should probably have been highlighted in the commit message,
-though.
+	int probe(struct usb_interface *intf,
+		  const struct usb_device_id *id)
+	{
+		struct data *data;
+		int ret;
 
-Note that unloading the driver module in question is generally safer as
-the chardev implementation provides some safeguards against unloading
-drivers for devices that are currently in use (even if some subsystems
-also manages to get that wrong).
+		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
+		if (!data)
+			return -ENOMEM;
 
-Johan
+		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
+		if (ret)
+			return ret;
+
+		...
+	}
+
+	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
+			       char *buf)
+	{
+		struct usb_interface *intf = to_usb_interface(dev);
+		struct data *data = usb_get_intfdata(intf);
+
+		/* Potential NULL pointer dereference */
+		return sysfs_emit(buf, "%u\n", data->value);
+	}
+
+Nothing prevents usb_unbind_interface() to race with foo_value_show()
+and set usb_set_intfdata(intf, NULL).
+
+Besides that, the Rust driver core code manages a driver's bus device
+private data and destroys it in device_unbind_cleanup().
+
+If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
+driver core code sees NULL, and hence skips the destructor of the bus
+device private data, which leaks all its resources.
+
+Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
+move it to usb_driver_release_interface(), which manually calls the
+remove() callback of struct usb_driver, and hence can't rely on the
+driver core.
+
+Cc: stable@kernel.org
+Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+ drivers/usb/core/driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 7f33fe5ba03b..412174270fbf 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -497,7 +497,6 @@ static int usb_unbind_interface(struct device *dev)
+ 	} else {
+ 		intf->needs_altsetting0 = 1;
+ 	}
+-	usb_set_intfdata(intf, NULL);
+ 
+ 	intf->condition = USB_INTERFACE_UNBOUND;
+ 	intf->needs_remote_wakeup = 0;
+@@ -644,6 +643,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
+ 	} else {
+ 		device_lock(dev);
+ 		usb_unbind_interface(dev);
++		dev_set_drvdata(dev, NULL);
+ 		dev->driver = NULL;
+ 		device_unlock(dev);
+ 	}
+
+base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+-- 
+2.56.0
+
