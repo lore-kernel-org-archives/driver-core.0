@@ -1,133 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672B48164E;
-	Fri,  2 Oct 2026 14:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F0C338D686
+	for <driver-core@lists.linux.dev>; Fri,  2 Oct 2026 15:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790953159; cv=none; b=OaL5dIvu6iHUH6tjUMoeFArNPkBD/b1jK+l1wLQejADTrL+4xgYhnJX0jIoolagXJmxSnwOvnz5KsN3K8jLEvez7dyzRTcBpDxzKBgMCXL9PPrC2RIhk4Lrjeonm1rvkOyWG/JpQ5QCGHuuUP4UuWgX6MR4pdXRL9SLs/bnUeKQ=
+	t=1790956227; cv=none; b=TllkEyRfPlz2+EQCmVrz1Gg+vjLF3FinfEV80uVw4DSAO/WkEW9Tae5WSM0B7cnAOibJh7VYcqxZubm3i3X4scWYT2YFMreFsdngl3La2cnBXc5l7ItFVyxyTltvnk28UV+x/oRhFBRKlCH+Ra+6IvK6bwp3Rr/xMi8KDpG6uVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790953159; c=relaxed/simple;
-	bh=vf2U29OfDqQi6TRh/hgKlKMu8NiB7PFe0yRgU6x8me4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n+kzX6I7YMmY3mzqaXKL1JgV5cFOWfr01wOj4xOfNJAK6mu6CGAGTuPcqLxtZrfddtPJYs+NUhc0Lyr+pKxj79gHUk7/Lg8Oj6+PoswnG7e/bm/tjsX/XWA4LSirCLraq4eFdd49vNM2Yhqj555iUQYeiZWfY5n/ryQ1ZtRqVvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUO2iVyk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790956227; c=relaxed/simple;
+	bh=addLhb0y53M6moXzrK6ciKSDwv0bF0n4zaTd5bS4+ec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IAVwKmx5QUg7Xl2C5Ecdmp18/+Z5Tgh90zNvQ/KxuR3aCBSIu4zk1RY24bgQ1ZX+jqcBFoh8yyOGllUfaz1s1sucL4N9jffT0boogwUEnfrOVCBnUqLl2ROOcwp2e3NDviweTa6wvuXPPk+5lbQwangU5lJfmIyl+zzgEnS6yQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dIc0SqhS; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUO2iVyk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FD471F000FF;
-	Fri,  2 Oct 2026 14:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790953158;
-	bh=xLtGezXul7Lj/dxXMiIF/tLM+YjmDyHC+PudCRBWjuI=;
-	h=From:To:Cc:Subject:Date;
-	b=KUO2iVykTMNViRDrZGkYaO3rR2SRq4gUejZxbCaT6mDw6NwYI5c9cTSLkc2vYPN20
-	 pWL7L85l6yqF4NOhYfCc31YMYz524SsTYr4l8JzA34l+m4jVV9SZqphTcUNmzv+vAj
-	 tmSydLctovKJURteR6HUhFNPMTidC+xFhjIehkLB+TZqh62u0QJ6tSeyhCkXIA/+BP
-	 xTAYOvqYrvCeC1OkQK0ZG3Ykecfjf6KFJz4Ysc5TQqhs07b1SPkRSOuNmZtNyxtX6B
-	 JH8vCxclsIZIXr7vi5+M/TqpkJkk7/P2wzik5WKHPEAUByPF2cErFGWvnzKW8J72pT
-	 I2RHsqrb1mzHA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael.j.wysocki@intel.com,
-	dakr@kernel.org,
-	johan@kernel.org
-Cc: linux-usb@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@kernel.org
-Subject: [PATCH] usb: core: don't set drvdata to NULL in usb_unbind_interface()
-Date: Fri,  2 Oct 2026 16:52:49 +0200
-Message-ID: <20261002145455.3392703-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dIc0SqhS"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5FDD2F;
+	Fri,  2 Oct 2026 08:50:17 -0700 (PDT)
+Received: from [10.211.55.3] (unknown [10.57.85.160])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EFF853F882;
+	Fri,  2 Oct 2026 08:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790956221; bh=addLhb0y53M6moXzrK6ciKSDwv0bF0n4zaTd5bS4+ec=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dIc0SqhSeSEZ/CM/AXGJdNLXtW0qvBRe6LGaQceAFTxDl2JXb5l1nqfpXkBBCwt0o
+	 ppPo9dofMYeflUMRn+pJr9K+j9HrGjjkXXaIrtTO30cB8XZO/flVYhZKFU5Ih092NU
+	 xY/dPfvJiyPGAr3QokJAAotPvX3tbzS7/jGzn7eg=
+Message-ID: <02c82cdd-6fc5-4b54-99cd-32d88cca956d@arm.com>
+Date: Fri, 2 Oct 2026 16:50:15 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH RFC v2 01/10] arm_mpam: Fix the RIS index range check in
+ mpam_ris_create_locked
+To: Yin Li <yin.li@oss.qualcomm.com>, James Morse <james.morse@arm.com>,
+ Rob Herring <robh@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Reinette Chatre <reinette.chatre@intel.com>, Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Drew Fustini
+ <fustini@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+ trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ ganapatrao.kulkarni@oss.qualcomm.com,
+ Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+ Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ devicetree@vger.kernel.org
+References: <20260914-mpam-resctrl-dt-knp-support-v2-0-bf6645bb2f65@oss.qualcomm.com>
+ <20260914-mpam-resctrl-dt-knp-support-v2-1-bf6645bb2f65@oss.qualcomm.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20260914-mpam-resctrl-dt-knp-support-v2-1-bf6645bb2f65@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-usb_unbind_interface() serves as the remove() callback of struct
-usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
-device private data pointer.
+Hi Yin,
 
-However, the driver core code already sets the bus device private data
-pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
-which makes the call redundant.
+On 14/09/2026 10:37, Yin Li wrote:
+> The RIS selector field is defined as MPAMCFG_PART_SEL_RIS (bits 27:24),
+> which is 4 bits wide and gives valid indices 0..15. MPAM_MSC_MAX_NUM_RIS
+> is defined as 16, so the check should use >= to reject index 16 and
+> above. The previous > check incorrectly accepted index 16 as valid.
+> 
+> Fixes: 01fb4b822472 ("arm_mpam: Add the class and component structures for firmware described ris")
+> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-In addition, it can create unexpected NULL pointer dereference scenarios
-when drivers use managed APIs.
+Reviewed-by: Ben Horgan <ben.horgan@arm.com>
 
-	int probe(struct usb_interface *intf,
-		  const struct usb_device_id *id)
-	{
-		struct data *data;
-		int ret;
+Thanks,
 
-		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
-		if (!data)
-			return -ENOMEM;
+Ben
 
-		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
-		if (ret)
-			return ret;
-
-		...
-	}
-
-	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
-			       char *buf)
-	{
-		struct usb_interface *intf = to_usb_interface(dev);
-		struct data *data = usb_get_intfdata(intf);
-
-		/* Potential NULL pointer dereference */
-		return sysfs_emit(buf, "%u\n", data->value);
-	}
-
-Nothing prevents usb_unbind_interface() to race with foo_value_show()
-and set usb_set_intfdata(intf, NULL).
-
-Besides that, the Rust driver core code manages a driver's bus device
-private data and destroys it in device_unbind_cleanup().
-
-If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
-driver core code sees NULL, and hence skips the destructor of the bus
-device private data, which leaks all its resources.
-
-Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
-move it to usb_driver_release_interface(), which manually calls the
-remove() callback of struct usb_driver, and hence can't rely on the
-driver core.
-
-Cc: stable@kernel.org
-Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/usb/core/driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 7f33fe5ba03b..412174270fbf 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -497,7 +497,6 @@ static int usb_unbind_interface(struct device *dev)
- 	} else {
- 		intf->needs_altsetting0 = 1;
- 	}
--	usb_set_intfdata(intf, NULL);
- 
- 	intf->condition = USB_INTERFACE_UNBOUND;
- 	intf->needs_remote_wakeup = 0;
-@@ -644,6 +643,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
- 	} else {
- 		device_lock(dev);
- 		usb_unbind_interface(dev);
-+		dev_set_drvdata(dev, NULL);
- 		dev->driver = NULL;
- 		device_unlock(dev);
- 	}
-
-base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
--- 
-2.56.0
+> ---
+>  drivers/resctrl/mpam_devices.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index dd422c56fbb1..6da217abf689 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -552,7 +552,7 @@ static int mpam_ris_create_locked(struct mpam_msc *msc, u8 ris_idx,
+>  
+>  	lockdep_assert_held(&mpam_list_lock);
+>  
+> -	if (ris_idx > MPAM_MSC_MAX_NUM_RIS)
+> +	if (ris_idx >= MPAM_MSC_MAX_NUM_RIS)
+>  		return -EINVAL;
+>  
+>  	if (test_and_set_bit(ris_idx, &msc->ris_idxs))
+> 
 
