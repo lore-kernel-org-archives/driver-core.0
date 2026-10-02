@@ -1,116 +1,92 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E751447F3C5
-	for <driver-core@lists.linux.dev>; Fri,  2 Oct 2026 11:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D540D420898;
+	Fri,  2 Oct 2026 12:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790939303; cv=none; b=O4IcognoSD+30wtspLr6s9ljRgoanNF5frC51L5lNtKVMGzMXhqLBQ7Df+Rq6P+lQ0Zmi/ffamNlnRpNpnnxuXCDIue72Z9NSuzOuNPAZcrEnrdNodR01akcHqXkw1ncndFivL2uTPl22k3IQjIe+xSpUHrDDmrq4TY4lcW+GSU=
+	t=1790945934; cv=none; b=Dq1DATWiFIvdaPvST0T+1rqxVTxmzIyG0aRTPx5c+xQhIwsbH2XAmRSJyONk8k+1fLDv7USo2tthjo5LBrmUKKJdnYuZuqixxfNf6Wnl8D794pUl0ty33u+76LBNk34BqwUpGOe4XUuTWFgGzuzlaGOPuSNAZhEAfTwzoGeu18c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790939303; c=relaxed/simple;
-	bh=WcCYelFSOhbeoMxtjGueNhLN0g0ypi6G7QGQ89YUic4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gsp2mFaVUghh23vvFr0ggwFa171rBwA6i6XSu5EpEEKl+YO/4YzyOeR/dkDEOX1QlIKEi5A8EXBPGfpaYQiZhmllKUJe4ft0q9X5aEAKjbCflBVPlwyDTZ7/MX8qZ1idJOftlt+Yft4At1KxHuGPnMfxcbQ8N9YsaJWVHGyQr5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4Ir9Uqm; arc=none smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790945934; c=relaxed/simple;
+	bh=ZZog2DmzD6JYHzIOPkxymMrGPQfxhMFEozr7PgktX+M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CdwoScDkT251BYzLJQzq4A4wk62l6uLX++bXP8aBn+dy584nbfJoXynDPgfJtXY2Mf3tQ67Vh4D2FlD3cMA7YqyGD2qNsq5sblHw8pW8nWCCgUo5L5OQcNCRixDDxXNTkSoL31QSoiZX8bM2a9HEsJegsFh/cmICmh0j6xhHjks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9fle4+S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4Ir9Uqm"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a5d8fe8912so1093811a12.2
-        for <driver-core@lists.linux.dev>; Fri, 02 Oct 2026 04:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790939297; x=1791544097; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a/U30FypKXGiK+JknnhSRfyksD6iky5csMYxiBRiMgs=;
-        b=D4Ir9Uqmz3w9XurangITAkgwvHiw4vr4b/ONMp8BsMGagzMG/F7B99vyefRuGdie87
-         im2SgygypQ+icKNNbdFOslxtOWo1isPuB7tS69hpzDglnyjTJfSP3lerjDHRIiNIdpM0
-         OSTeS3wt0fZs29ZdOzk2Sp5Yln1T0++uK1wPrFmAP36CpqKEFSJQTcCeQzmThmy0Sox5
-         +H6Vtecs3Hqhgs3SpfgN5QetphVX+/Daa6yspIK9jdT20ZVug1bWtk0jlrHPbPZ/MyOf
-         qUNgc00Dzch1GuxQr+GHRwmO43BW4zsD3luv3ANJsg26NbM/EUiDKcLTTrImfEIp+QYu
-         Gq7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790939297; x=1791544097;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=a/U30FypKXGiK+JknnhSRfyksD6iky5csMYxiBRiMgs=;
-        b=D8W06e5l5ptWIOGyrN0zR2HqKX8DNPrD2vIaL5ALrzevABl25ZWqhszb1q8EZ8W+Vh
-         Iausr8tOblxArpJHryxbk8kmooCzo9iKaIsOrk1Xwaj4csPC3Mi/by9X9yi9I0NCgaW2
-         ddFmJ/LnSqHZCgmK2vpJ+dv1r2paCCeZv/iGjK7kUE41N5vSk/CAndlBSwCZdx4yGjxC
-         3lI49tmfGhhAWARDUw9gaB0hDdSc8FC9g9zPJ489u7Y4YMmi2JHtxp0mAPCBM6yugquc
-         haOJKQjqP+9d+ev2W7DQ98L0KOdEoWpz8TCYa4CmnBZKtQ6B7DqZbaPC4gOc1svBDm3y
-         TV7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxCIlncOVzXp2JdNCC6s6NRgzubc04W3fVZFgTiAWk6Y2ykwhDU3v41UEK8HCck9GZU2HIUmndxcPxgUw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLcxW/1yn6ShgZwm2T0JD0c9kxq1WE3OgPfclT+oLkeZpFymav4
-	wZ+EPVAXMA4DEg9Sx21vNdACRkI8sedEKOZBJtK4ryndxk6x/22cdvBm
-X-Gm-Gg: AYBFou1pJNs4GgAPGlJb8F+ZMfQgm5mJnT0Rtx1LVvnXPUwviFzfvdRZKAet6BhiEA4
-	qYpdZc1rYnpxcVNtInbNBQFvevaPkvyGExq8Z6ptKjyUydzXPARLZRTTY3JY97XtZqVldxsE4Fk
-	tq5CX8qFpNbbhD+Ae9ykfSmf0xalFdtUp/uVpgcI3YKH0UI9swu9hURY2eGMSQn4a9QI6q5dn4q
-	KuaJJbGFSUNaiF10io2ZRPtSlywTBA1mB5l1weZFPFirBCTN4U0mE3knmdtwQlry/p/fFKKO97e
-	1jgr4lslp/2Lo69obSgDbw0Az2fA5bGkgEBLFXkJukefTCyI5lGq68JQfH4OZYoYNidAndO9BaN
-	27FFWa3uyq2C5UpVVwVyw4mbY7CtXofd9GBtjOM2ss+qapRDBptlDsar9jdS5t39eR56B8590qf
-	pR/T7wUuzJpwqaIXe70yKPJnFSf9K/To4a4kgXY5fdXPh3NqZjwdTKvDfnPcdRMWt0W1p7CgKw2
-	wjp4d5XEtV96CzQTinqbbtrvtfYCPoC22xIjgHtXqLiRJiXrUNKvUoC4AmLKefMVFnn4z5tj7JT
-	Mt1S
-X-Received: by 2002:a05:6402:210e:b0:6ac:c1dc:fa1d with SMTP id 4fb4d7f45d1cf-6af9de987efmr1696666a12.0.1790939296938;
-        Fri, 02 Oct 2026 04:08:16 -0700 (PDT)
-Received: from localhost.localdomain (ip-80-113-107-207.ip.prioritytelecom.net. [80.113.107.207])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6af9dabbe89sm846216a12.34.2026.10.02.04.08.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 02 Oct 2026 04:08:16 -0700 (PDT)
-From: Jesse Jeronimus <jesse.jeronimus@gmail.com>
-To: broonie@kernel.org,
-	corbet@lwn.net
-Cc: Jesse Jeronimus <jesse.jeronimus@gmail.com>,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	dlechner@baylibre.com,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-spi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: devres: Remove non-existent SPI register helpers
-Date: Fri,  2 Oct 2026 13:06:46 +0200
-Message-ID: <20261002110752.89529-1-jesse.jeronimus@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9fle4+S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373C51F000FF;
+	Fri,  2 Oct 2026 12:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790945932;
+	bh=+2V7CaCvNrpvmbbJwh1WNIboZ7/7dvdjBHWJRak6y1Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=E9fle4+ShkEJyX93P+zCxQYNpaiuneKl3cDuESA0qdhga/zr0Ff9pWRe2/xTdmvjB
+	 AEbEc4auXu8VPovNsWl5nIOEtRIM5wkOzM6GdyK/QSDaT2gNyJItsXcLCARk3Hsb6j
+	 +GbRVebu96DSgkaQ3+mOmF2lTpnyPpBBtlehuvJz9ASppldg3jTh1AyfDtmGxOZTYA
+	 J9eHakUB9H0dbNy1OIjXT4OCUGJVbHs4EoFCMrnXVA8Ka+LO8qgj6mMMG1UZ98hBkJ
+	 zjFWDJblHXXQ6Dc9QZsiPF95hn9nOqfcxjokndQLJRkOyhxJgrSVhhsRIyfgU430bk
+	 Tk1hl2Acsveqw==
+From: Mark Brown <broonie@kernel.org>
+To: corbet@lwn.net, Jesse Jeronimus <jesse.jeronimus@gmail.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+ dlechner@baylibre.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ linux-spi@vger.kernel.org, linux-doc@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20261002110752.89529-1-jesse.jeronimus@gmail.com>
+References: <20261002110752.89529-1-jesse.jeronimus@gmail.com>
+Subject: Re: [PATCH] Documentation: devres: Remove non-existent SPI
+ register helpers
+Message-Id: <179094140888.83544.16333779168176030027.b4-ty@b4>
+Date: Fri, 02 Oct 2026 12:43:28 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1143; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ZZog2DmzD6JYHzIOPkxymMrGPQfxhMFEozr7PgktX+M=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqv6qHzcBcA5vqVY30uOJacgpKRb5KhxuteVUaF
+ O9UU4iPNHSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCar+qhwAKCRAk1otyXVSH
+ 0J9+CACApkMvr45KcscqprNr05WFgzHatE5NaDuGAQfG3KTKeaqP/9A4Go4QB+/L8Q795h/BS1v
+ V9DUWAEn7XLRhXUt5yE7UkJwVpxmobyBFlPsfDa28YkaK9ENi0R9d1lCj4kOOJjcNbJxsx2q8+h
+ 94Z7+c3mlClSGd1ZQC2SH+UyM4/l6W/S/fxgtGtGJKqxU2+LQp5S8J/5Bsp6bLI95m7xnyIp6XP
+ Pyu9f+Z7a5CjxUP/QF6yYvnytfWWTfa1AfAn8yyv0X+Fj/3g+TWqMsUV0T9VaYqLi6AzYaxuGD4
+ 2/4bt2kdyRkjAyay7ew410tzzUZf/BZuVkVAK7fiOEQii9jx
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Commit 9b894d65e978 ("Documentation: devres: add missing SPI helpers")
-added devm_spi_register_host() and devm_spi_register_target() to the
-list of managed interfaces. These functions do not exist and never
-existed in the tree. The only managed SPI register helper is
-devm_spi_register_controller(), which is already in the list.
+On Fri, 02 Oct 2026 13:06:46 +0200, Jesse Jeronimus wrote:
+> Documentation: devres: Remove non-existent SPI register helpers
 
-Remove the two entries.
+Applied to
 
-Fixes: 9b894d65e978 ("Documentation: devres: add missing SPI helpers")
-Signed-off-by: Jesse Jeronimus <jesse.jeronimus@gmail.com>
----
- Documentation/driver-api/driver-model/devres.rst | 2 --
- 1 file changed, 2 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.4
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 5067500ded5c..4f0b90e7e138 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -460,8 +460,6 @@ SPI
-   devm_spi_alloc_target()
-   devm_spi_optimize_message()
-   devm_spi_register_controller()
--  devm_spi_register_host()
--  devm_spi_register_target()
- 
- WATCHDOG
-   devm_watchdog_register_device()
--- 
-2.54.0 (Apple Git-157)
+Thanks!
+
+[1/1] Documentation: devres: Remove non-existent SPI register helpers
+      https://git.kernel.org/broonie/spi/c/d220c9443db6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
