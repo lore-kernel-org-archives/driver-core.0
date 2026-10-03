@@ -1,56 +1,56 @@
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD45649B5D5
-	for <driver-core@lists.linux.dev>; Sat,  3 Oct 2026 21:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4F49DB85
+	for <driver-core@lists.linux.dev>; Sat,  3 Oct 2026 21:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791062584; cv=none; b=dtrnU9KuyQqCCrDDOzJ69W/jox8dE4RmoavTeezDL4kMdWdiWm0586FrwyAXw5K84Jhkbo4WX2cMtzeG/rSZkrfZldoP9TnWzvDTzKigyRzMwwPxsxtROrn42Yls1N0PF9HBUALIkkMMSQjT8Ljf2KIgTJyR2mudSBYx4mn4+pE=
+	t=1791062586; cv=none; b=h2HsjJaCuVfoqkMxbDeOcYDSb/q35trb/RCUN/g4oP8ydiqLh6L24AsSNHU892gneodyapz1NJaSWGrEBfCWwP872IIIU4CvJ1Bwf6ux4aZ4EUfckRVMAomr6MWNU1UxvZiODzx0PXjrbIT5YBO/fvd1dfyOfwis1ThO1tTnyZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791062584; c=relaxed/simple;
-	bh=oXNpyemzjpaF1oK9/Tiu84/tS1OoKiMXg/qoeAYURjE=;
+	s=arc-20240116; t=1791062586; c=relaxed/simple;
+	bh=HZezqFHG4CfZ5iR0/LZ0zdzG9lX8598jo6XwAPIqyoA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fTNPu3NyvAy7YqeSBfRWP4OwVpMv3zh87rYc9Ot74V7kKsGZtSfZX24ybfhV8ZtaBRJVpB8YIm+ZudaTufllpfbXG6lqKxBsJW8UgewJdyhqzDYHjVBkkqdSLIYGgAg0i7xVZ1KmY9TX7ioEcQosLZOq1dXgoTUorGj3yeoyJ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cfG00BFv; arc=none smtp.client-ip=209.85.218.69
+	 To:Cc:Content-Type; b=dVMejLBvg11YCZoQDDM7GqzTzNhQMLNHh9BJrojZa3CTOXM+SET3dZBoxcwsT46JPKCDCW99eHbVYKRLxTS327FfazpqP8H8H+onCYgtu0dUUUK8Vq8dcocE9bc2hWhcN3dAYM+71W62ULJCwrIzxyivoyn8fUf2JA26H1YIWqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AHPymgSU; arc=none smtp.client-ip=209.85.218.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cfG00BFv"
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c2e4d39c795so89161266b.1
-        for <driver-core@lists.linux.dev>; Sat, 03 Oct 2026 14:22:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AHPymgSU"
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c294c2dcdf5so79407266b.1
+        for <driver-core@lists.linux.dev>; Sat, 03 Oct 2026 14:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791062577; x=1791667377; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1791062580; x=1791667380; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=N54zKWi7Lhs08q/THaKTXSODVv5TF25KadC1J/BT63c=;
-        b=cfG00BFvxRyaIH25/VZhkKxUrzGdoUES5ijP8TiU6r06279+S3o5WtaZbWzpAB9iK7
-         7PfJ+oysAwl+fIoK5ANVqn6qe4DNUUEhkVTqE+HEXjt75VB43KCXqKwlFcOwTEDJKLPh
-         MKyK9ReLuIJnphUkQBkHdBqTM3OOgBJ6/XhwC/8RCAgHdjge4j9rabDkxVQd5R5Ss6rd
-         ln8EXjW6enmTw0lPCMvhriUYomZNComA0rnCmm6kOLVsuZMPIeHyjjkWSlSkLZAvgmjx
-         IS8d+m50xrXtXsFPcVi3yOp9+kswS7JRkOZYhA6tAA6lpC0WSUL8nwuh0RQz4kb45wWZ
-         K0pw==
+        bh=GInLAF6QzIbkn/554tL70qj8kbEMjqAAjjITOwkojYs=;
+        b=AHPymgSU7DwS1d4nA8hNIR9M1RumwdzDmHiYugoARXxVnScbzUZCdN4PE9Zzntqwbp
+         zdHl/KQIipDK+MiRBbceqjJTpAhB6x7uBOrv5ZDWlksn1vsQ6/ijVdC0CcFBFnGIZku+
+         JPAjk7iShKu+qjq4m26UZfmqQOu6rCx/On/VrF2D0oaih34zIQG02FBkRR/4c95U5gci
+         xcrZvmvvotdfxIsgDG/3FTQqa7EmsbNahFcTuxBvWUyBaQvoAX9ksxfab+WI9TfMVPiC
+         LhLv/65keQII1db8cDE/9PERq57zgQ7Q52RkckQf+ZZsyYST9CuKpKEaWm3BtHloEgNq
+         mH7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791062577; x=1791667377;
+        d=1e100.net; s=20260707; t=1791062580; x=1791667380;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=N54zKWi7Lhs08q/THaKTXSODVv5TF25KadC1J/BT63c=;
-        b=l6WbdWDXHGhvEcwaQbAxw6CBVRQ7QC3H9kJxfXKfcnknvW6+mGVNMVWRWcGRjOLmgj
-         nz/lCg3coBO0kVwPi0aWP7TduqtRtjTf/FpS9YrAeDqCe5iWCFWjA+pfCB4DmGsUH0wG
-         x+CcZVQJjm2YbcgKWR7bFDBAhWn3ZFD10SNsEsGViXtbgaRYsfNkzjBXJ5Gk9M/Omxua
-         DL4DNyHrNphdxRgQQaLXPmwUWG0bQdfkAd1JN+v1ncaZC/Ck3xnCnFDQg9fNZXjNPP6+
-         ysFpu/Ymd57uEFrHDJK4V6vzyBJJIpJkusjt/ow+q5KiMg5ki7P/u+2gUEi7baqoSRLK
-         ZqYw==
-X-Forwarded-Encrypted: i=1; AKwUvBywg17kvA8Ec+rPI3hcOpfATMgooU7uVXk0X39UUtC+KiiMmykZ9UVKeW0eMmDyg52I/RRpV1sISleMjQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++naIb+g3NJu/0LnNjn3+Sa0IRf7xQafOAyKzx8wEOsNc6msxZtz
-	x93Hmxxk7lxWxiQynEnlGqE+VgHzfDYxqRhN8Nkd+nBuLEbaSKkvZeDb2SaadBah3Ndy2eGTEhN
-	ramk6/A==
-X-Received: from ejze9.prod.google.com ([2002:a17:906:c009:b0:c2e:7b39:59da])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:720f:b0:c29:4490:50d6
- with SMTP id a640c23a62f3a-c2e4b229d3bmr529969366b.47.1791062576831; Sat, 03
- Oct 2026 14:22:56 -0700 (PDT)
-Date: Sat,  3 Oct 2026 21:22:27 +0000
+        bh=GInLAF6QzIbkn/554tL70qj8kbEMjqAAjjITOwkojYs=;
+        b=nLMJk4dw9Bk0Px9xhhwoNPr0StRIFHCqkJotNBZIHUsQ6gMEQyjfAC5FgARob1d5ZA
+         MBIgThAGMwLGsjhYSYJYX1D+nCK0Fv107llDUd3gHYI6MPod0iFUZyiDcxU3ntpD06+a
+         ThP70eKo9pATxRGVIDnep5DZDka7rR8esPEpVM5vBbFhJeeMld60jpvxm/NZOD6CYEF7
+         gX8PN/FUWxanbutp0futXJhz14+10fSyfdxINUDWL6FrD54XoxJRmQiWh8R3t6Tw9ks9
+         e7LY7AFE+9HVZF4IkruE0upfVgaUBZOLIUC039D7Ea4rQUVkOJO6nQ1o6tLZau3zsbbz
+         q+sg==
+X-Forwarded-Encrypted: i=1; AKwUvBy74Zji+hH8mpqi5Wy2HA+hwduXbBGU1BQC+1n9Zp1NXowoL+3om+f1fsPWoy8j3sfivhM6EQSsCZvsdg==@lists.linux.dev
+X-Gm-Message-State: AFuF++liE/DiIrCke+eF+NthEfrlsBS+vX3qrAu7H0CwZu3Ptc2N1Fhf
+	uqiUi0CFmYKLsVhAtdkk71VLKu+rbQI8TUQivUrrltpE9A7EpCF9wl/d/TpEhCNIYSnOgd42gKr
+	wafuiow==
+X-Received: from ejyb21.prod.google.com ([2002:a17:906:8355:b0:c2e:2022:87e8])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:c011:b0:c2e:4e08:19b4
+ with SMTP id a640c23a62f3a-c2e6e9c9fd6mr253423166b.3.1791062579466; Sat, 03
+ Oct 2026 14:22:59 -0700 (PDT)
+Date: Sat,  3 Oct 2026 21:22:29 +0000
 In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,9 +60,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20261003212241.3432303-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261003212241.3432303-9-lrizzo@google.com>
-Subject: [RFC: DMA_PMD 08/22] iommu/dma: use per-domain IOVA window to map
- DMA_PMD memory
+Message-ID: <20261003212241.3432303-11-lrizzo@google.com>
+Subject: [RFC: DMA_PMD 10/22] driver core: Add per-device dma_pmd_* sysfs attributes
 From: Luigi Rizzo <lrizzo@google.com>
 To: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
 	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
@@ -83,485 +82,116 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafae
 	linux-kernel@vger.kernel.org, Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Map each DMA_PMD page at win->base + phys inside the domain's reserved
-IOVA window and track per-domain leaf PDE residency in
-p2m->domains_mapped:
+Add four boolean attributes to struct device exposed under
+/sys/devices/*/*/dma_pmd_*:
+  - dma_pmd_rxbuf:   enable DMA_PMD pools for RX buffers / page_pool
+  - dma_pmd_tx_hdrs: enable DMA_PMD pools for TX header bounce buffers
+  - dma_pmd_rings:   enable DMA_PMD arena for coherent rings
+  - dma_pmd_debug:   log coherent DMA alloc timing and arena usage
 
-- dma_pmd_window_assign() assigns a dense domain index in
-  dma_pmd_domains[] and allocates the per-domain IOVA window via
-  dma_pmd_dma_window_alloc() on first use.
-- dma_pmd_dma_window_alloc() reserves a PMD_SIZE-aligned range via
-  alloc_iova() from the domain's iova_domain so no ordinary IOVA can
-  land inside it, allowing unmap to identify pooled IOVAs by range check.
-- dma_pmd_dma_map_phys() returns win->base + phys in O(1) when the
-  domain's bit is set in p2m->domains_mapped, installing the PDE_ORDER leaf
-  PTE on the first map in a domain.
-- iommu_dma_map_phys() and iommu_dma_unmap_phys() route DMA_PMD
-  buffers through the per-domain window, making dma_unmap_*() an O(1)
-  range check with no page-table walk or IOTLB flush.
+These can be used by device drivers to selectively enable DMA_PMD for
+their allocations.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- drivers/iommu/Kconfig        |   1 +
- drivers/iommu/dma-iommu.c    |  27 +++-
- drivers/iommu/dma-pmd-map.c  | 275 +++++++++++++++++++++++++++++++++++
- drivers/iommu/dma-pmd-priv.h |  33 +++++
- drivers/iommu/iommu.c        |   2 +-
- 5 files changed, 336 insertions(+), 2 deletions(-)
+ drivers/base/core.c    | 51 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/device.h |  5 +++++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 1bb347fd9da4a..7cb5b036e0f3b 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -164,6 +164,7 @@ config DMA_PMD
- 	depends on IOMMU_DMA
- 	depends on X86_64 || (ARM64 && ARM64_4K_PAGES)
- 	depends on !PREEMPT_RT
-+	select NEED_SG_DMA_FLAGS
- 	default y
- 	help
- 	  Hand out DMA buffers carved out of PMD_SIZE physically contiguous
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index ee14175b79bc2..6d33e245530ec 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1286,6 +1286,14 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
- 		arch_sync_dma_flush();
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4c0c373998a19..f8c3c42d84b8d 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2905,6 +2905,43 @@ static ssize_t removable_show(struct device *dev, const struct device_attribute
+ }
+ static const DEVICE_ATTR_RO(removable);
+ 
++/* Per-device configuration to selectively enable DMA_PMD */
++#define DMA_PMD_BOOL_ATTR(name)						\
++static ssize_t name##_show(struct device *dev,				\
++			   struct device_attribute *attr, char *buf)	\
++{									\
++	return sysfs_emit(buf, "%u\n", READ_ONCE(dev->name));		\
++}									\
++static ssize_t name##_store(struct device *dev,				\
++			    struct device_attribute *attr,		\
++			    const char *buf, size_t count)		\
++{									\
++	bool val;							\
++	int ret = kstrtobool(buf, &val);				\
++	if (ret < 0)							\
++		return ret;						\
++	WRITE_ONCE(dev->name, val);					\
++	return count;							\
++}									\
++static DEVICE_ATTR_RW(name)
++
++DMA_PMD_BOOL_ATTR(dma_pmd_rxbuf);
++DMA_PMD_BOOL_ATTR(dma_pmd_tx_hdrs);
++DMA_PMD_BOOL_ATTR(dma_pmd_rings);
++DMA_PMD_BOOL_ATTR(dma_pmd_debug);
++
++static struct attribute *dev_attr_dma_pmd[] = {
++	&dev_attr_dma_pmd_rxbuf.attr,
++	&dev_attr_dma_pmd_tx_hdrs.attr,
++	&dev_attr_dma_pmd_rings.attr,
++	&dev_attr_dma_pmd_debug.attr,
++	NULL,
++};
++
++static const struct attribute_group dev_attr_dma_pmd_group = {
++	.attrs = dev_attr_dma_pmd,
++};
++
+ int device_add_groups(struct device *dev,
+ 		      const struct attribute_group *const *groups)
+ {
+@@ -3012,8 +3049,20 @@ static int device_add_attrs(struct device *dev)
+ 			goto err_remove_dev_removable;
  	}
  
-+	if (dma_is_pmd_phys(phys)) {
-+		iova = dma_pmd_dma_map_phys(dev, domain,
-+					    &domain->iova_cookie->win_dma_pmd,
-+					    phys, size, prot, dma_mask);
-+		if (likely(iova != DMA_MAPPING_ERROR))
-+			return iova;
++	if (dev->dma_mask) {
++		error = device_add_group(dev, &dev_attr_dma_pmd_group);
++		if (error)
++			goto err_remove_dev_physical_location;
 +	}
 +
- 	iova = __iommu_dma_map(dev, phys, size, prot, dma_mask);
- 	if (iova == DMA_MAPPING_ERROR &&
- 	    !(attrs & (DMA_ATTR_MMIO | DMA_ATTR_REQUIRE_COHERENT)))
-@@ -1296,14 +1304,19 @@ dma_addr_t iommu_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
- void iommu_dma_unmap_phys(struct device *dev, dma_addr_t dma_handle,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
- 	phys_addr_t phys;
+ 	return 0;
  
-+	/* DMA_PMD mapped buffer: nothing to unmap or release. */
-+	if (dma_pmd_window_owns(&domain->iova_cookie->win_dma_pmd, dma_handle))
-+		return;
-+
- 	if (attrs & (DMA_ATTR_MMIO | DMA_ATTR_REQUIRE_COHERENT)) {
- 		__iommu_dma_unmap(dev, dma_handle, size);
- 		return;
- 	}
- 
--	phys = iommu_iova_to_phys(iommu_get_dma_domain(dev), dma_handle);
-+	phys = iommu_iova_to_phys(domain, dma_handle);
- 	if (WARN_ON(!phys))
- 		return;
- 
-@@ -1499,6 +1512,18 @@ int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
- 			 */
- 			break;
- 		case PCI_P2PDMA_MAP_NONE:
-+			if (dma_is_pmd_phys(sg_phys(s))) {
-+				iova = dma_pmd_dma_map_phys(dev, domain,
-+							    &cookie->win_dma_pmd,
-+							    sg_phys(s), s_length,
-+							    prot, dma_get_mask(dev));
-+				if (likely(iova != DMA_MAPPING_ERROR)) {
-+					s->dma_address = iova;
-+					sg_dma_len(s) = s_length;
-+					sg_dma_mark_bus_address(s);
-+					continue;
-+				}
-+			}
- 			break;
- 		case PCI_P2PDMA_MAP_BUS_ADDR:
- 			/*
-diff --git a/drivers/iommu/dma-pmd-map.c b/drivers/iommu/dma-pmd-map.c
-index cffa94a7c7c84..565e10dd1a2e8 100644
---- a/drivers/iommu/dma-pmd-map.c
-+++ b/drivers/iommu/dma-pmd-map.c
-@@ -13,6 +13,8 @@
- #include <linux/dma-pmd.h>
- #include <linux/export.h>
- #include <linux/iommu.h>
-+#include <linux/iova.h>
-+#include <linux/memblock.h>
- #include <linux/mm.h>
- #include <linux/spinlock.h>
- #include <linux/srcu.h>
-@@ -218,3 +220,276 @@ void dma_pmd_domain_release(struct iommu_domain *domain)
- 		pr_debug("dma_pmd: released %u PMD page mappings for domain %p (index %d)\n",
- 			 dropped, domain, idx);
- }
-+
-+/**
-+ * dma_pmd_dma_window_alloc - Allocate an IOVA window for DMA_PMD mappings
-+ * @dev: Device whose addressing limits the window must respect
-+ * @domain: Domain to take the window from
-+ * @size: Window size in bytes
-+ *
-+ * Allocates a contiguous IOVA range out of @domain's iova_domain on first use,
-+ * aligned to PMD_SIZE matching the mapping. Callers on the map path still
-+ * check each device's own dma_mask/bus_dma_limit against the resulting IOVA and
-+ * fall back to per-buffer mapping if a narrower device shares @domain.
-+ *
-+ * Return: base IOVA, or 0 if no range that large is available.
-+ */
-+static dma_addr_t dma_pmd_dma_window_alloc(struct device *dev,
-+					   struct iommu_domain *domain, u64 *sizep)
-+{
-+	u64 limit = min_not_zero(dma_get_mask(dev), dev->bus_dma_limit);
-+	struct iova_domain *iovad = dma_pmd_dma_iovad(domain);
-+	u64 min_size = ALIGN(PFN_PHYS(max_pfn), PMD_SIZE);
-+	unsigned long shift, iova_len;
-+	struct iova *new_iova;
-+
-+	if (!iovad)
-+		return 0;
-+
-+	if (domain->geometry.force_aperture)
-+		limit = min_t(u64, limit, domain->geometry.aperture_end);
-+
-+	if (*sizep > limit / 2 && limit / 2 >= min_size)
-+		*sizep = ALIGN_DOWN(limit / 2, PMD_SIZE);
-+
-+	/* Ignore devices with too many constraints. */
-+	if (limit <= DMA_BIT_MASK(32) || *sizep > limit - PMD_SIZE)
-+		return 0;
-+
-+	shift = iova_shift(iovad);
-+	iova_len = (*sizep + PMD_SIZE) >> shift;
-+
-+	/*
-+	 * Note: dev->iommu->pci_32bit_workaround is intentionally not consulted
-+	 * here. It is an advisory preference (enabled by default on all PCI
-+	 * devices).
-+	 */
-+	new_iova = alloc_iova(iovad, iova_len, limit >> shift, false);
-+	if (!new_iova)
-+		return 0;
-+
-+	return ALIGN((dma_addr_t)new_iova->pfn_lo << shift, PMD_SIZE);
-+}
-+
-+/**
-+ * dma_pmd_window_assign - Give @domain an IOVA window and a domain index
-+ * @dev: Device whose addressing limits the window must respect
-+ * @domain: Domain to set up
-+ * @win: @domain's window, from its DMA cookie
-+ *
-+ * Called the first time anything tries to pool through @domain. Failure is
-+ * recorded in @win->domain_idx rather than retried: the allocation is a
-+ * multi-terabyte search of the IOVA tree, and a domain that has no room for it
-+ * once will not have room on the next buffer either. The caller tests that
-+ * record without the lock, so the reason has to survive in the sentinel.
-+ *
-+ * A domain that cannot install a PMD leaf is declined. The whole benefit
-+ * is the single large PTE; without it a 2M page would cost 512 4KB PTEs, which
-+ * is worse than not pooling.
-+ *
-+ * Locking: Acquires @dma_pmd_domains_lock (irqsave). Callable from the DMA
-+ *          map path, so it never sleeps.
-+ *
-+ * Return: 0 if @win is usable on return, negative otherwise.
-+ */
-+int dma_pmd_window_assign(struct device *dev, struct iommu_domain *domain,
-+			  struct dma_pmd_window *win)
-+{
-+	u64 size = ALIGN(PFN_PHYS(dma_pmd_top_pfn()), PMD_SIZE);
-+	unsigned long flags;
-+	int idx, ret = 0;
-+	dma_addr_t base;
-+
-+	if (!dev_is_dma_coherent(dev))
-+		return -EOPNOTSUPP;
-+
-+	if (min_not_zero(dma_get_mask(dev), dev->bus_dma_limit) <= DMA_BIT_MASK(32))
-+		return -ENOSPC;
-+
-+	spin_lock_irqsave(&dma_pmd_domains_lock, flags);
-+
-+	if (win->size)				/* another CPU got here first */
-+		goto out;
-+
-+	/* Declined earlier; only DMA_PMD_IDX_NONE means "not tried yet". */
-+	if (win->domain_idx != DMA_PMD_IDX_NONE) {
-+		ret = win->domain_idx == DMA_PMD_IDX_NOHUGE ? -EOPNOTSUPP : -ENOSPC;
-+		goto out;
++ err_remove_dev_physical_location:
++	if (dev->physical_location) {
++		device_remove_group(dev, &dev_attr_physical_location_group);
++		kfree(dev->physical_location);
++		dev->physical_location = NULL;
 +	}
-+
-+	if (!(domain->pgsize_bitmap & PMD_SIZE)) {
-+		dev_warn_ratelimited(dev,
-+				     "dma_pmd: domain lacks a %luMB page size, not pooling\n",
-+				     (unsigned long)(PMD_SIZE >> 20));
-+		ret = -EOPNOTSUPP;
-+		goto decline_nohuge;
-+	}
-+
-+	for (idx = 0; idx < DMA_PMD_MAX_DOMAINS; idx++) {
-+		if (!dma_pmd_domains[idx].domain && !dma_pmd_domains[idx].draining)
-+			break;
-+	}
-+	if (idx == DMA_PMD_MAX_DOMAINS) {
-+		pr_warn_ratelimited("dma_pmd: all %d domain indices in use, not pooling for domain %p\n",
-+				    DMA_PMD_MAX_DOMAINS, domain);
-+		ret = -ENOSPC;
-+		goto decline;
-+	}
-+
-+	base = dma_pmd_dma_window_alloc(dev, domain, &size);
-+	if (!base) {
-+		dev_warn_ratelimited(dev,
-+				     "dma_pmd: no free %llu GB IOVA range for a DMA_PMD window\n",
-+				     size >> 30);
-+		ret = -ENOSPC;
-+		goto decline;
-+	}
-+
-+	dma_pmd_domains[idx].domain = domain;
-+	dma_pmd_domains[idx].base = base;
-+	win->base = base;
-+	win->domain_idx = idx + DMA_PMD_IDX_FIRST;
-+	/*
-+	 * Publish .base and .domain_idx before .size. A non-zero .size is what
-+	 * tells both the map and the unmap side that the other two are valid;
-+	 * see dma_pmd_window_owns().
-+	 */
-+	smp_store_release(&win->size, size);
-+
-+	dev_info(dev, "dma_pmd: domain %p index %d window %pad + %llu GB\n",
-+		 domain, idx, &base, size >> 30);
-+	goto out;
-+
-+decline_nohuge:
-+	win->domain_idx = DMA_PMD_IDX_NOHUGE;
-+	goto out;
-+
-+decline:
-+	win->domain_idx = DMA_PMD_IDX_NOSPACE;
-+out:
-+	spin_unlock_irqrestore(&dma_pmd_domains_lock, flags);
-+	return ret;
-+}
-+
-+/**
-+ * dma_pmd_dma_map_phys - Derive the IOVA of a pool address, mapping if needed
-+ * @dev: Device performing DMA
-+ * @domain: @dev's DMA domain
-+ * @win: @domain's DMA_PMD window, from its DMA cookie
-+ * @phys: Physical address within a DMA_PMD page
-+ * @size: Mapping size requested
-+ * @prot: IOMMU protection flags requested by the caller
-+ * @dma_mask: Device DMA mask
-+ *
-+ * The IOVA is not allocated or cached: it is @win->base plus the PMD page's
-+ * physical address, so every block of every PMD page has a fixed
-+ * address in this domain that both this function and the unmap path can
-+ * compute. All the PMD page has to remember is whether the PMD leaf PTE has
-+ * actually been installed here, which is one bit in @meta->domains_mapped.
-+ *
-+ * The PMD page is mapped with IOMMU_CACHE | IOMMU_READ | IOMMU_WRITE so that
-+ * blocks can be used in any DMA direction. Callers requesting additional
-+ * protection flags in @prot fall back to per-buffer mapping.
-+ *
-+ * Cost:
-+ *   - Fast path: O(1) lockless - one bit test and an add. No IOVA tree, no
-+ *     page table, and no metadata load beyond the bitmask word.
-+ *   - First use of a PMD page in a domain: one iommu_map() of the whole PMD
-+ *     page, once, under @meta->map_lock.
-+ * Locking: Fast path is lockless. Slow path acquires @meta->map_lock
-+ *          (irqsave), and @dma_pmd_domains_lock on the very first PMD page
-+ *          mapped through @domain.
-+ * Frequency: Very high (called on every dma_map_page / dma_map_single for
-+ *            buffers allocated from an dma_pmd_pool).
-+ *
-+ * Return: Mapped IOVA, or DMA_MAPPING_ERROR on failure.
-+ */
-+dma_addr_t dma_pmd_dma_map_phys(struct device *dev, struct iommu_domain *domain,
-+				struct dma_pmd_window *win, phys_addr_t phys,
-+				size_t size, int prot, u64 dma_mask)
-+{
-+	int block_prot = IOMMU_CACHE | IOMMU_READ | IOMMU_WRITE;
-+	unsigned long pfn = phys >> PAGE_SHIFT;
-+	struct dma_pmd_meta *meta;
-+	unsigned int domain_idx;
-+	unsigned long flags;
-+	dma_addr_t iova;
-+	u64 win_size;
-+	int ret;
-+
-+	if (unlikely((prot & ~block_prot) || !dev_is_dma_coherent(dev) ||
-+		     !dma_is_pmd_page(pfn) || (phys & (PMD_SIZE - 1)) + size > PMD_SIZE))
-+		return DMA_MAPPING_ERROR;
-+
-+	meta = dma_pmd_meta_of_pfn(pfn);
-+
-+	/* Acquire pairs with the .size release in dma_pmd_window_assign(). */
-+	win_size = smp_load_acquire(&win->size);
-+
-+	if (unlikely(!win_size)) {
-+		u16 win_idx = READ_ONCE(win->domain_idx);
-+
-+		/*
-+		 * A declined domain stays declined, so the answer is cached in
-+		 * @domain_idx and read without @dma_pmd_domains_lock. Otherwise
-+		 * every map through such a domain would queue on a global
-+		 * spinlock only to be told no.
-+		 */
-+		if (unlikely(win_idx == DMA_PMD_IDX_NOHUGE))
-+			ret = -EOPNOTSUPP;
-+		else if (unlikely(win_idx == DMA_PMD_IDX_NOSPACE))
-+			ret = -ENOSPC;
-+		else
-+			ret = dma_pmd_window_assign(dev, domain, win);
-+
-+		if (ret)
-+			return DMA_MAPPING_ERROR;
-+		win_size = READ_ONCE(win->size);
-+	}
-+
-+	iova = dma_pmd_window_iova(win, phys);
-+
-+	/*
-+	 * The window was sized against the first device to pool through this
-+	 * domain (and may have been clamped to the domain aperture). Mirror
-+	 * __iommu_dma_map() and bound by the window size, bus limit, and
-+	 * device mask.
-+	 */
-+	if (unlikely(iova - win->base + size > win_size ||
-+		     iova + size - 1 > min_not_zero(dma_mask, dev->bus_dma_limit)))
-+		return DMA_MAPPING_ERROR;
-+
-+	domain_idx = win->domain_idx - DMA_PMD_IDX_FIRST;
-+	if (likely(test_bit(domain_idx, &meta->domains_mapped)))
-+		return iova;
-+
-+	/* First use of this PMD page in this domain: install the leaf PTE. */
-+	spin_lock_irqsave(&meta->map_lock, flags);
-+	if (test_bit(domain_idx, &meta->domains_mapped)) {
-+		/* raced, someone else mapped */
-+		ret = 0;
-+	} else {
-+		ret = iommu_map(domain,
-+				dma_pmd_window_iova(win, dma_pmd_meta_to_phys(meta)),
-+				dma_pmd_meta_to_phys(meta), PMD_SIZE,
-+				block_prot, GFP_ATOMIC);
-+		if (!ret) {
-+			/*
-+			 * A lockless reader that sees this bit skips the
-+			 * iommu_map() above and hands the IOVA straight to the
-+			 * device, so the leaf PTE has to be visible first.
-+			 * set_bit() carries no ordering of its own on a weakly
-+			 * ordered machine; the barrier is a no-op on x86,
-+			 * where the LOCK prefix already provides it.
-+			 */
-+			smp_mb__before_atomic();
-+			set_bit(domain_idx, &meta->domains_mapped);
-+		}
-+	}
-+	spin_unlock_irqrestore(&meta->map_lock, flags);
-+
-+	if (unlikely(ret))
-+		return DMA_MAPPING_ERROR;
-+
-+	return iova;
-+}
-diff --git a/drivers/iommu/dma-pmd-priv.h b/drivers/iommu/dma-pmd-priv.h
-index 8477a8edfac63..355f865f44057 100644
---- a/drivers/iommu/dma-pmd-priv.h
-+++ b/drivers/iommu/dma-pmd-priv.h
-@@ -2,6 +2,7 @@
- #ifndef _DRIVERS_IOMMU_DMA_PMD_PRIV_H
- #define _DRIVERS_IOMMU_DMA_PMD_PRIV_H
+  err_remove_dev_removable:
+ 	device_remove_file(dev, &dev_attr_removable);
+  err_remove_dev_waiting_for_supplier:
+@@ -3037,6 +3086,8 @@ static void device_remove_attrs(struct device *dev)
+ 	const struct class *class = dev->class;
+ 	const struct device_type *type = dev->type;
  
-+#include <linux/dma-mapping.h>
- #include <linux/dma-pmd.h>
- #include <linux/kref.h>
- #include <linux/list.h>
-@@ -10,6 +11,7 @@
- #include <linux/srcu.h>
- #include <linux/types.h>
- 
-+struct device;
- struct iommu_domain;
- 
- /**
-@@ -220,6 +222,22 @@ static inline struct dma_pmd_meta *dma_pmd_meta_base(void)
- 	return smp_load_acquire(&dma_pmd_meta_array);
- }
- 
-+/*
-+ * Highest PFN covered by the allocated @dma_pmd_meta_array reservation.
-+ * Every domain's IOVA window is sized to match this bound.
-+ */
-+static inline unsigned long dma_pmd_top_pfn(void)
-+{
-+	return dma_pmd_meta_nframes << PMD_ORDER;
-+}
++	device_remove_group(dev, &dev_attr_dma_pmd_group);
 +
-+/* IOVA of @phys in @win. Only valid once the PMD page's PTE is installed. */
-+static inline dma_addr_t dma_pmd_window_iova(const struct dma_pmd_window *win,
-+					     phys_addr_t phys)
-+{
-+	return win->base + phys;
-+}
+ 	if (dev->physical_location) {
+ 		device_remove_group(dev, &dev_attr_physical_location_group);
+ 		kfree(dev->physical_location);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index aee79fd6b32b4..52aa4a7e1cc45 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -794,6 +794,11 @@ struct device {
+ 
+ 	enum device_removable	removable;
+ 
++	bool			dma_pmd_rxbuf;
++	bool			dma_pmd_tx_hdrs;
++	bool			dma_pmd_rings;
++	bool			dma_pmd_debug;
 +
- int dma_pmd_meta_init(void);
- bool dma_pmd_meta_ensure_pfn(unsigned long pfn, bool can_block);
- struct dma_pmd_meta *dma_pmd_meta_of_pfn(unsigned long pfn);
-@@ -230,6 +248,8 @@ phys_addr_t dma_pmd_meta_to_phys(const struct dma_pmd_meta *m);
- unsigned int dma_pmd_pools_forget_domain(int idx);
- void dma_pmd_unmap_all(struct dma_pmd_meta *meta);
- unsigned int dma_pmd_forget_domain(struct dma_pmd_meta *meta, int idx);
-+int dma_pmd_window_assign(struct device *dev, struct iommu_domain *domain,
-+			  struct dma_pmd_window *win);
+ 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+ };
  
- static inline bool dma_is_pmd_phys(phys_addr_t phys)
- {
-@@ -255,6 +275,10 @@ static inline bool dma_pmd_window_owns(const struct dma_pmd_window *win, dma_add
- 	return size && dma - win->base < size;
- }
- 
-+dma_addr_t dma_pmd_dma_map_phys(struct device *dev, struct iommu_domain *domain,
-+				struct dma_pmd_window *win, phys_addr_t phys,
-+				size_t size, int prot, u64 dma_mask);
-+
- void dma_pmd_domain_release(struct iommu_domain *domain);
- 
- #else /* !CONFIG_DMA_PMD */
-@@ -269,6 +293,15 @@ static inline bool dma_pmd_window_owns(const struct dma_pmd_window *win, dma_add
- 	return false;
- }
- 
-+static inline dma_addr_t dma_pmd_dma_map_phys(struct device *dev,
-+					      struct iommu_domain *domain,
-+					      struct dma_pmd_window *win,
-+					      phys_addr_t phys, size_t size,
-+					      int prot, u64 dma_mask)
-+{
-+	return DMA_MAPPING_ERROR;
-+}
-+
- static inline void dma_pmd_domain_release(struct iommu_domain *domain)
- {
- }
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index cd1bca7ede9af..d918d1294eb0d 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2867,7 +2867,7 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
- 	while (i <= nents) {
- 		phys_addr_t s_phys = sg_phys(sg);
- 
--		if (len && s_phys != start + len) {
-+		if (len && (sg_dma_is_bus_address(sg) || s_phys != start + len)) {
- 			ret = iommu_map_nosync(domain, iova + mapped, start,
- 					len, prot, gfp);
- 			if (ret)
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
