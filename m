@@ -1,298 +1,320 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922EA43BDDF
-	for <driver-core@lists.linux.dev>; Sat,  3 Oct 2026 15:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E19B3921FA
+	for <driver-core@lists.linux.dev>; Sat,  3 Oct 2026 21:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791042856; cv=none; b=FEw61W5V+mX0/DtPMzNLfRTvwfw8XWrnjXaSwZuxTcKLpGqW0mXQT5c2qZrK7D2ok3kxqQcRPIZzqO9IKRIHaoshS3bEI2VAEGI784hy/YgFE+sqRITbsMrWn3ACUYW2BWOHQwWJZ6W6epWURfFOkPSiktHIPB/tOTTQ3oOW+oM=
+	t=1791062571; cv=none; b=BPDjSHRCYPPKB5ORtPkYN0jjpEmntX24n6mq8oXFwqvpiP2jti6Odc8BnfXAEY/TIjF883763N21lEheaHMjinZWC0gl9Z6OuR67iVExho6d/e042jgehQprKSVdhF51v5vyWMAVjTPmjjAZlMNnFdZBN44DFINGqfYu8vcGLcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791042856; c=relaxed/simple;
-	bh=yp32WOdEB0ESeqeQ0jOy2pJj2YGQmkAp8LW96QId7tA=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rL2cnhfHzcj7ZnzfoyVZ0Gzk9jDsHou1EX9Ef+SV/GLksEHIT2uzt2Bae3LWi1N+pCrXHrL3PYRLdw/T8QGSUiqO4EbvKFocwQNrHYvPc3cJGN/UGeSpK1yNGKYeQ7pg12ksAZJ7M5R4pwsDo14jLzcvTdVZguBoD1KQ4/Rhvrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100.1)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1xD23t-000000001J5-2EhJ;
-	Sat, 03 Oct 2026 15:54:09 +0000
-Date: Sat, 3 Oct 2026 16:54:06 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v19 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <2f9c6249f77a1940ef64e04de8153ec4b5a5f08f.1791035885.git.daniel@makrotopia.org>
-References: <cover.1791035885.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1791062571; c=relaxed/simple;
+	bh=Ue7ULJ5WY3bFakED6d/ARGtq7/M50CODLVb+2O2f6Yo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=sIe8D8fAmMT5V2HmBD36rutxT8E6e6xTeNX8KD0e7SkvUi4ldAVqWjqBlC5Cz+hKLh71wZJLDhRlAEejy/lHgUMNNTjV4KE2EHee+wFVD2LCdIMERyKl8tSUCq8sBolgUd1qAZ3+UE7fDFB4cox3W9OecljT+uD2paYt9d8HJSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N/tuliZD; arc=none smtp.client-ip=209.85.208.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N/tuliZD"
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6aaff9e86b0so545575a12.1
+        for <driver-core@lists.linux.dev>; Sat, 03 Oct 2026 14:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791062566; x=1791667366; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VE+LxnBIdWSDoOzHpOAVXErosSD4QsTFJ9TX/Oi0RT4=;
+        b=N/tuliZDz6QttxVa73L8cnT61cPMei5baJ5QCzimWEw/vjnl1DnzckPYaKhw4JV075
+         REr1Y28PZgHW/VwnWwY7eOFSSeNfCNT+vyw6+NI5pHi13PfJEEalM4VJulhMaNpqeQPF
+         P8GwD2Dw0r9CWGgYVikIiJPbO8xZgn5UvfJMh6dlT50lqtR2YFmEqNAMfqY7XpQbycP3
+         3ibSEKbdmtb5fB38asevqcvTswquPA+NxLkuAY19cs28XLUUN+w3x9WWfK0mDWUqiKpu
+         0jweyEFz50NUOB7sBWHP7AxX5zo6wbRZUfML+7LekjyDIdI3MHsMz0JoV3k1r0hCRdJl
+         rqaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791062566; x=1791667366;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VE+LxnBIdWSDoOzHpOAVXErosSD4QsTFJ9TX/Oi0RT4=;
+        b=bhXxCtLhLAKs6AAPuFk6Ja9G1QqhH91y/zGyf4oQGVlRUsd3U7/cW1f44tDz4zzeI4
+         i7yE8by/2482kVAMTTDsej+2x8STed+ED746UnAVEACBNqlha71BkNjUkA1DSQ99KSy7
+         uRg4oF/b7K2dRhPvDDlLCowMYlz8ED5y6I8RwgaPdItdUecVbKvytzzBqrCZBEfbkVBO
+         Q8uf7GqYFDbRghIBTpbs6kGNA6OSqw8oZWCpXSR+/7dYbWPEssIetDIobzYZbX842FXt
+         5dR4Z06Hq4hqqg8UfdRsR8Ib+u45l+KS3CfR5ZtDdgItnWqrKciYZHcL7S2/pOgepE9S
+         ArOg==
+X-Forwarded-Encrypted: i=1; AKwUvBxoI1LzvAR2pez9kWXUFY29avClpEZd27gz8UadnBK9UM8O3bwjg0dZB9KDWguKK7c5bLUM3RCkORQLgA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIDnU7snRQrRS3L838uf/cpqHyIH4Tm2b62p/SIwVqN+dJtTin7
+	lNWQBGID3WAxgT/mHptKSXyOlqbubLDZf60RYsIskcW+aPPAGzvMtq1HCNo95xiig0F+iZxYrkt
+	gOLhbzg==
+X-Received: from ejbhk10.prod.google.com ([2002:a17:906:c9ca:b0:c2e:6b98:66f3])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:3808:b0:6ac:8ef4:177d
+ with SMTP id 4fb4d7f45d1cf-6af9e2d34f8mr5494442a12.20.1791062566061; Sat, 03
+ Oct 2026 14:22:46 -0700 (PDT)
+Date: Sat,  3 Oct 2026 21:22:19 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1791035885.git.daniel@makrotopia.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+Message-ID: <20261003212241.3432303-1-lrizzo@google.com>
+Subject: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+From: Luigi Rizzo <lrizzo@google.com>
+To: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Luigi Rizzo <lrizzo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+Here is a subsystem called DMA_PMD on which I would like feedback on
+architecture, possible enhancements, or kernel components that could be
+reused to avoid duplication.
 
-Assisted-by: LLM
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
----
-v19:
- - name every recovery failure with its remedy, the loader still busy
-   past the erase of the interrupted session and the exhausted drain
-   bound included, and say that the kernel log names the cause (found
-   by Sashiko AI review)
- - the fw row lists every state without a version, and devlink dev
-   flash tells a recovering switch from one whose recovery has failed
-   and needs an image file to load; asic.id is also omitted when the
-   read fails on a running firmware (found by Sashiko AI review)
- - the conduit is closed as well and reopened with the user ports, the
-   reprobe recreates the user ports and loses their configuration, and
-   the duration depends on the board's flash chip (found by Sashiko AI
-   review)
- - the loader checks the image's integrity, the conduit is closed but
-   not held closed, the ports are unusable while a re-probe that could
-   not be scheduled is awaited, a loader in the flashless loop or with
-   an unserviced mailbox fails probe, the handshake left behind by an
-   interrupted session is one the driver does not resume, and the
-   extack and log of a failed recovery say what they say, the driver
-   validates the file before touching the switch, a flash is refused
-   while the switch is still being set up, a re-probe that could not be
-   scheduled is among the final states, and a failed flash's refusal
-   clears with its re-probe (found by a local review)
+I think it can be extremely useful for those affected by the HW/SW overhead
+of IOMMU (especially IOTLB thrashing, see [1]), or confidential computing,
+or preemptable VMs.
 
-v18:
- - the rescue-mode firmware version is reported as running only, and a
-   re-probe that cannot be scheduled is logged on every path and leaves
-   later flashes refused with -EBUSY until a rebind (found by Sashiko AI
-   review)
+The (not too exaggerated) pitch line is
 
-v17: no changes
+DMA_PMD has the performance of identity, guarantees that only IO buffers
+can ever have active IOMMU or IOTLB mappings, removes the bounce buffer
+overhead in confidential computing and preemptable VMs, and integrates
+smoothly with existing kernel APIs.
 
-v16:
- - document that a reboot waits for a running flash and that one
-   requested afterwards is refused, and that a bus error ends the
-   download recovery for good
- - title-case the "Flash Update" heading, as the other devlink driver
-   documents do
- - say that the ports come back down from a flash, that a reprobe which
-   cannot be scheduled needs a rebind, and which of the two recovery
-   failures needs a power cycle and which a rebind (found by Sashiko AI
-   review)
+=== ARCHITECTURE
 
-v15:
- - asic.rev is read from the CHIP ID registers as well, not from one
-   register word shared with asic.id (found by Sashiko AI review)
- - -EIO says the driver gave up on the recovery, which may need a driver
-   rebind rather than a power cycle, and an interrupted opening
-   handshake is reported the same way (found by Sashiko AI review)
+DMA_PMD was initially designed to address IOTLB thrashing (details in [1]),
+but turned out to also resolve nicely the strict IOMMU overhead, and avoid
+the bounce buffer overhead in preemptible VMs and Confidential Computing.
 
-v14: no changes
+It works by combining several known techniques:
 
-v13: no changes
+- transparently feed allocators of device memory (skb_page_frag_refill(),
+  dma_alloc_attrs(), pagepool, ...) with DMA_PMD pages, i.e. physically
+  contiguous PMD_SIZE (2MB) pages mapped via PDE_SIZE IOMMU entries
 
-v12: no changes
+- heavy recycling of DMA_PMD pages (like pagepool) and lazy IOMMU unmapping
+  (like DMA-FQ), BUT:
 
-v11: no changes
+- like strict IOMMU (DMA), safely release memory back to the kernel only
+  after destroying all of its IOMMU mappings and a synchronous IOTLB flush
 
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
+- on allocation, DMA_PMD pages can be configured to be pinned in the host
+  (hence suitable for preemptible VMs) and/or unencrypted (hence suitable
+  for Confidential Computing), removing the need for bounce buffers
 
-v9: no changes, picked up Andrew's v5 Reviewed-by
+- there are global and per-device optin /sys/device/.../dma_pmd_*
+  and /proc/sys/net/core/tx_enable_dma_pmd
 
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
+NIC drivers can typically use dma_pmd with no modifications for rings,
+tx buffers, rx buffers (if they use pagepool), and rx headers. For tx
+headers, almost all drivers need changes (see later patches in the series)
+to implement cheap bounce buffers and avoid individual 4K mappings.
 
-v7: no changes
+The series has the following main components:
 
-v6: no changes
+- a sparse array (similar to pageblock_flags) to quickly attach metadata
+  to a 2MB page without fiddling with the struct page. Cost is 128B per 2MB
+  page used as an IO buffer, totally negligible.
 
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
+- dma_pmd_pool, a replacement for alloc_pages() that can be instantiated
+  per-CPU or per receive queue. It handles the split of PMD_SIZE pages
+  into order-N blocks, handles dma_map and unmap, and aggressively recycles
+  entries. It is used to feed skb_page_frag_refill(), pagepool, and
+  receive buffers for drivers that do not use pagepool.
+  See [2] for "WHY NOT PAGEPOOL FOR TX AND EVERYTHING"
 
+- dma_pmd_arena, is another allocator backed by DMA_PMD pages and
+  is used exclusively as the backend for dma_alloc_attrs().
+  Used for longer-lived allocations (descriptor/completion rings,
+  rx and tx header buffers)
 
- Documentation/networking/devlink/index.rst    |   1 +
- Documentation/networking/devlink/mxl862xx.rst | 118 ++++++++++++++++++
- MAINTAINERS                                   |   1 +
- 3 files changed, 120 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+- glue code to hook DMA_PMD into pagepool [2], skb_page_frag_refill(),
+  dma_alloc_attrs(), dma_map/unmap...
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 1af780c811ee2..53d3ef16d13f4 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 0000000000000..6ec2c793fd0f3
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,118 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), when the read fails on a running firmware, for an
-+       unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version, read from the CHIP ID registers as well. Both
-+       values are published behind the same check, so it is omitted
-+       whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash until the reprobe it schedules, and in MCUboot rescue mode
-+       while an interrupted download is still being recovered in the
-+       background, once that recovery has failed, or while the loader
-+       waits in an opening handshake nobody can finish. Once the loader
-+       is ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade; it is reported as
-+       running only, since the driver cannot tell what the flash holds
-+       while the loader runs. A missing version on its own does not say
-+       why; ``devlink dev flash``, given an image file that passes the
-+       driver's validation, answers ``-EBUSY`` while the switch is still
-+       recovering and ``-EIO`` once it cannot be flashed from this
-+       binding, see below.
-+
-+Flash Update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The driver checks the image file's header and payload checksums before
-+touching the switch and refuses a file that fails them. The image is
-+then transferred to the switch over the same MDIO bus which is also
-+used to manage the switch, checked for integrity again and installed
-+by the MCUboot bootloader running on the switch. All ports of the
-+switch are closed and held closed for the duration of the update, the
-+conduit interface is closed with them, and the driver reprobes the
-+switch after it has rebooted into the new firmware. The reprobe
-+destroys and recreates the user ports, so their bridge membership,
-+VLANs, addresses and every other per-port configuration are lost with
-+them; they come back registered but down, and userspace configures and
-+brings them up again, which opens the conduit with them. A complete
-+flash and reprobe cycle takes on the order of a minute, depending on
-+the board's flash chip. Until the reprobe has run, a further update is
-+refused with ``-EBUSY``, as is one requested before the switch has
-+finished setting up. In the rare case that the reprobe cannot be
-+scheduled at all, the kernel log says so, ``devlink dev flash`` reports
-+that error or the transfer's own if the transfer failed as well, and
-+the driver stays bound to a switch it no longer tracks, with its ports
-+unusable and further updates refused with ``-EBUSY``, until it is
-+unbound and rebound. A reboot started while an update is running waits
-+for the transfer to finish, and an update requested after the system
-+has begun shutting down is refused with ``-ENODEV``.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. A loader found in its
-+flashless download loop, or one that does not service its mailbox, is
-+not usable from here and fails probe; the kernel log reports the
-+state's errno, ``-EOPNOTSUPP`` for the flashless loop and ``-ENXIO``
-+for the unserviced mailbox. If the previous download was interrupted
-+mid-transfer the loader is wedged; the driver drains it back to a clean
-+ready state in the background, one byte at a time, which takes tens of
-+minutes for a large image and is reported through the kernel log as it
-+progresses. During that recovery ``devlink dev flash`` returns
-+``-EBUSY`` with an extack message saying so, and ``devlink dev info``
-+reports no firmware version. Once the loader is ready the firmware
-+version appears and flashing a firmware image through the regular
-+update flow recovers the switch.
-+
-+If the switch cannot be flashed from its binding, ``devlink dev flash``
-+returns ``-EIO`` and says so in its extack message; the kernel log
-+reports why, naming a loader that stopped answering, a drain that
-+reached its bound or a reprobe that could not be scheduled where that
-+is the cause and the bus error otherwise. The drain runs once and is
-+never resumed, so a failed MDIO transaction ends it as well. A loader
-+that stops answering the drain, one still busy once the erase of the
-+interrupted session should long have finished, and a drain that
-+reaches its bound without the loader returning to its ready state need
-+a power cycle; a completed drain whose reprobe could not be scheduled,
-+and a drain a bus error cut short, need only a driver rebind. The
-+driver re-examines the switch
-+when it binds and at no other time, so a power cycle on a board where
-+the switch can be cycled on its own still has to be followed by an
-+unbind and rebind for the recovered switch to be recognised.
-+
-+A download interrupted during its opening handshake, before the image
-+header reached the loader, is reported the same way. The driver starts
-+a download only from the loader's ready state and does not resume that
-+session, so the switch needs a power cycle.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6de1ff058db64..cb1dad080f63c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16250,6 +16250,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
- 
+- per-driver patches, where necessary (e.g. tx header buffers [3])
+
+=== PERFORMANCE BENEFITS
+
+Your mileage may vary. Enabling the IOMMU may have no throughput
+impact, until it does when some system components (bus, IOTLB, CPU)
+become overloaded.  Aside from throughput reduction, one interesting
+parameter is the effectiveness of the IOTLB. Here is a sample of SMMU
+performance counters for a large ARM system with 2x200G NICs doing
+bidirectional traffic:
+
+    === DMA-FQ MODE (total throughput ~440Gbps)
+    25,757,488      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
+    16,634,941      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
+
+    === DMA_PMD on top of strict DMA (total throughput ~745Gbps)
+    22,693,218      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
+        30,536      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
+    (not a mistake, also lookups went down despite the higher rate
+    because the tx side can use larger segments)
+
+The 2MB mappings made IOTLB misses almost non existent, because
+the working set is reduced by a factor of ~512.
+       
+Note, the code has more verbose comments than I would like.
+Several of them are there to avoid Sashiko getting confused and
+flagging false positives.
+
+=== NOTES
+
+[1] IOMMU IMPACT AND IOTLB THRASHING
+This is documented in more detail in Documentation/core-api/dma-pmd.rst
+but the compact version is below.
+
+There are three main costs involved with using the IOMMU:
+- CPU cost for dma map/unmap
+- CPU cost and latency for synchronous IOTLB flush (required for strong security)
+- IOTLB thrashing, shows up dramatically when the IO access pattern
+  exceeds the IOTLB size, and IOMMU page walks slow down bus activity
+  up to a point where we see over 30..60% throughput reduction just for
+  this reason.  Some relevant references
+
+  https://lore.kernel.org/all/4b42f2eb-dc29-153e-ace9-5584ea2e5070@redhat.com/
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10280580/
+
+Specifically, NICs access 4 or more pages per packet (descriptor queue,
+completion queue, rx or tx header, one or more buffers), with very little
+locality especially for data buffers and tx headers. Each queue has 1-4K
+entries, a fast NIC uses 16 or more queues per direction, so just the
+data buffers cover 32..128K pages. Using 4KB mappings makes the IOTLB
+ineffective, as shown by the performance counters shown earlier.
+
+[2] WHY NOT PAGEPOOL FOR TX AND EVERYTHING
+There is some overlap between pagepool and dma_pmd_pool in that both
+implement a cache, but pagepool is missing some important features:
+
+- pagepool does not handle splitting 2M pages in smaller chunks, or
+  the mappings. That would need to be implemented (and is what dma_pmd_pool does)
+
+- pagepool's provided pages cannot be cleanly managed by
+  get_page()/put_page(), which is what all the consumers of
+  skb_page_frag_refill(). Fixing that would require dozen of changes
+  with high risk of missing some paths.
+
+- even for the receive path, a provider for pagepool has more restrictions
+  than alloc_pages-supplied memory, so if I wanted to wrap dma_pmd_pool
+  as a provider I would have needed changes to the provider interface.
+
+- pagepool requires a device at allocation time, which is not known when
+  skb_page_frag_refill() runs, hence the IOMMU mappings cannot be handled
+  at allocation time.
+
+- page_pool_alloc_pages assumes a single NAPI consumer with BH disabled,
+  whereas skb_page_frag_refill() runs from a preemptive context.
+
+- and last not least, we need to handle the dma_alloc_attrs() allocations
+  which don't match pagepool API
+
+Of course all of the above could be modified, but the complexity
+would be similar to that of implementing dma_pmd_pool, and with a
+huge risk of breaking existing functionality or missing some path.
+
+[3] DRIVER CHANGES
+
+Most drivers need no change for rings, transmit buffers, or receive buffers
+(if they use pagepool). Tx headers are generally mapped on the fly and
+that is enough to trigger IOTLB thrashing, so most drivers need a small
+change to implement very cheap tx bounce buffers backed by DMA_PMD pages.
+
+We could avoid the bounce buffers using DMA_PMD for the skb->head region,
+but that memory is contiguous to skb_shinfo so it would be exposed to
+IO device access, which may be undesirable for security.
+
+Luigi Rizzo (22):
+  iommu/dma: introduce CONFIG_DMA_PMD and metadata table
+  iommu/dma: add DMA_PMD pool lifecycle and page recycle hook
+  mm: Add split_page_compound()
+  iommu/dma: add DMA_PMD pool block allocation
+  iommu/dma: Global cap and shrinker for DMA_PMD pool memory
+  iommu/dma: reserve a per-domain IOVA window for DMA_PMD pages
+  iommu/dma: release DMA_PMD domain mappings on domain teardown
+  iommu/dma: use per-domain IOVA window to map DMA_PMD memory
+  iommu/dma: Add DMA_PMD arena allocator
+  driver core: Add per-device dma_pmd_* sysfs attributes
+  dma-mapping: Use DMA_PMD arena for dma_alloc_attrs()
+  net/core: Use per-CPU DMA_PMD pools for skb_page_frag_refill()
+  net/core: Use DMA_PMD for page_pool memory
+  iommu/dma: Support decrypted and pinned DMA_PMD pages
+  iommu/dma: Add background page scrubber for DMA_PMD pools
+  iommu/dma: Add per-NUMA-node PMD page reservoir
+  net/gve: Use DMA_PMD memory for RX buffers
+  net/gve: Use DMA_PMD memory for tx header bounce buffers
+  net/mlx5e: Use DMA_PMD memory for tx header bounce buffers
+  net/idpf: Use DMA_PMD memory for tx header bounce buffers
+  net/bnxt: Use DMA_PMD memory for tx header bounce buffers
+  iommu/dma: Add DMA_PMD statistics and debugfs
+
+ Documentation/core-api/dma-pmd.rst            |  320 ++++
+ Documentation/core-api/index.rst              |    1 +
+ drivers/base/core.c                           |   51 +
+ drivers/iommu/Kconfig                         |   33 +
+ drivers/iommu/Makefile                        |    3 +
+ drivers/iommu/dma-iommu.c                     |   72 +-
+ drivers/iommu/dma-iommu.h                     |    8 +
+ drivers/iommu/dma-pmd-arena.c                 |  412 +++++
+ drivers/iommu/dma-pmd-kunit.c                 |  225 +++
+ drivers/iommu/dma-pmd-map.c                   |  531 ++++++
+ drivers/iommu/dma-pmd-meta.c                  |  403 +++++
+ drivers/iommu/dma-pmd-pool.c                  | 1538 +++++++++++++++++
+ drivers/iommu/dma-pmd-priv.h                  |  385 +++++
+ drivers/iommu/iommu.c                         |    2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |   45 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |    2 +
+ drivers/net/ethernet/google/gve/gve.h         |    5 +
+ drivers/net/ethernet/google/gve/gve_main.c    |    5 +
+ drivers/net/ethernet/google/gve/gve_rx.c      |   61 +-
+ drivers/net/ethernet/google/gve/gve_tx.c      |   38 +-
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c  |   45 +-
+ .../ethernet/intel/idpf/idpf_singleq_txrx.c   |    6 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c   |   21 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |   27 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |    2 +
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |    4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |   14 +
+ .../net/ethernet/mellanox/mlx5/core/en_tx.c   |   28 +-
+ include/linux/device.h                        |    5 +
+ include/linux/dma-pmd.h                       |  198 +++
+ include/linux/mm.h                            |    2 +
+ include/net/libeth/tx.h                       |    5 +-
+ include/net/page_pool/types.h                 |    3 +
+ include/net/sock.h                            |    3 +
+ kernel/dma/direct.c                           |    6 +-
+ kernel/dma/mapping.c                          |   39 +-
+ mm/Kconfig.debug                              |   11 +
+ mm/Makefile                                   |    1 +
+ mm/page_alloc.c                               |   89 +
+ mm/split_page_compound_kunit.c                |  113 ++
+ net/core/page_pool.c                          |   61 +-
+ net/core/sock.c                               |   86 +-
+ net/core/sysctl_net_core.c                    |    7 +
+ 43 files changed, 4835 insertions(+), 81 deletions(-)
+ create mode 100644 Documentation/core-api/dma-pmd.rst
+ create mode 100644 drivers/iommu/dma-pmd-arena.c
+ create mode 100644 drivers/iommu/dma-pmd-kunit.c
+ create mode 100644 drivers/iommu/dma-pmd-map.c
+ create mode 100644 drivers/iommu/dma-pmd-meta.c
+ create mode 100644 drivers/iommu/dma-pmd-pool.c
+ create mode 100644 drivers/iommu/dma-pmd-priv.h
+ create mode 100644 include/linux/dma-pmd.h
+ create mode 100644 mm/split_page_compound_kunit.c
+
 -- 
-2.56.0
+2.56.0.rc1.315.gc6ed9934b7-goog
+
