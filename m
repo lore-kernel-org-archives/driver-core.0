@@ -1,94 +1,87 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507A747044B
-	for <driver-core@lists.linux.dev>; Mon,  5 Oct 2026 10:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB94A25B08E;
+	Mon,  5 Oct 2026 12:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791196054; cv=none; b=KUeiH91meUsWgsKC6urfh/0w7WuC2G7FsEoi0V1f+RoSKKRhKSuZZwn/pGM5VakYgesoJTkix08YE5dBXT5zg/h8Dd3F4JOclUEJcJ+OnMIFnNZJ/IUC9nS+ZpAzTY0hbTZ0aVh7s2cf3yiGWJcosjQnwMARBmMmYSxyH6T7YKI=
+	t=1791201795; cv=none; b=UwT8+5dHVsPhCgjKrVRqjrTuX/PeQ1zO0Vu+j9vJLfm8HtIT3AWtw5pli8Cyyl5TPZemD4orhm80f74/oa3kzZs3pjDKvjm6d4aTI4tpmS43J0YAIP0Xe1YMIqdoJ5JDOF9pD/sTNZhXM/KO5OIzIEiqjENVdWkGdO++3t2UPB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791196054; c=relaxed/simple;
-	bh=eNfnq2Z1m9vATI6IEOIp7uCuLn4LfwsvxoZBIRYjBQc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W8w8ELrG75q0sswjNwxeNYVNahNiWhhdyjg07wKzM+SDUgVlIP3aygTqlt6ex7cFNxjH6rETvkm04T4TDeN2ELdTC3BzHlIu0yVER36E8zfeLUcQcGhDaw5i3keC3a8JEi2POqjKlCEPuYv5wWwwrIO4LQ7dc5ylKhH1+FEd1t8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZipdCrqL; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791201795; c=relaxed/simple;
+	bh=RX07QNDI5QhhlnhG8e/m3mlqTvkzSyuwwbOZThDqoSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VNVwd3+gB9hly5J+gy7Qpo3E939JTR30SpberqIoav+Al3Sjdn4vasiKZZqEBiYUJ5vDxIsGjpqzGZHQyDBJNWDD5+UpHInZDrPe5IHq/X/mTevxCwIfwxlJnETcX8mjfrvgHZt3xlFAOxBHHrh0zYZCIVMIkCYIUZlW3UcipOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nN9HVINB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZipdCrqL"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2dfa54c8ccfso2974995ad.0
-        for <driver-core@lists.linux.dev>; Mon, 05 Oct 2026 03:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791196053; x=1791800853; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZCy7OWUxx6rxFKNFyknNAcEUj9iw0sI9ldfF6jwCKZc=;
-        b=ZipdCrqL2GHkjnGjJigNiFW2V13O2RvGQAv1oOtv89X2H0bzpN2PBSnDdqViEkJqL+
-         jTe9ZOTeKANqJ95dYKKUE47K/RwK71e/CFzImKmdwen8Q/b1PoLXPvK3Q0/Bs8DrHyMI
-         sa5/AKBkHH8XgA24koBtCdj3HnrgDcCScWqy3GY564+McZdGsV4oFzrKDwnU05esmVuB
-         cmVAXviW9y/WUgcf8LnKCVFtJfSGTAZx7rbMHckGqoX71Q+nKkkePRjM5BqeFqcq/KO5
-         2A1Qa3ik9J/2Yw9x+Y7b+KkylLeR3LtkrYzt31lHEiWkCvRftRS7U0vYvxPtIrl6rdH+
-         q4LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791196053; x=1791800853;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZCy7OWUxx6rxFKNFyknNAcEUj9iw0sI9ldfF6jwCKZc=;
-        b=eEac/QJvEuQvNYwflCPF5XESfxal6fB2PMmgGJuDvvc83SN6DvZH4yQkLKM83LGS6z
-         x02M08zsMx3T+k45HDr5c8BNq6Zja1YcxbR52YVI7gbuZ4Pm8TTAV/Qqs/F2i6wy2BEt
-         hBzIpKEWc/ZU2aFQqBRk40ysRIkl69bc78BN4ysu9QqPuFvqC2rVgbOEukQCcb4QRbF4
-         p35DiwyF5naCanZntOqHX6phfu92zMOyuuxk/G7wgisF3OVsB2VcvnDUa2v/IR/hQa8Q
-         T6GvepCXvrb9fhUi/e3ak9QgpwpI5zGvbJxO18pKNSGOMiI2XMUk8UdK7uSglZHDTAqI
-         IgAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzzC3PV6b6En7e/Kxd8F+qb/gSWxJYsWhcgHsPTalEeLG6s6F9hts87ZFkamtauLYEV/coBJAz2QfidoA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJunoLlxrn+4HqcR4cqaTAgDUDW2of142qBErfBk14mIomYgGkT
-	/oMQufRDOxKPICXlLrNEzuhpJtzsdzlUFCsdaFlFIZXmUgxzxT2qV7Df
-X-Gm-Gg: AYBFou1qERD6PaA/Ch2mXToi4T66OiBP64vABxGSMFqdOTf3qX/gJ5YHXH6RnYg9lGS
-	rUDM10SdCMqRf4WhB9s8ATmVAWf51qt24PvigKsca5rJFkvxle9RarDcz4V19Xupa93ErNSpe/Y
-	bOlxac2dKFDIEmpqyfBWFX5BXmpqE1nDz/gQC263FRdba9sS7+ZW1C03L0NcRbgtiG2myi/cG5n
-	mWpchi7AETycqVYcXtZa0yrqJrN5qHjomLBQlHWdh8Rl/M1a8BJcICDshqGgjY+7gCqLajMbfFK
-	Z1JKiQ6HtXu7AScvv/oJZVM6a86S/xuqOamxgH+/+xbsn83nHTvB6Jar8olS9b61vjSL+bR8ZQk
-	PB8EuZJ2IFZaqpQREwUa6KrH+sf9vb3htI5Axr4ReWgcOD7DZJVfD0766c4IIXRY1MSrE1bBDbH
-	FLvwzsn76dNBnHA/Qr8H73/AgXgA5pZQSaIX6W6R5HVnsMAihRjCBEz6IjqZjvd9bw2E7kFKcv0
-	XFL0YduFuyNix5wg0RDRK94O3q2NWtBhAGZoNZp2nK3N8GuVBYyc62eNxt7
-X-Received: by 2002:a17:903:1663:b0:2e4:b6b5:b305 with SMTP id d9443c01a7336-2e4b6b5bfd2mr56716435ad.2.1791196052595;
-        Mon, 05 Oct 2026 03:27:32 -0700 (PDT)
-Received: from localhost.localdomain ([211.213.99.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e5a5cae525sm5159935ad.19.2026.10.05.03.27.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 03:27:32 -0700 (PDT)
-From: Hyeontaek Lim <jennystr233@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nN9HVINB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD4D1F000FF;
+	Mon,  5 Oct 2026 12:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791201794;
+	bh=kD4+uzw7bhovQE/d/0mn0fYUS7lXjKnjKcbPTc8WVK8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nN9HVINB+ZC7FQUj2kczJFE3oEIw/ooD3qD2guVDS6DTuTV8v096dOTvBAOyRxqWy
+	 R3I210N+Bu2Braa/np6DXGVxHG6mYMmwboM7O4bajwrSlX0wN8AXjyirzzo4YWz+mp
+	 9SuRWRpp51E6nJl2LlCcxBhNK9tImqtnPwzftT98lLSRzwaZv0fYGNElZeqfUeAbn/
+	 yWzcq4TBAxayFPxXMzg8lCupsPjwOGlZYWsmSutuughAt6+uSU6M2YJg5E9ND1NUrN
+	 RJubjJxXuxLXVrIIuxL+f3FLP/5in3isOJKXFOwIjVhdmhAMA67DpFN+Hnb6vMIcZ3
+	 1pcuQovZG9N3w==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id E1E261AC57CE; Mon, 05 Oct 2026 13:03:10 +0100 (BST)
+Date: Mon, 5 Oct 2026 14:03:10 +0200
+From: Mark Brown <broonie@kernel.org>
+To: michael.reeves077@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	syzbot+d164947c037324221043@syzkaller.appspotmail.com
-Subject: Re: [PATCH] kobject_uevent: fix OOB read in kobject_action_type()
-Date: Mon,  5 Oct 2026 19:26:57 +0900
-Message-ID: <20261005102657.67522-1-jennystr233@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <2026092806-life-amazingly-e68d@gregkh>
-References: <2026092806-life-amazingly-e68d@gregkh>
+	"Liam R. Howlett" <liam@infradead.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	maple-tree@lists.infradead.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] regmap: Drop map lock during cache init and exit
+Message-ID: <asOR_mP6pc2Dy3OA@sirena.co.uk>
+References: <20261004-regcache-lifecycle-submit-v2-0-976d405e89a7@gmail.com>
+ <20261004-regcache-lifecycle-submit-v2-2-976d405e89a7@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AiTCInaMmJm64Z9z"
+Content-Disposition: inline
+In-Reply-To: <20261004-regcache-lifecycle-submit-v2-2-976d405e89a7@gmail.com>
+X-Cookie: You will forget that you ever knew me.
 
-Hi Greg,
 
-You're right -- I see now that this was already fixed by commit
-d516455c9405 ("kobject: fix out-of-bounds read in
-kobject_action_type()") from Jiacheng Xu, merged on Sep 24
+--AiTCInaMmJm64Z9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please disregard my patch -- it's a duplicate. I should have checked
-linux-next and the existing lore threads before sending; 
-I'm new to this and will be more careful next time. Sorry for the noise.
+On Sun, Oct 04, 2026 at 11:38:43PM +1100, Michael Reeves via B4 Relay wrote:
+> From: Michael Reeves <michael.reeves077@gmail.com>
+>=20
+> On systems with CONFIG_PROVE_RAW_LOCK_NESTING enabled, Apple GPIO probe
+> triggers an "Invalid wait context" lockdep warning.
 
-Thanks,
-Hyeontaek Lim
+> -	mas_lock(&mas);
+> +	spin_lock_irqsave(&mt->ma_lock, flags);
+
+I think this needs at least a comment explaining why we're not using
+mas_lock(), otherwise people will try to change to using mas_lock()
+since there's no obvious reason we need to exclude interrupts and we're
+peering inside the maple tree internals.
+
+--AiTCInaMmJm64Z9z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCasOR6QAKCRAv73Ows9A4
+iTMoAP4o0zrTEfz/KK1WqqxX/lOzdx2SwIkQtzyY0HTAhAlCzwD/Rgigj//3JoGr
+LajYpbwuwOeLuZ2alcDAf//8Rpb47AE=
+=q+EZ
+-----END PGP SIGNATURE-----
+
+--AiTCInaMmJm64Z9z--
