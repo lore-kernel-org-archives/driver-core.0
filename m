@@ -1,47 +1,51 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C2A4CC28B;
-	Mon,  5 Oct 2026 15:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7DE3A7F51;
+	Mon,  5 Oct 2026 21:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791215389; cv=none; b=iIVLBSKr3WWX+rQJKxUOyOLEMGlhlGABeR/dZMrzH5EjzMJTjG0g5GnJeREo0FfmoLM1n3Fjf2M5+pSZWcER7uyFnqSj3lD9D7ex3Qp98QDmf5ElXrM4CXYlfNhA068s6w/ImxLkWY26baTuCuG2RA9kc/PksRNW4SAPzHV1olU=
+	t=1791236121; cv=none; b=oA+tRqcJWSvFHRBFGVsxJ0NSvg2LYJX8+G1+c9sI3zWCbcZsXcdk64Z9BNpLMNnDcTFExjV3c/QwNKwwvVT4lzTmOYVjL7KwISV6QZBeP//WoBL+ZM0sGfpVkNdrqzsdpTB0Hf7YriWx82DDfhrjRPpJT77m3Pfpz6yeGABGXyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791215389; c=relaxed/simple;
-	bh=mkeJJi3F5dOfXoKFI6wH4e7xLmTzH2yJXcZAE0qmPSk=;
+	s=arc-20240116; t=1791236121; c=relaxed/simple;
+	bh=5PZqBYgQkiUo0RUtnjlMFOWXFEzOcshQuWqR5QYxgc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxJtcQJp2mdgne2bcUowXvS42BrHYDYeog5uZIF//DZVEaW0q+/sktDgBoD0R+g/TPHRJDRO+xCof5k5mrA8wxQSJNfFbNj+Ad1PW+kpSVGaSV5p6GjGwMyaTTzqZtqHDz+6J6IITC8Pclg6w2DpHNLfffEK7PW3/4jUgnN0EFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f2DySDr8; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=gbTfF1otvCQAERC05aLiGUh+GPd6MMrbj/HTR3OuXWCjX7UNNtAxy/Hramavsc4MX+9ushry6hP/FCUTmY1Zpkcf2uEo0TL8c1TrudFgAMWHOgXGeyk3rMtxt7gxLFdjRbUkJ11/VszdJcm/ytRUz2xteJ2BAJstFy9aKBz9r/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=P6Wc7Jxy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f2DySDr8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=oKJ0ggyvKoBY4zYat4h17hr+pWO3ckgn/QlJxQ65oeQ=; b=f2DySDr85wu+wsfo47Gx5iTVN6
-	pUTLXk8xhGln0lwbyDV5cgBCOzoEzRNate8hU7wRQELBa453DMX/RE2vvqVXtu/PCLX0dU+5MokU2
-	SJKcuk3J90BGnalImefc7NDrqPqSpC13gL+eFqqfabzryMYqyQq8byciDPjqE5M7fwW4AnLdNaeq5
-	6FyrMJHw+a9d6osFlTVOP/JnyIDs/rXMkKpHYlnziXNy6gh1/CnDUP4olre7ddqgScYt85QNAw42m
-	OdDVS5fAmqka6eJygerXv7JTgFT8t0W3CHkgZzaGyZjHd7Av+co2rTYOgFNohs/pZ5/T3LWtajlpe
-	GpMAd6ug==;
-Received: from 90-182-211-1.rcp.o2.cz ([90.182.211.1] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xDkwf-0000000GnJy-11h6;
-	Mon, 05 Oct 2026 15:49:42 +0000
-Date: Mon, 5 Oct 2026 11:49:35 -0400
-From: "Liam R. Howlett" <liam@infradead.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: michael.reeves077@gmail.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	maple-tree@lists.infradead.org, asahi@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] regmap: Drop map lock during cache init and exit
-Message-ID: <isz6cg5wluhdjyq2lfh4t5ar7mx6q2ekesxelffkojjshomucr@q2ybag6pzxrp>
-References: <20261004-regcache-lifecycle-submit-v2-0-976d405e89a7@gmail.com>
- <20261004-regcache-lifecycle-submit-v2-2-976d405e89a7@gmail.com>
- <asOR_mP6pc2Dy3OA@sirena.co.uk>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P6Wc7Jxy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5A21F000FF;
+	Mon,  5 Oct 2026 21:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791236119;
+	bh=yZ52pUPtOfeAPAn2Ck6Sgm1SDj6aR1P1uVv4/GKks+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=P6Wc7Jxy+1ZID/sXiTgAHGuUNpQ/E2plLnrv8YW6H44xwVV2zjVF2KMjxSerXas3O
+	 ELrFYnOTKa74Cl9ESuUEZ51asjQbAD2siHFnLxvZg4C79wMvpPWGPQJO8yDbAWUp73
+	 I93AkL++LY7yM3DhVxV5JidS31ydjb0XCgAx7U00=
+Date: Mon, 5 Oct 2026 23:35:16 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Kees Cook <kees@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	driver-core@lists.linux.dev, linux-hardening@vger.kernel.org,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 2/2] devres: Provide kmalloc_obj*-style API for
+ devm_kmalloc
+Message-ID: <2026100532-stench-enrage-0b81@gregkh>
+References: <20260914223212.i.829-kees@kernel.org>
+ <20260914223219.901347-2-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -50,30 +54,35 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <asOR_mP6pc2Dy3OA@sirena.co.uk>
+In-Reply-To: <20260914223219.901347-2-kees@kernel.org>
 
-On 26/10/05 02:03PM, Mark Brown wrote:
-> On Sun, Oct 04, 2026 at 11:38:43PM +1100, Michael Reeves via B4 Relay wrote:
-> > From: Michael Reeves <michael.reeves077@gmail.com>
-> > 
-> > On systems with CONFIG_PROVE_RAW_LOCK_NESTING enabled, Apple GPIO probe
-> > triggers an "Invalid wait context" lockdep warning.
+On Mon, Sep 14, 2026 at 03:32:17PM -0700, Kees Cook wrote:
+> Mirroring the type-based allocation now in use for the kmalloc family of
+> APIs, provide the same for the devm_kmalloc family of APIs. This will
+> allow for future plumbing of type information (e.g. alignment) into the
+> underlying allocations. This immediately gains type check on return
+> values (instead of the prior "void *" return type).
 > 
-> > -	mas_lock(&mas);
-> > +	spin_lock_irqsave(&mt->ma_lock, flags);
-> 
-> I think this needs at least a comment explaining why we're not using
-> mas_lock(), otherwise people will try to change to using mas_lock()
-> since there's no obvious reason we need to exclude interrupts and we're
-> peering inside the maple tree internals.
-
-An irqsave mas_lock() should be added to the maple_tree.h for others to
-use.  We probably still need the comment Mark suggested as well.
-
-Michael, can you please add the irqsave variant to the header and Cc me
-on the change?
-
-Thanks,
-Liam
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: <driver-core@lists.linux.dev>
+> Cc: <linux-hardening@vger.kernel.org>
+> ---
+>  include/linux/device/devres.h | 102 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
 
 
+I'm guessing you want this to go through your tree?  If so, that's
+great:
+
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Otherwise let us know and we can take it through the driver core tree.
+
+thanks,
+
+greg k-h
