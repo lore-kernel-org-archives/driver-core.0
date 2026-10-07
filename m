@@ -1,179 +1,205 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010039.outbound.protection.outlook.com [52.101.84.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D910D495AE9
-	for <driver-core@lists.linux.dev>; Wed,  7 Oct 2026 12:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791374440; cv=none; b=Zq9h7Natyj/Sy6hXEoi6T5xs4lSkHvjyeOE/ghjG1NOw0Eg901hB9N0S53EuLYIXyj0VPMEIoR5KlVlkKA7STojbUXywZ1kY7VVxwzwxjreFDmd/8jstZVs4eUx/ac4hzfzYH8NFjy6uytdcPE0su9uWtLeG8mta1HGz51ODTgE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791374440; c=relaxed/simple;
-	bh=+1ZIUDEH1UMPylr8k3iwVs3/zYxLWFNlciH52DbTlUc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=MLQy/L584Kv8ZjIkvPqgd0wnqfZ3sYFVufs54zIxN1nJ4EOE2SU0hReL7laXF55kyRENaD0Re9aoZ06PlpeL7Kc7k0eSrwomqXcSY99s0GYwEF1es35Q/NNwzsxr/8rtG/pwWtH25QLhjfldUQkMQfGhis/hGU9hqeno5af4il4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab260600easo2494625b6e.1
-        for <driver-core@lists.linux.dev>; Wed, 07 Oct 2026 05:00:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791374430; x=1791979230;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cPL7LsU0XdV5dZnyY11Ue59c/gkO7XrdWcOIpHOg7mM=;
-        b=s3FaaK7ldeqG/HpGEK4jbBMksB10sMBh+9FvDKyonFjxgQW3RZRh6PF0pxMHbKqkz2
-         CpzmlDh6fdBbFgnETNiEs4X3UW2A3+RLj6B6iDJRgsSvZoC+iDDG71TmNeb8X8ICZ3N3
-         LdpBiS/LfCQ2B4bCxGK2icd5Z9thkhEtrze+t+z0GjmmSmfk+4ohGKzGcU81Td8bpMoF
-         vdwG+0Tb4lskAoWM/21tjY1iJQVP2UJB2/uX6I7bHV/jTjH6XbP9F8rw11XajJxVayLS
-         bZ7sNU/qFR5KIJxHbbcRbSvodh1izV4V4ovnuVR8YPUeZbeGghrRC8t/FKBNlrtACrvo
-         1V0A==
-X-Forwarded-Encrypted: i=1; AKwUvByi6hXxqTg6pVqeZwVB/PwYbsgiv6ZYGiauO13fedxIEhNGX0JBUox1DZjtoy5BzsmYUEaX66qSk4CqfA==@lists.linux.dev
-X-Gm-Message-State: AFuF++mNu64lu5jBNk4actF7G4+y7zgQUJbrEEbz1wSx1obMDGu01zOx
-	Tm6dDMW4J/WN34cdo0wPCSBKyz+rlkvck5kMc4JqbOFtG8owrjpnDvLFOM99FTkdSXDlshyRnXv
-	hcD6c1tOFZcaNXoVZnTrwVDzb85JgBO+yBJOuoWelpl8YjsJyipLGnGAberI=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83184915B2
+	for <driver-core@lists.linux.dev>; Wed,  7 Oct 2026 12:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791374817; cv=fail; b=L5ZCzoA18DTrfLvUxCxcB40IsMNQ098b9vCxxdIADAM1hsF2j3VPpLdeQDCNDlhqpQ5Ue8mVzStxRkv18XJhMwSNT8L4+G9wSEZhvQpqpCjmPbnNATJu3P0gKAD9zPAfY+3IYKzkglnZf46flQFdTVMc2A+vIR1z5tnfwESjLVo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791374817; c=relaxed/simple;
+	bh=NxnswuwaTuib+QnVdDkdBDQFhRGqdhGMRrh/Im7LTSI=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=TRnPxsLqA2vhqiu2asNB6qx8Ud/hlBASaOKec82QlqHkqes3uRsEtMU5/GI2yQVRkBWnmSYJ0aSZshZ2crIEXXe9bEHqKrFtxHhecY0wAbhf0Q7A+S8BWH8bOQfmXUPTfICFHogJDh6w4ShJdkbYUOacGAFLizL2N8VgxJkdZBk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=p/+p5FDH; arc=fail smtp.client-ip=52.101.84.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="p/+p5FDH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fAquqAKxLCuTktmS0cFGcnJOiaU/Qf3NYMPbTFls1+67hi79H65v8wZPtJFjMXhXGlY2CG1XeKkgOdZm6PdP9Q+vz9STtCFzkXp7KHaOX7eORL04ksaF4jHChtaclITjUYql5kVLd5Mn5vdiWnE6KLukQV/gw30KjfZD8qrIY7tLwRiFPJ2aMOcf4oKXi4t4mC4XKhfe9D3UkvkY4e4Ij9VLgrtRDqHa0kP1CwcBKX8+lA95DmmWfyxRxEfxlmZVU5etbmvPfllBFQDNmJ6edoNqzvwAce5ofFrEYOV1yzAq7ONz3QBTjDM0Kw750PPP6u5OiAT/7F7nIB2zEwllCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Wl4nNFECPumMB+TqvG9PR+25anRaaPbNBKM6The4Vio=;
+ b=jokQRmBviMG4Pgxvywr5c/PHtdytUCNA2uOiZt5smEJnNLfUJ2SP11J/zrMmvOE71nggusrhATTjP3DKwAU9xgzGEG0DTEGDqhJziL/5HJcA6U6heV8A1KaeOcREan7jJml2SkvsBfU1JQ4CxH6/jTOZvaZNjXm7MtsdVuzkl401+UljsA1JB2VTtZ58+scCpgh4n1FWdXkolZmUlvrmHHpVQs5Wlid9CUlrjOxJiz2UJ/XjuIuYJHCe/05FrfwTS8378NEtjyJArozXa7n09hntVuh0IQULezl1ubYrYGIHwd8ujEqZqQ7JlfXDk8TF9NncwLSDKhUiJJsFWElRpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wl4nNFECPumMB+TqvG9PR+25anRaaPbNBKM6The4Vio=;
+ b=p/+p5FDHWrktZsuYdDlEyhbZuH9WIXll9milhRTiGAk+Av/P6/PQSldtlhMNPS6WA9roQc11iy5P0fvvMWShaF8zRHvOU7QBzw3dBeE9v1OkqUgcFtKZllfQRwK3QO62iYCoB1hSCPkLDdsQBumlFuPAsPP6O+lEhuh+h2hNICogQbcSpvImKcjPda9RjPXlLpTyIOBp6uy93HE05U6ZO1xFvgewP0qdRJsxUesJmdE7Tt8z99qXOIU+Nb6Soj48rOddYPE35Avntfhy1a7GvpwePIdKv4h6moTSdRvPQNI5QVxWrGIE+hQS4jZmdJYFANmCNi592bxISsC/GZ5vMg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
+ by AM6PPF8C695F6EE.eurprd04.prod.outlook.com (2603:10a6:20f:fff1::a90) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Wed, 7 Oct
+ 2026 12:06:45 +0000
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0451.022; Wed, 7 Oct 2026
+ 12:06:44 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Subject: [PATCH v3 0/7] regmap: cleanups for regcache and regmap init paths
+Date: Wed, 07 Oct 2026 20:03:56 +0800
+Message-Id: <20261007-regmap-lock-2nd-v3-0-0e590c4125be@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC01xmoC/3WNyw6CMBBFf4V0bc10eFhc+R/GRSkDVKUlLRIM4
+ d8FTHRhXJ7knnMnFsgbCuwYTczTYIJxdoF4FzHdKFsTN+XCDAEzyGPgnupWdfzu9I2jLXmVSCF
+ lqjEpM7ZYnafKjFvxfHlzeBRX0v2aWReNCb3zz+1yEOvuf30QHHgcK6kSiVWu6GTHbq9dy9b2g
+ B9bAOCvjYtN4oAFpCB0il97nucXBUuc+vwAAAA=
+X-Change-ID: 20260930-regmap-lock-2nd-f481885c24d6
+To: Mark Brown <broonie@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Peng Fan <peng.fan@nxp.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: MA5PR01CA0241.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1f4::15) To AM8PR04MB7874.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24d::9)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1493:b0:4d6:9133:cfe2 with SMTP id
- 5614622812f47-4faaf252cc0mr4967039b6e.39.1791374429738; Wed, 07 Oct 2026
- 05:00:29 -0700 (PDT)
-Date: Wed, 07 Oct 2026 05:00:29 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ac6345d.d03902a3.74d6f.0006.GAE@google.com>
-Subject: [syzbot] [usb?] BUG: unable to handle kernel paging request in usb_driver_release_interface
-From: syzbot <syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|AM6PPF8C695F6EE:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83e6e258-7965-475c-4c10-08df246b74a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|19092799006|1800799024|11063799006|10067099003|6133799003|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DfQrgWkteBq02cIipY32suXNe/NG0Zk2OkumzRLnWDDvaMT+9AeU8jPWrkDvk9ShkV4CZ7F2TH8E14PNcHHj2EV3blcQT7XtMxdgTyReh0i5tICknGOTPaK3yl03enUCqe1UxJHGxCuGPOzEURSjrfaNJr0lFjyou8hm6jmc0cOCpK+da2w+oQWoPggb9Zqyy4TLgzW2nBXnu24iPsdNFDVoEKKUMICceZM0i4oc6d3YHv1OFF9PkZSo8bnU3I+zWNFVpulNg1NdudM9FRw6GS6vqv0GzmdOWAb6sfPnKGl8Q+mkQiEl9brNhIFSnwHjXRGmwR2EHqNO5QRQwICBR8F1iy9gLNmHL1AwB2+RcKpKTdTFbucSyPA2khvTQnvLpSiRGm+ntT/Qwb8TaO7eNjo1qA4UPt5eEKkrGUCQqc2qCa0RPSLVL3BLfvPQtYSMAlXKaRndSt1L7c41syTxN152jL9saL/7U3gA4MOOMtqZjAbF9F1N5HTBDXFuVDb9DaPMzIM7Isg2vRxQStmqq+WBrHzaHDJrxxbzJMW5i2Oti7kFWGMUY73WOLxeAtnEGPGdx5pBP4nxME/cegBHc0iXKh/v1dMRxeol7h3Zzc8d5cbrn75Hdm7ag5X23Kc3
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(19092799006)(1800799024)(11063799006)(10067099003)(6133799003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bFRWbWgxL2JTY3FFckxaclBGT3d2cVV1R0JvRHBuYk1KSG04MEd3TkJzYWFI?=
+ =?utf-8?B?bmg0emNiNXpOd05HTEt1R2VCTmRQQ21zZlRzYjJrOFZIRjNvWXhlOU02WEhW?=
+ =?utf-8?B?SGhxR3hTbTlYaCtrQ0kzMHRuY3NoY0FTQldUYk9HVXhXWEN5Z2FyOGErOU1n?=
+ =?utf-8?B?UURINEp0S1pCREtOb21BVEQ2b2dBVXM3NFpLOEhTQUVBdjJOOGh3WUF5LzB0?=
+ =?utf-8?B?L2NxZ1JxZStoQXF4bDFQSmQ4bUNqayt6WUFsSGV4YzFpRWEzcWVnQVloQkRH?=
+ =?utf-8?B?RXVLTGgzVnRqQi9XaURZZUxtN0h0SlRYSVZtYkVxU1RGSGtpSDV4Z2RtQ2h6?=
+ =?utf-8?B?VzdBM05SQ2ZvSng5TGtqK0NXQzJxVGY0UUxWd2VFQitqR0JYbWI5OTE5bVpk?=
+ =?utf-8?B?TWNHbXpmQkwrcUR5ZDNFOFA5QXFLM3M2eHVjNEVzd0I3UWU2QlZoRDhLR2Rv?=
+ =?utf-8?B?ZnYrZUlVUHJHbXl3cHNWSVpnZWdYcnp4a2d6dys2U2dhOXN5OGlUbTRpQXJW?=
+ =?utf-8?B?QlpVcmJNRHcwZ1JGTHpLTXZiamhWQ3l2emtPTXdYRExYd1UydkhvYnQzTksx?=
+ =?utf-8?B?cGxoS1Z6R3pObmNpUlZHc0x4NDR5dUtiNlpyNDd1QzRKM25qcGtrUERnQU5K?=
+ =?utf-8?B?cm5FQlczY3l6UFJOcUVBQUMzOElWMTd2bGMrU1AyMXlYamlwc2xWMDBUV1RO?=
+ =?utf-8?B?a1JFMXVBQVNDVDZlZDVrbldjOHFZbWt3SVJONGEzSmZHTVFnME8rZ3I4RDJL?=
+ =?utf-8?B?OHFFL2tvSzhuRGlSNndYdHd5b2c5akFsbDhGeEtJYVNUMndnU3hRY0docWdF?=
+ =?utf-8?B?S20xeGx3dFhCNFZjS00yY2UxTzhJakxqMUduRVhpajRSM3ZaZktGcmVLTWNZ?=
+ =?utf-8?B?M0IxaitBV0kwZkNVNE9kc3U4SlFRRlZpOEZoVFJUQ2VPY2lQNk9CWDlrNDIz?=
+ =?utf-8?B?ekpRRVRWSmwxaTd4KzlhL0xPdTlHK3pkS3BHdTV5U3RiM1k0VVdzZDB5SDhG?=
+ =?utf-8?B?aFdtWVRhdTJ0ZitQT1A2MUt1TktFVmJBNFpXWUUybkNMdmN0TGxqUlQrZ1lC?=
+ =?utf-8?B?QXpuZUZueEVsYTE5Y1B6OTUxajk1WmtwSXA5WFJSMXN2dzg1eFFHN1RVWXgw?=
+ =?utf-8?B?amx4dmRxQ1EwSDlJbjlmWXdEazJxWk9uWGZtYjByMUZOOVBucG90S3RlWEt6?=
+ =?utf-8?B?Mlo0YWkrRVlTYVJ1RGNoRGtEeTBUR1luYTl3U1VLZDdpTTc5SEFwSTc5QnBp?=
+ =?utf-8?B?UDU0NDNweXFCemM0MGpZaTNMTWhXM1BoL2gydXRMQmpyUWlpaFM1aDJmT0RR?=
+ =?utf-8?B?RS9aWHRhTURNUXBXaTVld05PTk9zVXdhdldpUUFQN2tQUklsNGZDNVdia0pl?=
+ =?utf-8?B?Tk9UdlAyRVRZVVU2YmRxMlZHVFhoc0ZkUCt0OXBWbm1zcEgzOGVqK2lQMWN6?=
+ =?utf-8?B?aHVQVFRFdTJFNXlCOGwzb1ozTzV2ZjZJeEFvMXVvQ2QxcytwSW9CZ0ladUNv?=
+ =?utf-8?B?aDVmRmhqNEZzakpxb21XRDJkT0FRL2dCUSs4b1RJTkpVMG9HUTBiN0dGU0FF?=
+ =?utf-8?B?MkhRVFRyQU13WHNCZGhyUlF4SzFQeUJpclZ5a0NwRkQ3SVpva3dKQzc0VW0w?=
+ =?utf-8?B?ZTIxMmZ4QmVzSHhjcllLQ2FlMUdJSFJDR3RHZTFkYW5TWWtiMGVGSlgyb0xD?=
+ =?utf-8?B?SlFIMGc0LzRSc2pYTEphTWo3aUJteFlMODhTanBwT3krNlJldUFUWWZyRjJu?=
+ =?utf-8?B?R1J1ZzZLNlBsL2FWcmdTN3RaTEpKQlF1aHBINEV1TjdSTGVRZFFpaFpNOEpJ?=
+ =?utf-8?B?RWRjaGc2N0VucklHOUlvS3drRUNZOG51R0dZMkw4S3JCa0d5RUZNY1RqTm13?=
+ =?utf-8?B?WC9rNGRzay95V2ZKdG5Qbk01akxPdEgwZWtOWXRwbW1GNFV2RStaNit5UU84?=
+ =?utf-8?B?SnZPUXR5T2UzVnpKZis4ODJvLzhSeUlTY1AxaDh3MG0rWmFCZEowbmNJakxv?=
+ =?utf-8?B?NlF3RDZ5MkhVM3dwTFZRWklIM0FHNGlNVlY0aEhOaVdtYXhhaXloU1ZMZXhD?=
+ =?utf-8?B?UFNYQk9hamh2UWQ0ZWZTYUEra3hYS1N2MGJDaU5xRlc1U0c4VW9WeXU2V1R2?=
+ =?utf-8?B?eXBFdkRoV0tBeTdwbHZRWUJPVm9sWm9jQmdsYUk4YndDMWtkTTZUbjk3OVo0?=
+ =?utf-8?B?aXRWR3daSWp3UkoxMnU5NXV6TWV5L2J0ZEFBYzlHMFRRc3ZQRmpMeGFrNUs5?=
+ =?utf-8?B?QjZmTkkvZEtEQVRrYXhISDVTd0FVTXVQSVBteUU5Zmp3elROMmdueTNFUGli?=
+ =?utf-8?B?elhGeW56UnB5WUJZV1lpTnc0WTdmRHQybVVFZUtUNFltVTJMdWFUZjV0SFU0?=
+ =?utf-8?Q?4ZbNJhwGw6/grxHBChbITwXWBTeUSWYBeVl59?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83e6e258-7965-475c-4c10-08df246b74a5
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 12:06:44.8598
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sPHegbbpB9Sk75lksDs1srtAQw/YC+CAHJ6m3yAsHQSrKkHrpQEOgKzhnmUeNrZ03is6cOP4PFBTucD5OYm3RalyJ7/BLvdHTst/8zNw41snT3+gEobxUDfpN2DKg/Br
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PPF8C695F6EE
 
-Hello,
+Following up the previous regmap guard lock patchset [1].
 
-syzbot found the following issue on:
+[1] https://lore.kernel.org/all/179062150526.139547.3870545428656485907.b4-ty@b4/#r
 
-HEAD commit:    602042bf29f6 Merge tag 'wq-for-7.3-rc6-fixes' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=155ae00d580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=929e4854a828f434
-dashboard link: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10bd6715580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14ae21c9580000
+This is the 2nd batch to do more cleanup.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-602042bf.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c804d2e9b640/vmlinux-602042bf.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d6cd162ae59e/bzImage-602042bf.xz
+This series tidies up locking, error handling, and resource management
+across the regmap core and regcache.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+- Extract regcache_locked_op() and regcache_locked_exit() helpers to
+  replace open-coded lock/unlock pairs in regcache_init() and
+  regcache_exit(), avoiding the cleanup.h-vs-goto concern that
+  prevented the earlier scoped lock guard conversion.
 
-wwan wwan1: port wwan1mbim0 disconnected
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 cc ef 0c
-RSP: 0018:ffffc900000c7450 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888035673c80 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bc8e645 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff224ec84
-R10: ffffffff91276423 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff912763e0 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5b4e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffcc2839000 CR3: 000000003938c000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- klist_del lib/klist.c:230 [inline]
- klist_remove+0x14c/0x2e0 lib/klist.c:249
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
- usb_driver_release_interface+0x10e/0x190 drivers/usb/core/driver.c:643
- cdc_ncm_unbind+0x2ac/0x350 drivers/net/usb/cdc_ncm.c:1019
- usbnet_disconnect+0x1e2/0x300 drivers/net/usb/usbnet.c:1692
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3965
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1484
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2355
- hub_port_connect drivers/usb/core/hub.c:5425 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5725 [inline]
- port_event drivers/usb/core/hub.c:5889 [inline]
- hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5971
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 cc ef 0c
-RSP: 0018:ffffc900000c7450 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888035673c80 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bc8e645 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff224ec84
-R10: ffffffff91276423 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff912763e0 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5b4e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055557a2d0a28 CR3: 000000002c457000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	c1 ea 03             	shr    $0x3,%edx
-   3:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   7:	0f 85 74 01 00 00    	jne    0x181
-   d:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  14:	fc ff df
-  17:	4c 8b 23             	mov    (%rbx),%r12
-  1a:	49 83 e4 fe          	and    $0xfffffffffffffffe,%r12
-  1e:	49 8d 7c 24 58       	lea    0x58(%r12),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 43 01 00 00    	jne    0x177
-  34:	4c 89 e7             	mov    %r12,%rdi
-  37:	4d 8b 74 24 58       	mov    0x58(%r12),%r14
-  3c:	e8                   	.byte 0xe8
-  3d:	cc                   	int3
-  3e:	ef                   	out    %eax,(%dx)
-  3f:	0c                   	.byte 0xc
+- Extract __regcache_sync() to deduplicate the sync dispatch logic
+  shared between regcache_sync() and regcache_sync_region().
 
+- Flatten control flow in regcache_init(), regcache_lookup_reg(), and
+  regcache_sync_block() by using early returns, moving guards into
+  helpers, and merging redundant sanity checks.
+
+- Switch regmap_register_patch() from krealloc() to krealloc_array()
+  for overflow-safe element-count arithmetic.
+
+- NULL map->reg_defaults after freeing in regcache_exit() to prevent
+  a potential double-free if regmap_reinit_cache() later fails during
+  cache re-initialisation.
+
+Tested with the regmap KUnit suite (drivers/base/regmap/regmap-kunit.c)
+with lockdep (PROVE_LOCKING, DEBUG_LOCK_ALLOC, DEBUG_ATOMIC_SLEEP) enabled.
+Built clean with sparse (C=1).
+
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
+---
+Changes in v3:
+- Avoid using goto in a function that use scoped_guard per Sashiko
+  reported for patch 7.
+- Link to v2: https://patch.msgid.link/20261002-regmap-lock-2nd-v2-0-e172b0501c52@nxp.com
+
+Changes in v2:
+- Drop patches:
+  [PATCH 5/7] regmap: use devm_kmemdup() for bus copies and remove free_on_exit
+  [PATCH 6/7] regmap: return errors directly before map allocation in __regmap_init()
+  sashiko reports a potential UAF issue regarding patch 5, so drop it.
+  Patch 6 depends on patch 5, so also drop patch 6
+- Add two new patches to do some cleanup to debugfs
+  Patch v2 6/7 and 7/7
+- Link to v1: https://patch.msgid.link/20260930-regmap-lock-2nd-v1-0-33a8a482f9ae@nxp.com
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Peng Fan (7):
+      regcache: extract locked helpers to replace open-coded lock/unlock pairs
+      regcache: extract __regcache_sync() to deduplicate sync dispatch
+      regcache: simplify control flow and reduce nesting
+      regmap: use krealloc_array() in regmap_register_patch()
+      regmap: fix potential double-free of map->reg_defaults on cache reinit
+      regmap: debugfs: Use __free(kfree) in regmap_name_read_file()
+      regmap: debugfs: Use guard to simplify code
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ drivers/base/regmap/regcache.c       | 132 +++++++++++++++++------------------
+ drivers/base/regmap/regmap-debugfs.c |  94 ++++++++++---------------
+ drivers/base/regmap/regmap.c         |  15 ++--
+ 3 files changed, 109 insertions(+), 132 deletions(-)
+---
+base-commit: eba5eda580744bd20104eddb0a7b623026b1c49f
+change-id: 20260930-regmap-lock-2nd-f481885c24d6
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Best regards,
+--  
+Peng Fan <peng.fan@nxp.com>
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
