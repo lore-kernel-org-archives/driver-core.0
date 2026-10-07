@@ -1,299 +1,219 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800663F5BFA;
-	Wed,  7 Oct 2026 06:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90394423EA2;
+	Wed,  7 Oct 2026 07:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791354531; cv=none; b=QzcIo+ApPVfbDbdyz99amToQD0iwIkBYUEx8BiopE3XDvn1vBU1HfsZvqo6fIhC6h8T3z227867Y92V1JmvTX+EDC68Ww52lveIaQX3k9ie51UKcayV1GJeAXhxQrX7Z4IWkqqxagmV1ggfLyeKBqSmzVr+tJbuGJbLQHo2SrMY=
+	t=1791359060; cv=none; b=XgyK7bxwRBbgRtFU4xHCoutrU8r89DxXY6Rd6pyxH1DuTZuIUAa7AUYUK1miSnZCaqMIIpI8VNTHGshOoTqlcvK8DR1PCInD09uYE2l5G1qRh5T1w1m3CjSfULgFBtVZp9PJCvmOTIUYY2D7ioEge8dQlVtZPpqTAKcs9kT2I28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791354531; c=relaxed/simple;
-	bh=ZB3xKjEyEnz0zeAVXezukzD8+ZqBZYsmH7fHkYnmxbw=;
-	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=YWU/72s0YXZ/eKje5kvyZcZx6cU97myF6i8f8GAcv/do4Va8wcroYn1K7Z1HO45ginZ1FaFHkJanLo6H25edzGtglcoydJ79F7MblLUW1NDzJdZTdN9rJQqVN/ftUrdzrVStwOgIbISzcUNPAANhuaeBSxOBvkqYjb/vEm+BOm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ywyJ+0jd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791359060; c=relaxed/simple;
+	bh=dwCH8kSCiVDDas4o17xef68hFnP5dWpaR5Rt9w/MO5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J9g0Au31h2ak/mlJIYo2QAWOChNIdUS1szDqxGjVc8E+DueN6SwwlSfAc5Hal7E9rrDpM3X0QoTRCZ1YO4uLtE3hJS1C7hQNYRNAPrImNqfD5bM6vfjSYGV7SGLQkTW+GqAcyYZdyVlHlOzqd9DdGVcd22ny7jTyVlHmVmDY0Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1nco5hz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ywyJ+0jd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939E21F0089B;
-	Wed,  7 Oct 2026 06:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791354530;
-	bh=/lGAXf3kREgTlIrsjb4nOBsS6lkRb/9Fv7/81qWW1us=;
-	h=Subject:To:Cc:From:Date:In-Reply-To;
-	b=ywyJ+0jddLy/4IdudVnjq4GQOGRMAEHqm/MSZWS7TMqTt5jFNcszspU6H+qZ5bBBy
-	 fNcUgkOm7TclrYu6BsbxgcQx596vbTaSppjXHNGeNR/9UIWKJizt5shhKRVZBCdOwQ
-	 WUr+kvOVWZAyIO8/4L5EjTA38Dx3DWuiV531u4oA=
-Subject: Patch "rust: irq: pass RegistrationInner as cookie to request_irq" has been added to the 7.2-stable tree
-To: a.hindborg@kernel.org,acourbot@nvidia.com,aliceryhl@google.com,bjorn3_gh@protonmail.com,boqun@kernel.org,boris.brezillon@collabora.com,dakr@kernel.org,daniel.almeida@collabora.com,driver-core@lists.linux.dev,ecourtney@nvidia.com,gary@garyguo.net,gregkh@linuxfoundation.org,lossin@kernel.org,markus.probst@posteo.de,ojeda@kernel.org,rafael@kernel.org,sashal@kernel.org,tamird@kernel.org,tmgross@umich.edu,work@onurozkan.dev
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Wed, 07 Oct 2026 08:28:20 +0200
-In-Reply-To: <20261007-irq-7-2-backport-v1-1-183f514f2aac@google.com>
-Message-ID: <2026100720-octagon-chaplain-7185@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1nco5hz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78D51F0089C;
+	Wed,  7 Oct 2026 07:44:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791359051;
+	bh=jT2zf9su+V2G9GQXB3y4tFuNVD9WDBdAXweFNBBIfQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=V1nco5hzrKpmdyxWlo78fqQDnQdFOcKLGh3v/x1fb/R9gMtxn/jWl84KV+iPj9S8d
+	 34tD8XwWEOLrsTRuR5yzkSvYkzhDh1mlfWnoMIYtmcQUx5dJG4IkTyoVjF/zyrs9mU
+	 0JL7kEU7bPc5M8Yzvg8SQmG27ZndbWL0cqdrQILcghZWFVIwkVfKcZSms0IoMeKmru
+	 TGZRRyW7heB3FEcJm+l5bxF1hoahss0GV2QXOLEZZ2QODk6Ea44kd3h6MCuwMDKRg8
+	 vZhIwzyDhNDPYiTr3/lmavwZJZ4nvDaQUNNG4rD4X1fdKXPSyf59k3Nc2jnVwK2Qxa
+	 m+jEyC+dk1PVQ==
+Date: Wed, 7 Oct 2026 09:44:04 +0200
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+Message-ID: <asX4RPKF5IbUNd-n@red-moon>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arZDwutoadki7tiZ@ashevche-desk.local>
+ <arZNL9BnTGK0Klwc@red-moon>
+ <arZS4vwxps01dGb7@ashevche-desk.local>
+ <arqSqcoWAkhy-8do@red-moon>
+ <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
 
+On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
+> On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
+> > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
+> > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
+> > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
+> > > 
+> > > ...
+> > > 
+> > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
+> > > > > > +						  const char *propname,
+> > > > > > +						  unsigned int index, u32 *value)
+> > > > > > +{
+> > > > > > +	u32 *values;
+> > > > > > +	int ret, count;
+> > > > > > +
+> > > > > > +	count = fwnode_property_count_u32(fwnode, propname);
+> > > > > > +	if (count < 0)
+> > > > > > +		return count;
+> > > > > > +
+> > > > > > +	if (index >= count)
+> > > > > > +		return -ENOENT;
+> > > > > > +
+> > > > > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > > > > +	if (!values)
+> > > > > > +		return -ENOMEM;
+> > > > > > +
+> > > > > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
+> > > > > > +	if (!ret)
+> > > > > > +		*value = values[index];
+> > > > > 
+> > > > > Use standard pattern, id est
+> > > > > 
+> > > > > 	if (ret)
+> > > > > 		...
+> > > > > 
+> > > > > > +	kfree(values);
+> > > > > 
+> > > > > You want to use __free()
+> > > > > 
+> > > > > > +	return ret;
+> > > > > > +}
+> > > > > 
+> > > > > I believe the whole approach is suboptimal, if you wish get indexed value (but why?)
+> > > > 
+> > > > Why what (that's what the irq_get() interface requires ?) I agree it is
+> > > > suboptimal - the whole point of the series is an RFC on using properties
+> > > > to store GSI number/flags, then how to read them we will optimize it
+> I>>> when/if we agree that's the approach to be taken.
+> > > 
+> > > Why to have indexed APIs. The callers usually do not want a single item from an
+> > > array, they want all of them or a big pile (exception is the array of strings,
+> > > but we have matching functions for that).
+> > > 
+> > > As per approach, this patch is against device property and I don't think we are
+> > > going to agree on the approach taken in *this* patch.
+> > 
+> > Coming back to this, what is needed here is a way to stash the GSI number,
+> > flags and name in stardard storage (like OF nodes IRQ properties, ACPI objects
+> > _CRS, etc).
+> > 
+> > To give you some background, I thought about adding an array of:
+> > 
+> > GSI [number, flags, name]
+> > 
+> > to the ACPI static fwnode itself. Then basically the irq_get() API has got
+> > all the information it needs from the primary fwnode; while doing that I
+> > thought that this might have been a bit like reinventing software nodes
+> > (granted, software node properties are ways more general that what I suggest
+> > above and I don't expect any other property to be ever added to static fwnodes)
+> > that's why I put together the series as it is, precisely to understand what's
+> > best.
+> > 
+> > When you say "against device property", what do you mean precisely ?
+> > 
+> > I suppose you mean that this approach goes against software node properties
+> > usage guidelines ?
+> > 
+> > Anyway, again, it is just to provide some context, we are talking about
+> > a bunch of platform devices, it is nice to have a generic solution but
+> > it has to be simple enough too given its scope, I understand very well
+> > your concern with this approach as-is - it is there to find a way
+> > forward together and show what the problem is.
+> 
+> I guess software node properties look inviting in theory since they're a
+> ready-made mechanism for effectively attaching arbitrary data to a fwnode,
+> however looking at patches 6-7 and the amount of boilerplate involved in the
+> reality, I'm inclined to think that a dedicated structure for static nodes
+> is probably the best and most efficient compromise here. The redundancy
+> argument rather falls apart once we end up creating copies of those
+> contentiously-made-up property name strings for every node, especially given
+> that any one of those alone is probably already more than the amount of
+> actual data we need per node...
+> 
+> Perhaps the "purest" option might be to just store a function pointer in the
+> fwnode wrapper for each static table type to provide its own internal
+> irq_get() callback, so not stashing intermediate GSI data at all, but I
+> suspect that might end up being more work overall.
 
-This is a note to let you know that I've just added the patch titled
+Thanks Robin.
 
-    rust: irq: pass RegistrationInner as cookie to request_irq
+Yes, those are the possible options, last one requiring a look-up
+from fwnode to the data providing GSI numbers/flags for that specific
+fwnode - we do have that for IORT but I need to check for other
+devices.
 
-to the 7.2-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+To be honest, I implemented the three of them while prototyping, it is just
+a matter of choosing which one we want to support to sort this out.
 
-The filename of the patch is:
-     rust-irq-pass-registrationinner-as-cookie-to-request_irq.patch
-and it can be found in the queue-7.2 subdirectory.
+Thanks !
+Lorenzo
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From aliceryhl@google.com  Wed Oct  7 08:24:34 2026
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Wed, 07 Oct 2026 06:01:58 +0000
-Subject: rust: irq: pass RegistrationInner as cookie to request_irq
-To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Sasha Levin <sashal@kernel.org>, Danilo Krummrich <dakr@kernel.org>,  Daniel Almeida <daniel.almeida@collabora.com>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>, "Björn Roy Baron" <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Boris Brezillon" <boris.brezillon@collabora.com>, "Eliot Courtney" <ecourtney@nvidia.com>, "Gary Guo" <gary@garyguo.net>, "Markus Probst" <markus.probst@posteo.de>, "Miguel Ojeda" <ojeda@kernel.org>, "Onur Özkan" <work@onurozkan.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, "Alice Ryhl" <aliceryhl@google.com>
-Message-ID: <20261007-irq-7-2-backport-v1-1-183f514f2aac@google.com>
-
-From: Alice Ryhl <aliceryhl@google.com>
-
-With commit ba268514ea14 ("rust: devres: fix race condition due to
-nesting"), Devres::new() returns Result<Self> by value instead of
-initializing in-place via PinInit. Because request_irq() is called
-inside Devres::new(), registration.inner is still uninitialized when the
-IRQ is enabled, so accessing registration.inner.device() in the IRQ
-callback can read uninitialized memory.
-
-Fix this by storing the Device and handler pointer in RegistrationInner
-and passing RegistrationInner as the IRQ cookie after its fields are
-initialized.
-
-This is not needed in mainline because commit 98c63ce4d760 ("rust: irq:
-make Registration compatible with lifetime-bound drivers") removed
-Devres from irq::Registration and moved request_irq() after all fields
-are initialized.
-
-Fixes: 29e16fcd67ee ("rust: irq: add &Device<Bound> argument to irq callbacks")
-Fixes: ba268514ea14 ("rust: devres: fix race condition due to nesting")
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- rust/kernel/irq/request.rs |   89 +++++++++++++++++++++++++++------------------
- 1 file changed, 54 insertions(+), 35 deletions(-)
-
---- a/rust/kernel/irq/request.rs
-+++ b/rust/kernel/irq/request.rs
-@@ -14,7 +14,7 @@ use crate::error::to_result;
- use crate::irq::flags::Flags;
- use crate::prelude::*;
- use crate::str::CStr;
--use crate::sync::Arc;
-+use crate::sync::{aref::ARef, Arc};
- 
- /// The value that can be returned from a [`Handler`] or a [`ThreadedHandler`].
- #[repr(u32)]
-@@ -54,13 +54,18 @@ impl<T: ?Sized + Handler, A: Allocator +
- /// # Invariants
- ///
- /// - `self.irq` is the same as the one passed to `request_{threaded}_irq`.
--/// - `cookie` was passed to `request_{threaded}_irq` as the cookie. It is guaranteed to be unique
-+/// - `&self` was passed to `request_{threaded}_irq` as the cookie. It is guaranteed to be unique
- ///   by the type system, since each call to `new` will return a different instance of
- ///   `Registration`.
-+/// - `self.handler` points to a valid instance of the handler `T` that lives at least until
-+///   `Self::drop` completes.
- #[pin_data(PinnedDrop)]
- struct RegistrationInner {
-     irq: u32,
--    cookie: *mut c_void,
-+    dev: ARef<Device>,
-+    handler: *const c_void,
-+    #[pin]
-+    _pin: PhantomPinned,
- }
- 
- impl RegistrationInner {
-@@ -77,18 +82,22 @@ impl PinnedDrop for RegistrationInner {
-         //
-         // Safe as per the invariants of `RegistrationInner` and:
-         //
--        // - The containing struct is `!Unpin` and was initialized using
-+        // - `RegistrationInner` is `!Unpin` and was initialized using
-         // pin-init, so it occupied the same memory location for the entirety of
-         // its lifetime.
-         //
-         // Notice that this will block until all handlers finish executing,
-         // i.e.: at no point will &self be invalid while the handler is running.
--        unsafe { bindings::free_irq(self.irq, self.cookie) };
-+        unsafe {
-+            bindings::free_irq(
-+                self.irq,
-+                core::ptr::from_mut::<Self>(self.get_unchecked_mut()).cast::<c_void>(),
-+            )
-+        };
-     }
- }
- 
--// SAFETY: We only use `inner` on drop, which called at most once with no
--// concurrent access.
-+// SAFETY: `RegistrationInner` has no interior mutability and `handler` points to a `Sync` handler.
- unsafe impl Sync for RegistrationInner {}
- 
- // SAFETY: It is safe to send `RegistrationInner` across threads.
-@@ -179,7 +188,7 @@ impl<'a> IrqRequest<'a> {
- ///
- /// # Invariants
- ///
--/// * We own an irq handler whose cookie is a pointer to `Self`.
-+/// * We own an irq handler whose cookie is a pointer to `Self::inner`.
- #[pin_data]
- pub struct Registration<T: Handler> {
-     #[pin]
-@@ -206,10 +215,13 @@ impl<T: Handler> Registration<T> {
-             handler <- handler,
-             inner <- Devres::new(
-                 request.dev,
--                try_pin_init!(RegistrationInner {
--                    // INVARIANT: `this` is a valid pointer to the `Registration` instance
--                    cookie: this.as_ptr().cast::<c_void>(),
--                    irq: {
-+                try_pin_init!(&inner_this in RegistrationInner {
-+                    irq: request.irq,
-+                    dev: request.dev.into(),
-+                    // SAFETY: `this` is a valid pointer to the `Registration` instance.
-+                    handler: unsafe { &raw const (*this.as_ptr()).handler }.cast(),
-+                    _pin: PhantomPinned,
-+                    _: {
-                         // SAFETY:
-                         // - The callbacks are valid for use with request_irq.
-                         // - If this succeeds, the slot is guaranteed to be valid until the
-@@ -224,11 +236,10 @@ impl<T: Handler> Registration<T> {
-                                 Some(handle_irq_callback::<T>),
-                                 flags.into_inner(),
-                                 name.as_char_ptr(),
--                                this.as_ptr().cast::<c_void>(),
-+                                inner_this.as_ptr().cast::<c_void>(),
-                             )
-                         })?;
--                        request.irq
--                    }
-+                    },
-                 })
-             ),
-             _pin: PhantomPinned,
-@@ -261,13 +272,15 @@ impl<T: Handler> Registration<T> {
- ///
- /// This function should be only used as the callback in `request_irq`.
- unsafe extern "C" fn handle_irq_callback<T: Handler>(_irq: i32, ptr: *mut c_void) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `Registration<T>` set in `Registration::new`
--    let registration = unsafe { &*(ptr as *const Registration<T>) };
-+    // SAFETY: `ptr` is a pointer to `RegistrationInner` set in `Registration::new`
-+    let inner = unsafe { &*(ptr as *const RegistrationInner) };
-+    // SAFETY: `inner.handler` is a pointer to `T` set in `Registration::new`
-+    let handler = unsafe { &*inner.handler.cast::<T>() };
-     // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
-     // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let device = unsafe { inner.dev.as_bound() };
- 
--    T::handle(&registration.handler, device) as c_uint
-+    T::handle(handler, device) as c_uint
- }
- 
- /// The value that can be returned from [`ThreadedHandler::handle`].
-@@ -396,7 +409,7 @@ impl<T: ?Sized + ThreadedHandler, A: All
- ///
- /// # Invariants
- ///
--/// * We own an irq handler whose cookie is a pointer to `Self`.
-+/// * We own an irq handler whose cookie is a pointer to `Self::inner`.
- #[pin_data]
- pub struct ThreadedRegistration<T: ThreadedHandler> {
-     #[pin]
-@@ -423,10 +436,13 @@ impl<T: ThreadedHandler> ThreadedRegistr
-             handler <- handler,
-             inner <- Devres::new(
-                 request.dev,
--                try_pin_init!(RegistrationInner {
--                    // INVARIANT: `this` is a valid pointer to the `ThreadedRegistration` instance.
--                    cookie: this.as_ptr().cast::<c_void>(),
--                    irq: {
-+                try_pin_init!(&inner_this in RegistrationInner {
-+                    irq: request.irq,
-+                    dev: request.dev.into(),
-+                    // SAFETY: `this` is a valid pointer to the `ThreadedRegistration` instance.
-+                    handler: unsafe { &raw const (*this.as_ptr()).handler }.cast(),
-+                    _pin: PhantomPinned,
-+                    _: {
-                         // SAFETY:
-                         // - The callbacks are valid for use with request_threaded_irq.
-                         // - If this succeeds, the slot is guaranteed to be valid until the
-@@ -442,11 +458,10 @@ impl<T: ThreadedHandler> ThreadedRegistr
-                                 Some(thread_fn_callback::<T>),
-                                 flags.into_inner(),
-                                 name.as_char_ptr(),
--                                this.as_ptr().cast::<c_void>(),
-+                                inner_this.as_ptr().cast::<c_void>(),
-                             )
-                         })?;
--                        request.irq
--                    }
-+                    },
-                 })
-             ),
-             _pin: PhantomPinned,
-@@ -482,24 +497,28 @@ unsafe extern "C" fn handle_threaded_irq
-     _irq: i32,
-     ptr: *mut c_void,
- ) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<T>` set in `ThreadedRegistration::new`
--    let registration = unsafe { &*(ptr as *const ThreadedRegistration<T>) };
-+    // SAFETY: `ptr` is a pointer to `RegistrationInner` set in `ThreadedRegistration::new`
-+    let inner = unsafe { &*(ptr as *const RegistrationInner) };
-+    // SAFETY: `inner.handler` is a pointer to `T` set in `ThreadedRegistration::new`
-+    let handler = unsafe { &*inner.handler.cast::<T>() };
-     // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
-     // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let device = unsafe { inner.dev.as_bound() };
- 
--    T::handle(&registration.handler, device) as c_uint
-+    T::handle(handler, device) as c_uint
- }
- 
- /// # Safety
- ///
- /// This function should be only used as the callback in `request_threaded_irq`.
- unsafe extern "C" fn thread_fn_callback<T: ThreadedHandler>(_irq: i32, ptr: *mut c_void) -> c_uint {
--    // SAFETY: `ptr` is a pointer to `ThreadedRegistration<T>` set in `ThreadedRegistration::new`
--    let registration = unsafe { &*(ptr as *const ThreadedRegistration<T>) };
-+    // SAFETY: `ptr` is a pointer to `RegistrationInner` set in `ThreadedRegistration::new`
-+    let inner = unsafe { &*(ptr as *const RegistrationInner) };
-+    // SAFETY: `inner.handler` is a pointer to `T` set in `ThreadedRegistration::new`
-+    let handler = unsafe { &*inner.handler.cast::<T>() };
-     // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
-     // callback is running implies that the device has not yet been unbound.
--    let device = unsafe { registration.inner.device().as_bound() };
-+    let device = unsafe { inner.dev.as_bound() };
- 
--    T::handle_threaded(&registration.handler, device) as c_uint
-+    T::handle_threaded(handler, device) as c_uint
- }
-
-
-Patches currently in stable-queue which might be from aliceryhl@google.com are
-
-queue-7.2/rust_binder-cancel-deferred-work-items-in-thread-exit.patch
-queue-7.2/rust-irq-pass-registrationinner-as-cookie-to-request_irq.patch
-queue-7.2/rust_binder-reschedule-node-refcount-update-on-thread-exit.patch
-queue-7.2/binder-fix-leaked-fd-fixups-on-tf_update_txn-supersede.patch
+> Cheers,
+> Robin.
+> 
+> > 
+> > Thanks,
+> > Lorenzo
+> > 
+> > > > > it needs to be retrieved as that in the guts of ACPI. Allocating memory for the whole
+> > > > > array to retrieve a single element is simply wrong.
+> > > 
+> > > ...
+> > > 
+> > > > > > +#define ACPI_IRQ_PROP_GSI		"linux,acpi-gsi"
+> > > > > > +#define ACPI_IRQ_PROP_GSI_TRIGGER	"linux,acpi-gsi-trigger"
+> > > > > > +#define ACPI_IRQ_PROP_GSI_POLARITY	"linux,acpi-gsi-polarity"
+> > > > > 
+> > > > > Oh... This sounds like a big ugly hack.
+> > > > 
+> > > > That does not help much I am afraid.
+> > > > 
+> > > > What's a ugly hack ? Property names ? Using properties for this purpose ?
+> > > 
+> > > Yes, properties started with "linux," for some core functionality.
+> > > Yes, using properties for this also doesn't sound right. I think the problem
+> > > here is in the table specifications or somewhere that deep. That's why we
+> > > ended up in this series.
+> > > 
+> > > > Again, it is an RFC for this specific reason and I mentioned that in the
+> > > > cover letter, thank you for your inputs.
+> > > 
+> > > And here we have a discussion started :-)
+> > > 
+> > > P.S. Looks like I was too quick to jump into this thread. I will wait for
+> > > others to share their view on all this.
+> > > 
+> > > -- 
+> > > With Best Regards,
+> > > Andy Shevchenko
+> > > 
+> > > 
+> 
