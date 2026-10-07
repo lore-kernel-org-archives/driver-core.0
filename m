@@ -1,219 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90394423EA2;
-	Wed,  7 Oct 2026 07:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C163D5259;
+	Wed,  7 Oct 2026 10:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791359060; cv=none; b=XgyK7bxwRBbgRtFU4xHCoutrU8r89DxXY6Rd6pyxH1DuTZuIUAa7AUYUK1miSnZCaqMIIpI8VNTHGshOoTqlcvK8DR1PCInD09uYE2l5G1qRh5T1w1m3CjSfULgFBtVZp9PJCvmOTIUYY2D7ioEge8dQlVtZPpqTAKcs9kT2I28=
+	t=1791368429; cv=none; b=qrniFOf8Oa2CTd6uIc40cInkMZey8MpljyYkBwshFUtWwedV9vYSuwoLFM7ZOLq2uGTDPPH/4G1e39I4toEV/hLp8uEYwGxL0gsmcVky/IvTWPmPIWkmUxnp0mLgIDz6sF0dLCPaKA5+YLMZZM5lNuutJADokFG/JvAg4vrklaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791359060; c=relaxed/simple;
-	bh=dwCH8kSCiVDDas4o17xef68hFnP5dWpaR5Rt9w/MO5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J9g0Au31h2ak/mlJIYo2QAWOChNIdUS1szDqxGjVc8E+DueN6SwwlSfAc5Hal7E9rrDpM3X0QoTRCZ1YO4uLtE3hJS1C7hQNYRNAPrImNqfD5bM6vfjSYGV7SGLQkTW+GqAcyYZdyVlHlOzqd9DdGVcd22ny7jTyVlHmVmDY0Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1nco5hz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791368429; c=relaxed/simple;
+	bh=oHOJ6V3AzctG/+9MGXJ3TR6/jLfcvNp5QEjrWq9t0v0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gOv7ThE0uxt9snM80kO4jbngnZWLFfM6k1PlGo2n3tmr/WfS+odeEBQouwzn1WqH3svpUT3sJYU5Djmbwgnq2n01vQIZrPtDb1YzYPtQf8hL7Gww4JdWtH0rjr+cbsP4PLwkPfkfNjUwjlay1XES1b87QPBjhCMrhFj60A3WhEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GSgrkL4l; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1nco5hz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78D51F0089C;
-	Wed,  7 Oct 2026 07:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791359051;
-	bh=jT2zf9su+V2G9GQXB3y4tFuNVD9WDBdAXweFNBBIfQ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V1nco5hzrKpmdyxWlo78fqQDnQdFOcKLGh3v/x1fb/R9gMtxn/jWl84KV+iPj9S8d
-	 34tD8XwWEOLrsTRuR5yzkSvYkzhDh1mlfWnoMIYtmcQUx5dJG4IkTyoVjF/zyrs9mU
-	 0JL7kEU7bPc5M8Yzvg8SQmG27ZndbWL0cqdrQILcghZWFVIwkVfKcZSms0IoMeKmru
-	 TGZRRyW7heB3FEcJm+l5bxF1hoahss0GV2QXOLEZZ2QODk6Ea44kd3h6MCuwMDKRg8
-	 vZhIwzyDhNDPYiTr3/lmavwZJZ4nvDaQUNNG4rD4X1fdKXPSyf59k3Nc2jnVwK2Qxa
-	 m+jEyC+dk1PVQ==
-Date: Wed, 7 Oct 2026 09:44:04 +0200
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
-Message-ID: <asX4RPKF5IbUNd-n@red-moon>
-References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
- <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
- <arZDwutoadki7tiZ@ashevche-desk.local>
- <arZNL9BnTGK0Klwc@red-moon>
- <arZS4vwxps01dGb7@ashevche-desk.local>
- <arqSqcoWAkhy-8do@red-moon>
- <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GSgrkL4l"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69785tAo2036290;
+	Wed, 7 Oct 2026 10:19:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=YY+zk0
+	nU+A0l4J58B95lMyurynE62aQZxet1k0dyhyM=; b=GSgrkL4lWrvc6pmaE8+y72
+	3rpOyQcQeaVotBo7WrK/DrqQfjwXJ5TllkjGaYOdB4XPQ4RLqVpuUv0K/WIVCAS4
+	tQleEDKfRPZuE6Y6ATBMqDnfi/oKfczpmPseqIvTNJV/M0NADUh0L5gsgoMpjh8Y
+	PdwpaUOB/h/NiFWwq2ttDRgTIntSkTJ9xNm255OvEzwJ5smyoRjI/XsgtrRsloqX
+	0Yel3xPiwqa7Mx2/nisA8+LH8eUdeQSvLRXRm5WiOrb63ISvkF0bVkjPq7lvWEix
+	QaKbmYWjHR0vwU0KVT4K9+suPp+m60MLIZj0AC3zJy0IF4vyMBcyXUsMoNu+F1CQ
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4h2s74vwqv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 07 Oct 2026 10:19:58 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6977lV5s317050;
+	Wed, 7 Oct 2026 10:19:57 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h5f3ts2yv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 07 Oct 2026 10:19:57 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 697AJqSW48431502
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 7 Oct 2026 10:19:53 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DA0BF2005A;
+	Wed,  7 Oct 2026 10:19:52 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0E54D20040;
+	Wed,  7 Oct 2026 10:19:52 +0000 (GMT)
+Received: from [9.111.61.139] (unknown [9.111.61.139])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  7 Oct 2026 10:19:51 +0000 (GMT)
+Message-ID: <bd5201d9-19bb-410e-8954-6c53a5aeb753@linux.ibm.com>
+Date: Wed, 7 Oct 2026 12:19:51 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 07/13] s390/topology: Initialize sbm topology
+ during topology_init_early()
+To: K Prateek Nayak <kprateek.nayak@amd.com>,
+        Peter Zijlstra <peterz@infradead.org>, Chen Yu <yu.c.chen@intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
+        loongarch@lists.linux.dev, driver-core@lists.linux.dev,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>
+References: <20261001192849.74788-1-kprateek.nayak@amd.com>
+ <20261001192849.74788-8-kprateek.nayak@amd.com>
+Content-Language: en-US
+From: Mete Durlu <meted@linux.ibm.com>
+In-Reply-To: <20261001192849.74788-8-kprateek.nayak@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: ffY6TLKTpffrTfFwXFbRf4wLqXGAb6-j
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDA0MCBTYWx0ZWRfX5YvUepf/U6OC
+ FaGTWFpY1HrJave3vicTixr+fQ++9GqfU+3Zs3xMBvOA7U18g4ewllijqqjZRqTNSafqGvYfSI2
+ wa/wcMb0rojmjOsrymp/srPPFUVCpHo=
+X-Proofpoint-GUID: Tbz9hU4FADE_uXqR6VBUuc00GL4SXDgo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDA0MCBTYWx0ZWRfX00U2nwqsffsr
+ JT1pX+wU2mYPlMFpB5UhX49I2QLaW5KljBowrcfIidPfJZKyN4kjMviAR0tjoJkpFtkF41hfR9F
+ zHKylZ85W09CAFxl4I4ZwkQ3ueJld+uJTg1Cf6nvaHLesQoDB8D3fyDo7MoGFk0MU8QFYUVAdSu
+ rk3wneyhGtd1rYsppgxJdu0ZSVI5aajd3Mw4ENg1EKDyProGlZnJHzWvmSW+25C8XbWCGdDaf80
+ NTOYWtoXZVr86oeSKRXt+xAjChyINKVjCo0RF6l3mnXf1LxrLO1es0XbzuO/AFx6CyoEG1PHzpF
+ kEZ4pNc1nIWQYG8GltklzFwzSwCVVZ72cr5pbYOPMAm36ByfzqkjvyVFUTWrpPMgjV0wRc3eZl/
+ zqwbfDUzbowD3vBO5g8qeQ2jwDePDt5xS9f1lNMq5FJN0/U52QHOTKwggp6lmJ5oVq9w6kkzyLG
+ yVMV1dy1jBmPwuMLWfw==
+X-Authority-Analysis: v=2.4 cv=fM2sTpae c=1 sm=1 tr=0 ts=6ac61ccf cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=zd2uoN0lAAAA:8
+ a=Ljveq5rUL1csS5QuFncA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-07_03,2026-10-06_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 malwarescore=0 clxscore=1011 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610070040
 
-On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
-> On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
-> > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
-> > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
-> > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
-> > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
-> > > 
-> > > ...
-> > > 
-> > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
-> > > > > > +						  const char *propname,
-> > > > > > +						  unsigned int index, u32 *value)
-> > > > > > +{
-> > > > > > +	u32 *values;
-> > > > > > +	int ret, count;
-> > > > > > +
-> > > > > > +	count = fwnode_property_count_u32(fwnode, propname);
-> > > > > > +	if (count < 0)
-> > > > > > +		return count;
-> > > > > > +
-> > > > > > +	if (index >= count)
-> > > > > > +		return -ENOENT;
-> > > > > > +
-> > > > > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
-> > > > > > +	if (!values)
-> > > > > > +		return -ENOMEM;
-> > > > > > +
-> > > > > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
-> > > > > > +	if (!ret)
-> > > > > > +		*value = values[index];
-> > > > > 
-> > > > > Use standard pattern, id est
-> > > > > 
-> > > > > 	if (ret)
-> > > > > 		...
-> > > > > 
-> > > > > > +	kfree(values);
-> > > > > 
-> > > > > You want to use __free()
-> > > > > 
-> > > > > > +	return ret;
-> > > > > > +}
-> > > > > 
-> > > > > I believe the whole approach is suboptimal, if you wish get indexed value (but why?)
-> > > > 
-> > > > Why what (that's what the irq_get() interface requires ?) I agree it is
-> > > > suboptimal - the whole point of the series is an RFC on using properties
-> > > > to store GSI number/flags, then how to read them we will optimize it
-> I>>> when/if we agree that's the approach to be taken.
-> > > 
-> > > Why to have indexed APIs. The callers usually do not want a single item from an
-> > > array, they want all of them or a big pile (exception is the array of strings,
-> > > but we have matching functions for that).
-> > > 
-> > > As per approach, this patch is against device property and I don't think we are
-> > > going to agree on the approach taken in *this* patch.
-> > 
-> > Coming back to this, what is needed here is a way to stash the GSI number,
-> > flags and name in stardard storage (like OF nodes IRQ properties, ACPI objects
-> > _CRS, etc).
-> > 
-> > To give you some background, I thought about adding an array of:
-> > 
-> > GSI [number, flags, name]
-> > 
-> > to the ACPI static fwnode itself. Then basically the irq_get() API has got
-> > all the information it needs from the primary fwnode; while doing that I
-> > thought that this might have been a bit like reinventing software nodes
-> > (granted, software node properties are ways more general that what I suggest
-> > above and I don't expect any other property to be ever added to static fwnodes)
-> > that's why I put together the series as it is, precisely to understand what's
-> > best.
-> > 
-> > When you say "against device property", what do you mean precisely ?
-> > 
-> > I suppose you mean that this approach goes against software node properties
-> > usage guidelines ?
-> > 
-> > Anyway, again, it is just to provide some context, we are talking about
-> > a bunch of platform devices, it is nice to have a generic solution but
-> > it has to be simple enough too given its scope, I understand very well
-> > your concern with this approach as-is - it is there to find a way
-> > forward together and show what the problem is.
+On 01/10/2026 21:28, K Prateek Nayak wrote:
+> When the topology mode is TOPOLOGY_MODE_HW, topology_init_early()
+> already parses the set of socket present on the system.
 > 
-> I guess software node properties look inviting in theory since they're a
-> ready-made mechanism for effectively attaching arbitrary data to a fwnode,
-> however looking at patches 6-7 and the amount of boilerplate involved in the
-> reality, I'm inclined to think that a dedicated structure for static nodes
-> is probably the best and most efficient compromise here. The redundancy
-> argument rather falls apart once we end up creating copies of those
-> contentiously-made-up property name strings for every node, especially given
-> that any one of those alone is probably already more than the amount of
-> actual data we need per node...
+> Use the socket_info to configure the sparsebitmask (sbm) properties for
+> the system - namely the number of sockets and maximum threads in a
+> socket instance.
 > 
-> Perhaps the "purest" option might be to just store a function pointer in the
-> fwnode wrapper for each static table type to provide its own internal
-> irq_get() callback, so not stashing intermediate GSI data at all, but I
-> suspect that might end up being more work overall.
-
-Thanks Robin.
-
-Yes, those are the possible options, last one requiring a look-up
-from fwnode to the data providing GSI numbers/flags for that specific
-fwnode - we do have that for IORT but I need to check for other
-devices.
-
-To be honest, I implemented the three of them while prototyping, it is just
-a matter of choosing which one we want to support to sort this out.
-
-Thanks !
-Lorenzo
-
-> Cheers,
-> Robin.
+> arch_sbm_cpu_instance_id() traverses all socket instances to find
+> a matching CPU which is not optimal but instance ID is only checked
+> when the CPU is coming online. Since this is a rare event, the
+> inefficiency is tolerable.
 > 
-> > 
-> > Thanks,
-> > Lorenzo
-> > 
-> > > > > it needs to be retrieved as that in the guts of ACPI. Allocating memory for the whole
-> > > > > array to retrieve a single element is simply wrong.
-> > > 
-> > > ...
-> > > 
-> > > > > > +#define ACPI_IRQ_PROP_GSI		"linux,acpi-gsi"
-> > > > > > +#define ACPI_IRQ_PROP_GSI_TRIGGER	"linux,acpi-gsi-trigger"
-> > > > > > +#define ACPI_IRQ_PROP_GSI_POLARITY	"linux,acpi-gsi-polarity"
-> > > > > 
-> > > > > Oh... This sounds like a big ugly hack.
-> > > > 
-> > > > That does not help much I am afraid.
-> > > > 
-> > > > What's a ugly hack ? Property names ? Using properties for this purpose ?
-> > > 
-> > > Yes, properties started with "linux," for some core functionality.
-> > > Yes, using properties for this also doesn't sound right. I think the problem
-> > > here is in the table specifications or somewhere that deep. That's why we
-> > > ended up in this series.
-> > > 
-> > > > Again, it is an RFC for this specific reason and I mentioned that in the
-> > > > cover letter, thank you for your inputs.
-> > > 
-> > > And here we have a discussion started :-)
-> > > 
-> > > P.S. Looks like I was too quick to jump into this thread. I will wait for
-> > > others to share their view on all this.
-> > > 
-> > > -- 
-> > > With Best Regards,
-> > > Andy Shevchenko
-> > > 
-> > > 
+> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> ---
+> Build tested with LKP's s390 randconfig with QEMU cmdline:
 > 
+>    qemu-system-s390x \
+>    -cpu max \
+>    -smp 2 \
+>    -m 2048 \
+>    -kernel ./arch/s390/boot/vmlinux  \
+>    -append "console=ttyAMA0 earlycon ignore_loglevel log_buf_len=10M print_fatal_signals=1 LOGLEVEL=8 sched_debug" \
+>    -nographic
+> 
+> Note: Since ctop needs KVM acceleration to emulate TOPOLOGY_MODE_HW, the
+> actual spasemask setting is only build tested at the moment.
+> 
+> XXX: Any way around this using cross-compile and QEMU?
+> ---
+>   arch/s390/kernel/topology.c | 52 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 52 insertions(+)
+> 
+> diff --git a/arch/s390/kernel/topology.c b/arch/s390/kernel/topology.c
+> index 1377c6f3f670..80dc51f5ce6f 100644
+> --- a/arch/s390/kernel/topology.c
+> +++ b/arch/s390/kernel/topology.c
+> @@ -20,6 +20,7 @@
+>   #include <linux/init.h>
+>   #include <linux/slab.h>
+>   #include <linux/cpu.h>
+> +#include <linux/sbm.h>
+>   #include <linux/smp.h>
+>   #include <linux/mm.h>
+>   #include <linux/nodemask.h>
+> @@ -561,6 +562,55 @@ static int __init detect_polarization(union topology_entry *tle)
+>   	return tl_core->pp != POLARIZATION_HRZ;
+>   }
+
+topology_init_early() is called once during early boot and never again.
+Considering that s390's topology can change during runtime this
+implementation won't work as sbm won't be able to adapt.
+On s390 max_threads_per_instance can change during runtime.
+
+Like sashiko pointed out, this approach also does not consider
+any newly added cpus.
+
+IMHO, there is a slight redesign required so that smb_set_topology()
+and smb_init() can be called each time a topology rebuild is necessary.
