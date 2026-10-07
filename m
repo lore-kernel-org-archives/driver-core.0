@@ -1,94 +1,71 @@
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8DA331EDF
-	for <driver-core@lists.linux.dev>; Wed,  7 Oct 2026 06:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800663F5BFA;
+	Wed,  7 Oct 2026 06:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791352931; cv=none; b=sJZZQs6CsXb/eA6J61VnjITvNruC6NYOq7P8EaOBdWWDyAWpApe20v25HyMh0naWvwb+3GSwM37NN2oTMVhhwcJ//PdfPMLl6aDSGRNWqvLDQ6mrEvtkVE9OdrWv0iXe8O1FqYSBTISgc7Jn/zawI6pq0zO+gYDnH79avQaWHBo=
+	t=1791354531; cv=none; b=QzcIo+ApPVfbDbdyz99amToQD0iwIkBYUEx8BiopE3XDvn1vBU1HfsZvqo6fIhC6h8T3z227867Y92V1JmvTX+EDC68Ww52lveIaQX3k9ie51UKcayV1GJeAXhxQrX7Z4IWkqqxagmV1ggfLyeKBqSmzVr+tJbuGJbLQHo2SrMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791352931; c=relaxed/simple;
-	bh=rQfaCbBZLe4g1iOwgkblh3H4rtlzI9x5A6MeoY1dh5o=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=OWWoPHAKDZWnbWhgMWLGaj0xgreJ7THYTz15lenCHBCvr7XVp4HGz/aMOAiKHPeG27nCM1PReGeyTFEJOn2k26Juv/RKfmGNP8iha8qN9zFnQobMSPhlF2PC6arSO2VYhZWfBtxDIDxAyVDOjm6x4Bp/QqHWawj3xGox2eP8zpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aRFPPRKM; arc=none smtp.client-ip=209.85.208.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1791354531; c=relaxed/simple;
+	bh=ZB3xKjEyEnz0zeAVXezukzD8+ZqBZYsmH7fHkYnmxbw=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=YWU/72s0YXZ/eKje5kvyZcZx6cU97myF6i8f8GAcv/do4Va8wcroYn1K7Z1HO45ginZ1FaFHkJanLo6H25edzGtglcoydJ79F7MblLUW1NDzJdZTdN9rJQqVN/ftUrdzrVStwOgIbISzcUNPAANhuaeBSxOBvkqYjb/vEm+BOm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ywyJ+0jd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aRFPPRKM"
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6aa82371cb7so4677955a12.0
-        for <driver-core@lists.linux.dev>; Tue, 06 Oct 2026 23:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791352928; x=1791957728; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cXKngLXqd7wBtEapgw6gle8hlEt27JPb69mdqcAv6zU=;
-        b=aRFPPRKMBe/He4T3Gcs+opweeVOxYLO62/yHy75m1+GWy00ASTdj27oCfgUs5mz2sk
-         3KLYCMUabK3EsPo3lW5KoObVnyo0kzBHbrigW//fPLK7Up/S6K21bDAZQvSuavYGtjVF
-         MMAmTHtC+rqFqJmqEVfzGU2COLmQZlY7tbPzSAIiADfTSSzFQs8CMTDSXQWmap8abZ5N
-         fbJnWMRPx878C3/jEAb7ym5VVK8gKj7qiN5kyzezM4tkXxSbHIhV+DXCzeDDZiNv0bZJ
-         m/nQRE583ofjGObZ+3+umwO/9eYnG4k9Hv61h493J7A1YlYFcXK9GseQ5NV1Va6un6Zz
-         WVJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791352928; x=1791957728;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cXKngLXqd7wBtEapgw6gle8hlEt27JPb69mdqcAv6zU=;
-        b=a+57Ctcutffj+nS5jWWNLzFcD8m1I8MGHa+f/7WXORIXGXtqG3aSuP5j3poQY3weEl
-         MrnWEFXiu1/LQ/x3zz8uPbZrt5Ca1y+0FUwUZPvBNC6KdnTn/xBpHcU1vvY9kXfj4Cva
-         EC3pRGc/1RYG6oMd3XFZf9WEII+0Gg3ZI8VlADf2e1AYkP6YeaB+gwyBmG6ziwfwGVRq
-         RpfuOqh+4hn+Tpkmd5BQFetD3wQ/iNmEtCrxOCBY4g2rfjyPAPpsHhOlaA/PvtNcTr5J
-         pPSMVEXPoclCXCK+B8DUR67XiD/p+kuWKX0f22n6+eI8oERsZxR7fbKTnAdPoUSJGPdv
-         JhAg==
-X-Forwarded-Encrypted: i=1; AKwUvBwBorBMO5GYaUyyF/vTFbTXGrloR0pVe/cp3sCN1cBHQDjtOAHWwZe3A8ktXKx5ddc8zjcyBlq6IDUOmA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLefMr5haMXmG9aaV6by2du01VPLolymbdzRQ2qAXk0tqkjOQSW
-	QPTnS9n/68k1zLahKXvJKq+xkuoSZRWVkv7fxF1/IT7WJZfCMEsMTRJ+UpwTxRLLosM2tXArzKl
-	C05M69kKMfasV11wy2w==
-X-Received: from edfh25-n1.prod.google.com ([2002:a05:6402:a299:10b0:6af:f782:bcdf])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:2348:b0:6ac:b861:dab3 with SMTP id 4fb4d7f45d1cf-6aff47d68b6mr1042163a12.39.1791352928116;
- Tue, 06 Oct 2026 23:02:08 -0700 (PDT)
-Date: Wed, 07 Oct 2026 06:01:58 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ywyJ+0jd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939E21F0089B;
+	Wed,  7 Oct 2026 06:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791354530;
+	bh=/lGAXf3kREgTlIrsjb4nOBsS6lkRb/9Fv7/81qWW1us=;
+	h=Subject:To:Cc:From:Date:In-Reply-To;
+	b=ywyJ+0jddLy/4IdudVnjq4GQOGRMAEHqm/MSZWS7TMqTt5jFNcszspU6H+qZ5bBBy
+	 fNcUgkOm7TclrYu6BsbxgcQx596vbTaSppjXHNGeNR/9UIWKJizt5shhKRVZBCdOwQ
+	 WUr+kvOVWZAyIO8/4L5EjTA38Dx3DWuiV531u4oA=
+Subject: Patch "rust: irq: pass RegistrationInner as cookie to request_irq" has been added to the 7.2-stable tree
+To: a.hindborg@kernel.org,acourbot@nvidia.com,aliceryhl@google.com,bjorn3_gh@protonmail.com,boqun@kernel.org,boris.brezillon@collabora.com,dakr@kernel.org,daniel.almeida@collabora.com,driver-core@lists.linux.dev,ecourtney@nvidia.com,gary@garyguo.net,gregkh@linuxfoundation.org,lossin@kernel.org,markus.probst@posteo.de,ojeda@kernel.org,rafael@kernel.org,sashal@kernel.org,tamird@kernel.org,tmgross@umich.edu,work@onurozkan.dev
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Wed, 07 Oct 2026 08:28:20 +0200
+In-Reply-To: <20261007-irq-7-2-backport-v1-1-183f514f2aac@google.com>
+Message-ID: <2026100720-octagon-chaplain-7185@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAFXgxWoC/x3MwQqDMAyA4VeRnE1Jg2vBVxkerGYaBHWpjA3x3
- Vc8fof/PyGLqWRoqxNMPpp1Wwt8XcEw9+skqGMxMHHwRAHV3hiRMfXDsm92oPcxRWqaRA+Gku0 mL/3eyydEx+4H3XX9AX6Z/AhpAAAA
-X-Change-Id: 20261006-irq-7-2-backport-117b7044b052
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11005; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=rQfaCbBZLe4g1iOwgkblh3H4rtlzI9x5A6MeoY1dh5o=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqxeBZelHrU8v5IqHLX+XnQ8LTujjZjPuKceE5C
- 5bXZMrWvLCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCasXgWQAKCRAEWL7uWMY5
- RlmOD/sEQSWFAFRJsCQkyxoBeZ47XD5nT0/NWRDUX/5MKLrRYMVEdbhEdbUIc7WutoHzVGtqKro
- Crbvh4GFe4vqA4lwIg7hMPJAK6UHGfJ5qJUTRpTDqEhw0GZDhdWLD3Y5FvM3J0ueYCP4jvBKuSq
- H7DhVVR8MrJq5ZG/BM4/np1PQ+1EMt8rPUm+GAR3pe0jS5IrEQqmHSztihvxiIecl/3V/PpXsck
- zJdmFRLuJG/fNLS3JN8xHMGMzd/mhEexpFm6UXFupN5iCmBlCBBxPy/8Oq1tQuy2QETff0KUAyw
- 5y6teApRE0XDBnKjGXq+X83lcPZbf2gVxyVeYgNJcc4K23qcABenpKgz8L2Y/sPCQfgFCwrkqZd
- KaoglRyWAHorwvl6RuOlo5hi5kuMqSkIib3InwXFf72E/uXUBXtDShz8Xnz94lv5nQXeDRQpZOg
- djTGYGArmGqHIOvmwM3WknWIe1FMNMrISf7pvmiqt4Azoq3KVZBP9FSzJ2mSRpoBfEwT6cq9UZ7
- OapascmRGhg6cGdLFYtaVH+32F3oVLwG6TfiNyD12GG3JLt3cF+N+xuuPnRimLanZXqjajOaPaj
- fcl2OX6rd2q7avZDOzFBTd2JR7Z41o0Q/tqU4qUHbKYA4hSyCQCa/w728R2mc/ab7NABtwmqdKD xp5g7WeKKCCFc3w==
-X-Mailer: b4 0.14.3
-Message-ID: <20261007-irq-7-2-backport-v1-1-183f514f2aac@google.com>
-Subject: [PATCH 7.2.y] rust: irq: pass RegistrationInner as cookie to request_irq
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
+
+
+This is a note to let you know that I've just added the patch titled
+
+    rust: irq: pass RegistrationInner as cookie to request_irq
+
+to the 7.2-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     rust-irq-pass-registrationinner-as-cookie-to-request_irq.patch
+and it can be found in the queue-7.2 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From aliceryhl@google.com  Wed Oct  7 08:24:34 2026
 From: Alice Ryhl <aliceryhl@google.com>
-To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sasha Levin <sashal@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Benno Lossin <lossin@kernel.org>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Eliot Courtney <ecourtney@nvidia.com>, 
-	Gary Guo <gary@garyguo.net>, Markus Probst <markus.probst@posteo.de>, 
-	Miguel Ojeda <ojeda@kernel.org>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
+Date: Wed, 07 Oct 2026 06:01:58 +0000
+Subject: rust: irq: pass RegistrationInner as cookie to request_irq
+To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Sasha Levin <sashal@kernel.org>, Danilo Krummrich <dakr@kernel.org>,  Daniel Almeida <daniel.almeida@collabora.com>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>, "Björn Roy Baron" <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Boris Brezillon" <boris.brezillon@collabora.com>, "Eliot Courtney" <ecourtney@nvidia.com>, "Gary Guo" <gary@garyguo.net>, "Markus Probst" <markus.probst@posteo.de>, "Miguel Ojeda" <ojeda@kernel.org>, "Onur Özkan" <work@onurozkan.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, "Alice Ryhl" <aliceryhl@google.com>
+Message-ID: <20261007-irq-7-2-backport-v1-1-183f514f2aac@google.com>
+
+From: Alice Ryhl <aliceryhl@google.com>
 
 With commit ba268514ea14 ("rust: devres: fix race condition due to
 nesting"), Devres::new() returns Result<Self> by value instead of
@@ -109,18 +86,14 @@ are initialized.
 Fixes: 29e16fcd67ee ("rust: irq: add &Device<Bound> argument to irq callbacks")
 Fixes: ba268514ea14 ("rust: devres: fix race condition due to nesting")
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-This is the 7.2 version of:
-https://lore.kernel.org/all/20261005-devres-6-18-backport-v1-5-06dcf0e592d5@google.com/
----
- rust/kernel/irq/request.rs | 89 ++++++++++++++++++++++++++++------------------
+ rust/kernel/irq/request.rs |   89 +++++++++++++++++++++++++++------------------
  1 file changed, 54 insertions(+), 35 deletions(-)
 
-diff --git a/rust/kernel/irq/request.rs b/rust/kernel/irq/request.rs
-index f425fe12f7c8..d84a32ff0f7c 100644
 --- a/rust/kernel/irq/request.rs
 +++ b/rust/kernel/irq/request.rs
-@@ -14,7 +14,7 @@
+@@ -14,7 +14,7 @@ use crate::error::to_result;
  use crate::irq::flags::Flags;
  use crate::prelude::*;
  use crate::str::CStr;
@@ -129,7 +102,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  
  /// The value that can be returned from a [`Handler`] or a [`ThreadedHandler`].
  #[repr(u32)]
-@@ -54,13 +54,18 @@ fn handle(&self, device: &Device<Bound>) -> IrqReturn {
+@@ -54,13 +54,18 @@ impl<T: ?Sized + Handler, A: Allocator +
  /// # Invariants
  ///
  /// - `self.irq` is the same as the one passed to `request_{threaded}_irq`.
@@ -150,7 +123,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  }
  
  impl RegistrationInner {
-@@ -77,18 +82,22 @@ fn drop(self: Pin<&mut Self>) {
+@@ -77,18 +82,22 @@ impl PinnedDrop for RegistrationInner {
          //
          // Safe as per the invariants of `RegistrationInner` and:
          //
@@ -177,7 +150,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  unsafe impl Sync for RegistrationInner {}
  
  // SAFETY: It is safe to send `RegistrationInner` across threads.
-@@ -179,7 +188,7 @@ pub fn irq(&self) -> u32 {
+@@ -179,7 +188,7 @@ impl<'a> IrqRequest<'a> {
  ///
  /// # Invariants
  ///
@@ -186,7 +159,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  #[pin_data]
  pub struct Registration<T: Handler> {
      #[pin]
-@@ -206,10 +215,13 @@ pub fn new<'a>(
+@@ -206,10 +215,13 @@ impl<T: Handler> Registration<T> {
              handler <- handler,
              inner <- Devres::new(
                  request.dev,
@@ -204,7 +177,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
                          // SAFETY:
                          // - The callbacks are valid for use with request_irq.
                          // - If this succeeds, the slot is guaranteed to be valid until the
-@@ -224,11 +236,10 @@ pub fn new<'a>(
+@@ -224,11 +236,10 @@ impl<T: Handler> Registration<T> {
                                  Some(handle_irq_callback::<T>),
                                  flags.into_inner(),
                                  name.as_char_ptr(),
@@ -218,7 +191,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
                  })
              ),
              _pin: PhantomPinned,
-@@ -261,13 +272,15 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
+@@ -261,13 +272,15 @@ impl<T: Handler> Registration<T> {
  ///
  /// This function should be only used as the callback in `request_irq`.
  unsafe extern "C" fn handle_irq_callback<T: Handler>(_irq: i32, ptr: *mut c_void) -> c_uint {
@@ -238,7 +211,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  }
  
  /// The value that can be returned from [`ThreadedHandler::handle`].
-@@ -396,7 +409,7 @@ fn handle_threaded(&self, device: &Device<Bound>) -> IrqReturn {
+@@ -396,7 +409,7 @@ impl<T: ?Sized + ThreadedHandler, A: All
  ///
  /// # Invariants
  ///
@@ -247,7 +220,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
  #[pin_data]
  pub struct ThreadedRegistration<T: ThreadedHandler> {
      #[pin]
-@@ -423,10 +436,13 @@ pub fn new<'a>(
+@@ -423,10 +436,13 @@ impl<T: ThreadedHandler> ThreadedRegistr
              handler <- handler,
              inner <- Devres::new(
                  request.dev,
@@ -265,7 +238,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
                          // SAFETY:
                          // - The callbacks are valid for use with request_threaded_irq.
                          // - If this succeeds, the slot is guaranteed to be valid until the
-@@ -442,11 +458,10 @@ pub fn new<'a>(
+@@ -442,11 +458,10 @@ impl<T: ThreadedHandler> ThreadedRegistr
                                  Some(thread_fn_callback::<T>),
                                  flags.into_inner(),
                                  name.as_char_ptr(),
@@ -279,7 +252,7 @@ index f425fe12f7c8..d84a32ff0f7c 100644
                  })
              ),
              _pin: PhantomPinned,
-@@ -482,24 +497,28 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
+@@ -482,24 +497,28 @@ unsafe extern "C" fn handle_threaded_irq
      _irq: i32,
      ptr: *mut c_void,
  ) -> c_uint {
@@ -317,11 +290,10 @@ index f425fe12f7c8..d84a32ff0f7c 100644
 +    T::handle_threaded(handler, device) as c_uint
  }
 
----
-base-commit: 5fce161649b4d779d1b76d9fcd52dc77779774b8
-change-id: 20261006-irq-7-2-backport-117b7044b052
 
-Best regards,
--- 
-Alice Ryhl <aliceryhl@google.com>
+Patches currently in stable-queue which might be from aliceryhl@google.com are
 
+queue-7.2/rust_binder-cancel-deferred-work-items-in-thread-exit.patch
+queue-7.2/rust-irq-pass-registrationinner-as-cookie-to-request_irq.patch
+queue-7.2/rust_binder-reschedule-node-refcount-update-on-thread-exit.patch
+queue-7.2/binder-fix-leaked-fd-fixups-on-tf_update_txn-supersede.patch
