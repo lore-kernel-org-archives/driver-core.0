@@ -1,79 +1,78 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0384DD6C8
-	for <driver-core@lists.linux.dev>; Thu,  8 Oct 2026 15:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB19F3876DE
+	for <driver-core@lists.linux.dev>; Thu,  8 Oct 2026 16:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791474136; cv=none; b=oE5irqYXbSlAK/zFdXlo7O924wER+wsSLGoG8g3pxjF/10HODE5IT+UKzaj9n3EEiBXAYGXN7LZeQFAYa8oW2SC0I8wxDbj0n/SimvP8C/6G3GAYllCPFKM1ayWDrOAfMN3+TSx2YTFr69R5ZJTiC2qRMWP4EtExgI83JOfX81Y=
+	t=1791475980; cv=none; b=DT0KYC7zH0eLJV0oFpjgCo4vSMpprc9hFmDxfoKrVkTQAPOcxC6JXBRSWMhlGCZMMpWOIBrlhmhkRWt3yv8YUV6BzXFDfvOFiLsggO3vlajvkg4qXQiGYBOgqsvGk46EDJ+NOF3jIkhGshtpe9iDdM14wPSLGGIdufY4Vgc+KAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791474136; c=relaxed/simple;
-	bh=kFYB2YE03Fr1cNJfzEYyTe0jd63mjl+q93uWX9YFs7s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PtSuQW/XpV1nZ4n77qtPw8eF2PAPilv8oQOlHBtnc0yXfLHDvwf+vMqoIobYKV7RDXDmVI6HkZ7O8byTG73xImCrqcFpCxRaIrdNMMZ/GGHWWOOKzmziMaBDuSfgo+zNdoPlzjUCj+g1KaWrre5c19XoLlByw/05hoJuAZQRekM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UX3uR/Kd; arc=none smtp.client-ip=209.85.222.171
+	s=arc-20240116; t=1791475980; c=relaxed/simple;
+	bh=BmN0rljmONbdz/PXm/OprH8FzTn9S1DwuWMcx7k7+c4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LNoHdjbfKJvGeWvPnMY8ttWryK6ZK3aLvmYTc8p9bR8TavlRJhDYULxVkYr9ptssj6aSFrqCe3QMGeXwYeRnc9V1xff6s9/hi/f5vj1/WHUOzrgkSlXgIcxhA6eJNRfRA3Zvo56VPkEP4cOJ5KddZ8hPoZE5DmhVISICsWz5yt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8NBdIKm; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UX3uR/Kd"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93cbee4b010so332503785a.0
-        for <driver-core@lists.linux.dev>; Thu, 08 Oct 2026 08:42:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8NBdIKm"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3a8a63785a1so1477150a91.3
+        for <driver-core@lists.linux.dev>; Thu, 08 Oct 2026 09:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791474133; x=1792078933; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0u6VEga/fDhA/LHHVWZ01lUO0WQKoIfCOS1lH5jNGjs=;
-        b=UX3uR/KdJWBLts0t+oftuum2Zz26ZZ2hh2ASedgkilXCldirMNLgnF+Od4j6dmdM+g
-         a7K98SNt6mboi8qk4Fcif9waf4jwPpIGh2iPTO6YxYuyZ4AMgjhZ7F51IY862D/eYpMi
-         Ego99ujJRReT0plWgHjjWBOS4L5ssbTNVePIivM8TQp9ji2wV+L3/VaeWbwxkQYTR2bG
-         l+sfz6z56sU14s3C9/rdDoB0z725+ztIdJLQ8CCDYCGRvj4I1Gb7Pg7FL+i75izy9hw/
-         D4DBWtQOe2XJu+0+mCu3F+Yy85ceEpte3RC9Gs+IaDqmL7uxEJsrFH13yX9EQzXJopGx
-         /pHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791474133; x=1792078933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1791475979; x=1792080779; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0u6VEga/fDhA/LHHVWZ01lUO0WQKoIfCOS1lH5jNGjs=;
-        b=CuPOkONLPa07nxO2Arz8/gGzDivkKkv/qGDpUBauHU0qxb0OJqOfM2kvA6ovn62ohk
-         d1/QxK7S0aiN5yZOkt/UQyYSiYTSOHKU8q8gc3mplVJ+mcoXLwH1Jx7FJWIxJIh7/+sM
-         G66449Rqp5FbkuHeBksbktdg7lefdcDeF8BnmoOI9h3FO/XzOEN1zE0u3QCV8w/94Zdf
-         SH8cZ53RBdrX7Ajb3uCOpj32Zw1ZPewLoSsm1UaIVwlG2Ea5wc/WJgAt9vbGRB5Nu37P
-         MZg3l0bG34HoYDsKRY/eI01DoaOWRWZgROAbVapDhALigaIZtQ5yXNTIdJ44MHt+fjut
-         TGSA==
-X-Gm-Message-State: AFuF++nJ7bqkUL2d3f5xluIVlkBKC6vw/7dJKyXOGDbjHNaaVe4nWlnX
-	q40R4VS5dx8zIlXoUHdNwMHduAEo6s/a/NDu/e0KQupfaa6PGxVjn8KD
-X-Gm-Gg: AYBFou3Ja7xhJiZQxCDlhYQ1vidR/snPq+2VQk03sMwuimjgOjT4gsRcJgeWzhbzHBc
-	i05GqBnEXvjiuyjW3+tNpIKQjh2dovYrBLzzh/0WTKRM/DmZmV0P0bG2cA57i4kTUb11v2MimqD
-	y9B1JJnocfWBkYUB+0E80urIHLmqShplkYszATnA6NyAWFtCyQcjoJ4uSSDvhhvlwlHmZ0xW9LH
-	/QIzK6hIfc0IUzeUG3w/qmuKNYDY2Y8HW8xrxxyFg15Da1EaQ6TmovsbozC9ekJpX67G9wfF7A3
-	iPz7d6N95bZwCGGjDZB2dH124lZOaBtANsKFI+Z9UIfaCPTrAojszfV9KNZGp1NBclU1Y2awp58
-	cd95zVD2q6PCkE5ndZeyHrCxgrCcnqRmLBeu7KrUj4KFy/0g30EN4vLTXAWsob6RIF9YeU96jq4
-	qWMFgk7Q311pjahyVhMzqLNdRhslUmu5EivE4wY6TBmHa8ZHBfrqE7tjcbyBXgxFv1E++6nM3+F
-	q11zhb29Ov0n1+qPSsjpJBidfuCFoYAVjC/UEkj/eIx9hxPmG9r/6UPz5ptdD7Y0dMfdVlua6D0
-	Ud6eMm633OPPnQROt9yg9ebVVPxhJaemikk1RjmtMXqfyUNSZ1jFh7b9JKda3zMY39uiXSpaeYl
-	lkuHLXdN+N9yu5sq6fF4piZ4eYOAQ8l5Tu+Z9Em5wzwM8rXjnANJzKeSB37qUcKEyEV7l0RT2ph
-	MEwheDqYkXPGQ9XFvuQ20TiAGkPQwS
-X-Received: by 2002:a05:620a:471f:b0:93e:4f4c:b380 with SMTP id af79cd13be357-93e9b2f09fbmr1114619485a.10.1791474132642;
-        Thu, 08 Oct 2026 08:42:12 -0700 (PDT)
-Received: from node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us ([128.105.144.50])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93e991a014esm507954485a.27.2026.10.08.08.42.11
+        bh=hDdHvibVLCCzB2QsTRiQrrzTd39n/2ojg5xJ6kjQ3YM=;
+        b=H8NBdIKmS097ASWxlRgwKuMsuG8H1bkwCsu/Yk6ejr9nfbuyQqn9bkVTJU5BBw37XU
+         DCV0aJrFBkbV88rJ9IgCBJUSEPyvXW/SUFtFcbygVfevdKwWiyPuG8w3Ye1psBMFh2fH
+         oxn4GuIi//2ogGpxVmfNc/cebJRKZhYcHKmfT/dun4fweSBGky1CFcKU3EiZTDk9N4wq
+         u8wumW2PaKi/2OMwEJJmq4p54Yirp5D7MNMJrHOjqdy8T5NUOGWu7DXgwAjbv9/uIOSn
+         2iadz4SqKVgy2n9J6LGhP/fYTKWZbijonUK6XrsKB8lyVHmKr3/MjF+wK1JC9hIFd7On
+         Xq7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791475979; x=1792080779;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hDdHvibVLCCzB2QsTRiQrrzTd39n/2ojg5xJ6kjQ3YM=;
+        b=mWhOLWgBRz60ml1xgRqJKTDIoe05n9PAtYkBlzWyXzQ7xpQhPex6TpZD96Rk/K2PTQ
+         6Kh7fRJ6JZPCWDKwi7xKzve64tTQfRad0g0SxiOhiVS0qWN6OrK5VGFMrEa4ERZ+X9FG
+         3iS0BhoYCBNXbDkExMEIi+vvVP4XmTut73jJr+NpkQmncPxJdcFYzNgJHE5DyquMlUV4
+         0xS32hWK5LvoPjN/BNkAOTFPWioxfmPLBUzX0cVIm0HJAiP2F8uGRpIEczcknwEPGcf+
+         tcqY3THh0zPnn390KyT1Nm+tm5Vl6+dFwVLnqYvfhxyVVvJaRiPhgXp3U5ibWd2sdsFF
+         2/fw==
+X-Gm-Message-State: AFq9FYJv3U8m30ZvFjaeOMNPPxaiZe7ZdXhzo2cdY8bT08OBlKnzyat8
+	KSxicY4Yl0PIyslOQ4P92J5n33GMVzviRWMmitxwtmz6qWSiAyTiu5FT
+X-Gm-Gg: AYBFou34KWhZRj4AlXytDaJEUqoOeKIETmCHaAP4ebXlcKS8ES0x0ym6c8ne/foWmz/
+	5wn6iEOdPrUTV++/TT79QkVf0szJ8dNjOGofx0jN2+fnXA0jBRTrOlN15DN8S03TNDpPlw6zEwa
+	+PweINKbwzCGiTKuwkFWJg/nK7e/UZyvoFzgwhOt6qIuwlaVFp9QbeV3p1IRhnLO/R9G7d/S79y
+	nwwatmCgxgyxKVDAp658qb2ZkM8lUOkhNsxdQjB3yF0EZ8Dmn0jyXVfehmWslFVG+K/VAOWapSb
+	3paPsruD5WTPVtcy/NJYDtkxXjFMOielxArMyW/Tb/DRLJs5Mp2DjcP4DF4XSgjXqQPdLLcvnz3
+	+FCzhW7AlGE480uQDYsfhMLAIUPYHYqyY7++ydxjxv2dmHqAmzHCNqaZRfzXJ+8iOeIUtKe0irM
+	IdfpirJRdmiBGJ0JCCV1dL7Zjf8K4lE5f24ZJCyhNVE8JCYgons5WWID6ZyKKvdDsaS40AvfSU
+X-Received: by 2002:a17:90b:5848:b0:39d:e54c:8658 with SMTP id 98e67ed59e1d1-3a89f687798mr4750893a91.5.1791475978758;
+        Thu, 08 Oct 2026 09:12:58 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2a09:bac5:d45b:16d2::246:b6])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9f1a7e9e4sm4834011a91.7.2026.10.08.09.12.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 08:42:12 -0700 (PDT)
-From: mosafer <mohsafer@gmail.com>
-X-Google-Original-From: mosafer <mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
+        Thu, 08 Oct 2026 09:12:58 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org
 Cc: driver-core@lists.linux.dev,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
 	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com,
-	Mohammad Mosafer <mohsafer@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] driver core: complete deferred binds when drivers_autoprobe is off
-Date: Thu,  8 Oct 2026 10:41:05 -0500
-Message-Id: <20261008154105.256340-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
-X-Mailer: git-send-email 2.34.1
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: [PATCH v3] driver core: bind a device with a preset driver even without autoprobe
+Date: Thu,  8 Oct 2026 23:12:53 +0700
+Message-ID: <20261008161253.138698-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261008144859.25548-1-ngocthang2710.1999@gmail.com>
+References: <20261008144859.25548-1-ngocthang2710.1999@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -82,88 +81,89 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mohammad Mosafer <mohsafer@gmail.com>
+usb_driver_claim_interface() may claim an interface that is not yet
+registered, in which case it only sets dev->driver and relies on the
+later device_add() to bind it via __device_attach().  With the bus
+drivers_autoprobe disabled, device_initial_probe() skips the attach, so
+the device is registered with dev->driver set but never added to the
+driver's klist.
 
-device_add() registers a device and then runs the bus's initial probe
-via bus_probe_device() -> device_initial_probe().  With
-drivers_autoprobe disabled for the bus, device_initial_probe() skips
-__device_attach() entirely.
+Releasing such a device (from usb_driver_release_interface() or from
+sysfs unbind) makes __device_release_driver() call klist_remove() on an
+unattached node and dereference a NULL klist:
 
-That is correct for automatic *matching* against the bus's driver list,
-but __device_attach() also doubles as "complete a bind that a driver
-already initiated": when dev->driver has been pre-assigned outside the
-normal match/probe path, its else-if branch finishes the bind by
-calling device_bind_driver().
+  KASAN: null-ptr-deref in range [0x58-0x5f]
+  RIP: klist_put+0x4d/0x1d0
+   klist_remove+0x14c/0x2e0
+   device_release_driver_internal+0x4fb/0x620
+   usb_driver_release_interface+0x10e/0x190
+   cdc_ncm_unbind+0x2ac/0x350
+   usbnet_disconnect+0x1e2/0x300
+   usb_unbind_interface+0x1dd/0x9e0
 
-With autoprobe off, that second duty is skipped too.  USB depends on
-it: usb_driver_claim_interface() pre-sets dev->driver on an interface
-that is not yet registered, documenting "let the future device_add()
-bind it, bypassing probe()".  Composite drivers (cdc-acm, cdc_ncm,
-cdc_mbim, ...) rely on it to bind their sibling data interfaces.  If
-drivers_autoprobe is written with 0 while such an interface is
-between the claim and its device_add(), the interface ends up
-registered, with dev->driver set and iface->condition ==
-USB_INTERFACE_BOUND, but never bound: its knode_driver is never
-attached to the driver's klist_devices.
-
-Teardown then trusts those flags: usb_driver_release_interface() ->
-device_release_driver() -> __device_release_driver() runs a full
-release and calls klist_remove(&dev->p->knode_driver) on a
-never-attached node whose knode_klist() is NULL, which klist_put()
-dereferences:
-
-  Oops: general protection fault
-  KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
-  klist_put <- klist_remove <- device_release_driver_internal <-
-  usb_driver_release_interface <- acm_disconnect / cdc_ncm_unbind
-
-Reproduced with syzkaller's C reproducer on a 7.3.0-rc6 tree:
-instrumentation shows the doomed interface's device_add() racing an
-autoprobe=0 write; the bind-completion branch never runs for it; later
-teardown hits klist_remove() with a pristine node.  With this patch the
-same instrumented race completes the bind inside the window (knode
-attached, crash gone): 3 VMs, 5 min per run, race window hit and bind
-completed 8 times, zero KLIST-REMOVE-BAD, zero Oops.
-
-Gate the flag on what it means - automatic matching - not on the
-completion of a bind the driver already requested: pass through to
-__device_attach() when dev->driver is pre-set.  Other subsystems that
-preset dev->driver before device_add() (w1, tegra xusb,
-zynqmp-ipi-mailbox) get the same correctness back; when dev->driver is
-NULL the behavior is byte-for-byte unchanged.
+Autoprobe only governs matching drivers to devices; a device that
+already has a driver needs no matching, just the bind that was promised
+at claim time.  Do that bind under the device lock when autoprobe is
+off, so that a concurrently cleared dev->driver cannot fall through to
+probing every driver on the bus.
 
 Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
 Closes: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
-Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding")
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Cc: stable@vger.kernel.org
-Signed-off-by: Mohammad Mosafer <mohsafer@gmail.com>
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
- drivers/base/dd.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+v3: Sashiko noted that the lockless dev->driver check in v2 could race
+with dev->driver being cleared, letting __device_attach() probe every
+driver despite autoprobe being off.  Do the preset bind in a helper that
+checks dev->driver under the device lock.
+v2: fix the unbound state itself rather than usb_driver_release_interface()
+(a sysfs unbind would still hit it).
+
+Tested with the syzbot C reproducer in QEMU (KASAN, dummy_hcd).  The
+race that leaves the interface unbound is rare, so to make it
+deterministic I temporarily made device_initial_probe() behave as if
+autoprobe were off whenever dev->driver is set: the unpatched logic
+oopses 3/3, with this patch 0/4 (64 USB connects each).  The plain
+patched kernel shows no oops either.
+
+ drivers/base/dd.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index f6525a7ee8c5..98315264295e 100644
+index 137bf1dea333..bb1e76bf6122 100644
 --- a/drivers/base/dd.c
 +++ b/drivers/base/dd.c
-@@ -1149,7 +1149,17 @@ void device_initial_probe(struct device *dev)
+@@ -1142,6 +1142,16 @@ int device_attach(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(device_attach);
+ 
++/* Bind a device whose driver was set before device_add(), no matching. */
++static void device_bind_preset(struct device *dev)
++{
++	device_lock(dev);
++	if (!dev->p->dead && dev->driver && !device_is_bound(dev) &&
++	    device_bind_driver(dev))
++		device_set_driver(dev, NULL);
++	device_unlock(dev);
++}
++
+ void device_initial_probe(struct device *dev)
+ {
+ 	struct subsys_private *sp = bus_to_subsys(dev->bus);
+@@ -1149,9 +1159,10 @@ void device_initial_probe(struct device *dev)
  	if (!sp)
  		return;
  
--	if (sp->drivers_autoprobe)
-+	/*
-+	 * The drivers_autoprobe flag only suppresses matching the device
-+	 * against the bus drivers.  If a driver has already been assigned
-+	 * to the device (e.g. usb_driver_claim_interface() pre-setting
-+	 * dev->driver for an unregistered interface, expecting device_add()
-+	 * to complete the bind), the bind must be finished regardless of
-+	 * autoprobe: otherwise the device ends up registered with
-+	 * dev->driver set but never bound, and teardown oopses removing
-+	 * the never-attached knode_driver from the driver klist.
-+	 */
-+	if (sp->drivers_autoprobe || dev->driver)
+-	/* a device with a preset driver must still be bound */
+-	if (sp->drivers_autoprobe || dev->driver)
++	if (sp->drivers_autoprobe)
  		__device_attach(dev, true);
++	else
++		device_bind_preset(dev);
  
  	subsys_put(sp);
+ }
 -- 
-2.34.1
+2.43.0
 
