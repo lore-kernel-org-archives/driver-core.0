@@ -1,78 +1,48 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB19F3876DE
-	for <driver-core@lists.linux.dev>; Thu,  8 Oct 2026 16:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35D335AC14;
+	Thu,  8 Oct 2026 17:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791475980; cv=none; b=DT0KYC7zH0eLJV0oFpjgCo4vSMpprc9hFmDxfoKrVkTQAPOcxC6JXBRSWMhlGCZMMpWOIBrlhmhkRWt3yv8YUV6BzXFDfvOFiLsggO3vlajvkg4qXQiGYBOgqsvGk46EDJ+NOF3jIkhGshtpe9iDdM14wPSLGGIdufY4Vgc+KAk=
+	t=1791479751; cv=none; b=m3E1VTbvh6MCTj0WgbrHdlUGPCZHOuNa5CQe1JTcBJGel/WxqGCNE1IvaxtIQa+Yff+8hCoAzalh4mQ0dzFX9CJ7CqGaXHWnzdQzp3IjzzOtCEGJQfwnz6ozXjwNKf3xkEOkwBlQUQMCbFhfpltYDZ0+QTYMDzXkiiYyRzvkhrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791475980; c=relaxed/simple;
-	bh=BmN0rljmONbdz/PXm/OprH8FzTn9S1DwuWMcx7k7+c4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LNoHdjbfKJvGeWvPnMY8ttWryK6ZK3aLvmYTc8p9bR8TavlRJhDYULxVkYr9ptssj6aSFrqCe3QMGeXwYeRnc9V1xff6s9/hi/f5vj1/WHUOzrgkSlXgIcxhA6eJNRfRA3Zvo56VPkEP4cOJ5KddZ8hPoZE5DmhVISICsWz5yt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8NBdIKm; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791479751; c=relaxed/simple;
+	bh=xb2r/IkyqgT6gGpF/1a8pwyC7byCS/7+A2uLid+X95c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GDjkuNKC5uyq3kfYkvi1C1pdXoJopuOM2eK3YEGdk8yfI8dc/C5sZZqEvqaItLFOjL6dc5BCQPN6BIg3EFTDwFijuJ1s/YJbzrz42hp96PfP4RVhL7JvJ2hCp+6a1qcYym+VCqqRMGVMvDOsXtDmOZvJaYszGxCLBPnxujh6XT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gMs6p2vD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8NBdIKm"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3a8a63785a1so1477150a91.3
-        for <driver-core@lists.linux.dev>; Thu, 08 Oct 2026 09:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791475979; x=1792080779; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hDdHvibVLCCzB2QsTRiQrrzTd39n/2ojg5xJ6kjQ3YM=;
-        b=H8NBdIKmS097ASWxlRgwKuMsuG8H1bkwCsu/Yk6ejr9nfbuyQqn9bkVTJU5BBw37XU
-         DCV0aJrFBkbV88rJ9IgCBJUSEPyvXW/SUFtFcbygVfevdKwWiyPuG8w3Ye1psBMFh2fH
-         oxn4GuIi//2ogGpxVmfNc/cebJRKZhYcHKmfT/dun4fweSBGky1CFcKU3EiZTDk9N4wq
-         u8wumW2PaKi/2OMwEJJmq4p54Yirp5D7MNMJrHOjqdy8T5NUOGWu7DXgwAjbv9/uIOSn
-         2iadz4SqKVgy2n9J6LGhP/fYTKWZbijonUK6XrsKB8lyVHmKr3/MjF+wK1JC9hIFd7On
-         Xq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791475979; x=1792080779;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hDdHvibVLCCzB2QsTRiQrrzTd39n/2ojg5xJ6kjQ3YM=;
-        b=mWhOLWgBRz60ml1xgRqJKTDIoe05n9PAtYkBlzWyXzQ7xpQhPex6TpZD96Rk/K2PTQ
-         6Kh7fRJ6JZPCWDKwi7xKzve64tTQfRad0g0SxiOhiVS0qWN6OrK5VGFMrEa4ERZ+X9FG
-         3iS0BhoYCBNXbDkExMEIi+vvVP4XmTut73jJr+NpkQmncPxJdcFYzNgJHE5DyquMlUV4
-         0xS32hWK5LvoPjN/BNkAOTFPWioxfmPLBUzX0cVIm0HJAiP2F8uGRpIEczcknwEPGcf+
-         tcqY3THh0zPnn390KyT1Nm+tm5Vl6+dFwVLnqYvfhxyVVvJaRiPhgXp3U5ibWd2sdsFF
-         2/fw==
-X-Gm-Message-State: AFq9FYJv3U8m30ZvFjaeOMNPPxaiZe7ZdXhzo2cdY8bT08OBlKnzyat8
-	KSxicY4Yl0PIyslOQ4P92J5n33GMVzviRWMmitxwtmz6qWSiAyTiu5FT
-X-Gm-Gg: AYBFou34KWhZRj4AlXytDaJEUqoOeKIETmCHaAP4ebXlcKS8ES0x0ym6c8ne/foWmz/
-	5wn6iEOdPrUTV++/TT79QkVf0szJ8dNjOGofx0jN2+fnXA0jBRTrOlN15DN8S03TNDpPlw6zEwa
-	+PweINKbwzCGiTKuwkFWJg/nK7e/UZyvoFzgwhOt6qIuwlaVFp9QbeV3p1IRhnLO/R9G7d/S79y
-	nwwatmCgxgyxKVDAp658qb2ZkM8lUOkhNsxdQjB3yF0EZ8Dmn0jyXVfehmWslFVG+K/VAOWapSb
-	3paPsruD5WTPVtcy/NJYDtkxXjFMOielxArMyW/Tb/DRLJs5Mp2DjcP4DF4XSgjXqQPdLLcvnz3
-	+FCzhW7AlGE480uQDYsfhMLAIUPYHYqyY7++ydxjxv2dmHqAmzHCNqaZRfzXJ+8iOeIUtKe0irM
-	IdfpirJRdmiBGJ0JCCV1dL7Zjf8K4lE5f24ZJCyhNVE8JCYgons5WWID6ZyKKvdDsaS40AvfSU
-X-Received: by 2002:a17:90b:5848:b0:39d:e54c:8658 with SMTP id 98e67ed59e1d1-3a89f687798mr4750893a91.5.1791475978758;
-        Thu, 08 Oct 2026 09:12:58 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2a09:bac5:d45b:16d2::246:b6])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9f1a7e9e4sm4834011a91.7.2026.10.08.09.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 09:12:58 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org
-Cc: driver-core@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Subject: [PATCH v3] driver core: bind a device with a preset driver even without autoprobe
-Date: Thu,  8 Oct 2026 23:12:53 +0700
-Message-ID: <20261008161253.138698-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261008144859.25548-1-ngocthang2710.1999@gmail.com>
-References: <20261008144859.25548-1-ngocthang2710.1999@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gMs6p2vD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=2QcLlJa+83HOzijTUir6cj9m/GzKnWBVN1ni1/Xx+BQ=; b=gMs6p2vDbYMwLKQOs7hLWn4pkT
+	fkrKmivJa5mcv78AXyzFEGiN10wPa4NIAify3GLGyrN0fDVAjtfCrUXIxjSvA53eFwM+BTjrziLUZ
+	eQJC4KYIkcAz/y0tR1FWEiKQ70nPACgPVyuQkvTYC9oaqH79zi3HOxHkVx/U6idHs3FLaCaraTBsI
+	tKqMq7tmOUiLhAy1F8jU9Uz0c4KB02O/sQDJQMY2w2564evz+D4SP4FykqcGEOCUAuWnhvrPcyA3k
+	uBvTDobBEmL91Yqbz+q3IEDBaUoUYv2VTYL72Z2Cal+xJAv7UGOVGTy8KC3MVe5hgCxpt6HSWDbqo
+	2gP9XW0g==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xErie-00000004lVR-0PPw;
+	Thu, 08 Oct 2026 17:15:48 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] debugfs: clarify return values when disabled
+Date: Thu,  8 Oct 2026 10:15:47 -0700
+Message-ID: <20261008171547.3084466-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -81,89 +51,163 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-usb_driver_claim_interface() may claim an interface that is not yet
-registered, in which case it only sets dev->driver and relies on the
-later device_add() to bind it via __device_attach().  With the bus
-drivers_autoprobe disabled, device_initial_probe() skips the attach, so
-the device is registered with dev->driver set but never added to the
-driver's klist.
+debugfs can be disabled at kconfig time (# CONFIG_DEBUG_FS is not set)
+or by using "debugfs=off" on the kernel command line.
 
-Releasing such a device (from usb_driver_release_interface() or from
-sysfs unbind) makes __device_release_driver() call klist_remove() on an
-unattached node and dereference a NULL klist:
+The return values for some debugfs functions in these 2 cases can be
+different. Describe those differences.
 
-  KASAN: null-ptr-deref in range [0x58-0x5f]
-  RIP: klist_put+0x4d/0x1d0
-   klist_remove+0x14c/0x2e0
-   device_release_driver_internal+0x4fb/0x620
-   usb_driver_release_interface+0x10e/0x190
-   cdc_ncm_unbind+0x2ac/0x350
-   usbnet_disconnect+0x1e2/0x300
-   usb_unbind_interface+0x1dd/0x9e0
+No code changes.
 
-Autoprobe only governs matching drivers to devices; a device that
-already has a driver needs no matching, just the bind that was promised
-at claim time.  Do that bind under the device lock when autoprobe is
-off, so that a concurrently cleared dev->driver cannot fall through to
-probing every driver on the bus.
-
-Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-v3: Sashiko noted that the lockless dev->driver check in v2 could race
-with dev->driver being cleared, letting __device_attach() probe every
-driver despite autoprobe being off.  Do the preset bind in a helper that
-checks dev->driver under the device lock.
-v2: fix the unbound state itself rather than usb_driver_release_interface()
-(a sysfs unbind would still hit it).
+v1: drop RFC tag in Subject line
 
-Tested with the syzbot C reproducer in QEMU (KASAN, dummy_hcd).  The
-race that leaves the interface unbound is rare, so to make it
-deterministic I temporarily made device_initial_probe() behave as if
-autoprobe were off whenever dev->driver is set: the unpatched logic
-oopses 3/3, with this patch 0/4 (64 USB connects each).  The plain
-patched kernel shows no oops either.
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
- drivers/base/dd.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |    3 +
+ Documentation/filesystems/debugfs.rst           |   24 ++++++++++++--
+ fs/debugfs/file.c                               |    6 ++-
+ fs/debugfs/inode.c                              |   22 +++++++++---
+ include/linux/debugfs.h                         |    5 +-
+ 5 files changed, 47 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 137bf1dea333..bb1e76bf6122 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -1142,6 +1142,16 @@ int device_attach(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(device_attach);
+--- linux-next-20260918.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20260918/Documentation/admin-guide/kernel-parameters.txt
+@@ -1201,7 +1201,8 @@ Kernel parameters
+ 			        get a -EPERM as result when trying to register files
+ 				or directories within debugfs.
+ 				This is equivalent of the runtime functionality if
+-				debugfs was not enabled in the kernel at all.
++				debugfs was not enabled in the kernel at all,
++				except that the latter returns -ENODEV.
+ 			Default value is set in build-time with a kernel configuration.
  
-+/* Bind a device whose driver was set before device_add(), no matching. */
-+static void device_bind_preset(struct device *dev)
-+{
-+	device_lock(dev);
-+	if (!dev->p->dead && dev->driver && !device_is_bound(dev) &&
-+	    device_bind_driver(dev))
-+		device_set_driver(dev, NULL);
-+	device_unlock(dev);
-+}
+ 	debugpat	[X86] Enable PAT debugging
+--- linux-next-20260918.orig/include/linux/debugfs.h
++++ linux-next-20260918/include/linux/debugfs.h
+@@ -110,8 +110,9 @@ struct dentry *debugfs_create_file_short
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value -%ENODEV will be
++ * returned. If debugfs is enabled in the kernel build but is disabled
++ * on the kernel command line, the value -%EPERM will be returned.
+  *
+  * If fops points to a struct debugfs_short_fops, then simple_open() will be
+  * used for the open, and only read/write/llseek are supported and are proxied,
+--- linux-next-20260918.orig/Documentation/filesystems/debugfs.rst
++++ linux-next-20260918/Documentation/filesystems/debugfs.rst
+@@ -41,7 +41,17 @@ dentry pointer which can be used to crea
+ clean it up at the end).  An ERR_PTR(-ERROR) return value indicates that
+ something went wrong.  If ERR_PTR(-ENODEV) is returned, that is an
+ indication that the kernel has been built without debugfs support and none
+-of the functions described below will work.
++of the functions described below will work. If the kernel was built with
++debugfs support but it has been disabled by using "debugfs=off" on the
++kernel command line, ERR_PTR(-EPERM) is returned.
 +
- void device_initial_probe(struct device *dev)
++.. note::
++
++  It's expected that most callers should _ignore_ the errors returned
++  by this function. Other debugfs functions handle the fact that the "dentry"
++  passed to them could be an error and they don't crash in that case.
++  Drivers should generally work fine even if debugfs fails to init or is
++  disabled.
+ 
+ The most general way to create a file within a debugfs directory is with::
+ 
+@@ -57,7 +67,17 @@ implement the file's behavior.  At a min
+ operations should be provided; others can be included as needed.  Again,
+ the return value will be a dentry pointer to the created file,
+ ERR_PTR(-ERROR) on error, or ERR_PTR(-ENODEV) if debugfs support is
+-missing.
++missing.  If the kernel was built with debugfs support but it has been
++disabled by using "debugfs=off" on the kernel command line, ERR_PTR(-EPERM)
++is returned.
++
++.. note::
++
++  It's expected that most callers should _ignore_ the errors returned
++  by this function. Other debugfs functions handle the fact that the "dentry"
++  passed to them could be an error and they don't crash in that case.
++  Drivers should generally work fine even if debugfs fails to init or is
++  disabled.
+ 
+ Create a file with an initial size, the following function can be used
+ instead::
+--- linux-next-20260918.orig/fs/debugfs/file.c
++++ linux-next-20260918/fs/debugfs/file.c
+@@ -1205,8 +1205,10 @@ static const struct file_operations fops
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
+- * be returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_create_blob(const char *name, umode_t mode,
+ 				   struct dentry *parent,
+--- linux-next-20260918.orig/fs/debugfs/inode.c
++++ linux-next-20260918/fs/debugfs/inode.c
+@@ -339,8 +339,10 @@ MODULE_ALIAS_FS("debugfs");
+  * doesn't exist or an error occurs, %NULL will be returned.  The returned
+  * dentry must be passed to dput() when it is no longer needed.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_lookup(const char *name, struct dentry *parent)
  {
- 	struct subsys_private *sp = bus_to_subsys(dev->bus);
-@@ -1149,9 +1159,10 @@ void device_initial_probe(struct device *dev)
- 	if (!sp)
- 		return;
- 
--	/* a device with a preset driver must still be bound */
--	if (sp->drivers_autoprobe || dev->driver)
-+	if (sp->drivers_autoprobe)
- 		__device_attach(dev, true);
-+	else
-+		device_bind_preset(dev);
- 
- 	subsys_put(sp);
- }
--- 
-2.43.0
-
+@@ -562,8 +564,10 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_si
+  * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
+  * returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  *
+  * NOTE: it's expected that most callers should _ignore_ the errors returned
+  * by this function. Other debugfs functions handle the fact that the "dentry"
+@@ -660,8 +664,10 @@ EXPORT_SYMBOL(debugfs_create_automount);
+  * unloaded, you are responsible here.)  If an error occurs, ERR_PTR(-ERROR)
+  * will be returned.
+  *
+- * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+- * returned.
++ * If debugfs is not enabled in the kernel build, the value ERR_PTR(-ENODEV)
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value ERR_PTR(-EPERM)
++ * will be returned.
+  */
+ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
+ 				      const char *target)
+@@ -820,6 +826,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
+  *
+  * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+  * returned.
++ * If debugfs is not enabled in the kernel build, the value %-ENODEV
++ * will be returned. If debugfs is enabled in the kernel build but is disabled
++ * by using "debugfs=off" on the kernel command line, the value %-EPERM
++ * will be returned.
+  */
+ int __printf(2, 3) debugfs_change_name(struct dentry *dentry, const char *fmt, ...)
+ {
