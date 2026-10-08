@@ -1,207 +1,202 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010051.outbound.protection.outlook.com [52.101.69.51])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A735328E0F
-	for <driver-core@lists.linux.dev>; Thu,  8 Oct 2026 00:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791420757; cv=fail; b=RZWM1FUM93bdi4BYNxkLwtsmzZg6VMPKft2omT13IRIxEl+etW5O3g3NlwxI9Rl3sorf55SBCQfssBmHKrlnOWYwj3xs728bno8lpBUxRKa5Ntv9cppxM9qnx1TGLdOgBfvuctcblt/OzdqVCRpU/diL0iNU/AY5/GtsHif2FSU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791420757; c=relaxed/simple;
-	bh=yZRGMJpAKh9graZUFBvO9MXhfwMfQregGNgfGGA68L4=;
-	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=gq+Hj0eMJYM75R8mrBtJQ+7ux0b1qH7FupxMmgtFfT16SMx0drUfF5Eb94wVozt+01sP1q07BBL+BmVSlCFljCcvIWZZTE/Q9IiEm13KvxxW2RPmT/XjeeI6T41Y2mX+7FsQjrrnF8/3cFRyBtAiqnG8WEPkB8NRREB8pfDOuk4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QXTwKeVP; arc=fail smtp.client-ip=52.101.69.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C163655FF;
+	Thu,  8 Oct 2026 01:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791424678; cv=none; b=sGPGw7lioKuz46Fy8q14KFO3/78WcwWRK2lL8X863Ps5/jyDQuSczdCeoGVDjP3YZcRvnei9d9BYtUGE5vtmos41VFM0y0udCC6nXaAPU1UcsxKetEIZDFGK6K/jIu+x2UkYcdYm+VAgRiVvfJTXeNZ9Va4NyUdQSHkHMvK3boA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791424678; c=relaxed/simple;
+	bh=15i2gmVY9nI4XI8bma8xTDmPia+selMcAHnL0xFJeZI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=JnyghnppZLAZ2WtFfGekjUSQrUU3qnPmccy58ikILGJHFeQjqoeL8sOhuU/VJsegPBzy0yGirzIs27Lz2OBsiLi5Nr6yunTxeLaEY70kNz6iYm5+7mpAdRFJbD4zhbM64guUT0KLucfFDnHAwt+ZMefZKl70MsAzqz/wH6A7iNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=g78aXu5F; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QXTwKeVP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KwZhmdyGf8RheFNYxr0oL25apZRzvIZxb1D+YV7yBfMQcAbfs8+IsAzmgD+WiOujyDx/Awmw4d++RbWgdoJOZMphiguhuxOkHjEFDG8FOyJ1tRDapr6WcnQ31r2JkOkr0BtcfrHCAKXdKQHTj7bPJb7F0CA6UFXo76g6Ku8nVxJ2cYF4aStmqbf9+twacu3ZLKnfcNzdf2HEwnKFkanf1dfsr7jcT7BjqHH2Cn5z5n3JAvrF+MRkbFm5pZC2GgENUAW1LWKa7Vh12dDeQckwSbHXSg33+Q7CLQD/u3KOalBDNIh/EPmdSRQmq5AIz7QJoZbGL90GI1WeJOnQ6mn1WA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jGfI8Pqnwac3oIqJ8T2hm14Fe4CdDO4R2BzWkBt1BTA=;
- b=sCubC489C7jv7zV31aiQDSg30NdlhnCkekq6wg4PhFQIcdZEXU0spTXgR60d+Lh+axOslJWD9Arfg5Dt7pLQdMSXpdNK9wxkwGbM6zUMoki8ObbL8WcIwzN/hGNOvAgiqWEET/1WSeEEd/e8LmPWjpk+I7Ttaw3RKqQC0Q4TJC8DLP1Ju2SW7/bcJEHo7O6v6DUV4vVpeRaHbHi+rPSRxGwMb0sqEZBotpe1mEkQM6MFr6Sr6f9hedxXI3jdSUddurriXBW0JWhSCXytkgX+hpJDbAE37GswxOFGZgwDIMUH5JxVhXcqtV94HmiTiiYM7FS66rdvWGbmDRcBfbYJrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jGfI8Pqnwac3oIqJ8T2hm14Fe4CdDO4R2BzWkBt1BTA=;
- b=QXTwKeVPpV+ZaLLPoBufh7jJaPCkZkiTWdb5bTX7eza1vZ/ElIQZP7zjdksl39xcQKm3PPWuzvnOMAmEz+T4jafxHRVKqO6TfGqnUXOddBLO9yVIMU5K/1WbQjcggmcSeZhYUB/s5o0xLRrAOvGaFc5Gaascl2+SmAvDGkAY2kf5D3SzRQ2X5EBDZ+htrTL7oiTZ49w1GQuOgqRP/B6Bjt3T5DbOgb59FhaOHWiXJ66gx8ar7NKr6wTQHA4MG7UxU55CUIzMTmDqj1wp26BwoqJ/6fGGKqkRow9SQ7DMtdExgHvkJYhjTQLTPIFZiDE/78/sz2v/cXjMUGPQ6bzfPA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
- by DU2PR04MB8967.eurprd04.prod.outlook.com (2603:10a6:10:2e2::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.16; Thu, 8 Oct
- 2026 00:52:31 +0000
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0451.022; Thu, 8 Oct 2026
- 00:52:31 +0000
-From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Thu, 08 Oct 2026 08:49:45 +0800
-Subject: [PATCH] regmap: debugfs: Use __free(kfree) for
- regmap_reg_ranges_read_file
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261008-regmap-debugfs-fix-v1-1-3df2f25c01b6@nxp.com>
-X-B4-Tracking: v=1; b=H4sIAKjoxmoC/yXMQQqDQAyF4atI1g1kZmHFq0gXUTNjBKcyqSKId
- 3faLr8H7z/BJKsYtNUJWXY1facC96hgmDhFQR2LwZOvHVGDWeLCK47SbzEYBj3Q18xM5J/MDsp
- xzVLmX7R7/W1bP8vw+Zbgum6cMqTwdgAAAA==
-X-Change-ID: 20261008-regmap-debugfs-fix-26aaa0027aa1
-To: Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Peng Fan <peng.fan@nxp.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: SGAP274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::14)
- To AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="g78aXu5F"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=bXamncWaqlfk8qQgL1B8Mu0pQVkhOxTSHqjddGG4KBw=;
+	b=g78aXu5F+eX1vFGrdr7ODw3mfWRzJ2xHcdspBUNlAxc5IhvP2m+84BEowtEnJ7toedzRiDPqJ
+	c5RrHPIU8ToMw1OQpK0Wh1ee8RrekPA+Bcg43S7Q5Mtdi8Sp9wD1KAgm7iJsyXAjU3PESGUAKbY
+	aQDiKZOBs1rzK16wrPIzn0k=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4j0Xr464hkz1K97G;
+	Thu,  8 Oct 2026 09:45:24 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6AC8D4055B;
+	Thu,  8 Oct 2026 09:57:39 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 8 Oct
+ 2026 09:57:32 +0800
+Message-ID: <f4ba3a6b-537d-4328-b0c1-c0e5aa61924f@huawei.com>
+Date: Thu, 8 Oct 2026 09:57:30 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|DU2PR04MB8967:EE_
-X-MS-Office365-Filtering-Correlation-Id: c80ace1c-e9c8-4afd-f67f-08df24d66ece
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|23010399003|1800799024|366016|6133799003|18002099003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	EfO6Kf26GV7F2SNXy9aWTRHi3hAn3tkeDguI1xFXgG3BAwkg1fpH/1YjTL7/4YLKDD6KeekzhZ/n7C/mawe+1TeusNRRr/6OXqLUPsYySUvby1C4jD0fhpJOi69s4pxJ8NBzQlTgz9M325QK/Wi+YZg7BRVmRYoNNAHYVZxywQS21l2qij3XMLxlZICys8VnOTN5jOuS8s/H/Xin/SaHux+UVc/1g2CWlrZbp2erq/83IDBwDvWZqNom+tPS9A/Taengxmhx07+RHPnSkilhwvqKQlk31Hav+D+3vRa8v9rvBPBUbp/qwsLYfxGCncUv3Yr99stlSUXufAe0z3Tvflyr9sperObCrX2V/phYom2uAe5byfL7PI+kcayNZ/PVbf8lKAzxOUkfju6idIT2TPxKySdE9PVTVxLaGME17RRCT62ccK98WfftnDt9a8h65Mz7B3IXG0j3VS9rf21jHhAIw3dmYt5Zimb4Y5RTt0snRCHmyqei/5mzXF7iBrQvFePpRbZswUiyefDDWCbgX3bomObu/E7MwHHERvbLgfgehH3fuvzFUrEwbMV5PEhEuCqVjm3bnp5sCXwkJDMtb3SUCkTuYvohnwp9WFYvTwlzF7/0GnYabyQzHtGjdigsj4QQFJQDhdhglf/8b4gP9+sVh2ht4AmTvLp/iJaIqRc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(23010399003)(1800799024)(366016)(6133799003)(18002099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Uld2MzlLWVB3Q09tSTFBYWt1TnJSUEpGRy9ZcnZpeWpaWFM3TzNNdGpPTDQy?=
- =?utf-8?B?T0RsdkFMWjM3U0NNb2wyWTU5R0o4WEx2bXNGRlpmTm04SmZYZHcwb2REYTgy?=
- =?utf-8?B?dC9OeWJUVU9lcGliT3VLZUh3M2JUQTZ5aWNoSnNaemE4Mk1oUVY1VmNhL3dj?=
- =?utf-8?B?QzVhajR5YWpCTDN2ajJTVFc4bnd4akRNTUhidS8rb1g0Mk9QSEhHLzF2bEI4?=
- =?utf-8?B?MkVLeVgvUWlHM0MvSWxrQ1NWNUdtUWR0Q25udEpTamtMYlkrN2h1YytFMVcx?=
- =?utf-8?B?WG4rS1orYVFMKzZvSVJRMkY1dzdtK0dzakZHS1FUVWFmQ2l6VkJkbEJLa09s?=
- =?utf-8?B?RndZQVV5enl0cEczdWhtaWp0NGI1MjJYbytDQzgxRFNwZTQwRmtDU1Bpd0d6?=
- =?utf-8?B?UGVneUJTRytjU2JkZXB4ZWNUV0VJaFRjSDNvaTlqbnJPTlRtWkVqS0NiVUtI?=
- =?utf-8?B?NU5mMFJ1Rm9jQVBONjBYT2ZkQnhQNEthdzQxV3F5cWZ3T052N0h6UHQ0amJy?=
- =?utf-8?B?QmxnMXdibk5tSnFuTjBueXJkUDRzS3pFSTRmaU9iK2xGc1lyUHlmYi9RZXNK?=
- =?utf-8?B?WkVUWHJuNENteGg5SUU3SDNQUzFJTVJQeUNxM0hVTWpiY1RURnZTbTJpSGFE?=
- =?utf-8?B?LytXSHkxd1NaRytSVnprRENjbzNDMUwwTWlIM1NqQ0xaa0laMjZXc1hiTzd6?=
- =?utf-8?B?ZitUVldZSU5VajN3QWdxdVNhK3dhMkZ4a0VYb0V6bXB3TlE4eCtZa2UzQmpU?=
- =?utf-8?B?UjdoZFNmdThEUFZZQ09id2tTRGFKdEFZVjlJZUJJckozenJzM1JlWDZxSFdh?=
- =?utf-8?B?Z1NmSGwrTGU2cEhuSk12VEVxbk9XcWhCYzU3WEpsNG9wMmkxUWx3b0JCWUxE?=
- =?utf-8?B?eitBR1FVR1FrSGZvZmZDbGM5a1JEVDltUnRkbnVUUUJIVHNHbmpvSHRJR2Vx?=
- =?utf-8?B?MGR1eFR5Z1h2WXpnVmR0UkNDbnQxUVZtMHI5TlpJYUJpM3Fyb01LTnZsTUpa?=
- =?utf-8?B?czZEOWRvOWpUM2ZxQWhOQlliczN1enNXUXhRQUdiZE1hYU1ManVnWmVKYmd5?=
- =?utf-8?B?RUFzdnJ2SlpqVmFaN2gxR3ZQYUFwYUtNTmhRTWhnZWRuam5SYlhaS2hlMEJi?=
- =?utf-8?B?cTFSOXRZZUtqVUlzeHJsck94b0xVaTl4N1lHb3JKL1ozZWlxdjQxNi9HeVl5?=
- =?utf-8?B?OHIyZnlHTytxREdyb0FsZXZqUUp2Lzc2OUtzZEw2ZnpLbllnTUxhVjZLRjk5?=
- =?utf-8?B?dEx4WThVV0hmaVc3d05BTHZNbDhFUSt3cmFhUk9VdXlxdk1iV0liMVVocEVX?=
- =?utf-8?B?UVZDU0dlTFA5WnRZMndic0lEeG1ic1ZhV0ZEb2s3YUo0RXQzUFlHdlB2eG5P?=
- =?utf-8?B?SkVuMGFqbEpyZVBoaFpaOE9VR2NUTzNPcGdsSUJsVk1SZkZkcjE2NGFLUXNH?=
- =?utf-8?B?QVNTQUJZRXpLMFV0T0p3Ymt2Z2pMY2pMRmkrdHc4aDlZK1BqVGxGZUgyOHpo?=
- =?utf-8?B?QlRMS1NGZEJtODNON3E2dDRHRnZMNFpZZzZPN2FHb0w1WjVyaitwWnBmZWxS?=
- =?utf-8?B?YkY5Z1BCVExRN2dNOUtOQTlUdVp5dnhlZDRmcDZodnZDR2lEa2FqMS9oOXVE?=
- =?utf-8?B?Z2ZyT3EzeW5yRFpkRmE5aHZtSGY5a2pxSVNhUnllZjczLzVhWW1XYWJwN0hH?=
- =?utf-8?B?SkhYOFkxb2RsL1ZVOGdjMk91MlJBbitqa2ZlQTgvaERVR0tUblVReFUzSkM4?=
- =?utf-8?B?dUpSMzZlZUZrZUEwdGhPMWwxN3RoY0RWRnhOOW8yWG5NeDRmSHYwVEg1eEdX?=
- =?utf-8?B?amJvUW1SUGxQVmRkamV4bGRiUjlQREt1UGRrNm4yQ2lYd2dLdnhEMWl0NzMw?=
- =?utf-8?B?dWIzM2tRYjJna3BwQm1rUVJDTUZWWkVlSHFUQ25oZW1zL1Fhakp5SGYyZThn?=
- =?utf-8?B?V1FEMm5zWlJtWFRMaUhJRlNvVzFjQi92TEVya2pOd2dMMVdLREsvNUNUdzl1?=
- =?utf-8?B?Y2RSNGM0QWlNTG1VSUplSHVkQUs3Zjd2WmdrNnVGZHNVTkx4d3A3T2syODJU?=
- =?utf-8?B?M1NURDFCZVV2eWRjdit4ZXZtdWtwV1JFbm5iRWhnRnVFSFNCQ3NaNlFyZ2Y5?=
- =?utf-8?B?S0dzRkJSTWhKRWNEK1lDS3YzallaK0RpNjZDaUZnQ1k3ZXpJcExzWTVydmNB?=
- =?utf-8?B?VUZxY0lWK0RyV05TNlFkeCtxdmpraGI3TDVRTG44VFJWOWM0TXl2dkV6NUgx?=
- =?utf-8?B?UURET0hRejN1T2pNbzI4UG9Nbk0ycDBGeWdSdFNwRHFQU3ZSVlBTT2k1QUJm?=
- =?utf-8?B?WVJiMS9jODI5b0IveSt2T1BOWkhqd2lKSHJ0YXg1YmFPUm95cVlSS2l3MmFP?=
- =?utf-8?Q?CZeZ2BOvOlgAr1jW0cpzWZUnoXakl8P/eL1Uk?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c80ace1c-e9c8-4afd-f67f-08df24d66ece
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 00:52:31.2220
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9SWGt3R07cceaS2ZW8n907oc6S1GfXzxQdqC+0zA7B5gAmEew3ZrpW5Ot0i7KSNXLfaq9KgCAQVl1MEXPoe8ud0ZqYppbVxajjl8lNWsD0dH65R/E+Y554gNP2jhPX2p
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8967
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/14] crash: Fix several bugs
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <chleroy@kernel.org>,
+	<ritesh.list@gmail.com>, <sshegde@linux.ibm.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
+	<rppt@kernel.org>, <pasha.tatashin@soleen.com>, <pratyush@kernel.org>,
+	<ruirui.yang@linux.dev>, <leitao@debian.org>, <yeoreum.yun@arm.com>,
+	<sourabhjain@linux.ibm.com>, <robh@kernel.org>, <coxu@redhat.com>,
+	<kees@kernel.org>, <tangyouling@kylinos.cn>, <liukexin@kylinos.cn>,
+	<zhangtianyang@loongson.cn>, <guodongtai@kylinos.cn>,
+	<maqianga@uniontech.com>, <chao.gao@intel.com>, <kai.huang@intel.com>,
+	<vishal.l.verma@intel.com>, <seanjc@google.com>, <piliu@redhat.com>,
+	<thuth@redhat.com>, <jbouron@amazon.com>, <me@linux.beauty>,
+	<mclapinski@google.com>, <graf@amazon.com>, <bgwin@google.com>,
+	<hbathini@linux.ibm.com>, <eric.devolder@oracle.com>,
+	<takahiro.akashi@linaro.org>, <james.morse@arm.com>, <palmer@rivosinc.com>,
+	<x86@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <driver-core@lists.linux.dev>,
+	<kexec@lists.infradead.org>
+References: <20260921090450.807575-1-ruanjinjie@huawei.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260921090450.807575-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-From: Peng Fan <peng.fan@nxp.com>
 
-Convert buf and entry in regmap_reg_ranges_read_file() from manual
-kfree() to __free(kfree) scope-based cleanup. This eliminates the
-goto error path and the manual kfree(buf) on entry allocation failure,
-simplifying the function to use straight-line returns.
 
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- drivers/base/regmap/regmap-debugfs.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+在 2026/9/21 17:04, Jinjie Ruan 写道:
+> As Baoquan and Catalin suggested, this patch set fixes
+> several pre-existing code issues found by Sashiko AI [1][2][3].
+> 
+> The major improvements and fixes included in this series are:
+> - Fix several memory leaks for arm64, and similar issues on LoongArch.
+> - Fix out-of-bounds write on 32-bit Highmem for x86.
+> - Fix TOCTOU race in crash memory range collection.
 
-diff --git a/drivers/base/regmap/regmap-debugfs.c b/drivers/base/regmap/regmap-debugfs.c
-index b2ae52a21331..b62a5dce027b 100644
---- a/drivers/base/regmap/regmap-debugfs.c
-+++ b/drivers/base/regmap/regmap-debugfs.c
-@@ -358,8 +358,6 @@ static ssize_t regmap_reg_ranges_read_file(struct file *file,
- 	struct regmap_debugfs_off_cache *c;
- 	loff_t p = 0;
- 	size_t buf_pos = 0;
--	char *buf;
--	char *entry;
- 	int ret;
- 	unsigned int entry_len;
- 
-@@ -369,15 +367,13 @@ static ssize_t regmap_reg_ranges_read_file(struct file *file,
- 	if (count > (PAGE_SIZE << MAX_PAGE_ORDER))
- 		count = PAGE_SIZE << MAX_PAGE_ORDER;
- 
--	buf = kmalloc(count, GFP_KERNEL);
-+	char *buf __free(kfree) = kmalloc(count, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
--	entry = kmalloc(PAGE_SIZE, GFP_KERNEL);
--	if (!entry) {
--		kfree(buf);
-+	char *entry __free(kfree) = kmalloc(PAGE_SIZE, GFP_KERNEL);
-+	if (!entry)
- 		return -ENOMEM;
--	}
- 
- 	/* While we are at it, build the register dump cache
- 	 * now so the read() operation on the `registers' file
-@@ -404,17 +400,13 @@ static ssize_t regmap_reg_ranges_read_file(struct file *file,
- 		}
- 	}
- 
--	kfree(entry);
- 	ret = buf_pos;
- 
--	if (copy_to_user(user_buf, buf, buf_pos)) {
--		ret = -EFAULT;
--		goto out_buf;
--	}
-+	if (copy_to_user(user_buf, buf, buf_pos))
-+		return -EFAULT;
- 
- 	*ppos += buf_pos;
--out_buf:
--	kfree(buf);
-+
- 	return ret;
- }
- 
+Hi all,
 
----
-base-commit: 5ff1a5ca9f58681f870501ac58c4293306fdce0e
-change-id: 20261008-regmap-debugfs-fix-26aaa0027aa1
+Gentle ping.
 
+Could anyone take a look or let me know if there's anything
+else needed? I can rebase/resend if required.
+
+> 
+> This patch set is rebased on v7.3-rc3. Compared to the previous version,
+> split out arm64 crash hotplug patches as Breno suggested, which are based
+> on these bugfix patches and will be resubmitted after this patch series
+> is merged.
+> 
+> Slightly tested on x86_64 and arm64 qemu with:
+> - kexec_load (--kexec-syscall --hotplug)
+> - kexec_load (--kexec-file-syscall)
+> 
+> All boot successfully into the second kernel.
+> 
+> [1]: https://lore.kernel.org/all/20260601094805.2928614-1-ruanjinjie@huawei.com/
+> [2]: https://sashiko.dev/#/patchset/20260729031235.2840255-1-ruanjinjie%40huawei.com
+> [3]: https://sashiko.dev/#/patchset/20260907125404.922123-1-ruanjinjie%40huawei.com
+> 
+> Changes in v6:
+> - Split out arm64 crash hotplug patches as Breno suggested.
+> - Remove unused elfcorehdr_updated [4].
+> - Make the patch split more clear.
+> - Link to v5: https://lore.kernel.org/all/20260918100442.3841135-1-ruanjinjie@huawei.com/
+> 
+> [4]: https://sashiko.dev/#/patchset/20260907125404.922123-1-ruanjinjie%40huawei.com
+> 
+> Changs in v5:
+> - Rebased on v7.3-rc3.
+> - Fix several pre-existing code issues reported by Sashiko AI review. [3]
+> - Add an extra slot for memory hot-unplug.
+> - Add device_hotplug_lock_assert_held() helper.
+> - Rework to let the hotplug paths to skip CPU events entirely, which avoid
+>   the TOCTOU race of memory hotplug events and internal CPU offline path
+>   without holding device_hotplug_lock.
+> - Link to v4: https://lore.kernel.org/all/20260907125404.922123-1-ruanjinjie@huawei.com/
+> 
+> Changes in v4:
+> - Rebased on v7.3-rc1.
+> - Update the kexec_core code as Mike suggested.
+> - Update the LoongArch subject as Huacai suggested.
+> - Drop crash_dump_dm_crypt patch which will be fixed by Coiby in [4] as
+>   Sourabh suggested.
+> - Drop x86 related patches because of branch conflict, which will
+>   be done later.
+> - Drop the incorrect CRASH_MAX_MEMORY_RANGES patch.
+> - Handle elfcorehdr_index in arm64 arch code.
+> - Link to v3: https://lore.kernel.org/all/20260826092541.3905933-1-ruanjinjie@huawei.com/
+> 
+> [4] https://lore.kernel.org/all/20260828084900.1496839-2-coiby.xu@gmail.com/
+> 
+> Changes in v3:
+> - Handle "KEXEC_CRASH_HP_REMOVE_MEMORY" action.
+> - Fix several pre-existing code issues reported by Sashiko AI review [3].
+> - Introduce crash_extra_elfcorehdr_size() and elf64_phdr_size() helper.
+> - Rework related crash and arch code.
+> - Add test method.
+> - v2: https://lore.kernel.org/all/20260729031235.2840255-1-ruanjinjie@huawei.com/
+> 
+> Changes in v2:
+> - Split out Powerpc bugfix patch as Mike suggested.
+> - Use phys_to_virt() instead of __va() in update_crash_elfcorehdr().
+> - Convert pnum_hdr_sz() to a function.
+> - Only assign elfcorehdr_index after kexec_add_buffer succeeds, considering
+>   crash_handle_hotplug_event() already performs validity check on
+>   elfcorehdr_index:
+>   - We can safely remove the check for CPU hotplug
+>     in arch_crash_handle_hotplug_event().
+>   - The elfcorehdr_index's segment mem will be valid in
+>     update_crash_elfcorehdr(), so we can safely remove the NULL check.
+> - Simplify the commit message.
+> - v1: https://lore.kernel.org/all/20260723131242.1537633-1-ruanjinjie@huawei.com/#t
+> 
+> Jinjie Ruan (14):
+>   kexec: Fix CMA segment address translation with non-zero text_offset
+>   kexec: Record allocated CMA pages to fix release size mismatch
+>   kexec: Extract kexec_free_segment_cma() from kimage_free_cma()
+>   arm64: kexec_file: Fix CMA page leaks in segment placement retry loops
+>   arm64: kexec_file: Fix elf_headers memory leak in retry loop
+>   LoongArch: kexec_file: Fix CMA page leaks in segment placement retry
+>     loops
+>   LoongArch: kexec_file: Fix elf_headers memory leak in retry loop
+>   LoongArch: kexec_file: Fix a modified_cmdline leak
+>   x86/crash: Fix massive out-of-bounds write on 32-bit Highmem
+>   crash: Extract crash_get_memory_ranges() helper
+>   crash: Factor out crash_find_elfcorehdr() helper
+>   crash: Normalize the kexec_load elfcorehdr at load time
+>   driver core: Add device_hotplug_lock_assert_held() helper
+>   crash: Fix TOCTOU race in crash memory range collection
+> 
+>  arch/arm64/kernel/kexec_image.c            |   1 +
+>  arch/arm64/kernel/machine_kexec_file.c     |   9 +-
+>  arch/loongarch/kernel/kexec_efi.c          |   1 +
+>  arch/loongarch/kernel/machine_kexec.c      |   2 +
+>  arch/loongarch/kernel/machine_kexec_file.c |  10 +-
+>  arch/powerpc/kexec/crash.c                 |   1 +
+>  arch/x86/kernel/crash.c                    |  40 +++++---
+>  drivers/base/core.c                        |   5 +
+>  include/linux/crash_core.h                 |   2 +
+>  include/linux/device.h                     |   1 +
+>  include/linux/kexec.h                      |   4 +-
+>  kernel/crash_core.c                        | 114 +++++++++++++++++----
+>  kernel/kexec.c                             |   4 +
+>  kernel/kexec_core.c                        |  43 +++++---
+>  kernel/kexec_file.c                        |  13 ++-
+>  15 files changed, 192 insertions(+), 58 deletions(-)
+> 
+
+-- 
 Best regards,
---  
-Peng Fan <peng.fan@nxp.com>
+Jinjie
 
