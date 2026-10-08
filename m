@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B982E737E;
-	Thu,  8 Oct 2026 21:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FD4457E73;
+	Thu,  8 Oct 2026 21:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791494858; cv=none; b=FbuuBZ7ndWg5OYa9laNGC8wbw59eRUCOr5w391vVQIdOlLAmDNkSt+oCQc4togSJ2IiAqvHTKSX3Z5JNNYVe191R9uWdXK+XPNbzrp8KSYrXFlgKoZLnbfggKX8RMW2bMXc9sSAkbzRvrvXQi9g8iqCw7i5ElKG5bQVb/BcYRZs=
+	t=1791494947; cv=none; b=DnvUZP0e1ljM5Mn30KOkiGznHAA4plsv9OZs++/gy8KQQzMNp4dF7Gb358jkwOFfPTTeMCOdN7cJZTojxqYoTuatHu/UQ8dOpH5FGIWBKkNUQhwrd6PfzrqPKvtuVIMgX8HdhV1SQocsbjncyTjLaj/un4Zsv1tToc23WQJiLLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791494858; c=relaxed/simple;
-	bh=XipFpLyCnRYFKzQPrRwtWlwdxCPRLG5Q5PKRfDI+DSU=;
+	s=arc-20240116; t=1791494947; c=relaxed/simple;
+	bh=9BKg/bdILzELsR+B9gKHwEiKv+1K14ZPOpKFKEaHjZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKqPBFeHgG7rIdFEDPYPaM5uvjEhfIE3zytKqDj0loZ/bT5EJ2EbEoOwJgHEtLKSwSEB6pvfXkTfzpuExlRusuhfSKaqmc8UDGpdkfSrVV7+saHvtT+jX5/8q5Y+sxLufKsyaqbooBrxPvMF2onRY33N1VnIMGpLjcrnA0L/8cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwFiVfzo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TaE/fOcc5iniLx1B1HM9cTd8ZmQTUFjkHwWOSnoTerg09Rst7dqHIz+BkKbaH2WBUWxY1k3MJIo/tnn6g6qa8c/pM6IGQOwP8r6NLSBPHuMmkYWBAQM0C+LPySK44bumxC1KTb7JUtHcKAKduOMpsoVEttbfU9hZyiyk7CPulYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IazY9BWx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwFiVfzo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F291F000FF;
-	Thu,  8 Oct 2026 21:27:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IazY9BWx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857AC1F000FF;
+	Thu,  8 Oct 2026 21:29:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791494856;
-	bh=vZ69U7tRzKd8oN9cqFRMvx6HdrXc7nINJFDSN6qfasw=;
+	s=k20260515; t=1791494945;
+	bh=8SA4/opENARrAagoJJT4/rXaDAIsl8p7wApmg0/2tAQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MwFiVfzoMzddf4RuEvu/Vno0gHOrHsG+qO5rWJe8Mb/56EZsLtSAFXwQvHn2TjAYY
-	 7fSbH9gEVrNM7Mppbg6m/y3E20eyMDq3lDW1VLUSBfkmqIWcLxWdsmy/nFHSx26y0a
-	 pLPYTaY99U8Xv6bHJHbmLznBZzRESrA5pf3OWciLsuSeOgZ/6vZ/qyC0FhXWf2T33w
-	 BM3CQ4QD0IztCHLMpA4LveslO+3TGQvJr/f1GAo2mhNVQCZxCux1c81tKxRa0nL1dy
-	 3oEnCItBdP4ENOAc5CZlkuD+a6eUMh3trqfq11R0Xf7fr9+mnE7BlsMbZXiLioAFFC
-	 tNKbZF0i21cDA==
-Date: Thu, 8 Oct 2026 16:27:36 -0500
+	b=IazY9BWxH7Zc1jEXIEH9+UwooFCDZbmACjxhARxBnigGPSArZGb6gGxH0N8hhcjyH
+	 UC3zPmPUS5K+WYyiT+zXe4PLgx6KRmfpT1lrvj/G/auBe42xeJwf2hqWNZ10xxfxb+
+	 BRNVrzkeC8JxMwbthz9Q1TVmznSppMTv2RoOGhjWgSxAMS9XjKpae7SR9AZtfuGr3C
+	 e99DUxJvA15TnDwiurpAPQ3XvO0rAhInl41lE+i15c3h1xkQGD/h51Snl2/tTdQwm/
+	 YzTbi2Dp8bit+w2KHEh2CZRElS7fXZvwZeBiiIXkBkvcloeqX6Lj0cVx0WfzG3r/Uj
+	 nW+tnYfABaHuQ==
+Date: Thu, 8 Oct 2026 16:29:04 -0500
 From: Rob Herring <robh@kernel.org>
 To: Yin Li <yin.li@oss.qualcomm.com>
 Cc: James Morse <james.morse@arm.com>,
@@ -55,10 +55,11 @@ Cc: James Morse <james.morse@arm.com>,
 	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 3/8] dt-bindings: arm: Add MPAM MSC binding
-Message-ID: <20261008212736.GB1318789-robh@kernel.org>
+Subject: Re: [PATCH v3 6/8] arm_mpam: Add support for memory controller MSC
+ on DT platforms
+Message-ID: <20261008212904.GA1450868-robh@kernel.org>
 References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
- <20261008-mpam-resctrl-dt-knp-support-v3-3-35196c2b43bf@oss.qualcomm.com>
+ <20261008-mpam-resctrl-dt-knp-support-v3-6-35196c2b43bf@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -67,264 +68,121 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261008-mpam-resctrl-dt-knp-support-v3-3-35196c2b43bf@oss.qualcomm.com>
+In-Reply-To: <20261008-mpam-resctrl-dt-knp-support-v3-6-35196c2b43bf@oss.qualcomm.com>
 
-On Thu, Oct 08, 2026 at 02:41:12PM +0800, Yin Li wrote:
-> From: Rob Herring <robh@kernel.org>
+On Thu, Oct 08, 2026 at 02:41:15PM +0800, Yin Li wrote:
+> From: Shanker Donthineni <sdonthineni@nvidia.com>
 > 
-> The binding is designed around the assumption that an MSC will be a
-> sub-block of something else such as a memory controller, cache controller,
-> or IOMMU. However, it's certainly possible a design does not have that
-> association or has a mixture of both, so the binding illustrates how we can
-> support that with RIS child nodes.
+> The MPAM DT path only handles cache MSCs. Memory-controller MSCs
+> cannot be probed yet.
 > 
-> A key part of MPAM is we need to know about all of the MSCs in the system
-> before it can be enabled. This drives the need for the genericish
-> 'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
-> until a h/w specific driver potentially enables the h/w.
-> 
-> Cc: James Morse <james.morse@arm.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Add support to discover memory-controller MSCs from the device tree:
+> derive the component id from the NUMA node and create a 'memory' class
+> RIS, and treat a memory parent as accessible from all CPUs.
+
+Where's an actual user?
+
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> [ morse: split out of a bigger patch, added affinity piece ]
 > Signed-off-by: James Morse <james.morse@arm.com>
-> [ Yin Li and Huang Yiwei: use oneOf for the compatible to allow both
->   standalone arm,mpam-msc and the two-item combination; fix schema field
->   order, type constraints and yamllint spacing; fix example reg addresses,
->   add arm,mpam-device phandle and remove TODO comment ]
-> Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-> Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> [ Yin Li: fix context offset conflicts; use of_node_get() for the memory
+>   parent to avoid a refcount underflow; use u32 instead of unsigned long
+>   for component_id and compare against ~0U ]
 > Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 202 +++++++++++++++++++++
->  1 file changed, 202 insertions(+)
+>  drivers/resctrl/mpam_devices.c | 55 ++++++++++++++++++++++++++++++------------
+>  1 file changed, 40 insertions(+), 15 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-> new file mode 100644
-> index 000000000000..3c7b13a23ff2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-> @@ -0,0 +1,202 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index 0640690eae2c..048d32e69f55 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -263,10 +263,12 @@ static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
+>  				  u8 ris_idx)
+>  {
+>  	int err = 0;
+> -	u32 level = 0;
+> -	u32 cache_id;
+> +	u32 class_id = 0;
+> +	u32 component_id = 0;
+>  	struct device *dev = &msc->pdev->dev;
+> +	enum mpam_class_types type = MPAM_CLASS_UNKNOWN;
+>  	struct device_node *cache __free(device_node) = NULL;
+> +	struct device_node *memory __free(device_node) = NULL;
+>  	struct device_node *parent __free(device_node) = of_get_parent(np);
+>  
+>  	if (of_device_is_compatible(np, "arm,mpam-cache")) {
+> @@ -275,27 +277,48 @@ static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
+>  			dev_err_once(dev, "Failed to read phandle\n");
+>  			return -EINVAL;
+>  		}
+> +		type = MPAM_CLASS_CACHE;
 > +
-> +title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
-> +
-> +maintainers:
-> +  - Rob Herring <robh@kernel.org>
-> +
-> +description: |
-> +  The Arm MPAM specification can be found here:
-> +
-> +  https://developer.arm.com/documentation/ddi0598/latest
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: arm,mpam-msc                   # Further details are discoverable
-> +      - items:
-> +          - const: arm,mpam-memory-controller-msc
-
-Why do we need this?
-
-> +          - const: arm,mpam-msc
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: A memory region containing registers as defined in the MPAM
-> +      specification.
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    items:
-> +      - description: error (optional)
-> +      - description: overflow (optional, only for monitoring)
-> +
-> +  interrupt-names:
-> +    oneOf:
-> +      - items:
-> +          - enum: [error, overflow]
-> +      - items:
-> +          - const: error
-> +          - const: overflow
-
-This can be expressed as:
-
-      minItems: 1
-      items:
-        - enum: [error, overflow]
-        - const: overflow
-
-> +
-> +  arm,not-ready-us:
-> +    description: The maximum time in microseconds for monitoring data to be
-> +      accurate after a settings change. For more information, see the
-> +      Not-Ready (NRDY) bit description in the MPAM specification.
-> +
-> +  numa-node-id:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: NUMA node identifier for the memory resource this MSC controls.
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  '^ris@[0-9a-f]+$':
-
-Based on the 'reg' constraints, drop the '+'.
-
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      RIS nodes for each resource instance in an MSC. These nodes are required
-> +      for each resource instance implementing known MPAM controls
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - arm,mpam-cache
-> +          # Memory bandwidth
-> +          - arm,mpam-memory
-> +
-> +      reg:
-> +        minimum: 0
-> +        maximum: 0xf
-> +
-> +      cpus:
-> +        $ref: /schemas/types.yaml#/definitions/phandle-array
-
-Drop. 'cpus' has a type already.
-
-> +        description:
-> +          Phandle(s) to the CPU node(s) this RIS belongs to. By default, the
-> +          parent device's affinity is used.
-> +
-> +      arm,mpam-device:
-> +        $ref: /schemas/types.yaml#/definitions/phandle
-> +        description:
-> +          By default, the MPAM enabled device associated with a RIS is the MSC's
-> +          parent node. It is possible for each RIS to be associated with
-> +          different devices in which case 'arm,mpam-device' should be used.
-
-We should drop this until there's a use for it.
-
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +dependencies:
-> +  interrupts: [interrupt-names]
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    L3: cache-controller@30000000 {
-> +        compatible = "foo,a-l3-cache", "cache";
-> +        cache-level = <3>;
-> +        cache-unified;
-> +
-> +        ranges = <0x0 0x30000000 0x800000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        msc@10000 {
-> +            compatible = "arm,mpam-msc";
-> +            reg = <0x10000 0x2000>;
-> +            interrupts = <1>, <2>;
-> +            interrupt-names = "error", "overflow";
-> +            arm,not-ready-us = <1>;
-> +            /* CPU affinity implied by parent cache node  */
-> +        };
-> +    };
-> +
-> +    mem: memory-controller@20000 {
-> +        compatible = "foo,a-memory-controller";
-> +        reg = <0x20000 0x1000>;
-> +
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +
-> +        msc@21000 {
-> +            compatible = "arm,mpam-memory-controller-msc", "arm,mpam-msc";
-> +            reg = <0x21000 0x1000>;
-> +            interrupts = <3>;
-> +            interrupt-names = "error";
-> +            arm,not-ready-us = <1>;
-> +            numa-node-id = <1>;
-> +        };
-> +    };
-> +
-> +    iommu@40000 {
-> +        reg = <0x40000 0x1000>;
-> +
-> +        ranges;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        msc@41000 {
-> +            compatible = "arm,mpam-msc";
-> +            reg = <0x41000 0x1000>;
-> +            interrupts = <5>, <6>;
-> +            interrupt-names = "error", "overflow";
-> +            arm,not-ready-us = <1>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ris@2 {
-> +                compatible = "arm,mpam-cache";
-> +                reg = <2>;
-> +                arm,mpam-device = <&L3>;
-> +            };
-> +        };
-> +    };
-> +
-> +    msc@80000 {
-> +        compatible = "foo,a-standalone-msc";
-> +        reg = <0x80000 0x1000>;
-> +
-> +        clocks = <&clks 123>;
-> +
-> +        ranges;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        msc@10000 {
-> +            compatible = "arm,mpam-msc";
-> +            reg = <0x10000 0x2000>;
-> +            interrupts = <7>;
-> +            interrupt-names = "overflow";
-> +            arm,not-ready-us = <1>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            ris@0 {
-> +                compatible = "arm,mpam-cache";
-> +                reg = <0>;
-> +                arm,mpam-device = <&L2_0>;
-> +            };
-> +
-> +            ris@1 {
-> +                compatible = "arm,mpam-memory";
-> +                reg = <1>;
-> +                arm,mpam-device = <&mem>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
+>  	} else if (of_device_is_compatible(parent, "cache")) {
+>  		cache = of_node_get(parent);
+> +		type = MPAM_CLASS_CACHE;
+> +	} else if (of_device_is_compatible(np, "arm,mpam-memory")) {
+> +		memory = of_parse_phandle(np, "arm,mpam-device", 0);
+> +		if (!memory) {
+> +			dev_err_once(dev, "Failed to read phandle\n");
+> +			return -EINVAL;
+> +		}
+> +		type = MPAM_CLASS_MEMORY;
+> +	} else if (of_device_is_compatible(np, "arm,mpam-memory-controller-msc")) {
+> +		memory = of_node_get(parent);
+> +		type = MPAM_CLASS_MEMORY;
+>  	} else {
+> -		/* For now, only caches are supported */
+> -		cache = NULL;
+> -		return err;
+> -	}
+> -
+> -	err = of_property_read_u32(cache, "cache-level", &level);
+> -	if (err) {
+> -		dev_err_once(dev, "Failed to read cache-level\n");
+> +		/*
+> +		 * For now, only caches and memory controllers are
+> +		 * supported.
+> +		 */
+>  		return err;
+>  	}
+>  
+> -	cache_id = cache_of_calculate_id(cache);
+> -	if (cache_id == ~0U) {
+> -		dev_err_once(dev, "Failed to calculate cache-id\n");
+> -		return -ENOENT;
+> +	/* Determine the class and component ids, based on type. */
+> +	if (type == MPAM_CLASS_CACHE) {
+> +		err = of_property_read_u32(cache, "cache-level", &class_id);
+> +		if (err) {
+> +			dev_err_once(dev, "Failed to read cache-level\n");
+> +			return err;
+> +		}
+> +		component_id = cache_of_calculate_id(cache);
+> +		if (component_id == ~0U) {
+> +			dev_err_once(dev, "Failed to calculate cache-id\n");
+> +			return -ENOENT;
+> +		}
+> +	} else if (type == MPAM_CLASS_MEMORY) {
+> +		err = of_node_to_nid(np);
+> +		component_id = (err == NUMA_NO_NODE) ? 0 : err;
+> +		class_id = MPAM_CLASS_ID_DEFAULT;
+>  	}
+>  
+> -	return mpam_ris_create(msc, ris_idx, MPAM_CLASS_CACHE, level, cache_id);
+> +	return mpam_ris_create(msc, ris_idx, type, class_id, component_id);
+>  }
+>  
+>  static int mpam_dt_parse_resources(struct mpam_msc *msc, void *ignored)
+> @@ -2169,6 +2192,8 @@ static void update_msc_accessibility(struct mpam_msc *msc)
+>  	} else {
+>  		if (of_device_is_compatible(parent, "cache"))
+>  			get_cpumask_from_cache(parent, &msc->accessibility);
+> +		else if (of_device_is_compatible(parent, "memory"))
+> +			cpumask_copy(&msc->accessibility, cpu_possible_mask);
+>  		else
+>  			dev_err_once(dev, "Cannot determine accessibility of MSC.\n");
+>  	}
 > 
 > -- 
 > 2.34.1
