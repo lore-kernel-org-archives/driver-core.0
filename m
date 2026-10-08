@@ -1,36 +1,33 @@
-Received: from mta1.migadu.com (out-194.mta1.migadu.com [95.215.58.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C31B35E936
-	for <driver-core@lists.linux.dev>; Thu,  8 Oct 2026 03:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A388C1B4F0A;
+	Thu,  8 Oct 2026 06:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791430020; cv=none; b=Ofwnaf/FeKg3q0wnDHto7iu8UdcCMDFC6I8OzlXV7MUbsSXq+BwwkRnG6TPBlocSnSv58VgvYZAGDlkNPp8PgKvMe3IkxMIEH1saZ0gZI5CvAPuR/TgQAw0lyKDZuE7XJlvbhvjPQ+K5Q1BM+Sjz+Dz8un0hTZMtUroGE3quO+E=
+	t=1791441766; cv=none; b=HuNzVj+XrFZGvUqd/OXsc38MjVT+VQ+smjEtU2gjG7uI9J1mbK27Z3bsiBsmfJuWxwcjlpaZbZ6+6J/q6Jlhfo0b4OK0Faf8RAAtJI2v/BDJHLSwHRuCddlKdLodnIn94xay4IBFqx31KObOczAewL6ges856GzLaneivhxPbAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791430020; c=relaxed/simple;
-	bh=gmfp3ivCG1+n0TaJLGaQX1ngoAFvegNr6FLCt8R7HoA=;
+	s=arc-20240116; t=1791441766; c=relaxed/simple;
+	bh=gMtBmjb8PEyCjTU9lBWISEAPQcRPvGaHz8QkfLqMP/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVDt/ibpEKbLo2Oga9YWyP77XM8p7ZZ6sUG4bQCMJ/m5UDdLAt3h1fI6uPISAfXP2qS7I/Co9YGokbyvB9/Or69CPOsMIt9z+BpzNTLJuT4WcFprddHk/8nXtPy7AD9xHP8QYOBaPBKucCRqTRYHlrrrG6N4bYKLdpCFNp30Mwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sfRg+Kjg; arc=none smtp.client-ip=95.215.58.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=so27Mhxf7/DW3oShwOT9jXYiIcEbTFF/8rnqDzZOnYwjv+4W7CdgqzGgGlfhziR+xj+9HFjhIN2YpNJ6jRg7ZkCSQ/F6SG5h/VHQeYIitSw00mZ7rxbAh6KmfwlUSd5m5BPW90ccWB/daLX+HbGcC3mmiv5bY/4Hii64DBaXfNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzwrJChR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sfRg+Kjg"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=gmfp3ivCG1+n0TaJLGaQX1ngoAFvegNr6FLCt8R7HoA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791430015; v=1; x=1792034815;
- b=sfRg+Kjg/eBrMvxARWsZKSW0GqYsZHeSrusj2Kk0BrTlDsimt1UC7y3YMMtdaI3474NOvFRO
- zox+uJaSfyW1h13gOJ/+ndSgpu4aevbBKF5gbiLKAY/zvUNbeWPCK+GGgOw9uX9k3hoe7SlTPSD
- v8Op7U01mzcGdG27M+cii8kI=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by mta12.migadu.com with ESMTPS id 94fa78c7ea5d33cd;
-	Thu, 08 Oct 2026 03:26:54 +0000
-X-Mizu-Trace-ID: 94fa78c7ea5d33cd
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 8 Oct 2026 11:26:46 +0800
-From: Baoquan He <baoquan.he@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzwrJChR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF9461F000FF;
+	Thu,  8 Oct 2026 06:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791441765;
+	bh=QYjlbETRxQW9RMjfplUAnmTLI8vDWVyFt6dBT1ysNAc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LzwrJChRSmVjEsRakCz7KZMyALTXRiMMTQqt+Pq1DfhvTRhANdPa2qsjY85CoeKmU
+	 +smyn7Lotjz8Z+6My1XtXdRcAWv0Bk3+so9601+yHD0hXOPoxrMliq4uNlyMYvPyEN
+	 /KxKGNEGsRLbC5gh5Fpx/irufkYMSkObZy2nAEfpl7+01CgTBFC4KUpi+Rt44aL8Zf
+	 NTIbo4/T2UBb6sZftaMcHpGWW78wNUfUZX3n+aegjkdkvaCrfhtnmdLmCzyRFXWi5O
+	 KzhbRY6JsNtjGiT0SU3GKlmfmu9GhVSnGRLyWq6PEohhumSDv1uECF+lTxE7sLA503
+	 DyPwUh9lm6nsw==
+Date: Thu, 8 Oct 2026 08:42:25 +0200
+From: Mike Rapoport <rppt@kernel.org>
 To: Jinjie Ruan <ruanjinjie@huawei.com>
 Cc: catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
 	chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
@@ -38,7 +35,7 @@ Cc: catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
 	ritesh.list@gmail.com, sshegde@linux.ibm.com, tglx@kernel.org,
 	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
 	hpa@zytor.com, gregkh@linuxfoundation.org, rafael@kernel.org,
-	dakr@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dakr@kernel.org, akpm@linux-foundation.org, baoquan.he@linux.dev,
 	pasha.tatashin@soleen.com, pratyush@kernel.org,
 	ruirui.yang@linux.dev, leitao@debian.org, yeoreum.yun@arm.com,
 	sourabhjain@linux.ibm.com, robh@kernel.org, coxu@redhat.com,
@@ -55,7 +52,7 @@ Cc: catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
 	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
 	driver-core@lists.linux.dev, kexec@lists.infradead.org
 Subject: Re: [PATCH v6 00/14] crash: Fix several bugs
-Message-ID: <ascNduTeakZBflVS@fedora>
+Message-ID: <asc7UdlRsy7502j8@kernel.org>
 References: <20260921090450.807575-1-ruanjinjie@huawei.com>
  <f4ba3a6b-537d-4328-b0c1-c0e5aa61924f@huawei.com>
 Precedence: bulk
@@ -69,8 +66,9 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <f4ba3a6b-537d-4328-b0c1-c0e5aa61924f@huawei.com>
 
-On 10/08/26 at 09:57am, Jinjie Ruan wrote:
-> 
+Hi Jinjie,
+
+On Thu, Oct 08, 2026 at 09:57:30AM +0800, Jinjie Ruan wrote:
 > 
 > 在 2026/9/21 17:04, Jinjie Ruan 写道:
 > > As Baoquan and Catalin suggested, this patch set fixes
@@ -88,85 +86,12 @@ On 10/08/26 at 09:57am, Jinjie Ruan wrote:
 > Could anyone take a look or let me know if there's anything
 > else needed? I can rebase/resend if required.
 
-They may need reviewing and ack from different arch. E.g patch 1,
-even though it's changed in kernel/kexec_core.c, the arm64 specific
-handling need be checked and confirmed by arm64 expert.
+Sorry for the delay, I was travelling for the past few weeks.
+I'm planning to review this next week. 
 
-I can review changes in generic code and arch I am familiar with, while
-those part I am unfamiliar with need be reviewed by experts of specific
-area.
+And we do need acks from arch maintainers for most of the patches in this
+series.
 
-> 
-> > 
-> > This patch set is rebased on v7.3-rc3. Compared to the previous version,
-> > split out arm64 crash hotplug patches as Breno suggested, which are based
-> > on these bugfix patches and will be resubmitted after this patch series
-> > is merged.
-> > 
-> > Slightly tested on x86_64 and arm64 qemu with:
-> > - kexec_load (--kexec-syscall --hotplug)
-> > - kexec_load (--kexec-file-syscall)
-> > 
-> > All boot successfully into the second kernel.
-> > 
-> > [1]: https://lore.kernel.org/all/20260601094805.2928614-1-ruanjinjie@huawei.com/
-> > [2]: https://sashiko.dev/#/patchset/20260729031235.2840255-1-ruanjinjie%40huawei.com
-> > [3]: https://sashiko.dev/#/patchset/20260907125404.922123-1-ruanjinjie%40huawei.com
-> > 
-> > Changes in v6:
-> > - Split out arm64 crash hotplug patches as Breno suggested.
-> > - Remove unused elfcorehdr_updated [4].
-> > - Make the patch split more clear.
-> > - Link to v5: https://lore.kernel.org/all/20260918100442.3841135-1-ruanjinjie@huawei.com/
-> > 
-> > [4]: https://sashiko.dev/#/patchset/20260907125404.922123-1-ruanjinjie%40huawei.com
-> > 
-> > Changs in v5:
-> > - Rebased on v7.3-rc3.
-> > - Fix several pre-existing code issues reported by Sashiko AI review. [3]
-> > - Add an extra slot for memory hot-unplug.
-> > - Add device_hotplug_lock_assert_held() helper.
-> > - Rework to let the hotplug paths to skip CPU events entirely, which avoid
-> >   the TOCTOU race of memory hotplug events and internal CPU offline path
-> >   without holding device_hotplug_lock.
-> > - Link to v4: https://lore.kernel.org/all/20260907125404.922123-1-ruanjinjie@huawei.com/
-> > 
-> > Changes in v4:
-> > - Rebased on v7.3-rc1.
-> > - Update the kexec_core code as Mike suggested.
-> > - Update the LoongArch subject as Huacai suggested.
-> > - Drop crash_dump_dm_crypt patch which will be fixed by Coiby in [4] as
-> >   Sourabh suggested.
-> > - Drop x86 related patches because of branch conflict, which will
-> >   be done later.
-> > - Drop the incorrect CRASH_MAX_MEMORY_RANGES patch.
-> > - Handle elfcorehdr_index in arm64 arch code.
-> > - Link to v3: https://lore.kernel.org/all/20260826092541.3905933-1-ruanjinjie@huawei.com/
-> > 
-> > [4] https://lore.kernel.org/all/20260828084900.1496839-2-coiby.xu@gmail.com/
-> > 
-> > Changes in v3:
-> > - Handle "KEXEC_CRASH_HP_REMOVE_MEMORY" action.
-> > - Fix several pre-existing code issues reported by Sashiko AI review [3].
-> > - Introduce crash_extra_elfcorehdr_size() and elf64_phdr_size() helper.
-> > - Rework related crash and arch code.
-> > - Add test method.
-> > - v2: https://lore.kernel.org/all/20260729031235.2840255-1-ruanjinjie@huawei.com/
-> > 
-> > Changes in v2:
-> > - Split out Powerpc bugfix patch as Mike suggested.
-> > - Use phys_to_virt() instead of __va() in update_crash_elfcorehdr().
-> > - Convert pnum_hdr_sz() to a function.
-> > - Only assign elfcorehdr_index after kexec_add_buffer succeeds, considering
-> >   crash_handle_hotplug_event() already performs validity check on
-> >   elfcorehdr_index:
-> >   - We can safely remove the check for CPU hotplug
-> >     in arch_crash_handle_hotplug_event().
-> >   - The elfcorehdr_index's segment mem will be valid in
-> >     update_crash_elfcorehdr(), so we can safely remove the NULL check.
-> > - Simplify the commit message.
-> > - v1: https://lore.kernel.org/all/20260723131242.1537633-1-ruanjinjie@huawei.com/#t
-> > 
 > > Jinjie Ruan (14):
 > >   kexec: Fix CMA segment address translation with non-zero text_offset
 > >   kexec: Record allocated CMA pages to fix release size mismatch
@@ -183,26 +108,7 @@ area.
 > >   crash: Normalize the kexec_load elfcorehdr at load time
 > >   driver core: Add device_hotplug_lock_assert_held() helper
 > >   crash: Fix TOCTOU race in crash memory range collection
-> > 
-> >  arch/arm64/kernel/kexec_image.c            |   1 +
-> >  arch/arm64/kernel/machine_kexec_file.c     |   9 +-
-> >  arch/loongarch/kernel/kexec_efi.c          |   1 +
-> >  arch/loongarch/kernel/machine_kexec.c      |   2 +
-> >  arch/loongarch/kernel/machine_kexec_file.c |  10 +-
-> >  arch/powerpc/kexec/crash.c                 |   1 +
-> >  arch/x86/kernel/crash.c                    |  40 +++++---
-> >  drivers/base/core.c                        |   5 +
-> >  include/linux/crash_core.h                 |   2 +
-> >  include/linux/device.h                     |   1 +
-> >  include/linux/kexec.h                      |   4 +-
-> >  kernel/crash_core.c                        | 114 +++++++++++++++++----
-> >  kernel/kexec.c                             |   4 +
-> >  kernel/kexec_core.c                        |  43 +++++---
-> >  kernel/kexec_file.c                        |  13 ++-
-> >  15 files changed, 192 insertions(+), 58 deletions(-)
-> > 
-> 
-> -- 
-> Best regards,
-> Jinjie
-> 
+
+-- 
+Sincerely yours,
+Mike.
