@@ -1,191 +1,266 @@
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7F473C8D
-	for <driver-core@lists.linux.dev>; Fri,  9 Oct 2026 14:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791557575; cv=pass; b=Jng38YRfRIwQ9gWZ4qSccIewMQ7aTpx8areIUQRI7teqj4Lzhotmg5dB8Bks0eWVY+JLtZ6a1GrkilO0Gvg7oT9gZDbsF6+JvbPX4Oi4Ucaius64oXwRObHkvqUnxQxqj5320OiFaqvJgc/O8iG2vyEsccdM7R8gLwV+j9gkcx8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791557575; c=relaxed/simple;
-	bh=p6VdHD3sMCb043UL2HIadwZQIBlmNBL7224t5/m3rdU=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=NgnNr7SKrZffbPmmkeevxNwbCvC2DLhx4m9MYTLQJZQ7IOkCCwXM9IhNEaBn2IARnT9REYI+zQ8YTQhgqsHXGFrOpbHJhY3lQ9A7olKLMwvTxGQe/jySTwvLZv+6i2FBXjg1Jm6TE9gin6wcb48vxFwyeY/Wiz5Y+eDzTAho6qo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=DXubZqbr; arc=pass smtp.client-ip=165.173.180.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB274F391B
+	for <driver-core@lists.linux.dev>; Fri,  9 Oct 2026 18:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791570180; cv=none; b=J0M5fM9s/WlGxAax+dBxx80VXCmvNelu7IO3FYDjUVj+hHgxHvAkHMG6wxJthpN2rQDzy7+d1WdwbNQmKCkHGJTfVxxMM38l/G4Z3cXC6QajiBx6p4zrIlGQ7UDGGenQZ1ICHX05VMk6K3ULYUJB6YY3G7/zcHX5q523bBgUEho=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791570180; c=relaxed/simple;
+	bh=9vAeSVMgChu8sFTGFbATOHJawdCKY56GlNC/6/iSWKQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UJXSXPRk20y4lNqGKOewDkjy+XJlsTy4fpPI9iBJf4SOhaYyITOSj0qJ/edhd+eqLvRiiSo6IQw2R8i7p8xZZMrhj/I10Mlu2dG2NiEBEfrCnMjWZEPCmNx6kAFqnN9r/ose5UXQv5IiPfpTmZpjobTj57ONMf6S5hPO3zw1+84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tFSPiSq8; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="DXubZqbr"
-ARC-Seal: i=1; a=rsa-sha256; t=1791557553; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Z+z6z0ksLMfonBhun8oeR7/DSVjnafMXHhyl6IGgTwbRwCHnhp4BxXnVi0JOquxAiGVhvgSetsOJfNXjSOGyxQxsJ1l7YmzXWPSjANhra8npyQu/nDGCS69CQxB63sDlvdzUpatOQvOTnzVtZa3yy6ZVBGGMGgeKbD8SH5s2QY8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791557553; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=EiLsH5UA/UAiT8EVhaZCRrPJfE6J/JG41Rfbvq9F6Jk=; 
-	b=dVa8fOIknUAnhPupZPxBXcpw5NN+mrT2WN9dy/0/Pq7lV7P2TdSl7GEv4K0QXIgk8szcH/LHspkdsvFugW//uRfkatqjxx2IEYG+QEOB9HVsMT/mkPldckPULk3kYovkyFcwbq6xhw6GP71fr5DWIlecO0yilkgEV2/kDnbBrkE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791557553;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
-	bh=EiLsH5UA/UAiT8EVhaZCRrPJfE6J/JG41Rfbvq9F6Jk=;
-	b=DXubZqbrnPnNjo75oU8CUkmCxU5WEW7U137kdql6G/TvUin3a9mIBQ01dcF3Jyvw
-	zXysVlnWfi8tPmxV4UWfqAX/MVUX5EZDadwk0cr8eOCfVfNdEDysgtm0r1IimXErtue
-	NKF66Fi2yzMoVjB3dE+xlGimuCzQ1UfNdYeaXsPI=
-Received: by smtp.zohomail.com with SMTPS id 1791557552056367.49141307442665;
-	Fri, 9 Oct 2026 07:52:32 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tFSPiSq8"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-93e027da24aso372332285a.3
+        for <driver-core@lists.linux.dev>; Fri, 09 Oct 2026 11:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791570177; x=1792174977; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=a5DZyu/rgS+ubvoCBVhk1B0P03cm+osmdOmBLE1t3Jk=;
+        b=tFSPiSq8/pY9EEIIjwrDmY5Tu6LYOkMRXdoBDrSeJS/RhzM/sAIuWDvwK43pWx1Qlm
+         VEsAqvg4agSEJQcMsfZ7whNUoenXqK7NpzI3sJqPSTOFVlO0FghEdRcIjCePBikgnvJF
+         BjAZm6oLAtl3J+87G41PIss2khDDmU+k2xSFm2RvT5PBE0p66k0MNBAaJ4ym3u6js8S/
+         u2UEXBkF5IRBXEtfR+44fQgHW+6bZM6xiwyWwi5/cCYD1MGeedZMoAGd9hxoYyXh10sw
+         4UI2On0prUtZqu/Nop8W7wm+iW85ejJHlBJfATY8lrwFMRCIUR6kT+JdVDCdzK1aKfWS
+         30AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791570177; x=1792174977;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=a5DZyu/rgS+ubvoCBVhk1B0P03cm+osmdOmBLE1t3Jk=;
+        b=MIJbLrixkKkoCvNW8Ee2C7vm+Gd64GYI/osjmZi6XLQVI1pNKzeFWJEaQVcA/bunTs
+         0C/rC5H6rkacA15wocbzVLvJpEx9L7qDeRzn5T7ebqowP1aTkI+ZMhAN+IaYyAEaTEUw
+         G/LV6oOdCvhiizlw5v18bHw3dtT/Obz1CtdaaegM3b8yT+XE9E8Z5Ie2gUiT6D5HkfHF
+         GJg54oNgZ5mhHewbkSoQBh57pbKinBh6J9gs6bCrmQlZH5xiKuHIrgPs9TTp9ZmXMkEh
+         MM9jyvmpUtjnfCoDn9nt9o47nzQdjQMBz+xaPu+5y+8f/eFprRyAVaWod4mefRtX2XVq
+         32rw==
+X-Gm-Message-State: AFuF++lsYq0+vNwZtndFM6xMpvJmBkWXca7khFyUt3izBJMujdyAqMI8
+	bOYbjpdKNJUjoJaRY1JBIFjKykrfpPT+OYr9T5LtGlNNv3yl6SGW6oTb
+X-Gm-Gg: AYBFou3MVRgbVTBqE6S4s2TNqj4VtG/ysVkV/mYKz8aePca2guPxZtKz74DUtAq/aeQ
+	BHYiFKV7I4BL0RPAbmgEI8XdRtpZ8SHcNrNNF39sgi8bjKPOYHip1/Q7lb/1eJNK0OKwzgjce6i
+	Nryfbu5W9tmZcpTcW8sY7/iWJ8joMZT0/crqqbRfAY5P/RjUR9RdOMspEAlcOFfv5fHaw3iOhi/
+	X5sR2DQvClYg1zftSEqrYu/m2NKeKGX2VaveDMaEKEWVslB1GTyz2k9+hsdORyJt4QY7gHQIYAG
+	1Ct0QkUFph0SIyzWlwVoo+3cNHhYf/T3XUQt2EPerawx7K1941ZLFO8yabi+GZW3f0wyfCGeokM
+	QV8TUfOlumZA75Nu05oLiu1knsfOb8vppN1pEilTNxcd3wvwRuiTUPMLAJcs2tqc92ZfZpWci/k
+	o1OVz4U3AXyjY2ZU1/NqcP0ABE8OtgargvHRFT8+NsGCECYGfksaYSD2CFi9IoUI4jkcL1TfzwR
+	u00nV4UBiHyyp2RhhwP7m9SxkqZKvVYVq+GIm8c6jtVAij7b5NWO5D9WYBFvd4GzzUS1Ks3D5Ll
+	fLnQ/wlJUqMB1IS0uXv06N1DURDnINPtqPy1Cin+Dya8qYKtPgYM98m7IUH6MJXRSdHEKNevz9Q
+	dpxk2Feh7RMtb5tmrUFyO0aVbQJuq3IMiOhcxgb3ORF5Adm28EciUNP6xqztMky3JsjKyDPVIEJ
+	9Np0Am8Wzk8x9bya7vY/6u5afKPUfc
+X-Received: by 2002:a05:620a:660a:b0:93c:7955:afd9 with SMTP id af79cd13be357-93ebd27ab42mr401270885a.52.1791570177349;
+        Fri, 09 Oct 2026 11:22:57 -0700 (PDT)
+Received: from node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us ([128.105.144.50])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93eb986c0c4sm247937685a.18.2026.10.09.11.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 11:22:56 -0700 (PDT)
+From: mosafer <mohsafer@gmail.com>
+X-Google-Original-From: mosafer <mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
+To: dakr@kernel.org
+Cc: driver-core@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mohsafer@gmail.com,
+	rafael@kernel.org,
+	stable@vger.kernel.org,
+	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com,
+	khiemtranzo532001@gmail.com
+Subject: [PATCH v2] driver core: complete deferred binds when drivers_autoprobe is off
+Date: Fri,  9 Oct 2026 13:22:39 -0500
+Message-Id: <20261009182239.283329-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <DM06HWVAFSOW.2F050J0BT27TK@kernel.org>
+References: <DM06HWVAFSOW.2F050J0BT27TK@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH v3 08/11] drm/tyr: add BO-related ioctls
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260929-tyr-ioctls-v3-8-26955fb111d5@kylinos.cn>
-Date: Fri, 9 Oct 2026 11:52:12 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- rust-for-linux@vger.kernel.org,
- linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org,
- driver-core@lists.linux.dev,
- Alvin Sun <alvin.sun@linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <419B635B-1C89-4004-98CB-9127875CA043@collabora.com>
-References: <20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn>
- <20260929-tyr-ioctls-v3-8-26955fb111d5@kylinos.cn>
-To: sunke@kylinos.cn
-X-Mailer: Apple Mail (2.3901.100.1.1.11)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Alvin,
+From: Mohammad Mosafer <mohsafer@gmail.com>
 
-Same comment about dev_err vs dev_dbg.
+device_add() registers a device and then runs the bus's initial probe
+via bus_probe_device() -> device_initial_probe().  With
+drivers_autoprobe disabled for the bus, device_initial_probe() skipped
+__device_attach() entirely.
 
-> On 28 Sep 2026, at 23:15, Ke Sun via B4 Relay =
-<devnull+sunke.kylinos.cn@kernel.org> wrote:
->=20
-> From: Alvin Sun <alvin.sun@linux.dev>
->=20
-> Implement BO_CREATE and BO_MMAP_OFFSET so userspace can allocate GPU
-> buffers and obtain a DRM mmap offset for the generic mmap path.
-> BO_CREATE page-aligns the requested size; BO_MMAP_OFFSET rejects
-> NO_MMAP objects, which must never be CPU-mapped.
->=20
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
-> drivers/gpu/drm/tyr/driver.rs |  2 ++
-> drivers/gpu/drm/tyr/file.rs   | 73 =
-+++++++++++++++++++++++++++++++++++++++++++
-> drivers/gpu/drm/tyr/gem.rs    |  8 ++++-
-> 3 files changed, 82 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/tyr/driver.rs =
-b/drivers/gpu/drm/tyr/driver.rs
-> index 9a7f147935e29..8baf88aee96ad 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -224,6 +224,8 @@ impl drm::Driver for TyrDrmDriver {
->         (PANTHOR_VM_DESTROY, drm_panthor_vm_destroy, =
-ioctl::RENDER_ALLOW, TyrDrmFileData::vm_destroy),
->         (PANTHOR_VM_BIND, drm_panthor_vm_bind, ioctl::RENDER_ALLOW, =
-TyrDrmFileData::vm_bind),
->         (PANTHOR_VM_GET_STATE, drm_panthor_vm_get_state, =
-ioctl::RENDER_ALLOW, TyrDrmFileData::vm_get_state),
-> +        (PANTHOR_BO_CREATE, drm_panthor_bo_create, =
-ioctl::RENDER_ALLOW, TyrDrmFileData::bo_create),
-> +        (PANTHOR_BO_MMAP_OFFSET, drm_panthor_bo_mmap_offset, =
-ioctl::RENDER_ALLOW, TyrDrmFileData::bo_mmap_offset),
->     }
-> }
->=20
-> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-> index 2c037b136406c..e98eb0a46877f 100644
-> --- a/drivers/gpu/drm/tyr/file.rs
-> +++ b/drivers/gpu/drm/tyr/file.rs
-> @@ -248,6 +248,79 @@ pub(crate) fn vm_get_state(
->             Ok(0)
->         })
->     }
-> +
-> +    pub(crate) fn bo_create(
-> +        ddev: &TyrDrmDevice<Registered>,
-> +        _reg_data: &TyrDrmRegistrationData<'_>,
-> +        bocreate: &mut uapi::drm_panthor_bo_create,
-> +        file: &TyrDrmFile,
-> +    ) -> Result<u32> {
-> +        if bocreate.size =3D=3D 0
-> +            || bocreate.pad !=3D 0
-> +            || bocreate.flags & =
-!uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP !=3D 0
-> +        {
-> +            dev_err!(
-> +                ddev.as_ref(),
-> +                "Invalid BO_CREATE params: size=3D{}, pad=3D{}, =
-flags=3D{:#x}\n",
-> +                bocreate.size,
-> +                bocreate.pad,
-> +                bocreate.flags
-> +            );
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        if bocreate.exclusive_vm_id !=3D 0 {
-> +            dev_err!(ddev.as_ref(), "BO_CREATE: exclusive_vm_id not =
-supported\n");
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        let size =3D usize::try_from(bocreate.size).map_err(|_| {
-> +            dev_err!(
-> +                ddev.as_ref(),
-> +                "BO_CREATE size {:#x} too large\n",
-> +                bocreate.size
-> +            );
-> +            EINVAL
-> +        })?;
-> +        let bo =3D crate::gem::new_object(ddev, size, =
-bocreate.flags)?;
-> +        bocreate.handle =3D bo.create_handle(file)?;
-> +        bocreate.size =3D bo.size() as u64;
+That is correct for automatic *matching* against the bus's driver list,
+but __device_attach() also doubles as "complete a bind that a driver
+already initiated": when dev->driver has been pre-assigned outside the
+normal match/probe path, it finishes the bind by calling
+device_bind_driver() under the device lock, bypassing probe().
 
-Why is the sg_table() call only added later? As it stands, this patch
-introduces a silent (and extremely confusing) issue.
+With autoprobe off, that second duty was skipped too.  USB depends on
+it: usb_driver_claim_interface() pre-sets dev->driver on an interface
+that is not yet registered, documenting "let the future device_add()
+bind it, bypassing probe()".  Composite drivers (cdc-acm, cdc_ncm,
+cdc_mbim, ...) rely on it to bind their sibling data interfaces.  If
+drivers_autoprobe is written with 0 while such an interface is between
+the claim and its device_add(), the interface ends up registered, with
+dev->driver set and iface->condition == USB_INTERFACE_BOUND, but never
+bound: its knode_driver is never attached to the driver's
+klist_devices.
 
-I=E2=80=99d prefer if the call were to be here instead. You can just =
-call it
-unconditionally for now. IIUC it is harmless for coherent systems
-and in any case, we only support non-coherent systems atm.
+Teardown then trusts those flags: usb_driver_release_interface() ->
+device_release_driver() -> __device_release_driver() runs a full
+release and calls klist_remove(&dev->p->knode_driver) on a
+never-attached node whose knode_klist() is NULL, which klist_put()
+dereferences:
 
+  Oops: general protection fault
+  KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
+  klist_put <- klist_remove <- device_release_driver_internal <-
+  usb_driver_release_interface <- acm_disconnect / cdc_ncm_unbind
 
+Keep device_initial_probe() always calling __device_attach(), but pass
+whether automatic matching is allowed (sp->drivers_autoprobe) down to
+it, and evaluate that flag inside __device_attach() under the device
+lock, where dev->driver is read anyway:  a device with a pre-assigned
+driver completes its bind regardless of autoprobe, and only a device
+without one is subject to the matching policy.  Evaluating the two
+conditions inside the locked branch (rather than as
+"autoprobe || dev->driver" in the caller) also closes a TOCTOU: a
+concurrent detach can no longer turn the completion of a pre-assigned
+bind into bus-wide matching behind an "autoprobe off" policy.
 
-With the changes above:
+Other subsystems that preset dev->driver before device_add() (w1,
+tegra xusb, zynqmp-ipi-mailbox) get the same correctness back; for
+devices with no pre-assigned driver and autoprobe off, behavior is
+unchanged.
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reproduced with syzkaller's C reproducer on a 7.3.0-rc6 tree:
+instrumentation shows the doomed interface's device_add() racing an
+autoprobe=0 write; the bind-completion branch never runs for it; later
+teardown hits klist_remove() with a pristine node.  With this patch the
+same instrumented race completes the bind inside the window (3 VMs,
+5 min per run: window hit 3 times, bind completed 3 times, and 802
+devices with no pre-assigned driver correctly skipped matching despite
+__device_attach() now always running): zero KLIST-REMOVE-BAD, zero
+Oops.
 
-=E2=80=94 Daniel
+Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
+Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mohammad Mosafer <mohsafer@gmail.com>
+---
+On Fri Oct 9, Danilo Krummrich wrote:
+> We've recently had another patch to fix up cases where dev->driver is
+> pre-assigned. Please see [1] and the corresponding thread.
+>
+> IIRC, there was no reasons the remaining users can't just use a proper
+> match() callback instead, so we don't have to worry about those edge
+> cases in the future.
 
+Thanks for the pointer.
+
+I had not seen Kien's series; looking at it now, we are attacking the
+same half-claimed state from opposite ends: his patch makes the release
+path tolerant of it (skip klist_remove() when the device is not bound),
+while mine makes the deferred bind that usb_driver_claim_interface()
+promises actually complete when drivers_autoprobe is off, so the
+half-claimed state never arises.  If the direction is to remove the
+pre-assigned dev->driver users entirely via proper match() callbacks,
+I'm happy for that to supersede this fix -- I'd be glad to help with
+the USB side of that conversion, as I now know the claim/bind/teardown
+paths in detail.
+
+Until such a conversion lands, though, the window is still open in
+current releases (syzbot hits it, and any userspace writing
+drivers_autoprobe races it), and pre-assignment is not only USB:
+drivers/w1/, drivers/phy/tegra/xusb.c and
+drivers/mailbox/zynqmp-ipi-mailbox.c pre-assign dev->driver the same
+way today.
+
+So please treat this as: whichever of Kien's guard, this bind-side
+fix, or the match() conversion you want as the canonical answer, this
+patch is yours to drop or pick -- but happy to have your steer before
+it evolves further.
+
+While the v1 was on the list the review bot found a real defect (the
+dev->driver test was open-coded in device_initial_probe() lockless, a
+TOCTOU against a concurrent detach).  v2 below fixes it the way the
+bot suggested: __device_attach() takes an allow_match flag and the
+decision is evaluated under device_lock.  Evidence unchanged in kind:
+same reproducer, instrumented patched boots show the deferred bind
+completing in the previously-crashing window, 0 crashes (v1: 6/9 on
+the unpatched control), plus a clean bare soak.
+
+ drivers/base/dd.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index f6525a7ee8c5..4c1bb1979519 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1065,7 +1065,8 @@ static void __device_attach_async_helper(void *_dev, async_cookie_t cookie)
+ 	put_device(dev);
+ }
+ 
+-static int __device_attach(struct device *dev, bool allow_async)
++static int __device_attach(struct device *dev, bool allow_async,
++			   bool allow_match)
+ {
+ 	int ret = 0;
+ 	bool async = false;
+@@ -1085,6 +1086,17 @@ static int __device_attach(struct device *dev, bool allow_async)
+ 			device_set_driver(dev, NULL);
+ 			ret = 0;
+ 		}
++	} else if (!allow_match) {
++		/*
++		 * Automatic driver matching is suppressed for this device
++		 * (drivers_autoprobe is off), and no driver has been
++		 * assigned to it: do not run bus_for_each_drv() matching
++		 * for it.  Deciding this here, under device_lock, means a
++		 * concurrent driver detach between the caller picking
++		 * allow_match=false and reaching here cannot turn the
++		 * completion of a pre-assigned bind into bus-wide matching.
++		 */
++		goto out_unlock;
+ 	} else {
+ 		struct device_attach_data data = {
+ 			.dev = dev,
+@@ -1138,7 +1150,7 @@ static int __device_attach(struct device *dev, bool allow_async)
+  */
+ int device_attach(struct device *dev)
+ {
+-	return __device_attach(dev, false);
++	return __device_attach(dev, false, true);
+ }
+ EXPORT_SYMBOL_GPL(device_attach);
+ 
+@@ -1149,8 +1161,18 @@ void device_initial_probe(struct device *dev)
+ 	if (!sp)
+ 		return;
+ 
+-	if (sp->drivers_autoprobe)
+-		__device_attach(dev, true);
++	/*
++	 * Always run the attach, but tell it whether automatic matching is
++	 * allowed.  Completing a bind that a driver already initiated (e.g.
++	 * usb_driver_claim_interface() pre-setting dev->driver for an
++	 * unregistered interface, expecting device_add() to bind it) is not
++	 * automatic matching and must happen even with drivers_autoprobe
++	 * off; matching is evaluated in __device_attach() under the device
++	 * lock.  Skipping the call entirely used to leave such devices
++	 * registered-but-unbound, and teardown then oopsed klist_removing
++	 * the never-attached knode_driver.
++	 */
++	__device_attach(dev, true, sp->drivers_autoprobe);
+ 
+ 	subsys_put(sp);
+ }
+-- 
+2.34.1
 
