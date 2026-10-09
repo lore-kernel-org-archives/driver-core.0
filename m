@@ -1,41 +1,41 @@
-Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9733BB112
-	for <driver-core@lists.linux.dev>; Fri,  9 Oct 2026 14:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7F473C8D
+	for <driver-core@lists.linux.dev>; Fri,  9 Oct 2026 14:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791556608; cv=pass; b=HXg2S4ZSOD8AEsWWdAGdJz4kX0ID1sV4/i0847KX7Q2U94uX4ToYsCn53ZJRrJMp234OdnWwuO+nnKxMnnkKoFKLt33/Y+j1F3x6devUQXZyx3l5JLgcCtnusHDxhkKuGAJDfKzSZSdtjhtGjCAXLkrVCpioBEiOHqBekijwwic=
+	t=1791557575; cv=pass; b=Jng38YRfRIwQ9gWZ4qSccIewMQ7aTpx8areIUQRI7teqj4Lzhotmg5dB8Bks0eWVY+JLtZ6a1GrkilO0Gvg7oT9gZDbsF6+JvbPX4Oi4Ucaius64oXwRObHkvqUnxQxqj5320OiFaqvJgc/O8iG2vyEsccdM7R8gLwV+j9gkcx8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791556608; c=relaxed/simple;
-	bh=/2JP4ZQHT6/VqRwJKPBzP1c9FyafSahbfV2U9IEJM8M=;
+	s=arc-20240116; t=1791557575; c=relaxed/simple;
+	bh=p6VdHD3sMCb043UL2HIadwZQIBlmNBL7224t5/m3rdU=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=DUQ6QO/IiMVJGkANBGvipzX56TqtF1joLJbk+OFy+d/eAvOYK3grv9yK50J9OcYXIkZ1KF7cJQff4LdnvxHE3f0DikuQeeaTXX/UpdK6YbpMeTrXWW1u6UKpmZVY+eCyH+AV6hvc0WBNp+dbemnM5e3IhGpwQ3e5IVMvB+zW46I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=GC2wHIce; arc=pass smtp.client-ip=165.173.182.11
+	 Message-Id:References:To; b=NgnNr7SKrZffbPmmkeevxNwbCvC2DLhx4m9MYTLQJZQ7IOkCCwXM9IhNEaBn2IARnT9REYI+zQ8YTQhgqsHXGFrOpbHJhY3lQ9A7olKLMwvTxGQe/jySTwvLZv+6i2FBXjg1Jm6TE9gin6wcb48vxFwyeY/Wiz5Y+eDzTAho6qo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=DXubZqbr; arc=pass smtp.client-ip=165.173.180.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="GC2wHIce"
-ARC-Seal: i=1; a=rsa-sha256; t=1791556590; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="DXubZqbr"
+ARC-Seal: i=1; a=rsa-sha256; t=1791557553; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=nXhJggP73UHG7VkWulp5vqTh3BP6i7wGtgpkYOKUPOM+U/DzbpruJR/ymLbV6W5A7VrGFJFePxlIrWKqsm5DAyOZXN0BtWbeOMX3QdQCsEWJWHImyT2Or4aWCPWTAvgvht+8O/RHlrtpjIoqWECUU/UmN5eHIImEHr+UT2Mssvs=
+	b=Z+z6z0ksLMfonBhun8oeR7/DSVjnafMXHhyl6IGgTwbRwCHnhp4BxXnVi0JOquxAiGVhvgSetsOJfNXjSOGyxQxsJ1l7YmzXWPSjANhra8npyQu/nDGCS69CQxB63sDlvdzUpatOQvOTnzVtZa3yy6ZVBGGMGgeKbD8SH5s2QY8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791556590; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=g4UUnYhHV7ucZE6mbImtigGPnQ4SPA1INEgqC2/4t4M=; 
-	b=BJP+s4ZrZgogIh2zHi2NnR8WAU/Lxq8QPu82ysdraYJBDRFlVTb2vRNZiklQ+ZsXrsr0XLmr1RdM+s7WLlaZNgpQM7JjqlxqDHgrgcTISm3Do4LCvFz0fAoCqjI2/n5/DRWXJO3zaRMjj4ynbkYjCMmJ/WDbI7LVNbHnHEy1I+E=
+	t=1791557553; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=EiLsH5UA/UAiT8EVhaZCRrPJfE6J/JG41Rfbvq9F6Jk=; 
+	b=dVa8fOIknUAnhPupZPxBXcpw5NN+mrT2WN9dy/0/Pq7lV7P2TdSl7GEv4K0QXIgk8szcH/LHspkdsvFugW//uRfkatqjxx2IEYG+QEOB9HVsMT/mkPldckPULk3kYovkyFcwbq6xhw6GP71fr5DWIlecO0yilkgEV2/kDnbBrkE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
 	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791556590;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791557553;
 	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
 	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
-	bh=g4UUnYhHV7ucZE6mbImtigGPnQ4SPA1INEgqC2/4t4M=;
-	b=GC2wHIceWth6rBpgcOPzsl3yXK8F1YE5FnWs6ql6bagW8xh78+g7XtzA2VHQ+OIG
-	35EfNElXdnDKSUeIvHcbg+KHV2qcZ0ILHmQUxTkv1HMT7AbOg6E4R6CAf1Zf5yfMlcv
-	95+X5YbZersRMSj1tN6KPn77cl1Bz2t8PZkVGJAg=
-Received: by smtp.zohomail.com with SMTPS id 1791556588006355.21426914343954;
-	Fri, 9 Oct 2026 07:36:28 -0700 (PDT)
+	bh=EiLsH5UA/UAiT8EVhaZCRrPJfE6J/JG41Rfbvq9F6Jk=;
+	b=DXubZqbrnPnNjo75oU8CUkmCxU5WEW7U137kdql6G/TvUin3a9mIBQ01dcF3Jyvw
+	zXysVlnWfi8tPmxV4UWfqAX/MVUX5EZDadwk0cr8eOCfVfNdEDysgtm0r1IimXErtue
+	NKF66Fi2yzMoVjB3dE+xlGimuCzQ1UfNdYeaXsPI=
+Received: by smtp.zohomail.com with SMTPS id 1791557552056367.49141307442665;
+	Fri, 9 Oct 2026 07:52:32 -0700 (PDT)
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -44,10 +44,10 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH v3 07/11] drm/tyr: add VM-related ioctls
+Subject: Re: [PATCH v3 08/11] drm/tyr: add BO-related ioctls
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260929-tyr-ioctls-v3-7-26955fb111d5@kylinos.cn>
-Date: Fri, 9 Oct 2026 11:36:08 -0300
+In-Reply-To: <20260929-tyr-ioctls-v3-8-26955fb111d5@kylinos.cn>
+Date: Fri, 9 Oct 2026 11:52:12 -0300
 Cc: Miguel Ojeda <ojeda@kernel.org>,
  Boqun Feng <boqun@kernel.org>,
  Gary Guo <gary@garyguo.net>,
@@ -74,71 +74,118 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
  driver-core@lists.linux.dev,
  Alvin Sun <alvin.sun@linux.dev>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <D57A468E-4256-40EC-99BB-43B931E0D4BB@collabora.com>
+Message-Id: <419B635B-1C89-4004-98CB-9127875CA043@collabora.com>
 References: <20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn>
- <20260929-tyr-ioctls-v3-7-26955fb111d5@kylinos.cn>
+ <20260929-tyr-ioctls-v3-8-26955fb111d5@kylinos.cn>
 To: sunke@kylinos.cn
 X-Mailer: Apple Mail (2.3901.100.1.1.11)
 X-ZohoMailClient: External
 
 Hi Alvin,
 
+Same comment about dev_err vs dev_dbg.
+
+> On 28 Sep 2026, at 23:15, Ke Sun via B4 Relay =
+<devnull+sunke.kylinos.cn@kernel.org> wrote:
+>=20
+> From: Alvin Sun <alvin.sun@linux.dev>
+>=20
+> Implement BO_CREATE and BO_MMAP_OFFSET so userspace can allocate GPU
+> buffers and obtain a DRM mmap offset for the generic mmap path.
+> BO_CREATE page-aligns the requested size; BO_MMAP_OFFSET rejects
+> NO_MMAP objects, which must never be CPU-mapped.
+>=20
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> ---
+> drivers/gpu/drm/tyr/driver.rs |  2 ++
+> drivers/gpu/drm/tyr/file.rs   | 73 =
++++++++++++++++++++++++++++++++++++++++++++
+> drivers/gpu/drm/tyr/gem.rs    |  8 ++++-
+> 3 files changed, 82 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tyr/driver.rs =
+b/drivers/gpu/drm/tyr/driver.rs
+> index 9a7f147935e29..8baf88aee96ad 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -224,6 +224,8 @@ impl drm::Driver for TyrDrmDriver {
+>         (PANTHOR_VM_DESTROY, drm_panthor_vm_destroy, =
+ioctl::RENDER_ALLOW, TyrDrmFileData::vm_destroy),
+>         (PANTHOR_VM_BIND, drm_panthor_vm_bind, ioctl::RENDER_ALLOW, =
+TyrDrmFileData::vm_bind),
+>         (PANTHOR_VM_GET_STATE, drm_panthor_vm_get_state, =
+ioctl::RENDER_ALLOW, TyrDrmFileData::vm_get_state),
+> +        (PANTHOR_BO_CREATE, drm_panthor_bo_create, =
+ioctl::RENDER_ALLOW, TyrDrmFileData::bo_create),
+> +        (PANTHOR_BO_MMAP_OFFSET, drm_panthor_bo_mmap_offset, =
+ioctl::RENDER_ALLOW, TyrDrmFileData::bo_mmap_offset),
+>     }
+> }
+>=20
+> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+> index 2c037b136406c..e98eb0a46877f 100644
+> --- a/drivers/gpu/drm/tyr/file.rs
+> +++ b/drivers/gpu/drm/tyr/file.rs
+> @@ -248,6 +248,79 @@ pub(crate) fn vm_get_state(
+>             Ok(0)
+>         })
+>     }
 > +
-> +    pub(crate) fn vm_destroy(
+> +    pub(crate) fn bo_create(
 > +        ddev: &TyrDrmDevice<Registered>,
 > +        _reg_data: &TyrDrmRegistrationData<'_>,
-> +        vmdestroy: &mut uapi::drm_panthor_vm_destroy,
+> +        bocreate: &mut uapi::drm_panthor_bo_create,
 > +        file: &TyrDrmFile,
 > +    ) -> Result<u32> {
-> +        if vmdestroy.pad !=3D 0 {
+> +        if bocreate.size =3D=3D 0
+> +            || bocreate.pad !=3D 0
+> +            || bocreate.flags & =
+!uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP !=3D 0
+> +        {
 > +            dev_err!(
 > +                ddev.as_ref(),
-> +                "Invalid VM destroy pad: {:#x}\n",
-> +                vmdestroy.pad
+> +                "Invalid BO_CREATE params: size=3D{}, pad=3D{}, =
+flags=3D{:#x}\n",
+> +                bocreate.size,
+> +                bocreate.pad,
+> +                bocreate.flags
 > +            );
-
-For invalid userspace arguments, let=E2=80=99s try to use dev_dbg =
-instead.
-
-Same for other places.
-
 > +            return Err(EINVAL);
 > +        }
 > +
-> +        let ret: Result<u32, Error> =3D file.inner_with(|pfile| {
-> +            let vm =3D pfile.vm_pool.remove(vmdestroy.id)?;
-> +            vm.kill();
-> +            Ok(0)
-> +        });
-> +        ret
-> +    }
-> +
-> +    pub(crate) fn vm_bind(
-> +        ddev: &TyrDrmDevice<Registered>,
-> +        _reg_data: &TyrDrmRegistrationData<'_>,
-> +        vmbind: &mut uapi::drm_panthor_vm_bind,
-> +        file: &TyrDrmFile,
-> +    ) -> Result<u32> {
-> +        let async_flag =3D =
-uapi::drm_panthor_vm_bind_flags_DRM_PANTHOR_VM_BIND_ASYNC;
-> +
-> +        if vmbind.flags & !async_flag !=3D 0 {
-> +            dev_err!(
-> +                ddev.as_ref(),
-> +                "Invalid VM_BIND flags: {:#x}\n",
-> +                vmbind.flags
-> +            );
+> +        if bocreate.exclusive_vm_id !=3D 0 {
+> +            dev_err!(ddev.as_ref(), "BO_CREATE: exclusive_vm_id not =
+supported\n");
 > +            return Err(EINVAL);
 > +        }
 > +
-> +        if vmbind.flags & async_flag !=3D 0 {
-> +            dev_err!(ddev.as_ref(), "Async VM_BIND not supported\n");
-> +            return Err(ENOTSUPP);
+> +        let size =3D usize::try_from(bocreate.size).map_err(|_| {
+> +            dev_err!(
+> +                ddev.as_ref(),
+> +                "BO_CREATE size {:#x} too large\n",
+> +                bocreate.size
+> +            );
+> +            EINVAL
+> +        })?;
+> +        let bo =3D crate::gem::new_object(ddev, size, =
+bocreate.flags)?;
+> +        bocreate.handle =3D bo.create_handle(file)?;
+> +        bocreate.size =3D bo.size() as u64;
 
-IIRC ioctls should not return this, but EOPNOTSUPP instead.
+Why is the sg_table() call only added later? As it stands, this patch
+introduces a silent (and extremely confusing) issue.
+
+I=E2=80=99d prefer if the call were to be here instead. You can just =
+call it
+unconditionally for now. IIUC it is harmless for coherent systems
+and in any case, we only support non-coherent systems atm.
 
 
 
-With the changes above,
+With the changes above:
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+
+=E2=80=94 Daniel
+
+
