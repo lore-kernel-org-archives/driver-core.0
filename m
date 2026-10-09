@@ -1,65 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FD4457E73;
-	Thu,  8 Oct 2026 21:29:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF9D3CB2C7;
+	Fri,  9 Oct 2026 07:57:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791494947; cv=none; b=DnvUZP0e1ljM5Mn30KOkiGznHAA4plsv9OZs++/gy8KQQzMNp4dF7Gb358jkwOFfPTTeMCOdN7cJZTojxqYoTuatHu/UQ8dOpH5FGIWBKkNUQhwrd6PfzrqPKvtuVIMgX8HdhV1SQocsbjncyTjLaj/un4Zsv1tToc23WQJiLLA=
+	t=1791532642; cv=none; b=Msn2katlG7XzE6ERLYE7Gho3QEbzM+8w6iDe1YrToS1w7xtalI3njf8LLFYPrfCPAllz5Nrp4Khf6eV59q5E48QyrlR7TUthUIG60PwNFgDr89aI4iel1TLY/Lx7jnzE9OadwxMPPXLElm31/0YfqF9QAdnKcz9vG6kjeISwSck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791494947; c=relaxed/simple;
-	bh=9BKg/bdILzELsR+B9gKHwEiKv+1K14ZPOpKFKEaHjZI=;
+	s=arc-20240116; t=1791532642; c=relaxed/simple;
+	bh=OVgnTlwhqjp5woUBmZR8Z1/tP1JnGEu9IxPV5ssVSmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TaE/fOcc5iniLx1B1HM9cTd8ZmQTUFjkHwWOSnoTerg09Rst7dqHIz+BkKbaH2WBUWxY1k3MJIo/tnn6g6qa8c/pM6IGQOwP8r6NLSBPHuMmkYWBAQM0C+LPySK44bumxC1KTb7JUtHcKAKduOMpsoVEttbfU9hZyiyk7CPulYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IazY9BWx; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=umrX/8tSUyt4nBVNXeZttGDHToxDMT5sw5kZVyRPZ2YYp5pr28ck69Cqp9wE8GVY4W2oEx9AOXpRIe9ELs/C0NjjqTMPb58LPSg82EetbstN2XqG9gIGzYPV3pS1M4T/KSEIm+Tg06NoJOAgRmWQFwfguR0xLuUeKdCtFAVSwSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iXBkcs1o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IazY9BWx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857AC1F000FF;
-	Thu,  8 Oct 2026 21:29:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iXBkcs1o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 888031F000FF;
+	Fri,  9 Oct 2026 07:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791494945;
-	bh=8SA4/opENARrAagoJJT4/rXaDAIsl8p7wApmg0/2tAQ=;
+	s=k20260515; t=1791532632;
+	bh=7JwBUaKiDw3DL4V1VblyqY4NlQUKc0x+WHZ55mtpZGk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IazY9BWxH7Zc1jEXIEH9+UwooFCDZbmACjxhARxBnigGPSArZGb6gGxH0N8hhcjyH
-	 UC3zPmPUS5K+WYyiT+zXe4PLgx6KRmfpT1lrvj/G/auBe42xeJwf2hqWNZ10xxfxb+
-	 BRNVrzkeC8JxMwbthz9Q1TVmznSppMTv2RoOGhjWgSxAMS9XjKpae7SR9AZtfuGr3C
-	 e99DUxJvA15TnDwiurpAPQ3XvO0rAhInl41lE+i15c3h1xkQGD/h51Snl2/tTdQwm/
-	 YzTbi2Dp8bit+w2KHEh2CZRElS7fXZvwZeBiiIXkBkvcloeqX6Lj0cVx0WfzG3r/Uj
-	 nW+tnYfABaHuQ==
-Date: Thu, 8 Oct 2026 16:29:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Yin Li <yin.li@oss.qualcomm.com>
-Cc: James Morse <james.morse@arm.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
+	b=iXBkcs1ozdItQ91Qzqsd9bSnGiaVHmmQXgWX31nAahFHARHVMlRC01fE/XmvxTcaB
+	 AxmiA9IBMQT1BEgvXWlPPqAKWJ1DK7wtvu/u33eqUlFHZ5HJ518T+j+TlvK48tFoO+
+	 vcoithhATsDmOJrOHoFlumiaZLTwOKF1O3v+Lusa8xnFhppIegGSvCTuXkY1zQ1Z+N
+	 sEAtMFWBHxxprOVTOQq9vwB98xCsb0zzQaYeZTpImM/zWsPiBhtxLWuBeTdah0I/Tv
+	 OcXDTvxQXr65PFPpvxoqiA5WZgehZIlTzQeKPoKAWYRsJm6Zpg939xRbs8gJnnBjV6
+	 IaytI+HxCZvKg==
+Date: Fri, 9 Oct 2026 09:57:02 +0200
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Fenghua Yu <fenghuay@nvidia.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Gavin Shan <gshan@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Drew Fustini <fustini@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
-	ganapatrao.kulkarni@oss.qualcomm.com,
-	Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
-	Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 6/8] arm_mpam: Add support for memory controller MSC
- on DT platforms
-Message-ID: <20261008212904.GA1450868-robh@kernel.org>
-References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
- <20261008-mpam-resctrl-dt-knp-support-v3-6-35196c2b43bf@oss.qualcomm.com>
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+Message-ID: <asieTvinZ7c2QpQm@red-moon>
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arZDwutoadki7tiZ@ashevche-desk.local>
+ <arZNL9BnTGK0Klwc@red-moon>
+ <arZS4vwxps01dGb7@ashevche-desk.local>
+ <arqSqcoWAkhy-8do@red-moon>
+ <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -68,122 +62,170 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261008-mpam-resctrl-dt-knp-support-v3-6-35196c2b43bf@oss.qualcomm.com>
+In-Reply-To: <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
 
-On Thu, Oct 08, 2026 at 02:41:15PM +0800, Yin Li wrote:
-> From: Shanker Donthineni <sdonthineni@nvidia.com>
+On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
+> On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
+> > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
+> > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
+> > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wrote:
+> > > 
+> > > ...
+> > > 
+> > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const struct fwnode_handle *fwnode,
+> > > > > > +						  const char *propname,
+> > > > > > +						  unsigned int index, u32 *value)
+> > > > > > +{
+> > > > > > +	u32 *values;
+> > > > > > +	int ret, count;
+> > > > > > +
+> > > > > > +	count = fwnode_property_count_u32(fwnode, propname);
+> > > > > > +	if (count < 0)
+> > > > > > +		return count;
+> > > > > > +
+> > > > > > +	if (index >= count)
+> > > > > > +		return -ENOENT;
+> > > > > > +
+> > > > > > +	values = kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > > > > +	if (!values)
+> > > > > > +		return -ENOMEM;
+> > > > > > +
+> > > > > > +	ret = fwnode_property_read_u32_array(fwnode, propname, values, count);
+> > > > > > +	if (!ret)
+> > > > > > +		*value = values[index];
+> > > > > 
+> > > > > Use standard pattern, id est
+> > > > > 
+> > > > > 	if (ret)
+> > > > > 		...
+> > > > > 
+> > > > > > +	kfree(values);
+> > > > > 
+> > > > > You want to use __free()
+> > > > > 
+> > > > > > +	return ret;
+> > > > > > +}
+> > > > > 
+> > > > > I believe the whole approach is suboptimal, if you wish get indexed value (but why?)
+> > > > 
+> > > > Why what (that's what the irq_get() interface requires ?) I agree it is
+> > > > suboptimal - the whole point of the series is an RFC on using properties
+> > > > to store GSI number/flags, then how to read them we will optimize it
+> I>>> when/if we agree that's the approach to be taken.
+> > > 
+> > > Why to have indexed APIs. The callers usually do not want a single item from an
+> > > array, they want all of them or a big pile (exception is the array of strings,
+> > > but we have matching functions for that).
+> > > 
+> > > As per approach, this patch is against device property and I don't think we are
+> > > going to agree on the approach taken in *this* patch.
+> > 
+> > Coming back to this, what is needed here is a way to stash the GSI number,
+> > flags and name in stardard storage (like OF nodes IRQ properties, ACPI objects
+> > _CRS, etc).
+> > 
+> > To give you some background, I thought about adding an array of:
+> > 
+> > GSI [number, flags, name]
+> > 
+> > to the ACPI static fwnode itself. Then basically the irq_get() API has got
+> > all the information it needs from the primary fwnode; while doing that I
+> > thought that this might have been a bit like reinventing software nodes
+> > (granted, software node properties are ways more general that what I suggest
+> > above and I don't expect any other property to be ever added to static fwnodes)
+> > that's why I put together the series as it is, precisely to understand what's
+> > best.
+> > 
+> > When you say "against device property", what do you mean precisely ?
+> > 
+> > I suppose you mean that this approach goes against software node properties
+> > usage guidelines ?
+> > 
+> > Anyway, again, it is just to provide some context, we are talking about
+> > a bunch of platform devices, it is nice to have a generic solution but
+> > it has to be simple enough too given its scope, I understand very well
+> > your concern with this approach as-is - it is there to find a way
+> > forward together and show what the problem is.
 > 
-> The MPAM DT path only handles cache MSCs. Memory-controller MSCs
-> cannot be probed yet.
+> I guess software node properties look inviting in theory since they're a
+> ready-made mechanism for effectively attaching arbitrary data to a fwnode,
+> however looking at patches 6-7 and the amount of boilerplate involved in the
+> reality, I'm inclined to think that a dedicated structure for static nodes
+> is probably the best and most efficient compromise here. The redundancy
+> argument rather falls apart once we end up creating copies of those
+> contentiously-made-up property name strings for every node, especially given
+> that any one of those alone is probably already more than the amount of
+> actual data we need per node...
 > 
-> Add support to discover memory-controller MSCs from the device tree:
-> derive the component id from the NUMA node and create a 'memory' class
-> RIS, and treat a memory parent as accessible from all CPUs.
+> Perhaps the "purest" option might be to just store a function pointer in the
+> fwnode wrapper for each static table type to provide its own internal
+> irq_get() callback, so not stashing intermediate GSI data at all, but I
+> suspect that might end up being more work overall.
 
-Where's an actual user?
+Hi Rafael, Robin,
 
-> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
-> [ morse: split out of a bigger patch, added affinity piece ]
-> Signed-off-by: James Morse <james.morse@arm.com>
-> [ Yin Li: fix context offset conflicts; use of_node_get() for the memory
->   parent to avoid a refcount underflow; use u32 instead of unsigned long
->   for component_id and compare against ~0U ]
-> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-> ---
->  drivers/resctrl/mpam_devices.c | 55 ++++++++++++++++++++++++++++++------------
->  1 file changed, 40 insertions(+), 15 deletions(-)
+I have not started prototyping it yet but I have got a question as a
+follow-up to our chat at LPC about crafting an ACPI device for the static
+table entries and sort out the probe dependencies using autodep.
+
+After spur of the moment reaction during the session, I now remember I
+thought about crafting an ACPI device for the static table entries and
+started digging then bumped into acpi_add_single_object() as you
+suggested.
+
+The point though is: what about the acpi_handle and the AML required to
+sort out the dependencies using the _CRS ? We have got the info to fill
+the _CRS coming from static table entries (MMIO, GSI) but I am not sure how I
+can form a full-fledged ACPI namespace object in the kernel, without
+that in place I am not sure how the autodep mechanism can possibly
+work.
+
+I need to have a deeper look into this next week but I wanted to ask first
+whether there was something I missed - most likely.
+
+Thanks !
+Lorenzo
+
 > 
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-> index 0640690eae2c..048d32e69f55 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -263,10 +263,12 @@ static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
->  				  u8 ris_idx)
->  {
->  	int err = 0;
-> -	u32 level = 0;
-> -	u32 cache_id;
-> +	u32 class_id = 0;
-> +	u32 component_id = 0;
->  	struct device *dev = &msc->pdev->dev;
-> +	enum mpam_class_types type = MPAM_CLASS_UNKNOWN;
->  	struct device_node *cache __free(device_node) = NULL;
-> +	struct device_node *memory __free(device_node) = NULL;
->  	struct device_node *parent __free(device_node) = of_get_parent(np);
->  
->  	if (of_device_is_compatible(np, "arm,mpam-cache")) {
-> @@ -275,27 +277,48 @@ static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
->  			dev_err_once(dev, "Failed to read phandle\n");
->  			return -EINVAL;
->  		}
-> +		type = MPAM_CLASS_CACHE;
-> +
->  	} else if (of_device_is_compatible(parent, "cache")) {
->  		cache = of_node_get(parent);
-> +		type = MPAM_CLASS_CACHE;
-> +	} else if (of_device_is_compatible(np, "arm,mpam-memory")) {
-> +		memory = of_parse_phandle(np, "arm,mpam-device", 0);
-> +		if (!memory) {
-> +			dev_err_once(dev, "Failed to read phandle\n");
-> +			return -EINVAL;
-> +		}
-> +		type = MPAM_CLASS_MEMORY;
-> +	} else if (of_device_is_compatible(np, "arm,mpam-memory-controller-msc")) {
-> +		memory = of_node_get(parent);
-> +		type = MPAM_CLASS_MEMORY;
->  	} else {
-> -		/* For now, only caches are supported */
-> -		cache = NULL;
-> -		return err;
-> -	}
-> -
-> -	err = of_property_read_u32(cache, "cache-level", &level);
-> -	if (err) {
-> -		dev_err_once(dev, "Failed to read cache-level\n");
-> +		/*
-> +		 * For now, only caches and memory controllers are
-> +		 * supported.
-> +		 */
->  		return err;
->  	}
->  
-> -	cache_id = cache_of_calculate_id(cache);
-> -	if (cache_id == ~0U) {
-> -		dev_err_once(dev, "Failed to calculate cache-id\n");
-> -		return -ENOENT;
-> +	/* Determine the class and component ids, based on type. */
-> +	if (type == MPAM_CLASS_CACHE) {
-> +		err = of_property_read_u32(cache, "cache-level", &class_id);
-> +		if (err) {
-> +			dev_err_once(dev, "Failed to read cache-level\n");
-> +			return err;
-> +		}
-> +		component_id = cache_of_calculate_id(cache);
-> +		if (component_id == ~0U) {
-> +			dev_err_once(dev, "Failed to calculate cache-id\n");
-> +			return -ENOENT;
-> +		}
-> +	} else if (type == MPAM_CLASS_MEMORY) {
-> +		err = of_node_to_nid(np);
-> +		component_id = (err == NUMA_NO_NODE) ? 0 : err;
-> +		class_id = MPAM_CLASS_ID_DEFAULT;
->  	}
->  
-> -	return mpam_ris_create(msc, ris_idx, MPAM_CLASS_CACHE, level, cache_id);
-> +	return mpam_ris_create(msc, ris_idx, type, class_id, component_id);
->  }
->  
->  static int mpam_dt_parse_resources(struct mpam_msc *msc, void *ignored)
-> @@ -2169,6 +2192,8 @@ static void update_msc_accessibility(struct mpam_msc *msc)
->  	} else {
->  		if (of_device_is_compatible(parent, "cache"))
->  			get_cpumask_from_cache(parent, &msc->accessibility);
-> +		else if (of_device_is_compatible(parent, "memory"))
-> +			cpumask_copy(&msc->accessibility, cpu_possible_mask);
->  		else
->  			dev_err_once(dev, "Cannot determine accessibility of MSC.\n");
->  	}
+> Cheers,
+> Robin.
 > 
-> -- 
-> 2.34.1
+> > 
+> > Thanks,
+> > Lorenzo
+> > 
+> > > > > it needs to be retrieved as that in the guts of ACPI. Allocating memory for the whole
+> > > > > array to retrieve a single element is simply wrong.
+> > > 
+> > > ...
+> > > 
+> > > > > > +#define ACPI_IRQ_PROP_GSI		"linux,acpi-gsi"
+> > > > > > +#define ACPI_IRQ_PROP_GSI_TRIGGER	"linux,acpi-gsi-trigger"
+> > > > > > +#define ACPI_IRQ_PROP_GSI_POLARITY	"linux,acpi-gsi-polarity"
+> > > > > 
+> > > > > Oh... This sounds like a big ugly hack.
+> > > > 
+> > > > That does not help much I am afraid.
+> > > > 
+> > > > What's a ugly hack ? Property names ? Using properties for this purpose ?
+> > > 
+> > > Yes, properties started with "linux," for some core functionality.
+> > > Yes, using properties for this also doesn't sound right. I think the problem
+> > > here is in the table specifications or somewhere that deep. That's why we
+> > > ended up in this series.
+> > > 
+> > > > Again, it is an RFC for this specific reason and I mentioned that in the
+> > > > cover letter, thank you for your inputs.
+> > > 
+> > > And here we have a discussion started :-)
+> > > 
+> > > P.S. Looks like I was too quick to jump into this thread. I will wait for
+> > > others to share their view on all this.
+> > > 
+> > > -- 
+> > > With Best Regards,
+> > > Andy Shevchenko
+> > > 
+> > > 
 > 
