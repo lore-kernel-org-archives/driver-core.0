@@ -1,96 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254CB3E00A9;
-	Sat, 10 Oct 2026 20:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3129B31282F;
+	Sat, 10 Oct 2026 20:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791662476; cv=none; b=OGTBYb43qKU5hVvUEKtY5MXrwXX9LzVrQPVeydSDHUfjJcTbWfHIkIILFU+X5O0O7YjYjmS1MT2KVNh732bFMcYH4qSxk73vb2aGaVv53o5r30O3atx5mId+1EytPQrbQkUbjmdeWuUwGog4EsCNKM37dI8C3GevX1dULqI8csE=
+	t=1791663289; cv=none; b=Gvshr1eiPrziO/88makT45GjVZECdyO9c72tQ261gsiGMvJuSjV5O2KPO3cp65/S38q8YAuxbxEOOHnINvagP6OfnjJRoMt4ETJ7DSTBYiOjuR7fHSQOwjS+l9Y8wHktgOGdqT6ZhUTTRC8njvek0S0qYb8PqgY7zA+sfO3ZTRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791662476; c=relaxed/simple;
-	bh=0ej4w9K2k1nE5MBAzVddXwAyLDwy2dxb36CJ0bopUEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=caXjXQ/aABZyl3+y13LrKFIcSvj2Eyl1fSSjZUgO5S3e7Y4HQEo5do68rQFO4SjpncSubBZEaHERYnCwHhle8ZeXkUHBP82mPPio8bUBz70vpRVSRxm4euavEKvIkOMvCihNZOY+tWpEV/DNVPqaQQxj1WxrNx71RBcyJR6of5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WRSxdsDg; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1791663289; c=relaxed/simple;
+	bh=iCgdcsh25B8wEUuF+bnVSjG3edMBuHkSzO1PSPziEtk=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:Mime-Version:
+	 References:In-Reply-To; b=kh3JyVFBTCdG8lXIpOrNR4ubJVHtNqOn8Fo00UW/gZJXdGjznIdS/UH0UgPdgm/IUoTcECSiS2TJLE78+5DnYhkAN1E+4ZGGII2oH8ShZFc8/jIRRx+sJGwKMYJUTXsZCGNZZgD/MXTJfH52FZAMa/iKClPdc9JQqXvZXHAcyhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JiQLPb9e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WRSxdsDg"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC41E1692;
-	Sat, 10 Oct 2026 13:01:08 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A0AC3F882;
-	Sat, 10 Oct 2026 13:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791662472; bh=0ej4w9K2k1nE5MBAzVddXwAyLDwy2dxb36CJ0bopUEc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WRSxdsDg02jA7Wxmfp7hUM+7z5or2VN4zazCFutQjZjCNRVVo7Znbg22CVLNz7YAi
-	 ObuzEMW4ie3Brz5P5fTbQVvsd7oFGit6h9P3YDLOgc08xfbI46WYb8fvEkIjCXqCBo
-	 Fa+IHGI5x3Zu1VuORzdk3Muk8yB8P1D4NRA1la+w=
-Date: Sat, 10 Oct 2026 21:00:51 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: will@kernel.org, mark.rutland@arm.com, chenhuacai@kernel.org,
-	kernel@xen0n.name, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	npiggin@gmail.com, chleroy@kernel.org, ritesh.list@gmail.com,
-	sshegde@linux.ibm.com, tglx@kernel.org, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org,
-	pasha.tatashin@soleen.com, pratyush@kernel.org,
-	ruirui.yang@linux.dev, leitao@debian.org, yeoreum.yun@arm.com,
-	sourabhjain@linux.ibm.com, robh@kernel.org, coxu@redhat.com,
-	kees@kernel.org, tangyouling@kylinos.cn, liukexin@kylinos.cn,
-	zhangtianyang@loongson.cn, guodongtai@kylinos.cn,
-	maqianga@uniontech.com, chao.gao@intel.com, kai.huang@intel.com,
-	vishal.l.verma@intel.com, seanjc@google.com, piliu@redhat.com,
-	thuth@redhat.com, jbouron@amazon.com, me@linux.beauty,
-	mclapinski@google.com, graf@amazon.com, bgwin@google.com,
-	hbathini@linux.ibm.com, eric.devolder@oracle.com,
-	takahiro.akashi@linaro.org, james.morse@arm.com,
-	palmer@rivosinc.com, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	driver-core@lists.linux.dev, kexec@lists.infradead.org
-Subject: Re: [PATCH v6 05/14] arm64: kexec_file: Fix elf_headers memory leak
- in retry loop
-Message-ID: <asqZcwg99QbA7Sma@arm.com>
-References: <20260921090450.807575-1-ruanjinjie@huawei.com>
- <20260921090450.807575-6-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JiQLPb9e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14A241F000FF;
+	Sat, 10 Oct 2026 20:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791663287;
+	bh=PfND1oxrSlch9gNnjXBMa6fzwmkDvGzc9OOWiypHiX0=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=JiQLPb9etvz46/L3KeTPl2cJGgxsD7Fol2NCJTExAUY9sAfRnfiV8XSxYfUAgmYAB
+	 fbv5AK6cAx7N/IRNJZf5o4ims+AXXOLoaLlBc4tTHINYnmXnM19KOZwp5l/NUy1jM2
+	 lPUGzpWgl4YNDZhVsfG/v8MNk/BqXeEXPrtYPyVZbaseNo+yiJkk4rtWyEgI3lXc/O
+	 avVwqNvu9nc6n/Io9/tLHTJbDAWwul7QoAidQCXCcT9SZf+ppcYHRzjKYmvSPJNW+j
+	 n05qDXo/XHlAXbqW2KFN6g/RKHlLY916XCEsaALCb8pXITmzMqR3oBd2kbF1ZMYB33
+	 THPILcvbp6ZEA==
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 10 Oct 2026 22:14:44 +0200
+Message-Id: <DM1FMM3KEYU9.1D26IINII93FO@kernel.org>
+Subject: Re: [PATCH] drm/xe/i2c: Fix use-after-free on driver unload
+Cc: <intel-xe@lists.freedesktop.org>, <rodrigo.vivi@intel.com>, "Bartosz
+ Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>, "Heikki Krogerus"
+ <heikki.krogerus@linux.intel.com>, "Andi Shyti" <andi.shyti@kernel.org>,
+ <linux-i2c@vger.kernel.org>, <driver-core@lists.linux.dev>
+To: "Balasubramani Vivekanandan" <balasubramani.vivekanandan@intel.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921090450.807575-6-ruanjinjie@huawei.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+References: <20261009164241.923756-2-balasubramani.vivekanandan@intel.com>
+In-Reply-To: <20261009164241.923756-2-balasubramani.vivekanandan@intel.com>
 
-On Mon, Sep 21, 2026 at 05:04:41PM +0800, Jinjie Ruan wrote:
-> If load_other_segments() fails after image->elf_headers is assigned,
-> the memory lifecycle is safely managed by the global kimage object
-> and will be freed in arch_kimage_file_post_load_cleanup().
-> 
-> However, during a retry loop in image_load(), a subsequent iteration
-> will allocate a new buffer and overwrite image->elf_headers. This
-> permanently leaks the stale memory from the previous iteration before
-> the global cleanup can track it.
-> 
-> Fix this by explicitly freeing the stale `image->elf_headers` buffer
-> before assigning the newly allocated headers.
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Breno Leitao <leitao@debian.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Yeoreum Yun <yeoreum.yun@arm.com>
-> Cc: Baoquan He <bhe@redhat.com>
-> Cc: stable@vger.kernel.org
-> Fixes: 108aa503657e ("arm64: kexec_file: try more regions if loading segments fails")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  arch/arm64/kernel/machine_kexec_file.c | 4 ++++
->  1 file changed, 4 insertions(+)
+(Cc: i2c, driver-core)
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+On Fri Oct 9, 2026 at 6:42 PM CEST, Balasubramani Vivekanandan wrote:
+> The kernel crashes when unloading the xe driver on CRI:
+>
+>  Oops: general protection fault, probably for non-canonical address 0x6b6=
+b6b6b6b6b6b73
+>  RIP: 0010:platform_device_release+0x80/0x90
+>  Call Trace:
+>   device_release+0x44/0xa0
+>   kobject_put+0x9b/0x250
+>   put_device+0x13/0x30
+>   platform_device_unregister+0x29/0x40
+>   xe_i2c_remove+0x80/0xa0 [xe]
+>   devm_action_release+0x16/0x30
+>   release_nodes+0x3d/0x140
+>   devres_release_all+0x96/0xd0
+>
+> This started after commit 0f485f88656af ("drm/xe/i2c: use
+> device_create_managed_software_node()"), which attaches a managed
+> software node to a platform device created with platform_device_alloc().
+>
+> Comment above the device_create_managed_software_node function cautions
+> that the software node created by it should not be shared or reused as
+> the lifetime of the node is linked to the device.
+
+Yes, it does not distinguish between provider and consumer and hence always
+calls swnode_put() in the managed path of software_node_notify_remove().
+
+This seems to be a bit of a footgun, and I think we should address this.
+
+> But the DesignWare i2c driver which creates an adapter device as a child
+> of the platform device reuses the software node as its fwnode.
+> (device_set_node() in i2c_dw_probe()).
+>
+> During module unbind, when the adapter device is deleted, it drops the
+> reference count for the software node and frees the software node.
+> Later when the platform device is removed, it tries to dereference the
+> software node pointer and results in use-after-free.
+>
+> Instead of managed software node use a static struct software_node
+> passed through platform_device_info.swnode to
+> platform_device_register_full().
+> But we have a blocker which doesn't allow to use
+> platform_device_register_full() simply.
+
+I think this works out as the I2C adapter and hence its children are destro=
+yed
+when the platform device is unregistered.
+
+But also note that technically this approach has some friction in its lifet=
+ime
+model: The software node pointer stored only lives as long as the Xe module=
+ and
+becomes invalid after module unload. The structures this pointer is shared =
+with
+are reference counted though and could technically be longer lived.
+
+Thanks,
+Danilo
