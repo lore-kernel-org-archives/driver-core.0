@@ -1,31 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FCA42B30D
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E516432BE6
+	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791723191; cv=none; b=XWzt7LRtbP2AALlM671S9olcrsj9UtW+HVH0i1tbZ0alwbH3kuSWOmwvszPnGKjSr6AkLSy5JjKmKyr0pjK7/O40OjNB9O5yoA+i+1OB3KRdvm7fs9NkELMPT7gbq9Y29OlCn2hWaC0OElAdzLGhhsWx2/7Ai8qBM1Gz12um1bs=
+	t=1791723192; cv=none; b=mUB7Q+fGsG9veHkL+HBm9vW2u8mxtdtkwiHRWszOsjYJ+x7J8p6L8O6xIzoNKbNgiPhkg0DRgFKB4eSApLp6oId75vGll3d976zPspDXEjYExXhTDULa9YZgBMA2An1H5UlHXfY12M0BGB2CoDiKPGqJQfwGLAoCKCwJ97wps9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791723191; c=relaxed/simple;
-	bh=WSTXMpKTnLiyqMRDokJXGtKuo0B0jnD5Q65tR1e+V6M=;
+	s=arc-20240116; t=1791723192; c=relaxed/simple;
+	bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e5ES1ZdE0ekpu2UqO7eQVsuO8RkEpd20vdhQ4ZVYW9ef76mS7oS4fJJ7grwpk/veYsz5IBcvPaURPdtn8lHjLQHXoPDgxkay9vhzOXiagCS8kJMTuyl4y2bW5lAPPlMf3muHajFWZyRSlF1V7G6LqPNspb7EnCPZ+XfL6n7TFDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=KMP2gZSM; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=TZcf7ESv/Fy3nc68fIxboq+u97ObgoIdvguUYih+gRDSAJPiX4lTBpX4r7Yq+xJwvKzJvxRnntvtakSf2JC7zlISp8I32JLffca0Lqzcsz/YoiP9qVP30VyjMqXsLl6N+ytJPdKoNlznI9DybfwZRIevMxIeOIzm22O6iI8Xels=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CYogGsnp; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="KMP2gZSM"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CYogGsnp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1791723178;
-	bh=WSTXMpKTnLiyqMRDokJXGtKuo0B0jnD5Q65tR1e+V6M=;
+	s=mail; t=1791723179;
+	bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KMP2gZSMmpXKbBI0rBNTYKzzFFMyh1kDQ82OQKIoWFx1b4P6TgA9Gb3XqnbF+Q86F
-	 0hWouWzs+4jomaZGWu29OR4JmaSgsQ4Z4pd9M+tpTnP+xVhcVvgojNnTUVPwc/My2R
-	 VSDJLDwEVWsA3a+uaOPJBboSNQPCeAcmShMTYp8w=
+	b=CYogGsnpBWKyN9IV/fEJK9J6KMnw4+tTIWmyGCrSRS0zRBqorVMCElHgobdIugpJ4
+	 mrMD7QvMXfco37TtRaZQ4PXWUcpRHR1R9k+u/xhLd//yd0A/4Q94Rrnu7Pf+kjpJMi
+	 rqY8c3XboDOm6j2eX3xXhjfpCBdLwhH4sSj67+7c=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 11 Oct 2026 14:52:27 +0200
-Subject: [PATCH RFC 03/11] rust: num: Add Bounded::USABLE_BITS
+Date: Sun, 11 Oct 2026 14:52:33 +0200
+Subject: [PATCH RFC 09/11] rust: print: enable dynamic debug for
+ pr_debug!()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,7 +35,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261011-rust-dyndbg-v1-3-832e4039b71f@weissschuh.net>
+Message-Id: <20261011-rust-dyndbg-v1-9-832e4039b71f@weissschuh.net>
 References: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 In-Reply-To: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 To: Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
@@ -63,38 +64,49 @@ Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  kunit-dev@googlegroups.com, driver-core@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=871;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=1489;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=WSTXMpKTnLiyqMRDokJXGtKuo0B0jnD5Q65tR1e+V6M=;
- b=7k9xrsol+/BTKb5N6r7vwfMTc8FaOc4tYqqBitDEyVIa9nGZeMAcG6M+Qkr8Z2zVZaU/TEyWu
- qoIU7NvyMU9AkG+KjC1H4EyLhCq36A7slpnohk4CZgUh/eUZMAsF+B7
+ bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
+ b=aFwqjhfQ9KZj/Z3uXuluKkkof5qcP9HlvkDvSAMUl+B9GL34+Rx5ZeiKYLdq+dHAVZOY4ObTx
+ L37uPxFjN7HB30pPEFDH0TdBcpbiFZ182bdmSLyneemEoPYiYNKKjbH
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Expose the types usable bits as an associated constant.
-
-This can be used for example with static_assert!() to validate
-the Bounded type against bindings constants it reflects.
+Wire up dynamic debug to work for the pr_debug!() macro.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- rust/kernel/num/bounded.rs | 3 +++
- 1 file changed, 3 insertions(+)
+ rust/kernel/print.rs | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/num/bounded.rs b/rust/kernel/num/bounded.rs
-index 2a2b0a4bca5e..4045e5aeb7dc 100644
---- a/rust/kernel/num/bounded.rs
-+++ b/rust/kernel/num/bounded.rs
-@@ -285,6 +285,9 @@ impl<T, const N: u32> Bounded<T, N>
- where
-     T: Integer,
- {
-+    /// Number of usable bits in this [`Bounded`] type.
-+    pub const USABLE_BITS: u32 = N;
+diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
+index 9ce52b9fa69f..9a0870c2df94 100644
+--- a/rust/kernel/print.rs
++++ b/rust/kernel/print.rs
+@@ -373,8 +373,7 @@ macro_rules! pr_info (
+ ///
+ /// Use this level for debug messages.
+ ///
+-/// Equivalent to the kernel's [`pr_debug`] macro, except that it doesn't support dynamic debug
+-/// yet.
++/// Equivalent to the kernel's [`pr_debug`] macro.
+ ///
+ /// Mimics the interface of [`std::print!`]. See [`core::fmt`] and
+ /// [`std::format!`] for information about the formatting syntax.
+@@ -392,6 +391,13 @@ macro_rules! pr_info (
+ #[doc(alias = "print")]
+ macro_rules! pr_debug (
+     ($($arg:tt)*) => (
++        // TODO: Switch to cfg_select!() when that is usable.
++        #[cfg(any(CONFIG_DYNAMIC_DEBUG, all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions)))]
++        $crate::dynamic_func_call!($crate::__format_string!($($arg)+), || {
++            $crate::print_macro!($crate::print::format_strings::DEBUG, false, $($arg)*)
++        });
 +
-     /// Private constructor enforcing the type invariants.
-     ///
-     /// All instances of [`Bounded`] must be created through this method as it enforces most of the
++        #[cfg(not(any(CONFIG_DYNAMIC_DEBUG, all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions))))]
+         if cfg!(debug_assertions) {
+             $crate::print_macro!($crate::print::format_strings::DEBUG, false, $($arg)*)
+         }
 
 -- 
 2.56.0
