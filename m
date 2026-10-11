@@ -1,299 +1,181 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02D23793DF
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 09:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331D7436377;
+	Sun, 11 Oct 2026 12:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791709388; cv=none; b=q4FS5m2noWomy6yhO/wGBZOwjoPGkre0NbJ6f5ZH3AJJ8AKsvZCJ5Fm12O9OhqGVCOOigLo8gT2rwZePy9FpYPQjWzNGZwk+/cchpD5Z9s+21PPntHFu/TAzMXMo6eZrKo5Hf3EQcyTIt6IQec58LSH6vGvDyQodz4n2orf2shc=
+	t=1791720857; cv=none; b=urxweL8tumoiaiaRRClv9Y2gU+fkjdGAomISfIYI0GP20FBru4UW/QuwKcccKvkys5otYh4GpWpJmVbHlrmGoQKS5o5kFkqcHPmv3xukcZ9DtQESNTao7KWgoe+lI5mpnUwQegbXWZczKTOj+KiWGZv3JxLqLkpJa72z5eUTww0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791709388; c=relaxed/simple;
-	bh=yQNy5NpswkjkGeyFIb6D2Av/9wJgprKZuQYo7hdra8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRs2sFcZeaaaoSIA80JJPEb36hOoiFoMKbGPjKzdiawGHwNxBpb41DSip6zwn+UOkaAK+XJ/F7i0xq9B+yGub3GFZ+yuzfqTTIm7CvA8WJWaCx7tLNDLyxgzl6XTeDW49WXVvDP8AUqVrnLRcoYXUbms+8v9IH+WyacVD8kJPWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OuOd4tBx; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1791720857; c=relaxed/simple;
+	bh=bNCr50kCmfJ/PFHCcab02wnbAnvxTEA/Fwmu6hlzNgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=giM3vVS6Ab9xHKsVVjs3urR5PVqUeyFVI8gvF8pQNqOc6+VVEbezKRAaNfNTsmL61EeX0i0qKMIPd6qtuzsHMJbMYOtejU1QjBuiNp5IOu9Yd3yVwE8NQGcpLpm+Uv65gROQhLWFma4+ppSqXME1Ub/4PqucPWJRTCuBW58Kbg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRWh9pBV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OuOd4tBx"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-151de818519so772c88.0
-        for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 02:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791709386; x=1792314186; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mnvvNDQ4QSwr11mN2HQofr10EXpSOnRYT1GPrI43QCA=;
-        b=OuOd4tBx9XapZFCUP6YaL2Obokw8cl6OnU33/z/2s1fizBTM6ffm0vQMu0rzivy/rv
-         vWnaNgmSRINOK2UHSAJZmBRkpcER5Ctrzj0tCEFGPD8fFECiBUX+nLY1qZAGTJQOlxcr
-         /sg5tHJf0On8AvnC6Rf/X992lski7SY6GJelFFhd+gzrebQWByboz5iJkEfusmtA2anG
-         503XSbHpjVoSzTOviuop52VEUQmW/cFJLwQ+O5ckZ54kkuKJQ5XXeaiUxVTXtEZ6+LVy
-         EO5IGx+zUBfJWxW8ftVWqpTxHqOL0sTAogfYymD2OXI+GIklDevS2CwFvDnNI5gKz/ri
-         C0CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791709386; x=1792314186;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mnvvNDQ4QSwr11mN2HQofr10EXpSOnRYT1GPrI43QCA=;
-        b=w+2KQYaxZOrCfRk1L06ZezlwIozNhiJyWxj0pJaw+LukR6XKSFAUl9cSCnwr2J8YEK
-         bxZoIKplqliSgRPrMZNYkY5Lh09FE0bQNwicgXttUmg5TlsNxL1ej5fQ5Sy+lYjBWXRe
-         4CRPywWVovM2Lv1KUrZWGi3H1axE5Xw7qk5HT+2UhTCl87tX7N1ERwnN6TMyQ+YsAEPV
-         k4w4fXjHOTw73TEbGA/E7RpewWgjqpmAYglXibBJIgqZAH8LUDcft1YoQXsS3fVYQgtB
-         NjNqA/EC7iqXlu45zePvSwxs3amgkQ1f13bj5ZCmJ/AcOCLy1OqsTiCI0XHN5ELR6b17
-         yAww==
-X-Forwarded-Encrypted: i=1; AKwUvBwx3A/JTC5Kiv7Y41TQB1eD7fCmQDaFwR88sL4SVLoJ1rrY+1MC5WpanrrY77TGMoP0V23O0sGLUE46JA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKslVKQN8UlemYSVoeUYzX4JwGI9J/+3FU44Od2we+EjPe2ChBU
-	x1Yyz3ibKa9LJxSSEWZMQx378356tpZCnWbIsTvteYZh30ZzsV5oSDgUBR7ncZ+2Ug==
-X-Gm-Gg: AYBFou3N+mmw7GFGnUU2RESzKQHHP/DO0SVON5IlHCyPTMKpA5MRAYd6p1BKU8aFydR
-	ONs1MzKVlnDfn4Fl9r9sW34Cso2R4ARHwPH14FoGnwuKZHvHh71FF+MQ2IBibwEiDmlUCor2YNF
-	JQNi+xVeTNmrhafJgWKQMO44xKlNKf37db50J/KzJvnnADh66EWxPNsGRY2yw76/4njUJU5CLIj
-	gQ/yjHD2rXjz2t62XAEoJ+E5Hx/LtTAKiDkAvLt8KddGB0kcrIWbeyP2HxnhvBbS22zr18GZlq3
-	gYUDyAAGYHmQwjTPULVY6/Jpd450B7v+owS6tfM9y5sDASd56gAH4/kE3JQdrMl1ttES336IjV8
-	JyQuAzCuGFwEZ6GG/YrTthK5pGWd+SkOVX9vAG5RpYG5nGfwPxuGohChzftjp/6/7ezb6vfSAGJ
-	xJ5JFl+kDcCIu4Dawvuk9gV3O6qzzbYmZ3K7Bq7aiTHCuxRRKk2dBuVjeNtZF5HRZKW6et57yKN
-	QfqewGLBE9plPogGhc8bDyCk3D7
-X-Received: by 2002:a05:7022:103:b0:144:cad0:b472 with SMTP id a92af1059eb24-16ef25fdbdbmr175230c88.9.1791709384349;
-        Sun, 11 Oct 2026 02:03:04 -0700 (PDT)
-Received: from google.com (57.45.87.34.bc.googleusercontent.com. [34.87.45.57])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537ca1b556sm28915417eec.9.2026.10.11.02.02.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 02:03:02 -0700 (PDT)
-Date: Sun, 11 Oct 2026 09:02:51 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRWh9pBV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EEAC1F0089B;
+	Sun, 11 Oct 2026 12:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791720851;
+	bh=tm3c3ar6Gmu2EVapjR8kh35eRLBMdTKHO8HmZnowAKc=;
+	h=From:To:Cc:Subject:Date;
+	b=XRWh9pBV2oEbXHfjjEl0k7U/fGblZt8CSaZzfiJbMon18XCpH8Dgop61gpWKUIEaO
+	 b34Chf78HBkpq05y5unpSOBAZAMzDPLR0nku4aoTDeXQJsYlLqqJAoT0ulM2qngO+4
+	 C1r6om9LfQhebAYhanIW+BiIlJNZEEjX0IZ9+tnSEI7ktqRjUOOgATubkzSsxqzO2T
+	 SvQzT4/x5xkyhxZDH/wXhFys33xD053p5GM5UhEQ1SZr76p+jTWUWwTyRBsI0aneJ/
+	 J8obgHuAGpQCeoP3pjQ6gXjX5U0iga4JxYnGffEzHR/05ookIemxWBWu2TSm45IbQw
+	 QtY7h9t0UCMFA==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <astQu7_kbZRnbwng@google.com>
-References: <20261003212241.3432303-1-lrizzo@google.com>
+	Johan Hovold <johan@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	tzungbi@kernel.org
+Subject: [PATCH v14 0/5] drivers/base: Introduce revocable
+Date: Sun, 11 Oct 2026 20:12:40 +0800
+Message-ID: <20261011121246.162759-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 03, 2026 at 09:22:19PM +0000, Luigi Rizzo wrote:
+This series introduces the "revocable" mechanism, a synchronization
+primitive designed to prevent Use-After-Free errors.
 
-Hi Luigi,
+- Patch 1 introduces the revocable which is an implementation of ideas
+  from the talk [1][2].
 
-> Here is a subsystem called DMA_PMD on which I would like feedback on
-> architecture, possible enhancements, or kernel components that could be
-> reused to avoid duplication.
-> 
+- Patch 2 adds KUnit test cases.
 
-Thanks for posting this series, it solves more than one problems.
-I went through the whole series and the following is my take on the
-overall design (I might wait before replying to individual patches
-hence this might be verbose).
+- Patch 3 transitions the UAF prevention logic within the GPIO core
+  (gpiolib) to use the "revocable" mechanism.
 
-> I think it can be extremely useful for those affected by the HW/SW overhead
-> of IOMMU (especially IOTLB thrashing, see [1]), or confidential computing,
-> or preemptable VMs.
-> 
-> The (not too exaggerated) pitch line is
-> 
-> DMA_PMD has the performance of identity, guarantees that only IO buffers
-> can ever have active IOMMU or IOTLB mappings, removes the bounce buffer
-> overhead in confidential computing and preemptable VMs, and integrates
-> smoothly with existing kernel APIs.
-> 
-> === ARCHITECTURE
-> 
-> DMA_PMD was initially designed to address IOTLB thrashing (details in [1]),
-> but turned out to also resolve nicely the strict IOMMU overhead, and avoid
-> the bounce buffer overhead in preemptible VMs and Confidential Computing.
-> 
+  The existing code aims to prevent UAF issues when the underlying GPIO
+  chip is removed.  The patch replaces that custom logic with the
+  generic "revocable" API, which is designed to handle such lifecycle
+  dependencies.  There should be no changes in behavior.
 
-I'm thinking if we can re-work the dma pools here to fit the needs of
-DMA PMD. Apart from that my main concern is the isolation model. 
-As implemented:
+- Patch 4 adds KUnit test cases for the reset controller framework to
+  verify its lifecycle and concurrent unregistration behavior.
 
-- dma_unmap_*() of a pooled buffer is a no-op, i.e. unmap doesn't happen
-  till the page is retired.
-- the whole 2M page is mapped IOMMU_READ | IOMMU_WRITE, regardless of
-  the direction of the buffer that triggered the mapping
-- the mapping stays in every domain that ever mapped any block of the
-  page until the page is retired, which under steady traffic may be
-  never
-- the TX pools are per-CPU and shared by all sockets and devices.
+- Patch 5 transitions the reset controller framework to use the
+  "revocable" mechanism.
 
-So, a NIC ends up with long-lived RW access to other sockets' data in
-the same 2M pages, including loopback payloads and kTLS SW plaintext
-(both come from sk_page_frag), and a DMA after unmap no longer faults
-but silently hits whoever owns the block next. For pooled memory this
-is identity-like isolation and weaker than DMA-FQ, whose exposure is
-bounded by the flush timeout. Thus, I'm not fully sure of the claim:
-"security guarantees comparable to strict IOMMU". 
+Since v9, there are two ways to manage the resource provider handle.
+- Embedded allocation: patch 3 is the user.
+- Dynamic allocation: patch 5 is the user.
 
-It also isn't opt-in: dma_is_pmd_phys() is checked for every device in
-iommu_dma_map_phys(), thus, any device that is handed a pooled page gets
-a window, including in domains where the admin asked for strict mode.
-I think DMA_PMD has to be an explicit per-group default-domain policy,
-like DMA-FQ: selectable through iommu_groups/N/type and/or a boot
-option, off by default, decided when the default domain is set up and
-recorded in the cookie and the map path can check it before doing any
-pool lookup.
+[1] https://lpc.events/event/17/contributions/1627/
+[2] https://lpc.events/event/19/contributions/2262/
+---
+v14:
+- Rebase onto next-20261009.
+- See changelogs in [PATCH v14 1/5] and [PATCH v14 2/5] for revocable
+  API and KUnit test updates.
+- Add patches 4 and 5 for the reset controller framework.
 
-That is also the natural place to refuse untrusted devices. Today the
-window path runs after the swiotlb decision in iommu_dma_map_phys(),
-which for untrusted devices only bounces buffers that aren't
-granule-aligned, so a page-aligned pooled block gives an
-external-facing device a permanent RW 2M window over unrelated data.
-iommu_get_default_domain_type() already forces strict DMA for such groups
-DMA_PMD must not undo that.
+v13: https://lore.kernel.org/all/20260912123529.7951-1-tzungbi@kernel.org
+- Rebase onto next-20260911.
 
-I'm thinking If pooled memory is going to be shared across opt-in
-devices anyway, would an explicit shared domain for opted-in devices
-be cleaner?
+v12: https://lore.kernel.org/all/20260908134223.13638-1-tzungbi@kernel.org
+- Rebase onto next-20260907.
+- Drop patch 4 and 5.
 
-It removes the per-domain machinery, but those devices then lose 
-isolation from each other for all DMA, and the core would need to 
-support a default domain shared across groups
+v11: https://lore.kernel.org/all/20260513091043.6766-1-tzungbi@kernel.org
+- Rebase onto v7.1-rc3.
+- Squash patches 4 to 7 into patch 3.  A single patch for GPIO.
 
-Additionally, we should handle edge cases where the dma unmap (or it's
-TLB flush) fails for some reason but the page is freed to buddy..
+v10: https://lore.kernel.org/all/20260508105448.31799-1-tzungbi@kernel.org
+- Unify handling of embedded and dynamic allocation.
 
-> It works by combining several known techniques:
-> 
-> - transparently feed allocators of device memory (skb_page_frag_refill(),
->   dma_alloc_attrs(), pagepool, ...) with DMA_PMD pages, i.e. physically
->   contiguous PMD_SIZE (2MB) pages mapped via PDE_SIZE IOMMU entries
-> 
-> - heavy recycling of DMA_PMD pages (like pagepool) and lazy IOMMU unmapping
->   (like DMA-FQ), BUT:
-> 
-> - like strict IOMMU (DMA), safely release memory back to the kernel only
->   after destroying all of its IOMMU mappings and a synchronous IOTLB flush
-> 
+v9: https://lore.kernel.org/all/20260427135841.96266-1-tzungbi@kernel.org
+- Rebase onto v7.1-rc1.
+- Remove the selftests patch as it makes less sense to test revocable
+  APIs via kselftests.
+- Merge patches 7 to 11 from
+  https://lore.kernel.org/all/20260213092958.864411-1-tzungbi@kernel.org
+  into the series.
+- Merge patch from
+  https://lore.kernel.org/all/20250923075302.591026-5-tzungbi@kernel.org
+- Merge patch from
+  https://lore.kernel.org/all/20250912081718.3827390-6-tzungbi@kernel.org
 
-That's one of the strict-mode properties that this series keeps and two
-things undermine it today, dma_pmd_unmap_all() ignores the iommu_unmap()
-retval after it has already cleared the per-domain bits (for fellow 
-reviewers this is in patch 7). And window PTEs outlive driver unbind and
-DMA ownership trasnfer because  dma_pmd_domain_release() only runs when
-the cookie is freed, if a device is handed back from VFIO, it'll regain
-access to live host pages and patch 13 additionally gives up page_pool's
-destroy unmap of in-flight pafes.. The mappings need to go when the last
-DMA API user of the domain goes away not only at domain free..
+v8: https://lore.kernel.org/all/20260213092307.858908-1-tzungbi@kernel.org
+- Rework on the revocable APIs.  See changelog in [PATCH v8 1/3] for details.
 
-> - on allocation, DMA_PMD pages can be configured to be pinned in the host
->   (hence suitable for preemptible VMs) and/or unencrypted (hence suitable
->   for Confidential Computing), removing the need for bounce buffers
-> 
+v7: https://lore.kernel.org/all/20260116080235.350305-1-tzungbi@kernel.org
+- Rebase onto next-20260115.
 
-In CoCo guests, dma_pmd.decrypt is swtiched on silently and applied to
-every pool. inclusing the per-CPU skb_page_frag_refill pools that serve
-every socket. Enabling tx_enable_dma_pmd thenmakes loopback payloads and
-kTLS plaintext host readable & writable before encyrption. Similarly
-decrypted Rx pages lose the private copythat swiotlb had making it
-possible for the host to change packets after the stack has looked at
-them.. Can we make it much more explicit to the Guest/ Guest user that
-they're opting in to sharing their data with host for performance?
+v6: https://lore.kernel.org/all/20251106152330.11733-1-tzungbi@kernel.org
+- Rebase onto next-20251106.
+- Separate revocable core and use cases.
 
-> - there are global and per-device optin /sys/device/.../dma_pmd_*
->   and /proc/sys/net/core/tx_enable_dma_pmd
-> 
+v5: https://lore.kernel.org/all/20251016054204.1523139-1-tzungbi@kernel.org
+- Rebase onto next-20251015.
+- Add more context about the PoC.
+- Support multiple revocable providers in the PoC.
 
-Bools with sysfs files on every device having a dma_mask doesn't seem
-too nice.. the iommu policy belongs to the group's default domain..
+v4: https://lore.kernel.org/all/20250923075302.591026-1-tzungbi@kernel.org
+- Rebase onto next-20250922.
+- Remove the 5th patch from v3.
+- Add fops replacement PoC in 5th - 7th patches.
 
-> NIC drivers can typically use dma_pmd with no modifications for rings,
-> tx buffers, rx buffers (if they use pagepool), and rx headers. For tx
-> headers, almost all drivers need changes (see later patches in the series)
-> to implement cheap bounce buffers and avoid individual 4K mappings.
-> 
-> The series has the following main components:
-> 
-> - a sparse array (similar to pageblock_flags) to quickly attach metadata
->   to a 2MB page without fiddling with the struct page. Cost is 128B per 2MB
->   page used as an IO buffer, totally negligible.
-> 
+v3: https://lore.kernel.org/all/20250912081718.3827390-1-tzungbi@kernel.org
+- Rebase onto https://lore.kernel.org/all/20250828083601.856083-1-tzungbi@kernel.org
+  and next-20250912.
+- The 4th patch changed accordingly.
 
-IIUC, the entries are 256B and the array is sized from theoretical
-phys_addr space rather that from memory: up to 8G of KVA on x86 4-level,
-32G on arm64 with 48-bit PA and 512G 52-bit PA, where the chunk bitmap no
-longer fits in kmalloc, failing the init. Init also populates metadata
-for the entire RAM.. it'd be nice to size it from real memory ranges or
-use an xarray or per-section array with lazy population..
+v2: https://lore.kernel.org/all/20250820081645.847919-1-tzungbi@kernel.org
+- Rename "ref_proxy" -> "revocable".
+- Add test cases in Kunit and selftest.
 
-> - dma_pmd_pool, a replacement for alloc_pages() that can be instantiated
->   per-CPU or per receive queue. It handles the split of PMD_SIZE pages
->   into order-N blocks, handles dma_map and unmap, and aggressively recycles
->   entries. It is used to feed skb_page_frag_refill(), pagepool, and
->   receive buffers for drivers that do not use pagepool.
->   See [2] for "WHY NOT PAGEPOOL FOR TX AND EVERYTHING"
-> 
+v1: https://lore.kernel.org/all/20250814091020.1302888-1-tzungbi@kernel.org
 
-I am seeing that the recycles page blocks bypass KASAN/KMSAN poisoning,
-page owner, alloc tagging and bad_page checks.. which might make a UAF
-go undetected. We might have to use it or a similar technique to ensure
-the UAF of a polled buffer remains safe in such a case.. IIRC,
-kasan_mempool_(un)poison_pages are used for such cache (I'd let the mm
-folks chime in on this). 
+Tzung-Bi Shih (5):
+  revocable: Revocable resource management
+  revocable: Add KUnit test cases
+  gpio: Leverage revocable for accessing struct gpio_chip
+  reset: Add KUnit test cases
+  reset: Leverage revocable for accessing struct reset_controller_dev
 
-> - dma_pmd_arena, is another allocator backed by DMA_PMD pages and
->   is used exclusively as the backend for dma_alloc_attrs().
->   Used for longer-lived allocations (descriptor/completion rings,
->   rx and tx header buffers)
-> 
-> - glue code to hook DMA_PMD into pagepool [2], skb_page_frag_refill(),
->   dma_alloc_attrs(), dma_map/unmap...
-> 
+ .../driver-api/driver-model/index.rst         |   1 +
+ .../driver-api/driver-model/revocable.rst     | 440 ++++++++++++++
+ MAINTAINERS                                   |  11 +
+ drivers/base/Makefile                         |   2 +-
+ drivers/base/revocable.c                      | 305 ++++++++++
+ drivers/base/test/Kconfig                     |   5 +
+ drivers/base/test/Makefile                    |   2 +
+ drivers/base/test/revocable-test.c            | 560 ++++++++++++++++++
+ drivers/gpio/gpiolib-cdev.c                   |  77 +--
+ drivers/gpio/gpiolib-sysfs.c                  |  32 +-
+ drivers/gpio/gpiolib.c                        | 257 ++++----
+ drivers/gpio/gpiolib.h                        |  28 +-
+ drivers/reset/Kconfig                         |   5 +
+ drivers/reset/Makefile                        |   2 +
+ drivers/reset/core-test.c                     | 329 ++++++++++
+ drivers/reset/core.c                          |  93 +--
+ include/linux/reset-controller.h              |   3 +
+ include/linux/revocable.h                     | 220 +++++++
+ 18 files changed, 2060 insertions(+), 312 deletions(-)
+ create mode 100644 Documentation/driver-api/driver-model/revocable.rst
+ create mode 100644 drivers/base/revocable.c
+ create mode 100644 drivers/base/test/revocable-test.c
+ create mode 100644 drivers/reset/core-test.c
+ create mode 100644 include/linux/revocable.h
 
-On the IOMMU side there are also a few structural limits:
+-- 
+2.53.0
 
-- the domain registry has BITS_PER_LONG entries, and a decline is
-  cached in the cookie forever. Default domains are per IOMMU group,
-  often one per function (VFs included) on ACS-capable machines, and TX
-  pages reach every NIC, so a limit of 64 is reachable, and which 
-  devices get to pool would depend on probe order.
-- the per-domain window is a multi-TB alloc_iova() carved on the first
-  map, under a global IRQ-off lock, sized from iomem_resource.end and
-  from whichever device in the group maps firstF
-- I'm wondering it iova - base == PA (plus a fixed 16G offset), is safe? 
-  As devices learn host physical addresses.
-
-Can we consider giving each PMD page a dense slot number when it
-enters a pool, and using iova = base + slot * 2M? That keeps the O(1)
-map and the range-check unmap, shrinks the window to cap * 2M, works
-with narrower masks and stops exposing PAs, and per-domain tracking of
-mapped slots would lift the 64-domain limit as well. The window could
-then be reserved in iommu_dma_init_domain() through a dma-iommu helper,
-instead of handing the iova_domain to dma-pmd-map.c.
-
-Thanks,
-Praan
