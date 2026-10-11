@@ -1,329 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FE83F1AAD;
-	Sun, 11 Oct 2026 12:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38768331A6E
+	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791720874; cv=none; b=r+7WptttwogX26vIrqP3ON3ZRYsGiE5p4u9PXLJTHYz8IopBdS976v8Cmh8A13dlw+9eoWbih8S8QnJpRgBiSaX/xUWlCXmcpOWKgJOg6AiPJCz6s57dTdf4hSY3hUZU5qso8pL6sUUr5ezKHATTLRZGz+xyZUmIFBquJesMMbg=
+	t=1791723189; cv=none; b=Zsn2dT5yvDZmuLbrvfASPK9lQsfukME7EH/b/xUGSHYjee5R1RsaYfSLBXLhGJQEq6+q5l+ABjgMKDjfOShbxAt8wFj9nRprVKozMFbb+CKV661pGwuEaS+t4iOYlztx72dey/HAaAswTi/0DtXAxVQbSSWntR7+5AqQp6mZebY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791720874; c=relaxed/simple;
-	bh=/lQHVLEPno0id4+YZ63M4VTFsvW0kfT6IsrE5m8E4rM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V8MR5gNEwRbDALBftYXXMArtnpPJ4ieCXvzqInThpQieYbBjzSYxtiROOngoty+cgcsKp7vkYD96BXz67wgWAdGQOyqvX5J28mHP+UohIxIv7dK0dMDIRNqgHKTSct4zJprjjzE7/qUzWEtnocdRDdaWerAe8OKWNo7CyXhTGRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzlXD8lz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791723189; c=relaxed/simple;
+	bh=IqCUcdQLLWXLndFjUP+cU38OwLPS7I0T/PoPMv9nNI4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WzhoPIJF9BOtIkMeK4b5vcgYVlJU6zokSqI0mjhdgsmNLwiMOEohwEzRbbwrue0WoqMpPQr9x6sby2UHkpRcRUaxkCiGM8n5FmhUJK1XeAGWAXkiVNtVbTXqkkMECNaftSrHd3h8foOqO4Ch+hin2yDpPdY+rzXHMgV880++5Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ECj9kWu8; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzlXD8lz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04E01F0089E;
-	Sun, 11 Oct 2026 12:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791720867;
-	bh=yzVi9i8q3m1d4DCORBtFuKOY8/KCrp6T899MdS/Ehvg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UzlXD8lzGBgq7UEKRmxhwYLpwi6taJVzRipfcuXzIwGMGp6bVAARF9MrSqtKD8piS
-	 KtkDwt6UBYox6/Pyt1vrWhCIqqON2CFkmBHPKzPzINTbKOQJGjCUgh3WajLD2m6BGT
-	 s/RAFQJFL4pIDHSdvthjEC/3GAGMqoU7zq7sbkeL8lrlIF+6GP+3RVKRL2KtqHRtyN
-	 w5vpKNxYd8jG/LAyDFCrqxSxS0wZ2m3B4pI8Uo85kOGApEKBeFe3BYlX8/HfRHzB+Z
-	 snbNnPlRWyFTa6usAKDyVTvNVeuK125nLIil4/zfdKkabS7cqYIXAAovyMXILsypgT
-	 Kn617Qtj2o2Aw==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	tzungbi@kernel.org
-Subject: [PATCH v14 5/5] reset: Leverage revocable for accessing struct reset_controller_dev
-Date: Sun, 11 Oct 2026 20:12:45 +0800
-Message-ID: <20261011121246.162759-6-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261011121246.162759-1-tzungbi@kernel.org>
-References: <20261011121246.162759-1-tzungbi@kernel.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ECj9kWu8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1791723178;
+	bh=IqCUcdQLLWXLndFjUP+cU38OwLPS7I0T/PoPMv9nNI4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ECj9kWu8F1xrzw3c2uBsMTNOvfPUd/PCkhoCYCVMLzD/EN833xgW1h9D5hpD2eVWU
+	 +TaV1818mFx2WenqDIBHQ82F0Wy8MSMdtJq+jQW+KNph+0rig2l3xRJfQZ1iNBrce0
+	 b9l8DcU6y+ns4iaVsffznAkMqrvNr29B9gEhcV28=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH RFC 00/11] rust: add support for dynamic debug
+Date: Sun, 11 Oct 2026 14:52:24 +0200
+Message-Id: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDSyND3aLS4hLdlMq8lKR0XUPzJAsjozQjEwtLEyWgjoKi1LTMCrBp0Up
+ Bbs5KsRDB4tKkrNTkEpA5SrW1AMpaGK50AAAA
+X-Change-ID: 20260921-rust-dyndbg-17b822f24894
+To: Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Will Deacon <will@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Lyude Paul <lyude@redhat.com>, Yury Norov <yury.norov@gmail.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, driver-core@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=2065;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=IqCUcdQLLWXLndFjUP+cU38OwLPS7I0T/PoPMv9nNI4=;
+ b=LcSTC/xPdg7Dd09K6Habc7At6xUGJineOIOy7I/rsFAzbdjB7aIfukWTcugU9qQpTHjbNzJ7A
+ dOz8kM/8WQfC6Xlpk/k50W+8jO1h4jL45HaF27Pge24ik0Ruz51iZnq
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Commit 78ebbff6d1a0 ("reset: handle removing supplier before consumers")
-protected the `rcdev` pointer in `struct reset_control` with SRCU so
-that the reset core can handle suppliers unbinding while consumers still
-hold reset control handles.
+Add the Rust infrastructure to integrate with the dynamic debug
+infrastructure.
 
-Because `struct reset_control` handles can outlive `rcdev`, each of the
-N handles had to embed its own `srcu_struct` and call synchronize_srcu()
-on release, and reset_controller_unregister() had to call
-synchronize_srcu() N times in a loop.
+Static keys are not used for now, as the full bindings are missing
+for those. A follow-up series will add that.
+Also custom classes are not supported yet, but could be added on top.
 
-Leverage dynamic revocable to allocate a single reference-counted
-`struct revocable` for `rcdev` shared across all N `struct reset_control`
-handles (1-to-N).  This reduces N `srcu_struct` instances per controller
-to 1, drops synchronize_srcu() from reset_control_put_internal(), and
-replaces the N synchronize_srcu() calls on unregistration with a single
-revocable_revoke().
+Patches 1-4: Generic Rust preparation patches.
+Patches 5-7: C dynamic debug preparation patches.
+Patches 8: Rust Dynamic debug infrastructure.
+Patches 9-11: Rust Dynamic debug enablement.
 
-In addition, calling revocable_revoke() outside `rcdev->lock` avoids an
-ABBA lock inversion between `rcdev->lock` and SRCU, as
-reset_control_acquire() and reset_control_put_internal() acquire
-`rcdev->lock` inside the SRCU read-side critical section.
-
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-v14:
-- New to the series.
----
- drivers/reset/core.c             | 93 ++++++++------------------------
- include/linux/reset-controller.h |  3 ++
- 2 files changed, 26 insertions(+), 70 deletions(-)
+Thomas Weißschuh (11):
+      rust: print: use CStr for __LOG_PREFIX
+      rust: sync: atomic: Add Atomic<u{8,16}>
+      rust: num: Add Bounded::USABLE_BITS
+      samples: rust_print: add debug messages
+      dyndbg: use u32 for struct _ddebug bitfields
+      dyndbg: make _ddebug::flags its own field
+      dyndbg: use READ_ONCE()/WRITE_ONCE() to access descriptor flags
+      rust: add support for dynamic debug
+      rust: print: enable dynamic debug for pr_debug!()
+      rust: device: remove logging methods
+      rust: device: enable dynamic debug for dev_dbg!()
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index 38e189d04d09..788a235c3965 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -24,8 +24,8 @@
- #include <linux/property.h>
- #include <linux/reset.h>
- #include <linux/reset-controller.h>
-+#include <linux/revocable.h>
- #include <linux/slab.h>
--#include <linux/srcu.h>
- 
- static DEFINE_MUTEX(reset_list_mutex);
- static LIST_HEAD(reset_controller_list);
-@@ -37,9 +37,7 @@ static DEFINE_IDA(reset_gpio_ida);
- 
- /**
-  * struct reset_control - a reset control
-- * @rcdev: a pointer to the reset controller device
-- *         this reset control belongs to
-- * @srcu: protects the rcdev pointer from removal during consumer access
-+ * @rev: revocable handle for accessing the reset controller device
-  * @list: list entry for the rcdev's reset controller list
-  * @id: ID of the reset controller in the reset
-  *      controller device
-@@ -54,8 +52,7 @@ static DEFINE_IDA(reset_gpio_ida);
-  * @lock: serializes the internals of reset_control_acquire()
-  */
- struct reset_control {
--	struct reset_controller_dev __rcu *rcdev;
--	struct srcu_struct srcu;
-+	struct revocable *rev;
- 	struct list_head list;
- 	unsigned int id;
- 	struct kref refcnt;
-@@ -141,6 +138,10 @@ int reset_controller_register(struct reset_controller_dev *rcdev)
- 			return -EINVAL;
- 	}
- 
-+	rcdev->rev = revocable_alloc(rcdev);
-+	if (!rcdev->rev)
-+		return -ENOMEM;
-+
- 	if (rcdev->of_xlate)
- 		rcdev->fwnode_reset_n_cells = rcdev->of_reset_n_cells;
- 
-@@ -181,18 +182,14 @@ void reset_controller_unregister(struct reset_controller_dev *rcdev)
- 	scoped_guard(mutex, &reset_list_mutex)
- 		list_del(&rcdev->list);
- 
-+	revocable_revoke(rcdev->rev);
-+
- 	scoped_guard(mutex, &rcdev->lock) {
--		/*
--		 * Numb but don't free the remaining reset control handles that are
--		 * still held by consumers.
--		 */
--		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list) {
--			rcu_assign_pointer(rstc->rcdev, NULL);
--			synchronize_srcu(&rstc->srcu);
-+		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list)
- 			reset_controller_remove(rcdev, rstc);
--		}
- 	}
- 
-+	revocable_put(rcdev->rev);
- 	mutex_destroy(&rcdev->lock);
- }
- EXPORT_SYMBOL_GPL(reset_controller_unregister);
-@@ -382,11 +379,7 @@ int reset_control_reset(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_reset(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rev, rcdev);
- 
- 	if (!rcdev->ops->reset)
- 		return -ENOTSUPP;
-@@ -503,11 +496,7 @@ int reset_control_assert(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_assert(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rev, rcdev);
- 
- 	if (rstc->shared) {
- 		if (WARN_ON(atomic_read(&rstc->triggered_count) != 0))
-@@ -599,11 +588,7 @@ int reset_control_deassert(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_deassert(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rev, rcdev);
- 
- 	if (rstc->shared) {
- 		if (WARN_ON(atomic_read(&rstc->triggered_count) != 0))
-@@ -679,11 +664,7 @@ int reset_control_status(struct reset_control *rstc)
- 	if (WARN_ON(IS_ERR(rstc)) || reset_control_is_array(rstc))
- 		return -EINVAL;
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rev, rcdev);
- 
- 	if (rcdev->ops->status)
- 		return rcdev->ops->status(rcdev, rstc->id);
-@@ -731,11 +712,7 @@ int reset_control_acquire(struct reset_control *rstc)
- 	if (rstc->acquired)
- 		return 0;
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rev, rcdev);
- 
- 	scoped_guard(mutex, &rcdev->lock) {
- 		list_for_each_entry(rc, &rcdev->reset_control_head, list) {
-@@ -831,7 +808,6 @@ __reset_control_get_internal(struct reset_controller_dev *rcdev,
- 	bool shared = flags & RESET_CONTROL_FLAGS_BIT_SHARED;
- 	bool acquired = flags & RESET_CONTROL_FLAGS_BIT_ACQUIRED;
- 	struct reset_control *rstc;
--	int ret;
- 
- 	lockdep_assert_held(&rcdev->lock);
- 
-@@ -862,19 +838,13 @@ __reset_control_get_internal(struct reset_controller_dev *rcdev,
- 	if (!rstc)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = init_srcu_struct(&rstc->srcu);
--	if (ret) {
--		kfree(rstc);
--		return ERR_PTR(ret);
--	}
--
- 	if (!try_module_get(rcdev->owner)) {
--		cleanup_srcu_struct(&rstc->srcu);
- 		kfree(rstc);
- 		return ERR_PTR(-ENODEV);
- 	}
- 
--	rcu_assign_pointer(rstc->rcdev, rcdev);
-+	revocable_get(rcdev->rev);
-+	rstc->rev = rcdev->rev;
- 	list_add(&rstc->list, &rcdev->reset_control_head);
- 	rstc->id = index;
- 	kref_init(&rstc->refcnt);
-@@ -890,40 +860,23 @@ static void __reset_control_release(struct kref *kref)
- {
- 	struct reset_control *rstc = container_of(kref, struct reset_control,
- 						  refcnt);
--	struct reset_controller_dev *rcdev;
--
--	lockdep_assert_held(&rstc->srcu);
--
--	rcdev = rcu_replace_pointer(rstc->rcdev, NULL, true);
--	if (rcdev) {
--		lockdep_assert_held(&rcdev->lock);
--		reset_controller_remove(rcdev, rstc);
--	}
- 
- 	mutex_destroy(&rstc->lock);
-+	revocable_put(rstc->rev);
- }
- 
- static void reset_control_put_internal(struct reset_control *rstc)
- {
- 	struct reset_controller_dev *rcdev;
--	int ret = 0;
- 
- 	if (IS_ERR_OR_NULL(rstc))
- 		return;
- 
--	scoped_guard(srcu, &rstc->srcu) {
--		rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--		if (!rcdev)
--			/* Already released. */
--			return;
--
--		guard(mutex)(&rcdev->lock);
--		ret = kref_put(&rstc->refcnt, __reset_control_release);
--	}
-+	revocable_try_access_or_return_void(rstc->rev, rcdev);
- 
--	if (ret) {
--		synchronize_srcu(&rstc->srcu);
--		cleanup_srcu_struct(&rstc->srcu);
-+	guard(mutex)(&rcdev->lock);
-+	if (kref_put(&rstc->refcnt, __reset_control_release)) {
-+		reset_controller_remove(rcdev, rstc);
- 		kfree(rstc);
- 	}
- }
-diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
-index 52a5a4e81f18..9abf5c59fd9a 100644
---- a/include/linux/reset-controller.h
-+++ b/include/linux/reset-controller.h
-@@ -28,6 +28,7 @@ struct reset_control_ops {
- struct module;
- struct device_node;
- struct of_phandle_args;
-+struct revocable;
- 
- /**
-  * struct reset_controller_dev - reset controller entity that might
-@@ -48,6 +49,7 @@ struct of_phandle_args;
-  *                :c:func:`fwnode_reset_simple_xlate`
-  * @nr_resets: number of reset controls in this reset controller device
-  * @lock: protects the reset control list from concurrent access
-+ * @rev: revocable provider handle for itself
-  */
- struct reset_controller_dev {
- 	const struct reset_control_ops *ops;
-@@ -65,6 +67,7 @@ struct reset_controller_dev {
- 			    const struct fwnode_reference_args *reset_spec);
- 	unsigned int nr_resets;
- 	struct mutex lock;
-+	struct revocable *rev;
- };
- 
- #if IS_ENABLED(CONFIG_RESET_CONTROLLER)
--- 
-2.53.0
+ MAINTAINERS                          |   1 +
+ include/linux/dynamic_debug.h        |  13 +-
+ lib/dynamic_debug.c                  |  24 ++--
+ rust/bindings/bindings_helper.h      |   1 +
+ rust/kernel/device.rs                | 175 +++++++++++------------
+ rust/kernel/dynamic_debug.rs         | 264 +++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs                   |   6 +-
+ rust/kernel/num/bounded.rs           |   3 +
+ rust/kernel/print.rs                 |  21 +--
+ rust/kernel/sync/atomic/predefine.rs |  44 ++++--
+ rust/macros/module.rs                |   4 +-
+ samples/rust/Makefile                |   2 +
+ samples/rust/rust_print_main.rs      |   2 +
+ scripts/rustdoc_test_gen.rs          |   4 +-
+ 14 files changed, 428 insertions(+), 136 deletions(-)
+---
+base-commit: 2dee3d3adcadcc57d62ba6608cd02f50b0c10264
+change-id: 20260921-rust-dyndbg-17b822f24894
+
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
 
