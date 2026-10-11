@@ -1,56 +1,151 @@
-Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C8F37755C
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 18:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D97BE34389F
+	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 23:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791742977; cv=none; b=nThzPgX57Gy2QIyk9tgRM1cWCwS2tbl+Ol0fjz82sIZ078+uatB3Gzg+mir0h+8idIoJqPrFpoIZ5uOEnb2NpMTrDJtRbnpc8wIvos1vCI3abYxWE3Uzmb6MM3a11s4XnDeusXa661alZVQfRKjugpNl6plCzKyF8Nc/YaP1niU=
+	t=1791762168; cv=none; b=P25MnILIsVT9OmR8EU4wdrx1Ea1xjyl2DrHcis5ZiJeVQ8R5xRbTaY2yV+EZ6llXYxgFpqqqj9aNi1PtVUG7oTPpNeOheW/ej7jrjY4yXRFngq9l67ngdn/zCl1orFuKI4QknAl3g9ydSOq8W26oV4f+i3prYqMnZn4cuiHgA7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791742977; c=relaxed/simple;
-	bh=XPWwyt3/uXVYcgzd8Enwfe/DGoKEFenuEHyqp8gDCJM=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=GNgUYpbveEJiIBgRicj/2TX6jQARjyqsdZ+fyvPhFPwfReT8Thxdn7suQsXtS5X4L+f6v5rrmk0kx8q1xtFBCLIb9ZVdagygy7hiKhAA5blE+RGLFYi6mmKoqy3X8eOjffYEsjHlvgF6cm92Nrvhe8ptAjLYPmptt0XGEb/AiJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=I1OdSDY3; arc=none smtp.client-ip=79.135.106.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1791762168; c=relaxed/simple;
+	bh=3ASDPkh7bFKxV+Xlko8luTX0hthlzKfSL5EvxXMrGDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=niyD9QTQ3Z/4UzdxiACmFbjJdkgETDWx27OxKhUpYj2+4YPAgaZ3BMsQhxrWrdM8RPP7j3b9YVocytG9UeD5KotKKTGkGYcYm29Wo1HV3zAyQ3naJUw/h4+tm2c2TJ3pimiKUwvlovp8fiYb1pIr7oqdFCP4WxFOmZzoytwfiqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pUzafdlx; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="I1OdSDY3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1791742964; x=1792002164;
-	bh=XPWwyt3/uXVYcgzd8Enwfe/DGoKEFenuEHyqp8gDCJM=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=I1OdSDY3q0LkROmMghCduFk5TXBGpYZSeWAZfaVi+UsuztOWLpCk6Alwrh9DBqvQ9
-	 9PrC0OCe+4SGTHa/uSevW260Azc+Ragw4AbHti07P9vcIrK6B2ei28ifSphdeuUvIQ
-	 e+EIasH/QSck5vuSOJgPlkgvNQfIMCwuPK4J/3PJ5Y3B8pG2AfMBrrGXf/pbP6djI+
-	 p8w6HOsvNA/O4DCDt+QA//91rhZeL/wyM1UIajqQtDbm0lJwplbNtkOblgj5cZIF0c
-	 +BDyeCFhXr2S/7UB2suVkACh5Bj+5YJ+dsLGm5rccy4rL2CP394aeKCfohSEPSA6ig
-	 KqNUs6+QJ0JRQ==
-Date: Sun, 11 Oct 2026 18:22:39 +0000
-To: x@2005.tr
-From: Lorenzo Delgado <lnsdev@proton.me>
-Cc: Lorenzo Delgado <lnsdev@proton.me>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Robin Murphy <robin.murphy@arm.com>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v3] rust: io: use newtype for PhysAddr
-Message-ID: <20261011182233.3234121-1-lnsdev@proton.me>
-Feedback-ID: 53083996:user:proton
-X-Pm-Message-ID: be7ab1927f2d72ecea22ce26cc259d326bf9dd73
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pUzafdlx"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96D2B1570;
+	Sun, 11 Oct 2026 16:42:40 -0700 (PDT)
+Received: from [192.168.178.6] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81C713F673;
+	Sun, 11 Oct 2026 16:42:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791762163; bh=3ASDPkh7bFKxV+Xlko8luTX0hthlzKfSL5EvxXMrGDw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pUzafdlx1tK6QaNcWKkotjZII53Z7zal0ciES89s7LaZwp5XKCZNwcNi27al3bdvF
+	 yAb5GnFBzNfp4qZRRQq7DRBjWeviWuN0Z1Gxti5bQXs42Z8sBfTwpPcdYygaYdB6xL
+	 UyLdBk4I0q5GlvKFfs08jpnJcDiKdm7CwqXunbBw=
+Message-ID: <33d9cbb5-d4fb-4f16-b63e-5ae89051952a@arm.com>
+Date: Mon, 12 Oct 2026 01:42:39 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] cpufreq: fix policy max not returning to non-boost
+ freq on boost disable
+To: Ananthu C V <ananthu.cv@oss.qualcomm.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Jie Zhan <zhanjie9@hisilicon.com>,
+ Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Oleg Keri <okerixx@gmail.com>
+References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
+ <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
+Content-Language: en-GB
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 29.09.26 13:38, Ananthu C V wrote:
+> Commit 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if
+> max boost is known") introduced a guard for cpuinfo max updates to only
+> increase, to preserve driver-set values above the freq table maximum.
+> Later commit db80ad776cd2 ("cpufreq: Remove driver default policy->min/max
+> init") dropped the 'policy->max = max_freq' assignment from
+> cpufreq_frequency_table_cpuinfo, leaving that one-way-guard to be the only
+> path for cpuinfo max and consequently policy max to be updated, causing
+> both values to be stuck at boost frequency even when boost is disabled.
+> 
+> Unconditionally track the highest non-boost frequency (max_base_freq)
+> in the freq table. If boost frequencies are available, use the highest
+> frequency from the table/max_base_freq instead of cpuinfo->max_freq to
+> control boost values, so the value can decrease again when boost is
+> disabled.
+> 
+> Fixes: db80ad776cd2 ("cpufreq: Remove driver default policy->min/max init")
+> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
+> ---
+>  drivers/cpufreq/cpufreq.c    | 16 +++++++++++++++-
+>  drivers/cpufreq/freq_table.c |  9 ++++++++-
+>  include/linux/cpufreq.h      |  3 +++
+>  3 files changed, 26 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 96515880b4ac..5e6afb6f8826 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -574,6 +574,8 @@ static ssize_t show_local_boost(struct cpufreq_policy *policy, char *buf)
+>  
+>  static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
+>  {
+> +	unsigned int max_freq;
+> +	unsigned int max_table_freq;
+>  	int ret;
+>  
+>  	if (policy->boost_enabled == enable)
+> @@ -587,7 +589,19 @@ static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
+>  		return ret;
+>  	}
+>  
+> -	ret = freq_qos_update_request(&policy->boost_freq_req, policy->cpuinfo.max_freq);
+> +	max_table_freq = cpufreq_frequency_table_max(policy);
+> +
+> +	if (policy_has_boost_freq(policy)) {
+> +		max_freq = enable ? max_table_freq : policy->cpuinfo.max_base_freq;
+> +
+> +		if (!max_freq)
+> +			/* when the freq table contains only boost frequencies */
+> +			max_freq = max_table_freq;
+> +	} else {
+> +		max_freq = policy->cpuinfo.max_freq;
+> +	}
+> +
+> +	ret = freq_qos_update_request(&policy->boost_freq_req, max_freq);
 
-Are you still planning a v4? v3 no longer applies to driver-core-next
-since ResourceSize became a newtype, and there's a new PhysAddr user in
-drivers/gpu/drm/tyr/vm.rs.
+This looks pretty convoluted. You have to find the correct freq argument
+for freq_qos_update_request() for freq_table drivers but work around
+this for e.g. the CPPC driver.
 
-If not, I'm happy to pick it up and credit your v3.
+cpufreq_driver->set_boost() of e.g. the freq_table scmi-cpufreq driver
+does not adjust policy->cpuinfo.max_freq for 'boost state = 0':
 
-Thanks,
-Lorenzo
+cpufreq_boost_set_sw() {
 
+ cpufreq_frequency_table_cpuinfo()
+
+  policy->cpuinfo.min_freq = min_freq
+
+  if (policy->cpuinfo.max_freq < max_freq) <-- (*)
+   policy->cpuinfo.max_freq = max_freq
+}
+
+whereas the one of the cppc_cpufreq driver does:
+
+cppc_cpufreq_set_boost() {
+
+ if (state)
+   policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->highest_perf)
+ else
+   policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->nominal_perf)
+}
+
+(*) This was added by 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq
+directly if max boost is known"). With this the
+
+policy_set_boost(policy, enable) {
+
+ cpufreq_driver->set_boost(policy, enable)
+
+ freq_qos_update_request(..., policy->cpuinfo.max_freq)
+}
+
+[...]
