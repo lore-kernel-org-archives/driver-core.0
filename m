@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328BF3C10BD
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E2D3E122D
+	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791723189; cv=none; b=bMdNJTjn3apfvuT4xmB0sBxz10tLSTwdGg0YKTTt+ttS3W5nSEUQb5sp0EOblUXYMhjwCLdHOY40bNRRJJv/DsRT0WtUtI9QmVdRqKTbiHjG4F/N/AXbvqC+aY3lbxEsQwrLDDRIkNEFX/LbuBsZGgopYavgVSlypbqu0plKeMo=
+	t=1791723190; cv=none; b=YnD7SPoAYdJTWlXBS0a7pHhGQpAp4ttiZ6alIzXtuRFjoyxWj+oAU9DH0RaB30ZznYyNJ2ZiVyqPxZdlSGNFO9B2hnCXPp+USW0eyfqknNOPP4K5VnaNvvALVal6aDwNm2iUXWILCk+Daer2VNc6UVFen5igrK2OLmmgzHF5ZHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791723189; c=relaxed/simple;
-	bh=ltM38puMFweObhkPk2+jAoqwDneuuHsqc/rfWWFdm6s=;
+	s=arc-20240116; t=1791723190; c=relaxed/simple;
+	bh=ksWwlWRvqo8LrD2HrKTHz/EuYt0ywjdJyChTACPDpUg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oE3zwCparbDsJYzs3laeQ8Eww2SwkXlUg3JcnKDupgUwO3s/hvW/8EJYd5K8sfAPUrteZmLdm79SyFV5dlfZW8f0xURSe2KihTD88mKUhrjxthSKHP3rYysZ0YL2+Si+mVt1Ybr22rfI9H+nwyFgF2U5P42BhlF+udZHYCV2nyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JH/Qlwi4; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=DfAzlxKC74rdVggzNMfBXxToKe8PxgrVW2Kl/eulINSooaKrgYnUPfa2wm96Kmkw/+9wt5zIjoUk09utywQ4frzPd/iU8/E4I7AyINj6tV549JMEWdT0hkPb3fnwigRlSGtqLmm1uqAh19umNzAKoGPXGmRNa83hSUgLSljG0jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DyNGD3UT; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JH/Qlwi4"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DyNGD3UT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1791723178;
-	bh=ltM38puMFweObhkPk2+jAoqwDneuuHsqc/rfWWFdm6s=;
+	bh=ksWwlWRvqo8LrD2HrKTHz/EuYt0ywjdJyChTACPDpUg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JH/Qlwi4KWvyGkAOrLZhYizUurtSZ6PVYlOtVPi+YR6/3nfpzElfFfGifOfN7igAi
-	 GfUO2KxDI2w6SziXHxiVwcXhl0lJWy+Nu46LX86fqUTZ/etC6fqwa4D5gzAuZmkxI7
-	 e2S8UHei8gS4qNifVNzVqI1ctVC1F5rHIlwzNsEQ=
+	b=DyNGD3UT88g8nyIQS7Xgp1PqjZCHdIb10pzEajy4MfdOSh73lUQfQOPRDITz36o4x
+	 Srx/O7xQaDGxqCLx+S8gVItDAHEM2wV9cCm7OHdnqhpSzmMZ3aTSZgvKMl6Lnv6ilM
+	 DIxDOFMEDKxuH7H4jymBQhCYhZ2PZaApyXYcrJAs=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 11 Oct 2026 14:52:26 +0200
-Subject: [PATCH RFC 02/11] rust: sync: atomic: Add Atomic<u{8,16}>
+Date: Sun, 11 Oct 2026 14:52:25 +0200
+Subject: [PATCH RFC 01/11] rust: print: use CStr for __LOG_PREFIX
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261011-rust-dyndbg-v1-2-832e4039b71f@weissschuh.net>
+Message-Id: <20261011-rust-dyndbg-v1-1-832e4039b71f@weissschuh.net>
 References: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 In-Reply-To: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 To: Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
@@ -63,139 +63,138 @@ Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  kunit-dev@googlegroups.com, driver-core@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=4599;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=5081;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=ltM38puMFweObhkPk2+jAoqwDneuuHsqc/rfWWFdm6s=;
- b=KacfSUzLxUTfSpNb3KNKB+bdejnjWLAEwokqYM61iHbJUi/zOd+4O4wnMJxt1F5uwoseV07u3
- oJT8f/P96HYAJs2RBr6T3eGbueyvzazQ/My9/e3tlFcs/9XqvvCK35C
+ bh=ksWwlWRvqo8LrD2HrKTHz/EuYt0ywjdJyChTACPDpUg=;
+ b=3NEW2rGeYpgWpCjJjnO6Hsf+44NjvM/zYQrLzpaqSbd4+avaIHy6KBVX35PN8lkiE0vMOv1dm
+ XHhq470YjsBCZkINqTmSnTWYLViYwYzyukg93aTuPJhpKtflt3lXUTS
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Add generic atomic support for small unsigned integers that have an
-`AtomicImpl` with the same size and alignment.
+The users of __LOG_PREFIX require that it is 0-terminated.
+Currently this requirement is only encoded in safety comments.
 
-Also extend the unit tests.
+Switch to CStr which can guarantee this invariant through the type
+system.
+
+As __LOG_PREFIX and Module::NAME are now identical, reuse the former to
+implement the latter.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- rust/kernel/sync/atomic/predefine.rs | 44 ++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 9 deletions(-)
+ rust/kernel/lib.rs          |  4 ++--
+ rust/kernel/print.rs        | 11 ++++-------
+ rust/macros/module.rs       |  4 ++--
+ scripts/rustdoc_test_gen.rs |  4 ++--
+ 4 files changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/rust/kernel/sync/atomic/predefine.rs b/rust/kernel/sync/atomic/predefine.rs
-index 3d63f40791fa..4c1fb5e08dc2 100644
---- a/rust/kernel/sync/atomic/predefine.rs
-+++ b/rust/kernel/sync/atomic/predefine.rs
-@@ -113,6 +113,32 @@ fn rhs_into_delta(rhs: isize) -> isize_atomic_repr {
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 7225abc64084..7d48f931877d 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -159,7 +159,7 @@
+ pub use uapi;
+ 
+ /// Prefix to appear before log messages printed from within the `kernel` crate.
+-const __LOG_PREFIX: &[u8] = b"rust_kernel\0";
++const __LOG_PREFIX: &str::CStr = c"rust_kernel";
+ 
+ /// Dummy module type for `#[vtable]` `impl` blocks within the `kernel` crate (e.g. KUnit tests).
+ // The `allow` is needed since it may be unused (e.g. KUnit tests may be disabled).
+@@ -167,7 +167,7 @@
+ struct LocalModule;
+ 
+ impl ModuleMetadata for LocalModule {
+-    const NAME: &'static str::CStr = c"rust_kernel";
++    const NAME: &'static str::CStr = __LOG_PREFIX;
+ 
+     const THIS_MODULE: ThisModule = {
+         // SAFETY: `try_module_get`/`module_put` handle null module pointers gracefully.
+diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
+index 0d62beeedca5..9ce52b9fa69f 100644
+--- a/rust/kernel/print.rs
++++ b/rust/kernel/print.rs
+@@ -96,15 +96,14 @@ pub mod format_strings {
+ ///
+ /// # Safety
+ ///
+-/// The format string must be one of the ones in [`format_strings`], and
+-/// the module name must be null-terminated.
++/// The format string must be one of the ones in [`format_strings`].
+ ///
+ /// [`_printk`]: srctree/include/linux/printk.h
+ #[doc(hidden)]
+ #[cfg_attr(not(CONFIG_PRINTK), allow(unused_variables))]
+ pub unsafe fn call_printk(
+     format_string: &[u8; format_strings::LENGTH],
+-    module_name: &[u8],
++    module_name: &CStr,
+     args: fmt::Arguments<'_>,
+ ) {
+     // `_printk` does not seem to fail in any path.
+@@ -113,7 +112,7 @@ pub unsafe fn call_printk(
+     unsafe {
+         bindings::_printk(
+             format_string.as_ptr(),
+-            module_name.as_ptr(),
++            module_name.as_char_ptr(),
+             core::ptr::from_ref(&args).cast::<c_void>(),
+         );
      }
- }
+@@ -157,9 +156,7 @@ macro_rules! print_macro (
+         match $crate::prelude::fmt!($($arg)+) {
+             // SAFETY: This hidden macro should only be called by the documented
+             // printing macros which ensure the format string is one of the fixed
+-            // ones. All `__LOG_PREFIX`s are null-terminated as they are generated
+-            // by the `module!` proc macro or fixed values defined in a kernel
+-            // crate.
++            // ones.
+             args => unsafe {
+                 $crate::print::call_printk(
+                     &$format_string,
+diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+index 0a7b9e24c960..6228fe23c310 100644
+--- a/rust/macros/module.rs
++++ b/rust/macros/module.rs
+@@ -496,14 +496,14 @@ pub(crate) fn module(info: ModuleInfo) -> Result<TokenStream> {
+         /// The module name.
+         ///
+         /// Used by the printing macros, e.g. [`info!`].
+-        const __LOG_PREFIX: &[u8] = #name_cstr.to_bytes_with_nul();
++        const __LOG_PREFIX: &::kernel::str::CStr = #name_cstr;
  
-+// SAFETY: `u8` and `i8` has the same size and alignment, and `u8` is round-trip transmutable to
-+// `i8`.
-+unsafe impl super::AtomicType for u8 {
-+    type Repr = i8;
-+}
-+
-+// SAFETY: The wrapping add result of two `i8`s is a valid `u8`.
-+unsafe impl super::AtomicAdd<u8> for u8 {
-+    fn rhs_into_delta(rhs: u8) -> i8 {
-+        rhs as i8
-+    }
-+}
-+
-+// SAFETY: `u16` and `i16` has the same size and alignment, and `u16` is round-trip transmutable to
-+// `i16`.
-+unsafe impl super::AtomicType for u16 {
-+    type Repr = i16;
-+}
-+
-+// SAFETY: The wrapping add result of two `i16`s is a valid `u16`.
-+unsafe impl super::AtomicAdd<u16> for u16 {
-+    fn rhs_into_delta(rhs: u16) -> i16 {
-+        rhs as i16
-+    }
-+}
-+
- // SAFETY: `u32` and `i32` has the same size and alignment, and `u32` is round-trip transmutable to
- // `i32`.
- unsafe impl super::AtomicType for u32 {
-@@ -170,13 +196,13 @@ macro_rules! for_each_type {
+         /// The `LocalModule` type is the type of the module created by `module!`,
+         /// `module_pci_driver!`, `module_platform_driver!`, etc.
+         type LocalModule = #type_;
  
-     #[test]
-     fn atomic_basic_tests() {
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
+         impl ::kernel::ModuleMetadata for #type_ {
+-            const NAME: &'static ::kernel::str::CStr = #name_cstr;
++            const NAME: &'static ::kernel::str::CStr = __LOG_PREFIX;
  
-             assert_eq!(v, x.load(Relaxed));
-         });
+             #[cfg(MODULE)]
+             const THIS_MODULE: ::kernel::ThisModule = {
+diff --git a/scripts/rustdoc_test_gen.rs b/scripts/rustdoc_test_gen.rs
+index 754c5aafcce4..488de817b425 100644
+--- a/scripts/rustdoc_test_gen.rs
++++ b/scripts/rustdoc_test_gen.rs
+@@ -224,7 +224,7 @@ macro_rules! line {{
+         BufWriter::new(File::create("rust/doctests_kernel_generated.rs").unwrap()),
+         r#"//! `kernel` crate documentation tests.
  
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
-             let ptr = x.as_ptr();
+-const __LOG_PREFIX: &[u8] = b"rust_doctests_kernel\0";
++const __LOG_PREFIX: &kernel::str::CStr = c"rust_doctests_kernel";
  
-@@ -187,14 +213,14 @@ fn atomic_basic_tests() {
+ /// Dummy module type for doctest context.
+ struct LocalModule;
+@@ -237,7 +237,7 @@ macro_rules! line {{
+ use core::ptr::null_mut;
  
-     #[test]
-     fn atomic_acquire_release_tests() {
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(0);
- 
-             x.store(v, Release);
-             assert_eq!(v, x.load(Acquire));
-         });
- 
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(0);
-             let ptr = x.as_ptr();
- 
-@@ -208,7 +234,7 @@ fn atomic_acquire_release_tests() {
- 
-     #[test]
-     fn atomic_xchg_tests() {
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
- 
-             let old = v;
-@@ -218,7 +244,7 @@ fn atomic_xchg_tests() {
-             assert_eq!(new, x.load(Relaxed));
-         });
- 
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
-             let ptr = x.as_ptr();
- 
-@@ -233,7 +259,7 @@ fn atomic_xchg_tests() {
- 
-     #[test]
-     fn atomic_cmpxchg_tests() {
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
- 
-             let old = v;
-@@ -245,7 +271,7 @@ fn atomic_cmpxchg_tests() {
-             assert_eq!(new, x.load(Relaxed));
-         });
- 
--        for_each_type!(42 in [i8, i16, i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i8, i16, i32, i64, u8, u16, u32, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
-             let ptr = x.as_ptr();
- 
-@@ -263,7 +289,7 @@ fn atomic_cmpxchg_tests() {
- 
-     #[test]
-     fn atomic_arithmetic_tests() {
--        for_each_type!(42 in [i32, i64, u32, u64, isize, usize] |v| {
-+        for_each_type!(42 in [i32, i64, u64, isize, usize] |v| {
-             let x = Atomic::new(v);
- 
-             assert_eq!(v, x.fetch_add(12, Full));
+ impl ModuleMetadata for LocalModule {{
+-    const NAME: &'static CStr = c"rust_doctests_kernel";
++    const NAME: &'static CStr = __LOG_PREFIX;
+     const THIS_MODULE: ThisModule = {{
+         // SAFETY: `try_module_get`/`module_put` handle null module pointers gracefully.
+         unsafe {{ ThisModule::from_ptr(null_mut()) }}
 
 -- 
 2.56.0
