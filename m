@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E516432BE6
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6872744F561
+	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 12:53:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791723192; cv=none; b=mUB7Q+fGsG9veHkL+HBm9vW2u8mxtdtkwiHRWszOsjYJ+x7J8p6L8O6xIzoNKbNgiPhkg0DRgFKB4eSApLp6oId75vGll3d976zPspDXEjYExXhTDULa9YZgBMA2An1H5UlHXfY12M0BGB2CoDiKPGqJQfwGLAoCKCwJ97wps9M=
+	t=1791723193; cv=none; b=HwRnC04HTDfftBXMOjOrxUtdxWC7z1quDVM8NCwvA5sgjGhNaUSku+KDGH2UGYScRe2FbDO07JwB7YuXiud4BZC7aAkv+7eBMBiNQOxq7zyqbM073XXM2JZo6cC7z/gXinCQxob/LjKeEjNyA7B2JKS635TsghHHfUGuHhApz9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791723192; c=relaxed/simple;
-	bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
+	s=arc-20240116; t=1791723193; c=relaxed/simple;
+	bh=0X6E8XbcoOuMWft5lPU/aoVPZzU+7VaqeA22p9C0ivc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TZcf7ESv/Fy3nc68fIxboq+u97ObgoIdvguUYih+gRDSAJPiX4lTBpX4r7Yq+xJwvKzJvxRnntvtakSf2JC7zlISp8I32JLffca0Lqzcsz/YoiP9qVP30VyjMqXsLl6N+ytJPdKoNlznI9DybfwZRIevMxIeOIzm22O6iI8Xels=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CYogGsnp; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=EFQtJ9Nayr3/+DKaaZj813GlXGFzYpsfzaVgj/zPVZ940SVV8SVJNpRBbkkUntiAD+TT1bZvi4xS+qxAxo7EdV7JuCF3GEEdvhZLE9VHp0u598VEzh7rn3hW4nmwci+0HZUwFW/AkXWyuXq0UIMd7bNzg6ARjI83gklLPiLyrpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=KZ0B8tVe; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CYogGsnp"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="KZ0B8tVe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1791723179;
-	bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
+	bh=0X6E8XbcoOuMWft5lPU/aoVPZzU+7VaqeA22p9C0ivc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=CYogGsnpBWKyN9IV/fEJK9J6KMnw4+tTIWmyGCrSRS0zRBqorVMCElHgobdIugpJ4
-	 mrMD7QvMXfco37TtRaZQ4PXWUcpRHR1R9k+u/xhLd//yd0A/4Q94Rrnu7Pf+kjpJMi
-	 rqY8c3XboDOm6j2eX3xXhjfpCBdLwhH4sSj67+7c=
+	b=KZ0B8tVe5nRaNoscBVKhSixpsrR/GFM9rbqQMgGrvjnpxQ0PF7EBOemCP1yZ7rq5Y
+	 SywkaQ6HpZ/l1Ox/9WwT8h7U3OMcV+Ste1XKeQa6beGEyCOAYp1vzM3uzvUC3+5NJw
+	 FlakBqidpbBc42i7avRuLd49zs28mzjCdxbor+z0=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 11 Oct 2026 14:52:33 +0200
-Subject: [PATCH RFC 09/11] rust: print: enable dynamic debug for
- pr_debug!()
+Date: Sun, 11 Oct 2026 14:52:35 +0200
+Subject: [PATCH RFC 11/11] rust: device: enable dynamic debug for
+ dev_dbg!()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261011-rust-dyndbg-v1-9-832e4039b71f@weissschuh.net>
+Message-Id: <20261011-rust-dyndbg-v1-11-832e4039b71f@weissschuh.net>
 References: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 In-Reply-To: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
 To: Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
@@ -64,49 +64,50 @@ Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  kunit-dev@googlegroups.com, driver-core@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=1489;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791723177; l=1810;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=zCkov56KbxkpOiGipAuJwP5w7fooVBJXfw49HxSQmLs=;
- b=aFwqjhfQ9KZj/Z3uXuluKkkof5qcP9HlvkDvSAMUl+B9GL34+Rx5ZeiKYLdq+dHAVZOY4ObTx
- L37uPxFjN7HB30pPEFDH0TdBcpbiFZ182bdmSLyneemEoPYiYNKKjbH
+ bh=0X6E8XbcoOuMWft5lPU/aoVPZzU+7VaqeA22p9C0ivc=;
+ b=OUiFdtITI7Ghw4pQ9yWnt9E/xwQl0f2NIw3aLP7PqcCG62vQBU6RIPAb0iHmSKO4Ub5Xu41rt
+ ywMaTT4pPzlBqUfknKMY5ExGrV+AD/58/4v+NA9DnnuKHuG2Buh/spJ
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Wire up dynamic debug to work for the pr_debug!() macro.
+Wire up dynamic debug to also work for the dev_dbg!() macro.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- rust/kernel/print.rs | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ rust/kernel/device.rs | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/print.rs b/rust/kernel/print.rs
-index 9ce52b9fa69f..9a0870c2df94 100644
---- a/rust/kernel/print.rs
-+++ b/rust/kernel/print.rs
-@@ -373,8 +373,7 @@ macro_rules! pr_info (
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+index 2d49063f4f7c..db2c9adc5410 100644
+--- a/rust/kernel/device.rs
++++ b/rust/kernel/device.rs
+@@ -896,7 +896,7 @@ macro_rules! dev_info {
  ///
- /// Use this level for debug messages.
+ /// This level should be used for debug messages.
  ///
--/// Equivalent to the kernel's [`pr_debug`] macro, except that it doesn't support dynamic debug
--/// yet.
-+/// Equivalent to the kernel's [`pr_debug`] macro.
+-/// Equivalent to the kernel's `dev_dbg` macro, except that it doesn't support dynamic debug yet.
++/// Equivalent to the kernel's `dev_dbg` macro.
  ///
- /// Mimics the interface of [`std::print!`]. See [`core::fmt`] and
- /// [`std::format!`] for information about the formatting syntax.
-@@ -392,6 +391,13 @@ macro_rules! pr_info (
- #[doc(alias = "print")]
- macro_rules! pr_debug (
-     ($($arg:tt)*) => (
-+        // TODO: Switch to cfg_select!() when that is usable.
-+        #[cfg(any(CONFIG_DYNAMIC_DEBUG, all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions)))]
-+        $crate::dynamic_func_call!($crate::__format_string!($($arg)+), || {
-+            $crate::print_macro!($crate::print::format_strings::DEBUG, false, $($arg)*)
-+        });
+ /// Mimics the interface of [`std::print!`]. More information about the syntax is available from
+ /// [`core::fmt`] and [`std::format!`].
+@@ -918,6 +918,15 @@ macro_rules! dev_dbg {
+     ($dev:expr, $($f:tt)*) => {
+         match (&$dev, $crate::prelude::fmt!($($f)*)) {
+             (dev, args) => {
++                // TODO: Switch to cfg_select!() when that is usable.
++                #[cfg(any(CONFIG_DYNAMIC_DEBUG, all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions)))]
++                $crate::dynamic_func_call!($crate::__format_string!($($f)*), || {
++                    // SAFETY: `klevel` is null-terminated, uses one of the kernel constants.
++                    unsafe { $crate::dev_printk!($crate::bindings::KERN_DEBUG, dev, args) }
++                });
 +
-+        #[cfg(not(any(CONFIG_DYNAMIC_DEBUG, all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions))))]
-         if cfg!(debug_assertions) {
-             $crate::print_macro!($crate::print::format_strings::DEBUG, false, $($arg)*)
-         }
++                #[cfg(not(any(CONFIG_DYNAMIC_DEBUG,
++                          all(CONFIG_DYNAMIC_DEBUG_CORE, debug_assertions))))]
+                 if cfg!(debug_assertions) {
+                     // SAFETY: `klevel` is null-terminated, uses one of the kernel constants.
+                     unsafe { $crate::dev_printk!($crate::bindings::KERN_DEBUG, dev, args) }
 
 -- 
 2.56.0
