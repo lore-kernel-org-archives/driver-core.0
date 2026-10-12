@@ -1,33 +1,63 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D97BE34389F
-	for <driver-core@lists.linux.dev>; Sun, 11 Oct 2026 23:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791762168; cv=none; b=P25MnILIsVT9OmR8EU4wdrx1Ea1xjyl2DrHcis5ZiJeVQ8R5xRbTaY2yV+EZ6llXYxgFpqqqj9aNi1PtVUG7oTPpNeOheW/ej7jrjY4yXRFngq9l67ngdn/zCl1orFuKI4QknAl3g9ydSOq8W26oV4f+i3prYqMnZn4cuiHgA7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791762168; c=relaxed/simple;
-	bh=3ASDPkh7bFKxV+Xlko8luTX0hthlzKfSL5EvxXMrGDw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=niyD9QTQ3Z/4UzdxiACmFbjJdkgETDWx27OxKhUpYj2+4YPAgaZ3BMsQhxrWrdM8RPP7j3b9YVocytG9UeD5KotKKTGkGYcYm29Wo1HV3zAyQ3naJUw/h4+tm2c2TJ3pimiKUwvlovp8fiYb1pIr7oqdFCP4WxFOmZzoytwfiqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pUzafdlx; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010002.outbound.protection.outlook.com [52.101.85.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BB437186A;
+	Mon, 12 Oct 2026 02:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791771123; cv=fail; b=PxU3wT9zkeKVcwd8WwRNUw9fTDl6L5m9F3vwiz0VDhMHks+yhUgNjbqg/pwx9ubLzGOvGFHz1vHTc50mt52HlLzj/R844MilHU8umSeapE/XMnPGyOMQo+ybRal/AJjKg5dgwqolRl8Ek21W5D9or7xmFvXiPQnL9skCWWOg6Rk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791771123; c=relaxed/simple;
+	bh=bHkB7I3ddlR1weq6t8jTGHxjxbBVAS+9FkIQZodk67I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SucA5ugWN3FjqKGUFW76bXNLI4zL3rN3rC1iY0H3tir3eaBkvXFjt6DcoN7JsekVJ00VEO3rkbIHyqNt5C1HS6X9ufVXQcRDoudYiukTzAPBSAaIIyVFTggcdtTYcA85OHqKDQ8J6h6QMAhFWHd21f+pcmAZ9BmbX1OGPKrClWQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DWG2/aOT; arc=fail smtp.client-ip=52.101.85.2
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pUzafdlx"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96D2B1570;
-	Sun, 11 Oct 2026 16:42:40 -0700 (PDT)
-Received: from [192.168.178.6] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81C713F673;
-	Sun, 11 Oct 2026 16:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791762163; bh=3ASDPkh7bFKxV+Xlko8luTX0hthlzKfSL5EvxXMrGDw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pUzafdlx1tK6QaNcWKkotjZII53Z7zal0ciES89s7LaZwp5XKCZNwcNi27al3bdvF
-	 yAb5GnFBzNfp4qZRRQq7DRBjWeviWuN0Z1Gxti5bQXs42Z8sBfTwpPcdYygaYdB6xL
-	 UyLdBk4I0q5GlvKFfs08jpnJcDiKdm7CwqXunbBw=
-Message-ID: <33d9cbb5-d4fb-4f16-b63e-5ae89051952a@arm.com>
-Date: Mon, 12 Oct 2026 01:42:39 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DWG2/aOT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BRO0BUyOwwHVyrfVzi8IKnw1tULvYik2EXlxuZH5kH429kCd9BnYr9yZCIxj4big3p3Lnuew+fsXy4dbqOO+85AK2I3B6qHtSSx8us/i06EfIbHKMV5a9mqncqh/Iiq4mBf9d2fLWQpUgpcqFtSluwebxRI4V/4+zxwHnNpf6DfcX7oc96s8YyqVcWpxGmylOr9D5xydl3pOEmR1ahUrq9TuB5rgiB3oRJbQ42CVwORHuYH/Dw8AOZhAcOiB5fHEvcH+/vrUnQ4ju3XBA45bO78B/mPRiEfBwnLD2ULaYduZtjk43eV3EtBUibPBEWlqQE98FssVSk+bXawaC2Pilg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YBlxl2+OFlv5puE9NS7I76ORqmDZwiZJ2i+jnKrKsuk=;
+ b=Mu7rD5QJSswQH3+QFzeKPuQcsEAhVp6wsaSAR1tN7FwR6QMKGzQIVUrZhi8jD7eUwbbAjoI4xTn8wQyp7I74M61fDivtIfICdtCKNsPbFcxo72seM1+RpA7XRt5VLQJfswFGOnt0qC9njsxRtIVtp8JgofvjTTQbNoTOwzRVSMDT5FjkhVbBPhsQOKpimnPX8sUO6sEoDhyNr7m6D176J/NZIWIR5skRiXkgjOb2/p8wLctX8QlcrbGBepvYSq69h6APgLbp0TZGH4i46Ub7/6sDmSHcKMAXN5BOyfQVNPaG0OKF6Id5EY+x9EY5DkCt5t2MldtsNy/UJThb/Q3GAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YBlxl2+OFlv5puE9NS7I76ORqmDZwiZJ2i+jnKrKsuk=;
+ b=DWG2/aOTla8MCbxgEG7wLDZeIYjxaZNSUkhCY+g6KHlvYj+VHnEIOnxJ9qJ9TAeiQI8oZhD0aQV/2bfrkBrT/YMO6lHmnVRDXV2fXziWJk3CYQ+OzhO5GVdQXkKvO0+CSUfynJvAeb70eA6mNnXxm23WhyMJZdyxNh8Hj0iyb40=
+Received: from SJ0PR05CA0098.namprd05.prod.outlook.com (2603:10b6:a03:334::13)
+ by DS2PR12MB9797.namprd12.prod.outlook.com (2603:10b6:8:2ba::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 02:11:57 +0000
+Received: from CO1PEPF000066ED.namprd05.prod.outlook.com
+ (2603:10b6:a03:334:cafe::95) by SJ0PR05CA0098.outlook.office365.com
+ (2603:10b6:a03:334::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Mon, 12
+ Oct 2026 02:11:57 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CO1PEPF000066ED.mail.protection.outlook.com (10.167.249.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Mon, 12 Oct 2026 02:11:56 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Sun, 11 Oct
+ 2026 21:11:50 -0500
+Received: from [10.136.45.168] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Sun, 11 Oct 2026 21:11:39 -0500
+Message-ID: <a92f172e-7a3d-4fe5-94ae-b6768581a5c0@amd.com>
+Date: Mon, 12 Oct 2026 07:41:38 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,117 +65,107 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] cpufreq: fix policy max not returning to non-boost
- freq on boost disable
-To: Ananthu C V <ananthu.cv@oss.qualcomm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Jie Zhan <zhanjie9@hisilicon.com>,
- Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Oleg Keri <okerixx@gmail.com>
-References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
- <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH v3 01/13] lib/sbm: Introduce helpers for architectures
+ to configure LLC properties
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
+	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, WANG Xuerui
+	<kernel@xen0n.name>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+	<npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Chen
+ Yu <yu.c.chen@intel.com>, Tim Chen <tim.c.chen@linux.intel.com>, Ingo Molnar
+	<mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+	<vincent.guittot@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Arnd
+ Bergmann <arnd@arndb.de>, <linux-kernel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-mips@vger.kernel.org>,
+	<loongarch@lists.linux.dev>, <driver-core@lists.linux.dev>, Sudeep Holla
+	<sudeep.holla@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Vasily
+ Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson
+	<andreas@gaisler.com>, Thomas Gleixner <tglx@kernel.org>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>
+References: <20261001192849.74788-1-kprateek.nayak@amd.com>
+ <20261001192849.74788-2-kprateek.nayak@amd.com>
+ <bebd59dc-9932-41fe-9fa6-4d2cc8d15080@linux.ibm.com>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <bebd59dc-9932-41fe-9fa6-4d2cc8d15080@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066ED:EE_|DS2PR12MB9797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b0a118a-34f1-4874-96e7-08df2806312d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700016|1800799024|23010399003|4143699003|11063799006|56012099006|18002099003|22082099003|261009223027099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	WzSP5oJTy4QBF6mz6siizBpvABBhPvG4gO7Ju9m8YjRrC5t9RzuUFlKDFExQP7TDOD5IrnvdWGdfjtlKf2Z5yfgYS/7jx0WH5yhXXwfle6Ppi3d18Xvh8hDtGIo8uD3fcy316upgDjYRUvx0h6uoBAYjF+sRvLM63oFa6Y+Re4K+JSo7ul7e7568Iy2Hkb9C5iZU2ueWSaVblDSyqEnpuevNmZ3WeR0PU1cP3RkHU2FYWCjvMHEEP5SFQhY8T/KklOqoiE8viOs3LZWalOgB1DzUvAfa7YfGfmcohRkwQHMShb2pt36GO8R49rle6FFulTwxsQgOhPeF0JmCIq4daIuuGF0jWvhA9PO2tIkCpi9I53i9nl5oJ3DS2spLoXLvdARRD4KJbbs85umIuJIYuFsPaDl21QTTyTe50Tuu/iuRBhCAvUrrWBh3cQ7TaF7bxpOCfG83eXHlCPyxH8iB/VN5QS8JwPKvvhYnmzS38npRZ9IaUDH59KG18bQygXQswy0oKpyYv+/2zlnUKZ4F2vbCJtiC5p7CH0CTEQsmP8zj/UenHu5Oh5bIiANA+RNamxwz5B7kk+QiM0qjEPcybhvuuNH59EOa7epUI1LcaY/UyVMA4fjF09AG/V4nDv7gjvzwDeZZxW7o7UJLgt4oNBsD/jlUPLBHZrM+AY0NLdqQsmr7/09VQHJBntLOyOa3Mz3TZcweKqX5S+SU8xp2eA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700016)(1800799024)(23010399003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	u8cudUGIMWd1kdY446WXLGgLVLJBygI3oVZ4GGvHL2xooEZ7RpwVnK67ZiYHo16oFsrUqQUeEYqd2hgReUWwMhuSOK6Pi/pRcWofXkHZZKWTRl8/OLbMmQPzGIfKhouUZHVI0ryZe8S2XsfRW18hsplbSN8BRRngxvOUKG2VX6jIKbE5d7/+ybybmtFjXkHuvG2XmxVNKkmaLjEa+pfiXwXKcmyqPHX+Vd9PNNYtX2nTpcd4A1rz4r9wyhMSDsLaxPZ4GKF7KZ4whtAVfmTBCdUr9/ak35n8i0/hRwbKMaXBy6Qq++460It8XPFBkuBDTOddkRwxTiJuwUE9dcfb/15XaIILggWiGcTF1ovwEGG2CqsNAu6nntu+ap67zFhsJhCc5gPT999YrvGTTajGhKyP55BV60ETzacT7Jaobhs+CsBUnQ5kYNYPJISSeUa8
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 02:11:56.8563
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b0a118a-34f1-4874-96e7-08df2806312d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066ED.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9797
 
-On 29.09.26 13:38, Ananthu C V wrote:
-> Commit 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if
-> max boost is known") introduced a guard for cpuinfo max updates to only
-> increase, to preserve driver-set values above the freq table maximum.
-> Later commit db80ad776cd2 ("cpufreq: Remove driver default policy->min/max
-> init") dropped the 'policy->max = max_freq' assignment from
-> cpufreq_frequency_table_cpuinfo, leaving that one-way-guard to be the only
-> path for cpuinfo max and consequently policy max to be updated, causing
-> both values to be stuck at boost frequency even when boost is disabled.
+Hello Shrikanth,
+
+On 10/7/2026 11:13 AM, Shrikanth Hegde wrote:
+> Hi Prateek.
 > 
-> Unconditionally track the highest non-boost frequency (max_base_freq)
-> in the freq table. If boost frequencies are available, use the highest
-> frequency from the table/max_base_freq instead of cpuinfo->max_freq to
-> control boost values, so the value can decrease again when boost is
-> disabled.
+> I ran the series on 320 CPU power11 system today.
+> hackbench shows high regression across the different number of groups and
+> it is more severe at lower number of groups. I haven't run anything else yet.
 > 
-> Fixes: db80ad776cd2 ("cpufreq: Remove driver default policy->min/max init")
-> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-> ---
->  drivers/cpufreq/cpufreq.c    | 16 +++++++++++++++-
->  drivers/cpufreq/freq_table.c |  9 ++++++++-
->  include/linux/cpufreq.h      |  3 +++
->  3 files changed, 26 insertions(+), 2 deletions(-)
+> I haven't taken a look at the patches yet. Post your talk today will try to
+> go through and see if i can spot something.
+
+Thanks a ton for the testing. Now that I'm back, I'll take a look at
+few bits again, especially stuff for optimizing traversals. 
+
+Can you please share what does your system topology look like and what
+did:
+
+  sudo dmesg | grep sbm
+
+say when you booted into your kernel?
+
+>> +void __init sbm_set_topology(int num_instances, int max_threads_per_instance)
+>> +{
+>> +    sbm_max_threads_per_instance = max_threads_per_instance;
+>> +    sbm_num_instance = num_instances;
+>> +
+>> +    pr_info("sbm topology set to %d instance(s) with a maximum of %d thread(s) per instance\n",
+>> +        sbm_num_instance,
+>> +        sbm_max_threads_per_instance);
+>> +}
 > 
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 96515880b4ac..5e6afb6f8826 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -574,6 +574,8 @@ static ssize_t show_local_boost(struct cpufreq_policy *policy, char *buf)
->  
->  static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
->  {
-> +	unsigned int max_freq;
-> +	unsigned int max_table_freq;
->  	int ret;
->  
->  	if (policy->boost_enabled == enable)
-> @@ -587,7 +589,19 @@ static int policy_set_boost(struct cpufreq_policy *policy, bool enable)
->  		return ret;
->  	}
->  
-> -	ret = freq_qos_update_request(&policy->boost_freq_req, policy->cpuinfo.max_freq);
-> +	max_table_freq = cpufreq_frequency_table_max(policy);
-> +
-> +	if (policy_has_boost_freq(policy)) {
-> +		max_freq = enable ? max_table_freq : policy->cpuinfo.max_base_freq;
-> +
-> +		if (!max_freq)
-> +			/* when the freq table contains only boost frequencies */
-> +			max_freq = max_table_freq;
-> +	} else {
-> +		max_freq = policy->cpuinfo.max_freq;
-> +	}
-> +
-> +	ret = freq_qos_update_request(&policy->boost_freq_req, max_freq);
+> nit: Stray empty line at the end.
 
-This looks pretty convoluted. You have to find the correct freq argument
-for freq_qos_update_request() for freq_table drivers but work around
-this for e.g. the CPPC driver.
+Ack! Thank you again for taking a look.
 
-cpufreq_driver->set_boost() of e.g. the freq_table scmi-cpufreq driver
-does not adjust policy->cpuinfo.max_freq for 'boost state = 0':
+> 
+>> +
 
-cpufreq_boost_set_sw() {
+-- 
+Thanks and Regards,
+Prateek
 
- cpufreq_frequency_table_cpuinfo()
-
-  policy->cpuinfo.min_freq = min_freq
-
-  if (policy->cpuinfo.max_freq < max_freq) <-- (*)
-   policy->cpuinfo.max_freq = max_freq
-}
-
-whereas the one of the cppc_cpufreq driver does:
-
-cppc_cpufreq_set_boost() {
-
- if (state)
-   policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->highest_perf)
- else
-   policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->nominal_perf)
-}
-
-(*) This was added by 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq
-directly if max boost is known"). With this the
-
-policy_set_boost(policy, enable) {
-
- cpufreq_driver->set_boost(policy, enable)
-
- freq_qos_update_request(..., policy->cpuinfo.max_freq)
-}
-
-[...]
