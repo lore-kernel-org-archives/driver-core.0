@@ -1,257 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4412A38C423;
-	Mon, 12 Oct 2026 22:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E03BED6A;
+	Mon, 12 Oct 2026 22:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791843526; cv=none; b=B+G8+u9waSRARyOqDTKWyebuQm2cGQc0WLxLIDh/pUXbWJwzuKSeZ/7HhNblJrImrXBR968DwxTg79CWd5qT++1NWz/mMRuEeX2ml1v8w+rk9l6c3r6SyVmUQ10xwI/nUAkh/uJpcwk183e2LAcQXry71bOizHOkhH0qAhPYGjU=
+	t=1791843733; cv=none; b=C/dv7jnRT1azdRaI7FpXjhzITkm97bJZ72vuqFHAkkfMYGnxrHgDhM8WoP01M4z8Rf33M9//FqNtksvvb5wEw41Uk1UIz9i5NNATdokYVbEb9qDg67hvxIJj1TP5iONJoBYkOfy1owI7323WG+qU/hu05oCHmuYkEpAZnGlnBsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791843526; c=relaxed/simple;
-	bh=6q1dtZ4mFmGnR51E/lgbvW0mQS6LBiXKQ/GO0QIZaYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bX0l3WjkLUmKHrlhwxgBy7lFAeS/31SFV3Ub20F1jjmA2tcvZsWdR2m8DiGBq/2rMrN22gGXyfIrFsfaBnItjk2wy2xB/UhybKAiVyqojCCy5niZ12NKgha+VjT+99wcSFa7BglIhzxrpXpqzwKC41PVXKpSyFBxIKFeN/ktN3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRzyh2Na; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791843733; c=relaxed/simple;
+	bh=5iYML6suNYDZHpJCoRMwwkKPkNnfmUYM0wRwTPR5wTg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h5/bgP0Rrva8hF38IS1P5CtEV9TtFS5EbxW6LfuzjCRE4Q3NO9E428NvLtxzoqB0LrQEmeBIZSQ36OOtz8t/ACu+mD9Lw6gQb8dDdqSn6ofmGMn8VhSGv1AdC0URmTQoEaNzChVHYCG8zWpIhStHxG1Wkp3d7F6Iz1qFgD/xEQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsVLRdfn; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRzyh2Na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2381F0089B;
-	Mon, 12 Oct 2026 22:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791843524;
-	bh=SdztuT0CNnTRxqqFV8Jd29fRStGataYciuWQTe88Lno=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=WRzyh2NaOnyCk+x5vq84UE/CiaqgreCrQ8DcuAFs/hjqCahoZ4AxVCtVbPKnxbnEi
-	 SBXeYwTir5rsEnH8CYXbue+kf8thLFgZNZt0VZqttar8BlzicVrBs5P6se/tdOuAmr
-	 LDyvVM5UK63bLnT2Wd1+CybjUfwJD7CPWdD1SEf166OleHqPvLvMbwdM8rZWHa5Rj8
-	 NI3uwFN0mtNGxrp417pLAUBZHKwn2nWh3Ndckz+eX+n+K97yTbdSnLG2nCHxWlrJTd
-	 JVh6Y8xoPxJebFf0RufXiLajj9ZPnKdzV1HHVvqPjugiLuy2nFyfmUZ2KmzAt2+m+C
-	 v4a8yj+vUCr5Q==
-Date: Mon, 12 Oct 2026 17:18:43 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable+noautosel@kernel.org
-Subject: Re: [PATCH v13 10/10] PCI: of: Avoid np->data usage for the node
- changeset
-Message-ID: <20261012221843.GA1409528@bhelgaas>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsVLRdfn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791843730; x=1823379730;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=5iYML6suNYDZHpJCoRMwwkKPkNnfmUYM0wRwTPR5wTg=;
+  b=FsVLRdfndIq9umfOohJ59wVxoB5cMmenzHhk5FXNdrMHFjq1EZ2FAQdC
+   Gv+CsmUt3bQ53xIlNPwNojyrA+3PqMqTmu6zdmRITzmLWEa0iQWtp9CZH
+   97blYR+ezHcRmAN2Ao3+josOzvTRPWbgdfj2XPTvzFoXeHZswIVUC/WeR
+   ZmfwBsp0HvTyCLBACGgl+EQWFJmkEpMCd/EFJQrB5+AoUKHehZftKVXCY
+   EDRQSHFyOohe9kRdNrae2NLk2iEb35o3E3z+YIxbYAwojUSD0CvoUxOg6
+   P+rXTIs/p7LKYz4+Xjr5bzZQdEPgYRawTUTrO6Ua60yCsGpyTikh4DHax
+   w==;
+X-CSE-ConnectionGUID: OV0qaa6FSCityg9wiFTAJA==
+X-CSE-MsgGUID: QH7/zO07SyeZH1J9AKXPDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="465249"
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="465249"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 15:22:09 -0700
+X-CSE-ConnectionGUID: bsNifrMSSyi0AAQqyZ3Cpw==
+X-CSE-MsgGUID: qdV+tLJBSweNMNI+jxDX3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="974426"
+Received: from unknown (HELO [10.241.242.105]) ([10.241.242.105])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 15:22:09 -0700
+Message-ID: <460a7726022740feeee606538e4cf63adf6090c2.camel@linux.intel.com>
+Subject: Re: [RFC PATCH v3 01/13] lib/sbm: Introduce helpers for
+ architectures to configure LLC properties
+From: Tim Chen <tim.c.chen@linux.intel.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>, Peter Zijlstra	
+ <peterz@infradead.org>, Chen Yu <yu.c.chen@intel.com>, Ingo Molnar	
+ <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot	
+ <vincent.guittot@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ Arnd Bergmann	 <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-mips@vger.kernel.org,
+ loongarch@lists.linux.dev, 	driver-core@lists.linux.dev, Sudeep Holla
+ <sudeep.holla@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
+ <dakr@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, Thomas Bogendoerfer
+	 <tsbogend@alpha.franken.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,  Alexander Gordeev
+ <agordeev@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, Andreas
+ Larsson	 <andreas@gaisler.com>, Thomas Gleixner <tglx@kernel.org>, Borislav
+ Petkov	 <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt	
+ <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman	
+ <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Shrikanth
+ Hegde	 <sshegde@linux.ibm.com>, WANG Xuerui <kernel@xen0n.name>, Michael
+ Ellerman	 <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy	 <chleroy@kernel.org>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, "H.
+ Peter Anvin" <hpa@zytor.com>
+Date: Mon, 12 Oct 2026 15:22:08 -0700
+In-Reply-To: <20261001192849.74788-2-kprateek.nayak@amd.com>
+References: <20261001192849.74788-1-kprateek.nayak@amd.com>
+	 <20261001192849.74788-2-kprateek.nayak@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012142826.159178-11-herve.codina@bootlin.com>
 
-On Mon, Oct 12, 2026 at 04:28:24PM +0200, Herve Codina wrote:
-> of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-> whether the node is dynamic but not whether it has valid private data.
-> 
-> During the node creation, an OF changeset is used and this changeset is
-> stored in np->data to be available for removal functions.
-> 
-> If, for instance, a PCI host bridge is created using a device-tree
-> overlay, the related node will have the dynamic flag set but np->data
-> will be NULL. This leads to NULL pointer dereferences.
-> 
-> Checking for a non-NULL np->data pointer to determine if the node has
-> been created by the PCI node creation process is not enough. Indeed,
-> on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-> (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-> additions and populates np->data with its own structure, such as a
-> struct pci_dn. In that case, np->data is not NULL but it is not related
-> to our changeset stored during the PCI node process creation.
-> 
-> Avoid the usage of np->data to store the changeset used during the PCI
-> node creation. Store our changeset in a more relevant structure: either
-> struct pci_dev when the node is created for a PCI device or struct
-> pci_host_bridge when the node is created for the PCI host bridge.
-> 
-> With that done, no ambiguity remains on removal. Indeed, this changeset,
-> if non-NULL, is the one used during PCI node creation. Check and use
-> this changeset on the removal process.
-> 
-> Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
-> Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-> Cc: <stable+noautosel@kernel.org> # Issue not triggered but could be a problem
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+On Thu, 2026-10-01 at 19:28 +0000, K Prateek Nayak wrote:
+> Subsequent commits will add arch/ hooks to configure the sparsebitmask
+> (sbm) topology - number of sbm instance and the maximum CPUs that a
+> single instance can represent.
+>=20
+> Introduce sbm_set_topology() that helps architectures configure the sbm
+> topology. Also add arch_sbm_cpu_instance_id() which will be used to map
+> CPUs to the sbm instances during init to keep CPUs on the same instance
+> on the same sbm leaf.
+>=20
+> Individual arch/ users will be added one at a time in the subsequent
+> commits.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Thanks for working on this series.
 
+>=20
+> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 > ---
->  drivers/pci/of.c    | 32 ++++++++++++++++++++------------
->  include/linux/pci.h | 11 +++++++++++
->  2 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index 0a5797652e18..fbed24a244d0 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -732,15 +732,20 @@ void of_pci_remove_node(struct pci_dev *pdev)
->  {
->  	struct device_node *np;
->  
-> +	if (!pdev->cset)
-> +		return;
+>  include/linux/sbm.h |  8 ++++++++
+>  lib/Makefile        |  2 +-
+>  lib/sbm.c           | 27 +++++++++++++++++++++++++++
+>  3 files changed, 36 insertions(+), 1 deletion(-)
+>  create mode 100644 include/linux/sbm.h
+>  create mode 100644 lib/sbm.c
+>=20
+> diff --git a/include/linux/sbm.h b/include/linux/sbm.h
+> new file mode 100644
+> index 000000000000..adac12ed233a
+> --- /dev/null
+> +++ b/include/linux/sbm.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_SBM_H
+> +#define _LINUX_SBM_H
 > +
->  	np = pci_device_to_OF_node(pdev);
-> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> +	if (!np)
->  		return;
->  
->  	fw_devlink_set_device(&np->fwnode, NULL);
->  	device_remove_of_node(&pdev->dev);
-> -	of_changeset_revert(np->data);
-> -	of_changeset_destroy(np->data);
-> +	of_changeset_revert(pdev->cset);
-> +	of_changeset_destroy(pdev->cset);
->  	of_node_put(np);
-> +	kfree(pdev->cset);
-> +	pdev->cset = NULL;
->  }
->  
->  void of_pci_make_dev_node(struct pci_dev *pdev)
-> @@ -800,18 +805,17 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
->  	if (ret)
->  		goto out_clear_devlink_dev;
->  
-> -	np->data = cset;
-> -
->  	ret = device_add_of_node(&pdev->dev, np);
->  	if (ret)
->  		goto out_revert_cset;
->  
-> +	pdev->cset = cset;
+> +int arch_sbm_cpu_instance_id(int cpu);
+> +void sbm_set_topology(int num_instances, int max_threads_per_instance);
 > +
->  	kfree(name);
->  
->  	return;
->  
->  out_revert_cset:
-> -	np->data = NULL;
->  	of_changeset_revert(cset);
->  out_clear_devlink_dev:
->  	fw_devlink_set_device(&np->fwnode, NULL);
-> @@ -828,16 +832,21 @@ void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge)
->  {
->  	struct device_node *np;
->  
-> +	if (!bridge->cset)
-> +		return;
+> +#endif /* _LINUX_SBM_H */
+> diff --git a/lib/Makefile b/lib/Makefile
+> index dfab958327c5..7776330f5b25 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -40,7 +40,7 @@ lib-y :=3D ctype.o string.o vsprintf.o cmdline.o \
+>  	 is_single_threaded.o plist.o decompress.o kobject_uevent.o \
+>  	 earlycpio.o seq_buf.o siphash.o dec_and_lock.o \
+>  	 nmi_backtrace.o win_minmax.o memcat_p.o \
+> -	 buildid.o objpool.o iomem_copy.o sys_info.o
+> +	 buildid.o objpool.o iomem_copy.o sys_info.o sbm.o
+> =20
+>  lib-$(CONFIG_UNION_FIND) +=3D union_find.o
+>  lib-$(CONFIG_PRINTK) +=3D dump_stack.o
+> diff --git a/lib/sbm.c b/lib/sbm.c
+> new file mode 100644
+> index 000000000000..82280e3306de
+> --- /dev/null
+> +++ b/lib/sbm.c
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+
+Minor nits.  Convention is
+
+// SPDX-License-Identifier: GPL-2.0=20
+
+for .c file according to
+Documentation/process/license-rules.rst
+
+checkpatch asks for a MAINTAINERS entry for include/linux/sbm.h and
+lib/sbm.c.
+
+Tim
+
+> +#include <linux/sbm.h>
+> +#include <linux/init.h>
+> +#include <linux/printk.h>
 > +
->  	np = pci_bus_to_OF_node(bridge->bus);
-> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> +	if (!np)
->  		return;
->  
->  	fw_devlink_set_device(&np->fwnode, NULL);
->  	device_remove_of_node(&bridge->bus->dev);
->  	device_remove_of_node(&bridge->dev);
-> -	of_changeset_revert(np->data);
-> -	of_changeset_destroy(np->data);
-> +	of_changeset_revert(bridge->cset);
-> +	of_changeset_destroy(bridge->cset);
->  	of_node_put(np);
-> +	kfree(bridge->cset);
-> +	bridge->cset = NULL;
->  }
->  
->  void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-> @@ -899,8 +908,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	if (ret)
->  		goto out_clear_devlink_dev;
->  
-> -	np->data = cset;
-> -
->  	/* Add the of_node to host bridge and the root bus */
->  	ret = device_add_of_node(&bridge->dev, np);
->  	if (ret)
-> @@ -910,6 +917,8 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	if (ret)
->  		goto out_remove_bridge_dev_of_node;
->  
-> +	bridge->cset = cset;
+> +static int sbm_max_threads_per_instance =3D -1;
+> +static int sbm_num_instance =3D -1;
 > +
->  	kfree(name);
->  
->  	return;
-> @@ -917,7 +926,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  out_remove_bridge_dev_of_node:
->  	device_remove_of_node(&bridge->dev);
->  out_revert_cset:
-> -	np->data = NULL;
->  	of_changeset_revert(cset);
->  out_clear_devlink_dev:
->  	fw_devlink_set_device(&np->fwnode, NULL);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index d31a8d107b1e..7b0ba9ec7b5c 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -339,6 +339,9 @@ struct pcie_link_state;
->  struct pci_sriov;
->  struct pci_p2pdma;
->  struct rcec_ea;
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +struct of_changeset;
-> +#endif
->  
->  /* struct pci_dev - describes a PCI device
->   *
-> @@ -598,6 +601,10 @@ struct pci_dev {
->  	u8		tph_mode;	/* TPH mode */
->  	u8		tph_req_type;	/* TPH requester type */
->  #endif
+> +/*
+> + * In absence of an arch definition, consider all CPUs to
+> + * belong to the same sbm instance.
+> + */
+> +int __weak arch_sbm_cpu_instance_id(int cpu)
+> +{
+> +	return 0;
+> +}
 > +
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +	struct of_changeset *cset; /* Changeset used for OF node creation */
-> +#endif
->  };
->  
->  static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
-> @@ -670,6 +677,10 @@ struct pci_host_bridge {
->  	unsigned int	broken_l1ss_resume:1;	/* Resuming from L1SS during
->  						   system suspend is broken */
->  
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +	struct of_changeset *cset; /* Changeset used for OF node creation */
-> +#endif
+> +void __init sbm_set_topology(int num_instances, int max_threads_per_inst=
+ance)
+> +{
+> +	sbm_max_threads_per_instance =3D max_threads_per_instance;
+> +	sbm_num_instance =3D num_instances;
 > +
->  	/* Resource alignment requirements */
->  	resource_size_t (*align_resource)(struct pci_dev *dev,
->  			const struct resource *res,
-> -- 
-> 2.55.0
-> 
+> +	pr_info("sbm topology set to %d instance(s) with a maximum of %d thread=
+(s) per instance\n",
+> +		sbm_num_instance,
+> +		sbm_max_threads_per_instance);
+> +}
+> +
