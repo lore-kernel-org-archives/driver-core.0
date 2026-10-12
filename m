@@ -1,189 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E03BED6A;
-	Mon, 12 Oct 2026 22:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A33B42E6;
+	Mon, 12 Oct 2026 22:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791843733; cv=none; b=C/dv7jnRT1azdRaI7FpXjhzITkm97bJZ72vuqFHAkkfMYGnxrHgDhM8WoP01M4z8Rf33M9//FqNtksvvb5wEw41Uk1UIz9i5NNATdokYVbEb9qDg67hvxIJj1TP5iONJoBYkOfy1owI7323WG+qU/hu05oCHmuYkEpAZnGlnBsk=
+	t=1791844634; cv=none; b=EizfeDrUJwFm7dPhMeZeUMr6cD7YPYREm/6rprw3Xj7Zp0Xi3lXlL/XrxjbhGabJrwRWec2wcn/rKcQXDCLvaPWtHgadsRSa/Z6C0R7MxK8vZIj1BytWc5E7d5sIq4LWJ0wDQtJ9q5NygFNLOULuEZLcLPxyOlby6Bfe0Kc8SNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791843733; c=relaxed/simple;
-	bh=5iYML6suNYDZHpJCoRMwwkKPkNnfmUYM0wRwTPR5wTg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h5/bgP0Rrva8hF38IS1P5CtEV9TtFS5EbxW6LfuzjCRE4Q3NO9E428NvLtxzoqB0LrQEmeBIZSQ36OOtz8t/ACu+mD9Lw6gQb8dDdqSn6ofmGMn8VhSGv1AdC0URmTQoEaNzChVHYCG8zWpIhStHxG1Wkp3d7F6Iz1qFgD/xEQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsVLRdfn; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791844634; c=relaxed/simple;
+	bh=FdwbozunUCc7zuPRwq9GYUfaTcQ565a3OSXnMSsVAbI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=T6RoSINZkUs2FpPaAlaLL/qS0wOd99GAHg5Ry5VhjhU7rU853GZdffvK1O/cKDn+rjznpJNhMOK0jPZ3EyhSSddcOrCr7hFGaxz5QclINBxl4egXb2WNOiqOKhuXnYLT1tNwBF1W+Ld3SMlFtnWJcOfzHRDRurYPl4CjkCwgRqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EhTjnUtB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsVLRdfn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791843730; x=1823379730;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=5iYML6suNYDZHpJCoRMwwkKPkNnfmUYM0wRwTPR5wTg=;
-  b=FsVLRdfndIq9umfOohJ59wVxoB5cMmenzHhk5FXNdrMHFjq1EZ2FAQdC
-   Gv+CsmUt3bQ53xIlNPwNojyrA+3PqMqTmu6zdmRITzmLWEa0iQWtp9CZH
-   97blYR+ezHcRmAN2Ao3+josOzvTRPWbgdfj2XPTvzFoXeHZswIVUC/WeR
-   ZmfwBsp0HvTyCLBACGgl+EQWFJmkEpMCd/EFJQrB5+AoUKHehZftKVXCY
-   EDRQSHFyOohe9kRdNrae2NLk2iEb35o3E3z+YIxbYAwojUSD0CvoUxOg6
-   P+rXTIs/p7LKYz4+Xjr5bzZQdEPgYRawTUTrO6Ua60yCsGpyTikh4DHax
-   w==;
-X-CSE-ConnectionGUID: OV0qaa6FSCityg9wiFTAJA==
-X-CSE-MsgGUID: QH7/zO07SyeZH1J9AKXPDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="465249"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="465249"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 15:22:09 -0700
-X-CSE-ConnectionGUID: bsNifrMSSyi0AAQqyZ3Cpw==
-X-CSE-MsgGUID: qdV+tLJBSweNMNI+jxDX3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="974426"
-Received: from unknown (HELO [10.241.242.105]) ([10.241.242.105])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 15:22:09 -0700
-Message-ID: <460a7726022740feeee606538e4cf63adf6090c2.camel@linux.intel.com>
-Subject: Re: [RFC PATCH v3 01/13] lib/sbm: Introduce helpers for
- architectures to configure LLC properties
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>, Peter Zijlstra	
- <peterz@infradead.org>, Chen Yu <yu.c.chen@intel.com>, Ingo Molnar	
- <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot	
- <vincent.guittot@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Arnd Bergmann	 <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-mips@vger.kernel.org,
- loongarch@lists.linux.dev, 	driver-core@lists.linux.dev, Sudeep Holla
- <sudeep.holla@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
- <dakr@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, Thomas Bogendoerfer
-	 <tsbogend@alpha.franken.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,  Alexander Gordeev
- <agordeev@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, Andreas
- Larsson	 <andreas@gaisler.com>, Thomas Gleixner <tglx@kernel.org>, Borislav
- Petkov	 <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt	
- <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman	
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Shrikanth
- Hegde	 <sshegde@linux.ibm.com>, WANG Xuerui <kernel@xen0n.name>, Michael
- Ellerman	 <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy	 <chleroy@kernel.org>, Christian Borntraeger
- <borntraeger@linux.ibm.com>,  Sven Schnelle <svens@linux.ibm.com>, "H.
- Peter Anvin" <hpa@zytor.com>
-Date: Mon, 12 Oct 2026 15:22:08 -0700
-In-Reply-To: <20261001192849.74788-2-kprateek.nayak@amd.com>
-References: <20261001192849.74788-1-kprateek.nayak@amd.com>
-	 <20261001192849.74788-2-kprateek.nayak@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EhTjnUtB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96441F0089B;
+	Mon, 12 Oct 2026 22:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791844633;
+	bh=oUGbcqLCEbhdugpJCrgg19ejdVgr04nu9YdlTnXgGEQ=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To;
+	b=EhTjnUtBMlBY9vB+/mNO/C3HMLjZJkXGicJvnUxDon0cM+ECRf2X0M0Etl/ejTyLG
+	 CZRi+26dBISL4Njxidz63wzMsLEr8O+4piRbc7urBrXyizxvIuCC42W8yAspELTUvg
+	 /CefZYPngjm01mwZ368ZtR2y3HPKq8Hh9Sa1/3E2Uo2Xqcp0i5W6DtE5+jnnhwUyJx
+	 jMkuc6VatwUyWRODXYpRcwoP+AaKC1EAp+eCHcO4+LX3DO9WeJMaQ87tIQ7Ol/MZTj
+	 AV2zQXdFSXriGQtsBOszLcP3tSLTF4Nps3x+yB4C12EfwxptY9vywyHhLRbwAvvoQQ
+	 KzUNkh23YrHBQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 Oct 2026 00:37:10 +0200
+Message-Id: <DM37WR9GUVEO.1ZJWESPXVQ8X5@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] debugfs: clarify return values when disabled
+Cc: <linux-kernel@vger.kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>, "Johan
+ Hovold" <johan@kernel.org>
+To: "Randy Dunlap" <rdunlap@infradead.org>
+References: <20261008171547.3084466-1-rdunlap@infradead.org>
+In-Reply-To: <20261008171547.3084466-1-rdunlap@infradead.org>
 
-On Thu, 2026-10-01 at 19:28 +0000, K Prateek Nayak wrote:
-> Subsequent commits will add arch/ hooks to configure the sparsebitmask
-> (sbm) topology - number of sbm instance and the maximum CPUs that a
-> single instance can represent.
->=20
-> Introduce sbm_set_topology() that helps architectures configure the sbm
-> topology. Also add arch_sbm_cpu_instance_id() which will be used to map
-> CPUs to the sbm instances during init to keep CPUs on the same instance
-> on the same sbm leaf.
->=20
-> Individual arch/ users will be added one at a time in the subsequent
-> commits.
+On Thu Oct 8, 2026 at 7:15 PM CEST, Randy Dunlap wrote:
+> @@ -820,6 +826,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
+>   *
+>   * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+>   * returned.
+> + * If debugfs is not enabled in the kernel build, the value %-ENODEV
+> + * will be returned. If debugfs is enabled in the kernel build but is di=
+sabled
+> + * by using "debugfs=3Doff" on the kernel command line, the value %-EPER=
+M
+> + * will be returned.
 
-Thanks for working on this series.
+This keeps the old *and* the new text.
 
->=20
-> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
-> ---
->  include/linux/sbm.h |  8 ++++++++
->  lib/Makefile        |  2 +-
->  lib/sbm.c           | 27 +++++++++++++++++++++++++++
->  3 files changed, 36 insertions(+), 1 deletion(-)
->  create mode 100644 include/linux/sbm.h
->  create mode 100644 lib/sbm.c
->=20
-> diff --git a/include/linux/sbm.h b/include/linux/sbm.h
-> new file mode 100644
-> index 000000000000..adac12ed233a
-> --- /dev/null
-> +++ b/include/linux/sbm.h
-> @@ -0,0 +1,8 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _LINUX_SBM_H
-> +#define _LINUX_SBM_H
-> +
-> +int arch_sbm_cpu_instance_id(int cpu);
-> +void sbm_set_topology(int num_instances, int max_threads_per_instance);
-> +
-> +#endif /* _LINUX_SBM_H */
-> diff --git a/lib/Makefile b/lib/Makefile
-> index dfab958327c5..7776330f5b25 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -40,7 +40,7 @@ lib-y :=3D ctype.o string.o vsprintf.o cmdline.o \
->  	 is_single_threaded.o plist.o decompress.o kobject_uevent.o \
->  	 earlycpio.o seq_buf.o siphash.o dec_and_lock.o \
->  	 nmi_backtrace.o win_minmax.o memcat_p.o \
-> -	 buildid.o objpool.o iomem_copy.o sys_info.o
-> +	 buildid.o objpool.o iomem_copy.o sys_info.o sbm.o
-> =20
->  lib-$(CONFIG_UNION_FIND) +=3D union_find.o
->  lib-$(CONFIG_PRINTK) +=3D dump_stack.o
-> diff --git a/lib/sbm.c b/lib/sbm.c
-> new file mode 100644
-> index 000000000000..82280e3306de
-> --- /dev/null
-> +++ b/lib/sbm.c
-> @@ -0,0 +1,27 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+Besides that, when debugfs is disabled via kernel command line
+debugfs_change_name() checks
 
-Minor nits.  Convention is
+	if (IS_ERR_OR_NULL(dentry))
+		return 0;
 
-// SPDX-License-Identifier: GPL-2.0=20
+and if disabled via kernel command line dentry would have been an ERR_PTR a=
+nd
+hence it would just return 0.
 
-for .c file according to
-Documentation/process/license-rules.rst
+(There may be more functions of this sort, I didn't check all of them.)
 
-checkpatch asks for a MAINTAINERS entry for include/linux/sbm.h and
-lib/sbm.c.
-
-Tim
-
-> +#include <linux/sbm.h>
-> +#include <linux/init.h>
-> +#include <linux/printk.h>
-> +
-> +static int sbm_max_threads_per_instance =3D -1;
-> +static int sbm_num_instance =3D -1;
-> +
-> +/*
-> + * In absence of an arch definition, consider all CPUs to
-> + * belong to the same sbm instance.
-> + */
-> +int __weak arch_sbm_cpu_instance_id(int cpu)
-> +{
-> +	return 0;
-> +}
-> +
-> +void __init sbm_set_topology(int num_instances, int max_threads_per_inst=
-ance)
-> +{
-> +	sbm_max_threads_per_instance =3D max_threads_per_instance;
-> +	sbm_num_instance =3D num_instances;
-> +
-> +	pr_info("sbm topology set to %d instance(s) with a maximum of %d thread=
-(s) per instance\n",
-> +		sbm_num_instance,
-> +		sbm_max_threads_per_instance);
-> +}
-> +
+Thanks,
+Danilo
