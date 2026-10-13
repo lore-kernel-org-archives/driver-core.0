@@ -1,176 +1,125 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D14952BE5B
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 17:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4B153C3DF
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 19:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913872; cv=none; b=fB6EwgTidiouQTbK3g3jgPREZACtasNA+7p0jvOywBb0xwoIC33Uiv9H55C9O36fvFhHktLvhqFydIUjai/WB1q9v8mM0mxr7MTST9XyTIEWiFLznwwsco4kuRwTGqEVgvH2Dj19MZ2QxeK/hNUlELZLz1R+8COr1yNfIRK0Y2U=
+	t=1791918713; cv=none; b=BNiN/+2OrxpP21Va1rT504fkQvhnUmkpKgCLFddCYdaiSIWrEjHvyqjDh2gUSzLsv2KJPvlH9YI5ivPt0hovf5zWk5WYIe5XFP70H2wusBYlnGbQdjypaWByJSgG9ksGW41nruCwiSZuiUOR2ltE0bACmeZfH5ko/RRC/lShkLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913872; c=relaxed/simple;
-	bh=NcU3zyHrdoqF7Sz2BWcoYero8xdv5Bz83v9sBOVAEgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YVM75PYK4XVggAtF35Dkg77fww4dwOcuFxUfZelp2dCVeKtNqNc7BV6F3h0s8t6R76TBA73U6X2sifY4kqAsLDUL4B5fSSqCsJhYH4X6rfDNbZYtr1UMmIYvXoLm9E6IT3mfssMMjP6ek4dSOSzqX/fvQXdUzy4V5d2NpGObneY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=T9Jfi2Zl; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YAW7BOn0; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1791918713; c=relaxed/simple;
+	bh=3HuQAdiPdsh0jwsZb5sHsgSWrdEkCX/qTBEkBhJKRIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qHV7JWuZVV3PWHcNPM850+VCgMaRd6Gqz7wRSacvX+ohzBJKhz24iQLj91FAYGkPwVyOdLdHvfrOsS44yV29Df+YtCIhPhQ4ILahiASddkHup8wPGF7fVJaUuJ+HRqZ1MLedhshQ5e/Bxi8KaazYKJ3IAh8sq3FrRE5wL7+2Qa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=XWh/seND; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="T9Jfi2Zl";
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YAW7BOn0"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 25EDFC653F9
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 17:52:04 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 682F760362
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 17:51:08 +0000 (UTC)
-Received: by mail.galae.net (Postcow, from userid 0)
-	id EF15C11D7183E; Tue, 13 Oct 2026 19:48:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791913868; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=i9zMtqlaeC/N/r/1IZp7EGtF4TlbMbXPfFl8uC42X1Y=;
-	b=T9Jfi2Zl8lRrbyPhdK7aYrswVVU4D9SjTqJuushRlkoQcy44Wt+KCiYZao2SGzaIGJinCP
-	H4jcH2z4kre7EM+Mm2OHn5w/MBCXwEtQ6OBFcI9QZ24uuiZDA9yqmtD5IAyLykZ3pAV5m6
-	UngbbRhMOT7dSOBpX7TNpT4gtWcYxI9cKubgaL8rjnoQBsbdCQz/ShAkBhzIM9n1+q+r2n
-	uqylpDRh+ZLg67ZDoKI4ZzLIVuFFQr911s6ZZS2JgS14ExXljw3wOOqzKL/vjurOO/NtS5
-	tlLf4TdaYlvsUBnCAtJcz3UL6y6iPNoXVp30mIhXHP97ymhZZ34+puupj6tLTg==
-Authentication-Results: mail.galae.net;
-	none
-Received: from mail.galae.net ([172.22.1.253])
-	by 9e7fea892943 with LMTP
-	id ODClAdbuzGqsGBEAtaWaaQ
-	(envelope-from <herve.codina@bootlin.com>)
-	for <herve.codina@bootlin.com>; Mon, 12 Oct 2026 16:29:42 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5603D11D70CC0;
-	Mon, 12 Oct 2026 16:29:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791815379; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=i9zMtqlaeC/N/r/1IZp7EGtF4TlbMbXPfFl8uC42X1Y=;
-	b=YAW7BOn0WCrHZnoFCxPET1QsUZ5WQIGv6Fi0hjmiBAzPVp3UmvJs9B+pVqdpEuWD2wBInS
-	p2zR0m0wEqWfsbEQ/fSqijufblgFv+OLYVhOxkkDE/SaDy/ydDcKEHEvRcUlhhmTCfNcul
-	3PdMduGzOC9JfcAOW0RG0fi3MFGgvU9uWur2Y3y6si8GrHb7OQLG4qW0txznL5Wt70N5GF
-	i1hyBBcihri1YMf1ccstAjNAStP7xzgvIMLJowyLUasNDOQHdHH6NgMginleemvth1Wz2B
-	wSTYtqb8fHGm1Svf/R8ftUz5aaCFiuEee4z/fGi6VTSU9JgGGfytL3nz8eFdwg==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Richard Cheng <icheng@nvidia.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="XWh/seND"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-533861a59b8so39796111cf.1
+        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 12:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1791918710; x=1792523510; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EUvFEr9KZQAlEL8z8vQRJTx2wZ9st4nMmUN/wIzO9UQ=;
+        b=XWh/seNDNGPxN5LcE69rRw6KnMENtBS8s2loIiG92tdUohVC7aFn5DJ3rXi8B+jlEj
+         AjhjybNK2s9SmwguaaFLPb68weLlOeg6aJZhRhUEQr5YfGEiPRGk31DEH6CUbhIG4OJN
+         OV+AVAZsVLeq04B4L5E8LJdMyfHA/su12ynLsYNVYjUyYoyoWAac8PqfR4BXVsS4dScV
+         eGy+S6Wj/DArWPTS3em63heyH8qQujAmwvDm5Fy/XYAE9PBtdEZ9hNkjrUIVMQj/21tx
+         4N6B0dpRGEfcpmOuhvVtgwl/JeKHRSjLN83NNpXFrjYKRu92Ift7t9AaEWWLYpgB0GfO
+         Vwyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791918710; x=1792523510;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EUvFEr9KZQAlEL8z8vQRJTx2wZ9st4nMmUN/wIzO9UQ=;
+        b=HRYLcxsCeFYA1/uPvMOP1bGlmcOkXWaemAdYz7iEaoRi3pvnKY+/udg/ABuTONnT5h
+         HwmEj4j98ciVsP9+g50rNjUyPa+z0yacj9Mx25DN6O0/CXyQnrT60kj0yY+Ljo3Ex0O1
+         PDA8KjWTalw2eWZa0b6dbnFoBJUgRaWES1/wsPo6WOZwTPT9ZWgBEoORROS8NMycr6Wo
+         k/vHy7JOTH1L08Hhyw2K+NDb1y131myYkVuQdQPY85eJ7B/VhRZe/RTfdUGOzZi6C6bz
+         oUJq/4KGXrxv57YK7uVPbQcSk7Gy11IzO9lhr+6Lyj8tjvEjtCwUJHnZRY6FvvEUrJZK
+         ptEA==
+X-Forwarded-Encrypted: i=1; AKwUvBySbYPH8f44kBUKOx+6xHHqkmI4zn1B6eNJpeX1fbVmKDqslrrLQCMRoJe58VGEEqCqo1HiNgQd6XWtwA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYI7ZbJIFtluEspxATLioayw9iUxkFKD12p5yUE6Sf33uypOIAY+
+	vc3AwMkn2Pg6K+nSdhmA8fJOIEhVkXvUEJx4nNSziePuvbpB+DtuufiTf8vZ3xTGqw==
+X-Gm-Gg: AYBFou20MB2B0XMWEmTSFI2rox2Nm6A4zGabrN1mAKb3tkLFFw/ED7DlFcPWOtpFRDk
+	GkSVub1PZjyhvLDXriOmJEOJ0SOj1TLSBxPLp1m6O9cKItS0b0LvJYeDAB4fJk6de/8DRoo576J
+	KumyNGZOqG3FXrk0BBOx9F7LwQjQmxkuddEmbnsSBnnQknPu0QBEs/XJKs8DNd7whCaULM1m5OE
+	+0awacpcEBpCcdmUQkJhInOUJiqTv8+Q7zjr27NHcJXkayYStzE9PT8DtJsrF1RL68rPDYrAY3O
+	ovls/E26envkJnyOqGcxxJo5Tz0fpFrVbzCgfEOxslOA/by3dvIsl4MUBdgL47ldeAnA0ytjWnB
+	bL6yo1kf46kQRIklwiLpgdoC6BJD2oOGJthZhW+w+dtg39eaipa0m/QJNAKO/rxWhuCBXhnq7HF
+	dgNJuJqxbeqZucWscL9BUIvDRZ7308nBERW/HO7OZr2od1wuDy5xOLsxZMnHikcuMBNhgWnCCG3
+	irJCf25HAjbiBmouw7JKCczSZzdkCRLUdkTx4CTug==
+X-Received: by 2002:a05:622a:48e:b0:535:a5fb:67fa with SMTP id d75a77b69052e-535a5fb84aamr206754931cf.70.1791918710428;
+        Tue, 13 Oct 2026 12:11:50 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b7ad30csm109382571cf.23.2026.10.13.12.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 12:11:49 -0700 (PDT)
+Date: Tue, 13 Oct 2026 15:11:46 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Lizhi Hou <lizhi.hou@amd.com>
-Cc: driver-core@lists.linux.dev,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	driver-core@lists.linux.dev, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v13 06/10] PCI: of: Use fw_devlink_set_device()
-Date: Mon, 12 Oct 2026 16:28:20 +0200
-Message-ID: <20261012142826.159178-7-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261012142826.159178-1-herve.codina@bootlin.com>
-References: <20261012142826.159178-1-herve.codina@bootlin.com>
+	Mario Peter <mario.peter@leica-geosystems.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Message-ID: <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Last-TLS-Session-Version: None
-X-Rspamd-Queue-Id: EF15C11D7183E
-X-Spamd-Result: default: False [0.55 / 30.00];
-	BAYES_HAM(-1.95)[87.84%];
-	DATE_IN_PAST(1.00)[27];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_NO_TLS_LAST(0.10)[];
-	URIBL_BLOCKED(0.00)[fwnode.dev:url,intel.com:email,localhost:rdns,localhost:helo,nvidia.com:email,bootlin.com:mid,bootlin.com:email,qualcomm.com:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	BCC(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[herve.codina@bootlin.com];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	PREVIOUSLY_DELIVERED(0.00)[herve.codina@bootlin.com];
-	DKIM_SIGNED(0.00)[bootlin.com:s=dkim];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,lunn.ch,kernel.org,linuxfoundation.org,google.com,opensource.cirrus.com,cirrus.com,linux.intel.com,gmail.com,stgolabs.net,intel.com,zohomail.com,bootlin.com,amd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
 
-The code set directly fwnode.dev field.
+On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
+> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
+> > +void bus_probe_device_deferred(struct device *dev)
+> > +{
+> > +	if (dev->parent && dev->bus->need_parent_lock)
+> > +		device_lock(dev->parent);
+> 
+> This looks like it has the same potential UAF as the other patch.  It's quite
+> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC the
+> main reason USB needs this is because interface devices share resources of USB
+> devices and we need to keep the locking order to avoid inversions, right?  Is
+> there more to this from the USB side of things?
 
-Use the dedicated fw_devlink_set_device() helper to perform this
-operation.
+That's pretty much it.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Richard Cheng <icheng@nvidia.com>
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
-Cc stable because used by other patches with Fixes + Cc stable
----
- drivers/pci/of.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I think we can probably do something like this
+> 
+> 	struct device *parent = NULL;
+> 
+> 	scoped_guard(device, dev) {
+> 		if (dev->p->dead)
+> 			return;
+> 	
+> 		if (dev->bus->need_parent_lock)
+> 			parent = get_device(dev->parent);
+> 	}
+> 
+> to avoid the problem, but it's still a bit ugly.
+> 
+> > +	__bus_probe_device(dev);
+> > +	if (dev->parent && dev->bus->need_parent_lock)
+> > +		device_unlock(dev->parent);
+> > +}
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index a51dff91b196..0f45c5b72458 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -882,7 +882,7 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	 * bus. Avoid any new device creation.
- 	 */
- 	of_node_set_flag(np, OF_POPULATED);
--	np->fwnode.dev = &bridge->dev;
-+	fw_devlink_set_device(&np->fwnode, &bridge->dev);
- 	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	ret = of_changeset_apply(cset);
--- 
-2.55.0
+Wouldn't it be simpler just to make each USB interface take a reference 
+to its parent device?  And likewise for USB devices, if needed?
 
+Alan Stern
