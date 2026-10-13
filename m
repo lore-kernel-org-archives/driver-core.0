@@ -1,130 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A2A518148;
-	Tue, 13 Oct 2026 21:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482145372C5
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 22:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791925281; cv=none; b=HoGsBJlOHyW/R6puQ6d9MSvfKUAgBuDGqqZhxi/L1NP//g0C4ANCX4J50y2SoR6CZA+p40+uPPlFGHcZpQJBPKEDtMmoSZt9qALkAUoOHL+P+XhQzZ9mCLvW9kh1U7ARL6JtgChhLx/44Jy+GPEC/01FR78NXRuMGbvfSHE5U0o=
+	t=1791931217; cv=none; b=R96SY+yzzXMLEkkY6rpsxDThk76ZiOZ/zRl/pd+AFx3iR+Zy2/v5lxXiIiPDQ+8MFyQK9pGnC1ywyXDBqS922PQbZlNfWBMsPaI8FzbUq+WS3sIYudqn1vc37VfTQNVlnDp9lBZ5i1bd12L1cyUV1dni0raquNr2iK+/NbFfbHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791925281; c=relaxed/simple;
-	bh=Z5QE8bDGwjv5rpz0E6KvjEKBlO2PL0gMiX6i/nSwbI4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=NvuYQY73552/cGD2sb6pLktiy6ISF2rdgIm3RbTtgS24SvtoOy/C3ltWit+4Ph/4XeStx1fb8UODbrH2dQpgv36DqEai1Oh7DelKXpLdsIjmt29aooBT17yk0mJWkL4YvE2VMizR3xDp9Qtd5cw7RCKIYE6sovPiW4ogkbUloiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bkgxwb8k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791931217; c=relaxed/simple;
+	bh=4WrpaiXx1GRQVpjm8b7gmWUkva2m2HTUpEY5WAi28rA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=YEDl5xNtc2gwc04K+fV5EvnyL9n7DJHnkcFVWHl2oAFNYsLUmX0y0lajvmSVlJWJGIUod2JkXWND+RqrtEgTAoP/8rDs6nPBW1Bxq0p8JuvmOLZJ/40GwISH+CESbcfqbsWSpy6y6WoYP1cwhnps80TSpXqjuVWPo9yunVve6uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ili0nREi; arc=none smtp.client-ip=74.125.82.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bkgxwb8k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E7D1F000FF;
-	Tue, 13 Oct 2026 21:01:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791925280;
-	bh=Pi/onS5WtRQMlO8FS9+xnweQOK38nFxgcItu9oVclZc=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=Bkgxwb8kRgeWfVfeeZcRxvKNQNPflLWum9CcF1B566WzH3xACQW7zpJyShAF3K2dH
-	 XWcpqSD2QWZ0fkbe169FnGbQDOg01JCGEM4A883eRARN8SXTyq51ngI8P/hU4SkpRq
-	 oo/SWcbKMuGsyWO8evcVYbeYzfkRmv3Q/o3yGc2+ox8xBdN33R8eUddVcS9d8PCPbY
-	 c7YulMljG+lESEAcAZU8iSMQXQxD3m5/kLgV6vcMC3z8RfjjUmbb2DHzgi7Nq9O6dP
-	 +dnEA9LuTuZkXr2bwVFiOVQX1q6A6iYDlxiZ46FIItWb9lNWrpmzJz5eYuIiPJkxx/
-	 XZjVg/KX3E+lw==
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ili0nREi"
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-151ba226e1bso3776252c88.0
+        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 15:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791931213; x=1792536013; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6CWZGGdh7JOQ6UqV1gxmMbPkjK0LPv1nbOU26QpmZ10=;
+        b=Ili0nREiJWjElL9HuAOaa+8VjrD42W9CM7AtPVOwzzbDcxdLrBIgN8KnX2wY6Ni4W2
+         bX/iXMT5+x+h4GmHepllNyPT5zodpy/mtb90E+dwXj2BWNDKN4zibQHyj/TxM17GHk/U
+         6F29tHgKs5aN5CxaDbIYbfRKIEHMN8lftvihIC3ynqKUVdcAdj+hHs7BFC2sGxEB6B4x
+         eUiCE20KMlfW2zF5Roz80Jnh5sIZ2JbfKiYor+Urqwy6mudxgVo6YenXKT0/n/rJknC8
+         /PTcOG72sxg4oHXdjU+mU7wf88Fjom4CtCsFisrKe1GXuFl+kI+d1EndmQCjINAKiyjb
+         7CvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791931213; x=1792536013;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6CWZGGdh7JOQ6UqV1gxmMbPkjK0LPv1nbOU26QpmZ10=;
+        b=KbnpBDJy/OD+U2BEgQ+0Z3lJJHrEV/A/q7EsQZlIzQJqR+xKM7Vl01lWAJdKvLF31r
+         ZRH6n90QTGK3wP1+tvHhp4iNH32bpE9F92YtUE/T3cKdUEjZpNbsuF/OO/BIo0NR75lf
+         Wi786Su5BG/6xYDYyY4mKZgJdelZZN7GSS1C6yS5D4RtOjH8mldK1cZ/yV1Be3VseC0I
+         wE8ZoZLfZ2NztRJKTihgO2MIItiCjZ6aed1i5IeAKQ09Er7m5TS/es+kvf36DnIN6CIa
+         2S5NnH2gZB3qaai29eB+xx0HUWe7iotY0UkEUU2moeBsNLAkvvDvj6sD+XEMNu4u6cb6
+         KbSg==
+X-Forwarded-Encrypted: i=1; AKwUvByqRtaJaHME4SC38jhTbbSi2sNyTJn/G1sRkG7v2nzM0XpxQiyNCc9V0LjN654/6sJw/YnysalIJI3SpA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKESuVH2GGaVx7Qg7pPLnDORp/dLGFQUei5zT+C+TusWNRURI1o
+	RCtVlJO9Is50+R0tNEDVQtXqWVl7rKubTkUaGJO5+oZMvqNxyjKQF3c6EOPKFJzxy4Kozt3V0hY
+	uN3KngWIWKg==
+X-Received: from dlak14.prod.google.com ([2002:a05:701b:290e:b0:14e:f9ab:6f83])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:701b:2309:b0:153:7a27:b89
+ with SMTP id a92af1059eb24-16a5ed4008cmr22709999c88.21.1791931212336; Tue, 13
+ Oct 2026 15:40:12 -0700 (PDT)
+Date: Tue, 13 Oct 2026 15:39:35 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 23:01:16 +0200
-Message-Id: <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
-To: "Alan Stern" <stern@rowland.harvard.edu>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Cc: "Johan Hovold" <johan@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Mario Peter"
- <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
- <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
-In-Reply-To: <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261013223946.1836757-1-irogers@google.com>
+Subject: [PATCH 00/11] kobject: Require explicit initialization of struct kobj_type::release
+From: Ian Rogers <irogers@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	David Teigland <teigland@redhat.com>, Alexander Aring <aahringo@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, driver-core@lists.linux.dev, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sh@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-s390@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue Oct 13, 2026 at 9:11 PM CEST, Alan Stern wrote:
-> On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
->> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
->> > +void bus_probe_device_deferred(struct device *dev)
->> > +{
->> > +	if (dev->parent && dev->bus->need_parent_lock)
->> > +		device_lock(dev->parent);
->>=20
->> This looks like it has the same potential UAF as the other patch.  It's =
-quite
->> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC=
- the
->> main reason USB needs this is because interface devices share resources =
-of USB
->> devices and we need to keep the locking order to avoid inversions, right=
-?  Is
->> there more to this from the USB side of things?
->
-> That's pretty much it.
->
->> I think we can probably do something like this
->>=20
->> 	struct device *parent =3D NULL;
->>=20
->> 	scoped_guard(device, dev) {
->> 		if (dev->p->dead)
->> 			return;
->> =09
->> 		if (dev->bus->need_parent_lock)
->> 			parent =3D get_device(dev->parent);
->> 	}
->>=20
->> to avoid the problem, but it's still a bit ugly.
->>=20
->> > +	__bus_probe_device(dev);
->> > +	if (dev->parent && dev->bus->need_parent_lock)
->> > +		device_unlock(dev->parent);
->> > +}
->
-> Wouldn't it be simpler just to make each USB interface take a reference=
-=20
-> to its parent device?  And likewise for USB devices, if needed?
+Clang supports the 'require_explicit_initialization' attribute on struct
+fields to enforce that the field is explicitly initialized when an
+aggregate object is constructed, emitting -Wuninitialized-explicit-init
+(enabled by default) if the field is omitted.
 
-The driver core already holds a reference count of the parent between
-device_add() and device_del(), which is where a "parent" is technically def=
-ined.
-But the deferred retry can extend beyond device_del().
+Following discussion at the Linux Plumbers Conference [1], this series
+introduces __require_explicit_initialization in
+include/linux/compiler_attributes.h and applies it to
+struct kobj_type::release.
 
-USB interfaces already take an additional reference to their USB device in
-usb_set_configuration() and drop it in usb_release_interface(), so they sho=
-uld
-already be protected against this particular UAF.
+As Documentation/core-api/kobject.rst notes:
+  "One important point cannot be overstated: every kobject must have a
+  release() method, and the kobject must persist (in a consistent state)
+  until that method is called. If these constraints are not met, the code
+  is flawed."
 
-The issue concerns a USB device and its parent hub's USB device.  (This mak=
-es me
-wonder whether probing a USB device actually requires the parent USB HUB
-device's lock to be held, or whether this is just a consequence of sharing =
-the
-same usb_bus_type?)
+Annotating struct kobj_type::release caught 30 struct kobj_type
+definitions across the tree that omitted .release:
+- Patches 2-10 fix 10 struct kobj_type definitions where dynamically
+  allocated kobjects, ksets, or enclosing structures were either leaked on
+  kobject_put() or freed prematurely before kobject release (risking a
+  use-after-free when CONFIG_DEBUG_KOBJECT_RELEASE=y).
+- Patch 11 annotates struct kobj_type::release with
+  __require_explicit_initialization and explicitly sets .release = NULL
+  (with explanatory comments) on the remaining legacy struct kobj_type
+  definitions whose kobjects are static, per-CPU, or embedded in devm- or
+  parent-managed structures.
 
-In theory a USB device could also keep a reference count to its parent, but=
- then
-the driver core code would rely on an implementation detail of its users; I=
-'d
-prefer not to make driver core's access to dev->parent depend on references
-maintained by individual subsystems.
+[1] https://lpc.events/event/20/contributions/2392/
 
-I'd even go a step further any say that if subsystems try to keep this poin=
-ter
-valid beyond what's guaranteed by the driver core, they should do this with=
- a
-separate bus specific pointer.  The reason is that otherwise the lifetime a=
-nd
-ownership definition of this pointer does not depend on API contracts, but =
-on
-individual implementation details, which is a very common source for all ki=
-nds
-of bugs.
+Ian Rogers (11):
+  Compiler Attributes: Add __require_explicit_initialization macro
+  powerpc/secvar: Add missing kobject release callback to secvar_ktype
+  sh: sq: Add missing kobject release callback to ktype_percpu_entry
+  cpufreq: Initialize kobj_type release callback in ondemand and
+    conservative governors
+  ACPI: CPPC: Free cpc_desc in kobject release callback
+  dlm: Free dlm_ls in kobject release callback
+  xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+  s390/sclp_mem: Allocate struct sclp_mem dynamically and add kobject
+    release
+  ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
+  drm/amdkfd: Free queue in procfs_queue_type kobject release callback
+  kobject: Require explicit initialization of struct kobj_type::release
+
+ Documentation/conf.py                         |  1 +
+ arch/arm64/kernel/cpuinfo.c                   |  2 +
+ arch/powerpc/kernel/secvar-sysfs.c            |  6 ++
+ arch/sh/kernel/cpu/sh4/sq.c                   |  6 ++
+ drivers/acpi/cppc_acpi.c                      | 39 +++++-----
+ drivers/acpi/sysfs.c                          |  2 +
+ drivers/cpufreq/cpufreq_conservative.c        |  5 +-
+ drivers/cpufreq/cpufreq_governor.c            |  3 +-
+ drivers/cpufreq/cpufreq_governor.h            |  1 +
+ drivers/cpufreq/cpufreq_ondemand.c            |  5 +-
+ drivers/dma/ioat/sysfs.c                      |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |  4 +
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 10 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c        |  5 +-
+ drivers/infiniband/hw/hfi1/sysfs.c            |  2 +
+ drivers/infiniband/hw/usnic/usnic_ib_sysfs.c  |  2 +
+ drivers/parisc/pdc_stable.c                   |  2 +
+ drivers/power/supply/ab8500_fg.c              |  2 +
+ drivers/s390/char/sclp_mem.c                  | 73 +++++++++----------
+ drivers/soc/hisilicon/kunpeng_hccs.c          |  6 ++
+ .../fbdev/omap2/omapfb/dss/display-sysfs.c    |  2 +
+ .../fbdev/omap2/omapfb/dss/manager-sysfs.c    |  2 +
+ .../fbdev/omap2/omapfb/dss/overlay-sysfs.c    |  2 +
+ drivers/xen/sys-hypervisor.c                  |  6 ++
+ fs/dlm/lockspace.c                            | 19 +++--
+ fs/erofs/sysfs.c                              |  4 +
+ fs/f2fs/sysfs.c                               |  6 ++
+ fs/ocfs2/cluster/masklog.c                    |  2 +
+ fs/ubifs/sysfs.c                              | 24 ++----
+ include/linux/compiler_attributes.h           | 11 +++
+ include/linux/kobject.h                       |  2 +-
+ scripts/checkpatch.pl                         |  1 +
+ tools/lib/python/kdoc/xforms_lists.py         |  1 +
+ 33 files changed, 170 insertions(+), 90 deletions(-)
+
+-- 
+2.56.0.385.gd3acb90ef8-goog
+
