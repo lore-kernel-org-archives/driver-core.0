@@ -1,330 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B4F3D47C2;
-	Mon, 12 Oct 2026 23:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264DC39B4A3
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 10:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791848511; cv=none; b=Blb+o5WyhyXzQZHTb2ikWWFsuvlXSHPR0DBd7N8fcPtLIUGM+APtI3uRguQYFPgBoB/armIT3PV0J9VD87wiKWk2Yihn2DAo6rUhmqYH6bmjkJW2sEU1nSkW1SPO3hSZzko0lI4tUMnBIwss1LFYwh0Z8z1bK6M164wlqckzqu4=
+	t=1791886441; cv=none; b=nQrUokHiPGSzXzIDgb1PE2WoaX47IakSDjG1mRrnYZSmnrCDAVt8HSq0sSszcwco+hmmq20EuPcbefwgU+AhiFg0a5t/+dcwTGgkhFj4AKtJglfaNNZ/MnArJt7vfxvWRUUgXGjK1OHRFTD0fwo5DQCDA/GiWRPHD6rcdzDRlxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791848511; c=relaxed/simple;
-	bh=iD+/aLbLxyN4OPgQVnmXQ+36xaYhRSs8OGa/lzPqXVQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JxuVd6FqHAM85kyrF4YywN2BpfviVtTwtIRQAzZXitLsXFNN8XNLpRbFG/bwlQNJYY4ZEi28iVPvSsD0FPsRFNoroBe2aePkk7mkYLXNn7vhyPeuHkXTOgCoejDUkBPe93MCu0R3akSmlAI0im7of+VNAJMY2YvfMOXqQXRCuFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F3rhYTqN; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791886441; c=relaxed/simple;
+	bh=PbLnTdlpMC70FbudpPYD16et/o+1PhDF6d/QdufD0dg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CEqy3I8kMrdCilMEEyYdsoip2+7z9ejxcc4luWq/8oWMRzPK5mNF9QkAdy12+Vxwb2el7D2UhhR5rmjtYVF2bpN5h19l6Mm1s3a/83kkCidUzaqs0CxDMqRHI4zg1TnHdImxbirf5gO4DY3Or2BsUmCRVj7I/iDS6AJggsAJ8RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MDAUieoO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gO2v2IpG; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3rhYTqN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791848509; x=1823384509;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=iD+/aLbLxyN4OPgQVnmXQ+36xaYhRSs8OGa/lzPqXVQ=;
-  b=F3rhYTqNn1jOf/080UxZTRngn6PqWLJXR1SDmRtQPOt8lsQ78hnABWeS
-   aVVzEJLXzzK2SIQQ88CSq0m3WtjwkS3C0L3ApDyJCeW5CD2hzp3wgEqiY
-   31LlCWUY1Dp3JFBmrWo6RUKYxlXHTPuK25+hV7oPYzUlpO/eCR5i2i+2q
-   Jwj9hTqGsnkaJquDtEU/p9mEqMFWYourj6NWBeHnArrZu9F4/J85fBZhi
-   CvZO+HOpQJSj3ozaR2fTqlXLry9XicApAAgj2AVW4nlB42H+iVoppcfbM
-   K6YvUncO/GyHwZMzefy66eqILEkrNupMady6onl995J5mwO99auMczQH2
-   w==;
-X-CSE-ConnectionGUID: YpZulBFDSvKIF5fEsOIs9w==
-X-CSE-MsgGUID: cIiff0TiT4ukpIMpRUogYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="450040"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="450040"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 16:41:48 -0700
-X-CSE-ConnectionGUID: Ul+a5TfqQzeWtVVntqfNIw==
-X-CSE-MsgGUID: d0HMC7X4QHe9fpBC8h1eFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1209371"
-Received: from unknown (HELO [10.241.242.105]) ([10.241.242.105])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 16:41:48 -0700
-Message-ID: <cf703658d922b4d698d35e35bb942f359971d850.camel@linux.intel.com>
-Subject: Re: [RFC PATCH v3 02/13] drivers/base/arch_topology: Add support
- for initializing sbm topology
-From: Tim Chen <tim.c.chen@linux.intel.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>, Peter Zijlstra	
- <peterz@infradead.org>, Chen Yu <yu.c.chen@intel.com>, Ingo Molnar	
- <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot	
- <vincent.guittot@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Arnd Bergmann	 <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-mips@vger.kernel.org,
- loongarch@lists.linux.dev, 	driver-core@lists.linux.dev, Sudeep Holla
- <sudeep.holla@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	 <dakr@kernel.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt	
- <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman	
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Shrikanth
- Hegde	 <sshegde@linux.ibm.com>
-Date: Mon, 12 Oct 2026 16:41:47 -0700
-In-Reply-To: <20261001192849.74788-3-kprateek.nayak@amd.com>
-References: <20261001192849.74788-1-kprateek.nayak@amd.com>
-	 <20261001192849.74788-3-kprateek.nayak@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MDAUieoO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gO2v2IpG"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D8J6wW922862
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 10:13:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Gdf//5Z6QECZ3vGiclYWMCzf16BftVzD6ObKd/Z0fjw=; b=MDAUieoO9HXtf2ah
+	tUFwuccCec+P1IeZsPNTsJ9IHe91jBOK9EhWG3DnQpCxTJXC4eUIYjzFoUL2eD4A
+	uy+R/yNGFdWiVXVarIvhq4fbDfr9qGmEoCEVGIS0fMGoiWFTCzKfMzAec4cJHnHS
+	n4Pp6wYhzILFvzDAYDiBBRS1nf0gP9227W27c8VwsZo1u46ya3m7jGWi7SCjwKv8
+	SPRztyE49rXkGXgsMp19uqnN1ZPz+2w0fEDJLqn0mt77VPOYg04D588YRiegmuL0
+	No2J9y9h94y455P7jCY8nNGzcoRrnslCetCT2X3SjIphAQjKJ+Mbdor6m3DIvcdt
+	wdahCA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h98h1tcv8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 10:13:59 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ac50dc68adso66184a91.2
+        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 03:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791886439; x=1792491239; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Gdf//5Z6QECZ3vGiclYWMCzf16BftVzD6ObKd/Z0fjw=;
+        b=gO2v2IpGV4Gjy5IQTU5S4hkd7KzU5J7C5JqMG1rq/tJ7kMw1HBsZet48javJp5bBV0
+         A2y3+kodyIa514v6qZV2Ufv8IzqOfv3UwfBK2RMjE3MACFD7qrBWXCSGLU+np5PtivPl
+         TvB8Rhw9i2N8KYFIcdIBfmapcUR6hJb3MCJWeZdrR2g7dmuAkJzMVhkqpTaeTd8s3pNR
+         /iDvHrvKFpOkksrIw3o3upE+e/FCn6mCMLNuTqt9S3VXhADLRa7GIBG1KyjoBCNJFX6u
+         YonYHZVAnnUhhZ2bJRWemetCNt3q05Z5AebIGVts082xIXNZ/sNSdkYDXQ3V8HzaV/7x
+         f6SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791886439; x=1792491239;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Gdf//5Z6QECZ3vGiclYWMCzf16BftVzD6ObKd/Z0fjw=;
+        b=24irJsOT5fVzfkYNSNeEUjF5qbz20SiGmr6GgSdBIIWFeM2f3OE9hKPJwXeFbUUUm1
+         qcz1Cr2/92N1F34YwjvR3SE5mPjbSvntKzrrEaKzVKK3lartNeuPo7ZD5SqI2f0bHSBi
+         REQptFq6O3lpryEa/Z8W3ju9w2WG70pg2AxeOsOQxFYIy4zxEYbExC2RhCyJyP50OB53
+         oE76rwX4m8i5WCAhNMuOgsGbAkEBqURPKBn2uG+Rosu2R5h4AeN374cA3eO5O89uXEdB
+         shqMh/wcMTwKQEcXxcO2pJpPbBGcg7J235LC0PmD6spda+824RhN8IFqLbS68jdwUfkr
+         Kt/w==
+X-Forwarded-Encrypted: i=1; AKwUvByl7XAeCaoOx/GF47UwsFXd66UkJkgxlS6AsMbwx2gpR1L638VUb41PnR/tckfpcKPv/iy0BjMv5D46Xg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYISx/lrv7ySlawPlpi6u0vNdJnwRRR84XOZ7UXtgke9qNuFl/oY
+	NyvzDrAEdaZYv1zdh8RjQDgeWux/R6Xo2K4ElO+W/Fp09o3/0qGx5DLDI8COawQgnwS4VDdUWdb
+	saroL8iKM52TCdNEeRke3Jm6MlvDX3QBV/jMpSsf0Mxes9hu9JS3uJhkWfhmHYObK1g==
+X-Gm-Gg: AYBFou0CELb238CJDL2UvYc1U43H5hqqu5rchHGB+F/reS6qg2byaaAzsPKGlQY2lmD
+	sy5w6M1JRAwMsVThYI+xlTvOPyuN5Pw20SVrJZeKd3lWeKYFCuPHQ/SOzMzR6rN3p6G0tQgMXWB
+	40bgccnRCFMXE6MkavdkxRCObYY7XMGbk6ErQnEbjHEIKZxUYV9cxD0/Fg8/a1sKuUG6AP70iDQ
+	mMnx9PgP9tKfsDlWKtFZwXGBeZle9k774G40xyGTeMiQcjysKhBdNyuKrXUHEvqkC3dAu5N9t2W
+	wU43LD+RYE82DP+HSQ24lg+18H+cIAeadeFdVQdipTbBuroFwEm2JSOseqHYDrAWlCXnOu07KxF
+	WabxZe0WT01Co1ald7qYVPEtsMiWMzzOSHb5pV8xE10dDVv+ft97spvCWHBmyndk=
+X-Received: by 2002:a17:90a:10cf:b0:3ab:9c73:12e with SMTP id 98e67ed59e1d1-3ab9c7307d0mr4583226a91.6.1791886438474;
+        Tue, 13 Oct 2026 03:13:58 -0700 (PDT)
+X-Received: by 2002:a17:90a:10cf:b0:3ab:9c73:12e with SMTP id 98e67ed59e1d1-3ab9c7307d0mr4583201a91.6.1791886437842;
+        Tue, 13 Oct 2026 03:13:57 -0700 (PDT)
+Received: from [10.133.33.200] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab39238608sm21143079a91.17.2026.10.13.03.13.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 03:13:57 -0700 (PDT)
+Message-ID: <f17e31ca-817c-4607-a680-55ceb12169dc@oss.qualcomm.com>
+Date: Tue, 13 Oct 2026 18:13:48 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH DNM v3 8/8] arm64: dts: qcom: kaanapali: Add MPAM MSC
+ nodes for the L2 caches
+To: Ben Horgan <ben.horgan@arm.com>, Rob Herring <robh@kernel.org>
+Cc: James Morse <james.morse@arm.com>,
+        Shanker Donthineni <sdonthineni@nvidia.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Fenghua Yu
+ <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Drew Fustini <fustini@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+        trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+        ganapatrao.kulkarni@oss.qualcomm.com,
+        Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+        Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
+ <20261008-mpam-resctrl-dt-knp-support-v3-8-35196c2b43bf@oss.qualcomm.com>
+ <20261008210004.GA1318789-robh@kernel.org>
+ <1d764a3d-7935-4e26-b1c2-92537e1d3811@oss.qualcomm.com>
+ <893507ca-b956-474c-9124-92fbfc25e9ab@arm.com>
+Content-Language: en-US
+From: Yin Li <yin.li@oss.qualcomm.com>
+In-Reply-To: <893507ca-b956-474c-9124-92fbfc25e9ab@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=VqC2kO2n c=1 sm=1 tr=0 ts=6ace0467 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=i3Ix9vWbyZrPCULteTcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: wMFdcbAnVMUggN3emzOautajcWPkyTBG
+X-Proofpoint-ORIG-GUID: wMFdcbAnVMUggN3emzOautajcWPkyTBG
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA0MCBTYWx0ZWRfX0F7R+YZyGwnO
+ jRrwk81dOxGrW1nUdc8Nsuzwq4RJ4QSJtV6pW4b6QAklyCE13ixV7iGXXmUrOqhCSfaoj7ihx/o
+ ZgEVFW+oItRXOOYRp2wZjrvukqD/Lzs=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA0MCBTYWx0ZWRfX53pZt9knC8t3
+ 9zknQSxoAclI1ue9x8+NVSKRvZcoh/EhpCASStpzbJtJup3TabIdDXHRKmtOLo/mgqOVO6aIRze
+ a9S98r/Gc4ZX6Jo0oQPtvhx8LL+JGeF41iBqs7ZSzE5Yiz1wEETxQ9UF1ANbfP+ial8RD0LfWGL
+ 8XAtBzAY6geIrMZwg4SUtRrQbnBLlQuE7/dotDp2CoVkcYuSfN61k97b/wBOGpjXlvd7xoxxjyI
+ KZlgRA8UwS95UjBivzf1A3d9SSl1k+8XQ274HtIfAeKj3Fh0KGd1O2WMN+JZuRp/GtWlMiZebyq
+ IYfgXpC6eigiBw2jK90k5kbLTpbds1W0d3sH4qV1MP/jRuoabitaeeDUy6aBtNmJ+k7oA6dBzt8
+ nyjxKDsrOUQO9QS38OauhVAbnl2BxcFLt0vk5H847D46EcL9JC0gMg1PbYXeUMAfs+DhTaJ4SZ2
+ k8gHW7x3o1uSJY8IB+A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130040
 
-On Thu, 2026-10-01 at 19:28 +0000, K Prateek Nayak wrote:
-> Add (fragile) support for initializing sparsebitmap topology for
-> architectures that support GENERIC_ARCH_TOPOLOGY.
->=20
-> Similar to setting cpu_smt_set_num_threads(), count the number of unique
-> LLCs (if last_level_cache_is_valid() true, otherwise) / packages, and
-> the maximum threads that exist in those instance and set
-> sbm_set_proc_config().
->=20
-> Any failure on the path will default to considering the entire processor
-> as a single sbm domain and the default logic will divide the system into
-> BITS_PER_LONG chunks. In case of a failure, sbm core will skip using
-> arch_sbm_cpu_instance_id() and assume all CPUs belong to the same
-> instance with the same instance id.
->=20
-> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
-> ---
->  drivers/base/arch_topology.c | 122 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 121 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-> index 8c5e47c28d9a..f55745a93298 100644
-> --- a/drivers/base/arch_topology.c
-> +++ b/drivers/base/arch_topology.c
-> @@ -20,6 +20,7 @@
->  #include <linux/cpumask.h>
->  #include <linux/init.h>
->  #include <linux/rcupdate.h>
-> +#include <linux/sbm.h>
->  #include <linux/sched.h>
->  #include <linux/units.h>
-> =20
-> @@ -930,6 +931,114 @@ __weak int __init parse_acpi_topology(void)
->  	return 0;
->  }
-> =20
-> +/*
-> + * Note: arch_sbm_cpu_instance_id() is only used if init_sbm_topology()
-> + * below succeeds at setting the sbm topology. Either the LLC
-> + * information is valid or package_id is dependable.
-> + */
-> +int arch_sbm_cpu_instance_id(int cpu)
-> +{
-> +	if (last_level_cache_is_valid(cpu)) {
-> +		struct cacheinfo *llc_info =3D get_cpu_cacheinfo_llc(cpu);
-> +
-> +		if (!llc_info)
-> +			goto out;
-> +
-> +		if (llc_info->attributes & CACHE_ID)
-> +			return llc_info->id;
-> +
-> +		/*
-> +		 * XXX: fw_token be truncated from cast
-> +		 * when the value is returned as an int.
-> +		 */
-> +		return (int)((long)llc_info->fw_token);
-> +	}
-> +out:
-> +	return cpu_topology[cpu].package_id;
-> +}
-> +
-> +static void __init init_sbm_topology(void)
-> +{
-> +	int num_sbm_instances =3D 0, max_threads_per_instance =3D -1;
-> +	bool has_cache =3D false, has_package =3D false;
-> +	cpumask_var_t unique_cpus;
-> +	struct xarray instances;
-> +	unsigned long cpu, *count;
-> +
-> +	/*
-> +	 * If the allocation fails, the sbm core will use
-> +	 * the default logic of splitting CPUs evenly in
-> +	 * BITS_PER_LONG chunk.
-> +	 */
-> +	if (!zalloc_cpumask_var(&unique_cpus, GFP_KERNEL))
-> +		return;
-> +
-> +	xa_init(&instances);
-> +
-> +	for_each_possible_cpu(cpu) {
-> +		bool found =3D false;
-> +		int unique_cpu;
-> +
-> +		for_each_cpu(unique_cpu, unique_cpus) {
-> +			/*
-> +			 * XXX: Assumes last_level_cache_is_valid() is uniformly true
-> +			 * across the entire system if it is true for one CPU.
-> +			 */
-> +			if (last_level_cache_is_valid(cpu)) {
 
-I don't think last_level_cache_is_valid() can be true for any CPU at
-this point. Here is the call order on arm64. riscv is the same in
-arch/riscv/kernel/smpboot.c.
 
-  smp_prepare_cpus()                          arch/arm64/kernel/smp.c
-    init_cpu_topology()
-      fetch_cache_info(cpu)                   for every possible CPU
-        allocate_cache_info(cpu)              kzalloc: all leaves are zero
-      init_sbm_topology()                     <-- counts instances HERE
-        last_level_cache_is_valid(cpu)        false for every CPU
-        =3D> groups by package_id
-    store_cpu_topology(boot cpu)
-      update_siblings_masks()
-        detect_cache_attributes()             boot CPU leaves filled HERE
-   =20
-  kernel_init_freeable()                      init/main.c=20
-    sbm_init()
-    alloc_sbm_index(boot cpu)
-      arch_sbm_cpu_instance_id()              boot CPU: LLC id
+On 10/12/2026 7:27 PM, Ben Horgan wrote:
+> Hi Yin,
+> 
+> On 12/10/2026 11:48, Yin Li wrote:
+>>
+>>
+>> On 10/9/2026 5:00 AM, Rob Herring wrote:
+>>> On Thu, Oct 08, 2026 at 02:41:17PM +0800, Yin Li wrote:
+>>>> Add an MPAM MSC device node for each L2 cache. Each MSC is nested
+>>>> directly under its L2 cache node so that the cache node is the MSC's
+>>>> parent device and its CPU affinity is derived from that cache.
+>>>>
+>>>> The L2 cache nodes are placed directly under the root node. The root is
+>>>> the root of the physical address space, so each cache node only needs an
+>>>> identity 'ranges' property for its nested MSC's 'reg' to be resolved to
+>>>> a physical address. The two caches use distinct node names (l2-cache-0
+>>>> and l2-cache-1) since a cache node has no MMIO unit-address of its own.
+>>>>
+>>>> The nodes are disabled by default. Production firmware does not expose
+>>>> MSC register access to the OS, so these nodes can only be enabled on a
+>>>> local test setup where firmware permits direct MMIO access to the MSCs.
+>>>> This DTS is therefore only an example for other platform DT authors and
+>>>> is not intended to be merged.
+>>>>
+>>>> Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+>>>> Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+>>>> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+>>>> ---
+>>>>    arch/arm64/boot/dts/qcom/kaanapali.dtsi | 50 +++++++++++++++++++++++++--------
+>>>>    1 file changed, 38 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/qcom/kaanapali.dtsi b/arch/arm64/boot/dts/qcom/kaanapali.dtsi
+>>>> index 131fd2a16c54..b1dcb1e9c570 100644
+>>>> --- a/arch/arm64/boot/dts/qcom/kaanapali.dtsi
+>>>> +++ b/arch/arm64/boot/dts/qcom/kaanapali.dtsi
+> 
+> [...]
+> 
+>>
+>>>> +
+>>>> +        msc@19870000 {
+>>>> +            compatible = "arm,mpam-msc";
+>>>> +            reg = <0x0 0x19870000 0x0 0x10000>;
+>>>
+>>> The MPAM register length is 0x321C.
+>>>
+>>
+>> You are right, the MPAM register space is 0x321c per the specification.
+>> Will update accordingly.
+> 
+> That is the full extent but truncation is allowed by the architecture.
+> 
+> Section B.9 9.2.3 Permitted truncation of an MPAM feature page IQGXFF it mentions
+> some conditions but these haven't been updated for the introduction of FEAT_MPAM_MSC_DOMAINS.
+> 
+> Does your implementation have domains?
+> 
 
-  secondary_start_kernel()                    on each secondary CPU
-    store_cpu_topology(cpu)
-      update_siblings_masks()
-        detect_cache_attributes(cpu)          this CPU's leaves filled HERE
-  sched_cpu_activate(cpu)
-    alloc_sbm_index(cpu)
-      arch_sbm_cpu_instance_id()              this CPU: LLC id
+Hi Ben,
 
-last_level_cache_is_valid() only returns true when the LLC leaf has
-CACHE_ID set or a fw_token:
+Our implementation does not have domains. So 0x321c reflects the full 
+feature page for MSC.
 
-        return (llc->attributes & CACHE_ID) || !!llc->fw_token;
+Thanks,
+Yin
 
-Both are written only from detect_cache_attributes(), through
-cache_shared_cpu_map_setup() -> cache_setup_properties():
 
-  - DT:   cache_setup_of_node() sets fw_token and CACHE_ID
-          (drivers/base/cacheinfo.c)
-  - ACPI: cache_setup_acpi() sets fw_token and CACHE_ID
-          (drivers/acpi/pptt.c)
+> Thanks,
+> 
+> Ben
+> 
+> 
+>>
+>> Thanks,
+>> Yin
+>>
+>>> Rob
+>>
+> 
 
-fetch_cache_info() only counts the cache levels and allocates the
-leaves with kzalloc, so at init_sbm_topology() time every leaf still
-has attributes =3D=3D 0 and fw_token =3D=3D NULL. Not even the boot CPU has=
- its
-leaves filled yet, because its store_cpu_topology() runs after
-init_cpu_topology().
+-- 
+Thx and BRs,
+Yin
 
-I think complications arise if we don't have the complete cache info.
-
-How about updating the design to wait for cache detection instead? The
-earliest point where all booted CPUs have their cacheinfo is
-sched_init_smp(). That is also where the scheduler builds its own LLC
-domains, from the llc_sibling masks that store_cpu_topology() fills.
-Nothing needs an sbm index before then: nohz_balance_enter_idle()
-returns early on on_null_domain() until the domains exist, and 12/13
-already moves the nohz allocation into sched_init_smp(). Roughly:
-
- 1. Move sbm_init() and the boot CPU's alloc_sbm_index() from
-    kernel_init_freeable() to the start of sched_init_smp(), before
-    init_sched_fair_class_smp().
-   =20
- 2. Count the instances there, over the online CPUs, with
-    arch_sbm_cpu_instance_id(). At that point it can safely return
-    the LLC ID. Counting and runtime then use the same function on
-    the same data.
-   =20
- 3. Hand out indices to all active CPUs in one pass at that point. In
-    sched_cpu_activate(), call alloc_sbm_index() only once
-    sched_smp_initialized is set, i.e. for CPUs hotplugged later.
-
- 4. Leave room for possible CPUs that did not boot (maxcpus=3D, or arm64
-    ACPI vCPU hotplug). Their cacheinfo is still unknown at
-    sched_init_smp(). Possible choice is what powerpc and s390
-    do in this series: assume each of them may add a new instance, or
-    land in the largest one. Their package could give a tighter bound.
-
-Perhaps this could simplify the design.
-
-Thanks.
-
-Tim
-
-> +				has_cache =3D true;
-> +				if (last_level_cache_is_shared(cpu, unique_cpu)) {
-> +					found =3D true;
-> +					break;
-> +				}
-> +			} else {
-> +				/* Go by package_id if no LLC information is found. */
-> +				has_package =3D true;
-> +				if (cpu_topology[unique_cpu].package_id =3D=3D
-> +				    cpu_topology[cpu].package_id) {
-> +					found =3D true;
-> +					break;
-> +				}
-> +			}
-> +		}
-> +
-> +		/* XXX: CPUs should not suddenly switch IDs mid way. */
-> +		if (has_cache && has_package)
-> +			goto out;
-> +
-> +		if (!found) {
-> +			count =3D kzalloc_obj(*count);
-> +			if (!count)
-> +				goto out;
-> +
-> +			cpumask_set_cpu(cpu, unique_cpus);
-> +			*count +=3D 1;
-> +
-> +			xa_store(&instances, cpu, count, GFP_KERNEL);
-> +			continue;
-> +		}
-> +
-> +		count =3D xa_load(&instances, unique_cpu);
-> +		if (!count)
-> +			goto out;
-> +
-> +		*count +=3D 1;
-> +	}
-> +
-> +	xa_for_each(&instances, cpu, count) {
-> +		max_threads_per_instance =3D max_t(int, max_threads_per_instance, *cou=
-nt);
-> +		num_sbm_instances++;
-> +	}
-> +
-> +	sbm_set_topology(num_sbm_instances, max_threads_per_instance);
-> +out:
-> +	xa_for_each(&instances, cpu, count) {
-> +		xa_erase(&instances, cpu);
-> +		kfree(count);
-> +	}
-> +	xa_destroy(&instances);
-> +	free_cpumask_var(unique_cpus);
-> +}
-> +
->  void __init init_cpu_topology(void)
->  {
->  	int cpu, ret;
-> @@ -954,8 +1063,19 @@ void __init init_cpu_topology(void)
->  			continue;
->  		else if (ret !=3D -ENOENT)
->  			pr_err("Early cacheinfo failed, ret =3D %d\n", ret);
-> -		return;
-> +		break;
->  	}
-> +
-> +	/*
-> +	 * If fetch_cache_info() fails for first CPU,
-> +	 * init_cpu_sbm_topology() will use pacakge_id instead.
-> +	 *
-> +	 * Uniform cache topology is a necessary since implementation
-> +	 * assumes last_level_cache_is_valid() gives same result for
-> +	 * all possible CPUs
-> +	 */
-> +	if (!ret || (cpu =3D=3D 0 && ret =3D=3D -ENOENT))
-> +		init_sbm_topology();
->  }
-> =20
->  void store_cpu_topology(unsigned int cpuid)
