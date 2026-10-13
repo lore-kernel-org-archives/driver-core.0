@@ -1,87 +1,33 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EA04EC66A
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 11:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8206737F8AF;
+	Tue, 13 Oct 2026 11:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791890921; cv=none; b=k8InLfnIUCqlhyP/8l6kbyZVwY9K148KsIU3eGa3iaY6t779dMtM1zvVdyoSfj8XoXCT96Q3AKf3h8eIVmEwI+PObG/IIIWuRRhlpyzyB4149v9Qayl2YcUqFeSvU+VjBYzC1LEAkPAk01okdLoFwFDM2TbL7RymgGHpfdKU8wc=
+	t=1791891347; cv=none; b=hR2UUN6JuLLv9Iv6zSx/EqlNGPKKlAg6Fw/8onRWnuPdKwu9vKOOQ6/p8UYbvNeHABQMVgRuzijYorZezhw2AFVzUrP96ZUgkiZzu1XJ+ljgXs9sRDBS8kB1wq2OqhR6iR/7MugCnTA8cbzjD7qV+onOHDfXgJmLvTt+dak0eg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791890921; c=relaxed/simple;
-	bh=HN6XptzcoudNzRj4ZXmG0JwPr60rSlO5PO4+/eOdLdI=;
+	s=arc-20240116; t=1791891347; c=relaxed/simple;
+	bh=iFHnFsr3NjAcsRUa/CVUBKDHfKdX/CfcLbNrrMoPACE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KBdODgyoTENNvZaQD81yqFXYkWZlnMZmTuHbmbiC00Oj/NdAxFg5BFF3cD07i1RSqSvfhLj9z3SezRl9CKViTY52Dlrkq+5K0t3PWMFsnhSKLWCCD6TAnaiCkDCp1GC/w/U8++1Q5WCkv19ZyT1HTam6vhjmKCvnlSo9NVhiqY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nniA5vjR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=i/VETmaa; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=Ff/LehhZq6XfTwzj9qfyozU/e04tV7yzB7J4SU2XxvdRKQu8sZbXpmoZMtk/k8CDi43rLAGYGhPN7mqcfmhqNRDfWl48aL7n0yjwYTcDDb5MZLu8nHCgs8eOgxXnlKdIc8686P/uKDBlr4YxqhOwJTNTtzHZilQw4B0J9MAXgRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Gl4+NGju; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nniA5vjR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="i/VETmaa"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D6YsUj3208375
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 11:28:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Rcn4mFMnCGkwABHUVZsFsGzh0zOF9QcSjkE0SqwCV14=; b=nniA5vjRz/7Sqnh/
-	n2s2MJ5TTbRUcfl7FZMHhIc487f3zmV+fWV2YSPDKoZOZxFILHnYCdoG/VQp8imV
-	pOBpj503tejv5N/JeE5kev3PQSZ8WCzP5sbJwvt5NE7MtpGApwpjhrJMDtqTEpzB
-	VDyHtNAvvcfsZ/DCSfRwwT5tBYxPHysCuTsd0e2mh7wqzubUU4Cokh8usHXlWvo5
-	xtD2PZQLvLagAG69+9hymmaPn5lT+soxbzsSYk0p+lP/VEd+7KmQw9bnf5dQ+fqN
-	Tnr2L5qXa6R4eq5KEShVQSAjCet/n39lH5NTkLw+siYbzQBeHXYDrKcqpm6QJjcv
-	VgwobA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9fgjh6y4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 11:28:39 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3a89dd31fdaso2496015a91.0
-        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 04:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791890919; x=1792495719; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rcn4mFMnCGkwABHUVZsFsGzh0zOF9QcSjkE0SqwCV14=;
-        b=i/VETmaa3MNoe+mbszQS1cXlzv8WLPWtuWA/Hl4VYHjy5sMoOp+hHkWq8/Xa9hDenD
-         keazg89FnVzJSxqLXF5dcELbcvvRS/8AA9lCzjnfW3T+0rmzZ47O7r40d39gv0D7IXWB
-         gb2GqUnzrJkveQuRfFdSEO+xQ3fZprRiqK4AVMeiaN7K3lfaFHEhwfmVGQTRma1A7RJS
-         u/uuJognV3WClrOnxlO7HOm4DrO+eJkhJjgGMsrbDAVZY5aHlIlMBGAEyV54GxxOaZuo
-         6H9R/5EFEzaW/M8ek7hrWEYBmF4iC70gGn9LX2yWmIsCVA/Emb8GvZ4YafrlipRX9GZg
-         st3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791890919; x=1792495719;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Rcn4mFMnCGkwABHUVZsFsGzh0zOF9QcSjkE0SqwCV14=;
-        b=PxWpe3bkGgz3rsUHxYJgIY8psigbrn6JsySwXqkLI2tY895BAVBO9oAbh6ACkrBqoh
-         Vef0ORMZtE2WIVKoq0kuGNSdwAUpz5dW0YFO/2xouv5FEbgb+Tne3gihEYc5A5Kxz/Nm
-         d4ZxJ3SuFXvQaGRZlhN12QwnfG2cDLmVB9ZeGOUxFR8ew9TLiHIRuELVwnEVwHU9mZEe
-         iSEmGe3Coy7BugZR5gjXvAhel6IJDKLGQwOuFrCvKhKNgPXB4BHXzh+WHUnY0tPuCURp
-         XxNG2aNLeZPOsI8IfgzhVDrHI+0PU91k8H1ZSc41WkMqVIfbAr1ll2AV0q5J+YxScc87
-         +gJw==
-X-Forwarded-Encrypted: i=1; AKwUvBw4i8ndqp2TvPIZ40HfvjmQ81Hyg8hfsMC0WZpxwhDlja/hs2eOyI7dx7FrQ0JMvupukVHeupuXfd7whA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIGJcacmVGRWa+eSAB/DZQiiM5CSpPTDzLmnTmh0xZHIgaqyTVr
-	Ud47YAIg3zTUEe14hq5jzSTpthNny7Cua276bN0GawoU9K9hf0fvWbHHGvyPyw+JRKoVhf2TGkf
-	0hMfKhzZJhjBEZUcAq14wnTYgalASS/q9J/XnfTRAwRmgZFr6/LhKD/L58LPyAVW+kA==
-X-Gm-Gg: AYBFou2smsSJVRF7VdX1PAPI+F1KtN7ibVkcar9jLLA5ZOS7DX9mwAwqWYiElK+nyuA
-	WazIJ03QMaFebfUDj1YYyZ5xMM3BVDTjYSth2AvcWGKIisN+IfEQGmi75gWR5f4byn2RAiy2FiG
-	d0n3uFBOJhFLxQjvbqGH73UjKCJWxUiujwSXMKHOKnCw+jmIF+O2rdc/534YJJlBc129kunYLid
-	w1sEMn8JfNZavRN7zCUyAfpQmXue/dTVR/JZOZIdN1L4/m5ELWWtr6AKkYJzlGmJZuNb43FrKCM
-	sasDSLe8oMGt5Rn+X5a+SZ1cqVJKOvr/oiT7w0PQx7QISTeYzun1dK/D1DoamxfFECw4eNC2tyZ
-	0uNQeB3tH/AEyBOzWpyiBrZ+H0ojGV9SOQpDGyRI66jJlboqan0R1n0IJ8VM7x8RuD7BsKIYO
-X-Received: by 2002:a17:90b:4c4f:b0:3ab:27eb:338e with SMTP id 98e67ed59e1d1-3ab3ac54a33mr9617231a91.52.1791890918311;
-        Tue, 13 Oct 2026 04:28:38 -0700 (PDT)
-X-Received: by 2002:a17:90b:4c4f:b0:3ab:27eb:338e with SMTP id 98e67ed59e1d1-3ab3ac54a33mr9617204a91.52.1791890917770;
-        Tue, 13 Oct 2026 04:28:37 -0700 (PDT)
-Received: from [10.133.33.242] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab393efd88sm12249694a91.3.2026.10.13.04.28.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 04:28:37 -0700 (PDT)
-Message-ID: <77749e58-84d6-43c1-bd37-98d0046231a1@oss.qualcomm.com>
-Date: Tue, 13 Oct 2026 19:28:31 +0800
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Gl4+NGju"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 977A01570;
+	Tue, 13 Oct 2026 04:35:41 -0700 (PDT)
+Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A23143F66F;
+	Tue, 13 Oct 2026 04:35:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791891344; bh=iFHnFsr3NjAcsRUa/CVUBKDHfKdX/CfcLbNrrMoPACE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gl4+NGjuoXJn53qe90hDjficciUU0vZiX+yyPYW+ZDx13uFc4Q5PLHcJhbPEDlp/W
+	 pzQnrSxhy37kEHopU8W//0TMy1atxB3VauY7j+UROpxd0jwNa1Cmp9OEaDoa+9UVbS
+	 qL35dEEYtZsulURYhEruyJQNPy9gWwgtw5g72G7A=
+Message-ID: <370a947c-601b-434c-befd-4896ed523ced@arm.com>
+Date: Tue, 13 Oct 2026 12:35:40 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -89,215 +35,127 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] arch_topology: seed capacity_freq_ref with highest
- available frequency
-To: Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ananthu C V <ananthu.cv@oss.qualcomm.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jie Zhan <zhanjie9@hisilicon.com>,
-        Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-pm@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Oleg Keri <okerixx@gmail.com>, zhongqiu.han@oss.qualcomm.com
-References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
- <20260929-schedutil-boost-frequency-handling-v3-1-68de169498c7@oss.qualcomm.com>
- <fbd7fe35-5e14-4589-a072-909e49a92e76@oss.qualcomm.com>
- <cfb79ffe-41b7-4e58-b3f5-fc9a28a4e413@arm.com>
-Content-Language: en-US
-From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-In-Reply-To: <cfb79ffe-41b7-4e58-b3f5-fc9a28a4e413@arm.com>
+Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
+ gate CMDQ submissions
+To: Will Deacon <will@kernel.org>, Pranjal Shrivastava <praan@google.com>
+Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, Daniel Mentz <danielmentz@google.com>,
+ Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, rafael@kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
+References: <20260929034510.2023173-1-praan@google.com>
+ <20260929034510.2023173-12-praan@google.com>
+ <asZSQRSYBjbUaaH0@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <asZSQRSYBjbUaaH0@willie-the-truck>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: h_w4twJG1Jx7hraLALzDYMytA7ZWBP3q
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA0NSBTYWx0ZWRfX+8CWVWv7P06k
- mjyxOD8fhd1IwU+OkZ1YdUqGKCv4c6jj0lSFL7csffIGV05ueAOYJ5PmzzkfyqiKwA3FgOxmbAj
- HdCK9Ri4K4SJNvUvhmdz6KNBMB0FYy65qVJU0SBCQkHLZBD/fK7B4UlrO4a/105v7quO3wlSGkR
- RC97rNtOtbVdPrp2WOOR5HT2hVqwjnjo83ZiNEgIq9NdiDWzI1JwPkZepXJAK+5c7KHkbS2TxwL
- lriixxEqscJYHJF6f+K1+1NVHI8190YwsYRLLotiF7ybkpOR7C8xOoaW7rlqgmCEziijHstpvWw
- bVsp+Mh7qabWQ246sZD0HAtUA84zAtjx82/wRZMf1ZKOYq1QWImugVPphFVqZMRYNvcmFzNXKPJ
- tDn/TgUiyjcEdP+8dL7GbTBiudNKjww7v/WFpqk1O2gEfnwvWbEsfBBOC/NEcbkW0EAM4vSjRvQ
- 5EojhWRGJmupisH1CwQ==
-X-Proofpoint-ORIG-GUID: h_w4twJG1Jx7hraLALzDYMytA7ZWBP3q
-X-Authority-Analysis: v=2.4 cv=PedqFShd c=1 sm=1 tr=0 ts=6ace15e7 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=9bVTjAMtGWzbgpHzqb8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA0NSBTYWx0ZWRfX6qDnw7UyZmJ7
- X4+uMo1oTiMflBNrT5JaVC74lDhCyDWm+VVmnaNT2tDzgOPXsRPxCWX3QNZ8ZZS8QYkkhp5C8q2
- 6M3ljzH+5LnartTK8V3G/N6tXqFiAn0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130045
+Content-Transfer-Encoding: 7bit
 
-On 10/13/2026 2:45 AM, Dietmar Eggemann wrote:
-> On 11.10.26 16:16, Zhongqiu Han wrote:
->> On 9/29/2026 7:38 PM, Ananthu C V wrote:
-> 
-> [...]
-> 
->> Besides, could you comment patch v2 Dietmar's comments? It seems that
->> patch 1/2 exposes a pre-existing ordering issue. On DT systems,
->> cpu_scale is normalized only from the CPUFREQ_CREATE_POLICY notification
->> of the last policy, so the cpufreq pressure of every other policy is
->> computed in cpufreq_init_policy() from the raw, not yet normalized,
->> capacity, and stays cached until the next cpufreq_set_policy() for that
->> policy. So far this was harmless because capacity_freq_ref == policy-
->>> max at boot, so the pressure was 0 regardless of the capacity. With
->> 1/2, capacity_freq_ref covers the boost frequencies while boost is
->> disabled at boot, so policy->max < capacity_freq_ref becomes the common
->> case and the stale value becomes visible (102 vs 79 on Juno R0, as
->> reported by Dietmar). Perhaps the limits of all policies could be
->> refreshed once from parsing_done_workfn(), after the capacities have
->> been normalized?
+On 07/10/2026 3:08 pm, Will Deacon wrote:
+> On Tue, Sep 29, 2026 at 03:45:05AM +0000, Pranjal Shrivastava wrote:
+>> Introduce a new bit flag, CMDQ_PROD_STOP_FLAG (bit 30), in the command
+>> queue's producer index to safely gate command submissions during device
+>> suspension.
 >>
->> --- a/drivers/base/arch_topology.c
->> +++ b/drivers/base/arch_topology.c
->> @@ -454,9 +454,27 @@ core_initcall(register_cpufreq_notifier);
+>> The flag embeds the suspend state directly into the existing global state
+>> The flag is checked in the cmpxchg loop in arm_smmu_cmdq_issue_cmdlist(),
+>> which acts as a Point of Commitment, ensuring that no indices are
+>> reserved or committed once the SMMU begins suspending.
+> 
+> I'm not familiar with the term "Point of Commitment". Is that something
+> you came up with? Without a general definition, I think I'd prefer to
+> avoid using it, especially as it sounds like something to do with the
+> Arm memory system (where we already have architectural terms such as
+> "Point of Coherency".
+>   
+>> This prevents a situation of "abandoned batches" where indices are
+>> incremented but commands are never written, which would otherwise
+>> lead to timeout during the drain poll.
 >>
->>   static void parsing_done_workfn(struct work_struct *work)
->>   {
->> +    int cpu;
+>> Update queue_inc_prod_n() to preserve this flag during index
+>> calculations, ensuring that any in-flight commands that successfully
+>> passed the point of commitment can proceed to completion while the
+>> flag remains set.
+>>
+>> Suggested-by: Daniel Mentz <danielmentz@google.com>
+>> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+>> Signed-off-by: Pranjal Shrivastava <praan@google.com>
+>> ---
+>>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++++++++++--
+>>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  5 +++
+>>   2 files changed, 38 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+>> index a123810fac57..7f89e2306942 100644
+>> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+>> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+>> @@ -218,7 +218,8 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
+>>   static u32 queue_inc_prod_n(struct arm_smmu_ll_queue *q, int n)
+>>   {
+>>   	u32 prod = Q_POS(q, q->prod) + n;
+>> -	return Q_OVF(q->prod) | Q_POS(q, prod);
 >> +
->>       cpufreq_unregister_notifier(&init_cpu_capacity_notifier,
->>                        CPUFREQ_POLICY_NOTIFIER);
->>       free_cpumask_var(cpus_to_visit);
+>> +	return Q_OVF(q->prod) | Q_STOP(q->prod) | Q_POS(q, prod);
+>>   }
+>>   
+>>   static void queue_poll_init(struct arm_smmu_device *smmu,
+>> @@ -726,13 +727,42 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
+>>   	do {
+>>   		u64 old;
+>>   
+>> +		/*
+>> +		 * If the SMMU is suspended/suspending, any new CMDs are elided.
+>> +		 * This loop is the Point of Commitment. If we haven't cmpxchg'd
+>> +		 * our new indices yet, we can safely bail. Once the indices are
+>> +		 * committed, we MUST write valid commands to those slots to
+>> +		 * avoid indefinite polling in the drain function.
+>> +		 */
+>> +		if (Q_STOP(llq.prod)) {
+>> +			local_irq_restore(flags);
+>> +			return 0;
+>> +		}
 >> +
->> +    /*
->> +     * The cpufreq pressure of all policies but the last one has been
->> +     * computed before topology_normalize_cpu_scale(), so refresh it now
->> +     * that cpu_scale is final.
->> +     */
->> +    for_each_possible_cpu(cpu) {
->> +        struct cpufreq_policy *policy __free(put_cpufreq_policy) =
->> +            cpufreq_cpu_get(cpu);
+>>   		while (!queue_has_space(&llq, n + sync)) {
+>>   			local_irq_restore(flags);
 >> +
->> +        if (!policy || cpu != policy->cpu)
->> +            continue;
+>> +			/* Avoid waiting for space if the SMMU is suspending */
+>> +			if (Q_STOP(READ_ONCE(cmdq->q.llq.prod)))
+>> +				return 0;
 >> +
->> +        guard(cpufreq_policy_write)(policy);
->> +        refresh_frequency_limits(policy);
->> +    }
-> Yes, IMHO, something like this is needed.
+>>   			if (arm_smmu_cmdq_poll_until_not_full(smmu, cmdq, &llq))
+>>   				dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
 > 
-> [    1.169158] cpufreq_notifier_max(): current=[kworker/u26:0 46] policy->related_cpus=[]												(1)
-> [    1.169209] init_cpu_capacity_callback(): current=[kworker/u26:0 46] policy->related_cpus=[0,3-5]
-> [    1.169992] cpufreq_update_pressure(): current=[kworker/u26:0 46] policy->related_cpus=[0,3-5] policy->max=700000 pressure=102 max_capacity=578 capped_freq=700000 max_freq=850000
-> [    1.170203] cpufreq_update_pressure(): current=[kworker/2:2 67] policy->related_cpus=[0,3-5] policy->max=700000 pressure=102 max_capacity=578 capped_freq=700000 max_freq=850000 	(2)
-> [    1.170835] cpufreq_notifier_max(): current=[kworker/u26:0 46] policy->related_cpus=[]												(1)
-> [    1.170872] init_cpu_capacity_callback(): current=[kworker/u26:0 46] policy->related_cpus=[1-2]
-> [    1.174516] cpufreq_update_pressure(): current=[kworker/u26:0 46] policy->related_cpus=[1-2] policy->max=800000 pressure=280 max_capacity=1024 capped_freq=800000 max_freq=1100000
-> [    1.175261] cpufreq_update_pressure(): current=[kworker/2:2 67] policy->related_cpus=[1-2] policy->max=800000 pressure=280 max_capacity=1024 capped_freq=800000 max_freq=1100000	(2)
-> [    1.187698] cpufreq_update_pressure(): current=[kworker/2:0 28] policy->related_cpus=[0,3-5] policy->max=700000 pressure=79 max_capacity=446 capped_freq=700000 max_freq=850000	(3)
-> [    1.187847] cpufreq_update_pressure(): current=[kworker/2:0 28] policy->related_cpus=[1-2] policy->max=800000 pressure=280 max_capacity=1024 capped_freq=800000 max_freq=1100000	(3)
+> It's a bit grotty to have the extra READ_ONCE() here. Why not make
+> arm_smmu_cmdq_poll_until_not_full() return if the stop bit is set?
 > 
-> The work scheduled in (1) also still operates on raw capacity (2).
+>> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+>> index deefb17e31eb..794b258550dd 100644
+>> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+>> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+>> @@ -394,6 +394,11 @@ static inline unsigned int arm_smmu_cdtab_l2_idx(unsigned int ssid)
+>>   #define CMDQ_ERR_CERROR_ATC_INV_IDX	3
+>>   
+>>   #define CMDQ_PROD_OWNED_FLAG		Q_OVERFLOW_FLAG
+>> +#define CMDQ_PROD_STOP_FLAG		(1U << 30)
 > 
-> (3) shows your extension in parsing_done_workfn() work function which
->      gets scheduled when all CPUs are initialised, so
->      topology_normalize_cpu_scale() had been called.
+> I'm unsure about this. Bit 30 of the cmdq prod register is RES0, so it's
+> plausible that the architecture allocates that bit for something in future.
+> For example, if the index field was extended, then I think that would
+> cause problems for the driver.
 > 
-> Not sure whether we can call cpufreq_update_limits(cpu) there instead
-> (maybe extended with a 'only do this for policy->cpu'?). So we won't
-> have to expose cpufreq internals in /drivers/base/arch_topology.c.
+> Do we have to put the stop flag in the producer value, or can it just be
+> a flag elsewhere in memory?
 
-Thanks for the test verification and the discussion.
+Logically, it feels like this should happen earlier in the process 
+anyway - if we're entering a state where we don't want to accept _any_ 
+new command submissions, then surely arm_smmu_get_cmdq() should just 
+start saying "No, there is no valid queue to submit this command." to 
+everything?
 
-Unless I'm missing something, it seems to me that
-cpufreq_update_limits() is mainly intended for platform limit changes.
-When a driver implements ->update_limits(), it is up to the driver
-whether the policy gets refreshed at all (it seems that amd-pstate only
-updates the preferred core ranking). Otherwise, it goes through
-cpufreq_policy_refresh(), which calls ->get() first and WARNs and skips
-the refresh if that returns 0, for example when the policy goes inactive
-under us.
-
-In comparison, refresh_frequency_limits() seems to match what we need
-here more closely: it simply re-applies the limits and therefore
-recomputes the pressure, without going through any of the above.
-
-However, calling refresh_frequency_limits() directly from drivers/base
-arch_topology.c does expose some cpufreq internals there. I wonder if it
-would make sense to add a wrapper around cpufreq_update_pressure()
-directly, something like:
-
---- a/drivers/base/arch_topology.c
-+++ b/drivers/base/arch_topology.c
-@@ -454,9 +454,19 @@ core_initcall(register_cpufreq_notifier);
-
-  static void parsing_done_workfn(struct work_struct *work)
-  {
-+	int cpu;
-+
-  	cpufreq_unregister_notifier(&init_cpu_capacity_notifier,
-  					 CPUFREQ_POLICY_NOTIFIER);
-  	free_cpumask_var(cpus_to_visit);
-+
-+	/*
-+	 * The cpufreq pressure of all policies but the last one has been
-+	 * computed before topology_normalize_cpu_scale(), so update it now
-+	 * that cpu_scale is final.
-+	 */
-+	for_each_possible_cpu(cpu)
-+		cpufreq_refresh_pressure(cpu);
-  }
-
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -2611,6 +2611,27 @@ static void cpufreq_update_pressure(struct 
-cpufreq_policy *policy)
-  		WRITE_ONCE(per_cpu(cpufreq_pressure, cpu), pressure);
-  }
-
-+/**
-+ * cpufreq_refresh_pressure() - Recompute cpufreq pressure for a CPU's 
-policy.
-+ * @cpu: CPU whose policy's cpufreq pressure is to be recomputed.
-+ *
-+ * To be called when arch_scale_cpu_capacity() of @cpu has changed while
-+ * the limits of its policy have not.
-+ *
-+ * Takes the policy rwsem, so the caller must not hold it.
-+ */
-+void cpufreq_refresh_pressure(unsigned int cpu)
-+{
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy) = 
-cpufreq_cpu_get(cpu);
-+	if (!policy)
-+		return;
-+
-+	guard(cpufreq_policy_write)(policy);
-+
-+	if (!policy_is_inactive(policy))
-+		cpufreq_update_pressure(policy);
-+}
-+
-
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -251,6 +251,7 @@ u64 get_cpu_idle_time(unsigned int cpu, u64 *wall, 
-int io_busy);
-  void refresh_frequency_limits(struct cpufreq_policy *policy);
-  void cpufreq_update_policy(unsigned int cpu);
-  void cpufreq_update_limits(unsigned int cpu);
-+void cpufreq_refresh_pressure(unsigned int cpu);
-  bool have_governor_per_policy(void);
-  bool cpufreq_supports_freq_invariance(void);
-  struct kobject *get_governor_parent_kobj(struct cpufreq_policy *policy);
-
-
--- 
-Thx and BRs,
-Zhongqiu Han
+Thanks,
+Robin.
