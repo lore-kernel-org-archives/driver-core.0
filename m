@@ -1,56 +1,56 @@
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9122F563280
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 22:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB31563FA5
+	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 22:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791931221; cv=none; b=baUAK2L4q8bZObtmhH7Ngx7t2hrm8hn2wE5yD2MxMIQyKGYoSg8fDWtj4c7qBHUZ8ID+tn4KmBSDeotaM/Fi8lVIBpNJkhIT2FO4idUMXquSUGJQ94vnxEdnhMXkRmfhPu2i5iuwdjFeGPg6qMpSXKrJW4tnaZniK+qV/xz/590=
+	t=1791931221; cv=none; b=XRFh0KxOlKag1IXT5Udq3SdzFJwW0TCZ4665BwWVOlimrSfdZ/8fL6qcRMyiuEqkUPtXyMCc5VH2N+SEJnZsEwUb+QFcdfFB4m9dr4LwJxQxBgYS9VN157rQcxWKjfPzvj7NRHHLbJq5gee1T5N3LcKaoGXQc6zkEHox0DyIcHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791931221; c=relaxed/simple;
-	bh=Em27O2OyO7l+P8tBXhGlDjdSvn4vy+iPZ8ia1MGPgrk=;
+	bh=1NEN+Scbgml9ozAbt8aLROD/kvCT+P1eXcLOXmgikX8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=N3I3CHS8Ruh3t/BX+Bl+uH8cdSOqtIn/0fMLg+LTS8zTWSb2LkKhzF1eLr5+53UsA3nOhPjlCKB2KjbTGVsNqQockp57Mx+GMyzMfRV80X21tAlhW3BFhaegFDxMfymN3G5HS082uWogIcTDtmeH+ZwJqQIUhCxS9AhWG+hbKac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NSpjLAcq; arc=none smtp.client-ip=74.125.82.72
+	 To:Cc:Content-Type; b=I0vg9/IMROtYKbL6DP1Grd1T5ibjtUq+Te2/s7AmUu99wFYkaIue72IhsbAYZcSZcXk2VCt9X1DUF/9+kwrR9phMRoe7Sqn0rdhOdPBLnvVdwix66JHn6fEcZKq2ihAd1l7ubcJpRjpIRpOg/k3Ilq0seYlNmn4UjFiaEte2dd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aAKEJdBW; arc=none smtp.client-ip=74.125.82.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NSpjLAcq"
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1663fb7e005so4564606c88.0
-        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 15:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aAKEJdBW"
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-351788121cfso4936547eec.0
+        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 15:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791931216; x=1792536016; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1791931217; x=1792536017; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zS2ZTWNtYHltA9QytinDsw+p3+JtthDKSkNq3q9AYXg=;
-        b=NSpjLAcql4u2opZH52bq7zUsaGqgIvpP7NwNW1bepTidM542tt9Wwxp52u2nSzic2+
-         /5Kv26dz6eXPefpA5RCd45eLgPy5n3aLEiHdnQ7By44j3Uk9gUHqticpZhKAE/ZYkRWd
-         tr5VX23dzzoaSkzkD5sMj4SaNQfBagOwJC5uyU4GmFuWcQ7wdC3DtsPXAMGhyn3uW2uL
-         KU0kbtqswrYlf2PdgZUn/AOwtbQ5Lstn3p2Lft7nw05pKPG2g1OMDeppZl3ZZfy1HwUw
-         ATDOUfaQl7oLvl5bFoVGU46+APUfTsP+mQSsWN6ZH5Z6w95z5LSRdIq3PpqbK5L4QIOp
-         WNEw==
+        bh=qdtOvNbLAOJ9idJnmqNXkxs2lXj3bNW1pL8KRmE6mUU=;
+        b=aAKEJdBWs1tKWAHxlyxQ299RX0yDXKUJFfAzhVcuFe1I7jqt29obPecNCDNm7O5VuN
+         NDWwFGJsHVs3e+sHcAk3OUIIpiXXQwMATFDS1yEC1imCdGnFBaTLvP+mjuv9secx4ifT
+         MADrEtrGqVcGNPxwOi71zBt7asWu0sASBLVTPdsPahO7QhVhpyq5B/6wlLRlNSgYyjeN
+         YpgsmskUVTPLpjySsvp1e0TewjofpohUFiZMfZww8ayPPRIdDpj2zTHkj8J2BoWZhbCA
+         M5F+IXq2HfsgJkDRb7gcdSh7xL9waEBxgVRg8l0mXTbO72dnXUxM+vX/uQXtmleUoIgy
+         1FXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791931216; x=1792536016;
+        d=1e100.net; s=20260707; t=1791931217; x=1792536017;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zS2ZTWNtYHltA9QytinDsw+p3+JtthDKSkNq3q9AYXg=;
-        b=GUMvG94RS6kBWXg31jrLaowDSi1kqhaa0xrmYL5kMunz/WEGS63nZJRbICcc1mkQo2
-         ooclLWCLe8cSF7whhfZkafAqzPtWr7ekf8DM4ka43iu5mcKB5C07pmk7kcqDJNB6nlok
-         jM45/nK+jcRs8JnIFmQaqkxZV0Scjm5wIiFdeWSby6WaYUj6d4M53kcAbAmPf6PINriG
-         kfK1xniVmJQ0XP+WGXz+0PPkuOxg+Z/nP0oELMxIDndpNifpjs6tB+ZQuqjuZ3f9fIiw
-         pt5IBsDkAX2e2s3FzxfOG5s/kVPFNPehlsYJWWCM81DRAPpW7fE0vJLV5p1MYxxVT6r4
-         E8xw==
-X-Forwarded-Encrypted: i=1; AKwUvByqUhuXkNwgo4RxMflXzh2mee/mL3PKLv/jvgUToRA0jvLL8fqOwr7+0SP2OjOMwYCdHodBQpE3YtmhSw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLKXF1UEEE22SIUr9+PjCwJ8N2OUV9CvFidCXItV9htFsvecI5Y
-	JO4251EiM8UosqJUB261VYyM3Dgf7JXgbNTzec/hOkSd0Zwy9gvxVCvUuCkKI562LZXl6d1tn2A
-	r8qfgdgKMnw==
-X-Received: from dlbvs3.prod.google.com ([2002:a05:7022:3f03:b0:16a:e18b:92ba])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:701b:4553:20b0:166:9e0d:3b56
- with SMTP id a92af1059eb24-16a6384d0c8mr17137930c88.38.1791931214565; Tue, 13
- Oct 2026 15:40:14 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:39:36 -0700
+        bh=qdtOvNbLAOJ9idJnmqNXkxs2lXj3bNW1pL8KRmE6mUU=;
+        b=Qn3baqGjrUUzVliD4/Q7OkYOMAsklyiEsIsd8UK4WREaKh+jcEZ2islKPsBqSmXruT
+         YiOJBeQEh1KIc4GNkxAF/8Uu13oDmI1fPKCAxTLpnYuqbV8zjaZwjp1TP/uh9KJf4jvb
+         3NMx0GGCQVEyNYIo5Op+ePslu/rh6xS9ySFOBnWfqBua6gP4xnbJAjsbYTWPwYWkoLwf
+         a9RkGMdjCZNvlSDOlpHTKEe/zmO9JrNruKHpbRA+/7DLAfzP6LFs7d9Oyg9QLnDEv3Il
+         91wFrqyXkof0PDo81qU9Ej8vrMVLeHbsRmSjWkbXxA4fLlg54pbmF4+BVuVrmWUy1pyv
+         hfZQ==
+X-Forwarded-Encrypted: i=1; AKwUvByU7I6jqMwIe/DsvWelXibZC6k1m1vHy0t5md212LnS1gORLhrPJ0gzmcP+DxDDRFsQYMVI+3LRUUoGTw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ9vk+oSx2r6Kv+mrtSK8T145ODw2R5EIvn+hgQ7BH1VSRepa3n
+	0XZBS69eRKtDC+1TJ3BGMzSFL1xz15rZy8A+I4/FdkcR9MSkRzo3uUZxzHk4kealSmPU6dEbfXP
+	Et5DuTtp38g==
+X-Received: from dycrm16.prod.google.com ([2002:a05:693c:2a10:b0:358:f250:485f])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:693c:4141:20b0:35c:8d1f:5634
+ with SMTP id 5a478bee46e88-35c8d1f58e8mr4713972eec.12.1791931216820; Tue, 13
+ Oct 2026 15:40:16 -0700 (PDT)
+Date: Tue, 13 Oct 2026 15:39:37 -0700
 In-Reply-To: <20261013223946.1836757-1-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -60,9 +60,8 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20261013223946.1836757-1-irogers@google.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261013223946.1836757-2-irogers@google.com>
-Subject: [PATCH 01/11] Compiler Attributes: Add __require_explicit_initialization
- macro
+Message-ID: <20261013223946.1836757-3-irogers@google.com>
+Subject: [PATCH 02/11] powerpc/secvar: Add missing kobject release callback to secvar_ktype
 From: Ian Rogers <irogers@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, 
@@ -91,91 +90,40 @@ Cc: Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>
 	Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Clang supports the 'require_explicit_initialization' attribute on struct
-fields to indicate that a field must be initialized explicitly by the
-user when the object is constructed. When an aggregate initializer or
-uninitialized variable omits an annotated field, Clang emits a
--Wuninitialized-explicit-init warning (enabled by default).
+In add_var(), a struct kobject is dynamically allocated with
+kzalloc_obj() and initialized with secvar_ktype. If kobject_add() or
+sysfs_create_file() fails, kobject_put(kobj) is called to clean up.
+However, secvar_ktype does not define a .release callback, which results
+in a memory leak of kobj (and a pr_debug warning in kobject_cleanup()
+when CONFIG_DEBUG_KOBJECT_RELEASE is enabled).
 
-Add the __require_explicit_initialization macro to
-include/linux/compiler_attributes.h (which is included by
-include/linux/compiler_types.h and include/linux/compiler.h) so kernel
-structs with error-prone initialization (such as mandatory callbacks or
-cleanup handlers) can enforce explicit initialization at compile time,
-as discussed at the Linux Plumbers Conference.
+Provide a secvar_release() callback that calls kfree(kobj).
 
-Also teach Sphinx (Documentation/conf.py), kernel-doc
-(tools/lib/python/kdoc/xforms_lists.py), and checkpatch.pl about the new
-attribute macro.
-
-Link: https://lpc.events/event/20/contributions/2392/
+Fixes: bd5d9c743d38 ("powerpc: expose secure variables to userspace via sysfs")
 Assisted-by: Antigravity:gemini-3.1-pro
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- Documentation/conf.py                 |  1 +
- include/linux/compiler_attributes.h   | 11 +++++++++++
- scripts/checkpatch.pl                 |  1 +
- tools/lib/python/kdoc/xforms_lists.py |  1 +
- 4 files changed, 14 insertions(+)
+ arch/powerpc/kernel/secvar-sysfs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 5ab26ce89daf..3e5cb9ca0970 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -203,6 +203,7 @@ c_id_attributes = [
-     "__noreturn",
-     "__packed",
-     "__pure",
-+    "__require_explicit_initialization",
-     "__section",
-     "__always_unused",
-     "__maybe_unused",
-diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-index 476c4c560d17..60522ab80c5a 100644
---- a/include/linux/compiler_attributes.h
-+++ b/include/linux/compiler_attributes.h
-@@ -322,6 +322,17 @@
-  */
- #define __pure                          __attribute__((__pure__))
+diff --git a/arch/powerpc/kernel/secvar-sysfs.c b/arch/powerpc/kernel/secvar-sysfs.c
+index 395399bbab2c..f3f6ac25ea78 100644
+--- a/arch/powerpc/kernel/secvar-sysfs.c
++++ b/arch/powerpc/kernel/secvar-sysfs.c
+@@ -126,7 +126,13 @@ static const struct attribute_group secvar_attr_group = {
+ };
+ __ATTRIBUTE_GROUPS(secvar_attr);
  
-+/*
-+ * Optional: not supported by gcc
-+ *
-+ * clang: https://clang.llvm.org/docs/AttributeReference.html#require-explicit-initialization
-+ */
-+#if __has_attribute(__require_explicit_initialization__)
-+# define __require_explicit_initialization __attribute__((__require_explicit_initialization__))
-+#else
-+# define __require_explicit_initialization
-+#endif
++static void secvar_release(struct kobject *kobj)
++{
++	kfree(kobj);
++}
 +
- /*
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-section-function-attribute
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-section-variable-attribute
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 8a7787d228a6..4a3ae6b0100a 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6871,6 +6871,7 @@ sub process {
- 				"noreturn"			=> "__noreturn",
- 				"packed"			=> "__packed",
- 				"pure"				=> "__pure",
-+				"require_explicit_initialization" => "__require_explicit_initialization",
- 				"section"			=> "__section",
- 				"used"				=> "__used",
- 				"weak"				=> "__weak"
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index e3dda2fe8a53..32066fbbe763 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -36,6 +36,7 @@ class CTransforms:
-         (CMatch("CRYPTO_MINALIGN_ATTR"), ""),
-         (CMatch("__private"), ""),
-         (CMatch("__rcu"), ""),
-+        (CMatch("__require_explicit_initialization"), ""),
-         (CMatch("____cacheline_aligned_in_smp"), ""),
-         (CMatch("____cacheline_aligned"), ""),
-         (CMatch("__cacheline_group_(?:begin|end)"), ""),
+ static const struct kobj_type secvar_ktype = {
++	.release	= secvar_release,
+ 	.sysfs_ops	= &kobj_sysfs_ops,
+ 	.default_groups = secvar_attr_groups,
+ };
 -- 
 2.56.0.385.gd3acb90ef8-goog
 
