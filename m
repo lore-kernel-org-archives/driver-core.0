@@ -1,125 +1,130 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4B153C3DF
-	for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 19:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A2A518148;
+	Tue, 13 Oct 2026 21:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791918713; cv=none; b=BNiN/+2OrxpP21Va1rT504fkQvhnUmkpKgCLFddCYdaiSIWrEjHvyqjDh2gUSzLsv2KJPvlH9YI5ivPt0hovf5zWk5WYIe5XFP70H2wusBYlnGbQdjypaWByJSgG9ksGW41nruCwiSZuiUOR2ltE0bACmeZfH5ko/RRC/lShkLI=
+	t=1791925281; cv=none; b=HoGsBJlOHyW/R6puQ6d9MSvfKUAgBuDGqqZhxi/L1NP//g0C4ANCX4J50y2SoR6CZA+p40+uPPlFGHcZpQJBPKEDtMmoSZt9qALkAUoOHL+P+XhQzZ9mCLvW9kh1U7ARL6JtgChhLx/44Jy+GPEC/01FR78NXRuMGbvfSHE5U0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791918713; c=relaxed/simple;
-	bh=3HuQAdiPdsh0jwsZb5sHsgSWrdEkCX/qTBEkBhJKRIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qHV7JWuZVV3PWHcNPM850+VCgMaRd6Gqz7wRSacvX+ohzBJKhz24iQLj91FAYGkPwVyOdLdHvfrOsS44yV29Df+YtCIhPhQ4ILahiASddkHup8wPGF7fVJaUuJ+HRqZ1MLedhshQ5e/Bxi8KaazYKJ3IAh8sq3FrRE5wL7+2Qa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=XWh/seND; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1791925281; c=relaxed/simple;
+	bh=Z5QE8bDGwjv5rpz0E6KvjEKBlO2PL0gMiX6i/nSwbI4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=NvuYQY73552/cGD2sb6pLktiy6ISF2rdgIm3RbTtgS24SvtoOy/C3ltWit+4Ph/4XeStx1fb8UODbrH2dQpgv36DqEai1Oh7DelKXpLdsIjmt29aooBT17yk0mJWkL4YvE2VMizR3xDp9Qtd5cw7RCKIYE6sovPiW4ogkbUloiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bkgxwb8k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="XWh/seND"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-533861a59b8so39796111cf.1
-        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 12:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1791918710; x=1792523510; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EUvFEr9KZQAlEL8z8vQRJTx2wZ9st4nMmUN/wIzO9UQ=;
-        b=XWh/seNDNGPxN5LcE69rRw6KnMENtBS8s2loIiG92tdUohVC7aFn5DJ3rXi8B+jlEj
-         AjhjybNK2s9SmwguaaFLPb68weLlOeg6aJZhRhUEQr5YfGEiPRGk31DEH6CUbhIG4OJN
-         OV+AVAZsVLeq04B4L5E8LJdMyfHA/su12ynLsYNVYjUyYoyoWAac8PqfR4BXVsS4dScV
-         eGy+S6Wj/DArWPTS3em63heyH8qQujAmwvDm5Fy/XYAE9PBtdEZ9hNkjrUIVMQj/21tx
-         4N6B0dpRGEfcpmOuhvVtgwl/JeKHRSjLN83NNpXFrjYKRu92Ift7t9AaEWWLYpgB0GfO
-         Vwyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791918710; x=1792523510;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EUvFEr9KZQAlEL8z8vQRJTx2wZ9st4nMmUN/wIzO9UQ=;
-        b=HRYLcxsCeFYA1/uPvMOP1bGlmcOkXWaemAdYz7iEaoRi3pvnKY+/udg/ABuTONnT5h
-         HwmEj4j98ciVsP9+g50rNjUyPa+z0yacj9Mx25DN6O0/CXyQnrT60kj0yY+Ljo3Ex0O1
-         PDA8KjWTalw2eWZa0b6dbnFoBJUgRaWES1/wsPo6WOZwTPT9ZWgBEoORROS8NMycr6Wo
-         k/vHy7JOTH1L08Hhyw2K+NDb1y131myYkVuQdQPY85eJ7B/VhRZe/RTfdUGOzZi6C6bz
-         oUJq/4KGXrxv57YK7uVPbQcSk7Gy11IzO9lhr+6Lyj8tjvEjtCwUJHnZRY6FvvEUrJZK
-         ptEA==
-X-Forwarded-Encrypted: i=1; AKwUvBySbYPH8f44kBUKOx+6xHHqkmI4zn1B6eNJpeX1fbVmKDqslrrLQCMRoJe58VGEEqCqo1HiNgQd6XWtwA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI7ZbJIFtluEspxATLioayw9iUxkFKD12p5yUE6Sf33uypOIAY+
-	vc3AwMkn2Pg6K+nSdhmA8fJOIEhVkXvUEJx4nNSziePuvbpB+DtuufiTf8vZ3xTGqw==
-X-Gm-Gg: AYBFou20MB2B0XMWEmTSFI2rox2Nm6A4zGabrN1mAKb3tkLFFw/ED7DlFcPWOtpFRDk
-	GkSVub1PZjyhvLDXriOmJEOJ0SOj1TLSBxPLp1m6O9cKItS0b0LvJYeDAB4fJk6de/8DRoo576J
-	KumyNGZOqG3FXrk0BBOx9F7LwQjQmxkuddEmbnsSBnnQknPu0QBEs/XJKs8DNd7whCaULM1m5OE
-	+0awacpcEBpCcdmUQkJhInOUJiqTv8+Q7zjr27NHcJXkayYStzE9PT8DtJsrF1RL68rPDYrAY3O
-	ovls/E26envkJnyOqGcxxJo5Tz0fpFrVbzCgfEOxslOA/by3dvIsl4MUBdgL47ldeAnA0ytjWnB
-	bL6yo1kf46kQRIklwiLpgdoC6BJD2oOGJthZhW+w+dtg39eaipa0m/QJNAKO/rxWhuCBXhnq7HF
-	dgNJuJqxbeqZucWscL9BUIvDRZ7308nBERW/HO7OZr2od1wuDy5xOLsxZMnHikcuMBNhgWnCCG3
-	irJCf25HAjbiBmouw7JKCczSZzdkCRLUdkTx4CTug==
-X-Received: by 2002:a05:622a:48e:b0:535:a5fb:67fa with SMTP id d75a77b69052e-535a5fb84aamr206754931cf.70.1791918710428;
-        Tue, 13 Oct 2026 12:11:50 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b7ad30csm109382571cf.23.2026.10.13.12.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 12:11:49 -0700 (PDT)
-Date: Tue, 13 Oct 2026 15:11:46 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	driver-core@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Peter <mario.peter@leica-geosystems.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Message-ID: <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bkgxwb8k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E7D1F000FF;
+	Tue, 13 Oct 2026 21:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791925280;
+	bh=Pi/onS5WtRQMlO8FS9+xnweQOK38nFxgcItu9oVclZc=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=Bkgxwb8kRgeWfVfeeZcRxvKNQNPflLWum9CcF1B566WzH3xACQW7zpJyShAF3K2dH
+	 XWcpqSD2QWZ0fkbe169FnGbQDOg01JCGEM4A883eRARN8SXTyq51ngI8P/hU4SkpRq
+	 oo/SWcbKMuGsyWO8evcVYbeYzfkRmv3Q/o3yGc2+ox8xBdN33R8eUddVcS9d8PCPbY
+	 c7YulMljG+lESEAcAZU8iSMQXQxD3m5/kLgV6vcMC3z8RfjjUmbb2DHzgi7Nq9O6dP
+	 +dnEA9LuTuZkXr2bwVFiOVQX1q6A6iYDlxiZ46FIItWb9lNWrpmzJz5eYuIiPJkxx/
+	 XZjVg/KX3E+lw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 Oct 2026 23:01:16 +0200
+Message-Id: <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Cc: "Johan Hovold" <johan@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+ <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+In-Reply-To: <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
 
-On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
-> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
-> > +void bus_probe_device_deferred(struct device *dev)
-> > +{
-> > +	if (dev->parent && dev->bus->need_parent_lock)
-> > +		device_lock(dev->parent);
-> 
-> This looks like it has the same potential UAF as the other patch.  It's quite
-> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC the
-> main reason USB needs this is because interface devices share resources of USB
-> devices and we need to keep the locking order to avoid inversions, right?  Is
-> there more to this from the USB side of things?
+On Tue Oct 13, 2026 at 9:11 PM CEST, Alan Stern wrote:
+> On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
+>> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
+>> > +void bus_probe_device_deferred(struct device *dev)
+>> > +{
+>> > +	if (dev->parent && dev->bus->need_parent_lock)
+>> > +		device_lock(dev->parent);
+>>=20
+>> This looks like it has the same potential UAF as the other patch.  It's =
+quite
+>> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC=
+ the
+>> main reason USB needs this is because interface devices share resources =
+of USB
+>> devices and we need to keep the locking order to avoid inversions, right=
+?  Is
+>> there more to this from the USB side of things?
+>
+> That's pretty much it.
+>
+>> I think we can probably do something like this
+>>=20
+>> 	struct device *parent =3D NULL;
+>>=20
+>> 	scoped_guard(device, dev) {
+>> 		if (dev->p->dead)
+>> 			return;
+>> =09
+>> 		if (dev->bus->need_parent_lock)
+>> 			parent =3D get_device(dev->parent);
+>> 	}
+>>=20
+>> to avoid the problem, but it's still a bit ugly.
+>>=20
+>> > +	__bus_probe_device(dev);
+>> > +	if (dev->parent && dev->bus->need_parent_lock)
+>> > +		device_unlock(dev->parent);
+>> > +}
+>
+> Wouldn't it be simpler just to make each USB interface take a reference=
+=20
+> to its parent device?  And likewise for USB devices, if needed?
 
-That's pretty much it.
+The driver core already holds a reference count of the parent between
+device_add() and device_del(), which is where a "parent" is technically def=
+ined.
+But the deferred retry can extend beyond device_del().
 
-> I think we can probably do something like this
-> 
-> 	struct device *parent = NULL;
-> 
-> 	scoped_guard(device, dev) {
-> 		if (dev->p->dead)
-> 			return;
-> 	
-> 		if (dev->bus->need_parent_lock)
-> 			parent = get_device(dev->parent);
-> 	}
-> 
-> to avoid the problem, but it's still a bit ugly.
-> 
-> > +	__bus_probe_device(dev);
-> > +	if (dev->parent && dev->bus->need_parent_lock)
-> > +		device_unlock(dev->parent);
-> > +}
+USB interfaces already take an additional reference to their USB device in
+usb_set_configuration() and drop it in usb_release_interface(), so they sho=
+uld
+already be protected against this particular UAF.
 
-Wouldn't it be simpler just to make each USB interface take a reference 
-to its parent device?  And likewise for USB devices, if needed?
+The issue concerns a USB device and its parent hub's USB device.  (This mak=
+es me
+wonder whether probing a USB device actually requires the parent USB HUB
+device's lock to be held, or whether this is just a consequence of sharing =
+the
+same usb_bus_type?)
 
-Alan Stern
+In theory a USB device could also keep a reference count to its parent, but=
+ then
+the driver core code would rely on an implementation detail of its users; I=
+'d
+prefer not to make driver core's access to dev->parent depend on references
+maintained by individual subsystems.
+
+I'd even go a step further any say that if subsystems try to keep this poin=
+ter
+valid beyond what's guaranteed by the driver core, they should do this with=
+ a
+separate bus specific pointer.  The reason is that otherwise the lifetime a=
+nd
+ownership definition of this pointer does not depend on API contracts, but =
+on
+individual implementation details, which is a very common source for all ki=
+nds
+of bugs.
