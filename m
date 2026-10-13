@@ -1,161 +1,153 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8206737F8AF;
-	Tue, 13 Oct 2026 11:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F9D4EDCD6;
+	Tue, 13 Oct 2026 11:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791891347; cv=none; b=hR2UUN6JuLLv9Iv6zSx/EqlNGPKKlAg6Fw/8onRWnuPdKwu9vKOOQ6/p8UYbvNeHABQMVgRuzijYorZezhw2AFVzUrP96ZUgkiZzu1XJ+ljgXs9sRDBS8kB1wq2OqhR6iR/7MugCnTA8cbzjD7qV+onOHDfXgJmLvTt+dak0eg8=
+	t=1791891428; cv=none; b=HjXBTp4lGmtjWNKdx0YF8oaewpzBJbsq7cyDjLEiuDFv8KauFMuCn5IKKD7FriePIw8J8ezYA08skqI6y8TE4IKtejhIBkpcdhBwTO6M2KQCOOBY37TBQV/0aXIw/9+jB5PBxbrWKx70u+p/+4Ek6Clv9EG2h6pD6RrYSDkThuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791891347; c=relaxed/simple;
-	bh=iFHnFsr3NjAcsRUa/CVUBKDHfKdX/CfcLbNrrMoPACE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ff/LehhZq6XfTwzj9qfyozU/e04tV7yzB7J4SU2XxvdRKQu8sZbXpmoZMtk/k8CDi43rLAGYGhPN7mqcfmhqNRDfWl48aL7n0yjwYTcDDb5MZLu8nHCgs8eOgxXnlKdIc8686P/uKDBlr4YxqhOwJTNTtzHZilQw4B0J9MAXgRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Gl4+NGju; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1791891428; c=relaxed/simple;
+	bh=3WUSLzebOr2ySv4J/w7atqPmxuF+kPawmJ81BsoAz3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBd8qirXq+EntcSo+vVSbp9jc+x+LevvswNNJHjTxS6gQMOuc84Ybt6iLuNt/O0SPAEA//bRdd8uVhtBRcmMV73GO31f90b7DctHUhiFSx1HqoS0ecrXDgifMnhN8d/6DNfm03+ujovoCDDMR8mqlR8XW+Jr1lhNcNGe/G75W24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b7jZhXyZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Gl4+NGju"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 977A01570;
-	Tue, 13 Oct 2026 04:35:41 -0700 (PDT)
-Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A23143F66F;
-	Tue, 13 Oct 2026 04:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791891344; bh=iFHnFsr3NjAcsRUa/CVUBKDHfKdX/CfcLbNrrMoPACE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gl4+NGjuoXJn53qe90hDjficciUU0vZiX+yyPYW+ZDx13uFc4Q5PLHcJhbPEDlp/W
-	 pzQnrSxhy37kEHopU8W//0TMy1atxB3VauY7j+UROpxd0jwNa1Cmp9OEaDoa+9UVbS
-	 qL35dEEYtZsulURYhEruyJQNPy9gWwgtw5g72G7A=
-Message-ID: <370a947c-601b-434c-befd-4896ed523ced@arm.com>
-Date: Tue, 13 Oct 2026 12:35:40 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b7jZhXyZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11B01F000FF;
+	Tue, 13 Oct 2026 11:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791891426;
+	bh=whuCXrASEjiOa53ahdPLNNDh/L/dZAaNEwT+F9NvgAM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b7jZhXyZnbu6aYvE/wYID94SUUXIfeqUui/Keow3vDwWhhFGxKEZw+81dvRUz2clf
+	 3c6sv/uoWd4npQsr8kWdIc6DEpyMo5bMIGxKJSWiBEp5uq1324fWzqmyHBPAid4W1e
+	 /nlvLJfO2Xe9hyUP2HJ0/IIGkOQ/VBYAPaoZFdIc=
+Date: Tue, 13 Oct 2026 13:37:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+Message-ID: <2026101355-species-glance-9ff8@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
- gate CMDQ submissions
-To: Will Deacon <will@kernel.org>, Pranjal Shrivastava <praan@google.com>
-Cc: iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>,
- Nicolin Chen <nicolinc@nvidia.com>, Daniel Mentz <danielmentz@google.com>,
- Ashish Mhetre <amhetre@nvidia.com>, linux-arm-kernel@lists.infradead.org,
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, rafael@kernel.org,
- Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-References: <20260929034510.2023173-1-praan@google.com>
- <20260929034510.2023173-12-praan@google.com>
- <asZSQRSYBjbUaaH0@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <asZSQRSYBjbUaaH0@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
 
-On 07/10/2026 3:08 pm, Will Deacon wrote:
-> On Tue, Sep 29, 2026 at 03:45:05AM +0000, Pranjal Shrivastava wrote:
->> Introduce a new bit flag, CMDQ_PROD_STOP_FLAG (bit 30), in the command
->> queue's producer index to safely gate command submissions during device
->> suspension.
->>
->> The flag embeds the suspend state directly into the existing global state
->> The flag is checked in the cmpxchg loop in arm_smmu_cmdq_issue_cmdlist(),
->> which acts as a Point of Commitment, ensuring that no indices are
->> reserved or committed once the SMMU begins suspending.
-> 
-> I'm not familiar with the term "Point of Commitment". Is that something
-> you came up with? Without a general definition, I think I'd prefer to
-> avoid using it, especially as it sounds like something to do with the
-> Arm memory system (where we already have architectural terms such as
-> "Point of Coherency".
->   
->> This prevents a situation of "abandoned batches" where indices are
->> incremented but commands are never written, which would otherwise
->> lead to timeout during the drain poll.
->>
->> Update queue_inc_prod_n() to preserve this flag during index
->> calculations, ensuring that any in-flight commands that successfully
->> passed the point of commitment can proceed to completion while the
->> flag remains set.
->>
->> Suggested-by: Daniel Mentz <danielmentz@google.com>
->> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
->> Signed-off-by: Pranjal Shrivastava <praan@google.com>
->> ---
->>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++++++++++--
->>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  5 +++
->>   2 files changed, 38 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> index a123810fac57..7f89e2306942 100644
->> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
->> @@ -218,7 +218,8 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
->>   static u32 queue_inc_prod_n(struct arm_smmu_ll_queue *q, int n)
->>   {
->>   	u32 prod = Q_POS(q, q->prod) + n;
->> -	return Q_OVF(q->prod) | Q_POS(q, prod);
->> +
->> +	return Q_OVF(q->prod) | Q_STOP(q->prod) | Q_POS(q, prod);
->>   }
->>   
->>   static void queue_poll_init(struct arm_smmu_device *smmu,
->> @@ -726,13 +727,42 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
->>   	do {
->>   		u64 old;
->>   
->> +		/*
->> +		 * If the SMMU is suspended/suspending, any new CMDs are elided.
->> +		 * This loop is the Point of Commitment. If we haven't cmpxchg'd
->> +		 * our new indices yet, we can safely bail. Once the indices are
->> +		 * committed, we MUST write valid commands to those slots to
->> +		 * avoid indefinite polling in the drain function.
->> +		 */
->> +		if (Q_STOP(llq.prod)) {
->> +			local_irq_restore(flags);
->> +			return 0;
->> +		}
->> +
->>   		while (!queue_has_space(&llq, n + sync)) {
->>   			local_irq_restore(flags);
->> +
->> +			/* Avoid waiting for space if the SMMU is suspending */
->> +			if (Q_STOP(READ_ONCE(cmdq->q.llq.prod)))
->> +				return 0;
->> +
->>   			if (arm_smmu_cmdq_poll_until_not_full(smmu, cmdq, &llq))
->>   				dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
-> 
-> It's a bit grotty to have the extra READ_ONCE() here. Why not make
-> arm_smmu_cmdq_poll_until_not_full() return if the stop bit is set?
-> 
->> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
->> index deefb17e31eb..794b258550dd 100644
->> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
->> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
->> @@ -394,6 +394,11 @@ static inline unsigned int arm_smmu_cdtab_l2_idx(unsigned int ssid)
->>   #define CMDQ_ERR_CERROR_ATC_INV_IDX	3
->>   
->>   #define CMDQ_PROD_OWNED_FLAG		Q_OVERFLOW_FLAG
->> +#define CMDQ_PROD_STOP_FLAG		(1U << 30)
-> 
-> I'm unsure about this. Bit 30 of the cmdq prod register is RES0, so it's
-> plausible that the architecture allocates that bit for something in future.
-> For example, if the index field was extended, then I think that would
-> cause problems for the driver.
-> 
-> Do we have to put the stop flag in the producer value, or can it just be
-> a flag elsewhere in memory?
+On Mon, Oct 12, 2026 at 08:35:58PM +0300, Adrian Ambrozewicz wrote:
+> This series adds drivers for the NVIDIA LSTP USB adapter: a USB core
+> driver and GPIO, LED, I2C, SPI, UART and BMC-side IPMI function drivers,
+> with their device tree bindings, an ACPI description document and the
+> sysfs ABI.
 
-Logically, it feels like this should happen earlier in the process 
-anyway - if we're entering a state where we don't want to accept _any_ 
-new command submissions, then surely arm_smmu_get_cmdq() should just 
-start saying "No, there is no valid queue to submit this command." to 
-everything?
+Why would a USB device have anything to do with device tree?
 
-Thanks,
-Robin.
+> What LSTP is
+> ------------
+> 
+> LSTP (Low-Speed Transport Protocol or Low-Speed Tunnelling Protocol) is
+> a vendor-specific USB interface (class 0xff, subclass 0x3f) that
+> multiplexes several low-speed "channels" over one pair of bulk
+> endpoints. It is implemented by NVIDIA's SMA, an MCU (0955:cf11), and
+> by other vendors' parts: two hub/bridge chips have it built in
+> (0424:4940, 174c:2214). Boards use it to
+> reach SPI flash, I2C sensors, GPIOs and LEDs, a UART and a host-to-BMC
+> IPMI path, on both BMCs and host systems.
+
+Cute, but that's a total abuse of the USB standard.  Why wasn't this
+implemented by the proper "each channel is a USB interface" model
+instead?  Have the firmware engineers there not read the USB spec?
+
+> The channel types are SPI host, I2C host, GPIO (with interrupts and LED
+> pins), UART, IPMI and MMIO. Channel 0 is the control channel: at probe
+> the driver reads the channel table from it, which gives each channel's
+> ID, type and configuration. The set of channels is decided by the
+> firmware, so the same VID:PID carries different channels on different
+> boards. No firmware description is needed for the channels to work.
+
+Again cute, but that's not how USB devices are supposed to work, why
+would we want to do this at all?
+
+> Series layout
+> -------------
+> 
+>    1  dt-bindings: gpio: Add NVIDIA LSTP GPIO
+>    2  dt-bindings: i2c: Add NVIDIA LSTP I2C
+>    3  dt-bindings: spi: Add NVIDIA LSTP SPI
+>    4  dt-bindings: usb: Add NVIDIA LSTP USB adapter
+
+USB devices do not have DT bindings.  It's a dynamic bus, with
+self-describing devices, don't make the mistake of thinking this is
+giong to work.
+
+>    5  usb: misc: Add NVIDIA LSTP USB adapter driver
+>    6  gpio: Add NVIDIA LSTP GPIO driver
+>    7  leds: Add NVIDIA LSTP LED driver
+>    8  i2c: Add NVIDIA LSTP I2C driver
+>    9  spi: Add NVIDIA LSTP SPI driver
+>   10  tty: Add NVIDIA LSTP UART driver
+>   11  ipmi: Add NVIDIA LSTP IPMI BMC driver
+
+So you have a custom "bus" for a single USB device/interface?  Ick,
+again, why?  Please do this the "proper" way in your firmware and do
+this one-device-per-usb-interface like the rest of the world does
+please.
+
+Doing it that way will not cost any more hardware pins at all, it's all
+handled in firmware, and as you all have complete control over the
+firmware, you can fix this up now to do things properly.
+
+> Patch 4 $refs the schemas from patches 1-3, so it comes last among the
+> bindings; it also defines the serial@N and ipmi@N channel nodes inline.
+> The MAINTAINERS entry starts in patch 1 and gains each later patch's
+> files. Patch 5 carries:
+> - the core in drivers/usb/misc/;
+> - include/linux/usb/lstp.h for the function drivers;
+> - the sysfs ABI file;
+> - Documentation/driver-api/usb/lstp.rst;
+> - Documentation/firmware-guide/acpi/lstp.rst.
+> 
+> Patches 6 and 8-11 each depend only on patch 5; patch 7 (LEDs) also
+> needs patch 6, whose GPIO driver hands the LED pins to it.
+> 
+> Why the auxiliary bus, and why not MFD
+> --------------------------------------
+
+Neither is ok for USB devices, that's not an argument either way.
+
+Please go talk to some people with USB spec experience on how to make a
+multi-function device correctly.  This way sure does not look like it at
+all.
+
+thanks,
+
+greg k-h
