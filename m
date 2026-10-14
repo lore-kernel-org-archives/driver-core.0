@@ -1,176 +1,155 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78754FDE7B
-	for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 11:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B470B4FC8CC
+	for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 11:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975961; cv=pass; b=nKgqxmIFHVpJOM9LglpDFV7SphDQxz0pm2e0qVce9hwR2Sz3tlajvsRVo+WPkWstVAOjFRFxV+UQJT/gY1R3AJ88Gh4wae3WPmQwTF5LBlElXj4hMWHjv/kWhDOaHNM8PI6L+UXaRYRYvV4GuTS2PsM+fjkrBeYAJ6OLSF4WktE=
+	t=1791977350; cv=pass; b=BNyMLP9uStA2FituJsllOotrCIMLZWaUKWfgmH/bNMfKeDD2VxPluFyncVxEyXQXeG4S9gHvsm9AIz1LktExhVuVY6a3Eux9mgtgvQyi9+pDwGJq1hGMJGG03FqUfQTUI+EolUrU2+GqlhykXxL7ecpjHUNGZuW2CTzxuNCHHgE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975961; c=relaxed/simple;
-	bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
+	s=arc-20240116; t=1791977350; c=relaxed/simple;
+	bh=Bm8IXeZCCjjHRHqufoiH0uSm7tIaA4fZ4x02DGLBDgM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CKWMzCEDlfyBo7Mmg97c52RJjmUPPEQL/lW6CIw8ZHWQaIMBjLedc4iP544yM9NjlorRo/8uDIsKgeJ4dQLQl2+MWS3XWasRn5bffviGUoiNndecFxvig+SSbsmvh5+9lpAozYzEiv3S8mHM1UP37r1Uiaw+RV60UkViC4pkpDo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lE+2sV2I; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=NNLC6ReR1O5O4XtSoKpg0aKEKDX851ovlymhTDZqSBmijfZktP6EnG2PXR+rTrHKxFUv71BMl+iaeeGdzoo5T+WP0Y0s42TXJNMCeMngINkYd8ZtNV2uBEXP+hhjRHH9zqR78uZ64L92AjpRhmZQoQfGz3iPkPvumYTDAqKSILM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLbPmIoL; arc=pass smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lE+2sV2I"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2db33db4de9so212765ad.0
-        for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 04:05:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791975956; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLbPmIoL"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-35179d0747fso306970eec.1
+        for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 04:29:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791977348; cv=none;
         d=google.com; s=arc-20260327;
-        b=sFRCfaH0DoJ9qFo2tZtlHOIOGW2puSQv1roJIw9IumVCCa8HDVdyvfrpHSzlg3cDXW
-         Wbh44FDjWaszTRCsWMumI7j9CZhO8OgCEIfpFwAKRE/VnGRe6+DDQgQTrMO7zGjnwo/s
-         cT4dL+gbLN4lnw+zNkUs8UMk57dzpnLsVuYcI7pweGXAzIoVXin57WEWxYO7xgzmzGzP
-         jN2uCSfn6euyBtfluIh2apjklBA7VTQVFQ/EcyfjMoHpPVKoDBlxO8/Pc7o8QqenYBb6
-         GWE0ZwU5NDy7JNqWVG7y5v+J0ME+Ld/14uT/gNiYHHMwxZ52csqEaIuS+pZKZ+mFitxo
-         7LAg==
+        b=XIB698tKWAG2+7dodn2oTh9YZXITan1ozSgciLSfsoTQ5p7Bd6C0nXG3M5orqvxd4B
+         LoWu9+3Ps+PPi3qf8B8yWiVV32UKQxuP/MWBSOuJTPUcdAgEiM/1kshHL2dqcNveHYrD
+         wgLDm+CeoyiZpF6Ky3r7DNRSf+xI8Hp/e+s0lJoHKW/nwBcGqyN/TNutFCXzRJc75ml/
+         qy76mDKBoq2KJ9m2wvg1s0QqE7DM+CX18Y7fZxS/zDqayotRw1WkBpYcbbvwMKzJK0id
+         r/9t8XbH0Ifp9IOaBPtm5c+UGyxRzEmUH7PCmOUZUwUW8MzmuQ8JS+gZv1OtS9Dc4Qyp
+         8ENg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        fh=uP9zALaQWeK/ynd4Io+NjWG+9q+UgV0QVaBFE/PGTXg=;
-        b=lM+hjcxAi3t768z810tMvMFOGGl/Zg0uW3jDHltVI2yYOdUK1hB5DUNn2hAnpokdBm
-         U1MpGHyUJrH4a0GK/jGwKa86eCJ8Fzh1Gzw68UAHENbsvfAt5dX5eNeEmzuV26YdgnM7
-         VfBhDoL1xzhNd79sTYx00S7kcqT/2EpLt8pO92GfbZHcfzE64DsdjmhTjzHif51gOK9D
-         aBHeR2tF/BLFDVochBJQ7QicqrGDq93y/LHYuZ2xbEtubiTyv1Tf27OQ1w03ao2Cimro
-         fw0pHR22kJY4cIxgaWDNtknIiph/HgimVklfrQNor8Rv+LQ4C3NqZizXy65ukQ+qlQ50
-         KMkg==;
+        bh=xWJCwZOmpC49YtbA7QzlowrBvokYI4WD90uvALsrwIA=;
+        fh=dGcSuv8S6V+83kcPNDGe9G7SX2liCYhZegfaj1Ne93c=;
+        b=rQc3YDszv7JL8t3GvIcoBM6sfWDYq4LGe7kwk3SN7s7Se2wZnZeHVpBpxtVZnpSWn4
+         qZ+BYn+C8otrp/skHx9/YAoAn3VZeGnunszezd7LsznqFJeUO+GfNJoqAZWB78/7OTW4
+         EbXsgqU3wsK/gLAcUeU/xGFahQQiDn0PBXqX+OJGht39ZevY0Rj69tEoic7rc3TyswFG
+         QicDGcq+yqJlNmAj8al6rsxBCmlfxg7ZxKixbtebx7QgDetYs6rKjz9nxf7GQTwPmNrn
+         IvMXoGE0N2O178I8dNtgI64pt/jvBlcmkT8nTAUKG+uuPzs4wqFVEK8p8RzGKqIoQMeY
+         /CYQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791975956; x=1792580756; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791977348; x=1792582148; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        b=lE+2sV2IcDUF/1ItcgOlzyshC3fHQGQesA5RiSBSp9/x6A/PWi64CVkfKlA7KdUqMf
-         aIlpy2Gp0k/+mwnshvZjps9B9QMcFeBaVavDCNYinvaR3yk75SJXob4YDK1b6xMUxAxc
-         pp7nCMCbeB/x62c5p3UtwZbWYCc1r/OEj6BZcYmGPd3s++sR55giFtU4r9P8cq0oWeHT
-         6MbrXpjitNQ1svmtUPLYvz8A1ZuUX0M0AisAdhziNgogotTyl9rJ5BRL8tuMRQGnpEmm
-         eW0HzX+cj16n2mKrt/IKFKylYtzIT7AIFNxW3pM/UFhT56fSW5nBcLjPTMBVwTb4BY2e
-         wKyg==
+        bh=xWJCwZOmpC49YtbA7QzlowrBvokYI4WD90uvALsrwIA=;
+        b=SLbPmIoLauM1g8rEXO7a+x+nNVHrDaZgKcHl6ue405vowb/MnJ5zaXEmtCizeCPpbq
+         2vMzWDo3Gg+bIVKxZQr9u+O4X9oxi7JIr3iJlGG0RH6OQDmN/zKQweSXoR2fqVgDgABO
+         CVo0sZO0YQdXbzKYy566UQXdcOL5EnU2eL6bxGJl5t9xeZ7vH2Bu40IOu9wBorkOVVnl
+         reur63f9XcBgwUABd4IS2VqgaWIig9qTPdx+AQZ3/N/rrAJn0X8PvFJrY83CYTO9xVxX
+         wY3MyJX90m4WBvId2WpRBNFCFCQ1xEC4EBxrfDoN56t170MYuo01X3TJ59B3Nw8SSH3h
+         WB4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975956; x=1792580756;
+        d=1e100.net; s=20260707; t=1791977348; x=1792582148;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oKg3O/9qWwL0S/n8isR5H6f1yss4N5Cz6zPMHFWqGP4=;
-        b=fT6VJkaz3683F1bKUzSZYM17nC2IfWaW+3CaxLEiGrefuOp4ebaY06us4UeiFt1DvY
-         hvUOcWHcW7uXufH9U9gpjR4loJZlWnIpSeJgy+Bvz9JRAygk0IUpW7Pxf9/LgXFJmizx
-         v6kzDGT/qffTTYVEHh3j58Cl7m4G5A4oLS1SaHigNKeJ6NhwrT8DHO+jFn1+68Lh1Tl1
-         co0Sx7jHnrfUmqRzDmJC1uozvwpdTqiN6sKR3Oq0FG3m+AcOtE9AOfZjOPR28JES1Ovz
-         n//5+uRCsZLtvMROoMc+kRs2e5lYDze8oH2J5QBQJtCGGucsppRPKhIa/ZBDGibwNWz+
-         VeCg==
-X-Forwarded-Encrypted: i=1; AKwUvBxcACQ23dNHG53PSFXAvFPcyBCFmXxDkxKYFsLF95ZlsxspD1jlvyA1klGlvW5JRokjysc5jjS7Jeporw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIKXlG7skT8M68Cpyxlo5xjmR8k/gtkRizFsv75k/l80mBfqV8J
-	vB6wxnxtNhJAQOtg6Yma+NqLEl2555nW6q8nL3AoCV3c5W8Va7ZTnkEf+52GP6i6BpUVp7RPjJl
-	OsP3TfDLwxQrPMZ0mAj26n4dyLNG3w3FWXM8++nuP
-X-Gm-Gg: AYBFou3dwcZOZMybzrLmazU3YKe9MYZGFX0LB6+wq+raL8axwE9RZUjeMesDLOaD7pD
-	/fy1K/s33EEbh3pRibYO2zoBi7rmrh2xTR72WDRkp/ZKyA95AQic8Frh4ZnDAh84pPmPdT1zZzE
-	JawCHmR+dEuWUB9/G8qRBik0WZq5m/08d4AW92P4ii/cb3Umr8DyhXW/PsArFkBI+d0wP9bgBsU
-	1d1puyGE9gVm6qcFaPZdsx8e9DnrkMK1WsaqHHB7IoZiGvgxbR5IHbnmlOLdVwva9/VkDJMza+8
-	EuPDpsHLtknF2lcaHt9f3Lxp0MA8Cj/0uVfx8SnYBI4kpMw5qf8oVPDX
-X-Received: by 2002:a17:903:1a2b:b0:2c6:99be:9dd with SMTP id
- d9443c01a7336-2e939d0f5c2mr3033515ad.12.1791975955291; Wed, 14 Oct 2026
- 04:05:55 -0700 (PDT)
+        bh=xWJCwZOmpC49YtbA7QzlowrBvokYI4WD90uvALsrwIA=;
+        b=epBiTtanXdxL6eLKlkwy5saiYTaa6Ob7kmo5tIYDK/w9sNfLg0vZ0lHK809Pgbt+N3
+         Bi1tjmNTakc4u2zbASDGxRa7RDBR0DGiS3mKMIL5+nk6N/YvpdXzys5s/CaALz64LJqP
+         OaiskWFh8ICS+KIEoYLDHEA5j2b+1pmgrhPhlWtVpeQA2iCrDOUCNB568hcV5u0O1apx
+         1p+X07cvoJYH6y+lxAtalAAVC26I0qwR0F3+wFXewCgAQQHO6TPj8Us0aXx3D7R/3xjX
+         W0Z0T2iZGagyXQVbTzmt4YhlnxZR9aaxL5uI6dlAXV+IJrIlGpVoqHHC+Tl0dcThjQ74
+         MXrw==
+X-Forwarded-Encrypted: i=1; AKwUvBxPSaPI2LAcnY5FqeUsUiPDt3NRhbv2uCFXtDLqSN5HuvaceAQ4HArLU15Qwf0SimQx1g1pxxpMClr+ZA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ3gt/WkiqJKGDLObDiD9NfT7u+BStv+KR8VyOILvtfqMPEWY6v
+	5D37P18Widwktxh1x07lQkSKUQt5+2V2TljWXdmEyKbDtkRhJdbreJFDW1GHVKtQwaGoSQjJPnU
+	/C/Sei3Vxw3DM9ml1v4gcKTe3iRs8jHA=
+X-Gm-Gg: AYBFou0tDj2R7ObdskRtPx2r9w60DzYR0tONDh97k3mhna+zNZsnkFfZNvsYqb1Rm/B
+	qXuGZwZtWv3O8YhmsOV7PFRmhJTRvsn3dKqJA38H4UgjC7aQIb+SnwzgW0AMNI8SHFp4MSOzUib
+	mukFN35/ekyFjjOQljTE2I4YbZQPtKGq4kYwTuFbOMCYWwCNfXrLZ/YxtiJiKy55J50duRbdFpZ
+	8xQwmaHZBQz2EQFltZ7jdbDlge98lxo+V6CS+jBkrqtxyYln4BIuLT67h9Z+QAGk8mBXZwDKdH4
+	7JWK9+rat8mlvwy+FGZXRA8w0phXB/CPh8euzRsEoy9+dS3OdvL4YtDooRhYhXt3hRvWLpM+TIF
+	1+Jfk2ujGFICKaQ4Qp1joCa6FiNfNWZZdjy9C2C0GoaYyl90ffeIeRvvJ0YAMLvxqwKx6+UYk9c
+	OMV9bRUw0cANBW/pgzbbnj66OWrF36yfjEMFXjLjYOrV3Afi0Bsxk=
+X-Received: by 2002:a05:693c:6215:b0:35b:cb8a:8ce7 with SMTP id
+ 5a478bee46e88-35bcb8a919dmr14326600eec.1.1791977347656; Wed, 14 Oct 2026
+ 04:29:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <4fda41ed-741b-4c5f-ae83-e3ea5a447441@arm.com>
- <75c229ef-ae41-4072-9c90-98d4779c52bf@kernel.org>
-In-Reply-To: <75c229ef-ae41-4072-9c90-98d4779c52bf@kernel.org>
-From: Luigi Rizzo <lrizzo@google.com>
-Date: Wed, 14 Oct 2026 13:05:18 +0200
-X-Gm-Features: AclHuK8XP34mfrE8lQUslMQMNc1nPr8ujKpQNMaoAI_u53qDQl4REr9J8L8QdAk
-Message-ID: <CAMOZA0L6hWd=PYLF2PkYwMG11JCson6Wp4Fy9B3k3VC0Vt2R0w@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20261013223946.1836757-1-irogers@google.com> <20261013223946.1836757-2-irogers@google.com>
+In-Reply-To: <20261013223946.1836757-2-irogers@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 14 Oct 2026 13:28:55 +0200
+X-Gm-Features: AclHuK8qVHO7HVQy6LgzcUgjYcQf3EimC6SJcN58PVqcWVdOf6T45eXZNeTLsEY
+Message-ID: <CANiq72mLUh1JB=9e=tqStuL_H3=Ormx5v-uFkCDp-0zZm7tBrQ@mail.gmail.com>
+Subject: Re: [PATCH 01/11] Compiler Attributes: Add __require_explicit_initialization
+ macro
+To: Ian Rogers <irogers@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	David Teigland <teigland@redhat.com>, Alexander Aring <aahringo@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	driver-core@lists.linux.dev, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-s390@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2026 at 12:48=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
+On Wed, Oct 14, 2026 at 12:40=E2=80=AFAM Ian Rogers <irogers@google.com> wr=
+ote:
 >
-> On 10/13/26 12:42, Robin Murphy wrote:
-> > On 12/10/2026 8:43 pm, David Hildenbrand (Arm) wrote:
-> >> On 10/12/26 16:45, Luigi Rizzo wrote:
-> >>> On Mon, Oct 12, 2026 at 3:51=E2=80=AFPM David Hildenbrand (Arm)
-> >>> <david@kernel.org> wrote:
-> >>>
-> >>> I had to call it something... an earlier prototype used the name IOMM=
-U_2M,
-> >>> but I didn't want to suggest that the design was limited to 2M (it is=
- not).
-> >>>
-> >>> Aside from the name, the _current_ prototype restricts to 2M allocati=
-ons,
-> >>> exactly because too large units are expensive and wasteful.
-> >>>
-> >>> In the code, decoupling the allocation size from the PMD size is triv=
-ial.
-> >>
-> >> Yeah, we should do that.
-> >>
-> >> We should probably just find a way to describe that this is a POOL tha=
-t focuses
-> >> on physical contiguity in some configured granularity.
-> > And since it's intended for DMA we could call it dma_pool and oh look i=
-t already
-> > exists...
->
-> Heh, I did have "DMA_POOL" in mind when writing my reply.
+> +/*
+> + * Optional: not supported by gcc
+> + *
+> + * clang: https://clang.llvm.org/docs/AttributeReference.html#require-ex=
+plicit-initialization
+> + */
+> +#if __has_attribute(__require_explicit_initialization__)
+> +# define __require_explicit_initialization __attribute__((__require_expl=
+icit_initialization__))
+> +#else
+> +# define __require_explicit_initialization
+> +#endif
 
-which confirms that naming is one of the hardest problems in CS...
-Let's try to figure out a good name before renaming everything.
+The LPC slides mention Clang 14+, but from a quick test in Compiler
+Explorer and a `git log --grep` on the LLVM repository to confirm, it
+seems the attribute was introduced in Clang 20+, no?
 
+If that is correct, then it is not available in all LLVM versions we
+support (LLVM 17+), so we should add:
 
-> > Sure the current implementation is capped at PAGE_SIZE for allocation (=
-and thus
-> > mapping too), but I don't see why that couldn't just be made more flexi=
-ble.
->
-> That intuitively sounds like the right direction.
+     * Optional: only supported since clang >=3D 20.0
 
-Point taken, I will decouple the allocaiton size from PMD_SIZE this in
-the next iteration.
+With that:
 
-I have also followed up on most of Pranjal's feedback (stricter error check=
-ing,
-compact IOVA ranges, opt-in per destination on the tx path...) .
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-I am also looking at reducing some inefficiencies (e.g. pagepool already ca=
-ches,
-and allocations of new pages are relatively rare, so there is not much
-of a point
-of having a dma_pmd_pool per queue; and on the tx side, something similar t=
-o the
-percpu page cache to reduce locking costs when a page is allocated on one C=
-PU
-and freed on a different one)
+Thanks!
 
-cheers
-luigi
+Cheers,
+Miguel
