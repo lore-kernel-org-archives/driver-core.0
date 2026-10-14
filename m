@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606CD531B1C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D515326A6;
 	Wed, 14 Oct 2026 13:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791984696; cv=none; b=WmFD+g1MpXmpm85UhfzMbE4DuO+ICPTdSbVKmuj3OF3jQ7arzuY9Zy7cNJYtu6t0luXZiXipNZ0BwsPUj3flrbPxQqowc7+GGNd1wUIcdfgfd+pqpK35swf6a+2kGabg6k+GnGZsLefz1uSOv5eiIJeUbl+hJlnkmDl/ZCuAo2c=
+	t=1791984696; cv=none; b=jbSXEKCC1j5pAU/Djb9iWoWcnwQothlAB5kav8lZwaFqn3rLYd1ze/IvC90eLYrPCNZFKS6AbLNOzqjGf2BqY76cuJWz6UTPSrn5RHerSiMZA28yBlnZQpv/T6VxBhmA8PVr2AOxEfzKT/ciB9MNku+AE2lBKOycjx1ZrBFekpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791984696; c=relaxed/simple;
-	bh=iVXDdi+LbaWE4pulO6pirqv1Ke4rUwj4L6ZghTo/N20=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fp62UsIYeNiQF0bR6PNZ1BVgRU7drbVGpzhenOa3uOeB5LsSzOHGO4zXP2ahD5bGsFjliKgPavyELt+vmHS9fMY5RJv6+2J+GnkHpQYN+6pgMb3oPQwDRo4eLtxkEC2HlQiEoPbCFalMJ9AXU9fSiqKljjj3Jurgqu7xkoIFTjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uda0z0UG; arc=none smtp.client-ip=100.103.45.18
+	bh=9L8KOZwL4/4iBVETH5ANqqtSQXUzA7maOFAqrnl0dxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=moic5rXL7GaHsC11blHuZ5swQtIdgCe39DzCSvE3DvLgggkOAI7pnz6xqlkV21rc4hFvSd9gpkDms+OdtauYHWA2JnPKbdyypKrov+EtD7guWwLCu44YeTjHHdiiGAkaLEKKnf0eH+zmnh9dYpT7MYdAbnxWWIKydvUSo05vIHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHb0Zxf1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uda0z0UG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA40D1F00899;
-	Wed, 14 Oct 2026 13:31:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHb0Zxf1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 059191F0089D;
+	Wed, 14 Oct 2026 13:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1791984691;
-	bh=pdFwGDO0y5LNxHzplUr7H2rcasbgHL5eYyB7H6l6Hhc=;
-	h=From:To:Cc:Subject:Date;
-	b=Uda0z0UG+irMpty13cruypPuAua5PbmeRoGdDA9W0fGCLWEdcQajL+OVzL+RGQXnH
-	 0gkVBZIMTJikogwNmv3EL2rENgMdRIlilMbHBd5XGY807iI6nxUq6LSmagJ+QTo6mQ
-	 u8ug357cXXEXlYMj/6L4YKaezkI1rX9L6D+nw/+2VNRugMNzwx+WomHUEJySPW3SK5
-	 bh+p5HlsFzeIBRd2cVe7RicBgGxvT9XE78Xp7flVl8mlqx/o3EkRAd0JgJawhvJaOT
-	 Id5n/9zrH/rWutiR4RUvfJMHgu/UiCJfYXtvfATG5BBw1UCYfuSp26PghkzntD36d8
-	 qEv2g6pgDmSvg==
+	bh=f3aboOe4jBL9DhwOlCp/yeX4fMdwzoUKtHuuVi6QUBc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=aHb0Zxf1MXRGv+V9Y852HhHp2U4bp6p1AD1refDWATArClw1GMFu7hsFtcrmEuXpe
+	 3N4HBZwildXlPlsv1hRce5P7lX+1ZA5r/NcyUtbOYMoXXoNUNOzVqotcaCvOsxBFt5
+	 QPfYVMNV37yedZbLEo3Y2Uj473DCXSQCe41Jp7lqHtJ4jH9ogdXP3OBQxLbgoBotoj
+	 8gH5Gr8jMsGqahXyu0QypUmbKswmaAdCfAQJ5JztWPLyojbpeeHfXareAt6Oin4yvE
+	 CzlRseJMfjXV/bFzyQSiOn8d/tT7UzERSTar4eyhyJmxjMfg/qLHK6FBeKBSTxN5K8
+	 W23l6TWmN0pxg==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xGz4q-00000005qCU-2Su0;
+	id 1xGz4q-00000005qCY-2b3B;
 	Wed, 14 Oct 2026 15:31:28 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,11 +40,14 @@ Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Mario Peter <mario.peter@leica-geosystems.com>,
 	driver-core@lists.linux.dev,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] driver core: parent lock fixes
-Date: Wed, 14 Oct 2026 15:31:06 +0200
-Message-ID: <20261014133109.1392265-1-johan@kernel.org>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2 2/3] driver core: take parent lock on deferred probe
+Date: Wed, 14 Oct 2026 15:31:08 +0200
+Message-ID: <20261014133109.1392265-3-johan@kernel.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261014133109.1392265-1-johan@kernel.org>
+References: <20261014133109.1392265-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,41 +56,106 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mario Peter reported that USB interfaces may be probed without holding
-the parent USB device lock during asynchronous and deferred probe.
+USB interfaces should be probed with the parent USB device lock held,
+but this is not honoured when probe is deferred.
 
-This series addresses both cases, while fixing a long-standing
-use-after-free issue with the parent lock implementation stemming from
-the fact that the driver core does not necessarily hold a reference to
-the parent device when taking its lock.
+Add a new bus_probe_device_deferred() helper to handle deferred probe
+where the parent device lock is not held.
 
-Johan
+Fixes: d1c3414c2a9d ("drivercore: Add driver probe deferral mechanism")
+Reported-by: Mario Peter <mario.peter@leica-geosystems.com>
+Link: https://lore.kernel.org/20261007131514.1260696-1-mario.peter@leica-geosystems.com
+Cc: stable@vger.kernel.org	# 3.4
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/base/base.h |  1 +
+ drivers/base/bus.c  | 28 +++++++++++++++++++++-------
+ drivers/base/dd.c   |  7 ++++---
+ 3 files changed, 26 insertions(+), 10 deletions(-)
 
-
-Changes in v2:
- - fix the parent lock UAF issue (new patch)
- - include my update of Mario's fix as it also depends on the UAF fix [1]
-
-
-[1] https://lore.kernel.org/all/20261013140408.1226841-1-johan@kernel.org/
-
-
-Johan Hovold (2):
-  driver core: fix parent lock use-after-free on USB disconnect
-  driver core: take parent lock on deferred probe
-
-Mario Peter (1):
-  driver core: take parent lock in async device attach
-
- drivers/base/base.h        |  1 +
- drivers/base/bus.c         | 32 +++++++++----
- drivers/base/dd.c          | 92 +++++++++++++++++++++-----------------
- drivers/usb/core/driver.c  |  1 -
- drivers/usb/core/message.c |  1 +
- include/linux/device.h     |  5 +++
- include/linux/device/bus.h |  3 --
- 7 files changed, 81 insertions(+), 54 deletions(-)
-
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index a5b7abc10ff0..3c36a2128f88 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -154,6 +154,7 @@ struct kobject *virtual_device_parent(void);
+ 
+ int bus_add_device(struct device *dev);
+ void bus_probe_device(struct device *dev);
++void bus_probe_device_deferred(struct device *dev);
+ void bus_remove_device(struct device *dev);
+ void bus_notify(struct device *dev, enum bus_notifier_event value);
+ bool bus_is_registered(const struct bus_type *bus);
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 598e40d52f37..fd2257f73253 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -606,13 +606,7 @@ int bus_add_device(struct device *dev)
+ 	return error;
+ }
+ 
+-/**
+- * bus_probe_device - probe drivers for a new device
+- * @dev: device to probe
+- *
+- * - Automatically probe for a driver if the bus allows it.
+- */
+-void bus_probe_device(struct device *dev)
++static void __bus_probe_device(struct device *dev)
+ {
+ 	struct subsys_private *sp = bus_to_subsys(dev->bus);
+ 	struct subsys_interface *sif;
+@@ -630,6 +624,26 @@ void bus_probe_device(struct device *dev)
+ 	subsys_put(sp);
+ }
+ 
++/**
++ * bus_probe_device - probe drivers for a new device
++ * @dev: device to probe
++ *
++ * - Automatically probe for a driver if the bus allows it.
++ */
++void bus_probe_device(struct device *dev)
++{
++	__bus_probe_device(dev);
++}
++
++void bus_probe_device_deferred(struct device *dev)
++{
++	if (dev->type && dev->type->need_parent_lock)
++		device_lock(dev->parent);
++	__bus_probe_device(dev);
++	if (dev->type && dev->type->need_parent_lock)
++		device_unlock(dev->parent);
++}
++
+ /**
+  * bus_remove_device - remove device from bus
+  * @dev: device to be removed
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 974e04e79bda..f8f4c32b6c79 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -86,8 +86,9 @@ static void deferred_probe_work_func(struct work_struct *work)
+ 	/*
+ 	 * This block processes every device in the deferred 'active' list.
+ 	 * Each device is removed from the active list and passed to
+-	 * bus_probe_device() to re-attempt the probe.  The loop continues
+-	 * until every device in the active list is removed and retried.
++	 * bus_probe_device_deferred() to re-attempt the probe.  The loop
++	 * continues until every device in the active list is removed and
++	 * retried.
+ 	 *
+ 	 * Note: Once the device is removed from the list and the mutex is
+ 	 * released, it is possible for the device get freed by another thread
+@@ -121,7 +122,7 @@ static void deferred_probe_work_func(struct work_struct *work)
+ 		device_pm_move_to_tail(dev);
+ 
+ 		dev_dbg(dev, "Retrying from deferred list\n");
+-		bus_probe_device(dev);
++		bus_probe_device_deferred(dev);
+ 		mutex_lock(&deferred_probe_mutex);
+ 
+ 		put_device(dev);
 -- 
 2.55.0
 
