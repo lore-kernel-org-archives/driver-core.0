@@ -1,128 +1,135 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A9537E5E2
-	for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 03:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AE63D6461
+	for <driver-core@lists.linux.dev>; Wed, 14 Oct 2026 03:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791948266; cv=none; b=LTy6/5FHY1uqKfN+bG/Fo30K0QWztptvVrvbTUjXACwZ32Q/XKaGjbYfmF4l8lSSt1sXF2xartZf5iVLT9iOewKqaUtsq/GjQ1wt1pRn8PgZMQnBG34OyLBjBX0TcRXUd7HgFjn657Aeo/KF9U3BbsUjKHPISGUhVp6GCr0ElEA=
+	t=1791949135; cv=none; b=F1zpBvTFdX+kVS4GYLkc3JiTlOh95zxeovbn3q4lt5lBBcU9vOcPDbN3iuMs5G3cTfH83m75ExLvEj2rU1e9iY5avm29miRGO0I8PC6AOCSDs67DxmrZ2vqKy9V1/uDRvjRQ374TS4wtINzPYD44Wwb4ZZojSXt+7pxPm6LFnIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791948266; c=relaxed/simple;
-	bh=6iTz7VpiLZLSAVqOeCRO35pCkxOjw9Jd91Pbj9XD8Z8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NLEUar6auTvAJ88DPMarxIaxn9feN8qdQUZvbMshFDdf/FtCNKm6sA49A7UQjPsqxti1UjGnDbP3IAXmBm82IQVeslHHV9D6rO/ftEDiK5M+wqskNwVo2ct6t9X0R1gH+7JRZAMkkSzZa5GhA6dJeIkpgXxDIELe84wXO4qlnAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Egih0cey; arc=none smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791949135; c=relaxed/simple;
+	bh=wWv4sUHIfZP1ItvggJvpQO6/iSgwS9YDTUDmw+IVWVY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jfCxGSot0iTsZcmrrHqmWOhZnTBD1U/77qyFj58jDY7BTYzZ7aVmkn+R9I4JljiPOnaH9OZWeWY42uxHjSA/ZKHsJYVgy3I4OyyBaYWE/+vFrZTBKOYjHj6XZbNw9vcRWCPyOPfEkROUVKw2MHNNPh2ySSJM5NYQT4cy1thh0Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=k4KKl8pH; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Egih0cey"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-141395927feso6922440c88.0
-        for <driver-core@lists.linux.dev>; Tue, 13 Oct 2026 20:24:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="k4KKl8pH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791948264; x=1792553064; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eOvCtYCKadNEkaISc+QEKXNYLWgmraWIzzzO7LCq0ZI=;
-        b=Egih0cey0M2jSCQG9Mfk2osx566ViQvsOkwdTDWoYqT2IeJxFeLFcCR42et4kvBy7S
-         eUOVUUqPO0BfZpjQP1jAUKMDhXOZveUwDX4bMo/DNahBbLH4awgOPVIqKsxfZ3vLrpZs
-         jqCGavw55Wa5pI+t8yNAeVVTZKLVrjXOjSXJj1E08H1Ltse057nkZgSRriIToxUift1H
-         aSZUhK5xM/9C6rGibz/mzLDJYF3PaqikDt0hfrqNDccpACHim2huOpLQYEfT5L4MBt1h
-         pBEVDQqBA4jfa88/IRLQ8HDhJyq8vcqRPcVkWYwQioq6rebejd4Oq6FklRTYIOyepNB/
-         vziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791948264; x=1792553064;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eOvCtYCKadNEkaISc+QEKXNYLWgmraWIzzzO7LCq0ZI=;
-        b=ozRrfmToBi9z6uIRzYg7LLJX41i86epweeJlsQXl8SUZ0e3EDlNVpYp+fp9eRKZHc2
-         fAtkLaDZl0NdOnZwyPZmYX7ceRXBsz4aJ6FJ9loVfo1Ekl+4AbdEKlSME1TML4XrMVjy
-         86nwY/bni7yIDVSv/SwREFdwg3B6/4YSctPbTGcbNgnIikavifpngzGIdekIAM6x5mdX
-         qofNuucLuGXp0MR3V5+l6Ptf+ZYn7yH52G5hCXtb9TqU65tJPv4X/hWQZIwt7twh5gZH
-         krkwULtj0ckTtWS5of73+cy04rEsCJ2MT1F9qZeH78ixcaPRVEw1XtP56pH/1GbLV2W2
-         lUBw==
-X-Forwarded-Encrypted: i=1; AKwUvBwbluolnXdFN//nd9CL3p/Nr7qFN22vxwvGpI3PwkK2NdJY+PgnJjNIjlEMUc9PSKrEJuunmpO9tJA0mg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIbASJVyE5iOLync73A84kUpE8V0m5+/ObBNptcrDii3Ra08GOE
-	8EE0nlv4coksnlrTt+v3LlEkm6y6aDLM+kRzh3uFNwzqNEHkeSuNGZn0
-X-Gm-Gg: AYBFou0L4JrG0gSOuLiz3lshZJidIPoTHUS379MpLNE0mUzXyKGUx4iI/7ipVUXbkkp
-	y4K1eJo/9PPrRvSSBALhGFmE9zXAUAJSLnyutDAgKFsZn5aYxwpPRIkE044thBILAYJ+0jmEsHW
-	x8Tb8P2I+Vss3eI4tXnJL3fP5rCqdN2FAyooWy0X3OyjG8dYEievZExrFclF4aFe9sMprBrAa04
-	enZCgHEQnlXuEQggS7PLRWVZ5NRQuZKbI7M6JmuaFVvf2CrU0LWuZ4u+GjUU/ecRuh7wzTDbeeB
-	6thYkErbCcRx0Pdtijp363vGYY7J6+bCw0XZLAKWAa+MKYiekPGdOBQOQJNLRVliSLKOe9brofs
-	1T3LRSWxILPWc15nYNmOj19VWPh/y7YDadBqEpTp1nTLY3tNpV7raAU70eKSg/jPRTwvu7gU6vz
-	uQUx1F9h0hUn8hscS/wfPxKePSUjWgdWnt9fDZ3F/PjxwOnKktB5ln+8cfNU72lFLeaT9efX9Zd
-	RgAyM7mvH1VmV9fXygkziQXlXbAK8AouJb3qCvg
-X-Received: by 2002:a05:7301:e0cb:b0:351:1e3f:812d with SMTP id 5a478bee46e88-3537e0caeb8mr18111087eec.36.1791948263787;
-        Tue, 13 Oct 2026 20:24:23 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:875a:117f:b9ea:5a08])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cab27d5sm53415105eec.17.2026.10.13.20.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 20:24:23 -0700 (PDT)
-Date: Tue, 13 Oct 2026 20:24:20 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] driver core: fix race between bus_remove_driver() and
- dev_driver_uevent()
-Message-ID: <as71DkwHeLGNDsPv@google.com>
+	d=codeconstruct.com.au; s=2022a; t=1791949128;
+	bh=Xr9nv3pCAuQ1Ufx1N8P/5BzbOX8F4y0Yex+Y2BlP8fQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=k4KKl8pHFsg+eNdE9MoTQ1h16nqPhHKpCXWBVqVXLPW2ix4UmoIThsHCX7B5m0yz1
+	 YD4+Dp2SK2s0tl4YQFuFWE6axcJgIvHT2y2Zg9A2fOd+XN2eACiZoGBvUPrX88CBVy
+	 O1CQHTPFNjSbjQtIF556KtYdPeq6ArLQO2/JzZrY5fQWtrllS2yRvzRwx2HWMGK7WI
+	 K4tK6wLG4c0gPqybPKIbjWmNtY5ozYr63SKhMIzFc9zGB+f0bP0Uz1z/fYNLXvXh++
+	 Ly3MYuRRGsYymcj/L7Gnq07y5bYrM+nhYKw6ReTpvrtLCR3OemkUW5hyh9GBz7kNyu
+	 yksHmIU1++rcA==
+Received: from pecola.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 3FD926CEE0;
+	Wed, 14 Oct 2026 11:38:46 +0800 (AWST)
+Message-ID: <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adrian Ambrozewicz
+	 <aambrozewicz@nvidia.com>
+Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Linus Walleij	 <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Lee Jones	 <lee@kernel.org>, Pavel Machek
+ <pavel@kernel.org>, Andi Shyti	 <andi.shyti@kernel.org>, Mark Brown
+ <broonie@kernel.org>, Jiri Slaby	 <jirislaby@kernel.org>, Corey Minyard
+ <corey@minyard.net>, "Rafael J. Wysocki"	 <rafael@kernel.org>, Len Brown
+ <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,  Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?=	 <ilpo.jarvinen@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Hans de Goede <hansg@kernel.org>, Lixu
+ Zhang <lixu.zhang@intel.com>, Danilo Krummrich <dakr@kernel.org>,  Johan
+ Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>, Quan Nguyen
+ <quan@os.amperecomputing.com>,  Andrew Jeffery
+ <andrew@codeconstruct.com.au>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-gpio@vger.kernel.org,
+ linux-leds@vger.kernel.org, 	linux-i2c@vger.kernel.org,
+ linux-spi@vger.kernel.org, 	linux-serial@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, 	linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Wed, 14 Oct 2026 11:38:45 +0800
+In-Reply-To: <2026101310-scuttle-unison-d4c3@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+	 <2026101310-scuttle-unison-d4c3@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-When a device driver is being removed, bus_remove_driver() removes the
-driver from the bus klist before detaching it from bound devices. If
-dev_driver_uevent() runs concurrently on another CPU, it may acquire the
-bus klist lock after the driver has been removed from the list, read the
-still-valid driver pointer from the device, and access the driver's name
-while bus_remove_driver() proceeds to free the driver structure.
+Hi Adrian & Greg,
 
-To close this race window, acquire and immediately release the bus
-drivers klist lock after all devices have been detached. This ensures
-that any in-flight uevent generation that observed the driver pointer
-before device detachment completed finishes reading the driver name
-before the driver structure is destroyed.
+> > This series adds drivers for the NVIDIA LSTP USB adapter: a USB core
+> > driver and GPIO, LED, I2C, SPI, UART and BMC-side IPMI function drivers=
+,
+> > with their device tree bindings, an ACPI description document and the
+> > sysfs ABI.
 
-Fixes: 18daa52418e7 ("driver core: fix potential NULL pointer dereference in dev_uevent()")
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
+Adrian, what is the plan for this coexisting with the recently-released
+OBMF-ICP spec[1], which implements almost identical functionality (and
+apparently with less DT/ACPI description requirements)
 
-Extremely unlikely to hit so I would not worry about backporting to
-stable.
+... NVIDIA also being a primary contributor to OBMF-ICP.
 
- drivers/base/bus.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+[1]: https://www.opencompute.org/wp-content/uploads/2026/10/obmf-icp-1-0-0.=
+pdf
 
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index d17bd91490ee..8b3aaf451e4f 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -830,6 +830,15 @@ void bus_remove_driver(struct device_driver *drv)
- 	driver_remove_file(drv, &driver_attr_uevent);
- 	klist_remove(&drv->p->knode_bus);
- 	driver_detach(drv);
-+
-+	/*
-+	 * Ensure that any concurrent dev_driver_uevent() that observed
-+	 * dev->driver before driver_detach() cleared it, finishes
-+	 * accessing drv->name.
-+	 */
-+	scoped_guard(spinlock, &sp->klist_drivers.k_lock) {
-+	}
-+
- 	module_remove_driver(drv);
- 	kobject_put(&drv->p->kobj);
- 
--- 
-2.56.0.385.gd3acb90ef8-goog
+> > What LSTP is
+> > ------------
+> >=20
+> > LSTP (Low-Speed Transport Protocol or Low-Speed Tunnelling Protocol) is
+> > a vendor-specific USB interface (class 0xff, subclass 0x3f) that
+> > multiplexes several low-speed "channels" over one pair of bulk
+> > endpoints. It is implemented by NVIDIA's SMA, an MCU (0955:cf11), and
+> > by other vendors' parts: two hub/bridge chips have it built in
+> > (0424:4940, 174c:2214). Boards use it to
+> > reach SPI flash, I2C sensors, GPIOs and LEDs, a UART and a host-to-BMC
+> > IPMI path, on both BMCs and host systems.
+>=20
+> Also, if you really want to do this in a dynamic way, use greybus, as
+> that is EXPLICITLY what it was designed for, and is patent-free (i.e.
+> unencumbered, and we already support it in the kernel.)=C2=A0 Please don'=
+t
+> reinvent the wheel/spec just because no one did any prior-art
+> research...
+
+With this, we now have three similar facilities:
+
+ - greybus - I assume there are implementations about, but more on the
+   mobile side?
+ - LSTP - with an NVIDIA implementation
+ - OBMF-ICP - with a few vendors' early implementations
+
+There are differences between greybus and OBMF-ICP that may justify
+support for both (primarily: static channel support means OBMF-ICP is
+simpler to implement). I understand that OBMF-ICP also has reasonable IP
+protections for implementations. However, it's going to be difficult to
+justify both LSTP and OBMF-ICP implementations living in the kernel.
+
+Adrian: I could see LSTP being implemented as a set of divergences from
+an OBMF-ICP-standard driver, but I'm not yet across why you need static
+configuration. If we do need support for both in the kernel, I can take
+a look at how that could work.
+
+FWIW, we did raise greybus as an approach to various HW vendors; I
+assume there were reasons behind OBMF-ICP, and assume some prior-art
+assesment was involved, but I don't have specifics for those reasons.
+
+HW peeps: This would be an excellent opportunity for elaboration on the
+motivation there, either for LSTP or OBMF-OCP.
+
+Cheers,
 
 
--- 
-Dmitry
+Jeremy
