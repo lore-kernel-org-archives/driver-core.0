@@ -1,245 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-15.mta1.migadu.com [95.215.58.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F0759C991
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D316B4AA1F3
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 22:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792097322; cv=none; b=l4V0Y6+Dostid4Iwg80nOD+6Gvhn2gvWRyG9m6KGokI2BkeyZKaXF3UQ1QzoUUdKLwM5z2PVyGf6O+nD7LXqQNDMXL19EVccVM6OcuyBwVcn25aynEDgIqCZUSFZrWHs6MrE4WnYH9FSOw2BgX/OWH+0WUzoyZwKdj+VE04bW84=
+	t=1792102283; cv=none; b=L6S9Kec/bZG77hKZg2Lr5/f8dvos/8VMEZhNJGMWlJWNjpXEoERE+w1qe1NVR2SCgO3J3rvjTxFGLT12lJR2KzIhUnurpMe9TdAEyXrNlN8rwxDzhKcOUnScg9u0Mt4ERmfg9rttwdM8Twvq275FPk8AFSnObNKzcu+ux8TrbjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792097322; c=relaxed/simple;
-	bh=xaEjKs9uYoaK1rWbKH1mNgyaJjN0O2ZtD6LiYw3mop8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SywaKZv9Awly3aL0SjvPy3Soi3erO37igJkWoU3aDgPhvVVIcDiMS9TBS6wpra3jtyfz8hVirzoElGGaZUiVLhbuEbKRoU51XQyL9NULtLaXckfH8NpZenBYoyt7HJczNNwQHGsKe+VXfQONtJYasPAE9Okfajo7lIFDQzE1EYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4Hj8kNE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792102283; c=relaxed/simple;
+	bh=427dsrnHkrtT5vX10H9VzzSWt0tzP9oYDvFI4sGOqOU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cJWAq0/73tBemLODQXUCj5ddoB0U6h4MmXYf1AQH+lqsK/Eku+S9ga49ZOu4euzmacozoomMEem/+LRp5U+Ka0ahwUmOiCzhPz4EZl2flbR9dVjqVvPulwo/Fd3w+tiwR27Ckq80mQJ7gh+PK3lOh+zxj5srMgdggNK/dpHkPw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ItTAbmUZ; arc=none smtp.client-ip=95.215.58.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4Hj8kNE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD3A1F000C5
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792097318;
-	bh=a7yiMjjkdLQO3PNrhwbNdhn6qAcJaSjM3V5hz1K+dJI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=N4Hj8kNExJ+JrnujyZgbMsvOCoHJkVG+LP1Cs5qQYG2SzdxPEJ5FCtLWEbQsyHgXI
-	 9clxLwV3a4NKbgPdCIZEwhx8L++HUAZUm31eT3Hy3+pUqllHtdGjuzActhIuBR0xzY
-	 Lk/A+aTOZa30skPjWB4GlhBhVkf+5z9NtYCr0HOoNbLnNWO6I/iTBnQk0uNEWpJhV6
-	 K//dzvwd9eyVITmdoBN5Dd9KY/Ba1KpyCudTZvkSBzOPkhNqD4aEioNzd8wsmvI/dI
-	 V71pqFEUFimqYwFxiyHEoN54iyC5H+0+071j00kVQfIXVqBM7KvRBstXI7Go9NP2hL
-	 oo3fry8DJiLLw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be3d5927ceso990793e87.3
-        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 13:48:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwII4uJHzYBbg1evFuUVEuuJjbASw3vBXL3kQzUjnAMN8oaUD4LtFxLA82GlVGcUGk2r/xz0O6Y+ZYM4Q==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKknnoxLM5ccR5vv1i5EjUpUB/7NlBY+peZVki7pk0zr2jy+Ovl
-	z+S1Lc1vftpYEz+BwRo1aOLgCy9Yf/tHU6IkHqgyMdVcAiFRFmnE7nKcY/aHR6EjL3NL9lroG5l
-	bynZ/J9koTowuCkv2cKEsaWYmaXhC7eE=
-X-Received: by 2002:a05:6512:2c99:b0:5be:456e:7bf5 with SMTP id
- 2adb3069b0e04-5be456e7d65mr691240e87.2.1792097317209; Thu, 15 Oct 2026
- 13:48:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ItTAbmUZ"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=427dsrnHkrtT5vX10H9VzzSWt0tzP9oYDvFI4sGOqOU=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792102278; v=1; x=1792707078;
+ b=ItTAbmUZXNVXbqHpX+/rkKFCtMnYrKWLwFK4RqdWSh17EeJ9mdRlCftK8U6egx5XzYmkuAAE
+ a/Rh0tIl6kyH7awDhkxK3YD8YlZUAxE/nhJRU0eDrW3Abafk5PgKjLt21LPM7Gw5tX5rESrSskk
+ +7bbgDFNMOvAvSCgtKU7zXGk=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 708e9675e266f1c6;
+	Thu, 15 Oct 2026 22:11:18 +0000
+X-Mizu-Trace-ID: 708e9675e266f1c6
+X-Migadu-Flow: FLOW_OUT
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christian Brauner <christian@brauner.io>
+Cc: Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kernfs: allocate inodes outside kernfs_rwsem
+Date: Thu, 15 Oct 2026 15:11:10 -0700
+Message-ID: <20261015221110.3183461-1-shakeel.butt@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
- <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
- <arZDwutoadki7tiZ@ashevche-desk.local> <arZNL9BnTGK0Klwc@red-moon>
- <arZS4vwxps01dGb7@ashevche-desk.local> <arqSqcoWAkhy-8do@red-moon>
- <d1720b63-65bf-4019-bc19-1852555f7993@arm.com> <asieTvinZ7c2QpQm@red-moon>
-In-Reply-To: <asieTvinZ7c2QpQm@red-moon>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 15 Oct 2026 22:46:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
-X-Gm-Features: AclHuK-DuoXI-ze6OR_y67J91aOnhT8WYRNmJVSaRmfvir6JKBEzZ6K-TrcO_zw
-Message-ID: <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Sorry for the delay.
+In the Meta fleet, on 6.16 with the kernfs changes queued for 7.4
+backported, we still see long cgroupfs stalls:
 
-On Fri, Oct 9, 2026 at 9:57=E2=80=AFAM Lorenzo Pieralisi <lpieralisi@kernel=
-.org> wrote:
->
-> On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
-> > On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
-> > > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
-> > > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
-> > > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
-> > > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wro=
-te:
-> > > >
-> > > > ...
-> > > >
-> > > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const stru=
-ct fwnode_handle *fwnode,
-> > > > > > > +                                             const char *pro=
-pname,
-> > > > > > > +                                             unsigned int in=
-dex, u32 *value)
-> > > > > > > +{
-> > > > > > > +   u32 *values;
-> > > > > > > +   int ret, count;
-> > > > > > > +
-> > > > > > > +   count =3D fwnode_property_count_u32(fwnode, propname);
-> > > > > > > +   if (count < 0)
-> > > > > > > +           return count;
-> > > > > > > +
-> > > > > > > +   if (index >=3D count)
-> > > > > > > +           return -ENOENT;
-> > > > > > > +
-> > > > > > > +   values =3D kcalloc(count, sizeof(*values), GFP_KERNEL);
-> > > > > > > +   if (!values)
-> > > > > > > +           return -ENOMEM;
-> > > > > > > +
-> > > > > > > +   ret =3D fwnode_property_read_u32_array(fwnode, propname, =
-values, count);
-> > > > > > > +   if (!ret)
-> > > > > > > +           *value =3D values[index];
-> > > > > >
-> > > > > > Use standard pattern, id est
-> > > > > >
-> > > > > >       if (ret)
-> > > > > >               ...
-> > > > > >
-> > > > > > > +   kfree(values);
-> > > > > >
-> > > > > > You want to use __free()
-> > > > > >
-> > > > > > > +   return ret;
-> > > > > > > +}
-> > > > > >
-> > > > > > I believe the whole approach is suboptimal, if you wish get ind=
-exed value (but why?)
-> > > > >
-> > > > > Why what (that's what the irq_get() interface requires ?) I agree=
- it is
-> > > > > suboptimal - the whole point of the series is an RFC on using pro=
-perties
-> > > > > to store GSI number/flags, then how to read them we will optimize=
- it
-> > I>>> when/if we agree that's the approach to be taken.
-> > > >
-> > > > Why to have indexed APIs. The callers usually do not want a single =
-item from an
-> > > > array, they want all of them or a big pile (exception is the array =
-of strings,
-> > > > but we have matching functions for that).
-> > > >
-> > > > As per approach, this patch is against device property and I don't =
-think we are
-> > > > going to agree on the approach taken in *this* patch.
-> > >
-> > > Coming back to this, what is needed here is a way to stash the GSI nu=
-mber,
-> > > flags and name in stardard storage (like OF nodes IRQ properties, ACP=
-I objects
-> > > _CRS, etc).
-> > >
-> > > To give you some background, I thought about adding an array of:
-> > >
-> > > GSI [number, flags, name]
-> > >
-> > > to the ACPI static fwnode itself. Then basically the irq_get() API ha=
-s got
-> > > all the information it needs from the primary fwnode; while doing tha=
-t I
-> > > thought that this might have been a bit like reinventing software nod=
-es
-> > > (granted, software node properties are ways more general that what I =
-suggest
-> > > above and I don't expect any other property to be ever added to stati=
-c fwnodes)
-> > > that's why I put together the series as it is, precisely to understan=
-d what's
-> > > best.
-> > >
-> > > When you say "against device property", what do you mean precisely ?
-> > >
-> > > I suppose you mean that this approach goes against software node prop=
-erties
-> > > usage guidelines ?
-> > >
-> > > Anyway, again, it is just to provide some context, we are talking abo=
-ut
-> > > a bunch of platform devices, it is nice to have a generic solution bu=
-t
-> > > it has to be simple enough too given its scope, I understand very wel=
-l
-> > > your concern with this approach as-is - it is there to find a way
-> > > forward together and show what the problem is.
-> >
-> > I guess software node properties look inviting in theory since they're =
-a
-> > ready-made mechanism for effectively attaching arbitrary data to a fwno=
-de,
-> > however looking at patches 6-7 and the amount of boilerplate involved i=
-n the
-> > reality, I'm inclined to think that a dedicated structure for static no=
-des
-> > is probably the best and most efficient compromise here. The redundancy
-> > argument rather falls apart once we end up creating copies of those
-> > contentiously-made-up property name strings for every node, especially =
-given
-> > that any one of those alone is probably already more than the amount of
-> > actual data we need per node...
-> >
-> > Perhaps the "purest" option might be to just store a function pointer i=
-n the
-> > fwnode wrapper for each static table type to provide its own internal
-> > irq_get() callback, so not stashing intermediate GSI data at all, but I
-> > suspect that might end up being more work overall.
->
-> Hi Rafael, Robin,
->
-> I have not started prototyping it yet but I have got a question as a
-> follow-up to our chat at LPC about crafting an ACPI device for the static
-> table entries and sort out the probe dependencies using autodep.
->
-> After spur of the moment reaction during the session, I now remember I
-> thought about crafting an ACPI device for the static table entries and
-> started digging then bumped into acpi_add_single_object() as you
-> suggested.
->
-> The point though is: what about the acpi_handle and the AML required to
-> sort out the dependencies using the _CRS ? We have got the info to fill
-> the _CRS coming from static table entries (MMIO, GSI) but I am not sure h=
-ow I
-> can form a full-fledged ACPI namespace object in the kernel, without
-> that in place I am not sure how the autodep mechanism can possibly
-> work.
+- oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
+  of memory container created cgroups.  They resumed when the kernel OOM
+  killer killed the container's workload.
 
-The missing ACPI handle is not a hard part IMV, it is a matter of
-modifying struct acpi_dep_data to be able to hold struct acpi_device
-pointers instead of ACPI handles in case the devices in question have
-no ACPI handles and adjusting the code using it.
+- oomd waited 15 minutes in kernfs_iop_lookup().  PID 1 waited for
+  kernfs_rwsem in cgroup_rmdir() while holding cgroup_mutex.
 
-Finding the dependencies is harder.  I guess it may involve walking
-the namespace and looking up a device object with a specific device ID
-or similar.
+- A lock profiler sampling part of the fleet saw kernfs_iop_lookup()
+  hold kernfs_rwsem across memcg reclaim on 26 hosts in 29 days, for up
+  to 625 ms.
 
-Note that the dependencies can be added to acpi_dep_list after
-creating a struct acpi_device with acpi_add_single_object() and
-acpi_scan_add_dep() is not really suitable for that, but it should be
-doable if the dependencies can be found.
+The profiler shows where these stalls come from.  kernfs_iop_lookup()
+and the export ops allocate a new inode while holding kernfs_rwsem for
+read.  The inode is charged to the caller's memcg.  If that memcg is at
+memory.max, the allocation can stay in reclaim for a long time,
+sometimes until an OOM kill.  A writer then queues on the lock and every
+new reader queues behind it.  On cgroup2 this blocks every cgroupfs user
+on the machine.
 
-> I need to have a deeper look into this next week but I wanted to ask firs=
-t
-> whether there was something I missed - most likely.
+Such lookups are common in a memcg that is out of memory.  Its reclaim
+drops its kernfs dentries fast, and the files of a new cgroup have no
+inodes yet.
 
-Well, it is not really straightforward.
+Allocate the inode with the lock dropped.  kernfs_iget() first looks for
+an existing inode.  If there is none, it pins the node, drops the lock,
+allocates, takes the lock again, and adds the inode only if the node is
+still active.  So __kernfs_remove() still finds every inode it must
+clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
+IN_DELETE_SELF when decoding a file handle") needs.
 
-I'm still not sure why you can't represent all devices in the ACPI
-namespace in addition to describing some of them in static tables.  I
-guess that would work for everybody, wouldn't it?
+Tested on a 176-CPU machine.  A task in a full 256 MB memcg with slow
+swap looks up the files of new cgroups.  Worst waits in 60 seconds:
+
+                                  before    after
+  oomd, for kernfs_rwsem          577 ms   0.7 ms
+  below, for kernfs_rwsem         412 ms   1.0 ms
+  systemd, for kernfs_rwsem       449 ms    17 us
+  readdir of another directory   1154 ms   3.2 ms
+
+The lookup itself is still slow.  The VFS still holds its directory's
+lock, so other work in that one directory still waits.  Cold sysfs and
+cgroupfs walks are not slower.
+
+kernfs_fill_super() still allocates the root inode under the lock.  It
+runs once per superblock.
+
+Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+---
+ fs/kernfs/dir.c             | 11 ++++---
+ fs/kernfs/inode.c           | 63 +++++++++++++++++++++++++++++++++++++
+ fs/kernfs/kernfs-internal.h |  2 ++
+ fs/kernfs/mount.c           | 12 +++----
+ 4 files changed, 77 insertions(+), 11 deletions(-)
+
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 7e65854a09e4..a0ef95a509d5 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -37,7 +37,7 @@ static bool __kernfs_active(struct kernfs_node *kn)
+ 	return atomic_read(&kn->active) >= 0;
+ }
+ 
+-static bool kernfs_active(struct kernfs_node *kn)
++bool kernfs_active(struct kernfs_node *kn)
+ {
+ 	lockdep_assert_held(&kernfs_root(kn)->kernfs_rwsem);
+ 	return __kernfs_active(kn);
+@@ -1269,9 +1269,12 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
+ 			up_read(&root->kernfs_rwsem);
+ 			return NULL;
+ 		}
+-		inode = kernfs_get_inode(dir->i_sb, kn);
+-		if (!inode)
+-			inode = ERR_PTR(-ENOMEM);
++		inode = kernfs_iget(dir->i_sb, kn);
++		if (!inode) {
++			/* removed while kernfs_iget() dropped the lock */
++			up_read(&root->kernfs_rwsem);
++			return NULL;
++		}
+ 	}
+ 	/*
+ 	 * Needed for negative dentry validation.
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 237dcdd73fc2..b20d1c1cf6de 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -256,6 +256,69 @@ struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
+ 	return inode;
+ }
+ 
++static int kernfs_iget_test(struct inode *inode, void *data)
++{
++	return inode->i_ino == *(u64 *)data;
++}
++
++static int kernfs_iget_set(struct inode *inode, void *data)
++{
++	inode->i_ino = *(u64 *)data;
++	return 0;
++}
++
++/**
++ * kernfs_iget - get the inode of @kn, allocating it outside kernfs_rwsem
++ * @sb: super block
++ * @kn: kernfs_node to get the inode for
++ *
++ * Called with kernfs_rwsem held for read.  If @kn has no inode yet, the
++ * lock is dropped while allocating one, as the allocation can stall in
++ * memcg reclaim.  The new inode is added only if @kn is still active when
++ * the lock is taken again, so __kernfs_remove() always finds it to clear
++ * i_nlink.
++ *
++ * Return: the inode, %NULL if @kn is inactive and has no inode, or
++ * ERR_PTR(-ENOMEM).
++ */
++struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn)
++{
++	struct kernfs_root *root = kernfs_root(kn);
++	u64 ino = kernfs_ino(kn);
++	struct inode *inode, *new;
++
++	lockdep_assert_held_read(&root->kernfs_rwsem);
++
++	inode = ilookup(sb, ino);
++	if (inode || !kernfs_active(kn))
++		return inode;
++
++	kernfs_get(kn);
++	up_read(&root->kernfs_rwsem);
++	new = new_inode(sb);
++	down_read(&root->kernfs_rwsem);
++
++	if (!new) {
++		inode = ERR_PTR(-ENOMEM);
++	} else if (!kernfs_active(kn)) {
++		inode = NULL;
++	} else {
++		inode = inode_insert5(new, ino, kernfs_iget_test,
++				      kernfs_iget_set, &ino);
++		if (inode == new) {
++			kernfs_init_inode(kn, inode);
++			new = NULL;
++		} else if (!inode) {
++			inode = ERR_PTR(-ENOMEM);
++		}
++	}
++
++	kernfs_put(kn);
++	if (new)
++		iput(new);
++	return inode;
++}
++
+ /*
+  * The kernfs_node serves as both an inode and a directory entry for
+  * kernfs.  To prevent the kernfs inode numbers from being freed
+diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+index 1609c1519698..6cc19c9ef47b 100644
+--- a/fs/kernfs/kernfs-internal.h
++++ b/fs/kernfs/kernfs-internal.h
+@@ -186,6 +186,7 @@ int kernfs_iop_getattr(struct mnt_idmap *idmap,
+ 		       u32 request_mask, unsigned int query_flags);
+ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size);
+ int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr);
++struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn);
+ 
+ /*
+  * dir.c
+@@ -194,6 +195,7 @@ extern const struct dentry_operations kernfs_dops;
+ extern const struct file_operations kernfs_dir_fops;
+ extern const struct inode_operations kernfs_dir_iops;
+ 
++bool kernfs_active(struct kernfs_node *kn);
+ struct kernfs_node *kernfs_get_active(struct kernfs_node *kn);
+ void kernfs_put_active(struct kernfs_node *kn);
+ int kernfs_add_one(struct kernfs_node *kn);
+diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+index c15ba6357162..a2802d8c772c 100644
+--- a/fs/kernfs/mount.c
++++ b/fs/kernfs/mount.c
+@@ -125,11 +125,9 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
+ 	}
+ 
+ 	/*
+-	 * Hold kernfs_rwsem across the lookup as well as kernfs_get_inode().
+-	 * __kernfs_remove() deactivates the subtree and clears i_nlink on its
+-	 * inodes under the write lock, so under the read lock either
+-	 * kernfs_find_and_get_node_by_id() refuses the node, or the inode is
+-	 * in the inode hash before the ilookup() pass goes looking for it.
++	 * Hold kernfs_rwsem from the lookup through kernfs_iget().  Then
++	 * __kernfs_remove() either finds the inode to clear i_nlink, or the
++	 * node is already inactive and no inode is created.
+ 	 */
+ 	scoped_guard(rwsem_read, &info->root->kernfs_rwsem) {
+ 		kn = kernfs_find_and_get_node_by_id(info->root, id);
+@@ -146,7 +144,7 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
+ 				return ERR_PTR(-ESTALE);
+ 		}
+ 
+-		inode = kernfs_get_inode(sb, kn);
++		inode = kernfs_iget(sb, kn);
+ 		kernfs_put(kn);
+ 	}
+ 
+@@ -173,7 +171,7 @@ static struct dentry *kernfs_get_parent_dentry(struct dentry *child)
+ 	struct kernfs_root *root = kernfs_root(kn);
+ 
+ 	guard(rwsem_read)(&root->kernfs_rwsem);
+-	return d_obtain_alias(kernfs_get_inode(child->d_sb, kernfs_parent(kn)));
++	return d_obtain_alias(kernfs_iget(child->d_sb, kernfs_parent(kn)));
+ }
+ 
+ static const struct export_operations kernfs_export_ops = {
+-- 
+2.53.0-Meta
+
