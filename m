@@ -1,179 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9633D552922;
-	Thu, 15 Oct 2026 19:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE99A47B422
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792093002; cv=none; b=JR8JvGP8zJ2eNYeWuz/TTgxB3Rf2Mf/Z7fUJzOfIXYWCN5TkJgDGr8lEYoiJ6gW60ERFEmYeU1l2HYRpMmZsBI4irGAO9J3lY1MgHKGKGvZN5PhoKpsfsiUaaXDvVaNJBJw9SqrLeD25l3BdCMgYeg4So4mKKxpQJ/wA3kUZXLA=
+	t=1792095244; cv=none; b=R1SPGKFBhlGUHjHb6TwChd4MKHJU+bkvm6E/ZzpGvVzcrc2A/SWopOjxYuT+Krwc0zqRnjl5f3H6oq2v2DkcYQx9+xlx+GXgq62/8qz+OBoXEZlRuglspFGa69SXF0+ObstSEtK7I/6gntRU7pOrh3AQyeG4sjj2dwXoKzWCiXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792093002; c=relaxed/simple;
-	bh=EkSHH4cjzhD2ZWJZ5Z5sffPHQutdvk4S86y7aYi/F1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z9SN2UyaXMde4Rz0TJOWnCUuENX7J+1EUuH9evymwft6tWir3E72B4NruL4SsDJg1Wr5GH7TOfvY1fY8JJFHjBsje7JdTOWHRwuEMkmxPcttK1Khp/e+i2D0WVHqxRt6+SVIMR24Qz9k+tEQk88hvXiS2UhImImDD0eY/dos+9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLw0KzYY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792095244; c=relaxed/simple;
+	bh=SnbfDLY4tTJqB1v8LhA/WdScgHkhh06wd2LjFSIubrE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hKEZ2cjdnVpGp5H83yFSP138Cs94AM4DuPglz6xM5W3OXtAQ7cX2j50wz1DSyj7zTXhiZSckF43MvG9U8Yw4ykpKfP4G6ws4p8Wv5SEGAvYYK8Xt6ew9IgUlYQoi7/paxo9ot2kekFWWrG2F7GPwmC0QCMckJIArqgxu1f7iSYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=heqTmse4; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLw0KzYY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B4411F000C4;
-	Thu, 15 Oct 2026 19:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792093001;
-	bh=0ExLOTvMpNdwpLI0kZtOgkFwCcZ4IqWfr3EbUwrSECg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kLw0KzYYomReQQbQQ+K2sJiVxDSsJH3OUDHmvawLUtBzvBzvcoW02JSoYsrIVSOS9
-	 o3t+C+DkAJOuGf8MwzrhLtFqBHaKpuB89H0Eqh8m3+VrAI/Qaxxgrty/FBnR9QmXbc
-	 mV+TBLIA4H6rnBhyWJRcwojbpXOxNKsODmequC9xvI5dGd5vBUad4/F0uLMJzOldK0
-	 T8t3g8LrSrBoo9dTrKfxNetSr+mDHHmzhX6hSeT3ZK99f/QhtkTUQnp1NUyPJra700
-	 T+eGYsGTzKY8rFD1jN0Q+jSpSCCSCYLlI+KA4Qie5tMdCcCdVE826GzWfz5sj6+yP5
-	 /nKwaas4pTTog==
-Date: Thu, 15 Oct 2026 14:36:39 -0500
-From: Rob Herring <robh@kernel.org>
-To: Yin Li <yin.li@oss.qualcomm.com>
-Cc: James Morse <james.morse@arm.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Fenghua Yu <fenghuay@nvidia.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Gavin Shan <gshan@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Drew Fustini <fustini@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
-	ganapatrao.kulkarni@oss.qualcomm.com,
-	Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
-	Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 3/8] dt-bindings: arm: Add MPAM MSC binding
-Message-ID: <20261015193639.GE5059-robh@kernel.org>
-References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
- <20261008-mpam-resctrl-dt-knp-support-v3-3-35196c2b43bf@oss.qualcomm.com>
- <20261008212736.GB1318789-robh@kernel.org>
- <2eddfb6d-c622-4d72-827e-aed685e72b9c@oss.qualcomm.com>
- <51bc6576-7e52-4685-b7b2-a355c2b7e1ae@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="heqTmse4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1792095241;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UYRSFyiULvh6szKRePAOtHKD+7/o0oF90IjOubYIGB4=;
+	b=heqTmse4IcYcxajpUHFO5NfmHq45vspk7SJEh7yI5uWAQF/Q7MV1MGN/4EYI4t5lyQXOAw
+	8hLacwH5qhmwIBBpy2po31mZgoSB366sQomyd0JdUYRle6wgmhoL3Vaa8QFdBCZxIdfgaT
+	RQWUpHh1uoo3+F2GpJDj/xhcPYM7k5k=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-600-IdpI9AU0N62UZVqT0kj7fQ-1; Thu,
+ 15 Oct 2026 20:13:56 +0000
+X-MC-Unique: IdpI9AU0N62UZVqT0kj7fQ-1
+X-Mimecast-MFC-AGG-ID: IdpI9AU0N62UZVqT0kj7fQ_1792095234
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A9BBB1955F1A;
+	Thu, 15 Oct 2026 20:13:53 +0000 (UTC)
+Received: from [100.91.18.181] (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6D8397C6;
+	Thu, 15 Oct 2026 20:13:50 +0000 (UTC)
+Message-ID: <f12ad8ee-4cad-4c7e-a0c9-c22fe894f14c@redhat.com>
+Date: Thu, 15 Oct 2026 16:13:49 -0400
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <51bc6576-7e52-4685-b7b2-a355c2b7e1ae@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] tick/nohz: Add runtime control of non-idle tick
+ suppression
+To: Peng Wang <peng_wang@linux.alibaba.com>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
+ He Rongguang <herongguang@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, cgroups@vger.kernel.org
+References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
+ <8d10bb84-d312-4be0-8c43-ddd602850a1d@redhat.com>
+ <atER8P0ws6Gg4GWE@MacBook-Pro.local>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <atER8P0ws6Gg4GWE@MacBook-Pro.local>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: XqquAssJVTDBYxU5A7H3WuwL52PhiCMzNRbcg8rddoU_1792095234
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 06:24:06PM +0800, Yin Li wrote:
-> 
-> 
-> On 10/12/2026 3:05 PM, Yin Li wrote:
-> > 
-> > 
-> > On 10/9/2026 5:27 AM, Rob Herring wrote:
-> > > On Thu, Oct 08, 2026 at 02:41:12PM +0800, Yin Li wrote:
-> > > > From: Rob Herring <robh@kernel.org>
-> > > > 
-> > > > The binding is designed around the assumption that an MSC will be a
-> > > > sub-block of something else such as a memory controller, cache
-> > > > controller,
-> > > > or IOMMU. However, it's certainly possible a design does not have that
-> > > > association or has a mixture of both, so the binding illustrates
-> > > > how we can
-> > > > support that with RIS child nodes.
-> > > > 
-> > > > A key part of MPAM is we need to know about all of the MSCs in
-> > > > the system
-> > > > before it can be enabled. This drives the need for the genericish
-> > > > 'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
-> > > > until a h/w specific driver potentially enables the h/w.
-> > > > 
-> > > > Cc: James Morse <james.morse@arm.com>
-> > > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > > Signed-off-by: James Morse <james.morse@arm.com>
-> > > > [ Yin Li and Huang Yiwei: use oneOf for the compatible to allow both
-> > > >    standalone arm,mpam-msc and the two-item combination; fix
-> > > > schema field
-> > > >    order, type constraints and yamllint spacing; fix example reg
-> > > > addresses,
-> > > >    add arm,mpam-device phandle and remove TODO comment ]
-> > > > Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-> > > > Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-> > > > Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-> > > > ---
-> > > >   .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 202
-> > > > ++++++++++ +++++++++++
-> > > >   1 file changed, 202 insertions(+)
-> > > > 
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-> > > > b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..3c7b13a23ff2
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-> > > > @@ -0,0 +1,202 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
-> > > > +
-> > > > +maintainers:
-> > > > +  - Rob Herring <robh@kernel.org>
-> > > > +
-> > > > +description: |
-> > > > +  The Arm MPAM specification can be found here:
-> > > > +
-> > > > +  https://developer.arm.com/documentation/ddi0598/latest
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    oneOf:
-> > > > +      - const: arm,mpam-msc                   # Further details
-> > > > are discoverable
-> > > > +      - items:
-> > > > +          - const: arm,mpam-memory-controller-msc
-> > > 
-> > > Why do we need this?
-> > > 
-> > 
-> > Hi Rob,
-> > 
-> > Thanks for the review.
-> > 
-> > The 'arm,mpam-memory-controller-msc' compatible is needed because,
-> > unlike cache MSCs, memory controller MSCs cannot rely on the parent node
-> > to identify the resource type.
-> > 
-> > Cache controllers universally carry a 'cache' compatible, so the driver
-> > can recognise any cache parent and derive the cache ID from standard
-> > properties. No equivalent convention exists for memory controllers, and
-> > the component ID comes from the MSC's own 'numa-node-id' rather than the
-> > parent, so there is no parent attribute to rely on.
-> > 
-> 
-> Hi Rob,
-> 
-> As a follow-up to my previous reply:
-> Whatever the outcome of the discussion on "arm_mpam: Add support for
-> memory controller MSC on DT platforms", we will keep the binding and
-> driver support consistent. If it's dropped, the
-> 'arm,mpam-memory-controller-msc' compatible, 'numa-node-id' property, and
-> the memory controller example will be removed together.
+On 10/15/26 1:48 PM, Peng Wang wrote:
+> On Thu, Oct 15, 2026 at 12:00:25PM -0400, Waiman Long wrote:
+>> On 10/15/26 8:43 AM, Peng Wang wrote:
+>>> Workloads and their need for periodic ticks can change after boot.
+>>> This series lets userspace choose at runtime which CPUs in the boot-time
+>>> nohz_full set retain the non-idle scheduler tick and which are permitted
+>>> to stop it, while preserving the existing isolation configuration.
+>>>
+>>> The first patch adds a per-CPU tick dependency; the second exposes a
+>>> sysfs CPU list. Permission defaults to all nohz_full CPUs. Revocation
+>>> uses the existing asynchronous kick. Idle tick suppression is unchanged,
+>>> and policy persists across hotplug.
+>> So you are basically setting up more nohz_full CPUs than the system actually
+>> needs to use at the moment and so want to disable nohz/tick part of
+>> nohz_full CPUs that don't need it. Can you elaborate more about the problems
+>> solve by introducing this new behavior?
+> Hi Waiman,
+>
+> Yes. We have CPU-pinned workloads that benefit from reduced periodic
+> tick interference. The desired tick policy changes with CPU allocation.
+>
+> With spare capacity, we allow selected nohz_full CPUs to stop their
+> tick. When capacity is fully allocated, we prefer to retain the
+> non-idle periodic tick across CPUs, avoiding an additional difference
+> in tick interference between housekeeping and nohz_full CPUs.
+What problem does that cause?
+> A CPU may still have only one runnable task in either case, so the
+> existing tick dependencies do not express this policy.
+>
+> This series keeps the boot-time nohz_full CPU set, context tracking,
+> RCU offloading and housekeeping configuration unchanged. It only
+> controls whether those CPUs may stop their non-idle tick. The policy
+> can be changed without taking CPUs offline.
 
-Which parts are you actually using/needing and not using? If you don't 
-need RIS support, for example, we should drop it.
+So the policy is to make the tick keeps running when there is only one 
+running task. Right? I am just not clear about the advantage of doing 
+that. Is there a use case that will require this particular feature? I 
+doubt this will get accepted unless there is a compelling reason to show 
+why we will want to have this feature.
 
-Rob
+Cheers,
+Longman
+
