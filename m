@@ -1,123 +1,245 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE99A47B422
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F0759C991
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792095244; cv=none; b=R1SPGKFBhlGUHjHb6TwChd4MKHJU+bkvm6E/ZzpGvVzcrc2A/SWopOjxYuT+Krwc0zqRnjl5f3H6oq2v2DkcYQx9+xlx+GXgq62/8qz+OBoXEZlRuglspFGa69SXF0+ObstSEtK7I/6gntRU7pOrh3AQyeG4sjj2dwXoKzWCiXw=
+	t=1792097322; cv=none; b=l4V0Y6+Dostid4Iwg80nOD+6Gvhn2gvWRyG9m6KGokI2BkeyZKaXF3UQ1QzoUUdKLwM5z2PVyGf6O+nD7LXqQNDMXL19EVccVM6OcuyBwVcn25aynEDgIqCZUSFZrWHs6MrE4WnYH9FSOw2BgX/OWH+0WUzoyZwKdj+VE04bW84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792095244; c=relaxed/simple;
-	bh=SnbfDLY4tTJqB1v8LhA/WdScgHkhh06wd2LjFSIubrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hKEZ2cjdnVpGp5H83yFSP138Cs94AM4DuPglz6xM5W3OXtAQ7cX2j50wz1DSyj7zTXhiZSckF43MvG9U8Yw4ykpKfP4G6ws4p8Wv5SEGAvYYK8Xt6ew9IgUlYQoi7/paxo9ot2kekFWWrG2F7GPwmC0QCMckJIArqgxu1f7iSYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=heqTmse4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1792097322; c=relaxed/simple;
+	bh=xaEjKs9uYoaK1rWbKH1mNgyaJjN0O2ZtD6LiYw3mop8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SywaKZv9Awly3aL0SjvPy3Soi3erO37igJkWoU3aDgPhvVVIcDiMS9TBS6wpra3jtyfz8hVirzoElGGaZUiVLhbuEbKRoU51XQyL9NULtLaXckfH8NpZenBYoyt7HJczNNwQHGsKe+VXfQONtJYasPAE9Okfajo7lIFDQzE1EYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4Hj8kNE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="heqTmse4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792095241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UYRSFyiULvh6szKRePAOtHKD+7/o0oF90IjOubYIGB4=;
-	b=heqTmse4IcYcxajpUHFO5NfmHq45vspk7SJEh7yI5uWAQF/Q7MV1MGN/4EYI4t5lyQXOAw
-	8hLacwH5qhmwIBBpy2po31mZgoSB366sQomyd0JdUYRle6wgmhoL3Vaa8QFdBCZxIdfgaT
-	RQWUpHh1uoo3+F2GpJDj/xhcPYM7k5k=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-600-IdpI9AU0N62UZVqT0kj7fQ-1; Thu,
- 15 Oct 2026 20:13:56 +0000
-X-MC-Unique: IdpI9AU0N62UZVqT0kj7fQ-1
-X-Mimecast-MFC-AGG-ID: IdpI9AU0N62UZVqT0kj7fQ_1792095234
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A9BBB1955F1A;
-	Thu, 15 Oct 2026 20:13:53 +0000 (UTC)
-Received: from [100.91.18.181] (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6D8397C6;
-	Thu, 15 Oct 2026 20:13:50 +0000 (UTC)
-Message-ID: <f12ad8ee-4cad-4c7e-a0c9-c22fe894f14c@redhat.com>
-Date: Thu, 15 Oct 2026 16:13:49 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4Hj8kNE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD3A1F000C5
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 20:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792097318;
+	bh=a7yiMjjkdLQO3PNrhwbNdhn6qAcJaSjM3V5hz1K+dJI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=N4Hj8kNExJ+JrnujyZgbMsvOCoHJkVG+LP1Cs5qQYG2SzdxPEJ5FCtLWEbQsyHgXI
+	 9clxLwV3a4NKbgPdCIZEwhx8L++HUAZUm31eT3Hy3+pUqllHtdGjuzActhIuBR0xzY
+	 Lk/A+aTOZa30skPjWB4GlhBhVkf+5z9NtYCr0HOoNbLnNWO6I/iTBnQk0uNEWpJhV6
+	 K//dzvwd9eyVITmdoBN5Dd9KY/Ba1KpyCudTZvkSBzOPkhNqD4aEioNzd8wsmvI/dI
+	 V71pqFEUFimqYwFxiyHEoN54iyC5H+0+071j00kVQfIXVqBM7KvRBstXI7Go9NP2hL
+	 oo3fry8DJiLLw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be3d5927ceso990793e87.3
+        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 13:48:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwII4uJHzYBbg1evFuUVEuuJjbASw3vBXL3kQzUjnAMN8oaUD4LtFxLA82GlVGcUGk2r/xz0O6Y+ZYM4Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKknnoxLM5ccR5vv1i5EjUpUB/7NlBY+peZVki7pk0zr2jy+Ovl
+	z+S1Lc1vftpYEz+BwRo1aOLgCy9Yf/tHU6IkHqgyMdVcAiFRFmnE7nKcY/aHR6EjL3NL9lroG5l
+	bynZ/J9koTowuCkv2cKEsaWYmaXhC7eE=
+X-Received: by 2002:a05:6512:2c99:b0:5be:456e:7bf5 with SMTP id
+ 2adb3069b0e04-5be456e7d65mr691240e87.2.1792097317209; Thu, 15 Oct 2026
+ 13:48:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] tick/nohz: Add runtime control of non-idle tick
- suppression
-To: Peng Wang <peng_wang@linux.alibaba.com>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
- He Rongguang <herongguang@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, cgroups@vger.kernel.org
-References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
- <8d10bb84-d312-4be0-8c43-ddd602850a1d@redhat.com>
- <atER8P0ws6Gg4GWE@MacBook-Pro.local>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <atER8P0ws6Gg4GWE@MacBook-Pro.local>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-X-Mimecast-MFC-PROC-ID: XqquAssJVTDBYxU5A7H3WuwL52PhiCMzNRbcg8rddoU_1792095234
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
+ <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
+ <arZDwutoadki7tiZ@ashevche-desk.local> <arZNL9BnTGK0Klwc@red-moon>
+ <arZS4vwxps01dGb7@ashevche-desk.local> <arqSqcoWAkhy-8do@red-moon>
+ <d1720b63-65bf-4019-bc19-1852555f7993@arm.com> <asieTvinZ7c2QpQm@red-moon>
+In-Reply-To: <asieTvinZ7c2QpQm@red-moon>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 15 Oct 2026 22:46:26 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
+X-Gm-Features: AclHuK-DuoXI-ze6OR_y67J91aOnhT8WYRNmJVSaRmfvir6JKBEzZ6K-TrcO_zw
+Message-ID: <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/15/26 1:48 PM, Peng Wang wrote:
-> On Thu, Oct 15, 2026 at 12:00:25PM -0400, Waiman Long wrote:
->> On 10/15/26 8:43 AM, Peng Wang wrote:
->>> Workloads and their need for periodic ticks can change after boot.
->>> This series lets userspace choose at runtime which CPUs in the boot-time
->>> nohz_full set retain the non-idle scheduler tick and which are permitted
->>> to stop it, while preserving the existing isolation configuration.
->>>
->>> The first patch adds a per-CPU tick dependency; the second exposes a
->>> sysfs CPU list. Permission defaults to all nohz_full CPUs. Revocation
->>> uses the existing asynchronous kick. Idle tick suppression is unchanged,
->>> and policy persists across hotplug.
->> So you are basically setting up more nohz_full CPUs than the system actually
->> needs to use at the moment and so want to disable nohz/tick part of
->> nohz_full CPUs that don't need it. Can you elaborate more about the problems
->> solve by introducing this new behavior?
-> Hi Waiman,
+Sorry for the delay.
+
+On Fri, Oct 9, 2026 at 9:57=E2=80=AFAM Lorenzo Pieralisi <lpieralisi@kernel=
+.org> wrote:
 >
-> Yes. We have CPU-pinned workloads that benefit from reduced periodic
-> tick interference. The desired tick policy changes with CPU allocation.
+> On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
+> > On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
+> > > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
+> > > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wrote:
+> > > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wrote:
+> > > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi wro=
+te:
+> > > >
+> > > > ...
+> > > >
+> > > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const stru=
+ct fwnode_handle *fwnode,
+> > > > > > > +                                             const char *pro=
+pname,
+> > > > > > > +                                             unsigned int in=
+dex, u32 *value)
+> > > > > > > +{
+> > > > > > > +   u32 *values;
+> > > > > > > +   int ret, count;
+> > > > > > > +
+> > > > > > > +   count =3D fwnode_property_count_u32(fwnode, propname);
+> > > > > > > +   if (count < 0)
+> > > > > > > +           return count;
+> > > > > > > +
+> > > > > > > +   if (index >=3D count)
+> > > > > > > +           return -ENOENT;
+> > > > > > > +
+> > > > > > > +   values =3D kcalloc(count, sizeof(*values), GFP_KERNEL);
+> > > > > > > +   if (!values)
+> > > > > > > +           return -ENOMEM;
+> > > > > > > +
+> > > > > > > +   ret =3D fwnode_property_read_u32_array(fwnode, propname, =
+values, count);
+> > > > > > > +   if (!ret)
+> > > > > > > +           *value =3D values[index];
+> > > > > >
+> > > > > > Use standard pattern, id est
+> > > > > >
+> > > > > >       if (ret)
+> > > > > >               ...
+> > > > > >
+> > > > > > > +   kfree(values);
+> > > > > >
+> > > > > > You want to use __free()
+> > > > > >
+> > > > > > > +   return ret;
+> > > > > > > +}
+> > > > > >
+> > > > > > I believe the whole approach is suboptimal, if you wish get ind=
+exed value (but why?)
+> > > > >
+> > > > > Why what (that's what the irq_get() interface requires ?) I agree=
+ it is
+> > > > > suboptimal - the whole point of the series is an RFC on using pro=
+perties
+> > > > > to store GSI number/flags, then how to read them we will optimize=
+ it
+> > I>>> when/if we agree that's the approach to be taken.
+> > > >
+> > > > Why to have indexed APIs. The callers usually do not want a single =
+item from an
+> > > > array, they want all of them or a big pile (exception is the array =
+of strings,
+> > > > but we have matching functions for that).
+> > > >
+> > > > As per approach, this patch is against device property and I don't =
+think we are
+> > > > going to agree on the approach taken in *this* patch.
+> > >
+> > > Coming back to this, what is needed here is a way to stash the GSI nu=
+mber,
+> > > flags and name in stardard storage (like OF nodes IRQ properties, ACP=
+I objects
+> > > _CRS, etc).
+> > >
+> > > To give you some background, I thought about adding an array of:
+> > >
+> > > GSI [number, flags, name]
+> > >
+> > > to the ACPI static fwnode itself. Then basically the irq_get() API ha=
+s got
+> > > all the information it needs from the primary fwnode; while doing tha=
+t I
+> > > thought that this might have been a bit like reinventing software nod=
+es
+> > > (granted, software node properties are ways more general that what I =
+suggest
+> > > above and I don't expect any other property to be ever added to stati=
+c fwnodes)
+> > > that's why I put together the series as it is, precisely to understan=
+d what's
+> > > best.
+> > >
+> > > When you say "against device property", what do you mean precisely ?
+> > >
+> > > I suppose you mean that this approach goes against software node prop=
+erties
+> > > usage guidelines ?
+> > >
+> > > Anyway, again, it is just to provide some context, we are talking abo=
+ut
+> > > a bunch of platform devices, it is nice to have a generic solution bu=
+t
+> > > it has to be simple enough too given its scope, I understand very wel=
+l
+> > > your concern with this approach as-is - it is there to find a way
+> > > forward together and show what the problem is.
+> >
+> > I guess software node properties look inviting in theory since they're =
+a
+> > ready-made mechanism for effectively attaching arbitrary data to a fwno=
+de,
+> > however looking at patches 6-7 and the amount of boilerplate involved i=
+n the
+> > reality, I'm inclined to think that a dedicated structure for static no=
+des
+> > is probably the best and most efficient compromise here. The redundancy
+> > argument rather falls apart once we end up creating copies of those
+> > contentiously-made-up property name strings for every node, especially =
+given
+> > that any one of those alone is probably already more than the amount of
+> > actual data we need per node...
+> >
+> > Perhaps the "purest" option might be to just store a function pointer i=
+n the
+> > fwnode wrapper for each static table type to provide its own internal
+> > irq_get() callback, so not stashing intermediate GSI data at all, but I
+> > suspect that might end up being more work overall.
 >
-> With spare capacity, we allow selected nohz_full CPUs to stop their
-> tick. When capacity is fully allocated, we prefer to retain the
-> non-idle periodic tick across CPUs, avoiding an additional difference
-> in tick interference between housekeeping and nohz_full CPUs.
-What problem does that cause?
-> A CPU may still have only one runnable task in either case, so the
-> existing tick dependencies do not express this policy.
+> Hi Rafael, Robin,
 >
-> This series keeps the boot-time nohz_full CPU set, context tracking,
-> RCU offloading and housekeeping configuration unchanged. It only
-> controls whether those CPUs may stop their non-idle tick. The policy
-> can be changed without taking CPUs offline.
+> I have not started prototyping it yet but I have got a question as a
+> follow-up to our chat at LPC about crafting an ACPI device for the static
+> table entries and sort out the probe dependencies using autodep.
+>
+> After spur of the moment reaction during the session, I now remember I
+> thought about crafting an ACPI device for the static table entries and
+> started digging then bumped into acpi_add_single_object() as you
+> suggested.
+>
+> The point though is: what about the acpi_handle and the AML required to
+> sort out the dependencies using the _CRS ? We have got the info to fill
+> the _CRS coming from static table entries (MMIO, GSI) but I am not sure h=
+ow I
+> can form a full-fledged ACPI namespace object in the kernel, without
+> that in place I am not sure how the autodep mechanism can possibly
+> work.
 
-So the policy is to make the tick keeps running when there is only one 
-running task. Right? I am just not clear about the advantage of doing 
-that. Is there a use case that will require this particular feature? I 
-doubt this will get accepted unless there is a compelling reason to show 
-why we will want to have this feature.
+The missing ACPI handle is not a hard part IMV, it is a matter of
+modifying struct acpi_dep_data to be able to hold struct acpi_device
+pointers instead of ACPI handles in case the devices in question have
+no ACPI handles and adjusting the code using it.
 
-Cheers,
-Longman
+Finding the dependencies is harder.  I guess it may involve walking
+the namespace and looking up a device object with a specific device ID
+or similar.
 
+Note that the dependencies can be added to acpi_dep_list after
+creating a struct acpi_device with acpi_add_single_object() and
+acpi_scan_add_dep() is not really suitable for that, but it should be
+doable if the dependencies can be found.
+
+> I need to have a deeper look into this next week but I wanted to ask firs=
+t
+> whether there was something I missed - most likely.
+
+Well, it is not really straightforward.
+
+I'm still not sure why you can't represent all devices in the ACPI
+namespace in addition to describing some of them in static tables.  I
+guess that would work for everybody, wouldn't it?
