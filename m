@@ -1,210 +1,179 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14D63E95A4
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 17:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9633D552922;
+	Thu, 15 Oct 2026 19:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792086658; cv=none; b=RgLwg1FcdhOL1p/sSSUWyKUtl0WOKkqbA8ihMlIumxRqqTolBhOBsgyxvNgoyIdRIbxExrzFdKQW7VMDLl4ojjgLNLGGjCST9QxOk03ipj0I78TS/o5q3uFZIJYF95fAYSH00cJPUmWy35NvoYSBv9k3ucVVouFyM1o8TG7ZAzo=
+	t=1792093002; cv=none; b=JR8JvGP8zJ2eNYeWuz/TTgxB3Rf2Mf/Z7fUJzOfIXYWCN5TkJgDGr8lEYoiJ6gW60ERFEmYeU1l2HYRpMmZsBI4irGAO9J3lY1MgHKGKGvZN5PhoKpsfsiUaaXDvVaNJBJw9SqrLeD25l3BdCMgYeg4So4mKKxpQJ/wA3kUZXLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792086658; c=relaxed/simple;
-	bh=R2WBw4Gg/cmC7jy75LHrgAUEe03aD6Qo0tsbSlw1dKc=;
+	s=arc-20240116; t=1792093002; c=relaxed/simple;
+	bh=EkSHH4cjzhD2ZWJZ5Z5sffPHQutdvk4S86y7aYi/F1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PpbiuBN7rfMF/y6vK4iCZVjjo9tVS1921DVNBPrO1MWmsW4heE72HJD2Jpva49BH8yq9RMZ/XokB7sNMcLvbnz8UpGCwzfSvnFZz4k/aJJKm5h57LhyKHwk8oRlBVXvPHXfNtyKz42tZ10Bpw80J1gx/jwlUp5xEfhthNNavAVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Xf47+RNj; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9SN2UyaXMde4Rz0TJOWnCUuENX7J+1EUuH9evymwft6tWir3E72B4NruL4SsDJg1Wr5GH7TOfvY1fY8JJFHjBsje7JdTOWHRwuEMkmxPcttK1Khp/e+i2D0WVHqxRt6+SVIMR24Qz9k+tEQk88hvXiS2UhImImDD0eY/dos+9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLw0KzYY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Xf47+RNj"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1792086642; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=l9Q5YpqYpJd9onDCM8db0IqtokPYusPa72Hj4TffybM=;
-	b=Xf47+RNj10Y46QI+kiYGuHrMBPjCkgHYFzOcbqy+sYmUn7K/aN4q8LLw+ysEjWzz41Cb5K/P1qA/e6yYVfWqz8NkRQNXDDrTuq3wf5zOz6TQwYL7mUrd/mCSyvG3WV/Jx4CqKvwqPxyok55LjFkShaCUL37RzXRJuK4Vod2rRGA=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0XCsOve5_1792086640;
-Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCsOve5_1792086640 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 16 Oct 2026 01:50:41 +0800
-Date: Fri, 16 Oct 2026 01:50:40 +0800
-From: Peng Wang <peng_wang@linux.alibaba.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLw0KzYY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B4411F000C4;
+	Thu, 15 Oct 2026 19:36:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792093001;
+	bh=0ExLOTvMpNdwpLI0kZtOgkFwCcZ4IqWfr3EbUwrSECg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kLw0KzYYomReQQbQQ+K2sJiVxDSsJH3OUDHmvawLUtBzvBzvcoW02JSoYsrIVSOS9
+	 o3t+C+DkAJOuGf8MwzrhLtFqBHaKpuB89H0Eqh8m3+VrAI/Qaxxgrty/FBnR9QmXbc
+	 mV+TBLIA4H6rnBhyWJRcwojbpXOxNKsODmequC9xvI5dGd5vBUad4/F0uLMJzOldK0
+	 T8t3g8LrSrBoo9dTrKfxNetSr+mDHHmzhX6hSeT3ZK99f/QhtkTUQnp1NUyPJra700
+	 T+eGYsGTzKY8rFD1jN0Q+jSpSCCSCYLlI+KA4Qie5tMdCcCdVE826GzWfz5sj6+yP5
+	 /nKwaas4pTTog==
+Date: Thu, 15 Oct 2026 14:36:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Yin Li <yin.li@oss.qualcomm.com>
+Cc: James Morse <james.morse@arm.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	He Rongguang <herongguang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] cpu: Add sysfs control of full dynticks policy
-Message-ID: <atEScHbaEEqOtzQw@MacBook-Pro.local>
-Reply-To: Peng Wang <peng_wang@linux.alibaba.com>
-References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
- <e93ef15796946485eaaecd774141378351307940.1792067271.git.peng_wang@linux.alibaba.com>
- <5f2b1519-6693-4d5c-afb7-4202a6d48365@redhat.com>
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Fenghua Yu <fenghuay@nvidia.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Gavin Shan <gshan@redhat.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Drew Fustini <fustini@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+	ganapatrao.kulkarni@oss.qualcomm.com,
+	Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
+	Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 3/8] dt-bindings: arm: Add MPAM MSC binding
+Message-ID: <20261015193639.GE5059-robh@kernel.org>
+References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
+ <20261008-mpam-resctrl-dt-knp-support-v3-3-35196c2b43bf@oss.qualcomm.com>
+ <20261008212736.GB1318789-robh@kernel.org>
+ <2eddfb6d-c622-4d72-827e-aed685e72b9c@oss.qualcomm.com>
+ <51bc6576-7e52-4685-b7b2-a355c2b7e1ae@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <5f2b1519-6693-4d5c-afb7-4202a6d48365@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51bc6576-7e52-4685-b7b2-a355c2b7e1ae@oss.qualcomm.com>
 
-On Thu, Oct 15, 2026 at 12:07:14PM -0400, Waiman Long wrote:
+On Mon, Oct 12, 2026 at 06:24:06PM +0800, Yin Li wrote:
 > 
-> On 10/15/26 8:43 AM, Peng Wang wrote:
-> > Expose nohz_full_allowed under /sys/devices/system/cpu/ as the subset of
-> > nohz_full CPUs permitted to suppress their non-idle scheduler tick.
+> 
+> On 10/12/2026 3:05 PM, Yin Li wrote:
 > > 
-> > Writes replace the entire list; reads report policy, not current tick
-> > state. Reject invalid input before updating policy. Document asynchronous
-> > revocation, offline CPU configuration and persistence across hotplug.
-> > The existing nohz_full attribute continues to report membership.
 > > 
-> > Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
-> > Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
-> > Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
-> > ---
-> >   .../ABI/testing/sysfs-devices-system-cpu      | 40 ++++++++++++++++
-> >   drivers/base/cpu.c                            | 46 +++++++++++++++++++
-> >   2 files changed, 86 insertions(+)
+> > On 10/9/2026 5:27 AM, Rob Herring wrote:
+> > > On Thu, Oct 08, 2026 at 02:41:12PM +0800, Yin Li wrote:
+> > > > From: Rob Herring <robh@kernel.org>
+> > > > 
+> > > > The binding is designed around the assumption that an MSC will be a
+> > > > sub-block of something else such as a memory controller, cache
+> > > > controller,
+> > > > or IOMMU. However, it's certainly possible a design does not have that
+> > > > association or has a mixture of both, so the binding illustrates
+> > > > how we can
+> > > > support that with RIS child nodes.
+> > > > 
+> > > > A key part of MPAM is we need to know about all of the MSCs in
+> > > > the system
+> > > > before it can be enabled. This drives the need for the genericish
+> > > > 'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
+> > > > until a h/w specific driver potentially enables the h/w.
+> > > > 
+> > > > Cc: James Morse <james.morse@arm.com>
+> > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > > Signed-off-by: James Morse <james.morse@arm.com>
+> > > > [ Yin Li and Huang Yiwei: use oneOf for the compatible to allow both
+> > > >    standalone arm,mpam-msc and the two-item combination; fix
+> > > > schema field
+> > > >    order, type constraints and yamllint spacing; fix example reg
+> > > > addresses,
+> > > >    add arm,mpam-device phandle and remove TODO comment ]
+> > > > Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> > > > Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
+> > > > Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
+> > > > ---
+> > > >   .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 202
+> > > > ++++++++++ +++++++++++
+> > > >   1 file changed, 202 insertions(+)
+> > > > 
+> > > > diff --git
+> > > > a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+> > > > b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..3c7b13a23ff2
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
+> > > > @@ -0,0 +1,202 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
+> > > > +
+> > > > +maintainers:
+> > > > +  - Rob Herring <robh@kernel.org>
+> > > > +
+> > > > +description: |
+> > > > +  The Arm MPAM specification can be found here:
+> > > > +
+> > > > +  https://developer.arm.com/documentation/ddi0598/latest
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    oneOf:
+> > > > +      - const: arm,mpam-msc                   # Further details
+> > > > are discoverable
+> > > > +      - items:
+> > > > +          - const: arm,mpam-memory-controller-msc
+> > > 
+> > > Why do we need this?
+> > > 
 > > 
-> > diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > index 82d10d556cc89..edf3408fd84c8 100644
-> > --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > @@ -767,6 +767,46 @@ Description:	Preferred MTE tag checking mode
-> >   		See also: Documentation/arch/arm64/memory-tagging-extension.rst
-> > +What:		/sys/devices/system/cpu/nohz_full_allowed
+> > Hi Rob,
+> > 
+> > Thanks for the review.
+> > 
+> > The 'arm,mpam-memory-controller-msc' compatible is needed because,
+> > unlike cache MSCs, memory controller MSCs cannot rely on the parent node
+> > to identify the resource type.
+> > 
+> > Cache controllers universally carry a 'cache' compatible, so the driver
+> > can recognise any cache parent and derive the cache ID from standard
+> > properties. No equivalent convention exists for memory controllers, and
+> > the component ID comes from the MSC's own 'numa-node-id' rather than the
+> > parent, so there is no parent attribute to rely on.
+> > 
 > 
-> I do have a problem with the name of this sysfs file. nohz_full is more than
-> just the tick. The naming may introduce the wrong impression that all
-> nohz_full behavior can be controlled. May be a name like "nohz_tick_allowed"
-> which is much more specific will be better.
-
-Hi Waiman,
-
-Agreed, nohz_tick_allowed describes the scope more accurately.
-If the control remains in sysfs, I'll use that name in the next version.
-
-Thanks,
-Peng
-
+> Hi Rob,
 > 
-> Regards,
-> Longman
-> 
-> > +Date:		October 2026
-> > +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > +Description:
-> > +		(RW) CPUs permitted to stop the scheduler tick while non-idle.
-> > +		Available with CONFIG_NO_HZ_FULL. The default is the complete
-> > +		nohz_full CPU list. Readback reports permission, not the current
-> > +		tick state: all the usual tick dependencies still apply.
-> > +
-> > +		A write replaces the entire list, using CPU-list syntax (for
-> > +		example, "1-3,5"). An empty line revokes permission from all
-> > +		nohz_full CPUs. Invalid input is rejected without changing
-> > +		policy. A parsed list containing CPUs outside nohz_full fails
-> > +		with EINVAL. CPU numbers beyond the mask range and numeric
-> > +		overflows are rejected by the CPU-list parser with ERANGE and
-> > +		EOVERFLOW, respectively. Input must be shorter than PAGE_SIZE
-> > +		bytes, otherwise E2BIG is returned. Embedded NULs and newlines
-> > +		other than a trailing newline are rejected with EINVAL. Valid
-> > +		writes without an active nohz_full configuration fail with
-> > +		EOPNOTSUPP.
-> > +
-> > +		Reads fail with EOVERFLOW if the formatted output reaches
-> > +		PAGE_SIZE - 1 bytes, rather than returning a potentially
-> > +		truncated CPU list.
-> > +
-> > +		Revoking permission adds a per-CPU tick dependency. Online CPUs
-> > +		are notified through the existing asynchronous kick mechanism
-> > +		to restart a stopped non-idle tick. A successful write means
-> > +		the policy is updated and any needed notification is queued;
-> > +		it does not wait for tick restart. Changes to multiple CPUs
-> > +		are not simultaneous. Granting permission only removes this
-> > +		dependency and does not force the tick to stop.
-> > +
-> > +		Offline CPUs may be configured without sending notifications.
-> > +		Policy persists across CPU offline/online. Idle tick suppression
-> > +		is unchanged; the policy applies when a CPU leaves idle.
-> > +
-> > +		This interface does not change nohz_full membership, context
-> > +		tracking, RCU offloading, or housekeeping configuration.
-> > +
-> >   What:		/sys/devices/system/cpu/nohz_full
-> >   Date:		Apr 2015
-> >   Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> > index 69e52fed42415..299ce61cef895 100644
-> > --- a/drivers/base/cpu.c
-> > +++ b/drivers/base/cpu.c
-> > @@ -324,6 +324,51 @@ static ssize_t nohz_full_show(struct device *dev,
-> >   	return sysfs_emit(buf, "\n");
-> >   }
-> >   static DEVICE_ATTR_RO(nohz_full);
-> > +
-> > +static ssize_t nohz_full_allowed_show(struct device *dev,
-> > +				      struct device_attribute *attr, char *buf)
-> > +{
-> > +	cpumask_var_t mask;
-> > +	ssize_t ret;
-> > +
-> > +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> > +		return -ENOMEM;
-> > +
-> > +	tick_nohz_full_get_allowed(mask);
-> > +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
-> > +
-> > +	free_cpumask_var(mask);
-> > +
-> > +	/* Never present a truncated CPU list as the complete policy. */
-> > +	return ret == PAGE_SIZE - 1 ? -EOVERFLOW : ret;
-> > +}
-> > +
-> > +static ssize_t nohz_full_allowed_store(struct device *dev,
-> > +				       struct device_attribute *attr,
-> > +				       const char *buf, size_t count)
-> > +{
-> > +	cpumask_var_t mask;
-> > +	int ret;
-> > +
-> > +	/* kernfs may truncate an oversized write to PAGE_SIZE. */
-> > +	if (count >= PAGE_SIZE)
-> > +		return -E2BIG;
-> > +	if (memchr(buf, '\0', count) ||
-> > +	    (count > 1 && memchr(buf, '\n', count - 1)))
-> > +		return -EINVAL;
-> > +
-> > +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> > +		return -ENOMEM;
-> > +
-> > +	ret = cpulist_parse(buf, mask);
-> > +	if (!ret)
-> > +		ret = tick_nohz_full_set_allowed(mask);
-> > +
-> > +	free_cpumask_var(mask);
-> > +
-> > +	return ret ? ret : count;
-> > +}
-> > +static DEVICE_ATTR_RW(nohz_full_allowed);
-> >   #endif
-> >   #ifdef CONFIG_CRASH_HOTPLUG
-> > @@ -525,6 +570,7 @@ static struct attribute *cpu_root_attrs[] = {
-> >   	&dev_attr_housekeeping.attr,
-> >   #ifdef CONFIG_NO_HZ_FULL
-> >   	&dev_attr_nohz_full.attr,
-> > +	&dev_attr_nohz_full_allowed.attr,
-> >   #endif
-> >   #ifdef CONFIG_CRASH_HOTPLUG
-> >   	&dev_attr_crash_hotplug.attr,
-> 
+> As a follow-up to my previous reply:
+> Whatever the outcome of the discussion on "arm_mpam: Add support for
+> memory controller MSC on DT platforms", we will keep the binding and
+> driver support consistent. If it's dropped, the
+> 'arm,mpam-memory-controller-msc' compatible, 'numa-node-id' property, and
+> the memory controller example will be removed together.
+
+Which parts are you actually using/needing and not using? If you don't 
+need RIS support, for example, we should drop it.
+
+Rob
