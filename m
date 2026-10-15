@@ -1,591 +1,240 @@
-Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEDF52269C
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 12:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792068020; cv=pass; b=drEGODJFMDd6dBdJgnbBCwX6XAKSwgygHi113SSsLZE148Cv3BO6qMt2PwOE+C8VKfhHSNNljZ8wTMaX34Lbhi61gBIgOY65gT1b7SpxKpwea36+p4SDu6ihtWoUHfnEonGU+2Cb6+RPN+ewZY2UvXXX2hRyPuxRJ9z7Ct3GDfg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792068020; c=relaxed/simple;
-	bh=al3CME/inp0DukWbj0924UKJ7/mOzuRSXXvkNW61d4A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R4s1iVg9TIJXXMWjjXlzSJvAcZAdrxHx7fc3aBGSgWto7ejjtda3jeD98QtjzzGRohJr0m83IdCIej6Uu3QHh+85rAWQAXsIcCzMH9yRpKXJIMNeMLD2k09qzeya9Y/G8n/deIAYLRa+HGtWW3vpGB4F8kTcjCXHsY0t24m4Gjg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Te0ofT7W; arc=pass smtp.client-ip=165.173.182.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B68521209
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 12:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792068222; cv=none; b=UoQRJIhBtAsZ2QtAPrK+DJHTuFUhx/ulHUZc4fTpWW5rN0e8JskpSwd8Jwq0TS8Os6GYzuFs4ABRyXiJ5Ok7BhhGMIMEQs/OuVgACyIA+B7z/vhZDsQAG+uC0hvHFhdlPu7eHvGeebY1slbhpWnfF2QB3xAdrD5i75aUol6H1Tw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792068222; c=relaxed/simple;
+	bh=R5Bf6NUerOr34q8hq/G9ZNFf2mKSQ/r42nrpY5dLtCE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dzjvxA0xv0AzY/3X3kR5rP+k3nWOb6j/S0gEgH9eStf1sjqNYFf9rldvieVJhEBYgvQyCs6DNQ29GoXK4vdL5IwJ5bOHvaF++Wy/aRScpkt2qo61TH4Bc9HaF2HAM81v4/etOgCvd3GVh8hWTQT9NiCcr8F+x67jHCTXp4bHUIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=tKXS2QKZ; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Te0ofT7W"
-ARC-Seal: i=1; a=rsa-sha256; t=1792067998; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=CLYVnIv0YslQQGivCi2x1vd2eoWUHm23qh1dix3svOFnThoMWjSVujyHRNnIlCWE54brbiEAu0U1UZOafyoNd8SqbmnXL/776a8efwh0gQ4EejRqJvGHWjQzifgqpoEW3CO2+cZe2niZmfoyJ3lzTzWI07rzxi/1pqzUNdjNnNM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792067998; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=q85EzV/zGA0BWz9e+hHW+D6/t0h0lhxXVushOZlu8W4=; 
-	b=k7LcEcXdeV4bH2xnLGRYyCfaCxiVQzBupS5tvTCFvS6mcTtHusg2XmLNq33B2BDGsxMLVfUJFm61YwmXKtqdoDPGFS+ZyXYSb1qIMNagF6xv5NgTVRJm1RGjCusMcJt+q0zod6nc/uIogHE3f20aeDpvUHxCHp+DGAueSUh2Ets=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792067998;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=q85EzV/zGA0BWz9e+hHW+D6/t0h0lhxXVushOZlu8W4=;
-	b=Te0ofT7WSIzSF7wO9e84VzOKiJYYdRjVdcC4htHGNrc1JcaaQAyaNUVyKHJfDmb8
-	ij1oKIedutEOtWBgPOkIewlmImSe0BbxzBYGPnGOt/6pagrCGHlHwGMdhmEpURbqFQS
-	tx+JZrFSsCOzoPZ/Ox6WZ4pL4Ot79mROmlUEV1rg=
-Received: by smtp.zohomail.com with SMTPS id 1792067995759443.73080526438025;
-	Thu, 15 Oct 2026 05:39:55 -0700 (PDT)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Thu, 15 Oct 2026 09:39:11 -0300
-Subject: [PATCH 7/7] drm/tyr: mark read-only and write-only registers
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="tKXS2QKZ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1792068215; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=HqTr5mLb8xecvyl345QTEJXIzykkvSeHeaxa5wMU0kw=;
+	b=tKXS2QKZ2U5heKh4F/gt51pgbKMttulZM01YgE+8CquAEu3y2T8jGQoaXTPpP56UTEm4IXyqKxv4K7mqMgkKSSYPxB3f1IVh3jaBzWUD6V9N5qoYSD8QVz846Dc12yP863/Zkxp/HWunxSApYuaV4UDIaI6S2rxuu/fB589Q0YI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R271e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0XCrq.RH_1792068214;
+Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCrq.RH_1792068214 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 15 Oct 2026 20:43:34 +0800
+From: Peng Wang <peng_wang@linux.alibaba.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Peng Wang <peng_wang@linux.alibaba.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Waiman Long <longman@redhat.com>,
+	Tejun Heo <tj@kernel.org>,
+	He Rongguang <herongguang@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: [RFC PATCH 1/2] tick/nohz: Add a policy dependency for full dynticks
+Date: Thu, 15 Oct 2026 20:43:08 +0800
+Message-ID: <7e9388359fde6ecec9a09d563fa21325f7e35206.1792067271.git.peng_wang@linux.alibaba.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1792067271.git.peng_wang@linux.alibaba.com>
+References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-io-access-modes-v1-7-93611b84b5e3@collabora.com>
-References: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
-In-Reply-To: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
-To: Danilo Krummrich <dakr@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Daniel Almeida <daniel.almeida@collabora.com>
-X-Mailer: b4 0.15.2
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-The documentation in regs.rs describes some registers as read-only or
-write-only, but nothing enforces it, and most registers do not document
-a mode at all.
+Workloads and their need for periodic ticks can change after boot.
+Operators may need to retain the non-idle scheduler tick on selected
+CPUs in the boot-time nohz_full set while permitting tick suppression
+on others, without changing the isolation configuration.
+The policy can be changed without taking CPUs offline.
 
-Declare every read-only and write-only register with the `#[ro]` and
-`#[wo]` attributes of `register!`, so that writing a read-only register,
-or reading a write-only one, does not compile. The modes follow the
-documentation in regs.rs where there is one, and otherwise the register
-permissions in Arm's kbase driver for v10 GPUs. Both halves of a 64-bit
-register get the same mode, and so do the aliases of `GPU_COMMAND`.
+Add a per-CPU POLICY dependency to inhibit non-idle tick suppression.
+All nohz_full CPUs remain permitted by default. Revocation uses the
+existing asynchronous kick; granting permission clears only POLICY.
+Preserve the policy across hotplug and recognize it in tick_stop tracing.
+Idle tick suppression is unchanged.
 
-No existing access goes against these modes, so the driver code does not
-change.
-
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
+Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
+Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
 ---
- drivers/gpu/drm/tyr/regs.rs | 77 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ include/linux/tick.h         |  8 +++--
+ include/trace/events/timer.h |  3 +-
+ kernel/time/tick-sched.c     | 62 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 70 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
-index 69c901afb28f..6695a292c786 100644
---- a/drivers/gpu/drm/tyr/regs.rs
-+++ b/drivers/gpu/drm/tyr/regs.rs
-@@ -63,6 +63,7 @@ pub(crate) mod gpu_control {
-         base: TyrRegisters;
- 
-         /// GPU identification register.
-+        #[ro]
-         pub(crate) GPU_ID(u32) @ 0x0 {
-             /// Status of the GPU release.
-             3:0     ver_status;
-@@ -81,6 +82,7 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// Level 2 cache features register.
-+        #[ro]
-         pub(crate) L2_FEATURES(u32) @ 0x4 {
-             /// Cache line size.
-             7:0     line_size;
-@@ -93,12 +95,14 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// Shader core features.
-+        #[ro]
-         pub(crate) CORE_FEATURES(u32) @ 0x8 {
-             /// Shader core variant.
-             7:0     core_variant;
-         }
- 
-         /// Tiler features.
-+        #[ro]
-         pub(crate) TILER_FEATURES(u32) @ 0xc {
-             /// Log of the tiler's bin size.
-             5:0     bin_size;
-@@ -107,6 +111,7 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// Memory system features.
-+        #[ro]
-         pub(crate) MEM_FEATURES(u32) @ 0x10 {
-             0:0     coherent_core_group => bool;
-             1:1     coherent_super_group => bool;
-@@ -114,6 +119,7 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// Memory management unit features.
-+        #[ro]
-         pub(crate) MMU_FEATURES(u32) @ 0x14 {
-             /// Number of bits supported in virtual addresses.
-             7:0     va_bits;
-@@ -122,11 +128,13 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// Address spaces present.
-+        #[ro]
-         pub(crate) AS_PRESENT(u32) @ 0x18 {
-             31:0    present;
-         }
- 
-         /// CSF version information.
-+        #[ro]
-         pub(crate) CSF_ID(u32) @ 0x1c {
-             /// MCU revision ID.
-             3:0     mcu_rev;
-@@ -164,6 +172,7 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// IRQ sources to clear. Write only.
-+        #[wo]
-         pub(crate) GPU_IRQ_CLEAR(u32) @ 0x24 {
-             /// Clear the GPU_FAULT interrupt, a 1-bit boolean flag.
-             0:0     gpu_fault => bool;
-@@ -202,6 +211,7 @@ pub(crate) mod gpu_control {
-         }
- 
-         /// IRQ status for enabled sources. Read only.
-+        #[ro]
-         pub(crate) GPU_IRQ_STATUS(u32) @ 0x2c {
-             /// GPU_FAULT interrupt status, a 1-bit boolean flag.
-             0:0     gpu_fault => bool;
-@@ -328,11 +338,13 @@ fn from(mode: FlushMode) -> Self {
-         /// - [`GPU_COMMAND::reset()`]
-         /// - [`GPU_COMMAND::flush_caches()`]
-         /// - [`GPU_COMMAND::clear_fault()`]
-+        #[wo]
-         pub(crate) GPU_COMMAND (u32) @ 0x30 {
-             7:0     command ?=> GpuCommand;
-         }
-         /// Internal alias for GPU_COMMAND in reset mode.
-         /// Use [`GPU_COMMAND::reset()`] instead.
-+        #[wo]
-         GPU_COMMAND_RESET (u32) => GPU_COMMAND {
-             7:0     command ?=> GpuCommand;
-             11:8    reset_mode ?=> ResetMode;
-@@ -340,6 +352,7 @@ fn from(mode: FlushMode) -> Self {
- 
-         /// Internal alias for GPU_COMMAND in cache flush mode.
-         /// Use [`GPU_COMMAND::flush_caches()`] instead.
-+        #[wo]
-         GPU_COMMAND_FLUSH (u32) => GPU_COMMAND {
-             7:0     command ?=> GpuCommand;
-             /// L2 cache flush mode.
-@@ -389,6 +402,7 @@ pub(crate) fn clear_fault() -> Self {
-         base: TyrRegisters;
- 
-         /// GPU status register. Read only.
-+        #[ro]
-         pub(crate) GPU_STATUS(u32) @ 0x34 {
-             /// GPU active, a 1-bit boolean flag.
-             0:0     gpu_active => bool;
-@@ -474,6 +488,7 @@ fn from(access: AccessType) -> Self {
-         base: TyrRegisters;
- 
-         /// GPU fault status register. Read only.
-+        #[ro]
-         pub(crate) GPU_FAULTSTATUS(u32) @ 0x3c {
-             /// Exception type.
-             7:0     exception_type ?=> ExceptionType;
-@@ -493,10 +508,12 @@ fn from(access: AccessType) -> Self {
-         /// Once a fault is reported, it must be manually cleared by issuing a
-         /// [`GPU_COMMAND::clear_fault()`] command to the [`GPU_COMMAND`] register. No further GPU
-         /// faults will be reported until the previous fault has been cleared.
-+        #[ro]
-         pub(crate) GPU_FAULTADDRESS_LO(u32) @ 0x40 {
-             31:0    pointer;
-         }
- 
-+        #[ro]
-         pub(crate) GPU_FAULTADDRESS_HI(u32) @ 0x44 {
-             31:0    pointer;
-         }
-@@ -519,39 +536,47 @@ fn from(access: AccessType) -> Self {
-         }
- 
-         /// GPU cycle counter. Read only.
-+        #[ro]
-         pub(crate) CYCLE_COUNT_LO(u32) @ 0x90 {
-             31:0    count;
-         }
- 
-+        #[ro]
-         pub(crate) CYCLE_COUNT_HI(u32) @ 0x94 {
-             31:0    count;
-         }
- 
-         /// Global time stamp. Read only.
-+        #[ro]
-         pub(crate) TIMESTAMP_LO(u32) @ 0x98 {
-             31:0    timestamp;
-         }
- 
-+        #[ro]
-         pub(crate) TIMESTAMP_HI(u32) @ 0x9c {
-             31:0    timestamp;
-         }
- 
-         /// Maximum number of threads per core. Read only constant.
-+        #[ro]
-         pub(crate) THREAD_MAX_THREADS(u32) @ 0xa0 {
-             31:0    threads;
-         }
- 
-         /// Maximum number of threads per workgroup. Read only constant.
-+        #[ro]
-         pub(crate) THREAD_MAX_WORKGROUP_SIZE(u32) @ 0xa4 {
-             31:0    threads;
-         }
- 
-         /// Maximum number of threads per barrier. Read only constant.
-+        #[ro]
-         pub(crate) THREAD_MAX_BARRIER_SIZE(u32) @ 0xa8 {
-             31:0    threads;
-         }
- 
-         /// Thread features. Read only constant.
-+        #[ro]
-         pub(crate) THREAD_FEATURES(u32) @ 0xac {
-             /// Total number of registers per core.
-             21:0    max_registers;
-@@ -565,173 +590,211 @@ fn from(access: AccessType) -> Self {
-         ///
-         /// A bitmap where each bit indicates support for a specific compressed texture format.
-         /// The bit position maps to an opaque format ID (`texture_features_key_t` in spec).
-+        #[ro]
-         pub(crate) TEXTURE_FEATURES(u32)[4] @ 0xb0 {
-             31:0    supported_formats;
-         }
- 
-         /// Shader core present bitmap. Read only constant.
-+        #[ro]
-         pub(crate) SHADER_PRESENT_LO(u32) @ 0x100 {
-             31:0    value;
-         }
- 
-+        #[ro]
-         pub(crate) SHADER_PRESENT_HI(u32) @ 0x104 {
-             31:0    value;
-         }
- 
-         /// Tiler present bitmap. Read only constant.
-+        #[ro]
-         pub(crate) TILER_PRESENT_LO(u32) @ 0x110 {
-             31:0    present;
-         }
- 
-+        #[ro]
-         pub(crate) TILER_PRESENT_HI(u32) @ 0x114 {
-             31:0    present;
-         }
- 
-         /// L2 cache present bitmap. Read only constant.
-+        #[ro]
-         pub(crate) L2_PRESENT_LO(u32) @ 0x120 {
-             31:0    present;
-         }
- 
-+        #[ro]
-         pub(crate) L2_PRESENT_HI(u32) @ 0x124 {
-             31:0    present;
-         }
- 
-         /// Shader core ready bitmap. Read only.
-+        #[ro]
-         pub(crate) SHADER_READY_LO(u32) @ 0x140 {
-             31:0    ready;
-         }
- 
-+        #[ro]
-         pub(crate) SHADER_READY_HI(u32) @ 0x144 {
-             31:0    ready;
-         }
- 
-         /// Tiler ready bitmap. Read only.
-+        #[ro]
-         pub(crate) TILER_READY_LO(u32) @ 0x150 {
-             31:0    ready;
-         }
- 
-+        #[ro]
-         pub(crate) TILER_READY_HI(u32) @ 0x154 {
-             31:0    ready;
-         }
- 
-         /// L2 ready bitmap. Read only.
-+        #[ro]
-         pub(crate) L2_READY_LO(u32) @ 0x160 {
-             31:0    ready;
-         }
- 
-+        #[ro]
-         pub(crate) L2_READY_HI(u32) @ 0x164 {
-             31:0    ready;
-         }
- 
-         /// Shader core power up bitmap.
-+        #[wo]
-         pub(crate) SHADER_PWRON_LO(u32) @ 0x180 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) SHADER_PWRON_HI(u32) @ 0x184 {
-             31:0    request;
-         }
- 
-         /// Tiler power up bitmap.
-+        #[wo]
-         pub(crate) TILER_PWRON_LO(u32) @ 0x190 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) TILER_PWRON_HI(u32) @ 0x194 {
-             31:0    request;
-         }
- 
-         /// L2 power up bitmap.
-+        #[wo]
-         pub(crate) L2_PWRON_LO(u32) @ 0x1a0 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) L2_PWRON_HI(u32) @ 0x1a4 {
-             31:0    request;
-         }
- 
-         /// Shader core power down bitmap.
-+        #[wo]
-         pub(crate) SHADER_PWROFF_LO(u32) @ 0x1c0 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) SHADER_PWROFF_HI(u32) @ 0x1c4 {
-             31:0    request;
-         }
- 
-         /// Tiler power down bitmap.
-+        #[wo]
-         pub(crate) TILER_PWROFF_LO(u32) @ 0x1d0 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) TILER_PWROFF_HI(u32) @ 0x1d4 {
-             31:0    request;
-         }
- 
-         /// L2 power down bitmap.
-+        #[wo]
-         pub(crate) L2_PWROFF_LO(u32) @ 0x1e0 {
-             31:0    request;
-         }
- 
-+        #[wo]
-         pub(crate) L2_PWROFF_HI(u32) @ 0x1e4 {
-             31:0    request;
-         }
- 
-         /// Shader core power transition bitmap. Read-only.
-+        #[ro]
-         pub(crate) SHADER_PWRTRANS_LO(u32) @ 0x200 {
-             31:0    changing;
-         }
- 
-+        #[ro]
-         pub(crate) SHADER_PWRTRANS_HI(u32) @ 0x204 {
-             31:0    changing;
-         }
- 
-         /// Tiler power transition bitmap. Read-only.
-+        #[ro]
-         pub(crate) TILER_PWRTRANS_LO(u32) @ 0x210 {
-             31:0    changing;
-         }
- 
-+        #[ro]
-         pub(crate) TILER_PWRTRANS_HI(u32) @ 0x214 {
-             31:0    changing;
-         }
- 
-         /// L2 power transition bitmap. Read-only.
-+        #[ro]
-         pub(crate) L2_PWRTRANS_LO(u32) @ 0x220 {
-             31:0    changing;
-         }
- 
-+        #[ro]
-         pub(crate) L2_PWRTRANS_HI(u32) @ 0x224 {
-             31:0    changing;
-         }
- 
-         /// Shader core active bitmap. Read-only.
-+        #[ro]
-         pub(crate) SHADER_PWRACTIVE_LO(u32) @ 0x240 {
-             31:0    active;
-         }
- 
-+        #[ro]
-         pub(crate) SHADER_PWRACTIVE_HI(u32) @ 0x244 {
-             31:0    active;
-         }
- 
-         /// Tiler active bitmap. Read-only.
-+        #[ro]
-         pub(crate) TILER_PWRACTIVE_LO(u32) @ 0x250 {
-             31:0    active;
-         }
- 
-+        #[ro]
-         pub(crate) TILER_PWRACTIVE_HI(u32) @ 0x254 {
-             31:0    active;
-         }
- 
-         /// L2 active bitmap.  Read-only.
-+        #[ro]
-         pub(crate) L2_PWRACTIVE_LO(u32) @ 0x260 {
-             31:0    active;
-         }
- 
-+        #[ro]
-         pub(crate) L2_PWRACTIVE_HI(u32) @ 0x264 {
-             31:0    active;
-         }
- 
-         /// Revision ID. Read only constant.
-+        #[ro]
-         pub(crate) REVIDR(u32) @ 0x280 {
-             31:0    revision;
-         }
-@@ -739,6 +802,7 @@ fn from(access: AccessType) -> Self {
-         /// Coherency features present. Read only constant.
-         /// Supported protocols on the interconnect between the GPU and the
-         /// system into which it is integrated.
-+        #[ro]
-         pub(crate) COHERENCY_FEATURES(u32) @ 0x300 {
-             /// ACE-Lite protocol supported, a 1-bit boolean flag.
-             0:0     ace_lite => bool;
-@@ -866,6 +930,7 @@ fn from(status: McuStatus) -> Self {
-         base: TyrRegisters;
- 
-         /// MCU status. Read only.
-+        #[ro]
-         pub(crate) MCU_STATUS(u32) @ 0x704 {
-             /// Read current state of MCU.
-             1:0 value => McuStatus;
-@@ -897,6 +962,7 @@ pub(crate) mod job_control {
-         /// Clear job interrupts. Write only.
-         ///
-         /// Write a 1 to a bit to clear the corresponding bit in [`JOB_IRQ_RAWSTAT`].
-+        #[wo]
-         pub(crate) JOB_IRQ_CLEAR(u32) @ 0x1004 {
-             /// Clear CSG request interrupts.
-             30:0    csg;
-@@ -918,6 +984,7 @@ pub(crate) mod job_control {
-         ///
-         /// This register contains the result of ANDing together [`JOB_IRQ_RAWSTAT`] and
-         /// [`JOB_IRQ_MASK`].
-+        #[ro]
-         pub(crate) JOB_IRQ_STATUS(u32) @ 0x100c {
-             /// CSG request interrupt status.
-             30:0    csg;
-@@ -953,6 +1020,7 @@ pub(crate) mod mmu_control {
- 
-         /// IRQ sources to clear.
-         /// Write a 1 to a bit to clear the corresponding bit in [`IRQ_RAWSTAT`].
-+        #[wo]
-         pub(crate) IRQ_CLEAR(u32) @ 0x2004 {
-             /// Clear the PAGE_FAULT interrupt.
-             15:0    page_fault;
-@@ -973,6 +1041,7 @@ pub(crate) mod mmu_control {
-         /// IRQ status for enabled sources. Read only.
-         ///
-         /// This register contains the result of ANDing together [`IRQ_RAWSTAT`] and [`IRQ_MASK`].
-+        #[ro]
-         pub(crate) IRQ_STATUS(u32) @ 0x200c {
-             /// PAGE_FAULT interrupt status.
-             15:0    page_fault;
-@@ -1388,6 +1457,7 @@ fn from(cmd: MmuCommand) -> Self {
-             base: TyrRegisters;
- 
-             /// MMU command register for each address space. Write only.
-+            #[wo]
-             pub(crate) COMMAND(u32)[MAX_AS, stride = STRIDE] @ 0x2418 {
-                 7:0     command ?=> MmuCommand;
-             }
-@@ -1517,6 +1587,7 @@ fn from(access: MmuAccessType) -> Self {
-             base: TyrRegisters;
- 
-             /// Fault status register for each address space. Read only.
-+            #[ro]
-             pub(crate) FAULTSTATUS(u32)[MAX_AS, stride = STRIDE] @ 0x241c {
-                 /// Exception type.
-                 7:0     exception_type ?=> MmuExceptionType;
-@@ -1527,15 +1598,18 @@ fn from(access: MmuAccessType) -> Self {
-             }
- 
-             /// Fault address for each address space. Read only.
-+            #[ro]
-             pub(crate) FAULTADDRESS_LO(u32)[MAX_AS, stride = STRIDE] @ 0x2420 {
-                 31:0    pointer;
-             }
- 
-+            #[ro]
-             pub(crate) FAULTADDRESS_HI(u32)[MAX_AS, stride = STRIDE] @ 0x2424 {
-                 31:0    pointer;
-             }
- 
-             /// MMU status register for each address space. Read only.
-+            #[ro]
-             pub(crate) STATUS(u32)[MAX_AS, stride = STRIDE] @ 0x2428 {
-                 /// External address space command is active, a 1-bit boolean flag.
-                 0:0     active_ext => bool;
-@@ -1783,10 +1857,12 @@ fn from(sh: PtwShareability) -> Self {
-             }
- 
-             /// Extra fault information for each address space. Read only.
-+            #[ro]
-             pub(crate) FAULTEXTRA_LO(u32)[MAX_AS, stride = STRIDE] @ 0x2438 {
-                 31:0    value;
-             }
- 
-+            #[ro]
-             pub(crate) FAULTEXTRA_HI(u32)[MAX_AS, stride = STRIDE] @ 0x243c {
-                 31:0    value;
-             }
-@@ -1816,6 +1892,7 @@ pub(crate) mod doorbell_block {
-         base: TyrRegisters;
- 
-         /// Doorbell request register. Write-only.
-+        #[wo]
-         pub(crate) DOORBELL(u32)[NUM_DOORBELLS, stride = STRIDE] @ 0x80000 {
-             /// Doorbell set. Writing 1 triggers the doorbell.
-             0:0    ring => bool;
-
--- 
-2.56.0
-
+diff --git a/include/linux/tick.h b/include/linux/tick.h
+index b121c5d53e308..08d272dca0947 100644
+--- a/include/linux/tick.h
++++ b/include/linux/tick.h
+@@ -111,9 +111,10 @@ enum tick_dep_bits {
+ 	TICK_DEP_BIT_SCHED		= 2,
+ 	TICK_DEP_BIT_CLOCK_UNSTABLE	= 3,
+ 	TICK_DEP_BIT_RCU		= 4,
+-	TICK_DEP_BIT_RCU_EXP		= 5
++	TICK_DEP_BIT_RCU_EXP		= 5,
++	TICK_DEP_BIT_POLICY		= 6
+ };
+-#define TICK_DEP_BIT_MAX TICK_DEP_BIT_RCU_EXP
++#define TICK_DEP_BIT_MAX TICK_DEP_BIT_POLICY
+ 
+ #define TICK_DEP_MASK_NONE		0
+ #define TICK_DEP_MASK_POSIX_TIMER	(1 << TICK_DEP_BIT_POSIX_TIMER)
+@@ -122,6 +123,7 @@ enum tick_dep_bits {
+ #define TICK_DEP_MASK_CLOCK_UNSTABLE	(1 << TICK_DEP_BIT_CLOCK_UNSTABLE)
+ #define TICK_DEP_MASK_RCU		(1 << TICK_DEP_BIT_RCU)
+ #define TICK_DEP_MASK_RCU_EXP		(1 << TICK_DEP_BIT_RCU_EXP)
++#define TICK_DEP_MASK_POLICY		(1 << TICK_DEP_BIT_POLICY)
+ 
+ #ifdef CONFIG_NO_HZ_COMMON
+ extern bool tick_nohz_enabled;
+@@ -205,6 +207,8 @@ extern void tick_nohz_dep_set_signal(struct task_struct *tsk,
+ extern void tick_nohz_dep_clear_signal(struct signal_struct *signal,
+ 				       enum tick_dep_bits bit);
+ extern bool tick_nohz_cpu_hotpluggable(unsigned int cpu);
++extern void tick_nohz_full_get_allowed(struct cpumask *mask);
++extern int tick_nohz_full_set_allowed(const struct cpumask *mask);
+ 
+ /*
+  * The below are tick_nohz_[set,clear]_dep() wrappers that optimize off-cases
+diff --git a/include/trace/events/timer.h b/include/trace/events/timer.h
+index 3aa0608c63611..dff9579cd90eb 100644
+--- a/include/trace/events/timer.h
++++ b/include/trace/events/timer.h
+@@ -435,7 +435,8 @@ TRACE_EVENT(itimer_expire,
+ 		tick_dep_name(SCHED)			\
+ 		tick_dep_name(CLOCK_UNSTABLE)		\
+ 		tick_dep_name(RCU)			\
+-		tick_dep_name_end(RCU_EXP)
++		tick_dep_name(RCU_EXP)			\
++		tick_dep_name_end(POLICY)
+ 
+ #undef tick_dep_name
+ #undef tick_dep_mask_name
+diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
+index 6c3fea3867139..d76128cba985c 100644
+--- a/kernel/time/tick-sched.c
++++ b/kernel/time/tick-sched.c
+@@ -27,6 +27,7 @@
+ #include <linux/posix-timers.h>
+ #include <linux/context_tracking.h>
+ #include <linux/mm.h>
++#include <linux/mutex.h>
+ 
+ #include <asm/irq_regs.h>
+ 
+@@ -337,6 +338,7 @@ EXPORT_SYMBOL_GPL(tick_nohz_full_mask);
+ bool tick_nohz_full_running;
+ EXPORT_SYMBOL_GPL(tick_nohz_full_running);
+ static atomic_t tick_dep_mask;
++static DEFINE_MUTEX(tick_nohz_full_policy_mutex);
+ 
+ static bool check_tick_dependency(atomic_t *dep)
+ {
+@@ -375,6 +377,11 @@ static bool check_tick_dependency(atomic_t *dep)
+ 		return true;
+ 	}
+ 
++	if (val & TICK_DEP_MASK_POLICY) {
++		trace_tick_stop(0, TICK_DEP_MASK_POLICY);
++		return true;
++	}
++
+ 	return false;
+ }
+ 
+@@ -556,6 +563,57 @@ void tick_nohz_dep_clear_cpu(int cpu, enum tick_dep_bits bit)
+ }
+ EXPORT_SYMBOL_GPL(tick_nohz_dep_clear_cpu);
+ 
++/* Read policy, not whether a CPU currently has its tick stopped. */
++void tick_nohz_full_get_allowed(struct cpumask *mask)
++{
++	int cpu;
++
++	cpumask_clear(mask);
++	if (!tick_nohz_full_enabled())
++		return;
++
++	/* Exclude the reset of tick_cpu_sched during CPU teardown. */
++	cpus_read_lock();
++	mutex_lock(&tick_nohz_full_policy_mutex);
++	for_each_cpu(cpu, tick_nohz_full_mask) {
++		struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
++
++		if (!(atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY))
++			cpumask_set_cpu(cpu, mask);
++	}
++	mutex_unlock(&tick_nohz_full_policy_mutex);
++	cpus_read_unlock();
++}
++
++int tick_nohz_full_set_allowed(const struct cpumask *mask)
++{
++	int cpu;
++
++	if (!tick_nohz_full_enabled())
++		return -EOPNOTSUPP;
++	if (!cpumask_subset(mask, tick_nohz_full_mask))
++		return -EINVAL;
++
++	cpus_read_lock();
++	mutex_lock(&tick_nohz_full_policy_mutex);
++	for_each_cpu(cpu, tick_nohz_full_mask) {
++		if (cpumask_test_cpu(cpu, mask)) {
++			tick_nohz_dep_clear_cpu(cpu, TICK_DEP_BIT_POLICY);
++		} else if (cpu_online(cpu)) {
++			/* The existing kick requests an asynchronous restart. */
++			tick_nohz_dep_set_cpu(cpu, TICK_DEP_BIT_POLICY);
++		} else {
++			struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
++
++			/* Record policy without queuing irq_work on an offline CPU. */
++			atomic_or(TICK_DEP_MASK_POLICY, &ts->tick_dep_mask);
++		}
++	}
++	mutex_unlock(&tick_nohz_full_policy_mutex);
++	cpus_read_unlock();
++	return 0;
++}
++
+ /*
+  * Set a per-task tick dependency. RCU needs this. Also posix CPU timers
+  * in order to elapse per task timers.
+@@ -1528,6 +1586,7 @@ void tick_sched_timer_dying(int cpu)
+ {
+ 	struct tick_sched *ts = &per_cpu(tick_cpu_sched, cpu);
+ 	unsigned long idle_calls, idle_sleeps;
++	int policy;
+ 
+ 	/* This must happen before hrtimers are migrated! */
+ 	if (tick_sched_flag_test(ts, TS_FLAG_HIGHRES))
+@@ -1535,7 +1594,10 @@ void tick_sched_timer_dying(int cpu)
+ 
+ 	idle_calls = ts->idle_calls;
+ 	idle_sleeps = ts->idle_sleeps;
++	/* Preserve only the policy dependency across CPU offline/online. */
++	policy = atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY;
+ 	memset(ts, 0, sizeof(*ts));
++	atomic_set(&ts->tick_dep_mask, policy);
+ 	ts->idle_calls = idle_calls;
+ 	ts->idle_sleeps = idle_sleeps;
+ }
