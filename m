@@ -1,126 +1,367 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7A648665F
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 09:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EB6516152
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 10:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792057755; cv=none; b=NMFE5x5od382qR+rzkATz5syEqvDJd9/UTDUttc+4Hk9OQFJkMu75R+L2c7ZR0Uap4f7c31dq2GUL2nziJ8vNgOA1xqLKQFezed8eehxXMIygclqdlxABU9/lTRQhx412gV39SRe1BZ8HItXqRTJZLmi9GXWKNax2pGCDqBkem8=
+	t=1792061856; cv=none; b=lwbHLfVy9M82dOBM5BSzd07uYztw1UG9k3nAoz6GJDSX7bt1Otw3flSwjzi3qqN+GppsZb3gsfj7tAa2jJNH8b6wYe3G3DlAWURAJXMGCfz1MBbmFZ+ZCePnKkjnIj/aiyo7Nl+WgJ61Fjo0A5u3om7IGSof/uYok8MC5QJA/SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792057755; c=relaxed/simple;
-	bh=HZ5/ZTe0o0stFkn0v+Skv9Pkz8EPR2PjgVLVSSpSrbc=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aLVJ4dceZIcZKdsifZ2IG54lc7W27UGpYh5NjCmZh6jbme10iUh/JkyWKDKL8IL7vO0QCFsexeZ/1Kiact63C+3B9rltjKTrRfhsP2w2rSQUIeY7eSY9m2baKWXdvTjYFKNt1m2oe0rwYyw81cFJ8Xw+Ehwu/cIsljBpLvOH7gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lF3gu2so; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792061856; c=relaxed/simple;
+	bh=AcPfRM3vZkDZSubbc522Lfk5YywwxyJuwTjFzMcnOSg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PFHL850sp+6D1HwUXGUxuW3zrUSyhf+RjiuQbQT9UgroRrn5Iu6/v9qC5dLhDrXrEAVHGOGQUWLOQZ/T6hoZ68Xdo1b/4JCJNn0uqH13YYHU55/bZlBE+xMThorrVCZgCsUMuAzCOs8M5e3FH3O0Cm75TYVoRoRjTRgFRCf+218=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gTUKceUM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Tvkkv4Yk; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lF3gu2so"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A2B81F000C6
-	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 09:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792057754;
-	bh=nT9Oo7iXgADtYp5co9OiTR6UXXfzH97xvsCw4wzlKqs=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=lF3gu2soNC+q+EeSdcAbmkjoxP2rczlnyJdeTtIv8syw6vTsK1WSEueFu7cjOcWR0
-	 f+3yhO3h2+A3bh9Vv3lOX2x0porx8pNVVPGDq9AJqGKZOQ11iS2nqiCH62zhuYaF3E
-	 GKKuR841MQ0n0hBYXU1A1crNuiDruFnqyVFDxKqCVUawcRrJko7c7rNgw+QMf3yN3q
-	 TBsa9cc15BoCxmj3VugGNcaziCrkwdCP9bdEJIYCYGv8ZQQMy5tIPMHtIeYmtcwufc
-	 14e+BF0JDzmG2aLym5ZMGmxYc0FPc+xSOeDq01WWFA8Sv1wW+cPmIOrv4SjKNNTFiQ
-	 iFbY1XEyNiDaw==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3a75f960be4so38915551fa.2
-        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 02:49:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzQAIcmWDLAI7pAqe4U++L/SA9np2ZDcgXAU8TYkMUPmZVTV8RykaTtqGPQTD1zR6vmOBJgEXp41KP06A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLdqd6O8/e+5ky2oaP2hzulbbvtTSSI69/gbEilfYEmKLJbE2im
-	M5ORYxA/kL8O5hSOkwHXazQFPHoCqmyLSrS0CeA5V+CULD0fhO4p0fulga0ALG4LO0sJJjs6Spz
-	YoPcPn/suSN+tEPHHxWbeBw0WPHLx89Ego5fld4TZVw==
-X-Received: by 2002:a05:651c:510:b0:3a7:8372:61b7 with SMTP id
- 38308e7fff4ca-3a9c56e47e1mr41776871fa.25.1792057753228; Thu, 15 Oct 2026
- 02:49:13 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 15 Oct 2026 05:49:12 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 15 Oct 2026 05:49:11 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20261011121246.162759-6-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gTUKceUM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Tvkkv4Yk"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69F9jYCA2966392
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 10:57:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	AnVt82VPabbk8HOMdt4DGD6AAgX9o61Mi1c5nLHpoog=; b=gTUKceUMhWcfc8fE
+	BlcOXVx/ZDYgahxFheSA5e6dVwFgLe9Otetf3dLDZK94B5z2u5d5e+A2f/a4cxWM
+	xKp23yDqg71w/+AwRJKpC/mDuoV2fiRfdWAtT/f+NKYZ5NQYI6u/MaIuiYckr9AX
+	Y3hb6eLK5cFqdmiCbRSwP7b/Ct2MEOQu7JcYkVtzPx/XuyvgPvSkLKWYe4nX14Rg
+	XKmwiEe+lSxcUdVW+UvIsS44IXmU51N/FC2q+bB1hRbhlHmE/unKQqdmNqr/R0ia
+	29O+aHfvNo1VTn2QnpC7ex7/Lsc5p83v7b8lb0M+Ik5ZfZ6fOyoNxqXUkXeVGOvR
+	UXVL9Q==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hae4wup7a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 10:57:31 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cd633da24f8so1319438a12.2
+        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 03:57:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792061850; x=1792666650; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AnVt82VPabbk8HOMdt4DGD6AAgX9o61Mi1c5nLHpoog=;
+        b=Tvkkv4Yk3asv5HGUI9SPB5tHdTnb9abbiowXDBClufAuBOOqNdonpnYJ57Xtl0itvp
+         NyeM/oFLp+pCCHt0W6vBxTd1/qUBj6GhuG8dGX7Owdcn2myv0mNyFXhDxrqAWlv/Q0kE
+         5d1iAvT+3hULAgRgeQp9LzutEDpP7JC4eQuaQJUq8/+4H7lKhb9Xwe6wpC69qRSTVHjm
+         cNcrHItoYGD2ah6n0l7Kh+p990PTMVqIKrl8TaFvxK+m+XjodYBn65ElcMSvmWGCvF1j
+         pCTyV8COZTe2HuWQ9jU/oqfsbUaEJbyB42sT57cZkUX9c2P8nNDIpA1/xW9P8y9AeAWb
+         O1Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792061850; x=1792666650;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AnVt82VPabbk8HOMdt4DGD6AAgX9o61Mi1c5nLHpoog=;
+        b=SX8ULD48C2s88Wh5upH/Pcv61OxRMFAbOH14sjuAOUT45h44cTmG2EucZwk+7q190e
+         uY0pwMeofP5ebOw8WnZVxpfktPtzg1CbR1t8K/jggaxlJ/TWVIeLSjA7tr2c8cwE/qBZ
+         JgvwKVj1Oe5LzvMozMEJyg9A43hvd9cgHWm8AR1MqcC80KG31su/4mfhqhpaeyx0QkiW
+         Ey2PihVcl7AiH3BuYb/7o3w8LgDBwLj8RLLAIJEcRGwgjUc6o5g6P76yR9AWf2f72Qxm
+         x7tAiH2umEZ1y54z1ZstRZxgpBykmzVByLX6Wjt4wObsBXS+nu+c3EKxK1Sie+fc3QMb
+         qXyw==
+X-Forwarded-Encrypted: i=1; AKwUvBy5IPU/pjyihQvgd7/MEVamOCdOSDkvlOtDxQ+TgY4J+GcpXX4jeS8Lyi0254WtMPCEZPo0/YRU+npfCg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLqkM6R9taJp7/3BLiXJIwICpNhMpG6uWwiZVQs75X1BCzlsH19
+	BZiUqzPryKpIni44YeF0I/2hPTst0zn0SUfIuIHCGKYgBikKeSiq55k7HnBmSRCKI2aN8SZDeV2
+	iQdKsnEKMWZ09YH4Ez8dgKqTFYdrJdZGBmks405PQXKorLvJjxTpWL6b4womwthBuQg==
+X-Gm-Gg: AYBFou2c+pTN7W3ElITk+6bX8s6qsaS7bmE7Mj5ozrN2q+asVyG1EJ0p4lPhnzfj73b
+	mDCsgZGOW46fuAqrJCoz5BZubzyZoY6HxuDULNALG19FmLUH5bC3SNtjPNXvbv+c+hRCWIREgxY
+	sMS/GWkT4XpLX8kT6WMWzBZ2O5Mufnk8pBPDxWKyKP7v51IM/zWOXX2FGY3TveWcR2axSGrbMC0
+	DVdyaHueJ38JM7kaayfGQRBz6HiTVjSuLq7SWvZ/j44O4ReTnmwkp/asacgnXmeDncoT/OCYCs/
+	CUXXYbep0tPowfcDD0BLGwKiOSfiYEw7T5zugjlB7xX5dS5nC8pNEXSSBYsQXAJT7Cv/MQaW/JV
+	IDMmka451qUPaQuZ+D32d5yxQYnw=
+X-Received: by 2002:a05:6a21:4cc2:b0:3de:138f:c86e with SMTP id adf61e73a8af0-3e1d03aa6camr5415504637.3.1792061850011;
+        Thu, 15 Oct 2026 03:57:30 -0700 (PDT)
+X-Received: by 2002:a05:6a21:4cc2:b0:3de:138f:c86e with SMTP id adf61e73a8af0-3e1d03aa6camr5415480637.3.1792061849512;
+        Thu, 15 Oct 2026 03:57:29 -0700 (PDT)
+Received: from [10.217.216.28] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd635b31a50sm1112723a12.2.2026.10.15.03.57.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Oct 2026 03:57:29 -0700 (PDT)
+Message-ID: <187f4cc2-05b3-4c8f-aad8-0d803f2f5b21@oss.qualcomm.com>
+Date: Thu, 15 Oct 2026 16:27:19 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261011121246.162759-1-tzungbi@kernel.org> <20261011121246.162759-6-tzungbi@kernel.org>
-Date: Thu, 15 Oct 2026 05:49:11 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MeWy7UQrGEr7MG5KT1b_NeLeEc9cYb+sAWuzU3shw620A@mail.gmail.com>
-X-Gm-Features: AclHuK8brzPusY-1WAKnXNkeI2Aw9WKzMjJ4dsJ9Vf8cnHI3dHP0eQKp8_TPFsE
-Message-ID: <CAMRc=MeWy7UQrGEr7MG5KT1b_NeLeEc9cYb+sAWuzU3shw620A@mail.gmail.com>
-Subject: Re: [PATCH v14 5/5] reset: Leverage revocable for accessing struct reset_controller_dev
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/16] Centralize the ownership of power rail votes
+ for Qualcomm clocks
+To: Konrad Dybcio <konradybcio@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Brian Masney <bmasney+clk@redhat.com>,
+        Jerome Brunet <jbrunet+clk@baylibre.com>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mike Tipton <mike.tipton@oss.qualcomm.com>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
+Content-Language: en-US
+From: Taniya Das <taniya.das@oss.qualcomm.com>
+In-Reply-To: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE1MDA0MyBTYWx0ZWRfX1p10H+81qAUV
+ hkB4I7sR8ii0rPKtYuMjjFjMXXTlddNllDhF6e6ldPUmaIyP/I/W44SzPyTirkXCd/b993SmvG1
+ RLIkmVB00Wjjz5AnbC65oX9EJBnxQmQ=
+X-Proofpoint-ORIG-GUID: kccb1DPUkqextaVVq5AoWgdF-wuyiym4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE1MDA0MyBTYWx0ZWRfX7yKAxQ6P1YpO
+ SMvco+DmNPaC5Z+e8clLhyHkmshkh/bTdtrvUFK+/DEbtQlwyXDSnmypBjyMqUJtPS81in8pPJF
+ 7mguHFLjvK9n9c5bmHsQUpzqajehubJJWovbYvmPuaFyB+ZJDCpIz77mgwWgjij/U/Xf5RnnVBt
+ 2E/1VrIczJLKDuGU8iiiuqjVLIZADWFatLdRIPe25W1U+gcZw29XFP88fTZHMDVX4cK7faL4zEI
+ qGYaOjMjuj//DGJKab68ZjNHqokErNlUJlZzDwLsZvkygOB7HSG0iwnADvFoQ7sHTZ6aLgRnxh6
+ RQpFNmOU3Y/NiTNXyCiJsVd7Amd0RBSOmpoY8aKx3RjZjAEKtgNBu4y09E1I+qej4AS6zDI3Pax
+ baQqTcoxj0D9Q4VttXf4fu92l309wsf1PPkcfMYc9wMpjwymiRjGDGqWSiyV6eeLbVLc8FJb5pw
+ damwJOs1QYE38qYpJ1w==
+X-Authority-Analysis: v=2.4 cv=E8BYNqdl c=1 sm=1 tr=0 ts=6ad0b19b cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=LpQP-O61AAAA:8 a=EUspDBNiAAAA:8 a=iEdp9f2tR9rxy83nKJ4A:9
+ a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22 a=pioyyrs4ZptJ924tMmac:22
+X-Proofpoint-GUID: kccb1DPUkqextaVVq5AoWgdF-wuyiym4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610150043
 
-On Sun, 11 Oct 2026 14:12:45 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> Commit 78ebbff6d1a0 ("reset: handle removing supplier before consumers")
-> protected the `rcdev` pointer in `struct reset_control` with SRCU so
-> that the reset core can handle suppliers unbinding while consumers still
-> hold reset control handles.
->
-> Because `struct reset_control` handles can outlive `rcdev`, each of the
-> N handles had to embed its own `srcu_struct` and call synchronize_srcu()
-> on release, and reset_controller_unregister() had to call
-> synchronize_srcu() N times in a loop.
->
-> Leverage dynamic revocable to allocate a single reference-counted
-> `struct revocable` for `rcdev` shared across all N `struct reset_control`
-> handles (1-to-N).  This reduces N `srcu_struct` instances per controller
-> to 1, drops synchronize_srcu() from reset_control_put_internal(), and
-> replaces the N synchronize_srcu() calls on unregistration with a single
-> revocable_revoke().
->
-> In addition, calling revocable_revoke() outside `rcdev->lock` avoids an
-> ABBA lock inversion between `rcdev->lock` and SRCU, as
-> reset_control_acquire() and reset_control_put_internal() acquire
-> `rcdev->lock` inside the SRCU read-side critical section.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+
+On 10/14/2026 5:49 PM, Konrad Dybcio wrote:
+> On Qualcomm SoCs, both the PLLs and other types of clocks alike require
+> specific voltage rail levels to operate in-spec, but through the
+> separation and decentralization of clock and voltage votes, these
+> requirements are often not met and are never explicitly stated.
+> This results in clocks being undervolted, or at the very least a state
+> we're unable to reason about.
+> 
+> The devices consuming these clocks very rarely have their own
+> requirements in that regard. (1)
+> 
+> This series moves the frequency-power_domain-perf_state mappings inside
+> the clock drivers, ensuring a single, trusted source of truth is
+> established and that the silicon is no longer driven at out-of-spec
+> conditions.
+> 
+> To illustrate the nuances involved, here's a couple examples of hidden
+> dependencies, as found on SM8650:
+> * video_cc_mvs0_clk requires LOW_SVS to run at 900 MHz, but the
+>   PLL it sources the signal from requires SVS (higher corner) to
+>   produce that frequency. Similarly, to produce 1140 MHz, the clock
+>   requires SVS, but the PLL then requires SVS_L1.
+>   Analogous story for mvs1_clk.
+> * gpu_cc_gmu_clk requires MX to be at SVS to output 625 MHz, the PLL
+>   requires SVS_L1 to produce that frequency.
+> * A number of camera clocks follow the same pattern.
+> * Additionally, some clocks like cam_cc_cci_{0,1,2}_clk require
+>   MMCX to run at LOW_SVS, but the PLL has the additional requirement
+>   of keeping MXC (a wholly different rail) at SVS_L1.
+> 
+> There's a broad agreement that a consumer should only have to care
+> about the clock it consumes, and that configuring its parents is the
+> responsibility of the CCF. Requiring the consumers to care about the
+> above cases (as is the expectation today) is a clear violation of
+> that contract.
+> 
+> A clock controller may have on the order of hundreds of clocks, each
+> one with its own frequency-power map, and potentially all of them
+> could be similarly affected.
+> 
+> Recently, some drivers (Iris, CAMSS) have attempted to circumvent these
+> problems by holding a direct reference to the power rails and managing
+> the votes manually, through placing direct votes on each rail via an
+> OPP table. That however has a number of drawbacks:
+> * Because more than just one clock needs to be scaled at runtime, the
+>   OPP table either has to contain NUM_CLOCKS * NUM_RATES to handle
+>   that (which blows up pretty quickly), assume the worst case (and
+>   waste power), or ignore that problem (and undervolt the clock
+>   controller), instead of just being able to call set_rate() on each
+>   clock as needed
+> * The data ends up being dispersed across various consumers, even
+>   though it logically belongs to the clock controller, making it
+>   absolutely unauditable
+> * It's horrendously error-prone because of the number of clocks
+>   involved, the depth of the clock tree and the fact that at the end
+>   of the day, one still has to consult the clock controller
+>   documentation
+> 
+> The approach proposed here also happens to more naturally fit into the
+> process of how an SoC is brought up - clock controllers are always
+> the very first pieces that need to be complete before other IP blocks
+> can be brought up. And because of (1), enclosing the frequency-corner
+> data within the clock drivers takes a weight off of everyone else's
+> shoulders.
+> 
+> On a related topic, the GDSCs are modeled as children of *all* power
+> domains consumed by a clock controller at once. GDSCs are on/off switches
+> with some fancy logic attached to them and may need some (or none) rails
+> enabled to power on or off while meeting the hardware timing
+> requirements. Voting on them was never quite right in the first place
+> and is once again only a side-effect of the clocks' power requirements
+> not being handled centrally.
+> 
+> This series removes the vote propagation and the overly broad parent-
+> child links, resulting in dropping unnecessary/incorrect votes that are
+> now encapsulated by the clk-dvfs infrastructure. Big emphasis on (1)
+> once again.
+> 
+> The implementation is as follows:
+> 
+> Each clock describes the rail levels it needs at each frequency. The
+> new clk-dvfs helper combines these requirements and submits the
+> resulting votes through GenPD and RPMHPD. Votes remain held while a
+> clock is prepared, and rate or parent changes reserve the new
+> requirements before any clocks are reprogrammed. This also requires CCF
+> to report programming failures and OPP to retry failed transitions
+> instead of relying on stale cached state.
+> 
+>                 Consumer: select rate, prepare clock
+>                                    |
+>                                    v
+>         +------------------------ CCF ----------------------+
+>         | Walk the clock tree and reserve resources          |
+>         | before programming rates or parents                |
+>         +--------------------------------------------------+
+>                                    |
+>                                    v
+>  +------------------------------------------------------------------+
+>  |                                                                    |
+>  |    GPLL9 ------> SDCC2 RCG -------> SDCC2 apps clock               |
+>  |      |               |                                             |
+>  |      |               |                         Other GCC clocks    |
+>  |      v               v                              |              |
+>  |  +------------+  +------------+                     v              |
+>  |  | PLL's own  |  | RCG's own  |          Per-clock requirements    |
+>  |  | rate table |  | rate table |                         |          |
+>  |  +-----+------+  +-----+------+                         |          |
+>  |        |               |                                |          |
+>  |        | CX            | CX + MX                        |          |
+>  |        v               v                                v          |
+>  |    +--------------------------------------------------------+      |
+>  |    |                  Clock-owned DVFS                        |    |
+>  |    |                                                          |    |
+>  |    | Prepared votes + temporary transition votes              |    |
+>  |    |                          |                               |    |
+>  |    |               Maximum requirement per rail               |    |
+>  |    +-----------+--------------+--------------+--------------+      |
+>  |                |              |              |                     |
+>  |            CX voter      CX_AO voter     MX voter                  |
+>  +----------------+-------------+-------------+---------------------+
+>                    |              |              |
+>                    v              v              v
+>        +----------------------- GenPD ----------------------+
+>        |      Aggregate GCC votes with other consumers       |
+>        +---------------------------------------------------+
+>                                   |
+>                                   v
+>                             +-----------+
+>                             |   RPMHPD  |
+>                             +-----------+
+> 
+> Straightening out all of the above lets us tackle another problem
+> with the upstream description of the power grid - the dependency
+> between various rails. Most notably:
+> * CX does NOT need to follow the performance state of MMCX
+> * MX/MXA/MXC and CX are co-dependent only on some platforms (in coarse
+>   terms, SM8350 and before)
+> 
+> However, the main part of series needs to land first to ensure that
+> dropping those relationships doesn't remove some wrongful votes the
+> system relied on to stay functional. Resolving that will save power and
+> finally ensure total stability as far as the providers are concerned.
+> 
+> SM8650 is used as an example in this series, but the conversion will
+> have to be done for all Qualcomm platforms. That will follow soon
+> after the patches are merged. DFS clocks are left out of this RFC to
+> reduce noise (the remaining diff is not particularly large but also
+> requires boilerplate changes to bus drivers).
+> 
+> dt-bindings changes are not included since it's an RFC.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
-> v14:
-> - New to the series.
+> Konrad Dybcio (16):
+>       clk: Propagate rate programming failures
+>       clk: Acquire resources for clock transitions
+>       OPP: Retry failed default single-clock transitions
+>       pmdomain: core: Support named indexed virtual attachments
+>       pmdomain: core: Support subdomains without pstate propagation
+>       pmdomain: core: Support indexed power-domain attachment lists
+>       clk: qcom: Add clock-owned GenPD DVFS aggregation
+>       clk: qcom: dvfs: Add debugfs
+>       clk: qcom: clk-alpha-pll: Add DVFS (un)prepare
+>       clk: qcom: clk-alpha-pll: Vote for the PLL calibration frequency
+>       clk: qcom: gdsc: Make GDSC parenting optional
+>       clk: qcom: gdsc: Link required power domains
+>       [DNM] arm64: dts: qcom: sm8650: Describe clock controller power rails
+>       [DNM] clk: qcom: Enable clk-dvfs on SM8650
+>       [DNM] arm64: dts: qcom: sm8650: Drop required-opps
+>       [DNM] pmdomain: qcom: rpmhpd: Stop forwarding MMCX pstate to CX
+> 
+>  arch/arm64/boot/dts/qcom/sm8650.dtsi        |  62 +--
+>  drivers/base/power/common.c                 |  24 +-
+>  drivers/clk/Makefile                        |   1 +
+>  drivers/clk/clk.c                           | 793 +++++++++++++++++++++++-----
+>  drivers/clk/clk_resource_test.c             | 376 +++++++++++++
+>  drivers/clk/clk_test.c                      | 194 ++++++-
+>  drivers/clk/qcom/Makefile                   |   1 +
+>  drivers/clk/qcom/camcc-sm8650.c             | 282 ++++++++++
+>  drivers/clk/qcom/clk-alpha-pll.c            | 317 ++++++++++-
+>  drivers/clk/qcom/clk-dvfs.c                 | 635 ++++++++++++++++++++++
+>  drivers/clk/qcom/clk-dvfs.h                 |  41 ++
+>  drivers/clk/qcom/clk-rcg2.c                 |  93 +++-
+>  drivers/clk/qcom/clk-regmap.h               |   6 +
+>  drivers/clk/qcom/common.c                   |  28 +-
+>  drivers/clk/qcom/common.h                   |   3 +
+>  drivers/clk/qcom/dispcc-sm8550.c            | 328 ++++++++++--
+>  drivers/clk/qcom/gcc-sm8650.c               | 261 +++++++++
+>  drivers/clk/qcom/gdsc.c                     | 154 +++++-
+>  drivers/clk/qcom/gdsc.h                     |   7 +
+>  drivers/clk/qcom/gpucc-sm8650.c             | 101 +++-
+>  drivers/clk/qcom/videocc-sm8550.c           | 135 ++++-
+>  drivers/opp/core.c                          |  72 ++-
+>  drivers/opp/opp.h                           |   2 +
+>  drivers/pmdomain/core.c                     |  60 ++-
+>  drivers/pmdomain/qcom/rpmhpd.c              |  14 +-
+>  include/dt-bindings/clock/qcom,sm8650-gcc.h |   2 +
+>  include/linux/clk-provider.h                |  39 ++
+>  include/linux/pm_domain.h                   |  33 +-
+>  28 files changed, 3734 insertions(+), 330 deletions(-)
 > ---
->  drivers/reset/core.c             | 93 ++++++++------------------------
->  include/linux/reset-controller.h |  3 ++
->  2 files changed, 26 insertions(+), 70 deletions(-)
->
-> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-> index 38e189d04d09..788a235c3965 100644
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-> @@ -24,8 +24,8 @@
->  #include <linux/property.h>
->  #include <linux/reset.h>
->  #include <linux/reset-controller.h>
-> +#include <linux/revocable.h>
->  #include <linux/slab.h>
-> -#include <linux/srcu.h>
->
->  static DEFINE_MUTEX(reset_list_mutex);
->  static LIST_HEAD(reset_controller_list);
-> @@ -37,9 +37,7 @@ static DEFINE_IDA(reset_gpio_ida);
->
->  /**
->   * struct reset_control - a reset control
-> - * @rcdev: a pointer to the reset controller device
-> - *         this reset control belongs to
-> - * @srcu: protects the rcdev pointer from removal during consumer access
-> + * @rev: revocable handle for accessing the reset controller device
+> base-commit: 4eb2586bd40db27d77cc5b724ca9386ed0c71d53
+> change-id: 20261001-topic-qc_clk_dvfs-ef907f059611
+> 
+> Best regards,
+> --  
+> Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
 
-Please call it "revocable". The name "rev" does not indicate what it is at all.
-Same elsewhere if you call it the same.
 
-Otherwise looks good to me and nicely shrinks the code! We still don't know
-what the fate of that series will be though, right?
+This seems to be similar proposal which was there earlier
 
-Bart
+https://lore.kernel.org/all/1532196902-28570-5-git-send-email-tdas@codeaurora.org/
+
+
+-- 
+Thanks,
+Taniya Das
+
