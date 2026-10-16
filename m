@@ -1,154 +1,332 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778721D86FF
-	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 02:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA46939526F
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 02:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792118046; cv=none; b=rw87O+tbUFk9bCVy6MNmqJ1UAf0OhDNOlzJyZ+d2wInsF9446IY928nV6UWhuYke+afdoESQpmvmvn/HBS1p6eKTcP8MrZBPHJNYO7n2PGWvG8b3S9F8/vOPlf8tIk222zVpTY0A5QLzlDgEbMXeJrK6JIS0M3KDLnY0pOWM8Aw=
+	t=1792118740; cv=none; b=ArJl/Ou5Xl3lVgD122co3XT5ZOo9ruVnpjhn7Il5X1JVjklG76AwlqKVYWBeOWETN+VbpSqnqZdHU58QssCZ1iyZryDvzGTI8gpdMjmLgA/KZ2EHsb6yVQiSyQ+mxj6ITfhB8goHJ9dVBxYDDyWaVmG8oOQuHBPk48+VH9pgDY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792118046; c=relaxed/simple;
-	bh=2mlYCwTuDre2pY1UtM0QzTBYr7c2iLuTUGPMKaJprRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JQBHcFqY0J2VH21EywwaztEVTl0FiJbN590JXZ5RRrRv6O1sa68+cU4hnWys3SK6ApEQREpJX6384rC+viI50QbLu+ZRxm8dV2JzVWgkEKzq6zIyCq0HuIJQS0Vn9AC8HQlbxNP3HPaepKRdCXLy44/BvMs2gyezj+Kp7joW5/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=j4Yy7sNx; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="j4Yy7sNx"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1792118040; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=GwRBWNugQ+ez7PQ9anvHaCPoVAAqhLatL//ZldKkejU=;
-	b=j4Yy7sNxe7z7Qw9jfOs8+FQTof7RB5qWlyP/piynZTCl6X1pYGxmogjlcTFErzhd70ZYDvvubtCGaYX0Il4JGdCQ6ZrzCeeiRVupJ2HDHvc16SZ9LvxEsuD4mE3fTAdQJEyOh8V5LJ1f4WLDgaEVRUiHRF8YF6tEMWmv0ApanNs=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R591e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0XCtIv.x_1792118038;
-Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCtIv.x_1792118038 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 16 Oct 2026 10:33:59 +0800
-Date: Fri, 16 Oct 2026 10:33:58 +0800
-From: Peng Wang <peng_wang@linux.alibaba.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	He Rongguang <herongguang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] tick/nohz: Add runtime control of non-idle tick
- suppression
-Message-ID: <atGNFhQk9Uj-wuVu@MacBook-Pro.local>
-Reply-To: Peng Wang <peng_wang@linux.alibaba.com>
-References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
- <8d10bb84-d312-4be0-8c43-ddd602850a1d@redhat.com>
- <atER8P0ws6Gg4GWE@MacBook-Pro.local>
- <f12ad8ee-4cad-4c7e-a0c9-c22fe894f14c@redhat.com>
+	s=arc-20240116; t=1792118740; c=relaxed/simple;
+	bh=IE3vhzJCpcsuRVqgAbpm2icf0SaJyRmEDDrxW0o0f8E=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bmNbkJdpu1k1ia6c1MnjaWYVfoPmi65V2tGcuvPfLM5t3CbauhYvgSr3QujeJI14/9AChrTp5Y3/Fu9geVPmUxrKqXu0H3reMt8d/rb2wOvYlKkcKKjpcJAJba1vfjdUT0nM20OwmR+hMSdlzP9EKvhFdMTEajS2UfzO8bk7Zts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b28d7ffab1so955864b6e.1
+        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 19:45:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792118737; x=1792723537;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XX3/oYkLjmdjSqbDcP/sp/YOpYFp+mZ+ZxYseY0tPWg=;
+        b=EPLrGWhz67k/qsRQIUWb0qimXQ91RlQd2Ri0y76nZeUlmbN9Y8JaJw/Dn5hrmu+hgP
+         H2nUhEAeuCAmrgRa4PutnwPxe6DO+bgdoqNaN1UmLpLLsa6vdPEwO0Bvct/n8PJPHnLI
+         84R26HAHbgq7W5qach9yJfK+uBXfpiVCRMzsXUDOur6BZT+80fYivIFqHtKtRWBUW2eS
+         C3KuLDWnOs4HvDDHCDUHE1oKgIGXOu1+gOVCwgfM9IY9sTsVs0CDn8nTIUsMSYt88cbw
+         A7zSb+1LjJxpHW7/RxFcAoG9ahD+XzC/C3HmAtJxKgti/YzzP6TxWtMjE4Xa26MqPKKx
+         Zxgg==
+X-Forwarded-Encrypted: i=1; AKwUvBw/nrJMaf8CxdNSgZsq1IDHB9jqgzLmFDEFUyJ/HC9e4AvD09hqJvK+ACGeJRsSs3mzT9nW6VtAfx9Igw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIuLKWfjk2sZQTKo2Tzw/OQILUvzdkSDUHIwOqPoqFqll/GIcRA
+	KAKaZzsKQGN27Et6t3ylaF8QA4T5CKFPL5JmgraklIzT8qB2l4UgXKh2rKgSCWEgYul/+SLFX89
+	p/4A2Mm4m8fQdLdlmTeGOcGmZoaAC0Erx1gtcG/oyA4gB7PLQm27HYEUd/mE=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f12ad8ee-4cad-4c7e-a0c9-c22fe894f14c@redhat.com>
+X-Received: by 2002:a05:6808:e85:b0:4ea:935e:43d6 with SMTP id
+ 5614622812f47-5370270df29mr1157162b6e.45.1792118737052; Thu, 15 Oct 2026
+ 19:45:37 -0700 (PDT)
+Date: Thu, 15 Oct 2026 19:45:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad18fd1.7514cce4.1ece07.0120.GAE@google.com>
+Subject: [syzbot] [pm?] BUG: sleeping function called from invalid context in __synchronize_srcu
+From: syzbot <syzbot+136ee4ebfb4a81dab91b@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 15, 2026 at 04:13:49PM -0400, Waiman Long wrote:
-> On 10/15/26 1:48 PM, Peng Wang wrote:
-> > On Thu, Oct 15, 2026 at 12:00:25PM -0400, Waiman Long wrote:
-> > > On 10/15/26 8:43 AM, Peng Wang wrote:
-> > > > Workloads and their need for periodic ticks can change after boot.
-> > > > This series lets userspace choose at runtime which CPUs in the boot-time
-> > > > nohz_full set retain the non-idle scheduler tick and which are permitted
-> > > > to stop it, while preserving the existing isolation configuration.
-> > > > 
-> > > > The first patch adds a per-CPU tick dependency; the second exposes a
-> > > > sysfs CPU list. Permission defaults to all nohz_full CPUs. Revocation
-> > > > uses the existing asynchronous kick. Idle tick suppression is unchanged,
-> > > > and policy persists across hotplug.
-> > > So you are basically setting up more nohz_full CPUs than the system actually
-> > > needs to use at the moment and so want to disable nohz/tick part of
-> > > nohz_full CPUs that don't need it. Can you elaborate more about the problems
-> > > solve by introducing this new behavior?
-> > Hi Waiman,
-> > 
-> > Yes. We have CPU-pinned workloads that benefit from reduced periodic
-> > tick interference. The desired tick policy changes with CPU allocation.
-> > 
-> > With spare capacity, we allow selected nohz_full CPUs to stop their
-> > tick. When capacity is fully allocated, we prefer to retain the
-> > non-idle periodic tick across CPUs, avoiding an additional difference
-> > in tick interference between housekeeping and nohz_full CPUs.
-> What problem does that cause?
+Hello,
 
-Hi Waiman,
+syzbot found the following issue on:
 
-The concern is placement-dependent performance variation between
-vCPUs sold under the same specification. Customers do not see which
-host CPU backs their vCPU, so such differences would appear as
-unexplained variation within the same specification.
+HEAD commit:    0fcb05b72344 Merge tag 'libcrypto-fixes-for-linus' of git:..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f2ce8e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=44ac479246d4559b
+dashboard link: https://syzkaller.appspot.com/bug?extid=136ee4ebfb4a81dab91b
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+userspace arch: i386
 
-At full allocation, we want a consistent non-idle tick policy across
-the allocated CPUs to avoid this additional source of variation.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> > A CPU may still have only one runnable task in either case, so the
-> > existing tick dependencies do not express this policy.
-> > 
-> > This series keeps the boot-time nohz_full CPU set, context tracking,
-> > RCU offloading and housekeeping configuration unchanged. It only
-> > controls whether those CPUs may stop their non-idle tick. The policy
-> > can be changed without taking CPUs offline.
-> 
-> So the policy is to make the tick keeps running when there is only one
-> running task. Right? I am just not clear about the advantage of doing that.
-> Is there a use case that will require this particular feature? I doubt this
-> will get accepted unless there is a compelling reason to show why we will
-> want to have this feature.
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-0fcb05b7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/7de97b060425/vmlinux-0fcb05b7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/fe04791ba0c2/bzImage-0fcb05b7.xz
 
-Yes. We run cloud hosts with vCPU threads pinned one-to-one to host
-CPUs. Some CPUs are kept outside nohz_full for housekeeping, but
-they also provide vCPU capacity at full allocation. Dedicating them
-exclusively to housekeeping would reduce the capacity available to
-guests.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+136ee4ebfb4a81dab91b@syzkaller.appspotmail.com
 
-At full allocation, vCPUs also run on housekeeping CPUs, which
-retain their non-idle tick. Allowing only the nohz_full CPUs to stop
-the tick would introduce a placement-dependent difference in tick
-behavior between vCPUs of the same specification.
+BUG: sleeping function called from invalid context at kernel/workqueue.c:4561
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 13343, name: syz-executor
+preempt_count: 100, expected: 0
+RCU nest depth: 1, expected: 0
+locks held by syz-executor/13343: 3, last CPU#0:
+ #0: ffff888026340460 (sb_writers#5){.+.+}-{0:0}, at: filename_unlinkat+0x1ad/0x730 fs/namei.c:5725
+ #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: find_lock_entries+0x10f/0x1190 mm/filemap.c:2188
+ #2: ffffc90000007c98 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11d/0x5f0 kernel/time/timer.c:1745
+Preemption disabled at:
+[<ffffffff81c9ef13>] softirq_handle_begin kernel/softirq.c:486 [inline]
+[<ffffffff81c9ef13>] handle_softirqs+0xf3/0x9d0 kernel/softirq.c:621
+CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Tainted: G        W    L     
+-----------------------------
+kernel/rcu/srcutree.c:1464 Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section!
 
-We therefore want to restore the non-idle tick on those nohz_full
-CPUs, accepting the extra tick overhead to remove this controllable
-difference. Host-side background activity is limited in this
-deployment, and we can tolerate the remaining housekeeping noise.
+other info that might help us debug this:
 
-With spare capacity, we want to allow selected nohz_full CPUs to
-stop the tick to reduce host scheduler-tick interference with guest
-execution. This is an opportunistic optimization when capacity
-permits.
 
-Host allocation changes as customers acquire or release vCPUs, while
-other customers' VMs continue running.
+rcu_scheduler_active = 2, debug_locks = 1
+locks held by syz-executor/13343: 3, last CPU#0:
+ #0: 
+ffff888026340460
+ (
+sb_writers
+#5
+){.+.+}-{0:0}
+, at: filename_unlinkat+0x1ad/0x730 fs/namei.c:5725
+ #1: 
+ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: find_lock_entries+0x10f/0x1190 mm/filemap.c:2188
+ #2: ffffc90000007c98 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11d/0x5f0 kernel/time/timer.c:1745
 
-A nohz_full CPU hosting a remaining vCPU may still have that vCPU
-thread as its only runnable task, whether the host is fully or
-partially allocated. The existing tick dependencies therefore do
-not express the desired change in policy.
+stack backtrace:
+CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ lockdep_rcu_suspicious.cold+0x4f/0xb2 kernel/locking/lockdep.c:6972
+ __synchronize_srcu+0x29d/0x300 kernel/rcu/srcutree.c:1464
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
+ wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
+ mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
+ device_release+0xd2/0x270 drivers/base/core.c:2640
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1f7/0x640 lib/kobject.c:737
+ put_device+0x1f/0x30 drivers/base/core.c:3884
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x16a/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:213
+Code: 00 01 00 ff 74 1e f6 c4 01 74 44 a9 00 00 00 0f 75 3d f7 c1 00 00 00 f0 75 35 8b 82 44 17 00 00 85 c0 74 2b 8b 82 18 17 00 00 <83> f8 02 75 20 48 8b 8a 20 17 00 00 8b 92 1c 17 00 00 48 8b 01 48
+RSP: 0000:ffffc9002334f5d8 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: ffffc9002334f6c0 RCX: 0000000000000000
+RDX: ffff888073702580 RSI: ffffffff8bd06124 RDI: ffff888073702580
+RBP: 0000000000002a3b R08: 0000000000000006 R09: 0000000000002a3b
+R10: fffffffffffffffe R11: 0000000000000001 R12: fffffffffffffffe
+R13: ffff888050b7a680 R14: 0000000000000000 R15: dffffc0000000000
+ xas_find+0xc4/0x8e0 lib/xarray.c:1408
+ find_get_entry mm/filemap.c:2085 [inline]
+ find_lock_entries+0x176/0x1190 mm/filemap.c:2189
+ shmem_undo_range+0x212/0x1570 mm/shmem.c:1143
+ shmem_truncate_range mm/shmem.c:1289 [inline]
+ shmem_evict_inode+0x3b1/0xca0 mm/shmem.c:1420
+ evict+0x3c2/0xad0 fs/inode.c:822
+ iput_final fs/inode.c:2014 [inline]
+ iput.part.0+0x989/0x1050 fs/inode.c:2063
+ iput+0x35/0x40 fs/inode.c:2029
+ filename_unlinkat+0x466/0x730 fs/namei.c:5752
+ __do_sys_unlink fs/namei.c:5783 [inline]
+ __se_sys_unlink fs/namei.c:5780 [inline]
+ __ia32_sys_unlink+0x45/0x60 fs/namei.c:5780
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
+ __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf7f95fec
+Code: d2 74 05 c1 e8 0c 89 02 8b 5d fc 31 c0 c9 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 2e 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00 58 b8
+RSP: 002b:00000000ffb7b7c8 EFLAGS: 00000292
+ ORIG_RAX: 000000000000000a
+RAX: ffffffffffffffda RBX: 00000000ffb7b870 RCX: 0000000000008000
+RDX: 00000000f741aff4 RSI: 0000000000000000 RDI: 00000000ffb7c904
+RBP: 00000000ffb7b870 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+ODEBUG: object ffffc90000007a60 is NOT on stack ffffc90023348000, but annotated.
+------------[ cut here ]------------
+1
+WARNING: lib/debugobjects.c:672 at debug_object_is_on_stack lib/debugobjects.c:672 [inline], CPU#0: syz-executor/13343
+WARNING: lib/debugobjects.c:672 at lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705, CPU#0: syz-executor/13343
+Modules linked in:
 
-The proposed control allows per-CPU runtime changes without taking
-CPUs offline or changing the boot-time nohz_full set or other
-isolation settings.
+CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:debug_object_is_on_stack lib/debugobjects.c:672 [inline]
+RIP: 0010:lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705
+Code: c4 60 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc 83 c5 01 89 2d 20 28 7d 1b 4c 89 e6 48 c7 c7 c0 65 62 8c e8 e1 c7 eb ff 90 <0f> 0b 90 e9 62 70 fe 03 83 c5 01 89 2d ff 27 7d 1b 49 39 c4 73 da
+RSP: 0000:ffffc900000078f0 EFLAGS: 00010082
 
-Thanks,
-Peng
+RAX: 0000000000000050 RBX: ffff8880150a88f8 RCX: 0000000000000000
+RDX: 0000000000000050 RSI: ffffffff81e9ad09 RDI: fffff52000000f0f
+RBP: 0000000000000001 R08: 0000000000000007 R09: 0000000000000000
+R10: 0000000000000101 R11: 0000000000000001 R12: ffffc90000007a60
+R13: ffff888073702580 R14: 0000000000000001 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88809574a000(0063) knlGS:0000000056b1e480
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00000000f737dffc CR3: 000000004e89d000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 000000000000000e DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>
+ lookup_object_or_alloc lib/debugobjects.c:682 [inline]
+ __debug_object_init+0x2a9/0x3d0 lib/debugobjects.c:798
+ __synchronize_srcu+0x1c3/0x300 kernel/rcu/srcutree.c:1475
+ wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
+ wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
+ wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
+ mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
+ device_release+0xd2/0x270 drivers/base/core.c:2640
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1f7/0x640 lib/kobject.c:737
+ put_device+0x1f/0x30 drivers/base/core.c:3884
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x16a/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:213
+Code: 00 01 00 ff 74 1e f6 c4 01 74 44 a9 00 00 00 0f 75 3d f7 c1 00 00 00 f0 75 35 8b 82 44 17 00 00 85 c0 74 2b 8b 82 18 17 00 00 <83> f8 02 75 20 48 8b 8a 20 17 00 00 8b 92 1c 17 00 00 48 8b 01 48
+RSP: 0000:ffffc9002334f5d8 EFLAGS: 00000246
 
-> 
-> Cheers,
-> Longman
-> 
+RAX: 0000000000000000 RBX: ffffc9002334f6c0 RCX: 0000000000000000
+RDX: ffff888073702580 RSI: ffffffff8bd06124 RDI: ffff888073702580
+RBP: 0000000000002a3b R08: 0000000000000006 R09: 0000000000002a3b
+R10: fffffffffffffffe R11: 0000000000000001 R12: fffffffffffffffe
+R13: ffff888050b7a680 R14: 0000000000000000 R15: dffffc0000000000
+ xas_find+0xc4/0x8e0 lib/xarray.c:1408
+ find_get_entry mm/filemap.c:2085 [inline]
+ find_lock_entries+0x176/0x1190 mm/filemap.c:2189
+ shmem_undo_range+0x212/0x1570 mm/shmem.c:1143
+ shmem_truncate_range mm/shmem.c:1289 [inline]
+ shmem_evict_inode+0x3b1/0xca0 mm/shmem.c:1420
+ evict+0x3c2/0xad0 fs/inode.c:822
+ iput_final fs/inode.c:2014 [inline]
+ iput.part.0+0x989/0x1050 fs/inode.c:2063
+ iput+0x35/0x40 fs/inode.c:2029
+ filename_unlinkat+0x466/0x730 fs/namei.c:5752
+ __do_sys_unlink fs/namei.c:5783 [inline]
+ __se_sys_unlink fs/namei.c:5780 [inline]
+ __ia32_sys_unlink+0x45/0x60 fs/namei.c:5780
+ do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
+ __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
+ do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf7f95fec
+Code: d2 74 05 c1 e8 0c 89 02 8b 5d fc 31 c0 c9 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 2e 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00 58 b8
+RSP: 002b:00000000ffb7b7c8 EFLAGS: 00000292
+ ORIG_RAX: 000000000000000a
+RAX: ffffffffffffffda RBX: 00000000ffb7b870 RCX: 0000000000008000
+RDX: 00000000f741aff4 RSI: 0000000000000000 RDI: 00000000ffb7c904
+RBP: 00000000ffb7b870 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	00 01                	add    %al,(%rcx)
+   2:	00 ff                	add    %bh,%bh
+   4:	74 1e                	je     0x24
+   6:	f6 c4 01             	test   $0x1,%ah
+   9:	74 44                	je     0x4f
+   b:	a9 00 00 00 0f       	test   $0xf000000,%eax
+  10:	75 3d                	jne    0x4f
+  12:	f7 c1 00 00 00 f0    	test   $0xf0000000,%ecx
+  18:	75 35                	jne    0x4f
+  1a:	8b 82 44 17 00 00    	mov    0x1744(%rdx),%eax
+  20:	85 c0                	test   %eax,%eax
+  22:	74 2b                	je     0x4f
+  24:	8b 82 18 17 00 00    	mov    0x1718(%rdx),%eax
+* 2a:	83 f8 02             	cmp    $0x2,%eax <-- trapping instruction
+  2d:	75 20                	jne    0x4f
+  2f:	48 8b 8a 20 17 00 00 	mov    0x1720(%rdx),%rcx
+  36:	8b 92 1c 17 00 00    	mov    0x171c(%rdx),%edx
+  3c:	48 8b 01             	mov    (%rcx),%rax
+  3f:	48                   	rex.W
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
