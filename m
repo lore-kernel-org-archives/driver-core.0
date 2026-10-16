@@ -1,210 +1,334 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012017.outbound.protection.outlook.com [52.101.43.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231982EACF2
-	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 08:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792140294; cv=fail; b=brLR79UvKdUnaWdtujlfTFLU3Q1gP8bDxJqX0GLgIIM8Zd0Z6fM+nBNVCX8/JobVDvlLCuQAIZaKknvH8SY76KBklfwhPmTciL3hKwbbNjd74+ERCgD3sUU1VCpzB7bqW8QWq77RrFiPeOy9QWxOg5n+r+1sQTfgdQoZWFAzcVs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792140294; c=relaxed/simple;
-	bh=ysJUznFCTCT8+Ee1SaSLloSVLG0bbxJ4NdjwRlUxMu0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kO0aCY10d+qg4Xx9kLi6qEgaFyM+sS/XeapRCs/iGYFdMQvY72l78OVFAZPvf5Olq6gauYhMi35lD9iuqiJq0drXg1E69Ux8O7Hy2EycVhMxR39qikXiqgGYzx/j4AzZ/TGwgssyYXDvJgmgW/Y/R6dvNU7OjDIB8bahvLI5Mn8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YyHCk+BK; arc=fail smtp.client-ip=52.101.43.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74ED64746BD
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 12:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792152755; cv=none; b=uDnUo1au0CRfJAutp2TvW89lu01nP8rxmlAziVwfL8q5TS6BwckRCYBP+Ii8wPtdPUID3Nb/PT9YOwM3jwpqBalUhD1A/h55wDKiCluqFasPxCtMONpi9EGknJzh3Phj/eCBnF4nsZ6XcwRTAvhd/xd9tgpIuzPoCLch+BfGtew=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792152755; c=relaxed/simple;
+	bh=FqH0bdEQPmPJbirwxtsgL2Ei9yv+vqHf2QbfzRnaG+Q=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KzfcaC0GaNYNjHVsvzlv39kmazigMlUmOqF2k7QSaqo6uFTUzRQshOOrJOC3uas5yHGelr0qTIi13+tN84ARdzzE1+C+lVwmw9FZWdSWNtKRb1QifMO9Yt57J7em+MQJPh6P8bQ903oEYq8/LMfgyhnRqzHtbRmFygprzUGmAeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qdy+Uupt; arc=none smtp.client-ip=209.85.128.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YyHCk+BK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LuBGJQ/ISbzuwoMgGYQ1vDpZNzygSS8lcupzS0oMuXRBtvPhi8T912+WuRQdcPsUo7odgbheOTU7UK3mvsdxSXYvr78FvK9lhIvxxbFmPoPrX8J53ful26+SaaK6CXV7m3wMpG0A2+r6yYUrccc/YNcUS809ICJ7xhkA7yhUQWJE8YMgUM9cyVZjMaPhQwiMv5MXvhYnRuticYs03UQL66CqGPjMdxc5pclUVf3WOlQ2N21nrqyDptQtpghJyn4sRIX4DXKX0VnPYSqDmt9YvDYRlYUKvMf3kxY96yxiKORcevbgrPnZwRJUhBJA13leOwRNJ/o9Sli0RqsdHhuaDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EueZt/DJnfcBw2ZFNVz533fnPN4CBFraG3GzBl1L1Dw=;
- b=iD8FxbmakN81xnOyfS41QQNyvP4c2oFWjzI0KyIqM+0wEqhNisMAuRL7Dr6cZ5tSu7rmQr9p3yvDbl7+HwUiY1gB4NGL3RecVaM0rn33Ml9ekWywQrzGz266aZ2k3elesM+BHHj26PVlWCo4EQSv35oRlmXvJEHotJpOJGTDR2GSGPuzh5f1gmJNXJad3hFLwHMdFoqv2apzu3HYG81UHFDH0uDEvMc9KSJDSJoaFH5r72TgjtBg/rdRn+mPOBJ6mzXVObBz/tTvjYKIM1YzP+5F8twtwtFRTwFaMbzk7m9a+7E1xr1qMCH5pyRd/GbTadqkws2j2BcWnRG3lNlIhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EueZt/DJnfcBw2ZFNVz533fnPN4CBFraG3GzBl1L1Dw=;
- b=YyHCk+BK8BdyVqTrVq710Th/QElpPkx58MOKGTx9Thn+ABxT8VQE17mMgkGypcWmCLCH/zmS4lmgvwj633qCl+QyQkDZEL7TroKjKUFeUEUwU76x+FlSr6E0hgWLnU5hlsBWKjMSx7XcdBw+DclEyAayT36e9IE6dMLbgFHLJIiS0Djatd3VnGGAA+nYsfv+mRRdkVcsWCDdZXuLkJOkZhJq13YO+MQ4OpyAwNAo5BaBRUQhRMeeIl/UgTooFrg3ZLaI9tTrGmKLj5Cl6tTyyeoz9CU5qwWAAJEREwvlmymoHAtdV36V5hwLJbCxPWgtwJudv3g7VCLMeccuuN2rCA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19)
- by PH7PR12MB6491.namprd12.prod.outlook.com (2603:10b6:510:1f4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Fri, 16 Oct
- 2026 08:44:47 +0000
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0]) by PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0%3]) with mapi id 15.21.0522.012; Fri, 16 Oct 2026
- 08:44:47 +0000
-From: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jeremy Kerr <jk@codeconstruct.com.au>,
-	Donald Shannon <donalds@nvidia.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Date: Fri, 16 Oct 2026 11:44:42 +0300
-Message-ID: <20261016084443.1972351-1-aambrozewicz@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026101355-species-glance-9ff8@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com> <2026101355-species-glance-9ff8@gregkh>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TLZP290CA0003.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:9::17) To PH7PR12MB5974.namprd12.prod.outlook.com
- (2603:10b6:510:1d9::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qdy+Uupt"
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a027f2e364so43986345e9.3
+        for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 05:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792152752; x=1792757552; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YNQ5s//J8IJmFZANY5I3f9Gqs72fdd1AkgujEl+yjSY=;
+        b=qdy+UuptrF+Xs1yTZda9TArcls7GD8V4z5cKCbiQckj6NbrQunKUoqr7CCbrb++6b8
+         gTGDhu7OP2WaCL5loRopiQaR6PktEHUtVX7bKWU6fPnn7q4tf+vEu6qkTc74GZD3T2z6
+         +gmDRVfTYv4Tu6g8Jy4IEH9gPQIxsd2EAR1iECm5i98LjUGfZjy7R5mxS/jkR+vnOMeV
+         2ahjvGD+flTLkC22LPWl4FzisVZrDm5ZaegWTwWkwGXtP39xP8yIJDK5sCQrkT6pUzeT
+         UkZBm4YaXPsgvNAt9kvyCEQ+nsbg3D6RREUbZawjUsj3D/j9Cl+Nj8wWL8Iwe1yiHIKT
+         ytbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792152752; x=1792757552;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YNQ5s//J8IJmFZANY5I3f9Gqs72fdd1AkgujEl+yjSY=;
+        b=OguigFC4+h2kRgT/33DK/eCR61oN6kFBMotIAVNT0E+fZZCkGg41a1HHgFTf9S8RcZ
+         tmx/JRxq+UGOkQBolzw3lEQfqkWk6RNoYOQQJsK5rxrv61MTeJqJhMfikAkJVAY5lsmt
+         FKmYDkcPxC4P1/XXdo4TSSvdurXSEhWNXqh6BnfiVdxmOhj7Gfs8u1UreCwYaQNKts7z
+         QqLJQwlfF5prfLXKtj9OXLOWiJMM0BYJX2kKXvDPkEQ/bCptEoDE2KgwmNi32UwDtadV
+         TWksUR4tj+ORqcKb3A9u9JoP9ttczr0OwyadCSF4gP3tcIiG6/QIv5ZSY740AcN4s6sP
+         wAmQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzNh9DjdVoH7Y2rVgELcx+tZpj+Km/hXYcC3TZsMnDGCJ9RNwaQHKyrctrsWwvQJ16Z/HVkR9GY2D8w9A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYK2n0322NAWxyLMv7H/39QmGV4IQeY2rWbH9BNxc1I7iALaBKUH
+	v6AY5cf4mC3L0ZBp5ypV0MFLl1Rb3yW+YRKR460f0tGKFOCBoHRtEC7wP595yv4ciiOLgOqcZ+v
+	ZTOTx9mJo1GI2TCE8kQ==
+X-Received: from wmbjr14.prod.google.com ([2002:a05:600c:560e:b0:4a1:d05f:3f13])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3488:b0:49f:e941:d6e with SMTP id 5b1f17b1804b1-4a18e4c05d9mr443132905e9.21.1792152751449;
+ Fri, 16 Oct 2026 05:12:31 -0700 (PDT)
+Date: Fri, 16 Oct 2026 12:12:29 +0000
+In-Reply-To: <20261005133857.1572243-2-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5974:EE_|PH7PR12MB6491:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6fc6f89c-1e77-41ad-6200-08df2b61bba1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|6133799003|22082099003|10067099003|3023799007|18002099003|11063799006|4143699003|5023799004|261009223027099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	1Wjg1cMo1Ikfy/UkJN8iE6JliVgTmXfqXM1XzUO3aL+6thOt7HJN1e/+LPfh3YP5SW2l4/aZ55l9Ae4in4YkDrFn2ypHZd25PL0NJudYxgFMnIJ09O1r8SoVb+WvBZDli0HsyycpOVU7m/pb1txkMpY4bVz4mrHQYHO0xm7OZpGPkiJbLI+ZQ5BkmqMKsEqgmxCd3hUGmnZujpxKTHDDZLhfA9htyHETcUaSbQ7154MGDZzToVu1v8yOcoHFYiXngAFnujQort6Ld68WkgAF4DgHGoa87OVZMGdmoNk83OUErr1/6Gq9wse2E3kknIBSKpIheDf0HKhX66m0/1YF/cGufkYfEV4BE3SlxSCUnzFEMGwTispqXNFs0YjXI7RuyVtadLU/NlNNLdjmpYKm8uGNDZ2tvYOh8yQqvumE0zuetInFYxpERDR9oTZcHHTlB9zuPAEkta9/YWaOChu4VnUH5XSgRtKPKA/hqLNY2RoTsOORA29V7C3pwXyamvmy8SELN4hAV1/XWRKRV2xzFc/RKugi95meWaqlHaNjthC8CoIMQTmlqeNg+cbQPdI5uiuMDGEccLBcd+4jw3nVpPPrttzyTB81wGIen/tQKFpZUzrfHg4I5bidhayAY0/e8dKL29/WQouemBjqPxvoA1NuUcXRp3GkvQIeTcK8rZQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5974.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(6133799003)(22082099003)(10067099003)(3023799007)(18002099003)(11063799006)(4143699003)(5023799004)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3zXTc0GsMQEF2TSmDxZh5gX0rIshgh8lqRlC0hrQXUcFjUE6bS33mBrrBHLa?=
- =?us-ascii?Q?hwznllBNoV0KjLONxNaJBj6vPhCBZwMoHMRmxITBzclF0U1YXX15wEnJzkkm?=
- =?us-ascii?Q?aPsI7T1gvpvG2NrWHX3BSP7V+tT1v6rX1s/aIhhOKTQXzIUTRxSo8so+9HNs?=
- =?us-ascii?Q?clqluMR4Zfi8AhpugIbf/ryNO4jkQD3VGm3z5tdtWIv1R6hE6KX3XxSdT2IP?=
- =?us-ascii?Q?d0iLB0CXhCPwZy0KbCwodcje3w4AVZuOdHvJWPp4SyBeKQ/cXU4DeziQpTbH?=
- =?us-ascii?Q?Gqx74iMHhYR7WnX88H11DCExfqwxzFXZ0smY01+Aq2J5mSWFMHDYm+E35tlz?=
- =?us-ascii?Q?KWbHrUnpjFMJKPoIvOyieZHYpw9K9DIrGpglfxPDlfGpZHBPOk6SXZN/ZNYy?=
- =?us-ascii?Q?7i7Umy8xnkkmRz2tttsoiM9fOrhTNqmbMPzZDoh9vJprR8WWtO43DZ32bkQd?=
- =?us-ascii?Q?PMpy444t/xVNCeYG7z7xtzrZ8E7ur+WkoIklQQvsVMJ5mbV0yPj/sd3B4uHw?=
- =?us-ascii?Q?+/IHkhUSzYhshg/Q+3vHMDHnfClKqJ06kJwbHR0PgZVWiUgurTOzU8hKToS1?=
- =?us-ascii?Q?fjjGpt98QCNs3v0cQZDqCE0Ep/qEohsZx/dzZcGAtgu9c2z3aOkr3F6dom6O?=
- =?us-ascii?Q?h5MpioZQbsXrIul4D1xMm27hsY0SLpnhEehTaF/TSaUwOYCe98scZy9yLuC4?=
- =?us-ascii?Q?/A7203loenhXZvaWfKOJ81Cf3fz4pA4FcmtgF2HdzngxcIJxGSUp9PlGh3LY?=
- =?us-ascii?Q?VQCTPjDm0XOU/9LzWHAV/uBItVhM5BKDxwTh09UJnUCVxx9JDyluXb4sYTRB?=
- =?us-ascii?Q?JOKD/WHSnF53SEhtqvzAyM9EDrR9N7X+nib3n+oSKSO3SKStVSKvs/KzR+gl?=
- =?us-ascii?Q?b/bEaQF66l73WXuGUwvwb78U799mQIolzbOotEaykyfuewHjSEkstTnHNg7C?=
- =?us-ascii?Q?/lBr8hEOqmDcrNVPl913HasyiQTtiSyqOTvJB1ZzoqHFZb30ImxBdlU54w8T?=
- =?us-ascii?Q?/IPVU0fgt2AQG79hvNf07fOvxYlgb2+aecERUwg8eDWc7u/DWCBOZ2VFbKIC?=
- =?us-ascii?Q?m7DCwpYUUsuQHbODgpGYFIYHEjHU7efjCCfxQ4NGxZJngbIpDsRILLu93tk+?=
- =?us-ascii?Q?Xqd8MONIbYvA4UZ8Erh+XC5aCSdeZYi1OQul5CZ79Hs9g6mMiNEa7s1RVWN6?=
- =?us-ascii?Q?ofohGSZ9C3tiHIp25D79zPItDStUU0KDqRVE/06UbK6lzZO00R2RfBvQy8fU?=
- =?us-ascii?Q?Jf4ohu6HwHLHqDIYcjq+stxKeR5T/5pQRfkb2dlzqGVzB2Pp1aWZ3lDr0uES?=
- =?us-ascii?Q?mmQoflcMnMHQBiwpj9TEqCkFWLdil30mmaMEal4F0t0MV4kxnprJqKrfC1J8?=
- =?us-ascii?Q?pgCouzzM23b4ald49WHtD3ycsVIyIRJEtvE8O94ZWTBg6J86zkcbES0gKsYc?=
- =?us-ascii?Q?LtT9hU07H2Yg8sf9JJ04jkiK7eR0z4Pj+9LPV4m1ktzsOzGFjA+TY9qgBYEf?=
- =?us-ascii?Q?3yU/hpvzWmwPNbsODSXzPxt+p9bjq/SEshhXz9ICv+MC9qyOs8afnxsbBmuu?=
- =?us-ascii?Q?Yue9GDtaOj7X9pGEJ2TkcSt2HdGW55QMQjP2YXp4lyoLsEFT+IcSOzv00zEn?=
- =?us-ascii?Q?VwMYEWXyH6zIKRhXZX3CBGQHoLucrf93kbeSs2YmGL0AmjdigR6NRL2I+lWd?=
- =?us-ascii?Q?L/OZGH+xVQCxzAQHK4Nll0pcgF73SHVb0BG5ChX6hj/5WoVm+QZaGqkGM8dc?=
- =?us-ascii?Q?kTu1SGmROw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fc6f89c-1e77-41ad-6200-08df2b61bba1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5974.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 08:44:47.0855
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XcasrPEVX5r/lPDTX9eVkuQM2OPG4jAWmoUfWgQ6znUyIrq6uqihHYwa6hflfndqI2NAhLN+tior9kvEliI3rA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6491
+Mime-Version: 1.0
+References: <20261005133857.1572243-1-beata.michalska@arm.com> <20261005133857.1572243-2-beata.michalska@arm.com>
+X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
+Message-ID: <20261016121230.3724323-1-aliceryhl@google.com>
+Subject: Re: [PATCH v4 1/3] rust: add runtime PM support
+From: Alice Ryhl <aliceryhl@google.com>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, ojeda@kernel.org, dakr@kernel.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, boqun@kernel.org, 
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
+	a.hindborg@kernel.org, tmgross@umich.edu, daniel.almeida@collabora.com, 
+	boris.brezillon@collabora.com, work@onurozkan.dev, samitolvanen@google.com, 
+	acourbot@nvidia.com, rust-for-linux@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Greg,
+On Mon, Oct 05, 2026 at 03:37:39PM +0200, Beata Michalska wrote:
+> diff --git a/drivers/base/base.h b/drivers/base/base.h
+> index a5b7abc10ff0..538cbb104254 100644
+> --- a/drivers/base/base.h
+> +++ b/drivers/base/base.h
+> @@ -119,6 +119,9 @@ struct device_private {
+>  	const struct device_driver *async_driver;
+>  	char *deferred_probe_reason;
+>  	struct device *device;
+> +#ifdef CONFIG_RUST
+> +	void *rust_private;
+> +#endif
+>  	u8 dead:1;
+>  };
 
-Sorry for answering in pieces. The DT question came up again in
-Krzysztof's review of the bindings, so I'd like to answer that part on
-its own. Jeremy asked much the same from the other side, why LSTP
-needs static configuration. The rest of your review (one function per
-interface, greybus) will follow once we have aligned internally, as I
-wrote earlier.
+`scripts/kernel-doc -none drivers/base/base.h` warns that `rust_private` is
+not described in the kernel-doc comment for `struct device_private`.
 
-On Tue, Oct 13, 2026 at 01:37:11PM +0200, Greg Kroah-Hartman wrote:
-> Why would a USB device have anything to do with device tree?
+> +/// Device's runtime power management status
+> +#[repr(i32)]
+> +pub enum RuntimePMState {
+> +    /// Runtime PM has not been initialized for this device yet.
+> +    Unknown = bindings::rpm_status_RPM_INVALID,
+> +    /// The device is expected to be runtime active and in its normal operating state
+> +    Resumed = bindings::rpm_status_RPM_ACTIVE,
+> +    /// The device is expected to be suspended, unavailable for normal operations
+> +    Suspended = bindings::rpm_status_RPM_SUSPENDED,
+> +}
 
-[...]
+Is `RuntimePMState::Unknown` needed? The only place that takes
+`RuntimePMState` is `PMContext::enable()`, which rejects `Unknown` with
+`EINVAL`. Removing `Unknown` would avoid having to handle an invalid state in
+`enable()`.
 
-> USB devices do not have DT bindings.  It's a dynamic bus, with
-> self-describing devices, don't make the mistake of thinking this is
-> giong to work.
+> +impl<'a> ResumeScope<'a> {
+...
+> +    fn release_inner(&self) -> Result {
+> +        let scope_mode = self.0.mode & !ModeFlag::Idle;
+> +
+> +        match self.0.mode {
+> +            mode if mode.contains(ModeFlag::Idle) => Request::idle(
+> +                self.0.dev,
+> +                scope_mode & (ModeFlag::Async | ModeFlag::Nowait),
+> +            ),
+> +            mode if mode.contains(ModeFlag::Auto) => {
+> +                Request::mark_last_busy(self.0.dev);
+> +                Request::suspend(self.0.dev, scope_mode)
+> +            }
+> +            _ => Request::suspend(self.0.dev, scope_mode),
+> +        }
+> +    }
+...
+> +impl<'a> AwakeScope<'a> {
+> +    fn new(dev: &'a device::Device<device::Bound>, mode: Mode) -> Result<Self> {
+> +        if !mode.contains(ModeFlag::Acquire) {
+> +            return Err(EINVAL);
+> +        }
+> +        // ModeFlag::Idle is internal so strip it off before passing further
+> +        match Request::resume(dev, mode & !ModeFlag::Idle) {
+> +            Ok(()) => {}
+> +            // For async/nowait requests, `EINPROGRESS` means the resume is in
+> +            // flight and the usage reference already keeps the device active.
+> +            Err(e) if e == EINPROGRESS && mode.contains_any(ModeFlag::Async | ModeFlag::Nowait) => {
+> +            }
+> +            Err(e) => {
+> +                Request::put_noidle(dev);
+> +                return Err(e);
+> +            }
+> +        }
+> +
+> +        Ok(Self(Scope::<Awake> {
+> +            dev,
+> +            mode,
+> +            _tag: PhantomData,
+> +        }))
+> +    }
+> +
+> +    fn release_inner(&self) -> Result {
+> +        let scope_mode = self.0.mode & !ModeFlag::Idle;
+> +        match self.0.mode {
+> +            mode if mode.contains(ModeFlag::Idle) => Request::idle(self.0.dev, scope_mode),
 
-The device itself is self-describing: the driver reads the channel
-table from it, and the channels work without any firmware description.
-What DT (or ACPI on host systems) adds is the board wiring behind the
-channels, which the device cannot describe, the same as for any other
-I2C or GPIO controller:
+In `ResumeScope::release_inner()`, the `ModeFlag::Idle` arm masks out
+`ModeFlag::Auto` (`scope_mode & (ModeFlag::Async | ModeFlag::Nowait)`),
+whereas here in `AwakeScope::release_inner()` it passes `scope_mode` unmasked.
+Should this also strip `ModeFlag::Auto`?
 
-- I2C channels carry devices the kernel has to instantiate: PMBus
-  voltage regulator controllers, EEPROMs, GPIO expanders. Userspace can
-  add a client with new_device, but only with a name and an address, no
-  interrupt, GPIO or other properties, and only on a bus number that
-  changes with USB enumeration. It would also have to repeat that every
-  time the adapter re-enumerates; the kernel does it on its own when the
-  channel appears.
+Also, in `AwakeScope::new()`, when `ModeFlag::Nowait` is set without
+`ModeFlag::Async`, `__pm_runtime_resume()` returns `-EINPROGRESS` if a
+concurrent suspend or resume is in progress without queueing an async resume.
+Swallowing `EINPROGRESS` when only `Nowait` is set means `get()` returns
+`Ok(AwakeScope)` even though the device is not resumed (and might be
+suspending). Should `EINPROGRESS` only be treated as `Ok(())` for
+`ModeFlag::Async`?
 
-- GPIO lines get board-specific names from gpio-line-names. The adapter
-  firmware reports generic pin names, the same firmware is used on
-  different boards, and BMC userspace (power control, GPIO monitoring)
-  looks lines up by name.
+> +impl<'a> RetainScope<'a> {
+...
+> +    fn release_inner(&self) {
+> +        Request::put_noidle(self.0.dev);
+> +    }
 
-- A GPIO channel can be the interrupt controller, or the GPIO provider,
-  for another device on the board. Such references between devices have
-  no userspace interface at all.
+In the v3 discussion with Sami [1], you agreed that `RetainScope` should call
+`put` rather than `put_noidle` on release so that dropping the last reference
+triggers idle/suspend handling, looks like this was missed in v4.
 
-On those boards the adapter is part of the board, not something a user
-plugs in, which is the case the generic USB device binding
-(Documentation/devicetree/bindings/usb/usb-device.yaml) covers; the
-LSTP nodes sit below that node.
+[1]: https://lore.kernel.org/r/apaYNvQSSUCkMTjn@arm.com
 
-The DT part probably deserves its own thread with the DT maintainers
-rather than being buried in this one. The RFC posted with the series
-[1] has the open DT questions; I suggest we continue there, or in a new
-thread if you prefer.
+> +#[cfg(not(CONFIG_PM))]
+> +impl Request {
+> +    #[inline]
+> +    fn active(_dev: &device::Device<device::Bound>) -> bool {
+> +        false
+> +    }
 
-[1] https://lore.kernel.org/r/20261012-lstp-dt-rfc-v1-aambrozewicz@nvidia.com
+`include/linux/pm_runtime.h` already provides `!CONFIG_PM` stub
+implementations for all of these functions. If you add `#ifndef CONFIG_PM`
+helpers in `rust/helpers/pm_runtime.c` for the functions that are `extern`
+under `CONFIG_PM` and `static inline` under `!CONFIG_PM`, you can drop the
+`#[cfg(not(CONFIG_PM))]` `Request` block and the `#[cfg(CONFIG_PM)]` guards in
+`apply_config()` altogether.
 
-Thanks,
-Adrian
+> +struct PMPayload<P> {
+> +    in_flight: AtomicFlag,
+> +    inner: UnsafeCell<Option<P>>,
+> +}
+
+Thanks for removing `Option` from the public `PMOps` trait methods! You can
+still use `ManuallyDrop<P>` instead of `Option<P>` inside `PMPayload` too,
+which avoids the extra discriminant and the unreachable `None` check in
+`transition()`.
+
+> +    /// Enable runtime PM
+> +    pub fn enable(&self, state: RuntimePMState) -> Result {
+> +        self.inner.state
+> +            .cmpxchg(
+> +                PMContextState::Disabled,
+> +                PMContextState::Enabled,
+> +                ordering::Full
+> +            )
+> +            .map_err(|old| match old {
+> +                PMContextState::Dead => ENODEV,
+> +                PMContextState::Enabled => EBUSY,
+> +                _ => EINVAL, // unreachable
+> +            })?;
+> +
+> +        Self::apply_config(self.inner.dev, &self.inner.configs);
+> +
+> +        match state {
+> +            RuntimePMState::Resumed => Request::mark_active(self.inner.dev),
+> +            RuntimePMState::Suspended => Request::mark_suspended(self.inner.dev),
+> +            _ => Err(EINVAL),
+> +        }.inspect_err(|_| {
+> +            self.inner.state.store(PMContextState::Disabled, ordering::Release);
+> +        })?;
+> +
+> +        Request::runtime_enable(self.inner.dev);
+> +        Ok(())
+> +    }
+
+If `match state` fails (for instance if `mark_active()` or `mark_suspended()`
+returns an error), `Self::apply_config()` has already run and its side effects
+(such as `pm_runtime_irq_safe()` incrementing the parent's usage count or
+`pm_runtime_no_callbacks()`) are not undone. Could `mark_active()` /
+`mark_suspended()` be called before `apply_config()`?
+
+> +    /// Runs a closure while holding a `ResumeScope`.
+> +    pub fn with_resume<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
+> +        if profile.0.contains(ModeFlag::Async) {
+> +            return Err(EINVAL);
+> +        }
+> +        let _scope = self.resume(profile)?;
+> +        f()
+> +    }
+> +    /// Runs a closure while holding an `AwakeScope`.
+> +    pub fn with_get<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
+> +        if profile.0.contains_any(ModeFlag::Async | ModeFlag::Nowait) {
+> +            return Err(EINVAL);
+> +        }
+> +        let _scope = self.get(profile)?;
+> +        f()
+> +    }
+
+Should `with_resume()` also reject `ModeFlag::Nowait` like `with_get()` does?
+
+> +    fn apply_config(dev: &device::Device<device::Bound>, opts: &[PMConfig]) {
+> +        #[cfg(not(CONFIG_PM))]
+> +        let _ = opts;
+> +        let _ = dev;
+
+`let _ = dev;` is outside `#[cfg(not(CONFIG_PM))]` here (though as noted
+above, using C helpers for `!CONFIG_PM` removes the need for `#[cfg]` here
+entirely).
+
+> +#[repr(C)]
+> +#[pin_data]
+> +struct RegistrationData<'a, T: PMOps> {
+> +    #[pin]
+> +    data: PMPayload<T::RuntimePayloadType>,
+> +    _marker: PhantomData<&'a mut T>,
+> +}
+
+Does `RegistrationData` need `#[pin_data]`? `PMPayload` moves the payload in
+and out by value and doesn't use structural pinning, so a plain `KBox::new()`
+should suffice.
+
+> +impl<'a, T: PMOps> Registration<'a, T> {
+> +    /// Creates a runtime PM registration for `dev`.
+> +    ///
+> +    /// The provided profiles and configuration are stored in the associated
+> +    /// [`PMContext`]. The `payload` is stored as a Registration data
+> +    /// and is used to service PM transitions.
+> +    ///
+> +    /// The device must use the callback represented by `ops`, generated
+> +    /// for the same bus adapter and driver pair `(D, T)`.
+> +    pub fn new(
+> +        dev: &'a device::Device<device::Core<'_>>,
+> +        ops: &'static DevPMOps<T>,
+> +        profiles: Option<KVec<PMProfile>>,
+> +        configs: Option<KVec<PMConfig>>,
+> +        payload: T::RuntimePayloadType,
+> +    ) -> Result<Self> {
+...
+> +        unsafe {
+> +            let ptr = (*(*dev.as_raw()).p).rust_private;
+> +            if !ptr.is_null() {
+> +                return Err(EBUSY);
+> +            }
+> +            (*(*dev.as_raw()).p).rust_private = payload.into_foreign();
+> +        }
+> +
+> +        Ok(Self {
+> +            ctx: PMContext { inner: inner_ctx },
+> +        })
+> +    }
+
+What happens if a driver calls `core::mem::forget(pm_reg)` (which is safe in
+Rust)?
+
+If `Registration::drop` never runs when the driver unbinds:
+1. Runtime PM remains enabled on the device (and `pm_runtime_reinit()` in
+   `device_unbind_cleanup()` is a no-op while runtime PM is enabled).
+2. `rust_private` remains non-null, pointing to `RegistrationData<'a, T>`
+   after `'a` has ended and after the device has unbound from `T`.
+
+Other registrations tied to `'bound` (such as `drm::Registration::new()` and
+`irq::Registration::new()`) make `Registration::new()` an `unsafe fn` with the
+safety requirement that the caller must not `mem::forget()` the returned
+`Registration` or otherwise prevent its `Drop` implementation from running
+before `'a` ends. Doing the same here would also allow `RuntimePayloadType<'a>`
+to be non-`'static`, so drivers can hold `'bound`-scoped resources like
+`IoMem<'bound>` in the runtime PM payload.
+
+Also, there are a few leftover `#[allow(unused)]` attributes in this file (on
+`mark_active`, `mark_suspended`, `runtime_resume_callback`,
+`runtime_suspend_callback`, `DevPMOps`, and `PayloadGuard`) that can be
+removed.
+
+Alice
