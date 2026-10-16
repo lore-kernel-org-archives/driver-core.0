@@ -1,332 +1,119 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA46939526F
-	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 02:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2691141DDEC
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 07:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792118740; cv=none; b=ArJl/Ou5Xl3lVgD122co3XT5ZOo9ruVnpjhn7Il5X1JVjklG76AwlqKVYWBeOWETN+VbpSqnqZdHU58QssCZ1iyZryDvzGTI8gpdMjmLgA/KZ2EHsb6yVQiSyQ+mxj6ITfhB8goHJ9dVBxYDDyWaVmG8oOQuHBPk48+VH9pgDY0=
+	t=1792137272; cv=none; b=JmyI8/FhacUNjEvtW2kccT4Ww4j1DqRqLz20WmX/R20nvzTS4OrG/rr75955A+Y3/uzkh7XU0LTw7BNEVDt0vLbtE0L68xcetFlYRaAzBy+h+5ZcUCeh5pWO07F6JzeX+JoHXgLvzxSI2mchREvvutlb6/UvCZNeacXbkv/9hVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792118740; c=relaxed/simple;
-	bh=IE3vhzJCpcsuRVqgAbpm2icf0SaJyRmEDDrxW0o0f8E=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bmNbkJdpu1k1ia6c1MnjaWYVfoPmi65V2tGcuvPfLM5t3CbauhYvgSr3QujeJI14/9AChrTp5Y3/Fu9geVPmUxrKqXu0H3reMt8d/rb2wOvYlKkcKKjpcJAJba1vfjdUT0nM20OwmR+hMSdlzP9EKvhFdMTEajS2UfzO8bk7Zts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b28d7ffab1so955864b6e.1
-        for <driver-core@lists.linux.dev>; Thu, 15 Oct 2026 19:45:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792118737; x=1792723537;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XX3/oYkLjmdjSqbDcP/sp/YOpYFp+mZ+ZxYseY0tPWg=;
-        b=EPLrGWhz67k/qsRQIUWb0qimXQ91RlQd2Ri0y76nZeUlmbN9Y8JaJw/Dn5hrmu+hgP
-         H2nUhEAeuCAmrgRa4PutnwPxe6DO+bgdoqNaN1UmLpLLsa6vdPEwO0Bvct/n8PJPHnLI
-         84R26HAHbgq7W5qach9yJfK+uBXfpiVCRMzsXUDOur6BZT+80fYivIFqHtKtRWBUW2eS
-         C3KuLDWnOs4HvDDHCDUHE1oKgIGXOu1+gOVCwgfM9IY9sTsVs0CDn8nTIUsMSYt88cbw
-         A7zSb+1LjJxpHW7/RxFcAoG9ahD+XzC/C3HmAtJxKgti/YzzP6TxWtMjE4Xa26MqPKKx
-         Zxgg==
-X-Forwarded-Encrypted: i=1; AKwUvBw/nrJMaf8CxdNSgZsq1IDHB9jqgzLmFDEFUyJ/HC9e4AvD09hqJvK+ACGeJRsSs3mzT9nW6VtAfx9Igw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIuLKWfjk2sZQTKo2Tzw/OQILUvzdkSDUHIwOqPoqFqll/GIcRA
-	KAKaZzsKQGN27Et6t3ylaF8QA4T5CKFPL5JmgraklIzT8qB2l4UgXKh2rKgSCWEgYul/+SLFX89
-	p/4A2Mm4m8fQdLdlmTeGOcGmZoaAC0Erx1gtcG/oyA4gB7PLQm27HYEUd/mE=
+	s=arc-20240116; t=1792137272; c=relaxed/simple;
+	bh=MbBfUsCilCHKERIc9E+80nmkcIhxQQObmvJ0htpNsTc=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Phhfjh+VxzaLrbw5H0B0Y0blbFBt+ealnrr9kjYekoMAEmd9jMZ49O+EcQj/deSEt4nypRIBdrfncSeQc2KRWMQN0/YcbKUr1KSdK1+OTXsfS2dve9PY/JHWraOdF4xsTwusRhkY3xSFJB0T51idTEB6SIAmCO7qdI/Gtx1PQvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A2XlDZta; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A2XlDZta"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDE3A1F000C7
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 07:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792137270;
+	bh=N0ALKBJDFvX2lGNpLUdzy/UPPThh6/5dksoMSLXs7Eo=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=A2XlDZtaMFzI7Uo/VMGIzfXly0qw9q8Z4GA1d+z1uTro297HoMcdHIjOFKtoUtUT9
+	 +FDDMV0qJmvSGL5CKOSI/WU3t1itSs6Z2Dy8CDC+NuwVYnv2U5AtP49cYhM5ClteEb
+	 4V/kTOLJWES+hxZY9vDCQ+q/m4iaTGpxBIHCnvG6Fkl1ptGUPPP1oS+ZBrM2BMlORK
+	 Rz6qChRVSVuO1Eb53/V149I4R5eZSOvinPbo44DZSLBeQOAgWAWi1tsSUXu+Q9UWaN
+	 xgOsS5QglB+klKlEV5tYLrQ4Qq6BZWCKe5OPjG684W01Xs8sGyzdYf25CbpmH9LCh0
+	 Y4KMLLHRf4X7g==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5be47aa555cso1055196e87.3
+        for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 00:54:30 -0700 (PDT)
+X-Gm-Message-State: AFq9FYL32u0vGEbka9QCGaRJR3IXJjYSavlj3x5/wXMgIoVJMBStKz+a
+	KP10kCdIHfTHCGBM6c0ceH4TfWX1MKTUSCVbz6J51QT/sciW4WNrCJOWKXQgol7vShgRw7/sARZ
+	CmQvT1qlkBkDBwvhVqpf7SLP8CfDENGx9Tu83OZx1ow==
+X-Received: by 2002:a05:6512:230c:b0:5bc:b0b9:f457 with SMTP id
+ 2adb3069b0e04-5bcde8c0f28mr6852905e87.47.1792137269569; Fri, 16 Oct 2026
+ 00:54:29 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Oct 2026 03:54:28 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Oct 2026 03:54:28 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20261015-swnode-dev-notify-balance-v1-2-9e7537bd2869@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:e85:b0:4ea:935e:43d6 with SMTP id
- 5614622812f47-5370270df29mr1157162b6e.45.1792118737052; Thu, 15 Oct 2026
- 19:45:37 -0700 (PDT)
-Date: Thu, 15 Oct 2026 19:45:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad18fd1.7514cce4.1ece07.0120.GAE@google.com>
-Subject: [syzbot] [pm?] BUG: sleeping function called from invalid context in __synchronize_srcu
-From: syzbot <syzbot+136ee4ebfb4a81dab91b@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+References: <20261015-swnode-dev-notify-balance-v1-0-9e7537bd2869@oss.qualcomm.com>
+ <20261015-swnode-dev-notify-balance-v1-2-9e7537bd2869@oss.qualcomm.com>
+Date: Fri, 16 Oct 2026 03:54:28 -0400
+X-Gmail-Original-Message-ID: <CAMRc=Mes+Te83C6FLcu3dxd_Zg_6Dhse9L3NBUv3AO2y=EdgwA@mail.gmail.com>
+X-Gm-Features: AclHuK_KYi8ylvam1RpRCZqEhbR5LSYZ3D1rWNW5lTEPb3n50KFRl5fQHa0GQLs
+Message-ID: <CAMRc=Mes+Te83C6FLcu3dxd_Zg_6Dhse9L3NBUv3AO2y=EdgwA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] driver core: provide new device flag - DEV_FLAG_SWNODE_NOTIFIER
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-acpi@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Eduardo Ruiz Duarte <toorandom@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Thu, 15 Oct 2026 16:46:23 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> Extend the set of device flags with one that indicates to driver core
+> that this device was passed as argument to software_node_notify() and
+> took a reference to this device's software node.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  include/linux/device.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index c8de370d877f978dd4a160f0094812a1d8441078..b8f12d053cd704b12febc41035aaa44afe286351 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -599,6 +599,10 @@ struct device_physical_location {
+>   *		ancestor device.
+>   * @DEV_FLAG_OFFLINE_DISABLED: If set, the device is permanently online.
+>   * @DEV_FLAG_OFFLINE: Set after successful invocation of bus type's .offline().
+> + * @DEV_FLAG_SWNODE_NOTIFIER: Set if software_node_notify() was called for this
 
-syzbot found the following issue on:
+Ugh, sashiko pointed out a typo in the doc. I'll wait with resending until I
+get some reviews on this.
 
-HEAD commit:    0fcb05b72344 Merge tag 'libcrypto-fixes-for-linus' of git:..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13f2ce8e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=44ac479246d4559b
-dashboard link: https://syzkaller.appspot.com/bug?extid=136ee4ebfb4a81dab91b
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
+Bart
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-0fcb05b7.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7de97b060425/vmlinux-0fcb05b7.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/fe04791ba0c2/bzImage-0fcb05b7.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+136ee4ebfb4a81dab91b@syzkaller.appspotmail.com
-
-BUG: sleeping function called from invalid context at kernel/workqueue.c:4561
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 13343, name: syz-executor
-preempt_count: 100, expected: 0
-RCU nest depth: 1, expected: 0
-locks held by syz-executor/13343: 3, last CPU#0:
- #0: ffff888026340460 (sb_writers#5){.+.+}-{0:0}, at: filename_unlinkat+0x1ad/0x730 fs/namei.c:5725
- #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: find_lock_entries+0x10f/0x1190 mm/filemap.c:2188
- #2: ffffc90000007c98 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11d/0x5f0 kernel/time/timer.c:1745
-Preemption disabled at:
-[<ffffffff81c9ef13>] softirq_handle_begin kernel/softirq.c:486 [inline]
-[<ffffffff81c9ef13>] handle_softirqs+0xf3/0x9d0 kernel/softirq.c:621
-CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-=============================
-WARNING: suspicious RCU usage
-syzkaller #0 Tainted: G        W    L     
------------------------------
-kernel/rcu/srcutree.c:1464 Illegal synchronize_srcu() in same-type SRCU (or in RCU) read-side critical section!
-
-other info that might help us debug this:
-
-
-rcu_scheduler_active = 2, debug_locks = 1
-locks held by syz-executor/13343: 3, last CPU#0:
- #0: 
-ffff888026340460
- (
-sb_writers
-#5
-){.+.+}-{0:0}
-, at: filename_unlinkat+0x1ad/0x730 fs/namei.c:5725
- #1: 
-ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
-ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
-ffffffff8fdec3e0 (rcu_read_lock){....}-{1:3}, at: find_lock_entries+0x10f/0x1190 mm/filemap.c:2188
- #2: ffffc90000007c98 ((&vub300->inactivity_timer)){+.-.}-{0:0}, at: call_timer_fn+0x11d/0x5f0 kernel/time/timer.c:1745
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
-Tainted: [W]=WARN, [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- lockdep_rcu_suspicious.cold+0x4f/0xb2 kernel/locking/lockdep.c:6972
- __synchronize_srcu+0x29d/0x300 kernel/rcu/srcutree.c:1464
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2640
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3884
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0x16a/0x210 kernel/softirq.c:758
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:213
-Code: 00 01 00 ff 74 1e f6 c4 01 74 44 a9 00 00 00 0f 75 3d f7 c1 00 00 00 f0 75 35 8b 82 44 17 00 00 85 c0 74 2b 8b 82 18 17 00 00 <83> f8 02 75 20 48 8b 8a 20 17 00 00 8b 92 1c 17 00 00 48 8b 01 48
-RSP: 0000:ffffc9002334f5d8 EFLAGS: 00000246
-RAX: 0000000000000000 RBX: ffffc9002334f6c0 RCX: 0000000000000000
-RDX: ffff888073702580 RSI: ffffffff8bd06124 RDI: ffff888073702580
-RBP: 0000000000002a3b R08: 0000000000000006 R09: 0000000000002a3b
-R10: fffffffffffffffe R11: 0000000000000001 R12: fffffffffffffffe
-R13: ffff888050b7a680 R14: 0000000000000000 R15: dffffc0000000000
- xas_find+0xc4/0x8e0 lib/xarray.c:1408
- find_get_entry mm/filemap.c:2085 [inline]
- find_lock_entries+0x176/0x1190 mm/filemap.c:2189
- shmem_undo_range+0x212/0x1570 mm/shmem.c:1143
- shmem_truncate_range mm/shmem.c:1289 [inline]
- shmem_evict_inode+0x3b1/0xca0 mm/shmem.c:1420
- evict+0x3c2/0xad0 fs/inode.c:822
- iput_final fs/inode.c:2014 [inline]
- iput.part.0+0x989/0x1050 fs/inode.c:2063
- iput+0x35/0x40 fs/inode.c:2029
- filename_unlinkat+0x466/0x730 fs/namei.c:5752
- __do_sys_unlink fs/namei.c:5783 [inline]
- __se_sys_unlink fs/namei.c:5780 [inline]
- __ia32_sys_unlink+0x45/0x60 fs/namei.c:5780
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf7f95fec
-Code: d2 74 05 c1 e8 0c 89 02 8b 5d fc 31 c0 c9 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 2e 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00 58 b8
-RSP: 002b:00000000ffb7b7c8 EFLAGS: 00000292
- ORIG_RAX: 000000000000000a
-RAX: ffffffffffffffda RBX: 00000000ffb7b870 RCX: 0000000000008000
-RDX: 00000000f741aff4 RSI: 0000000000000000 RDI: 00000000ffb7c904
-RBP: 00000000ffb7b870 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-ODEBUG: object ffffc90000007a60 is NOT on stack ffffc90023348000, but annotated.
-------------[ cut here ]------------
-1
-WARNING: lib/debugobjects.c:672 at debug_object_is_on_stack lib/debugobjects.c:672 [inline], CPU#0: syz-executor/13343
-WARNING: lib/debugobjects.c:672 at lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705, CPU#0: syz-executor/13343
-Modules linked in:
-
-CPU: 0 UID: 0 PID: 13343 Comm: syz-executor Tainted: G        W    L      syzkaller #0 PREEMPT(full) 
-Tainted: [W]=WARN, [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:debug_object_is_on_stack lib/debugobjects.c:672 [inline]
-RIP: 0010:lookup_object_or_alloc.part.0.cold+0x19/0x40 lib/debugobjects.c:705
-Code: c4 60 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc 83 c5 01 89 2d 20 28 7d 1b 4c 89 e6 48 c7 c7 c0 65 62 8c e8 e1 c7 eb ff 90 <0f> 0b 90 e9 62 70 fe 03 83 c5 01 89 2d ff 27 7d 1b 49 39 c4 73 da
-RSP: 0000:ffffc900000078f0 EFLAGS: 00010082
-
-RAX: 0000000000000050 RBX: ffff8880150a88f8 RCX: 0000000000000000
-RDX: 0000000000000050 RSI: ffffffff81e9ad09 RDI: fffff52000000f0f
-RBP: 0000000000000001 R08: 0000000000000007 R09: 0000000000000000
-R10: 0000000000000101 R11: 0000000000000001 R12: ffffc90000007a60
-R13: ffff888073702580 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff88809574a000(0063) knlGS:0000000056b1e480
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 00000000f737dffc CR3: 000000004e89d000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 000000000000000e DR6: 00000000ffff0ff0 DR7: 0000000000000400
-Call Trace:
- <IRQ>
- lookup_object_or_alloc lib/debugobjects.c:682 [inline]
- __debug_object_init+0x2a9/0x3d0 lib/debugobjects.c:798
- __synchronize_srcu+0x1c3/0x300 kernel/rcu/srcutree.c:1475
- wakeup_source_remove drivers/base/power/wakeup.c:201 [inline]
- wakeup_source_unregister.part.0+0x12c/0x540 drivers/base/power/wakeup.c:237
- wakeup_source_unregister+0x1f/0x30 drivers/base/power/wakeup.c:236
- mmc_host_classdev_release+0x42/0x120 drivers/mmc/core/host.c:69
- device_release+0xd2/0x270 drivers/base/core.c:2640
- kobject_cleanup lib/kobject.c:689 [inline]
- kobject_release lib/kobject.c:720 [inline]
- kref_put include/linux/kref.h:65 [inline]
- kobject_put+0x1f7/0x640 lib/kobject.c:737
- put_device+0x1f/0x30 drivers/base/core.c:3884
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0x16a/0x210 kernel/softirq.c:758
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__sanitizer_cov_trace_pc+0x46/0x70 kernel/kcov.c:213
-Code: 00 01 00 ff 74 1e f6 c4 01 74 44 a9 00 00 00 0f 75 3d f7 c1 00 00 00 f0 75 35 8b 82 44 17 00 00 85 c0 74 2b 8b 82 18 17 00 00 <83> f8 02 75 20 48 8b 8a 20 17 00 00 8b 92 1c 17 00 00 48 8b 01 48
-RSP: 0000:ffffc9002334f5d8 EFLAGS: 00000246
-
-RAX: 0000000000000000 RBX: ffffc9002334f6c0 RCX: 0000000000000000
-RDX: ffff888073702580 RSI: ffffffff8bd06124 RDI: ffff888073702580
-RBP: 0000000000002a3b R08: 0000000000000006 R09: 0000000000002a3b
-R10: fffffffffffffffe R11: 0000000000000001 R12: fffffffffffffffe
-R13: ffff888050b7a680 R14: 0000000000000000 R15: dffffc0000000000
- xas_find+0xc4/0x8e0 lib/xarray.c:1408
- find_get_entry mm/filemap.c:2085 [inline]
- find_lock_entries+0x176/0x1190 mm/filemap.c:2189
- shmem_undo_range+0x212/0x1570 mm/shmem.c:1143
- shmem_truncate_range mm/shmem.c:1289 [inline]
- shmem_evict_inode+0x3b1/0xca0 mm/shmem.c:1420
- evict+0x3c2/0xad0 fs/inode.c:822
- iput_final fs/inode.c:2014 [inline]
- iput.part.0+0x989/0x1050 fs/inode.c:2063
- iput+0x35/0x40 fs/inode.c:2029
- filename_unlinkat+0x466/0x730 fs/namei.c:5752
- __do_sys_unlink fs/namei.c:5783 [inline]
- __se_sys_unlink fs/namei.c:5780 [inline]
- __ia32_sys_unlink+0x45/0x60 fs/namei.c:5780
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf7f95fec
-Code: d2 74 05 c1 e8 0c 89 02 8b 5d fc 31 c0 c9 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 2e 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00 58 b8
-RSP: 002b:00000000ffb7b7c8 EFLAGS: 00000292
- ORIG_RAX: 000000000000000a
-RAX: ffffffffffffffda RBX: 00000000ffb7b870 RCX: 0000000000008000
-RDX: 00000000f741aff4 RSI: 0000000000000000 RDI: 00000000ffb7c904
-RBP: 00000000ffb7b870 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	00 01                	add    %al,(%rcx)
-   2:	00 ff                	add    %bh,%bh
-   4:	74 1e                	je     0x24
-   6:	f6 c4 01             	test   $0x1,%ah
-   9:	74 44                	je     0x4f
-   b:	a9 00 00 00 0f       	test   $0xf000000,%eax
-  10:	75 3d                	jne    0x4f
-  12:	f7 c1 00 00 00 f0    	test   $0xf0000000,%ecx
-  18:	75 35                	jne    0x4f
-  1a:	8b 82 44 17 00 00    	mov    0x1744(%rdx),%eax
-  20:	85 c0                	test   %eax,%eax
-  22:	74 2b                	je     0x4f
-  24:	8b 82 18 17 00 00    	mov    0x1718(%rdx),%eax
-* 2a:	83 f8 02             	cmp    $0x2,%eax <-- trapping instruction
-  2d:	75 20                	jne    0x4f
-  2f:	48 8b 8a 20 17 00 00 	mov    0x1720(%rdx),%rcx
-  36:	8b 92 1c 17 00 00    	mov    0x171c(%rdx),%edx
-  3c:	48 8b 01             	mov    (%rcx),%rax
-  3f:	48                   	rex.W
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> + *		device and took a reference to the device's software node.
+> + *		Indicates to software_node_notify_remove() that it should drop
+> + *		the reference.
+>   * @DEV_FLAG_COUNT: Number of defined struct_device_flags.
+>   */
+>  enum struct_device_flags {
+> @@ -612,6 +616,7 @@ enum struct_device_flags {
+>  	DEV_FLAG_OF_NODE_REUSED = 7,
+>  	DEV_FLAG_OFFLINE_DISABLED = 8,
+>  	DEV_FLAG_OFFLINE = 9,
+> +	DEV_FLAG_SWNODE_NOTIFIED = 10,
+>
+>  	DEV_FLAG_COUNT
+>  };
+> @@ -833,6 +838,7 @@ __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
+>  __create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
+>  __create_dev_flag_accessors(offline_disabled, DEV_FLAG_OFFLINE_DISABLED);
+>  __create_dev_flag_accessors(offline, DEV_FLAG_OFFLINE);
+> +__create_dev_flag_accessors(swnode_notified, DEV_FLAG_SWNODE_NOTIFIED);
+>
+>  #undef __create_dev_flag_accessors
+>
+>
+> --
+> 2.47.3
+>
+>
