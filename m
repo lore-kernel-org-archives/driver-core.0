@@ -1,215 +1,175 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2AB56E06A
-	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 17:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846F95A0ADC
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 18:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792171642; cv=none; b=Pe+53HtA5pL+wXqZgAYE2fIiyp0D9lrwMw6WsD30EAcel+63peoSoSzgnip8J28mTzdWz26ORXQhKYhzxLdSWtJqsNvisLog7PsYT+F9hRPCc0SbuijICLHxtmHytVJoJv10lCqYGaCnOdvL7/0MB97qd7dsXtoc+dYHRTGFxnE=
+	t=1792173640; cv=none; b=SzpLP0HkLDS7fG/4GhF86IUs7xDtcojPHDq74r/a1s8qrxvkAIyYqczAST1I71dEVncOpGj23C/WwPNHSxjx/utQ/yfmosTf3uno/5NblgM25LVSHopC7s+oAdoBZK2KbAxxBKmKWemsH/sl5dAZdmDlehndc74w4hvZGWqnHnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792171642; c=relaxed/simple;
-	bh=STyj/lYVqM8gAurdqYy6Pjs7GEOpRb+Xus0p1OR+ffU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kp9WUVOMxQG/rIRud/Pxq6KSl1qHzxXsOjLlV/TCGwSx1qnsXciicNGs1Xq4troSKknvo2j2dBwLOxoiVViHdfoTkqsHRilonJrWtA0pIYzh+Vz8yFq8oc0jXDtdO2X3JH4DjYRQv6TTXVMqTei15u/SH8fDi4GdCdGjFdgZDBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vTk+hQhE; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1792173640; c=relaxed/simple;
+	bh=dYFeupRHc6oAp60ttnCYyTs5k36ZN3vMESWL/sNF9fQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TDT6u35TXr2yLqOBbhyUF1EngCaqCVLavWl80Qu+uNdq2pRNh9Zkw+CIeQl2Qc+bFiXqdtRudIGJ9hYDYgXS0lo6adHM3tQAkYeHWC/Pwy9/lr6ubas17hhrm63l5+VR4KUTtX2D7vuicJ2EmD9B5PwVbS7wEp4FfFOTuxHRobk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=IxdfpYMV; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vTk+hQhE"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1792171630; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=1juLGbyehF1Q7piOkFmo3ZV7cET5DQh/zeO/hMNZHdU=;
-	b=vTk+hQhEe3thvP15S5N+dOnPLikFnr1gqSW5J4K6tFO9hekQ4dm9bQOHBtrhoWP7NEbXZFDXvI+l045KmwFSy2OBMAqHxn8xvYu5CyM+VONJAuWlayqYorBj4xvjMtmJqeiylVnFgSxDiO6dc1ixoTg1ALAAt6u4UHq1Ozt3Sbw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0XCvPRM5_1792171628;
-Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCvPRM5_1792171628 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 17 Oct 2026 01:27:09 +0800
-Date: Sat, 17 Oct 2026 01:27:07 +0800
-From: Peng Wang <peng_wang@linux.alibaba.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	He Rongguang <herongguang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] cpu: Add sysfs control of full dynticks policy
-Message-ID: <atJea4b6VvYlAvbD@MacBook-Pro.local>
-Reply-To: Peng Wang <peng_wang@linux.alibaba.com>
-References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
- <e93ef15796946485eaaecd774141378351307940.1792067271.git.peng_wang@linux.alibaba.com>
- <2026101646-speller-gutter-c184@gregkh>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="IxdfpYMV"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 82F5624010A
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 20:00:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1792173630;
+	bh=11iMMZTrj20U+SrYN+njM4FRnL4bVsSJ+M4i4qpVEik=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=IxdfpYMVc1AYBzfeIguNW+OBCUja9b4B52fqHPnegJbtQ5oh3pvGZ9hAt1cLQSuM7
+	 4Pny32qKPNKnTONKaq38aTCzqWSthkFpWJW1Awk8zzXl7HQDBA/Y5eSMR5F0U8Emjv
+	 b5eKgvH/tLu7X3RGzdzF4LMWZ6gIqwIlAuAS0vYVMPcwmIQCzi9Y+eVaXmLIJMo5Oa
+	 h4LOhThTWcniby9eNOd68fkgwi74Kgo8IUy7VX9zPcUSosggrD4bWN0m3vJFBXTiVV
+	 9XQJKexc0aJjLQvMOoXF2ppuE/sqN5hF0NRELvNhluAnOyuXZIqeDn5YLNDOBLywTK
+	 a+aG4gOjaaGEQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4j5t5P2TDSz9rxL;
+	Fri, 16 Oct 2026 20:00:25 +0200 (CEST)
+From: Markus Probst <markus.probst@posteo.de>
+Subject: [PATCH v4 0/4] rust: serdev: Refactor
+Date: Fri, 16 Oct 2026 18:00:29 +0000
+Message-Id: <20261016-rust_serdev_probe_refactor-v4-0-46832e034757@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026101646-speller-gutter-c184@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OTW7DIBAF4KtYrEs0/DdZ9R5RZBmYNFRKcAGjV
+ pHvXuJkYXXh5dPMfPPuJGMKmMmhu5OENeQQby3It464y3D7RBp8y4QD17AHRdOUS9+OPNZ+TNF
+ in/A8uBITBeQWpBRKDoY0YGyT8LPgx9Mz58l+oSsP8bWR8HtqX8tzjdghI3Xxeg3l0FWzEzQ5Q
+ x7Xl5Dbk9+laWXL8quU3ipVGQWq984PCGAkuo8x5oJx53FhK19RHDYp3igp7LtSTPOz8v8psaL
+ ENiUa5ZnVaAwTCmFNzfP8B6qr2fKYAQAA
+X-Change-ID: 20260905-rust_serdev_probe_refactor-0e2b044354a7
+To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>, 
+ Sashiko Bot <sashiko-bot@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1705;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=dYFeupRHc6oAp60ttnCYyTs5k36ZN3vMESWL/sNF9fQ=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBq0mY4KL7qcuPRQxFfHwouuzo5slwJhbPsGOlh0
+ iyHEecxQSKJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCatJmOBsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KBhBAAtqxpo51+XTizx5tw7XAyhjnV+8yhLO/
+ +Zqe5J6SVlGq4/Ig45IJbKwAXDYhzli2Q4mp8hSVMSjVGPYclz8z6PA6+xoRsACFlCPe1wPeS2R
+ UXH0a7CG0+SpGr+68050mkyBZ+kB290DVlzNFs53jif9sTcsP33DDuTvLojhWyzmsZA8qY+A5QO
+ e/cwm4fxhJRB/dSvmFlqKyL9oJPHPCh9EJkF8skDwIOOU/S1uNWFDs/HvM0f004b/TJjDBtZJkP
+ xNZgFtPMPDDLxW3HfJaUENchRwtLssT4HorFQ8CrpG85/rxydj8VgbQOakbolekH/ycddZmYBzl
+ dkat37bcN2h6fdMvXa8Y8Xgy0sSXfpoECoaKKwxWIbi2VypsHmgKTSDm5AQJzvc5w6iUYXR0vpV
+ rt0CH0xg0hZ9eEo23OnwUF4yu2gGSyHZAsrcBqNt0QNFFejXVwo13ZLjapR58SlARy1wiwo8lPK
+ ml3CwhOlTuY4/z4j5FqpUQP/YuQ/AIRTm76P0n6huPC1cTm8B2y2QRqok8k6TJW42Ai3GSukAHf
+ Fv7koOPWK9B4YQ5IB0P7cN5GIlMr/KLo3fE/4AlMSwOMtzINLwCgQnLYGf/QhHyZD7WTANClLdH
+ HwnWLux3Qa6D5hcdZ5XvgvEPJwSchPuGsqfboc3NUMQTQOmDox34=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=xsFNBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93qReNLkO
+  WguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVAm76Ww+
+  /pAnepVRafMID0rqEfD9oGv1YrfpeFJhyE2zUw3SyyNLIKWD6QeLRhKQRbSnsXhGLFBXCqt9k5JA
+  RhgQof9zvztcCVlT5KVvuyfC4H+HzeGmu9201BVyihJwKdcKPq+n/aY5FUVxNTgtI9f8wIbmfAja
+  oT1pjXSp+dszakA98fhONM98pOq723o/1ZGMZukyXFfsDGtA3BB79HoopHKujLGWAGskzClwTjRQ
+  xBqxh/U/lL1pc+0xPWikTNCmtziCOvv0KA0arDOMQlyFvImzX6oGVgE4ksKQYbMZ3Ikw6L1Rv1J+
+  FvN0aNwOKgL2ztBRYscUGcQvA0Zo1fGCAn/BLEJvQYShWKeKqjyncVGoXFsz2AcuFKe1pwETSsN6
+  OZncjy32e4ktgs07cWBfx0v62b8md36jau+B6RVnnodaA8++oXl3FRwiEW8XfXWIjy4umIv93tb8
+  8ekYsfOfWkTSewZYXGoqe4RtK80ulMHb/dh2FZQIFyRdN4HOmB4FYO5sEYFr9YjHLmDkrUgNodJC
+  XCeMe4BO4iaxUQARAQABzRdtYXJrdXMucHJvYnN0QHBvc3Rlby5kZcLBkQQTAQgAOxYhBIJ0GMT0
+  rFjncjDEczR2H/jnrUPSBQJog714AhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEDR2
+  H/jnrUPSgdkQAISaTk2D345ehXEkn5z2yUEjaVjHIE7ziqRaOgn/QanCgeTUinIv6L6QXUFvvIfH
+  1OLPwQ1hfvEg9NnNLyFezWSy6jvoVBTIPqicD/r3FkithnQ1IDkdSjrarPMxJkvuh3l7XZHo49GV
+  HQ8i5zh5w4YISrcEtE99lJisvni2Jqx7we5tey9voQFDyM8jxlSWv3pmoUTCtBkX/eKHJXosgsuS
+  B4TGDCVPOjla/emI5c9MhMG7O4WEEmoSdPbmraPw66YZD6uLyhV4DPHbiDWRzXWnClHSyjB9rky9
+  lausFxogvu4l9H+KDsXIadNDWdLdu1/enS/wDd9zh5S78rY2jeXaG4mnf4seEKamZ7KQ6FIHrcyP
+  ezdDzssPQcTQcGRMQzCn6wP3tlGk7rsfmyHMlFqdRoNNv+ZER/OkmZFPW655zRfbMi0vtrqK2Awm
+  9ggobb1oktfd9PPNXMUY+DNVlgR2G7jLnenSoQausLUm0pHoNE8TWFv851Y6SOYnvn488sP1Tki5
+  F3rKwclawQFHUXTCQw+QSh9ay8xgnNZfH+u9NY7w3gPoeKBOAFcBc2BtzcgekeWS8qgEmm2/oNFV
+  G0ivPQbRx8FjRKbuF7g3YhgNZZ0ac8FneuUtJ2PkSIFTZhaAiC0utvxk0ndmWFiW4acEkMZGrLaM
+  L2zWNjrqwsD2zsFNBGiDvXgBEADCXQy1n7wjRxG12DOVADawjghKcG+5LtEf31WftHKLFbp/HArj
+  BhkT6mj+CCI1ClqY+FYU5CK/s0ScMfLxRGLZ0Ktzawb78vOgBVFT3yB1yWBTewsAXdqNqRooaUNo
+  8cG/NNJLjhccH/7PO/FWX5qftOVUJ/AIsAhKQJ18Tc8Ik73v427EDxuKb9mTAnYQFA3Ev3hAiVbO
+  6Rv39amVOfJ8sqwiSUGidj2Fctg2aB5JbeMln0KCUbTD1LhEFepeKypfofAXQbGwaCjAhmkWy/q3
+  IT1mUrPxOngbxdRoOx1tGUC0HCMUW1sFaJgQPMmDcR0JGPOpgsKnitsSnN7ShcCr1buel7vLnUMD
+  +TAZ5opdoF6HjAvAnBQaijtK6minkrM0seNXnCg0KkV8xhMNa6zCs1rq4GgjNLJue2EmuyHooHA4
+  7JMoLVHcxVeuNTp6K2+XRx0Pk4e2Lj8IVy9yEYyrywEOC5XRW37KJjsiOAsumi1rkvM7QREWgUDe
+  Xs0+RpxI3QrrANh71fLMRo7LKRF3Gvw13NVCCC9ea20P4PwhgWKStkwO2NO+YJsAoS1QycMi/vKu
+  0EHhknYXamaSV50oZzHKmX56vEeJHTcngrM8R1SwJCYopCx9gkz90bTVYlitJa5hloWTYeMD7FNj
+  Y6jfVSzgM/K4gMgUNDW/PPGeMwARAQABwsF2BBgBCAAgFiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IF
+  AmiDvXgCGwwACgkQNHYf+OetQ9LHDBAAhk+ab8+WrbS/b1/gYW3q1KDiXU719nCtfkUVXKidW5Ec
+  Idlr5HGt8ilLoxSWT2Zi368iHCXS0WenGgPwlv8ifvB7TOZiiTDZROZkXjEBmU4nYjJ7GymawpWv
+  oQwjMsPuq6ysbzWtOZ7eILx7cI0FjQeJ/Q2baRJub0uAZNwBOxCkAS6lpk5Fntd2u8CWmDQo4SYp
+  xeuQ+pwkp0yEP30RhN2BO2DXiBEGSZSYh+ioGbCHQPIV3iVj0h6lcCPOqopZqyeCfigeacBI0nvN
+  jHWz/spzF3+4OS+3RJvoHtAQmProxyGib8iVsTxgZO3UUi4TSODeEt0i0kHSPY4sCciOyXfAyYoD
+  DFqhRjOEwBBxhr+scU4C1T2AflozvDwq3VSONjrKJUkhd8+WsdXxMdPFgBQuiKKwUy11mz6KQfcR
+  wmDehF3UaUoxa+YIhWPbKmycxuX/D8SvnqavzAeAL1OcRbEI/HsoroVlEFbBRNBZLJUlnTPs8ZcU
+  4+8rq5YX1GUrJL3jf6SAfSgO7UdkEET3PdcKFYtS+ruV1Cp5V0q4kCfI5jk25iiz8grM2wOzVSsc
+  l1mEkhiEPH87HP0whhb544iioSnumd3HJKL7dzhRegsMizatupp8D65A2JziW0WKopa1iw9fti3A
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Fri, Oct 16, 2026 at 06:25:26PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Oct 15, 2026 at 08:43:09PM +0800, Peng Wang wrote:
-> > Expose nohz_full_allowed under /sys/devices/system/cpu/ as the subset of
-> > nohz_full CPUs permitted to suppress their non-idle scheduler tick.
-> > 
-> > Writes replace the entire list; reads report policy, not current tick
-> > state. Reject invalid input before updating policy. Document asynchronous
-> > revocation, offline CPU configuration and persistence across hotplug.
-> > The existing nohz_full attribute continues to report membership.
-> > 
-> > Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
-> > Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
-> > Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
-> > ---
-> >  .../ABI/testing/sysfs-devices-system-cpu      | 40 ++++++++++++++++
-> >  drivers/base/cpu.c                            | 46 +++++++++++++++++++
-> >  2 files changed, 86 insertions(+)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > index 82d10d556cc89..edf3408fd84c8 100644
-> > --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > @@ -767,6 +767,46 @@ Description:	Preferred MTE tag checking mode
-> >  
-> >  		See also: Documentation/arch/arm64/memory-tagging-extension.rst
-> >  
-> > +What:		/sys/devices/system/cpu/nohz_full_allowed
-> > +Date:		October 2026
-> > +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > +Description:
-> > +		(RW) CPUs permitted to stop the scheduler tick while non-idle.
-> > +		Available with CONFIG_NO_HZ_FULL. The default is the complete
-> > +		nohz_full CPU list. Readback reports permission, not the current
-> > +		tick state: all the usual tick dependencies still apply.
-> > +
-> > +		A write replaces the entire list, using CPU-list syntax (for
-> > +		example, "1-3,5"). An empty line revokes permission from all
-> > +		nohz_full CPUs. Invalid input is rejected without changing
-> > +		policy. A parsed list containing CPUs outside nohz_full fails
-> > +		with EINVAL. CPU numbers beyond the mask range and numeric
-> > +		overflows are rejected by the CPU-list parser with ERANGE and
-> > +		EOVERFLOW, respectively. Input must be shorter than PAGE_SIZE
-> > +		bytes, otherwise E2BIG is returned. Embedded NULs and newlines
-> > +		other than a trailing newline are rejected with EINVAL. Valid
-> > +		writes without an active nohz_full configuration fail with
-> > +		EOPNOTSUPP.
-> > +
-> > +		Reads fail with EOVERFLOW if the formatted output reaches
-> > +		PAGE_SIZE - 1 bytes, rather than returning a potentially
-> > +		truncated CPU list.
-> > +
-> > +		Revoking permission adds a per-CPU tick dependency. Online CPUs
-> > +		are notified through the existing asynchronous kick mechanism
-> > +		to restart a stopped non-idle tick. A successful write means
-> > +		the policy is updated and any needed notification is queued;
-> > +		it does not wait for tick restart. Changes to multiple CPUs
-> > +		are not simultaneous. Granting permission only removes this
-> > +		dependency and does not force the tick to stop.
-> > +
-> > +		Offline CPUs may be configured without sending notifications.
-> > +		Policy persists across CPU offline/online. Idle tick suppression
-> > +		is unchanged; the policy applies when a CPU leaves idle.
-> > +
-> > +		This interface does not change nohz_full membership, context
-> > +		tracking, RCU offloading, or housekeeping configuration.
-> > +
-> >  What:		/sys/devices/system/cpu/nohz_full
-> >  Date:		Apr 2015
-> >  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> > index 69e52fed42415..299ce61cef895 100644
-> > --- a/drivers/base/cpu.c
-> > +++ b/drivers/base/cpu.c
-> > @@ -324,6 +324,51 @@ static ssize_t nohz_full_show(struct device *dev,
-> >  	return sysfs_emit(buf, "\n");
-> >  }
-> >  static DEVICE_ATTR_RO(nohz_full);
-> > +
-> > +static ssize_t nohz_full_allowed_show(struct device *dev,
-> > +				      struct device_attribute *attr, char *buf)
-> > +{
-> > +	cpumask_var_t mask;
-> > +	ssize_t ret;
-> > +
-> > +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> > +		return -ENOMEM;
-> > +
-> > +	tick_nohz_full_get_allowed(mask);
-> > +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
-> > +
-> > +	free_cpumask_var(mask);
-> > +
-> > +	/* Never present a truncated CPU list as the complete policy. */
-> > +	return ret == PAGE_SIZE - 1 ? -EOVERFLOW : ret;
-> 
-> Why not?  What will userspace do then if it gets -EOVERFLOW as it can
-> not get the full list?
+The following has been changed:
+- introduce mutex to C serdev tty port controller
+- introduce a new C serdev API to fix race conditions and simplify rust
+  code. Should also be useful on the C side.
+- fix race conditions
+- simplify rust code
 
-Hi Greg,
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Changes in v4:
+- fix issues reported by Sashiko:
+  - add receive_lock to prevent deadlocks
+- Link to v3: https://patch.msgid.link/20260930-rust_serdev_probe_refactor-v3-0-d1b6e77135e0@posteo.de
 
-There is no way to retrieve the full list through this attribute.
-The intent was to avoid returning a truncated list that userspace
-could write back, unintentionally revoking permission for the omitted
-CPUs. Returning an error does not solve that interface limitation.
+Changes in v3:
+- add mutex
+- Link to v2: https://patch.msgid.link/20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de
 
-> 
-> > +}
-> > +
-> > +static ssize_t nohz_full_allowed_store(struct device *dev,
-> > +				       struct device_attribute *attr,
-> > +				       const char *buf, size_t count)
-> > +{
-> > +	cpumask_var_t mask;
-> > +	int ret;
-> > +
-> > +	/* kernfs may truncate an oversized write to PAGE_SIZE. */
-> > +	if (count >= PAGE_SIZE)
-> > +		return -E2BIG;
-> 
-> How are you getting a larger than PAGE_SIZE value here?
+Changes in v2:
+- fix missing memory barriers in serdev apis
+- use `tty_buffer_restart_work` instead of `tty_flip_buffer_push`
+- use `tty_buffer_flush_work` instead of exclusively locking the mutex
+- add `#[inline]` to `PrivateData::driver_data`
+- remove patches for mutable references
+- Link to v1: https://patch.msgid.link/20260906-rust_serdev_probe_refactor-v1-0-69cdae0074ec@posteo.de
 
-I cannot; kernfs caps count at PAGE_SIZE. The check is intended for
-count == PAGE_SIZE, to avoid applying a potentially truncated prefix
-as a complete list. It also rejects an exactly page-sized input.
+---
+Markus Probst (4):
+      tty: serdev: Add mutex lock
+      tty: serdev: Export functions to pause receive_buf callback calls
+      rust: serdev: Replace `active` mutex with receive pause
+      rust: serdev: Simplify callbacks
 
-> 
-> > +	if (memchr(buf, '\0', count) ||
-> > +	    (count > 1 && memchr(buf, '\n', count - 1)))
-> > +		return -EINVAL;
-> 
-> What are you testing for here, sorry, I can't easily figure it out.
+ drivers/tty/serdev/core.c           |  54 +++++++++++-
+ drivers/tty/serdev/serdev-ttyport.c |  84 ++++++++++++++++--
+ include/linux/serdev.h              |   8 +-
+ rust/kernel/serdev.rs               | 167 ++++++++++++------------------------
+ 4 files changed, 188 insertions(+), 125 deletions(-)
+---
+base-commit: ec8bf8280261294a9b9b4520414b42704c7f9f6b
+change-id: 20260905-rust_serdev_probe_refactor-0e2b044354a7
 
-The checks reject user-supplied NULs and non-final newlines.
-For example, cpulist_parse() accepts "1\n2\n" as CPU 1 only, while
-store() would report the full input as consumed. The NUL appended
-by kernfs is at buf[count], outside the checked range.
-
-I propose replacing the global attribute with
-/sys/devices/system/cpu/cpuN/nohz_tick_allowed, available only on
-nohz_full CPUs. Writing 0 would prevent non-idle tick suppression,
-using the existing asynchronous kick when needed. Writing 1 would
-allow suppression, subject to the existing tick dependencies.
-Readback would report policy, not the current tick state.
-
-Each write would affect only that CPU, without changing nohz_full
-membership or other isolation settings. This would give up the
-single-write whole-list replacement. Would that be a better fit?
-
-Thanks,
-Peng
-
-> 
-> thanks,
-> 
-> greg k-h
