@@ -1,84 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D761B45D19D;
-	Fri, 16 Oct 2026 20:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0A43F1678
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 21:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792182804; cv=none; b=O6Mbj6GXmw5Ra4lTFJdX1iJKD1q80V8UjW29aZSVjqX1jVYDR6bqIz6zRb1qdP8s4EbMXIBW1eqmOtmA5NDZ1hxlZ6Vbtv7HtdjHiy2dvFyj8SCg0iv8J+3qeCQylD4SoSDVUuESExmPKizFnByUBsaaTB+62Yr6yy0B2rB4GY8=
+	t=1792184582; cv=none; b=u+yOiDmA1/ysiqFQkRzNlxCmLxOm+Y/eUH24cRKQzcUgSGknUEkzgyTVFaENx8ARw752ZRrWV15faKLolcgnitxhVtq/bYSIonMq5bRIaac9BdUgJPvtuTM+5rBGtO9McTlcJEByTlMQifY6Li6gstQgCikke48oE97zWTYU5EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792182804; c=relaxed/simple;
-	bh=GveWHQNcrE98xEYU3F09/299Dr14gvqgxK5L7yOizSU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=aaFtaL5zlauUIGVJ8DH1oJzM7aoFqhM9hsWe7MhupXw9QY3yRDo2kNTxWW/rgOhDRldB+acG/9QAa2SiP53CTL79YdzO9mqOoTyTFHOcJzuEXZ3VJi6xhFh3+NeDW8tKO/6XyDDQC9kFNlDp3EW0ZVqZyUhMlOdL0VOXVjKkX+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJ4uty9n; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792184582; c=relaxed/simple;
+	bh=28ylzu+o5fZiKT36o+HUSHzro3k5S/9mBS+q1EJsaZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ2cE3pfAMcSCGGteNCR7FrqBu8+KzUMSD/n0a+t9KkzG0fs2Z4/32wFfsBoiGipr2Lhm/eucKTSgan3JOV2HyONIfROtCa7h0JtLahBcvK2Irhcn5gNrxB9JjIT/degCsegT9p8StythGOA1Yj5OK3vt1s0xr/jd+TdWjjhlIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=scbzIcyY; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJ4uty9n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D28B1F000C4;
-	Fri, 16 Oct 2026 20:33:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792182801;
-	bh=3IAGNDbohml9XO7frvXtK7J5LHe8HfB+XCAuz93WmUo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=KJ4uty9ncartxB5lLWU4nKtyYsF80W67RRHHJFwkQ3gJ/KHqxcb+YZHMScg1rDght
-	 JM8Jkq09SMzS1CUmlwed4eOgANgcdzx/h27RMucovRDMmwO/UwwyuUvOxVTVAKnqWr
-	 mWHkfoKJ07lOyLhQWbOA6IfcCD21/9KnH/RPBM0Pt9o0vRvG2JA6o5DNW7XyPCuZgx
-	 QRl9I4z0C4HBHfY4ngE7Eaf3SXOqc+PEhr9uBLnAcq7P4+OGo3RZl4Ze+fPWaYSbkK
-	 6GvbxJR1oFCipkM0SbNYW1+XClYYAygvhyhHWLUriRA0xkrw5VMYQAnxnOS6d1FA4q
-	 NQUvGNgCbQPkw==
-Date: Fri, 16 Oct 2026 10:33:20 -1000
-Message-ID: <06b62af1faefaddcb9d5d09cbaf7a2ad@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <christian@brauner.io>,
-	Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kernfs: allocate inodes and dentry outside kernfs_rwsem
-In-Reply-To: <20261016164345.31618-1-shakeel.butt@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="scbzIcyY"
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=28ylzu+o5fZiKT36o+HUSHzro3k5S/9mBS+q1EJsaZM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792184577; v=1; x=1792789377;
+ b=scbzIcyY+L+NtDZielEU4Uq2X12ngiXj436+zmJI64+lvbHzCRgdR4NXymOCV2T69qlpcauX
+ 2ahKMunQg6fcNq4lW2E1xaxrzwsGsNKchtDeJH6OXuVDe4YDUGT+41cVwP9a0GVlZ5DSE4jaa2e
+ FmLQrAUXIT3gnTS0Nu+vOAdc=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id dad739c8675871cd;
+	Fri, 16 Oct 2026 21:02:57 +0000
+X-Mizu-Trace-ID: dad739c8675871cd
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 16 Oct 2026 14:02:56 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Christian Brauner <christian@brauner.io>, Meta kernel team <kernel-team@meta.com>, 
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kernfs: allocate inodes and dentry outside
+ kernfs_rwsem
+Message-ID: <atKQcFFeKG76LkLQ@linux.dev>
 References: <20261016164345.31618-1-shakeel.butt@linux.dev>
+ <06b62af1faefaddcb9d5d09cbaf7a2ad@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <06b62af1faefaddcb9d5d09cbaf7a2ad@kernel.org>
 
-Hello, Shakeel.
+On Fri, Oct 16, 2026 at 10:33:20AM -1000, Tejun Heo wrote:
+> Hello, Shakeel.
+> 
+> On Fri, Oct 16, 2026 at 09:43:45AM -0700, Shakeel Butt wrote:
+> > Allocate the inode with the lock dropped.  kernfs_iget() first looks for
+> > an existing inode.  If there is none, it pins the node, drops the lock,
+> > allocates, takes the lock again, and adds the inode only if the node is
+> > still active.  So __kernfs_remove() still finds every inode it must
+> > clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
+> > IN_DELETE_SELF when decoding a file handle") needs.
+> 
+> Would it be simpler to allocate the inode before taking kernfs_rwsem and
+> free it if it ends up unused, as 8b64f32fee95 ("kernfs: allocate the new
+> name outside kernfs_rwsem") and 5ad03af18434 ("kernfs: allocate the open
+> node outside the open file mutex") do? Then the lock doesn't have to be
+> dropped, and there's no need for the pin and the active recheck. The
+> unused cases (negative lookups, inactive nodes, nodes which already have
+> an inode) are exceptions, and an inode alloc and free isn't expensive.
 
-On Fri, Oct 16, 2026 at 09:43:45AM -0700, Shakeel Butt wrote:
-> Allocate the inode with the lock dropped.  kernfs_iget() first looks for
-> an existing inode.  If there is none, it pins the node, drops the lock,
-> allocates, takes the lock again, and adds the inode only if the node is
-> still active.  So __kernfs_remove() still finds every inode it must
-> clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
-> IN_DELETE_SELF when decoding a file handle") needs.
+Thanks for taking a look and yes, it is much better and simpler.
 
-Would it be simpler to allocate the inode before taking kernfs_rwsem and
-free it if it ends up unused, as 8b64f32fee95 ("kernfs: allocate the new
-name outside kernfs_rwsem") and 5ad03af18434 ("kernfs: allocate the open
-node outside the open file mutex") do? Then the lock doesn't have to be
-dropped, and there's no need for the pin and the active recheck. The
-unused cases (negative lookups, inactive nodes, nodes which already have
-an inode) are exceptions, and an inode alloc and free isn't expensive.
+> 
+> The helper would then just run under kernfs_rwsem. Maybe
+> kernfs_get_inode_locked() would be a better name for it?
 
-The helper would then just run under kernfs_rwsem. Maybe
-kernfs_get_inode_locked() would be a better name for it?
+Ack
 
-kernfs_fill_super() can preallocate the same way, which gets rid of the
-last inode allocation under kernfs_rwsem. cgroup_may_write() allocates
-the inode under cgroup_mutex and could allocate before grabbing the
-mutex too.
+> 
+> kernfs_fill_super() can preallocate the same way, which gets rid of the
+> last inode allocation under kernfs_rwsem.
 
-> kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
-> which allocates a dentry.  Hold it only around kernfs_iget(), as
-> __kernfs_fh_to_dentry() already does.
+Ack
 
-This also adds the active test to ->get_parent. A parent which is being
-removed and has no inode now gets -ESTALE instead of a new inode with
-i_nlink 1, which closes the window dc1a0cc95737 ("kernfs: don't lose
-IN_DELETE_SELF when decoding a file handle") left open. Can you mention
-it in the description?
+> cgroup_may_write() allocates
+> the inode under cgroup_mutex and could allocate before grabbing the
+> mutex too.
 
-Thanks.
+Let me send this one as a separate patch.
 
--- 
-tejun
+> 
+> > kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
+> > which allocates a dentry.  Hold it only around kernfs_iget(), as
+> > __kernfs_fh_to_dentry() already does.
+> 
+> This also adds the active test to ->get_parent. A parent which is being
+> removed and has no inode now gets -ESTALE instead of a new inode with
+> i_nlink 1, which closes the window dc1a0cc95737 ("kernfs: don't lose
+> IN_DELETE_SELF when decoding a file handle") left open. Can you mention
+> it in the description?
+
+Yes, I will do.
+
+Thanks again for the review.
