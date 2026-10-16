@@ -1,291 +1,215 @@
-Received: from mta0.migadu.com (out-235.mta0.migadu.com [91.218.175.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1F03BED06
-	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 16:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2AB56E06A
+	for <driver-core@lists.linux.dev>; Fri, 16 Oct 2026 17:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792169039; cv=none; b=sOhcJnZibV2Ti6upsqW2746hdxAQQu6k+6Pp+ccgZMYzg9yV0JPPWU4x7g38O0Cr1f8TPeQbvnqcKH3lD8nOWb5b7QmVtSq5s/oKyk6FFY2dm0XJCriEdzMh+wJ00e99N/yVyFlwWWsZ4ifqYqZfWTvVN00bbGlm1vhOkK5+5b0=
+	t=1792171642; cv=none; b=Pe+53HtA5pL+wXqZgAYE2fIiyp0D9lrwMw6WsD30EAcel+63peoSoSzgnip8J28mTzdWz26ORXQhKYhzxLdSWtJqsNvisLog7PsYT+F9hRPCc0SbuijICLHxtmHytVJoJv10lCqYGaCnOdvL7/0MB97qd7dsXtoc+dYHRTGFxnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792169039; c=relaxed/simple;
-	bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hikJwAvCcfwX179qsOOtbkJ55wiGyaTOrLp9PfuRdOBY9UAqnthpXhtCkGbcTuAIoOWbe4QMASOK9NP1BEvv/wNkCuRoSCJWI50z5RF+bcUX66vIGSN8M6db7np5aYXzxwYdkycyymgMp9Q5DGUqM/IJMeay5hjoWAIutd/gzYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eM3SyWx+; arc=none smtp.client-ip=91.218.175.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792171642; c=relaxed/simple;
+	bh=STyj/lYVqM8gAurdqYy6Pjs7GEOpRb+Xus0p1OR+ffU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kp9WUVOMxQG/rIRud/Pxq6KSl1qHzxXsOjLlV/TCGwSx1qnsXciicNGs1Xq4troSKknvo2j2dBwLOxoiVViHdfoTkqsHRilonJrWtA0pIYzh+Vz8yFq8oc0jXDtdO2X3JH4DjYRQv6TTXVMqTei15u/SH8fDi4GdCdGjFdgZDBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vTk+hQhE; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eM3SyWx+"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=ibFpth8wAFXUrM8GxlJIYQOA9JU+8ZJEHvofbY7B4qw=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792169034; v=1; x=1792773834;
- b=eM3SyWx+beYU6h/LgbKI+IlZGhPqJsFjFDbYOfytP1idU/3Pu8msy+P5cUVRpxTUGLBhXcY1
- Eoow5HPJSBjZzNqBfM/MjgVxNJW+m2DzhMCBCLT9LVB0N5xWtbUYSapFq3RqE91O8PDVKkNRaEw
- CHQQ09HIq2AxoyneUWW0SlAY=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id f4f175d3aae833e2;
-	Fri, 16 Oct 2026 16:43:54 +0000
-X-Mizu-Trace-ID: f4f175d3aae833e2
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christian Brauner <christian@brauner.io>
-Cc: Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] kernfs: allocate inodes and dentry outside kernfs_rwsem
-Date: Fri, 16 Oct 2026 09:43:45 -0700
-Message-ID: <20261016164345.31618-1-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vTk+hQhE"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1792171630; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=1juLGbyehF1Q7piOkFmo3ZV7cET5DQh/zeO/hMNZHdU=;
+	b=vTk+hQhEe3thvP15S5N+dOnPLikFnr1gqSW5J4K6tFO9hekQ4dm9bQOHBtrhoWP7NEbXZFDXvI+l045KmwFSy2OBMAqHxn8xvYu5CyM+VONJAuWlayqYorBj4xvjMtmJqeiylVnFgSxDiO6dc1ixoTg1ALAAt6u4UHq1Ozt3Sbw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0XCvPRM5_1792171628;
+Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCvPRM5_1792171628 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 17 Oct 2026 01:27:09 +0800
+Date: Sat, 17 Oct 2026 01:27:07 +0800
+From: Peng Wang <peng_wang@linux.alibaba.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	He Rongguang <herongguang@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH 2/2] cpu: Add sysfs control of full dynticks policy
+Message-ID: <atJea4b6VvYlAvbD@MacBook-Pro.local>
+Reply-To: Peng Wang <peng_wang@linux.alibaba.com>
+References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
+ <e93ef15796946485eaaecd774141378351307940.1792067271.git.peng_wang@linux.alibaba.com>
+ <2026101646-speller-gutter-c184@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026101646-speller-gutter-c184@gregkh>
 
-In the Meta fleet, on 6.16 with the kernfs changes queued for 7.4
-backported, we still see long cgroupfs stalls:
+On Fri, Oct 16, 2026 at 06:25:26PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Oct 15, 2026 at 08:43:09PM +0800, Peng Wang wrote:
+> > Expose nohz_full_allowed under /sys/devices/system/cpu/ as the subset of
+> > nohz_full CPUs permitted to suppress their non-idle scheduler tick.
+> > 
+> > Writes replace the entire list; reads report policy, not current tick
+> > state. Reject invalid input before updating policy. Document asynchronous
+> > revocation, offline CPU configuration and persistence across hotplug.
+> > The existing nohz_full attribute continues to report membership.
+> > 
+> > Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
+> > Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
+> > Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
+> > ---
+> >  .../ABI/testing/sysfs-devices-system-cpu      | 40 ++++++++++++++++
+> >  drivers/base/cpu.c                            | 46 +++++++++++++++++++
+> >  2 files changed, 86 insertions(+)
+> > 
+> > diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > index 82d10d556cc89..edf3408fd84c8 100644
+> > --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> > @@ -767,6 +767,46 @@ Description:	Preferred MTE tag checking mode
+> >  
+> >  		See also: Documentation/arch/arm64/memory-tagging-extension.rst
+> >  
+> > +What:		/sys/devices/system/cpu/nohz_full_allowed
+> > +Date:		October 2026
+> > +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+> > +Description:
+> > +		(RW) CPUs permitted to stop the scheduler tick while non-idle.
+> > +		Available with CONFIG_NO_HZ_FULL. The default is the complete
+> > +		nohz_full CPU list. Readback reports permission, not the current
+> > +		tick state: all the usual tick dependencies still apply.
+> > +
+> > +		A write replaces the entire list, using CPU-list syntax (for
+> > +		example, "1-3,5"). An empty line revokes permission from all
+> > +		nohz_full CPUs. Invalid input is rejected without changing
+> > +		policy. A parsed list containing CPUs outside nohz_full fails
+> > +		with EINVAL. CPU numbers beyond the mask range and numeric
+> > +		overflows are rejected by the CPU-list parser with ERANGE and
+> > +		EOVERFLOW, respectively. Input must be shorter than PAGE_SIZE
+> > +		bytes, otherwise E2BIG is returned. Embedded NULs and newlines
+> > +		other than a trailing newline are rejected with EINVAL. Valid
+> > +		writes without an active nohz_full configuration fail with
+> > +		EOPNOTSUPP.
+> > +
+> > +		Reads fail with EOVERFLOW if the formatted output reaches
+> > +		PAGE_SIZE - 1 bytes, rather than returning a potentially
+> > +		truncated CPU list.
+> > +
+> > +		Revoking permission adds a per-CPU tick dependency. Online CPUs
+> > +		are notified through the existing asynchronous kick mechanism
+> > +		to restart a stopped non-idle tick. A successful write means
+> > +		the policy is updated and any needed notification is queued;
+> > +		it does not wait for tick restart. Changes to multiple CPUs
+> > +		are not simultaneous. Granting permission only removes this
+> > +		dependency and does not force the tick to stop.
+> > +
+> > +		Offline CPUs may be configured without sending notifications.
+> > +		Policy persists across CPU offline/online. Idle tick suppression
+> > +		is unchanged; the policy applies when a CPU leaves idle.
+> > +
+> > +		This interface does not change nohz_full membership, context
+> > +		tracking, RCU offloading, or housekeeping configuration.
+> > +
+> >  What:		/sys/devices/system/cpu/nohz_full
+> >  Date:		Apr 2015
+> >  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+> > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> > index 69e52fed42415..299ce61cef895 100644
+> > --- a/drivers/base/cpu.c
+> > +++ b/drivers/base/cpu.c
+> > @@ -324,6 +324,51 @@ static ssize_t nohz_full_show(struct device *dev,
+> >  	return sysfs_emit(buf, "\n");
+> >  }
+> >  static DEVICE_ATTR_RO(nohz_full);
+> > +
+> > +static ssize_t nohz_full_allowed_show(struct device *dev,
+> > +				      struct device_attribute *attr, char *buf)
+> > +{
+> > +	cpumask_var_t mask;
+> > +	ssize_t ret;
+> > +
+> > +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
+> > +		return -ENOMEM;
+> > +
+> > +	tick_nohz_full_get_allowed(mask);
+> > +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
+> > +
+> > +	free_cpumask_var(mask);
+> > +
+> > +	/* Never present a truncated CPU list as the complete policy. */
+> > +	return ret == PAGE_SIZE - 1 ? -EOVERFLOW : ret;
+> 
+> Why not?  What will userspace do then if it gets -EOVERFLOW as it can
+> not get the full list?
 
-- oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
-  of memory container created cgroups.  They resumed when the kernel OOM
-  killer killed the container's workload.
+Hi Greg,
 
-- oomd waited 15 minutes in kernfs_iop_lookup().  PID 1 waited for
-  kernfs_rwsem in cgroup_rmdir() while holding cgroup_mutex.
+There is no way to retrieve the full list through this attribute.
+The intent was to avoid returning a truncated list that userspace
+could write back, unintentionally revoking permission for the omitted
+CPUs. Returning an error does not solve that interface limitation.
 
-- A lock profiler sampling part of the fleet saw kernfs_iop_lookup()
-  hold kernfs_rwsem across memcg reclaim on 26 hosts in 29 days, for up
-  to 625 ms.
+> 
+> > +}
+> > +
+> > +static ssize_t nohz_full_allowed_store(struct device *dev,
+> > +				       struct device_attribute *attr,
+> > +				       const char *buf, size_t count)
+> > +{
+> > +	cpumask_var_t mask;
+> > +	int ret;
+> > +
+> > +	/* kernfs may truncate an oversized write to PAGE_SIZE. */
+> > +	if (count >= PAGE_SIZE)
+> > +		return -E2BIG;
+> 
+> How are you getting a larger than PAGE_SIZE value here?
 
-The profiler shows where these stalls come from.  kernfs_iop_lookup()
-and the export ops allocate a new inode while holding kernfs_rwsem for
-read.  The inode is charged to the caller's memcg.  If that memcg is at
-memory.max, the allocation can stay in reclaim for a long time,
-sometimes until an OOM kill.  A writer then queues on the lock and every
-new reader queues behind it.  On cgroup2 this blocks every cgroupfs user
-on the machine.
+I cannot; kernfs caps count at PAGE_SIZE. The check is intended for
+count == PAGE_SIZE, to avoid applying a potentially truncated prefix
+as a complete list. It also rejects an exactly page-sized input.
 
-Such lookups are common in a memcg that is out of memory.  Its reclaim
-drops its kernfs dentries fast, and the files of a new cgroup have no
-inodes yet.
+> 
+> > +	if (memchr(buf, '\0', count) ||
+> > +	    (count > 1 && memchr(buf, '\n', count - 1)))
+> > +		return -EINVAL;
+> 
+> What are you testing for here, sorry, I can't easily figure it out.
 
-Allocate the inode with the lock dropped.  kernfs_iget() first looks for
-an existing inode.  If there is none, it pins the node, drops the lock,
-allocates, takes the lock again, and adds the inode only if the node is
-still active.  So __kernfs_remove() still finds every inode it must
-clear i_nlink on, as commit dc1a0cc95737 ("kernfs: don't lose
-IN_DELETE_SELF when decoding a file handle") needs.
+The checks reject user-supplied NULs and non-final newlines.
+For example, cpulist_parse() accepts "1\n2\n" as CPU 1 only, while
+store() would report the full input as consumed. The NUL appended
+by kernfs is at buf[count], outside the checked range.
 
-kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
-which allocates a dentry.  Hold it only around kernfs_iget(), as
-__kernfs_fh_to_dentry() already does.
+I propose replacing the global attribute with
+/sys/devices/system/cpu/cpuN/nohz_tick_allowed, available only on
+nohz_full CPUs. Writing 0 would prevent non-idle tick suppression,
+using the existing asynchronous kick when needed. Writing 1 would
+allow suppression, subject to the existing tick dependencies.
+Readback would report policy, not the current tick state.
 
-Tested on a 176-CPU machine.  A task in a full 256 MB memcg with slow
-swap looks up the files of new cgroups.  Worst waits in 60 seconds:
+Each write would affect only that CPU, without changing nohz_full
+membership or other isolation settings. This would give up the
+single-write whole-list replacement. Would that be a better fit?
 
-                                  before    after
-  oomd, for kernfs_rwsem          577 ms   0.7 ms
-  below, for kernfs_rwsem         412 ms   1.0 ms
-  systemd, for kernfs_rwsem       449 ms    17 us
-  readdir of another directory   1154 ms   3.2 ms
+Thanks,
+Peng
 
-The lookup itself is still slow.  The VFS still holds its directory's
-lock, so other work in that one directory still waits.  Cold sysfs and
-cgroupfs walks are not slower.
-
-kernfs_fill_super() still allocates the root inode under the lock.  It
-runs once per superblock.
-
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
-Changes since v1:
-- dentry allocation outside kernfs_rwsem (Sashiko).
-- Couple of comments updated.
-
- fs/kernfs/dir.c             | 11 +++---
- fs/kernfs/inode.c           | 69 +++++++++++++++++++++++++++++++++++++
- fs/kernfs/kernfs-internal.h |  2 ++
- fs/kernfs/mount.c           | 18 +++++-----
- 4 files changed, 88 insertions(+), 12 deletions(-)
-
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 7e65854a09e4..70c114911063 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -37,7 +37,7 @@ static bool __kernfs_active(struct kernfs_node *kn)
- 	return atomic_read(&kn->active) >= 0;
- }
- 
--static bool kernfs_active(struct kernfs_node *kn)
-+bool kernfs_active(struct kernfs_node *kn)
- {
- 	lockdep_assert_held(&kernfs_root(kn)->kernfs_rwsem);
- 	return __kernfs_active(kn);
-@@ -1269,9 +1269,12 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
- 			up_read(&root->kernfs_rwsem);
- 			return NULL;
- 		}
--		inode = kernfs_get_inode(dir->i_sb, kn);
--		if (!inode)
--			inode = ERR_PTR(-ENOMEM);
-+		inode = kernfs_iget(dir->i_sb, kn);
-+		if (!inode) {
-+			/* deactivated while kernfs_iget() dropped the lock */
-+			up_read(&root->kernfs_rwsem);
-+			return NULL;
-+		}
- 	}
- 	/*
- 	 * Needed for negative dentry validation.
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 237dcdd73fc2..6c64bff0fc9f 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -256,6 +256,75 @@ struct inode *kernfs_get_inode(struct super_block *sb, struct kernfs_node *kn)
- 	return inode;
- }
- 
-+static int kernfs_iget_test(struct inode *inode, void *data)
-+{
-+	return inode->i_ino == *(u64 *)data;
-+}
-+
-+static int kernfs_iget_set(struct inode *inode, void *data)
-+{
-+	inode->i_ino = *(u64 *)data;
-+	return 0;
-+}
-+
-+/**
-+ * kernfs_iget - get the inode of @kn, allocating it outside kernfs_rwsem
-+ * @sb: super block
-+ * @kn: kernfs_node to get the inode for
-+ *
-+ * Unlike kernfs_get_inode(), this never allocates with kernfs_rwsem held.
-+ * If @kn has no inode yet, the lock is dropped while allocating one, as
-+ * the allocation can stall in memcg reclaim.  The new inode is added only
-+ * if @kn is still active when the lock is taken again, so
-+ * __kernfs_remove() always finds it to clear i_nlink.
-+ *
-+ * Only @kn is pinned while the lock is dropped.  Its name and parent can
-+ * change in that time.
-+ *
-+ * Context: May sleep.  Called with kernfs_rwsem held for read.  Returns
-+ * with it held, but may have dropped and retaken it.
-+ *
-+ * Return: the inode, %NULL if @kn is inactive or became inactive while
-+ * the lock was dropped, or ERR_PTR(-ENOMEM).
-+ */
-+struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn)
-+{
-+	struct kernfs_root *root = kernfs_root(kn);
-+	u64 ino = kernfs_ino(kn);
-+	struct inode *inode, *new;
-+
-+	lockdep_assert_held_read(&root->kernfs_rwsem);
-+
-+	inode = ilookup(sb, ino);
-+	if (inode || !kernfs_active(kn))
-+		return inode;
-+
-+	kernfs_get(kn);
-+	up_read(&root->kernfs_rwsem);
-+	new = new_inode(sb);
-+	down_read(&root->kernfs_rwsem);
-+
-+	if (!new) {
-+		inode = ERR_PTR(-ENOMEM);
-+	} else if (!kernfs_active(kn)) {
-+		inode = NULL;
-+	} else {
-+		inode = inode_insert5(new, ino, kernfs_iget_test,
-+				      kernfs_iget_set, &ino);
-+		if (inode == new) {
-+			kernfs_init_inode(kn, inode);
-+			new = NULL;
-+		} else if (!inode) {
-+			inode = ERR_PTR(-ENOMEM);
-+		}
-+	}
-+
-+	kernfs_put(kn);
-+	if (new)
-+		iput(new);
-+	return inode;
-+}
-+
- /*
-  * The kernfs_node serves as both an inode and a directory entry for
-  * kernfs.  To prevent the kernfs inode numbers from being freed
-diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
-index 1609c1519698..6cc19c9ef47b 100644
---- a/fs/kernfs/kernfs-internal.h
-+++ b/fs/kernfs/kernfs-internal.h
-@@ -186,6 +186,7 @@ int kernfs_iop_getattr(struct mnt_idmap *idmap,
- 		       u32 request_mask, unsigned int query_flags);
- ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size);
- int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr);
-+struct inode *kernfs_iget(struct super_block *sb, struct kernfs_node *kn);
- 
- /*
-  * dir.c
-@@ -194,6 +195,7 @@ extern const struct dentry_operations kernfs_dops;
- extern const struct file_operations kernfs_dir_fops;
- extern const struct inode_operations kernfs_dir_iops;
- 
-+bool kernfs_active(struct kernfs_node *kn);
- struct kernfs_node *kernfs_get_active(struct kernfs_node *kn);
- void kernfs_put_active(struct kernfs_node *kn);
- int kernfs_add_one(struct kernfs_node *kn);
-diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
-index c15ba6357162..ccb7dc575c7c 100644
---- a/fs/kernfs/mount.c
-+++ b/fs/kernfs/mount.c
-@@ -125,11 +125,9 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
- 	}
- 
- 	/*
--	 * Hold kernfs_rwsem across the lookup as well as kernfs_get_inode().
--	 * __kernfs_remove() deactivates the subtree and clears i_nlink on its
--	 * inodes under the write lock, so under the read lock either
--	 * kernfs_find_and_get_node_by_id() refuses the node, or the inode is
--	 * in the inode hash before the ilookup() pass goes looking for it.
-+	 * Hold kernfs_rwsem from the lookup through kernfs_iget().  Then
-+	 * __kernfs_remove() either finds the inode to clear i_nlink, or the
-+	 * node is already inactive and no inode is created.
- 	 */
- 	scoped_guard(rwsem_read, &info->root->kernfs_rwsem) {
- 		kn = kernfs_find_and_get_node_by_id(info->root, id);
-@@ -146,7 +144,7 @@ static struct dentry *__kernfs_fh_to_dentry(struct super_block *sb,
- 				return ERR_PTR(-ESTALE);
- 		}
- 
--		inode = kernfs_get_inode(sb, kn);
-+		inode = kernfs_iget(sb, kn);
- 		kernfs_put(kn);
- 	}
- 
-@@ -171,9 +169,13 @@ static struct dentry *kernfs_get_parent_dentry(struct dentry *child)
- {
- 	struct kernfs_node *kn = kernfs_dentry_node(child);
- 	struct kernfs_root *root = kernfs_root(kn);
-+	struct inode *inode;
-+
-+	scoped_guard(rwsem_read, &root->kernfs_rwsem) {
-+		inode = kernfs_iget(child->d_sb, kernfs_parent(kn));
-+	}
- 
--	guard(rwsem_read)(&root->kernfs_rwsem);
--	return d_obtain_alias(kernfs_get_inode(child->d_sb, kernfs_parent(kn)));
-+	return d_obtain_alias(inode);
- }
- 
- static const struct export_operations kernfs_export_ops = {
--- 
-2.53.0-Meta
-
+> 
+> thanks,
+> 
+> greg k-h
