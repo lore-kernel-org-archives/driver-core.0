@@ -1,46 +1,95 @@
-Received: from mta0.migadu.com (out-83.mta0.migadu.com [91.218.175.83])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3073A1D01
-	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 17:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B84239F18A
+	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 17:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792257678; cv=none; b=m+25HBGk6oX0SkWT6vQNwZbLpnh0H80JbHwpIZ//lKHmzdOUUTEtg5Sy7Yjt1dxxEIpPC7t8mO9dBJ5aXmyE6tH1ska/Zv04QRO6h1RP/QqQHIvNUwMchrHZpgXtbnlffOzINpQ3tzUaK11Wkxx0QKRtIA7xDqOIbMuhtzd7DdU=
+	t=1792259356; cv=none; b=cqC+3wDFXV4Mdx8fZMOav6hyls3Xd9VsaRfwCnjKGuMKAuoopXJbJfDCzusSK4CTVXOAC49+mHq1dku02HzTMuyikHToXHqdfVyfrB2KqjNJGiSfE6MtFl5kltV53NK07VuVAyRSMVuTQF9jNlDsIUQ20ysYl1R1xFsHR0rPp58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792257678; c=relaxed/simple;
-	bh=rQSiJpdloOLk1IKxcIMyqUygHLmddA2G5OpVAwa/kZM=;
+	s=arc-20240116; t=1792259356; c=relaxed/simple;
+	bh=9iVYwkAnCtZ3hFTHC7pQKEPigp9IEaagz00Mkpk73RY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H6sBG/KQ6M9GPUjmW40BlCuf98uf9qQUgTP5Ndn8o+T1jIDy+7vBWKxMBvJSsyp7qmmWQg4Lo1kFI7H33DqUFI1OTK+B3xN4Td6u9K3B7PhRA1O9LdITho0UtvG1/L6mh6yV5fEpAWXSdkr/rz/9sviKZS7StuBwwVQhpQfEOJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ifiMT4aV; arc=none smtp.client-ip=91.218.175.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=OdjRrrL22hkwmtkdC0xcrQV5AFRw9bIodr/9KqdXPZqaLsc3yT6lTR00f8wUdNr4N8PC1Zs14FuJqAR+2HlIQikX9SuFgOLTuDri4c4skE59kBWyzx6oilGn+DCLioN9aSfbyiKd3Heyzfoglt8NT+5YndudU3XylvFEL+zPSV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=EeG3nYv1; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ifiMT4aV"
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=rQSiJpdloOLk1IKxcIMyqUygHLmddA2G5OpVAwa/kZM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792257673; v=1; x=1792862473;
- b=ifiMT4aV5zslJeySpDz60H+c4cDPTZQ6qSlxrNRIUSwCQvVlxor/779hzsrEu7ittp5dAZTg
- Us+tL6BKg/zNETor3yaCVAYLjerPNLLSB/SDJ/Chn/EH9tKZvsojg1+gxnrTD7Yxm0LKQgmx9gY
- k/Iey0lr8ENEJgfAQp4G7Auw=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id abc17a2e3d72fc6a;
-	Sat, 17 Oct 2026 17:21:13 +0000
-X-Mizu-Trace-ID: abc17a2e3d72fc6a
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 17 Oct 2026 10:21:07 -0700
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>, 
-	Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] kernfs: allocate inodes and dentry outside
- kernfs_rwsem
-Message-ID: <20261017172000.GA204880@shakeel.butt@linux.dev>
-References: <20261016220029.3276154-1-shakeel.butt@linux.dev>
- <236f5fe73f01f03d75dddca9362f39a7@kernel.org>
- <2026101745-brisket-outspoken-ef6c@gregkh>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="EeG3nYv1"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91beb36fcc6so2889516d6.1
+        for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 10:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1792259354; x=1792864154; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6ZKiIqr2wNuyAPe6hCnVLHZyBqqQ8TWVMIEldJ82jWw=;
+        b=EeG3nYv1MNZIroHep9FKj8muQu2pcDk1iN8n/p3fptvZcQERhZXVHzgdI+DOtodAPo
+         xb09CU9hihy+rhfn5zwFgzEkUmZUVlmblyOlN8cD2K9n5yWnDLVnfH/aNZrChFiLkhiF
+         vT28h3QS7j1ZFdTV+QL1Hkb/vgROay66JVo3Ruj95Xo5AcE24GCBLln0k8Q/LvwtIrCb
+         DI+ZQcksX6Jv0mmHgTFE01AT5Opt6PRfw7c+V3wGZ82QvbMD3ejNPTrNIcmcN253vrAj
+         0riPnMmXQbcpkBkuauKbH8EQuiXyADhbplvy7ZDKteYaPhyJ85cBsnQJSchGu+QjbRE4
+         BcRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792259354; x=1792864154;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6ZKiIqr2wNuyAPe6hCnVLHZyBqqQ8TWVMIEldJ82jWw=;
+        b=Clx0JeccNs+YJ5p5/5HdtMuTHZZPaH6sZ5dVmTiF7kP6ZYPBRn2N+iSN6IdGJ1QtTA
+         QW56xeKUN9Yh7TMP5GvxDnYyKquYq+KG6pvd4pYKNTR/CQCPRFUfldKJChGDeS/viRwa
+         Pa6bSYGgLTIq2PncE+X9Hl6fh7Cjx6oniHzXRaLTnJAjPgOsKJ8d9AHRrSePaIS4UIKp
+         QycbleWuFn3delmByf+RAnqeW3U1oSs+jplmWKuRlSP2jhMNfWZ7EfgZhbAtCCqhw5qk
+         0YPutOhKZqvN2HhjTB+lvt1arvtL0nMFwi+DeI/xIZRShJ8Gk3K3alVSwzQmHVhjgd3O
+         w54w==
+X-Forwarded-Encrypted: i=1; AKwUvByZYcsvjfzCB7EiwreePWUDC2nTG5f9WKN9tXy7l9kVPtIaLsa65sVL/i/HRFRWZsd6ZXFIrU7fvrLjqA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKzZq+Q8MQQVy5NF28vvNvlsfMa5JdpipIfsWtTLN1HElgnE39a
+	dr54kubTw4rgHufR2ivtqyEox2PokudQun775RKFE1WhtDkDu2WMlU/Dyp6LKKWV3+0=
+X-Gm-Gg: AYBFou1oD3wnUt0Ov+yWH6MWjXgXmN6DBRx8Asx2N1BTVS8uHWbyAI9oXrLkIeMQruO
+	4+UGbgqAVdEBqTqq9Si2xpm8u3XT0SbElnCaFV9I+gAhFuQgcYtQoyqYt2sODPF4NAgCI9w31Kr
+	aNY0XmNm4PuiCkfz24Du2HSj7PqHEu7pIRSmHF3HXJm7estBuGzC222jNwlypizUZmkIL4nzcFw
+	xPbgBzONBySZZ4dp2YEJbN2BopRLURFXZoB7i+/FOZKa/Bpie9UvjbIPS/0sdeRI18OtZq89mwo
+	Lt5YxxQY/iqipySxp83S6fFSUgdPXW+9L79PDmW5m1XxWN7pFHnPNHMm6ZeOjePjkLvIxmwZG79
+	zWK75f4tpZ0oOOp9CTQz9Wxjkgv2DFc5JefuPWAkDxvcDhs57bAHpv+cn5Oci2OnK2o5HsmxAXe
+	GsU+SJZuRI9gu+gMQOX/d2Fi6C1zK1OFCbUS7zu5tjXfDEFmgSihsOL7cK//pPGg6WiABUmliHw
+	u+xN4F5WQe6oM9pZPx+ktJGIGLlRY1u/VITRYEl08qHLcWfxBlKZP4S
+X-Received: by 2002:a05:620a:45a2:b0:93e:c12c:9dcd with SMTP id af79cd13be357-93f29deb855mr546221985a.77.1792259353931;
+        Sat, 17 Oct 2026 10:49:13 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f2f045ca4sm171937385a.29.2026.10.17.10.49.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 10:49:13 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xI8Wu-00000004sUa-33rg;
+	Sat, 17 Oct 2026 14:49:12 -0300
+Date: Sat, 17 Oct 2026 14:49:12 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Pranjal Shrivastava <praan@google.com>, iommu@lists.linux.dev,
+	Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Daniel Mentz <danielmentz@google.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
+Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
+ gate CMDQ submissions
+Message-ID: <20261017174912.GK14213@ziepe.ca>
+References: <20260929034510.2023173-1-praan@google.com>
+ <20260929034510.2023173-12-praan@google.com>
+ <ar1yNtr7Kp2OTcDd@nvidia.com>
+ <ar3yWUmi8E0k37Ml@google.com>
+ <ar6gY9grmdMZcN/M@nvidia.com>
+ <20261002164748.GD3481470@ziepe.ca>
+ <asAeCz_rmpe5hbsh@google.com>
+ <asUvUf4PZJ7JCLXp@nvidia.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -49,13 +98,22 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026101745-brisket-outspoken-ef6c@gregkh>
+In-Reply-To: <asUvUf4PZJ7JCLXp@nvidia.com>
 
-On Sat, Oct 17, 2026 at 11:14:13AM +0200, Greg Kroah-Hartman wrote:
-[...]
+On Tue, Oct 06, 2026 at 10:26:41AM -0700, Nicolin Chen wrote:
+> > pci_dev_reset_iommu_prepare/done() pair (with slight refactoring) in EP's
+> > suspend/resume?
 > 
-> This looks sane, but it's really late in the cycle, can we wait until
-> after -rc1 to add it to the tree for lots of testing in -next?
+> That sounds right to me, though a different API for suspend/resume
+> will be required. And call them in pci_pm_runtime_suspend/resume()
+> maybe.
 > 
+> Jason, how do you think about this?
 
-Yes, no objection from me.
+Maybe lets just start by refusing power management when ATS is on? For
+PCIe devices too?
+
+It isn't just ARM that has this issue, every iommu is busted if you
+suspend the PCI device while an ATS domain is still active..
+
+Jason
