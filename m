@@ -1,41 +1,41 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553193B27DF
-	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 08:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88DF348463;
+	Sat, 17 Oct 2026 09:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792227445; cv=none; b=hiVFVSx4r2sKg+RB2p5T2cwJaxuzgzXS6PAguIad4a9tG66fSY4gknBT2qcGKAnoBH/rJZ0NgVLk6XcJLOOlhfsMAKlHlFjp2EB+lHfDQ+QPuc82eIuwpZ39kyRT0ZTPNr9dipJ7ZA74ExalVoKgCTdE4q5XayYTpEeP6ypv9NA=
+	t=1792228458; cv=none; b=mDaaV+86izNFZomFyESS/74G+O+d45W8MftRgG9k9AMSeeIKY3LOtMTzfBxBRyZDpgORdiMrFdELhKE/uljK5vxGSyNVk5QEqir0/z/qYYuPja+EZB9F0zVSdoJ2OEnC2u0ml5zTo2yj3YSF4dmr3jEKd7fiL53dCafgd7Chr50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792227445; c=relaxed/simple;
-	bh=pJ6eE0bFpMf4TDfDWs3yMeobveFrhNmmkJGNDG5Wveg=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXH4Yt2W/NVOwC6OW/OFMmTdp/Ph3aLvr27zd7mQcKmDd0rBOCF5PLj9M1O431PTlQz4LkWNAQMYmSdQnL2Qb+mffIFyxyyh0SUvqTt60VRruhIXNhvfqlork4KjNQpyX7HVSoy2YpEJeiPEWjGmW8TuSSOOB6y2ATC90YC05h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100.1)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1xI0EC-000000004Ho-19Bj;
-	Sat, 17 Oct 2026 08:57:20 +0000
-Date: Sat, 17 Oct 2026 09:57:17 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	Hans de Goede <hansg@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org
-Subject: [PATCH v4 4/4] Bluetooth: btintel_pcie: use
- device_schedule_reprobe() after reset
-Message-ID: <9b078a64d003e63c617e8df41118f4ebde89aa2e.1792203271.git.daniel@makrotopia.org>
-References: <cover.1792203271.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1792228458; c=relaxed/simple;
+	bh=8vABHsB13eyqoMgwp6aTT5t4riKAcG78mN2q6kXrNg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mc4NckgvgxCDTKsv3xOk8aRqvYyAqWQR12+1r/n82Xbl5CmM9hpdXRX4lHJ9HUB3+IljUPczgGjPUWaJ1Vgkxc/D55Njs2DQAqDBnxSekQHmnEW6LN4mxZrMXwgS2ygQpPR2E7SgZfdO7FARp/D2CSTG8jviF97diidslb61GHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pg7Uzfa1; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pg7Uzfa1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220AC1F000C4;
+	Sat, 17 Oct 2026 09:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792228456;
+	bh=CnRNgtJg3qHsn4g0qrZKuVv1hDNtWmsy7zLHcTj6znE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Pg7Uzfa10I7JHTA982u7w07n9+pFsyM4SRqINgM9czcXcUkH/Aw62F/qdufEy7go5
+	 x1MgavQB3jndA/KisJmgce+AP8frlKWD/z8vkQ8typ0nOR7S36hoUHvEEXTERez1Fk
+	 l5g4zGMGbSH+2w3wJgmfUt1By3Qp+T2TWjWa9NDY=
+Date: Sat, 17 Oct 2026 11:14:13 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tejun Heo <tj@kernel.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>,
+	Christian Brauner <christian@brauner.io>,
+	Meta kernel team <kernel-team@meta.com>,
+	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] kernfs: allocate inodes and dentry outside
+ kernfs_rwsem
+Message-ID: <2026101745-brisket-outspoken-ef6c@gregkh>
+References: <20261016220029.3276154-1-shakeel.butt@linux.dev>
+ <236f5fe73f01f03d75dddca9362f39a7@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -44,126 +44,81 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1792203271.git.daniel@makrotopia.org>
+In-Reply-To: <236f5fe73f01f03d75dddca9362f39a7@kernel.org>
 
-The reset work re-probes its own device with device_reprobe() after an
-FLR or a PLDR, so .remove() runs inside it. That needs the
-current_work() check in .remove(), and 'data' must not be touched
-after the call.
+On Fri, Oct 16, 2026 at 12:42:29PM -1000, Tejun Heo wrote:
+> On Fri, Oct 16, 2026 at 03:00:29PM -0700, Shakeel Butt wrote:
+> > In the Meta fleet, on 6.16 with the kernfs changes queued for 7.4
+> > backported, we still see long cgroupfs stalls:
+> >
+> > - oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
+> >   of memory container created cgroups.  They resumed when the kernel OOM
+> >   killer killed the container's workload.
+> >
+> > - oomd waited 15 minutes in kernfs_iop_lookup().  PID 1 waited for
+> >   kernfs_rwsem in cgroup_rmdir() while holding cgroup_mutex.
+> >
+> > - A lock profiler sampling part of the fleet saw kernfs_iop_lookup()
+> >   hold kernfs_rwsem across memcg reclaim on 26 hosts in 29 days, for up
+> >   to 625 ms.
+> >
+> > The profiler shows where these stalls come from.  kernfs_iop_lookup()
+> > and the export ops allocate a new inode while holding kernfs_rwsem for
+> > read.  The inode is charged to the caller's memcg.  If that memcg is at
+> > memory.max, the allocation can stay in reclaim for a long time,
+> > sometimes until an OOM kill.  A writer then queues on the lock and every
+> > new reader queues behind it.  On cgroup2 this blocks every cgroupfs user
+> > on the machine.
+> >
+> > Such lookups are common in a memcg that is out of memory.  Its reclaim
+> > drops its kernfs dentries fast, and the files of a new cgroup have no
+> > inodes yet.
+> >
+> > Allocate the inode before taking kernfs_rwsem, and free it if it is not
+> > used, as commit 8b64f32fee95 ("kernfs: allocate the new name outside
+> > kernfs_rwsem") and commit 5ad03af18434 ("kernfs: allocate the open node
+> > outside the open file mutex") do.  Everything else still runs under the
+> > lock, so a new inode is added only for an active node, and
+> > __kernfs_remove() still finds every inode it must clear i_nlink on, as
+> > commit dc1a0cc95737 ("kernfs: don't lose IN_DELETE_SELF when decoding a
+> > file handle") needs.
+> >
+> > The inode goes unused when the name does not exist, the node is
+> > inactive, or it already has an inode.  In a VM, a lookup of a missing
+> > name takes about 0.35 us longer, 1.65 us instead of 1.3 us on
+> > cgroupfs.  Cold lookups of existing sysfs and cgroupfs files are not
+> > slower.
+> >
+> > kernfs_get_parent_dentry() also held the lock across d_obtain_alias(),
+> > which allocates a dentry.  Hold it only around the inode lookup, as
+> > __kernfs_fh_to_dentry() already does.  This also gives ->get_parent the
+> > active test that the IN_DELETE_SELF fix left out: a parent that is
+> > being removed and has no inode now gets -ESTALE instead of a new inode
+> > with i_nlink 1.
+> >
+> > kernfs_fill_super() preallocates the root inode the same way, so no
+> > inode is allocated under kernfs_rwsem any more.
+> >
+> > Tested on a 316-CPU machine.  A task in a full 256 MB memcg with slow
+> > swap looks up the files of new cgroups.  Worst waits in 60 seconds:
+> >
+> >                                   before    after
+> >   oomd, for kernfs_rwsem          236 ms   0.1 ms
+> >   below, for kernfs_rwsem         356 ms   0.8 ms
+> >   systemd, for kernfs_rwsem       160 ms    37 us
+> >   readdir of another directory    530 ms   3.9 ms
+> >
+> > The lookup itself is still slow.  The VFS still holds its directory's
+> > lock, so other work in that one directory still waits.
+> >
+> > Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
+> > Suggested-by: Tejun Heo <tj@kernel.org>
+> 
+> Acked-by: Tejun Heo <tj@kernel.org>
 
-Schedule the re-probe with device_schedule_reprobe(). .remove() then
-runs from the driver core's work, the current_work() check goes, and
-disable_work_sync(&data->reset_work) waits for the reset work before
-'data' is freed. Until the deferred detach 'data' stays alive but idle:
-RECOVERY_IN_PROGRESS fails send_frame and coalesces further resets,
-interrupts are masked, and the dump and rfkill workers stay disabled.
-If scheduling fails in the FLR path, the reset work re-enables them as
-on any FLR failure. The PLDR re-probe of the Wi-Fi sibling, a
-different device, is unchanged.
+This looks sane, but it's really late in the cycle, can we wait until
+after -rc1 to add it to the tree for lots of testing in -next?
 
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
----
-v4: rebased onto bluetooth-next for its hardware rfkill work; commit
-    message updated for the reworked helper
-v3: rebased onto bluetooth-next, whose btintel_pcie has four dump
-    workers (coredump/hwexp/fwtrigger/mbox) rather than the single one
-    the mainline snapshot v2 targeted
-v2: reconciled to the current tree and adapted the commit message
-v1: initial RFC
+thanks,
 
- drivers/bluetooth/btintel_pcie.c | 47 ++++++++++++++++----------------
- 1 file changed, 23 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/bluetooth/btintel_pcie.c b/drivers/bluetooth/btintel_pcie.c
-index df95d16a163c8..9f65eb0ceb0b2 100644
---- a/drivers/bluetooth/btintel_pcie.c
-+++ b/drivers/bluetooth/btintel_pcie.c
-@@ -4093,7 +4093,7 @@ static void btintel_pcie_perform_pldr(struct btintel_pcie_data *data)
- 	 * BT needs pci_save_state()/pci_restore_state() because the BT driver
- 	 * is still partially attached when the _PRR runs (it hasn't been unbound yet).
- 	 * The PCI device needs to remain minimally functional so that
--	 * device_reprobe(&pdev->dev) can work afterward
-+	 * the deferred re-probe of the BT device can work afterward
- 	 */
- 	ret = btintel_pcie_acpi_reset_method(data);
- 
-@@ -4104,14 +4104,16 @@ static void btintel_pcie_perform_pldr(struct btintel_pcie_data *data)
- 	}
- 
- 	if (!ret) {
--		if (device_reprobe(&pdev->dev))
--			BT_ERR("BT reprobe failed for BDF:%s", pci_name(pdev));
-+		if (device_schedule_reprobe(&pdev->dev, 0))
-+			BT_ERR("BT reprobe scheduling failed for BDF:%s",
-+			       pci_name(pdev));
- 	}
- }
- 
- /*
-- * Issue a Function Level Reset and hand teardown/re-init off to the PCI
-- * core via device_reprobe(), mirroring the PLDR path's contract.
-+ * Issue a Function Level Reset and hand teardown/re-init off to the
-+ * driver core via device_schedule_reprobe(), mirroring the PLDR path's
-+ * contract.
-  *
-  * Caller must hold pci_lock_rescan_remove() and must have already
-  * disabled interrupts and drained both rx_work and coredump_work.
-@@ -4133,14 +4135,12 @@ static int btintel_pcie_perform_flr(struct btintel_pcie_data *data)
- 		return err;
- 	}
- 
--	/* device_reprobe() always detaches the driver first (running
--	 * .remove(), which frees 'data'); any re-probe failure leaves the
--	 * device unbound but 'data' is already gone, so just log it.
--	 */
--	if (device_reprobe(&pdev->dev))
--		BT_ERR("BT reprobe failed for BDF:%s", pci_name(pdev));
-+	err = device_schedule_reprobe(&pdev->dev, 0);
-+	if (err)
-+		BT_ERR("BT reprobe scheduling failed for BDF:%s",
-+		       pci_name(pdev));
- 
--	return 0;
-+	return err;
- }
- 
- static void btintel_pcie_reset_work(struct work_struct *wk)
-@@ -4173,11 +4173,15 @@ static void btintel_pcie_reset_work(struct work_struct *wk)
- 	disable_work_sync(&data->mbox_work);
- 	bt_dev_dbg(data->hdev, "Release bluetooth interface");
- 
--	/* Both reset paths follow the same contract: on success they
--	 * destroy 'data' via device_reprobe() (a fresh probe re-INIT_WORKs
--	 * the dump workers with disable count 0), so enable_work() must
--	 * NOT be called on the success path. Only the FLR path can fail
--	 * with 'data' still alive, in which case we balance the
-+	/* Both reset paths follow the same contract: on success the
-+	 * deferred re-probe scheduled with device_schedule_reprobe()
-+	 * destroys 'data' by re-running .probe() (which re-INIT_WORKs the
-+	 * dump workers with disable count 0), so enable_work() must NOT be
-+	 * called on the success path. 'data' stays alive until the deferred
-+	 * detach runs; in this window new activity is fenced by
-+	 * BTINTEL_PCIE_RECOVERY_IN_PROGRESS, the masked interrupts and the
-+	 * disabled dump workers. Only the FLR path can fail with no
-+	 * re-probe scheduled, in which case we balance the
- 	 * disable_work_sync() calls above so a later successful reset is
- 	 * not permanently blocked.
- 	 *
-@@ -4598,13 +4602,8 @@ static void btintel_pcie_remove(struct pci_dev *pdev)
- 	disable_work_sync(&data->fwtrigger_work);
- 	disable_work_sync(&data->mbox_work);
- 
--	/* Cancel pending reset work. Skip only when remove() is called from
--	 * within the reset work itself (PLDR device_reprobe path) to avoid
--	 * deadlock. current_work() returns the work_struct of the caller if
--	 * we are in a workqueue context.
--	 */
--	if (current_work() != &data->reset_work)
--		disable_work_sync(&data->reset_work);
-+	/* reset_work may still be running after scheduling the re-probe. */
-+	disable_work_sync(&data->reset_work);
- 
- 	btintel_pcie_mask_hw_rfkill(data);
- 	btintel_pcie_synchronize_irqs(data);
--- 
-2.56.0
+greg k-h
