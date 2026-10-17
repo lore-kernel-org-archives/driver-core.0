@@ -1,51 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350412E719B;
-	Sat, 17 Oct 2026 08:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F376363C40
+	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 08:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792224262; cv=none; b=kvn/l8CWzCHvXLee4ysuRi4lHudqhOF65EQ7Pd0fNqDBCe7ze0vHmW8pW6rmXH9WcOA8DUu9RAGqCRSpBm6o4UIKr0sE2FgM0ouIY9cPSb1iXbJ3Y2WVb6wTVjFVlsPbfc7yxZzwBCEK4V61MKv2pDGo3oElR8/A7L5ULiUjQ8Y=
+	t=1792227326; cv=none; b=l7gFMm2J/VrZ9WekrZGdFmHJ5QzcEBSGR4JpTKjANUHT2s6uKmCFwUMOQuMVeqpbG3l0VuFjWgW+L61Re9ihHd7sSP6IaWa4P9vltUJEag1OK/fnrLuYZmFtQ8yGHfas2yIsxPwv//VIWsncI9ApAYN536XendS3WHs61ddjVX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792224262; c=relaxed/simple;
-	bh=7qDI74gjHZJGEwkABMcZSoA0MbCGw9LlI8XM9CtMxr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pyv2xzpAZLZNJ9hKG4DifCrfk+m45I9JfPcWDoCmpTSSv2uUD86LLYCVQwWiS0G21IjAcbQeh6Rzog1U37VM7kOsKZGmgrbqV2GkthJv3M0RNG783ADRpdbBh/fJiYLH9/RYx8I43Mx8jAJMV4QTsHFKlJT99W4n5M4e423j7yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Msrv+BWb; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Msrv+BWb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F32EB1F000C4;
-	Sat, 17 Oct 2026 08:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792224260;
-	bh=rbdJEzm5e/9pK3FIuLFI29o7B4dQ9T6z556KPHhg9Xc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Msrv+BWbTWkRxy7NwxshktzSRodYDmSL0oB1UrHevfw8y1D3qVmOCiGtsqoLrvrqd
-	 EgypIPZk3djOJSyw6qwSBif0cY/rRKubPS36GWOfYdZ0wjIodZWxBZfAdwwnmb23XC
-	 5LK1W2fC2ZNSzebGK1mcW83rV7rZI6HWPpZveRng=
-Date: Sat, 17 Oct 2026 10:04:17 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Peng Wang <peng_wang@linux.alibaba.com>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	s=arc-20240116; t=1792227326; c=relaxed/simple;
+	bh=E0fjcsu40T6/F313XMJJ/NVd+RUC6tIve+FBSv42krc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=opRkH0w1oyWOKCVGcjMLOTx4kL1xUsTAoXDNjz6z5vGlTjEI5YvJZDYsaXv0yOYgrGjiEwNWxFEk2ehIvcbRG2vRWYRpg4J0CNla5JB+q9kKIQQapiR/KBVZ1aZLVrDwIzmfnoFR9JbhN6rhj17yIS01KSWLXLGgunCLh72miuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
+Received: from local
+	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
+	 (Exim 4.100.1)
+	(envelope-from <daniel@makrotopia.org>)
+	id 1xI0CG-000000004Fu-3V2H;
+	Sat, 17 Oct 2026 08:55:20 +0000
+Date: Sat, 17 Oct 2026 09:55:17 +0100
+From: Daniel Golle <daniel@makrotopia.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	He Rongguang <herongguang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] cpu: Add sysfs control of full dynticks policy
-Message-ID: <2026101743-monotype-demeaning-f97b@gregkh>
-References: <cover.1792067271.git.peng_wang@linux.alibaba.com>
- <e93ef15796946485eaaecd774141378351307940.1792067271.git.peng_wang@linux.alibaba.com>
- <2026101646-speller-gutter-c184@gregkh>
- <atJea4b6VvYlAvbD@MacBook-Pro.local>
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Hans de Goede <hansg@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org
+Subject: [PATCH v4 0/4] device_schedule_reprobe(): core helper and conversions
+Message-ID: <cover.1792203271.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -54,171 +42,80 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <atJea4b6VvYlAvbD@MacBook-Pro.local>
 
-On Sat, Oct 17, 2026 at 01:27:07AM +0800, Peng Wang wrote:
-> On Fri, Oct 16, 2026 at 06:25:26PM +0200, Greg Kroah-Hartman wrote:
-> > On Thu, Oct 15, 2026 at 08:43:09PM +0800, Peng Wang wrote:
-> > > Expose nohz_full_allowed under /sys/devices/system/cpu/ as the subset of
-> > > nohz_full CPUs permitted to suppress their non-idle scheduler tick.
-> > > 
-> > > Writes replace the entire list; reads report policy, not current tick
-> > > state. Reject invalid input before updating policy. Document asynchronous
-> > > revocation, offline CPU configuration and persistence across hotplug.
-> > > The existing nohz_full attribute continues to report membership.
-> > > 
-> > > Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
-> > > Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
-> > > Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
-> > > ---
-> > >  .../ABI/testing/sysfs-devices-system-cpu      | 40 ++++++++++++++++
-> > >  drivers/base/cpu.c                            | 46 +++++++++++++++++++
-> > >  2 files changed, 86 insertions(+)
-> > > 
-> > > diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > > index 82d10d556cc89..edf3408fd84c8 100644
-> > > --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > > +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> > > @@ -767,6 +767,46 @@ Description:	Preferred MTE tag checking mode
-> > >  
-> > >  		See also: Documentation/arch/arm64/memory-tagging-extension.rst
-> > >  
-> > > +What:		/sys/devices/system/cpu/nohz_full_allowed
-> > > +Date:		October 2026
-> > > +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > > +Description:
-> > > +		(RW) CPUs permitted to stop the scheduler tick while non-idle.
-> > > +		Available with CONFIG_NO_HZ_FULL. The default is the complete
-> > > +		nohz_full CPU list. Readback reports permission, not the current
-> > > +		tick state: all the usual tick dependencies still apply.
-> > > +
-> > > +		A write replaces the entire list, using CPU-list syntax (for
-> > > +		example, "1-3,5"). An empty line revokes permission from all
-> > > +		nohz_full CPUs. Invalid input is rejected without changing
-> > > +		policy. A parsed list containing CPUs outside nohz_full fails
-> > > +		with EINVAL. CPU numbers beyond the mask range and numeric
-> > > +		overflows are rejected by the CPU-list parser with ERANGE and
-> > > +		EOVERFLOW, respectively. Input must be shorter than PAGE_SIZE
-> > > +		bytes, otherwise E2BIG is returned. Embedded NULs and newlines
-> > > +		other than a trailing newline are rejected with EINVAL. Valid
-> > > +		writes without an active nohz_full configuration fail with
-> > > +		EOPNOTSUPP.
-> > > +
-> > > +		Reads fail with EOVERFLOW if the formatted output reaches
-> > > +		PAGE_SIZE - 1 bytes, rather than returning a potentially
-> > > +		truncated CPU list.
-> > > +
-> > > +		Revoking permission adds a per-CPU tick dependency. Online CPUs
-> > > +		are notified through the existing asynchronous kick mechanism
-> > > +		to restart a stopped non-idle tick. A successful write means
-> > > +		the policy is updated and any needed notification is queued;
-> > > +		it does not wait for tick restart. Changes to multiple CPUs
-> > > +		are not simultaneous. Granting permission only removes this
-> > > +		dependency and does not force the tick to stop.
-> > > +
-> > > +		Offline CPUs may be configured without sending notifications.
-> > > +		Policy persists across CPU offline/online. Idle tick suppression
-> > > +		is unchanged; the policy applies when a CPU leaves idle.
-> > > +
-> > > +		This interface does not change nohz_full membership, context
-> > > +		tracking, RCU offloading, or housekeeping configuration.
-> > > +
-> > >  What:		/sys/devices/system/cpu/nohz_full
-> > >  Date:		Apr 2015
-> > >  Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
-> > > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> > > index 69e52fed42415..299ce61cef895 100644
-> > > --- a/drivers/base/cpu.c
-> > > +++ b/drivers/base/cpu.c
-> > > @@ -324,6 +324,51 @@ static ssize_t nohz_full_show(struct device *dev,
-> > >  	return sysfs_emit(buf, "\n");
-> > >  }
-> > >  static DEVICE_ATTR_RO(nohz_full);
-> > > +
-> > > +static ssize_t nohz_full_allowed_show(struct device *dev,
-> > > +				      struct device_attribute *attr, char *buf)
-> > > +{
-> > > +	cpumask_var_t mask;
-> > > +	ssize_t ret;
-> > > +
-> > > +	if (!alloc_cpumask_var(&mask, GFP_KERNEL))
-> > > +		return -ENOMEM;
-> > > +
-> > > +	tick_nohz_full_get_allowed(mask);
-> > > +	ret = sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
-> > > +
-> > > +	free_cpumask_var(mask);
-> > > +
-> > > +	/* Never present a truncated CPU list as the complete policy. */
-> > > +	return ret == PAGE_SIZE - 1 ? -EOVERFLOW : ret;
-> > 
-> > Why not?  What will userspace do then if it gets -EOVERFLOW as it can
-> > not get the full list?
-> 
-> Hi Greg,
-> 
-> There is no way to retrieve the full list through this attribute.
-> The intent was to avoid returning a truncated list that userspace
-> could write back, unintentionally revoking permission for the omitted
-> CPUs. Returning an error does not solve that interface limitation.
+iwlwifi and hci_h5 re-probe their own device from a work item in module
+text ending in module_put(THIS_MODULE), which a concurrent rmmod can
+race, and nothing ties the re-probe to the binding that asked for it.
+btintel_pcie re-probes synchronously from its own reset work. This
+series adds device_schedule_reprobe() to the driver core and converts
+all three.
 
-If you _MUST_ have such a size of a sysfs file, then use a binary
-attribute which can accept any size.  I think we have had to do that for
-other sysfs files that show this information in the past, right?  Please
-check them.
+Tested on an Intel AX101 with patches 1 to 3, PROVE_LOCKING and
+DEBUG_OBJECTS_WORK: a re-probe, and an unbind, rmmod, PCI removal,
+suspend and reboot with one pending. The unbind and the removals
+cancelled it, and it ran after resume. The stock iwlwifi code undid
+the unbind, and rmmod with its work held just past module_put() oopsed
+in lockdep. Patches 3 and 4 are untested for lack of hardware.
 
-> > > +}
-> > > +
-> > > +static ssize_t nohz_full_allowed_store(struct device *dev,
-> > > +				       struct device_attribute *attr,
-> > > +				       const char *buf, size_t count)
-> > > +{
-> > > +	cpumask_var_t mask;
-> > > +	int ret;
-> > > +
-> > > +	/* kernfs may truncate an oversized write to PAGE_SIZE. */
-> > > +	if (count >= PAGE_SIZE)
-> > > +		return -E2BIG;
-> > 
-> > How are you getting a larger than PAGE_SIZE value here?
-> 
-> I cannot; kernfs caps count at PAGE_SIZE. The check is intended for
-> count == PAGE_SIZE, to avoid applying a potentially truncated prefix
-> as a complete list. It also rejects an exactly page-sized input.
+Changes since v3 [4]:
+ - patch 1 was reworked as patch 3/6 of the mxl862xx devlink flash
+   series, v13 to v19 [5][6], which netdev has deferred until this
+   lands; its history summarises the changes
+ - patch 1: Hans de Goede's tags dropped [7]; patch 3 keeps his, its
+   code being unchanged, but a re-test would be welcome
+ - patches 2 and 3: Fixes: tags
+ - patches 2 to 4: commit messages updated; rebased onto bluetooth-next
 
-If the check is for == PAGE_SIZE then check for that, not for something
-that can never happen :)
+Changes since v2 [3]:
+ - patch 1: use dev_err_probe() for the re-probe error path so a
+   re-probe deferred at resume no longer logs a spurious error; pick up
+   Hans de Goede's Tested-by/Reviewed-by
+ - patch 3: pick up Hans de Goede's Tested-by/Reviewed-by
+ - patch 4: rebased onto bluetooth-next, whose btintel_pcie has four
+   dump workers rather than the single one the v2 mainline snapshot had
+ - base the series on bluetooth-next instead of v7.2-rc7 so the
+   bluetooth patches apply for their maintainers
 
-But again, don't do this at all by using a binary attribute if you are
-going to be needing to accept larger amounts of data.  Don't create a
-known-broken api from the start please.
+Changes since the RFC (v1) [1]:
+ - pin the parent device across the deferred work and re-lock it across
+   device_attach() on need_parent_lock buses (found reviewing the
+   mxl862xx posting [2])
+ - schedule the work on system_dfl_wq instead of the deprecated
+   system_unbound_wq
+ - thread the series properly (the RFC's patches were unthreaded)
+ - drop RFC status
 
-> > 
-> > > +	if (memchr(buf, '\0', count) ||
-> > > +	    (count > 1 && memchr(buf, '\n', count - 1)))
-> > > +		return -EINVAL;
-> > 
-> > What are you testing for here, sorry, I can't easily figure it out.
-> 
-> The checks reject user-supplied NULs and non-final newlines.
-> For example, cpulist_parse() accepts "1\n2\n" as CPU 1 only, while
-> store() would report the full input as consumed. The NUL appended
-> by kernfs is at buf[count], outside the checked range.
+[1] https://lore.kernel.org/all/anpxFdwNxk0XwPjQ@makrotopia.org/
+[2] https://lore.kernel.org/all/cover.1786922210.git.daniel@makrotopia.org/
+[3] https://lore.kernel.org/all/cover.1787185594.git.daniel@makrotopia.org/
+[4] https://lore.kernel.org/all/cover.1787281239.git.daniel@makrotopia.org/
+[5] https://lore.kernel.org/all/cover.1788783126.git.daniel@makrotopia.org/
+[6] https://lore.kernel.org/all/cover.1791035885.git.daniel@makrotopia.org/
+[7] https://lore.kernel.org/all/aqlPPyblTK8c6-zZ@makrotopia.org/
 
-Please document that in a comment here.
+---
+On LLM use: device_schedule_reprobe() was designed and first
+implemented by hand. Its later revisions answer AI review (Sashiko on
+the mxl862xx postings, and local runs of the same prompts); an LLM
+helped reproduce those findings and draft the changes and changelogs.
+Every decision and the final review were mine; the Assisted-by tag on
+patch 1 records this.
 
-> I propose replacing the global attribute with
-> /sys/devices/system/cpu/cpuN/nohz_tick_allowed, available only on
-> nohz_full CPUs. Writing 0 would prevent non-idle tick suppression,
-> using the existing asynchronous kick when needed. Writing 1 would
-> allow suppression, subject to the existing tick dependencies.
-> Readback would report policy, not the current tick state.
-> 
-> Each write would affect only that CPU, without changing nohz_full
-> membership or other isolation settings. This would give up the
-> single-write whole-list replacement. Would that be a better fit?
+Daniel Golle (4):
+  driver core: add device_schedule_reprobe()
+  wifi: iwlwifi: use device_schedule_reprobe()
+  Bluetooth: hci_h5: use device_schedule_reprobe()
+  Bluetooth: btintel_pcie: use device_schedule_reprobe() after reset
 
-That's much simpler, so I'm all for that from a sysfs point of view,
-thanks.
+ drivers/base/base.h                           |   4 +
+ drivers/base/dd.c                             | 171 ++++++++++++++++++
+ drivers/bluetooth/btintel_pcie.c              |  47 +++--
+ drivers/bluetooth/hci_h5.c                    |  43 +----
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |  40 +---
+ include/linux/device.h                        |   2 +
+ 6 files changed, 208 insertions(+), 99 deletions(-)
 
-greg k-h
+
+base-commit: 185c11232d5f586489bb3b74e6bcc7a6560ddd40
+-- 
+2.56.0
