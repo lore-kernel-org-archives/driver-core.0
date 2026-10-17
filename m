@@ -1,154 +1,192 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010035.outbound.protection.outlook.com [52.101.85.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC3E395240;
-	Sat, 17 Oct 2026 18:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792261034; cv=fail; b=DIg4L+tDilJLN7CwQbYeLfDvS+DO8VxqXvyqIEVKAF7Zhz3uMEqaAv11pFf4jAkVqWE++Hht25VqPZrMBW4kmW2D8ZOSUHgJ4+2Bso9zhkPijdxx9Ze6/90O9J958Sx0vPfL3F53mXVGj2xsOy0zDQ3JdnweAGvrBHTFRsFu36M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792261034; c=relaxed/simple;
-	bh=XdFPmmzzMSkuWJqd2nTOHHfi2VdHNMB8iwnhCLwvLPs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZYRjXBYfCBSO0k0wQ8Iq0X5eAPcsud9k09qu/X3L5e3BtLxs5T4PJeEaq5OnyFNnqaLDU4hiZDxuzccpXidnb/XgYI/pPQSTYWi9hBa+No3Aw9rqYxLndXBAjVmmbeyACQxP/1XiX5kVpHEZZ7G+WQnI0nzVCYvmH5mMquE4mU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bBZzbY1M; arc=fail smtp.client-ip=52.101.85.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914F86DCE1;
+	Sat, 17 Oct 2026 22:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792275243; cv=none; b=at3yYWA3Gic+IsEKfmC+QbErVIV4jhq3o5AQksEZJIcOcVtnywQ2q5x8E0NGcACzoridmG2OzATNGnEznLYW3SdJA2PteCOGoqPlarZu0OIR9gsZJ/5GlghJ53+mqR9XuXUE1BBZ6Pi4zAgIEvGMoJshnUDD9A/jajUtqkTzeoM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792275243; c=relaxed/simple;
+	bh=wKiVm+fISozJ/oe4djtJE0VcXXeGusc0YNiG4d2Oy1Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ErnVUvtxkV8gt4+S5zJYhHXaviQuXMZ0HAVASerg+o6l/xvrx8BzxfQS0OsBFlfDNEyqK/ixrSgX7VyJjZII1afislFmXsq+AErIPA2TP+LkYKsjn0rmJdFEjtWZ+5TEZOZjWVB/It7Bye5mWRgG0vR272KS4jD2mNGS9o3LQ40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Arv/O+46; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bBZzbY1M"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KkFaFyE40d5DXEUCI49IRKaYF646vw6y90ggXKbTdPT8k5FebjP9cgwujPA54YFAjLNDmJ6pSE/UKs2uXHyxGatkga0ZbtvSCe0fHSPbE7+bDBjH/DKF3c1s2zkO9S2zXxRzuuDgJFKPoX12/VXsj9MSY6O81ygwA3Wh0N5ilUbq+h5xUXPf7MQD6TKiE61GZnGN/dBeipLS2fC4GJAt6VU0h+WYEQh0z7vXmoHKAqkTHJ2MNmtjRFRVEufwL3iShBxaYjmnOnYIc7HqhezhjlaMEJ1z4+5yh3uqx9mYvAduWjw/vps8SUgXtLUahI93wDiv6TQ9lyogZeDRrKQIPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BYjPQ3YxWnKnf8GbYnY1r6L7faIrZd0wqJX8FJ2o+Ls=;
- b=h6S7ccgbQW10RIhQbLHfIOUcHmb7tKn9RryTdKJ90c8j+k9gRhhC3tgJeLuDqQWDbVZ5CnkZhIqEN2Y9yKujmI1fKvyvMPQ8s/2hmxPnEh7M/GRUvQjLRBHfXBwNCyaV/Gc2yFh29XScZkVdnz0C6f2nyXgUzVdAs3Qs8m8aAWoOr9ukuH7I+6xpu2UfwOe1juLe+AwnHHIluMOoueOXVe6y4PUW5FMYrPRxk3kOE6iwW/rYTqNhcfeS7KCg2CjrzTOQMdAn5pvP+GO6NFOp7N8NdC8wLCwN6ID4VSm3aHHjN95+ipzhB2jgtUa9jtB+nJcx0GnV2b1lD9kquY17/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BYjPQ3YxWnKnf8GbYnY1r6L7faIrZd0wqJX8FJ2o+Ls=;
- b=bBZzbY1Mgim9x97CayqL3gxWY7Ud9F7uMFJisBtEYTnGZfWdcBQBWSO8dhl3SBjUmjDvG9mhFHNaemHnkzbtdEv8w2YzUB+ysG9KTDrxHOyGBAK2u9J+wDq+2yNV4ezODqbhHTRg/yFUfuxU07JaYYhitrV+/UapbEGJMPrf50KpcLhJ+zqNTTck+jeThNJx5zvHbvn6p9cloloVsMnvAf4YI6TWbU86FsbHe4OqHUKV58yycfRmKUMklKXsCtVK9ZJysFIKHaqbtGSrtSh+nQXJyI5tic2KUm4atCXH45n2qZnpx79/HKoxx9qqddsnDS5sJ5qjqvPsHHh1quEs/g==
-Received: from DS7PR03CA0010.namprd03.prod.outlook.com (2603:10b6:5:3b8::15)
- by CH0PR12MB8505.namprd12.prod.outlook.com (2603:10b6:610:193::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.18; Sat, 17 Oct
- 2026 18:17:02 +0000
-Received: from CY6PEPF0000004E.namprd03.prod.outlook.com
- (2603:10b6:5:3b8:cafe::75) by DS7PR03CA0010.outlook.office365.com
- (2603:10b6:5:3b8::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.18 via Frontend Transport; Sat,
- 17 Oct 2026 18:17:02 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 216.228.117.161) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY6PEPF0000004E.mail.protection.outlook.com (10.167.247.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Sat, 17 Oct 2026 18:17:02 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Sat, 17 Oct
- 2026 11:16:50 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Sat, 17 Oct
- 2026 11:16:49 -0700
-Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49 via Frontend
- Transport; Sat, 17 Oct 2026 11:16:48 -0700
-Date: Sat, 17 Oct 2026 11:16:45 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Pranjal Shrivastava <praan@google.com>, <iommu@lists.linux.dev>, "Will
- Deacon" <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, Robin Murphy
-	<robin.murphy@arm.com>, Mostafa Saleh <smostafa@google.com>, Daniel Mentz
-	<danielmentz@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
-	<linux-arm-kernel@lists.infradead.org>, Thomas Gleixner <tglx@kernel.org>,
-	Radu Rendec <radu@rendec.net>, Bjorn Helgaas <bhelgaas@google.com>,
-	<linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, <rafael@kernel.org>, "Danilo
- Krummrich" <dakr@kernel.org>, <driver-core@lists.linux.dev>
-Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
- gate CMDQ submissions
-Message-ID: <atO7jTV+XNReShT+@nvidia.com>
-References: <20260929034510.2023173-1-praan@google.com>
- <20260929034510.2023173-12-praan@google.com>
- <ar1yNtr7Kp2OTcDd@nvidia.com>
- <ar3yWUmi8E0k37Ml@google.com>
- <ar6gY9grmdMZcN/M@nvidia.com>
- <20261002164748.GD3481470@ziepe.ca>
- <asAeCz_rmpe5hbsh@google.com>
- <asUvUf4PZJ7JCLXp@nvidia.com>
- <20261017174912.GK14213@ziepe.ca>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Arv/O+46"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DF68BC2BCF5;
+	Sat, 17 Oct 2026 22:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792275243;
+	bh=wKiVm+fISozJ/oe4djtJE0VcXXeGusc0YNiG4d2Oy1Y=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Arv/O+46mcaBQ9WvxCCMvW45jhU3Q0Ou6iGaQwekvwTx4+bIg4NvDnYp/sUnm1coO
+	 yGwN2RqsCxiP2le9UYdNQ0LVPs2XhkKZGO9SducMHwm4N1j0uxLp9/FeeXT0Hghxhb
+	 CRQpFcoRN3yEKT9Nd9y1sLdiAE6+bwHaukHQEgCF22577m4BcRdVYi+OMvw8DGjiN+
+	 x7CJmONcJL8r4+FLtNHeu/2EvXXaalYwVgKqk6IGULXsVFbE7swWxGfbvXQy60tZev
+	 Kixsse8MCo7etSyKjv2eYv3dWWXm9xKsQUifZtWBBde8jYu9DD17faPU3B++eh+odB
+	 iKKxvs/XpT/rg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6364CCF2C4;
+	Sat, 17 Oct 2026 22:14:02 +0000 (UTC)
+From: Chris Simpson via B4 Relay <devnull+chris.nilk.net@kernel.org>
+Date: Sat, 17 Oct 2026 16:13:38 -0600
+Subject: [PATCH] media: ipu6: Keep psys out of direct-complete on system
+ suspend
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20261017174912.GK14213@ziepe.ca>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY6PEPF0000004E:EE_|CH0PR12MB8505:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3805e99-f6b8-4eaf-5b36-08df2c7ad7ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|7416014|376014|1800799024|23010399003|82310400026|56012099006|260925021311599003|260925021911599003|260925022911599003|4143699003|11063799006|261009223027099003|261009221227099003|10067099003|22082099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	uOnMmTUM0lC85dP4zNzXyFbQrigkwAMK0BjDuOc8lNWnSCFptK53dtV5ItXxfdp96J42JPt/8zYs/+RR7ikxJbpu7vwLIZwQV49OlX+wnOwKHektXHDweXsxZ4g7SCfEQ4Grthg8XuqtyqMAlWO/1wxXgRY3rJtuvhjC4iIxq+EahRQSsQR4AM2aWBmLURiTigQkrlzwD/VBbW3Pb0s3j3DfOP3GrHOdPyskB7HYN7hkLjlTGuZTIL7QLsYdlbeaYuHFfEJDnM076Ggi8qT68R/cv4SJcINzdD167HD//eePvdlN6LmyqTF4yvGJWatMILkY48ctgMPusg3r2ocjs4pG/D0JXM6HI3ar7FNWS2gvRkrqgmQSonFckmodfcWtvfWJYuEi9delQq5HrgnvCbhDFQ8P4zMR4+sioC7Rd2mFwKrBX9+6ta5MewIMfhUjbAOWtpCm3Nc99CRMOKoqygXS/kwppkmA9GZ71NpzVDpLqa8RZwijHP+omW+KUyZlNw0RDiw/ZpFkl30QUcmD82e607o51OSr1l8rA6SY0a/VVi/AWtUOdk/VOSp+0KNXh5pYQewMPlNHtezb4tiNfhHXvJcYWniHZ1XcsioA3FivXjRDjWNnEGODOsi8GIPao2GOGCrKeIZSE7vXV0DRgIOKKI06aibaeDWPMEm1uPTaA0PoZTg221GMfIKjgwVvL6Vd0MD1SQnMUVX2nsq/Ow==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(1800799024)(23010399003)(82310400026)(56012099006)(260925021311599003)(260925021911599003)(260925022911599003)(4143699003)(11063799006)(261009223027099003)(261009221227099003)(10067099003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	tKmPJ94/yib+oDkYUZ4q/qRqc8UHRoOrSzrpoWonyqiDU3FGiJKQISya5TapoLmtIOT2AxkY4PKkN3Z7ikUsI6SYXtyRCcztHiUMlrU+feYrzNCFWeUYHxjQnF9P9Z1USxfW8aAnYj8wCSUPtoj5RQYWSXdn22Cm1vC/KYxdPJSEX1B4zDxMRXL2NDw8d1cSFr4FTR3Bc6UwKk46gEHTDsqaFZ5+vAahTA6smTnN0vdLs5uIuYc5lnLuZlQC9akBmVJidn5LqdgePY+Qr/yu8xzoGN822OIdhWbyvD7Jhr3+rH+cdzcPhZIY4kZ8NkOGPw5Xks42pPOqGmF767ykZbVbyElATlSXefy4aCD5UYA9lqwcP8cDP9sFJeB9CqdcKQuYUFamcmtZmSXuhyNdiCJNvMLQuARpFiUFqYvffUBeMYR8Yu1oUWWM96/5nfDz
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2026 18:17:02.4686
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3805e99-f6b8-4eaf-5b36-08df2c7ad7ac
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY6PEPF0000004E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8505
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261017-psys-ipu6-v1-1-56e333f6ed04@nilk.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDA0Nz3YLiymLdzIJSM13jRJOkZEOL1DRz8zQloPqCotS0zAqwWdGxtbU
+ AbTAk11sAAAA=
+X-Change-ID: 20261017-psys-ipu6-3a4bc18ef77f
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Antti Laakso <antti.laakso@linux.intel.com>, 
+ "Sapre, Sarang" <sarang.sapre@intel.com>, 
+ Divyamani Tripathi <divyamani.tripathi@intel.com>, 
+ Manik Bajpai <manik.bajpai@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, linux-media@vger.kernel.org, 
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Chris Simpson <chris@nilk.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792275242; l=5398;
+ i=chris@nilk.net; s=20261017; h=from:subject:message-id;
+ bh=RpJEa/l3s3LAaSolDKPx/sHpPb3BursxeLOSSpNbLls=;
+ b=Exb1QNu4nWHRU48GmPgf1r/WXUwJNK82Bfaf7uS/0XxOjRKTyes+jHzeluQwoqWtUaj1XxBSh
+ QraG6oNjWXgBlTf4E+YGNKUn1MC1Qug0PFITN1a6q45SuD/skEXTbZO
+X-Developer-Key: i=chris@nilk.net; a=ed25519;
+ pk=bwNSTJdm8iKtfcCRqyaQFQFlAxLuiAxLw4pMXey4Z+o=
+X-Endpoint-Received: by B4 Relay for chris@nilk.net/20261017 with
+ auth_id=1225
+X-Original-From: Chris Simpson <chris@nilk.net>
+Reply-To: chris@nilk.net
 
-On Sat, Oct 17, 2026 at 02:49:12PM -0300, Jason Gunthorpe wrote:
-> On Tue, Oct 06, 2026 at 10:26:41AM -0700, Nicolin Chen wrote:
-> > > pci_dev_reset_iommu_prepare/done() pair (with slight refactoring) in EP's
-> > > suspend/resume?
-> > 
-> > That sounds right to me, though a different API for suspend/resume
-> > will be required. And call them in pci_pm_runtime_suspend/resume()
-> > maybe.
-> > 
-> > Jason, how do you think about this?
-> 
-> Maybe lets just start by refusing power management when ATS is on? For
-> PCIe devices too?
-> 
-> It isn't just ARM that has this issue, every iommu is busted if you
-> suspend the PCI device while an ATS domain is still active..
+From: Chris Simpson <chris@nilk.net>
 
-So, should we put that refuse guard in pci_pm_runtime_suspend()?
+Since commit a1fa010b3c9f ("driver core: auxiliary bus: Drop
+auxiliary_dev_pm_ops"), the auxiliary bus has no dev_pm_ops. The psys
+auxiliary device has no driver in mainline, and its PM domain,
+ipu6_bus_pm_domain, has only runtime PM callbacks. So
+device_pm_check_callbacks() now sets power.no_pm_callbacks for psys,
+and device_prepare() puts it in direct-complete.
 
-I am thinking about splitting the iommu and pci patches out of my
-smmmuv3_atc_timeout series. They could be get merged alone.
+A runtime-suspended psys in direct-complete gets its runtime PM
+disabled in device_suspend(). Runtime PM is enabled again only in
+psys's own device_resume(), which in practice runs after the PCI
+device's. Before, it came back in device_resume_early(). ipu6_resume(),
+the system resume callback of the PCI device, runtime-resumes psys
+before the firmware authentication. That now fails with -EACCES on
+every resume:
 
-Then, we add a new API for pci_pm_runtime_suspend/resume() with a
-new BLOCKED_SUSPEND reason in the list:
-https://lore.kernel.org/linux-iommu/bf5ccc916593357c640cd7fcdffabfb46fdf4c64.1790188510.git.nicolinc@nvidia.com/
+  auxiliary intel_ipu6.psys.40: Failed to get runtime PM
 
-Nicolin
+and ipu6_resume() returns early, skipping ipu6_buttress_authenticate().
+In secure mode the firmware is then not re-authenticated after resume,
+which matters whenever the IPU has lost power. On s2idle on a Surface
+Pro 9 the cameras still work, and the error is logged on every resume.
+
+Add suspend and resume callbacks to ipu6_bus_pm_domain that forward to
+the driver. That is what the PM core does without them, so isys is
+unaffected, but psys has PM callbacks again and is not left in
+direct-complete. This restores the behaviour from before the auxiliary
+bus change.
+
+The fix is kept local rather than in the auxiliary bus or the PM core:
+it is this driver that runtime-resumes a driverless child from its
+parent's ->resume().
+
+Fixes: a1fa010b3c9f ("driver core: auxiliary bus: Drop auxiliary_dev_pm_ops")
+Cc: stable@vger.kernel.org # v7.1+
+Cc: Rafael J. Wysocki <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org
+Assisted-by: LLM sparse smatch coccinelle
+Signed-off-by: Chris Simpson <chris@nilk.net>
+---
+Tested on a Surface Pro 9 (IPU6 in secure mode) running a Fedora-based
+7.2.11 kernel with the linux-surface patches (a COPR build), whose only
+changes near this code are in ipu-bridge. The patch applies unchanged to
+media-committers next. Three s2idle cycles before and thirteen after,
+tracing the rpm and power:device_pm_callback_start events for psys:
+
+  before: "Failed to get runtime PM" on every resume. At ipu6_resume()
+          time rpm_resume() sees disable_depth 1 and returns -EACCES,
+          and psys gets no system sleep callbacks.
+  after:  no message. disable_depth is 0 and rpm_resume() returns 0,
+          and the domain's suspend and resume run for psys. No new
+          kernel warnings, and both cameras capture after resume.
+          psys is runtime-suspended again at the end of every cycle.
+
+A suspend attempt with a stream open was also tried. isys still
+refuses it with -EBUSY, now through the domain's pm_generic_suspend(),
+and the abort unwinds cleanly: no warnings, psys ends suspended, the
+stream continues with no gap in frame sequence numbers, and the next
+s2idle cycle passes.
+
+Not tested: a resume where the IPU actually loses power, which is where
+the skipped authentication matters (s2idle keeps it powered), and
+IPU7/IPU8 (no hardware).
+
+On next the ipu6 driver also drives IPU7 (by default,
+VIDEO_INTEL_IPU6_IPU7) and IPU8, so this covers those devices there too.
+The staging ipu7 driver has the same pattern in ipu7_bus_pm_domain and
+ipu7_resume(). I can send the same change for it, but I have no IPU7
+hardware to test it on.
+
+Intel's out-of-tree psys driver (intel/ipu6-drivers) has empty
+.suspend/.resume callbacks for the same reason. Its comment says they
+"are needed to enable runtime PM in IPU PCI device resume".
+
+Rafael, Cc'd as the author of a1fa010b3c9f: a driverless auxiliary
+device whose PM domain has only runtime PM callbacks now ends up in
+direct-complete. That is consistent PM-core behaviour, and the fix here
+is local to ipu6. But any other driver that runtime-resumes such a
+child from its parent's ->resume() would see the same failure.
+
+Made with AI assistance. Written by Claude Opus 5.5 (fix, analysis and
+text; reviews by Claude Opus subagents), with testing by Claude Opus
+5.5, under the direction of Chris Simpson <chris@nilk.net>, who reviewed
+and approved it and had it tested on their Surface Pro 9.
+---
+ drivers/media/pci/intel/ipu6/ipu6-bus.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.c b/drivers/media/pci/intel/ipu6/ipu6-bus.c
+index 173616381..1b06e581e 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-bus.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-bus.c
+@@ -63,8 +63,16 @@ static int bus_pm_runtime_resume(struct device *dev)
+ 	return -EBUSY;
+ }
+ 
++/*
++ * The driverless psys device needs system sleep callbacks, or it is put in
++ * direct-complete and its runtime PM is normally still disabled when
++ * ipu6_resume() tries to runtime-resume it. These only forward to the driver,
++ * as the PM core would do without them.
++ */
+ static struct dev_pm_domain ipu6_bus_pm_domain = {
+ 	.ops = {
++		.suspend = pm_generic_suspend,
++		.resume = pm_generic_resume,
+ 		.runtime_suspend = bus_pm_runtime_suspend,
+ 		.runtime_resume = bus_pm_runtime_resume,
+ 	},
+
+---
+base-commit: d7e7bca7169873b46e857c025c10f3336c1258d8
+change-id: 20261017-psys-ipu6-3a4bc18ef77f
+
+Best regards,
+-- 
+Chris Simpson <chris@nilk.net>
+
+
