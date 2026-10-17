@@ -1,107 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F8D4CF460;
-	Sat, 17 Oct 2026 13:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB021F3B8A
+	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 13:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792242703; cv=none; b=jJfSuCHin1LQxkCSFx2TLWl/+Ju3qDXgF9nwhlf52aCwOu01fiSxZRncOTZReiqGsfy1BA643NLVtQ0n3URrh04ZHZI8VCT1Us/mWQoQw0r3HrqNFX6cBDU8w4E/px1rpFJc/2ap6OelGVkpL/PfxHf+KZ6fcVaH2GxaUo1PVS8=
+	t=1792242840; cv=none; b=mgDVUjm+WzPjeJVB7lhC0weoyJyq+u9uFMcwMOpFhd2Q+gRJUuOwYKP6jy0IfNjUgcx4V4HBwl2ya5Lj1eYnt2Wk+hprr6Ew3WslZNK1gLsUgbADtZnxvvzNchmkzvZR/dAWuYgV7U+VIzRUuUPKKZ0UGwt99Rs94DSydDJS6iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792242703; c=relaxed/simple;
-	bh=7bBcTK63AgltO7nov8PBLYUxhNKVejBRL0mAdveV/Fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gsxUlZ8QlLFPfwR7TXRNlZ9+aVQynNbts8budf6vzO5GR8GsqUgl3wiT+300NVQ/i71wWWyikjK7+fg07zdGgHQDcTCLZmmdkeGU1Gd8NsAylQGGNCFtpHncrkB5Zglw1DRXInIV0k71/Eqf8HN7NJCwycvKi/DSPXLkdJRYiDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MKbngAZW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792242840; c=relaxed/simple;
+	bh=cMAkdJNW1SErKnzl9/oVHuljS2yCDKMvsogsdOO2tms=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZQnjHXKXrznOip4aG0BoXUCeWC2tz3BEPHkJhKmH/39EChjGj47MRkWJ0rERXglCYl/6DOwTrwjNQinZhVYvr/XgsQaZHc0iireqp+/vcpX42urFpc5VEkQvO4h8kkaF8nT6WLAqskid4gnlH9Wk3Lnz0lbtktigzU9Fn9BLGV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ApXjBHu3; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MKbngAZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FCEC1F000C4;
-	Sat, 17 Oct 2026 13:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792242702;
-	bh=YyquvFHVoQO974H5DnDO43E9kmsniiuIaoJndyHm9kg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MKbngAZWWbo1I6PxgZusUGHHiwvkUQMLTFXIgKb6BPXCRIjVKNRHEj91/aWIoyex4
-	 UivjBnNPhs087bTy2rFJlc5oTzsAU5oAdCeng4WSfN7H5g+BBww+iEAh2sNhH/+gAP
-	 jAILIs+7hwFMhave9YW65FsDpFrq6bbYUJmVHlDI=
-Date: Sat, 17 Oct 2026 15:11:44 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] driver core: unbind only the driver whose unbind file
- was written
-Message-ID: <2026101740-version-overreact-7ea5@gregkh>
-References: <20261017020935.792500-1-nickolai@csail.mit.edu>
- <2026101755-mangy-flatterer-3d87@gregkh>
- <CADGQE7EpdbtkzzH53Jh1yZ+nv6oCQsLiH6FDN=DxyFCwTjFE=Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ApXjBHu3"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1792242834; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=4zaba4hvJPG/HT/o9fVsqkFjh5xQEjH0W9ibRY3KOIA=;
+	b=ApXjBHu3T40fTLKuiJN7rW27dixtVJS2pK34eOLOlM8G6O9eeUmsrIXRu1MuhH07em0AMBwg9N7w2k7Ud12uhFjqMtG4SAdYT9qGD4oK7/SaCXcMl2fBsMEKrs4+kG6oPDaEzknm4E4l6c4HMDhsbyC5x+fLdin2YoVdeK5MObY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0XCxEdh9_1792242831;
+Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCxEdh9_1792242831 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 17 Oct 2026 21:13:51 +0800
+From: Peng Wang <peng_wang@linux.alibaba.com>
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Peng Wang <peng_wang@linux.alibaba.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Waiman Long <longman@redhat.com>,
+	Tejun Heo <tj@kernel.org>,
+	He Rongguang <herongguang@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: [RFC PATCH v2 1/2] tick/nohz: Add a policy dependency for full dynticks
+Date: Sat, 17 Oct 2026 21:13:41 +0800
+Message-ID: <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <cover.1792242566.git.peng_wang@linux.alibaba.com>
+References: <cover.1792242566.git.peng_wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADGQE7EpdbtkzzH53Jh1yZ+nv6oCQsLiH6FDN=DxyFCwTjFE=Q@mail.gmail.com>
 
-On Sat, Oct 17, 2026 at 08:24:03AM -0400, Nickolai Zeldovich wrote:
-> On Sat, Oct 17, 2026 at 5:49 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > > The pattern is as old as the unbind file: the check was never under the
-> > > lock and the release never named the driver.  The locked variant has
-> > > existed since commit 4bdb35506b89 ("driver core: Add a wrapper around
-> > > __device_release_driver()") added the drv argument to
-> > > device_release_driver_internal() for driver_detach(), which has the
-> > > same requirement.
-> >
-> > Because this has always been present, and no one has actually reported
-> > this, perhaps it is not really a problem at all?  In other words, what
-> > real-life-use requires this?  Again, bind/unbind is for developers only.
-> 
-> The goal was to pin down a precise spec of what should happen when
-> writing a device name A to /sys/bus/B/drivers/D/unbind.  I think the
-> intended effect is that it should unbind driver D from device A.  The
-> code already has a check that tries to ensure this.  However, the
-> check isn't technically enough to achieve this precise effect, in the
-> presence of concurrent operations on other cores (like
-> binding/unbinding other drivers to the same device).
+Cloud hosts may pin vCPU threads one-to-one to host CPUs. At full
+allocation this includes the housekeeping CPUs, which always retain
+their non-idle tick. Operators want comparable performance for otherwise
+equivalent vCPUs. Retaining the non-idle tick on nohz_full CPUs as well
+avoids one placement-dependent difference in host tick interference.
+With spare capacity, selected CPUs may stop the tick to reduce host
+scheduler-tick interference with vCPUs.
 
-You can not bind/unbind drivers to the same device at the same time, the
-driver core should protect yourself from this, BUT most importantly,
-bind/unbind is a "best effort, you keep the pieces of the broken kernel
-when something goes wrong".
+Allocation changes as VMs are created or destroyed while other VMs
+remain running. A vCPU thread may be the only runnable task in either
+state, so existing tick dependencies do not express this policy.
 
-> It sounds like this level of precise specification under weird
-> concurrent operations isn't useful for developer-facing interfaces.
+Add a per-CPU POLICY dependency within the boot-time nohz_full set.
+Permission defaults to enabled. The policy can be changed without
+taking CPUs offline. Revoking permission uses the existing asynchronous
+kick; granting it leaves all other dependencies effective. Preserve
+POLICY across CPU hotplug and report it in tick_stop tracing.
 
-Again no one should be doing this, and if they are, they are root and
-can do much worse things :)
+Idle tick suppression, nohz_full membership, context tracking, RCU
+offloading and housekeeping configuration are unchanged.
 
-> I'll stick to more clear-cut bugs.
+Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
+Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
+Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
+---
+ include/linux/tick.h         |  8 +++++--
+ include/trace/events/timer.h |  3 ++-
+ kernel/time/tick-sched.c     | 42 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+), 3 deletions(-)
 
-Or just prove that this is a real bug please.
+diff --git a/include/linux/tick.h b/include/linux/tick.h
+index b121c5d53e308..8b250f245ff31 100644
+--- a/include/linux/tick.h
++++ b/include/linux/tick.h
+@@ -111,9 +111,10 @@ enum tick_dep_bits {
+ 	TICK_DEP_BIT_SCHED		= 2,
+ 	TICK_DEP_BIT_CLOCK_UNSTABLE	= 3,
+ 	TICK_DEP_BIT_RCU		= 4,
+-	TICK_DEP_BIT_RCU_EXP		= 5
++	TICK_DEP_BIT_RCU_EXP		= 5,
++	TICK_DEP_BIT_POLICY		= 6
+ };
+-#define TICK_DEP_BIT_MAX TICK_DEP_BIT_RCU_EXP
++#define TICK_DEP_BIT_MAX TICK_DEP_BIT_POLICY
+ 
+ #define TICK_DEP_MASK_NONE		0
+ #define TICK_DEP_MASK_POSIX_TIMER	(1 << TICK_DEP_BIT_POSIX_TIMER)
+@@ -122,6 +123,7 @@ enum tick_dep_bits {
+ #define TICK_DEP_MASK_CLOCK_UNSTABLE	(1 << TICK_DEP_BIT_CLOCK_UNSTABLE)
+ #define TICK_DEP_MASK_RCU		(1 << TICK_DEP_BIT_RCU)
+ #define TICK_DEP_MASK_RCU_EXP		(1 << TICK_DEP_BIT_RCU_EXP)
++#define TICK_DEP_MASK_POLICY		(1 << TICK_DEP_BIT_POLICY)
+ 
+ #ifdef CONFIG_NO_HZ_COMMON
+ extern bool tick_nohz_enabled;
+@@ -205,6 +207,8 @@ extern void tick_nohz_dep_set_signal(struct task_struct *tsk,
+ extern void tick_nohz_dep_clear_signal(struct signal_struct *signal,
+ 				       enum tick_dep_bits bit);
+ extern bool tick_nohz_cpu_hotpluggable(unsigned int cpu);
++extern bool tick_nohz_full_get_allowed(unsigned int cpu);
++extern int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed);
+ 
+ /*
+  * The below are tick_nohz_[set,clear]_dep() wrappers that optimize off-cases
+diff --git a/include/trace/events/timer.h b/include/trace/events/timer.h
+index 3aa0608c63611..dff9579cd90eb 100644
+--- a/include/trace/events/timer.h
++++ b/include/trace/events/timer.h
+@@ -435,7 +435,8 @@ TRACE_EVENT(itimer_expire,
+ 		tick_dep_name(SCHED)			\
+ 		tick_dep_name(CLOCK_UNSTABLE)		\
+ 		tick_dep_name(RCU)			\
+-		tick_dep_name_end(RCU_EXP)
++		tick_dep_name(RCU_EXP)			\
++		tick_dep_name_end(POLICY)
+ 
+ #undef tick_dep_name
+ #undef tick_dep_mask_name
+diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
+index 87e2a7a875265..0d6fcc3736bae 100644
+--- a/kernel/time/tick-sched.c
++++ b/kernel/time/tick-sched.c
+@@ -375,6 +375,11 @@ static bool check_tick_dependency(atomic_t *dep)
+ 		return true;
+ 	}
+ 
++	if (val & TICK_DEP_MASK_POLICY) {
++		trace_tick_stop(0, TICK_DEP_MASK_POLICY);
++		return true;
++	}
++
+ 	return false;
+ }
+ 
+@@ -561,6 +566,39 @@ void tick_nohz_dep_clear_cpu(int cpu, enum tick_dep_bits bit)
+ }
+ EXPORT_SYMBOL_GPL(tick_nohz_dep_clear_cpu);
+ 
++/* Read policy, not whether a CPU currently has its tick stopped. */
++bool tick_nohz_full_get_allowed(unsigned int cpu)
++{
++	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
++
++	/* CPU teardown resets and restores this bit under stop_machine(). */
++	return !(atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY);
++}
++
++int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed)
++{
++	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
++
++	if (!tick_nohz_full_cpu(cpu))
++		return -EINVAL;
++
++	/* CPU device removal may wait for an active sysfs callback. */
++	if (!cpus_read_trylock())
++		return -EBUSY;
++
++	if (allowed) {
++		tick_nohz_dep_clear_cpu(cpu, TICK_DEP_BIT_POLICY);
++	} else if (cpu_online(cpu)) {
++		/* The existing kick requests an asynchronous restart. */
++		tick_nohz_dep_set_cpu(cpu, TICK_DEP_BIT_POLICY);
++	} else {
++		/* Record policy without queuing irq_work on an offline CPU. */
++		atomic_or(TICK_DEP_MASK_POLICY, &ts->tick_dep_mask);
++	}
++	cpus_read_unlock();
++	return 0;
++}
++
+ /*
+  * Set a per-task tick dependency. RCU needs this. Also posix CPU timers
+  * in order to elapse per task timers.
+@@ -1533,6 +1571,7 @@ void tick_sched_timer_dying(int cpu)
+ {
+ 	struct tick_sched *ts = &per_cpu(tick_cpu_sched, cpu);
+ 	unsigned long idle_calls, idle_sleeps;
++	int policy;
+ 
+ 	/* This must happen before hrtimers are migrated! */
+ 	if (tick_sched_flag_test(ts, TS_FLAG_HIGHRES))
+@@ -1540,7 +1579,10 @@ void tick_sched_timer_dying(int cpu)
+ 
+ 	idle_calls = ts->idle_calls;
+ 	idle_sleeps = ts->idle_sleeps;
++	/* Preserve only the policy dependency across CPU offline/online. */
++	policy = atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY;
+ 	memset(ts, 0, sizeof(*ts));
++	atomic_set(&ts->tick_dep_mask, policy);
+ 	ts->idle_calls = idle_calls;
+ 	ts->idle_sleeps = idle_sleeps;
+ }
+-- 
+2.47.0
 
-> > ...
-> > > Found by formal verification of drivers/base/bus.c.
-> >
-> > Where is the formal verification proof?  Please don't have your LLM
-> > claim this without that as it's pointless.
-> 
-> The intended point was to give some indication of where this patch is
-> coming from: it aims to formally prove something about the behavior of
-> the kernel, rather than fix any specific issue encountered by a Linux
-> user.  There isn't a formal spec for the Linux user-kernel boundary,
-> though (as in the above example: what exactly should happen in this
-> weird concurrent scenario?), so for many cases I'm trying to infer
-> what the expected spec is.
-
-Then why did your LLM say that this was found in this way if that's not
-what you really did?
-
-People read what you wrote, you should also do so :)
-
-thanks,
-
-greg k-h
