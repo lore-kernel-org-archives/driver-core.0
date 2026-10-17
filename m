@@ -1,30 +1,30 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB021F3B8A
-	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 13:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B7306741
+	for <driver-core@lists.linux.dev>; Sat, 17 Oct 2026 13:13:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792242840; cv=none; b=mgDVUjm+WzPjeJVB7lhC0weoyJyq+u9uFMcwMOpFhd2Q+gRJUuOwYKP6jy0IfNjUgcx4V4HBwl2ya5Lj1eYnt2Wk+hprr6Ew3WslZNK1gLsUgbADtZnxvvzNchmkzvZR/dAWuYgV7U+VIzRUuUPKKZ0UGwt99Rs94DSydDJS6iI=
+	t=1792242841; cv=none; b=HOewms8h32+tVmVBQoqmkz1K7zLzoqZ8TMKTJxkeJkRXTjrVN/f+ifaQX4xHSN6T+DJkNsaIci96OyaFsTbc1689AJkgbJ2OjKNPFf5qseQ0TKglvL/pK9e9jIBYpmMpTMkehxCT6zE4njlaakbOAlS7bRloYEQO8eEqoEhNlo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792242840; c=relaxed/simple;
-	bh=cMAkdJNW1SErKnzl9/oVHuljS2yCDKMvsogsdOO2tms=;
+	s=arc-20240116; t=1792242841; c=relaxed/simple;
+	bh=JhqV9qgcM/uvUapF+jThpqVr1FyMbJ+kztGNoub7Y/M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZQnjHXKXrznOip4aG0BoXUCeWC2tz3BEPHkJhKmH/39EChjGj47MRkWJ0rERXglCYl/6DOwTrwjNQinZhVYvr/XgsQaZHc0iireqp+/vcpX42urFpc5VEkQvO4h8kkaF8nT6WLAqskid4gnlH9Wk3Lnz0lbtktigzU9Fn9BLGV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ApXjBHu3; arc=none smtp.client-ip=115.124.30.118
+	 MIME-Version; b=J/om4c5sD9W7VqcTmYMwdgSUcC0sVZeXVoY3FYATJAnJSCfXJSBEOxvatz/WSDhUe0lJiGcYWxbnenxiAOQsAyiJT2XEKVtaR7WWuQeitnL21q4mr9c3mM5DCstVtofwTC9KfcsJ0GhIPVzJchSIpY3OMXm73ug3d3dBbXmwDGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gkWe4Iw/; arc=none smtp.client-ip=115.124.30.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ApXjBHu3"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gkWe4Iw/"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
 	t=1792242834; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=4zaba4hvJPG/HT/o9fVsqkFjh5xQEjH0W9ibRY3KOIA=;
-	b=ApXjBHu3T40fTLKuiJN7rW27dixtVJS2pK34eOLOlM8G6O9eeUmsrIXRu1MuhH07em0AMBwg9N7w2k7Ud12uhFjqMtG4SAdYT9qGD4oK7/SaCXcMl2fBsMEKrs4+kG6oPDaEzknm4E4l6c4HMDhsbyC5x+fLdin2YoVdeK5MObY=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0XCxEdh9_1792242831;
-Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCxEdh9_1792242831 cluster:ay36)
+	bh=h1wv041oPlWAQwmsLMvk9LUOMcsyK9a97+mNPFPm+oI=;
+	b=gkWe4Iw/iTp7Jvy/0EBSRIgB72ZFMXmeG3Z9FcuqFd0ZBtE7iCBZym9oxC6ZQHAT83ICwkMPjqFzB15QyS6eJqgTIMAgQNr3S88HpEPpSdeLcIY0xnLMPvrlG4Z+pB/JUpR7PXjH9GVOOfmdEjQwL1IT7yG7SAEO2dIwFNBX6Ss=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0XCxEdhX_1792242832;
+Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XCxEdhX_1792242832 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Sat, 17 Oct 2026 21:13:51 +0800
+          Sat, 17 Oct 2026 21:13:53 +0800
 From: Peng Wang <peng_wang@linux.alibaba.com>
 To: Anna-Maria Behnsen <anna-maria@linutronix.de>,
 	Frederic Weisbecker <frederic@kernel.org>,
@@ -46,9 +46,9 @@ Cc: Peng Wang <peng_wang@linux.alibaba.com>,
 	driver-core@lists.linux.dev,
 	linux-trace-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org
-Subject: [RFC PATCH v2 1/2] tick/nohz: Add a policy dependency for full dynticks
-Date: Sat, 17 Oct 2026 21:13:41 +0800
-Message-ID: <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
+Subject: [RFC PATCH v2 2/2] cpu: Add per-CPU control of non-idle tick suppression
+Date: Sat, 17 Oct 2026 21:13:42 +0800
+Message-ID: <224314ef5ad5c3c7634f73efad433616eb1d68ca.1792242566.git.peng_wang@linux.alibaba.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <cover.1792242566.git.peng_wang@linux.alibaba.com>
 References: <cover.1792242566.git.peng_wang@linux.alibaba.com>
@@ -60,159 +60,141 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cloud hosts may pin vCPU threads one-to-one to host CPUs. At full
-allocation this includes the housekeeping CPUs, which always retain
-their non-idle tick. Operators want comparable performance for otherwise
-equivalent vCPUs. Retaining the non-idle tick on nohz_full CPUs as well
-avoids one placement-dependent difference in host tick interference.
-With spare capacity, selected CPUs may stop the tick to reduce host
-scheduler-tick interference with vCPUs.
+Expose cpuN/nohz_tick_allowed on CPUs in the boot-time nohz_full set.
+The boolean defaults to 1: allow non-idle tick suppression, subject to
+existing dependencies. Writing 0 prevents suppression through POLICY.
+Readback reports permission, not the current tick state.
 
-Allocation changes as VMs are created or destroyed while other VMs
-remain running. A vCPU thread may be the only runnable task in either
-state, so existing tick dependencies do not express this policy.
-
-Add a per-CPU POLICY dependency within the boot-time nohz_full set.
-Permission defaults to enabled. The policy can be changed without
-taking CPUs offline. Revoking permission uses the existing asynchronous
-kick; granting it leaves all other dependencies effective. Preserve
-POLICY across CPU hotplug and report it in tick_stop tracing.
-
-Idle tick suppression, nohz_full membership, context tracking, RCU
-offloading and housekeeping configuration are unchanged.
+Each write affects only that CPU. Registered offline CPUs remain
+configurable, and policy persists across offline/online transitions.
+Retry writes when CPU hotplug is in progress so CPU device removal
+can drain active sysfs callbacks without a lock dependency cycle.
 
 Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
 Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
 Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
 ---
- include/linux/tick.h         |  8 +++++--
- include/trace/events/timer.h |  3 ++-
- kernel/time/tick-sched.c     | 42 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+), 3 deletions(-)
+ .../ABI/testing/sysfs-devices-system-cpu      | 27 ++++++++++
+ drivers/base/cpu.c                            | 53 +++++++++++++++++++
+ 2 files changed, 80 insertions(+)
 
-diff --git a/include/linux/tick.h b/include/linux/tick.h
-index b121c5d53e308..8b250f245ff31 100644
---- a/include/linux/tick.h
-+++ b/include/linux/tick.h
-@@ -111,9 +111,10 @@ enum tick_dep_bits {
- 	TICK_DEP_BIT_SCHED		= 2,
- 	TICK_DEP_BIT_CLOCK_UNSTABLE	= 3,
- 	TICK_DEP_BIT_RCU		= 4,
--	TICK_DEP_BIT_RCU_EXP		= 5
-+	TICK_DEP_BIT_RCU_EXP		= 5,
-+	TICK_DEP_BIT_POLICY		= 6
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index 82d10d556cc89..4f6ac6b41e2b6 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -767,6 +767,33 @@ Description:	Preferred MTE tag checking mode
+ 
+ 		See also: Documentation/arch/arm64/memory-tagging-extension.rst
+ 
++What:		/sys/devices/system/cpu/cpuX/nohz_tick_allowed
++Date:		October 2026
++Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
++Description:
++		(RW) Boolean allowing this CPU to stop its non-idle scheduler
++		tick. Present only for registered CPUs in the boot-time
++		nohz_full set, with CONFIG_NO_HZ_FULL.
++
++		The default is 1 (allowed), subject to existing tick
++		dependencies. Writing 0 prevents non-idle tick suppression;
++		writing 1 allows it without forcing the tick to stop. Each
++		write affects one CPU. Readback reports permission, not the
++		current tick state.
++
++		Revoking permission requests an asynchronous restart of a
++		stopped non-idle tick on an online CPU. The write does not wait
++		for restart. Idle tick suppression is unchanged; the policy
++		applies when the CPU leaves idle.
++
++		Registered offline CPUs may be configured. Policy is retained
++		per logical CPU across offline/online and CPU device removal
++		and re-addition. CPUs without a registered cpuN device cannot
++		be configured through this interface.
++
++		This does not change nohz_full membership, context tracking,
++		RCU offloading or housekeeping configuration.
++
+ What:		/sys/devices/system/cpu/nohz_full
+ Date:		Apr 2015
+ Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+index 69e52fed42415..6fad1b0227dac 100644
+--- a/drivers/base/cpu.c
++++ b/drivers/base/cpu.c
+@@ -7,6 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/sched.h>
++#include <linux/sched/signal.h>
+ #include <linux/cpu.h>
+ #include <linux/topology.h>
+ #include <linux/device.h>
+@@ -189,7 +190,56 @@ static const struct attribute_group crash_note_cpu_attr_group = {
  };
--#define TICK_DEP_BIT_MAX TICK_DEP_BIT_RCU_EXP
-+#define TICK_DEP_BIT_MAX TICK_DEP_BIT_POLICY
+ #endif
  
- #define TICK_DEP_MASK_NONE		0
- #define TICK_DEP_MASK_POSIX_TIMER	(1 << TICK_DEP_BIT_POSIX_TIMER)
-@@ -122,6 +123,7 @@ enum tick_dep_bits {
- #define TICK_DEP_MASK_CLOCK_UNSTABLE	(1 << TICK_DEP_BIT_CLOCK_UNSTABLE)
- #define TICK_DEP_MASK_RCU		(1 << TICK_DEP_BIT_RCU)
- #define TICK_DEP_MASK_RCU_EXP		(1 << TICK_DEP_BIT_RCU_EXP)
-+#define TICK_DEP_MASK_POLICY		(1 << TICK_DEP_BIT_POLICY)
- 
- #ifdef CONFIG_NO_HZ_COMMON
- extern bool tick_nohz_enabled;
-@@ -205,6 +207,8 @@ extern void tick_nohz_dep_set_signal(struct task_struct *tsk,
- extern void tick_nohz_dep_clear_signal(struct signal_struct *signal,
- 				       enum tick_dep_bits bit);
- extern bool tick_nohz_cpu_hotpluggable(unsigned int cpu);
-+extern bool tick_nohz_full_get_allowed(unsigned int cpu);
-+extern int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed);
- 
- /*
-  * The below are tick_nohz_[set,clear]_dep() wrappers that optimize off-cases
-diff --git a/include/trace/events/timer.h b/include/trace/events/timer.h
-index 3aa0608c63611..dff9579cd90eb 100644
---- a/include/trace/events/timer.h
-+++ b/include/trace/events/timer.h
-@@ -435,7 +435,8 @@ TRACE_EVENT(itimer_expire,
- 		tick_dep_name(SCHED)			\
- 		tick_dep_name(CLOCK_UNSTABLE)		\
- 		tick_dep_name(RCU)			\
--		tick_dep_name_end(RCU_EXP)
-+		tick_dep_name(RCU_EXP)			\
-+		tick_dep_name_end(POLICY)
- 
- #undef tick_dep_name
- #undef tick_dep_mask_name
-diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index 87e2a7a875265..0d6fcc3736bae 100644
---- a/kernel/time/tick-sched.c
-+++ b/kernel/time/tick-sched.c
-@@ -375,6 +375,11 @@ static bool check_tick_dependency(atomic_t *dep)
- 		return true;
- 	}
- 
-+	if (val & TICK_DEP_MASK_POLICY) {
-+		trace_tick_stop(0, TICK_DEP_MASK_POLICY);
-+		return true;
-+	}
-+
- 	return false;
- }
- 
-@@ -561,6 +566,39 @@ void tick_nohz_dep_clear_cpu(int cpu, enum tick_dep_bits bit)
- }
- EXPORT_SYMBOL_GPL(tick_nohz_dep_clear_cpu);
- 
-+/* Read policy, not whether a CPU currently has its tick stopped. */
-+bool tick_nohz_full_get_allowed(unsigned int cpu)
++#ifdef CONFIG_NO_HZ_FULL
++static ssize_t nohz_tick_allowed_show(struct device *dev,
++				     struct device_attribute *attr, char *buf)
 +{
-+	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
-+
-+	/* CPU teardown resets and restores this bit under stop_machine(). */
-+	return !(atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY);
++	return sysfs_emit(buf, "%u\n", tick_nohz_full_get_allowed(dev->id));
 +}
 +
-+int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed)
++static ssize_t nohz_tick_allowed_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, size_t count)
 +{
-+	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
++	bool allowed;
++	int ret;
 +
-+	if (!tick_nohz_full_cpu(cpu))
-+		return -EINVAL;
++	ret = kstrtobool(buf, &allowed);
++	if (ret)
++		return ret;
 +
-+	/* CPU device removal may wait for an active sysfs callback. */
-+	if (!cpus_read_trylock())
-+		return -EBUSY;
-+
-+	if (allowed) {
-+		tick_nohz_dep_clear_cpu(cpu, TICK_DEP_BIT_POLICY);
-+	} else if (cpu_online(cpu)) {
-+		/* The existing kick requests an asynchronous restart. */
-+		tick_nohz_dep_set_cpu(cpu, TICK_DEP_BIT_POLICY);
-+	} else {
-+		/* Record policy without queuing irq_work on an offline CPU. */
-+		atomic_or(TICK_DEP_MASK_POLICY, &ts->tick_dep_mask);
++	ret = tick_nohz_full_set_allowed(dev->id, allowed);
++	if (ret == -EBUSY) {
++		/* Retry after releasing the sysfs active reference. */
++		fsleep(5000);
++		return restart_syscall();
 +	}
-+	cpus_read_unlock();
-+	return 0;
++
++	return ret ? ret : count;
++}
++static DEVICE_ATTR_RW(nohz_tick_allowed);
++
++static umode_t nohz_tick_is_visible(struct kobject *kobj,
++				   struct attribute *attr, int unused)
++{
++	return tick_nohz_full_cpu(kobj_to_dev(kobj)->id) ? attr->mode : 0;
 +}
 +
- /*
-  * Set a per-task tick dependency. RCU needs this. Also posix CPU timers
-  * in order to elapse per task timers.
-@@ -1533,6 +1571,7 @@ void tick_sched_timer_dying(int cpu)
- {
- 	struct tick_sched *ts = &per_cpu(tick_cpu_sched, cpu);
- 	unsigned long idle_calls, idle_sleeps;
-+	int policy;
++static struct attribute *nohz_tick_cpu_attrs[] = {
++	&dev_attr_nohz_tick_allowed.attr,
++	NULL
++};
++
++static const struct attribute_group nohz_tick_cpu_attr_group = {
++	.attrs = nohz_tick_cpu_attrs,
++	.is_visible = nohz_tick_is_visible,
++};
++#endif
++
+ static const struct attribute_group *common_cpu_attr_groups[] = {
++#ifdef CONFIG_NO_HZ_FULL
++	&nohz_tick_cpu_attr_group,
++#endif
+ #ifdef CONFIG_CRASH_DUMP
+ 	&crash_note_cpu_attr_group,
+ #endif
+@@ -197,6 +247,9 @@ static const struct attribute_group *common_cpu_attr_groups[] = {
+ };
  
- 	/* This must happen before hrtimers are migrated! */
- 	if (tick_sched_flag_test(ts, TS_FLAG_HIGHRES))
-@@ -1540,7 +1579,10 @@ void tick_sched_timer_dying(int cpu)
- 
- 	idle_calls = ts->idle_calls;
- 	idle_sleeps = ts->idle_sleeps;
-+	/* Preserve only the policy dependency across CPU offline/online. */
-+	policy = atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY;
- 	memset(ts, 0, sizeof(*ts));
-+	atomic_set(&ts->tick_dep_mask, policy);
- 	ts->idle_calls = idle_calls;
- 	ts->idle_sleeps = idle_sleeps;
- }
+ static const struct attribute_group *hotplugable_cpu_attr_groups[] = {
++#ifdef CONFIG_NO_HZ_FULL
++	&nohz_tick_cpu_attr_group,
++#endif
+ #ifdef CONFIG_CRASH_DUMP
+ 	&crash_note_cpu_attr_group,
+ #endif
 -- 
 2.47.0
 
