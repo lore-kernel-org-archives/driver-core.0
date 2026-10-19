@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B865AA66D;
-	Mon, 19 Oct 2026 13:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D673534E1F;
+	Mon, 19 Oct 2026 13:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418146; cv=none; b=ry1Mp4l2WqtRUu1PRQtMcaMcFXK7k8w5sexbu8sutj3mJvaGrYBshFkUwfqpP+hR9OrRvTUaXgJdLKgQgQ9ql+W9RhtgZkAR4wkgUudz9fwg0fdw59e0aoV5/OGvVKHQtCNWPb4XYsutcjzn77rMjYodV11h7l8Bl/7Rs1debtI=
+	t=1792418330; cv=none; b=TOjK4V5sdfD60oLISNwtEvtDYIFFqSdDUpFiPqmAIR37QmR5YzCUdlfQDkoghP8lgOv1uVC5NN24+lsY2frCVhn7eUwO931aXGN3GmKEAKayZmUsntleV/09I7ge273KrPgGjndUxPO98a5MCpTGMxS+NLHd4tW2WvmUmPF9+e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418146; c=relaxed/simple;
-	bh=gbk/+8ZvngxK2FY2q/j6180/hh0yY7VYGT2agXx8PXM=;
+	s=arc-20240116; t=1792418330; c=relaxed/simple;
+	bh=UE4NnoT493pvS51GbTL2WfN+oSCVnTbw0457tHTCllk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t//k7sIwtskI4/eK6oD1Tjc49eygssRJeAk0V0DGMz7xn6JTSm3M7LFCmxLcklApKtjGG3bTvSSX5AaPVHf0UIX1yx/2ld/0VHl+qSIYNCAef9cNCZn1Djx2ZrSxYXKb+68g3f1rzdS2jz0sWCS7/kbMemNg67dh1ybF6LzlxLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1Zaubbv; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=YCaYEt/ijEwHuyPsN1iXlWlW8uSHeTJFiqtVooO1+voLgNEeeeyXfLp1drOJynQdzuWly18NeauvB6vSge/WtrtxG5aYISmoBLOAQievp3ZDsihvsY1XefcENsX0YVuoubSC7CMFY6xlPe22Vuqu1Y8neEe3vEaX4rll6uVBr/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ni8BoWWH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1Zaubbv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C75EB1F000C5;
-	Mon, 19 Oct 2026 13:55:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ni8BoWWH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7161F000CA;
+	Mon, 19 Oct 2026 13:58:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418143;
-	bh=+4QqVSq5EJGOolgMlm1wGlt1n7CtvHBteLbcpkGvwb4=;
+	s=k20260515; t=1792418326;
+	bh=rYBZe3igbPZbFkB4NVWRoMynaA+xpZR2p3CIOhgJA8s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=o1ZaubbvhE+AZE71qzPW3E+qpe9NZzJoK/1I5dmDcm2QNYrRfylZuX2A1+aPtGkxf
-	 wlXs78zb5y4YYM9eBn15wW6R2CwQQ33rqaa+8+bOsKbZVNUa1iX4LjP7tdqnzIO2Ho
-	 Lc1pDymNDRjzrMdKLxgHn/6J43g9AtuB3CxtwtxcQ5gv9IROrocvBD85CLSUWMP88v
-	 GlGf7/P3rRkiKvK1rNtKla7WbkePKr6GMbQiZ3Lg1ptZxfSn9+juMbnZrrQLU7+3C8
-	 1o7/DjVkNx+TA3Pd/B1wJqVOce2wJt5lAF1/nV12xcHtrboCIpXz++lCEK//DlELCx
-	 SLOx8lFfVwfrw==
+	b=Ni8BoWWHz87j1nYFEJk8BhNBlIwGy9qRkJJC8lR3/RnOaX3G1qK40s2ooAFe8ndjL
+	 VJahuIW/ygkPaz9pO1AGHfmc+6JEUlUc5lotlV4EM2yI2T6p6yjdIDvJW3yeOX7uXZ
+	 2YsHQ/2A+wUH5G+OvzqkW7Ykj8RnON1Wlt+k9OdQptnaM8M46IWE5HsWGhHjUM01Fa
+	 isT9UWbF/re8OocLlHDNZnItI11CzZbEYXMdEbfgXrIeLmRkg8p5QxWzYQQlyUxdYV
+	 RzWOz0pOLe/dIX1nPTZfLBpuTDWgfjYximZZdjIb8ROFf1UoK1PkPhtPwwtiybIfrG
+	 xuM0G08R8+f/w==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-	Farhad Alemi <farhad.alemi@berkeley.edu>,
-	Thomas Gleixner <tglx@kernel.org>,
+Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	gregkh@linuxfoundation.org,
 	rafael@kernel.org,
 	dakr@kernel.org,
 	linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.18] regmap: irq: Free the irqdomain we create
-Date: Mon, 19 Oct 2026 09:45:34 -0400
-Message-ID: <20261019135441.1420968-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.6] regmap: maple: Workaround for another false-positive compiler warning
+Date: Mon, 19 Oct 2026 09:47:39 -0400
+Message-ID: <20261019135441.1420968-168-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -50,453 +49,355 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.57
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mark Brown <broonie@kernel.org>
+From: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 
-[ Upstream commit 2e42cade8ff1ff579e77976d9869db4df1feaf74 ]
+[ Upstream commit dffd32eb2b0e714a8ae23f98518ad7152cb06369 ]
 
-When domain support was added to regmap-irq it was not possible to
-remove domains, this was added later by 8ee99ada293b (irqdomain: Support
-removal of IRQ domains.).  We did update the main removal path to free
-the domain but forgot the error unwinding case during creation that is
-now in regmap_add_irq_chip_fwnode() after some code motion, meaning that
-errors during instantiation result in an unused irqchip being left
-hanging around.  Add the missing irq_remove_domain() call where the
-comment says it should be.
+Similar to the issue fixed in commit 542440fd7b30 ("regmap: maple: work
+around gcc-14.1 false-positive warning"), I see an uninitialized warning
+for upper_index and upper_last.
 
-Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
-Reported-by: Thomas Gleixner <tglx@kernel.org>
-Link: https://patch.msgid.link/20260901-regmap-irq-deallocate-domain-v1-1-4bfed4aff559@kernel.org
+Happens with arc-linux-gnu-gcc (Debian 15.3.0-1) 15.3.0 on an
+allmodconfig for ARCH=arc.
+
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Link: https://patch.msgid.link/20260626060427.2548578-2-u.kleine-koenig@baylibre.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.18.57**. At that base,
-`regmap_add_irq_chip_fwnode()` still has the “Should really dispose of
-the domain but...” stub, so the leak exists here and the one-line
-`irq_domain_remove()` change applies cleanly.
+I have the tree version, the pre-image at v6.18.53, the lore thread, and
+the call-path context. Compiling the nine-phase analysis next.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[regmap: irq:] [Free] [Release the irqdomain created during
-chip setup]`
+## Phase 1: Commit message forensics
 
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+**Step 1.1: Subject**
+Record: `[regmap: maple:] [Workaround] [silence a gcc false-positive
+-Wuninitialized on upper_index/upper_last]`
+
+**Step 1.2: Tags**
 Record:
-- `Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>` (researcher
-  report)
-- `Reported-by: Thomas Gleixner <tglx@kernel.org>` (irq subsystem
-  maintainer)
-- `Link: https://patch.msgid.link/20260901-regmap-irq-deallocate-
-  domain-v1-1-4bfed4aff559@kernel.org`
-- `Signed-off-by: Mark Brown <broonie@kernel.org>` (regmap maintainer;
-  author)
-- No `Fixes:` tag (expected)
-- No `Cc: stable` (expected)
-- Pipeline-added `[Upstream commit 2e42cade8ff1...]` and Sasha Levin SOB
-  ignored per instructions
-- Notable: two reporters, one of them tglx
+- Link: https://patch.msgid.link/20260626060427.2548578-2-u.kleine-
+  koenig@baylibre.com
+- Signed-off-by: Uwe Kleine-König (author)
+- Signed-off-by: Mark Brown (regmap maintainer)
+- No Fixes:, Reported-by, Tested-by, Reviewed-by, Acked-by, or Cc:
+  stable (absence expected)
+- Mentions prior commit 542440fd7b30
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record:
-- Bug: when irqdomain support was added to regmap-irq, domains could not
-  be removed. `irq_domain_remove()` was added later (`58ee99ada293b`;
-  the message cites `8ee99ada293b`, missing the leading `5`). The
-  success teardown path was updated; the **creation error-unwind** path
-  was not.
-- Symptom: failed instantiation leaves an unused irqchip/domain hanging
-  around.
-- Failure mode: resource leak of a published irq domain on
-  `request_threaded_irq()` failure after `regmap_irq_create_domain()`.
-- Root cause (author): missing `irq_domain_remove()` at the
-  `err_domain:` label (the comment already said it should be there). The
-  message says `irq_remove_domain()`; the actual API is
-  `irq_domain_remove()`.
-- Version info: none beyond the historical API gap.
+**Step 1.3: Body**
+Record: [Bug] gcc 15.3.0 on ARCH=arc allmodconfig reports
+-Wuninitialized for `upper_index` and `upper_last` in
+`regcache_maple_drop()`. Same class as the gcc-14.1 false-positive
+already worked around for `lower_index`/`lower_last`. [Symptom] compiler
+warning; with `CONFIG_WERROR` it is a hard build failure
+(`-Werror=uninitialized`). [Versions] gcc 15.3.0 (Debian), ARCH=arc
+allmodconfig. [Root cause] compiler cannot see that those locals are
+only read after they are assigned (guarded by `if (upper)`).
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. This is an explicit error-path resource-leak fix.
-External reporting (KASAN during CPU hotplug) shows the leaked objects
-can become a use-after-free, not only a leak.
+**Step 1.4: Hidden bug fix?**
+Record: Not a hidden runtime bug. It is an explicit compiler-warning
+workaround. It is a **build fix**, which the stable rules treat as an
+allowed exception.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+---
 
-**Step 2.1: INVENTORY THE CHANGES**
-Record:
-- File: `drivers/base/regmap/regmap-irq.c` (`1` insertion, `1` deletion)
-- Function: `regmap_add_irq_chip_fwnode()`
-- Scope: single-file surgical fix
+## Phase 2: Diff analysis
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- Before: domain created → `request_threaded_irq()` fails → `goto
-  err_domain` → comment only → mutex/key teardown → `kfree(d)` while
-  `d->domain` stays published with `host_data = d`.
-- After: same path calls `irq_domain_remove(d->domain)` before freeing
-  `d`.
-- Path affected: probe error path only, after successful domain
-  creation.
+**Step 2.1: Inventory**
+Record: `drivers/base/regmap/regcache-maple.c` — 1 line changed
+(`+1/-1`). Function: `regcache_maple_drop()`. Scope: single-file, one-
+line surgical change.
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record:
-- Category: error-path resource leak; can escalate to UAF because the
-  domain is published (`irq_domain_list` / fwnode) with `host_data`
-  pointing at memory that is then freed.
-- Mechanism: missing counterpart to the existing `irq_domain_remove()`
-  in `regmap_del_irq_chip()`.
+**Step 2.2: Flow**
+Record: Before: `unsigned long upper_index, upper_last;` uninitialized.
+After: `= 0` on both. No control-flow change. `upper_index`/`upper_last`
+are assigned at lines 146–147 only when `mas.last > max`, which is also
+when `upper` is allocated; they are consumed only under `if (upper)`
+(line 171). Initializing to 0 is a dead store on the real path.
 
-**Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- For `irq_base == 0` (most DT callers): obviously correct. Domain has
-  no mappings yet; `irq_domain_remove()` is the right unwind and matches
-  the del path.
-- For `irq_base != 0` (legacy/`irq_alloc_descs()` path, including
-  callers passing `-1`): incomplete. Domain creation associates IRQs up
-  front. `irq_domain_remove()` does not dispose those mappings. tglx
-  said the descriptor chip/domain pointers remain and the UAF remains.
-- Regression risk: low for `irq_base == 0`. For `irq_base > 0`, the
-  domain object is freed while descriptors still reference it (already a
-  UAF on `desc->chip` before this patch). The change is still a subset
-  of the correct unwind, not a new feature.
-- Red flags: none on APIs/scope. Completeness gap is real but does not
-  make the one-line change wrong for the common path.
+**Step 2.3: Bug mechanism**
+Record: [Category] Build / compiler false-positive (not a runtime
+uninitialized use). [Mechanism] gcc 15 cannot prove initialization
+through the maple-tree loop and warns; with Werror that fails the build.
+Fix: same dummy init already used for `lower_index`/`lower_last`.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+**Step 2.4: Fix quality**
+Record: Obviously correct; matches the existing comment and the gcc-14
+workaround. Zero runtime behavior change. Regression risk: negligible (0
+is never consumed unless `upper` is set, and that path always assigns
+first).
 
-**Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Comment/label introduced by `4af8be67fd9989` (“regmap: Convert
-  regmap_irq to use irq_domain”, 2012).
-- Domain remove on the **del** path: `b5ab3e5cae097` (“regmap: irq:
-  Remove domain on exit”, 2014).
-- `err_domain:` still only had the comment at **v6.18.57**.
-- This is long-lived error-path debt, not a brand-new 6.18-only bug.
+---
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Historical introducer is `4af8be67fd9989`; that
-commit **is** an ancestor of this tree.
+## Phase 3: Git history
 
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record:
-- Nearby: `1da33858af625` (mutex destroy on error), `76b6e14aa7b08`
-  (lockdep key). Both already in v6.18.57; this patch’s context matches.
-- Domain creation helper: `dde286ee57704` / `regmap_irq_create_domain()`
-  already in this tree.
-- Standalone 1-line fix, not patch X/Y.
-- No follow-up in this tree adding `irq_dispose_mapping()` on
-  `err_domain`.
+**Step 3.1: Blame**
+Record: `regcache_maple_drop()` introduced in f033c26de5a57 (“regmap:
+Add maple tree based register cache”, 2023-03-30, ~v6.4). `lower_index`
+dummy init: 542440fd7b309 (2024-07-19, in this tree). `upper_index` was
+left uninitialized until this commit.
 
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Author is Mark Brown, **regmap maintainer**. He applied his own
-patch to `broonie/regmap.git for-7.3` the same day.
+**Step 3.2: Fixes: tag**
+Record: None. Related original: 542440fd7b309, already an ancestor of
+HEAD and of v6.18.53.
 
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record:
-- Needs `irq_domain_remove()`: present (`58ee99ada293b`, exported in
-  this tree).
-- Needs `d->domain` and `err_domain:`: present.
-- Can apply standalone to v6.18.57. No missing helpers.
+**Step 3.3: File history**
+Record: Recent real fixes in this file (`00bb549d7d63a` cache
+corruption, `eaa03486d9325` uninitialized `ret`, `f08f2d2907675` leak on
+store failure) are independent. This commit is standalone, not patch X/Y
+of a functional series.
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+**Step 3.4: Author**
+Record: Uwe Kleine-König is a regular driver-core contributor, not the
+regmap maintainer. Mark Brown applied it. No other related maple commits
+by this author.
 
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record:
-- Lore/msgid: https://patch.msgid.link/20260901-regmap-irq-deallocate-
-  domain-v1-1-4bfed4aff559@kernel.org
-- Only v1 (`b4 dig -a`); no v2 in that thread.
-- Thread:
-  1. Mark posts the 1-line patch (1 Sep 2026).
-  2. Mark applies it to for-7.3 ~1 hour later.
-  3. tglx (4 Sep): “That won’t work” for the `irq_alloc_descs()` /
-     `virq_base > 0` case; descriptors keep chip/domain pointers; UAF
-     remains. First suggestion: `irq_domain_free_irqs()`.
-  4. tglx follow-up: `irq_domain_free_irqs()` only works with
-     hierarchical domains; use `irq_dispose_mapping(irq_base + i)` then
-     remove the domain.
-  5. Mark: “Ah, thanks - I’d expected removing the domain to clean
-     everything up.”
-- No NAK of calling `irq_domain_remove()` itself; the request is
-  additional dispose before remove.
-- No reviewer `Cc: stable` in the thread.
+**Step 3.5: Dependencies**
+Record: Needs the maple cache (present since v6.4) and the existing
+`lower_*` init comment (present). Applies standalone. No new helpers or
+struct fields.
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record: Recipients were linux-kernel, Farhad Alemi, tglx, Mark Brown.
-tglx reviewed after apply. No Acked-by/Reviewed-by on the committed
-patch.
+---
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record:
-- Public write-up (31 Aug 2026): KASAN invalid read in
-  `irq_migrate_all_off_this_cpu` during CPU offline. tglx traced it to
-  this failed-setup path: descriptors remain mapped to a caller-owned
-  `irq_chip` after that chip/`regmap_irq_chip_data` is freed.
-- Trigger: device IRQ setup fails, then CPU hotplug walks descriptors.
-- Radu Rendec mentioned a similar syzbot hotplug stack; tglx criticized
-  allocation info in that report. Overlap is suggestive, not proven
-  identical.
-- Unprivileged exploit/CVE: not established.
+## Phase 4: Mailing list
 
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. tglx’s dispose-mapping addition was not in this
-series and is not in this tree. GitHub `master` snapshot still showed
-the old comment, consistent with this being a 7.3-era fix not yet
-universal.
+**Step 4.1: Original discussion**
+Record: [Lore]
+https://patch.msgid.link/20260626060427.2548578-2-u.kleine-
+koenig@baylibre.com
+[Revisions] v1 only (`b4 dig -a`). Thread: submission + Mark Brown
+“Applied to broonie/regmap.git for-7.3”. No NAKs, no stable nomination,
+no reviewer risk flags.
 
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: No useful stable-list hit that this was previously rejected or
-requested. UNVERIFIED beyond search noise.
+**Step 4.2: Recipients (`b4 dig -w`)**
+Record: To: Mark Brown. Cc: Greg Kroah-Hartman, Rafael Wysocki, Danilo
+Krummrich, linux-kernel, driver-core. Maintainer received and applied
+it.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+**Step 4.3: Bug report**
+Record: Author-reported compiler warning on arc-linux-gnu-gcc 15.3.0
+allmodconfig. No syzbot/bugzilla. Severity: build warning/error, not a
+runtime crash.
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: `regmap_add_irq_chip_fwnode()` only. Callees of interest:
-`regmap_irq_create_domain()`, `request_threaded_irq()`,
-`irq_domain_remove()`.
+**Step 4.4: Series**
+Record: msgid `…2548578-2` but subject is `[PATCH v1]` and Mark applied
+it as `[1/1]`. Standalone.
 
-**Step 5.2: TRACE CALLERS**
-Record:
-- `regmap_add_irq_chip()` → `regmap_add_irq_chip_fwnode()`
-- `devm_regmap_add_irq_chip_fwnode()` → same
-- `git grep -l "regmap_add_irq_chip"` → **87** `.c` files
-- Call context: driver probe (MFD/PMIC, ASoC codecs, power, GPIO, RTC,
-  DSA). Not a syscall hot path; boot/enumeration and probe-retry.
-- `irq_base != 0` callers exist, including popular PMICs: `rk8xx-core.c`
-  (`-1`), `retu-mfd.c`, `88pm800.c`, `88pm805.c`, `mt6370.c`, plus board
-  `irq_base` in tps65910/wm8994/tps65090.
+**Step 4.5: Stable list**
+Record: No lore.kernel.org/stable discussion of this specific fix found.
 
-**Step 5.3: TRACE CALLEES**
-Record:
-- `regmap_irq_create_domain()` → `irq_domain_instantiate()` with
-  `virq_base = irq_base`, `host_data = d`. If `virq_base > 0`,
-  `__irq_domain_instantiate()` runs `irq_domain_associate_many()`.
-- `if (irq_base)` also calls `irq_alloc_descs()` first (`-1` is truthy).
-- `irq_domain_remove()` unpublishes and `kfree`s the domain; comment
-  requires mappings already disposed.
+---
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record:
-- Reachable from device probe of many PMICs/codecs.
-- Userspace does not call this directly. Probe failure + later CPU
-  offline is the documented KASAN path.
-- Deferred probe retry can also leave a stale fwnode domain if the
-  domain is not removed.
+## Phase 5: Semantic analysis
 
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: `regmap_del_irq_chip()` already disposes mappings then calls
-`irq_domain_remove()`. That is the model tglx wants on `err_domain` when
-`irq_base > 0`. This patch only adds the remove.
+**Step 5.1: Functions**
+Record: `regcache_maple_drop()` only.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**Step 5.2: Callers**
+Record: Wired as `regcache_ops.drop`. Reached via
+`regcache_drop_region()` (exported). Callers: regmap core, kunit tests,
+various drivers. The *warning* triggers at compile time whenever this
+file is built, independent of runtime callers.
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes, at v6.18.57 `drivers/base/regmap/regmap-irq.c`
-`err_domain:` still has `/* Should really dispose of the domain but...
-*/`. Introduced 2012; never unwound on this error path here.
+**Step 5.3: Callees**
+Record: maple-tree `mas_*`, `kmemdup_array`, `kfree`. Unchanged.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Expected **clean apply** to v6.18.57. Surrounding
-`mutex_destroy` / `lockdep_unregister_key` already match.
-`irq_domain_remove()` already used in the same file’s del path.
+**Step 5.4: Reachability**
+Record: Compile-time: `drivers/base/regmap/regcache-maple.c` is built
+with `CONFIG_REGMAP` (common). Runtime drop path is not relevant to the
+failure mode.
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: Del-path domain remove is here (`b5ab3e5cae097`). No other fix
-of this `err_domain` leak. No `irq_dispose_mapping` follow-up on that
-label.
+**Step 5.5: Similar patterns**
+Record: Same function already initializes `lower_index`/`lower_last` for
+the same reason (542440fd7b309) and `ret` for smatch (eaa03486d9325).
+This completes the remaining pair.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+---
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: `drivers/base/regmap` IRQ helper. **IMPORTANT** (shared by many
-PMICs/MFDs, not core mm/sched, but widely used on ARM/embedded and
-laptops).
+## Phase 6: Local tree (this checkout)
 
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Mature (2011+). Recent work is lockdep nesting, mutex free,
-domain suffix. This is leftover unwind, not churn from a new subsystem.
+**Step 6.1: Does the buggy code exist?**
+Record: Local tree is **6.18.53** (`git describe`:
+v6.18.53-5049-g0f0bdc2b0dffb; Makefile VERSION=6 PATCHLEVEL=18
+SUBLEVEL=53). At **v6.18.53**:
+```
+unsigned long upper_index, upper_last;
+```
+exists; `lower_index = 0` is already present. Upstream dffd32eb2b0e is
+**not** an ancestor of v6.18.53. Maple cache has been here since ~v6.4.
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+**Step 6.2: Backport difficulty**
+Record: Clean apply on v6.18.53. Surrounding function matches the hunk.
+No refactor in the way.
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Driver-specific / config-specific (`CONFIG_REGMAP_IRQ`), but
-that config is selected by many common PMICs. Affects anyone whose
-regmap-irq probe fails after domain create.
+**Step 6.3: Related fixes already here?**
+Record: gcc-14 `lower_*` workaround is in v6.18.53. Nothing already
+initializes `upper_*`.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record:
-- Trigger: `regmap_irq_create_domain()` succeeds, then
-  `request_threaded_irq()` fails (bad/missing IRQ, busy IRQ, probe
-  deferral, etc.).
-- Not every boot. Realistic on flaky firmware, wrong DT IRQ, deferred
-  probe.
-- Unprivileged trigger: not verified. CPU hotplug typically needs
-  privilege. KASAN still shows a real kernel UAF.
+---
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record:
-- Always: leaked published irq domain; `d` freed while domain
-  `host_data` dangles.
-- With `irq_base != 0`: leaked associated IRQ descriptors; `desc->chip`
-  can UAF on CPU offline (`irq_migrate_all_off_this_cpu`). **HIGH** (UAF
-  / KASAN).
-- This patch fully fixes the domain leak; it does **not** fully fix the
-  descriptor UAF when `irq_base > 0`.
+## Phase 7: Subsystem context
 
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- Benefit: high for a 1-line unwind of a published irq domain used by
-  dozens of drivers; needed for probe retry and to stop leaking domain
-  objects.
-- Risk: very low for `irq_base == 0`. For `irq_base > 0`, incomplete;
-  not a new feature; same class of UAF already existed.
-- Ratio: benefit > risk. Follow-up dispose-mapping should also be
-  backported when it exists; that is not a reason to keep the domain
-  leak.
+**Step 7.1**
+Record: [Subsystem] drivers/base/regmap (maple register cache).
+[Criticality] IMPORTANT — used by many hardware drivers; this change is
+compile-time only.
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+**Step 7.2**
+Record: Mature cache implementation (since v6.4), modest ongoing churn.
+Not staging.
 
-**Step 9.1: COMPILE THE EVIDENCE**
+---
+
+## Phase 8: Impact and risk
+
+**Step 8.1: Who is affected**
+Record: Anyone compiling this file with gcc that emits the warning.
+Documented trigger: ARCH=arc, gcc 15.3.0, allmodconfig. `CONFIG_WERROR`
+defaults to `COMPILE_TEST` (`init/Kconfig`); allmodconfig enables that,
+so the warning becomes `-Werror=uninitialized` (same diagnostic the
+gcc-14 commit showed as a hard error). Distro production configs usually
+have WERROR=n, so they see a warning rather than a failed build.
+
+**Step 8.2: Trigger**
+Record: Compile of `regcache-maple.c`. Not a runtime race. Not
+userspace-triggerable.
+
+**Step 8.3: Failure mode**
+Record: Build warning, or build *error* when WERROR is on. Severity:
+MEDIUM for CI/allmodconfig (broken compile), LOW at runtime (no
+functional bug).
+
+**Step 8.4: Risk-benefit**
+Record: Benefit: restores allmodconfig/WERROR builds on gcc 15 (and
+likely similar compilers). Risk: very low — one-line initializer, proven
+pattern in the same function. Ratio: favorable.
+
+---
+
+## Phase 9: Synthesis
+
+**Step 9.1: Evidence**
 
 FOR:
-- Real error-path leak of a published irq domain; comment admitted the
-  gap since 2012.
-- Reported by tglx; KASAN UAF on CPU hotplug is a serious failure mode.
-- 1 line, same API already used in `regmap_del_irq_chip()`.
-- Buggy code is in v6.18.57; `irq_domain_remove()` is in this tree;
-  applies cleanly.
-- Author is the regmap maintainer; 87 in-tree callers.
-- Probe-path resource leaks are standard stable material.
+- Explicit **build-fix** exception (compilation warnings/errors).
+- Reproduced: gcc 15.3.0, ARCH=arc allmodconfig.
+- With `CONFIG_WERROR` this is a hard build failure
+  (`-Werror=uninitialized`), same class as 542440fd7b309, which is
+  already in this tree.
+- One line, obviously correct, no runtime change.
+- Buggy (uninitialized) locals exist in v6.18.53; patch applies cleanly.
+- Maintainer (Mark Brown) applied it; no NAKs.
 
 AGAINST:
-- Incomplete vs the reported `irq_base > 0` UAF; tglx asked for
-  `irq_dispose_mapping()` first; Mark agreed the remove-alone assumption
-  was wrong.
-- No `Fixes:`/`Cc: stable` (not a negative by itself).
-- Applied to for-7.3 before tglx’s review; no v2 in that thread.
+- Not a runtime crash/corruption/security bug.
+- Applied to for-7.3 (merge window), not a -fixes pull, so not treated
+  as urgent by the maintainer.
+- Narrowest documented trigger is ARC + gcc 15 + allmodconfig.
+- No Cc: stable (expected; not a negative).
 
 UNRESOLVED:
-- Whether a later mainline follow-up with `irq_dispose_mapping()` landed
-  after this tree’s branch.
-- Whether the KASAN report was reproduced on 6.18.y specifically (code
-  path is present).
-- No stable-list discussion found.
+- Whether gcc 15 also warns on x86/arm allmodconfig for 6.18 was not
+  reproduced here (author only cited ARC).
+- lore.kernel.org HTTP fetch returned 403; discussion recovered via `b4
+  dig -m` and openwall/patchew mirrors.
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** for the domain leak (`irq_base
-   == 0` and domain object itself). Incomplete for preassociated
-   descriptors, but the added call is the correct API and is already
-   used on the del path.
-2. Fixes a real bug that affects users? **PASS** — leaked irq domain on
-   failed probe; KASAN UAF documented on related leftover mappings.
-3. Important issue? **PASS** — UAF / resource leak of irq core objects,
-   not cosmetic.
-4. Small and contained? **PASS** — 1 line, one function.
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — v6.18.57 has the exact hunk
-   context.
+**Step 9.2: Stable rules**
+1. Obviously correct and tested? **PASS** — dummy init; author built ARC
+   allmodconfig; maintainer applied.
+2. Real bug affecting users? **PASS** as a build break under
+   WERROR/allmodconfig; not a runtime bug.
+3. Important (crash/security/corruption/deadlock)? **FAIL** as a runtime
+   issue; **PASS** under the build-fix exception.
+4. Small and contained? **PASS** — 1 line, 1 file.
+5. No new features/APIs? **PASS**.
+6. Can apply to this tree? **PASS** — v6.18.53 has the pre-image.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Not ID/quirk/DT/docs. Ordinary error-path leak fix. Build-fix
-exception N/A.
+**Step 9.3: Exception**
+Record: **Build fix** (compiler warning that becomes a compile error
+with WERROR).
 
-**Step 9.4: MAKE YOUR DECISION**
-This should be backported to **this** 6.18.y tree. The bug is here, the
-helper is here, and the change is the missing unwind the code has
-documented for years. Incompleteness for `irq_base > 0` means a later
-dispose-mapping patch is still needed for the full KASAN UAF; it does
-not make this line a net negative.
+**Step 9.4: Decision**
+This is a one-line, zero-risk workaround for a real gcc 15 false-
+positive that breaks `CONFIG_WERROR` builds of a file this 6.18.y tree
+already ships. It matches the gcc-14 workaround already present here. It
+meets the build-fix exception and applies cleanly.
 
-### What the commit solves, and why it matters here
-`regmap_add_irq_chip_fwnode()` publishes an irq domain, then on
-`request_threaded_irq()` failure frees `struct regmap_irq_chip_data`
-without removing that domain. Stable 6.18.57 still does this. The
-leftover domain stays on the global list with dangling `host_data`, and
-on the legacy `irq_base != 0` path associated descriptors can later be
-walked during CPU hotplug (KASAN UAF). Many PMICs/MFDs use this helper,
-including rk8xx with `irq_base = -1`.
+---
 
-### Stable rules / risk
-Small, obviously intended, no new API, applies cleanly. Benefit is
-fixing a real leak/UAF-adjacent unwind; risk is a 1-line call that the
-same file already uses on teardown.
+### What the commit solves for this tree
 
-Verification:
-- [Phase 1] Tags: Farhad Alemi + tglx Reported-by; lore msgid link; Mark
-  Brown SOB; no Fixes/Cc stable
-- [Phase 1] Body describes creation-path domain leak after
-  `8ee99ada293b`; actual SHA in this tree is `58ee99ada293b`
-- [Phase 2] Diff is 1 line in `regmap_add_irq_chip_fwnode()`
-  `err_domain:`: comment → `irq_domain_remove(d->domain)`
-- [Phase 3] `git blame` at v6.18.57: comment from `4af8be67fd9989`
-  (2012); del-path remove `b5ab3e5cae097` (2014)
-- [Phase 3] `git merge-base --is-ancestor 4af8be67fd9989 HEAD` yes;
-  `58ee99ada293b` is ancestor of v6.18.57
-- [Phase 3] No follow-up dispose-mapping commit on this file in this
-  tree
-- [Phase 4] `b4 dig -c 4784831655ab5`: v1 only, applied to for-7.3 same
-  day
-- [Phase 4] tglx: remove-alone does not clear associated descriptors
-  when `virq_base > 0`; use `irq_dispose_mapping` then remove
-- [Phase 4] Mark acknowledged he expected remove to clean everything up
-- [Phase 4] External write-up: KASAN in `irq_migrate_all_off_this_cpu`
-  after failed regmap IRQ setup
-- [Phase 5] 87 files call `regmap_add_irq_chip*`; probe of
-  MFD/PMIC/codec/etc.
-- [Phase 5] `if (irq_base) irq_alloc_descs()` plus `virq_base`
-  associate_many confirmed in this tree
-- [Phase 6] `git describe HEAD` → `v6.18.57-155-gcdf239ca885b2`; `make
-  kernelversion` → 6.18.57
-- [Phase 6] v6.18.57 still has the dispose comment;
-  `irq_domain_remove()` already in `regmap_del_irq_chip()`
-- [Phase 8] Failure mode: leaked irq domain; UAF on CPU hotplug for
-  preassociated IRQs; severity HIGH
-- UNVERIFIED: later mainline follow-up with `irq_dispose_mapping` on
-  `err_domain`; whether syzbot report is the same bug; stable-list
-  history beyond unsuccessful search
+v6.18.53 still declares `upper_index`/`upper_last` uninitialized in
+`regcache_maple_drop()`. gcc 15.3.0 (ARC allmodconfig) warns; with
+WERROR that fails the kernel build. Initializing them to 0, as already
+done for `lower_index`/`lower_last`, silences the diagnostic without
+changing runtime behavior.
+
+### Risk vs benefit
+
+Benefit is restoring compiles for WERROR/allmodconfig (and silencing the
+warning otherwise). Risk is a dead store of 0. No prerequisites beyond
+code already in 6.18.y.
+
+### Verification
+- [Phase 1] Parsed tags: Link to msgid, SOBs from Uwe Kleine-König and
+  Mark Brown; no Fixes/Reported-by/Cc: stable
+- [Phase 2] Diff: 1 line in `regcache_maple_drop()`; `upper_index,
+  upper_last` → `= 0`
+- [Phase 2] Read function: `upper_*` assigned only when `mas.last >
+  max`, used only under `if (upper)`
+- [Phase 3] blame: maple cache f033c26de5a57 (v6.4); lower_* init
+  542440fd7b309 (in this tree)
+- [Phase 3] `git merge-base --is-ancestor 542440fd7b309 HEAD` → yes;
+  `dffd32eb2b0e` vs v6.18.53 → not ancestor
+- [Phase 3] `git show 542440fd7b309`: same -Werror=uninitialized class
+  for `lower_index`
+- [Phase 4] `b4 dig -c dffd32eb2b0e`: lore msgid
+  20260626060427.2548578-2; v1 only; applied for-7.3
+- [Phase 4] `b4 dig -w`: Mark Brown, Greg KH, driver-core CC’d
+- [Phase 4] mbox: Mark Brown applied [1/1]; no NAK, no stable Cc
+- [Phase 4] WebFetch lore/msgid.link: 403; recovered via openwall +
+  patchew + mbox
+- [Phase 5] callers: `regcache_ops.drop` → `regcache_drop_region()`;
+  warning is compile-time
+- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.18.53
+- [Phase 6] `v6.18.53:drivers/base/regmap/regcache-maple.c` still has
+  `unsigned long upper_index, upper_last;`
+- [Phase 7] init/Kconfig: `config WERROR` default `COMPILE_TEST`;
+  Makefile.extrawarn adds `-Werror`
+- [Phase 8] Failure mode: compile warning/error, not runtime oops
+- UNVERIFIED: whether gcc 15 warns on non-ARC 6.18 allmodconfig (author
+  only reported ARC)
 
 **YES**
 
- drivers/base/regmap/regmap-irq.c | 2 +-
+ drivers/base/regmap/regcache-maple.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
-index 6112d942499be..8c297156ea402 100644
---- a/drivers/base/regmap/regmap-irq.c
-+++ b/drivers/base/regmap/regmap-irq.c
-@@ -941,7 +941,7 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
- 	return 0;
+diff --git a/drivers/base/regmap/regcache-maple.c b/drivers/base/regmap/regcache-maple.c
+index 9cf0384ce7b95..615ecb89d5377 100644
+--- a/drivers/base/regmap/regcache-maple.c
++++ b/drivers/base/regmap/regcache-maple.c
+@@ -112,7 +112,7 @@ static int regcache_maple_drop(struct regmap *map, unsigned int min,
+ 	unsigned long *entry, *lower, *upper;
+ 	/* initialized to work around false-positive -Wuninitialized warning */
+ 	unsigned long lower_index = 0, lower_last = 0;
+-	unsigned long upper_index, upper_last;
++	unsigned long upper_index = 0, upper_last = 0;
+ 	int ret = 0;
  
- err_domain:
--	/* Should really dispose of the domain but... */
-+	irq_domain_remove(d->domain);
- err_mutex:
- 	mutex_destroy(&d->lock);
- 	lockdep_unregister_key(&d->lock_key);
+ 	lower = NULL;
 -- 
 2.53.0
 
