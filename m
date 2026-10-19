@@ -1,507 +1,502 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C374F93C4
-	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 13:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792416737; cv=pass; b=FfdyrNUGwXueyepUIUr3O8di6jRWHmP0IeRZlSmXhXf2tCwJ8KQlzDfaWfEjoqEQWf5haB4LiAWMkMKernpSwmXDKSFq51Ls2PzgUlJAdHojsDo3zax7qMrrGWN3hAEdtFdaDyIm3xjBaXGtiGT3fHfL2cxH0wcFfS7HoWeCBhk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792416737; c=relaxed/simple;
-	bh=Z34OsUah1XNFr8R6siYV6fJrHjFDYpAmcCLrnJCpRJI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iKjdYcFaZjrKOYc8JfiSVCmUUbVOIH/GBubiHY2Bgnw1NV1i4QBNws/+jjaBU3fJ2MDOdW16yKFrIkhCSoGyfOvWwLVi1HlJZMtRzxzbw79lO3jNsy0FOOGb0gdG/GiLqiywZaNf/62XVYHOD3Rf/1RyhP1Z/jDNWI5pIoONdGY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=J5+Uw9Ee; arc=pass smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B865AA66D;
+	Mon, 19 Oct 2026 13:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792418146; cv=none; b=ry1Mp4l2WqtRUu1PRQtMcaMcFXK7k8w5sexbu8sutj3mJvaGrYBshFkUwfqpP+hR9OrRvTUaXgJdLKgQgQ9ql+W9RhtgZkAR4wkgUudz9fwg0fdw59e0aoV5/OGvVKHQtCNWPb4XYsutcjzn77rMjYodV11h7l8Bl/7Rs1debtI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792418146; c=relaxed/simple;
+	bh=gbk/+8ZvngxK2FY2q/j6180/hh0yY7VYGT2agXx8PXM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t//k7sIwtskI4/eK6oD1Tjc49eygssRJeAk0V0DGMz7xn6JTSm3M7LFCmxLcklApKtjGG3bTvSSX5AaPVHf0UIX1yx/2ld/0VHl+qSIYNCAef9cNCZn1Djx2ZrSxYXKb+68g3f1rzdS2jz0sWCS7/kbMemNg67dh1ybF6LzlxLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1Zaubbv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="J5+Uw9Ee"
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 829C9201EF3;
-	Mon, 19 Oct 2026 15:32:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792416732;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wXw4IQiaWZagKS1ZKGBBWhMRb0ktPwfh7kNQCe4QztY=;
-	b=J5+Uw9EeJsNMl16Ml+L/u45LquJnBIPkykWa/BcTbvi2lds5quLtDe/cY9y73dkRCD2FCL
-	+EZIqzg5h6HUs3vVMNg8TbUy3pICPEMpDXvX0PEHPD2PCGc+l5EXefRyp65NlAHe0JkjTH
-	xkOfSz3uHpY1lXluGYrOlpIOntFTj45pyoE7gUx5FfwPZts+uNrbANxMtX4CNBGW8DOJ5H
-	Qov5qDn/ICNtuHhg0a3LbjqFf822eUHgzwIdHxaW9H1owJsKT4YSMQjirOVU2fVdQp+0Sw
-	sBpHYPWM4VfsltabzE57T/FbT2Zolsr5P+QTkzbu0VMBr9ArO1ua1lxKaoQPNQ==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1792416732; a=rsa-sha256;
-	cv=none;
-	b=Plo//zXe2s2vTi0FDMykb4ydUSftN9baIRXUV1koyiG/b5H1rX3cChDHf7uopxJcsonnjl
-	Fjftbea3J5jPoz0AaB5YXjWD3CoL6IsASF0JlM/awrIWy7zolOK6omUWnE/jgdQ/fmA8dt
-	9N+dp9rVt5wyeC0N3CsmQ0Tf4LNDs1kVN5ZntogLkvgkPbIY/+vww2mYT7RRNas5AxgckW
-	sagRVz2lG+TWScXo8gJSSW8OlwcA8UYKmDYETrjfKyv1VqK/XrSOnMn1FyG4A5EQ+585zG
-	VpROdDyrx+u2SJXTs1VwvEoIzecEQxXil0HKbXJFovnthAF6GI9rf9rm5C8H/g==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792416732;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wXw4IQiaWZagKS1ZKGBBWhMRb0ktPwfh7kNQCe4QztY=;
-	b=F8N0jTdnj/CPNhGhTVPhApspWMGNq3KzWIuPK8IQUPpzLqlK2DvyFL/IWWVmyhufGATzuU
-	ZD3efx+Ni0kGgpdco04xv86dNJfMLYQv0l0dB6z9be6h1nMkTQd70D+STUY4FkAGE3aALh
-	DkDs/1ZKMOwPolUvJDFHkm3VbnNW04C+tnrDEpOzhIsAnfyOxHIrrN9s16DK1G5bbYmPBy
-	jGJP8xPRX/pdlILD0uy40GqLOPiyFnB+vmJjh95qQuMGEOhq/i3UrgIR79SoBazkOEnikq
-	oWoOWDhArBVHS94XG4oYnQrEkhz1iwl12nynv2D9K6lol9PlDuV1XwMZ/F88vQ==
-Message-ID: <986d1b636fc7a96b3c2e05e8725a693a496d2f62.camel@pengutronix.de>
-Subject: Re: [PATCH v14 4/5] reset: Add KUnit test cases
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich
-	 <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Date: Mon, 19 Oct 2026 15:32:12 +0200
-In-Reply-To: <20261011121246.162759-5-tzungbi@kernel.org>
-References: <20261011121246.162759-1-tzungbi@kernel.org>
-	 <20261011121246.162759-5-tzungbi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1Zaubbv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C75EB1F000C5;
+	Mon, 19 Oct 2026 13:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792418143;
+	bh=+4QqVSq5EJGOolgMlm1wGlt1n7CtvHBteLbcpkGvwb4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=o1ZaubbvhE+AZE71qzPW3E+qpe9NZzJoK/1I5dmDcm2QNYrRfylZuX2A1+aPtGkxf
+	 wlXs78zb5y4YYM9eBn15wW6R2CwQQ33rqaa+8+bOsKbZVNUa1iX4LjP7tdqnzIO2Ho
+	 Lc1pDymNDRjzrMdKLxgHn/6J43g9AtuB3CxtwtxcQ5gv9IROrocvBD85CLSUWMP88v
+	 GlGf7/P3rRkiKvK1rNtKla7WbkePKr6GMbQiZ3Lg1ptZxfSn9+juMbnZrrQLU7+3C8
+	 1o7/DjVkNx+TA3Pd/B1wJqVOce2wJt5lAF1/nV12xcHtrboCIpXz++lCEK//DlELCx
+	 SLOx8lFfVwfrw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>,
+	Farhad Alemi <farhad.alemi@berkeley.edu>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.18] regmap: irq: Free the irqdomain we create
+Date: Mon, 19 Oct 2026 09:45:34 -0400
+Message-ID: <20261019135441.1420968-43-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On So, 2026-10-11 at 20:12 +0800, Tzung-Bi Shih wrote:
-> Since commit 9035073d0ef1 ("reset: convert reset core to using firmware
-> nodes"), reset suppliers and consumers can be wired up using software
-> nodes without requiring Device Tree or hardware devices.  Leverage this
-> to add KUnit test cases for the reset controller framework.
->=20
-> The test cases cover the following scenarios:
->=20
-> - Basic: Verifies that a consumer can acquire a reset control via
->   fwnode and perform reset, assert, deassert, status, release, and
->   acquire operations.
-> - Use After Unregister: Verifies that after the supplier unregisters
->   the reset_controller_dev while a consumer still holds a reset_control
->   handle, subsequent consumer operations fail safely with -ENODEV.
-> - Concurrent Unregister: Verifies that unregistering the
->   reset_controller_dev concurrently with an in-flight reset operation
->   waits for the active operation to complete before returning.
->=20
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+From: Mark Brown <broonie@kernel.org>
 
-It looks like the Kunit tests are independent from the reset of the
-series and could be sent individually.
+[ Upstream commit 2e42cade8ff1ff579e77976d9869db4df1feaf74 ]
 
-Is there any dependency that I am missing?
+When domain support was added to regmap-irq it was not possible to
+remove domains, this was added later by 8ee99ada293b (irqdomain: Support
+removal of IRQ domains.).  We did update the main removal path to free
+the domain but forgot the error unwinding case during creation that is
+now in regmap_add_irq_chip_fwnode() after some code motion, meaning that
+errors during instantiation result in an unused irqchip being left
+hanging around.  Add the missing irq_remove_domain() call where the
+comment says it should be.
 
-> ---
-> Test:
-> $ ./tools/testing/kunit/kunit.py run \
->         --kconfig_add CONFIG_RESET_CONTROLLER=3Dy \
->         --kconfig_add CONFIG_RESET_KUNIT_TEST=3Dy \
->         reset_test
->=20
-> $ ./tools/testing/kunit/kunit.py run \
->         --kconfig_add CONFIG_RESET_CONTROLLER=3Dy \
->         --kconfig_add CONFIG_RESET_KUNIT_TEST=3Dy \
->         --kconfig_add CONFIG_PROVE_LOCKING=3Dy \
->         --kconfig_add CONFIG_DEBUG_KERNEL=3Dy \
->         --kconfig_add CONFIG_KASAN=3Dy \
->         --arch=3Dx86_64 \
->         reset_test
-> ---
-> v14:
-> - New to the series.
-> ---
->  drivers/reset/Kconfig     |   5 +
->  drivers/reset/Makefile    |   2 +
->  drivers/reset/core-test.c | 329 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 336 insertions(+)
->  create mode 100644 drivers/reset/core-test.c
->=20
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-> index eda9c698a95f..c7dceec8f58c 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -457,4 +457,9 @@ source "drivers/reset/starfive/Kconfig"
->  source "drivers/reset/sti/Kconfig"
->  source "drivers/reset/tegra/Kconfig"
-> =20
-> +config RESET_KUNIT_TEST
-> +	tristate "KUnit tests for reset controller" if !KUNIT_ALL_TESTS
-> +	depends on KUNIT
-> +	default KUNIT_ALL_TESTS
-> +
->  endif
-> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
-> index 489fafd6bbe3..bb01198d495b 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -55,3 +55,5 @@ obj-$(CONFIG_RESET_UNIPHIER) +=3D reset-uniphier.o
->  obj-$(CONFIG_RESET_UNIPHIER_GLUE) +=3D reset-uniphier-glue.o
->  obj-$(CONFIG_RESET_ZYNQ) +=3D reset-zynq.o
->  obj-$(CONFIG_RESET_ZYNQMP) +=3D reset-zynqmp.o
-> +
-> +obj-$(CONFIG_RESET_KUNIT_TEST) +=3D core-test.o
-> diff --git a/drivers/reset/core-test.c b/drivers/reset/core-test.c
-> new file mode 100644
-> index 000000000000..834556322b23
-> --- /dev/null
-> +++ b/drivers/reset/core-test.c
-> @@ -0,0 +1,329 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright 2026 Google LLC
-> + *
-> + * KUnit tests for the reset controller.
-> + *
-> + * The test cases cover the following scenarios:
-> + *
-> + * - Basic: Verifies that a consumer can acquire a reset control via
-> + *   fwnode and perform reset, assert, deassert, status, release, and
-> + *   acquire operations.
-> + *
-> + * - Use After Unregister: Verifies that after the supplier unregisters
-> + *   the reset_controller_dev while a consumer still holds a reset_contr=
-ol
-> + *   handle, subsequent consumer operations fail safely with -ENODEV.
-> + *
-> + * - Concurrent Unregister: Verifies that unregistering the
-> + *   reset_controller_dev concurrently with an in-flight reset operation
-> + *   waits for the active operation to complete before returning.
-> + */
-> +
-> +#include <kunit/fwnode.h>
-> +#include <kunit/test.h>
-> +
-> +#include <linux/completion.h>
-> +#include <linux/fwnode.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/kthread.h>
-> +#include <linux/property.h>
-> +#include <linux/reset-controller.h>
-> +#include <linux/reset.h>
-> +#include <linux/sched/task.h>
-> +
-> +struct reset_test_context {
-> +	struct fwnode_handle *supp_fwnode;
-> +	struct fwnode_handle *cons_fwnode;
-> +	struct reset_controller_dev rcdev;
-> +	struct reset_control *rstc;
-> +
-> +	int reset_count;
-> +	int assert_count;
-> +	int deassert_count;
-> +	int status_count;
-> +
-> +	void *priv;
-> +};
-> +
-> +static int reset_test_op_reset(struct reset_controller_dev *rcdev,
-> +			       unsigned long id)
-> +{
-> +	struct reset_test_context *ctx =3D container_of(rcdev, typeof(*ctx), rc=
-dev);
-> +
-> +	ctx->reset_count++;
-> +	return 0;
-> +}
-> +
-> +static int reset_test_op_assert(struct reset_controller_dev *rcdev,
-> +				unsigned long id)
-> +{
-> +	struct reset_test_context *ctx =3D container_of(rcdev, typeof(*ctx), rc=
-dev);
-> +
-> +	ctx->assert_count++;
-> +	return 0;
-> +}
-> +
-> +static int reset_test_op_deassert(struct reset_controller_dev *rcdev,
-> +				  unsigned long id)
-> +{
-> +	struct reset_test_context *ctx =3D container_of(rcdev, typeof(*ctx), rc=
-dev);
-> +
-> +	ctx->deassert_count++;
-> +	return 0;
-> +}
-> +
-> +static int reset_test_op_status(struct reset_controller_dev *rcdev,
-> +				unsigned long id)
-> +{
-> +	struct reset_test_context *ctx =3D container_of(rcdev, typeof(*ctx), rc=
-dev);
-> +
-> +	ctx->status_count++;
-> +	return 0;
-> +}
-> +
-> +static const struct reset_control_ops reset_test_ops =3D {
-> +	.reset =3D reset_test_op_reset,
-> +	.assert =3D reset_test_op_assert,
-> +	.deassert =3D reset_test_op_deassert,
-> +	.status =3D reset_test_op_status,
-> +};
-> +
-> +static int reset_test_init(struct kunit *test)
-> +{
-> +	static const struct property_entry supp_props[] =3D {
-> +		PROPERTY_ENTRY_U32("#reset-cells", 1),
-> +		{}
-> +	};
-> +	static const struct software_node supp_swnode =3D {
-> +		.name =3D "reset-test-supplier",
-> +		.properties =3D supp_props,
-> +	};
-> +	static const struct software_node_ref_args refs[] =3D {
-> +		SOFTWARE_NODE_REFERENCE(&supp_swnode, 0),
-> +	};
-> +	static const struct property_entry cons_props[] =3D {
-> +		PROPERTY_ENTRY_REF_ARRAY("resets", refs),
-> +		{}
-> +	};
-> +
-> +	struct reset_test_context *ctx;
-> +	int ret;
-> +
-> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, ctx);
-> +
-> +	ctx->supp_fwnode =3D kunit_software_node_register(test, &supp_swnode);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->supp_fwnode);
-> +
-> +	ctx->cons_fwnode =3D kunit_fwnode_create_software_node(test, cons_props=
-,
-> +							     NULL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->cons_fwnode);
-> +
-> +	ctx->rcdev.ops =3D &reset_test_ops;
-> +	ctx->rcdev.nr_resets =3D 1;
-> +	ctx->rcdev.fwnode =3D ctx->supp_fwnode;
-> +
-> +	ret =3D reset_controller_register(&ctx->rcdev);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	ctx->rstc =3D __fwnode_reset_control_get(ctx->cons_fwnode, NULL, 0,
-> +					       RESET_CONTROL_EXCLUSIVE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->rstc);
-> +
-> +	test->priv =3D ctx;
+Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+Reported-by: Thomas Gleixner <tglx@kernel.org>
+Link: https://patch.msgid.link/20260901-regmap-irq-deallocate-domain-v1-1-4bfed4aff559@kernel.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-The rcdev and rstc could be cleaned up in .exit for the error cases.
+LLM Generated explanations, may be completely bogus:
 
-> +	return 0;
-> +}
-> +
-> +static void reset_test_basic(struct kunit *test)
-> +{
-> +	struct reset_test_context *ctx =3D test->priv;
-> +	struct reset_control *rstc =3D ctx->rstc;
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 0);
-> +	KUNIT_EXPECT_EQ(test, reset_control_reset(rstc), 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 1);
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->assert_count, 0);
-> +	KUNIT_EXPECT_EQ(test, reset_control_assert(rstc), 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->assert_count, 1);
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->deassert_count, 0);
-> +	KUNIT_EXPECT_EQ(test, reset_control_deassert(rstc), 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->deassert_count, 1);
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->status_count, 0);
-> +	KUNIT_EXPECT_EQ(test, reset_control_status(rstc), 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->status_count, 1);
-> +
-> +	reset_control_release(rstc);
-> +	KUNIT_EXPECT_EQ(test, reset_control_acquire(rstc), 0);
-> +
-> +	reset_control_put(rstc);
-> +	reset_controller_unregister(&ctx->rcdev);
+The local tree is **6.18.57**. At that base,
+`regmap_add_irq_chip_fwnode()` still has the “Should really dispose of
+the domain but...” stub, so the leak exists here and the one-line
+`irq_domain_remove()` change applies cleanly.
 
-Could be cleaned up by .exit.
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-> +}
-> +
-> +static void reset_test_use_after_unregister(struct kunit *test)
-> +{
-> +	struct reset_test_context *ctx =3D test->priv;
-> +	struct reset_control *rstc =3D ctx->rstc;
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 0);
-> +	KUNIT_EXPECT_EQ(test, reset_control_reset(rstc), 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 1);
-> +
-> +	/* Unregister supplier while consumer still holds rstc. */
-> +	reset_controller_unregister(&ctx->rcdev);
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: `[regmap: irq:] [Free] [Release the irqdomain created during
+chip setup]`
 
-If you allocate rcdev on its own instead of embedding it in the
-context, you could
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Record:
+- `Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>` (researcher
+  report)
+- `Reported-by: Thomas Gleixner <tglx@kernel.org>` (irq subsystem
+  maintainer)
+- `Link: https://patch.msgid.link/20260901-regmap-irq-deallocate-
+  domain-v1-1-4bfed4aff559@kernel.org`
+- `Signed-off-by: Mark Brown <broonie@kernel.org>` (regmap maintainer;
+  author)
+- No `Fixes:` tag (expected)
+- No `Cc: stable` (expected)
+- Pipeline-added `[Upstream commit 2e42cade8ff1...]` and Sasha Levin SOB
+  ignored per instructions
+- Notable: two reporters, one of them tglx
 
-	reset_controller_unregister(ctx->rcdev);
-	ctx->rcdev =3D NULL;
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Record:
+- Bug: when irqdomain support was added to regmap-irq, domains could not
+  be removed. `irq_domain_remove()` was added later (`58ee99ada293b`;
+  the message cites `8ee99ada293b`, missing the leading `5`). The
+  success teardown path was updated; the **creation error-unwind** path
+  was not.
+- Symptom: failed instantiation leaves an unused irqchip/domain hanging
+  around.
+- Failure mode: resource leak of a published irq domain on
+  `request_threaded_irq()` failure after `regmap_irq_create_domain()`.
+- Root cause (author): missing `irq_domain_remove()` at the
+  `err_domain:` label (the comment already said it should be there). The
+  message says `irq_remove_domain()`; the actual API is
+  `irq_domain_remove()`.
+- Version info: none beyond the historical API gap.
 
-here and still have normal cleanup if not NULL in .exit.
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: Not hidden. This is an explicit error-path resource-leak fix.
+External reporting (KASAN during CPU hotplug) shows the leaked objects
+can become a use-after-free, not only a leak.
 
-> +
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 1);
-> +	KUNIT_EXPECT_EQ(test, reset_control_reset(rstc), -ENODEV);
-> +	KUNIT_EXPECT_EQ(test, ctx->reset_count, 1);
-> +
-> +	KUNIT_EXPECT_EQ(test, reset_control_assert(rstc), -ENODEV);
-> +	KUNIT_EXPECT_EQ(test, reset_control_deassert(rstc), -ENODEV);
-> +	KUNIT_EXPECT_EQ(test, reset_control_status(rstc), -ENODEV);
-> +
-> +	reset_control_release(rstc);
-> +	KUNIT_EXPECT_EQ(test, reset_control_acquire(rstc), -ENODEV);
-> +
-> +	reset_control_put(rstc);
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-This would not be required either.
+**Step 2.1: INVENTORY THE CHANGES**
+Record:
+- File: `drivers/base/regmap/regmap-irq.c` (`1` insertion, `1` deletion)
+- Function: `regmap_add_irq_chip_fwnode()`
+- Scope: single-file surgical fix
 
-> +}
-> +
-> +struct test_concurrent_unregister_context {
-> +	struct kunit *test;
-> +	struct completion started, enter;
-> +	struct task_struct *thread;
-> +
-> +	/* Used by test consumer. */
-> +	struct completion entered, exit;
-> +	int expected_ret;
-> +};
-> +
-> +static int test_concurrent_unregister_supplier(void *data)
-> +{
-> +	struct test_concurrent_unregister_context *ctx =3D data;
-> +	struct reset_test_context *rtc =3D ctx->test->priv;
-> +
-> +	complete(&ctx->started);
-> +
-> +	wait_for_completion(&ctx->enter);
-> +	reset_controller_unregister(&rtc->rcdev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int test_concurrent_unregister_consumer(void *data)
-> +{
-> +	struct test_concurrent_unregister_context *ctx =3D data;
-> +	struct reset_test_context *rtc =3D ctx->test->priv;
-> +	int ret;
-> +
-> +	complete(&ctx->started);
-> +
-> +	wait_for_completion(&ctx->enter);
-> +
-> +	ret =3D reset_control_reset(rtc->rstc);
-> +	KUNIT_EXPECT_EQ(ctx->test, ret, ctx->expected_ret);
-> +
-> +	return 0;
-> +}
-> +
-> +static int
-> +reset_test_concurrent_unregister_op_reset(struct reset_controller_dev *r=
-cdev,
-> +					  unsigned long id)
-> +{
-> +	struct reset_test_context *rtc =3D container_of(rcdev, typeof(*rtc), rc=
-dev);
-> +	struct test_concurrent_unregister_context *ctx =3D rtc->priv;
-> +
-> +	rtc->reset_count++;
-> +	complete(&ctx->entered);
-> +
-> +	wait_for_completion(&ctx->exit);
-> +	return ctx->expected_ret;
-> +}
-> +
-> +static const struct reset_control_ops reset_test_concurrent_unregister_o=
-ps =3D {
-> +	.reset =3D reset_test_concurrent_unregister_op_reset,
-> +};
-> +
-> +static void reset_test_concurrent_unregister(struct kunit *test)
-> +{
-> +	struct reset_test_context *rtc =3D test->priv;
-> +	struct test_concurrent_unregister_context *ctx;
-> +	int i, ret, val;
-> +
-> +	rtc->rcdev.ops =3D &reset_test_concurrent_unregister_ops;
-> +
-> +	ctx =3D kunit_kmalloc_array(test, 3, sizeof(*ctx), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, ctx);
-> +
-> +	for (i =3D 0; i < 3; ++i) {
-> +		ctx[i].test =3D test;
-> +		init_completion(&ctx[i].started);
-> +		init_completion(&ctx[i].enter);
-> +
-> +		if (i =3D=3D 0) {
-> +			ctx[i].thread =3D kthread_run(
-> +				test_concurrent_unregister_supplier, ctx + i,
-> +				"supplier%d", i);
-> +		} else {
-> +			init_completion(&ctx[i].entered);
-> +			init_completion(&ctx[i].exit);
-> +
-> +			ctx[i].thread =3D kthread_run(
-> +				test_concurrent_unregister_consumer, ctx + i,
-> +				"consumer%d", i);
-> +		}
-> +		KUNIT_ASSERT_FALSE(test, IS_ERR(ctx[i].thread));
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Record:
+- Before: domain created → `request_threaded_irq()` fails → `goto
+  err_domain` → comment only → mutex/key teardown → `kfree(d)` while
+  `d->domain` stays published with `host_data = d`.
+- After: same path calls `irq_domain_remove(d->domain)` before freeing
+  `d`.
+- Path affected: probe error path only, after successful domain
+  creation.
 
-Isn't this missing kthread cleanup in the error cases?
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record:
+- Category: error-path resource leak; can escalate to UAF because the
+  domain is published (`irq_domain_list` / fwnode) with `host_data`
+  pointing at memory that is then freed.
+- Mechanism: missing counterpart to the existing `irq_domain_remove()`
+  in `regmap_del_irq_chip()`.
 
-> +		get_task_struct(ctx[i].thread);
-> +
-> +		wait_for_completion(&ctx[i].started);
-> +	}
-> +
-> +	rtc->priv =3D &ctx[1];
-> +	ctx[1].expected_ret =3D 0x12345678;
-> +	/* consumer1 enters reset(). */
-> +	KUNIT_EXPECT_EQ(test, rtc->reset_count, 0);
-> +	complete(&ctx[1].enter);
-> +	wait_for_completion(&ctx[1].entered);
-> +	KUNIT_EXPECT_EQ(test, rtc->reset_count, 1);
-> +
-> +	/* supplier0 unregisters. */
-> +	complete(&ctx[0].enter);
-> +	ret =3D read_poll_timeout(reset_control_status, val, val =3D=3D -ENODEV=
-,
-> +				1000, 100000, false, rtc->rstc);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	/* supplier0 can't exit.  It's waiting for all consumers. */
-> +
-> +	ctx[2].expected_ret =3D -ENODEV;
-> +	/* consumer2 must see -ENODEV. */
-> +	complete(&ctx[2].enter);
-> +	kthread_stop_put(ctx[2].thread);
-> +
-> +	/* consumer1 exits reset(). */
-> +	complete(&ctx[1].exit);
-> +	kthread_stop_put(ctx[1].thread);
-> +	kthread_stop_put(ctx[0].thread);
-> +
-> +	/* Subsequent access must see -ENODEV. */
-> +	KUNIT_EXPECT_EQ(test, reset_control_reset(rtc->rstc), -ENODEV);
-> +	reset_control_put(rtc->rstc);
+**Step 2.4: ASSESS THE FIX QUALITY**
+Record:
+- For `irq_base == 0` (most DT callers): obviously correct. Domain has
+  no mappings yet; `irq_domain_remove()` is the right unwind and matches
+  the del path.
+- For `irq_base != 0` (legacy/`irq_alloc_descs()` path, including
+  callers passing `-1`): incomplete. Domain creation associates IRQs up
+  front. `irq_domain_remove()` does not dispose those mappings. tglx
+  said the descriptor chip/domain pointers remain and the UAF remains.
+- Regression risk: low for `irq_base == 0`. For `irq_base > 0`, the
+  domain object is freed while descriptors still reference it (already a
+  UAF on `desc->chip` before this patch). The change is still a subset
+  of the correct unwind, not a new feature.
+- Red flags: none on APIs/scope. Completeness gap is real but does not
+  make the one-line change wrong for the common path.
 
-reset_control_put() could be done by .exit.
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-regards
-Philipp
+**Step 3.1: BLAME THE CHANGED LINES**
+Record:
+- Comment/label introduced by `4af8be67fd9989` (“regmap: Convert
+  regmap_irq to use irq_domain”, 2012).
+- Domain remove on the **del** path: `b5ab3e5cae097` (“regmap: irq:
+  Remove domain on exit”, 2014).
+- `err_domain:` still only had the comment at **v6.18.57**.
+- This is long-lived error-path debt, not a brand-new 6.18-only bug.
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: No `Fixes:` tag. Historical introducer is `4af8be67fd9989`; that
+commit **is** an ancestor of this tree.
+
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Record:
+- Nearby: `1da33858af625` (mutex destroy on error), `76b6e14aa7b08`
+  (lockdep key). Both already in v6.18.57; this patch’s context matches.
+- Domain creation helper: `dde286ee57704` / `regmap_irq_create_domain()`
+  already in this tree.
+- Standalone 1-line fix, not patch X/Y.
+- No follow-up in this tree adding `irq_dispose_mapping()` on
+  `err_domain`.
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record: Author is Mark Brown, **regmap maintainer**. He applied his own
+patch to `broonie/regmap.git for-7.3` the same day.
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Record:
+- Needs `irq_domain_remove()`: present (`58ee99ada293b`, exported in
+  this tree).
+- Needs `d->domain` and `err_domain:`: present.
+- Can apply standalone to v6.18.57. No missing helpers.
+
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Record:
+- Lore/msgid: https://patch.msgid.link/20260901-regmap-irq-deallocate-
+  domain-v1-1-4bfed4aff559@kernel.org
+- Only v1 (`b4 dig -a`); no v2 in that thread.
+- Thread:
+  1. Mark posts the 1-line patch (1 Sep 2026).
+  2. Mark applies it to for-7.3 ~1 hour later.
+  3. tglx (4 Sep): “That won’t work” for the `irq_alloc_descs()` /
+     `virq_base > 0` case; descriptors keep chip/domain pointers; UAF
+     remains. First suggestion: `irq_domain_free_irqs()`.
+  4. tglx follow-up: `irq_domain_free_irqs()` only works with
+     hierarchical domains; use `irq_dispose_mapping(irq_base + i)` then
+     remove the domain.
+  5. Mark: “Ah, thanks - I’d expected removing the domain to clean
+     everything up.”
+- No NAK of calling `irq_domain_remove()` itself; the request is
+  additional dispose before remove.
+- No reviewer `Cc: stable` in the thread.
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record: Recipients were linux-kernel, Farhad Alemi, tglx, Mark Brown.
+tglx reviewed after apply. No Acked-by/Reviewed-by on the committed
+patch.
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record:
+- Public write-up (31 Aug 2026): KASAN invalid read in
+  `irq_migrate_all_off_this_cpu` during CPU offline. tglx traced it to
+  this failed-setup path: descriptors remain mapped to a caller-owned
+  `irq_chip` after that chip/`regmap_irq_chip_data` is freed.
+- Trigger: device IRQ setup fails, then CPU hotplug walks descriptors.
+- Radu Rendec mentioned a similar syzbot hotplug stack; tglx criticized
+  allocation info in that report. Overlap is suggestive, not proven
+  identical.
+- Unprivileged exploit/CVE: not established.
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Record: Standalone v1. tglx’s dispose-mapping addition was not in this
+series and is not in this tree. GitHub `master` snapshot still showed
+the old comment, consistent with this being a 7.3-era fix not yet
+universal.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: No useful stable-list hit that this was previously rejected or
+requested. UNVERIFIED beyond search noise.
+
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: `regmap_add_irq_chip_fwnode()` only. Callees of interest:
+`regmap_irq_create_domain()`, `request_threaded_irq()`,
+`irq_domain_remove()`.
+
+**Step 5.2: TRACE CALLERS**
+Record:
+- `regmap_add_irq_chip()` → `regmap_add_irq_chip_fwnode()`
+- `devm_regmap_add_irq_chip_fwnode()` → same
+- `git grep -l "regmap_add_irq_chip"` → **87** `.c` files
+- Call context: driver probe (MFD/PMIC, ASoC codecs, power, GPIO, RTC,
+  DSA). Not a syscall hot path; boot/enumeration and probe-retry.
+- `irq_base != 0` callers exist, including popular PMICs: `rk8xx-core.c`
+  (`-1`), `retu-mfd.c`, `88pm800.c`, `88pm805.c`, `mt6370.c`, plus board
+  `irq_base` in tps65910/wm8994/tps65090.
+
+**Step 5.3: TRACE CALLEES**
+Record:
+- `regmap_irq_create_domain()` → `irq_domain_instantiate()` with
+  `virq_base = irq_base`, `host_data = d`. If `virq_base > 0`,
+  `__irq_domain_instantiate()` runs `irq_domain_associate_many()`.
+- `if (irq_base)` also calls `irq_alloc_descs()` first (`-1` is truthy).
+- `irq_domain_remove()` unpublishes and `kfree`s the domain; comment
+  requires mappings already disposed.
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record:
+- Reachable from device probe of many PMICs/codecs.
+- Userspace does not call this directly. Probe failure + later CPU
+  offline is the documented KASAN path.
+- Deferred probe retry can also leave a stale fwnode domain if the
+  domain is not removed.
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: `regmap_del_irq_chip()` already disposes mappings then calls
+`irq_domain_remove()`. That is the model tglx wants on `err_domain` when
+`irq_base > 0`. This patch only adds the remove.
+
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Record: Yes, at v6.18.57 `drivers/base/regmap/regmap-irq.c`
+`err_domain:` still has `/* Should really dispose of the domain but...
+*/`. Introduced 2012; never unwound on this error path here.
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Record: Expected **clean apply** to v6.18.57. Surrounding
+`mutex_destroy` / `lockdep_unregister_key` already match.
+`irq_domain_remove()` already used in the same file’s del path.
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+Record: Del-path domain remove is here (`b5ab3e5cae097`). No other fix
+of this `err_domain` leak. No `irq_dispose_mapping` follow-up on that
+label.
+
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: `drivers/base/regmap` IRQ helper. **IMPORTANT** (shared by many
+PMICs/MFDs, not core mm/sched, but widely used on ARM/embedded and
+laptops).
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: Mature (2011+). Recent work is lockdep nesting, mutex free,
+domain suffix. This is leftover unwind, not churn from a new subsystem.
+
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Record: Driver-specific / config-specific (`CONFIG_REGMAP_IRQ`), but
+that config is selected by many common PMICs. Affects anyone whose
+regmap-irq probe fails after domain create.
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Record:
+- Trigger: `regmap_irq_create_domain()` succeeds, then
+  `request_threaded_irq()` fails (bad/missing IRQ, busy IRQ, probe
+  deferral, etc.).
+- Not every boot. Realistic on flaky firmware, wrong DT IRQ, deferred
+  probe.
+- Unprivileged trigger: not verified. CPU hotplug typically needs
+  privilege. KASAN still shows a real kernel UAF.
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+Record:
+- Always: leaked published irq domain; `d` freed while domain
+  `host_data` dangles.
+- With `irq_base != 0`: leaked associated IRQ descriptors; `desc->chip`
+  can UAF on CPU offline (`irq_migrate_all_off_this_cpu`). **HIGH** (UAF
+  / KASAN).
+- This patch fully fixes the domain leak; it does **not** fully fix the
+  descriptor UAF when `irq_base > 0`.
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+Record:
+- Benefit: high for a 1-line unwind of a published irq domain used by
+  dozens of drivers; needed for probe retry and to stop leaking domain
+  objects.
+- Risk: very low for `irq_base == 0`. For `irq_base > 0`, incomplete;
+  not a new feature; same class of UAF already existed.
+- Ratio: benefit > risk. Follow-up dispose-mapping should also be
+  backported when it exists; that is not a reason to keep the domain
+  leak.
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Real error-path leak of a published irq domain; comment admitted the
+  gap since 2012.
+- Reported by tglx; KASAN UAF on CPU hotplug is a serious failure mode.
+- 1 line, same API already used in `regmap_del_irq_chip()`.
+- Buggy code is in v6.18.57; `irq_domain_remove()` is in this tree;
+  applies cleanly.
+- Author is the regmap maintainer; 87 in-tree callers.
+- Probe-path resource leaks are standard stable material.
+
+AGAINST:
+- Incomplete vs the reported `irq_base > 0` UAF; tglx asked for
+  `irq_dispose_mapping()` first; Mark agreed the remove-alone assumption
+  was wrong.
+- No `Fixes:`/`Cc: stable` (not a negative by itself).
+- Applied to for-7.3 before tglx’s review; no v2 in that thread.
+
+UNRESOLVED:
+- Whether a later mainline follow-up with `irq_dispose_mapping()` landed
+  after this tree’s branch.
+- Whether the KASAN report was reproduced on 6.18.y specifically (code
+  path is present).
+- No stable-list discussion found.
+
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** for the domain leak (`irq_base
+   == 0` and domain object itself). Incomplete for preassociated
+   descriptors, but the added call is the correct API and is already
+   used on the del path.
+2. Fixes a real bug that affects users? **PASS** — leaked irq domain on
+   failed probe; KASAN UAF documented on related leftover mappings.
+3. Important issue? **PASS** — UAF / resource leak of irq core objects,
+   not cosmetic.
+4. Small and contained? **PASS** — 1 line, one function.
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — v6.18.57 has the exact hunk
+   context.
+
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: Not ID/quirk/DT/docs. Ordinary error-path leak fix. Build-fix
+exception N/A.
+
+**Step 9.4: MAKE YOUR DECISION**
+This should be backported to **this** 6.18.y tree. The bug is here, the
+helper is here, and the change is the missing unwind the code has
+documented for years. Incompleteness for `irq_base > 0` means a later
+dispose-mapping patch is still needed for the full KASAN UAF; it does
+not make this line a net negative.
+
+### What the commit solves, and why it matters here
+`regmap_add_irq_chip_fwnode()` publishes an irq domain, then on
+`request_threaded_irq()` failure frees `struct regmap_irq_chip_data`
+without removing that domain. Stable 6.18.57 still does this. The
+leftover domain stays on the global list with dangling `host_data`, and
+on the legacy `irq_base != 0` path associated descriptors can later be
+walked during CPU hotplug (KASAN UAF). Many PMICs/MFDs use this helper,
+including rk8xx with `irq_base = -1`.
+
+### Stable rules / risk
+Small, obviously intended, no new API, applies cleanly. Benefit is
+fixing a real leak/UAF-adjacent unwind; risk is a 1-line call that the
+same file already uses on teardown.
+
+Verification:
+- [Phase 1] Tags: Farhad Alemi + tglx Reported-by; lore msgid link; Mark
+  Brown SOB; no Fixes/Cc stable
+- [Phase 1] Body describes creation-path domain leak after
+  `8ee99ada293b`; actual SHA in this tree is `58ee99ada293b`
+- [Phase 2] Diff is 1 line in `regmap_add_irq_chip_fwnode()`
+  `err_domain:`: comment → `irq_domain_remove(d->domain)`
+- [Phase 3] `git blame` at v6.18.57: comment from `4af8be67fd9989`
+  (2012); del-path remove `b5ab3e5cae097` (2014)
+- [Phase 3] `git merge-base --is-ancestor 4af8be67fd9989 HEAD` yes;
+  `58ee99ada293b` is ancestor of v6.18.57
+- [Phase 3] No follow-up dispose-mapping commit on this file in this
+  tree
+- [Phase 4] `b4 dig -c 4784831655ab5`: v1 only, applied to for-7.3 same
+  day
+- [Phase 4] tglx: remove-alone does not clear associated descriptors
+  when `virq_base > 0`; use `irq_dispose_mapping` then remove
+- [Phase 4] Mark acknowledged he expected remove to clean everything up
+- [Phase 4] External write-up: KASAN in `irq_migrate_all_off_this_cpu`
+  after failed regmap IRQ setup
+- [Phase 5] 87 files call `regmap_add_irq_chip*`; probe of
+  MFD/PMIC/codec/etc.
+- [Phase 5] `if (irq_base) irq_alloc_descs()` plus `virq_base`
+  associate_many confirmed in this tree
+- [Phase 6] `git describe HEAD` → `v6.18.57-155-gcdf239ca885b2`; `make
+  kernelversion` → 6.18.57
+- [Phase 6] v6.18.57 still has the dispose comment;
+  `irq_domain_remove()` already in `regmap_del_irq_chip()`
+- [Phase 8] Failure mode: leaked irq domain; UAF on CPU hotplug for
+  preassociated IRQs; severity HIGH
+- UNVERIFIED: later mainline follow-up with `irq_dispose_mapping` on
+  `err_domain`; whether syzbot report is the same bug; stable-list
+  history beyond unsuccessful search
+
+**YES**
+
+ drivers/base/regmap/regmap-irq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
+index 6112d942499be..8c297156ea402 100644
+--- a/drivers/base/regmap/regmap-irq.c
++++ b/drivers/base/regmap/regmap-irq.c
+@@ -941,7 +941,7 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+ 	return 0;
+ 
+ err_domain:
+-	/* Should really dispose of the domain but... */
++	irq_domain_remove(d->domain);
+ err_mutex:
+ 	mutex_destroy(&d->lock);
+ 	lockdep_unregister_key(&d->lock_key);
+-- 
+2.53.0
+
