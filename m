@@ -1,55 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792433288;
-	b=ee+xN9ciST3kUTOWnigxap2iwwr9vwoooSHXDE8e9anj4Y6hEKng45Oa64vn+17VI0Zs
-	 PQ3FXBlFQZCSZwCatZQoTp2Vptf2/AFeziCof71DZNbHeo6Zo7JTpfJbrKCdFWN41TFL4
-	 w8a2TIPVw9vFURBdRDxsmjFEg6I2wgLkp7wMlk0f3KRGR0NTA3UJ4GhNTRdZ43g6TadOR
-	 tIDEpmzxwi0Af72RKAxhb4nHBq2rkSjoSR8B2EAlXxhdyZmANbV0KdXJEg+yOdliZ0ne7
-	 1RRaM/aJsts3nCDiS0raU07HwKFiEXK0ywRKy/oBwjtgOPWu9NJpBUtnxBO7SQuI28Q==
+	t=1792435891;
+	b=b7mWptX2U/4FDqjQS0s4Sq+qmuO1NxTa81B+tWIKawkQzgiUlhVUTEEmaVEdSbeNB5ax
+	 ggX23Yg+sl643nUbIlsIAP135+EGG+czfac0nlsaKktLMzX/KSGjigFj5ApArtWlKB2it
+	 rLulxxI+W23gQpNM4qVAoRE9dh8nDo6/RAgjLw716lAUzTtxk6rNiXHo5vazFjx5+wfs7
+	 2BtNEGZRqXt0UvECT6VYrQN0OJX/uOWSQUOsP6Vz46N8RKuO+AN5gW2vhJPO6O7PWgBrn
+	 vGJ3EWm/TuKo2t2lRjveNSwh5L1b2F/lIc6vcqORJ+CbMPQz7z6IeYjQCUCw+/Q3Wlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792433288;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=0yJvOwPfZ5d2rGhnowwpIR6yBLsjsRPjCVACsCnz6cw=;
-	b=jzonzX3zoh0IKoOVYeUhyCz/w4IrQNWaS3gLVbNzugKjLEyoUULz2rIquRLpUZp+RSkg
-	 V3TM7bRw1XnoYQKYZCHROwZDhwbXap68Oyny/mlAtPJQg2ihGrDRbc5WEzDRlzRSfZ08e
-	 GpuCFPA/4FTQ/lzitj9gRNXiK3saAQalbYPTp8EMIcMoX7+Yj4UqQjAqrdCwIcJdiZZvB
-	 povbxg+xFcKMBihXE0mlFFttF4GO5Sni1ELKgTfIX3LpZp3TbXtc+9qcjCFSBOqctkeU7
-	 7W3exCKqvV1CFdOkd5fhHDsMwlojMJ1cgQQQdW0UcglCMdFn+FfJu1qSWWEraTBaCcA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792435891;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Z99wMaMNn5HsBWTHhvt8IeIQ7zA88qwFOi5fw1JQS00=;
+	b=zeaKn1DG7SrlV+x0kPkB5wmXJd4zFysQyLQT3S0JznQfe/jBFGf757UzZjG7Z9nhZK5n
+	 838t7weC+IgMsxtLdJ0Y822L8oTs8Ibbh+eSkG0hBEWGdq+iJcio9DPIHMy+kcxynB8XZ
+	 w2nvssxXnoFOmNpm1wR+zgHEWsW0dCHc/8m/InmpiPDr3gUjWj8txcopC0Oz9/E67vF9r
+	 Yw7moefzrralk+MEQ/fHS1rSKGOlB++vXl2NeioWXOazaZ1IV+xupVue12YyOqaP0qMZ8
+	 /QH5PDNYstf5r6aVAHgBklQ9VngYvB5F1ND/5v/yjCjsGfKYTo2FsKXlsM9e+YcxJSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ6naX2y;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=csail.mit.edu;
+	spf=pass smtp.mailfrom=csail.mit.edu;
+	arc=none smtp.remote-ip=128.30.2.78
+Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E69606A31C
-	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 18:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ6naX2y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABC91F000C4
-	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 18:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792433288;
-	bh=0yJvOwPfZ5d2rGhnowwpIR6yBLsjsRPjCVACsCnz6cw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WJ6naX2y+idzEv0gJ1YxEYmR0YsFHjn6+3S92nABDj5DGDRxppocrDCtaIWTYy0qg
-	 pMa4EoFEdEUUAOKehkLV3kbSJmv4cPu7+d3YyOwLIoWdabVbd9sH558dnFIoUDE+5s
-	 MpmKU4s/fbovoDeLZBtziu0BXxZl+kHUwsjTzZb+Gov/uE5ZUO77dhH8lwoGhXA9Om
-	 ikrjc7FkO+josYTrzWYtHn+br8HOyppsNJVuY+KNcYbRz9muO+HP4gJ4HzDk5kZpdW
-	 zX95wyLip81coHgseUKy5h/hahn1/JuXUXWHuNbR6gNp2iy+4AaZaxd3camC3BGf9B
-	 I0DbFYTnFhMMg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5bccb867d6fso2197507e87.0
-        for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 11:08:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxa0z1/Kl7nMrilWueGVS60sINumVUVuNQTXM46NZsNitXpsuhb3dN1vArEtt7OqOoCJq0UWGtp4/gaPg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJLKIUm0FTnTawiPpqla4ARkHcBhKKyXYcMXj5HV9l+D0rk6nyR
-	gblCNuYORBNXw5ZsApApTCsjls08GWCcvvvVkgZdAcSQO/vpT9x3iYvqfqEAldltCp0aKhSoE3K
-	PemHLZLcvltaxY+q9F+DIxmMlm1AVg1Q=
-X-Received: by 2002:a05:6512:b95:b0:5be:52d8:f70a with SMTP id
- 2adb3069b0e04-5be52d8f89emr2829793e87.34.1792433286328; Mon, 19 Oct 2026
- 11:08:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DA0606A31D;
+	Mon, 19 Oct 2026 18:51:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5DA0606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+Received: from escalante.csail.mit.edu ([128.52.128.198])
+	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
+	(envelope-from <nickolai@csail.mit.edu>)
+	id 1xIsSA-00Bx9b-V4;
+	Mon, 19 Oct 2026 14:51:22 -0400
+From: Nickolai Zeldovich <nickolai@csail.mit.edu>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Saravana Kannan <saravanak@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nickolai Zeldovich <nickolai@csail.mit.edu>
+Subject: [PATCH v2] driver core: Don't take the device lock in waiting_for_supplier_show()
+Date: Mon, 19 Oct 2026 14:51:22 -0400
+Message-ID: <20261019185122.805265-1-nickolai@csail.mit.edu>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,269 +55,120 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20260925-acpi-static-table-irq-probe-defer-v1-0-2c62125d0085@kernel.org>
- <20260925-acpi-static-table-irq-probe-defer-v1-2-2c62125d0085@kernel.org>
- <arZDwutoadki7tiZ@ashevche-desk.local> <arZNL9BnTGK0Klwc@red-moon>
- <arZS4vwxps01dGb7@ashevche-desk.local> <arqSqcoWAkhy-8do@red-moon>
- <d1720b63-65bf-4019-bc19-1852555f7993@arm.com> <asieTvinZ7c2QpQm@red-moon>
- <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com> <atXyIadz1TEKSodg@red-moon>
-In-Reply-To: <atXyIadz1TEKSodg@red-moon>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 19 Oct 2026 20:05:50 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0joJBZg==DWPsNviPfL7Jo=qupRhb6GinqOLoHXGnvevg@mail.gmail.com>
-X-Gm-Features: AclHuK9KYDE64m8huu2HeNgeVrCBa6dkbPQ8_E7l8BP-IVa43wPKwt6awgXhlNs
-Message-ID: <CAJZ5v0joJBZg==DWPsNviPfL7Jo=qupRhb6GinqOLoHXGnvevg@mail.gmail.com>
-Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Marc Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026 at 12:34=E2=80=AFPM Lorenzo Pieralisi
-<lpieralisi@kernel.org> wrote:
->
-> On Thu, Oct 15, 2026 at 10:46:26PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > Sorry for the delay.
->
-> Thanks for chiming in.
->
-> > On Fri, Oct 9, 2026 at 9:57=E2=80=AFAM Lorenzo Pieralisi <lpieralisi@ke=
-rnel.org> wrote:
-> > >
-> > > On Tue, Oct 06, 2026 at 05:19:23PM +0100, Robin Murphy wrote:
-> > > > On 28/09/2026 5:15 pm, Lorenzo Pieralisi wrote:
-> > > > > On Fri, Sep 25, 2026 at 01:54:26PM +0300, Andy Shevchenko wrote:
-> > > > > > On Fri, Sep 25, 2026 at 12:30:07PM +0200, Lorenzo Pieralisi wro=
-te:
-> > > > > > > On Fri, Sep 25, 2026 at 12:49:54PM +0300, Andy Shevchenko wro=
-te:
-> > > > > > > > On Fri, Sep 25, 2026 at 09:48:01AM +0200, Lorenzo Pieralisi=
- wrote:
-> > > > > >
-> > > > > > ...
-> > > > > >
-> > > > > > > > > +static int acpi_static_fwnode_read_u32_prop_index(const =
-struct fwnode_handle *fwnode,
-> > > > > > > > > +                                             const char =
-*propname,
-> > > > > > > > > +                                             unsigned in=
-t index, u32 *value)
-> > > > > > > > > +{
-> > > > > > > > > +   u32 *values;
-> > > > > > > > > +   int ret, count;
-> > > > > > > > > +
-> > > > > > > > > +   count =3D fwnode_property_count_u32(fwnode, propname)=
-;
-> > > > > > > > > +   if (count < 0)
-> > > > > > > > > +           return count;
-> > > > > > > > > +
-> > > > > > > > > +   if (index >=3D count)
-> > > > > > > > > +           return -ENOENT;
-> > > > > > > > > +
-> > > > > > > > > +   values =3D kcalloc(count, sizeof(*values), GFP_KERNEL=
-);
-> > > > > > > > > +   if (!values)
-> > > > > > > > > +           return -ENOMEM;
-> > > > > > > > > +
-> > > > > > > > > +   ret =3D fwnode_property_read_u32_array(fwnode, propna=
-me, values, count);
-> > > > > > > > > +   if (!ret)
-> > > > > > > > > +           *value =3D values[index];
-> > > > > > > >
-> > > > > > > > Use standard pattern, id est
-> > > > > > > >
-> > > > > > > >       if (ret)
-> > > > > > > >               ...
-> > > > > > > >
-> > > > > > > > > +   kfree(values);
-> > > > > > > >
-> > > > > > > > You want to use __free()
-> > > > > > > >
-> > > > > > > > > +   return ret;
-> > > > > > > > > +}
-> > > > > > > >
-> > > > > > > > I believe the whole approach is suboptimal, if you wish get=
- indexed value (but why?)
-> > > > > > >
-> > > > > > > Why what (that's what the irq_get() interface requires ?) I a=
-gree it is
-> > > > > > > suboptimal - the whole point of the series is an RFC on using=
- properties
-> > > > > > > to store GSI number/flags, then how to read them we will opti=
-mize it
-> > > > I>>> when/if we agree that's the approach to be taken.
-> > > > > >
-> > > > > > Why to have indexed APIs. The callers usually do not want a sin=
-gle item from an
-> > > > > > array, they want all of them or a big pile (exception is the ar=
-ray of strings,
-> > > > > > but we have matching functions for that).
-> > > > > >
-> > > > > > As per approach, this patch is against device property and I do=
-n't think we are
-> > > > > > going to agree on the approach taken in *this* patch.
-> > > > >
-> > > > > Coming back to this, what is needed here is a way to stash the GS=
-I number,
-> > > > > flags and name in stardard storage (like OF nodes IRQ properties,=
- ACPI objects
-> > > > > _CRS, etc).
-> > > > >
-> > > > > To give you some background, I thought about adding an array of:
-> > > > >
-> > > > > GSI [number, flags, name]
-> > > > >
-> > > > > to the ACPI static fwnode itself. Then basically the irq_get() AP=
-I has got
-> > > > > all the information it needs from the primary fwnode; while doing=
- that I
-> > > > > thought that this might have been a bit like reinventing software=
- nodes
-> > > > > (granted, software node properties are ways more general that wha=
-t I suggest
-> > > > > above and I don't expect any other property to be ever added to s=
-tatic fwnodes)
-> > > > > that's why I put together the series as it is, precisely to under=
-stand what's
-> > > > > best.
-> > > > >
-> > > > > When you say "against device property", what do you mean precisel=
-y ?
-> > > > >
-> > > > > I suppose you mean that this approach goes against software node =
-properties
-> > > > > usage guidelines ?
-> > > > >
-> > > > > Anyway, again, it is just to provide some context, we are talking=
- about
-> > > > > a bunch of platform devices, it is nice to have a generic solutio=
-n but
-> > > > > it has to be simple enough too given its scope, I understand very=
- well
-> > > > > your concern with this approach as-is - it is there to find a way
-> > > > > forward together and show what the problem is.
-> > > >
-> > > > I guess software node properties look inviting in theory since they=
-'re a
-> > > > ready-made mechanism for effectively attaching arbitrary data to a =
-fwnode,
-> > > > however looking at patches 6-7 and the amount of boilerplate involv=
-ed in the
-> > > > reality, I'm inclined to think that a dedicated structure for stati=
-c nodes
-> > > > is probably the best and most efficient compromise here. The redund=
-ancy
-> > > > argument rather falls apart once we end up creating copies of those
-> > > > contentiously-made-up property name strings for every node, especia=
-lly given
-> > > > that any one of those alone is probably already more than the amoun=
-t of
-> > > > actual data we need per node...
-> > > >
-> > > > Perhaps the "purest" option might be to just store a function point=
-er in the
-> > > > fwnode wrapper for each static table type to provide its own intern=
-al
-> > > > irq_get() callback, so not stashing intermediate GSI data at all, b=
-ut I
-> > > > suspect that might end up being more work overall.
-> > >
-> > > Hi Rafael, Robin,
-> > >
-> > > I have not started prototyping it yet but I have got a question as a
-> > > follow-up to our chat at LPC about crafting an ACPI device for the st=
-atic
-> > > table entries and sort out the probe dependencies using autodep.
-> > >
-> > > After spur of the moment reaction during the session, I now remember =
-I
-> > > thought about crafting an ACPI device for the static table entries an=
-d
-> > > started digging then bumped into acpi_add_single_object() as you
-> > > suggested.
-> > >
-> > > The point though is: what about the acpi_handle and the AML required =
-to
-> > > sort out the dependencies using the _CRS ? We have got the info to fi=
-ll
-> > > the _CRS coming from static table entries (MMIO, GSI) but I am not su=
-re how I
-> > > can form a full-fledged ACPI namespace object in the kernel, without
-> > > that in place I am not sure how the autodep mechanism can possibly
-> > > work.
-> >
-> > The missing ACPI handle is not a hard part IMV, it is a matter of
-> > modifying struct acpi_dep_data to be able to hold struct acpi_device
-> > pointers instead of ACPI handles in case the devices in question have
-> > no ACPI handles and adjusting the code using it.
-> >
-> > Finding the dependencies is harder.  I guess it may involve walking
-> > the namespace and looking up a device object with a specific device ID
-> > or similar.
->
-> All we need to find dependencies is a GSI number, the question though
-> is what are we really solving by creating a dependency (and where
-> that GSI number will be stored eventually so that the platform driver
-> at probe - when dependencies are cleared, can retrieve it).
->
-> I think that what we want is preventing a platform device to be created
-> (ie we don't create platform devices at static table init time anymore
-> but we let ACPI core do it at acpi_bus_attach(adev)/enumeration time ?)
+Reading a device's waiting_for_supplier attribute while the device is
+being probed hangs the reader and the probing task for good if the probe
+succeeds: driver_bound() removes the file under the device lock,
+kernfs_drain() waits for the reader's active reference, and the reader
+waits in device_lock(). The file is world readable and exists for every
+unbound device with a firmware node under the default fw_devlink=on, so
+any sysfs walk during a probe (udev, a plain cat) can wedge a module
+load and everything that takes that device's lock afterwards.
 
-Basically, yes, the idea is to defer the creation of the platform
-device until the dependency is met.
+The device lock is not needed: fwnode_links_check_suppliers() reads the
+supplier list under fwnode_link_lock, which every writer holds, and the
+active reference keeps the device alive during the callback. Drop it.
 
-> till the dependencies are cleared but then, without a _CRS, where will
-> the consumer driver find the platform device resources ?
+Reproduced on x86_64 under QEMU with sym53c8xx as a module, whose probe
+waits for the SCSI settle delay: a read of the PCI device's
+waiting_for_supplier file during the load hangs before the change and
+returns 0 after it.
 
-Well, good question.
+Fixes: da6d647598a6 ("driver core: Add waiting_for_supplier sysfs file for devices")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
+---
 
-> There are multiple facets in this issue and possibly some of them have
-> been already solved but I need to pull them together.
->
-> > Note that the dependencies can be added to acpi_dep_list after
-> > creating a struct acpi_device with acpi_add_single_object() and
-> > acpi_scan_add_dep() is not really suitable for that, but it should be
-> > doable if the dependencies can be found.
-> >
-> > > I need to have a deeper look into this next week but I wanted to ask =
-first
-> > > whether there was something I missed - most likely.
-> >
-> > Well, it is not really straightforward.
->
-> Yes it is getting messy. This RFC, with all its flaws, does not transpare=
-ntly
-> prevents enumeration but rather relies on -EPROBE_DEFER to sort out
-> dependencies - though it does so by adding more stuff into ACPI static fw=
-node
-> that to be honest I'd rather see gone.
+Notes:
+    Changes in v2:
+      - Cc: stable (Greg's patch bot: the Fixes commit is in a released
+        kernel)
+      - shorter commit message
+    v1: https://lore.kernel.org/all/20261018001837.797946-1-nickolai@csail.mit.edu/
+    
+    Lockdep does not report the hang: dev->mutex is lockdep-novalidate.
+    
+    Every writer of the fwnode supplier list (fwnode_link_add(), the purge
+    helpers, __fwnode_links_move_consumers() via
+    fw_devlink_pickup_dangling_consumers(), and the cycle/link code under
+    fw_devlink_link_device()) holds fwnode_link_lock, so the walk in
+    fwnode_links_check_suppliers() needs nothing more.
+    
+    Reproducer (x86_64 defconfig + CONFIG_SCSI_SYM53C8XX_2=m + CONFIG_DETECT_HUNG_TASK,
+    QEMU with -device lsi53c895a,id=scsi0 -device scsi-hd,drive=d0,bus=scsi0.0; the
+    PCI device has an ACPI companion, so it owns a waiting_for_supplier file until a
+    driver binds; sym2_probe() resets the SCSI bus and the synchronous scan waits for
+    the settle delay, so the probe takes "settle" seconds). Busybox /init, with
+    sym53c8xx.ko in the initramfs:
+    
+    #!/bin/sh
+    mount -t proc proc /proc
+    mount -t sysfs sysfs /sys
+    mount -t devtmpfs devtmpfs /dev
+    for d in /sys/bus/pci/devices/*; do
+    	read v < $d/vendor; read i < $d/device
+    	[ "$v $i" = "0x1000 0x0012" ] && dev=${d##*/}
+    done
+    (insmod /sym53c8xx.ko settle=8 && echo "init: module load done") &
+    sleep 1
+    (echo "init: read returned $(cat /sys/bus/pci/devices/$dev/waiting_for_supplier), attribute access done") &
+    sleep 30
+    echo "init: after 30 s:"
+    ps | grep -E 'insmod|cat /sys'
+    echo w > /proc/sysrq-trigger
+    
+    qemu-system-x86_64 -cpu max -smp 2 -m 512M -nographic -no-reboot -kernel bzImage \
+        -initrd initramfs.cpio -drive file=disk.img,if=none,id=d0,format=raw \
+        -device lsi53c895a,id=scsi0 -device scsi-hd,drive=d0,bus=scsi0.0 \
+        -append "console=ttyS0 panic=-1 rdinit=/init loglevel=7"
+    
+    Before:
+      INFO: task insmod:72 blocked for more than 10 seconds.
+       kernfs_drain+0xf6/0x170
+       __kernfs_remove+0x188/0x250
+       kernfs_remove_by_name_ns+0x78/0xd0
+       device_links_driver_bound+0xd4/0x350
+       driver_bound+0x46/0x180
+       really_probe+0x1b1/0x360
+       __driver_attach+0xfc/0x1d0
+       bus_add_driver+0x15c/0x270
+       init_module+0xc9/0xff0 [sym53c8xx]
+      INFO: task cat:79 blocked for more than 10 seconds.
+       __mutex_lock+0x395/0xa00
+       waiting_for_supplier_show+0x1f/0xa0
+       dev_attr_show+0x17/0x60
+      INFO: task cat:79 is blocked on a mutex likely owned by task insmod:72.
+      init: after 30 s:
+         72 0        {insmod} /bin/sh /init
+         79 0        cat /sys/bus/pci/devices/0000:00:04.0/waiting_for_supplier
+      (a power-off afterwards hangs too: device_shutdown() takes the same lock)
+    After:
+      init: read returned 0, attribute access done
+      sd 2:0:0:0: [sda] Attached SCSI disk
+      init: module load done
 
-I think what you need is a notification mechanism that will trigger
-when a specific device (enumerated via the ACPI Namespace) becomes
-operational.  It doesn't look like any of the existing ones (platform
-device probe deferral or ACPI device dependencies tracking) is really
-suitable for your use case.
+ drivers/base/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> > I'm still not sure why you can't represent all devices in the ACPI
-> > namespace in addition to describing some of them in static tables.  I
-> > guess that would work for everybody, wouldn't it?
->
-> That's a fair point - though then code will have to work with firmware
-> that does NOT explicitly require those devices in the namespace (ie: firm=
-ware
-> as it is specified _now_); it can turn out to be a mess even less
-> manageable than this discussion ;-)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4c0c373998a1..a3a28d83d339 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1317,10 +1317,8 @@ static ssize_t waiting_for_supplier_show(struct device *dev,
+ {
+ 	bool val;
+ 
+-	device_lock(dev);
+ 	scoped_guard(mutex, &fwnode_link_lock)
+ 		val = !!fwnode_links_check_suppliers(dev->fwnode);
+-	device_unlock(dev);
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
+ static const DEVICE_ATTR_RO(waiting_for_supplier);
 
-If it has to work under these conditions anyway, then adding stuff to
-the namespace is rather pointless.
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.53.0
+
