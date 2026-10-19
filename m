@@ -1,51 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=128.30.2.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792435891;
-	b=b7mWptX2U/4FDqjQS0s4Sq+qmuO1NxTa81B+tWIKawkQzgiUlhVUTEEmaVEdSbeNB5ax
-	 ggX23Yg+sl643nUbIlsIAP135+EGG+czfac0nlsaKktLMzX/KSGjigFj5ApArtWlKB2it
-	 rLulxxI+W23gQpNM4qVAoRE9dh8nDo6/RAgjLw716lAUzTtxk6rNiXHo5vazFjx5+wfs7
-	 2BtNEGZRqXt0UvECT6VYrQN0OJX/uOWSQUOsP6Vz46N8RKuO+AN5gW2vhJPO6O7PWgBrn
-	 vGJ3EWm/TuKo2t2lRjveNSwh5L1b2F/lIc6vcqORJ+CbMPQz7z6IeYjQCUCw+/Q3Wlw==
+	t=1792447312;
+	b=ifgCykKq9hFi+uDVGKKXSEZMu3norHd2jo1eY+Ov7ZkV7whwssbOe2uShQC5+D4c6ptW
+	 rVLVDNq7oyNbHTy/yHL1bmeKf+hKhIsjcXmnW9AZ960jmwUoqV/S0jvk0+AMW8Q40PAdH
+	 vm5u0GafLlJg03f5KILvsQFOAmn/jTVQaLMK78i7vHDG/eG1YFjuPpFFi2TJMoa1zyNWR
+	 m5adfPaWybpnpAeNeWnNby09kKlt/nZojysJOWNvf23EJz1oR+lztTUcW0GpvbiJYtu9B
+	 aDgPnf32BgAwiq58llJIOoQNAsqRB1O/Noaq0leqObNvZ+1MtJjdIh0rM1pkCkkP/fQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792435891;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Z99wMaMNn5HsBWTHhvt8IeIQ7zA88qwFOi5fw1JQS00=;
-	b=zeaKn1DG7SrlV+x0kPkB5wmXJd4zFysQyLQT3S0JznQfe/jBFGf757UzZjG7Z9nhZK5n
-	 838t7weC+IgMsxtLdJ0Y822L8oTs8Ibbh+eSkG0hBEWGdq+iJcio9DPIHMy+kcxynB8XZ
-	 w2nvssxXnoFOmNpm1wR+zgHEWsW0dCHc/8m/InmpiPDr3gUjWj8txcopC0Oz9/E67vF9r
-	 Yw7moefzrralk+MEQ/fHS1rSKGOlB++vXl2NeioWXOazaZ1IV+xupVue12YyOqaP0qMZ8
-	 /QH5PDNYstf5r6aVAHgBklQ9VngYvB5F1ND/5v/yjCjsGfKYTo2FsKXlsM9e+YcxJSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792447312;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=oEWcDzUkBN/dT8CmFHFEEK1XsOoB62A8zz65Y+tVTBg=;
+	b=S4gISCKRqlmGriqdGrsSVO5aCGUzEA7X9bcfyrJhio2TwR3/sJa6SuQZRvQ+RlxHB8q9
+	 +rZbPn9hDTOgUMzPKYmVZfOSaF0BiAhcEmWGsNSPmOU16GESRkRqM0VSmRQCBKMj72RfB
+	 CaFXKK/6a9GsY19k38X++vQ8EP5AXeW8WjF4gW/8ch8R4JZNIYNRUUy0HwOH+xMkelVvM
+	 q8OGj5jLGH8J3/OxB0ihxxlOt5qP9xDaXszxoJX2tqpPiewofm2eQT5R48hTLWXC9nZbt
+	 9Ug9znHDGJS7vKebOBt/q+/fYV1GcOA4LNeTMYVcqUHA/YzMfHsG6OAB5+2naGEfbEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=csail.mit.edu;
-	spf=pass smtp.mailfrom=csail.mit.edu;
-	arc=none smtp.remote-ip=128.30.2.78
-Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=px31Q6XF;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DA0606A31D;
-	Mon, 19 Oct 2026 18:51:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5DA0606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
-Received: from escalante.csail.mit.edu ([128.52.128.198])
-	by outgoing2021.csail.mit.edu with esmtp (Exim 4.95)
-	(envelope-from <nickolai@csail.mit.edu>)
-	id 1xIsSA-00Bx9b-V4;
-	Mon, 19 Oct 2026 14:51:22 -0400
-From: Nickolai Zeldovich <nickolai@csail.mit.edu>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Saravana Kannan <saravanak@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nickolai Zeldovich <nickolai@csail.mit.edu>
-Subject: [PATCH v2] driver core: Don't take the device lock in waiting_for_supplier_show()
-Date: Mon, 19 Oct 2026 14:51:22 -0400
-Message-ID: <20261019185122.805265-1-nickolai@csail.mit.edu>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D59E606A31C;
+	Mon, 19 Oct 2026 22:01:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D59E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=px31Q6XF
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=oEWcDzUkBN/dT8CmFHFEEK1XsOoB62A8zz65Y+tVTBg=; b=px31Q6XFHmlGM/i503reHhHHuT
+	pGYjVwxfAn5p4i086Sl8u8u5hibm2WgRwvGmCLA2ylk39WNaJ/QGNhb75/1cNpfJqxZGXxJtNzVFW
+	163P6tVAnsBEC+CxCZrj8rVMMbGG8nwIwPsaFhgDsNOjv4tlJPIuZuyRIGm0KL4TxukbfButDx6oX
+	4JvLk6tDtJVXn/qj33/ukN93zvRcvkWZ9xc/2ySrUbpQ6F95XRXbLHKZMCCtNd4oKSZ68GocYBURY
+	aFqCCoqvj9uAjXNaXPIld+dLDKewGyu/ZH8PblijW03jy139NaANTOKVEaVUtZUH3ls/GcwjcFcD3
+	jPiOj7HQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xIvQV-00000008RX2-1HDo;
+	Mon, 19 Oct 2026 22:01:51 +0000
+Message-ID: <7ae2c0f8-4c8e-4cf0-ba51-92b48835838d@infradead.org>
+Date: Mon, 19 Oct 2026 15:01:43 -0700
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -55,120 +58,52 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] debugfs: clarify return values when disabled
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, Johan Hovold <johan@kernel.org>
+References: <20261008171547.3084466-1-rdunlap@infradead.org>
+ <DM37WR9GUVEO.1ZJWESPXVQ8X5@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <DM37WR9GUVEO.1ZJWESPXVQ8X5@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reading a device's waiting_for_supplier attribute while the device is
-being probed hangs the reader and the probing task for good if the probe
-succeeds: driver_bound() removes the file under the device lock,
-kernfs_drain() waits for the reader's active reference, and the reader
-waits in device_lock(). The file is world readable and exists for every
-unbound device with a firmware node under the default fw_devlink=on, so
-any sysfs walk during a probe (udev, a plain cat) can wedge a module
-load and everything that takes that device's lock afterwards.
 
-The device lock is not needed: fwnode_links_check_suppliers() reads the
-supplier list under fwnode_link_lock, which every writer holds, and the
-active reference keeps the device alive during the callback. Drop it.
 
-Reproduced on x86_64 under QEMU with sym53c8xx as a module, whose probe
-waits for the SCSI settle delay: a read of the PCI device's
-waiting_for_supplier file during the load hangs before the change and
-returns 0 after it.
+On 10/12/26 3:37 PM, Danilo Krummrich wrote:
+> On Thu Oct 8, 2026 at 7:15 PM CEST, Randy Dunlap wrote:
+>> @@ -820,6 +826,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
+>>   *
+>>   * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+>>   * returned.
+>> + * If debugfs is not enabled in the kernel build, the value %-ENODEV
+>> + * will be returned. If debugfs is enabled in the kernel build but is disabled
+>> + * by using "debugfs=off" on the kernel command line, the value %-EPERM
+>> + * will be returned.
+> 
+> This keeps the old *and* the new text.
 
-Fixes: da6d647598a6 ("driver core: Add waiting_for_supplier sysfs file for devices")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
----
+Thanks for catching that one.
 
-Notes:
-    Changes in v2:
-      - Cc: stable (Greg's patch bot: the Fixes commit is in a released
-        kernel)
-      - shorter commit message
-    v1: https://lore.kernel.org/all/20261018001837.797946-1-nickolai@csail.mit.edu/
-    
-    Lockdep does not report the hang: dev->mutex is lockdep-novalidate.
-    
-    Every writer of the fwnode supplier list (fwnode_link_add(), the purge
-    helpers, __fwnode_links_move_consumers() via
-    fw_devlink_pickup_dangling_consumers(), and the cycle/link code under
-    fw_devlink_link_device()) holds fwnode_link_lock, so the walk in
-    fwnode_links_check_suppliers() needs nothing more.
-    
-    Reproducer (x86_64 defconfig + CONFIG_SCSI_SYM53C8XX_2=m + CONFIG_DETECT_HUNG_TASK,
-    QEMU with -device lsi53c895a,id=scsi0 -device scsi-hd,drive=d0,bus=scsi0.0; the
-    PCI device has an ACPI companion, so it owns a waiting_for_supplier file until a
-    driver binds; sym2_probe() resets the SCSI bus and the synchronous scan waits for
-    the settle delay, so the probe takes "settle" seconds). Busybox /init, with
-    sym53c8xx.ko in the initramfs:
-    
-    #!/bin/sh
-    mount -t proc proc /proc
-    mount -t sysfs sysfs /sys
-    mount -t devtmpfs devtmpfs /dev
-    for d in /sys/bus/pci/devices/*; do
-    	read v < $d/vendor; read i < $d/device
-    	[ "$v $i" = "0x1000 0x0012" ] && dev=${d##*/}
-    done
-    (insmod /sym53c8xx.ko settle=8 && echo "init: module load done") &
-    sleep 1
-    (echo "init: read returned $(cat /sys/bus/pci/devices/$dev/waiting_for_supplier), attribute access done") &
-    sleep 30
-    echo "init: after 30 s:"
-    ps | grep -E 'insmod|cat /sys'
-    echo w > /proc/sysrq-trigger
-    
-    qemu-system-x86_64 -cpu max -smp 2 -m 512M -nographic -no-reboot -kernel bzImage \
-        -initrd initramfs.cpio -drive file=disk.img,if=none,id=d0,format=raw \
-        -device lsi53c895a,id=scsi0 -device scsi-hd,drive=d0,bus=scsi0.0 \
-        -append "console=ttyS0 panic=-1 rdinit=/init loglevel=7"
-    
-    Before:
-      INFO: task insmod:72 blocked for more than 10 seconds.
-       kernfs_drain+0xf6/0x170
-       __kernfs_remove+0x188/0x250
-       kernfs_remove_by_name_ns+0x78/0xd0
-       device_links_driver_bound+0xd4/0x350
-       driver_bound+0x46/0x180
-       really_probe+0x1b1/0x360
-       __driver_attach+0xfc/0x1d0
-       bus_add_driver+0x15c/0x270
-       init_module+0xc9/0xff0 [sym53c8xx]
-      INFO: task cat:79 blocked for more than 10 seconds.
-       __mutex_lock+0x395/0xa00
-       waiting_for_supplier_show+0x1f/0xa0
-       dev_attr_show+0x17/0x60
-      INFO: task cat:79 is blocked on a mutex likely owned by task insmod:72.
-      init: after 30 s:
-         72 0        {insmod} /bin/sh /init
-         79 0        cat /sys/bus/pci/devices/0000:00:04.0/waiting_for_supplier
-      (a power-off afterwards hangs too: device_shutdown() takes the same lock)
-    After:
-      init: read returned 0, attribute access done
-      sd 2:0:0:0: [sda] Attached SCSI disk
-      init: module load done
+> Besides that, when debugfs is disabled via kernel command line
+> debugfs_change_name() checks
+> 
+> 	if (IS_ERR_OR_NULL(dentry))
+> 		return 0;
+> 
+> and if disabled via kernel command line dentry would have been an ERR_PTR and
+> hence it would just return 0.
+> 
+> (There may be more functions of this sort, I didn't check all of them.)
 
- drivers/base/core.c | 2 --
- 1 file changed, 2 deletions(-)
+Yes, I'll check all of the exported functions for similar handling.
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 4c0c373998a1..a3a28d83d339 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -1317,10 +1317,8 @@ static ssize_t waiting_for_supplier_show(struct device *dev,
- {
- 	bool val;
- 
--	device_lock(dev);
- 	scoped_guard(mutex, &fwnode_link_lock)
- 		val = !!fwnode_links_check_suppliers(dev->fwnode);
--	device_unlock(dev);
- 	return sysfs_emit(buf, "%u\n", val);
- }
- static const DEVICE_ATTR_RO(waiting_for_supplier);
-
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
 -- 
-2.53.0
+~Randy
 
