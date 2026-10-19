@@ -1,238 +1,356 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433C24E534B
-	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 11:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E1D4E50D4
+	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 11:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792410202; cv=none; b=fOaNGNlu3TVN2ntCgUEA8ZwsZbpR4iFnHyJ/QVTnQ2do6matXkeIqMHdrlOH/Az2uIwErbIcvF0r5aQFD3VXmG+4Jbev2U4GRK1gTvhctUTNRjm+UBF70VzSQEL67WyeBxKwoR5fc/rYfzXisOnbUKuGCbggx+pudX/yGt8iudQ=
+	t=1792410230; cv=none; b=bHUklj0F5fNbklOeswNDTmU6FbGs3xWiSFPvE+rlMeah2Tm9lhjygdmz1Pw1FOjeL0H7LNzyWkRSahPypfGUtYbq079K0gN29lOI8dZ40ErcTYQGll2NMHkKh9NAT0MfH0WFjnd4/+GfLgPaFvhuJpyf7jxnS2hvHR14QKp6vfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792410202; c=relaxed/simple;
-	bh=0h+fMlcy0nHUgqx0ZgNb3jSrGz0nmItuE/FyNlwIrZ4=;
+	s=arc-20240116; t=1792410230; c=relaxed/simple;
+	bh=RWhOAGuU3+oSj/PsRy4OYUyXTZo/8gIhsK590I99tuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bnKraJJyVPmkMTM3ymByYz1RiK+yYwvKD8UME6e0EZQaAP9m3U3IFUzYKKNK0CePcbjfFiLTf0QJKyGKBp6ql/81LYv69rjpnqDyE0+s5XE0GH4xxaKS7QJWcYYGXUbNZi/1MHNwJ9Hvp6qTU5vevXQN2nraKzm9cpkMU0RaKw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oZ3nJ+2H; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VVil/1jB21RFzzcIz0Y16/Ws5kdHh+utVGfSL461UL2DCkKnqk+dZnWRM/iJllL+EOpGj2xJaJrPj4DgHYx+RwLckw/NMi0au6iq/MrAM7w9An7Ef0uniZcLQar5vJ8MRf1UmVaRsuP24BripSwXAN/+9BTq2epBlD4Djp6HqG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rWAfShGj; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oZ3nJ+2H"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso22106885e9.1
-        for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 04:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792410195; x=1793014995; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
-        b=oZ3nJ+2H+6xVjW+nl+y5Mk6OZqq3MJf6iw5PxtdzlsENn1gtR/wiKu0MkL+zE1dojK
-         HmDqB4pDS2o7irOFmYTMGxC98pLvNInsfayDBFQ4vkyg6nqjdEuBJMtWh4MZ12bBVaVR
-         kEkUa4B++U/Zwzl/C6wvKCkjDKSkxJ/4bJQx0nQKzsyhptN7wJI+xKUdn615hLC+GWic
-         I6guGqOpv7vfOerr0YXGwdO/VpZt6+pPPjoORrIVHX7SBFKfOkyzYoo5AeV8s0JSzCK8
-         ilbZafSug52mpFeVI94IfKW+CYRneHbuV0gxswnlV5lQGH3EVq5j9WVyFygKmbTxW5MX
-         REVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792410195; x=1793014995;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uPs8kNwzq2ixzAyx8BoNzSjliUbshG+1sbYaMKzI60Q=;
-        b=XhJBGfvu43pstWgug4fRR9GsUIjQA3kg0LO0HXKzUfMcLx2kXaxA+J7ww9Dr/EpmoG
-         bLyfTzBtTsxqRbFqljWWpOtseglkA05BFGwJbFoLKgGccdNn+2rgcLwAwcAQvuKEsmGB
-         NrsHdJ/8zXKkIax3wvb9aCsV7kNxtusoSoErWkGh0fabwjpsDV3KWzhs+8DDlj3GXQQU
-         wWRmXFH+tZMyEM33ASUaw+cr73F0x4I+vSh6iIh5klVwnLKQcrLJbpRWwYIyQIInkYUX
-         4SRIMliUB8q+8neJxY/+NOzn7Xi3cq0wi+P20zoZwre8QD9bfeolkH7cF9rJpZAofKgw
-         ml8A==
-X-Forwarded-Encrypted: i=1; AKwUvByS7we6vFpABwD/J7v1jQ77r6qG3gJap6tRzTsFdMXMQo93NZS/qC9PMbBcqrgGoU2KeDKm8fmiQfBNHg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL2tBJzy4O9lXekG+qpUecnHMwOKaJ4gmpeNCTKrHZlQxBdMted
-	54wr4DhnHXdZVlU2MUpHZGZ8pJPdgIkMiOkoA/PkTt9PHlgJOAaRn8sC2wzIVJzNvg==
-X-Gm-Gg: AYBFou0MavwOGQEx69xuLQ682s/wTFVgiesFO5IR9JlVHwC9+HOL4HEhwqSFKaGtUeK
-	uS3AabCNHF0evOep46Omdk5uGklXjQB29ZWR4lQx1BoW4T3i/mWs7VoxTNQ0P+k8qAloFwT5vLU
-	YjJ354M3BFSNVfRmYKujFnTnymiBSG0gxpMe92wfKPxwgvLLSDPy1ju37MKEhO0ULT9FEMcPXnL
-	oyYLEp0YpAsE88O5WDuvZ2sPIOxM0sVKkp9qbv2JiLTJCDEpm8spXcKr5zfTwR8dWv0fCkNd31v
-	xlU6V6Lobg4s4oYjHyzJIuix20FnZCqUHyXfbDQxGuZ8OpwgELKplW6j4RnTE3RWlnWa0RXiXc0
-	hWx1eSPHjc6FXjXzzzgYXrCTEcmxsOlS4iuhP2F901wdyaAQDrdd5jV/QmHhxRLTEWTPuxk07HE
-	0IpH7s9A4pH/dJ/ryyBxPhfK71b1gDkhbPBH6EXCSt/Mbd0uiqpd9KHDiYWCS2cBoi0mQkPHhVP
-	AmjK+avXBtfgFZP72xVVx+gshfXW9E=
-X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr165269695e9.32.1792410194117;
-        Mon, 19 Oct 2026 04:43:14 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:d186:2d44:63ff:537f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e9423f20sm58112105e9.7.2026.10.19.04.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 04:43:13 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:43:04 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com,
-	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
-	ihor.solodrai@linux.dev, rdunlap@infradead.org,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
-	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, hyc.lee@gmail.com, miklos@szeredi.hu,
-	amir73il@gmail.com, senozhatsky@chromium.org,
-	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org,
-	matt@bobrowski.net, rostedt@goodmis.org, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, john.johansen@canonical.com,
-	georgia.garcia@canonical.com, zohar@linux.ibm.com,
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com,
-	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com,
-	nanx95726@gmail.com, djwong@kernel.org, lujialin4@huawei.com,
-	bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
-	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev,
-	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 -next 09/18] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <atYBVCIYE1zDb7do@google.com>
-References: <20261015125425.3246251-1-caixinchen1@huawei.com>
- <20261015125425.3246251-10-caixinchen1@huawei.com>
- <atI20Vs7Du9-g1Hz@zenbox>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rWAfShGj"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E46551477;
+	Mon, 19 Oct 2026 04:43:41 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD05D3F7D8;
+	Mon, 19 Oct 2026 04:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792410225; bh=RWhOAGuU3+oSj/PsRy4OYUyXTZo/8gIhsK590I99tuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rWAfShGjWXdk01AesvCOe4Wx2379RU4ZnHqE07B9/tqk/yMApPOlOzbwFrGRtN2KH
+	 rh58w1hbsWTMPlFblqlQ1SxMMejeuSB5TM47VvWVgNb+4j5/0TLLkty8/TKo1M5HH/
+	 ozr9QE0gFn9ShiUD1l2+Lo/QtBOeSmbmhawDf8uk=
+Date: Mon, 19 Oct 2026 13:43:33 +0200
+From: Beata Michalska <beata.michalska@arm.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org,
+	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	tmgross@umich.edu, daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com, work@onurozkan.dev,
+	samitolvanen@google.com, acourbot@nvidia.com,
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] rust: add runtime PM support
+Message-ID: <atYCU1_f-MhI8TBq@arm.com>
+References: <20261005133857.1572243-1-beata.michalska@arm.com>
+ <20261005133857.1572243-2-beata.michalska@arm.com>
+ <20261016121230.3724323-1-aliceryhl@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <atI20Vs7Du9-g1Hz@zenbox>
+In-Reply-To: <20261016121230.3724323-1-aliceryhl@google.com>
 
-Hello!
-
-On Fri, Oct 16, 2026 at 10:44:16AM -0400, Justin Suess wrote:
-> On Thu, Oct 15, 2026 at 08:54:15PM +0800, Cai Xinchen wrote:
-> > Add two new filesystem access rights to control file metadata access:
-> > 
-> > - LANDLOCK_ACCESS_FS_READ_METADATA: Read file or directory metadata
-> >   (e.g. inode attributes, extended attributes and POSIX ACLs) through
-> >   stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
-> >   friends, listxattr(2) and friends, and the POSIX ACL read
-> >   operations.
-> > - LANDLOCK_ACCESS_FS_WRITE_METADATA: Change file or directory
-> >   metadata through chmod(2) and friends, chown(2) and friends,
-> >   utimensat(2) and friends, setxattr(2) and friends, removexattr(2)
-> >   and friends, and the POSIX ACL set and remove operations.
-> > 
-> > This follows the coarse-grained grouping approach discussed in the
-> > mailing list [1], where file metadata operations are grouped by
-> > security relevance rather than by individual syscall.
-> > 
-> > Implement the two rights by hooking the inode_getattr,
-> > inode_file_getattr, inode_setattr, inode_file_setattr,
-> > inode_setxattr, inode_getxattr, inode_listxattr, inode_removexattr,
-> > inode_set_acl, inode_get_acl and inode_remove_acl LSM hooks, which
-> > now receive a struct path thanks to the preceding VFS and LSM
-> > refactoring.  The following system calls are now controlled:
-> > 
-> > - stat(2), fstat(2), lstat(2), newfstatat(2), getxattr(2) and
-> >   friends, listxattr(2) and friends, POSIX ACL reads, and the
-> >   chattr(1)/xfs_io style reads: ioctl(FS_IOC_GETFLAGS),
-> >   ioctl(FS_IOC_FSGETXATTR) and file_getattr(2) via inode_getattr,
-> >   inode_getxattr, inode_listxattr, inode_get_acl and
-> >   inode_file_getattr (READ_METADATA)
-> > - chmod(2), fchmod(2), fchmodat(2), fchmodat2(2), chown(2), fchown(2),
-> >   lchown(2), fchownat(2), chgrp(2), utimensat(2), futimens(2),
-> >   utime(2), setxattr(2) and friends, removexattr(2) and friends,
-> >   POSIX ACL set and remove, and the chattr(1)/xfs_io style writes:
-> >   ioctl(FS_IOC_SETFLAGS), ioctl(FS_IOC_FSSETXATTR) and
-> >   file_setattr(2) via inode_setattr, inode_file_setattr,
-> >   inode_setxattr, inode_removexattr, inode_set_acl and
-> >   inode_remove_acl (WRITE_METADATA)
-> > 
-> > Both new rights are added to ACCESS_FILE as they apply to both files
-> > and directories.
-> > 
-> > hook_inode_setattr only restricts explicit metadata changes, i.e. it
-> > checks WRITE_METADATA only when the ia_valid mask contains
-> > ATTR_MODE, ATTR_UID, ATTR_GID, ATTR_TIMES_SET or ATTR_TOUCH.
-> > Metadata changes that the kernel performs implicitly, such as
-> > timestamp updates on write(2) or size changes on truncate(2), are
-> > therefore not restricted, and neither are chmod(2)/chown(2) calls
-> > that do not change any attribute (e.g. chown(2) with -1/-1, which is
-> > a no-op that never reaches the hook), matching the behavior of the
-> > SELinux inode_setattr hook.
-> > 
-> > Stacking filesystems forward fileattr operations to underlying inodes
-> > without calling the LSM hooks again (see the preceding patch), so a
-> > fileattr operation on an overlayfs file is checked once on the
-> > user-facing merged path and is not spuriously denied because of the
-> > kernel-side creator credentials used for the forward.
-> > 
-> > Kernel-internal accesses performed with override_creds() (e.g.
-> > overlayfs and cachefiles) are not affected because Landlock domains
-> > are attached to credentials, and kernel threads without a Landlock
-> > domain (e.g. nfsd and ksmbd) are not restricted either.
-> > 
-> > Remove stat(2), chmod(2), chown(2), setxattr(2) and utime(2) from the
-> > list of file-related actions that cannot be restricted yet, and add
-> > the names of the new rights to _LANDLOCK_ACCESS_FS_NAMES in
-> > include/linux/landlock.h, which is shared by audit records and trace
-> > events, so that denied accesses can be reported with a human-readable
-> > name and the static assertion on fs_access_strings in
-> > security/landlock/audit.c stays valid.
-> > 
-> > Increment the Landlock ABI version from 12 to 13, and update the ABI
-> > version check in tools/testing/selftests/landlock/base_test.c
-> > accordingly.
-> >
-> LANDLOCK_ACCESS_FS_*_METADATA should be checked at open time and follow
-> the mechanic for the truncate right. Otherwise the access for already
-> opened file descriptors would be changed. See hook_file_open in
-> security/landlock/fs.c and this discussion here [1]
+Hi Alice,
+On Fri, Oct 16, 2026 at 12:12:29PM +0000, Alice Ryhl wrote:
+> On Mon, Oct 05, 2026 at 03:37:39PM +0200, Beata Michalska wrote:
+> > diff --git a/drivers/base/base.h b/drivers/base/base.h
+> > index a5b7abc10ff0..538cbb104254 100644
+> > --- a/drivers/base/base.h
+> > +++ b/drivers/base/base.h
+> > @@ -119,6 +119,9 @@ struct device_private {
+> >  	const struct device_driver *async_driver;
+> >  	char *deferred_probe_reason;
+> >  	struct device *device;
+> > +#ifdef CONFIG_RUST
+> > +	void *rust_private;
+> > +#endif
+> >  	u8 dead:1;
+> >  };
 > 
-> It should have clear documentation for this as well.
+> `scripts/kernel-doc -none drivers/base/base.h` warns that `rust_private` is
+> not described in the kernel-doc comment for `struct device_private`.
 > 
-> Justin
-> [1] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
+> > +/// Device's runtime power management status
+> > +#[repr(i32)]
+> > +pub enum RuntimePMState {
+> > +    /// Runtime PM has not been initialized for this device yet.
+> > +    Unknown = bindings::rpm_status_RPM_INVALID,
+> > +    /// The device is expected to be runtime active and in its normal operating state
+> > +    Resumed = bindings::rpm_status_RPM_ACTIVE,
+> > +    /// The device is expected to be suspended, unavailable for normal operations
+> > +    Suspended = bindings::rpm_status_RPM_SUSPENDED,
+> > +}
+> 
+> Is `RuntimePMState::Unknown` needed? The only place that takes
+> `RuntimePMState` is `PMContext::enable()`, which rejects `Unknown` with
+> `EINVAL`. Removing `Unknown` would avoid having to handle an invalid state in
+> `enable()`.
+That one was a leftover from my changes. It is indeed not needed and will be
+dropped.
+> 
+> > +impl<'a> ResumeScope<'a> {
+> ...
+> > +    fn release_inner(&self) -> Result {
+> > +        let scope_mode = self.0.mode & !ModeFlag::Idle;
+> > +
+> > +        match self.0.mode {
+> > +            mode if mode.contains(ModeFlag::Idle) => Request::idle(
+> > +                self.0.dev,
+> > +                scope_mode & (ModeFlag::Async | ModeFlag::Nowait),
+> > +            ),
+> > +            mode if mode.contains(ModeFlag::Auto) => {
+> > +                Request::mark_last_busy(self.0.dev);
+> > +                Request::suspend(self.0.dev, scope_mode)
+> > +            }
+> > +            _ => Request::suspend(self.0.dev, scope_mode),
+> > +        }
+> > +    }
+> ...
+> > +impl<'a> AwakeScope<'a> {
+> > +    fn new(dev: &'a device::Device<device::Bound>, mode: Mode) -> Result<Self> {
+> > +        if !mode.contains(ModeFlag::Acquire) {
+> > +            return Err(EINVAL);
+> > +        }
+> > +        // ModeFlag::Idle is internal so strip it off before passing further
+> > +        match Request::resume(dev, mode & !ModeFlag::Idle) {
+> > +            Ok(()) => {}
+> > +            // For async/nowait requests, `EINPROGRESS` means the resume is in
+> > +            // flight and the usage reference already keeps the device active.
+> > +            Err(e) if e == EINPROGRESS && mode.contains_any(ModeFlag::Async | ModeFlag::Nowait) => {
+> > +            }
+> > +            Err(e) => {
+> > +                Request::put_noidle(dev);
+> > +                return Err(e);
+> > +            }
+> > +        }
+> > +
+> > +        Ok(Self(Scope::<Awake> {
+> > +            dev,
+> > +            mode,
+> > +            _tag: PhantomData,
+> > +        }))
+> > +    }
+> > +
+> > +    fn release_inner(&self) -> Result {
+> > +        let scope_mode = self.0.mode & !ModeFlag::Idle;
+> > +        match self.0.mode {
+> > +            mode if mode.contains(ModeFlag::Idle) => Request::idle(self.0.dev, scope_mode),
+> 
+> In `ResumeScope::release_inner()`, the `ModeFlag::Idle` arm masks out
+> `ModeFlag::Auto` (`scope_mode & (ModeFlag::Async | ModeFlag::Nowait)`),
+> whereas here in `AwakeScope::release_inner()` it passes `scope_mode` unmasked.
+> Should this also strip `ModeFlag::Auto`?
+Actually the masking is not really needed in either case: `ModeFlag::Idle` needs
+to be stripped as that one is not recognized by the pm framework.
+`ModeFlag::Auto` is added by `rpm_suspend`  so it's bit redundant to use.
+'ModeFlag::Acquire` is not allowed here , which leave only the `ModeFlag::Async`
+and `ModeFlag::Nowait', and those are the only ones passed.
+`AwakeScope` actually requires `ModeFlags::Acquire` which is why the flags are
+passed as is. I will drop the masking from `ResumeScope::release_inner` to get
+rid of this confusion.
+> 
+> Also, in `AwakeScope::new()`, when `ModeFlag::Nowait` is set without
+> `ModeFlag::Async`, `__pm_runtime_resume()` returns `-EINPROGRESS` if a
+> concurrent suspend or resume is in progress without queueing an async resume.
+> Swallowing `EINPROGRESS` when only `Nowait` is set means `get()` returns
+> `Ok(AwakeScope)` even though the device is not resumed (and might be
+> suspending). Should `EINPROGRESS` only be treated as `Ok(())` for
+> `ModeFlag::Async`?
+> 
+That's a good catch.
+> > +impl<'a> RetainScope<'a> {
+> ...
+> > +    fn release_inner(&self) {
+> > +        Request::put_noidle(self.0.dev);
+> > +    }
+> 
+> In the v3 discussion with Sami [1], you agreed that `RetainScope` should call
+> `put` rather than `put_noidle` on release so that dropping the last reference
+> triggers idle/suspend handling, looks like this was missed in v4.
+> 
+> [1]: https://lore.kernel.org/r/apaYNvQSSUCkMTjn@arm.com
+I did intentionally skip that change. The reason is that the C pm framework
+allows that passive hold and the rust abstraction was intended to reflect it.
+I do see how that might be misleading but amending the code here means deviating
+from the C part. That API is purely for manipulating the usage count.
+> 
+> > +#[cfg(not(CONFIG_PM))]
+> > +impl Request {
+> > +    #[inline]
+> > +    fn active(_dev: &device::Device<device::Bound>) -> bool {
+> > +        false
+> > +    }
+> 
+> `include/linux/pm_runtime.h` already provides `!CONFIG_PM` stub
+> implementations for all of these functions. If you add `#ifndef CONFIG_PM`
+> helpers in `rust/helpers/pm_runtime.c` for the functions that are `extern`
+> under `CONFIG_PM` and `static inline` under `!CONFIG_PM`, you can drop the
+> `#[cfg(not(CONFIG_PM))]` `Request` block and the `#[cfg(CONFIG_PM)]` guards in
+> `apply_config()` altogether.
+I should have probably done that earlier. Thanks for patiently pointing that
+out.
+> 
+> > +struct PMPayload<P> {
+> > +    in_flight: AtomicFlag,
+> > +    inner: UnsafeCell<Option<P>>,
+> > +}
+> 
+> Thanks for removing `Option` from the public `PMOps` trait methods! You can
+> still use `ManuallyDrop<P>` instead of `Option<P>` inside `PMPayload` too,
+> which avoids the extra discriminant and the unreachable `None` check in
+> `transition()`.
+Consider it done.
+> 
+> > +    /// Enable runtime PM
+> > +    pub fn enable(&self, state: RuntimePMState) -> Result {
+> > +        self.inner.state
+> > +            .cmpxchg(
+> > +                PMContextState::Disabled,
+> > +                PMContextState::Enabled,
+> > +                ordering::Full
+> > +            )
+> > +            .map_err(|old| match old {
+> > +                PMContextState::Dead => ENODEV,
+> > +                PMContextState::Enabled => EBUSY,
+> > +                _ => EINVAL, // unreachable
+> > +            })?;
+> > +
+> > +        Self::apply_config(self.inner.dev, &self.inner.configs);
+> > +
+> > +        match state {
+> > +            RuntimePMState::Resumed => Request::mark_active(self.inner.dev),
+> > +            RuntimePMState::Suspended => Request::mark_suspended(self.inner.dev),
+> > +            _ => Err(EINVAL),
+> > +        }.inspect_err(|_| {
+> > +            self.inner.state.store(PMContextState::Disabled, ordering::Release);
+> > +        })?;
+> > +
+> > +        Request::runtime_enable(self.inner.dev);
+> > +        Ok(())
+> > +    }
+> 
+> If `match state` fails (for instance if `mark_active()` or `mark_suspended()`
+> returns an error), `Self::apply_config()` has already run and its side effects
+> (such as `pm_runtime_irq_safe()` incrementing the parent's usage count or
+> `pm_runtime_no_callbacks()`) are not undone. Could `mark_active()` /
+> `mark_suspended()` be called before `apply_config()`?
+I think only the `pm_runtime_irq_safe` might turn out being problematic here,
+although if that fails I would imagine the driver to fail probe as well, which
+would lead to removing the device and restoring the parent dev state.
+But the point stands so I will move `Self::apply_config` after marking
+the devices state.
+> 
+> > +    /// Runs a closure while holding a `ResumeScope`.
+> > +    pub fn with_resume<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
+> > +        if profile.0.contains(ModeFlag::Async) {
+> > +            return Err(EINVAL);
+> > +        }
+> > +        let _scope = self.resume(profile)?;
+> > +        f()
+> > +    }
+> > +    /// Runs a closure while holding an `AwakeScope`.
+> > +    pub fn with_get<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
+> > +        if profile.0.contains_any(ModeFlag::Async | ModeFlag::Nowait) {
+> > +            return Err(EINVAL);
+> > +        }
+> > +        let _scope = self.get(profile)?;
+> > +        f()
+> > +    }
+> 
+> Should `with_resume()` also reject `ModeFlag::Nowait` like `with_get()` does?
+Tha t is the consequence on how `AwakeScope::new` is hadling the `EINPROGRESS`,
+which would mean that it would succeed in creating the scope even if
+`ModeFlag::Nowait` was used and there was a pm transition in progress.
+The `ResumeScope` would fail so the closure would not run. But as suggested,
+`AwakeScope::new()` should not allow `EINPROGRESS` for `ModeFlag::Nowait` , this
+method will also get amended and will only reject `ModeFlag::Async`.
+> 
+> > +    fn apply_config(dev: &device::Device<device::Bound>, opts: &[PMConfig]) {
+> > +        #[cfg(not(CONFIG_PM))]
+> > +        let _ = opts;
+> > +        let _ = dev;
+> 
+> `let _ = dev;` is outside `#[cfg(not(CONFIG_PM))]` here (though as noted
+> above, using C helpers for `!CONFIG_PM` removes the need for `#[cfg]` here
+> entirely).
+Will be removed.
+> 
+> > +#[repr(C)]
+> > +#[pin_data]
+> > +struct RegistrationData<'a, T: PMOps> {
+> > +    #[pin]
+> > +    data: PMPayload<T::RuntimePayloadType>,
+> > +    _marker: PhantomData<&'a mut T>,
+> > +}
+> 
+> Does `RegistrationData` need `#[pin_data]`? `PMPayload` moves the payload in
+> and out by value and doesn't use structural pinning, so a plain `KBox::new()`
+> should suffice.
+Indeed.
+> 
+> > +impl<'a, T: PMOps> Registration<'a, T> {
+> > +    /// Creates a runtime PM registration for `dev`.
+> > +    ///
+> > +    /// The provided profiles and configuration are stored in the associated
+> > +    /// [`PMContext`]. The `payload` is stored as a Registration data
+> > +    /// and is used to service PM transitions.
+> > +    ///
+> > +    /// The device must use the callback represented by `ops`, generated
+> > +    /// for the same bus adapter and driver pair `(D, T)`.
+> > +    pub fn new(
+> > +        dev: &'a device::Device<device::Core<'_>>,
+> > +        ops: &'static DevPMOps<T>,
+> > +        profiles: Option<KVec<PMProfile>>,
+> > +        configs: Option<KVec<PMConfig>>,
+> > +        payload: T::RuntimePayloadType,
+> > +    ) -> Result<Self> {
+> ...
+> > +        unsafe {
+> > +            let ptr = (*(*dev.as_raw()).p).rust_private;
+> > +            if !ptr.is_null() {
+> > +                return Err(EBUSY);
+> > +            }
+> > +            (*(*dev.as_raw()).p).rust_private = payload.into_foreign();
+> > +        }
+> > +
+> > +        Ok(Self {
+> > +            ctx: PMContext { inner: inner_ctx },
+> > +        })
+> > +    }
+> 
+> What happens if a driver calls `core::mem::forget(pm_reg)` (which is safe in
+> Rust)?
+> 
+> If `Registration::drop` never runs when the driver unbinds:
+> 1. Runtime PM remains enabled on the device (and `pm_runtime_reinit()` in
+>    `device_unbind_cleanup()` is a no-op while runtime PM is enabled).
+> 2. `rust_private` remains non-null, pointing to `RegistrationData<'a, T>`
+>    after `'a` has ended and after the device has unbound from `T`.
+> 
+> Other registrations tied to `'bound` (such as `drm::Registration::new()` and
+> `irq::Registration::new()`) make `Registration::new()` an `unsafe fn` with the
+> safety requirement that the caller must not `mem::forget()` the returned
+> `Registration` or otherwise prevent its `Drop` implementation from running
+> before `'a` ends. Doing the same here would also allow `RuntimePayloadType<'a>`
+> to be non-`'static`, so drivers can hold `'bound`-scoped resources like
+> `IoMem<'bound>` in the runtime PM payload.
+>
+Right, the `core::mem::fotget` ...
+Thanks for pointing that out. Though that got me thinking the same can apply to
+all the PM scopes, consequences of which are less daring but still.
+They also could be marked as `unsafe` but then what's the point of having those
+if it still requires unsafe code from the drivers .....
+> Also, there are a few leftover `#[allow(unused)]` attributes in this file (on
+> `mark_active`, `mark_suspended`, `runtime_resume_callback`,
+> `runtime_suspend_callback`, `DevPMOps`, and `PayloadGuard`) that can be
+> removed.
+Will get clean up.
 
-
-I agree with Justin here.
-
-Apart from what I said in [1], Justin and Mickaël pointed out this
-other aspect in which it is similar to *_TRUNCATE, in [2] and [3]:
-System calls like fstat(2) operate on an already-opened file
-descriptor, and the semantic that Landlock has so far been following
-for these is that the effective access rights for that file descriptor
-would be determined at the time of open(2) and stored in the opened
-struct file, just as it has been done for the *_TRUNCATE and
-*_IOCTL_DEV access rights in the hook_file_open() call which Justin
-points to above.
-
-That way, an already opened file acts as a handle for a "capability"
-(in the more general sense of the word), and the things you can do
-with that opened file don't change as the process enforces nested
-Landlock domains.
-
-Landlock's documentation describes this in
-https://docs.kernel.org/userspace-api/landlock.html#rights-associated-with-file-descriptors
-
-It feels that this would be in order for the *_METADATA rights as
-well?  Does this seem reasonable to you?
-
-(If you have arguments against that, I'm also more than happy to
-discuss, but we should make a conscious decision. :-))
-
-—Günther
-
-[1] https://lore.kernel.org/all/arurOphe6QIx2Zr8@google.com/
-[2] https://lore.kernel.org/all/arvjb0HJYh1KyEBB@suesslenovo/
-[3] https://lore.kernel.org/all/20260929.Ahgoo4yeetai@digikod.net/
-
+Thank you for the review. Much appreciated.
+---
+BR
+Beata
+> 
+> Alice
