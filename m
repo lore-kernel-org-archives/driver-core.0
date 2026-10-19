@@ -1,356 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E1D4E50D4
-	for <driver-core@lists.linux.dev>; Mon, 19 Oct 2026 11:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E4E4DA9B4;
+	Mon, 19 Oct 2026 11:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792410230; cv=none; b=bHUklj0F5fNbklOeswNDTmU6FbGs3xWiSFPvE+rlMeah2Tm9lhjygdmz1Pw1FOjeL0H7LNzyWkRSahPypfGUtYbq079K0gN29lOI8dZ40ErcTYQGll2NMHkKh9NAT0MfH0WFjnd4/+GfLgPaFvhuJpyf7jxnS2hvHR14QKp6vfo=
+	t=1792410512; cv=none; b=oc7ascoxBK8YyLmHl7zwmPm7sGwBPm6KTCVFA7AqARvfh7ZaZK4aSo/U1TAAlph3MXSHBVLjUog9IEjOlVKJbebpK1dz3J2pWcGtgRUsOI9OrrnACHTaR5fpPiUiu8L8yr1VXMxRXDDCGVmGBi0DZieFpcyHG+iSU0CQuWPwNLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792410230; c=relaxed/simple;
-	bh=RWhOAGuU3+oSj/PsRy4OYUyXTZo/8gIhsK590I99tuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVil/1jB21RFzzcIz0Y16/Ws5kdHh+utVGfSL461UL2DCkKnqk+dZnWRM/iJllL+EOpGj2xJaJrPj4DgHYx+RwLckw/NMi0au6iq/MrAM7w9An7Ef0uniZcLQar5vJ8MRf1UmVaRsuP24BripSwXAN/+9BTq2epBlD4Djp6HqG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rWAfShGj; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1792410512; c=relaxed/simple;
+	bh=cavO+vB9WQqPaTpm76RGrFLQ0nYmnIVBpjnQrvt4MSo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vAertQNVRBfCdPDQ9QRJjcU1CvlvBcRz8pfD36Fsp9FD1FnAB3aebmOXPdkt26YUgNnk6ktdZZ06/bZfojsWlrWuHHoav/aZsUxqtkdmIQYHoSZcfhgsHh0dFtNQjxvogIyPDHbOpVOQLsFrvsv9qYqILiCenDU+/lrRkWT7Lq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ECDVeieu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rWAfShGj"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E46551477;
-	Mon, 19 Oct 2026 04:43:41 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD05D3F7D8;
-	Mon, 19 Oct 2026 04:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792410225; bh=RWhOAGuU3+oSj/PsRy4OYUyXTZo/8gIhsK590I99tuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rWAfShGjWXdk01AesvCOe4Wx2379RU4ZnHqE07B9/tqk/yMApPOlOzbwFrGRtN2KH
-	 rh58w1hbsWTMPlFblqlQ1SxMMejeuSB5TM47VvWVgNb+4j5/0TLLkty8/TKo1M5HH/
-	 ozr9QE0gFn9ShiUD1l2+Lo/QtBOeSmbmhawDf8uk=
-Date: Mon, 19 Oct 2026 13:43:33 +0200
-From: Beata Michalska <beata.michalska@arm.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: ojeda@kernel.org, dakr@kernel.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, boqun@kernel.org, gary@garyguo.net,
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
-	tmgross@umich.edu, daniel.almeida@collabora.com,
-	boris.brezillon@collabora.com, work@onurozkan.dev,
-	samitolvanen@google.com, acourbot@nvidia.com,
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] rust: add runtime PM support
-Message-ID: <atYCU1_f-MhI8TBq@arm.com>
-References: <20261005133857.1572243-1-beata.michalska@arm.com>
- <20261005133857.1572243-2-beata.michalska@arm.com>
- <20261016121230.3724323-1-aliceryhl@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ECDVeieu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEDB61F000C4;
+	Mon, 19 Oct 2026 11:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792410510;
+	bh=qqw66inKRUTRV7Z7B1eVJRip5F//bCyfpe2WMmXcebs=;
+	h=From:To:Cc:Subject:Date:Reply-To;
+	b=ECDVeieuAw36mJSmpXp6A720fvr1iq8ofNi5mt7BTouXFKgxvK27GqTGO33dneXUC
+	 GAPbyo8EwdceBgOW0LP6HFLxRSsYpG822b1LpoZtL+sqso16MAHI61SbM+h6smbEX0
+	 cqkwThYnNDLjQtrcSNTMpZ1KyDbIIeU9kjZwI+cGwe35xmqlSMkcSZnxdhcFSIqA88
+	 BU2Yq4nIq9CV4FoDR5m9gMXG8OEqqAX3gDIqhEOFeTcoCowdqGXZyVQtKmU9XKpphU
+	 USW/JkjbMmvGyTf13dmWe8VwE5Vi2x7Cdk+JDAUeBlroCIMkuRfWPOcVO6cKCC9BAc
+	 apkiywYOvw2lw==
+From: Gary Guo <gary@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] rust: doc: mark `Io` as notable trait
+Date: Mon, 19 Oct 2026 12:48:10 +0100
+Message-ID: <20261019114811.1105192-1-gary@kernel.org>
+X-Mailer: git-send-email 2.54.0
+Reply-To: Gary Guo <gary@garyguo.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016121230.3724323-1-aliceryhl@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Alice,
-On Fri, Oct 16, 2026 at 12:12:29PM +0000, Alice Ryhl wrote:
-> On Mon, Oct 05, 2026 at 03:37:39PM +0200, Beata Michalska wrote:
-> > diff --git a/drivers/base/base.h b/drivers/base/base.h
-> > index a5b7abc10ff0..538cbb104254 100644
-> > --- a/drivers/base/base.h
-> > +++ b/drivers/base/base.h
-> > @@ -119,6 +119,9 @@ struct device_private {
-> >  	const struct device_driver *async_driver;
-> >  	char *deferred_probe_reason;
-> >  	struct device *device;
-> > +#ifdef CONFIG_RUST
-> > +	void *rust_private;
-> > +#endif
-> >  	u8 dead:1;
-> >  };
-> 
-> `scripts/kernel-doc -none drivers/base/base.h` warns that `rust_private` is
-> not described in the kernel-doc comment for `struct device_private`.
-> 
-> > +/// Device's runtime power management status
-> > +#[repr(i32)]
-> > +pub enum RuntimePMState {
-> > +    /// Runtime PM has not been initialized for this device yet.
-> > +    Unknown = bindings::rpm_status_RPM_INVALID,
-> > +    /// The device is expected to be runtime active and in its normal operating state
-> > +    Resumed = bindings::rpm_status_RPM_ACTIVE,
-> > +    /// The device is expected to be suspended, unavailable for normal operations
-> > +    Suspended = bindings::rpm_status_RPM_SUSPENDED,
-> > +}
-> 
-> Is `RuntimePMState::Unknown` needed? The only place that takes
-> `RuntimePMState` is `PMContext::enable()`, which rejects `Unknown` with
-> `EINVAL`. Removing `Unknown` would avoid having to handle an invalid state in
-> `enable()`.
-That one was a leftover from my changes. It is indeed not needed and will be
-dropped.
-> 
-> > +impl<'a> ResumeScope<'a> {
-> ...
-> > +    fn release_inner(&self) -> Result {
-> > +        let scope_mode = self.0.mode & !ModeFlag::Idle;
-> > +
-> > +        match self.0.mode {
-> > +            mode if mode.contains(ModeFlag::Idle) => Request::idle(
-> > +                self.0.dev,
-> > +                scope_mode & (ModeFlag::Async | ModeFlag::Nowait),
-> > +            ),
-> > +            mode if mode.contains(ModeFlag::Auto) => {
-> > +                Request::mark_last_busy(self.0.dev);
-> > +                Request::suspend(self.0.dev, scope_mode)
-> > +            }
-> > +            _ => Request::suspend(self.0.dev, scope_mode),
-> > +        }
-> > +    }
-> ...
-> > +impl<'a> AwakeScope<'a> {
-> > +    fn new(dev: &'a device::Device<device::Bound>, mode: Mode) -> Result<Self> {
-> > +        if !mode.contains(ModeFlag::Acquire) {
-> > +            return Err(EINVAL);
-> > +        }
-> > +        // ModeFlag::Idle is internal so strip it off before passing further
-> > +        match Request::resume(dev, mode & !ModeFlag::Idle) {
-> > +            Ok(()) => {}
-> > +            // For async/nowait requests, `EINPROGRESS` means the resume is in
-> > +            // flight and the usage reference already keeps the device active.
-> > +            Err(e) if e == EINPROGRESS && mode.contains_any(ModeFlag::Async | ModeFlag::Nowait) => {
-> > +            }
-> > +            Err(e) => {
-> > +                Request::put_noidle(dev);
-> > +                return Err(e);
-> > +            }
-> > +        }
-> > +
-> > +        Ok(Self(Scope::<Awake> {
-> > +            dev,
-> > +            mode,
-> > +            _tag: PhantomData,
-> > +        }))
-> > +    }
-> > +
-> > +    fn release_inner(&self) -> Result {
-> > +        let scope_mode = self.0.mode & !ModeFlag::Idle;
-> > +        match self.0.mode {
-> > +            mode if mode.contains(ModeFlag::Idle) => Request::idle(self.0.dev, scope_mode),
-> 
-> In `ResumeScope::release_inner()`, the `ModeFlag::Idle` arm masks out
-> `ModeFlag::Auto` (`scope_mode & (ModeFlag::Async | ModeFlag::Nowait)`),
-> whereas here in `AwakeScope::release_inner()` it passes `scope_mode` unmasked.
-> Should this also strip `ModeFlag::Auto`?
-Actually the masking is not really needed in either case: `ModeFlag::Idle` needs
-to be stripped as that one is not recognized by the pm framework.
-`ModeFlag::Auto` is added by `rpm_suspend`  so it's bit redundant to use.
-'ModeFlag::Acquire` is not allowed here , which leave only the `ModeFlag::Async`
-and `ModeFlag::Nowait', and those are the only ones passed.
-`AwakeScope` actually requires `ModeFlags::Acquire` which is why the flags are
-passed as is. I will drop the masking from `ResumeScope::release_inner` to get
-rid of this confusion.
-> 
-> Also, in `AwakeScope::new()`, when `ModeFlag::Nowait` is set without
-> `ModeFlag::Async`, `__pm_runtime_resume()` returns `-EINPROGRESS` if a
-> concurrent suspend or resume is in progress without queueing an async resume.
-> Swallowing `EINPROGRESS` when only `Nowait` is set means `get()` returns
-> `Ok(AwakeScope)` even though the device is not resumed (and might be
-> suspending). Should `EINPROGRESS` only be treated as `Ok(())` for
-> `ModeFlag::Async`?
-> 
-That's a good catch.
-> > +impl<'a> RetainScope<'a> {
-> ...
-> > +    fn release_inner(&self) {
-> > +        Request::put_noidle(self.0.dev);
-> > +    }
-> 
-> In the v3 discussion with Sami [1], you agreed that `RetainScope` should call
-> `put` rather than `put_noidle` on release so that dropping the last reference
-> triggers idle/suspend handling, looks like this was missed in v4.
-> 
-> [1]: https://lore.kernel.org/r/apaYNvQSSUCkMTjn@arm.com
-I did intentionally skip that change. The reason is that the C pm framework
-allows that passive hold and the rust abstraction was intended to reflect it.
-I do see how that might be misleading but amending the code here means deviating
-from the C part. That API is purely for manipulating the usage count.
-> 
-> > +#[cfg(not(CONFIG_PM))]
-> > +impl Request {
-> > +    #[inline]
-> > +    fn active(_dev: &device::Device<device::Bound>) -> bool {
-> > +        false
-> > +    }
-> 
-> `include/linux/pm_runtime.h` already provides `!CONFIG_PM` stub
-> implementations for all of these functions. If you add `#ifndef CONFIG_PM`
-> helpers in `rust/helpers/pm_runtime.c` for the functions that are `extern`
-> under `CONFIG_PM` and `static inline` under `!CONFIG_PM`, you can drop the
-> `#[cfg(not(CONFIG_PM))]` `Request` block and the `#[cfg(CONFIG_PM)]` guards in
-> `apply_config()` altogether.
-I should have probably done that earlier. Thanks for patiently pointing that
-out.
-> 
-> > +struct PMPayload<P> {
-> > +    in_flight: AtomicFlag,
-> > +    inner: UnsafeCell<Option<P>>,
-> > +}
-> 
-> Thanks for removing `Option` from the public `PMOps` trait methods! You can
-> still use `ManuallyDrop<P>` instead of `Option<P>` inside `PMPayload` too,
-> which avoids the extra discriminant and the unreachable `None` check in
-> `transition()`.
-Consider it done.
-> 
-> > +    /// Enable runtime PM
-> > +    pub fn enable(&self, state: RuntimePMState) -> Result {
-> > +        self.inner.state
-> > +            .cmpxchg(
-> > +                PMContextState::Disabled,
-> > +                PMContextState::Enabled,
-> > +                ordering::Full
-> > +            )
-> > +            .map_err(|old| match old {
-> > +                PMContextState::Dead => ENODEV,
-> > +                PMContextState::Enabled => EBUSY,
-> > +                _ => EINVAL, // unreachable
-> > +            })?;
-> > +
-> > +        Self::apply_config(self.inner.dev, &self.inner.configs);
-> > +
-> > +        match state {
-> > +            RuntimePMState::Resumed => Request::mark_active(self.inner.dev),
-> > +            RuntimePMState::Suspended => Request::mark_suspended(self.inner.dev),
-> > +            _ => Err(EINVAL),
-> > +        }.inspect_err(|_| {
-> > +            self.inner.state.store(PMContextState::Disabled, ordering::Release);
-> > +        })?;
-> > +
-> > +        Request::runtime_enable(self.inner.dev);
-> > +        Ok(())
-> > +    }
-> 
-> If `match state` fails (for instance if `mark_active()` or `mark_suspended()`
-> returns an error), `Self::apply_config()` has already run and its side effects
-> (such as `pm_runtime_irq_safe()` incrementing the parent's usage count or
-> `pm_runtime_no_callbacks()`) are not undone. Could `mark_active()` /
-> `mark_suspended()` be called before `apply_config()`?
-I think only the `pm_runtime_irq_safe` might turn out being problematic here,
-although if that fails I would imagine the driver to fail probe as well, which
-would lead to removing the device and restoring the parent dev state.
-But the point stands so I will move `Self::apply_config` after marking
-the devices state.
-> 
-> > +    /// Runs a closure while holding a `ResumeScope`.
-> > +    pub fn with_resume<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
-> > +        if profile.0.contains(ModeFlag::Async) {
-> > +            return Err(EINVAL);
-> > +        }
-> > +        let _scope = self.resume(profile)?;
-> > +        f()
-> > +    }
-> > +    /// Runs a closure while holding an `AwakeScope`.
-> > +    pub fn with_get<R>(&self, profile: PMProfile, f: impl FnOnce() -> Result<R>) -> Result<R> {
-> > +        if profile.0.contains_any(ModeFlag::Async | ModeFlag::Nowait) {
-> > +            return Err(EINVAL);
-> > +        }
-> > +        let _scope = self.get(profile)?;
-> > +        f()
-> > +    }
-> 
-> Should `with_resume()` also reject `ModeFlag::Nowait` like `with_get()` does?
-Tha t is the consequence on how `AwakeScope::new` is hadling the `EINPROGRESS`,
-which would mean that it would succeed in creating the scope even if
-`ModeFlag::Nowait` was used and there was a pm transition in progress.
-The `ResumeScope` would fail so the closure would not run. But as suggested,
-`AwakeScope::new()` should not allow `EINPROGRESS` for `ModeFlag::Nowait` , this
-method will also get amended and will only reject `ModeFlag::Async`.
-> 
-> > +    fn apply_config(dev: &device::Device<device::Bound>, opts: &[PMConfig]) {
-> > +        #[cfg(not(CONFIG_PM))]
-> > +        let _ = opts;
-> > +        let _ = dev;
-> 
-> `let _ = dev;` is outside `#[cfg(not(CONFIG_PM))]` here (though as noted
-> above, using C helpers for `!CONFIG_PM` removes the need for `#[cfg]` here
-> entirely).
-Will be removed.
-> 
-> > +#[repr(C)]
-> > +#[pin_data]
-> > +struct RegistrationData<'a, T: PMOps> {
-> > +    #[pin]
-> > +    data: PMPayload<T::RuntimePayloadType>,
-> > +    _marker: PhantomData<&'a mut T>,
-> > +}
-> 
-> Does `RegistrationData` need `#[pin_data]`? `PMPayload` moves the payload in
-> and out by value and doesn't use structural pinning, so a plain `KBox::new()`
-> should suffice.
-Indeed.
-> 
-> > +impl<'a, T: PMOps> Registration<'a, T> {
-> > +    /// Creates a runtime PM registration for `dev`.
-> > +    ///
-> > +    /// The provided profiles and configuration are stored in the associated
-> > +    /// [`PMContext`]. The `payload` is stored as a Registration data
-> > +    /// and is used to service PM transitions.
-> > +    ///
-> > +    /// The device must use the callback represented by `ops`, generated
-> > +    /// for the same bus adapter and driver pair `(D, T)`.
-> > +    pub fn new(
-> > +        dev: &'a device::Device<device::Core<'_>>,
-> > +        ops: &'static DevPMOps<T>,
-> > +        profiles: Option<KVec<PMProfile>>,
-> > +        configs: Option<KVec<PMConfig>>,
-> > +        payload: T::RuntimePayloadType,
-> > +    ) -> Result<Self> {
-> ...
-> > +        unsafe {
-> > +            let ptr = (*(*dev.as_raw()).p).rust_private;
-> > +            if !ptr.is_null() {
-> > +                return Err(EBUSY);
-> > +            }
-> > +            (*(*dev.as_raw()).p).rust_private = payload.into_foreign();
-> > +        }
-> > +
-> > +        Ok(Self {
-> > +            ctx: PMContext { inner: inner_ctx },
-> > +        })
-> > +    }
-> 
-> What happens if a driver calls `core::mem::forget(pm_reg)` (which is safe in
-> Rust)?
-> 
-> If `Registration::drop` never runs when the driver unbinds:
-> 1. Runtime PM remains enabled on the device (and `pm_runtime_reinit()` in
->    `device_unbind_cleanup()` is a no-op while runtime PM is enabled).
-> 2. `rust_private` remains non-null, pointing to `RegistrationData<'a, T>`
->    after `'a` has ended and after the device has unbound from `T`.
-> 
-> Other registrations tied to `'bound` (such as `drm::Registration::new()` and
-> `irq::Registration::new()`) make `Registration::new()` an `unsafe fn` with the
-> safety requirement that the caller must not `mem::forget()` the returned
-> `Registration` or otherwise prevent its `Drop` implementation from running
-> before `'a` ends. Doing the same here would also allow `RuntimePayloadType<'a>`
-> to be non-`'static`, so drivers can hold `'bound`-scoped resources like
-> `IoMem<'bound>` in the runtime PM payload.
->
-Right, the `core::mem::fotget` ...
-Thanks for pointing that out. Though that got me thinking the same can apply to
-all the PM scopes, consequences of which are less daring but still.
-They also could be marked as `unsafe` but then what's the point of having those
-if it still requires unsafe code from the drivers .....
-> Also, there are a few leftover `#[allow(unused)]` attributes in this file (on
-> `mark_active`, `mark_suspended`, `runtime_resume_callback`,
-> `runtime_suspend_callback`, `DevPMOps`, and `PayloadGuard`) that can be
-> removed.
-Will get clean up.
+From: Gary Guo <gary@garyguo.net>
 
-Thank you for the review. Much appreciated.
+`Io` trait is the primary way of interacting with a bunch of types, e.g.
+`Mmio` and `Coherent`. It is hidden in "blanket impl" section which is not
+very discoverable.
+
+Use nightly feature to mark `Io` as a notable trait, so it is highlighted
+at the top of the rustdoc page.
+
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-BR
-Beata
-> 
-> Alice
+ rust/kernel/io.rs  | 1 +
+ rust/kernel/lib.rs | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index a877df11a03e..377c95dda04b 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -486,6 +486,7 @@ pub trait IoBase<'a>: Copy {
+ /// - Fallible (runtime checked) accessors for different data widths
+ ///
+ /// Which I/O methods are available depends on the associated [`IoBackend`] implementation.
++#[doc(notable_trait)]
+ pub trait Io<'a>: IoBase<'a> {
+     /// Returns the size of this I/O region.
+     #[inline]
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 1ab41129d557..f7f720b9888a 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -29,6 +29,9 @@
+ // To be determined.
+ #![feature(used_with_arg)]
+ //
++// For documentation purpose only.
++#![feature(doc_notable_trait)]
++//
+ // `feature(file_with_nul)` is stable since Rust 1.92.0. Before Rust 1.89.0, it did not exist, so
+ // enable it conditionally.
+ #![cfg_attr(CONFIG_RUSTC_HAS_FILE_WITH_NUL, feature(file_with_nul))]
+
+base-commit: d419d682257d813f6cb7a28e42b35d0edf4ad038
+-- 
+2.54.0
+
