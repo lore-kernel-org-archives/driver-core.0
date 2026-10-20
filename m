@@ -1,45 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792483853;
-	b=VnhAowdkcDYXL/RRRMVYXOOD1GcRIkbZQpWXJmDKGk9zXYYRE1emasWaZhLe0XnezsDN
-	 /d7ThnIZ77+4OcamaeYSf4/x7LZDQp7szomYq/F2vLrC2+/Mx2U/sYeulV5AVaH/R5l9p
-	 Ar+xn6ylXgV9iUmrJGVK26ojBIfZ/VJe2gfgCXdRefP7yFdZACGfprwUuQkrIP1eFLM2P
-	 EqGtcJNNODbARibuHJ27EBPd6Ao1xs4H3rzQ7+pd9X51Qcg4B1d8T5yOW7csVjXAZ1p+x
-	 rRRcTOMxh0fl2/To8ism57ANPlPQ9fEACDp6MOioWYbU/u/fVjXmdhNfAc0qsImxIVA==
+	t=1792483965;
+	b=P82xiFh4Sw0Lzvw3pYlan8U9sDGikEWANPNUYI8PfnoSgwxwJwB3r1h5uNF3//GsgG/d
+	 6JYoWx9pMyI1sopYsd3x+ObmgYtGgz89xVMdJ+zciQEX/e1aAX6kB/EFxmDma3TsM41MY
+	 cdcucQlE2nRKK0Y014tR12Qs6b1pA22GqldTzFNIBIlU9ynNHZS9fEzpZVeTLllBGd9B8
+	 gLhx1k1AR4S/NxPr0QGLcfjtWm29+b8S/fUo86uiWipbEavBiX2DuAFDXCy+Q/LgQL11I
+	 xZNyMu6UsNYjRRWlbh9AL0gAUIg15XJNN/W/iyUPFBY9Z00PN8WHfzlvdUqvY2e9RGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792483853;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer;
-	bh=KZ1lrmFftcZp227HDnBABEgI98zobYONU8pPNNvhy9c=;
-	b=uFIXsVYsxTddNwP3eikkCxIwBd+S1eEf/R47+nrbsapRpKFS2srDdn8+YY2okFA5Z73n
-	 pwIhWy2AEkDoJxUadwlLpsgsN5fQaJAVbwzk09noBKilYhN8MT0BCXE3kAhRDl3L2k23X
-	 CQ547O/IIPwRijJGuN2lN1+ocavxEiR4wbTtxUT0CCNTqRUm9Ysu2ItinsR2X6/KZ2RRR
-	 ScMMR3AmsASxi2cycE/pa/T6cacV3OVFJ6+tv0D24r/xDLfnZIo8A3C6hXRWl2+8QPr+r
-	 mWAhj4JFoByofA+F4IowEK4IhrVG/TKcQXJJKxdjDgdcxIE/lX7tTbRfONO2yL3wHEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792483965;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=k2rmoy9HDSiKDp3Ez25S7rh7RAY7znXw3hMbNjmmj3M=;
+	b=qSpkJD9vO1Wr7qGqeFsTXrOk1THjQ5ux2qq/0aMjMGxH9Hg6bGywRuuQDnHblbQ3uFXb
+	 Ue1JS66VjRutIxakkwRMCzv9WuRKB6CTcEQ+t+KdNJqk1IAmY4hIgZseNQetjuqdQuiiN
+	 y58XZFoF3CZjnkZc5S7BLcn2uhP14ASAv5eVcN1X4T6yx6Z3N4oGdicfh4v4g4kiMSVPT
+	 Td/q3Jm/gjcohDkr5PjDyLjAhqEdKaMzEINHC2nM4bq8p+DcUCP+jCR3W+sTMUqGRYzCZ
+	 bepf+U6/QYoSfkc04BYT8QssBMlQrpjXJBJ37YjawZN+TpnOkJC6OuEfAxS/XKEoH2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Si5aKroF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RhHjGVFr;
+	arc=none smtp.remote-ip=209.85.208.69
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33646606A31C;
-	Tue, 20 Oct 2026 08:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4879D606A322
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 08:12:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4879D606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Si5aKroF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 843E51F000C5;
-	Tue, 20 Oct 2026 08:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792483852;
-	bh=KZ1lrmFftcZp227HDnBABEgI98zobYONU8pPNNvhy9c=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Si5aKroFBRQWvoPfQiWUtXY5pV8QpgRTZoMyRO15GNPz4DBKDDZ4+iSIyNHYtvZqz
-	 G8lOTVxx6NmBdsjO1UBSP1zEZT4qLneCQe7uGvJPIQWns6h93fPilB2DLZGNa+FI1X
-	 oNs2kA2m181Alm8R8g1+o+T40SoWbc2YMPMz1bo6wE5Vo2J4fzJ+Of7PHBfk2YhNhd
-	 LNw3L2V3Q9kl/VRl12GSWRwMxpeyB7LrxcW/Qgu01ReVPUn0VH6x9EK6nNiGmKVqO+
-	 uomF8qMGugM60D+AO/F2HDVDsDC4mXpuL2c4vvdFyya6eaFTHDwOvRcep1YD0ejLSn
-	 ILyvkm6wO3wvA==
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=RhHjGVFr
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6b1e4a24fe5so2678671a12.0
+        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 01:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792483964; x=1793088764; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=k2rmoy9HDSiKDp3Ez25S7rh7RAY7znXw3hMbNjmmj3M=;
+        b=RhHjGVFrHamRSaFaJNw5KFB0KEDC92CCdOjPbhQiWnJCs4vvtLw4RdMzZ8zYu1oleq
+         FJheYjrq5ZitJTwnGhMFJrUug9SCewCNEgnL/thLUnfOHElyBtBSvmERniqYDnSyJ+CU
+         n25LMEkDlWViSBJPDffU4gDWLIZZBtybM9sdgd7BT69xvHh10mLUFWJMxjJ0CJu+U+cK
+         wTLkyISd/eRfg666eslorld6dNhDUnoVyFrUwEAWei8aUXnr5nT3rcugDdG1aPjilC9J
+         FDUPdJD2fGt3+XACPjTYVxGrCzhr3uzznItnub8JW5PbnbUBFQuihEdXm4mgl60NDxh8
+         9tTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792483964; x=1793088764;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k2rmoy9HDSiKDp3Ez25S7rh7RAY7znXw3hMbNjmmj3M=;
+        b=PJfj8PTkQrw04DFiN4Oa5p2L6RZ26vNwqzusiKl3pRo64RFfwIpbtd69T4U5msF0QE
+         Y4ianUuf+Bou1ZoGOQ+t0bgOHDhyDVwNXICYxtno1Z8d6H7tIXz98Vy+kPdsOoN9FduK
+         N3IufvrttaSeQg2GvNHTUGgmQ0l6hXFqSPVVv4Ui07a/Obu9b/WWaSw7b/KzaAOiyDRR
+         S3FoPrPnDxNrpShi4ZwPALDiefEoNPLR1ZmeGMRT5fMOu+hHpcUqUpjOFaLlymmKueVg
+         Cz/bqYHV9YXSbvT6hsd6RZU1MBhYb8vl1fLkEKUMGrYCC/4MSQfAvX5RPUdEd7DIHNBP
+         5Qcg==
+X-Forwarded-Encrypted: i=1; AKwUvBx0TdS76DDOJBAzvXEbbNWnuyjzoGgVthlWeKVDcfX300ObTnqitATdif4kADS6Uv4wvNLgzZrfyf7v5g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL7NpRfz0B6vtuWi7E1DIeRiophlzGkJu8kD0XXMG5qKH/BdPCu
+	QxqxbAm1DWnOr/AaJ7n32djH/3aolhbMNpwJbKMhDTcA2L2ZVugZMyJ42YMx2a6dEnolSry0QP3
+	47Rv/fm1aTpCLJ34dlQ==
+X-Received: from eduf17.prod.google.com ([2002:a05:6402:51:b0:6ac:c627:c778])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:4344:b0:6b1:8818:1090 with SMTP id 4fb4d7f45d1cf-6b3a815d5admr6666189a12.22.1792483963442;
+ Tue, 20 Oct 2026 01:12:43 -0700 (PDT)
+Date: Tue, 20 Oct 2026 08:12:34 +0000
+In-Reply-To: <20261019-rust-cfi-fixes-v1-1-9503472ba738@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -48,141 +78,45 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 09/14] x86/crash: Fix massive out-of-bounds write on
- 32-bit Highmem
-From: Mike Rapoport <rppt@kernel.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, 
- chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, 
- mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, 
- ritesh.list@gmail.com, sshegde@linux.ibm.com, tglx@kernel.org, 
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, 
- gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
- akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org, 
- pasha.tatashin@soleen.com, pratyush@kernel.org, ruirui.yang@linux.dev, 
- leitao@debian.org, yeoreum.yun@arm.com, sourabhjain@linux.ibm.com, 
- robh@kernel.org, coxu@redhat.com, kees@kernel.org, tangyouling@kylinos.cn, 
- liukexin@kylinos.cn, zhangtianyang@loongson.cn, guodongtai@kylinos.cn, 
- maqianga@uniontech.com, chao.gao@intel.com, kai.huang@intel.com, 
- vishal.l.verma@intel.com, seanjc@google.com, piliu@redhat.com, 
- thuth@redhat.com, jbouron@amazon.com, me@linux.beauty, 
- mclapinski@google.com, graf@amazon.com, bgwin@google.com, 
- hbathini@linux.ibm.com, eric.devolder@oracle.com, 
- takahiro.akashi@linaro.org, james.morse@arm.com, palmer@rivosinc.com, 
- x86@kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
- linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
- kexec@lists.infradead.org
-In-Reply-To: <20260921090450.807575-10-ruanjinjie@huawei.com>
-References: <20260921090450.807575-1-ruanjinjie@huawei.com>
- <20260921090450.807575-10-ruanjinjie@huawei.com>
-Date: Tue, 20 Oct 2026 11:09:39 +0300
-Message-Id: <179248377976.302547.17579416672238014424.b4-review@b4>
-X-Mailer: b4 0.16.1-dev
+Mime-Version: 1.0
+References: <20261019-rust-cfi-fixes-v1-0-9503472ba738@google.com> <20261019-rust-cfi-fixes-v1-1-9503472ba738@google.com>
+X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
+Message-ID: <20261020081236.1760816-1-aliceryhl@google.com>
+Subject: Re: [PATCH 1/3] rust: irq: declare cfi_encoding for irqreturn
+From: Alice Ryhl <aliceryhl@google.com>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	"=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jinjie,
-
-> On 32-bit x86 systems with HIGHMEM, kmap_local_page() only maps a single
-> 4KB page. However, the elfcorehdr segment can span several pages (up to
-> hundreds of kilobytes).
+On Mon, Oct 19, 2026 at 11:34:37PM +0000, Sami Tolvanen wrote:
+> The IRQ callbacks return c_uint. C calls them through irq_handler_t,
+> which returns enum irqreturn. kCFI encodes enum types by name even with
+> integer normalization, so the type ids never match and every call fails
+> the CFI check.
 > 
-> The original code blindly copies 'elfsz' bytes at once via
-> memcpy_flushcache(), overwriting adjacent fixmap entries or critical
-> virtual addresses.
+> Generate irqreturn as a newtype with a cfi_encoding, as is done for
+> lru_status, and return bindings::irqreturn_t from the callbacks.
 > 
-> Fix this by copying the new elfcorehdr page by page.
+> Fixes: 0851d34a8cc3 ("rust: irq: add support for non-threaded IRQs and handlers")
+> Fixes: 135d40523244 ("rust: irq: add support for threaded IRQs and handlers")
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-This is independed of other fixes and can be sent as a separate x86b fix.
+Missing
 
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> Cc: Vishal Verma <vishal.l.verma@intel.com>
-> Cc: Baoquan He <baoquan.he@linux.dev>
-> Cc: Chao Gao <chao.gao@intel.com>
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Eric DeVolder <eric.devolder@oracle.com>
-> Cc: Hari Bathini <hbathini@linux.ibm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Cc: stable@vger.kernel.org
-> Fixes: ea53ad9cf73b ("x86/crash: add x86 crash hotplug support")
-> Link: https://sashiko.dev/#/patchset/20260907125404.922123-1-ruanjinjie%40huawei.com
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  arch/x86/kernel/crash.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/arch/x86/kernel/crash.c b/arch/x86/kernel/crash.c
-> index e681ec9cf1dc8..3c9f4fbbe7ff0 100644
-> --- a/arch/x86/kernel/crash.c
-> +++ b/arch/x86/kernel/crash.c
-> @@ -447,9 +447,10 @@ unsigned int arch_crash_get_elfcorehdr_size(void)
->   */
->  void arch_crash_handle_hotplug_event(struct kimage *image, void *arg)
->  {
-> -	void *elfbuf = NULL, *old_elfcorehdr;
->  	unsigned long mem, memsz;
->  	unsigned long elfsz = 0;
-> +	void *elfbuf = NULL;
-> +	unsigned long done;
->  
->  	/*
->  	 * As crash_prepare_elf64_headers() has already described all
-> @@ -484,21 +485,20 @@ void arch_crash_handle_hotplug_event(struct kimage *image, void *arg)
->  
->  	/*
->  	 * Copy new elfcorehdr over the old elfcorehdr at destination.
-> -	 */
-> -	old_elfcorehdr = kmap_local_page(pfn_to_page(mem >> PAGE_SHIFT));
-> -	if (!old_elfcorehdr) {
-> -		pr_err("mapping elfcorehdr segment failed\n");
-> -		goto out;
-> -	}
-> -
-> -	/*
-> -	 * Temporarily invalidate the crash image while the
-> -	 * elfcorehdr is updated.
-> +	 * The segment is physically contiguous but can span several pages.
-> +	 * On 32-bit Highmem architectures, kmap_local_page() maps only a
-> +	 * single page at a time, so copy page by page.
->  	 */
->  	xchg(&kexec_crash_image, NULL);
-> -	memcpy_flushcache(old_elfcorehdr, elfbuf, elfsz);
-> +	for (done = 0; done < elfsz; ) {
-> +		size_t chunk = min_t(size_t, PAGE_SIZE, elfsz - done);
-> +		void *dst = kmap_local_page(pfn_to_page((mem + done) >> PAGE_SHIFT));
-> +
-> +		memcpy_flushcache(dst, elfbuf + done, chunk);
-> +		kunmap_local(dst);
-> +		done += chunk;
-> +	}
+	Cc: stable@vger.kernel.org
 
-HIGMEM is only enabled on 32-bit and there elfsz cannot be "massive"
-because it is the size of the headers just built for the CPUs and RAM
-ranges actually present, not the large memsz reserved for hotplug.
-On x86_32 (NR_CPUS <= 64) that is a few KiB at most.
+otherwise LGTM:
 
-Also, crashkernel is capped at CRASH_ADDR_HIGH_MAX = SZ_512M on X86_32,
-which is below the default lowmem limit. For lowmem pages,
-kmap_local_page() returns the contiguous direct-map address, so the old
-code was already fine.
-
-So the overflow needs the crash region to be in highmem, either through
-crashkernel=size@offset above lowmem or through a large vmalloc=
-setting, and an elfcorehdr larger than one page.
-
-It is still worth fixing, but please drop "massive" from the subject.
-
-The changelog should also mention the conditions when this could happen.
-
--- 
-Sincerely yours,
-Mike.
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
