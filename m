@@ -1,75 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792483321;
-	b=IVPdG0LGsRqyAi/F164H0zIIFE8a1P3LhOMP6vWT0GgLPDVJ9hGsa5M2UJkDp9qaA+1A
-	 AV6oy0ymGTdMOkS1yzh13/kpCHqcVRsI5tJJDwRCsIi9Z5z27MIjCv7CZSc46pTwpG88P
-	 P4TE8DiE0khAVfmWMMZ7XXO1O/oNUuoUExDLYE+Bfl3+5H7bUMEn+CIM8eAJvmQr/PmSu
-	 NotReAB5a5CmCooC+x+Asn+Ng2i05dmzuQ28RywZnT9mQmdKOpcwwtZ6fafdj5lGv+dzV
-	 HeZXlFjg9FErVoTI0hnne1lIk4FmF2ssq/l+3ZKFT3S1eNqTY2lN6JjYnqyg/q4SmuA==
+	t=1792483797;
+	b=bhiw/KCs+tFKVj/n8SkZglhHpiF8ZluX3hb8b1XPzV2e4dToS+KGLFzPIYFdUOPTRvUy
+	 C9ibcTcu2NGH3XimxJ81dMuavCwcgdDVh98st5jkRBo/IDd3Hu3YDENUTnrdQphqvvwIp
+	 yg/k6Y9oPs7cfxV4cBjCUl/nbDf7q1FpgGoJ6fITXKOxfeEUmDL8Bl89a8WpQGZDbhbNb
+	 mEySqZadLvm2Ezlya3PiSWrzNu06Msj1rwxz99ZEH48lh4YrOEQ0Yse+C8VNP7yOfEq6W
+	 4jxWRVz/B4wgoMkZjMxOO/KuWAJHEe/vJJmZf33eLqei/rbyHR3vk8zUTABQrWo5g+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792483321;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=a5szgawaqFYahDoR6WgawlMOYcIGKmjMs7XIVNwb/WA=;
-	b=C1umxUbLQvpNYgA3Y7QYKZ2eTj4meERaHHnqNUNKPB0XV+gf8Efe9EMlsAxcsh+T8fS2
-	 bHcvPbJSZxHHh/zSq2QQ9gQ6Rnck8v4xnSIQyLnIeQhgFqtuM+vsU2QgGTrIXM7pFQO0r
-	 9P6K9felNYQj3DTqim4ft8+N7cERTZv1S7WddHJdHDF5G/Bi790IXbwM5z+T6yvcRBjT0
-	 kXXn6ZytFZhupwEadJuPIblrnp/nB2InOomXx2/qXXMac17BizgnNsZcSQZuIRXGWo5Xm
-	 D78p3TPg4NDDHv5scqzilRpVYZUUVRajt3E/xrip9VmpISe1a+Z9a7V/F1lpZ+yUJLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792483797;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer;
+	bh=XSsZkzzBNNe/aTV43Z32nPhmjz0NciIMlK5b8uQ8eSs=;
+	b=rCOxB0on43J3GMqCUf6Qao/psTIpNZHvUTdWuzeyyyAT+iL7wwaYXE7FYVXoNVMxfnWY
+	 FwP/8ZZtzyf4uB7h+MY1zh/zfnqnrc4RNsgcpwcGRrzyAFFxOBwZcMea/5HchzIldfHqd
+	 BUV0ddOBzBwSNBDP9uR0CXMmVypusxJTU9Oy+wg8Vhvks3OtYWhbkiQLa7irw6WwyjlwM
+	 6kSBWXEju0YAZo83pUmXToHlnsLavb4rEDZcN0vQtgJoVmPz03X1shWhvHnvdkNjxTEog
+	 30+gzKqk7fzDK/EJT2hE4XEIXIuDVSH6bMbJr28yiRwSuE2akJ2oeh/i0aEo+GAHvEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Vp36eKlZ;
-	arc=none smtp.remote-ip=209.85.128.72
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bz1GiMUt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054C1606A31E
-	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 08:02:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 054C1606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86D7606A319;
+	Tue, 20 Oct 2026 08:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=Vp36eKlZ
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a1d7c3b38eso23180325e9.2
-        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 01:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792483319; x=1793088119; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a5szgawaqFYahDoR6WgawlMOYcIGKmjMs7XIVNwb/WA=;
-        b=Vp36eKlZqgNuN00fd3K8NIDSYtK0bJDn4Dtiy66kUakr5HU+g/BT8YpSxOybZkRkN0
-         tJ8m0fLJeLjGmq8REVWa242Q6r7LZJZ58FbWr0wC6bQj6R4J9Gvy5MG+kSHNQU9o0R12
-         kOpHuVdAMUh6+grKSLpPGNTd46L4HJvnxBuQV1FyeD9nVN9ReAC9SXjSUk8Q6CfuyOdY
-         HB+p4ox2w/8CmVsqMZRx4lP5s4UCzp5BWH4x3TuPcTd7kxSmJBDiDr4GAU0JNs1yPO0C
-         tqRNdGhSGEL50oYInVL4GEH0TzFPe71+JakyGzB0MoBNSYkKIBuGjZ6xDvEfHEKMjRfQ
-         RMqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792483319; x=1793088119;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=a5szgawaqFYahDoR6WgawlMOYcIGKmjMs7XIVNwb/WA=;
-        b=pYkITosU0hAK+thewxZ1DC3xQMl3GMKQzEVdmFPInhK4lC2APgAMD9itBTLNoQYhfT
-         0J6KwO7cE0w0ER4JVdpjm82jYFw/1CUbTwYksxpFv8xGavs/+8atwTjCiBD6IxeAuQfo
-         Ezw6UMGD5mw+63KguC/mzuGmCOBeOx8ZEk9/l6oBA4OijwT7uDsVqI2WNvUDd+zgvgwj
-         XNKUGxbhRBEiWvnDSMygJOhIc8mVd6peLCfckVuBYWi/VJHn0JqWDB4vYSEuOBmz0Lcu
-         NF7CktN3j+aVu3d/aD/lUBl9hnEerd6fVZVd0MFV3lKMPg/iada7U/HEvDghE0tmi1jw
-         irgA==
-X-Forwarded-Encrypted: i=1; AKwUvBx6ivpoLHp8T9NoACoF8Iv3mDnRpqtvsQEZWYBK6CaRDhExsAicaXPijDx4PkAbi7HRR5PMSpq6WePiiQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK7JVXAZE/shr5IlMzCR7eKEztmlrEifGIN60+6rNXfpdsSrQn/
-	gEhq2VoHBwxXcttXAUF3+TMcnKWliVcpfG3i7CwGfXMilTSdm71PFHAEa+1av8OEFsugumfbCKU
-	Mzqx1H0JjTjJORu5M+A==
-X-Received: from wmcu7.prod.google.com ([2002:a7b:c047:0:b0:4a1:f37f:7f0b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:638e:b0:4a1:e6ad:baa3 with SMTP id 5b1f17b1804b1-4a1e6adbbe4mr113338955e9.15.1792483319125;
- Tue, 20 Oct 2026 01:01:59 -0700 (PDT)
-Date: Tue, 20 Oct 2026 08:01:46 +0000
-In-Reply-To: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bz1GiMUt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 361FF1F000C4;
+	Tue, 20 Oct 2026 08:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792483797;
+	bh=XSsZkzzBNNe/aTV43Z32nPhmjz0NciIMlK5b8uQ8eSs=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=Bz1GiMUtVdCxcnrgWdw0nUgk3XjmNZkUSWIAKL6542R8NsGR9CCPthO/llpAKQpVs
+	 BMrYgVtgXR+WBclpzdm2maK+uihORxVis9YyGSohSAC9tcKWg3sWc7sNaMbPLcTF/m
+	 jLqY2p8/fix+MJqukHD6KLRg0t8y8yRkCW7UOIfmhWudURS2yJ4OsYMY6iwbUTnxKx
+	 OViCdgx01YkG1X8f7F8+iPsg5qvr+T4GyTzQ7EfBugtX5bw7V3bfLGdboJIhMaLgfd
+	 qO1VcSV6mjmsF7exhP7uFHh7iJLKUjxZSpuOx1L0fzwUoXjoX5ANMdrJnQGjqVob3+
+	 MfrluQfgmtYOQ==
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -78,35 +48,70 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-References: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
-X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
-Message-ID: <20261020080147.1743459-1-aliceryhl@google.com>
-Subject: Re: [PATCH 0/7] rust: io: add read-only and write-only views and registers
-From: Alice Ryhl <aliceryhl@google.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>, 
-	Bjorn Helgaas <bhelgaas@google.com>, 
-	"=?utf-8?q?Krzysztof_Wilczy=C5=84ski?=" <kwilczynski@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 00/14] crash: Fix several bugs
+From: Mike Rapoport <rppt@kernel.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, 
+ chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, 
+ mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, 
+ ritesh.list@gmail.com, sshegde@linux.ibm.com, tglx@kernel.org, 
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, 
+ gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+ akpm@linux-foundation.org, baoquan.he@linux.dev, rppt@kernel.org, 
+ pasha.tatashin@soleen.com, pratyush@kernel.org, ruirui.yang@linux.dev, 
+ leitao@debian.org, yeoreum.yun@arm.com, sourabhjain@linux.ibm.com, 
+ robh@kernel.org, coxu@redhat.com, kees@kernel.org, tangyouling@kylinos.cn, 
+ liukexin@kylinos.cn, zhangtianyang@loongson.cn, guodongtai@kylinos.cn, 
+ maqianga@uniontech.com, chao.gao@intel.com, kai.huang@intel.com, 
+ vishal.l.verma@intel.com, seanjc@google.com, piliu@redhat.com, 
+ thuth@redhat.com, jbouron@amazon.com, me@linux.beauty, 
+ mclapinski@google.com, graf@amazon.com, bgwin@google.com, 
+ hbathini@linux.ibm.com, eric.devolder@oracle.com, 
+ takahiro.akashi@linaro.org, james.morse@arm.com, palmer@rivosinc.com, 
+ x86@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+ linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
+ kexec@lists.infradead.org
+In-Reply-To: <20260921090450.807575-1-ruanjinjie@huawei.com>
+References: <20260921090450.807575-1-ruanjinjie@huawei.com>
+Date: Tue, 20 Oct 2026 11:09:39 +0300
+Message-Id: <179248377975.302547.11812783408034710690.b4-review@b4>
+X-Mailer: b4 0.16.1-dev
 
-On Thu, Oct 15, 2026 at 04:19:40PM -0300, Daniel Almeida wrote:
-> This series adds read-only and write-only I/O views, and the #[ro]
-> and #[wo] attributes to register!. An access in the wrong direction
-> then does not compile.
+Hi Jinjie,
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Sorry for the delay, it's been really busy time for me.
 
-I heard a suggestion that it'd be better to drop the Io from these trait
-names so they are just Readable and Writable, because not all
-implementations do IO (i.e. if it's SysMem it's arguably not IO). Not
-super important to me, though.
+> As Baoquan and Catalin suggested, this patch set fixes
+> several pre-existing code issues found by Sashiko AI [1][2][3].
+> 
+> The major improvements and fixes included in this series are:
+> - Fix several memory leaks for arm64, and similar issues on LoongArch
+> - Fix out-of-bounds write on 32-bit Highmem for x86.
+> - Fix TOCTOU race in crash memory range collection.
+
+It feels like these are three independent series, maybe with slight
+dependencies because they touch related code, but it's not really a
+single series:
+
+> Jinjie Ruan (14):
+>   kexec: Fix CMA segment address translation with non-zero text_offset
+>   kexec: Record allocated CMA pages to fix release size mismatch
+>   kexec: Extract kexec_free_segment_cma() from kimage_free_cma()
+>   arm64: kexec_file: Fix CMA page leaks in segment placement retry loops
+>   arm64: kexec_file: Fix elf_headers memory leak in retry loop
+>   LoongArch: kexec_file: Fix CMA page leaks in segment placement retry
+>     loops
+>   LoongArch: kexec_file: Fix elf_headers memory leak in retry loop
+
+The very similar commits for arm64 and LoongArch imply that that we have
+some code duplication that should be addressed regardless of these
+fixes.
+
+-- 
+Sincerely yours,
+Mike.
+
