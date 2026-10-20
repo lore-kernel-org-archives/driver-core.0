@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792484751;
-	b=SuMMJJQ8cdZVoCmBddJjdnvCUUtvcdjK+eGiadb3f1aK30JlrgHwpBs8Ac6z66vL6hHE
-	 u8PcaEXNq7bHEwkVLJPCB4EHdriDuv9R1luosIab2gSr6yTf+reQjDf/oTB2NH+lvOaRN
-	 Vm/9YQfpsolIGpHjtbDobTzGmyzuh4XPJw2HVRBZuD0JrcSKODYQwJs3brMG/JsomgXRf
-	 8UjNh94DaB6lJ4QxPJdLqzjWAvkIIGyQYVHXnyBdmA6ASD4K7FtjqBKdV4fDSNJ0C4Jr3
-	 tfd+xpIipKkMrRVByNmjccIIqVbgJ+683jcNVWXgRxcxc5i6aoVtJLudjzgK5nfA6iw==
+	b=nvDTxmKIhEQ5Ga+SrErE+oGoVcGmA6bV8AeYJ0TdWR5Zp7vMst0uBlGlAEzZ2ulPz1/q
+	 nec7x12AG+Fq4GaExUe2ASje/BvTo8EQQtGQw0EAr7JJmXvcez80WkgKHoe2O+QR04WMG
+	 4X26SsDSggvtY6GW6KypACr9/E5S9b+sslIgsyA2ywb/df4swTYMOBh+8lq/StRLafbD2
+	 mMP2FB0XdY9DIq6elFkVCYlzvd2Mxp36gcF51SVUKyKvHAt9gfWzYPuywlA90X+F6SKPu
+	 Q1JmBy5/FHZZT2Uw7PrK6e5XEk+gvbwZ9qtyZ9hK8oRZYez7rfFxZDVI5hyyyklpcQQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792484751;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=eipZCh/aZVOWGyKk+tem6Pf9Se2oB9+JhA06IxGI1NU=;
-	b=OSU+9/25Om17nTkbHbCl8u+Py/fRbXL0JvZalPuL/91u2bbQSx7O15jmChY8AIFCVXD2
-	 a7DBanOtHwogrK8dDofIOfxC+blVz85PbqTt4NsAojtJbBKAnwtvM7w67FqTbn14P6GwD
-	 I6WfHUEWBisTcCuUU4xLzIEDQktVJvnHUXhcgNJbU3ZuD3hb9ytdth+MPKyaPAppmk95Y
-	 bHXKn3IvD3hpgyfUWngObpL/09v1dIEJhiikAAS22dctKqEnqXToDWWtkcM3lOP1fNARA
-	 scqD0gg3NozbQxE+A5ekfYBkEHUsXLik//vQ6hlnDkUYNhv5DVC5HPzIa/9qrtR8H4Q==
+	bh=xZSBbpXCPPOyIW5DCM93p6opBVKDT+z+pzOs0o8DC6c=;
+	b=oYX5s9F9CSvwUyLhxgEgenhINeoGHF1hWyHCYfs6Eww2eDTpx729rLHyBqbFf3lfJiKs
+	 vI53ux4WUX9Gfdvkrw8JXwDatreQhdVjQBg6H+m96pYChu/+VuFJ7SuRjj0YJQA3yGQEx
+	 te/kx2+OZnXJg/4aiTpTJymvgcyq/Uc8bnDTBY+Ys8NIlEkCdfPj6FFC+M6KCxD1dzfMt
+	 hBJVwzuwRIY5PX0lSxTLxV334o5C1K1gp8SnLaPww2ALkGaOvdxL9rrFlOZqV7TFeJGJu
+	 aZ8Dwr7rq3/LahE1+dv+1V7Y5JUCy2ZaVY/gYaQv/43yF1Q/6UVwR4hbQb4hVzFOGyg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDQ4lOB4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ID1sc0xC;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A1A60A261B;
-	Tue, 20 Oct 2026 08:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250F160A261E;
+	Tue, 20 Oct 2026 08:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDQ4lOB4
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ID1sc0xC
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792484750;
-	b=RSuHTXSzWN0sQcP5o9TJj14ZeCGDKdl7WxeKqR9nT360e2n1X26qla3qblAWVkTfnjBF
-	 AyrFjUNZrZF4CcRcHaXQ/ygUwgN5UEz7tLL4b39IQcq5MEKdbheF4cZGYBKVhdMazWn2M
-	 zXDZrMvyaArLMHnyAuyDBKMugqfMUiDnGRDUGCFRZYRDPIfkjrM9Uh8JMsGn+U9UXGj6g
-	 JX3+0MsEUoW23JPzBf7uL0sG1kv6c2B/iwqDIg1zeQa9u9He/Ev2Yvm1gls1PWg2MDl7i
-	 3NCIUbkLglebXwr6s5Wrqc2/SM5HhCvjTpUpp3Z4XvhpVlQFH8fpXIHtpAoXMMs6CGg==
+	t=1792484751;
+	b=2+sWqdBEVEqwS98+UfXbmW1x53BaAWnZHW6m8mfmrEWwww0royRNnJRTlcT6K4ZDVk2T
+	 IZN74obuheuPlwiQXscpGDrLn92xd9qe3+tcQmDc6n4qQWdwWXFNVcXH4wfkk3eI56VSG
+	 loVZKf245sLcNDmMwzIz9AoP16Nj9vcuPZe7LI9qh0CxdNYx1Chb46FpBviiwJDaG45YF
+	 pq5lCZmcI5fMuG2O18Ql/1qVT5zZT0izHSjQxQLMrbGQM49DmlN7gO1CVUE/HzgPHceuw
+	 rFUfSmpzepDiJFAdRNE1WhobRKpqJ+QhFM0Pgnnifh/s03/f9JPtr7zeBRtYaPHNCbQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792484750;
+	c=relaxed/relaxed; t=1792484751;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=eipZCh/aZVOWGyKk+tem6Pf9Se2oB9+JhA06IxGI1NU=;
-	b=j4ireNCZnalx+Ak3deDrHdFV+ASseu5Mh6oIHNGMec9lhXL3dST04NWuQ9b4+bpmaoAw
-	 Q3HH7R0iURJ6LmsQhEOVMQW8YmrCJRL+IkX1pHEbgSUF3gHQ5xnGVIQZb1zNL5An2XDus
-	 +0WjcNEXRofRtmUyCknwG4lV162oSZSFgVex1lfmvtX6NRqCUk2EnrC3s0Ih8GRVCeklw
-	 9ePyVy9N+5lbq6adkV0rFXOUuRzJuDJX0Z8Q96KnS8zXXOqWnaHESk1huCyX4aBnlmIJi
-	 aSE8/OK0ZSu7Qo8nfMcDBtch3KYsWKBSQ0t7iNFnorci4dMmiIulZPYMlMkRq1+LQXQ==
+	bh=xZSBbpXCPPOyIW5DCM93p6opBVKDT+z+pzOs0o8DC6c=;
+	b=i745tetahXk71ccIgXrUKULdVcJFIvTT8MnSU7TCZEk23aIudMDEjAx3SwI5ycusk2iv
+	 bTQyNG1Ee9YPPQZB5s7LpNIlxYxj4lgoQ35FWRaKPdPiMW2xKIA566C1aqUn686HruYI6
+	 t0Fr/H1+QUinhsmcD840Eg8Dn6C2pFfvp1RJ1eilr2R2Vn/kQW3AZ2BZM1w12P+KQBT3q
+	 p7TsNW/bpX3fAogRmfSTzyoSfheCR+mVO95SsdDv0FCc88HSCg3LxS64T7xOlvOj8T6xc
+	 WiV1ebUzF+XW/Pd6//F7mw4COOiynXhO7snX/3MPUfeZkB/x9aeOzgATk4V8s1MmnTA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7DE641F000C7;
+	by smtp.kernel.org (Postfix) with ESMTPS id 8576D1F000D3;
 	Tue, 20 Oct 2026 08:25:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792484750;
-	bh=eipZCh/aZVOWGyKk+tem6Pf9Se2oB9+JhA06IxGI1NU=;
+	s=k20260515; t=1792484751;
+	bh=xZSBbpXCPPOyIW5DCM93p6opBVKDT+z+pzOs0o8DC6c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=aDQ4lOB4hjajqMG4r0KB58/c2bd0ffmQDsBuKIcBqqrz2a3xB2QsxjlRmz85Fifiu
-	 tmYj1B8WBaseUZIn14EJW2vmDqXunJifI53uwj2Exk+t2s9SjxuWTq6mo9O9DPuZQV
-	 BW58tEU00WZfkNWgghHwevjnZ1AJPaYfwFwSWIOiS4JO1Z+V2xfLHhl9CheUZgSLzC
-	 /OLqQ7QeEnOmQkoUT7hBapXMmKXTLG4t1yUoT2lgu4llEIFrIjHr1mB7cg9mh1SmTv
-	 XTcCBYZitlrjBT9sTcNdvIx5QXiFbCv/bxIhepprdPFpunMKE/gv7tY2tvcDQamSHG
-	 fevkbnEBxxbwg==
+	b=ID1sc0xCpIZ0+cEFmUoZhiYhgf0mcGT9I2MmfVZgpTpR7lCJ3ljnqAKOj9Yor5bmz
+	 7OVYMEa4gyKLa0lGNUBAnOJrqhjUjSzQ7QvwVPOU/eDXmNS3GTQgfDe+y85K1y6MFt
+	 ayRpV0u+rPhMrP5CLabhhfZlE0p3MIQNVD3DfA+5Ey9XCV1aayHG3/eQcrjUdVsrJo
+	 LlRJLzRc1GwfOiYuaeNtLXQLeEuruaV+4MkierkzI8xOkgZAdQPPXSan2EcoPwXTKg
+	 7kxWwRZuphYAFxdNG2oJbXWcV6arI16S9AdmJb62Y0czScayAOcODUIs0N2dKHKPOS
+	 l5cXOxhEUjk4w==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id DF14F430F4;
+	by lkml.kernel.org (Postfix) with ESMTP id E6665430F8;
 	Tue, 20 Oct 2026 08:25:45 +0000 (UTC)
 From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Tue, 20 Oct 2026 16:25:26 +0800
-Subject: [PATCH v4 09/11] rust: device: expose the device DMA attribute
+Date: Tue, 20 Oct 2026 16:25:27 +0800
+Subject: [PATCH v4 10/11] drm/tyr: gem: flush write-combine BOs from
+ probe-time coherence
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,7 +85,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261020-tyr-ioctls-v4-9-704de77da223@kylinos.cn>
+Message-Id: <20261020-tyr-ioctls-v4-10-704de77da223@kylinos.cn>
 References: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
 In-Reply-To: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -107,11 +108,11 @@ Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org,
  driver-core@lists.linux.dev, Ke Sun <sunke@kylinos.cn>, 
  linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792484721; l=1995;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792484721; l=9726;
  i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=mEXxKt/y8TdcnvMGSXY8Zt74eqKKEsHMFWEDUBLN0a0=;
- b=rGNNKJ6DXMUQnJb0hmAg2jlqt22qnLX6QZ7JwuDJy+nw0lj1DqU61HmQ1QPLBKyQQAh3msXN9
- aWB1Ggq6SgIAzjWPDh4emO2EBENlEk9L3pzTJn9O96ZOU46+bf8S+dh
+ bh=PQV8IyoWvZ/wyECdqBdD8j2r1IHBGqizGurXR8lStHE=;
+ b=REKwwK8R4sMhKtXMMVYYhVgSvD8opzYGeEZPHRLY+PWA1inGXX2jmzz83q0cgKEgTIWVzQM9G
+ 0Rale4/IdsnDXeyY3A8eAmffpPKAlS801yvWeWEg7Ld/Ng9vi8hZW9a
 X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
@@ -121,57 +122,261 @@ Reply-To: sunke@kylinos.cn
 
 From: Sami Tolvanen <samitolvanen@google.com>
 
-A driver may need to know whether its device is DMA-coherent, but
-rust/kernel exposes no accessor for the attribute today.
+Tyr maps shmem-backed buffers write-combine, but the shmem layer
+zero-inits new pages through a cached mapping. On a non-coherent device
+those stale cache lines can land over later uncached writes, so the GPU
+or userspace reads a freshly written value back as zero.
 
-Add a transparent DmaAttr wrapper around device_get_dma_attr(), so all
-three attribute values (unset, non-coherent, coherent) are covered, and
-an is_coherent() accessor for the boolean case.
+Read the device's coherence once at probe and map buffers write-back
+when it's coherent, write-combine otherwise. BO_CREATE fetches the
+sgtable at creation time so dma_map_sgtable() flushes the zeroed pages
+before anyone accesses them uncached.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-[ Replace dma_coherent() with a DmaAttr wrapper covering all three
-  attribute values. - Alvin ]
+[ Drop the map_wc-conditional sg_table call, now fetched
+  unconditionally in BO_CREATE. - Alvin ]
 Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- rust/kernel/device.rs | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/gpu/drm/tyr/driver.rs | 10 ++++++++++
+ drivers/gpu/drm/tyr/file.rs   |  5 +++--
+ drivers/gpu/drm/tyr/fw.rs     |  4 +++-
+ drivers/gpu/drm/tyr/gem.rs    | 34 +++++++++++++++++++++++++---------
+ drivers/gpu/drm/tyr/vm.rs     |  9 ++++++---
+ 5 files changed, 47 insertions(+), 15 deletions(-)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 2291d85b6849e..d5bbebdf620df 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -260,6 +260,30 @@ pub unsafe fn drvdata_borrow<T>(&self) -> Pin<&T> {
-     }
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index f4f31b24180b4..633d1cab3cea9 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -88,6 +88,12 @@ pub(crate) struct TyrDrmRegistrationData<'drm> {
+ 
+     /// GPU information read from hardware during probe.
+     pub(crate) gpu_info: GpuInfo,
++
++    /// Whether the device is reported as DMA-coherent by firmware.
++    ///
++    /// Cached at probe via `device_get_dma_attr()`. Drives the BO
++    /// cacheability policy in `crate::gem::should_map_wc`.
++    pub(crate) coherent: bool,
  }
  
-+/// The DMA attribute of a device, as reported by firmware. A transparent
-+/// wrapper around the kernel's `enum dev_dma_attr`, covering all its states.
-+#[repr(transparent)]
-+pub struct DmaAttr(bindings::dev_dma_attr);
+ fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
+@@ -152,6 +158,8 @@ fn probe<'bound>(
+             // other threads of execution.
+             unsafe { pdev.dma_set_mask_and_coherent(DmaMask::try_new(pa_bits)?)? };
+ 
++            let coherent = pdev.as_ref().dma_attr().is_coherent();
 +
-+impl DmaAttr {
-+    /// This wraps `device_get_dma_attr()` and only returns `true` for the
-+    /// `DEV_DMA_COHERENT` attribute; no attribute or `DEV_DMA_NON_COHERENT` is non-coherent.
-+    #[inline]
-+    pub fn is_coherent(&self) -> bool {
-+        self.0 == bindings::dev_dma_attr_DEV_DMA_COHERENT
+             let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, Ok(()))?;
+ 
+             let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
+@@ -162,6 +170,7 @@ fn probe<'bound>(
+                 &unreg_dev,
+                 mmu.as_arc_borrow(),
+                 &gpu_info,
++                coherent,
+             )?;
+ 
+             firmware.boot()?;
+@@ -187,6 +196,7 @@ fn probe<'bound>(
+                         }),
+                         iomem,
+                         gpu_info,
++                        coherent,
+                     }),
+                 )},
+                 _: { dev_dbg!(pdev, "Tyr initialized correctly.") },
+diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+index 9ffb42f0d8851..d4d6a6742b2e1 100644
+--- a/drivers/gpu/drm/tyr/file.rs
++++ b/drivers/gpu/drm/tyr/file.rs
+@@ -113,6 +113,7 @@ pub(crate) fn vm_create(
+                 pfile.reg.mmu.as_arc_borrow(),
+                 &pfile.reg.gpu_info,
+                 UserVaRequest::from_uapi(vmcreate.user_va_range),
++                pfile.reg.coherent,
+             )?;
+             let user_va_range = vm.layout.user.end;
+             let id = pfile.vm_pool.add(vm).map_err(|e| {
+@@ -253,7 +254,7 @@ pub(crate) fn vm_get_state(
+ 
+     pub(crate) fn bo_create(
+         ddev: &TyrDrmDevice<Registered>,
+-        _reg_data: &TyrDrmRegistrationData<'_>,
++        reg_data: &TyrDrmRegistrationData<'_>,
+         bocreate: &mut uapi::drm_panthor_bo_create,
+         file: &TyrDrmFile,
+     ) -> Result<u32> {
+@@ -284,7 +285,7 @@ pub(crate) fn bo_create(
+             );
+             EINVAL
+         })?;
+-        let bo = crate::gem::new_object(ddev, size, bocreate.flags)?;
++        let bo = crate::gem::new_object(ddev, size, bocreate.flags, reg_data.coherent)?;
+         bocreate.handle = bo.create_handle(file)?;
+         bocreate.size = bo.size() as u64;
+ 
+diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
+index 81e8103368bc2..b24560ae10a4e 100644
+--- a/drivers/gpu/drm/tyr/fw.rs
++++ b/drivers/gpu/drm/tyr/fw.rs
+@@ -217,8 +217,9 @@ pub(crate) fn new(
+         ddev: &TyrDrmDevice,
+         mmu: ArcBorrow<'_, Mmu<'drm>>,
+         gpu_info: &GpuInfo,
++        coherent: bool,
+     ) -> Result<Firmware<'drm>> {
+-        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
++        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info, coherent)?;
+         vm.activate()?;
+ 
+         let sections = (|| -> Result<KVec<Section<'drm>>> {
+@@ -235,6 +236,7 @@ pub(crate) fn new(
+                     size,
+                     KernelBoVaAlloc::Explicit(va),
+                     parsed.vm_map_flags,
++                    coherent,
+                 )?;
+ 
+                 let section_start = parsed.data_range.start as usize;
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 14f3e182b98e2..fad0720ce7123 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -63,19 +63,35 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
+ /// Type alias for Tyr GEM buffer objects.
+ pub(crate) type Bo = gem::shmem::Object<BoData>;
+ 
++/// Returns whether a BO should be mapped write-combine given the device's
++/// DMA coherence.
++pub(crate) fn should_map_wc(coherent: bool) -> bool {
++    if coherent {
++        return false;
 +    }
++
++    true
 +}
 +
-+impl Device<Bound> {
-+    /// Returns the DMA attribute of the device as reported by firmware.
-+    #[inline]
-+    pub fn dma_attr(&self) -> DmaAttr {
-+        // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer
-+        // to a `struct device`.
-+        unsafe { DmaAttr(bindings::device_get_dma_attr(self.as_raw())) }
-+    }
-+}
-+
- impl<Ctx: DeviceContext> Device<Ctx> {
-     /// Obtain the raw `struct device *`.
-     pub(crate) fn as_raw(&self) -> *mut bindings::device {
+ /// Create a new GEM buffer object.
+-pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
++pub(crate) fn new_object(
++    ddev: &TyrDrmDevice,
++    size: usize,
++    flags: u32,
++    coherent: bool,
++) -> Result<ARef<Bo>> {
+     if size == 0 {
+         return Err(EINVAL);
+     }
+ 
+     let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
+ 
++    let map_wc = should_map_wc(coherent);
+     let bo = Bo::new(
+         ddev,
+         aligned_size,
+         shmem::ObjectConfig {
+-            map_wc: true,
++            map_wc,
+             parent_resv_obj: None,
+         },
+         BoCreateArgs { flags },
+@@ -94,18 +110,17 @@ pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>>
+ }
+ 
+ /// Creates a dummy GEM object to serve as the root of a GPUVM.
+-pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice) -> Result<ARef<Bo>> {
+-    let bo = Bo::new(
++pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice, coherent: bool) -> Result<ARef<Bo>> {
++    // FIXME: use a Rust resv-object abstraction once available, rather than a real BO.
++    Bo::new(
+         ddev,
+         4096,
+         shmem::ObjectConfig {
+-            map_wc: true,
++            map_wc: should_map_wc(coherent),
+             parent_resv_obj: None,
+         },
+         BoCreateArgs { flags: 0 },
+-    )?;
+-
+-    Ok(bo)
++    )
+ }
+ 
+ /// Specifies how to choose a GPU virtual address for a [`KernelBo`].
+@@ -143,6 +158,7 @@ pub(crate) fn new(
+         size: u64,
+         va_alloc: KernelBoVaAlloc,
+         flags: VmMapFlags,
++        coherent: bool,
+     ) -> Result<Self> {
+         if size == 0 {
+             dev_err!(vm.dev(), "Cannot create KernelBo with size 0");
+@@ -158,7 +174,7 @@ pub(crate) fn new(
+             ddev,
+             bo_size,
+             shmem::ObjectConfig {
+-                map_wc: true,
++                map_wc: should_map_wc(coherent),
+                 parent_resv_obj: None,
+             },
+             BoCreateArgs { flags: 0 },
+diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
+index 597e35f864f64..576b2123a08ae 100644
+--- a/drivers/gpu/drm/tyr/vm.rs
++++ b/drivers/gpu/drm/tyr/vm.rs
+@@ -474,13 +474,14 @@ pub(crate) fn new_for_fw(
+         ddev: &TyrDrmDevice,
+         mmu: ArcBorrow<'_, Mmu<'drm>>,
+         gpu_info: &GpuInfo,
++        coherent: bool,
+     ) -> Result<Arc<Vm<'drm>>> {
+         // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
+         let layout = VmLayout {
+             full: 0..u64::SZ_4G,
+             user: 0..0u64,
+         };
+-        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
++        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
+     }
+ 
+     /// Creates a user VM, splitting the GPU VA range per `user_va`.
+@@ -490,6 +491,7 @@ pub(crate) fn new_for_user(
+         mmu: ArcBorrow<'_, Mmu<'drm>>,
+         gpu_info: &GpuInfo,
+         user_va: UserVaRequest,
++        coherent: bool,
+     ) -> Result<Arc<Vm<'drm>>> {
+         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
+         let va_bits = mmu_features.va_bits().get();
+@@ -503,7 +505,7 @@ pub(crate) fn new_for_user(
+                 range.end
+             );
+         })?;
+-        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
++        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
+     }
+ 
+     /// Initializes a VM with the given layout.
+@@ -513,6 +515,7 @@ fn new_internal(
+         mmu: ArcBorrow<'_, Mmu<'drm>>,
+         gpu_info: &GpuInfo,
+         layout: VmLayout,
++        coherent: bool,
+     ) -> Result<Arc<Vm<'drm>>> {
+         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
+         let va_bits = mmu_features.va_bits().get();
+@@ -521,7 +524,7 @@ fn new_internal(
+         let reserve_range = 0..0u64;
+ 
+         // dummy_obj is used to initialize the GPUVM tree.
+-        let dummy_obj = gem::new_dummy_object(ddev).inspect_err(|e| {
++        let dummy_obj = gem::new_dummy_object(ddev, coherent).inspect_err(|e| {
+             dev_err!(dev, "Failed to create dummy GEM object: {:?}", e);
+         })?;
+ 
 
 -- 
 2.43.0
