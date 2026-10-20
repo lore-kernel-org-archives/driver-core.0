@@ -1,79 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792503615;
-	b=d7RFhotJx4Abz0F9nDjJIfvMZ9EcBxEnSBDmx2xUMttVOStxsf9OPQgOcT6+0UJPDo7U
-	 eEeDIk9uXc8UHYM6ID5AO7I2d0A0/0oRrO+ceKOZD7tPbe7k07Pd2HdIJV5Vo4UG+RBhB
-	 K68hb0syyFgjHIJ2tePFFAyI27tITjZyMDcVa560i/8855RuSuX5ze/nO2bLIzU+/OQSj
-	 vV5lvRnpBP8vfZ8UJ24SmJ2Vrl+JcDhxraTcD2JZcFf3bcHaGklSteGR3uarqoE7KVfoD
-	 gJvpWpPgYaPq+xz0pq1bWVvGB84+xUy0eZ5yOveKCSjE44k3lBL18pWgSDmxFQtcOaw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792503615;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=/+1PRSJWz9UU0CVbMpRr0MzVYgDmR8xZi9xGlTnYR6c=;
-	b=vp93Kf0HAhVFiwf+9+fE7qrq1bbeO6r4WQcl1TvLIpcptDQgMJi+i7shgjrUpGNrIeQA
-	 rF21TP7o3g6xcKKmy/8cfn/EmyGus1ms4q7NZIMcJeVbIa/XmmSNXL+Fx2F9bDVygU8On
-	 zJg0IONuTXQG5uFls4U9Z9IAnFzvP+XQjaTRURigOPfLcZhMMNwAlpp4xkMKKoRrOJ3Vt
-	 36dzHhDhc+H9u7aX/T6VjtxX1u+jaNXGDVqsanY6FmFPhHYonR9C29VWWkuM5ANEBWWt3
-	 sNsmtDrSdIxzZMoD5mTMtlgX0B0prspvLpXnF6/bTlrp6EZhjcyMefgHGYBwF0sPaNw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q0iFOR9I;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1CF606A330;
-	Tue, 20 Oct 2026 13:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q0iFOR9I
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792503614;
-	b=0SCcA9fUncQ7+aJsdHjbERHg/x52F1zUEbIaNZ62r8yDj4QDC+imsCMWJs70YMmEIA1B
-	 jdA5bKR7mpVj89WbY/oPf9dQ696tkaEb6OdzfJljuZQYPXicCPVFD/byYnSOxcBL8pyKr
-	 Vt7lU46TWfkY9DWb2kHTsqoEH70athr96KuI2f7abGJ3OzSf79R2v3EjOYAN5wQpTjijf
-	 4sd/PZVsIHbJsSusxuNR6pYccia+pr/dFtJIUm8SlU5tEKDk/GE9s5iQgkx9FxSN7Ga6z
-	 /PEsLCDaMu4oE1Xb58LqAaT44pOZ/6BHGpKTIOc4jEaMnUMeyOGLft2i2SIoT1zyyBQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792503614;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=/+1PRSJWz9UU0CVbMpRr0MzVYgDmR8xZi9xGlTnYR6c=;
-	b=GG8uwL9/ITrQt9pMr/t7Dhu5Nreu1qrRUTxJMNTJRTuw4M1j6HCzYc1zH6Bf4imP3rPy
-	 CMuCWdqnLB+IuLfPHtqpzKofxCIss/GN9UNpyt9jUd3xFhVbUB6Q9zRJRr6qwOkUyct8u
-	 ABDvkT70XUKWCgbNVx5wt3V9pSbrIGCQe+0rBal1rdL/D1Cuk8hYt/oB2gNUrmDPyEwvc
-	 fmtiJlHBsCA17L7AlJWtxGHh1uFazcQFSgdLz+VJnLke5Cikckz1aaEuEslB/vIisxi2E
-	 RktPxFlFBHw6o8JeSaGogUqtmGfQ43rrvCCBDQd218LIQmSa28zoKh2Qvs687N5nwMw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792504915;
+	b=P4CGBRk3OkW13Lz/x6l774lh7eiFHvafTA21fo/KR0oHx79jjRqoOmODd8HIeqLVUvur
+	 jQunu+fzEzlX0/7m5yCy2KJ2E//kvG4bZJtUREkGus1mMpdP+fuO7d7ofd2YzdPV+9Yvu
+	 yMQ3EL4zvlS8Im0hb3IV3q5fWVs5N+ATUTogl/NoxCrZRs7OrcRc/jScmjQTfS37xdFgo
+	 QhUUBEqWqNmoIqcRSkhZTb9qNBBDs1SAKkslog3OZHBiGx8JGpy+GT4MoMezWc4S1ePm4
+	 k3SlCAlf3xGh7m41x2Hprdh5Gf5oMcTvQMsHaZ11pa4s+cHNqwshFQQ51Qqlafh/+fA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792504915;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=4WqTnmYwNtZuc8yE6m3Wj6x4W67f77rHRf4agpevk0c=;
+	b=oYmw5hoUcUGjn0I946J68CxhCAkZAD+RMmYCQ78VNg31diIGWjJDqr2vjDzeHGGm/bP+
+	 8RpjIOjBHjdxHZzz8kfFiw3pPQq1zuehlZXhSgAI8uV/r6fRIIoa4RhL2ICjf3AsWUiG3
+	 MrESZ/JDIK1lY3QTMEEafAiezAk0tguv4qJXAvF/ZQFkV+I8ZhZYhCZYR+S6YzktqE30F
+	 UpMqQl+Pghw8/HLVWgh170yZeEOpc2TvkKkD4PEemTKiDFFLNgWaTqpnTbXgDYvnQceFh
+	 wIJ/lBfUqrBxb9TharsX+4g8JrwIAqWEv/A0/NVG1N2Ob+91+sXES3FXuyZGX5nCzrw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EhcexnK8;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 46F8C1F000C8;
-	Tue, 20 Oct 2026 13:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792503614;
-	bh=/+1PRSJWz9UU0CVbMpRr0MzVYgDmR8xZi9xGlTnYR6c=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=Q0iFOR9IRQCGBOR1z/zZ91xoWL4Pq+1En/D6Q1sZIMbf5dkAXp/iQ1+2NtBomJYyi
-	 TGFJXi2ZHxl6n+xmtFsZpl1yNtF5VJA587woPQI7zBp1D1ely2Vk+yk97pYa81uaGl
-	 Q9/nfC1e3mgkURS967NWrjXd7hQaDHCnHtx2ygeX6ttYy/UzNE394cqwBrjMOHylY4
-	 JCLqmoC7tL+Wppg4Z/VwTH//CNLUdOkJLvpS8M0OPAILliyVGQB5BQ4zzUN71/NSVH
-	 wEXFbEN3EndvWksHPa5ijq85br1aWS7li722CnkGUrietbqmR5bn6ik9H9dVGYXTEJ
-	 WNypq5RfmAzWQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9C6364319D;
-	Tue, 20 Oct 2026 13:40:13 +0000 (UTC)
-From: Qinguang Xu via B4 Relay <devnull+guang.cy2023.gmail.com@kernel.org>
-Date: Tue, 20 Oct 2026 21:39:06 +0800
-Subject: [PATCH] regmap: irq: fix incorrect index calculation for
- read_sub_irq_data()
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8181D606A319
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 14:01:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8181D606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=EhcexnK8
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a021c809e3so27706385e9.0
+        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 07:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792504912; x=1793109712; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4WqTnmYwNtZuc8yE6m3Wj6x4W67f77rHRf4agpevk0c=;
+        b=EhcexnK8RpmUuU/AgdLxxa7/6yimjLukN8ZchMsoHIBzPRPUYuz7VvDKDihK8gsTFm
+         Rf39T7bmwWfMob2TyMPv6XoTwrrH+YEnqy1lo0iLObdmQE/deL3NXyIy0+S2ilDi/5g2
+         OrfYN34LqJCfGWHwa7hLG+wyWxaqwu93chaWloLy2xpUL/rYMWsUayJAdgTOcmFHl5E8
+         ZNjKRLM5up+1v5qK2oGrIGDs9PKb0FK9agjVrh464LVWMVU1NPmg02vF3YZ71/b8+lwW
+         9BghtTaL+r5p5WRTMPOPuu/8FavbkyNw6KuB2varu2qe8kT8fEUwRha6Ky2fz5uOqcw/
+         N7wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792504912; x=1793109712;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4WqTnmYwNtZuc8yE6m3Wj6x4W67f77rHRf4agpevk0c=;
+        b=nd1MpZsyMiZvQ79FapghMEsvpzVRGic1vVRQqaoESLTkTNfkUS608SMu1G78wE3NNG
+         Sfx/MvnbGtg8tieF2QthRmwMrHxWLNRj8eYjI1IFJBq2Ke/sE3iswj3fcu7jvhJmh/FO
+         F4BpZTmmQeXKRecl1yRfjzU+3L2xSCkDv+njeTbL7aosrByfWyPrf8qFGM3cs6HomF7k
+         kwtBycFro1xt72z/np22Pu/vIFTuwlgyLygkh8rGY0B30LkWwE6zFO48PuCbtphS+mLJ
+         jOSKvPoKARE09r2DSoPEaVZvlgENYJgmhKyoqMhhH3I7r1Pem0WXI6vrrMiyt+R7BSE2
+         FgZg==
+X-Forwarded-Encrypted: i=1; AKwUvByJQfP20m/sE0L6sCU7a8EDtagOnJF+pfzlqeKbG2zPau2Nf5gX+4Y90E+HVNuTXc2VgqMRrkESvUBQIw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKBG4NXBWK0ZK2w/JSTrdyoo0yeXDbRDnSKrHizSuyZDkvWdxMg
+	xCMj+nmuKY5j7KL6h0sD+GZs9HxY4O0byi3C1slTFtUTDhvDDNNf5uaD
+X-Gm-Gg: AYBFou3zhiRHTM3Uy7XB+ydEQy9bjm2BiFdbc6lAzDljUjpKn1rLYHOH6YUyQXTqllw
+	K9FoXVTqVbMiZZ11wj2ikYp1ESBEO+pY8/KUp4E5WgRdfp9aOyv/tS6PmkeW57WB8GRALvhpKrM
+	ql5RnjimrjG8BlJMwFVuGzRifsTN0TGyYfoHs+EzqoxGT/9aaziNpeGqiCOwHgGnYXcMtorbyaY
+	3LqpJGUuB1RzicFBalGgm6zQNoeq4K+pnVkBByox/fU1mbH8tTrSqfa3capamkoYXFMCGUTLrrT
+	qCbk+xOfpl5KHNSxPBmcNRZFQgpy7S450/vdS4ycQ7D+IA9oYfKl3ICMYqG2q3iDZWCDzLIEHOn
+	MFHx/061CJfaLrw+1bmO5e4UqP2EMlXwDV0moblvnfm5OVAwfh3pdV7izSv9a8U6RPsc8N5OPcu
+	pWVChiveKmYilBZFhNuEhPaqURULkqKjFxBazIn+4tW6fUUKoCWmBMygeaWkVhAvLxQ3kgCywvs
+	B7QGbqr1jCsuu67JTBDnN7GHzLj4MsXy6e3/tuYkleZRkG2vk8wDQM3Tz8=
+X-Received: by 2002:a05:600c:4f95:b0:4a1:7bae:d80a with SMTP id 5b1f17b1804b1-4a1d75e3c9amr244362825e9.9.1792504911471;
+        Tue, 20 Oct 2026 07:01:51 -0700 (PDT)
+Received: from C422HJQPQG-Fractile ([150.251.170.8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d324f8sm67581075e9.6.2026.10.20.07.01.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 07:01:50 -0700 (PDT)
+Date: Tue, 20 Oct 2026 15:01:46 +0100
+From: "Vishal Moola (Fractile)" <vishal.moola@gmail.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?iso-8859-1?Q?Wilczy=B4nski?= <kwilczynski@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/7] rust: io: split IoCapable into IoReadable and
+ IoWritable
+Message-ID: <atd0SnEL1ZLXHxVU@C422HJQPQG-Fractile>
+References: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
+ <20261015-io-access-modes-v1-1-93611b84b5e3@collabora.com>
+ <DM9NGD5R8AP9.C4K59HIUYFDQ@garyguo.net>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -83,79 +114,50 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261020-debug-v1-1-44e0491ede30@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDAyMD3ZTUpNJ0XbOk1FRTUzNji0RLQyWg2oKi1LTMCrA50bG1tQDoIvy
- tVwAAAA==
-X-Change-ID: 20261020-debug-6bee55638a91
-To: Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Qinguang Xu <guang.cy2023@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792503607; l=1610;
- i=guang.cy2023@gmail.com; s=20261020; h=from:subject:message-id;
- bh=h/epT8PozJJSzYsR6YyQpeY/N08qpMA03/LtijdFBKU=;
- b=N/3MqOgQb9WGXlYuHe3je8J4Nun33kI8SPFWObRtxpeLnhwe3lVID8RzhMAkBE2xMpMPmjwY0
- +G1DTk/TrnLA+3Sh2SUuBPUsvq3JsrUCZGewiDRcoSd7gw1cr4bwnSy
-X-Developer-Key: i=guang.cy2023@gmail.com; a=ed25519;
- pk=nBIKvk/kltcVDBLn+o4Bv1W0xE/m2VgIByF+uxYTYzk=
-X-Endpoint-Received: by B4 Relay for guang.cy2023@gmail.com/20261020 with
- auth_id=1248
-X-Original-From: Qinguang Xu <guang.cy2023@gmail.com>
-Reply-To: guang.cy2023@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM9NGD5R8AP9.C4K59HIUYFDQ@garyguo.net>
 
-From: Qinguang Xu <guang.cy2023@gmail.com>
+On Tue, Oct 20, 2026 at 01:04:03PM +0100, Gary Guo wrote:
+> On Thu Oct 15, 2026 at 1:39 PM BST, Daniel Almeida wrote:
+> > `IoCapable<T>` provides both `io_read` and `io_write`, so a backend that
+> > supports accesses of type `T` supports them in both directions, and every
+> > (non-copy) `Io` method that reads or writes a value requires both. There
+> > is no way to express a backend, or a view, that can only be read or only
+> > be written.
+> >
+> > Thus, replace `IoCapable<T>` with an `IoReadable<T>` trait holding
+> > `io_read` and an `IoWritable<T>` trait holding `io_write`, and implement
+> > both for all existing backends. The non-copy `Io` methods that read a
+> > value now require `IoReadable` and those that write one require
+> > `IoWritable`. `update` and `try_update` read and then write, so they
+> > require both.
+> >
+> > The copy methods use `IoCopyable` and are not changed here.
+> >
+> > No functional change intended. This prepares for read-only and write-only
+> > views, added in a following patch.
+> 
+> I think by Rust convention these should be named `IoRead`/`IoWrite`, but we've
+> aleady named this `IoCapable` and I further made the mistake of adding
+> `IoCopyable`...
+> 
+> So I guess I'm not in a good position to ask for name change, but we should
+> consider it. Apart from the name:
 
-While working on a PMIC driver that utilizes num_main_regs > 1, this
-issue was noticed. Currently, no in-tree driver sets `num_main_regs >
-1`, so this bug has not been triggered in practice.
+IMO the -able part is quite important. As a reader, seeing `IoRead`/`IoWrite`
+doesn't tell me enough about what they actually mean on their own.
 
-Pass the global index calculated with `i` instead of the local bit
-offset `b` to read_sub_irq_data().
-
-Fix an off-by-one error in the index bounds check.
-
-This patch has been compile-tested only.
-
-Signed-off-by: Qinguang Xu <guang.cy2023@gmail.com>
----
- drivers/base/regmap/regmap-irq.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
-index 99b55b105..e151c6222 100644
---- a/drivers/base/regmap/regmap-irq.c
-+++ b/drivers/base/regmap/regmap-irq.c
-@@ -398,14 +398,14 @@ static int read_irq_data(struct regmap_irq_chip_data *data)
- 
- 		/* Read sub registers with active IRQs */
- 		for (i = 0; i < chip->num_main_regs; i++) {
--			unsigned int b;
-+			unsigned int b, index;
- 			const unsigned long mreg = data->main_status_buf[i];
- 
- 			for_each_set_bit(b, &mreg, map->format.val_bytes * 8) {
--				if (i * map->format.val_bytes * 8 + b >
--				    max_main_bits)
-+				index = i * map->format.val_bytes * 8 + b;
-+				if (index >= max_main_bits)
- 					break;
--				ret = read_sub_irq_data(data, b);
-+				ret = read_sub_irq_data(data, index);
- 
- 				if (ret != 0) {
- 					dev_err(map->dev, "Failed to read IRQ status %d\n", ret);
-
----
-base-commit: 4056b3c9d3c92ea45955641dbafeb9b960e146ef
-change-id: 20261020-debug-6bee55638a91
-
-Best regards,
--- 
-Qinguang Xu <guang.cy2023@gmail.com>
-
-
+> Reviewed-by: Gary Guo <gary@garyguo.net>
+> 
+> Best,
+> Gary
+> 
+> >
+> > Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> > ---
+> >  rust/kernel/dma.rs    |  12 ++++--
+> >  rust/kernel/io.rs     | 101 +++++++++++++++++++++++++++++---------------------
+> >  rust/kernel/pci/io.rs |  10 +++--
+> >  3 files changed, 75 insertions(+), 48 deletions(-)
+> 
