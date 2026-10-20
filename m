@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792485256;
-	b=Ek95mYjTA886OXlb6rQoWYWSLxIW9AQlIYvSw1NWhdUoEMJO5fhQgNpyvT2tSRMMPovM
-	 UwIuatuFqykvLXZGEiD/9ejmqguEXoJhp4ILyPLduq/rM328uKo+1fApEldfOLd9RT5CJ
-	 ZpDGFA7NbvVTxEeYn34DyBRGDC52VEkN+CCWfnFkrQ1maW/HbWk5MVgrLCorDpFmklnH2
-	 qGQjZr4l7m+QU3sh5jUu6XJAKdsmupMTw3uwzgIGeVH8cQ2RPyUrEboCdAp1bXnubhGFT
-	 ivyqdgqJ6/5RILS1VFFq4ZPfPNn00XVaWTSFo2llzcp711YvBv/InwkqH6pXE6hqnkw==
+	t=1792485766;
+	b=hzz8E1+BFh2U43FIUUiZP3hgaUrudsMG45gqCoYT2jXOs1y6ncIfNVYYQFVxI1IdtTqW
+	 I2OflpFg/YEA3VPhHC7/l2H7Z8jb6zgEgczDgZdI8q5JWw8Of0U7zaud6SOp62KfCEG+H
+	 PMTnEf8q2xsjRBE3AkjoQKfWJH71+PNJNeQjWivR5jap1Fjo0UaP5OBNPfUxKoamJAknC
+	 B4YJSNl372GgCh6SWGu8G8vWhSkGD/M/NZFS/kPY6cPjoZsDVYygm6+as2CLsgG9JPbaC
+	 yNB9jIq53EyB/l44ay7BHTAAfgAUZ0LxDZFXq9YDZ4yDjDsK0np2p8nSv3eu7UkHZMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792485256;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792485766;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
 	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=vBKNWH+6fXgb7uSlyDkZ/sbNDxzLeASFOGVrmanI1ag=;
-	b=uJ81X4keCx5TEN/YTunuWlyHkzcUALJMQgMyYVqBXBZrI0MwrlF9QsqhaOhB+Og/uFVY
-	 P5I6m7Xub0zM69bV/aENDpSMjVbei3vOuJL9gLsR/dtUZ/C7ifJW3yd/iLO9MmY3Xt5RL
-	 ExV9AhYzLtd/ICWUYYAbY/6EE+AW6cIvdPTo7Cri4uzPQjQe0lctcmtZHsl2W0qGQI5Wd
-	 L+2pDX7TvY4szxO5W19Ed0cUyRuH77ToEM+uel/JDtaqQx+RQFsJXXUCTIJPloZAKZVGS
-	 v3EYZjIPVge9qj/bZ0GL2CjjBF/bRlHijqK4gEQx8AkTIRTDGPKcwyWsgMS1SUgqMZw==
+	bh=eRsANuJnPqOE4Wj3tiehoMvQqcYK+mSj3Cw9/PCh2hs=;
+	b=dWGGjOH3JioLmw7+13vd827EatqXlE5w11x/k7nPI07VHSpenQaxp9ym60pc6edr0Gea
+	 94kUtMjzOqhxaCMrDnBETAVqYqNG1HX07ENqljn4X9GTtWyk93ZDIeBm+68EXFqYBeUNC
+	 zajuwW4QcYEDJXC3VeXDDgFKk7NJjcSLRakwnKE5UKHuYZ/Rm13htnYLDrGLLGsO9+kAX
+	 ujiv/J26XEhOs1jXP9q+vLbFdSZp1GwixC0NkzHGfLnemb7uavkMoOdv8eSM/860ptZnI
+	 Adugju7MmXw0dmCsiymR0pan2Zjwa3Y0sGRs6CInHTHS8ej92oh7iE2t8x8I9ilP2+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Kk+jgumG;
-	arc=none smtp.remote-ip=113.46.200.225
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=025hmGKr;
+	arc=none smtp.remote-ip=113.46.200.220
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB0D606A31C;
-	Tue, 20 Oct 2026 08:34:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FB0D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDC606A31C;
+	Tue, 20 Oct 2026 08:42:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8DDC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Kk+jgumG
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=025hmGKr
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=vBKNWH+6fXgb7uSlyDkZ/sbNDxzLeASFOGVrmanI1ag=;
-	b=Kk+jgumG+pv7XnaPZDeeAU8MQ3LXTfm6oVnCbW8jazUZnqZ/ORtrC7JgFvxdnO+cDQzOI4t2U
-	7vALOi9vHSSqoltGoZVUZISYSqkFZA0i7RhDVImMBjBBYnv3lpqm+y9AiV7PJ3swzXlcKzvnvXx
-	8keUXFd5fYMskZHOl9KyGJI=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4j85L156ycz1K9Xh;
-	Tue, 20 Oct 2026 16:34:01 +0800 (CST)
+	bh=eRsANuJnPqOE4Wj3tiehoMvQqcYK+mSj3Cw9/PCh2hs=;
+	b=025hmGKrN+QZiKfKk4CvMhbfukHdUUN7geXfiPjgluCJuZBPjCIfgCpEh2Alr5rnWzL2ZnYwN
+	zP1/fkmrTQRQoHpYGCTWembsgsp2yHLnATyrHv5q15C53+q27QslhyGi1JB1NO1j8V6Bpm2++av
+	+isRXcbNUthqnmgDVVXQsnk=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4j85X13M1lz12LHp;
+	Tue, 20 Oct 2026 16:42:41 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0A9C04048B;
-	Tue, 20 Oct 2026 16:34:05 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id D1DE940575;
+	Tue, 20 Oct 2026 16:42:40 +0800 (CST)
 Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 20 Oct
- 2026 16:34:02 +0800
-Message-ID: <d7dc6528-4ec8-46d0-b21e-8a4c38edd4ce@huawei.com>
-Date: Tue, 20 Oct 2026 16:34:02 +0800
+ 2026 16:42:38 +0800
+Message-ID: <5c3ba82b-606b-4dd1-b265-4b567c646895@huawei.com>
+Date: Tue, 20 Oct 2026 16:42:37 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -114,14 +114,11 @@ X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
 > That's true, but since commit 751c263bb74f ("arm64: remove TEXT_OFFSET
 > randomization") TEXT_OFFSET is always zero. This is upstream from v5.8,
 > so no LTS kernels has non-zero TEST_OFFSET.
-
-Yes, My concern is what if the kdump kernel is an old one without this
-patch?
-
-Should we just add a WARN_ON_ONCE(text_offset != 0); here?
-
 > 
 > Maybe we should rather start deprecating .text_offset in arm64?
+
+I completely agree. This will save us from a lot of unnecessary changes.
+
 > 
 
 -- 
