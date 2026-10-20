@@ -1,78 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792484749;
-	b=idHU+xMWoC/c7mhiAw+q2ouweTnLh1dPGqbVL3Sj4cegtpBg7j5jHHP3upC74E8rAW7D
-	 igElF+c+rWRSRNk5nUX/y2rXkxzF6nSWf2kSnyx8c8ZTEyl3JqZO3Dk5eZnlaYTxA+Fii
-	 ppKMLLiTqylT7Gn8/rA7PR5jIyMcAbGUaeL9NMns7e9QNKbnpWy+1ygUalCbvDMRhXZut
-	 TiqWtltYv1s6TRhWtRtiXyT7TwBFmgHLD9J9F7nifOtpKzyH19MkEEg+rH1JyEZ4HCqRV
-	 14jTIbGld0sNWa6VFsoLFPE6kNMpJQIXl2yVic2+OA9cE/kgQpDmoJ1v40Fcr4T1fYw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792484749;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=S9o/MkU5MLlh8zpGuisq23yMQuzKyDuunYnnESbkWk8=;
-	b=ZftaHUlXvYpKLHeWy5XUUt3TQwsy2NLzqoDBeS+fbRheWlK62+mxCnnWFCjtlAzwtmOS
-	 4ghZrOawIQMMyKr72P5mgaF/5jXEuamcNv3Ac6IpBUCh5BwM8pcI/Q3JWUMqoy6syttnF
-	 QiHy8e5MsuXv+Fv3wuPiQc+yEr2OMwO0ntpsGEmJ8j5DAe6PwJW/Z4zyUb4vfYSEISMVe
-	 FWaFFaQ8iKEJNPi9ghKMTGNtRh7xfF/JtiMWDxwk+C/CxfyYv4Va2qYEiXpKYb+P/3NNN
-	 /t0GCxZfKfyzf1cHBHyWk4hc/3SI/NfcKp6XdXiZC1jw6xrOAp1t/px7NWtFFjk7Ntw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="a8hUwQ/3";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A7C60A2604;
-	Tue, 20 Oct 2026 08:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a8hUwQ/3
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792484749;
-	b=nJeN0lRc1Eg5772KNbgjGjVYEh9HEBFqLq59sK5f4sRruMTiSJUUyf7+CqFrIM5CjhCg
-	 nTgxrQwO++E1wncvAYzwOb1J3EuOLkI2bUk7n3C1C5xiRMM/3FUOBlFgaQqFXn6ltDRFR
-	 isJZ7kbm+p4D2n4FheQNwcmD73Z7DyaQrjlk7FEw1oksqnUxKbcGFSXqBln8MXJet5VFE
-	 fOGhN1OW2gxuhjrqTmE/aCaiugLt+pFMkH5fMlYLMcLXbZwwLV545FedG2un0nxTfMBkT
-	 fJC58WC390rayFCWMkB/zO20ZVuN2R0oOP+ymj6T1i7WBdMLFBvOjW4i04rqAfR9KQQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792484749;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=S9o/MkU5MLlh8zpGuisq23yMQuzKyDuunYnnESbkWk8=;
-	b=UFtTEjII4n9nRA6jUKoOZ6K+Bjxf9SHOSHE2sdpHVhjlLuGdgKHNkQyO8UTrZV7Y07Id
-	 EpnzqpnwkfAHswGNxVvvlnACpjqwhCxrc0/ldFGsNX5KJucE26RwrbVh0j2clJ0WBGkj6
-	 wVB3tf18K0nbr/A2PNII5HoyD91bx2zJnkV5Ivd9O/vCzg3Xln+bTdWm+ucibrCpF6oLN
-	 eSI9Ow1TiFBi2GOFrIIu3w4kgPvr16ri302Swfo1X4GzTmhRdHTBBVPEBdTlYmhV1ZVPa
-	 B/g5CiQeQYW2rQ/qBeqq+5A/MXy9jExruOcRVY9XPSFFrDVNiSiJHT1ng4Cvi9rOGrA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.225
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792485256;
+	b=Ek95mYjTA886OXlb6rQoWYWSLxIW9AQlIYvSw1NWhdUoEMJO5fhQgNpyvT2tSRMMPovM
+	 UwIuatuFqykvLXZGEiD/9ejmqguEXoJhp4ILyPLduq/rM328uKo+1fApEldfOLd9RT5CJ
+	 ZpDGFA7NbvVTxEeYn34DyBRGDC52VEkN+CCWfnFkrQ1maW/HbWk5MVgrLCorDpFmklnH2
+	 qGQjZr4l7m+QU3sh5jUu6XJAKdsmupMTw3uwzgIGeVH8cQ2RPyUrEboCdAp1bXnubhGFT
+	 ivyqdgqJ6/5RILS1VFFq4ZPfPNn00XVaWTSFo2llzcp711YvBv/InwkqH6pXE6hqnkw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792485256;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=vBKNWH+6fXgb7uSlyDkZ/sbNDxzLeASFOGVrmanI1ag=;
+	b=uJ81X4keCx5TEN/YTunuWlyHkzcUALJMQgMyYVqBXBZrI0MwrlF9QsqhaOhB+Og/uFVY
+	 P5I6m7Xub0zM69bV/aENDpSMjVbei3vOuJL9gLsR/dtUZ/C7ifJW3yd/iLO9MmY3Xt5RL
+	 ExV9AhYzLtd/ICWUYYAbY/6EE+AW6cIvdPTo7Cri4uzPQjQe0lctcmtZHsl2W0qGQI5Wd
+	 L+2pDX7TvY4szxO5W19Ed0cUyRuH77ToEM+uel/JDtaqQx+RQFsJXXUCTIJPloZAKZVGS
+	 v3EYZjIPVge9qj/bZ0GL2CjjBF/bRlHijqK4gEQx8AkTIRTDGPKcwyWsgMS1SUgqMZw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Kk+jgumG;
+	arc=none smtp.remote-ip=113.46.200.225
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 71DA51F000CB;
-	Tue, 20 Oct 2026 08:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792484749;
-	bh=S9o/MkU5MLlh8zpGuisq23yMQuzKyDuunYnnESbkWk8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=a8hUwQ/3kvgHdj/FAqwBQZpGKP+Y2KlVwlfAmjzGb4xYFwvaL3z5aTnnbOHs60fYh
-	 1Oku0iE/h8RvmnC0GkgnAeZVG5NdOmwCQ3MgtzDn2A4N93Nv0O2jikSAHO3Nh6k7Jk
-	 nXo+E2Iqy1vL0VIP8evJwLDFaZTpkKoJvK1JZkLuaGeL2VHJ2C2g/99m/nukNAYaaS
-	 0rniQZ4MbtxKsES4HxODv6OpQWKQDMQa5h4YXlyhVrXmCpkP3fuqqbsnZtaMroiP2g
-	 TnvVUt1sECRTq+OYgWGWiKrB2uc1+fSM8/O5WlxFDEizk5Xabzbppzacmqdtn6H5iv
-	 XMEZBHDJon5yA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C15F7430E1;
-	Tue, 20 Oct 2026 08:25:45 +0000 (UTC)
-From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Tue, 20 Oct 2026 16:25:22 +0800
-Subject: [PATCH v4 05/11] drm/tyr: add user and MCU VM specifications
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB0D606A31C;
+	Tue, 20 Oct 2026 08:34:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FB0D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Kk+jgumG
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=vBKNWH+6fXgb7uSlyDkZ/sbNDxzLeASFOGVrmanI1ag=;
+	b=Kk+jgumG+pv7XnaPZDeeAU8MQ3LXTfm6oVnCbW8jazUZnqZ/ORtrC7JgFvxdnO+cDQzOI4t2U
+	7vALOi9vHSSqoltGoZVUZISYSqkFZA0i7RhDVImMBjBBYnv3lpqm+y9AiV7PJ3swzXlcKzvnvXx
+	8keUXFd5fYMskZHOl9KyGJI=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4j85L156ycz1K9Xh;
+	Tue, 20 Oct 2026 16:34:01 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0A9C04048B;
+	Tue, 20 Oct 2026 16:34:05 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 20 Oct
+ 2026 16:34:02 +0800
+Message-ID: <d7dc6528-4ec8-46d0-b21e-8a4c38edd4ce@huawei.com>
+Date: Tue, 20 Oct 2026 16:34:02 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -82,356 +62,69 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261020-tyr-ioctls-v4-5-704de77da223@kylinos.cn>
-References: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
-In-Reply-To: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org, 
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org, 
- driver-core@lists.linux.dev, Ke Sun <sunke@kylinos.cn>, 
- linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792484721; l=10916;
- i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=gawdIs2Kzz9vZPukoRHj/fYocc/+sO8wHCAj1TnXMuM=;
- b=Zx5EcSvfglMc5/HaRNW6CmEyR2MmmATQ17snoxtfZ45mZGkmbpHVd5zonQgBKvBvMZ1f3NINT
- gnudFHAm1BxCWAaASksCXzNChPK0ojJySI9L2n0T0i6OaecbNMgAxsR
-X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
- pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
-X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
- auth_id=950
-X-Original-From: Ke Sun <sunke@kylinos.cn>
-Reply-To: sunke@kylinos.cn
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/14] kexec: Fix CMA segment address translation with
+ non-zero text_offset
+To: Mike Rapoport <rppt@kernel.org>
+CC: <catalin.marinas@arm.com>, <will@kernel.org>, <mark.rutland@arm.com>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <chleroy@kernel.org>,
+	<ritesh.list@gmail.com>, <sshegde@linux.ibm.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <akpm@linux-foundation.org>, <baoquan.he@linux.dev>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<leitao@debian.org>, <yeoreum.yun@arm.com>, <sourabhjain@linux.ibm.com>,
+	<robh@kernel.org>, <coxu@redhat.com>, <kees@kernel.org>,
+	<tangyouling@kylinos.cn>, <liukexin@kylinos.cn>, <zhangtianyang@loongson.cn>,
+	<guodongtai@kylinos.cn>, <maqianga@uniontech.com>, <chao.gao@intel.com>,
+	<kai.huang@intel.com>, <vishal.l.verma@intel.com>, <seanjc@google.com>,
+	<piliu@redhat.com>, <thuth@redhat.com>, <jbouron@amazon.com>,
+	<me@linux.beauty>, <mclapinski@google.com>, <graf@amazon.com>,
+	<bgwin@google.com>, <hbathini@linux.ibm.com>, <eric.devolder@oracle.com>,
+	<takahiro.akashi@linaro.org>, <james.morse@arm.com>, <palmer@rivosinc.com>,
+	<x86@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <driver-core@lists.linux.dev>,
+	<kexec@lists.infradead.org>
+References: <20260921090450.807575-1-ruanjinjie@huawei.com>
+ <20260921090450.807575-2-ruanjinjie@huawei.com>
+ <179248377975.302547.13172455257147735569.b4-review@b4>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <179248377975.302547.13172455257147735569.b4-review@b4>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-From: Alvin Sun <alvin.sun@linux.dev>
 
-The MCU and user VMs need different VA layouts. Give each a dedicated
-constructor: new_for_fw() builds the kernel-only 4G layout, while
-new_for_user() splits the address space by task_size or a user-provided
-size, rejecting oversized requests rather than clamping. The resulting
-user range is what VM_CREATE reports back as user_va_range.
 
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
----
- drivers/gpu/drm/tyr/fw.rs |  19 +++---
- drivers/gpu/drm/tyr/vm.rs | 159 +++++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 153 insertions(+), 25 deletions(-)
+在 2026/10/20 16:09, Mike Rapoport 写道:
+>> kimage_load_cma_segment() and kimage_map_segment() both translate
+>> a CMA segment using page_address(cma), which returns the CMA base
+>> address. This ignores segment->mem.
+>>
+>> On arm64, image_load() adds text_offset to segment->mem before the
+>> segment is loaded:
+>>
+>> 	kernel_segment->mem += text_offset;
+>> 	kernel_segment->memsz -= text_offset;
+>> 	image->start = kernel_segment->mem;
+> 
+> That's true, but since commit 751c263bb74f ("arm64: remove TEXT_OFFSET
+> randomization") TEXT_OFFSET is always zero. This is upstream from v5.8,
+> so no LTS kernels has non-zero TEST_OFFSET.
 
-diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-index aea151ff1f934..81e8103368bc2 100644
---- a/drivers/gpu/drm/tyr/fw.rs
-+++ b/drivers/gpu/drm/tyr/fw.rs
-@@ -51,7 +51,6 @@
-         KernelBoVaAlloc, //
-     },
-     gpu::GpuInfo,
--
-     mmu::Mmu,
-     regs::{
-         gpu_control::{
-@@ -219,10 +218,10 @@ pub(crate) fn new(
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-     ) -> Result<Firmware<'drm>> {
--        let vm = Vm::new(dev, ddev, mmu, gpu_info)?;
-+        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
-         vm.activate()?;
- 
--        let result = (|| {
-+        let sections = (|| -> Result<KVec<Section<'drm>>> {
-             let (fw, parsed_sections) = Self::load(dev, ddev, gpu_info)?;
-             let mut sections = KVec::new();
-             for parsed in parsed_sections {
-@@ -252,18 +251,18 @@ pub(crate) fn new(
-                 sections.push(Section { data, mem }, GFP_KERNEL)?;
-             }
- 
--            Ok(Firmware {
--                iomem,
--                vm: vm.clone(),
--                sections,
--            })
-+            Ok(sections)
-         })();
- 
--        if result.is_err() {
-+        if sections.is_err() {
-             vm.kill();
-         }
- 
--        result
-+        Ok(Firmware {
-+            iomem,
-+            vm,
-+            sections: sections?,
-+        })
-     }
- 
-     pub(crate) fn boot(&self) -> Result {
-diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-index 6935e4db667b9..adbf8edcd5c6f 100644
---- a/drivers/gpu/drm/tyr/vm.rs
-+++ b/drivers/gpu/drm/tyr/vm.rs
-@@ -8,6 +8,7 @@
- //! mapped into hardware address space (AS) slots for GPU execution.
- 
- use core::marker::PhantomData;
-+use core::num::NonZeroU64;
- use core::ops::Range;
- 
- use kernel::{
-@@ -44,6 +45,8 @@
-     new_mutex,
-     prelude::*,
-     sizes::{
-+        LargeSizeConstants,
-+        SizeConstants,
-         SZ_1G,
-         SZ_2M,
-         SZ_4K, //
-@@ -159,6 +162,92 @@ fn try_from(value: u32) -> Result<Self, Self::Error> {
-     }
- }
- 
-+/// User VA size request for a user VM.
-+pub(crate) enum UserVaRequest {
-+    /// Split based on `task_size()` and the GPU VA range.
-+    Auto,
-+    /// Caller-specified size; construction guarantees `> 0`.
-+    Fixed(NonZeroU64),
-+}
-+
-+impl UserVaRequest {
-+    /// UAPI boundary normalization: `0` -> [`Auto`](Self::Auto).
-+    #[expect(dead_code)]
-+    pub(crate) fn from_uapi(v: u64) -> Self {
-+        match NonZeroU64::new(v) {
-+            Some(size) => Self::Fixed(size),
-+            None => Self::Auto,
-+        }
-+    }
-+}
-+
-+/// Final user/kernel VA layout for a VM.
-+pub(crate) struct VmLayout {
-+    /// Full GPU VA range covered by this VM.
-+    pub(crate) full: Range<u64>,
-+    /// User-accessible VA range. Empty for MCU VMs.
-+    pub(crate) user: Range<u64>,
-+}
-+
-+impl VmLayout {
-+    /// Kernel VA range, reserved for future kernel object allocation.
-+    #[expect(dead_code)]
-+    pub(crate) fn kernel(&self) -> Range<u64> {
-+        self.user.end..self.full.end
-+    }
-+
-+    /// Compute a user/kernel split for a user VM from the full GPU VA range and
-+    /// a user request.
-+    pub(crate) fn compute(full: Range<u64>, req: UserVaRequest) -> Result<Self> {
-+        // Minimum VA space reserved for kernel objects (heaps, ring buffers, ...).
-+        const MIN_KERNEL_VA: u64 = u64::SZ_256M;
-+
-+        if full.end <= MIN_KERNEL_VA {
-+            return Err(EINVAL);
-+        }
-+
-+        let user_max = full.end - MIN_KERNEL_VA;
-+
-+        let user_end = match req {
-+            UserVaRequest::Fixed(v) => {
-+                let user_size = v.get();
-+                if user_size > user_max {
-+                    return Err(EINVAL);
-+                }
-+                user_size
-+            }
-+            UserVaRequest::Auto => {
-+                let task_size = current!().mm().map(|mm| mm.task_size());
-+                let candidate = match task_size {
-+                    // `task_size()` returns usize; widen to u64 for the comparison.
-+                    Some(t) if (t as u64) < full.end => t as u64,
-+                    None | Some(_) => {
-+                        // If the range exceeds 4G, split it in two so CPU and
-+                        // GPU share the same addresses (SVM).
-+                        if full.end > u64::SZ_4G {
-+                            full.end / 2
-+                        } else {
-+                            user_max
-+                        }
-+                    }
-+                };
-+                candidate.min(user_max)
-+            }
-+        };
-+
-+        let delta = full.end - user_end;
-+        // Pick a kernel VA range that's a power of two, to have a clear split.
-+        let kernel_va_range = 1u64 << delta.ilog2();
-+        let kernel_va_start = full.end - kernel_va_range;
-+        let full_start = full.start;
-+
-+        Ok(Self {
-+            full,
-+            user: full_start..kernel_va_start,
-+        })
-+    }
-+}
-+
- /// Arguments for a virtual memory map operation.
- struct VmMapArgs<'drm> {
-     /// Access permissions and caching behavior for the mapping.
-@@ -334,26 +423,64 @@ pub(crate) struct Vm<'drm> {
-     /// Non-core part of the GPUVM. Can be used for stuff that doesn't modify the
-     /// internal mapping tree, like GpuVm::obtain()
-     gpuvm: ARef<GpuVm<GpuVmData<'drm>>>,
--    /// VA range for this VM.
--    va_range: Range<u64>,
-+    /// VA layout for this VM.
-+    pub(crate) layout: VmLayout,
- }
- 
- impl<'drm> Vm<'drm> {
--    /// Creates a new GPU virtual address space.
-+    /// Creates the MCU/firmware VM.
-     ///
--    /// The VM is initialized with a page table configured according to the GPU's
--    /// address translation capabilities and registered with the GPUVM framework.
--    pub(crate) fn new(
-+    /// The MCU VM is entirely kernel-managed: it has no user-accessible range.
-+    pub(crate) fn new_for_fw(
-+        dev: &'drm Device<Bound>,
-+        ddev: &TyrDrmDevice,
-+        mmu: ArcBorrow<'_, Mmu<'drm>>,
-+        gpu_info: &GpuInfo,
-+    ) -> Result<Arc<Vm<'drm>>> {
-+        // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
-+        let layout = VmLayout {
-+            full: 0..u64::SZ_4G,
-+            user: 0..0u64,
-+        };
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+    }
-+
-+    /// Creates a user VM, splitting the GPU VA range per `user_va`.
-+    #[expect(dead_code)]
-+    pub(crate) fn new_for_user(
-         dev: &'drm Device<Bound>,
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-+        user_va: UserVaRequest,
-+    ) -> Result<Arc<Vm<'drm>>> {
-+        let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-+        let va_bits = mmu_features.va_bits().get();
-+        let range = 0..(1u64 << va_bits);
-+
-+        let layout = VmLayout::compute(range.clone(), user_va).inspect_err(|_| {
-+            dev_dbg!(
-+                dev,
-+                "Failed to split GPU VA range {:#x}..{:#x} into user and kernel regions\n",
-+                range.start,
-+                range.end
-+            );
-+        })?;
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+    }
-+
-+    /// Initializes a VM with the given layout.
-+    fn new_internal(
-+        dev: &'drm Device<Bound>,
-+        ddev: &TyrDrmDevice,
-+        mmu: ArcBorrow<'_, Mmu<'drm>>,
-+        gpu_info: &GpuInfo,
-+        layout: VmLayout,
-     ) -> Result<Arc<Vm<'drm>>> {
-         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-         let va_bits = mmu_features.va_bits().get();
-         let pa_bits = mmu_features.pa_bits().get();
- 
--        let range = 0..(1u64 << va_bits);
-         let reserve_range = 0..0u64;
- 
-         // dummy_obj is used to initialize the GPUVM tree.
-@@ -365,7 +492,7 @@ pub(crate) fn new(
-             c"Tyr::GpuVm",
-             ddev,
-             &*dummy_obj,
--            range.clone(),
-+            layout.full.clone(),
-             reserve_range,
-             GpuVmData::<'drm> {
-                 _phantom: PhantomData::<&()>,
-@@ -385,7 +512,7 @@ pub(crate) fn new(
-                 mmu: mmu.into(),
-                 gpuvm,
-                 gpuvm_unique <- new_mutex!(gpuvm_unique),
--                va_range: range,
-+                layout,
-             }),
-             GFP_KERNEL,
-         )?;
-@@ -416,10 +543,12 @@ fn deactivate(&self) -> Result {
- 
-     /// Kills the VM by deactivating it and unmapping all regions.
-     pub(crate) fn kill(&self) {
--        // TODO: Turn the VM into a state where it can't be used.
-         let _ = self.deactivate();
-         let _ = self
--            .unmap_range(self.va_range.start, self.va_range.end - self.va_range.start)
-+            .unmap_range(
-+                self.layout.full.start,
-+                self.layout.full.end - self.layout.full.start,
-+            )
-             .inspect_err(|e| {
-                 dev_err!(self.dev, "Failed to unmap range during deactivate: {:?}", e);
-             });
-@@ -556,14 +685,14 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
- 
-         let end = va.checked_add(size).ok_or(EINVAL)?;
- 
--        if va < self.va_range.start || end > self.va_range.end {
-+        if va < self.layout.full.start || end > self.layout.full.end {
-             dev_err!(
-                 self.dev,
-                 "Unmap range {:#x}..{:#x} exceeds VM range {:#x}..{:#x}",
-                 va,
-                 end,
--                self.va_range.start,
--                self.va_range.end
-+                self.layout.full.start,
-+                self.layout.full.end
-             );
-             return Err(EINVAL);
-         }
-@@ -573,7 +702,7 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
-             region: va..end,
-         };
- 
--        let full_vm = va == self.va_range.start && end == self.va_range.end;
-+        let full_vm = va == self.layout.full.start && end == self.layout.full.end;
- 
-         let mut resources = VmOpResources {
-             preallocated_gpuvas: if full_vm {
+Yes, My concern is what if the kdump kernel is an old one without this
+patch?
+
+Should we just add a WARN_ON_ONCE(text_offset != 0); here?
+
+> 
+> Maybe we should rather start deprecating .text_offset in arm64?
+> 
 
 -- 
-2.43.0
-
+Best regards,
+Jinjie
 
