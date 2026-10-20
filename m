@@ -1,94 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.69.126.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514726;
-	b=3HWLTxXcORZHrrDbtDDkssk+RuH1QkUCU218abnNJ2BwNsh3IGTmD8LzOSOwx0itHlfH
-	 0tSVEJoO4EmwhFqkiffSKrQ8JVAxQWspps4qlIPkkLdXmOjyspib1VlugC1TBSIaVS0/t
-	 nTBMlo+ZtcYPyaYmJiE99CAUiFMCBU6Y4J0RvozFnIW5hUS7+TH2NiUjRJGbdmHTs+/Ni
-	 qiKGnuZYXX9e8b+PClL9SMTmDYVEeiDn2+/XkkHXUuiNxYWDTgfrTibtN5bcycahNapNe
-	 aXubuR8UFvAFtsW1fLld9vPREZSosVVxQSrbWslJ6OC6hkvpQmiaFY6yI3fKTLrGhsA==
+	t=1792517443;
+	b=dcJwT0D/aBRTTF+/dwLyepwPdNANcedPsRKjvjupcDiAnkQCqK2kDhwh22jxavSwWA4u
+	 jW6nwouWKFldCkZjjwlfSip7IrbwANyqIOMLAHh8gkWb5Cis8Sow+SV0y5s1PhZ0Ovro9
+	 55Zw0SoxtWHVTwX9ful86ewFnsQG/sxNvNQ3vmFjknxfI27zcnk/hWfoQc2TNTEt84erd
+	 XfBsEYsB9Mkv9mvJmVEGUB+WYlZ3TTkpAcx/5niX8UV9ApCfa62zI/57DZU+UJrWSrGQR
+	 3Hs3LCwbhTQGx61Hw+KO+EZ8mqHI1AyaOcwJJmroEQbtSqwQqw6t2jIsWgvEeNYGdHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514726;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
-	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Transfer-Encoding:content-type;
-	bh=exa5f/DcwNCR5E0w8unUqAO11f1n98HF5VNU5M/lSuA=;
-	b=GkkA9T22+c5hkSW8LhqQATaH9kSZTBUL2I4r/Gsg432v2aVoi0UsC8FWpRwg8g2KjwD2
-	 RlLWl5Iy1yoT26PfbFpJv5RE6wtlovChz/bsY5B24hviQdt7h/VReizLKgAqXxVqNrLsL
-	 aVIo6ekWT7/LsZGmma8z4PRKeGnb2PGy7cIKmJVX4c5WH9OxPbvAGqvYzx/nHbU2wdNoM
-	 TmeGIYUiIVNlmOqxWPcVieaSrSArH//R3m16SHJiPGjMfa0ujESK5Vnh3ClrrtUvcyRu9
-	 vgtboIdMfQ3oX2F037lEVxEJDymUHg4ydvMzHoji1C8PggUhwQjTIdOtP4H1qpeJqXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792517443;
+	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=z5AlF7LiBXPBxNa4lF4jQkP/Wv9l3nvO062M0dUFJKg=;
+	b=rmy01VMK1nbKuwdnk3bPjJoIZSdh1ys0b1IB5v7Lz/Fx7OEK/KF1jxerVsOJ6xkylzFK
+	 CYpXcQs9wXfB4IE+d2CGR3LBrkEaIvcY8rWLXirWlnrtBwQvOnl/j4UErj9CPYEUDUnKe
+	 VoiLFsGJlR5m3r/2bGpwCGx4XMAz9HG6AIZVIuyAmdeSIgRVMlew1CtlDMMy7qIK8Ky7E
+	 LZZc443vQS8zOCtMw/1yVal1RrS7nhETNWZOql4KgHnwlHSiS1wSNBp4jueUzHcQjF+hZ
+	 ly+LYfp6wxzNlcuf1O5wkass3n3onzTGJOHAha2x3sbaa/tCFwqzUe/VUvVJzrZiMEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=h8ZBgY+w;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dmarc=pass header.from=weissschuh.net;
+	spf=pass smtp.mailfrom=weissschuh.net;
+	dkim=pass header.d=weissschuh.net header.i=@weissschuh.net header.a=rsa-sha256 header.s=mail header.b=DDcz2SF3;
+	arc=none smtp.remote-ip=159.69.126.157
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF71560A6F54
-	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 16:45:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF71560A6F54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905DC606A326
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 17:30:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 905DC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=h8ZBgY+w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792514725;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=exa5f/DcwNCR5E0w8unUqAO11f1n98HF5VNU5M/lSuA=;
-	b=h8ZBgY+wvn20/Jixr4FJXL2e3XlW3l+r3VgI71ZZKSkD7PwBXaNX2J1bE2L7nCoqbUPKj6
-	ab5OPF0QVza+WEr5DuQxdhfTJS6kBccFwyCHL2XNDx1sNwRNGZKHjLZtzYXsQpuKcyQkRp
-	ztftIPfG3I04bCYyWkCzhgnYUKZkmZE=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-92-JrlojP41PRiJLgF9H6qwug-1; Tue,
- 20 Oct 2026 12:45:21 -0400
-X-MC-Unique: JrlojP41PRiJLgF9H6qwug-1
-X-Mimecast-MFC-AGG-ID: JrlojP41PRiJLgF9H6qwug_1792514719
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 19F7D195C25C;
-	Tue, 20 Oct 2026 16:45:19 +0000 (UTC)
-Received: from djeffery-thinkpadp1gen3.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A7DC830001A2;
-	Tue, 20 Oct 2026 16:45:15 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Tarun Sahu <tarunsahu@google.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	kexec@lists.infradead.org,
-	"Ewan Milne" <emilne@redhat.com>,
-	"John Meneghini" <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	"Bart Van Assche" <bvanassche@acm.org>,
-	"John Garry" <john.g.garry@oracle.com>,
-	"Jeremy Allison" <jallison@ciq.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	"Pasha Tatashin" <tatashin@google.com>,
-	David Jeffery <djeffery@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 9/9] scsi: Enable async shutdown support
-Date: Tue, 20 Oct 2026 12:44:35 -0400
-Message-ID: <20261020164435.80499-10-djeffery@redhat.com>
-In-Reply-To: <20261020164435.80499-1-djeffery@redhat.com>
-References: <20261020164435.80499-1-djeffery@redhat.com>
+	dkim=pass (1024-bit key, unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.a=rsa-sha256 header.s=mail header.b=DDcz2SF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1792517433;
+	bh=YBN74gM+n3rXaBd6av6nSy3uIjapT/id0/lw64X2cNo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DDcz2SF3/O8ZlyLdqMI+6TM47YwkNOcchrVx3hVOGvUQWwqmd6cdQnxHRkhqDhXEu
+	 i8R4laY5iMMAUBPQRh9FuA/tUv86VGpCWNuIG9ZZ95y0OG0sfrxqfkgxv3R0ohEsAU
+	 EAwxSqsWUct5ZWO1fEWXiBVFxtg5lQ3HtRdhpzlc=
+Date: Tue, 20 Oct 2026 19:30:33 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Alexandre Courbot <acourbot@nvidia.com>, Zhi Wang <zhiw@nvidia.com>
+Cc: Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Lyude Paul <lyude@redhat.com>, Yury Norov <yury.norov@gmail.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, driver-core@lists.linux.dev
+Subject: Re: [PATCH RFC 00/11] rust: add support for dynamic debug
+Message-ID: <310ae622-20e8-42ac-b501-4315c4cd4d14@t-8ch.de>
+References: <20261011-rust-dyndbg-v1-0-832e4039b71f@weissschuh.net>
+ <DM9OY2QIU84D.2T3QX6SJJI6VH@nvidia.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,74 +72,62 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: 0UkmWUpSShC5gx4tvyBZZCcqGWN7qTvphpfUMQQStM8_1792514719
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <DM9OY2QIU84D.2T3QX6SJJI6VH@nvidia.com>
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
++To: Zhi Wang
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
----
- drivers/scsi/hosts.c      | 2 ++
- drivers/scsi/scsi_sysfs.c | 3 +++
- 2 files changed, 5 insertions(+)
+Hi Alexandre,
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e72055c1ebbb..75592f41ef39 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -272,6 +272,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	dev_set_async_shutdown(&shost->shost_gendev);
- 
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
- 
- 	device_enable_async_suspend(&shost->shost_dev);
-+	dev_set_async_shutdown(&shost->shost_dev);
- 
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index 9480432f650b..52e1e38dc027 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1387,6 +1387,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	dev_set_async_shutdown(&starget->dev);
- 
- 	return 0;
- }
-@@ -1413,6 +1414,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
- 
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	dev_set_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1432,6 +1434,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
- 
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	dev_set_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
--- 
-2.55.0
+On 2026-10-20 22:14:12+0900, Alexandre Courbot wrote:
+> On Sun Oct 11, 2026 at 9:52 PM JST, Thomas Weißschuh wrote:
+> > Add the Rust infrastructure to integrate with the dynamic debug
+> > infrastructure.
+> >
+> > Static keys are not used for now, as the full bindings are missing
+> > for those. A follow-up series will add that.
+> > Also custom classes are not supported yet, but could be added on top.
+> >
+> > Patches 1-4: Generic Rust preparation patches.
+> > Patches 5-7: C dynamic debug preparation patches.
+> > Patches 8: Rust Dynamic debug infrastructure.
+> > Patches 9-11: Rust Dynamic debug enablement.
+> 
+> Were you aware of this series [1]?
 
+I was was told about the original work from Andrew back at Kangrejos.
+However I was unable to find it on LKML and it was not clear how far
+along that series has come along. The posting of Zhi's v3 only happened
+after I started on my variant, and I did not see it until you mentioned
+it. So my development is completely independent from Andrew's and Zhi's.
+
+> There seems to be quite a bit of overlap.
+
+Indeed. I see pros for both serieses:
+
+Mine:
+* No FFI in the fastpath.
+* No need for RUST_MODNAME.
+* Use of Bounded.
+* Tests for the flag encoding.
+* modname!() as function name.
+  (As discussed with Benno and Gary and LPC)
+* Better encapsulation of 'struct Descriptor' (partially not yet posted)
+* Use of Opaque<> to wrap bindings::_ddebug (not yet posted).
+* Use of !cv() (not yet posted).
+
+Andrew/Zhi:
+* Better docs.
+* Static branch support.
+  * static_branch_likely!() support is missing however.
+  * I also have follow-up patches to enable static_branch_likely!().
+* host doctest support.
+
+I am perfectly fine with merging both serieses.
+
+
+Thomas
+
+> [1] https://lore.kernel.org/all/20261001145940.1077801-1-zhiw@nvidia.com/
