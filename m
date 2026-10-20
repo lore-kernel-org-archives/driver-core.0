@@ -1,66 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792514714;
-	b=QxTr37u5q+h8wgwxpIe6snGozVbwU9/ohehYVVUQx7Rri9VpYXc526gckxO8icUjAv3/
-	 tc/XzhARdxJLBs3SpP0Y2PsYWUrnBs2Uuf5zKgowe9M5MqhOrlJ2IiT3ruD5r36rRD2xh
-	 jWvkPpdg3g2qm/6WhIIorJ9AK8qvrrvViYE2D2p7m4md8/7cX/51omQZOwyBxLVgT2uF8
-	 pVyvT1XS6GUG3pnASGzanGfj8Tpl53fG+OoRmqMeokmP+ejeQ3Af0srVIAdey5NtwufwA
-	 bskM0vKVmmRwRrrdoWHpR/PXstoayvKe0ksaCV3Fd8U+tdylnl2sva+iNM+4AAseeBA==
+	t=1792514718;
+	b=vz8tJEVbiGfcCAmjRl7xlM9Ji8bL++FYOMhtryT7vHoCK9EFXdsL2H+O75ek5nf94ug/
+	 Tv60fyUHhC8IbSbBSFE6UR0EfMuxPJppDBV+N49RYlk/2HtbU1w99iuUzpfsjbTwngSy7
+	 nLnauScIj5Qwl/3YqcmZKkLmU9gN5oqh8kx2HqcsOpOv8ck5q9fQsiJxw3yTJkp1SJUxd
+	 W4Jr1iEli/2WNhJXakeS7cNj6ppnwmE1FbkBWrYzRIOdx8sNr2kwr/6zW6k54QRJUBxPh
+	 KoICSGcVKnQcIW4Lxk7lOIf9NWn8t3hcv1ire+k9eIZcaTPuNy9AFZKnBH8Cj9VU0vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792514714;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792514718;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:X-Scanned-By:
 	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
 	 Content-Transfer-Encoding:content-type;
-	bh=bxjP7KUlohvZ2YPEyHIa7bKbPs42+xcSHkWZNTuvybw=;
-	b=EA1P639VQ9L3WHucCUyAOf9PFGnYUvulOEqwdsxYzpNBmBgApXXwvY88QVV/w6l98DgG
-	 sY/dAI0eX9byVvSxPn9Kb72DnBw8iaDZMhkKOiHtbgsSgd52IrRfr97qc/uBuh7ReJMnV
-	 cjspSVEEPMOSFrfnTlyhNu/beR4oXWuiyTm4vZh0dP0HARtBrp2tDE0jXhP4eGKuNA8jM
-	 dqNtIB7IEVSvrHSxXOqoG3/E8ttbJUPVZ8g32luLsPRmQaU3rKES7AVfwGODuE0F5bBoc
-	 gyYCOCJiqRYpC3fclG/5EQMJAb+H2rgLYT/W7eIe017QMV64aR4O8uPtam6ZCQHvjeA==
+	bh=65taMl2yTlmMjt0Af/cEbsAbd3mCjNHU7Qdvsgj6qag=;
+	b=GKOM4HCurmff1PxI7tWp6l1C7UW2VReCkBJF0hRAje+0M9xY2EIMRsS7PHWGxHu6U3mz
+	 cDOXMWeko8SeBgHLIi6T87AhV02L9noCNHg4F8aBLR4I81m3Vbq0wp1MpuLfGakMz8Gg5
+	 BjGoFcu05IlDj3shS6cdQ1Chw9DlqThmHHtabT0XjEwlBMpAUogng3CK0Bo+7ftLKitiO
+	 SIBqCa7F0kRqqzz++BFC3N314rgtbtZGOcjTDzn37kmdyZo34TwaTzOZucfsBP8K0u6iC
+	 lHgBWUSQATvD9ZTRlQ/9fKUwTREX/E7nK169BhOKv63NDBuYnCY0gVUWyYxIwd/gIHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vqx1B7Xm;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ULddwk+t;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB7560A4AE6
-	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 16:45:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BB7560A4AE6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6A360A4AFA
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 16:45:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA6A360A4AFA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vqx1B7Xm
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ULddwk+t
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792514713;
+	s=mimecast20190719; t=1792514715;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bxjP7KUlohvZ2YPEyHIa7bKbPs42+xcSHkWZNTuvybw=;
-	b=Vqx1B7XmUEFBawzIzNj607qZkotJIgW7xY2cQeQeqO7Xm5eNMm+UOmBPE2bUr800PF3riw
-	mVfGvEjl6G+DcNNG6c4jHJEh1i7kmANpsUTxN3SEJtPaDZFDqTH/5jr/t49PcUIGRn7U7Z
-	b23wxjhnLP6DJVaF+f+kFiGhPvRvNIY=
+	bh=65taMl2yTlmMjt0Af/cEbsAbd3mCjNHU7Qdvsgj6qag=;
+	b=ULddwk+tenOZx4fbZ3A6i+Oe0lkF0yh+CFKl89+qNGQsdLhP7mqDB0hjyJo94WWCB0spfa
+	LP0utVA33uHPBtc6bA0v+w5MHh3TUL5BbreZCg8OaTq0eURTJ3Z5UhaipJhc5qETZAicHg
+	9HdyzO2dlZw2Zk0Ga1b9kNOjGJaQcKY=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-453-fnxMTARHNV-bSHZRxYAnOQ-1; Tue,
- 20 Oct 2026 16:45:08 +0000
-X-MC-Unique: fnxMTARHNV-bSHZRxYAnOQ-1
-X-Mimecast-MFC-AGG-ID: fnxMTARHNV-bSHZRxYAnOQ_1792514704
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-48-WScFeE6SOYKkoVrG12P9Pg-1; Tue,
+ 20 Oct 2026 12:45:12 -0400
+X-MC-Unique: WScFeE6SOYKkoVrG12P9Pg-1
+X-Mimecast-MFC-AGG-ID: WScFeE6SOYKkoVrG12P9Pg_1792514708
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 888F11953952;
-	Tue, 20 Oct 2026 16:45:03 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A6ECF19540E5;
+	Tue, 20 Oct 2026 16:45:08 +0000 (UTC)
 Received: from djeffery-thinkpadp1gen3.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 516C430001A2;
-	Tue, 20 Oct 2026 16:45:00 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C7A9930002CB;
+	Tue, 20 Oct 2026 16:45:03 +0000 (UTC)
 From: David Jeffery <djeffery@redhat.com>
 To: driver-core@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -83,9 +83,9 @@ Cc: linux-kernel@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>,
 	"Pasha Tatashin" <tatashin@google.com>,
 	David Jeffery <djeffery@redhat.com>
-Subject: [PATCH 5/9] driver core: do not always lock parent in shutdown
-Date: Tue, 20 Oct 2026 12:44:31 -0400
-Message-ID: <20261020164435.80499-6-djeffery@redhat.com>
+Subject: [PATCH 6/9] driver core: async device shutdown infrastructure
+Date: Tue, 20 Oct 2026 12:44:32 -0400
+Message-ID: <20261020164435.80499-7-djeffery@redhat.com>
 In-Reply-To: <20261020164435.80499-1-djeffery@redhat.com>
 References: <20261020164435.80499-1-djeffery@redhat.com>
 X-Mailing-List: driver-core@lists.linux.dev
@@ -98,115 +98,305 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: eA6RKCWlUALKeXQgY6fXlZlNm6hAucrXc8sBtZqgaXA_1792514704
+X-Mimecast-MFC-PROC-ID: _-pRJ1GjMu-T3ZjoMl65liIAmK5R0KTobAXLJeVW7hk_1792514708
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Don't lock a parent device unless it is needed in device_shutdown. This
-is in preparation for making device shutdown asynchronous, when it will
-be needed to allow children of a common parent to shut down
-simultaneously.
+Patterned after async suspend, allow devices to mark themselves as wanting
+to perform async shutdown. Devices using async shutdown wait only for their
+dependencies to shutdown before executing their shutdown routine.
 
-And only acquire a reference to the parent device if the parent is to be
-locked.
+Sync shutdown devices are shut down one at a time and will only wait for an
+async shutdown device if the async device is a dependency.
 
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+Enabled by default, async shutdown can be explicitly enabled or disabled
+by using the kernel parameter "core.async_shutdown=<bool>"
+
 Signed-off-by: David Jeffery <djeffery@redhat.com>
+Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Signed-off-by: Tarun Sahu <tarunsahu@google.com>
 Tested-by: Laurence Oberman <loberman@redhat.com>
 ---
- drivers/base/core.c | 44 ++++++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 16 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  10 ++
+ drivers/base/base.h                           |   2 +
+ drivers/base/core.c                           | 141 +++++++++++++++++-
+ include/linux/device.h                        |   2 +
+ 4 files changed, 154 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 68647ff4bdd2..6532bd0bbfdf 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -995,6 +995,16 @@ Kernel parameters
+ 			seconds. A value of 0 disables the blank timer.
+ 			Defaults to 0.
+ 
++	core.async_shutdown=
++			[KNL]
++			Format: <bool>
++			Enable or disable asynchronous shutdown support. When
++			enabled, on system shutdown unrelated devices flagged
++			as async shutdown compatible may be shut down in
++			parallel and asynchronously. When disabled, device
++			shutdown is performed serially and synchronously.
++			Enabled by default.
++
+ 	coredump_filter=
+ 			[KNL] Change the default value for
+ 			/proc/<pid>/coredump_filter.
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index a5b7abc10ff0..40dbf588a5d6 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -103,6 +103,7 @@ struct driver_private {
+  *			   dev_err_probe() for later retrieval via debugfs
+  * @device: pointer back to the struct device that this structure is
+  *	    associated with.
++ * @complete: completion for device shutdown ordering
+  * @dead: This device is currently either in the process of or has been
+  *	  removed from the system. Any asynchronous events scheduled for this
+  *	  device should exit without taking any action.
+@@ -119,6 +120,7 @@ struct device_private {
+ 	const struct device_driver *async_driver;
+ 	char *deferred_probe_reason;
+ 	struct device *device;
++	struct completion complete;
+ 	u8 dead:1;
+ };
+ #define to_device_private_parent(obj)	\
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 7fe3fa6870a7..93605698affc 100644
+index 93605698affc..7fee6043dd37 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -4903,12 +4903,10 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/async.h>
+ #include <linux/blkdev.h>
+ #include <linux/cleanup.h>
+ #include <linux/cpufreq.h>
+@@ -37,6 +38,11 @@
+ #include "physical_location.h"
+ #include "power/power.h"
+ 
++static bool async_shutdown = true;
++module_param(async_shutdown, bool, 0644);
++MODULE_PARM_DESC(async_shutdown, "Enable asynchronous device shutdown support");
++static bool async_shutdown_enabled;
++
+ /* Device links support. */
+ static LIST_HEAD(deferred_sync);
+ static unsigned int defer_sync_state_count = 1;
+@@ -3627,6 +3633,7 @@ static int device_private_init(struct device *dev)
+ 	klist_init(&dev->p->klist_children, klist_children_get,
+ 		   klist_children_put);
+ 	INIT_LIST_HEAD(&dev->p->deferred_probe);
++	init_completion(&dev->p->complete);
+ 	return 0;
+ }
+ 
+@@ -3925,6 +3932,7 @@ bool kill_device(struct device *dev)
+ 	if (dev->p->dead)
+ 		return false;
+ 	dev->p->dead = true;
++	complete_all(&dev->p->complete);
+ 	return true;
+ }
+ EXPORT_SYMBOL_GPL(kill_device);
+@@ -4903,6 +4911,40 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
  	return error;
  }
  
--static void shutdown_one_device(struct device *dev, struct device *parent)
-+static void __shutdown_one_device(struct device *dev)
++static bool wants_async_shutdown(struct device *dev)
++{
++	return async_shutdown_enabled && dev_async_shutdown(dev);
++}
++
++static int wait_for_device_shutdown(struct device *dev, void *data)
++{
++	bool async = *(bool *)data;
++
++	if (!dev->p || !device_is_registered(dev))
++		return 0;
++
++	if (async || wants_async_shutdown(dev))
++		wait_for_completion(&dev->p->complete);
++
++	return 0;
++}
++
++static void wait_for_shutdown_dependencies(struct device *dev, bool async)
++{
++	struct device_link *link;
++	int idx;
++
++	device_for_each_child(dev, &async, wait_for_device_shutdown);
++
++	idx = device_links_read_lock();
++
++	dev_for_each_link_to_consumer(link, dev)
++		if (!device_link_flag_is_sync_state_only(link->flags))
++			wait_for_device_shutdown(link->consumer, &async);
++
++	device_links_read_unlock(idx);
++}
++
+ static void __shutdown_one_device(struct device *dev)
  {
--	/* hold lock to avoid race with probe/release */
--	if (parent)
--		device_lock(parent);
--	device_lock(dev);
-+	if (!dev->p || dev->p->dead)
-+		return;
- 
- 	/* Don't allow any more runtime suspends */
- 	pm_runtime_get_noresume(dev);
-@@ -4928,13 +4926,33 @@ static void shutdown_one_device(struct device *dev, struct device *parent)
+ 	if (!dev->p || dev->p->dead)
+@@ -4926,6 +4968,8 @@ static void __shutdown_one_device(struct device *dev)
  			dev_info(dev, "shutdown\n");
  		dev->driver->shutdown(dev);
  	}
-+}
- 
--	device_unlock(dev);
--	if (parent)
-+static void shutdown_one_device(struct device *dev)
-+{
-+	struct device *parent;
 +
-+	device_lock(dev);
-+
-+	/* use parent lock if needed to avoid race with probe/release */
-+	if (dev->p && !dev->p->dead && dev->bus && dev->bus->need_parent_lock &&
-+	    (parent = get_device(dev->parent))) {
-+		/* the parent lock needs to be acquired first, so re-lock */
-+		device_unlock(dev);
-+
-+		device_lock(parent);
-+		device_lock(dev);
-+
-+		__shutdown_one_device(dev);
-+		device_unlock(dev);
- 		device_unlock(parent);
-+		put_device(parent);
-+	} else {
-+		__shutdown_one_device(dev);
-+		device_unlock(dev);
-+	}
- 
- 	put_device(dev);
--	put_device(parent);
++	complete_all(&dev->p->complete);
  }
  
+ static void shutdown_one_device(struct device *dev)
+@@ -4955,6 +4999,88 @@ static void shutdown_one_device(struct device *dev)
+ 	put_device(dev);
+ }
+ 
++static void async_shutdown_handler(void *data, async_cookie_t cookie)
++{
++	struct device *dev = data;
++
++	wait_for_shutdown_dependencies(dev, true);
++	shutdown_one_device(dev);
++}
++
++static bool shutdown_device_async(struct device *dev)
++{
++	if (async_schedule_dev_nocall(async_shutdown_handler, dev))
++		return true;
++
++	dev_clear_async_shutdown(dev);
++	return false;
++}
++
++
++static void start_async_shutdown_devices(void)
++{
++	struct device *dev, *next, *ndev, *needs_put = NULL;
++	bool clear_async = false;
++
++	if (!async_shutdown_enabled)
++		return;
++
++	spin_lock(&devices_kset->list_lock);
++restart:
++	list_for_each_entry_safe_reverse(dev, next, &devices_kset->list,
++					 kobj.entry) {
++		if (wants_async_shutdown(dev)) {
++			if (clear_async) {
++				dev_clear_async_shutdown(dev);
++				continue;
++			}
++			/* one device reference for this function */
++			get_device(dev);
++			/* another to pass to the async task */
++			get_device(dev);
++
++			if (!list_entry_is_head(next, &devices_kset->list,
++						kobj.entry))
++				ndev = get_device(next);
++			else
++				ndev = NULL;
++			spin_unlock(&devices_kset->list_lock);
++
++			if (shutdown_device_async(dev)) {
++				spin_lock(&devices_kset->list_lock);
++				list_del_init(&dev->kobj.entry);
++				spin_unlock(&devices_kset->list_lock);
++			} else {
++				/*
++				 * async failed, clean up extra reference
++				 * and run shutdown from the sync shutdown loop
++				 */
++				clear_async = true;
++				put_device(dev);
++			}
++			put_device(dev);
++
++			if (needs_put)
++				put_device(needs_put);
++			needs_put = ndev;
++			spin_lock(&devices_kset->list_lock);
++			/*
++			 * If the next device has been marked dead while the
++			 * spinlock was released, or if it has been unlinked
++			 * from the list, it may no longer be on the
++			 * devices_kset list. Restart the list walk to be safe.
++			 */
++			if (ndev && (ndev->p->dead || list_empty(&ndev->kobj.entry)))
++				goto restart;
++		}
++	}
++
++	spin_unlock(&devices_kset->list_lock);
++
++	if (needs_put)
++		put_device(needs_put);
++}
++
  /**
-@@ -4942,7 +4960,7 @@ static void shutdown_one_device(struct device *dev, struct device *parent)
+  * device_shutdown - call ->shutdown() on each device to shutdown.
   */
- void device_shutdown(void)
- {
--	struct device *dev, *parent;
-+	struct device *dev;
+@@ -4968,6 +5094,14 @@ void device_shutdown(void)
  
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4960,12 +4978,6 @@ void device_shutdown(void)
- 		dev = list_entry(devices_kset->list.prev, struct device,
- 				kobj.entry);
+ 	cpufreq_suspend();
  
--		/*
--		 * hold reference count of device's parent to
--		 * prevent it from being freed because parent's
--		 * lock is to be held
--		 */
--		parent = get_device(dev->parent);
- 		get_device(dev);
- 		/*
- 		 * Make sure the device is off the kset list, in the
-@@ -4974,7 +4986,7 @@ void device_shutdown(void)
++	async_shutdown_enabled = async_shutdown;
++
++	/*
++	 * Start async device threads where possible to maximize potential
++	 * parallelism and minimize false dependency on unrelated sync devices
++	 */
++	start_async_shutdown_devices();
++
+ 	spin_lock(&devices_kset->list_lock);
+ 	/*
+ 	 * Walk the devices list backward, shutting down each in turn.
+@@ -4986,11 +5120,16 @@ void device_shutdown(void)
  		list_del_init(&dev->kobj.entry);
  		spin_unlock(&devices_kset->list_lock);
  
--		shutdown_one_device(dev, parent);
-+		shutdown_one_device(dev);
+-		shutdown_one_device(dev);
++		if (!wants_async_shutdown(dev) || !shutdown_device_async(dev)) {
++			wait_for_shutdown_dependencies(dev, false);
++			shutdown_one_device(dev);
++		}
  
  		spin_lock(&devices_kset->list_lock);
  	}
+ 	spin_unlock(&devices_kset->list_lock);
++
++	async_synchronize_full();
+ }
+ 
+ /*
+diff --git a/include/linux/device.h b/include/linux/device.h
+index aee79fd6b32b..1ebafa798462 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -612,6 +612,7 @@ enum struct_device_flags {
+ 	DEV_FLAG_OF_NODE_REUSED = 7,
+ 	DEV_FLAG_OFFLINE_DISABLED = 8,
+ 	DEV_FLAG_OFFLINE = 9,
++	DEV_FLAG_ASYNC_SHUTDOWN = 10,
+ 
+ 	DEV_FLAG_COUNT
+ };
+@@ -829,6 +830,7 @@ __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
+ __create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
+ __create_dev_flag_accessors(offline_disabled, DEV_FLAG_OFFLINE_DISABLED);
+ __create_dev_flag_accessors(offline, DEV_FLAG_OFFLINE);
++__create_dev_flag_accessors(async_shutdown, DEV_FLAG_ASYNC_SHUTDOWN);
+ 
+ #undef __create_dev_flag_accessors
+ 
 -- 
 2.55.0
 
