@@ -1,74 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792500774;
-	b=y824MfawDMRwFd4ed3vrrGFClex2p/eyTsLIByKIxUOa8tvrsb9hkaFO8sPkj6nDfC5U
-	 5GYoORqErJba/5Lc9f1VRdKtPactEfQWTQMNrOQi4OCXDgSS0HjLf32BhFY3DRRExcmzb
-	 APidDYzxQIIF1zLZekWvFNkIZfUuOpGcvz2wHKsDQiwTuS8rVo4NEZfhhIjx35Yg+deqP
-	 61mC5JEuscO5e6IsMvqfChjvFq+Eo2UsddtO24irxQyun/NNMlk8tt50sk9GYJvBoFM6w
-	 sFUmvfmkomOcnbSR4RO+la6/hHlWfxXZsdOjP9r0e4QhQB0orxMHtN/7JZR1bWSDfjg==
+	t=1792500776;
+	b=qvb8yLFeWcfTIZkoMoIuz9bwh8GuD/epHIWC1JIZFDxmSQbl4na3RIU477Q+s0kBzLRi
+	 3hb7JyDBPtZmj75SnoGfgOKXCO/gg41U7KhjrihV/vr/hWrG9S6XXKb0g8tmu7BqHwz9t
+	 V2sBvEz/yz7/AmPc2+HVhIvF26G8ACy8CVYVS5Fk0XcIqnNpwek6PKO3ZR47Qw6i3f3po
+	 kypL2YVkQNNHDhSWL2yCrpvfpq7MsdWETPmWTF5J1Iv22BUcj45TLRmeO6NdBXaiKkd67
+	 edRI0qTY5kO1q8A53QbemZXE4TaIHOncFmWxBDByxoRsHaZVsJ6N5hRl0N3jAVUquEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792500774;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792500776;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Developer-Key:X-Developer-Signature:
 	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=VjN4SgCHff53zWvbD6Ulm9nG1pvOkOeafS89+kwLb04=;
-	b=fkJ0i4uwD9cclmuFjxrHUhOfRWEDSqv+d2kxZYswDn7vKbzrAH2bcJOUgY8zMwjlrGfo
-	 VvpTEPbP8G+9SgiayM9knk0zO1ouCYNnvPWXlHzn0uh9RjcrPHA+0t28CNdhVjIhZZw58
-	 NR1mWm7fY5PpXvbHhPiS9FYluxkWhSwclv5aWB8dtoQsj9Zqc/MpxPujYEtAA5pm+48pT
-	 tG9VMha4iCNldYeXvH+zOWMYl1u2WUhdbGPjoWIcl1mfaCzeGS6QGVzRw5R7T+LdNWJY6
-	 P1liyuCCzmnF82oxwZhYSJlXDw230sdA2lTTQU+BezP48DiEnsEenRz0vbEt9iqSIHg==
+	bh=wxmEz/CK+OAfk+vdzvHdXAndOrVUAuRsR691a5B0+lA=;
+	b=AT0R+eDEaLy/s++jeQytvRaodGH7sjhr8a1yMCNKIjp26v6UPESi/mROUwy5FZqdw4vM
+	 lvGsQbL4g4xGmTi6tlVm8Nyqp3IQMVJsFiyyJUqzA0ltWsdQ2IynGIwsPcSc2t9Dc6XCM
+	 eFqx9EyPsvkVvaiDrr66PlfpMQLBsFvtkB6D1cOGAraDVmlXQhJSb5Fda8HnpIOltheSK
+	 wRD4rZbI56iaSucSVoV5i4sVWqULxLSHXSFZp1/IqtfVbnvhiZqZurNx1qVjL0cjKiXWD
+	 C8bTrVFiDd69Y2sHWGeAcww3O+kE8FnGY0fcNue3YrsAUnW4r6D+uRzeLJW4/dhce2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fPvsYvyX;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oo9krx2I;
 	arc=none smtp.remote-ip=209.85.128.69
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F0360A3837
-	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 12:52:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13F0360A3837
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80669606A33D
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 12:52:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80669606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=fPvsYvyX
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a009f82bedso24784235e9.0
-        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 05:52:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=oo9krx2I
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a16db51147so15366255e9.3
+        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 05:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792500772; x=1793105572; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1792500774; x=1793105574; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VjN4SgCHff53zWvbD6Ulm9nG1pvOkOeafS89+kwLb04=;
-        b=fPvsYvyXPR75/2SHuHn7+IngUgouKoXoel3Ky8fKBelTsKBz1GSL6LpwSCzulJekzA
-         Zd0LcmEs99g1cj9pnF9SjN05xnWVi1W01R2Tr3B2z87q4R9pEDcJ+6v802T68Ovqtftr
-         cVi0he74YxUQTOfmkaffYTqihUA98DLKHxCkuVIUgBhclGuMfx5HCUP1Oyw/UkO0xyAk
-         Nx2YVWHeblko1TR3bOL9/TmxHYOINoXVTu+UlwMeiwkFKoTXAWTesqX0p0a7BZlfQX6D
-         3AQebwLcQZL/rwgE7R3a6w41QtMyPLEXgTLedtRct3KtvQDelMBzIoGWCARQlqMVGDV1
-         bjxA==
+        bh=wxmEz/CK+OAfk+vdzvHdXAndOrVUAuRsR691a5B0+lA=;
+        b=oo9krx2IBN0IrvKigHkNmHfMh5g16Llg3xrcpaolx1Y0cMMC4C29Tz+ojhgziurDIb
+         SS20Mg86JAu+GW4Mjeib+0rTRuf9rUDwbgNficJqQZKLeB2BLAC+dZ4z+jXlxOMOzak9
+         mwMWg6pX1B1Mqc7tBpABm3BSL4ht8aQYv+XE9fBTB6nrDofMHbzvPZtAh/yoNhZh63Bz
+         uWnw1zdYxTo6LZQj5fjifP1n2UfDCxWBjoWqrkF54PJYT8dSxPyHb+FXvq47k59j+iGg
+         3FvtO4TiFpuhlX819h1SxloLqua/HQR4XEW/Wma1rU4HI9q5UajJU2iy1jkk1COkSTmj
+         0OJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792500772; x=1793105572;
+        d=1e100.net; s=20260707; t=1792500774; x=1793105574;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VjN4SgCHff53zWvbD6Ulm9nG1pvOkOeafS89+kwLb04=;
-        b=y06+LgTfJ6CSi2vwDXZuaNUS6JJLorxO+DAl7IA16rCNXDh/CU4xgxD3WRyLy+IZud
-         xObabISMFhLZQ36nfJ/3na3xkP+rqvaDxTKjH4KpS4ZlvT1WHgDApCZBnQ7JMLtEKgkl
-         ojJt/X48p53NzvU4nRHCP7UvxRnlXDKaqtODckYFNazhJtOIQyiwMmuwAmlKKqqnTwKv
-         IKY3822+BxS4dhwYpdGDi/FG0njKHJ9YY/dmwT2GJ5WF7zb7gZTpwUMQ1xuVgsaUh+HX
-         BJXDZusfgGwbQQvr6/IaEbE6t9pH58KoTcYpyXmsicEUZFVZCd6kCNP1LN4KNq4JZ8+n
-         P3CA==
-X-Forwarded-Encrypted: i=1; AKwUvBwm3YAxD8jfbReIGkyg9DpjzY27ZqUh+5hJ2efVq5iyQ3lC+EilgHLrTlV0GwOJELu3SrvwcQpU5/geww==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ1Te8W7lb+J7tCeUu6MuSENU/FeoieoRd/62zPulXoBeXmv0b4
-	1Zs2+xFmt3Qbig4PIALY3HiA1AEDlSAjYDATCL6jnDwqvNMWu25tBIKcbb+Hp+birgp/ey0CvyD
-	IlGnoGfDcLUtt6Kv0KQ==
-X-Received: from wmbeu8.prod.google.com ([2002:a05:600c:81c8:b0:4a1:94fd:6415])
+        bh=wxmEz/CK+OAfk+vdzvHdXAndOrVUAuRsR691a5B0+lA=;
+        b=Ptvmp9sOAXvjGDKHd4aQsIof8+MT2GODJqio52mtqT5jzJuGjpn/bdBorXC+6nv4gV
+         6MLV5jQiYdak0D89C95CiCiE1dVOdLWheNV04Qpf14RcTPde9ZTtLqbtQmTD7Rmbmv2a
+         Pu2/S0ZbSKXg8vyiFyH2p3yYiDkX6M11+OV+WTdzA5OohpWw+JAoJ6sDuqGvl2bLVJvP
+         Ay5RncsvdEg09AonWi7CGL8XFP3zQj9Z/CSaDTGVA4qowaiyS6+RlIa8v1qDmXzwiNae
+         Bq3bcAyCpQsE5hcWN6/y1A21V5465wFdEvYlm/EGjqJfaARBuMDxeefFfJSw0qKnnyYw
+         l3gw==
+X-Forwarded-Encrypted: i=1; AKwUvBw9dBbj/SqmIHBtyPtr1BmxgDk4NPE7QFvgftK/VmtpEfleHHxvWxkV3L2RQNAm8rj1JonKTzn1N1zEwA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJAHcgHLamaEydSuerE0BalZPw3wP7tLN9jXMtCTL3XsJZOQm7S
+	rh5qLfGXFh1QCOTNpzfmfN5YnY43JKv0yDA4f8eP5JxLySVhrSFCNpyRgR+8OVCSVzhjCOdpUYr
+	itZO2erZSmvYyfnS5uQ==
+X-Received: from wroy18.prod.google.com ([2002:adf:f152:0:b0:48c:7ee7:2c6f])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4443:b0:4a0:89:6727 with SMTP id 5b1f17b1804b1-4a1d75f9261mr236301505e9.16.1792500772172;
- Tue, 20 Oct 2026 05:52:52 -0700 (PDT)
-Date: Tue, 20 Oct 2026 12:52:38 +0000
+ 2002:a05:600c:1da1:b0:4a1:ac66:6059 with SMTP id 5b1f17b1804b1-4a1d7614eefmr242597465e9.26.1792500773711;
+ Tue, 20 Oct 2026 05:52:53 -0700 (PDT)
+Date: Tue, 20 Oct 2026 12:52:39 +0000
 In-Reply-To: <20261020-rust-workqueue-v3-0-ea7c74d02068@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -81,22 +81,22 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261020-rust-workqueue-v3-0-ea7c74d02068@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15812; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=4Dwia5Ize/w+E6SB6x2sv0rxMk+RFAv7w39zQea/qT4=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq12QeUfnKVSOphwVi3/hO792GgwfFBOx0F/uFR
- 8EEX9O1Yn6JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCatdkHgAKCRAEWL7uWMY5
- RmItD/41zZaIEWPJTc9CVELL9YC3myWzQ+gOFWT3Cg7+7BKj0o4fvoOPPN6v8GE2S/HwUIZxsmp
- hk6g3vudIriVxFMKLMzonlfw9QYUk74gjYe2gJgvSL3NEXx7TRngE6GaNn3GHNSTHukV+6h+R3J
- Hw7WqBEKqw5DvXKQSKNdndaKRvMw9S3dMF73sR5YA7ycRAz8kGAEciTYXu/VNo6x6r9e/5aky0w
- c2/gZIJj/MsH+tj/5R1zbtRp3oLdkGURD2OTEc8DNKRgx74aGyby54DdQOVN4CgI2u4mBxwnGM6
- wfPobQGEjH1SDBySmKqDN826LTXXNf1aaVonJwJpsi+cawE/J5ypBi7KhnDY0C9m4hTdGnOHlxI
- HQSS35Ov5rl8Xq/1oEs480Hwa1HAZOvq7MOp5pw3eAInp9cp/zqdYMqKPe5rK0Pe300fhyIuW6R
- Z99T9qSgvQOSaCL+f/iGkEuM31t15QwgS7+K/yLMZm+5KjUdrVluuaeHKPR1Uw2X59ybH/MMJUv
- /kmwBxcfk7NBzMvOUWY3KXMLm4puv2NYDsHzwe9YD5SEpQ7o1NS0UPdb3qFoZ81kK6BB1x5f8u0
- nn+dN+imJ5RpIZtT8CBaVM51edAR7tGOm8Pfm8pC9mJMf6ACgzQUT11nLD8+JLKQI3Qmo5t6G8L nh5dbB/fEjDluhg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=17149; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=oDrOybZ5GyeEV00KNLPrW81TDHW0BndIwgF6Sr82ykQ=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBq12QeC6MGSF3kc+DxsiClC22vl0ytW1kgupgfH
+ GWWGH6tSH2JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCatdkHgAKCRAEWL7uWMY5
+ Rq/xEACr5kuaCof+Q662nrAz6sm05Pj9zjPnF/uZOE5JL07RWzJsbcGsOFljs6QigNYEgUTIOkW
+ SPsy3cONR/ZI8UQooEo0v040fho/oW67yHSO8IoFr0SCrp74sDe1Z1U2h3UQaO5ikKzget1Tcgf
+ CQRqCjKJFHopsjlgSW+8CjCgczEzWKWezmxaxpMYf9iibdwbc8uV4+hWoUI9p/Tbnuhx3pODKi4
+ 7rabh6kT/P8EXHL1jVzWwjhqMlvPYRjXK7nw2+MGvrNKvueDNMOZRz0eZsPn7jQL+ZfjhBbmyST
+ hVgPuAQ270MpIUkamAtQmAPo+KwDwfM6eibBhRo4YGIrt8nB5gTfLv2BhGY1GBtjTLpNDwwTm7N
+ t7Xi6U4GMKTscyE6d3IBLEcXVcZBa12s5s8LxyGzk7FQn8OUmUV3/24fCGPedIjVOZ89SkWJ4td
+ f8x83ZnAny3+itsp/t0s/dgyUXKRM0jwqOMtFQPf+EQ6sGrBjh4LAbo60VoxjlH3SNfv5PkP3rV
+ KzZdipVqBlrRuvJPt5qXSvFu4DbbvO6GZ32s2Y5ddyeG2kj1FDLNpIewpXxioH0eOypU2Dzt5bs
+ 0GLNYSgD2qzexvafVV4USYk4QCR6unD9cKcryvDIlZyjpNbBQ+86sWpPDXDsQyqIFlD2xi6GmJP gBTgndqKY828LnQ==
 X-Mailer: b4 0.14.3
-Message-ID: <20261020-rust-workqueue-v3-3-ea7c74d02068@google.com>
-Subject: [PATCH v3 3/4] rust: workqueue: add creation of workqueues
+Message-ID: <20261020-rust-workqueue-v3-4-ea7c74d02068@google.com>
+Subject: [PATCH v3 4/4] rust: workqueue: add ScopedWork for non-'static work items
 From: Alice Ryhl <aliceryhl@google.com>
 To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
 	Danilo Krummrich <dakr@kernel.org>
@@ -110,496 +110,455 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <ga
 	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Creating workqueues is needed by various GPU drivers. Not only does it
-give you better control over execution, it also allows devices to ensure
-that all tasks have exited before the device is unbound (or similar) by
-running the workqueue destructor.
+From: Danilo Krummrich <dakr@kernel.org>
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-Co-developed-by: Danilo Krummrich <dakr@kernel.org>
+Add ScopedWork<T>, a work item wrapper whose destructor calls
+cancel_work_sync(), allowing T to carry non-'static lifetimes. Ownership
+of the data is not transferred to the workqueue; instead, the
+synchronous cancellation on drop guarantees the work function is not
+running when the data is freed.
+
+Because that guarantee only holds if the destructor actually runs,
+ScopedWork::new() (and thus new_scoped_work!) is unsafe and requires
+that the resulting value is never forgotten. In return,
+Queue::enqueue_scoped() is a safe method that accepts a &ScopedWork<T>
+on any queue, including the system queues.
+
+ScopedWork does not use the Work/WorkItem machinery: it embeds the
+work_struct directly and registers its own C callback, which recovers
+the &ScopedWork<T> via container_of!() and passes it to
+ScopedWorkItem::run(). The work_struct and the user data live in a
+private Inner<T> that is wrapped in Opaque as a whole, so that the &mut
+Self held by the destructor while cancel_work_sync() waits does not
+claim uniqueness over memory (including padding) that a worker thread
+may still be reading through &ScopedWork<T>.
+
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Co-developed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/helpers/workqueue.c         |   7 +
- rust/kernel/workqueue/builder.rs | 370 +++++++++++++++++++++++++++++++++++++++
- rust/kernel/workqueue/mod.rs     |  51 +++++-
- 3 files changed, 425 insertions(+), 3 deletions(-)
+ rust/kernel/workqueue/mod.rs    |  48 +++++-
+ rust/kernel/workqueue/scoped.rs | 342 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 389 insertions(+), 1 deletion(-)
 
-diff --git a/rust/helpers/workqueue.c b/rust/helpers/workqueue.c
-index ce1c3a5b2150..e4b9d1b3d6bf 100644
---- a/rust/helpers/workqueue.c
-+++ b/rust/helpers/workqueue.c
-@@ -14,3 +14,10 @@ __rust_helper void rust_helper_init_work_with_key(struct work_struct *work,
- 	INIT_LIST_HEAD(&work->entry);
- 	work->func = func;
- }
-+
-+__rust_helper
-+struct workqueue_struct *rust_helper_alloc_workqueue(const char *fmt, unsigned int flags,
-+						     int max_active, const void *data)
-+{
-+	return alloc_workqueue(fmt, flags, max_active, data);
-+}
-diff --git a/rust/kernel/workqueue/builder.rs b/rust/kernel/workqueue/builder.rs
-new file mode 100644
-index 000000000000..d253c2f8ed4a
---- /dev/null
-+++ b/rust/kernel/workqueue/builder.rs
-@@ -0,0 +1,370 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Workqueue builders.
-+
-+use kernel::{
-+    alloc::AllocError,
-+    prelude::*,
-+    workqueue::{
-+        OwnedQueue, //
-+        Queue,
-+    }, //
-+};
-+
-+use core::{
-+    marker::PhantomData,
-+    ptr::{
-+        self,
-+        NonNull, //
-+    },
-+};
-+
-+/// Workqueue builder.
-+///
-+/// A valid combination of workqueue flags contains one of the base flags (`WQ_UNBOUND`, `WQ_BH`,
-+/// or `WQ_PERCPU`) and a combination of modifier flags that are compatible with the selected base
-+/// flag.
-+///
-+/// For details, please refer to `Documentation/core-api/workqueue.rst`.
-+pub struct Builder<Kind> {
-+    flags: bindings::wq_flags,
-+    max_active: i32,
-+    _kind: PhantomData<Kind>,
-+}
-+
-+pub enum TypeUnbound {}
-+pub enum TypePercpu {}
-+pub enum TypePowerEfficient {}
-+pub enum TypeBH {}
-+pub enum TypeOrdered {}
-+
-+/// Entry-points to the builder API.
-+impl Queue {
-+    /// Build a workqueue whose work may execute on any cpu.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from unbound wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_UNBOUND")]
-+    pub fn new_unbound() -> Builder<TypeUnbound> {
-+        Builder {
-+            flags: bindings::wq_flags_WQ_UNBOUND,
-+            max_active: 0,
-+            _kind: PhantomData,
-+        }
-+    }
-+
-+    /// Build a workqueue whose work items are bound to the CPU they are queued on.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_percpu().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from percpu wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_PERCPU")]
-+    pub fn new_percpu() -> Builder<TypePercpu> {
-+        Builder {
-+            flags: bindings::wq_flags_WQ_PERCPU,
-+            max_active: 0,
-+            _kind: PhantomData,
-+        }
-+    }
-+
-+    /// Build a power-efficient workqueue.
-+    ///
-+    /// A power-efficient workqueue is per-CPU by default, but becomes unbound when the
-+    /// `workqueue.power_efficient` kernel parameter is set.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_power_efficient().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from power-efficient wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_POWER_EFFICIENT")]
-+    pub fn new_power_efficient() -> Builder<TypePowerEfficient> {
-+        Builder {
-+            flags: bindings::wq_flags_WQ_PERCPU | bindings::wq_flags_WQ_POWER_EFFICIENT,
-+            max_active: 0,
-+            _kind: PhantomData,
-+        }
-+    }
-+
-+    /// Build a single-threaded workqueue that executes jobs in order.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_ordered().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from ordered wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "alloc_ordered_workqueue")]
-+    #[doc(alias = "__WQ_ORDERED")]
-+    pub fn new_ordered() -> Builder<TypeOrdered> {
-+        Builder {
-+            flags: bindings::wq_flags_WQ_UNBOUND | bindings::wq_flags___WQ_ORDERED,
-+            max_active: 1,
-+            _kind: PhantomData,
-+        }
-+    }
-+
-+    /// Build a workqueue that executes in bottom-half (softirq) context.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_bh().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from BH wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_BH")]
-+    pub fn new_bh() -> Builder<TypeBH> {
-+        Builder {
-+            flags: bindings::wq_flags_WQ_PERCPU | bindings::wq_flags_WQ_BH,
-+            max_active: 0,
-+            _kind: PhantomData,
-+        }
-+    }
-+}
-+
-+/// Options that may be used with all workqueue types.
-+impl<Kind> Builder<Kind> {
-+    /// Mark this workqueue high priority.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().highpri().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from highpri wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_HIGHPRI")]
-+    pub fn highpri(mut self) -> Self {
-+        self.flags |= bindings::wq_flags_WQ_HIGHPRI;
-+        self
-+    }
-+
-+    /// Creates the workqueue.
-+    ///
-+    /// The provided name is used verbatim as the workqueue name.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// // create an unbound workqueue registered with sysfs
-+    /// let wq = Queue::new_unbound().sysfs().build(c"my-wq")?;
-+    ///
-+    /// // spawn a work item on it
-+    /// wq.try_spawn(
-+    ///     GFP_KERNEL,
-+    ///     || pr_warn!("Printing from my-wq"),
-+    /// )?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "alloc_workqueue")]
-+    pub fn build(self, name: &CStr) -> Result<OwnedQueue, AllocError> {
-+        // SAFETY:
-+        // * c"%s" is compatible with passing the name as a c-string.
-+        // * the builder only permits valid flag combinations
-+        let ptr = unsafe {
-+            bindings::alloc_workqueue(
-+                c"%s".as_char_ptr(),
-+                self.flags,
-+                self.max_active,
-+                name.as_char_ptr().cast::<c_void>(),
-+            )
-+        };
-+
-+        // INVARIANT: We successfully created the workqueue, so we can return ownership to the
-+        // caller.
-+        Ok(OwnedQueue {
-+            queue: NonNull::new(ptr).ok_or(AllocError)?.cast(),
-+        })
-+    }
-+
-+    /// Creates the workqueue.
-+    ///
-+    /// # Examples
-+    ///
-+    /// This example shows how to pass a Rust string formatter to the workqueue name, creating
-+    /// workqueues with names such as `my-wq-1` and `my-wq-2`.
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::{Queue, OwnedQueue};
-+    ///
-+    /// fn my_wq(num: u32) -> Result<OwnedQueue> {
-+    ///     // create a percpu workqueue called my-wq-{num}
-+    ///     let wq = Queue::new_percpu().build_fmt(fmt!("my-wq-{num}"))?;
-+    ///     Ok(wq)
-+    /// }
-+    /// ```
-+    #[inline]
-+    pub fn build_fmt(self, name: kernel::fmt::Arguments<'_>) -> Result<OwnedQueue, AllocError> {
-+        // SAFETY:
-+        // * c"%pA" is compatible with passing an `Arguments` pointer.
-+        // * the builder only permits valid flag combinations
-+        let ptr = unsafe {
-+            bindings::alloc_workqueue(
-+                c"%pA".as_char_ptr(),
-+                self.flags,
-+                self.max_active,
-+                ptr::from_ref(&name).cast::<c_void>(),
-+            )
-+        };
-+
-+        // INVARIANT: We successfully created the workqueue, so we can return ownership to the
-+        // caller.
-+        Ok(OwnedQueue {
-+            queue: NonNull::new(ptr).ok_or(AllocError)?.cast(),
-+        })
-+    }
-+}
-+
-+/// Indicates that this workqueue is threaded.
-+pub trait TypeThreaded {}
-+impl TypeThreaded for TypeUnbound {}
-+impl TypeThreaded for TypePercpu {}
-+impl TypeThreaded for TypePowerEfficient {}
-+
-+/// Options that are not available on BH or ordered workqueues.
-+impl<Kind: TypeThreaded> Builder<Kind> {
-+    /// Set the maximum number of concurrently executing work items.
-+    ///
-+    /// For percpu workqueues this is per-CPU. If not set, a default value of
-+    /// `WQ_DFL_ACTIVE` is used. The maximum value is `WQ_MAX_ACTIVE`.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().max_active(16).build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from wq with max_active=16"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    pub fn max_active(mut self, max_active: u32) -> Self {
-+        // If provided `max_active` is greater than `i32::MAX`, then we need to trigger the C-side
-+        // comparison with `WQ_MAX_ACTIVE`, which we can do by clamping to `i32::MAX`.
-+        self.max_active = i32::try_from(max_active).unwrap_or(i32::MAX);
-+        self
-+    }
-+
-+    /// Mark this workqueue as cpu intensive.
-+    ///
-+    /// Work items will not contribute to the concurrency level, preventing
-+    /// them from stalling other work items in the same per-CPU worker pool.
-+    /// This is meaningless for unbound workqueues.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().cpu_intensive().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from cpu-intensive wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_CPU_INTENSIVE")]
-+    pub fn cpu_intensive(mut self) -> Self {
-+        self.flags |= bindings::wq_flags_WQ_CPU_INTENSIVE;
-+        self
-+    }
-+}
-+
-+/// Indicates that this workqueue runs in a normal context (as opposed to softirq context).
-+pub trait TypeNormal {}
-+impl TypeNormal for TypeUnbound {}
-+impl TypeNormal for TypePercpu {}
-+impl TypeNormal for TypePowerEfficient {}
-+impl TypeNormal for TypeOrdered {}
-+
-+/// Options that are not available on BH workqueues.
-+impl<Kind: TypeNormal> Builder<Kind> {
-+    /// Make this workqueue visible in sysfs.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().sysfs().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from sysfs wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_SYSFS")]
-+    pub fn sysfs(mut self) -> Self {
-+        self.flags |= bindings::wq_flags_WQ_SYSFS;
-+        self
-+    }
-+
-+    /// Allow this workqueue to be frozen during suspend.
-+    ///
-+    /// Work items on the workqueue are drained and no new work items start
-+    /// execution until thawed.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().freezable().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from freezable wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_FREEZABLE")]
-+    pub fn freezable(mut self) -> Self {
-+        self.flags |= bindings::wq_flags_WQ_FREEZABLE;
-+        self
-+    }
-+
-+    /// This workqueue may be used during memory reclaim.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::workqueue::Queue;
-+    ///
-+    /// let wq = Queue::new_unbound().mem_reclaim().build(c"my-wq")?;
-+    /// wq.try_spawn(GFP_KERNEL, || pr_info!("Hello from mem_reclaim wq"))?;
-+    /// # Ok::<(), Error>(())
-+    /// ```
-+    #[inline]
-+    #[doc(alias = "WQ_MEM_RECLAIM")]
-+    pub fn mem_reclaim(mut self) -> Self {
-+        self.flags |= bindings::wq_flags_WQ_MEM_RECLAIM;
-+        self
-+    }
-+}
 diff --git a/rust/kernel/workqueue/mod.rs b/rust/kernel/workqueue/mod.rs
-index aa8a472f4547..78e6a7bb960a 100644
+index 78e6a7bb960a..73fa0bea4220 100644
 --- a/rust/kernel/workqueue/mod.rs
 +++ b/rust/kernel/workqueue/mod.rs
-@@ -186,7 +186,10 @@
- //! C header: [`include/linux/workqueue.h`](srctree/include/linux/workqueue.h)
+@@ -212,6 +212,13 @@
+ mod builder;
+ pub use self::builder::Builder;
  
- use crate::{
--    alloc::{AllocError, Flags},
-+    alloc::{
-+        self,
-+        AllocError, //
-+    },
-     container_of,
-     prelude::*,
-     sync::{
-@@ -200,7 +203,14 @@
-     time::Jiffies,
-     types::Opaque,
- };
--use core::{marker::PhantomData, ptr::NonNull};
-+use core::{
-+    marker::PhantomData,
-+    ops::Deref,
-+    ptr::NonNull, //
++mod scoped;
++pub use self::scoped::{
++    new_scoped_work,
++    ScopedWork,
++    ScopedWorkItem, //
 +};
 +
-+mod builder;
-+pub use self::builder::Builder;
- 
  /// Creates a [`Work`] initialiser with the given name and a newly-created lock class.
  #[macro_export]
-@@ -346,7 +356,7 @@ pub fn enqueue_delayed<W, const ID: u64>(
-     /// This method can fail because it allocates memory to store the work item.
-     pub fn try_spawn<T: 'static + Send + FnOnce()>(
-         &self,
--        flags: Flags,
-+        flags: alloc::Flags,
-         func: T,
-     ) -> Result<(), AllocError> {
-         let init = pin_init!(ClosureWork {
-@@ -359,6 +369,41 @@ pub fn try_spawn<T: 'static + Send + FnOnce()>(
-     }
- }
+ macro_rules! new_work {
+@@ -283,11 +290,50 @@ pub unsafe fn from_raw<'a>(ptr: *const bindings::workqueue_struct) -> &'a Queue
+     pub fn enqueue<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
+     where
+         W: RawWorkItem<ID> + Send + 'static,
++    {
++        // SAFETY: `W: 'static`, so everything borrowed by `W` remains valid forever.
++        unsafe { self.enqueue_raw(w) }
++    }
++
++    /// Enqueues a [`ScopedWork`] item.
++    ///
++    /// Unlike [`Queue::enqueue`], this does not require the work item to be `'static`. This is
++    /// sound because a [`ScopedWork`] cancels itself synchronously when it is dropped, and
++    /// [`ScopedWork::new`] requires that this destructor runs before any lifetime in `T` expires.
++    ///
++    /// This may fail if the work item is already enqueued in a workqueue.
++    ///
++    /// The work item will be submitted using `WORK_CPU_UNBOUND`.
++    #[inline]
++    pub fn enqueue_scoped<T>(&self, w: &ScopedWork<T>) -> bool
++    where
++        T: ScopedWorkItem + Sync,
++    {
++        // SAFETY: The `ScopedWork` destructor calls `cancel_work_sync()`, and `ScopedWork::new`
++        // guarantees that this destructor runs before any lifetime in `T` expires. Hence everything
++        // borrowed by `T` remains valid until the work item has run to completion or has been
++        // cancelled.
++        unsafe { self.enqueue_raw(w) }
++    }
++
++    /// Enqueues a work item without requiring it to be `'static`.
++    ///
++    /// # Safety
++    ///
++    /// Everything borrowed by `W` must remain valid until the work item has run to completion or
++    /// has been cancelled.
++    #[inline]
++    unsafe fn enqueue_raw<W, const ID: u64>(&self, w: W) -> W::EnqueueOutput
++    where
++        W: RawWorkItem<ID> + Send,
+     {
+         let queue_ptr = self.0.get();
  
-+/// An owned kernel work queue.
+         // SAFETY: We only return `false` if the `work_struct` is already in a workqueue. The other
+-        // `__enqueue` requirements are not relevant since `W` is `Send` and static.
++        // `__enqueue` requirements are not relevant since `W` is `Send` and the caller guarantees
++        // that everything borrowed by `W` remains valid until the work item has run to completion
++        // or has been cancelled, so the function pointer is never called after a lifetime in `W`
++        // expires.
+         //
+         // The call to `bindings::queue_work_on` will dereference the provided raw pointer, which
+         // is ok because `__enqueue` guarantees that the pointer is valid for the duration of this
+diff --git a/rust/kernel/workqueue/scoped.rs b/rust/kernel/workqueue/scoped.rs
+new file mode 100644
+index 000000000000..e490ac752423
+--- /dev/null
++++ b/rust/kernel/workqueue/scoped.rs
+@@ -0,0 +1,342 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Scoped work items.
++//!
++//! Provides [`ScopedWork`] for work items that may borrow data with some non-`'static` lifetime.
++//!
++//! Unlike [`Work`]-based items, ownership of a [`ScopedWork`] is not transferred to
++//! the workqueue. Instead, its destructor calls `cancel_work_sync()`, which guarantees that the
++//! work function is not running (and will not run) once the destructor returns. This is what
++//! allows the inner data to carry non-`'static` lifetimes.
++//!
++//! Creating a [`ScopedWork`] is `unsafe`, because the above guarantee only holds if the destructor
++//! actually runs: the value must not be forgotten. Once created, a [`ScopedWork`] can be enqueued
++//! on any queue using the safe [`Queue::enqueue_scoped`].
++//!
++//! # Examples
++//!
++//! ```
++//! use kernel::workqueue::{
++//!     new_scoped_work,
++//!     Queue,
++//!     ScopedWork,
++//!     ScopedWorkItem,
++//! };
++//!
++//! struct MyWork {
++//!     value: u32,
++//! }
++//!
++//! impl ScopedWorkItem for MyWork {
++//!     fn run(work: &ScopedWork<Self>) {
++//!         pr_info!("value = {}\n", work.value);
++//!     }
++//! }
++//!
++//! let work = KBox::pin_init(
++//!     // SAFETY: `work` is not forgotten.
++//!     unsafe { new_scoped_work!("MyWork", MyWork { value: 42 }) },
++//!     GFP_KERNEL,
++//! )?;
++//!
++//! let queue = Queue::new_unbound().build(c"my-wq")?;
++//! queue.enqueue_scoped(&work);
++//!
++//! // Dropping `queue` first drains it, so the work item is guaranteed to have run by the time
++//! // `work` is dropped.
++//! drop(queue);
++//! # Ok::<(), Error>(())
++//! ```
++
++use crate::{
++    bindings,
++    container_of,
++    prelude::*,
++    sync::LockClassKey,
++    types::Opaque,
++    workqueue::RawWorkItem, //
++};
++
++#[cfg(doc)]
++use super::{
++    Queue,
++    Work, //
++};
++
++use pin_init::Wrapper;
++
++use core::ops::Deref;
++
++/// Trait for types that can be used as scoped work items.
 +///
-+/// Dropping a workqueue blocks on all pending work.
++/// Implementers define the work function that executes when the item is dequeued by a workqueue
++/// thread. The callback receives a reference to the containing [`ScopedWork`], which provides
++/// access to the inner data via [`Deref`] and can be passed to [`Queue::enqueue_scoped`] to
++/// re-enqueue the work item from within the work function.
++pub trait ScopedWorkItem: Sized {
++    /// Called when the work item is executed.
++    fn run(work: &ScopedWork<Self>);
++}
++
++/// The payload of a [`ScopedWork`].
 +///
 +/// # Invariants
 +///
-+/// `queue` points at a valid workqueue that is owned by this `OwnedQueue`.
-+pub struct OwnedQueue {
-+    queue: NonNull<Queue>,
++/// `work` is an initialized `work_struct` whose work function is [`ScopedWork::<T>::run`]. An
++/// `Inner<T>` only ever exists inside a [`ScopedWork<T>`].
++#[pin_data]
++struct Inner<T: ScopedWorkItem> {
++    #[pin]
++    work: Opaque<bindings::work_struct>,
++    #[pin]
++    data: T,
 +}
 +
-+// SAFETY: `OwnedQueue` uniquely owns a valid `Queue`, which is `Send + Sync`.
-+unsafe impl Send for OwnedQueue {}
-+// SAFETY: `&OwnedQueue` only provides `&Queue` (via `Deref`), which is safe to share.
-+unsafe impl Sync for OwnedQueue {}
++/// A scoped work item that cancels synchronously on drop.
++///
++/// `ScopedWork<T>` contains a `work_struct` and the user data `T`. Its destructor calls
++/// `cancel_work_sync()`, guaranteeing the work function is not running when the data is dropped.
++///
++/// This allows `T` to carry non-`'static` lifetimes.
++///
++/// Construct via [`new_scoped_work!`], which returns an `impl PinInit` suitable for embedding
++/// in-place inside other pinned structs. Because the soundness of [`Queue::enqueue_scoped`]
++/// relies on the destructor running, [`ScopedWork::new`] is `unsafe` and requires that the
++/// resulting value is never forgotten.
++///
++/// # Examples
++///
++/// Self-re-enqueueing from within the work function:
++///
++/// ```
++/// # use kernel::sync::atomic::{Atomic, Relaxed};
++/// # use kernel::time::{Delta, delay::fsleep};
++/// use kernel::workqueue::{
++///     self,
++///     new_scoped_work,
++///     Queue,
++///     ScopedWork,
++///     ScopedWorkItem,
++/// };
++///
++/// struct RequeueWork<'a> {
++///     counter: Atomic<u32>,
++///     queue: &'a Queue,
++/// }
++///
++/// impl ScopedWorkItem for RequeueWork<'_> {
++///     fn run(work: &ScopedWork<Self>) {
++///         if work.counter.fetch_add(1u32, Relaxed) < 2 {
++///             work.queue.enqueue_scoped(work);
++///         }
++///     }
++/// }
++///
++/// let queue = Queue::new_ordered().build(c"requeue_wq")?;
++///
++/// let work = KBox::pin_init(
++///     // SAFETY: `work` is not forgotten.
++///     unsafe {
++///         new_scoped_work!(
++///             "RequeueWork",
++///             RequeueWork {
++///                 counter: Atomic::new(0u32),
++///                 queue: &queue,
++///             }
++///         )
++///     },
++///     GFP_KERNEL,
++/// )?;
++///
++/// queue.enqueue_scoped(&work);
++/// # fsleep(Delta::from_millis(300));
++///
++/// assert_eq!(work.counter.load(Relaxed), 3);
++/// # Ok::<(), Error>(())
++/// ```
++#[pin_data(PinnedDrop)]
++#[repr(transparent)]
++pub struct ScopedWork<T: ScopedWorkItem> {
++    /// The whole payload is wrapped in [`Opaque`] on purpose: while the destructor waits in
++    /// `cancel_work_sync()`, a worker thread may still be executing [`ScopedWorkItem::run`] with a
++    /// shared reference to this value, concurrently with the `&mut Self` held by `drop`. [`Opaque`]
++    /// opts out of the uniqueness guarantee of that `&mut`. Wrapping individual fields would not be
++    /// enough, since the `&mut Self` would still claim exclusive access to the padding bytes.
++    ///
++    /// # Invariants
++    ///
++    /// `inner` is always initialized.
++    #[pin]
++    inner: Opaque<Inner<T>>,
++}
 +
-+impl Deref for OwnedQueue {
-+    type Target = Queue;
++// SAFETY: A `&ScopedWork<T>` only hands out `&T` (via `Deref`) and a pointer to the `work_struct`,
++// which is only ever accessed through the C workqueue API. Hence sharing it is safe when `T: Sync`.
++unsafe impl<T: ScopedWorkItem + Sync> Sync for ScopedWork<T> {}
++
++// SAFETY: The `work_struct` is only ever accessed through the C workqueue API, which is safe to
++// use from any thread. Sending the contained `T` requires `T: Send`.
++unsafe impl<T: ScopedWorkItem + Send> Send for ScopedWork<T> {}
++
++impl<T: ScopedWorkItem> Deref for ScopedWork<T> {
++    type Target = T;
++
 +    #[inline]
-+    fn deref(&self) -> &Queue {
-+        // SAFETY: By the type invariants, this pointer references a valid queue.
-+        unsafe { &*self.queue.as_ptr() }
++    fn deref(&self) -> &T {
++        // SAFETY: `inner` is always initialized (type invariant), and `data` is only ever accessed
++        // through shared references.
++        unsafe { &(*self.inner.get()).data }
 +    }
 +}
 +
-+impl Drop for OwnedQueue {
++impl<T: ScopedWorkItem> ScopedWork<T> {
++    /// Creates a pin-initializer for a new scoped work item.
++    ///
++    /// Use [`new_scoped_work!`] to automatically provide the lock class key.
++    ///
++    /// # Safety
++    ///
++    /// The caller must ensure that the destructor of the initialized `ScopedWork<T>` runs before
++    /// the memory it lives in is reused or any lifetime in `T` expires. In particular, the value
++    /// must not be leaked, e.g. via [`core::mem::forget`] or by leaking the allocation that
++    /// contains it.
 +    #[inline]
-+    fn drop(&mut self) {
-+        // SAFETY: This `OwnedQueue` owns a valid workqueue, so we can destroy it. There is no
-+        // delayed work scheduled on this queue that may attempt to use it after this call, as
-+        // scheduling delayed work requires a 'static reference.
-+        unsafe { bindings::destroy_workqueue(self.queue.as_ptr().cast()) }
++    pub unsafe fn new<E>(
++        name: &'static CStr,
++        key: Pin<&'static LockClassKey>,
++        init: impl PinInit<T, E>,
++    ) -> impl PinInit<Self, E> {
++        try_pin_init!(Self {
++            inner <- Opaque::pin_init(try_pin_init!(Inner::<T> {
++                work <- Opaque::try_ffi_init(|slot| {
++                    // SAFETY: `slot` is a valid pointer to uninitialized memory for a
++                    // `work_struct`, and `Self::run` is a valid work function for a `work_struct`
++                    // embedded in an `Inner<T>` that is embedded in a `ScopedWork<T>`.
++                    unsafe {
++                        bindings::init_work_with_key(
++                            slot,
++                            Some(Self::run),
++                            false,
++                            name.as_char_ptr(),
++                            key.as_ptr(),
++                        )
++                    };
++                    Ok::<(), E>(())
++                }),
++                data <- init,
++            }? E)),
++        }? E)
++    }
++
++    /// Returns a raw pointer to the `work_struct`.
++    #[inline]
++    fn raw_work(&self) -> *mut bindings::work_struct {
++        // SAFETY: `inner` is always initialized (type invariant).
++        unsafe { Opaque::cast_into(&raw const (*self.inner.get()).work) }
++    }
++
++    /// The work function registered with the C workqueue.
++    ///
++    /// # Safety
++    ///
++    /// `ptr` must point to the `work` field of the `Inner<T>` of a live `ScopedWork<T>`.
++    unsafe extern "C" fn run(ptr: *mut bindings::work_struct) {
++        // SAFETY: `Opaque<T>` is `#[repr(transparent)]`, and by the safety requirements `ptr`
++        // points to the `work` field of an `Inner<T>`.
++        let inner =
++            unsafe { container_of!(ptr.cast::<Opaque<bindings::work_struct>>(), Inner<T>, work) };
++
++        // SAFETY: `Inner<T>` only ever exists inside a `ScopedWork<T>` (type invariant), and both
++        // `Opaque` and `ScopedWork` are `#[repr(transparent)]`, so `inner` is also a valid pointer
++        // to the containing `ScopedWork<T>`. By the safety requirements it is live; its destructor
++        // calls `cancel_work_sync()` before the memory is released, so it stays live for the
++        // duration of this call.
++        T::run(unsafe { &*inner.cast::<Self>() });
 +    }
 +}
 +
- /// A helper type used in [`try_spawn`].
- ///
- /// [`try_spawn`]: Queue::try_spawn
++// SAFETY: `&ScopedWork<T>` points to a `work_struct` whose work function is
++// `ScopedWork::<T>::run` (type invariant), so passing it to `queue_work_on` is sound. The pointer
++// stays valid until the work function has run or the item is cancelled, because the `ScopedWork`
++// destructor calls `cancel_work_sync()` and `ScopedWork::new` requires that destructor to run.
++unsafe impl<'a, T: ScopedWorkItem + Sync> RawWorkItem<0> for &'a ScopedWork<T> {
++    type EnqueueOutput = bool;
++
++    unsafe fn __enqueue<F>(self, queue_work_on: F) -> Self::EnqueueOutput
++    where
++        F: FnOnce(*mut bindings::work_struct) -> bool,
++    {
++        queue_work_on(self.raw_work())
++    }
++}
++
++#[pinned_drop]
++impl<T: ScopedWorkItem> PinnedDrop for ScopedWork<T> {
++    #[inline]
++    fn drop(self: Pin<&mut Self>) {
++        // SAFETY: `raw_work()` returns a valid `work_struct`. After `cancel_work_sync()` returns,
++        // the work function is guaranteed to not be running.
++        unsafe { bindings::cancel_work_sync(self.raw_work()) };
++
++        // SAFETY: `inner` is initialized (type invariant), no longer accessed by the work
++        // function, and never accessed again after this point. `Opaque` does not drop its
++        // contents, so we have to do it here.
++        unsafe { core::ptr::drop_in_place(self.inner.get()) };
++    }
++}
++
++/// Creates a [`ScopedWork`] pin-initializer with a new lock class.
++///
++/// This macro expands to a call to [`ScopedWork::new`], which is `unsafe`, so the invocation must
++/// be wrapped in an `unsafe` block.
++///
++/// # Safety
++///
++/// The caller must uphold the safety requirements of [`ScopedWork::new`]: the destructor of the
++/// initialized `ScopedWork` must run before the memory it lives in is reused or any lifetime in
++/// the inner type expires.
++///
++/// # Examples
++///
++/// ```
++/// use kernel::workqueue::{
++///     new_scoped_work,
++///     ScopedWork,
++///     ScopedWorkItem,
++/// };
++///
++/// struct MyWork {
++///     value: u32,
++/// }
++///
++/// impl ScopedWorkItem for MyWork {
++///     fn run(work: &ScopedWork<Self>) {
++///         pr_info!("value = {}\n", work.value);
++///     }
++/// }
++///
++/// #[pin_data]
++/// struct MyData {
++///     #[pin]
++///     work: ScopedWork<MyWork>,
++/// }
++///
++/// fn init_data() -> impl PinInit<MyData> {
++///     pin_init!(MyData {
++///         // SAFETY: `MyData` is only ever pin-initialized, so its `work` field is dropped
++///         // whenever `MyData` is.
++///         work <- unsafe { new_scoped_work!("MyWork", MyWork { value: 7 }) },
++///     })
++/// }
++/// ```
++#[macro_export]
++macro_rules! new_scoped_work {
++    ($name:literal, $init:expr) => {
++        $crate::workqueue::ScopedWork::new(
++            $crate::c_str!($name),
++            $crate::static_lock_class!(),
++            $init,
++        )
++    };
++}
++pub use new_scoped_work;
 
 -- 
 2.56.0.212.g129ede20d9-goog
