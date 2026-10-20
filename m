@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792483973;
-	b=wyOae/AtUuuYHuit8VOyZKv3VrN7SwQcgQzBkPSTBILUwbnwbyGM/bHnfOGVbfqTHE75
-	 20+8k2IvsX1VJt8/7aPp0h06/r9XA2UbC1LSmpf2fHGqihyt90sVfe6P5X470M2MlWsIT
-	 YhNWibkSpVlii5He4+03qxddIUmYcutmxyI823QDt0/UfxUrqTcpXUI6iGLTlwS9Vs8GQ
-	 1y6bld2K3xP21HsdHp6J+Zp4oA+35+q9i13txUtj+mBh0isWFhpT4fAUGT4n0rqzYjB67
-	 R2tlxQb/AeIg7okLUR6F8Fuwcb5fTdhPvg6dtOJ2NTEgZYVCwzGqPyXhsbvUOsVHzdA==
+	t=1792483993;
+	b=YIkggBg4lAqcyL7L2eBMPt0G/mV4GqMC4Jwgt7j9P7Y7m637yU21Tt9SD/d/+u3MgFgS
+	 3zo3pa2ogVUMivV+HgobCqxkuvgHAhkwpkRGTAZ/KOY0GwOdfq8ofvObTwR2sgwCjGC3a
+	 drxlMGqKVqq4qkrjE2oPFsGmWjF2cVMXMkT0V1gl0Khl0X8UBhtEvXK/zQJdErKhXOVhE
+	 zaFs7HNphNVegQhSdruwZK7nBDTIKfaGZsaYcLf3fWUTtO/5UVUtOSmoYoyRjgYPs1VbL
+	 mxs7xUHPLwX/RSjYHBLJoidJHtgfzvdUINaQEreb8lz2s/8Ckmm5XFqlEeC718hBz3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792483973;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792483993;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=f63bQLBXHYlw5Kr7m+qCxUpgsrgXJgF6I45Lwx8IJPk=;
-	b=fHP4EG10HkOA7GgN47OkOVDRGrpRuvZ0FPYtNhxF5gTtusonIlB/FO1mVR2mfKrlJ99Y
-	 ferK5pjI+0JkBnswYPu2huiFgaHEUMI/YVLyRZ/H9G81FN+AM4TzcRQk7FCr/d6j+Nhwc
-	 YA4Q8boRjR+TvI0ZPavfXZvIfVgD8Bw+XpAzApqrsx0NpLk73hOpsP+JU2QHLzJfyT+s5
-	 r8CNclOBgQYTvNTGgIMonn531EgZRWShC9pQWN4V4cv6ncgjjhJ4ZWkxX1aHeBIQQ45aP
-	 F4dVXflCFT/BPxgH2Dpc8aP7lzrCRRa1v0D2S2b9lxg8zRww6llL9KbBLYl/1KGcx1A==
+	bh=TsTwpzFLaL87CUGnKEpNBjiUo0nCAy+dGY5mjA4Yxa4=;
+	b=S3Fe/gxKSq0vktMyYMdenRnWc/ZVambXdzW68/XVw2PJPBhjCo3CC0hQ52hNdMUdIzqR
+	 zn3/mBACviHWyw5mwQNwCFWDIrquWd+Jj4RShMrC7UCB34sH0qUTknhXEbAnidWek6PR1
+	 7mM9gB2jEteGF/pL2I8jMMwv+Mc0FtVaRZjnNJ9ndII3ErKJ18DSVIsLazKSMtzdy9B0V
+	 I5+LSH8nZhQqfxIn96NCOB+qPJzh8VYHkn0pvCkPIden7pmU9QkxQIL7Clnrpjq3cV89x
+	 lrcYq73Rrx84gnH94LYjZcRFXE5AioYJLKOIJ/rHEnJKMHfV1JKXU8KTRljelW0c0qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=I0gdDQtl;
-	arc=none smtp.remote-ip=209.85.208.71
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=gPSZF8Wa;
+	arc=none smtp.remote-ip=209.85.208.70
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46686606A327
-	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 08:12:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46686606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370EC606A31C
+	for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 08:13:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 370EC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=I0gdDQtl
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6b1a56fd429so3497337a12.3
-        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 01:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=gPSZF8Wa
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6b1ab11f4a3so2578242a12.0
+        for <driver-core@lists.linux.dev>; Tue, 20 Oct 2026 01:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792483972; x=1793088772; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1792483991; x=1793088791; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=f63bQLBXHYlw5Kr7m+qCxUpgsrgXJgF6I45Lwx8IJPk=;
-        b=I0gdDQtlSEvth1ecpeYGigDnLJRtDENpvzwXhlnbD/qBCAezkJhUDRJwGdbPIyPioD
-         uOpWfKsFWMWimQkn7DrgASKDaO+LnFJQErAL0TGV0YO0F+OWJIshGFUtOTrsUpM4FrIZ
-         aCvEMkowrIuVfvk8tyO3oHXkT/McWrB+s2itQp85e28TsuRwqJk7ZrPX+q1tppKaEWQ3
-         8BxF7RU0n4N9Uz/if5U1sg2z/ZDfbg8kT0o7JyAzieidnNL5LV4/x4sYgcr4DPjz3BPf
-         1wk5QxnArxk5/9Q7DqR4L1cNzxg4jjYj5QYBk0hgqn5CdLVhUopChyYo1zMo+aqVWPjw
-         tXMA==
+        bh=TsTwpzFLaL87CUGnKEpNBjiUo0nCAy+dGY5mjA4Yxa4=;
+        b=gPSZF8WaCqB4LOsABKoInrKhO5bAIygaFuJ+Aq79TM4RBTa+jgee2jsnfsI6Q+7qav
+         ZdlIjjyBok/L+EpmD4mVuszwz3ipe1IUlZLPSerlCkC72IP9U1To1x2gKh30iwJ6LBF5
+         qMhdCw9rwV7pE8GUm2m6LT989KQqqTRdPixlbJ/fKQpCkcgmRyQWK6gUic2v5/VXyJ3F
+         hAUmPorbzzM3XYMEk4ia6iJszyPl+wKaCPJvBnHTjA6oln8/chvaVxX/KbbqhijghIQz
+         x1cL3NTd6u4UH7Xl1BFt+Fa9eMiUfhiTsgATxqJTvqHdyC1UP+zEtNKLFLRsTaqsNTKa
+         LBGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792483972; x=1793088772;
+        d=1e100.net; s=20260707; t=1792483991; x=1793088791;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=f63bQLBXHYlw5Kr7m+qCxUpgsrgXJgF6I45Lwx8IJPk=;
-        b=YISF8rIuo54EBOYMLGltK+ce31nHxePW5l1gydUvu4lqPNK7GspydTGYBIzbgtilov
-         yWgOKWIHOL3KhuzScbcAb7nszhCL2KubwG1zCGPg0lQ+AQLfyvwsUkpgGMjEBOOj603x
-         jMJzmAs3bb+X2jQO3DHGIgogTiwqes7OrY5eYCwlmlJmaVIzdb38UOvjjxc53020ghHz
-         F8ytWs1qeZEUNJ+rCFECb9EG07KXIuSdTuV+O+Urd+hg+6qLN+WMWs5K12j3qyfyZpR4
-         F7HXthRYxbNFGWfB1bmywNQk75PemyUFa1z8Gw8jovFJC8POZ0SEpwM0JuJ/0f7kaO8X
-         Rcew==
-X-Forwarded-Encrypted: i=1; AKwUvBzL8owOBNFkhWh0NHSK8V/mMupuk7sgIHnpISrrHynx79gtKrcS/L2KUkZqYmmLhLsd1ZevjSKEXWvodA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK0StEJBez0CHLtHUWNO+3uBQKrQQq3T/OoI+HID+bTtr8l1PCr
-	pd1f8CX8BYoYGITH/e7XYsrwpQ5FZUD+FOnef/c26VLd6hlNvnQJxzTcF4TQq/r2AlzPAECDnhq
-	y4aR0bLeJAp4209PiNQ==
-X-Received: from edwg15.prod.google.com ([2002:a05:6402:114f:b0:6ac:c84f:3304])
+        bh=TsTwpzFLaL87CUGnKEpNBjiUo0nCAy+dGY5mjA4Yxa4=;
+        b=KbUFHbk+3aBT82WR905NEEMm+2juh8cQl3Xhxf0jdHhVHeyFmdG3n6cG/63Sy2W230
+         4n75oOyt7ABDDlvwj/VxeCxMTP2eJInGtQW6DcSRvfnY6FYMxeNNFM97N8XA1pV0X0x3
+         nIFPiZzUS2rgB5VAvuz8mLhK5Y8+5FjOSj7fFIvlpL3iohFBokR4BMp4+CT1yN2Ap0CP
+         UHarkFGYzj+XraJtEqWcpmgUIqVJvt3pP0rrc34TMsyWoVDUl1OKskNIg3ZSRg6XE8XH
+         8pXnp1hYEQTA551zE1D9SazKN8KaNz4woKTxxzxy8biZ8p73owtEz5e/5v9MaH1304Up
+         c8kw==
+X-Forwarded-Encrypted: i=1; AKwUvBwScNMA3r7K2Ebra73Cslff2SPuh6wpiTgZh2OcsqVxLbE6ODuEwJ+pk/qzSwp0IAwCJFd9b+EEA5h75A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIPdDf6C7hi9zs1m8OwYAPDUhd780JkB4ZsoOrWWT2U+N2NCR0m
+	7rqSJr8kUB+TClzs5+pTOEIKCMceuMl6tj2zHnqzJ6F+ykKxJnbB6EE8sktap1e1iWkM+8chj07
+	XweBW5xnaBxfSKf45MQ==
+X-Received: from edt3.prod.google.com ([2002:a05:6402:4543:b0:6aa:ff76:b1f6])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:51d4:b0:6b1:b9da:2047 with SMTP id 4fb4d7f45d1cf-6b3a816fac9mr6710522a12.16.1792483971098;
- Tue, 20 Oct 2026 01:12:51 -0700 (PDT)
-Date: Tue, 20 Oct 2026 08:12:47 +0000
-In-Reply-To: <20261019-rust-cfi-fixes-v1-2-9503472ba738@google.com>
+ 2002:aa7:d803:0:b0:6b1:e474:e0e2 with SMTP id 4fb4d7f45d1cf-6b3a81dea57mr4861388a12.43.1792483991214;
+ Tue, 20 Oct 2026 01:13:11 -0700 (PDT)
+Date: Tue, 20 Oct 2026 08:13:06 +0000
+In-Reply-To: <20261019-rust-cfi-fixes-v1-3-9503472ba738@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -79,10 +79,10 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 Mime-Version: 1.0
-References: <20261019-rust-cfi-fixes-v1-0-9503472ba738@google.com> <20261019-rust-cfi-fixes-v1-2-9503472ba738@google.com>
+References: <20261019-rust-cfi-fixes-v1-0-9503472ba738@google.com> <20261019-rust-cfi-fixes-v1-3-9503472ba738@google.com>
 X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
-Message-ID: <20261020081248.1761160-1-aliceryhl@google.com>
-Subject: Re: [PATCH 2/3] rust: hrtimer: declare cfi_encoding for hrtimer_restart
+Message-ID: <20261020081308.1768290-1-aliceryhl@google.com>
+Subject: Re: [PATCH 3/3] rust: dma: declare cfi_encoding for dma_data_direction
 From: Alice Ryhl <aliceryhl@google.com>
 To: Sami Tolvanen <samitolvanen@google.com>
 Cc: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -97,26 +97,27 @@ Cc: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
 	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev
+	driver-core@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 19, 2026 at 11:34:38PM +0000, Sami Tolvanen wrote:
-> The hrtimer callbacks return bindings::hrtimer_restart, which bindgen
-> generates as c_uint. C calls them through hrtimer->function, which
-> returns enum hrtimer_restart. kCFI encodes enum types by name even with
-> integer normalization, so the type ids never match and every call fails
-> the CFI check.
+On Mon, Oct 19, 2026 at 11:34:39PM +0000, Sami Tolvanen wrote:
+> bindgen generates bindings::dma_data_direction as an integer by default,
+> while C callback tables such as dma_buf_ops declare the parameter as
+> enum dma_data_direction. kCFI encodes enum types by name even with
+> integer normalization, so the type ids would not match when C calls into
+> a Rust callback taking bindings::dma_data_direction.
 > 
-> Generate hrtimer_restart as a newtype with a cfi_encoding, as is done
-> for lru_status, and adapt HrTimerRestart to the newtype.
+> Generate dma_data_direction as a newtype with a cfi_encoding, as is done
+> for lru_status, and convert DataDirection through the newtype's
+> constants.
 > 
-> Fixes: 8a8afe9349fb ("rust: hrtimer: introduce hrtimer support")
 > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-Missing
+Perhaps also add:
 
-	Cc: stable@vger.kernel.org
+Cc: stable@vger.kernel.org
+Fixes: c2437c43cfb1 ("rust: dma: implement DataDirection")
 
-otherwise LGTM:
+so this gets tracked alongside patches 1 and 2 for `6.18.y` backports.
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
