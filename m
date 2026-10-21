@@ -1,49 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792581534;
-	b=ZKpXM89zX6joOheic66ZdGdx8khiCo+DDzb13ZiyIiPrZVyrXhD6B+oVR33FvFqW0v1c
-	 /8lLBISRNjJuI7p+Cpy72aggigJ0qLYn/Na2BNVTBCbFdUebp3Eh4A3VAuF0ay/9echmm
-	 Yel7BxBJv6jzb4KEEMW8gtZMoR/ON4wC0Vt70HE4V0N5O2Q99rzlX7aNvWg0ezxLobGTR
-	 DcJRsiG9iNDarGUVPBXtmZgQldcua/Z317FZJ8+N87zYyy/9EY3j7BHaBNw8CmO2CWjKX
-	 3Vp/uvXjHeNrG8L+gjfd08VLTo1FWh2NGm721MHuWvsRQk/SxVjxMIFWErYRnuIu3NA==
+	t=1792587120;
+	b=MN+Lkxz+C2tNzRAEH2Zph45W4BB5x1ZOODujPKElmowQdRc9egqFt6q0YQwFt13W1yQH
+	 uCfGLtt62BGQyoRUqNVvqPw1F5dTGDDkEpHRx48wDj3vdd+ZX/Y1EzUTxXktpmLMminhB
+	 TX4qxfJOxCq4vpjAV6L+/p6MkP1BRKZP4Wz+GOhzfcK1fsLxi+9NsAZw+Bxcd7t8DFMtr
+	 evxrbqB6Z/JldfYwmOqUdKxPLJcIR6QDJuHDNVqbRFEm7080ZVwyteh05SajO+tcwew4G
+	 zJqnV3sz4VvST0YK78roeLRcJJ5rKOHU0/hZsALuR1vvCCx35PV1zNuhDHJSCVfwigw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792581534;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=RUVSPvOusEPDcxbKoxUzwI+i0SOx4REoavCHaUCGKS8=;
-	b=ImpcRCTQPPxeKDnS90RQT2bE708/TnLekoMUHU7RABcdWED4pSvJVIvcpu8+bZPsn33e
-	 IE4PeHffeUeHp+I5zGLaCzZzc8P7gugW2p7Lgznzed1uuiwmib1Jp94286+YjcpvEkR82
-	 z9TpBt0t66AfnIyJQ+HDhviPD2xMMOWtiKMWH9X/Rnmg+4UfM3PjbZFRKtJf2G6DCqloN
-	 4ynFbXc6QKC87KBZEWGl4wWkXO1jUz2oVu73C7G2CJbcZsx2VKP5qGa6xvECxNj0j7/L5
-	 TG6RGnXG4cMAwDmPVScz7TyWlynnANJubPgaeGX5xVhRlcuVMgRk2S62pSMhEQil0Dw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792587120;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+	b=uG+TJMcQzCy7ueLq3cqn72TTI+vgqkVXsvOwYkVLSjcjNSkuBzOeywZc7vCawa6PnoqD
+	 VHfnARneyLpIBSB0OefgRduoh3Mo4R7eshWqSuX3EKw2mKP1Gp34itdJ12IhbVnVHXv3h
+	 I0Cb9pLtk+zQ1DS7E7XnaJUF+6s8fxCXaD1wPv0yrmp+34pJmRbmhn/EYh0UmUpjsFM31
+	 xcGEjP3dHGULdt+JruqDQLrSbMvuHQIdmR9MfuDeBC9qKN7o1Yy3CljIVBm/0dGwtHGan
+	 I8cHDGKdQP4hNQpEQbYFKua/b94Q2CvdLbUuwSHZPxH2Lm3nH2kTpLrqa/YYLTEGyNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Nzihi9PT;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41367606A31A
-	for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 11:18:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41367606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IfXFLySx;
+	arc=none smtp.remote-ip=209.85.208.50
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5464606A32D
+	for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 12:51:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5464606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Nzihi9PT
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C926016F8;
-	Wed, 21 Oct 2026 04:18:48 -0700 (PDT)
-Received: from [10.57.78.129] (unknown [10.57.78.129])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1324E3F7D8;
-	Wed, 21 Oct 2026 04:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792581532; bh=9asrnmphDtRD/Xpr13UrW46SqE+vWmkJ5y1evI5+R6M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Nzihi9PT0ig+89d5JTsqKKaFfSwnuT/hEwWjYN5I8yaqpIgMwHjjgbhJm55Chfqix
-	 1vaBGhJmt3z21nuaXtVGMXVIgVWgAl4bF5AqWGryVVwQ9WkLuPx6vwy/G6aOG/wN1/
-	 Gv4eo9vyvP8GpUA46s9cC5wD742tzJPBBdAN+jxc=
-Message-ID: <7f077fd3-9c67-409a-b46f-7f28a55c180b@arm.com>
-Date: Wed, 21 Oct 2026 12:18:39 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IfXFLySx
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6b167ffd132so1079613a12.1
+        for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 05:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792587118; x=1793191918; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+        b=IfXFLySxTtmylGCchD083svxaoCHf8zi44GD12GHFED1kCifqdmgk2A6r0MpZePZm5
+         2HIeL+OqOklY6FzOml6oIFvv+PzQ6PHEXauFLyS+EV218zo70gnNdX8WO0MZXu/fd9KL
+         ks58Ksve4+nEy+hwXCSejKMd0X222uIbRgQBTJLuO94vJ7dc0mQsp07vFSWVBlu062Uq
+         G7YLg5n/ND5d6Tbivzs9+azdr59YrGsCCV72gsT+CXYcKgVn1vgzJl2ZNP1KkNpDClVO
+         KD7uLL9N4jWAI9vMsyhvxrnL4YfK5GxNdh0n1OUJBasD6JykaUlblfu1zUkZ8mGVk9be
+         arvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792587118; x=1793191918;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Mn8oXMgO7ys8gs1NirtIayuQ3LSb5RT+jR9DaBN+G6Q=;
+        b=pbrgr42HbQLmR6giP4ssloCTjHYWDnFy8xjr/5DNJkveIloo/IQjITMPxzoohw+cqu
+         0s2PlAGpYrBYptgiyBaFdna+1gNvCoMKXZdxsL3jYbkQ3FbUFHSzqgS/0HAE7+wIJWPi
+         /XBnyk30JLb6SeoH0suOGidl94sKGRuTvapQwaegiSsGNNz4FqGaHeEj+9Gums1MmnsK
+         edFMwS+i4hQCi50CDTKJcUQiST2cA4Wqjvfja8cBVWLyZn5js0lrV3UkX7zJ1mE6ZdHS
+         Mvu3WmADwaRYuCJqdHQvPaYTsbDpVebYjPzrhWUIplyc5lsOJ33Nrj1cSCAC7WMBOOQw
+         Mxfg==
+X-Forwarded-Encrypted: i=1; AKwUvBzRWCX4P9hE6+ahI7sGFjXJGhAHeMpEM7oJ0bmVk5Rbym6WEHaRqtecpg15UpA6yL6jW00yuKkq9ReC7g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKj4K8NFENSWbr/HNBfYmf2uOAr9s7oxONBdhCCgOqhmYUWpPTf
+	e6BjDlHFVWFSkfz/HQVCVLuVU1dWA1wDYUbdmBiLx/u0cPuxrdxTTuznkyJsXOgwxDGUCe9I
+X-Gm-Gg: AYBFou3K+NFtDBs0hvzFmBaA6G/luKJ82IU5/FysZvjLEYZZjzFFc7EXmhnQNOYZ31v
+	stTXb14SAY1CSbh3+Bw2m1YvFQY2cr/o7WGVDcpKAtJdGuPtwzke4fnp0TOZ4h6McBmoDKSmx8R
+	3G2IThLDFPWW0FU/7NEAoJwGOifSRlbUEhO4bJjIf6l9STshiO4E30UR204EwHjJTXESO89/93/
+	5l9KPVom/3LCHURKkj35ToO5jEL7Hep2FklEZOouiSz+ilIHD3pt/8Cc8wHrOqbECzfh2yNhav5
+	BcUakHHMx98MfHBNrhzLGZWVw6ijBZ9oYgCwoDBPOwsFSMvRGeXULC2gktVupQ19MKMfRwrLJ01
+	axDPWFsmXGSlQM9SrgnWNgF+CqdzWOPtrwSDlhf+HRfa8RxWWEqDG/wWnL04p4DrQAIvPDyO9W0
+	Ffe9M1/OAEqt2AdLeu+rS2t4erZtWqhukedZEf0+nWwM5WZamev8c7/2Y8Cqkrbsp+Y4v2xl3rA
+	iJd9yE0l6TT3kzib0LowJr8a6xm/h8aeFqtmaAZ5LxjRYodLMWbznUM7pWtMwkBO0S7Y0qcMmoX
+	AkxGHF6j5eMIh2t7XyPKWMa9+H3pr431a4qSQ/eoq/rn43meRU6MSz+FUVph0WE5eAukYCm8qIk
+	cFegR1a4vxZ6Ac4dMM420KUGrugxn7iqqOgMEQtV9vlB66qrIwMthz1xJpS/CflvpX7bdNmxkEm
+	YjZiq76v8oPRgwfkmxOouCldPD
+X-Received: by 2002:a17:906:99ca:b0:c40:9839:c892 with SMTP id a640c23a62f3a-c4679594c9bmr175067366b.19.1792587118009;
+        Wed, 21 Oct 2026 05:51:58 -0700 (PDT)
+Received: from Ubuntu.tail0f733b.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4679004464sm73128366b.67.2026.10.21.05.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 05:51:56 -0700 (PDT)
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ian Kent <raven@themaw.net>
+Cc: Tejun Heo <tj@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	driver-core@lists.linux.dev,
+	autofs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs stores
+Date: Wed, 21 Oct 2026 14:51:48 +0200
+Message-ID: <cover.1792577179.git.krystianmkaniewski@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,116 +114,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner
- <tglx@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
- linux-watchdog@vger.kernel.org
-References: <arZNL9BnTGK0Klwc@red-moon> <arZS4vwxps01dGb7@ashevche-desk.local>
- <arqSqcoWAkhy-8do@red-moon> <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
- <asieTvinZ7c2QpQm@red-moon>
- <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
- <atXyIadz1TEKSodg@red-moon>
- <CAJZ5v0joJBZg==DWPsNviPfL7Jo=qupRhb6GinqOLoHXGnvevg@mail.gmail.com>
- <ateI-JcExDyfXKrs@red-moon> <athimRqtDvQu1ZzA@ashevche-desk.local>
- <atiAmZSPiRNBAO5O@red-moon>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <atiAmZSPiRNBAO5O@red-moon>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2026-10-21 10:06 am, Lorenzo Pieralisi wrote:
-> On Wed, Oct 21, 2026 at 09:58:33AM +0300, Andy Shevchenko wrote:
->> On Tue, Oct 20, 2026 at 05:30:00PM +0200, Lorenzo Pieralisi wrote:
->>> On Mon, Oct 19, 2026 at 08:05:50PM +0200, Rafael J. Wysocki (Intel) wrote:
->>>> On Mon, Oct 19, 2026 at 12:34 PM Lorenzo Pieralisi
->>>> <lpieralisi@kernel.org> wrote:
->>
->> [...]
->>
->>>> Basically, yes, the idea is to defer the creation of the platform
->>>> device until the dependency is met.
->>>>
->>>>> till the dependencies are cleared but then, without a _CRS, where will
->>>>> the consumer driver find the platform device resources ?
->>>>
->>>> Well, good question.
->>>>
->>>>> There are multiple facets in this issue and possibly some of them have
->>>>> been already solved but I need to pull them together.
->>>>>
->>>>>> Note that the dependencies can be added to acpi_dep_list after
->>>>>> creating a struct acpi_device with acpi_add_single_object() and
->>>>>> acpi_scan_add_dep() is not really suitable for that, but it should be
->>>>>> doable if the dependencies can be found.
->>>>>>
->>>>>>> I need to have a deeper look into this next week but I wanted to ask first
->>>>>>> whether there was something I missed - most likely.
->>>>>>
->>>>>> Well, it is not really straightforward.
->>>>>
->>>>> Yes it is getting messy. This RFC, with all its flaws, does not transparently
->>>>> prevents enumeration but rather relies on -EPROBE_DEFER to sort out
->>>>> dependencies - though it does so by adding more stuff into ACPI static fwnode
->>>>> that to be honest I'd rather see gone.
->>>>
->>>> I think what you need is a notification mechanism that will trigger
->>>> when a specific device (enumerated via the ACPI Namespace) becomes
->>>> operational.  It doesn't look like any of the existing ones (platform
->>>> device probe deferral or ACPI device dependencies tracking) is really
->>>> suitable for your use case.
->>>
->>> Yes. It might just be a notification from ACPI core to say "the driver for
->>> this ACPI device probed, go create platform devices that depends on it".
->>>
->>> We can check and track the dependency in code that does create those
->>> devices today.
->>>
->>> I will think about this to see how bad this might look like.
->>
->> Don't we do something similar in drivers/acpi/x86/lpss.c?
-> 
-> I suppose I can add a notifier that checks whether the device whose
-> companion represents the ACPI device a given platform device IRQ depends
-> on was bound to its driver and then map the IRQ and add the platform device
-> _then_ - after all that's what acpi_dev_clear_dependencies() does (similar
-> at least).
-> 
-> There is still the question - where the GSI number, flags should be
-> stashed so that the notifier can grab them in a uniform way. We
-> could simply attach platform data storing those values to a pdev, either on
-> a per static table basis or generalize the data so that a single notifier
-> would be able to deal with it.
-> 
-> That or I can just piggyback on acpi_dev_clear_dependencies() and add
-> a separate dep mechanism to acpi_dep_data that instead of being acpi_handle
-> based the consumer is fwnode based (something Rafael mentioned before).
-> 
-> I will have a stab at this and see what's the least bad solution I can
-> come up with.
-> 
-> I suppose we are scrapping the -EPROBE_DEFER solution (ie this set),
-> what we are talking about above won't need to defer anything other
-> than the time when platform devices are added.
+syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
+&sbi->pipe_mutex. splice holds a pipe mutex while it calls the write or
+read handler of a kernfs file, kernfs takes of->mutex there, and a write
+to /sys/power/resume looks up a path that can make autofs write a request
+into its daemon pipe and wait for the daemon.
 
-I dunno, that seems pretty drastic for some use-cases - the fact that a 
-GSI is described in a table doesn't necessarily mean it is critical to 
-device operation. If we don't even create the device until all possible 
-resources are available, then its driver never has any chance to decide 
-whether it's happy to ignore the deferral and just use MSIs or polling 
-instead...
+Patch 1 stops holding of->mutex around the ->store() callback of regular
+sysfs attributes, which do not get the open file and already run
+concurrently for separate opens.
 
-Thanks,
-Robin.
+Patch 2 handles the case that patch 1 leaves. A store called from splice
+still runs with the pipe locked. autofs no longer sends or waits for a
+request in that context and returns -EAGAIN instead. A new mount is
+refused before it is marked pending, so no other lookup sends the request
+in its place. This also removes a deadlock in which the spliced pipe is
+the autofs daemon pipe itself.
+
+Patch 2 changes behavior for one narrow case. A lookup from a splice
+callback that needs an automount fails with -EAGAIN instead of waiting.
+
+The series was tested in QEMU with lockdep using the original C and syz
+reproducers and focused splice and autofs cases. The target reports were
+not reproduced with the series applied, and the paired functional cases
+matched the unpatched baseline.
+
+Krystian Kaniewski (2):
+  kernfs: do not hold of->mutex across sysfs ->store()
+  autofs: do not wait for the daemon while splice holds a pipe
+
+ fs/autofs/expire.c     |  6 +++++
+ fs/autofs/root.c       | 28 +++++++++++++++++++++--
+ fs/kernfs/file.c       | 52 +++++++++++++++++++++++++++---------------
+ fs/splice.c            | 13 ++++++++++-
+ fs/sysfs/file.c        | 18 ++++++++++++++-
+ include/linux/kernfs.h | 11 +++++++++
+ include/linux/sched.h  |  2 ++
+ kernel/fork.c          |  1 +
+ 8 files changed, 109 insertions(+), 22 deletions(-)
+
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
+-- 
+2.53.0
+
