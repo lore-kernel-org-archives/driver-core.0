@@ -1,45 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792577116;
-	b=ii/701s76ELOGSJ7FpLpYVD+FmqPgOAVSRKUkqBxzHeeu5OZX55Gb5Nx/LucmUXmT0jb
-	 8JwyQwtZ3q0jmcNnDltjpJUajzllhh7e9OzBY8MBimTOaJPiM7l/F4YpvdY5h18eCQbyh
-	 9+pXKwM9feSopVFZIlr+t5piviLxB76FHsX+OVe7reUAZltaOPkNLEaCr2sNSiwzYX3RO
-	 hdZpb64Kfo99HQ+E89jcy3KhyeDlMKMywqnzyr5un2mrOACfAfGPbpf/PdQZyMxpH+Fqn
-	 7TJ3DuljW+IX41HSIgGZVlCJm62XP8hU1Y0/D1fYFvbZacEU3Sa5sXPiELhm/q72X0A==
+	t=1792578116;
+	b=NL8ZpqZCWWwYYFAZoHYONQvHTrjJ09JyOIcJWYDNMqW4NcqVVRHJtR6mshvcfn6xXTW/
+	 5K7ttWzjWPAbK+2ufHIYXrJjzhaQpeU2tPcQGUjCNfbrwnUjwLO5X861cWLUvJm2f1Ie6
+	 cd0x7u0edN2SpdLWWefE0Mq6hC8uXaHNhpVd3nXSJg1+Xg8eTG0AEnwZBJGS2WDbqS5Qt
+	 KS45fbYnkOkbV5cfHNVjQm/lcg9BBpqSGyfcZUQtrBWqD/bvDpTil5Bhd17yFid/q5Nfl
+	 +fIK2p7KqPRYuNXwDPXKGxoYStzV4f5NAwcF8+e7oUjKE53YXyHuMxluFKkdx4qPODQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792577116;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:To:Cc:Subject:From:X-Mailer:References:
-	 In-Reply-To;
-	bh=A1BISaUl9wWDfw7k+gq2pMQJekKPJMnfZN8WAqVyfIU=;
-	b=zXPQPJqqhFV6eyrn4+a9w1JefQqIxkDUxnILf5xB7RYVwWKoimNmAI/TeLJIPS9a8CkM
-	 KeuPIUoyGWcfheDIq5czRG+Vj3zv08U9x/+Tt7pgOmF7NRZmvS5yF/eM+bwpB0AnVubjB
-	 leWDJapDNsF/K82gRd9coYREH6uQLMrxIkQHX1jBcfJkn93FiHD8uP0tSd8lmG4Y2P7yB
-	 OgyxpAuCaWyHgvuMxMtvTWY245f18o/kansNjZwZ91S9Q/Mj69ws8ALlxVNy/feGzdDko
-	 k9NBKwmlVDVoZ+taKCeMp1gerYptpWnnC2TENsfDXDrYXkOIqltfVg0yI7nyi9d/Qvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792578116;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	b=Na30fbzbmF9ffbf88MZXidvz/GwP0bvyyaD5DJk/Q175LC/IAkZyAsAw9tbrBeHJXGew
+	 Yj9KBnaxHHKLm4e+o3xU3WHlgccBbjGC/vR5XkxsaDOEw/KiR2OV8Rer6hQiN0T36I6VV
+	 b7GZ1oBOsEmadAlzHtTKZxFP071Vtj1g3VMS/Ez+QR3ez3BVmy4lcQ3G26HCEXxiB+hsw
+	 oQbDef1Xa03LNaoDIQdKyN64ZILCgsOYNCVtf99Zq+QowwesxjDx8vdwrSrSVUaOwlZGz
+	 nsFCXFOEpna5ytlOKlJOg89WjYA1ebqNAN1bCyNDjeyclaf8lFc8+D1q7N2uPX8DcOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="oeIc/PWc";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A8D606A319;
-	Wed, 21 Oct 2026 10:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812FE606A31A;
+	Wed, 21 Oct 2026 10:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oeIc/PWc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77ADD1F000CA;
-	Wed, 21 Oct 2026 10:05:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mxIJkEAE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A92D1F000C9;
+	Wed, 21 Oct 2026 10:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792577116;
-	bh=A1BISaUl9wWDfw7k+gq2pMQJekKPJMnfZN8WAqVyfIU=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To;
-	b=oeIc/PWc5+vSy3/esocJX63Z0ImiyfwGlQ4/npg8hmtub/K3MBDrQGMIoqk0Pm+Io
-	 mObbyx8SQz+8wn6lqUIPJtlGZMyNHF0wglza7VH03SoA7ku9IPX2Chad70T+No8bCp
-	 R3k9zgcNqRra300oz23otd8hKFsRd0Rhc965yGuzTq8ohHs/oei2iOv+6N9w2pkm+1
-	 meJWYDaPBQ6GOA/fPbYsO+CcI9JoOewFMvcYLf1FJ/9yetdCz5z9UPqkMJ9O8kMXc4
-	 tbNmp1tGKqDzgdSsl5hslbuowjjusKRUxV1882+VRsnSEwTqFNFfDYt62Osdet34E0
-	 Z5OwaUaGbXRkw==
+	s=k20260515; t=1792578116;
+	bh=IzO1E6ikKD8tl2Wsl1moqCKEq1l/nX4FZiTYItV58uI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mxIJkEAEUemoHzqFpjGOGsISTWbamBRSUja5/+PShimgeDu5pEKvopKkpU417cjQS
+	 LUqwYcw1SBOPpayMExd/35Gnzu6vWNYtpIRwMBn1YzbAVoItArpZDVk3V/2yxpBUSt
+	 9fzVhM7CM1JzxX/30rMD4LM/SMeQgvPK71uLA9cJ6KKuCcL9byzvEuq3NKJpBNSfkI
+	 hOZZhVe1KN8bfJmLl2/aV98mPzJLBOsp6PiULbCuee+h9exCxuOQwZCmfAA20lj/Y5
+	 rZglUOVWEtzU9bw0QJBCz7xQiasZhWom0scGxlDmBqafUSH/ovyAfRSFdg3IQhiHli
+	 c6Wa6I1EvnH2g==
+Date: Wed, 21 Oct 2026 12:21:35 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, 
+	memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
+	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, kpsingh@kernel.org, matt@bobrowski.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, john.johansen@canonical.com, 
+	georgia.garcia@canonical.com, zohar@linux.ibm.com, roberto.sassu@huawei.com, 
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, 
+	omosnacek@gmail.com, casey@schaufler-ca.com, takedakn@nttdata.co.jp, 
+	penguin-kernel@i-love.sakura.ne.jp, xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, 
+	lujialin4@huawei.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+Message-ID: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -48,105 +79,20 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 21 Oct 2026 11:05:09 +0100
-Message-Id: <DMAFJVM431FZ.R5XWZBIAR0UE@kernel.org>
-To: "Gary Guo" <gary@garyguo.net>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Tamir
- Duberstein" <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 5/7] rust: io: let I/O locations carry an access mode
-From: "Benno Lossin" <lossin@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20261015-io-access-modes-v1-0-93611b84b5e3@collabora.com>
- <20261015-io-access-modes-v1-5-93611b84b5e3@collabora.com>
- <DM9NV8ICWRKK.2Q6FSBE476G5M@garyguo.net>
-In-Reply-To: <DM9NV8ICWRKK.2Q6FSBE476G5M@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261015125425.3246251-2-caixinchen1@huawei.com>
 
-On Tue Oct 20, 2026 at 1:23 PM BST, Gary Guo wrote:
-> On Thu Oct 15, 2026 at 1:39 PM BST, Daniel Almeida wrote:
->> `Io::read`, `Io::write`, `Io::update` and their fallible variants
->> project the view to the given `IoLoc` and access it there. A location
->> has no say in which accesses are allowed, so a register cannot be
->> declared read-only or write-only.
->>
->> Add the `io::access` module with the `Mode` trait and the `ReadWrite`,
->> `ReadOnly` and `WriteOnly` modes, and add an `Access` associated type to
->> `IoLoc`. Projecting through a location applies its mode: `ReadWrite`
->> leaves the view as it is, while `ReadOnly` and `WriteOnly` wrap it in th=
-e
->> `ReadOnly` and `WriteOnly` views. The bounds of the generic accessors no=
-w
->> apply to the backend of the restricted view, so a write to a read-only
->> location, or a read from a write-only one, does not compile.
->>
->> Raw offsets are `ReadWrite`. `OffsetLoc` takes the mode as a type
->> parameter that defaults to `ReadWrite`, and `RegisterArray` gets an
->> `Access` type, which `register!` sets to `ReadWrite` for now.
->>
->> No existing location changes its mode, so there is no functional change.
->> A following patch lets `register!` declare read-only and write-only
->> registers.
->
-> So far, without considering access modes, we have a clean mapping after t=
-he
-> register projection series that a `register!()` macro just generates a cu=
-stom
-> projection. However, this commit makes it special again and this isn't po=
-ssible
-> with struct definitions, so it breaks feature composibility. It is also s=
-omewhat
-> surprising in the sense that it changes the base view type.
->
-> What about making RO/WO wrapper types on actual data? Something like
->
->     Mmio<'_, ReadOnly<T>>
->
-> and
->
->     Mmio<'_, WriteOnly<T>>
->
-> Then we can implement
->
->     impl<T, B> IoRead<ReadOnly<T>> for B where B: IoRead<T> {}
->
-> and
->
->     impl<T, B> IoWrite<WriteOnly<T>> for B where B: IoWrite<T> {}
->
-> ReadOnly will not implement FromBytes, and WriteOnly will not implement
-> IntoBytes, to avoid people using them with `copy_read`/`copy_write` API.
->
-> This way, the design works for struct too. One issue of this, though, is =
-that
-> you cannot project from `Mmio<'_, ReadOnly<Struct>>` to `Mmio<'_,
-> ReadOnly<Field>>` currently. However, I believe this is solved with the "=
-place
-> wrapper" concept in field projection.
+On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+> notify_change() takes a struct mnt_idmap and a struct dentry even
+> though all of its callers either already hold a struct path (or a
+> struct file) or have to pass &nop_mnt_idmap because no idmapped
+> mount is involved.  Switch the helper and its declaration to take a
+> struct path instead and derive the idmap and dentry from it.
 
-indeed. if you implement `PlaceWrapper` for `ReadOnly` correctly, then
-you can do that projection "as if the wrapper wasn't there".
-
-> Regardless, before we proceed with any design, I'd like to hear opinions =
-from
-> Benno on how this interacts with the field projection design as language
-> feature.
-
-not sure what interaction you are referring to. I read Daniel's patch,
-but I can't infer what you mean by "this" :)
-
-best,
-Benno
+No, the idmap needs to be passed separately. The whole point is that
+during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+of the mount at the time it was checked and passed down to the
+filesystem so that the VFS and the filesystem are guaranteed to see the
+same idmap.
