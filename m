@@ -1,73 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792675792;
-	b=omM3nnGRul2lto06wvZ8zVL0tSF+nGE09SkjDGpaq8Tr1HbGyPrnXqWV+f+63U0UTkbX
-	 vFm1uB++XQPqVdfdRIylKQlr/osf6Cd/oKbhZuua7G1l8ttBwchszYpMA3u+WT92vGlvQ
-	 LzJqu27hTQvbmTf9iDXZE4yi1rFmahg13Y766zdcnhLyzaCV8fkhT+F+Ug1fYyGbMDjJD
-	 /f/rXfSpcnnfiodIh8u2oTYLDTrFSv3Zr6RyUIWeAAQMDn0USRyO6unU9l+YIIwQVLAMN
-	 /2VcPEF4DqarFKGvAkltMuvJufHR9e1uUT1JaEBewMupiASP4gDUmKtDMWJ2k8Z3T9A==
+	t=1792678570;
+	b=O3sju413FxiojEOay22SeTfTzQ1gsG4ucgkfFSnmXMGEFQfxu3ICxy56tnPYAvucElY3
+	 OD+QpaXNj2qcVQVNCh98oDf4FgBvJ3sBOxeXiBlGClFxbqF3ht5uILpu3Z7wEBnCAXsjF
+	 dL2EWZmCxBNO/Y0b54U4nJoncdEpLwH6cRAJjwzGDsu0x/5N/hlpzOXANqwJWqsvY18gw
+	 y0f1bs32tdAX1hIjRrM8iyS0CKsXUaqI6DIseN/GQtvcldcu5fEiCvfHsgjFzKM0HTuOe
+	 aGwij9O/pbAznF9GZf2SyvSh7g8d64pTtjXAj4O+pv6ia7TChAEoID2cg+AjNCt/jTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792675792;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792678570;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
-	b=fPXxQ7OLti8rvzfqm5FvthazY1qAcEmKNJzqVABLTd1lOWTCrZPQ8j87uSo2P1HxKF87
-	 fCeOqUn5xvCKMwQ766UZMplXueAdnHWH7NQ3e/5HpigcaafJgOg3BKzi7afTuq8inu1bD
-	 X1faldDm/pa8wLUG7wsSmgqpCEB/LiumbHGZpdCCaSF66tZ1jbamwKFdeZfvuGkoRKgU2
-	 GvUHCtkwI3Mdjs2RyH6uHII39YRcNTMJr+Z06DV3OB17V6sX5npChG334j95M7EITTIFC
-	 8Ip27cMXq2MoMY6cRJuHkNct76H0+cEP+4uf+GlgUA3PQI4nM0PA8vqI5v55es0bmxw==
+	bh=lpl3OE4xi+emQnd2ymjWmYelonGod8M5Db2OfAC4qJ8=;
+	b=afqeoerz5Xo2drSRrNjJLmZiKRG4xIHtl9CGVMQvW8Xa3iMJHXzSK3WsE4IfSGMn7e3J
+	 2uOsHBPXgJZII4RMHp6/UNibxSEtLILiwAMEx5JxtifAZ/S4GvWICh6b8isG+nQQ2PgYL
+	 c9TDqKHQZ020ppHRPWMHEB/pfg788YRhl7GUmR5NKRIkH8XCzMCu1a1eLVNhT1hsmARsr
+	 Lw9QOQ5ejQtARW/yef3Hc2sB4LPiiAvNjj7SJ9PHQ4KkqH5gLr3VF+ceevYC7VG4pxRQj
+	 keMDBvbvaZe8JpGB3Ct9LGr6vmWnc3SOYt7xnBMdvvkgZ1UuLQtsDUPdIKap0bw8GaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WcbDjYJQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CE960A2604;
-	Thu, 22 Oct 2026 13:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A96606A319;
+	Thu, 22 Oct 2026 14:16:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81D71F000C2;
-	Thu, 22 Oct 2026 13:29:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792675791;
-	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WcbDjYJQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAFB1F000C1;
+	Thu, 22 Oct 2026 14:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792678569;
+	bh=lpl3OE4xi+emQnd2ymjWmYelonGod8M5Db2OfAC4qJ8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ipjyl4WVUMaePbP8eQPmaEfK7J/3RZ1TYrKdiNb92bEF42Dy9+KYZdsQFMRMsboSF
-	 zKu9HrcsnZenjyraJqvjlVuHMvgpWMorBB7kvBnawTj3Ld7pah59+zVPkaekC4FC4z
-	 b87E/GW1wE+3LrxDIpnlCtSHe+LyRpVtpS/hihPU=
-Date: Thu, 22 Oct 2026 15:29:43 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
+	b=WcbDjYJQs86qA9PomFj38c7a5wcyWNxS8e8Lgr2wVebLmc++NFi/FTAwOFNNzeBf4
+	 ltTCbDa47gQvwW8g2Foh/oOhx6Dcu6lrF4pcTFqjKZ/r7+PN1/BmUN0fjlXTAluk3w
+	 sifpRKXyyLSztMu6PNxAkP2ApIwxYT+pW8ZJbHeeAd3igJjzr7T00Mjt4FHWCHC7E0
+	 qYXbBqYfqMDWEWyeQbhQ/1jWaDLXX77JkHDboTEtvOeeyYvcwptnz6yh8hcHr84NCc
+	 SO4/pOpDr9WCYH09sC+h4v9zEfK3NGOtlCyL0QzCAVrrYQ2NyE85Zdd/+c1Nt39YIp
+	 at/SJcNwJJ04g==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xJtaR-00000000Oep-1Dyh;
+	Thu, 22 Oct 2026 16:16:07 +0200
+Date: Thu, 22 Oct 2026 16:16:07 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Jeremy Kerr <jk@codeconstruct.com.au>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Message-ID: <2026102222-oppose-saggy-983a@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <2026101355-species-glance-9ff8@gregkh>
- <20261022104025.3956402-3-aambrozewicz@nvidia.com>
+	Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v1 1/1] regmap: irq: Get rid of duplicate check in
+ regmap_del_irq_chip()
+Message-ID: <atoap3uV702MXAjB@hovoldconsulting.com>
+References: <20261021205036.1013622-1-andriy.shevchenko@linux.intel.com>
+ <atnFxRi4DSKL2TWr@hovoldconsulting.com>
+ <atoPG1nCj9yF_eEt@sirena.org.uk>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -77,50 +66,51 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T+2h9DrZ05msVl5e"
+Content-Disposition: inline
+In-Reply-To: <atoPG1nCj9yF_eEt@sirena.org.uk>
+
+
+--T+2h9DrZ05msVl5e
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261022104025.3956402-3-aambrozewicz@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 22, 2026 at 01:40:26PM +0300, Adrian Ambrozewicz wrote:
-> On Tue, Oct 13, 2026 at 01:37:11PM +0200, Greg Kroah-Hartman wrote:
-> > > Why the auxiliary bus, and why not MFD
-> > > --------------------------------------
-> >
-> > Neither is ok for USB devices, that's not an argument either way.
-> 
-> Here USB only carries the traffic. The I2C, SPI and GPIO channels are
-> ordinary controllers on the board, and their drivers register with
-> those subsystems; hosts describe what is wired to them with ACPI, BMCs
-> with device tree [1].
-> 
-> usb-ljca is a recent driver for a very similar device, so we modelled
-> the core on it: one interface carries GPIO, I2C and SPI, and the core
-> creates an auxiliary device per function and attaches its ACPI node.
-> LSTP extends that model to device tree.
-> 
-> Whether the next version stays LSTP or becomes a set of divergences
-> from an OBMF-ICP driver, as Jeremy suggested, the need is the same: a
-> device behind a tunnelled channel is described like one wired straight
-> to the BMC, so a board can move between the two without rewriting its
-> description.
+On Thu, Oct 22, 2026 at 02:26:51PM +0100, Mark Brown wrote:
+> On Thu, Oct 22, 2026 at 10:13:57AM +0200, Johan Hovold wrote:
+> > On Wed, Oct 21, 2026 at 10:50:35PM +0200, Andy Shevchenko wrote:
+> > > irq_dispose_mapping() already 0-aware, so there is no need to
+> > > perform the same test outside of the call. Get rid of duplicate
+> > > check in regmap_del_irq_chip().
+>=20
+> > > -		virq =3D irq_find_mapping(d->domain, hwirq);
+> > > -		if (virq)
+> > > -			irq_dispose_mapping(virq);
+> > > +		irq_dispose_mapping(irq_find_mapping(d->domain, hwirq));
+>=20
+> > This just makes the code less readable, and for no good reason.
+>=20
+> Is there intended to be a benefit from the error check?  It seems like a
+> microopotimisation that just removes robustness from something that
+> really should not be a hot path.
 
-THat's exactly what USB is supposed to be on its own.  Just use that,
-don't attempt to "overload" a single USB device as somehow being a
-random set of devices attached that way, that's a peversion of the USB
-spec, don't you think?
+The code as it stands is easier to read and obviously correct (and
+matches the preceding comment); you don't need look up the definition of
+irq_dispose_mapping() and parse a ternary conditional to determine that.
 
-But if you REALLY want to do that, then again, do something that has
-already been defined, like greybus, which you can use your USB device as
-a greybus host device and "hang" the other devices off of that (i.e.
-your firmware knows the device types and describes it to the host.)
+Johan
 
-To attempt to use a non-self-describing device/bus in this century for a
-brand new protocol and device that actually uses USB as a transport
-layer is insane.  Please learn from history and don't repeat the same
-mistakes.
+--T+2h9DrZ05msVl5e
+Content-Type: application/pgp-signature; name=signature.asc
 
-So, again, why not use greybus for this?
+-----BEGIN PGP SIGNATURE-----
 
-thanks,
+iJEEABYKADkWIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCatoaohsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQC8XNwux9ZQi7xgEAoG/MQUBgsWVQh0ctgBTb
+kK1XLypu2Wxx55RVb1f9picBAPNT7gjy0R6isXAG62hFS0ziGZlMHUxxIEeTS5FK
+y2UD
+=ymo5
+-----END PGP SIGNATURE-----
 
-greg k-h
+--T+2h9DrZ05msVl5e--
