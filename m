@@ -1,127 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.26
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792665637;
-	b=sW26p80yhK81EH4ESqdn5hiXPkZ82vCLkIlRB8YpmTJkUFwtQRDcpLOqNzN8y3V7oZ1U
-	 +j3YnO+tvhN5X0gc/Xdn+DhV8CVNDqFPuqD2zkrM0FqTIEBmEm+2/zcAC3+nvihI7HVE0
-	 +ednqLn8EX6AZVAaktAskuA/xRqG866xXTIS820kzeYvs0iVw0z0Wr6073bc6YzNjymIS
-	 zbOmV03pDWM+9O3ymc5eDDv25kVA5ekD0U/jSlQhZ7NcVWilX2/7YuvgADBwRLGnhWFdB
-	 mb5WcBCt98qyI8tc3c4+WblSp/1CSXzBAU3/n2/KrmVmguM+ZrgRvlxh9OmOhVdf2Tw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792665637;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=kboHgt19Dz1TK6Pl0RY67RPVWyrBDrK2fm2eftb+nXQ=;
-	b=aoSMEI75T/w5yUpesdNSgcY7RJa0AMzjp9FXDl0DHDAYkJ67AyUUzN87sfWyAJVzQ89P
-	 b6Of4Req/RX2t/XwbcqLuDXHh2YHJlHPSTdYMPZs2snbvnB/u9hU5kXUOZDtRm1mWySuJ
-	 diQfXTgqAVofnAIv3J5YxtmNNiH3ml4IZhmdcTFU4hbG57VxfW+8INoZhWj+860YU1pjU
-	 CxS6fsjwWEhTac2w3PutCgVpjLzq2+SviMbOSIYT3iqln2rRpjlSEYrdPcXcj8yG3gX6B
-	 n/IndYko2aQZ0IoqHmZztXix4OjFiP3qeiFOScQcXEqQbsIZNNOOawHkXrCwWFyo9XA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=pfJe5FLa;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.26
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011026.outbound.protection.outlook.com [52.101.52.26])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792669895;
+	b=JeFFS5PTnB/+SiE1DOoVsVL8wfJy6Gj74HrgOXrUD/Fman9/cY8StyAwSmjf9xPpMMGx
+	 x2a0yEliWtBsRNLrQh+fr6JcShScHOgGgJUMEDExL11GW3J9+Qri22qXsENp+sWm8mwT7
+	 3rX6htcjUnhl6rFvIqanJSOAgDLeZFQAE4f/q07ZUCH29igLmmPwO3VNt67KQwcFXoTE3
+	 zhRqFWBqv8G8GUZEpQBzINBOM5bYuz2JPMXvfP4j8cbg72PZx0+7LnT8AYViPTSxAsHd8
+	 taPH+geOwKaRUTS7fbuJGr2GprDyl11aiH9MQ/YNvHL6keAOWBZV9RH2lV4zU1srScA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792669895;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Developer-Signature:X-Developer-Key:
+	 Autocrypt:OpenPGP;
+	bh=+X2jAtN5JD0TiYFiy9zcDB/KWSPk0xWw25WlEXIrNv0=;
+	b=y8n9FLmAxGbW2bgz/C1A5yWG7j81FoVIaIlLPHY8uI12pOUcVQQ3NMTlJd2zOlQdpqhg
+	 CNRbA7IAUXf4vqgffKfYjAVJggV55MUunaH+NnxMV9KJD4GpkCrsQtKGlQX2a7nH9h1RC
+	 4bIx6XUSWRprfMgXAiV58Q75ChO2XmTQ/Vmw9M8lcgu2/tYVg72QgZbK0Mn4IMwklDJSc
+	 2BMdBf07o8YUfINJonEdc1MoS9UWhq7dGu9pOQbA7QDAt3Wzxn0Kxbdn8OkqrNioxQZuQ
+	 TMYYAhT2nG+M8Z6hTm8uDmzvhSN53Q29dcgb9E2uDbPV34w8xXa6XK9msJU4/o1V1Qw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=posteo.de;
+	spf=pass smtp.mailfrom=posteo.de;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=YORZ0JZ6;
+	arc=none smtp.remote-ip=185.67.36.66
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48983606A325
-	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 10:40:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48983606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A785606A31B
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 11:51:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A785606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=pfJe5FLa
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cCp5t3GM2v2uPmKoOGUHKtsHWMMgGMRTz8b4AGmOykXPzxMXj/Y2D+Lu9cO/krumh7BGfOGG9QhMmaS69yVTmhYcybN7hOikcG3aE2kUWOi1kzY3jOBZgck7kXZfejavYZ/miAp+2oX7pIwy+xpLxVmcjZI1PuEJKQ8si2nclfpPbKybn0xH+W0xcL3fwCQVXLKceC3xkRtp6Hb/Mh7vxuuCvYbc7ddeN6/Utg8FmM2VJdlkEgTxFAWHQKN5Hh6xKdBY5hJWXMvXYK6NwIprTSd9h6I7wu/O0pDXSr2Yp7iJpPuF8PPIojOH+xlig45c3CX2a8nus17IsHd3xJb62w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kboHgt19Dz1TK6Pl0RY67RPVWyrBDrK2fm2eftb+nXQ=;
- b=R4sqdSdiDw5X9jJpB6lWJO+7e5C7p0QYFT90g1FlvAcCliQRpPqX3RjudXmcmpu/DPL5SKnCFwtrA5feIk4VarLn+4AS4PclJ1/M5MfLR4FAW7FxtV8b6JBPemeFfYKZSEhj0wG/4X6s9yvjLGbmIKzwRyWgJRS9DdfpLmWRcTGIUc7B0tt8PkrbrZjWkv18Zm8GN3FG8T/JPsenzNsWIVJWp0pDlGZxZNlyz030IyFFyG6JfuGAT+6J+7PDMZCIliOCux9yeGOW164vXb5a96pT1Gn21c1VYid4/z59KEw594U4JmQhB82jzCadNLu0WNhvsO2v3GFl0UQ9UQ1VDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kboHgt19Dz1TK6Pl0RY67RPVWyrBDrK2fm2eftb+nXQ=;
- b=pfJe5FLakhkUWA+yf6vlQpMVWMKzlYC/+qCSP5+L7UBphGYUKDSOam46D3mgMspLFmrfxVfeWXrBNodzZREhLWBfaE2RHl3PIGhjwixxr/M/Da9ngyjmApv5CZsKAAXOAIRQkRpoOgUDTXhzpewxB7T5EkmbbqzHpgpVAeCa5YDwJSDv//lJZxOjGklvwryCvVRTB2RwuxkS+S3o1qIoUBtuHfyc/OfTbVKiaqpHlV6ZsHF6Ad7X1QF9LaCJueNqqQBUxWOF6911PLg5Tom0Pn0yPu3mOtUr6ln+OKEFjHJv/6GTyEXbqa4rdrXP2j6Hc/HcOsq2sMXxwaf2Vwk5Qw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19)
- by MW4PR12MB6756.namprd12.prod.outlook.com (2603:10b6:303:1e9::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 10:40:30 +0000
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0]) by PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0%3]) with mapi id 15.21.0546.016; Thu, 22 Oct 2026
- 10:40:30 +0000
-From: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Donald Shannon <donalds@nvidia.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Date: Thu, 22 Oct 2026 13:40:26 +0300
-Message-ID: <20261022104025.3956402-3-aambrozewicz@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026101355-species-glance-9ff8@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com> <2026101355-species-glance-9ff8@gregkh>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0143.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::16) To PH7PR12MB5974.namprd12.prod.outlook.com
- (2603:10b6:510:1d9::19)
+	dkim=pass (2048-bit key, unprotected) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=YORZ0JZ6
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id CBB3E240109
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 13:51:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1792669890;
+	bh=+X2jAtN5JD0TiYFiy9zcDB/KWSPk0xWw25WlEXIrNv0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=YORZ0JZ6XPX9UwkELKB1TJQX09izWgSHNVZgpx4bbwsR0BmT/XFlXZb5wZuAjdUcT
+	 7+d2N0vvvoM60QKb96IRrRjRk0JYHvU51MYLdlCu58d+M+yikArpGMm+sH6mbIGt4m
+	 Mz5qrZoLp1QfUn9qrE1S40C4vxwnG2WJ4M0GJaku8T0una9K7Emoy+XB7IUtb01iGY
+	 aoGq1GFAHitK4wNBfdLMm5aGEEcQbB48cFJiVKUhndj7Gcj4mcGW0tXGSfJdJzJBId
+	 MpR+yNLHzvAFmG1Qp7f/0Gp8m/6iaFmY6cjoagB5QDdQD4X96L+MQ41X+cMT3Lmwk7
+	 O1udIWuth0cVA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4j9Pct4vkrz9rxB;
+	Thu, 22 Oct 2026 13:51:26 +0200 (CEST)
+From: Markus Probst <markus.probst@posteo.de>
+Subject: [PATCH v5 0/4] rust: serdev: Refactor
+Date: Thu, 22 Oct 2026 11:51:29 +0000
+Message-Id: <20261022-rust_serdev_probe_refactor-v5-0-a27d862a415a@posteo.de>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -131,88 +64,140 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5974:EE_|MW4PR12MB6756:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3f1465f-9a94-45e1-e61d-08df3028e4a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|7416014|366016|10067099003|18002099003|22082099003|261021123027099003|261009223027099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	+OnPK/ZkKADamwuB/xW7WSQqdzcrb/H0j5vW+0COGwU6r3VdZcZF91SL8N9riWodjFYbEWrxGHL/u2er0vCr2xaVWb+dJMP2l+L0AvzRcP+iolS5oqaiWgUXrLbncFoY+MB4NB4GiDCD9liRmUyp95whTvJGfMwezF94eu5GM1ch9pG4tGLVpnINM38sDV8BE8/4OhXa4YaeLr6iDe6luItBZbNzrVNFboZVIAWwWv2uxmAoh/hAf/VOydGVKDBRiD7+oEj9pY6I4b0fACqY4j9dbQwxgsr0tJaYCpMFZHkyb6FgqXDlYhNUmY3+smUAOjFUSwXp3zB0Miq/4kMwC3C+q6dZZ3GtYOdE3oUaMwe0ym9xQ+rgwOdKFJfRthaBf1B3hyov5VyywkrkiGsg1nqmTUWrVFLLAup7zcJhYDPISILKskt7IskHsnXj2PKdp4Oy3d8JC2hKVJ8a3oI0pCEWiKDmiWT/snYaoXjUUOZqwkQiq1jOF3cwHD0wpqm/AND7kbA7t7Z5aytRKrh8tBT5C2NLbJnAqSC+vIZWiTCnjYK4oBWvbAdOpiKXyKiNGDdb2+AD56sYfn0X0U071YszKun2mgTBOJSa52cibGx93cYeFhoTrUxoQFbsjJLGrf99W1/MyVsoW9iQXlyaxkZA9YyqBHlsjlZThM/bStQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5974.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(7416014)(366016)(10067099003)(18002099003)(22082099003)(261021123027099003)(261009223027099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gVYd9T3606e6+ZUoYrgJQDFtt74E1gp+2mZ1QyAEiz6aOuf9oJYPSfBAO1y1?=
- =?us-ascii?Q?3upxoEvhNE/6rCiNNJIH+H9Ma9a0jpIuZS88v2B9lltVZhkoAVyFkzHFQ6Fz?=
- =?us-ascii?Q?TqPD1B5ZmexGR3NhaJw6w8ntDnCB5x11LFIKHzjCvfXxp3u3Grh8HoY5oa/S?=
- =?us-ascii?Q?aDDXqkxAdvIKdjR96Su0QliIrQ4O7UWX5/xhiuwXPF8tZqpVZh46K56YygqW?=
- =?us-ascii?Q?L7Am0rZkf+Ff0Yb/VomPai+Mn1lLPCpGTwybGhHh/oAqa176IZvtxTWkquCa?=
- =?us-ascii?Q?Aua9ajpwWlay5GVfRLZdIJ6gAUWL7yGAIRNaWd42LoYuFsBwKCs3ui1n//xU?=
- =?us-ascii?Q?JLHfCQbBWTPLMcSkKD71Nrv2Imy3jAnFaRqafPrevvbaXsslA57uTx7H5rvb?=
- =?us-ascii?Q?nhPBRmoG/Yf+nwMAg42W/g99Gw/RKAJdLc8ILerP1lS+8ZjGUhT8M6Dh35Dk?=
- =?us-ascii?Q?53p4AM8fNVsmN9jiIYzuJbq3Uql8mEapfVc0o2K4NfpnID1HZa6Qd0yssKno?=
- =?us-ascii?Q?s1eU8hunxc2gDofOwLuvVl/YLzfBQbX1jH2E4dvIfUqpYBDCJTQ4SBGQq0aq?=
- =?us-ascii?Q?iSbV3MQk7nuIUn/CZRePksIQOgr4pYrIx2qnNzv7s6TjSEW00dWFHLdngzm1?=
- =?us-ascii?Q?5iDvMtYjsufgevTklSgokourIfqpos3YqOebqyPgeuiPre3AJ/qwZCzcBttI?=
- =?us-ascii?Q?EmE+FB9qMR33Alote3Qgfi87mieYWyR8A23ZFnmFB874SITanrNUAiqoMzGI?=
- =?us-ascii?Q?1SO9oJiPZKTodv7mam0tqWxgkXN4SGalVH72WWfkgUt3ZhC9A9taYid/H6p5?=
- =?us-ascii?Q?w0zdrOSeJqUKDxV+QPq0nzMcxrcQXC/2B+20HoFdyEN3G+/dpxUsoTAzeC4m?=
- =?us-ascii?Q?+0YEMrTUEaY9ou6XjDdohOma2LQpbFtdE1bRckcnAGVz53BfxZiOSSttpPGW?=
- =?us-ascii?Q?w1YAzadBtfajXb8APTz7cIxv1sLWSiUZUHzxNq2v/PhC/BJYL2NhChplgIfh?=
- =?us-ascii?Q?QFDZwBPlbOOiX+gCadzZlzo6Qshew/NZ77bH/Ff2xOJXha6Qk2oYnZClIj/6?=
- =?us-ascii?Q?pYVvzyyFqY9+jak3D1iQlYc1GDCctZ7ccNBCjRk0/blY7nIog3hxvuFlPrzN?=
- =?us-ascii?Q?COXjpEZCBeElncg/ALwwqTtOV7h3QNjG1DCIHzQ5DWIeMlOVahPG0oyTIb3X?=
- =?us-ascii?Q?mVvBxh7DeVEdlu0TlBkgWH8YPbXC/PhMyhyIFKWu7XQUypQ7XYURTQQcw0sp?=
- =?us-ascii?Q?6gzbXifnTJgGG51PPduAeNt2zFyTDOMRmJMLBZm2RhWnRRZY4Gnzl/mfhqSC?=
- =?us-ascii?Q?VGmGWHILAF04HyV95WTPtj9RnvV9vqWxBLnyaSy1e5Lsu5bB3HwixnkftWfc?=
- =?us-ascii?Q?A0NoJyNFL0g30ucOhTy+uuphxDAk8iTybi84J6FUFZiFJlfWRW0k2O2qDHCO?=
- =?us-ascii?Q?WzB5zf91qFw3QCqV1IC6VJgM8oYnph0MsFSGLWVum9MY7qCK/xxgNPvqABbG?=
- =?us-ascii?Q?2nIf50IZP+/Mewx2rEFqiUi5REUyZzN4mq7GMWeOkDOko+0KF517ydg2QIvj?=
- =?us-ascii?Q?I7iowG1MnrkVj3ilwiAWZsUhvxwMwSecIoAI1zV5SjsjNRT4rPLRBcjF14qT?=
- =?us-ascii?Q?2AQ23Xzq99k/ENcKkMF7W/8sWyABdD/OeWu+nRv2TTBBzbmsXv9O9KBr3yo1?=
- =?us-ascii?Q?Uzlw6snIBKQZ0ck8XBTaM5w3fZlqPvc1GBTkTPo7gdfzniyMF/DbOef3GAJ1?=
- =?us-ascii?Q?lVV3jxI6Lg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3f1465f-9a94-45e1-e61d-08df3028e4a3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5974.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 10:40:30.5211
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ryGnCtbVz5eGlNgsfw9MqyG4REoD0G8hTFbkwRbDISxH2zP0uHTAXYLzNUr5LuKEovHbvR9LkB7iipUPee8ghQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6756
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33PTWrDMBAF4KsYrasw+k+y6j1KMZY8aVRI5Eiya
+ Am+e2UnFJOFlw/NfPN0Jwmjx0SOzZ1ELD75cK1BvTXEnbvrF1Lf10w4cA0HUDSOKbd1qcfSDjF
+ YbCOeOpdDpIDcgpRCyc6QCgz1xf8s+MfnI6fRfqPLs/iciHgb69X8GCO2S0hduFx8PjbF7ASZN
+ 88+1QO/S8vClsFnIb1VqDAKVB9c3yGAkejeh5Ayhl2PC1v4iuKwSfFKSWH3SjHNT6p/pcSKEtu
+ UqFTPrEZjmFAIr5T8pxiw7Q/KuZXeC44gpFFmTU3T9Advmi4o3wEAAA==
+X-Change-ID: 20260905-rust_serdev_probe_refactor-0e2b044354a7
+To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>, 
+ Sashiko Bot <sashiko-bot@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1971;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=7ObpUIH327mgNdM5WhvqB1q5odDtqg/wvGR/V0HThjY=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBq2fi9hg1Uk+ukiaycZ+mNEhq+P6QnkgUQkKVOf
+ 3j1J27oYZGJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCatn4vRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KUIRAAjX6K94+B8i6sGFFts7ezWH4lUo7SR9z
+ KpMThvXZ4qXrbv+67bMKz2TV3OJuh602hHRlQ3UGJhCjAAHQ7nkxIouBd2om8r4ydpOPtEg8Nr2
+ r6lJPIDFpl76K9kEUkcd8WxNh/YZZi0nwEH0KXpeewpzT/WkVv8HzsZtrGyZYtjfdsiuBjGohWn
+ eMLii55wZtQ9+lbEe71ENzohtHXTIprLU+TRrof6c0Eg5a1JvPkRz9SOWLDj1eEWFkcTg73mq++
+ 7DHr6NLsDUDvMFBGEmZw/gNKEQ1ocwMvcHr4n0p/rn/wfqjwQaj/2IFkxveC4DKY8p5ohRJ5qk1
+ xUi9aBQZm5awA+E6qwxeWanjhGiPfzQbiTHNPbf3svcFTrPRiH7dFb8WLjeGEqnEVIBrjyL+iNm
+ lKsgLGRsEwz0RXnmJw/7IpvXsnz28nRtfLp8oXCTUaQpuOx9vIsNMXkB2Er7d6e5jNEPN1P7unS
+ If85+RH9ZaAnqri5GgpoeNMyItZ+3JLRHHlmsMA/fZv1CIeVj103vpMD+iFzP0PhKzT1z9Gv6tz
+ VZsFzkZDb136ZPILWylq3yKkcBD4y5f02aDG0W+d1r4MjTQ/yhbLDyH4hS0zTOOb93X2xABStzE
+ et70MmqHRFIyOCJKjk7615HmDcnt0skIRYqgdrvba9jCmNfTR/I4=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Tue, Oct 13, 2026 at 01:37:11PM +0200, Greg Kroah-Hartman wrote:
-> > Why the auxiliary bus, and why not MFD
-> > --------------------------------------
->
-> Neither is ok for USB devices, that's not an argument either way.
+The following has been changed:
+- introduce mutex to C serdev tty port controller
+- introduce a new C serdev API to fix race conditions and simplify rust
+  code. Should also be useful on the C side.
+- fix race conditions
+- simplify rust code
 
-Here USB only carries the traffic. The I2C, SPI and GPIO channels are
-ordinary controllers on the board, and their drivers register with
-those subsystems; hosts describe what is wired to them with ACPI, BMCs
-with device tree [1].
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Changes in v5:
+- fix issues reported by Sashiko:
+  - fix access to serport->tty outside of locked mutex
+- only lock receive_lock in ttyport_open for set_bit
+- Link to v4: https://patch.msgid.link/20261016-rust_serdev_probe_refactor-v4-0-46832e034757@posteo.de
 
-usb-ljca is a recent driver for a very similar device, so we modelled
-the core on it: one interface carries GPIO, I2C and SPI, and the core
-creates an auxiliary device per function and attaches its ACPI node.
-LSTP extends that model to device tree.
+Changes in v4:
+- fix issues reported by Sashiko:
+  - add receive_lock to prevent deadlocks
+- Link to v3: https://patch.msgid.link/20260930-rust_serdev_probe_refactor-v3-0-d1b6e77135e0@posteo.de
 
-Whether the next version stays LSTP or becomes a set of divergences
-from an OBMF-ICP driver, as Jeremy suggested, the need is the same: a
-device behind a tunnelled channel is described like one wired straight
-to the BMC, so a board can move between the two without rewriting its
-description.
+Changes in v3:
+- add mutex
+- Link to v2: https://patch.msgid.link/20260920-rust_serdev_probe_refactor-v2-0-43b855162f5d@posteo.de
 
-We don't see an architecture that fits better. If you would rather see
-this done differently, what would you suggest? One function per
-interface I'll answer separately.
+Changes in v2:
+- fix missing memory barriers in serdev apis
+- use `tty_buffer_restart_work` instead of `tty_flip_buffer_push`
+- use `tty_buffer_flush_work` instead of exclusively locking the mutex
+- add `#[inline]` to `PrivateData::driver_data`
+- remove patches for mutable references
+- Link to v1: https://patch.msgid.link/20260906-rust_serdev_probe_refactor-v1-0-69cdae0074ec@posteo.de
 
-[1] https://lore.kernel.org/r/20261016084443.1972351-1-aambrozewicz@nvidia.com
+---
+Markus Probst (4):
+      tty: serdev: Add mutex lock
+      tty: serdev: Export functions to pause receive_buf callback calls
+      rust: serdev: Replace `active` mutex with receive pause
+      rust: serdev: Simplify callbacks
 
-Thanks,
-Adrian
+ drivers/tty/serdev/core.c           |  54 +++++++++++-
+ drivers/tty/serdev/serdev-ttyport.c |  80 +++++++++++++++--
+ include/linux/serdev.h              |   8 +-
+ rust/kernel/serdev.rs               | 167 ++++++++++++------------------------
+ 4 files changed, 184 insertions(+), 125 deletions(-)
+---
+base-commit: 091b06388b117fefdcb63336ac09956a4914b961
+change-id: 20260905-rust_serdev_probe_refactor-0e2b044354a7
+
