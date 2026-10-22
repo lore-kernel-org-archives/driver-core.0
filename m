@@ -1,76 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792651436;
-	b=pLuP1cHlgh8LYe5zLZHHPR06kv3FunjMa20QSPTTKBzveOkiE3fpZeSIcdd592Z/I7Fk
-	 /URsqs3nHSnr0QW8C51cJMZiPIDzXDRjK9qgXMIIkQKxnY3KsIXtb5abt6W7C0CU7fLHP
-	 nHaTfrFTouP7G0TJXToi/UCYlUJDIEqepRoHjAlcmb8Z4egbZ/hIDZp2KfAcjc/MisnuD
-	 KcS3zzZUbdfzi9NEExt14gTQ2Yv3l8QeAN2k2zjLgnblOuokoOtm4auZoyucexK17SNbK
-	 yFNlRUfY3+VKv+2BpRzJvrFTBEd9XXbXnckMyl0RYdaaCNIbyGq4Q6fyUeu8Ir5Z27Q==
+	t=1792653757;
+	b=r08x2vO/PBldjwhWZ89VALnVHNY9yQksjktcxtrYWeZCeTK9QuZdTzSP94nf4BW66Ulf
+	 plWKSyi/JOY3wwInI6kCgvEwl/CfHxbCfIeCG8JEC7lcULpqbENhVARHoalRVPH4Ug4y+
+	 N0nMzXBYmaI4had9mm1sCW/cXTTt2jHVAElw48KHWVFXk81iowtxdYReKQF7wUkokJNRN
+	 XXqhh2I9HtTNn1zCd1RvnyipfA305m8tXpQ9zVnLFAnw6+QRnWRSBrwpZB3Etn2gwBiRS
+	 r8cGUi7wQVogeRoZ4uNOysGrwZIyqZg3qeaexoYr4VEznr/03pA2bBux/D/dh4JdFLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792651436;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=aFucjpuwH0j10r8rB0xRq98gv+GUqPboTiWqHPsU1AY=;
-	b=NnORHSoOHIQoo/jbA1GFigcHjgMoiMBpAnP3rnkFSEDgYgKBB1CxZRxJL2Y3xwqoiFjq
-	 vIhdMRvAxXOenr+tdBxN9RbRLOMfVJXDcUOpvS0pNQric77wswx1gNFElNpqajpusT8cZ
-	 mmsK3iTjUkfFhct+RSkeklvunn8YLRDfvgQEB3tNAYWuf6XDAiS8BMazSgYLWXq+f1gN0
-	 Fi7OF5/5jzIpE+LCQrJ4tisqCr0+LJ8G8q/tm2eYd+rB2OrYESn78zdh6vXkoajJXI/jw
-	 8bC/r1oR+UzgB13irsoyG2ei9qBD3cKB+VDXDHHpSLtopaeXaWzl5wHyC9tiRS9rURA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792653757;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=5Sw0fczu+qUDWDbQNMKQmVBJWsUl3OKWVlqM6X4kK9Q=;
+	b=Sg+PTotq0p1xE361y4b9/hQkkodilasZL43u267NcSqHf8/ehHEQ9VWrM0r5Z2onKb9w
+	 OvwJyiSW5vA2bKJjSp4fK7Z/aYU2Za4S9Vo0ZUfbgKacqLm1kk80+AW6zq8n8RlHck4ND
+	 UJoXcA6Y01M+xskjX5A/UcD1JypH8wcNTydM4Lhz/UtdayH9w+rj0vwyzEcSKcdnlvGC3
+	 YmkyrqaSv/dS/dIyBgQJZJWz3MZ/CV14IDz7Y0MNt2p4slf9vHUh5Sr7+Iy7KYmibXd1U
+	 VO5cuqk2TAetYksrxfw+C5fbba7oYHCPAfnWwZ62NYpn0vafndXyQue1RmfAnw9aiJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cePFW3Pc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Ihgv/q3G";
+	dkim=temperror header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bcL1Vdrq;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBB2606A31B;
-	Thu, 22 Oct 2026 06:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FFD606A320
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 07:22:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6FFD606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cePFW3Pc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959781F000C1;
-	Thu, 22 Oct 2026 06:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792651435;
-	bh=aFucjpuwH0j10r8rB0xRq98gv+GUqPboTiWqHPsU1AY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cePFW3Pc8RdsHIvENQO8gtCTXKpiGowW/j+CGwDXbGb/ag+JPQF5T4OgKFgQ9t1hP
-	 E5TZPEcE9TrkVjThtJ4uPlsL2X07kyz7LXakl5kd5wCwol2K6l5BsyApt4ZXv/a5Pe
-	 5vzQl/ZYcmDUkZk1g2oYPQR33zF7oBMLsDAaN48bfdujQUjMdNV83CBRuQLKeCan9y
-	 MeNrm7Sv13nsv8SAOP2oBhxPZEZOawRSHAju8oFOU4KlPq4o0sp7jqxBZDFGrJYkpT
-	 EfVU6yHKMOnfZQkIGjnX5ZHBa3UDA63FdwG6zzv8viGOqxuutEuKWZu7JBrZZ/kclb
-	 OZWpQCnhjgfWA==
-Date: Thu, 22 Oct 2026 08:43:47 +0200
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH RFC 02/11] ACPI: Introduce irq_get() for static fwnodes
-Message-ID: <atmwo3Bpi62kB8_n@red-moon>
-References: <arqSqcoWAkhy-8do@red-moon>
- <d1720b63-65bf-4019-bc19-1852555f7993@arm.com>
- <asieTvinZ7c2QpQm@red-moon>
- <CAJZ5v0hVLSJs1j8J1TV3yJ8Psyaf=B_0UfHsYSMtM5xTup0B_Q@mail.gmail.com>
- <atXyIadz1TEKSodg@red-moon>
- <CAJZ5v0joJBZg==DWPsNviPfL7Jo=qupRhb6GinqOLoHXGnvevg@mail.gmail.com>
- <ateI-JcExDyfXKrs@red-moon>
- <athimRqtDvQu1ZzA@ashevche-desk.local>
- <atiAmZSPiRNBAO5O@red-moon>
- <7f077fd3-9c67-409a-b46f-7f28a55c180b@arm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ihgv/q3G;
+	dkim=temperror header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bcL1Vdrq
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M70GKP2516285
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 07:22:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5Sw0fczu+qUDWDbQNMKQmVBJWsUl3OKWVlqM6X4kK9Q=; b=Ihgv/q3G57uNVXCw
+	80iLuQi0Sg1ExxGXzcaxYUxHWIj4JYmi/3xXoDzfYN0VxU7u1hxeKtNkVWvpwsOV
+	ynM2+Q7N0zEjljMGsMg1L0Co3OmZp93hQayYb2snGv8sqHnoXT4ZmQ0ceGjuX8Kj
+	J/zPd3fYkZaCk6CbCygkxzpnzE2HRDgmkDKHb8F31TKU56gWvFteFr/vyJuRPmOS
+	2wJ7VAFbLzGJo2YjqdFfA8rywdG5wCJnRrWgC3IZhs8mpdGz0MhkHf9lVdsBLauO
+	UJx+Gog8qKH53Fbut9RaZr4pN2Ufe/OCKcGjZYu6XjUBrcB/hmQrAW3aPoZnWzZ6
+	qsIjbQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93a97u6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 07:22:30 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f3960dca5so46074485a.0
+        for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 00:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792653750; x=1793258550; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5Sw0fczu+qUDWDbQNMKQmVBJWsUl3OKWVlqM6X4kK9Q=;
+        b=bcL1VdrqWn86HIj/iKla50pOiNq50smkJpX3fJBmDicN7Bvht6EipHX6/uKXxnnnyL
+         rqj9AlCoSUcx+ImzQABZ/BS7XnBPfrxTvuMl9Z0wFwuvjddQYTqHO5ukjCTCU4jpfW4j
+         YhEbF3K8lFI7zf9stElsy2gqGK26/nsf33piQPj6cDJ9yF4qzKXEzKpR4NSgEFnjZqPV
+         8kBaGqS6AdpVws7oRuyl8AOLkvmi7OX7bjUN14UkIEJHYB9jYSMuxgdvAtM/GKMnQ/pC
+         G5NqB9K0PdEks7C83bfw16YwcFQHMSkIVQ97jVzGqH9IIfUQYPGRv0e8zGWhnp/kslZC
+         yIWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792653750; x=1793258550;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5Sw0fczu+qUDWDbQNMKQmVBJWsUl3OKWVlqM6X4kK9Q=;
+        b=pR+GKSRiImfnAmR02if4b5dplaVKGr9vQOb/8/+n7ObiZEv0859vx5Sc6QFiv/8Wq/
+         loRLXqW0IKOxo+l5EHtiM/7SeeSvoI8IjvXmSoZIvX59CbT5qsS/bSstILD4plAGkoIU
+         k2kW1o2ZnTfkZBsp/7ExouUAUQB5seZiM7USpR2cS/Eg0f3wturvTusWw8FDLOYjpEYz
+         KCoa3c8PXT8ZUj7xkzoQKuVEs39IeH8ParA+xHCfo0LZKHJ1cf738vfEVZCcJ3dJtUj0
+         tPosB0pTQM2j/9qQNZIhw/gEtFmMdLGjICgGTsI+n0bYV0n9TApvB91tj34GCN0l0Aie
+         Y3AA==
+X-Forwarded-Encrypted: i=1; AKwUvBy/UDN4gkOi4FmMv0EEABv0fqQ3/F8UNA1LTX8oz+U/UmL93t6IHuhZMenENjkA+h+Gp94ndP+Q9dgUgw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKCISSl6sRqA/UVb38T3TdPyHmhYJgC2mGYgg0TH/zxihEaoHD4
+	EML6qULMNdE9TxS2Lf3nT+Gigll/jJHDcdPaMKzn28sjYJUAT/0iZJsltGuT+R+YLvK0oFncOy5
+	4rgr5wIoRWZp30eQMdcYjMGXtj5L3uJrDcZOVk6Vgoun93uiBSamsy4liGKUq+fBIDw==
+X-Gm-Gg: AYBFou0YiOAiCO/dmUwniKKrw49TN9CFIr2C0SuU/HDSwMrcfYbbyQJ1rRG/CqZVnDU
+	pbmFL1XHiahRUwn4YzHepRSb1ucKaA/DdunIA1LKYgO/8G8AZ+ZjI32sbp2GkX8hI3WqkcmhU4n
+	SFp+UW0YfbM8FxKPBDN620Gf8MQYxc9W+mxRSp/mvZLEWnjt4fMjynwVjGbKeQcooXU8Rg4wY0a
+	93ScFRpctDB9NTMBXin7CB+iAf+mRm4h764I8X5qqX2G7R6/xkLiANKtCyDhD3Uo5AEVnr1OXga
+	ybYC2BhU0mwUJ/lLg7L1A6CwMERmjnv729WiyXfMxk0a47u4TOGdAKu/oxi9S4HFq7F9ZJmrIqf
+	0OMlqFdjjhxXmOe9D233ciQ==
+X-Received: by 2002:a05:620a:6084:b0:93f:1fc5:f07b with SMTP id af79cd13be357-93f57eedc95mr923297085a.2.1792653749702;
+        Thu, 22 Oct 2026 00:22:29 -0700 (PDT)
+X-Received: by 2002:a05:620a:6084:b0:93f:1fc5:f07b with SMTP id af79cd13be357-93f57eedc95mr923292885a.2.1792653749300;
+        Thu, 22 Oct 2026 00:22:29 -0700 (PDT)
+Received: from [192.168.226.26] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c468a1f29aesm77548366b.11.2026.10.22.00.22.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 00:22:26 -0700 (PDT)
+Message-ID: <11d992ca-f666-4a4b-a511-ec12335e6960@oss.qualcomm.com>
+Date: Thu, 22 Oct 2026 09:22:23 +0200
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -80,103 +115,118 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f077fd3-9c67-409a-b46f-7f28a55c180b@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 03/16] OPP: Retry failed default single-clock
+ transitions
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Brian Masney <bmasney+clk@redhat.com>,
+        Jerome Brunet <jbrunet+clk@baylibre.com>,
+        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Mike Tipton <mike.tipton@oss.qualcomm.com>,
+        Taniya Das <taniya.das@oss.qualcomm.com>, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        driver-core@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
+ <20261014-topic-qc_clk_dvfs-v1-3-3041b788e9f7@oss.qualcomm.com>
+ <xkiu74kv2biofdix25gimmxxzqfqyocsq3wvdriqj7zscpynv4@us3hib36vops>
+ <3d8158f1-8c26-4866-a318-abaad47f75ac@oss.qualcomm.com>
+ <njgant4vjdowkfe4milfhpeknosxxyalcfuf5p25c2t2sn6ffp@esokxr6ridc4>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <njgant4vjdowkfe4milfhpeknosxxyalcfuf5p25c2t2sn6ffp@esokxr6ridc4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=JudkP84C c=1 sm=1 tr=0 ts=6ad9b9b6 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=NNcpZA-_c-qG0gzoYGoA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: 6VJWsAd9Gu4ye0P9jR522smsgNHd50NJ
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDAyOSBTYWx0ZWRfXwafMtJmiWLTG
+ du0oYNk1zpYnDjx7O4q8y7SaqqJqKeqYPWmHK5q9utn+SiWLcJ/vFGyr0Nmz9lf+4NopaQ/sxfn
+ JuT/ectNubM0a2omJPkhblnGecSIl9I=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDAyOSBTYWx0ZWRfX6kyJRNEgRCsh
+ LDicPqejBn8qEyk7uQcK1of7BytLvkTryTe2kQjg0qI1AesEDGb2Dycdp7pOOuWdZlykfhPfMWm
+ BtP+X26PHDSQgTOnzsjWMNoSBxYQGk4Lfs4+jo0N78CuvobGsfHw9UZJ/3vwam3o6udHL7KzcZW
+ LLXK3Ty47Ds3MdhqEddxzghUHv1HlF7ElTvoDB2hBKZObVZhlt9GahaPTZks6VuO/v+al92wT7D
+ exEfg3bcH78g1qhbpveju2esI9knP9klAkyGYGSMzLR0Xbcz/HCwNUtI9zEhKTvPs9tNCUX+YbC
+ LXrmoAvVcZqXCpjIKDRN2PNonau4sI41wfGLssG7aWDvj2K16iLXckMjSRJDwte8+YAeU+H3eO6
+ 5nDcYbISR96nzoxAbPrVIfQVui+bZ+nGq1G69nIxOPAiSRg0As+SsyFDrEIabUewY3trK9Z16rw
+ shGJ6ZYK7yu+PEfmDnw==
+X-Proofpoint-GUID: 6VJWsAd9Gu4ye0P9jR522smsgNHd50NJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-22_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610220029
 
-On Wed, Oct 21, 2026 at 12:18:39PM +0100, Robin Murphy wrote:
-> On 2026-10-21 10:06 am, Lorenzo Pieralisi wrote:
-> > On Wed, Oct 21, 2026 at 09:58:33AM +0300, Andy Shevchenko wrote:
-> > > On Tue, Oct 20, 2026 at 05:30:00PM +0200, Lorenzo Pieralisi wrote:
-> > > > On Mon, Oct 19, 2026 at 08:05:50PM +0200, Rafael J. Wysocki (Intel) wrote:
-> > > > > On Mon, Oct 19, 2026 at 12:34 PM Lorenzo Pieralisi
-> > > > > <lpieralisi@kernel.org> wrote:
-> > > 
-> > > [...]
-> > > 
-> > > > > Basically, yes, the idea is to defer the creation of the platform
-> > > > > device until the dependency is met.
-> > > > > 
-> > > > > > till the dependencies are cleared but then, without a _CRS, where will
-> > > > > > the consumer driver find the platform device resources ?
-> > > > > 
-> > > > > Well, good question.
-> > > > > 
-> > > > > > There are multiple facets in this issue and possibly some of them have
-> > > > > > been already solved but I need to pull them together.
-> > > > > > 
-> > > > > > > Note that the dependencies can be added to acpi_dep_list after
-> > > > > > > creating a struct acpi_device with acpi_add_single_object() and
-> > > > > > > acpi_scan_add_dep() is not really suitable for that, but it should be
-> > > > > > > doable if the dependencies can be found.
-> > > > > > > 
-> > > > > > > > I need to have a deeper look into this next week but I wanted to ask first
-> > > > > > > > whether there was something I missed - most likely.
-> > > > > > > 
-> > > > > > > Well, it is not really straightforward.
-> > > > > > 
-> > > > > > Yes it is getting messy. This RFC, with all its flaws, does not transparently
-> > > > > > prevents enumeration but rather relies on -EPROBE_DEFER to sort out
-> > > > > > dependencies - though it does so by adding more stuff into ACPI static fwnode
-> > > > > > that to be honest I'd rather see gone.
-> > > > > 
-> > > > > I think what you need is a notification mechanism that will trigger
-> > > > > when a specific device (enumerated via the ACPI Namespace) becomes
-> > > > > operational.  It doesn't look like any of the existing ones (platform
-> > > > > device probe deferral or ACPI device dependencies tracking) is really
-> > > > > suitable for your use case.
-> > > > 
-> > > > Yes. It might just be a notification from ACPI core to say "the driver for
-> > > > this ACPI device probed, go create platform devices that depends on it".
-> > > > 
-> > > > We can check and track the dependency in code that does create those
-> > > > devices today.
-> > > > 
-> > > > I will think about this to see how bad this might look like.
-> > > 
-> > > Don't we do something similar in drivers/acpi/x86/lpss.c?
-> > 
-> > I suppose I can add a notifier that checks whether the device whose
-> > companion represents the ACPI device a given platform device IRQ depends
-> > on was bound to its driver and then map the IRQ and add the platform device
-> > _then_ - after all that's what acpi_dev_clear_dependencies() does (similar
-> > at least).
-> > 
-> > There is still the question - where the GSI number, flags should be
-> > stashed so that the notifier can grab them in a uniform way. We
-> > could simply attach platform data storing those values to a pdev, either on
-> > a per static table basis or generalize the data so that a single notifier
-> > would be able to deal with it.
-> > 
-> > That or I can just piggyback on acpi_dev_clear_dependencies() and add
-> > a separate dep mechanism to acpi_dep_data that instead of being acpi_handle
-> > based the consumer is fwnode based (something Rafael mentioned before).
-> > 
-> > I will have a stab at this and see what's the least bad solution I can
-> > come up with.
-> > 
-> > I suppose we are scrapping the -EPROBE_DEFER solution (ie this set),
-> > what we are talking about above won't need to defer anything other
-> > than the time when platform devices are added.
+On 10/14/26 6:32 PM, Dmitry Baryshkov wrote:
+> On Wed, Oct 14, 2026 at 06:14:43PM +0200, Konrad Dybcio wrote:
+>> On 10/14/26 3:35 PM, Dmitry Baryshkov wrote:
+>>> On Wed, Oct 14, 2026 at 02:19:03PM +0200, Konrad Dybcio wrote:
+>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>
+>>>> A failed OPP transition need not leave the clock at the last successful
+>>>> OPP's frequency. If hardware changed before the error, the default
+>>>> single-clock path can subsequently skip a necessary retry because its
+>>>
+>>> What is a necessary retry? Shouldn't it be: try, rollback if it fails?
+>>
+>> The failure scenario is:
+>>
+>> opp-table {
+>> 	opp-400000000 {
+>> 		// low
+>> 	};
+>>
+>> 	opp-1000000000 {
+>> 		// high
+>> 	};
+>> }';
+>>
+>> 1. The device is running at Low. OPP caches 400 MHz and the Low OPP.
+>> 2. A driver requests High.
+>> - OPP raises the voltage to 0.95 V.
+>> - clk_set_rate(..., 1 GHz) changes the clock, but returns an error
 > 
-> I dunno, that seems pretty drastic for some use-cases - the fact that a GSI
-> is described in a table doesn't necessarily mean it is critical to device
-> operation. If we don't even create the device until all possible resources
-> are available, then its driver never has any chance to decide whether it's
-> happy to ignore the deferral and just use MSIs or polling instead...
+> I thought that your previous patches actively target this. I.e. if there
+> is an error, CCF should retract the changes for as much as it can
+> (assuming that there is no extra error on the reverting of the clocks).
 
-I agree with you (but that's what we do for ACPI autodep and AFAICS OF
-devlinks - though there there might be opt-outs).
+Right, that's at the CCF layer. OPP also has the same problem and
+needs a similar solution. Perhaps once all consumers are migrated
+to clk-dvfs this won't be a problem anymore, but that's Qualcomm
+only.
 
-To make -EPROBE_DEFER work I have to pursue the approach undertaken in this
-set and apply requested changes - I don't see any other way.
 
-Are we willing to accept the approach taken in this patchset (I can remove
-software nodes and make the whole thing ACPI static nodes self-contained) ?
+>> - Assume clk_get_rate() can report the resulting 1 GHz rate.
+>> 3. The transition returns an error, so current_opp still points to Low.
+>> 4. The caller tries to recover by requesting Low again.
+>>
+>> Perhaps I should have included that in the commit message.
+> 
+> I think, if something changes the state, but returns an error, it's more
+> or less... an error. Or a bug.
 
-One way or another this ought to be sorted, please all let me know your
-take on this.
+As we've chatted offline.. you can try to unroll.. but if you error
+out while unrolling you have to unroll the unroll. And if you error
+out during unrolling of the unrolling...
 
-Thanks,
-Lorenzo
+Konrad
