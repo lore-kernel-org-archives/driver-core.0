@@ -1,60 +1,127 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.67.36.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792669905;
-	b=PkgBDtlokmN9nWkxDs6zY5GPzjjx1uKfSPuyaZv3kaa3NA8xYq3+VdWtvzjcidAjxlPv
-	 S+DlLnJCjENKo5pLvQh+wfesNVmNGUMZp27dQm0o4FH3ysaA+gikUBNMPuoGgslo/y6se
-	 z8Mcwilrsz1wJJ+sS2IJEgeLchwDDWVS6fn7kr6ZzGwJ5LCTb83gE44VCRVEkFa1TA9uz
-	 Qugxp7anSElsptaMhg7J/Ff/v2mGRnwv3k5LJdKx6vcVppYZ3lw7UwwDmQyJ2Ohce37Fa
-	 BgDIOsS2s+0tBxzvQZ4glMF5Pa2rRj3ew/TQrrIhSaiG2XQ7wYRRyZAvgUuUmKTI1pg==
+	t=1792673141;
+	b=Hp1TZkB5RzJMVoFhs7C806Nx8XOiqF2SyqlyK37v74k3vF1clbh/WN7Rmw8iLQ/W8pMz
+	 +i2XyTQvfEmpTCY4E7Ppb+9bcfny4i/Z6+HSQH3ZkPKAoL48vQv63nt4AIxRHyirL8u20
+	 +4oiP3TJsVnJLMfLYLegKRbqOFg0cSlNlfNIUpuZhYFAcEpTZMaqJjuAH50J+G6trd+o1
+	 M8eSYmliG8nQV0Dn3zD15Vr5QJNeBs7I+3wSfIxIEjblHWCOap+/ZMxbuNgfuc7luKRdP
+	 OxWO7QaaEHn2xQxvFqJXfm4A272KFbVqv6qHsoWbHNQhCe+it/eEMYHBkyLcXXyKDdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792669905;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key:
-	 Autocrypt:OpenPGP;
-	bh=UTm4yQVbwMpMizb1S87Kb2YZ7hCkc36LgIfvhH/1KKk=;
-	b=NVnzfkwPHCHP4QccTNtGYWSl9oM/xlHLfjHACW2lCmCroSDnZJBx9Pg0aEtMuHvQaKP2
-	 URovLXDEbVJI1lmkNtmzvvXIYCVX7X/RReFLgIdunf8E0UYwWyPQf4Og/I2PHUDFCTbwU
-	 4WGVYal5GmQ4UTOH6wiKTk8/58mq4is2B+8E6sXyccat0CiLQHWNbJT5FAiXtXp5Y6tF/
-	 WYtAzt0yHDqtyrY1zUBQSnkEZCJsebiVvfxqr/a0fy99WVE4GdBj8kS3tK29QJE+zFOo7
-	 K9l0S61N9lshzbBMWgJfPoLjblPQoM1w+G/xcVpJrY08jZU0+6bPfDmUFQA/GDE1IiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792673141;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP;
+	bh=XGF7pRFJchGOCc/iFyNZJkOvNkfIZAEVyF0cd97Z9Lg=;
+	b=bMawNt/tSzxENT7yMmTtJKXE9rV9Zyn2urLe2WoBBbIXdtv/ycevLOPppExeDrafAN7W
+	 N6peOW+Sz6Bona9z/C6X6dSDRFucq9BTaVw+deOXI8Rb98KcyJKOQR/gncldk7QuJ1xGc
+	 OinOuLils3iuC4g1cFLdVR12op9UE/F2FwSqp1npD43XCL9aNhy3+nPkHTh6Pl0+4z7BI
+	 6+KTtcSrUHu3SBh8YdmAN2AYCsL+lKrdaJrB3qe9s/EaTPtdg70mQ//OxaElpc4j+6L/H
+	 hRXDJF4exyrExx1bdp9QAHhZSTCREFyIQqirhjfWiPRhIcrRJsekET1XXDiAlBPS9ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=posteo.de;
 	spf=pass smtp.mailfrom=posteo.de;
-	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=Uu9ladzF;
+	dkim=pass header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=ZhNnmXrm;
 	arc=none smtp.remote-ip=185.67.36.66
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07FF606A329
-	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 11:51:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A07FF606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC1F606A31E
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 12:45:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EC1F606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=Uu9ladzF
+	dkim=pass (2048-bit key, unprotected) header.d=posteo.de header.i=@posteo.de header.a=rsa-sha256 header.s=1984.8680eb header.b=ZhNnmXrm
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id EF9EE24010E
-	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 13:51:38 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id 662A5240108
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 14:45:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1792669898;
-	bh=UTm4yQVbwMpMizb1S87Kb2YZ7hCkc36LgIfvhH/1KKk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=Uu9ladzFvUV/G1gSF6ME/BwUAu9ynbLJw8YxM3JYgBo9Rt5EAogbRE5cYSacnKtsv
-	 5ZJ1gAK9Ug4KTXscBVruFHx39sePmfapOMfNbT3GKM2D2AsNyeZjRqE/ybi+5edSci
-	 1vUoOudTJiLNUNR4PlU8u1TBEK1bWpqhz2OHHCb2FKj9vL3/iqo/OI50eSFY1GPQSZ
-	 BlqL6U7RS7Q9wpsO39r07xaQ+JcNlhHHJ94PNhCQ+9TePo36DGgj2INkn6+yPfFEZh
-	 kJhTgGOSm5P1NiwCK22D+2vnHyoOo1ibdLI9iafObq/7ibTrx+1bA3fgKNLjlR8al0
-	 AnuVHsamSAqlA==
+	s=1984.8680eb; t=1792673138;
+	bh=XGF7pRFJchGOCc/iFyNZJkOvNkfIZAEVyF0cd97Z9Lg=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=ZhNnmXrmIaw5JPd9E3pb2QsRiVGPq0W+llx7xHu7LIlwJiidSjj1ZJVEotdl0qREV
+	 8AQdQT4YXqysxLVzRyIFef3bgcfGZtCd26GxAX3g9TUVL5M2f+piHLYm/1Xee/YUtJ
+	 gTidHlFKF1fM1rGePQ+4moylDP0lgZzpRencFj7o89QV9mV4nf9FneZatDE/WXJA8A
+	 1+5woHq8EbowAm8jeGc9iQvkHbNUC1SI7CF97oZXwwUJWBDg5lR86P15TPBSQsJFxf
+	 sLd6hg+PeFmv+cgir4dLpXCTtqq/fMIhlDc6p62MsmEZsmGsItaRKCjRLUzjXAsZxk
+	 QVQXsdwCzp1LA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4j9Pd26RXLz9rxV;
-	Thu, 22 Oct 2026 13:51:34 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4j9QqL4Rj5z9rxG;
+	Thu, 22 Oct 2026 14:45:34 +0200 (CEST)
+Message-ID: <c7b9e8ccbf41410a5ac13fc4d78104e595a5fbbd.camel@posteo.de>
+Subject: Re: [PATCH v4 1/4] tty: serdev: Add mutex lock
 From: Markus Probst <markus.probst@posteo.de>
-Date: Thu, 22 Oct 2026 11:51:37 +0000
-Subject: [PATCH v5 3/4] rust: serdev: Replace `active` mutex with receive
- pause
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
+ Alex Elder <elder@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Daniel Almeida	 <daniel.almeida@collabora.com>, Tamir
+ Duberstein <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>,
+ Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Eric Biggers	
+ <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Lorenzo Stoakes	
+ <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett"	
+ <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Jiri Slaby	
+ <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev
+Date: Thu, 22 Oct 2026 12:45:37 +0000
+In-Reply-To: <2026101758-confidant-comprised-e1c0@gregkh>
+References: 
+	<20261016-rust_serdev_probe_refactor-v4-0-46832e034757@posteo.de>
+	 <20261016-rust_serdev_probe_refactor-v4-1-46832e034757@posteo.de>
+	 <2026101758-confidant-comprised-e1c0@gregkh>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-SSwWWVnFuWrg0GMbs44o"
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -64,238 +131,105 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261022-rust_serdev_probe_refactor-v5-3-a27d862a415a@posteo.de>
-References: <20261022-rust_serdev_probe_refactor-v5-0-a27d862a415a@posteo.de>
-In-Reply-To: <20261022-rust_serdev_probe_refactor-v5-0-a27d862a415a@posteo.de>
-To: Ayush Singh <ayush@beagleboard.org>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Eric Biggers <ebiggers@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, 
- Jiri Slaby <jirislaby@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, Markus Probst <markus.probst@posteo.de>, 
- Sashiko Bot <sashiko-bot@kernel.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6499;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=xmTFRFw7V/HU3JXIe69biF6uXSYP9tKIxk/FBu1sWo0=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBq2fi+fjasiVCEpp6qIdwjd7WUEa0bZpkqfV2tj
- x1Usj+eJnOJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCatn4vhsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JEUhAAv/voRxAfESLBZvoOyYsTWNp6YcjJ0/Y
- tvebcSV0vbmo4XTIYQkwWljOGOua5MZt60veljH3VV8hEdlDwv0GhN3qOaeXL+WEYDLZslHFDyN
- 5gb/0a2cbOoi9gw4ppwaZ9CnRrW1JriXYAw4UIaMy90zkRvc7QIGqX7y1TA9fNmQn2DbWZJ5A55
- AosA9Cp36t6p7w/ocUezGKemvu7m1aOPo0H1SmU+SmK68bW5EN5LZorTOOSQjr5DZbdrnfFhtZJ
- P3F9ESPQW3KHNzEIHeGRQulMnnvonTyvmoA98EtXsK4osbpRMypgZ5IxYW0QeZpccCWF+Ob2wOt
- U3MYEUK7pYx1fjvSk/7nCeE3vi2h3UC5ahdxieGAgdlv22evbG9+uoqjtU0sZ8CZVfWjaT1zSCm
- QwEZzgqtvTeP5x4zznFwZknbARy7AX41cph04WW44QK+RU0andBw0YOjynJhZl7dgRkkeSN7p+u
- 9imrubBPaWbdK82Dbf6iOEsPnMtE7GTSKWhggVZGFPBgZD4ALiVEgqso/qkXadtziw6D8cDJ4Y6
- oaNaJwuIDPLB/8StYR+Nx/7P9eIKwZ2IteH31Qu8hF0DE9CIGyhnOGyZj2iv+i1E6AdDkhC8N0u
- Ea0iE1tsSnULirElsFDbfl2z9pR5bgu8E7XGvrlISiQEQaMjjc8M=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-There are currently 2 race conditions:
-- in probe if `Driver::probe` returns Err
-- in unbind
-. In those cases the driver data will be set to NULL before the serdev
-device was closed. If data is received while the driver data is dropped,
-the `receive_buf_callback` might try to access the `active` mutex on a
-null pointer.
 
-Removing the need for `receive_buf_callback` to lock the `active` mutex
-fixes these.
+--=-SSwWWVnFuWrg0GMbs44o
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 99f59aa82341 ("rust: add basic serial device bus abstractions")
-Reported-by: Sashiko Bot <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/linux-serial/20260905000836.C8FC91F00A3D@smtp.kernel.org/
-Closes: https://lore.kernel.org/linux-serial/20260903222159.70A911F000E9@smtp.kernel.org/
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- rust/kernel/serdev.rs | 60 ++++++++++++---------------------------------------
- 1 file changed, 14 insertions(+), 46 deletions(-)
+On Sat, 2026-10-17 at 09:53 +0200, Greg Kroah-Hartman wrote:
+> On Fri, Oct 16, 2026 at 06:00:32PM +0000, Markus Probst wrote:
+> > Besides more predictable behaviour, this allows for several hardened
+> > behaviour changes:
+> >=20
+> > Return -EALREADY in `serdev_device_open` if the device is already open
+> > instead of causing undefined behaviour.
+> >=20
+> > Allow calling `serdev_device_close`, even if the device is already
+> > closed instead of causing a null pointer dereference.
+> >=20
+> > If the device is left open by the driver after remove, close it and war=
+n
+> > instead of leaving it in a invalid state.
+> >=20
+> > Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> > ---
+> >  drivers/tty/serdev/core.c           | 10 +++++---
+> >  drivers/tty/serdev/serdev-ttyport.c | 46 +++++++++++++++++++++++++++++=
+++------
+> >  include/linux/serdev.h              |  2 +-
+> >  3 files changed, 47 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> > index 7500efcdfc21..77e8e1d4d2a6 100644
+> > --- a/drivers/tty/serdev/core.c
+> > +++ b/drivers/tty/serdev/core.c
+> > @@ -142,6 +142,11 @@ void serdev_device_remove(struct serdev_device *se=
+rdev)
+> >  	struct serdev_controller *ctrl =3D serdev->ctrl;
+> > =20
+> >  	device_unregister(&serdev->dev);
+> > +
+> > +	/* Warn if driver did not close the serial device. */
+> > +	if (ctrl->ops->close && WARN_ON(ctrl->ops->close(ctrl)))
+>=20
+> I understand the want to give a big "splat" if this happens, but if it
+> does somehow, you just crashed the box due to panic-on-warn, which will
+> result in a CVE being given :)
+>=20
+> So, if this ever can happen, we should recover like you do:
+>=20
+> > +		pm_runtime_put(&ctrl->dev);
+>=20
+> And you can warn about it in the kernel log, but just not with WARN_ON()
+> please.
+To be honest, I forgot about this review and sent v5 without taking it
+into account.
 
-diff --git a/rust/kernel/serdev.rs b/rust/kernel/serdev.rs
-index 17ca504b7f8d..c16d6593a8d2 100644
---- a/rust/kernel/serdev.rs
-+++ b/rust/kernel/serdev.rs
-@@ -13,13 +13,9 @@
-         to_result,
-         VTABLE_DEFAULT_ERROR, //
-     },
--    new_mutex,
-     of,
-     prelude::*,
--    sync::{
--        aref::AlwaysRefCounted,
--        Mutex, //
--    },
-+    sync::aref::AlwaysRefCounted,
-     time::Jiffies,
-     types::{
-         Opaque,
-@@ -103,40 +99,11 @@ pub struct PrivateData<'bound, T: Driver> {
-     #[pin]
-     driver: UnsafeCell<MaybeUninit<T::Data<'bound>>>,
-     open: UnsafeCell<bool>,
--    /// Whether `receive_buf_callback` is allowed to call `Driver::receive`.
--    ///
--    /// If locked, the receive_buf_callback will be blocked on data reception.
--    /// This is the case while the driver is being probed or while [`PrivateData`] is being dropped.
--    /// This is necessary, because we need to open the serdev device before the driver has been
--    /// probed in order to allow it to be configured, which allows `receive_buf_callback` to be
--    /// called. Thus we need to block data until probe completes and the driver data becomes
--    /// initialized.
--    ///
--    /// If unlocked and true, the receive_buf_callback will forward the data to
--    /// `Driver::receive`. This is the normal state of operation.
--    ///
--    /// If unlocked and false, the receive_buf_callback will throw away the data.
--    /// This is only the case, if the serdev device is open and
--    /// - the driver returned an error in probe
--    /// or
--    /// - the driver data already has been dropped, because it was unbound.
--    #[pin]
--    active: Mutex<bool>,
- }
- 
- #[pinned_drop]
- impl<T: Driver> PinnedDrop for PrivateData<'_, T> {
-     fn drop(self: Pin<&mut Self>) {
--        let mut active = self.active.lock();
--        if *active {
--            // SAFETY:
--            // - We have exclusive access to `self.driver`.
--            // - `self.driver` is guaranteed to be initialized.
--            unsafe { (*self.driver.get()).assume_init_drop() };
--            *active = false;
--        }
--        drop(active);
--
-         // SAFETY: We have exclusive access to `self.open`.
-         if unsafe { *self.open.get() } {
-             // SAFETY: `self.sdev.as_raw()` is guaranteed to be a pointer to a valid
-@@ -170,7 +137,6 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-                 sdev: &**sdev,
-                 driver: MaybeUninit::<T::Data<'_>>::zeroed().into(),
-                 open: false.into(),
--                active <- new_mutex!(false),
-             }))?;
-             // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
-             let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
-@@ -178,11 +144,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-                 // SAFETY: We just set drvdata to `PrivateData<'_, T>`.
-                 drop(unsafe { sdev.as_ref().drvdata_obtain::<PrivateData<'_, T>>() });
-             });
--            let mut active = private_data.active.lock();
--
-             // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-             unsafe { bindings::serdev_device_set_client_ops(sdev.as_raw(), Self::OPS) };
- 
-+            // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+            unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
-+
-             // SAFETY: The serial device bus only ever calls the probe callback with a valid pointer
-             // to a `serdev_device`.
-             to_result(unsafe { bindings::serdev_device_open(sdev.as_raw()) })?;
-@@ -199,12 +166,12 @@ extern "C" fn probe_callback(sdev: *mut bindings::serdev_device) -> kernel::ffi:
-             // - `private_data.driver` is pinned.
-             let result = unsafe { pin_init::raw_try_init(driver.as_mut_ptr(), data) };
- 
--            *active = result.is_ok();
--
--            drop(active);
--
-             result.map(|()| {
-                 private_data.dismiss();
-+
-+                // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+                unsafe { bindings::serdev_device_resume_rx(sdev.as_raw()) };
-+
-                 0
-             })
-         })
-@@ -231,6 +198,12 @@ extern "C" fn remove_callback(sdev: *mut bindings::serdev_device) {
-         let data_pinned = unsafe { Pin::new_unchecked(data.assume_init_ref()) };
- 
-         T::unbind(sdev, data_pinned);
-+
-+        // SAFETY: `sdev.as_raw()` is guaranteed to be a valid pointer to `serdev_device`.
-+        unsafe { bindings::serdev_device_pause_rx(sdev.as_raw()) };
-+
-+        // SAFETY: We already established that `data` is guaranteed to be initialized.
-+        unsafe { data.assume_init_drop() };
-     }
- 
-     extern "C" fn receive_buf_callback(
-@@ -248,11 +221,6 @@ extern "C" fn receive_buf_callback(
-         // `probe_callback`, hence it's guaranteed that `Device::set_drvdata()` has been called
-         // and stored a `Pin<KBox<PrivateData<'_, T>>>`.
-         let private_data = unsafe { sdev.as_ref().drvdata_borrow::<PrivateData<'_, T>>() };
--        let active = private_data.active.lock();
--
--        if !*active {
--            return length;
--        }
- 
-         // SAFETY: No one has exclusive access to `private_data.driver`.
-         let data = unsafe { &*private_data.driver.get() };
 
--- 
-2.55.0
+Anyway, I looked into documentation.
 
+"WARN*() is intended for unexpected, this-should-never-happen
+situations. [...] However, the existence of panic_on_warn users is not
+a valid reason to avoid the judicious use WARN*()." [1]
+
+I think this is a valid case.
+
+It is an event that should never happen, and it might cause a use-
+after-free vulnerability on data reception.
+
+Thanks
+- Markus Probst
+
+[1] https://docs.kernel.org/process/coding-style.html
+
+
+>=20
+> thanks,
+>=20
+> greg k-h
+
+--=-SSwWWVnFuWrg0GMbs44o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmraBW4bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSwncP/iqL6bpaPmb2KVjSz1X8
+p358eOolNLI70BYGrtESeG/h0huOgPn5p8TuhIP5tBKy5n69GkmlbEiF5yKhc8YE
+2GRpyGQ+w8ZjlWrM40hxB+HHTrlduJmUJDSJJgm7c18H/hsqkslQz4348XpyBAjj
+Lg0OBumSzX7CMqwRlfbxzFC3ec/owCuavuNfj246WBij1yUlR7TPAsZOoovEvx27
+aWN+tiQQODux5Fzgi9c2l+FHVJTipUJms1HS1z2Vs4oY6TN85fazkxUHqdvYoj/4
+19+cmqeBcyrNqVk03YKDieYfR55eMpJsOuW+b+Y7aIBhhqJDVwQsCSGjGOBtFJGe
+nycaPLRb1Ex46Lm/1Fydpk042CcLuDwY5AqbP2N6f33cNtIZjmlTDLAG5nXZbqDh
+ulff8KixN4ODX65YGTWVdaT9SvM7UA49fq/Zt9o8ZU6HSHzZF5eWl1CV5yf9Lqm6
+QfbUdNFoClwH6ctJ2w/gU+uwaYvWPLpc5ynUJZA56Y7RpkyMfbn00qLnhf35RkzF
+S7swLkYBcKB9oIe4RjSaJdXkvEDjbGPNXb2Q/kMdq9qM14ZYFtXzJEOU9v8ZYlsz
+NL/GpKAhFFPlpyXuT7z41ae27X06Vjl5VWhjK9Nn/F/Q+VgHQT/rSrXeJVkz6HPF
+W0Zp6OLY3R0kDvrRE457NGNW
+=LcdA
+-----END PGP SIGNATURE-----
+
+--=-SSwWWVnFuWrg0GMbs44o--
