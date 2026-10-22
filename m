@@ -1,135 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792637202;
-	b=mWiAYgB/Jr9iiECA6agotcfBXmOri+9tp1YtKgPLWQe+KCrSxqSOGTA/0yPBckP+eWWO
-	 ILgHYFb4frqhSAuu+hf6kkHxm30q474ACMcWqNFdLDAaJrHQxsQ1wxom3oSqYl7mgXtyb
-	 2bx3aB33d3RJRc/v2+4Ww1P2JTjHvu1FNFBV5ZIU+E5R6bn91DV0Thgc2OCdNTF76L0qc
-	 MY/tl+LdfJtS4XfFxvUQe+Wc1aEe3MxiVVgLS5kLj6w137qw8Wn5Yzdqn7Xc6+kIRh5Sv
-	 paK7+mRsR/l5THmtkJLAMjxkRHo7NCqzNUoxEGb2DSAz4aMDWi7H7coMpDwDVcCDU6g==
+	t=1792650742;
+	b=zPWr5CevJbzUSb2X9bE2JBAvIdbvJHEU03eW7wasSLody9iJoPxPFZub77lR34dKVt/P
+	 JHcRrsbBkhH9bSeKhG32LP+RQo0c6W5XaJUrR4/PKzqDGZ1vITX3BBoQYUJCc1iR6VdpC
+	 L0qAKH2QCEtPE4LjGbECzRRL4e8ud4cHDRMmCJYUKmor2p+abMEn2ZPZfSkqrbaLGyehD
+	 EvmlFvbJ03u94rRQhFNN+k/Kt+bv+CytoCLxmvtKtDWxQ5Q4N0J367tl27NceZoDbzi3p
+	 HrRkyGY+QQ1D3/HtDuBWsyno4k9YAOGOYLLMSth0HMmclLrj2DxVUDFSDXwlzpVM1xA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792637202;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=;
-	b=Og9fQgjwtKbRv2wY0txNwHWRAMxH0vCkmnN/YsZ4gJe0zk7wThOtkcP7DAh0BdqKTcD1
-	 eN1xEQDjLmGMscEfUtKIQGUOcpRQ+A6GL2mPEOGkX9Kz975PTcVc5LUrjo986F38NVVwq
-	 rIddOzi9PURUOGxuenDhOfgw9koWC6x3hWLA3OkekXQ2J6JCZ2PGhcxo1S201Kg/0xrEu
-	 wObkO+R2apS4n5JgEu3ls2YKMXHHGe/KfLFrppi/z7oo/mKzFUSS3teAZSVY0vbEceXew
-	 7nXmAjj5qdkeFyfQ7SwlqjZcEfNlAkOpHST1+QeVLBiFKbEH5xZdsNBrOxXmfkygKCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792650742;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=/2wjiCU8oPOTUtWf1+f94Cf8orYq8inxalqB5rW0q4A=;
+	b=a8wJNPlKsIJExnEHsrYP/weP81eC2O6sDiiPUDzs7jAP3rSwXELbgJWWEAguaFTDLrjv
+	 n8wSUWtp16JrPKTMDY4dzs7dzHbSfXSgGiZ7B+YRAmY1WHUEwFOshZiWnK3mF1touqFRl
+	 vGpOYQf2OEMcIrODaos8NNKCN+lmCVtQ0cP7h+tPBsHcywRZttELbZ6/r4L6cleDKupHG
+	 5k+bM8jh0nGUhpzF9UAcKAOKZhydEb+p01eARko0qbaxTOY/qD1cFb7BE9LJelnN+aBz7
+	 tkJ898hBbr4yWWX/yi4Ao+sDGw70RROsPesEzOIOZwEfTVvr+boeu6W2E/YkYCmUYww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SlzWuXRT;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=vcwJoROo;
-	arc=none smtp.remote-ip=103.168.172.156
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2VIzZJU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89A4606A31D
-	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 02:46:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D89A4606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669D8606A319;
+	Thu, 22 Oct 2026 06:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SlzWuXRT;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=vcwJoROo
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D3DCD14001C5
-	for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 22:46:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 21 Oct 2026 22:46:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792637200;
-	 x=1792723600; bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=; b=
-	SlzWuXRTtBF2qXe9jA6lVX3HJSnkinOlCatePQkTUUTQmyOpN6ZrpISLmgygl0Xe
-	Cc81PlfuVQ5J6LAm5cZgQNj9+765p4wfd3ua4iqIaNYC9dhjs7ATJn27lFXZLC/l
-	Vvy4qc6aoJKcQPUYoPgLJmhnZiYSx5Q/co/pEXf5/J/mFYrSk/D+T2A/K4ZyM8ev
-	WuVpJdkFbpbZHHCI6imGoWGp4HBDlGgOHBTgsCBKACPSVO7go1iqlhs8JUfle+Bp
-	66ruuiDLVU3oBtj351ArawJOSrWG40DTygF2Qd1BXE16XRqWLWSiel2q8ZHfGrUF
-	W+qIlmdg7QYnDBaCIO1Snw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792637200; x=
-	1792723600; bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=; b=v
-	cwJoROojIG7D8Yiyo6V0wr9zJ2pRVIh71PjrTRn4b+6YL5sSTwTY+7P7EB9lwh+/
-	DgH1RyTg6cKTNYtiCzaE0wI9A8W6AgLUJlSEbk/fTD7zU/ZhLFKcyrIUauUH1y2A
-	QYZEiekK3gSDR90Ln0u6yMi+ZBrfsn7f0S9Tf2ywJHki9gbE14mIuX/gzivUAOdS
-	Cma0bCSSOLlye+1WSmxdjF1tiiG4XwCFqwaspRg21z7djT/2sh/3+f4JTt5+M8Kk
-	7NLNa4Qd2Imv5mq7Hteo5kGIGgnEE3sT/Kfi1+q9zWSBPXL8j1/3mZNR194Dwsrj
-	Gd2lcQjDOCSHGyYklAHJA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792637200; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:bc7tAWJOkXw17+Q477ja36Yu/CuVZz5E0C78dl3UfadrfQ6
-	K8WcoDA8LjV5i9BfXB6pvBxJ5UvmoQEz41R3BgtWtW3SEsL4SGgSe9Q7yWL9bmMc
-	PDDTu1b1TOGIMfGEHy6iILcaIEzGwhfWgtA47uG2zQnnThEz8IkG+gpKzrfwHcUz
-	+glKSNRHhAniRQJ6LfIoIX+A93fSNWVk9hjgo3WGeVDddbd0yChsECpUEzv8274Y
-	t+y6rXmzzpV15yeU9GhXh3TT/D4rptwACjOcRx1bEiNEWlQj/N5Zi5E8pGLqswLO
-	4nQbwaXrfXnm+RNW5itx7VqKNptxUVbm4d6SozQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:sdIH6ghOfrgTjW7puJZHRJZvIDPGFStH0tPZPwlN6IY=:b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=;
-X-ME-Sender: <xms:D3nZanyYcTuh1SY80zX_Z3VtYIcnX1BBY-veSqerCBSt1doqa07t-g>
-    <xme:D3nZamOykI2EFyFkWfEQmZBOI0PChO7v-hJGRuVXaGDdRxXTVwMYKBZ7a3UWWH1ie
-    0wFBf-nNgac8cM40_1LQq8MsCTxPG02K1VsP2AXBzRBHIBmRQ>
-X-ME-Received: <xmr:D3nZamY4FEZChR6xmOHcfGReLpYofWK_kp1dlI4Zr0JZdcyX4NIsDRciIpTIpQMClhpxXEvmjwj0sZwKY-PCB50KB4IQmiDvalX4Nn6fX_Quu4q5gHoPw9a8dVE>
-X-ME-Proxy-Cause: dmFkZTFJl80OlkxtKrmLpLry8SB+s8EoAdfs4E9kpHOA5dqijSHh+7H/6Ivwl3c5UQ6DPU
-    41bDxgYzHplpsNoe8kwgDj4e1PKdBedBJV72Q4qA5wkBs8ODrr/9rPxc2zUUd+tnYjIwoT
-    ny8AmIaquX3FxGlVZ0wxUuvq9UzFvwMAZ6TafguFw1d36OZgJRVxv2eQRkdEHm1vVeHXFF
-    enmny/KR7qloN3pF57Mt7BDSlLtYw5ioXv2HFdYDF3laRnOa69O9gEnqzvDWKnOWL+0mIp
-    HHUGTUNCYNktwxR355RyWy/dARgku5E1Vam+5YCKNnxnJoQuSH4/+wb6ScnHEQ3FIY85MV
-    AAKXP32OP+0nQTkUZkb3NJlSRBIDpgT3rTLeB7cgMiC4kZHDuhR4f2GzJiGfZSvkpaVFOP
-    cdlLoxz0KKAOhQPEgAUXJIN8/Uf8MWooH7GFvNoWioufSIH7cfK76aZxRoHTb5pIC3fKB9
-    IrXPlTrMZ0z5RGiu/PDUyXn43KzDEn8Gye3Vf1cyrB0QyRIer9FCFe7jiOgcbOZGbFwpih
-    OXLMN/2oBAih4161kXuTVBxcIypuUYKmasZEXorhy9h6zgyfGvDLpZ909if6Ry7f6MKQQx
-    9xmQ6YWBNfFkmT4h1lMILcX2FXpoU1mRB3zuEOk4y7LUlL26+NtemFD+R7/Q
-X-ME-Proxy: <xmx:D3nZaorfBZiF8DSOEZG9VScubghi4xX2nS4sv7IJtC3MTIqGtPOUuw>
-    <xmx:D3nZajwe7dqGiUq7V8x9yzWXpiTmXTyOtphxRL3efFi5e2Oux14WPA>
-    <xmx:D3nZagKfQaQFfha9UVcQtj1T_EGDbTHRmsjFyN5gd1dg44283zuzVQ>
-    <xmx:D3nZal7I8GnVfCh0yAw6Y7uSPUxVAHpDmybX3LJZ4_ChcJOfw3cg5g>
-    <xmx:EHnZarKh3r5ZAsnP8-S-yuCxUC58gm0culffZA-oAHtI_8qarITqTtyZ>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Oct 2026 22:46:34 -0400 (EDT)
-Message-ID: <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Tejun Heo <tj@kernel.org>, Krystian Kaniewski
- <krystianmkaniewski@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"	
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Alexander Viro	
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	 <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra	
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe	 <axboe@kernel.dk>, driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Thu, 22 Oct 2026 10:46:30 +0800
-In-Reply-To: <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-	 <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2VIzZJU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5461F000C1;
+	Thu, 22 Oct 2026 06:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792650742;
+	bh=/2wjiCU8oPOTUtWf1+f94Cf8orYq8inxalqB5rW0q4A=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=Y2VIzZJUKq8s+CQ9uN+pp9XNoCKED0FpT/bA914iORBD8aX7pHnxLuBSP6Q151CHN
+	 KMzUJZ8/3vfwQNIIiHsvynFUvdEgm30X6A6ZRu1z+qll+CdQisSi5RVipL1wJCje+s
+	 EjlaYz+MyOAS7WGIJZfNZ5gUrIlKBeLxLPOXadewjpnj3QpZR8rdAxnuiz89zPcxwk
+	 slPM8S4BXNL8Tkq976cqTAggi+RDAUyXN18vdcAzttRBPGtdikf7ymcVbFTtwqfIoR
+	 yECVDlXjFvLFVpKjXIHEIragk6HBvZv8yBVY52ySoHG4juUs50c0VW7APpE7rxpfRN
+	 /PQDcASHztfEA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F171B380A964;
+	Thu, 22 Oct 2026 06:32:21 +0000 (UTC)
+Subject: Re: [GIT PULL] Driver core changes for 7.4-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <DM72ZY5B2CHK.3CEOSQUBXTAHQ@kernel.org>
+References: <DM72ZY5B2CHK.3CEOSQUBXTAHQ@kernel.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <DM72ZY5B2CHK.3CEOSQUBXTAHQ@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc1
+X-PR-Tracked-Commit-Id: d4ffc4896b3e709c6a5d7e5a78a1fddfc774fa25
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+Message-Id: <179265074060.1493177.6204456561249826893.pr-tracker-bot@kernel.org>
+Date: Thu, 22 Oct 2026 06:32:20 +0000
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Johan Hovold <johan@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -138,49 +67,16 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
 
-On Wed, 2026-10-21 at 11:48 -1000, Tejun Heo wrote:
-> Hello, Krystian.
->=20
-> On Wed, Oct 21, 2026 at 02:51:48PM +0200, Krystian Kaniewski wrote:
-> > syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-> > &sbi->pipe_mutex. splice holds a pipe mutex while it calls the
-> > write or
-> > read handler of a kernfs file, kernfs takes of->mutex there, and a
-> > write
-> > to /sys/power/resume looks up a path that can make autofs write a
-> > request
-> > into its daemon pipe and wait for the daemon.
->=20
-> This is an extremely convoluted case that isn't going to happen in
-> any
-> realistic scenario, and it doesn't make sense to change the locking
-> scheme
-> for it. Can we just disallow splice on /sys/power/resume instead?
+The pull request you sent on Sat, 17 Oct 2026 13:36:54 +0200:
 
-I agree but it might not be as simple as disallowing that path.
+> git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc1
 
-Not only is the description hard to follow the example is flawed
-because there should not be a mount callback on anything that's
-not an empty directory or an autofs trigger mount (and the above
-should be able to be either (systemd's /proc/sys/fs/binfmt_misc
-is an example of an autofs trigger mount).
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
 
-I mostly can't grok the reproducers for things like this so a
-complicated description makes it so much harder to come up with
-a sensible solution.
+Thank you!
 
-The other possibility I was thinking about when I saw that report
-is to disallow file systems that don't make sense for automount.
-
-That would take some thought though and isn't entirely clear for
-kernfs since it's used by other file systems that may occasionally
-need to automount something at some point.
-
-OTOH, if the problem description could be cleaned up, and
-simplified, I wouldn't be entirely against the change but still
-wouldn't much like it. That's purely because I've always been in
-favor of defensing programming even for cases that are unlikely.
-
-Ian
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
