@@ -1,60 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792675614;
-	b=EkzMzzfBEfBmnEUHtVqZCn2AgEvRnMqwxUUHdZoSIUwTqXGhEYnK5PsxGtJNcob79ond
-	 pk3Z8ydP3ftLPQjkM4mHud6MNOIxaogObxMaORBNVOgRK93qKAJKbNo42OKnG8pBKxP3I
-	 kHOZWFlHC5O+XwmorPdi6UMfaPSdqNOEPZIpC/02sR/L73JkUjLKdN4e2sy/Jb0+RLGl1
-	 H2fyOQbGjft4PO7jma3DqnWDFVw1pVkpMvwojffichp4MC1FqjPzOV2d8cqqA4WaZ+jKe
-	 jI+VS79eQc0NDQ4yfDOKlql/y471Wfh3FLtKtEjeXz3vLJ9uIpC4HiCFW6OMe1WdLng==
+	t=1792675792;
+	b=omM3nnGRul2lto06wvZ8zVL0tSF+nGE09SkjDGpaq8Tr1HbGyPrnXqWV+f+63U0UTkbX
+	 vFm1uB++XQPqVdfdRIylKQlr/osf6Cd/oKbhZuua7G1l8ttBwchszYpMA3u+WT92vGlvQ
+	 LzJqu27hTQvbmTf9iDXZE4yi1rFmahg13Y766zdcnhLyzaCV8fkhT+F+Ug1fYyGbMDjJD
+	 /f/rXfSpcnnfiodIh8u2oTYLDTrFSv3Zr6RyUIWeAAQMDn0USRyO6unU9l+YIIwQVLAMN
+	 /2VcPEF4DqarFKGvAkltMuvJufHR9e1uUT1JaEBewMupiASP4gDUmKtDMWJ2k8Z3T9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792675614;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=69HZyYX1PHYpjErDwZXMQF9DIlVgu/jdMJf/ledDTLc=;
-	b=0bVly5KtBEa3iIcmb3BMQYlpGrd6ud89krKcH9Srsuck8pcL12IIOxVGjqPjDAh7PGzk
-	 OMEQxeA39LiB4wmN1HeL7UPs0+lL7a0s0c36vzlPZn1CU6eWwNdSDJa/RwmaFRo0jn218
-	 51pYwQeHmK2oIQguubG96Fuw7H+P8AOgvAO3GriY0OmwxMfLL6DZRoarbYpH/sbALol+n
-	 dVSMQAhZ+UBgLXdFtDglG4telVku9tKS7kRFBfqzLiz3BK6fTExu061h1kJ6j23ztIz0s
-	 eQW2xw9cThUQUk3NWeyD8K07PHmXis317vznuTmg2OilDnqwOJWFt5GBgaOXRtUg31g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792675792;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
+	b=fPXxQ7OLti8rvzfqm5FvthazY1qAcEmKNJzqVABLTd1lOWTCrZPQ8j87uSo2P1HxKF87
+	 fCeOqUn5xvCKMwQ766UZMplXueAdnHWH7NQ3e/5HpigcaafJgOg3BKzi7afTuq8inu1bD
+	 X1faldDm/pa8wLUG7wsSmgqpCEB/LiumbHGZpdCCaSF66tZ1jbamwKFdeZfvuGkoRKgU2
+	 GvUHCtkwI3Mdjs2RyH6uHII39YRcNTMJr+Z06DV3OB17V6sX5npChG334j95M7EITTIFC
+	 8Ip27cMXq2MoMY6cRJuHkNct76H0+cEP+4uf+GlgUA3PQI4nM0PA8vqI5v55es0bmxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjXmovxg;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD200606A31B;
-	Thu, 22 Oct 2026 13:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CE960A2604;
+	Thu, 22 Oct 2026 13:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjXmovxg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62CAC1F000C2;
-	Thu, 22 Oct 2026 13:26:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792675613;
-	bh=69HZyYX1PHYpjErDwZXMQF9DIlVgu/jdMJf/ledDTLc=;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81D71F000C2;
+	Thu, 22 Oct 2026 13:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792675791;
+	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jjXmovxgdrsphJLyOqNDjcPYOMX01IWCYEJ862g+eJqaEllGzzYgnXK2YTFPs42tg
-	 oWZy0Ao127dOEc7q6XhxB6uytUtyFy5kwAVBd0HCNVqF+sB8xVpBAcO7vZuvOVF55R
-	 T4UGZyCFF7gTz8w0Va5U5AG3jqcxW55qOndWs7spt8b2wARgOeWFAGbNkNPbHoSGkf
-	 AH0AXPR6jqaajEeY6cGDk0PcjLOmHwQ89CDq/KwdrtgS3qabMJxEibSrdVF7dq1Y99
-	 KSJRHJ/QRvzTqRTRKlLIPE5e3WrM0yGQEivZhn4cG+zhDoVqTBAumTNdyJrvM3dnIM
-	 E0s3JXaC8M5zw==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 674611D24C6A; Thu, 22 Oct 2026 14:26:51 +0100 (BST)
-Date: Thu, 22 Oct 2026 14:26:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	b=ipjyl4WVUMaePbP8eQPmaEfK7J/3RZ1TYrKdiNb92bEF42Dy9+KYZdsQFMRMsboSF
+	 zKu9HrcsnZenjyraJqvjlVuHMvgpWMorBB7kvBnawTj3Ld7pah59+zVPkaekC4FC4z
+	 b87E/GW1wE+3LrxDIpnlCtSHe+LyRpVtpS/hihPU=
+Date: Thu, 22 Oct 2026 15:29:43 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v1 1/1] regmap: irq: Get rid of duplicate check in
- regmap_del_irq_chip()
-Message-ID: <atoPG1nCj9yF_eEt@sirena.org.uk>
-References: <20261021205036.1013622-1-andriy.shevchenko@linux.intel.com>
- <atnFxRi4DSKL2TWr@hovoldconsulting.com>
+	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Jeremy Kerr <jk@codeconstruct.com.au>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+Message-ID: <2026102222-oppose-saggy-983a@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+ <2026101355-species-glance-9ff8@gregkh>
+ <20261022104025.3956402-3-aambrozewicz@nvidia.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -64,43 +77,50 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rejkrCkMiDA7Sr80"
-Content-Disposition: inline
-In-Reply-To: <atnFxRi4DSKL2TWr@hovoldconsulting.com>
-X-Cookie: Whoever dies with the most toys wins.
-
-
---rejkrCkMiDA7Sr80
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261022104025.3956402-3-aambrozewicz@nvidia.com>
 
-On Thu, Oct 22, 2026 at 10:13:57AM +0200, Johan Hovold wrote:
-> On Wed, Oct 21, 2026 at 10:50:35PM +0200, Andy Shevchenko wrote:
-> > irq_dispose_mapping() already 0-aware, so there is no need to
-> > perform the same test outside of the call. Get rid of duplicate
-> > check in regmap_del_irq_chip().
+On Thu, Oct 22, 2026 at 01:40:26PM +0300, Adrian Ambrozewicz wrote:
+> On Tue, Oct 13, 2026 at 01:37:11PM +0200, Greg Kroah-Hartman wrote:
+> > > Why the auxiliary bus, and why not MFD
+> > > --------------------------------------
+> >
+> > Neither is ok for USB devices, that's not an argument either way.
+> 
+> Here USB only carries the traffic. The I2C, SPI and GPIO channels are
+> ordinary controllers on the board, and their drivers register with
+> those subsystems; hosts describe what is wired to them with ACPI, BMCs
+> with device tree [1].
+> 
+> usb-ljca is a recent driver for a very similar device, so we modelled
+> the core on it: one interface carries GPIO, I2C and SPI, and the core
+> creates an auxiliary device per function and attaches its ACPI node.
+> LSTP extends that model to device tree.
+> 
+> Whether the next version stays LSTP or becomes a set of divergences
+> from an OBMF-ICP driver, as Jeremy suggested, the need is the same: a
+> device behind a tunnelled channel is described like one wired straight
+> to the BMC, so a board can move between the two without rewriting its
+> description.
 
-> > -		virq = irq_find_mapping(d->domain, hwirq);
-> > -		if (virq)
-> > -			irq_dispose_mapping(virq);
-> > +		irq_dispose_mapping(irq_find_mapping(d->domain, hwirq));
+THat's exactly what USB is supposed to be on its own.  Just use that,
+don't attempt to "overload" a single USB device as somehow being a
+random set of devices attached that way, that's a peversion of the USB
+spec, don't you think?
 
-> This just makes the code less readable, and for no good reason.
+But if you REALLY want to do that, then again, do something that has
+already been defined, like greybus, which you can use your USB device as
+a greybus host device and "hang" the other devices off of that (i.e.
+your firmware knows the device types and describes it to the host.)
 
-Is there intended to be a benefit from the error check?  It seems like a
-microopotimisation that just removes robustness from something that
-really should not be a hot path.
+To attempt to use a non-self-describing device/bus in this century for a
+brand new protocol and device that actually uses USB as a transport
+layer is insane.  Please learn from history and don't repeat the same
+mistakes.
 
---rejkrCkMiDA7Sr80
-Content-Type: application/pgp-signature; name="signature.asc"
+So, again, why not use greybus for this?
 
------BEGIN PGP SIGNATURE-----
+thanks,
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatoPGwAKCRAv73Ows9A4
-idocAP0dyG1KQNO+eed1GSWgHYtOr6NjtfVp345LpR1Wur3XWAEA1Gr2Cd+pHg76
-9XNxb5Cn0mYe+C9iyg6NzpR56O2mWws=
-=64LF
------END PGP SIGNATURE-----
-
---rejkrCkMiDA7Sr80--
+greg k-h
