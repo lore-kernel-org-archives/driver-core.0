@@ -1,86 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792623610;
-	b=XZeSINGWCv6ZSbvKp+QfQa/eGmd2Ap+lGJZI//B1f3vCyTJmvJtVHAo/HdKZEuYQ3IYZ
-	 YeMJy1Ap9W4/WdhI079oNHN1L2nA78Fjq/Tc2ozAEylIt8ZQ0CaORWKeG77aSvXix/lQp
-	 EvpDxXtfe3CPAFGELHMKxm2Qx30cJLtG+/rEsL1NQEsi0E/9N2nBS3uy7wia0vQQAqi5w
-	 nMHKed8YQw4LmNTcMbjo8lmROoE1/ksznHcFi73uIt4VzUO9J2+snDAFcZNAlzXZLUFmL
-	 BrOqZ0NCR3BQqt6VcznsMr2Eh+I7VyuEybv6d8awjlK8vLEzM97P66rhLKEPcMR0T8A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792623610;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
-	bh=o0uJl9SaCMTX22dhBn+kimrcYeaap+l2h4VH/HTX/Bw=;
-	b=SK5MHfAm3cMcQdcIZKF7Kl+NS+/++1/lkv+PxBeJ3iQX4+kpwvDQpko6UcqIj5wb1wE0
-	 mQFzZoTLpdG6SEqzGpflNyRM34Y8XEx4HkyvKk0BWJrCEqJCH1cVukZwkdX8DnDruL1IK
-	 fE8wUWl7S7I/8aOVWEiiNdGEkahUq5+prfHwE5eSFH/Y8z6zBWcX8ZAZMzcL3ZzQrEJEj
-	 e7+MXYE+DXemthPkKcwKd7BGHmvSNXsVCT85ok31tDDYQ+d6rBew4qe9/GryztWLRq4Ak
-	 aTJQeeHJWtLAV2dkEBNV8Q9dg3OF2JAItq7/M1KxSpdzTXrDyU0iULhIoIJjPC8u1Ng==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OfOoJvBW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792637202;
+	b=mWiAYgB/Jr9iiECA6agotcfBXmOri+9tp1YtKgPLWQe+KCrSxqSOGTA/0yPBckP+eWWO
+	 ILgHYFb4frqhSAuu+hf6kkHxm30q474ACMcWqNFdLDAaJrHQxsQ1wxom3oSqYl7mgXtyb
+	 2bx3aB33d3RJRc/v2+4Ww1P2JTjHvu1FNFBV5ZIU+E5R6bn91DV0Thgc2OCdNTF76L0qc
+	 MY/tl+LdfJtS4XfFxvUQe+Wc1aEe3MxiVVgLS5kLj6w137qw8Wn5Yzdqn7Xc6+kIRh5Sv
+	 paK7+mRsR/l5THmtkJLAMjxkRHo7NCqzNUoxEGb2DSAz4aMDWi7H7coMpDwDVcCDU6g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792637202;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=;
+	b=Og9fQgjwtKbRv2wY0txNwHWRAMxH0vCkmnN/YsZ4gJe0zk7wThOtkcP7DAh0BdqKTcD1
+	 eN1xEQDjLmGMscEfUtKIQGUOcpRQ+A6GL2mPEOGkX9Kz975PTcVc5LUrjo986F38NVVwq
+	 rIddOzi9PURUOGxuenDhOfgw9koWC6x3hWLA3OkekXQ2J6JCZ2PGhcxo1S201Kg/0xrEu
+	 wObkO+R2apS4n5JgEu3ls2YKMXHHGe/KfLFrppi/z7oo/mKzFUSS3teAZSVY0vbEceXew
+	 7nXmAjj5qdkeFyfQ7SwlqjZcEfNlAkOpHST1+QeVLBiFKbEH5xZdsNBrOxXmfkygKCw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=themaw.net;
+	spf=pass smtp.mailfrom=themaw.net;
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SlzWuXRT;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=vcwJoROo;
+	arc=none smtp.remote-ip=103.168.172.156
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14EB606A31B
-	for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 23:00:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C14EB606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89A4606A31D
+	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 02:46:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D89A4606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OfOoJvBW
-ARC-Seal: i=1; a=rsa-sha256; t=1792623577; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YxVBf2r3nDwKMI/w4Cfj6wBPEhOJrYrOvgbHQuNF1ywKWQm7TKXl1BxN0MCzVhGnVPMmrOcH6Y7vwHRpSGH/RcyW4o/9bbNlAwDyJXiUXdg5ErkLkwoq1J2TXCQPoltJqCXeE7TykTIHOmTKyvOGdSm6I7BjWVq1/ZLJ0hXuUmw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792623577; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=o0uJl9SaCMTX22dhBn+kimrcYeaap+l2h4VH/HTX/Bw=; 
-	b=khUxgC7K6Dump7HNsU+T7sITG0K+jmATCHUoast6WPDxWHGGdTDBC0/QIMUIlIBg2Ki/G7lkO1OKQptby+w0tcfAj8SqJX6EGe78xbKaBP5tEaQXn0e3LAwEtnAJ4oJ2vyHWOXNz8bzWJ2c4vg/iUCx6qvZl2sHz8MuJup+spKc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
-	dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792623577;
-	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=o0uJl9SaCMTX22dhBn+kimrcYeaap+l2h4VH/HTX/Bw=;
-	b=OfOoJvBWtQLZeQ1qUOZGpKI9LGZH2kuAFdLAMNQV3geS/kzBnYy8rznRYzbMbVBM
-	HFcT0dwlhYAlcWgqtInVd0oIjVSrKah+jST9FZrq3K24sTSH9+BXxBAmWKElb0bJ6GL
-	HYDwBvjQDUlcmMPboCn0WDmQXXbUEACnRUzHCU1w=
-Received: by smtp.zohomail.com with SMTPS id 1792623575793141.6930617524606;
-	Wed, 21 Oct 2026 15:59:35 -0700 (PDT)
-Date: Wed, 21 Oct 2026 15:59:34 -0700
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Ke Sun <sunke@kylinos.cn>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	rust-for-linux@vger.kernel.org, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
-Subject: Re: [PATCH v4 04/11] drm/tyr: add per-file VM pool
-Message-ID: <atlD1jzWqQhKE3w5@um790>
-References: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
- <20261020-tyr-ioctls-v4-4-704de77da223@kylinos.cn>
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=SlzWuXRT;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=vcwJoROo
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id D3DCD14001C5
+	for <driver-core@lists.linux.dev>; Wed, 21 Oct 2026 22:46:40 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 21 Oct 2026 22:46:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1792637200;
+	 x=1792723600; bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=; b=
+	SlzWuXRTtBF2qXe9jA6lVX3HJSnkinOlCatePQkTUUTQmyOpN6ZrpISLmgygl0Xe
+	Cc81PlfuVQ5J6LAm5cZgQNj9+765p4wfd3ua4iqIaNYC9dhjs7ATJn27lFXZLC/l
+	Vvy4qc6aoJKcQPUYoPgLJmhnZiYSx5Q/co/pEXf5/J/mFYrSk/D+T2A/K4ZyM8ev
+	WuVpJdkFbpbZHHCI6imGoWGp4HBDlGgOHBTgsCBKACPSVO7go1iqlhs8JUfle+Bp
+	66ruuiDLVU3oBtj351ArawJOSrWG40DTygF2Qd1BXE16XRqWLWSiel2q8ZHfGrUF
+	W+qIlmdg7QYnDBaCIO1Snw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792637200; x=
+	1792723600; bh=b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=; b=v
+	cwJoROojIG7D8Yiyo6V0wr9zJ2pRVIh71PjrTRn4b+6YL5sSTwTY+7P7EB9lwh+/
+	DgH1RyTg6cKTNYtiCzaE0wI9A8W6AgLUJlSEbk/fTD7zU/ZhLFKcyrIUauUH1y2A
+	QYZEiekK3gSDR90Ln0u6yMi+ZBrfsn7f0S9Tf2ywJHki9gbE14mIuX/gzivUAOdS
+	Cma0bCSSOLlye+1WSmxdjF1tiiG4XwCFqwaspRg21z7djT/2sh/3+f4JTt5+M8Kk
+	7NLNa4Qd2Imv5mq7Hteo5kGIGgnEE3sT/Kfi1+q9zWSBPXL8j1/3mZNR194Dwsrj
+	Gd2lcQjDOCSHGyYklAHJA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=themaw.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792637200; d=themaw.net;
+	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
+	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:bc7tAWJOkXw17+Q477ja36Yu/CuVZz5E0C78dl3UfadrfQ6
+	K8WcoDA8LjV5i9BfXB6pvBxJ5UvmoQEz41R3BgtWtW3SEsL4SGgSe9Q7yWL9bmMc
+	PDDTu1b1TOGIMfGEHy6iILcaIEzGwhfWgtA47uG2zQnnThEz8IkG+gpKzrfwHcUz
+	+glKSNRHhAniRQJ6LfIoIX+A93fSNWVk9hjgo3WGeVDddbd0yChsECpUEzv8274Y
+	t+y6rXmzzpV15yeU9GhXh3TT/D4rptwACjOcRx1bEiNEWlQj/N5Zi5E8pGLqswLO
+	4nQbwaXrfXnm+RNW5itx7VqKNptxUVbm4d6SozQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:sdIH6ghOfrgTjW7puJZHRJZvIDPGFStH0tPZPwlN6IY=:b8JrLeZmohBXZxoZ8hIHhxCw9MvjJJNFtjwd/KPNiN4=;
+X-ME-Sender: <xms:D3nZanyYcTuh1SY80zX_Z3VtYIcnX1BBY-veSqerCBSt1doqa07t-g>
+    <xme:D3nZamOykI2EFyFkWfEQmZBOI0PChO7v-hJGRuVXaGDdRxXTVwMYKBZ7a3UWWH1ie
+    0wFBf-nNgac8cM40_1LQq8MsCTxPG02K1VsP2AXBzRBHIBmRQ>
+X-ME-Received: <xmr:D3nZamY4FEZChR6xmOHcfGReLpYofWK_kp1dlI4Zr0JZdcyX4NIsDRciIpTIpQMClhpxXEvmjwj0sZwKY-PCB50KB4IQmiDvalX4Nn6fX_Quu4q5gHoPw9a8dVE>
+X-ME-Proxy-Cause: dmFkZTFJl80OlkxtKrmLpLry8SB+s8EoAdfs4E9kpHOA5dqijSHh+7H/6Ivwl3c5UQ6DPU
+    41bDxgYzHplpsNoe8kwgDj4e1PKdBedBJV72Q4qA5wkBs8ODrr/9rPxc2zUUd+tnYjIwoT
+    ny8AmIaquX3FxGlVZ0wxUuvq9UzFvwMAZ6TafguFw1d36OZgJRVxv2eQRkdEHm1vVeHXFF
+    enmny/KR7qloN3pF57Mt7BDSlLtYw5ioXv2HFdYDF3laRnOa69O9gEnqzvDWKnOWL+0mIp
+    HHUGTUNCYNktwxR355RyWy/dARgku5E1Vam+5YCKNnxnJoQuSH4/+wb6ScnHEQ3FIY85MV
+    AAKXP32OP+0nQTkUZkb3NJlSRBIDpgT3rTLeB7cgMiC4kZHDuhR4f2GzJiGfZSvkpaVFOP
+    cdlLoxz0KKAOhQPEgAUXJIN8/Uf8MWooH7GFvNoWioufSIH7cfK76aZxRoHTb5pIC3fKB9
+    IrXPlTrMZ0z5RGiu/PDUyXn43KzDEn8Gye3Vf1cyrB0QyRIer9FCFe7jiOgcbOZGbFwpih
+    OXLMN/2oBAih4161kXuTVBxcIypuUYKmasZEXorhy9h6zgyfGvDLpZ909if6Ry7f6MKQQx
+    9xmQ6YWBNfFkmT4h1lMILcX2FXpoU1mRB3zuEOk4y7LUlL26+NtemFD+R7/Q
+X-ME-Proxy: <xmx:D3nZaorfBZiF8DSOEZG9VScubghi4xX2nS4sv7IJtC3MTIqGtPOUuw>
+    <xmx:D3nZajwe7dqGiUq7V8x9yzWXpiTmXTyOtphxRL3efFi5e2Oux14WPA>
+    <xmx:D3nZagKfQaQFfha9UVcQtj1T_EGDbTHRmsjFyN5gd1dg44283zuzVQ>
+    <xmx:D3nZal7I8GnVfCh0yAw6Y7uSPUxVAHpDmybX3LJZ4_ChcJOfw3cg5g>
+    <xmx:EHnZarKh3r5ZAsnP8-S-yuCxUC58gm0culffZA-oAHtI_8qarITqTtyZ>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Oct 2026 22:46:34 -0400 (EDT)
+Message-ID: <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
+Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
+ stores
+From: Ian Kent <raven@themaw.net>
+To: Tejun Heo <tj@kernel.org>, Krystian Kaniewski
+ <krystianmkaniewski@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"	
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Alexander Viro	
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	 <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra	
+ <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
+ Axboe	 <axboe@kernel.dk>, driver-core@lists.linux.dev,
+ autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, 
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Date: Thu, 22 Oct 2026 10:46:30 +0800
+In-Reply-To: <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
+	 <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,219 +139,48 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020-tyr-ioctls-v4-4-704de77da223@kylinos.cn>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/292.612.36
 
-On Tue, Oct 20, 2026 at 04:25:21PM +0800, Ke Sun wrote:
-> From: Alvin Sun <alvin.sun@linux.dev>
-> 
-> Userspace needs multiple independent GPU address spaces per file,
-> addressed by ID through the VM ioctls as in panthor. Store them in an
-> IdPool (capped at 32 for panthor parity) plus an XArray. On a failed
-> insertion the caller tears the VM down through the returned error, so
-> an aborted creation never leaks a VM. The pool kills every VM still
-> stored when the file closes.
-> 
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
->  drivers/gpu/drm/tyr/vm.rs | 138 +++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 137 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-> index c5e307b1e2416..6935e4db667b9 100644
-> --- a/drivers/gpu/drm/tyr/vm.rs
-> +++ b/drivers/gpu/drm/tyr/vm.rs
-> @@ -33,6 +33,7 @@
->          }, //
->      },
->      fmt,
-> +    id_pool::IdPool,
->      impl_flags,
->      io::PhysAddr,
->      iommu::pgtable::{
-> @@ -53,7 +54,11 @@
->          ArcBorrow,
->          Mutex, //
->      },
-> -    uapi, //
-> +    uapi,
-> +    xarray::{
-> +        AllocKind,
-> +        XArray, //
-> +    }, //
->  };
->  
->  use crate::{
-> @@ -948,3 +953,134 @@ fn pt_unmap(dev: &Device, pt: &IoPageTable<'_, ARM64LPAES1>, range: Range<u64>)
->  
->      Ok(())
->  }
-> +
-> +/// Maximum number of VMs a single file may hold, matching panthor's
-> +/// `PANTHOR_MAX_VMS_PER_FILE`.
-> +const MAX_VMS_PER_FILE: usize = 32;
-> +
-> +/// Per-open-file pool of VMs.
-> +#[pin_data(PinnedDrop)]
-> +pub(crate) struct VmPool<'drm> {
-> +    /// Parent device, for error reporting.
-> +    dev: &'drm Device<Bound>,
-> +    #[pin]
-> +    ids: Mutex<IdPool>,
-> +    #[pin]
-> +    vms: XArray<Arc<Vm<'drm>>>,
-> +}
-> +
-> +/// Error returned when a VM cannot be added to the pool. The caller
-> +/// owns the teardown of the VM in [`AddError::vm`].
-> +pub(crate) struct AddError<'drm> {
-> +    pub(crate) error: Error,
-> +    pub(crate) vm: Arc<Vm<'drm>>,
-> +}
+On Wed, 2026-10-21 at 11:48 -1000, Tejun Heo wrote:
+> Hello, Krystian.
+>=20
+> On Wed, Oct 21, 2026 at 02:51:48PM +0200, Krystian Kaniewski wrote:
+> > syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
+> > &sbi->pipe_mutex. splice holds a pipe mutex while it calls the
+> > write or
+> > read handler of a kernfs file, kernfs takes of->mutex there, and a
+> > write
+> > to /sys/power/resume looks up a path that can make autofs write a
+> > request
+> > into its daemon pipe and wait for the daemon.
+>=20
+> This is an extremely convoluted case that isn't going to happen in
+> any
+> realistic scenario, and it doesn't make sense to change the locking
+> scheme
+> for it. Can we just disallow splice on /sys/power/resume instead?
 
-When I try to compile just this patch i get an error about
-this being unused so better annotate it with #[expect(dead_code)]
-like the others.
+I agree but it might not be as simple as disallowing that path.
 
-> +
-> +impl<'drm> VmPool<'drm> {
-> +    /// Creates a new [`VmPool`].
-> +    #[expect(dead_code)]
-> +    pub(crate) fn new(dev: &'drm Device<Bound>) -> impl PinInit<Self> {
-> +        let ids = IdPool::new();
-> +        pin_init!(Self {
-> +            dev,
-> +            ids <- new_mutex!(ids),
-> +            vms <- XArray::new(AllocKind::Alloc),
-> +        })
-> +    }
-> +
-> +    /// Stores the VM and returns the allocated ID.
-> +    ///
-> +    /// On failure - ID space exhausted or a store failure - the VM is
-> +    /// returned in an [`AddError`] so the caller owns the teardown.
-> +    // TODO: allocate IDs with the XArray directly (once it grows range
-> +    // allocation, the equivalent of C's `XA_LIMIT`) and drop the IdPool.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn add(&self, vm: Arc<Vm<'drm>>) -> Result<u32, AddError<'drm>> {
-> +        let id = (|| {
-> +            let mut ids = self.ids.lock();
-> +            let unused = ids.find_unused_id(1).ok_or(ENOSPC)?;
-> +            if unused.as_usize() > MAX_VMS_PER_FILE {
-> +                return Err(ENOSPC);
-> +            }
-> +            Ok(unused.acquire())
-> +        })();
-> +        let id = match id {
-> +            Ok(id) => id,
-> +            Err(error) => return Err(AddError { error, vm }),
-> +        };
-> +
-> +        let mut vms = self.vms.lock();
-> +        match vms.store(id, vm, GFP_KERNEL) {
-> +            Ok(prev_vm) => {
-> +                if let Some(prev_vm) = prev_vm {
-> +                    // An existing VM at the freshly allocated slot means the
-> +                    // IdPool and the XArray are out of sync: the stored VM is
-> +                    // a pool entry, so the pool kills it and the caller's VM
-> +                    // is handed back for the caller to kill.
-> +                    let stored = vms.remove(id);
-> +                    drop(vms);
-> +                    prev_vm.kill();
-> +                    self.ids.lock().release_id(id);
-> +                    dev_err!(
-> +                        self.dev,
-> +                        "IdPool/XArray out of sync at VM pool id {id} (stored VM conflict)"
-> +                    );
-> +                    return Err(AddError {
-> +                        error: EBUSY,
-> +                        vm: stored.expect("VM was just stored"),
+Not only is the description hard to follow the example is flawed
+because there should not be a mount callback on anything that's
+not an empty directory or an autofs trigger mount (and the above
+should be able to be either (systemd's /proc/sys/fs/binfmt_misc
+is an example of an autofs trigger mount).
 
-Since the rust for linux coding guidlines say:
-    panicking should be very rare and used only with a good reason.
-    In almost all cases, a fallible approach should be used, typically returning a Result.
+I mostly can't grok the reproducers for things like this so a
+complicated description makes it so much harder to come up with
+a sensible solution.
 
-I'm wondering if there is a way to avoid this expect().
-For example, you could store a vm.clone() in the xarray and keep the vm
-that was passed to this function so that it can be returned on error.
-And on success, the vm would just drop so the overall ref count wouldn't
-be incremented.
+The other possibility I was thinking about when I saw that report
+is to disallow file systems that don't make sense for automount.
 
-> +                    });
-> +                }
-> +                Ok(id as u32)
-> +            }
-> +            Err(err) => {
-> +                // Drop the XArray spinlock before acquiring the `ids` mutex.
-> +                drop(vms);
-> +                // Release the pooled id; the VM never entered the pool, so it
-> +                // is returned to the caller for teardown.
-> +                self.ids.lock().release_id(id);
-> +                Err(AddError { error: err.error, vm: err.value })
+That would take some thought though and isn't entirely clear for
+kernfs since it's used by other file systems that may occasionally
+need to automount something at some point.
 
-When i run rustfmt on this patch it reformats this line, can you double
-check you ran rustfmt?
+OTOH, if the problem description could be cleaned up, and
+simplified, I wouldn't be entirely against the change but still
+wouldn't much like it. That's purely because I've always been in
+favor of defensing programming even for cases that are unlikely.
 
-
-> +            }
-> +        }
-> +    }
-> +
-> +    /// Removes and kills the VM with the given ID.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn remove(&self, id: u32) -> Result<()> {
-> +        let mut vms = self.vms.lock();
-> +        let vm = match vms.remove(id as usize) {
-> +            Some(vm) => vm,
-> +            None => return Err(EINVAL),
-> +        };
-> +        // Drop the XArray spinlock before killing, since `kill()` may sleep.
-> +        drop(vms);
-> +        // Kill the VM before handing the id back to the pool, so a VM is
-> +        // never reusable while still alive.
-> +        vm.kill();
-> +        self.ids.lock().release_id(id as usize);
-
-Since i just learned about this myself, I should mention that you can
-now use num::casts::FromSafeCast and then write
-usize::from_safe_cast(id).
-
-> +        Ok(())
-> +    }
-> +
-> +    /// Gets a shared reference to the VM with the given ID.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn get(&self, id: u32) -> Option<Arc<Vm<'drm>>> {
-> +        let vms = self.vms.lock();
-> +        let borrow = vms.get(id as usize)?;
-> +        Some(Arc::from(borrow))
-> +    }
-> +}
-> +
-> +#[pinned_drop]
-> +impl PinnedDrop for VmPool<'_> {
-> +    fn drop(self: Pin<&mut Self>) {
-> +        let this = self.project();
-
-I don't think you need to project the VmPool here because we only
-need a shared ref to the pool, and the vms guard gives us the interior
-mutability we need to modify the xarray anyway.
-
-> +        // Kill every VM left in the pool. The ID range is bounded by
-> +        // `MAX_VMS_PER_FILE`, so this loop is cheap and runs at file close.
-> +        for id in 1..=MAX_VMS_PER_FILE {
-> +            // Release the XArray lock guard before killing: `kill()` may sleep.
-> +            let vm = this.vms.lock().remove(id);
-> +            if let Some(vm) = vm {
-> +                vm.kill();
-> +            }
-> +        }
-> +    }
-> +}
-> 
-> -- 
-> 2.43.0
-> 
+Ian
