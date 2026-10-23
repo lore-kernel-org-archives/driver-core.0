@@ -1,81 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792751719;
-	b=yun7Xl1L+X8+bowvALhVgDg5oLdUPTJbVm5eyEH6VQ5ITOFfabBDz7h0L6hN+sEEyDfk
-	 XT2eMiATL4D9smJ9qRFzX0SheTXa2m+xqvNOw4lvkdwxUTtK/FDAT3X4TPTK1Ts1K/8/a
-	 dM6qFPfXlZwu3iaicyU3pCh7WXFR61omalx+DpYtwjxxQq3bflifcbwikaShgQR3Mm7Jc
-	 QgPZRkaImXXt6uRzRdEqxv80PhcYYEItAcOD/e7Zwz+sVKnpyW6G4JifwHDB/spbXx01S
-	 PTg1UxcX94NBaAowwhRp1B66uExrZO1MP5f32C9b4pGq8hzLFVjk+b/vwO8WqUTMpgw==
+	t=1792756413;
+	b=mVSq/mM7O2fzZbLnYxGP8fWzY81vUktvQm7P2VOu9w3HnDnC9ctRyZYYLHCNrSEBplLN
+	 7LRylrK984S6IvG5+QZeSgv98qNF1GJu08RX0M3GMm8Ve6vddElYnYeHpF6DJEwP76Y2T
+	 JvEQ2NU0QANBrKVbfYKL3XWpoBp5qYirWILemqkPs7GOIRJPYGnDxCgTYuEIp+sOCOq1e
+	 xgShEYUZZ3R199eYJYm2wL6L3aoo20Smry+8+Fx5IW2q7qErb380baX2fpWNdmltPTI3+
+	 h34G1KjQ833GzB6qA/Wc+8Da8tVd8OqLCv4c7bo9gGnTm5xpJTK9csOgZmcpQ+x/8rA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792751719;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792756413;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=OAwUO3xw9jddafsCMcqvt+DK/SLIQKUYqgCB0JnxYDw=;
-	b=Byrey+ZwWn2WJXiso4fFZhrUwiBRdIfANum8+BDIl7Fv08MmNlCnzCqz3rnN/2s5UTxw
-	 3pm7DYigHHSGGdZo0v22EZ8x+weLh2zukdg5Jku2HXko6svqdGBZyifrPcZJq7Q6MGpbP
-	 b9kX2CTnUoGBi0Zf9ZTKu2+kglxw+syUqq6QJJQhyUtnaECpTTAKKvAUweWzkkWhgu9fc
-	 v6u0xLjdqhQPvlZgZ9oUzFjJ87wc0rGyeY4sItQm3oz2PauJueoJZD3Drw0VcMxQZAGS6
-	 UkjQVUsBsTJ3v3Lu4pU2KwwStEErrEOsYWMVtL6xJy6waJ+o5t/0y1npWEU+HF4dXMQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=uLj6FN5zzpYaXQgmzegMg+GrSB746kgYZ/YLy03P7lg=;
+	b=fL/9AZBgbxkhGDLFU3+dqDbVxjkJb1qTxToYbI2+vE8GDXIrzJRo9L6syrH63XOqccwb
+	 djX4fAwKJy8K5iynF37+r90eHUpLAHc+LZyG+NHNIovkxCh8rqvcBYGW37ABInkLjlSea
+	 Txm+SbmcE/PmfYxxirhiAXVNdf2uv3KGA1ImQwyTRjlTk9YQUruuuNUEILBKx4pvjzcxb
+	 7hL610wIokmSkTyfTubOBNpdgOdLurxdLxAzjw5q+tNTingH8VhTBjBMgW3JNIqr1mvuH
+	 QdB3pY1QQu86dq8k/kM6yfoZ58Di69sdGIp1F1FWNh7wYN4Z6Q94gUlqxI4za00wTTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=r1OW0+8V;
+	arc=none smtp.remote-ip=209.85.221.71
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9033160A2617
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:35:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9033160A2617
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b042c0759so482094f8f.2
-        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 03:35:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77E9606A31D
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 11:53:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B77E9606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=r1OW0+8V
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-48b00febba3so717776f8f.1
+        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 04:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1792751712; x=1793356512; darn=lists.linux.dev;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OAwUO3xw9jddafsCMcqvt+DK/SLIQKUYqgCB0JnxYDw=;
-        b=VCmwsBdPJ+glPdEHyqvfnY9pSaTtrqqkC+dHxJPZQo89FOpszv67ven50ibImWVm13
-         RB8IFr9HsUVs9JUaymJk5GokPK4pSnmL0dNU9IzMIx74BJ4q4bGoYoRWjzM9hahZMvGo
-         /H98QxEO+sUeRSk2QGaFRvac+sZ/2PooZNan7CrQbU35VnGN4OAlOjE1aHHhuYR3aNV9
-         EGjBFR33gh1t5/2/qnuF4FR6QHdH4EwneYQ7Uyuq4TQFFw/4tc0tHv7Ndebkqy7UBxDI
-         o49gqQF+4m7EqE4c9D6Dwep65HjjuWtDCnR/CeX93BbhIwV1+LTxg3xciLrraSHVJg1D
-         +Zpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792751712; x=1793356512;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1792756411; x=1793361211; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OAwUO3xw9jddafsCMcqvt+DK/SLIQKUYqgCB0JnxYDw=;
-        b=obt5lBLfZGcoAiSbNtsk+5qz4tpfZjcHdWLm0onRCS7uxGhWPCZJU/vYU0x3p98gCq
-         dQhvYJ21zyaEVEkdy7MI/wT6/O4EEMLjPPMsLlbC9Ol7Z9cQ7F+EVKpwGPmx2GR7RiTz
-         CsFznBbR91bLN9I/MXb/naNvP1e8m1i6pDakxqWUkD5Oc0njm0M8zyd1DvjPJP84Bm7W
-         jrKmPh0Th9HdHQdrBhHS6ZswP4d9SI3l1DOi78LzdvDF0AXbjFg7nXLThlPw1LJYuheS
-         FJs7ZqPS1klZ8GH3byzj2J3C9hK+wceQ+g/U/gzNJ94z7hnpbPR6m7J7Ua8OPYmbt+LE
-         stdA==
-X-Forwarded-Encrypted: i=1; AKwUvByuSZFQmdCrdAgazlUx5hmEvbe8iTqJT5TwOCbDv0GSU8NVSxXrYxJX/dP02oFiMHfccge92nBRNlDMrw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKWSMvwwL1EVV+63vWej2KHYxAGUe/t8jfr28sDAF6NT8h21nQM
-	kP98PZTifzUB/N4a4bjxPcPg4/MKTA5aYeqTmUoDUfsDbJ+CyRk6rDluj8/ui6UZPOA=
-X-Gm-Gg: AYBFou3YG/BXasjjgXFYWGvzWSfTWd2mgs46TDTPf3mqdFBxnbP6W18QvSIFjNARZ9y
-	55WB7EJaeHA1U6quv5hiSjJdRV+bH8O98huUZ8X0PCgBKoB8u3qiYKQPKEjesdsWVyjfxesTl8G
-	MIA0Sfr52NmNpaI0MyT/HGtGG3XKuQYV4WSg//uDsuiYQPUTyFr1WNeV7aKO8h1nSbeJHOEeNWD
-	43NRFKrRtgri82UV+bXBjVUwEbj5Mhs8eEjK2FGPkvr78gmm9HG7DNeqHBKUv2ptGZDJWZG/gMn
-	1NhVIqW1F2YAZfldjJYVG/d1Qm598lH9evKbbdNq4jpjAW/r/DGZcLGwX64O1mbSD/bPfxHiC4S
-	wTrNkHa6+SXv4AWBWpiEB8EMFuAMakMDeQf5YcL4PrwVDhrxgvwf/8a6Mdky1uNr/CEjwpC0PlN
-	wWRzyb3xqr0sPM/yH6odbXm9nRDjZ/coAgD66LrwLB26GEcJnTj4msWnc8b8QEZaEXPscH8trYx
-	SyRSSfAHM3zE0fLn96DVOWwIEjljpyfmDPt+lu9RUJPu0g6GUECU0QElz6zoeEfu1NS9TRXvdY=
-X-Received: by 2002:a05:6000:4916:b0:487:a15:b4cc with SMTP id ffacd0b85a97d-48e38595e5bmr2679426f8f.23.1792751711919;
-        Fri, 23 Oct 2026 03:35:11 -0700 (PDT)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e37edfb3fsm4713525f8f.8.2026.10.23.03.35.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:35:11 -0700 (PDT)
+        bh=uLj6FN5zzpYaXQgmzegMg+GrSB746kgYZ/YLy03P7lg=;
+        b=r1OW0+8VjwkPbd8fzj5yP0GrpZTVK5su+WJTQpXiBqq7cdbh8LxHjvzjKaviDdzqAB
+         TXWC4Dg2jTnzus2YakupSi0KzZ2pdMoWnL4MOAgCrlenCUPvbEcUjuPyUAa+eMP/qTZR
+         j+NUpoeR3VOgPZ4n16k15Fv7IQ81ignlnDG92+ivwn6HrGbkzHnI9Gxcd4K2aTO9o8fv
+         jpbmI6S/TElBRub0PcjmPSR9FsGpIreiLYiQpLx9cEdMOg/2gtzz43Z/NonBiAQc63wT
+         UOLwJ98m+Z5jLWMd2TnQoI6y+FqFh7N5L9iexnOUIGZvOyAZiwFtXiB9EF2UXWhsIKwp
+         YYfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792756411; x=1793361211;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uLj6FN5zzpYaXQgmzegMg+GrSB746kgYZ/YLy03P7lg=;
+        b=j6EP4Qx40wNx6M/N5xVL+Nhwo9EXs02m7dJyhOLELOrbe2JNSWT5JjE5NMHKqgnop4
+         j4lKPahdcQw+oiIhiokuGGH6tXsKiZeURBDAmrAnUjZiO4jZvDSRjulP5kybv6+E335W
+         KEA0H2nN5Pqf2Sg4F7JGPo6twqAboH/hrvTed+Dg2gyH5LPy/pniq2t3B1pkZnbZb/Qy
+         Q8nHC1a4IxSMME6cSe23rcQh4m6wFcw/blZDDBNEqBbDSUgQksdmPgkmUPadO9an8BM4
+         nMf1emIonjDkUprEZ3R5kvgBQHQ8gKrmsJkJrvUEwXOMriTzp7shrFj6o9IsDKmaSbpW
+         WDSg==
+X-Forwarded-Encrypted: i=1; AKwUvBytNoNdJsufihSfnBGta3xpq24n1dqd29WCIsNVe8T0Ivf3uigT3wNMiMuvC1EpCKd7joIwp1AOCBYZxw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYI0y88U110Ld/qRhIifupVwW3r1V8Y2azgqB438qcRau6j+Syhw
+	1/IJgbtFRQY15EUJXO3AXB+a4cLzGCDnOt9DJGmJToNMr/y7WkOM7D0Ql6ipR0iN+z7s1XlkzZs
+	m9qDiYILnf/h3LU9wPA==
+X-Received: from wmoh19.prod.google.com ([2002:a05:600c:3153:b0:4a1:8915:6ed2])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4e8a:b0:49f:fe39:5bc8 with SMTP id 5b1f17b1804b1-4a211ee9b8amr34064815e9.12.1792756410725;
+ Fri, 23 Oct 2026 04:53:30 -0700 (PDT)
+Date: Fri, 23 Oct 2026 11:53:26 +0000
+In-Reply-To: <atqh41vrlC4xVtaj@um790>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,89 +78,51 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH RFC 02/16] clk: Acquire resources for clock transitions
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
- Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Mike Tipton <mike.tipton@oss.qualcomm.com>, 
- Taniya Das <taniya.das@oss.qualcomm.com>, linux-clk@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261014-topic-qc_clk_dvfs-v1-2-3041b788e9f7@oss.qualcomm.com>
-References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
- <20261014-topic-qc_clk_dvfs-v1-2-3041b788e9f7@oss.qualcomm.com>
-Date: Fri, 23 Oct 2026 12:35:03 +0200
-Message-Id: <179275170360.4070168.11650113664838519061.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2342; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=dNgQAFqyGnVxmM7oecHvQ23reWhdI9mPMjanH5L2B3M=;
- b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFm3LaJkUwN+3WXTmhS0Wn1LV8+H60VT70se+bvq/c/mj
- X9XzNSO6yhlYRDjYpAVU2Sp4a4Wfyep9WXWdJ3bMHNYmUCGMHBxCsBE8tYxMpwu5GVlv+ARel/H
- l4mrmS0wQetMf0lT0c80eYtlV0OENRgZLlT8mjPF1ViKdcu9H62FN3cvnnFj228+iQvsp3ccXsR
- nxw8A
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Mime-Version: 1.0
+References: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
+ <20261020-tyr-ioctls-v4-2-704de77da223@kylinos.cn> <atqh41vrlC4xVtaj@um790>
+X-Mailer: git-send-email 2.56.0.257.gf7497c7d27-goog
+Message-ID: <20261023115327.1776353-1-aliceryhl@google.com>
+Subject: Re: [PATCH v4 02/11] rust: mm: add `task_size` helper
+From: Alice Ryhl <aliceryhl@google.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>, Ke Sun <sunke@kylinos.cn>
+Cc: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	"=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	rust-for-linux@vger.kernel.org, linux-mm@kvack.org, 
+	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-> Preparing a clock protects its current requirements, not the resources
-> needed while changing its rate or parent. A transition can temporarily
-> use both parents or access an unprepared clock, and a parent rate change
-> can cause other clocks to be programmed too. Raising resources one clock
-> at a time leaves those operations exposed to insufficient power.
+On Thu, Oct 22, 2026 at 04:53:07PM -0700, Deborah Brouwer wrote:
+> On Tue, Oct 20, 2026 at 04:25:19PM +0800, Ke Sun wrote:
+> > From: Alvin Sun <alvin.sun@linux.dev>
 > 
-> Failures make this worse: hardware may already have changed when the
-> operation returns an error. A matching cached rate is then not proof
-> that resource reconciliation finished. Retaining a temporary enable
-> reference without a corresponding prepare reference also breaks a
-> consumer's normal disable/unprepare sequence after a failed reparent.
+> I was testing Tyr's auto allocation for the user va range,
+> and was surprised to see that mm.task_size() is always returning 0.
+> It seems like it should work since it uses the task_size from
+> struct mm_struct, but it doesn't, at least for me. 
 > 
-> Make CCF acquire the affected tree's and parent paths' resources before
-> notifiers or programming, and reconcile them only when the walk stops.
-> Keep fault recovery independent of rate shortcuts and subsequent
-> consumer reference-count changes. Require explicit recovery of an
-> ancestor's uncertain parent selection rather than reporting success
-> from a descendant request.
+> If you look at tyr-dev, I think it would be better to use Sami's approach:
+>   428d71932b6f rust: task: add task_size()
+> 
+> Sami creates a task_size() method for CurrentTask which is our equivalent
+> to the `current` global and then you can see that task_size becomes much
+> more clearly the equivalent of "TASK_SIZE_OF" used by panthor.
+> 
+> This approach also correctly returns a user va range when Tyr has to
+> assign it in my tests, so let's switch over.
 
-I don't think all this is necessary to address the problem described
-here and in the cover letter.
++1 to switching to CurrentTask::task_size(&self) backed by a C helper
+calling TASK_SIZE_OF(current). Please also include `<linux/mm.h>` in
+`rust/helpers/task.c`, as on some architectures (e.g. riscv) `TASK_SIZE` is
+defined in `<asm/pgtable.h>` rather than `<linux/sched/task.h>`.
 
-IMO a new provider API is the wrong layer. The framework already has
-the hook a provider needs: the rate change notifiers. What the core
-should do instead is fix those notifiers, which do have a few issues.
-You are fixing one in patch 1. Another fix, about setting the parent,
-was sent recently:
-
-https://patchwork.kernel.org/project/linux-clk/patch/20261021-submit-clk-parent-abort-v1-v1-1-2936181822fc@gmail.com/
-
-You want to act on some changes before anything is programmed. PRE
-notifiers are the right tool for this. The user of this change in
-patch 7 could use them AFAICT: PRE sets a temporary vote, POST settles
-it, ABORT drops it.
-
-Also, what is acquired here follows the requested clock. When an
-ancestor switches parent, the chain of its new parent is not acquired,
-although it feeds the whole subtree after the switch.
-
-With notifiers, the parent fault state is not needed either. As it is,
-it blocks every request on or below the clock until the same switch is
-retried.
-
-Could you tell me what you need from this approach that cannot be done
-with (fixed) notifiers?
-
--- 
-Jerome
-
+Alice
