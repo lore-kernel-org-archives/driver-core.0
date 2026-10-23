@@ -1,67 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792780382;
-	b=pXutUHV2OnKZOoB/l11GCqDFOJ/vRysRFvX45DclGb4DYI3dd46fLwSCyk9YTnCU9G+U
-	 c/4uFmyDl7YM1h7kVycuyzjz6bQceFjuAOYySxfLUwdoPUdCEjoDuQq7JKJBTk35t/pnl
-	 3+5HS4QwXOeU1sMXmMHcK8nzKkU7jX4z2mbBQ/wevnMIUP1nyBrHX8PV9LSjUgVcgNQn0
-	 guDcV5YAxwsAcg+et/2ye6EBx50BlNO+9uXY0cf0FAB9DB2OO0OpojTnqd6pmlpmuu5ZI
-	 wEQsdSyX8HnF8ds9ZxXdXBvAQXnE2ZxUAlU8qtR1eOrZa1k+sgC48swwrkKURW0xFRw==
+	t=1792780957;
+	b=vXxbYYraeeZEoSYXrvUaEALgWzBt7M8voB8U9Ig4ecX+c9oeD6OS7ga9Ujj843UUbSdp
+	 sLbIpO3b5MUJg6KU5tA5YZNJiCQ+MKKeOVI4tIFncZyEKMWJ1evSedeZVCmhBrKz+T7YU
+	 7Rv4/Sm8an5it9a2D6aUOIQ5KhYZBpaluTiRlHRXCKDojezzHlImd7SBmNOGCAv6NXUbz
+	 Dn8K9XvFjGNizaLlhmMmPZ6BSAPO5thE5A04tUFF92pu73KNR15Truj6qhgJHY/pPnYYe
+	 jVaT6hzn73s4pj8e/K7/Wv3r2GfM0FXh1WQM7Jz/Kzr8Bh8a7q6AU6AuGOGXmMp91MQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792780382;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=KAxQFAeQQPQpgLYQtsjV0kUzkeCj3wXnsII0CK5Zrx4=;
-	b=40u7sLZZLBoos9Eh8LyVXkZndYGg+7xk0DHNuQEA2pNc7QJ48VvSer4jJhwMroOjKa+m
-	 PH0w4taSeUQOefpIKz1tugGiYEvCNfM3W1sUcUFQ8X+Fw5YUig1Z3ZMT33PkeGhmsE/11
-	 EvkFiD5LWmIRZB9mlvummMnMZlErLoNAB2la/zdFYELzV3xvXifMRv2IXOI8TydEn/m6g
-	 pkbwznBS8ABDPo72k5y1wtK5UXCPWszm3gdDPYY1Lix9F5XL73khKhsi0ICKrz9todLPN
-	 t8GhNvZjSttdTppkzh/xMdhgnWXfPvQ3z975jA+XICBWn/0g1gSXasgkADl8YFz+4Jw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792780957;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NNM5yQ01YePyoWldFqWq1JW4Jzta8vvLgFBnOX/HqDU=;
+	b=KkjQVsFGCdxi+2buN0W/BJz0t0IpEhFLi7k+YpRNr7oXAAaDcFjzJksbVFYVdjo+8hwg
+	 J8hqjR1WRk/tgw9w8H68qfOAqdr48SlFw00uBH0sqd+Wu1VdeTCviYXepB6y4AAAwyCEp
+	 ArJMX40I24SPwiMWbN6zkdV0porQt13avdyEl/sQuGMK3kR4gmWrWs22BG3+ZvY8ReLrC
+	 CIwRmrwErcWn8C4EruLV/uCBEBWbITQ9o716qEB5/Sx6Wzh0zFwdql2QpvI+ZM9jZ4rcH
+	 i7aptnz/JyMTKqFLgvyfoqBIMSU34beu6c466R1hBS4oVITKl1EhhRftsEGBp0bj3Cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKhaFyl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="QOm50d/S";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238B1606A31A;
-	Fri, 23 Oct 2026 18:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C480606A31A;
+	Fri, 23 Oct 2026 18:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKhaFyl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C0F1F01825;
-	Fri, 23 Oct 2026 18:33:01 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOm50d/S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FDD41F01825;
+	Fri, 23 Oct 2026 18:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792780381;
-	bh=KAxQFAeQQPQpgLYQtsjV0kUzkeCj3wXnsII0CK5Zrx4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MEKhaFylL2Mm3oqorh1fLNWb5zHAkYoW22VF3+3JTivYNQ0mPy/iPbaUnRz1IqCPQ
-	 iad4WCsEAroHopYevsON8Uy42QdWKMIl4B3x8uNON/C7PktgbWetaP+l4QkTWbA1QS
-	 5n9/0uP6Qj3WGIBGiAvGve6oPg0gD1+U2tUpbffoJ9ImuwJrRhWOomhLe/J+bUoF+r
-	 g4fZxIZFQiVFAsa/b6P5GxXqC5sJdpRBpNy+vvG5D+brBFu6ggxh67texi91Acsa8X
-	 Aq1cXxSQZM+wCIwYNdPWoyRJ/VN6fbxbB3ajoSWxHy2SgMhX53pTMkb6Bx+34SthZP
-	 UX2vEImHgo/EQ==
-Date: Fri, 23 Oct 2026 08:33:00 -1000
-Message-ID: <ec0c2add83f18d7a3c726d5d219dfe42@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: Ian Kent <raven@themaw.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- driver-core@lists.linux.dev, autofs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs stores
-In-Reply-To: <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
- <cover.1792577179.git.krystianmkaniewski@gmail.com>
- <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
- <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
- <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
+	s=k20260515; t=1792780956;
+	bh=NNM5yQ01YePyoWldFqWq1JW4Jzta8vvLgFBnOX/HqDU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=QOm50d/SekKZDk9PZzzdmMiGdo9+EvMc1kTKhKGCpVimfDSJqEY36jZdKP7id95/U
+	 jScPyyUqy/i3WUy2mMzcp4Cs0wRL4Px/qmnP8M5HeRjYAe6/J9105zSLiX366sNvK1
+	 wSOLNqN87VANC5ZQPzL3JNPB6S6JSE7wQAurc41tc1bD9IGvXkCcxcHqN4NjKjRPtb
+	 i7L+H/9mrrBVKyqrYqAd69xyKBev591tphdWoQ+LDvnL+g10dhLRLLONLxNzWFUkr6
+	 ZwQjLLPQk+aTNVkNJiMwm282NxbUJeMDCmXlEfYNxxmnx3yrM4FDQHFLa1hBRg9WNw
+	 G93UmNmqn6/Eg==
+Date: Fri, 23 Oct 2026 13:42:35 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Pranjal Shrivastava <praan@google.com>
+Cc: iommu@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Mostafa Saleh <smostafa@google.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Daniel Mentz <danielmentz@google.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
+Subject: Re: [PATCH v11 07/16] genirq/msi: Cache MSI message in
+ irq_chip_write_msi_msg()
+Message-ID: <20261023184235.GA2800344@bhelgaas>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,27 +67,71 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20260929034510.2023173-8-praan@google.com>
 
-Hello, Krystian.
+On Tue, Sep 29, 2026 at 03:45:01AM +0000, Pranjal Shrivastava wrote:
+> Currently, PCI MSI caches the composed MSI message into the MSI
+> descriptor inside __pci_write_msi_msg(), whereas platform MSI and other
+> device MSI domains do not cache the message in the core, forcing
+> individual drivers to manually copy the message into desc->msg if they
+> need to restore it across power transitions.
+> 
+> Cache desc->msg in irq_chip_write_msi_msg() before invoking the chip
+> callback so all hierarchical MSI domains automatically record the
+> latest message. Document why the redundant assignment in
+> __pci_write_msi_msg() must remain for direct callers outside the
+> irq_chip hierarchy.
+> 
+> Suggested-by: Thomas Gleixner <tglx@kernel.org>
+> Signed-off-by: Pranjal Shrivastava <praan@google.com>
 
-On Fri, Oct 23, 2026 at 04:05:38PM +0200, Krystian Kaniewski wrote:
-> Given these two separate paths, did you intend to prevent only direct
-> splice operations on /sys/power/resume even though the reported class
-> cycle would remain, or should a replacement also eliminate the
-> lockdep report?
+With the fix testing Thomas proposed:
 
-The lockdep report should go away too.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-What about disabling splice only for the files whose ->store() can look
-up arbitrary paths, such as /sys/power/resume, and giving their of->mutex
-a separate lockdep class? Splice is what nests of->mutex inside
-pipe->mutex, so if those files can't be spliced, pipe->mutex never nests
-outside the new class and the cycle is gone. Commit 16b52bbee482
-("kernfs: annotate different lockdep class for of->mutex of writable
-files") did the same kind of split for writable files.
-
-Thanks.
-
---
-tejun
+> ---
+>  drivers/pci/msi/msi.c | 6 ++++++
+>  kernel/irq/msi.c      | 9 +++++++++
+>  2 files changed, 15 insertions(+)
+> 
+> diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
+> index 80a9db417dc8..f7bedc31d486 100644
+> --- a/drivers/pci/msi/msi.c
+> +++ b/drivers/pci/msi/msi.c
+> @@ -257,6 +257,12 @@ void __pci_write_msi_msg(struct msi_desc *entry, struct msi_msg *msg)
+>  		pci_write_msg_msi(dev, entry, msg);
+>  	}
+>  
+> +	/*
+> +	 * Although irq_chip_write_msi_msg() already caches the message,
+> +	 * keep the assignment here for callers that invoke
+> +	 * __pci_write_msi_msg() or pci_write_msi_msg() directly outside
+> +	 * the irq_chip hierarchy.
+> +	 */
+>  	entry->msg = *msg;
+>  
+>  	if (entry->write_msi_msg)
+> diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
+> index fb5f372215bf..df460a574d80 100644
+> --- a/kernel/irq/msi.c
+> +++ b/kernel/irq/msi.c
+> @@ -634,6 +634,15 @@ static unsigned int msi_domain_get_hwsize(struct device *dev, unsigned int domid
+>  static inline void irq_chip_write_msi_msg(struct irq_data *data,
+>  					  struct msi_msg *msg)
+>  {
+> +	struct msi_desc *desc = irq_data_get_msi_desc(data);
+> +
+> +	/*
+> +	 * PCI Multi-MSI shares a single descriptor across all vectors and
+> +	 * the device stores only the base message. Cache the message of the
+> +	 * first interrupt only, so that sub-vectors cannot overwrite it.
+> +	 */
+> +	if (desc->irq == data->irq)
+> +		desc->msg = *msg;
+>  	data->chip->irq_write_msi_msg(data, msg);
+>  }
+>  
+> -- 
+> 2.56.0.rc1.315.gc6ed9934b7-goog
+> 
