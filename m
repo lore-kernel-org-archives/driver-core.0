@@ -1,90 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764342;
-	b=CnpEvAOXiY5tLBLqEPpn+P9Yo/3TqRxqWhqzcMziUgIA5sCWxeRFN6favpaCKQvobWq5
-	 HxNE6ZIwp2BprxE75oNH0Ff12LGT/cwshGPyfBUqkWN9PCX2gWETaGh/x7FQ5+JggoVAx
-	 vAOaPr4bkzyQTQljs7Owzj0PAth5wqSf0UMvaWhOZz1U5pNrAdwpSFfjhp2mJupd3s4UB
-	 UG7injB+oI2hNZnqtKnVEcQiqdvnGbxRKAUJj20/gJWU/bCmrMtTBrPXT6Vj5bX3qBkst
-	 D0hLiIOXOtr59+f7K0eB5jvt0KZKxtXmIVtMd1RzkO4HYBE8NVW/fnP0roRVOwJHnNw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764342;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792765863;
+	b=vG8LLrX4wQHRLjWdA7GmFTWs/1mdCO53YBYRfRFYUjAxKl+wzLrKxBBeCRLxJYcmBJ7I
+	 zM6dIFu/ARcHKXywcBqt7J6yCTpOFsF0ddzANRCKlmkSkARQu5cAahA4W7uZyorhH8udM
+	 NIlKLNylyUumEYLNnQL3mgkHwF/JxI82QQ4e9pr+/CPLb1zmz0n9Tj8JWGZiwa+eGQ2Rz
+	 bVpuKl+l2/npYAFAUXL5N+D98tK8z1MtmijP3P9Yv6UCPwoQZJCm25FVJIFb/ztLTxamV
+	 hryWZsQiGuadjqhm37a4/sOeTf9beIN3LvASI4j25aSfnVV6LXTH8izNazmptF8ALGg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792765863;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
-	b=uzaOrZLCQunVTGdSudjdgzqTUzrU9FSVL0452t7InRlOCwkJMk/Ei0SIHsXTNaK+G+LH
-	 8nAOjPRTw6VsWRXBxEi2hTnEASv0fjMvqUY0QDtDEajh/OHJvH/58gtTKa4vlsAIB3cVM
-	 1Bjr3X6xxbUsa8o7G+0Xf9/ha7prpNlsQslJqlHWGstpyUSunR4o9V6UYGXwqNr+hIsG9
-	 57gh+6HPWOH937dC9eQo6X9pY5bGGz7sgv6rPAD8MyKQ5vSa7vuPfaij21mlXPu8PdsNp
-	 EXMkpDnAJEqlaExIkvzwNiJPoeUJTGLoP6PIPc502gTdFNRPCzTmgBlvGj/z7SLVgCQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jalhkZg5;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
+	b=gpZOM3aEtATVrnE3mJO3RfYU391dC8vqHKvQtWqLenK4sAHo48bndU0pwL1qVaEjBY+h
+	 W4JVXDfmfzurvsJsGNUPwUbXTOH9wlRm/WJC0BTPD1omgcF9dtFSFMEjFmqA40hNyWGDn
+	 K6Dx1m72ok4+I3h/z2InOxgUTiks9ImXcYbRUyN2ProC80764PjKy1ykyQMjoWxf5xbD3
+	 QM2RM3TfKfKoccBBJYjWZR4je8CLdaWmP5t3Bh09LABBRYZWAn+KYHfU4mOcsHhKNG/jC
+	 j0Khju7DT3/yr4BV43crOa6j5IXIh7RPWEJgWBCH2C/t6jkEvconf9Ud31CSy9LDWew==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=pUhHw0SY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EF3606A31E
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 14:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30EF3606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847A9606A326
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 14:31:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 847A9606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jalhkZg5
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c43373ae89aso149117466b.3
-        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 07:05:41 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=pUhHw0SY
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2db33db4de9so70975ad.0
+        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 07:31:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792765863; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RdLAp0z2X9YIeheEgD3B5SMgZjXT0XGmUoVnPaXbfWY95nogDdsMY2rbOmxFCuRNoq
+         1UC17pLJ6FdW+ERcRJp4jlRmXjzmspLeCL7vkEZRVDxb46mkTMEblbL+a+21XWRBab3e
+         TwofGKF/zCfo6d7WmCUx/pjxycGjjbizi9CnQXwMGFUz6SRinVP29OIz/dTTq6VFbXJZ
+         qdiTksdYzQSKRSAt1RlFB1lpN0MuQ3A44PcT+C0s5bFb0vqGcBXJ4M0MqRddZ4nx5USs
+         eS/6KMFzM1IWGpiCKuCgJR2ucbvpFevfrOlYZxXSce8FrDWD5CpgroMbSreqse5DWnYB
+         mxlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
+        fh=tNr5QRY8IhYKCHB6DGI+IMrrGJ+SEhH/zWtkQicODTE=;
+        b=U5N1nlPNWJcZJot3LxRbWjXAp2X9RFY8f9ukQx7+aBBRz85Uf/QysfZUuVvudy2gJT
+         38OpXG9WV16a5AqD5DLOsCXzaWvGqlHnRBeZAFemDuDg1tfgmeDK5eih2Ra/dHxCxvvQ
+         DDsOkXRaS24zXobgb2A6lw6yZwouZVjF+WZSc2ixjcOrjNDM5aQYfcCOddOx+/hMfAb9
+         i+WXo3NaEMoTuzxSZ0+1uYw0koIOVeJ421m/eRhv1EyTEFkI7TOp3tXkXnj6QTqCzsO0
+         DMx37uryGVxBgV/rpAk084VH+PUXMtHno9/ROj4s4SP68Bj+a5emNuZuEbfi/80ryQMU
+         fGTg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792764340; x=1793369140; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
-        b=jalhkZg54Jd4pzJCXa6MdZ/vDNIK2/tnKfJ3jKPenlQ70bK3nDxwOKIssDakKxfabB
-         qIrEZr+duEr3YaFLHqS81DP0K7mvWUKLhlhFWXaPOURt+ID/S3eVr0TYLGNGdNSi1rkS
-         bXUIHWcmeUML9xL/vVkyzjYFJpHjGjSZStxTU1/PO6xgKYXWV3wrEF4Shgcj3ZUxwqCQ
-         ctU3dqu1acHgI3vaSA/jOWhR2itdkxrHWzvF40zdIWn+rmbmPljiMeU8V31Nz2gDB+GN
-         B74UC5396fgtDrOwBk+0mlmJQqbvadR7mBwS71ZcG5JGouxHT+U1lhc4t4eB5znZsUAK
-         fg8g==
+        d=google.com; s=20251104; t=1792765863; x=1793370663; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
+        b=pUhHw0SY0+Byms+8Dlum6dLyL93HdB3zS3TTtUrVW/GIeiKli28x2K1qx9TABzFHhS
+         7gSjYbQvGCYFX6g+7CY2F74rLKZCAnd2APFZTfdW0v4wH00LXh0ov5IYd6P7A0q5jmVj
+         YILe6tB/LxJT8z9foItVL4QFi6gW2qz+WT+AaNH1SPQ+BDQDcQyMjKrXvoC6bBUleVLR
+         JFi901tbevrzZ/jfkWUBkNfMuCl8s10C61WLh3yxtHX5nndzyj6umvnyG5yPoaj530in
+         2T5LoFKdvhuMs3nXmcE9a1cXIT0iDOXjBvGm3vtNM2P7P73s4hC9otOLFRh8//SdwnFp
+         QiKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792764340; x=1793369140;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BUJVWluZQW/qDMSCSzMsGJRAgytWrmfDDzAkl2tvmys=;
-        b=GmDZdHAtHxaPewie9qub/2JkhvT95SgqQ9x+NL3MV08NRYQIyGuEsSiU2Flo9uIRck
-         8Xuj88G5bDb5ByTixCSVz4+yMPAk0pRzXNaO8NAnEwYfvPxC2RvEPXlVFwfwcLzxNQ2C
-         FKbfIqY7z/lDxhCLfSTQqSxtQu0wOwJ6pgNOwrlSQqPp0LyBECyMXUO2+5TdXAx83CYn
-         iCNLASkoeblVSuVU9m1NC+ue4Tdu0LctzaHNAPPBIuyWM+LVx5CHWtCOMVVFq9f0hWMl
-         dHo0nBx8oAYbJZEcoFv2bnm/O5iUHOTZRu3T1Dx3oXMyOLMhgchzczUXr/g6jL85nDqB
-         xq8g==
-X-Forwarded-Encrypted: i=1; AKwUvBwV2j6B58syhjQBxCqHN76hf6xq+o4CEptD38NUUuwGh8NDmmsO7kHUxYjZ4E7IwCqtsyyYJEnzxiTf8w==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLkd5YR9qaLE78ScxaKMPKfYGlyqrBZp9RNj+oFioPjHaYhmLg6
-	sG5tEMyWO70/aYGXZUzOHqLyQTvKHTd4a2ut/v2DJh+xvS0Ic9yg5Ht8
-X-Gm-Gg: AYBFou3/rTMH3wBGXdPQfLnoxVm7TbRfjLC3cP//llSCuILF50eoh17jdJvyPoOBfm5
-	YBn1gL4w3HScqAHVp2Ga2JNzYgTCSJlmqJBMwGSHzjcRhTQG3ud6lUf6jcdv6qyNlOwgtXI9f3H
-	i3b5AkhMo+ZumC6576HEwYfBH5x8WG/YM7cmsCSdIsI9FCKubgIVlPUbb/4bUTEIf5UzvIeKXBw
-	cjA4CT+dxVSzn83+g5jNuA9LmPp4V2dvohebj3+IB44JGgY3KVwJ5Lozwof3Qd3YZXr3/jgd+YI
-	WMJtRAHjICT/649p/oZaFkHGZKF1EN6DBfPDphAHP/RruNtm1Fn4q+8uFSl0ZhaflSnEfVTNrGU
-	YM6eRBbkX6glrfoo5GhQ/eLzQxyxjGD54O9qngSwYdrBch0JDwMr+Jl8Ofz2IPObCGKrTqPYuSM
-	WWu76hBHD6GBsAFaw5O505gt1GBro0CcQFsPBDIm3t6cJJhgCPEplUIN3ptLbS2hZGR7mEmZCti
-	yBZltKxDlYCt8vV2/SugS8ihrZId7k2ANFUG0DrV+sasXSmvVblcFiEmcNWndHIGAnixrWdeoQx
-	CBvOiSgK+fZIoUVFUMikz3zmc2tfIgme2RKy7QADQQJOdbzGtusdxddAYKpvL3efT3lHEzHctDS
-	N2iNsNp4OX47HXUw0EcSGIJHm7dwJ4iq/vBxYfOsQJ4vrjsYkPES4lzAw+yZyvLwdie4Q949lKV
-	dhGILBfez9pRSdCU8=
-X-Received: by 2002:a17:907:930a:b0:c41:30be:4f84 with SMTP id a640c23a62f3a-c46a90ae916mr376211766b.9.1792764340190;
-        Fri, 23 Oct 2026 07:05:40 -0700 (PDT)
-Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46b8ba181esm4707666b.25.2026.10.23.07.05.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Oct 2026 07:05:39 -0700 (PDT)
-Message-ID: <7a212208-74f2-4d79-8ca2-a1502d0e0a1c@gmail.com>
-Date: Fri, 23 Oct 2026 16:05:38 +0200
+        d=1e100.net; s=20260707; t=1792765863; x=1793370663;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s3FkMl8OhjMqOhi3zpzbiZNiNsx48LLQzOlCjP1CveY=;
+        b=mUEtYCDf2XF2OE3Y3x85r8+EXzm/3jlNtP0d1E3cZJl9+J1iBCFCDHYIxaj8WW9HH3
+         A2BDGHFmWgryWWZY3k7nZZFkgIntWTBPzDNnJc0CtySQi/vKEbFCh/lmbZEybgHP9tTY
+         KjSfiH8RX8Txm5jYjcPvGzVHs0rSoUKL9PGJdDK4RBrOUzPw1tWvbhR4B4xRGUuDIDA9
+         ZyQDcLcFUOkNbYhTz2uUw1UPX0Z4TlFfOw0oFoS0THeiK+Lw7uFxi+xhQyhNzFunrlf1
+         R8cgHFFtIZux8BaK6F4yaJ/za88AqsGT1j/3dzHhShBiKjU2sf+jeBISGWhf2QcG1C5r
+         rABw==
+X-Forwarded-Encrypted: i=1; AKwUvByKARtQKZv/L4IIpnqx4nUuIswm7E/WFQFj87aMy/S/T81yGLFZZw2ZqdDgod2+TjPlJOwePAcmGJxjKw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLjqxPv+THpov0/AML3/+2C4AZTDEzNr7X33k1xiiKFzrTn9iP6
+	I1zwviuZhflrPgapa6nhqdR6TKHRklwqHqQqvBZ9YsqKPHg0+1wjViZ2cxhWi7GJXRqI+FSqGwU
+	O9fmUOY8mBFO3KjyTD+RqZWjQl0ilgzvSHA8jzZtH
+X-Gm-Gg: AYBFou2Wcvl8AAfUMaBHaZvFQi621ZBD4i7eDQSh8REMLsjY2K+70nIoeu0IzrWoWKZ
+	lPi2DlF6U474QvbCVnwoY40GC+kdl6wNjlfPVo9td5jSUijzH7+IvUGZoP9zMTsJ4QHpCYf+cNJ
+	xtI8kuAAEp7BXYSp6qb4T8c7x0LzaTGEoX/icnUTC+KYRZTQyOgmZEon9U4WpLNv3KMXgwgrwPe
+	EnoSWhhwuZC0wD+pIxISlfldfmfF1ZQ+S7r0tqwI2s4icCko+t2BD2ZtIZWZhWNoxywQxbCHkkc
+	PQMTgYnC/0Wki+Z6VGyA08N9WZzG8yv15j1+9l7HUkQw0vCCrWl5EUmFOq32fPW576s36xjmFMa
+	rFnh1xl5a1r3Ebe1UlyK9ViDIbM7P/No3KNXksrwDvd4s+y21HYyJkkI4S44=
+X-Received: by 2002:a17:902:f683:b0:2ea:7180:3abf with SMTP id
+ d9443c01a7336-2ea7f512f16mr4025665ad.15.1792765862249; Fri, 23 Oct 2026
+ 07:31:02 -0700 (PDT)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -94,120 +104,127 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-To: Ian Kent <raven@themaw.net>, Tejun Heo <tj@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
- driver-core@lists.linux.dev, autofs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
- <cover.1792577179.git.krystianmkaniewski@gmail.com>
- <649966b83b39fcdd25e892fc3c6732a1@kernel.org>
- <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
-Content-Language: en-US
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-In-Reply-To: <22d41f2a5546d3bc90a1b3ad24ed3656588a854f.camel@themaw.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
+ <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
+ <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+ <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+ <20261023140107.GC3977851@ziepe.ca>
+In-Reply-To: <20261023140107.GC3977851@ziepe.ca>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Fri, 23 Oct 2026 16:30:25 +0200
+X-Gm-Features: AclHuK9d7tFq_s1fhJmYPVN1-JncgZCOvwLUHaeunw-YOxbh9iZtFoxmVAkcY88
+Message-ID: <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tejun, Ian,
+On Fri, Oct 23, 2026 at 4:01=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
+e:
+>
+> On Thu, Oct 22, 2026 at 11:51:40PM +0200, Luigi Rizzo wrote:
+> > On Thu, Oct 22, 2026 at 10:12=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca>=
+ wrote:
+...
+> > > Can someone explain what outside netdev would use this? And why you
+> > > couldn't do this in the netdev page pool?
+> >
+> > I can try.
+> >
+> > Regarding users, the next target is disks (not included in this series)
+>
+> Disks don't use a memory pool, they do IO to folios allocated by the
+> page cache.
 
-On 10/22/26 04:46, Ian Kent wrote:
-> On Wed, 2026-10-21 at 11:48 -1000, Tejun Heo wrote:
->> it doesn't make sense to change the locking scheme for it.
->> Can we just disallow splice on /sys/power/resume instead?
+I know. As I said I have a separate patch to cover those IO buffers
 
-That would address the direct case, but it would not make this report
-go away. The lockdep report combines two separate operations.
+ block/bio.c                  |  21 +++++
+ block/blk-mq-dma.c           |   4 +-
+ drivers/iommu/dma-pmd-node.c |   3 +-
+ drivers/iommu/dma-pmd-pool.c |  14 ++-
+ drivers/iommu/dma-pmd-priv.h |   7 +-
+ drivers/iommu/dma-pmd-user.c | 390
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----=
+---
+ include/linux/dma-pmd.h      |  53 +++++++++++
+ mm/filemap.c                 |  27 +++++-
+ mm/page-writeback.c          |  13 +++
+ mm/readahead.c               |   9 +-
 
-First, the reproducer splices a pipe into the cgroup v1 devices.deny
-file. This records:
 
-        &pipe->mutex -> &of->mutex
+Disk I/O is still potentially affected by the same problems
+(cost if io mapping/unmapping, iotlb thrashing, bounce buffers
+in confidential computing...)
 
-It later uses a normal write() to /sys/power/resume. That records:
+>
+> The only other candiates I know of besides page pool would be the
+> existing dma pool users. I don't think they are so performance
+> sensitive as netdev.
+>
+> IOW I think this entire series is only useful to netdev.
 
-        &of->mutex -> &sbi->pipe_mutex -> &pipe->mutex
+Well, the series provide mechanisms to address disk I/O as well.
 
-There is no splice into /sys/power/resume in the reported sequence.
-Disabling splice on that file would prevent some direct deadlock
-cases, but the first edge of this report would still come from
-devices.deny.
 
-A complete restriction for this attribute would also have to cover
-both splice directions. With an O_RDWR open, a splice read takes the
-output pipe mutex before the same of->mutex. Another thread can write
-through the same open and reach autofs in the opposite order.
+>
+> > > It is not a common workload to have the DMA allocator be the one that
+> > > allocates the memory. Usually we are DMA'ing from memory that was
+> > > allocated someplace else.
+> >
+> > Aside from the fact that dma_alloc_attr()/dma_alloc_coherent()
+> > does memory allocation + iova allocation/mapping,
+> > this is not what happens here.
+> > Maybe the confusion comes from one function name
+> > (dma_map_alloc_pages()), but it doesn't map any thing.
+>
+> > My code (in this version, and more in the upcoming release)
+> > mainly implements a specialized memory allocator with an
+> > API equivalent to alloc_pages() and variants, but ensures that
+> > the order-N blocks come from contiguous 2MB blocks reserved on the fly.
+> >
+> > The physical addresses of these blocks are recognized by the
+> > "dma allocator" (I suppose you meant the entity that allocates the IOVA=
+ range)
+> > so that it can apply specialized IOMMU mappings backed by 2MB IOMMU lea=
+ves.
+>
+> Why? This seems completely divergent from how anything else works in
+> DMA mapping, and I don't see a reason for it to be anything like
+> this. Other than it makes page pool work a bit easier
+>
+> Frankly this looks like you had AI to transpose a bunch netdev page
+> pool into iommu.
 
-Kernfs splice support is established behavior. Commit f2d6c2708bd8
-("kernfs: wire up ->splice_read and ->splice_write") explicitly
-restored it in v5.11 after the VFS stopped providing the implicit
-fallback. The pipe has been locked across ->write_iter() since 2014.
+(yes, AI assisted, heavily human-guided).
+Frankly, it's very orthogonal to pagepool, given that it uses pagepool
+for what it does well, and it provides functionality that pagepool
+does not have.
 
-I agree that changing serialization for every regular sysfs store is
-too broad for this case. Before preparing a v2, I would like to
-clarify the intended scope.
+Anyways, reading your next comments, are you suggesting that all
+these functionalities should be implemented as pagepool extensions?
+(2MB mappings and iommu backing, proper allocator of fragments out of large=
+r
+pages, device-less pagepools, multi-domain mappings, pagepool
+as memory provider for skb heads, pagepool as memory provider for descripto=
+r
+rings ?)
 
-> Not only is the description hard to follow the example is flawed
-
-You are right that the cover letter was hard to follow. I should have
-described the two operations separately. The automount itself uses the
-normal empty directory case.
-
-The reproducer creates a detached indirect autofs mount with its own
-daemon pipe. It changes its current directory to the root of that
-mount and moves out of the daemon process group. It then writes the
-relative name "0x0000000004000921" to /sys/power/resume.
-
-resume_store() calls lookup_bdev() on that string before trying to
-parse it as a device number. The pathname lookup therefore starts in
-the autofs root. The new negative name triggers the normal mount
-request for an empty indirect autofs directory.
-
-The dentry whose ->d_automount callback runs belongs to autofs, not
-to sysfs. There is no autofs mount on top of kernfs in this
-reproducer. Kernfs is involved only because resume_store() starts the
-pathname lookup.
-
-The change which made this path possible is 1e8c813b083c ("PM:
-hibernate: don't use early_lookup_bdev in resume_store"). It replaced
-early_lookup_bdev() with the normal pathname lookup in v6.5. That is
-what made autofs reachable from resume_store().
-
-> The other possibility I was thinking about when I saw that report
-> is to disallow file systems that don't make sense for automount.
-
-I may be misunderstanding this suggestion. In this reproducer, the
-filesystem which owns the automount dentry is autofs. A restriction
-based on the filesystem owning that dentry would therefore see autofs,
-not kernfs.
-
-The lookup from a sysfs store is also not unique to
-/sys/power/resume. For example, with CONFIG_BCACHE=y,
-sys/fs/bcache/register also resolves a user supplied pathname.
-
-The exact reproducer records the lockdep edges with different pipes
-and different open files. It does not deadlock on those mutex
-instances. After sending the request, it waits killably for a daemon
-reply that never arrives. Related setups can deadlock when the daemon
-pipe itself participates in splice or tee.
-
-Given these two separate paths, did you intend to prevent only direct
-splice operations on /sys/power/resume even though the reported class
-cycle would remain, or should a replacement also eliminate the
-lockdep report?
-
-A per-attribute splice restriction alone cannot do both. If this does
-not justify new kernfs infrastructure, I can leave it alone.
-
-Thanks,
--- 
-Krystian Kaniewski
+cheers
+luigi
