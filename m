@@ -1,133 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792767027;
-	b=oGWcoFP/wdZIHUIe8mlj44SZipepZ8FSh4eoirflO4aoK6iCQ+xc/pHrShbiXVEEcdW6
-	 +Ydan/0gRLUTrXVSrISfr+cFbAQid4fgHHh+DXKH/cxGi2hSKbGzXCitdSAVVZh17ZAPU
-	 1tg//UTInCU2Z7iEePjlMUUf/2Un9nZe4TJkTx8zqkQOVl8sYblGGE6LmMPlcNgwEVanp
-	 GJHjHVPjDTWatzhULqHlKq8WheAZZmQTqVKTzpHffGN31808+isg26Uu19/d0yF0RAz2i
-	 7EGUFCt3KtmG3mXNrXSPSBuxvLQAFMiobmtd56HqrOSB/YUSL99TeAW3+vOi6EE9PYA==
+	t=1792767625;
+	b=qO+HK7su27uQjH3QKFvpOm9gjuzQsV4fQdjyLVl+qD8fcF8qk16xuFugS/0rjjkNnD2p
+	 vWBvKqTbFwAmQjT9ScMyNPGxQxjj2SnUH+dg74hlUF8oB3g2BdoUWgzDL7+fKLTKIkeWs
+	 2WnnbjfBon3pguQ0Ke2BTGrx+xEDbP3QbzuRHtb9eFpt+b03fDlJXvXnk7bGTNv9ter5g
+	 dKJYKCjpQ3qZc9k9aEkaJFcjk+pBUKUzAt9wgNl+6afVucoR7pvuT73a4oha8CbymcABZ
+	 +Ac4XAypRfrrZterfzejJ9EUDUvss/yTbPK/PMo/28A/t6FDAhXpBB4OgeZW2Twmy2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792767027;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-	b=F/CIgSnnSf6ABZL/l8oms6Pc5mKeusyVe3KwfcBf3KVOgqBJEsgj+uFkGCg9wrXihu6E
-	 9YnAoA8UyTiWVNJ7u++3N++wC30Ci+NOx8a9st6JhHAiFxdoypczS5RI/wgnyOzSL5d2g
-	 bSnKSuyXMz74xZGmee9BAx28EqeV9d5eC+ODY/kViFGsJfnjTlozNmaTLS38axGxQ8WmR
-	 zPrbME+zTmddtAHZ6NuuWR9bPjvyM+MTmByWa5bad6fzyImiMNRpok9thdh+KKyo44gUa
-	 Fj4M1JXn8Y/r/vBDc+g/hUDdwOvds8h6wn7CnM5tTYEWRPXYv7otQV3LzF0W7nmBH/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792767625;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=7bmXE9eB7alT01S68+GEqtmKgfMF4L3T/lFunQRLqUY=;
+	b=ZUJxBXOnns9WIn+yeEkOZaDDgNfVzU7NUMjhVrq5ZnXTIS9U6YPoEJ5LKKlUymJhsqOn
+	 D+66SAY+JoLsY/DUf9lTRFg0KDjkB9ZFdI+806/r49leo7S97uMKnXZi7aVpEMXq9sjQH
+	 ez2k/eLS+H8Qy+k7Vq0iQge6CNBRqFU7l6+O+lkdK8loMZ9jChS+nYZzkEBtFhYqqprs7
+	 CzSJf6mMbvzN0QB6uLeaT6yrLA8P6a00zEo78b5cCr7Efp4T26kByTjj3TrlbKwLE0ZvV
+	 7pwlv6xQA+7vZpQG7JdyngnHBOvPpWOllgiv50/JJMApIgj3Bqkgnh6RNxgYLTd5B8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=T5be2Fnt;
-	arc=none smtp.remote-ip=209.85.160.173
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qz65DyB1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DC5606A31D
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 14:50:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02DC5606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BBE606A32A;
+	Fri, 23 Oct 2026 15:00:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=T5be2Fnt
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5365b48238dso6867401cf.0
-        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 07:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1792767025; x=1793371825; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-        b=T5be2Fnt/rklVx0TL/h8cjblkdqasMG3lUYtqFXFvtGrnk0pJBVcP/VnK4ECjVQz35
-         9XEle/XtrCCv1/TRliZxc5dwRbKQ9wJEqzJk4jI4abjmhV1Ri+dZ62sZXnbpu/CHAu1R
-         mh6nTxVGUhg4DuvP0ZIcvxxKJSJ927V3solbOsbyzgamEep1BGjDQZSXiDnQbw7TSbKu
-         DsrrA6CGQDrSRsBVkavdrtyQsXSPHWaOfrANtoQfrLsAia5eQVTb7Ef5/sefGBq5Mnwz
-         TS2yF1TEOxkWuxp3Le5Jk2bDNoZxTybFeyJ2CBWHm0LsYLAQRJmtf9/n9RtP3YFG8M3m
-         aE8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792767025; x=1793371825;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sGl5cqr0Sn8jKPodNx0zyYTo2AHNV4DEHX4rmbHeM6s=;
-        b=ezqlKhCGYZ/qk46NI/X0J1RtrEk4n4x/Je6s6P3lh/RCzT77bkttlx9KVgJSmHKbQF
-         1fDRKxPOAu4BUghKCwgtJZhYiUL20oIFUgCmoiJEXYBma9V6zN30Val0g0JS/AaliLYn
-         o81CGm7KJmEHp7YKPmk6q0EyZ3yZspmkox3wiBvy+VHSYR1tLp7NCDAy/9XxyD+LFi1B
-         3OtTv+RNprV2N719ziLqOKGxk9BcvE2gLIcf1F0yfzQSO+UeVsnIU1R9KTy3XF7wXJ43
-         Qxf7sdHXH03yMd1UOE2Iv0rZ54Nf/3krRgXgpODitCWBdYWGLaaD4DbUS2yKRdcvBERv
-         DvGw==
-X-Forwarded-Encrypted: i=1; AKwUvBwoFPvIvEuA4NHq2+IR9DJNDKGpnd2RqfBK8GCbytJm93QvgFf1kCyyo9xC7HWqd37Qm2U0CHVYofHwdQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJHIct8reO9J5AIfG9kA9GgPUQvbzZabqZS/hPGsHkJxCgSR0i+
-	eMfc/r54lC7oi7iG2PcOoJcyVO5bk4c2GaL6aK5JoeGCSAPG/HNke/gtsQy2sboyAek=
-X-Gm-Gg: AYBFou3NFn6jaktvsRKtWco1Rpt8RBinSvwVTamMpGHjsxpRWLrWQnBVq8hE4DG13UD
-	WZ7wLIyh4XYg200BewVyXbgMhiooyH+CqiKQph3JV+z3DSp+H1Skk6gve7keVewIsiVaabI6hEe
-	+/0gD6wpncH2OD2i6suiwb8IxpWZXhs5uBAIaO0m63GQIjHp/HzvbyZDzwloR46HQ5ZLfihkXNM
-	ZQO+qFQC+JWr/lqzdwVoUG/FYMnJ145tW/AvpUw16rV5RYRcULEu98S0RrwgUG88GBRmAr3L6Zb
-	ETHGWFDnksEgYmTa2Wsd4wBpfR0ZlVAh9I9rb1dQigcKH4FpudwsJ1PIaZ/a5ekAAHlIgzsYaro
-	DXYdgAm5a2zXTcaFHouarAiNdm5STmL4zIaeAKfpP1Pc6QeMSE13m3rxV2L8RJllaEYVO7iW0f1
-	xgi5YWnTtp5WeD7G9RpzoEtv2lG6X7MG2h0icA4cDvZrYIKY4geOyby0f496UGPDNbMdbj7pcRY
-	iYQYDY6Z4pS6e4yl+HisJXSh92TlHix17IWpfT/VSnhkLIloDLZjsdJChJlBB3t38kspIJTH6Od
-	zIqWu37r54KeNWfS7Io3iLBjEKHcrnL9rEc0cw==
-X-Received: by 2002:a05:622a:3cc:b0:536:7669:7eed with SMTP id d75a77b69052e-536c2837232mr34025651cf.21.1792767024875;
-        Fri, 23 Oct 2026 07:50:24 -0700 (PDT)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536c1846ff0sm18130901cf.19.2026.10.23.07.50.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 07:50:24 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xKGb9-0000000GkTD-2sYP;
-	Fri, 23 Oct 2026 11:50:23 -0300
-Date: Fri, 23 Oct 2026 11:50:23 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qz65DyB1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD8A31F031E1;
+	Fri, 23 Oct 2026 15:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792767625;
+	bh=7bmXE9eB7alT01S68+GEqtmKgfMF4L3T/lFunQRLqUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qz65DyB1QDCzSVoTx6uXxOvKWmS2R8mZfO/NABTvk6rz5211L+k2sd4Q78SicBJf3
+	 XCIFj4bAp7tM5Y3XNl1UU5I7263BbMzbmnko44BmpQ3Qi4yBNFCAUJGkB1t6mrEO41
+	 aTQBhN+7NSKFyrjWT1ic+L6pwJcZYx8ZFqJQrn3eTC/eOmluVsO4F+oYmwIThkcswq
+	 csTH2oIj7EBF3ecJsX+wD2pHDOQJTrfyoAPo117BmBIvEjbYN1wLCTEyMiqR5vQo08
+	 kZMp7tzKASXXaved61t48KwGVAKSJcn6fTEa17pMahgcsanyhmFlzyrU+kzrwWj2MV
+	 9YJvxGqJ28AwA==
+Date: Fri, 23 Oct 2026 17:00:22 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Peng Wang <peng_wang@linux.alibaba.com>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261023145023.GH3977851@ziepe.ca>
-References: <20261003212241.3432303-1-lrizzo@google.com>
- <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
- <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
- <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org>
- <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
- <20261022201229.GH3381610@ziepe.ca>
- <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
- <20261023140107.GC3977851@ziepe.ca>
- <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	He Rongguang <herongguang@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] tick/nohz: Add a policy dependency for full
+ dynticks
+Message-ID: <att2hiYaaHTIkzG9@localhost.localdomain>
+References: <cover.1792242566.git.peng_wang@linux.alibaba.com>
+ <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -137,86 +71,181 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+In-Reply-To: <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
 
-On Fri, Oct 23, 2026 at 04:30:25PM +0200, Luigi Rizzo wrote:
-> On Fri, Oct 23, 2026 at 4:01 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Thu, Oct 22, 2026 at 11:51:40PM +0200, Luigi Rizzo wrote:
-> > > On Thu, Oct 22, 2026 at 10:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> ...
-> > > > Can someone explain what outside netdev would use this? And why you
-> > > > couldn't do this in the netdev page pool?
-> > >
-> > > I can try.
-> > >
-> > > Regarding users, the next target is disks (not included in this series)
-> >
-> > Disks don't use a memory pool, they do IO to folios allocated by the
-> > page cache.
+Le Sat, Oct 17, 2026 at 09:13:41PM +0800, Peng Wang a �crit :
+> Cloud hosts may pin vCPU threads one-to-one to host CPUs. At full
+> allocation this includes the housekeeping CPUs, which always retain
+> their non-idle tick. Operators want comparable performance for otherwise
+> equivalent vCPUs. Retaining the non-idle tick on nohz_full CPUs as well
+> avoids one placement-dependent difference in host tick interference.
+> With spare capacity, selected CPUs may stop the tick to reduce host
+> scheduler-tick interference with vCPUs.
 > 
-> I know. As I said I have a separate patch to cover those IO buffers
+> Allocation changes as VMs are created or destroyed while other VMs
+> remain running. A vCPU thread may be the only runnable task in either
+> state, so existing tick dependencies do not express this policy.
+
+I'm not sure I understand correctly what you are trying to solve.
+Are you saying that you want to keep the tick running when there
+is more than one vCPU per CPU? Because the scheduler already takes
+care of that.
+
 > 
->  block/bio.c                  |  21 +++++
->  block/blk-mq-dma.c           |   4 +-
->  drivers/iommu/dma-pmd-node.c |   3 +-
->  drivers/iommu/dma-pmd-pool.c |  14 ++-
->  drivers/iommu/dma-pmd-priv.h |   7 +-
->  drivers/iommu/dma-pmd-user.c | 390
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
->  include/linux/dma-pmd.h      |  53 +++++++++++
->  mm/filemap.c                 |  27 +++++-
->  mm/page-writeback.c          |  13 +++
->  mm/readahead.c               |   9 +-
+> Add a per-CPU POLICY dependency within the boot-time nohz_full set.
+> Permission defaults to enabled. The policy can be changed without
+> taking CPUs offline. Revoking permission uses the existing asynchronous
+> kick; granting it leaves all other dependencies effective. Preserve
+> POLICY across CPU hotplug and report it in tick_stop tracing.
 > 
+> Idle tick suppression, nohz_full membership, context tracking, RCU
+> offloading and housekeeping configuration are unchanged.
+
+This still keeps the overhead of nohz_full even if the tick stays on, right?
+(RCU nocb, kernel <-> user overhead, etc...). Isn't it a problem for you?
+
+Thanks.
+
 > 
-> Disk I/O is still potentially affected by the same problems
-> (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
-> in confidential computing...)
+> Co-developed-by: He Rongguang <herongguang@linux.alibaba.com>
+> Signed-off-by: He Rongguang <herongguang@linux.alibaba.com>
+> Signed-off-by: Peng Wang <peng_wang@linux.alibaba.com>
+> ---
+>  include/linux/tick.h         |  8 +++++--
+>  include/trace/events/timer.h |  3 ++-
+>  kernel/time/tick-sched.c     | 42 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 50 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/tick.h b/include/linux/tick.h
+> index b121c5d53e308..8b250f245ff31 100644
+> --- a/include/linux/tick.h
+> +++ b/include/linux/tick.h
+> @@ -111,9 +111,10 @@ enum tick_dep_bits {
+>  	TICK_DEP_BIT_SCHED		= 2,
+>  	TICK_DEP_BIT_CLOCK_UNSTABLE	= 3,
+>  	TICK_DEP_BIT_RCU		= 4,
+> -	TICK_DEP_BIT_RCU_EXP		= 5
+> +	TICK_DEP_BIT_RCU_EXP		= 5,
+> +	TICK_DEP_BIT_POLICY		= 6
+>  };
+> -#define TICK_DEP_BIT_MAX TICK_DEP_BIT_RCU_EXP
+> +#define TICK_DEP_BIT_MAX TICK_DEP_BIT_POLICY
+>  
+>  #define TICK_DEP_MASK_NONE		0
+>  #define TICK_DEP_MASK_POSIX_TIMER	(1 << TICK_DEP_BIT_POSIX_TIMER)
+> @@ -122,6 +123,7 @@ enum tick_dep_bits {
+>  #define TICK_DEP_MASK_CLOCK_UNSTABLE	(1 << TICK_DEP_BIT_CLOCK_UNSTABLE)
+>  #define TICK_DEP_MASK_RCU		(1 << TICK_DEP_BIT_RCU)
+>  #define TICK_DEP_MASK_RCU_EXP		(1 << TICK_DEP_BIT_RCU_EXP)
+> +#define TICK_DEP_MASK_POLICY		(1 << TICK_DEP_BIT_POLICY)
+>  
+>  #ifdef CONFIG_NO_HZ_COMMON
+>  extern bool tick_nohz_enabled;
+> @@ -205,6 +207,8 @@ extern void tick_nohz_dep_set_signal(struct task_struct *tsk,
+>  extern void tick_nohz_dep_clear_signal(struct signal_struct *signal,
+>  				       enum tick_dep_bits bit);
+>  extern bool tick_nohz_cpu_hotpluggable(unsigned int cpu);
+> +extern bool tick_nohz_full_get_allowed(unsigned int cpu);
+> +extern int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed);
+>  
+>  /*
+>   * The below are tick_nohz_[set,clear]_dep() wrappers that optimize off-cases
+> diff --git a/include/trace/events/timer.h b/include/trace/events/timer.h
+> index 3aa0608c63611..dff9579cd90eb 100644
+> --- a/include/trace/events/timer.h
+> +++ b/include/trace/events/timer.h
+> @@ -435,7 +435,8 @@ TRACE_EVENT(itimer_expire,
+>  		tick_dep_name(SCHED)			\
+>  		tick_dep_name(CLOCK_UNSTABLE)		\
+>  		tick_dep_name(RCU)			\
+> -		tick_dep_name_end(RCU_EXP)
+> +		tick_dep_name(RCU_EXP)			\
+> +		tick_dep_name_end(POLICY)
+>  
+>  #undef tick_dep_name
+>  #undef tick_dep_mask_name
+> diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
+> index 87e2a7a875265..0d6fcc3736bae 100644
+> --- a/kernel/time/tick-sched.c
+> +++ b/kernel/time/tick-sched.c
+> @@ -375,6 +375,11 @@ static bool check_tick_dependency(atomic_t *dep)
+>  		return true;
+>  	}
+>  
+> +	if (val & TICK_DEP_MASK_POLICY) {
+> +		trace_tick_stop(0, TICK_DEP_MASK_POLICY);
+> +		return true;
+> +	}
+> +
+>  	return false;
+>  }
+>  
+> @@ -561,6 +566,39 @@ void tick_nohz_dep_clear_cpu(int cpu, enum tick_dep_bits bit)
+>  }
+>  EXPORT_SYMBOL_GPL(tick_nohz_dep_clear_cpu);
+>  
+> +/* Read policy, not whether a CPU currently has its tick stopped. */
+> +bool tick_nohz_full_get_allowed(unsigned int cpu)
+> +{
+> +	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
+> +
+> +	/* CPU teardown resets and restores this bit under stop_machine(). */
+> +	return !(atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY);
+> +}
+> +
+> +int tick_nohz_full_set_allowed(unsigned int cpu, bool allowed)
+> +{
+> +	struct tick_sched *ts = per_cpu_ptr(&tick_cpu_sched, cpu);
+> +
+> +	if (!tick_nohz_full_cpu(cpu))
+> +		return -EINVAL;
+> +
+> +	/* CPU device removal may wait for an active sysfs callback. */
+> +	if (!cpus_read_trylock())
+> +		return -EBUSY;
+> +
+> +	if (allowed) {
+> +		tick_nohz_dep_clear_cpu(cpu, TICK_DEP_BIT_POLICY);
+> +	} else if (cpu_online(cpu)) {
+> +		/* The existing kick requests an asynchronous restart. */
+> +		tick_nohz_dep_set_cpu(cpu, TICK_DEP_BIT_POLICY);
+> +	} else {
+> +		/* Record policy without queuing irq_work on an offline CPU. */
+> +		atomic_or(TICK_DEP_MASK_POLICY, &ts->tick_dep_mask);
+> +	}
+> +	cpus_read_unlock();
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Set a per-task tick dependency. RCU needs this. Also posix CPU timers
+>   * in order to elapse per task timers.
+> @@ -1533,6 +1571,7 @@ void tick_sched_timer_dying(int cpu)
+>  {
+>  	struct tick_sched *ts = &per_cpu(tick_cpu_sched, cpu);
+>  	unsigned long idle_calls, idle_sleeps;
+> +	int policy;
+>  
+>  	/* This must happen before hrtimers are migrated! */
+>  	if (tick_sched_flag_test(ts, TS_FLAG_HIGHRES))
+> @@ -1540,7 +1579,10 @@ void tick_sched_timer_dying(int cpu)
+>  
+>  	idle_calls = ts->idle_calls;
+>  	idle_sleeps = ts->idle_sleeps;
+> +	/* Preserve only the policy dependency across CPU offline/online. */
+> +	policy = atomic_read(&ts->tick_dep_mask) & TICK_DEP_MASK_POLICY;
+>  	memset(ts, 0, sizeof(*ts));
+> +	atomic_set(&ts->tick_dep_mask, policy);
+>  	ts->idle_calls = idle_calls;
+>  	ts->idle_sleeps = idle_sleeps;
+>  }
+> -- 
+> 2.47.0
+> 
 
-The disk folks already have a proposal to address all of this using
-io_uring and preallocated buffers. I really doubt yet another version
-is going to be interesting there.
-
-> Anyways, reading your next comments, are you suggesting that all
-> these functionalities should be implemented as pagepool extensions?
-> (2MB mappings and iommu backing, proper allocator of fragments out of larger
-> pages, device-less pagepools, multi-domain mappings, pagepool
-> as memory provider for skb heads, pagepool as memory provider for descriptor
-> rings ?)
-
-netdev shouldn't be touching iommu, it can get a 2M page and map it
-using the normal DMA API. AFAIK there is not such a big reason to need
-any of these layering violations. They just make it easier on page
-pool..
-
-"multi-domain mappings" is that just for page pool because it can't
-easially keep track of IOVAs for all the devices mapping the same PMD?
-I admit hacking in a special IOVA range so every netdev has the same
-IOVA is certainly a creative way to ignore all layering and solve
-it. :\
-
-But you could just figure out a way to keep track of the per-device
-per-PMD iova mapping..
-
-That said, if you came with some much narrower series to request some
-kind of 'globally shared iova' during dma allocation that might be
-something dma-api folks could agree with.. It seems like the only
-actual DMA API request here anyhow?
-
-That's a bit tricky since it is impossible as a general concept, but
-maybe you can come up with some way to narrow it..
-
-I'm still not convinced this is even right for netdev, especially
-compared to what Dragos has been working on. The CC stuff seems
-actively dangerous. Unconditionally always using CC shared memory for
-skbs is completely security wrong. What I have traffic flowing inside
-my VM between containers or something? Does this end up putting those
-skbs in shared memory even if they never hit a physical NIC?  Same
-with a TDISP capable NIC, does this unconditionally degrade its
-security?
-
-Jason
+-- 
+Frederic Weisbecker
+SUSE Labs
