@@ -1,86 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792713223;
-	b=1V+Lmu/o5cKMhv/fyC/SDKDJoyL4s6C4y2K0mlVjqirPdDBN5SBlkVH7lkMVRYgOuW6z
-	 HVRJyybzq02aZjnPePeCqhpCgr9Od1onRvy7BiLZlXCigUxiIZHIi5eosXYXy5H9YTe3n
-	 bdX15rc456Q0xd30dY5dzG0K6cM1pYSxthbxZFKzhX/3OxCdCkLdADeLvqgBoXKN0G70A
-	 N6p6qjDKkiYXx4r0YnVd1lBSUyGPbwGu/MBCQ02dVaRoQSX3Z5bh970bohArl7vJLaOOM
-	 zer3eJGiiOpI4+6DW6SRr+lmEqEp8znr5oL3SicfrihoQbYpY7bbf2pyei8wuY3WetA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792713223;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
-	bh=XZVFc2cY2YdRXjDiQkdwMYAg1zQFmPzyWnIcVt7gubM=;
-	b=gds9l6EZr5oMifObBT535VfR2r/dzFZIc159csX0luzE+vTPBXFhSK+OEXnayR5Y/hT4
-	 yl5+7qNAZ2KqSRxk4ECcSsD1vW2CavP1XZKs9lDfj+PHCDQv0+YcDQR5hMidpfWYjrN8R
-	 sdkuhWUhGjGY46/Og2KQHh81/6mUd14bDWGNIM2ezNLQRwmfD8js394Qa8EzdRM06hNIZ
-	 q571N89MTJavMDowlk4aj9gsGHoay110RpMJQDfDcJpc8YDBRRgrh7tFnGZRDYuL+prnI
-	 ZQ5FH58J2+UkT2MyIfH9bFELAKHHoatrl0JYyGRLfLD5fkVLN8InwDhriHgxz2W9GIg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=DlE5AX0E;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.11
-Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792737104;
+	b=wz1O1oU9t8WyYRNfhgFrNx4PaWJ9lSeiiEqzfl94xJNFzvWVaoc7f05KNmGLLxEprZw5
+	 zrScWO1E0U8fIQ8wXLF7quZSW8ZjS7g5t5F2tbFKny7XiP1FMZa5qodjVFeJKG/BrHoHt
+	 f8FKIuriiS7qhpRNmG8PpWl3+DVWw7S5OWXCyqpPmIrNGk6HqRJzJdTTY01HdYxyvpXbj
+	 6HaDmVi6W7VHUZOsoaYYi+WoO3IRzu9per+z+Es271qTWBP3tI05b9houS1QJ7wpWEzKU
+	 7sexeHy1KzHl6mSPQdRrjE7AvM9v6HagVfA0/FcXwT3dEgh3Z8MgXpd0K/iV6lmcioQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792737104;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=jyCfNX/9+H5yQkwskBT3ZGARxUxA/9LCOy0PtjrR0VTahkyNjJqWt4F1t38TgyEvzc/L
+	 re1tYzsgmu3Ancoz2sLPQa1ehdGLnD7/zmfUiD/br4LxDDN4CX0nYEWsru9+p+xe/3WwU
+	 CG4kGC1V+4ky9hHrkA0v4LoZHlXjHw7hmB/plee2NdU4JZVhJ051iLxlvN5Aa6SnxlDeT
+	 61c+Ck0Vkwsp8NR6ByAdByfFZDJnUmHPvWLEPjbpbuJ0m17wbn2CJo2qZe/B7R0TJ4cLs
+	 t0ALNuQOmIPsM1BKXhfjWyPcqb82zE+hSEkTKPyKMWPxuhy//yn7QtgK0/CTDzA7SOQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy;
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C31A606A321
-	for <driver-core@lists.linux.dev>; Thu, 22 Oct 2026 23:53:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C31A606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3E8606A31A;
+	Fri, 23 Oct 2026 06:31:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B3E8606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=DlE5AX0E
-ARC-Seal: i=1; a=rsa-sha256; t=1792713190; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=USsdMuU5gMmdKZAKLj6NLOnUxRJnM4QSY1B11nzzY4L1EyIng8Vwyn6fHNtwax5k0qXlTIOv5+35ydqbHPlqPxrxi7bsQineaZDPQH9DdT/I0A3I2PKmyMYD9kF/726Pxj487v/KAZFX5ZCJ5tIwUCyETV5tWl+1bdODBVaycHk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792713190; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=XZVFc2cY2YdRXjDiQkdwMYAg1zQFmPzyWnIcVt7gubM=; 
-	b=MbLhPZWuQeuUjHbNqy673eyDyO+yGb1zmqZcoF/feyV1ZcEI5BP/LbKjQ0VfGae2gn6wwCpD//dw7iIdIJP5MtqiojDvAS6H/Q1ixEQI/AR5nk5pW2SHQN7Qa1sXUuGnckDMRMre+ETbODlIdLg/I27ANEQpJWE8op4qdbjc96k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
-	dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792713190;
-	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=XZVFc2cY2YdRXjDiQkdwMYAg1zQFmPzyWnIcVt7gubM=;
-	b=DlE5AX0EJFn4+qNw7TJfzSEARTLOr+0xnH049vabN+TeMo7m+gjRnq+GOfyedonw
-	6jdQcP40bT46n4YNFimPPDK5k7gw91j1nW5O9+88r9/dkxpMGYkjuNOT4MniYXMst7b
-	bHzd0Z/HLqnpV+zwqzsH3arHsPdqA6fHVhM4VEDI=
-Received: by smtp.zohomail.com with SMTPS id 179271318893732.044990374067766;
-	Thu, 22 Oct 2026 16:53:08 -0700 (PDT)
-Date: Thu, 22 Oct 2026 16:53:07 -0700
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Ke Sun <sunke@kylinos.cn>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	rust-for-linux@vger.kernel.org, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
-Subject: Re: [PATCH v4 02/11] rust: mm: add `task_size` helper
-Message-ID: <atqh41vrlC4xVtaj@um790>
-References: <20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn>
- <20261020-tyr-ioctls-v4-2-704de77da223@kylinos.cn>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fjsQ8MHy
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=33tGxL4pQ37PAm6R2PA7y86/iQoPs+fP5QCASbIaiW4=;
+	b=fjsQ8MHyFLg2DKpb+rChWOhrQ6Agx+aJ4B3WloBfzhk5I42lfFR8N28XAuSRbTqFZgHgChm3O
+	4OwNSVOJK87cDrNiMupTVhF9pAM7IdBGhA0OswOr1fHmf/8LmJiA8sNJ5JxoASQ+9LC7G7GDo6P
+	DlcW4ZEJB+N+XLWejTOA2kU=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j9tTJ65BLzLlX6;
+	Fri, 23 Oct 2026 14:31:32 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 10C6B40594;
+	Fri, 23 Oct 2026 14:31:36 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 23 Oct 2026 14:31:29 +0800
+Message-ID: <a2832263-3e3b-4d05-98bd-dc006d5be689@huawei.com>
+Date: Fri, 23 Oct 2026 14:31:28 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,59 +62,66 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020-tyr-ioctls-v4-2-704de77da223@kylinos.cn>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/292.705.96
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 -next 01/18] fs: pass struct path to notify_change()
+To: Christian Brauner <brauner@kernel.org>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <ast@kernel.org>, <daniel@iogearbox.net>,
+	<andrii@kernel.org>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+	<martin.lau@linux.dev>, <song@kernel.org>, <yonghong.song@linux.dev>,
+	<jolsa@kernel.org>, <emil@etsalapatis.com>, <ihor.solodrai@linux.dev>,
+	<rdunlap@infradead.org>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>,
+	<axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <jack@suse.cz>,
+	<dhowells@redhat.com>, <code@tyhicks.com>, <linkinjeon@kernel.org>,
+	<sj1557.seo@samsung.com>, <yuezhang.mo@sony.com>,
+	<hirofumi@mail.parknet.co.jp>, <cel@kernel.org>, <jlayton@kernel.org>,
+	<neil@brown.name>, <okorniev@redhat.com>, <Dai.Ngo@oracle.com>,
+	<tom@talpey.com>, <hyc.lee@gmail.com>, <miklos@szeredi.hu>,
+	<amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <kpsingh@kernel.org>, <matt@bobrowski.net>,
+	<rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <john.johansen@canonical.com>,
+	<georgia.garcia@canonical.com>, <zohar@linux.ibm.com>,
+	<roberto.sassu@huawei.com>, <dmitry.kasatkin@gmail.com>,
+	<eric.snowberg@oracle.com>, <stephen.smalley.work@gmail.com>,
+	<omosnacek@gmail.com>, <casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <netfs@lists.linux.dev>,
+	<ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261015125425.3246251-1-caixinchen1@huawei.com>
+ <20261015125425.3246251-2-caixinchen1@huawei.com>
+ <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261021-nanotechnologie-gebadet-gepaukt-52a950759f0a@brauner>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-On Tue, Oct 20, 2026 at 04:25:19PM +0800, Ke Sun wrote:
-> From: Alvin Sun <alvin.sun@linux.dev>
+Thanks for the explanation, you are right.  I will restore the idmap as 
+a separate argument
 
-I was testing Tyr's auto allocation for the user va range,
-and was surprised to see that mm.task_size() is always returning 0.
-It seems like it should work since it uses the task_size from
-struct mm_struct, but it doesn't, at least for me. 
-
-If you look at tyr-dev, I think it would be better to use Sami's approach:
-  428d71932b6f rust: task: add task_size()
-
-Sami creates a task_size() method for CurrentTask which is our equivalent
-to the `current` global and then you can see that task_size becomes much
-more clearly the equivalent of "TASK_SIZE_OF" used by panthor.
-
-This approach also correctly returns a user va range when Tyr has to
-assign it in my tests, so let's switch over.
-
-> 
-> Expose the task's address space size. It is used by the Tyr driver
-> for splitting a VM's GPU address space into user and kernel regions.
-> 
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> ---
->  rust/kernel/mm.rs | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/rust/kernel/mm.rs b/rust/kernel/mm.rs
-> index 4764d7b68f2a7..d2dfbb7d43972 100644
-> --- a/rust/kernel/mm.rs
-> +++ b/rust/kernel/mm.rs
-> @@ -149,6 +149,13 @@ pub fn mmget_not_zero(&self) -> Option<ARef<MmWithUser>> {
->              None
->          }
->      }
-> +
-> +    /// The size of the process virtual address space.
-> +    #[inline]
-> +    pub fn task_size(&self) -> usize {
-> +        // SAFETY: `self.as_raw()` is a valid pointer to an `mm_struct` per the type invariants.
-> +        unsafe { (*self.as_raw()).__bindgen_anon_1.task_size }
-> +    }
->  }
->  
->  // These methods require `mm_users` to be non-zero.
-> 
-> -- 
-> 2.43.0
-> 
+On 10/21/2026 6:21 PM, Christian Brauner wrote:
+> On Thu, Oct 15, 2026 at 08:54:07PM +0800, Cai Xinchen wrote:
+>> notify_change() takes a struct mnt_idmap and a struct dentry even
+>> though all of its callers either already hold a struct path (or a
+>> struct file) or have to pass &nop_mnt_idmap because no idmapped
+>> mount is involved.  Switch the helper and its declaration to take a
+>> struct path instead and derive the idmap and dentry from it.
+> No, the idmap needs to be passed separately. The whole point is that
+> during path lookup mnt->mnt_idmap can change. So mnt->mnt_idmap is taken
+> of the mount at the time it was checked and passed down to the
+> filesystem so that the VFS and the filesystem are guaranteed to see the
+> same idmap.
