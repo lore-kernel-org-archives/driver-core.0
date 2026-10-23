@@ -1,150 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=52.101.84.3
-ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792743489;
-	b=Zi4+kb1kMKDFqgos+nMoKf9lkmYOk2JqhCsAEb3R0TOTOqOOf2W33f9gXGqMaDdnJnu/
-	 LLxgTrf5n7enViJql3oYvQi4S9Tf0JF/X8WTVVxgZYB1IdKEJSaqoBYQrIRQ1Bm/xm9Wk
-	 86bbt1PpaN70iPdqniayxQC3RT3IhuxYZpQlVWT783uV+XxPY3SVBr4aOYNLEdyFXiIif
-	 uL+yTRgiunFgg/ZjoXW8zgpa7l6Xm7LJhqX9LaGa9wzrWNDwkAsfAXg66Y25nWIdn6eyy
-	 0vVkvSzbwAwz3adUI693W80wgqqXvf57MsjUVMHUFuw0M26JcR4YYDAyGQa2w+0mApg==
-ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792743489;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
-	 DKIM-Signature:Authentication-Results-Original:Received:Received:
-	 Message-ID:Date:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-ClientProxiedBy:MIME-Version:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:x-checkrecipientrouted:
-	 NoDisclaimer:X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam-Untrusted:
-	 X-Microsoft-Antispam-Message-Info-Original:
-	 X-Forefront-Antispam-Report-Untrusted:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-EOPAttributedMessage:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
-	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=1p1yhdxf8+T3xWyyI+10Ynlq35as0Lgqm42y1s88MFQ=;
-	b=LHXOOhi+wv6grGMRd+kTh1dJg2pddxajLPYVrhnuMxp/lWhEWgaukrYI+F5P6Vxz1sl8
-	 oUeMDyd9Q2+FGETo5YnYxkd891Q0JgnpYcAZLlQWMeuVCMBD9JGh/DXb3t94Bl+x6G32+
-	 KCglt9QLTG3Gts2LOwTUeffePCsKH2qhvZCIlTijb1tLInNPZzo7Z2SgZlb2LuQhoM8js
-	 y4KmWHmdzqS/ZgrN9zfUZSIWeZ+KLezlLz8+ei7Wn9s+QlLnLNDCdNeJePEuzRlwjClGa
-	 SbN3b24EzrCCBHtZQYWzimA7Pdut9L0imHxywjASYB4vCCSKGWBYrotvPWN3bm2WBFw==
-ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b="f1AkS/b+";
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b="f1AkS/b+";
-	arc=fail smtp.remote-ip=52.101.84.3
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010003.outbound.protection.outlook.com [52.101.84.3])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792750455;
+	b=s7rslipMCR+/f1paeAKxHPdP9zTZkfBAsj6X14wTAwSvDFHVYcQk/E0gz4YvMXRBtIWN
+	 qAtsSJj44oigLwpPSXUU+pxT3Go/c6XwKxDTV29+PPn5nZidovOG9W5vPP9iwnZeOfDN5
+	 fpV0rdODLsk/8GnDqc1Gs0wDZa5hUOeFUP3XT+tTGVkun8/Nj5Pm4OD5COj1DBJOW5j09
+	 b50ORTkroVjghAMMjqpppYU5zn/zB/P7JDcyATDKVgEKkl9fdaGBd+4K1lxwMwRkEde7X
+	 7R5a9aQi8In3HJJw+PFJUbulzwe+rmeqa3q5Ga5CuQ+uWOYKzrC35Vwif0467l823bA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792750455;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=HAeWxfZTcHlKlNt7pgixx+1a1cs5BFavajxZrxnqPSU=;
+	b=v1wFITDW7Rh1emymFphUG2MYNbMO1d8c6tCaMLNxuqI/pAIHKwARkx2N4FOdmweZWpi9
+	 mSVh31zcdp/NyY1nk9iiNy0n+PGGhrkw9YNG8c7+De5p00mBixAk60XlK2cXqSlVvBg54
+	 tOD3MgxZRJFRLogsJp/OqJNtrVUgZdowNrpsCKQD7oz80n37XKSATxHEGffyAugFLag/y
+	 87b2H2XjglcZ9/Y+uf29jeXmiTByFN1fpaBkEgHo8s9RXbWtsXttD0O1Poc/3tVzPqbe0
+	 tS9Jrv+mXfAodHw9uuM6ZJtuIF0+A1t222c+chChpB2LgFn3CCV2fDDs5IHj4mtG/3Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CKWpjrfU;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="As6pi/cv";
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD33C606A31B;
-	Fri, 23 Oct 2026 08:18:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD33C606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8FF606A31B
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A8FF606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=f1AkS/b+;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=f1AkS/b+
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=f8tgeb3FcrxFHPIYAInNIwcBOTWZJg3D5T+KxTTei+6jRis2ETciLuBsux3KdVFBBmDlVHdXJ1dLwpNy3Rm/7E96NJuJ/RZ1lrRe4roDoqE33OjCO6tWJO7dP/rGGPVZl0LwhcDsng2QAwPNXwe00JyEtvi/sZao8kHi46OhTPwLTVsr0VCGqilQQx1gmOmWyNKvXnwkXSHPBK53au7piqhxo3GQKg6IEDxRNGWzXdKDHTM6k6L8ptYuxfC6e75nViJWBmiPof4+uJa0CDPkRhTUn68ppZn+gBfv8JRz6up7CYNst/l7/A2U/PelmMXG6TdeO7kN4czuo+ald5tWVg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1p1yhdxf8+T3xWyyI+10Ynlq35as0Lgqm42y1s88MFQ=;
- b=n59H2aw0HPodw3J1dN/wTLiTo3TFT9ifL8i8NHMolbu6NRHDZq2JdnuhzvHGPYj9IOow/zxPQjE17c+KQ+L+Vf2+gBxzNOs+fKpQV0B3uEZ63LZYzuF6/jGNppH5jejx8zJ9j7rz2WEf1t/84j5DcCsLwnPjboYf9wbwjhZDQZKD84EHbEz6XzqrEGXMYiIwcK4J9P/UGg16xeLkLG3n2Fy2qw25KdkbhXhl2uIbEa6HvYXGoEaJxh13QBqEMKMqYoNY3uQX9I40py4r6+jjyT5jJa3uT8HFZW3xDzo5SCECDPUEFxzugaZwxfN8XV60K3Ced6qqzH8IEKBPD/VARQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=google.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1p1yhdxf8+T3xWyyI+10Ynlq35as0Lgqm42y1s88MFQ=;
- b=f1AkS/b+gFJgvv+vVKsJw9g6BfmGieyTpqovxwFY2kUSiklRNrWT7LV6/mjj/Ijg2IYGIoiCk4tP2bnQJ/Izbn6epaLOXpaCAXG9ADJJRpwllZycNSJAX9rQGmyomuQMZPnoVROKIqoW9HzFhVW8mbx1NTlkxRTR/cNRXDehcos=
-Received: from DU2PR04CA0323.eurprd04.prod.outlook.com (2603:10a6:10:2b5::28)
- by MMZPR08MB820058.eurprd08.prod.outlook.com (2603:10a6:190:52::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Fri, 23 Oct
- 2026 08:18:01 +0000
-Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
- (2603:10a6:10:2b5:cafe::28) by DU2PR04CA0323.outlook.office365.com
- (2603:10a6:10:2b5::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.19 via Frontend Transport; Fri,
- 23 Oct 2026 08:18:01 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.15
- via Frontend Transport; Fri, 23 Oct 2026 08:18:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fAUhRuO6HB88zms8h2L969Kp2hBOyOt/Wmyzg3dOyNMXvR8GDD8WFm7ACmTNQp6diQuuVsJqEZtC9nXpiH4uWCgdtfXQHUEHRDZpxvPjV9skGDPDKVdOEWqCJ6+oRsLFY2h2DUvE3lZLxpSubf4gjTEOecHDGXHh1uJhi83I7APq6cU6EEIPr5e29I5/WifPcpPutjASuJnQr8n/AB7E/kTjFXtVxwKEkqfNaeIsF/5dgZfNGaU87HGTVnyKGNv50mBG8SHGOjA+tExBv7dkqWS8Q6AGaATsll/q3GO7t9PVaulNsY5eZ033kuQEJzwK9vX6u/OoEfkKTfbIi/VA9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1p1yhdxf8+T3xWyyI+10Ynlq35as0Lgqm42y1s88MFQ=;
- b=Aq7De/yqWycp59V/70dtWphw9I74YoZnDBUIHANwREjGdu4B2m5WPCMybcqDhw5ctWwOVv++kfhFYXL1I3aBatkOEjhUn0ZS4EPCZLEpnprtu5doVOtPPPxwD+izLUwk5Z3XmvKnHOBzoUUmCJEyA0+HMaocjhq0qmXizLZ1GCPsQzFCSUmiC0kSNOSAKyWTn9MSPb88VpY7puoZQTW2miwNvxb4ihRgYOkCS7Y24h26XlDCTQvxr7e3PC1pbClvvPrm3X6iZE0WvJRWs2HMeghxq6sQY3Vv3g4qkUkyj/ZRJMZvODRdBBtOL8Gy+SFot8jO/WqKGkqu3c1lz6Yj3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1p1yhdxf8+T3xWyyI+10Ynlq35as0Lgqm42y1s88MFQ=;
- b=f1AkS/b+gFJgvv+vVKsJw9g6BfmGieyTpqovxwFY2kUSiklRNrWT7LV6/mjj/Ijg2IYGIoiCk4tP2bnQJ/Izbn6epaLOXpaCAXG9ADJJRpwllZycNSJAX9rQGmyomuQMZPnoVROKIqoW9HzFhVW8mbx1NTlkxRTR/cNRXDehcos=
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10691.eurprd08.prod.outlook.com
- (2603:10a6:150:162::11) by AS8PR08MB6680.eurprd08.prod.outlook.com
- (2603:10a6:20b:397::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.18; Fri, 23 Oct
- 2026 08:17:28 +0000
-Received: from GV1PR08MB10691.eurprd08.prod.outlook.com
- ([fe80::dd4e:5d51:17f9:9375]) by GV1PR08MB10691.eurprd08.prod.outlook.com
- ([fe80::dd4e:5d51:17f9:9375%4]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
- 08:17:28 +0000
-Message-ID: <0fe0d909-a01b-4f4f-9faa-c533b8925f25@arm.com>
-Date: Fri, 23 Oct 2026 09:17:26 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 11/16] iommu/arm-smmu-v3: Add CMDQ_PROD_STOP_FLAG to
- gate CMDQ submissions
-To: Pranjal Shrivastava <praan@google.com>, iommu@lists.linux.dev
-Cc: Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Mostafa Saleh <smostafa@google.com>, Nicolin Chen <nicolinc@nvidia.com>,
- Daniel Mentz <danielmentz@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@kernel.org>,
- Radu Rendec <radu@rendec.net>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
- Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-References: <20260929034510.2023173-1-praan@google.com>
- <20260929034510.2023173-12-praan@google.com>
-Content-Language: en-US
-From: John Garry <john.garry@arm.com>
-In-Reply-To: <20260929034510.2023173-12-praan@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0021.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ae::22) To GV1PR08MB10691.eurprd08.prod.outlook.com
- (2603:10a6:150:162::11)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CKWpjrfU;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=As6pi/cv
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NAAHUD1597388
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HAeWxfZTcHlKlNt7pgixx+
+	1a1cs5BFavajxZrxnqPSU=; b=CKWpjrfU33uGEonVYMJy2m8zQoYRqjtB28+6Bj
+	g+1KXTkF9M2PuBUL5aFsvI0pDLmtg3vgQU49/V8+QXimJjyn857YeRzv59i8pJkE
+	mjJU7uWnhXy0YThoBbZqrpWZc/Ww/NZUnRnJphAhkNyYResyqVCitX9PxbYmJa9Y
+	pZkky6Esoo/LHTUC3UMIEmuQdlsEXYMKuvrei9JVatBmC01d6YGINLv9TSwIEatZ
+	p3O8hXl3dPE7OGeEhwDCjknZ4tBY7HPKO9zhwUH+i9rlBCMpdnp3/ntxD0rW7ZBu
+	DmPGdqlUmVk8tADOMhNyYzRAeiTI4uWpSNP4KARUA3TlGPTQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqms35ba-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:14 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93909014c85so132414585a.0
+        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 03:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792750453; x=1793355253; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HAeWxfZTcHlKlNt7pgixx+1a1cs5BFavajxZrxnqPSU=;
+        b=As6pi/cvD8i/oeWN1vu5zPa7YGkISZBKPRJ4oKCN6ucEF3ONhwFjdnibMgXJHPKIKj
+         78h46chdvLI7MJ4cwREFH3DvaKAHpmqH2Fgt+ZECQxeAlBXey46mrB6gW7zGWh3phwXS
+         iYPWNB4Nr2gQBXjgk7i3Z1yrj4C76k9Njw7unt/kwZq7O/vip2dLZMzK6V+lHjiRaa8r
+         u79Wl1pLKjxxB2J6sDUn0eDqIbRshbVHofaxt8JrBTCEq43Z2yM2d+KzDb9yJPosHjHz
+         /CTO1A2pdYVfUeJ5RpTmJnHGqC7JkDD6Fk7loQU/8veye6RqpVND0Ew1xP85D57YeBXj
+         UYfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792750453; x=1793355253;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HAeWxfZTcHlKlNt7pgixx+1a1cs5BFavajxZrxnqPSU=;
+        b=LdvGJTdMLxKYGu+gxXq6vBa7Qyz6UNKtl/vTXfUQT8xdvBUez73Y/ulp9ffwH9nERK
+         Vt7eci9U0bSbsdndOU9EwE/zusbdKsnfTg551vbmmIpN7jZTEBspJbWaFp11SdTMtVJR
+         Lpaw9L8PcghJ0p1orzvAN6DfZTt4Xj+eCCVKajdTtEGDwi+JNRelKGT2LR8TtPALCRoF
+         QswWQjTU3yzj23A7HCGRHT2uQrWk4vtHoCY2dgPnr4D+RwuwVSbKXyYPzOyQZolLCJTW
+         f03uIACnakcjoIy4I81NGZCBpwtq3efDXObXUWqtk5Ao0S9F0M69R0bOt+T3zx+yScKq
+         Tv2g==
+X-Gm-Message-State: AFq9FYISZpYYZlzKxldksPf5q3d9SLvINRGJqPwskgHyNiklQv5g4S6L
+	2jVytzJiH38O5ZjLx0fozKcmMLIrd+j1BgSkwbrClQjJ943NePUMWGNEW4XKTzjyNtaxGTPc2Rs
+	Y0t7JPgJBFG0V5SPoBJ6cNhdHY11mujzd2tHWrYbdCCs+Q84LJ//Nzgkk0ZrYTXC9Xg==
+X-Gm-Gg: AYBFou2P9KW2ZwgNR3kctvqoqaEy3yfogEY2OqYi1B87bX/Di9BMMjGFKh1FpNF0LGm
+	0fhaYhD3WgTGmAnGMHH32sVzi3Uf8KM1zDQpx/S8QQJBSvabUJKJApW00PtsKz8R+Bpm6wihMLe
+	FGzetbTvWlccnYDRkzaFnxiZugm/SWdfiGSyFv459B4d2K59SzHtcdnHylG0vwFN/4SvLzFHjNK
+	iwkjhm5MtxOyHlBLEnqxw6KWhwOlDEd6y/seS5E4cw37OgnZ9zSfY/GDokdytqKQeZ/396DNRYo
+	OnKhNDacRKXkJvXg9b/CZDGb9CCdlkW2dS1MMFvqHUVwBua9AEzK9xQuuOMhF2/n4GXtONhZBDD
+	bCg4CjHpCFMlVUC+4na/ytkb/f32z
+X-Received: by 2002:a05:620a:3184:b0:93e:c12c:f11e with SMTP id af79cd13be357-93f6f858af6mr297886085a.74.1792750453276;
+        Fri, 23 Oct 2026 03:14:13 -0700 (PDT)
+X-Received: by 2002:a05:620a:3184:b0:93e:c12c:f11e with SMTP id af79cd13be357-93f6f858af6mr297883085a.74.1792750452772;
+        Fri, 23 Oct 2026 03:14:12 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8916:7b9b:97a2:6c96])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38025da3sm4397734f8f.19.2026.10.23.03.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 03:14:11 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 0/3] driver core: fix unbalanced reference counting for
+ software nodes
+Date: Fri, 23 Oct 2026 12:14:02 +0200
+Message-Id: <20261023-swnode-dev-notify-balance-v2-0-948d920a79f6@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -154,166 +113,107 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10691:EE_|AS8PR08MB6680:EE_|DU2PEPF00028D11:EE_|MMZPR08MB820058:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00d04594-b95e-400c-8c27-08df30de27bb
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|23010399003|4143699003|56012099006|11063799006|261021135927099003|261021123027099003|261021121427099003|261022113327099003|261022105027099003|261022075727099003|261009223027099003|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info-Original:
- m+trFHgf+W8A16Jccpu/uaU4Brf3G7KTtopSdsSxYSA9YwFN9nVnNZ1XfXxJ+klMSJY6DGx+EuSR54PoH418wDR5M8W1yc5//5qitPurpNaT6M6N35TEN7gQAoUypLdyA0g9nDwZhZd8sFgfJ2uGYRZ4uCXhgKGJibStzLBfUNUjLg2e4mK/0TmLW0oQIX8aOm1jKhpp9UNjFs/TaSV/CBGJC8U77EkSgkBzPNK9FKeP4j87uaO9UXF8cOvcXwkWM11ZGhx8ahprY0JmilDnmgU9Ula3rWmlbts8A7an5nGUsSb/H3SAOki9cW8yK+MxpiuJwLWNFmYIhHJENftt12x4DVZciY88bVQaeLNmpglO5BKsUWUCGdOaqfq8IQPyzYHLUsOAHDRe/uCiFnwuBKIK5rdrkYmxVMXpWGnGdmqPW+guCGajJzQ7d4T5JY/kdj4l9OBUR/FJYiPRzL8nJ+ntdMi0j6AEbC3NTrwSeHEInTTnJLGNy7DsvrTFau5BTa8tzeQGjkR6xe2aXIHqXPF+sd2dX8A7hMAqdVaEYXQUNfvtoRbZU0TH15XIb18N6fT2QU1yVPbStz02uFKJ8DYPpAFwWjE9d2mt4ze3fYXyI1TLXZ/jYFfAQtpEOD99Aus9xLT6zyR+t/xILVwWxe2iIHlyQHqgYwDx5ZJX0+s=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10691.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(23010399003)(4143699003)(56012099006)(11063799006)(261021135927099003)(261021123027099003)(261021121427099003)(261022113327099003)(261022105027099003)(261022075727099003)(261009223027099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- iLI9sYPu5f9tKIDRV3V4Fhyk7NVMlcQqDMim9+2cjrxZGDmnvoI4s+DooLNlekOW2HfiUF+Oi1EJWqetges4pQ2Ee3dxkdwQIGmGZSQsmOhwMLDYAYIZ81vQ0aOZNiNdZh4ItjJtRGlJNzvOQJzBsG1hZkSVHgVeSE7aFC+NlRpUTnHKjs7tj1N9OK5YIXYrsnaaHWa4HRTVU57Xcog9I/wfANnigA6g8IXTJdKfJWIC6DqUB9hdB6UTc6cbUisawQH2p08SAqCu8J73bEoCUFbJ9AHTGwg02iiJY5C8Io2i8YUIHnCy1MirZlQ6323XvVq6U2K6iJh38zo6HUQUpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6680
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU2PEPF00028D11.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	eeb24acd-396c-4dfd-feed-08df30de1399
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|30052699003|14060799003|1800799024|23010399003|35042699022|376014|36860700016|56012099006|261021123027099003|261022105027099003|261022075727099003|4143699003|11063799006|261009223027099003|10067099003|22082099003|18002099003|261021135927099003|3023799007|261021121427099003|261022113327099003;
-X-Microsoft-Antispam-Message-Info:
-	G58v4mjizVmwSCBY1PcljPgGQrzb4LJpkMXG1/YpEi8nlUd/BYQw5lJl1o53wG1X75D+QXL0lQzKm+CWT/F5HQ3Rn3DtwFnxQ+MCNGsgKbUahyU9AOgLJKbsJ2KC4WSSgrrwzOD1V0l/M4WqKtx7Dek6mZrT0lqn9oXGY2lMMr0aArCskOtxzplXci2HiFrAatYU+fGk7pduSrAn98Ogp4c5E8wnFGGyOKMgIKhwl02VRjUSEU5+A+wx66jGl5kiClzvFgluYuug8ohNRkSEi9HeXRjXETExYeoTaFfukrFFQ+C4spoD45BXYZprDKMbyn/+Uef0wm79JHAyomt1rBEWzC5xQ3J/w5+QIXgXtMNGnKN4JWq/sACxTm67WBRz02PzWv2iLTYdMt0q/0nIAN7EtlSp/AFLi4CQiL7SjKl9MK10Ms56ZZbffy72WfJBNmVpI4ZbcoE9trIpAMN1u3Sga1HXIPAr69iMzfQKybTufVPCgT2xbxRSi7BVqzIJQaRIPYuFe2BHPkLEqijy0O1T/Ja75bxJQqEdQD0LDcwcoE1mgG71UhcwfbUd+asBojTt24GF5+VDvxmeEOUg0ycg+YVXaL1EOSnfDLtL8/OZHkVFZNpIlKa6P75afBsUxAQxnwJZ2rOM7ft5/AeiDz/opN9EIdTeb0YUtBw+pd9cr7aLqBK491qsCKKhAbWmd/PzeOeyZCjEf6CxbsNZDQ==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(30052699003)(14060799003)(1800799024)(23010399003)(35042699022)(376014)(36860700016)(56012099006)(261021123027099003)(261022105027099003)(261022075727099003)(4143699003)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(261021135927099003)(3023799007)(261021121427099003)(261022113327099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	oxdkon62CA+2FaZpyrz2flVon7xMRMWmfRtUCF2CtS3wdpSZOE21R15FhxeeuUjMWpzRgMdcNPLgpfit+8kJJG4xqR0RlR1BsXjnHoz6une4hw9AWGncROS7LF7tJeyeH+Tc+oyRNgy1h05NFqKrTM0JivRteQL3GVOiJA/ZppiZvhX7PrpfUcvVarys3qoboDB93MpP8RYR1TZ3I+gvF8syNNvfyXPrhpdOwB9m8RFTtboOLN8eqi7Dg6CpxWiy1RicLbXakMWzcV35tooQGP91U8ks6dMuvcGpbJO39qN7pq7YYNX7zEM2olZ4dxn3YIz5Y9IAccvgoercm37ngvS84qxFrphXCxfB59NGOp9b6Ou2+Wn198CsBy9tflU/oe71j94UxApKXTi4pjQCW+TLIiW11lrgjxwCKAC4bwFZ0teqWlLUDDtlZDgEDmfa
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 08:18:01.6199
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00d04594-b95e-400c-8c27-08df30de27bb
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU2PEPF00028D11.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZPR08MB820058
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGoz22oC/42NQQ6CMBREr0L+2k9olWJdeQ/DotBfaQKttlglh
+ LtbOYGbSd4k82aFSMFShEuxQqBko/UuAz8U0A/K3Qmtzgy84oJVrMb4dl4Takro/GzNgp0ales
+ JSZhamE6qk5CQ949Axn52963NPNg4+7DsV4n92n+siWGFkpr62HSan4W8+hjL50uNvZ+mMge02
+ 7Z9AYYbcyXJAAAA
+X-Change-ID: 20261015-swnode-dev-notify-balance-e6f56fb9a469
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Eduardo Ruiz Duarte <toorandom@gmail.com>,
+        Bartosz Golaszewski <brgl@kernel.org>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-acpi@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1509;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=zrXlaeL9N8MVODImAgm9MbC+6h+IDc0akesuGDJ2eXU=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBq2zNyFkupV32iqUVoj1WBjC+fBLY9RFjBnMFWC
+ XW7VVu8Vn+JAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCatszcgAKCRAFnS7L/zaE
+ w4e7D/44N63Xe36AQO4g64J2DMWqXw7V7A/eBDcagvc/dCyMNtUYHxrEvKLuZW3OwXAGSyWpJ9+
+ ToQpq8o8P4jTVf+oShFfgmltGLKb71rc3KnPF0Eixa3TxKVbWLlKqecWbmBjL0KFn/i8aQOxXZ4
+ 5+y737dQfpiRAf1RUfT8gTd5JFZCOpchju6GS/tAkQDKuk04Ztte1ET9v4oil3wQktCIhV7LDem
+ 0RX9ouvu73wGWP4d93EicSOFZDKToZZvqcCDi2F3FojSEhk10JdfftND3GLJcs4S5HWEI5hxUbv
+ b1hqQi+BPw8vU4aUoaSI74F2Y0akErUIkpEUpwD9ujc6qUfwe2RBB4JPsDoeZStfGlIL+hrTsAK
+ oowiEGDtT+9vE6ucK7NCdzqpM0sHR6DwjqLx2P9uEc61IeZz1Wju/sB4im7/dO4Qolp0WQvRjsy
+ mBCz8eTMDyCx/JiFFpyNqRv5lcpSxATu6nRsoSH63r4zGl4zSep3QtXAd0D7hqDCGEljTRsaavW
+ HdFYc7JXbxDY6rnQgvvA9cO1GlqWVuBa9IIjIvowjfiGNcXnQJDyeVlKFx/IJUIctzDtLGTCXpB
+ dkCxyHzlmpIv4EQv4ai68iON+mnzmfSqIDchj9j8ZEmcXUryOHGUU0WVs+SgfBKOh3aRnPHXu/D
+ JRQsYEL4jgCWBvA==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDAzOSBTYWx0ZWRfXzHxq1Do4+/oZ
+ 8Dpg3+sp4Vmpxw0YAUGY4yexmN3iTaA70KTREL4bBJqHzUSE/JuUy8fr3uYpFxU8GrfbaxPYaRw
+ 0rpwuf7AOM+3rAuOpSnGQfusjzv50DOSN1vSLAlIrqJ1K5RHn9YEZ5y9xFu53yD+xL1iv99IIM5
+ 1EdDYcAQGtScIZ1QlMxUMPj6QyY5xey0RUeoHZnIKwIZyFIbxcWjkr+h3FXOlGmxj88UghyHNP6
+ 3jjvYT/P7/HJRuXEJS7qJQ0GWHy6gV/0LBfjMfWHUETvSWB8UX4xFGcHHZYDi2v6y7n1KiZ8HCS
+ 0a5mur6LyKo/rKgPvSZMX4l2P2PeKKqYoNCWGQNgwB4SgQBlItUr93N/hEgtLQM5vcalr5g7xjj
+ epsF8gMY3PRIyfv7btDaLI97e27oYrahMGBIPC+UO/4Q2yqV9wZ62T2M5EnM80Hx0azdZP4/QQE
+ mMKTLKc6EsvkoM+lPYA==
+X-Proofpoint-GUID: yMmNF8J6VgxxnvVsyVbbKDPGPJb6QW7h
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDAzOSBTYWx0ZWRfX0ai8aJkvOIHl
+ u6D1D3ivRSuidOrqjpbU3w2wGyYhiiLdDaQ5tvgfBtAL9XwMfugD+A/JVgQUer23cD5LGDs3r7s
+ Ll0jn9cekMeBZgfhuB/Gt45xQtptVRA=
+X-Authority-Analysis: v=2.4 cv=UdbE26SN c=1 sm=1 tr=0 ts=6adb3376 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=kTkK-H-Q3wn9DOHkRvoA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-ORIG-GUID: yMmNF8J6VgxxnvVsyVbbKDPGPJb6QW7h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-23_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610230039
 
-On 9/29/26 04:45, Pranjal Shrivastava wrote:
-> Introduce a new bit flag, CMDQ_PROD_STOP_FLAG (bit 30), in the command
-> queue's producer index to safely gate command submissions during device
-> suspension.
-> 
-> The flag embeds the suspend state directly into the existing global state
-> The flag is checked in the cmpxchg loop in arm_smmu_cmdq_issue_cmdlist(),
-> which acts as a Point of Commitment, ensuring that no indices are
-> reserved or committed once the SMMU begins suspending.
-> 
-> This prevents a situation of "abandoned batches" where indices are
-> incremented but commands are never written, which would otherwise
-> lead to timeout during the drain poll.
-> 
-> Update queue_inc_prod_n() to preserve this flag during index
-> calculations, ensuring that any in-flight commands that successfully
-> passed the point of commitment can proceed to completion while the
-> flag remains set.
-> 
-> Suggested-by: Daniel Mentz <danielmentz@google.com>
-> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-> Signed-off-by: Pranjal Shrivastava <praan@google.com>
-> ---
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 35 +++++++++++++++++++--
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  5 +++
->   2 files changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index a123810fac57..7f89e2306942 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -218,7 +218,8 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
->   static u32 queue_inc_prod_n(struct arm_smmu_ll_queue *q, int n)
->   {
->   	u32 prod = Q_POS(q, q->prod) + n;
-> -	return Q_OVF(q->prod) | Q_POS(q, prod);
-> +
-> +	return Q_OVF(q->prod) | Q_STOP(q->prod) | Q_POS(q, prod);
->   }
->   
->   static void queue_poll_init(struct arm_smmu_device *smmu,
-> @@ -726,13 +727,42 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
->   	do {
->   		u64 old;
->   
-> +		/*
-> +		 * If the SMMU is suspended/suspending, any new CMDs are elided.
-> +		 * This loop is the Point of Commitment. If we haven't cmpxchg'd
-> +		 * our new indices yet, we can safely bail. Once the indices are
-> +		 * committed, we MUST write valid commands to those slots to
-> +		 * avoid indefinite polling in the drain function.
-> +		 */
-> +		if (Q_STOP(llq.prod)) {
+Eduardo reported an issue with reference underflow when setting a
+software node with set_secondary_fwnode() and then repeatedly destroying
+and re-creating a device. This is caused by the fact that
+software_node_notify() takes a reference to the software node which is
+unconditionally dropped in software_node_notify_remove(). However the
+software node can be assigned after device_add() so the latter should
+only do it if it was bumped by the former.
 
-I know that there has already been other comments on this "stop" flag 
-and whether to use it in this way... but, if CONFIG_PM is unset, could 
-Q_STOP() ever return true?
+This series proposes a fix in driver core. The first two patches extend
+the device flag API with a new accessor and value. The third is the
+actual fix in swnode.c and should be backported to stable (along the
+first two as dependencies).
 
-And it would be nice to not add extra logic in this loop. It is very 
-timing sensitive, and adding extra checks can increase the chance that 
-the cmpxchg fails (bad for performance).
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- Fix typo in kerneldoc for the new flag
+- Link to v1: https://patch.msgid.link/20261015-swnode-dev-notify-balance-v1-0-9e7537bd2869@oss.qualcomm.com
 
-> +			local_irq_restore(flags);
-> +			return 0;
-> +		}
-> +
->   		while (!queue_has_space(&llq, n + sync)) {
->   			local_irq_restore(flags);
-> +
-> +			/* Avoid waiting for space if the SMMU is suspending */
-> +			if (Q_STOP(READ_ONCE(cmdq->q.llq.prod)))
-> +				return 0;
-> +
->   			if (arm_smmu_cmdq_poll_until_not_full(smmu, cmdq, &llq))
->   				dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
->   			local_irq_save(flags);
->   		}
->   
-> +		/*
-> +		 * If we exited the polling loop because the queue finally
-> +		 * has space, but the STOP_FLAG was set during the poll,
-> +		 * we must abort immediately. If we proceed, we will
-> +		 * commit new commands beyond the Point of Commitment while
-> +		 * the SMMU is suspending.
-> +		 */
-> +		if (Q_STOP(llq.prod)) {
-> +			local_irq_restore(flags);
-> +			return 0;
-> +		}
-> +
->   		head.cons = llq.cons;
->   		head.prod = queue_inc_prod_n(&llq, n + sync) |
->   					     CMDQ_PROD_OWNED_FLAG;
-> @@ -779,7 +809,8 @@ int __arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
->   		/* b. Stop gathering work by clearing the owned flag */
->   		prod = atomic_fetch_andnot_relaxed(CMDQ_PROD_OWNED_FLAG,
->   						   &cmdq->q.llq.atomic.prod);
-> -		prod &= ~CMDQ_PROD_OWNED_FLAG;
-> +		/* Strip all metadata flags */
-> +		prod &= CMDQ_PROD_IDX_MASK;
->   
->   		/*
->   		 * c. Wait for any gathered work to be written to the queue.
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index deefb17e31eb..794b258550dd 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -394,6 +394,11 @@ static inline unsigned int arm_smmu_cdtab_l2_idx(unsigned int ssid)
->   #define CMDQ_ERR_CERROR_ATC_INV_IDX	3
->   
->   #define CMDQ_PROD_OWNED_FLAG		Q_OVERFLOW_FLAG
-> +#define CMDQ_PROD_STOP_FLAG		(1U << 30)
-> +#define Q_STOP(p)			((p) & CMDQ_PROD_STOP_FLAG)
-> +
-> +/* Mask out software-only metadata flags to get the pure queue index/wrap bits */
-> +#define CMDQ_PROD_IDX_MASK		~(CMDQ_PROD_STOP_FLAG | CMDQ_PROD_OWNED_FLAG)
->   
->   struct arm_smmu_cmd {
->   	u64 data[CMDQ_ENT_DWORDS];
+---
+Bartosz Golaszewski (3):
+      driver core: provide a test-and-clear device flag accessor
+      driver core: provide new device flag - DEV_FLAG_SWNODE_NOTIFIER
+      software node: fix unbalanced reference counting
+
+ drivers/base/swnode.c  |  5 ++++-
+ include/linux/device.h | 10 ++++++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+---
+base-commit: bd1ecbb61afefc6a8b876ccbc31e9228b44e9eab
+change-id: 20261015-swnode-dev-notify-balance-e6f56fb9a469
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
