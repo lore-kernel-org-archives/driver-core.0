@@ -1,110 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792750462;
-	b=hmy4zOXc8I7SqOclA3BJs+DOJcgyPmmBXu+ESvQYllf3sMD9si7WUDRgOFSmO5CYxrcQ
-	 PzR0ApRhlo36l52Mpoe94xkADKFZCcrMEb3hJF+HQNvwlXON4kIlgmWkQrkb/KCr2+w56
-	 DFqdOxGPcEZkDFnMNFrW6nY02DQXHTMdrfqaZVl8ryvZbj6PpC+IV46h2hmPfqbVNQ0qY
-	 7mOzNiOILS2QM+aS6vzPtk+8c7XW/buV+3Q5fYCAXPoNEPGoK9I5yhe9Q3YWnROl5eIp4
-	 xEmoSO4RThUTi2xLA2ytz4Lch4UJyD546nm0vFo3hX7AymZp9gsxuTeqOTkg99W215A==
+	t=1792751714;
+	b=cOkoFgznJvefymy/dgc5iW6B8WtTC2bNYcTMP2iFXTMaoBk5NYyADa9pSjPpToEOiYg/
+	 5WhKmkrQHMZqolGGgfEns+0fzNDsq/hv3KQJVB9/HLrvGQnlNk5PREF/qnBaqPWKSBMf8
+	 AoowG6QAMsuM1fBEUSfb27W/Awde6wLKOH4CWcrRwSGI7OqT686hzKd1Hz2zH3NhnZhTG
+	 Fdhf0kfuI/+AKyb49o5Jc8fqzN++NYVYNL0gxAd/wlOCex6fBQiofkP6F7HgOp3DkmY5z
+	 CUu/DDLHPIwPLUz/e3Gu8DE8ZcUE8BQfZqdW3v3dvBRijGNez5LJQ6d1AlX4TtW84Yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792750462;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=3/lDJvjhBQBuyuaReRi3SarttfTu3Q6e0rLJWgeouyE=;
-	b=wN+Xd/zN7C/l4/7T8+OqOJufZq+69HZ/ySn0DuZN0fla1PgiZKcc9cLleTpVUN7L4UXH
-	 jtigEfmLYQelR8alHasMtbVkLFPLyksN89r9XReO6zOopfL8YDAjN/hXUR/Dfd87pKh/k
-	 BH7Coh4p32wQy//4IXmYlhX9pXqvYHxt5b9j9rEnzOBYvQbP6Ux5o6VjH8JiioErHMV/M
-	 bjZeY/wncDyTa4OUjt4A5cKS9cfD3Yl5BoarCwSmCnBBVo/nDxwnYXbF31fwO1RnXiYrV
-	 VFDwJHf21TMWiv4tfFVZ/0KPqvwand5E5a7eiuldaQHp2byAVLxAcREgZ5kG+HfZqgw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792751714;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=k9LHe1k3JJHdATvv4AfPRU7gCDBKGLYt+F9m7byWzFQ=;
+	b=4olLsqPgi4/putU4IcYcdpg1u0HD9Qj4uUvbh+LYH2HtEoqQXI2nBVycKvsJBZOs/BDe
+	 K57EtX0NdjBix37wWGMv3j8lC5vuq17Hg+PnVQqCjjxAuw25232yAXYP7bMqNNNofYwV+
+	 Ji+MoMHMHlNqh2bseWfuR7964VeO1nwAVyN6NNZBPFbTY+BlDQliWNXFKZIa+64Fy4M4S
+	 H4/zIVJIUTgCG2KBAdUU4Dcg/GyVPUjNSqO44dWz3lQ9em7zxWZlKfUdIfDLoOLyCnir5
+	 stFWfwjdkRIUrPg4rJjGYuajQIJGbAO82Eq/wBFDgJmtWeN7996ReBU4pPlhp6MqHQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Lgyycgo/";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LmRAS8sE;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=RFcFG0rh;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78FF606A322
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D78FF606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F59606A322
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:35:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45F59606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Lgyycgo/;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LmRAS8sE
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NAAZNW1948486
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3/lDJvjhBQBuyuaReRi3SarttfTu3Q6e0rLJWgeouyE=; b=Lgyycgo/B0FC7eH6
-	xRgd/soN/MISMo6rhLKsyFgoHPx0Qdw7MmzO0WVhH7ZKOetRsjqoh0B2OQlT6np5
-	8xesbdxgElxQRwTCaFfyGBCoy2VIqnGs7pdEh7cr1HfvY5IFlylbAMFMOdZ5dpJc
-	kb/Vr48Owld/N1u85HGcJSO4Xq20B9pehzsWjQ37Ggg5xn8bwmtf4O4DWEkqlpOp
-	YQe+a9Eo4Pi6us6nxDW7LQRvryRf+X9PQjcTwOx2iWdIYe0l4dK9sQGS7zXLXodD
-	PzWvb8BiB8bhh3d6cEkVJ9We8ZvNzAuDgkg5OH0znpsbJL4th4zdTUnS2IkOPZ6k
-	qxPAow==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqmtu5u9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 10:14:16 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f5844e383so133287785a.1
-        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 03:14:15 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=RFcFG0rh
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48df8fe8513so640111f8f.0
+        for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 03:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792750455; x=1793355255; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3/lDJvjhBQBuyuaReRi3SarttfTu3Q6e0rLJWgeouyE=;
-        b=LmRAS8sE9vI1vvAnCynDaDyVHsFY/9E6E+eFSqGTk58qV9S0MsCDN0jAgq/M0iB/2D
-         1a6ViGWy1owYc0STtcKyv6lqzEV9d29CZAGr4cuP0AfCxiIJfFIRi+zfg1V9NxJBbL25
-         CUBUUfmz3HkA0ZStpW1m8JW/hoNc71TE71onQEenQXSLz5WmeWp/kkD6PbFMkXQg4e4d
-         YMN1mVxWIxLFi/qwnF+FJS4sKi7fd7fxDwU736gtSr8HwOYk3zg/iqkJ01AWwh8ae27L
-         WwoOVeijlVFKjtt6xEoUPPGaoWsRxtYfLDf2xOj42jL5ztyTnYel/+8kch7lxNbVThHQ
-         EMMg==
+        d=baylibre.com; s=google; t=1792751711; x=1793356511; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=k9LHe1k3JJHdATvv4AfPRU7gCDBKGLYt+F9m7byWzFQ=;
+        b=RFcFG0rh6jBHu8eFaFE7mhXCZIVEZOxUvPRbOOFM8xyfL5VzGzGE7LDpQPgfxqo71v
+         nlJJ3ug5ubOsNhxqD9JoqF+9Py/RmqAdPhK7NdmNvixg8Z/SU9ZSGVQM1DeCZ7wmhQar
+         N9gStXmWxK5RmxFX3ioLLbwXhVHFLNNrbNOtni4qC2WCMdqHz9COQkpO+wkG8niGoxKu
+         Iwd835p71wqZr8YDnEJcuifHvduN1OTDQNWiVUmvok+uCZ5Lhzcw5EpihH2kEBEdEOhK
+         EJricCAzM7Iq3Zmx1R9dk6uKGTKRYMDKwfNlUo2Wko4vb08XK+gOaxR7TXdGIHtA4O60
+         dqLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792750455; x=1793355255;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792751711; x=1793356511;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3/lDJvjhBQBuyuaReRi3SarttfTu3Q6e0rLJWgeouyE=;
-        b=JDumCywqcFHmcolzBHzF6UuQ5pR2dIF4ZZTNO0Pq/K7vm2/okAxTrJNrdmT0heLm8N
-         nZm4IJi+pTFzVEv2+ipfpax4ri57BtJG/SvPi9YnpyCSt55nWBKgep//dEHULCdc7XIB
-         LVb+xyLqFgN9GXwyQ/hyCx6cUoRd5qr+ulItGzgr/2/7mLdLZgyppT4kVeVyTwG0A2//
-         IyBBzShfNV0bsvW2NhD52XC15HVqGiD5xT8v9CLnjoNhJIFjeD8CXapo9FqolodA9Yfp
-         YmQGTCQtkDH0jSRP+Hcr63PJmymvIVbZoFapLp95Dk+dkC41pRkyhPWq8JBthjBe5D6P
-         oVhQ==
-X-Gm-Message-State: AFq9FYLV1J069eYBtdW5VVUIqBNn3jTjGpcZsEHr+Sds9Q/9zIMwDI4I
-	J+ExwlJoLOyKCPLIFsDHmNt+cPV1AWTeCKBGylo5lVzBoFI9edAtpUMpV9RNU7WlyBhhhrzLgLv
-	nWaCDX0ZHmzmrpYwifoOV5p588VoWajE5hKq0OtVSPdHzT+cAAx5NwfbbU2OuwyHVww==
-X-Gm-Gg: AYBFou3kKUgac21D5wiN7adZrKelzIZ55EhvNOF9IqVpoPLrhbBHoTEN8NTlqMRqbsy
-	NS6MuID7ZTk7IqT0c1WABi6AHQy0KHoe5T1gIUjD7FhbOF84t7pjcDMA17ijfFXQYy/pXq0N31f
-	uhsTmqGzq0UQ6x7kmIG0kmhe9bc4iisPHnEFBUCfueIWFrWPYYkz6cWL3+lzDHse+N+Lf8Ln8Xa
-	goCnBMkHgd2ZHS+QasqeXsvZgck4D0dRtof60NhLGoGdBdwu2dqitVlst+L+2qfGfMy+r10n5IB
-	qvZzW1W9ULQ8hgxUNR/n07JBX/u8o0u+TeVoqbBvWT+Zbx/Zpx7zX6aA5px7RVW+SMg9N3rYMTK
-	Oa99M9MHGI3wHGgUFAMaIOypGfNp7
-X-Received: by 2002:a05:620a:284a:b0:939:6de6:9518 with SMTP id af79cd13be357-93f6f972914mr327954585a.47.1792750455168;
-        Fri, 23 Oct 2026 03:14:15 -0700 (PDT)
-X-Received: by 2002:a05:620a:284a:b0:939:6de6:9518 with SMTP id af79cd13be357-93f6f972914mr327952585a.47.1792750454685;
-        Fri, 23 Oct 2026 03:14:14 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8916:7b9b:97a2:6c96])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e38025da3sm4397734f8f.19.2026.10.23.03.14.13
+        bh=k9LHe1k3JJHdATvv4AfPRU7gCDBKGLYt+F9m7byWzFQ=;
+        b=kSOjHusyRWUilNyoAMjyiwZafiSjkKhk4wYwfPOr+Cg2bWgHmJhKFx9GJ+5PPGgN0k
+         LaBgQNWbeLad00DGayJRFLRHYz251gz9aU+LZsIccvBGpcPpZqnAzudArz5dOkbiHZFO
+         EWy6M5AXhOVG9KHRoTZmukT25u6bykgPcU6R6DOAdMx4EUDKP4DDV2wky0KhJsC0vaPO
+         UG2hXAZjy7DA+ytQPhn1L4o0PKs8C1PnGkc5Juf3pI/R32es+sWK/azs3leAxaW4gSHb
+         /KzjEgAv0JXSJZy/EoSjk3uDSyuhDSrQPYhZMHTXJg9MqvPpYZ5RhqBeQI1xNrmXWxzv
+         c75A==
+X-Forwarded-Encrypted: i=1; AKwUvBy0e0jplRjy+Ej3WfTNQYUVDtc1GsEZqRCglRPcbq7R/W8QNw8SH40MqPLAmxM7K8HivRT5zwvn83zR+A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLi4imOwZGvidZOqP6xg/Ylc77UGzQvUYSRDIFu/lBRvmxIcr+e
+	FGaMZN6mnT7c+yAwLm4MY01xiLFT2FESbna8ZsYkcZIGEzldc/sZLua96AWF3k/UcFk=
+X-Gm-Gg: AYBFou3osax19yWVdvGNOoOTVakyVyZm1F0gojVy6kMqj/G6y+7nfVqNqUlORdGsTCa
+	8Z2yk0kdhuszGT8lt6sypd/ZJ+5tXKnZFgIp9Pm7vQcj1NUr1PAc+PvpL9/njpJCv20sGZaUeiU
+	V740D+IBnDAiidzWtYNP98bEKoTJVsB08tsVhF3xY9V2AxXKZepm8ZceC97y87hQFYx84CTZCeG
+	0WT99sxvqjBvPvS7G+8Fr1DpxD444NOFvbOZ+0FZPpLvo/KmLctT44N50+TQA+VlsYLx4aBEmMt
+	CRvzLy4LFxbjEaNRp3jhdMtaNvk2QpWrxFdBCMhnZY/UF3XSg4TMV0TX1B1YJvxkX/lG1f4B8yA
+	E/v4+T+fTi4YUMcZanTADc0qdWMKmMt8XtfWRfDVZiPoSo4VInq5oclodz4tbj0QoTMorDD9wFu
+	KCkC8d+WFWh9Pu3Dq7qrukN6Ap8pRk4UzBwtK9JWTzHGin1g5/XXI7VT0ukAulTI04F7iW2UMIB
+	WXMm1CMY8T1pd+fVMjFt7DPxxRDX7LzjDoNliYyMsMKL70bF7HrrrzHDSlwFGPhyyInl7TyDmM=
+X-Received: by 2002:a05:6000:178f:b0:48c:414f:cc12 with SMTP id ffacd0b85a97d-48e385af884mr2851431f8f.40.1792751710619;
+        Fri, 23 Oct 2026 03:35:10 -0700 (PDT)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e380636bcsm4189796f8f.58.2026.10.23.03.35.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:14:13 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Fri, 23 Oct 2026 12:14:03 +0200
-Subject: [PATCH v2 1/3] driver core: provide a test-and-clear device flag
- accessor
+        Fri, 23 Oct 2026 03:35:10 -0700 (PDT)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -116,91 +90,396 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-swnode-dev-notify-balance-v2-1-948d920a79f6@oss.qualcomm.com>
-References: <20261023-swnode-dev-notify-balance-v2-0-948d920a79f6@oss.qualcomm.com>
-In-Reply-To: <20261023-swnode-dev-notify-balance-v2-0-948d920a79f6@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Eduardo Ruiz Duarte <toorandom@gmail.com>,
-        Bartosz Golaszewski <brgl@kernel.org>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-acpi@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=914;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=z4Jc1b12fs1aifGCYeI0BXhsdZ7Li/X0waRYIl2iCrc=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBq2zNyS0nR6r/NdXwiQFTkQHidfD6CLufh/QrMX
- B2eqAWLpr6JAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCatszcgAKCRAFnS7L/zaE
- w2HSD/9Ovh2uv/UTJT8dwylA1DdD/J+L+gyMRIpMw5NbEgVO1ppcv47lZ85VJPS11yB21GSYUru
- MAC33BJT7VZSOWBkkgbQi55NNrev9csl5CXDD3CBowBx9d59FfGhHGmwOxoDVEnxZ43NMjW7mz+
- 6irUMK7glppjTS+AJiIiAyhDGsVAKGMHAL1lWldTrO4qd/IyHZMHnnNIKQcMRahlf+ra7EyBVBh
- /77PWAmTEyzql+re9iW6iRu9aVKAgSQFT1n47B9bXS3dMxDn5iN3C8KKw05Gf+K0/z4OVG2KX5v
- d3RHLAVYnGoXnteqaUy3AXmevJ8HPpO97Qp/xRAvRJs6hP4J3krTWRaK0y7JJVhTKlDf4gWhiry
- EtvJn9Lvv5EyFb6Vqg/i7wooIL9hs6q05mMh8hy7WbCa+H0hQLRnyZ4bAONQnObQKVryL0SB0Id
- mmq0vFUDbfHgjtpLRMbTYAThU9Ihh5NNDjypsbCjI/KJaFBK5tpc1/JLKnuYCjz+UFkPfD3baKU
- /6qZSEhe9sWDvYOrCApN2E8oyivZQolcli2oYKSkKCFR+hdXIz6TVvUEz7rqYOQUQTHt5vNusye
- dtIU+VCzGWETt+YmozzMCrpERZlPwgUDFJbiovfp3kISVcOabdw7hTPt6LhhLcDqA48R2rNzJNI
- iTNur4J6kJ+8Fng==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=Gt3XaU1C c=1 sm=1 tr=0 ts=6adb3378 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
- a=0Wdk4a6BYWEShyIiZzoA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: -6JaJzNHT1tWG7AlOekaW_Pco4__YJcq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDAzOSBTYWx0ZWRfX7nOWu1K4OLCz
- Vbm5q6SY8AkErS7NFAbC0B1w4kzEeFy+CD1udii6o8RhEGUg8jKzu/4KozaFtrMB3392R2ARwyQ
- ILt+CVfyQyj91rfECZtpi1/gGFQX8j8BiI+b06dxRdFoV9PCT2kj521nQZ7adVJOjsQiGHRALbu
- 2tQyJKyixkDd/bT8z0pXTBN9nXGVSsIDHgbYZXBsseeX9PdBSmqJ35236unqHTaMqge7wb0eiT0
- JBa8z/lz2+P8cN/guInHCFfibqVV7dXrtNWyWf2YApB1FPepXTh+md6APsGSyNq9WUH97oVdC03
- xxaD5ItgHgkP7/k22ZGHV3Fu5+5fO1Y7LVV2VKXYM+yXfVkR9vGA/U8QFgADpeWpkFbl/ighNER
- XGqpzja0W7lfYAWU3i3+OA1G0GIIp3k+MmqUQhPo0XSC2jWXvUMWTTqVIfOsAtmwOvCYX6WL1/n
- TV1NNmgMQjO3//svv5g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDAzOSBTYWx0ZWRfX3pz2yA/OMbRc
- gTNYUuFSNDKZpBdUmVwv18KGIxzrmQZG26t3+jVwq9YT5uh/eCkErCNwF5x48Z3P6HmiIiDfzq5
- VAvA6P7uucFVl/h4/9NM/rdPsQo7DA0=
-X-Proofpoint-ORIG-GUID: -6JaJzNHT1tWG7AlOekaW_Pco4__YJcq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-23_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 adultscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610230039
+Subject: Re: [PATCH RFC 01/16] clk: Propagate rate programming failures
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Mike Tipton <mike.tipton@oss.qualcomm.com>, 
+ Taniya Das <taniya.das@oss.qualcomm.com>, linux-clk@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20261014-topic-qc_clk_dvfs-v1-1-3041b788e9f7@oss.qualcomm.com>
+References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
+ <20261014-topic-qc_clk_dvfs-v1-1-3041b788e9f7@oss.qualcomm.com>
+Date: Fri, 23 Oct 2026 12:35:03 +0200
+Message-Id: <179275170360.4070168.921683102015750189.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=12419; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=9ddwNc90aouSZs62t2T/GwcdDeP+ivazP5j0kqFYglo=;
+ b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFm3LaK2Bbtq1t9e//7ihSt7b5XNP8h07on3N82tovl3n
+ ln1+DpGdpSyMIhxMciKKbLUcFeLv5PU+jJrus5tmDmsTCBDGLg4BWAi2z0ZGc6tNFu1lGHjdO+H
+ RYIRH2vSzCRXX3iyVMvgfLzlxlmrunwZ/lm/eafgdjCP98sn3itXFHf/zddf8DJz0eomD04tyRf
+ NPkwA
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Extend the device flag accessors with a test-and-clear operation.
+> The clock rate-change walk ignores runtime PM, temporary prepare and
+> enable, and provider programming failures. clk_set_rate() can therefore
+> report success after a provider rejected the operation, while later
+> clocks in the affected tree continue to be programmed. Consumers can
+> then proceed with a configuration that was never successfully applied.
+> 
+> A failed parent switch must not leave the software topology pointing at
+> the rejected source or release the old parent's references. Likewise,
+> rate notifiers must not announce success before the whole walk succeeds,
+> or lose their ABORT notification when a PRE notifier vetoes the change.
+> 
+> Propagate errors and stop the walk at the first failure. Keep topology,
+> temporary references, and terminal notifications consistent with the
+> outcome.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- include/linux/device.h | 4 ++++
- 1 file changed, 4 insertions(+)
+I agree with the need and direction of this change in general.
+I was actually trying out some ideas for the framework and stumbled on
+the same problem.
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 429e39f647cf907d2a9868878d1f89526345c3cd..f31fd62dca9a89c1c9ad565b1cd673b71b740faf 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -822,6 +822,10 @@ static inline void dev_assign_##accessor_name(struct device *dev, bool value) \
- static inline bool dev_test_and_set_##accessor_name(struct device *dev) \
- { \
- 	return test_and_set_bit(flag_name, dev->flags); \
-+} \
-+static inline bool dev_test_and_clear_##accessor_name(struct device *dev) \
-+{ \
-+	return test_and_clear_bit(flag_name, dev->flags); \
- }
- 
- __create_dev_flag_accessors(ready_to_probe, DEV_FLAG_READY_TO_PROBE);
+https://github.com/jbrun3t/linux/commit/c5de3ef09e6d38efc5d930befbe155eaca07884b
+
+Your change covers a few cases I missed but duplicates a bit of code.
+I'm sure we can work something out :)
+
+> 
+> Assisted-by: LLM
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  drivers/clk/clk.c      | 163 +++++++++++++++++++++++++++++++++++++------------
+>  drivers/clk/clk_test.c |  16 ++++-
+>  2 files changed, 138 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 4d2cc86bfbeb..95669775f8cd 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -84,6 +84,7 @@ struct clk_parent_map {
+>   *                     clk_core->rate every time the clock is reparented, and
+>   *                     when we're doing the orphan -> !orphan transition.
+>   * @new_rate:          New rate to be set during a rate change operation.
+> + * @old_rate:          Rate before the current rate change operation.
+>   * @new_parent:        Pointer to new parent during parent change. This is also
+>   *                     used when a clk's rate is changed.
+>   * @new_child:         Pointer to new child during reparenting. This is also
+> @@ -130,6 +131,7 @@ struct clk_core {
+>  	unsigned long		rate;
+>  	unsigned long		req_rate;
+>  	unsigned long		new_rate;
+> +	unsigned long		old_rate;
+>  	struct clk_core		*new_parent;
+>  	struct clk_core		*new_child;
+>  	unsigned long		flags;
+> @@ -2163,11 +2165,14 @@ static void clk_reparent(struct clk_core *core, struct clk_core *new_parent)
+>  	core->parent = new_parent;
+>  }
+>  
+> -static struct clk_core *__clk_set_parent_before(struct clk_core *core,
+> -					   struct clk_core *parent)
+> +static int __clk_set_parent_before(struct clk_core *core,
+> +				   struct clk_core *parent,
+> +				   struct clk_core **old_parent)
+>  {
+>  	unsigned long flags;
+> -	struct clk_core *old_parent = core->parent;
+> +	int ret;
+> +
+> +	*old_parent = core->parent;
+>  
+>  	/*
+>  	 * 1. enable parents for CLK_OPS_PARENT_ENABLE clock
+> @@ -2191,14 +2196,24 @@ static struct clk_core *__clk_set_parent_before(struct clk_core *core,
+>  
+>  	/* enable old_parent & parent if CLK_OPS_PARENT_ENABLE is set */
+>  	if (core->flags & CLK_OPS_PARENT_ENABLE) {
+> -		clk_core_prepare_enable(old_parent);
+> -		clk_core_prepare_enable(parent);
+> +		ret = clk_core_prepare_enable(*old_parent);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = clk_core_prepare_enable(parent);
+> +		if (ret)
+> +			goto disable_old_parent;
+>  	}
+>  
+>  	/* migrate prepare count if > 0 */
+>  	if (core->prepare_count) {
+> -		clk_core_prepare_enable(parent);
+> -		clk_core_enable_lock(core);
+> +		ret = clk_core_prepare_enable(parent);
+> +		if (ret)
+> +			goto disable_ops_parents;
+> +
+> +		ret = clk_core_enable_lock(core);
+> +		if (ret)
+> +			goto disable_migration_parent;
+>  	}
+>  
+>  	/* update the clk tree topology */
+> @@ -2206,7 +2221,18 @@ static struct clk_core *__clk_set_parent_before(struct clk_core *core,
+>  	clk_reparent(core, parent);
+>  	clk_enable_unlock(flags);
+>  
+> -	return old_parent;
+> +	return 0;
+> +
+> +disable_migration_parent:
+> +	clk_core_disable_unprepare(parent);
+> +disable_ops_parents:
+> +	if (core->flags & CLK_OPS_PARENT_ENABLE)
+> +		clk_core_disable_unprepare(parent);
+> +disable_old_parent:
+> +	if (core->flags & CLK_OPS_PARENT_ENABLE)
+> +		clk_core_disable_unprepare(*old_parent);
+> +
+> +	return ret;
+>  }
+>  
+>  static void __clk_set_parent_after(struct clk_core *core,
+> @@ -2232,11 +2258,12 @@ static void __clk_set_parent_after(struct clk_core *core,
+>  static int __clk_set_parent(struct clk_core *core, struct clk_core *parent,
+>  			    u8 p_index)
+>  {
+> -	unsigned long flags;
+>  	int ret = 0;
+>  	struct clk_core *old_parent;
+>  
+> -	old_parent = __clk_set_parent_before(core, parent);
+> +	ret = __clk_set_parent_before(core, parent, &old_parent);
+> +	if (ret)
+> +		return ret;
+>  
+>  	trace_clk_set_parent(core, parent);
+>  
+> @@ -2247,10 +2274,10 @@ static int __clk_set_parent(struct clk_core *core, struct clk_core *parent,
+>  	trace_clk_set_parent_complete(core, parent);
+>  
+>  	if (ret) {
+> -		flags = clk_enable_lock();
+> +		unsigned long flags = clk_enable_lock();
+> +
+>  		clk_reparent(core, old_parent);
+>  		clk_enable_unlock(flags);
+> -
+>  		__clk_set_parent_after(core, old_parent, parent);
+>  
+>  		return ret;
+> @@ -2312,6 +2339,7 @@ static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
+>  	struct clk_core *child;
+>  
+>  	core->new_rate = new_rate;
+> +	core->old_rate = core->rate;
+>  	core->new_parent = new_parent;
+>  	core->new_parent_index = p_index;
+>  	/* include clk in new parent's PRE_RATE_CHANGE notifications */
+> @@ -2420,13 +2448,20 @@ static struct clk_core *clk_propagate_rate_change(struct clk_core *core,
+>  						  unsigned long event)
+>  {
+>  	struct clk_core *child, *tmp_clk, *fail_clk = NULL;
+> +	unsigned long old_rate = core->rate;
+> +	unsigned long new_rate = core->new_rate;
+>  	int ret = NOTIFY_DONE;
+>  
+> -	if (core->rate == core->new_rate)
+> +	if (event != PRE_RATE_CHANGE)
+> +		old_rate = core->old_rate;
+> +	if (event == POST_RATE_CHANGE)
+> +		new_rate = core->rate;
+> +
+> +	if (old_rate == new_rate)
+>  		return NULL;
+>  
+>  	if (core->notifier_count) {
+> -		ret = __clk_notify(core, event, core->rate, core->new_rate);
+> +		ret = __clk_notify(core, event, old_rate, new_rate);
+>  		if (ret & NOTIFY_STOP_MASK)
+>  			fail_clk = core;
+>  	}
+> @@ -2454,17 +2489,17 @@ static struct clk_core *clk_propagate_rate_change(struct clk_core *core,
+>   * walk down a subtree and set the new rates notifying the rate
+>   * change on the way
+>   */
+> -static void clk_change_rate(struct clk_core *core)
+> +static int clk_change_rate(struct clk_core *core)
+>  {
+>  	struct clk_core *child;
+>  	struct hlist_node *tmp;
+> -	unsigned long old_rate;
+>  	unsigned long best_parent_rate = 0;
+>  	bool skip_set_rate = false;
+> -	struct clk_core *old_parent;
+> +	bool rate_ungated = false;
+> +	bool parent_enabled = false;
+> +	struct clk_core *old_parent = NULL;
+>  	struct clk_core *parent = NULL;
+> -
+> -	old_rate = core->rate;
+> +	int ret = 0;
+>  
+>  	if (core->new_parent) {
+>  		parent = core->new_parent;
+> @@ -2474,53 +2509,83 @@ static void clk_change_rate(struct clk_core *core)
+>  		best_parent_rate = core->parent->rate;
+>  	}
+>  
+> -	if (clk_pm_runtime_get(core))
+> -		return;
+> +	ret = clk_pm_runtime_get(core);
+> +	if (ret)
+> +		return ret;
+>  
+>  	if (core->flags & CLK_SET_RATE_UNGATE) {
+> -		clk_core_prepare(core);
+> -		clk_core_enable_lock(core);
+> +		ret = clk_core_prepare(core);
+> +		if (ret)
+> +			goto runtime_put;
+> +
+> +		ret = clk_core_enable_lock(core);
+> +		if (ret) {
+> +			clk_core_unprepare(core);
+> +			goto runtime_put;
+> +		}
+> +		rate_ungated = true;
+>  	}
+>  
+>  	if (core->new_parent && core->new_parent != core->parent) {
+> -		old_parent = __clk_set_parent_before(core, core->new_parent);
+> +		ret = __clk_set_parent_before(core, core->new_parent,
+> +					      &old_parent);
+> +		if (ret)
+> +			goto cleanup;
+>  		trace_clk_set_parent(core, core->new_parent);
+>  
+>  		if (core->ops->set_rate_and_parent) {
+>  			skip_set_rate = true;
+> -			core->ops->set_rate_and_parent(core->hw, core->new_rate,
+> +			ret = core->ops->set_rate_and_parent(core->hw, core->new_rate,
+>  					best_parent_rate,
+>  					core->new_parent_index);
+>  		} else if (core->ops->set_parent) {
+> -			core->ops->set_parent(core->hw, core->new_parent_index);
+> +			ret = core->ops->set_parent(core->hw,
+> +						    core->new_parent_index);
+>  		}
+>  
+>  		trace_clk_set_parent_complete(core, core->new_parent);
+> -		__clk_set_parent_after(core, core->new_parent, old_parent);
+> +		if (ret) {
+> +			unsigned long flags = clk_enable_lock();
+> +
+> +			clk_reparent(core, old_parent);
+> +			clk_enable_unlock(flags);
+> +			__clk_set_parent_after(core, old_parent,
+> +					       core->new_parent);
+> +			goto cleanup;
+> +		}
+
+This is the rollback of __clk_set_parent() again. clk_change_rate() has
+its own copy of the parent switch, which is how the error handling got
+lost in the first place. I'd rather have clk_change_rate() call
+__clk_set_parent() so there is one place to get right.
+
+> +
+> +		__clk_set_parent_after(core, core->new_parent,
+> +				       old_parent);
+>  	}
+>  
+> -	if (core->flags & CLK_OPS_PARENT_ENABLE)
+> -		clk_core_prepare_enable(parent);
+> +	if (core->flags & CLK_OPS_PARENT_ENABLE) {
+> +		ret = clk_core_prepare_enable(parent);
+> +		if (ret)
+> +			goto cleanup;
+> +		parent_enabled = true;
+> +	}
+>  
+>  	trace_clk_set_rate(core, core->new_rate);
+>  
+>  	if (!skip_set_rate && core->ops->set_rate)
+> -		core->ops->set_rate(core->hw, core->new_rate, best_parent_rate);
+> +		ret = core->ops->set_rate(core->hw, core->new_rate,
+> +					  best_parent_rate);
+>  
+>  	trace_clk_set_rate_complete(core, core->new_rate);
+>  
+>  	core->rate = clk_recalc(core, best_parent_rate);
+>  
+> -	if (core->flags & CLK_SET_RATE_UNGATE) {
+> +cleanup:
+> +	if (rate_ungated) {
+>  		clk_core_disable_lock(core);
+>  		clk_core_unprepare(core);
+>  	}
+>  
+> -	if (core->flags & CLK_OPS_PARENT_ENABLE)
+> +	if (parent_enabled)
+>  		clk_core_disable_unprepare(parent);
+>  
+> -	if (core->notifier_count && old_rate != core->rate)
+> -		__clk_notify(core, POST_RATE_CHANGE, old_rate, core->rate);
+> +	if (ret)
+> +		goto runtime_put;
+>  
+>  	if (core->flags & CLK_RECALC_NEW_RATES)
+>  		(void)clk_calc_new_rates(core, core->new_rate);
+> @@ -2533,14 +2598,22 @@ static void clk_change_rate(struct clk_core *core)
+>  		/* Skip children who will be reparented to another clock */
+>  		if (child->new_parent && child->new_parent != core)
+>  			continue;
+> -		clk_change_rate(child);
+> +		ret = clk_change_rate(child);
+> +		if (ret)
+> +			goto runtime_put;
+>  	}
+>  
+>  	/* handle the new child who might not be in core->children yet */
+> -	if (core->new_child)
+> -		clk_change_rate(core->new_child);
+> +	if (core->new_child) {
+> +		ret = clk_change_rate(core->new_child);
+> +		if (ret)
+> +			goto runtime_put;
+> +	}
+>  
+> +runtime_put:
+>  	clk_pm_runtime_put(core);
+> +
+> +	return ret;
+>  }
+>  
+>  static unsigned long clk_core_req_round_rate_nolock(struct clk_core *core,
+> @@ -2613,7 +2686,14 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
+>  	}
+>  
+>  	/* change the rates */
+> -	clk_change_rate(top);
+> +	ret = clk_change_rate(top);
+> +	if (ret) {
+> +		__clk_recalc_rates(top, true, 0);
+
+update_req = true sets req_rate to the current rate for top and every
+clock below it. Those clocks did not ask for that rate, and a later
+range change would take them back to it. Please don't touch req_rate
+on failure.
+
+> +		clk_propagate_rate_change(top, ABORT_RATE_CHANGE);
+
+The walk stops at the first failure, but by then some clocks have been
+programmed, and the clocks below them are dragged along. They all get
+ABORT_RATE_CHANGE although their rate did change. The clocks after the
+failure also miss their set_rate(), although their parent moved. I
+think the walk should carry on with the siblings of the failing clock,
+and a notifier should be told what really happened: POST when the rate
+changed, ABORT when it did not.
 
 -- 
-2.47.3
+Jerome
 
