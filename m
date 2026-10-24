@@ -1,80 +1,144 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.159
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790962;
-	b=laIPcqP1JoAdA6Mgv5p81r/Orf2O7j3YEL6UZprDBULQkgyrwfXn1SHsrDkAjE4z/ruH
-	 L55Od5r5Ncg4WzELdarsFuy7EDzCP45om1fmX6jObOLvFFO4MiNZr+zYSJnxOrSBmFdoA
-	 8x+AThnyYLQOdmLPGCfxOgq8UUQ6G2VIQQlNoX+BWW0ijHgReDVc2MCIshO22qKxiNwWn
-	 xBylhoPWfBNYS8eDI9H1b8uk08MNkof4FB0uNPoVHjcrX/4qTUwcbkZex/NXx8DyidYpp
-	 IQa4Rg2Sh8mbe/RbKK1Nk7pgNZhBDLLL+XnMt5f5Lq0r7V1reFC06Oobz5I6c2kWRHg==
+	t=1792800816;
+	b=nMupNkI2veze+fEE6J/b6ys0aCMNocKJliZlvAMLPhuhHmIYnJ1BkP4E/KSliOgIxKRs
+	 cx1yIZRLZbMmDjm3tCRki60T7pFqUlCaPEPHzUKk05iofpl8a649jIKNiYvxjrXqvqn7g
+	 LHAOi/0YXgkm5Y1/3CmF/Xo8gSGNN5T5/oCN4CWo5zcXkJBlpvxns3AyoVjzuW3CkAYrg
+	 /XSi5wA9P+1i41VFTaXHicsJ6v56oxsEjM1af+dTEbjZoBEVHox+XQ2t8IpvIJm/vt/kO
+	 /acFiMH4irSFeYPAB/pHAn4JFIjwuDqZo2cmsfpX9yV6GPw/esnX5SST6dfNve/yO6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790962;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=P8r/Csn/92j4h8MtHtX1sZoBvM1beEuyAAhxjMFapGU=;
-	b=icH0OH/B43x0ai6hLpRZgE19XZxWoEQMWsxJg5fhfSwEAptOiLBvmvtjSdFr9maZrq/f
-	 zuRxq2FjIuXPY/SKFm0n7Irl9A/8GbIlGfuIn23Rvjv9QrBoIGfBJ+j+VNmVFmo/SxZb1
-	 yLAktlZ76j7yWq8k/InwDRZcjGwJWZTNYehgMWCz/QkXsdpvWXDQUMDRnSCR93fJYJFm+
-	 vL67YZiB7nkyZ4IXFDqf/73tzNZhNuXSZpQqDZnoM4+jF0N7ZZKbOC+Isy4iswr5HOqvv
-	 hPSd381PzSIMGRa6b73cA+bhPKoYllGynzbXXKWO0IVFcoMHaEzo+BuqZigOUDhlL+w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792800816;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=KXFOfYSmcm/nqozKsRvJkrnKm9hqQgkrKRLJdZRJ9Zg=;
+	b=l64D1that/LndW+DXaG4dJlyBofpyKKbhb595wKZTTrHkBCMMxkYDk/zpk9kJAgEyL/E
+	 dIhzJ/oYlZNlW8cHLnEt5lHzdF8OKBEuaMtaoTh/iFCZCBAls0l0mHUT6rTqBZTp5RAVp
+	 PIQv23uQsV3ojoLNj2908efgUV36sjg3KHJnomc4ECPOUqraWJ13vUJgrqo16GbVqvKik
+	 CLVVrhhWDL85wk7pZIX3yAt+Eh3ZqOYuw5D07+6tVaQYXUpZzR/4i3mNNkykg+zGHjKe9
+	 BS0K5vE375of5OCfx/wMMswu9/e5j1cBLX6FlsBHmOzfjUFHwBCXJaoqkJXf3gkoKtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=Cv9qmTOd;
-	arc=none smtp.remote-ip=195.121.94.186
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=Mw9OlgmY;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=q6nthQQ7;
+	arc=none smtp.remote-ip=103.168.172.159
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF312606A31E
-	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 21:29:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF312606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9014D606A320
+	for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 00:13:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9014D606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=Cv9qmTOd
-X-KPN-MessageId: c83ea5f0-cf28-11f1-87e5-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.190])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id c83ea5f0-cf28-11f1-87e5-00505699b430;
-	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id c83dac1e-cf28-11f1-a8ab-0050569977a2;
-	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=P8r/Csn/92j4h8MtHtX1sZoBvM1beEuyAAhxjMFapGU=;
-	b=Cv9qmTOdqfL9hpKDjDDeRhSW+jMdxGpjw5yoMBp7Dw3ot7ZsadfOJ+/LgbxsYYNGHgSSi4rW0kZEb
-	 STgzOljDaEM+voHExGKw618OMl7IigX1EiUt9I+SNRTOZ+yKxgZHzua+0LcLmqyS13vmv1f8IGur80
-	 hFmxkhCo9kvU2QfHuCFIePvidKEYaGXrKuEfv2eMKfSY/rRkrEvTJ1dS3H43rUGA9SgHZF5fe/jB8i
-	 BKTrVyiifXfyIxwh6UTP0Ah82TbeROVKwf+GOj955nUYJjOzeCCI9Ce3atB+Xf4mWlZc/zA0X/cqG9
-	 FPuNPa3YBzkq8o3mYLgFVtMZEyfci8g==
-X-KPN-MID: 33|1IzAEM6rixJ+Yc595J1FUe0NB+J4eIXJuyF9t9cRGlboL+T2pvIhzimUEjN7av8
- Oy6sJHeKyAQQdxtPBm/jEb/e68SHFGrtc2DtrCD9vBa0=
-X-CMASSUN: 33|hsnx0XdPDNSjIeH+evRzrTLkxbIwPEYQkvUHp9XVoxbyrzMy6+d7WmjjUDON01c
- uxoxT+DnmkYxVF4FyEYbObg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id c8381e70-cf28-11f1-a030-005056995d6c;
-	Fri, 23 Oct 2026 23:29:09 +0200 (CEST)
-Date: Fri, 23 Oct 2026 23:29:08 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, Christian Brauner <christian@brauner.io>,
-	Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Message-ID: <1780856356.2118300.1792790948991@kpc.webmail.kpnmail.nl>
-In-Reply-To: <ataWrUkD-rqeoFcV@linux.dev>
-References: <20261016220029.3276154-1-shakeel.butt@linux.dev>
- <atUkrrdfu_ihfmZ8@daedalus> <ataWrUkD-rqeoFcV@linux.dev>
-Subject: Re: [PATCH v3] kernfs: allocate inodes and dentry outside
- kernfs_rwsem
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=Mw9OlgmY;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=q6nthQQ7
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B9FE11400140
+	for <driver-core@lists.linux.dev>; Fri, 23 Oct 2026 20:13:34 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Fri, 23 Oct 2026 20:13:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1792800814;
+	 x=1792887214; bh=KXFOfYSmcm/nqozKsRvJkrnKm9hqQgkrKRLJdZRJ9Zg=; b=
+	Mw9OlgmYn+Eo2VbqLzZGaYnUMEQxiL3T6RCTpyn6qoqp/H9hHKWDAghGtQ4VFdL/
+	HKEDPYzJSm06vJHPT5ChkvntkucioTqXNM2cfJewtlq0i1DS2yKHaeEy9i+FMQxb
+	Lr2/HRcRZQQAZOVT9KBSCn3kMiIZAlidwyK8eyPUGsSRPfH9BLJW2srQqn+hCw5y
+	GrrIrytS5PUZRosWM3L9uARdgwQ3sAl2OUP2DBJ5CXTjsr5plEWz3PZ9JXABu9p3
+	HczVFRDgAJiWx9ECBnaD/zRbswtr9cbixNOCnqDjk6s632EOA8/H7WirgoYReyx8
+	EVOcnwst2Gz0h2fXg083DA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792800814; x=
+	1792887214; bh=KXFOfYSmcm/nqozKsRvJkrnKm9hqQgkrKRLJdZRJ9Zg=; b=q
+	6nthQQ7hbTMADEAgYYu9SIogjbLOyTJp2EcWuOw2ckwz0EPFmHmWocGFBXv8vozP
+	YDohiP64xCuHAZYqbUZY8C0CSW/ay8GYDq+2fJ0fngDqezpqEwEtndR8+JBI97t4
+	cnsIiEeVcu7CBLARdnXJCUnweoLapMgPRS9sjNKan5jAkM279gfTadk4Ygze/1RW
+	vSchyDuTFnXDsQ0d+IK5hJxQK5hPD9jjM62PnldhlFnV8fphmSojZRLxu7sjyMxv
+	53bFqWI7OgZyqwgt+bjbd5zk4ks22EgpsBHskorY6W/2RB3cs63Gt6CHqIfR9qzp
+	/l+Q6GtbsDQlzKSmF3KAg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792800814; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:od14UGzVvQvkjDLlc7MvuXcyWS2ajTbYMZbsFlIQqx7zCz+
+	uovyb6Z1omV90by03gOYnsAFF+1XdxrU5zqRxLGD1ZNDriHpRaIp5SSKSjoK7MGD
+	jU2PmSUrdytF/HoF5/wxahk5SRxqHEuX9FdQND4eZYhWWLqYYaAxQEX/lQvR1c5N
+	NO3w54auZgZ26utROIFjoe6dqWsWpoU2dc+pC9vHbTWP3uIydAPUmvno8S+jBoRH
+	iyuzYV7jIdBUhqMt3s0+aNXLTjxHiV6x0dkOqfwFvuayl2wOHjPJmOMRUOYRBcmy
+	tpd0JJZaLrRBQtcjLxVuSKc/1xg6GxHuCob4tMA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:fbDSgu4IuIlRwCSfp14xCHBk/dW9HMB/tpEky1iDgFo=:HtC2x/W+mhOUzEMx88qx+TWfPeeNPz7Gi6Zev7TMGYw=;
+X-ME-Sender: <xms:LPjbatttz8QhTK4k9bD6wQHJHHPtsi-iO05PoRZwMZ8Dd6WtQyGvJQ>
+    <xme:LPjbanORW5r1bOsNIQ4QjD_7R9Fc0diUysf0qE2ahRcb3SAUgO5oZEy99rqrDsE7t
+    btp7pz67sl2tMESRNbOoihnZcCHgBIk_fuRuo5gIs_fON8jpuKUdlU>
+X-ME-Received: <xmr:LPjbappvc_varJ5xnyfDnFXx27eEt8sVsq83iCaZLU00GQqwgQxdjusk225DLg>
+X-ME-Proxy-Cause: dmFkZTEjdLj0dCavdwlLRNFAYY47iT4nSX5hlN05c5GDlCu2LvbuPP3rByLWOcZIFIaP39
+    Pdqx1jhL6T3cQCion/F1Ivz4fT5V5TT4ysAcp2WwMi62rg+PLftoWF6LgHwa4oHdQf6dDs
+    eQZt8g659CBYxp7boPVLFg/S0aIJ5NyY8Ce1kPfdXAZBUoDWKMExykZbpyqm+/hWAUW0os
+    FrAYTPOJcIpSIT8/dS/spkSs8slLEb5PbbNcJZ8Rg38HTsQ6DmAXGQc0nlPerQYxfexhyn
+    Pr41HIi5MrIE4rVBGeEhKtL5iA5cfuiAu8OPcQSUTvuOzSIncVUlWfRoNGv/Al5IMl0UX3
+    vRML+fnRjDdo6V3cbp3WpfP0YjiCqmQ8uKIMzPfQORibmRlOYc9SjXbwJs0Xl+Ym3wLEED
+    se2ajxXHVuexnbjMeTVubVQgXn/OlCefy5RA4J9bx/h3nKKCMtQqt39Y8BclKR+fAAX2Er
+    s9glqWq43aq1Sd5uUpORLMCK+sojlL/RszUzZkaYXHBeNcZ7D/0Ifg23r0bTYi56hGGhd3
+    dGxKTcWTiwPIxS3dkmAdabrkUdMNz5lDWeSi6g0R1g8KsP7YPM6Sjuil/mhOqvuki4pBUo
+    fc6x7VQeW6bZ9GuNGZ1NfkdOcKWL/Mn2xLFGd8kyWx1ZdbmONXknSE2LirAw
+X-ME-Proxy: <xmx:LPjbasF2AXoiVFfLElxv0tQuMsxX9MQc9AJZIE8jDKJI_eJ5uGR-HQ>
+    <xmx:LPjbatE4D_ZiQl3hq7tKDfIjDPovuLWbdSOUz2ZpjeRK3O-KFB4H-Q>
+    <xmx:LPjbarJmRmffxwsvVU6ku03bDVdbljOJ9iccpF6Hb2Ct46ZiQDGP2A>
+    <xmx:LPjbamFgKkN9okE52IGBWRLSdZ0czndwFeZcSr-sNkYtx0Zkj3WRFQ>
+    <xmx:LvjbaqoS3prqVlVQp05MgXnemZ7CB_V6Tk-ltPFPezRVT7DVcd-g96o2>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 23 Oct 2026 20:13:30 -0400 (EDT)
+Date: Fri, 23 Oct 2026 18:13:26 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, Danilo
+ Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Petr
+ Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami
+ Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh
+ <nogikh@google.com>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Thierry Reding
+ <thierry.reding@kernel.org>, alex@shazbot.org, Jason Gunthorpe
+ <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261023181326.0dc2f7ed@shazbot.org>
+In-Reply-To: <2026092348-victory-erased-0e5a@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+	<DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+	<arIvG0nx4LXG9nlW@monoceros>
+	<defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+	<2026092321-province-yearly-44aa@gregkh>
+	<arOfHEsGGglNse7T@monoceros>
+	<2026092348-victory-erased-0e5a@gregkh>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -85,86 +149,69 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Transfer-Encoding: quoted-printable
 
-Hi Shakeel,
+On Wed, 23 Sep 2026 12:29:56 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-> Op 19-10-2026 19:34 EDT schreef Shakeel Butt <shakeel.butt@linux.dev>:
-> 
->  
-> Hi Jori and thanks a lot for taking a look.
-> 
+> On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > > No, drivers should NOT have to do that in their .probe() function,
+> > > that's what we moved away from decades ago!  The match function should
+> > > handle all of that for you, otherwise it's contant duplication
+> > > everywhere that is unneeded. =20
+> >=20
+> > Well then you have to accept that root can provoke a null pointer
+> > exception (e.g. by forcing the pwm-tegra driver on a device) because at
+> > least with today's platform bus match function such a match is ok. =20
+>=20
+> Agreed, yes, root can cause a crash and can do tons of horrible things
+> much worse than this, that's not the issue.
+>=20
+> That's why this taint is there, to make it obvious that this is not a
+> "real" bug at all.
+>=20
+> > > Please, learn from our history, don't make the same mistakes.
+> > >=20
+> > > Now I might be convinced that driver_override is the way to go here, =
+but
+> > > it still feels really odd as again, bind/unbind was created as a driv=
+er
+> > > debugging option only, it should NOT be a normal operation that any u=
+ser
+> > > should rely on.  The driver should "just work" properly instead, with=
+out
+> > > requiring manual bind work, as that's not a good model at all. =20
+> >=20
+> > I agree in principle, but (in my case wifi) drivers are buggy sometimes
+> > (due to missing documentation and/or engineering effort) and being able
+> > to rebind the driver instead of rebooting to get a working device again
+> > is very useful. =20
+>=20
+> Fine, use it!  Just don't expect that to be "normal".
+>=20
+> > So yes, theoretically bind/unbind isn't needed, but theory and practise
+> > differ in practise. =20
+>=20
+> Agreed, but again, don't rely on this as a "real" solution fo ranything.
 
-You're welcome! Thanks for looking into this.
+Sorry, late to the party, but this isn't a few user scripts that rely
+on this behavior.  Effectively every use case of vfio relies on this
+behavior.  We rely on unbinding the default driver from the device
+before using driver_override and drivers_probe.  That means every
+hypervisor with device assignment and every userspace driver use case
+now experiences a tainted kernel. That seems like a significant
+regression.
 
-> > 
-> > I understand this is intended to have some kind of ownership semantics,
-> > but I must say for such a simple function, I find the contract quite
-> > complex to check. Do we really need an out parameter here?
-> 
-> Not really. I just used it simply call iput(new) without a check. I can change
-> it and make it more like inode_insert5() and let caller do check before calling
-> iput().
-> 
+There is currently no alternative for this process.  It's not a matter
+of upgrading to a newer kernel where the drivers claim the device IDs.
+We can't claim the device ID, vfio drivers represent a secondary use
+case for the device.
 
-I'd prefer no out parameter then. I actually need the same function, more or less.
-My problem is that I want inode allocation before calling scops->mkdir, so that
-if that goes -ENOMEM, then we don't create the directory. However, since I can
-expect that there's not going to be an inode present, the ilookup is not needed.
-So I guess I need a kernfs_get_inode_locked_fast() or something.
+A production use case of panic_on_taint now results in a hard failure
+for a scenario that has been allowed and documented as best practice
+for many years.
 
-But also, shouldn't we just replicate the structure of iget5_locked() here? Except
-that we pass in an allocated inode. We invoke a lot more code if we rely on iput()
-instead of destroy_inode(). Then maybe we need to use alloc_inode() instead of
-new_inode() as well.
+What's the solution we can pursue for the scenario where devices have
+dual use cases between in-kernel drivers and userspace drivers?  Thanks,
 
-> > 
-> [...]
-> > > @@ -294,7 +298,7 @@ static int kernfs_fill_super(struct super_block *sb, struct kernfs_fs_context *k
-> > >  {
-> > >  	struct kernfs_super_info *info = kernfs_info(sb);
-> > >  	struct kernfs_root *kf_root = kfc->root;
-> > > -	struct inode *inode;
-> > > +	struct inode *inode, *new;
-> > >  	struct dentry *root;
-> > >  
-> > >  	info->sb = sb;
-> > > @@ -314,10 +318,12 @@ static int kernfs_fill_super(struct super_block *sb, struct kernfs_fs_context *k
-> > >  	sb->s_shrink->seeks = 0;
-> > >  
-> > >  	/* get root inode, initialize and unlock it */
-> > > +	new = new_inode(sb);
-> > >  	down_read(&kf_root->kernfs_rwsem);
-> > > -	inode = kernfs_get_inode(sb, info->root->kn);
-> > > +	inode = kernfs_get_inode_locked(sb, info->root->kn, &new);
-> > 
-> > What are you serializing against here? I've been looking at this as well
-> > recently, and I thought we could just get rid of the locking here. But
-> > on second look, I am not so sure what is correct.
-> > 
-> > Is there anything that serializes kernfs_get_tree() with root node
-> > removal?
-> 
-> That is a good question and honestly I didn't know the answer. After digging a
-> bit, I think 07/12 patch [1] of your series is right.
-> 
-> Superblock is still private here and it is added to the supers list after
-> kernfs_fill_super. Root removal is not serialized by kernfs and kernfs users
-> keep the root alive across the mount.
-> 
-
-I am not sure that last statement is true for all kernfs users. I will have to
-verify.
-
-> I can drop the kernfs_fill_super change from my patch and I think your patch
-> will cover it better.
-> 
-
-OK.
-
-> [1] https://lore.kernel.org/20261016143806.2946578-8-jkoolstra@xs4all.nl
-
-Best,
-Jori.
+Alex
