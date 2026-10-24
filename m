@@ -1,146 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.192
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792859727;
-	b=JiQYJo358XcqMejdfR7d+gYIYd7q8D2HQvIXXNHBiZHQ1FkFu+D9K+fOIaDeDFBwngnH
-	 /YyjPhZaZ82EuW4FbOatgX383IOwPFccIu2mpuPjsbCMFyBAlddy+t7tzKtfn47OUsnaf
-	 W9M4rdovyK2EV5NrQmZXmZ5gHRP2xseI7xJCFc/+TtMfgKx4Uicyz80n30e1Od8YYnhmC
-	 zGs7ABtnuTB1uatB4pf4mi4ve7Y8NQ7lhC3biIZJ7nRurRnaZ6rApNHigFgFn+BpGz6l/
-	 HQpSM8EtAQUlpWqY4wFtFnMnmFjNB9xJC3eBzN/+37CjZY8MbLRy00+IoqFzWhZEJXg==
+	t=1792863596;
+	b=2TVdOAFcO1fb3bSvv59acl1LCAEFCBxelVeH45r7z2Yf05HB+zwVfYSH/JX0auAeo7N+
+	 fkzwtRxJZHsqHv2DcBCMeG6MvYkopaQxTCdhsHzc0BU3IHJTHftr4i9czD76xDEvHclDW
+	 JjnS0TLYd74oxFRXHYgEV5PQVWHxSLNt/5mQLAz4kYo2y1rd54F2htn/nV63ZePHzu5RQ
+	 fUjcJF0H2i+KwAV8gN6WGUgbEGBs+2ucF4r3L7cJ/vcGKPbGHmC2FZOyJ3NJt65Ol8JNA
+	 VdaF5sRcyS0NSk36wPRirIiPSN46D94CvDKLxYhhBLIj3Q432k5qfqZl+qKmgYms1+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792859727;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=;
-	b=nGdJqEoRzceUfa+LrDwrsvC9A1TKNn8Quc3CLY9WWaPUusIF7bpc4scysf/bvDBxX8Sq
-	 29IOm9syOhJY4jTm3z/iMlo4WQk7YKCp4uNVR+1aiBwtcDxH3bOd8mzKt8ldVhwqSS6aM
-	 P24otcus9EE1Llp0pCzJTNe1iAR2BZ143GLuVSv0tQ1UyFbDWnwbnmEpWwKKuxOPw9iwy
-	 G0+oIVrdC9AtvFOAI7XCALsJjsRAG/aGfcFNnqUZnCvx63PGhr19LWckhotGRan5CVT79
-	 WnrpT33NjMThmJHwn8+/NZfMmUofQtbUgDgN4IJ69Q555XoP29DhBqyIadicocvQRDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792863596;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 MIME-Version;
+	bh=Kijzy9EdMhpT7YhrRfRAvZoCaEVnAEPrNMBnKqo82nY=;
+	b=TiTFt2JKi55TPIDb6ViSE2nlbjlVUbHgyPBxtDZj0VeBCMcUoCB5sannNsKH6JhpXKaa
+	 JypOx/vAalsVkhe48Q3Kd/MhSheCp6G99ZZTVtd/b5QPdD3gxScKvZmKHy1xJipAwza+s
+	 psYNr6sICgk+JL9HziidTaR1ZHFscQOnkcCqRJ1VNAnlueWoxFIxmEp6EEigHbp9sd/sM
+	 iPHGVmI0CZ8mj5OMxw4ophFsDZLXFk7vokrXnRiQx5wXdMCZIl/lN0QoZ9IZujKWQAqhq
+	 h+w1CEM3H6EMApavgDwVxzhk2YqXpGjtoAWJiCIUTLJOVE7N8Qs/2r5DZc8UaZP8N4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR;
-	arc=none smtp.remote-ip=202.12.124.146
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PZARaFnR;
+	arc=none smtp.remote-ip=91.218.175.192
+Received: from mta0.migadu.com (out-192.mta0.migadu.com [91.218.175.192])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD37606A320
-	for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 16:35:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BD37606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7044A606A31F
+	for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 17:39:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7044A606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 835BA1D00172
-	for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 12:35:21 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Sat, 24 Oct 2026 12:35:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792859717;
-	 x=1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=
-	E9TTTyuVq5dqLfibvKAUPgIg5tosgfal3gshY7YFVMEvMYBiRtsE/hVOZz+s9E/s
-	Vp2Mw+33W+xC5axSUv6LiW6jYatqKOB5v9I05nc0ybaBcpLWshDYhkElOb63LJQa
-	5mpWbHmgXLqi/jfi5yzFs5tqgdAcKZZ33LufqE1y0ccmAd5Q2UO75ZaoYMrWplpS
-	bz4023BNvDLPHdfxR8em3XXyTd/MJhW0w0KkQGIlAQRC5iVlx9GKHe0E7Fq0NizZ
-	iZMYZ9oVMwNQai85YBxlmJidCy+s/9t0+LGErr2goPyIoRxsbsUbppJam9TWjcLF
-	oebVumhwCwCnko/ixXCeTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792859717; x=
-	1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=H
-	SLmwBuRRP2v647BWrpPT4ump0Bi3DOHEEVDkCvC1Z+khtGlflWopAywI1565MjwV
-	dfRCBs0WVYow5r3uTm+/ImdcNdW0LshiNslhvGKamfXyDXu2wGqF6VjWmSfEnfi/
-	JNfA4N0+/x9qTqCtpiA1OhE2k2y6SKDSKtg477VkRWWVZKjJbH2m6GKQheurdynM
-	dySzra7q/jN+o9xrvg4bexh4ur6/psywQSDB+6zccVPfMb6ihmrBh9sHM1+0I3xn
-	SCm5yidr3P9G14p9kd5/ZLvLiVM8wpyanAwrKXZW2/Gk/QIHnShXe8LT1It9minP
-	abx4p5iwwEwtRMGlPRkNw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792859717; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:GkBnPNBFAp6Lj2lytgZPiw59Rj2b6AXznjyd/epgFVFlob5
-	7y2WdUxzJIR4oyKQ9TiNCyCE+mFr3dcBnlyQ50nWDu/nJSVAp72llm4Qtc3BEw3h
-	wkyPAE9weP8tB40NEwZN3XpK5dXgHBJOoGoioq9IPUmn9nD+s6IoyhRW74ca1q4S
-	wrNw8m1WB41hqb+i5sDTYy+GbFEFbIup/wQEzwRNfDGaikaOJJ3VspU4EsU20+fo
-	qr4ttOlTcRN/HHaaRbQFwwKsjj1eonhPapQZzvQ/YXSq1kRDJziuqKH7wJfk/TCD
-	WLJXVD2NmOtvyQ7wjVKfKMUdGydlkAsAbWzNTKQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:JnbRzMatNOWh6VYk3BtMyVistKV9n98HRh1lJrMuiyI=:s7RKaOxqLU8WzgWaRyrCiYLjCHz0idVdL2rlY3c6L5w=;
-X-ME-Sender: <xms:Q97carmA3_xGeqSlgVk8faN9acf8fxLirifsX3U9VTRqL8U5BKfszw>
-    <xme:Q97cavkNz9L4po1mV2XOeF5DcVEndKPwyd413O8HaE-Au3TPJY6jd4bkNa7yut72N
-    97rywkUVO3ReW-HI3kJIXje6Q7zWYfLxtcwtvQvJfY9JA3gINcE>
-X-ME-Received: <xmr:Q97caqjYB8YGnVQGqpVwONajta7tJM0SiEkEfbanOZY2GQp6SYfr3KgNGIfRFQ>
-X-ME-Proxy-Cause: dmFkZTF9g0HInb6yy90yfs+ss2zLTr6q9s2zMqnyVsBip2hj18csqpDRvrtfuwSbKKJdKA
-    psdh8APLESm8UW8KW01iTqR/S/iRc1Cr4qo4b5Xvo1no8IwYaEMVHtNNjO+pv3ub7J5k4n
-    szfnLzyxBxdMpJ70bAXPu417N3F0afseT87ZW2VZCtJeqMVXl3L9yeaBEZmUVots99yNm7
-    fErISCP5VUjfv2eP10lfqk0j76TstgnE+aocUeQ5nhqqoe7/7PSyPHEZtYRK9uIa37tQGz
-    daj0FHGFjc2S8vyptHVdBTYLfKS0jbo0wjNsNJchNiZajaKm6mcEi63hGrqETG70q6Q7iY
-    2aDtOSpItAChdWXVXgRsecuefI3YGiNy/5tzR+n94CkkrgWuYrfga0EBN2TZhjMAla6DB7
-    08mXSwJMEpvrbzfNCbuIDYpjIUrJSpfs4YYhH2Zk6LM4fgA0VlbnrxlpUIInldNvCwCwwi
-    nyDGoI5RTkojCyZKpoAKEA5LEZjHAv4esvgzLWW9LUsXv2W1pal6pcX0grJnNh+ICAdr3X
-    1sMnr+bWuARbAQ0lzpoLGz8HL+VysK7EfCg+SQyz8j4CTYwPdLl0USuckBMLT1ONgPXxgI
-    sblheuKLPQHtfON71CR2+i3cC7syWwmzs8IqhBPh/STaXERhx43fa5rVoGGA
-X-ME-Proxy: <xmx:Q97carfFfA4SXJtQiRgFajU4VapE3uPl5gkpqu0fLCYli2F0957kqA>
-    <xmx:RN7cao_bSBYz6_AU4G_ivQhzgNK86Q5bEAi8UShmqhP2zTqObGxUCg>
-    <xmx:RN7caphlL7Mlc8KWfZbl2GPnu19Sl2Vw9qG1uReehdpmDTVj-d9zvg>
-    <xmx:RN7cak-MaVrw-X_KHEiKfZbm9VsstGzvp_XMLnPmZEjeLXaiQ2p0gQ>
-    <xmx:Rd7canhIppUmJGzskxC_Ni_y7PxhQy9T-N5ARTumtHQB2GalI6fGR1z4>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 24 Oct 2026 12:35:13 -0400 (EDT)
-Date: Sat, 24 Oct 2026 10:35:12 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, Danilo
- Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Petr
- Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami
- Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh
- <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Richard Weinberger <richard@nod.at>, Thierry Reding
- <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- alex@shazbot.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20261024103512.4601ee4f@shazbot.org>
-In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
-	<DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
-	<arIvG0nx4LXG9nlW@monoceros>
-	<defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
-	<2026092321-province-yearly-44aa@gregkh>
-	<arOfHEsGGglNse7T@monoceros>
-	<2026092348-victory-erased-0e5a@gregkh>
-	<20261023181326.0dc2f7ed@shazbot.org>
-	<2026102437-vista-unsoiled-b089@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PZARaFnR
+X-Envelope-To: driver-core@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=ZfEMLtaMNfEqeXSdp7dnPs3+qMD4QqvgJKLt9hUIpWQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792863588; v=1; x=1793468388;
+ b=PZARaFnREmGjoUbKSjZ1tyTHw9KlCcTo9q11SHFQ5YuA3LhEkwPY1+6RaA1hx3KjiKtS8in+
+ X+2xcSTg4npo5N3HCKteRdiJss8lslX/LTL05pidb0zDQKtqLUdxNbMTPAW9MNWTGbvMe5u11u/
+ 0t8Gg/o2pS2s4HHFGyHO67PE=
+X-Envelope-To: driver-core@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id bd748e8ee187c88c;
+	Sat, 24 Oct 2026 17:39:48 +0000
+X-Mizu-Trace-ID: bd748e8ee187c88c
+X-Migadu-Flow: FLOW_OUT
+From: Igor Korotin <igor.korotin@linux.dev>
+To: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Mark Brown <broonie@kernel.org>,
+ Brandon StJohn <branstj@gmail.com>, linux-iio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v6 0/4] iio: position: add Rust driver for ams AS5600
+Date: Sat, 24 Oct 2026 18:39:46 +0100
+Message-ID: <179286358623.55649.5397316745104390556@linux.dev>
+In-Reply-To:
+ <CAO26r3QK+Q5=JR5TeMzEX-WiLpgYWd8Zn0O1qx11LxTgN96BPg@mail.gmail.com>
+References: <20261016154819.17936-1-muchamadcoirulanwar@gmail.com>
+ <179260197668.3127.18219777718091081046@linux.dev>
+ <CAO26r3QK+Q5=JR5TeMzEX-WiLpgYWd8Zn0O1qx11LxTgN96BPg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -150,180 +76,277 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 24 Oct 2026 06:56:34 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+Hi Coirul,
 
-> On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
-> > On Wed, 23 Sep 2026 12:29:56 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >  =20
-> > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-K=C3=B6nig wrote=
-: =20
-> > > > > No, drivers should NOT have to do that in their .probe() function,
-> > > > > that's what we moved away from decades ago!  The match function s=
-hould
-> > > > > handle all of that for you, otherwise it's contant duplication
-> > > > > everywhere that is unneeded.   =20
-> > > >=20
-> > > > Well then you have to accept that root can provoke a null pointer
-> > > > exception (e.g. by forcing the pwm-tegra driver on a device) becaus=
-e at
-> > > > least with today's platform bus match function such a match is ok. =
-  =20
-> > >=20
-> > > Agreed, yes, root can cause a crash and can do tons of horrible things
-> > > much worse than this, that's not the issue.
-> > >=20
-> > > That's why this taint is there, to make it obvious that this is not a
-> > > "real" bug at all.
-> > >  =20
-> > > > > Please, learn from our history, don't make the same mistakes.
-> > > > >=20
-> > > > > Now I might be convinced that driver_override is the way to go he=
-re, but
-> > > > > it still feels really odd as again, bind/unbind was created as a =
-driver
-> > > > > debugging option only, it should NOT be a normal operation that a=
-ny user
-> > > > > should rely on.  The driver should "just work" properly instead, =
-without
-> > > > > requiring manual bind work, as that's not a good model at all.   =
-=20
-> > > >=20
-> > > > I agree in principle, but (in my case wifi) drivers are buggy somet=
-imes
-> > > > (due to missing documentation and/or engineering effort) and being =
-able
-> > > > to rebind the driver instead of rebooting to get a working device a=
-gain
-> > > > is very useful.   =20
-> > >=20
-> > > Fine, use it!  Just don't expect that to be "normal".
-> > >  =20
-> > > > So yes, theoretically bind/unbind isn't needed, but theory and prac=
-tise
-> > > > differ in practise.   =20
-> > >=20
-> > > Agreed, but again, don't rely on this as a "real" solution fo ranythi=
-ng. =20
-> >=20
-> > Sorry, late to the party, but this isn't a few user scripts that rely
-> > on this behavior.  Effectively every use case of vfio relies on this
-> > behavior.  We rely on unbinding the default driver from the device
-> > before using driver_override and drivers_probe.  That means every
-> > hypervisor with device assignment and every userspace driver use case
-> > now experiences a tainted kernel. That seems like a significant
-> > regression. =20
->=20
-> Or finally, a real bugfix :)
->=20
-> > There is currently no alternative for this process.  It's not a matter
-> > of upgrading to a newer kernel where the drivers claim the device IDs.
-> > We can't claim the device ID, vfio drivers represent a secondary use
-> > case for the device. =20
->=20
-> How can vfio know that it can properly talk to any device like this?
-> Surely you have a list of real device ids that you know will work,
-> otherwise all bets are off.
+Here's the full diff, applied on top of your v6 patches 3 and 4.
 
-There's not a list of real device IDs.  PCI, in particular, is a
-self-describing bus.  Devices are discovered via bus walk, their
-resources are probed via standard mechanisms, they support interrupts
-and resets as described by capabilities defined in a specification.
-The vfio-pci driver just provides a generic way to represent a device
-as resources mapped to file offsets with ioctls to discover those
-offsets and interact with things like resets and interrupts.  For
-example, PCI config space and BAR regions are just defined indexes into
-the table of file offsets.  This works with any endpoint device, where
-even that distinction is based on the discoverable PCI header type
-rather than a table of device IDs.
+diff --git a/drivers/iio/position/as5600.rs b/drivers/iio/position/as5600.rs
+index b72775241e81..f2897fbf8aa2 100644
+--- a/drivers/iio/position/as5600.rs
++++ b/drivers/iio/position/as5600.rs
+@@ -36,7 +36,8 @@
+         Device,
+         IioChanInfo,
+         IioDriver,
+-        IioVal, //
++        IioVal,
++        Registered, //
+     },
+     io::Io,
+     module_i2c_driver,
+@@ -65,14 +66,12 @@
 
-Even if we could come up with a set of device IDs, it's a policy
-decision whether a given device is intended by the admin to be used by
-the default in-kernel driver or a userspace driver.  This policy
-changes over time, within the same host session.  That means that at
-one point we want the default driver bound and at another we want a
-vfio driver bound.  Coordinating this is exactly why we have
-driver_override and, building on that, match IDs that require
-driver_override.  This allows drivers to describe themselves as vfio-pci
-compatible drivers via modules.alias while requiring userspace to
-enable the match via driver_override.
+ i2c_device_table!(
+     I2C_TABLE,
+-    MODULE_I2C_TABLE,
+     <As5600 as Driver>::IdInfo,
+     [(DeviceId::new(c"as5600"), ())]
+ );
 
-This is how vfio-pci variant drivers work.  These drivers contain
-device specific knowledge, for instance the ability to serialize and
-expose device state for migration, but they're still a secondary use
-case to the in-kernel drivers.  This is effort and coordination with
-subsystems and driver-core over many years and relied on by every
-hypervisor, now deemed unsupported through a kernel taint before we can
-even bind the driver.
-=20
-> > A production use case of panic_on_taint now results in a hard failure
-> > for a scenario that has been allowed and documented as best practice
-> > for many years. =20
->=20
-> It was never "best practice", you took a debugging option and somehow
-> thought it was a valid use case.  Yes, I'm being harsh but I am sure I
-> complained about this in the past and obviously never followed up on it,
-> so that's on me.
+ of_device_table!(
+     OF_TABLE,
+-    MODULE_OF_TABLE,
+     <As5600 as Driver>::IdInfo,
+     [(of::DeviceId::new(c"ams,as5600"), ())]
+ );
+@@ -97,25 +96,29 @@ unsafe impl Sync for As5600Channels {}
+ });
 
-I won't doubt that you know more about the history and intent of these
-interfaces than nearly anyone, but I don't find any documentation or
-comments that specifically declare these as debug interfaces.  In fact,
-Documentation/ABI/testing/sysfs-bus-pci has documented the bind and
-unbind ABI for over 20 years.
+ #[pin_data]
+-struct As5600Priv {
++struct As5600Priv<'a> {
++    client: &'a I2cClient<Bound>,
+     #[pin]
+     io_lock: Mutex<()>,
+ }
 
-You've certainly expressed more than once that users get to keep all
-the broken pieces if they bind devices to drivers that don't support
-the hardware.  This is the first that it's been formalized in a
-taint without warning or an escape hatch for drivers like vfio-pci that
-do in fact intend to work with all hardware.  It affects the industries
-that depend on this usage model.  It's a regression.
++// SAFETY: `I2cClient<Bound>` methods go through kernel I2C core functions
++// that provide their own synchronization (bus locking); no `&self` method
++// exposes interior mutability. The borrowed `client` field can therefore be
++// safely accessed and shared across threads like the rest of `As5600Priv`.
++unsafe impl Send for As5600Priv<'_> {}
++// SAFETY: See above.
++unsafe impl Sync for As5600Priv<'_> {}
++
+ // SAFETY: AS5600_CHANNELS contains one valid, immutable IIO_ANGL channel
+ // exposing only RAW and SCALE. It has no event or extension callbacks,
+ // and all optional pointer fields are null.
+-unsafe impl IioDriver for As5600Priv {
+-    fn read_raw(
+-        &self,
+-        parent: &kernel::device::Device<Bound>,
+-        _chan: *const iio_chan_spec,
+-        info: IioChanInfo,
+-    ) -> Result<IioVal> {
++unsafe impl IioDriver for As5600Priv<'_> {
++    fn read_raw(&self, _chan: *const iio_chan_spec, info: IioChanInfo) -> Re=
+sult<IioVal> {
+         match info {
+             IioChanInfo::Raw =3D> {
+                 let _guard =3D self.io_lock.lock();
+-                let client: &I2cClient<Bound> =3D parent.try_into()?;
++                let client =3D self.client;
 
-> > What's the solution we can pursue for the scenario where devices have
-> > dual use cases between in-kernel drivers and userspace drivers?  Thanks=
-, =20
->=20
-> So what is the real use case here, taking any type of any device and
-> thinking you can bind a random kernel driver to it and it will work ok?
-> You all have specific platform and pci vfio drivers, why not use the
-> proper device ids there instead, or better yet, bake-in this type of
-> functionality into the bus-specific logic so that you can have generic
-> userspace control of a device (like usbfs and uio does today)?
->=20
-> We have real problems with random "bind/unbind" attempts that this taint
-> is here to help resolve as it was creating hundreds of false-positive
-> bug reports on developers all across the tree now that the fuzzers
-> decided to think this was a valid action to take.  Without this taint,
-> people were being forced to add hacks to all drivers for this which is
-> not an acceptable solution.
+                 let io =3D client.smbus_io();
+                 // Read status register to verify magnet presence before
+@@ -142,14 +145,17 @@ fn channels(&self) -> &'static [iio_chan_spec] {
+     }
+ }
 
-At its core, vfio is describing the fundamental aspects of a device,
-regions and interrupts, without purporting to know anything about the
-specific programming model of the hardware.  In the case of PCI, the
-vfio-pci driver effectively decomposes the PCI representation of the
-device into a set of ioctls and a file descriptor.  A userspace driver,
-for example QEMU, recomposes that representation back into a virtual
-PCI device to the VM with virtualization, emulation, and direct access
-wired through to the physical device.
++struct As5600;
++
+ #[pin_data]
+-struct As5600 {
+-    _registration: (),
++struct As5600Data<'bound> {
++    #[pin]
++    _iio_dev: Device<As5600Priv<'bound>, Registered>,
+ }
 
-There are no devices deemed only for vfio use by default.  Often we're
-unbinding a device from the host, exporting it to a userspace driver
-through vfio, exposing it to a VM, only to bind the same driver to it
-in the guest that it was previously using in the host.  Binding to a
-vfio driver is always a secondary use case governed by the policy of
-the system.  We cannot create scenarios where there are competing
-drivers for a device.  The vfio driver is always brought into the
-picture via driver_override, and except in the rare case where no host
-driver exists, unbind must be used to release the device for
-drivers_probe.
+ impl Driver for As5600 {
+     type IdInfo =3D ();
+-    type Data<'bound> =3D As5600;
++    type Data<'bound> =3D As5600Data<'bound>;
 
-Is there some way instead that we can resolve the string written to
-driver_override and only taint for non-vfio drivers?  It's a much more
-confined problem if vfio drivers filter hardware outside their scope of
-support in their .probe function, and I think we largely do that
-already.  Thanks,
+     const I2C_ID_TABLE: Option<IdTable<Self::IdInfo>> =3D Some(&I2C_TABLE);
+     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> =3D Some(&OF_TABLE);
+@@ -162,15 +168,22 @@ fn probe<'bound>(
+         dev: &'bound I2cClient<Core<'_>>,
+         _id_info: Option<&'bound Self::IdInfo>,
+     ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
+-        try_pin_init!(As5600 {
+-            _registration: {
++        try_pin_init!(As5600Data {
++            _iio_dev: {
++                // Deref coercion: I2cClient<Core<'_>> -> I2cClient<Bound>.
++                let client: &'bound I2cClient<Bound> =3D dev;
++
+                 let priv_init =3D pin_init!(As5600Priv {
++                    client,
+                     io_lock <- new_mutex!(()),
+                 });
 
-Alex
+-                Device::build_device(dev.as_ref(), c"as5600", INDIO_DIRECT_M=
+ODE, priv_init)?
+-                    .register(&crate::THIS_MODULE)?;
++                let unregistered =3D
++                    Device::build_device(dev.as_ref(), c"as5600", INDIO_DIRE=
+CT_MODE, priv_init)?;
++                let registered =3D
++                    unregistered.register(kernel::module::this_module::<crat=
+e::LocalModule>())?;
+                 dev_dbg!(dev.as_ref(), "AS5600 magnetic position sensor read=
+y\n");
++                registered
+             }
+         })
+     }
+diff --git a/rust/kernel/iio.rs b/rust/kernel/iio.rs
+index 9ad2f50948de..4648424c7600 100644
+--- a/rust/kernel/iio.rs
++++ b/rust/kernel/iio.rs
+@@ -21,7 +21,6 @@
+         self,
+         Bound, //
+     },
+-    devres,
+     error::{
+         code::*,
+         to_result,
+@@ -159,15 +158,12 @@ pub enum IioVal {
+ pub unsafe trait IioDriver: Send + Sync {
+     /// Called by the IIO core to read channel information.
+     ///
+-    /// `parent` is the parent device supplied to [`Device::build_device`].
+     /// `chan` identifies the channel, and `info` selects the requested
+-    /// information, such as its raw value or scale.
+-    fn read_raw(
+-        &self,
+-        parent: &device::Device<Bound>,
+-        chan: *const iio_chan_spec,
+-        info: IioChanInfo,
+-    ) -> Result<IioVal>;
++    /// information, such as its raw value or scale. Implementors must
++    /// capture whatever bus-specific resources they need at registration
++    /// time (see [`Device::build_device`]) rather than re-deriving them
++    /// from a generic parent reference here.
++    fn read_raw(&self, chan: *const iio_chan_spec, info: IioChanInfo) -> Res=
+ult<IioVal>;
+
+     /// Returns the channel specifications for this driver.
+     ///
+@@ -204,16 +200,6 @@ fn channels(&self) -> &'static [iio_chan_spec] {
+     // initialized `T` that remains valid for the duration of this callback.
+     let driver =3D unsafe { &*priv_ptr };
+
+-    // SAFETY: `indio_dev` is valid by the callback contract. Its parent
+-    // was supplied as a bound device to `build_device`.
+-    //
+-    // During registration, the builder holds that bound parent borrow.
+-    // After ownership is transferred, parent devres runs the registered
+-    // device's destructor, which unregisters the IIO device and drains
+-    // the supported read_raw paths before destroying the private data.
+-    // The parent therefore remains bound throughout this callback.
+-    let parent =3D unsafe { device::Device::<Bound>::from_raw((*indio_dev).d=
+ev.parent) };
+-
+     // `info` is `long` from C. Negative values and values > u32::MAX
+     // are unsupported iio_chan_info variants; both map to EINVAL.
+     let info_enum =3D match u32::try_from(info)
+@@ -224,7 +210,7 @@ fn channels(&self) -> &'static [iio_chan_spec] {
+         None =3D> return EINVAL.to_errno(),
+     };
+
+-    match driver.read_raw(parent, chan, info_enum) {
++    match driver.read_raw(chan, info_enum) {
+         Ok(IioVal::Int(v)) =3D> {
+             // SAFETY: `val` is valid per the function's Safety contract abo=
+ve.
+             // `val2` is not written; `IIO_VAL_INT` signals to the IIO core
+@@ -271,11 +257,8 @@ fn channels(&self) -> &'static [iio_chan_spec] {
+ pub struct Registered;
+
+ /// An initialized IIO device awaiting registration.
+-///
+-/// The parent remains bound until this builder is consumed or dropped.
+-pub struct UnregisteredDevice<'a, T: IioDriver> {
++pub struct UnregisteredDevice<T: IioDriver> {
+     device: Device<T>,
+-    parent: &'a device::Device<Bound>,
+ }
+
+ /// An owned IIO device with in-place initialized driver data.
+@@ -363,12 +346,12 @@ impl<T: IioDriver> Device<T> {
+     /// Allocation and initialization errors are propagated.
+     ///
+     /// Call [`UnregisteredDevice::register`] to register the device.
+-    pub fn build_device<'a, E>(
+-        parent: &'a device::Device<Bound>,
++    pub fn build_device<E>(
++        parent: &device::Device<Bound>,
+         name: &'static CStr,
+         modes: u32,
+         init: impl PinInit<T, E>,
+-    ) -> Result<UnregisteredDevice<'a, T>>
++    ) -> Result<UnregisteredDevice<T>>
+     where
+         Error: From<E>,
+     {
+@@ -406,7 +389,7 @@ pub fn build_device<'a, E>(
+         // large enough for `T`. The private data remains at a fixed address=
+ in
+         // the separate IIO allocation until it is dropped. On initialization
+         // failure, the error path only frees the allocation.
+-        let init_result =3D unsafe { init.__pinned_init(priv_ptr) };
++        let init_result =3D unsafe { pin_init::raw_try_init(priv_ptr, init) =
+};
+         if let Err(e) =3D init_result {
+             // SAFETY: `pin_init` guarantees partial-init rollback internall=
+y.
+             // `priv_` memory was not fully initialized, so we only free the
+@@ -446,21 +429,23 @@ pub fn build_device<'a, E>(
+             (*indio_dev).modes =3D modes;
+         }
+
+-        Ok(UnregisteredDevice { device, parent })
++        Ok(UnregisteredDevice { device })
+     }
+ }
+
+-impl<T: IioDriver + 'static> UnregisteredDevice<'_, T> {
+-    /// Registers the IIO device and transfers ownership to parent devres.
++impl<T: IioDriver> UnregisteredDevice<T> {
++    /// Registers the IIO device.
+     ///
+-    /// Parent resource teardown unregisters the device and completes its
+-    /// supported `read_raw` callbacks before destroying the private data.
++    /// The caller owns the returned, pinned [`Device<T, Registered>`] and is
++    /// responsible for keeping it alive for as long as the registration
++    /// should remain visible to userspace; dropping it unregisters the
++    /// device and tears down the private data.
+     ///
+     /// On failure, the device is released and any successful registration is
+     /// undone.
+     #[inline]
+-    pub fn register(self, module: &'static ThisModule) -> Result {
+-        let Self { device, parent } =3D self;
++    pub fn register(self, module: &'static ThisModule) -> Result<Device<T, R=
+egistered>> {
++        let Self { device } =3D self;
+
+         // SAFETY: `device.indio_dev` is a valid, fully-initialized `iio_dev`
+         // allocated by `iio_device_alloc` with its name, info vtable, chann=
+els,
+@@ -475,6 +460,6 @@ pub fn register(self, module: &'static ThisModule) -> Res=
+ult {
+         };
+         forget(device);
+
+-        devres::register(parent, registered, GFP_KERNEL)
++        Ok(registered)
+     }
+ }
+
+Cheers
+Igor
