@@ -1,72 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.192
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792863596;
-	b=2TVdOAFcO1fb3bSvv59acl1LCAEFCBxelVeH45r7z2Yf05HB+zwVfYSH/JX0auAeo7N+
-	 fkzwtRxJZHsqHv2DcBCMeG6MvYkopaQxTCdhsHzc0BU3IHJTHftr4i9czD76xDEvHclDW
-	 JjnS0TLYd74oxFRXHYgEV5PQVWHxSLNt/5mQLAz4kYo2y1rd54F2htn/nV63ZePHzu5RQ
-	 fUjcJF0H2i+KwAV8gN6WGUgbEGBs+2ucF4r3L7cJ/vcGKPbGHmC2FZOyJ3NJt65Ol8JNA
-	 VdaF5sRcyS0NSk36wPRirIiPSN46D94CvDKLxYhhBLIj3Q432k5qfqZl+qKmgYms1+A==
+	t=1792903828;
+	b=uE6z6ugWe+1ge2IAvlNdWScq14e57JPu0g0ct2hUG6XjeN27fMLdJwMvBrcd1uu8lpNA
+	 D/d8XdjKouLI0Iy+LVOhZ8ycBTa3YRUM7RgwJv2lO/9N6K0vGcDOvHIBenzZeXenaAS1t
+	 oOXpoATECjfPX53mR8XEf5PYU3/6YzGI10ZD51BPI9cflj1Q4Bbq5ig5EnFG2tPX0jum3
+	 D/DbpPVB4PpqGPxMmt8sfpgzYhoo1tMJ0xknEhyZVnKakzDLWCOGLU2Jx9SKTjpIPyRzW
+	 GMA3gT4tVgqA7gSRP59d/YmnMr94rBHitH96pYwyIzyIndnHHeACLD8B3bvFLi9KD1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792863596;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version;
-	bh=Kijzy9EdMhpT7YhrRfRAvZoCaEVnAEPrNMBnKqo82nY=;
-	b=TiTFt2JKi55TPIDb6ViSE2nlbjlVUbHgyPBxtDZj0VeBCMcUoCB5sannNsKH6JhpXKaa
-	 JypOx/vAalsVkhe48Q3Kd/MhSheCp6G99ZZTVtd/b5QPdD3gxScKvZmKHy1xJipAwza+s
-	 psYNr6sICgk+JL9HziidTaR1ZHFscQOnkcCqRJ1VNAnlueWoxFIxmEp6EEigHbp9sd/sM
-	 iPHGVmI0CZ8mj5OMxw4ophFsDZLXFk7vokrXnRiQx5wXdMCZIl/lN0QoZ9IZujKWQAqhq
-	 h+w1CEM3H6EMApavgDwVxzhk2YqXpGjtoAWJiCIUTLJOVE7N8Qs/2r5DZc8UaZP8N4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792903828;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 MIME-Version:X-Received:Date:X-Google-Appengine-App-Id:
+	 X-Google-Appengine-App-Id-Alias:Message-ID:Subject:From:To:
+	 Content-Type;
+	bh=IP/z0rNamYIBQUJz+uxYPHpPmNG6nFdw74fFJ2J9EKQ=;
+	b=EFJK7xx50mbbnVyTZI8GxB43+8rLgGHcDb5YgxGijAqyR/YSWSfoOVjQAyxqsJGn0Ccx
+	 s5SOvEZnl2IZncoLkNaDiwAP9uY2c/Iq8IlXexlnlR47XQzYhGZAfSlVSUpvEvUppNMPo
+	 Og/aa91qaj7/UECsEy+BiOUj5iH/bKpSs9tVcIzmt7V54rMj/1JlNmXmkY4gJEU23EuTI
+	 s6oWRUy2EHRnLYnHprcVwfk2WNKja20lxUOf9ueDX3dYJDrREmUCzx0LztymtKIK0Xr+K
+	 65gKIio3kByU+FRRYnVslBwLPO81f3V1GW24W0cv25viMEJ1d/6XYGgtEFvJSdo8wcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PZARaFnR;
-	arc=none smtp.remote-ip=91.218.175.192
-Received: from mta0.migadu.com (out-192.mta0.migadu.com [91.218.175.192])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7044A606A31F
-	for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 17:39:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7044A606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PZARaFnR
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=ZfEMLtaMNfEqeXSdp7dnPs3+qMD4QqvgJKLt9hUIpWQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792863588; v=1; x=1793468388;
- b=PZARaFnREmGjoUbKSjZ1tyTHw9KlCcTo9q11SHFQ5YuA3LhEkwPY1+6RaA1hx3KjiKtS8in+
- X+2xcSTg4npo5N3HCKteRdiJss8lslX/LTL05pidb0zDQKtqLUdxNbMTPAW9MNWTGbvMe5u11u/
- 0t8Gg/o2pS2s4HHFGyHO67PE=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id bd748e8ee187c88c;
-	Sat, 24 Oct 2026 17:39:48 +0000
-X-Mizu-Trace-ID: bd748e8ee187c88c
-X-Migadu-Flow: FLOW_OUT
-From: Igor Korotin <igor.korotin@linux.dev>
-To: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Mark Brown <broonie@kernel.org>,
- Brandon StJohn <branstj@gmail.com>, linux-iio@vger.kernel.org,
- linux-i2c@vger.kernel.org, rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v6 0/4] iio: position: add Rust driver for ams AS5600
-Date: Sat, 24 Oct 2026 18:39:46 +0100
-Message-ID: <179286358623.55649.5397316745104390556@linux.dev>
-In-Reply-To:
- <CAO26r3QK+Q5=JR5TeMzEX-WiLpgYWd8Zn0O1qx11LxTgN96BPg@mail.gmail.com>
-References: <20261016154819.17936-1-muchamadcoirulanwar@gmail.com>
- <179260197668.3127.18219777718091081046@linux.dev>
- <CAO26r3QK+Q5=JR5TeMzEX-WiLpgYWd8Zn0O1qx11LxTgN96BPg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3C3606A31A
+	for <driver-core@lists.linux.dev>; Sun, 25 Oct 2026 04:50:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE3C3606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-8468290b866so3236133a34.1
+        for <driver-core@lists.linux.dev>; Sat, 24 Oct 2026 21:50:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792903826; x=1793508626;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IP/z0rNamYIBQUJz+uxYPHpPmNG6nFdw74fFJ2J9EKQ=;
+        b=2CyeAL0Bk7ngSLgrfLrt26jrXNBlYbX7ZsB+j2zFJYFBpBOo77eGaahbibkhr/kRvI
+         Te1q756gd86DmM4STCOcWWTrYH4y/YuO4KH7xMvzpnkL76t1l5wZWKG1Vg57ayY06P+R
+         rqg9/jYscgfSwY4aubVs66lECgXSHMnYnGwhuc8sCdWiHWaV+LVT60dC7QBuWpu78j/B
+         4kBOErUq0a2dyoLm6G9dvu9XtmBuFhBfnaZafzLrorudRo0ne006q4VZ78USkH3N9fmZ
+         bbluv4CdeDQc38Lts78HZ7i9Vj8wrsLtlzSoM0P4Kc42B3RBcS573n9o+iQ3ClxRIDHW
+         a9QA==
+X-Gm-Message-State: AFq9FYLfjwDTVAVDrbJuvmBtjR7oXrHPw89zO6djJiFtq+aatEvuqgdL
+	npTOINsZDR4UwSGL6z1Vh6shfe8nzcfaHJEGDgYi6PL6btlTDMdn00SnWeNjQJ+nXof+b13Lyk1
+	3OhUONW+2ZQYvoJ77wAMaRSqtQ5SKt8O9xYsD9HLgRwCPKoG8Uv9gqaXZ2pY=
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -76,277 +57,241 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+X-Received: by 2002:a05:6808:250d:b0:4eb:80c0:f4bc with SMTP id
+ 5614622812f47-55c0020f4e7mr2003536b6e.10.1792903826673; Sat, 24 Oct 2026
+ 21:50:26 -0700 (PDT)
+Date: Sat, 24 Oct 2026 21:50:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6add8a92.67317f00.38c4bc.006d.GAE@google.com>
+Subject: [syzbot] [kernfs?] possible deadlock in array_state_store
+From: syzbot <syzbot+7657131267c5111921e2@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Coirul,
+Hello,
 
-Here's the full diff, applied on top of your v6 patches 3 and 4.
+syzbot found the following issue on:
 
-diff --git a/drivers/iio/position/as5600.rs b/drivers/iio/position/as5600.rs
-index b72775241e81..f2897fbf8aa2 100644
---- a/drivers/iio/position/as5600.rs
-+++ b/drivers/iio/position/as5600.rs
-@@ -36,7 +36,8 @@
-         Device,
-         IioChanInfo,
-         IioDriver,
--        IioVal, //
-+        IioVal,
-+        Registered, //
-     },
-     io::Io,
-     module_i2c_driver,
-@@ -65,14 +66,12 @@
+HEAD commit:    3ac032ef6ca8 Merge tag 'for-linus-fwctl' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10b3aee1580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8625c9497ae83f0b
+dashboard link: https://syzkaller.appspot.com/bug?extid=7657131267c5111921e2
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
- i2c_device_table!(
-     I2C_TABLE,
--    MODULE_I2C_TABLE,
-     <As5600 as Driver>::IdInfo,
-     [(DeviceId::new(c"as5600"), ())]
- );
+Unfortunately, I don't have any reproducer for this issue yet.
 
- of_device_table!(
-     OF_TABLE,
--    MODULE_OF_TABLE,
-     <As5600 as Driver>::IdInfo,
-     [(of::DeviceId::new(c"ams,as5600"), ())]
- );
-@@ -97,25 +96,29 @@ unsafe impl Sync for As5600Channels {}
- });
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3ac032ef.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c8383c1d288f/vmlinux-3ac032ef.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3c86b9622324/bzImage-3ac032ef.xz
 
- #[pin_data]
--struct As5600Priv {
-+struct As5600Priv<'a> {
-+    client: &'a I2cClient<Bound>,
-     #[pin]
-     io_lock: Mutex<()>,
- }
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7657131267c5111921e2@syzkaller.appspotmail.com
 
-+// SAFETY: `I2cClient<Bound>` methods go through kernel I2C core functions
-+// that provide their own synchronization (bus locking); no `&self` method
-+// exposes interior mutability. The borrowed `client` field can therefore be
-+// safely accessed and shared across threads like the rest of `As5600Priv`.
-+unsafe impl Send for As5600Priv<'_> {}
-+// SAFETY: See above.
-+unsafe impl Sync for As5600Priv<'_> {}
-+
- // SAFETY: AS5600_CHANNELS contains one valid, immutable IIO_ANGL channel
- // exposing only RAW and SCALE. It has no event or extension callbacks,
- // and all optional pointer fields are null.
--unsafe impl IioDriver for As5600Priv {
--    fn read_raw(
--        &self,
--        parent: &kernel::device::Device<Bound>,
--        _chan: *const iio_chan_spec,
--        info: IioChanInfo,
--    ) -> Result<IioVal> {
-+unsafe impl IioDriver for As5600Priv<'_> {
-+    fn read_raw(&self, _chan: *const iio_chan_spec, info: IioChanInfo) -> Re=
-sult<IioVal> {
-         match info {
-             IioChanInfo::Raw =3D> {
-                 let _guard =3D self.io_lock.lock();
--                let client: &I2cClient<Bound> =3D parent.try_into()?;
-+                let client =3D self.client;
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Tainted: G             L     Y
+------------------------------------------------------
+syz.4.1083/10710 is trying to acquire lock:
+ffff88804b6d0358 (&mddev->reconfig_mutex){+.+.}-{4:4}, at: mddev_lock drivers/md/md.h:713 [inline]
+ffff88804b6d0358 (&mddev->reconfig_mutex){+.+.}-{4:4}, at: array_state_store+0x174/0xcf0 drivers/md/md.c:4705
 
-                 let io =3D client.smbus_io();
-                 // Read status register to verify magnet presence before
-@@ -142,14 +145,17 @@ fn channels(&self) -> &'static [iio_chan_spec] {
-     }
- }
+but task is already holding lock:
+ffff888055b11c38 (kn->active#77){++++}-{0:0}, at: kernfs_get_active_of fs/kernfs/file.c:73 [inline]
+ffff888055b11c38 (kn->active#77){++++}-{0:0}, at: kernfs_fop_write_iter+0x332/0x5f0 fs/kernfs/file.c:337
 
-+struct As5600;
-+
- #[pin_data]
--struct As5600 {
--    _registration: (),
-+struct As5600Data<'bound> {
-+    #[pin]
-+    _iio_dev: Device<As5600Priv<'bound>, Registered>,
- }
+which lock already depends on the new lock.
 
- impl Driver for As5600 {
-     type IdInfo =3D ();
--    type Data<'bound> =3D As5600;
-+    type Data<'bound> =3D As5600Data<'bound>;
 
-     const I2C_ID_TABLE: Option<IdTable<Self::IdInfo>> =3D Some(&I2C_TABLE);
-     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> =3D Some(&OF_TABLE);
-@@ -162,15 +168,22 @@ fn probe<'bound>(
-         dev: &'bound I2cClient<Core<'_>>,
-         _id_info: Option<&'bound Self::IdInfo>,
-     ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
--        try_pin_init!(As5600 {
--            _registration: {
-+        try_pin_init!(As5600Data {
-+            _iio_dev: {
-+                // Deref coercion: I2cClient<Core<'_>> -> I2cClient<Bound>.
-+                let client: &'bound I2cClient<Bound> =3D dev;
-+
-                 let priv_init =3D pin_init!(As5600Priv {
-+                    client,
-                     io_lock <- new_mutex!(()),
-                 });
+the existing dependency chain (in reverse order) is:
 
--                Device::build_device(dev.as_ref(), c"as5600", INDIO_DIRECT_M=
-ODE, priv_init)?
--                    .register(&crate::THIS_MODULE)?;
-+                let unregistered =3D
-+                    Device::build_device(dev.as_ref(), c"as5600", INDIO_DIRE=
-CT_MODE, priv_init)?;
-+                let registered =3D
-+                    unregistered.register(kernel::module::this_module::<crat=
-e::LocalModule>())?;
-                 dev_dbg!(dev.as_ref(), "AS5600 magnetic position sensor read=
-y\n");
-+                registered
-             }
-         })
-     }
-diff --git a/rust/kernel/iio.rs b/rust/kernel/iio.rs
-index 9ad2f50948de..4648424c7600 100644
---- a/rust/kernel/iio.rs
-+++ b/rust/kernel/iio.rs
-@@ -21,7 +21,6 @@
-         self,
-         Bound, //
-     },
--    devres,
-     error::{
-         code::*,
-         to_result,
-@@ -159,15 +158,12 @@ pub enum IioVal {
- pub unsafe trait IioDriver: Send + Sync {
-     /// Called by the IIO core to read channel information.
-     ///
--    /// `parent` is the parent device supplied to [`Device::build_device`].
-     /// `chan` identifies the channel, and `info` selects the requested
--    /// information, such as its raw value or scale.
--    fn read_raw(
--        &self,
--        parent: &device::Device<Bound>,
--        chan: *const iio_chan_spec,
--        info: IioChanInfo,
--    ) -> Result<IioVal>;
-+    /// information, such as its raw value or scale. Implementors must
-+    /// capture whatever bus-specific resources they need at registration
-+    /// time (see [`Device::build_device`]) rather than re-deriving them
-+    /// from a generic parent reference here.
-+    fn read_raw(&self, chan: *const iio_chan_spec, info: IioChanInfo) -> Res=
-ult<IioVal>;
+-> #4 (kn->active#77){++++}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       kernfs_drain+0x4eb/0x600 fs/kernfs/dir.c:534
+       __kernfs_remove+0x34c/0xbc0 fs/kernfs/dir.c:1578
+       kernfs_remove_by_name_ns+0x7c/0x120 fs/kernfs/dir.c:1796
+       kernfs_remove_by_name include/linux/kernfs.h:644 [inline]
+       remove_files+0x96/0x1c0 fs/sysfs/group.c:28
+       sysfs_remove_group+0x8b/0x1b0 fs/sysfs/group.c:328
+       sysfs_remove_groups fs/sysfs/group.c:352 [inline]
+       sysfs_remove_groups+0x60/0xb0 fs/sysfs/group.c:344
+       __kobject_del+0x89/0x220 lib/kobject.c:595
+       kobject_cleanup lib/kobject.c:680 [inline]
+       kobject_release lib/kobject.c:720 [inline]
+       kref_put include/linux/kref.h:65 [inline]
+       kobject_put+0x348/0x640 lib/kobject.c:737
+       process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
+       process_scheduled_works kernel/workqueue.c:3578 [inline]
+       worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
+       kthread+0x373/0x450 kernel/kthread.c:436
+       ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-     /// Returns the channel specifications for this driver.
-     ///
-@@ -204,16 +200,6 @@ fn channels(&self) -> &'static [iio_chan_spec] {
-     // initialized `T` that remains valid for the duration of this callback.
-     let driver =3D unsafe { &*priv_ptr };
+-> #3 ((work_completion)(&mddev->del_work)){+.+.}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       process_one_work+0xa32/0x1b10 kernel/workqueue.c:3471
+       process_scheduled_works kernel/workqueue.c:3578 [inline]
+       worker_thread+0x5ef/0xe50 kernel/workqueue.c:3659
+       kthread+0x373/0x450 kernel/kthread.c:436
+       ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
--    // SAFETY: `indio_dev` is valid by the callback contract. Its parent
--    // was supplied as a bound device to `build_device`.
--    //
--    // During registration, the builder holds that bound parent borrow.
--    // After ownership is transferred, parent devres runs the registered
--    // device's destructor, which unregisters the IIO device and drains
--    // the supported read_raw paths before destroying the private data.
--    // The parent therefore remains bound throughout this callback.
--    let parent =3D unsafe { device::Device::<Bound>::from_raw((*indio_dev).d=
-ev.parent) };
--
-     // `info` is `long` from C. Negative values and values > u32::MAX
-     // are unsupported iio_chan_info variants; both map to EINVAL.
-     let info_enum =3D match u32::try_from(info)
-@@ -224,7 +210,7 @@ fn channels(&self) -> &'static [iio_chan_spec] {
-         None =3D> return EINVAL.to_errno(),
-     };
+-> #2 ((wq_completion)md_misc){+.+.}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       touch_wq_lockdep_map+0xad/0x1c0 kernel/workqueue.c:4272
+       __flush_workqueue+0x131/0x1200 kernel/workqueue.c:4314
+       md_alloc+0x30/0x10a0 drivers/md/md.c:6334
+       md_alloc_and_put drivers/md/md.c:6423 [inline]
+       md_probe drivers/md/md.c:6439 [inline]
+       md_probe+0x73/0xf0 drivers/md/md.c:6434
+       blk_probe_dev+0x149/0x1e0 block/genhd.c:888
+       blk_request_module+0x16/0xc0 block/genhd.c:901
+       blkdev_get_no_open+0x9b/0xf0 block/bdev.c:870
+       blkdev_open+0x141/0x4f0 block/fops.c:671
+       do_dentry_open+0x674/0x1470 fs/open.c:1000
+       vfs_open_consume+0xcc/0x460 fs/open.c:1131
+       do_open fs/namei.c:4845 [inline]
+       path_openat+0x1547/0x23f0 fs/namei.c:5010
+       do_file_open+0x20e/0x430 fs/namei.c:5039
+       do_sys_openat2+0x163/0x1d0 fs/open.c:1442
+       do_sys_open fs/open.c:1448 [inline]
+       __do_sys_openat fs/open.c:1464 [inline]
+       __se_sys_openat fs/open.c:1459 [inline]
+       __x64_sys_openat+0x12d/0x210 fs/open.c:1459
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
--    match driver.read_raw(parent, chan, info_enum) {
-+    match driver.read_raw(chan, info_enum) {
-         Ok(IioVal::Int(v)) =3D> {
-             // SAFETY: `val` is valid per the function's Safety contract abo=
-ve.
-             // `val2` is not written; `IIO_VAL_INT` signals to the IIO core
-@@ -271,11 +257,8 @@ fn channels(&self) -> &'static [iio_chan_spec] {
- pub struct Registered;
+-> #1 (major_names_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+       blk_probe_dev+0x28/0x1e0 block/genhd.c:885
+       blk_request_module+0x16/0xc0 block/genhd.c:901
+       blkdev_get_no_open+0x9b/0xf0 block/bdev.c:870
+       bdev_file_open_by_dev block/bdev.c:1091 [inline]
+       bdev_file_open_by_dev+0x70/0x210 block/bdev.c:1079
+       md_import_device+0x120/0x360 drivers/md/md.c:3847
+       md_add_new_disk+0xdbf/0x1820 drivers/md/md.c:7656
+       md_ioctl+0x2be7/0x36c0 drivers/md/md.c:8499
+       blkdev_ioctl+0x5ad/0x6f0 block/ioctl.c:798
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:597 [inline]
+       __se_sys_ioctl fs/ioctl.c:583 [inline]
+       __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
- /// An initialized IIO device awaiting registration.
--///
--/// The parent remains bound until this builder is consumed or dropped.
--pub struct UnregisteredDevice<'a, T: IioDriver> {
-+pub struct UnregisteredDevice<T: IioDriver> {
-     device: Device<T>,
--    parent: &'a device::Device<Bound>,
- }
+-> #0 (&mddev->reconfig_mutex){+.+.}-{4:4}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+       mddev_lock drivers/md/md.h:713 [inline]
+       array_state_store+0x174/0xcf0 drivers/md/md.c:4705
+       md_attr_store+0x1c5/0x330 drivers/md/md.c:6158
+       sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+       kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x6af/0x1050 fs/read_write.c:687
+       ksys_write+0x12a/0x250 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
- /// An owned IIO device with in-place initialized driver data.
-@@ -363,12 +346,12 @@ impl<T: IioDriver> Device<T> {
-     /// Allocation and initialization errors are propagated.
-     ///
-     /// Call [`UnregisteredDevice::register`] to register the device.
--    pub fn build_device<'a, E>(
--        parent: &'a device::Device<Bound>,
-+    pub fn build_device<E>(
-+        parent: &device::Device<Bound>,
-         name: &'static CStr,
-         modes: u32,
-         init: impl PinInit<T, E>,
--    ) -> Result<UnregisteredDevice<'a, T>>
-+    ) -> Result<UnregisteredDevice<T>>
-     where
-         Error: From<E>,
-     {
-@@ -406,7 +389,7 @@ pub fn build_device<'a, E>(
-         // large enough for `T`. The private data remains at a fixed address=
- in
-         // the separate IIO allocation until it is dropped. On initialization
-         // failure, the error path only frees the allocation.
--        let init_result =3D unsafe { init.__pinned_init(priv_ptr) };
-+        let init_result =3D unsafe { pin_init::raw_try_init(priv_ptr, init) =
-};
-         if let Err(e) =3D init_result {
-             // SAFETY: `pin_init` guarantees partial-init rollback internall=
-y.
-             // `priv_` memory was not fully initialized, so we only free the
-@@ -446,21 +429,23 @@ pub fn build_device<'a, E>(
-             (*indio_dev).modes =3D modes;
-         }
+other info that might help us debug this:
 
--        Ok(UnregisteredDevice { device, parent })
-+        Ok(UnregisteredDevice { device })
-     }
- }
+Chain exists of:
+  &mddev->reconfig_mutex --> (work_completion)(&mddev->del_work) --> kn->active#77
 
--impl<T: IioDriver + 'static> UnregisteredDevice<'_, T> {
--    /// Registers the IIO device and transfers ownership to parent devres.
-+impl<T: IioDriver> UnregisteredDevice<T> {
-+    /// Registers the IIO device.
-     ///
--    /// Parent resource teardown unregisters the device and completes its
--    /// supported `read_raw` callbacks before destroying the private data.
-+    /// The caller owns the returned, pinned [`Device<T, Registered>`] and is
-+    /// responsible for keeping it alive for as long as the registration
-+    /// should remain visible to userspace; dropping it unregisters the
-+    /// device and tears down the private data.
-     ///
-     /// On failure, the device is released and any successful registration is
-     /// undone.
-     #[inline]
--    pub fn register(self, module: &'static ThisModule) -> Result {
--        let Self { device, parent } =3D self;
-+    pub fn register(self, module: &'static ThisModule) -> Result<Device<T, R=
-egistered>> {
-+        let Self { device } =3D self;
+ Possible unsafe locking scenario:
 
-         // SAFETY: `device.indio_dev` is a valid, fully-initialized `iio_dev`
-         // allocated by `iio_device_alloc` with its name, info vtable, chann=
-els,
-@@ -475,6 +460,6 @@ pub fn register(self, module: &'static ThisModule) -> Res=
-ult {
-         };
-         forget(device);
+       CPU0                    CPU1
+       ----                    ----
+  rlock(kn->active#77);
+                               lock((work_completion)(&mddev->del_work));
+                               lock(kn->active#77);
+  lock(&mddev->reconfig_mutex);
 
--        devres::register(parent, registered, GFP_KERNEL)
-+        Ok(registered)
-     }
- }
+ *** DEADLOCK ***
 
-Cheers
-Igor
+locks held by syz.4.1083/10710: 5, last CPU#2:
+ #0: ffff888040588b70 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x2aa/0x380 fs/file.c:1408
+ #1: ffff888037ffa460 (sb_writers#8){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
+ #2: ffff888037f03908 (&of->prealloc_mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x24d/0x5f0 fs/kernfs/file.c:320
+ #3: ffff888037f03880 (&of->mutex){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x2c2/0x5f0 fs/kernfs/file.c:336
+ #4: ffff888055b11c38 (kn->active#77){++++}-{0:0}, at: kernfs_get_active_of fs/kernfs/file.c:73 [inline]
+ #4: ffff888055b11c38 (kn->active#77){++++}-{0:0}, at: kernfs_fop_write_iter+0x332/0x5f0 fs/kernfs/file.c:337
+
+stack backtrace:
+CPU: 2 UID: 0 PID: 10710 Comm: syz.4.1083 Tainted: G             L     Y syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP, [Y]=FORCED_BIND
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+ lock_acquire kernel/locking/lockdep.c:5942 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x19f/0x1c10 kernel/locking/mutex.c:821
+ mddev_lock drivers/md/md.h:713 [inline]
+ array_state_store+0x174/0xcf0 drivers/md/md.c:4705
+ md_attr_store+0x1c5/0x330 drivers/md/md.c:6158
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6af/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f03a8b9f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f03a9a99028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f03a8e25fa0 RCX: 00007f03a8b9f559
+RDX: 0000000000000005 RSI: 0000200000000280 RDI: 0000000000000004
+RBP: 00007f03a8c36b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f03a8e26038 R14: 00007f03a8e25fa0 R15: 00007fffeac25fa8
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
