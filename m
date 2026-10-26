@@ -1,83 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046446;
-	b=dkDdsL+1Q8dA9jZqJgCNbR9LDrCCY3I7XNhpRz48fMSyAmUKqT8CK/ClYXjLtIsEJxVw
-	 X1gAP0Yye0In6Mu/MKl8wugG0Ykf0Gsei+ZJnVQbLhlbEBLvWxWMSnte2kYtVpbydV0iZ
-	 +4L3U6IcRN69qYvO09ksl45Qoe7uA5sHfWGT/uJ2M5cZq7HZtByqTCZLFB0XO/Neeic7I
-	 jJWJQh+xCTsmviLeyuO6ax814OAGGEJ6BcZ/EZEqKmmvrzWgGs0EwDTntfwRFKyIQhCaa
-	 t55ciMuNtW4R1v2l8ZJ9tYs+Nv5Saw1T07iAstbg7tWZ0pOdezKuMxeK6W1e/wXFHBQ==
+	t=1793046824;
+	b=EoCaVCZUSjUlGFk54IDgXFba4iTBzx/3T6KmETZ5F7d21hOCWa8VmxkowzNtihXAX5FN
+	 RISzs/0vGguM2UPsBg6sQWGIJbnojpD3CjYeF28XQhxQRksjC2Y/FtMmtYua5D6PR9oey
+	 wJnFinSx7Fc3c3NrHGYxYI5+COEC2RpfCl6Eoj+BUkkh4GsSwNn46YZILsQ5Yk7rO0AI/
+	 xqw0SYA7R8KB/nGLWo8ef06JcBxjH1Z48vFgE5Y2bB2ff9pIsN5r0hjyPKttVunKfm0vf
+	 JzXL1hXDYMeDaqTVYbhhhuYnv2OkQNdCSGaJ0C96XwL0LBXUiw9qXXXBGEPozh2GRvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046446;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=LFCglxF3YnOUeWs+Z5oFeCuqJ1fUCZ2MGnIwDKgVXec=;
-	b=SdvbJKsuYWFx5h7/wgv+aVy4RsSX15WavLhN3KlOcb7uUDpSRZGUVnejrHETPPd9SCSn
-	 DtUC08OfS5pSfP6isr49J+TTx6b5AW9e5bU5ZrLepq4cg//znRb724dXeVr8pNxo7hNaH
-	 ekDSTa+uERxpnxxBurg+kdUVl8t5TFooLyQpq0xDNvRT73y2mgWgh8fcrRLjjfHVZjGFy
-	 FtX6ZttmPTXMectfzIGi3/uacw7Y2T9BJWuYJibhd/F8wabFBP3xBTratI83dAqCLKSXw
-	 LkGgyNHwU4ZSfa1MrR8eSt9g08ntuvZGKJZBfHP6FTx9Ius10Bxsdeh0TroEpyWY/Ww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793046824;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=h7Aq+vqPvdElieptV/YoncWuNTXZ1m+hINrzzecmweY=;
+	b=sc8E7azNyCiBywSqvvQA4h/t2FL1Zv4UFDt7//eX5l5abclEqNPblVmF9tBsdrhIgruG
+	 9CjAgYk1lwcYw5p+WpmGj9QXgadLd1spreGBCTiM7o6amTIj4GeKYne/vlKOmhwhzJgb2
+	 vMqt0jXROnc/0GLt24jo5v/sl2luS9dHTkP/N+gzlyyg5d3/vfpBEDUkwrlnFrkPf5nAI
+	 nngTMgAonaV3w9pf6boxQ5ga8+4LVz1AXOyQMTHmqM9MM8JQDEluzwDSYBci4dj54LIvO
+	 LCuq/hygIP3xNc1nMi0XgXgQOC7sFIuAFisRw4Cug8i8SQx7km2NFaPWrmEya6MYNwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=c3W3E1id;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250F9606A31A;
-	Mon, 26 Oct 2026 20:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=c3W3E1id
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 116BE1F01825;
-	Mon, 26 Oct 2026 20:27:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793046445;
-	bh=LFCglxF3YnOUeWs+Z5oFeCuqJ1fUCZ2MGnIwDKgVXec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c3W3E1id0F+qhx0MI/3yl4YHWFa0JK35WvxQQ4ViH7gpyd/iDSJkcOvJlLjIrAM6z
-	 91sd+foBp+g36SI388PdvEdp3FoHb4Kp9FkVnpI0qG7GERFpMftCCh8aar+vr2z84g
-	 l2PMs8cC/HVVfnTiKkoKwH5h89JA3k4nGZQ6eVgk=
-Date: Mon, 26 Oct 2026 21:27:25 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026102654-enlighten-perkiness-193c@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
- <arIvG0nx4LXG9nlW@monoceros>
- <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
- <2026092321-province-yearly-44aa@gregkh>
- <arOfHEsGGglNse7T@monoceros>
- <2026092348-victory-erased-0e5a@gregkh>
- <20261023181326.0dc2f7ed@shazbot.org>
- <20261026122243.GA28851@unreal>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BA8606A321
+	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 20:33:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07BA8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4dc57e2a3f2so5550104b6e.0
+        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 13:33:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793046823; x=1793651623;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=h7Aq+vqPvdElieptV/YoncWuNTXZ1m+hINrzzecmweY=;
+        b=mbxjsUf5Dt1FEYJyeTZpp15i5HZ1FFi8REo9LVTOnbiSfPZcAESy4wRDt6bQG4B9L6
+         /poMSPafw2Gf/7D0bidl8T627yHPAFrg0k7WHwLALDi7fE0HISzt50tRNk4mpKXc3zIs
+         h5zI5RaX7NuZEnWanWN9Nnri3N9Ui/bL6Yy+rZgzMkNoqm/yDbyPz/6iFQsRaVBnOiXq
+         d+Yv6IQDopPyssqGAxgqqyFLrXoo2HqGim17/0OY8l8/GWl5j5a6Yool0qzJDwjBI85m
+         5ls633P0mm1o0rIQjWVUmLIBZO+1v/IVco17oj9gjjTIx0FfXboPJVBPci7ecXKku/Yt
+         zHCg==
+X-Forwarded-Encrypted: i=1; AKwUvBw3ImWuLzI9fnPDlFj5IEC7ZBG4AGHOOS+Mjd1HqJaoiH+ERvCnDubWzoFG/T73uPz89V1+J9Til5X8wA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYI/ClbDKDwbdmJx0qH5K72xePxVNEGf/peRs7YogQtVB5vFq/j3
+	97tjqGU4iaVJLlx78YnEnrqtQmL2k2FvJeE921S5jlECrwnb8YJi2iYGeJ26ymAAya5N6a4d+D/
+	LdgB6Tit5zhf+j5B92QzqSh1pqNJAqgSh3zbE5uUI4CZq9zyE4+aAnHIO3EA=
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,80 +58,62 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261026122243.GA28851@unreal>
+X-Received: by 2002:a05:6808:15a4:b0:4ab:230c:5faa with SMTP id
+ 5614622812f47-55c002622e3mr4970843b6e.18.1793046823037; Mon, 26 Oct 2026
+ 13:33:43 -0700 (PDT)
+Date: Mon, 26 Oct 2026 13:33:43 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6adfb927.3a3d6196.2ecadf.001f.GAE@google.com>
+Subject: [syzbot] Monthly driver-core report (Oct 2026)
+From: syzbot <syzbot+list3acbd9912bd634558b43@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
-> On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
-> > On Wed, 23 Sep 2026 12:29:56 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > 
-> > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:
-> > > > > No, drivers should NOT have to do that in their .probe() function,
-> > > > > that's what we moved away from decades ago!  The match function should
-> > > > > handle all of that for you, otherwise it's contant duplication
-> > > > > everywhere that is unneeded.  
-> > > > 
-> > > > Well then you have to accept that root can provoke a null pointer
-> > > > exception (e.g. by forcing the pwm-tegra driver on a device) because at
-> > > > least with today's platform bus match function such a match is ok.  
-> > > 
-> > > Agreed, yes, root can cause a crash and can do tons of horrible things
-> > > much worse than this, that's not the issue.
-> > > 
-> > > That's why this taint is there, to make it obvious that this is not a
-> > > "real" bug at all.
-> > > 
-> > > > > Please, learn from our history, don't make the same mistakes.
-> > > > > 
-> > > > > Now I might be convinced that driver_override is the way to go here, but
-> > > > > it still feels really odd as again, bind/unbind was created as a driver
-> > > > > debugging option only, it should NOT be a normal operation that any user
-> > > > > should rely on.  The driver should "just work" properly instead, without
-> > > > > requiring manual bind work, as that's not a good model at all.  
-> > > > 
-> > > > I agree in principle, but (in my case wifi) drivers are buggy sometimes
-> > > > (due to missing documentation and/or engineering effort) and being able
-> > > > to rebind the driver instead of rebooting to get a working device again
-> > > > is very useful.  
-> > > 
-> > > Fine, use it!  Just don't expect that to be "normal".
-> > > 
-> > > > So yes, theoretically bind/unbind isn't needed, but theory and practise
-> > > > differ in practise.  
-> > > 
-> > > Agreed, but again, don't rely on this as a "real" solution fo ranything.
-> > 
-> > Sorry, late to the party, but this isn't a few user scripts that rely
-> > on this behavior.  Effectively every use case of vfio relies on this
-> > behavior.  We rely on unbinding the default driver from the device
-> > before using driver_override and drivers_probe.  That means every
-> > hypervisor with device assignment and every userspace driver use case
-> > now experiences a tainted kernel. That seems like a significant
-> > regression.
-> 
-> Sorry, I was on vacation and missed this change earlier. This change will
-> affect SR-IOV deployments around the world, which *rely* on being able to
-> bind a driver manually *after* virtual functions are created but before
-> they are used.
+Hello driver-core maintainers/developers,
 
-Why can't a real driver bind to those virtual functions?  Like is
-happening in the rust apis?
+This is a 31-day syzbot report for the driver-core subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/driver-core
 
-> This is needed for two reasons: to save hardware and software resources
-> when creating a large number of VFs, and to allow the PCI config space to
-> be configured *before* the driver starts using it.
+During the period, 1 new issues were detected and 1 were fixed.
+In total, 26 issues are still open and 4 have already been fixed.
+There are also 14 low-priority issues.
 
-How is hardware and software resources an issue here at all?  And you
-can write to PCI config space from userspace today, no driver needed
-anywhere at all, that's always been allowed.
+Some of the still happening issues:
 
-> There is no in-kernel alternative.
+Ref  Crashes Repro Title
+<1>  137     Yes   KASAN: slab-use-after-free Read in disable_device
+                   https://syzkaller.appspot.com/bug?extid=4393dfdddf166f2de2b0
+<2>  91      No    INFO: task hung in usb_disable_device (2)
+                   https://syzkaller.appspot.com/bug?extid=5cf28d3643d94bfb0821
+<3>  35      Yes   KASAN: slab-use-after-free Read in lockref_get (2)
+                   https://syzkaller.appspot.com/bug?extid=227dbc9afd022922d624
+<4>  22      Yes   KASAN: global-out-of-bounds Read in uevent_store
+                   https://syzkaller.appspot.com/bug?extid=d164947c037324221043
+<5>  18      Yes   general protection fault in bus_remove_device
+                   https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
+<6>  11      Yes   INFO: task hung in unbind_store
+                   https://syzkaller.appspot.com/bug?extid=fd7be5ad9795b7f29df3
+<7>  4       Yes   BUG: unable to handle kernel paging request in usb_driver_release_interface
+                   https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
+<8>  14      Yes   KASAN: global-out-of-bounds Read in bus_uevent_store
+                   https://syzkaller.appspot.com/bug?extid=9a321aea9d851b299486
+<9>  8       Yes   KASAN: slab-use-after-free Write in do_bad_area
+                   https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
+<10> 7       No    KASAN: slab-use-after-free Read in remove_one_compat_dev
+                   https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
 
-Then just don't have a in-kernel driver for the device and all is good?
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-thanks,
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-greg k-h
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
