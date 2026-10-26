@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1793032875;
-	b=YQyjIUnSU6DF3BvqZjN4GdL2mm+P8Bv8CZOBPfrjBcNVEm88YbrXt0Rzp0xrA6G4ahTF
-	 Ln50Z8SJyRf5qAR/rL6ZZR6uBgDfsYxSHGPQnKbUAE41IOjSZUsbwtR1AKoI9e0WNKBA1
-	 OYyCmVTUgOcmEhBL5WOysQ8Q9N7k7pdy8LACHFXKEWJm0vPF78qy95blx8otlKTEdiKy1
-	 ga3GeHuw/cEioCVLkxMfItG+sJzDdkqOnzfPMxf/TZ2xQO/wnmJ3lqFd1a0PBHkRc9zwE
-	 y/gTOkBnNzop3W5bsNW/uJzq6HYAVnqnxxEHOv1MyOVtgz/RxtTOqUGF2YMjiok+RTA==
+	b=qx6rJFGgmWcNATtYbHlf3rfYCaqRB2lVlJosw+2v7gGD3M4gCTmkWZG6LglWRs1oh/p4
+	 4HCfabX/ZXusbaOkEyFhqcPsZZa4GpSTpI+1m4BbibjhbLK5o9OOCr6j4/yQRovh8xc3J
+	 m8lKyrk1I6zQDoBRsdyIbPiJx4QYaggJh+RmwqppzZYAg5ActmXoIp+1q8ln/8ep4eTOF
+	 HZIC+y8MFi91PaJylqaxDKUciygoGR2XDPkBeXT0fFYjcCy17Lyva2ihabchGIgGZc4AM
+	 ZeoyHzBP7PTqo7Qe4Mv5OzP9cW2TBj6A39tlDwAYQVfrIfDwhAovlPcMb7tZ8Jo5Lmg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793032875;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=UI0duaktdJo75orpWto+5YzczDf1eOZrJ5Vk4N9gpg4=;
-	b=0X/uAm8f/ZFAUt+UP21m8HsfOK2f1teEhvt/ywtjOLNBYjcnGqiMlZp9I/JOYSBzfEUN
-	 VI4rRdMBxcWRqjBOY1sy87+fokZ9L1leCSjHZTYHmRGAhcSKoaV4xqiZwod6HGfE53uTo
-	 Zz149liSvZx0EBCYzCAt2TMZebCTsVsnXNXtRjYZk0yJfIEXwAnGeHNSZWnQqXPcL1xNT
-	 vaaepBLZtWUi1HdtRlA0GPNoHbq7eLRsYfNMAolbzcf5fFYMEUYz/E9C0vNi0VisaODKU
-	 /84WzXNcVwE7MaGmsvx5wFtj3jzN7qIDHVxYfDGr6OHyvUb2X5XY4xEIq973dEvjjnw==
+	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
+	b=bok5NjKODvkiY5nMCexC5d7f4uLZSorsBHFx746FxTqCDlmY60aWhi5gLDjo8ujabLzR
+	 MbMilKn5kyGC1d2ZIq0vMUR8fMU0n1nA/e+x3Nv4ENcDbMHr+34WI1Wd61x5QUorr5A67
+	 eFCZojc/HuqhheXhjXn+cJDOq1JZVR/cHVOgoCL9bXHzwtKCc2EJqnRNNru7CJVjVx/Em
+	 bB4vrwhb2N3JGdpGg6jbmGzs3acLomhW/ipY29VFv5ma0sQBpTk4fYiZeQwGkZNcdjjiO
+	 HC/qxWl3tev9w/6gph0tb3ZjIophJy4h1BUKw11nlk0aqFDpWlJiG6BVI5dJ/3x8Dwg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfHTVTAf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S+xSuyaS;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB16606A323;
-	Mon, 26 Oct 2026 16:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50395606A32F;
+	Mon, 26 Oct 2026 16:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YfHTVTAf
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S+xSuyaS
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1793032874;
-	b=2ARuB3ykTtHlUTH/jZ95Rlt4OigXEQlSkglNeKyNi2CmudsKqsO0N8RPSMTD9now4Man
-	 qxuDHMpTkZvPNI2POv0StzLG7y8mX/P/JohtxKBHkUgWtckOvmlypbMfwQatiIZhuvdbw
-	 +vnE2Qs/2T3GJnmH+Lau3BIXi6TF1sbczXyeX8pFxiyjjy/3DuzyOKZFK5Ng3RcWg9kYh
-	 kw0GxV67/qb2qoUcgJ6L22zfkfJtgZoNeATyaSe6HPTkHgyF0X6Z+yDB/VSr7g94dVkaK
-	 G2PpFdWfO+vkE75o6GEVe26rDQyoExKeFr9i4veRdDv8FvnJj2HpVMkSh7eLqpamlcg==
+	b=MTVWWunWNI/NR//pplG6czhnrkhg6fwqbsPTKahDf4DM9Y4Y+R/z2ivTcSueI+xBQChx
+	 /b/Evvs3EH3xHS1XGQenzL6PCoXSfqEyfLqahrgzUZDgHUjhO2q5/mEBY5bpEhdONxTOy
+	 8LkJcBzAU5bT1s6VbXz0mdVeunf8HiuuDNm1lRlNk/GignoErPf1hi/9ep5TkN4v35cOF
+	 z+o2fdpQh5QhWdWFCaIcguoK9CExTRnI7Z9ld1YeSBn1Cm2xr5Klix5bHbSIkAD9oUzpl
+	 IBE1mc8pDBh0uP92dcZAoKN3HI852+O5BoiAN5tZ4yFtpxMMgjWQZwQo5zc5FjNhEOg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1793032874;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=UI0duaktdJo75orpWto+5YzczDf1eOZrJ5Vk4N9gpg4=;
-	b=sNCPlOLsxNL9Jndk2o9HjhObbvIEzCvz/KdG9qHhIazXIEGH6A8jTMfQc1pUF5giIyQ4
-	 nnW1HMGokEX5pXSUXOWkeRe8UTsvEINazOukUstglMysmizLogEaw42KmVkysspLV4EvL
-	 IImeUJqY/AQzMj7NS95ZiGs0CU304FYeztfIaebIKxv6m3QyrYZYHfaKYqALDCr6ZdHH2
-	 IyafhqNkNqVvYo1GFmU7w038fp919Qyx5J3cWPQw+K6QoYbBXwWtVrC8+HlQT0JdNGN2Q
-	 OoT/L0Hl17ymh2Bb1gbVqHbBZUoRwALxwhjht3SeTagc3BVkXSJ/9pr8ABAlAomTvkQ==
+	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
+	b=Ze3fV5NPAAEBb13SJeONi5RePIRJ9M58vjk4LjMUWG4hD8JBhgheg+ux97+2uvlGMvud
+	 BQoN9WCnItSFOKprTMjjDEoObxtdQl3s1X/eOwvVMgZKTWFwVrH0q9tOL8sZKSBHHWWio
+	 8xeAS/nibcOv7b/b5+q6fHPbVdFUabE9IDiDSagCQI0OENrf7i0N2qJIsPWLPj57xW31E
+	 nNiR9UYoAIb9q67eAVgvD83Gdyqixvi3dMxS/vbDZqY06ENTnzMBeGKF8oATT2QGnNrEK
+	 IaIyCjBjIfWPfqJQyvvSpHA+M1SXOoDlhCkjgdwzBY1FfLWNEtmzIwPnP4/gDsr5Pmw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E434C1F031E1;
-	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0FC531F031EB;
+	Mon, 26 Oct 2026 16:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793032874;
-	bh=UI0duaktdJo75orpWto+5YzczDf1eOZrJ5Vk4N9gpg4=;
+	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=YfHTVTAfyuBGJH0k2Zi1L51+QfxQAY8t8azxjew24b92XaZP3TAA/QmA4WBRmQYS9
-	 YZHgiNaBOZuWukmNeyVvKoMCO18OhKbKBJgJrzuGEx4G14CLTK0xtEZ5QxYXebdhPk
-	 WXm4n56Ah4W8adGIP4vjjB44N0rlw/aWAPj3+NnukNnv8xrNYCTr28E1/DFG82Swyw
-	 1mduV0y6SHU7Z0iwWESam0KeLf9sfhPvuIO30SOFAbOR885DEiLaLgZM+0Zc/rY4xI
-	 BPf2pPVCD3yXWE2rkYFOwezjavSTnUtC5GhMd0pwVXGskZyQW4bU6VwDoM4hhtccBy
-	 GE7vieL6xDhMQ==
+	b=S+xSuyaS22+VeFtbyObJ8Pp2E1pWqKtJel6OMdwkhNzkl3Y0EvLAUDnR+SX2sCD8n
+	 VCR1bLSEJ8vaVwO7Bjs6Snvv06ty5wAJBSkDvZNKNkU6PlWtV5WGAFSkGrp2lU9m1U
+	 e4Uvot1G/P9nNKg5a5ddtTj8v8Q61acD3MmjbX3lki57jyGenC41DjXcPiHRHdMFER
+	 0XC6ggwo9va231o9Hti6eRzbl0aZDHvUPcWlAAWq4dpgjiAxBTL3lCqDJBVVG9gVbC
+	 3djT3GvF153z2/RDCTtKUlH5fkSJIhxyUEq466qjNpTHLO3WN/vQ9Uptgp7YvJpOmZ
+	 E24k84nCigWnQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6C74444DD1;
+	by lkml.kernel.org (Postfix) with ESMTP id 80FC944DD9;
 	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
 From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Tue, 27 Oct 2026 00:40:57 +0800
-Subject: [PATCH v5 04/11] drm/tyr: add per-file VM pool
+Date: Tue, 27 Oct 2026 00:40:59 +0800
+Subject: [PATCH v5 06/11] drm/tyr: add BO creation and lookup helpers
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,7 +84,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-tyr-ioctls-v5-4-59dfe98cb003@kylinos.cn>
+Message-Id: <20261027-tyr-ioctls-v5-6-59dfe98cb003@kylinos.cn>
 References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
 In-Reply-To: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
@@ -105,11 +105,11 @@ Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
  Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793032870; l=6351;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793032870; l=2048;
  i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=6e0UJyCzBHvcs8/1Mg3KbNqFll8FkJW8X5qsZig8y6E=;
- b=FX8sQqJrJdCqFTSIzfdDwBF6kM5toCLSNdMQMskpp+WEv5Pq//bLLAdHGrbzCeF8osd8hxza4
- d1c2l7F2hs5BQByQMv8xecddU2U41lQ2TCrGykG8SPT1MN+a9FtFZ7L
+ bh=NWIPbx+eohkv3FNLcTsYqaXCTEHpzUO212X/sd33Vuo=;
+ b=X4OCylbW2f7Y+JxaVNoCO2kgmx47BLLZ5ZaAPGwNsryuXoKoN/xzYLrjktzqg2ZTyFc+1KREA
+ cKeg/bOZdWIAt9uDTeieIAKJCDWI1wklHDh70mncUx+QztZDJmNRUVi
 X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
@@ -119,188 +119,73 @@ Reply-To: sunke@kylinos.cn
 
 From: Alvin Sun <alvin.sun@linux.dev>
 
-Userspace needs multiple independent GPU address spaces per file,
-addressed by ID through the VM ioctls as in panthor. Store them in an
-IdPool (capped at 32 for panthor parity) plus an XArray. On failure
-the caller receives the VM for teardown through the returned error,
-whether the un-stored clone or the original on an ID conflict, so an
-aborted creation never leaks a VM. The pool kills every VM still
-stored when the file closes.
+Add helpers for the BO ioctls: new_object() creates a GEM object with
+the size aligned up to PAGE_SIZE, and lookup_handle() resolves a handle
+for a DRM file.
 
 Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- drivers/gpu/drm/tyr/vm.rs | 140 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 139 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tyr/gem.rs | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-index c5e307b1e2416..69b092a130883 100644
---- a/drivers/gpu/drm/tyr/vm.rs
-+++ b/drivers/gpu/drm/tyr/vm.rs
-@@ -33,6 +33,7 @@
-         }, //
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 3bf3787f5c3fd..0e0989a48678f 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -9,8 +9,10 @@
+ use kernel::{
+     drm::gem::{
+         self,
+-        shmem, //
++        shmem,
++        BaseObject, //
      },
-     fmt,
-+    id_pool::IdPool,
-     impl_flags,
-     io::PhysAddr,
-     iommu::pgtable::{
-@@ -41,6 +42,7 @@
-         ARM64LPAES1, //
-     },
-     new_mutex,
-+    num::casts::FromSafeCast,
++    page::PAGE_SIZE,
      prelude::*,
-     sizes::{
-         SZ_1G,
-@@ -53,7 +55,11 @@
-         ArcBorrow,
-         Mutex, //
+     sync::{
+         aref::ARef,
+@@ -23,6 +25,7 @@
+         TyrDrmDevice,
+         TyrDrmDriver, //
      },
--    uapi, //
-+    uapi,
-+    xarray::{
-+        AllocKind,
-+        XArray, //
-+    }, //
- };
++    file::TyrDrmFile,
+     vm::{
+         Vm,
+         VmMapFlags, //
+@@ -53,6 +56,32 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
+ /// Type alias for Tyr GEM buffer objects.
+ pub(crate) type Bo = gem::shmem::Object<BoData>;
  
- use crate::{
-@@ -948,3 +954,135 @@ fn pt_unmap(dev: &Device, pt: &IoPageTable<'_, ARM64LPAES1>, range: Range<u64>)
- 
-     Ok(())
- }
++/// Create a new GEM buffer object.
++#[expect(dead_code)]
++pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
++    if size == 0 {
++        return Err(EINVAL);
++    }
 +
-+/// Maximum number of VMs a single file may hold, matching panthor's
-+/// `PANTHOR_MAX_VMS_PER_FILE`.
-+const MAX_VMS_PER_FILE: usize = 32;
++    let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
 +
-+/// Per-open-file pool of VMs.
-+#[pin_data(PinnedDrop)]
-+pub(crate) struct VmPool<'drm> {
-+    /// Parent device, for error reporting.
-+    dev: &'drm Device<Bound>,
-+    #[pin]
-+    ids: Mutex<IdPool>,
-+    #[pin]
-+    vms: XArray<Arc<Vm<'drm>>>,
++    Bo::new(
++        ddev,
++        aligned_size,
++        shmem::ObjectConfig {
++            map_wc: true,
++            parent_resv_obj: None,
++        },
++        BoCreateArgs { flags },
++    )
 +}
 +
-+/// Error returned when a VM cannot be added to the pool. The caller
-+/// owns the teardown of the VM in [`AddError::vm`].
-+pub(crate) struct AddError<'drm> {
-+    #[expect(dead_code)]
-+    pub(crate) error: Error,
-+    #[expect(dead_code)]
-+    pub(crate) vm: Arc<Vm<'drm>>,
++/// Look up a GEM object by handle for a DRM file.
++#[expect(dead_code)]
++pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>> {
++    Bo::lookup_handle(file, handle)
 +}
 +
-+impl<'drm> VmPool<'drm> {
-+    /// Creates a new [`VmPool`].
-+    #[expect(dead_code)]
-+    pub(crate) fn new(dev: &'drm Device<Bound>) -> impl PinInit<Self> {
-+        let ids = IdPool::new();
-+        pin_init!(Self {
-+            dev,
-+            ids <- new_mutex!(ids),
-+            vms <- XArray::new(AllocKind::Alloc),
-+        })
-+    }
-+
-+    /// Stores the VM and returns the allocated ID.
-+    ///
-+    /// On failure - ID space exhausted or a store failure - the VM is
-+    /// returned in an [`AddError`] so the caller owns the teardown.
-+    // TODO: allocate IDs with the XArray directly (once it grows range
-+    // allocation, the equivalent of C's `XA_LIMIT`) and drop the IdPool.
-+    #[expect(dead_code)]
-+    pub(crate) fn add(&self, vm: Arc<Vm<'drm>>) -> Result<u32, AddError<'drm>> {
-+        let id = (|| {
-+            let mut ids = self.ids.lock();
-+            let unused = ids.find_unused_id(1).ok_or(ENOSPC)?;
-+            if unused.as_usize() > MAX_VMS_PER_FILE {
-+                return Err(ENOSPC);
-+            }
-+            Ok(unused.acquire())
-+        })();
-+        let id = match id {
-+            Ok(id) => id,
-+            Err(error) => return Err(AddError { error, vm }),
-+        };
-+
-+        let mut vms = self.vms.lock();
-+        match vms.store(id, vm.clone(), GFP_KERNEL) {
-+            Ok(prev_vm) => {
-+                if let Some(prev_vm) = prev_vm {
-+                    // An existing VM at the freshly allocated slot means the
-+                    // IdPool and the XArray are out of sync: the stored VM is
-+                    // a pool entry, so the pool kills it and the caller's VM
-+                    // is returned for teardown.
-+                    drop(vms.remove(id));
-+                    drop(vms);
-+                    prev_vm.kill();
-+                    self.ids.lock().release_id(id);
-+                    dev_err!(
-+                        self.dev,
-+                        "IdPool/XArray out of sync at VM pool id {id} (stored VM conflict)"
-+                    );
-+                    return Err(AddError { error: EBUSY, vm });
-+                }
-+                Ok(id as u32)
-+            }
-+            Err(err) => {
-+                // Drop the XArray spinlock before acquiring the `ids` mutex.
-+                drop(vms);
-+                // Release the pooled id; the VM never entered the pool, so it
-+                // is returned to the caller for teardown.
-+                self.ids.lock().release_id(id);
-+                Err(AddError {
-+                    error: err.error,
-+                    vm: err.value,
-+                })
-+            }
-+        }
-+    }
-+
-+    /// Removes and kills the VM with the given ID.
-+    #[expect(dead_code)]
-+    pub(crate) fn remove(&self, id: u32) -> Result<()> {
-+        let mut vms = self.vms.lock();
-+        let vm = match vms.remove(usize::from_safe_cast(id)) {
-+            Some(vm) => vm,
-+            None => return Err(EINVAL),
-+        };
-+        // Drop the XArray spinlock before killing, since `kill()` may sleep.
-+        drop(vms);
-+        // Kill the VM before handing the id back to the pool, so a VM is
-+        // never reusable while still alive.
-+        vm.kill();
-+        self.ids.lock().release_id(usize::from_safe_cast(id));
-+        Ok(())
-+    }
-+
-+    /// Gets a shared reference to the VM with the given ID.
-+    #[expect(dead_code)]
-+    pub(crate) fn get(&self, id: u32) -> Option<Arc<Vm<'drm>>> {
-+        let vms = self.vms.lock();
-+        let borrow = vms.get(usize::from_safe_cast(id))?;
-+        Some(Arc::from(borrow))
-+    }
-+}
-+
-+#[pinned_drop]
-+impl PinnedDrop for VmPool<'_> {
-+    fn drop(self: Pin<&mut Self>) {
-+        // Kill every VM left in the pool. The ID range is bounded by
-+        // `MAX_VMS_PER_FILE`, so this loop is cheap and runs at file close.
-+        for id in 1..=MAX_VMS_PER_FILE {
-+            // Release the XArray lock guard before killing: `kill()` may sleep.
-+            let vm = self.vms.lock().remove(id);
-+            if let Some(vm) = vm {
-+                vm.kill();
-+            }
-+        }
-+    }
-+}
+ /// Creates a dummy GEM object to serve as the root of a GPUVM.
+ pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice) -> Result<ARef<Bo>> {
+     let bo = Bo::new(
 
 -- 
 2.43.0
