@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793032875;
-	b=qx6rJFGgmWcNATtYbHlf3rfYCaqRB2lVlJosw+2v7gGD3M4gCTmkWZG6LglWRs1oh/p4
-	 4HCfabX/ZXusbaOkEyFhqcPsZZa4GpSTpI+1m4BbibjhbLK5o9OOCr6j4/yQRovh8xc3J
-	 m8lKyrk1I6zQDoBRsdyIbPiJx4QYaggJh+RmwqppzZYAg5ActmXoIp+1q8ln/8ep4eTOF
-	 HZIC+y8MFi91PaJylqaxDKUciygoGR2XDPkBeXT0fFYjcCy17Lyva2ihabchGIgGZc4AM
-	 ZeoyHzBP7PTqo7Qe4Mv5OzP9cW2TBj6A39tlDwAYQVfrIfDwhAovlPcMb7tZ8Jo5Lmg==
+	t=1793032876;
+	b=S9O3LGqWI9jFm+oNXbq3MwlOC02/f8lrouqgiuTY61aNpf+qv9xkwLgTUwqWpPH8+eOd
+	 hKGDM51+tKu8bl49T3Wm3UfiHcSunHxH+a1PBqA0SKsJz2Ih5XE0wG6TeYfxpvHkxGUXm
+	 OLIPA3XvX6Wm7Q4DGKMVSsuCJWxf3wgcnW29TiVNdUubFW6Up0TbfyK6P74MLdKRcoTMw
+	 oQ8r418J291vjyZblGoFnZ+F4yectBNgo9S7ig66pNKMhGY5FaDK764WLYYm8SiHqLVPN
+	 7hXAXpwImiqMMzwX/1tKmPIzRIfpiywQvz3sF0AvOf5CeAbFx1oa2lbTl7ZVLQRl4/A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793032875;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793032876;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
-	b=bok5NjKODvkiY5nMCexC5d7f4uLZSorsBHFx746FxTqCDlmY60aWhi5gLDjo8ujabLzR
-	 MbMilKn5kyGC1d2ZIq0vMUR8fMU0n1nA/e+x3Nv4ENcDbMHr+34WI1Wd61x5QUorr5A67
-	 eFCZojc/HuqhheXhjXn+cJDOq1JZVR/cHVOgoCL9bXHzwtKCc2EJqnRNNru7CJVjVx/Em
-	 bB4vrwhb2N3JGdpGg6jbmGzs3acLomhW/ipY29VFv5ma0sQBpTk4fYiZeQwGkZNcdjjiO
-	 HC/qxWl3tev9w/6gph0tb3ZjIophJy4h1BUKw11nlk0aqFDpWlJiG6BVI5dJ/3x8Dwg==
+	bh=gztH9BpgmL/L02GYe9EFLepQqn23j0pk11maH6aMPrw=;
+	b=v3h8flXCZomTeV/4AHUcx8VMmlM2jRwFIyi9G3sZ+UNocDuW+ovmNeTZVp42BWC6jfDW
+	 PW5KXSoQmOfiuew0mRab/ZMl7jhoLjekgsB40epTX0O+n/65ZxH2yO8pBnX1w44vFDn3w
+	 BkjngJIyBARz0THAL+dAhe/l5+EIvgo2WchVV/OoBB2RTfO3nWwpxeStKDbka6OhU9seP
+	 qF4RGtDgR5ymc0le6vbWt+EnbKzqHRo1hOicJjJv76XGyhz4yKalHJzEzqcQWYfYOA2Jt
+	 uPkJ4i66ICGDIP2iVS3ggCYJkn0UCnfEOJJNGatzpiKQ4H0hp8iQ09YxxNcTNBgwjsA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S+xSuyaS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kT8iBI1x;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50395606A32F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987B4606A320;
 	Mon, 26 Oct 2026 16:41:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S+xSuyaS
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kT8iBI1x
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793032874;
-	b=MTVWWunWNI/NR//pplG6czhnrkhg6fwqbsPTKahDf4DM9Y4Y+R/z2ivTcSueI+xBQChx
-	 /b/Evvs3EH3xHS1XGQenzL6PCoXSfqEyfLqahrgzUZDgHUjhO2q5/mEBY5bpEhdONxTOy
-	 8LkJcBzAU5bT1s6VbXz0mdVeunf8HiuuDNm1lRlNk/GignoErPf1hi/9ep5TkN4v35cOF
-	 z+o2fdpQh5QhWdWFCaIcguoK9CExTRnI7Z9ld1YeSBn1Cm2xr5Klix5bHbSIkAD9oUzpl
-	 IBE1mc8pDBh0uP92dcZAoKN3HI852+O5BoiAN5tZ4yFtpxMMgjWQZwQo5zc5FjNhEOg==
+	t=1793032875;
+	b=aa4ePNeN2I/BukVnUc/+lYhitDGVtUpqcCXPz9ehNcBn5dI29ptApSDMGqIV0/ygj90h
+	 0eZ1DtN5UosGj5H1/AiTXcgeRDtduose/MR45WFYHA6AMlg82osp/QchqVsqpjtDluovD
+	 a+vO7FlcibUcc0T2fdE+b77TcLmtCWbukqi2aopynxBekfSaBooJIAtMwJRYNi4t6UrO4
+	 jisKTEU102pPi5p0dhC6MTIHpINTLjsMbGx0of7Bcj41U5A7yo1LhOiKVyLpB0gcQqROR
+	 5pKzgr82G1MCFkTSQcpLIpiWv/Oy5uj7G/yZdyrWBwFSdPzwKPJLt/CRz1VWBp+i8MA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793032874;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	c=relaxed/relaxed; t=1793032875;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
-	b=Ze3fV5NPAAEBb13SJeONi5RePIRJ9M58vjk4LjMUWG4hD8JBhgheg+ux97+2uvlGMvud
-	 BQoN9WCnItSFOKprTMjjDEoObxtdQl3s1X/eOwvVMgZKTWFwVrH0q9tOL8sZKSBHHWWio
-	 8xeAS/nibcOv7b/b5+q6fHPbVdFUabE9IDiDSagCQI0OENrf7i0N2qJIsPWLPj57xW31E
-	 nNiR9UYoAIb9q67eAVgvD83Gdyqixvi3dMxS/vbDZqY06ENTnzMBeGKF8oATT2QGnNrEK
-	 IaIyCjBjIfWPfqJQyvvSpHA+M1SXOoDlhCkjgdwzBY1FfLWNEtmzIwPnP4/gDsr5Pmw==
+	bh=gztH9BpgmL/L02GYe9EFLepQqn23j0pk11maH6aMPrw=;
+	b=CYDOH7nAbk/Gb5KZbN0TgIM4I8g8I8j5CS7WSeHF9tAiRLCRpyMOYa0UwCl+O5P8Wgwt
+	 9biLSEHqbQCftVGdizTQPUOBQG2SY+psCqba8CrAfWa0cNwzXYSC4+spfyTHWRG5Nd91N
+	 wFlvypEG/Qee69RwShNWyWhZYI+f6TtjT04Gju98xpZQWig2P2Nu+GMpoqsfJx9kO+bcI
+	 XdZ4nsFd9BEP3AGpFP4LZtF9mMAPPe9Gu5Qe4hw0qCMSnwbSg8MIA98ResFjZ6V7aD+80
+	 u/v/sabM7/REozv9oLNe2V0PTQ22OOEchj4oLkHflSLoYznfGhJsJDGn7SapagIxKXg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0FC531F031EB;
-	Mon, 26 Oct 2026 16:41:14 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id C1B651F01825;
+	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793032874;
-	bh=eN4JBX5Yi3bsMUckUX9jCNXAb+0k7j4yV01QcPouoZA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=S+xSuyaS22+VeFtbyObJ8Pp2E1pWqKtJel6OMdwkhNzkl3Y0EvLAUDnR+SX2sCD8n
-	 VCR1bLSEJ8vaVwO7Bjs6Snvv06ty5wAJBSkDvZNKNkU6PlWtV5WGAFSkGrp2lU9m1U
-	 e4Uvot1G/P9nNKg5a5ddtTj8v8Q61acD3MmjbX3lki57jyGenC41DjXcPiHRHdMFER
-	 0XC6ggwo9va231o9Hti6eRzbl0aZDHvUPcWlAAWq4dpgjiAxBTL3lCqDJBVVG9gVbC
-	 3djT3GvF153z2/RDCTtKUlH5fkSJIhxyUEq466qjNpTHLO3WN/vQ9Uptgp7YvJpOmZ
-	 E24k84nCigWnQ==
+	s=k20260515; t=1793032875;
+	bh=gztH9BpgmL/L02GYe9EFLepQqn23j0pk11maH6aMPrw=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=kT8iBI1xOsKmSLmOhsRTRm/M1doF2JCMuhIh6tnSrjvXYH7YsJRZ7NwWLBoMN96pk
+	 DV8h3qGqBqArsI/Ok+8S35XbO3pq9H+fRovS80ND/I6DXG1w6Q4qf8OP5nl6vnJ41M
+	 pcoykT/NqKPLUjK13r7pxZCXnAXcv39lGlwkgBCzeWB5/HANn5+f0FfpZvCwI5H24B
+	 Pm/bY+a6PVO37Ae1bcsfS4szxR7ESiXKSFIRwGK8DryKlrCH2iGIA2UZ3/vZ3LFB54
+	 3HrNfSEpCSjz0ZquGaM1a2Q/oDBlM6hkpJ8EhtdxTzDYtjWKLAxuVe0mWjlwwQrQrT
+	 SvjmIM35Tn95A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 80FC944DD9;
+	by lkml.kernel.org (Postfix) with ESMTP id 400C144DBE;
 	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
 From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Tue, 27 Oct 2026 00:40:59 +0800
-Subject: [PATCH v5 06/11] drm/tyr: add BO creation and lookup helpers
+Subject: [PATCH v5 00/11] drm/tyr: add VM and BO ioctl support
+Date: Tue, 27 Oct 2026 00:40:53 +0800
+Message-Id: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,9 +85,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-tyr-ioctls-v5-6-59dfe98cb003@kylinos.cn>
-References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
-In-Reply-To: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
+X-B4-Tracking: v=1; b=H4sIAJaC32oC/1WNzQ6CMBAGX8X07Jpt+QuefA/jobRbacRi2kogh
+ He3EGPkOLuZb2YWyFsK7HyYmafBBtu7BMXxwFQr3Z3A6sRMoCixRg5x8mB7FbsAhiMZ1KoxsmR
+ JaGQgaLx0ql0V7Z/g3yGCozGu/5cnY8ctdr0lbm2IvZ+29pCt129G1P+ZIQMEUdZFYRrOuS4uj
+ 6mzrg8n5di6M+Q/l6PAnZsnt8JcU1VpKUS2c5dl+QBMNEAyAQEAAA==
+X-Change-ID: 20260901-tyr-ioctls-f10ef0dcbfa6
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
  Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -105,11 +108,11 @@ Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org,
  dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
  Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793032870; l=2048;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793032870; l=4531;
  i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=NWIPbx+eohkv3FNLcTsYqaXCTEHpzUO212X/sd33Vuo=;
- b=X4OCylbW2f7Y+JxaVNoCO2kgmx47BLLZ5ZaAPGwNsryuXoKoN/xzYLrjktzqg2ZTyFc+1KREA
- cKeg/bOZdWIAt9uDTeieIAKJCDWI1wklHDh70mncUx+QztZDJmNRUVi
+ bh=bBAFke2fJNrZEEGOOQEc7TX5IdMqHI9K3Ku4aJdqwK4=;
+ b=nCwTUaF+5xXHNkykuInJkW3epGCTNQqM0QAwLO4uTbgJOFCY8AtlgQi++hWoCzHuFaT6uRtSI
+ i1s7CmZyYbiDveCKqPxwj0jdjAv7A8KHl5K0K9Rw/9xGQ01qf0m9xSD
 X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
  pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
 X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
@@ -117,77 +120,107 @@ X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
 X-Original-From: Ke Sun <sunke@kylinos.cn>
 Reply-To: sunke@kylinos.cn
 
-From: Alvin Sun <alvin.sun@linux.dev>
+Add the VM and BO ioctls to the Tyr driver, aligning its userspace
+interface with panthor.
 
-Add helpers for the BO ioctls: new_object() creates a GEM object with
-the size aligned up to PAGE_SIZE, and lookup_handle() resolves a handle
-for a DRM file.
+The series is based on Danilo's `drm-file` series on
+`drm-rust-next`. It also carries Sami Tolvanen's buffer
+cache-management patches from
+https://gitlab.freedesktop.org/panfrost/linux sami/tyr/7.3/dev.
 
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+The panthor IGT tests pass on an RK3588S device.
+
+A branch with the full series and all prerequisites applied is
+available at:
+https://gitlab.freedesktop.org/alvinsun039/linux.git tyr-ioctls
+
+Link: https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/64
+Signed-off-by: Ke Sun <sunke@kylinos.cn>
 ---
- drivers/gpu/drm/tyr/gem.rs | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+Changes in v5:
+- Replace the mm-based task_size() (always returned 0) with Sami's
+  CurrentTask::task_size() implementation (Deborah, Alice).
+- Use from_safe_cast() for the id conversions and annotate the AddError
+  fields so the VM pool patch compiles on its own (Deborah).
+- Store a clone on pool conflicts and return the caller's VM instead of
+  expect()-ing (Deborah).
+- Drop the redundant project() in PinnedDrop (Deborah).
+- Fix the rustfmt issues found in the series (Deborah).
+- Link to v4: https://patch.msgid.link/20261020-tyr-ioctls-v4-0-704de77da223@kylinos.cn
 
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 3bf3787f5c3fd..0e0989a48678f 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -9,8 +9,10 @@
- use kernel::{
-     drm::gem::{
-         self,
--        shmem, //
-+        shmem,
-+        BaseObject, //
-     },
-+    page::PAGE_SIZE,
-     prelude::*,
-     sync::{
-         aref::ARef,
-@@ -23,6 +25,7 @@
-         TyrDrmDevice,
-         TyrDrmDriver, //
-     },
-+    file::TyrDrmFile,
-     vm::{
-         Vm,
-         VmMapFlags, //
-@@ -53,6 +56,32 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
- /// Type alias for Tyr GEM buffer objects.
- pub(crate) type Bo = gem::shmem::Object<BoData>;
- 
-+/// Create a new GEM buffer object.
-+#[expect(dead_code)]
-+pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
-+    if size == 0 {
-+        return Err(EINVAL);
-+    }
-+
-+    let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
-+
-+    Bo::new(
-+        ddev,
-+        aligned_size,
-+        shmem::ObjectConfig {
-+            map_wc: true,
-+            parent_resv_obj: None,
-+        },
-+        BoCreateArgs { flags },
-+    )
-+}
-+
-+/// Look up a GEM object by handle for a DRM file.
-+#[expect(dead_code)]
-+pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>> {
-+    Bo::lookup_handle(file, handle)
-+}
-+
- /// Creates a dummy GEM object to serve as the root of a GPUVM.
- pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice) -> Result<ARef<Bo>> {
-     let bo = Bo::new(
+Changes in v4:
+- Rework VmPool teardown: add() returns an AddError the caller owns,
+  a conflicting stored VM is killed with EBUSY, and remove() kills
+  before the ID is reused (Daniel, Deborah).
+- Wrap dev_dma_attr in a DmaAttr type with dma_attr()/is_coherent()
+  and rename the patch accordingly (Danilo).
+- Fetch the sg_table unconditionally in new_object() and drop the
+  conditional flush call (Daniel).
+- Use dev_dbg!() instead of dev_err!() for user-input validation and
+  EOPNOTSUPP for the async VM_BIND path (Daniel).
+- Drop the pr_err!() calls from the VM specification patch (Daniel).
+- Link to v3: https://patch.msgid.link/20260929-tyr-ioctls-v3-0-26955fb111d5@kylinos.cn
 
--- 
-2.43.0
+Changes in v3:
+- Drop the VmOwner wrapper and kill VMs explicitly on destroy and
+  file close (Deborah).
+- Add Sami Tolvanen's buffer cache-management patches: coherent
+  devices map buffers cached, write-combine buffers flush at
+  creation, and BO_CREATE accepts WB_MMAP.
+- Drop the new_dummy_object refactor; the dummy object stays a direct
+  Bo::new since new_object now fetches the sgtable for write-combine
+  buffers.
+- Document the LargeSizeConstants trait in the sizes patch (Miguel).
+- Misc commit message and comment cleanups.
+- Link to v2: https://lore.kernel.org/r/20260908-tyr-ioctls-v2-0-88bea777df67@kylinos.cn
+
+Changes in v2:
+- Fold the VM pool into vm.rs and cap it at 32 VMs per file (Deborah).
+- Add VmOwner so a VM is killed exactly once on drop, regardless of
+  remaining references (Daniel).
+- Replace the VmSpec enum with new_for_fw()/new_for_user()
+  constructors (Daniel).
+- Parse VM_BIND op types via VmBindOpType and use the kernel
+  Atomic<bool> for the unusable flag (Daniel).
+- Use PAGE_SIZE for the dummy object size (Daniel).
+- Rename BoData::create_flags() to flags() (Daniel).
+- Report VA-split failures with dev_err! at the caller.
+- Link to v1: https://lore.kernel.org/r/20260902-tyr-ioctls-v1-0-e0fdbf8bd108@kylinos.cn
+
+---
+Alvin Sun (7):
+      rust: sizes: add SZ_4G constant
+      rust: sync: arc: relax `ForeignOwnable` for `Arc<T>`
+      drm/tyr: add per-file VM pool
+      drm/tyr: add user and MCU VM specifications
+      drm/tyr: add BO creation and lookup helpers
+      drm/tyr: add VM-related ioctls
+      drm/tyr: add BO-related ioctls
+
+Sami Tolvanen (4):
+      rust: task: add task_size()
+      rust: device: expose the device DMA attribute
+      drm/tyr: gem: flush write-combine BOs from probe-time coherence
+      drm/tyr: gem: map cached BOs for DRM_PANTHOR_BO_WB_MMAP
+
+ drivers/gpu/drm/tyr/driver.rs   |  24 ++-
+ drivers/gpu/drm/tyr/file.rs     | 407 +++++++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/tyr/fw.rs       |  21 ++-
+ drivers/gpu/drm/tyr/gem.rs      |  76 +++++++-
+ drivers/gpu/drm/tyr/vm.rs       | 355 +++++++++++++++++++++++++++++++++--
+ rust/bindings/bindings_helper.h |   1 +
+ rust/helpers/task.c             |   6 +
+ rust/kernel/device.rs           |  24 +++
+ rust/kernel/sizes.rs            |  12 ++
+ rust/kernel/sync/arc.rs         |  12 +-
+ rust/kernel/task.rs             |  12 ++
+ 11 files changed, 900 insertions(+), 50 deletions(-)
+---
+base-commit: 0315936d31de6de2668d14294486aebaaeece4b3
+change-id: 20260901-tyr-ioctls-f10ef0dcbfa6
+
+Best regards,
+--  
+Ke Sun <sunke@kylinos.cn>
 
 
