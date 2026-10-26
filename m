@@ -1,134 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793052494;
-	b=J7gfhWHIIGgm3DN1OOqNL1wmm39B1oVZPdopkU51GCp9nL/jAfI8ZB+wXrJIWpfLlLbt
-	 AtRWKXu2JmbXwjXHN+D02FQlLvoC8KS98Oo6ENx+Ox6CkHV/YOU3ZzOnNfD2aCm7fo9Pj
-	 0uPoh4YIv9hqm/RVTYA7lTmPxAw4q/v4PjrEgKWEhPQs5wtMsGGH/bs2uHcQ/5KvLuodF
-	 TYZdmIsyL4kqVio3/9VG8ImJwS0oDQI54jSXFXNadH7FOl6XPaCfWaQ50rzdJMuibCHM6
-	 xhYc3vHTkQrV6S67m54PEW65MG396sq49U17AOZ/1DGOAo5VdE0Qo0P5EQ+6/sylOiw==
+	t=1793054781;
+	b=z/3DkdZjd9/lgEysYZyinhWNLxmQChVk8vStjlp27mYHeXhK1hjIYwxNAeu9bObqYz0e
+	 8ojQiphjz86FL8PVcTyu735TE5GKJ3KOXo+1z+UI7IEkN+HzkRZNISMIbSyUY7rsqC/1g
+	 XBCz1wN+NkAwEfQP0nCp2N/WVCj7rN64yb41NIRjmof//ul1eM+QQzdIi2vD9JoEXA7SX
+	 mE0PZGOjvLwe+A+f0XYYtEVDcQP4VTbPFFyV7NDDdLKCW0/ItkLyEmqrVmEcBmMn/To84
+	 fVppsqCCfPk/JCgDl4hCVnyo/q9ZFtL0W2sVlw1WjU850G/O4UWVrVzw32iIzYwyH9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793052494;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
-	b=eWv/Fm5WStaEcZIJSXJ+AGeiAwvYPMF6VFj+hMnLvynOgTaZPvAPme64qU+vWVOb5vkD
-	 Kg9jIrUFaG2JBgXuwf2xqzsHLECeNcvYl8WU4X/KJyzgVmo49En3fW0iHAz4rhFyCIAkU
-	 hcvcRWfSA9QGcEriQIgJeQciwQosqMkfTjkEgEO3vm3gvEpb8+bL5+PsGk5jYr2vjYT31
-	 YOnfp8UGTOwAyNkeHRrXvTmBR9zFLM5uFgEUlHk4dW/p5dPFCXSdFXYtY8ob4CektmRB+
-	 K//5VvJXH/cOCxTPby/lQN39q0AiBFsOeIvMDi0ZwBElgG20hy8/WvCrBBc8lKaTB/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793054781;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+	b=MkDfA1jnszfN15Pvfetf+wcBN7GKJYenSobY+XZi67jwuMoA03kswsjBN/rmfes4uiT4
+	 5L0+2nqpC+AxNGvrYsr68WEK/E1XaDg1IrPzVqezy8ONtYE9eCB/xM/TX8PLzPjSFNznY
+	 HI5BhaGFwKIwosBWOEzEV6V4C2PvoxMoYP+aWpOCeG7h4qTT5XxUwdG94FgbRpcAFESEb
+	 av/G5hTrGd6MyGThMPCvOLbFbgs+B0tnOCHL46voehPMkaFC9g89ALN+bPRPuw8Dtc1ha
+	 abF2IfnHT3C3wbmE2eeZ0X6JiFZN3soRcxMMjsi8Z6XnmH44nWpbiNQjo7AdRtTYKsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI;
-	arc=none smtp.remote-ip=202.12.124.148
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01762606A31A
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 22:08:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01762606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=UrEV8CO1;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=avGk9PqI
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 41F791D003D6
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 18:08:12 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 26 Oct 2026 18:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793052490;
-	 x=1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=
-	UrEV8CO1TUZnK8PJPLQEQ+mBDacfr1ualCI79fofyFxHp/qlH67Qk1zDha6ZDsUD
-	FAJJYbbVRZH706lqEQ1NMx+s1EL71CQ+qJsAggeKG0vqBj/xL0+g9/cQe3EmmVdf
-	OBP9oeiZdtOdhVjy/9V65hXNxM/X0M6KX3SXFOfk0nMcUaC4TuW9Lzuv2ZezXmX2
-	Xm4f4UvRS5LSth3SslZmRV6M1ryJPxSBz8w0BPf9Iigy7LFomt5f2d4ANnD3HKLz
-	lcSjcD+UjlJRdGQsr5RE78TsLBdHTwyWipS6UmHptFiSmVIO1/Q2QG9HEyR7jwi2
-	EYnYOOJt/YEUKLEp9QlmYA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793052490; x=
-	1793138890; bh=yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=; b=a
-	vGk9PqIr6hEzkBG77k8GkpXeSQRT+MVDN4DUxSMcA1igxPIR/+ga1iuhPR87rrch
-	o39J5JLbaroJv+WocVTRVwIurwoXClx0UWuccJ+RgdT0YRqkRq3PW3yzZKClbwX5
-	3PZHhRjN82XGlHlJbp/bOyza6RhwVbJRIEDqU5PO7X908wlAZXc7i09ujPK/uSwP
-	maqeWiARyT+wYltmETV8RrnGseapHSWp99e0Cf5kBm0Whh7W7jcTP1gtIbhSpiyR
-	0u/vnbhHjLT8RNpOZZfIxnpiwmL5vNgnvKvxOb8zxwiBvIQ76xAQd8Rnn2fR98xe
-	yIS/MWt0ERu5CwEw/HwWw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793052490; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:U4F/aFZgmQjEhaji2O6+O/lWdL/ksKE2TRy/bGDweNcTD4E
-	Y1Igly/3LFo88FTSs2kt8R0sxuLEreKWXgnhMTzsM2pnwYDPZwdCs3hirfKDS0WD
-	goLF+ahGxEZWkj5T+Wk/tw5HmnFWUS0Yri3aoXf79fCXeD0lgaAjQ0riZ0ty4cQH
-	BPjwp8hv2LzP0043eTx8GiHT81/VYMmwr8xBwOj0/uvJ2lvqN8OozW83pGZWobNO
-	fQMhyjt1TK/5DhboJGqOUjNiqixiEJrklQp6AV3WU1H3UbGrvN1TepRzgltZW8r7
-	WwMtN5TRzhCi9xNcbtB/MTF3Tes4TuFbGiqqjrw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:tdg6ua8/hQS/iYkk+8+1oIbT4XjyplM8CQ3hPjDL8gU=:yw8gJOW94fTkjKACtcjzfr/YsSITaXsnUbgsLWBosFE=;
-X-ME-Sender: <xms:SM_falmJYKjuMXVHDQt2QQt2e9GRe6P_ZlHx9B0jy3DtnwU-Mhwilw>
-    <xme:SM_fanzOb00shgf6BVLGTvm3wWAEqDvLNbmTrEUBM6t2vXp1Jn27RhxW-QSd6_ZcG
-    FynuGh_Zd1AH-3TXIyVt0MGvELm2hQ0AdlawiG__NQvzM1M>
-X-ME-Received: <xmr:SM_fagulXQAxGdh47J-3Sc9EZB76wUhrIZV1bSoHJVRcNT9CV3-XLvoY5_ae3ExFkPIKFqbwCSLPkds1UqaKAorpiepGRidZUelVzfY9gax3aZgg4D9bQFfcjNM>
-X-ME-Proxy-Cause: dmFkZTF5HCOsxN9EPzsQKkgStD/Ff4WaJ8kNbHpSExIutymQMzNLPQM/4D7eFPnNuRZhMM
-    yiFZU29YFLK097HXfiVZtxDexZrGtWPk8oIS0KHK9LJ+COj6lx72D3NGicQiveM66XsuuI
-    T5hdMIkNOs99rmLKIhonQkKb4GS6BpcgwfRht1cF14LSexGc7Vuh+dOSrMRFPPDR2vDdp+
-    I2Kj5kQbVl3rdYwlSzYKD6Ljbc/jI3yCouc8I227ttT1dc69wA3DVKDYh6Dxx4CnJAsGMx
-    dRdBm2OsEUCbGYBG+rLKXIe7ZjFMsj4ic7Jo/KwKEtc8FlEvgmpa4M2QKds/GCXUxeH3mV
-    hlatiPuA1PlYXizqCztg6HNVhQRmacIaSHc8Qwq2Br5SvRSQdKCk92iWVbYNmY5u7sdCPv
-    eI9FmIM1vtGGAJVQBqh7+2hzdk6ENCtM8BtYfw4MCq8+yiVA4HOqdWvKKVC2aMSUyYSNNs
-    GjuuWW6QfDWQPLpxyjyyRbSKdpIIyL3Tg4q94xEIkUtYDseeq5zvDy0TxIe/8uq6trsyvq
-    12FxalXYe67wUyQOKOMK+vxsxR9oRudyupWfujyodN+jFjBk8gVG3TaBeGM0J1IM+Kt/YQ
-    9kpaZYdH824878CQeB9Hov1Tbl+TNTcopCEAWeu9r3TVYfVORKt387XTeRNw
-X-ME-Proxy: <xmx:SM_fastfAR-nbfD779bC72wWAQSNDoTOifg7ia6nkQp1Uu6Wl9JC8w>
-    <xmx:SM_faukfKeNv0QfbzQ1Mdz-dRnCEs-2QfPbeNcc7818FyLAicMNf6g>
-    <xmx:SM_faqvDy6DYaKkRzWH01Rnp9FtgDFJd7PuUy91kFsJxUMfQVADTGw>
-    <xmx:SM_falM6fmdy7zX8HjhUCgmquQTDw-Dbj4SPd2ytgaZzwcTjJj6Log>
-    <xmx:Ss_fas8XLcMNaCaKXBRNJwdR2hfN8SrYNk_YE7dtRdyQgT0KrlyGPJI4>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Oct 2026 18:08:03 -0400 (EDT)
-Message-ID: <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Tue, 27 Oct 2026 06:07:59 +0800
-In-Reply-To: <cover.1792577179.git.krystianmkaniewski@gmail.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517EE606A31B
+	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 22:46:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 517EE606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93e63ee7b4cso450900185a.2
+        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 15:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793054775; x=1793659575; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+        b=gcc1aCvhAdLlX09WN2psVH+ILgS9urPxyXEFP2Qt6XHeZ/1HUtAhEXsGhqcjTzQiCz
+         SCcFqYEXOkhlKPUrOgF980uKhmexThaC0c4whmjOdUQDt0uaiYkfcK4eCrylPmAFapt8
+         sqbJAZXQn9mxN/EvaXpATQcyNh/GF4XzoX8yySVcPPH2VOgzSRpziTCPdAwIr0Lufn7b
+         IOABmUefWy5F/Ug/+eX8nmcmpOvvslb2lSInz0zi6OnWR3xPfrohqcruI1LE0m3SpxnJ
+         m5cXdagtI7lkFPIdbXl49bTaiWnfvqnUzy5iBXcBGzwInIekPZGyPdv3qq9RDqsgU9T7
+         3thQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793054775; x=1793659575;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+Idt4XOOJiJpLeVn+jwc4zJtq10BdWV/RKYdo6dVBsA=;
+        b=wdYMC8zJL8TFtqP+Tb8ZMcVwbQmG3fGPIsUwMqYOPehtJnFVua01fS81MdsSaZbcu3
+         wxeiiIKqC8SyKKvvsLV6SFL8p4ZJsgmlit12khAV4h/qiTcwBi9Jx2w2g8/TJQ8BbSka
+         wCo+eOvSxLiR/81WBbOWe96/4yDdt3QTHmD6d90gxW2cg4bzhxLPesSSsQscKCbvuNks
+         +pj1H4blhBEHyvGgzczBF1/1G4zzzD/LQKkXhmVtSK/5Vi2eP4iiJJopeVspUwx7K9O+
+         9J9I0YKZdy4ML3zZkOsbD4C1MY3ereBicsFcG0Ugby1Sw934uLq7RvmMSuB4AemqLtfg
+         +afQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxFwyaIyn92uMDmJONdtVDS3+UzmJ3JIRCXSSVaY0pOmY/T3vgzEu4CdACTO11RxlHhkLovFLKhB2Ozog==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKhlKMgH+iSkpgT3hTxONiO/fBT4H270aSL2PklFSKCOdYcs2kr
+	9OdeUTYO/I9QPzO/Sz+59WBaXo1D2RyCJOMTeAdHMLCXCXqljaRP82N0qYJJ4nES44g=
+X-Gm-Gg: AYBFou0Bc/1X/Aw2xj1CajTH6Ad0RtXRLNSD3SjyEUUWR2upSUAGtlZs+GwgqmnTJk2
+	P2fGoV7vWBMd4JusILnHaZIhuqMh1AZRT681dqfyh/PkBobyparKncfFgW8bsRFZ873wGRXpdK4
+	exZvDsW59/qpvGvFFAjkQ3kxO38nPfXxm7Y0w7ZDmunaF7gGzNnDdZAvF6Day7l6ujo2gIBuka9
+	8JwtnoW2jb19OcTVYF6TYJF7qYgtHweUnt3Qp5QFMndlBQq3W/IRNATvvhrHxFHO7wPqtMk6pSc
+	defMd1SEIHKdPC/EZPx0VUn8L4OjfqnByMN57AAp5wnxmLZf24XpccHxlYlH6FydCZF4/zylpow
+	pS5eDmwvwFxZM4KdLX1wSeY5mKZ6mdPZ3+Oc8RYsLAzMIlBXDjZ9NeiNBh+EeEEt/wmBUrt1O3W
+	DYuoOAfiNYIRebBoAskfeHmDmrEK2ESPme0ztownqIPesnjkj/WEhV5aqnvR87v80mViO1jG1mB
+	8yEp63p6DXl3ozIfJNk8aE0DajIGEQAw/AhJalwHYT/AaziynSL2xa9rW7cKGkOYXF0rsG2cDLA
+	DakzAeoMSu4Aq1/lUWe9L+vWk3bUAbNoqVcHxA==
+X-Received: by 2002:a05:620a:4728:b0:93f:2eaf:64cc with SMTP id af79cd13be357-940ef942794mr1259449285a.44.1793054775098;
+        Mon, 26 Oct 2026 15:46:15 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f05b20e0sm810207185a.3.2026.10.26.15.46.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 15:46:12 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xLTSF-000000087nJ-1Z9f;
+	Mon, 26 Oct 2026 19:46:11 -0300
+Date: Mon, 26 Oct 2026 19:46:11 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261026224611.GB1685504@ziepe.ca>
+References: <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
+ <20261026184312.GA1685504@ziepe.ca>
+ <2026102604-tint-catcall-433e@gregkh>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -138,71 +129,63 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026102604-tint-catcall-433e@gregkh>
 
-On Wed, 2026-10-21 at 14:51 +0200, Krystian Kaniewski wrote:
-> syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-> &sbi->pipe_mutex. splice holds a pipe mutex while it calls the write
-> or
-> read handler of a kernfs file, kernfs takes of->mutex there, and a
-> write
-> to /sys/power/resume looks up a path that can make autofs write a
-> request
-> into its daemon pipe and wait for the daemon.
->=20
-> Patch 1 stops holding of->mutex around the ->store() callback of
-> regular
-> sysfs attributes, which do not get the open file and already run
-> concurrently for separate opens.
->=20
-> Patch 2 handles the case that patch 1 leaves. A store called from
-> splice
-> still runs with the pipe locked. autofs no longer sends or waits for
-> a
-> request in that context and returns -EAGAIN instead. A new mount is
-> refused before it is marked pending, so no other lookup sends the
-> request
-> in its place. This also removes a deadlock in which the spliced pipe
-> is
-> the autofs daemon pipe itself.
->=20
-> Patch 2 changes behavior for one narrow case. A lookup from a splice
-> callback that needs an automount fails with -EAGAIN instead of
-> waiting.
->=20
-> The series was tested in QEMU with lockdep using the original C and
-> syz
-> reproducers and focused splice and autofs cases. The target reports
-> were
-> not reproduced with the series applied, and the paired functional
-> cases
-> matched the unpatched baseline.
-I can't seem to find a reproducer that reproduces the bug or maybe
-I don't know what to expect from running the syzbot reproducer I
-did locate.
+On Mon, Oct 26, 2026 at 09:05:06PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Oct 26, 2026 at 03:43:12PM -0300, Jason Gunthorpe wrote:
+> > On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
+> > 
+> > > This is needed for two reasons: to save hardware and software resources
+> > > when creating a large number of VFs, and to allow the PCI config space to
+> > > be configured *before* the driver starts using it.
+> > > 
+> > > There is no in-kernel alternative.
+> > 
+> > Having userspace involved in driver binding has also always been the
+> > plan for confidential computing needs. We cannot have a device driver
+> > bound across some of the HW transitions like TDISP shared/private, so
+> > there has always been an expectation of bind/unbind.
+> 
+> What, why?  What forces that decision?  What's wrong with the proper
+> driver for the hardware being bound automatically to the device?
 
-Can anyone help please.
+It would be a proper driver, with a real match. I would expect this to
+be done with sysfs driver_probe, which is like bind, except it doesn't
+override the matches, AFAIK.
 
-Ian
->=20
-> Krystian Kaniewski (2):
-> =C2=A0 kernfs: do not hold of->mutex across sysfs ->store()
-> =C2=A0 autofs: do not wait for the daemon while splice holds a pipe
->=20
-> =C2=A0fs/autofs/expire.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++
-> =C2=A0fs/autofs/root.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++++++++=
-++++++++++++--
-> =C2=A0fs/kernfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++++++++=
-++++++++++++++++++-------------
-> --
-> =C2=A0fs/splice.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 13 ++++++++++-
-> =C2=A0fs/sysfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 ++++=
-++++++++++-
-> =C2=A0include/linux/kernfs.h | 11 +++++++++
-> =C2=A0include/linux/sched.h=C2=A0 |=C2=A0 2 ++
-> =C2=A0kernel/fork.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 1 +
-> =C2=A08 files changed, 109 insertions(+), 22 deletions(-)
->=20
->=20
-> base-commit: 93f51579e7df248780214094418f205253383cc5
+There are two sort of related isues. Userspace is in charge of
+sequencing the new PCI features like link encryption and TDISP. They
+have complex authentication policies tied to them so the kernel can't
+reasonably do it. These features change how the CPU does address
+translation, effectively it adds/removes the iommu - and that can't be
+changed while the DMA API is active or it breaks every translation in
+effect.
+
+So.. We need a gap a system boot when the driver is not bound so the
+PCI stuff can be done prior to driver_probe, and a gap if there is a
+PCIe error of some kind to do error recovery and go back to the start
+to reauthenticate and reload.
+
+> > For this case the existing sysf drivers_probe is good enough for bind,
+> > but we must have taint-free unbind for PCI devices too.
+>
+> Why?
+
+See above. That should be the easiest thing to ask for! PCI is hot
+plug, disabling unbind makes zero sense from any way you look at it.
+
+> > I think this patch should be reverted ASAP, it is a pretty major
+> > regression for a lot of users.
+> 
+> But this use case hasn't even happened yet, so what would regress?
+
+I'm reflecting the other commentators, I care about VFIO too. I think
+tainting every hypervisor is unacceptable.
+
+But for CC I find myself one of the maintainers for that now and many
+people have been diligently working on this bind/unbind direction for
+a long time now. If it goes away I have no idea what could replace it.
+
+Jason
