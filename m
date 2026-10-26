@@ -1,54 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046824;
-	b=EoCaVCZUSjUlGFk54IDgXFba4iTBzx/3T6KmETZ5F7d21hOCWa8VmxkowzNtihXAX5FN
-	 RISzs/0vGguM2UPsBg6sQWGIJbnojpD3CjYeF28XQhxQRksjC2Y/FtMmtYua5D6PR9oey
-	 wJnFinSx7Fc3c3NrHGYxYI5+COEC2RpfCl6Eoj+BUkkh4GsSwNn46YZILsQ5Yk7rO0AI/
-	 xqw0SYA7R8KB/nGLWo8ef06JcBxjH1Z48vFgE5Y2bB2ff9pIsN5r0hjyPKttVunKfm0vf
-	 JzXL1hXDYMeDaqTVYbhhhuYnv2OkQNdCSGaJ0C96XwL0LBXUiw9qXXXBGEPozh2GRvg==
+	t=1793046899;
+	b=ySeC2o0pUH7eVbzWq+VRgDS9TUr6Bou3Kie87AcR7E9rrERKeMTnZ6t11u2kQ6T+W5kp
+	 uEEwVDPeYdZJ8jjD441mEIaIgQ87lCGOdTQg5Bpzg+mWewWobX8Dt7NwuV3jUQ5bQRsV4
+	 WL9bufoMim83UuEohaNkVHMVourcR+co/rtZKjb/l6Ix8CUfhk/gjiArZBMTkTY2q8iww
+	 29BvvjwtTlKz0TdOIbKORAc+3kQBUZ3A9S9tHBx8ynQBcqrmq6uU7eOw0otYAQ0r3L1T4
+	 0sQYjm7JVCcPC7n6Ej98KMXkODABFBA3Gllj35Y8KfluXVhLKjZuxOtmlazvOBPYHqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046824;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=h7Aq+vqPvdElieptV/YoncWuNTXZ1m+hINrzzecmweY=;
-	b=sc8E7azNyCiBywSqvvQA4h/t2FL1Zv4UFDt7//eX5l5abclEqNPblVmF9tBsdrhIgruG
-	 9CjAgYk1lwcYw5p+WpmGj9QXgadLd1spreGBCTiM7o6amTIj4GeKYne/vlKOmhwhzJgb2
-	 vMqt0jXROnc/0GLt24jo5v/sl2luS9dHTkP/N+gzlyyg5d3/vfpBEDUkwrlnFrkPf5nAI
-	 nngTMgAonaV3w9pf6boxQ5ga8+4LVz1AXOyQMTHmqM9MM8JQDEluzwDSYBci4dj54LIvO
-	 LCuq/hygIP3xNc1nMi0XgXgQOC7sFIuAFisRw4Cug8i8SQx7km2NFaPWrmEya6MYNwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793046899;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=X4l+Gy2WdA0ddUhGXKOE2P+Ofd0gYPNJBhhqsMmOdoc=;
+	b=npZCa7legZJDc6TMbbjQDtXJo0cHLSwnQGzpsEIZgPDI40zL0Y5m89kmbhi+aHfUFoqd
+	 PKBzjoGmhhbJL1u/1pHBxbB83rtkHejMBepEqN6ssD1bpLVw8H45+868l3RcLaaIx5sjO
+	 BSNFSHwdg5lVDTD3SuAg2Khloz2P+EpC2f/2vWiOrJC/wVuQNMKHlIJfsv8Hr4D18bapp
+	 pt6W1jOvdeYp9BytIqDykVeYOcF/xdgLYJLA1FTiiLJtfMaphhhPnnQTTYl68vtEawVEw
+	 uLKD0m9SkqcneUCCmY8FfVaagPXzc6fVREH4b3SQ4IRd3tQewvtAP3P7JFKdKQCSFPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.199
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PhwDA1y8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BA8606A321
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 20:33:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07BA8606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4dc57e2a3f2so5550104b6e.0
-        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 13:33:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793046823; x=1793651623;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h7Aq+vqPvdElieptV/YoncWuNTXZ1m+hINrzzecmweY=;
-        b=mbxjsUf5Dt1FEYJyeTZpp15i5HZ1FFi8REo9LVTOnbiSfPZcAESy4wRDt6bQG4B9L6
-         /poMSPafw2Gf/7D0bidl8T627yHPAFrg0k7WHwLALDi7fE0HISzt50tRNk4mpKXc3zIs
-         h5zI5RaX7NuZEnWanWN9Nnri3N9Ui/bL6Yy+rZgzMkNoqm/yDbyPz/6iFQsRaVBnOiXq
-         d+Yv6IQDopPyssqGAxgqqyFLrXoo2HqGim17/0OY8l8/GWl5j5a6Yool0qzJDwjBI85m
-         5ls633P0mm1o0rIQjWVUmLIBZO+1v/IVco17oj9gjjTIx0FfXboPJVBPci7ecXKku/Yt
-         zHCg==
-X-Forwarded-Encrypted: i=1; AKwUvBw3ImWuLzI9fnPDlFj5IEC7ZBG4AGHOOS+Mjd1HqJaoiH+ERvCnDubWzoFG/T73uPz89V1+J9Til5X8wA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI/ClbDKDwbdmJx0qH5K72xePxVNEGf/peRs7YogQtVB5vFq/j3
-	97tjqGU4iaVJLlx78YnEnrqtQmL2k2FvJeE921S5jlECrwnb8YJi2iYGeJ26ymAAya5N6a4d+D/
-	LdgB6Tit5zhf+j5B92QzqSh1pqNJAqgSh3zbE5uUI4CZq9zyE4+aAnHIO3EA=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55A6606A31B;
+	Mon, 26 Oct 2026 20:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PhwDA1y8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006B91F01825;
+	Mon, 26 Oct 2026 20:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793046898;
+	bh=X4l+Gy2WdA0ddUhGXKOE2P+Ofd0gYPNJBhhqsMmOdoc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PhwDA1y8p5GYw/Jz97+tRiTWOB2v/l9UiHdxmXQoxCHZTr5uhmhPJZRofD5cmNMUV
+	 mQAZFZOcZo4rB1u8dXEgBWSRMdpy4s9rP4PaHqTuulnUTUd6AQIr/ga54o6AKO98xW
+	 EwqzitAOT+yloNDHU/FN15n5SLh91EP6Vc34IRK4=
+Date: Mon, 26 Oct 2026 21:34:57 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alex Williamson <alex@shazbot.org>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026102637-buggy-mothball-2a08@gregkh>
+References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <2026102437-vista-unsoiled-b089@gregkh>
+ <20261024103512.4601ee4f@shazbot.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -58,62 +85,164 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:15a4:b0:4ab:230c:5faa with SMTP id
- 5614622812f47-55c002622e3mr4970843b6e.18.1793046823037; Mon, 26 Oct 2026
- 13:33:43 -0700 (PDT)
-Date: Mon, 26 Oct 2026 13:33:43 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6adfb927.3a3d6196.2ecadf.001f.GAE@google.com>
-Subject: [syzbot] Monthly driver-core report (Oct 2026)
-From: syzbot <syzbot+list3acbd9912bd634558b43@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261024103512.4601ee4f@shazbot.org>
 
-Hello driver-core maintainers/developers,
+On Sat, Oct 24, 2026 at 10:35:12AM -0600, Alex Williamson wrote:
+> On Sat, 24 Oct 2026 06:56:34 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
+> > > On Wed, 23 Sep 2026 12:29:56 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > >   
+> > > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:  
+> > > > > > No, drivers should NOT have to do that in their .probe() function,
+> > > > > > that's what we moved away from decades ago!  The match function should
+> > > > > > handle all of that for you, otherwise it's contant duplication
+> > > > > > everywhere that is unneeded.    
+> > > > > 
+> > > > > Well then you have to accept that root can provoke a null pointer
+> > > > > exception (e.g. by forcing the pwm-tegra driver on a device) because at
+> > > > > least with today's platform bus match function such a match is ok.    
+> > > > 
+> > > > Agreed, yes, root can cause a crash and can do tons of horrible things
+> > > > much worse than this, that's not the issue.
+> > > > 
+> > > > That's why this taint is there, to make it obvious that this is not a
+> > > > "real" bug at all.
+> > > >   
+> > > > > > Please, learn from our history, don't make the same mistakes.
+> > > > > > 
+> > > > > > Now I might be convinced that driver_override is the way to go here, but
+> > > > > > it still feels really odd as again, bind/unbind was created as a driver
+> > > > > > debugging option only, it should NOT be a normal operation that any user
+> > > > > > should rely on.  The driver should "just work" properly instead, without
+> > > > > > requiring manual bind work, as that's not a good model at all.    
+> > > > > 
+> > > > > I agree in principle, but (in my case wifi) drivers are buggy sometimes
+> > > > > (due to missing documentation and/or engineering effort) and being able
+> > > > > to rebind the driver instead of rebooting to get a working device again
+> > > > > is very useful.    
+> > > > 
+> > > > Fine, use it!  Just don't expect that to be "normal".
+> > > >   
+> > > > > So yes, theoretically bind/unbind isn't needed, but theory and practise
+> > > > > differ in practise.    
+> > > > 
+> > > > Agreed, but again, don't rely on this as a "real" solution fo ranything.  
+> > > 
+> > > Sorry, late to the party, but this isn't a few user scripts that rely
+> > > on this behavior.  Effectively every use case of vfio relies on this
+> > > behavior.  We rely on unbinding the default driver from the device
+> > > before using driver_override and drivers_probe.  That means every
+> > > hypervisor with device assignment and every userspace driver use case
+> > > now experiences a tainted kernel. That seems like a significant
+> > > regression.  
+> > 
+> > Or finally, a real bugfix :)
+> > 
+> > > There is currently no alternative for this process.  It's not a matter
+> > > of upgrading to a newer kernel where the drivers claim the device IDs.
+> > > We can't claim the device ID, vfio drivers represent a secondary use
+> > > case for the device.  
+> > 
+> > How can vfio know that it can properly talk to any device like this?
+> > Surely you have a list of real device ids that you know will work,
+> > otherwise all bets are off.
+> 
+> There's not a list of real device IDs.  PCI, in particular, is a
+> self-describing bus.  Devices are discovered via bus walk, their
+> resources are probed via standard mechanisms, they support interrupts
+> and resets as described by capabilities defined in a specification.
 
-This is a 31-day syzbot report for the driver-core subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/driver-core
+I know how PCI works, I used to be the PCI maintainer all those years
+ago :)
 
-During the period, 1 new issues were detected and 1 were fixed.
-In total, 26 issues are still open and 4 have already been fixed.
-There are also 14 low-priority issues.
+> The vfio-pci driver just provides a generic way to represent a device
+> as resources mapped to file offsets with ioctls to discover those
+> offsets and interact with things like resets and interrupts.
 
-Some of the still happening issues:
+Great, then just have that driver attach to the specific device you want
+by having it contain the device ids for what it wants to control.  Or
+have it say it wants to control all devices and be "last" on the list to
+bind.
 
-Ref  Crashes Repro Title
-<1>  137     Yes   KASAN: slab-use-after-free Read in disable_device
-                   https://syzkaller.appspot.com/bug?extid=4393dfdddf166f2de2b0
-<2>  91      No    INFO: task hung in usb_disable_device (2)
-                   https://syzkaller.appspot.com/bug?extid=5cf28d3643d94bfb0821
-<3>  35      Yes   KASAN: slab-use-after-free Read in lockref_get (2)
-                   https://syzkaller.appspot.com/bug?extid=227dbc9afd022922d624
-<4>  22      Yes   KASAN: global-out-of-bounds Read in uevent_store
-                   https://syzkaller.appspot.com/bug?extid=d164947c037324221043
-<5>  18      Yes   general protection fault in bus_remove_device
-                   https://syzkaller.appspot.com/bug?extid=87188222c77c0dbbdb4d
-<6>  11      Yes   INFO: task hung in unbind_store
-                   https://syzkaller.appspot.com/bug?extid=fd7be5ad9795b7f29df3
-<7>  4       Yes   BUG: unable to handle kernel paging request in usb_driver_release_interface
-                   https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
-<8>  14      Yes   KASAN: global-out-of-bounds Read in bus_uevent_store
-                   https://syzkaller.appspot.com/bug?extid=9a321aea9d851b299486
-<9>  8       Yes   KASAN: slab-use-after-free Write in do_bad_area
-                   https://syzkaller.appspot.com/bug?extid=7bf725ed337e37307001
-<10> 7       No    KASAN: slab-use-after-free Read in remove_one_compat_dev
-                   https://syzkaller.appspot.com/bug?extid=7db35adbc02c5b86d4e0
+> For
+> example, PCI config space and BAR regions are just defined indexes into
+> the table of file offsets.  This works with any endpoint device, where
+> even that distinction is based on the discoverable PCI header type
+> rather than a table of device IDs.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I don't understand what you are trying to say here, sorry.  Yes I know
+how PCI config space works, again, I was the maintainer and still have
+access to the PCI sig through various means.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+> Even if we could come up with a set of device IDs, it's a policy
+> decision whether a given device is intended by the admin to be used by
+> the default in-kernel driver or a userspace driver.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+Great, then have the admin never allow the in-kernel driver to be on the
+system, or be loaded (modprobe has deny lists) and all is fine.
 
-You may send multiple commands in a single email message.
+> This policy changes over time, within the same host session.
+
+what are you defining as a "session" here?
+
+> That means that at one point we want the default driver bound and at
+> another we want a vfio driver bound.  Coordinating this is exactly why
+> we have driver_override and, building on that, match IDs that require
+> driver_override.  This allows drivers to describe themselves as
+> vfio-pci compatible drivers via modules.alias while requiring
+> userspace to enable the match via driver_override.
+
+And as said before, that's a horrid hack and one that is breaking things
+today in all sorts of ways, which is why the taint was added.
+
+If you wish to override the kernel, then great, a taint flag is added
+and all is fine.  All this means is that now developers know what you
+did and can decide to ignore your bug report or not.  No functionality
+changed at all.
+
+> > > A production use case of panic_on_taint now results in a hard failure
+> > > for a scenario that has been allowed and documented as best practice
+> > > for many years.  
+> > 
+> > It was never "best practice", you took a debugging option and somehow
+> > thought it was a valid use case.  Yes, I'm being harsh but I am sure I
+> > complained about this in the past and obviously never followed up on it,
+> > so that's on me.
+> 
+> I won't doubt that you know more about the history and intent of these
+> interfaces than nearly anyone, but I don't find any documentation or
+> comments that specifically declare these as debug interfaces.  In fact,
+> Documentation/ABI/testing/sysfs-bus-pci has documented the bind and
+> unbind ABI for over 20 years.
+> 
+> You've certainly expressed more than once that users get to keep all
+> the broken pieces if they bind devices to drivers that don't support
+> the hardware.  This is the first that it's been formalized in a
+> taint without warning or an escape hatch for drivers like vfio-pci that
+> do in fact intend to work with all hardware.  It affects the industries
+> that depend on this usage model.  It's a regression.
+
+No functionality changed, just an informational flag is now in the
+system when this happens.  The systems still obviously work just fine,
+otherwise all testing so far of linux-next would have caught this,
+right?
+
+> Is there some way instead that we can resolve the string written to
+> driver_override and only taint for non-vfio drivers?  It's a much more
+> confined problem if vfio drivers filter hardware outside their scope of
+> support in their .probe function, and I think we largely do that
+> already.  Thanks,
+
+Why are you worried about a taint flag?  So many servers run with taint
+flags enabled due to out-of-tree or questionable licenses with no
+problems, what's one more informational bit here?
+
+thanks,
+
+greg k-h
