@@ -1,94 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793055307;
-	b=d+hIZe++SK1D7J82QaSeBP1KGyPMvAZvEsZQ9j6QiRUJq4B6naZwa7UhS0xduey0u0UK
-	 FWw+JCP8cFtLVHjTEAtcEHr8HFqxHbySSq8tSMQQmjgmoq2u4eaueVVDlGcl6gVV4Yywd
-	 MsUe7X2ftRSdDZYat7c43ApB0vKa0hfVyWP+Ukc9GMak7/+iegucsFr4T82Ga3mFddp+S
-	 wMR3zSiYqk4VY5RQPCYwmrbadosqW1x1ArlM3SzZjpVbAlhxZrEy28Yo2VYTMlO4X/Oxu
-	 yWyXbu5yDehhFQien09UYS08IQ2SlBVkErTes1vtHxvBqF8VBsfKLOBIbLLQrrE3lNg==
+	t=1793055593;
+	b=1wYabxwtJ5lqDlo+cBk+Zr+qhBR9EgHwxCA3K2ulZ9a0iwkEjVrbaRXn8Ee540EITpXG
+	 cA2rU7WEq/GfeMCXa3K2goGL4QoA+tfP0Y2YreM9Fw0Li6U4Ww+TEiIJrS5Wru3LQ2o30
+	 pFkUAABtlESdplLhH96Rn0j4gD5uM2bV2x5kiLTYSrYiOPMnsFe+z4O3rtJ6QtaN15AHp
+	 9D6kgYfy0o8qlegNi8I3obV29D7RZJ5/I302beVy0KqiaYqtGIlloG4DeAvpbKjND1DMD
+	 oZSCt/oMWIBGq8Yn0RHawHyLHprUGKbffRSimtGPSM9w6F1nTGlCIHocZMP4Qkz+2iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793055307;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793055593;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Qv4yXz9mBS7TK9aKYpPIFfG0d3O9zFyQxnBKda+GG2U=;
-	b=ZBgW6X9X1HgF43p0/2sOCAcUj+IBwiOv+ryeWRiyAqE3l910BQklGQ/Im058I4nh20mb
-	 ip7UM8ebjpbw82NDe3i4fytZ/lQeRcIDwfNCwW23UXfGQixcbsW8jsKSk/zzTo2q8yNlt
-	 9geOuSISOIrhNUXVE8j0iTB4z0NfEmdw8fKp9lMr3OHrUz5Bld0tkn120ZmXbkfTXV0x9
-	 ykEz2cync7ybQyiNr9hWYRzczp370LqWh54A3IuY3NdnLZsxwmKnB023ioB5YeBqR0XLQ
-	 8QMt5Mh0jVfSDqA3UcMfpLApHq0vm3irR1n14LNYXUJhB1mlUcm56VPAYNYmqRWzPgQ==
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=xYFlSdYSBy4efBRscq6PIWjy+kL+seLzZByRLeIBFMw=;
+	b=M/EIg9yaeLBSCd/zlgeA4TxDdMHTBblW9O9/2EHHmkjsR/laVeXY7B4tPzq8C2Hf1CUV
+	 CfrTzNNV+RCxxbqnOnND9K8l1XkrVILRy7quVqpKxIUUWC/1lmN/hwpSc1WHI3vbBllvd
+	 62FsTqR8wQazLUVH9w8QcVwntDUUNW+K3yGhhILkSixnU3heiJhkTXQSbFvWuxdjLaykJ
+	 bM8Q7GXCwRr4rizsTrF3JcBNN5bY6zdVBI9KJ+fJaO0FTM8YZXfHzZTZ0YrxvmYhL3118
+	 llsy6V4wJxSIiZ7j6gG/QOVn6D0JmJrUVeIvn0kXgP772/myIY2kwOS0TPPE2whgiIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=ziepe.ca;
 	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=FuqVittV;
-	arc=none smtp.remote-ip=209.85.160.180
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="IM9QWrV/";
+	arc=none smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC18606A31F
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 22:55:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AC18606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13700606A321
+	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 22:59:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13700606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=FuqVittV
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5364c951da4so32191831cf.1
-        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 15:55:07 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=IM9QWrV/
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-53394bffe0fso3905981cf.1
+        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 15:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793055306; x=1793660106; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Qv4yXz9mBS7TK9aKYpPIFfG0d3O9zFyQxnBKda+GG2U=;
-        b=FuqVittVePHS4CZvhS1+kQYFgQ7nEfHnbWQxU1GbGQvX5VsDvwf073kpe82F4Wq9kI
-         QM9BSBOQlhap4lJ0pIV+IDtF7+uHT5tofjefC7m4bIBGg6vbQGsIf1HHY3RE+RClKnJ1
-         +jKEybGt+x1FYb8j58hjCMB1puoNtVAyR2sZAj3gZXNTgidcxiSP8AXqjByy+WlhZCFF
-         ekDvxpemT0ees/sbywoTS3Hw/Aj/Bzdu11tWsKZ+OXDyQZo6VHcVWOGJOkuN+YAm5pKt
-         7ccQ9loyVNZ88mtXViKEPseTIiS2eqaYXCG/QL/lCEUgnhdy4VknFogX0xap6OYjxurx
-         jj7A==
+        d=ziepe.ca; s=google; t=1793055592; x=1793660392; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xYFlSdYSBy4efBRscq6PIWjy+kL+seLzZByRLeIBFMw=;
+        b=IM9QWrV/b9NOc327xbxNeJ/6XoG78Qu33vpgCVsjzra/zhI2w68bEo0pWtfMAEGmQD
+         njto5q2rH02dF+xGPuhRiWEH8+ZZ+mkHcV/Zqgl1bzlf+8Uk75z9/n7w2ao4Uc55k2em
+         xrrlGz/cPfeA7OvFlGehN40N7yt7tJJWgaEJoPRnvxFHSw6svQSy/REAMk3cs5wzQf98
+         n9I1nZz4EMrBN/8w5oTTLMLqK5AErtEepc9zw88i2IuViZOx3fjFWsxINJzkarnVi9a4
+         MSFq9Urc2I9LXnmi8X4dBLeDrWBGmxBW0kVxgjACQE5MqmMqE+0uKqo4NlvrG5uqL0ta
+         pArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793055306; x=1793660106;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Qv4yXz9mBS7TK9aKYpPIFfG0d3O9zFyQxnBKda+GG2U=;
-        b=UAtTILXTPWfRe3W8C5Whl/PPZHWZuND3bZj0cwA7ii+jJF3JLZgU97tnfm43OEhJNM
-         rgRcnk8AAJr9XkmjU4vP6OGywEFmDDnGP6lgJknvRAAworUEEz5LO8hzcVh9lCcV5dYy
-         oc2KPQdbSAlpmSACp5833Sgg9Tb/m+MQibCrulv433Ima3DRcwptUhsL50r+0Xpc9rrU
-         M/sRPqcwk/uJexBQu2ki17nxIh3OyVxOAYppY8FBphMuOLSce+8mvLLkXWshN8DxBpnv
-         s7eB45y1tL9OP42ptiGpM6HT3x9qlxcr82uRYHjMu6PE6uxaFnCwAPgWJ7Y+8jrMU0RP
-         FkvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwpRuq9+z2jMcQzg8WikHSH50KE2SI5VpDCUHkoXFYA9Adm+HIxwVLsvcKd5XWeSGZOdHMMwa7EMAt/kQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK0JH7hhgkNCrZxFPRwqHW3Y8rPfsoL7pxnNcIVqGfTgvnPr3au
-	dJ84lo24iYGdkwtCU2Wr3/b+LNfImmZcAECIDSaV/WAk9vrHfZWxvTqKq+Bb9dCdl70=
-X-Gm-Gg: AYBFou391RHPiUTXg8vrSQIUCN6Q8Jlepfl1h1gTNhDgJndrYirLP8JGDjcn2lBT76M
-	FTreuiMxpcmfEnM5Baltp8CTFm1Oh4SyFmVr+RnmC/rB68pJ2dmhl6LCyVaPY0jdFeVxdorQdI+
-	S9mM4Wg8p4X+R3nCYA4VnT/h4VwMXXAEtGWa69pLnyImPqhxaBWcx2aS8P4nBaAr07dOozGBGzj
-	wbgSVLNIPboNySuZXqiBtpn8GUA2sWUR0/cc5C1SimMjIZP4RuSEr3yFBWtHh5IGblRz8VSn/O9
-	3ylSuAcD5p2SpXLNEfPrhcAF8KRaIqQs5NlOh0AQakI7Ia8zkGUoUwCvrSM8I7d6bfEjzii6+NN
-	gIhruYYg2WQdsvaUDvpgBEkb/k2iH2hJK9v6wZmk9xtTvwLsHAF2C1Qzpzrj7sa7qBTJuHRquBU
-	89XbyXgPindxVgl/xLTfTUseufVrsbUH9h2ZWV8z8dMzICdF2VcjUgR8Giap1m9yW8zYdLdMIsU
-	BYKOLGgi5mG1nr03hWEyEvM+59jz7xJWc4elCrsUu6tQanO1KrNGPaQ3V2bBUMeV+J7MLizIgA1
-	AXX9N1Fu1bH7dRa0/+IM+GUSMJkoZaeD5SMlPQ==
-X-Received: by 2002:a05:622a:4b18:b0:535:80b:9911 with SMTP id d75a77b69052e-5383b4b0e1dmr122069761cf.24.1793055306222;
-        Mon, 26 Oct 2026 15:55:06 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793055592; x=1793660392;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=xYFlSdYSBy4efBRscq6PIWjy+kL+seLzZByRLeIBFMw=;
+        b=nAyleWmX65o7eSTUwfc7o84nmbbgSoUEH92OtoLr9jl9s7aFHSKwqi//RQz0H2eB6R
+         P6+MRu0QCNAuY3SLP28srXThR9tA5L0p67DEYdHjxQFpK8lTY+zcvxgvAXPM0ZgGvr+e
+         /k2m3a+9Y4uCnhklPIgu06f7chVWgZsJHQV6N7VEJGkxZdfnlIu/97cBbAhG3izL19XS
+         WAnx+TEFJocm/SxznyRMGUnyES6s5Nqm7Mx+pZplSboYa9y9YsyzWcCbVXCEs+Hw0zjZ
+         QH1wgtRxbQIlzPZVLSvm/z1YUGL/zcQsgHnoawtr7AG7HBvOGklFMwvh82bwfDZ/bkdz
+         GcIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzYyXriwCmo7/0wlCpvJtR1AFgDMNkeBl3S3v9A+k04uFrrdZZRTCvPgI6anWCTYjGoqiPJjShQORWp5A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKZLxE8QgzghsSUVkzvdqFQtsehtm5YLorZNH5MzFqBnvHv/Sip
+	HoaYD9j+ZU9n58Ii+tNNhdIKxTkDcCuOMM25BfnfAj0LoI1H+rLMZghekaqeLvHgwMs=
+X-Gm-Gg: AYBFou2bE3+1lLe4w4SjBw6KEzU6gDsWlfhYE2i7IJSIbUhhO0r0tjDtqCttQFYqcR2
+	rkhPhA9wpX3NAN/sB4rlbUuIOXtd0FjDv3i9PNsJ+1OSgRBrf4JfHlbtuS3TY6QK5M7Gu8pGrI2
+	gR1QZZa2ZWdJgahbGFBIuzSA+9n0G8gGa4grqevh9YxLSlgHluyi7XQlJ0sRxwDVoEVKYerY74n
+	zs4HiCKfl4JzGMRFrRFHf4p6nR0wKHy768VMNkMtQyOJziOXp/VTnfU69xC8FFh/QRQNQVJiYGZ
+	I7iA46KvbndNDwS95q5jKTA1tDmRay4jFUBWaIVCDGQ0sR4Ou6SH/iR8JpLvv2n3CXoNBkB+ElD
+	vj/MMUdc92lFVxqWGjwvTrBMJMB4Hc+myGsk3YOrp0Jnf8UR2QP8r2/JRlPVFw2nQa0K8s0l1kQ
+	PshkJib3x4y3FCLVfRJAz4hxt08Dgvt+Y6NhVFaLUK1wVFiUn90onMsjF3tWR6YfdrLwD6fQy2A
+	UU5EMkcbR8dayw7gPlixwG8RFhptE0UzfJFC7XMDEiVc1+Bga0nkD8Ly2N+4VOxjq5dXVlh0FX2
+	G2+Db0TFp0zkKHBNFOVtSmC1MLJ9kmNZbmykLQ==
+X-Received: by 2002:a05:622a:5c06:b0:536:60a0:5515 with SMTP id d75a77b69052e-53e3f95510fmr21198101cf.17.1793055592065;
+        Mon, 26 Oct 2026 15:59:52 -0700 (PDT)
 Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-538394c565esm66284051cf.6.2026.10.26.15.55.05
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5383970ac84sm65824991cf.20.2026.10.26.15.59.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 15:55:05 -0700 (PDT)
+        Mon, 26 Oct 2026 15:59:51 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1xLTaq-000000088rN-3CrV;
-	Mon, 26 Oct 2026 19:55:04 -0300
-Date: Mon, 26 Oct 2026 19:55:04 -0300
+	id 1xLTfS-000000089Kh-2dEv;
+	Mon, 26 Oct 2026 19:59:50 -0300
+Date: Mon, 26 Oct 2026 19:59:50 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Williamson <alex@shazbot.org>, Armin Wolf <W_Armin@gmx.de>,
+	David Lechner <dlechner@baylibre.com>,
 	Danilo Krummrich <dakr@kernel.org>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -108,11 +109,10 @@ Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
 	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
 	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
 	Richard Weinberger <richard@nod.at>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+	Thierry Reding <thierry.reding@kernel.org>
 Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
  userspace manually messes with devices and drivers
-Message-ID: <20261026225504.GC1685504@ziepe.ca>
+Message-ID: <20261026225950.GD1685504@ziepe.ca>
 References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
  <arIvG0nx4LXG9nlW@monoceros>
  <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
@@ -121,8 +121,8 @@ References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
  <arOfHEsGGglNse7T@monoceros>
  <2026092348-victory-erased-0e5a@gregkh>
  <20261023181326.0dc2f7ed@shazbot.org>
- <20261026122243.GA28851@unreal>
- <2026102654-enlighten-perkiness-193c@gregkh>
+ <2026102437-vista-unsoiled-b089@gregkh>
+ <at34UOuYv3NtX36R@monoceros>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -132,64 +132,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2026102654-enlighten-perkiness-193c@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <at34UOuYv3NtX36R@monoceros>
 
-On Mon, Oct 26, 2026 at 09:27:25PM +0100, Greg Kroah-Hartman wrote:
-> > > Sorry, late to the party, but this isn't a few user scripts that rely
-> > > on this behavior.  Effectively every use case of vfio relies on this
-> > > behavior.  We rely on unbinding the default driver from the device
-> > > before using driver_override and drivers_probe.  That means every
-> > > hypervisor with device assignment and every userspace driver use case
-> > > now experiences a tainted kernel. That seems like a significant
-> > > regression.
-> > 
-> > Sorry, I was on vacation and missed this change earlier. This change will
-> > affect SR-IOV deployments around the world, which *rely* on being able to
-> > bind a driver manually *after* virtual functions are created but before
-> > they are used.
-> 
-> Why can't a real driver bind to those virtual functions?  Like is
-> happening in the rust apis?
+On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-König wrote:
 
-Most people using SRIOV will bind the VFs to the VFIO driver.
+> The more I think about this taint, the more I believe the commit should
+> be reverted and replaced by a some stop gaps for driver_override. (Be it
+> a taint or better yet
+> https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
+> .)
 
-The rest, it is the same as the CC case, there needs to be a gap after
-creating the PCI VF functions and before binding a real driver, with a
-proper match and a correct id.
+I also think this patch is way too broad and should be reverted until
+something better is designed.
 
-This is usually managed by clearing drivers_autoprobe
+To me this is very similar to the filesystem issue with syzkaller
+fuzzing the block device and crashing filesystems. They said
+filesystems touching untrusted block devices is out of scope.
 
-Ie look at commit b8c5cec23d5c ("Driver core: udev triggered
-device-<>driver binding") from 2007 explaining this workflow.
+Same here, kernel drivers touching untrusted HW are out of scope, we
+have never supported that.
 
-The taint on sysfs unbind makes zero sense here because we can trigger
-unbind of those VFs just by disabling SRIOV through sysfs. Should we
-taint that too?
+I think a taint from force binding outside a match entry and using
+new_id are probably about as far as this idea should go.
 
-> > This is needed for two reasons: to save hardware and software resources
-> > when creating a large number of VFs, and to allow the PCI config space to
-> > be configured *before* the driver starts using it.
-> 
-> How is hardware and software resources an issue here at all? 
+Even this would still regress most common VFIO instructions though, so
+some kind of disable for VFIO would be needed. I don't agree with the
+assertion 'servers are already always tainted' that doesn't match my
+experience at all.
 
-If you create a 1024 VFs, which is what people on big servers seem to
-do, then that can use 1024 x megabytes of resources to load all those
-drivers which will memory exhaust a hypervisor.
-
-This is a real case actual users run into, I saw the support requests
-go by :|
-
-> And you can write to PCI config space from userspace today, 
-
-Not allowed in lockdown, triggered by secure boot, which pretty much
-every server uses.
-
-> > There is no in-kernel alternative.
-> 
-> Then just don't have a in-kernel driver for the device and all is good?
-
-What? How do you use the HW then? Is this a serious reply?
+unbind should not taint, we support hotplug, and manually binding an
+authentic match'd driver should not taint.
 
 Jason
