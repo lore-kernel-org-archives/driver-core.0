@@ -1,111 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793020737;
-	b=EmOBflour5zD4ktjPljkDNIEQJUZoUmyv6erQXByJtXev81Uv544v4ffyHLDAdngrQCG
-	 7QPaUBRClk8lAnThxsHNKrdL8Xq/GnSICoLg59rLbR4h43z8eMheB0aRRb5R3CNOO5Iqf
-	 Vvb64fFJiu1v3DcNiVzPTokH3VaRBqxMOWMF5EhhmuLb7rQKjIAjHghDCbiWG1wM/zU/h
-	 3md3gU4ZShfFlgEHm0uoDcD6bK7yo4EgEEWdsPerskVfe/4qe0LoeqQYDP9Qler6fXvCV
-	 IulOpbvvYjzi056h7T7iTzXrKqQrjiFl+u8//0Kv3hbUbnQUHLwarWeuIzWVeutJN8w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793020737;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=lMyf20BlZ1h0WZ9ePXYbEch50SKh1zOCdibpTfZjCDE=;
-	b=XtrJOobXciPLIQKTJYFGCx3ypviLovTO6BKVcyL9n7vh/A5R5rgWm7qnyd0sqhC5H4Rv
-	 FdNntNChR53WyjtFS/S8UUeG5HDGLckb53WHN+rnwB9WSem1flACRr7siwto5HX1T8C0y
-	 c1KtbKrYe2wug8pn5azMjWD+dcXurzxfReKxb5hjHvK8HfG6SFL1VRmPYltivZmGYfJUk
-	 JZ8FEOGmTLhxfQAyVuu3sjCRM8wXGZ6UH9ebPM44NpVdpSqTe7UyDxegq3qwncNiZ/3pz
-	 0Ul9xTSkUt+SVBdvS9jiTlTfllY2rT7OSrtIoYFEnpl7+aesnGUVanN/KJwb98pmOwQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NGFEk8AC;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=M9IYbMCO;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793032874;
+	b=uYAXUEW3VRy7HkRQxcjJ+5C2zThqrIITxqGn6JrTLr9Qi2DltnNWKW2a7rhSbdny/HMZ
+	 i2J12svaaieh4nmOKgfru4QFs+iZwlT+QUubEkdnlyGmCvl0jJdLBMqXovimXJfoPZJYU
+	 bNa/sok1t5v1BZQzuVMGHohPO/w8DDxkTsiynItORzjjcp8/Z/3xBx3Rvtrc3IqeOviBC
+	 Rl36C6YlTgcjpzmLVwMjDT2aa7aiJh3F//6sMSOrXxo/f6E2zPIOq1x4jYUkbBKdB7jgL
+	 HmAmsFczZ8Sgq4GcczPO8ypXGiD5nfJEkGCo1KImv6vwn6W7wf3Pg5/nBH2eb+ZQpVA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793032874;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=8M0oh2AqgxAI6ZpQRJJhghp96GjY8sQQ1ghn1+UQZnU=;
+	b=3uUsw5B5njril/3KeCmHnXcuf5ViC1DF8OEtzoGXPwxdiLETBGGXjHwSQY4xn5qGc0K/
+	 KHcex4cbGZ5qkskyaSqnn8d9EQ50AHhCpLCi7FvNOSGVnNcEA6mB7E3l1gXUPmeZpH9nv
+	 69XHKz7GLy3+/xTHsOiq91X75l7LGc6AQ4tjaAY7LjBdTdEgrrnsEhTqVwx3YgJ6x0nXm
+	 TUSI2eUTB0N/4c6F5Y7nXlUD8l1TW5YYasVw1DRXNCvdTzma7qKYSOV/AbzPPodEPrypQ
+	 fPhDW8joq29tW1KYjr1GXsesZ45QMiVcIDIjksgOB1f+h1uAFDXjO2FgVGoPvHSEK6w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xs1HTniV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E73606A31D;
+	Mon, 26 Oct 2026 16:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xs1HTniV
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793032873;
+	b=cArWtRwHhB15EMkjHJNjqh3f3H2IQPZ+UM6RrSa8YQlU4/ybDvhEh4JaivUQU2udfI48
+	 jHMKSFngBbaHel9RZTHG7cksuo/+DeSC4R/Qj3Q2SjtJ9tlma5P/7xu/sltYnpKVfnhdh
+	 LjxZ//YsRcWrkdKgCeFM5JayXY+56B/7s1FhgkVcvWVJRWdgTbtd/5b7KSHFubiDgzVM5
+	 LQ3yn4Zquxdrmt810U/ByhNzUQ6ZvXzcExNidIRxsNKwU5HTishhzMUCX7rms7xm2Wnzi
+	 XUkcIaGukbQx+FWqdPYzn/ykHiPIRLGjF7BSVrHmE//gOmfLXngBAjUHKXuTqracJjw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793032873;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=8M0oh2AqgxAI6ZpQRJJhghp96GjY8sQQ1ghn1+UQZnU=;
+	b=Q/Z29Idh4d0TmZVBoNrRV1/TSqY6SHK7orn88Trq0797VSMWT9WQG3T/4P7C3cK4qWNO
+	 EJ9fqPjkcPcGaxzgO4SzM0e8p38sVreb/jfTNGGR8lx6z8Mijj8d9pik65GCBlfebS+44
+	 8ZPaDSNa4fiJPt0eQFx4doUlsCFF3bgWM5pTKmLKHkApYix5zAIjQiRIsADimzczLIuKc
+	 CUfQeVrBkB6nfYwifQJFiH9ZmZO/oYsgRB1wg2ehbAgNx6IiPQ45DriUCGBi9zDQ4aJrC
+	 qEFIkG6Bn1h+UXwZL9oCz63XVntNaw2gh+kpfF9t51RK/+innPuijZGscrLFnRGVpLg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F4A606A31D
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 13:18:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94F4A606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=NGFEk8AC;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=M9IYbMCO
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QCtR0f3348828
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 13:18:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lMyf20BlZ1h0WZ9ePXYbEch50SKh1zOCdibpTfZjCDE=; b=NGFEk8ACpJBSGqlN
-	l6Rk7apbp/vgUNssfJ0pPDQN1vPFwmiO+HNLvgIbC4ymQrEnhQLmHGTc8fh/lLZK
-	J4QgEVzB1cSkR1kPep3qiBeHAhx0Nc0SJJ99GDynyEl9JCJ1cEwHSrLh4g6MaE1X
-	9KMCRLDACZBmK4GVohrpX0Ud3OFIQzV8/2vEwstZ7qinPZ3WzSk4GEN2xbEXB/xs
-	Qi16szDSyqB3V6rKPiFt7GWbcHGt7MJ3blA7OwQ8zm+PsKYS/wa9q02Wt2aT0V+6
-	q6ukTSUQy73h8BIEuk964CYqjJe11YcEYBI4FKF36PmfcnSC3nMjr2MUwQ/q0Vv1
-	HN6G7A==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hj79xr33k-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 13:18:55 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-9833e1390beso46598241.0
-        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 06:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793020735; x=1793625535; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lMyf20BlZ1h0WZ9ePXYbEch50SKh1zOCdibpTfZjCDE=;
-        b=M9IYbMCOJOA0BmGwgivP4PGVnn2Y8vTg6CZWpCWEsAXBM4OeUdpv4llMZvjKIi4bGE
-         tPy9Jma8OaaXW0N47LsY6o88NTfLMRNX/vvZq3nWYjnJdRvGagZtcJ7y6hE0uuYGC8Pm
-         YP4AB2hnFYj59zuIrybMvQgu5qIxXWcX77UxdjIgcBVVym3ytiACVUcf30RrJ/qyGg9a
-         dMDvgJUJvkkbyhs7oUP0Nmjn2c2zf5KKm5b6uGU65nYf1YIJnIfxwUGomVSGf/PDEcS0
-         8hVWJbTRJI8rrYlgTqoHAcCsbsJA6zYNy/6kH8wuTxZCnz/et7R3lRZF8fUyFN3l4ba4
-         gzuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793020735; x=1793625535;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lMyf20BlZ1h0WZ9ePXYbEch50SKh1zOCdibpTfZjCDE=;
-        b=h1cN2aLJ5mNNny0ADL6IqtuFntSQuqKGoy9I6dyRfa5w5v5DiwnnAPLoj2Fgo9V8P1
-         FfFLrWzJCC9JzRZg6MTKXj2CCLDk0AW/N+fLSCTwzj2t/IEsQe5I390tzP7F9yow3wst
-         x/JREofpMpPUsVYeMMKmbiUGqf03cAoOH7nVp3cYRy5xeYegklzcqcdD8NWJrrFLDN5k
-         Mq1VXlo4SbCAD4in67hTV2U88Vjb4Zw2LITkmuWaHO9ihM+xPigG+yHQ20Zfc1l157/d
-         SiPxSKTFmigBQigiwQMohNCG2u87C7CRZxlyBQqW+j0tvKrhDtE2VWYkw5jZlRsqpCCF
-         uTbA==
-X-Forwarded-Encrypted: i=1; AKwUvBw/rgHMnQm6H+IXrirEK9Ll2CUuIci3RDg+t4agy2Ch7E/d8haIjdpd4F3lgmtkZFuCL9ex5AP6sldjbA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIkQP8KDPn89lce7FH7foVQ8Wl7swJOF6M8SMqcdLe7Ftedi7cX
-	DBOCrsChNJXE4korU/RWG2mC+YBSaB6GTgnkbPKlBa1+tXEpoPUuR4ZeCM9XsEpVpcSYDweNt1Y
-	2sJnA+HPbWFi3l/x+jo07xLIDNYetxHkteZsFq+qryJdTzZOLCcL6pwDgBWeOwk7ULw==
-X-Gm-Gg: AYBFou1Ghel0L4KLB28cuX3Q4eNbXn5U6nWr1c89h66/9TfSwVFCQNCRnJOl64a8XmQ
-	/IQjhTz1LhuF4ne2NA6XgvCo/DYXof4kc+0msPXUe63uGIPCd5NLKoqCyInPJ+d9PEbREsZ7McD
-	Kr9AhxtEB00Z9vPp27+PPMduvZU1UpyeCjuFsZ5guWEcomqEs2NrP/oEDo2WVddTpetubYhueWW
-	ux5mJ8CZtgtgvlEGqSuR1m8ya9UNpDFBZBXTRz6c4R6F3hY113HVgLYw6Fk9Lwi2ll32uhD2JQF
-	5++36khNf0DNdS89sFXqnSUn3xa299jDZbyhlQVXuumKyXI3gkal8rDd6t0naQBm34oRcgb60aP
-	+o7hhCA3pTikAQr5XwoDUZg==
-X-Received: by 2002:a05:6102:8182:20b0:7ca:21e4:8e20 with SMTP id ada2fe7eead31-7ce5cc7fd58mr1562779137.2.1793020734845;
-        Mon, 26 Oct 2026 06:18:54 -0700 (PDT)
-X-Received: by 2002:a05:6102:8182:20b0:7ca:21e4:8e20 with SMTP id ada2fe7eead31-7ce5cc7fd58mr1562727137.2.1793020734298;
-        Mon, 26 Oct 2026 06:18:54 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b445984c99sm3713290a12.28.2026.10.26.06.18.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 06:18:52 -0700 (PDT)
-Message-ID: <343a80e4-8880-4faa-a60b-e3025f2ed40f@oss.qualcomm.com>
-Date: Mon, 26 Oct 2026 14:18:50 +0100
+	by smtp.kernel.org (Postfix) with ESMTPS id CF6A91F01829;
+	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793032873;
+	bh=8M0oh2AqgxAI6ZpQRJJhghp96GjY8sQQ1ghn1+UQZnU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=Xs1HTniVmSXsyDaRDI4h9R/EilRgZDTNyw0A5n+Njl2o8cx4B3ngK6UMwIxaHOmzh
+	 HOMZfoN+HQvp7JLFpTkWQavaBgh1iOFhZCVc7UxrBGknvod2aoiuTvjBMe9MNElLyt
+	 flEzrCVSW+SUqY/scmy9EpLKU56TkojfVElosALZhLCCe3xQsXHslelySSo3+f1skd
+	 q05+2lccY2ELUU7f+G4XzMdyarZgoqKcRw6weZv8EMr/doOwEzx0UAMje3ZYpCv686
+	 sTapBr2/q/hHY6/1+HgznMakkWIQTRDDO4x2bMxu+Vl2rZYYqOCXd4HF5s8Pn6UdcZ
+	 o3Ki+S5I518tg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 4CD6F44DC6;
+	Mon, 26 Oct 2026 16:41:12 +0000 (UTC)
+From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
+Date: Tue, 27 Oct 2026 00:40:54 +0800
+Subject: [PATCH v5 01/11] rust: sizes: add SZ_4G constant
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -115,120 +82,90 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/16] Centralize the ownership of power rail votes
- for Qualcomm clocks
-To: Jerome Brunet <jbrunet@baylibre.com>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
-        Jerome Brunet <jbrunet+clk@baylibre.com>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Mike Tipton <mike.tipton@oss.qualcomm.com>,
-        Taniya Das <taniya.das@oss.qualcomm.com>, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        driver-core@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20261014-topic-qc_clk_dvfs-v1-0-3041b788e9f7@oss.qualcomm.com>
- <179275170360.4070168.15401690927522463377.b4-review@b4>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <179275170360.4070168.15401690927522463377.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: pNR7xlMLpxhFs1SomZ1-MHv6_cGzlKf2
-X-Proofpoint-GUID: pNR7xlMLpxhFs1SomZ1-MHv6_cGzlKf2
-X-Authority-Analysis: v=2.4 cv=FPyOVOos c=1 sm=1 tr=0 ts=6adf533f cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=m6TPRz_fCz5u_OYVIq4A:9 a=QEXdDO2ut3YA:10 a=1WsBpfsz9X-RYQiigVTh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA1MiBTYWx0ZWRfXyeVIYULP4t9C
- Dief06pt4JaqQ1V2WdwqoGjRzFGtiOXchcbssMsAT3cT7DmqCv3WRMxujdcZ3hktyR03bgeNtUa
- cVdSrbRrlEag26liBUglk84Rt8tEU7YEL/7nu/Rl+jtTd4PbFi8Urao9+yDZFjsS4pCV6P3lVWu
- j4U4XthiubHFnJZt6/1CzEcMsBDKfzEI1cPjI8LHNr83nxOEXIh4maSuKle6iy3uJamg8NnOfKu
- fcf7t/f1g5Xk9LwiIOy3NSjVa+57XkIdBEhckn0Hb4D4T2epcf0o8QXps0jkRhrC5pHbJKZaMqB
- ryePgjb395Z6Fc0r+aHuX0dD4l6zrFjkqCJoklEFW0fcr5o9PZdtL+llYB8bD0a+HpUizUZ+X7j
- 93xu2cZMCIyW+bnlDsiUoW7qsD8KUsOu3ZY/wOl1vSX4y/FlK6NrF/FdrrQJG+3Ok5RcPn9LBmS
- d2CmdRdLow9FjrloAzg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA1MiBTYWx0ZWRfX7HTqnYfSJSL9
- h3A0D6j/t6u3oiwFUHMqD7wwDak2143v+Y8CKB7SniC9GBPRyxiAdmymQvGL3R8s9kU51z1BYgS
- Yym5Z+rIOxccxJwGWFSXJoPM2MyGygA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-26_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501 suspectscore=0
- phishscore=0 adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610260052
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261027-tyr-ioctls-v5-1-59dfe98cb003@kylinos.cn>
+References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
+In-Reply-To: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Lorenzo Stoakes <ljs@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
+ Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793032870; l=1808;
+ i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
+ bh=5K5ZDtbb0No9pS3iRwCaB/ZkoyNuv4RA97gE66KsHmQ=;
+ b=3xbf/Ui9pjN4/qzsbUlA392NPtGKkMDXcuaouEQqRyRyagAyDKTbCKWEjzhrj8CcnYpOpMqNs
+ Q5cwKjb1MULCcgOqn1keN7x8FTAVjwijV21to9361zXabag+zsWjG0t
+X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
+ pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
+X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
+ auth_id=950
+X-Original-From: Ke Sun <sunke@kylinos.cn>
+Reply-To: sunke@kylinos.cn
 
-On 10/23/26 12:35 PM, Jerome Brunet wrote:
->> On Qualcomm SoCs, both the PLLs and other types of clocks alike require
->> specific voltage rail levels to operate in-spec, but through the
->> separation and decentralization of clock and voltage votes, these
->> requirements are often not met and are never explicitly stated.
->> This results in clocks being undervolted, or at the very least a state
->> we're unable to reason about.
->>
->> The devices consuming these clocks very rarely have their own
->> requirements in that regard. (1)
->>
->> This series moves the frequency-power_domain-perf_state mappings inside
->> the clock drivers, ensuring a single, trusted source of truth is
->> established and that the silicon is no longer driven at out-of-spec
->> conditions.
->>
->> To illustrate the nuances involved, here's a couple examples of hidden
->> dependencies, as found on SM8650:
->> * video_cc_mvs0_clk requires LOW_SVS to run at 900 MHz, but the
->>   PLL it sources the signal from requires SVS (higher corner) to
->>   produce that frequency. Similarly, to produce 1140 MHz, the clock
->>   requires SVS, but the PLL then requires SVS_L1.
->>   Analogous story for mvs1_clk.
->> * gpu_cc_gmu_clk requires MX to be at SVS to output 625 MHz, the PLL
->>   requires SVS_L1 to produce that frequency.
->> * A number of camera clocks follow the same pattern.
->> * Additionally, some clocks like cam_cc_cci_{0,1,2}_clk require
->>   MMCX to run at LOW_SVS, but the PLL has the additional requirement
->>   of keeping MXC (a wholly different rail) at SVS_L1.
->>
->> There's a broad agreement that a consumer should only have to care
->> about the clock it consumes, and that configuring its parents is the
->> responsibility of the CCF. Requiring the consumers to care about the
->> above cases (as is the expectation today) is a clear violation of
->> that contract.
-> 
-> This is a fairly bold statement. Yes, the CCF's task is to make it as
-> easy as possible for a consumer to enable, disable and set the rate of
-> a clock, and I agree a consumer should not have to know what the
-> parents of its clock need.
-> 
-> That does not make the framework responsible for it. Taken that far,
-> the CCF would become a de facto platform coordinator, which it is not
-> meant to be. The clock driver knows what its clocks need; the framework
-> should give it the hooks to act at the right time, and stop there.
+From: Alvin Sun <alvin.sun@linux.dev>
 
-I think we are more or less in agreement - especially since this
-paragraph of the cover letter is not really faithful to the 
-implementation (since the ACTUAL voting ends up in clk-dvfs.c, so
-essentially a driver and not the framework).
+SZ_4G is used by Tyr when splitting the GPU VA range into
+user and kernel regions. Add a LargeSizeConstants trait, implemented
+for u64 since SizeConstants only covers sizes that fit in a u32.
 
-> When coordination is needed across devices, there are dedicated
-> frameworks for it, like OPP and genpd.
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ rust/bindings/bindings_helper.h |  1 +
+ rust/kernel/sizes.rs            | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
 
-Right, in the specific Qualcomm case we heavily utilize all of them.
-For the problem I'm trying to solve, the clock controller is the
-"reason for the problems", so its driver gets to carry the heavy
-wait
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 930e63290cdd4..ee99f470ae5f4 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -116,6 +116,7 @@ const size_t RUST_CONST_HELPER_ARCH_SLAB_MINALIGN = ARCH_SLAB_MINALIGN;
+ const size_t RUST_CONST_HELPER_ARCH_KMALLOC_MINALIGN = ARCH_KMALLOC_MINALIGN;
+ const size_t RUST_CONST_HELPER_PAGE_SIZE = PAGE_SIZE;
+ const size_t RUST_CONST_HELPER_GENLMSG_DEFAULT_SIZE = GENLMSG_DEFAULT_SIZE;
++const unsigned long long RUST_CONST_HELPER_SZ_4G = SZ_4G;
+ const gfp_t RUST_CONST_HELPER_GFP_ATOMIC = GFP_ATOMIC;
+ const gfp_t RUST_CONST_HELPER_GFP_KERNEL = GFP_KERNEL;
+ const gfp_t RUST_CONST_HELPER_GFP_KERNEL_ACCOUNT = GFP_KERNEL_ACCOUNT;
+diff --git a/rust/kernel/sizes.rs b/rust/kernel/sizes.rs
+index 521b2b38bfe77..0acc8733d2368 100644
+--- a/rust/kernel/sizes.rs
++++ b/rust/kernel/sizes.rs
+@@ -132,3 +132,15 @@ impl SizeConstants for $first {
+ }
+ 
+ define_sizes!(u32, u64, usize);
++
++/// Large size constants (≥ 4 GiB).
++///
++/// Only implemented for [`u64`].
++pub trait LargeSizeConstants {
++    /// `0x1_0000_0000`.
++    const SZ_4G: Self;
++}
++
++impl LargeSizeConstants for u64 {
++    const SZ_4G: Self = bindings::SZ_4G;
++}
 
-Konrad
+-- 
+2.43.0
+
+
