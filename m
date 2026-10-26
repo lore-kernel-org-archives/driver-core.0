@@ -1,86 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793017385;
-	b=LYv7TSkCAYdVtInXuW6493sXxRy1bKknDb3ZGPtrkbK0LQBdE9gFepse0p63vTfd4ab7
-	 vnW5J5Fmfxd2PuBtNUbPALm0HZT2AaWsgybY2g6XUWuAGdldNGboZfjx4BZnCKAjGZd4o
-	 h2Ii+SN5Q2iysxE0krP9mnYvJw21/r2ayLNxhesTZ+bBuGMoEfbTsMv+v0zbaWMwA+HGv
-	 4K7dfyXB03gNzgVdo6mUhif3PJlGOD+owlcNl9sv0UiPFIZqgBVdICSYfzT/s7zbSnOSR
-	 I7RqObD9VhTmUcb2XTOz531rM235Gvi9FoaZSJ4tgM9kzK06lLvvKKtHqmdFTcbsaSw==
+	t=1793017563;
+	b=GH+DTMKHzaSiibHTGyRozpqt7LmgJPWfgs7v1cY+XPlRHyA1+TaG2fYq9yja74Mej6jL
+	 7qlUTYMpPE1NRXFUgr4watAbQuoU59XfkFQz4MoCVzbw9Mb5N2rWMCazLuOGctnUpq/YT
+	 a1WbLZHscrNlW8IsNkqh98N15/nely0DWtoWEV3hmds4cU+JqA8+9aTjWe7I5Kq4dNS/p
+	 CumU8ULoeuAxYA1ws6PKD8dsoGwM+SblShMCSxMXLO0Bf3giL9NK4EpAtpeQARoA2JI23
+	 vBxFPr58ysejij+5saKquB5TT1WJ6ecq92raAdmNYivWXBk5bu7+Kk6pMpqaR9zV25A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793017385;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=F28cEkRZw6qR8QYv0rrjSViytgYVUruaxZYjwZM/GiI=;
-	b=4iqK7+UBIrS296PT+W3oiRmiaQ1e//vXj2BaXjBDvtSLENYgutm/bcZxUgLnBMBI/Ljf
-	 DGviuM1fCk//XdU+0lW3gAuSdhVyr09MzDAcOrwundUKxAW9r6kGip3rfLMUvgAz2XL9z
-	 CXmX0GnzNtQ6yeOge5nPkwy4JBwpomTmj9QmejMD577ERg0ChNcQS9mcP9pKm7q2xbrwg
-	 ryXsfJmn5OraikD67pcJ2acHsZGAGgYfRDws27EPBJSEiGP5k6xRFY6Jrowh+u5E+7cA4
-	 wayCHQ+nIPAfXvGaFY0CoKv3RciIp6OKBKTGtnrdnc550H1MmUyky/uCkaaBCyKUN0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793017563;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=G8xQcDH2otxxYZLzgFmvvHPotcztln45z2AqQl3MVAo=;
+	b=lHp1hh1D1d0QTPPuopf2mFSaMJ9SO4Y7Wr6TWWPpOuuzSSbku1CKsQJdQwtxMmuf+Q/y
+	 TIEC4RE2bBFM9GSfl09rBqeOyweV53aRf/BYejHhmotn1F9JjMZsdR7dNESAr7+IPTSHa
+	 uYO1i5WB28sgxkodZKcSakNQK22aA5xNbacTJ/W//Arrl2Pr6uRM9QGGCI31r7l6Q2v85
+	 AXBJQ11egcy5vecspCF+xkn9nxz7lJwNosL0K212G95glUq0imMS58EcJ7wImJ6WgV/El
+	 cYnbPFbWdqndwe0LTyPW3wzaZB52/AsLCg0itxMUCQBVtLcyq7Mg3FxcNXmLtyK59Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVRWHUmm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA16A606A31D;
-	Mon, 26 Oct 2026 12:23:04 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jXpba3B5;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5358606A31A
+	for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 12:26:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5358606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVRWHUmm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 284BB1F01825;
-	Mon, 26 Oct 2026 12:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793017384;
-	bh=F28cEkRZw6qR8QYv0rrjSViytgYVUruaxZYjwZM/GiI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nVRWHUmmQBWzJjaKLYtj7Cs9hBRzpKDsPyblR+L9mqeip1CnW37rOhv99PxQruLGG
-	 F9bR/dIkIEDwPH3Ww1wgvgZe9ts0Mv9WDYDVzEyUvIqTSIoWVsqSgzYseEFoVt3Xlu
-	 tLVXovWCeBjfrjW64pb4R0SC5LkjtSFOtl9eemi5ut90BPibXq3ZqlF0aJAuZ3Rr71
-	 9gMtSlyL/aBdT3S4GrqAMpJwP2CnkcgnDkd4BSH6sS9XsD2Su2W8duCzHwWxTCWsQq
-	 f5AZJgohMtdHL32wOVh3YWugp0BrVbFbCa+D6OvbG/EQWP8Xk0fCYfOS8rLB1MWQFD
-	 9GRWRl1bW/cpw==
-Date: Mon, 26 Oct 2026 07:23:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Yin Li <yin.li@oss.qualcomm.com>, Ben Horgan <ben.horgan@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Fenghua Yu <fenghuay@nvidia.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Gavin Shan <gshan@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Drew Fustini <fustini@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	trilok.soni@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
-	ganapatrao.kulkarni@oss.qualcomm.com,
-	Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>,
-	Huang Yiwei <huang.yiwei@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH DNM v3 8/8] arm64: dts: qcom: kaanapali: Add MPAM MSC
- nodes for the L2 caches
-Message-ID: <20261026122300.GA3598537-robh@kernel.org>
-References: <20261008-mpam-resctrl-dt-knp-support-v3-0-35196c2b43bf@oss.qualcomm.com>
- <20261008-mpam-resctrl-dt-knp-support-v3-8-35196c2b43bf@oss.qualcomm.com>
- <20261008210004.GA1318789-robh@kernel.org>
- <1d764a3d-7935-4e26-b1c2-92537e1d3811@oss.qualcomm.com>
- <893507ca-b956-474c-9124-92fbfc25e9ab@arm.com>
- <f17e31ca-817c-4607-a680-55ceb12169dc@oss.qualcomm.com>
- <6e06228b-827a-4321-99c1-3e0e961abd61@arm.com>
- <86fee017-c9cb-4583-beab-4f29919fb518@oss.qualcomm.com>
- <1feb10d8-75f3-4dbf-9fae-807dc5a22c25@oss.qualcomm.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jXpba3B5
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D037428C7;
+	Mon, 26 Oct 2026 05:25:58 -0700 (PDT)
+Received: from e143943.arm.com (unknown [10.57.58.20])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E9DD33F7B4;
+	Mon, 26 Oct 2026 05:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793017562; bh=i2qQHLE0grhenajYcjIhJMoYmoqCSUyZD0j5cnUvM9o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jXpba3B5Td/GG+JNUHPNpT5ECro24BKMrW/Pidl8gZNO5BAFy5B0eUjTmklhucykY
+	 l74MdKxItGu3cnA7ZA5t3sTa8lLCT7lvd+QuDhgz231qebyh0kRq303T4GMoNe7Luo
+	 o2tPD3Ib4Quz6brmuHdhEa5rXCGWEvv0x9hmSV34=
+From: Beata Michalska <beata.michalska@arm.com>
+To: ojeda@kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	aliceryhl@google.com
+Cc: boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	daniel.almeida@collabora.com,
+	boris.brezillon@collabora.com,
+	work@onurozkan.dev,
+	samitolvanen@google.com,
+	acourbot@nvidia.com,
+	rust-for-linux@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v5 0/3] Rust: add runtime PM support
+Date: Mon, 26 Oct 2026 13:25:42 +0100
+Message-ID: <20261026122551.536381-1-beata.michalska@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261026120523.526942-1-beata.michalska@arm.com>
+References: <20261026120523.526942-1-beata.michalska@arm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,38 +78,115 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1feb10d8-75f3-4dbf-9fae-807dc5a22c25@oss.qualcomm.com>
 
-On Fri, Oct 23, 2026 at 02:03:57PM +0200, Konrad Dybcio wrote:
-> On 10/14/26 9:09 AM, Yin Li wrote:
-> > 
-> > 
-> > On 10/13/2026 6:37 PM, Ben Horgan wrote:
-> >> Hi Yin,
-> 
-> [...]
-> 
-> > Hi Ben, Konrad,
-> > 
-> > The original 0x10000 reflects the per-MSC register block size as
-> > allocated in the KNP hardware — as Konrad noted, Qualcomm DTs tend to
-> > use "how much register space is allocated for this block" rather than
-> > "what the last used register ends" to avoid holes.
-> > 
-> > We'd like to update it to 0x321c to give other platform authors a more useful reference, without exposing KNP-internal details such as address holes between blocks. In our case, we don't implement MPAMCFG_MBW_PBM, and — as you noted — the registers from 0x3000 onward are domain-specific; since we have no domains, those aren't used either. So the actual footprint we need is smaller than 0x321c, but showing the full 0x321c gives other authors a complete picture of the allocated register space.
-> > 
-> > That said, this patch is marked DNM and is intended as a local
-> > verification example only, not for merging.
-> 
-> If you don't intend it to get merged, you can even put 0x12345
-> in there. But for future submissions that will have the intent to
-> be merged, please stick to the 0x10000 size
+Hi All,
 
-Why? That just wastes virtual memory space. I know it is "infinite" on 
-64-bit and *only* 96 bytes of PTEs, but still.
+This series adds initial Rust support for Linux runtime PM.
 
-Rob
+The concept for Rust abstraction gets introduced in the first patch.
+It provides callback registration, PM callback dispatch through PMOps trait,
+scoped request helpers for common runtime PM operations and configuration
+helpers.
+
+The abstraction intends to keep the request semantics aligned with
+the C runtime PM core.
+
+Second patch integrates dev_pm_ops into the Rust platform driver abstraction,
+enabling drivers to register PM callbacks with the core.
+
+The last in the series is provided for demonstrative purposes
+(not intended to be an actual merge material).
+
+This has been lightly tested with the Tyr driver.
+
+Based on drm-next.
+
+---
+v5:
+- Added doc comment for `rust_private`
+- Dropped the `RuntimePMState::Unknown` as that was no longer needed
+- Dropped masking the RPM mode in `ResumeScope::release_inner` as that is not
+  necessary and brings in only confusion
+- Fixed the behaviour of `AwakeScope::new` when the `Request::resume` returns
+  `EINPROGRESS`.
+- Note on `RetainScope`: the pairing of:
+  `Request::get_noresume` ->`Request::put_noidle`
+  is intentional to avoid mixing the expected behaviour of `Scope`s
+- Cleaned up all the CONFIG_PM guards
+- Switched the `PMPayload` to use `ManuallyDrop<>` instead of `Option<>`
+- Apply the `PMConfig` only after successfully marking the devices devices PM
+  state
+- Dropped `#[pin_data]` for `RegistrationData`
+- `Registration::new()` is now usafe to with the safety requirement that the
+  `Registration` cannot be mem::forgotten
+- Overall cleanup for attributes and formatting
+- The `platform::Driver` trait is now sized to enable making the DevPMOps an
+  associated constant.
+
+v4:
+- Simplified the PMOps/DevPMOps type model by making the bus adapter an
+  associated type of PMOps, so DevPMOps is now parameterized only by the
+  driver PM implementation type.
+- Added DevPMOpsRef to pass typed, adapter-scoped dev_pm_ops references through
+  bus registration code.
+- Made DevPMOps own the generated dev_pm_ops table and require a static
+  DevPMOps instance for Registration::new().
+- Made the runtime PM payload mandatory.
+- Replaced the PMContext enabled flag with an explicit Disabled/Enabled/Dead
+  state machine to prevent re-enabling through stale PMContext clones during
+  teardown.
+- Updated with_get() to reject NOWAIT profiles in addition to ASYNC profiles.
+- Changed AutoSuspendDelay to i32 to match the C runtime PM API.
+- Renamed RuntimePMState variants to Rust-style names.
+- Dropped the local EINPROGRESS error addition: already available
+- Updated the platform PM wiring and Tyr example to the new DevPMOpsRef/static
+  DevPMOps model.
+- Cleaned up comments, docs, and minor typos.
+
+v3:
+- Dropped macros in favour of plain encoding of the PM callbacks
+- Moved Mode to use kernel::impl_flags
+- Generated PM callbacks, the stored payload, and the device cast
+  are all monomorphized for the same (Adapter<T>, T) pair,
+  with the registration sealing the contract by validating installed dev_pm_ops
+- Platform PM wiring should be type-safe now
+- Tracking runtime enable/disable state
+- Few fixes for issues pointed out by Sami Tolvanen (samitolvanen@google.com),
+  like making the registration teardown respecting the CONFIG_PM settings or
+  fixing AwakeScope for async/no wait calls; Sami is also the person behind
+  adding get_if_active variant (much appreciated)
+- Changed base branch
+v2:
+- Moving away from the old PMContext<T, Dormant/Active> type-state design
+- Introducing an explicit Registration<'a, T> object.
+- PMContext now carries a lifetime and is derived from the registration
+- Callback data is no longer recovered through driver data
+- Simplified PMOps
+- Runtime payload handling change
+- Request helpers slightly extended
+
+
+*** BLURB HERE ***
+
+Beata Michalska (3):
+  rust: add runtime PM support
+  rust: platform: wire runtime PM callbacks
+  drm/tyr: enable runtime PM
+
+ drivers/base/base.h             |    4 +
+ drivers/gpu/drm/tyr/driver.rs   |  110 ++-
+ drivers/gpu/drm/tyr/file.rs     |    3 +
+ rust/bindings/bindings_helper.h |    1 +
+ rust/helpers/helpers.c          |    1 +
+ rust/helpers/pm_runtime.c       |   89 +++
+ rust/kernel/lib.rs              |    1 +
+ rust/kernel/platform.rs         |   32 +-
+ rust/kernel/pm.rs               | 1106 +++++++++++++++++++++++++++++++
+ 9 files changed, 1326 insertions(+), 21 deletions(-)
+ create mode 100644 rust/helpers/pm_runtime.c
+ create mode 100644 rust/kernel/pm.rs
+
+-- 
+2.43.0
 
