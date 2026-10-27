@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793062678;
-	b=PbySExISt8QUQVeUs0y173UM9rxco19mm+cX9zqEmUCD32s8IVhCnuuDtLF8hQSjoNja
-	 wYEiIYV1IPEZfggO5CrQCdXkruA60J4hvUEgBYRNHNuAi62n8vCEt1SrhEua0ZsgSk/kH
-	 8KwmcVH+RP6CC5JpxAoNXda9NWz+r84GF8wMdF/kzXcf0+MTgRkucTFNjCMygNOucKtRx
-	 3YevE6AuGRb7UXvFvEvrnskbDdpGEfNhReekHuBhMw0l9tGKtJvasKqZzKJkKGlhR0Yjb
-	 u20rnK5XQRsO4ALCC0OH+6KUj4c3Mv+d3Ri1y5IpM4b9s1TbjrLfSUH7pyjatEkohUQ==
+	t=1793063210;
+	b=G6EojMlMHgO8wJg4o13t0x+0896ffWE8W9N3Ibh+aQsga3bVY0CzwUrrMVP4476SQ1Th
+	 dOmtOoD6va7Ag/fzbNQkNtRMY98Wda5IUK6rlCEJPbkxp5ARUyWCTOebXsnIyAQmyqoOu
+	 YKt0djcqd+/Re6DPV2nPQCv86iq3gV3OkuKX3lFwlLwCqB8/dPH3HyublH/cNftLuSWfH
+	 7UhUInCm/n7Py/TsdVnO6Qwe5n/EZldtp08PkHDa/iaPj6GO85QHK5PubiVRG/uo42++m
+	 VwMcw6V7hRqwx45O2KXXeVbul4+dWKqVJm9or+m2aR3CaBuneRqO54sQ5MLP9Gx4V2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793062678;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793063210;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=PixEuIlz0J326DRKLzRZTRCRckMWEmO8LrFWZwm2Ojs=;
-	b=TKmrRE6EFojm5XLP9Oed/6lBWOQCAbdvFKo7PxjXLH3cua+NnLkZoFxyFuU35w3QNIg8
-	 8VmwpLOeiFtC5ZgSbGLCK+8werIDCiuhxSHCcIP51z6fVkx9lXN89EApu0Siw+eVVbXXf
-	 8CvAKoFMHe2S5JWTpTcnpeRxSNUJX988lAMpgwlAD7VeOt4286xtTCuzWe5BYXyvevDSz
-	 /cW3WYG0x+Utw7ZI7BlTcxjmEGX3J+3w8TP1pDdIrEuKhrxJZVzz6Dtxmzk9GpPWqRqa7
-	 alNe4wbzwSYFJ+ItfA6+wXrR5d3pLCc9gYotV5Jj4nq1L3zgdWZr7ACDIbCMG5oNfeQ==
+	bh=aJI0hb4/E//vLxc2EVc1E27ZXseuwybs0SN1EQUknec=;
+	b=cPADm3oPxTUsU9zc/P/DCJsJS/bjNmOIXvkKW2X3ZpkCfaCrMI7+E+0b3sVT7KOFNYkh
+	 KT/VXcatq3zM+2WaOTAZD0suIQcCIRTcSIdyZHy9RQdPnOibxaAjwd1TaAQSGPG7VImJ1
+	 16WH71ADTcotik+EsZ1A95LaYN0dPPULb1I7Nzw1PEjzy45vp50E2JlFmEpi0xugRt9Xf
+	 TrcOA5Xe3Lnw/sy+ZP3/YLoXZfWU8lcfNBEfKNRNMtJgEFR7Ax9eg1xj4Es+9FReKoom6
+	 sumFZvhREr7S8aY48KSYB6l6OBkk+DjlW5W31OYnzJdXKtsMvTDNHJXQ/gCLHNnzpkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TL345Uxx;
-	arc=none smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="O/Nc7m/Y";
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED14606A31D
-	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 00:57:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3ED14606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452FE606A31D
+	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 01:06:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 452FE606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TL345Uxx
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b1ab2ad719so5621602a12.3
-        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 17:57:58 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=O/Nc7m/Y
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b408f2d936so5268505a12.1
+        for <driver-core@lists.linux.dev>; Mon, 26 Oct 2026 18:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793062677; x=1793667477; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1793063209; x=1793668009; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PixEuIlz0J326DRKLzRZTRCRckMWEmO8LrFWZwm2Ojs=;
-        b=TL345Uxx8ZNfx3qSO3MfcTWU1oMvrsQcQX4GsZbe0/6EUH3qxKhSuefKlFEuIzY/A1
-         AxcwRZWpJVzDbjpee6SVPQYwaPJlVVYLCyIwZ25/AprLnzZ7hOa0h2bMYbeG27R9hnxs
-         LWmJKh6DLIzoRnKCK/NRo3cHzFwHQAAHpx4k4taZWmoLsaRi2xu6WnWpWAp+t4+yYXh9
-         F3vYHjOEqWHzasw1X9xExQzUmSE6pCqwCP7SrI6qg6KrJhj/2atv/7Pk4yHrZnju/cmd
-         5vedcUXoCuO8k6lvmzdd5TzT+s9fV4rr4P+Z/tmuapxvkEzAPTy/deIR/LhehmxSgvzO
-         AtKw==
+        bh=aJI0hb4/E//vLxc2EVc1E27ZXseuwybs0SN1EQUknec=;
+        b=O/Nc7m/YJsu6RV0ulGpnXUa9RLkJ+dMX5dyd1bvs2cADA3hq9IhxwCN3rJMBYPvOUy
+         3npygrZmKVyORAcgsOigrfpLmA54M2BGi+dKlZrxjQGhqY5wyPdaTJvDGzerNoct0muS
+         onKkev4Dp5Q7YVV1BxGtc68rvHpIRPiCsyRUtpH1s1BrhWB0JQlecLkq+Z0AQLSuC6Jg
+         /7qkHlK83IVfaZHZAjsbGaO4XPk24yG4UK8jxWMMOSddXk0lxeFmpwp7SWJY9dM3YsxD
+         9A5XshOORmL2JmHkIh+BCIaAE1Ve9z+k9UKqjgEHWRVRCNDRpRYzDICn6XQ9Bep302s5
+         pt0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793062677; x=1793667477;
+        d=1e100.net; s=20260707; t=1793063209; x=1793668009;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PixEuIlz0J326DRKLzRZTRCRckMWEmO8LrFWZwm2Ojs=;
-        b=EFa3vCx2EsO+vifhH96ICEtqYNsOUp1B4BFZVlNf5e5GfQCUFR1AAy8R+niriqUswc
-         2v3TP7q35xbykg8o581JcxFSbr+GXPqWnJoZRWclhLu7i3KcnqZQpom7cIloXL3FcZ+m
-         jClqLCZs6SW/8HU6DB37x+2BD5qS7suu1CFf2OJBtQRahOLBXQfIiCUChK8o29dY8U4B
-         dNLAiWanoYY3025BMD99sxVzzSpj/GL+7nuptQX8vQ2tlab2FPacK3jsONopQQYn6/xd
-         91XQjp8+wPyjgvWs0k0tg3Sgm6o/gS8XUALb5zRdjW/jkh8ocqe6CCBG1g/6W6/IYNvL
-         jE5A==
-X-Forwarded-Encrypted: i=1; AKwUvBxyTh/BDWTYbn8e2Z2sfRhhPCsVztgkLjsoSGySnBgQACBL3aqoCrXDmx9OPt3pQ75mXxABljSc+Hu8gg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJjm19UamjTHwdSED3InQOl5PkBoUpGDlqKfP4fIhIqV3YFtwTt
-	J0GbJBXTOjJ/1SbCNJXcu9WpL2BROnLhspzt6sZ1fBSwUybmYmJUjbLK
-X-Gm-Gg: AYBFou0GE2u/tubMG6ZDefGWcmJOd2oy+XKg041QlX3NX+Q/MKDzFFs4bEyWhNTXfw4
-	cm6t+HkCP96fDAtP37XiJuLA875GeyLU0HDi+T12DcIhyOWVLstUrtZ3swpzWrmZGEqYbTUdSNS
-	HPMLunczGLBecQdzlm30XdnZ9TMfewBLdzPLVvfdFXOrLsdeU4trOdHFhsjsQsK09LsPg/FHn9W
-	snPwOL81tWQS6ONVIR3fGSEQhOozbXFT0YI616FnLUxOSDNiqr+HjzGCXSQkWd1vj90SYcmC2qo
-	TBaj/9EBPuYLByGowSabL+dVGK2WF583qz32/dxPbY909ntzu5QY9sUcbGFkd43GZeInzLgEp2w
-	Z4ieutkeuGGTCi3/AlTcNXX5BDAN6BMJJhLDCLTma+4VmNFmZFr219albKzyZZ69C7ptF+jxCX0
-	3aCgd/skf+DIJBdyIKb/iS5a5uix11DSP6z6CpZUIFvHc4Bsqwxwty3SKWfd1snzZinlV5FfZLD
-	aywanEtgVhIDdEUlvkFiZhLYalh9ox+hwohVbsQx1GY1nvN6OpyNZxKvyxxuKo4LujnJXLHuBHW
-	u2bIYaFK28ylD5PY8FnyuHEkrGG5DsApPgxIRsHSOoVqKBXIxQoIi6gz9p5KCk53N2wGs2DqY/l
-	Jnh77Y1qn94qtcmu1UC8fsB/pP8DCnXex860QwGYwBmuYguw/vFmgPB4wShzajRZrke+15va1/B
-	8WTEcjTMqNhoRX9nI=
-X-Received: by 2002:a17:906:f593:b0:c31:8984:7fad with SMTP id a640c23a62f3a-c46bddf6451mr917653766b.15.1793062676398;
-        Mon, 26 Oct 2026 17:57:56 -0700 (PDT)
+        bh=aJI0hb4/E//vLxc2EVc1E27ZXseuwybs0SN1EQUknec=;
+        b=fNuR0xwxfoVPZktLLfChRagGFfkSzY8uQ3E6CjkC+hii+Zp847jbSPZjVa5xccXXqg
+         meQHrkL6lzdjBO+dbzlsjO7wzRoSyOEIpqv4rXpfQ9n430UmnwRiu1xjJTcPgqf7lm0Z
+         IyWq15Hx8eq8Z2ulXCcR6B+/jvbPa+NfJ+gdsFxmManMah3z92Ya6+gGEvW7xYnyasbX
+         kWIl3nznXnUOZGDCVowAJP1zMLxJB/ZY9wCsFxifzN10hTtGwlWY0alJe4JaccuH98Of
+         aFCZEA6VEhOX/jTwbt3qH6uLtuokn4zyw5ojhF2439aBD8vMp2UqJkc0BMPcU0T5hcTI
+         O9ig==
+X-Forwarded-Encrypted: i=1; AKwUvBwNWWmZ37z7/AlWZhDP1Xh/BLXuOC6yxWMuoyNCzo1WlgfdxFvc1pvCW7rhWQaqFidMqrz7RRXNDy3Zpw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJvAzCTVmQPl+LO8D815ZznHGoiM3cuirPIkzRV9ivE5+VcEMB3
+	1VL47NAQKX/KkfwKKAFTp0TMc65BqFsGdMgWjIW/oQDzlzwLUmE7oH2U
+X-Gm-Gg: AYBFou2tW0I7JYZqsKLx8u4GII6/fu4nUcLF155JNDpm1mR+qUF3xUVsGSTjgZS7sC2
+	FeMUivVV3Ge8bIChDCnwLNKF2a26STd4Zmx392DZ7do4YdTwIIMmea/T1wWhL9WXN64zLnbXiuh
+	bJCBMycrjGxACFCQiAjlvnl0gchvJNrpNBVDe+CahSGkKQ1hr/r1z80Lq87/pE5Ygx2DYpnW9/s
+	BuwnFXoGHTzr6XAqJdrc831p8+uaqrl+lPl39gwLzpn74aey+J6y1KIT4Qv+UYY+gVw4QVSr2pA
+	BGGX5GkflB4melUA4cnvhCmXMnfco3GaL2TU9YcTSaQgce8QBUhPDsOXeVZtcQgzHgZlHQpMwvi
+	KyTmxOvLnR+KMgIZoZNAn1o+fCoCAyhyN5Abm48eNcto1mdLsrrfb5O7vD8KYljeWZsyLM/xNqa
+	hoARpV0+H7/+VUOIGtVoHoAGzEmMpxKPabpTlEfTGCVqN0KZl58ZEtkfwFyTRFA26ny/+zaMGTQ
+	dMAkL4LPg0s61TWHAnx4IOnRw13K5/ZcFVJHQyEV6nBftGb3r1r9ddRhAqkIVgEDIqppZ3Y3yp0
+	Gsv82dWaPaKpVA3OmJHFB7QShsl7vlX5hZ7RbWoqgXZTdvRvpGAce/s3IxktUFtinmCxUrkri6M
+	d+gSMzEI4JRRdNSYmAWtk1bFPAbqsR6WA6JTSadDqLrMEuWV92OAnRQn9tp/pzPc7x8FJH046Mf
+	ec6P8WF84lPPPnM5w=
+X-Received: by 2002:a17:907:160b:b0:c46:6a50:40b7 with SMTP id a640c23a62f3a-c46bdd690d3mr894395066b.10.1793063208643;
+        Mon, 26 Oct 2026 18:06:48 -0700 (PDT)
 Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b44595df8fsm4283637a12.11.2026.10.26.17.57.55
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4e7c94sm373434066b.27.2026.10.26.18.06.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 17:57:56 -0700 (PDT)
-Message-ID: <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
-Date: Tue, 27 Oct 2026 01:57:54 +0100
+        Mon, 26 Oct 2026 18:06:48 -0700 (PDT)
+Message-ID: <7c8d96bf-368d-4272-8cd1-94740a2e4a84@gmail.com>
+Date: Tue, 27 Oct 2026 02:06:47 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -119,73 +119,18 @@ In-Reply-To: <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Ian,
+One additional detail I missed in my previous reply. I reproduced the
+warning on the unmodified kernel at commit:
 
-On Tue, 2026-10-27 at 07:11 +0800, Ian Kent wrote:
-> Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
-> in resume_store") looks like it's been around for a while so I
-> assume the reproducer should work on 7.2.12?
+        93f51579e7df248780214094418f205253383cc5
 
-Yes. That commit entered v6.5-rc1, so 7.2.12 contains the relevant
-code.
+Exact kernel version:
 
-I used the unmodified C reproducer linked from the syzbot report:
+        7.3.0-rc4-g93f51579e7df #1
 
-https://syzkaller.appspot.com/text?tag=ReproC&x=11c0f4c9580000
-
-I also used the configuration provided with the report:
-
-https://syzkaller.appspot.com/text?tag=KernelConfig&x=7d012d9c67977ee4
-
-> What should I expect, a hang, it doesn't.
-
-A permanent hang is not expected. The result to look for is this
-lockdep warning in dmesg:
-
-        WARNING: possible circular locking dependency detected
-        ...
-        &pipe->mutex --> &of->mutex --> &sbi->pipe_mutex
-
-The reproducer records the first dependency by splicing into the
-cgroup v1 devices.deny file. It records the opposite dependencies
-through a normal write to /sys/power/resume. These operations use
-different lock instances, so the exact reproducer reports a possible
-cycle rather than deadlocking.
-
-The write waits for an autofs daemon that never replies, but the C
-wrapper kills the blocked child after five seconds and starts another
-iteration. In my test the warning appeared in the first iteration.
-
-The test needs lockdep and CONFIG_PROVE_LOCKING, the cgroup v1 devices
-controller, autofs, and working hibernation support. It must also run
-as root. Without lockdep, the program can appear to do nothing useful.
-
-> Also it looks to me like the reproducer is trying exploit an
-> invalid request similar to what I described earlier
-
-Whether the string identifies a usable resume device is separate from
-the autofs request. resume_store() first passes it to lookup_bdev(),
-which performs a pathname lookup before the numeric fallback.
-
-The reproducer changes its current directory to the root of a detached
-indirect autofs mount. It then opens /sys/power/resume using an
-absolute path and writes the relative name
-"0x0000000004000921".
-
-The resulting lookup is therefore:
-
-        <autofs root>/0x0000000004000921
-
-For autofs, this is an ordinary lookup of a new immediate child of the
-indirect mount root, so it is a normal mount trigger. There is no
-autofs mount under /sys/power.
-
-In parallel, I am preparing a revised patch following Tejun's
-suggestion. It disables splice for writable opens of
-/sys/power/resume and gives its of->mutex a separate lockdep class.
-
-If you send your autofs change, I can run the same reproducer against
-it and check both the request and the lockdep warning.
+I ran it under QEMU TCG using the configuration supplied by syzbot.
+Both the unmodified C reproducer and the original syz reproducer
+reported the same lockdep cycle.
 
 Thanks,
 Krystian
