@@ -1,112 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793123302;
-	b=PGH7jt9bf+xB3xxKoojE878oL2hFX1vPAG3C6rraw6k76kFkaG1LHJ+OakSh1k/bDJHF
-	 r78Wg4AzHDFQ2WpjBR0DohZGtdrJb0f20OgiqcgPW40usucr1Fw8nK69+z8OXbYumAMNZ
-	 qPra8tsihcu6bl+vxoHKetvtWvBfnoleqALve9XHotL4f3dHVb8aQbYyMpcEiCmagSoli
-	 /qd9f78qSsUhXABpheWQ0F6Y+AHlCdXQ0048jeWECPP3Ww/cq3igrfFExy11nvVL1F8Mi
-	 X/1/etMeiuOlobqF4XQZdgxP/bYQ0lXWABSD3430RNms1fjWdLKZzaQj+vUq5vEzT/Q==
+	t=1793140750;
+	b=ipyRwyqgVn/oq46vmCCxFCGDBwgvENHXsb9U4qWTSHe5rj/bdaDxgwqBglcdj9vAQ+8M
+	 uaec8HHGVzHSZ24T0zpgsLw+913hwqnoE3ml/nQdr50AKZbLRgzXf0G7k3CbRRv1XUW+S
+	 SsuufGHi2td0dM/jPP43AwSsJMukZSuuV0po8qUJ/TbzoFsCHhACOEzHUnO8BxxMgHsy0
+	 tGKnkI0lAwBOtp6kpKhz7bgCl67GAWTra7i5Mpg8yDjPRN6XzTY9CkuJSos7i1puHQYFR
+	 3Wa1iAJsAUzPEB1e9MmPf3WuTipCbTEB1uUnReCW0n1MyokSATSI2ZbMoAru6/npX9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793123302;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793140750;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=coF5c02vssZCkeB6rjzbpbOB68XCpWmc7Y8D46czGV8=;
-	b=AfAWIJ0zTVff+1OFc9I806QVoXePS4uBjcxrTrszc8eFr5cxSDO9k4zLFgkX5O/7KSND
-	 gTTn4klVPUOv5tQukSTnMRRzxk9GGjO8ycxa9fY+o7qTLwCUeG7JTre9c7rhwZcwVwi5T
-	 3lhnCqavkbEuPw00ydzjWCIan68GxFMlCffcP6XETCkN6EIpkMiqQtgWCE5aoJNLQbdHC
-	 t4iBZm3YMvs5E6O+5MPIbnY8RG/wwEDBNCEK3H0MfEzgY5Hiodi7AXTNKBkdueZleXo/a
-	 ua2n//WCpYqTGyw33kt+b/Epq93+8RCUy2RuMTCaNP4D50+ZV/qryqOrz3nfH1R9t8Q==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+	b=1KFNmaYMtdjWyN/iwTrQKqkfKkz6TC6tlTDs6/BqDVzE3uZOYO2FRjCADyvQmL23XXPT
+	 2zc/ju3PpcOZwRnSaY0+8Te4E6wLZZd55cd0/oBCL6gFQPO+W10+dsXPbsjqJG32PPE3j
+	 0CD6UiOj3hWAAdlIFLzd33Vm0ivbzIgk69dzPlBhele2xuiZnELvD15dovFrgd/85hWpl
+	 Zui4+J5EbwcSiT/luwjHAzIKHKJ5EjAORdME8DY+bDkjkqvkT6yvcfDAtUHOb/NnW28mj
+	 SqzyZszND2wnEOuvWcgnQA7DZbckFhdZPo9ckH0U6l+AxAyLq3A4iig/vXyhkp/eadg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uci.edu;
-	spf=pass smtp.mailfrom=uci.edu;
-	dkim=pass header.d=uci.edu header.i=@uci.edu header.a=rsa-sha256 header.s=google header.b=bn5KM5X0;
-	arc=none smtp.remote-ip=74.125.82.44
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XJaJkdhg;
+	arc=none smtp.remote-ip=74.125.82.200
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0954606A31A
-	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 17:48:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0954606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uci.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B03C606A324
+	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 22:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B03C606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=uci.edu header.i=@uci.edu header.a=rsa-sha256 header.s=google header.b=bn5KM5X0
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-18cdcfc05ffso115289c88.1
-        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 10:48:21 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=XJaJkdhg
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30bcb065bfdso523736eec.0
+        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 15:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=uci.edu; s=google; t=1793123301; x=1793728101; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=coF5c02vssZCkeB6rjzbpbOB68XCpWmc7Y8D46czGV8=;
-        b=bn5KM5X0LLdnPndjHGojkBmzcoyDALX91ZnOrnTNSzkf2pb+y4Eml5kziJVJgoerZ9
-         6nT89jZ5ixtQlD1t5sG0emaTmilIZnun71N8MePUUTIWjPTS5LhDP1XvnwrQYLohu3Hy
-         yP2+frGRDIXM16S+gzeUyfhxCMOptU/WM/oC6iMbph7U/4mX5akkObO+Bsl7R5BJP2Tr
-         kAqjUvVdZcX/37t73TsITMlN0Qne5Lz59zMFnsGzLr6qc/L6uxqFEV8btDM0idOGhdyU
-         Gdzn5yLVap5/d+cF9/xxzchDkR8/A94vq5IOSh/jfKhl8TZxGzoVXaNDJY/2WrFhaK8s
-         Wpow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793123301; x=1793728101;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=google.com; s=20260707; t=1793140749; x=1793745549; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=coF5c02vssZCkeB6rjzbpbOB68XCpWmc7Y8D46czGV8=;
-        b=gCWHX5YgsbXjfrOmy87L4qx7WabKU84gMutr1w0xPwflHjYmvoNrGZo0jTmpfxIcRO
-         coeRFPWSO8nZXyN0C/ajHl3JWQWlh1cdAqQ1CNeAMZoj8Tp5wDsE92czTkwXNgiTFKqw
-         JDuLGrnYMA1cpNWoIhujf7ZYg8hqrWQXKBBIbdpZbMmaZRBNKvLpLFDG31pTiq2YcGag
-         uoi6pw3Fc2zwyqm3gjnygH6LZT8kocI5QRuxnbed35wsb/nbvl2lBP3qqYyYl8CHue3X
-         Xo6Z08lfn3jkfs+EQ5ikuYy6ONWvK96cDXTuyJGIRrFeWM72Cvoz6sgr3V8SWKjILBU1
-         e4mA==
-X-Forwarded-Encrypted: i=1; AKwUvBz7aq6L3Lf7Lq8Gj0Kig7Bj5sq+B9MwJYHtMEUwXZKSKiM3siFMACp8ZshLrQjb51PRJxLWfnzpkg3U9g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLBHcEFZX/3oXgPZDmLCc5epxQ2evk78/Z4zUNi3NSlPHCYwHSf
-	siOB1JwHQccEJfbGY/4RSevvYWqD5rV3sA4knipXkkWp431rVAkcwicTUhgXPDyAncs=
-X-Gm-Gg: AYBFou1yQv0nVfH7hPqM1g/WNilbABYUeXo0kMsryoLHxDgIEgh1W531Zv9PnXf98WK
-	Ua2d5mHqYASWqGiysFu7XlZbha5L21fcK8uqATdehsFE8/WkA8OsGO+rHV0Hf2klEA5bt6vYgOM
-	RhwdCxOxT8WvbYP9GPHiLrL8DAO9C2ztPXjmb9xkg4mqM7VQ13MNArLrkX0y9xCPW2fJdPOmI6a
-	ZvcIE/D171oo6rky8Xd6rJpGZhjim961kO/vIvxCEpjy1OmjbcNYCjUmou6g8i8KXRKuZC+P294
-	Rfqtq5L+N2dcViQZ1vb/3dTmm/VP6lP3l8bUTAQcDmId+1LidT1nj7YIPEv84m51E2SR7iT8w43
-	O2rcuQpT4HdDR26O7P6txeNXsFDeyt7CiE+YAnEc11tym53HW7MvCkJSNTmAZ99RYp3K8Lot7Gq
-	uoVEcd/rrx9YuQ5+AX1LPRtfIAOP3UCQJEtYLnfMPEGVeRFFuMZvWq4Jo+VBkBqe9/ZsP1GfORJ
-	ot/Bvf7UzGawI9Qh7RR35/y5WhKJVuqi0t8jcHO1YSIM1qGf1/JWq967A96HD5zpBOYG5eN28gg
-	4C292iB13X++lu/u
-X-Received: by 2002:a05:7022:3b8b:b0:169:9f67:a91b with SMTP id a92af1059eb24-1993505df87mr17730994c88.12.1793123300700;
-        Tue, 27 Oct 2026 10:48:20 -0700 (PDT)
-Received: from guest1.. (charm.ics.uci.edu. [128.195.4.118])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-198a1bfaf25sm35486813c88.14.2026.10.27.10.48.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 10:48:19 -0700 (PDT)
-From: Priya Bala Govindasamy <pgovind2@uci.edu>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	ojeda@kernel.org
-Cc: boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	mmaurer@google.com,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	ardalan@uci.edu,
-	zhiyunq@cs.ucr.edu,
-	dzueck@uci.edu,
-	pgovind2@uci.edu
-Subject: [PATCH 1/1] rust: soc: avoid dangling attributes when SoC bus is unavailable
-Date: Tue, 27 Oct 2026 17:48:10 +0000
-Message-Id: <b527648762a76e485b8302835daf3fe26a232e60.1792628232.git.pgovind2@uci.edu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1792628232.git.pgovind2@uci.edu>
-References: <cover.1792628232.git.pgovind2@uci.edu>
+        bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+        b=XJaJkdhg84MLpX8NxKKJxamSxHst5QbgFMJp7i+SzxoMRLRHDOHuYTvYQFkPmtugtQ
+         alVv7aiCD7yW6CWvl3x+VvG/cmEoG8IkPp0F/QQ93J4XG0jbOa3MEvuT0keoH9i+ejG1
+         faTbzJUrfdbTeHyBs/Q5UkIVM97x26I+QWyFRBNVtBEwQj5BvSbigBQWtt49ffr3/CXc
+         ypIClmIjN/6OM3frPT0mayS6UGTn+dBDptUIPzBmjezlFSA0PbPy4KOmYcdnl0MGL6iI
+         PLjcc1YYbYOT66g/XVc/9UWm8XsCtpxdzudeZoLv1C+fvijjrGH5zyzIAO7g1XaWDcuC
+         rVOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793140749; x=1793745549;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pEmx5PL3tlnBiGr2rjVOl0G+YHkBW7VB5cziBEiH9l0=;
+        b=d9Dc2nNixDn2hNKWeb+j6lqclarL3A18rTQy83H9WqeF+OdSopJ7JQ5GazBPkVirba
+         Ac2mJ7ISICOMe3fOQuEEnDFU1L6nbn/ijx6D8zdy9t3s04MLhSIy8dioJaJIngaRCzO4
+         uEpBsN/4vKSGL+XUBNPblRaz81ifPjC6v8jGdHPN0C8n0HBTUypT3DiVuuZYB0hvddPs
+         bYm9wRqK9UOtc8EuXFsDAj6Ky2T0IQOTEKawnfsPmIeCngLhxYwBUnAsOxjJETjfrVgu
+         PBtkr8yL4aCHhumi4CbfTA8Ax9mqZbyisQpU1le1Yp9r5rHoTQxjnj70N6BgVDw2NgSe
+         jxsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwGnfIfbhIaXqxTyLhkfl24RapxeRyTRG0dZWoDyIUOx3jHYVEytKc+H45suCZUbJUMvc5pkzproMGhpg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJgb+YzawlO5Xidpvd7TruEWglnRKI6FGjpSdQv1Utk2Nwv53vc
+	7JEYdq+1lJ/9v1cdgYtJ/DvDfkCC2dHth7Ths008x20t+qtVcGe4+rK53vPJgHvfhK8qNEu4ckJ
+	O/3Q73Bnvpg==
+X-Received: from dli9.prod.google.com ([2002:a05:7022:289:b0:1a1:da78:f9b9])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:6989:b0:165:90af:a25f
+ with SMTP id a92af1059eb24-1a6cfa0c447mr941563c88.41.1793140748444; Tue, 27
+ Oct 2026 15:39:08 -0700 (PDT)
+Date: Tue, 27 Oct 2026 15:38:35 -0700
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -115,141 +75,152 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.313.g2479322e68-goog
+Message-ID: <20261027223847.652884-1-irogers@google.com>
+Subject: [PATCH v2 0/9] Add __must_init and require explicit kobj_type::release
+From: Ian Rogers <irogers@google.com>
+To: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Sumanth Korikkar <sumanthk@linux.ibm.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+	linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-`Registration::new()` calls the C function `soc_device_register()` 
-to register a SoC device with the SoC core. It passes a pointer to the 
-`soc_device_attribute` object of its pinned `BuiltAttributes` object. 
-In `soc_device_register()`, if the SoC bus is not registered, this pointer 
-argument is saved in a global variable `early_soc_dev_attr` for deferred 
-registration and NULL is returned.
+Clang supports the 'require_explicit_initialization' attribute on struct
+fields to enforce that the field is explicitly initialized when an
+aggregate object is constructed, emitting -Wuninitialized-explicit-init
+(enabled by default) if the field is omitted.
 
-If `Registration::new()` receives a NULL pointer, it produces `EINVAL`, 
-causing the `BuiltAttributes` object to be dropped. This frees the memory 
-containing the attribute data, which is still referenced by 
-`early_soc_dev_attr`. A later call to `soc_device_match()` will dereference
-this dangling pointer, resulting in a use-after-free bug.
+Following discussion at the Linux Plumbers Conference [1], patch 1 adds
+the attribute to include/linux/compiler_attributes.h as __must_init. In
+v1 it was called __require_explicit_initialization. Kees picked up that
+patch with a first seq_file user [2], and in that thread Greg suggested
+the shorter __must_init spelling, which Kees and Miguel agreed to. As
+the attribute did not land in the v7.4 merge window, Kees asked that
+this series carry the renamed attribute. The Acked-by/Reviewed-by tags
+on patch 1 were given for the original spelling; the rename is
+mechanical.
 
-The SoC bus is normally registered by a core initcall before loadable 
-modules run, but the condition is reachable if that initcall fails or 
-is skipped, as demonstrated using initcall_blacklist=soc_bus_register 
-kernel command line argument.
+As Documentation/core-api/kobject.rst notes:
+  "One important point cannot be overstated: every kobject must have a
+  release() method, and the kobject must persist (in a consistent state)
+  until that method is called. If these constraints are not met, the
+  code is flawed."
 
-Fix this by adding a new function `soc_device_register_nodefer` which 
-never returns NULL. When the SoC bus is not registered,
-it returns `ERR_PTR(-EPROBE_DEFER)` and does not retain a pointer 
-to the attribute data.
-Make the Rust interface in `Registration::new()` call this new function.
-The interface remains unchanged for other users of the existing 
-`soc_device_register` function.
+Annotating struct kobj_type::release caught struct kobj_type definitions
+across the tree that omitted .release:
+- Patches 2-8 fix struct kobj_type definitions where dynamically
+  allocated kobjects, ksets, or enclosing structures were either leaked
+  on kobject_put(), freed prematurely before kobject release, or missing
+  proper static initializers.
+- Patch 9 annotates struct kobj_type::release with __must_init and
+  explicitly sets .release = NULL (with explanatory comments prefixed
+  with "Pre-existing:") on the remaining legacy struct kobj_type
+  definitions whose kobjects are static, per-CPU, permanent firmware
+  structures, or embedded in devm- or parent-managed structures.
 
-Fixes: 057d44b05775 ("rust: Add soc_device support")
-Reported-by: Dylan Zueck <dzueck@uci.edu>
-Assisted-by: LLM
-Signed-off-by: Priya Bala Govindasamy <pgovind2@uci.edu>
----
- drivers/base/soc.c      | 19 ++++++++++++++++++-
- include/linux/sys_soc.h | 18 ++++++++++++++++++
- rust/kernel/soc.rs      |  7 ++++---
- 3 files changed, 40 insertions(+), 4 deletions(-)
+Note on tool use: An LLM coding assistant was used to help audit the
+compiler diagnostics across the tree, draft the fixes and changelog
+descriptions, and verify builds and review feedback.
 
-diff --git a/drivers/base/soc.c b/drivers/base/soc.c
-index af7d71393774..dc9072281427 100644
---- a/drivers/base/soc.c
-+++ b/drivers/base/soc.c
-@@ -122,12 +122,17 @@ EXPORT_SYMBOL_GPL(soc_attr_read_machine);
- 
- static struct soc_device_attribute *early_soc_dev_attr;
- 
--struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr)
-+static struct soc_device *
-+__soc_device_register(struct soc_device_attribute *soc_dev_attr,
-+		      bool allow_defer)
- {
- 	struct soc_device *soc_dev;
- 	const struct attribute_group **soc_attr_groups;
- 	int ret;
- 
-+	if (!soc_bus_registered && !allow_defer)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
- 	soc_attr_read_machine(soc_dev_attr);
- 
- 	if (!soc_bus_registered) {
-@@ -179,8 +184,20 @@ struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr
- out1:
- 	return ERR_PTR(ret);
- }
-+
-+struct soc_device *soc_device_register(struct soc_device_attribute *soc_dev_attr)
-+{
-+	return __soc_device_register(soc_dev_attr, true);
-+}
- EXPORT_SYMBOL_GPL(soc_device_register);
- 
-+struct soc_device *
-+soc_device_register_nodefer(struct soc_device_attribute *soc_dev_attr)
-+{
-+	return __soc_device_register(soc_dev_attr, false);
-+}
-+EXPORT_SYMBOL_GPL(soc_device_register_nodefer);
-+
- /* Ensure soc_dev->attr is freed after calling soc_device_unregister. */
- void soc_device_unregister(struct soc_device *soc_dev)
- {
-diff --git a/include/linux/sys_soc.h b/include/linux/sys_soc.h
-index cedabf177f47..4bd9ee43be74 100644
---- a/include/linux/sys_soc.h
-+++ b/include/linux/sys_soc.h
-@@ -26,10 +26,28 @@ struct soc_device_attribute {
-  * - %NULL if the SoC bus is not yet registered;
-  * - on success, the newly allocated &struct soc_device pointer;
-  * - on failure, a negative error code as an ERR_PTR().
-+ *
-+ * If this function returns %NULL, it retains @soc_plat_dev_attr for deferred
-+ * registration. The caller must keep it and all data it points to valid.
-  */
- struct soc_device *soc_device_register(
- 	struct soc_device_attribute *soc_plat_dev_attr);
- 
-+/**
-+ * soc_device_register_nodefer - register SoC as a device without deferring
-+ * @soc_plat_dev_attr: Attributes passed from platform to be attributed to a SoC
-+ *
-+ * Unlike soc_device_register(), this function never returns %NULL. It retains
-+ * @soc_plat_dev_attr only when it returns a valid &struct soc_device pointer.
-+ *
-+ * Returns:
-+ * - on success, the newly allocated &struct soc_device pointer;
-+ * - if the SoC bus is unavailable, ERR_PTR(-EPROBE_DEFER);
-+ * - on other failures, a negative error code as an ERR_PTR().
-+ */
-+struct soc_device *soc_device_register_nodefer(
-+	struct soc_device_attribute *soc_plat_dev_attr);
-+
- /**
-  * soc_device_unregister - unregister SoC device
-  * @soc_dev: SoC device to be unregistered
-diff --git a/rust/kernel/soc.rs b/rust/kernel/soc.rs
-index 0d6a36c83cb6..39659dbd31f8 100644
---- a/rust/kernel/soc.rs
-+++ b/rust/kernel/soc.rs
-@@ -122,10 +122,11 @@ pub fn new(attr: Attributes) -> impl PinInit<Self, Error> {
-                 // * The struct provided through attr is backed by pinned data next to it,
-                 //   so as long as attr lives, the strings pointed to by the struct will too.
-                 // * `attr` is pinned, so the pinned data won't move.
--                // * If it returns a device, and so others may try to read this data, by
--                //   caller invariant, `attr` won't be released until the device is.
-+                // * `soc_device_register_nodefer` only retains the attribute pointer when it
-+                //   returns a device. By caller invariant, `attr` won't be released until that
-+                //   device is unregistered.
-                 let raw_soc = error::from_err_ptr(unsafe {
--                    bindings::soc_device_register(attr.as_mut_ptr())
-+                    bindings::soc_device_register_nodefer(attr.as_mut_ptr())
-                 })?;
- 
-                 NonNull::new(raw_soc).ok_or(EINVAL)?
+Changes in v2:
+- Rebased on v7.3-16928-g83f32c773255 (v7.4 merge window).
+- Patch 1: Rename __require_explicit_initialization to __must_init per
+  Greg Kroah-Hartman; document the Clang >= 20 requirement per Miguel
+  Ojeda; note the Clang gap for file-scope objects without an
+  initializer reported by Kees Cook; add tags from v1 and from Kees's
+  posting.
+- Move LLM assistance attribution from Assisted-by tags to this cover
+  letter per commit 1e035297ffda ("docs: remove Assisted-by
+  references").
+- Patch 4 (cpufreq): Use "cpufreq: governor:" prefix, drop Fixes tag,
+  fix typo, and remove the redundant runtime assignment in
+  cpufreq_dbs_governor_init() per Zhongqiu Han.
+- Dropped v1 patch 5 (ACPI: CPPC), already fixed upstream by
+  commit 27954e29d7de ("ACPI: CPPC: Release CPC descriptors through
+  kobject").
+- Patch 5 (dlm): Call kobject_del() before dlm_recoverd_stop() in
+  release_lockspace() and the new_lockspace() error path, and wait on a
+  new ls_kobj_done completion before freeing the lockspace or dropping
+  the module reference, avoiding races with delayed kobject release.
+- Dropped v1 patch 8 (s390/sclp_mem) per Sumanth Korikkar: the
+  /sys/firmware/memory/memoryX kobjects are permanent, so sclp_mem.c is
+  folded into patch 9 with .release = NULL.
+- Patch 7 (ubifs): Add Tested-by and Reviewed-by from Zhihao Cheng.
+- Patch 8 (drm/amdkfd): Check q->kobj.state_in_sysfs before
+  kobject_del() in kfd_procfs_del_queue().
+- Patch 9 (kobject): Cover sclp_mem.c and the new amdgpu_ualink.c
+  ualink_xcp_info_ktype, fix the overlay-sysfs.c comment, and prefix
+  legacy .release = NULL comments with "Pre-existing:".
+- Patch 9 (kobject): The ioat, kunpeng_hccs and omapfb display comments
+  now say that the existing teardown can use-after-free under
+  CONFIG_DEBUG_KOBJECT_RELEASE (reported by Sashiko). Fixing those
+  drivers is left to follow-up patches.
+
+v1: https://lore.kernel.org/all/20261013223946.1836757-1-irogers@google.com/
+[1] https://lpc.events/event/20/contributions/2392/
+[2] https://lore.kernel.org/lkml/20261014225811.i.852-kees@kernel.org/
+
+Ian Rogers (9):
+  Compiler Attributes: Add __must_init macro
+  powerpc/secvar: Add missing kobject release callback to secvar_ktype
+  sh: sq: Add missing kobject release callback to ktype_percpu_entry
+  cpufreq: governor: Initialize kobj_type release callback statically
+  dlm: Free dlm_ls in kobject release callback
+  xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+  ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
+  drm/amdkfd: Free queue in procfs_queue_type kobject release callback
+  kobject: Require explicit initialization of struct kobj_type::release
+
+ Documentation/conf.py                         |  1 +
+ arch/arm64/kernel/cpuinfo.c                   |  5 ++++
+ arch/powerpc/kernel/secvar-sysfs.c            |  6 +++++
+ arch/sh/kernel/cpu/sh4/sq.c                   |  6 +++++
+ drivers/acpi/sysfs.c                          |  2 ++
+ drivers/cpufreq/cpufreq_conservative.c        |  5 +++-
+ drivers/cpufreq/cpufreq_governor.c            |  4 +--
+ drivers/cpufreq/cpufreq_governor.h            |  1 +
+ drivers/cpufreq/cpufreq_ondemand.c            |  5 +++-
+ drivers/dma/ioat/sysfs.c                      |  7 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c    |  5 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       | 10 +++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      | 12 ++++++---
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c        |  5 +++-
+ drivers/infiniband/hw/hfi1/sysfs.c            |  5 ++++
+ drivers/infiniband/hw/usnic/usnic_ib_sysfs.c  |  2 ++
+ drivers/parisc/pdc_stable.c                   |  5 ++++
+ drivers/power/supply/ab8500_fg.c              |  5 ++++
+ drivers/s390/char/sclp_mem.c                  |  2 ++
+ drivers/soc/hisilicon/kunpeng_hccs.c          | 21 +++++++++++++++
+ .../fbdev/omap2/omapfb/dss/display-sysfs.c    |  7 +++++
+ .../fbdev/omap2/omapfb/dss/manager-sysfs.c    |  5 ++++
+ .../fbdev/omap2/omapfb/dss/overlay-sysfs.c    |  5 ++++
+ drivers/xen/sys-hypervisor.c                  |  6 +++++
+ fs/dlm/dlm_internal.h                         |  1 +
+ fs/dlm/lockspace.c                            | 26 ++++++++++++++-----
+ fs/erofs/sysfs.c                              | 10 +++++++
+ fs/f2fs/sysfs.c                               | 15 +++++++++++
+ fs/ocfs2/cluster/masklog.c                    |  5 ++++
+ fs/ubifs/sysfs.c                              | 24 +++++------------
+ include/linux/compiler_attributes.h           | 12 +++++++++
+ include/linux/kobject.h                       |  2 +-
+ scripts/checkpatch.pl                         |  1 +
+ tools/lib/python/kdoc/xforms_lists.py         |  1 +
+ 34 files changed, 202 insertions(+), 32 deletions(-)
+
+
+base-commit: 83f32c773255720a661aa45d83e36278135f23f5
 -- 
-2.34.1
+2.56.0.313.g2479322e68-goog
 
