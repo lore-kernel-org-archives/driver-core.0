@@ -1,102 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793199054;
-	b=uTT8AD+BSa02vFDGHyO02spV5BVbPVRdmY9FHWtttb3zXAsIIPsd67h0nRac5fYU0Vnq
-	 3JwnBPpu2pk7V29NYymWSnwjfzdBWzto2rW5jAOI6rXiz117AGMH9KFZsj7xrsUtYqHvX
-	 xzX8Pb1ulCNCFDKdb9qZhiJx4aJDAa0iFPCq9aS9U6uytXVVFywHhl43Tf1VhDiiVsFdG
-	 V3I5yzbtnfI+eVg/Km4JzU3AYAfNhUVDH+RHFqFkQE8ICF5WM5iWDOYq5MV0YQxY9V52G
-	 O3l5IRb9wzMA23LWQzi3cekD29OQOEY3Zmd8Z0gFnYcUGd+e1Blh3nC916kPUZE//RQ==
+	t=1793200109;
+	b=avolkDVHqe8CgBHDY79d+5E1PHapLSvwBQlDRTrc3v/FPl6wWzrPZoV6oOoAE64cTcqY
+	 cDf83Kxd1p255r8ralQHlsBcVON7Fhd2r3WyvLXNaFH28Hsn5BDDy2J/Oj2urcb6pn95x
+	 6it8E5cpk5Oh/I+owspDtmm/uOsHUkaFnAQxrb4zU7fqlf57L9wu/9a4IRBHNkfVD4OYE
+	 P52FrxtRv0S7d9CLo9dHnq8p0hbn3OTHX4yA/UD7G8fOJiTZrbMzveiofzIM1uBQTfdO5
+	 7aCN7PqPZoQmp56/8hgfRZ4eFNxvfOLXbCHWtXJE1Bpd1zVjjvIfAGcmR6Mtjtd6RUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793199054;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
-	b=E7XrwmzCLj+U5V1TFBeJ/Prvbc60kXlwJuECZgiJibefUwBnmvUoh1lYEa4CV+81zydW
-	 6+zJnSlcOXsIVDclr3rSaCvnDtMbuR4K3BjHoCfZyLVW2SKObjV3IHH/TrkGoacMZ9PBf
-	 +DkLr/nhlsUJ0pnIMY+7VKBkdFLqornsmni8xI3v7WKP2/Xs6pPwmrs7AMKkR3bdMJlmD
-	 NCzdQErSQnThkSOkqXwrABRg9Gu/4+qy46oxUCk6D3/E87GgHfLDqpnfaKNZq9rdWKFp3
-	 REsj/sWeRpslMikPdgPV/gIgwjcs3N9p/Boyoe8pLx/GEAeJj9OuyrMdxxQsGDq3QwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793200109;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=AV9Izra3OH9qTfxhuZXmSAF2xqmokRZ3T5Dfj3xJb44=;
+	b=nDmV50dpESfTBSHOXCAhJ8P1J/YD3MlRMUYBhOKTGXXS0prxiZYSIEAj1GytCWJ+9E6a
+	 aDSluT3st2s885blBnNWlnKEUsYH15MBerOeiGR45fCoPet/Jpw1NjS6BcjboOgGLV8Lj
+	 TIXeJvsPFKSwbtrHfbiikpCp++9OZGUbi428t/MlckjpoNFKkqCR+FvYz0qdXafatLxcd
+	 7AZ0LZY02l/62J9FlVRXAvM4UZZ94TPfMm6sPdzK3yTI0pwh+zdcIwVnls/w4lZkxUM/t
+	 pVR4DOMVW2dCnsEF54pD8vRpXIS06R03U8fQ/Ppim5b6t7B7BZr4wuwVR0hDlsNlRdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WlfO4MPA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1572A606A320
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 14:50:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1572A606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso11108225e9.3
-        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 07:50:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793199047; x=1793803847; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
-        b=WCx+LXKTu1WeiK0WChOuG0XuF0hWV2OgLTCLt1XK+8OWazr3yA6ZrMWjyGVRDJkFWU
-         gQofVX/1ted4p/YnO/laPAnXOavNuu0RsqBoxG/eCfOwv6kaxDAcYu6ptqRCYAnWaB+w
-         rz8YNT5BgaYTEhhMVVFDrL3xHW93X8DV7EMJLUE+mjKGp11MmcA60d6CpIQUbzI7Q7ld
-         M8k5t3pfKN7QsCvxODZSDUxiCkJo22bS6AfynbOAeqjmUaA7jg3h0wvoooKzcguTLcz9
-         xfnAUs4qWiDO0NlImEOPhBWSKHLhXIpudkR1hyOI/JcM/U0G7SNohVXH1Fhrz6Tddko9
-         +yrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793199047; x=1793803847;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8g9t7ALU7n+7VW9gQDZGowaF3x6SIEajb/2Mc6wiGZg=;
-        b=Sc2t8qfhhx9gtiwItXxKhAY8HCHj++H0mDudmUuKCPsXIMml3V8bhUFGpRuG76ZfJl
-         mS6AYtKdg1vx/x5Y00wYeeeFHoEK0YKc1cw+5VTTcdK0HIxMVX0vhQmI47svovntZoXO
-         8GxoV/EQOqw6I8Jx/ogFnXrG8zvoMQGcpm5hBEmWDC8WJVqHWHicq5iUiKEnTfI+0Srt
-         +TIUewYrzKCOzRCWXPRSGbFV2hnUmZlvQeRZHIXyLqOQ5Bc8lbnBAMWNwBdTQKx4OvYm
-         jIowkG9stMtgksPAUehRKNDToW+sRvM+NzM8oV9QjEfyAsRgkH5Hnw+kGsvSep3a/6o6
-         DsDg==
-X-Forwarded-Encrypted: i=1; AKwUvBxkd37iqfYISKoYSLKPp0rgn7qCf5yCPJ1BA0rR5VVhL80TMsQkPB50dOuIAOiLqhYERN3ITaeZPk5wmA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJX4ZYxeibMwBS9wUScQGwhU1BbZXzZsgwimF7OkSJ4HJclZEcZ
-	xQn/n0tPnbkTWgQ21PEtb9zvQeyeDv+lqq8RFvOycTj2J2yxHjfmV0YLbzwWityN83k=
-X-Gm-Gg: AYBFou1BWXo59uZTJ9EI00PHNvB/KW43kgQjdlq4mskoHqoG7j3XKAZRoCT9o3qBpre
-	Ys9Xb3AViK7qd5HA8BB3pNH3FdtBT/zK1UBbIWtvPTcG1byc5zOw1EI8wvkMcEy6vf7I7JPdtu6
-	75m1fAy5/8isLzju8xDUUy1s+0axf5D7tPcSm7zlt14763cDl5JFBAYdFv8Z4NrnjaHOKzk4j1V
-	B00FGsMKBntou1/BvGvo7x33Ba0pb9Ql8fNISG00zNEBRoUOZ8U/F711Siivw6M92Pre1m+sKKr
-	VR3i2vlr1jjT7xhMMpAl1CgB8AGLgTV4UiaVuEEyTnJ0YQOgi8ovg6AwXQiWPEagX18afl2//bh
-	EU1J5+9OGPk0/FoQFcpLMXZUuz1gILioZdkxKKUhyK5fGhC2I6UF95xYTO00qK5x62Qr06GL6iC
-	g7tFOSeePhUu7tlGeYvwuCtsfHltB0zmBnbrH5U6sfFobZoyeqM4RD+grByo0B8wMnDDm1MuazT
-	ua4yVTY8AqUPtn0G6rVWg1qytBJ/x+H4QnfkKAYJ5JpGldQo5BIk3j2uTluuUTwLojO89Hl0SVq
-	DwU/8WVNI3FPIhnEMLjU2gNwAjKkQ5K3Xbs=
-X-Received: by 2002:a05:600c:3510:b0:4a4:7a8d:c436 with SMTP id 5b1f17b1804b1-4a96667dd75mr52332595e9.11.1793199047357;
-        Wed, 28 Oct 2026 07:50:47 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a97cebf858sm57250745e9.12.2026.10.28.07.50.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 07:50:46 -0700 (PDT)
-Date: Wed, 28 Oct 2026 15:50:44 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alex Williamson <alex@shazbot.org>, 
-	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Bradley Morgan <brads@mainlining.org>, 
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
-	Richard Weinberger <richard@nod.at>, Thierry Reding <thierry.reding@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB3A606A31A;
+	Wed, 28 Oct 2026 15:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WlfO4MPA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14061F01825;
+	Wed, 28 Oct 2026 15:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793200108;
+	bh=AV9Izra3OH9qTfxhuZXmSAF2xqmokRZ3T5Dfj3xJb44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WlfO4MPAMSt/WqYOMD4MglyspquZTUPiSWTmL2e2g6r63s+AL5rogH2i1GJW4mbg7
+	 KRexbqaj0mqk9oRN5qUnfPiQn8NFCEiGuhPVaSPFyFeZVNMqPgTfRMjcxKr6sSKT4l
+	 VR24hE1sIQWSLxJbGn4UF294VMt/SomRTElTL0tY=
+Date: Wed, 28 Oct 2026 16:08:24 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Alex Williamson <alex@shazbot.org>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>
 Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
  userspace manually messes with devices and drivers
-Message-ID: <auILBqh9Ccv7ztid@monoceros>
-References: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
- <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+Message-ID: <2026102855-headache-salutary-5084@gregkh>
+References: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
  <2026092321-province-yearly-44aa@gregkh>
  <arOfHEsGGglNse7T@monoceros>
  <2026092348-victory-erased-0e5a@gregkh>
@@ -105,6 +74,7 @@ References: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
  <at34UOuYv3NtX36R@monoceros>
  <20261026225950.GD1685504@ziepe.ca>
  <2026102849-turkey-series-ac07@gregkh>
+ <auILBqh9Ccv7ztid@monoceros>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -114,64 +84,40 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dvdgfsb6jpiy7bdt"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2026102849-turkey-series-ac07@gregkh>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <auILBqh9Ccv7ztid@monoceros>
 
+On Wed, Oct 28, 2026 at 03:50:44PM +0100, Uwe Kleine-König wrote:
+> On Wed, Oct 28, 2026 at 02:45:18PM +0100, Greg Kroah-Hartman wrote:
+> > On Mon, Oct 26, 2026 at 07:59:50PM -0300, Jason Gunthorpe wrote:
+> > > On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-König wrote:
+> > > 
+> > > > The more I think about this taint, the more I believe the commit should
+> > > > be reverted and replaced by a some stop gaps for driver_override. (Be it
+> > > > a taint or better yet
+> > > > https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
+> > > > .)
+> > > 
+> > > I also think this patch is way too broad and should be reverted until
+> > > something better is designed.
+> > 
+> > Fair enough, I've sent a revert for now, will get it merged before -rc1
+> > is out.
+> 
+> \o/, thanks
+> 
+> > I'll rework this for a later release, thanks.
+> 
+> Please look at the series behind the link above before investing time
+> here. I think most of the ideas are already implemented there. If you
+> voice your preferences there, I can rework accordingly and rebase on top
+> of your revert.
 
---dvdgfsb6jpiy7bdt
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-MIME-Version: 1.0
+How about rebasing now and submitting it and I can look at it that way?
+That would be easier for me at least given my current workload...
 
-On Wed, Oct 28, 2026 at 02:45:18PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Oct 26, 2026 at 07:59:50PM -0300, Jason Gunthorpe wrote:
-> > On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-K=F6nig wrote:
-> >=20
-> > > The more I think about this taint, the more I believe the commit shou=
-ld
-> > > be reverted and replaced by a some stop gaps for driver_override. (Be=
- it
-> > > a taint or better yet
-> > > https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.=
-1790612298.git.u.kleine-koenig@baylibre.com/
-> > > .)
-> >=20
-> > I also think this patch is way too broad and should be reverted until
-> > something better is designed.
->=20
-> Fair enough, I've sent a revert for now, will get it merged before -rc1
-> is out.
+thanks,
 
-\o/, thanks
-
-> I'll rework this for a later release, thanks.
-
-Please look at the series behind the link above before investing time
-here. I think most of the ideas are already implemented there. If you
-voice your preferences there, I can rework accordingly and rebase on top
-of your revert.
-
-Best regards
-Uwe
-
---dvdgfsb6jpiy7bdt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmriC7gACgkQj4D7WH0S
-/k7RWwf/cwXDsUHX0jhgjipjJFi1+cjW14UhDdlEnrd0BnzhDhCcWYdtX4Jokju7
-CvB5Oiyfrbzutn6NGqwDb2r6lwabIE+FUkSwqOYBh0v9DeYZc09PyetAJUrJc1P+
-ykWQcL5z1tPk5gkQDnk/OMUtvZXVwgH9T+CJaYjJ1zX5KQEqpM1iA0orv6blUtcV
-QoHhDAdbFR9S/jZ/4rdCfk08awpvM3VqeV4VW0n2VR/QwFLZ7NS45TRo8EZdRHiI
-enU/kyx10Vep14yRZmuVr3Xw5rdSN+ylwbNFFKzSLcL/Vz00iyhlIOgvlsS2wy69
-vU6dhHVeUJVTb8Y8hxbTBePHR0MSsQ==
-=kVFg
------END PGP SIGNATURE-----
-
---dvdgfsb6jpiy7bdt--
+greg k-h
