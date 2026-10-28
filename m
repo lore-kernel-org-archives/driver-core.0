@@ -1,113 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793188095;
-	b=cj3CF/D3mMlUFGc98o/BSB8BiNKvdkL69D0ye7N//vyVR1PXgPpJKRAOn+ctq7RUuFvP
-	 gS7zSlklAwOMkob9RXkPP3jCuGwLIJcX6loIWs/dhFN0H9qGWBpzAs7UFQoesuZTxF/BV
-	 hGKU7B4mVPNRx0fwRqxdo1Yq8eFe0IF1SKxYxkKJCBr+sI6lNgLWuU7usRKwp4S52k7zu
-	 OpGzUA/TTiyFOk0KCej2qRIcT5AOgrDzyzBLSxdAnu9nzBp4akY5ilWhHX/39DXi71doz
-	 EAbq9K0CFEHs4Uc0jwGEMg1sA3dtgkhKmu9lCPH1n1F4r140kfW574fJSTLnCCC+xhw==
+	t=1793188103;
+	b=yWfUVWPp9GLPwyrOCjLrMWiOY9AHz3+faVS1bvh8/bf28BiKZq8HdixWq1Nszy3mBfxZ
+	 gyC1DSiArw9Q2EmDiEIHCjATltaX75GlZFp+l533ZXDhjEIL/pzpeiJdt/19BLyW78Wd3
+	 YH7eADJTA6kUKONA9GI4hEWhvnU+JxaLIOM37sUnRPz+Q+GWAQsRzVOGK4bIGPfslxKbw
+	 4laq2Kjy2kpzMz6We+vwc6zuMiMhhFsG7pMxyaFprq1CnBTy/Tg2BB3LWqcPKUdv/WLdf
+	 exR6OHJCN9oHyps3xL49es8goJ+O0lnFTO8P49aicLg8qZu9VLXsv1Gcmen9mFAavvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793188095;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793188103;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Developer-Signature:X-Developer-Key:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
-	b=THC/W7h8lxX6rHHVQeWaubAvSSm81SgPI/aEIuWFkWv8jaurK3h/Qh3zOpEnq1MefoVL
-	 YUqFv1cIg3XrZNod8mMxd19+jVpJFzwqqGzHbaJ2cT76DG1+YR8XrpFzlyo7fpwzBXREQ
-	 ix+8n87x++bOlhteT2fdo+iFEqtbPI+wOlKfr2/57T0DkQP9m+TADR3eSi5VuApchdhgQ
-	 wRwNkFjOYlCLayAVpOlFYtBYsmD3bb64oTy2oidmQv0KI1vIuC1Tx3l/ntVDmAx48qMus
-	 LO1V0ePkr4EwOkJURxV5Hyhrq2DEpxOe/RFFVEOJpcpyRrzWVY6YS2+dSjmq5lrwMRQ==
+	bh=1FNdw/vxGAA0wQbj4L4Ts+BO20TKyzwdbY/j2gmRfqI=;
+	b=jZxt8V5sbvUw+PZB7kDATkU2Gq1x0u7t/uL7S8gUyf03LpmJ23gh5+qYsfM2xmh0NWVs
+	 Ro+s46jzd9pD6pu2DeYd4EqCYc7YJtYx6a+6W61s7yGWuR3zp2IaaOlhsbRKp+j3lqf8k
+	 0qQrBHe5Ka8B66tirQpBK3FP3fCY4TCLhYSpuxtSdFAJoIjgeEtMg3UTGjXVomjjsURZ+
+	 GG0zr+ml73ixTrWW1HRDQhQmro2sx8Rn3kjNLFOt3bl2oPg41etup4/90dOarVsUNuHM2
+	 pPgiZHAhX6z0XSI4hiVMLWYgTaLE/AAkg+mEbJflxb5t9lfxyHs2ZTrQVy+l07R4RAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXsC2ItG;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RH5a35r5;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L4Emxa5D;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NFqy48pr;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5A6606A338
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB5A6606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C1760A260A
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8C1760A260A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXsC2ItG;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RH5a35r5
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SBe6Ek1012047
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:13 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L4Emxa5D;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NFqy48pr
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SBe2Av1538941
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=; b=aXsC2ItG8FlL+JE9
-	KAC2z5roNxozGt8CsUW+hq6elaEKAV/ncRmKYtMZPRCnPkDPs2TTuZ2OiGK+giQA
-	b52xmXp2aIVv1zqXg4QlS5N3m5ab8Y8YdUaeRtgIg/hIVu9zpzJL0qUskj1AXMo9
-	y6I3KADqPUEsGzxWv8wKderFC9PTw5zhGFUC1NJkuCQU/tMjHzuszpo3wlsS5nb+
-	jYfWcgqvGgoLTHX+85QB5NOCAVt5SjguJ4+WRNOgeoHQS3+u9uzXjXTVjNjTShlO
-	OlWla+SI/vc4PNEPHSSDOJ0oVZyi4lfe1Rw+rw8nogqigfJ+0lbfgzKs00x2aObz
-	a8GDQQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkfehg85r-1
+	1FNdw/vxGAA0wQbj4L4Ts+BO20TKyzwdbY/j2gmRfqI=; b=L4Emxa5DBOXtcr0X
+	V1mSC+aXb56oY4X8irE/w57Sb9Tcdd9lMVxLWy12E6T77nFgHBaPdMY005QTSsLx
+	OzW8qiAlhLD8APxBJsLSmhhjxDfo1EaGms3MTArWWi4JR/5bVbkNtwwtxOPcKv/G
+	JGzOeSHppmIT/+t+CV3etW34EUBiicIkIfV5lrZZYXmLVfZ6mEwqg4+pEauHPl82
+	lg2SC5BUKhlVFbdM3PG99/asSwlON8rkfVDHXaOazLXi5g1BNqDfXzKpRT8uDNI4
+	Zy0q9mENbQLZU1CjjS6s7kqdkNTk/EnzQXDsYl1JCONDguOeCco9efi1iMjI/PWk
+	kFtlFg==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkdf7rqq2-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:13 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e869e00005so10694645ad.2
-        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 04:48:13 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:21 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e9d52f684fso8482545ad.2
+        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 04:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793188093; x=1793792893; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1793188101; x=1793792901; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
-        b=RH5a35r5dIynQ3FvRDQ5i8njgSml2P8BijccRZuZZ94TT4gvdxZaut+oH4QFzyJW73
-         owm6R6QmpgPJwDuaV6keTs3C3ugAbv6oiVmImZMYnShnYoP/QZf2IOhDpQthPXNdq516
-         QH5lYaOIFbWcu41mACIwOU1/vfgsZNdTg5TKIaPOTnEwP07gvrRGtKFgjOzq7E8ITa9q
-         kvzMdg59roC+j7xrJiR5SM25WqCgO8JySRWEQHyo4ZZgnd0BKd9qEDUFjkay3iiJuNXt
-         K1r5PBLNqAMBbJRj6p2qUSuEOQLlOXtQOpVUtQRukVZAYf3DiBkhYi7ZjyGw9l7c8r9G
-         A9yw==
+        bh=1FNdw/vxGAA0wQbj4L4Ts+BO20TKyzwdbY/j2gmRfqI=;
+        b=NFqy48prr319U8T6WAGURxfkofQahFvpXSOX1xbzaPO2tzIyH9f/+Jf1IPb4U7YlbW
+         IvnoyOdTLP36zBr7huBRnveO1+vMX8UFsdGCMcq6pMdyZ0RKHvt+cdCad7u7RlwyCWqH
+         dYYeMz25TXkjkoW8mkBob3uZUdcqGhDzXDrLpJMEmsm4m3Aq+CmN4yzLMUqX0207t+on
+         JlrqRxkW2Mz+YGd9400c4CdpqapaJqvXZRS1OXHpOE4REFvnLVcZFBLvnYYpIyRfKZEz
+         2QkvfyI6C88jiXMMT6cSrhmDAIoxN9lRasgBniB2cAiMvOT0zyDkE6RWPy3RyqCpCXdO
+         hmsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793188093; x=1793792893;
+        d=1e100.net; s=20260707; t=1793188101; x=1793792901;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
-        b=siFpfwxFilCOiLPVcdnTvRs+nCgXjZT5dictCk08yVVnGFny6BNlZDKuItPdVy8Ray
-         EBkPrBWdvgfZfm9cew6ZkWjLwSEhLycnvOzz/y+yuQ3n3FoE3GN0cqj3LAY+Em5RMj+T
-         7mt0v3hXObi703v5QLMNk4sXNU3ZjO4cEf0uQcjX7JuvS1kZrUILDESEx/G1Zb4ZiPql
-         G8vx/yUqr065VLoaNqwQrXdj7c8Zxxt9TWogyRFv2yzH4/uPRt0REer8Rp11l3YRod4C
-         9B5lVTqsMClXj3HesoYUAsI0zd/xkzkPLWktfoiB1l7ps/jZFUkNI3YZDF7tyR/360gp
-         9YhA==
-X-Forwarded-Encrypted: i=1; AKwUvBz95CN3BJgK1xCVggWjP9Ps2VC/Qx7qSH1m8Gq/gPRfIyEednf+a1YXMjPztF+v21gv+qszU/UzpBlZvQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIX6Pb8gJ56jkvp2/oqX8klHzeWlWE+03vVGFWUDXZpEgwuJOXj
-	tkIFFQ74Yx0oIglD3v4r7mr9XIxisycJFSzHWxtvPGYWHenX593Th1RvgGQCLn233iRdiqaX0Mw
-	KT8fcEWdvgn9ahbB675Qh/FAf6x9heq+FP+EjW4+rgRzuRWiITroA5N6lVsVEEsZcVQ==
-X-Gm-Gg: AYBFou3fWq0Ylwn/X/RUfpolv69GA3XTaV+oPRZRiLT6KwfrY2Cmr9aFA+Vljy38hmU
-	3nMTnjJNdjdiWXgP54alVY2gayZbF7Fdr5IT8JKy07+JbPrgoH8JoDv66WFsRS8fS/O/ubsLkZi
-	i9iraUEVdXycuiIbvoaOn0KSTm2WyOyKqAnsw3mFl46y/NWk0OuJx0Ng/S3t5vSE7K49GfOIivU
-	S6FysqP5e+ACox4Z1fgQUDjfi3hV/vb4E40Fdf5NPruqUONlFSEECBgtPJ841aUs8/J44T3F8IM
-	dlM91sCAcDWrMR5v3LXorIXFmUvqPiZydUCXZKByFGiGLZZKxuZsSkDhEn0yR7vkQPsV8LChQ1c
-	4iut9G/E50sltEtK1WKpXs4FZsV8SCdUrYs6wvm1x2mBy0jbdvorMhPLmxtdKEE+c1k23RqngyG
-	DocHJmqj8Q2dIoi6NC/tfCh0OBS5Pa
-X-Received: by 2002:a17:903:2c06:b0:2e2:dfe4:adab with SMTP id d9443c01a7336-2eb003ffe11mr18527535ad.10.1793188091913;
-        Wed, 28 Oct 2026 04:48:11 -0700 (PDT)
-X-Received: by 2002:a17:903:2c06:b0:2e2:dfe4:adab with SMTP id d9443c01a7336-2eb003ffe11mr18527115ad.10.1793188091411;
-        Wed, 28 Oct 2026 04:48:11 -0700 (PDT)
+        bh=1FNdw/vxGAA0wQbj4L4Ts+BO20TKyzwdbY/j2gmRfqI=;
+        b=i3p2EIwW0733zkXONSyPvwxt815yi4lofCKwzqMtDVLITEWu8XCt1gHy42XNivQ9U0
+         3jD1uPOwq5Wv502KincbCOYJaff/dWBsW+PH2yz39KrqvVQqHOdHhVLt99ZUKyjyCzi4
+         EjfaUugFoEsKbohqGyZsStzsXhl9WPqGihXz+RegVvwG0KGI7LHVNC3JRI/i+ews+eUc
+         Zu8giGc+meiMnGg5x2ff9Db9EE4TLkGXfLW/aUkgOwSLKnDCiEomND29R0OIOCYuaEK1
+         sON0Hnw4RNKAIsGY1ZGNV7rYLhLDIw2mmZHifjGUtS0LukMZNU+Z7+Y4yleBcF6r5+zZ
+         qJiw==
+X-Forwarded-Encrypted: i=1; AKwUvByAaeIoYqTTT5+v+Nn5RVu20w7QUG+uBqDPnS0T4+3Kmxes4LRmPfJIBgsqgHroOpvDfC+XXKp4PStAXA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJgnNU6kNLGvdhdY6rQBZ78yeQt51ogxIUyPRFvZlUAFAKjcpNZ
+	mMmnOUgUJdBcjnFIspw30GqzOt4GgfzG5Mx0wULvlTRGVeVsX+vR3TR14OnwUnmf5kxm9dFo7IM
+	ghr0d0tedJAnaLRCQGfBYFhxXf71ee/4X+W/nBVG32xz8hqUBYovQtE306eAYpJsmLg==
+X-Gm-Gg: AYBFou0/oEitG6Cg/r+bkAhN5T27xHihFPWJD/ztIxiPSPrJxBvpHfFs3E62ti1FZyU
+	AIKLSRCWlnoEwBMMGmaxak0ljx/ZTl+pPuFdRMbb2QRDjw++5Ew45oQFoGF6bFlPBraVMl3i4z5
+	Ph+0mu3F3jEm86ZMaYJSeEciIbnZJkCX6k2K6fWi80tsPqbwizhQl6CmWiBo7qlFyLl5P0yRf3m
+	zP1OTFk8c0IlSsIC+BRVaOq0pUfLmnvqFdD/fqEFwLa3JpovdE0rj2V6xsm64wkLUfP2owCw9/B
+	+yDOPJx9HjEPSi/gMaNNIgOze2TRqLO5Eenq9EVwv5LC0SxHDTwJ+bu5jKR9aZ7jbDYg4TT4dq5
+	U9/D0CjY/d29B4SNLV3X5+i8jKpvnTcXa+Vc5fvLgI9Fko4W5+fp3XLXltxFqEKkevXbpf5WhKe
+	XumEeIKeS/1bVTs03dibRABtRuRY3H
+X-Received: by 2002:a17:902:d4c1:b0:2e6:dcce:8227 with SMTP id d9443c01a7336-2eb00577f35mr20660575ad.37.1793188100483;
+        Wed, 28 Oct 2026 04:48:20 -0700 (PDT)
+X-Received: by 2002:a17:902:d4c1:b0:2e6:dcce:8227 with SMTP id d9443c01a7336-2eb00577f35mr20659985ad.37.1793188099702;
+        Wed, 28 Oct 2026 04:48:19 -0700 (PDT)
 Received: from yli42-gv.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6c37551sm21207715ad.51.2026.10.28.04.48.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6c37551sm21207715ad.51.2026.10.28.04.48.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 04:48:10 -0700 (PDT)
+        Wed, 28 Oct 2026 04:48:19 -0700 (PDT)
 From: Yin Li <yin.li@oss.qualcomm.com>
-Date: Wed, 28 Oct 2026 19:45:44 +0800
-Subject: [PATCH v4 4/6] cacheinfo: Expose the code to generate a cache-id
- from a device_node
+Date: Wed, 28 Oct 2026 19:45:45 +0800
+Subject: [PATCH v4 5/6] arm_mpam: Add device tree support for MSC probing
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -119,7 +118,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261028-mpam-resctrl-dt-knp-support-v4-4-bdda1e445cba@oss.qualcomm.com>
+Message-Id: <20261028-mpam-resctrl-dt-knp-support-v4-5-bdda1e445cba@oss.qualcomm.com>
 References: <20261028-mpam-resctrl-dt-knp-support-v4-0-bdda1e445cba@oss.qualcomm.com>
 In-Reply-To: <20261028-mpam-resctrl-dt-knp-support-v4-0-bdda1e445cba@oss.qualcomm.com>
 To: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
@@ -147,114 +146,395 @@ Cc: Yin Li <yin.li@oss.qualcomm.com>, Andre Przywara <andre.przywara@arm.com>,
         linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
         devicetree@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793188047; l=2378;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793188048; l=10837;
  i=yin.li@oss.qualcomm.com; s=20260811; h=from:subject:message-id;
- bh=cuphFizeBCUAPOmTA5mjgloZDLbPkPyZqyfKN0YBZdI=;
- b=n/XKEt2Df/QRRSl8LRoUZx320ZarsgT1ChUAkMLf5iPokWhJmxBSvVq8VNfkWiupCG8INUGKV
- UphnCzwL5k6Cf+mbzj5Cf+NoXIJ7fNZzyfax3mT22Nr/pOTnN1hhPEm
+ bh=uaetMfuq262X0JDVCjdTX6V48x+0AYDuDdfQGlqBv/U=;
+ b=1Xb/M1uNtL15668CzuhskQ8rTIFlFwe+W22UrYP6snpad4imUcZh6KTjbf+yhD8qWI1ZGYhtH
+ Auug4GCoXsWDcsvFFJBMgM0wU+yup5doidz7xkhAhhZc4ZKtcjL4Czd
 X-Developer-Key: i=yin.li@oss.qualcomm.com; a=ed25519;
  pk=e/2LM97aSWGBMrxY240URBi9Zi8/kL5hXgB+VHkYvW0=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfXyGIL9LGDWtqt
- i0Uf7GcPDlEUzan6rQQI+R1O9HON6c5TYicQG0ox91O3O5tGqgbmhJXAgyvOvhjEZQsX88plDaU
- p0dfJ6La337AAaVQCNmL8EMu8erGE4Lgcp4oLkbT6hW4WlO0CiomfYalcFM79KgyHOdtc+4XjA6
- ihAYwTrIcTZ63RpuxfxdHq+nq9t1qimqvZMjrOTsdj7iSUgQT5NCCVoyLA6UxUHhPqgEmbS7Ltm
- gKFzso/XqQUMIp4OKMIdJavsTYNCeE/GDK1hEpmyAIylLCys6Azs9P4nTvK+R7qR08hIzVaSdVP
- esv84u+r9YFQP1s72Jkoe2XaOpsTPnl0kSTOmdhqYg8mtqSeTOxKfYvnyCT3BI0AW0a9ZD/ZEvu
- GpL6smwx3QLSDqcesZ8ORHYpqsRagRT2H7uAPK/6616kJExZ5OrRJS0P/TpS08zlCftC+eBZ01V
- 41BJhbVBWVKl5BPh94w==
-X-Authority-Analysis: v=2.4 cv=A/T5rKWG c=1 sm=1 tr=0 ts=6ae1e0fd cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=NSEGM1D4AEf8_kYA:21 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=2UMQdz91M6SPgPM9X00A:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: AfBgDTijpaaFa09p7myW3CspiQwT0D40
-X-Proofpoint-GUID: AfBgDTijpaaFa09p7myW3CspiQwT0D40
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfX9If97mqPF962
- QhfCCGHhaqsfelczKqWHjPAcOTbsuX3DAONJbDwZEvr9W3EyfwimvyEzOzvJAWJR4kWFDFRYvle
- Tu1x14GZDdIrP0EbkFTTddVIJyOswlg=
+X-Authority-Analysis: v=2.4 cv=M4bYuCws c=1 sm=1 tr=0 ts=6ae1e105 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=-Bf8dWPtDk6FBw2lJ3EA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: zLBaKu42_qn2B5rLAVsWODbHtKM0lVQg
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfX79UklJ+UjjpW
+ PYMfRUi/6mUEbHqYq5ja3+0WjefeSHgjgvBGQCyAKvV20pqQ24XDEuHyPOXLlaE1wY7xRT1De7a
+ miwsHE2fR5eX8BHuRejQ98pHFJqs7Vc=
+X-Proofpoint-ORIG-GUID: zLBaKu42_qn2B5rLAVsWODbHtKM0lVQg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfXw43XDMQeFcKE
+ Jjkk+uNC2qF3haLydeVvSx19mmF5PEpQ89yjho0ZOS/d14QjNgfWIujMKYYW6jEmtyLHaPmbxT1
+ 2GZg8bhEN3yhZTfLoGa0M0/GaxroUszUaJ2kMINKmvCo2YJk+ZG/i33bhOLRavV9eWVszmNQZGE
+ 7b7FVvSOE0jGJbtPCbBJdXBoMyg6VbCnL/qkJGCq+y7VwyXEj9JpEBoTPfIdZU6q2DHiDLrBL3l
+ vhXJnSykDkAnATEIPaW63LrEgrdt2tjfqyvz0JEM0fcxhpPG9sqGAT0JUV1IkPDfy20uanDAW76
+ BCp+xKcay/VUXQRLBYhpsleY0R0Zl+xdTRUFiWPLFWlE/BWncRfeJBri/89r3WPLxPTzT4aeaxf
+ 0XlNKYy/C9vWqhvFZx4sea5PS+9iVUXh5y4WIIasJq6I1bu37VEh7yezZPvs+8yeco3zPMvjj3z
+ P5rDYHQoOxCIpcaM53g==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-28_04,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0 phishscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280046
 
 From: James Morse <james.morse@arm.com>
 
-The MPAM driver identifies caches by id for use with resctrl. It
-needs to know the cache-id when probe-ing, but the value isn't set
-in cacheinfo until device_initcall(). Even after device_initcall(),
-the cache-id is only available if at least one CPU associated with
-the cache is online.
-
-Instead of making the driver wait, expose the code that generates the
-cache-id. The parts of the MPAM driver that run early can use this to
-set up the resctrl structures before cacheinfo is ready in
-device_initcall().
+The MPAM driver currently discovers MSCs only via ACPI. Add a device
+tree path so MSCs can be probed on DT-based platforms: parse MSC nodes
+from the device tree, compute cache-id and affinity from the cache
+nodes and create the RIS entries.
 
 Signed-off-by: James Morse <james.morse@arm.com>
+[ Yin Li: drop the ACPI-only stub of mpam_get_cpumask_from_cache_id();
+  use of_node_get() for the cache parent to avoid a refcount underflow;
+  reject out-of-range ris_idx after of_property_read_reg() before
+  narrowing to u8; use u32 instead of unsigned long for cache-id values
+  and compare against ~0U; fix mpam_dt_create_foundling_msc() to iterate
+  MSC child nodes rather than creating a device for the cache node itself ]
 Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
 ---
- drivers/base/cacheinfo.c  | 17 ++++++++++++-----
- include/linux/cacheinfo.h |  1 +
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ drivers/resctrl/mpam_devices.c  | 250 +++++++++++++++++++++++++++++++++++++---
+ drivers/resctrl/mpam_internal.h |   2 +-
+ 2 files changed, 234 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
-index eb8a907f6d50..a4b10f3a9007 100644
---- a/drivers/base/cacheinfo.c
-+++ b/drivers/base/cacheinfo.c
-@@ -243,8 +243,7 @@ static bool match_cache_node(struct device_node *cpu,
- #define arch_compact_of_hwid(_x)	(_x)
- #endif
- 
--static void cache_of_set_id(struct cacheinfo *this_leaf,
--			    struct device_node *cache_node)
-+u32 cache_of_calculate_id(struct device_node *cache_node)
- {
- 	struct device_node *cpu;
- 	u32 min_id = ~0;
-@@ -255,15 +254,23 @@ static void cache_of_set_id(struct cacheinfo *this_leaf,
- 		id = arch_compact_of_hwid(id);
- 		if (FIELD_GET(GENMASK_ULL(63, 32), id)) {
- 			of_node_put(cpu);
--			return;
-+			return ~0;
- 		}
- 
- 		if (match_cache_node(cpu, cache_node))
- 			min_id = min(min_id, id);
- 	}
- 
--	if (min_id != ~0) {
--		this_leaf->id = min_id;
-+	return min_id;
-+}
-+
-+static void cache_of_set_id(struct cacheinfo *this_leaf,
-+			    struct device_node *cache_node)
-+{
-+	u32 id = cache_of_calculate_id(cache_node);
-+
-+	if (id != ~0) {
-+		this_leaf->id = id;
- 		this_leaf->attributes |= CACHE_ID;
+diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+index 0f984fcbcae9..091c8ba2e974 100644
+--- a/drivers/resctrl/mpam_devices.c
++++ b/drivers/resctrl/mpam_devices.c
+@@ -22,6 +22,9 @@
+ #include <linux/lockdep.h>
+ #include <linux/mailbox_client.h>
+ #include <linux/mutex.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/printk.h>
+ #include <linux/property.h>
+@@ -263,6 +266,171 @@ static void mpam_free_garbage(void)
  	}
  }
-diff --git a/include/linux/cacheinfo.h b/include/linux/cacheinfo.h
-index 56fa646df0d1..469d490968ac 100644
---- a/include/linux/cacheinfo.h
-+++ b/include/linux/cacheinfo.h
-@@ -114,6 +114,7 @@ int acpi_get_cache_info(unsigned int cpu,
- #endif
  
- const struct attribute_group *cache_get_priv_group(struct cacheinfo *this_leaf);
-+u32 cache_of_calculate_id(struct device_node *np);
++/* Called recursively to walk the list of caches from a particular CPU */
++static void __mpam_get_cpumask_from_cache_id(int cpu, struct device_node *cache_node,
++					     u32 cache_id,
++					     u32 cache_level,
++					     cpumask_t *affinity)
++{
++	int err;
++	u32 iter_level;
++	u32 iter_cache_id;
++	struct device_node *iter_node __free(device_node) = of_find_next_cache_node(cache_node);
++
++	if (!iter_node)
++		return;
++
++	err = of_property_read_u32(iter_node, "cache-level", &iter_level);
++	if (err)
++		return;
++
++	/*
++	 * get_cpu_cacheinfo_id() isn't ready until sometime
++	 * during device_initcall(). Use cache_of_calculate_id().
++	 */
++	iter_cache_id = cache_of_calculate_id(iter_node);
++	if (iter_cache_id == ~0U)
++		return;
++
++	if (iter_level == cache_level && iter_cache_id == cache_id)
++		cpumask_set_cpu(cpu, affinity);
++
++	if (iter_level < cache_level)
++		__mpam_get_cpumask_from_cache_id(cpu, iter_node, cache_id,
++						 cache_level, affinity);
++}
++
++/*
++ * The cacheinfo structures are only populated when CPUs are online.
++ * This helper walks the device tree to include offline CPUs too.
++ */
++int mpam_get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
++				   cpumask_t *affinity)
++{
++	int cpu;
++
++	if (!acpi_disabled)
++		return acpi_pptt_get_cpumask_from_cache_id(cache_id, affinity);
++
++	for_each_possible_cpu(cpu) {
++		struct device_node *cpu_node __free(device_node) = of_get_cpu_node(cpu, NULL);
++		if (!cpu_node) {
++			pr_err("Failed to find cpu%d device node\n", cpu);
++			return -ENOENT;
++		}
++
++		__mpam_get_cpumask_from_cache_id(cpu, cpu_node, cache_id,
++						 cache_level, affinity);
++	}
++
++	return 0;
++}
++
++static int get_cpumask_from_cache(struct device_node *cache,
++				  cpumask_t *affinity)
++{
++	int err;
++	u32 cache_level;
++	u32 cache_id;
++
++	err = of_property_read_u32(cache, "cache-level", &cache_level);
++	if (err) {
++		pr_err("Failed to read cache-level from cache node\n");
++		return -ENOENT;
++	}
++
++	cache_id = cache_of_calculate_id(cache);
++	if (cache_id == ~0U) {
++		pr_err("Failed to calculate cache-id from cache node\n");
++		return -ENOENT;
++	}
++
++	return mpam_get_cpumask_from_cache_id(cache_id, cache_level, affinity);
++}
++
++static int mpam_dt_count_msc(void)
++{
++	int count = 0;
++	struct device_node *np;
++
++	for_each_compatible_node(np, NULL, "arm,mpam-msc") {
++		if (of_device_is_available(np))
++			count++;
++	}
++
++	return count;
++}
++
++static int mpam_dt_parse_resource(struct mpam_msc *msc, struct device_node *np,
++				  u8 ris_idx)
++{
++	int err = 0;
++	u32 level = 0;
++	u32 cache_id;
++	struct device *dev = &msc->pdev->dev;
++	struct device_node *cache __free(device_node) = NULL;
++	struct device_node *parent __free(device_node) = of_get_parent(np);
++
++	if (of_device_is_compatible(np, "arm,mpam-cache")) {
++		cache = of_parse_phandle(np, "arm,mpam-device", 0);
++		if (!cache) {
++			dev_err_once(dev, "Failed to read phandle\n");
++			return -EINVAL;
++		}
++	} else if (of_device_is_compatible(parent, "cache")) {
++		cache = of_node_get(parent);
++	} else {
++		/* For now, only caches are supported */
++		cache = NULL;
++		return err;
++	}
++
++	err = of_property_read_u32(cache, "cache-level", &level);
++	if (err) {
++		dev_err_once(dev, "Failed to read cache-level\n");
++		return err;
++	}
++
++	cache_id = cache_of_calculate_id(cache);
++	if (cache_id == ~0U) {
++		dev_err_once(dev, "Failed to calculate cache-id\n");
++		return -ENOENT;
++	}
++
++	return mpam_ris_create(msc, ris_idx, MPAM_CLASS_CACHE, level, cache_id);
++}
++
++static int mpam_dt_parse_resources(struct mpam_msc *msc, void *ignored)
++{
++	u64 ris_idx = 0;
++	int err, num_ris = 0;
++	struct device_node *np;
++
++	np = msc->pdev->dev.of_node;
++	for_each_available_child_of_node_scoped(np, iter) {
++		err = of_property_read_reg(iter, 0, &ris_idx, NULL);
++		if (!err) {
++			/*
++			 * ris_idx is read as u64 but indexes a 4-bit RIS selector
++			 * (0..MPAM_MSC_MAX_NUM_RIS). Reject out-of-range values here,
++			 * before it is narrowed to u8, so a large value cannot be
++			 * truncated into a valid-looking index.
++			 */
++			if (ris_idx >= MPAM_MSC_MAX_NUM_RIS)
++				return -EINVAL;
++			num_ris++;
++			err = mpam_dt_parse_resource(msc, iter, ris_idx);
++			if (err)
++				return err;
++		}
++	}
++
++	if (!num_ris)
++		err = mpam_dt_parse_resource(msc, np, 0);
++
++	return err;
++}
++
+ /*
+  * Once mpam is enabled, new requestors cannot further reduce the available
+  * partid. Assert that the size is fixed, and new requestors will be turned
+@@ -629,16 +797,6 @@ mpam_vmsc_find(struct mpam_component *comp, struct mpam_msc *msc)
+ 	return mpam_vmsc_alloc(comp, msc);
+ }
+ 
+-/*
+- * The cacheinfo structures are only populated when CPUs are online.
+- * This helper walks the acpi tables to include offline CPUs too.
+- */
+-int mpam_get_cpumask_from_cache_id(unsigned long cache_id, u32 cache_level,
+-				   cpumask_t *affinity)
+-{
+-	return acpi_pptt_get_cpumask_from_cache_id(cache_id, affinity);
+-}
+-
+ /*
+  * cpumask_of_node() only knows about online CPUs. This can't tell us whether
+  * a class is represented on all possible CPUs.
+@@ -2394,15 +2552,34 @@ static int mpam_msc_setup_error_irq(struct mpam_msc *msc)
+  */
+ static void update_msc_accessibility(struct mpam_msc *msc)
+ {
++	struct device *dev = &msc->pdev->dev;
++	struct device_node *parent;
+ 	u32 affinity_id;
+ 	int err;
+ 
+-	err = device_property_read_u32(&msc->pdev->dev, "cpu_affinity",
+-				       &affinity_id);
+-	if (err)
++	if (!acpi_disabled) {
++		err = device_property_read_u32(&msc->pdev->dev, "cpu_affinity",
++					       &affinity_id);
++		if (err)
++			cpumask_copy(&msc->accessibility, cpu_possible_mask);
++		else
++			acpi_pptt_get_cpus_from_container(affinity_id,
++							  &msc->accessibility);
++
++		return;
++	}
++
++	/* Where an MSC can be accessed from depends on the path to of_node. */
++	parent = of_get_parent(msc->pdev->dev.of_node);
++	if (parent == of_root) {
+ 		cpumask_copy(&msc->accessibility, cpu_possible_mask);
+-	else
+-		acpi_pptt_get_cpus_from_container(affinity_id, &msc->accessibility);
++	} else {
++		if (of_device_is_compatible(parent, "cache"))
++			get_cpumask_from_cache(parent, &msc->accessibility);
++		else
++			dev_err_once(dev, "Cannot determine accessibility of MSC.\n");
++	}
++	of_node_put(parent);
+ }
  
  /*
-  * Get the cacheinfo structure for the cache associated with @cpu at
+@@ -2563,7 +2740,10 @@ static int mpam_msc_drv_probe(struct platform_device *pdev)
+ 		return PTR_ERR(msc);
+ 
+ 	/* Create RIS entries described by firmware */
+-	err = acpi_mpam_parse_resources(msc, plat_data);
++	if (!acpi_disabled)
++		err = acpi_mpam_parse_resources(msc, plat_data);
++	else
++		err = mpam_dt_parse_resources(msc, plat_data);
+ 	if (err) {
+ 		mpam_msc_drv_remove(pdev);
+ 		return err;
+@@ -2576,15 +2756,45 @@ static int mpam_msc_drv_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct of_device_id mpam_of_match[] = {
++	{ .compatible = "arm,mpam-msc", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, mpam_of_match);
++
+ static struct platform_driver mpam_msc_driver = {
+ 	.driver = {
+ 		.name = "mpam_msc",
+ 		.suppress_bind_attrs = true,
++		.of_match_table = of_match_ptr(mpam_of_match),
+ 	},
+ 	.probe = mpam_msc_drv_probe,
+ 	.remove = mpam_msc_drv_remove,
+ };
+ 
++/*
++ * MSCs that are declared by the firmware as being part of a cache may not
++ * be created automatically as platform devices, since there is no
++ * dedicated cache driver.
++ *
++ * Deal with theo MSCs here.
++ */
++static void mpam_dt_create_foundling_msc(void)
++{
++	for_each_compatible_node_scoped(cache, NULL, "cache") {
++		for_each_child_of_node_scoped(cache, child) {
++			if (!of_match_node(mpam_of_match, child))
++				continue;
++			if (!of_device_is_available(child))
++				continue;
++			if (of_node_check_flag(child, OF_POPULATED))
++				continue;
++			if (!of_platform_device_create(child, NULL, NULL))
++				pr_err("Failed to create MSC device for %pOF\n", child);
++		}
++	}
++}
++
+ /* Any of these features mean the BWA_WD field is valid. */
+ static bool mpam_has_bwa_wd_feature(struct mpam_props *props)
+ {
+@@ -3457,12 +3667,18 @@ static int __init mpam_msc_driver_init(void)
+ 
+ 	init_srcu_struct(&mpam_srcu);
+ 
+-	fw_num_msc = acpi_mpam_count_msc();
++	if (!acpi_disabled)
++		fw_num_msc = acpi_mpam_count_msc();
++	else
++		fw_num_msc = mpam_dt_count_msc();
+ 	if (fw_num_msc <= 0) {
+ 		pr_err("No MSC devices found in firmware\n");
+ 		return -EINVAL;
+ 	}
+ 
++	if (acpi_disabled)
++		mpam_dt_create_foundling_msc();
++
+ 	return platform_driver_register(&mpam_msc_driver);
+ }
+ 
+diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/mpam_internal.h
+index 1f86cc158100..cd122f308eab 100644
+--- a/drivers/resctrl/mpam_internal.h
++++ b/drivers/resctrl/mpam_internal.h
+@@ -519,7 +519,7 @@ int mpam_msmon_read(struct mpam_component *comp, struct mon_cfg *ctx,
+ 		    enum mpam_device_features, u64 *val);
+ void mpam_msmon_reset_mbwu(struct mpam_component *comp, struct mon_cfg *ctx);
+ 
+-int mpam_get_cpumask_from_cache_id(unsigned long cache_id, u32 cache_level,
++int mpam_get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
+ 				   cpumask_t *affinity);
+ 
+ #ifdef CONFIG_RESCTRL_FS
 
 -- 
 2.34.1
