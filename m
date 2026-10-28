@@ -1,137 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793150526;
-	b=oIa02mTfG+1O1K+VxQEUBcUJmIVJca/pU13ZIcM1xpEXvpP1JxIDqwgzJDTHTpLHZMS1
-	 Pme/w0M878UtrHm1cMlJk5YAPJaHMreY0PgnHYi0HGoO5tDCelSixr5RjeFAmHcfvRTVw
-	 QwKXCTkXFtUUSdb38BDw7HKb3YtQ158bY3xy/eckiRDeuqBxqlK5sBVv4GDRnxGKsk27v
-	 x8Um87kMdTjnE7x0rlmsvD4a/43O8PHtHEdCEb/HiwGEy5A4SHIm/7MQFFAakZF+YEGA6
-	 wX1wNXo7ZO0xW/nY2dIwZs0ckqFqsfvgFxCwT7DoALNHm+Wj+bZvxFPUGfJKKIfrwoQ==
+	t=1793152885;
+	b=2JgqwjKBiwRMMEYE+IECxcMhn2d1/DmANWjI7VnxplpW89q20/8RSOO/oWgWYsQFu4iL
+	 QGVVNhuPHdatBoILX6WpbODAwFG6NR8r6mGnVq82DGVzI3Q5uUnpF4Dazs+OFMbe8pnT4
+	 EmeIkLO+IKpxte8lRnPuAXT9pH2Xb2UaOnP4KdLgUHv3yxlw/OQBawHR6XeVCJsHTJ+S9
+	 3EANm6oifUVJ9eSbk6i8qWz1Cn72VBq8SGPbL2yI7ph9fd2zs5Dfq1ppCalreyzA2HYOz
+	 dXuHH60C/j3BDbGsuZ4wDnPyOiWYt5MpMhCQKMHv8AA4dO0iZSf+LI43CgRlWP5UYkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793150526;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
-	b=a3Ge7SL/xu5ttex5KMMHQzx0I4dqLHmrLPaAD83+yZS8jBMNrgo+MOoJW0cX67ZGgYTn
-	 xM0znXHR745datZAruDWINcYORBMBV5CRZI18tfWzfMwu6Ck7hwJGeeT8mk9A7YISGW6a
-	 g4Gf0pGty8hR2fyIqGWMWj5J8e4PnjZsrEjnU6njvCM875IgvlKk0ppBoy/uTLbnOgJKE
-	 EvKcYbxUsMnF9SqxjeM9ocYUpBiW7owRYUILFDuA1RLDIR18FNty0WV7JCqHqOrs3mdxK
-	 ApVZieOhlIHQHgar6bndiL4K4Qeq8uMIISiMiM8TyVHiFXDH/jDsrzScs7g214OwFtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793152885;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
+	b=utnMUaboIwFrYUgcVH2WQenSDBFjgroxTdEZNFFi0egjtzDkaSET2xwoI76o0bM8bkhY
+	 /BJ38eP08V+TSyCuecTsSFo4JrBjY9x7dmfd2MWOlcJFqsLE3OfCAgWNI4hIl5RHVt+HY
+	 ZqRganMbeZ0RRJR9eSuoDelRzYfTTgRQ+41rEXiPrIt7i5Ls1O0zzmG2RwkYk0fudCXu2
+	 WZLpr3+ftxWEqEauHueBK+0Ww/Be/IepQnuBJs+axlI9Pk3Em8/UEUYVL4BWk9XF2Mtdf
+	 yqICRAhQT5d9RyiLUQz+6d1zJ5MBJ4m1bF6RVZwZT+b4V+ZvhG3iUGzJooM+5Vm2heg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7;
-	arc=none smtp.remote-ip=103.168.172.147
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT5oBP4F;
+	arc=none smtp.remote-ip=209.85.215.175
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004AB606A31F
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 01:21:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 004AB606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE62606A31D
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 02:01:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAE62606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 0CC35EC01BC
-	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 21:21:59 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 27 Oct 2026 21:21:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793150518;
-	 x=1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=
-	IuANCG5dx2AuLSzGWT1IlW0LpNdHwVHudaxvydOEnc3KSoJ/qoMeuRTBcuHevylW
-	xUbQw+3IqU+mSDopyXhKpLMSyZdaIQYBWsp91BtQLJ6ivce7R1cuF7LYQVlluKOM
-	55TmLfhzJ/XgFzpWKbku9XBEEHXvbqRJ5vOSHONPiAFeVL8JucBr1JOA/VFwvjKS
-	w11r6SsVd0monzWXTSSRu9aCd1MnbVsYTMZQxq4e7JYEQg0XE3VlNJOsuLd4+Ahu
-	M2i0unzEJI77CglJFd3yELGpyxcNPO6lBajkV1sZOKnC3Pk/qgxAH53X7FyqVsbo
-	jkTWgUXOP8IFrAx0YIZ2Zg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793150518; x=
-	1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=A
-	SgV40z7r6xfOgnty139gvV4mch5EP3LpzWKZnR0DqUM4+khkf+60HFQqKimBZ41O
-	GpWenOjpJF06vWXJx6ne53P/sdpYna3Yh9kYveLMWrgn873gdVS2BPYroWQPhcxQ
-	j8FQ/TYUcJyq1VEohzGMzcv/D5F9bKLVFzIGeGnwytFhspGcAad8f7oc6bXYjpg3
-	1KZoPk5Y3HhjR0aN8sdnG6UAFbI98LFbZxfR31UoaDOWQ8AvKGLa+kRa/mXHpIUp
-	RiAUDg4gSiO+zFjhCN9FDe+hrXJ9Cgl3iBmIcbzWpOWfT+LuuadMSvQcN3RGDqus
-	BADMJIzTu3vtT/xhem48w==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793150518; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:MbbGjjuPVBp5Oo+wEC2z1FhqyDVWgJFJdXf5ydkmBkB2fHd
-	YYFcaLfz7bHCEkDcRbArzPQfI3flxwAm1EOwVv181AFuWV5GRs3akUrr9Hz9aDHN
-	MJNN/Qda9tP2vwbFO+F+IexPLxhqdRCIk/QM+k8Pqpyf+RH/lmQ7pdbNvggXgg4k
-	fvlzQY1LB+u+fuTyPkPz7HjLvBcykl+wkP3fNG0l3tfZKVxGPqk5Q8Ng5m1lJyxD
-	HSue9pIbBwrSvN1HyoOE0dq3T32h3IlJHaBkPeQCtBtLgh2WxnichQGdLhJEnStX
-	H06S92vlGocX+2lNLqZu1/BY64H0QxTcx5GIF0w==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:bLZaW/+c77h1LhtpnAtMkoSIjWiZ2pBNMO0v3iO12fE=:4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
-X-ME-Sender: <xms:NU7havTQm7CONmk_vTIxyQr2bggizao4KrnCTHOZ-DkioGzPn_0_Cg>
-    <xme:NU7hanuN5n0amtHDXTfCLVNahO5-mo9vXcMLvteA_LdixJ2JqjfE2OXpSqZAoRDw9
-    9zB2o5kCwdI5nC3rzACzyLVfBUMdUUkzLm9ZMp9wz4XqggaUQ>
-X-ME-Received: <xmr:NU7hap4Rmoc1y1NiVdhky5AhS2soreP5Mn4L00ThsQUenIhtq7rJNcu1pb49HmmEVaVYZMSVJiGWZtrqfBzV2zNcfOaCUTc66JS2LcokcUPuk2veGHDtkWAnPBE>
-X-ME-Proxy-Cause: dmFkZTExjEu5Z4ShUEEPbIUBi9jvlntQl3xywqhol0VilT1H3riwx+R5F5xJP13Eevy37Q
-    0i2tM3JNLjjIE4RnafdrKckgTZgF7WVXIi2BOm3qqKixBS/Irug73Tiau0YR/vN5tre4hn
-    maQ7bdbQdERoqsBHTuky/6kPN1uRRdMEQp7qfaGblPSG+4EBzlUBu4KVifRQGZl+JiSvgw
-    9mSbn8dIqXi2WXNiWFaTJHHZ4Jih2f4J8Zf8XQJs9Or+djBfP7qo+n/CcBwnndgEEsWDvn
-    dde2XKLK1ANi3gu15BOxuI5tGRXcf4I/n59a/Jk8KMuRhC+UWXSiv/46euNQ6JSTIIAimv
-    7jcAW/tdVBGXJXklC1RRPUglHq4hH5Bc64PIl28tFEzC6NIzPjSltWekhutJo/tT2majGT
-    sswf9kF/mQ7bfD6GGD2BLOWWsUXcYZgnu4j4D7tHPb/zynsKGK6m+AhMOPYjmUzMOzh5dT
-    b4rWxbMHiL5nnjAdO5ldN4zD++TlD1rdyXqAHwBHPTOIS8FN/SKiiEb38SpBdbZorRtZ3g
-    6HKFrjuDJITZTWSsi/aiCUAXSktyenMIc8kN6yeNsZHz8HdWRAJlXYnV78lUl5wNp4dJzJ
-    K2wtUluCHNuU9Ak5O20DPSdgweZAMliMgfRfP/R4THeQWT2Cq5n/XeaklCLw
-X-ME-Proxy: <xmx:NU7hamKsy46mFaILnzutP5LNXCeEcEkH7ASldNGwyMSr1vsmEA_XLQ>
-    <xmx:NU7hajRmT8qLJPv58aR7XoaIN4e0ZQloPg1Re3nCph4Fgy5gL4tmng>
-    <xmx:NU7hapoTY0a-MqM5sQVzrhTvHncNfTKm3VeNlXgeqpDve-iSMPWQrg>
-    <xmx:NU7hahb9D81m8XEdG4qqwPK-ysKtigp5k8VzEshrenjpsUJ67MPPlQ>
-    <xmx:Nk7hairIFIEEI4qphXaATaK3ls9tH3EoMbCthRQcYtN9uyTpEesD-K0G>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Oct 2026 21:21:52 -0400 (EDT)
-Message-ID: <5de6de037706e45ba88939e8f36e7dae48005e6c.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Wed, 28 Oct 2026 09:21:48 +0800
-In-Reply-To: <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-	 <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-	 <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
-	 <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT5oBP4F
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so282783a12.3
+        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 19:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793152884; x=1793757684; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
+        b=jT5oBP4FAdvMbdZorF5jHrFCZekLOrXLmYmlP6Z4CKQ8ncU7zRJjmedXjz6agXdJGj
+         rp2NMUYSMkypRgYAuSh1+xIJEF4M9z1b37F1Hjn6NEy0E+m2dR5yIW7ZN9IQpAajCMWJ
+         xy9Bv2dR1j+Ls3jZWE2T1fLqEj+Az0PTr9BeBSdWnd97qoNtvHpe/yy04Mp/REiW8w1L
+         DPGt/PJOShPNKc+1eUGRAQlyPWujkJgKhJAs0pOtHvjdAoEiK9BuLkXi+mTYAn9nEnsN
+         VCxUAgJ3GXsTonE5i3YABUicCOobS8DTrFRn9wI/PYCNhOarVLgUAva4NbL6DjtjujnN
+         GaFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793152884; x=1793757684;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
+        b=wi2Pc+2dbVGcI2mhgz+Mh5jjW9DHFc2gBVwIEkzEN9gjnJrQJdM/SgEMdpSOULFAyb
+         sUdd7yhJgSL30SEuEhazaHXA6xSjyxkD2CD9T4JaiAZvJrSWsPekvttqf9XZnLpgMI4d
+         +IpTSiijlbME9fcP8a4P166ylt5tgNl3gbI7CQ+t5qqgotzF64wIcT9xvNT+lP8B8urz
+         4VAgSmmCDmuWl6sLZkHY4mhOjrd7IJcCrq1b53TuqmWMVMnKjVxDwWots03sjaLs0ocD
+         F0YdV3zS70woe19dWRj38ZjmHkaxHboCdjh6tFu1Vgg/AaW2Ck1lbmb1NMp7Sdlfr0IT
+         3tbw==
+X-Gm-Message-State: AFq9FYJWeL8bYcYDNX5MIUnnSF6manb+F1T9jAdrCVXc6h8kYgrH4AOG
+	l1xLLRBkAgXZZOLrogNoM3UW+hFj3x4InKsF4m/Lo3LMsoQ4iB35kk8+
+X-Gm-Gg: AYBFou1HOEtFgFEesGWL3VHXZXx9S+qJVjNQ+VATxMRK30N8bcZgrH/Nw6TDw0y1uwc
+	ipTiRRptofLwuYLG/4NgP+GljWlycUwXnpmBik7NsL+0HqG72xsHSslqymcu+7n5cp142numSgk
+	ngTC2usaU2Y2d+poBaEl4z8LeBxn+DJKgTVIX7KHdxCOW+RuB4QzGnojSOjsBTc2UMinROy4XSF
+	rhecta8eOsI6EpSXlKYYC809623zjdN3Jp9K5IFEOzDo9qF6XqmGSW3GU36TkEISdYPl8wCPcSu
+	XSjTTogPz1DBCeJ4m/dnDrnk7CubdUwYjAfBrSXu21OPpkjGtedEDBzqhWYXILWrVpcDdemqekO
+	7Ql9cD2EnUgt7dFTi7i0VhZOLK4k6mqM0iYarEvS7OvH062yCqBfL3qdZ9zfrxEnsAzBdBOhcit
+	ITSoA8CMWW9SWT/diU8loCWA1Z43cIYZWGGRQiXwZ8OG3b+hSCOnnPeX2eu3OB0rUNOEGq09y1u
+	lKUZCsrqk+CaI8fCbzwl5rS0nOJOhgm8zN5GggAEdHDxTyKUIDupXw=
+X-Received: by 2002:a17:90a:d603:b0:3ad:818f:3da2 with SMTP id 98e67ed59e1d1-3ae5823f4eemr499438a91.63.1793152883883;
+        Tue, 27 Oct 2026 19:01:23 -0700 (PDT)
+Received: from [127.0.1.1] ([169.211.140.146])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae55d5efe2sm659155a91.1.2026.10.27.19.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 19:01:22 -0700 (PDT)
+From: Kwanghoon Son <asdfkwang@gmail.com>
+Date: Tue, 27 Oct 2026 22:00:48 -0400
+Subject: [PATCH] rust: io: mem: Fix exclusive MMIO region requests
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -141,95 +88,102 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261027-b4-rust-iomem-origin-master-fix-v1-1-16215ae197af@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAE9X4WoC/x2NuwrDMAwAfyVorsA2zoP8SungpLKjwXaR0hII+
+ feYjnfD3QlKwqQwdycI/Vi5lgb20cG6hZII+d0YnHGDNW7ExaN8dUeumTJW4cQFc9CdBCMfOE1
+ 9tBSc93GBVvkINf0/PF/XdQNf69Q/cQAAAA==
+X-Change-ID: 20261027-b4-rust-iomem-origin-master-fix-885f1ea244fb
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kwanghoon Son <asdfkwang@gmail.com>
+X-Mailer: b4 0.14.2
 
-On Tue, 2026-10-27 at 01:57 +0100, Krystian Kaniewski wrote:
-> Hi Ian,
->=20
-Thanks for replying, ;)
+C's request_mem_region() reserves MMIO in the global resource tree.
+Rust's ExclusiveIoMem reserves it under the device's resource instead,
+so the global tree may not see the reservation.
 
-> On Tue, 2026-10-27 at 07:11 +0800, Ian Kent wrote:
-> > Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
-> > in resume_store") looks like it's been around for a while so I
-> > assume the reproducer should work on 7.2.12?
->=20
-> Yes. That commit entered v6.5-rc1, so 7.2.12 contains the relevant
-> code.
->=20
-> I used the unmodified C reproducer linked from the syzbot report:
->=20
-> https://syzkaller.appspot.com/text?tag=3DReproC&x=3D11c0f4c9580000
->=20
-> I also used the configuration provided with the report:
->=20
-> https://syzkaller.appspot.com/text?tag=3DKernelConfig&x=3D7d012d9c67977ee=
-4
->=20
-> > What should I expect, a hang, it doesn't.
->=20
-> A permanent hang is not expected. The result to look for is this
-> lockdep warning in dmesg:
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARNING: possible circular loc=
-king dependency detected
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &pipe->mutex --> &of->mutex --=
-> &sbi->pipe_mutex
->=20
-> The reproducer records the first dependency by splicing into the
-> cgroup v1 devices.deny file. It records the opposite dependencies
-> through a normal write to /sys/power/resume. These operations use
-> different lock instances, so the exact reproducer reports a possible
-> cycle rather than deadlocking.
->=20
-> The write waits for an autofs daemon that never replies, but the C
-> wrapper kills the blocked child after five seconds and starts another
-> iteration. In my test the warning appeared in the first iteration.
->=20
-> The test needs lockdep and CONFIG_PROVE_LOCKING, the cgroup v1
-> devices
-> controller, autofs, and working hibernation support. It must also run
-> as root. Without lockdep, the program can appear to do nothing
-> useful.
+Request the region from iomem_resource, matching request_mem_region()
+and the existing release_mem_region() call.
 
-Ok, I'll check on those, not sure about hibernation support in my
-VM ...
+Fixes: 1d0d4b28513b ("rust: io: mem: add a generic iomem abstraction")
 
->=20
-> > Also it looks to me like the reproducer is trying exploit an
-> > invalid request similar to what I described earlier
->=20
-> Whether the string identifies a usable resume device is separate from
-> the autofs request. resume_store() first passes it to lookup_bdev(),
-> which performs a pathname lookup before the numeric fallback.
->=20
-> The reproducer changes its current directory to the root of a
-> detached
-> indirect autofs mount. It then opens /sys/power/resume using an
-> absolute path and writes the relative name
-> "0x0000000004000921".
->=20
-> The resulting lookup is therefore:
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <autofs root>/0x00000000040009=
-21
->=20
-> For autofs, this is an ordinary lookup of a new immediate child of
-> the
-> indirect mount root, so it is a normal mount trigger. There is no
-> autofs mount under /sys/power.
+Signed-off-by: Kwanghoon Son <asdfkwang@gmail.com>
+---
+The bug can be reproduced with QEMU arm64 virt's existing DT node
+(CONFIG_FW_CFG_SYSFS=n):
 
-Right, enabling the autofs pr-debug logging and looking at the
-reproducer verified the exection flow for me. I didn't see a
-lockdep splat but my environment is probably not quite right.
-I'll check what I can and see if I can reproduce.
+    fw-cfg@9020000 {
+        compatible = "qemu,fw-cfg-mmio";
+        reg = <0 0x09020000 0 0x18>;
+    };
 
->=20
-> In parallel, I am preparing a revised patch following Tejun's
-> suggestion. It disables splice for writable opens of
-> /sys/power/resume and gives its of->mutex a separate lockdep class.
->=20
-> If you send your autofs change, I can run the same reproducer against
-> it and check both the request and the lockdep warning.
->=20
-> Thanks,
-> Krystian
+A small Rust platform driver matches this node. Its probe maps the
+resource and returns the mapping as driver data (excerpt):
+
+    let io = pdev.io_request_by_index(0).ok_or(ENODEV)?
+        .iomap_exclusive()?
+        .into_devres()?;
+
+Unbind and bind that driver again:
+
+    cd /sys/bus/platform/drivers/mmio_repro
+    echo 9020000.fw-cfg > unbind
+    echo 9020000.fw-cfg > bind
+
+Before the fix, unbind prints "Trying to free nonexistent resource"
+and bind fails with EBUSY. With the fix, 100 cycles pass. This was
+repeated in three fresh guests for each kernel.
+---
+ rust/kernel/io/mem.rs      | 2 +-
+ rust/kernel/io/resource.rs | 6 ++++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
+index 32a919099dcda79bc4b795a8a1c5f553c989b9b7..80da665821c036257900c6ea45b9419cb573c187 100644
+--- a/rust/kernel/io/mem.rs
++++ b/rust/kernel/io/mem.rs
+@@ -196,7 +196,7 @@ fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
+         let size = resource.size();
+         let name = resource.name().unwrap_or_default();
+ 
+-        let region = resource
++        let region = Resource::iomem()
+             .request_region(
+                 start,
+                 size,
+diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
+index 758ce62b3cce33c14e1e4c56a793af0e00657aa6..c99a2530186fc56bdc3405adc15d0801b98eae08 100644
+--- a/rust/kernel/io/resource.rs
++++ b/rust/kernel/io/resource.rs
+@@ -79,6 +79,12 @@ unsafe impl Sync for Region {}
+ pub struct Resource(Opaque<bindings::resource>);
+ 
+ impl Resource {
++    /// Returns the global I/O memory resource root.
++    pub(crate) fn iomem() -> &'static Self {
++        // SAFETY: iomem_resource is permanent; C serializes resource-tree updates.
++        unsafe { Self::from_raw(&raw mut bindings::iomem_resource) }
++    }
++
+     /// Creates a reference to a [`Resource`] from a valid pointer.
+     ///
+     /// # Safety
+
+---
+base-commit: 8a36f53fd5ec3eff01f1b637d42cbdc3821d0493
+change-id: 20261027-b4-rust-iomem-origin-master-fix-885f1ea244fb
+
+Best regards,
+-- 
+Kwanghoon Son <asdfkwang@gmail.com>
+
