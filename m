@@ -1,83 +1,137 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793147019;
-	b=WjcCbx6hGENB2QqkLf4z/YiYETxhzCeY054oXYVCROEDrMW2kQy3PJ8WYEqUxr7IB/q3
-	 qnHI4W8K6sJSRg6He65knntfyAi9qiSnKOhLBcMqU1WnODsNtGwfuKOkCZvFlv4cp+/y9
-	 NI0FtfHM+E9qKid3uY9KsEDUmxDOcVkFo3mu82UhTiWUwKuMXlb+PiEIAgTjWpg/MBnhv
-	 nNqveZLovjxfWN2BHuTuBUUGxSOAo14H1t+BJqKgqb7a2Ud7jrqK7pbK8MJOziZXATglZ
-	 /kyUxoCj1J554aHERj7HGS+5VywZPBlGjCmpWYLsHqWmtJcpdO8/KHmLFpdV1v8wPRA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793147019;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
-	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=;
-	b=svD6ZZlNfRJDrwwPSn1Tc5i94BwgI/j2FA6PhnD6KezCJOsYOvk7ukMhyoDajVpbfG7H
-	 YdKw/ZmiGR7UCVrYRlWk+iz25fmB/6HRL5+XB7DUlCe5H9rGNC7M7lkIvYe8ntPaP97Mq
-	 9OMRKe4hfr5hTkHNPPyeKQUxWIEbOaGoWhoyLD8+MEm+4sjBJ59l/5GBshIFAyR3DH+zQ
-	 J0z5ANIBdUVzmetRy8ITZFV2x2O6Ewtcneo7tUDfP/a4YnzeS0VNaQxUcmDCvJuvseMtq
-	 S+LZHUeBNdVaECwfMMHmX0Tkw2wXM88gYvMSxi1gzY1Gzo2NmdoJx9Wc9VnnT6CDlrA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=gcGkZi72;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793150526;
+	b=oIa02mTfG+1O1K+VxQEUBcUJmIVJca/pU13ZIcM1xpEXvpP1JxIDqwgzJDTHTpLHZMS1
+	 Pme/w0M878UtrHm1cMlJk5YAPJaHMreY0PgnHYi0HGoO5tDCelSixr5RjeFAmHcfvRTVw
+	 QwKXCTkXFtUUSdb38BDw7HKb3YtQ158bY3xy/eckiRDeuqBxqlK5sBVv4GDRnxGKsk27v
+	 x8Um87kMdTjnE7x0rlmsvD4a/43O8PHtHEdCEb/HiwGEy5A4SHIm/7MQFFAakZF+YEGA6
+	 wX1wNXo7ZO0xW/nY2dIwZs0ckqFqsfvgFxCwT7DoALNHm+Wj+bZvxFPUGfJKKIfrwoQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793150526;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
+	b=a3Ge7SL/xu5ttex5KMMHQzx0I4dqLHmrLPaAD83+yZS8jBMNrgo+MOoJW0cX67ZGgYTn
+	 xM0znXHR745datZAruDWINcYORBMBV5CRZI18tfWzfMwu6Ck7hwJGeeT8mk9A7YISGW6a
+	 g4Gf0pGty8hR2fyIqGWMWj5J8e4PnjZsrEjnU6njvCM875IgvlKk0ppBoy/uTLbnOgJKE
+	 EvKcYbxUsMnF9SqxjeM9ocYUpBiW7owRYUILFDuA1RLDIR18FNty0WV7JCqHqOrs3mdxK
+	 ApVZieOhlIHQHgar6bndiL4K4Qeq8uMIISiMiM8TyVHiFXDH/jDsrzScs7g214OwFtA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=themaw.net;
+	spf=pass smtp.mailfrom=themaw.net;
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7;
+	arc=none smtp.remote-ip=103.168.172.147
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F992606A31E
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 00:23:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F992606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004AB606A31F
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 01:21:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 004AB606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=gcGkZi72
-ARC-Seal: i=1; a=rsa-sha256; t=1793146990; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=X0B7Xl0LMMgR21Z7drvYafvTmTLkaqCaluNyUSjLkeJ3MtK07HrCeCdZ5KweNpm9My9yP2c/PpXolGe3n6Q61wt74UMtwqrNTEdUloTaC1ZAkwNYG9P92slzRW5oGf346Uu2u5oFzGlAytPdywpdHy5BdvcMul54RzD+gPX3W2s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1793146990; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=; 
-	b=c8aijzgu6zlB+VWbmyWO/ln6K0Xm3x7pihy2PLoMOMO5fLDZQ0KOEm7Oda28ziMg9QgBiUqwVjvay7lG+8qn+7U0jRkAP3OujbSjJG8LKUbYxa5F/GwH6ViTDc2Pgz7k07OMprIIh4dl7rP0gf39vOxLBxq2RB1n3QfNfgsUCoU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
-	dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793146989;
-	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=;
-	b=gcGkZi72n4iXSeDR1JzWMMk6u+hqZWtnXe7ihStj+/6649qJF0Dw72ATWDgr/7B/
-	qqjqM7ZgOO9SAblZUjze5RGxhv21qssVcWHNzLpkko36+JZkf6Qaorvs8ER0kkD8aAk
-	q4jAukYLhxGxhWPRWvGFpKFFpzm4hAQ12eEDQonc=
-Received: by smtp.zohomail.com with SMTPS id 1793146988395337.5007495887817;
-	Tue, 27 Oct 2026 17:23:08 -0700 (PDT)
-Date: Tue, 27 Oct 2026 17:23:06 -0700
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Ke Sun <sunke@kylinos.cn>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>, Lyude Paul <lyude@redhat.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	driver-core@lists.linux.dev, Alvin Sun <alvin.sun@linux.dev>
-Subject: Re: [PATCH v5 05/11] drm/tyr: add user and MCU VM specifications
-Message-ID: <auFAas_sCjDQkRmM@um790>
-References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
- <20261027-tyr-ioctls-v5-5-59dfe98cb003@kylinos.cn>
+	dkim=temperror header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm1 header.b=IuANCG5d;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ASgV40z7
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0CC35EC01BC
+	for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 21:21:59 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 27 Oct 2026 21:21:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793150518;
+	 x=1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=
+	IuANCG5dx2AuLSzGWT1IlW0LpNdHwVHudaxvydOEnc3KSoJ/qoMeuRTBcuHevylW
+	xUbQw+3IqU+mSDopyXhKpLMSyZdaIQYBWsp91BtQLJ6ivce7R1cuF7LYQVlluKOM
+	55TmLfhzJ/XgFzpWKbku9XBEEHXvbqRJ5vOSHONPiAFeVL8JucBr1JOA/VFwvjKS
+	w11r6SsVd0monzWXTSSRu9aCd1MnbVsYTMZQxq4e7JYEQg0XE3VlNJOsuLd4+Ahu
+	M2i0unzEJI77CglJFd3yELGpyxcNPO6lBajkV1sZOKnC3Pk/qgxAH53X7FyqVsbo
+	jkTWgUXOP8IFrAx0YIZ2Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793150518; x=
+	1793236918; bh=4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=; b=A
+	SgV40z7r6xfOgnty139gvV4mch5EP3LpzWKZnR0DqUM4+khkf+60HFQqKimBZ41O
+	GpWenOjpJF06vWXJx6ne53P/sdpYna3Yh9kYveLMWrgn873gdVS2BPYroWQPhcxQ
+	j8FQ/TYUcJyq1VEohzGMzcv/D5F9bKLVFzIGeGnwytFhspGcAad8f7oc6bXYjpg3
+	1KZoPk5Y3HhjR0aN8sdnG6UAFbI98LFbZxfR31UoaDOWQ8AvKGLa+kRa/mXHpIUp
+	RiAUDg4gSiO+zFjhCN9FDe+hrXJ9Cgl3iBmIcbzWpOWfT+LuuadMSvQcN3RGDqus
+	BADMJIzTu3vtT/xhem48w==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=themaw.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793150518; d=themaw.net;
+	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
+	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:MbbGjjuPVBp5Oo+wEC2z1FhqyDVWgJFJdXf5ydkmBkB2fHd
+	YYFcaLfz7bHCEkDcRbArzPQfI3flxwAm1EOwVv181AFuWV5GRs3akUrr9Hz9aDHN
+	MJNN/Qda9tP2vwbFO+F+IexPLxhqdRCIk/QM+k8Pqpyf+RH/lmQ7pdbNvggXgg4k
+	fvlzQY1LB+u+fuTyPkPz7HjLvBcykl+wkP3fNG0l3tfZKVxGPqk5Q8Ng5m1lJyxD
+	HSue9pIbBwrSvN1HyoOE0dq3T32h3IlJHaBkPeQCtBtLgh2WxnichQGdLhJEnStX
+	H06S92vlGocX+2lNLqZu1/BY64H0QxTcx5GIF0w==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:bLZaW/+c77h1LhtpnAtMkoSIjWiZ2pBNMO0v3iO12fE=:4cR+Jnw2vZTLedug2NT9bT/PNYuUzdhU9pnjK8Gk3b4=;
+X-ME-Sender: <xms:NU7havTQm7CONmk_vTIxyQr2bggizao4KrnCTHOZ-DkioGzPn_0_Cg>
+    <xme:NU7hanuN5n0amtHDXTfCLVNahO5-mo9vXcMLvteA_LdixJ2JqjfE2OXpSqZAoRDw9
+    9zB2o5kCwdI5nC3rzACzyLVfBUMdUUkzLm9ZMp9wz4XqggaUQ>
+X-ME-Received: <xmr:NU7hap4Rmoc1y1NiVdhky5AhS2soreP5Mn4L00ThsQUenIhtq7rJNcu1pb49HmmEVaVYZMSVJiGWZtrqfBzV2zNcfOaCUTc66JS2LcokcUPuk2veGHDtkWAnPBE>
+X-ME-Proxy-Cause: dmFkZTExjEu5Z4ShUEEPbIUBi9jvlntQl3xywqhol0VilT1H3riwx+R5F5xJP13Eevy37Q
+    0i2tM3JNLjjIE4RnafdrKckgTZgF7WVXIi2BOm3qqKixBS/Irug73Tiau0YR/vN5tre4hn
+    maQ7bdbQdERoqsBHTuky/6kPN1uRRdMEQp7qfaGblPSG+4EBzlUBu4KVifRQGZl+JiSvgw
+    9mSbn8dIqXi2WXNiWFaTJHHZ4Jih2f4J8Zf8XQJs9Or+djBfP7qo+n/CcBwnndgEEsWDvn
+    dde2XKLK1ANi3gu15BOxuI5tGRXcf4I/n59a/Jk8KMuRhC+UWXSiv/46euNQ6JSTIIAimv
+    7jcAW/tdVBGXJXklC1RRPUglHq4hH5Bc64PIl28tFEzC6NIzPjSltWekhutJo/tT2majGT
+    sswf9kF/mQ7bfD6GGD2BLOWWsUXcYZgnu4j4D7tHPb/zynsKGK6m+AhMOPYjmUzMOzh5dT
+    b4rWxbMHiL5nnjAdO5ldN4zD++TlD1rdyXqAHwBHPTOIS8FN/SKiiEb38SpBdbZorRtZ3g
+    6HKFrjuDJITZTWSsi/aiCUAXSktyenMIc8kN6yeNsZHz8HdWRAJlXYnV78lUl5wNp4dJzJ
+    K2wtUluCHNuU9Ak5O20DPSdgweZAMliMgfRfP/R4THeQWT2Cq5n/XeaklCLw
+X-ME-Proxy: <xmx:NU7hamKsy46mFaILnzutP5LNXCeEcEkH7ASldNGwyMSr1vsmEA_XLQ>
+    <xmx:NU7hajRmT8qLJPv58aR7XoaIN4e0ZQloPg1Re3nCph4Fgy5gL4tmng>
+    <xmx:NU7hapoTY0a-MqM5sQVzrhTvHncNfTKm3VeNlXgeqpDve-iSMPWQrg>
+    <xmx:NU7hahb9D81m8XEdG4qqwPK-ysKtigp5k8VzEshrenjpsUJ67MPPlQ>
+    <xmx:Nk7hairIFIEEI4qphXaATaK3ls9tH3EoMbCthRQcYtN9uyTpEesD-K0G>
+Feedback-ID: i31e841b0:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Oct 2026 21:21:52 -0400 (EDT)
+Message-ID: <5de6de037706e45ba88939e8f36e7dae48005e6c.camel@themaw.net>
+Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
+ stores
+From: Ian Kent <raven@themaw.net>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
+ <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
+ Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
+ autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, 
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Date: Wed, 28 Oct 2026 09:21:48 +0800
+In-Reply-To: <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
+References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
+	 <cover.1792577179.git.krystianmkaniewski@gmail.com>
+	 <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
+	 <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
+	 <083c2bb0-85b6-480e-afcb-bd2f386f2ddd@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,328 +141,95 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-tyr-ioctls-v5-5-59dfe98cb003@kylinos.cn>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/293.134.36
 
-On Tue, Oct 27, 2026 at 12:40:58AM +0800, Ke Sun wrote:
-> From: Alvin Sun <alvin.sun@linux.dev>
-> 
-> The MCU and user VMs need different VA layouts. Give each a dedicated
-> constructor: new_for_fw() builds the kernel-only 4G layout, while
-> new_for_user() splits the address space by task_size or a user-provided
-> size, rejecting oversized requests rather than clamping. The resulting
-> user range is what VM_CREATE reports back as user_va_range.
-> 
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
->  drivers/gpu/drm/tyr/fw.rs |  19 +++---
->  drivers/gpu/drm/tyr/vm.rs | 157 +++++++++++++++++++++++++++++++++++++++++-----
->  2 files changed, 151 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-> index aea151ff1f934..81e8103368bc2 100644
-> --- a/drivers/gpu/drm/tyr/fw.rs
-> +++ b/drivers/gpu/drm/tyr/fw.rs
-> @@ -51,7 +51,6 @@
->          KernelBoVaAlloc, //
->      },
->      gpu::GpuInfo,
-> -
->      mmu::Mmu,
->      regs::{
->          gpu_control::{
-> @@ -219,10 +218,10 @@ pub(crate) fn new(
->          mmu: ArcBorrow<'_, Mmu<'drm>>,
->          gpu_info: &GpuInfo,
->      ) -> Result<Firmware<'drm>> {
-> -        let vm = Vm::new(dev, ddev, mmu, gpu_info)?;
-> +        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
->          vm.activate()?;
->  
-> -        let result = (|| {
-> +        let sections = (|| -> Result<KVec<Section<'drm>>> {
->              let (fw, parsed_sections) = Self::load(dev, ddev, gpu_info)?;
->              let mut sections = KVec::new();
->              for parsed in parsed_sections {
-> @@ -252,18 +251,18 @@ pub(crate) fn new(
->                  sections.push(Section { data, mem }, GFP_KERNEL)?;
->              }
->  
-> -            Ok(Firmware {
-> -                iomem,
-> -                vm: vm.clone(),
-> -                sections,
-> -            })
-> +            Ok(sections)
->          })();
->  
-> -        if result.is_err() {
-> +        if sections.is_err() {
->              vm.kill();
->          }
->  
-> -        result
-> +        Ok(Firmware {
-> +            iomem,
-> +            vm,
-> +            sections: sections?,
-> +        })
->      }
+On Tue, 2026-10-27 at 01:57 +0100, Krystian Kaniewski wrote:
+> Hi Ian,
+>=20
+Thanks for replying, ;)
 
-This refactoring of the closure is unrelated to the patch subject so
-could you either just drop it from this series and save it for later or
-put it into its own patch with an explanation of why it is helpful.
+> On Tue, 2026-10-27 at 07:11 +0800, Ian Kent wrote:
+> > Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
+> > in resume_store") looks like it's been around for a while so I
+> > assume the reproducer should work on 7.2.12?
+>=20
+> Yes. That commit entered v6.5-rc1, so 7.2.12 contains the relevant
+> code.
+>=20
+> I used the unmodified C reproducer linked from the syzbot report:
+>=20
+> https://syzkaller.appspot.com/text?tag=3DReproC&x=3D11c0f4c9580000
+>=20
+> I also used the configuration provided with the report:
+>=20
+> https://syzkaller.appspot.com/text?tag=3DKernelConfig&x=3D7d012d9c67977ee=
+4
+>=20
+> > What should I expect, a hang, it doesn't.
+>=20
+> A permanent hang is not expected. The result to look for is this
+> lockdep warning in dmesg:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WARNING: possible circular loc=
+king dependency detected
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &pipe->mutex --> &of->mutex --=
+> &sbi->pipe_mutex
+>=20
+> The reproducer records the first dependency by splicing into the
+> cgroup v1 devices.deny file. It records the opposite dependencies
+> through a normal write to /sys/power/resume. These operations use
+> different lock instances, so the exact reproducer reports a possible
+> cycle rather than deadlocking.
+>=20
+> The write waits for an autofs daemon that never replies, but the C
+> wrapper kills the blocked child after five seconds and starts another
+> iteration. In my test the warning appeared in the first iteration.
+>=20
+> The test needs lockdep and CONFIG_PROVE_LOCKING, the cgroup v1
+> devices
+> controller, autofs, and working hibernation support. It must also run
+> as root. Without lockdep, the program can appear to do nothing
+> useful.
 
->  
->      pub(crate) fn boot(&self) -> Result {
-> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-> index 69b092a130883..b2fcda1e61073 100644
-> --- a/drivers/gpu/drm/tyr/vm.rs
-> +++ b/drivers/gpu/drm/tyr/vm.rs
-> @@ -8,6 +8,7 @@
->  //! mapped into hardware address space (AS) slots for GPU execution.
->  
->  use core::marker::PhantomData;
-> +use core::num::NonZeroU64;
->  use core::ops::Range;
->  
->  use kernel::{
-> @@ -45,6 +46,8 @@
->      num::casts::FromSafeCast,
->      prelude::*,
->      sizes::{
-> +        LargeSizeConstants,
-> +        SizeConstants,
->          SZ_1G,
->          SZ_2M,
->          SZ_4K, //
-> @@ -160,6 +163,90 @@ fn try_from(value: u32) -> Result<Self, Self::Error> {
->      }
->  }
->  
-> +/// User VA size request for a user VM.
-> +pub(crate) enum UserVaRequest {
-> +    /// Split based on `task_size()` and the GPU VA range.
-> +    Auto,
-> +    /// Caller-specified size; construction guarantees `> 0`.
-> +    Fixed(NonZeroU64),
-> +}
-> +
-> +impl UserVaRequest {
-> +    /// UAPI boundary normalization: `0` -> [`Auto`](Self::Auto).
-> +    #[expect(dead_code)]
-> +    pub(crate) fn from_uapi(v: u64) -> Self {
-> +        match NonZeroU64::new(v) {
-> +            Some(size) => Self::Fixed(size),
-> +            None => Self::Auto,
-> +        }
-> +    }
-> +}
-> +
-> +/// Final user/kernel VA layout for a VM.
-> +pub(crate) struct VmLayout {
-> +    /// Full GPU VA range covered by this VM.
-> +    pub(crate) full: Range<u64>,
-> +    /// User-accessible VA range. Empty for MCU VMs.
-> +    pub(crate) user: Range<u64>,
-> +}
-> +
-> +impl VmLayout {
-> +    /// Kernel VA range, reserved for future kernel object allocation.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn kernel(&self) -> Range<u64> {
-> +        self.user.end..self.full.end
-> +    }
-> +
-> +    /// Compute a user/kernel split for a user VM from the full GPU VA range and
-> +    /// a user request.
-> +    pub(crate) fn compute(full: Range<u64>, req: UserVaRequest) -> Result<Self> {
-> +        // Minimum VA space reserved for kernel objects (heaps, ring buffers, ...).
-> +        const MIN_KERNEL_VA: u64 = u64::SZ_256M;
-> +
-> +        if full.end <= MIN_KERNEL_VA {
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        let user_max = full.end - MIN_KERNEL_VA;
-> +
-> +        let user_end = match req {
-> +            UserVaRequest::Fixed(v) => {
-> +                let user_size = v.get();
-> +                if user_size > user_max {
-> +                    return Err(EINVAL);
-> +                }
-> +                user_size
-> +            }
-> +            UserVaRequest::Auto => {
-> +                let task_size = current!().task_size() as u64;
-> +                let candidate = if task_size < full.end {
-> +                    task_size
-> +                } else {
-> +                    // If the range exceeds 4G, split it in two so CPU and
-> +                    // GPU share the same addresses (SVM).
-> +                    if full.end > u64::SZ_4G {
-> +                        full.end / 2
-> +                    } else {
-> +                        user_max
-> +                    }
-> +                };
-> +                candidate.min(user_max)
-> +            }
-> +        };
-> +
-> +        let delta = full.end - user_end;
-> +        // Pick a kernel VA range that's a power of two, to have a clear split.
-> +        let kernel_va_range = 1u64 << delta.ilog2();
-> +        let kernel_va_start = full.end - kernel_va_range;
-> +        let full_start = full.start;
-> +
-> +        Ok(Self {
-> +            full,
-> +            user: full_start..kernel_va_start,
-> +        })
-> +    }
-> +}
-> +
->  /// Arguments for a virtual memory map operation.
->  struct VmMapArgs<'drm> {
->      /// Access permissions and caching behavior for the mapping.
-> @@ -335,26 +422,64 @@ pub(crate) struct Vm<'drm> {
->      /// Non-core part of the GPUVM. Can be used for stuff that doesn't modify the
->      /// internal mapping tree, like GpuVm::obtain()
->      gpuvm: ARef<GpuVm<GpuVmData<'drm>>>,
-> -    /// VA range for this VM.
-> -    va_range: Range<u64>,
-> +    /// VA layout for this VM.
-> +    pub(crate) layout: VmLayout,
->  }
->  
->  impl<'drm> Vm<'drm> {
-> -    /// Creates a new GPU virtual address space.
-> +    /// Creates the MCU/firmware VM.
->      ///
-> -    /// The VM is initialized with a page table configured according to the GPU's
-> -    /// address translation capabilities and registered with the GPUVM framework.
-> -    pub(crate) fn new(
-> +    /// The MCU VM is entirely kernel-managed: it has no user-accessible range.
-> +    pub(crate) fn new_for_fw(
-> +        dev: &'drm Device<Bound>,
-> +        ddev: &TyrDrmDevice,
-> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
-> +        gpu_info: &GpuInfo,
-> +    ) -> Result<Arc<Vm<'drm>>> {
-> +        // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
-> +        let layout = VmLayout {
-> +            full: 0..u64::SZ_4G,
-> +            user: 0..0u64,
-> +        };
-> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-> +    }
-> +
-> +    /// Creates a user VM, splitting the GPU VA range per `user_va`.
-> +    #[expect(dead_code)]
-> +    pub(crate) fn new_for_user(
->          dev: &'drm Device<Bound>,
->          ddev: &TyrDrmDevice,
->          mmu: ArcBorrow<'_, Mmu<'drm>>,
->          gpu_info: &GpuInfo,
-> +        user_va: UserVaRequest,
-> +    ) -> Result<Arc<Vm<'drm>>> {
-> +        let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-> +        let va_bits = mmu_features.va_bits().get();
-> +        let range = 0..(1u64 << va_bits);
-> +
-> +        let layout = VmLayout::compute(range.clone(), user_va).inspect_err(|_| {
-> +            dev_dbg!(
-> +                dev,
-> +                "Failed to split GPU VA range {:#x}..{:#x} into user and kernel regions\n",
-> +                range.start,
-> +                range.end
-> +            );
-> +        })?;
-> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-> +    }
-> +
-> +    /// Initializes a VM with the given layout.
-> +    fn new_internal(
-> +        dev: &'drm Device<Bound>,
-> +        ddev: &TyrDrmDevice,
-> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
-> +        gpu_info: &GpuInfo,
-> +        layout: VmLayout,
->      ) -> Result<Arc<Vm<'drm>>> {
->          let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
->          let va_bits = mmu_features.va_bits().get();
->          let pa_bits = mmu_features.pa_bits().get();
->  
-> -        let range = 0..(1u64 << va_bits);
->          let reserve_range = 0..0u64;
->  
->          // dummy_obj is used to initialize the GPUVM tree.
-> @@ -366,7 +491,7 @@ pub(crate) fn new(
->              c"Tyr::GpuVm",
->              ddev,
->              &*dummy_obj,
-> -            range.clone(),
-> +            layout.full.clone(),
->              reserve_range,
->              GpuVmData::<'drm> {
->                  _phantom: PhantomData::<&()>,
-> @@ -386,7 +511,7 @@ pub(crate) fn new(
->                  mmu: mmu.into(),
->                  gpuvm,
->                  gpuvm_unique <- new_mutex!(gpuvm_unique),
-> -                va_range: range,
-> +                layout,
->              }),
->              GFP_KERNEL,
->          )?;
-> @@ -417,10 +542,12 @@ fn deactivate(&self) -> Result {
->  
->      /// Kills the VM by deactivating it and unmapping all regions.
->      pub(crate) fn kill(&self) {
-> -        // TODO: Turn the VM into a state where it can't be used.
->          let _ = self.deactivate();
->          let _ = self
-> -            .unmap_range(self.va_range.start, self.va_range.end - self.va_range.start)
-> +            .unmap_range(
-> +                self.layout.full.start,
-> +                self.layout.full.end - self.layout.full.start,
-> +            )
->              .inspect_err(|e| {
->                  dev_err!(self.dev, "Failed to unmap range during deactivate: {:?}", e);
->              });
-> @@ -557,14 +684,14 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
->  
->          let end = va.checked_add(size).ok_or(EINVAL)?;
->  
-> -        if va < self.va_range.start || end > self.va_range.end {
-> +        if va < self.layout.full.start || end > self.layout.full.end {
->              dev_err!(
->                  self.dev,
->                  "Unmap range {:#x}..{:#x} exceeds VM range {:#x}..{:#x}",
->                  va,
->                  end,
-> -                self.va_range.start,
-> -                self.va_range.end
-> +                self.layout.full.start,
-> +                self.layout.full.end
->              );
->              return Err(EINVAL);
->          }
-> @@ -574,7 +701,7 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
->              region: va..end,
->          };
->  
-> -        let full_vm = va == self.va_range.start && end == self.va_range.end;
-> +        let full_vm = va == self.layout.full.start && end == self.layout.full.end;
->  
->          let mut resources = VmOpResources {
->              preallocated_gpuvas: if full_vm {
-> 
-> -- 
-> 2.43.0
-> 
+Ok, I'll check on those, not sure about hibernation support in my
+VM ...
+
+>=20
+> > Also it looks to me like the reproducer is trying exploit an
+> > invalid request similar to what I described earlier
+>=20
+> Whether the string identifies a usable resume device is separate from
+> the autofs request. resume_store() first passes it to lookup_bdev(),
+> which performs a pathname lookup before the numeric fallback.
+>=20
+> The reproducer changes its current directory to the root of a
+> detached
+> indirect autofs mount. It then opens /sys/power/resume using an
+> absolute path and writes the relative name
+> "0x0000000004000921".
+>=20
+> The resulting lookup is therefore:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <autofs root>/0x00000000040009=
+21
+>=20
+> For autofs, this is an ordinary lookup of a new immediate child of
+> the
+> indirect mount root, so it is a normal mount trigger. There is no
+> autofs mount under /sys/power.
+
+Right, enabling the autofs pr-debug logging and looking at the
+reproducer verified the exection flow for me. I didn't see a
+lockdep splat but my environment is probably not quite right.
+I'll check what I can and see if I can reproduce.
+
+>=20
+> In parallel, I am preparing a revised patch following Tejun's
+> suggestion. It disables splice for writable opens of
+> /sys/power/resume and gives its of->mutex a separate lockdep class.
+>=20
+> If you send your autofs change, I can run the same reproducer against
+> it and check both the request and the lockdep warning.
+>=20
+> Thanks,
+> Krystian
