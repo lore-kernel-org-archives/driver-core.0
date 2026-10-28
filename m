@@ -1,69 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793203131;
-	b=PBzcEnMMPn0HbMzoFVD+pzdSJTgox9FjF4IBoue/mNP8EnyLOw1mk/tBWeU0Y3e6zIoA
-	 hDLlhPTURN+OzxJb47w2ZbxkX/dG1c8liBO5LZB+ei1wxln/SerKtlVb+0IYagKrWBD6N
-	 T/O1RJKwge95XXm8h9PrADzXQT/ll3MPRQ+JwE8kKysKx1zHDfmkRJi7Vy+YVFAYBFcny
-	 0ZzJDwoSBYqXCwDZkCL79uB5jjwQNdDliza1inNdWHZqwlUm2IWey33J6d4wKQFOzV7ok
-	 LxzOjXvTMF8N+SGtoYLUeviYcLEbxdbimY8P93jyu0ncu8Ml4+V0KhVUs0YVn0rPhCQ==
+	t=1793207603;
+	b=3wk3DHcCsxw6i7wRdzbQXuRwbfAkIkZscLCGZbl/+j8z49+Cq1F1VDRKMsJulP5i5FWM
+	 M52TQhwM3ZC53o8/KlyR1Hj6Ai8xwJJ6A9UiK8BRlHZx+QFt9yaqn4olP4FNnpnhkeENu
+	 fWIt251C83Iotp3fTTeWj851fEQhOYJZX2YufVkGClVmfmjZrUl43J35RsofA5cfoVs2S
+	 cqDu8icsFjY/gk3q6Xm0jQPYv1xIt9qmDH24slSh2aWt1PjGnSJQmq1qUh4LH4TyUumsB
+	 at2mIBUT5Mhv/mkC00RqVYRXKROH1eeyJxK5XyN3OkCTj5xZA0hxtfXbbFaTZ17Gr+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793203131;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793207603;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=KaGhgSwdPewaNyyalbhvVyRytdZ/XV116s7GiJ25PBY=;
-	b=0JpuKUpnKkLbKwkd3OlTj7oYeBm14cB7eDixNht0IrIUuBTX1gxxDPw7ZAqqpvzzqaCv
-	 r4IX75jEvDeAr4zmEw24K4sLAANe3XStkM2IPWn1ueZ2lnwtR8ssKfsOeydfhR348hj0N
-	 EufJPiXZxEJKf0Io/Vn36ZRFZ6eAe3Y5ldSkYLbzVsBa5S/KpgsVrBpdPupwTDqjQe+qr
-	 LPh/4XhMMvniF/YUXX1n3vvv2M8a5wtnoGBQofFnN85OBb6XzlTnVy7TdjHjjaVz4s5MH
-	 hXyKacdE5HIUr4LllrxXFGqrIevku2kvlOm7b8qBsf0V6i8fUovURxgB9Q4GnA6uvzQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=vktowsTsOQhJmqiWYNIb0aPqBLNSbNahOroQ81vALNQ=;
+	b=1vkKUrazcxwTUje02YFf+0OkCukLDZm+QhzbdtiWtdioZwrE7GF3FrtbLWLuWtU2UzhX
+	 Gajm5KlnDZbw9Nj5zwecVpfqH3r5+YNeq3OCfzFwLyeodsDShtsLRRZKfkZYqHXUZSRg8
+	 YOhzUIXyYUHxhixTdYxCaIrfgYNwUknCI3KA2kn6tsKd639rHN7bHFwT4DOYpN4US1d+j
+	 6w0fB+H902glhj4NAm2ITaJM1ftvszAC4XVTvb6bVm9Xsl7Sn9eYYs1bWufb1lco3biNm
+	 gNdcGsJRg/9XclZakCZtmJr2wVYIH15t1nmifF9hu5WnFui2ABaxHPIStrCt7bQOdgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEMpD7ND;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BZ6enJrj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3290606A31C;
-	Wed, 28 Oct 2026 15:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB237606A322;
+	Wed, 28 Oct 2026 17:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEMpD7ND
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BFD1F01829;
-	Wed, 28 Oct 2026 15:58:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BZ6enJrj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E631F031E0;
+	Wed, 28 Oct 2026 17:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793203130;
-	bh=KaGhgSwdPewaNyyalbhvVyRytdZ/XV116s7GiJ25PBY=;
+	s=k20260515; t=1793207602;
+	bh=vktowsTsOQhJmqiWYNIb0aPqBLNSbNahOroQ81vALNQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NEMpD7NDcOeDg9hzGOPnRl+r1niBLIFDT/DjEKwwaniyFSVPAABrBHPbJv1gdTZ8M
-	 OsW9WMoqFBWpwIyff+FsoFuy054ytujvh60x9IH0B+L9RI4emy/7PGukkD5whnQ9i+
-	 64XPhQzcp+Ee6Av1JPNQKqJsAefBUMGaHhNqGpFo5JxQ8AJq9YD5mq6XGJmx1Fk+d5
-	 eNqx9K/Xfcc/M7ktJ//3C0gpB6z+e1InXfFIPD0O5ZfEPKZ6Rzn7vNdsBOnztLezg/
-	 dpN+WU99gp+MynU9j88tn5hKgUx7JPkAT7bPY7lvTpfjLnLat4R427gcmJ8f0H6f3K
-	 fERqz8DA0AqZQ==
-Date: Wed, 28 Oct 2026 16:58:47 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Peng Wang <peng_wang@linux.alibaba.com>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	b=BZ6enJrj2fR+WiaobREMK06Ol4IBWooQRDlbbDCkO1gNP7+G2R9/lsOOs2AhduaH8
+	 IcGiH6/qAIxcfuSrwBdneQYRZt+W8ihxfi/bu8MIRkDPSGPjLv1CElqLHZjheiMzWZ
+	 DH0T5HoxcIR4+yigsaET5t4ctAredW023hZHdikTpcSGKdBksnJ3GuslAURAOE73r0
+	 OFDzAYx+euSlpwhkJz6vzjSi4qGr9oAaq/5t/Y26Gl7SwP46yh6RZXFHOGQCNEJN9I
+	 lo7RodJkVz/gLSXqyhniNMQsfTsQPbnnv/5roVKerewBTdFEwzrN4Aepm6Xp3XPTM4
+	 cnbju0zmHk6eA==
+Date: Wed, 28 Oct 2026 19:13:06 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Oscar Salvador <osalvador@suse.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	He Rongguang <herongguang@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] tick/nohz: Add a policy dependency for full
- dynticks
-Message-ID: <auIbt5JAC2cHw5jr@localhost.localdomain>
-References: <cover.1792242566.git.peng_wang@linux.alibaba.com>
- <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
- <att2hiYaaHTIkzG9@localhost.localdomain>
- <atuMJiJEwbzGjiu4@MacBook-Pro.local>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	kas@kernel.org, kexec@lists.infradead.org,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	shakeel.butt@linux.dev, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, rmikey@meta.com,
+	riel@surriel.com, harry@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v6 4/7] mm/memblock: add a reserved-region flag for
+ poisoned frames
+Message-ID: <auItIsZRsh_Pwrti@kernel.org>
+References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
+ <20261016-hwpoison-kho-v6-4-f304255147da@debian.org>
+ <ato62palTbNjLwN7@kernel.org>
+ <524ee7d9-790d-48b6-8613-841da042c32a@kernel.org>
+ <auH6WT5zR1RM1lpA@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -73,100 +87,58 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <atuMJiJEwbzGjiu4@MacBook-Pro.local>
+In-Reply-To: <auH6WT5zR1RM1lpA@gmail.com>
 
-Le Sat, Oct 24, 2026 at 12:32:38AM +0800, Peng Wang a écrit :
-> On Fri, Oct 23, 2026 at 05:00:22PM +0200, Frederic Weisbecker wrote:
-> > Le Sat, Oct 17, 2026 at 09:13:41PM +0800, Peng Wang a 殂rit :
-> > > Cloud hosts may pin vCPU threads one-to-one to host CPUs. At full
-> > > allocation this includes the housekeeping CPUs, which always retain
-> > > their non-idle tick. Operators want comparable performance for otherwise
-> > > equivalent vCPUs. Retaining the non-idle tick on nohz_full CPUs as well
-> > > avoids one placement-dependent difference in host tick interference.
-> > > With spare capacity, selected CPUs may stop the tick to reduce host
-> > > scheduler-tick interference with vCPUs.
+On Wed, Oct 28, 2026 at 06:49:18AM -0700, Breno Leitao wrote:
+> On Wed, Oct 28, 2026 at 09:39:42AM +0100, David Hildenbrand (Arm) wrote:
+> > On 10/22/26 18:33, Mike Rapoport wrote:
+> > > Hi Breno,
 > > > 
-> > > Allocation changes as VMs are created or destroyed while other VMs
-> > > remain running. A vCPU thread may be the only runnable task in either
-> > > state, so existing tick dependencies do not express this policy.
-> > 
-> > I'm not sure I understand correctly what you are trying to solve.
-> > Are you saying that you want to keep the tick running when there
-> > is more than one vCPU per CPU? Because the scheduler already takes
-> > care of that.
-> 
-> Hi Frederic,
-> 
-> No. We pin vCPU threads one-to-one to host CPUs, without
-> oversubscription. By "full allocation" I meant that all allocatable
-> host CPUs are in use, including CPUs outside the nohz_full set.
-> 
-> For example, on an eight-CPU host booted with isolcpus=nohz,1-7,
-> CPU0 is outside the nohz_full set:
-> 
-> - With eight pinned vCPUs, CPU0 retains its non-idle tick while
->   CPUs1-7 may stop theirs. Retaining the tick on CPUs1-7 too avoids
->   this placement-dependent difference in tick interference between
->   otherwise equivalent vCPUs.
-> 
-> - With seven or fewer pinned vCPUs, we can leave CPU0 without a
->   vCPU and keep them on CPUs1-7. We can then allow tick suppression
->   on CPUs1-7, subject to the existing dependencies. This gives
->   these vCPUs a common tick policy while reducing host tick
->   interference.
-> 
-> If the vCPU on CPU0 is released while the other seven remain
-> running, we allow CPUs1-7 to suppress their ticks. If a new vCPU
-> is later assigned to CPU0, we retain the ticks on CPUs1-7 again
-> to avoid the difference in tick interference.
-> 
-> Throughout these transitions, CPU1 can still have its original
-> pinned vCPU thread as its only runnable task. Its runnable task
-> count does not change merely because CPU0 gains or loses a vCPU,
-> so the scheduler's existing tick dependency cannot express this
-> allocation policy.
-
-Ok now I understand what you want to do, I just don't understand why.
-Why it matters to turn off nohz_full on all CPUs when vCPUs run on housekeeping?
-
-> > > Add a per-CPU POLICY dependency within the boot-time nohz_full set.
-> > > Permission defaults to enabled. The policy can be changed without
-> > > taking CPUs offline. Revoking permission uses the existing asynchronous
-> > > kick; granting it leaves all other dependencies effective. Preserve
-> > > POLICY across CPU hotplug and report it in tick_stop tracing.
+> > > On Fri, Oct 16, 2026 at 05:15:44AM -0700, Breno Leitao wrote:
+> > >> memblock allocates from and frees to buddy whatever is not reserved, and
+> > >> knows nothing about frames an earlier kernel found hardware-poisoned.
+> > >> Such a frame can back the memmap, a page table or a percpu area before
+> > >> any hwpoison code runs, and otherwise reaches the buddy allocator like
+> > >> any other free frame.
+> > >>
+> > >> Add MEMBLOCK_RSRV_HWPOISON for a reserved range holding those frames.
 > > > 
-> > > Idle tick suppression, nohz_full membership, context tracking, RCU
-> > > offloading and housekeeping configuration are unchanged.
+> > > How much this would fragment memblock.reserved?
+> > > 
+> > > memblock is not very scalable, to say the least, and each new flag
+> > > increases the size of memblock arrays which obviously hurts performance.
 > > 
-> > This still keeps the overhead of nohz_full even if the tick stays on, right?
-> > (RCU nocb, kernel <-> user overhead, etc...). Isn't it a problem for you?
+> > I assume that if you have too many regions there, you have different problems
+> > than scalability problems.
+
+Not different, the problems are additive :)
+
+> > We should cut out larger chunks, and if they are all over your address space you
+> > should scrap that machine.
 > 
-> Yes. Our setup uses only the nohz flag of isolcpus, without
-> additional housekeeping affinity tuning. Context tracking and
-> RCU callback offloading remain enabled when the tick is kept
-> running.
+> Ack, that is what the 2M unit does. A DRAM row fault shows up as many 4K
+> pages but lands in one or two units, and adjacent units share one
+> memblock.reserved region.
 > 
-> We have observed a performance benefit from this nohz_full setup
-> with our database workload running on pinned vCPUs.
+> Mike, on the statistics you asked for: across the Meta hosts that logged
+> a hard memory failure in the last 28 days, these are the
+> memblock.reserved regions each host would need:
+> 
+>              p50   p90   p99
+>      x86      1     4    41
+>      arm64    1     5    27
 
-Do you mean that your database runs better when hosts CPUs are in nohz_full?
-But how does this new interface help? Ie: why is it worse to have all CPUs in
-nohz_full except the housekeeping rather than shutting down nohz_full
-altogether?
+Thanks!
+A new flag is fine by me.
 
-Or to put it another way: why is it better to have either:
-
-- all vCPUs on nohz_full host CPUs
-or
-- all vCPUs on ticking CPUs
-
-And why does it hurt to have a single vCPU running on a ticking CPU.
-
-Thanks.
+I'm still trying to parse what your LLM wrote in the commit messages before
+sending the tags ;-)
+ 
+> Thanks,
+> --breno
 
 -- 
-Frederic Weisbecker
-SUSE Labs
+Sincerely yours,
+Mike.
