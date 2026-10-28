@@ -1,112 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793188085;
-	b=ZqdY5MoETIQ2j6eWPscigioUnceR5yRlRi3Pz34uFKz3KHUPAvxY0ZlVeyegwGojrhZb
-	 567Ko+PPEf4zN8Vcrurz5/tRl6auPhxI+4Htb8jdzmr++5H91L17B1BfBdZjJHkWL18sF
-	 v3biLSjcXsfStc/i7qa1xHpFhVdmxUbRKRpEpZXC7F3c/i8q9ydLO9kHoI9LnYMxH6RVX
-	 jVLkxdh3rlBX/nzkBVmrqBZJfFfmvPUaXj2lczEV1gh4wIpaceWMcw13YKfR0lXWeszva
-	 xl6rT7fDyhwSGyFdIsPlBx0kSBY9IOWWpRI8W1nhC+fT/yHTqDzI4ycH1cqB6h9GUHA==
+	t=1793188095;
+	b=cj3CF/D3mMlUFGc98o/BSB8BiNKvdkL69D0ye7N//vyVR1PXgPpJKRAOn+ctq7RUuFvP
+	 gS7zSlklAwOMkob9RXkPP3jCuGwLIJcX6loIWs/dhFN0H9qGWBpzAs7UFQoesuZTxF/BV
+	 hGKU7B4mVPNRx0fwRqxdo1Yq8eFe0IF1SKxYxkKJCBr+sI6lNgLWuU7usRKwp4S52k7zu
+	 OpGzUA/TTiyFOk0KCej2qRIcT5AOgrDzyzBLSxdAnu9nzBp4akY5ilWhHX/39DXi71doz
+	 EAbq9K0CFEHs4Uc0jwGEMg1sA3dtgkhKmu9lCPH1n1F4r140kfW574fJSTLnCCC+xhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793188085;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793188095;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=LswZd/ASoQRrZpqIJhj7fW6h5DTUVttYSjl6IDr3+oc=;
-	b=AvBp7z12UTKDQjRUBAeQIGSnj1pF6TjpF87Zsq/Wg4OeXr7KOLEIaDWJa0oKQDo5NOGj
-	 1vBG1bsk75Zewe//EbFPxmRmsLujtpOVkeZX4Rpe2ST7MG+AAj+LdUj+4aLTmN7M7WABf
-	 /KLVI83VuM08TtbFT2pzVSjI5KWU455FwuTKKqZkrLs5N5o/FMIA/GG6FdYaLnvxtHKLN
-	 V7A6dCjh6umGp8bDUsYwsgqfKEqP7Tx98KE5VHS1O3DravznbU6z5Kl28UJ4q2uIH+1Mv
-	 gaQB1dDwPppynttehAITxpM/G9zAKwgCi/DJBnjWixK35NrkWagFXksyp+5Z32+NmjQ==
+	bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
+	b=THC/W7h8lxX6rHHVQeWaubAvSSm81SgPI/aEIuWFkWv8jaurK3h/Qh3zOpEnq1MefoVL
+	 YUqFv1cIg3XrZNod8mMxd19+jVpJFzwqqGzHbaJ2cT76DG1+YR8XrpFzlyo7fpwzBXREQ
+	 ix+8n87x++bOlhteT2fdo+iFEqtbPI+wOlKfr2/57T0DkQP9m+TADR3eSi5VuApchdhgQ
+	 wRwNkFjOYlCLayAVpOlFYtBYsmD3bb64oTy2oidmQv0KI1vIuC1Tx3l/ntVDmAx48qMus
+	 LO1V0ePkr4EwOkJURxV5Hyhrq2DEpxOe/RFFVEOJpcpyRrzWVY6YS2+dSjmq5lrwMRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=G9EIYHDe;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="eE/UL6xg";
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXsC2ItG;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RH5a35r5;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6CC606A31E
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F6CC606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5A6606A338
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB5A6606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=G9EIYHDe;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=eE/UL6xg
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SBdvwF2082338
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:04 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aXsC2ItG;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RH5a35r5
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SBe6Ek1012047
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	LswZd/ASoQRrZpqIJhj7fW6h5DTUVttYSjl6IDr3+oc=; b=G9EIYHDewyZC9pXP
-	3ju6CGwJZw7Ujww1sHYT+7aynqaUpNLbRZGPsv8Tvphc+FWzrHLfL2hTrN2KckI3
-	Oszeg5JA/y98c7nOsW3wXj7f6I+CFMreOCcM8TaPc/lg8vF7HO8WrzxPgdc7bve4
-	AiwMrBA6PCatm4XTdvgsmU0e/NJCFU4yA9k6D+7gbtzTSPTsl3KMoIG5Z++jQC80
-	Rdp/2OBbHcZvKxBmx2y74+SWfwPvAJVW6zYX7ny3q0Shr8cvTOA/8UuYPjjQ9GqW
-	FHsT0qT5Atlr9KEjg0Yq0Cb4J6Zr4z83MwZIE0nZKKFplvzyBA0UsxBPXL6kdAUV
-	fPOT1Q==
+	+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=; b=aXsC2ItG8FlL+JE9
+	KAC2z5roNxozGt8CsUW+hq6elaEKAV/ncRmKYtMZPRCnPkDPs2TTuZ2OiGK+giQA
+	b52xmXp2aIVv1zqXg4QlS5N3m5ab8Y8YdUaeRtgIg/hIVu9zpzJL0qUskj1AXMo9
+	y6I3KADqPUEsGzxWv8wKderFC9PTw5zhGFUC1NJkuCQU/tMjHzuszpo3wlsS5nb+
+	jYfWcgqvGgoLTHX+85QB5NOCAVt5SjguJ4+WRNOgeoHQS3+u9uzXjXTVjNjTShlO
+	OlWla+SI/vc4PNEPHSSDOJ0oVZyi4lfe1Rw+rw8nogqigfJ+0lbfgzKs00x2aObz
+	a8GDQQ==
 Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjyjputpq-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkfehg85r-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:04 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e832c03576so13533455ad.1
-        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 04:48:04 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 11:48:13 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e869e00005so10694645ad.2
+        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 04:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793188084; x=1793792884; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1793188093; x=1793792893; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LswZd/ASoQRrZpqIJhj7fW6h5DTUVttYSjl6IDr3+oc=;
-        b=eE/UL6xgqAy8EH13z4XtqjIuMF8A2HL4sX++mC+XP6hm/p+7nSnGuyPAqOCwjwMInU
-         1l32fEP2fFJjpY8q3RKr1tupKJivkmxauYF77hCmOm2VRblknpn3h4VNbGKJxPhjUhmg
-         /FyCO9V0EJvXRrOT/3VPJF65NsLYl5fBZgPLWM3k9E7Ko82eT7zh97C1L/nYH0wYK3Zz
-         oZBsdqX446M33GaFom0QYhSPSo/H4VqjwxNMtGklAXzLacFVVB+0pPTXHlr7FF6Izbg+
-         trmLjcURkh63eGIrf5J7VtX+Sb9CK5F5WHL81ANCWJm8kP9H7WppD3OfRTVj0DbOS5id
-         IG8A==
+        bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
+        b=RH5a35r5dIynQ3FvRDQ5i8njgSml2P8BijccRZuZZ94TT4gvdxZaut+oH4QFzyJW73
+         owm6R6QmpgPJwDuaV6keTs3C3ugAbv6oiVmImZMYnShnYoP/QZf2IOhDpQthPXNdq516
+         QH5lYaOIFbWcu41mACIwOU1/vfgsZNdTg5TKIaPOTnEwP07gvrRGtKFgjOzq7E8ITa9q
+         kvzMdg59roC+j7xrJiR5SM25WqCgO8JySRWEQHyo4ZZgnd0BKd9qEDUFjkay3iiJuNXt
+         K1r5PBLNqAMBbJRj6p2qUSuEOQLlOXtQOpVUtQRukVZAYf3DiBkhYi7ZjyGw9l7c8r9G
+         A9yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793188084; x=1793792884;
+        d=1e100.net; s=20260707; t=1793188093; x=1793792893;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LswZd/ASoQRrZpqIJhj7fW6h5DTUVttYSjl6IDr3+oc=;
-        b=vmosCO8M0JyvVG1pvCPHjbgDC9IWLia1Zfx6EkjFNHazV2hc8p6dkOVUPSBiAPQj5L
-         jng9OZ0k5vd9dXOf1okzzukE7KjEhCHtaJZ76SNdBOA/cekx9gxSF9FyyWZAs5tmj9P9
-         09TtmljMZdasK+VDDKLDgoEwW4x7+rFgnGsjR2dI5jZOsVecoaktCNlNHEFQVu3nybiv
-         9xMFvrD4I85/Eg5ZQWjVtiobuhN3Ya6fFqryP1zhTKpEHaMeQjhQ1A2RabmVhYZ9ivKs
-         dmRroCAo1tzsXk08eaTKZlWeUolgCflPgDkFCcr1tl4+zM4/a1GOJYRYWdpc+pR+St6j
-         uJLw==
-X-Forwarded-Encrypted: i=1; AKwUvBxB5gNzgbtAGyHCMmXU+Pj/U1qOzFxJY17hz1W9zk3dV1SPYaZvsW9MLXVVLKfRQ52yC9HDIPXbgZ6lsQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLfZ0VByf2ta3SDHof2gMu0C61ToJBFSoZubS86Md1VpP5wvm0Z
-	hfEX1kUCfwaHbiTw5qYlVxNGA8xGGgZ2gl7jCCvPYydJqgQJuZbxuna1YOyUNSPqS3h37xcNT0W
-	vs5GbSy5UADaNlYkUMPyBxUYgL10AAzEsOE/ZQge64xNmGJrWbC2TcygYp5POsLcHng==
-X-Gm-Gg: AYBFou1Oy1D6H4Zvb7ZLvrcYL51HDNMYeyo5Qp9h8HHxIZmcZhvyJ/YL0zDfcKXCPnV
-	ndc8Ev3cvULx+QkYHRF447MmswsCfAdvgrq9yYkRtBSiXvch06B2y5fHAFXQFt1DPUKb7GsoRm0
-	dKMdE9KqUlQpwrI/pCTZmoU/SakImRX6lgZzv0UIezfawvw0I9QFGIvT06Quy0UY5gJqJyv6nKf
-	r0Z3DNKDF6zpp6E2JUrKDBnJ2X8A7KH9oBghRa+gDlHJIsvECwU2sNpAp0d/5lquXcrUdojFe7N
-	RtpL4DKmkot5nbtygUhZfqUBAo2XPfpauEMalLZGzZPsMkQCVag4SrxdLCBqURcAostY8aKylcT
-	AXamm3gNu9OcSrfgX7paMA93ycemJMjISegDnKg6DtQzSomXWfHLASlueiIlV9k8FmGS6oKmzGJ
-	X36t43FkzQTpxbmKEC81WiMhkx1vSz
-X-Received: by 2002:a17:902:d4d1:b0:2e9:6645:e9a6 with SMTP id d9443c01a7336-2eb005a650emr19174805ad.59.1793188083556;
-        Wed, 28 Oct 2026 04:48:03 -0700 (PDT)
-X-Received: by 2002:a17:902:d4d1:b0:2e9:6645:e9a6 with SMTP id d9443c01a7336-2eb005a650emr19174475ad.59.1793188082951;
-        Wed, 28 Oct 2026 04:48:02 -0700 (PDT)
+        bh=+/p54A/2e4hZFHcid+4VCDQ25Z8tHYviReY8MS3Eaow=;
+        b=siFpfwxFilCOiLPVcdnTvRs+nCgXjZT5dictCk08yVVnGFny6BNlZDKuItPdVy8Ray
+         EBkPrBWdvgfZfm9cew6ZkWjLwSEhLycnvOzz/y+yuQ3n3FoE3GN0cqj3LAY+Em5RMj+T
+         7mt0v3hXObi703v5QLMNk4sXNU3ZjO4cEf0uQcjX7JuvS1kZrUILDESEx/G1Zb4ZiPql
+         G8vx/yUqr065VLoaNqwQrXdj7c8Zxxt9TWogyRFv2yzH4/uPRt0REer8Rp11l3YRod4C
+         9B5lVTqsMClXj3HesoYUAsI0zd/xkzkPLWktfoiB1l7ps/jZFUkNI3YZDF7tyR/360gp
+         9YhA==
+X-Forwarded-Encrypted: i=1; AKwUvBz95CN3BJgK1xCVggWjP9Ps2VC/Qx7qSH1m8Gq/gPRfIyEednf+a1YXMjPztF+v21gv+qszU/UzpBlZvQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIX6Pb8gJ56jkvp2/oqX8klHzeWlWE+03vVGFWUDXZpEgwuJOXj
+	tkIFFQ74Yx0oIglD3v4r7mr9XIxisycJFSzHWxtvPGYWHenX593Th1RvgGQCLn233iRdiqaX0Mw
+	KT8fcEWdvgn9ahbB675Qh/FAf6x9heq+FP+EjW4+rgRzuRWiITroA5N6lVsVEEsZcVQ==
+X-Gm-Gg: AYBFou3fWq0Ylwn/X/RUfpolv69GA3XTaV+oPRZRiLT6KwfrY2Cmr9aFA+Vljy38hmU
+	3nMTnjJNdjdiWXgP54alVY2gayZbF7Fdr5IT8JKy07+JbPrgoH8JoDv66WFsRS8fS/O/ubsLkZi
+	i9iraUEVdXycuiIbvoaOn0KSTm2WyOyKqAnsw3mFl46y/NWk0OuJx0Ng/S3t5vSE7K49GfOIivU
+	S6FysqP5e+ACox4Z1fgQUDjfi3hV/vb4E40Fdf5NPruqUONlFSEECBgtPJ841aUs8/J44T3F8IM
+	dlM91sCAcDWrMR5v3LXorIXFmUvqPiZydUCXZKByFGiGLZZKxuZsSkDhEn0yR7vkQPsV8LChQ1c
+	4iut9G/E50sltEtK1WKpXs4FZsV8SCdUrYs6wvm1x2mBy0jbdvorMhPLmxtdKEE+c1k23RqngyG
+	DocHJmqj8Q2dIoi6NC/tfCh0OBS5Pa
+X-Received: by 2002:a17:903:2c06:b0:2e2:dfe4:adab with SMTP id d9443c01a7336-2eb003ffe11mr18527535ad.10.1793188091913;
+        Wed, 28 Oct 2026 04:48:11 -0700 (PDT)
+X-Received: by 2002:a17:903:2c06:b0:2e2:dfe4:adab with SMTP id d9443c01a7336-2eb003ffe11mr18527115ad.10.1793188091411;
+        Wed, 28 Oct 2026 04:48:11 -0700 (PDT)
 Received: from yli42-gv.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6c37551sm21207715ad.51.2026.10.28.04.47.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6c37551sm21207715ad.51.2026.10.28.04.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 04:48:02 -0700 (PDT)
+        Wed, 28 Oct 2026 04:48:10 -0700 (PDT)
 From: Yin Li <yin.li@oss.qualcomm.com>
-Date: Wed, 28 Oct 2026 19:45:43 +0800
-Subject: [PATCH v4 3/6] dt-bindings: arm: Add MPAM MSC binding
+Date: Wed, 28 Oct 2026 19:45:44 +0800
+Subject: [PATCH v4 4/6] cacheinfo: Expose the code to generate a cache-id
+ from a device_node
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -118,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261028-mpam-resctrl-dt-knp-support-v4-3-bdda1e445cba@oss.qualcomm.com>
+Message-Id: <20261028-mpam-resctrl-dt-knp-support-v4-4-bdda1e445cba@oss.qualcomm.com>
 References: <20261028-mpam-resctrl-dt-knp-support-v4-0-bdda1e445cba@oss.qualcomm.com>
 In-Reply-To: <20261028-mpam-resctrl-dt-knp-support-v4-0-bdda1e445cba@oss.qualcomm.com>
 To: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>,
@@ -146,128 +147,114 @@ Cc: Yin Li <yin.li@oss.qualcomm.com>, Andre Przywara <andre.przywara@arm.com>,
         linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
         devicetree@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793188046; l=3009;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793188047; l=2378;
  i=yin.li@oss.qualcomm.com; s=20260811; h=from:subject:message-id;
- bh=8PN3jSMZ/mskk1bxkWM3cKZzjFP8ZqH1EBcyaOMTbg0=;
- b=QWyVLshjnniVm9WIuAHK9RFKC1Ym/nBG3lrXTz4mbtssrfXDgAXVJPOmpEbKpFuCoaLZgBk2I
- SFDmSOAvOcGBmxG5nLAbhKzjZmoTp9mAxYBABXBUI5GwlvpR6riun1H
+ bh=cuphFizeBCUAPOmTA5mjgloZDLbPkPyZqyfKN0YBZdI=;
+ b=n/XKEt2Df/QRRSl8LRoUZx320ZarsgT1ChUAkMLf5iPokWhJmxBSvVq8VNfkWiupCG8INUGKV
+ UphnCzwL5k6Cf+mbzj5Cf+NoXIJ7fNZzyfax3mT22Nr/pOTnN1hhPEm
 X-Developer-Key: i=yin.li@oss.qualcomm.com; a=ed25519;
  pk=e/2LM97aSWGBMrxY240URBi9Zi8/kL5hXgB+VHkYvW0=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfX3u+IwyBFuPex
- YKtH2QTbk9Tb1adGiu8hY2t0lmzWwEcuPvOeGz+JXYJLvKiZit1cfAw5QZJQGdUIs/dPxXJJQlc
- 0GGGSE4C5Zjk59oJWFmEPFfVpFR3wsS7miQ5Zvl8wx1zR6dQFGD2DXWXZPnoLM0hEpeZTiI2qIS
- mOwVPGqtWQE0pglLXhbDub7WvEO2DW+Vir6iGHWvtWVFk4fmQOx9gC2jCFkJr/b0eq/cYE+YGP+
- uraWLFlk45oLVWjckPBhx72Y0pNdsiob1uA0cssSVN3xxVQVP5DMBhQbjaYtHq2Vt8lPGPJHkPk
- lGHzuk5LqKnmkUXe3MRml5DTpAUpk8dqas6h3Sivib1/munUDGo/FxofOuLdS807nq3aVX25hd+
- KA3x1Dr90UAbzFg+g12h1jBdW6PAoqrGrrEvd2ITxfHyb7CAY4GZO/Z9Q+Qsv7Wo1sNp+IwP2vR
- L3LszsfOfa8DjDtuzGw==
-X-Proofpoint-ORIG-GUID: D72bwmfQ045quVoCwCaXQ-4mufAokIFv
-X-Proofpoint-GUID: D72bwmfQ045quVoCwCaXQ-4mufAokIFv
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfXxQiZNOooI+/K
- bNizCnIBcydMCwFU9aF95XlY9W+BZTH3Ifkl5helFl++99zuCCR/q6ItBSPwW1y9BvRaiLHXOLJ
- Uhycth7Mp0gXRfEiFVCnluhPFdk1qaU=
-X-Authority-Analysis: v=2.4 cv=JodkP84C c=1 sm=1 tr=0 ts=6ae1e0f4 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfXyGIL9LGDWtqt
+ i0Uf7GcPDlEUzan6rQQI+R1O9HON6c5TYicQG0ox91O3O5tGqgbmhJXAgyvOvhjEZQsX88plDaU
+ p0dfJ6La337AAaVQCNmL8EMu8erGE4Lgcp4oLkbT6hW4WlO0CiomfYalcFM79KgyHOdtc+4XjA6
+ ihAYwTrIcTZ63RpuxfxdHq+nq9t1qimqvZMjrOTsdj7iSUgQT5NCCVoyLA6UxUHhPqgEmbS7Ltm
+ gKFzso/XqQUMIp4OKMIdJavsTYNCeE/GDK1hEpmyAIylLCys6Azs9P4nTvK+R7qR08hIzVaSdVP
+ esv84u+r9YFQP1s72Jkoe2XaOpsTPnl0kSTOmdhqYg8mtqSeTOxKfYvnyCT3BI0AW0a9ZD/ZEvu
+ GpL6smwx3QLSDqcesZ8ORHYpqsRagRT2H7uAPK/6616kJExZ5OrRJS0P/TpS08zlCftC+eBZ01V
+ 41BJhbVBWVKl5BPh94w==
+X-Authority-Analysis: v=2.4 cv=A/T5rKWG c=1 sm=1 tr=0 ts=6ae1e0fd cx=c_pps
  a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=gEfo2CItAAAA:8 a=7CQSdrXTAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=Iyi0AkbGYOnUpVGOj9oA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=NSEGM1D4AEf8_kYA:21 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=2UMQdz91M6SPgPM9X00A:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: AfBgDTijpaaFa09p7myW3CspiQwT0D40
+X-Proofpoint-GUID: AfBgDTijpaaFa09p7myW3CspiQwT0D40
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfX9If97mqPF962
+ QhfCCGHhaqsfelczKqWHjPAcOTbsuX3DAONJbDwZEvr9W3EyfwimvyEzOzvJAWJR4kWFDFRYvle
+ Tu1x14GZDdIrP0EbkFTTddVIJyOswlg=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-28_04,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 bulkscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280046
 
-From: Rob Herring <robh@kernel.org>
+From: James Morse <james.morse@arm.com>
 
-The binding is designed around the assumption that an MSC will be a
-sub-block of something else such as a memory controller or cache
-controller.
+The MPAM driver identifies caches by id for use with resctrl. It
+needs to know the cache-id when probe-ing, but the value isn't set
+in cacheinfo until device_initcall(). Even after device_initcall(),
+the cache-id is only available if at least one CPU associated with
+the cache is online.
 
-A key part of MPAM is we need to know about all of the MSCs in the system
-before it can be enabled. This drives the need for the genericish
-'arm,mpam-msc' compatible. Though we can't assume an MSC is accessible
-until a h/w specific driver potentially enables the h/w.
+Instead of making the driver wait, expose the code that generates the
+cache-id. The parts of the MPAM driver that run early can use this to
+set up the resctrl structures before cacheinfo is ready in
+device_initcall().
 
-This binding covers only the properties currently used in practice; it
-can be extended as additional features are needed.
-
-Cc: James Morse <james.morse@arm.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
 Signed-off-by: James Morse <james.morse@arm.com>
-[ Yin Li and Huang Yiwei: fix schema field order and yamllint spacing;
-  fix example reg addresses; reduce to minimal binding covering only
-  properties in current use, dropping RIS child nodes, memory controller
-  support, arm,mpam-device, cpus and interrupt-names ]
-Co-developed-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
-Signed-off-by: Huang Yiwei <huang.yiwei@oss.qualcomm.com>
 Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
 ---
- .../devicetree/bindings/arm/arm,mpam-msc.yaml      | 52 ++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/base/cacheinfo.c  | 17 ++++++++++++-----
+ include/linux/cacheinfo.h |  1 +
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-new file mode 100644
-index 000000000000..523978900d3d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arm/arm,mpam-msc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+index eb8a907f6d50..a4b10f3a9007 100644
+--- a/drivers/base/cacheinfo.c
++++ b/drivers/base/cacheinfo.c
+@@ -243,8 +243,7 @@ static bool match_cache_node(struct device_node *cpu,
+ #define arch_compact_of_hwid(_x)	(_x)
+ #endif
+ 
+-static void cache_of_set_id(struct cacheinfo *this_leaf,
+-			    struct device_node *cache_node)
++u32 cache_of_calculate_id(struct device_node *cache_node)
+ {
+ 	struct device_node *cpu;
+ 	u32 min_id = ~0;
+@@ -255,15 +254,23 @@ static void cache_of_set_id(struct cacheinfo *this_leaf,
+ 		id = arch_compact_of_hwid(id);
+ 		if (FIELD_GET(GENMASK_ULL(63, 32), id)) {
+ 			of_node_put(cpu);
+-			return;
++			return ~0;
+ 		}
+ 
+ 		if (match_cache_node(cpu, cache_node))
+ 			min_id = min(min_id, id);
+ 	}
+ 
+-	if (min_id != ~0) {
+-		this_leaf->id = min_id;
++	return min_id;
++}
 +
-+title: Arm Memory System Resource Partitioning and Monitoring (MPAM)
++static void cache_of_set_id(struct cacheinfo *this_leaf,
++			    struct device_node *cache_node)
++{
++	u32 id = cache_of_calculate_id(cache_node);
 +
-+maintainers:
-+  - Rob Herring <robh@kernel.org>
-+
-+description: |
-+  The Arm MPAM specification can be found here:
-+
-+  https://developer.arm.com/documentation/ddi0598/latest
-+
-+properties:
-+  compatible:
-+    const: arm,mpam-msc
-+
-+  reg:
-+    maxItems: 1
-+    description: A memory region containing registers as defined in the MPAM
-+      specification.
-+
-+  arm,not-ready-us:
-+    description: The maximum time in microseconds for monitoring data to be
-+      accurate after a settings change. For more information, see the
-+      Not-Ready (NRDY) bit description in the MPAM specification.
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    L3: cache-controller@30000000 {
-+        compatible = "foo,a-l3-cache", "cache";
-+        cache-level = <3>;
-+        cache-unified;
-+        reg = <0x0 0x30000000 0x0 0x2000>;
-+        ranges = <0x0 0x30000000 0x2000>;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        msc@0 {
-+            compatible = "arm,mpam-msc";
-+            reg = <0x0 0x2000>;
-+            arm,not-ready-us = <1>;
-+            /* CPU affinity implied by parent cache node  */
-+        };
-+    };
-+
-+...
++	if (id != ~0) {
++		this_leaf->id = id;
+ 		this_leaf->attributes |= CACHE_ID;
+ 	}
+ }
+diff --git a/include/linux/cacheinfo.h b/include/linux/cacheinfo.h
+index 56fa646df0d1..469d490968ac 100644
+--- a/include/linux/cacheinfo.h
++++ b/include/linux/cacheinfo.h
+@@ -114,6 +114,7 @@ int acpi_get_cache_info(unsigned int cpu,
+ #endif
+ 
+ const struct attribute_group *cache_get_priv_group(struct cacheinfo *this_leaf);
++u32 cache_of_calculate_id(struct device_node *np);
+ 
+ /*
+  * Get the cacheinfo structure for the cache associated with @cpu at
 
 -- 
 2.34.1
