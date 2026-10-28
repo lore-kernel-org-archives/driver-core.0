@@ -1,132 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.29
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793191103;
-	b=2tYs5zoZ9n9ibtF1wh25Txa4yFk9KCtvHDnfGT0XnGLFdX5BXGB6cTXA87NVjClLrCyZ
-	 Y5grHA0iRTaW7+7KqLo4Ej0pMJevHpsmprGhNbG78AZXFKetvc4ghy2SDtHwzyb6sDchh
-	 +DXb8lfcdcrBVJhWeJIKvrgv4sCaYmsLXJfdZpOKzVETA2unmnFYK0XcXpgPM6dlLbqww
-	 3c/bhhv6y7jygvkil52ivNNw71vrAR4kL/ZlsgSjx6OYjGWdS+v1/zJvdPDvpoRPp0Vtl
-	 3Rr2hAMo1HGRp7mOrWzt9M2FLK8NP6lGrGuRtW7yL6W8WMMndynQglWIVr1GEF9SJoQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793191103;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ehhlelUPDHGtOdSr3XJcikPbPNF0v5/FL0VaBPadzf0=;
-	b=SHvRHKmv1fZm6YA5yxVn/HCbi/WzfARyaymbD9bj4JIhp3u4PgDjFNdCHDaSbwpcu/0E
-	 soZYhEvpVtbRo1H1OP2xpjir8SGphN22urtl4qlW6bR6HYa8L0V2nYv7hDzBw828UCy7g
-	 JhKdztcM824Da7QGk/oaeSRnacDfxfg/kLgZRLeZqHK1mA4Ara9dvJJHNvi1wCpyiLJ6u
-	 HdJiwyWxWHhZQQOIziqm1zza96RZPNZ41XujR65Mjbmevv9un4WzrXD2eY9Bva5RvYm8W
-	 xPcyFVcFZ5EPg0zzrcSYRxL/m7kt8WNAS6GCiIpvAR5Ji3cVa8PxxCbgQEc/uJdNroQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=rsn6BR4O;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.29
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010029.outbound.protection.outlook.com [40.93.198.29])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793194943;
+	b=e2VFPAEykkgUtjiEqS/64giL/oH6NNJ0A5vu2UmcDe8J0VUaHurAbMiLTysJb6dDjzxk
+	 lAwa1UQlwYj2j/4PYWsMkaSqWjfWzrP6d9htR4JPhN/D0XZhU7KwU5LBTU2cXTBx78FXP
+	 6FMgzVp9GkHFhsH1A+tWswHAyWw2H9k9ZAuPSbvAy2Rfehn2V4D+fnZWGtPo7ZnOEsLvF
+	 HLOiXUhgGveyQp0HWSL02wZC2yilr5EL9SI4iJhEQnkpfYnTi5AYyumlaRGG6Oj6EDcJf
+	 7UEcKY+8JEr+eo3WVMC1dMTuCt+OQDTS+sLYLgrJssV3Qut2k7JA4G+mAfUJFm3TrPA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194943;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=vGGkmgZlyNVgmXZbc17aFcU5yqNlGUh8mJuGJ4CJ8Y4=;
+	b=LqnxmQ/NcxAXAQ8qD9Zq+1w53gcPJaZwuTJQvBg/5DaJVqQJsA1K5nk+0wdgUtYJSXHX
+	 0dDwFQyogSVIPWDmRa4C6r5IZ5zMEazjlxsqlZBUNaKJMIkHe4vtpYaIx1TkfNgnVviU5
+	 SBHeATUwj9FqoKpn4OgWIa640E3ziMTGRoXC71vxMj3BkOaqF1HDgz82j40+S2xW8DF+3
+	 DBn82PapZQHAxQYmEKq7MGHKA25+FPefeu5b+8rtEzYI7ykTs667VQF+Wo+VCGFAUTguu
+	 BdZFJe5Vb6e/+gMsmzeGC/EdC0Qs7La9KCkO3dgbAkJ3Mx4BvNcNogjTb6hM+1M3cXA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R3vQli9Z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779AB606A31A;
-	Wed, 28 Oct 2026 12:38:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 779AB606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5384F606A31C;
+	Wed, 28 Oct 2026 13:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=rsn6BR4O
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O4pagCpG+a+CIPiKgCP/E5MNXFQgcSq/W+LSPFfWYCce74OV5FBJxXT9doi7oqfqbMqA0YYCJcakmXNC4ItQGfK1aCGgIaGhYVakeG1CV9VMZ9O/4HBbrhbV0+HDpVLBW5pcBTq5afrXAFDkfYm8Q+ql+5aAHJfqX3lK0C9AsCoyifglNo1K/EXGG6VAedNektxJJ79CG4FH7IKisw1FA7ey6XJHHHh+nPWFzlGqLk9usWwRhzxu4zmiIHn2cTH6Xid+n2XJm/IFlVe2UJrXcvV8DJRLT+lMeepDNwnauK4N+YzUP3vSGO7dVBgBVBK2VQevpzJ/GTEG8dUBEDZGrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ehhlelUPDHGtOdSr3XJcikPbPNF0v5/FL0VaBPadzf0=;
- b=xRcC9Fmf5roxGVDZpLdrpH1jW3a209wbKf1QddeEgZWxX8cgM8JW/VNI4rXJq2OvdFm9DqEeO3emVzuCElSdIROrV68nXBRm/XnAgfrkeawAaoyGLJk1qyDpLJ7t8FeiTJNztFlsWu308D+dMMHkoRs1UxvoTL29PgzVr75YeiSuHABn0z5kuX/MKGa26aFh2ecsqLdT9AcxGt8HNQaKsY5lFSXiHC1d7IKOxKDZ/Iq/PB54cEErCp8srTWLpgH5K02+epEzTjqqRBmdvjwGBJj1IPZ+CfdvA+uEju7ov9/HxDhJHVurSHCL06/Cw18+JUrAQW+392RzAKKvXBbrsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ehhlelUPDHGtOdSr3XJcikPbPNF0v5/FL0VaBPadzf0=;
- b=rsn6BR4O8fg6OQwkZzX2+vrWpdrdv5CsLdHQeGIvDdPACtbtvhzgAwgF0a9UKTQL3mTQq7E7MkBHrPr4NAk/aXcD+DZWQbw1kebQJwbb5LoLGFRACF2NNyOELMZBSyzDcfvpw8OPJKnpAglAuov/Df3p9KZrjqx6FOGPxdl30muQcUlNJ/rAoGVvxjrFu78Wy4GZBO2SEw1WUHmX9f1spxfi2PTIIz50IGpRad+xYscPH5oEy8RJuuZ8CRvFnVud7R4NL6ZywQS0FjQ6GNbq4YgaFMpyCDkh7I95n8T4vL/OGLncpE5ooamfWzgosorf3azFVT6ZopjIYfbLOL1EXQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by SA1PR12MB7296.namprd12.prod.outlook.com
- (2603:10b6:806:2ba::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Wed, 28 Oct
- 2026 12:38:13 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0569.007; Wed, 28 Oct 2026
- 12:38:13 +0000
-Date: Wed, 28 Oct 2026 09:38:12 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Shameer Kolothum Thodi <skolothumtho@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Gavin Shan <gshan@redhat.com>, Vikram Sethi <vsethi@nvidia.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	"rppt@kernel.org" <rppt@kernel.org>, Thomas Huth <thuth@redhat.com>,
-	Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	"kas@kernel.org" <kas@kernel.org>,
-	Kohei Enju <enju.kohei@fujitsu.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Ard Biesheuvel <ardb@kernel.org>, James Morse <james.morse@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Omar Sandoval <osandov@fb.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Sam Edwards <cfsworks@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	Sonang Patel <sonangp@nvidia.com>,
-	Ankit Agrawal <ankita@nvidia.com>
-Subject: Re: [PATCH v1 4/8] dma-mapping: Keep DMA memory private for capable
- devices
-Message-ID: <20261028123812.GB2541714@nvidia.com>
-References: <cover.1789010941.git.nicolinc@nvidia.com>
- <abddd433493324a6bfdf8ba9710e96d90f0d1ccc.1789010941.git.nicolinc@nvidia.com>
- <SJ0PR12MB86145DBCF2ADDF3B85719531AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ0PR12MB86145DBCF2ADDF3B85719531AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
-X-ClientProxiedBy: BN0PR10CA0009.namprd10.prod.outlook.com
- (2603:10b6:408:143::6) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R3vQli9Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD601F01825;
+	Wed, 28 Oct 2026 13:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793194942;
+	bh=vGGkmgZlyNVgmXZbc17aFcU5yqNlGUh8mJuGJ4CJ8Y4=;
+	h=From:Date:Subject:To:Cc;
+	b=R3vQli9ZfyEM47iG/JusIyoMOVDtXvETH1TKeaU6E3ZL3msfDHQ/IV5z/3zkoW5ed
+	 YjKXCamzDRHgILZzUagvqoO6heI77Hk/fmhBBAuVCgqr89pMLWnHzU7B+tdnTUOcSe
+	 /O5gtTkzrOL1GA//aLTBt3nAv/Wrb9upc9Nw4C4E=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Wed, 28 Oct 2026 14:42:15 +0100
+Subject: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers"
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -136,86 +50,254 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|SA1PR12MB7296:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4adbab3-36ee-4066-d341-08df34f05502
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|11063799006|4143699003|56012099006|261009223027099003|261022105027099003|261026121527099003|261026140227099003|261021121427099003|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	ClENGOo2WVb5zzsMT4FEA+7sReqVNp6PHfAHAZwvoxEFTu3bXo0VsWZl7JTvUY0C3BJpsjulkFPlK95BHoM+/sOOTb347ySXdzmYNpgkS8rQh7Q/pcU8vAyxnVGdvglJqRpxwmeOy6pC1iQ0+wIbWO0KhWIhUFOOhQCNTQpUq3qNoF3T56OrzDyEc4LsIL0cDQiace9mE3AUANqsXZ9ce9mjL/M5TWXjCqRqEN00+SGajpE7NrDepEfwWnLJMHiNolNzczQdba4I577b9W5s9lTmM/sQykQaqr2PbPXhKCHr2ZEPn33oTp0qf8zbPLMVeQBnyHWjfgMU7Fo7vRUv2OL/P+JsKC3arAVT6h6Zm6FUdFq89m5QK+Zs2hx9iP324V5qtamHTUGgxdCcMGuIfyW4YegeZPxKJzaeM0S1/tWZIlv5V5q+MgoSTgBpU5DuRfhPW/llIQeTE0J5F1Z8fiIOj9xAViEzIL15GZjMDKnoWeUUjZJBQJCJ4SIE8hiVWxqbmlsfpLZNQDMn6qUbo3qTmLfsDaf2Wg2ljlVK8pUFdlPcoqREdu3KjIz7+KHO3R4c7De66SwtL8evcIMoAIM9GGmYHnRoioItTRA6RZL0AMhYWjKmZl8zwmBg2K3Dzgl4GyMbe09o8sQeFQGKrSqWIAmG5qwHjczi6xjRkt8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(11063799006)(4143699003)(56012099006)(261009223027099003)(261022105027099003)(261026121527099003)(261026140227099003)(261021121427099003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cuRB7G+iSDw5ppLLew/fqbkH904ZL2hTC2V4Dl2YBEfgfoTzOP9cjVP/lT8Y?=
- =?us-ascii?Q?1R8bvtF0N1QwejBBastdTVckPezURx04pxjR04W24+pFq14h4SH1cbF2cxde?=
- =?us-ascii?Q?0F1hrDSiaH76zliBx7H9jNeIc/RsHRZSGCgdJUTfTXfiFQiBDQHqUlWLqbJs?=
- =?us-ascii?Q?GPI36bJOzP3ZHP751ONqDtMfvpzRcan+g0M1eGmUl5GHBYH50AtOVl0xXdrh?=
- =?us-ascii?Q?egWK9xcrL+1zPcLTo0jyh+BiCUH3cNPy8RONkxsTdrtxnCJ3z1XNa007O2QQ?=
- =?us-ascii?Q?5+t9YsarhhsNF3qj0tQk4tHdw2i5kKOJAXfZRdC1aA8gJ7o0f5eYFDudbQqj?=
- =?us-ascii?Q?Tp6Z2eONaQTR9FwyzfYCVaGQ1VpBjVICM4UDuUdQriuQ4pmvbpu5sLYZPlm2?=
- =?us-ascii?Q?7ZnwhhXCPiLQLB/ZfsmwKXmHCsh1vaPB4b1pQ7YGuG0Mi4LSLBJo0WR5lnE0?=
- =?us-ascii?Q?jaXtbIJ0SptxbTFNZezCY3xE8w8yudF8VW7Hm9fPU2NTobz52d+b1gmD9+QY?=
- =?us-ascii?Q?QaFEP7bNLUFH49sI4pwzXnKeqT3IEK9KGMteEv3Y8keks3+wjaroZOoBp7Lf?=
- =?us-ascii?Q?5QyNNFp5fBZBUjMHC3+CPJu79rPoABk94gNSUKIGlT/DOvUBK+wGf4W76LsS?=
- =?us-ascii?Q?C0P++XzarhXcHVEMqJNqt4+Qx5T4XHJ4vSgaE1/HyTaE0cIbWR/T88VyY94p?=
- =?us-ascii?Q?rCE8lTZu7Z6BHg8W7fppDZPgM632RMTR3Y92wDwwm3dY3/VBnEsd2+tSexES?=
- =?us-ascii?Q?i796L3RpuWHeVDFjyWuadsEDQ3BU5r0i5S0XDLxDQLxSb+QihOphgoCjdVm9?=
- =?us-ascii?Q?ifdWcvnGE94wee1UQf35Fi06GCrVVWjffWwC1p1quRzQc2yHnPcyIWDSn3Wg?=
- =?us-ascii?Q?zre/Ilo08PDXoaQlP3Yk/j/1GD8Z+J/S3iODMErnZwGCp+vMBPIfLbhWVudt?=
- =?us-ascii?Q?RRXpnuZZyIYJLv7XcYMN0I5fYrlNaWkpm9zrXsMnSf99KfVvhUfuwbE8afID?=
- =?us-ascii?Q?We1fpi/xnUaO7Tfkxif6IcLhzsxTuCu1CLTLato7ppIv7yopnjZBMybN7Y/N?=
- =?us-ascii?Q?duANkthyWErdvO8nxjc8bolsfrDSO8mS/VWgN8hsZtmWi/qqrQvW+2ygGdR+?=
- =?us-ascii?Q?VR7P9GwShTU+7jK1hFen2qJS3sS+hQaKWzd4N0dZIGEkKsgmX4/8aj+swAFN?=
- =?us-ascii?Q?9Oh55BMIrE5WPWBRn/71rGecyxIvm1yltcG5AAkz5p7OEa3X0NAghWmqIkLZ?=
- =?us-ascii?Q?ergTbW4rud0crpAI5kZVbSpHl/Chi+rM9NiKxdYl35t2zzuFUN2Ny/LmFGkB?=
- =?us-ascii?Q?TG1X+0mVr9FqO0S/OYiHhGpaNH2EQ6/ohxefc/nyqIybOfwLEQfuoiHas521?=
- =?us-ascii?Q?P6m2RN956WVL6M7SIUsf+haMfwTaMC05UGTIonqih7HQZjY2RlburWAEY+T4?=
- =?us-ascii?Q?MoqJax00n/XFqFzT5UQWvbsEfKANPGR5+zyD7GVyRTg/ifNLrCEWxsxZLlAI?=
- =?us-ascii?Q?lk7J/juYWTfjvH9q+JV1LJq2k1R+PIP6tWfxbFWOaqBnCr+v3TjosJ80gqEL?=
- =?us-ascii?Q?yjV/Yg0bnGErtCWijcD81CpSBLQ9N4G9Y9GVr1ZdlnLXIMcRGnL3KhwMdEPZ?=
- =?us-ascii?Q?dSLPeW5pXf6zDI6QNsjqg9pmxMQOC48NNo8YT2ATrDwqbZNAq7GStnn0Wt+K?=
- =?us-ascii?Q?oDIxLCgZAqJsy45JSYuF+9eqTs+Qh7JccRWdBiywDOAmeb3S?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4adbab3-36ee-4066-d341-08df34f05502
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 12:38:13.3956
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GBsgkPoulxa5UCAYA0qnOBS/UMnCS0SOw99hrUAUOYj6C3JheKA3ZIy6Pty4h4zb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7296
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261028-bind_taint-revert-v1-1-7c6b9cef30c9@linuxfoundation.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAMBTG8VfRubaaEfIqks7m4LgYbSMl7264/
+ NX3/S/w5Jg8NMkFjg72vNqILE3AzGgnEjxEg5KqzKSqhWY79AHZBhH35IKQaCo0KpdlgRB/m6O
+ Rz6/Zdr/9rhcy4Q3BfT+y8ceNdQAAAA==
+X-Change-ID: 20261028-bind_taint-revert-0ac7ac23064a
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+ Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Michal Pecio <michal.pecio@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: b4 0.17-dev-e5168
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9825;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=WEjDzOBuI0zhJ6U8i83hUCjPMIw/Sk9SQRDgYzrzWcw=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPf+9ZW6f+zcwxeNbNGO9tVaa2nm9/+HiZeq1+O/UXu
+ 5ala8u2jlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIfimG+U59E5+o2nHscv7i
+ 6brRddMx/21pZxkW7L8YXn12FnOZmcnEa8f0dysdmxi2GwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-On Wed, Oct 28, 2026 at 10:42:15AM +0000, Shameer Kolothum Thodi wrote:
+This reverts commit fcbfaffee51a452cc8efcbaa3b88ec4595678424.
 
-> > @@ -1552,7 +1552,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device
-> > *dev, phys_addr_t orig_addr,
-> >  	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
-> > 
-> >  		/* swiotlb pool is incorrect for this device */
-> > -		if (unlikely(mem->cc_shared !=
-> > force_dma_unencrypted(dev)))
-> > +		if (unlikely(mem->cc_shared != dma_require_decrypted(dev)))
-> 
-> Just wondering, what if a device with CC_PRIVATE set has addressing
-> limitations and needs a private bounce buffer?  Or is that not a use case
-> at all? 
+Turns out that vfio is a crazy beast and people have been "relying" on
+the bind/unbind debugging feature as a way to handle passing through
+devices to guest instances.  Because of this (https://xkcd.com/1172/),
+let's revert the feature for now until we can figure out a more agreable
+way to handle this such that normal workflows do not taint the kernel.
 
-Then it will correctly fail here because it is not implemented. This
-protects accidently copying what should have been private data into
-shared memory.
+Odds are something like what Uwe proposes at:
+	https://lore.kernel.org/lkml/cover.1790612298.git.u.kleine-koenig@baylibre.com/
+will be the best way forward and will be revisited after for after 7.4.
 
-If someone ever needs this they will have to implement a swiotlb pool
-for private memory along side the shared pool.
+The feature was originally intended to stem the flow of unnecessary
+fuzzing reports of "broken" drivers where random devices were being
+bound to random drivers and of course things were going wrong.  The main
+syzbot tool is now not doing this anymore, and hopefully no one else
+starts it up again (but in this madness of LLMs these days, you can't be
+sure.)
 
-But a device that can't reach all of private wont' be able to reach
-shared either, so it is basically fully broken, don't do that. The VMM
-Should be setting the address layout of the VM so that the devices it
-installs 'fit' within their addressing constraints. ie do not create a
-VM with a 52 bit address space when your device only supports 48.
+Thanks to everyone for telling me just how wrong I was to implement
+this, I appreciated the feedback :)
 
-Jason
+Link: https://lore.kernel.org/all/DLIL9H50MALI.3JROXYEEUM3KU@kernel.org/
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Reported-by: Leon Romanovsky <leon@kernel.org>
+Reported-by: Jason Gunthorpe <jgg@ziepe.ca>
+Reported-by: Michal Pecio <michal.pecio@gmail.com>
+Reported-by: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/admin-guide/tainted-kernels.rst | 52 +++++++++++++--------------
+ drivers/base/bus.c                            |  3 --
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/panic.c                                |  5 ++-
+ tools/debugging/kernel-chktaint               |  8 -----
+ 6 files changed, 28 insertions(+), 46 deletions(-)
+
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index a208811ad525..3d312bc17942 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -79,31 +79,30 @@ which bits are set::
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-===  ===  =======  ========================================================
+-Bit  Log  Number   Reason that got the kernel tainted
+-===  ===  =======  ========================================================
+-  0  G/P        1  proprietary module was loaded
+-  1  _/F        2  module was force loaded
+-  2  _/S        4  kernel running on an out of specification system
+-  3  _/R        8  module was force unloaded
+-  4  _/M       16  processor reported a Machine Check Exception (MCE)
+-  5  _/B       32  bad page referenced or some unexpected page flags
+-  6  _/U       64  taint requested by userspace application
+-  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
+-  8  _/A      256  ACPI table overridden by user
+-  9  _/W      512  kernel issued warning
+- 10  _/C     1024  staging driver was loaded
+- 11  _/I     2048  workaround for bug in platform firmware applied
+- 12  _/O     4096  externally-built ("out-of-tree") module was loaded
+- 13  _/E     8192  unsigned module was loaded
+- 14  _/L    16384  soft lockup occurred
+- 15  _/K    32768  kernel has been live patched
+- 16  _/X    65536  auxiliary taint, defined for and used by distros
+- 17  _/T   131072  kernel was built with the struct randomization plugin
+- 18  _/N   262144  an in-kernel test has been run
+- 19  _/J   524288  userspace used a mutating debug operation in fwctl
+- 20  _/Y  1048576  device was manually bound or unbound from a driver
+-===  ===  =======  ========================================================
++===  ===  ======  ========================================================
++Bit  Log  Number  Reason that got the kernel tainted
++===  ===  ======  ========================================================
++  0  G/P       1  proprietary module was loaded
++  1  _/F       2  module was force loaded
++  2  _/S       4  kernel running on an out of specification system
++  3  _/R       8  module was force unloaded
++  4  _/M      16  processor reported a Machine Check Exception (MCE)
++  5  _/B      32  bad page referenced or some unexpected page flags
++  6  _/U      64  taint requested by userspace application
++  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
++  8  _/A     256  ACPI table overridden by user
++  9  _/W     512  kernel issued warning
++ 10  _/C    1024  staging driver was loaded
++ 11  _/I    2048  workaround for bug in platform firmware applied
++ 12  _/O    4096  externally-built ("out-of-tree") module was loaded
++ 13  _/E    8192  unsigned module was loaded
++ 14  _/L   16384  soft lockup occurred
++ 15  _/K   32768  kernel has been live patched
++ 16  _/X   65536  auxiliary taint, defined for and used by distros
++ 17  _/T  131072  kernel was built with the struct randomization plugin
++ 18  _/N  262144  an in-kernel test has been run
++ 19  _/J  524288  userspace used a mutating debug operation in fwctl
++===  ===  ======  ========================================================
+ 
+ Note: The character ``_`` is representing a blank in this table to make reading
+ easier.
+@@ -190,6 +189,3 @@ More detailed explanation for tainting
+  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+      to use the devices debugging features. Device debugging features could
+      cause the device to malfunction in undefined ways.
+-
+- 20) ``Y`` If userspace wrote to the `bind` or `unbind` sysfs files and
+-     successfully bound or removed a device from a driver.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index f8759d5c9056..396097fdb316 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -19,7 +19,6 @@
+ #include <linux/string.h>
+ #include <linux/mutex.h>
+ #include <linux/sysfs.h>
+-#include <linux/panic.h>
+ #include "base.h"
+ #include "power/power.h"
+ 
+@@ -242,7 +241,6 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+ 
+ 	dev = bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && dev->driver == drv) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		device_driver_detach(dev);
+ 		err = count;
+ 	}
+@@ -266,7 +264,6 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
+ 
+ 	dev = bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && driver_match_device(drv, dev)) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		err = device_driver_attach(drv, dev);
+ 		if (!err) {
+ 			/* success */
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index 23976b1dfdb6..17e61b61c45f 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -89,8 +89,7 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+ #define TAINT_RANDSTRUCT		17
+ #define TAINT_TEST			18
+ #define TAINT_FWCTL			19
+-#define TAINT_FORCED_BIND		20
+-#define TAINT_FLAGS_COUNT		21
++#define TAINT_FLAGS_COUNT		20
+ #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+ 
+ struct taint_flag {
+diff --git a/include/trace/events/module.h b/include/trace/events/module.h
+index 19df3e39bba4..e5a006be9dc6 100644
+--- a/include/trace/events/module.h
++++ b/include/trace/events/module.h
+@@ -26,8 +26,7 @@ struct module;
+ 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
+ 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
+ 	{ (1UL << TAINT_CRAP),			"C" },		\
+-	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
+-	{ (1UL << TAINT_FORCED_BIND),		"Y" })
++	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
+ 
+ TRACE_EVENT(module_load,
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index b824b68fcb08..574ee5a12f92 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -825,7 +825,6 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
+ 	TAINT_FLAG(TEST,			'N', ' '),
+ 	TAINT_FLAG(FWCTL,			'J', ' '),
+-	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
+ };
+ 
+ #undef TAINT_FLAG
+@@ -862,9 +861,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
+  * exact size is allocated dynamically; the initial buffer remains
+  * as a fallback if allocation fails.
+  *
+- * The verbose taint string currently requires up to 344 characters.
++ * The verbose taint string currently requires up to 327 characters.
+  */
+-#define INIT_TAINT_BUF_MAX 370
++#define INIT_TAINT_BUF_MAX 350
+ 
+ static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
+ static char *taint_buf __refdata = init_taint_buf;
+diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
+index d8628be37214..e1571c04afb5 100755
+--- a/tools/debugging/kernel-chktaint
++++ b/tools/debugging/kernel-chktaint
+@@ -211,14 +211,6 @@ else
+ 	addout "J"
+ 	echo " * fwctl's mutating debug interface was used (#19)"
+ fi
+-
+-T=`expr $T / 2`
+-if [ `expr $T % 2` -eq 0 ]; then
+-	addout " "
+-else
+-	addout "Y"
+-	echo " * device was manually bound or unbound from a driver (#20)"
+-fi
+ echo "Raw taint value as int/string: $taint/'$out'"
+ 
+ # report on any tainted loadable modules
+
+---
+base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+change-id: 20261028-bind_taint-revert-0ac7ac23064a
+
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
