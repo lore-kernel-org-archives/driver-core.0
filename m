@@ -1,84 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793152885;
-	b=2JgqwjKBiwRMMEYE+IECxcMhn2d1/DmANWjI7VnxplpW89q20/8RSOO/oWgWYsQFu4iL
-	 QGVVNhuPHdatBoILX6WpbODAwFG6NR8r6mGnVq82DGVzI3Q5uUnpF4Dazs+OFMbe8pnT4
-	 EmeIkLO+IKpxte8lRnPuAXT9pH2Xb2UaOnP4KdLgUHv3yxlw/OQBawHR6XeVCJsHTJ+S9
-	 3EANm6oifUVJ9eSbk6i8qWz1Cn72VBq8SGPbL2yI7ph9fd2zs5Dfq1ppCalreyzA2HYOz
-	 dXuHH60C/j3BDbGsuZ4wDnPyOiWYt5MpMhCQKMHv8AA4dO0iZSf+LI43CgRlWP5UYkA==
+	t=1793158587;
+	b=eqn9MIVaH6c8+iZFGOyXFGFtviSS3ICwtDCWZewR+wVox92+OSf0lIobxb4BNt3cmqrs
+	 91lCfHo0gevbNCbgdB71BuXo8Ree2wWvD6WbhMZEAXM8kcGu25tz6LQJDB3tjZUNRvA6M
+	 vshuQu4C4OZA5nR3Lz++4ty5Mqk3uXuoDcXYmCWMIfeuOTpUzGHLwKpgcHkACu7QBET0y
+	 oZIIbQNg+1GiSJz8xPlmFk+jwXXclM2H3/z1QBt02AIdCLKsDj9zwc53uGrX3L8DYrM4r
+	 ER9u6YouxmCIY5FpXUqsyc5tGDCL4TvPaA5QbHwgWenHRw5kQTrnPIn+bghGqkpQLvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793152885;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
-	b=utnMUaboIwFrYUgcVH2WQenSDBFjgroxTdEZNFFi0egjtzDkaSET2xwoI76o0bM8bkhY
-	 /BJ38eP08V+TSyCuecTsSFo4JrBjY9x7dmfd2MWOlcJFqsLE3OfCAgWNI4hIl5RHVt+HY
-	 ZqRganMbeZ0RRJR9eSuoDelRzYfTTgRQ+41rEXiPrIt7i5Ls1O0zzmG2RwkYk0fudCXu2
-	 WZLpr3+ftxWEqEauHueBK+0Ww/Be/IepQnuBJs+axlI9Pk3Em8/UEUYVL4BWk9XF2Mtdf
-	 yqICRAhQT5d9RyiLUQz+6d1zJ5MBJ4m1bF6RVZwZT+b4V+ZvhG3iUGzJooM+5Vm2heg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158587;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+	b=JkJ5JMbhHvKxBZUsZoSi6fJZn7u5iDdZZjVd418uHqFx32THMLEO+AvQQYrkZBge3BXX
+	 uqQh0SEymRvetdwAI2XQaMjCCXfDgUlpeZCJ3WCASc8Wnc5yahl8zXlIa2pi21QzT35GF
+	 UF6ArY3WF5qvfi5xRamrRsjN7vuIhhRqMCxvhSQcoBekiaJfOmT2mtOPTCN5oPLtzV64h
+	 kFi5rTRzDw3iLaaofVFjcqAjPVXMXhukBslgRWt3cEq3qJ1Yr4vR/6SYU6kf+j71Novi5
+	 QmEdSk6GangXa6tV+cn8Y429BzWgAPrlRWGOMQTHQtZpyiwOc7RJY34hFR8rUxNUvxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT5oBP4F;
-	arc=none smtp.remote-ip=209.85.215.175
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=FHQf9fGP;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE62606A31D
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 02:01:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAE62606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E189606A325
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E189606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jT5oBP4F
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so282783a12.3
-        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 19:01:24 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=FHQf9fGP
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S0ipDx2904891
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=; b=Jve2qMQHUqrEssgK
+	LflW6/l7KZ234zJVmm5v4avWWbV1TcUiioz11IU7xNAS3yhP+6JpgpsoOMhZWZvJ
+	IPei/BNfJ7ExWg/tShStITm6QZsRQXDRsGswXFZFnq+o9ga6nmbSa33m3OhRLXWT
+	jNycF1Ub6eUUeiAVgYu5ZaX6svI7KSL3EU6+K53Rnc/d554YMUVQJALzktVCxxiV
+	q+Kz86xf3mp9SK5/sBZk8qiecR2lpX8aT+GhaHVmok95F2t7X+5DAAukw34dJtRr
+	PnVGLMYR/XaeQ9zEg45sqiPgK2kxAakvx9jugL9konNgiu/4GNvqT3B3MXccU96s
+	aGnIQQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hk6f90jmm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:25 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ab2395f104so466194a91.2
+        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 20:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793152884; x=1793757684; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
-        b=jT5oBP4FAdvMbdZorF5jHrFCZekLOrXLmYmlP6Z4CKQ8ncU7zRJjmedXjz6agXdJGj
-         rp2NMUYSMkypRgYAuSh1+xIJEF4M9z1b37F1Hjn6NEy0E+m2dR5yIW7ZN9IQpAajCMWJ
-         xy9Bv2dR1j+Ls3jZWE2T1fLqEj+Az0PTr9BeBSdWnd97qoNtvHpe/yy04Mp/REiW8w1L
-         DPGt/PJOShPNKc+1eUGRAQlyPWujkJgKhJAs0pOtHvjdAoEiK9BuLkXi+mTYAn9nEnsN
-         VCxUAgJ3GXsTonE5i3YABUicCOobS8DTrFRn9wI/PYCNhOarVLgUAva4NbL6DjtjujnN
-         GaFA==
+        d=oss.qualcomm.com; s=google; t=1793158585; x=1793763385; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+        b=FHQf9fGPhZVmw97B/oXjmcAD5p3t8VJzTHKoZWrLbV6wJn3x8R4bu2ob5JmLPiUtAS
+         05ROPmdpe+vO2qdW1n7TrZ90jKcQGU/IP4+h7xAY5l0yd/6OvL6De+ziBFyGec8qJxoF
+         nXWXbovV0AUKNJy9dqjbrWplAQm2ask5c9d8YSSBhIV+x6vQC0EojyoXLR1SofgfyL5c
+         whNlCEnG3pvGS0DCweenwXlH0zX2VjM67mdm0ij+nbYc/4UeNZjjXM4ZWLVmHgYLm/Fz
+         RZlpQSEFuF4Oy/X138YKkfupME5KFW2jb7BZNnCjI+uPeNPQbNDm3WtdswGDVJKYOrR+
+         yi4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793152884; x=1793757684;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=G75y1YLNoCtbZmx1sascr2IuvagtUn76+vozuZ2IkZQ=;
-        b=wi2Pc+2dbVGcI2mhgz+Mh5jjW9DHFc2gBVwIEkzEN9gjnJrQJdM/SgEMdpSOULFAyb
-         sUdd7yhJgSL30SEuEhazaHXA6xSjyxkD2CD9T4JaiAZvJrSWsPekvttqf9XZnLpgMI4d
-         +IpTSiijlbME9fcP8a4P166ylt5tgNl3gbI7CQ+t5qqgotzF64wIcT9xvNT+lP8B8urz
-         4VAgSmmCDmuWl6sLZkHY4mhOjrd7IJcCrq1b53TuqmWMVMnKjVxDwWots03sjaLs0ocD
-         F0YdV3zS70woe19dWRj38ZjmHkaxHboCdjh6tFu1Vgg/AaW2Ck1lbmb1NMp7Sdlfr0IT
-         3tbw==
-X-Gm-Message-State: AFq9FYJWeL8bYcYDNX5MIUnnSF6manb+F1T9jAdrCVXc6h8kYgrH4AOG
-	l1xLLRBkAgXZZOLrogNoM3UW+hFj3x4InKsF4m/Lo3LMsoQ4iB35kk8+
-X-Gm-Gg: AYBFou1HOEtFgFEesGWL3VHXZXx9S+qJVjNQ+VATxMRK30N8bcZgrH/Nw6TDw0y1uwc
-	ipTiRRptofLwuYLG/4NgP+GljWlycUwXnpmBik7NsL+0HqG72xsHSslqymcu+7n5cp142numSgk
-	ngTC2usaU2Y2d+poBaEl4z8LeBxn+DJKgTVIX7KHdxCOW+RuB4QzGnojSOjsBTc2UMinROy4XSF
-	rhecta8eOsI6EpSXlKYYC809623zjdN3Jp9K5IFEOzDo9qF6XqmGSW3GU36TkEISdYPl8wCPcSu
-	XSjTTogPz1DBCeJ4m/dnDrnk7CubdUwYjAfBrSXu21OPpkjGtedEDBzqhWYXILWrVpcDdemqekO
-	7Ql9cD2EnUgt7dFTi7i0VhZOLK4k6mqM0iYarEvS7OvH062yCqBfL3qdZ9zfrxEnsAzBdBOhcit
-	ITSoA8CMWW9SWT/diU8loCWA1Z43cIYZWGGRQiXwZ8OG3b+hSCOnnPeX2eu3OB0rUNOEGq09y1u
-	lKUZCsrqk+CaI8fCbzwl5rS0nOJOhgm8zN5GggAEdHDxTyKUIDupXw=
-X-Received: by 2002:a17:90a:d603:b0:3ad:818f:3da2 with SMTP id 98e67ed59e1d1-3ae5823f4eemr499438a91.63.1793152883883;
-        Tue, 27 Oct 2026 19:01:23 -0700 (PDT)
-Received: from [127.0.1.1] ([169.211.140.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae55d5efe2sm659155a91.1.2026.10.27.19.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 19:01:22 -0700 (PDT)
-From: Kwanghoon Son <asdfkwang@gmail.com>
-Date: Tue, 27 Oct 2026 22:00:48 -0400
-Subject: [PATCH] rust: io: mem: Fix exclusive MMIO region requests
+        d=1e100.net; s=20260707; t=1793158585; x=1793763385;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
+        b=TefFmdrxOhCUh+lEzGXos4ukxWKQ2xlefxyKTF4EWCZ/JvcfUqpwcz1Z1V+Cnh7Ubw
+         rO50XJfg2/9DaG0iexdeDccv21S6ysFBNCd6npjCMJN/PxJ+zhoG1VSrTPc/T9xvgTuR
+         46hZKXMOfR2BwRpmmoQM7sMQaWxMZgEBrbCITylI6yVIP4FPSelXspeEDCv8/jee/ifV
+         K77f4BAPNxnPY9xNOwCfvCgva1uIH52EvMVzPTfL4IqKajy573FIaZ1zbRkhvyP8Wj0g
+         C0+sLXZdrgaECYt8eWrW2b+OK502teQu6XyEGb3Ats/zcOtOlwIeXDlBdzRGMGsjyzDC
+         0goQ==
+X-Forwarded-Encrypted: i=1; AKwUvByAjQFe3TAD/9ZasjzKsOIaWUADSDMbwqQJJYKqOiHF12JVaoLoOMmt4C9XKntDdRaTVzFU7Vuv3iaOQQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJHloqgwbVKY5b5QD8Tt386MM1mJZGSStmfSbk/JOuTMsySP7xr
+	Gk4rB8vfck2PtyrtgbI+prnJaNr4/4U+9buZTUKGpl99IFK0+bNrcB1fvuUhvZKrLxWIsl8yuXM
+	vYTFnpWmihFPAnmJyo4QH3Ru+l5YY1Eop06Vb6M3AjQIJgT12xkD22xZYrjZg+rLqFg==
+X-Gm-Gg: AYBFou07QLbygZJRObdr5A4Au4X/LCxO3AfMuyxvSG0nU4QB9Q5xEdz0Xkkp0vz8EY3
+	vGYUOUeNQ9/oApKlE8Ee0bCaZ+a1OTnZc9rmwO8HbXHYb+TUEFsK6cPR1hvq34yupUOf9/kRqEp
+	PbaEvjr5alosxFxpzu30hIi6bduGfuA1Lm4XyvpQ3qs0S0eh0h2Azxsd1rjWdXizarbnpqDcL03
+	sFYoUoMGU0F5FeJzUGnKzLTWp+it4LMfoHxKWLCqE/b3YTSIibQhBBJ9begnT8KY+ZXbz750J3c
+	m9AdOgIkYtbWqz0jUXty9DIfl1lHpYU6eZ/M/+ATTFW3aVRBHsIvqEHhzwFzH542uC4DgYCeUpw
+	PVNqBsoz8Oiok5j8R2OVLjmQl7KwB07kz1wrCfs7d72MY6ccxEe57cR1vKAK+5n/B1GigYkBKsi
+	hEN5uIqNausJYTXA8f3h4g2ruldBGbG+ATM8pNK9kf3x8=
+X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818175a91.38.1793158584994;
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818144a91.38.1793158584441;
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+Received: from [10.133.33.27] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae5a48ec90sm899533a91.6.2026.10.27.20.36.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
+Message-ID: <e5bd0521-36d1-447d-b71a-94a2e07414e2@oss.qualcomm.com>
+Date: Wed, 28 Oct 2026 11:36:16 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -88,102 +116,181 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/9] cpufreq: governor: Initialize kobj_type release
+ callback statically
+To: Ian Rogers <irogers@google.com>, Kees Cook <kees@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+        xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
+        zhongqiu.han@oss.qualcomm.com
+References: <20261027223847.652884-1-irogers@google.com>
+ <20261027223847.652884-5-irogers@google.com>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <20261027223847.652884-5-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-b4-rust-iomem-origin-master-fix-v1-1-16215ae197af@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAE9X4WoC/x2NuwrDMAwAfyVorsA2zoP8SungpLKjwXaR0hII+
- feYjnfD3QlKwqQwdycI/Vi5lgb20cG6hZII+d0YnHGDNW7ExaN8dUeumTJW4cQFc9CdBCMfOE1
- 9tBSc93GBVvkINf0/PF/XdQNf69Q/cQAAAA==
-X-Change-ID: 20261027-b4-rust-iomem-origin-master-fix-885f1ea244fb
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Kwanghoon Son <asdfkwang@gmail.com>
-X-Mailer: b4 0.14.2
+X-Authority-Analysis: v=2.4 cv=frhJ914f c=1 sm=1 tr=0 ts=6ae16db9 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=1XWaLZrsAAAA:8 a=MbyaxBA4Lnn_ULkWIDkA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfX6lpGaciGQAdB
+ HgefUlLkLc1rS3ru7HXuVSXj4e4nVfsOSqMt46vLbxKvjfeq/aSf2/XEPJG+rK10Ye1CKVCK0hG
+ igDuVDnoEQv40msxjIor0S6AEUB7VX4=
+X-Proofpoint-GUID: dI8XYlr97E2Av7vnYW8GQlIlTU38jKwV
+X-Proofpoint-ORIG-GUID: dI8XYlr97E2Av7vnYW8GQlIlTU38jKwV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfX9FgvE8kPl+YM
+ AdhXjQVXvpnkB6DQt/p8cQKob3oC3NryfbfQUyQ+D7QfOko89VwJIzGgPrpWDm3yYXDz/im8/A3
+ UXm+RamMG2FUR9ywr6acL7MRcw1NbWyG0cRI9HElcbM6Z+ArSeYoumBaC1Yu+itJR/CP1/coICo
+ PQqkS9xWq7gPSb3qc7YoMCzrXMhvS3tzme69Az0h93G3HgQuxxO/l9dHhydg3bi6NvXhjC2VW4o
+ +FqiQaDX6ovCWgJqF28GlqkHCJgGq8/d3jhVlqnOOxXYhtQz59cMCkBgnp1JWUuBg3lBGkFBwJI
+ +Dh0XrkheXv9wx9F3vdQ1ubXM4Wx9RS7JTDKGJMqxFsiJB6kJY/FQ6uQN2rDWWqANysrFYnWblZ
+ gKHHFDaaG15tbSVR5PTHzsxtieYpA6P0J2+tWvKsCFOft3e314UdQ4y1ICVfU9wAit+4L0xdH/F
+ rDEDzlPCorVCXISF/0g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_01,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 suspectscore=0 adultscore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280014
 
-C's request_mem_region() reserves MMIO in the global resource tree.
-Rust's ExclusiveIoMem reserves it under the device's resource instead,
-so the global tree may not see the reservation.
+Hi Ian,
 
-Request the region from iomem_resource, matching request_mem_region()
-and the existing release_mem_region() call.
+Thanks for the update.
 
-Fixes: 1d0d4b28513b ("rust: io: mem: add a generic iomem abstraction")
+On 10/28/2026 6:38 AM, Ian Rogers wrote:
+> Export cpufreq_dbs_data_release() and set .kobj_type.release statically
+> in the ondemand and conservative governors so their gov_attr_set
+> kobjects have a valid release callback statically initialized, matching
+> cpufreq_governor_dbs. Remove the redundant runtime assignment in
 
-Signed-off-by: Kwanghoon Son <asdfkwang@gmail.com>
----
-The bug can be reproduced with QEMU arm64 virt's existing DT node
-(CONFIG_FW_CFG_SYSFS=n):
+"matching cpufreq_governor_dbs" is a bit confusing to me
+(cpufreq_governor_dbs() was removed back in v4.8 by commit e788892ba3cc
+("cpufreq: governor: Get rid of governor events")), as it doesn't
+seem to refer to anything in the tree. Perhaps we could just drop it,
+e.g.:
 
-    fw-cfg@9020000 {
-        compatible = "qemu,fw-cfg-mmio";
-        reg = <0 0x09020000 0 0x18>;
-    };
+Export cpufreq_dbs_data_release() and initialize .kobj_type.release
+statically in the ondemand and conservative governors instead of
+assigning it at runtime in cpufreq_dbs_governor_init().
 
-A small Rust platform driver matches this node. Its probe maps the
-resource and returns the mapping as driver data (excerpt):
 
-    let io = pdev.io_request_by_index(0).ok_or(ENODEV)?
-        .iomap_exclusive()?
-        .into_devres()?;
+The code change itself looks good to me. With the changelog updated
+(in a respin if the series needs one for other reasons, or when
+applying):
 
-Unbind and bind that driver again:
+Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
 
-    cd /sys/bus/platform/drivers/mmio_repro
-    echo 9020000.fw-cfg > unbind
-    echo 9020000.fw-cfg > bind
+> cpufreq_dbs_governor_init().
+> 
+> This prepares for annotating struct kobj_type::release with
+> __must_init.
+> 
+> Signed-off-by: Ian Rogers <irogers@google.com>
+> ---
+>   drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
+>   drivers/cpufreq/cpufreq_governor.c     | 4 ++--
+>   drivers/cpufreq/cpufreq_governor.h     | 1 +
+>   drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
+>   4 files changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/cpufreq_conservative.c
+> index 02bfd46543e9..146a2353b1a2 100644
+> --- a/drivers/cpufreq/cpufreq_conservative.c
+> +++ b/drivers/cpufreq/cpufreq_conservative.c
+> @@ -318,7 +318,10 @@ static void cs_limits(struct cpufreq_policy *policy)
+>   
+>   static struct dbs_governor cs_governor = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
+> -	.kobj_type = { .default_groups = cs_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = cs_groups,
+> +	},
+>   	.gov_dbs_update = cs_dbs_update,
+>   	.alloc = cs_alloc,
+>   	.free = cs_free,
+> diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufreq_governor.c
+> index f3bd3dbe7c41..f8b5aca09b6b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.c
+> +++ b/drivers/cpufreq/cpufreq_governor.c
+> @@ -419,7 +419,7 @@ static void free_policy_dbs_info(struct policy_dbs_info *policy_dbs,
+>   	gov->free(policy_dbs);
+>   }
+>   
+> -static void cpufreq_dbs_data_release(struct kobject *kobj)
+> +void cpufreq_dbs_data_release(struct kobject *kobj)
+>   {
+>   	struct dbs_data *dbs_data = to_dbs_data(to_gov_attr_set(kobj));
+>   	struct dbs_governor *gov = dbs_data->gov;
+> @@ -427,6 +427,7 @@ static void cpufreq_dbs_data_release(struct kobject *kobj)
+>   	gov->exit(dbs_data);
+>   	kfree(dbs_data);
+>   }
+> +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
+>   
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>   {
+> @@ -488,7 +489,6 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+>   	policy->governor_data = policy_dbs;
+>   
+>   	gov->kobj_type.sysfs_ops = &governor_sysfs_ops;
+> -	gov->kobj_type.release = cpufreq_dbs_data_release;
+>   	ret = kobject_init_and_add(&dbs_data->attr_set.kobj, &gov->kobj_type,
+>   				   get_governor_parent_kobj(policy),
+>   				   "%s", gov->gov.name);
+> diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufreq_governor.h
+> index 806d8fb4dff1..1026712bb79b 100644
+> --- a/drivers/cpufreq/cpufreq_governor.h
+> +++ b/drivers/cpufreq/cpufreq_governor.h
+> @@ -150,6 +150,7 @@ static inline struct dbs_governor *dbs_governor_of(struct cpufreq_policy *policy
+>   }
+>   
+>   /* Governor callback routines */
+> +void cpufreq_dbs_data_release(struct kobject *kobj);
+>   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
+>   void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
+>   int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
+> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
+> index 9942dbb38dae..7386d043c665 100644
+> --- a/drivers/cpufreq/cpufreq_ondemand.c
+> +++ b/drivers/cpufreq/cpufreq_ondemand.c
+> @@ -374,7 +374,10 @@ static struct od_ops od_ops = {
+>   
+>   static struct dbs_governor od_dbs_gov = {
+>   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
+> -	.kobj_type = { .default_groups = od_groups },
+> +	.kobj_type = {
+> +		.release = cpufreq_dbs_data_release,
+> +		.default_groups = od_groups,
+> +	},
+>   	.gov_dbs_update = od_dbs_update,
+>   	.alloc = od_alloc,
+>   	.free = od_free,
 
-Before the fix, unbind prints "Trying to free nonexistent resource"
-and bind fails with EBUSY. With the fix, 100 cycles pass. This was
-repeated in three fresh guests for each kernel.
----
- rust/kernel/io/mem.rs      | 2 +-
- rust/kernel/io/resource.rs | 6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-index 32a919099dcda79bc4b795a8a1c5f553c989b9b7..80da665821c036257900c6ea45b9419cb573c187 100644
---- a/rust/kernel/io/mem.rs
-+++ b/rust/kernel/io/mem.rs
-@@ -196,7 +196,7 @@ fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
-         let size = resource.size();
-         let name = resource.name().unwrap_or_default();
- 
--        let region = resource
-+        let region = Resource::iomem()
-             .request_region(
-                 start,
-                 size,
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index 758ce62b3cce33c14e1e4c56a793af0e00657aa6..c99a2530186fc56bdc3405adc15d0801b98eae08 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -79,6 +79,12 @@ unsafe impl Sync for Region {}
- pub struct Resource(Opaque<bindings::resource>);
- 
- impl Resource {
-+    /// Returns the global I/O memory resource root.
-+    pub(crate) fn iomem() -> &'static Self {
-+        // SAFETY: iomem_resource is permanent; C serializes resource-tree updates.
-+        unsafe { Self::from_raw(&raw mut bindings::iomem_resource) }
-+    }
-+
-     /// Creates a reference to a [`Resource`] from a valid pointer.
-     ///
-     /// # Safety
-
----
-base-commit: 8a36f53fd5ec3eff01f1b637d42cbdc3821d0493
-change-id: 20261027-b4-rust-iomem-origin-master-fix-885f1ea244fb
-
-Best regards,
 -- 
-Kwanghoon Son <asdfkwang@gmail.com>
-
+Thx and BRs,
+Zhongqiu Han
