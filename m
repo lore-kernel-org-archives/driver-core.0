@@ -1,132 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.34
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793200162;
-	b=1tohYUi26g76JA2BUqVfo8YiPIIhBbLjQ47bZMRszVIUvmfQpDRtT1R3EizOfw3WdXhL
-	 6e1mQ4wVv63ig2XtgSrqgEWEWaU6c4qzpBfjnK9WUp6xuww5KQr6t0oKGCXYL+yXbo1mx
-	 tPY5sbJcTgGv2450u93ZYi9ZDLrkrT0574iiXxbz61cngVzTNjFmqzdSnRD9shKGCqcOY
-	 6TcRKfmfMIM9nmnT8iSTd/DLAzfwgO5YYPAGc2xnTGuM2AyB6aBj0n9WjEUhhT68cpvXH
-	 ojNBlSIVwMCwOhf+6O3OvxGLguZj2ut+qbroSemF8fgDloyg2a0VdWMdrpQwRVgMEYg==
+	t=1793201765;
+	b=GqG24hY8Yxuf4FOtaNfyAbDu9KjomVr7/lSZZ5hwheaC6b3FR5fK7NLpSTPFmoKN4JSM
+	 nEyiP5UEBUMyXgje03+RMyoMqgDWtcFGCFC0fYccqtpMVNayjnveQPLtG9GFjXvT9DkbU
+	 LMFG89+oj1m572sjtVTO1d2V1QS5LIP8ZdbFiB8nUlzyMsjl30/p4g++knFeU45UHKtAf
+	 fZ/ht/MkYi/aE5Huc0fu51TuTREhx1prtxHS4ETcX+cHQ3FcyBwvqhSCIRupL5OVVhA7K
+	 mriDxr+KWgx6v8FgcdjwD6UXFsJEXoOMoMD2CJLimsKQeH3Rb04PJz71vXKsJP3V6fQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793200162;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=dmAUyDLo9MuOz/o1hQ14aOoaMIhcGC7qQ4Ki4u5hwsc=;
-	b=ZnllFc5OsanQ2xlW2sowe8uPt3LTE7fek86WVSv5zuKjjoZs9csu0w/+SQvDacAdx99/
-	 +eZ3Z/5utxnunIPEwuAFJPZLDJHOfANuXBZLq8Qgja3myR7386AKYJZHxvaV3GIrEdkDX
-	 o93znrVahIUxV6D9KRq1xIg++ie8mJxClaYfZ8IX7Cb7yWTfiiLb2eub5mU3euH6qR94r
-	 KBk0mearqBeBmawo1sVDCt+9BcRpE33FbrpydWA70FggiH9MxecM6Q7MoK9drM1QDSvFX
-	 teqLcPAcBc28reehrzcRjwJ1HYjm0CCA7owC6HVtFuZGGDUrdtBG5s0cpqSGMzPymIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793201765;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=IMDYK1ZjnbIiPQHcJc7SpOjyQ4Wy/ZaG15fuBEkM+6c=;
+	b=bL+ZKwsJQo1lo6eEAlhP5gGteCXMe9Y5XakjXPVvf4A0a3DGDUPuIR02zwk1IC4M0NT3
+	 1F8vsBqgSlIi6nC9cbwf65OdwxzlR1j1EvuPK0XPWMVIcnRvJ5ni5AI416rjbqCqoMtZ6
+	 i6gQFAR6Mfr/sGnxUar+Iw9jyctgMDpjwxljV/GXI5ZjHBysDol/S9n5E+av0zo8pdV4a
+	 6kgM9sEP9I3KE5Fu8f+Oo6daGV5XxCH0hLvsdFVIbuAWPaf9K4kYaXtSRENoGO3i+lRND
+	 43i8tfcbynXzCJXJZCpc1/uvkpMUG1M6QohKMZ8LJuWSxhEoMV7bpfuGZKNID0YkQlg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=sRwotwrK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.34
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010034.outbound.protection.outlook.com [52.101.46.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mf9SYFED;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5E606A31D;
-	Wed, 28 Oct 2026 15:09:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCE5E606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9A7606A323
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 15:36:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B9A7606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=sRwotwrK
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NiAdZYwPQx7WPZ6xosmV8NFf1QC4LEjSg25mk5zqVkrYp/jnk8pRwv3rX1+2H3eYG5c5WzkRqhWA9COQ2K7e8er6h/n5vBqnJT7O2cPPurnhq3ySCOYAIV6MXjY8I2D5lzSCOGR8aEZI0JYrVvCqDzfGPi81GqAX+75tshjiLVqcPi/YvFr3e+7ZEGT58LZvuTiYIjyC8Iq6hTxDQLGdB/GdcOYjFVUnvMlzQ4/Ar+kOxS+ZtCMQjl87zykQNZp8+scmSUDxEBt+SYKrvXkFymyoO/6GS5WkI2cDkJwabvboxPR1UxsLgVsoZ/JAJfgI+RWmFGn+FihPQ4pOHoU4SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dmAUyDLo9MuOz/o1hQ14aOoaMIhcGC7qQ4Ki4u5hwsc=;
- b=hOJWxJ+SOTu+c86ZEg+QFgWfyDaI9uQPIObAToTeQq9aQufmVHZp8ttHe75nC92cza7tVnXs8ygKHRLf8OTKJWOznIrB3mf9b+uwknUeWUm48s72jrcP+gFcVOrr4Oor7tV5c1L18aBD+RqhNvJFB8DSSQ37rjEeOa2q06p4PMeCr+JcT0wQZruiMqVolNdeeZ9+mYqNjD/Z7n+jhpLA/M1Ex/YL9vyuFiqjDiwho05R0Jz+fN8Lyw8fOtVlIw5vV8H+beCQWbYzH/vQDqkPiTIQDH9FRyoUOWbacg/ePvsrwoS19WMv/CAbydOXcbFAiFVbdXp882i0uVo9AHsrPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dmAUyDLo9MuOz/o1hQ14aOoaMIhcGC7qQ4Ki4u5hwsc=;
- b=sRwotwrKMu9EJZKV4Wh2+sekxOeS90Q9y46Nokr3WWGiuWm/ObU6Y+VaOjMxKobjaGWVD5GM3vyLWkh+BMwrl4ZCcCVxR6OzKMoGzkYiJwszJ2ntTlgBIYMhLPj82Pnp2LwpDIDxU1y1FX4N4x1FCQ1AfjxfAxzaAHbw1sZWCLCVWW82wkZo+CJp9X2I6qPDekIBUCeqLXSgsqsPsj8EfIkZhvlLencdCb2+/ZypyTZhcpEWJc7IOwTOdLrgxaJKzwXYd+Mhq+pWXze8Dh4bZHu64/S5QRQskA0qexoEPFuEG8GnqZPwNgUgsZ/ZZkxrvIpN383KleFZGbAiHSTaiQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12) by IA1PR12MB6281.namprd12.prod.outlook.com
- (2603:10b6:208:3e7::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Wed, 28 Oct
- 2026 15:09:12 +0000
-Received: from CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
- ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0569.007; Wed, 28 Oct 2026
- 15:09:10 +0000
-Date: Wed, 28 Oct 2026 12:09:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Shameer Kolothum Thodi <skolothumtho@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Gavin Shan <gshan@redhat.com>, Vikram Sethi <vsethi@nvidia.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	"rppt@kernel.org" <rppt@kernel.org>, Thomas Huth <thuth@redhat.com>,
-	Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	"kas@kernel.org" <kas@kernel.org>,
-	Kohei Enju <enju.kohei@fujitsu.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Ard Biesheuvel <ardb@kernel.org>, James Morse <james.morse@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Omar Sandoval <osandov@fb.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Sam Edwards <cfsworks@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Pranjal Shrivastava <praan@google.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	Sonang Patel <sonangp@nvidia.com>,
-	Ankit Agrawal <ankita@nvidia.com>
-Subject: Re: [PATCH v1 7/8] iommu: Park TDISP T=0 devices in the blocking
- domain
-Message-ID: <20261028150909.GC3040767@nvidia.com>
-References: <cover.1789010941.git.nicolinc@nvidia.com>
- <0d57c59aa3cae891e9d3e07e939e13918a4e99a0.1789010941.git.nicolinc@nvidia.com>
- <SJ0PR12MB8614232EFC74C584CB44AD28AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ0PR12MB8614232EFC74C584CB44AD28AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
-X-ClientProxiedBy: BN9PR03CA0568.namprd03.prod.outlook.com
- (2603:10b6:408:138::33) To CHBPR12MB731189.namprd12.prod.outlook.com
- (2603:10b6:610:33d::12)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mf9SYFED
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-535f598d126so291851cf.1
+        for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 08:36:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793201764; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YlB7l1xMntHUxM8C53k1eevMtoswJD6stvEYBezwtrkKY1hpQJyUPfhh0kN42DY/iv
+         jDcg0ds1cSVxp+VZJ/EGg7V/xou4HX4Zy+pXMBoOmtsknDIjJgAZ9f7qQlD+CaMQU2/2
+         Ttpajx2Nb22BdyUddH+i7/X4FPSECqXuw32soQoEhlJztP+ZKMtXmW3OY0u8Iz+LBILd
+         g5rPWyI70uzfuCKSKvtdQDIFjAmNeRMpuNwolFZIdH0h+k7tWc5J76B/996csU8iaIgM
+         fG05CkJnINllkI7PucRNidroDSepWRLSacUsSj1Id09+On+trglzIuUHLvt/UjaZgspJ
+         8Yig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IMDYK1ZjnbIiPQHcJc7SpOjyQ4Wy/ZaG15fuBEkM+6c=;
+        fh=piNeWdPpCHIfKwZCgEAnxzfFRjdyuh/98n6ZhcwbZsc=;
+        b=PSm/43d9offJ3AePponx4bo5TSHzcPhwhyFVtkX3GpYSkUnwu5rEe4P+tIPSMF68mi
+         cswvrd0Sf97UuglQ1wXmh8EnWDuRga9DQiTzlhiofg+bgYdUY05bJrlM5Lr52h1gQlq4
+         7LfFUDatq9FBGR8x4d6zFUdRrFAAxNbW+HwnPKXl1A2zDpMhxOEXnts7C+Hl6dhjATfo
+         hM7gUJxFIVEEcFR2vEugCQrcQmLUYCVfcWPAtmXNqt3yd3Q6w9Rl+b/uEa5sGDw+hMsN
+         MFkb7aIa4WAjqDDn0q3ERxQVO/rnfFCz+4saG0CNOjgrQ0D+jwE7RAmCbThD0GLokKlg
+         1bSw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793201764; x=1793806564; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IMDYK1ZjnbIiPQHcJc7SpOjyQ4Wy/ZaG15fuBEkM+6c=;
+        b=mf9SYFEDsXe9OqSwn09J5QZmBcn15LkHHvtkbfQliSti2e7W19ryef2jG3RkdgBwhI
+         IwTjmnxuhDYN+t8bF2Vp5uN2WFqUEyK/rVLKx3VAusaUnJnRl2Ld8KtpwOsQ1lwp0onn
+         aLHNtHGVY4EDlwcBMg0jFTAF4129pXjmNmFpxlpG9bV7lvFnEyycQZCvLbVBMOFNMQv2
+         1qP8AF71HV61oaAbnYCwFdE+xSTiFYqdqjZZCOcIIfp6jgFGpiCItGna6P6IBA5zyvj8
+         gO0liO8+lmOdqMjO7/FIXUCF0nbjWzkQl+TysWuAxtnpf2brbw5BqDTNBZ3YDRsu43Mh
+         KPEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793201764; x=1793806564;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IMDYK1ZjnbIiPQHcJc7SpOjyQ4Wy/ZaG15fuBEkM+6c=;
+        b=ViQw0gjLfm2Duutbx5OifSwsrVju5g/c9czNF/0agf1C+8SwyLEb5vzHEb3GowWwDM
+         mhc00zKnoYgB3j5tVUxoy+DX8KczBPzwJh1z16GeuyKGL0MegixnlpM+4yclL9PoDZUp
+         zbrm1v+ZuQxoJg/0lgZpWrDV24fg3ZABuUfRfrECAc1GbiRia6KL34+bMFNBwYtGY/9l
+         7h+x2CHDs2uzBIvR+4pFk0Sx0M2e0bH3LO/l1w3CH8/ZFvTvPDguzw1/E/I4PV6CGjTG
+         fnl0gV/zN3JlL4e55EBWaAPag/GSklNhwMyVfEFPUvh00Yf77BzMTohpE6etmSZfcAOw
+         S4tw==
+X-Forwarded-Encrypted: i=1; AKwUvBxineNPr+YEgvBuUMtBcV6EPrcNKy5y2gNqYJC1pubLHr/zGEks8cfV09q8rh++Yk8dfinkHOoehRsN2Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYI+5TJ/jrK9TLSMrOZ/q9vnw+ABi4j5lKPmZg8GSaD0NV+LXd6z
+	ij3hJpHBtpnAN3zBUsRwWwADM1qB7MLUo3JJS+bslXGU3f5zzGXeR9L5C+SaK8EGgtzKivJ21M3
+	aofqQY3ERlOGbozP0PjuN5BGPq6Wtlx98NkX8oY8HCItq7tHWW7adt5LI8EU=
+X-Gm-Gg: AYBFou06eTUgAX91Gjr8ZNu04RA1wETLAt5sU6ZG9JekOPb4UPfiHgY7YrWJn8vCiOD
+	JWE4gOE4o8a0fcMEnEjA6Q0SCWqsVDp2Sk/LHggcAbkn0nnIxc+H0yYPybWFXKcCGBTd/yDZt8n
+	8URxw7F/CBQZGQVKfmVtG45HwbEfMY6lWWCr8dQXAaMl2Aqn545nRLYFD0KCuXdBFHueM8do2Dm
+	dgsxUm1qGZVR4lEaftvndwd0HvI7I9gEH2veGovcM5jGHeIEZRvti+Lxltw2ey9INMyxnauKTtK
+	kixU4F0ZRaj0Fqd+HX0Q+WB/EOsASpeLoBeZ9Eqv7FOiYSfFEmjJZQp0d0bVR4HJQC8pKXkvhTO
+	+nRUqstmREBUYJ0mVdOnk8Ju2qU5Z5fVqHfnLlvUenMgPgOespES0e3OfVQU=
+X-Received: by 2002:a05:622a:22a9:b0:536:97c0:dcd0 with SMTP id
+ d75a77b69052e-53fc2aa1fa2mr21345071cf.4.1793201763129; Wed, 28 Oct 2026
+ 08:36:03 -0700 (PDT)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -136,80 +104,162 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|IA1PR12MB6281:EE_
-X-MS-Office365-Filtering-Correlation-Id: c648582b-e918-4250-9d4a-08df35056b93
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|7416014|23010399003|22082099003|18002099003|261026140227099003|10067099003|5023799004|4143699003|261021121427099003|11063799006|261022075727099003|261022105027099003|261026121527099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	Suh+fr1LVWn1aZXdK7JBOCRbPWOsakt8mJuocroMLtwjR6cuwwS2fneSNa9EcijwvBIEbrsd/0AdnqQtgNpeFCukzmd4NInUCvmwsU9TsiJJoewa6K6ppTD5HHc6g/0+1M1/pIey30wEdxmtA7CCTu9XeTP4eO5TDX/WJplQ2BRhx7don3MTBbyVOWJtMH7B50iOZZSCew3TrY1dROYlEMzUfPPZBxWjyHUT+WcUHlcWbVNso/tJ/2Lq7bOgyyF/Z6EZYbtdC5vq7HB6tZT5GGAAyvxHfvdld73mx0Z2ldVnVUBWA+Y4F2M4orTmLBgvB5DuZfNif1NVsN52AK8cLeIo8Z/9PDBsZnYIONU+qTBt1Icb6AXTi2vpRDgGV2IrGaKZ/aDFr+phQtl8dp4MiMF8A05pExuGsKLIM6NzALneJBOfF0pjNzkEveXMej2FoPjONQzp7BqSQWCzPuxpzghMAaEruwBMVktwdZH7a9gKYdCUNCV94kvNKY/gxZPdUz6RWJDrAw3wG9ccep49VgP2Q7yGIohOmjPm+YAL6sldE2JSOCw1KctdRdcr7TCKOVC72uxf99Xn5+MmuVcn0DHWfKORZnW70LTCwx0SGv08tYEgZ0bn3hV6jAkEGjTbOyqKOqKrI5KdnrwE8F4XFB1GfOjmeTfLKnqiNaVrMH0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(23010399003)(22082099003)(18002099003)(261026140227099003)(10067099003)(5023799004)(4143699003)(261021121427099003)(11063799006)(261022075727099003)(261022105027099003)(261026121527099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?x/Rzkz34XrNeZle3qfwGUS1t/nkJwdLhDTfIib6WHufwWzAnxgdVOjxosQjU?=
- =?us-ascii?Q?tJhTrzdo/1EpR6hVK7Akikoa+J1vEUrJMDID0ttmUlSBEUrqO3hF+ZR5Ct9y?=
- =?us-ascii?Q?COGVAqoTB4cF0YnQGM/2eDDnNZoM1t0QiMutAWgAkC5L5alusJbZ6eneyEaw?=
- =?us-ascii?Q?EIDHgG33PrjxWlQ78OR+ytBUQGfST4ODB0ng7rnydqxhHSGvuhXLwReNe8M2?=
- =?us-ascii?Q?ODz0eJQ7QbpfH8uNe8Uvh4py4aDQdzn7PpM5BADTimXVI5oHCPdBoIsYDJLd?=
- =?us-ascii?Q?mSy7hzVprjSlW1bLYgsNEV0L59aJCbypHH42Ok3dNxlZ+ujDhqATHwqlRN3f?=
- =?us-ascii?Q?Ed+aQneNXrq+cxRt774ZXVc67pz5wjtIUr92COqax2scyCn1A1nAFxiyuEEJ?=
- =?us-ascii?Q?+2/AIUUdxANxOS87tQjt+hNH3ayS0+oMbRMqUno09HGP1PyVP2E/mxP0J2aG?=
- =?us-ascii?Q?20Z3cKHaYiZYTHJ8UbY92/rSQgoyaR5CW878XWMVIV8ac34MG5qaQn38byMN?=
- =?us-ascii?Q?0axOM/p752jkKYI2a0QwCzKPCYowt+od7KTJj4kJUui7GbmJ50WVkVSwUZp7?=
- =?us-ascii?Q?EwfyehDJUEAT97Eo50txH+6+/aa+Nu5JgMi/Ur+e4h6jxP4kUlxEKpACj6js?=
- =?us-ascii?Q?x+/gEe30eaFXMkg0J1/RsgDT/ZjOMUFDHUWhlplk9rhk2bmMmMjZLt/RJO4q?=
- =?us-ascii?Q?DQQuRKrqli+6N+jCG206ti1GOsmpBWQT0yNv6VyYIXHV0BLiNJMqM1RUSfdk?=
- =?us-ascii?Q?oVzekUKVpTMRMtSC7ODXcpRasQ7DCvBzjGiBWnQTZdgjAB1Z5b5cpUNK7Dzn?=
- =?us-ascii?Q?3XRm6vYZLzNzMBZKfM5u74jsY/g/ho0OTPo+iuYqFbuDPh4rH40UHh4iaEiE?=
- =?us-ascii?Q?VMBbwsd1JXnTCJOF70EKhFLh+CaACDIcifozdm4ubAOAadxIpo8B4+XdtJVu?=
- =?us-ascii?Q?049+Cptm1hM5RiB0aaRjWBQ6rsE4o9f4NEjL0weYdPxvowY/LbY77+nC9g9W?=
- =?us-ascii?Q?NQbw6SUfWZw05CGgsfkouu3bgfFR7L7VNThy37RmqL7zMcf0dDOMtBF9TsD7?=
- =?us-ascii?Q?YAYczOQv5cvdClI8vNZpJ7VDmW63mooLJ+s0TYeYwj2Z33sh0cZkXCCTm7i8?=
- =?us-ascii?Q?vTWG4E/xGsdaurmbncNBSDAHLmVAQufpLLak7AnTqw3t3qPfMfQGq6ECGmSV?=
- =?us-ascii?Q?W6HnyYp3wowGxMPmqufIXZ5khNqom0EY2pgZKnPurjIeZQcF6Fj7DwYG/gWG?=
- =?us-ascii?Q?gIlotvr6Revd9OOpbd7XDNeFwjXt7LQbM/YsWWwpPqBD/JCmUGPkJdNnZmsd?=
- =?us-ascii?Q?QgtCkPGD0KbacEoOWorCKe7rfjAG8jQC7oh/nxEAaM8X1y1dm/pUGLIKBTVm?=
- =?us-ascii?Q?1H7UJ42bsyWCNBdyCkUNTnjVKBLOB1PjvwKnorl4y/WTx+v+40liF21qg89Q?=
- =?us-ascii?Q?1YnBicNy3d3iziQovcYoC0uhRbIzexn2x9LkAwDviK5iw4k+Ll73bIpoQ9Lo?=
- =?us-ascii?Q?jqG2sg7suSufJm6L27SRmrrBuqSdFmF25K1TWoMMT9fNdUUWiA0gS/5WcHWo?=
- =?us-ascii?Q?i4s0qsfyp27PoWrEJjJy9S75VA3LLat+G0GbK4ivN1pB5MYzEPUsePDLVJRB?=
- =?us-ascii?Q?GKLN9QjzIJ8Fv/ONZjgSjJ0+flH/4vcXo72hF+XNQqMd2NIjh8h/ixXHf97/?=
- =?us-ascii?Q?RSveae3LIGLnx5MfLKVwVjWZPTiv3qJz7Zh4kzGreNuAPXE3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c648582b-e918-4250-9d4a-08df35056b93
-X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 15:09:10.6886
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j7smtrWT72F2cT4fBvyIumPCmZi+rI5AHNeVe+BfbBlfNCFb8OB7Kt+9r25EZx9o
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6281
+References: <20261027223847.652884-1-irogers@google.com> <20261027223847.652884-5-irogers@google.com>
+ <CAJZ5v0juvZ2ZVRBkY6FxBM=NhPt9vMA3+yRugXc5u=U1jO9AXg@mail.gmail.com>
+In-Reply-To: <CAJZ5v0juvZ2ZVRBkY6FxBM=NhPt9vMA3+yRugXc5u=U1jO9AXg@mail.gmail.com>
+From: Ian Rogers <irogers@google.com>
+Date: Wed, 28 Oct 2026 08:35:50 -0700
+X-Gm-Features: AclHuK8Z1SdNi4k8-UQceLsnqDJD6d9aTo0cl8IQ7vlO1Fmucv2n8goL0VFX4iw
+Message-ID: <CAP-5=fWVZ=7-qDRODiEQzRzhpQqribv9Morj=OoAXW_6uaW2dA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] cpufreq: governor: Initialize kobj_type release
+ callback statically
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 28, 2026 at 02:19:17PM +0000, Shameer Kolothum Thodi wrote:
-> > +	/*
-> > +	 * When in T=0 mode the T=1 vIOMMU must always be set to
-> > BLOCKED to
-> > +	 * release control of ATS.
-> > +	 */
-> > +	if (iommu_using_t0_stream(first)) {
-> > +		if (!ops->blocked_domain)
-> > +			return ERR_PTR(-EINVAL);
-> > +		return ops->blocked_domain;
-> 
-> How is MSI allocation handled for T=0 devices? The ITS calls
-> iommu_dma_prepare_msi(), which appears to return -EOPNOTSUPP
-> for the blocked domain. Is that intentional?
+On Wed, Oct 28, 2026 at 4:39=E2=80=AFAM Rafael J. Wysocki (Intel)
+<rafael@kernel.org> wrote:
+>
+> On Tue, Oct 27, 2026 at 11:39=E2=80=AFPM Ian Rogers <irogers@google.com> =
+wrote:
+> >
+> > Export cpufreq_dbs_data_release() and set .kobj_type.release statically
+> > in the ondemand and conservative governors so their gov_attr_set
+> > kobjects have a valid release callback statically initialized, matching
+> > cpufreq_governor_dbs. Remove the redundant runtime assignment in
+> > cpufreq_dbs_governor_init().
+> >
+> > This prepares for annotating struct kobj_type::release with
+> > __must_init.
+> >
+> > Signed-off-by: Ian Rogers <irogers@google.com>
+>
+> Do you want stuff to be picked up by maintainers, or do you want to
+> route it yourself?
 
-For a TDISP capable devince MSI is always issued using T=0, meaning it
-does not go through the SMMU. It should be wired to defeat
-iommu_dma_prepare_msi() and use an identity IOVA as though there is no
-iommu present..
+Hi Rafael,
 
-AFAIK this is true for all devices all arches today.
+Just a quick note: I agree with Zhongqiu's feedback and the commit
+message needs a fix.
 
-Jason
+Regarding merging the patches, the issue with maintainers picking up
+fixes is that the series will break the clang/llvm build without them.
+So the maintainers need to either merge the patches (and the series be
+rebased on top of them) or merge the series as a unit. Perhaps since
+the patches align, merge conflicts won't happen, so maintainers
+merging and landing the series is okay. I don't have the experience to
+know.
+
+Thanks,
+Ian
+
+> > ---
+> >  drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
+> >  drivers/cpufreq/cpufreq_governor.c     | 4 ++--
+> >  drivers/cpufreq/cpufreq_governor.h     | 1 +
+> >  drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
+> >  4 files changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/c=
+pufreq_conservative.c
+> > index 02bfd46543e9..146a2353b1a2 100644
+> > --- a/drivers/cpufreq/cpufreq_conservative.c
+> > +++ b/drivers/cpufreq/cpufreq_conservative.c
+> > @@ -318,7 +318,10 @@ static void cs_limits(struct cpufreq_policy *polic=
+y)
+> >
+> >  static struct dbs_governor cs_governor =3D {
+> >         .gov =3D CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
+> > -       .kobj_type =3D { .default_groups =3D cs_groups },
+> > +       .kobj_type =3D {
+> > +               .release =3D cpufreq_dbs_data_release,
+> > +               .default_groups =3D cs_groups,
+> > +       },
+> >         .gov_dbs_update =3D cs_dbs_update,
+> >         .alloc =3D cs_alloc,
+> >         .free =3D cs_free,
+> > diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufr=
+eq_governor.c
+> > index f3bd3dbe7c41..f8b5aca09b6b 100644
+> > --- a/drivers/cpufreq/cpufreq_governor.c
+> > +++ b/drivers/cpufreq/cpufreq_governor.c
+> > @@ -419,7 +419,7 @@ static void free_policy_dbs_info(struct policy_dbs_=
+info *policy_dbs,
+> >         gov->free(policy_dbs);
+> >  }
+> >
+> > -static void cpufreq_dbs_data_release(struct kobject *kobj)
+> > +void cpufreq_dbs_data_release(struct kobject *kobj)
+> >  {
+> >         struct dbs_data *dbs_data =3D to_dbs_data(to_gov_attr_set(kobj)=
+);
+> >         struct dbs_governor *gov =3D dbs_data->gov;
+> > @@ -427,6 +427,7 @@ static void cpufreq_dbs_data_release(struct kobject=
+ *kobj)
+> >         gov->exit(dbs_data);
+> >         kfree(dbs_data);
+> >  }
+> > +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
+> >
+> >  int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
+> >  {
+> > @@ -488,7 +489,6 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy=
+ *policy)
+> >         policy->governor_data =3D policy_dbs;
+> >
+> >         gov->kobj_type.sysfs_ops =3D &governor_sysfs_ops;
+> > -       gov->kobj_type.release =3D cpufreq_dbs_data_release;
+> >         ret =3D kobject_init_and_add(&dbs_data->attr_set.kobj, &gov->ko=
+bj_type,
+> >                                    get_governor_parent_kobj(policy),
+> >                                    "%s", gov->gov.name);
+> > diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufr=
+eq_governor.h
+> > index 806d8fb4dff1..1026712bb79b 100644
+> > --- a/drivers/cpufreq/cpufreq_governor.h
+> > +++ b/drivers/cpufreq/cpufreq_governor.h
+> > @@ -150,6 +150,7 @@ static inline struct dbs_governor *dbs_governor_of(=
+struct cpufreq_policy *policy
+> >  }
+> >
+> >  /* Governor callback routines */
+> > +void cpufreq_dbs_data_release(struct kobject *kobj);
+> >  int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
+> >  void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
+> >  int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
+> > diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufr=
+eq_ondemand.c
+> > index 9942dbb38dae..7386d043c665 100644
+> > --- a/drivers/cpufreq/cpufreq_ondemand.c
+> > +++ b/drivers/cpufreq/cpufreq_ondemand.c
+> > @@ -374,7 +374,10 @@ static struct od_ops od_ops =3D {
+> >
+> >  static struct dbs_governor od_dbs_gov =3D {
+> >         .gov =3D CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
+> > -       .kobj_type =3D { .default_groups =3D od_groups },
+> > +       .kobj_type =3D {
+> > +               .release =3D cpufreq_dbs_data_release,
+> > +               .default_groups =3D od_groups,
+> > +       },
+> >         .gov_dbs_update =3D od_dbs_update,
+> >         .alloc =3D od_alloc,
+> >         .free =3D od_free,
+> > --
+> > 2.56.0.313.g2479322e68-goog
+> >
+> >
