@@ -1,112 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793158587;
-	b=eqn9MIVaH6c8+iZFGOyXFGFtviSS3ICwtDCWZewR+wVox92+OSf0lIobxb4BNt3cmqrs
-	 91lCfHo0gevbNCbgdB71BuXo8Ree2wWvD6WbhMZEAXM8kcGu25tz6LQJDB3tjZUNRvA6M
-	 vshuQu4C4OZA5nR3Lz++4ty5Mqk3uXuoDcXYmCWMIfeuOTpUzGHLwKpgcHkACu7QBET0y
-	 oZIIbQNg+1GiSJz8xPlmFk+jwXXclM2H3/z1QBt02AIdCLKsDj9zwc53uGrX3L8DYrM4r
-	 ER9u6YouxmCIY5FpXUqsyc5tGDCL4TvPaA5QbHwgWenHRw5kQTrnPIn+bghGqkpQLvw==
+	t=1793176795;
+	b=wPSqrLZF/23HWRcaXTuEccfXnCvIhoE4wOhhZFZoM3yx/mEThzLg3DBRoDy1EE50kDip
+	 lush4m2oO3AFPN9Ev+9zrVb/vvoGD9lqI4Va/5HKPVt2wN1uyg6EhFRqhC2YYfjWWC01g
+	 6/cvs8RtjeBb39+BZHniLH6JajWOdXAaFjLEXX437YoHplIhX8lRYbLDTL7jnOFWe4XRr
+	 m2p3D7kWRkwszTfG58wGWZZSpS1VwPIZwHro5WhaIC7q8v/L1zPKUAlJve+hi3I3ttH2K
+	 N8mradZHw2Iemf516Zlc/4zOUmvQ1+Y9LpFoAQDYVd2R9jO/RZCaHVdRi++rZgRM/og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793158587;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
-	b=JkJ5JMbhHvKxBZUsZoSi6fJZn7u5iDdZZjVd418uHqFx32THMLEO+AvQQYrkZBge3BXX
-	 uqQh0SEymRvetdwAI2XQaMjCCXfDgUlpeZCJ3WCASc8Wnc5yahl8zXlIa2pi21QzT35GF
-	 UF6ArY3WF5qvfi5xRamrRsjN7vuIhhRqMCxvhSQcoBekiaJfOmT2mtOPTCN5oPLtzV64h
-	 kFi5rTRzDw3iLaaofVFjcqAjPVXMXhukBslgRWt3cEq3qJ1Yr4vR/6SYU6kf+j71Novi5
-	 QmEdSk6GangXa6tV+cn8Y429BzWgAPrlRWGOMQTHQtZpyiwOc7RJY34hFR8rUxNUvxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793176795;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=EuSPBpfPiwDzYLE9j3bMQIok2xPGQVDesPuFSULAs28=;
+	b=c8t1RsEhTzmVkjIbwHV/UjQijG3dzmD2DfJYpt+VV69drjAUsCusgGf3c7TRhGj93bjT
+	 icfp2JBmhunwxGh4TYbJZas9WAWgKgGgMvKAXIMOYCTdklDJ79uOVus8RrwIgLr0eyEtX
+	 UnsVQw4xDMXBRVUh6RyKEXKPQIfab5Ay6tLrcrfNu1cn8x7FxUaT0EbIz7Ely6E3AY/9N
+	 ticod/+chC8zOX/ygz4selH/2rlJ/VUbGOjSBZgHLwwZ8ApovNYywA9laVnSopxbTo3LI
+	 RZghq9sPjdfKP7qhHC8pHb70gUBGPvOJNqxvBFrrY/HXaLd8VOG+xfeX9QXlcAxKZhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=FHQf9fGP;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mie8jh39;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E189606A325
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E189606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F100606A31A;
+	Wed, 28 Oct 2026 08:39:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Jve2qMQH;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=FHQf9fGP
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S0ipDx2904891
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=; b=Jve2qMQHUqrEssgK
-	LflW6/l7KZ234zJVmm5v4avWWbV1TcUiioz11IU7xNAS3yhP+6JpgpsoOMhZWZvJ
-	IPei/BNfJ7ExWg/tShStITm6QZsRQXDRsGswXFZFnq+o9ga6nmbSa33m3OhRLXWT
-	jNycF1Ub6eUUeiAVgYu5ZaX6svI7KSL3EU6+K53Rnc/d554YMUVQJALzktVCxxiV
-	q+Kz86xf3mp9SK5/sBZk8qiecR2lpX8aT+GhaHVmok95F2t7X+5DAAukw34dJtRr
-	PnVGLMYR/XaeQ9zEg45sqiPgK2kxAakvx9jugL9konNgiu/4GNvqT3B3MXccU96s
-	aGnIQQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hk6f90jmm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 03:36:25 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ab2395f104so466194a91.2
-        for <driver-core@lists.linux.dev>; Tue, 27 Oct 2026 20:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793158585; x=1793763385; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
-        b=FHQf9fGPhZVmw97B/oXjmcAD5p3t8VJzTHKoZWrLbV6wJn3x8R4bu2ob5JmLPiUtAS
-         05ROPmdpe+vO2qdW1n7TrZ90jKcQGU/IP4+h7xAY5l0yd/6OvL6De+ziBFyGec8qJxoF
-         nXWXbovV0AUKNJy9dqjbrWplAQm2ask5c9d8YSSBhIV+x6vQC0EojyoXLR1SofgfyL5c
-         whNlCEnG3pvGS0DCweenwXlH0zX2VjM67mdm0ij+nbYc/4UeNZjjXM4ZWLVmHgYLm/Fz
-         RZlpQSEFuF4Oy/X138YKkfupME5KFW2jb7BZNnCjI+uPeNPQbNDm3WtdswGDVJKYOrR+
-         yi4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793158585; x=1793763385;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/wKdshZSDdNYlVlGGww1CWjddpjIdb7CUnZ1PObkTB4=;
-        b=TefFmdrxOhCUh+lEzGXos4ukxWKQ2xlefxyKTF4EWCZ/JvcfUqpwcz1Z1V+Cnh7Ubw
-         rO50XJfg2/9DaG0iexdeDccv21S6ysFBNCd6npjCMJN/PxJ+zhoG1VSrTPc/T9xvgTuR
-         46hZKXMOfR2BwRpmmoQM7sMQaWxMZgEBrbCITylI6yVIP4FPSelXspeEDCv8/jee/ifV
-         K77f4BAPNxnPY9xNOwCfvCgva1uIH52EvMVzPTfL4IqKajy573FIaZ1zbRkhvyP8Wj0g
-         C0+sLXZdrgaECYt8eWrW2b+OK502teQu6XyEGb3Ats/zcOtOlwIeXDlBdzRGMGsjyzDC
-         0goQ==
-X-Forwarded-Encrypted: i=1; AKwUvByAjQFe3TAD/9ZasjzKsOIaWUADSDMbwqQJJYKqOiHF12JVaoLoOMmt4C9XKntDdRaTVzFU7Vuv3iaOQQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJHloqgwbVKY5b5QD8Tt386MM1mJZGSStmfSbk/JOuTMsySP7xr
-	Gk4rB8vfck2PtyrtgbI+prnJaNr4/4U+9buZTUKGpl99IFK0+bNrcB1fvuUhvZKrLxWIsl8yuXM
-	vYTFnpWmihFPAnmJyo4QH3Ru+l5YY1Eop06Vb6M3AjQIJgT12xkD22xZYrjZg+rLqFg==
-X-Gm-Gg: AYBFou07QLbygZJRObdr5A4Au4X/LCxO3AfMuyxvSG0nU4QB9Q5xEdz0Xkkp0vz8EY3
-	vGYUOUeNQ9/oApKlE8Ee0bCaZ+a1OTnZc9rmwO8HbXHYb+TUEFsK6cPR1hvq34yupUOf9/kRqEp
-	PbaEvjr5alosxFxpzu30hIi6bduGfuA1Lm4XyvpQ3qs0S0eh0h2Azxsd1rjWdXizarbnpqDcL03
-	sFYoUoMGU0F5FeJzUGnKzLTWp+it4LMfoHxKWLCqE/b3YTSIibQhBBJ9begnT8KY+ZXbz750J3c
-	m9AdOgIkYtbWqz0jUXty9DIfl1lHpYU6eZ/M/+ATTFW3aVRBHsIvqEHhzwFzH542uC4DgYCeUpw
-	PVNqBsoz8Oiok5j8R2OVLjmQl7KwB07kz1wrCfs7d72MY6ccxEe57cR1vKAK+5n/B1GigYkBKsi
-	hEN5uIqNausJYTXA8f3h4g2ruldBGbG+ATM8pNK9kf3x8=
-X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818175a91.38.1793158584994;
-        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
-X-Received: by 2002:a17:90b:5863:b0:3ac:b3ff:b476 with SMTP id 98e67ed59e1d1-3ae581836a6mr818144a91.38.1793158584441;
-        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
-Received: from [10.133.33.27] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae5a48ec90sm899533a91.6.2026.10.27.20.36.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 20:36:24 -0700 (PDT)
-Message-ID: <e5bd0521-36d1-447d-b71a-94a2e07414e2@oss.qualcomm.com>
-Date: Wed, 28 Oct 2026 11:36:16 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mie8jh39
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0C5C1F01825;
+	Wed, 28 Oct 2026 08:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793176794;
+	bh=EuSPBpfPiwDzYLE9j3bMQIok2xPGQVDesPuFSULAs28=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mie8jh39y/BQE69uPA+3u6b6UyI8Nt1ralfAIWhFNNTRSMdv0XI1QmX/FC3Ny7Qhc
+	 ZhQ9zZCJWtKIugv7K14H8T+1uM1GyTD2K+4besn4VLQgQkW0azexi8qFk91TF3cfTh
+	 W9sNM5Dbkm4U6TAmERY2uj+6WxDmECEAcWSNnpza1ypv+e+bAHytezpfAPK4IflUL5
+	 jgnR5HSXmZ7J/8+Y6XMGRBhEhR4u8Ie9eq1TsMurpfZOGG3BEhRgQYQuQy05WH3QLU
+	 lsPjzcgAhHRLG8M9IZ0wwLs9qt3S+cNesJUmdjM1eCXsrG6MUKIAfMCaOzb4Q9OrCD
+	 yVBzjZZdFzzVg==
+Message-ID: <524ee7d9-790d-48b6-8613-841da042c32a@kernel.org>
+Date: Wed, 28 Oct 2026 09:39:42 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -117,180 +52,106 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] cpufreq: governor: Initialize kobj_type release
- callback statically
-To: Ian Rogers <irogers@google.com>, Kees Cook <kees@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Zhihao Cheng <chengzhihao1@huawei.com>,
-        Sumanth Korikkar <sumanthk@linux.ibm.com>,
-        Bill Wendling <morbo@google.com>,
-        Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
-        xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
-        zhongqiu.han@oss.qualcomm.com
-References: <20261027223847.652884-1-irogers@google.com>
- <20261027223847.652884-5-irogers@google.com>
+Subject: Re: [PATCH v6 4/7] mm/memblock: add a reserved-region flag for
+ poisoned frames
+To: Mike Rapoport <rppt@kernel.org>, Breno Leitao <leitao@debian.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, kas@kernel.org,
+ kexec@lists.infradead.org, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ shakeel.butt@linux.dev, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ rmikey@meta.com, riel@surriel.com, harry@kernel.org, kernel-team@meta.com
+References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
+ <20261016-hwpoison-kho-v6-4-f304255147da@debian.org>
+ <ato62palTbNjLwN7@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-In-Reply-To: <20261027223847.652884-5-irogers@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ato62palTbNjLwN7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=frhJ914f c=1 sm=1 tr=0 ts=6ae16db9 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=1XWaLZrsAAAA:8 a=MbyaxBA4Lnn_ULkWIDkA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfX6lpGaciGQAdB
- HgefUlLkLc1rS3ru7HXuVSXj4e4nVfsOSqMt46vLbxKvjfeq/aSf2/XEPJG+rK10Ye1CKVCK0hG
- igDuVDnoEQv40msxjIor0S6AEUB7VX4=
-X-Proofpoint-GUID: dI8XYlr97E2Av7vnYW8GQlIlTU38jKwV
-X-Proofpoint-ORIG-GUID: dI8XYlr97E2Av7vnYW8GQlIlTU38jKwV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAxNCBTYWx0ZWRfX9FgvE8kPl+YM
- AdhXjQVXvpnkB6DQt/p8cQKob3oC3NryfbfQUyQ+D7QfOko89VwJIzGgPrpWDm3yYXDz/im8/A3
- UXm+RamMG2FUR9ywr6acL7MRcw1NbWyG0cRI9HElcbM6Z+ArSeYoumBaC1Yu+itJR/CP1/coICo
- PQqkS9xWq7gPSb3qc7YoMCzrXMhvS3tzme69Az0h93G3HgQuxxO/l9dHhydg3bi6NvXhjC2VW4o
- +FqiQaDX6ovCWgJqF28GlqkHCJgGq8/d3jhVlqnOOxXYhtQz59cMCkBgnp1JWUuBg3lBGkFBwJI
- +Dh0XrkheXv9wx9F3vdQ1ubXM4Wx9RS7JTDKGJMqxFsiJB6kJY/FQ6uQN2rDWWqANysrFYnWblZ
- gKHHFDaaG15tbSVR5PTHzsxtieYpA6P0J2+tWvKsCFOft3e314UdQ4y1ICVfU9wAit+4L0xdH/F
- rDEDzlPCorVCXISF/0g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-28_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 suspectscore=0 adultscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280014
 
-Hi Ian,
-
-Thanks for the update.
-
-On 10/28/2026 6:38 AM, Ian Rogers wrote:
-> Export cpufreq_dbs_data_release() and set .kobj_type.release statically
-> in the ondemand and conservative governors so their gov_attr_set
-> kobjects have a valid release callback statically initialized, matching
-> cpufreq_governor_dbs. Remove the redundant runtime assignment in
-
-"matching cpufreq_governor_dbs" is a bit confusing to me
-(cpufreq_governor_dbs() was removed back in v4.8 by commit e788892ba3cc
-("cpufreq: governor: Get rid of governor events")), as it doesn't
-seem to refer to anything in the tree. Perhaps we could just drop it,
-e.g.:
-
-Export cpufreq_dbs_data_release() and initialize .kobj_type.release
-statically in the ondemand and conservative governors instead of
-assigning it at runtime in cpufreq_dbs_governor_init().
-
-
-The code change itself looks good to me. With the changelog updated
-(in a respin if the series needs one for other reasons, or when
-applying):
-
-Reviewed-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-
-> cpufreq_dbs_governor_init().
+On 10/22/26 18:33, Mike Rapoport wrote:
+> Hi Breno,
 > 
-> This prepares for annotating struct kobj_type::release with
-> __must_init.
+> On Fri, Oct 16, 2026 at 05:15:44AM -0700, Breno Leitao wrote:
+>> memblock allocates from and frees to buddy whatever is not reserved, and
+>> knows nothing about frames an earlier kernel found hardware-poisoned.
+>> Such a frame can back the memmap, a page table or a percpu area before
+>> any hwpoison code runs, and otherwise reaches the buddy allocator like
+>> any other free frame.
+>>
+>> Add MEMBLOCK_RSRV_HWPOISON for a reserved range holding those frames.
 > 
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->   drivers/cpufreq/cpufreq_conservative.c | 5 ++++-
->   drivers/cpufreq/cpufreq_governor.c     | 4 ++--
->   drivers/cpufreq/cpufreq_governor.h     | 1 +
->   drivers/cpufreq/cpufreq_ondemand.c     | 5 ++++-
->   4 files changed, 11 insertions(+), 4 deletions(-)
+> How much this would fragment memblock.reserved?
 > 
-> diff --git a/drivers/cpufreq/cpufreq_conservative.c b/drivers/cpufreq/cpufreq_conservative.c
-> index 02bfd46543e9..146a2353b1a2 100644
-> --- a/drivers/cpufreq/cpufreq_conservative.c
-> +++ b/drivers/cpufreq/cpufreq_conservative.c
-> @@ -318,7 +318,10 @@ static void cs_limits(struct cpufreq_policy *policy)
->   
->   static struct dbs_governor cs_governor = {
->   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("conservative"),
-> -	.kobj_type = { .default_groups = cs_groups },
-> +	.kobj_type = {
-> +		.release = cpufreq_dbs_data_release,
-> +		.default_groups = cs_groups,
-> +	},
->   	.gov_dbs_update = cs_dbs_update,
->   	.alloc = cs_alloc,
->   	.free = cs_free,
-> diff --git a/drivers/cpufreq/cpufreq_governor.c b/drivers/cpufreq/cpufreq_governor.c
-> index f3bd3dbe7c41..f8b5aca09b6b 100644
-> --- a/drivers/cpufreq/cpufreq_governor.c
-> +++ b/drivers/cpufreq/cpufreq_governor.c
-> @@ -419,7 +419,7 @@ static void free_policy_dbs_info(struct policy_dbs_info *policy_dbs,
->   	gov->free(policy_dbs);
->   }
->   
-> -static void cpufreq_dbs_data_release(struct kobject *kobj)
-> +void cpufreq_dbs_data_release(struct kobject *kobj)
->   {
->   	struct dbs_data *dbs_data = to_dbs_data(to_gov_attr_set(kobj));
->   	struct dbs_governor *gov = dbs_data->gov;
-> @@ -427,6 +427,7 @@ static void cpufreq_dbs_data_release(struct kobject *kobj)
->   	gov->exit(dbs_data);
->   	kfree(dbs_data);
->   }
-> +EXPORT_SYMBOL_GPL(cpufreq_dbs_data_release);
->   
->   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
->   {
-> @@ -488,7 +489,6 @@ int cpufreq_dbs_governor_init(struct cpufreq_policy *policy)
->   	policy->governor_data = policy_dbs;
->   
->   	gov->kobj_type.sysfs_ops = &governor_sysfs_ops;
-> -	gov->kobj_type.release = cpufreq_dbs_data_release;
->   	ret = kobject_init_and_add(&dbs_data->attr_set.kobj, &gov->kobj_type,
->   				   get_governor_parent_kobj(policy),
->   				   "%s", gov->gov.name);
-> diff --git a/drivers/cpufreq/cpufreq_governor.h b/drivers/cpufreq/cpufreq_governor.h
-> index 806d8fb4dff1..1026712bb79b 100644
-> --- a/drivers/cpufreq/cpufreq_governor.h
-> +++ b/drivers/cpufreq/cpufreq_governor.h
-> @@ -150,6 +150,7 @@ static inline struct dbs_governor *dbs_governor_of(struct cpufreq_policy *policy
->   }
->   
->   /* Governor callback routines */
-> +void cpufreq_dbs_data_release(struct kobject *kobj);
->   int cpufreq_dbs_governor_init(struct cpufreq_policy *policy);
->   void cpufreq_dbs_governor_exit(struct cpufreq_policy *policy);
->   int cpufreq_dbs_governor_start(struct cpufreq_policy *policy);
-> diff --git a/drivers/cpufreq/cpufreq_ondemand.c b/drivers/cpufreq/cpufreq_ondemand.c
-> index 9942dbb38dae..7386d043c665 100644
-> --- a/drivers/cpufreq/cpufreq_ondemand.c
-> +++ b/drivers/cpufreq/cpufreq_ondemand.c
-> @@ -374,7 +374,10 @@ static struct od_ops od_ops = {
->   
->   static struct dbs_governor od_dbs_gov = {
->   	.gov = CPUFREQ_DBS_GOVERNOR_INITIALIZER("ondemand"),
-> -	.kobj_type = { .default_groups = od_groups },
-> +	.kobj_type = {
-> +		.release = cpufreq_dbs_data_release,
-> +		.default_groups = od_groups,
-> +	},
->   	.gov_dbs_update = od_dbs_update,
->   	.alloc = od_alloc,
->   	.free = od_free,
+> memblock is not very scalable, to say the least, and each new flag
+> increases the size of memblock arrays which obviously hurts performance.
 
+I assume that if you have too many regions there, you have different problems
+than scalability problems.
+
+We should cut out larger chunks, and if they are all over your address space you
+should scrap that machine.
 
 -- 
-Thx and BRs,
-Zhongqiu Han
+Cheers,
+
+David
