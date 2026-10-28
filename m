@@ -1,115 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.38
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793142957;
-	b=cH6H0Gt10K75esJcTh5U6qdjOQ11olHw6YI8w5WHOrwanhaZ6+lNUCL+S3f2Px5UzyOR
-	 k/3X1rLWzjst670z4yQ5sslIlyWb71Gt5j9Ct7hhB7A2rqKtK1ToeE8+AO/I1MfQebN/v
-	 XznQiLOLRndZCOd8t80jD26BqwMgsdMXJVCgqY4ff6cKHoxk4No97BAsVYNFG2OUXOBJQ
-	 DtgiutY1jxlkAJYq1W5gWIrLcs8UHW3mUBQN4iQin+eUduECYCvTh5RaCrMpWFXHdjCbU
-	 +g4sm+OCpVYmw9fbBRILE8CnLCvdeZCSqjjg6X01nBcpolAWOFpC7I/x4DnnaO423xA==
+	t=1793147019;
+	b=WjcCbx6hGENB2QqkLf4z/YiYETxhzCeY054oXYVCROEDrMW2kQy3PJ8WYEqUxr7IB/q3
+	 qnHI4W8K6sJSRg6He65knntfyAi9qiSnKOhLBcMqU1WnODsNtGwfuKOkCZvFlv4cp+/y9
+	 NI0FtfHM+E9qKid3uY9KsEDUmxDOcVkFo3mu82UhTiWUwKuMXlb+PiEIAgTjWpg/MBnhv
+	 nNqveZLovjxfWN2BHuTuBUUGxSOAo14H1t+BJqKgqb7a2Ud7jrqK7pbK8MJOziZXATglZ
+	 /kyUxoCj1J554aHERj7HGS+5VywZPBlGjCmpWYLsHqWmtJcpdO8/KHmLFpdV1v8wPRA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793142957;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:
-	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
-	b=jll/ZKiM8g7QOp22RUzP+flID1G2XsLR4tL4C9WpX5eQTlO9JBicFjkVz2pdNuILHojd
-	 KKTCeCaWdqoEgVnm96NeidHwDRPDRrC8KkQ1XcI3G84BLt7gB67ggdl30/qse+L6m+s3P
-	 7uMrxcxUDWaEUcXBd8hkWNY9vkpcdLhqAsMwoR8yY/jFsnYrhpxDKAe3pCB9KDR5fcz0s
-	 y+kx+slVq0TrW8sNepDItJrvRxWfedrccCZdCtH6WE7FzdiXxNlZzZ92lsO59Fs/3s1AT
-	 egJ0noLM9WASNDadU8fWGQS9Dt32MIrqBTDjSrnWWw/jWhrqerXiDRUUBCvFjgfBMbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793147019;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
+	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=;
+	b=svD6ZZlNfRJDrwwPSn1Tc5i94BwgI/j2FA6PhnD6KezCJOsYOvk7ukMhyoDajVpbfG7H
+	 YdKw/ZmiGR7UCVrYRlWk+iz25fmB/6HRL5+XB7DUlCe5H9rGNC7M7lkIvYe8ntPaP97Mq
+	 9OMRKe4hfr5hTkHNPPyeKQUxWIEbOaGoWhoyLD8+MEm+4sjBJ59l/5GBshIFAyR3DH+zQ
+	 J0z5ANIBdUVzmetRy8ITZFV2x2O6Ewtcneo7tUDfP/a4YnzeS0VNaQxUcmDCvJuvseMtq
+	 S+LZHUeBNdVaECwfMMHmX0Tkw2wXM88gYvMSxi1gzY1Gzo2NmdoJx9Wc9VnnT6CDlrA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="Gt/46kow";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.38
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010038.outbound.protection.outlook.com [40.93.198.38])
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=gcGkZi72;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7957160A260A;
-	Tue, 27 Oct 2026 23:15:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7957160A260A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F992606A31E
+	for <driver-core@lists.linux.dev>; Wed, 28 Oct 2026 00:23:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F992606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Gt/46kow
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SQ0rtxs2yHtePTZKSKD03j2Lp/EMu3QXDUf/w94nK9S+l9CYSX+7Cr9paPIDE4/M19m4Ca8X79C0uz89dK22pQ72n+cDOzmWDU3wG0TK0yKs4K0jp/3oIuLOfP+nbdP0y8i3vmhQd6gwRl02mrcu4ByiN+RZ8GhgbCqALGUlndhuhHv5OsXsAxiLkHufzubfHg7vmeVMkxluO80yGDKOOnS0fKbHULE0sAh1LIqaFZh7Oc+5k5hucReBYuB1hA4t0UzQYIJe2FEpnsVIbRa9NCcLN7pveLT71fbGYNPKuH2nmC/bxE/gcjOhOCp6OTi2iVqnf3pdkgdpQpEn7LUOPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
- b=b0JQW2AEqPk0iP8a9Zub+egPaFvQ3Dhf84zHirwe+SMZ7cbPs0/46tOcyBL2VHwrITCNhqMvFDlSoVfjuzHpvUShZ2rRyprTXr+2xJHEoJtCrTCq/qSxBvu1X+whIr0SBZqudOvFV+Hk0pqnT9+l0aBVaqR9sTE4zuLh7oD9DA/M4D0Ueo2m9Y8cv2Gf98xBykKP/uu4UIBVJHmiEFpJmW4xFNhe6B0hlBOktB/K8r+61T/36+0AhC60Iv3KqqvTCz8hoMyjiY36xf8h5RBGR+GrDYg27t4fE/Kc+iK6EFaxySSCcUo3nJ6cU/d5ZkkJsU5IyxzbTYJgerhci1O+lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7ISyHKlVAcM0/DZJiGCw/9XLIFyiBD/SzVNJUBpkA0g=;
- b=Gt/46kowYNiZfGLkAVE6OaDkSSnYpqckrOor/qJPeSdsHwKMTjjCglaYc28asPRHN0TIJ5YbjWWz+FYDCNfl7LBI4K+P4kmPsVpQwcgoeixgHICmsdDLcX6F6xw3v88rW98z6lgDsR4c0TCgFyOXraesRF/6osIb1OZDO9j2J/Y=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN7PPF5F16C5C9C.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::607) by DM6PR12MB4186.namprd12.prod.outlook.com
- (2603:10b6:5:21b::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
- 2026 23:15:52 +0000
-Received: from BN7PPF5F16C5C9C.namprd12.prod.outlook.com
- ([fe80::67a7:9feb:71ef:964a]) by BN7PPF5F16C5C9C.namprd12.prod.outlook.com
- ([fe80::67a7:9feb:71ef:964a%8]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
- 23:15:52 +0000
-Message-ID: <34272fe1-e5cb-490e-9053-a2fa72f29a10@amd.com>
-Date: Tue, 27 Oct 2026 19:15:49 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] drm/amdkfd: Free queue in procfs_queue_type
- kobject release callback
-To: Ian Rogers <irogers@google.com>, Kees Cook <kees@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>,
- Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
- Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
- xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amber Lin <Amber.Lin@amd.com>
-References: <20261027223847.652884-1-irogers@google.com>
- <20261027223847.652884-9-irogers@google.com>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20261027223847.652884-9-irogers@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0099.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::8) To BN7PPF5F16C5C9C.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::607)
+	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=gcGkZi72
+ARC-Seal: i=1; a=rsa-sha256; t=1793146990; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=X0B7Xl0LMMgR21Z7drvYafvTmTLkaqCaluNyUSjLkeJ3MtK07HrCeCdZ5KweNpm9My9yP2c/PpXolGe3n6Q61wt74UMtwqrNTEdUloTaC1ZAkwNYG9P92slzRW5oGf346Uu2u5oFzGlAytPdywpdHy5BdvcMul54RzD+gPX3W2s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1793146990; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=; 
+	b=c8aijzgu6zlB+VWbmyWO/ln6K0Xm3x7pihy2PLoMOMO5fLDZQ0KOEm7Oda28ziMg9QgBiUqwVjvay7lG+8qn+7U0jRkAP3OujbSjJG8LKUbYxa5F/GwH6ViTDc2Pgz7k07OMprIIh4dl7rP0gf39vOxLBxq2RB1n3QfNfgsUCoU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793146989;
+	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=G87NbfcKNeQRzbkIa3d0PCr/P11QVVco9Q0gAw67V8o=;
+	b=gcGkZi72n4iXSeDR1JzWMMk6u+hqZWtnXe7ihStj+/6649qJF0Dw72ATWDgr/7B/
+	qqjqM7ZgOO9SAblZUjze5RGxhv21qssVcWHNzLpkko36+JZkf6Qaorvs8ER0kkD8aAk
+	q4jAukYLhxGxhWPRWvGFpKFFpzm4hAQ12eEDQonc=
+Received: by smtp.zohomail.com with SMTPS id 1793146988395337.5007495887817;
+	Tue, 27 Oct 2026 17:23:08 -0700 (PDT)
+Date: Tue, 27 Oct 2026 17:23:06 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Ke Sun <sunke@kylinos.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Lyude Paul <lyude@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev, Alvin Sun <alvin.sun@linux.dev>
+Subject: Re: [PATCH v5 05/11] drm/tyr: add user and MCU VM specifications
+Message-ID: <auFAas_sCjDQkRmM@um790>
+References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
+ <20261027-tyr-ioctls-v5-5-59dfe98cb003@kylinos.cn>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -119,148 +87,328 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PPF5F16C5C9C:EE_|DM6PR12MB4186:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4a9363e-e46d-4dba-1360-08df34803e8c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|261009223027099003|261022105027099003|261021121427099003|261021123027099003|10067099003|56012099006|22082099003|18002099003|4143699003|11063799006|261026140227099003;
-X-Microsoft-Antispam-Message-Info:
-	DSmAC/LXxQNwDa5i5URmYnYa+8b0/OwMVhNeh3ZW0NuqAJafHKuOnQaOV0lIwiLh4xwlaBNevUZsjqmNUxBpst2EwayM/QPsvWOCH0nAQ7Ouwlh2Xxrx5NbkBIBXKIT1DqRqeULra7VgJq+BY7jk8uBLBM6q/X4zWFfSe30Dw2M/22y2CzhhaNFeBZwxvLStpgYWP5LPHl1fSHxHXphIwW6FLRkZPM1oiOpWa5Wj5GAr1qWDL/VJ6Yng12EqO5soAG290Xaytsxguy25IQ9zDRdFrF/+qqV9RT8gSDSTnNOwV7ERKIKIi1G8Z/ivMVfMoFHiCrIRR1Y9VYfRwMRW/wCp68FhBilOa8m3tW1zyUagPjSy31NY1yS9ChLCORD1FtVrn3A0xQ85Nr4kZcDm9WQU9kYFKhzppGECZlJ9g7Mx8fmoN/Yqfclcu37pAXmQFyVLWlMAEXHqFTLhtC7gh35ILFxRPgDh2HcGtsCQYl9Jx4qErnS7ttXoPClfclYDED+WsPGOSE7/5NzeoleF2c47cTgMdb/WC+R/4X/WTPFkvm7W18xysyPN656LB5laecoHSmWC61nJF0Rj9CpKopp67Fn+6SIj542SLGThROjCygcddKDvn4sWrWAafoxmVK8LL3yRIU6av/Rat8GCaOFUQAtOq09LPlAM5nOv2Fk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN7PPF5F16C5C9C.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(261009223027099003)(261022105027099003)(261021121427099003)(261021123027099003)(10067099003)(56012099006)(22082099003)(18002099003)(4143699003)(11063799006)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?empiQldXdGliaGFsc1JwOFdmQWViK0VFMlV5Vi80MnI1WW9tc1ZiSmNVN0VZ?=
- =?utf-8?B?VVlhOHVzVFliZ0NScEx0OUxNVm13eUppMm9OU25NRGNUcWRrWFYwaVl4dDg2?=
- =?utf-8?B?RUU3S2dPSk1taGxzbU1LV3lRQUhDK0FOcFZrdTBtQ29YeW43cnB2RnQyV0F2?=
- =?utf-8?B?SlVET3F3d0V6aU42S3dwSXIzaGdLOFo2THJwTEx4YXRDVHdWR1pzcjN5TUtF?=
- =?utf-8?B?Y1pEKytxd3QyaUJQQmtkRWVNWG91eFcycWlvKzBldjhGZk82em0xQ09sV0VC?=
- =?utf-8?B?R0VFZW90dUpLeDF4TVI1U2tLN0kycXlpRnplRlR3SzFPRDlqcjdoS3hKbks4?=
- =?utf-8?B?RXBIK1d1cDIrbjJjUWc0RVdKZGltKzdPNFBlVUx5MTRTSmZER2g3NTlLNUFn?=
- =?utf-8?B?WU5DOU84OG82cE8zc2ZBUVJYT3dxQ0JtemUxODk2QXpUb2xESG1RUzdid1B5?=
- =?utf-8?B?ZnZneE03VHk1S1BhRzhtNE1XQmxQOVRPb05IOUhaeUhqblVtVExxR2ovOUdC?=
- =?utf-8?B?NjNIbE91c2JwcXJtYktKN2ZDaDAzeVZ1YkErT2Q2RVJDc3Q4bDc0aHFhZVNX?=
- =?utf-8?B?V1hMUWZKU0t2R01HVEhaTEVKamFqMUZXd1luS2NaM0ozKzV1dldwUDlaMkRk?=
- =?utf-8?B?YTljQlN1SXVJQlM0UjNrSWdieVpMWFdESEI1STNQVHJUK3k5eW1rYWRLbXA0?=
- =?utf-8?B?V0g0bmYwSlBLcksrNUZ5NlJyUGM3bWw3TDlCR2Izc2U5STNpRGxKUEthN2cv?=
- =?utf-8?B?TjhyYStvUDhVTjFIYVNDenJJVHFSZ2JpTmVHK0VEYVZKSlByVC9QS0pFcVJ0?=
- =?utf-8?B?emI2ekJBVFpXNXozYnVLRXdTUURLb2VDeldlOFE3MERLVlZYWnVzSGhkVDlt?=
- =?utf-8?B?YW94OTFabFhWem5pdEhQWlRDMFZNMldkUmJ3dXdjdnE2R0FudUdXZzdLM2lG?=
- =?utf-8?B?Q1JkWXh5NVpGRFFOdGtNS2oxUnZ2M1JwbjBtV0s2Y1BIT1NuZ0JWTCs0Q01J?=
- =?utf-8?B?ZUJINmtIY1ZlRjdUVmNESENuSUNQV25pdTBaaXNHVEs3K1FYSU4xYlcvN09m?=
- =?utf-8?B?SllmR0NqRkxFcUh4ZEJYekJpOGpHdDAxRGFJNUJUQ3RjODQzZUN2aVlVOWNw?=
- =?utf-8?B?TEM0SFZrcE0yR1A0bFNoK1lHK2VOZXE2dENJcXZQanBRckJKUTh5elVKOU9O?=
- =?utf-8?B?RVFmTjhrTkZnTHN0RzFDTEkxR2hMUW9zYTBJNnBTbnRhMWVEUmphanFmT1E4?=
- =?utf-8?B?YVBKeE9FdUNNZEtZUm5lZGp6NGVRUnRudGhSWGROd2E5OEE3blArVVFvTmI5?=
- =?utf-8?B?cHpEZm1TUGpYZVNjSzZFeHBTeGNFYm1FUTIwbmVGazh3NmM3MHZtSkREZjBh?=
- =?utf-8?B?d1pndkJnUEJaR0ZMUUJyb2greDJ3OHJRRE8xTy93SVpuamNaakVtNVhOc0pL?=
- =?utf-8?B?WG5KZDdhcGRzZG9zTCtpOGJqZFY2dmswVjBmMjR6aDYyc2JjK2s3MDJ5M1R0?=
- =?utf-8?B?bHNNSk9mN0FPUjhCcWRKUW5mQnBqUStZU1pobllGSGdUa0h6WjBld203OE8w?=
- =?utf-8?B?TytZc1ZpekF3cTJxakZvQU94dUdLT2hHTVIxKzRaMldRQk9HTTVRcS9hNm45?=
- =?utf-8?B?WDJIK0h4TUJyUVNqSkk1RTJRTGYwY3dvSWdrNW45MnErY3FlS3BFc280SFE0?=
- =?utf-8?B?MXNNM203SnA4VGMzMnMycVpSdjdlWENnSEQ4dlNzSHF1ckV0RzBiZ0xLKzcw?=
- =?utf-8?B?anJZS01PZUpOTVJIa2h3VXFRTzd0YlBySVIwN2NqQ3UyNnM1d09Bc0YrVEVj?=
- =?utf-8?B?VTk2d0ZINllJWWh0bmtXdmw3dlhyTVEyL1B2a2gwSFY1dEM5c3NYWUFLTmp5?=
- =?utf-8?B?cVUvM3ZWRkwxTnQyQ3UyeUUwWS96QVgvamo0c21UVTYzOFlaZWRmVWxQTU92?=
- =?utf-8?B?ZzhEZmtYVkVkTm9ldER3RDMrS3ZqMDBZZEp1Y1ZxVnhDS2lFOTRoR1F3OWVi?=
- =?utf-8?B?NmFocUZqT2pIakJlT2FnY2ZGdFZNL0Q5aDhGOWNxT3dmbk1tOHpxZGk4TzZO?=
- =?utf-8?B?c3pucmhJT2ZqZFpvSDRTN0dqYW5ITzFtQVBBQlhKUi8zcEtsdlJKOUFEd2k3?=
- =?utf-8?B?KzVzS3ZWZ1FDODJnYlQ3YzBGL0ZDaVJNOUJQdGJEVHhCdjZoWGZ5SEs0T1JT?=
- =?utf-8?B?UXJBeWZBVWRpaEJKU2ViQldVbEN3T3pKb1AxdlNTdkZOTGVUU1d0VmdjYWNj?=
- =?utf-8?B?T0Y0a3FYcFRwTzdqLzFhNjRGd0Z0VTZaR0dhaWFBNmhqVDdWd3gvdDFJbGpR?=
- =?utf-8?B?dm0weUVFNDI4VVNXWVZIbVp0L1g4ODlKOWREaE00SjRFSjJ0M0liZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4a9363e-e46d-4dba-1360-08df34803e8c
-X-MS-Exchange-CrossTenant-AuthSource: BN7PPF5F16C5C9C.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 23:15:52.0995
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ob+TKLRgRvAPv0Q9NjDGMWPP+1+Q+RZGLPVUAzRJKfxvNbAWmbA/GcQ++WN0aIUSZde9N19st+by1XpDYPKkRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4186
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-tyr-ioctls-v5-5-59dfe98cb003@kylinos.cn>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/293.134.36
 
-On 2026-10-27 18:38, Ian Rogers wrote:
-> struct queue embeds a struct kobject (q->kobj) for procfs entries, but
-> procfs_queue_type had no .release callback and uninit_queue() freed q
-> immediately after kfd_procfs_del_queue() called kobject_put(&q->kobj).
-> With CONFIG_DEBUG_KOBJECT_RELEASE=y, this causes a use-after-free.
->
-> Add kfd_procfs_queue_release() to free struct queue from the kobject
-> release callback, change kfd_procfs_del_queue() to only remove the
-> kobject from sysfs via kobject_del(), and drop the final reference in
-> uninit_queue() via kobject_put(). Check q->kobj.state_in_sysfs before
-> calling kobject_del() in kfd_procfs_del_queue() to avoid warnings if
-> sysfs creation previously failed.
->
-> Fixes: 6d220a7e7971 ("drm/amdkfd: Add queue information to sysfs")
-> Signed-off-by: Ian Rogers <irogers@google.com>
-
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-
-
+On Tue, Oct 27, 2026 at 12:40:58AM +0800, Ke Sun wrote:
+> From: Alvin Sun <alvin.sun@linux.dev>
+> 
+> The MCU and user VMs need different VA layouts. Give each a dedicated
+> constructor: new_for_fw() builds the kernel-only 4G layout, while
+> new_for_user() splits the address space by task_size or a user-provided
+> size, rejecting oversized requests rather than clamping. The resulting
+> user range is what VM_CREATE reports back as user_va_range.
+> 
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 > ---
->   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 12 +++++++++---
->   drivers/gpu/drm/amd/amdkfd/kfd_queue.c   |  5 ++++-
->   2 files changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index 226f52626e84..8e6136d52a50 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -512,7 +512,15 @@ static const struct sysfs_ops procfs_queue_ops = {
->   	.show = kfd_procfs_queue_show,
->   };
->   
-> +static void kfd_procfs_queue_release(struct kobject *kobj)
-> +{
-> +	struct queue *q = container_of(kobj, struct queue, kobj);
-> +
-> +	kfree(q);
+>  drivers/gpu/drm/tyr/fw.rs |  19 +++---
+>  drivers/gpu/drm/tyr/vm.rs | 157 +++++++++++++++++++++++++++++++++++++++++-----
+>  2 files changed, 151 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
+> index aea151ff1f934..81e8103368bc2 100644
+> --- a/drivers/gpu/drm/tyr/fw.rs
+> +++ b/drivers/gpu/drm/tyr/fw.rs
+> @@ -51,7 +51,6 @@
+>          KernelBoVaAlloc, //
+>      },
+>      gpu::GpuInfo,
+> -
+>      mmu::Mmu,
+>      regs::{
+>          gpu_control::{
+> @@ -219,10 +218,10 @@ pub(crate) fn new(
+>          mmu: ArcBorrow<'_, Mmu<'drm>>,
+>          gpu_info: &GpuInfo,
+>      ) -> Result<Firmware<'drm>> {
+> -        let vm = Vm::new(dev, ddev, mmu, gpu_info)?;
+> +        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
+>          vm.activate()?;
+>  
+> -        let result = (|| {
+> +        let sections = (|| -> Result<KVec<Section<'drm>>> {
+>              let (fw, parsed_sections) = Self::load(dev, ddev, gpu_info)?;
+>              let mut sections = KVec::new();
+>              for parsed in parsed_sections {
+> @@ -252,18 +251,18 @@ pub(crate) fn new(
+>                  sections.push(Section { data, mem }, GFP_KERNEL)?;
+>              }
+>  
+> -            Ok(Firmware {
+> -                iomem,
+> -                vm: vm.clone(),
+> -                sections,
+> -            })
+> +            Ok(sections)
+>          })();
+>  
+> -        if result.is_err() {
+> +        if sections.is_err() {
+>              vm.kill();
+>          }
+>  
+> -        result
+> +        Ok(Firmware {
+> +            iomem,
+> +            vm,
+> +            sections: sections?,
+> +        })
+>      }
+
+This refactoring of the closure is unrelated to the patch subject so
+could you either just drop it from this series and save it for later or
+put it into its own patch with an explanation of why it is helpful.
+
+>  
+>      pub(crate) fn boot(&self) -> Result {
+> diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
+> index 69b092a130883..b2fcda1e61073 100644
+> --- a/drivers/gpu/drm/tyr/vm.rs
+> +++ b/drivers/gpu/drm/tyr/vm.rs
+> @@ -8,6 +8,7 @@
+>  //! mapped into hardware address space (AS) slots for GPU execution.
+>  
+>  use core::marker::PhantomData;
+> +use core::num::NonZeroU64;
+>  use core::ops::Range;
+>  
+>  use kernel::{
+> @@ -45,6 +46,8 @@
+>      num::casts::FromSafeCast,
+>      prelude::*,
+>      sizes::{
+> +        LargeSizeConstants,
+> +        SizeConstants,
+>          SZ_1G,
+>          SZ_2M,
+>          SZ_4K, //
+> @@ -160,6 +163,90 @@ fn try_from(value: u32) -> Result<Self, Self::Error> {
+>      }
+>  }
+>  
+> +/// User VA size request for a user VM.
+> +pub(crate) enum UserVaRequest {
+> +    /// Split based on `task_size()` and the GPU VA range.
+> +    Auto,
+> +    /// Caller-specified size; construction guarantees `> 0`.
+> +    Fixed(NonZeroU64),
 > +}
 > +
->   static const struct kobj_type procfs_queue_type = {
-> +	.release = kfd_procfs_queue_release,
->   	.sysfs_ops = &procfs_queue_ops,
->   	.default_groups = procfs_queue_groups,
->   };
-> @@ -552,7 +560,6 @@ int kfd_procfs_add_queue(struct queue *q)
->   	if (ret < 0) {
->   		pr_warn("Creating proc/<pid>/queues/%u failed",
->   			q->properties.queue_id);
-> -		kobject_put(&q->kobj);
->   		return ret;
->   	}
->   
-> @@ -697,11 +704,10 @@ static void kfd_procfs_add_sysfs_files(struct kfd_process *p)
->   
->   void kfd_procfs_del_queue(struct queue *q)
->   {
-> -	if (!q || !q->process->kobj)
-> +	if (!q || !q->process || !q->process->kobj || !q->kobj.state_in_sysfs)
->   		return;
->   
->   	kobject_del(&q->kobj);
-> -	kobject_put(&q->kobj);
->   }
->   
->   int kfd_process_create_wq(void)
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
-> index ae3e7c54014a..4666110aebe0 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
-> @@ -83,7 +83,10 @@ int init_queue(struct queue **q, const struct queue_properties *properties)
->   
->   void uninit_queue(struct queue *q)
->   {
-> -	kfree(q);
-> +	if (q && q->kobj.state_initialized)
-> +		kobject_put(&q->kobj);
-> +	else
-> +		kfree(q);
->   }
->   
->   #if IS_ENABLED(CONFIG_HSA_AMD_SVM)
+> +impl UserVaRequest {
+> +    /// UAPI boundary normalization: `0` -> [`Auto`](Self::Auto).
+> +    #[expect(dead_code)]
+> +    pub(crate) fn from_uapi(v: u64) -> Self {
+> +        match NonZeroU64::new(v) {
+> +            Some(size) => Self::Fixed(size),
+> +            None => Self::Auto,
+> +        }
+> +    }
+> +}
+> +
+> +/// Final user/kernel VA layout for a VM.
+> +pub(crate) struct VmLayout {
+> +    /// Full GPU VA range covered by this VM.
+> +    pub(crate) full: Range<u64>,
+> +    /// User-accessible VA range. Empty for MCU VMs.
+> +    pub(crate) user: Range<u64>,
+> +}
+> +
+> +impl VmLayout {
+> +    /// Kernel VA range, reserved for future kernel object allocation.
+> +    #[expect(dead_code)]
+> +    pub(crate) fn kernel(&self) -> Range<u64> {
+> +        self.user.end..self.full.end
+> +    }
+> +
+> +    /// Compute a user/kernel split for a user VM from the full GPU VA range and
+> +    /// a user request.
+> +    pub(crate) fn compute(full: Range<u64>, req: UserVaRequest) -> Result<Self> {
+> +        // Minimum VA space reserved for kernel objects (heaps, ring buffers, ...).
+> +        const MIN_KERNEL_VA: u64 = u64::SZ_256M;
+> +
+> +        if full.end <= MIN_KERNEL_VA {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        let user_max = full.end - MIN_KERNEL_VA;
+> +
+> +        let user_end = match req {
+> +            UserVaRequest::Fixed(v) => {
+> +                let user_size = v.get();
+> +                if user_size > user_max {
+> +                    return Err(EINVAL);
+> +                }
+> +                user_size
+> +            }
+> +            UserVaRequest::Auto => {
+> +                let task_size = current!().task_size() as u64;
+> +                let candidate = if task_size < full.end {
+> +                    task_size
+> +                } else {
+> +                    // If the range exceeds 4G, split it in two so CPU and
+> +                    // GPU share the same addresses (SVM).
+> +                    if full.end > u64::SZ_4G {
+> +                        full.end / 2
+> +                    } else {
+> +                        user_max
+> +                    }
+> +                };
+> +                candidate.min(user_max)
+> +            }
+> +        };
+> +
+> +        let delta = full.end - user_end;
+> +        // Pick a kernel VA range that's a power of two, to have a clear split.
+> +        let kernel_va_range = 1u64 << delta.ilog2();
+> +        let kernel_va_start = full.end - kernel_va_range;
+> +        let full_start = full.start;
+> +
+> +        Ok(Self {
+> +            full,
+> +            user: full_start..kernel_va_start,
+> +        })
+> +    }
+> +}
+> +
+>  /// Arguments for a virtual memory map operation.
+>  struct VmMapArgs<'drm> {
+>      /// Access permissions and caching behavior for the mapping.
+> @@ -335,26 +422,64 @@ pub(crate) struct Vm<'drm> {
+>      /// Non-core part of the GPUVM. Can be used for stuff that doesn't modify the
+>      /// internal mapping tree, like GpuVm::obtain()
+>      gpuvm: ARef<GpuVm<GpuVmData<'drm>>>,
+> -    /// VA range for this VM.
+> -    va_range: Range<u64>,
+> +    /// VA layout for this VM.
+> +    pub(crate) layout: VmLayout,
+>  }
+>  
+>  impl<'drm> Vm<'drm> {
+> -    /// Creates a new GPU virtual address space.
+> +    /// Creates the MCU/firmware VM.
+>      ///
+> -    /// The VM is initialized with a page table configured according to the GPU's
+> -    /// address translation capabilities and registered with the GPUVM framework.
+> -    pub(crate) fn new(
+> +    /// The MCU VM is entirely kernel-managed: it has no user-accessible range.
+> +    pub(crate) fn new_for_fw(
+> +        dev: &'drm Device<Bound>,
+> +        ddev: &TyrDrmDevice,
+> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
+> +        gpu_info: &GpuInfo,
+> +    ) -> Result<Arc<Vm<'drm>>> {
+> +        // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
+> +        let layout = VmLayout {
+> +            full: 0..u64::SZ_4G,
+> +            user: 0..0u64,
+> +        };
+> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
+> +    }
+> +
+> +    /// Creates a user VM, splitting the GPU VA range per `user_va`.
+> +    #[expect(dead_code)]
+> +    pub(crate) fn new_for_user(
+>          dev: &'drm Device<Bound>,
+>          ddev: &TyrDrmDevice,
+>          mmu: ArcBorrow<'_, Mmu<'drm>>,
+>          gpu_info: &GpuInfo,
+> +        user_va: UserVaRequest,
+> +    ) -> Result<Arc<Vm<'drm>>> {
+> +        let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
+> +        let va_bits = mmu_features.va_bits().get();
+> +        let range = 0..(1u64 << va_bits);
+> +
+> +        let layout = VmLayout::compute(range.clone(), user_va).inspect_err(|_| {
+> +            dev_dbg!(
+> +                dev,
+> +                "Failed to split GPU VA range {:#x}..{:#x} into user and kernel regions\n",
+> +                range.start,
+> +                range.end
+> +            );
+> +        })?;
+> +        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
+> +    }
+> +
+> +    /// Initializes a VM with the given layout.
+> +    fn new_internal(
+> +        dev: &'drm Device<Bound>,
+> +        ddev: &TyrDrmDevice,
+> +        mmu: ArcBorrow<'_, Mmu<'drm>>,
+> +        gpu_info: &GpuInfo,
+> +        layout: VmLayout,
+>      ) -> Result<Arc<Vm<'drm>>> {
+>          let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
+>          let va_bits = mmu_features.va_bits().get();
+>          let pa_bits = mmu_features.pa_bits().get();
+>  
+> -        let range = 0..(1u64 << va_bits);
+>          let reserve_range = 0..0u64;
+>  
+>          // dummy_obj is used to initialize the GPUVM tree.
+> @@ -366,7 +491,7 @@ pub(crate) fn new(
+>              c"Tyr::GpuVm",
+>              ddev,
+>              &*dummy_obj,
+> -            range.clone(),
+> +            layout.full.clone(),
+>              reserve_range,
+>              GpuVmData::<'drm> {
+>                  _phantom: PhantomData::<&()>,
+> @@ -386,7 +511,7 @@ pub(crate) fn new(
+>                  mmu: mmu.into(),
+>                  gpuvm,
+>                  gpuvm_unique <- new_mutex!(gpuvm_unique),
+> -                va_range: range,
+> +                layout,
+>              }),
+>              GFP_KERNEL,
+>          )?;
+> @@ -417,10 +542,12 @@ fn deactivate(&self) -> Result {
+>  
+>      /// Kills the VM by deactivating it and unmapping all regions.
+>      pub(crate) fn kill(&self) {
+> -        // TODO: Turn the VM into a state where it can't be used.
+>          let _ = self.deactivate();
+>          let _ = self
+> -            .unmap_range(self.va_range.start, self.va_range.end - self.va_range.start)
+> +            .unmap_range(
+> +                self.layout.full.start,
+> +                self.layout.full.end - self.layout.full.start,
+> +            )
+>              .inspect_err(|e| {
+>                  dev_err!(self.dev, "Failed to unmap range during deactivate: {:?}", e);
+>              });
+> @@ -557,14 +684,14 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
+>  
+>          let end = va.checked_add(size).ok_or(EINVAL)?;
+>  
+> -        if va < self.va_range.start || end > self.va_range.end {
+> +        if va < self.layout.full.start || end > self.layout.full.end {
+>              dev_err!(
+>                  self.dev,
+>                  "Unmap range {:#x}..{:#x} exceeds VM range {:#x}..{:#x}",
+>                  va,
+>                  end,
+> -                self.va_range.start,
+> -                self.va_range.end
+> +                self.layout.full.start,
+> +                self.layout.full.end
+>              );
+>              return Err(EINVAL);
+>          }
+> @@ -574,7 +701,7 @@ pub(crate) fn unmap_range(&self, va: u64, size: u64) -> Result {
+>              region: va..end,
+>          };
+>  
+> -        let full_vm = va == self.va_range.start && end == self.va_range.end;
+> +        let full_vm = va == self.layout.full.start && end == self.layout.full.end;
+>  
+>          let mut resources = VmOpResources {
+>              preallocated_gpuvas: if full_vm {
+> 
+> -- 
+> 2.43.0
+> 
