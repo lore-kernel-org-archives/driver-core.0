@@ -1,141 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.19
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793292699;
-	b=Z9nANc2EZrfxN4WT8Pc8s9mB3IOPVC1unjNr/fxPJUNawKlnGhIG53d12/SXqVNYfvpF
-	 9XfHw2HHyIQLjgS0WfIEHuRxG019cCQQwfP7mV13PeeXB3twyQLvnKkHJzeDS94iEgx0m
-	 kkxHAwabHZSSh67Uljy4KWRHsV/EE37MWlSK8z4Xm7X6cCZJRy7+1KF1s0EOC/t4abz7P
-	 OtexwtOBNWesEhEvyFPn69gxgeBrMTJ5Q1Ed7LL++BItdRB/AIYyqcl9c2IoYN8lrHIYQ
-	 tXuzLpD2EgJ8eImQ5b2yTS8jc5tP24MHnu7eVjcTumGjmEKUpn2xvsJSB4TRkUc9bYw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793292699;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:Received:Date:From:To:CC:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-NV-OnPremToCloud:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=tSZqefhy6rxgPsDj2ZU1m/qdXPZYwA6HGz3L9O1XcT4=;
-	b=WInmOvGE9dL7f79CiE6BArdZon/DyBeTxjDtmeWqgcCVhMlrq9qa5IDsIEvG8uLlx6GV
-	 qRoQxQGW7RC4DzlV9UMX36bZAUIwylHqEiW9JoSAox4XJS2WVLfkodvow3CwPuRl3zi5R
-	 KSqMkCUhEYfcvgvhVjFPPtuA31AUlW4DDdqxmpx8ZQbHhLgD+W/erj23QqTZuf+/6SYP+
-	 sp/ahTp5A5+VURY2nISv/Rn8qLoG7B0P1hGvtSwXhhPlwt9iuqvCbauTtv5B/CV0WomXu
-	 kAnq44ZbvygdKv6l2tBXIveOi4A5ZMaPeWIU9/1ZDeFJMs+dsb5+FiZbIeDdWYk5cjQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=JUTH1c+Q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.19
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012019.outbound.protection.outlook.com [52.101.48.19])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793295561;
+	b=pCLfQ+r/4SO8dwlzwKlC2ZcYbGV1hB2jAW+QN0bL91y8xlActptl3YwcoX0u7LoNVtF4
+	 gSaqaJmR2ptxC6u5sEVU+73TWukVGBCv83RfRbP40ayVHWS6c5lcsPtfxIjr4JxdrElq7
+	 5QGm2hkWMiGlWZ1waa3f9YXZmWcI5FyFS2XBxwo8sp2VfrzJla6D0dybGixASWWsQ9uUI
+	 hN48c5N8Co3IwR2SE97ze/UTrCuhcABGT3H71NsffT5STfAoCUOhCEw4cmrajp6AnYm+M
+	 /+3YNoNca/+xT+0nwAAZkhzjVLa1F5I6J/bI0yoMWY+B/KUzJvhxseCL3n9VYpYY3WQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793295561;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=VxKnxxpthVZvnSjcILi92P8UHB/DkKivIP1tzJVYEyI=;
+	b=Wz30NUlEsI7zevu3p5g69egSYpqnu6Os+HxjmpmYxqF24qvNby91eR7/tZt7lcghr/ZC
+	 mNeKDfp2jFaZWWzEgcJEaD96JJs+3trEvVlA0sK87NQxON8TRRsy0t+tAaxSgiZ0L6xn1
+	 L+Fue8oJBrtJaqqW3mtjUr5JIiKqtNI0lXYHfEqDtoxyFheWMR5ld0QU3zrOqp8ZgT6CW
+	 /oqu1io5QgGdRYZRhvbkVKNGJdb6zG+fD1F4eZgvK5duOwkKuAdIpnvqja/nmlLnt4C8B
+	 zQz4y3015H0K8EjZ8cl7mGtDk3qjrMXZbpU7iS0qjOtNUIJ/n3qtxKOz/S9g+9mgf0A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=iH0CDtDo;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB60606A31C;
-	Thu, 29 Oct 2026 16:51:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EB60606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE23606A31A
+	for <driver-core@lists.linux.dev>; Thu, 29 Oct 2026 17:39:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CE23606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=JUTH1c+Q
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pFOxEChLOFukunNMoxGn7uRwtjYxTwJczIbd1VUD639ImsBtrm79E9b8ToC5sAmbQku9G9av3dwlT81FgzfJbm5kaPTY9nsa+lF2qCdr87jOltPkFdfLpZ4Kj4hu9TcU4x6P2QI8uj1s2k7yI6VOicLqsbNG0imkKoxKUSkrMLjCcus4iP5r6fR3Fkq1OfEkaIJoXft6K1mlq6uIekEFeAkBJYup0ao2Tp+srgtGVZ19p16cV3zavY4ijRFDbEVq7wwOxxPIOh0lxkXxQwXld4eubTt0qEJZM6T/F/QyGPt+9vvEhMCqvwi/3FQUF7uDmFSoqYbdEy25r+pa5K6HAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tSZqefhy6rxgPsDj2ZU1m/qdXPZYwA6HGz3L9O1XcT4=;
- b=PowLgQRSDMGy5OFENejWKBDHZgLfjho1MWU9A5qERZv42eeyrFjWbhdhHvFfPxTv4oMCjHbMBHoyaMNuxPozq/Q7MwtuFiVGfRSoNsGNb3WCJO1bND+jcxmZbjWrjwqtI73vu0NWPIM9bnKCrHgbFo+dHmbcSVxUtE1vTtoKDZ7AjT7N6KpLhvVHE00STNsESxen+QfEskO7BpOtXy0xFgxiVRHgLiUFAcr5Cz0k32mY+ZYVsNOyj7D+hkkBxWij0vQFmiTZxDoPZN3ISf0R/vaYs+FMYoiXPEHwLmlZg/tsHtpXY2JipN8xCbA1S8HAhGyPE2uQgBNh6Ug23AAZ7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSZqefhy6rxgPsDj2ZU1m/qdXPZYwA6HGz3L9O1XcT4=;
- b=JUTH1c+QbFKf3qUZMYQNVYjl77QlkrOk2QiOBlQwqeyuTyyGl9sHIrZs3OTA9gJ0LEXyFDyVERxhMXTAhekFGGA316B2iudHQq3U9HAuT2YIKIF8cCR5A/vU88PzDLnzdc/6itPSfgGsOm8JSSWv2K5jvO04ubcXefAIimwEKifGKdwQneXWqQYesGEyrzJGIirsq2zC44l6Jz0Xmdx/VatdTaGd+eoKxxW8+NwsRLZdPW8Z7IqOzDjCX0uwKJWQzwdk8pyXA6lZUM6kAguedq9tuK7K7zqVHFPuxUaAyKXc38uKV7ZeUFloiC7syl9i2ebKJJmo3umLI3SxpEPrjQ==
-Received: from CH0PR03CA0431.namprd03.prod.outlook.com (2603:10b6:610:10e::22)
- by CH9PR12MB962943.namprd12.prod.outlook.com (2603:10b6:610:310::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Thu, 29 Oct
- 2026 16:51:28 +0000
-Received: from BN3PEPF00022BD5.namprd03.prod.outlook.com
- (2603:10b6:610:10e:cafe::9b) by CH0PR03CA0431.outlook.office365.com
- (2603:10b6:610:10e::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.8 via Frontend Transport; Thu, 29
- Oct 2026 16:51:28 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 216.228.118.232) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- BN3PEPF00022BD5.mail.protection.outlook.com (10.167.248.100) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 16:51:28 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Thu, 29 Oct
- 2026 09:51:07 -0700
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 29 Oct 2026 09:51:06 -0700
-Received: from nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56 via Frontend
- Transport; Thu, 29 Oct 2026 09:51:03 -0700
-Date: Thu, 29 Oct 2026 09:51:00 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Shameer Kolothum Thodi <skolothumtho@nvidia.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "joro@8bytes.org"
-	<joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>, "rafael@kernel.org"
-	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Marek Szyprowski
-	<m.szyprowski@samsung.com>, "aneesh.kumar@kernel.org"
-	<aneesh.kumar@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Suzuki K Poulose
-	<suzuki.poulose@arm.com>, Gavin Shan <gshan@redhat.com>, Vikram Sethi
-	<vsethi@nvidia.com>, Anshuman Khandual <anshuman.khandual@arm.com>, "Shanker
- Donthineni" <sdonthineni@nvidia.com>, Mostafa Saleh <smostafa@google.com>,
-	"rppt@kernel.org" <rppt@kernel.org>, Thomas Huth <thuth@redhat.com>, "Marc
- Zyngier" <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	"kas@kernel.org" <kas@kernel.org>, Kohei Enju <enju.kohei@fujitsu.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, Ard Biesheuvel <ardb@kernel.org>,
-	James Morse <james.morse@arm.com>, Steven Price <steven.price@arm.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>, Omar Sandoval <osandov@fb.com>,
-	Andrew Morton <akpm@linux-foundation.org>, Jinjie Ruan
-	<ruanjinjie@huawei.com>, Sam Edwards <cfsworks@gmail.com>, Douglas Anderson
-	<dianders@chromium.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
-	Chen-Yu Tsai <wenst@chromium.org>, Huacai Chen <chenhuacai@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Pranjal Shrivastava
-	<praan@google.com>, Ashish Mhetre <amhetre@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "iommu@lists.linux.dev"
-	<iommu@lists.linux.dev>, "driver-core@lists.linux.dev"
-	<driver-core@lists.linux.dev>, Sonang Patel <sonangp@nvidia.com>, "Ankit
- Agrawal" <ankita@nvidia.com>
-Subject: Re: [PATCH v1 2/8] firmware: arm_rmm: Add VSMMU commands and fields
-Message-ID: <auN5dAoteDHV/h+W@nvidia.com>
-References: <cover.1789010941.git.nicolinc@nvidia.com>
- <0623345baaf550da1339e040b59f1fda902e3390.1789010941.git.nicolinc@nvidia.com>
- <SJ0PR12MB861491CC7A4C567D01F9B951AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
- <20261028123509.GA2541714@nvidia.com>
- <auJBF+hDkx+uKixe@nvidia.com>
- <SJ0PR12MB8614E6DE095441E52698D7F9AB6E2@SJ0PR12MB8614.namprd12.prod.outlook.com>
- <20261029122818.GD3040767@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=iH0CDtDo
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso17315325e9.0
+        for <driver-core@lists.linux.dev>; Thu, 29 Oct 2026 10:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793295558; x=1793900358; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VxKnxxpthVZvnSjcILi92P8UHB/DkKivIP1tzJVYEyI=;
+        b=iH0CDtDoN02rQy5VXnf+FXR5ZGyw/kUraqAtB5uMKp0iqx0iWkzohU4H+ZC3NtEG2P
+         pfH+ZAYvzjyhSF9nxl7bu59bF6scNQBzEBr5c27+9DZ8VQP1xpOxftdqJR7mh3f3sHlq
+         geasfp45s0a38URLTmphCWDgXlV83zAKeNNMm9ea0lta3g7nvIh3D0lOvYxharAhKwhS
+         VFagpq+PMuPXobKhSZun5nHJBB7gmyL/J7+FNx6ohlsBPV2XHnKUw/vC6PnGEMFEKGY+
+         OH0m6p8EaZ9Mcqj1k2OZ460DI033zX6eaBaFwzJHOjQpUgHJ3V6/0TXTJsAOBoLYpAvg
+         CvTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793295559; x=1793900359;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VxKnxxpthVZvnSjcILi92P8UHB/DkKivIP1tzJVYEyI=;
+        b=y1FC0715l2BTOHhQjpVUfLuft+ILxpQIXcbTS1LM9JD/SrlDNl7wtMU93eUdtLQrra
+         /fvFKJSvig52mtPIznxph/cJv3ZSmJaG/qal9Q7wF6ZmbM7DUftCrHOrWz7wg+69UtR+
+         mwv672O7KpBGpMFJQCMjqiDR8Y4hm0Ozs4BS8yBvZ05PMv+sELCG+9qWuW0GLksgtYqQ
+         bnf+fjEQsdnmkfpLTKxIeoina/bVb2rdunxN3wc5kPu3/6N0ci291MG78jF/yOH8vvcZ
+         OG7UNS5onuz/jeEZB6Ud0iBH8qF3M33aKRPb3FxrVdPEo0gpbM7t5OoczALr4yuUpk86
+         iKYg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/1qn1/rTT1/kTaN5LoeQ60Q4H2t/ocI1gk8M4FvOYDbM7k6HB/BQbkQ6qPgRh0R304jGx/VvF1FbbFQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLQrJ35ifkrVEZg4EJbfNfzwNWUhBCGVA2nZl9kRcMT5G7GqU1A
+	xssxGc6TsU4eBArapEnchDAxRZxS2bSb9SXR2ZQep6p87NSueV8GL1Q0FOsC/33QB60=
+X-Gm-Gg: AYBFou1/yCqSSX+Hwpq+e1kL+0AVPHq3plaOnJqwVIk8Zm6WNSIz9thkS0dPN4vmnDu
+	0uSoUhVfJM9XNZmvsPdfXvbVj+JwoevGcvE2kciQdwTiils0WUvaaOOY7fcGp3i1RALsa7eKbKx
+	Y9OsG9HRmrDe0dzfX9YqOvzwLTfN8OTFpBAx2dBVajsargGW7S2ekomycri10E8h34DJWixObUH
+	NfAB02jQVTqJO/qPW2Yr/1+S1s+a8L8a9ggXog6nTb7CO5pTT6VplEjpcIL+B1TEl1wLJ1kDxYA
+	B2OXTzSRqzyF5RD7SjyMZ06U2eoI942RyAFtMChSzLgsJP2NTzIGkuZHjULUed/tlFRvrD76haA
+	Z6g0j0tjVm2ky7a+/r+hi8VtXMSzPgc1HP1jSiUH5wkGaWlRrQDXGCDwkwQJJH21D22m/Se5Lwy
+	hLKIoeqMTmCs/dNO7xMJR8mvwEQyxCklgM2HzuAaxk0lK5Az9v2MWvwt9vJDUq+XFHT+3rD/jV0
+	DG7xY+8gasyNaDSUPN20U/khijCz9I9faXXTVpMqkFXjb+iuiFzOIr0eni8OY+vQZ9IP9ApjfZl
+	S8edBJQztz018mkjic5WtRBEXlmaTxYgnaw=
+X-Received: by 2002:a05:600c:b8a:b0:4a2:b89:b02 with SMTP id 5b1f17b1804b1-4a96667c848mr135986785e9.10.1793295558589;
+        Thu, 29 Oct 2026 10:39:18 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48e6df1e458sm627445f8f.5.2026.10.29.10.39.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 10:39:17 -0700 (PDT)
+Date: Thu, 29 Oct 2026 18:39:16 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Michal Pecio <michal.pecio@gmail.com>
+Subject: Re: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers"
+Message-ID: <auODHyLrfQylISX2@monoceros>
+References: <20261028-bind_taint-revert-v1-1-7c6b9cef30c9@linuxfoundation.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -145,84 +103,118 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l6fyrt6fnoykrkwe"
 Content-Disposition: inline
-In-Reply-To: <20261029122818.GD3040767@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF00022BD5:EE_|CH9PR12MB962943:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0271769-db46-4212-248d-08df35dce05f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|36860700016|82310400026|5023799004|4143699003|11063799006|56012099006|261009223027099003|261026121527099003|261022113327099003|261021135927099003|261021121427099003|10067099003|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	W8Pg9Azjhpw5T3oranOXS4K2kaGMU60WIgJeUqVxnwBSLFHwMl16YTbvk3OSkc1oI7wMY6OuDFz72L/7JF8ZyLyuu8Xr5HfcqZxXZXMop0pLkrOxWgCTKpgJa/fhZ/XOtTq2U62zKpLmeFKjN1pG8f9FmwISGsA6bbF9hkJLyqC+WWajSlt1yiIDQMggog28sancsT+5CEysG7SQaEyhDAFEkZ2fGfkoF2RQHp27R/HDS8DaJ0lobsA0qu0Z1zPlsRlb03Nkw+o67I5ml/y3fqE+SO+Fkh7cuaQOPAwA+CA+pk4REjYzEC2B19qnDcBhVALYgi1EGgirTJRcAHVCuMa9KiQAuXvF9x7jO6RHXdCsNZCwpuMzc7rW9PoLSFa49mZ7XPm0+gihWmwfvDP4orhk4C5y4VKONuXwFexMRwxBdsFgD9xNMhsirNfLyqY9n8AuSfipdcXW2CcsOF4vuoUo6Iiw1gd4PAifnHr8J954pvUGXO6YJo/gnO6fqGPSs5FWTNw+QzPrl/e0uNsL1kpzWXnjid9aurpyaKUNs1saXWMgyplhG48ow0kfeilPEEugmE5TkWhPdw+ZCWTjIPJ5CNTPH5ypgyivZApMckzUU35SWe6Hb1ZhaiegMUkoKRH+xquhLEqmZZ8m4677tXVlE10wkvhhAUn3H38W/Y1vFP07yF3rRCNMHx6Rh8YYwKeCO91S90uQNmr6OJ5zag==
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(36860700016)(82310400026)(5023799004)(4143699003)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261022113327099003)(261021135927099003)(261021121427099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	wkS+yXhHtf9zm2m9DrRheUWrCzIJYUwqfBbRkNQ5vuATUjRUNrpv8e5/tODrvvwB/tjVmKIUQ2bZJJigJDt1+uKb07IiOVZzIzMgtcatD/A0JAZG+EWY8GXOwPs0KJXciYvd5Fv9QN2+ePbejxJL2BfxiJcKaN5t3wCH0yg63WLA66bDIunP1coBnupDMwXpRZzYRDuFCieIbu84PVqVfbn3Y7TYjsO3zvVLWJwGf/eTYp0DD1Jt5Y3Lf42b8DQVXSzsdcl7Yl6ZZrXWLTihLSabSDgJsB/LCEvbhwkHkL3gZrrognoZ3ONlqWnffi/5z+ovFOTu6HNZGnyHyTrntXuqPD9kGDHl7MTRoUge/yOzKgST/8b4+krOkRhSLYpih7twPKQhyuigyM1MMUmjUsStumbAZptA9UEHb0lDa4vHmFAh2YEhECtMXrqzAzeD
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 16:51:28.1508
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0271769-db46-4212-248d-08df35dce05f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF00022BD5.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH9PR12MB962943
+In-Reply-To: <20261028-bind_taint-revert-v1-1-7c6b9cef30c9@linuxfoundation.org>
 
-On Thu, Oct 29, 2026 at 09:28:18AM -0300, Jason Gunthorpe wrote:
-> On Thu, Oct 29, 2026 at 10:05:05AM +0000, Shameer Kolothum Thodi wrote:
-> > > On Wed, Oct 28, 2026 at 09:35:09AM -0300, Jason Gunthorpe wrote:
-> > > > On Wed, Oct 28, 2026 at 09:49:53AM +0000, Shameer Kolothum Thodi
-> > > wrote:
-> > > > > > +static inline unsigned long rsi_arch_dev_activate(phys_addr_t base,
-> > > > > > +						  unsigned long dev_type)
-> > > > > > +{
-> > > > > > +	struct arm_smccc_res res;
-> > > > > > +
-> > > > > > +	arm_smccc_1_1_invoke(SMC_RSI_ARCH_DEV_ACTIVATE, base,
-> > > > > > dev_type, &res);
-> > > > >
-> > > > > These calls leave unused input registers unspecified, whereas
-> > > > > DEN0137 bet3 B1.2 marks them SBZ. Could we explicitly zero them?
-> > > > >
-> > > > > "On calling an RMI or RSI command, any of X1- X16 which are not
-> > > > >  specified as input values in the command definition SBZ"
-> > > >
-> > > > That seems too broad, Linux doesn't even support the x8-x16 inputs in
-> > > > the macros. I think the spec has errd here.
-> > > >
-> > > > Requiring zeroing of x0-x7 is sort of reasonable. Any future use of
-> > > > x8-x16 (including outputs) should require a direct opt in of the OS to
-> > > > indicate it supports this bank of registers.
-> > > >
-> > > > Otherwise you probably need a new macro helper for this protocol..
-> > > 
-> > > We could probably replace it with:
-> > > 	arm_smccc_smc(SMC_RSI_ARCH_DEV_ACTIVATE, base, dev_type, 0,
-> > > 0, 0, 0, 0,
-> > > 		      &res);
-> > > 
-> > > This should specify those unused inputs.
-> > 
-> > Or we could use arm_smccc_1_2_smc() with zero initialized registers, as
-> > rsi_attestation_token_init() does. I think that would cover X8-X16 too.
-> 
-> Yeah, that seems to be the right thing to do.
-> 
-> > But other RSI wrappers don't do that consistently, so it's fine either
-> > way, I guess.
-> 
-> Seems like a bug, with the spec being specific here it should be
-> fixed.
 
-I'll use arm_smccc_1_2_smc() in v2.
+--l6fyrt6fnoykrkwe
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers"
+MIME-Version: 1.0
 
-Thanks
-Nicolin
+On Wed, Oct 28, 2026 at 02:42:15PM +0100, Greg Kroah-Hartman wrote:
+> This reverts commit fcbfaffee51a452cc8efcbaa3b88ec4595678424.
+>=20
+> Turns out that vfio is a crazy beast and people have been "relying" on
+> the bind/unbind debugging feature as a way to handle passing through
+> devices to guest instances.  Because of this (https://xkcd.com/1172/),
+> let's revert the feature for now until we can figure out a more agreable
+> way to handle this such that normal workflows do not taint the kernel.
+>=20
+> Odds are something like what Uwe proposes at:
+> 	https://lore.kernel.org/lkml/cover.1790612298.git.u.kleine-koenig@baylib=
+re.com/
+> will be the best way forward and will be revisited after for after 7.4.
+>=20
+> The feature was originally intended to stem the flow of unnecessary
+> fuzzing reports of "broken" drivers where random devices were being
+> bound to random drivers and of course things were going wrong.  The main
+> syzbot tool is now not doing this anymore, and hopefully no one else
+> starts it up again (but in this madness of LLMs these days, you can't be
+> sure.)
+>=20
+> Thanks to everyone for telling me just how wrong I was to implement
+> this, I appreciated the feedback :)
+>=20
+> Link: https://lore.kernel.org/all/DLIL9H50MALI.3JROXYEEUM3KU@kernel.org/
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: Shuah Khan <skhan@linuxfoundation.org>
+> To: Randy Dunlap <rdunlap@infradead.org>
+> To: "Rafael J. Wysocki" <rafael@kernel.org>
+> To: Danilo Krummrich <dakr@kernel.org>
+> To: Johan Hovold <johan@kernel.org>
+> To: Steven Rostedt <rostedt@goodmis.org>
+> To: Masami Hiramatsu <mhiramat@kernel.org>
+> To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Reported-by: Leon Romanovsky <leon@kernel.org>
+> Reported-by: Jason Gunthorpe <jgg@ziepe.ca>
+> Reported-by: Michal Pecio <michal.pecio@gmail.com>
+> Reported-by: "Uwe Kleine-K=F6nig" <u.kleine-koenig@baylibre.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  Documentation/admin-guide/tainted-kernels.rst | 52 +++++++++++++--------=
+------
+>  drivers/base/bus.c                            |  3 --
+>  include/linux/panic.h                         |  3 +-
+>  include/trace/events/module.h                 |  3 +-
+>  kernel/panic.c                                |  5 ++-
+>  tools/debugging/kernel-chktaint               |  8 -----
+>  6 files changed, 28 insertions(+), 46 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentatio=
+n/admin-guide/tainted-kernels.rst
+> index a208811ad525..3d312bc17942 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+
+It's not part of commit fcbfaffee51a452cc8efcbaa3b88ec4595678424, but
+conceptually we need=20
+
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/=
+admin-guide/tainted-kernels.rst
+index 3d312bc17942..fcb8b9734548 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -74,7 +74,7 @@ a particular type of taint. It's best to leave that to th=
+e aforementioned
+ script, but if you need something quick you can use this shell command to =
+check
+ which bits are set::
+=20
+-	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i=
+&1));done
++	$ for i in $(seq 0 19); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i=
+&1));done
+=20
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+in this change which was fixed in commit f1850e443b0e ("docs:
+admin-guide: Handle TAINT_FORCED_BIND when parsing
+/proc/sys/kernel/tainted"), but that commit shouldn't be reverted as it
+contains a simplification that we should keep.
+
+Best regards
+Uwe
+
+--l6fyrt6fnoykrkwe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrjhMEACgkQj4D7WH0S
+/k7pjQf/fZLeX4jg8q6vdwBmv7dGxKbev3ARRZTtVOacOQwftIek8l6UKQWlMwoG
+/tiokVc22lkSxsHq47w6eKUKpucHydGzT8Y7OZvHNjOjZ1o9WS00lJRh6uhVTh06
+MK6k0za6dBbrOWnTBeTGZuWlLCOQKpDB/6t93V1fIYYJSd0ir3GpvVZzfM16Pk0d
+opyBimIxlfjCuxzRbj7DZjzv0I5PbjXdox41VKx2cx60OzFJdN0MKZifLp9yNV4s
+s6Tc4Q1oK/Ih66hhbojNkTp6Xyzsy2m0lvku9N0DitT5/VXqoI/mdedlPK7tFWeh
+qZAoONEgzf9TmSM0/P2g0K+1mpLkrg==
+=/byF
+-----END PGP SIGNATURE-----
+
+--l6fyrt6fnoykrkwe--
