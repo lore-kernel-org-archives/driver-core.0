@@ -1,93 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793275368;
-	b=BPWOZRlaxYq5neEWKxGATa3+8LxMarxfKqOUW2O+Gf8l3IBizXfdhdGK9+kcGofdPEbb
-	 23uLAOdtQIFlSwyWmh/3RA8M5jyRf9gu8A2svBhYpBiehsxGeb0S6Q8w8lFZpm9kd7XAF
-	 AneIZ7ix/R+HGLNWIRT7QYtBCinElw0GY0uG+y890UlEvsg94p4bvspqQqM1ITv10ZmAu
-	 amVPIKrC+X52yk4Q4EAAbeHh7DRB6Vku6ocdKLIKh4DveiL4pTPRccmkNjbLVKn3m/Q9D
-	 7AyuX8WlWmqJRyKs2lbVZqVJ01DrqXn3/+IVzIeU8zEtErRYwGmFLnFLpHmHHZHvddQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793275368;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
-	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
-	bh=T8Eng3qwLEeUoVGvRshX3rc6PfkWjqVrwxy3a8uah8E=;
-	b=LIVkEFCSI2UrvGWw+EjjdsjoSg8AdcZZhRg7rgFtY98C5wRaXbkkz/vTZgc+ZZsi94pr
-	 G5RJKMgTN1W+cRSZ8gTkBuKDdp+Eg86nIUNkG++jDV0BFctYjimUzD4sUkpgZnqXnx/FX
-	 5LyGIbaMoZS2dig4rw2brvG8vJmqr0uh+Vs6HvRzWXjxcWXrbiyQdSdqRiP7pZrNyFc5H
-	 oDdTq66RJbWDxXIUQ5RmetlxgAGwW9y2YioxLGk8lhk/U7JjGIqYWEmzYCejg6PxnpoUV
-	 +aIc3Ek9squdZDc2JdXpSk7Bii7LaK84iVO3q8sz/u8uxEB6rl3rDd2wLk40WirZzWw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HVshlDIf;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.8
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793276906;
+	b=xO1udB6FrHxuCboncmblPkv8YClx8Hw1/yLHTq7hJueGZHKuqrJhV4Du/LEtQlxfyT51
+	 DimycKKD3akhLjGvU1tmLHR4Y0M5Vda/1Xu7St2kWa0ZmiL+f2tQqaIDebJ2cCKuTbT9h
+	 JJlm2hLldlOsv39MtauHPGXrE5pvJWDRZHLwN+jz15Gcv08D6+xYyUqSx4WDt0NeVoZbk
+	 QHbOtzxqh/V5Z3yWBJYSr9qexSlJR68elxwxev+bl6UlFsyezPeIIcAQriuJv7YZwq9aH
+	 l8iqw9VIJOYNXw2No8aes4ywhWA3g3d8Fqio5avKwRPkbgfotHaRGHK/Byl/exfpnew==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793276906;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=DDLH9Z+TLZaN/5vWpYg9eIB5ydhEM3WGkhAlOOAzRVc=;
+	b=NH7PLoQG67kDjoz/jxP0/8V4jxTZjCJA8MPDSbFukEUp35rus0S7SstG+77ZpOi9RYxn
+	 FyR6EaFlZ7RjPntbWfrfIQ3dkRFpfRx+++pcbhea+qFaDbAAXlg1z/cGBJF+EwIv04zBs
+	 ZVmTksBsMGjZJ9qWdhpI+hgVW7FwHB0ya8WFlPffm+ybh27MGvmlBWMq703Tzx9kdfkm+
+	 gXDyhnzjJKKVj3bOfjXwqizpy/oYu+y8qVVzdSNLVXJMG8yPffI4QFqUbf5V6BSob3Al1
+	 u2q4J6f3o3SVXWl4YQf+bYKMPkGkTlxqRKC9Y7KkqkEI8hSaXTO9hqp9qeO7hmpHNqg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b="lSqj/v+o";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.8
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010008.outbound.protection.outlook.com [52.101.201.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1B5606A31A
-	for <driver-core@lists.linux.dev>; Thu, 29 Oct 2026 12:02:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB1B5606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1892E606A31A;
+	Thu, 29 Oct 2026 12:28:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1892E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HVshlDIf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793275368; x=1824811368;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Jr2MXl655ILtgT8HMWCdbmGSBcxTaDURabb84rT89Ow=;
-  b=HVshlDIfwMq7dWyS01r21mm6Jr+jt/Mx7JadIRclyT4GcS9RGNW8cshO
-   l0dPgzL1IGG52XslL4X7/1j8h1QTZuYyQxX2idTk/J3iPIyCPtUPKdmRs
-   YUTpIDWL/xfFCdcSX4FjdIBjbM5RyHFpZIqYIecHRe64bIdVKNk9I+7NW
-   IrbZPbYbfqwl4oyyDJvsNAuP4jlGxyzUnk3SEtUSOeQuMF9PWks2GJAPy
-   pGkTNzzMswYJ3XjcoGqEBFIL1GxOTX6GbQspqNUttOZM0m6QLyZ1kIf89
-   J+xQpxns1V9CzQ+afaw6CivTb/hQqE0yDq3QczY8FOcotUftbrAVVb/eF
-   g==;
-X-CSE-ConnectionGUID: JmD4/b+RSiGex8BlLxtOZg==
-X-CSE-MsgGUID: sndWADvERaqphw2Y8VlayQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1892995"
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1892995"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 05:02:47 -0700
-X-CSE-ConnectionGUID: ifwCoafmRViVOiPhHZbVrg==
-X-CSE-MsgGUID: ZIdt35McRE6q3dwbWX6XdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5261488"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.149])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 05:02:37 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 29 Oct 2026 14:02:31 +0200 (EET)
-To: Yin Li <yin.li@oss.qualcomm.com>
-cc: James Morse <james.morse@arm.com>, Rob Herring <robh@kernel.org>, 
-    Shanker Donthineni <sdonthineni@nvidia.com>, 
-    Ben Horgan <ben.horgan@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Catalin Marinas <catalin.marinas@arm.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, 
-    Danilo Krummrich <dakr@kernel.org>, 
-    Reinette Chatre <reinette.chatre@intel.com>, 
-    Fenghua Yu <fenghuay@nvidia.com>, Jonathan Cameron <jic23@kernel.org>, 
-    Bjorn Andersson <andersson@kernel.org>, 
-    Konrad Dybcio <konradybcio@kernel.org>, Gavin Shan <gshan@redhat.com>, 
-    Andre Przywara <andre.przywara@arm.com>, Drew Fustini <fustini@kernel.org>, 
-    Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, trilok.soni@oss.qualcomm.com, 
-    aiqun.yu@oss.qualcomm.com, ganapatrao.kulkarni@oss.qualcomm.com, 
-    Srivathsa L Rao <srivathsa.rao@oss.qualcomm.com>, 
-    Huang Yiwei <huang.yiwei@oss.qualcomm.com>, 
-    linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, driver-core@lists.linux.dev, 
-    devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 2/6] arm_mpam: Fix MSC MMIO window size off-by-one
- with resource_size()
-In-Reply-To: <20261028-mpam-resctrl-dt-knp-support-v4-2-bdda1e445cba@oss.qualcomm.com>
-Message-ID: <629fcaca-66ad-bcc6-fbe2-bd80e9822c94@linux.intel.com>
-References: <20261028-mpam-resctrl-dt-knp-support-v4-0-bdda1e445cba@oss.qualcomm.com> <20261028-mpam-resctrl-dt-knp-support-v4-2-bdda1e445cba@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=lSqj/v+o
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ovwNCKokslurhZFwILHBCnXyJBCpE5BPkXCQPWkNLvA3abobFVTGSkl28a8rMl2WVMIc05cPYLxYRzm9W5kJYIriUATKJFew8E6wMMcrN2kukHXfR95buKEc21PFswZH4dLcZwxnUDWqeMtj7dT79YUZN5u64SD5uy8JNeKHDy98flj62t1i+fFE+l9VSqoiVirsXLCIQ3raRqm5dg66FDPQPN94jd5nZxR1blb5ziR1T+c4pP0d4zzE6XlG9AvvCx6KW3DjtJ4c55Sm36DxMzRA3jKHVEM6mvdYUox0FF1zgkSDTZPPq8zJFzu7pJUA6ZUOoU8798GaMMPqokAjLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DDLH9Z+TLZaN/5vWpYg9eIB5ydhEM3WGkhAlOOAzRVc=;
+ b=NkNo9S48iufFbZG86cuQLEGx4HcSAP/8KBO10bwLCo8RFlkJh0/LPevIPSTgSwqNdv/veUDTKW9SqnMDCOFT5K/KpP02jyaVtMhrmgmS4Mr2DKbBXy5vsrjln/ii9WzjMfL5myctNu1s+/xvOOCGYmMUspM5XrdDNsH5SIj5locdk7lrwa0tZ8aTm33kI9ynbc8jOqe97Be5AJMzqTQC/04VgA34Bg2P+W7O8Ky+sA5JuQKpxiDIRpscpWNFZswhbW0B2RMbMSHCpn3MrLZGLhj8llW2LSLO6fBWKSZw1mjGftzc2J5PJladIXLnQUamga1ONF1BLCP0AslLSJy7pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DDLH9Z+TLZaN/5vWpYg9eIB5ydhEM3WGkhAlOOAzRVc=;
+ b=lSqj/v+ousHxC53QLgZELBf9t1PwweSvpXc0U5mIYmpjXB0pJUmOrufDbdR/jABqGZxIuffYDrxtmChNgg21jbMBbjc73sPukCrH71K5Go56D4X5TcvH9mxkjMj5AW7l+Zi5u5jXL1ygaCzYBF/2whtqYY2ByOvm1IKBs3/T2+4ua5wKJGboCPnj++uTUXnDx1spEo99qotZKfzOeEa3mI89efn4o7oyE4gIQI53QRLjnaBlN2b0iAFY5zSVuDfgJ86nQ7Rx8llETqShqG58g2xefncA6/6digs4zI5b76xarUMOKsYPh9PgBMf9Y9nyUFxOYeWvSUPQNb8RoSPZ6w==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12) by PH0PR12MB7487.namprd12.prod.outlook.com
+ (2603:10b6:510:1e9::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Thu, 29 Oct
+ 2026 12:28:20 +0000
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0569.007; Thu, 29 Oct 2026
+ 12:28:19 +0000
+Date: Thu, 29 Oct 2026 09:28:18 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Shameer Kolothum Thodi <skolothumtho@nvidia.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"rafael@kernel.org" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Gavin Shan <gshan@redhat.com>, Vikram Sethi <vsethi@nvidia.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	"rppt@kernel.org" <rppt@kernel.org>, Thomas Huth <thuth@redhat.com>,
+	Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+	"kas@kernel.org" <kas@kernel.org>,
+	Kohei Enju <enju.kohei@fujitsu.com>,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	Ard Biesheuvel <ardb@kernel.org>, James Morse <james.morse@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	Omar Sandoval <osandov@fb.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Sam Edwards <cfsworks@gmail.com>,
+	Douglas Anderson <dianders@chromium.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Pranjal Shrivastava <praan@google.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	Sonang Patel <sonangp@nvidia.com>,
+	Ankit Agrawal <ankita@nvidia.com>
+Subject: Re: [PATCH v1 2/8] firmware: arm_rmm: Add VSMMU commands and fields
+Message-ID: <20261029122818.GD3040767@nvidia.com>
+References: <cover.1789010941.git.nicolinc@nvidia.com>
+ <0623345baaf550da1339e040b59f1fda902e3390.1789010941.git.nicolinc@nvidia.com>
+ <SJ0PR12MB861491CC7A4C567D01F9B951AB6F2@SJ0PR12MB8614.namprd12.prod.outlook.com>
+ <20261028123509.GA2541714@nvidia.com>
+ <auJBF+hDkx+uKixe@nvidia.com>
+ <SJ0PR12MB8614E6DE095441E52698D7F9AB6E2@SJ0PR12MB8614.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SJ0PR12MB8614E6DE095441E52698D7F9AB6E2@SJ0PR12MB8614.namprd12.prod.outlook.com>
+X-ClientProxiedBy: MN0PR02CA0026.namprd02.prod.outlook.com
+ (2603:10b6:208:530::7) To CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -97,62 +138,103 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-96330462-1793275351=:1322"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|PH0PR12MB7487:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e0a1822-c975-4830-0eb0-08df35b81d9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|5023799004|4143699003|11063799006|56012099006|261009223027099003|261026121527099003|261022113327099003|261021121427099003|10067099003|22082099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	p0qx7JQImgL4lCmkPshMusZUPluapei7S3ySQ8dWKzsQRbNhReMBxxY9P/zIqDL7yE+bafCuXNVx6vXS1DYq/EjyL9+R76zACNnyADfI5cWpa+sOa3FgmE7FyWHDL12wkX6TaxMkANmG4fMam1jOXBeNf7WvQBhUfTUZWCFBlwB/WNq/kjeempg/T7SFE3S9W8+h4RNig/u4OG9PhbYLHBN+oZBApSxwg+v3s6sB7Oic/FXaVoI1lyak82fQnudp7Gk0DVde5OhKnib2lbtt6W4KeXHI4l8Cc1+9kO331zPvED1FxFm+9RnnDXcUmbVu46vsDrUiljoiNvKRHrkQRbURUDoY9Dp74shD43+v682b4JLBwHLMcUz04xnDE0FxOEpAnWCG0kjQHnfHtONcDeOIBmSvjhSAiR4Gq0ylX84XCH9n7zDgeNHgeX+d25nEsHdgh7JmMnYjt6dpTyblt8n3+atxliRfNL4ncFUpOXPFM/oYp1hjbOc6Z3ME3/LAA4LxkHMio/jy/XbjZovqXSS8XI2i1RjEuv1XZn7lBoKkztjRmTBCpyt7JcSh+9kWuewupJTLYcAUTRVGgOnb+8yOvRZVTGc/7rkZ6rME8U5l5DVtgrQeipz5m+CTE4YCVIDJKqknh1RtceUW/eVUqWZ+TLbK5CmsANQUY3Z7/Uc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(5023799004)(4143699003)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261022113327099003)(261021121427099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IaO414FCZCk+VMnfo4ZOg8iPLUDjQXTpgfqgVjdWoigpjW+Qf+wShtG+cUgM?=
+ =?us-ascii?Q?jefc1CdQ4xWwK4xw6bhA/os/5T4Vc8A3VdW5xYpsT9tVSDLZpxI0HoW7m53S?=
+ =?us-ascii?Q?CsNsR20EDsDfxCq95JG6CGXgENWz4W3xXtkmD2jjr/PkcytPxoUG2oSI78Vd?=
+ =?us-ascii?Q?gr7RLdXqiXFNh5KeIXwdpDSOKRRb6rM3QQO7yf03TjjfCCf107uM0Z3vPGF+?=
+ =?us-ascii?Q?1RD7OgnV6P7u9MSC8PPYHo9rtEkr4frmqUVRdIDf9gkY4X1eMi/VnJStk1gs?=
+ =?us-ascii?Q?vpR0/zJmqYSbARawDTJrxI+7OUEA5EFhRvCEdBQSkWE9c87XYJkDGNHirIH/?=
+ =?us-ascii?Q?zNGayaHcMOXA7GeH6ft2ub/7AP7UVKSxrb9JVK406mtFlmA5gmwTgUR76GWq?=
+ =?us-ascii?Q?HNUTDyjcy6E//fv1xiYiX5Ok4e7ES8WXN7L+SdQxOWn0uF4dJE0cN4WV+SPh?=
+ =?us-ascii?Q?jSU2Mx7LewNLt+HvHizQC4AOOFKjimr5AXxJx7/ZAN62bHMcuXhc981woQK7?=
+ =?us-ascii?Q?rOHFzbOXVv+XXpidIN8q/FiwYCxELZE0o6HK2DNcEdouBCdAbNaPhCzrPVMP?=
+ =?us-ascii?Q?D3VJSluG4D89pVNhCa7bIVsuR7RIMYm8fuOBUBO+HrLr3cQOtvn0fkR/ZpEb?=
+ =?us-ascii?Q?vpTejvSIqYK89pgQRGTb5Swit3bZKkcVa9tpE1OBcpbI9fnzbdfoYcoXPuTd?=
+ =?us-ascii?Q?Pl9IWCVd+A4X4TwLFkZzrf5UlmXYdu6YY1SEe7Fw7H96lVPK7jir7jS1xV19?=
+ =?us-ascii?Q?9MFqMwPuZ/VCuYbn1m9Fj2ZUNPeVZP5BiMKOn55U0BiQDNQHkvov9DQx3EAY?=
+ =?us-ascii?Q?3VgGsxOkeLcfJDefa7GFB4iVEElcLVY5NOr4pBu28y0UWkm87lSQ0fYnuAy+?=
+ =?us-ascii?Q?9ht8oPw/vfJFeiJgcx4uvaJfUJPu7Cz5Ayi5+BUPADwQ62c+sy8EW6kdyzRK?=
+ =?us-ascii?Q?ZjErzJcS7LLgZyAUunvh+YuTpSBmEdJQdNcdpWDITUvmY/GUFgmRjUveXKZI?=
+ =?us-ascii?Q?0Vj/biBBAJZhBpiFC4IJQu5hbh9SgfNhwOuZQ3ah9vpW4aA/HIFkM1b1BWzS?=
+ =?us-ascii?Q?3pLza/8dtOWh1FuhwW6Yz9pT0Y7RH+jcSMzduGSdwWx/gxsfmv7ZKcVnU1m0?=
+ =?us-ascii?Q?RBkW4TwnZpGAJ5fYU4mmIPwevYX2DvZKPW0UxhX8cvbGcm6XxACr+POP8tXq?=
+ =?us-ascii?Q?pf/KUyiQCMF5CQFxxma9szkuOobsGQbx/SRD9ABzO5ox/EbuWA36WFKDwFHU?=
+ =?us-ascii?Q?U7c7sVNxSMemIMBGufB4U1sX8HMQgpNHvUcetuHcgOEQBL/eLGM4DrRCJbnT?=
+ =?us-ascii?Q?aEdbg2MEgM9njLphcbCPIDoB/CzudJQ6D7MkXpuLjrpKvNk0Y18L1QOU8LA5?=
+ =?us-ascii?Q?oFdmX4y2T42CTNeb1tf3RYuNNTXQ/cVYNLWIzq8thiIVNNNQsu5TWd+9YTHq?=
+ =?us-ascii?Q?PZmGQzTcLuEtyIwqn8grgB6nYpGt6g+1eftk68HaxTIefXLNZD/cbS8bH1f5?=
+ =?us-ascii?Q?xUI2YZrOEE+LaOApFvFwRthpa7WMBwTwbbwyhFSg0H3Zc17z9vU7nYdW2+Z5?=
+ =?us-ascii?Q?6v9Irv7Bv+ArqNDC/+cD4NFskFtIb4dn+jyW+MnPwJnOq99Kteoa+k9vrvaz?=
+ =?us-ascii?Q?VqOgB+aVYeKWaAqwISjLI/yqbjF6HFQYwdhtpAe4Ffxs0h1cger3VDqERP/S?=
+ =?us-ascii?Q?gB5nuTWqiKCzmzgwm1QXODL1jZrlZ52nwEyYkauUEqWNFxCd?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e0a1822-c975-4830-0eb0-08df35b81d9e
+X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 12:28:19.8045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bedS0GbRyJe5dCZpKXhhDPu5wL03WZkoCQAOFqA1RD2h2wYGs0Fq5QGwJycdali2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7487
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, Oct 29, 2026 at 10:05:05AM +0000, Shameer Kolothum Thodi wrote:
+> > On Wed, Oct 28, 2026 at 09:35:09AM -0300, Jason Gunthorpe wrote:
+> > > On Wed, Oct 28, 2026 at 09:49:53AM +0000, Shameer Kolothum Thodi
+> > wrote:
+> > > > > +static inline unsigned long rsi_arch_dev_activate(phys_addr_t base,
+> > > > > +						  unsigned long dev_type)
+> > > > > +{
+> > > > > +	struct arm_smccc_res res;
+> > > > > +
+> > > > > +	arm_smccc_1_1_invoke(SMC_RSI_ARCH_DEV_ACTIVATE, base,
+> > > > > dev_type, &res);
+> > > >
+> > > > These calls leave unused input registers unspecified, whereas
+> > > > DEN0137 bet3 B1.2 marks them SBZ. Could we explicitly zero them?
+> > > >
+> > > > "On calling an RMI or RSI command, any of X1- X16 which are not
+> > > >  specified as input values in the command definition SBZ"
+> > >
+> > > That seems too broad, Linux doesn't even support the x8-x16 inputs in
+> > > the macros. I think the spec has errd here.
+> > >
+> > > Requiring zeroing of x0-x7 is sort of reasonable. Any future use of
+> > > x8-x16 (including outputs) should require a direct opt in of the OS to
+> > > indicate it supports this bank of registers.
+> > >
+> > > Otherwise you probably need a new macro helper for this protocol..
+> > 
+> > We could probably replace it with:
+> > 	arm_smccc_smc(SMC_RSI_ARCH_DEV_ACTIVATE, base, dev_type, 0,
+> > 0, 0, 0, 0,
+> > 		      &res);
+> > 
+> > This should specify those unused inputs.
+> 
+> Or we could use arm_smccc_1_2_smc() with zero initialized registers, as
+> rsi_attestation_token_init() does. I think that would cover X8-X16 too.
 
---8323328-96330462-1793275351=:1322
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Yeah, that seems to be the right thing to do.
 
-On Wed, 28 Oct 2026, Yin Li wrote:
+> But other RSI wrappers don't do that consistently, so it's fine either
+> way, I guess.
 
-> struct resource uses an inclusive end address, so the window size is
-> end - start + 1. do_mpam_msc_drv_probe() computed it as end - start,
-> which is one byte too small.
->=20
-> mapped_hwpage_sz is used by the register access bounds checks, which
-> have the form "offset + width > mapped_hwpage_sz". With the size one
-> byte too small, an access to the last register in the window is
-> incorrectly flagged as out of bounds: for a 0x1000 window, a 4-byte
-> access at offset 0xFFC (bytes 0xFFC..0xFFF, legal) computes
-> 0xFFC + 4 =3D 0x1000 > 0xFFF and falsely warns.
->=20
-> Use resource_size() so the size is correct. The ">" bounds checks are
-> correct as-is once the size is accurate and are left unchanged.
->=20
-> Fixes: f04046f2577a ("arm_mpam: Add probe/remove for mpam msc driver and =
-kbuild boiler plate")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@i=
-ntel.com/
-> Signed-off-by: Yin Li <yin.li@oss.qualcomm.com>
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-> ---
->  drivers/resctrl/mpam_devices.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_device=
-s.c
-> index 347a5a6d6a1d..0f984fcbcae9 100644
-> --- a/drivers/resctrl/mpam_devices.c
-> +++ b/drivers/resctrl/mpam_devices.c
-> @@ -2508,7 +2508,7 @@ static struct mpam_msc *do_mpam_msc_drv_probe(struc=
-t platform_device *pdev)
->  =09=09=09dev_err_once(dev, "Failed to map MSC base address\n");
->  =09=09=09return ERR_CAST(io);
->  =09=09}
-> -=09=09msc->mapped_hwpage_sz =3D msc_res->end - msc_res->start;
-> +=09=09msc->mapped_hwpage_sz =3D resource_size(msc_res);
->  =09=09msc->mapped_hwpage =3D io;
->  =09} else if (msc->iface =3D=3D MPAM_IFACE_PCC) {
->  =09=09u32 mpam_fb_msc_id;
+Seems like a bug, with the spec being specific here it should be
+fixed.
 
-Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-
---=20
- i.
-
---8323328-96330462-1793275351=:1322--
+Jason
