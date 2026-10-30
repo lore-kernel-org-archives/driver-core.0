@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.98
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793338343;
-	b=Jv5MmAq41CW2+jzHii1Gy7aCs+fTcjx7Y39pL0b/iGjnN54/Rkz4z5zZ53UAujMKDrww
-	 Gpq3s2dQUtr7gx4u6ekhn+bPQsiLGJqJ6NOO5qSrYZ+Y4KvBnSYGnnZ85vIqolNLOk/OA
-	 Maj0dRzxpWFgY0swtDISETf7FdOpPaoymgveG1Eedso47okMcekk9y0d3FxPJIDzqgPZg
-	 eexSpveVTgn3OTut1s+uhSofKgy11FLrSGfAW0cDFDKhh2rpwTCyZCieYcl+34nPQn6qC
-	 hMzSw9w/Hdu8SH63FpUNAAbPuckgDifTzWOqPlZK1ijJOXhONFtC66N+pCZnjXebzRw==
+	t=1793354394;
+	b=A92cjTCQSpUhE0CHadNJjrDaQnBIhybTZh18V7X/RV9ENRBaKPfhM8Mk9ZqGhYig96Dc
+	 ffzkBgyuWw0E7gz4vcU2p52wgIgaiGun55SoUzK5RdTHUIKg9CeVRFKc6qxC3GGqkwmN8
+	 GOUyuv0j5AgpElZE6yOUNVxQK4trpXldqTUBXqnRw8w7ej87/80xpGf7RZkBHHRMpnSRQ
+	 0MDYcDne5hUVDyP/UsJ1cGu123YFXLn79dG5RlZdwhJGKnPvs59aAOa4SOEPCDXPzGw4b
+	 v6KHE2j40e8Fkyvy80F+ORAiCzXN+vFmxNL8EBlestHnZFqv0uFCAYyZeTLivF5xUrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793338343;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=iqzvhuQcnt+M1uy6q8ZgEZg+92jJlmTF/zBz9tyaOXw=;
-	b=S11yUm6POSdMigMDjkWvkARK12OWAC4SWzols8nsit8fWpD7z36D9r6fz7LQOfYY7fOf
-	 /OOUMCu04Nu6NOX9rGL0JAMtDcqq2ppFz8oT4+UN2KNPzfWy43M6Pfvk+8dwzvONbcxjc
-	 sL1ugcvB+pdxsYbCYTvFBNn3wwk+s5j6e8cyFqzQ4O21dEX8eaSeyASXK6jdbWLWdHvpj
-	 Et5YcGfW7I1ApI4GvqQtrY2SV0GLi5zjaIlxYjFMTclwUvj/2D+qlLwLb9olmcNfJrh/X
-	 72DWM4z5rozfySf7Nr2ChCRWJy76XEIzeCCjTmmr2wPx3fqO788uqAIV50qJn4mrybw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793354394;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Date:From:To:
+	 Cc:Subject:Message-ID:Reply-To:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=yXMPGRPBcfckMgFC4bysmDdGptiT+3XkF28FfzngIW0=;
+	b=wqkZkuy+PVUnygBV8wP2rCDFFumKZv9l2g19ZEU9OMgoiJqc3gSnX21yDCwo7NKW9uoH
+	 dDRKruBfEdKc4EDuOPU8Og4lGRs5XOg6sPt8F8ROQnbagZuqri/9HLsBUx5M3n8C9T1kY
+	 931QAGhym0KVBtUKZ6Q3t10i29WOAmm/gjW0N21reTemrT9N0ONab+MgqI6bsYz8VrTAA
+	 Hiz7sa2NbKN4DeC76Grtq7NTfirL698BE3hZy65IlenxFRcMOXcnKnme9hkN3LUWmJFqn
+	 Ru6fUKQsr/zEBx1brrN+zE+KnAJ8EgZdSebyApj3kLnEwozS/enxzwqK5lUfZx7TDWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bB5zxCnA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.alibaba.com;
+	spf=pass smtp.mailfrom=linux.alibaba.com;
+	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=iSz6lxwV;
+	arc=none smtp.remote-ip=115.124.30.98
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68390606A31A;
-	Fri, 30 Oct 2026 05:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB01F606A338
+	for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 09:59:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB01F606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bB5zxCnA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7441F000C1;
-	Fri, 30 Oct 2026 05:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793338341;
-	bh=iqzvhuQcnt+M1uy6q8ZgEZg+92jJlmTF/zBz9tyaOXw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bB5zxCnAMbRDPFIf7fH+qrDq6h84IYsxZwVp/YP9NhScXxtWDfbNqfwjiKxGmNH6/
-	 LJbMP6M3xBtjNQz4LZ/Gfws6cMsl48OR4Uw+XmriiFRAMPHJ0IIEW0l/0BHbAAjG9X
-	 /GRLLc8J6d4wmcFL6VBaQHGcG5HCbgIsVWfyQ8fA=
-Date: Fri, 30 Oct 2026 06:32:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
-	Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bart Van Assche <bvanassche@google.com>
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Message-ID: <2026103015-stained-shudder-1582@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <2026101310-scuttle-unison-d4c3@gregkh>
- <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
- <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=iSz6lxwV
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1793354386; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=yXMPGRPBcfckMgFC4bysmDdGptiT+3XkF28FfzngIW0=;
+	b=iSz6lxwVe8spp+ofYs8Azo6Gjrdha62/u6JpqJG3DH4UyoUHNpctIOKOW6SJf6oWigVyAqvRFUY+MdkBtQCn4oAIY8FtGMkVQzukmXAEHnQLcg6JO9Fe24lx2AejElTP8za0A5uvZC2yl/ljBF1ahrsz8vVqPdGQLsH0Uzf4fw8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=peng_wang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0XDlw3AF_1793354384;
+Received: from localhost(mailfrom:peng_wang@linux.alibaba.com fp:SMTPD_---0XDlw3AF_1793354384 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 30 Oct 2026 17:59:45 +0800
+Date: Fri, 30 Oct 2026 17:59:43 +0800
+From: Peng Wang <peng_wang@linux.alibaba.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	He Rongguang <herongguang@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] tick/nohz: Add a policy dependency for full
+ dynticks
+Message-ID: <auRqj5y4bym8KGj8@U-3K7XLPQ6-0046.local>
+Reply-To: Peng Wang <peng_wang@linux.alibaba.com>
+References: <cover.1792242566.git.peng_wang@linux.alibaba.com>
+ <58bc33cb018a2651e9cc3fc02baad7de4d543705.1792242566.git.peng_wang@linux.alibaba.com>
+ <att2hiYaaHTIkzG9@localhost.localdomain>
+ <atuMJiJEwbzGjiu4@MacBook-Pro.local>
+ <auIbt5JAC2cHw5jr@localhost.localdomain>
+ <auLqmMdd8RIdf6st@U-3K7XLPQ6-0046.local>
+ <auNR5c6hXlb_FFkB@localhost.localdomain>
+ <auNuLZiBZyHLFYUr@MacBook-Pro.local>
+ <auN5Bku9w2VDZFFX@localhost.localdomain>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -80,114 +81,67 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=gb2312
 Content-Disposition: inline
-In-Reply-To: <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <auN5Bku9w2VDZFFX@localhost.localdomain>
 
-On Fri, Oct 30, 2026 at 12:06:15PM +0800, Jeremy Kerr wrote:
-> Hi Greg,
+On Thu, Oct 29, 2026 at 05:49:10PM +0100, Frederic Weisbecker wrote:
+> Le Fri, Oct 30, 2026 at 12:02:53AM +0800, Peng Wang a éãrit :
+> > > Ok in that case, do you know about the current work in progress
+> > > to make nohz_full opt-able through cpusets? It implies taking the
+> > > target CPUs offline shortly but the policy is to be setup before VM
+> > > is launched, right?
+> > 
+> > Not always. Waiman mentioned the cpuset work earlier; it could
+> > cover selecting the policy before a new VM starts.
+> > 
+> > Some customers express a preference for host tick suppression
+> > through the management interface when changing workloads within
+> > a running VM. The host operator decides whether to allow
+> > suppression on the CPUs backing that VM.
 > 
-> > FWIW, we did raise greybus as an approach to various HW vendors; I
-> > assume there were reasons behind OBMF-ICP, and assume some prior-art
-> > assesment was involved, but I don't have specifics for those reasons.
-> >
-> > HW peeps: This would be an excellent opportunity for elaboration on the
-> > motivation there, either for LSTP or OBMF-OCP.
+> I think people should know ahead if they will run latency critical workloads
+> or common workloads in their VMs. Because those are completely different.
 > 
-> I have been doing some asking around, and a few items came up around
-> motivations for OBMC-ICP over Greybus. My motivation here is entirely
-> around OBMF-ICP; the NVIDIA contributions for LSTP somewhat comes under
-> this, and so we're working on composing a unified solution.
+> > 
+> > We want to support revisiting that decision while keeping those
+> > CPUs online and the VM running, with nohz_full membership
+> > unchanged. Could such an operation fit into the cpuset work?
 > 
-> Collating some of those items here:
+> If that is really necessary then I guess we can have a file to control that
+> in cpuset once the nohz_full interface is ready. Though I'm a bit skeptical due
+> to the overhead of user <-> kernel transitions and housekeeping.
+
+Hi Frederic,
+
+Thanks for clarifying.
+
+For some of our database workloads, we have observed a net
+benefit from nohz_full despite the transition and housekeeping
+overheads. We understand that those overheads remain when the
+tick is kept running.
+
+We'll follow the cpuset work and see whether this control
+would fit.
+
+Thanks,
+Peng
+
 > 
-> As a bit of background, the typical use case for OBMF-ICP is for
-> platform pre-boot environments, with limitations in capabilities of both
-> the hardware and software stack. Microcontroller and mask-ROM
-> implementations of either side of the protocol are potential targets.
->
-> This leads to the structure of OBMF-ICP being intentionally
-> light-weight; the channel configuration (ie, definition of the
-> encapsulated devices) is static, and the channel-level messaging is kept
-> simple, mainly through a requirement of only one message in flight per
-> channel.
-
-greybus is very light-weight, you don't need to have more than one
-message in flight.  That's not a real answer :)
-
-> [Greg, this is related to one of your points around why not use a
-> multi-function USB device for individual, separate devices: the typical
-> device-side hardware does not have support for enough USB endpoints to
-> do so. Like greybus, the intention is to be able to support multiple
-> downstream peripherals without constraints from USB hardware on existing
-> SoC devices]
-
-That's for LSTP, and USB devices are dirt cheap, multi-endpoint ones
-should also be very cheap compared to the system they are attempting to
-control here.  Don't place this on a "it would cost too much so we are
-going to fix that by making the software a complex beast and having
-someone else solve our problem for us" solution driven by a hardware
-designer.  That's not acceptable these days, you all know that...
-
-> There are a few design points that lead to the preference for OBMF-ICP:
+> Thanks.
 > 
-> The front-loaded configuration mechanism means less state to manage on
-> both sides of the protocol; the channel set and channel-specific
-> parameters (like individual GPIO descriptors and flash geometry) being
-> stable over the lifetime of the device means simpler core protocol
-> support and channel driver implementations.
-
-What state needs to be managed here for Greybus?  And given that there
-is firware and kernel code for greybus already written and working for
-10+ years, that feels simpler to me.
-
-> The simpler channel communication protocol is better suited to
-> lower-complexity interfaces that are needed for the pre-boot
-> environments (GPIO control, uart, IPMI, flash access) than the greybus
-> targets for mobile device runtime, with higher-bandwidth communication
-> requirements (camera, audio, display). For example, typical platform
-> management functions generally involve a lot of short i2c operations -
-> ICP messages for these are around half the length of greybus
-> equivalents.
-
-You don't have to do the high-bandwidth devices, just be a low-bandwidth
-device.  and "size" of an operation doesn't make sense here, it's just
-bytes in a buffer that you have plenty of on both sides of the
-connection.
-
-> For the platform-boot use-cases, we would need to provide a bunch of new
-> channel definitions for greybus. This certainly isn't a showstopper in
-> itself, but the specification does not appear to be in active
-> development; last change was 10 years ago, and the spec repository has
-> since been archived as far as I can tell (and so is read-only).
-
-There are new proposals for the spec, see the mailing list.  And what is
-missing for your needs that isn't currently present?
-
-I haven't read all of OBMF, as obviously that isn't what is being
-proposed here, I was just complaining about the madness of attempting to
-create a device tree representation for a single USB device that wanted
-to be carved up into different virtual devices because no one decided to
-learn from history.
-
-I have other objections about OBMF-ICP, but that's not what this thread
-is about, sorry.  Please propose your own patch series for that and I'll
-be glad to criticize it there.
-
-And all of these seem to be OMBC answers, not LSTP answers.  There's
-still no excuse for LSTP to be designed like this :)
-
-> With OBMF-ICP's super-minimal core protocol, and the use-case
-> appropriate channels, seems like a suitable approach to me.
+> > 
+> > Thanks,
+> > Peng
+> > 
+> > > 
+> > > Thanks.
+> > > 
+> > > -- 
+> > > Frederic Weisbecker
+> > > SUSE Labs
 > 
-> The USB-IF has a class ID allocated for OBMF-ICP interface descriptors,
-> with the intention that we have multiple vendor implementations of the
-> common protocol; we would like Linux to be one of those.
-
-It's always fun to make a new spec and protocol, but getting an ID
-doesn't mean that usb-if says "this is how it shoudl be done."  Anyone
-can get an ID :)
-
-sorry,
-
-greg k-h
+> -- 
+> Frederic Weisbecker
+> SUSE Labs
