@@ -1,102 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793355174;
-	b=ILBXejAIYMrvKfqfvKNProfvkNpJsZj7cDOsbvI1SIa92eSjjfWMDrFKGupsq9gxDDV3
-	 SGWFCxoiWdEdzQ5zMV2TLKWI11E7LCCK0ZX/xxL8LhVxRO497VOZqia5HprJpWdaLKHx9
-	 cYzwr5Q+u7lXuj7m6HFZD2+Hd2tmGk6hhh57kHlipRphvAepV/LNxR5g50+psgzQBtxUJ
-	 5QzCqNof6zA5uqoIjsZJYghtOhoioAQvWd2ALI5a8CtXZ/eDCodS8nh+vMTtbnDlHcel3
-	 ds4yrrsA/w0LsssNJd5dkz+cC4CEueI3mXesZ474LKbjt1VHKzvPS51nUeaZGhek2SQ==
+	t=1793376596;
+	b=cR39fwyR98ybn1AcmjbONkRyJBkZgahA7n+T5MhbE1d+QkXgJH0hOwOI3DCV81sD5TXD
+	 KlKkQfHAGXc7JvwOlBcOSaEW1ZS8yer1ryGqTraIl7ugVSe9ZPgBG4bhkq7NJXVQg0nr0
+	 TFxH0x+g3wSSI79o/ehwFoFqUaz5OEwAhrE1sAafhgeqmqUv9O6PFbCveQkkUg1ZdbKK+
+	 gLwiVKqnD1shBYmBOUFkX/ANLhOtJP5SsWNDKsilAmc84F92AUunQs+MI5qmKbJa+sKh2
+	 CHUmnkOviz7GJeRXTawiqi2zkbf4+GEqedtfVfGmG5y02efgwVzTIacS6VcI3gu5HvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793355174;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=4tYDtJid68SRru4uZjKZRvvAoXLCMBoY5roZrQvhHKY=;
-	b=vLq5u2LQUEBV5Sdd3IDAkZpfHo5nOU2DPfU8Iqm3CXZ42SY5eq1iTtvvv9O77iLS/CFS
-	 EWWQm3otjSNSCg1xL7Vr9HI9iVKijg1yu0t6g7ZQdcxHmGpx8CALSz8l4/v/qUNz7/jJc
-	 RB5hZoP/eZL1HkiRUG50T9PIrD6xLFrxqe8I3CEEZo49xlRG+aardwuvFZAHh5W206m5a
-	 JhohtX/ioaL7yhuNw4t/CMPKkXiFJ+U1TEOscXycJnJtOlWYaJgRxklimTqfkVAI9RBjo
-	 zhGPxfJv7+v5mdwzR6yJjX+SmwfBj/v2lU1oka2GcBzqrouAZKLx2c5z6/TtgpgsScg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793376596;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=1AYa/vYlLDzFz5Cu7GUcbH8FmJ6yEd4e4C14u7b+OtQ=;
+	b=v2zn/0ZVWwnICirG6hK0/RHKdREQFfK1RGrOM+prUyQj6OLvMkvkwjX/hP34BAHACezh
+	 QsjPE+vgN2H2PHeM8ebJhDSLnqplVNgbpkeghtkf+i/omcuaNocNY5/lUOb1AWDcBAbYz
+	 2qoR4EWg7uXY9ujPvrQvbO92muoq0Q7bxcXIzY1/vjF9UrJAr6mq1SXc7YOebNx0FKHk1
+	 LrGfZ0w5EQCov35VHuBeLtOhJoVAz47p1SssLKkJenOldzcE6kudyFpvUvkMFj0WSGbWv
+	 UK6hMwOISa5CMj7/77vhkfTpxeeMXpuOeNl3pgQy5HqYV+6Twar9Q+FElGv3lYp7wzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=YDUaqGMz;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ay4KeWRO;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PuOHU6n9;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23709606A31D
-	for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 10:12:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23709606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF9606A321
+	for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 16:09:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46DF9606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=YDUaqGMz
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a215e64962so4723805e9.1
-        for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 03:12:52 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ay4KeWRO;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PuOHU6n9
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UERB3U2494580
+	for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 16:09:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=1AYa/vYlLDzFz5Cu7GUcbH
+	8FmJ6yEd4e4C14u7b+OtQ=; b=Ay4KeWROteb22jNsNnpmqiD9vdwZdIDane//9R
+	MRyU9iQCSeI5A4bZuP/skHDNo8pkiXeGYAagPkOt6AdO+zJO44L0H++osXtjnyFK
+	fjnOfKdV3GtWSYnY4ZyS83w0NmhETl2/BAWSimvAUAdHRreKE3zjpmLEhadH6A1F
+	vyC/uclG0HvyGh1it4rm7H89hautcvNge/65WoPDoYj2/fcvggd3lZrfs9T8lZi+
+	wstwkmCX04y0Z9uIRqXN+rVCBes6JPFzkub6jfifEtjuVSWoivOiYWysfrW7ThlN
+	VZ5rFoVeiO2HimC7DOfaQnYOpUM3ftb2R+f3kTfPLQ6D5iEg==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6p3y9r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 16:09:54 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-7cb225252f4so1393640137.0
+        for <driver-core@lists.linux.dev>; Fri, 30 Oct 2026 09:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793355171; x=1793959971; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4tYDtJid68SRru4uZjKZRvvAoXLCMBoY5roZrQvhHKY=;
-        b=YDUaqGMznBLUlbZ0I8aeb1qzzO5TDSLSRVi6/eQo9iIwapZWZKE4hqeoLagA5GVSRw
-         RGLgQ9/KAYUjIAaNKqMPnp/stge4VhGHZOo3YtkVjknifsduEkwa7oPsKsYny6WUhVq4
-         iulz6PUcQJ/bl0kCiUBXMVe6ieLy244QzpAtrFh9H/97U5l3R3Ttj1gAbCRdd23jrKRJ
-         wSoVQfRQgy7/03v5hulwXZQg+az2pKq0UU9LwI4FbKhsDz50dusGZPVwcCo0l8QxntjX
-         A1SkRx3vCmBk8jzVGxNOOK0b8uyHIXdnSzeV0FwgJCHhYAepIZEYPon2ex8tma7Yc+/L
-         ZuMA==
+        d=oss.qualcomm.com; s=google; t=1793376594; x=1793981394; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=1AYa/vYlLDzFz5Cu7GUcbH8FmJ6yEd4e4C14u7b+OtQ=;
+        b=PuOHU6n9cWepYmfclVKLd+hp2z/+r75moNP0NPi41+QvWidXISNy0+BgrWDscqHNaN
+         ZlmKu9dYwJ2nqRN5tLc1XavikYk5JgHvT+IOZqYor/ZTubGLLVbcrCTKQTEz4O6ZyvUq
+         vSlY2+ym7r3T3WBMV15t36VWME4MR7dntbfA1RXb4T87oBeNQNEQKilJmIQTvLdjibTX
+         8nfPO+VusnxrzZpOcFC9r0JHF600+6gzVNcchUaK4hPm7ZxzpuvfdADXSbymi0aFxvrQ
+         EcgF2LL1i5Afam9SInJKxWwXJRo4JrF2FtV0JtUHDLtJ8hd0uTZKKtbwqlgs8jiLY4l4
+         eTmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793355171; x=1793959971;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4tYDtJid68SRru4uZjKZRvvAoXLCMBoY5roZrQvhHKY=;
-        b=sV7ibhBiQrtRuPAWU+0K6zn3SZNIlj/Kex3J7Mn9zAgXiLTjYw8GsOcpf3uhdvuwVL
-         M3y5vTAUN45lJ4Gj1kTeQFBmYueo31Frrp9cOeoJoGBZkPIdC9aQqjzhrqrc7siGK3bI
-         F+YOq7BnPqZcELAa0cvD2BdGp1RXy2FRo+N98evObz2YZ3BJ5P4nI2ZzxOBYlKP5gfXN
-         UhuqQq14n6TV4AE5LK8Rl4JsHvr7ROl+8qG50uQItsWiijLU2PTznHw+GXY2bdEpYLXY
-         T2PvElEQN7Tp3brbrP/UI/ppH7jAFBsCJJXNHyDIMYBfbI3kA9xhB11d5k97PYbwkFma
-         KzYQ==
-X-Forwarded-Encrypted: i=1; AKwUvByIPGp8E3v4Uzg2aFLx9duMrLYRv+0smMxRIoWwQInZlI0XxxLX69kWvz1Xk9In6JhSHeD3+/hExhUpXQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKRMDktAEnl0CHBN+rQQ5PLax1ZXnYHzukWqMGNqRSYbMJM2j0U
-	DtVrQkCYt+ltyjVeuwsKUZoy8KlQLklZ7TOJd3dwAy2XvAYRzgsm01w53CxIF0DHZXk=
-X-Gm-Gg: AYBFou1RAEMGNoSeX+LEWlVSAnU8PnawbqVD4I3RL/5XSBj+1VVn0VaAE09mB/4+BL+
-	Txx8h0ljMALPiI5DrGe0eJJCnExr0XvmF+wafbM4bS1GzMU8ItIAY8V6nyeKjrB5UdZzfnaUOM2
-	IHnPosMic2wlgIP1YI3Max95ytSyhW7hSz8Zi7nnrIIMQDUurFld1r4pglYREXGfBS9pnXdfvjF
-	M5x1dFBZf8xIPRnVR1uXR63p6T0l+BdkgoWYHdpvNMWOKlEULTOBqZpgYthYJ1oxyLfNl2u0Acm
-	G9Obm0PBbNy969i8XYF5QvbW1B3zFqzqXso/HSfYVdCPqJuv2/pLcnVsbzC71XlwHJBmku+hCxy
-	fFAbJAXIe5qhCDVfgx+vFOupDTJboKICuBiZklRkF4c5NjUMMm4THDtRnFbl0H8eUhIjukhVrlg
-	dNc4vSceKNanOIirJaNk4XE+vXNJtHCr+fAI4K53xOBztEbWeL8vxOCIitt1TdZT68fDrvoeiwT
-	a/t1KQVxRjszOGja4hYw9fnGaaNKtbqfQ03Q9u/6ocD2HrQnpm75WJ+aBHMoPrhEqDjtjJ0HBYL
-	nJao1fRwwj5h8kQRCmftV1FYKoQlL2mvs++agANNpZROLdrcKUy3BiHSC0MbJpu2iqbaN5JN+y+
-	MlYnUmPFrnGRRIguw
-X-Received: by 2002:a05:600c:3f06:b0:4a1:e672:5721 with SMTP id 5b1f17b1804b1-4ac181e75c2mr35620425e9.13.1793355171498;
-        Fri, 30 Oct 2026 03:12:51 -0700 (PDT)
-Received: from localhost (p200300f65f19a904f4ce339f1421d16f.dip0.t-ipconnect.de. [2003:f6:5f19:a904:f4ce:339f:1421:d16f])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4abf5b27e46sm80092625e9.3.2026.10.30.03.12.50
+        d=1e100.net; s=20260707; t=1793376594; x=1793981394;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=1AYa/vYlLDzFz5Cu7GUcbH8FmJ6yEd4e4C14u7b+OtQ=;
+        b=FScc34rW0kQliTFRVhMKQB3GmpaTl9twOGE3CEWpvEjuFEh3w7q+tolvWCfBwLnPud
+         +b6VFgYA/aWfsCfL6i/NI1sz5boKZJaJbSJNBD335a6X8Szn+qy59c17uIuxgrnWOz1X
+         z3oTfNFiVycNFaWIR9rac+FyApQnA4hgSVJ7tjM8x3pPPbRCO4cLDS2SupmDFeU+X7xX
+         sGK0XQ4givAhu+H8cF926J2NVwV/TTK9D2tKVKDmKfVguOMTyRoZJiSc2LVpkDXMCyTn
+         3QdNqbo0sIoneqGiFAtRBsF9KYGCl7sLlrw7xOs50EmBNgeUX3KJS0671w3W2zJMWtV8
+         WXrg==
+X-Forwarded-Encrypted: i=1; AKwUvByXRwc83vDyF1khYSLuox3y366LHp9se4cANIJOU7PTifzw5jN5xpqObV9yCwWBMsUq3/SsfBZxDpXrMw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYI1Dj7jmxuWY4v7UeF+bmFlYierumBTqMBfRnXUVjKIG/Nj+Sn3
+	OxMKOZ+S0BRBtXtTF/HMUzYgZO+QXdh9YP+V0ORxzgnm3rsLqUxUnS37Lr4yRl1oWmlhpTW0x4B
+	7AWaKJLNpBP0nhs+Lumd3+z2f5/Qy8CCLBQ+S9KDOhhu5qAi8s3yo3TboGnlfSYBQKw==
+X-Gm-Gg: AYBFou2Jd518OBa1gGSTZ3vKwyBG5TEFAmfEG9DItU5e71CHEZHrzUHDRr+emHSRmlC
+	6uUBB89KwTgk8A3KRycfFX7AfvJwBXpDfvjo0XjWv3lBYfMCslEb2sMtjZijsdCFsL+7tTcQkUD
+	JDPVBw0M8PMc0AFhGXP7BLQCLRrApJJWVScdMsyvD+GgOD00kUQQktx0s27wsqEhQO7ts2zhv37
+	SNqB0ooZorybyaRUK/UMZ1v+auqewirsT2lO6kf2z363k8eEqdWTNUgDhrK4kNDzxFZeLQsos5Q
+	JPw3nE1VZcpCpAP/HYaLG0mHUyndf1M3WtBlbBbvBpyU6aDcp2j1pxg2PsagYBi3kg0pgSt1Y+V
+	4aNlMMrOlKPHiqTnc57n6Mj3nkRyGb9QLPreWy9ddm6ASZGSGLfYoZE3AfniJpKrYX4znP9Zrji
+	JxHLJbm4Qwzegwx6O7jvmsg7l3WVgFpHY9lLU92lIEwef0gwMoleRlzeg14PGQX0jJBlDiEABqW
+	k9dT76dlPJzEmHQuQmyAwEq5/P7
+X-Received: by 2002:a05:6102:370d:b0:7cb:cfcf:3d01 with SMTP id ada2fe7eead31-7d05432ac0amr2197848137.33.1793376594322;
+        Fri, 30 Oct 2026 09:09:54 -0700 (PDT)
+X-Received: by 2002:a05:6102:370d:b0:7cb:cfcf:3d01 with SMTP id ada2fe7eead31-7d05432ac0amr2197839137.33.1793376593802;
+        Fri, 30 Oct 2026 09:09:53 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.na.qualcomm.com ([2a01:e0a:830:450:9d77:8e43:b62f:d85d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b7246fsm4044103f8f.19.2026.10.30.09.09.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 03:12:50 -0700 (PDT)
-Date: Fri, 30 Oct 2026 11:12:49 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Michal Pecio <michal.pecio@gmail.com>
-Subject: Re: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers"
-Message-ID: <auRs-6y8ox4EWDcS@monoceros>
-References: <20261028-bind_taint-revert-v1-1-7c6b9cef30c9@linuxfoundation.org>
- <auODHyLrfQylISX2@monoceros>
- <DMHL9O0EWLKU.3F47YHYEGNURK@kernel.org>
+        Fri, 30 Oct 2026 09:09:53 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Fri, 30 Oct 2026 17:09:52 +0100
+Subject: [PATCH] PM: Use IRQ safety to handle sleepable PM clock operations
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -106,77 +114,139 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p3i3dqzye2ignvny"
-Content-Disposition: inline
-In-Reply-To: <DMHL9O0EWLKU.3F47YHYEGNURK@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261030-clk-leak-v1-1-db8cb68a5a8d@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAE/B5GoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDA2MD3eScbN2c1MRsXePURLM082TzlEQjUyWg8oKi1LTMCrBR0bG1tQD
+ 0pZsUWgAAAA==
+X-Change-ID: 20261030-clk-leak-3ea6f7c7da25
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
+Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA2NCBTYWx0ZWRfX1UmAXy8Zq8ri
+ v8hiuupmx/DjeSvGATERMuFvvi/yhV+DD0o3+bKpyIoZo0fIAs0GEF2RH8qRil+ooPUuAEFeex3
+ YDkbek3G0BDZD7vCNSy8sGNKZBaKLAna+AtGbYvnZvR7Z5zd+UvMRbbR4MCodMZW+iV8RfsB78M
+ 2kWd5/gc42PwOdymWy6RsCn8FVg2f/JRZPTkSLcQ/OENTPRO7XLntjH+IEs/CjWl2CSJtaH68rT
+ hp5G8UJFC/sYNQcRKkUOGf0rqWpGnSdwYDQmw7r1mmCYgLmmoIj8OafoigIJx8u4ELHa9gqSN7R
+ TmJJPapJWGI6LJYOn4Vmsbv+Eq7BZt8JOJUXB3b1O6Q0U9aE2y4E1lfxQ1vXjjn1bH34g5Etq43
+ b4D0jAkIcM2psHgC7TSJFADr5EQhX0sOHyc6Yh4cdFHMO0wXTE+jXwy4VoPuqW5WWHTa4hxNYnF
+ 1x+T/9dKkX0V51VImAg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA2NCBTYWx0ZWRfXyZoGgfOGPZ1C
+ e0LfPexTWOB7m2ba3fAYbWvNfzIHpprjWjwiPeZ/g9j7p9w81cnCrWjw6SOWuRndRHbi+amjZyE
+ 8eRU4RTjFF8ht/HdCtpcy+eudWEl6c8=
+X-Proofpoint-ORIG-GUID: DldQpv3spJbPjGIVTCSYCtIlJvANt1iu
+X-Proofpoint-GUID: DldQpv3spJbPjGIVTCSYCtIlJvANt1iu
+X-Authority-Analysis: v=2.4 cv=TL3Q2Fla c=1 sm=1 tr=0 ts=6ae4c153 cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=q1VT6stkq7JPu4EZEUQA:9 a=QEXdDO2ut3YA:10 a=ODZdjJIeia2B_SHc_B0f:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-30_05,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 clxscore=1011
+ adultscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610300064
 
+The PM clock runtime PM handling currently performs unprepare/prepare
+in suspend/resume operations only for clocks that exclusively implement
+prepare/unprepare operations.
 
---p3i3dqzye2ignvny
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Revert "driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers"
-MIME-Version: 1.0
+However, this logic only considers the clock itself and ignores its
+parent hierarchy. As a result, a clock that uses enable/disable
+operations but has an ancestor that relies solely on prepare/unprepare
+may leave permanent prepare references on both itself and its parents.
+This prevents those ancestor clocks from being fully disabled.
 
-Hello Danilo,
+For example, on Qualcomm platforms, this can keep the RPM XO clock
+prepared (and so active) during runtime or system suspend even after
+its consumers have been disabled.
 
-On Thu, Oct 29, 2026 at 09:02:35PM +0100, Danilo Krummrich wrote:
-> On Thu Oct 29, 2026 at 6:39 PM CET, Uwe Kleine-K=F6nig wrote:
-> > It's not part of commit fcbfaffee51a452cc8efcbaa3b88ec4595678424, but
-> > conceptually we need=20
-> >
-> > diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentat=
-ion/admin-guide/tainted-kernels.rst
-> > index 3d312bc17942..fcb8b9734548 100644
-> > --- a/Documentation/admin-guide/tainted-kernels.rst
-> > +++ b/Documentation/admin-guide/tainted-kernels.rst
-> > @@ -74,7 +74,7 @@ a particular type of taint. It's best to leave that t=
-o the aforementioned
-> >  script, but if you need something quick you can use this shell command=
- to check
-> >  which bits are set::
-> > =20
-> > -	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)=
->>$i&1));done
-> > +	$ for i in $(seq 0 19); do echo $i $(($(cat /proc/sys/kernel/tainted)=
->>$i&1));done
-> > =20
-> >  Table for decoding tainted state
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > in this change which was fixed in commit f1850e443b0e ("docs:
-> > admin-guide: Handle TAINT_FORCED_BIND when parsing
-> > /proc/sys/kernel/tainted"), but that commit shouldn't be reverted as it
-> > contains a simplification that we should keep.
->=20
-> Fixed it up, thanks!
+Use the device's IRQ-safety setting to determine whether PM clock
+operations may sleep. For usual non-IRQ-safe devices, defer clock
+preparation and mark the clock operations as sleepable. Suspend can
+then use clk_disable_unprepare() to release the clock's prepare and
+enable references.
 
-Thanks. Looking at a287f97d4256b5f5527f5b5a54f8ada55e1482c7:
+This changes behavior for all pm_clk users. Preparing and unpreparing
+clocks across suspend and resume is generally expected, devices that
+require PM clock operations to run in atomic context remain IRQ-safe.
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+Reported-by: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+---
+ drivers/base/power/clock_ops.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-(just in case you're still willing to rewrite the commit for adding
-that).
+diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_ops.c
+index 3b8ba27802a800bac29abd8e21756ccdb0f2a716..b919a1d08cf4611067e626dd1131be870200838b 100644
+--- a/drivers/base/power/clock_ops.c
++++ b/drivers/base/power/clock_ops.c
+@@ -33,7 +33,7 @@ struct pm_clock_entry {
+ 	char *con_id;
+ 	struct clk *clk;
+ 	enum pce_status status;
+-	bool enabled_when_prepared;
++	bool sleepable;
+ };
+ 
+ /**
+@@ -177,10 +177,10 @@ static void pm_clk_acquire(struct device *dev, struct pm_clock_entry *ce)
+ 	if (IS_ERR(ce->clk)) {
+ 		ce->status = PCE_STATUS_ERROR;
+ 		return;
+-	} else if (clk_is_enabled_when_prepared(ce->clk)) {
++	} else if (!dev->power.irq_safe) {
+ 		/* we defer preparing the clock in that case */
+ 		ce->status = PCE_STATUS_ACQUIRED;
+-		ce->enabled_when_prepared = true;
++		ce->sleepable = true;
+ 	} else if (clk_prepare(ce->clk)) {
+ 		ce->status = PCE_STATUS_ERROR;
+ 		dev_err(dev, "clk_prepare() failed\n");
+@@ -223,7 +223,7 @@ static int __pm_clk_add(struct device *dev, const char *con_id,
+ 
+ 	pm_clk_list_lock(psd);
+ 	list_add_tail(&ce->node, &psd->clock_list);
+-	if (ce->enabled_when_prepared)
++	if (ce->sleepable)
+ 		psd->clock_op_might_sleep++;
+ 	pm_clk_list_unlock(psd);
+ 	return 0;
+@@ -371,7 +371,7 @@ void pm_clk_remove_clk(struct device *dev, struct clk *clk)
+ 
+  remove:
+ 	list_del(&ce->node);
+-	if (ce->enabled_when_prepared)
++	if (ce->sleepable)
+ 		psd->clock_op_might_sleep--;
+ 	pm_clk_list_unlock(psd);
+ 
+@@ -485,7 +485,7 @@ int pm_clk_suspend(struct device *dev)
+ 
+ 	list_for_each_entry_reverse(ce, &psd->clock_list, node) {
+ 		if (ce->status == PCE_STATUS_ENABLED) {
+-			if (ce->enabled_when_prepared) {
++			if (ce->sleepable) {
+ 				clk_disable_unprepare(ce->clk);
+ 				ce->status = PCE_STATUS_ACQUIRED;
+ 			} else {
 
-Best regards
-Uwe
+---
+base-commit: e726cf08ee6ba7e8b852c77760f12c59f90f1338
+change-id: 20261030-clk-leak-3ea6f7c7da25
 
---p3i3dqzye2ignvny
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+-- 
+Loic Poulain <loic.poulain@oss.qualcomm.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrkbZ4ACgkQj4D7WH0S
-/k5H6QgAjdChEcwuB16UGAH94yVcVY96eqaJTIs2lSSXrN5mF/j8+wojtf6d88zs
-DBUdsIkALsB6jIBpNQ6JVgKn85jEDmiUoaOryV/lU68VYYkeS/s7FVQFvj8YEef9
-iOdBZr5OwsHxvvrecVFcd1psXr8oXFYra6CYHs8Z0Cv5JXqt3DLxWjLtAgc0TVTj
-hPLgALy7vx5AGw5S+Al5GMGlvCDk1ZgDTtxIWx4CUWAEPXMMwXVe0GO+0LHSqam6
-/oVmyhz56OyzkBvx1Y71mPtZ1CMB8jSWENEn7ouZN0clusKo8yTdsCBwCMnNDJR7
-6T5dYqDGih58q0J2wYKJqB06kpwLlw==
-=ViXi
------END PGP SIGNATURE-----
-
---p3i3dqzye2ignvny--
