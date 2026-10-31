@@ -1,44 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793405231;
-	b=2Nl59HDBD8LJY2Y8A8lLUeZlQTg1VimnFhOSQfNqwtVpl2NSwQQB2ouijDjATpnwoOe4
-	 2h2LZsV71RzC75nfG1WSpRDCilE2QcPQ10g48SFACh6VDNhq4UUmMiczV1RF+jr6CfCR8
-	 PGuMSxTYZqVY2QeVv0NeMnCMrUT39CY6RIOP1LN0ny8eSjwGJlI/5dKgsiL0wOWfVxIFK
-	 vdIhMseB6C+jYjKPNMHv0qPj39/FzQ3XIMcPWvf2NpQeH96EehAXDLxJooY3ZQdxRofRc
-	 VxP3aaryZax9xgD4dDmbE1Kh0op2wkrjfXK9ujwJ1ohI5ikVifEc2yBFezulyE9ioFw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793405231;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:To:From:Subject:Cc:X-Mailer;
-	bh=BjpGGcbRegaCn9ilP7d4hJfHXRhNadTI4aR8Mcf5w2U=;
-	b=VPAVihBeLsrQhvqSw3bJYcrgDPZ6QFryP0Abwu0ivbxAzTOmsOEFNRhBbRM0VZTXDkd4
-	 nv4HtQy6hnBfV8vf9cFJ68XSai+UNqDhtdHtW1uMmWT7aceU4nO63/kZvylkpNkFZ7d+s
-	 qu0t+7GqtHGQcrAgppvYB0nYvaVSjhSxtFhxQhLJ2CSY06C0nokb5HwDNY5HStV1/HXm+
-	 V2wuoPRN58iaS69mZ1R9WLpprlTOpky24Gu9grH4P51L3ixDJdcjX0Bq05zlwYQBvSnkb
-	 wBHwAq11j2gqrnAqUrkohOHjmZCsY54c4pOeAmso8FtwLjHh6VN+FGgfrwxRUexnAuA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZlaaPSCg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793405473;
+	b=1egGRfg3TFsMCE/b/D/yA5m7HpXrW3mYfFSK7dsKjYiOWEMN5lNDYQRHQfSbPkExQ7Fk
+	 z/1aKpxyS/iCmwTR68t1rbvPkQTQZJ5fE/qpWifvKcboHDcNYa8jDHSnevuYnEKyUS+fn
+	 j5ITmyvh72VZYtobE+Tp/6UQMlI4GU5Y8rjt4GLc8izxUruElQk6nApQiMBIOcf6fDcFq
+	 YOVW6kvnp4xozV9eCWBWBMID02HrsqVxTzPH+08qpi6P7USx8vLEwzyQE/8Iv7VBog0nt
+	 kcrdB0xU3+LSHClSMYszc0lnf3YAhx18CAzWciXuvmAknCzHUdcUT4QAvaYbYmqAQxw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793405473;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp;
+	bh=GdDnz4pI3ov+UfCffBhq7x6t7Hr4WugUuptiC909KRE=;
+	b=BmtNAeOf/+H2QVIrVN76ltrsbIA+gDAyl8VPIQG2lfOW1H+98Qz+8wYerhKFgwv3UUXk
+	 cdjAvQ6QC5gN0TIz6oEXKbf8l7AGB5cW76oKj5SIkAD0uHal5SgKr+rOx5skwYykY/ecA
+	 N+tbmICW+nUIpZ9I9BEOqfDbH27vByOnfPsqZh8L4zmqgn3kZxKU5NfPPlrX1fmSf91zF
+	 W4+3uZ+KoIvJFifQvRt5AcmbqvsaA/OMc2CjocHA1dluqAW5gXQsStmOnCwNByoQYVsC3
+	 pDYhlFZG10deQ19hRwvs3rB0AZ1Yg0rQwaoLBjHe00sVn2PzfMFtd5zlaE+y36kNzvg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=eoW2oFIJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D5C606A31A;
-	Sat, 31 Oct 2026 00:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983C8606A31C
+	for <driver-core@lists.linux.dev>; Sat, 31 Oct 2026 00:11:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 983C8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZlaaPSCg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC25F1F000C1;
-	Sat, 31 Oct 2026 00:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793405230;
-	bh=BjpGGcbRegaCn9ilP7d4hJfHXRhNadTI4aR8Mcf5w2U=;
-	h=Date:To:From:Subject:Cc;
-	b=ZlaaPSCgunHQ7TnaAHNGJWE3zlPdqnwfz0i93JF/n4F66DjD1Hy0a3pWhM2NiBe/H
-	 9nFmtfTXRG/X3fZxNZZrFmApI0NnrBaY556VoDGe4OwUuL9yKzh7iS4GiChOlxe+bz
-	 MtpD/Z29DVJDOAYY0q2D9JTbXMWMGAzLCLx4BsA4yummQQDexDr88hLZQaTHBytY79
-	 ba9huA896oWknVSh8Qxkf8nnQ2h7V24X96ILV64KkvitAJ/3CWE8TDDRj8MxwpybZc
-	 Ko3nFOvBzrH3k1chWzNjZCinD+SG7g4u8rH25H+aD3BYuu3CXeVrZg+4kCv6rFs+Du
-	 CzPQgh+45c2KQ==
+	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=eoW2oFIJ
+ARC-Seal: i=1; a=rsa-sha256; t=1793405447; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GItZlNh31elvMwa9/kYRn9UsvQsgl6UavN8zJj2OclchqMbKn3LcmPUKT7y+QCVA1hxHV67f1tpRUIbFa5CQ1Ruj74blHjOe7k2HbNGAg31e8PeCBE1FcLaPMbSss7Kcr0W02dHGm0W8frLwJJdOKFH6MkvwaL9fqdCYqCk5Ov4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1793405447; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GdDnz4pI3ov+UfCffBhq7x6t7Hr4WugUuptiC909KRE=; 
+	b=LBwTDSA3wNAli8LX22ABDJQypXCnXO7Jnw2cQYxTzbAX2xhGKDJJa/dX2aQStjsufDa9bEdM2vwKawk7UVpaXVSsuUhuWY+GFGD8maKoqKSWeZvqgWb9hMWWD+IITMLFgvHLHdXZwsyS5O8KaFgSOdKd4H14GmfMz6MJfbyMWrA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: a=rsa-sha256; b=eoW2oFIJW921+VN6N5JHxVuACjeBK3GmZ1Dl5aRcpZNL2ZchGwBSkKD5QGy9fiAS2akWILv1hYvZl4visvl+V5/4DriJwBMEYp/YO20DHjgtm+NXfJFmkZj0z4oy7n5sua2rEm7ETdCP/YnD/xTRdKNlfEqANftTQ3525LtBbF8=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=GdDnz4pI3ov+UfCffBhq7x6t7Hr4WugUuptiC909KRE=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1793405444336106.11728771505375;
+	Fri, 30 Oct 2026 17:10:44 -0700 (PDT)
+Date: Fri, 30 Oct 2026 17:10:43 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Ke Sun <sunke@kylinos.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>, Lyude Paul <lyude@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev, Alvin Sun <alvin.sun@linux.dev>
+Subject: Re: [PATCH v5 08/11] drm/tyr: add BO-related ioctls
+Message-ID: <auUyA5-7HVhCBCC6@um790>
+References: <20261027-tyr-ioctls-v5-0-59dfe98cb003@kylinos.cn>
+ <20261027-tyr-ioctls-v5-8-59dfe98cb003@kylinos.cn>
+ <auKTafNV9hQGh6We@um790>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -47,74 +81,220 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Oct 2026 01:07:07 +0100
-Message-Id: <DMIL3FNP8HDY.3K2425TJD0OU2@kernel.org>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: [GIT PULL] Driver core fixes for 7.4-rc1 (2nd)
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Saravana Kannan"
- <saravanak@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auKTafNV9hQGh6We@um790>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/293.393.56
 
-Hi Linus,
+On Wed, Oct 28, 2026 at 05:29:29PM -0700, Deborah Brouwer wrote:
+> On Tue, Oct 27, 2026 at 12:41:01AM +0800, Ke Sun wrote:
+> > From: Alvin Sun <alvin.sun@linux.dev>
+> > 
+> > Implement BO_CREATE and BO_MMAP_OFFSET so userspace can allocate GPU
+> > buffers and obtain a DRM mmap offset for the generic mmap path.
+> > BO_CREATE page-aligns the requested size; BO_MMAP_OFFSET rejects
+> > NO_MMAP objects, which must never be CPU-mapped.
+> > 
+> > Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+> > ---
+> >  drivers/gpu/drm/tyr/driver.rs |  2 ++
+> >  drivers/gpu/drm/tyr/file.rs   | 73 +++++++++++++++++++++++++++++++++++++++++++
+> >  drivers/gpu/drm/tyr/gem.rs    | 18 +++++++++--
+> >  3 files changed, 90 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> > index c0f17bc4ce2c9..f4f31b24180b4 100644
+> > --- a/drivers/gpu/drm/tyr/driver.rs
+> > +++ b/drivers/gpu/drm/tyr/driver.rs
+> > @@ -227,6 +227,8 @@ impl drm::Driver for TyrDrmDriver {
+> >          (PANTHOR_VM_DESTROY, drm_panthor_vm_destroy, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_destroy),
+> >          (PANTHOR_VM_BIND, drm_panthor_vm_bind, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_bind),
+> >          (PANTHOR_VM_GET_STATE, drm_panthor_vm_get_state, ioctl::RENDER_ALLOW, TyrDrmFileData::vm_get_state),
+> > +        (PANTHOR_BO_CREATE, drm_panthor_bo_create, ioctl::RENDER_ALLOW, TyrDrmFileData::bo_create),
+> > +        (PANTHOR_BO_MMAP_OFFSET, drm_panthor_bo_mmap_offset, ioctl::RENDER_ALLOW, TyrDrmFileData::bo_mmap_offset),
+> >      }
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+> > index 22a74b4abf3de..9ffb42f0d8851 100644
+> > --- a/drivers/gpu/drm/tyr/file.rs
+> > +++ b/drivers/gpu/drm/tyr/file.rs
+> > @@ -250,6 +250,79 @@ pub(crate) fn vm_get_state(
+> >              Ok(0)
+> >          })
+> >      }
+> > +
+> > +    pub(crate) fn bo_create(
+> > +        ddev: &TyrDrmDevice<Registered>,
+> > +        _reg_data: &TyrDrmRegistrationData<'_>,
+> > +        bocreate: &mut uapi::drm_panthor_bo_create,
+> > +        file: &TyrDrmFile,
+> > +    ) -> Result<u32> {
+> > +        if bocreate.size == 0
+> > +            || bocreate.pad != 0
+> > +            || bocreate.flags & !uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP != 0
+> > +        {
+> > +            dev_dbg!(
+> > +                ddev.as_ref(),
+> > +                "Invalid BO_CREATE params: size={}, pad={}, flags={:#x}\n",
+> > +                bocreate.size,
+> > +                bocreate.pad,
+> > +                bocreate.flags
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> 
+> Panthor checks that both BO_WB_MMAP and BO_NO_MMAP are not
+> set at the same time, should we do the same here?
 
-Please pull these driver-core fixes.
+Ah, I see you check that they are mutually exclusive later in the
+series, you should probably just do that in this first patch
+where you add bo_create. There is no reason for them to be
+in separate patches.
 
-The main fix is a revert of TAINT_FORCED_BIND, which is too broad and cause=
-s
-established VFIO workflows to taint the kernel.
+> 
+> Also if only BO_WB_MMAP is set, shouldn't we return EOPNOTSUPP?
 
-Thanks,
-Danilo
+I see you accept this flag later in this same series, it would be
+clearer if you just accepted the BO_WB_MMAP flag directly in this
+patch, there is no reason not to support it.
 
-The following changes since commit 0cc3ad8f4d2e2009c2005278c754caf7c07fe0a4=
-:
-
-  Merge tag 'driver-core-7.4-rc1-2' of git://git.kernel.org/pub/scm/linux/k=
-ernel/git/driver-core/driver-core (2026-10-26 07:04:41 -1000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
- tags/driver-core-7.4-rc1-3
-
-for you to fetch changes up to a287f97d4256b5f5527f5b5a54f8ada55e1482c7:
-
-  Revert "driver core: add TAINT_FORCED_BIND for when userspace manually me=
-sses with devices and drivers" (2026-10-29 21:01:16 +0100)
-
-----------------------------------------------------------------
-Driver core fixes for 7.4-rc1
-
-- Revert TAINT_FORCED_BIND, introduced to flag manual sysfs bind/unbind
-  operations associated with misleading fuzzing reports. It also taints
-  established workflows, including VFIO device passthrough; a more
-  targeted approach will be revisited after 7.4.
-
-- Rate limit synthetic uevent failure messages to prevent log flooding
-  from repeated invalid writes to sysfs uevent files
-
-----------------------------------------------------------------
-Greg Kroah-Hartman (1):
-      Revert "driver core: add TAINT_FORCED_BIND for when userspace manuall=
-y messes with devices and drivers"
-
-Josef Bacik (1):
-      driver core: Limit the messages on a refused uevent
-
- Documentation/admin-guide/tainted-kernels.rst | 54 +++++++++++++++++++++++=
-++-----------------------------
- drivers/base/bus.c                            |  3 ---
- drivers/base/core.c                           |  4 +++-
- include/linux/panic.h                         |  3 +--
- include/trace/events/module.h                 |  3 +--
- kernel/panic.c                                |  5 ++---
- lib/kobject_uevent.c                          |  6 +++---
- tools/debugging/kernel-chktaint               |  8 --------
- 8 files changed, 35 insertions(+), 51 deletions(-)
+> 
+> 
+> > +
+> > +        if bocreate.exclusive_vm_id != 0 {
+> > +            dev_dbg!(ddev.as_ref(), "BO_CREATE: exclusive_vm_id not supported\n");
+> > +            return Err(EINVAL);
+> 
+> Return EOPNOTSUPP because it's a valid request we just don't support it.
+> 
+> > +        }
+> > +
+> > +        let size = usize::try_from(bocreate.size).map_err(|_| {
+> > +            dev_dbg!(
+> > +                ddev.as_ref(),
+> > +                "BO_CREATE size {:#x} too large\n",
+> > +                bocreate.size
+> > +            );
+> > +            EINVAL
+> > +        })?;
+> > +        let bo = crate::gem::new_object(ddev, size, bocreate.flags)?;
+> 
+> Use file.inner_with() to access the platform device with the bound
+> lifetime and then pass it to the new_object so that you can
+> avoid accessing it later with an unsafe block. Something like:
+> 
+>  let bo = file.inner_with(|pfile| {
+>     crate::gem::new_object(
+>         ddev,
+>         pfile.reg.pdev.as_ref(),
+>         size,
+>         bocreate.flags,
+>     )
+>  })?;
+> 
+> > +        bocreate.handle = bo.create_handle(file)?;
+> > +        bocreate.size = bo.size() as u64;
+> 
+> use u64::from_safe_cast(bo.size())
+> 
+> 
+> > +
+> > +        Ok(0)
+> > +    }
+> > +
+> > +    pub(crate) fn bo_mmap_offset(
+> > +        ddev: &TyrDrmDevice<Registered>,
+> > +        _reg_data: &TyrDrmRegistrationData<'_>,
+> > +        bommap: &mut uapi::drm_panthor_bo_mmap_offset,
+> > +        file: &TyrDrmFile,
+> > +    ) -> Result<u32> {
+> > +        if bommap.pad != 0 {
+> > +            dev_dbg!(
+> > +                ddev.as_ref(),
+> > +                "BO mmap offset pad not zero: {}\n",
+> > +                bommap.pad
+> > +            );
+> > +            return Err(EINVAL);
+> > +        }
+> > +
+> > +        let bo = crate::gem::lookup_handle(file, bommap.handle).inspect_err(|_| {
+> > +            dev_dbg!(ddev.as_ref(), "Invalid BO mmap handle: {}\n", bommap.handle);
+> > +        })?;
+> > +        if bo.flags() & uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_NO_MMAP != 0 {
+> > +            dev_dbg!(ddev.as_ref(), "BO mmap offset on NO_MMAP object\n");
+> > +            return Err(EPERM);
+> > +        }
+> > +        bommap.offset = bo.create_mmap_offset().inspect_err(|_| {
+> > +            dev_err!(
+> > +                ddev.as_ref(),
+> > +                "Failed to create mmap offset for handle {}\n",
+> > +                bommap.handle
+> > +            );
+> > +        })?;
+> > +
+> > +        Ok(0)
+> > +    }
+> >  }
+> >  
+> >  fn vm_bind_exec_op(vm: &Vm<'_>, file: &TyrDrmFile, op: &VmBindOp) -> Result {
+> > diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+> > index 60f6363995a5a..14f3e182b98e2 100644
+> > --- a/drivers/gpu/drm/tyr/gem.rs
+> > +++ b/drivers/gpu/drm/tyr/gem.rs
+> > @@ -38,6 +38,13 @@ pub(crate) struct BoData {
+> >      flags: u32,
+> >  }
+> >  
+> > +impl BoData {
+> > +    /// Returns the flags the BO was created with.
+> > +    pub(crate) fn flags(&self) -> u32 {
+> > +        self.flags
+> > +    }
+> > +}
+> > +
+> >  /// Provides a way to pass arguments when creating BoData
+> >  /// as required by the gem::DriverObject trait.
+> >  pub(crate) struct BoCreateArgs {
+> > @@ -57,7 +64,6 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
+> >  pub(crate) type Bo = gem::shmem::Object<BoData>;
+> >  
+> >  /// Create a new GEM buffer object.
+> > -#[expect(dead_code)]
+> >  pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
+> >      if size == 0 {
+> >          return Err(EINVAL);
+> > @@ -65,7 +71,7 @@ pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result
+> >  
+> >      let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
+> >  
+> > -    Bo::new(
+> > +    let bo = Bo::new(
+> >          ddev,
+> >          aligned_size,
+> >          shmem::ObjectConfig {
+> > @@ -73,7 +79,13 @@ pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result
+> >              parent_resv_obj: None,
+> >          },
+> >          BoCreateArgs { flags },
+> > -    )
+> > +    )?;
+> > +
+> > +    // SAFETY: `ddev` is bound for the duration of this call.
+> > +    let dev = unsafe { ddev.as_ref().as_ref().as_bound() };
+> 
+> You can remove this unsafe block by accessing the bound device through
+> file.inner_with()
+> 
+> > +    bo.sg_table(dev)?;
+> > +
+> > +    Ok(bo)
+> >  }
+> >  
+> >  /// Look up a GEM object by handle for a DRM file.
+> > 
+> > -- 
+> > 2.43.0
+> > 
