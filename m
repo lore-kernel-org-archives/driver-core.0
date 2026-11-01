@@ -1,45 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793570183;
-	b=TH2DlsLygVraRQTpIo0jJmM6tTB/M1eT0N0xwPxzJaVo62gsTXLXhegGJnWVcxDLqgki
-	 D++72U+rItdcDn8qs0ho1Hn8Bgq014HmtXXKbCRRZ9gj9SNFfnHrw0prLK4OTSnSxQf32
-	 X28tVy4TW9KSgN3jJmQL1s/Guud+z6keTUcwEofICZQ63KQCyAtIW/2sy58YKn6NWwU1z
-	 50kW8jiZDpxD33Xj3mHi/kPT2/YxcRpu0SuKF/8zMM73wizNZZ3PsplY4VFtIn7yOqa3C
-	 2MpKFrTPNBdeyOl0kawgWa1xJ+zk9IBgyq2sxU+7iZ6xg15qRJOGoBTP2iJWGyhLUQw==
+	t=1793572993;
+	b=kNy96QLKxy3+XG8nZ7H7I8rNajtgIeRMiSmmbCvUvwloRTbTnL3huQ9tbX88UPi/2Had
+	 y5uQWp6M/NFv8JhD2TavZOBS/ywmeeVUQXu4o+j1a03rVFjI4OjFS4VOjUWQlqWzXiEUP
+	 KAw8Jcm23L8Jeo9FB2xTg1LfIyuV29k+YkLEkU4/532iOOxHgopmmn9qCkK+DFD9tYNQp
+	 NJP/Y26oFyKJgHG+Ls+nQGAB3DiyyjPd2LCSh9GHocvTdfAwmNcwrCRBdsO0l3FuTF9QS
+	 lZHyYtAXStOEA0gJo5exM/Ma+H0tZL6Uh0Cweqv+qyxotUgRPMSVipPqxR7ma7Q9Y6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793570183;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To;
-	bh=VxgpRvMbcv6qJeLeo7B48rUim7UFlkQ3LNiC3OI9B+I=;
-	b=TX4Crc2MO/Y2zDJqZOj44krmEkmFo+++L5xtM5CUFjiqSYejDK3v12QkQZCFTCVpq8me
-	 2ezTuAOSxfkzbZJdueS9TojPHNEANa6pI/rYGVPmdPdzSd/2iL/pW/G3sLIXjOiEfxgKh
-	 grSEYgp3vR7VK/RxbGVdNDfVzdd0NcnHqbFNhxQP+/6bUZS91rLr0Vci1VVsZHVMnMGbu
-	 ouamJPyQxwoLUpepoRXkBe7fCEL9bOXUIjEcCTYDMPKimwPXDeb1Hvecyl5gfUGsIansT
-	 ayDRXYYGSCrcXNJxQboYnlO+NrdiHHy9u4fkii18uiYNDQQ9D5Xz8YI3UHAlFjTUK9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793572993;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=VLna3m1PJup3gw6ZeZRQ1OZQFa8SVHWJAPHsEWs7xmQ=;
+	b=fheledpnFl8X9s4EOJay4oR7ufd8uZF19M3lPdc7hWAVBHrYN73T4M3Z4VdAeQ8wLwpA
+	 OYPl/0JwaIEiiBE1oOkSyYXtb7KIe/+JrosPgiOIQYv14ym6b5spxdIbkrQmjfTzck5nC
+	 mctzpXf+e5VwLub4STwguyu+fDC33Jcxuw+z6mA8NYRSn+PRoIo6hf9wuMKeURs7XfjB5
+	 McANxE9v+2QZ2jIYkwxvcd1Th/QqhSSGbDBCglmOrWXoQIbIbpJeIcNnfv+S0B/flbHkn
+	 6TbGPigRk4NweG5aVdj9ZXC4IO2YAEPZ5I86aOyaprKkf2plA15GJMPo0W0DuvOYvGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoZVBlK8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VPqnOoa+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C41606A326;
-	Sun,  1 Nov 2026 21:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19184606A324;
+	Sun,  1 Nov 2026 22:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoZVBlK8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A791F000C1;
-	Sun,  1 Nov 2026 21:56:20 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VPqnOoa+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BFB1F000C1;
+	Sun,  1 Nov 2026 22:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793570182;
-	bh=VxgpRvMbcv6qJeLeo7B48rUim7UFlkQ3LNiC3OI9B+I=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=LoZVBlK8XCaJk3d32r0MVm5RQFpUMuSJJGLmsbYPAcLzGHUbutg7uxgpx9HHCyK0W
-	 en8oFH7CakHWCg3wpTAmPWorHWFe6LiK4WDriI/5hXk79VrhU89dwSKTmXgf2u2/ZL
-	 ViccSxD02cjorYLb+ui/yLKsf6/3R6pOSYvtm2WKyI3O+6Z3mNKDQ5ebEDhemJyBs8
-	 4UBAnHWF/DJhZ3RlJcD1Aapqo1Wnob67F3ddRRSs8f5XvklRava/tpSpKADb/gq2fH
-	 XH0k0r6erMN3oO6vbMZ0s+5RM+7IH9o2G++5F3VKMN2SYGDQo82+NbGxb6WoLkIzS1
-	 fGimYWiFm1s/A==
+	s=k20260515; t=1793572992;
+	bh=VLna3m1PJup3gw6ZeZRQ1OZQFa8SVHWJAPHsEWs7xmQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VPqnOoa+zBiQa5BxRC5N4b1ufoN3d9/DOGepIo17/ywjnX5G9y6LDsf10ake1Tt6i
+	 LQKVhMpORFvQ6WIWUnhNHlz1kl8Jvz1O87kJ+oYnsu+Kbb8dW08CeTnRuiujoYk+v9
+	 qCgO69QCzOiAQ6sy1dq7CfIhauL2B6EbTxh+K/tQFB8Eufc36UJRT1hpokl29Dg4gO
+	 YXgrjLAPfu2j5U8gnBjMADJnEJ26Qjke0aAN136sgj2lMyJsD0pGOwQ31Ty2R//dzw
+	 VtNr+W2Up0cGFFRl6bq53x1FR6z8z5XQHVTNuJ611Py8oecmv/7pz+nZpawFM9ZVxe
+	 PZA0kjnr3S5Og==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Eliot Courtney <ecourtney@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] rust: io: fix unused Flags::from_raw warning without CONFIG_PCI
+Date: Sun,  1 Nov 2026 23:43:05 +0100
+Message-ID: <20261101224305.2470088-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261026-pci-fix-v1-1-a6a69ee584d4@nvidia.com>
+References: <20261026-pci-fix-v1-1-a6a69ee584d4@nvidia.com>
+X-Patch-Reply: applied
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -48,68 +77,22 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 01 Nov 2026 22:56:18 +0100
-Message-Id: <DMK7KD9A3LR1.25UWRP5SLKQDD@kernel.org>
-Subject: Re: [PATCH] firmware_loader: Expose requested firmware names as
- sysfs entries
-Cc: <linux-kernel@vger.kernel.org>, "Maxime Ripard" <mripard@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Peter Robinson"
- <pbrobinson@gmail.com>, "Hans de Goede" <johannes.goede@oss.qualcomm.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Russ Weight"
- <russ.weight@linux.dev>, <driver-core@lists.linux.dev>,
- <clabbe@baylibre.com>
-To: "Javier Martinez Canillas" <javierm@redhat.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261017142826.2668881-1-javierm@redhat.com>
-In-Reply-To: <20261017142826.2668881-1-javierm@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-(Cc: Corentin)
+On Mon, 26 Oct 2026 12:53:20 +0900, Eliot Courtney wrote:
+> [PATCH] rust: io: fix unused Flags::from_raw warning without CONFIG_PCI
 
-On Sat Oct 17, 2026 at 4:27 PM CEST, Javier Martinez Canillas wrote:
-> Most initramfs image creation tools (e.g., dracut or initramfs-tools) hav=
-e
-> options to create initramfs images that are either generic or tailored to
-> a running system. For example, dracut has the --host-only option for this=
-.
->
-> That option allows to have a smaller initramfs image which only contains =
-a
-> sub-set of the kernel modules, libraries, binaries and configuration data=
-.
->
-> One thing that can't be queried in a running system is the set of firmwar=
-e
-> names that were requested by the kernel to support the different devices.
->
-> Let's expose this information as sysfs entries to allow initramfs creatio=
-n
-> tools to determine the set of firmware names that are needed by a system.
->
-> On an AM625 BeaglePlay board, the following will be exposed through sysfs=
-:
->
->   $ grep -H . /sys/class/firmware/requested*
->   /sys/class/firmware/requested0:powervr/rogue_33.15.11.3_v1.fw
->   /sys/class/firmware/requested1:ath3k-1.fw
->   /sys/class/firmware/requested2:regulatory.db
->   /sys/class/firmware/requested3:regulatory.db.p7s
->   /sys/class/firmware/requested4:ti-connectivity/wl1271-nvs.bin
->   /sys/class/firmware/requested5:ti-connectivity/wl18xx-conf.bin
->   /sys/class/firmware/requested6:ti-connectivity/wl18xx-fw-4.bin
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Applied, thanks!
 
-This was discussed before in [1]. I rejected it back then because userspace=
- can
-already collect this information through existing interfaces.
+  Branch: driver-core-linus
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-However, I can see how having a queryable history could simplify automated
-tooling like dracut. Has this been discussed with the dracut maintainers, a=
-nd is
-there a concrete plan to use this interface?
+[1/1] rust: io: fix unused Flags::from_raw warning without CONFIG_PCI
+      commit: 14098e496671
 
-[1] https://lore.kernel.org/all/20260715131325.26099-1-clabbe@baylibre.com/
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is queued up for Linus's tree and should land in the next -rc release.
