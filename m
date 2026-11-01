@@ -1,119 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793473826;
-	b=apZEeQxmRcVPikZzK3R0qqCr6nHQ5sMpL9zYCBp7PWtRngDC9VQ8PzwcmOps85CCclT3
-	 MnW36EloEhqWTF2C0/kbrHzuvLLCPwNQHEL2Z9XI6FFtoztjYy0VHJqkG7v5JSP0kNc1o
-	 f3Ts4zpd1EkUB3ECLm4FPpsgnX3ZavWcqXeAcgVA14raNfqXF9/33wzytN/lV0JFagnXF
-	 7q5o2Zh1LTJ7XxpJE4cWLB84rYWauLK7zsYdC0m3/wk5Kz0yaNMOXgyGcGk2CHUiDPvCG
-	 qsF3l0o3YnEIdo4Kms4PqqpIKXXsdWDN7Q+Fr4juRd0NSJWI297pTm9wpcc2fhoGJAw==
+	t=1793492672;
+	b=bcEfVBcD0dhoB0/XfYIzxSV7w4zUgwZRcfdmvlGeTpIlelbduY8bba9F94Om+y5mvbcV
+	 KbWquu9qcxnJPg+Z/WTN8JYBZQ/EDDkKzZ5bH+2hZVvJ3LpBnB/qmlRGZ82L/kJlLQPpp
+	 YxH/vE+YOETWtx978txppeHQRBzj6MbJOhDaBTdrhU0MCQFwp7bLax5/ep4gFK2fmckZm
+	 WvH0mtn9TfxCRS12LpRcqM7pLK8EI9/uyNFeHBhKFJdQ+65Y9M3rUUZYV/76L7UJE3B9s
+	 PikN29HXBkRay2LpbvFUxackjAAcz/RSC1I9nGf99KRmOfd5h1CgPHHcoz/XJSoMBwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793473826;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding;
-	bh=P15p9Hb5w1tBvsdlJFg638wJNRLHIyW6DyqlyUCSHFc=;
-	b=NlHebpHMHR/AozRJ0w+66pRhDkqWXXFDyxR4fDFTZT3mBao5mCCPDDzQ/NkR53TnqlKw
-	 JmcZeC/OoHigo2BlEHVuwmQJcvkrVZTqDN/5LQJOrJVJOkrV1KmKSRS7IRDx9StBDhF5x
-	 3mXy4LptKLZjSpBbKnzPB1nPI5YIZHBfVTAWwefkcbUhNgZmG/ShPxMM7bHcxK4z5od1W
-	 dcb2FHeuLzwjAEW1tqXLPEsgvgdbUNrz7Gn9ON5XRVAAkmxsGWL+v59c0ykjlqJM4PnJu
-	 HkmdrhevlY5RyNo/J/cIkAZn6AJ/S8qGsm8i0NpLLd0e4CJTJdgorOopql3Sqka+BAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793492672;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=MH1M6eFfGW0Z+XwFusM64ori/whPIcIiOb6x6N6fzJI=;
+	b=O+22mBmrMNyDUt0Pe92YXn24v0oSVVYdOYtMH7uJV4w3HibyU6GBsdFOX1VyzRvLrD5Z
+	 hldAzlTfiy2a/ltIhUOMEYuUuzx4lP2hgokoWgS/YNbtFFfLMXOX2TRFIe1tRbh/QvBYU
+	 MkWO0NXeVsjI6msbZ+jf/uLUSu/ncT1q98iFuItX9W0Sz1ILzKGq8aHt3mD5ixRR4JyW3
+	 2s5etDl7G9JlbcoUUZptVWlYsAK3l9oEtcHeNzliQAaUSQbDUrzysLQKPHs79YzfNLpwT
+	 0P4Tvj0Jfv+gUzwvaNpkMypadiil0s5MunYORF2bDihvwEqrEOocRWU7b/sS1zfsIDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nexthop.ai;
-	spf=pass smtp.mailfrom=nexthop.ai;
-	dkim=pass header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=Z57coJKT;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.197
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A72606A31A
-	for <driver-core@lists.linux.dev>; Sat, 31 Oct 2026 19:10:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2A72606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nexthop.ai
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nexthop.ai header.i=@nexthop.ai header.a=rsa-sha256 header.s=google header.b=Z57coJKT
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so3123694eec.1
-        for <driver-core@lists.linux.dev>; Sat, 31 Oct 2026 12:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexthop.ai; s=google; t=1793473825; x=1794078625; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=P15p9Hb5w1tBvsdlJFg638wJNRLHIyW6DyqlyUCSHFc=;
-        b=Z57coJKTaLzK/2PDroxkjrXJ3XGvH9APLHDXbDmDg15LVz9fNTnhTgaPc/ixl3f4lP
-         IijhXrGg++cVisUb5Th6qxEcYah6x+cXIVj7mNfnR6u1NULyV8ZHtGkzShf7U8WR+XIf
-         lc3VV5yYEyyzRahJj+pE1YnfEh6UtI1EikUNwbgekXaTjT2GBcbHVwIMonsnH28PgxMK
-         h1OsfMapmG3JtSQtUvtekMQXYiJwfvs0J81xhz6QG9QzNKpyZt/jVM9nIVI2b4oHrlK2
-         iJZTaVDU+QIHqdKGMWqfxc1o0pVWXKEBIJV9InvZUVIIbMq8rpVQ/fqnCiYHbAeiEF6S
-         YaDA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BDD606A31D
+	for <driver-core@lists.linux.dev>; Sun,  1 Nov 2026 00:24:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86BDD606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4db3db8687fso3129191b6e.0
+        for <driver-core@lists.linux.dev>; Sat, 31 Oct 2026 17:24:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793473825; x=1794078625;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:x-gm-gg
+        d=1e100.net; s=20260707; t=1793492671; x=1794097471;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=P15p9Hb5w1tBvsdlJFg638wJNRLHIyW6DyqlyUCSHFc=;
-        b=IaoxGRJ1jMZMrEmlLtwSj0KE1GLwoN1gzlDVjZXiY6hitPXnolk9lOT4MbKqrt9dx4
-         clkvig2eV823C0jxabqZ+DZJNQaV/RcfXfQKuf5vmFxwtngOvb3wKMEdypFhrdlg1px8
-         uxT32aYL7SBJaLnABgUk1JE4UsfeGOeewPxlVXz0gT3puOeJDvArsBVCxZcfihQGW0eU
-         zK7jY8sgeTHM7tTBl9JLA3PCLnTmKzpgVQ+4LiTr8NzdNY5T1nAqv3TVSewZynnCPaGA
-         Saa1bFVdjX76BzISAPA6eK4yDeMEmOloFlUqdos8DIhw3HrGj/8GtDtBgE9gEfSN4bqH
-         E1nA==
-X-Forwarded-Encrypted: i=1; AKwUvBy7xKlAYNIGLCBYIvD7Om1OMHyn6RHfoXMI8TMP0HPDsTiKfg5vSmf79C1re+hYHTtIGo4XNl4l84eSJw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJut7F/5DwoUTMFPxYVsGigbtF+8t301SR7q56bfn0vHPNUtVoc
-	rhv9YWicM8kwpR/49DCEvE9uu9HRLjp6oEwwiweJZ/Gllzs1dGAvOQHaIj+gFY1F+dQ=
-X-Gm-Gg: AYBFou3efy4t7jAROuQKrCyLzBDyhKk/kDZ+66kZHAFzOi+QiF97WONCwN/giv+Fn0a
-	tS/jvZUzjcIUWTfuMqOrRxQhVQIkQO/CLtDto0YmsbzR4BbOKpAm28cFVWS54PYxpBy+Ork/9B2
-	TI3Xjk3rnxR1EUzNNL4Xp5fHhZrUel9Q/Pzh4N9E/Lt8JZ+pfCL+Ydf3bqcR3jy5/K+lLGAoTmX
-	1wWNIiES1TTs0BjSP3NVM8yZ27ZFPk7BZZ4O7UjM0fei5RwICmz0G1/ndmQMgeIFCxKtnRCHq0S
-	g8zZmMB5wmCdzJqEEQm/L50yV44xzxCJ2/OLT/tmSkaDAUkSbcMZHZcnMTpLsnVRYhSx36yKMDg
-	IJx/ew/nfVy/fkyTc7xp7T/D3fL7N2EimykPxiuLWikEj6CAx8GwYSsypOcRju9TqMjXYtzGHAA
-	spoku+S7vtvY7yptfBnnE2wt/EqR8pb9/ZfozlOM83FqDAY3yhYg3grVGNkK6dXVr7jgT24eUzT
-	tCL/m5EcMm9U2A7WwFTU9V7cShHdMxO8XIjoOOu2nB6r6gtLbtJv/f+sAtXDXIMaX2DCT83ehUf
-	FfsufPYV+0k8E+Jj+0wwyXSpNGjvaGa0aJcLqX3G3KSim4vo/UU=
-X-Received: by 2002:a05:701b:4515:20b0:166:5552:780a with SMTP id a92af1059eb24-1ac5b028b11mr7948547c88.8.1793473824427;
-        Sat, 31 Oct 2026 12:10:24 -0700 (PDT)
-Received: from localhost ([50.145.100.174])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1b38ac58sm17384804c88.23.2026.10.31.12.10.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 31 Oct 2026 12:10:23 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Oct 2026 12:10:22 -0700
-Message-Id: <DMJ9ERWOMF5G.3KVDIP2QE3A7J@nexthop.ai>
-Cc: "Richard Cheng" <icheng@nvidia.com>, "Andrew Lunn" <andrew@lunn.ch>,
- "Rob Herring" <robh@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, "Charles Keepax" <ckeepax@opensource.cirrus.com>,
- "Richard Fitzgerald" <rf@opensource.cirrus.com>, "David Rhodes"
- <david.rhodes@cirrus.com>, "Linus Walleij" <linusw@kernel.org>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, "Daniel Scally"
- <djrscally@gmail.com>, "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
- "Sakari Ailus" <sakari.ailus@linux.intel.com>, "Bartosz Golaszewski"
- <brgl@kernel.org>, "Len Brown" <lenb@kernel.org>, "Davidlohr Bueso"
- <dave@stgolabs.net>, "Jonathan Cameron" <jic23@kernel.org>, "Dave Jiang"
- <dave.jiang@intel.com>, "Alison Schofield" <alison.schofield@intel.com>,
- "Vishal Verma" <vishal.l.verma@intel.com>, "Dan Williams"
- <djbw@kernel.org>, "Ira Weiny" <iweiny@kernel.org>, "Li Ming"
- <ming.li@zohomail.com>, "Lizhi Hou" <lizhi.hou@amd.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <patches@opensource.cirrus.com>, <linux-gpio@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <linux-cxl@vger.kernel.org>, "Allan Nielsen"
- <allan.nielsen@microchip.com>, "Horatiu Vultur"
- <horatiu.vultur@microchip.com>, "Daniel Machon"
- <daniel.machon@microchip.com>, "Steen Hegelund"
- <steen.hegelund@microchip.com>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v13 00/10] lan966x pci device: Add support for SFPs, PCI
- part
-From: "Abdurrahman Hussain" <abdurrahman@nexthop.ai>
-To: "Herve Codina" <herve.codina@bootlin.com>
-In-Reply-To: <20261012142826.159178-1-herve.codina@bootlin.com>
-References: <20261012142826.159178-1-herve.codina@bootlin.com>
+        bh=MH1M6eFfGW0Z+XwFusM64ori/whPIcIiOb6x6N6fzJI=;
+        b=UOEmQOtvZ/jK8avs1WzBqlftwrnYN/rAbxTnGDj4xvjtWa1U7x8ohyrXM3fCSnX1sQ
+         a46iVyAHpw4LT28N6ydVBGCM3eiHnJfwU/I2SPDeKig+aGDKXooCM7klOa40m0hIsqrQ
+         8tnEgKzGGci+qj4BnA9KTdOnlhcndz0WSTVBpCbuarM1qjqG4Vg2IjO2X1uVHr5i+ozP
+         qG1D6I/TUlKF3Iq9ALZ+ODCBS3PUl8BnWRIza13PbmYua8VBYr1HnpaY1hH58UsODgVM
+         JLOUeQNluTekablc1QNyR2ZnGHkQSKeF5o2Wo7d9sPHjqFXzS8MsCZ5P6iaGmrALAThJ
+         odXg==
+X-Forwarded-Encrypted: i=1; AKwUvBxc71CoF72v9wZ+E+RnVDJR7Le+EWutCRHvEF6nkjzvy/8pTHnJjksd5CLlIRa4oWRkPGlp7vh9E3JP9A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLLv3GWxSOLfBmefapz6Oit7tgjZZihLt9qb0xX9WaZcZn92GHT
+	fpZvj527+Bvaux0wbUJVUIJDiQ6E1lgSk+Pg1y9Il2neQzKGd3jMPthhj22hj2k8lDSu2yLYuM0
+	yDOJpIaWeR6fDzIe9d3P77F8B1be6JeR2YnBOgw38gY57D5wvIeL5eNesAtw=
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -123,34 +58,129 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:88cb:b0:564:3fe1:2fad with SMTP id
+ 5614622812f47-5643fe14a80mr140828b6e.42.1793492671534; Sat, 31 Oct 2026
+ 17:24:31 -0700 (PDT)
+Date: Sat, 31 Oct 2026 17:24:31 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae686bf.64e51036.15cf6a.0004.GAE@google.com>
+Subject: [syzbot] [driver-core?] [fs?] kernel BUG in sysfs_break_active_protection
+From: syzbot <syzbot+dcad997ed2b5bd95cc5e@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Herve,
+Hello,
 
-On Mon, Oct 12, 2026 at 04:28:14PM +0200, Herve Codina wrote:
-> Patches 8 and 9 fix fw_devlink issues specific to PCI and the
-> device-tree nodes created during enumeration.
+syzbot found the following issue on:
 
-We hit exactly this on x86 switch platforms with
-CONFIG_PCI_DYNAMIC_OF_NODES. A driver applies a device-tree overlay
-onto each Xilinx FPGA PCI endpoint and populates I2C controllers
-(xiic), watchdogs and GPIO blocks. Their interrupts go through small
-chained irqchips that are themselves fed by the FPGA's MSI vectors.
+HEAD commit:    7649ba73f9e7 Add linux-next specific files for 20261030
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=139805f1580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=82467d52d846ff27
+dashboard link: https://syzkaller.appspot.com/bug?extid=dcad997ed2b5bd95cc5e
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10a82cb1580000
 
-Without this series, fw_devlink drops every supplier link under the
-synthesized PCI root bridge node ("Not linking ... might never become
-dev"), so the irqchips end up with no consumers. Unbinding one of them
-frees IRQ descriptors that the I2C controllers and the watchdog still
-hold. We get a remove_proc_entry "removing non-empty directory 'irq/N'"
-WARNING per IRQ, and the I2C controllers are dead until reboot.
+AI-generated root cause summary:
+In md_attr_store(), writing "clear" to array_state invokes
+sysfs_break_active_protection() prior to acquiring all_mddevs_lock and
+validating the device via mddev_get(). Since sysfs writes only hold kernfs
+active references rather than a kobject reference, a concurrent deletion or
+teardown of the mddev can drop the final reference on mddev->kobj, reducing
+kobj->kref to zero before kernfs removal drains pending active accesses. Calling
+sysfs_break_active_protection() then executes kobject_get() on the zero-refcount
+object, triggering a refcount use-after-free saturation/BUG and potentially
+corrupting memory or crashing the kernel.
 
-With the series applied on v7.3, the device links are created (up to
-32 consumers per irqchip), and unbinding an irqchip now unbinds its
-consumers first. I tested on two platforms, with 2 and 3 FPGAs (4 and
-7 irqchips). Repeated unload/reload of the irqchip driver was clean
-every time, and everything probed again afterwards.
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=dcad997ed2b5bd95cc5e
 
-Tested-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+dcad997ed2b5bd95cc5e@syzkaller.appspotmail.com
 
-Thanks,
-Abdurrahman
+refcount_t: addition on 0; use-after-free.
+------------[ cut here ]------------
+kernel BUG at lib/refcount.c:34!
+Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+CPU: 1 UID: 0 PID: 6056 Comm: syz-executor398 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/15/2026
+RIP: 0010:refcount_warn_saturate+0xf0/0x110 lib/refcount.c:34
+Code: 80 c1 03 38 c1 0f 8c 6a ff ff ff 4c 89 f7 e8 e7 44 51 fd e9 5d ff ff ff e8 dd 23 da fc 48 c7 c7 e0 a3 8c 8c e8 a1 d1 38 fc 90 <0f> 0b e8 c9 23 da fc 48 c7 c7 60 a4 8c 8c e8 8d d1 38 fc 90 0f 0b
+RSP: 0018:ffffc90002e5fb78 EFLAGS: 00010246
+RAX: 000000000000002a RBX: 0000000000000002 RCX: 4550039d880cf800
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffff9014c84b R09: 1ffffffff2029909
+R10: dffffc0000000000 R11: fffffbfff202990a R12: dffffc0000000000
+R13: 1ffffffff22654c6 R14: ffff88807c40e128 R15: dffffc0000000000
+FS:  00007f63dcdeb6c0(0000) GS:ffff88812350b000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055b9ba686138 CR3: 0000000074ef4000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __refcount_add include/linux/refcount.h:-1 [inline]
+ __refcount_inc include/linux/refcount.h:366 [inline]
+ refcount_inc include/linux/refcount.h:383 [inline]
+ kref_get include/linux/kref.h:45 [inline]
+ kobject_get+0xfa/0x120 lib/kobject.c:643
+ sysfs_break_active_protection+0x28/0xa0 fs/sysfs/file.c:471
+ md_attr_store+0x28f/0x640 drivers/md/md.c:6167
+ kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_pwrite64 fs/read_write.c:1504 [inline]
+ __do_sys_pwrite64 fs/read_write.c:1512 [inline]
+ __se_sys_pwrite64 fs/read_write.c:1509 [inline]
+ __x64_sys_pwrite64+0x210/0x2c0 fs/read_write.c:1509
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f63de64ba9e
+Code: 08 0f 85 f5 e2 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 90 41 57 41 56 4d 89 c6 41 55 4d 89 cd 41 54 55 53 48 83 ec 08
+RSP: 002b:00007f63dcdeb0f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000012
+RAX: ffffffffffffffda RBX: 00007f63dcdeb6c0 RCX: 00007f63de64ba9e
+RDX: 0000000000000005 RSI: 00007f63de69003a RDI: 0000000000000006
+RBP: 0000000000000006 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f63de69003a
+R13: 0000000000000003 R14: 00007f63de6c3100 R15: 00007f63de6c4b4c
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:refcount_warn_saturate+0xf0/0x110 lib/refcount.c:34
+Code: 80 c1 03 38 c1 0f 8c 6a ff ff ff 4c 89 f7 e8 e7 44 51 fd e9 5d ff ff ff e8 dd 23 da fc 48 c7 c7 e0 a3 8c 8c e8 a1 d1 38 fc 90 <0f> 0b e8 c9 23 da fc 48 c7 c7 60 a4 8c 8c e8 8d d1 38 fc 90 0f 0b
+RSP: 0018:ffffc90002e5fb78 EFLAGS: 00010246
+RAX: 000000000000002a RBX: 0000000000000002 RCX: 4550039d880cf800
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffff9014c84b R09: 1ffffffff2029909
+R10: dffffc0000000000 R11: fffffbfff202990a R12: dffffc0000000000
+R13: 1ffffffff22654c6 R14: ffff88807c40e128 R15: dffffc0000000000
+FS:  00007f63dcdeb6c0(0000) GS:ffff88812350b000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f94a870e7d0 CR3: 0000000074ef4000 CR4: 00000000003526f0
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
