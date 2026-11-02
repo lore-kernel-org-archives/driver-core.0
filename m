@@ -1,66 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793610564;
-	b=SEWkyPt7U+yLM0+I551akRyL2wjbxgVU+OKKE0gdW8VjhL+xEwNOUldWTGkrZr1fjtHI
-	 o+fKsvFe1xhf//lVqP1cg5pGu7ZLbFW4KDCZLJ8sudW17LKUt3ZFz5Hu19M52yxwgP3G6
-	 cxA4xpXZv5PxUtPK8XlsEb3Yh095O5u3qKggsaHgYAAFXem2oADrYuJuN5OVF5C8koqaQ
-	 hGvJPsKSxvc5DYdgWoTntGbZmDt46l3HBNTgnJ3anlvqqZwphmbQKw3HObW9b3SAMF1Rk
-	 pydGXT+Ze501QClAty+fIkroSRw0zqcZQ8WmdHkA8dSjnb10TvqR0zMxaeQKb4gcSKw==
+	t=1793613494;
+	b=j45Segmysx40BzSs9SL4SjXdSrWVBFyEQjpqot0u+TMgiaZ99GKqGwdZfOmXLNh4VaTN
+	 oDAzzKwmlUZqymv7TVl7ctc5S/QuskQ/5g3Z3PYrm74J/jzGNfCoNXX6YTK95Sl9eJt1J
+	 EQEhKm7V424TZodFii7N4HH2+6GWCE9hv4DU0ycYFQ4xIedzYmFunImoTTmHRYzCxamAW
+	 WJJ7G4Cpl1iygNAIIHiDZ+VeVjn61W78uazA4gRTrR/T1FHwFuuuRDJMFA9AMJU31YCgq
+	 90Q1UXlLOy3Sdkfon1nL9Z/grOJh4cnsUq8eBkU/bfXNOOo6RqZHsPtebSmY7+sBfIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793610564;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type;
-	bh=IYFW2lTOpyKjEnXh2uR1HGY+0FKkCifbwuEO2xZ7rNE=;
-	b=ybMhWEoZ2zMBOCLZA/ifo07eni442GTAGOZayzN/XSBlPDWTVxF2T4vM4FeSOQt8qY8X
-	 3y17ZvXknZy1lov091m/fdTWFgcy4731gu3qgYMObHjvFwq35FdEhgbkJU/nnSzoAMcDR
-	 40teidSK7nUeAMMjjBJQLj5KuFA4czS1x8/O6hdEbJQqA1uua8/r8PN/a+AyzqEJCLfDL
-	 MAKIaQVkEjpmkMPMiAyoBk019CwsQVKyBtBCZBZIg+4Q7K7mIfQtVXzXl1dieIqXKHTNR
-	 naMPy7gSiUf4wsBhLjjbL1+rF/VCVqnSoL769YLnZq6XjK2DxN0TpaQLHADS7gfTHzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793613494;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UKyyZUOWJVkvc/oMwUTT4h7l57WEWjnuZvJf4U3Jj9g=;
+	b=ty5FTiWbVMq2ePvaftV7+m3ZeELX9hiwR9wv9+IMzY4yt1rmGYk8g2NGDryRKoLYY3NE
+	 /80Ukojr9yLkyJ1AYBhSJZP1dLmePfDEkAxDIn3wb3qurJOJO377RPvaGPKkxsgcVM47v
+	 SgGIlf8fXgF0OyjY48PoxEl37klchGAcqa8yTMkw9YBdNfH+ifMPol/sx+lNV7blpBVcT
+	 DjERwBvLss1JlIVF9iFHCU1Tg1HP53PhfGiBsk/KTSdFNMQuexIrvimDfZ/2B7CoFOzkd
+	 52Ov6+hv7MPUwvydr7nCTW0m5bK4f/BKOaNFdO8Ac9n6ycOMedM8OYUrINroJuXyAkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=FPh82kbK;
-	arc=none smtp.remote-ip=192.134.164.83
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=peNr0I8O;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F106606A327
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 09:09:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F106606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EA5606A324;
+	Mon,  2 Nov 2026 09:58:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56EA5606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=FPh82kbK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=IYFW2lTOpyKjEnXh2uR1HGY+0FKkCifbwuEO2xZ7rNE=;
-  b=FPh82kbKRC2x5AkT1pgqQkRaqXaiNAPTtradhtnUKi9jhKCDRh9HKsss
-   X+1bIhliA6vK7Mqhjn/6L8tmF4odm+tXew/myyGZS51TK/NHhXY+V3bGj
-   HAGtSubjH+jl+hYaptg06R5lZ17K3mO9YbUjS1TDyPMGIbZp8eg+3KG0L
-   E=;
-X-CSE-ConnectionGUID: ozxKcFvfTKausaSb0UebIw==
-X-CSE-MsgGUID: SEgQBXdrT0O1xls2NlHySQ==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,191,1787004000"; 
-   d="scan'208";a="303298693"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 10:09:21 +0100
-Date: Mon, 2 Nov 2026 10:09:21 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Kees Cook <kees@kernel.org>
-cc: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>, 
-    linux-kernel@vger.kernel.org, 
-    Linus Torvalds <torvalds@linux-foundation.org>, 
-    driver-core@lists.linux.dev, Nicolas Palix <nicolas.palix@imag.fr>, 
-    cocci@inria.fr
-Subject: Re: [resend PATCH] coccinelle: Add devm_kmalloc_objs conversion
- script
-In-Reply-To: <E7A57F75-AB90-4B41-B942-55D65F2B65D8@kernel.org>
-Message-ID: <c47392bc-e522-19b6-a653-1e85b44cefba@inria.fr>
-References: <9b55b3e3269ef43ede64fff34f42121f7aa47979.camel@perches.com> <1a6026c4-3e19-a1a9-e637-f1842172482b@inria.fr> <E7A57F75-AB90-4B41-B942-55D65F2B65D8@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=peNr0I8O
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UKyyZUOWJVkvc/oMwUTT4h7l57WEWjnuZvJf4U3Jj9g=; b=peNr0I8O1r4HRfm9ZOZYdjyxS4
+	kprbs4zQBBtMnV5UOs/rSx/Wf28Gy9e1a13tZYH7TQDGU0+AGNUuwR7eKWcANgd6oFP8D/LzX0wki
+	R8PtZiErjBfLYtZIPg+5hhKViG+0ZZkCZlhNHSzN5SEvvDjABn+f2gDtYJVq92eJ3wQ067hWCW74B
+	U0BuGZcbzDQs1Gndbbm7rteMSWL2kf+x0tl6uv5nMUjQXv8fRDIwZnKj5qeBzZWYmG+EolOYpkT3c
+	am9ifVWrfO+7kwnwGUYiMhZ0nrs/e7rXFX8UTuQ5HfqNzIApdBKH56YZMrDQjDnuSz+avyk9mIs5d
+	v3sUJUIQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xNonZ-00000002L6h-3hQt;
+	Mon, 02 Nov 2026 09:57:55 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 00239300312; Mon, 02 Nov 2026 10:57:50 +0100 (CET)
+Date: Mon, 2 Nov 2026 10:57:50 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Adrian Hunter <adrian.hunter@intel.com>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	James Clark <james.clark@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Andi Kleen <ak@linux.intel.com>, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 2/6] perf/x86/intel/pt: Stop tracing if VMXON has not yet
+ happened
+Message-ID: <20261102095750.GS1779021@noisy.programming.kicks-ass.net>
+References: <20261102074039.26983-1-adrian.hunter@intel.com>
+ <20261102074039.26983-3-adrian.hunter@intel.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -70,37 +89,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102074039.26983-3-adrian.hunter@intel.com>
 
+On Mon, Nov 02, 2026 at 09:40:35AM +0200, Adrian Hunter wrote:
 
+>  arch/x86/events/intel/pt.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/events/intel/pt.c b/arch/x86/events/intel/pt.c
+> index 49349afee611..36bf039668d7 100644
+> --- a/arch/x86/events/intel/pt.c
+> +++ b/arch/x86/events/intel/pt.c
+> @@ -567,6 +567,15 @@ static void pt_config(struct perf_event *event)
+>  	pt_config_enable(event);
+>  }
+>  
+> +static bool pt_trace_enabled(void)
+> +{
+> +	u64 ctl;
+> +
+> +	rdmsrq(MSR_IA32_RTIT_CTL, ctl);
+> +
+> +	return ctl & RTIT_CTL_TRACEEN;
+> +}
+> +
+>  static void pt_config_stop(struct perf_event *event)
+>  {
+>  	struct pt *pt = this_cpu_ptr(&pt_ctx);
+> @@ -577,7 +586,12 @@ static void pt_config_stop(struct perf_event *event)
+>  		return;
+>  
+>  	ctl &= ~RTIT_CTL_TRACEEN;
+> -	if (!READ_ONCE(pt->vmx_on))
+> +	/*
+> +	 * vmx_on is set before VMXON, so tracing may not have stopped yet.
+> +	 * RTIT_CTL can be written until VMXON, and after VMXON TraceEn is
+> +	 * clear, so still write RTIT_CTL if TraceEn is set.
+> +	 */
+> +	if (!READ_ONCE(pt->vmx_on) || pt_trace_enabled())
+>  		wrmsrq(MSR_IA32_RTIT_CTL, ctl);
+>  
+>  	WRITE_ONCE(event->hw.aux_config, ctl);
 
-On Mon, 2 Nov 2026, Kees Cook wrote:
-
->
->
-> On November 1, 2026 3:51:53 PM PST, Julia Lawall <julia.lawall@inria.fr> wrote:
-> >
-> >
-> >On Sun, 1 Nov 2026, Joe Perches wrote:
-> >
-> >> Like commit bdc5071d7f7b ("coccinelle: Add kmalloc_objs conversion script")
-> >> with commit 1c7bbaeed110 ("coccinelle: kmalloc_obj: Remove default GFP_KERNEL arg")
-> >>
-> >> Finds and converts sized devm_kmalloc-family of allocations into the typed
-> >> devm_kmalloc_obj-family of allocations.
-> >
-> >Applied
->
-> Please don't send this. I already did this. See the PR I sent for rc1:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=for-linus/v7.4-rc1/devm_kmalloc_obj
-
-Too late.
-
-julia
-
->
->
-> --
-> Kees Cook
->
+It seems rather unfortunate to issue a RDMSR for state we fully control.
+Surely we can track this?
