@@ -1,150 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793622142;
-	b=bDZuq/Ch7Vhpe2ozXnr58FMW7MVHuziPfNYKUAQEyBocDlvjbsdsF7HyoIEnJDfIxJDB
-	 cewDQmpUAdz+jXYsejkN+rHRtLb1+QdJ7jKROLoVZtutEUhqCv2QgMEk0fzVK6RA0Aakp
-	 J8p3QP/BSJVFwpBMYgU5l+YE9PDT7cN8NabrzuiZQDCD2MVQijah721AXvkVwZveEjspx
-	 U9/PF740GCTs+j5GNuSQxMNw/7FhvMU2sfqoVMvxmS4GfM3HeTek3TnLFPKbv7+mUO6/7
-	 zSBZA1WEFUQ7xT33t9xxSPpppU03chSm7z5buwTJ2lluDRr6YyQOfNbtor7O+aAnyWw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793622142;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
-	 References:Content-Language:From:Organization:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=3KXsctB09rV/44s0Xo6w8GjIhX67hZ8Mjw08r4bobi0=;
-	b=1WKFEJZi6W76k6pzfMT16Lffr+0aVlQrX9eTa7WXoVSsg1FMuoT764QtUOW5J7BQXAS3
-	 8LwhIjLUklyuT8NkzFLnDLcCeMCB+WaooYFSPLOdP1HJ+hocb7yqRidkO2ijtl9nSb3xH
-	 iFW0GwA78R/6s+PvGgmqwCWKTRIIbYPr2wYBsXD+9i3Lmh2aKrMz5FWlQ14B0xzm88ixj
-	 mWNrG3wssqAlTV/vaBDQarPe0AfJqSYPwX2kex6L/qyScL/UxTxUdgB5RLn6J+RkFMGDS
-	 vZRNdTxV1e1K0ci/D+qpKfgihss/eeah4byfARzVkMM6eJ+FviqKnd25jemQgY9VD7w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BqvUPsKf;
-	arc=fail smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793624508;
+	b=AlRDkm0oPkRiiLtgD/gOwYUn3k2U1+fEhhbPzjjqK+FOanIutgUKoXRQwvntPjZb9S9g
+	 wnC5noY7R9Kldv+I6UGUYI23bPKS+cLIRFBWB6wQQmIR7/po5Mxx/iLm7ivOcQbV0QzgO
+	 RGmN27c9HabVDJMhRKldI/Q6z0TdB2av2L7qh/29iGjhiOrCXkTIBBpCU8K+cHIq3PUum
+	 LwhXXUNMap2Ogoy69MnZAxO1XFz015ifBM3SBPwAJoJr5oWQIBpLaPrdI2waAwF2Ss3CE
+	 5xf5/JtU8z0lrhyqTef2+hEKlLbOk6dFPjGrq06LlWgD16/U7mxNhuQXFnlnodEW2vQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793624508;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=2W2cWo3uXPAbaEwXMsjPtD62QlF6or4emsdQLJHxWK4=;
+	b=vpmz/KMWOdmDl3BMOi5ppIFN2pHyfSZ+J9oRaqQQt2xkJSq2bzHeFt398BbEUtIjEZ6k
+	 jfSYsbXwGtw9BFWRoLr9LXpKnyiBO+X2re/So5PQfYdhGli/t+U/mhu/rb+UjGiFDjt8p
+	 ib0BjCUc7cn6OM1wOkv/EbtrY+GcP4IIT3arNc0Dig7gbycmIOJdaBzDx5WfNrJBs/aPQ
+	 tIriWfa2o8N1zKjiNcXIEzm9GpoaxHib5KIboc+tQtnaviP0EDlcV4iqjgxBSqLSyQ+l7
+	 5w4sH23pIzxHO1P4nPvBIzISlemBpYlje8DSCLw6b35WP9wZx9pvIsmBONXTJL94QvQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=M9gGLV+3;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28762606A338
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 12:22:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28762606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9880606A329
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 13:01:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9880606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BqvUPsKf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793622142; x=1825158142;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=+RoQ9YaIi+TX81Rta9PdBXbHMEVBFZtXmgAqiR5ZVAY=;
-  b=BqvUPsKf5jjV3WCUuB45Iabh6+TmRIIbDVgZZDM2F7g+En4dw1LOH5Vi
-   8wqwF+9nhzvTjqHB2+PRpqXmE+v2yPn0fa5ygENCWvYpt4N7V5yNXOF70
-   /Cc8gRY+VAuvCYrxpz7QHqi6RqJwIlwuNi9aYkUypkVhhQktk/M/Nhq3r
-   KN3XZdDRPUXmGFwzNLP+X01sccL45IEsUsUViCmDfLE0baU2RYFNiM6u/
-   CPN+m2e+P5LQ9uSCMhX3slbTBfu0uUjrzLWm02TzDEBuhG4fdLCm91ge3
-   UfJUap81ZonfymA7evkuND/3HqCwoe03anCGJHt1qC9Rj7Wfz0bVdz+ZH
-   A==;
-X-CSE-ConnectionGUID: qPj85Ut8TQ6eP2J7v/il/A==
-X-CSE-MsgGUID: XKijxGIsTGeh0lqlct6QXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2320895"
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2320895"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 04:22:21 -0800
-X-CSE-ConnectionGUID: 5XcW6hdrR52lGG8KZZ+oyw==
-X-CSE-MsgGUID: MamO74EVQ3SeFhjJoyK3Kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="7883932"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa012.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 04:22:20 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 2 Nov 2026 04:22:19 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Mon, 2 Nov 2026 04:22:19 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.49) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 2 Nov 2026 04:22:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sjDVGe806TzzzMkchmTCs/nVenk1/mdbTJA+Jc42+cf+yIlRvcaCZKEw8yf4PIJh2XEVnpJgfOilYI8zDTeWPhpug4P3lmzDgFQHd52oEE6WpfQlycgHdeHbyp+zoJZiLkpHSb8NZqxsdkpJ9LEZMAxsTZr4yFY/sBmeL/3oxFW4WVcMgvCI4pdd997yluinO/0A0b6fOnqgnwe5wR0/NU9SMoOPn2BUpRe6lOK+4CgnMX92FTS5t8m/okuSS1kwwH9qssV5KNZoHWLDdPm+n1YoB5aPUhdJsPGEFe3xNDr1biGHSYKYmPzOXfhPq/gaPEKJWk/RXKbgAmyJ0Qn2cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3KXsctB09rV/44s0Xo6w8GjIhX67hZ8Mjw08r4bobi0=;
- b=cE6GYE3nLIVijcm/1raQLXJdiWhm2Z7DnVN9+6OV0mTSEAsnKz6u/dHjsXK7LRtXCirYj5FNK0DLEBBpxQnnnuXaEudEtNaBjjy/XwzzSnWZRYY6uOlwd01cZ25j1ZLcr7RaBGEzWnhSDSutrpmOUraXIIWzj/1pzO0mIdlPcb9lY3LZXiPxg8EOz7E4kUMGL7FUO9JnffIm6q9DnPVy+RbPANaG6vRRW959rA3G9PEpTcuhrEv0Gn2N2gq5FNkhDfWLRKUsd6LmT6G6rj/D8ONrQ2xjnpnhQAsHtuzifYok3we9FkuUX1ro9vRTe0qTH6wOBT0nXa8WR8tmMyTm3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
- by DSM1PF4FC338516.namprd11.prod.outlook.com (2603:10b6:f:fc02::147) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 12:22:11 +0000
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456%3]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 12:22:11 +0000
-Message-ID: <3ec2f0ca-924c-4d25-8800-52dc8deaeeb3@intel.com>
-Date: Mon, 2 Nov 2026 14:22:02 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] perf/x86/intel/pt: Fix tracing across kexec, kdump
- and suspend
-To: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo
-	<acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
-	<mark.rutland@arm.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, "Ian
- Rogers" <irogers@google.com>, James Clark <james.clark@linaro.org>, "Thomas
- Gleixner" <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek
-	<pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Danilo
- Krummrich" <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>, Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>, "Vineeth Pillai (Google)"
-	<vineeth@bitbyteword.org>, Frederic Weisbecker <frederic@kernel.org>, "Andi
- Kleen" <ak@linux.intel.com>, <linux-perf-users@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<driver-core@lists.linux.dev>
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
- <20261102101034.GV1779021@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
- 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
- 4, Domiciled in Helsinki
-In-Reply-To: <20261102101034.GV1779021@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DU2PR04CA0158.eurprd04.prod.outlook.com
- (2603:10a6:10:2b0::13) To IA1PR11MB7198.namprd11.prod.outlook.com
- (2603:10b6:208:419::15)
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=M9gGLV+3
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29EDRp2429580;
+	Mon, 2 Nov 2026 13:01:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=2W2cWo
+	3uXPAbaEwXMsjPtD62QlF6or4emsdQLJHxWK4=; b=M9gGLV+34HWQCSjn2fnzix
+	0KtiZDZzU82i8e2XRZPalyfBRSJw1JRVCmVWRJSwul8a3Synz3COzl0qPzWnBHNY
+	BqB2pSIXWm2ZixA3jRU4sneHxlTv+m013HQ8rDrhUMnuW/rKoG/r/ColDtcoIR0H
+	/+9v9uIMbMMRVwWrov8B7Omer0JMLOiGTLP6FHIsk8qqr+nDvWf7d6jA4eBOUsRO
+	shL29zPvd0QdmJTvTV+Zap9LQMk14jPUO0MtVy5OeA4Av3ISyvg9nmYsSuOrfg5g
+	iy7FYyHHfpgLHp1Rme4KlxAe2PRUogssa90aKeuLzD+//N7205Xkbd7P5uq5Fj7g
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn5rhgpwv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 13:01:08 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29ZCfU730591;
+	Mon, 2 Nov 2026 13:01:07 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnu1vdwry-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 13:01:07 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A2D13oM37749108
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 2 Nov 2026 13:01:03 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 584BC2004B;
+	Mon,  2 Nov 2026 13:01:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5C43020040;
+	Mon,  2 Nov 2026 13:00:56 +0000 (GMT)
+Received: from [9.124.210.123] (unknown [9.124.210.123])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  2 Nov 2026 13:00:56 +0000 (GMT)
+Message-ID: <66ccd713-5571-4c1a-b59e-29adbc9852e3@linux.ibm.com>
+Date: Mon, 2 Nov 2026 18:30:55 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -154,96 +85,209 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|DSM1PF4FC338516:EE_
-X-MS-Office365-Filtering-Correlation-Id: ecb64b8d-da34-4115-b41f-08df38dbeb5f
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|11063799006|4143699003|56012099006|261028144727099003|261022075727099003|261021121427099003|261026121527099003|261026140227099003|261022105027099003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: GSp33bOjQedINuNvIjdKcqUD+FNCRND8queT33fyiX6aerEDsMV+ywkq5kVdkokCqCaOAvY39RdKSEpOPzXee4f6ngVMxz9L2Sq+/q93RlSyRtFwirEAX7yAeVtf95kLsgjCMmWEvH+hXS9vOE1VUifl6ZagyGI5aI+kDWFF3HMR6lYPwuSUu7lH1IQ5C6Tykyl8fZlqI0UId9mlY8SZ2DN9cyvn4+qrhuTm3nbVBimxlXOyYeiotwIPrLACkKJKKyOy067wN9L2VD0IPCUsbsOq30Zr+nZT47fTSI83vF/rN1a5T2zxy8Rd2hx2VMsNxTXvgbk18JGjLe0pWMdphYDX3Cs3Bu8VnMfCllMpqXHIPRwZbMvHxYRjlhTvIh9DbmiwOm6L9aAbYWUfmMeRe61w+B5XLlpPGnVAGuQSi15nR66M09NcsYSnZO0vZONcYOmYf1DYZhQ4VLeD8cF1ykNpEPAUjGak7pnvplrlKqS2W7IHY/Awwi9dRxcndfDD45kfJQvBeIHf74DcHNi+cJVsJvn9zk2ntmP2//NpdpRE1JzwjC+v9wvi2qYHoCSZJ161mEdBwGIjpL2nlQQ3Yokvqje6PU40lHA94LGvpoXnY2Nhc1Dpqx6k7+RFjkHYifVv6/0qkp8arVMmhvsSgQ0XlI2Lt3aEq3JKRXfmZPM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(11063799006)(4143699003)(56012099006)(261028144727099003)(261022075727099003)(261021121427099003)(261026121527099003)(261026140227099003)(261022105027099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXQ3eGo1RmdSL1hwSFJJcHlJM3kzZlpTVndWWFNaL2xhRzByUVpOQU5aYzBn?=
- =?utf-8?B?WmJVc0dnRm5IQldVem1HNEFHTU5DSS84cFA2TWcyNFpkU2puR2x1MjNHMHc2?=
- =?utf-8?B?SDBKdVp5blorbUhnazQreDc3Z21wZXZLTVN2M0dXTUUrTnc5TS9rRnllcnVl?=
- =?utf-8?B?dEMrU2NrWlY1WDFsUmtZNktoby85UnAramUwOXdDZGFGQU80c01Bbkl1dCtR?=
- =?utf-8?B?K2F4Kzk4dmRPcURGUFdvemx4QldVbTdUUlBaMk5teUxEUG5waEEvTlMyOGM5?=
- =?utf-8?B?K0ljWEdDQzUwamwyNkJVMjhSbXo0ZDVxR29FcEJaMW5kS0l5UXpVWDZCU3M0?=
- =?utf-8?B?TnBiRW1TbG1Ea08zaWJlZFRRSkxJMFhnNnVLaUU4SWxRcEt2MExkbnkyTkUv?=
- =?utf-8?B?UE1YWk9NT0VET2QvS3lTZ0kwZVFNQjNOaE9qbVFsUFFKajVOdktkUUROQVNF?=
- =?utf-8?B?WnJqSDJoUUhHODBDWGlwL2QrR2J6R252NDZQMFdZSDRJQzRIT211dDIrYSt1?=
- =?utf-8?B?UnhWelVPazl2c0NvTUpkVkl0dTJjcDROTHBwTlJQU3BIbmd4OExXYjhBakNT?=
- =?utf-8?B?RElDdVoyNWE0a203WFRGN1hicmdvMXpJOGc5dXNka2JyNHdZMTZicWxTcmdl?=
- =?utf-8?B?V2l1cmZzS0dBQmwybTZmMnVHa0tEclp0THM1QnZseE9Ga0MwM1JPQW8yWTRF?=
- =?utf-8?B?aUFrQ2pXbm4rdjdHa2Jka0RhaTJvU0RKN2l1SENZRzBxMEFUd3FadEF4Kzc1?=
- =?utf-8?B?eXlJblEra3V2azJYaXFLMHdDQTM0M1JyejRKVGg2K3pNbjJNSUpKTE1OdXJv?=
- =?utf-8?B?b3d6V1RnM0xWdk95VFpOc3dMbGxsUE9oMWN4cTJQVFY3NmpvK0htWU1tOFMw?=
- =?utf-8?B?bk1ncy9HYjluYjJhZVROZHA0VDFFbzF1TWdvR21iMjNQUlM3cjU3c0p1aGF4?=
- =?utf-8?B?K2ZOQVIyV3drTVpNQkFMVXl4TkhvWGxxZjNSeU95ZXMybnVUODlnREFoSnho?=
- =?utf-8?B?amdxNW94aUNiemcyWVZQQTVVeTFnUFFvYzNMT1Z1M0VQb0NiS3lyMXpPZ3dL?=
- =?utf-8?B?VEJEbWh2a0hGcXlNcnVZL2lzUlhXbXZPN3hzM21uM05oVnhqQUJJaUV0M2lU?=
- =?utf-8?B?OEhlbW5DTS8xUjdoSlc4WlQzaXpiVFNSZ0RVRHFjTXhIK21JSmZwSXAwUlhv?=
- =?utf-8?B?ZTFhMHU2cTVOQmQ3S045bDZ2UkZiVFhvaTFQRk1Fazl0bUtFNGpUWVZpZnRN?=
- =?utf-8?B?SWd4YTIrakMyWXpTanVPdTN3eUdDWmg5TVNBbTY4S0QvcFprZlZyVHk3bkJh?=
- =?utf-8?B?K0dkSERQZHZ1TjJhSEZDMnduSnVyelMzU1FUanE2TmVqOSt6aUlXenlNOWxV?=
- =?utf-8?B?U2J0aEExOElrZ3R0S3V4RnZxcVpuakJWaStVNC9EQTBxWTNCU2pUVkVaMDFI?=
- =?utf-8?B?MnZlQW5HNGc5Zy9tZXhaUlN5WjVrZ1cxY1JZd01Vb08zQmYxNlAvTkExL3dT?=
- =?utf-8?B?QkFxY2xCeGpGOWlKWDNZTzJCdWZFdnExYytibjRoZUZkUEdJNjdXTmJQa2FV?=
- =?utf-8?B?TUVPNW5yRnorZ3lRbnRFUFYxSzNqSVNZQll3a1hEYUVsbXhKa0hna2YwZndV?=
- =?utf-8?B?WXZDZDhrL09PNjRQVU5KbjVtbndnY0U3Ni9NMUMvQStHdGFUYWRUV0ltY3li?=
- =?utf-8?B?bE9BZlJzQ1Vjd1BhaWFST2xVaEc4RDhwakFEVHpKdG1CcHUrdDUrSll6VkJX?=
- =?utf-8?B?N1VUUUZOd2FmTzNsT2IyN0s4WndEUS94SDU3NUg3c0VDN0hRQllIN3h2VlR4?=
- =?utf-8?B?UkNmSFdIUmRKUXJGZHBkK3JReGxsRitqWnFLMzYzN1NuVmNFcTAybUNtVVhv?=
- =?utf-8?B?Y2xkdXNycGlkeml2bU1KbGVQcTI1eXNKTGdmaXRUdUhsVmw4TVk2MlkwR2Nz?=
- =?utf-8?B?UTFONWl2b0EzY2hMQTJPSjRaSE9TOEc4dWd5ZCtMejNqQkwyNXdtRTVhWFkx?=
- =?utf-8?B?dSt4dTFUQ2tFNWdOQ2wyclJqOHB5Q0FuZTN4bkd0eTkySmlONkZ4TFA1c3NR?=
- =?utf-8?B?aHl6czc0M0x5QVJpSStuK2tUbnFhUFgrb3VtWDdSbUw3d2lEamM1bUN2bXJM?=
- =?utf-8?B?RU9hR0g3a3IyUGZjYjR1OXlHY3B6MFZCQy96YmZlTFg0ZEFIZW1wV1N4RTI1?=
- =?utf-8?B?akJMNkNiSGhkK2duU0p0ZWNMV3lMYXlxY09Sc0toSjBIanh6cWwxbUgrUDZO?=
- =?utf-8?B?WEIzZjZldlYxaVZOSUJyQnlZcjZCbHpWbWFPcVpTKzhsKzBSVE0wcFBkREMw?=
- =?utf-8?B?YTg0cVhVVHNNRnUxamFrbXZZVFNkY3grQVkwRlZQY3dQaDd5V1BwNFhOdmIz?=
- =?utf-8?Q?mOu0CgJ9zfaGejmY=3D?=
-X-Exchange-RoutingPolicyChecked: yPgvLVwy0y5JnsyUXq8n2rUXTN7j3J7Vv/QuF359/OsOeyYaIzwgQWE/AU+RxrkluOn4drf2kGz5E/VAY8SBKkx337TnWzzZXKd4EKLzJKAZxNGg7LJRzMAfrpaopKU4YX5z3BQ0CgEh8+pd8bFvkGo/kSUOvAJrWuJHES9KOUdPuc4LVHlEqXdgjwhZrwJ6Lsazr1Amqf6OYek4YYpnkdqRRl0EbdUeVqFoqo6ijPQ3xnbOtoThlwZ+ELm68wA8dTveYXjB8Jz6BmLPAOB8FyuzxKElwF1T03w6/oI8bTtvO4U9a+/2Ijj9DGlqoWT6wOwhP6Bf3d8unIn/RPtCjA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecb64b8d-da34-4115-b41f-08df38dbeb5f
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 12:22:10.9612
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kKBoY3DCr1ir9vIdcRvTuUzZVOyMixA6Fur0QcD2yNMjg+gLj30rPFTVNIe2cfGKEy5FENalI1IznYBvkWvQVQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSM1PF4FC338516
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
+ Kconfig.preempt
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mete Durlu <meted@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261101192203.6979-2-ynorov@nvidia.com>
+ <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
+ <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
+ <9273846b-d815-4c40-a7a0-960281515878@linux.ibm.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <9273846b-d815-4c40-a7a0-960281515878@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: qU77n7JZ2HH830HkwO0bh0WO8uhjgO_U
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA1MCBTYWx0ZWRfX+boVVfYoh5pU
+ uSy2Xet2uaIK8F8jcnLEz9KvVlwHt4/nzaouvwJwgK+WHXl9MM/bLSKTKPh6AwJ1fArqPd3qKmU
+ UZsRhQNicnN5ZSdFrf1BXh7lG3tJgxQ=
+X-Authority-Analysis: v=2.4 cv=LokHWXdc c=1 sm=1 tr=0 ts=6ae88994 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=Ikd4Dj_1AAAA:8 a=P4Rk32GvQtOlVBIN6qsA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA1MCBTYWx0ZWRfX3TPH1gWhup/2
+ hNf5WzFq5tTCdMXFbS+JYJM1TtSbJvAD40Cpf1WxAWsgOKtIxGCVesiN3BGHnitOAbGab2koK9V
+ 2Cn9CXcYYpVc2X9LVCsUb+TixybIHwpVXj84G9WQU4tKX0lVX4NkodW0UWzvIKsIYG047QJyOU1
+ mGAGAQGJ+cuCeHETQ9HmDhArHR8Begyb8huoiWDDvIzTL9RJPI8V9RwKEmi3pG8uQVCWjJeocpg
+ 7hD4hgF9q+JQHZnxHd5oMOw8jRH2REZT5Mr4Gs9Y3YvXlRcJzi7bO4bKupBflC3DERBx+u3QDH+
+ belhz225nMoZu/cPv3s+z0Wg1+ItSKuMktPgB4kv0qWBy7FZQnnL7DVRnE90NfNl/Kaop+uiM4H
+ 8NRCtVwDzfrK+yToXMExJHVUWyckrBrt0JNUCsKSsF4I18uksfBZxdd7kVOy4lW7UvbP4JqMyza
+ gzE4YqaNRR4vxVeAH1Q==
+X-Proofpoint-GUID: 2gVp4-yn7BK2860rxFA_OE5c206VNWaf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611020050
 
-On 02/11/2026 12:10, Peter Zijlstra wrote:
-> On Mon, Nov 02, 2026 at 09:40:33AM +0200, Adrian Hunter wrote:
->> Hi
+Hi.
+
+
+On 11/2/26 5:04 PM, Ilya Leoshkevich wrote:
+> 
+> 
+> On 11/2/26 12:00, Peter Zijlstra wrote:
+>> On Mon, Nov 02, 2026 at 11:16:30AM +0100, Ilya Leoshkevich wrote:
+>>>
+>>>
+>>> On 11/1/26 20:21, Yury Norov wrote:
+>>>> The IBM s390 doesn't enable PARAVIRT config for their hardware
+>>>> virtualized Logical Partitions (LPAR). However, the steal time is
+>>>> accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
+>>>> is enabled.
+>>>>
+>>>> Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
+>>>> and requires it to minimize the configuration space and runtime overhead,
+>>>> with the lack of non-paravirt user. Now that s390 wants to adopt preferred
+>>>> cpumask, there's no reason to keep it coupled to paravirt.
+>>>>
+>>>> Make PREFERRED_CPU a user-configurable option, even if paravirtualization
+>>>> is not enabled, and drop PARAVIRT dependency on the steal governor.
+>>>>
+>>>> Keep the default module selection conditional on PARAVIRT so other SMP
+>>>> configurations can opt in without enabling the governor by default.
+>>>>
+>>>> Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
+>>>> CC: Mete Durlu <meted@linux.ibm.com>
+>>>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+>>>> ---
+>>>> Can be applied independently from the rest of the series.
+>>>>
+>>>>    drivers/virt/Kconfig   |  8 ++++++--
+>>>>    kernel/Kconfig.preempt | 12 ++++++++++--
+>>>>    2 files changed, 16 insertions(+), 4 deletions(-)
+>>>
+>>> This is really useful to us, since even though s390 is nominally
+>>> paravirtualized, it does not technically benefit from defining
+>>> CONFIG_PARAVIRT.
 >>
->> Intel PT writes trace data directly to physical memory, so tracing must
->> be stopped whenever the trace buffers or the hardware state describing
->> them can no longer be relied on.  This series fixes several cases where
->> that does not currently happen:
+>> And therefore removing PARAVIRT is the only possible solution?
+>>
+>>> Specifically, steal time accounting happens by
+>>> computing a difference between wall time and CPU time, and not by
+>>> explicitly querying the hypervisor.
+>>
+>> Nobody explicitly asks the hypervisor, that would be horrendously slow.
+>>
+>> Something trivial like this should do.
+>>
+>> ---
+>>   arch/Kconfig                           | 9 +++++++++
+>>   arch/powerpc/platforms/pseries/Kconfig | 1 +
+>>   arch/s390/Kconfig                      | 1 +
+>>   drivers/virt/Kconfig                   | 2 +-
+>>   4 files changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/Kconfig b/arch/Kconfig
+>> index 1163736de1f9..8980054beb52 100644
+>> --- a/arch/Kconfig
+>> +++ b/arch/Kconfig
+>> @@ -1080,6 +1080,15 @@ config HAVE_IRQ_TIME_ACCOUNTING
+>>   config HAVE_PV_STEAL_CLOCK_GEN
+>>       bool
+>> +#
+>> +#  Archs that can account CPUTIME_STEAL; normal route is through PARAVIRT which
+>> +#  selects HAVE_PV_STEAL_CLOCK_GEN. Directly selected by s390 and PPC-LPAR
+>> +#  which have their own thing and don't go through generic cputime accounting.
+>> +#
+>> +config HAVE_CPUTIME_STEAL
+>> +    bool
+>> +    default y if HAVE_PV_STEAL_CLOCK_GEN
+>> +
+
+Can't PARAVIRT_TIME_ACCOUNTING be the kconfig we can rely upon.
+s390 can add it to the config (similar to HAVE_CPUTIME_STEAL)?
+
+I guess it is selected currently where the steal time reporting happens.
+
+>>   config HAVE_MOVE_PUD
+>>       bool
+>>       help
+>> diff --git a/arch/powerpc/platforms/pseries/Kconfig b/arch/powerpc/platforms/pseries/Kconfig
+>> index 7d125e288f6e..3c49baf606d7 100644
+>> --- a/arch/powerpc/platforms/pseries/Kconfig
+>> +++ b/arch/powerpc/platforms/pseries/Kconfig
+>> @@ -41,6 +41,7 @@ config PPC_SPLPAR
+>>       depends on PPC_PSERIES
+>>       select PARAVIRT_SPINLOCKS if PPC_QUEUED_SPINLOCKS
+>>       select PARAVIRT_TIME_ACCOUNTING if VIRT_CPU_ACCOUNTING_GEN
+>> +    select HAVE_CPUTIME_STEAL
+>>       default y
+>>       help
+>>         Enabling this option will make the kernel run more efficiently
+>> diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+>> index 7138d923d86f..03a884355218 100644
+>> --- a/arch/s390/Kconfig
+>> +++ b/arch/s390/Kconfig
+>> @@ -291,6 +291,7 @@ config S390
+>>       select USER_STACKTRACE_SUPPORT
+>>       select VDSO_GETRANDOM
+>>       select VIRT_CPU_ACCOUNTING
+>> +    select HAVE_CPUTIME_STEAL
+>>       select VMAP_STACK
+>>       select ZONE_DMA
+>>       # Note: keep the above list sorted alphabetically
+>> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+>> index eeb84e578ddf..a3721d34a55c 100644
+>> --- a/drivers/virt/Kconfig
+>> +++ b/drivers/virt/Kconfig
+>> @@ -43,7 +43,7 @@ config FSL_HV_MANAGER
+>>   config STEAL_GOVERNOR
+>>       tristate "Dynamic vCPU management based on steal time"
+>> -    depends on PARAVIRT && SMP
+>> +    depends on SMP && HAVE_CPUTIME_STEAL
+>>       select PREFERRED_CPU
+>>       default m
+>>       help
 > 
-> Same is true for PEBS, no? I also saw that AMD/IBS is already
-
-Yes, PEBS and BTS
-
-> registering a syscore handler.
+> I can't comment on the PPC part, but for s390 this works fine with the
+> following addition:
 > 
-> Perhaps it should be a perf wide thing, than than having individual bits
-> and pieces do their own thing?
+> --- a/kernel/Kconfig.preempt
+> +++ b/kernel/Kconfig.preempt
+> @@ -197,4 +197,4 @@ config SCHED_CLASS_EXT
+> 
+>   config PREFERRED_CPU
+>          bool
+> -       depends on SMP && PARAVIRT
+> +       depends on SMP && HAVE_CPUTIME_STEAL
 
-As mentioned in the cover letter, perf core could schedule out/in for
-syscore suspend/resume, and that would negate the need for "[PATCH 6/6]
-perf/x86/intel/pt: Stop tracing across system suspend"
-
-perf core could handle shutdown too, but it also needs to consider how
-to stop events from starting again.
-
-If that were done, that would mean the syscore ->shutdown() in
-"[PATCH 3/6] perf/x86/intel/pt: Stop tracing at syscore shutdown"
-would not be needed, but the other code would move to "[PATCH 4/6]
-perf/x86/intel/pt: Clear TraceEn in hardware in cpu_emergency_stop_pt()".
-
+PS: I haven't read the series yet.
+Will try to do so when it get little bit of time.
