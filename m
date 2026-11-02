@@ -1,58 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.68.223
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793635045;
-	b=yV8ZcaB1qE59qY0oULgo27uMWY77hGwbNm2ZNxRAmQ+LxsMxz5bAqDX79dHlY3fTe2qg
-	 Izs4jyiTsl8f6x3cflbd64enPpfIPyKSUBXCGhhp3/JcfzjuYHAtkADcMHZkAgxIuk1ZN
-	 1ytuRqhIngylW6aolbBwLhQBJhj96pRtP8G+gVjWSPVh0uipRj476oH7J4T0bhyksxkCM
-	 5Tlz9KhN+w2x+j3sA9rKill8JGlMtlvqw4ZhGqWQeZp4EmhS/kBcblSirRDixZ4meCkyM
-	 D5vVCYn7YiDCNZvyhqL1qicPXPqWGzYxukB7lKiN0GPobdgtaeH/UuU/J3RfWL3rZeQ==
+	t=1793636152;
+	b=acYnuolGPb181tLeHfemLdYQ9IPG6hC+XxFpqbX5Wq4zcGuHgQ61jbV9wEmlZsR7TUIH
+	 1kIrajfjX800nn6PQWfdMNEUJWvPIzcjf1ckxrk1WjdnePaSuMgNaYaDS7tBGR2zJ6TyT
+	 8AnjIPtvedZtTv0C7vVMXZZNWCTmtDJEk1BGUP1a2BfBapj8nPnfpQJavUWaBq5okc2yX
+	 GYA2rBTw24lG/hZ5sam1HvN9IxkL1aaeLzIca+BO8WqC2f+UPcCj8Cmce92EwHDz255Im
+	 GjcNgBK2Bevpo2Rfg9DGLHxHImox8mbBRhrXzJOGXOI5GJL9f5VpenqrcUdW+FugorA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793635045;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Authority-Info-Out:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:X-JNJ;
-	bh=2LxqEL0c09YgpVOKrP0D08bRca+IF1yQu3oKxoVysls=;
-	b=MVg6vA7CEwZWgzz1jNomJjG7tVQx7ZRRiXZQLo0b70F+tc9TJEHCy830Z0at6cGx3DpD
-	 xqBmB1DiAaY86S4fWvxtwYCCyToDQHZQN6l4AS3NDZIUY97ncEAC5ARlq9AugXmrl0qHV
-	 +UqBaaPXCsTROEiAUp9u5i6YkZA/3100B86XD+PbEdZEWHdxmLgLGfScr3GXjbbG+/F+Y
-	 0teOlsUO2eoY4Nu4kB+d6W9KeQ4Nz3iYs9Z2f1Yunu0OL6MkZ4MPqUJbiFrEMpqxk6SuD
-	 KTiOVnKBdDqwNjBgHTN7SYtNTtMdG77ciRTMuAxv0xwCbK4rN2nvt3SBd6tPuZncONA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636152;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=XmzZN/QhjlzcSaertRL7UUmB+mzbbmbqLS9Rd6E3UxI=;
+	b=hWTmA2XP5cg1BeoKOYzFtievAAE2YBbvK6bTeJGOJq/TY9JPOzQGE0dvrTlGLTaZGG/H
+	 Ce/yQTZSd0VDrYxDGZR31cO6n9aMiZOOP1gT5bAs19CyFy2WcxvZeQ1kSZYbaQACOgKK5
+	 Qyr4x22AYM0KKRlwk6QVNOaN/tXgJSkGlBlD9X6X4JV/9ubbUT8lA5bQI22V1/YAFs8KF
+	 6THTvWvX73SAY9VGhNqYDTtR8/CYTEF4l6NjgXkyvkqiHJydJNUi3Tda9W+eif7oKrK22
+	 TFcjs8gHDLYKudqecd2rJ4LCvSNu/w2m24E/SU0yP+sbkWyXIU7GCqh44s3GcWx1/AQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=icloud.com;
-	spf=pass smtp.mailfrom=icloud.com;
-	dkim=pass header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=ZJmqvu0a;
-	arc=none smtp.remote-ip=57.103.68.223
-Received: from outbound.mr.icloud.com (mr-2002l-snip4-11.eps.apple.com [57.103.68.223])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=daR8aUFy;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED848606A33D
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 15:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED848606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22764606A915
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 16:15:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22764606A915
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=ZJmqvu0a
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-10-percent-0 (Postfix) with ESMTPS id B02441800103;
-	Mon, 02 Nov 2026 15:57:23 +0000 (UTC)
-X-ICL-RepId: 01a19cfa-c94d-71b1-901e-5ee954807d78
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhOAEMGXAteC0kCQwJYEhVdRVkMVABGEVcfQA53AlEcVg1XQ1QEX1BfHA4EVAddBV1WUAJaS0ATBE0TBVIHXU1WDUcPWB5cFBcVQUNeCF4fTBwdDlgGEgBNCg42BlkFXglWA0MFNhIUXUVaDlsERxQXG1wAFwZbFAREAV0FXQNBCUoCWAJcA0UXTgVeBEYDXVMZUAZDClwXShtzBFQHXQVdVlACWlUSBEAIVlBeCF4fTBw=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1793635044; x=1825171044; bh=2LxqEL0c09YgpVOKrP0D08bRca+IF1yQu3oKxoVysls=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=ZJmqvu0amP+RS18BxyzIT8fgt2ogMdjfuQG1PMsJS3OpznfxohtxAqgHqEoWV4tBrJv+AgtsZbFlP9TCQfL/be+GuawDAJ3rnWcM7+5+PQsMMWMZH6orztVYwGfbGqjUAwfBewJEI4V3gsaeU5FqvUntDaysPPY72hHskDjWDHW/MLGebYBG73pyV4VQTyJCqrENLqqF3g/EER92zDYVimPvEMhkVgyEBjA863HXlCGEqngfh1ahhpeY0ed4vvnxLB7OrRvBe0uEQy7aMGnItR6KPHzHOfOU5RyxsFfDBL8fDWAWGj4jC5pkM0bKK/x8rByOsRziHX7PAIcpNU9qrg==
-Received: from localhost.localdomain (unknown [17.156.200.36])
-	by p00-icloudmta-asmtp-us-west-2a-10-percent-0 (Postfix) with ESMTPSA id CA87018000AB;
-	Mon, 02 Nov 2026 15:57:21 +0000 (UTC)
-From: Jack <jacktangsc@icloud.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jack <jacktangsc@icloud.com>
-Subject: [PATCH] kernfs: fix stale comment referencing old @sd
-Date: Mon,  2 Nov 2026 23:57:15 +0800
-Message-ID: <20261102155715.6633-1-jacktangsc@icloud.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=daR8aUFy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793636151; x=1825172151;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gkPgrxM1TwjKtf3tbno2m9G3lnciTVHEcOozD+OD7mQ=;
+  b=daR8aUFyhcjTu4mDVnhIeCgLu77v+U0n7X7FWv0Nhhp9cagF3PSk934H
+   r+3FMNoReTudxj3qhkP1YNZBJNElknZS2EpiCSBzDIhTXIq3o2AFS4ilp
+   Q/63WL2niBOj18TOKAbJ4dho8gPRm2XVThSagI8ACstAe8e4Vcpxi33OJ
+   Soo+b9EoE4eLPw7ilsa8bA98WW18TYaO0WrPvnSUNZai4sZcE7Fmst9qP
+   4AHMkTtjtHcffeGun0iduLbRvtk1J1ROKg1NG2SUv4iQV8v6NY0fca19X
+   ES48yjfdEiOxT9doajbC7YMk9l0eF9ojW5gUsKdAKfpTKPPy67uxEkOxi
+   Q==;
+X-CSE-ConnectionGUID: 2eTB/+yMTR2RqsiQfUhgfA==
+X-CSE-MsgGUID: 9Tc9a8b+QpKMhGxnAgJFBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2245179"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2245179"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:15:45 -0800
+X-CSE-ConnectionGUID: vS5QyT21QpqixrBKTRYX7g==
+X-CSE-MsgGUID: tru8nSpATcafRTdDojd5mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="6175887"
+Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:15:44 -0800
+Date: Mon, 2 Nov 2026 08:15:43 -0800
+From: Andi Kleen <ak@linux.intel.com>
+To: Adrian Hunter <adrian.hunter@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	James Clark <james.clark@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH 3/6] perf/x86/intel/pt: Stop tracing at syscore shutdown
+Message-ID: <aui3L0ppW-cBBo1W@tassilo>
+References: <20261102074039.26983-1-adrian.hunter@intel.com>
+ <20261102074039.26983-4-adrian.hunter@intel.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -62,62 +99,34 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=Qq9THFyd c=1 sm=1 tr=0 ts=6ae8b2e3
- cx=c_apl:c_pps:t_out a=9mRn2PO/+PIrVdEbaIuMPg==:117
- a=9mRn2PO/+PIrVdEbaIuMPg==:17 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10
- a=whGDNnZ4qqUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=v3ZZPjhaAAAA:8
- a=9tPP0pGvBWh4zwi6mFgA:9
-X-Proofpoint-GUID: OC6IOQq_fGMzM2Hs-VaUcTFJZCNpxcM1
-X-Proofpoint-ORIG-GUID: OC6IOQq_fGMzM2Hs-VaUcTFJZCNpxcM1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2MyBTYWx0ZWRfX2OVIEZuw4HEA
- M2HfT1uWB/ngx1Y02qDl38aQrjUd67k8uY5RevTxEf9p3gsxy1eK035uvvm4yPID5knyKCbgbkf
- K14dEkLWbalQsMYgG0IIIK5d1xb+Rwm9zDxlrKqW4A+hStA9kZEIEkTMLiDYLe11+pYGdps+hzr
- 6wkH+1qSHcmEyNhnFyuPvNxKsNSe5qEIEfJOQoriclRnHEm6kE6sdo2xNeGjeiKXcrzaPYWA49h
- D9pDKN91UrLER8/bTP0Ga4FUa9g1ntsjHtineF4eE3GAGbL7Y29X2dOdkXpKdM9Bok3Tq/PiURm
- y2EozCy+YZBK0xyg6FyRbRGcZQYHHiZr/wEFEj4w4tlg/JObzwpHHNBHMKgIqk=
-X-JNJ: AAAAAAABHoDLA64DKmkuzYE6sIrOmA65anVKc9yEKfUzp2V5bm2sdLRvJKWKi9xpUBLxpn
- v5s1haI/Q2KMxDaBZezDnHm8/t9LHyU+7GW8tZ+knmkocUQQV4h94Qv7aF7uYunPu06rD8
- 0W7OwZYFk1sS/rSVz2RqevpHGArK9AIrdsjHuPMvpSVAuIQ+hCV1V8sQj6ATde8FVoVYqq
- c+9AWY4S88xvOnJj8bhZ9KEsmCayyRUWISgEQlXZ6T6zqM9Vu9iPZvJVrRWtOY3nNFtR4S
- qBNXPWp2FJ++OzL3tLpaqW4YsX3Y/2kzOJzvsSAJr3h5eNhXlewte1Izx+Ttzs87DAddxS
- RlNsJb/LL7J1nigfVGX4rPM7Iebh3Xv9H06lVFBzauZZHKZm7f9susljYngiA/0xDBs8JZ
- iu+oEENaiBl3ednE8gquhZBH4FuWy3hpmmYwvtYnkDLojf/fTyCvdTJquILAItF7IB/5HJ
- kpQtdwpIALBej6QBhXsTFn2h1xG9+OgtMheht1xxsZkoGCljIo4NdMRWPVNwWSpfCHc6mf
- 9uy5uAfplyfIwlCIVnSm6MT/sR2Q/3z5/F27DirRqw8gJYovLQXZm34nEInXVWFZ36wxbe
- 0Sjf1hCTixjpWc3UAKeEsaCKpWGkKFX3VwqozcNDMCQcasFZNe7+6QSKPT7PNGZ/vHDLnY
- 551ZIYsp5g4d4DBQRA4WNCxugBXFgCFBnbYgnfiwgvvnIjEYKmHX119n+SeZkmbnF171FV
- RO5PTryfvsy+r4K3C+7wWPIF0cP1NnFUISUCK2EKQxbHhbMh2GCCdsWO3g7DG9E7Xtb0kc
- OwulJ0r9T2oLcZPukAiRgpjpSsZGoftfUjdOJ4yJuD1JYeArfAiLlhuOAxGdsKZdwNV7+8
- ZLqK58l4Mm+CyPxXz3rlRrPKq2wNDinGBHErWRfTf/SqsVnfvCrRi81UoEkHJHQLgws23a
- MtcoxGXuM3rr1ib6nTsTMFddDu3erX9qwu+Kd9vlX6zPMhToV3ELRlKG36q5DNuRZOnxLW
- Lm+L9GIDyUiDjcGkek0Nzp23WWy+GeDQ0IdYG6XFRe8DVaSZUusPu1EeX7Bv4mtnsp3DUe
- 324RE+0Kh9476pdh5oZG/20ymCdlo/r3Pxy7qSTyLMKvxui9f1cWzSrHzYZunrccZkJnP0
- 1T1o/hfU9zHYazBqPiV5qu6xwDgpdCTC0UQu4mmw6+srrsBS8Qrg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102074039.26983-4-adrian.hunter@intel.com>
 
-The comment still refers to old @sd which was a sysfs_dirent.
-Update it to @kn to match the current function argument.
+> +
+> +/*
+> + * Tracing must not continue into a kexec'ed kernel, which may reuse the
+> + * trace buffer memory, so stop tracing on all CPUs and prevent it from
+> + * being started again. Events are left in place, but record nothing more.
+> + */
+> +static void pt_syscore_shutdown(void *data)
+> +{
+> +	WRITE_ONCE(pt_shutdown, true);
+> +	on_each_cpu(pt_shutdown_cpu, NULL, 1);
 
-No functional change.
+I don't think adding more and more broadcast NMIs to the panic path 
+is a good idea. It's always a very big hammer and a risky operation
+that risks breaking the actual dump. panic reallhy needs to be
+simple and reliable, and this is the total opposite.
 
-Signed-off-by: Jack <jacktangsc@icloud.com>
----
- fs/kernfs/kernfs-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+KVM already does one at least (which I never liked either). At a
+minimum please find a way to consolidate those into a single
+one (as in have a notifier chain that is called on the target CPU).
 
-diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
-index f1e93b09e..0fd8dea0b 100644
---- a/fs/kernfs/kernfs-internal.h
-+++ b/fs/kernfs/kernfs-internal.h
-@@ -72,7 +72,7 @@ struct kernfs_root {
- static inline struct kernfs_root *kernfs_root(const struct kernfs_node *kn)
- {
- 	const struct kernfs_node *knp;
--	/* if parent exists, it's always a dir; otherwise, @sd is a dir */
-+	/* if parent exists, it's always a dir; otherwise, @kn is a dir */
- 	guard(rcu)();
- 	knp = rcu_dereference(kn->__parent);
- 	if (knp)
--- 
-2.50.1 (Apple Git-155)
+But better would be to not do this and find some other way.
 
+How about just passing the PT region as reserved and maybe free
+it later after the target kernel had a chance to reinitialize all CPUs?
+
+
+-Andi
