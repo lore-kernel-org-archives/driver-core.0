@@ -1,84 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793614244;
-	b=P9Wzsa49w4WhLmQPD44i1jI3hU4sWkA7B1iiRyfdCAETRc62MehURz44d5nNA8F50wbc
-	 e+Q6AzlagLfLVUTVQUTdMUDB4EE3j9cneIJhh0c9aH7fTrLRmCXKwm2bTV4wm2gQ1DScw
-	 Ui2be2Gye833Z6EKCO2a98U4augO4U1UE9dYbotUhtseGPpaloJKaJkeNV3QwPM+rVsQh
-	 5fCfKKh0j0+2ixShJnXeLyleqnzLXwH/aSEZO5NT8OqQuDAusVaBPrxQjAIgEuAsRxAsT
-	 6KIyhB5ZiwOPOo4lTC7WNa78P0qaaHmTo8iITGF92TnhTYTDwE/6oUlQERBDrlRCuZg==
+	t=1793614633;
+	b=LNKS7/vDjwZdGONmOOyonbhAoc1hpI2G7lCeeJ47XQisGObKmNhoaosn299x2wI27xqY
+	 yUmxdKyB5cNcxHTq5FfT2q3/1ezq75FlUd3S467untErXpdwukYVD+OohapWavaETli15
+	 oxUrCcRQuJTPAN0bjqxJUX5VF+5e+wAwtBdw8wSUg1jjfPV4EUNxD9xpwphr/gNEC34j/
+	 dOS2A8fGIZNfSCBgKlzy6sUX3fI8La5JHWLtbUK4og0kNeUS/wzpoT2hLS4eWyFleuFHn
+	 R6jktKzbQYO2jJeoFKsYA7+kdhhf0QgoZa5KtaeFzuXxZoHbmVlNvgKxatonhIB+b5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793614244;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=oLmryoludorxUKAxAQ5hnB9frOZfqvyT8PUcSzQKcts=;
-	b=X+Kl17qSoIKJan2lp9EDYObsxFvycJB+dgnO6NF0pYMwqnS5CZFfOIGGU+WdGTuJKn0F
-	 SeKT0gXYR9St0zGChmJsXDbTfqMq4KR1z+1F4UBIpUqnMUJKCRzZDBNqtZc4ABeGbEh/z
-	 n433siV5E9jBSdBBHZgL3qgL1FH635WgKawlse+DuntyEgG8QE7IUHQ3vbcmM/Kr5Vltw
-	 JoGFgnvLlLIe352tHoyFnBuvq53brM5lPlykY6hbBSjDlaZyeBiypEQ2rJVkOr/sWCrNg
-	 R4IvRjd8rMyR9m2Qg3ObeypRy90Ex4xKGvRHeNrq7UymmHZtYQ//77CZFJfsOPmNITg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793614633;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=2F86aI5ohDf80izXsZxQxKJfZLJiR7e19DnwPOFk4m0=;
+	b=Fy7I+lbJ6htBVVmzOEjoblMVNxL1eLXQvYp0jbSVHWFSN6TVomQjcj9V6/0NwUlzdi/U
+	 Em40j7r837FCox4Q4RcSj5PR4n8En2EDc/7LZNwr1c27fZjpYP3GxfdXAYBG5YNH4HliT
+	 tr8xzj8fqrXIAVbtg/2HFl812Il594L/x4CPNiHhWrDaA7TOUfOyNtkET5tabMdUY9z58
+	 e+vKwU81tfH/BVD87yPTOAlbjW2QEIASAKewS20uHM4jN34q2E7wJSoeVm/w9IzTkfUTN
+	 6ppV9QqfIjLPPJz9ZNdnJQKieeQS98lEjMh6Eo93i4qUr3nFebiMm4IGnSG0y8kejdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=jnzjlinA;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rkhhkqbN;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F552606A326;
-	Mon,  2 Nov 2026 10:10:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F552606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFA1606A326
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 10:17:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AFA1606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=jnzjlinA
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=oLmryoludorxUKAxAQ5hnB9frOZfqvyT8PUcSzQKcts=; b=jnzjlinA2vMr/czlRhOwMaL5Bz
-	x+d/XHpZu6OpAlySFI4M/tPJCJWNFHnnYuQ54JJg4Qe35TPHn0RueMsfjsc3Rgj3VWZ4oht52moHj
-	SQCIZ5/zJJvCk9sxPHkjt1Y80fqw05G8n4JcBQJDVf1LPEsiAENF1+vNw66exzdrHnH5LA8HrXkoK
-	F4BFuJfadHDq8BJ2ssQ9pOBL5wSQaZ2yr38FN/ZtXD9b2fx4el5fu6eHmhhVegfRH+gjLPNp1uQL7
-	EUIBQlrMUivh2uKyY3VrJyR9D7080kd3oEihvYWmh2lCwPI/OHAoBPfmt88ECcGvl8MVYV9A1GOht
-	hxuS9j7w==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNozr-00000001vzP-3CI9;
-	Mon, 02 Nov 2026 10:10:35 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A3476300322; Mon, 02 Nov 2026 11:10:34 +0100 (CET)
-Date: Mon, 2 Nov 2026 11:10:34 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Andi Kleen <ak@linux.intel.com>, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH 0/6] perf/x86/intel/pt: Fix tracing across kexec, kdump
- and suspend
-Message-ID: <20261102101034.GV1779021@noisy.programming.kicks-ass.net>
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rkhhkqbN
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29EJDA1334104;
+	Mon, 2 Nov 2026 10:16:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=2F86aI
+	5ohDf80izXsZxQxKJfZLJiR7e19DnwPOFk4m0=; b=rkhhkqbNEthWur7HWcprqS
+	XgNkeUuFFXLOyNXsXY6qGMEHuDSfSYYLgBVy+0zQnSumfw92EdvK2SFpKCMUuWtW
+	SYBKGdKb0KWe2Ws4TKV0bVk4hd0C4MJ/bozlnC2Tn1z90o6Kj+vA1q2IqtR20RsL
+	+8D/c4fC13fdxDcfWx35sKppm/9Sw72gjuZud9kSuZwTUowie5M2cMj433st3hXj
+	mJMKZl2UpvBf81Uy/Q4RNImp7IIwk/lkjc961qy00ifsarszGNVY5iHwhW8/RkBi
+	Z6lrKPoc7elWrbZuy1FO8MtPc/ZosxuqdmbdEmvzRIYtHMCd+xzju2bKaGYOhaHw
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn6rcyxcj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 10:16:36 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29YxVt730389;
+	Mon, 2 Nov 2026 10:16:35 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnu1vdcfj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 10:16:35 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A2AGVrm38011336
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 2 Nov 2026 10:16:31 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A8CA22007C;
+	Mon,  2 Nov 2026 10:16:31 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6FECC20077;
+	Mon,  2 Nov 2026 10:16:30 +0000 (GMT)
+Received: from [0.0.0.0] (unknown [9.111.80.131])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  2 Nov 2026 10:16:30 +0000 (GMT)
+Message-ID: <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
+Date: Mon, 2 Nov 2026 11:16:30 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -88,20 +85,111 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102074039.26983-1-adrian.hunter@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
+ Kconfig.preempt
+To: Yury Norov <ynorov@nvidia.com>, Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki"
+ <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261101192203.6979-2-ynorov@nvidia.com>
+Content-Language: en-US
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+In-Reply-To: <20261101192203.6979-2-ynorov@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: KIKmBXBbZxQ0AgfSqcziIZ-8sh-ULZ7d
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MCBTYWx0ZWRfX4b8mYsBsQI90
+ Cds463mvoN7ipqKAPcMhRG9cv2cmJH7imu+pBNAKUzYHZ0l4QRzT6OtWfocplphprbRPPcKUhK/
+ ewKqcPIRH7GGJrL7xKQ6XpJdqzz6TgjaSI2ivY9JJSH24KlUEbBGsMe1i/6f5ENqM879+1V5uPD
+ sHhZ4aVMl3Pdx2HGeXnZi+d6SkpJ3e8JhVA1w8B3k3EXRQ2QR0Jqk7PjHrb+DTMkBbYibeR51hS
+ VrEvAoc0qhDJfiKUG9iErQN23vYv4ulZFh2ZkIAD9qD868BkZG/JdGutezE7uDx0M6feE3lY0/p
+ Q2/IrS40JQRVOvH/Tbt71zjIvhJ3L1/wcVe/5WSEHuFXw3yIITyGLzWEciPGhWv2r/PFqggQO8V
+ KN7P2Zs3c+rVLq4CD8Uif+/PadLgHrZW2Z3Tv4UTrGYCQKnjwQ1MUZYQwaukbcXEphkvBg4eSxc
+ fMN9UME+CtgYLDm7V1g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MCBTYWx0ZWRfX+121CA8UooYf
+ y/fpWTXMJ/RyZzfqKMtOEDj2zgmYMzNR35/LU/M2zk1es7XQ8dDO6azVrWHx5Jiyb/KXWV8XJxR
+ TWAIxg88JFalGqTloUcrvtjAqcF7tLw=
+X-Authority-Analysis: v=2.4 cv=QK391QLL c=1 sm=1 tr=0 ts=6ae86305 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=Ikd4Dj_1AAAA:8 a=Oo2n8jX_zgt0tV1EdkUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: BeEFtssz9nEvVgG4jeq4H4_xQzJd-ycM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611020040
 
-On Mon, Nov 02, 2026 at 09:40:33AM +0200, Adrian Hunter wrote:
-> Hi
+
+
+On 11/1/26 20:21, Yury Norov wrote:
+> The IBM s390 doesn't enable PARAVIRT config for their hardware
+> virtualized Logical Partitions (LPAR). However, the steal time is
+> accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
+> is enabled.
 > 
-> Intel PT writes trace data directly to physical memory, so tracing must
-> be stopped whenever the trace buffers or the hardware state describing
-> them can no longer be relied on.  This series fixes several cases where
-> that does not currently happen:
+> Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
+> and requires it to minimize the configuration space and runtime overhead,
+> with the lack of non-paravirt user. Now that s390 wants to adopt preferred
+> cpumask, there's no reason to keep it coupled to paravirt.
+> 
+> Make PREFERRED_CPU a user-configurable option, even if paravirtualization
+> is not enabled, and drop PARAVIRT dependency on the steal governor.
+> 
+> Keep the default module selection conditional on PARAVIRT so other SMP
+> configurations can opt in without enabling the governor by default.
+> 
+> Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919-bf9897181834@linux.ibm.com/
+> CC: Mete Durlu <meted@linux.ibm.com>
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+> Can be applied independently from the rest of the series.
+> 
+>   drivers/virt/Kconfig   |  8 ++++++--
+>   kernel/Kconfig.preempt | 12 ++++++++++--
+>   2 files changed, 16 insertions(+), 4 deletions(-)
 
-Same is true for PEBS, no? I also saw that AMD/IBS is already
-registering a syscore handler.
+This is really useful to us, since even though s390 is nominally
+paravirtualized, it does not technically benefit from defining
+CONFIG_PARAVIRT. Specifically, steal time accounting happens by
+computing a difference between wall time and CPU time, and not by
+explicitly querying the hypervisor.
 
-Perhaps it should be a perf wide thing, than than having individual bits
-and pieces do their own thing?
+Thanks!
+
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+
+[...]
+
