@@ -1,86 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793598962;
-	b=GGQnp5xc3InmbBg+5NDF+NO9foAqFKY82CNwfMfqZATXN9T31ttCou1e6FwGRWmvHJvO
-	 xqeIbBP16n8cHGIliWtfxlgDDiYklPZuxVOtdw5S7e1QbVbIaPcnm5C5eufV7RNC1FBn5
-	 PAnJJ3YZ67/UE8/cHeSYO3Zh1U2jMDR8ERrCfk5lRr3McxkBBu2OgFydNnTkdoaxyX+Yz
-	 M3HSld9cVnl79CuiuYY54Sj0OCyDItRfsfE7Eqeyc1nAksRUInzy/gsNLwmu+nIGkR3vW
-	 7LIZDuUJg2CeYsZNycZobc6FfW1Vx1DNIdLwMUr+Mo1FcluKt0Gy5l2ZfwEIlGgwJRg==
+	t=1793605258;
+	b=pH6R8AscsNey362q6U8g3hQOdNH1SdV4BX8NlNvEndTW3c0H3pBXtdyBWhvPsLTWzAs8
+	 aY+J3y6nXkNLRYWvvlCRUuw61zsO5A1lB6zYykbgN/CXRlV8GiPpicymrNLD+9Cp42Sga
+	 MWHlWTISLTwC6ea4fZWHomLJG2qWxdZJiZRJlCDfpXXi4fxVLtv5S34xiBmjOirxHDvvU
+	 SoXN5SXMU+Jvx+Z40U5yiRaJOpP3Ki8D39eix/hBlxgcAPnHiOPt47riqrpEffmphIZLl
+	 q6hfA1UA8KhiWpYBBzumZCPqBE+nGsgX9DQ7EmcWhuW1JJTcJ/oHVLMEilvSQXQ63UA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793598962;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=galmyEn4LbKSLuawhs4ZGQeiueItg3W/HcKq5KP6Bgs=;
-	b=XCAT+9VDS0S3jLckpTHQGI2IovYgRo5/5YqYi3v7iBeTEnSFvErexhpo8CYsy6M3RqEp
-	 3ayveceYAK9hAHuPN80BGJSIB9WIpR5c/pBnB8eb7McS1bXVju15aVPua3EqnjTrPiEMM
-	 5/5VoUl0/lxh6ASQA4W4wsbiufDXgJ3H1cQXFy+hLQAKlAJ8TJDER5ptBCu9Q9efhTHsB
-	 pQ4Qfj1LIJXAzALL27yssJRpAkTCn3TzgGLnotYrzHjTm1gXKVSAo4tC3xVGaD6RYzrK4
-	 7LcshHLAlGLUKQwZy3YNM9jqPwlGFgHGc+zpg0HI/3BACbN5XkktVeIyMvPUvyDpluA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793605258;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Organization:
+	 Content-Transfer-Encoding;
+	bh=CPhb8czvE9Xdht7fm0n0ri1ZxL1wovm/GrL4+C+wKVA=;
+	b=kVvZD2N640AdIhI7R3P8LVAQnQaQ0um29+TgIjO6bppDb8A3QO1Sq2bG2JM8+xPHvm9s
+	 VU6SivV+25pS5UFsaTJZHve3zlvYMZSc2KNp1wF2THA3kQ6058gRlUVwzIcVhyFY6J0W8
+	 X9YfXyINtATtpvNR4C/zVXmYuk2wRKBs277KOgmuRO42AK/CT+UxDDn2ERSJY3xK/TRwr
+	 +3eH1cjCxctt0JaZe9USmE/6wADtlbKXfs5IhQmTu5ND/IeJ2pnM5/2SbWVWLtUh2PZjj
+	 9D0AtE3Odt8B5uRDBkxtLzz+jNSMEg5Khu3kfoMNsOkvo90++W31mZbv17OQz22LIPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=codeconstruct.com.au;
-	spf=pass smtp.mailfrom=codeconstruct.com.au;
-	dkim=pass header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=joEgN+t6;
-	arc=none smtp.remote-ip=203.29.241.158
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aXqFrP0N;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD0E606A329
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 05:56:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BD0E606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E13606A32C
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 07:40:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40E13606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=joEgN+t6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1793598959;
-	bh=galmyEn4LbKSLuawhs4ZGQeiueItg3W/HcKq5KP6Bgs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=joEgN+t6NvoovW7oKCyZDr2eqdix+/duqp4PMFPCW3+RRwMNBkk04YEGTrQqXFBfa
-	 tCJu2UBAyLCb6xV2/OxjkIAgqYEwt8p4FKq7NIXZ8waf1xyRvl97ugJ8Az60PQtVde
-	 NvMCCJ2xvX1Y80yfKQIMFQPgliXk6vJBrQiVp8GlhsxUBGqyqXyFYipUEdra2x9jW6
-	 7tbTiIxaXd9V6tZX11NmuzG84SPnnozNpGRH4UM+InMJfNnB/aLnlIf/7VxlhdH9xn
-	 720JtOYjZ6d7n7DjPBBG7Dva9h3DRuPJgRgoxCI6V889anGcx67nbuYl1n0zXg5WFV
-	 FmmJo+qfQ9KKA==
-Received: from [192.168.72.161] (210-10-213-150.per.static-ipl.aapt.com.au [210.10.213.150])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6A55B648DC;
-	Mon,  2 Nov 2026 13:55:57 +0800 (AWST)
-Message-ID: <06e25064f8a5455c12b47033a1a62b94100e7590.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Adrian Ambrozewicz <aambrozewicz@nvidia.com>, Donald Shannon	
- <donalds@nvidia.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus Walleij	
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Lee Jones	
- <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Andi Shyti	
- <andi.shyti@kernel.org>, Mark Brown <broonie@kernel.org>, Jiri Slaby	
- <jirislaby@kernel.org>, Corey Minyard <corey@minyard.net>, "Rafael J.
- Wysocki"	 <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>,  Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Hans de Goede <hansg@kernel.org>, Lixu
- Zhang <lixu.zhang@intel.com>, Danilo Krummrich <dakr@kernel.org>,  Johan
- Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>, Quan Nguyen
- <quan@os.amperecomputing.com>,  Andrew Jeffery
- <andrew@codeconstruct.com.au>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, 	linux-gpio@vger.kernel.org,
- linux-leds@vger.kernel.org, 	linux-i2c@vger.kernel.org,
- linux-spi@vger.kernel.org, 	linux-serial@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, 	linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, Bart Van Assche	 <bvanassche@google.com>
-Date: Mon, 02 Nov 2026 13:55:56 +0800
-In-Reply-To: <2026103015-stained-shudder-1582@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
-	 <2026101310-scuttle-unison-d4c3@gregkh>
-	 <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
-	 <f3f305a0f3195948bd25ca7eea4348113f998ee2.camel@codeconstruct.com.au>
-	 <2026103015-stained-shudder-1582@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aXqFrP0N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793605256; x=1825141256;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YxKlnEZUTR2lBbVDdyn5I7/hmP6Old/LuQJQLG4uhGI=;
+  b=aXqFrP0Ny2WExkMr+U7Vo9YoOrKLwXbnoLcdPaWhMcjTSXQGtnM29fA2
+   zX/5N9OD192drdFT9xGqaguYZyofwQzr5998OgoPClP4cNswc27qWwv1p
+   pCIEsnrTAZidtCDUhrR3zBSeGOUhC8TWjFN5RSOnTazLMMF8yix0vvdoM
+   xkoIWVJuIG+yiTZEBizazH/KS//PiVqjQSZvjRPflJm38QctnPiNuOMc3
+   aOfRVRMBR4K+GmxoObmVV5xs2MW8YBK5Q3vuRSd2fYQ7NaMC2HpYaCopI
+   llAGthYA8WilLoAQ/I7BHClRBZbQ/yI7tjUpN72Asbaw9T8ZgskILeaCE
+   Q==;
+X-CSE-ConnectionGUID: 9DH2YAahSIytorRgiRNztg==
+X-CSE-MsgGUID: ftE25qG0T4KN2ozw8pQkrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2300060"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2300060"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 23:40:54 -0800
+X-CSE-ConnectionGUID: WRNMMPeXQQa6Ib0jPUhH1g==
+X-CSE-MsgGUID: FbAbFZLaTz+f8kzfidTMJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="6181954"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ahunter6-desk) ([10.245.244.189])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 23:40:47 -0800
+From: Adrian Hunter <adrian.hunter@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	James Clark <james.clark@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Andi Kleen <ak@linux.intel.com>,
+	linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH 0/6] perf/x86/intel/pt: Fix tracing across kexec, kdump and suspend
+Date: Mon,  2 Nov 2026 09:40:33 +0200
+Message-ID: <20261102074039.26983-1-adrian.hunter@intel.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,38 +105,80 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 - 4, Domiciled in Helsinki
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Hi
 
-> I haven't read all of OBMF, as obviously that isn't what is being
-> proposed here, I was just complaining about the madness of attempting to
-> create a device tree representation for a single USB device that wanted
-> to be carved up into different virtual devices because no one decided to
-> learn from history.
->=20
-> I have other objections about OBMF-ICP, but that's not what this thread
-> is about, sorry.=C2=A0 Please propose your own patch series for that and =
-I'll
-> be glad to criticize it there.
+Intel PT writes trace data directly to physical memory, so tracing must
+be stopped whenever the trace buffers or the hardware state describing
+them can no longer be relied on.  This series fixes several cases where
+that does not currently happen:
 
-OK, fair enough - I'll defer this for an OBMF-ICP submission, rather
-than piling it on to this LSTP thread.
-=20
-> > With OBMF-ICP's super-minimal core protocol, and the use-case
-> > appropriate channels, seems like a suitable approach to me.
-> >=20
-> > The USB-IF has a class ID allocated for OBMF-ICP interface descriptors,
-> > with the intention that we have multiple vendor implementations of the
-> > common protocol; we would like Linux to be one of those.
->=20
-> It's always fun to make a new spec and protocol,
+  - tracing can survive kexec and kdump.  After kexec, Intel PT
+    continues writing into buffers configured by the old kernel,
+    corrupting memory that the new kernel may have reused
 
-We seem to have different definitions of "fun" :D
+  - suspend-related state loss can leave the driver's cached PT MSR
+    state out of sync with hardware, allowing tracing to restart with
+    reset output registers and corrupt memory (typically beginning at
+    page 0)
 
-Thanks for the discussion so far, I'll follow up again when we have a
-series to propose. That shouldn't be too long.
+  - races can leave TraceEn set in hardware after perf believes tracing
+    has stopped, preventing tracing from being reliably disabled and
+    potentially causing subsequent PT MSR accesses to #GP
 
-Cheers,
+The fixes stop relying solely on perf's software state where it is not
+authoritative: TraceEn is cleared directly in hardware during shutdown
+and emergency-stop paths, tracing is prevented from restarting once
+shutdown begins, cached PT MSR state is invalidated whenever hardware
+state may have been lost, and active tracing is stopped and restarted
+across suspend on the CPU that remains online.
+
+The first patch is a general irq_work fix, not specific to Intel PT. It
+re-raises a lost irq_work self-interrupt after resume, preventing
+irq_work from remaining permanently pending if the interrupt state is
+lost across suspend.  The final Intel PT suspend fix depends on it.
+
+All patches are marked for stable.  The last patch also depends on commit
+2e17bf3a469a ("perf/x86/intel/pt: Fix stop/start with no update") and
+its two preparatory patches.
+
+An alternative to the last patch would be for perf core to schedule out
+all active events from a syscore suspend callback, and schedule them
+back in from the syscore resume callback.  That would be a more general
+change, but the last patch keeps the fix within the Intel PT driver.
+
+AI disclosure: all issues addressed by this series were identified using
+AI assistance, and AI was also used in development of the patches.
+Problems described with reproducer examples in the individual changelogs
+were reproduced and fixes validated.  The race fixed by
+"perf/x86/intel/pt: Clear TraceEn in hardware in cpu_emergency_stop_pt()"
+was identified by analysis and has not been reproduced.
 
 
-Jeremy
+Adrian Hunter (6):
+      irq_work: Re-raise pending irq_work after system resume
+      perf/x86/intel/pt: Stop tracing if VMXON has not yet happened
+      perf/x86/intel/pt: Stop tracing at syscore shutdown
+      perf/x86/intel/pt: Clear TraceEn in hardware in cpu_emergency_stop_pt()
+      perf/x86/intel/pt: Reset stale MSR state on CPU start and resume
+      perf/x86/intel/pt: Stop tracing across system suspend
+
+ arch/x86/events/intel/core.c      |   9 ++
+ arch/x86/events/intel/pt.c        | 170 ++++++++++++++++++++++++++++++++++++--
+ arch/x86/events/intel/pt.h        |   6 +-
+ arch/x86/events/perf_event.h      |   4 +
+ arch/x86/include/asm/perf_event.h |   3 +
+ arch/x86/power/cpu.c              |   3 +-
+ drivers/base/syscore.c            |  10 +++
+ include/linux/irq_work.h          |   2 +
+ include/linux/perf_event.h        |   6 --
+ kernel/irq_work.c                 |  12 +++
+ 10 files changed, 208 insertions(+), 17 deletions(-)
+
+base-commit: f96ebf32b3135db4c9eeb868e4cb98e5dfe79ac0
+
+
+Regards
+Adrian
