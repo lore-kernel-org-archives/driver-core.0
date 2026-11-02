@@ -1,87 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793617689;
-	b=ztnDZocout/BvHhJsIYtxKZbb6qcBk+imu6bQejBJjVU8czruO7bI92qkyQWonX5vsUI
-	 hxQYUdzMP89vyVn30ej3U81VrLZB0mu/uJuEHi5cta1aLFQrbyMA3MCDicT/hLHJuAf8C
-	 8FPh5PeHDbEQfJIDWuQCqIcL4/hAAzsdGha049udGNshSzopzSuHIfQ3vtdo+6qlrgwm8
-	 Ruh+PEMbwcQdfJZBuxV7Zq+bvhSsdHLE8DvGm6GFY+cpi5aBLqnVOZt3Dcr6uxzJc+875
-	 1QmAw0sMaLkCF9OGqcB29Ce42IdOPNklAEUj9aBHvfj6M1xEXqTGznjuDcIlsD8pn2Q==
+	t=1793618163;
+	b=5o5ciN7zHUMYuZ9rHe/wj4cJ74U2ea/8NyotKD6n115DqDkeMStEQJr3wlkRtQVGHt8P
+	 AS9SZ3qrZDBIS+biQEWCjxnYZCW+d7I5pOwgtHhTM9S5aMg3nyXcXDV4pAUZ9VHwcRgcS
+	 OW29J3ht8HHvLhhnEwnhNsk3f0K3f77w6bpE8z7yavKrMqSguBufiPCBSvnptQjQet71Q
+	 0kWuHWDXj59gRnu5949gb94oUbaolw9JyQoL+Lu93XBFgLL55ugL83PweP2m9z5Y9t88p
+	 6khrbABY8VMGJWLt8W7+1472Lggo4HFiBuiIVUlHt4L0mI8R7+5R71Y+Y512g7Yuaqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793617689;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=7DXPCrJavnRLEwyl5yXDcP5FfFWrG3htAzB0Azwe5sQ=;
-	b=VcgIG+ou6/xyCop2IjGIk2TFlVz97l0PiH7HwvUv8Zi/FWzlR6kPoMtE2++7dh/sQ6TK
-	 cuKxpq9cVkiHwFrOyqQDzAW+T8Ubp9HNAVBa6HyrZ2p6+r7SzXokWg76zC2k7+vGQ01gY
-	 H2a3bRW8yTFIV0HIqWde/lhLGQClQ9S82tm+/4yITDhCT5iMghwiiby5LIFw4rnQ+rMbp
-	 HlMm82o6q+0L8LjwL03YdMyd6zenqx64jswjNA7DqNZpJW+orsnpv1tjsMGZGzUaIYvFZ
-	 a4i5JbI8FqhNHlQksviISnkl2XYzhT4j+B+9xktTs9m/0ziSwvUUQ80rMzj62hY1z3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793618163;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ndKvpmqpsXXKNWXd8KEPVUmv4+a8DRhy1Wexw6izFEo=;
+	b=A0T4GmIZKOmMrAjdWetSuxlbKOLWRTNAFM0i7sTBFLlw0uvQTcH47HAy0vIYG4OT44hH
+	 S7Xa/fm3oNzwXJ3nSx45IVlbVuf5Z+3gPPl+1oI0iWnvI30W/9t/IbplDQyIv0V1HS7Yu
+	 Qeo27208lClHhgiMDzCEJ6B2PC+QdAiMXSIUdiSK0De9u255/uSSuNmJtwYpy6/Gp5fOm
+	 CbqMh4nfcvWLs/0Hv+qgy+RuOF17mQY1yb0SCMxxw7RPcLzn4aC0qpC0OGWAaYxmokw6l
+	 11l82/1t6G3bGWRbePgD6YLnoakaTdWAbuWdgOThkrsP/nD2VBwbU1+5zKzXuvwRXPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=XHFP6Bui;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLox7QM9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3DE606A327;
-	Mon,  2 Nov 2026 11:08:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A3DE606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A420B606A33F;
+	Mon,  2 Nov 2026 11:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=XHFP6Bui
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=7DXPCrJavnRLEwyl5yXDcP5FfFWrG3htAzB0Azwe5sQ=; b=XHFP6BuihMppwPmbS6bxBqCC1B
-	WhNdRfMddfOhAMdCf3gNHaS1OWTnxL+wlJVkdui2I9DhnNcH/GMk1529nbKXYjI4vTGJpycJ1AZ1d
-	5gjN/YKTCEH6lmQWBNMcwkZ9qWb4PqHB6Fw8oGFJYQTMKHANO4ey6OH8aYCmPKgV2oPmx8B3e3VnD
-	ZnIYTb9GJGlmyw1x/wEbtPZTm7diMeFRhulXyHT14XBmtnJaTp+4H+aOp3uXYsa+fRRkG9fhSO5gL
-	eqj7+ajvhK7HyH6XJsp4KzmPmSBsc6KlhE/sMODXPLooVrFFr0VL4d/haag7LKvLcj9McMP8WUty2
-	SLUjFYMQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xNptK-00000002PaO-0yIo;
-	Mon, 02 Nov 2026 11:07:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DD014300322; Mon, 02 Nov 2026 12:07:52 +0100 (CET)
-Date: Mon, 2 Nov 2026 12:07:52 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLox7QM9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E1C1F00A17;
+	Mon,  2 Nov 2026 11:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793618162;
+	bh=ndKvpmqpsXXKNWXd8KEPVUmv4+a8DRhy1Wexw6izFEo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=hLox7QM9nPlrGHmnxCZZ4vF4foTEpvrL5MWrlI/o7GRu4CZ42Qe7Mv07gwsLq6Rvo
+	 4rxjPokHqVAwxxLn+cy5EO7WVDNYq7DDg2nkIwiRVUg9T+zjYx5i0svDKx82aV1bfu
+	 QTgUsDSRlpF6QrtaHx0EYclwVbmmzk6NqzgvVKHfbZkBbs4jSIvS16cMCuzJUXagUH
+	 u2f6zr+rF3RXW0P2ZIrJa6YDLKn1vVK2QuCSXpz2S5uTnEaGrAT8fzx/uAH4gU9CUr
+	 j6tWtRgxhMkc96Uidq1qCCd5Z4G5fauLU5pr7P89AGmbvyNTc2o2HAeaybQ4gQGqUN
+	 65tuYqeS4M4AA==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xNq1A-00000005aDy-0zdE;
+	Mon, 02 Nov 2026 12:16:00 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Andi Kleen <ak@linux.intel.com>, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH 2/6] perf/x86/intel/pt: Stop tracing if VMXON has not yet
- happened
-Message-ID: <20261102110752.GX1779021@noisy.programming.kicks-ass.net>
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
- <20261102074039.26983-3-adrian.hunter@intel.com>
- <20261102095750.GS1779021@noisy.programming.kicks-ass.net>
- <ca44daab-662e-41bf-b050-3ff4a94c7948@intel.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH 2/2] software node: fix primary software node removal
+Date: Mon,  2 Nov 2026 12:14:20 +0100
+Message-ID: <20261102111420.1330760-3-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261102111420.1330760-1-johan@kernel.org>
+References: <20261102111420.1330760-1-johan@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -91,22 +74,44 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca44daab-662e-41bf-b050-3ff4a94c7948@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 02, 2026 at 01:04:59PM +0200, Adrian Hunter wrote:
+When removing a software node using device_remove_software_node(), the
+primary fwnode pointer is never cleared if the software node is the
+primary node.
 
-> > It seems rather unfortunate to issue a RDMSR for state we fully control.
-> > Surely we can track this?
-> 
-> The RDMSR only happens on BDW and only when VMX is on and someone still
-> tries to use Intel PT (even though no trace can be produced on BDW
-> while VMX is on).
-> 
-> There is a window between setting vmx_on and clearing TRACEEN.  Dealing
-> with that would be complicated, compared with reading the MSR.
+Since commit 7d80509ff0da ("driver core: platform: unify release path")
+this can lead to a use-after-free when freeing a platform device if a
+driver or subsystem (e.g. mfd) has already removed and freed the node.
 
-So I thought we'd manually clear the thing before VMXON, but you're
-saying VMXON itself will clobber that register? I stand by my previous
-statement ;-)
+Clear the primary fwnode pointer when removing a software node that is
+the primary node to avoid this.
+
+Fixes: 7d80509ff0da ("driver core: platform: unify release path")
+Cc: stable@vger.kernel.org	# 7.3
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/base/swnode.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 84a77ffa3dc4..9c98234979ec 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -1110,7 +1110,11 @@ void device_remove_software_node(struct device *dev)
+ 	if (device_is_registered(dev))
+ 		software_node_notify_remove(dev);
+ 
+-	set_secondary_fwnode(dev, NULL);
++	if (is_software_node(dev_fwnode(dev)))
++		set_primary_fwnode(dev, NULL);
++	else
++		set_secondary_fwnode(dev, NULL);
++
+ 	swnode_put(swnode);
+ }
+ EXPORT_SYMBOL_GPL(device_remove_software_node);
+-- 
+2.55.0
+
