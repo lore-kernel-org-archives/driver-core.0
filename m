@@ -1,48 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793618163;
-	b=5o5ciN7zHUMYuZ9rHe/wj4cJ74U2ea/8NyotKD6n115DqDkeMStEQJr3wlkRtQVGHt8P
-	 AS9SZ3qrZDBIS+biQEWCjxnYZCW+d7I5pOwgtHhTM9S5aMg3nyXcXDV4pAUZ9VHwcRgcS
-	 OW29J3ht8HHvLhhnEwnhNsk3f0K3f77w6bpE8z7yavKrMqSguBufiPCBSvnptQjQet71Q
-	 0kWuHWDXj59gRnu5949gb94oUbaolw9JyQoL+Lu93XBFgLL55ugL83PweP2m9z5Y9t88p
-	 6khrbABY8VMGJWLt8W7+1472Lggo4HFiBuiIVUlHt4L0mI8R7+5R71Y+Y512g7Yuaqg==
+	b=e4CCnJLGot9wWXzJtEo9fYR+JkmgQ5WEcCeXVx0owk0uok2Vwxn3lJfWE9hZm87LgqvX
+	 JyiZ4NKOtI5f3rPc/Vj0JtDIjbLKYlXJDcnSc6uqrOiRqeBmACtBGITVRrCndUnzWLHoC
+	 QEJXFjYX2PVyh5JvWrsMLQS0bDWvsoD0kmkDHIynAq90tAmM5FXJXfb50ZbHwuoo3aYnK
+	 D6uHXtuOmT2ze5nwnF/g3e9l0PPkCXtjr9i6x6MCyUT6Cu0pbZFryIgFWyENRxJnIyor6
+	 JLixUrRbNy7294iC7JAPIufKxyecll6fvw0Oa8DQzoP017lrIBTsT5PwWYzT2hMhRyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793618163;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ndKvpmqpsXXKNWXd8KEPVUmv4+a8DRhy1Wexw6izFEo=;
-	b=A0T4GmIZKOmMrAjdWetSuxlbKOLWRTNAFM0i7sTBFLlw0uvQTcH47HAy0vIYG4OT44hH
-	 S7Xa/fm3oNzwXJ3nSx45IVlbVuf5Z+3gPPl+1oI0iWnvI30W/9t/IbplDQyIv0V1HS7Yu
-	 Qeo27208lClHhgiMDzCEJ6B2PC+QdAiMXSIUdiSK0De9u255/uSSuNmJtwYpy6/Gp5fOm
-	 CbqMh4nfcvWLs/0Hv+qgy+RuOF17mQY1yb0SCMxxw7RPcLzn4aC0qpC0OGWAaYxmokw6l
-	 11l82/1t6G3bGWRbePgD6YLnoakaTdWAbuWdgOThkrsP/nD2VBwbU1+5zKzXuvwRXPw==
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=TGJD+KdqvScwUJzjEuZa6O0XuHzgx+ke4p83StJ2m7Y=;
+	b=uD/KBOQiR0YZxvcxpjCB/slzmWduQXjPkYO1OZoKhsz1ruBFQNANYlIXcmeX87vB8WFn
+	 yNLlpsALllQe5DRcYrroo5pAdY48iu7XDKuHM0oDQIx1AIHPOxVuGI9g6U4xk1N5TysX+
+	 CxqN45Ag/q+IS0Dh9WpGesIk541zp0XstSyic0l53sCDYeHX2VQ48nkiG8M2sZps0VwNh
+	 Ea3tjYCCC67vrcshUnUBNoRbLFulf7wYDQb/qojHtg1bFu/BqDaCWrPDTDXqMbXFMKYpd
+	 /uOC/jqHJwjE/PpO6nByxCFS75Ql5Aa8VrWiiK8s6GcKUSdxb6HRcvsNfYBZiP78NYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLox7QM9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kPcNMve+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A420B606A33F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3AFB60A2601;
 	Mon,  2 Nov 2026 11:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLox7QM9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E1C1F00A17;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kPcNMve+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF791F00A1C;
 	Mon,  2 Nov 2026 11:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793618162;
-	bh=ndKvpmqpsXXKNWXd8KEPVUmv4+a8DRhy1Wexw6izFEo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hLox7QM9nPlrGHmnxCZZ4vF4foTEpvrL5MWrlI/o7GRu4CZ42Qe7Mv07gwsLq6Rvo
-	 4rxjPokHqVAwxxLn+cy5EO7WVDNYq7DDg2nkIwiRVUg9T+zjYx5i0svDKx82aV1bfu
-	 QTgUsDSRlpF6QrtaHx0EYclwVbmmzk6NqzgvVKHfbZkBbs4jSIvS16cMCuzJUXagUH
-	 u2f6zr+rF3RXW0P2ZIrJa6YDLKn1vVK2QuCSXpz2S5uTnEaGrAT8fzx/uAH4gU9CUr
-	 j6tWtRgxhMkc96Uidq1qCCd5Z4G5fauLU5pr7P89AGmbvyNTc2o2HAeaybQ4gQGqUN
-	 65tuYqeS4M4AA==
+	bh=TGJD+KdqvScwUJzjEuZa6O0XuHzgx+ke4p83StJ2m7Y=;
+	h=From:To:Cc:Subject:Date;
+	b=kPcNMve+2R8gWrtYDRWNWVuUnqWacV295GQL5gFoG4SVK8erH55rUdqV/jsBZzeAL
+	 j0/7LlS2x62ePdG/qWatAxefsOXKTI28+sY4UOYuhhAeafdb1r2LEBbdVZOBVMlAmm
+	 ouIG8Rwhw2PaUW3yMncmQibCLvA9O9Hr73W6A94oDqe0xnaosPCzSR1eYyZv/TPLoY
+	 z3PulPlY8N6pwTdMIV7VfRRe+8GMm0lRPvljfOZgBLxhtvQKDE+M/AudC7kcWiIMVN
+	 quXIYapy8bb3ar9+u2qIg3wUzw2HtR8P3wYwKSKpNETcNjumPHOJmXaXbZe2/aw7sY
+	 dF8djxySOA34Q==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xNq1A-00000005aDy-0zdE;
+	id 1xNq1A-00000005aDu-0rMJ;
 	Mon, 02 Nov 2026 12:16:00 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -56,15 +55,11 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Bartosz Golaszewski <brgl@kernel.org>,
 	driver-core@lists.linux.dev,
 	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH 2/2] software node: fix primary software node removal
-Date: Mon,  2 Nov 2026 12:14:20 +0100
-Message-ID: <20261102111420.1330760-3-johan@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] driver core: platform: fix sw node use-after-free on device release
+Date: Mon,  2 Nov 2026 12:14:18 +0100
+Message-ID: <20261102111420.1330760-1-johan@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261102111420.1330760-1-johan@kernel.org>
-References: <20261102111420.1330760-1-johan@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -76,42 +71,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When removing a software node using device_remove_software_node(), the
-primary fwnode pointer is never cleared if the software node is the
-primary node.
+Sashiko noted a new use-after-free issue when freeing platform device
+which has a software node as its primary fw node.
 
-Since commit 7d80509ff0da ("driver core: platform: unify release path")
-this can lead to a use-after-free when freeing a platform device if a
-driver or subsystem (e.g. mfd) has already removed and freed the node.
+Turns out that can cause trouble also when drivers or subsystems remove
+software nodes themselves.
 
-Clear the primary fwnode pointer when removing a software node that is
-the primary node to avoid this.
+Johan
 
-Fixes: 7d80509ff0da ("driver core: platform: unify release path")
-Cc: stable@vger.kernel.org	# 7.3
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/base/swnode.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-index 84a77ffa3dc4..9c98234979ec 100644
---- a/drivers/base/swnode.c
-+++ b/drivers/base/swnode.c
-@@ -1110,7 +1110,11 @@ void device_remove_software_node(struct device *dev)
- 	if (device_is_registered(dev))
- 		software_node_notify_remove(dev);
- 
--	set_secondary_fwnode(dev, NULL);
-+	if (is_software_node(dev_fwnode(dev)))
-+		set_primary_fwnode(dev, NULL);
-+	else
-+		set_secondary_fwnode(dev, NULL);
-+
- 	swnode_put(swnode);
- }
- EXPORT_SYMBOL_GPL(device_remove_software_node);
+Johan Hovold (2):
+  driver core: platform: fix sw node use-after-free on device release
+  software node: fix primary software node removal
+
+ drivers/base/platform.c | 3 ++-
+ drivers/base/swnode.c   | 6 +++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
 -- 
 2.55.0
 
