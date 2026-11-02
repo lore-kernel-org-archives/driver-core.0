@@ -1,65 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636278;
-	b=qq+KbB8nv/Kg85/+HzNtsdodOU1Ai7X8lBbQutRehpfzTwEtl5WV8J40FpsWS/poa28Y
-	 mKTJoVMTf65WiRoNhRHUI3jor1iRd7Ov4ogDpPeNCz4RTgHHvKPGAYva4MF86rHgy6tTw
-	 lbNVvsvQI7C+lz2wE/JKYZDqAzdNsJYJj6fzloEcsL35mUYTZg/2GRyUP8WHsWtY4VXlu
-	 EPHaBE5WQsrZeQ8vdvlzOnnVwUbXK5XavD3aShBiDR4mdXEITqi5skjanl/2kJTHhAFj5
-	 66tU6OVbiuBHKh6VTl+E86Crda/Y8NyXEBNqZ2MkonaI48NUG14jjIbSxRy7wbW4+PQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636278;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=tSlhZlCS6U6DSS1pN1LYEAHztvmXI+pBSdiw2T3/jww=;
-	b=nTmEM94ZmvnSRNFiFUZVZn3ld1aE0+P/vnB0jjYrSa4xZwirZWpv6OmHe1Hqci34NVTr
-	 ykkx50MDwAqodHmXV4E3Gq/ioJdCDl1MLHzeKKIHZo1o6aAwJr380EoYFty/XGlkMgYSe
-	 42No0gbDWfpePEt6f7SEF7c38K6oqcUlyvuDu0PvMgJjwQy5pdRNhtY/kJZRSeTWcrY/f
-	 q158GjMHTxr2c3SBIIEmpK5HaGpF1VMeHu9khY8ovgBgbosG3qgFsp5FXbqwMibCt0MMj
-	 y7ZeMs0udsuIKY7wJvMNCW6hp3x8nkqxNb/3NjT0ycD4K7Pm7R0tdvZZTGNpjNMFXhQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQULjrXj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.10
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793636868;
+	b=0A3b5G1qHNQv2brhbAdAot/qCg0OaBGF2QeWFZBCy9OVWOaI0JEHgCISQG4bGRfl55jM
+	 MXfUIQhbvY7wfDUWZW91lQssDNJWJm4X198PgOFYSUcOcF75NFvRJGUQ/R/F4DA1gdaP6
+	 Zxvsx2kYvvoTySEijzmZcvTXwgmufsc0WnNyMIY4naUCHo/ZtcFLqW2II+0uKnbKe6x+0
+	 Ov7FFhTU+yNuPLq10IbeXzmf8uw2X3zTGG0+Fr43mGSyc7C/wdjwTb18O5z5GRvxTgg/H
+	 exbsQrOaH54ac+7CeL2+j3K7MzimMsMnRcBx4VHbauuLAzFbg7NH2xYODpwahYLrTKw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636868;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:Organization:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=wJ2fvxZw0p+XRdKtTfYYKGeOCV8aVvOsUbzHs+v0LOo=;
+	b=c9xo3orQCYaAGoh2bQ70DuXiUmexnGKECqZkcWZ+qoREjB8XGVhideGX+WCoKh/7/wh2
+	 aZYELlLCyr36NoUDOVeQMPOdda4mX5F8p/hATDZPuvMjXbiTGJ+aUdCq6UfeuWHfg8tWH
+	 T/upWC3PX8RvjLee/6rw7GX34d6oiUDaVrcg6ldRhyxWb3O2GGFsEbKkdeDo5mAwPqQ9K
+	 q0TCEMXBJgOwyN5QpbgCEYA5GoVHbcq3TyhIeNhe7qy4WKQjcHL9x8GwaEaaycfncFfG+
+	 8NlWNFX+a7anPsFvd5IzhQuq43ksnTj6yPDDw2NwmuULZX+lfG1zbcOPjGsNM5M2Z6A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J4AaYy1G;
+	arc=fail smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C729A6099952;
-	Mon,  2 Nov 2026 16:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD816609EE49
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 16:27:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD816609EE49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQULjrXj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070271F00A16;
-	Mon,  2 Nov 2026 16:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636277;
-	bh=tSlhZlCS6U6DSS1pN1LYEAHztvmXI+pBSdiw2T3/jww=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CQULjrXjrjsOWi0iaCtq/TdLS6jX+M6bZUeB0z1jv8FrMpPnWiSnknJi9t24FCWl2
-	 ZTpS/c5oksveMDee5Otug5ADTMdsWPbfOvTNVv251kvmG259hBRTfAt2/Yt8MkCIdX
-	 0EyrmcWbDgGILQnX++ZyjkoQJd+Orlg7A3uZSb9O0rZy/rjMJYkdrKhaPz31hZpHHX
-	 j5sc2ySkUSWOFS0PfA/KZK+5iI7qzU+EQN0N5hw+ruT54+S1tF3CnIe2bZA10tYjRm
-	 fFqd7sbbH9z57tqEA7tVHhUlGbmJB3bcjEKIf0AiVJRl7eKhmvKry91vTyxAtAkiZC
-	 c/mtzxzoCSifQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	tzungbi@kernel.org
-Subject: [PATCH v15 4/4] reset: Leverage revocable for accessing struct reset_controller_dev
-Date: Tue,  3 Nov 2026 00:17:09 +0800
-Message-ID: <20261102161710.24076-5-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261102161710.24076-1-tzungbi@kernel.org>
-References: <20261102161710.24076-1-tzungbi@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J4AaYy1G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793636868; x=1825172868;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=mnVbN+KOlrhxDD+pH+3qkNwwsfu9dsWzOX1Lsh47Y4o=;
+  b=J4AaYy1GQcZUM3DnJaMduikVS2D7Pa9RpggaCTLxYNMy0Gpjt5dNo79u
+   D/aubFu1MpiQPh7d7gAPW56u8myK8awKQN+KmJwGitqbGPz8oN8OzbDOM
+   8G5GNNJTk4ekDMdQ04UjPA+tmxEA1oSEzURbo5GredvCM+QKxk0fy9/Kh
+   nHewnQ4uzD9JyO39OgpXx8vhJmRpuBy1SgnMOSRTs80mkHKHJWPqqdaVv
+   +vtHN93/zYYEqxsm/EY8owH0XIvfTLGVa/9GaLpvevaUf5V++XleqL5z1
+   5YHcBG3Z0ZhvXhYj6TWVnHxdFvhCeCLkh7QdQuc+GTFzmUosnju7mW8UX
+   A==;
+X-CSE-ConnectionGUID: vbU5uGhTR6CaTNGwZ7tmPg==
+X-CSE-MsgGUID: anGAq6BfQPeeMATQ+Mzocw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2236163"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2236163"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:27:47 -0800
+X-CSE-ConnectionGUID: AGwILKGSRBOMttwhfW1+ew==
+X-CSE-MsgGUID: PnSTsKfFSECMHZFWJzbajg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="6287408"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:27:46 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Mon, 2 Nov 2026 08:27:46 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Mon, 2 Nov 2026 08:27:46 -0800
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.19) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Mon, 2 Nov 2026 08:27:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fFDPkI/OJe740twb/3r8ENzAYvGoirHIPEqwJ4FgdNjFo2y5wwcP7VMs7ZbyyGHY/QlnP2Zyq0aIZLmMY8LcpK7ZV2/FtZoUzGDHfQ0zF4almnycP/iIpckQbCFW+aec0+NEjaGRAIJ+g3gHcF0KVBfmO2/nVhsmcKjLFyzjA9qHRikqyHLSFB7yJswerODuf73IvecxAPUpnBu2LXwaTvMVjqG4R1ONLuhOOqOlCJdAWuecCg8xfnt+KtbXQ4iEq+9ir/jtuYKLbl96C/Ay9NuquVuaE1UCxt2EUIjvwl7eSUc7VUIhhOYW3rlYv11r1TGDMfld6SEQgrttY2ZSrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wJ2fvxZw0p+XRdKtTfYYKGeOCV8aVvOsUbzHs+v0LOo=;
+ b=gTtXiFOYXwL0Z2n8GeidgHwrEG7xtl6d4WQWzxZ7OV5WrK1fHtG9dH2PKeArt4ZePafEWYpcuPpowBM3gODjkMIA7lUXPZZg9+r2vfAvnttQpyB0svtHwtHL5a2eZLUshZ6di2+1zYhPrnu0g5JUz/+9Q1w464w2wyZiedDx6zkdnSfFyYLqaJ/5VK3e0AACmI148tYWG/vhaks9A+EFKV4vRkNC0ws3ycY7hNmUIfN7QiWJMC/QWfACG3V0Y9PYOjqkIAI0HShnFI1tOIg8MWPzASwjb4buwNZUvmmMBeui+gtv4FXUjpDfX8AAQldQ7KeRb1PDoLOCJ3GPGczEpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
+ by PH0PR11MB7165.namprd11.prod.outlook.com (2603:10b6:510:1e9::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 16:27:38 +0000
+Received: from IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
+ ([fe80::2c4e:e92a:4fa:a456%3]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 16:27:37 +0000
+Message-ID: <a2108322-0c88-48e0-a10f-77ae2556bcae@intel.com>
+Date: Mon, 2 Nov 2026 18:27:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] perf/x86/intel/pt: Stop tracing at syscore shutdown
+To: Andi Kleen <ak@linux.intel.com>
+CC: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
+	<namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "Alexander
+ Shishkin" <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>, James Clark <james.clark@linaro.org>,
+	"Thomas Gleixner" <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek
+	<pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Danilo
+ Krummrich" <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jiayuan Chen <jiayuan.chen@linux.dev>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>, "Vineeth Pillai (Google)"
+	<vineeth@bitbyteword.org>, Frederic Weisbecker <frederic@kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <driver-core@lists.linux.dev>
+References: <20261102074039.26983-1-adrian.hunter@intel.com>
+ <20261102074039.26983-4-adrian.hunter@intel.com> <aui3L0ppW-cBBo1W@tassilo>
+Content-Language: en-US
+From: Adrian Hunter <adrian.hunter@intel.com>
+Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
+ 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
+ 4, Domiciled in Helsinki
+In-Reply-To: <aui3L0ppW-cBBo1W@tassilo>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DU2PR04CA0276.eurprd04.prod.outlook.com
+ (2603:10a6:10:28c::11) To IA1PR11MB7198.namprd11.prod.outlook.com
+ (2603:10b6:208:419::15)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,346 +152,97 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|PH0PR11MB7165:EE_
+X-MS-Office365-Filtering-Correlation-Id: e55942b6-f8f3-4452-ec8e-08df38fe354e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|6133799003|10067099003|18002099003|22082099003|261102123227099003|56012099006|4143699003|11063799006|5023799004|261022105027099003|261026121527099003|261022075727099003|261026140227099003|261028144727099003|261021121427099003|261021135927099003;
+X-Microsoft-Antispam-Message-Info: 6UUKXeZbSAmQ/FYxY835aPdR3cIgiDA8deNf10Ibyoa+V5UUycrpVPuPP6osmRTZtH6pYBYz8MbPoduIifeL+0Dk9S1P2/IXTaSAUGfs1KzC44wZSgwsvD93QvrGJysGoC3qvgPC1gZJ/1hvMDWpFt0ws1MyWDF82AumAoRwLyxOu1pXxNTCIZeDHE5eD/8xU1sJLWNX05lrDeUdqQC+46PTeJn2fMZfayXCPVBVFhRoVMHKSsBfQx6p34xCwj0ygXlumAAD9axtdwycKqSpUfj7haQp/S3MKxiKH9lLMa9OMK+KBTwALWfVxNmn1K0w0OW7Y/ri/fr1WlseKgDNif0Fadkgvlb2LRc+1StzC2Ug/SrSgcqxkAXFl4uCovsw64RxeFBYEU0o5Q/rlt5u7cxna7pYBJFFCCgBmn06M0usCIjJ5btCeF4iGofoSLxJzhOapZxmCNjpt8gwhCezKvjVx8v6YFAduzPLfoQb0bXDbrXM/670wDCGIHckqc+IbrKtyZ9CCvMwkGVNjzOuMLEhBokqGEPQw0AtP/9OMpWPKzO4oytqommv6Jx/jVhb9eqlXtGCcP3iR0jsF5xhe1TICx8/NccQXy4841ozhX51fIrCajruNgChCMUh8k5FDR9vZqRlQY6HYc0aJ81AcBJHjG2yD/JA+PaJcF5WVX8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(261102123227099003)(56012099006)(4143699003)(11063799006)(5023799004)(261022105027099003)(261026121527099003)(261022075727099003)(261026140227099003)(261028144727099003)(261021121427099003)(261021135927099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WG12SThlQVRhZEtaKzBCc3lCUHRLNE5CMG9NVDRId0c4YSthSktUSk9UNnpr?=
+ =?utf-8?B?YWNjL0doWFcvbGRKaXhKM0lLU2dvU1JBNTEvd2hjMjlKSmFTa0VvbEFBcDN1?=
+ =?utf-8?B?OTEwajJ6TEtCMXhBT082ZDZ3OHlkY3pQOUFXK3pSckwrTWxkSzRLY2hpYzh5?=
+ =?utf-8?B?QWhrblY5L0RzZ2J4UVJEUk5CSjgxaGJxV0tPM1I5N0FQU0pibXB5aW5CdW02?=
+ =?utf-8?B?eXZ3WlRVTjg2VlZuTHhYMVgvQ3N4R0NJQ2Q5WStieFF3a2V4dW5FT01MeGpT?=
+ =?utf-8?B?QVkzTnpzdHRtb1kxTkNrRnUwZU4xRGlZT1hkM2paSm9Jb0RvZ05CMHRMQThj?=
+ =?utf-8?B?OEQzblA5L0VYSUUxS1dDZHVvczRqRERFSFBOWGNvZkpzWEYxRmtJK09zUmsx?=
+ =?utf-8?B?Y1ZlanhzZXZmNGNYaFBYRjJLdWpuTHgwTE91UTd3d1I1YzBURkloV3RubHo1?=
+ =?utf-8?B?aDdyNmJLZE5SZkRTVlF6YmFocUJNSk93N0p3eTJVblB1YnRFNUhMRldkTy8z?=
+ =?utf-8?B?U2xyRC9tb0M2T3ZzZDdvQmkvTFJJbWpuZWRKZEphZGtLbEdUdDhJU2V6K2h5?=
+ =?utf-8?B?NG1PT0laQk0rNnczZ0pZVnFxWk9xeWJSK2lMckJKcmxnL0tQNWYwUDJ6U09R?=
+ =?utf-8?B?TzIzVDg1ak5kVXBoS0I2ejB4dVJPeHFES0xMcXZxQWFCRFo5TE4rMUNrUDNY?=
+ =?utf-8?B?ZUJkRlFLYlVlLzdYamNWeUtpeXFXaHZxOFEwSDRqNWhQTGtqQklLc1h2N0xQ?=
+ =?utf-8?B?dGpKYzVjUGVpRURIR0Z5OGhWUEc0RG5yWEllVUh0YnFyK3dQNUd3Wkt0dkZS?=
+ =?utf-8?B?WWJMRTk1ckcxZ3F5SzhyWGRpVTRSeFNrbHVJbFF5R28rR0thR3IzVVI1NWNF?=
+ =?utf-8?B?NEtzaXFuV3FIWWFMdE51a29vdnh3VStaWGJURVVGTzIwazByajR4NVp1S1U1?=
+ =?utf-8?B?NURZRmJVdDBWbTBMS0lyUlJDTGNlRTdKQm1KN3IvbVlkeWxaK3MzbXQ2ekNk?=
+ =?utf-8?B?K2dvcTZnK2wyejlvVklTczRUYzBsaDhQNUQ1M0lFMllDR0FhVE0vWTNtd1c4?=
+ =?utf-8?B?bnZvQUdDWHFoS0JCT1M4QUtad20wbjdDQ1k3dTdMSXlxUDlHdk43aG8vRmNt?=
+ =?utf-8?B?Vnp6NUgyc25raG1oQkNsNTBDS2QyRzFjTG5kYjB2YTQyUGc5aTJWR2Z5Szdw?=
+ =?utf-8?B?Z3c3YlBMM21mcnNpQXVUUktZeURncGdWeG1ZUGJncWMyNFlPYnFkS1FZVDVE?=
+ =?utf-8?B?ZzFJaHBldGsxN3JZOTEwbHc4dzM1UUU0Y1RnZ1hVRGJUQ1BVNFRGaktXZ3Bk?=
+ =?utf-8?B?WWovWFZRR2xVWVVQSDV6M1BHczVNaUgyRjNSa3NWQXN2amZPQzM4TDNhbEFi?=
+ =?utf-8?B?N1lXQ01DQXZ2Q3duNlFNNFhFUkEyYmpkcFNMbW43TmFML3RUdkJUVVJZRWgv?=
+ =?utf-8?B?a0dZQUV2cG01VDVFeVQ0K1ZuUTlNbXJNK0VhMXgzWGpmOUF3d2U4dWl4TVJT?=
+ =?utf-8?B?WmNDenV5cHp4Rk1SOXk2OFFqbGFvcXZFTTcwd1VzS2ZuN1oybC9iTkVpUG5T?=
+ =?utf-8?B?VE1nNmZ0aWM5TjQxSEl5aVRSeGZIWko0OHBueStlWFZ4YSsrVHAveGlScW5W?=
+ =?utf-8?B?WHovTStnaUVwR0ZGVmZoc2J6dmpVTUJpMC9lbktPU05zeVZjd1dyZ1gwZy9K?=
+ =?utf-8?B?QlNFbWorWkU0UGFpRVpBRXFnSU1xckU3YXpjZEVwSU54WEtkSmFEQXRwaStW?=
+ =?utf-8?B?ZlhORGJYejFmY3FyUWNmSmZhRWI0SGt4VzliMTdaNjF1WndjdTM3VGtYaVhz?=
+ =?utf-8?B?NlNQc3l4QXJ3L2pFS0loRENGMXptS2pQNzJEeWR2SmY1MjFXeC81MHhmTFVp?=
+ =?utf-8?B?SGprbmUrOVRMTm1iTVo3cWV2Q2NFMTVJT0FiZW9TVVF6QjFuaGFwYlBJaVUw?=
+ =?utf-8?B?TnRvZ3Y4OUx1bmI1bDl0MHkxT2w2YjU3RU95aTczYkpzWm9WS2tRRGJPTUNG?=
+ =?utf-8?B?WHFPZkoxYmJnc0FFZlpDdWk2cWlMZG9OLy9mQ0RGR2h4UnlXTWZ0NmFQUGhX?=
+ =?utf-8?B?ZUxPU2w3RkI5ZzVCR1EvZzNiV3M3SWdJUVY0cTlycnJnZUJhUlJNenBMTm9R?=
+ =?utf-8?B?YzQ5cFRPK2pKUld6OHZkZmpnSTRGcC8vV050ZDhDeXg2ZWlZTjFMSWtDNlZ4?=
+ =?utf-8?B?YUtiMEhtWEs3L0F6OXBFa0hTRG45VDl0NjZNcmNlK0hRbWxNOTU4MW5GWU5h?=
+ =?utf-8?B?bXpjNWVLYi9ObVlDZ2JuTnZZSks0TXZ1RmVzTUI3aTlvNjJlVlNsaVNDTEFi?=
+ =?utf-8?B?ZTMyNW4zT1lhR2lYd2FjQmhPSmNSNGNqODVxV0JodlpXMFo1SVpIVWl6ajlo?=
+ =?utf-8?Q?Zm33LbKhfyx5Kz/E=3D?=
+X-Exchange-RoutingPolicyChecked: hbtxgwQQybnugv5C9maxZcqPAU/hWDjZKZFQbSDq5srp/ogk0RNp/Xx/xb97l6KpCvwPJnuGy9+H6Ek/wgu9kQfrY7WdhulioCOPJ+S/lpgBtAjnAaZfFSAdgcKi8lNaRwkac05PnM7tRtKkbkTgPjO+AGwKEkV4udEL8MmySLw2HmLv4oNB1EiyB498PnmffZCcZqVd2BdRLilImtJkVKYEvectZLfER0O0Nsmto7OXIZ13XmeZikFi55sv7T9rFxc4mRNBJ+rcLKcjUrQPf2sbb3hmZ5PQRDndjRqNXu51RF+2/XDAReC5TFIfJxG1HVlksjO/n5MaFlFA77r+oQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: e55942b6-f8f3-4452-ec8e-08df38fe354e
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 16:27:37.8968
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c7hUMnsT6aB3oS+rhaFEHhVxCcDFvr/ormtRaVqnPzFmITvXLMGp42EhHXiv0Cm1N+NiHhYjSrWJRBzK+HQ0Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7165
+X-OriginatorOrg: intel.com
 
-Commit 78ebbff6d1a0 ("reset: handle removing supplier before consumers")
-protected the `rcdev` pointer in `struct reset_control` with SRCU so
-that the reset core can handle suppliers unbinding while consumers still
-hold reset control handles.
+On 02/11/2026 18:15, Andi Kleen wrote:
+>> +
+>> +/*
+>> + * Tracing must not continue into a kexec'ed kernel, which may reuse the
+>> + * trace buffer memory, so stop tracing on all CPUs and prevent it from
+>> + * being started again. Events are left in place, but record nothing more.
+>> + */
+>> +static void pt_syscore_shutdown(void *data)
+>> +{
+>> +	WRITE_ONCE(pt_shutdown, true);
+>> +	on_each_cpu(pt_shutdown_cpu, NULL, 1);
+> 
+> I don't think adding more and more broadcast NMIs to the panic path 
+> is a good idea. It's always a very big hammer and a risky operation
+> that risks breaking the actual dump. panic reallhy needs to be
+> simple and reliable, and this is the total opposite.
 
-Because `struct reset_control` handles can outlive `rcdev`, each of the
-N handles had to embed its own `srcu_struct` and call synchronize_srcu()
-on release, and reset_controller_unregister() had to call
-synchronize_srcu() N times in a loop.
+Is pt_syscore_shutdown() called on a panic path?  I can't find a way.
 
-Leverage dynamic revocable to allocate a single reference-counted
-`struct revocable` for `rcdev` shared across all N `struct reset_control`
-handles (1-to-N).  This reduces N `srcu_struct` instances per controller
-to 1, drops synchronize_srcu() from reset_control_put_internal(), and
-replaces the N synchronize_srcu() calls on unregistration with a single
-revocable_revoke().
+> 
+> KVM already does one at least (which I never liked either). At a
+> minimum please find a way to consolidate those into a single
+> one (as in have a notifier chain that is called on the target CPU).
+> 
+> But better would be to not do this and find some other way.
+> 
+> How about just passing the PT region as reserved and maybe free
+> it later after the target kernel had a chance to reinitialize all CPUs?
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-Applied after https://lore.kernel.org/all/20261102155840.20376-1-tzungbi@kernel.org
----
-Test:
-$ ./tools/testing/kunit/kunit.py run \
-        --kconfig_add CONFIG_RESET_CONTROLLER=y \
-        --kconfig_add CONFIG_RESET_KUNIT_TEST=y \
-        reset_test
-
-$ ./tools/testing/kunit/kunit.py run \
-        --kconfig_add CONFIG_RESET_CONTROLLER=y \
-        --kconfig_add CONFIG_RESET_KUNIT_TEST=y \
-        --kconfig_add CONFIG_PROVE_LOCKING=y \
-        --kconfig_add CONFIG_DEBUG_KERNEL=y \
-        --kconfig_add CONFIG_KASAN=y \
-        --arch=x86_64 \
-        --raw_output=all \
-        reset_test
----
-v15:
-- Rename:
-  - "rev" -> "revocable" in struct reset_controller_dev.
-  - "rev" -> "rcdev_revocable" in struct reset_control.
-
-v14: https://lore.kernel.org/all/20261011121246.162759-6-tzungbi@kernel.org
-- New to the series.
----
- drivers/reset/core.c             | 125 ++++++++++---------------------
- include/linux/reset-controller.h |   3 +
- 2 files changed, 42 insertions(+), 86 deletions(-)
-
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index a36a4d6ff445..c699e7550cf5 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -24,8 +24,8 @@
- #include <linux/property.h>
- #include <linux/reset.h>
- #include <linux/reset-controller.h>
-+#include <linux/revocable.h>
- #include <linux/slab.h>
--#include <linux/srcu.h>
- 
- static DEFINE_MUTEX(reset_list_mutex);
- static LIST_HEAD(reset_controller_list);
-@@ -37,9 +37,7 @@ static DEFINE_IDA(reset_gpio_ida);
- 
- /**
-  * struct reset_control - a reset control
-- * @rcdev: a pointer to the reset controller device
-- *         this reset control belongs to
-- * @srcu: protects the rcdev pointer from removal during consumer access
-+ * @rcdev_revocable: revocable handle for accessing the reset controller device
-  * @list: list entry for the rcdev's reset controller list
-  * @id: ID of the reset controller in the reset
-  *      controller device
-@@ -54,8 +52,7 @@ static DEFINE_IDA(reset_gpio_ida);
-  * @lock: serializes the internals of reset_control_acquire()
-  */
- struct reset_control {
--	struct reset_controller_dev __rcu *rcdev;
--	struct srcu_struct srcu;
-+	struct revocable *rcdev_revocable;
- 	struct list_head list;
- 	unsigned int id;
- 	struct kref refcnt;
-@@ -141,6 +138,10 @@ int reset_controller_register(struct reset_controller_dev *rcdev)
- 			return -EINVAL;
- 	}
- 
-+	rcdev->revocable = revocable_alloc(rcdev);
-+	if (!rcdev->revocable)
-+		return -ENOMEM;
-+
- 	if (rcdev->of_xlate)
- 		rcdev->fwnode_reset_n_cells = rcdev->of_reset_n_cells;
- 
-@@ -160,14 +161,20 @@ int reset_controller_register(struct reset_controller_dev *rcdev)
- }
- EXPORT_SYMBOL_GPL(reset_controller_register);
- 
--static void reset_control_put_internal(struct reset_control *rstc);
--
- static void reset_controller_remove(struct reset_controller_dev *rcdev,
- 				    struct reset_control *rstc)
- {
- 	lockdep_assert_held(&rcdev->lock);
- 
--	list_del(&rstc->list);
-+	/*
-+	 * reset_control_put_internal() may observe a non-NULL rcdev before
-+	 * revocable_revoke() runs, and then wait on rcdev->lock while
-+	 * reset_controller_unregister() already detaches rstc.
-+	 */
-+	if (list_empty(&rstc->list))
-+		return;
-+	list_del_init(&rstc->list);
-+
- 	module_put(rcdev->owner);
- 	put_device(rcdev->dev);
- }
-@@ -179,38 +186,22 @@ static void reset_controller_remove(struct reset_controller_dev *rcdev,
- void reset_controller_unregister(struct reset_controller_dev *rcdev)
- {
- 	struct reset_control *rstc, *pos;
--	LIST_HEAD(reset_control_head);
- 
- 	scoped_guard(mutex, &reset_list_mutex)
- 		list_del(&rcdev->list);
- 
- 	scoped_guard(mutex, &rcdev->lock) {
--		/*
--		 * Numb but don't free the remaining reset control handles that are
--		 * still held by consumers.
--		 *
--		 * Hold a temporary reference on rstc before clearing rstc->rcdev:
--		 * once rstc->rcdev is NULL, a concurrent reset_control_put_internal()
--		 * will not acquire rcdev->lock and could otherwise free rstc.
--		 */
--		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list) {
--			kref_get(&rstc->refcnt);
--			rcu_assign_pointer(rstc->rcdev, NULL);
-+		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list)
- 			reset_controller_remove(rcdev, rstc);
--			list_add(&rstc->list, &reset_control_head);
--		}
- 	}
- 
- 	/*
--	 * Run synchronize_srcu() outside rcdev->lock to avoid a circular
-+	 * Run revocable_revoke() outside rcdev->lock to avoid a circular
- 	 * locking dependency with paths that acquire rcdev->lock inside
--	 * the rstc->srcu read-side critical section.
-+	 * the revocable read-side critical section.
- 	 */
--	list_for_each_entry_safe(rstc, pos, &reset_control_head, list) {
--		list_del(&rstc->list);
--		synchronize_srcu(&rstc->srcu);
--		reset_control_put_internal(rstc);
--	}
-+	revocable_revoke(rcdev->revocable);
-+	revocable_put(rcdev->revocable);
- 
- 	mutex_destroy(&rcdev->lock);
- }
-@@ -401,11 +392,7 @@ int reset_control_reset(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_reset(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
- 
- 	if (!rcdev->ops->reset)
- 		return -ENOTSUPP;
-@@ -522,11 +509,7 @@ int reset_control_assert(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_assert(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
- 
- 	if (rstc->shared) {
- 		if (WARN_ON(atomic_read(&rstc->triggered_count) != 0))
-@@ -618,11 +601,7 @@ int reset_control_deassert(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_deassert(rstc_to_array(rstc));
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
- 
- 	if (rstc->shared) {
- 		if (WARN_ON(atomic_read(&rstc->triggered_count) != 0))
-@@ -698,11 +677,7 @@ int reset_control_status(struct reset_control *rstc)
- 	if (WARN_ON(IS_ERR(rstc)) || reset_control_is_array(rstc))
- 		return -EINVAL;
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
- 
- 	if (rcdev->ops->status)
- 		return rcdev->ops->status(rcdev, rstc->id);
-@@ -750,11 +725,7 @@ int reset_control_acquire(struct reset_control *rstc)
- 	if (rstc->acquired)
- 		return 0;
- 
--	guard(srcu)(&rstc->srcu);
--
--	rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--	if (!rcdev)
--		return -ENODEV;
-+	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
- 
- 	scoped_guard(mutex, &rcdev->lock) {
- 		list_for_each_entry(rc, &rcdev->reset_control_head, list) {
-@@ -850,7 +821,6 @@ __reset_control_get_internal(struct reset_controller_dev *rcdev,
- 	bool shared = flags & RESET_CONTROL_FLAGS_BIT_SHARED;
- 	bool acquired = flags & RESET_CONTROL_FLAGS_BIT_ACQUIRED;
- 	struct reset_control *rstc;
--	int ret;
- 
- 	lockdep_assert_held(&rcdev->lock);
- 
-@@ -881,19 +851,13 @@ __reset_control_get_internal(struct reset_controller_dev *rcdev,
- 	if (!rstc)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = init_srcu_struct(&rstc->srcu);
--	if (ret) {
--		kfree(rstc);
--		return ERR_PTR(ret);
--	}
--
- 	if (!try_module_get(rcdev->owner)) {
--		cleanup_srcu_struct(&rstc->srcu);
- 		kfree(rstc);
- 		return ERR_PTR(-ENODEV);
- 	}
- 
--	rcu_assign_pointer(rstc->rcdev, rcdev);
-+	revocable_get(rcdev->revocable);
-+	rstc->rcdev_revocable = rcdev->revocable;
- 	list_add(&rstc->list, &rcdev->reset_control_head);
- 	rstc->id = index;
- 	kref_init(&rstc->refcnt);
-@@ -909,17 +873,9 @@ static void __reset_control_release(struct kref *kref)
- {
- 	struct reset_control *rstc = container_of(kref, struct reset_control,
- 						  refcnt);
--	struct reset_controller_dev *rcdev;
--
--	lockdep_assert_held(&rstc->srcu);
--
--	rcdev = rcu_replace_pointer(rstc->rcdev, NULL, true);
--	if (rcdev) {
--		lockdep_assert_held(&rcdev->lock);
--		reset_controller_remove(rcdev, rstc);
--	}
- 
- 	mutex_destroy(&rstc->lock);
-+	revocable_put(rstc->rcdev_revocable);
- }
- 
- static void reset_control_put_internal(struct reset_control *rstc)
-@@ -930,22 +886,19 @@ static void reset_control_put_internal(struct reset_control *rstc)
- 	if (IS_ERR_OR_NULL(rstc))
- 		return;
- 
--	scoped_guard(srcu, &rstc->srcu) {
--		rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
--		if (rcdev) {
--			guard(mutex)(&rcdev->lock);
--			ret = kref_put(&rstc->refcnt, __reset_control_release);
--		} else {
--			/* Already detached from rcdev. */
--			ret = kref_put(&rstc->refcnt, __reset_control_release);
--		}
-+	revocable_try_access_with(rstc->rcdev_revocable, rcdev);
-+	if (rcdev) {
-+		guard(mutex)(&rcdev->lock);
-+		ret = kref_put(&rstc->refcnt, __reset_control_release);
-+		if (ret)
-+			reset_controller_remove(rcdev, rstc);
-+	} else {
-+		/* Already detached from rcdev. */
-+		ret = kref_put(&rstc->refcnt, __reset_control_release);
- 	}
- 
--	if (ret) {
--		synchronize_srcu(&rstc->srcu);
--		cleanup_srcu_struct(&rstc->srcu);
-+	if (ret)
- 		kfree(rstc);
--	}
- }
- 
- static void reset_gpio_aux_device_release(struct device *dev)
-diff --git a/include/linux/reset-controller.h b/include/linux/reset-controller.h
-index 52a5a4e81f18..a5547a742cde 100644
---- a/include/linux/reset-controller.h
-+++ b/include/linux/reset-controller.h
-@@ -28,6 +28,7 @@ struct reset_control_ops {
- struct module;
- struct device_node;
- struct of_phandle_args;
-+struct revocable;
- 
- /**
-  * struct reset_controller_dev - reset controller entity that might
-@@ -48,6 +49,7 @@ struct of_phandle_args;
-  *                :c:func:`fwnode_reset_simple_xlate`
-  * @nr_resets: number of reset controls in this reset controller device
-  * @lock: protects the reset control list from concurrent access
-+ * @revocable: revocable provider handle for itself
-  */
- struct reset_controller_dev {
- 	const struct reset_control_ops *ops;
-@@ -65,6 +67,7 @@ struct reset_controller_dev {
- 			    const struct fwnode_reference_args *reset_spec);
- 	unsigned int nr_resets;
- 	struct mutex lock;
-+	struct revocable *revocable;
- };
- 
- #if IS_ENABLED(CONFIG_RESET_CONTROLLER)
--- 
-2.53.0
+Intel PT has cpu_emergency_stop_pt().
 
