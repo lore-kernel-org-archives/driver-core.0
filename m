@@ -1,112 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630825;
-	b=wup3cK5JVio2Rm+6F2sxivd2J24UNgJnjKAn4p28vkDGbzk1tqDf/TKQD++50lJergSv
-	 omIkICIOpaTaCOWBBt7Or6+pSuyZJZeb3xVOK4qI7xiAwbvWI6KbOdSO/imor+BK5dvl4
-	 GU3e01XbHwcvSa/fofVox4G9gUJvW4uF+PmTRVgJPT1YpSAqzeaiHb7IKiUT7bCNE+zl9
-	 3YFwyUEm4n7MRZJSoR5x7NCqo2K4geiRNDwiA29axQpQX98tiSgDOrCGo2teJEi5/2Px2
-	 mrQIJdGnS/NLWSNvKAz1JpyprdZy3RhURBXRp3ziCrotWAsxI549zGW4yIdUz1rU3hQ==
+	t=1793631474;
+	b=j5okb1h59ZBdCOQhjuK4r7/2pYCWT0Jc7bagwRYpf9bQpqCJdKA+zKN87m0ao2OXB0wQ
+	 3dek92gR2UcY6tdTnBnHnn0E3qlHNdo/8jLHOJAXCuKDOjkEDjvKBvQXzcnvSzcvbg6QO
+	 T+LAnNaNUDmA5tz3EU2EROg9ZmleGugLIKuKsXVagHtnc4Kvh+JHqunJM6gGiOQg0YJuZ
+	 JhA3/rt7K1sedaKPq399rg7xqvF2rSo4oMuT3QqsN7gmCLTeg9FPPcreRVBz4jNt3G1K1
+	 ydwngTXtnrTwI5BJGEFQ+2+beGvA4vc26EfyQBLsnX4bJ0OIlFeGG7JD9gUapGXoKsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630825;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631474;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=2qrJ3KtJ0cuR3JwG4sVYGEim2RKQKNEp6dMT2f4JvhQ=;
-	b=ft9bbM3+ibVv4Folw9rhhm0GJIDSiHWIc64am8nBi4jdRlSmo0G5bt7QmAIzPsLX/YmF
-	 PMuq5ETRQ/rTFPUSxAr+JFrZkAVJrMvq4GXRGDuIl9zUYAhU7VN6mw+jnqxsGKtZMbNad
-	 7Im9m2EDRU5ZAoV7hIgjahWffwmhygC8ZRAD3f4OlJxWBY4Qm5xF2Q1uMtR9MmoJOac82
-	 /+YcGPMEep4mbv7DVpXBDfQ69hkULiXtdw85Oikv+zHkDz0j5Na311oELw98rJfJiU8kJ
-	 NcBDvrVSQuMYkLuAbaZPZ+YiG5yvc8v1RdHHZKxTLd8j57Gfm8y258Q1vlQ6nCwc6KQ==
+	bh=3cdW/b1h/0yGn+S/02n8p0IHMjXT91/Rr39ZjELVX98=;
+	b=NyBJRhvpbjg7qNxphe+zxp32j/vj+gjSRbWzUH+m2b1vSSS3R6KAx89brDwLdiMMkHGz
+	 IkI996bx0+oxz3UB+w6wnmHateUjvhvhXNTxiY63/BQxMuERLzHTugiBbZZ/VoJBUD3/m
+	 g+poS8vE42YgXR5DVQY09b27WSmFoO48IiIzOBC9hS+3346natEk7ojkDmhfDNaGCkWJB
+	 yNe9xEvU4+ZFfS01SHKcEcVpasyVCMF8BGWOI698e/9urNpL8IjWtRzwUH4Cx6WJdgztn
+	 oHxXSpfK5lLQQ6fI2w2bGifF8hOJ8mb5lSSsYXuzucwrWSB+Fx8SQmCzi7i6r42gVaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="nYZSh/MJ";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IN7spkgA;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kaG9lXDo;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF36960A6F57
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 14:47:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF36960A6F57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B8A606A5A7
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 14:57:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9B8A606A5A7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nYZSh/MJ;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IN7spkgA
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2DpRsW3715882
-	for <driver-core@lists.linux.dev>; Mon, 2 Nov 2026 14:47:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2qrJ3KtJ0cuR3JwG4sVYGEim2RKQKNEp6dMT2f4JvhQ=; b=nYZSh/MJpImfDoLt
-	fimkIqi99tBaoECD0BbvXHKcK6HLzFQWp0pVl1FQpXnWVc404mzEpvp4rDARHmIj
-	3XoSZ2cJygs5hQxqSmOeQpEfuu48+FgnCBGeXDjhoCQ6xKLOrCtXtYqXEB3bPfZu
-	X8ZYTc26UQ7V9bFxBYbK7CrAdsIfejidJQPH25nB1OokmK27Lv/hJVenvv1VNOup
-	9mT/bZ0gHNHM8ZiodW+qf1gc9MWeditQoIjstT77gKb3YVmE2DErAJoFMQw2qBBc
-	kdO4/3UrFoiI1k3YPFwGEAKDR//xHaxPEIXMT42YOCNU942j23DwJwi2WpK6nQWi
-	ZMay8w==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpka62acd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 02 Nov 2026 14:47:03 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-7cc10da5ad4so744704137.2
-        for <driver-core@lists.linux.dev>; Mon, 02 Nov 2026 06:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793630823; x=1794235623; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2qrJ3KtJ0cuR3JwG4sVYGEim2RKQKNEp6dMT2f4JvhQ=;
-        b=IN7spkgAcB/C2PsabLrS4fTAexPpfPKB330K6b0mIgiCMG0XQwYK4l7P1RBsA2IZfs
-         efRDrloGFBP/tM/RNNsfgad15vVmVX7ybQ1xYjZkO7uvJU3p1/dDjxggt4eNJiAvT7He
-         RxO7tgecPND9L4ay2vpB7SDXF64dQQdvfQ3JRoDrePgXzUDW8ywTlht110WJbvl+j91i
-         9jJjJskAuCQsEYLJBHnmrrp80ssZBSQEZ5D/p8VcBCwlVfby4bJpaWuoGkxRgUwZRmIB
-         j1VbqKfDMMclNy5mXcYeehSslhsyulazrbnJ1eM5TP6qxxRvBAGC5GULmNEU5XHbwbBe
-         rKNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793630823; x=1794235623;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2qrJ3KtJ0cuR3JwG4sVYGEim2RKQKNEp6dMT2f4JvhQ=;
-        b=pN6env+x3kON3ZBSsePb+2YvQ0wd9NmmmpeCOB6mrbjY+BCiE2tvgSWmxIl23ClXD2
-         mRuYAvBdI7uvcEsS23+qydMlY12B1Z5KE3H3qYHgdyf+IL+H/TqdDWEJ319WZGKq9z9j
-         kJm4IEaYsaBIOSu0NCmoNO0Tp4lCC6ALoy7Wfy014CTMNpNlT1jyMFaSdP3aRTnBrtnl
-         8kdBQf7aku3VwA5+0vCBAGsun4Qq10gZ3/owthzOgibqaIf3Lc2SSP3ao0LTXEq5jJvd
-         xGZS0uN+Ap+8DazoXiFXCLfAxYclcolKnIP3SGYEzFoqO4bO+hHLCBOiJUVFESDCyyDq
-         /uwQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw3baDcPGqmUMYenfcX1V+JR/UpZA0IGnR5MP7UKm1HiJ7Fd18F5XNgHxjFAGs5QmWAKgpdqonevs434w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+CuOR2Sztsfu9X0MLwiLZJmKjTHfVkxoBE0OA3DDZKZ6Z2Dgji
-	a8nxllcmQEowLOiJq8pYUwHc99dtJkVUh8wKQoboVq14z7rVuRfByz0SyzWwy0yXXmvkc1tpTW0
-	z3nzSkCy4A1nxErqPoYH6HEsbdDCggxluhRBxV8zvv4Z7dzagTiDk833LAyBQRbXsUg==
-X-Gm-Gg: AYBFou3OHrXWBtr/C7WTpfbMbtfqSjNBNYTJdIYcG3aXJrztDhQcfLCwVmodpHifaiU
-	H/PabYbRa4M2q8Y/B7c43RZcj/bKbm1S8yGidKE+Wl5zlP1ES2GXsq0z6GZitV6ZQXb7I+nEdmU
-	RQS9vgMd41GxRsjIzRhccnX2V+9IPzL6GxduCo54StQla+0PqJJAQevW59F59Gwa+wVl+DAdSo4
-	Nrxzua8fB66S/6jUTZpjIFJaOKC0og5HJk6UqNoFO+/SagYLSuTOlSYbjfqasc3ngIiCLAgyrUe
-	VTeZHQ/FKgQlZIqQxky8DOJofTFfLgE7XUV+ktXszr6LGNUzq1Fq60/pijlpEeXpqoHg/0fpujj
-	V1BgFsQGS9DsaDWTYC8jnEerDv42XtBbgacCixzA2ZzXIOQPKWWobc2hI9A==
-X-Received: by 2002:a05:6102:809e:b0:7cc:2152:4f95 with SMTP id ada2fe7eead31-7d0727b11f1mr3608533137.3.1793630822548;
-        Mon, 02 Nov 2026 06:47:02 -0800 (PST)
-X-Received: by 2002:a05:6102:809e:b0:7cc:2152:4f95 with SMTP id ada2fe7eead31-7d0727b11f1mr3608514137.3.1793630821879;
-        Mon, 02 Nov 2026 06:47:01 -0800 (PST)
-Received: from [127.0.1.1] ([188.27.161.77])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e86a06078sm4004893f8f.54.2026.11.02.06.47.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 06:47:01 -0800 (PST)
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Date: Mon, 02 Nov 2026 16:46:51 +0200
-Subject: [PATCH 2/2] PM: sleep: Do not arm wakeup IRQs for hibernation
- freeze and quiesce
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kaG9lXDo
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2EEFgb3044394;
+	Mon, 2 Nov 2026 14:57:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=3cdW/b
+	1h/0yGn+S/02n8p0IHMjXT91/Rr39ZjELVX98=; b=kaG9lXDo8F6gDWv51Civ8O
+	xN15WIQ97mYjsr6bUZapKR1sJSrqsI+V5vYsd/IfVnlVyiSVcnc/Q4TSZ1do4Pn8
+	D5ppnQHyAb9KclBn7T+nhDMZFqtwQ02yo2mReqeajATyc2BsXrkpQZTxV5AFu+bi
+	G9B1ir1zJmBV4yicRbr9J3kRtaQ8e7DQV0lK5foFOYFMnfaRb/hiHOfTOGjKrM5p
+	HMhXq1v253v6BLOnGfX7wC05iMcqAdXwk8ZIofpnBy1vRQMD/hCKlh2jnv7qH/tb
+	hUZ5AHrN5nNkcIMOZx913byus2mu/YurNu6Q4wA+etWX3/tDCKEMKBfbatde4YqA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn5rhhagk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 14:57:29 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2E610u1034521;
+	Mon, 2 Nov 2026 14:57:29 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hnu1veeps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 14:57:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A2EvPUN51053024
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 2 Nov 2026 14:57:25 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1286920040;
+	Mon,  2 Nov 2026 14:57:25 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 92E732004B;
+	Mon,  2 Nov 2026 14:57:16 +0000 (GMT)
+Received: from [9.124.209.112] (unknown [9.124.209.112])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  2 Nov 2026 14:57:16 +0000 (GMT)
+Message-ID: <1789939c-4f7e-4f0c-b1f7-766a7025301c@linux.ibm.com>
+Date: Mon, 2 Nov 2026 20:27:15 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -116,141 +85,169 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-b4-pm-sleep-hibernation-fixes-v1-2-51fac96d080d@oss.qualcomm.com>
-References: <20261102-b4-pm-sleep-hibernation-fixes-v1-0-51fac96d080d@oss.qualcomm.com>
-In-Reply-To: <20261102-b4-pm-sleep-hibernation-fixes-v1-0-51fac96d080d@oss.qualcomm.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] sched: decouple PREFERRED_CPU from PARAVIRT in
+ Kconfig.preempt
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mete Durlu <meted@linux.ibm.com>, Yury Norov <ynorov@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, Ulf Hansson <ulfh@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org,
-        driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Abel Vesa <abel.vesa@oss.qualcomm.com>
-X-Mailer: b4 0.15.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2992;
- i=abel.vesa@oss.qualcomm.com; h=from:subject:message-id;
- bh=dmhw+rLh3YLAA0NQErytWkrrn7ttASoaBIZrNZToO5M=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBq6KJfLC8dxd2kJGunctvD8mTL1bgFM/yemD+25
- uop4+UbEg6JAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCauiiXwAKCRAbX0TJAJUV
- VlFqEACFoJpTr+nxhgWU8nLWjdloXdv30Zu8UjDTVVI6VhiGDCJN8HDUdxwfeMhXsFpdnIbm6IL
- kkxAjkFUGQ5Ppfj1T/N9zg2PJ2AcgJNLm1J3EP7c29ijV7weV4Bi1u0ppZUihip5RNqsq85xQAi
- MBT+9ZN4aeOFk9Q8pH5jlQTZDa/++MprSuV3BJ8XO0q19IWARVRWRZbWDx/Hi6DZpnSD9gjqXZ+
- kpnilG9KppwnAOXwuE93TPypfVJRlWrs4FcN7HSXadxVUTrvW4JCBE25BVgzzp/zMdAFQdtjIi9
- vWX4jFReWhAJmSwvjDHMwaWC08CX03MaJ4ANLZ8eXcctavIT4O/mk1go/TaBeUS3b0Ku+d6Fxy4
- 057eYlCMCLwKu7Athi8RqiRYNVTiX1II+9ipE6RGgqFdVlvlmDmgQZhcFFFy4yDGrEeyHpyoWBl
- Ss4PmzxIqqve3K4jHz/4I5UHI5CbXZcV5ITOQB7xE7e6KVn3c6bLtL9F1U9YbryvWM09pxdspMG
- zAZNLhK5Djh6UkYK6NhLZBkWj3dE432ss99d1KxKPsTf7D2LqUp6vvoAyg2R4tREHAJkEj1khoY
- DTH7rP/357LoMvta+WR1/vts16R/Yab3R/vx+vB/DoCbbf1w53B6BKWCoSU/MDbLP8GuQ2UvcQW
- zQZMEXmB+UsGdKg==
-X-Developer-Key: i=abel.vesa@oss.qualcomm.com; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
-X-Proofpoint-ORIG-GUID: -XKChhOYUvw5oTjZL7VjpCy7WJrLeyWF
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA1OCBTYWx0ZWRfX6lpN4WVJ302z
- BWJNbUH4tOBUGYrXEoOL8HuGudhonwU4vYlhTtoyt8IxORIWF7mPsoB/XzwNwoJbwHcGPnYWOpe
- CRlO3HBvvJRSiytTWVVPcwnKoqRBuwg=
-X-Authority-Analysis: v=2.4 cv=ZbyIpcVA c=1 sm=1 tr=0 ts=6ae8a267 cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=asF+/XNaGoxFafzDDLC1GQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=YW8Bwjmn6SJj6jUQKWgA:9 a=QEXdDO2ut3YA:10
- a=gYDTvv6II1OnSo0itH1n:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA1OCBTYWx0ZWRfXwY54MYN4OLUH
- ZIvrnhgW09CiCewqJarDFH9bbhQWXhxAf2QzasZX/TKLQHz5tj+aXIo9s55ySX8ZryvEaA1t7F0
- y2Ne63MtAtXfo6CHVblltfBz6auf64iFJFBEW+ZeHBcv2OTbmCWKQPy2CgvRi0fdMVk/ZiugoXf
- AsaYaYCcEiTjwbMqSzkWBhqvsdWB2uGD/ypR8xRxI99+QyC9/0iqM5TsYW6kvFTHTU04MU3GMCl
- WPjc3sPo11u7SfZu+lzufMhCnfwxWD6A8G/d7//b/2UxgQmJUirAXRu4sqVWeg6NhMgb9h8JGvc
- AacOmho7/b7nhOSh7hvrFqut8ru5Bu/OgiRKi4gLUBWrukT5KDVxsLZaReHfF/dkCwSmmcWmlcY
- 9USnd8vFL3DjA/6gKPycc3vHC4kZR2uCR2QGxQE29EigplbG9PaMQnR4Vpaex1lYKEKwQBdjfQw
- 6dg3+gxf9/XJC8HV3bQ==
-X-Proofpoint-GUID: -XKChhOYUvw5oTjZL7VjpCy7WJrLeyWF
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261101192203.6979-2-ynorov@nvidia.com>
+ <388636ac-4521-4523-bb5b-b6bc71591ff6@linux.ibm.com>
+ <20261102110026.GG1813469@noisy.programming.kicks-ass.net>
+ <9273846b-d815-4c40-a7a0-960281515878@linux.ibm.com>
+ <66ccd713-5571-4c1a-b59e-29adbc9852e3@linux.ibm.com>
+ <efe1657f-b1c6-4096-8868-fb53097b1847@linux.ibm.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <efe1657f-b1c6-4096-8868-fb53097b1847@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: PzNuqnxmDt3U3OnuissA86E_7jlTI0If
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA1OCBTYWx0ZWRfX30gNluf5CQQz
+ hZtmUO7R4IShO4BYiSo022aBIRYNlCYNPjVfM4rVT0T4tirSYhtHVD8ePGEVq9hL/gWmpS2OWEd
+ 70Vw6kwDQsdqdyEw1CskcPahIjQZub4=
+X-Authority-Analysis: v=2.4 cv=LokHWXdc c=1 sm=1 tr=0 ts=6ae8a4da cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=Ikd4Dj_1AAAA:8 a=A7k3Bbt6i4iCUiqUcE0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA1OCBTYWx0ZWRfX+9/9RTYe20PF
+ 2yCgsN1aUtH8aiC3piyOnOYf00O7RtY7QeRF9jj2TR5Nu4Wpq51A1ER0rM5NmmTBqVzlIPMnSOB
+ L33N50L3BBl9WyvAoB9XsCwqdaLYc+6yDGYmn7gq5eC+21IBoufhmc9hjEWqyIC7X57TMaWCM6x
+ h0B2LXw5dGekaWDuhy4e7EPXbPDHTbAq5esqbedxO2idFVR45ARLdNCsmTKYVHsCa6eJIChKyiX
+ fAXPBm0xmchdUJPTPrmnSjtzCsrq7qWhKxryKmBb5obS8rZ/aat+Bqm4sFN8N+mIWDy6v9eAMtD
+ JmJxIXcuVVgsoA0tlc1e5MQt/5vncDlsdVMLXJ+hPjRa4OnfI69LeqDTd/eUtbZvCoulqJrNVPu
+ YNBSg5Wz9bciLueWM8D8EOty7etl4kmam844Hhv5NrGroALfs9uW+7ZWMdG3wqrWJNq7jsS8d8g
+ LRYRPFIeuVA3sbIbdxQ==
+X-Proofpoint-GUID: gXAq9qwuCryGKVFaKbIYnWPiOrAOJPJ1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-02_04,2026-11-02_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ spamscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
  definitions=main-2611020058
 
-Freezing devices to take a hibernation image and quiescing them before
-jumping into one go through the regular noirq suspend path, which arms
-the wakeup IRQs of all devices that may wake up the system. A wakeup
-IRQ firing then aborts the hibernation or the restore:
 
-  PM: Triggering wakeup from IRQ 180
-  Wakeup pending. Abort CPU freeze
-  PM: hibernation: Failed to load image, recovering.
 
-On a Qualcomm Glymur CRD this happens on every hibernation and every
-restore. The WWAN modem keeps asserting WAKE# once its root port goes
-down, after its driver has shut it down for the freeze, and the WAKE#
-GPIO of a PCIe port is a dedicated wakeup IRQ with wakeup enabled by
-default.
+On 11/2/26 7:11 PM, Ilya Leoshkevich wrote:
+> 
+> 
+> On 11/2/26 14:00, Shrikanth Hegde wrote:
+>> Hi.
+>>
+>>
+>> On 11/2/26 5:04 PM, Ilya Leoshkevich wrote:
+>>>
+>>>
+>>> On 11/2/26 12:00, Peter Zijlstra wrote:
+>>>> On Mon, Nov 02, 2026 at 11:16:30AM +0100, Ilya Leoshkevich wrote:
+>>>>>
+>>>>>
+>>>>> On 11/1/26 20:21, Yury Norov wrote:
+>>>>>> The IBM s390 doesn't enable PARAVIRT config for their hardware
+>>>>>> virtualized Logical Partitions (LPAR). However, the steal time is
+>>>>>> accounted for the LPARs, once the config VIRT_CPU_ACCOUNTING_NATIVE
+>>>>>> is enabled.
+>>>>>>
+>>>>>> Preferred cpumask doesn't rely on any feature gated by PARAVIRT config,
+>>>>>> and requires it to minimize the configuration space and runtime overhead,
+>>>>>> with the lack of non-paravirt user. Now that s390 wants to adopt preferred
+>>>>>> cpumask, there's no reason to keep it coupled to paravirt.
+>>>>>>
+>>>>>> Make PREFERRED_CPU a user-configurable option, even if paravirtualization
+>>>>>> is not enabled, and drop PARAVIRT dependency on the steal governor.
+>>>>>>
+>>>>>> Keep the default module selection conditional on PARAVIRT so other SMP
+>>>>>> configurations can opt in without enabling the governor by default.
+>>>>>>
+>>>>>> Link: https://lore.kernel.org/all/4605dad5-aab2-49e3-b919- bf9897181834@linux.ibm.com/
+>>>>>> CC: Mete Durlu <meted@linux.ibm.com>
+>>>>>> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+>>>>>> ---
+>>>>>> Can be applied independently from the rest of the series.
+>>>>>>
+>>>>>>    drivers/virt/Kconfig   |  8 ++++++--
+>>>>>>    kernel/Kconfig.preempt | 12 ++++++++++--
+>>>>>>    2 files changed, 16 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> This is really useful to us, since even though s390 is nominally
+>>>>> paravirtualized, it does not technically benefit from defining
+>>>>> CONFIG_PARAVIRT.
+>>>>
+>>>> And therefore removing PARAVIRT is the only possible solution?
+>>>>
+>>>>> Specifically, steal time accounting happens by
+>>>>> computing a difference between wall time and CPU time, and not by
+>>>>> explicitly querying the hypervisor.
+>>>>
+>>>> Nobody explicitly asks the hypervisor, that would be horrendously slow.
+>>>>
+>>>> Something trivial like this should do.
+>>>>
+>>>> ---
+>>>>   arch/Kconfig                           | 9 +++++++++
+>>>>   arch/powerpc/platforms/pseries/Kconfig | 1 +
+>>>>   arch/s390/Kconfig                      | 1 +
+>>>>   drivers/virt/Kconfig                   | 2 +-
+>>>>   4 files changed, 12 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/arch/Kconfig b/arch/Kconfig
+>>>> index 1163736de1f9..8980054beb52 100644
+>>>> --- a/arch/Kconfig
+>>>> +++ b/arch/Kconfig
+>>>> @@ -1080,6 +1080,15 @@ config HAVE_IRQ_TIME_ACCOUNTING
+>>>>   config HAVE_PV_STEAL_CLOCK_GEN
+>>>>       bool
+>>>> +#
+>>>> +#  Archs that can account CPUTIME_STEAL; normal route is through PARAVIRT which
+>>>> +#  selects HAVE_PV_STEAL_CLOCK_GEN. Directly selected by s390 and PPC-LPAR
+>>>> +#  which have their own thing and don't go through generic cputime accounting.
+>>>> +#
+>>>> +config HAVE_CPUTIME_STEAL
+>>>> +    bool
+>>>> +    default y if HAVE_PV_STEAL_CLOCK_GEN
+>>>> +
+>>
+>> Can't PARAVIRT_TIME_ACCOUNTING be the kconfig we can rely upon.
+>> s390 can add it to the config (similar to HAVE_CPUTIME_STEAL)?
+>>
+>> I guess it is selected currently where the steal time reporting happens.
+> 
+> Looking at update_rq_clock_task(), s390 would still need to provide a
+> pointless dummy paravirt_steal_clock() implementation in this case.
+> 
+> [...]
 
-Neither transition is one the system can be woken up from, as nothing
-goes to sleep, and Documentation/driver-api/pm/devices.rst already says
-that in the freeze_late and freeze_noirq phases a device "should not be
-allowed to generate wakeup events". Do not arm the wakeup IRQs for
-them, and only disarm them in the noirq resume path if they have been
-armed. Wakeup IRQs are still armed for the final transition to sleep,
-PM_EVENT_HIBERNATE, and for suspend.
-
-Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
----
- drivers/base/power/main.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index 16a1f017051e..34ba0e5941a3 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -949,6 +949,9 @@ static void dpm_noirq_resume_devices(pm_message_t state)
- 	trace_suspend_resume(TPS("dpm_resume_noirq"), state.event, false);
- }
- 
-+/* Whether dpm_suspend_noirq() has armed the wakeup IRQs of devices */
-+static bool dpm_wake_irqs_armed;
-+
- /**
-  * dpm_resume_noirq - Execute "noirq resume" callbacks for all devices.
-  * @state: PM transition of the system being carried out.
-@@ -961,7 +964,11 @@ void dpm_resume_noirq(pm_message_t state)
- 	dpm_noirq_resume_devices(state);
- 
- 	resume_device_irqs();
--	device_wakeup_disarm_wake_irqs();
-+
-+	if (dpm_wake_irqs_armed) {
-+		device_wakeup_disarm_wake_irqs();
-+		dpm_wake_irqs_armed = false;
-+	}
- }
- 
- static void async_resume_early(void *data, async_cookie_t cookie);
-@@ -1685,7 +1692,17 @@ int dpm_suspend_noirq(pm_message_t state)
- {
- 	int ret;
- 
--	device_wakeup_arm_wake_irqs();
-+	/*
-+	 * Freezing devices to take a hibernation image, and quiescing them
-+	 * before jumping into one, are not transitions the system can be woken
-+	 * up from, as nothing goes to sleep. A wakeup IRQ of a device that
-+	 * signals for attention once its link goes down, like a PCIe endpoint
-+	 * asserting WAKE#, would only abort the hibernation or the restore.
-+	 */
-+	if (state.event != PM_EVENT_FREEZE && state.event != PM_EVENT_QUIESCE) {
-+		device_wakeup_arm_wake_irqs();
-+		dpm_wake_irqs_armed = true;
-+	}
- 	suspend_device_irqs();
- 
- 	ret = dpm_noirq_suspend_devices(state);
-
--- 
-2.54.0
-
+Ah. Peter's change seems fine to me.
