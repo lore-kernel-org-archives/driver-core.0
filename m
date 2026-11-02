@@ -1,97 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793641560;
-	b=2YZhpJ3gpWsQKhH/QOGmJIuORPc2Pkf5TnEKb9Y+6IbKjZX2slXi+W77hUDUNcM4Pvof
-	 H0Ajz+dmIVcIn2Rrwhji6OzvFIAOsar/5L+F5zfH7YsuFKWQGskQzvb/YEp/dkzgx8Rvg
-	 8E/LHCQCJGCne/iSak9sQp1fu0HqQ3Nh4UMwfSXGNomrI9yTtKyDvvfDkiHugXPZv2hH7
-	 XqmcK03Sv3qAK68AMXkrLkUXdQ5Is4vkA5snIsOErm4PHqne0Q3PiYEYsXbf0VjXa3Df7
-	 7G1ebUTnFME6NLYPNeBP1HFig9UgGTGCiqcQaxzS3xuxLAf1P/WDiI/E10ioA9zAOvQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793641560;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=TyrupP9HlfXQmjG2GxRqzTa9XeQTSyEAkYuFINjOMic=;
-	b=EX5tQF6J+O4+tWWhge8gC9NcsqJMWZbke935wk6IXrLG6NtPa9t4ImG7m+wJonIRT9Sz
-	 24F1k02LJQE/ejpZdecduOJWvF3JV0a2mG3k5QW8WIqdtCGdDerggKQU5gNXl0BHMGjso
-	 L27a40GhcjWdsUXN26iMq1arYK90TuKJ4X+xp0uLgly37J251e31h15ShcujzW7M+dVg1
-	 spDmYfbnyytFshd2a67NNVe9J/3557iF9c69ZgZaNzhBucgIRNXuB1W3lQ029Y5TK7sAk
-	 OoXPFC3U7Zl4lnXvwQnnB/59h3bycOF9ZayOhaVgnEohrkfO28bpw88nfR/yDC6m7yg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WaQvC6z4;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793642568;
+	b=tGiVX5OT6XX9Ss76yxoxDpVgyWEKxUOs8HZDJxO+bqv5jPs+UjmCOV0webkRpIc+/9yx
+	 JXwI3cSab54YF4h1edeAH74aRx9pyYMGO5AL1ECU8VgD561M0SMEEYEexpf0IJZwONlsR
+	 do3vBcu0Bb0B39bz+Bj2+tlBVPXLDoTytgx3J5cCYjVJxHhF+Q003ErgbLAf6FJdJbLsR
+	 Vsf5eujSpT08HpQdc0eILl7j9vcoigQNfjgFVC7rMPzO/1eYj6EEYQzQy4gJyZ9zNwJZm
+	 KYCiIHACnKcWnNJOFncUlDDxQe+d45uT/2ffGOFzkartAsOPafdilUswvA8be3LPePw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793642568;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=PIg74deYMNeH2uyI22W0tkLBfg6WDMIMX19eNqa4i5A=;
+	b=gBK256bbX7Xuq/5EYbqTzuR/xmWGu8BFHffp2hdW26U/4i3bJ7F+sb5zJlWmfwuOORSh
+	 P/oLf5KsymfiXpLMTN/pgh+oacyBBByedNO7txT5AQz0H6lylX/R6VGNtaeUDVPz541tW
+	 2GausP0F4lfRHMvjbR89qENyCmCYD9sSSTcLEfWrb9VOHjW8xEA3eusyOilW3dDJfr0UB
+	 WOx7ytGwUKGestTq4Aw0tQIJ7lx0RxSxuPUHTXfo20XfLI88SI+k6RrsVaQhPDMIqoLV4
+	 hhLHQOghIXwjD5FmRIMlZ1dPq0mpQdQFNwf9i384qJcn/+MRZZhDCkt0dNoJIRGBZPg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=pengutronix.de;
+	spf=pass smtp.mailfrom=pengutronix.de;
+	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=gkcj3PQJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD7A607465F
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 17:45:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BD7A607465F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8648D606A929
+	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 18:02:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8648D606A929
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WaQvC6z4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793641559; x=1825177559;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uD19Fb5fdpt/7jRuUUbcNI5DvCbhjKMzTNkgHXyTE6c=;
-  b=WaQvC6z4FauonGDwhpFAa1hfO98oRSCMclYVUkX4htL7IxtgJajQm+2y
-   2i32r8TfFQoiDj59xav6Lk+oZaGdzJ+8h7rtns/40mWxIsHC4EGx/SEqc
-   VqrpX4ghPhEdPw7CmJVOx9IekSdA+7JjyM14RgOj8yntLKrHbCwEgrjoO
-   0xiBeOxW0KjWIf5bEehS/jIFYO98g0MyHn+pOGU24QMDOx2zDR4yGwF2l
-   NG25G4kG8O4axtJ+bhgRkTA4b5QPl7+u693iV72A5mgfKRDk7dzFZgAVY
-   +Mn3XJMZocn6AyA+77iQi8aZSfxKVCgVxQEqB1iCHE0WMA+BsMDtk+AcS
-   w==;
-X-CSE-ConnectionGUID: 8h5fSLjjROa2yhPJpfAJjg==
-X-CSE-MsgGUID: 51BoBcUgTk6T2GRxbMPwLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2375576"
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2375576"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 09:45:59 -0800
-X-CSE-ConnectionGUID: hzN+wRsuQ6+Zf5DjyDJwTg==
-X-CSE-MsgGUID: wfp7iaEFQUa/aOEfGKH1AA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6570948"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 09:45:58 -0800
-Date: Mon, 2 Nov 2026 09:45:56 -0800
-From: Andi Kleen <ak@linux.intel.com>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 3/6] perf/x86/intel/pt: Stop tracing at syscore shutdown
-Message-ID: <aujMVC0_8purXK5k@tassilo>
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
- <20261102074039.26983-4-adrian.hunter@intel.com>
- <aui3L0ppW-cBBo1W@tassilo>
- <a2108322-0c88-48e0-a10f-77ae2556bcae@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=gkcj3PQJ
+Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
+	(Authenticated sender: pza@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 84C7B2008BB;
+	Mon, 02 Nov 2026 19:02:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1793642560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIg74deYMNeH2uyI22W0tkLBfg6WDMIMX19eNqa4i5A=;
+	b=gkcj3PQJmUFSDjWPyRU6MKkp+4/UtcNQBbAlGfO38HvSZnbbmrzTzBFyQaSla6OlRLwOm2
+	VuI/plDsWKmUdTBPlkBLMyr9YG6WJh/8mlYZmct91flXAtfQwDCJI1yrYkwdNhCO34khu9
+	4mvn0xNxOGFzqi9wvUgfGRrtvrpnU/780Qj6r8Io4HiiLKentc7C8rz70x1Eg/GHDbBdNK
+	boqbrTnbzFK9YWxzqvsdl+Kyf7VnhGBmkDvEWau98bEMw7JR5sy53DafnlB+Hh2e9SqwEI
+	XpAmNc66lnaWNCyABpdsiHiKklAvYAGr5yvwTaDt57cp5H4BM9/IWpBuFs8Waw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1793642560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PIg74deYMNeH2uyI22W0tkLBfg6WDMIMX19eNqa4i5A=;
+	b=YT5Die8iwYVlB5Q1w6cE4y7Mb9K4z5FPOZ2mAizEoMoYtPAVPR8hKZiTTaQam6Sh5f0mN1
+	NTqklNDCvOe7ULvX8scfoX07rD6O0kXQHC5AHnjVd2lgXjLx8YaR9SBvBujkAMbZyBoa3p
+	UnEuZ3ZMvwHBosRWhiYXjWrJrdaOc+ZzwXFT8S89W9c74Mj86woyKSxveWDA+qRxKWTZZp
+	kxhkiHWs99O5mk006yIW1YK4kGOjFPh6buBXmQzfy+JfJgmgaTe6hX3B7EGIQ6xqjqYq0G
+	NTjNjM0OKD1aE4NtgIACohBMMfhifZKwYFrH9HN+PEg7rv7SC9LDgUY35eHbAQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793642560; a=rsa-sha256;
+	cv=none;
+	b=JZXxzrhrY62vu3pm2TMwijJSkwzRyw4MoVvchvapzUkQVcKdgVliyxT84pNbE1+h9FTVib
+	dmqEAHOr+4m5YvOHovHK7KBecF4hQjSom8oGBBDidraPZOCcj2B/F1E3MUTr4e+zA4156Y
+	6CIdgRj2aOqlJ1utjeptojFf7qgmC8ofdWoiARs37wZncgljo2OPWoDRNfaSh4SS8ovOlK
+	B9FL5XEX/a38uhHrpEyTfLNYAaH5GLeIsaSNtnb45J4hqpv+b7RFm1KCNyf4Ea/8aKuMIm
+	GlzU8afa76lFXWH125cwFKwRmFu1ghAjjY/GQt+tTgSol+hU4fA90Y/cfobDFQ==
+Message-ID: <3abe1332fa65f8b901c5e7f66598c46764152f27.camel@pengutronix.de>
+Subject: Re: [PATCH v15 4/4] reset: Leverage revocable for accessing struct
+ reset_controller_dev
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Tzung-Bi Shih <tzungbi@kernel.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich
+	 <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Date: Mon, 02 Nov 2026 19:02:40 +0100
+In-Reply-To: <20261102161710.24076-5-tzungbi@kernel.org>
+References: <20261102161710.24076-1-tzungbi@kernel.org>
+	 <20261102161710.24076-5-tzungbi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -101,43 +100,345 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a2108322-0c88-48e0-a10f-77ae2556bcae@intel.com>
 
-On Mon, Nov 02, 2026 at 06:27:30PM +0200, Adrian Hunter wrote:
-> On 02/11/2026 18:15, Andi Kleen wrote:
-> >> +
-> >> +/*
-> >> + * Tracing must not continue into a kexec'ed kernel, which may reuse the
-> >> + * trace buffer memory, so stop tracing on all CPUs and prevent it from
-> >> + * being started again. Events are left in place, but record nothing more.
-> >> + */
-> >> +static void pt_syscore_shutdown(void *data)
-> >> +{
-> >> +	WRITE_ONCE(pt_shutdown, true);
-> >> +	on_each_cpu(pt_shutdown_cpu, NULL, 1);
-> > 
-> > I don't think adding more and more broadcast NMIs to the panic path 
-> > is a good idea. It's always a very big hammer and a risky operation
-> > that risks breaking the actual dump. panic reallhy needs to be
-> > simple and reliable, and this is the total opposite.
-> 
-> Is pt_syscore_shutdown() called on a panic path?  I can't find a way.
+On Di, 2026-11-03 at 00:17 +0800, Tzung-Bi Shih wrote:
+> Commit 78ebbff6d1a0 ("reset: handle removing supplier before consumers")
+> protected the `rcdev` pointer in `struct reset_control` with SRCU so
+> that the reset core can handle suppliers unbinding while consumers still
+> hold reset control handles.
+>=20
+> Because `struct reset_control` handles can outlive `rcdev`, each of the
+> N handles had to embed its own `srcu_struct` and call synchronize_srcu()
+> on release, and reset_controller_unregister() had to call
+> synchronize_srcu() N times in a loop.
+>=20
+> Leverage dynamic revocable to allocate a single reference-counted
+> `struct revocable` for `rcdev` shared across all N `struct reset_control`
+> handles (1-to-N).  This reduces N `srcu_struct` instances per controller
+> to 1, drops synchronize_srcu() from reset_control_put_internal(), and
+> replaces the N synchronize_srcu() calls on unregistration with a single
+> revocable_revoke().
+>=20
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+> Applied after https://lore.kernel.org/all/20261102155840.20376-1-tzungbi@=
+kernel.org
+> ---
+> Test:
+> $ ./tools/testing/kunit/kunit.py run \
+>         --kconfig_add CONFIG_RESET_CONTROLLER=3Dy \
+>         --kconfig_add CONFIG_RESET_KUNIT_TEST=3Dy \
+>         reset_test
+>=20
+> $ ./tools/testing/kunit/kunit.py run \
+>         --kconfig_add CONFIG_RESET_CONTROLLER=3Dy \
+>         --kconfig_add CONFIG_RESET_KUNIT_TEST=3Dy \
+>         --kconfig_add CONFIG_PROVE_LOCKING=3Dy \
+>         --kconfig_add CONFIG_DEBUG_KERNEL=3Dy \
+>         --kconfig_add CONFIG_KASAN=3Dy \
+>         --arch=3Dx86_64 \
+>         --raw_output=3Dall \
+>         reset_test
+> ---
+> v15:
+> - Rename:
+>   - "rev" -> "revocable" in struct reset_controller_dev.
+>   - "rev" -> "rcdev_revocable" in struct reset_control.
+>=20
+> v14: https://lore.kernel.org/all/20261011121246.162759-6-tzungbi@kernel.o=
+rg
+> - New to the series.
+> ---
+>  drivers/reset/core.c             | 125 ++++++++++---------------------
+>  include/linux/reset-controller.h |   3 +
+>  2 files changed, 42 insertions(+), 86 deletions(-)
+>=20
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index a36a4d6ff445..c699e7550cf5 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -24,8 +24,8 @@
+>  #include <linux/property.h>
+>  #include <linux/reset.h>
+>  #include <linux/reset-controller.h>
+> +#include <linux/revocable.h>
+>  #include <linux/slab.h>
+> -#include <linux/srcu.h>
+> =20
+>  static DEFINE_MUTEX(reset_list_mutex);
+>  static LIST_HEAD(reset_controller_list);
+> @@ -37,9 +37,7 @@ static DEFINE_IDA(reset_gpio_ida);
+> =20
+>  /**
+>   * struct reset_control - a reset control
+> - * @rcdev: a pointer to the reset controller device
+> - *         this reset control belongs to
+> - * @srcu: protects the rcdev pointer from removal during consumer access
+> + * @rcdev_revocable: revocable handle for accessing the reset controller=
+ device
+>   * @list: list entry for the rcdev's reset controller list
+>   * @id: ID of the reset controller in the reset
+>   *      controller device
+> @@ -54,8 +52,7 @@ static DEFINE_IDA(reset_gpio_ida);
+>   * @lock: serializes the internals of reset_control_acquire()
+>   */
+>  struct reset_control {
+> -	struct reset_controller_dev __rcu *rcdev;
+> -	struct srcu_struct srcu;
+> +	struct revocable *rcdev_revocable;
+>  	struct list_head list;
+>  	unsigned int id;
+>  	struct kref refcnt;
+> @@ -141,6 +138,10 @@ int reset_controller_register(struct reset_controlle=
+r_dev *rcdev)
+>  			return -EINVAL;
+>  	}
+> =20
+> +	rcdev->revocable =3D revocable_alloc(rcdev);
+> +	if (!rcdev->revocable)
+> +		return -ENOMEM;
+> +
+>  	if (rcdev->of_xlate)
+>  		rcdev->fwnode_reset_n_cells =3D rcdev->of_reset_n_cells;
+> =20
+> @@ -160,14 +161,20 @@ int reset_controller_register(struct reset_controll=
+er_dev *rcdev)
+>  }
+>  EXPORT_SYMBOL_GPL(reset_controller_register);
+> =20
+> -static void reset_control_put_internal(struct reset_control *rstc);
+> -
 
-It's called from kexec which can be called from panic.
+See what I said about the fix series that just introduced this.
 
-> 
-> > 
-> > KVM already does one at least (which I never liked either). At a
-> > minimum please find a way to consolidate those into a single
-> > one (as in have a notifier chain that is called on the target CPU).
-> > 
-> > But better would be to not do this and find some other way.
-> > 
-> > How about just passing the PT region as reserved and maybe free
-> > it later after the target kernel had a chance to reinitialize all CPUs?
-> 
-> Intel PT has cpu_emergency_stop_pt().
+>  static void reset_controller_remove(struct reset_controller_dev *rcdev,
+>  				    struct reset_control *rstc)
+>  {
+>  	lockdep_assert_held(&rcdev->lock);
+> =20
+> -	list_del(&rstc->list);
+> +	/*
+> +	 * reset_control_put_internal() may observe a non-NULL rcdev before
+> +	 * revocable_revoke() runs, and then wait on rcdev->lock while
+> +	 * reset_controller_unregister() already detaches rstc.
+> +	 */
+> +	if (list_empty(&rstc->list))
+> +		return;
+> +	list_del_init(&rstc->list);
+> +
 
-?
+See also what I said about the fix series. If this were split into
+list_del() and module_put()/put/device() parts already, this wouldn't
+be necessary.
+
+>  	module_put(rcdev->owner);
+>  	put_device(rcdev->dev);
+>  }
+> @@ -179,38 +186,22 @@ static void reset_controller_remove(struct reset_co=
+ntroller_dev *rcdev,
+>  void reset_controller_unregister(struct reset_controller_dev *rcdev)
+>  {
+>  	struct reset_control *rstc, *pos;
+> -	LIST_HEAD(reset_control_head);
+> =20
+>  	scoped_guard(mutex, &reset_list_mutex)
+>  		list_del(&rcdev->list);
+> =20
+>  	scoped_guard(mutex, &rcdev->lock) {
+> -		/*
+> -		 * Numb but don't free the remaining reset control handles that are
+> -		 * still held by consumers.
+> -		 *
+> -		 * Hold a temporary reference on rstc before clearing rstc->rcdev:
+> -		 * once rstc->rcdev is NULL, a concurrent reset_control_put_internal()
+> -		 * will not acquire rcdev->lock and could otherwise free rstc.
+> -		 */
+> -		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list) =
+{
+> -			kref_get(&rstc->refcnt);
+> -			rcu_assign_pointer(rstc->rcdev, NULL);
+> +		list_for_each_entry_safe(rstc, pos, &rcdev->reset_control_head, list)
+>  			reset_controller_remove(rcdev, rstc);
+> -			list_add(&rstc->list, &reset_control_head);
+> -		}
+>  	}
+> =20
+>  	/*
+> -	 * Run synchronize_srcu() outside rcdev->lock to avoid a circular
+> +	 * Run revocable_revoke() outside rcdev->lock to avoid a circular
+>  	 * locking dependency with paths that acquire rcdev->lock inside
+> -	 * the rstc->srcu read-side critical section.
+> +	 * the revocable read-side critical section.
+>  	 */
+> -	list_for_each_entry_safe(rstc, pos, &reset_control_head, list) {
+> -		list_del(&rstc->list);
+> -		synchronize_srcu(&rstc->srcu);
+> -		reset_control_put_internal(rstc);
+> -	}
+> +	revocable_revoke(rcdev->revocable);
+> +	revocable_put(rcdev->revocable);
+> =20
+>  	mutex_destroy(&rcdev->lock);
+>  }
+> @@ -401,11 +392,7 @@ int reset_control_reset(struct reset_control *rstc)
+>  	if (reset_control_is_array(rstc))
+>  		return reset_control_array_reset(rstc_to_array(rstc));
+> =20
+> -	guard(srcu)(&rstc->srcu);
+> -
+> -	rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -	if (!rcdev)
+> -		return -ENODEV;
+> +	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
+> =20
+>  	if (!rcdev->ops->reset)
+>  		return -ENOTSUPP;
+> @@ -522,11 +509,7 @@ int reset_control_assert(struct reset_control *rstc)
+>  	if (reset_control_is_array(rstc))
+>  		return reset_control_array_assert(rstc_to_array(rstc));
+> =20
+> -	guard(srcu)(&rstc->srcu);
+> -
+> -	rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -	if (!rcdev)
+> -		return -ENODEV;
+> +	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
+> =20
+>  	if (rstc->shared) {
+>  		if (WARN_ON(atomic_read(&rstc->triggered_count) !=3D 0))
+> @@ -618,11 +601,7 @@ int reset_control_deassert(struct reset_control *rst=
+c)
+>  	if (reset_control_is_array(rstc))
+>  		return reset_control_array_deassert(rstc_to_array(rstc));
+> =20
+> -	guard(srcu)(&rstc->srcu);
+> -
+> -	rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -	if (!rcdev)
+> -		return -ENODEV;
+> +	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
+> =20
+>  	if (rstc->shared) {
+>  		if (WARN_ON(atomic_read(&rstc->triggered_count) !=3D 0))
+> @@ -698,11 +677,7 @@ int reset_control_status(struct reset_control *rstc)
+>  	if (WARN_ON(IS_ERR(rstc)) || reset_control_is_array(rstc))
+>  		return -EINVAL;
+> =20
+> -	guard(srcu)(&rstc->srcu);
+> -
+> -	rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -	if (!rcdev)
+> -		return -ENODEV;
+> +	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
+> =20
+>  	if (rcdev->ops->status)
+>  		return rcdev->ops->status(rcdev, rstc->id);
+> @@ -750,11 +725,7 @@ int reset_control_acquire(struct reset_control *rstc=
+)
+>  	if (rstc->acquired)
+>  		return 0;
+> =20
+> -	guard(srcu)(&rstc->srcu);
+> -
+> -	rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -	if (!rcdev)
+> -		return -ENODEV;
+> +	revocable_try_access_or_return(rstc->rcdev_revocable, rcdev);
+> =20
+>  	scoped_guard(mutex, &rcdev->lock) {
+>  		list_for_each_entry(rc, &rcdev->reset_control_head, list) {
+> @@ -850,7 +821,6 @@ __reset_control_get_internal(struct reset_controller_=
+dev *rcdev,
+>  	bool shared =3D flags & RESET_CONTROL_FLAGS_BIT_SHARED;
+>  	bool acquired =3D flags & RESET_CONTROL_FLAGS_BIT_ACQUIRED;
+>  	struct reset_control *rstc;
+> -	int ret;
+> =20
+>  	lockdep_assert_held(&rcdev->lock);
+> =20
+> @@ -881,19 +851,13 @@ __reset_control_get_internal(struct reset_controlle=
+r_dev *rcdev,
+>  	if (!rstc)
+>  		return ERR_PTR(-ENOMEM);
+> =20
+> -	ret =3D init_srcu_struct(&rstc->srcu);
+> -	if (ret) {
+> -		kfree(rstc);
+> -		return ERR_PTR(ret);
+> -	}
+> -
+>  	if (!try_module_get(rcdev->owner)) {
+> -		cleanup_srcu_struct(&rstc->srcu);
+>  		kfree(rstc);
+>  		return ERR_PTR(-ENODEV);
+>  	}
+> =20
+> -	rcu_assign_pointer(rstc->rcdev, rcdev);
+> +	revocable_get(rcdev->revocable);
+> +	rstc->rcdev_revocable =3D rcdev->revocable;
+>  	list_add(&rstc->list, &rcdev->reset_control_head);
+>  	rstc->id =3D index;
+>  	kref_init(&rstc->refcnt);
+> @@ -909,17 +873,9 @@ static void __reset_control_release(struct kref *kre=
+f)
+>  {
+>  	struct reset_control *rstc =3D container_of(kref, struct reset_control,
+>  						  refcnt);
+> -	struct reset_controller_dev *rcdev;
+> -
+> -	lockdep_assert_held(&rstc->srcu);
+> -
+> -	rcdev =3D rcu_replace_pointer(rstc->rcdev, NULL, true);
+> -	if (rcdev) {
+> -		lockdep_assert_held(&rcdev->lock);
+> -		reset_controller_remove(rcdev, rstc);
+> -	}
+> =20
+>  	mutex_destroy(&rstc->lock);
+> +	revocable_put(rstc->rcdev_revocable);
+
+I think now we can move the kfree(rstc) back in here?
+
+>  }
+> =20
+>  static void reset_control_put_internal(struct reset_control *rstc)
+> @@ -930,22 +886,19 @@ static void reset_control_put_internal(struct reset=
+_control *rstc)
+>  	if (IS_ERR_OR_NULL(rstc))
+>  		return;
+> =20
+> -	scoped_guard(srcu, &rstc->srcu) {
+> -		rcdev =3D srcu_dereference(rstc->rcdev, &rstc->srcu);
+> -		if (rcdev) {
+> -			guard(mutex)(&rcdev->lock);
+> -			ret =3D kref_put(&rstc->refcnt, __reset_control_release);
+> -		} else {
+> -			/* Already detached from rcdev. */
+> -			ret =3D kref_put(&rstc->refcnt, __reset_control_release);
+> -		}
+> +	revocable_try_access_with(rstc->rcdev_revocable, rcdev);
+> +	if (rcdev) {
+> +		guard(mutex)(&rcdev->lock);
+> +		ret =3D kref_put(&rstc->refcnt, __reset_control_release);
+> +		if (ret)
+> +			reset_controller_remove(rcdev, rstc);
+> +	} else {
+> +		/* Already detached from rcdev. */
+> +		ret =3D kref_put(&rstc->refcnt, __reset_control_release);
+
+If I am not mistaken, this is all that is actually needed from the
+reset_control_put_internal() call in reset_controller_unregister(),
+just call it directly.
+
+>  	}
+> =20
+> -	if (ret) {
+> -		synchronize_srcu(&rstc->srcu);
+> -		cleanup_srcu_struct(&rstc->srcu);
+> +	if (ret)
+>  		kfree(rstc);
+
+This could be moved back into __reset_control_release().
+
+regards
+Philipp
