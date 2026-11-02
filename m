@@ -1,103 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793608725;
-	b=rKkvgyx7vqvGrmjHCUAJk144dMR0FCz2VRqcAvIf89CWk1gcx6Baeg5ftnuFaeKLM1lm
-	 bje8EJtVPowpp9b/Me0eH97/BeRd1vScUOMVuaI2wUBeDOfHd3hEQg7r/XU43NWWrxTmw
-	 hrCtgmBxryYy2c11whqEl70qMM/Wcfd/eIPPBLHIjVdJhdNxuZEPb9gARRb9xBDPuPjcm
-	 sGPD7XqVsiDv68xA3LfzZXJ5BCTrtZKE/WdPtSHBobkxLLMzvtPtukvcYUwGcPxrbRFqB
-	 zjtlkkrif9Wby1HS6urYijGfJh2cvQExzYi9Lqe9DAdZvR5RsEtkX8LbMjBpkwnIibw==
+	t=1793609233;
+	b=bJ/x2JrKVpzdsoGmtcckKv6bKMitXDTlUbVG9l+t9d+jmV7fSiD4Gdw6fOnRkMrbpXK/
+	 ODraWyHF9qtOZiUvMt2giivn4xcobUhBSaWbHo5tTIGNcCrdK2pwXb8vn3rWNYLAEtkHW
+	 IjH/00rMq44c8rOBerg16dL2hqEeDO4HDnCpC3u2cw/p7+Cqt8K8vmHsX0v9p18uiHt2D
+	 o8J63TS9XWwsDNJUXoxr5gZKocsqNwOSDx3hq9HhsX2rfRsvTj0j6h77+UkIKRhT4ndMs
+	 Nwu/j/rI8Eg8tPR0PE8O26KZIPmQYlevRNqUAfi7WV/FXVeEnWX04sINTK1Kb5C4ThA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793608725;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ALAVVcLX8MYIjdcNV1urspiVK2AVDCX+KdL/tArgC58=;
-	b=EH3aqww/tYl8CTpFUTArnqOKAXr/9vIu3kHVE2JNRWPrsSzmFrKYm/kiz7pz6IFQf2YK
-	 GdY6G+sH+IW6wLHeMCdUgfZ1DVphLPbIbri/iCcx3DNoasjXpYkdB3RMEtdvSOdZv6AXX
-	 u8WFzEJ6lORa8aUcSQZ1rYSoKOyXGefhTHBjj/aRbKXPigj3nKh/R74rUYGtkQxRK4eRM
-	 Uv0NWu6Pf7qd9Pf9djTUqRDg3qLCWMQtKaG/V9b6cizQONSEhUrEFuQSuhacLt9L9oqCo
-	 FLn36om3GyxovFTi4TFQFQaGjad+ugAZs6EFMiHZIo/4UHuYDEdi1d+hMNjlhv4oVmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793609233;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=O6XkqYJ4LCtg+uTN40dEnOg33yY3/MM80Et9d1AnyoQ=;
+	b=xZKOE0XHA3zQ7wNd5iKl7A9//yFMQs8hK0D3/V7WWxnjmTrCYuThcIE07jzGPAyN+Qv+
+	 yviaxbp4aHHKilddXiOAvMTgGtk/zZtwScJggcs0HPomg9EG7fSJkGr8z4IsgpKaWdwHC
+	 +gbBrdTZYqmdZAXh+DT+i6mFrODAKEOtrYOi3ZzLeHqt1YGQxAY6Jefsn5/ofutKjNipk
+	 ulSZC6QqLUCHZpV3tyXzZQQRBNqlXlaJAQ9JElwdrUcl8LpP/c3ao06khTSO6VLkAQ2hv
+	 +k7uQXZ9AVQ/bK3vsiJ8eBG5czi/z+2PhflR3YFiPHGev4lwLvCygdqm/S2HGjDjcyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=NykM6X5r;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=J33ugY7P;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC24606A331
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 08:38:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BC24606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B622606A329;
+	Mon,  2 Nov 2026 08:47:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B622606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=NykM6X5r
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3550c917fd3so3776765eec.0
-        for <driver-core@lists.linux.dev>; Mon, 02 Nov 2026 00:38:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793608723; x=1794213523; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ALAVVcLX8MYIjdcNV1urspiVK2AVDCX+KdL/tArgC58=;
-        b=NykM6X5rsU2ULqrMfVx0miPUm8OuLMlSrQ9jHNWXPn9WvUgCpKYSm8fF/q16vPwkwA
-         kwrqd1SjPIWp5oX6CL1YAKbctzhRTcYKKdXwx4u6yhIUzYDRuGnbWH9TSXcyeVEQNUlZ
-         Yqi1rqnAEv6eG4+S/p+nNIlKitOBDiTOeZ6+CyczQtNH/RZGzh1p84u2LEnRtN19bsdE
-         +P9WA0rl4tetpMbmRJ2VhCQOpRq7RFF8RGqExJ6hCsVFpTGphjIMdNCChUKCkXIdplbH
-         t0NSZc+yVN0M2dIQyKjI0sWqByVPuL5xPLUbYlVuiBEkrQEmgtp/SP1J+q48VREuEZkH
-         5ORA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793608723; x=1794213523;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ALAVVcLX8MYIjdcNV1urspiVK2AVDCX+KdL/tArgC58=;
-        b=hQ4PS5yHIqrDtLlRXPIeiDOTqVCafkzhMwKmK0aAEzO0JiPGALjMZyMSkSjWW86Htu
-         l/rVMa1dFQFCAutrNpQBAhvBeBLsd9m2WRFTMCokn3pI93Lvx3bISX72DXQHN0PBGPQY
-         ooArn76ct3DZxSfFQp5fzlr1Ybd0tD5t7GvmHPRU8Zpo70o0dGMPLwKHJ/1kbU1USJev
-         eVudP3JhyyTLDN5QmO3njZlYWK/Kq1v0kgeyStPCbyGEKOEN7SCk9DzuBosKacEYTzXx
-         yqpoj4Ee0aUjpHseuM1QaH7Ne2Wqs9xXvRNlyn8j+FBird+ZBz4P0zVZBQBB/KMn2DIF
-         27Jw==
-X-Forwarded-Encrypted: i=1; AKwUvBx3CcQKB6f+W3iCZIdwktYY2oo6cA0Kr1TkyLv6SuP3TADTW+LCF2wzznGdxB+/HJFCVkbjup3qhn+Vew==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/eQl0wwT8u7sdM+mm6iLNqsx75E1lbplfFZzjYpIl8IqKdIOw1
-	K1lhBjnQ9e0+jdvxkuxz9E6qmBlKIUS83LGYykyff+KgQYPCwp4vOpZtXtBKMK9ry2A=
-X-Gm-Gg: AYBFou3efaVpddsRzqWcuzTgIUKq+KzMJPn4tTZg+xHbXWyobQF1xP5IJ1mipG9RFQL
-	nW5o/lsEBj2x84UGYlk6yrBLl9aneccp9R1WhgrnSKt5Ft/VTkThbFvRylvJ5pqlfvFE6HRxmcg
-	5p/OW8KaF84Vyb3QLMyRP/n9LVMlEkuc/jK4Rrcnvh2/B/0u9HIkeWTTXkVyxP/qnt3A98PCswu
-	GhonZjMZyeU8/7Z0pbt2/6zJqtE7i+XoH0tfidXoBbC6+LaQBCHEKn+zwfFJSOwwbKbqmzbtWEZ
-	8qCSBgUQvqIFnci4tGduOngJbtqMSMIyW7xRMuV0iHBtuhjHR0SOJAkIKQ8myxh13s9cfrL0WqR
-	YazpRaXu7hOGA5g2N9bCCh4Khdn8G6bMZXVOsGvyZoVfVh7QzsIAjHAv3yErNeok+uVYJ8Q2AVU
-	JfTbEQgRRKcBI0Dff2BvOms3lDliUJX6FJbZcD6F0NJfEww8Y9nsD0OFuL5pqjAg9d2kd7+0CcO
-	KeVvlIcvT7qPqhv4RhBAyPi77oAVy4gtsmJvZ6KcQrpZrRGeyGNnu7PFR9s7YcqtXOcH6Q1BWxq
-	Na3kQw8wmx/CfrCxikQl7GEba+G08Mk=
-X-Received: by 2002:a05:7300:e9c5:10b0:367:3d68:8480 with SMTP id 5a478bee46e88-36a4206d82emr15498311eec.0.1793608722988;
-        Mon, 02 Nov 2026 00:38:42 -0800 (PST)
-Received: from localhost ([122.172.82.240])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42669128sm37714488eec.3.2026.11.02.00.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 00:38:42 -0800 (PST)
-Date: Mon, 2 Nov 2026 14:08:39 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=J33ugY7P
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=O6XkqYJ4LCtg+uTN40dEnOg33yY3/MM80Et9d1AnyoQ=; b=J33ugY7PgrW7DnzIWE9Xn7D5Jh
+	anvIDvyIleo64jYgJrJRfmEXWTJtvut4yTs3nlMiV0T/8WOcATAFr6Jac2ORjQjOY/VQgnFrd5voQ
+	+o/D/yg978HQ/N6QCiq6p1y9ZajKCnteMxYNCn5fRI3OKoT0QyghbeyIv3Z4R1RBJ6eQEkKqB8KRi
+	6Rg4mn51QJmE062vd/ufQhftAxLXW39yWSrOxhFt0kUp3whIxdR6DPw++1iim36iaeTKRhdX6WWGo
+	B8PoJ75tfXQ7Nq793Et3J5UP5gvTJ+UR/Z4CEcqnf8aZixxgvk1zgPSAYECCxl0TCK8ODQbaN2TMG
+	bhjfzeFg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xNnh4-00000001Yrx-0VPY;
+	Mon, 02 Nov 2026 08:47:06 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E0D62300312; Mon, 02 Nov 2026 09:47:04 +0100 (CET)
+Date: Mon, 2 Nov 2026 09:47:04 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jie Zhan <zhanjie9@hisilicon.com>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Oleg Keri <okerixx@gmail.com>
-Subject: Re: [PATCH v3 2/2] cpufreq: fix policy max not returning to
- non-boost freq on boost disable
-Message-ID: <auhMD2-5FD4BqImG@vireshk-B250M-D3H>
-References: <20260929-schedutil-boost-frequency-handling-v3-0-68de169498c7@oss.qualcomm.com>
- <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+Message-ID: <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -109,43 +92,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929-schedutil-boost-frequency-handling-v3-2-68de169498c7@oss.qualcomm.com>
+In-Reply-To: <20261101192203.6979-1-ynorov@nvidia.com>
 
-Hi,
+On Sun, Nov 01, 2026 at 02:21:56PM -0500, Yury Norov wrote:
+> The preferred CPU mask currently lets the steal governor reduce vCPU
+> demand when physical CPUs are contended. This series adds manual control,
+> opening more use cases.
 
-On 29-09-26, 17:08, Ananthu C V wrote:
-> Commit 538b0188da46 ("cpufreq: ACPI: Set cpuinfo.max_freq directly if
-> max boost is known") introduced a guard for cpuinfo max updates to only
-> increase, to preserve driver-set values above the freq table maximum.
-> Later commit db80ad776cd2 ("cpufreq: Remove driver default policy->min/max
-> init") dropped the 'policy->max = max_freq' assignment from
-> cpufreq_frequency_table_cpuinfo, leaving that one-way-guard to be the only
-> path for cpuinfo max and consequently policy max to be updated, causing
-> both values to be stuck at boost frequency even when boost is disabled.
+Sceptical, I am.
+
+> For example, setting CPUs aside for selected fair tasks at runtime while
+> steering other fair tasks toward the remaining CPUs.
+
+That's exactly the kind of nonsense we don't need and makes me want to
+stop reading right here.
+
+We already have cpusets that is more than capable of doing this.
+
+> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
+> whose affinity includes preferred CPUs are steered away, while tasks
+> whose allowed CPUs contain no preferred CPU can still run there. The CPU
+> stays online, task affinity is preserved, and the selection can be
+> reversed without rebooting:
 > 
-> Unconditionally track the highest non-boost frequency (max_base_freq)
-> in the freq table. If boost frequencies are available, use the highest
-> frequency from the table/max_base_freq instead of cpuinfo->max_freq to
-> control boost values, so the value can decrease again when boost is
-> disabled.
+>     # rmmod steal_governor
+>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+>     # taskset -c 3 ./my_workload
+>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+> 
+> The current preferred list is still readable from:
+> 
+>     /sys/devices/system/cpu/preferred
+> 
+> This provides task-placement isolation similar to a use of
+> isolcpus=domain, with a runtime interface. Scheduling domains remain
+> intact, tick suppression, RCU offloading, and managed-IRQ avoidance
+> can be configured separately when needed.
+> 
+> Different preferred cpumask governors may coexist; all update the
+> same mask under common locking. Manual settings are not privileged,
+> and later governor updates may override them.
 
-If this is a fix, it should be submitted separately so we can get this merged
-independently.
+That is a recipe for disaster.
 
-> Fixes: db80ad776cd2 ("cpufreq: Remove driver default policy->min/max init")
-
-I am not able to understand the current problem though. I see from the sequence
-of events mentioned in your cover-letter that scaling_max_freq doesn't return
-back, but why ?
-
-And does a simple revert of the above commit (just freq_table.c) fixes it ?
-
-> Signed-off-by: Ananthu C V <ananthu.cv@oss.qualcomm.com>
-> ---
->  drivers/cpufreq/cpufreq.c    | 16 +++++++++++++++-
->  drivers/cpufreq/freq_table.c |  9 ++++++++-
->  include/linux/cpufreq.h      |  3 +++
->  3 files changed, 26 insertions(+), 2 deletions(-)
-
--- 
-viresh
+Don't bother trying again, this isn't happening.
