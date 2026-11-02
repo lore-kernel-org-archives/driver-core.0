@@ -1,91 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793637581;
-	b=sM/GkgzvMO8TUDRhPpNFwvnrQzKO/lbi8zoSfPgUB1qP3c3gCYq6CqkEYdwH9KqaFJV/
-	 dgHXMbtnXaFkyFQvOKqQ95lA5NXxvRlDXPf+0tDsS37SNLdlc7MEQmNxcD6MxztBLsZUZ
-	 cIZRlSFcZX+PpGH/x5/VCCDTbEoPoabJw3T2ZvDYhCvlS11sgBLqJdfKes2QU+yCbcxxZ
-	 tlTy2fBC2aGeTLzh3tDEBSDuIa5jc3DToW2L8vcskVwFj/OHfe6bxvpu84h+3tF1TmMtS
-	 Hy6YFEfOBdP6y/U2p1NcK3Y0Cj4DkAM4IObrmvyG/kZ+uND3qBPTPIUICTXVQ1GXLSA==
+	t=1793638738;
+	b=Hs76i5WQ12kB9J82mmmxV9IzYCV+jx9i1yOCYrPOmHAw/YSOAsn5pRJmJNHjQbgpKPy1
+	 wOxnuF7fPqQQyunK87/0evSARMRHzvg3O9kfdM5gtbALGLpyCLjVFnucO4GGL276F+rKU
+	 t+fy8X2W220I1kneWwuNF0zKfzQVs108DokXVtxFRvmWZna57mhfDI8yxfIoLG57e1PpB
+	 V9ZPrBnSD5SHzruwvOQeFac6wfvCD8zuN504ABzR76klO/tGTfVJepXNVAmxqSUYP5gA+
+	 NX9bYAUl4OXrShWjZ1YGX7Pp12XYF8TZUHM6UVA/YCz6vi/mZUgVx7X7+yczCWdlTvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793637581;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=2gusUduchRqEonlGBJHA8gtRcetBORHth6y/vTsWQmk=;
-	b=1tMLvvK6TEUBYC8roYMAPYeRl4quxsOC0O/cWjLwO7U8ONWeVRuw7hGJnUeB8b/PEWAP
-	 iMgXuXkgLpPV9jFe5HegmXz8+KLKibc9IEkS8f/ZVCCHkpU9Gon1JpB40LYa8gtKf9Djq
-	 xkCoqmBb12nWLDrvP3pYwrML1djFSGZxk9xaykzUeOGmKU+sKjnzBlebxmipAGr7Od4+G
-	 sJE88jVQBTzPj9eTcP5PTkNasoEneoJ8ie7SpLi6FwdU+DEmSMhB1wdJWJgfL8b16whZy
-	 lhJV4r45uYskyMuqj+eV3VnHsfDdIIhKNse8mzprrxkNm2pXna/RZ0uzKCzVh/lrmpg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793638738;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=jvlnmkcKG0dJPEmZQtzeUz0YXTyf9zopZ1vDLA4pyAs=;
+	b=M9vejef3ZjBDuQEz2DqVQYg0iBdErLsdF+KvrjJEmhNWzr6NWAZZqCWBgckCQf6qslM7
+	 eMNBUjJLL9AI1Jtk7yLMEjiM1EFAuFFamjCoOsoDVok4hSoY52bq7uYE89cRHWaTCLT50
+	 HSZXVNHtnImU5xGxnhZwsp/1ymO76DMiB/Dyl7qIAtH4ngplACXnzuzRjFKg9vdbNynGE
+	 py9VMn/zYkMCGpYFLFiTb/eMGaKGAru+PE88i4ZcqmDsmR9q4gnjK07cyJkflAwlLgNgD
+	 M6wPajD+iALOc4vPrVmoE++bmbSQ6j7uKvqUXleBrBCvoCia65M8Lz0T05vjknKvJ6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="0s3/Q4F+";
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=hiNQYyDT;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=i6xRhUjn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2FC606B0F9
-	for <driver-core@lists.linux.dev>; Mon,  2 Nov 2026 16:39:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE2FC606B0F9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21749606EE9B;
+	Mon,  2 Nov 2026 16:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=0s3/Q4F+;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=hiNQYyDT
-Date: Mon, 2 Nov 2026 17:39:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793637578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2gusUduchRqEonlGBJHA8gtRcetBORHth6y/vTsWQmk=;
-	b=0s3/Q4F+bmgU8FT6zC8WHy3an8F4Zzml8l6oBU2Scq/CT750rvg0Ww/kxI0fPWWowHR9Ly
-	RRGLVL8oWbDb2diSzCkBBLI9lrtsOx+9ciw+PuwUWTB2F8+DAAaYEU0O68jRrH97umQPIT
-	7Vu616FBU5OXlb4RRf17B2w6av8b81kYVK3WE0P+pN5MGEhBUzH6npzhdFBLirmiTiunwB
-	az+GjST3TgtOTvzxmzLqM42oTBSPN0ceRjdHtrGI8IYHeAdBxw//J1Tx1nD59p93bi06fu
-	fAxrHaiCoC9trO44EcfH07f+/88DpoNIq5y4pR/HP8c/iYIw06/tAi4rIp/WjA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793637578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2gusUduchRqEonlGBJHA8gtRcetBORHth6y/vTsWQmk=;
-	b=hiNQYyDToDuZRNHlVtQt7Kiktw4q/8q0KHGxux+W9oQifa3h+sel7quIS30vyx0BdEHqf6
-	Jj2SUVxm6OlcCQBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	"Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Andi Kleen <ak@linux.intel.com>, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH 1/6] irq_work: Re-raise pending irq_work after system
- resume
-Message-ID: <20261102163937.KwllF-Pg@linutronix.de>
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
- <20261102074039.26983-2-adrian.hunter@intel.com>
- <20261102090604.GR1779021@noisy.programming.kicks-ass.net>
- <74511f6b-f5ff-498f-bf97-ebdc86c43d24@intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=i6xRhUjn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410A41F00A16;
+	Mon,  2 Nov 2026 16:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793638737;
+	bh=jvlnmkcKG0dJPEmZQtzeUz0YXTyf9zopZ1vDLA4pyAs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=i6xRhUjnYc3QKqs9KrGeV8OTdH425YsBd2O3bfLQHnzdQo3H5S/E2GJNfb93ob+eX
+	 vy9QtehYFvbfadBibiWzV9BL6iO5XaiprPbBFb6ODTbxSD9pxKCbitx98GliMu1g1X
+	 ufI0BgM2TndsSvo+JDgZR1MUUvVGn5bx48Qtaf8o=
+Date: Mon, 2 Nov 2026 17:31:14 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jack <jacktangsc@icloud.com>
+Cc: Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernfs: fix stale comment referencing old @sd
+Message-ID: <2026110207-everglade-stretch-4ef2@gregkh>
+References: <20261102155715.6633-1-jacktangsc@icloud.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -95,29 +53,20 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <74511f6b-f5ff-498f-bf97-ebdc86c43d24@intel.com>
+In-Reply-To: <20261102155715.6633-1-jacktangsc@icloud.com>
 
-On 2026-11-02 12:54:22 [+0200], Adrian Hunter wrote:
+On Mon, Nov 02, 2026 at 11:57:15PM +0800, Jack wrote:
+> The comment still refers to old @sd which was a sysfs_dirent.
+> Update it to @kn to match the current function argument.
 > 
-> Yes CPUs remain online for suspend2idle, but currently the choice between
-> suspend2idle and "deep" (S3) suspend is a user space choice,
-> refer /sys/power/mem_sleep.  Many modern systems do not support S3
-> anymore, but it has not gone away.
+> No functional change.
 > 
-> > 
-> > Anyway, I'm torn; I would much rather make this trigger a WARN and have
-> 
-> AI now also identifies ftrace, BPF, GHES NMI, and #MC as possible causes,
-> not just perf.  I haven't tried to confirm any of those.
-> 
-> And, belatedly, AI is now saying an irq_work raised before lapic_resume()
-> might result in #GP if the APIC is left in xAPIC mode at resume.  Also
-> not confirmed.
+> Signed-off-by: Jack <jacktangsc@icloud.com>
 
-Could we flush this before similarly to what happens during CPU-hotplug.
-The question is if this event can stay enqueued during suspend (and
-handled on resume) or should be taken care before entering suspend.
+Full name please.
 
-Sebastian
+thanks,
+
+greg k-h
