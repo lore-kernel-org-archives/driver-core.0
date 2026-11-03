@@ -1,107 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793721465;
-	b=Wsaxa5RCJ9qgwu/nFKNk7/m4w1PWpesYRD2Y0PGKgYfii49sGX+ygANgN2F/DavMc+cf
-	 Ct2Pahiv7dZ2oyPNtbiuUaNLpM8grMRvaEVA68As9LNu5Y9nSg6q/OGWdvaB7rKbGUJMI
-	 660tbUFkPvoxt+aj3SQ1oJFn1N7iwRlZgQDs6/1qgsE2FJBTyDdZ8p2sKVlCy85vwNGEF
-	 hIJs+QFlv+UBAhsPb1IOljxgO6Ta8EY1t/TUDIdZSHB1+77ZeDIjbszbyBMNYp1bN2ZV4
-	 078HgYy0zj/zO+bsK2+IG9EF7BnBwFtbvPI62Yl/CcAvXeSWZ1Q0nJgJwtjS/EF8KIA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793721465;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=9vOjCX6A8KlOv8+60INNSNfdhFOQHUnmR2fmD9y/9R4=;
-	b=O1FB1oAOl0a4Q2mBbdCs5Gyqgn8nGE4qcmNEMXMj+rGVllaLtUknMAAZWWRfq7vjDTNH
-	 WsNffxlg7LV4GRBltZJH90H6UXWmat+cnbXBLcj9qy5sWaAPegttYolztkN0cOOwg8hNQ
-	 R1yj9lQHa03DMjTCK6uXCOuueeS3FBz/DGe1005NE6+NOYQAceWEGbEIohh3haPHn21KY
-	 0V8GVdAzOy8LlwKhh87Hq3Zviatfm07yECK9QRhWaZTMaEnxf2lN84cquSfWDOAfwhUER
-	 Yyn6dhQjxTt5yYiYM9HVpNZvgB2u1w9Wksjsid+8MuFGm/hyK+UolRBk9QP7rBUy1uw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=24twimcI;
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793724555;
+	b=Bo6h7eE5jhym2wEo3WcuiB8/CucNaHxzQoK+GpjUuvBzC4ScifOa82AgiPnv7eqxbsEp
+	 UYIIxD+PhCwQs1p5pKCe85ZdblKC9AVvT1WlOvGM1I0UY+XAAcfY6jJx0jxfyDaKG/JGo
+	 8h23SJYVVKbMh+as1kJXMY6mpKZSjY9MvgSFoL/JKJLZ7VQc68bBpk0q0LWP2FX/RZXQl
+	 rVZXJWnn+ir7DINoqmoVXETl84HGZNjI5kVyTr6EwdrDOELMwrXAowgv24oY+zR/S8nqa
+	 qxuXF7Ibrl4HlQnrxxedUo+cDUFMFFfBmva+JH/Fo+6snAVWLDcNQJecfJ8xoMLRX/w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793724555;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=2SjriM5Ft1OJ4vP4Azv/JbwDOxIimZIjo4YeuW1ymvQ=;
+	b=dZHPdRePT+9vnGSXxQgl8h3s/VjcvhUMlqKz9X292e05x1TlKKgT7AJXk6InuS+07wxY
+	 CXRavwkBxPbNJfYqzpC95G2dXOEK5TT+IFH1rWz4Jq4bdhv6TnJf64XS4lsNeAt7Uv5YE
+	 SU7jn1p4O4J8l4GgxafHMTWXcWwB0VWfOMtfHtM5IXwJZjil1Vt+bsllY+jLl/WsrPkNj
+	 aGRTfzOKyGny0fcNXng2WwAznvKmz/66+PcDvgg8zDzlyMDhG8PkQy2yUYzavUf4xE9/J
+	 IyX2bJydXGOWW0c6e9PptNzkVaKwJ8eDLapQmF5ZuuvGGwpE5WmyoDTL9tAXLsT/fXA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Xu4oWslE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.45
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011045.outbound.protection.outlook.com [52.101.52.45])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DB160A3833
-	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 15:57:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5DB160A3833
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDE5606A32D
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 16:49:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FDE5606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=24twimcI
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B94614E413DC;
-	Tue,  3 Nov 2026 15:57:43 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 894EC6046C;
-	Tue,  3 Nov 2026 15:57:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B8A3C103291E1;
-	Tue,  3 Nov 2026 16:57:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793721456; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=9vOjCX6A8KlOv8+60INNSNfdhFOQHUnmR2fmD9y/9R4=;
-	b=24twimcIPGZqM2pDpl4WGCAj5H02h6XyDzLRE5lxqRtTJzdHSLWeRPlDwW2df1NeSOn7Kc
-	OzJ4rMNJ3qIW7BosJwv1T7yCbYVlAMlIu+QriJVVzbSVygTcyr+dGofWtZ1126V/XdHJK+
-	UYx4D8RWNFMbf1mi+SvMFrTpadcWawk9ce/ipNTo3txLZhvxi4rYL9CaZZVO4VV7pqo+6F
-	lsX/Hh1JgarJcdnFfk772lY6FxDDk9a3SD8ftA213NzznymnQg+8lAptMyPZ91FBs0ZYNs
-	GXs0b/2ksTHs1Um2lhpzE4SqkokInstPGRmHbUyJv1HSB5WA5CBc+wshcYewZg==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Abdurrahman Hussain <abdurrahman@nexthop.ai>,
-	Richard Cheng <icheng@nvidia.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Xu4oWslE
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WQT5Gy72zRbqxFxMaN1LIKKUPuP91FxRkzJmO+65f5cmz3V/2xGNonGhcyTCtty5lB6+CmpV7GFbXCBnLG/eOSfKwse45D+CJkYXihuAIH6J2+l2JJIVftr+/P9Zdv0qRMsl0cPCM0vO+KvLbMjbdIt5b+IbdaCvk9xTXsc0cc1STmvstA8OECY31V0AMMiwSbJjxJ+un4rd9BGs7MuWl2NeQNkOE5Xw5sfrCxA1oKdcplQ5enJCiwOsgNoaxnXSaopbBLcKX5hQGdYEgpAKnpL0NGmIvW6ETtxdc6BInEy4BX4P8KCBZWcROYf4w20BdxLXt0G8yY5IE4CarVTMEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2SjriM5Ft1OJ4vP4Azv/JbwDOxIimZIjo4YeuW1ymvQ=;
+ b=r60SgJgHB4PlRJkTx7MhnYlPk6hDb839B+R7xHumi2WxDj24GONoO8c+WpciDaxDNLQTGv4B8ZkBHFgXwRqV895/qwKpzufLWYo9tN80A26zZSIkP8d3AHovVQcxSdGgPvESdVHW0ST0vAdcMexkiDtukkiQ07sxVy5gRgZcOBjb1ahX/eNiVD11jGi5BsWGf4IDuUJW5KQNnMubPB1ymsRV/Qo87tjIJeRnkroihPE8NAc2XkYU08AvjTh4dy3zE8fKys8aOaLzrQ94GVAruB7o/8c5IdiFpbChzyTII3slL04DTZfNYsP13RZt9Dv4zluxx/QM1iIokm8xNW13hA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2SjriM5Ft1OJ4vP4Azv/JbwDOxIimZIjo4YeuW1ymvQ=;
+ b=Xu4oWslE22EwbgxbfRPnafhEbJgaAv6Wqug9IGz6ewmM6Lg6QC4cQLfQccyOQplrFR//sBRHlHDyEszrAIRdISAn4siwSZM5piZXp7a021n6Cxpm18mTErkYamZa6MTvrCB9bG5VnxvspAHhJGvnsXf6GHR3pJsVGzRrfcprbwUjh12+eGZ7dZ4501Z5qFDD9+/eRjFoJQJXVHgMZhLbaLynIz31Z/J4ZJmxmV0cj62X+2BHg/n5mhTCj0Za8O+ay/PcMAWJh7hcqXj0YJwYtL//KgS5IvTN3213keDMfMZTvvLyBtzjTeO93JGam6j/D2PyKrAc8q9fdo82jCTDwA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by DS0PR12MB9058.namprd12.prod.outlook.com (2603:10b6:8:c6::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 16:49:04 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
+ 16:49:04 +0000
+Date: Tue, 3 Nov 2026 11:49:02 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Lizhi Hou <lizhi.hou@amd.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable+noautosel@kernel.org
-Subject: [PATCH v14 10/10] PCI: of: Avoid np->data usage for the node changeset
-Date: Tue,  3 Nov 2026 16:55:16 +0100
-Message-ID: <20261103155540.365294-11-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261103155540.365294-1-herve.codina@bootlin.com>
-References: <20261103155540.365294-1-herve.codina@bootlin.com>
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+Message-ID: <auoQfjpg3CRvV5yG@yury>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
+X-ClientProxiedBy: BN9PR03CA0895.namprd03.prod.outlook.com
+ (2603:10b6:408:13c::30) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -111,182 +120,139 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|DS0PR12MB9058:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4a78dddd-a216-4cf3-fa4a-08df39ca5e7f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|10070799003|7416014|23010399003|1800799024|366016|3023799007|10067099003|22082099003|18002099003|261102123227099003|56012099006|4143699003|5023799004|11063799006|261022075727099003|261022105027099003|261026140227099003|261021121427099003|261028144727099003|261009223027099003|261026121527099003;
+X-Microsoft-Antispam-Message-Info:
+	B4ebKSrdSCQ5vc5bibu4xdtv0YpjtTAIVfLsUBilyOh0Gnb+Lltkvmz4/AqyVzfrwQjkENjZPsFTr735x5Q4m6TCgR9TIOv9fAbRoQMBPE4iD1Nn8lkgXrXkSYVsWpoDha35tjmmMTAlp7dIddSJGjgX/G+0LN0sXdtb5nCHVK8z6OLhqBeQzdlW+waDP+JfA62hEEVKJZiP3R9YDr+/neJJh+87sutkgzzw1b+2x661S7srI1W7mAD+xoCPoYujrzeszsRTkYL8hO62jRn7exHCHOnlydvEGL/bcmsnJ/dXF0/SoZnTP4bxkY9Jc3B72j8TApSgjd2pdSa5JIkr80N9vs2QpX0XfOR46dOv0Jm8sTEEQUay++wowQkav+OQGZBYgvvYaF81Q4cwcsTNuQj5AAJucz8G303T5v6xgeQpVTWFRhnIoCIVnLtlcrE2fJtEigLBziiabCHG5iC+VHw7NFrfOFpiagMYR1zZVlNRlqSANCHfDCmp/61svKPKOHXScuErru079UbPd2pPUWbbOY424iiKfGuoCS73OcvP/QDXFAt8+BQ0QsTI4Z3JTEb9mRJ2rVpuMb6ECyxu3J49UdlOE/APJ/bHma+gl4q/fSb6EL6eJDYpxashiJ9XdAJZG8Iwi3CcdkZpzGtShZMCPPF+Ur9/2oAssg0RTNM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(7416014)(23010399003)(1800799024)(366016)(3023799007)(10067099003)(22082099003)(18002099003)(261102123227099003)(56012099006)(4143699003)(5023799004)(11063799006)(261022075727099003)(261022105027099003)(261026140227099003)(261021121427099003)(261028144727099003)(261009223027099003)(261026121527099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?01lR2o1x+E18aqfxn5y/rk4yDe8FYhsZFk/g7uY6zU8g42foz0w+eLPSj8Cw?=
+ =?us-ascii?Q?VTkyMolbUUojalt+Z8ITySciknTuBh7hhijysQXaaiOY4vPt78n/bSVFjIh1?=
+ =?us-ascii?Q?ATPz9nCpN/UI9n3ad09p29WI5hpAGGGzIYAZ6qS1WwvhDqKIAOP2y5h7q2Vq?=
+ =?us-ascii?Q?qsxAjS1aBpWE632cRJ6OVZuNdEGHXL13kWjyKHOLOj3FipEk9pbP8EsIttjj?=
+ =?us-ascii?Q?5FpIZWf402tkAbN/UEZLRZdqa/yFF0yIxaVbmPu2RpM5A8vFQwI6Cy0x/iXx?=
+ =?us-ascii?Q?mvbuGaRhMOh1i6ZzGQKLHWAdDicfWU54ai+ouh2DmvGfSe9yp2Kh2M5Gxj+N?=
+ =?us-ascii?Q?s4mLKVWB7C2vE3Eij21stz+78/cWHx1T0Us/KZgcFEwq3sziX5Mj40mJI+md?=
+ =?us-ascii?Q?pjrU6ubW7OkFqtjcymP2/sYK44Etw0xYOJD4jrliS4xFDnivNgfKL8CpjDNV?=
+ =?us-ascii?Q?iN5iIFfyWNy6NfDg8mEIgFmFwgx4qu4Ee5ZxGbKPai2c24SDBCJQ7HtzZNJn?=
+ =?us-ascii?Q?uir2cXaRoq25WF1EC9zrCg4jqURfK7cBT3+eo4vD974gqLCJAlkqDuGAmWgO?=
+ =?us-ascii?Q?8eS4KkuAu/AhDGZ0eQ5EgXxdGUCODV3l5Smp1rOeMH0ck47A427LfFO8sFm4?=
+ =?us-ascii?Q?G9B1Xw469SoChmA3mOoPn8+0J58jjGwTuKKot+8S6AcJ0bmde3PRriA8DD0q?=
+ =?us-ascii?Q?XKaqzVsEtgC60kmddZmJRLybBnnQY1GaM8pICUwzLvLwxXXkt9DABZQgy+nj?=
+ =?us-ascii?Q?eqmkx6I6JdmhlWmbw3rxrIp3mfsXDJjcOZ5V7XtofkpbWxtQDmilsmej5eZw?=
+ =?us-ascii?Q?caazOKmZJ90dTJ1w/6iTyTKFRoF9NeTqIMMVfF4Zrztgh9HK4bVyyDZ3i0IR?=
+ =?us-ascii?Q?MUNtJFdHrhn7j/LqWh7VkdrEzjADgzQhwv5ZdqEmu7EGTGUyX8TmScOng4dv?=
+ =?us-ascii?Q?CTDicj8Dd9qF254RWA1oVWP10vOOS4gIpHorYK8oLLwbjYojA9PCdqQw9Sg+?=
+ =?us-ascii?Q?kXeB+rXOlIfEI7YW9rorW6UVp1sNUzKrEVtlKIcsi2K9yYApn1dpVzEeDQXD?=
+ =?us-ascii?Q?6pYfyrC7nyOOtl16QKxAon60MeCcY+10WScuLuOrY2LlE9eSwt7SKdFBRYHu?=
+ =?us-ascii?Q?F8PbIXGRcseJ2jPiJvKnTDon+D8IBaAtgSH7uyAwiUdoXolbNvXsxdPQBvB9?=
+ =?us-ascii?Q?HiEt52HbVUBYNsq9WtBfjK8xN1zPjni/aKA+IS/qz7f8kUeC2QZ/3SeiJYsa?=
+ =?us-ascii?Q?RUx/BD5NGpJKa15SLgjkXTp7V7SilIHxQwuCtjknkxj47P7kchKSSWidQ5+0?=
+ =?us-ascii?Q?3FqA6iNwiizEOpPYBDsWhUA077w0TDst6PHmzImvrChHkyC6eVZeLFhtg7pw?=
+ =?us-ascii?Q?3eJKtVA5pOZPDucXxRhcxdglKp6aQUCfQ/dSXSuvUQT8+YSllLdvXMNKeNv6?=
+ =?us-ascii?Q?U0C1rNF2QI5S8VSgA/5dXF58J5yQChHNxM1L34DJR8h7ekI4NCLpGyxboie8?=
+ =?us-ascii?Q?GP/9PEGNYS15vHyjUr+hMMYX31rdikPD7eFJFn6Q7hT0S0OIJfyaGILOeemE?=
+ =?us-ascii?Q?Svd7kkcx3UjdcR5yPe+jngXji5lGpk2EmBKMvcAxGO9VNSKYjh60CnIa3DFn?=
+ =?us-ascii?Q?RWbBbJvX9cth+mW/ErJTxZ8Sv63R8rkyjQB3Md+6Uj2+3EEeo7lqCL+PydQN?=
+ =?us-ascii?Q?/G0PRMcHQTuOJdezfU9sBWQDRduqjQBKjRyjgW2JjN6unRPX0Tpfj7tRFd0D?=
+ =?us-ascii?Q?UnCVHOwOPBRNYLSlCqFwxRYbIPPgFV8CqzRe6tHgFTMEMXEXfGvK?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a78dddd-a216-4cf3-fa4a-08df39ca5e7f
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 16:49:04.3532
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /DqTHAPT+U+vZwK2dwmV23nhvtap1R7aEwCPowSTEuFJqkjQYFwmBlyNHR27qA0ZXbz89nIP7BovGOMeHeLCHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9058
 
-of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-whether the node is dynamic but not whether it has valid private data.
+On Mon, Nov 02, 2026 at 09:47:04AM +0100, Peter Zijlstra wrote:
+> On Sun, Nov 01, 2026 at 02:21:56PM -0500, Yury Norov wrote:
+> > The preferred CPU mask currently lets the steal governor reduce vCPU
+> > demand when physical CPUs are contended. This series adds manual control,
+> > opening more use cases.
+> 
+> Sceptical, I am.
+> 
+> > For example, setting CPUs aside for selected fair tasks at runtime while
+> > steering other fair tasks toward the remaining CPUs.
+> 
+> That's exactly the kind of nonsense we don't need and makes me want to
+> stop reading right here.
 
-During the node creation, an OF changeset is used and this changeset is
-stored in np->data to be available for removal functions.
+OK, I started with the wrong argument. Please consider this as the argument
+#3.
 
-If, for instance, a PCI host bridge is created using a device-tree
-overlay, the related node will have the dynamic flag set but np->data
-will be NULL. This leads to NULL pointer dereferences.
+#1 is: conceptually, preferred cpumask improves performance because it
+moves the scheduling decision from host to the guest level. The guest
+can do it better because it knows more about the workload. But then we'd
+consider moving steal governor logic to the guest userspace, because it
+knows the nature of user workload even more.
 
-Checking for a non-NULL np->data pointer to determine if the node has
-been created by the PCI node creation process is not enough. Indeed,
-on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-(e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-additions and populates np->data with its own structure, such as a
-struct pci_dn. In that case, np->data is not NULL but it is not related
-to our changeset stored during the PCI node process creation.
+#2: convenience and scope. Some systems don't allow loading modules -
+either on config level, through selinux, or somehow else. They don't
+even have compiler installed sometimes. The sysfs, on the other hand,
+is typically available.
 
-Avoid the usage of np->data to store the changeset used during the PCI
-node creation. Store our changeset in a more relevant structure: either
-struct pci_dev when the node is created for a PCI device or struct
-pci_host_bridge when the node is created for the PCI host bridge.
+I want to be able to write a simple userspace daemon that implements
+steal governing without loading any modules; and i want to be able to
+tailor my daemon to my specific workload. That all requires write
+interface.
 
-With that done, no ambiguity remains on removal. Indeed, this changeset,
-if non-NULL, is the one used during PCI node creation. Check and use
-this changeset on the removal process.
+> we already have cpusets that is more than capable of doing this.
 
-Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
-Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-Cc: <stable+noautosel@kernel.org> # Issue not triggered but could be a problem
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
----
- drivers/pci/of.c    | 32 ++++++++++++++++++++------------
- include/linux/pci.h | 11 +++++++++++
- 2 files changed, 31 insertions(+), 12 deletions(-)
+Then why do we need the steal governor at all? We can steer all
+processes away from a given vCPU without any driver, only by playing
+with each individual process' affinity. For vCPU throttling, task
+isolation, or whatever purpose.
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 0a5797652e18..fbed24a244d0 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -732,15 +732,20 @@ void of_pci_remove_node(struct pci_dev *pdev)
- {
- 	struct device_node *np;
- 
-+	if (!pdev->cset)
-+		return;
-+
- 	np = pci_device_to_OF_node(pdev);
--	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-+	if (!np)
- 		return;
- 
- 	fw_devlink_set_device(&np->fwnode, NULL);
- 	device_remove_of_node(&pdev->dev);
--	of_changeset_revert(np->data);
--	of_changeset_destroy(np->data);
-+	of_changeset_revert(pdev->cset);
-+	of_changeset_destroy(pdev->cset);
- 	of_node_put(np);
-+	kfree(pdev->cset);
-+	pdev->cset = NULL;
- }
- 
- void of_pci_make_dev_node(struct pci_dev *pdev)
-@@ -800,18 +805,17 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
- 	if (ret)
- 		goto out_clear_devlink_dev;
- 
--	np->data = cset;
--
- 	ret = device_add_of_node(&pdev->dev, np);
- 	if (ret)
- 		goto out_revert_cset;
- 
-+	pdev->cset = cset;
-+
- 	kfree(name);
- 
- 	return;
- 
- out_revert_cset:
--	np->data = NULL;
- 	of_changeset_revert(cset);
- out_clear_devlink_dev:
- 	fw_devlink_set_device(&np->fwnode, NULL);
-@@ -828,16 +832,21 @@ void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge)
- {
- 	struct device_node *np;
- 
-+	if (!bridge->cset)
-+		return;
-+
- 	np = pci_bus_to_OF_node(bridge->bus);
--	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-+	if (!np)
- 		return;
- 
- 	fw_devlink_set_device(&np->fwnode, NULL);
- 	device_remove_of_node(&bridge->bus->dev);
- 	device_remove_of_node(&bridge->dev);
--	of_changeset_revert(np->data);
--	of_changeset_destroy(np->data);
-+	of_changeset_revert(bridge->cset);
-+	of_changeset_destroy(bridge->cset);
- 	of_node_put(np);
-+	kfree(bridge->cset);
-+	bridge->cset = NULL;
- }
- 
- void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-@@ -899,8 +908,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	if (ret)
- 		goto out_clear_devlink_dev;
- 
--	np->data = cset;
--
- 	/* Add the of_node to host bridge and the root bus */
- 	ret = device_add_of_node(&bridge->dev, np);
- 	if (ret)
-@@ -910,6 +917,8 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	if (ret)
- 		goto out_remove_bridge_dev_of_node;
- 
-+	bridge->cset = cset;
-+
- 	kfree(name);
- 
- 	return;
-@@ -917,7 +926,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- out_remove_bridge_dev_of_node:
- 	device_remove_of_node(&bridge->dev);
- out_revert_cset:
--	np->data = NULL;
- 	of_changeset_revert(cset);
- out_clear_devlink_dev:
- 	fw_devlink_set_device(&np->fwnode, NULL);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index aa3765a20a96..05cf42278650 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -339,6 +339,9 @@ struct pcie_link_state;
- struct pci_sriov;
- struct pci_p2pdma;
- struct rcec_ea;
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+struct of_changeset;
-+#endif
- 
- /* struct pci_dev - describes a PCI device
-  *
-@@ -599,6 +602,10 @@ struct pci_dev {
- 	u8		tph_mode;	/* TPH mode */
- 	u8		tph_req_type;	/* TPH requester type */
- #endif
-+
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+	struct of_changeset *cset; /* Changeset used for OF node creation */
-+#endif
- };
- 
- static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
-@@ -674,6 +681,10 @@ struct pci_host_bridge {
- 	unsigned int	broken_l1ss_resume:1;	/* Resuming from L1SS during
- 						   system suspend is broken */
- 
-+#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-+	struct of_changeset *cset; /* Changeset used for OF node creation */
-+#endif
-+
- 	/* Resource alignment requirements */
- 	resource_size_t (*align_resource)(struct pci_dev *dev,
- 			const struct resource *res,
--- 
-2.56.0
+Because of the overhead and convenience to use. Setting an explicit
+affinity for each task would require preserving the original cpumask,
+not mentioning that it's much more invasive.
 
+The overhead grows linearly with the number of threads. On my working
+station right now the number of processes is over 500, and number of
+threads is over 1500, and it runs pretty much idle.
+
+This is so impractical that people would rather use boot-time isolcpus,
+not to mess with thousands of individual affinities on runtime.
+ 
+> > a user can mark a cpu non-preferred and pin a workload to it. fair tasks
+> > whose affinity includes preferred cpus are steered away, while tasks
+> > whose allowed cpus contain no preferred cpu can still run there. the cpu
+> > stays online, task affinity is preserved, and the selection can be
+> > reversed without rebooting:
+> > 
+> >     # rmmod steal_governor
+> >     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+> >     # taskset -c 3 ./my_workload
+> >     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+> > 
+> > the current preferred list is still readable from:
+> > 
+> >     /sys/devices/system/cpu/preferred
+> > 
+> > This provides task-placement isolation similar to a use of
+> > isolcpus=domain, with a runtime interface. Scheduling domains remain
+> > intact, tick suppression, RCU offloading, and managed-IRQ avoidance
+> > can be configured separately when needed.
+> > 
+> > Different preferred cpumask governors may coexist; all update the
+> > same mask under common locking. Manual settings are not privileged,
+> > and later governor updates may override them.
+> 
+> That is a recipe for disaster.
+
+OK, that's fair. I can make it mutually exclusive. 
+
+Thanks,
+Yury
