@@ -1,80 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793699341;
-	b=ecvFUg1QQ4N5CDLeqa1F/kC2tK0JrFfLJdnyYNQO62TQ+yuQfPOeZ/p1Z/gReir5zaXn
-	 uyXu1hWXl/sKyo2FEJe2TbRiO5ZBVqA/UjQW6bq0R/KVB1HO+RLyJEBw4M3cdfxcFxdrc
-	 4vpzwxRnDXIh7JcNjSFXyixMC5vERrsCUfVtlaXNW7HYiGMbUBpUBBETEJfjjOHZPtvUs
-	 I/KMWVuqef0YeeeDUElpV3gk/kqkprB/wzNFuuLTnvUjSsdI6OdwDgmI2yAqWZJ+o08jg
-	 8boPCUsDnsb5xURQe5k++0tqQeMCAiMBaxJHiWtFdkZqU4QHHPxz4iTcmCDGA10oUKQ==
+	t=1793699618;
+	b=PiLu/x7OMmwT9bXu0wR+Cq2Nurfqx6efGXGOiXXoQeJYZe1pPrIXKTp9v54OoD8rz4UU
+	 uHuyD1pfnfZ7KA6lRVdxZbo+4wLhKwFRgPPgMYJYLQORRVEVMdpenUUUVX7KWLXg4MmcZ
+	 x2YLH3NalfiRhkXuOievtoBHnLYi0X7sx/bCmwpRFVoeXVeeeQ69BKTzCHHfqVe52ph8a
+	 4zA8jA9bB6PnsDFxRGyEZyQ8G/TUXHISKqJ0CnnFOJ/4gZFF37Yv4WNUFoLpugkCXrdBI
+	 07NbeqyF45SaLZt3Qzt47wCRY2SnkiJ4n8tT0lgJbu0Etil7k8tU68DuRgW0gBX6uWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793699341;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cgwH7+eb4DO1f1hZBo5/HU3TXgqaVoeCZLybivmvUJo=;
-	b=uvb4NzaOh/gx1RbbQeyIChyd5i1jL4GqNXp/K9f+yzRY/Sz3MKzZKrA9gzt9o+mshRYp
-	 ouAt/C1nkR/B0EDJuhsmo9lg2M5qfykNyGQtDh1dSMCYkkjh19VOVElZ/0tYDKb0hALoM
-	 DhxV6v9NruVmNTRY/kawW4An01BLsC2gC9j8iJB+T/BD07o7/u4olQyOBhCCckNYgntGf
-	 s8l1mMPcZzc80u1t6DtOmc0YzKI4Wm4kpDPpv21PVqDMcr6a1EJwYE/BBVvy9P/J58AdR
-	 vYvrA+5jDhKpPHEpNebFHHhMlps1hzzsPqYC56+chpChldwrQP6k/f35wuMlZnylgyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793699618;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=exuUVrZEzA5+Clh7tzMZyi/JBKCYe76w9r6sEUWqx6M=;
+	b=X7a3zcAgIabfhivgprx+X6a9mm7GEbibOO2cz6EBDAH+YKJWkE3IJtCpdLacijnzXY2Y
+	 cTNbnicd1NEFBuAC+McbrtJV74zJ1MtBvmNgF9MWX0pXMuNa8f+m3pvWXNXy1Osy0YtBz
+	 cHkhP6eGZuTg3zUQqpepdK/9sE5Mm0nXFCvSGdVjZX4yj/4SszAUTi6+awLSib2FGvgia
+	 oGJHHHJzUl+5JSPEQe3DhgxYZerRH6mAfkBlQEDfQltL41EZMC2lFuvKW3YKek6xy1ZIL
+	 j1V0mtTXx3V/VvWYirKQljHO6bB3YFyi9MuOIJcKUXJOQ2yX/pwmtkKp3Jd9Nh9emHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GV++1Djw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=rPxgZSle;
+	arc=none smtp.remote-ip=162.62.57.252
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049AE606A327;
-	Tue,  3 Nov 2026 09:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AE86082BC7
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 09:53:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4AE86082BC7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GV++1Djw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A74261F000C1;
-	Tue,  3 Nov 2026 09:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793699340;
-	bh=cgwH7+eb4DO1f1hZBo5/HU3TXgqaVoeCZLybivmvUJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GV++1DjwxRqBZTgtqKQjH8FDRWWNjQ0UExyz4D4wPRG6CXHgHqlai8IgSZ5/B9AVO
-	 fyr6sYpt+ugUguBnTwfa9EONvXK3lfiCOo8fFL2gesEHkb4WUZGfvT6fCfMJNsI31Z
-	 Vw/EI3JAg4jrRuPcmYktzzSqUrEL7bUe5ETL5f1c0mbZHI+qxZizlD4FmPKJbOX8x8
-	 UcFo7Cvy49IASUxO9wd2cXytT8/WMCHJsvvJP/mjOG1ZnH5zkongCwU5jFXzRP2W/i
-	 UHtO33zaLptW2P5/6tQLOOQzYQ1+oU9XS++2xZHKEc1aCasgMoti+lnda5b6BltK8l
-	 casrwkwEvaa2g==
-Date: Tue, 3 Nov 2026 11:48:43 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=rPxgZSle
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793699606; bh=exuUVrZEzA5+Clh7tzMZyi/JBKCYe76w9r6sEUWqx6M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=rPxgZSle8nDOKptywmWbOo0z8RQ3mCDoGToo1AGOo0lRHC5vhQFlXeejPPN6cN9MA
+	 9NBZ3MZiVaq2/5FHBGuNpvM9Bv6aJyR3hTS8FjXIF6W68J5AsXSxSbrkWn8MsYwcYo
+	 UwcXoG4ZNNWAN04+No32w2/wu9ScEzdkl4iaZvPY=
+Received: from shuai-VMware-Virtual-Platform.. ([218.28.192.28])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id D563F852; Tue, 03 Nov 2026 17:53:22 +0800
+X-QQ-mid: xmsmtpt1793699602td0red6kd
+Message-ID: <tencent_173B7731E90B9624F9F82613DC3031B70907@qq.com>
+X-QQ-XMAILINFO: M07Ulnfy3VHKaC+H0tf4KCWjgzzzUw8hDxsxEI2gxvotU7+hRHwycOPVkOx2oT
+	 U5ys/Cz/e69cQee+tNseErHvnO81TO8tQyWRyu8KlKcmvXvfNlFe6OXXf9RrysGhnBZlCpDQqWtL
+	 RQijzEpKYUc6uPDXuN5T3tMpQNlmdKQZHXu4BUkP7SUWl0umrUwbRkb5LgswdDDn6H4RUa0clWyu
+	 2TPJm+v5ugYa4Pxb5sSpBylPnxqVL2tkKmve0+6Lx5QKnjtZIQU4zuh6lJf3zcysxVxoOt9w///x
+	 BVdf4KsULJ138dM6RaT8ZRKVkYWGDQMvCDBlUBks1AKsR/ah03oGSdnynxyHkyoTrmf45Dx/eLVd
+	 iq2oXUL4j6hgpwKEi/fCBxN6kpF1ISCjOg4G/5313dE7b9Sggcfs7hD8wgZYFcHNNPTQdHzXu10K
+	 /bRNGj9hLgcY8SDfCfWutZL0Bt03VkQJT4h51KzozPZd5yRsSRBFqdmDQ3NK3hVjOyKzSCoDNsiV
+	 8opEGCHuRGMt1OIZEeV7kUQShMKg8Uq0KxZ+h/hesM3pJC4OtjVMmao6Ud+IAmNN5H4vyEtru8Zb
+	 yIti6IKLmLSfjxAYDCllF8eFycihYFCSm4eMK1XnrFzqgDrwfvarMtXIDCeXSlCRfKT9C9oyMGPK
+	 WsIr6R2svBOxoMRmT0A/DONZxSbJnVlcPnh7chV8Jd8gh7RBs9linMoJgU8ZPSlRHgK2tP5tcbcT
+	 COcvXmo6riN7Bru2P1ipuY27DkJ+eKfxPR1PWx3eVg2izsrimhMcPz/GXTfPlvSo6EwtP/x6F6vN
+	 U4Ls19KlLAdCIX/cRL154u7meTEN7FRUZKUoVEp8RfHSYkK/LeQJY3CF2bEfMikRydXKDbIqPI/h
+	 NX6jsTL/dUN/2gNrkyQWc75aaErMY5FgF+Pbp23tOCl9n5L2pTSllLOed0yVTxIUphatUjStIlc7
+	 f5etLVsfTixJiJ/leLP1MAf2lyhZRFKVAIVtBe6en+nnMQv4ocDJlJuX9OQqRmzFPboor/eAXDBj
+	 +d7GosoY2Jbqhc62nwmoqjabP7wo7e6z0DTNUXqIonpAbXQEVGKbaxoAtTi/z7XO1YaEy8+rLteA
+	 wZ+ucu
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Shuai Liu <847807867@qq.com>
+To: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
+Cc: Shuai Liu <847807867@qq.com>,
+	Igor Korotin <igor.korotin@linux.dev>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	kas@kernel.org, kexec@lists.infradead.org,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	shakeel.butt@linux.dev, linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, rmikey@meta.com,
-	riel@surriel.com, harry@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v6 3/7] mm/memory-failure: add hwpoison_boot_page() to
- flag an inherited frame
-Message-ID: <aumt-4kfGGtoXuh-@kernel.org>
-References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
- <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
+	Jonathan Cameron <jic23@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Mark Brown <broonie@kernel.org>,
+	Brandon StJohn <branstj@gmail.com>,
+	linux-iio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v6 0/4] iio: position: add Rust driver for ams AS5600
+Date: Tue,  3 Nov 2026 17:53:22 +0800
+X-OQ-MSGID: <20261103095322.297395-1-847807867@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261016154819.17936-1-muchamadcoirulanwar@gmail.com>
+References: <20261016154819.17936-1-muchamadcoirulanwar@gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -84,92 +94,87 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 05:15:43AM -0700, Breno Leitao wrote:
-> A kernel that kexecs inherits the frames its predecessor found
-> hardware-poisoned. It has to carry them as PG_hwpoison in its own memmap,
-> so that everything that already understands the flag covers them,
-> including the kexec segment placement check.
-> 
-> Add a helper that sets the flag and counts the frame in
-> num_poisoned_pages. It runs while the memmap is initialised, before
-> memory_dev_init() has run. memblk_nr_poison_inc() divides by
-> sections_per_block, which memory_dev_init() sets, so the helper
-> increments num_poisoned_pages itself instead of calling
-> num_poisoned_pages_inc().
-> 
-> An inherited frame is a hardware failure like any other, so the helper
-> sets hw_memory_failure. Without it, unpoison_memory() accepts the frame,
-> clears the flag and drops the last reference, which frees a frame that
-> is still bad.
-> 
-> The helper also counts the frame as managed, as a frame that fails at
-> run time stays counted. Memory offlining subtracts every frame of the
-> block that is not PageOffline, so a frame that was never counted leaves
-> the managed page count too low after an offline.
-> 
-> The per-node memory failure statistics are not updated. This kernel
-> handled no failure, it only inherited one.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/internal.h       | 5 +++++
->  mm/memory-failure.c | 8 ++++++++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/mm/internal.h b/mm/internal.h
-> index da14c56fb24e11..4bd3bbce86e0ad 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1169,6 +1169,7 @@ void SetPageHWPoisonTakenOff(struct page *page);
->  void ClearPageHWPoisonTakenOff(struct page *page);
->  bool take_page_off_buddy(struct page *page);
->  bool put_page_back_buddy(struct page *page);
-> +void __init hwpoison_boot_page(struct page *page);
->  struct task_struct *task_early_kill(struct task_struct *tsk, int force_early);
->  void add_to_kill_ksm(struct task_struct *tsk, const struct page *p,
->  		     struct vm_area_struct *vma, struct list_head *to_kill,
-> @@ -1181,6 +1182,10 @@ static inline int unmap_poisoned_folio(struct folio *folio, unsigned long pfn, b
->  {
->  	return -EBUSY;
->  }
-> +
-> +static inline void hwpoison_boot_page(struct page *page)
-> +{
-> +}
->  #endif
+Hi Coirul,
 
-We've been splitting internal.h to smaller headers, maybe it's time to add
-"memory-faulure.h"?
-  
->  extern unsigned long  __must_check vm_mmap_pgoff(struct file *, unsigned long,
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index a2ca8df501caee..d0d6b184ee469f 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -96,6 +96,14 @@ void num_poisoned_pages_sub(unsigned long pfn, long i)
->  		memblk_nr_poison_sub(pfn, i);
->  }
->  
-> +void __init hwpoison_boot_page(struct page *page)
-> +{
-> +	SetPageHWPoison(page);
-> +	atomic_long_inc(&num_poisoned_pages);
-> +	hw_memory_failure = true;
-> +	adjust_managed_page_count(page, 1);
-> +}
-> +
->  /*
->   * Return the first or the last hardware-poisoned online page in [start,
->   * start + size), or PHYS_ADDR_MAX if the range is clean.
-> 
-> -- 
-> 2.53.0-Meta
-> 
+Thanks for the series. I read through v6, including Igor's registration
+rework proposal in this thread. The comments below do not overlap with
+that rework and should carry over to v7 unchanged, as far as I can tell.
 
--- 
-Sincerely yours,
-Mike.
+1. clippy warnings
+
+`make LLVM=1 CLIPPY=1` reports four warnings on this series, which the
+Rust CI gates on. Three are `clippy::ptr_as_ptr` in the IIO abstraction
+and one is `clippy::useless_conversion` in the driver:
+
+    --- a/rust/kernel/iio.rs
+    +++ b/rust/kernel/iio.rs
+    @@ -202,1 +202,1 @@
+    -    let priv_ptr = unsafe { (*indio_dev).priv_ as *mut T };
+    +    let priv_ptr = unsafe { (*indio_dev).priv_.cast::<T>() };
+
+    (the same pattern at lines 334 and 397; line 334 is already inside
+    an unsafe block and just needs `.cast::<T>()`)
+
+    --- a/drivers/iio/position/as5600.rs
+    +++ b/drivers/iio/position/as5600.rs
+    @@ -133,1 +133,1 @@
+    -                Ok(IioVal::Int(angle as i32))
+    +                Ok(IioVal::Int(i32::from(angle)))
+
+2. ignored doctest in the SMBus word helper
+
+The example on `smbus_read_word_swapped()` (rust/kernel/i2c.rs:841) is
+marked "ignore" and references driver-specific facts (the AS5600).
+Ignored examples are not compiled or run by rusttest, so the helper
+currently ships with no tested usage. A generic, compilable example
+works here:
+
+    --- a/rust/kernel/i2c.rs
+    +++ b/rust/kernel/i2c.rs
+    @@ -841,8 +841,15 @@
+     /// ```
+    -/// // AS5600 stores the 12-bit raw angle at command byte 0x0C with its
+    -/// // high byte first, so the SMBus (low byte first) word result must
+    -/// // be swapped.
+    -/// let raw = client.smbus_read_word_swapped(0x0C)?;
+    -/// # Ok::<(), Error>(())
+    +/// use kernel::{i2c::I2cClient, prelude::*};
+    +///
+    +/// fn read_hi_first_register(client: &I2cClient<kernel::device::Bound>) -> Result<u16> {
+    +///     // A device whose 16-bit register selected by command byte 0x0C
+    +///     // transmits the high byte first needs the SMBus (low byte first)
+    +///     // word swapped.
+    +///     client.smbus_read_word_swapped(0x0C)
+    +/// }
+     /// ```
+
+3. repeated unsafe blocks in the SMBus access helpers
+
+Patch 2 implements the `FallibleIoCapable` impls for `u8`/`u16` with
+five near-identical unsafe blocks wrapping `bindings::i2c_smbus_*`
+calls plus error conversion. Extracting four small safe helpers would
+put the safety argument in one place and turn each call site into a
+one-liner:
+
+    fn smbus_read_byte(client: &I2cClient<device::Bound>, reg: u8)
+        -> Result<u8>;
+    fn smbus_write_byte(client: &I2cClient<device::Bound>, reg: u8, value: u8)
+        -> Result;
+    fn smbus_read_word_data(client: &I2cClient<device::Bound>, reg: u8)
+        -> Result<u16>;
+    fn smbus_write_word_data(client: &I2cClient<device::Bound>, reg: u8, value: u16)
+        -> Result;
+
+For example, `io_try_write` for `u8` then reduces to
+`smbus_write_byte(client, reg, value)`. Happy to send the full diff if
+that is useful as a starting point.
+
+With 1 and 2 applied (and 3 sketched on top), `make LLVM=1 CLIPPY=1
+drivers/iio/position/as5600.o` builds with no warnings and the rusttest
+doctests pass.
+
+Thanks,
+Shuai Liu
+
