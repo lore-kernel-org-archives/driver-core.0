@@ -1,49 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793698301;
-	b=YYbOEujdAvJTb7MrOAWZCNlUSVbEiANpNaAZRw8P43ZjUEV0X7cytQKJC8LtQmAGFK1G
-	 8V59cR7PVLGfsG8Dnma0mljYIrC2Cud/oWs5hlKbmwlxA9kHGZKVB/+zno8lYMPqRJOQ3
-	 6Ni4fAE6cgnmhAHhlgn3ehCDkqpZpEkjJfd+uRvU7vBnYNpt3LiovPrVH+k39VNNxgD7e
-	 LK9v3IXE6OrjKxRd22a1DFkFHzgytUNxn9Cj23rIAhUQBxPHCuKaOk/jASE/mvaluJQGB
-	 v9vRD0TOjehEwoinS4xGXJX+vh8i5UPOVw8qZajEZ+jNdsCMhFcOvDV1Ri39vcRbRxQ==
+	t=1793698472;
+	b=aHc4qOdlhXwimIX7g2sCdWTMY87MqwLTmjaLrSd9HLURRL5q+CaZGQqeieoMS/SPgw/y
+	 37kMSOtYO2kGwcQCuckFwcChJnYgeOH/4mpRNo2UxdP4+cBzAc2SXoRmvWP+O/DW+CyYT
+	 cwCw+UNu7XnzEyP99bBqbum2ILcQZz0dMkrC+bEo8Y9o2dRLc/o85rOR6xyeggdbGF4bJ
+	 Q9qwF7Jy9eTBE/FEwCcEk3zSAJrqEEP+btMQLIx+a6T5FEQPHetKYSGQcBjTZopPF/NB0
+	 2/FALJ5ELoyi53oWh3ZD4qpze+G/hwJU/4GZj3Yddsp2r/B0+yi6ogYOsQWzdaOoPrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793698301;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fQLM1PvdJanDdaZn/uIUF22Fu4+LvgFnjHQUCGpdnKA=;
-	b=sA7ipSlHPTmz4CMz3w4MfSORQjnfyH3NsFSegw6OZEXAhHNeRpQAnzOHw9pD/7somCiM
-	 GCvENO81SJuS0hVjVbbhg+bQ7vwK7U+2erqG7cu9V9TMDsN+V54aNj34kld9CTHvA+q8w
-	 IOn4g6/rPMHq6OLYjQ0ozMS3hslGBC7kZO10Dm0oLjPLHqwHofPvRh7R1h6GQXW1O4XWA
-	 3Xf/8uDUR2+CkhBKVlfFz4XLrxo9LyhxwYWCa39p1OHIRg61iwZglsOPudpXcuafqy1PH
-	 u3Zt8lBGnVk0UqApqoKU9l/Zt04WSgqbXVz2SyL4mErRh4Gr4JXqGAWhxwilB1cXUXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793698472;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=RXP3Ca7hKz0mrbeEmpLWjZuQHidzh2+VvDasmop6jJY=;
+	b=17zdYy20DpNh/W6bl39IVSmfBufzQmVHfSyDco7k3xSnl4p7RfOpUvSazcVdardoTQ10
+	 891kbLVQ8NCs2I8MWcFqG1C/+fyUDK2AWK6d1U4namMpXIyrIrrvyUhGxhDYLoRC6AKy6
+	 v6R7d1SRU/CVCT8QOqAeSg98oUi039BJB637m8i0Fv+dEazptpLMTPXEa+LLQl2AjMa7M
+	 dPElVgGDb7Q+cun3oNcvFo7N5EhQR+zYI2u2NBrn5qZjEi5p98vrG20ig28s37O6ni8zX
+	 zzEch7PiYAdxlul9nQ3fN1ajaGXQBlk0MKwGc9SRyLGIDispSkb9M+LdoORKSLcAcxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ozCX3SNv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e7MFrKB2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8727606A32D;
-	Tue,  3 Nov 2026 09:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147AC606A324
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 09:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ozCX3SNv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21CBC1F000C1;
-	Tue,  3 Nov 2026 09:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793698300;
-	bh=fQLM1PvdJanDdaZn/uIUF22Fu4+LvgFnjHQUCGpdnKA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ozCX3SNvSBx32mYc+awAu1xlPAUZCqXtZZGMLYHxnP3GOc5/cfrG3ZfZrgQos7XL9
-	 p4t2Z145i1I37I6umYahA0/hvVowJKOGEw8eyFOBGsuiBLaxBoDH4JWeE9aAlJQa4+
-	 rLHoz7CZTtM5WoslgnRvRwJQHayXcS58CRtrxDTQ=
-Date: Tue, 3 Nov 2026 10:31:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shuncai Tang <jacktangsc@icloud.com>
-Cc: Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kernfs: fix stale comment referencing old @sd
-Message-ID: <2026110314-july-quake-e948@gregkh>
-References: <20261103042551.10800-1-jacktangsc@icloud.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e7MFrKB2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C874C1F000C1;
+	Tue,  3 Nov 2026 09:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793698471;
+	bh=RXP3Ca7hKz0mrbeEmpLWjZuQHidzh2+VvDasmop6jJY=;
+	h=From:To:Cc:Subject:Date;
+	b=e7MFrKB2bA/HfCIcUCfByccFgZ9UGqW5QSXzc4I7ITX2fXvZDel8ATXfmNllDsRLn
+	 i9vpTNK8NFgkf5BQPTNIaLBgLjXmqQL1oCwX496cCzswyEgmdS0GdgbDgxbZvB6Bq7
+	 KgL0uwUn9t6XfcTVH+on6Uiu8Y6xD5kpXKhuRBKD1/OwVT0mq/dkinaR8Z0+KNY6nW
+	 g6GdQHgrgJCGNhkv/Dhjbr9YE7qOiq2buiJQWk7nMQHmIJTDhik2dLyM+elJBBOCmD
+	 1NvcgLAodNdfLYCHBv2tk9RLV9K/E3vVz//QQLSITOmHFYH01DTTqY0OOIyqy6zezz
+	 C7jpVhMHNUi9Q==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: driver-core@lists.linux.dev
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH] arch_topology: Reset SMT state when socket parsing fails
+Date: Tue,  3 Nov 2026 09:34:21 +0000
+Message-ID: <20261103093421.1283949-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -53,21 +57,39 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103042551.10800-1-jacktangsc@icloud.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026 at 12:25:51PM +0800, Shuncai Tang wrote:
-> The comment still refers to old @sd which was a sysfs_dirent.
-> Update it to @kn to match the current function argument.
-> 
-> No functional change.
-> 
-> v2: Use full name in Signed-off-by.
+If a later socket's cluster fails device tree parsing, parse_socket()
+returns immediately. Cores parsed earlier can have raised
+max_smt_thread_num, but this return skips the reset to 1 and the
+cpu_smt_set_num_threads() notification. The framework is left with an
+inconsistent SMT state after topology parsing fails.
 
-This goes below the --- line, please read the documentation again for
-how to do this.
+Break out of the socket loop on parse_cluster() failure so the existing
+error handling resets the thread count and notifies the SMT framework
+before returning the error.
 
-thanks,
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/bug/linux-73adead8-21f3-470d-938c-b1f07a269a72
+Fixes: 5deb9c789ae4 ("arch_topology: Support SMT control for OF based system")
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+---
+ drivers/base/arch_topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+index 8c5e47c28d9a..1569ab3335f5 100644
+--- a/drivers/base/arch_topology.c
++++ b/drivers/base/arch_topology.c
+@@ -633,7 +633,7 @@ static int __init parse_socket(struct device_node *socket)
+ 		has_socket = true;
+ 		ret = parse_cluster(c, package_id, -1, 0);
+ 		if (ret != 0)
+-			return ret;
++			break;
+ 
+ 		package_id++;
+ 	} while (1);
+-- 
+2.43.0
+
