@@ -1,81 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793700427;
-	b=WAdqlzKX7fnAEEzep/l7YnUTCUARqunsPpPXqZwmvg4wd1N9kyE1ujpufomzQCd5ee9b
-	 +w4j3q47l+A6ffoej5rfjHNH0OmBPbmvRWIB/vnjzIQ/lZe0hUYUHz3EwqhLPdZ27Frwc
-	 bQdXnq8seFJSfuDr1bGx/0NPXloKcrjcvfrsV7eIKw/6kRAJZoo1wDviqgYP694vjVPNx
-	 v7vI7gtgSMZzM/W/dbw/nh08Co23HP1uFrz76TH3Tulk+JOtIYKiaH8FIzEf6bDBLG09B
-	 QMFbzxvd9dlrAGCBM34TP5Souuk3qx8/TIBqF14nOAf7MK/NC95Lhcay1Cwa4DEQzag==
+	t=1793700652;
+	b=YuuFT+iXe2aPG1bocNdnXXMJNx9fEDJs0sZjapNPkPBdxa6FYRSeL52e2ooi8jWy4jlM
+	 laXh/G9zQEm05xoz48tcvkHQOqduGH6vEfskOXxgmFten7ncgyFDFlzKOww8ZghltF+pd
+	 vDCS62cGj9T3X1NqaM+PkiKPXcdmbxiGb829UVRa3HuN4I0HHL4Xpk0+C9O2aDU8YqRjG
+	 5+w8LsgtR/SIuEwGYDeo3yZyrAn1WAy+hE/vs7PurPc5XmHM2DW6gy+WBhjtF2aAUyLqU
+	 5gJePXL5VoYzNl81AbvwHSzigMrhjHmcrocUbUtEYXwGUukb5pUgUP/nnI+vfToSBlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793700427;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Debian-User;
-	bh=yOEv4rlICtm+9MGZIVJit4iJjbb/HbqDxTBh2E0PNYM=;
-	b=LNhC64guaf3KjAswSa3mZeOtQ4U+zS7S9s1ElT+kbhyp/ULN+ndbqDkI3FQ4m4I1uLkt
-	 M62ys3EdWWnc2ruDCqWk19kL2rvr2xxFzfjwIivmVrI6d+hoBIir6bOmoA+TG/+OGNNvq
-	 ACj0DythNFt4WxdkfpHiDAQhpFw1cazFLKVvUh+yGeOgyQH91gyvWFDoHzPpnpaPxqPqz
-	 utoHbQUcGi7WnWYJHu0urjtY1KxmQpBnEe5p5glsu22OUv5lQqw4pQkVBFHTWgIRiRDj2
-	 XaE7cYTbpkUzViuQVkXs8wTZR6NAKENFztLbYqTYYWezYhRv12wL3U0Wjgxc+XqRG7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793700652;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-RootMTR:X-EPHeader:
+	 X-CMS-RootMailID:References;
+	bh=2miWXckXEf9/8fJq2kLZ6HHXh4pF31ZiQShBy3CvvJQ=;
+	b=h2palqLUOKyeijhkPhpB+lb7NV3F8BR683Z995/nGZXhZIIDKEZtqIP3fffKk4aBMJLV
+	 yFaIWlSR/6EBpWQp704ZfmPsJtwdb1jyv6+rqYTbghK6mG8QtQvPD5dVfDtJDMNFuHZCI
+	 cB1OvFutEWDvv6aiRVuT0KIkVOKcuFXMV+hAfkSFV1IG73adDlMJWl14dS+8qSRaxoNsf
+	 Kwq2vS6ceO9QJAZHBK1YMrEjjfz6pRf8Eg80v2BuvXCmbEvpB6FCg9bt60sn4LGJ4ckAA
+	 +Iq6j6RuyauJV36g4Dq5GZCcXpW8TKJEjK87KmA1tDRba98lHTQ4yIvgDH3Yttn7NLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=T8GHUIeu;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=P6D9rRFE;
+	arc=none smtp.remote-ip=210.118.77.12
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C679D606A817;
-	Tue,  3 Nov 2026 10:07:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C679D606A817
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3920C606A33D
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 10:10:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3920C606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=T8GHUIeu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=yOEv4rlICtm+9MGZIVJit4iJjbb/HbqDxTBh2E0PNYM=; b=T8GHUIeuwcDQEX7YFBA0dHaPtB
-	2kVj9KSOFPEikB0F9pAaccEJIVjNxbKR3+e0f9oaOThinmGoXpI0EvZVDNwsXfU7AGr9ATQG+ak4X
-	z2dA0u862tnlHdxULQMW9u6wC8/34oIlt51HyBjY2ZPhPEqEQ7F2QlBBCab/c1vclkwgOD+hM7I5Y
-	Apd1Al26l3U1O8FO7cvKq+udwXcUON4wKT7E1OLcFB1DgsHO9juQDwNhoajOQfbR9TQ7vZZE+8K4T
-	LmEzS5pvIZvxQ3GwRaJaAmhojV9r2fEIapcI/uXjfq4sDAf9cLR2RFL0jyHQmO9HjiEpQaLi6OAZZ
-	0upLu0Xg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xOBPO-006r0Z-0j;
-	Tue, 03 Nov 2026 10:06:26 +0000
-Date: Tue, 3 Nov 2026 02:06:17 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, kas@kernel.org, 
-	kexec@lists.infradead.org, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, shakeel.butt@linux.dev, 
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, rmikey@meta.com, riel@surriel.com, harry@kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v6 3/7] mm/memory-failure: add hwpoison_boot_page() to
- flag an inherited frame
-Message-ID: <aumvVjoHo4KeuyEp@gmail.com>
-References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
- <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
- <aumt-4kfGGtoXuh-@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=P6D9rRFE
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261103101049euoutp0213a7e99b6f3b328628f54e1fecc37af7~kgTy6xWpS2877728777euoutp02g
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 10:10:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261103101049euoutp0213a7e99b6f3b328628f54e1fecc37af7~kgTy6xWpS2877728777euoutp02g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1793700649;
+	bh=2miWXckXEf9/8fJq2kLZ6HHXh4pF31ZiQShBy3CvvJQ=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=P6D9rRFELTCereOoTaTTR2BoDm2AQJAUCJ6qJ5pqGgWyKUfcU21VeGmGdIZI3rjfq
+	 7/2xZdKsbuncpMyFJOdceQBRXZMEY2rZ+aLKUN/oK24x2foISLnuqxqgtwun76h4ML
+	 +6ju2atQwwopT1FHXFTchGy8kFEZOXsKRZPom06Y=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261103101048eucas1p2192952d7ccdf6cee02830269510aca7e~kgTyPtkgV1245512455eucas1p2H;
+	Tue,  3 Nov 2026 10:10:48 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261103101047eusmtip2f99b012249277f80088899badb6f04af~kgTwxvNxT3115731157eusmtip2h;
+	Tue,  3 Nov 2026 10:10:46 +0000 (GMT)
+Message-ID: <b1058c89-2e87-4035-b7be-76e93fe3ac07@samsung.com>
+Date: Tue, 3 Nov 2026 11:10:46 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -85,25 +64,185 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aumt-4kfGGtoXuh-@kernel.org>
-X-Debian-User: leitao
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2 3/7] dma-mapping: Keep DMA memory private for capable
+ devices
+To: Nicolin Chen <nicolinc@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+	joro@8bytes.org, Will Deacon <will@kernel.org>, Robin Murphy
+	<robin.murphy@arm.com>, Catalin Marinas <catalin.marinas@arm.com>,
+	rafael@kernel.org, Danilo Krummrich <dakr@kernel.org>, Johan Hovold
+	<johan@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Pranjal Shrivastava <praan@google.com>,
+	Mostafa Saleh <smostafa@google.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, driver-core@lists.linux.dev, Sonang Patel
+	<sonangp@nvidia.com>, Ankit Agrawal <ankita@nvidia.com>,
+	shameerali.kolothum.thodi@huawei.com
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <a2a5fe1a1c4d8c99d96874a166f77996d51f3cb7.1793676742.git.nicolinc@nvidia.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261103101048eucas1p2192952d7ccdf6cee02830269510aca7e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261103035025eucas1p2e556ed6dee063a472de0102b87fda0e3
+X-EPHeader: CA
+X-CMS-RootMailID: 20261103035025eucas1p2e556ed6dee063a472de0102b87fda0e3
+References: <cover.1793676742.git.nicolinc@nvidia.com>
+	<CGME20261103035025eucas1p2e556ed6dee063a472de0102b87fda0e3@eucas1p2.samsung.com>
+	<a2a5fe1a1c4d8c99d96874a166f77996d51f3cb7.1793676742.git.nicolinc@nvidia.com>
 
-On Tue, Nov 03, 2026 at 11:48:43AM +0200, Mike Rapoport wrote:
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> 
-> We've been splitting internal.h to smaller headers, maybe it's time to add
-> "memory-faulure.h"?
+On 03.11.2026 04:49, Nicolin Chen wrote:
+> Architecture code can require devices to use unencrypted memory. This makes
+> the DMA API use shared memory for coherent allocations and bounce streaming
+> mappings through SWIOTLB.
+>
+> A device marked with DEV_FLAG_DMA_CC_PRIVATE can reach private memory
+> directly. Add dma_require_decrypted() to combine force_dma_unencrypted()
+> with the new device flag, and use it throughout the generic DMA code.
+>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+The change look good, but I'm not really happy to see the mix of unencrypted
+and decrypted terms. Wasn't there a consensus which one will be used?
 
-Ack. I'm happy to move the "mm/memory-failure.c" section out of
-mm/internal.h into a new mm/memory-failure.h, as preparation for this
-patch.
 
-Since this patchset is moving slowly, I'll start the header split in
-parallel as a separate series, and rebase this patchset on top of it
-when I respin. Is it this ok?
+> ---
+>  include/linux/dma-direct.h |  7 ++++++-
+>  kernel/dma/direct.c        | 16 ++++++++--------
+>  kernel/dma/mapping.c       |  2 +-
+>  kernel/dma/swiotlb.c       |  2 +-
+>  4 files changed, 16 insertions(+), 11 deletions(-)
+>
+> diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
+> index daa31a1adf7b0..fb35ca27941cc 100644
+> --- a/include/linux/dma-direct.h
+> +++ b/include/linux/dma-direct.h
+> @@ -134,6 +134,11 @@ static inline bool force_dma_unencrypted(struct device *dev)
+>  }
+>  #endif /* CONFIG_ARCH_HAS_FORCE_DMA_UNENCRYPTED */
+>  
+> +static inline bool dma_require_decrypted(struct device *dev)
+> +{
+> +	return !dev_dma_cc_private(dev) && force_dma_unencrypted(dev);
+> +}
+> +
+>  static inline bool dma_capable(struct device *dev, dma_addr_t addr, size_t size,
+>  		bool is_ram, unsigned long attrs)
+>  {
+> @@ -146,7 +151,7 @@ static inline bool dma_capable(struct device *dev, dma_addr_t addr, size_t size,
+>  	 * requires unencrypted DMA addresses. Treat it as not DMA-capable
+>  	 * so the caller can fall back to a suitable SWIOTLB pool.
+>  	 */
+> -	if (!(attrs & DMA_ATTR_CC_SHARED) && force_dma_unencrypted(dev))
+> +	if (!(attrs & DMA_ATTR_CC_SHARED) && dma_require_decrypted(dev))
+>  		return false;
+>  
+>  	if (is_ram && !IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT) &&
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 25e9a86835fd3..b3b9ff090c590 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -41,7 +41,7 @@ static inline struct page *dma_direct_to_page(struct device *dev,
+>  
+>  u64 dma_direct_get_required_mask(struct device *dev)
+>  {
+> -	bool require_decrypted = force_dma_unencrypted(dev);
+> +	bool require_decrypted = dma_require_decrypted(dev);
+>  	phys_addr_t phys = ((phys_addr_t)max_pfn << PAGE_SHIFT) - 1;
+>  	u64 max_dma = phys_to_dma_direct(dev, phys, require_decrypted);
+>  
+> @@ -72,7 +72,7 @@ static gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 *phys_limit)
+>  
+>  bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+>  {
+> -	bool require_decrypted = force_dma_unencrypted(dev);
+> +	bool require_decrypted = dma_require_decrypted(dev);
+>  	dma_addr_t dma_addr = phys_to_dma_direct(dev, phys, require_decrypted);
+>  
+>  	if (dma_addr == DMA_MAPPING_ERROR)
+> @@ -226,7 +226,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>  	struct page *page;
+>  	void *cpu_addr;
+>  
+> -	if (force_dma_unencrypted(dev))
+> +	if (dma_require_decrypted(dev))
+>  		attrs |= __DMA_ATTR_ALLOC_CC_SHARED;
+>  
+>  	if (attrs & __DMA_ATTR_ALLOC_CC_SHARED) {
+> @@ -385,7 +385,7 @@ void dma_direct_free(struct device *dev, size_t size,
+>  	 * If the allocation used decrypted/shared backing pages, restore
+>  	 * the encryption state on free.
+>  	 */
+> -	if (force_dma_unencrypted(dev))
+> +	if (dma_require_decrypted(dev))
+>  		attrs |= __DMA_ATTR_ALLOC_CC_SHARED;
+>  
+>  	if (attrs & __DMA_ATTR_ALLOC_CC_SHARED)
+> @@ -452,7 +452,7 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+>  	struct page *page;
+>  	void *cpu_addr;
+>  
+> -	if (force_dma_unencrypted(dev))
+> +	if (dma_require_decrypted(dev))
+>  		attrs |= __DMA_ATTR_ALLOC_CC_SHARED;
+>  
+>  	if ((attrs & __DMA_ATTR_ALLOC_CC_SHARED) && dma_direct_use_pool(dev, gfp))
+> @@ -496,7 +496,7 @@ void dma_direct_free_pages(struct device *dev, size_t size,
+>  	 * if the device had requested for an unencrypted buffer,
+>  	 * convert it to encrypted on free
+>  	 */
+> -	bool mark_mem_encrypted = force_dma_unencrypted(dev);
+> +	bool mark_mem_encrypted = dma_require_decrypted(dev);
+>  
+>  	/* If page is not from an atomic pool, dma_free_from_pool_page() fails */
+>  	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+> @@ -665,7 +665,7 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
+>  	const pgoff_t pgoff_end = vma_end_pgoff(vma);
+>  	int ret = -ENXIO;
+>  
+> -	if (force_dma_unencrypted(dev))
+> +	if (dma_require_decrypted(dev))
+>  		attrs |= DMA_ATTR_CC_SHARED;
+>  
+>  	vma->vm_page_prot = dma_pgprot(dev, vma->vm_page_prot, attrs);
+> @@ -814,7 +814,7 @@ size_t dma_direct_max_mapping_size(struct device *dev)
+>  	/* If SWIOTLB is active, use its maximum mapping size */
+>  	if (is_swiotlb_active(dev) &&
+>  	    (dma_addressing_limited(dev) || is_swiotlb_force_bounce(dev) ||
+> -	     force_dma_unencrypted(dev)))
+> +	     dma_require_decrypted(dev)))
+>  		return swiotlb_max_mapping_size(dev);
+>  
+>  	return SIZE_MAX;
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index ded585b39fb92..0252473edd0b5 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -673,7 +673,7 @@ void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
+>  		return NULL;
+>  	}
+>  
+> -	if (force_dma_unencrypted(dev))
+> +	if (dma_require_decrypted(dev))
+>  		attrs |= __DMA_ATTR_ALLOC_CC_SHARED;
+>  
+>  	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr)) {
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 2c57b49ac7c06..ddfc4533934a2 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -1550,7 +1550,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
+>  	if (cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT)) {
+>  
+>  		/* swiotlb pool is incorrect for this device */
+> -		if (unlikely(mem->cc_shared != force_dma_unencrypted(dev)))
+> +		if (unlikely(mem->cc_shared != dma_require_decrypted(dev)))
+>  			return (phys_addr_t)DMA_MAPPING_ERROR;
+>  
+>  	} else if (cc_platform_has(CC_ATTR_HOST_MEM_ENCRYPT)) {
 
-Thanks,
---breno
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
