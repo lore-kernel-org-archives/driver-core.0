@@ -1,53 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793721093;
-	b=3MaE90RwVZ5w5D2mrZy9NDjcoZ0DuHtcDpLtHPp7K0VFCauzLkYFLvzx5mD9twuXKzys
-	 gX1Xl0ktuyVw/DQb/k+O+kmp5NGMLEMVbfU9hxpsiMcNyPID6rcqPOCL7PWO9R+kkKT8K
-	 Xklox7h9ZUwQGeoPspCuE4UcJM8oAJO83XEUlxJunys1lcdBnc66vfh/u08h9Un+vm6L2
-	 0ongpAPrq95iicBDAHNz9OF6OLxd5I3IUzSeoDYBOY2JM1hBr/Dp7fn1gW+/s9Wkv0Nt2
-	 yztscm/xsmw//zqOHLWW5vONm3Y+tfG7uXKBTbmoIEsceMrPJKBew421ld7A9xVh21w==
+	t=1793721378;
+	b=Z7P1n82PGAKG6qivSIcmvufWGxW77WtzLBUW25ewq/QX46LtSlBFzXfi7CX+lF4eo/Ek
+	 TmQ6/fxOOvGborH+WD5q21gVyXJJHigXwuSkoVkbOGUBY4an7fBakh9s8dDhVIU5dEd8j
+	 aYnDrNuoFn4I2YE3NtfFkR9NVTEjkWH0z5vk7tZ9M6r8wpDPvWoBZpApd+y38pB7CrvFv
+	 HCpSy6Qo9uUKpHuSODYm3uOxqHpq2BYcLcbR5UzqXX4GflHIWhggqeixE6teMmvWGmyOG
+	 n4M6TjZ2iV5/2YC0qTNE5t3wQv1eaYjzPcdUco8jk+TwaxCRWLgC1X9wVBYxA5S0UMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793721093;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=hIy5SElKPw5XSH5Sr2iM/0a7cChK0BEGncKjDhtCnJM=;
-	b=m9dVYUm+RYVSOlXM39s4/XLykDZNpNqAs8OVUbBh4VvbtcbaL9YjEGuxPy1heFkbMVuy
-	 B8YAWRtw0ybCzJ8uCwBo8+u1chqGpV30CVSKaAZgnWbonuHUWfMshz/R7z79oKkf2p+Ti
-	 tKA1vPGJpt5t4ODF2gbhFKUiSXLzB+g+AruqGAVeoSFE3dVfS+x9PlVVXRd8iJ1mmWgyi
-	 3DMdLFIij+rGx+5UGW+kyoqkwBpn4FN0UBLqgl7kXbpZsN72ygQC4HkKdb0vzo114qfde
-	 huJl+164Qm3OwI4Q1ENZmEaG6Qg0/JbEYZZ+dZnR1WYROcy8eciRHVszvQtq0ZgZVQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793721378;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=eVE0ejZ3ci2yxPN6jCZmDS8n1PcFDNfCthsFocfpEwA=;
+	b=uF1THULMT+Gnmc5ls6V5ko3dT37rGG1S5ycVEy4od0oTzMF7D1YPve4elqxsyHp/NkjF
+	 Q6k2qNlZc1cVq384CE6Hq11K+ny8MhbDsjpJNl3vJ7S2INjZzGHHdhkz+3nyzU01iZSnO
+	 5SLjnM5ApZ2//g3IdqYRo5q3E0y6TsQsYNjg9CWOLW7AjpgLllbtNs6fzx59efD0Ci4Hy
+	 vx9QQ0q8KEKNWjcOGFvmkOnmH7l8hZMkL4SNAEuPfVpjPJhGduUgvBMpzm6ixGRIZOAjO
+	 +Oungsi3xdhcxdXWpsXVQLfp4/RVNTb24KoOLBAt96TvKwam+BjFT1mAAFUWgXsNk4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PCF6AChK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=ENgVUUZy;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DF9606A329;
-	Tue,  3 Nov 2026 15:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFAE606A324
+	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 15:56:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAFAE606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PCF6AChK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A541F000C1;
-	Tue,  3 Nov 2026 15:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793721092;
-	bh=hIy5SElKPw5XSH5Sr2iM/0a7cChK0BEGncKjDhtCnJM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=PCF6AChKh/uavoDx1vZSgurY7svwGuSb3Bm5UA+17rokVNc+Y5XJVFKLMjxhwWB+5
-	 Xr+owJ7OkSj0uLBccwjcVtG6v6ihcvanXIEn3lkkAxYKZMvrkp0/hsGpg5udE0srmi
-	 B0jObVqGtRIvS2xIYr12Aww7l7sRVOJxshoaOkUfnO5kiC/F//NapfoM/lZErLWkM5
-	 Y0LlJfcQcwFPkS9wOqENAkeauxYDQRbA5izyQll7Ge0JFdwu9aV9tHwZDUVi+h6IIU
-	 90MAIzKSFjAQ58JYWKn8hCqSMXlAcWSBonoRuRl0bhvrMuk6RDWA1aNJ/2a5Tx090r
-	 oW4s+BBRq3JJQ==
-Date: Tue, 03 Nov 2026 05:51:31 -1000
-Message-ID: <c943b8e768ef766b0f6563b6085e99fe@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>, Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, linux-pm@vger.kernel.org, autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
-In-Reply-To: <cover.1793715774.git.krystianmkaniewski@gmail.com>
-References: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=ENgVUUZy
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EE1C11A1435;
+	Tue,  3 Nov 2026 15:56:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BA2D06046C;
+	Tue,  3 Nov 2026 15:56:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4AE71103291E1;
+	Tue,  3 Nov 2026 16:55:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793721370; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=eVE0ejZ3ci2yxPN6jCZmDS8n1PcFDNfCthsFocfpEwA=;
+	b=ENgVUUZywDfvbrAKMBEOf/3VPdoxopBV5nEzTM5Vj2CPKkOqinuuuiU2HLjlRyNpKIMRe2
+	y1KsG2q9tX0Zx4jTtO9So1iLEtT4yyDzQiugA9rIadmmyH8vN4pABb4gnLmH3E1zsdiebD
+	yiaF04vnpPDPQ/5c+Sh3jKHe4j9GD9C00L2EPQSV7TbGmeE/NZ91j7p4zEFEcFqU/+7zTd
+	UXUjl0pjlpQ2HYQaFhGmn52V1wOpbh83X09mPZjCQI5sH+1PevdXNKQ9RWtKdiC2Q0GGQ+
+	xr7xUVmALdFV898oJKdz8KinfU5MMcvmjoimFmyknmW/dYllXYHrGPK5EYACag==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>,
+	Richard Cheng <icheng@nvidia.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Lizhi Hou <lizhi.hou@amd.com>
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v14 00/10] lan966x pci device: Add support for SFPs, PCI part
+Date: Tue,  3 Nov 2026 16:55:06 +0100
+Message-ID: <20261103155540.365294-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -57,29 +107,189 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello, Krystian.
+Hi,
 
-On Tue, Nov 03, 2026 at 03:57:41PM +0100, Krystian Kaniewski wrote:
-> Patch 1 adds SYSFS_LOOKUP and kernfs_ops->may_lookup. Writable opens of a
-> marked file refuse both splice directions. Their of->mutex and seq_file lock
-> use separate classes. Read-only opens retain splice support.
+Previously, I sent a big picture series adding support for SFP ports
+available on the LAN966x PCI device [0].
 
-Can we be explicit and name the flag after what it does, e.g.
-SYSFS_NO_SPLICE and kernfs_ops->no_splice?
+In this series patches touch several parts and sub-system in the kernel.
+Reviews have be done and it makes sense to split the series and send
+parts separately.
 
-> The new property cannot be combined with mmap or preallocated buffers.
-> Kernfs rejects those combinations for direct callers, and sysfs rejects
-> SYSFS_LOOKUP together with SYSFS_PREALLOC before selecting operations.
-> Binary attributes do not support SYSFS_LOOKUP and reject it at creation.
+This current series is the extraction of patches related to issues in
+the PCI subsystem. It has to be seen as a continuation of the big
+picture series but related to this specific core part.
 
-Can we keep the rest minimal? With /sys/power/resume the only user, I don't
-think things like the mmap and prealloc combination checks or the binary
-attribute rejections are needed.
+Patches 1 to 6 introduce and use fw_devlink_set_device() in already
+existing code. No functional change but the introduction of the
+fw_devlink_set_device() wrapper.
 
-Thanks.
+Patch 7 avoids a dangling pointer.
 
---
-tejun
+Patches 8 and 9 fix fw_devlink issues specific to PCI and the
+device-tree nodes created during enumeration.
+
+Patch 10 avoids the usage of np->data and adds guards to prevent
+incorrect nodes removal.
+
+[0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Best regards,
+Hervé
+
+Changes:
+
+v13 -> v14
+  v13: https://lore.kernel.org/all/20261012142826.159178-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.4-rc1
+
+  - Patches 1, 2, 6, 8, 9
+    Add 'Tested-by: Abdurrahman Hussain'
+
+  - Patch 10:
+    Add 'Acked-by: Bjorn Helgaas'
+
+  - Other patches:
+    No changes
+
+v12 -> v13
+  v12: https://lore.kernel.org/all/20261001142815.277550-1-herve.codina@bootlin.com/
+
+  - Patches 1 to 9
+    No changes
+
+  - Patch 10
+    Split a test condition into two distinct checks as suggested by
+    Andy. No functional change but readability improvement. Split done
+    in both of_pci_remove_node() and of_pci_remove_host_bridge_node().
+
+v11 -> v12
+  v11: https://lore.kernel.org/all/20260909080114.591938-1-herve.codina@bootlin.com/
+
+  - Patches 1 to 7
+    Add 'Reviewed-by: Bartosz Golaszewski'
+
+  - Patches 8 and 9
+    No changes
+
+  - Patch 10
+    Add a NULL check for the retrieved OF node in removal functions to
+    avoid any NULL pointer dereferences.
+    Robustify the guard setting cset to NULL after freeing it.
+    Those issues have been reported by Shashiko:
+    https://lore.kernel.org/all/20260909081755.444E91F00A3A@smtp.kernel.org/
+
+v10 -> v11
+  v10: https://lore.kernel.org/all/20260717145147.823749-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.3-rc1
+
+  - Patches 1 to 5
+    Add 'Reviewed-by: Richard Cheng'
+
+  - Patches 6, 7 and 8
+    Add 'Reviewed-by: Richard Cheng'
+    Add 'Acked-by: Manivannan Sadhasivam'
+
+  - Patch 9
+    Add 'Reviewed-by: Richard Cheng'
+
+  - Patch 10
+    Rework removing np->data usage in the PCI devicetree node creation
+    and removal.
+
+v9 -> v10
+  v9: https://lore.kernel.org/all/20260708100302.517792-1-herve.codina@bootlin.com/
+
+  - Patches 1 to 6
+    No changes
+
+  - Patch 7
+    Clear fwnode->dev also on error path.
+
+  - Patch 8
+    Clear fwnode->dev also on error path.
+
+  - Patch 9
+    No changes
+
+  - Patch 10 (New patch in v10)
+    Guard against node removal with incorrect np->data.
+
+v8 -> v9
+  v8: https://lore.kernel.org/all/20260630102804.413563-1-herve.codina@bootlin.com/
+
+  - Patch 7 (new patch in v9)
+    Clear fwnode->dev during root bridge node removal (avoid a dangling
+    pointer).
+
+  - Patch 8 (patch 7 in v8)
+    Clear fwnode->dev during PCI device node removal.
+
+v7 -> v8
+  v7: https://lore.kernel.org/all/20260511155930.34604-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.2-rc1
+
+  - patches 4 and 5
+    Add 'Reviewed-by: Andy Shevchenko'
+
+  - Other Patches
+    No other changes
+
+v6 -> v7
+
+  Rebase on top of v7.1-rc1
+
+  - Patch 1
+     Add Cc stable. Needed for patches 11 and 12
+
+  - Patches 2 to 5
+    No changes
+
+  - Patch 6
+     Add Cc stable. Needed for patch 13
+     Add 'Acked-by: Bjorn Helgaas'
+
+  - Patch 7
+     Fix a typo in commit log
+     Add Fixes tag + Cc stable
+     Add 'Acked-by: Bjorn Helgaas'
+
+  - Patch 8
+     Add Fixes tag + Cc stable
+     Add 'Acked-by: Bjorn Helgaas'
+Older iterations:
+  Patches 6 to 13 in the big picture series
+  https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Herve Codina (10):
+  driver core: fw_devlink: Introduce fw_devlink_set_device()
+  drivers: core: Use fw_devlink_set_device()
+  pinctrl: cs42l43: Use fw_devlink_set_device()
+  cxl/test: Use device_set_node()
+  cxl/test: Use fw_devlink_set_device()
+  PCI: of: Use fw_devlink_set_device()
+  PCI: of: Clear fwnode->dev during root bridge node removal and error
+    path
+  PCI: of: Set fwnode device of newly created PCI device nodes
+  PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge
+    node
+  PCI: of: Avoid np->data usage for the node changeset
+
+ drivers/base/core.c                      |  4 +-
+ drivers/pci/of.c                         | 52 ++++++++++++++++--------
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c |  2 +-
+ include/linux/fwnode.h                   |  6 +++
+ include/linux/pci.h                      | 11 +++++
+ tools/testing/cxl/test/cxl.c             |  4 +-
+ 6 files changed, 58 insertions(+), 21 deletions(-)
+
+-- 
+2.56.0
+
