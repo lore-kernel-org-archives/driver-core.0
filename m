@@ -1,55 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793803102;
-	b=HFFgHE2d8oyKG092L2v+R2mZyxZ3CSaCzs3uIK41YLVOGFRpshktSVF8hymg+Rziwaap
-	 /c9Yqllw7XAh2BR/lxBTWdAcTOKmhs7FmH1vA3oUY7cmnQq8Xrn4qZK3csWx1XweK2RVr
-	 rZbDZttUXWypLoFzFuMtNj53++4Jw2efY+rr/o8EeMD39onA+y1Lge043pZPJ/7C03bmI
-	 8M/PoGKE2/Y1nfOHpsO4bRtaZe0kt9aMX1SDxDTBbDgHVhC6I7qJ11pRMpK3gPKd5pPlv
-	 vMW1y5syCXvlR0CDOT+GHqhmTeuw0yeiakSjzRrUA7lKQ1rods1foaEc2Wq37uFccDA==
+	t=1793806385;
+	b=JNrnti+9SSRmO3wEXGhqBdWwlNAlHCzFp3jV2l+cKgbZvNTRZP4sD44WtpuHBZMVti3F
+	 hQsC+ZWcMoMBfiywiqSyKz1O6wtrY42tDuAdhufN30Tdz3xNekPI0urstvfAZEEbK1Ce4
+	 gwIUl6IvtvZZ9bWDIZHdTaZa8clBTQA5b5pr2n3p3f0z6TqvzpXGrxRuvBnSiuFLJHeVi
+	 kmR3zhpZ/ZQVFNJKe2P6GxoS25HdyoaFWBNHZGCdPmLDOPeXYeOkJKH0ulnRRUaC/N1Vq
+	 wv8apKilYMcPy9U5dU0E/XuBASpH7jkDaRx6ZY7wrkSi9uKjMImEg06nf8N8gekhAeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793803102;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=TQh3NLauPY1iVVeXcuDFWHu+HqpyEZbU2yQkADbmaQs=;
-	b=PGplTZriA9wYF2BUYQjk3yPnDfTHaEymEmZTiO1kY0oW9N4ttajPcAWr8ClrW7Xzqa7q
-	 vYfOpx5Y08wmH2hryDLC1Xbh2SoxNL3Kx6LqwY91KmeEsVd9VrvPEVN9A0QstfSbff6hd
-	 i3RDkrOq9gKkhIBR6JDdzSWNQUupbnHnIPvVOyUFKAON6KOVHKoxKaG6PuEuT9joCFjGL
-	 trbeTshu4NUwgjX/18b1wZrKbCpG3B8VG63mzm8zWdpo5wvEPfqVKE5qfQ4rPuJIvSAIZ
-	 mCAskFGJJjblVpW37Xd8qe6YppJ94S53GIIN/reNcBHpBb55AUH/YvfHQu7MHNU3BLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806385;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=b/x6zpD9OBHa7oB2g2wm+0IAQx4iGRhspWzCqvvaFww=;
+	b=gDv/W+TH4n2vTw0/2U4xfMfz1gy0yX3CIxzFIQu4csMDt2QH7STauaTRfcgMd6FgrwKF
+	 zUgEf6ABwciF/Ytvxr6rDT1BScfZnolAKb/+AXcge4gK9KijQ1S/pfGcHHq1f5srZgSwT
+	 2pnJctfhfrBrCRbWEh1maE8t8AVeB3b8RUiOumE5BucgmPXjavSuMDi5YGafHSVbW7BKl
+	 Yx3dis54BbvP+VyhfpJUQ9iOWdD+s40qeoIR30OGAz23BaUN0hsvzSfYPamQt8zuD7z4M
+	 MgAtLbrTzVKrP2CcgdA2I/r5j54GVm3pCanzPSFmLPAD0AMhViQU0O7HTCIdiNmwLdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VfKhKgVm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="R+bri8M/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A1A606A31B
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6F2606A32D;
+	Wed,  4 Nov 2026 15:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VfKhKgVm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E7D1F00A02
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:38:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R+bri8M/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 018791F000C1;
+	Wed,  4 Nov 2026 15:33:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793803102;
-	bh=TQh3NLauPY1iVVeXcuDFWHu+HqpyEZbU2yQkADbmaQs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VfKhKgVmXvQe2VRewqtDFVT3Z/6Dtd7+1cJreS9lRzXIAAkUnc5H2oJX9ssBZK3JX
-	 AWPrnhiuzCSj2FTM/6tRlbNTnvjd7y7nZk77uv5TZ86dFsccq+SB+0JJ4F2eY+C16m
-	 865v3OcqqLlGqjthBx7950hiNAYoevx/W/cNhXABD4mdfKS7S0OZhjove/5ihzff+J
-	 lhtnksdv0u6LFEafggI/Hmjhpnhph3fBWr4sZL3vCclpGarIsZjOzUZ/PCXSo1TFGy
-	 eva9+D6vDYz2OLgmNcF8TdV3pfHlUPo4GtfA6bjoSj5igS0XuaKDsGjLeuf98FzbyZ
-	 0NYLenDuMIn6w==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5bfa7c09c9eso500242e87.2
-        for <driver-core@lists.linux.dev>; Wed, 04 Nov 2026 06:38:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBx121E+y3hyOuGwuS5P7C/UDyRvMxw10mqIVafoLW0VL1/GUM0JtHV4OzewWJzzmVYl5hrhpHk6s1cwSQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+tOjm+kCISahCeBawLUGzHkftGIZXJp/huUeWKuZPp0Hq/HJNA
-	a3+WvrDo2vscZOmk1d5U9vfCUgsZ48pIdvZuKdpZrlumXf0DZMvNKJVD8ZtgXPqyq4zclDl8ASB
-	uai0/5w1t0rh6q6xjcMpow8U3CMNcPDo=
-X-Received: by 2002:a05:6512:6193:b0:5bf:bf86:d01a with SMTP id
- 2adb3069b0e04-5bfd9562e8amr5915003e87.17.1793803100471; Wed, 04 Nov 2026
- 06:38:20 -0800 (PST)
+	s=k20260515; t=1793806385;
+	bh=b/x6zpD9OBHa7oB2g2wm+0IAQx4iGRhspWzCqvvaFww=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R+bri8M//bIxpp/85z/gG/q9NtoELwrxjLtJK0FqUgNTr0KgUDF7WBeQxi0rzs80U
+	 hvcpjFPDVy0IK+REsAD9RH8621T3uNvROTsO3dERub2j1A4zCMG37xcHSToep/Vcdo
+	 Wo9FkSkY11ZyuXKTzVzqLRSV/Et2Mw6aUdUqebLzaVqFrzjb4tDaA9e8xMoDHb13Ms
+	 ziQF7+6d/8XpI8kIYGg1B2xUr120I/EAEQszkccnDUgKm4nDcjzF3x2TOs20JOsJfo
+	 7wVDFturzzuEjSeyEr7M1C2g4UWtSSIh8aj7EBJT76lV9EzMXGFO+x0UcSybQIyE0A
+	 sv0xtIiZCYwlQ==
+Date: Wed, 4 Nov 2026 09:33:03 -0600
+From: Rob Herring <robh@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 8/9] of: property: implement the count_references()
+ fwnode operation
+Message-ID: <20261104153303.GC3951195-robh@kernel.org>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-8-6e28fe1c72c4@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,84 +72,17 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1793715774.git.krystianmkaniewski@gmail.com> <417c773d1719006cc85a3468dc393f5e754bf855.1793715774.git.krystianmkaniewski@gmail.com>
-In-Reply-To: <417c773d1719006cc85a3468dc393f5e754bf855.1793715774.git.krystianmkaniewski@gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 4 Nov 2026 15:38:08 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0j-WY=nwVvq6Ck7kDLZ_E6jXGsQHohB5uZtT3uSQ0-6Ng@mail.gmail.com>
-X-Gm-Features: AclHuK9myr72rVuqTOxZAZX_zcmWDtmvlF6GR5rcMcUu0FZVOtDo1SpAWRGZnAQ
-Message-ID: <CAJZ5v0j-WY=nwVvq6Ck7kDLZ_E6jXGsQHohB5uZtT3uSQ0-6Ng@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] PM: hibernate: refuse splice on /sys/power/resume
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>, Danilo Krummrich <dakr@kernel.org>, 
-	Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, autofs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-fwnode-for-each-prop-v1-8-6e28fe1c72c4@oss.qualcomm.com>
 
-On Tue, Nov 3, 2026 at 3:57=E2=80=AFPM Krystian Kaniewski
-<krystianmkaniewski@gmail.com> wrote:
->
-> resume_store() passes the written string to lookup_bdev() before it
-> tries to parse it as a device number, so the string is resolved as a
-> path relative to the current directory of the writer. The syzbot
-> reproducer writes a relative name from the root of an indirect autofs
-> mount. Autofs writes a mount request to its daemon pipe while kernfs
-> holds of->mutex. Together with a splice into a writable kernfs file,
-> which takes of->mutex inside a pipe mutex, lockdep reports
->
->   Chain exists of:
->     &pipe->mutex --> &of->mutex --> &sbi->pipe_mutex
->
-> A splice from the daemon pipe into /sys/power/resume deadlocks when
-> the written path triggers a mount request. Mark the attribute with
-> SYSFS_LOOKUP so that its writable opens refuse splice and use lockdep
-> classes of their own. Plain read() and write() keep their behavior, and
-> read-only opens retain splice support.
->
-> Fixes: 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev in resum=
-e_store")
-> Reported-by: syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D002fb7b2d0bc53bf7e75
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Link: https://lore.kernel.org/r/ec0c2add83f18d7a3c726d5d219dfe42@kernel.o=
-rg
-> Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-
-and I'm expecting this to be routed along with the first patch in the serie=
-s.
-
-Thanks!
-
+On Wed, Nov 04, 2026 at 03:03:50PM +0100, Bartosz Golaszewski wrote:
+> Implement the property_count_references() fwnode operation for OF nodes
+> by wrapping the existing of_count_phandle_with_args().
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
-> v2:
-> - New patch. Together with patch 1, this replaces the v1 autofs change.
->
->  kernel/power/hibernate.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index e365e440cd5299..9dc5a27f674fa0 100644
-> --- a/kernel/power/hibernate.c
-> +++ b/kernel/power/hibernate.c
-> @@ -1316,7 +1316,8 @@ static ssize_t resume_store(struct kobject *kobj, s=
-truct kobj_attribute *attr,
->         return n;
->  }
->
-> -power_attr(resume);
-> +static struct kobj_attribute resume_attr =3D
-> +       __ATTR_LOOKUP(resume, 0644, resume_show, resume_store);
->
->  static ssize_t resume_offset_show(struct kobject *kobj,
->                                   struct kobj_attribute *attr, char *buf)
-> --
-> 2.53.0
->
+>  drivers/of/property.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
