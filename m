@@ -1,79 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793823865;
-	b=21mBzEN+X5mTKAtcEZUMQ3oV7cVwk+iCJf6CBRN3AmTCOhKsgCA25ohSkNA14ja7J3Zp
-	 QpEJ5xu5TtU5Cm3Fp6eJQTMPmtSaFeGvEWmoF9maziXJCyY6Ats0vF66BDKLGKHJomeQx
-	 y9jZ1BlxYMWxT+BEehBnYff96JSuE4nCkfi6l9ogRLfjXuChI0ENuPHBe5bR3bS2cdXEh
-	 qKp6vQW/9XkjUkNm/6l5gGgMUJs8OiF2XzNVfVPBv9UhG5tvp0Y7xC21nlJDqlDDiJqJ7
-	 75oUgibgxNVU0o1kw3LEc2wpHkoURZb0Wk6+1/v0oUplivELYkRAZ7VB7AuOKXKPwwQ==
+	t=1793826457;
+	b=eIdgwBnzPw2ZdJ0nPxMQB7Cq/5FkjAB7sYy80ztkpIzQpmnTWRR8yQ63hv6K1aP8Nd9F
+	 Gw69crqEvdpac+BByce6Wgj411pJr3YSDwKQjwtPS+2q83fLeqxGhGVdasGdf0QSCQXTz
+	 NlSwDcJTKr0QrX8pD5GQDCqwi+NpRcHR9efuGAnsEp/OxmCrzW3iAn8H9opXM0q5iVcBh
+	 HeI2VGNT6ijp0xHtg7kbxDYG7Mn4hhELSUSBdBfdnMqXEzZ2PtwP6ogMKOAuwbQWvdAj3
+	 OStQnYa1yWRMVWkz/JPpsCCaNW5zZPrRGzCJrsHdRpXDB9bu4itbpVaw5CPAVNGOu+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793823865;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793826457;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=4MgHEzrLAbBkM61NemPdkRvlUGQL1y0M7TR9LGDl3pk=;
-	b=chtV5W/AIpAeIDFKc3TSA6SDMFA2EOzwTwQvXLwwcXUI05fvs2PlpYKn+hpTouM7wIxw
-	 148Lu7FmsuGk9OqW3O1JILs21lq3cOqdLIlhXMn2BIt+k4KSfwIpUFYnpJHmSmk6JUyuH
-	 JwZcoX6SWhs4WjE9BXLfDTtLj49B1aqASGtH8cvMGrGIBonAjd4QRXy6OlrJF/Ds2zcVR
-	 6vjM1RBvIlONc9aeGyuXS5hYzeCvHa4zxGeyBgeX0mNSVfEpqTknZWDp4Orx+yuScymxU
-	 Uy/ve+/w/EOhlOq37eBFD9wzAqvF3KCsjNd1BO1mhDV5t0MnSz/isF3EJNuGVoxtSSg==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=BIWwTRYTaBPAHlWposIOtokLSiwg9bL7hag8t7zvCh4=;
+	b=z8pZHwyppvfqKrSn0Yfm/zpqDUrndV8KqTfS2gsKTc1Zd5d73v4ciEJUv81L55TzDLz/
+	 KWD/bJhSrYRJssDWQ09qJHRwxSvgNnlg4S2WH6zsQZr+LwvFzsOvTfxV3ociKErW/TVIk
+	 MyyWdXb/0yA/Zxn1cFaOrVovQgb/jVASs+2hOHXZoH6+MOoJSjNEHt8a2uGDG9yQnvFjn
+	 hLpsrPeAkIik99UCVmQKsjPznN/n1+nJar+VwwA/QraD6WdM0ESwqPhAv+t+k5pw4IRkF
+	 t+IphoACv0DTWvhqGIZXS06IcD51Il24i1IpXOzCde91qxJRaTS15zVSaM4QoaPowsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TwWmQ5SU;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AyUYoNNM;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B22607031A
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 20:24:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55B22607031A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E09F606D81D
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 21:07:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E09F606D81D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TwWmQ5SU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AyUYoNNM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793823864; x=1825359864;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LWgter10bERtXpWLYXd1wiapGKiS6iehhQeOe+UG9sQ=;
-  b=TwWmQ5SUZPOZyQacXrD6r/jwXSwBYw2TV8KjfggWdQcru6gWLvbTgw1d
-   CN6Stu60TkgAvK1i6pBFsHSYYFSY7C49eyQL8xwT7GkDTJU3NP9cTp4fI
-   UEQ6uAqC6I0nnM+LINcKYQmEZa+FRmo25OtX8jJWyeFHwwWrmoTsDvuUD
-   5zHI2ij1wOOCPamhjgAXhveOJDPWGR/OCYFNkeehuuMQ2401q2jfJ7Ghb
-   rcq1j7MukeMGBLSOfNDBM36C/6Dn1tJnSvxhVeC/RV5iWTjS4KZnSsoM1
-   tWKGV74h09UJKw1kTviiADTM/nW7hxBhnK8QdZ0pZOXAd8/wSgGkevmXT
-   w==;
-X-CSE-ConnectionGUID: x7YXmM8vSdum+qUpJj2JzA==
-X-CSE-MsgGUID: M63GlQ/LRqircxa4IX1jiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2624196"
+  t=1793826457; x=1825362457;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O1F8JaJ8aiqw0BarEPO1tt+vgJs6Xe8tWpLSoVWHy5U=;
+  b=AyUYoNNMGT6JiRQC4+lJw8bYolDc9Avgqu6ReF7vbsD/qT8ioBOZhKL+
+   GSuA3DVfz8qUwcxqNEyLaC9mx40wKsxt4aYpNb47I7mfosur756dIk8gR
+   FnrbwPbtltg67Dr14cMYOEfiWiKhOuBb6LZnhn9QMDkynB6kZHYTJrMqC
+   r4RyrNtaroW2VxVkwWonxdT+oPqg/2ZznaAD6b+VmHH6GPyN+yNWWALmS
+   umh7N5whoVqVg1P1dSsOAMuj1fC46N5sjqkl8AaxwCR3MYFD+YLY7xCVy
+   CKhbf+mzOg3fQoBVgQnw8OK4JxSxWyWzxQfZYVynkrgdbE98iG7clB5t4
+   g==;
+X-CSE-ConnectionGUID: /FipYBPrR9SYv5uYeatblg==
+X-CSE-MsgGUID: yZsbdUSdQB6IdbNhrvdRPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2690647"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2624196"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 12:24:24 -0800
-X-CSE-ConnectionGUID: znWOc9rLTPCh0n2A7dCh7g==
-X-CSE-MsgGUID: P2zyPZiZRP+s11PTDcfMZA==
+   d="scan'208";a="2690647"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 13:07:37 -0800
+X-CSE-ConnectionGUID: UIRrZ91lR6iQIZbysWdYCQ==
+X-CSE-MsgGUID: 5AcLI8a6Qoie1kFAiVTJEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6830955"
-Received: from dut4425arlh.fm.intel.com ([10.1.80.189])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 12:24:24 -0800
-From: Stuart Summers <stuart.summers@intel.com>
-To: 
-Cc: driver-core@lists.linux.dev,
-	bartosz.golaszewski@oss.qualcomm.com,
-	balasubramani.vivekanandan@intel.com,
-	intel-xe@lists.freedesktop.org,
-	heikki.krogerus@linux.intel.com,
-	dakr@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	Stuart Summers <stuart.summers@intel.com>
-Subject: [PATCH] driver core: platform: tests: add a shared software node test case
-Date: Wed,  4 Nov 2026 20:24:16 +0000
-Message-ID: <20261104202419.30180-2-stuart.summers@intel.com>
-X-Mailer: git-send-email 2.43.0
+   d="scan'208";a="6982505"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 13:07:30 -0800
+Date: Wed, 4 Nov 2026 23:07:28 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 2/9] lib: string_helpers: implement a CLASS() for string
+ arrays
+Message-ID: <auuekJTgjp8oSfgX@ashevche-desk.local>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-2-6e28fe1c72c4@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -83,100 +94,27 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-fwnode-for-each-prop-v1-2-6e28fe1c72c4@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Cover the pattern used by drm/xe + i2c-designware, where a software node
-assigned as a platform device's primary firmware node is handed to a
-second device via device_set_node(), and make sure removing that second
-device leaves the owner's node intact.
+On Wed, Nov 04, 2026 at 03:03:44PM +0100, Bartosz Golaszewski wrote:
+> Provide a CLASS() for managed arrays of strings. It can be used for
+> automated release of temporary string arrays when they go out of scope.
 
-A potential fix for this issue in the drm/xe driver is being discussed
-in [1].
+...
 
-The signature in this case looks like this:
-Oops: general protection fault, probably for non-canonical address
-0x6b6b6b6b6b6b6b73
-RIP: platform_device_release+0x6f/0x80
+> +struct kstrarray {
+> +	char **array;
+> +	size_t size;
+> +};
 
-Signed-off-by: Stuart Summers <stuart.summers@intel.com>
-Assisted-by: LLM
+Hmm... Why struct strarray can't be used?
 
-[1]: https://patchwork.freedesktop.org/series/175858/
----
- drivers/base/test/platform-device-test.c | 57 ++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/drivers/base/test/platform-device-test.c b/drivers/base/test/platform-device-test.c
-index 9ce563f76aad..378ba7fab2ac 100644
---- a/drivers/base/test/platform-device-test.c
-+++ b/drivers/base/test/platform-device-test.c
-@@ -420,9 +420,66 @@ static void platform_device_two_swnodes(struct kunit *test)
- 			    "Expected errno == -EINVAL, got: %pe", pdev);
- }
- 
-+static void platform_device_swnode_sharer_release(struct device *dev)
-+{
-+}
-+
-+/*
-+ * A software node assigned as a platform device's primary firmware node may be
-+ * shared with other devices: i2c-designware passes dev_fwnode() of its platform
-+ * device down to the i2c adapter device it creates. Check that removing the
-+ * sharing device leaves the owner's software node intact.
-+ */
-+static void platform_device_swnode_shared(struct kunit *test)
-+{
-+	static const struct property_entry properties[] = {
-+		PROPERTY_ENTRY_STRING("compatible", "test,shared-swnode"),
-+		{ }
-+	};
-+	struct fwnode_handle *fwnode;
-+	struct platform_device *pdev;
-+	struct device *shared;
-+	int ret;
-+
-+	pdev = platform_device_alloc(DEVICE_NAME, PLATFORM_DEVID_NONE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-+
-+	fwnode = fwnode_create_software_node(properties, NULL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
-+	platform_device_set_fwnode(pdev, fwnode);
-+
-+	ret = platform_device_add(pdev);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	/*
-+	 * A second, non-platform device referencing the same fwnode, like the
-+	 * i2c adapter device created by i2c-designware.
-+	 */
-+	shared = kunit_kzalloc(test, sizeof(*shared), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shared);
-+
-+	device_initialize(shared);
-+	shared->release = platform_device_swnode_sharer_release;
-+	ret = dev_set_name(shared, "test-swnode-sharer");
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	device_set_node(shared, dev_fwnode(&pdev->dev));
-+
-+	ret = device_add(shared);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	device_unregister(shared);
-+
-+	/* The owner must still have its software node. */
-+	KUNIT_EXPECT_PTR_EQ(test, dev_fwnode(&pdev->dev), fwnode);
-+
-+	platform_device_unregister(pdev);
-+	fwnode_remove_software_node(fwnode);
-+}
-+
- static struct kunit_case platform_device_swnode_tests[] = {
- 	KUNIT_CASE(platform_device_swnode_add_twice),
- 	KUNIT_CASE(platform_device_swnode_as_primary),
-+	KUNIT_CASE(platform_device_swnode_shared),
- 	KUNIT_CASE(platform_device_two_swnodes),
- 	{}
- };
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
