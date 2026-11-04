@@ -1,84 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793788833;
-	b=AChHRBJQ9eXHZu44tsnlvP+RZiyJJfo3VUF6K7WAyLcC6h1h/D4EYboyTlYlt2xRt7eA
-	 gnHoH6YwHSVFP2JJC9kD8flJ57dCO0+DYTtanjqoXIK6TmBNc3wyZjQZ1C9uBdG8cFLtJ
-	 4LwsSRKLbXtjqYAvmpBWup/gNTxvnjed4zUVHLHcAZgWUc5jFQLgVqMivN5AD4Cu8kdmY
-	 ZuERU6J+sTFQ6KrvZyLaQJVpYbqn2flrvdtx3R2TinpxZXKIftXEabGypy7VVK6uj9w5C
-	 30H4NP+MJspSzQtz9cb0gJSC7S0Am7ngwjhtMAxo0edXInmi3Vj+nAG8dbqaKnHE78g==
+	t=1793789533;
+	b=ZKJFz+QZu/1VEw8YAJl7YEUijd7BORfhvf3RaUyE9jNpIzywmHjPldjINzu8sSV0Baqc
+	 OMLUycgF7t5oD37Dw9xcTW2h3mzQhea1MCHXGa2Tmfu2rpqxlqYRC3lwZNhSArPWSjCzo
+	 NuJF8T/Gm1smA0n6jPCNwsqieySNHYq6NrDXGKzXJvT5+mjkKKd7chfNBZEpv/sMx9MCT
+	 LD6S0RD8/khiVOGKFrNM/DlMeSGgsMusK/VOZMT1DzV8Uv59Lj4XJLmWP7TCxR/+Gf7tj
+	 o3TGkf8YvJ+QtM6fs4negooOyU9CmahU7Rif/mogcx8w6wDsrTms2aE+Vd6DfRMnjRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793788833;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789533;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=OHhrH3mVCZL9F+uul7Pko5LwqezUEkg/0ds9TVqWkW0=;
-	b=5RCWKwpjtnQej81oKuXr8ZjP/iYBhJ+bR/n4dfeV3oC9HScPGN1n+pBg7lwSuqfM268Q
-	 CjiIM2eyt2qlqWTeKcKsj+mBOJzWWSZkTH7mnWd2kHIa50BMOe+nHct7kvhIPx4TRAqRl
-	 G+Bj40VgCgDtrN/gXoMe9m/KqJgOGA63212Crij/2wQCRmTww0Ktr+SlwQXUs8Wuq6prl
-	 gGhUgKTTFaALbD8QyFV+bRNVvFEr/iMauy++nX6dKNH2XDjkCIcp1hkEb6OKeE8+ub4Dr
-	 /0GwkXDi9/qkZM148YVmgeA3HlzQy3k/gYw926fQ0v51ZqgX2vFNE8P0/iMCFIxeuWg==
+	bh=SWBtc5MM6lAsWLzbe3HjjfI/t1G5G7qVzrPwaoOHj0c=;
+	b=INBCWg957iS1CePo/HnGo2SXK1BnNJvi/vC5rXN75Cz3eWB3KDufbugiimLdELI2T7CU
+	 LJ+WofoymwQKpIr4dcxhmfOO/j0Rhp2eDlaR0PzINS7WOcctzP5Xo1u2dzn2J38XjNZf0
+	 1onDVFdcyMl7sMkmxTwiQ5nqxgSB/U/W+dcJHxwZ3paRuCIfUHnAUHM+Z8nDKKTVt9DpM
+	 D+0B0bL1H+/HZPT3ly8wEt6joELKUIk8zGjcdjynI5Bzj2J74RVvsWcNFbCRNLls+uzd4
+	 tj6V/e0nd4EmJY4hBN7uOmeRYze/ykoJVmYwws6EYwHQjLgG0HseTSd8nc+oOuX4quQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EeMZhO8D;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=peEq42YG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7936606A31B;
-	Wed,  4 Nov 2026 10:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5375D606A326
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 10:52:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EeMZhO8D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962121F000C1;
-	Wed,  4 Nov 2026 10:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793788832;
-	bh=OHhrH3mVCZL9F+uul7Pko5LwqezUEkg/0ds9TVqWkW0=;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=peEq42YG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B86E81F000C1;
+	Wed,  4 Nov 2026 10:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793789532;
+	bh=SWBtc5MM6lAsWLzbe3HjjfI/t1G5G7qVzrPwaoOHj0c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EeMZhO8DjG4Z1LNGDG6wdfrR5/jvvahFgvuj3m7HOQrS5HMxi/U+6lT8CdBS1mQBG
-	 IC79mPKN5pooYxKGcfp/3nadOdWf8Fym3XSVAO968hO1SW6hTg6elGvzxmkBPwmNaS
-	 v9T63ChJrQAQbad0an5kGXooCbmvv9MDXmPvDoorGg+XyLiYGBnkViAIHcypGwqbpJ
-	 ppQezfycclcHYH/cH5pj6vY3QPZi1ua1tE+LaTlont55dEIEeB+v8CFlcxuVMlA3hL
-	 myTh9yVFL8UBjo6Snz+ghL8sE2j0/RkU7G36RxL7WrUdRykGnhNHAiwYwIXZ3Ksf2n
-	 rYu3AjolMYkzw==
-Date: Wed, 4 Nov 2026 12:40:16 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	b=peEq42YGXTzsDAfhCPDspEfFoQnhVkRmyTPFabc8uRXeAKdQP8G0cwZgglF4sN6ln
+	 YoWWKJfFLhrbWV8eKhTLcaz4Qo+tsV8fCyrRnjqKYi9g71iBkYdADIKlbnU19PQkdU
+	 n9EukkTRUUCyVXsmA4VPuIiXspvHwTXdg5fR9o/M=
+Date: Wed, 4 Nov 2026 11:52:10 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	kas@kernel.org, kexec@lists.infradead.org,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	shakeel.butt@linux.dev, linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, rmikey@meta.com,
-	riel@surriel.com, harry@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v6 3/7] mm/memory-failure: add hwpoison_boot_page() to
- flag an inherited frame
-Message-ID: <ausLkNhb8ZPz0ra_@kernel.org>
-References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
- <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
- <aumt-4kfGGtoXuh-@kernel.org>
- <aumvVjoHo4KeuyEp@gmail.com>
- <auovL7i1rEcXCeGS@kernel.org>
- <auo3ScXy6dk0Gr3-@gmail.com>
+	driver-core@lists.linux.dev, Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH] driver core: don't update the status of an autoremoved
+ device link
+Message-ID: <2026110438-washbasin-stylishly-8e48@gregkh>
+References: <20261104025343.1527458-1-vulab@iscas.ac.cn>
+ <20261104-thoughtful-real-saluki-8cae0c@quoll>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -90,40 +59,67 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auo3ScXy6dk0Gr3-@gmail.com>
+In-Reply-To: <20261104-thoughtful-real-saluki-8cae0c@quoll>
 
-On Tue, Nov 03, 2026 at 11:49:44AM -0800, Breno Leitao wrote:
-> On Tue, Nov 03, 2026 at 08:59:59PM +0200, Mike Rapoport wrote:
-> > On Tue, Nov 03, 2026 at 02:06:17AM -0800, Breno Leitao wrote:
-> > > On Tue, Nov 03, 2026 at 11:48:43AM +0200, Mike Rapoport wrote:
-> > > > > --- a/mm/internal.h
-> > > > > +++ b/mm/internal.h
-> > > > 
-> > > > We've been splitting internal.h to smaller headers, maybe it's time to add
-> > > > "memory-faulure.h"?
-> > > 
-> > > Ack. I'm happy to move the "mm/memory-failure.c" section out of
-> > > mm/internal.h into a new mm/memory-failure.h, as preparation for this
-> > > patch.
-> > > 
-> > > Since this patchset is moving slowly, I'll start the header split in
-> > > parallel as a separate series, and rebase this patchset on top of it
-> > > when I respin. Is it this ok?
-> > 
-> > Sounds good to me.
-> > 
-> > Just be aware that MM folks are knee deep into fixes this cycle, so both
-> > sets could be moving slowly :)
+On Wed, Nov 04, 2026 at 08:11:13AM +0100, Krzysztof Kozlowski wrote:
 > 
-> Appreciate the heads up. In that case, should I hold off on the header
-> split until the next cycle instead of starting it now?
+> On Wed, 04 Nov 2026 02:53:43 +0000, Wentao Liang wrote:
+> > device_links_driver_cleanup() drops the managed reference held on a link
+> > that has DL_FLAG_AUTOREMOVE_SUPPLIER set and is in the SUPPLIER_UNBIND
+> > state, and then unconditionally writes DL_STATE_DORMANT to link->status.
+> > 
+> > device_link_drop_managed() puts the reference that was taken for the
+> > managed link, which unregisters link_dev and lets devlink_dev_release()
+> > queue the work that frees the link after waiting for device_links_srcu
+> > readers to drain.  device_links_driver_cleanup() only holds
+> > device_links_lock, so that wait does not cover it and the store to
+> > link->status races with the kfree() of the link.  Writing the state is
+> > also pointless at that point, as the link has already been unlinked and
+> > unregistered by the drop.
+> > 
+> > Set DL_STATE_DORMANT only for links that are kept, as
+> > device_links_driver_bound() already does for the analogous case.
+> > 
+> > Fixes: 1689cac5b32a ("driver core: Add flag to autoremove device link on supplier unbind")
+> > Cc: stable@vger.kernel.org
+> > Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+> > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> > ---
+> >  drivers/base/core.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> 
+> Multiple things here:
+> 1. Your team ignored completely previous feedback. Multiple times.
+> 
+> 2. You use multiple identities with this email address, thus I doubt that we
+>    speak with an actual person.
+> 
+> 3. Your bot does not even bother running checkpatch, right?
+> 
+> 4. Nothing of this was reproduced nor tested.
+> 
+> 5. Finally, the same feedback:
+> You sent multiple independent patches, to multiple independent
+> subsystems. The amount of these patches clearly suggest this was
+> AI generated and most likely not tested.
+> 
+> More importantly, you sent all this work without properly organizing
+> relevant patches into patchsets. This makes reviewing difficult
+> and might cause multiple reviewers to address the same issue.
+> Replying to the entire set is impossible and requires handling each
+> patch independently, instead of applying or discarding the set.
+> Maintainers also won't see the bigger picture of your work. Quite
+> worrying.
+> 
+> This is on the verge of hostile patch: bomb us with so many
+> contributions, we won't be able to handle them in efficient manner,
+> like responding ONCE to ask you to slow down.  Considering all this
+> is untested and LLM generated, I have even more doubts whether this
+> should be considered for review.
 
-I believe one header split patch is small enough and not controversial to
-have it this cycle.
- 
-> Thanks,
-> --breno
+They are now starting to send out private patches and avoiding the
+mailing lists entirely.  Time to do something a bit more drastic to stop
+this mess...
 
--- 
-Sincerely yours,
-Mike.
+greg k-h
