@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802711;
-	b=bTsHNpsZNBFIvUJgFpdsKnN8Sbb9fhGH4zjeHcyDupqfTVhofigdNiLl9JtGATVNHISW
-	 AJ3Q95NbaCAFeiYM0FlxMrm1xkldUNKf6B6fr09r9oTfEOMuAJpXAs6cYZPk6Pim7A3cU
-	 itJdvgpKEeFbw/RoEyUVyBmSX4YHIBTiggw3mG0cSn8xmr6BBN28sNmtXPlT2NWx3ecGQ
-	 cvvb84BwlkAd7k7ibF0BV9CuVR8kOrAU0TPw8HMTUAVi1uoMKcX5RM8VvyLDET0DVtBX9
-	 kfwGPh4Ly0I7GrbmLaOndGYO7hgOZ0wThBq6ME+6SacGpxt+pHwvdwKP9kEhmkzFCBg==
+	t=1793803102;
+	b=HFFgHE2d8oyKG092L2v+R2mZyxZ3CSaCzs3uIK41YLVOGFRpshktSVF8hymg+Rziwaap
+	 /c9Yqllw7XAh2BR/lxBTWdAcTOKmhs7FmH1vA3oUY7cmnQq8Xrn4qZK3csWx1XweK2RVr
+	 rZbDZttUXWypLoFzFuMtNj53++4Jw2efY+rr/o8EeMD39onA+y1Lge043pZPJ/7C03bmI
+	 8M/PoGKE2/Y1nfOHpsO4bRtaZe0kt9aMX1SDxDTBbDgHVhC6I7qJ11pRMpK3gPKd5pPlv
+	 vMW1y5syCXvlR0CDOT+GHqhmTeuw0yeiakSjzRrUA7lKQ1rods1foaEc2Wq37uFccDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802711;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793803102;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=P5XLAaKIkscCwZ6c9zloBpdt8j8gnx89KvwjeGIRZ5I=;
-	b=KhHx0oHnnD6soXoR0TTfpPzPps/a88kOpJPG5VA/W2d1wYdIeyKNMppVbUs8NDxWc2PA
-	 vktg5Jb5vGkZJVgOXKXzLxcvs/cYSIUem1L0deEkobWG6B4yJi04XdRn5HTwi6ZvpKyU3
-	 KSgMncZY87S9oaxWrXostIlS+3friCWVl9ekJllbzfg50tMm2ABddcvUfvfHw8vY8/3gw
-	 sUKddVOEbSKrTUlzLpn33KVJ9UnqC5uUiNDa6XtMd9SGqnp2theeAALkY4lKV+S2fJCds
-	 Vaazy4zV4gBpGCf+HkW/eNWLYi5CsUCDBqKJC4kcg9ao39Z7dpgr9n9i45CTASUWHrQ==
+	bh=TQh3NLauPY1iVVeXcuDFWHu+HqpyEZbU2yQkADbmaQs=;
+	b=PGplTZriA9wYF2BUYQjk3yPnDfTHaEymEmZTiO1kY0oW9N4ttajPcAWr8ClrW7Xzqa7q
+	 vYfOpx5Y08wmH2hryDLC1Xbh2SoxNL3Kx6LqwY91KmeEsVd9VrvPEVN9A0QstfSbff6hd
+	 i3RDkrOq9gKkhIBR6JDdzSWNQUupbnHnIPvVOyUFKAON6KOVHKoxKaG6PuEuT9joCFjGL
+	 trbeTshu4NUwgjX/18b1wZrKbCpG3B8VG63mzm8zWdpo5wvEPfqVKE5qfQ4rPuJIvSAIZ
+	 mCAskFGJJjblVpW37Xd8qe6YppJ94S53GIIN/reNcBHpBb55AUH/YvfHQu7MHNU3BLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=exvVGEYg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VfKhKgVm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE3A606A326
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A1A606A31B
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=exvVGEYg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A531F00A1A
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:31:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VfKhKgVm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E7D1F00A02
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 14:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793802710;
-	bh=P5XLAaKIkscCwZ6c9zloBpdt8j8gnx89KvwjeGIRZ5I=;
+	s=k20260515; t=1793803102;
+	bh=TQh3NLauPY1iVVeXcuDFWHu+HqpyEZbU2yQkADbmaQs=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=exvVGEYgp84sROMnw6GjJXbOgr9MJrHEsYlo4klmoFSe2Mp6COnea1qorXXU05WoR
-	 M7V4bRoFcEh+SESMfWUaKB+NCKGbbL2DlhmPcjzdcZzCCSLMutssLfmd+aEHJ9c2zu
-	 MZ0k0UvcusPLl2kgl5YUyuirMA7ljFF0nH/fAGeKGtntBQH9WjDePcZDGfuVtlpaGN
-	 worNrbj9vw2HtJaaEzIClwQmC3zxSyyboMErkdgApiVBiTfnoG9drPHqVxSarOed1P
-	 T2QI8I/JhX9H18BctNPwrUkpnm+QeLT67qpz9pP28qd+KFzydJAXY01XkpaX2b+VMz
-	 0DlOoZ5kEbB0A==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5bfc3292d90so564991e87.1
-        for <driver-core@lists.linux.dev>; Wed, 04 Nov 2026 06:31:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBxVxD/+ottfvUaVUdL4KMdICoRZoAIYu7+DEyNOXyt7MH/ZsdkTAn212JAfe2h6k2WJ3VCdLBxw1Ai10g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8XQ1qr0XZ8mdDd7BDIzS8JWSsNa5l1ikHHLOMFkm0DtQ5ef6Vr
-	IzAgm2dvFYoeKPiT2tNQ+P8iOUKk3ASJ7HEHLHqc+YidYaS82Q89SgernoKxbiI6zLq+n1ggOxD
-	gXD63J/J69f92rNkkCaGAotrv/4d+D74=
-X-Received: by 2002:a05:6512:31cf:b0:5be:54ec:67bc with SMTP id
- 2adb3069b0e04-5bfd951d6f4mr5251169e87.1.1793802709192; Wed, 04 Nov 2026
- 06:31:49 -0800 (PST)
+	b=VfKhKgVmXvQe2VRewqtDFVT3Z/6Dtd7+1cJreS9lRzXIAAkUnc5H2oJX9ssBZK3JX
+	 AWPrnhiuzCSj2FTM/6tRlbNTnvjd7y7nZk77uv5TZ86dFsccq+SB+0JJ4F2eY+C16m
+	 865v3OcqqLlGqjthBx7950hiNAYoevx/W/cNhXABD4mdfKS7S0OZhjove/5ihzff+J
+	 lhtnksdv0u6LFEafggI/Hmjhpnhph3fBWr4sZL3vCclpGarIsZjOzUZ/PCXSo1TFGy
+	 eva9+D6vDYz2OLgmNcF8TdV3pfHlUPo4GtfA6bjoSj5igS0XuaKDsGjLeuf98FzbyZ
+	 0NYLenDuMIn6w==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5bfa7c09c9eso500242e87.2
+        for <driver-core@lists.linux.dev>; Wed, 04 Nov 2026 06:38:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBx121E+y3hyOuGwuS5P7C/UDyRvMxw10mqIVafoLW0VL1/GUM0JtHV4OzewWJzzmVYl5hrhpHk6s1cwSQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+tOjm+kCISahCeBawLUGzHkftGIZXJp/huUeWKuZPp0Hq/HJNA
+	a3+WvrDo2vscZOmk1d5U9vfCUgsZ48pIdvZuKdpZrlumXf0DZMvNKJVD8ZtgXPqyq4zclDl8ASB
+	uai0/5w1t0rh6q6xjcMpow8U3CMNcPDo=
+X-Received: by 2002:a05:6512:6193:b0:5bf:bf86:d01a with SMTP id
+ 2adb3069b0e04-5bfd9562e8amr5915003e87.17.1793803100471; Wed, 04 Nov 2026
+ 06:38:20 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -59,95 +59,84 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104115641.2682786-1-zhouminqiang2@huawei.com>
-In-Reply-To: <20261104115641.2682786-1-zhouminqiang2@huawei.com>
+References: <cover.1793715774.git.krystianmkaniewski@gmail.com> <417c773d1719006cc85a3468dc393f5e754bf855.1793715774.git.krystianmkaniewski@gmail.com>
+In-Reply-To: <417c773d1719006cc85a3468dc393f5e754bf855.1793715774.git.krystianmkaniewski@gmail.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 4 Nov 2026 15:31:37 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jQPSZCm4AkG4NGqjwDozCMNYqBqZfVB-ARvoOLDQGtow@mail.gmail.com>
-X-Gm-Features: AclHuK89ctrRee1WXlR909UHC3f9KN36uXNGEkj0eWd7jhpP0XSbWOPOSUP2fRc
-Message-ID: <CAJZ5v0jQPSZCm4AkG4NGqjwDozCMNYqBqZfVB-ARvoOLDQGtow@mail.gmail.com>
-Subject: Re: [PATCH] PM: runtime: Fix check_flush_dependency warning from pm_runtime_remove
-To: Zhou Minqiang <zhouminqiang2@huawei.com>
-Cc: rafael@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org, 
-	bvanassche@acm.org, linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, chengzhihao1@huawei.com, yangerkun@huawei.com, 
-	yi.zhang@huawei.com
+Date: Wed, 4 Nov 2026 15:38:08 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0j-WY=nwVvq6Ck7kDLZ_E6jXGsQHohB5uZtT3uSQ0-6Ng@mail.gmail.com>
+X-Gm-Features: AclHuK9myr72rVuqTOxZAZX_zcmWDtmvlF6GR5rcMcUu0FZVOtDo1SpAWRGZnAQ
+Message-ID: <CAJZ5v0j-WY=nwVvq6Ck7kDLZ_E6jXGsQHohB5uZtT3uSQ0-6Ng@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] PM: hibernate: refuse splice on /sys/power/resume
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, autofs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 4, 2026 at 1:05=E2=80=AFPM Zhou Minqiang <zhouminqiang2@huawei.=
-com> wrote:
+On Tue, Nov 3, 2026 at 3:57=E2=80=AFPM Krystian Kaniewski
+<krystianmkaniewski@gmail.com> wrote:
 >
-> When a WQ_MEM_RECLAIM workqueue (e.g. iscsi_ctrl) triggers device removal
-> via device_del -> pm_runtime_remove, the unconditional flush_work inside
-> pm_runtime_remove can trigger a check_flush_dependency warning:
+> resume_store() passes the written string to lookup_bdev() before it
+> tries to parse it as a device number, so the string is resolved as a
+> path relative to the current directory of the writer. The syzbot
+> reproducer writes a relative name from the root of an indirect autofs
+> mount. Autofs writes a mount request to its daemon pipe while kernfs
+> holds of->mutex. Together with a splice into a writable kernfs file,
+> which takes of->mutex inside a pipe mutex, lockdep reports
 >
->   CPU1: pm_wq worker                 CPU2: iscsi_ctrl wq
->   --------                           --------
+>   Chain exists of:
+>     &pipe->mutex --> &of->mutex --> &sbi->pipe_mutex
 >
->   pm_runtime_work(starget)           pm_runtime_remove(starget)
->     spin_lock_irq(&starget->lock)      __pm_runtime_disable(starget, fals=
-e)
->     request_pending =3D false              spin_lock_irq(&starget->lock)
->                                          (blocked, CPU1 holds the lock)
+> A splice from the daemon pipe into /sys/power/resume deadlocks when
+> the written path triggers a mount request. Mark the attribute with
+> SYSFS_LOOKUP so that its writable opens refuse splice and use lockdep
+> classes of their own. Plain read() and write() keep their behavior, and
+> read-only opens retain splice support.
 >
->     rpm_suspend(starget, RPM_NOWAIT)
->       status =3D RPM_SUSPENDING
->       rpm_callback(cb, starget)
->         spin_unlock_irq(&starget->lock)
->                                          (acquires lock)
->                                          disable_depth 0=E2=86=921
->                                          __pm_runtime_barrier():
->                                            request_pending =3D=3D false
->                                              =E2=86=92 skip cancel_work_s=
-ync
->                                            status =3D=3D RPM_SUSPENDING
->                                              =E2=86=92 enter wait_queue, =
-sleep
->                                            spin_unlock_irq(&starget->lock=
-)
->         cb(starget) =E2=86=92 0
->         spin_lock_irq(&starget->lock)
->       status =3D RPM_SUSPENDED
->       wake_up_all(&wait_queue)
->                                            (woken up, waiting for lock)
->       spin_unlock(&starget->lock)          spin_lock_irq(&starget->lock)
->                                              status =3D=3D RPM_SUSPENDED
->       spin_lock(&parent->lock)                =E2=86=92 exit wait_queue
->       rpm_idle(parent, RPM_ASYNC)        barrier returns
->       spin_unlock(&parent->lock)       flush_work(&starget->work)
->       spin_lock(&starget->lock)          __flush_work(from_cancel=3Dfalse=
-)
->       spin_unlock_irq(&starget->lock)      check_flush_dependency()
->                                             =E2=86=90 WARNING!
->
-> Replace flush_work with cancel_work_sync in pm_runtime_remove.
-> cancel_work_sync internally calls __flush_work with from_cancel=3Dtrue,
-> which causes check_flush_dependency to return early before the warning.
-> This preserves the use-after-free fix from commit 29ab76827761
-> ("PM: runtime: Fix a race condition related to device removal")
-> without the warning.
->
-> Fixes: 29ab76827761 ("PM: runtime: Fix a race condition related to device=
- removal")
-> Signed-off-by: Zhou Minqiang <zhouminqiang2@huawei.com>
+> Fixes: 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev in resum=
+e_store")
+> Reported-by: syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D002fb7b2d0bc53bf7e75
+> Suggested-by: Tejun Heo <tj@kernel.org>
+> Link: https://lore.kernel.org/r/ec0c2add83f18d7a3c726d5d219dfe42@kernel.o=
+rg
+> Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+
+and I'm expecting this to be routed along with the first patch in the serie=
+s.
+
+Thanks!
+
 > ---
->  drivers/base/power/runtime.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v2:
+> - New patch. Together with patch 1, this replaces the v1 autofs change.
 >
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 335288e8b5b3..31537b745c81 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -1895,7 +1895,7 @@ void pm_runtime_reinit(struct device *dev)
->  void pm_runtime_remove(struct device *dev)
->  {
->         __pm_runtime_disable(dev, false);
-> -       flush_work(&dev->power.work);
-> +       cancel_work_sync(&dev->power.work);
->         pm_runtime_reinit(dev);
+>  kernel/power/hibernate.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+> index e365e440cd5299..9dc5a27f674fa0 100644
+> --- a/kernel/power/hibernate.c
+> +++ b/kernel/power/hibernate.c
+> @@ -1316,7 +1316,8 @@ static ssize_t resume_store(struct kobject *kobj, s=
+truct kobj_attribute *attr,
+>         return n;
 >  }
 >
+> -power_attr(resume);
+> +static struct kobj_attribute resume_attr =3D
+> +       __ATTR_LOOKUP(resume, 0644, resume_show, resume_store);
+>
+>  static ssize_t resume_offset_show(struct kobject *kobj,
+>                                   struct kobj_attribute *attr, char *buf)
 > --
-
-Applied as 7.4-rc material, thanks!
+> 2.53.0
+>
