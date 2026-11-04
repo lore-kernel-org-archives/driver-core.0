@@ -1,85 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793791735;
-	b=zrfvLezYXgAQYjLHh5SmMCY3U8JHvyvdxYsNKZSg7NqueIFK8z6rmMdWfB9GDP7PcRZm
-	 MB+dWKh9yLDMpWY3gWS6XrqBOr72ERXEZNMtR/7AZfigjoo5tS/15IwNTHkzzBMfOEfn0
-	 E0a/FMcFM70iLKC5PVx4zvkG5Jkr72+5fNWrzV6Z7grmihHoqOdskjn6NNOAHJ8cax4JK
-	 spsIjJP/W//7D00ZtHXt5FelG0BCj84K0xkuX3oUCEyfEhjFGAZD8DDv/677k9qhnVPyQ
-	 XuQA46aiaowVVy7nr7xWXw2Mndbb1KesF5VkD6ZphpqLYRmiqAzxP/tVfjIDpXTz1vQ==
+	t=1793793917;
+	b=TdhuC3wSJtM8MAPT8QY0BIZaHu4lPIG0K5ukfR22tUTrcaXORDbEK5NlZ/hl5m4V1TsC
+	 4/6QedRuHk7qFQ3Z5hv+AatXA6/5f6f4ukCs8/3I8mghJ7YBf0gwyV1Lft40t6EFupEhi
+	 2Tkdy7FCXDVJVsPmzoxkJHhNtnwEg/aNtAoTigSzFrhxsUFc680Z0NQbTZ7C5JPNy02sn
+	 +zizesFvEfA9/EHNoM/6RQYQkidYaLABMbwEHkJhj3CAsZPiz89zZjDkdPncPTA2hHZYz
+	 qR85KhCsleuMq27dWwegB2b8RSZXuRaBBbFmwuF+4ywBqa0lZ3ZjcDipzDObXvU3CzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793791735;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Debian-User;
-	bh=9is/N8s+P77nIizr4iOPWVN8ElLFZtGDMyfkjPVV7ok=;
-	b=hW393tfNZK/tqOslZX1z46c8iBLX1ESyVC/FoQhseFZO7/ZM8JvhBI7iDx2+v+f7BOgn
-	 Vt9K+zUPcET4zhRn/wQeyud9OIGnP17O7FYbFptV8FYWnMz3AA4bnT1vgKMaEIJrcov/c
-	 tqcutTaC8Rkg5ViKSnnMj92d2ohIyuN4nhohPciAlUW9vXzTYbffTYEODQ9B6sdyEv2uZ
-	 P0BNNVLFp+jUve88cCdzMAQerhrKfxHBkB4g+Wb/grWGhqjcNNZazGmLP2UqdnU9ta+kN
-	 jVcmDIjdO5wIknbt1TtXFtKAABBCg8djZGR+p8affNB5pnYB8uCVi7VnDa7ur48ck4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793793917;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=JnEXQ50GsOmEBuVjtTV26PpQ90byO+C1R6rTiZu9PT4=;
+	b=OTP2PVo2/nuPwGTjxG4ayg8rMVH+fKTC0lYiF1dqcAGTqMWBjsPhjSv11vCcPSC+m3XW
+	 NxBbdlb/ka1yLjeOMhjrWm7HpBfopMfVnhzhTRbFhO9oc/LAQvpDugWqLfcKVNakYGU7q
+	 728ek8IMHBk2Ki2eXq/PazkD81aRVdfoI8OPMQOCqjsbMOxGR3rddvw04lzlJhULU7ZIP
+	 4duc9CR21d0i4Zhxa+ZR9f92teunJq1q+Wj4/k+qLjwmu+mxKZBoel05gFY0EUKbqTZ/K
+	 L0mzn1Theghu/3lC8vmJFXCTGrBxL/Q9buQQmCu54Yqim+qJlqLKp9KMQ95KfnieolA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=jgdm78Gz;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=01PkBFBM;
+	arc=none smtp.remote-ip=113.46.200.219
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A81606A329;
-	Wed,  4 Nov 2026 11:28:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02A81606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E648606A31B
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 12:05:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E648606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=jgdm78Gz
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=9is/N8s+P77nIizr4iOPWVN8ElLFZtGDMyfkjPVV7ok=; b=jgdm78Gz9UGB9lEHqxYvlou0CF
-	KutGa9kqLufeOHXyPksfalr8TGDd7Qjd3tQH2L7oBQHupX+kTlaaKzW1afMCyCYUaiJJ2iGGB70oX
-	yUwrmnE7OVoMMYHZNTAmgbJKDUS5vKef2pVnD0LoEXB9jvIDd7ptVKguMRqbrtt0cXmhCr/XvjZAb
-	7Gy6NMigdFntWPLB7BRi98TVcjr6fDcS6ocN6VGuh0+C8sJnMrobb1gCe0+zouonWA3lnpu1nkE8h
-	RQ+Voe4lQl/aCzyPhyOrVaick563cL76U22efAn/kPb650EoOY0iEXzUm6cLk6F9GHhuBZQp4RtUI
-	ZHYjfeYQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xOZA6-007g5u-2T;
-	Wed, 04 Nov 2026 11:28:15 +0000
-Date: Wed, 4 Nov 2026 03:28:06 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, kas@kernel.org, 
-	kexec@lists.infradead.org, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, shakeel.butt@linux.dev, 
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, rmikey@meta.com, riel@surriel.com, harry@kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v6 3/7] mm/memory-failure: add hwpoison_boot_page() to
- flag an inherited frame
-Message-ID: <ausWvcPv20yznl_8@gmail.com>
-References: <20261016-hwpoison-kho-v6-0-f304255147da@debian.org>
- <20261016-hwpoison-kho-v6-3-f304255147da@debian.org>
- <aumt-4kfGGtoXuh-@kernel.org>
- <aumvVjoHo4KeuyEp@gmail.com>
- <auovL7i1rEcXCeGS@kernel.org>
- <auo3ScXy6dk0Gr3-@gmail.com>
- <ausLkNhb8ZPz0ra_@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=01PkBFBM
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=JnEXQ50GsOmEBuVjtTV26PpQ90byO+C1R6rTiZu9PT4=;
+	b=01PkBFBMn2IC0WbWZWxpMRf2L2np8RzHoH9j+DRHVQRtF/DuRTIsNQgsdEUU28l5ROgxnh1bM
+	AKhESBtbk7qU6LDyXF0Av0ODeYoacMXnN989zCzW1buGVVNJ6HGgqN708b+2wGNcZ0bTFDmZLEI
+	s8rd1wBUKFSqwa5lY5yi89Y=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4jKPJX2wQPz1prM3;
+	Wed,  4 Nov 2026 20:05:00 +0800 (CST)
+Received: from dggpemr100018.china.huawei.com (unknown [7.185.36.64])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1587A4056D;
+	Wed,  4 Nov 2026 20:05:05 +0800 (CST)
+Received: from huawei.com (10.50.85.155) by dggpemr100018.china.huawei.com
+ (7.185.36.64) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 4 Nov
+ 2026 20:05:04 +0800
+From: Zhou Minqiang <zhouminqiang2@huawei.com>
+To: <rafael@kernel.org>, <gregkh@linuxfoundation.org>, <dakr@kernel.org>,
+	<bvanassche@acm.org>
+CC: <linux-pm@vger.kernel.org>, <driver-core@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <chengzhihao1@huawei.com>,
+	<yangerkun@huawei.com>, <yi.zhang@huawei.com>
+Subject: [PATCH] PM: runtime: Fix check_flush_dependency warning from pm_runtime_remove
+Date: Wed, 4 Nov 2026 19:56:41 +0800
+Message-ID: <20261104115641.2682786-1-zhouminqiang2@huawei.com>
+X-Mailer: git-send-email 2.52.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -89,42 +69,75 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ausLkNhb8ZPz0ra_@kernel.org>
-X-Debian-User: leitao
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemr100018.china.huawei.com (7.185.36.64)
 
-On Wed, Nov 04, 2026 at 12:40:16PM +0200, Mike Rapoport wrote:
-> On Tue, Nov 03, 2026 at 11:49:44AM -0800, Breno Leitao wrote:
-> > On Tue, Nov 03, 2026 at 08:59:59PM +0200, Mike Rapoport wrote:
-> > > On Tue, Nov 03, 2026 at 02:06:17AM -0800, Breno Leitao wrote:
-> > > > On Tue, Nov 03, 2026 at 11:48:43AM +0200, Mike Rapoport wrote:
-> > > > > > --- a/mm/internal.h
-> > > > > > +++ b/mm/internal.h
-> > > > > 
-> > > > > We've been splitting internal.h to smaller headers, maybe it's time to add
-> > > > > "memory-faulure.h"?
-> > > > 
-> > > > Ack. I'm happy to move the "mm/memory-failure.c" section out of
-> > > > mm/internal.h into a new mm/memory-failure.h, as preparation for this
-> > > > patch.
-> > > > 
-> > > > Since this patchset is moving slowly, I'll start the header split in
-> > > > parallel as a separate series, and rebase this patchset on top of it
-> > > > when I respin. Is it this ok?
-> > > 
-> > > Sounds good to me.
-> > > 
-> > > Just be aware that MM folks are knee deep into fixes this cycle, so both
-> > > sets could be moving slowly :)
-> > 
-> > Appreciate the heads up. In that case, should I hold off on the header
-> > split until the next cycle instead of starting it now?
-> 
-> I believe one header split patch is small enough and not controversial to
-> have it this cycle.
+When a WQ_MEM_RECLAIM workqueue (e.g. iscsi_ctrl) triggers device removal
+via device_del -> pm_runtime_remove, the unconditional flush_work inside
+pm_runtime_remove can trigger a check_flush_dependency warning:
 
-Ack, on it!
+  CPU1: pm_wq worker                 CPU2: iscsi_ctrl wq
+  --------                           --------
 
-Thanks,
---breno
+  pm_runtime_work(starget)           pm_runtime_remove(starget)
+    spin_lock_irq(&starget->lock)      __pm_runtime_disable(starget, false)
+    request_pending = false              spin_lock_irq(&starget->lock)
+                                         (blocked, CPU1 holds the lock)
+
+    rpm_suspend(starget, RPM_NOWAIT)
+      status = RPM_SUSPENDING
+      rpm_callback(cb, starget)
+        spin_unlock_irq(&starget->lock)
+                                         (acquires lock)
+                                         disable_depth 0→1
+                                         __pm_runtime_barrier():
+                                           request_pending == false
+                                             → skip cancel_work_sync
+                                           status == RPM_SUSPENDING
+                                             → enter wait_queue, sleep
+                                           spin_unlock_irq(&starget->lock)
+        cb(starget) → 0
+        spin_lock_irq(&starget->lock)
+      status = RPM_SUSPENDED
+      wake_up_all(&wait_queue)
+                                           (woken up, waiting for lock)
+      spin_unlock(&starget->lock)          spin_lock_irq(&starget->lock)
+                                             status == RPM_SUSPENDED
+      spin_lock(&parent->lock)                → exit wait_queue
+      rpm_idle(parent, RPM_ASYNC)        barrier returns
+      spin_unlock(&parent->lock)       flush_work(&starget->work)
+      spin_lock(&starget->lock)          __flush_work(from_cancel=false)
+      spin_unlock_irq(&starget->lock)      check_flush_dependency()
+                                            ← WARNING!
+
+Replace flush_work with cancel_work_sync in pm_runtime_remove.
+cancel_work_sync internally calls __flush_work with from_cancel=true,
+which causes check_flush_dependency to return early before the warning.
+This preserves the use-after-free fix from commit 29ab76827761
+("PM: runtime: Fix a race condition related to device removal")
+without the warning.
+
+Fixes: 29ab76827761 ("PM: runtime: Fix a race condition related to device removal")
+Signed-off-by: Zhou Minqiang <zhouminqiang2@huawei.com>
+---
+ drivers/base/power/runtime.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index 335288e8b5b3..31537b745c81 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1895,7 +1895,7 @@ void pm_runtime_reinit(struct device *dev)
+ void pm_runtime_remove(struct device *dev)
+ {
+ 	__pm_runtime_disable(dev, false);
+-	flush_work(&dev->power.work);
++	cancel_work_sync(&dev->power.work);
+ 	pm_runtime_reinit(dev);
+ }
+ 
+-- 
+2.52.0
+
