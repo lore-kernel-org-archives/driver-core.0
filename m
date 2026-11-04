@@ -1,137 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793756109;
-	b=oA3iHyKKf0/mim/R5QIi0ZJ1rGuRJzkwWs12PvvgSXH8Y7XMuteuuGBLFj3D0E1DWR1r
-	 r5cyLIRJu+2lS+04ggQKu6uUvhlCdnBVv7LovrPRUwVzoQkhE4Yrh1lW327PyOxdWDYGO
-	 OO4krRm1Kqu/57qNOv0U3wG37cwUjkVHomQOI+p5E55hwd7IvZ7BUNEZxASZRMiC5Souq
-	 Mm+TI2hy+30ev1oU4fnsej816mnSQBhpn0R/3wZcFhPFWG4WCkGh206bAK1hOJQxCx/0O
-	 iOPpOCRMcAgV0sjtfwg/e1B9UEuWxHQUy9YZYS4gQYHQPArgdoR4+kUSxChFq67w9LA==
+	t=1793760816;
+	b=3C+b+CnA1Hmn1ERFV8QJJYXqxfgJRdRgONC2duksZpq1915lKk3gOZ4eRBMKWJuNKSs8
+	 PsJzVc0xnmB81yymw6H/8r8C4mqQSxs4oJtpOkfAnu8L4KBBparZ/TOQOaiIVrJdWTeDn
+	 Z9IW3yk7rmbTD/fZrbX+sLzkf2qRPiBhdgzR9IaQ2TUlqrSZQ5BlQQvM+wNBIuhxBzkzp
+	 yPgun0GR+oyN5v70vp8Ht1R3DSr5eAUqu/2T6WCwf5Q/MuEXDegLkc86+bl0OfBDoP9ME
+	 wJMUgfoZTTKEbogEkGxIwQJ+pntRhuR7nhSVs2N5eJL0PAC+70qDhEi1nzjcdmGrblg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793756109;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=nrCeA0Hqd3kzPVtOoYwsmHRxx4PIWhKMqYln/tuojws=;
-	b=ckKHg39rWlimi5l5I9X9a/mwczss/KU6HV+zAjulD/EGtFuca5gbaf9jmP7u/4K68eSs
-	 p9oJ6IBjEEt1si1RvcVfTCHagR7Ld6S3+vitTQMCsZOo4UIrILSI7KmmOxFFmKy5+QTn0
-	 paFDHZyrpmkXu8aceU0zwhRaiCFatPs8tIw0TuX8c3t0v0+4g18yXapVTjFnEkTCPFrtR
-	 ALbRm8W0OkN3dJONRs/oFc7xaJuipO2cSelpSaXGfAoHI7LU+TWEMkUQDH7BhpX9qIfBR
-	 B0QLc9/piDfBnP/UAdbBLLvS7vnNT229xkaRpb1GhoCoCor9RQJ+uDvl+XwSXcLgiLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760816;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=pm27odaPImgVuKZbdcHJQtkn37De96npYM7vAzgC+x0=;
+	b=2kT2huWhH9+a2hNsCNgInxn+WSG+fm6uiXnWIAa4ySyu5323pVGtmH4/pjbKpsiuAkt5
+	 B8+FC8Wlr2VPfhIf9bWcktbEYvDRprbnGBvGDTvrY4+sQQJT3KmokTQejSiGgumj1S6U1
+	 WyCn3/In1ehLzOw1KYVvwkwBzqwomzU+wxQlwNLqCdpnM5iSqcKWQPSZpNn4xDtBXj3+8
+	 IohlGq78gQmLowrS0LcFVHV5CtXv+JAQjU7Z2FSMglUJsevIUJN7NbvqwAfHJDs5ddsMI
+	 W5+5uSLc/rJUDuMm8GhLF9kInvUfp/HIsM/q2cqu5r68dd+nNhfFretP9J98WnWGqkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=themaw.net;
-	spf=pass smtp.mailfrom=themaw.net;
-	dkim=pass header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm2 header.b="pTf3P/b0";
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=2gJWjarR;
-	arc=none smtp.remote-ip=202.12.124.145
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.21
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829A4606A32D
-	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 01:35:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 829A4606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=themaw.net header.i=@themaw.net header.a=rsa-sha256 header.s=fm2 header.b=pTf3P/b0;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=2gJWjarR
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id B251B1D001AC
-	for <driver-core@lists.linux.dev>; Tue,  3 Nov 2026 20:35:07 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Tue, 03 Nov 2026 20:35:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793756105;
-	 x=1793842505; bh=nrCeA0Hqd3kzPVtOoYwsmHRxx4PIWhKMqYln/tuojws=; b=
-	pTf3P/b0NVeUia3wP4piQmr+iXUMn5apqHAoRi5qdpHeGXoAuWaiYn7/Gtm55OjL
-	KKMyTSVA/IDMH7fuXspg84fZVCevce32KQh20ZQY7uDPPBVGE7PtqBNp6jPT4CQ/
-	ZhT1MbixOOJQSEYFp3sv0kdcq8tIpc/xm3QwFy/Pbix76hVv+XrlCy4kzBPlVDeZ
-	VUCPglmyUXP3NhHZL2rnFYfBWriit+r7uKHIa0sYbD0CdrXomeDBCu7z3B+LVp4n
-	FKiHOh7966GeV2bK3KEFMPzGET7WhlwSXNv8VFYTzCjrdv4YkAqzMaOs88Zr8uCh
-	QqORpgQZzV2M+q515r1a1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793756105; x=
-	1793842505; bh=nrCeA0Hqd3kzPVtOoYwsmHRxx4PIWhKMqYln/tuojws=; b=2
-	gJWjarRGHJlRgxMFKcfin7DfF+EJoIRFnG4Qt3WtEkqBPGxsQLr446yzS6nYGjjP
-	ChnhleRifJbhwhCRbKWp//wWh/cADyzjkHhHV05jshyhmC9Zl29pDnBROSnw3ue7
-	lspGwsipjdx2cQ2ZRro3WB+ZhZb04i/Vzf7o0gzjBqlgPGtnFXv1m9sexah0GnxR
-	psAUbbXbXuOkFYB9UCaJMDh04rubD3o202nYpdOLgzxuTf2OCDbDtB2ly11e9X8C
-	iv+1eckMHAkffmU8lR2cmf4JJ882Pz9fGeMCjvp97zE3Y4Cqji2QqWD/JrLLgrIF
-	OaWyxAxWFNoMt8GI+4Dog==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=themaw.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793756105; d=themaw.net;
-	mf=PHJhdmVuQHRoZW1hdy5uZXQ+;
-	rt=PGRyaXZlci1jb3JlQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm2:rsa-sha256:j4OdkyxowSqiU9pgSeFE6aUs12T9Sby0sopZUHa32YnOGhD
-	rfxACnFvze7KW/OUa6eJ/4ToICIBQ1JKYh2BrAyP4Lrtlvlc7cKljRz3yeu/ZFMW
-	Z+5knPHDbD8wnmw2VtQfer8R5Fy5W4CKnUS2k2Cf1BCVEk6y/rf95hJIjHUBUlHG
-	2BH91Xt+BbD7ampjKzKf4Sq6T+a5ZXYWHH5adA8C9aAECLoRt7Wlf2iLhDLtYD7y
-	mEOiHlfe7D5NAgV/vsTHnOuZHVkiRxtI3xoUDpmjB+6sffOFiMKcTpVpZGylObB5
-	nBgm4v1zbZyUcIG0mTaa0sXrTaggDnsJlY5OjSA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:JZSYRBJ4XfKKK2c2F966LsA3L7y0qeazKA9dPaqM5cM=:nrCeA0Hqd3kzPVtOoYwsmHRxx4PIWhKMqYln/tuojws=;
-X-ME-Sender: <xms:yIvqak8aW8vPP1wYuTZ66-FXE9JchOqUoOVVSM7tlJZ7mdGpH_TJeA>
-    <xme:yIvqajqLJEcFCWNrUyX1bDL7F5xyR17ghCWEvdnIgaHcjM9XdivA3OfavbyD8VgS4
-    liFw17oQwZ1opRAwYIIkkxl0rNIzqAarNIf1w9ov_Q-o9Hoxw>
-X-ME-Received: <xmr:yIvqavG1DHcwBbAdaiwmEThm9aL97Wp6aB6SWZEsAOSj50H8iQR6FluRryywLJL5kEfkPNEApMBaq-O6446Z7zyqDvVFxmEteWqTE5dzu5bq8KjDLo0BpMqHPQ>
-X-ME-Proxy-Cause: dmFkZTF+04G1PZLn5pVjkUdTZfXjvyvZ6+U8BNsX6Uz8TcRc7Dni9tGiF8trMZFnpdP36Y
-    WHAL+f0oLMU/tIJzmPRU9AUycwgLXwKMpwM7jFAgggPAZBT7SEinY49CDSHBLUZ0duPrOG
-    60Hk2CxBQTEF+b0uas6CmNxLaF48T9Cxtd/9VessSqrDrlRugMRTU/njgW67f7ND2p8MqW
-    Y09NMG7WMw4H7Y7p2mmxSdp63XKWcwPK3ck3UWp5AtX4jqct0L7pzOwPioj1oIlihAD5La
-    KoEOFT8xunxLYwDO6gFh7KnaKyay3ISiJl7StpuFQnbKzeT/4G4nyRUAtSrsRJYR1MGLTA
-    +rE6/UCqkXrEj7q8MXO4i/llTiKfX6vggR3eEuXWNwmtNHSJwIYkf9YScRro0S5cdaeSQ0
-    bhIV6u+hjNbe1NXBJZW3XsdgEgerqBBB+vGM5nrWDQd895tmhXzgVKVhsyLbrU7WBqF869
-    SUuKaGeXkpVuh2JTVKgapzKlNAOyeXhT18ChFXraqrpsVje9DaWMGs7qG/+FCRMvxFzNiw
-    5zABJu8ivCSKjcYzjYLzhgicApQpftUvcizSU7TCplIlaRJ+GQUlJkR9y8cIsaNV/IpHmu
-    20S9LU4MNblqdmiYRMA9KfjqlE5IyOOQbG8Bw+K4F20VV2CcQ+czVzf6bTTg
-X-ME-Proxy: <xmx:yIvqark1wviiPfMu8HYNEWnOToeqrhsKrOXTFBE99yWAUi3eRgCiQQ>
-    <xmx:yIvqaj8K4HXatZ_JQ0Tckbw1w6GV4_ToSJ8zZPEbihmhQDZn8GJ4ng>
-    <xmx:yIvqaknOfgp_nNrncPU6STsGJR_9-dHlKgaR71KrKP3nGpbNFrVfSQ>
-    <xmx:yIvqapmz6xFiMTnO8t9nGJXF-bbdQGteWI51Dd5So6kaCp-56EJ68w>
-    <xmx:yYvqahZMBV8w9xZ8JtI64350QsWdvRuMHUA1Tghdr8XHsDRzO5N_Li-L>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Nov 2026 20:34:58 -0500 (EST)
-Message-ID: <6ca657f75453ddf7ccf3acd608cb1794f2c937d4.camel@themaw.net>
-Subject: Re: [PATCH 0/2] kernfs, autofs: fix pipe lock cycles through sysfs
- stores
-From: Ian Kent <raven@themaw.net>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich	 <dakr@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Ingo Molnar <mingo@redhat.com>,  Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Jens
- Axboe <axboe@kernel.dk>, 	driver-core@lists.linux.dev,
- autofs@vger.kernel.org, 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, 
-	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Date: Wed, 04 Nov 2026 09:34:55 +0800
-In-Reply-To: <5f659257d9842544d6830f9041e5ede63416d214.camel@themaw.net>
-References: <6aa23178.f81106d8.2ab401.0006.GAE@google.com>
-				 <cover.1792577179.git.krystianmkaniewski@gmail.com>
-			 <dc65c28e408d6b64d4b13b7ad30e5fe70ddaa441.camel@themaw.net>
-		 <4f56c93a9fc5fee152364974773df0a319c84af9.camel@themaw.net>
-	 <5f659257d9842544d6830f9041e5ede63416d214.camel@themaw.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44app2) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2331B606A31B
+	for <driver-core@lists.linux.dev>; Wed,  4 Nov 2026 02:53:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2331B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-01 (Coremail) with SMTP id qwCowABnVf8unupq9+Q+AA--.27601S2;
+	Wed, 04 Nov 2026 10:53:34 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>
+Cc: driver-core@lists.linux.dev
+Subject: [PATCH] driver core: don't update the status of an autoremoved device link
+Date: Wed,  4 Nov 2026 02:53:43 +0000
+Message-Id: <20261104025343.1527458-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -141,165 +52,65 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABnVf8unupq9+Q+AA--.27601S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr4UKr45GF15Wry8JF47urg_yoW8AF4rpF
+	WDJFy3Ca4Uuw48Wa1UJFyxZFyY9a1Igryfuryvk3409a1rXrWS9ry0vFyaqF1qy397JF1r
+	tFW5Gwn7Ca4DAr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBjb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
+	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1lc7CjxVAa
+	w2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxV
+	AFwI0_Cr1j6rxdYxBIdaVFxhVjvjDU0xZFpf9x07bpfOcUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMBA2rqY-nijQAAst
 
-On Tue, 2026-10-27 at 08:46 +0800, Ian Kent wrote:
-> On Tue, 2026-10-27 at 07:11 +0800, Ian Kent wrote:
-> > On Tue, 2026-10-27 at 06:07 +0800, Ian Kent wrote:
-> > > On Wed, 2026-10-21 at 14:51 +0200, Krystian Kaniewski wrote:
-> > > > syzbot reports a lockdep cycle &pipe->mutex --> &of->mutex -->
-> > > > &sbi->pipe_mutex. splice holds a pipe mutex while it calls the
-> > > > write
-> > > > or
-> > > > read handler of a kernfs file, kernfs takes of->mutex there,
-> > > > and
-> > > > a
-> > > > write
-> > > > to /sys/power/resume looks up a path that can make autofs write
-> > > > a
-> > > > request
-> > > > into its daemon pipe and wait for the daemon.
-> > > >=20
-> > > > Patch 1 stops holding of->mutex around the ->store() callback
-> > > > of
-> > > > regular
-> > > > sysfs attributes, which do not get the open file and already
-> > > > run
-> > > > concurrently for separate opens.
-> > > >=20
-> > > > Patch 2 handles the case that patch 1 leaves. A store called
-> > > > from
-> > > > splice
-> > > > still runs with the pipe locked. autofs no longer sends or
-> > > > waits
-> > > > for
-> > > > a
-> > > > request in that context and returns -EAGAIN instead. A new
-> > > > mount
-> > > > is
-> > > > refused before it is marked pending, so no other lookup sends
-> > > > the
-> > > > request
-> > > > in its place. This also removes a deadlock in which the spliced
-> > > > pipe
-> > > > is
-> > > > the autofs daemon pipe itself.
-> > > >=20
-> > > > Patch 2 changes behavior for one narrow case. A lookup from a
-> > > > splice
-> > > > callback that needs an automount fails with -EAGAIN instead of
-> > > > waiting.
-> > > >=20
-> > > > The series was tested in QEMU with lockdep using the original C
-> > > > and
-> > > > syz
-> > > > reproducers and focused splice and autofs cases. The target
-> > > > reports
-> > > > were
-> > > > not reproduced with the series applied, and the paired
-> > > > functional
-> > > > cases
-> > > > matched the unpatched baseline.
-> > > I can't seem to find a reproducer that reproduces the bug or
-> > > maybe
-> > > I don't know what to expect from running the syzbot reproducer I
-> > > did locate.
-> >=20
-> > I think I have found the appropriate reproducer, certainly looks
-> > like it.
-> >=20
-> > Commit 1e8c813b083c ("PM: hibernate: don't use early_lookup_bdev
-> > in resume_store") looks like it's been around for a while so I
-> > assume the reproducer should work on 7.2.12?
-> >=20
-> > What should I expect, a hang, it doesn't.
-> >=20
-> > Also it looks to me like the reproducer is trying exploit an
-> > invalid request similar to what I described earlier but I can't
-> > test to see if my simple autofs resolution fixes it if I don't
-> > know what to expect from the reproducer.
->=20
-> Further investigation shows that the reproducer is initiating path
-> walks within the autofs mount it has mounted which is valid in the
-> sense the autofs file system will attempt to send a request over
-> it's pipe. These are not seen as invalid so I can't prevent them
-> in the way I thought I might be able to.
->=20
-> I can't confirm there is a deadlock, how do I do this?
->=20
-> A little more validation and I'll be in a position to review and
-> probably ack the autofs changes.
+device_links_driver_cleanup() drops the managed reference held on a link
+that has DL_FLAG_AUTOREMOVE_SUPPLIER set and is in the SUPPLIER_UNBIND
+state, and then unconditionally writes DL_STATE_DORMANT to link->status.
 
-Sorry for taking so long getting back but I'm struggling with a
-few time critical tasks (including this one).
+device_link_drop_managed() puts the reference that was taken for the
+managed link, which unregisters link_dev and lets devlink_dev_release()
+queue the work that frees the link after waiting for device_links_srcu
+readers to drain.  device_links_driver_cleanup() only holds
+device_links_lock, so that wait does not cover it and the store to
+link->status races with the kfree() of the link.  Writing the state is
+also pointless at that point, as the link has already been unlinked and
+unregistered by the drop.
 
-I haven't looked as far as I wanted to yet but I have looked at
-the autofs patch again mainly because it occurred to me that the
-EAGAIN return might be a bit of a problem.
+Set DL_STATE_DORMANT only for links that are kept, as
+device_links_driver_bound() already does for the analogous case.
 
-The expiration of automounts has always handled EAGAIN returns
-even though that handling has changed over the years. So this
-amounts to little more than deferring an expire which is fine.
+Fixes: 1689cac5b32a ("driver core: Add flag to autoremove device link on supplier unbind")
+Cc: stable@vger.kernel.org
+Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/base/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-But mount requests have never handled EAGAIN and I'm pretty
-sure this return will result in an unexpected mount fail being
-returned to the requester in user space. OTOH this deadlock
-case should not occur very often and neither should the case
-where an automount has expired (so the mount has gone away and
-hence a path walk initiated) but the automount daemon has not
-yet finalised the expire by notifying the kernel.
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index cbe05197d4a0..bef08a50fc0c 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1583,8 +1583,8 @@ void device_links_driver_cleanup(struct device *dev)
+ 		if (link->status == DL_STATE_SUPPLIER_UNBIND &&
+ 		    device_link_test(link, DL_FLAG_AUTOREMOVE_SUPPLIER))
+ 			device_link_drop_managed(link);
+-
+-		WRITE_ONCE(link->status, DL_STATE_DORMANT);
++		else
++			WRITE_ONCE(link->status, DL_STATE_DORMANT);
+ 	}
+ 
+ 	list_del_init(&dev->links.defer_sync);
+-- 
+2.34.1
 
-Also I still think the scenario where this occurs is something
-that will not happen in normal use and would most likely only
-only occur for nefarious purposes. For these reasons it's a
-little bit of an open question whether the autofs changes are OK.
-
-Updating user space is of course possible but significantly
-difficult due to the number of distributions that would/may
-need to update the daemon.
-
-Another option is to handle these EAGAIN returns for NFY_MOUNT
-requests in the autofs fs itself by re-queuing the mount
-request. In fact I already had a patch series to do something
-very similar to handle stale request entries after a "kill -9"
-followed immediately by an autofs startup. Sadly I got side
-tracked by overthinking what was happening and reworked the
-patch series considerably and had not tested it at all. I'm
-pretty sure that a recent contributed autofs patch will fix
-what lead me to this diversion and it will take a while to
-recover the original series (or re-write it).
-
-Ian
->=20
-> Ian
-> >=20
-> > Ian
-> > >=20
-> > > Can anyone help please.
-> > >=20
-> > > Ian
-> > > >=20
-> > > > Krystian Kaniewski (2):
-> > > > =C2=A0 kernfs: do not hold of->mutex across sysfs ->store()
-> > > > =C2=A0 autofs: do not wait for the daemon while splice holds a pipe
-> > > >=20
-> > > > =C2=A0fs/autofs/expire.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++++
-> > > > =C2=A0fs/autofs/root.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28 +++=
-++++++++++++++++++--
-> > > > =C2=A0fs/kernfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 +++=
-++++++++++++++++++++++++-------
-> > > > --
-> > > > --
-> > > > --
-> > > > --
-> > > > =C2=A0fs/splice.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 13 ++++++++++-
-> > > > =C2=A0fs/sysfs/file.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1=
-8 ++++++++++++++-
-> > > > =C2=A0include/linux/kernfs.h | 11 +++++++++
-> > > > =C2=A0include/linux/sched.h=C2=A0 |=C2=A0 2 ++
-> > > > =C2=A0kernel/fork.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 1 +
-> > > > =C2=A08 files changed, 109 insertions(+), 22 deletions(-)
-> > > >=20
-> > > >=20
-> > > > base-commit: 93f51579e7df248780214094418f205253383cc5
