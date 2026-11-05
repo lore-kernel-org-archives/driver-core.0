@@ -1,94 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793872843;
-	b=DawmTWPd01gpCTSqBoFTq+v2HZeBY+nCg7oPkJdJAtHBUVoy1fDUL9dSh+KsRBGSsHJ1
-	 07lOUen2IRdGDDS1hb1qthcNzx9HY+2FTVDOjRCbx66sVqW1629V5sQAIAz6s4bVuXOEr
-	 OBATLu4F6EUI7XapuD/fIi1Qg+pfopeVUNX0KRUEugzxefspo+2LFBPpx6I+Vs0/f8My7
-	 gyXUWUH+AV3RT/jn0niY82nXS3L/bDgccUF/me6zEdf2QhsSRwTzgtUwa8Jsrdkg6ggjo
-	 LLMO4Qq1WpH6rp8j774VbjCMQSJufS9KihpyC9bFIzxzLpnI/rbrNSCTgLos9LVy8tg==
+	t=1793874940;
+	b=L8UWfh6AkiDv/M3iT9Y58VjqZNjp5J1dvP/ADc9PbV6h3iX3jvtRuVcZKcvkh8qorpQI
+	 BweLYD82dtB/PsT4eAnyytu6/9zj+F/l7jd35asX1D9rP+JBA6aToAUILCQgPmyi1uRKk
+	 e6oUnpPbK49u35EvdZC8B2Lgd/J2RQ0cAnHreswVraVLLjH1U+f4oMv+g+plAVxfGUrZz
+	 X5W7Oulrz22a7eLrf+kQnOrhkwVfQv9ofkPUy7zALgbCWaYQVWjFKEk3F7aTFeGiTzEpE
+	 RjaNZd2QPpoLiYFFnsrpWrmGzE4zdpKB80hysk5F34io2xruTjXffadFDqxfPHgzLhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793872843;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793874940;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
-	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=9gWIZ556XELV/JZHPdAe42L4BaKxg02n4+cgVq+thzI=;
-	b=fHbLsXSJ2/+wq/lOaorzXOJqXxeSdrq3jwMYDqCZ1gCiQnlqGMjV+BUxWLKuBYeKqaYZ
-	 BnmYOXUUAub7/ZVGTIVA3A7WqgitPIYUJRUwhNZqWt90hknfCa46Y0RVAHbgwP9k4dbDA
-	 FC4QWjPn9tvn+mwQXFdX5vXo25yHMgvItKIYsVETXjO81C91JnJyv8R+TvsJllrxd6acD
-	 vulOa8dajLq2eze4zCxDOVhO+s8vBVK8YuU3tNN31ot3cua+8GzD7JTWekFMemLpkZrN8
-	 lvmM+LvAcJQyLhd5UMG6+l7jsuTWRLCuhqXfGCXxvKWQgMouwRZwAIkCOnojPdXyCmQ==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=YNdbcFZbsaJWPBCwR8C1OKagOKxRAxAHyAgQ2nT3Lq8=;
+	b=PQcawyxfZt1/iXYs2uBST6m0mCY9vO6H/i7a+o5fSvNwJiZUjBDGT0JujbsYqPg+x2ez
+	 GFICZ3Vq9hBe9jCgPCVGROVdoilyVvxDtvfxZNaoyawgOJn4u3vvtbaxdI+DmXivk991u
+	 Ce3rfX4V3gI846BONK8RzMZ2tfVQE3zkclNPREhWoGTM8MySaR6u798flVCoWVOI43yXF
+	 ztmG+T2pFhaj04WXJ62WYHNXPeK8v28jIKeEQuxrgZ1s0DW4KIyi5puLykLl+zuzoqNbX
+	 7FlwR3w27Vb46LhW3sth4NbyvKacOV6srXuvvv681WrRMJ7yVv3WYD9TYqxZHv6apHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PBJmRi5k;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Bv3sYQLx;
 	arc=none smtp.remote-ip=198.175.65.18
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB99F606A338
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 10:00:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB99F606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ECD606A326
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 10:35:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76ECD606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PBJmRi5k
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Bv3sYQLx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793872843; x=1825408843;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z2H65UprW7zW8X/iim3pTFZF4OSbKQfsuukCJNwgJ8k=;
-  b=PBJmRi5krXwXp/lWwIejtxGkwqeeUujHhzM4QhFGH4/9OVKYOGoy/FJY
-   GUwltGtFuD6ddm9NsUfJJmssn/VDuufi0IpkSIP/cINhOX0drNHriJsE8
-   YmmRSCHusbUXof7dh9MWDGQ3f6Zs0W1wuduDCWeDoTJh/001zjwQvkZ/r
-   ogbGV7QAVkaf7vZqAH8U8gYtHYJA4cuT6YGeahY/vJJ4ybjOJe9fYHohs
-   kRxAhg84cZICsgOtvfWfRjVsAAqQNuXrMnj7WiBlnInc+EkGTo2rfPnQ1
-   69z/oKXB5D1ooFYrR5TZ7lpHNhuPhlTTkBDW6+cJqGjsczZkmSmxdevkS
-   w==;
-X-CSE-ConnectionGUID: Kmo9B2y4THKqVSuhaj6Fgg==
-X-CSE-MsgGUID: 5iJ3IqWFRJWWKOuwBuWyug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2669793"
+  t=1793874940; x=1825410940;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eNT8/TR9RrSgwmJ4tlW5/yXQPcCQJRbz4BDv4boO4TU=;
+  b=Bv3sYQLxwdBGT5wMkTn3gRZFwdA0tso2w67T65XfBpuVSGNT3sN4Vuns
+   yk7taDhs+/MYHM8hNYrv1I6es/8DSbfOwhW6z48WIGIJSpKjj3Kz5Y7U5
+   yTU1WXDhL8KJjevv1hkrR0kF4EzL7w2kKCOTFSoUBw0o5n04v+9JQnmzP
+   h88uGony99a88kDz6mz0vSqETW6SUxSC8U9uqFZ1+9/bWfmKAlpyez1Z6
+   rdx6J1+hzIWGxaI+9BTPxSEvLzF5Cv6vwM1UF/VpznSHrRhbN05in+zZ1
+   D1r6L/d9VN/vd/I6iA+FEL9KU1ziMf/I/oAdlDH5W1d/q7mY8eIafpYXP
+   A==;
+X-CSE-ConnectionGUID: XWJ4D3OJTwqLf3SsN3JLyw==
+X-CSE-MsgGUID: Ut56XGewSPmUHJTwy8XFwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2673046"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2669793"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:00:42 -0800
-X-CSE-ConnectionGUID: Ryrj45DQTF6F9fytzqA4ug==
-X-CSE-MsgGUID: CDdCSctqTauHKpXvMmTb7A==
+   d="scan'208";a="2673046"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:35:40 -0800
+X-CSE-ConnectionGUID: AxLYI/mTRRWpgEagJEcWcg==
+X-CSE-MsgGUID: xdsO5fN2R/mGxWrwOKG0Rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="6862765"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.182])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:00:37 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3CC51121B97;
-	Thu, 05 Nov 2026 12:00:48 +0200 (EET)
-Date: Thu, 5 Nov 2026 12:00:48 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+   d="scan'208";a="8737660"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa011.fm.intel.com with ESMTP; 05 Nov 2026 02:35:37 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 80C9499; Thu, 05 Nov 2026 11:35:35 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Peng Fan <peng.fan@nxp.com>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 1/9] device property: fix fwnode_name_eq() for empty node
- names
-Message-ID: <auxT0Av4jDvcIGBS@kekkonen.localdomain>
-References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
- <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Victor Chernyakin <chernyakin.victor.j@outlook.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] regmap: Add REG_FIELD_GENMASK() helper macro
+Date: Thu,  5 Nov 2026 11:34:54 +0100
+Message-ID: <20261105103533.1426533-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -98,60 +87,57 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+One time in regmap and already a few times over the whole kernel
+the users want to extract a mask from the regmap field data type.
+Provide a helper and convert regmap core to use it. Others may
+follow later on.
 
-On Wed, Nov 04, 2026 at 03:03:43PM +0100, Bartosz Golaszewski wrote:
-> str_has_prefix() returns the prefix length on match and 0 on mismatch,
-> so the mistmatch case can't be told from "empty prefix matched an empty
-> string". For instance: the OF root node's name as returned by
-> fwnode_get_name() is "" and will return 0 for any name matched against
-> it and since len is 0 too, fwnode_name_eq() will return true.
-> 
-> Do what OF code already does in of_node_name_eq(): check if the length
-> of the expected name matches the length of the actual node name before
-> comparing it.
-> 
-> Fixes: a9c8c738066b ("device property: Add fwnode_name_eq()")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
 
-Is there a need to cc this to stable? I'm not sure if anything is affected
-there, probably not, but it's hard to be sure.
+Inspired by a patch SN1PR12MB25282EC93A27F3577BB9B454A5772@SN1PR12MB2528.namprd12.prod.outlook.com
+that leaves the driver to handle the custom macro for that.
 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/base/property.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 51109794d7275ddaf4571584d0e77d8573ebb475..a97575ff9199004b4f401f432aed6c95e40d0c25 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -700,7 +700,7 @@ bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
->  
->  	len = strchrnul(node_name, '@') - node_name;
->  
-> -	return str_has_prefix(node_name, name) == len;
-> +	return len == strlen(name) && !strncmp(node_name, name, len);
+ drivers/base/regmap/regmap.c | 2 +-
+ include/linux/regmap.h       | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-I'd test strncmp() first as it's more likely to return faster. I'd also put
-the variable on the right side as that's the typically preferred order,
-i.e.
-
-	return !strncmp(node_name, name, len) && strlen(name) == len;
-
-Either way,
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
->  }
->  EXPORT_SYMBOL_GPL(fwnode_name_eq);
->  
-> 
-
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 83f1f5942135..48e96bc9e7b6 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -1215,7 +1215,7 @@ static void regmap_field_init(struct regmap_field *rm_field,
+ 	rm_field->regmap = regmap;
+ 	rm_field->reg = reg_field.reg;
+ 	rm_field->shift = reg_field.lsb;
+-	rm_field->mask = GENMASK(reg_field.msb, reg_field.lsb);
++	rm_field->mask = REG_FIELD_GENMASK(reg_field);
+ 
+ 	WARN_ONCE(rm_field->mask == 0, "invalid empty mask defined\n");
+ 
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index a72f17ab6264..8f3034881f8a 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -10,6 +10,7 @@
+  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
+  */
+ 
++#include <linux/bits.h>
+ #include <linux/bug.h>
+ #include <linux/cleanup.h>
+ #include <linux/delay.h>
+@@ -1477,6 +1478,8 @@ struct reg_field {
+ 				.id_offset = _offset,		\
+ 				}
+ 
++#define REG_FIELD_GENMASK(_reg_field)	GENMASK(_reg_field.msb, _reg_field.lsb)
++
+ struct regmap_field *regmap_field_alloc(struct regmap *regmap,
+ 		struct reg_field reg_field);
+ void regmap_field_free(struct regmap_field *field);
 -- 
-Regards,
+2.50.1
 
-Sakari Ailus
