@@ -1,73 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793895275;
-	b=VrOmHaEUuv+72snIhpd7CRgNQEy0pIxYNJy5hRBkRt6J5NoKWKX9SHxoQc4mmaqMUAzt
-	 CFUB7JRNm4hPqilizVdSzrWoFq4RfYO6AUXpipRwuT7MWdiDQwoDzVPaZMygThZx6qqJU
-	 VrU8WudcyrvyBuD7vIcZUbavOSugLi0rA+tn5g0IikNHqk+rtt6OcUJDMt3jWmy0oriH2
-	 elLKJa92hdXIH0GCwQsNCaA/IuuM2cQwcjKEsKcaCgU7/lHbEWa7yD/bReON2hnVk6ayu
-	 OxfLS3Jh/o5GeaLknXyLxD9Gs7o+9hv6VLHV3YSsVCRClnvX7+Byoz8eG1kXvs4QMRg==
+	t=1793896023;
+	b=INODw6+LKy219u/zbpiE8YToEFC1pmsBDcwU9FOp9CYl5smzSbivPIRTSjSJd2Yz2Ul0
+	 dNiLF4p6vPiAodrO/sCwTFxitLGb49V/zbgD/VG6K4hAoeHnraemFN8H8i192pa0Xlp+c
+	 VjsKfWHuQtQ1A9GqjWjsL3FdsFNS2ukyfeVZj9Wz0bNc2jVoGfHwOhaEiz5eN9pLnKq4j
+	 TOVMQuyckckWEvopq7W5AKxiBaOp+wE0bQxmpW3Mj8yuXJtk2QWMillGAF5gR0CQmogrv
+	 JRv8eQMbOrItRD/8MA1DD7ygRrF3t9Z8IRRhzk/jj6EoC+T8Oww10/OgDebsV4EtZRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793895275;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=TlUJgWbu4oWGG2rIsrlDGpx3BkgzAGEHnQrvA+cmu/I=;
-	b=XnACGxUaz60G451InZEtkiwht8XlA0RgpoE3piUXQKKORP0W2ftr8wwySbGKuyczneUu
-	 iE2ALcbZaW4YY3jpqtkLwN047EW/P/I0wM5QQj/St6PrmqdJnB2DqhvQ+RfllZSlKNz5z
-	 LLz1k/91e5x2EKTIxOu9cWmada5Q4XdY1d5AMB5pR/4ny6oTdlA/i62ZByj/ma1vIxuv+
-	 3b0vj0VGQSM3as0zTSC+vxfvzidTPRiGIIJ6ovaZNyTGW8a1H/GMp3CT6ewZRPFDdaUdZ
-	 wb/s09mgrrUprDWZZhVkQPZ1wplnfa9WTAnpc+jyMsvNQcCICJJy6i2Bw6TvRaN1VpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793896023;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+	b=RxngfYjTKMLAezwkygO0tMvOE6vzhaArwPUfs9faS5+ig/heV2HPGiC3fivx+euwlxZ/
+	 X1tJhojdL74fVsFQ+sZHUjpt65b5PtMYs3Db/ZLT7K3ePvK3ojFJ3O4TuTypVY24DO6Nc
+	 zfdoC9GYBTBymjOt/FkHgg6qy09+xmLR5zEaZ78zQF/isKKCgf+wEizRoGaZyO/ll4C8q
+	 t7rffTgQwYCWTvRzI9cXQpowytRDIhV8A4xXPRecJ/DY1R5kfLrFL4BtreBXVTWuZqU7X
+	 GRC/tbOo8/pxhJX/T1430qXHvBDOnna27zd7TKnIGPTvxPBno1Stj6lCA2NS62VZ2Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=Nrt87YtL;
-	arc=none smtp.remote-ip=216.40.44.11
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H1OQVHcQ;
+	arc=none smtp.remote-ip=209.85.217.44
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B81606A329
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 16:14:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6B81606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9293A606A32E
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 16:27:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9293A606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=Nrt87YtL
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id EB70B120A7D;
-	Thu,  5 Nov 2026 16:14:30 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id D50E92001C;
-	Thu,  5 Nov 2026 16:14:24 +0000 (UTC)
-Date: Thu, 5 Nov 2026 11:14:23 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-hardening@vger.kernel.org, alx+linux-hardening@kernel.org, Bartosz
- Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andreas Schwab
- <schwab@linux-m68k.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Andy Shevchenko <andy@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches
- <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook
- <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Len Brown <lenb@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>,
- linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] string: Add strprefix(), and deprecate
- str_has_prefix()
-Message-ID: <20261105111423.360f4ba8@gandalf.local.home>
-In-Reply-To: <9c81f6f62fd0e908e683c4c08b09a1f95bc2ec9c.1793876837.git.alx@kernel.org>
-References: <cover.1793876837.git.alx@kernel.org>
-	<9c81f6f62fd0e908e683c4c08b09a1f95bc2ec9c.1793876837.git.alx@kernel.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H1OQVHcQ
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7ce77f98658so663018137.3
+        for <driver-core@lists.linux.dev>; Thu, 05 Nov 2026 08:27:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793896021; x=1794500821; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+        b=H1OQVHcQ1uAjCjVR8BRgJ48YlfatlDz4giWern+6CduNzr5+DwC1ER44CbAFxGx0Gv
+         ToxPmzQ7/J+YZpDH1rNcL+CbPzjbvrtlVGghwQtrdptiawPkP2U9QsW6i15STQcANPjp
+         w4viNeXRjgOodbGSjAvkJLEZiyL/bsSJuSDDQNeCa3jDQYbnHCV/uzQMDQ0MQSfKrXUJ
+         qu4lYckMSRhMHHXv1v2ChvIJGU/JFtGDF0AejhYQ6ajAmFp11x5kUEysunILL2dD0TLA
+         bnkR1dvFpyEOAsYZNxFf78CeltEyOQjkAUnGlkkiWJtqIsVAKQhZlQdnYobqU0Rk2zdP
+         uSOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793896021; x=1794500821;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+        b=Y4UPqjAoGm9tpB59jK20NtUmryUtjjOjpU/ISPIgiYYS89En4Y/E9Yh52/CkBUe8ti
+         fE505h2NZFcSq9zk41RZhrvjGoIRlLI1rC4hY9Sgi5/kjLIz8vYP7fnG1kvVU+uBFmcj
+         XX7ZmNbcUuHULQlEZ/ysg26XKs2oIDH5Jm74I1QBrlN9j1KECTRyHuMAjfczy13AZmLx
+         8QDq8JfLXsPEMKGmS5+Wpyf4ebdfPO7EzETzbiPqqXI5qJrPPYGAZUeDWEQm0UsKJaPY
+         Pc3QrEj4FJbEulBcLr6Cchv0vUBcM270qOocnyFXm0FtDXOILEYXBNe/dRyGdQTZJoUh
+         S/+g==
+X-Forwarded-Encrypted: i=1; AKwUvByh6Uplkm7Gs1DCwHt+KATojUDDJXNPyx/73tNl+eSLMBAGwK4sEiOfPUeSh7GntKyA07qWevS5Ts2HKQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+EmePQvwNGh2t5r0fNa0D7j0+YmeU2cC+BdJnoG09HKwJabaut
+	FgGALZDm0R0Q5E0ju5EvQa7q8N8W0xjFZQnZgjbpIr5CmbHykaQgA5KlrzAHD64lesM=
+X-Gm-Gg: AYBFou1H33FUOzAmu4kjQxouGkLIF6tOKY5QwsfiioPC/igVZExx+xAp5Hz8BXJWc8y
+	eF0aevnDc0yy+Lq7bN1WXFrLzoZ0AZjYSkbXTy34qVL8sOzxoWmtnlLx4HONvgJmB6L/pMMMp+q
+	jH87MaHtv9U7yc77ED6ES77CBCJ1Jly8TdhMsBNVF5bjKLp0Z8Rd7o172ch/SspmuXELeEmr+wY
+	hv17QySiazGhc5UgsoT68OX9bepWgQjanFbqe5lBj2+N4Mreh2UTs+jIH8u24jVcPIpqL+eRDFb
+	vAlcCXsBiPS0ls66cjwiaWinp2txtoFTL5EB9bhaIIVSBChvY301qJzWZZWkoDStGRDJn4xGMYM
+	3N8zvFAzqTS2yFIVyQDnBCDmBo7Q4OAAyeUIkf18BBdk2x4kJndYnP/4BVMl3YUO2n5uLG7KAhR
+	lxOZWirCO5MoLuPs4uOEL8b138RkStT2DHxNv/d+EhmXco6vNNFsbVXuU67lS//wbwusovwyoDz
+	BHYm0TVLHJSEepnJC+7dw44xPDGuVJXw/uhiO9ImmE8A2zPOXQUCm9VVkqy2pRwT7hsakIn3CYf
+	8rpAcp13+TbqcBuO1K3Gct1vuseJEcS6DxFVUbcHzqtBZdnojWxWeOz/yBLZazQzPzgYxr4U7rk
+	2lNV66paxIeedTfRVrVQ55GHDxPU5y3Y=
+X-Received: by 2002:a05:6102:3f9f:b0:7cc:174b:f7bc with SMTP id ada2fe7eead31-7d2a15715c3mr29296137.15.1793896021174;
+        Thu, 05 Nov 2026 08:27:01 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fef4ed3sm4667110137.11.2026.11.05.08.27.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 08:27:00 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xP0Il-000000032XP-37xT;
+	Thu, 05 Nov 2026 12:26:59 -0400
+Date: Thu, 5 Nov 2026 12:26:59 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
+Message-ID: <20261105162659.GB663069@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
+ <2026110526-aerobics-correct-4c06@gregkh>
+ <20261105131856.GA8298@unreal>
+ <20261105140352.GF3889730@ziepe.ca>
+ <2026110558-tartar-juicy-036a@gregkh>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -77,87 +136,31 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: D50E92001C
-X-Stat-Signature: re8d5pkjrgf4w6oyde7458ed8r8qxghn
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX180OMWVvz7pZZGYzhX+zu43VxGyggjBmUw=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=TlUJgWbu4oWGG2rIsrlDGpx3BkgzAGEHnQrvA+cmu/I=; b=Nrt87YtLalkWkst5vwjAiRvM24+Ip9K7Q0HUKV2DGTKMQUiy7WgDwuuBYuCpd/0j2YF79k4RIZfBxZ0ajTmC4QvrtMR85cJ07ejGEpIrNs7u36+hESqobejHExonFkIUVIwnKekabxqGfkq61A/Cf1AQv4puRi0igIKLqRLlqbI=
-X-HE-Tag: 1793895264-672208
-X-HE-Meta: U2FsdGVkX1+vyVPZLQAZdLNS2wyT3JFId0OxXMm7K3LLPGSNyXEiNc0thgtN3v3LejPo/orfLtSJgneGWrAQWhq6JsVJ15veWMPwEVD3iQCpVEXA2MSVChPtf628ymAh2CtwttILHqREF05f7aEZTnW+NHNMSYhrbnFYZv9WbIqnaMC/vVDEZKHuzI/0li2WHWRC8VY/F8P3XtLBn9LsKD8hIuTBDMdrPd7VWQfSHDzNb+oM9iz27j1TazkkcbfpyskgcXy9G+JGQDHWbLBhXJaefWGPkUp0e0321tBVV3Cu/DjOBatTtfTn4TsKiR0R2ZYrJKN9V/tgrCtDf4myomhGQ3wRJRrw0x6vY/VS4PausVqHJ43w8g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026110558-tartar-juicy-036a@gregkh>
 
-On Thu, 5 Nov 2026 12:13:03 +0100
-Alejandro Colomar <alx@kernel.org> wrote:
+On Thu, Nov 05, 2026 at 10:43:00AM -0500, Greg Kroah-Hartman wrote:
 
-> As Bartosz reported, str_has_prefix() has a bug: it can't differentiate
-> between an empty prefix matching an empty string from a non-matching
-> prefix.  This is a fundamental design flaw in this API, and not
-> something that can be fixed.
+> > But I supposed Greg is asking about /sys/bus/usb/devices/DEVICE/authorized ..
 > 
-> As always, this is a consequence of choosing sizes instead of pointers.
-> Sizes are often the wrong choice.  In this specific case, pointers are
-> more capable of differentiating these cases, as NULL is a special
-> sentinel value that doesn't need to overload a valid value.
-> 
-> Let's implement strprefix(), a function that returns a pointer
-> right after the prefix if found, and a null pointer if not found.
-> 
-> We'll slowly migrate existing code from str_has_prefix() to strprefix().
-> 
-> Reported-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Yes, that is exactly what I am asking about.
 
-Is there a link to the report? Please add that.
+It looks like that does the same basic idea of delaying driver binding
+that this series does. Hopefully Leon can harmonize it to use the
+shared trust level flag instead of a usb specific flag and retain all
+the uABI around it.
 
->  
-> +/**
-> + * strprefix - string prefix
-> + * @s: The string to be tested
-> + * @prefix: The string to see if @s starts with
-> + *
+But, even with this v1 the user can choose to use the generic trust
+level and ignore the USB specific authorized and get the same
+functional outcome.
 
-Needs a better description. Feel free to use the one for str_has_prefix().
+> And I know there are other types of devices that will want to use this
+> type of thing (i.e. SPDM seems to be spreading to other new bus types),
+> so it's good to have and get right.
 
+Yes, we are investing alot of time right now in trying to get SPDM
+uAPI right when we bring the general framework into the
+kernel. Everyone needing SPDM should be able to re-use it.
 
-> + * Returns:
-> + * *  @s+strlen(@prefix) if @s starts with @prefix
-> + * *  NULL if @s does not start with @prefix
-> + */
-> +static __always_inline char *strprefix(const char *s, const char *prefix)
-> +{
-> +	size_t len = strlen(prefix);
-> +	return strncmp(s, prefix, len) == 0 ? (char *) s + len : NULL;
-> +}
-> +
->  /**
->   * str_has_prefix - Test if a string has a given prefix
->   * @str: The string to test
->   * @prefix: The string to see if @str starts with
->   *
-> + * DEPRECATED: Use strprefix()
-
-No, it is still useful. Converting trace_event_filter() to strprefix()
-would be very painful, and likely error prone.
-
-> + *
->   * A common way to test a prefix of a string is to do:
->   *  strncmp(str, prefix, sizeof(prefix) - 1)
->   *
->   * But this can lead to bugs due to typos, or if prefix is a pointer
-> - * and not a constant. Instead use str_has_prefix().
-> + * and not a constant. Instead use strprefix().
-
-The above can be replaced with:
-
- * This is useful for testing for a prefix and returning the length.
- * If you only need to test the prefix and perhaps get the pointer to the
- * position of the string after the prefix, then use strprefix().
-
--- Steve
-
-
->   *
->   * Returns:
->   * * strlen(@prefix) if @str starts with @prefix
-
+Jason
