@@ -1,83 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793874940;
-	b=L8UWfh6AkiDv/M3iT9Y58VjqZNjp5J1dvP/ADc9PbV6h3iX3jvtRuVcZKcvkh8qorpQI
-	 BweLYD82dtB/PsT4eAnyytu6/9zj+F/l7jd35asX1D9rP+JBA6aToAUILCQgPmyi1uRKk
-	 e6oUnpPbK49u35EvdZC8B2Lgd/J2RQ0cAnHreswVraVLLjH1U+f4oMv+g+plAVxfGUrZz
-	 X5W7Oulrz22a7eLrf+kQnOrhkwVfQv9ofkPUy7zALgbCWaYQVWjFKEk3F7aTFeGiTzEpE
-	 RjaNZd2QPpoLiYFFnsrpWrmGzE4zdpKB80hysk5F34io2xruTjXffadFDqxfPHgzLhA==
+	t=1793877143;
+	b=X1qg4GI5puUQwRzqH+wxeX94t5KA3UGGb+w6ec27GCxccdPTTlecjzbw4DdTE8FXOMEE
+	 p2Y6XHPg0h9djvb3sjGMp/xFCH8Mqz0p4BMIf8sM8fKQdeaqApoCXLHIdaSeSHGiKofOp
+	 jQDBCC8PK9wjTP6GGsKfW0GPhXhgv8Oum23EPRs0Ztn49bRjmEd1clnCuDUca+bQCV7jo
+	 rToGXNScpwjeAtdBfKZIqyEDXU47YA27lEu+p23Xo7u7uQAxUa8IithWzrrSQz9W0eO52
+	 JIrF0Zl0jNAILkEUooWXWdUYrvq8Z6i1FKECTddyOHCY43Y6NWIBjmC2QlRd4kdHN2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793874940;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=YNdbcFZbsaJWPBCwR8C1OKagOKxRAxAHyAgQ2nT3Lq8=;
-	b=PQcawyxfZt1/iXYs2uBST6m0mCY9vO6H/i7a+o5fSvNwJiZUjBDGT0JujbsYqPg+x2ez
-	 GFICZ3Vq9hBe9jCgPCVGROVdoilyVvxDtvfxZNaoyawgOJn4u3vvtbaxdI+DmXivk991u
-	 Ce3rfX4V3gI846BONK8RzMZ2tfVQE3zkclNPREhWoGTM8MySaR6u798flVCoWVOI43yXF
-	 ztmG+T2pFhaj04WXJ62WYHNXPeK8v28jIKeEQuxrgZ1s0DW4KIyi5puLykLl+zuzoqNbX
-	 7FlwR3w27Vb46LhW3sth4NbyvKacOV6srXuvvv681WrRMJ7yVv3WYD9TYqxZHv6apHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793877143;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=vBz1e/DTkbeVLR+CgZnq/81MF85Dt9/oRuB9tLUw1f4=;
+	b=u2cOzSs4Tu1vZDvXijdwMJeIrKEd13y9bm9P2HF+MNRjgtqYoVvDwH+yjPEBzJbGhdmk
+	 c3S9s8NBBqIhfGEYl4jQaVCSSudAKLOXRYcafWloUJfhXHTJyWya5uCCmDS7WfkwUDv7B
+	 XUOzAob+zo0RPl6x8QlJ+d2GQEecOFQT3fWTryjxqdjutu7jsu5ZixYS1re7C+Zk+lEfV
+	 uUJ6DnnGXOVj6sjuMtUvg8djxHdGjt0+JVnhrFqBV2J+wybYqhqmQaNrCYGMDMk4z8H6u
+	 g2ZJrqL9S775Td8KBX6uvimlLK90OqfplaKTsiRPgPFnfARwAnIXCmJOqLnHz7YBJDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Bv3sYQLx;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oiKDow4D;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ECD606A326
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 10:35:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76ECD606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A24606A31B;
+	Thu,  5 Nov 2026 11:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Bv3sYQLx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793874940; x=1825410940;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eNT8/TR9RrSgwmJ4tlW5/yXQPcCQJRbz4BDv4boO4TU=;
-  b=Bv3sYQLxwdBGT5wMkTn3gRZFwdA0tso2w67T65XfBpuVSGNT3sN4Vuns
-   yk7taDhs+/MYHM8hNYrv1I6es/8DSbfOwhW6z48WIGIJSpKjj3Kz5Y7U5
-   yTU1WXDhL8KJjevv1hkrR0kF4EzL7w2kKCOTFSoUBw0o5n04v+9JQnmzP
-   h88uGony99a88kDz6mz0vSqETW6SUxSC8U9uqFZ1+9/bWfmKAlpyez1Z6
-   rdx6J1+hzIWGxaI+9BTPxSEvLzF5Cv6vwM1UF/VpznSHrRhbN05in+zZ1
-   D1r6L/d9VN/vd/I6iA+FEL9KU1ziMf/I/oAdlDH5W1d/q7mY8eIafpYXP
-   A==;
-X-CSE-ConnectionGUID: XWJ4D3OJTwqLf3SsN3JLyw==
-X-CSE-MsgGUID: Ut56XGewSPmUHJTwy8XFwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2673046"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2673046"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:35:40 -0800
-X-CSE-ConnectionGUID: AxLYI/mTRRWpgEagJEcWcg==
-X-CSE-MsgGUID: xdsO5fN2R/mGxWrwOKG0Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8737660"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa011.fm.intel.com with ESMTP; 05 Nov 2026 02:35:37 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 80C9499; Thu, 05 Nov 2026 11:35:35 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Peng Fan <peng.fan@nxp.com>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Victor Chernyakin <chernyakin.victor.j@outlook.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] regmap: Add REG_FIELD_GENMASK() helper macro
-Date: Thu,  5 Nov 2026 11:34:54 +0100
-Message-ID: <20261105103533.1426533-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oiKDow4D
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DF801F00919;
+	Thu,  5 Nov 2026 11:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793877142;
+	bh=vBz1e/DTkbeVLR+CgZnq/81MF85Dt9/oRuB9tLUw1f4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oiKDow4DVHPcbHYnfnI5K9cDwTYmcgUBZIFceXzoLTmNZKP6qSPC18kUFDy9lhCZD
+	 Dk8fzRSdLag5TXKw9HMmJs623EHxPfyCH/O3IgelwQ3Hl/G2U+5t+ULJoO1zpyz7OA
+	 TSp7E7ZUmFlLWvw6vzNOn+r+VeEhULraYnnDSQ7YP4bhKVKV9WpDarmsjQIsUwvrZ4
+	 eKxR9HqKhDSh/4RnY9kFWo7/6BOEORZxd8sDlblmKYRasnikTEg8SXSyIterYiPpmj
+	 Ktthx7Pcd5ooSaFAweMBN5CbosIM4LsNMYmR8t87biKW0HiJUSyk4ffP2eWWfnUn3S
+	 Tflu+n9Eoc46A==
+Date: Thu, 5 Nov 2026 12:12:14 +0100
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/9] device property: fix fwnode_name_eq() for empty node
+ names
+Message-ID: <auxXdlSWo2zG7iFP@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -87,57 +67,157 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l2ze5nypzbxx3qxf"
+Content-Disposition: inline
+In-Reply-To: <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
 
-One time in regmap and already a few times over the whole kernel
-the users want to extract a mask from the regmap field data type.
-Provide a helper and convert regmap core to use it. Others may
-follow later on.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+--l2ze5nypzbxx3qxf
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/9] device property: fix fwnode_name_eq() for empty node
+ names
+Message-ID: <auxXdlSWo2zG7iFP@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
+MIME-Version: 1.0
+In-Reply-To: <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
 
-Inspired by a patch SN1PR12MB25282EC93A27F3577BB9B454A5772@SN1PR12MB2528.namprd12.prod.outlook.com
-that leaves the driver to handle the custom macro for that.
+Hi Bartosz,
 
- drivers/base/regmap/regmap.c | 2 +-
- include/linux/regmap.h       | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+> Date: 2026-11-04 15:03:43+0100
+> From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+> str_has_prefix() returns the prefix length on match and 0 on mismatch,
 
-diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index 83f1f5942135..48e96bc9e7b6 100644
---- a/drivers/base/regmap/regmap.c
-+++ b/drivers/base/regmap/regmap.c
-@@ -1215,7 +1215,7 @@ static void regmap_field_init(struct regmap_field *rm_field,
- 	rm_field->regmap = regmap;
- 	rm_field->reg = reg_field.reg;
- 	rm_field->shift = reg_field.lsb;
--	rm_field->mask = GENMASK(reg_field.msb, reg_field.lsb);
-+	rm_field->mask = REG_FIELD_GENMASK(reg_field);
- 
- 	WARN_ONCE(rm_field->mask == 0, "invalid empty mask defined\n");
- 
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index a72f17ab6264..8f3034881f8a 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -10,6 +10,7 @@
-  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
-  */
- 
-+#include <linux/bits.h>
- #include <linux/bug.h>
- #include <linux/cleanup.h>
- #include <linux/delay.h>
-@@ -1477,6 +1478,8 @@ struct reg_field {
- 				.id_offset = _offset,		\
- 				}
- 
-+#define REG_FIELD_GENMASK(_reg_field)	GENMASK(_reg_field.msb, _reg_field.lsb)
-+
- struct regmap_field *regmap_field_alloc(struct regmap *regmap,
- 		struct reg_field reg_field);
- void regmap_field_free(struct regmap_field *field);
--- 
-2.50.1
+This is indeed a problem.  str_has_prefix() is a bad design.
 
+> so the mistmatch case can't be told from "empty prefix matched an empty
+> string".
+
+Indeed.
+
+The better solution would be to fix str_has_prefix().  In other
+projects, I've been using a similar function, but it returns a pointer
+to after the prefix, which is more useful *and* doesn't have this bug.
+
+	char *
+	strprefix(const char *s, const char *prefix)
+	{
+		if (strncmp(s, prefix, strlen(prefix)) !=3D 0)
+			return NULL;
+
+		return (char *) s + strlen(prefix);
+	}
+
+> For instance: the OF root node's name as returned by
+> fwnode_get_name() is "" and will return 0 for any name matched against
+> it and since len is 0 too, fwnode_name_eq() will return true.
+>=20
+> Do what OF code already does in of_node_name_eq(): check if the length
+> of the expected name matches the length of the actual node name before
+> comparing it.
+>=20
+> Fixes: a9c8c738066b ("device property: Add fwnode_name_eq()")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/base/property.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 51109794d7275ddaf4571584d0e77d8573ebb475..a97575ff9199004b4f401f432=
+aed6c95e40d0c25 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -700,7 +700,7 @@ bool fwnode_name_eq(const struct fwnode_handle *fwnod=
+e, const char *name)
+> =20
+>  	len =3D strchrnul(node_name, '@') - node_name;
+> =20
+> -	return str_has_prefix(node_name, name) =3D=3D len;
+> +	return len =3D=3D strlen(name) && !strncmp(node_name, name, len);
+
+This would be going back to the stone age, and introducing code that is
+prone to bugs.  Please don't.
+
+I'd suggest adding strprefix(), and then simplifying all this into the
+following:
+
+	diff --git a/drivers/base/property.c b/drivers/base/property.c
+	index 51109794d727..7728116e2968 100644
+	--- a/drivers/base/property.c
+	+++ b/drivers/base/property.c
+	@@ -692,15 +692,12 @@ const char *fwnode_get_name_prefix(const struct fwno=
+de_handle *fwnode)
+	 bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
+	 {
+		const char *node_name;
+	-       ptrdiff_t len;
+	=20
+		node_name =3D fwnode_get_name(fwnode);
+		if (!node_name)
+			return false;
+	=20
+	-       len =3D strchrnul(node_name, '@') - node_name;
+	-
+	-       return str_has_prefix(node_name, name) =3D=3D len;
+	+       return strprefix(node_name, name) =3D=3D strchrnul(node_name, '@');
+	 }
+	 EXPORT_SYMBOL_GPL(fwnode_name_eq);
+	=20
+
+
+I'll send a pair of patches in a moment.
+
+
+Have a lovely day!
+Alex
+
+>  }
+>  EXPORT_SYMBOL_GPL(fwnode_name_eq);
+> =20
+>=20
+> --=20
+> 2.47.3
+>=20
+>=20
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--l2ze5nypzbxx3qxf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrsZI0ACgkQ64mZXMKQ
+wqlTQA//W1clNm9koD5im1+p/cxNw122A4ZOpbBKWZPs/sZzSx8bQ4B6Wx75n4Yr
+4GH4EwpC1263aOxO2wHydCz3+pCbfUL/HvRBw51llAASoKkVhz8UUELO86MmilA2
+1jETDaD5nBjmGBiCvpkeSAuirQvGncIbf8gvVcb1lrPOVYY+kHJ5dF+z2LGzPROR
+oiSdMHgPVSFo1jUS3egZWje2ImCcqVW1drh/7b2Z0TtGU9ieqEXLnyoftS/zmww8
+WV/miGSrWUDDPjvJRZisbp5Owp5RXlO5eCq08lNfdu0cVm7bDj6v9BLZ6gtNTN3v
+kt3a5n4kBsHQSUAl99u5Ve/MeMsHieFvfo8QbZIBiRzRqt9sBuW8jo7R3EB0tX2N
+JkJtYjrkObFAGo6TEAsMnrIEBJWiR/ArNHqqWMIfywNsk9QTDOz/S6sRJTwJx6+/
+HCFVlv9iMTe3UXvoDyz49XZgPYZfX3C9T9iob9iZ4JUM3gzJbGmXWH3G+YQfZ6xd
+GFlIRxCn9l/Bihr9VseAnKkLI6EV3ttykDwggL30UIfpWz8oviATlybgAHV1h9uh
+AKxPJqFM6w09GUjgsa01ERqYRRUgNiEGa3Sl1UIhX0xgBrLnaMdt7rSFfYNP31gh
+r+LjzY76L/iGmZUaBQmVGxHxbqQFJEN9jO5cU8i5L5qgt/cerdg=
+=j4iX
+-----END PGP SIGNATURE-----
+
+--l2ze5nypzbxx3qxf--
