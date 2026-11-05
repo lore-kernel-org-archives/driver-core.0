@@ -1,75 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793897438;
-	b=RpbHp+ejHGl3asWJBLqVSyXu0Pb2RUUcxB+N60Ctq8oYYqkSC8wFVWRv2kBnRKNx/Bmd
-	 7Itsx7MY5ZWdjipXtnAQWLyEDg9VjRkOp3QrIbzzllcnzsx77ttxrZvmZc4mOWirzdXb0
-	 FzS9J65J2z92fXCtuo3hfs7Rlg1F0yEXFetyRRft1JT+90Ue3DseY5eweVuEri7wOCsnF
-	 no25E+NLw3RVf6ZVuR7N8yPeENP8SxyLUxqoL3sifh8FcYwF07QQCHNqyLKhcl0AFjysM
-	 JaQN9ttQ0xBoEnBqdZsXSAr31ERBMe7YkaKumDqkkBH7TKBV7QTohiWOwG/7Zz+lCow==
+	t=1793898126;
+	b=yk/xNDEgc9VeooMJAWNrxskuPa3N4UuHmsw0U8ArWV6ZSXptuDg6m6Y0OhFpVUUv6uB0
+	 qgQfQZM6Lz8sWVa8v1nn+URX6ldR8Af6nABxleq4aQzX6uMnS/16ZYJc8+FhUEXt7ubuS
+	 LQ+Wrhq9fs8cwPBfbl4IhRHmZFrnhhstvpgBac76Bgd+eVaxSo4s4s2SHJW4t1uOeAmHT
+	 aQ/2U1ukuBkhiMBkssRTo0DJLfUGhEJZA4fDLK6lFOmHqN85CBnmUPQdvAvr1vCdZbRTv
+	 JKjCbbKvlKAPSdX52ihNMaHiH/d0lhD8v8G78nVuBbd3W4yPoqJlJPlHq0wDI9aDRUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897438;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=5Zwkee7Eda/oQ5obU9MTZY8ne/gaSD2tfbbvFVf8sL4=;
-	b=pEXob2w82UMuuBbMapQUrOGddZ5AXQ7YY0Tei3K9WCZYe62pRiBpSIK+86N6/roZnRK/
-	 ipnT471Rfy1UDn9KeTMuxsqZ8NlkQEbXTuAmbWXnAktdweEcWB0GK9JbKezWaAcgyPAu6
-	 F5rm/uHTKujsNOLalXAHYNsZErrpYHRz2sVDFJPO+kc4Xke6OM4xZJip0cw/VAu+uYEqf
-	 +p0xCSZxiVo22owdN1RFZkFRavJkjRZkq7NN72Dzj3sTwjZKgDKoswipIsthOdeMHzzsA
-	 j5wiG+gRZr861/fNKwlH+BTcAzHo9mbAj3m+hYcjnx71688WUI3GWENwZ/hRLQJ73CA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793898126;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+	b=bAxGhFugluQlVmQsCDUgdfCrN3XnZWSEktd5kCriNMHo6MefINecrJ88c5cZD96I/iG8
+	 8F9LjZDoXb5iRYj3E+qHAxJ+70fLouKKJMDR1qCDnib9ARwzjWmQNaFo82E309K+fPput
+	 FJyukdN17c9/WuJuWjx1sFwkG+Sxg4EXGOh1d7P4oHUk7mqZ2XaQ/q7Ibm/mePs7hiOu+
+	 hyW3U0t3pxH0MulMMPeBmW1kGDMBKfjlZV4EvIin+7FwMAtJv1EY5mICa4iSoG5l23YGh
+	 AMFtGKziVaWUw/IVrZImddgDLL9MyNL21BHQ97fSD4/kq6BSmm9guWv5/upAgyXiiZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=bIOcdG4J;
-	arc=none smtp.remote-ip=216.40.44.17
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=RUc5cObO;
+	arc=none smtp.remote-ip=209.85.217.48
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C43606D808
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 16:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C43606D808
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F47606A333
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 17:02:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F47606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=bIOcdG4J
-Received: from omf02.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id DCFD8A8A1E;
-	Thu,  5 Nov 2026 16:50:26 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf02.hostedemail.com (Postfix) with ESMTPA id E64E280014;
-	Thu,  5 Nov 2026 16:50:20 +0000 (UTC)
-Date: Thu, 5 Nov 2026 11:50:19 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Alejandro Colomar <alx+linux-hardening@kernel.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andreas Schwab
- <schwab@linux-m68k.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Andy Shevchenko <andy@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>,
- Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches
- <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook
- <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Len Brown <lenb@kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>,
- linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] string: Add strprefix(), and deprecate
- str_has_prefix()
-Message-ID: <20261105115019.2fe7c91b@gandalf.local.home>
-In-Reply-To: <auyuINXEJKc1KoG7@devuan>
-References: <cover.1793876837.git.alx@kernel.org>
-	<9c81f6f62fd0e908e683c4c08b09a1f95bc2ec9c.1793876837.git.alx@kernel.org>
-	<20261105111423.360f4ba8@gandalf.local.home>
-	<auyuINXEJKc1KoG7@devuan>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=RUc5cObO
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7cc365db987so1379056137.0
+        for <driver-core@lists.linux.dev>; Thu, 05 Nov 2026 09:02:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793898125; x=1794502925; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+        b=RUc5cObOZ6O6+D0a7KmTBU3AgOTc8WE4LovmEw4x1QzzS7/ypDDyx2ySHcf5lla+CA
+         5GBimoidWQT5MDI4ePZMyzVDUqUG1M3x/y8BwdQJ4GFzS2amN+YlDPwqvvlpXaKIlves
+         V/CGe2OhW4agWFM0S7Tg4TynGn7JQuvpY4aZCO0YIXG51LJBORD1C5VvK88gNg+WdqA3
+         XnHMji08194InHapylomPTlsgpazU3tAn1q0+7jM0Bud1hVUGx1nLQ85+19r3w6/S+qG
+         TMFTxnLEsuC3m8sfZEXFzIvzWGm692mFY72FwTzjE4y+k4BUtaReyzAur5++rxtIHrxX
+         6VOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793898125; x=1794502925;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+        b=Ns0H5kkFaWyfxgpJ/026YfWmVhMKNIozxJwqU2zSS6Pl6KLY5dyOJ77MTKJHlUwNMh
+         cZsFGgnEcys+TR5nqoU/Z7LQhf21NKWySINhIVs+9nw8pikUrR7kfNK9d9/QW4IAugku
+         sDgzmW9umtQWRggM2MVBCYjohkWvQmmFW7syDXdeFrf0TvZAO+mc7CoCxzk8gVOUdY/u
+         FTN92kJxAxzEcUoJiEJUPcYoanSLeeIdhrNyIkGQ7jcAWWd5WYEgqcRd0xuewNuKhU6v
+         6OPe4CusVIVqBtEFtcIQ5eVyDw0r2VE0mSMj4fSbC3oLpMhl2dFWzqCUNX7dYB0xQ3Jg
+         dlIg==
+X-Forwarded-Encrypted: i=1; AKwUvBw2YbkV+BayVWPjyUwHzMy1FYQOQtTFX8Im/JXnceWD0jjFSV2B3xbOtTqrN/0raedGU4dGzNTZit0vTw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9/yeTfOdxqN1XFcHA9jJE1KjnmFzgpKAf5IUZ7HBIpzJdG7kfw
+	lOsesRMvlKRIk8/6Z2xPqFOaxwoyzia0kgBeJ+6Bg/qFJ06vN+HKdzqGlxXbi5AGhHI=
+X-Gm-Gg: AYBFou2SHjUP5BUkZfaVdqZlPB88TqGU0DuxUEwaEXeZOXLH6kQlC111nwJ0Z2XV4by
+	/6yeLD9dRgszRJycUiUoTs5fS7knjkIPqfZvlgL++xrUOK8vA9cUeZIWRp1dbQYgIHfVBgaz8xR
+	CIz9Ao0JGdp5Qx0hcXcwEqikz4Bz54GBfbik+riwc1MbfgZoDpnKzRJPuvGxKqrRE/Wos1BoAJ2
+	gtj5F3ExQEaB9WwlmWrqduNhfOrW+aebpd3ZF8P6rDggQD7j6BDBeJkMeUHcI+MLtrddBLWP5Rx
+	PVuf4bmkR1ZHh73r7skABWIpV5taJ4/efI7+9GWVNlceFRpex15Ob30YqcSgyezW5wJk08+MIaQ
+	CnX1O2vS12fgntRWQF5px5vJVq4pnBkmYSpx0EGnf4ThIUsf494vvnXazytXaI74hQ5QNpyoPLq
+	lYGmCnC9iokwRjo7S4L7cTdL1CIprrG/vFSrJscNnvDmn+G3C4RzPMn9txuH2zJhkTC0AOGaurF
+	JPGsvEOond356kgloS1Eonsbgbvbf64RaKFbGt4gJ+ZvMyXFQrQ5K6pd1tjofsrPGk/z+eiIKtO
+	GgShYK+P+6nONty890frdchrbp9EqjvKDcWpAzWaXhsrqCs58d7P7/uIlHuchV4UnXLfOQm0tEM
+	mHtUiDCBm4PhEvq/XDcDIKcA9RhSKXJg=
+X-Received: by 2002:a05:6102:2c1b:b0:7cc:2bb7:1335 with SMTP id ada2fe7eead31-7d2a16c7f35mr120203137.33.1793898124846;
+        Thu, 05 Nov 2026 09:02:04 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fd3e101sm4619225137.3.2026.11.05.09.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 09:02:04 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xP0qh-0000000388I-28Zd;
+	Thu, 05 Nov 2026 13:02:03 -0400
+Date: Thu, 5 Nov 2026 13:02:03 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
+ through sysfs
+Message-ID: <20261105170203.GC663069@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -79,145 +133,50 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: E64E280014
-X-Stat-Signature: jt6ge55y663npwc3oayseghzdtk7e3df
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19cl3Y/smj00nYIJMgPA2EZab7rnczjCaE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=5Zwkee7Eda/oQ5obU9MTZY8ne/gaSD2tfbbvFVf8sL4=; b=bIOcdG4J9j+16rixy1pyX/3+Km8E1J+gNaFcVTjGgYdWeCpzwVrKDrvCmTjHXmV1SmxYCuxDHAhfGHCafk0sO2et1SokUSAKCU4zUkjQyOJgaW8I+27HNX/DYqiiYYumoaJgQMC2uZsXGqgQ+2hUaPJmPrYo6p2L7tfHwgBcu54=
-X-HE-Tag: 1793897420-811383
-X-HE-Meta: U2FsdGVkX19bCecB5jioIhguq6rRgMe3rxF4TgEhqk9KP9NeKNMkUT+69RNNihc+daKgEKTqOXJQTs0rHkp15vWrQ3K+pvCwXnEYcFTSvqifAYR+m+FPHWu1d9zP7kvFElFCpDT8P78g6KnZxNm0r9p6JjBd+ViGmA1lo5/duRsnCadbZBGHHKc5/rqGhfV0FYIUh/TjJ1Tvz52bXk8eQ1YbHfPmZ6c8MyebafoN+YsfZYmzGr6UepNjTBEFsFDp4cZJfNtCcJsBaGpaCqaxKqUnFQPBIWjCJKjwkRi/gm8svcFm2yP2sU5oW/su03ZZRY6GYvn+nVCG3z+IsIxo6PgDUoCAwbrpo1jPUQAyX/DtL47Kb0zipc6wlaas3hUUdw8ZQTTtQ4x9zX17ar2qbz4fkpASG2qccBseCBJGprc=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
 
-On Thu, 5 Nov 2026 17:33:02 +0100
-Alejandro Colomar <alx+linux-hardening@kernel.org> wrote:
+On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
+> +		(RW) The requested trust policy for the device. The initial
+> +		value may be selected by the bus before the device is
+> +		registered; otherwise it is "default". The policy is resolved
+> +		to an active trust level before the device is probed.
+> +
+> +		The values are "default", "disabled", "adversary", and
+> +		"full". "default" lets the bus select the active trust level.
+> +		"disabled" prevents a functional driver from binding.
 
-> Hi Steve,
-> 
-> > Date: 2026-11-05 11:14:23-0500
-> > From: Steven Rostedt <rostedt@goodmis.org>
-> >
-> > On Thu, 5 Nov 2026 12:13:03 +0100
-> > Alejandro Colomar <alx@kernel.org> wrote:
-> >   
-> > > As Bartosz reported, str_has_prefix() has a bug: it can't differentiate
-> > > between an empty prefix matching an empty string from a non-matching
-> > > prefix.  This is a fundamental design flaw in this API, and not
-> > > something that can be fixed.
-> > > 
-> > > As always, this is a consequence of choosing sizes instead of pointers.
-> > > Sizes are often the wrong choice.  In this specific case, pointers are
-> > > more capable of differentiating these cases, as NULL is a special
-> > > sentinel value that doesn't need to overload a valid value.
-> > > 
-> > > Let's implement strprefix(), a function that returns a pointer
-> > > right after the prefix if found, and a null pointer if not found.
-> > > 
-> > > We'll slowly migrate existing code from str_has_prefix() to strprefix().
-> > > 
-> > > Reported-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>  
-> > 
-> > Is there a link to the report? Please add that.  
-> 
-> Message-Id: <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
-> 
-> or in link format,
-> 
-> Link: <https://lore.kernel.org/linux-hardening/20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com/>
-> 
-> Which one do you prefer?
+For making this more general:
 
-The correct method is:
+"disabled" prevents a driver from binding and informs the kernel to
+provide containment of the device. For example a PCIe device should be
+unable to DMA to memory.
 
- Link: https://lore.kernel.org/linux-hardening/20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com/
+> +		"adversary" requests operation with the restrictions that the
+> +		bus and DMA layers can enforce for a potentially malicious
+> +		device; it does not isolate DMA by itself. "full" requests
+> +		normal operation.
 
 
+"adversary" informs the kernel that the userspace wants to opt into
+any security defenses the kernel may have to restrict and further
+validate interactions with the device. This may have a performance or
+functional cost compared to "full". As an example the DMA API and
+IOMMU layers will avoid exposing unrelated nearby memory to the device
+during DMA.
 
-> 
-> >   
-> > >  
-> > > +/**
-> > > + * strprefix - string prefix
-> > > + * @s: The string to be tested
-> > > + * @prefix: The string to see if @s starts with
-> > > + *  
-> > 
-> > Needs a better description. Feel free to use the one for str_has_prefix().  
-> 
-> Ok.
-> 
-> > > + * Returns:
-> > > + * *  @s+strlen(@prefix) if @s starts with @prefix
-> > > + * *  NULL if @s does not start with @prefix
-> > > + */
-> > > +static __always_inline char *strprefix(const char *s, const char *prefix)
-> > > +{
-> > > +	size_t len = strlen(prefix);
-> > > +	return strncmp(s, prefix, len) == 0 ? (char *) s + len : NULL;
-> > > +}
-> > > +
-> > >  /**
-> > >   * str_has_prefix - Test if a string has a given prefix
-> > >   * @str: The string to test
-> > >   * @prefix: The string to see if @str starts with
-> > >   *
-> > > + * DEPRECATED: Use strprefix()  
-> > 
-> > No, it is still useful. Converting trace_event_filter() to strprefix()
-> > would be very painful, and likely error prone.  
-> 
-> What is trace_event_filter()?
+> +		Successful resolution to an allowed level commits policy
+> +		and operating level before driver or DMA setup. Both remain
 
-Oops, typo, I meant trace_event_filter.c
+"before driver startup"
 
-> 
-> 	alx@devuan:~/src/linux/linux/master$ grep -rn '\<trace_event_filter\>'
-> 	alx@devuan:~/src/linux/linux/master$ grepc trace_event_filter .
-> 	alx@devuan:~/src/linux/linux/master$ grep -rn trace_event_filter
-> 	kernel/trace/trace_events.c:2833:static const struct file_operations ftrace_event_filter_fops = {
-> 	kernel/trace/trace_events.c:3222:			*fops = &ftrace_event_filter_fops;
-> 
-> If you point me to a specific line of code, I can attempt a rewrite.
+> +		fixed for the device object's lifetime, including through
+> +		failed or deferred probes, unbind, reset, and driver reload.
+> +		Later binds must resolve to the same level, including when
+> +		the policy is "default". A resolver error or disabled result
+> +		before commitment leaves the policy's writability unchanged.
 
-I rather not touch that code.
+Not sure what "resolver error" is.
 
-> 
-> > > + *
-> > >   * A common way to test a prefix of a string is to do:
-> > >   *  strncmp(str, prefix, sizeof(prefix) - 1)
-> > >   *
-> > >   * But this can lead to bugs due to typos, or if prefix is a pointer
-> > > - * and not a constant. Instead use str_has_prefix().
-> > > + * and not a constant. Instead use strprefix().  
-> > 
-> > The above can be replaced with:
-> > 
-> >  * This is useful for testing for a prefix and returning the length.
-> >  * If you only need to test the prefix and perhaps get the pointer to the
-> >  * position of the string after the prefix, then use strprefix().  
-> 
-> Ok, conditional to being convinced that str_has_prefix() is
-> actually useful in some case.
-
-Note, the only "bug" is that it can't handle an empty prefix case, which
-was never what it was designed to do. The place that the above fixes, was a
-helper function that used this inappropriately.
-
-Hence, the use of str_has_prefix() was never meant for an empty string. I
-should have added (and can still add)
-
-	/* Empty prefix is undefined */
-	WARN_ON_ONCE(!prefix[0]);
-
-The fwnode_name_eq() could have done:
-
-	/* Empty prefix always matches */
-	return name[0] || str_has_prefix(node_name, name) == len;
-
-Instead.
-
--- Steve
-
-
-
+Jason
