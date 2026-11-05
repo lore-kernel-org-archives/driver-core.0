@@ -1,132 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793896023;
-	b=INODw6+LKy219u/zbpiE8YToEFC1pmsBDcwU9FOp9CYl5smzSbivPIRTSjSJd2Yz2Ul0
-	 dNiLF4p6vPiAodrO/sCwTFxitLGb49V/zbgD/VG6K4hAoeHnraemFN8H8i192pa0Xlp+c
-	 VjsKfWHuQtQ1A9GqjWjsL3FdsFNS2ukyfeVZj9Wz0bNc2jVoGfHwOhaEiz5eN9pLnKq4j
-	 TOVMQuyckckWEvopq7W5AKxiBaOp+wE0bQxmpW3Mj8yuXJtk2QWMillGAF5gR0CQmogrv
-	 JRv8eQMbOrItRD/8MA1DD7ygRrF3t9Z8IRRhzk/jj6EoC+T8Oww10/OgDebsV4EtZRQ==
+	t=1793896044;
+	b=e5VqIJ9QN1Xw64xE8su8USO7hHF2KqwiAsB7i8hauHHCW+pde7RcafAdqq3xjFVISZsT
+	 1lnJPy57ioMxsqtrEE5Yw9F0TQO8iWf2odXMfg4mjWbJ/72yPDfaZXcPIbTblUZQmxUF6
+	 wIT6jTgsb17zn/dmScz4gMo73MA5YQBCUPIe4nVhfAEYuqR9vWR7qgHDXqCH4cbQPCPuJ
+	 6h+m5whoQyOGMRfCo9u/mIKju9eB3CpLTFctBCnVohRwuNMflG172r4GMnjZ23isytVov
+	 W4OlxXn7UxzoZhwdLhL/2pSLsZdxQS56hypoiPDQgACxVo3XB3x8AO4DEbPAubOfdgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896023;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-	b=RxngfYjTKMLAezwkygO0tMvOE6vzhaArwPUfs9faS5+ig/heV2HPGiC3fivx+euwlxZ/
-	 X1tJhojdL74fVsFQ+sZHUjpt65b5PtMYs3Db/ZLT7K3ePvK3ojFJ3O4TuTypVY24DO6Nc
-	 zfdoC9GYBTBymjOt/FkHgg6qy09+xmLR5zEaZ78zQF/isKKCgf+wEizRoGaZyO/ll4C8q
-	 t7rffTgQwYCWTvRzI9cXQpowytRDIhV8A4xXPRecJ/DY1R5kfLrFL4BtreBXVTWuZqU7X
-	 GRC/tbOo8/pxhJX/T1430qXHvBDOnna27zd7TKnIGPTvxPBno1Stj6lCA2NS62VZ2Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793896044;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=cl6qWXAwKxsVwTkKY8JXxlaaCkzuu5lHBNqnNBZkMHw=;
+	b=tAQDgKa3hDcKjQ+MYvrJt5/jkU1lGqfw8LbGJSd8r9gepucsJzJ05Pq7O9pgmBx0MowQ
+	 u9Sb6glwYyMN+h9Qcld0JZKjQ6/HlNrKBxtk8T3eS0oLdFQJJs37Dsc0ToNO3njSLl0PM
+	 MUeBErALZFcGVm/gAgQqpEXnXQ6bNX4Y4cz3+lyjn9WuB9LJbHU/0fmsJ11L0htFAXAaE
+	 z06dIKNy5TU41dYihazaKxaGv6ozhffKgw0NGIRemHawCDIA4yxC7iT+7oRr4co20OG3z
+	 cJbenRChJxHiOlecDco/RrW7L7phnt6GrMid63Hrgw/4fPUSqYBVjq9n9fkqt3jyqCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H1OQVHcQ;
-	arc=none smtp.remote-ip=209.85.217.44
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=isGRszzZ;
+	arc=none smtp.remote-ip=216.40.44.12
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9293A606A32E
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 16:27:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9293A606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6682606D832
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 16:27:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6682606D832
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=H1OQVHcQ
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7ce77f98658so663018137.3
-        for <driver-core@lists.linux.dev>; Thu, 05 Nov 2026 08:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793896021; x=1794500821; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-        b=H1OQVHcQ1uAjCjVR8BRgJ48YlfatlDz4giWern+6CduNzr5+DwC1ER44CbAFxGx0Gv
-         ToxPmzQ7/J+YZpDH1rNcL+CbPzjbvrtlVGghwQtrdptiawPkP2U9QsW6i15STQcANPjp
-         w4viNeXRjgOodbGSjAvkJLEZiyL/bsSJuSDDQNeCa3jDQYbnHCV/uzQMDQ0MQSfKrXUJ
-         qu4lYckMSRhMHHXv1v2ChvIJGU/JFtGDF0AejhYQ6ajAmFp11x5kUEysunILL2dD0TLA
-         bnkR1dvFpyEOAsYZNxFf78CeltEyOQjkAUnGlkkiWJtqIsVAKQhZlQdnYobqU0Rk2zdP
-         uSOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793896021; x=1794500821;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-        b=Y4UPqjAoGm9tpB59jK20NtUmryUtjjOjpU/ISPIgiYYS89En4Y/E9Yh52/CkBUe8ti
-         fE505h2NZFcSq9zk41RZhrvjGoIRlLI1rC4hY9Sgi5/kjLIz8vYP7fnG1kvVU+uBFmcj
-         XX7ZmNbcUuHULQlEZ/ysg26XKs2oIDH5Jm74I1QBrlN9j1KECTRyHuMAjfczy13AZmLx
-         8QDq8JfLXsPEMKGmS5+Wpyf4ebdfPO7EzETzbiPqqXI5qJrPPYGAZUeDWEQm0UsKJaPY
-         Pc3QrEj4FJbEulBcLr6Cchv0vUBcM270qOocnyFXm0FtDXOILEYXBNe/dRyGdQTZJoUh
-         S/+g==
-X-Forwarded-Encrypted: i=1; AKwUvByh6Uplkm7Gs1DCwHt+KATojUDDJXNPyx/73tNl+eSLMBAGwK4sEiOfPUeSh7GntKyA07qWevS5Ts2HKQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+EmePQvwNGh2t5r0fNa0D7j0+YmeU2cC+BdJnoG09HKwJabaut
-	FgGALZDm0R0Q5E0ju5EvQa7q8N8W0xjFZQnZgjbpIr5CmbHykaQgA5KlrzAHD64lesM=
-X-Gm-Gg: AYBFou1H33FUOzAmu4kjQxouGkLIF6tOKY5QwsfiioPC/igVZExx+xAp5Hz8BXJWc8y
-	eF0aevnDc0yy+Lq7bN1WXFrLzoZ0AZjYSkbXTy34qVL8sOzxoWmtnlLx4HONvgJmB6L/pMMMp+q
-	jH87MaHtv9U7yc77ED6ES77CBCJ1Jly8TdhMsBNVF5bjKLp0Z8Rd7o172ch/SspmuXELeEmr+wY
-	hv17QySiazGhc5UgsoT68OX9bepWgQjanFbqe5lBj2+N4Mreh2UTs+jIH8u24jVcPIpqL+eRDFb
-	vAlcCXsBiPS0ls66cjwiaWinp2txtoFTL5EB9bhaIIVSBChvY301qJzWZZWkoDStGRDJn4xGMYM
-	3N8zvFAzqTS2yFIVyQDnBCDmBo7Q4OAAyeUIkf18BBdk2x4kJndYnP/4BVMl3YUO2n5uLG7KAhR
-	lxOZWirCO5MoLuPs4uOEL8b138RkStT2DHxNv/d+EhmXco6vNNFsbVXuU67lS//wbwusovwyoDz
-	BHYm0TVLHJSEepnJC+7dw44xPDGuVJXw/uhiO9ImmE8A2zPOXQUCm9VVkqy2pRwT7hsakIn3CYf
-	8rpAcp13+TbqcBuO1K3Gct1vuseJEcS6DxFVUbcHzqtBZdnojWxWeOz/yBLZazQzPzgYxr4U7rk
-	2lNV66paxIeedTfRVrVQ55GHDxPU5y3Y=
-X-Received: by 2002:a05:6102:3f9f:b0:7cc:174b:f7bc with SMTP id ada2fe7eead31-7d2a15715c3mr29296137.15.1793896021174;
-        Thu, 05 Nov 2026 08:27:01 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fef4ed3sm4667110137.11.2026.11.05.08.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 08:27:00 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xP0Il-000000032XP-37xT;
-	Thu, 05 Nov 2026 12:26:59 -0400
-Date: Thu, 5 Nov 2026 12:26:59 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Message-ID: <20261105162659.GB663069@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
- <2026110526-aerobics-correct-4c06@gregkh>
- <20261105131856.GA8298@unreal>
- <20261105140352.GF3889730@ziepe.ca>
- <2026110558-tartar-juicy-036a@gregkh>
+	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=isGRszzZ
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id EF57EA0B2C;
+	Thu,  5 Nov 2026 16:27:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id E897F2002D;
+	Thu,  5 Nov 2026 16:27:08 +0000 (UTC)
+Date: Thu, 5 Nov 2026 11:27:07 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Alejandro Colomar <alx+linux-hardening@kernel.org>, Bartosz Golaszewski
+ <brgl@kernel.org>, Alejandro Colomar <alx@kernel.org>,
+ linux-hardening@vger.kernel.org, Andreas Schwab <schwab@linux-m68k.org>,
+ Andy Shevchenko <andy@kernel.org>, Daniel Scally <djrscally@gmail.com>,
+ Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches
+ <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook
+ <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Len Brown <lenb@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, Tom
+ Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] Add strprefix() and fix a bug with it
+Message-ID: <20261105112707.3e523564@gandalf.local.home>
+In-Reply-To: <5001d8c2-2334-48bd-bc95-6b33e3922a46@kernel.org>
+References: <cover.1793876837.git.alx@kernel.org>
+	<cover.1793882260.git.alx@kernel.org>
+	<qwpovcqznx6eltou4inmj3v62qhh6ouvihqnze7bobnd7lmcbw@rcri4e623icb>
+	<auyOkL1Vb1iKicS9@devuan>
+	<5001d8c2-2334-48bd-bc95-6b33e3922a46@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -136,31 +78,27 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026110558-tartar-juicy-036a@gregkh>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: E897F2002D
+X-Stat-Signature: 1j5wr87cyuobkeessu4smpn1kt6uqm7y
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18LWE+TJn1V15fX2nd3ghD2tOKUsGtbMPo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=cl6qWXAwKxsVwTkKY8JXxlaaCkzuu5lHBNqnNBZkMHw=; b=isGRszzZS5nfoejHUDzDLGhTBvLgv90g+WAVgonIoqoULmQosElt/YkkmtZCG/er4K4ZDKb0kvSLTzAeUcyaUu4POFEAYxPTS6kMiAlaGQ3/+yVTsb3rWeyefPXmtiZk3db+mHiAByy9IyaKv9Iky/h8qdJfJcl9UUIXaMNjsIE=
+X-HE-Tag: 1793896028-287696
+X-HE-Meta: U2FsdGVkX18/tmyfkjZHklw+whjWpw3EGPMbFU48rlVLVJORRKfHV20NxtljGLQ4CE8FlNIE1rUiJxJvhAu9wOEnwcNS7/wSWe42xYAVcG8z7ibSqnS3xC+4OEBmRMkEbT/1aHTTHx54xVL22ry2Y9Hi9Lc0tUuU/U096RSJ21Toj9fJN+ji6hTb6eCaoPkSDrj4n5cZm0JsW/A+rUK4rVjEJ6TqGN/yiIrtPfWVdgyekmXHJaqJalSxYxmHSQ+wC5gwzDcaKumA6i9rN4JpSe+JmQ5GvXGWboNIwn7a1LhGzSZvw5btCmyVvyIR1WY2MQV515HGAy7ca34d9q8hFBfjSl485DUR
 
-On Thu, Nov 05, 2026 at 10:43:00AM -0500, Greg Kroah-Hartman wrote:
+On Thu, 5 Nov 2026 16:21:02 +0100
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> > But I supposed Greg is asking about /sys/bus/usb/devices/DEVICE/authorized ..
-> 
-> Yes, that is exactly what I am asking about.
+> I believe there should be no excuse for modern maintainer to not use b4
+> in the workflow. The same BTW for submitters of anything bigger than
+> 3-patch series.
 
-It looks like that does the same basic idea of delaying driver binding
-that this series does. Hopefully Leon can harmonize it to use the
-shared trust level flag instead of a usb specific flag and retain all
-the uABI around it.
+I still don't use it ;-)
 
-But, even with this v1 the user can choose to use the generic trust
-level and ignore the USB specific authorized and get the same
-functional outcome.
+That's because I have been perfectly happy with patchwork, which is where I
+download my patches from.
 
-> And I know there are other types of devices that will want to use this
-> type of thing (i.e. SPDM seems to be spreading to other new bus types),
-> so it's good to have and get right.
-
-Yes, we are investing alot of time right now in trying to get SPDM
-uAPI right when we bring the general framework into the
-kernel. Everyone needing SPDM should be able to re-use it.
-
-Jason
+-- Steve
