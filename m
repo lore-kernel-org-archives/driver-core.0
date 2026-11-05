@@ -1,65 +1,91 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878737;
-	b=RIrOSuXo+Y0naCT/vaYk4q84at8b/m7RBRVSYiwp28VGUH8s9PNSUxLG0mlx7jCcJ+eL
-	 /wsNESy233p4PLeNxbuYkQJ0G2VwApmS9ueuQwXPbnCzZqlOvlhicfgUIk9xLLra7Powu
-	 aJDdQzr30RnFZT5usmaa8crmJE6gfBp47CLFkLGge63t/yIlx8mMbn/bwowQhAKYdxUrB
-	 POxlvOOEoKtCO44sKQiEzs3LWCjzRmiY3Pjy97M6M7XSTBOtFhMSPJUBbP1eogYx+ekK9
-	 WQgj5cyqzijntZVXmNcSc4pCHvI4wnE681leCU4lls3+6SYUr1T8HyiMnbizeE950CQ==
+	t=1793878959;
+	b=yyyZ6xFIV+CS+ZgT30i8nSwpwxwHEymrPes84DB6E1Y2qiyGacSUvgHoMV7LQit8mpEz
+	 BXASKNhKSKjKqxL2zO29FH7e8fmG4ctkEiDRUw1trJoSbCZT+ciZC5LO6Vb0o3c9BS2y1
+	 CDRp7yUEyT2n60/EhuDiLe8VvkuclNHuSFmMI0ScpFQsij8mAcJCCsTYj4LuQtyqYNNfs
+	 y+PjHRBIF9/jIfJ/GaVvgj/GbsgqTu4jQ2+Sax6mWsJRZyEIShL69naJCNlfXm6Vx/4jP
+	 /42rrN6Ju89lYK2VH5XqoAzftpAv7O0xzniIkogjKxkh9qCTq8hepxyFwEHlRcW8XOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878737;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=iuAuq2ID5TGFzn2pe0VJ1GBuLXTQHkhjD0pbehz9mLo=;
-	b=f9IiegzVA7HZ5sKA0Ycig0Nu6VotEbP+W0WvjyKu1So7t8Ss/krYWwfo6XAczxGRDM8i
-	 M/3tlXhuilUiWS/o/D/xkihSG8KP1v/sl1wK5l0exgb/1Vlg9YHXzNi5yAETekPouTkOg
-	 iH2z+h++wK/Rd2J3JTRoX31rqnN+bS6xefG0Mo1Z/WF0eJeJMoYwH0Cs+F7vAr4EsoNjb
-	 Cb8p0RmMxF3x4IkAwMmHnO6gpQ6Oa0dBOYOpGu1hIVSSbdu+uuzTzGqucdEfysOGhRAXd
-	 iUC1wUKqWq+0WPlmVt2V7lheJdycBMMQC6xSMKxv2nEsod6QdztWMHqjtZGCRQlhO+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878959;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:X-Change-ID:X-Mailer:
+	 Content-Transfer-Encoding;
+	bh=nNRa2+aOfCVTNA1AfTcRiILSfCXzP/TbgaPBxe7cp+M=;
+	b=PGlT0+FG6PQM/eKW5KEwWbtrK3whPGYFBDtoSkwvipTeKElNJh4ExPGCizCqpBPXQXI3
+	 kd3zDnA2LV9ot8c0+dpRV/NhS6AUhihvNEEWl3ZWedM79SyrNgmLR8DjHue5C/1Yg8dzr
+	 2Gu2sdVfq9KUeswox9fpFb3WGWFgOQIuanXVUAJedu9SMktMy3RkWLEVgCHZ0uXQSZwi8
+	 qcaqT3DmUkeQcbkhY+7DLEBxxfCSCiOrBZti7I3ZS75r83o1lVyAc29wQkQANUTk9pa0E
+	 YXBUZ7LOadi010udFp/norwWG6E/jg7YEIREARDnv7HmBzG+u4/TsLoFLacTx2r6SZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKsbFlx8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHSP6gcj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA220606A335;
-	Thu,  5 Nov 2026 11:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F8A606A31B;
+	Thu,  5 Nov 2026 11:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MKsbFlx8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2F1A1F000C1;
-	Thu,  5 Nov 2026 11:38:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHSP6gcj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8654B1F000C1;
+	Thu,  5 Nov 2026 11:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793878736;
-	bh=iuAuq2ID5TGFzn2pe0VJ1GBuLXTQHkhjD0pbehz9mLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MKsbFlx8167Xt68/FdC4AGG+0FAoLxd96i0SMW6DYf1Rp9REAm71JsCQK64LXDfmD
-	 jpQIFxb8Ljs+dtF4hCQ/J1SH4KWevWOD31InLwMOA50QmzkxVFoluVhfd3A7+h3STZ
-	 05rOnfFDuaxSVd0sstW+I76xhw0/RFbI6uhBJfujzHjG7C9sqCPTV3OdBm3XqHLER7
-	 +vop+yVrDaDhHo/gUpdEEj1gnzpiH+lZgCkS4+2bl48d/XaHjeFbe29HfC2zih8t6s
-	 Wxx9UZwCgE7j7t3xTYS1fATgSwwd4D4elFQ74zzj1PrVCpl9NqB65HOSzGHKBeLEkQ
-	 Fh/jNGj55+tcQ==
-Date: Thu, 5 Nov 2026 12:38:47 +0100
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] Add strprefix() and fix a bug with it
-Message-ID: <auxn9fKsOKeIFIJa@devuan>
-References: <cover.1793876837.git.alx@kernel.org>
- <CAHp75VdFH146fNhw1ysUbgCPbpv+K++kWvbyZxU=V7tDh0T88Q@mail.gmail.com>
+	s=k20260515; t=1793878958;
+	bh=nNRa2+aOfCVTNA1AfTcRiILSfCXzP/TbgaPBxe7cp+M=;
+	h=From:To:Cc:Subject:Date;
+	b=LHSP6gcjp4mEydZ1ViLj+iZVCehAC2kCPmDZuRfYlJYvaiP1ul7v4Z8h3ReQmyo98
+	 Pef+LF0klHcjE/gNRKFhsjH6/va4tiLGx0cX0LenQBttgBh//azxgkbkawJOOL/XmW
+	 GMaDKIKxgi23E78tGkXW+Rodfmug5gKbMzabVHpatQxpqzrwVUULv2jR6F9jquxqHf
+	 lUuCwhy6URmPE3GIxm/DhywMQpohFyk1oicHLoVlLeIaqy+fFAI0oG/Z7U4oWcNWnJ
+	 6TsfxxirEqAnUWR1+nNIO6clHASzuOt4ufMR8wNuNhC7mZXIxm4v4P+YMaeDdN9Jlb
+	 CVz9dBmNoauMQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [PATCH 00/17] driver core: Authorize device trust before driver binding
+Date: Thu,  5 Nov 2026 13:42:13 +0200
+Message-ID: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -69,124 +95,136 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rgj25ae5zgxkqfls"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VdFH146fNhw1ysUbgCPbpv+K++kWvbyZxU=V7tDh0T88Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260915-device-trust-core-12934e618489
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
+Device trust was a concept introduced by Dan in his series here:
 
---rgj25ae5zgxkqfls
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-hardening@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Linus Walleij <linusw@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] Add strprefix() and fix a bug with it
-Message-ID: <auxn9fKsOKeIFIJa@devuan>
-References: <cover.1793876837.git.alx@kernel.org>
- <CAHp75VdFH146fNhw1ysUbgCPbpv+K++kWvbyZxU=V7tDh0T88Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAHp75VdFH146fNhw1ysUbgCPbpv+K++kWvbyZxU=V7tDh0T88Q@mail.gmail.com>
+  https://lore.kernel.org/all/20260705220819.2472765-1-djbw@kernel.org
 
-Hi Andy,
+This series takes just the Device Trust idea and works to introduce
+it aside from the other components.
 
-> Date: 2026-11-05 13:24:18+0200
-> From: Andy Shevchenko <andy.shevchenko@gmail.com>
->
-> On Thu, Nov 5, 2026 at 1:13=E2=80=AFPM Alejandro Colomar <alx@kernel.org>=
- wrote:
-> >
-> > str_has_prefix() is based on sizes and lengths, which means it must
-> > overload the valid length 0 to mean not found.  This is a typical
-> > consequence of choosing to design an API around sizes and lengths, and
-> > vanishes when moving to pointer-based similar APIs.
-> >
-> > This patch set adds strprefix(), deprecates str_has_prefix(), and uses
-> > strprefix() in one place to fix a bug reported by Bartosz.
-> >
-> > We can later work on replacing the other uses of str_has_prefix(), which
-> > might hide similar bugs.
-> >
-> > Testing
-> > ~~~~~~~
-> >
-> > I've built this patch set with 'allmodconfig'.  I've not run the
-> > resulting kernel, though.
->=20
-> No, all lib/ new code should be accompanied with new (Kunit) test
-> cases. Update the respective lib/tests/* for that or if not yet
-> converted to Kunit something in lib/*test*.c
+Device Trust is a general concept that already exists in PCI via the
+'untrusted' flag. This series generalizes that into a consistent
+cross-bus concept that allow the user to inject their own opinion into
+how the kernel should operate the device. Three levels are defined:
 
-Thanks!  Does this sound good to you?
+ - DISABLED: Device is not operated by the kernel and is kept
+   quarantined. Confidential computing kernels will start all
+   devices in that mode.
 
-	diff --git i/lib/tests/string_kunit.c w/lib/tests/string_kunit.c
-	index 0819ace5b027..702030dbb93b 100644
-	--- i/lib/tests/string_kunit.c
-	+++ w/lib/tests/string_kunit.c
-	@@ -287,6 +287,14 @@ static void string_test_strspn(struct kunit *test)
-		}
-	 }
-	=20
-	+static void string_test_strprefix(struct kunit *test)
-	+{
-	+       KUNIT_ASSERT_EQ(test, strcmp(strprefix("foobar", "foo"), "bar"), 0=
-);
-	+       KUNIT_ASSERT_EQ(test, strcmp(strprefix("foobar", ""), "foobar"), 0=
-);
-	+       KUNIT_ASSERT_EQ(test, strcmp(strprefix("foobar", "foobar"), ""), 0=
-);
-	+       KUNIT_ASSERT_NULL(test, strprefix("foobar", "bar"));
-	+}
-	+
-	 static char strcmp_buffer1[STRCMP_LARGE_BUF_LEN];
-	 static char strcmp_buffer2[STRCMP_LARGE_BUF_LEN];
-	=20
+ - ADVERSARY: Device may be malicious and the kernel should defend
+   itself, eg by forcing use of a strong iommu, not exposing random
+   kernel memory to DMA and maybe even protections in the driver from
+   malicious data in DMAs.
 
-BTW, I don't see any existing tests of str_has_prefix() --the API I'm
-replacing-- under lib/.
+ - FULL: The normal kernel operating mode.
 
-	$ grep -rn str_has_prefix lib/
-	$=20
+Aside from this basic idea of defining the three levels, this series
+also introduces a mechanism for userspace to make a policy decision
+which level the device should operate in.
 
+This is important for Confidential Computing systems that need to
+evaluate a device, do a cryptographic authentication, enable PCIe link
+encryption, and other steps designed to protect the system. These
+operations need to be done in userspace before any DMA access to the
+device is allowed.
 
-Have a lovely day!
-Alex
+Using this series the user can boot the kernel with a default trust
+policy of DISABLED, allowing only a small number of devices like
+interrupt controllers, timers and iommus to start. Then the kernel can
+get into the initrd where a userspace policy agent and implement
+whatever decisions are required.
 
---=20
-<https://www.alejandro-colomar.es>
+For Confidential Computing it is important that the policy logic be
+robustly inclusive. If the kernel autoprobes any sort of real HW
+device without going through the policy phase it could become an
+attack vector.
 
---rgj25ae5zgxkqfls
-Content-Type: application/pgp-signature; name="signature.asc"
+Finally the policy agent can set the trust level and then cause a
+driver to bind in the normal way. User control of driver binding was
+already setup in 2007 via commit b8c5cec23d5c ("Driver core: udev
+triggered device-<>driver binding") which relied on the
+drivers_autoprobe to work.
 
------BEGIN PGP SIGNATURE-----
+At least for Confidential Computing a high security policy in
+userspace would leave unexpected devices as DISABLED, authenticated
+PCI devices as FULL and everything else ADVERSARIAL.
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrsasEACgkQ64mZXMKQ
-wqk9Qg/+OQAqxdYzvH5vd6JAN205T5MzqQ/i65YlKf7EUl2HRQyrb2LYH5Hih1M9
-NwzT6aHOK2UtZhMmHBp7tqqWKDinP2l5MS8OyFX5E67DsK2OMzxlxk/mHqoAwjsH
-PrVOHXTVU5DYQr8+qnEtkNcHVk0eCR9+rlp26DKymdDv/qRdIsIYfYx0UiFV0t7g
-TSBmvl0Ys/VswxpEcZmDKybM0PB7zCjG9w/aTYKS6UW7v6soSyTkZfjKJvntk5H7
-DBZVjLbN4dyrIQcs0QCP4Q1Prto1xHAaXHI0AFNvRzW0wf4MMaY9GzXHu5NZ2aO9
-SNvjSVkgwtY3AN8DBEucqt3zC/q1c2dwY2G7WmAOR6T3AS/pw4ME/rLOnJgiLP4n
-5qbO2a8ozXnJkp4XYdLefBWreYgkVxmHkSDzd5XL8Z1ymtAKu623HeXGxLkGsuwc
-nIxoMfFVV6YsMvDXKFnwYj8jZoXAB4iYXxzUuRJRX38FBY0YtS+ZTTSxkg3orl6i
-PNx5buOyY9SUvMaj0kW07uWBNSFMeUgjcE1GOFnLvTRTGVOFW3VACpCdUx5jtpqv
-tRu2pi6+7rQJfaoT0m6vvy84m9qHrFnWbh5dfgZK2WH2MO9zuU2/ma2zIy+m+t1K
-BwtfkKVuv4DAapnOpA08RMO79tt6dtnO217R7F2ffvNHTr8Ix3A=
-=29ag
------END PGP SIGNATURE-----
+A draft starting point for a policy agent has been prepared:
 
---rgj25ae5zgxkqfls--
+ https://github.com/rleon/systemd/commits/accept-d-trust-level
+
+As a proposed systemd service that manages the process.
+
+Thanks
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+Leon Romanovsky (17):
+      Input: gameport - attach manual drivers through the driver core
+      Input: serio - attach manual drivers through the driver core
+      net: phy: Attach generic PHY drivers through the driver core
+      wifi: mac80211_hwsim: lock device for manual driver binding
+      USB: Lock registered interfaces during manual driver binding
+      PNP: Attach card devices through the driver core
+      cdx: Propagate DMA configuration errors
+      driver core: Allow userspace to detect EPROBE_DEFER when using sysfs drivers_probe
+      driver core: Introduce a generic device trust level
+      driver core: Expose device trust authorization through sysfs
+      driver core: Accept device trust policy on the kernel command line
+      driver core: Accept device trust policy by driver name
+      driver core: Preserve trust commitment beyond driver binding
+      driver core: Add a global initial device trust policy
+      driver core: Cover trust authorization and binding with KUnit
+      driver core: Document trust admission and initrd authorization
+      PCI: Replace untrusted state with device trust
+
+ Documentation/ABI/testing/sysfs-bus-drivers-probe  |   13 +
+ Documentation/ABI/testing/sysfs-devices-trust      |   61 +
+ Documentation/admin-guide/kernel-parameters.txt    |   64 +
+ .../driver-api/driver-model/device-trust.rst       |  294 ++++
+ Documentation/driver-api/driver-model/index.rst    |    1 +
+ MAINTAINERS                                        |    2 +
+ drivers/base/Makefile                              |    2 +-
+ drivers/base/base.h                                |   37 +
+ drivers/base/bus.c                                 |    9 +-
+ drivers/base/core.c                                |   18 +-
+ drivers/base/dd.c                                  |   88 +-
+ drivers/base/test/Makefile                         |    1 +
+ drivers/base/test/device-trust-test.c              | 1607 ++++++++++++++++++++
+ drivers/base/trust.c                               |  455 ++++++
+ drivers/bluetooth/btusb_main.c                     |   42 +-
+ drivers/cdx/cdx.c                                  |    2 +-
+ drivers/input/gameport/gameport.c                  |   21 +-
+ drivers/input/serio/serio.c                        |   24 +-
+ drivers/iommu/amd/iommu.c                          |    3 +-
+ drivers/iommu/dma-iommu.c                          |   14 +-
+ drivers/iommu/intel/iommu.c                        |   17 +-
+ drivers/iommu/iommu.c                              |   17 +-
+ drivers/net/phy/phy_device.c                       |   39 +-
+ drivers/net/wireless/virtual/mac80211_hwsim_main.c |    2 +
+ drivers/pci/ats.c                                  |    4 +-
+ drivers/pci/pci.c                                  |    5 +-
+ drivers/pci/probe.c                                |   26 +-
+ drivers/pci/quirks.c                               |    7 +-
+ drivers/pnp/card.c                                 |   12 +-
+ drivers/usb/core/driver.c                          |   30 +-
+ drivers/usb/core/message.c                         |   10 +
+ drivers/usb/core/usb.h                             |    2 +
+ include/linux/device.h                             |   16 +
+ include/linux/device/bus.h                         |   10 +
+ include/linux/device/trust.h                       |   48 +
+ include/linux/pci.h                                |   30 +-
+ 36 files changed, 2886 insertions(+), 147 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260915-device-trust-core-12934e618489
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
+
