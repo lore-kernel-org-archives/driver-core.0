@@ -1,88 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890546;
-	b=m2Fn2kIOh2zEztvt5UHNFofO7Wy0fm+lkg6wiUEAlNkVUZm2l+SrMMXukMACw6DHnTnE
-	 h1xk4+asJ5zJ4XkY6L8D09vzsj8++U8c0NoRqXJ4jEdvoEoaf62+hRK8hV0Y4fqEBcJzu
-	 pLekoUJDtuilO0tViWdR3aCtM2PXshoFw90/CAVfjyuG3Ef7kHBhfgImkERD00FX4yhEI
-	 mB2xtfDm327IfrKl6dAIufYRR8oFCqgZPpMnN5Ychjd8VxzFr3X6KfL2FGHfMBoGeaorI
-	 toa2QJcZ4dX/YdZItbIHDwMwJfNV9hSL0AjaRUPy8po5pVNZuVmFi7aNK7kKQvoFhXw==
+	t=1793890796;
+	b=bImKoNfLjNpvlPMHuxBwxvySl1yFQX3TlPwVPezN6hrDcxjH/oWFkQaQ0hPqqTB47Ger
+	 RKaoWs7+6g0On21NZKDX4s2U3XO8Pw6joXBjHeGIHUB41pGUScdIjaBj2imasBmHQwn6s
+	 oidnxLlkQpMGQuvIaQWpM2ON+OS/lfL0CYnjsPv0qwIXiTk296aByhpC8ojZxYkbiT7nU
+	 EPdxFe1/c+0ulcnHEPNeHr9jpYectlAvRIAxXpme94k/9y1FofnSU2Vetiq8B7UJAjkxK
+	 ocXRGuZXqYy0g/Vs83pIx+Ll4eGPJhYeneTDg2au8g0oE4UGFdraIdLBvw/R/EGMw0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890546;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=E+3ZUaclhseohkOn5r9sKhXgtCK7fNAm8sjLGqWFldY=;
-	b=pn93DCqodsxyohKIpzTFrojw3WOQC1t6+tRKEVDPr0itXt0yCn2022PX2Hoz6Ql6qpUd
-	 jy39/7r2Ibn3/7VCI7n6PZyx5LGvB+9sejdlaMZv43yg0/IaBpEZLz3XSpRc3I7EABXaP
-	 c8MTIEmwT92XHeMRrMH0/ng2vdy0U25wRB8ozTbasT+nCc3oIdcwQz+bNsWunrvUKuqnA
-	 Wn/S6qE4XwOUrKTU5P6AK1Abi8kSjOiSl1OsT8qfKHc5JGEeXkXd723hb36cu3OwxLOxo
-	 ET08Lh1KYZkP36tU0IAwHK4r+mHZT2y1ll7fGgwa+YfSJ7Pmtagr6fQihse90sdQUMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890796;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=sv1GqJtGOVxD2bg62FKkDXwLV7ybcH0/LrV/szN48RM=;
+	b=idPymkLfFoF3zpC3In11z2U2pVPzseOR66++awFSuuimatrI/ZuQDjdQyQJv/zLMfTLP
+	 jw/OK6u+7rOv75lONmgveaUWVgjf3kc5/4td6yGIQl7LAoAZr4Ef+qysw3z41AtnZnoBM
+	 TEc2fSGz68c1pFLAVB9H60dOZ7QM2jVYsStZ0ipUNmUDChVgSUGzu26w4Rr6ZRwD+Fib+
+	 LwsFg39h31ECufFTnVdFzasdffQixFji0eqaqecYRyKJneG3CZl8jqhJNbfyNjKqXj2zN
+	 9uRDmY66sWKm1floAaleFE4r6tAqgIAS75obK3UJNZ+w+nt6jRiQXhlrh6vzcG4Tjkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=gcYKzKSc;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=CNC3Wu8P;
+	arc=none smtp.remote-ip=209.85.221.172
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AC6606A31B;
-	Thu,  5 Nov 2026 14:55:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37AC6606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABC8606A339
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 14:59:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DABC8606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=gcYKzKSc
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=E+3ZUaclhseohkOn5r9sKhXgtCK7fNAm8sjLGqWFldY=; b=gcYKzKScm6GmGtEXWYxBQCLwDE
-	jKtAu268Erk6NPqXSPn+NyDxL1mKuvlbThTC0bih4K4h9TBIxvLS6gLwdT9AA4cVH+QINMN6CWJZ2
-	Aj11lvFjC7YlUnX2zSr++eQ2/6e06SSbMY5urSHt7UJwcZyGzdyvvuoFkPW9dSTrlhEQu5db2btV0
-	gD9/OdDYeb65NV59+3GpmUmYHj15cnhcPAvCq9FEWPHVy3XujM+bTlaYRpqiJRCAs+ZwLRjt/skdJ
-	2PRvPY2lB5gc0Byxk/cLFLqzTvqtt7GDeN0zzWqgd01p9+f6kakIzdj/v63Q26CFEj2C5u2z0h4PV
-	x0ddqbqQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOysN-000000036yy-249d;
-	Thu, 05 Nov 2026 14:55:39 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 02BCA30057E; Thu, 05 Nov 2026 15:55:38 +0100 (CET)
-Date: Thu, 5 Nov 2026 15:55:37 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=CNC3Wu8P
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5ec3561b07dso620950e0c.1
+        for <driver-core@lists.linux.dev>; Thu, 05 Nov 2026 06:59:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793890795; x=1794495595; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sv1GqJtGOVxD2bg62FKkDXwLV7ybcH0/LrV/szN48RM=;
+        b=CNC3Wu8PHpHFOGw8+zRbAhXStxCs0FaZ37Wrjj34KR5LM6IIffVv3muoBALrogufI8
+         OnrrdQEs5hOdCRwrrGVj4kGRPPnsGUCptRUh8SLIQZseOS6QQZVfpahMN7hq4l29r7Ur
+         ZyqxeOXSRIv8lZxq06tVccYr/bfoPNFcUhJA7SSIKN/Exrx7QEoC//LULTh+EEW4EKqD
+         agOe1zUar/ben3ti5iWJduSKTqN3k1w/Ol9/rH/BCZVOYFBoK35vpb0NtHtbH1EXthzy
+         YrsCPLr5aSe0tQaAacqEnlwrbebLwsJMMjgp4Ymv6U+D0yq3o/3NaJyt9hq+orEaeDn1
+         Dl1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793890795; x=1794495595;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sv1GqJtGOVxD2bg62FKkDXwLV7ybcH0/LrV/szN48RM=;
+        b=ERcX0wfvbkPCm5BryGcPPjzt56iowaAee6eHXTdC1H356qliJedRveVCILr2ZuORjD
+         mnLGXNNupgepIeWsalYZ4dDYk8c1tUmC8jHsSu1uiO+167AyN3WW+rFtqhu1VKeabTXZ
+         1L9Q4zPQAUxyxvRcxor8jbH+xL2h1ZsAecNvoukAnDOuQf4/ru8ORt1hU3lR3cag4Bgo
+         l8ghzwG8mqOdsPP5ITbgKxqGbNmPPxKKeRmCbs0+4MOMEMrSZPyOoQwVgPG1KNI3Y33x
+         CAEjBEkLky19iv8LJTOgdn5Vo9MI2ZkHVelb9YoWveEVlhkKsheTZ3HebK6vbhJCIZGJ
+         obNA==
+X-Forwarded-Encrypted: i=1; AKwUvBwZTA7t1S9Gq7ZDCksjCDiDqlWYrMkedzbnjwph9kT1HGN4T8xWy4cqOjAdfLr/qamIWdxduagnmCB98g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/PQ1GxjtExS3cxMuinwHR0CkT0C4McwLj0a2ibudjmH37Ngoy9
+	qCXiJfPoR1VcMrYX3Z1eUU8r9Mbd4gtYx5l7wPx7MNJS1tq8sSjXfxh5ps8ZeMKL9lE=
+X-Gm-Gg: AYBFou3b1aC0+sYLungOe4VB8vvSyJ/GGmk6MPpOTVLfcVoXZscRcrurEICsfhFvdNu
+	kWxWyLPLUm0NCOF+EiTcZCOUgF/42EgN8/zsrXM+q6FyBICeixi+Pf1rpxEJvW5t0yoggrhsfn3
+	WIJqcnBd9L/FGcMQM61ViWbIHDtDa8pi1SN1REHXQ7WhK6ulb0bKF9B/J6hvg2g2nFHAqkJkj/x
+	VdD6kq3yT671gE+iP3MckkT52pYvGUgZmtVyHXcEcBaKez+Lh5zi5YWoopm0N6YEHiQkl1+/7ge
+	CS5qc/CBVsFfrqG3YwnI7KkAZmqch0VbaR/bvArWkdV1UU6iW0PvgO+yibREUuXmh7ciKSo0Pwk
+	kHuQOn862elf/Zxp1Im4v6qhwKRaK0OV/y6ZQi+nPQmPGr2Nxq5Tp7K3mnVRqcnNV1pFfQb3Uag
+	33xhPYuBBCXoBZpjf6f/aqCtqMlq8evAEJ6+5jJGi43UgNGmUVzn0iF6lsf6Hx/uaKdlmEIZJfl
+	Q4VLvxX141FJ+rAH/YO4V92p9j0BBfZMWBWIONRoiCtHWG+1vKQxcJwwvcLV4+n2Jlom96R2/bg
+	qQAZ8uEwGOVpNeGOEdwjsDWFKd1hvLqoqm6YlGupx9593Fd5aT2kAiRH8QHoncnK9RYEFeTb47D
+	E7lqzRyD2uzA=
+X-Received: by 2002:a05:6122:6c0a:b0:5d9:302a:8243 with SMTP id 71dfb90a1353d-5ecb429571cmr1423011e0c.12.1793890794801;
+        Thu, 05 Nov 2026 06:59:54 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8df2a38sm4234612e0c.16.2026.11.05.06.59.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 06:59:53 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xOywS-00000002o7b-2oaN;
+	Thu, 05 Nov 2026 10:59:52 -0400
+Date: Thu, 5 Nov 2026 10:59:52 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Robin Murphy <robin.murphy@arm.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-Message-ID: <20261105145537.GP1813469@noisy.programming.kicks-ass.net>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
- <auoQfjpg3CRvV5yG@yury>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
+ through sysfs
+Message-ID: <20261105145952.GA663069@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
+ <2026110514-bunkhouse-handset-6a3a@gregkh>
+ <20261105132729.GB8298@unreal>
+ <2026110535-engulf-precut-cf10@gregkh>
+ <9d896ebb-6892-4cac-a7c5-41def47f0be0@arm.com>
+ <54c9476c-9f76-4ea1-a73a-c9937d6b463c@lunn.ch>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -94,59 +140,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auoQfjpg3CRvV5yG@yury>
+In-Reply-To: <54c9476c-9f76-4ea1-a73a-c9937d6b463c@lunn.ch>
 
-On Tue, Nov 03, 2026 at 11:49:02AM -0500, Yury Norov wrote:
-> On Mon, Nov 02, 2026 at 09:47:04AM +0100, Peter Zijlstra wrote:
-> > On Sun, Nov 01, 2026 at 02:21:56PM -0500, Yury Norov wrote:
-> > > The preferred CPU mask currently lets the steal governor reduce vCPU
-> > > demand when physical CPUs are contended. This series adds manual control,
-> > > opening more use cases.
-> > 
-> > Sceptical, I am.
-> > 
-> > > For example, setting CPUs aside for selected fair tasks at runtime while
-> > > steering other fair tasks toward the remaining CPUs.
-> > 
-> > That's exactly the kind of nonsense we don't need and makes me want to
-> > stop reading right here.
+On Thu, Nov 05, 2026 at 03:43:53PM +0100, Andrew Lunn wrote:
+> > Yup, and that's true even in the PCI TDISP case - there's a major amount of
+> > "communication" and "configuration" involved in that. The principle which
+> > should (hopefully) generalise is that a bus/host controller driver can
+> > always interrogate its child device to perform whatever attestation and
+> > general configuration is appropriate, but we won't hand off any _control_ of
+> > that device to a specific device driver (nor enable potentially-impactful
+> > bus-level features like DMA, interrupts, etc. if relevant) without the
+> > requisite agreement between the bus code and the user.
 > 
-> OK, I started with the wrong argument. Please consider this as the argument
-> #3.
+> Maybe it would be good to list subsystems which the bus driver can
+> use, and cannot use.
 > 
-> #1 is: conceptually, preferred cpumask improves performance because it
-> moves the scheduling decision from host to the guest level. The guest
-> can do it better because it knows more about the workload. But then we'd
-> consider moving steal governor logic to the guest userspace, because it
-> knows the nature of user workload even more.
+> You list interrupts as potentially being dangerous. What about reset
+> controllers, GPIOs, regulators? At least in the embedded world, the
+> bus driver might need to enable power, set a clock ticking, and take
+> the device out of reset via a GPIO, before the device pops into
+> existence and will enumerate on the bus.
+>
+> I don't see why interrupts are dangerous, which makes it hard for me
+> to determine if GPIOs and clocks, and regulators are also dangerous?
 
-I am confused; it is a simple control loop and has nothing to do with
-guest workload.
+IMHO we shouldn't try to over think this.
 
-The host is over-committed, this results in vcpu steal time. The guests
-observe steal time and reduce vcpu utilization.
+The overall point is to give the userspace a place to inject policy.
 
-It is a co-operative scheme; a bad actor can game the system. It is
-imperative all guests behave the same or do not play at all.
+Bus drivers should try as hard as they can to contain their child
+devices. Like PCIE should activate the iommu, disable ATS. USB should
+limit the messages it exchanges, and so on.
 
-If there is no level of trust (our coconut friends) do not use this.
+When userspace accepts the bus driver it also accepts its containment
+capability. So if it accepts one that uses gpio, etc then that's fine.
 
-> #2: convenience and scope. Some systems don't allow loading modules -
-> either on config level, through selinux, or somehow else. They don't
-> even have compiler installed sometimes. 
+We are not the point of trying to describe what threat models various
+kernel drivers can support. Userspace has to figure that out on their
+own.
 
-You hurt if you shoot your foot off; not my problem. If you run guests
-like that you don't use this.
-
-> > we already have cpusets that is more than capable of doing this.
-> 
-> Then why do we need the steal governor at all? We can steer all
-> processes away from a given vCPU without any driver, only by playing
-> with each individual process' affinity. For vCPU throttling, task
-> isolation, or whatever purpose.
-
-Different level of operation; different semantics. Cpusets is for strong
-bounds on your own workloads, this preferred mask is weak bounds on the
-system due to outside pressure.
-
-In a way it isn't much different from ACPI idle injection.
+Jason
