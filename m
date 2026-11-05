@@ -1,52 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793870570;
-	b=bJIgIw17QM4QViAtbvrj9zZm/+SpDaRm+HG0UGBM/UME3yBLJaX3OSMlyxGt0e5sd4tc
-	 SKPxD0bNxRbP4xW+AKDasb3b9zLydJLqwLDM9uEhPfIgt3+J1rEVLV6E9yjncI+F9oQHa
-	 i5lm6u49Zb1wW04BC4fIUo56trFGxbxf+h/LIYwa/6rbIe0V60nVbmjF1WEwNds1h5H1p
-	 ZgZg1GNeeJOF4HttuQF9eYvZfuripKMMNp46P2yTBQd71KJGWmvY0RiLPPN05n8/Ja9ZS
-	 0+3lap1Rh1Vwfpp0ggvVGIA9JV6DZHbc3qdN22yNtUnkbHYEaDQiKv1JbEOa1AXlshg==
+	t=1793872843;
+	b=DawmTWPd01gpCTSqBoFTq+v2HZeBY+nCg7oPkJdJAtHBUVoy1fDUL9dSh+KsRBGSsHJ1
+	 07lOUen2IRdGDDS1hb1qthcNzx9HY+2FTVDOjRCbx66sVqW1629V5sQAIAz6s4bVuXOEr
+	 OBATLu4F6EUI7XapuD/fIi1Qg+pfopeVUNX0KRUEugzxefspo+2LFBPpx6I+Vs0/f8My7
+	 gyXUWUH+AV3RT/jn0niY82nXS3L/bDgccUF/me6zEdf2QhsSRwTzgtUwa8Jsrdkg6ggjo
+	 LLMO4Qq1WpH6rp8j774VbjCMQSJufS9KihpyC9bFIzxzLpnI/rbrNSCTgLos9LVy8tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793870570;
-	h=DMARC-Filter:Received:Subject:From:To:Cc:In-Reply-To:References:Date:
-	 Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=SyToh2cMEDIhE82RM4ykkXm/LGy+eMRbdb0cyJX6fTg=;
-	b=OiE+xtkifICpCSTAFkzIypA4osboCmjg630n9TiJYacNbvv9EqF3sGYwZVY8t+HP/CPH
-	 Uxo4GgJMKlblDkgeYRIIz94960VVH/c5Weqrg3vtJiRFxgxvHpuZ50VdqmAp9b1ECdNYS
-	 CBweklj8wztgmtSbj/QnZOFRN3fjotXddHWqdjOEQPH08HedpQ0+u1qRcbCeXATaXcN7W
-	 FD7uEqL3ZhxuDMKdCZvGPjd/kC57SBoxCPIKl87ussBwq2XyWllAfy/oTjHUtHDjWATYp
-	 8QYk6UV8bFF9A2fouu83/Q3UugSQRfxxKqA/uK3E3zT+SToLmmCOOY/UW32QMKSEIjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793872843;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:
+	 Organization:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=9gWIZ556XELV/JZHPdAe42L4BaKxg02n4+cgVq+thzI=;
+	b=fHbLsXSJ2/+wq/lOaorzXOJqXxeSdrq3jwMYDqCZ1gCiQnlqGMjV+BUxWLKuBYeKqaYZ
+	 BnmYOXUUAub7/ZVGTIVA3A7WqgitPIYUJRUwhNZqWt90hknfCa46Y0RVAHbgwP9k4dbDA
+	 FC4QWjPn9tvn+mwQXFdX5vXo25yHMgvItKIYsVETXjO81C91JnJyv8R+TvsJllrxd6acD
+	 vulOa8dajLq2eze4zCxDOVhO+s8vBVK8YuU3tNN31ot3cua+8GzD7JTWekFMemLpkZrN8
+	 lvmM+LvAcJQyLhd5UMG6+l7jsuTWRLCuhqXfGCXxvKWQgMouwRZwAIkCOnojPdXyCmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=iscas.ac.cn;
-	spf=pass smtp.mailfrom=iscas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.25
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PBJmRi5k;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81380606A33B
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 09:22:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81380606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [172.100.0.8] (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowAC3ULbiSuxquKtcAA--.2994S2;
-	Thu, 05 Nov 2026 17:22:42 +0800 (CST)
-Subject: [PATCH v2] driver core: cpu: Fix OF node reference leak in
- register_cpu() error path
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, lkml@vger.kernel.org, rafael@kernel.org,
- rob.herring@calxeda.com, stable@vger.kernel.org, vulab@iscas.ac.cn
-In-Reply-To: <20260923-uncovered-worthy-capuchin-a75edc@sudeepholla>
-References: <20260915043523.1725991-1-vulab@iscas.ac.cn>
- <20260923-uncovered-worthy-capuchin-a75edc@sudeepholla>
-Date: Thu, 05 Nov 2026 09:22:51 -0000
-Message-ID: <179387057178.2019441.5343067615150853888@iscas.ac.cn>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB99F606A338
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 10:00:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB99F606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PBJmRi5k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793872843; x=1825408843;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z2H65UprW7zW8X/iim3pTFZF4OSbKQfsuukCJNwgJ8k=;
+  b=PBJmRi5krXwXp/lWwIejtxGkwqeeUujHhzM4QhFGH4/9OVKYOGoy/FJY
+   GUwltGtFuD6ddm9NsUfJJmssn/VDuufi0IpkSIP/cINhOX0drNHriJsE8
+   YmmRSCHusbUXof7dh9MWDGQ3f6Zs0W1wuduDCWeDoTJh/001zjwQvkZ/r
+   ogbGV7QAVkaf7vZqAH8U8gYtHYJA4cuT6YGeahY/vJJ4ybjOJe9fYHohs
+   kRxAhg84cZICsgOtvfWfRjVsAAqQNuXrMnj7WiBlnInc+EkGTo2rfPnQ1
+   69z/oKXB5D1ooFYrR5TZ7lpHNhuPhlTTkBDW6+cJqGjsczZkmSmxdevkS
+   w==;
+X-CSE-ConnectionGUID: Kmo9B2y4THKqVSuhaj6Fgg==
+X-CSE-MsgGUID: 5iJ3IqWFRJWWKOuwBuWyug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2669793"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2669793"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:00:42 -0800
+X-CSE-ConnectionGUID: Ryrj45DQTF6F9fytzqA4ug==
+X-CSE-MsgGUID: CDdCSctqTauHKpXvMmTb7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="6862765"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.182])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:00:37 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3CC51121B97;
+	Thu, 05 Nov 2026 12:00:48 +0200 (EET)
+Date: Thu, 5 Nov 2026 12:00:48 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/9] device property: fix fwnode_name_eq() for empty node
+ names
+Message-ID: <auxT0Av4jDvcIGBS@kekkonen.localdomain>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -56,59 +98,60 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-CM-TRANSID:zQCowAC3ULbiSuxquKtcAA--.2994S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrWUJF43tw4xGw17GF1xKrg_yoW8JFyfpF
-	45Ka9IvrWDJF4xKw40va4jqa4jga17tFW8u3W8G343urs8X3WUJ34qqFW5XF1DGw4rJ343
-	tFy5twsY93s5AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
-	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
-	WrylYx0Ex4A2jsIE14v26F4UJVW0owAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Gr43Wr1UJr1l4I
-	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-	xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-	AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
-	cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
-	4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU7nmRUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAQCA2rsPxAvYAAAsv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-fwnode-for-each-prop-v1-1-6e28fe1c72c4@oss.qualcomm.com>
 
-register_cpu() stores the reference from of_get_cpu_node() in
-cpu->dev.of_node, but does not release it if device_register() fails.
+Hi Bartosz,
 
-Drop the reference on failure and clear the pointer, since architecture
-code such as PPC's register_cpu_online() checks it for NULL before
-obtaining a node reference.
+On Wed, Nov 04, 2026 at 03:03:43PM +0100, Bartosz Golaszewski wrote:
+> str_has_prefix() returns the prefix length on match and 0 on mismatch,
+> so the mistmatch case can't be told from "empty prefix matched an empty
+> string". For instance: the OF root node's name as returned by
+> fwnode_get_name() is "" and will return 0 for any name matched against
+> it and since len is 0 too, fwnode_name_eq() will return true.
+> 
+> Do what OF code already does in of_node_name_eq(): check if the length
+> of the expected name matches the length of the actual node name before
+> comparing it.
+> 
+> Fixes: a9c8c738066b ("device property: Add fwnode_name_eq()")
 
-Fixes: f86e4718f24b ("driver/core: cpu: initialize of_node in cpu's device struture")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
-Changes in v2:
-- Clear cpu->dev.of_node after of_node_put(), as Sudeep requested.
-- Drop the series numbering. This is an independent fix and does not
-  belong to a series with the other patches posted alongside it.
-  That is a submission mistake on my side. Sorry for the delayed reply,
-  the submission error, and the extra review work this caused.
+Is there a need to cc this to stable? I'm not sure if anything is affected
+there, probably not, but it's hard to be sure.
 
- drivers/base/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/base/property.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 51109794d7275ddaf4571584d0e77d8573ebb475..a97575ff9199004b4f401f432aed6c95e40d0c25 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -700,7 +700,7 @@ bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
+>  
+>  	len = strchrnul(node_name, '@') - node_name;
+>  
+> -	return str_has_prefix(node_name, name) == len;
+> +	return len == strlen(name) && !strncmp(node_name, name, len);
 
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index 875abdc9942e..b50ba6a32a3a 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -431,6 +431,8 @@ int register_cpu(struct cpu *cpu, int num)
- 	error = device_register(&cpu->dev);
- 	if (error) {
- 		put_device(&cpu->dev);
-+		of_node_put(cpu->dev.of_node);
-+		cpu->dev.of_node = NULL;
- 		return error;
- 	}
- 
+I'd test strncmp() first as it's more likely to return faster. I'd also put
+the variable on the right side as that's the typically preferred order,
+i.e.
+
+	return !strncmp(node_name, name, len) && strlen(name) == len;
+
+Either way,
+
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+>  }
+>  EXPORT_SYMBOL_GPL(fwnode_name_eq);
+>  
+> 
+
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
