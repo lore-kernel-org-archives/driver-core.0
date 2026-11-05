@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793902138;
-	b=ucKEdir7t7kKgVk0md3IWS+1BIQ6u15Zc3yFtypU3AcRNgajXc/QlLcGj1Je93ODUwbA
-	 ZlqpjMErAZllefJKjG+9UwnjuViMzOjObK6YUSRcfDXA9tk3iIDCJ7NQ3UX5dhniCEWRH
-	 j9VvzsaPtGTiR6pSmxysvWkT/pzPjhMSG3dfZbYStaSKpKwDePLAjFSA6rbSeX477YKju
-	 zZABXz7YdNQ5RgEJF92YpWAEyiNHGYbTJVfX8wxVmXvrnKGN96EDrMjdRAInXGUmHMUr6
-	 3wuFahXSWAJvAqc5Vthh7MVnGI2hCjTEis7k1jZNYNWyKwCERGD34JM8UENVjsIIruw==
+	t=1793902373;
+	b=Gd0yJZSqWQYJqhX1PwtJXHrwC++9yjByqNycwIl4sFIyt2rejAGZPNENb9FtVy/5Jkzi
+	 5OepG+EtRkz/il6R31CwLZi/GVCHAtHdyurkN1iijod1UstmQUN4nZunFujLjAYQ0hZA7
+	 hjXHmYche4D7A0E/dVDa46vOOfIzxzmyOc7pMkw5OV1BgjFa/kOYNSFVFALu/6tzSfWUa
+	 tuYPcM/EUAEnPl5BGGlrhhVVcGagZ8ibxHdqUHRibnvj0cDmrHdlfMoJIgz8Plsi2BSVG
+	 vI4LiC4zhDreods6g5qWqqPkgHlr29F6LtUFJjzWUTfOUze9lVveaX0DwnYJai+n9Qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793902138;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793902373;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=OmJWt9jy32DuAAccMJWm3nkUUMzFdTd0nlAd4UIVKyo=;
-	b=LjbCBQ7AhGEQb0Z0OIomB8wMHQzUHxc2QVkhuEMbp3F6olfX8o/40PtfUwpeOLjPTkDl
-	 oalq40/9onq/tWVOBD7H9n1ufA51bZr+3Qa1AksPaqukTNN+DfY2CgeQUhV0sv67NyobD
-	 0Ln41mfHkI0x/0/FkANvDBBhoW3t+G87ouklQ0VcIFZVnpVZbSUp/Mvs85QSxR/GIOVpV
-	 5GAq3snqF5uvoj6gEy0pIlrB2T8fZF2ym49naZLbhbI3/1TipeVxV32G6x7c1fAwFn410
-	 ZkTP1QVTMJKmWxXm5rgMywRPfEJo3lUXSd9U4rVLv/2g5tDJAMpDEMGCzf11s24v3WQ==
+	bh=HF0Vu6VSMOjUFmnKIzWkq+Vw4SFQ9ACYgeHBYhFMgzw=;
+	b=QUbDlu5FF49MSbVzbC1Ot9r5FR0KAl+tCVK6Atefjr6yQtCJpgpBFah0KKbrjLAJ6+yq
+	 uOjLCU9CvemsK3PrPWRQKAW9e3lPNFgUaiHxMcKr4t/c2b1nc56a5Ntzb/qO8RTJ+GOeB
+	 ZJbnHPgsfCWbpAQvkb8QFO2jp5sUgW8vHXq8vNqzX67LoC4KpqE0II84nuKIUC2xfeeOB
+	 MMX0C8lw2nNkXuPu2TkPqb9Ceo6tsvQWq6783Jw7qiccOSQOMK0GHObl8JVRdG3BKFqUE
+	 hAsROgS/wZBnzE7M+Mj3AnxKt816YFJVct78JZ9R6yhOhReNqo3+aR+Je80HBOX035w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EZl+LRNT;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OLOeqqep;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BC0606A326
-	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 18:08:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12BC0606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C32606A331
+	for <driver-core@lists.linux.dev>; Thu,  5 Nov 2026 18:12:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38C32606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EZl+LRNT
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OLOeqqep
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793902138; x=1825438138;
+  t=1793902373; x=1825438373;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R8mPcNA+R5yTmhfrNdwr9xg6yzKlFMkZyh0EGXU8Rds=;
-  b=EZl+LRNTA0+QWjwbvx+FbC9kfuk9ncqViCSIyy6iO8XTtIjrVxG9jcyZ
-   M2brjjZa34aYpnloxqCPW8mkus0YClOU2cwIoFeXHzytbrCl2ujC8L4Si
-   UefG5/obWNfoopkXxEjAoOoaosEtCi7OEybGqmQnqT5fuPC1CFC7FW2Xo
-   0ShvcrZOG1u5jwr1lANvZAE+CfYbW6+PMWlhsr6oaoTKY7MdnY6NHPMBr
-   xvE77GUDTEdHT1ccUH6XkOnjBy56lOXDn8Mzvjv3NwnjzOE7yMv5d2JyA
-   2Yc2/9NLBawgXPaTk8vjoVgemySj7C5aTjLZiUoev9bniTB9H1hf1Wp0C
-   A==;
-X-CSE-ConnectionGUID: 7YOeZtDjQUq6slBY4FFWiQ==
-X-CSE-MsgGUID: qupBBHr7RuS4FFC3AF8j+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2741634"
+  bh=JnIGBm5gDZbm79UwkA8MEm2OUw3yr/fKfWYvNqxqn1I=;
+  b=OLOeqqepGvILSMV8sv86PZdPp2w42DAZ2A02b+DFCeElKFM9cSQDrog5
+   NugsMFIJooNghwqPaR7kNftP4Yp5nbTD2IvoVL+OgSmzTsUrSQ4dKtuih
+   sGZHSC5VVvqVWIl2DOS/8gznBSM9e8259hWVbin552NHQMI8Pn9Y6O1lm
+   /qJC4Vq2MieX0cUXQNJeP9I4pXEj6cWvXZiXDw4noMfoiLG5R+Hho5TE/
+   GkNvke2R6Or2B/cPzU3uG8vsgDrofvyqeCq0FAv2a+9mURb8MAlLUN3gN
+   jo+GIZ9yF3i5sxv+Umytx202Qrh80RPx1rfFkcyjAouvm8fpxbb9QrOdJ
+   w==;
+X-CSE-ConnectionGUID: c6Cd8hivROKqCdgwh7h2kA==
+X-CSE-MsgGUID: gRpDN9GNTMmSxlc1RDN2Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2696955"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2741634"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:08:57 -0800
-X-CSE-ConnectionGUID: EgwaX09kSoe48x2Zn1fepA==
-X-CSE-MsgGUID: Gd1RVswyQ9S/hX4a8iTtLQ==
+   d="scan'208";a="2696955"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:12:45 -0800
+X-CSE-ConnectionGUID: Q4LZzfRwSh21y2t81bRfmQ==
+X-CSE-MsgGUID: AlzSNgyqRdq3s8uEY9Ce0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7401641"
+   d="scan'208";a="8842063"
 Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:08:51 -0800
-Date: Thu, 5 Nov 2026 20:08:49 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:12:39 -0800
+Date: Thu, 5 Nov 2026 20:12:37 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Alejandro Colomar <alx+linux-hardening@kernel.org>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
@@ -90,13 +90,14 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
 Subject: Re: [PATCH v1 1/2] string: Add strprefix(), and deprecate
  str_has_prefix()
-Message-ID: <auzGMV1YbO9DodBq@ashevche-desk.local>
+Message-ID: <auzHFRzd86iV4-RA@ashevche-desk.local>
 References: <cover.1793876837.git.alx@kernel.org>
  <9c81f6f62fd0e908e683c4c08b09a1f95bc2ec9c.1793876837.git.alx@kernel.org>
  <20261105111423.360f4ba8@gandalf.local.home>
  <auyuINXEJKc1KoG7@devuan>
  <20261105115019.2fe7c91b@gandalf.local.home>
  <auy0O467UqOzqYub@devuan>
+ <auzGMV1YbO9DodBq@ashevche-desk.local>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -108,28 +109,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auy0O467UqOzqYub@devuan>
+In-Reply-To: <auzGMV1YbO9DodBq@ashevche-desk.local>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Nov 05, 2026 at 06:46:18PM +0100, Alejandro Colomar wrote:
-> > Date: 2026-11-05 11:50:19-0500
-> > From: Steven Rostedt <rostedt@goodmis.org>
+On Thu, Nov 05, 2026 at 08:08:57PM +0200, Andy Shevchenko wrote:
+> On Thu, Nov 05, 2026 at 06:46:18PM +0100, Alejandro Colomar wrote:
+> > > Date: 2026-11-05 11:50:19-0500
+> > > From: Steven Rostedt <rostedt@goodmis.org>
 
 [...]
 
-> > Oops, typo, I meant trace_event_filter.c
-> 
-> Still not found.
-> 
-> 	alx@devuan:~/src/linux/linux/master$ find | grep trace_event_filter.c
-> 	alx@devuan:~/src/linux/linux/master$ find | grep trace.event.filter
-> 	alx@devuan:~/src/linux/linux/master$ 
+> > > Oops, typo, I meant trace_event_filter.c
+> > 
+> > Still not found.
+> > 
+> > 	alx@devuan:~/src/linux/linux/master$ find | grep trace_event_filter.c
+> > 	alx@devuan:~/src/linux/linux/master$ find | grep trace.event.filter
+> > 	alx@devuan:~/src/linux/linux/master$ 
 
-Oh, you are an oldschool guy :-)
+Besides that the above is yet another "Useless use of grep".
 
-I can't believe people with Git index available are using `find`
-and not `git ls-files`. `find` is too slow...
+> Oh, you are an oldschool guy :-)
+> 
+> I can't believe people with Git index available are using `find`
+> and not `git ls-files`. `find` is too slow...
+
+$ time find . -name trace_events_filter.c
+./kernel/trace/trace_events_filter.c
+
+real    0m0.081s
+user    0m0.028s
+sys     0m0.053s
+
+$ time git ls-files \*trace_events_filter.c
+kernel/trace/trace_events_filter.c
+
+real    0m0.014s
+user    0m0.010s
+sys     0m0.005s
+
+$ time git ls-files \*trace_events_filter.c
+kernel/trace/trace_events_filter.c
+
+real    0m0.014s
+user    0m0.004s
+sys     0m0.010s
+
+$ time find . -name trace_events_filter.c
+./kernel/trace/trace_events_filter.c
+
+real    0m0.083s
+user    0m0.021s
+sys     0m0.063s
+
+(with IPC to `grep` it will be even slower)
 
 -- 
 With Best Regards,
