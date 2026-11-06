@@ -1,135 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793990629;
-	b=oHCjeGe7OCEqL+uUwScSxLXWYd+5LIuRXzKPvup+Lc64kI62axA6N91BU4n9glHBp7Wx
-	 rDmKNH/bdvzYmqBT8KxPf65zHYuI/jrFvbjmhzYQegBvQydSnb7azfDereRn89lW7rdAJ
-	 gFVbyvIxFWNtYvUPGhSYWrzJjfnVvcXL3lrg3MKZN2gZ8GWadt0vgU/babAqPWlhBeKnJ
-	 ZaWmsI8nGIpz+X/fM9d3kPpmShJOda0a9cHgQprITZJwuCP2O3RB3uFulofRNPm3H285A
-	 XMVg5DOLJU3rAsHquSdrr+vBz0YUin0c2Yweu9QcMPBrXSmVUeo9yxjfGJ3q0jQ4zGA==
+	t=1793990789;
+	b=Qj6y5xLIPSpSNCDqs/ug/kn9QP34lUVk6DDPwaPbBvarL4kcrrz7H7M4R+37zNJsu7KQ
+	 1u/NnqZmuh+rYPR0k1LGtMfZUQ8JkMRYcvF7u4OVufeTGk6BstSF0/ViAdg+ppNwFpZkn
+	 ucM/YYU1YBLToU53lmuGrlmWb7B8hjQDYNns/IwngEQ4knXdvvLdY28Jnm5rh8bnUXKLw
+	 Eh51Auxz85MHAq1JsWWvgWtWGXeltGHIUsati/gNa6gt599UHhAAWZeBARa4Ax1+G5wsz
+	 2aGMFeEofLdfzB11uDEEUwcBjLYBNH3ud/OWt1mR8Va10kv+5LhSrc+GPWTZub/KkOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793990629;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
-	b=kAX/+ubHqH+Iw2GfHZUsjgwxr06y9UD/EgurejongNIvwe96rSAzptk/w87I7EduL0Vm
-	 pa+eiyxXbquDnN6bVIodSvalGEbeCbABBXZMtqfybCL37L4MouKSSIpuSuIc/FixCagh1
-	 5TTkLDZrLdCTTezu21NM19jIENUTfIiiDBQezTWt/Aqf3wKS4fUZSdgRxOB2HU/tAQevl
-	 5l0xvSwxkO3iTwq1K9UV8vzLZ0ywo/+H3I1FRBqkRrl3gPoYuEaw0USAKVxscJTOYn6Qv
-	 f3iNvJGqSMLFAbUezh9Cz1o53kf+2SPhfHOZu7dAD8MxepVG0F4DWFGAnAVtogT/ysA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793990789;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=kvlZTeuGbWU9PNhLC0edg6qGMEBjJAa+7sDS1JPc3bo=;
+	b=XtJz6u9i/t5zJfh3veXOLPVzrilUs/9Uouao4zwpAfwlvimAFwtdx11yTlj7vfVoWhBh
+	 ZtrHowAwfBvdevuj2FVSNyycmkRIpAKbQtCWMJPe8JC+hgNlUwQcTlJRpcWTjlOkkjeKP
+	 XLGnukZ29frpQQQGBgzeiQsJB8//cCvd4T07jFtOlS56baKDOCidsu2VABem4WDzJBirR
+	 2U2C2HLMxaYmTVIZNzYcw2GI0z3vM1wL/mKnmcnQTkf2tM7P7zmFioVOqLrZDcAACvZMK
+	 WG6D8YSYzgsBA7gXL4RnM5Nem4jJClgCe+ids436zkc+ci+JeMX9FFjqUHPo3VVH7pQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=STDm0Ns6;
-	arc=none smtp.remote-ip=209.85.219.51
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dZs5fun0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53C2606D82A
-	for <driver-core@lists.linux.dev>; Fri,  6 Nov 2026 18:43:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E53C2606D82A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEDE606D813
+	for <driver-core@lists.linux.dev>; Fri,  6 Nov 2026 18:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=STDm0Ns6
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91eb7d1478cso3147696d6.0
-        for <driver-core@lists.linux.dev>; Fri, 06 Nov 2026 10:43:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793990628; x=1794595428; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
-        b=STDm0Ns6/45sn2GRqprHpdF/TMkQ19axHR3n5cyc181ziPFbHYTRRicsRris+v5cZR
-         rUmYTy0rLtZNDUseeeDlvHQpKzXW3Y3AEWt+Z+bytjfs3p9qkggzEAWc+TzdsR7nURl2
-         R9ctDLjI8qsRR2Qe6yLo/cMXvjfapPD6InEEebX6QJu8UHz0jHJ/wQLIihRgpkeVcMvv
-         LuYUeGZPFkScEPmnPoRyZ2ToUo0i9fo1Irda1Qkj4nLCljVgpNRiOWMhPqi77dsSTtej
-         V1sIBLyiax5uQYbfmQ6/pmMCsKi1UVKqptiwW1xEWkaaX8cFzTDzeqLVeyHP+4JVEFPa
-         gKFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793990628; x=1794595428;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
-        b=sjv5RihUkSHLaFgAJ1XA7Kz0GpmTX8KvJnNFeIYvU0RCc71h8plgXsb6s9/rdnfl7B
-         nSqeGRpCGatUgm0XQ2Xla5eTqqwUSLIhsLKu6VPAqxMITsXHela9VmfD0+JFKSwzR8Sh
-         JKSApNR55Pm7vx1t9su1D9ncdr9MBnH1mzjpvx/rXjWdGFNeep6k1cAYaTcENHeVfSPC
-         j7fqDkW8uHmFsaTcfEM9Q/PAkYiqva9JAfAdK95OVkrRSz7Se5JKTpQJyk+6fznyWv+5
-         OD+PErQRV7kJwXPxxgg/P3ygj2QpKV15qbXRzWb3CazFnn5DaOSuAI1YXaptpkF1pYRF
-         a2gA==
-X-Forwarded-Encrypted: i=1; AKwUvBwBkl9hNhj9v4/A6fsUbsDzCs2q058GCczj1zGysalLNHMtrJAdmD0gscRwjnFZ33B+1uKw2dbp7zLJZA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8KInlAQRXDei4OPFcPbYoCgMa/Yc2XMeKWRhIwahshkyv9mRzR
-	APKE4VH2bIqnnOGVKwDPdzBqZF17M+mYWmTHigpaub5YUweyu05ojOtQ/9k9zCTB4Es=
-X-Gm-Gg: AYBFou0+FxUXfCluvET/VgrBoEqFtr2SCFo13LGGctepr7j9iJ2iplkPAbQyVmMCg9y
-	hWtjnC2Czo0LsouhVTWoJuNYWIqW5qr4IYdgSH2U80F0K7iYu2uCAtoERp8Y1u7SZho2zsxs0Mr
-	TxVl7I/Wd3T4XA9BlyuU3F79Tx4WyDNfZTz1LagVY1Dj/h+IcLHMVfWJ+0Gi6h+OXU6LQiR/Q9G
-	lv9QBoLweu5ya9G166+hFhAmwYxHM/mpgw3hrkWhraCqzRuNZe5nAZNXvoOlFitWrhIr/og+ek7
-	lImAM4tc9W/MCrMhQ+AdgDTfi9NFRjYVbTrn5gJ87cBeqGiivwpWGuojJUDVt5tAldyo0YvjYWc
-	tYyebaIZQuN44/xRa5HlzQxKSyFtC6dYD4S3oGcVg7nV11c98lhDaqsYXH9zNYZgNHRXgxaz0vk
-	Ikh0oYXa/VS2q44NwregU2aFBychz13TkA/jm0DB/K5u2WcxjcrNSHxWVCzpLeS8J4r0bV8xTCc
-	JjK2gvbabsiRJY9YnYudaQTcd/Mr/3r1uhggJ+umL+A1Zf9Y1/wAZ3uUrlM+QNMjkeRO/tiKdLV
-	HyZkA/oBsEHRsdBCyktC+TmoH/EOgEPdJ02fQiS13NKqPcvhcij1azV5ymyrbX2ocMvuQRs8r8d
-	Iz98l3Vko5A==
-X-Received: by 2002:a05:622a:47cd:b0:536:764e:1527 with SMTP id d75a77b69052e-54e14a6c486mr53004081cf.44.1793990627606;
-        Fri, 06 Nov 2026 10:43:47 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54e25785f14sm26823821cf.5.2026.11.06.10.43.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 10:43:47 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xPOug-00000007JdL-0xGY;
-	Fri, 06 Nov 2026 14:43:46 -0400
-Date: Fri, 6 Nov 2026 14:43:46 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Naman Gulati <namangulati@google.com>
-Cc: Christoph Hellwig <hch@lst.de>, Luigi Rizzo <lrizzo@google.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
-Message-ID: <20261106184346.GJ663069@ziepe.ca>
-References: <20261023140107.GC3977851@ziepe.ca>
- <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
- <20261023145023.GH3977851@ziepe.ca>
- <20261103080933.GA4213@lst.de>
- <20261103151021.GK3889730@ziepe.ca>
- <CAMP57yWvHO0pWCR3-9q1gtwVe8WV4Y6i69trmw+BJRVYf3JB1g@mail.gmail.com>
- <20261106173054.GH663069@ziepe.ca>
- <CAMP57yU-VhZWXijvwAXcN9=zZ+eWXZ6J1bkHuCJw3ocRaFaV=Q@mail.gmail.com>
- <20261106180714.GI663069@ziepe.ca>
- <CAMP57yW6Y4g-xM9YTB+MpgxPN7RFeEWhAPWvqrfOoMDEuL8HZA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dZs5fun0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53CD01F00902
+	for <driver-core@lists.linux.dev>; Fri,  6 Nov 2026 18:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793990788;
+	bh=kvlZTeuGbWU9PNhLC0edg6qGMEBjJAa+7sDS1JPc3bo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=dZs5fun0un/Yx94GA5Cyywhj0d0G5t5hA30nD7DFMDv5Rpdgh/jNfoQKW84xvnYUy
+	 g+UUZfVd+Nebx3J4dgj9JfOBkPGy1n9WNmYXGKQFvSeorASlprb23KJA9RbAIGjhFj
+	 W5cHSUABSZ8uESJZbShJ7B11yBRJRI4O3he55wRRpANjA5bAcmYsznQy6vOJ2jJ36D
+	 bIOYsW/KsT/6eqUQbBpB+TzdkLk6+Nh4w12F0t0edaxzhRKhJ79WonwleDBqE7sEAN
+	 c6O3hPtEAULRQgQ3zrRZ7ZuwJ6Sjff4XphX6FT+YF3KCer2i+9mKK0SjYWLtxh0jMt
+	 I/y1h774UowbQ==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ab3dd9681fso7180501fa.1
+        for <driver-core@lists.linux.dev>; Fri, 06 Nov 2026 10:46:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHhHeQgAUXxqsuEPebU2JWewaW5BnsyR2kJ4LP5eN5gxDLsE7mVz3nPUZq9P3WRQUTSR0O3ilJbE02xWQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8rsVQr7kAn7Afu5dJ2fkHyON7UsUK/EQgG7WceVsu8yBMUm/hh
+	l9FU2beQW5VHTiageFoVShmzKaR7q+L/h2OQynH6G6tgD8z7P4VCeCV2X7fypNQPuDqCtQWJGwC
+	5/1KCvJVsSN3tKssAJmFT2Jzpq7+1UVQ=
+X-Received: by 2002:a05:6512:124e:b0:5bf:ec93:5a1e with SMTP id
+ 2adb3069b0e04-5c003aadad3mr952697e87.32.1793990786529; Fri, 06 Nov 2026
+ 10:46:26 -0800 (PST)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -139,81 +59,112 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMP57yW6Y4g-xM9YTB+MpgxPN7RFeEWhAPWvqrfOoMDEuL8HZA@mail.gmail.com>
+References: <20261102-b4-pm-sleep-hibernation-fixes-v1-0-51fac96d080d@oss.qualcomm.com>
+ <20261102-b4-pm-sleep-hibernation-fixes-v1-1-51fac96d080d@oss.qualcomm.com>
+In-Reply-To: <20261102-b4-pm-sleep-hibernation-fixes-v1-1-51fac96d080d@oss.qualcomm.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 6 Nov 2026 19:46:13 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0i4ZpQJQ_9kgfdT=h=UQj6L83G4d3_eqtxLGhjidwLr-A@mail.gmail.com>
+X-Gm-Features: AclHuK9hshrDYSytMfZAEWpJCHllS7oAiyNatjF67iwMDI7sm5v9aviMYoNn9B0
+Message-ID: <CAJZ5v0i4ZpQJQ_9kgfdT=h=UQj6L83G4d3_eqtxLGhjidwLr-A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM: sleep: Do not mark devices without PM callbacks
+ active on resume
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Ulf Hansson <ulfh@kernel.org>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 06, 2026 at 10:17:38AM -0800, Naman Gulati wrote:
-> On Fri, Nov 6, 2026 at 10:07 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Fri, Nov 06, 2026 at 10:00:35AM -0800, Naman Gulati wrote:
-> > > On Fri, Nov 6, 2026 at 9:31 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > >
-> > > > On Fri, Nov 06, 2026 at 09:21:08AM -0800, Naman Gulati wrote:
-> > > > > I drafted an implementation [1] for premapped TX and RX buffers on top
-> > > > > of the existing networking page_pool. It is implemented entirely in
-> > > > > the networking layer and extends page_pool as the default RX
-> > > > > allocator, to the TX path. There are no hooks in the IOMMU, DMA or
-> > > > > page allocator code. I wanted to understand if this implementation
-> > > > > correctly captured the feedback on this thread. Key components of this
-> > > > > design:
-> > > > >
-> > > > > - Chunks: as in Luigi's series, memory comes in 2 MiB chunks, but each
-> > > > > chunk is mapped once per opted-in device through the DMA API and
-> > > > > records its IOVA for each device, rather than using a shared IOVA
-> > > > > window.
-> > > > >
-> > > > > - TX: page_pool accepts a memory provider for pools that are not bound
-> > > > > to an RX queue. Per-CPU page_pools take 32 KiB pages from the chunks
-> > > > > of their NUMA node; TCP copies sendmsg() data into them through the
-> > > > > task page_frag and allocates its skb heads from them.
-> > > > >
-> > > > > - RX: an instance of the same memory provider, sharing the chunk code,
-> > > > > backs RX queue page_pools. RX chunks of order-0 pages belong to one
-> > > > > device and NUMA node, and are shared by that device's queues on the
-> > > > > node.
-> > > > >
-> > > > > [1] https://github.com/torvalds/linux/compare/master...NamanGulati:linux:netdev_dma_pool
-> > > >
-> > > > IMHO the netstack should never read from shared/decrypted memory. If
-> > > > you put it in a SKB you have to be sure the only touch after that
-> > > > point will be a DMA read from an untrusted device on the TX side
-> > > > (sending it to a trusted device would be a fail) and the final copy to
-> > > > userspace on the RX side.
-> > >
-> > > That's likely a fair callout. TBH I'm not very familiar with CoCo and
-> > > will spend some time understanding the constraints. I kept CoCo out of
-> > > my implementation as I approached this solution from the overcommitted
-> > > VM problem where we are trying to overcommit memory in VMs and use
-> > > these pre-mapped pages to avoid using bounce buffers.
-> >
-> > Why does overcomitted VM use bounce buffers? Do you mean this is
-> > about getting better memory clustering in page pool since the VM
-> > paging granule is 2M?
-> 
-> Not exactly, we are trying to use VFIO passthrough NICs in
-> overcommitted VMs. Since the guest memory is overcommitted we can't
-> dma-map the entire guest address space (as non-overcommitted VMs do).
+On Mon, Nov 2, 2026 at 3:47=E2=80=AFPM Abel Vesa <abel.vesa@oss.qualcomm.co=
+m> wrote:
+>
+> Devices without system sleep callbacks get power.smart_suspend set in
+> device_prepare_smart_suspend(), unless their parent or a supplier
+> prevents it, so device_resume_noirq() sets their runtime PM status to
+> "active" whenever dev_pm_skip_resume() returns false. That is always
+> the case for PM_EVENT_RESTORE.
+>
+> Nothing resumes such a device, though.
 
-?? I understood you could and this was implemented under the
-virtio-iommu by pinning the memory under active DMA?
+Too bad because it should be resumed in the "restore" phase of
+hibernation.  The concept of keeping devices in runtime suspend across
+hibernation is just fundamentally broken.
 
-Where in upstream does the DMA API force bounce buffering for this
-case?
+> If its bus or driver manages
+> resources from runtime PM callbacks, those resources stay off while the
+> device is now reported as active, and the next runtime suspend releases
+> them a second time.
+>
+> AMBA devices are an example, since the AMBA bus only has runtime PM
+> callbacks, which enable and disable the APB clock. After restoring from
+> hibernation on a Qualcomm Glymur CRD, the runtime-suspended CoreSight
+> devices are marked active, and the following runtime suspend of each of
+> them hits:
+>
+>   qdss already disabled
+>   WARNING: drivers/clk/clk.c:1259 at clk_core_disable+0xa4/0xac
+>   Call trace:
+>    clk_core_disable+0xa4/0xac (P)
+>    clk_disable+0x30/0x4c
+>    amba_pm_runtime_suspend+0x58/0x74
+>    __rpm_callback+0x48/0x1e0
+>    rpm_callback+0x58/0x64
+>    rpm_suspend+0x10c/0x5a4
+>    pm_runtime_work+0xc8/0xd8
+>
+> followed by "qdss already unprepared".
+>
+> On suspend-to-RAM this does not happen, because such devices take the
+> direct_complete path and device_resume_noirq() returns early for them.
+>
+> Leave the runtime PM status of devices without PM callbacks as it is.
 
-> So overcommitted VMs can use bounce buffers to have a set of
-> pre-mapped buffers to bounce traffic in and out. We're trying to use
-> this solution to map pages dynamically with virtio-iommu and recycle
-> them via page-pool to avoid traps on each TX/RX and avoid the copy
-> cost of bounce buffers.
-> 
-> This problem extends to generally reducing IOMMU overhead in
-> networking - taking the dma map/unmap cost out of the hot-path and
-> avoiding IOTLB thrashing.
+If I'm not mistaken, doing so may break the cases in which a device
+without PM callbacks and runtime PM enabled is the parent of a device
+with smart_suspend set because there will be a runtime-active device
+under a runtime-suspended parent.
 
-Sure, that makes sense, but just having a pool of entirely normal
-pre-dma-mapped memory is quite a different problem from what launched
-this thread...
-
-Jason
+> Fixes: bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND conditionally=
+")
+> Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+> ---
+>  drivers/base/power/main.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index 88a31e09e4f3..16a1f017051e 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -839,10 +839,15 @@ static void device_resume_noirq(struct device *dev,=
+ pm_message_t state, bool asy
+>          * Otherwise, the device is going to be resumed, so set its PM-ru=
+ntime
+>          * status to "active" unless its power.smart_suspend flag is clea=
+r, in
+>          * which case it is not necessary to update its PM-runtime status=
+.
+> +        *
+> +        * A device without system sleep callbacks is not going to be res=
+umed
+> +        * by anyone, though, so leave its PM-runtime status as is. Other=
+wise,
+> +        * resources managed by its runtime PM callbacks, like the bus cl=
+ock of
+> +        * an AMBA device, would end up unbalanced on the next runtime su=
+spend.
+>          */
+>         if (skip_resume)
+>                 pm_runtime_set_suspended(dev);
+> -       else if (dev_pm_smart_suspend(dev))
+> +       else if (dev_pm_smart_suspend(dev) && !dev->power.no_pm_callbacks=
+)
+>                 pm_runtime_set_active(dev);
+>
+>         if (dev->pm_domain) {
+>
+> --
+> 2.54.0
+>
