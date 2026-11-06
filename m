@@ -1,16 +1,16 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.45
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793939630;
-	b=AUS2iIq70go0ya+o1OAmeC+wdf8tlJH9V85RrUU/bhKzsRmocNP5NmN2qidxe6p9LdHy
-	 JJpx3QGfFZ8/AuvuRetG/DGg8+O8ckXkz/Oa+sJU0N4rRCwy1UQ4YcHM1yL1o5NpxV1WG
-	 I4KHpnFdq2azUCo0gX5p/LGc4N2b9WRDRcKFu0FtriTHyCkr7AlKE/ER0dazavft26o29
-	 rGSu5OpCvboFQqfmbp4i0uwwvOCLwjPUTTd7kseKBSslr+5ouU3M3J3v8vRudRaWXUHy3
-	 UY+SCk5j4GejN3J6blZ4b5HilNzz81EuOdlK9gHQWHemzz2YbEpkMrerrS+PR80dQOw==
+	t=1793939636;
+	b=qTnjXDEUNhBm2TfKuRTCTbWZESWT6onNDUhe+6WNL5cEnzlnnZR5v+vnTkPItK8ab28Q
+	 TQl4rs1/+6q4JhaNMs6P7QiA+OpEaEqC8zQyD6YQ3O+IhoZZJ8idj+Q1+qqFsPHYlp3SC
+	 9UQPULN7A5zKI4Yakv59W9XbCaFYTU8flWSsdTUSbGAVot/y93e/+Gx6Q4eMZS1WKOZJb
+	 CeQY3GcurLjmhTRF1s+Tgq/vokLPDn//XvMS5nmHMRcn8BoYUN1Jt1CNIXApSeJaVbeqA
+	 sb8zxmZG+MpeR4ds6i1znoZoqG9nudFGX9YF3eTnBjk4plKt/k8HSwCLAQtVAv2D8Kg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793939630;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Subject:Date:
-	 Message-Id:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793939636;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
 	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
 	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
@@ -24,65 +24,63 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=K25TqPh7z8AKTtPcUqryrp2c9om8IN8jQ14sMud28Oo=;
-	b=1iy1cTrh5P3hqHOSCz1J/JT4ZTLYwMxu/GIwUJ8AA0zk5KrQ8NBWhp065bxemRVoQQng
-	 hLWMfBe5FXcZSk7rdwxL1j0dOkWnRnYi3cCKR6cGhX/nnfkiXRMg9Uh9ve1YSLPxvBYFp
-	 decEKY7Wgy8Krgdorl8M3kBwPSJoRyaCQlqIUPV4lPnCv3ozkJQEqmjo61QLMJsE0D9cT
-	 9R3nJdBfqMY8OKslhcbCW6r3yJJqXu9No6cKKnRlevfKG3/kHO1NEs+5Nig0GdiRiSMIa
-	 izBdAvh1i1OEXHAp37gx0YCTEq7WM6YnHQohlcMECmJmFquhjX1OqvqiU9eOsjRb+nw==
+	bh=Um40dUCOZoX/exYmB7sS6CVPrzwd16W3xdHnerA0FeI=;
+	b=JFp0cO31acqt7xLCOaVO7I7ltDkxATdWXgvOH+GP5R0jsvfj5xEIwu9hJ8a1U5mUcQJv
+	 GPFnVLhgXL6Gf8nQeMPzO8TLWpuRkHXluIn6+9Bu6O49ApvySyYAjmbctK8mtV9fmwboO
+	 FVhxzS1NQRBaARPjU/K1PbmSBBB1le8heit/5C3J0WEx0hG31sLIPTG1JDRcpnVfxHvhQ
+	 rEPC7no8gvv2iRUX54jdui2hUCAvjLga6a3T2x79Q0DOrcVsIdoAV8qWs5fCVjsTIVxJt
+	 yik6kD4f8ySk9xidJXFFT5jBtACqBYmpxHaKbddw67Rft8/yKvwKWavTKcKU8Z2pe0w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.nxp.com;
 	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=HRNDNxGj;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=vWhOOUuP;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.45
 Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011045.outbound.protection.outlook.com [52.101.70.45])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A568606A31B;
-	Fri,  6 Nov 2026 04:33:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A568606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8161606A31B;
+	Fri,  6 Nov 2026 04:33:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8161606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=HRNDNxGj
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=vWhOOUuP
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ho4Vq4AkQPjvOxxUQm1fLBeZQTl4LT97APxWmCzsE58GzSFsKUJiaM2v2lmbrTuxyPzSWH5parzPZSu4AZdA39rR4AIC9qnRXjV/A+KcR+S+au/h+key3C8FseXBn7L8VLFPTJjIne8N0gNaOYkKFFnMqQrdlhEQljhh2BE9PbhaUXMsFk4B0v0p0CcKPaZdhRYBDGrr+ddhQvTgN+CaezHKM8bORb60jBU3DRDwpSgy8wEG6P2mRkOjA8U1N5Gq1EY9uRfWkYj7SvIa8WOUFuDoL3QqO4BX60dXqNLM4zxNxewMFTc703FT0zyxCxazgNg22rkRYvopO6KDNp5lOA==
+ b=oYf6DbFEK/WjeG52Enlm0G6XNhHyqQK9CSyAxbUAx900MvhAMShToJEea3rWI/pGrbLqJ/eAM/TUi7jEzEvOjMD1XWwUmAHqUgyI6jijn6t0rdIqG2oAenLqBYKyEzkHKc0jsi02TfMxkFp14Ioa0ueU3GkHEDyeOAgc4Q72Q3IZCNsikmVerefJOtWg1rffzHVcvtM6s7i6g+3tSmM//bYJhC8/qWF+C8Ck3uzVDZKSobotJ5cV+1JZIqmrRnM1bBbEhkEOgTNC/pLagDOYss0bowmi/wfJx9hYqqKvl3W7AltzXngro7frXNAUST0l4twg/KZthx67poXZ4urlug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K25TqPh7z8AKTtPcUqryrp2c9om8IN8jQ14sMud28Oo=;
- b=kqFSTe9iFnBJv77+e9wrHt5nAcEYoq2LPX+bPjHnDEk/jUJT29hrvaGGAS0dPxOS52AVzZzEFbUj0/3u2a1in/TR8wtaAsDqU4vxy4tzG7aUjWCK+/DMqxKT0iYjeEW2GRT/N2eB/C8ZK/vcHzsCH0jy/NnGEMFTc3LOXsyzjnQNpH5k8fTr+abZixs7wVgKKmvtS27wQ/X7t9uwgcPkSntvTlv/4b9kbQ0b0y25l4v1TZ/mx97lUcOtr4FYI7P3qfrkymhcE3G+Ag3Di0kFKD2sXrBMOqEi7PmaRqQcOsB7e+BOufqHyu8xLK3fMEOO9ztRoUOBWjVI0+jvcxIrqg==
+ bh=Um40dUCOZoX/exYmB7sS6CVPrzwd16W3xdHnerA0FeI=;
+ b=PsGB5SQUNjk5eesAalkV4CS48mnAeeSIFG0DXHbOyl23ubp7VeRAEYMxRkutyQSBjrBf+pml0dE8QxK+c4OIV4OFD4Ft4C6QsUo80SrYeMe2wmTsqTaahln6pnam7QK6CA7tYpEU+EJMgBaSZ9lTxLMBTUr4Skj/ohp8VzEptPMd6SaI3CX0LKgbH3M0CBgVrgeE2uLIgAQhLTKzeUC7IBvbFEg5d+ufJ9LkR3X4lt606K6sogDPlVLfKfdq6nhYH+H9YmkoSssa1S6SCM3rfqvJaiux4Xe9/sVrnZ9tVOafsSp8mFc+rOBeBXaa7LqC6WS4yDgXY/Z3aFFdaizQEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K25TqPh7z8AKTtPcUqryrp2c9om8IN8jQ14sMud28Oo=;
- b=HRNDNxGjrlYhu7ydklYlFlRFGxe81+PpznyAlbmzHUqekuvXmIRez9q79lAy7xMmYusG8UBHUOffGl/EO2ZST5qGbZwy1hiP1meF5LZ8KWJ7avxGeNJpJ7AqTgl3JyTjFDfqY5H3QtpqDjAwu9/huXLTaudBiKhXhgfwsNKrDA0u0HB4XwsU2TsH59qFzAG4Nac7FQY04U0G0f92N0ixIvvPoJUXeJgcDspufAcRlkX5CM/3XIx8LV1MSwA/jfirShzelklRkNi5j2P/AoZH3pPdRP4/qKt1fPdBCbxwd/6ljXBQwzWTSIcA/InLGZYeks4ir28mwwx14sI7EGU48A==
+ bh=Um40dUCOZoX/exYmB7sS6CVPrzwd16W3xdHnerA0FeI=;
+ b=vWhOOUuPKylIqb24A3m8DLKkpctXB0v04t/fO7/D7gpwhh7xuA82muaVl+bDrTPPXeA82XONuIrsEB/lu1u3mKoDLIBRRiJNqNq90EiHPdH+Z691uUKBMj+bbyATaBAxhb0mjDjRTNRS5Pg0nVYLk1qbSaU9jdFKUD4j7M2JVZ4P7BbWtgPiyKXE9WwkCTw841D5Xs0bu+xwS9Bq+yVZ1oFqEqFmHyAJcGv85Mk4/dAOXvjnvMgoKHEyjxOkt8ym00lxuJdY33qrzZeI/3iKzbF9UV4fC+4kQrGwiEwiebxTpJUmRrRPF0G93DgNcSj9C7/4tqi6S45tFhS17WdxKQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
  by AM7PR04MB6902.eurprd04.prod.outlook.com (2603:10a6:20b:107::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Fri, 6 Nov
- 2026 04:33:45 +0000
+ 2026 04:33:51 +0000
 Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
  ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
  ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
- 04:33:44 +0000
+ 04:33:50 +0000
 From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Subject: [PATCH v2 0/4] software node: fix lookup of swnode in release path
-Date: Fri, 06 Nov 2026 12:38:34 +0800
-Message-Id: <20261106-swnode-race-v1-v2-0-f8bc7b14d578@nxp.com>
+Date: Fri, 06 Nov 2026 12:38:35 +0800
+Subject: [PATCH v2 1/4] software node: do not resurrect swnode being
+ released
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMpZ7WoC/3WNQQ7CIBREr9L8tRggtFpX3sN0QT+/FhOhgYo1D
- XeX1rXJbF4y82aFSMFShEu1QqBko/WugDxUgKN2d2LWFAbJZSMEVyy+nTfEgkZiSbC+HaRBbGu
- FZyijKdBgl114634cX/2DcN4sW2O0cfbhsz8msfX+yks4axVvdHMiWfd0dct0RP+ELuf8BROCJ
- DO8AAAA
-X-Change-ID: 20261104-swnode-race-v1-b9f2dcc954c8
+Message-Id: <20261106-swnode-race-v1-v2-1-f8bc7b14d578@nxp.com>
+References: <20261106-swnode-race-v1-v2-0-f8bc7b14d578@nxp.com>
+In-Reply-To: <20261106-swnode-race-v1-v2-0-f8bc7b14d578@nxp.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
  Daniel Scally <djrscally@gmail.com>, 
  Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -96,8 +94,8 @@ Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
  Peng Fan <peng.fan@nxp.com>
 X-Mailer: b4 0.16-dev-7bc12
-X-ClientProxiedBy: SI3PR02CA0014.apcprd02.prod.outlook.com
- (2603:1096:4:295::6) To AM8PR04MB7874.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI2PR02CA0054.apcprd02.prod.outlook.com
+ (2603:1096:4:196::13) To AM8PR04MB7874.eurprd04.prod.outlook.com
  (2603:10a6:20b:24d::9)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -110,148 +108,282 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|AM7PR04MB6902:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2bb5ce5-4fb4-4644-e6d5-08df3bbf244d
+X-MS-Office365-Filtering-Correlation-Id: c190e693-906b-4f5c-3edf-08df3bbf2804
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|23010399003|6133799003|10067099003|18002099003|56012099006|11063799006|261026121527099003|261026140227099003|261022105027099003|261028144727099003|261102123227099003|261021123027099003|261021121427099003|261009223027099003|261022075727099003;
+	BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|23010399003|6133799003|10067099003|18002099003|22082099003|56012099006|11063799006|261026121527099003|261026140227099003|261022105027099003|261028144727099003|261102123227099003|261021123027099003|261021121427099003|261009223027099003|261102130727099003;
 X-Microsoft-Antispam-Message-Info:
-	K5l0hEMRD6SBF0BtWkTdmuq2LuyZMyw3cj79MSCC81laAF5JwiobkwOw7udgzazxW1FiBpXfsZYLItNIiI6Xh/f2gtInvilOYNrvHMGo3mGXCb7OimALq+7JMC0up5ZKsaD10sQoMACrKBKTm5yDXGxIWEX3qbgQDvkRPH7pHE61tfnQiTGvt1tyTx11SZt8MEzCYURj/P32ZuMLuZXigSGF0Znc96atj4EG/+XaNfsiKuMaEct8dUFAJ56JxUKAjd+nuK82nkQHj7mgPTgGsYlPiaYP+ThvIjwf6q4Fo3MU5BILJEoICpEW2+j7Etar7wiPKsrLO6btHQfK0/VZV0pAULe4SxWUmtz8HsvQYkT8/Vc2UsuDh016E4M8NIZN8uhjVEWozcTj4FkCJmnV6f3CN+bENem9O/UiUJaKnY2VQ4YUXj0Bb4Gq2IWp3mT2Wgwho+V2diMkirh6tLii3PTcRzZWYzBNaDSiFerCH+IHE0AAQB3jyNGp1Rp/KpYP++lS6CTQxulcCK71jsRQ1ISkNq+nOrugalvT+xLsT2UYDCd+xCWyFZfPUGdigUsDHSxqVAyk4ujpHxRCgoZS6J+VIhFcx0Ax/KuXDjJCm3MrVGu8rre/U+sbaQvDOAEL
+	I8tzy7uzmXf6BvIm4vbTcLwLqKga48oTxCjsNqUcU/8xAGGwybt4MagGQ+BCiWKIxq5XzSrSYzkCbDAuKqn4kwFsDKVTo0V4n8tela7tH1WgTJh/gw1WJuc0E3vtkaYNoI0mzEI7B0ZQ/fCCJW/sblPYpRVv/L1tYdhKU/LDr3DW97a+Gxv53yRnhM7JhVb/tBY9HOMl7WwYvKzsQW99DlVYLYg4LVArhLyttF/HQoE+l0d4vPTTtbq/JRFgnLIl6xzKIL1OAPk5iqiU3hKmI+Uc0vb3kD+xkmbFSh0O3lXE/7MCevw4gkMWHCl26CVdW52+Dp7LNXszgu7wkyPqDWV7zHFDe/wZIiXSzQTzxEQrgf/RsDDHQHvMidb5YY64i816BgZQN0EI8cr1865VqP8LRsnz+mMyMIGEXy0cXyKlOJx7KLbCqn1qp3Ws+/yLFDFkIl4glriPg+Q4iTLg37DcC1JBbbmvjbpudnO9aWGSJseGYvMt9/3U8zFoLXctaFfmFO9EbJJcVJfH4j0Eb8XOuYiVawPZg5uLhEA/GkjjJOblrge5zFUdq2UYfOGxw6vHSoK2LNLMjwvDAWQq1jcHutv9cnoaS+TRbPReyE5DRpA5QQl/ScPXAreQd+F1pVH0URuAYFdZvga0EwuPLc6a59i+aOY0Ufn+AdEpFPk=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(23010399003)(6133799003)(10067099003)(18002099003)(56012099006)(11063799006)(261026121527099003)(261026140227099003)(261022105027099003)(261028144727099003)(261102123227099003)(261021123027099003)(261021121427099003)(261009223027099003)(261022075727099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(23010399003)(6133799003)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006)(261026121527099003)(261026140227099003)(261022105027099003)(261028144727099003)(261102123227099003)(261021123027099003)(261021121427099003)(261009223027099003)(261102130727099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VjQwN202SWUxeUZWMDlOejRuSWFWNWd6dU1TNUJKVThLNjJlTmRXcHpJRWtF?=
- =?utf-8?B?TnVTYTgrMHhQN1JtK20rQ25oOXFhY1dYdHRZM0FhN0YyZEJKOGw0WG9hSFNl?=
- =?utf-8?B?Z3JuTXJna2E4ck45R1VEMGdWRzF0Qmdmd3J5ZEplNlE5R0pJV2FKSFp1S0R1?=
- =?utf-8?B?ZFFuVTh3c3A1MjlUMXFWQ2lWZTRPU0JEOGxsN1ZUV2FlU2pOK0tQcUo4UGl5?=
- =?utf-8?B?bFlWS1JMNzRJVE5JNU5LUGUyZHcyUU1IdHZROHc5R2JnVDBES3JMYjJBWXlQ?=
- =?utf-8?B?VzdFd2lUUGJyWGsxSEZoVVBFKzRrUFVleFN3MDh6bGVudi8rOFRFZ0lXTlFB?=
- =?utf-8?B?ODRmVFRyTExVSXZHU0VTR09VWHNxVWN1SzRreWMvYkdLa2pMOXpBcXg4Si9t?=
- =?utf-8?B?cXF4R0lwWkhyVWdhekxYODdhNFppR2crVXVWTHhoZ0lwQ2cyOWtWS2FTVlBW?=
- =?utf-8?B?ZXEyY2JjNnc1empBVjVoMk5xTXJWWW9qYTR4SFREVFNuTnNyaEN3WXhEVEdu?=
- =?utf-8?B?Vnk1L0xHN1FWdUlpcXZEZEJUemdLeG8xdXFQN0JQM3lnOVJEUFNlaDQzZFFI?=
- =?utf-8?B?Q1ZkNXluTHJzOHRCMkVySjBqYlZjNGhNMjdNbWlOUHRuSjZNRzZZT2lKd2VY?=
- =?utf-8?B?T1pZam45cnhYb3VVbmprOFp3Tk1PaXhuZlBPd2ZFVzRhTFpuajVBWHh4UG5V?=
- =?utf-8?B?QzBFTWx0VUtlbkl4VC9DdmJYVjc0clk0S3dELzdVK0d4MUJWK2QrUnhYeG9B?=
- =?utf-8?B?UkNsK3RYNDhIVklTaTF6RXN3T2xFZGNXSTNUTERCSHFNK3NqdDRKSE9ZT3Jz?=
- =?utf-8?B?amVWSlozREovV1VMZ1U2WW1vSm1VdmNWbUsrREt0bkdzSDdRNDlKQWNpZElG?=
- =?utf-8?B?TGFVQWpETmtIMmk1RWJUVks5WThINGYzblN2WWRISkZHWERFR1NVWG5qQklV?=
- =?utf-8?B?eTFTMzNOSGhBZFVJYXg5bitMMCtRSXpDeWtmaVZkejlaYWdqSUM4MURyWjdh?=
- =?utf-8?B?Tk9zMncvaVc3NmRjVTMzcWp2SFpIVTZSYnd3OUZGc0kzVlhrZjlZSm54c3Rj?=
- =?utf-8?B?cUkwU2lRR2VEdXN2WjBFaW1ScXBkY3RoK1BjQlE1NXE0d1NIM0ovcldvMGNZ?=
- =?utf-8?B?MkZMWDl2MGZISld3MUIrazVmSFgxV3ovaW1uZzFiSnhLaVkxQzROZjVjT2pi?=
- =?utf-8?B?cXhxc2lTaWlacnhNamJEbTZGdUQxbmpjWHV5VWI0TSs3dDRpczA1SlErMFhT?=
- =?utf-8?B?T1BJN0tIT1IwM2JndTI1S2tFM2ZsUGZvbnd0UTdWeDBHSnQrT2k5RE51cTRl?=
- =?utf-8?B?L0hENEJIZHExNlBkMTZlK3hjdkFadXZPblRNc3pOaGVHSXNuTG56WE5GYytm?=
- =?utf-8?B?SDZTYmVMdmp4RmVyUnh5YmJ0Ylp5VW9GNXU2OTdLN0VkQnk5VDduT0pVMlB2?=
- =?utf-8?B?OUx4b0R5YmplZ0x1U1lsTHVlL0d1NHNoZmNDa1RMTm02L2xFM1g5T1ZRU04y?=
- =?utf-8?B?V3JTb2NTK2VRN29FKzJUb0tpRUpzY3ZmUVlBZVhNSktlQlJVK0hXdjNvdnV3?=
- =?utf-8?B?VTFMQmhpWXI5VHQ5M2V5UVlFRkxsWDdtWGlWcnV0V3dudER0cUNMUjVNWlVw?=
- =?utf-8?B?UU5IOE5HbTFoUVBXN21kcW8vRTl4d2dwS0U4NUliTFFtdjkxb2FLVm9QdU1a?=
- =?utf-8?B?TVI1QWZjdWU4b0VLK2hZaWRJbzYrRjZ2RHQ4YlBEOVlTUzZ5MU52SHNSU2NF?=
- =?utf-8?B?Unc0cUk4ZEJJUEZHTnFkRVlSYkpzb1Vuc2E0RGJtK2xybVFpaVd6U0ZPS04x?=
- =?utf-8?B?NjZVSFdrS0ZMTlFqaUJoeU54Z056NHFEWFBSS1E1cExwZ251Y2dZWFFPa21K?=
- =?utf-8?B?UEZ1Q2c1cVhEVUFTc1FyemlsdEMyWk4vd1V1Zmk2UkFMcTFQRlpIZ3E1Zzdu?=
- =?utf-8?B?Vk9QVzdoVVdlM05FczF3WFRhM0lPS3QvK2xrdkkxWlFRQ21jQStRWmVCeGZU?=
- =?utf-8?B?MWRlSThXMmxldnlYQmlUZE5Oby9QcU9TcURMYjNGYmFzT055aWxtbFJ4UWUv?=
- =?utf-8?B?VGpXMnJ5aEh2SFlweE9tODMzQTVUcCtwRzVvcHV2RTVZNUE5YVR6QlVSM1pl?=
- =?utf-8?B?ZG05WlRDdWE2NE5xUlBCeGg5THBqdHRZU1V0S0ZjVXpENzBPd3JwdW51V0J0?=
- =?utf-8?B?c0FpVW53Q2FxQmhFd3hvV0RKM2VreGVGemJXb2U4VnJIeUllNlVyOTBGVEVC?=
- =?utf-8?B?YWRHMlBiNXdCcHBzVndsWVdJVm94OEpyeWtYaHQ2WG12dzBobVM3cFg2dUNn?=
- =?utf-8?B?SGJiVmtPQ1pVYVYwQmViSGE0WllCakRDeFlKREFweFRTbUNRdUpXVk5rMUZO?=
- =?utf-8?Q?FZmBP/gFEOpuGO4zjFJQAfAM1ZyTCY8e24oaW?=
+	=?utf-8?B?blBwNXBtQWdmSHFuazRCMmtiQnEvNkZjWHVvbGkrRTV6c203cEVmM1BUUk1n?=
+ =?utf-8?B?cWtMOG02ejE4YmRCQUpESUdjK2VQTUxqNk9ZdEFTK20zb3BXczNmNW5RRlQz?=
+ =?utf-8?B?c29oNC83ckJBOExUQVI2UDIvZUxHb2VEdW9JMm5lbFNOS2VqOXBLMlB0MWVl?=
+ =?utf-8?B?blo5bWx0ZTk0YjhlVFlzZG5WaE5nQXpHRXdOZEN6ZlhqUUErN0lVaUJPRS9u?=
+ =?utf-8?B?SzZkTkRHVGthUGd6cDVwdWVzbTJXVWNsQlpTbU1qekQ5Q25kWEtMTVYrL3o4?=
+ =?utf-8?B?a2gvejQ0MFdZNlhmcHVmaGRSSi96eXB5by9ZeEhNeC9xL3QzazNuYkZITGcv?=
+ =?utf-8?B?bU1sWmp0Zm5IbmdldGtrbHNwZWRYbXZnT1lFY3RrbGMrMWk4SjRDK3RwWHls?=
+ =?utf-8?B?eDdwbE5DV05DWWNqUEJNUG9oYzlSYm1HTVdZcHg1RFFTSlVUb2d6U3NiL3Ns?=
+ =?utf-8?B?bzFyRVl2TDA1ZTdqWkZkL1pSemhldDBLZHhBSkRqR2JiQTNibGREbGw4dW5H?=
+ =?utf-8?B?NGx1YURLV2JpbFBpaHNGS0QydjNOSWxPV2pMbVRnMUwwb240QWJwdVpkVXVT?=
+ =?utf-8?B?VUg2YTZhVTF3U3dGcGgzNlVnSDFqMHZDeUU0dVNVMEtyWU16b0JlY2lBTUd5?=
+ =?utf-8?B?WlBXelFKSEJKVklXNkc5MXRwOHBPa1RFSmgrNFp0aHAyT1hHdHY1dUQ2Zjdx?=
+ =?utf-8?B?bnBCeUtKNzNsc1pLelJxTUNSZUNFVEVDMnI1cHBKZUUzZExXOUhpQzZFMzE3?=
+ =?utf-8?B?RURUdHFsRDdiVVgwWkdYNnI0cThOR2I1QjJ0SDRYSjVtYW8rOTBGYlRCczBQ?=
+ =?utf-8?B?Y3VaQlpTeWVxYzF3U0I1UW53eG8welNZOUZWc1U5dnV5QUxuOFRoek1QcCtF?=
+ =?utf-8?B?cXRKOGxtdzdpZHpuNEduQ2o2M20rM3Awd3pCSGhEbGNhdU0wc0FZSXk4SGp3?=
+ =?utf-8?B?QzhLd0Q4WDRTRmNKa3NTZm9uSmJhd0ZlVWM2REF6Y1hyUU0rSEVDK1BqS3N2?=
+ =?utf-8?B?bGdLc2lXaGd0eUZvb0JpTHVWUGRDTk1mK2NjbjNWbGtxN20zZkU3RHdGMGkv?=
+ =?utf-8?B?MWJNbWhHd2krUVoyQVJiMDVudFdzOEp5cTJuWVhiVHZnbHZQaERua2Jpai9G?=
+ =?utf-8?B?MUdvOHFKbktjdlJtNGc1K1VOVUhDN0JIS3g1TzJWdmEwTmxNb25QNlY3S1ZY?=
+ =?utf-8?B?NzFNYjcwbVhTMXR5VHQ2bnpDemF5RXlpaVVlNGhKK3VNQkM4NHRxTzRNTTBZ?=
+ =?utf-8?B?TFhIQUdZS21sQzk3c3hsck12c2FoMlNvRTNyMVNTbkhJb3ZNbWVTYUxtOTRT?=
+ =?utf-8?B?OXVvMmZEMmcvT0lRbzd0VFgyNkF1MUlkS0lBcUdZSkd2bjQ0dTFyYmYrVnBt?=
+ =?utf-8?B?U3JmR2dYeGY1eXo0eUNKL1NNSEZTUUxuQnJaK1l0MEdhcUo5T0gwRlZlYzZu?=
+ =?utf-8?B?aitkOEhvT21BN1BSQjl5RmN0V3U0bk5QY3RYdWR0VFRsTFlZdU93ZVg0cnBt?=
+ =?utf-8?B?Ui93Y2hSQXplakxDL1I2TEhyWC9ocjhGUjNMalQ2VGdiemQ1OHBhYlFDRGlh?=
+ =?utf-8?B?T0s1WndONVZqMnMzZ2dwY3N0RVdWVHlBSlV4bVhmUERWNFBNYTAvV3BpMmdV?=
+ =?utf-8?B?MEI3bW10dmRKcXBGZ1lzVGdOVlZXQlVFK3oyQUlubzJ6YW9UeHl5dFMvNXc2?=
+ =?utf-8?B?ZVk2LzJKYlZVeUd0eHdEUmY3UXc2OGhOY1I2K3ZhODBocEEyUEQvZGNzS3J2?=
+ =?utf-8?B?ZS9OVkdJTXpXSXNkSHFQazhpd3hHaXFBNnBCWTdIVXRaeVd2Y2tBM21vbEZu?=
+ =?utf-8?B?ZG1YNEdKREszVnRuUXdKeHBXNmJsdVZNOFA3amt1ckVpNGFuaS90a3R0NzRw?=
+ =?utf-8?B?Y1NjVUE2N1V4SkNYRVJlU0pNTENHMG5wVExackEwSEhCRjFtYkZGbitXbUpu?=
+ =?utf-8?B?Z1U3RmwvYWg1aU1kMURkNURna1UxZ2syajBmTUNVVEZ3L202UVpkQTl5c2hC?=
+ =?utf-8?B?VTVrVytOSTZ1RzIyTGl2emdaaTl6OFpNVi9UUVp0TU1UYnRvQzJDdGVJZ2Fu?=
+ =?utf-8?B?N0FvTTUzanEwYjArbWNDTVkzZ3pzdkxzYWNJbFBrdDVYNnp4TnR2cFZGL1pD?=
+ =?utf-8?B?c3VtdzhBZFFsSm44V3FjVEt6cnVab1dMSDM5MnFJV1gwSzhEb1hZc3kzS2NT?=
+ =?utf-8?B?akQwQjl3SGthZkZyUGp1bTdwSlYvWXc1RVh2YTZ4UlJSQjJCSWw5QTVLQVkz?=
+ =?utf-8?B?ZWlmMk85blZmdkl4c1UwTEM1NXJNRWFSS3JWNmxacTBoQUhwTzlDNTIrRTF1?=
+ =?utf-8?B?RVZHMy9DcEdPZmg4dUNscDM4aVFCSWhQc20zbCtoaXlQSkhpTTdzUUFabWUr?=
+ =?utf-8?Q?a+/K5NnFtJGnlWUc3niGjXcLwsvkUMzPolWxc?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2bb5ce5-4fb4-4644-e6d5-08df3bbf244d
+X-MS-Exchange-CrossTenant-Network-Message-Id: c190e693-906b-4f5c-3edf-08df3bbf2804
 X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 04:33:44.7821
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 04:33:50.8863
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TSx+KRrXaxZJU3Zlb4kQ9Ob64lvGzgyygSoLWcjt6NPzRtFDh2Q945BrllZAeH+LfkVboU45faHaLRtA1K0GfUENomc36A1VCAEAQonSXLvREX4cF+Z33DCZmjbYZxJa
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1795DUUSc0/7NvgKozsc6IWoI3YuLab9t24fBcM7dB1yw8vbXMKqcri4hRa4l/vfMhsKGVwfx9wHAQYdtjz/4oNcBb267VfNLLlQ3ZlJOYyFMFtaOaJTaPPvte5yyCtf
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6902
 
-This series fixes a software node lifetime bug where a lookup can find an
-swnode whose kobject refcount has already reached zero.
+From: Peng Fan <peng.fan@nxp.com>
 
-The kset list keeps an swnode linked until kobject_cleanup() calls
-kobj_kset_leave(), which happens after the last kobject_put() has already
-dropped the refcount to zero. A lookup that does not check whether the
-object is still referenceable can therefore call kobject_get() on a dead
-object, triggering:
+software_node_to_swnode() walks the kset list under list_lock, but the
+last kobject_put() drops the reference count to zero before
+kobject_cleanup() removes the object from the list. A lookup can
+therefore find a zero-ref swnode and call kobject_get() on it, which
+triggers refcount warnings and a use-after-free.
 
-  refcount_t: addition on 0; use-after-free
-  refcount_t: saturated; leaking memory
-  refcount_t: underflow; use-after-free
+One way to hit this is the dwc3-imx driver on i.MX95: when
+dwc3_core_probe() returns -EPROBE_DEFER, dwc3_imx_probe() removes the
+static software node from the device, and the deferred probe retry
+immediately adds the same node again. The previous swnode is still
+waiting for its release callback, and CONFIG_DEBUG_KOBJECT_RELEASE makes
+the window large and deterministic.
 
-The problem is easily reproduced on i.MX95 with dwc3-imx when
-dwc3_core_probe() returns -EPROBE_DEFER. dwc3_imx_probe() removes its
-static software node from the device and the deferred probe retry
-immediately adds the same node again. With
-CONFIG_DEBUG_KOBJECT_RELEASE the old swnode stays on the kset list for
-some time after its refcount reaches zero, so the retry reliably finds
-it.
+Fix the lookup by acquiring references with kobject_get_unless_zero()
+and skipping objects that are already in their release path. Use a
+reference-returning variant for callers that keep the node (register and
+device_add_software_node()) and keep a borrowed-pointer variant for
+software_node_fwnode() and software_node_unregister().
 
-The first patch fixes the pointer-based kset lookup by using
-kobject_get_unless_zero() and skipping entries that are already in their
-release path. It also makes registration return the newly created swnode
-reference so that device_add_software_node() does not have to look the
-node up again after registering it. Reference-owning callers get a
-reference from the lookup, while software_node_fwnode() keeps its
-borrowed-pointer semantics by dropping the temporary lookup reference.
+To avoid looking the node up again after registration,
+software_node_register() now uses an internal helper that returns the
+newly created swnode reference, and device_add_software_node() consumes
+that reference directly.
 
-The remaining patches harden related weak lookups for the same class of
-problem. The series is organized as follows:
-
-  1. Fix the pointer-based kset lookup and avoid the second lookup after
-     registration.
-  2. Harden software_node_find_by_name() against dying entries.
-  3. Check the result of software_node_fwnode() in the graph
-     remote-endpoint path.
-  4. Skip dying children when walking the parent's children list.
-
-Immediate re-registration of named software nodes, or parent/child groups,
-can still fail with `-EEXIST` while the previous release is pending.
-This series targets unnamed static nodes such as `dwc3_imx_swnode`.
-
+Fixes: 80488a6b1d3c ("software node: Add support for static node descriptors")
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
-Changes in v2:
-- patch 1:
-  - Added `swnode_get_unless_zero()` and used it in the pointer-based lookup.
-  - Corrected the commit message: `software_node_unregister()` uses the
-    borrowed-pointer variant, not the reference-returning variant.
-  - No other change to the core reference model.
-- patch 2:
-  - No longer dereferences `swnode->node` before taking a reference.
-  - Matches using the swnode kobject name and parent link.
-  - Added a `named` bit to `struct swnode`, set from `node->name`.
-  - Takes the reference only after a match is found.
-  - Corrected the Fixes tag:
-- patch 3: new
-- patch 4:
-  - Replaced the borrowed `software_node_fwnode()` plus later
-  `software_node_get()` sequence.
-  - Uses `software_node_to_swnode_get()` directly and returns
-  `&remote->fwnode`, retaining the acquired reference.
-- Link to v1: https://patch.msgid.link/20261104-swnode-race-v1-v1-0-9406a67e25be@nxp.com
+ drivers/base/swnode.c | 122 +++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 86 insertions(+), 36 deletions(-)
 
----
-Peng Fan (4):
-      software node: do not resurrect swnode being released
-      software node: use kobject_get_unless_zero() in software_node_find_by_name()
-      software node: pin referenced swnodes while resolving them
-      software node: pin remote endpoint swnode
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 84a77ffa3dc4b..965e960156876 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -75,8 +75,36 @@ static inline struct swnode *dev_to_swnode(struct device *dev)
+ 	return to_swnode(fwnode);
+ }
+ 
++static struct swnode *swnode_get(struct swnode *swnode)
++{
++	kobject_get(&swnode->kobj);
++
++	return swnode;
++}
++
++static void swnode_put(struct swnode *swnode)
++{
++	kobject_put(&swnode->kobj);
++}
++
++static struct swnode *swnode_get_unless_zero(struct swnode *swnode)
++{
++	if (!kobject_get_unless_zero(&swnode->kobj))
++		return NULL;
++
++	return swnode;
++}
++
++/*
++ * Find the swnode registered for @node and return it with a new reference.
++ *
++ * A kobject remains on the kset list until its release callback runs, so an
++ * entry whose last reference has already been dropped can still be found
++ * here.  Use kobject_get_unless_zero() to skip such objects instead of
++ * resurrecting them.
++ */
+ static struct swnode *
+-software_node_to_swnode(const struct software_node *node)
++software_node_to_swnode_get(const struct software_node *node)
+ {
+ 	struct swnode *swnode = NULL;
+ 	struct kobject *k;
+@@ -87,10 +115,16 @@ software_node_to_swnode(const struct software_node *node)
+ 	spin_lock(&swnode_kset->list_lock);
+ 
+ 	list_for_each_entry(k, &swnode_kset->list, entry) {
+-		swnode = kobj_to_swnode(k);
+-		if (swnode->node == node)
+-			break;
+-		swnode = NULL;
++		struct swnode *candidate = kobj_to_swnode(k);
++
++		if (candidate->node != node)
++			continue;
++
++		if (!swnode_get_unless_zero(candidate))
++			continue;
++
++		swnode = candidate;
++		break;
+ 	}
+ 
+ 	spin_unlock(&swnode_kset->list_lock);
+@@ -98,6 +132,21 @@ software_node_to_swnode(const struct software_node *node)
+ 	return swnode;
+ }
+ 
++/*
++ * Borrowed-pointer variant of software_node_to_swnode_get().  The caller must
++ * guarantee the lifetime of @node by other means.
++ */
++static struct swnode *
++software_node_to_swnode(const struct software_node *node)
++{
++	struct swnode *swnode = software_node_to_swnode_get(node);
++
++	if (swnode)
++		swnode_put(swnode);
++
++	return swnode;
++}
++
+ const struct software_node *to_software_node(const struct fwnode_handle *fwnode)
+ {
+ 	const struct swnode *swnode = to_swnode(fwnode);
+@@ -374,18 +423,6 @@ EXPORT_SYMBOL_GPL(property_entries_free);
+ /* -------------------------------------------------------------------------- */
+ /* fwnode operations */
+ 
+-static struct swnode *swnode_get(struct swnode *swnode)
+-{
+-	kobject_get(&swnode->kobj);
+-
+-	return swnode;
+-}
+-
+-static void swnode_put(struct swnode *swnode)
+-{
+-	kobject_put(&swnode->kobj);
+-}
+-
+ static struct fwnode_handle *software_node_get(struct fwnode_handle *fwnode)
+ {
+ 	struct swnode *swnode = swnode_get(to_swnode(fwnode));
+@@ -977,21 +1014,39 @@ void software_node_unregister_node_group(const struct software_node * const *nod
+ }
+ EXPORT_SYMBOL_GPL(software_node_unregister_node_group);
+ 
++static struct swnode *
++software_node_register_node(const struct software_node *node)
++{
++	struct swnode *parent, *swnode;
++	struct fwnode_handle *fwnode;
++
++	swnode = software_node_to_swnode_get(node);
++	if (swnode) {
++		swnode_put(swnode);
++		return ERR_PTR(-EEXIST);
++	}
++
++	parent = software_node_to_swnode_get(node->parent);
++	if (node->parent && !parent)
++		return ERR_PTR(-EINVAL);
++
++	fwnode = swnode_register(node, parent, 0);
++	if (parent)
++		swnode_put(parent);
++
++	if (IS_ERR(fwnode))
++		return ERR_CAST(fwnode);
++
++	return to_swnode(fwnode);
++}
++
+ /**
+  * software_node_register - Register static software node
+  * @node: The software node to be registered
+  */
+ int software_node_register(const struct software_node *node)
+ {
+-	struct swnode *parent = software_node_to_swnode(node->parent);
+-
+-	if (software_node_to_swnode(node))
+-		return -EEXIST;
+-
+-	if (node->parent && !parent)
+-		return -EINVAL;
+-
+-	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
++	return PTR_ERR_OR_ZERO(software_node_register_node(node));
+ }
+ EXPORT_SYMBOL_GPL(software_node_register);
+ 
+@@ -1061,21 +1116,16 @@ EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
+ int device_add_software_node(struct device *dev, const struct software_node *node)
+ {
+ 	struct swnode *swnode;
+-	int ret;
+ 
+ 	/* Only one software node per device. */
+ 	if (dev_to_swnode(dev))
+ 		return -EBUSY;
+ 
+-	swnode = software_node_to_swnode(node);
+-	if (swnode) {
+-		swnode_get(swnode);
+-	} else {
+-		ret = software_node_register(node);
+-		if (ret)
+-			return ret;
+-
+-		swnode = software_node_to_swnode(node);
++	swnode = software_node_to_swnode_get(node);
++	if (!swnode) {
++		swnode = software_node_register_node(node);
++		if (IS_ERR(swnode))
++			return PTR_ERR(swnode);
+ 	}
+ 
+ 	set_secondary_fwnode(dev, &swnode->fwnode);
 
- drivers/base/swnode.c | 209 +++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 148 insertions(+), 61 deletions(-)
----
-base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
-change-id: 20261104-swnode-race-v1-b9f2dcc954c8
-
-Best regards,
---  
-Peng Fan <peng.fan@nxp.com>
+-- 
+2.34.1
 
