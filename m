@@ -1,71 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.208
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793955449;
-	b=gj7rOGFZXDCgGtuvrZrT9ioXzHM1fqvvRi4LMQEyUQ6u8Y91Sro8BObj0TQcOHIvbGvV
-	 3wZZMRidx7OI8OJ/hvsXJnQheRaEdeQT1VUze6rblfbF/ntkLxHCezww44K7s0F7xgL8v
-	 h236Jpwhr6vR9EIXnc5QOSRp+bTlsURem/w65p0XxOgKZHRwMwUaVWLhHIejogA+fO/5S
-	 KirohLwp6D8t/mGI5UETkW7AZ2SooDMty2i2BbPPDYROPBc/IfnN++He9WZfCw6Dsm4gF
-	 J6zTWlS0EKP3E4oK+ShV64UazKkSRyQha3nMpSwEBFLjGbFKZdr4Gw750qxB4X9hJMw==
+	t=1793963618;
+	b=dlV2RlcT1iSwYc6ExrrSmLlh1PKrrXGJ4ptNR1Sqk6LYSm4BLCIFIN5Kh+lwcD8SuouG
+	 5QWenE1GVWoKmq6L0WcPVJ0pKCvak76XDvO4x0VjY0WHuTwLc3uE2679ZoykAqHGabaZE
+	 MpJ1oLjg30sHO3QJS0dZQxGh5l/VJJdWZhH/GBjNfNXDhgoxdyR07zoienywe8yfH+ng1
+	 2vDt34riSAwp8CHblfWgOk3dArzMlFMseJt+/wlqtyqfrYrYljvYU1nO4R58/lwRd/114
+	 rsRIdpVDHJMMGYciGHpMvTljAN8vcZGsYgZElfxSysovgx0sX4BYT0jV08KRgnO3mtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793955449;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7tnDwOUyL+9+3EBd25a2jQS8D7TqqGxOJ/LMYNK67W8=;
-	b=HCL08PFqTEpaPG3rM7RMSU0uB6XPF2fnRLvPyup/el9/Sc48Mg8YEf5I4M6FnS5xFken
-	 XVHKQR8EXE+WvtEzk2r0zNcBJr/+ZyCQgRiveAWhOtRzyWu3vbXcVc5Qm6nZy3YdTQKTa
-	 8QG9lQ2wCVhTkX/tDSZGPLf+l/200ZuZKetDw8O9fwoYQUMhkjBlbGms7wZ1DjyTTa9TA
-	 58CuaWvAxnvuOYRrknqm9S0Fo1rgOhBhjwGbooIBIan5cQk3Pm0LLNpgEdanyxkLcRYBU
-	 b0dsYHaXqkdOlC5W+lik5eNyApLWj+MJqq69yLJAP1KAc5ACrH5CqZfz+FKThrqqjgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793963618;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
+	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=XW52UdCrmkSU2CFHGJcm0I6RcRFb9njYbyKT3jvjP+k=;
+	b=HZA8QPehu4/yBhnVV0G31iDBsHrfez7n7TahzNuy80etVjzvlULuGMbmauxQRmErFk5e
+	 +BPzNOe03wq/9iSKl9x+HdGtDU2OSrdnlld7fGcATNX/Xv0WIr1auSu5RoqXOspa5hdqe
+	 elOw2ty28QRW+So/JcASPgZDE5/ah6A/s56dbrZ87KPpw51oeswvl2hU+Uy94XFt/2kms
+	 cGZY+eai4uaAmljkgU4W92ArVzCyUjIFF2nkNz3Dnr1TKBfwhI3dJsF3hkOadSnC5vrYq
+	 tyfn5PUr/YoMHy4b8UyCGF43W4MmVwnAwiqory+wm4dI5SUOBuYyaqVMSxfZt6xgjLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HTJjrmFL;
-	arc=none smtp.remote-ip=95.215.58.208
-Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jPeFjlND;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Nw8skCNX;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D7606A328
-	for <driver-core@lists.linux.dev>; Fri,  6 Nov 2026 08:57:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D30D7606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40AA606A326
+	for <driver-core@lists.linux.dev>; Fri,  6 Nov 2026 11:13:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A40AA606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=HTJjrmFL
-X-Envelope-To: driver-core@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=d8226L5zRatr4QjzGAsxcF8uWP/1uGCbid94j82xW6U=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793955447; v=1; x=1794560247;
- b=HTJjrmFLQVrV7kAs8EPK/OhwBG9oU0FEZ56DSo5LizGks/N4Tm2o7FRZ2BTqv7EL7HasxgUp
- YDXL98vSgciL+0idIGV35kKUY8rX+bz0od0hhd/UuueCkz504dajqUN5PwgUU9gHCa7OdKJtHTP
- lRy72Qc1D2NfHgSmvR276Q+c=
-X-Envelope-To: driver-core@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id c5586882dd48232f;
-	Fri, 06 Nov 2026 08:57:26 +0000
-X-Mizu-Trace-ID: c5586882dd48232f
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 6 Nov 2026 16:57:14 +0800
-From: Peng Fan <peng.fan@linux.dev>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 1/4] software node: do not resurrect swnode being
- released
-Message-ID: <au2WakZdbqc6asKF@fedora>
-References: <20261106-swnode-race-v1-v2-0-f8bc7b14d578@nxp.com>
- <20261106-swnode-race-v1-v2-1-f8bc7b14d578@nxp.com>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jPeFjlND;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Nw8skCNX
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6AP4ES2731726
+	for <driver-core@lists.linux.dev>; Fri, 6 Nov 2026 11:13:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=XW52UdCrmkSU2CFHGJcm0I
+	6RcRFb9njYbyKT3jvjP+k=; b=jPeFjlNDRAk41JmbgZciWPHgR3+DwR8XKFx/kt
+	NHUj7NwJ6Q3h87H1/Yf8Q0W5YuO0rBlD57t6SjlBydmh17WkCVg6o+h+4XBJ5ozt
+	ye4fcl8OEO/kg2GaQvTOjkwVGRfyeJufoljilK7bJDNUrXKirmrA+QfAEu7OfpyB
+	3Hn2DwpE0DF66iDHgKc4t/N2FupwYNJnxMkdT8ZErhYXT+hzG900ALKieHW2UbTe
+	iOAxWp2cEjQTLiffgeJoWQevf77WgJoAurK8H5f9bMy/RHySNybuP1GxOLIqxi/a
+	RsU64j9YdzXqNvpo4O8wRUAE4hwntSiHCywNylgin0gUTDAg==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hs3p9akar-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 06 Nov 2026 11:13:36 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-7cc175cb172so530668137.1
+        for <driver-core@lists.linux.dev>; Fri, 06 Nov 2026 03:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793963616; x=1794568416; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XW52UdCrmkSU2CFHGJcm0I6RcRFb9njYbyKT3jvjP+k=;
+        b=Nw8skCNXnPaFMA0Arlw07LklN7z/4c5SKXXhW9wyrA/cF35IzFLSzFwamywwrzeAWf
+         uGpewMT5ZeTUJjkt4YGWcqtZyti5tZOoU2Ifq6Wjn+mXIu86Q+ZNRMpZg+baty1oJkGv
+         b7fYWrA7XyLFunfxpQ8Nd0Yod6j+Q8U0fD7c1HfpE2rRFgzmyvaKhpsi+uQKxH1lq/Y0
+         ROAOMmkCyCLLhZcAhmICn5fJ9aWbaZ5uA0iMSXhMzcKqODkTy53GIQueU4tEPtgxfNEx
+         LWIO4iXecVP0oTMdFsn5RJsqTOB4O1RQNU92v+6I4qHgSLpoxFcQxf77E2vu79vWs5sB
+         IRtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793963616; x=1794568416;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=XW52UdCrmkSU2CFHGJcm0I6RcRFb9njYbyKT3jvjP+k=;
+        b=rEW6wzL+YX51moFRyySNPOWPGK03AEEcST0EyZEt/nfyYwObo/87rogEjLekOD86In
+         sGy8U29L59CQQXf4HjZkHnI53dMOdfAoIhK/1Rg+1na6DSXHdEHL+fm8Js924nYLeO1v
+         gt5sEecmAmZw82pcyHSWV/9hdJ26QCVwIOKaf6A4qHZVGE60QeLTOLx+S1o8omkDsWTr
+         2/1NdgrxYzv2+1QgIXB7sBQ/Ko18NUNVh5Q6mwsksX+/qqtz/rfylDvHKPJ6Fb4wyJ7G
+         eop01EkFNj/E9H/v+yTrsHFOhP3UznSmsuFJ4SSu9fi92PlLctz0mVDAsUEwOwZvOvWV
+         8JlQ==
+X-Forwarded-Encrypted: i=1; AKwUvByw+vfuF6gOtVg268TIVSkWVWpPsEJSOmCc8VuchyYR5wQ7Z0b4WMcXwWr859zC+vX0qRmdiBEpz8dE7w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9hzk3hxHqdUBJATqQe3jHu4U8ePKThkYUg64S2JKdIYMrQ7WRb
+	Mo16IWDgwPZhUlnbPaotRpuQZ9FRzspGbwZdL8xBzk0iIT0dNAtP9P6O0C3CTFytmM0bnZzdwMQ
+	f7WJg8xKNH8uUIsxQRzbmF3L9mfLXSk4m5vLVjCPxbfJYLicbpBSGDjEveuf/5bClFA==
+X-Gm-Gg: AYBFou3bx3hX7qIUU03TnuwoWCfxrI47tVGGgxFu+K/aS739kke0jBRMzyQ9/yVyxQH
+	EpT20LWd73xZFdlVZJows6KtHkeryVeu2NUo5HgUaLrldJ0pj6XBVgmonUAGuwFDzzwRTpPDnOi
+	d3Mau0UlRE1jQTZRj95CJATRFF44N8Dj4THD0qqCXMM+s7SBtlKZZZFJ0wqgYvozQPvPPPW8Aq9
+	Hhl5kKMboHDQlsDvEEaRCedeHlii/AkwPV4EXhefXLO7xQifOXo+vz0kltApsBb4RWhTsxrOKMv
+	ckZ5TaMso3mvupzRQU3Q3slyMsejKrYIXO4btC2kiuV1Y7Rcz6H83mNiiMjlDIMzA1GXo3Uu0sw
+	qlQFntmfG+Eoenn4SXpCK5MvF/I+2cNVOqPC8mESlAurbE1l6bRZ75TqO+VsxPpBDQ0vBCgbSa1
+	KqHA==
+X-Received: by 2002:a05:6102:4485:b0:7cc:16e2:c1a8 with SMTP id ada2fe7eead31-7d2a15427d5mr1236245137.8.1793963615634;
+        Fri, 06 Nov 2026 03:13:35 -0800 (PST)
+X-Received: by 2002:a05:6102:4485:b0:7cc:16e2:c1a8 with SMTP id ada2fe7eead31-7d2a15427d5mr1236227137.8.1793963615130;
+        Fri, 06 Nov 2026 03:13:35 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8916:7b9b:97a2:6c96])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d63b79sm3183154f8f.20.2026.11.06.03.13.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 03:13:34 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Date: Fri, 06 Nov 2026 12:13:28 +0100
+Subject: [PATCH] software node: make swnodes hold their own references on
+ parents
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -75,246 +115,140 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106-swnode-race-v1-v2-1-f8bc7b14d578@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-swnode-kobject-parent-ref-v1-1-77dbd7213dd0@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAFe27WoC/x2MwQqDMBAFf0X27IJRatFfEQ9Z89puC4kkQQXx3
+ w09zsDMSQlRkWisTorYNGnwBUxd0fKx/g1WV5japu2NaXpOuw8O/AvyxZJ5tRE+c8SLO3GDDPJ
+ 8WAiVfi1Sj/97mq/rBnbpwBhrAAAA
+X-Change-ID: 20261106-swnode-kobject-parent-ref-3bd9b9b75aeb
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+        Linus Walleij <linusw@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2682;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=DgGmt26jdiGxwAImE7adK1jqciOsosJz/aF/TrpLB/M=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBq7bZddfcbboI5xx8Dq0fYn9wm1w6F0bhJ4f2/m
+ JrO6JnrpDiJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCau22XQAKCRAFnS7L/zaE
+ w7ExD/450rySapmcw3fHkBw0K+oJ+u4K6ueGWCBEvXXacPV8DfV/CRsPh0/Pa2+h0EOzqj24Yst
+ gohwb1WCCO8jICdehQPDrWPFTAoQvjHLiJSHucLL0+uBv11+LJWrsYETVaWSubOFB3IdVvvjibo
+ gHPuIB4NcBhFvNVNjzMa1XsOHGkRc7+KGnaBaAYEupV5xkxwQzfHnTjMdCwRgkmNb5X70SNRHCe
+ Mpgq4vZHcGWy7BgTySRfnzCxhQ5HON1EKvdt29CIFaL11Epn3p2TjRyOxn2+mfdJCFftOudH4gq
+ 8fZ9Ig7/MTfqsoHjgnhAvigafOahtC2ifpEEp1wqU4xrAIO0JN5jTsSlm9cFHJzNL35kp2tc9Gi
+ zCc8USU/ClhIKjScsBGqNBEqicEsME3M11o9si9EkpV/vk8VQL6Hjt34kwzgewZhipMkXPAe/bu
+ Kgw1D7/ZttH9u7pGaX9E4lxmaymhCX8SkRCtGU2cGZzwTXLlAe1qBGhnXMstDMBaexDQ8489cvJ
+ 8dJ+3IimaWBLGSAuU21qgeW1CcL+H//JJlWfz+YC0dzgoKrKv8PT0iKmLiEeceBKpE6Od2+dwJX
+ NbmzFRLozA1pWS7z2m4svnafXoGFF3KZSc/s7SRgxp7eWDf79DVfF1ywckfILDVzpiIgMCjMB3Z
+ vo2GWcI/DKTHegA==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-ORIG-GUID: aVnQrKJDKxwkFZ2coyFxW3K6y3iw6Eit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA0NCBTYWx0ZWRfX74zHX5hgYfox
+ UFNfJiphdMN7Ufm2mN3cZiaRgzfG5EoFyRf3QKZ8z9xgMK+fZRhmivEffpeBjymSEIQFOc2uKf/
+ v+UI5KdPjkBPlvwaSeJWDXv7JrminUH5+eOLr6+tS0cbpk7iAI4tPgRRjqGzswSnJuTUedE7mq3
+ QYhzigDmIi6e78WTCfHTpGRthg4bg2H/uoAwpOTBqYDLzyDf5J3MAFu5FNNfcW7WALdrmLJCho6
+ TdMETV/klHD5vUoTuI0Iia1Hxa0ge//ilb9UmLQML1Nc282JYsdems4emex760gUuJWBwg6uada
+ qIVLfxR7QVPvG2FX718QczhUIqU03p6EN0NaZoiNxyZJFr/FItlTLPPtg8gLXlDTSxr/iHNa0Df
+ yTTTLID3BpQSQOOoKXXAuqu+C+CRawurtUONmmXRv+jkTV580xNIihF3K1UKykHZesNF0BvWyKN
+ 6k+U3Oyv723tz9r3I8g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA0NCBTYWx0ZWRfX5jN+PvZEFYP3
+ u0DMgEBA/KeQu1R6TZIjSx2lrsg7VJN4o/Od+9mHTkXUx+y41QgUASwTJHgb95eiwVm+xTJksTA
+ SqlV1q/tGYQRaQjre9c1FiKPop4qLS4=
+X-Authority-Analysis: v=2.4 cv=WMzqzXsR c=1 sm=1 tr=0 ts=6aedb660 cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=c92rfblmAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=gm3xcvSgROcOYQEXUbwA:9 a=QEXdDO2ut3YA:10
+ a=crWF4MFLhNY0qMRaF8an:22 a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-GUID: aVnQrKJDKxwkFZ2coyFxW3K6y3iw6Eit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-06_03,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611060044
 
-Hi All,
-On Fri, Nov 06, 2026 at 12:38:35PM +0800, Peng Fan (OSS) wrote:
->From: Peng Fan <peng.fan@nxp.com>
->
->software_node_to_swnode() walks the kset list under list_lock, but the
->last kobject_put() drops the reference count to zero before
->kobject_cleanup() removes the object from the list. A lookup can
->therefore find a zero-ref swnode and call kobject_get() on it, which
->triggers refcount warnings and a use-after-free.
+In swnode_register(), swnode->parent is assigned before calling
+kobject_init_and_add(), which normally acquires a reference on
+parent->kobj via kobject_add_internal() that is held until after
+software_node_release() completes. However, if kobject_init_and_add()
+fails before acquiring the parent reference or drops it on error in
+kobject_add_internal(), swnode->kobj holds no reference on parent->kobj
+while swnode->parent remains set.
 
-sashiko reported issue here:
-https://lore.kernel.org/all/sashiko-outbox-200773@kernel.org/
+With CONFIG_DEBUG_KOBJECT_RELEASE enabled, the random delay in
+kobject_delayed_cleanup() may create a situation where - when
+unregistering the child node and then the parent - the parent object
+gets released before the child who's left with a dangling pointer.
 
-But this is not a new issue introduced by this series. The series only fixes
-the zero-reference lookup on swnode_kset->list for unnamed static nodes such
-as dwc3_imx_swnode. Named-node and parent/child-group re-registration after
-delayed release is a pre-existing limitation and is out of scope of this patchset.
-The parent->children list also lacks synchronization between list_add_tail()
-in swnode_register(), list_del() in software_node_release(), and child
-traversal; that is why the child-traversal patch was dropped from this series.
-We plan to address both in a separate patchset that adds proper locking/lifetime
-handling for parent->children and parent/child-group reuse.
+Acquire a refernce to the parent swnode when registering the child and
+drop it on child's release.
 
-I tend to not introduce uneccessary churn to this patchset, but if you perfer
-to have all the fixes ready, I could give a look to fix in v3.
+Cc: stable@vger.kernel.org
+Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
+Closes: https://sashiko.dev/#/bug/linux-82933c14-d212-49f1-bd2f-d4ab1e16fed7
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+ drivers/base/swnode.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Thanks
-Peng
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 84a77ffa3dc4bbcca62bbe67c3390693500b01ea..986dcb933d2c9274e9000968f115d7fccc2d103f 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -843,11 +843,12 @@ static void software_node_free(const struct software_node *node)
+ static void software_node_release(struct kobject *kobj)
+ {
+ 	struct swnode *swnode = kobj_to_swnode(kobj);
++	struct swnode *parent = swnode->parent;
+ 
+ 	fwnode_links_purge(&swnode->fwnode);
+ 
+-	if (swnode->parent) {
+-		ida_free(&swnode->parent->child_ids, swnode->id);
++	if (parent) {
++		ida_free(&parent->child_ids, swnode->id);
+ 		list_del(&swnode->entry);
+ 	} else {
+ 		ida_free(&swnode_root_ids, swnode->id);
+@@ -858,6 +859,9 @@ static void software_node_release(struct kobject *kobj)
+ 
+ 	ida_destroy(&swnode->child_ids);
+ 	kfree(swnode);
++
++	if (parent)
++		swnode_put(parent);
+ }
+ 
+ static const struct kobj_type software_node_type = {
+@@ -885,7 +889,7 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 
+ 	swnode->id = ret;
+ 	swnode->node = node;
+-	swnode->parent = parent;
++	swnode->parent = parent ? swnode_get(parent) : NULL;
+ 	swnode->kobj.kset = swnode_kset;
+ 	fwnode_init(&swnode->fwnode, &software_node_ops);
+ 
 
->
->One way to hit this is the dwc3-imx driver on i.MX95: when
->dwc3_core_probe() returns -EPROBE_DEFER, dwc3_imx_probe() removes the
->static software node from the device, and the deferred probe retry
->immediately adds the same node again. The previous swnode is still
->waiting for its release callback, and CONFIG_DEBUG_KOBJECT_RELEASE makes
->the window large and deterministic.
->
->Fix the lookup by acquiring references with kobject_get_unless_zero()
->and skipping objects that are already in their release path. Use a
->reference-returning variant for callers that keep the node (register and
->device_add_software_node()) and keep a borrowed-pointer variant for
->software_node_fwnode() and software_node_unregister().
->
->To avoid looking the node up again after registration,
->software_node_register() now uses an internal helper that returns the
->newly created swnode reference, and device_add_software_node() consumes
->that reference directly.
->
->Fixes: 80488a6b1d3c ("software node: Add support for static node descriptors")
->Signed-off-by: Peng Fan <peng.fan@nxp.com>
->---
-> drivers/base/swnode.c | 122 +++++++++++++++++++++++++++++++++++---------------
-> 1 file changed, 86 insertions(+), 36 deletions(-)
->
->diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
->index 84a77ffa3dc4b..965e960156876 100644
->--- a/drivers/base/swnode.c
->+++ b/drivers/base/swnode.c
->@@ -75,8 +75,36 @@ static inline struct swnode *dev_to_swnode(struct device *dev)
-> 	return to_swnode(fwnode);
-> }
-> 
->+static struct swnode *swnode_get(struct swnode *swnode)
->+{
->+	kobject_get(&swnode->kobj);
->+
->+	return swnode;
->+}
->+
->+static void swnode_put(struct swnode *swnode)
->+{
->+	kobject_put(&swnode->kobj);
->+}
->+
->+static struct swnode *swnode_get_unless_zero(struct swnode *swnode)
->+{
->+	if (!kobject_get_unless_zero(&swnode->kobj))
->+		return NULL;
->+
->+	return swnode;
->+}
->+
->+/*
->+ * Find the swnode registered for @node and return it with a new reference.
->+ *
->+ * A kobject remains on the kset list until its release callback runs, so an
->+ * entry whose last reference has already been dropped can still be found
->+ * here.  Use kobject_get_unless_zero() to skip such objects instead of
->+ * resurrecting them.
->+ */
-> static struct swnode *
->-software_node_to_swnode(const struct software_node *node)
->+software_node_to_swnode_get(const struct software_node *node)
-> {
-> 	struct swnode *swnode = NULL;
-> 	struct kobject *k;
->@@ -87,10 +115,16 @@ software_node_to_swnode(const struct software_node *node)
-> 	spin_lock(&swnode_kset->list_lock);
-> 
-> 	list_for_each_entry(k, &swnode_kset->list, entry) {
->-		swnode = kobj_to_swnode(k);
->-		if (swnode->node == node)
->-			break;
->-		swnode = NULL;
->+		struct swnode *candidate = kobj_to_swnode(k);
->+
->+		if (candidate->node != node)
->+			continue;
->+
->+		if (!swnode_get_unless_zero(candidate))
->+			continue;
->+
->+		swnode = candidate;
->+		break;
-> 	}
-> 
-> 	spin_unlock(&swnode_kset->list_lock);
->@@ -98,6 +132,21 @@ software_node_to_swnode(const struct software_node *node)
-> 	return swnode;
-> }
-> 
->+/*
->+ * Borrowed-pointer variant of software_node_to_swnode_get().  The caller must
->+ * guarantee the lifetime of @node by other means.
->+ */
->+static struct swnode *
->+software_node_to_swnode(const struct software_node *node)
->+{
->+	struct swnode *swnode = software_node_to_swnode_get(node);
->+
->+	if (swnode)
->+		swnode_put(swnode);
->+
->+	return swnode;
->+}
->+
-> const struct software_node *to_software_node(const struct fwnode_handle *fwnode)
-> {
-> 	const struct swnode *swnode = to_swnode(fwnode);
->@@ -374,18 +423,6 @@ EXPORT_SYMBOL_GPL(property_entries_free);
-> /* -------------------------------------------------------------------------- */
-> /* fwnode operations */
-> 
->-static struct swnode *swnode_get(struct swnode *swnode)
->-{
->-	kobject_get(&swnode->kobj);
->-
->-	return swnode;
->-}
->-
->-static void swnode_put(struct swnode *swnode)
->-{
->-	kobject_put(&swnode->kobj);
->-}
->-
-> static struct fwnode_handle *software_node_get(struct fwnode_handle *fwnode)
-> {
-> 	struct swnode *swnode = swnode_get(to_swnode(fwnode));
->@@ -977,21 +1014,39 @@ void software_node_unregister_node_group(const struct software_node * const *nod
-> }
-> EXPORT_SYMBOL_GPL(software_node_unregister_node_group);
-> 
->+static struct swnode *
->+software_node_register_node(const struct software_node *node)
->+{
->+	struct swnode *parent, *swnode;
->+	struct fwnode_handle *fwnode;
->+
->+	swnode = software_node_to_swnode_get(node);
->+	if (swnode) {
->+		swnode_put(swnode);
->+		return ERR_PTR(-EEXIST);
->+	}
->+
->+	parent = software_node_to_swnode_get(node->parent);
->+	if (node->parent && !parent)
->+		return ERR_PTR(-EINVAL);
->+
->+	fwnode = swnode_register(node, parent, 0);
->+	if (parent)
->+		swnode_put(parent);
->+
->+	if (IS_ERR(fwnode))
->+		return ERR_CAST(fwnode);
->+
->+	return to_swnode(fwnode);
->+}
->+
-> /**
->  * software_node_register - Register static software node
->  * @node: The software node to be registered
->  */
-> int software_node_register(const struct software_node *node)
-> {
->-	struct swnode *parent = software_node_to_swnode(node->parent);
->-
->-	if (software_node_to_swnode(node))
->-		return -EEXIST;
->-
->-	if (node->parent && !parent)
->-		return -EINVAL;
->-
->-	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
->+	return PTR_ERR_OR_ZERO(software_node_register_node(node));
-> }
-> EXPORT_SYMBOL_GPL(software_node_register);
-> 
->@@ -1061,21 +1116,16 @@ EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
-> int device_add_software_node(struct device *dev, const struct software_node *node)
-> {
-> 	struct swnode *swnode;
->-	int ret;
-> 
-> 	/* Only one software node per device. */
-> 	if (dev_to_swnode(dev))
-> 		return -EBUSY;
-> 
->-	swnode = software_node_to_swnode(node);
->-	if (swnode) {
->-		swnode_get(swnode);
->-	} else {
->-		ret = software_node_register(node);
->-		if (ret)
->-			return ret;
->-
->-		swnode = software_node_to_swnode(node);
->+	swnode = software_node_to_swnode_get(node);
->+	if (!swnode) {
->+		swnode = software_node_register_node(node);
->+		if (IS_ERR(swnode))
->+			return PTR_ERR(swnode);
-> 	}
-> 
-> 	set_secondary_fwnode(dev, &swnode->fwnode);
->
->-- 
->2.34.1
->
->
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261106-swnode-kobject-parent-ref-3bd9b9b75aeb
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
