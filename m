@@ -1,59 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794135955;
-	b=1IKPt6QFp0+xqE0OwtLVcB/uMkxpylxGirtnM88AUR1sGLvlGjDv0zsXI6Q/hgtzQ0ka
-	 sPvnup9Q6uUS3r/TyY/5RcfyuQ0/NtqSPQ0qDGpjm5S5Hg7xM59bSo2GG+igvNY6SrBrY
-	 3TtSX8IP2GMGv3wuAMDk1cZ5jWH1vZe0xuO+Bqs6MPURup9sltOPEoCdE9eLe+QIvqILz
-	 RwFHPisfpJpNPtfHNukbQozL+z8kBR0SvSjrqd3SBKU3kaT2inBbV3Mfn4ayljvbm1fGB
-	 OAzl05grpqPNq50zkAVdKljrmhLevVqxVRI0Are1M6SFaZwQ7x5FDR072DwouKPDbow==
+	t=1794136154;
+	b=l1skM2H6YGtYQuaaILNdCsvpZ6qCIT8aKpK3+CXVBWuBnLcIv2+iJT+9PY3I5bFaszms
+	 5hGhhWM/RPJK2MnLHR2zKz+pDs8tc6Zv3EaIVNC31Tp6fKMVL6Ff/Qa4a6SIIsEJGytca
+	 bQKMwSaP5UMpfY4sRcdDJ5rZptHykZ4F4l7QRar9ACco4fYYjeibyYAcC28lU3r1LG0AF
+	 BBfuM/tQYS8mko/u38oEStvC/IShILZMOL0Noit3CK5guQz7oSd4WGvciy2wzXsQAjCQf
+	 mMtX73ZOVOLk8s2w/KIOnDxF3LF+yITMLJkrSor86KuuTZ7GaC17xsZURANqrsx0WBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794135955;
-	h=DMARC-Filter:Received:Received:Date:From:To:cc:Subject:In-Reply-To:
-	 Message-ID:References:User-Agent:MIME-Version:Content-Type;
-	bh=3DMCEU9uJLN9UYqXvXMsQsanZjfeIlMfMgFvG1PBcwc=;
-	b=Hah8knxcg9v7ni5P6uYSFuYndAhkLlruUwkrWm0pX/QLOkXppMFvhxalqeuFJvGD7wM5
-	 wWnJe3i8GtgwRNtcYRQnJmgtBlDLPTPZsz+14KjbsEjaSDUfZ2w+/5maatJS9uyP84hXR
-	 OywVyzIaVTkOfdiaO1nFVbV8BAUQqonhuUJWzA04qYIe6wujSDa0AHiRk6wUdtNTn413m
-	 XblAoWZ8Bqr4YkWMsBvG4KXbqemk5+tttIGXd4r7X+Vno6XIGHjuAqRA1HdsZa1sZ10V+
-	 Hv3K7ITC5IDifX4MBacTF9BVL56q9ahLgPS+vsp9Co8CamLUqLoCnDg5NQ4KPzzg+mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794136154;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
+	b=1ZRCRebOhBeS7O8eGQabP124RSjWW59es5u+++aT5TCVmq69xg1SbVKqyDGN7QtVSF1t
+	 5sHQ8lkim3CEQfkw3JHrlaBxVdP/6L0M0M+VLDx7x72/DWrE9g34buOXaXkksBg2JqU4j
+	 nxAGA7kAFiyGB4QVsoQSp/2+6kZ36uI6ertqwTFbYqmWTVrqZboP3VrBbsZut/rHNmuWD
+	 DMv+bmNZkEsRXoJny/S4Qz6V5mbrM8sjx37bnusqfqUmBvOy+aCyHiQierIQ1yMVaUkHP
+	 7dkhlQ4LcGjczgLce5Ynd5bHZhsQQwpnBln+5KZyr7wDFH5WNtjJK3DvdhT6/O/N77g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=orcam.me.uk;
-	spf=none smtp.mailfrom=orcam.me.uk;
-	arc=none smtp.remote-ip=78.133.224.34
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD0F606A321
-	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 11:05:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FD0F606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 7A12C92009E; Sun,  8 Nov 2026 12:05:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 73FC692009C;
-	Sun,  8 Nov 2026 11:05:51 +0000 (GMT)
-Date: Sun, 8 Nov 2026 11:05:51 +0000 (GMT)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Alejandro Colomar <alx@kernel.org>
-cc: Alejandro Colomar <alx+linux-hardening@kernel.org>, 
-    Geert Uytterhoeven <geert@linux-m68k.org>, andy@kernel.org, 
-    bartosz.golaszewski@oss.qualcomm.com, brgl@kernel.org, dakr@kernel.org, 
-    devicetree@vger.kernel.org, djrscally@gmail.com, 
-    driver-core@lists.linux.dev, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    heikki.krogerus@linux.intel.com, hverkuil-cisco@xs4all.nl, joe@perches.com, 
-    johan@kernel.org, kees@kernel.org, laurent.pinchart@ideasonboard.com, 
-    lenb@kernel.org, linusw@kernel.org, linux-acpi@vger.kernel.org, 
-    linux-gpio@vger.kernel.org, linux-hardening@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, namhyung@kernel.org, rafael@kernel.org, 
-    robh@kernel.org, rostedt@goodmis.org, sakari.ailus@linux.intel.com, 
-    saravanak@kernel.org, schwab@linux-m68k.org, 
-    Linus Torvalds <torvalds@linux-foundation.org>, zanussi@kernel.org
-Subject: Re: [PATCH v2 1/2] string: Add strprefix(), and deprecate
- str_has_prefix()
-In-Reply-To: <au7TvMP0YhW2e_oM@debian>
-Message-ID: <alpine.DEB.2.21.2611071115110.17804@angie.orcam.me.uk>
-References: <d3b325ecefd1d991ca25a4de2a859353f3ad7cfb.1793882260.git.alx@kernel.org> <20261105125154.83478-1-geert@linux-m68k.org> <aux8LYQkGSNjCGHv@devuan> <alpine.DEB.2.21.2611070223510.17804@angie.orcam.me.uk> <au7TvMP0YhW2e_oM@debian>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CF4606A31C;
+	Sun,  8 Nov 2026 11:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFD11F008A1;
+	Sun,  8 Nov 2026 11:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794136153;
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=N0YYA4cpwk2rSpGMMYuOqSqMumav/sn0wLJeni7+D5sRDUh6oQesbQll0590AxfPg
+	 YHZL34AcSy3m/oA/+Mg50SxmE2ticTBJ0JeVPjSjHFm7kxxRs5L8DQMA7BTnLRn9Qu
+	 2ZAZr5kKEMP1mX37TLY8VAg7PQwGUVqeJOcMERAGlH5l3zZZEjSFO6rqxrHnW3bvxF
+	 j8U2+HgWFrfZqDiA8t9jLRXdMwzd73OoApHczJMktKFXOELRAAGT46mdFrtZFBMPZ4
+	 MVG5MgmA0/z1plVr0CdzxGC6RsARpcD0nOIKT0WnIOzRGRQJttYGclefHMO9alDFAo
+	 8foRVxDwmD7Ew==
+Date: Sun, 8 Nov 2026 13:09:09 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <20261108110909.GA8635@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -63,48 +91,46 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 
-On Sat, 7 Nov 2026, Alejandro Colomar wrote:
-
-> Hi Maciej,
-> 
-> > Date: 2026-11-07 02:44:23+0000
-> > From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-> >
-> > On Thu, 5 Nov 2026, Alejandro Colomar wrote:
+On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> On Thu, Nov 05, 2026 at 08:44:42PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 05, 2026 at 12:24:33PM -0500, Alan Stern wrote:
+> > > On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Interface claims hold the USB device lock, but device_bind_driver()
+> > > > requires the target interface lock. Without it, trust-policy writes can
+> > > > race admission.
+> > > 
+> > > This says nothing about usb_driver_release_refused_claim() and the code 
+> > > related to it.  It is an incomplete description of the patch.
+> > > 
+> > > Note that nothing prevents drivers from using an interface they claim 
+> > > before that interface is registered.  For your scheme to work properly, 
+> > > you should make sure the claim is authorized when 
+> > > usb_driver_claim_interface() is called, not when the interface is 
+> > > registered.
 > > 
-> > > Do you think strafterprefix() would be better?  Do you have any other
-> > > suggestions?
-> > 
-> >  FWIW strsuffix() seems an obvious choice to me.  After all what the API 
-> > does is request the string's suffix beyond the specified leading part.
+> > This patch is unrelated to authorization;
 > 
-> Actually, strsuffix() is something else:
-> 
-> 	char *
-> 	strsuffix_(const char *str, const char *suffix)
-> 	{
-> 		ptrdiff_t  off;
-> 
-> 		off = strlen(str) - strlen(suffix);
-> 		if (off < 0)
-> 			return NULL;
-> 
-> 		if (!streq(str + off, suffix))
-> 			return NULL;
-> 
-> 		return str + off;
-> 	}
-> 
-> It finds the start of a suffix in a string.  That is:
-> 
-> 	strcmp(strsuffix("foobar", "bar"), "bar") == 0;
+> I meant "authorization" in its generic sense.  When you don't trust 
+> something, you don't authorize it to do anything.  Pretend I had written 
+> "the interface being claimed is trusted" in place of "the claim is 
+> authorized" above.
 
- Hmm, I'd have called that strskipto().  If that's not possible for some 
-reason (I can't see it used in Linux), then strskip() or strskipover() 
-could be used for this API.
+I will combine existing USB authorization scheme with device trust in v2.
 
- FWIW,
+> 
+> >  it ensures that the lock is
+> > acquired when the driver is bound.
+> 
+> That may have been your intention when the patch was created, but if you 
+> read the patch you'll see that it includes a whole bunch of material 
+> not related to locking during binding.  Namely, this part:
 
-  Maciej
+Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
+
+Thanks
