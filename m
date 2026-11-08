@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794107813;
-	b=x8G20WTF2d5QBicIlN+vCbYc/vlPupfkfXRN8c27RisOwF4qiFaIA83VtjtOmfmDnlZt
-	 xzgmtV7NGYVo60zrjQVJFvagHrIoV4LIU/QZ9njPouNQQtqGJuuhBEcOaWh81sN7CmSoB
-	 5VlPvaNZiF6UuUB8AZso8CICTNaruagjtpHQ4HeorRIgXHnOoAVYa3WfiluybLTorSYW+
-	 EADObOrqt5Qryt6bjUAHaKXxptfbVpO5YXipMacZFG1L43XaCvbud3vLn3j0G2Ux0BwZ3
-	 DB/C8fvSXgRNSUTHqfuFDdLW3gkZ2FMt9WPGC2kvrV8L0GRHGWAe00SpqTSzQDJUo7Q==
+	t=1794107974;
+	b=yK3Q25/Qf7NOoNbaRgIlyleEZHt2b60v+sdWZF00XZN3lZmzzbtHhIrJ7r9NZ2+ne1Qd
+	 ptd5DdhpuCicSXjIoVFO+13HrO14d7PCvovveeJzSF0RkNszvCPZpG9To5VIlW94rVug2
+	 mBTgxvSDx3/jnahnaM/GrenpuxpYxkns5C3jKRl6MfrSzPTvfW+Np8RyPuSsD5gDFXPPl
+	 30RnGnkhNzJke0BmBTSjo9GR/KI31OkdPUOcUx0hjx5ZppB4+qtNq+MuXkiYER5n6OVkC
+	 a/7diIeiI7TNZp+pkU0kCHNnBH7mSkz/NOGlGvOf2n6y3Mq2XNPDZjAK9wvkf5/vtUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794107813;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794107974;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:User-Agent;
-	bh=CYbXanoVIznje4wNLs5CNwhXIty16UVDrSGIc7iuqrM=;
-	b=YeUvverEMyNhR35NRngPzK5QY9srRMYaSx1F63dF7emDg7YPB5H8cwrl2kpOLHVawhaS
-	 I2r0GoaM9eJ2LYlldUytaNOaBIQ+eTtQKQvqr52h076vZCFsdLljrjR1TXYCfMCCWFML0
-	 bJkNuBdwq+CibyfoBtQv2dW54baphD8I5qOkjoREjYx7AiVOXJqNlBkkOo9rrOzKT7/Kg
-	 xp8RGW5K7r1QSeFAgYa8bYkd6Dh+Ojzt4jWttCWJgVQNrjOB2R+0jB9v4oWK9mMsz0Lxn
-	 BhITuzFWJ1R08g8Qwh+CquitlT4n8KCdwPZYMD+OCYPrDm6LER/ydtpRFWL6OU4zNVw==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=U6DLFlcbi1+1eg52kgp9yC9/Uu8qOaRC/eauhKtdYFw=;
+	b=csKwbDwy+51hzbvqok02nDJ3l24xnj1RXA92ddSoTpHnNoc21QN9mfNNoZ7lbH3pj71k
+	 LVYPqI/3GshoUQcI4fOkQiC4jAshF2oBJwtaDqLHMq/Q5eRPjKjvE9Q0jfQOp4UqaTb/9
+	 5gtwvPLkvSugrRsAxRPoFcPQSjPAawTr+731iW3e6hEml1vHuwTwrM1p9BbuO+ZeqenQ6
+	 Zw8rsASdGInQH/BuMpL8epfulWhY4UbHj62Ca/N6SMrF2x3G5yn5/b0dexvwb0uBJj3YN
+	 HbvZDgth9i8dDxNjLdziCjJWlSLbthszh25M23QVqvmbLqMXpsTKHpncY9pIXOhV0Iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JE5TgDKY;
-	arc=none smtp.remote-ip=209.85.216.54
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=TJeWBxnW;
+	arc=none smtp.remote-ip=209.85.214.176
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593BB606A31D
-	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 03:16:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 593BB606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25007606A31A
+	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 03:19:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25007606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JE5TgDKY
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso100125a91.1
-        for <driver-core@lists.linux.dev>; Sat, 07 Nov 2026 19:16:52 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=TJeWBxnW
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ed1e9ae5a8so370145ad.1
+        for <driver-core@lists.linux.dev>; Sat, 07 Nov 2026 19:19:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794107812; x=1794712612; darn=lists.linux.dev;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CYbXanoVIznje4wNLs5CNwhXIty16UVDrSGIc7iuqrM=;
-        b=JE5TgDKYZ3AnN5gRp6ayKpnObDEPc83zo83rloo9RoGVhGr8EdabZDKgffHMNdlC7M
-         aPHhce+fSIr0Qpmh68RuY73s0mk7wwa4UxaxfLHZ2eVEFVkfR/jpOaV4MYr6MVj+Yk5N
-         k6GKikf4S9XomRlPsEyUbob/YVZTe4aJejblI=
+        d=chrisdown.name; s=google; t=1794107973; x=1794712773; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=U6DLFlcbi1+1eg52kgp9yC9/Uu8qOaRC/eauhKtdYFw=;
+        b=TJeWBxnWpiSHxST8Ec2L8lXHVdf6uCgA+5w4/catiWM1AtO3hkGz0e0TAyBtJG0f/S
+         S2J13tq/U0kTy6Dvnm0K9aaDFatiusszVvDgvtKvzKGOKlzsgGkWflTO4k+ip9cw+Td3
+         9cuE3EslYoiuDoD72n5Z9uwJCuaexF0p13+i0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794107812; x=1794712612;
-        h=user-agent:content-disposition:content-type:mime-version:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=CYbXanoVIznje4wNLs5CNwhXIty16UVDrSGIc7iuqrM=;
-        b=DzYhHmGqSiYQ3CaIJBhPt7ye0Lxi04irccwNtM4+V0tmbob7naV+AUZc8UzpIhYxHm
-         43YOlj8dDKPbLKKllOgmBLqdWQUesoChMH1eBHp4VqKzUT22IZviqga8067orJu5Y1mq
-         SkJAMRIZlQp9PrNTs8l+z6ZhLlQ8KIe/89cfWpveueXWzovWVvgHnzGMjbr3G8+xQ8cS
-         Rn09C3P7qPvBWDm/YWqPLULBvGIJCoYVw8g1UgYZd00cOjVV4r47pxJDrZ4/ZXIt6E7L
-         JSLS6rpllgwVyGjBFZcLO7+Yr015WRd0Xphq0uHI8BQvmvOrT6MXViNQKC8iodht80xu
-         9vqA==
-X-Forwarded-Encrypted: i=1; AL+hErEOxHfZuR7rUtEOnIbS7pj0A0RlIO7r+vn1bsc18TsNJDejxym8R8Ekvlrh+kMXMoCuzL+THQtR81mFGQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8BoK5OjjMq5F/wO9Zfa8eZu97qX58NY+9WWgLP1U9fPPjFss1n
-	9r2NO+RsRgVhzXbMD8HcbexjZUlvT65N43WW15RvaLoR2LNg8x0NNOPzrJfBA5qZV+s=
-X-Gm-Gg: AYBFou2OojYyZAErPfDUj5MooBEj7lImibsk1qw+bGIK6VF9AjZE3YbIfn/e3W6zwl7
-	olDlizxhtoqkCh8uNn90nm/e3QQ4avkK1dXSJLnddjcM1Wta+/fuQ0dj4DhOQR87FtDyixpme7d
-	uqhNFf1FysK013rtdZmK8LtCCV37BqQF+3nDBnp3Eg9H/jJfybOK2oQtq4fJFlPm3KKeyeIGpXV
-	xoOjAHr3YbJ+or3A2SfcPf5HxF7eLqgUXfFgvvRQndm9CjvCkxvO+fNxdSA5Fa0WCj93SeAFYub
-	Ehs3TJjPXQiA8KHEcBIX9zTa9ij3zm58jLfn3qr1k1CV2fjQF0GEUe0eEivh0ZrzsR48GqrkO5g
-	iGcWUDfy7XRjojuTvuatVu1RdaYJAG8B4IPxbVjEsnPZkVkprhd0cFGosUNH62rOofYlqU3H3S9
-	j7BapidXu1LtzvKTqHuG/Y4BiKD9l+S2w+IGC2Yd5QcVEw+6nx6A9WmcCS02nqOSfPu4v1i2COv
-	shNO5r1MWUm92NIEansZmInpAytf0bCxE68HbtEGywHAH7SQD+oPsOZoHFnu++LumwMF+xfYSkN
-	qvLZwCri6IdwjFBSu50rKsNFzuOCPKdT1EZ4eg8mPvJembyVBKczV/xi3Ofj+OY0IA04Z/XmPLt
-	a7QJA7h4EJQ0i681prrWMzCNjJiH9IwhXLHFlcfuStOJB21e9Uv+/g7RMOa85/5d+Rexm5UV6eu
-	5SoRr8mWsaiJOCyEnvfiNHG99i9LtN39Br+KQjX3C4fuqJwybyWlZA
-X-Received: by 2002:a17:90b:274b:b0:3a4:77b8:1770 with SMTP id 98e67ed59e1d1-3b12d3cbd66mr374011a91.15.1794107811685;
-        Sat, 07 Nov 2026 19:16:51 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794107973; x=1794712773;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=U6DLFlcbi1+1eg52kgp9yC9/Uu8qOaRC/eauhKtdYFw=;
+        b=wlbR3xN4fZf49nQRyZ4v4AbgCV+67Ca4p8LU+arHeT53SACwSE7OVz138PghBmHhxN
+         Nc68efYqC9kUM7YKWzKjtESjZRbRY9U36syIxUM9IGNXQRE5E4aY109gPCtffcwW2zv4
+         /uofWdX7mlPo1pLZzOo8jnEIbiYlM3r6980OATowdXiGz5UZ2VxKFJaz2vDusxGIx0Pg
+         zCz7yugRp+8fWeQVd2vMLPjT1MRvzvixcCmrEWLQoeeMEDh0gy1RDjCd9FyrulIg9CZ4
+         /WqtrD1+oxQzrtPoBG2Tqp7aMMqpBPtDkSiPvcNMr3Qll2YzcKFGSgtHTT+aULkWIRKp
+         YeXw==
+X-Forwarded-Encrypted: i=1; AL+hErGDMNhFyUMvLq/k/DJC0YVemsszKH2vM/TUipZuC0zJ2I7uWFu7tjuqbf2pfUK0ogalPlaTxjm+vj4PiQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+kAMNiToy/RLQJOW99NqdPdMIt4+uhrGow7AhyFJXSedZM+0j2
+	BL6C46WGnjkzWz0kt7krdXlLX9r4D/du7AQD4Nr82Ej3ujfVb7yg7nCzakAF/Z53UTU=
+X-Gm-Gg: AYBFou3HnTkmEDEaHCLwO/AP3GO2Ei3xnYSE8JN2WGDTfXEsuxfLt+Rtt0s0oA3UnA9
+	fSSZCiMIfBuga+wpgoI8UICa2PriFcwrm4wXThfjfok8LkoPrgZhZv+e5jbOWHskx629jCzmp9+
+	8il7nwe5lQTQfFty9hgYbHqLf26pDPLwRB1STahKqX3KdyXOM9vIuswmykkHHmpr2TtHt/+R7cN
+	QO5BCe7E91XGLy3vqQVoP0vskNP2qHUMEPBSXBThYD13evNmIBh6B0A4/7SJCt27JU/+skE2McI
+	QaPFV/7QvZTk7PIcsYVgYSmR57FVqIzmcM4JUqTjv2wQbdhQbBGQLN6oKfvnIhcw5crT0YAwimk
+	tsXDaLMLDKlJE5CLGEM8ZMZEv7x7/f0Bjbur6K21fxtDnTqhJTfGdSRD8NeloVXe7UHlmDpOhy3
+	15C159zq40NFHkBfVSRvfEXHcLeZsWMUdA4oqHE1L93WSC/pYWT0Gzjr4uyJz0+XGqD3piDZ0lt
+	X77sfUK1IztAFjJiyUjmAaijjyHErzAfZZk6WUpRIFjtbBK54v3OvQGPm4Eolu7rHQ3bzLG1Qlx
+	xGhe00WE65XNvVdCNvl4E9jIp7cf1XUnljeYGsvUyzZRsMRzt1QSIeyF8MSQBpwYzH3iHCJ7vjL
+	HRCmpgGe9Fmr8AJRdIAWYmmvOKDrnBxCmv32crkWPQ9emkBi25cRElaDsrWdSZ5ZAJOHTy/PRwz
+	iJpGIf37uSNGaZ73D2DgQ+GClzGxlw3OiyDmu9WNAVTUeB1Gx3n6iLkw==
+X-Received: by 2002:a17:903:3c50:b0:2e9:3f41:4212 with SMTP id d9443c01a7336-2ed8375ee02mr4790015ad.13.1794107973499;
+        Sat, 07 Nov 2026 19:19:33 -0800 (PST)
 Received: from localhost ([50.175.87.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b105864375sm5351700a91.4.2026.11.07.19.16.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed815e7416sm1411875ad.17.2026.11.07.19.19.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 19:16:49 -0800 (PST)
-Date: Sat, 7 Nov 2026 19:16:46 -0800
+        Sat, 07 Nov 2026 19:19:32 -0800 (PST)
+Date: Sat, 7 Nov 2026 19:19:31 -0800
 From: Chris Down <chris@chrisdown.name>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Tejun Heo <tj@kernel.org>
@@ -86,8 +87,9 @@ Cc: Johannes Weiner <hannes@cmpxchg.org>,
 	Serge Hallyn <serge.hallyn@ubuntu.com>, driver-core@lists.linux.dev,
 	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH] kernfs: Build paths in linear time with respect to depth
-Message-ID: <au_pnu4s141ylqHD@chrisdown.name>
+Subject: Re: [PATCH] kernfs: Build paths in linear time with respect to depth
+Message-ID: <au_qQz3C1yNFRLOL@chrisdown.name>
+References: <au_pnu4s141ylqHD@chrisdown.name>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -97,134 +99,16 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
+In-Reply-To: <au_pnu4s141ylqHD@chrisdown.name>
 User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-kernfs nodes only point to their parent. To build a path top-down,
-kernfs_path_from_node_locked() walks back up from the leaf for each
-name, so the work grows with the square of the depth. Reading
-/proc/<pid>/cgroup does this with IRQs off and css_set_lock held, so a
-read from a deep delegated subtree can hold up fork and exit elsewhere
-on the machine, which is certainly suboptimal.
+Chris Down writes:
+>Fixes: 3abb1d90f5d9 ("kernfs: make kernfs_path*() behave in the style of strlcpy()")
+>Cc: <stable@vger.kernel.org>
 
-Let's improve this by filling the buffer from the end as we walk up,
-and if the path fits, moving it into place directly.
-
-In terms of operations, with a 15,000 deep path chain and a 4 KiB
-buffer:
-
-1. Parent and name pointer reads go from 112.6 million to 75,003 with
-   this change
-2. On my machine the second read of /proc/self/cgroup takes 99.86% less
-   time.
-
-Fixes: 3abb1d90f5d9 ("kernfs: make kernfs_path*() behave in the style of strlcpy()")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
- fs/kernfs/dir.c | 61 +++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 49 insertions(+), 12 deletions(-)
-
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 800af10d9511..1ac6a5ec451b 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -94,6 +94,14 @@ static struct kernfs_node *kernfs_common_ancestor(struct kernfs_node *a,
- 	return a;
- }
- 
-+static void kernfs_reverse_path(char *buf, size_t len)
-+{
-+	size_t i;
-+
-+	for (i = 0; i < len / 2; i++)
-+		swap(buf[i], buf[len - i - 1]);
-+}
-+
- /**
-  * kernfs_path_from_node_locked - find a pseudo-absolute path to @kn_to,
-  * where kn_from is treated as root of the path.
-@@ -130,9 +138,14 @@ static int kernfs_path_from_node_locked(struct kernfs_node *kn_to,
- {
- 	struct kernfs_node *kn, *common;
- 	const char parent_str[] = "/..";
--	size_t depth_from, depth_to, len = 0;
-+	size_t depth_from, len = 0, end, pos, room, n;
-+	bool wrapped = false;
-+	const char *name;
- 	ssize_t copied;
--	int i, j;
-+	int i;
-+
-+	if (!buflen)
-+		return -E2BIG;
- 
- 	if (!kn_to)
- 		return strscpy(buf, "(null)", buflen);
-@@ -147,7 +160,6 @@ static int kernfs_path_from_node_locked(struct kernfs_node *kn_to,
- 	if (WARN_ON(!common))
- 		return -EINVAL;
- 
--	depth_to = kernfs_depth(common, kn_to);
- 	depth_from = kernfs_depth(common, kn_from);
- 
- 	buf[0] = '\0';
-@@ -159,18 +171,43 @@ static int kernfs_path_from_node_locked(struct kernfs_node *kn_to,
- 		len += copied;
- 	}
- 
--	/* Calculate how many bytes we need for the rest */
--	for (i = depth_to - 1; i >= 0; i--) {
--		const char *name;
--
--		for (kn = kn_to, j = 0; j < i; j++)
--			kn = rcu_dereference(kn->__parent);
--
-+	/*
-+	 * We can only walk towards the root. Fill from the end and wrap
-+	 * so that if the path is too long we keep its first bytes.
-+	 */
-+	end = buflen - 1;
-+	room = end - len;
-+	if (!room)
-+		return len;
-+
-+	pos = end;
-+	buf[end] = '\0';
-+	for (kn = kn_to; kn != common; kn = rcu_dereference(kn->__parent)) {
- 		name = rcu_dereference(kn->name);
--		len += scnprintf(buf + len, buflen - len, "/%s", name);
-+		n = min(strlen(name), room - 1);
-+		if (n + 1 > pos - len) {
-+			size_t head = pos - len;
-+
-+			memcpy(buf + len, name + n - head, head);
-+			n -= head;
-+			pos = end;
-+			wrapped = true;
-+		}
-+		pos -= n;
-+		memcpy(buf + pos, name, n);
-+		buf[--pos] = '/';
-+	}
-+
-+	if (wrapped) {
-+		/* Rotate the two pieces into path order. */
-+		kernfs_reverse_path(buf + len, pos - len);
-+		kernfs_reverse_path(buf + pos, end - pos);
-+		kernfs_reverse_path(buf + len, room);
-+		return end;
- 	}
- 
--	return len;
-+	memmove(buf + len, buf + pos, end - pos + 1);
-+	return len + (end - pos);
- }
- 
- /**
-
-base-commit: a42ae51fe3c36cef82dc687ea594ca232a785fd4
--- 
-2.54.0
-
+Note, I am not sure whether this is worthy of stable. But I have noticed that 
+in some cases this build time can be pretty substantial with these locks held. 
+But on the other hand it has been like this for quite a while, so maybe it 
+doesn't matter :-)
