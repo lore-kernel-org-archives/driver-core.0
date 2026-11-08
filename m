@@ -1,87 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794154345;
-	b=fQZmaM2sjOp0lSR2h1MOn7pBQZsn5Yo8gFGyGjazfuJu1lBbiEJ7SX5O8MOi26kJ1Q/S
-	 0g3Lp43eAcZa6cyeH8To8uMbNN7ANGCpfwuhGmaDFICc5y8FH8l9oyMOccCTHCbxzZ73B
-	 DGqu2DqkIJ89+43XoNcvz0DsG15Tx1gD6W/oTErbK9loeL9NDP3Rs1vlZXrD62o01bYLY
-	 M25wNmrjtVZSJXd9W0MW5eTbMziFj3i8YihHa49THuUJSG4CzMiZr/TL5dhFB2FOUftVd
-	 Cw/YRsAy7rfnaNTyLT8UKO1X60R/FSBpvbUR6gb1R19zzLoLd3ftulEYhsy3B65robw==
+	t=1794157159;
+	b=DrAY5SEiuRmvm59lUdT61PoMtTn4eyCkvuGiVEOEqd4embN7OyhavYHeFDeb/Ug/pNNR
+	 4K8JAbIVGvjYNhu8Rb7TcszLkF3ijkMg1egf82neruJAG/SJdVh4hsZDBG67nVu46sf5L
+	 ARAQD0mgUVo7dpXBL+bRnM+28JI92BuEZ42xTTJ0LouGJLIq7A35UfY6cTzCg3RVwHt+U
+	 cN6ZoL3Yf4GKVC8x49LJ1R5VgrciiflhBnVNbEm0lQ8LfH8Ieko+1QYOb3+rs95T4BO9b
+	 6IPaPS1i3SC4cnYFvYtzSZC4DhThUrG2Wz6OtA09wY6/A1CjvFTMbauCatUJ2PM91vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794154345;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794157159;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=3dQexnH2CQPCd6uomqpp+F0/o0hfCHm4JSVgBUNYqmk=;
-	b=d0Vo7xwqIaseadRihilZ0lxRGS9reM6HYbjQQNAGyTtXfxM06PgmaNGpKTbOFxjQD8y+
-	 CJYbjR+rV6qXksE+kkT1RqgfZVvJ7fBtr3HNPuiDSQBFTOiWl38OgFRkwpH74X7qC7cax
-	 SONEKvtZ2mpzw8dILTOr4tYqtBre9KdutLbcrS0Zyn3sp0svxsB8GPhi98V7P74SYjDry
-	 XhqdD0CJlMp2mHRhhdLWG1aQtxfrV+a0UVBY7uCYsbIHnZ0b50bpD+C0x+jizo3Xd48jv
-	 6fPayWbWRfTtnihhMeIuUtgGEIB8Wgh0rZfQSRy+M5Tgv2OeHtNtaEiaSmw9k/vP4rA==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+	b=vwmB2TlvnC6k0F7Zeu0PadJTW6qDy+bjv+XCzSSz3llXA+BUwJbmuFmZAOfdTdebgPtR
+	 eh7hU/HHjDbi4lzvAG2kygG+1kY09LrgQZ98F/za2jGRkva5M02A7vb5VSzT7PvNhzYlV
+	 CMVmMj2Cs/6pCWKS36+n+5VTmaSzzFq3qJAw/SRX8Qo34cEq9Id9MQp5nJf8DW5cRrVe5
+	 NchbMztetAsw2Wd+lDdy9L6ISgN+z1mPPvbrnMFPcuExNNWwf5c3fo/yrVMkVnLDc53me
+	 ulqZyn2j/r8IhOAos/NC7vpaLX6hPvmDvqqHQyf3slBEc+ayzDsmY7Wu71Q0t0cePQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i5nH+ljB;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dmarc=fail header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	arc=none smtp.remote-ip=209.85.219.49
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3D1606A31C
-	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 16:12:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E3D1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i5nH+ljB
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so1938705e9.3
-        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 08:12:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016FF606A330
+	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 16:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 016FF606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-91eb57468feso1719876d6.1
+        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 08:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794154344; x=1794759144; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3dQexnH2CQPCd6uomqpp+F0/o0hfCHm4JSVgBUNYqmk=;
-        b=i5nH+ljBCYh0UBDpLdmZp9vuN0CbPMPiNn2nZ+c+ZVwwR/Zd8XIi7IYEVOO4YYyHzj
-         wX6OjpUMAmJ/nBLGXTa7M/Br1sCekLJ/zf3HqGX0BmGRBIgD9Njt7RCXSzvwSBRsb/sb
-         uAyufpuSDf+TZYkYf0LDg5CymMdXVGvq8Adl8WcMk0QqJzkkgDhLFL4xVi4oS7p+/wma
-         hLvCMkgWbybfxEy9kN8PhZB4TQPH0v04lAdvWjAjQrOrcBc5N/9KgqhTM77FtDxOZUgu
-         jh20YiS+iK/VzqJ6j4tYBBWtPhVMEJsVjSOtOlH2cHs7uCDeSZqJ6A3rxD9RAqPz3km3
-         9Dew==
+        d=rowland.harvard.edu; s=google; t=1794157158; x=1794761958; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=TQOS5doud00tkS6qBnEOKRQCvE1/93V/TCUt0drTiMBaxn8/7sVyyDzftJhcPX4GGb
+         br3GEWLP+mtdYGvT8xobLggmVEYkMUaZCUV/hBTrPk5kAuGm4XCmLf4LDdF5cHcbsBvW
+         9V7hPCimT/HdE6lYrOT53MTo26XkLZutl5m0srsCzfMRs+xDzW0kfbsb5qkef5s48iaC
+         kuPyLliQ7dXySkF1ctBFxJLqKBASrsTPLm+AXhcGPTow3yHqFMSFu2Z2ar75C7Uj9ylZ
+         vPvScF0hIRhBVrWyKEYWZYr495q9NyFacEiRrwc28CIgagESWy8Mj3JMaBNUIK1U0Ssk
+         LjRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794154344; x=1794759144;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3dQexnH2CQPCd6uomqpp+F0/o0hfCHm4JSVgBUNYqmk=;
-        b=Nek5u4JiwRC5H/nKU1O0fV1QAbgN933omOdmhlxkkFNpJATk3NYxOubp++O7QvRvCJ
-         GTtBiF8I35Ch3fg9PPfEJAi0l7VbuwS4J0wTrZ3+gzaFBjq37d0N5lgfkJ5kIWo5xjsd
-         RlETsL7itxdR+UzSEfv8M/caqcXhEEkwYSMgDkGYwQE0sBDQjhshGhSai7td04FfO1le
-         bASyQvd8x/4fXoceG8xdgcz0xVoXezLQGTQE90YG3KaHME+GK45mbXingp9YjsRvFAH8
-         Pu7QaW8VIE7z9eNRqU64Zjuup97PZyVVqD5DVTTl9foDzH93sGMlOnMcVKZQeAI6UhgN
-         4sMg==
-X-Forwarded-Encrypted: i=1; AL+hErE49IcE0bc6nMfZbJU27Xiqi2Y+oenUpuPVxannU4KTpvpLIW8RC/H1scm+5KdUXxkJDgxOum9I+Y/Miw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/EA779kXcj/h8mbGJ99jnYp9cg7IJ3jL8ATtSLg3z1gFBOWBXn
-	huI9mHZ8YCEZzfWiVIc47p5tQbfsCDST7ATdoZkwEfzezirUXFGE1y69
-X-Gm-Gg: AYBFou2vV6+gn+s0+1XDYaG4sJXzd903RQ4FAGoIfUf0yAGRxm31hWLlBDwBidnoucN
-	vqB0jJ/4+nO/5sXwYAGQcuA7Qf1FoK/rH4d04ceSqO/XmOYHhRaP+vQNXB47auKq7YJLk5sjCFz
-	L/dY+/I7H3BMy1+v041oqpEwuB+iw0a2qDqa6taO3Pe1Js7W4tQIbJlVMNlV8IHAcFYdTJVOt9H
-	JLnqsCMNrO/IX7IAh6Sf6uIGb4vO1OKclAX3iy93I9v76eLHoS21dBRbVRIU31bkckLN9+mLyaD
-	9rOQgJ/Y+Fb3QmA0Tmsl9WOAozLQTymGJ3hcAly6dGWlfafFEfrdykKCwH8FbK6dszGe1XVcknc
-	PlJQ2XZT6ZFtKg8AhVw8KonFzmFoP16Rd4pqKKP0aDHT6KVUo1jBE8L7l3+7SjHkEz/4aB05yOO
-	LQS+1u1mEmfxeVsM5JEbaw6Sft8VA9ooYKmYj2Pir33pUKYfD6UY5RWP7stDyg0vo6mfzM13SCB
-	oaMxZm2Pgs2su8lY4fkZeboUOvUIEByQGRpa0Tp+oEqQCQnuUnDd+qxM03lmQdTM3s5QALVz1X/
-	cSZDQOGnufPCtv3UhLDsbFWPtDcVu3wkhJhQDWHfHIwroWTECoEQGI+4RizT2sKNDKciPNgd4H2
-	c13BV/BBHMJ51Yf3anZq2AD2Dl2j6iuaNqLp+7N9gM9kfJCQ5q+B5Z3qCjLHvWhrfXUw=
-X-Received: by 2002:a05:600c:1d08:b0:4a9:2a92:231f with SMTP id 5b1f17b1804b1-4b960d9b26amr34842195e9.7.1794154343463;
-        Sun, 08 Nov 2026 08:12:23 -0800 (PST)
-Received: from ?IPV6:2003:ea:8f45:7100:cde5:5d75:8598:b64f? (p200300ea8f457100cde55d758598b64f.dip0.t-ipconnect.de. [2003:ea:8f45:7100:cde5:5d75:8598:b64f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b76cb75913sm124864075e9.0.2026.11.08.08.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Nov 2026 08:12:22 -0800 (PST)
-Message-ID: <62fcd666-ea7d-465c-87e3-9a15afd25624@gmail.com>
-Date: Sun, 8 Nov 2026 17:12:21 +0100
+        d=1e100.net; s=20260707; t=1794157158; x=1794761958;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=PIUCcWpsPaMZhKsFA3bkMFk//Emc63wAp4skbdanwMJ6hZAjTgSb4heIFBDkMkS6Ae
+         Hel1/CwmOQONUZRJuzP+b/iBT5A8RDSP7WgbI3Yod9K+WbtkHlEZhfQlFM/gauGykq93
+         KuU4bMXAPKpPWnHwvRa9s/oz7OtyRO4Bo54z8LALNio7jIFFxvdnkI8D8j4XksLlXbo5
+         xPjD03+ZBqavta+iQg6RV0C49zf4HnFFjNUlnyGMpVgB6iHh+BCZAqDrckqd0D8BJ9xX
+         p8sggdxWYH93MXUXPWY2px44LzrrqTorfDkGgk18pOeWpdwCY0yLrw97hHaAvRfvP4N/
+         m8lA==
+X-Forwarded-Encrypted: i=1; AL+hErHI3jscAFDLy2kOkdEiNNn4AoOCz31wgD7C6NpM+Y3Zm78HGB4H2hADtH+XWa6jj1fdupr/7lW4BEWZpg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8kCFgLL9JKekcq/zBFoEA/U94/HNOzWJPB1pg03QDmh2/m/9Kv
+	+MpqXEug5LSXgzQhKOTjD+qZ5+UWeeF6MdUKm0DsagddI0nH7JDm3IZAjLfVZ3qtJQ==
+X-Gm-Gg: AYBFou3R+OBdPK4MC9juR5G3DzcHwj+nonL4qSJDs/P6jCxSmpBEg5vDXvIpaS9E2WF
+	sBJL2SzMai3VQTgWrd5Ek5pcbufT1D0mMBeM4EtRXA91vRGowl2YC8PowfRoHFfJpi2vd8I72eS
+	viSDbV6YEr0kT8Y2gYEPeNUoCxEzpZJziM8DVdZ+uN001OsyY6JyaUTBBglo7qMeqL2YBWUg6gS
+	6l38Nold0tZ+M+3ZZlvAufrKNt7BjSu+JiVa7k1hG7qMU5m2aj61CLrZ6yt1CRuHq97f3XlhUVG
+	kp4M24NGjWqvhtTmFsC8ECn3xq5HP/RezB/K3RYfcSJGITJhmo3gFLbS2CzYnDaaUcDbwr5Si5y
+	EstLd48TuOKxVQGxpMKqziBDp/XYtptTbpqp/eJc15l+J+MPVYSzRauA9vR6FoL4yD++4W0441l
+	DjzWdGYOdgd8wrObEdQO+gxyduLvBZYgPtfhbulBdJaZ8qnnqpotnajW+ygr0JkHOHOrOlqDMyc
+	VHQvQ5adjgvxJhEj+EpnnSszypirklu55vJzDpNeSXLj3aKo8t1LMo0+31vNKgkDBDSlR+BjrYx
+	xXin9KFJJF9GOjEXtum9vrUSEBxO
+X-Received: by 2002:ad4:5d62:0:b0:91e:9d64:3294 with SMTP id 6a1803df08f44-91ed240d34dmr24616736d6.30.1794157157397;
+        Sun, 08 Nov 2026 08:59:17 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecedbefb2sm22431036d6.17.2026.11.08.08.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 08:59:16 -0800 (PST)
+Date: Sun, 8 Nov 2026 11:59:11 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <647f3199-909d-425f-b485-b598a18844d1@rowland.harvard.edu>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+ <20261108110909.GA8635@unreal>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -91,41 +129,48 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/2] sysfs: facilitate creating an empty
- directory
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: David Miller <davem@davemloft.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Johan Hovold <johan@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- driver-core@lists.linux.dev
-References: <0a0a7987-abb2-49c8-bc16-3938233ae9c5@gmail.com>
-Content-Language: en-US
-In-Reply-To: <0a0a7987-abb2-49c8-bc16-3938233ae9c5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108110909.GA8635@unreal>
 
-On 08.11.2026 14:44, Heiner Kallweit wrote:
-> We have use cases where an empty sysfs directory is created.
-> This requires an attribute list consisting of only the sentinal entry.
-> It takes only to modify one check to enable creating an empty directory
-> with a NULL attribute list. Use the new feature in net sysfs.
+On Sun, Nov 08, 2026 at 01:09:09PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> > >  it ensures that the lock is
+> > > acquired when the driver is bound.
+> > 
+> > That may have been your intention when the patch was created, but if you 
+> > read the patch you'll see that it includes a whole bunch of material 
+> > not related to locking during binding.  Namely, this part:
 > 
-> Proposal: Apply through netdev tree, w/ ACK from sysfs core.
-> 
-> Heiner Kallweit (2):
->   sysfs: facilitate creating an empty directory
->   net sysfs: simplify creating empty wireless directory
-> 
->  fs/sysfs/group.c     | 7 ++++---
->  net/core/net-sysfs.c | 5 -----
->  2 files changed, 4 insertions(+), 8 deletions(-)
-> 
+> Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
 
-Will be replaced with patch to remove the deprecated wireless directory.
---
-pw-bot: cr
+Obviously I'm not making my points clear.  Let me try again.
+
+The entire patch description, as you wrote it, is this:
+
+> Interface claims hold the USB device lock, but device_bind_driver()
+> requires the target interface lock. Without it, trust-policy writes  can
+> race admission.
+
+This says nothing about holding the interface lock during unbinding.  In 
+other words, it isn't a complete description of the patch.  It implies 
+that the patch changes nothing outside the device_bind_driver() 
+function, which isn't true.
+
+Furthermore, the patch does not change any of the code in 
+usb_driver_release_interface(), which is where unbinding takes place, 
+because that routine already takes the interface lock.  So to say that 
+you had to add device_lock() to `unbind` is not accurate.
+
+Instead the patch adds a new usb_driver_release_refused_claim() routine, 
+plus code in usb_set_configuration() to call the new routine.  The patch 
+description says nothing about either of these things.  Not to mention 
+the fact that your other changes make it now possible for the driver 
+core to delete an interface claim when the interface is registered, 
+something which was not possible before.  This is another inadequacy in 
+the patch description.
+
+I'm not saying that any of the code is wrong.  But the description does 
+a very bad job of explaining the new code.
+
+Alan Stern
