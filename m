@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794177584;
-	b=A8nFs62wT4V6ilrnHHlyGYLt3HFzkFuXrtfwBRKEtv94pFA3OVzJFozjRxg86z9B5mhP
-	 EBEaMnV0gcn3lvlXfcztE0EwRjYgl3+hTEDLyCsBXRE6wBDo0Jkk7HQABOykgkUnjB5Oy
-	 JFqXWY4NBr214ZdaHWYAM8xUpDU6ZCjeCbgpV6ynHgCBWwBUbmiD4d0/Dbh8TLSHtCwjp
-	 MsVyX8+v6K0YzM0eFaj3tIy37YL3xJLYXloDfSdN+7iWAu/Z/WaYO8DmLhg3SAv4vi0NV
-	 4Jike3CIO518o4ZfBPel1zYu2avRwooJXMVWcc1VzxfYM0ar7Zr19xwejKfZLUll4zA==
+	t=1794177592;
+	b=nBA2VOjxldM28c1619+1DEFpj6cEsd4i97fQqSNRHERo9c7qrUbE4hvlSPYTm9WdmfDk
+	 KV5GKn+30e0UdPlw0/BMBeDP8EgWhuywdqEjAPXO7u8WK0++zdTmc/VVYzp3OJaIJzNlS
+	 HKVtIxrSRH96P3JXFvqvaRCU/YqA/2gI4LPgDtCZbBxlK4WcC9kJoZaodGRJLfOyTY3eJ
+	 N0AqSwWS3dydL/3RD8Z7KSIfjUFUkT/OVEVU8SbMBGP+gj4tyhwdKttvMoVYenWJJCsZA
+	 hgQlHNwR+ZE+Pp9jqp7OSAW8VE84qr0rft8lhN+JlvvbZgSurV2G01jIB2u3Aclg2lQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794177584;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794177592;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
-	b=r/5PCXHaBpfO9xgLVI9TCFQM6MLU+o2JYqPcv7L52Ibr+yFaw6RgFQNHFGvnf/CAJ1gE
-	 /ORahwdkt2zUB0LtEmkipIu8iTVdr+pY24ZNmMQ4mA3F+OY+lz3DoW/gqlLGbuWqYCrN+
-	 KX61oGqYDuGQK5JE4ZcfSGN/2SnMY6jxzwWEe2nvx73wXCNQbjdOvso/hK1KVbSrFCndP
-	 DtRaqchEavBtENy57S18sofFKf9uR8tpy4/WnmY15NrFIEa7EEnS9ceUhMIvWSA+OOO2c
-	 Zd1W+vowR7q/+aYha2yqFW3XFst8x2tw+QtFgYuO/VobRCELWudmrx2JlNdpsUbz1LQ==
+	bh=m1jLuLVTWvALNpXpZUUQEWDLYzqr+bz7MlMjOt9nJBI=;
+	b=oABM2drjy8moN+SBQtdOBwtqtGxt/iONW+FG1z42W49Dw06GvUotodaoLk6P+S1QdwYl
+	 Eso01VSri6wykQ+ItdvryHWZEznW/wOZyIzbPX/9g01FuMj3sg4XzhTgb5YJGqV4ZuNNh
+	 DewYxjMXCKlm7F4EXd+FAseLG+ao+jBGy8DuAcn0f5kyvFCu87Un3ovrqJfGOwJxT667J
+	 fIjSCzRYdrd8XSLuSO7iiMXgSRO430s5dxUzhSzonPWRaYdNPY4F0vLJWN+yx19FEBreF
+	 SqykuvQOnoIon8v2nSOHqCo4xwoR5GLW952Y9OHhY82oXfWKQbWQU29XSk82FoeF4TA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Tdcnz24P;
-	arc=none smtp.remote-ip=74.125.82.199
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Fy2wzMmz;
+	arc=none smtp.remote-ip=74.125.82.200
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53878606D808
-	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 22:39:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53878606D808
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6F0606A321
+	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 22:39:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF6F0606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Tdcnz24P
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36d1353fdcdso767807eec.0
-        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 14:39:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Fy2wzMmz
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-36d69ab3c2bso464097eec.0
+        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 14:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794177582; x=1794782382; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1794177591; x=1794782391; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
-        b=Tdcnz24PHztVxw12Leq6QUZSi5dimpv9JTLJwf4OoLKLBLpLPEyHDimHRJin0jVCm4
-         RyzqY6ZPEVs203WojVG0ADzdtaHyhkkaOISm6qPt2xaKyNd3DQWr9E4XLctvMrVb/TAl
-         qyhgBSDXHRRDXvuiLw1Nym2Dk7zkWbt6GWc7J86SMsK845r9cDbJQofOgoNcFSQF8zWc
-         Y36fWGcHeMW2UJCRUqNNmZ5zhIjWq4ltFuU7grtUq8rvmmzoLa41s8GDawM87AhoOPCI
-         BokjO2GMuV8BeS+hZuSETfvodGbe1J26kOiFhZ6CtrxvuWuSaSLE+M8BVgyZVkIGCqPO
-         nbgg==
+        bh=m1jLuLVTWvALNpXpZUUQEWDLYzqr+bz7MlMjOt9nJBI=;
+        b=Fy2wzMmzD//CZxG+c7vqkdTX2GWr91MR2svT4nL2caQxPPxwTMYDrKl0wsAsyhG6Vg
+         /Pb6R2hzV1ZM2b5+pZbzP/yzmW2ia+O6wYhKVQhuFAzZ9hIl91G+O6UiME12CNP/9cpa
+         EpPpvWBiDHG2hnRigYFiXFAMP6nXvLqif6/+5DEa5SRITCZUk5e991IfsbOoGOhvSMH9
+         Aey1VZMnuBZf9uCZosfBXdxkORrVZ/1JvLVuQfSYcfm7RfTDy4lgebjH/BK9Ws3OLgIu
+         2DDuuEPfcYp/SuvwXSq7QoQOo4EZjgI44WNq6qouAjfB8vG2Spx2efzTzk633ad7Uedw
+         pptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794177582; x=1794782382;
+        d=1e100.net; s=20260707; t=1794177591; x=1794782391;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
-        b=iTZsxEqSfZDQlqWW9rBir5CUjB2VNfjwD9rR0Trp5q9SMUm9qHtrAwEmXE2Q2cJ8vV
-         elr5VCVeqc/FhvoIcwKN5eyDVP4lUpFAVseuukexofjIC9o/122yU0QlUTcn1lMgZmRF
-         3u2yI3u0AMTDnBUmfs3jy/OLAuSJYjSus5ozw6/E2K6o+dhhuBoucrDcTEQWkC8l5oqG
-         CO8fBfswyQP7qgSKzXNb2LbbYqnZTjAKyqXAzR5UvYzxobAyQ7MYTEXEDisB7fUiqzDF
-         So7KeJwwoPAQlzCvojjJygO6OZU6XjCPYtCobo8ilSoqngDKR6zjYdo+mynlWwhdY6qw
-         zrnQ==
-X-Forwarded-Encrypted: i=1; AL+hErELq2g2bJFZXdOx1nuPB3E6Am9uFkdejfCH36By0ZnU4G/GNuncQiHSIdKyMZhdxlweF7z2YIwCXBrwag==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+0vvXNEw5mn3YimI4nonnpZYlvaNbCkM6thXsVX9xR5GZGVlEl
-	GcKlZrKbmB6fxN7UziDdgqSbC+y7cq03HT7VvCIe7wuI+gvbZunDDUEG3IeKM8ZIvFmiOflg6gJ
-	BNcxulSkAZQ==
-X-Received: from dlbox21.prod.google.com ([2002:a05:7022:1215:b0:1ab:fb55:f657])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:b884:b0:1b2:695b:79f0
- with SMTP id a92af1059eb24-1b39fef03f3mr3576923c88.32.1794177581955; Sun, 08
- Nov 2026 14:39:41 -0800 (PST)
-Date: Sun,  8 Nov 2026 14:39:05 -0800
+        bh=m1jLuLVTWvALNpXpZUUQEWDLYzqr+bz7MlMjOt9nJBI=;
+        b=pbgknmGHM/J5skRm4rrEVEa6tDhEcZJb5uNka0Vj7EHK1dxoXNaU0Vfm/fNBAlwUp3
+         DYHY/5iXxG/hgRGsEAYG3/IUeWAyl6iDUkxFfxwst00bNNnGb0W/mxPLSS/tJ72TWHzL
+         pTXDiwZ2Fhn5UtL37cdIEhlqVDRzFRlC5FVllqXOPkZx1XxIDT/TsvH12ZH2CIhfghSg
+         8kaJ8E3tOlqoru3oP3P6cY3t06EILhg4vSntr/0fcxnG/LiZQFafyIR7auSlt7xbWFF3
+         3yYbAPU0FD+ERthhvwKSuekB9hwTfjFI8M8FjEIT6xd/j11vzGUBCGLwyaMKaRCoFXle
+         UHKA==
+X-Forwarded-Encrypted: i=1; AL+hErEDBaNM5WJPSkEx3sTWGmCaMCpfF4l0LteRmTqqTcrlabNFjuwG+xAbJ/a+z+fuf0eEzKgogg98NtpoHQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9P/GYa5qvTd4XlEBQeJUM5iJfI9XgDaT5px5hdSs1TjV1b5T5j
+	S2fXN6WvLNcbnxWLb5PjZsV5ufe9Ta9l1kn/lNjAOQTxYUAwZKRSprGAbjwA7+AjARi83anRBgF
+	65NMatzCFPA==
+X-Received: from dycmv11.prod.google.com ([2002:a05:693c:280b:b0:36b:c499:531f])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:693c:2806:b0:36b:f09f:924a
+ with SMTP id 5a478bee46e88-37256bef587mr4546874eec.14.1794177590507; Sun, 08
+ Nov 2026 14:39:50 -0800 (PST)
+Date: Sun,  8 Nov 2026 14:39:09 -0800
 In-Reply-To: <20261108223913.3624571-1-irogers@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261108223913.3624571-1-irogers@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108223913.3624571-2-irogers@google.com>
-Subject: [PATCH v3 1/9] Compiler Attributes: Add __must_init macro
+Message-ID: <20261108223913.3624571-6-irogers@google.com>
+Subject: [PATCH v3 5/9] dlm: Free dlm_ls in kobject release callback
 From: Ian Rogers <irogers@google.com>
 To: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -109,104 +109,135 @@ Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id
 	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Clang supports the 'require_explicit_initialization' attribute on struct
-fields to indicate that a field must be initialized explicitly by the
-user when the object is constructed. When an aggregate initializer or
-uninitialized variable omits an annotated field, Clang emits a
--Wuninitialized-explicit-init warning (enabled by default).
+struct dlm_ls embeds a struct kobject (ls_kobj), but dlm_ktype lacked a
+.release callback and dlm freed the lockspace structure directly via
+kfree(ls). With CONFIG_DEBUG_KOBJECT_RELEASE=y, freeing ls before the
+delayed kobject release runs causes a use-after-free, and unloading the
+module while the delayed release is pending results in an instruction
+page fault.
 
-Add the __must_init macro to include/linux/compiler_attributes.h (which
-is included by include/linux/compiler_types.h and
-include/linux/compiler.h) so kernel structs with error-prone
-initialization (such as mandatory callbacks or cleanup handlers) can
-enforce explicit initialization at compile time, as discussed at the
-Linux Plumbers Conference. The shorter __must_init spelling, rather than
-the attribute's full name, keeps annotated struct members readable and
-was suggested by Greg Kroah-Hartman.
+Add a completion ls_kobj_done and dlm_ls_release() to complete it when
+the last kobject reference is dropped, waiting for it in free_lockspace()
+before kfree(ls) and in the new_lockspace() error path before module_put().
+Also delete the kobject via kobject_del() before stopping dlm_recoverd
+to close the window where concurrent sysfs writes could wake the stopped
+recovery task.
 
-Note that Clang versions prior to the fix for
-https://github.com/llvm/llvm-project/issues/232483 do not diagnose
-file-scope objects declared without any initializer (initializers at
-file scope that omit the field are diagnosed).
-
-Also teach Sphinx (Documentation/conf.py), kernel-doc
-(tools/lib/python/kdoc/xforms_lists.py), and checkpatch.pl about the new
-attribute macro.
-
-Link: https://lpc.events/event/20/contributions/2392/
-Link: https://lore.kernel.org/lkml/2026101532-fantastic-deafness-e04c@gregkh/
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Kees Cook <kees@kernel.org>
+Fixes: 3514faca19a6 ("kobject: remove struct kobj_type from struct kset")
+Acked-by: Alexander Aring <aahringo@redhat.com>
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- Documentation/conf.py                 |  1 +
- include/linux/compiler_attributes.h   | 12 ++++++++++++
- scripts/checkpatch.pl                 |  1 +
- tools/lib/python/kdoc/xforms_lists.py |  1 +
- 4 files changed, 15 insertions(+)
+ fs/dlm/dlm_internal.h |  1 +
+ fs/dlm/lockspace.c    | 26 ++++++++++++++++++++------
+ 2 files changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 5ab26ce89daf..baaa4035258c 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -203,6 +203,7 @@ c_id_attributes = [
-     "__noreturn",
-     "__packed",
-     "__pure",
-+    "__must_init",
-     "__section",
-     "__always_unused",
-     "__maybe_unused",
-diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
-index 476c4c560d17..b9c0b56dd22e 100644
---- a/include/linux/compiler_attributes.h
-+++ b/include/linux/compiler_attributes.h
-@@ -322,6 +322,18 @@
-  */
- #define __pure                          __attribute__((__pure__))
+diff --git a/fs/dlm/dlm_internal.h b/fs/dlm/dlm_internal.h
+index 74c2e77d1b55..95b3bff0cb57 100644
+--- a/fs/dlm/dlm_internal.h
++++ b/fs/dlm/dlm_internal.h
+@@ -576,6 +576,7 @@ struct dlm_ls {
+ 	int			ls_create_count; /* create/release refcount */
+ 	unsigned long		ls_flags;	/* LSFL_ */
+ 	struct kobject		ls_kobj;
++	struct completion	ls_kobj_done;
  
-+/*
-+ * Optional: not supported by gcc
-+ * Optional: only supported since clang >= 20.0
-+ *
-+ * clang: https://clang.llvm.org/docs/AttributeReference.html#require-explicit-initialization
-+ */
-+#if __has_attribute(__require_explicit_initialization__)
-+# define __must_init __attribute__((__require_explicit_initialization__))
-+#else
-+# define __must_init
-+#endif
+ 	struct xarray		ls_lkbxa;
+ 	rwlock_t		ls_lkbxa_lock;
+diff --git a/fs/dlm/lockspace.c b/fs/dlm/lockspace.c
+index a9c98b4f378f..2dccd080a10f 100644
+--- a/fs/dlm/lockspace.c
++++ b/fs/dlm/lockspace.c
+@@ -179,7 +179,15 @@ static const struct sysfs_ops dlm_attr_ops = {
+ 	.store = dlm_attr_store,
+ };
+ 
++static void dlm_ls_release(struct kobject *kobj)
++{
++	struct dlm_ls *ls = container_of(kobj, struct dlm_ls, ls_kobj);
 +
- /*
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-section-function-attribute
-  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-section-variable-attribute
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index b8b64f720191..6a091c45b1a1 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6888,6 +6888,7 @@ sub process {
- 				"noreturn"			=> "__noreturn",
- 				"packed"			=> "__packed",
- 				"pure"				=> "__pure",
-+				"require_explicit_initialization" => "__must_init",
- 				"section"			=> "__section",
- 				"used"				=> "__used",
- 				"weak"				=> "__weak"
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index db23fb650ea8..42956b98aae3 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -36,6 +36,7 @@ class CTransforms:
-         (CMatch("CRYPTO_MINALIGN_ATTR"), ""),
-         (CMatch("__private"), ""),
-         (CMatch("__rcu"), ""),
-+        (CMatch("__must_init"), ""),
-         (CMatch("____cacheline_aligned_in_smp"), ""),
-         (CMatch("____cacheline_aligned"), ""),
-         (CMatch("__cacheline_group_(?:begin|end)"), ""),
++	complete(&ls->ls_kobj_done);
++}
++
+ static struct kobj_type dlm_ktype = {
++	.release        = dlm_ls_release,
+ 	.default_groups = dlm_groups,
+ 	.sysfs_ops     = &dlm_attr_ops,
+ };
+@@ -355,6 +363,8 @@ static void free_lockspace(struct work_struct *work)
+ 	 */
+ 	rhashtable_free_and_destroy(&ls->ls_rsbtbl, rhash_free_rsb, NULL);
+ 
++	kobject_put(&ls->ls_kobj);
++	wait_for_completion(&ls->ls_kobj_done);
+ 	kfree(ls);
+ }
+ 
+@@ -435,7 +445,10 @@ static int new_lockspace(const char *name, const char *cluster,
+ 	ls->ls_lvblen = lvblen;
+ 	atomic_set(&ls->ls_count, 0);
+ 	init_waitqueue_head(&ls->ls_count_wait);
++	init_completion(&ls->ls_kobj_done);
+ 	ls->ls_flags = 0;
++	ls->ls_kobj.kset = dlm_kset;
++	kobject_init(&ls->ls_kobj, &dlm_ktype);
+ 
+ 	if (ops && dlm_config.ci_recover_callbacks) {
+ 		ls->ls_ops = ops;
+@@ -567,9 +580,7 @@ static int new_lockspace(const char *name, const char *cluster,
+ 	wait_event(ls->ls_recover_lock_wait,
+ 		   test_bit(LSFL_RECOVER_LOCK, &ls->ls_flags));
+ 
+-	ls->ls_kobj.kset = dlm_kset;
+-	error = kobject_init_and_add(&ls->ls_kobj, &dlm_ktype, NULL,
+-				     "%s", ls->ls_name);
++	error = kobject_add(&ls->ls_kobj, NULL, "%s", ls->ls_name);
+ 	if (error)
+ 		goto out_recoverd;
+ 	kobject_uevent(&ls->ls_kobj, KOBJ_ADD);
+@@ -582,7 +593,7 @@ static int new_lockspace(const char *name, const char *cluster,
+ 
+ 	error = do_uevent(ls, 1, 0);
+ 	if (error < 0)
+-		goto out_recoverd;
++		goto out_kobj;
+ 
+ 	/* wait until recovery is successful or failed */
+ 	wait_for_completion(&ls->ls_recovery_done);
+@@ -600,6 +611,8 @@ static int new_lockspace(const char *name, const char *cluster,
+ 	do_uevent(ls, 0, 0);
+ 	dlm_clear_members(ls);
+ 	kfree(ls->ls_node_array);
++ out_kobj:
++	kobject_del(&ls->ls_kobj);
+  out_recoverd:
+ 	dlm_recoverd_stop(ls);
+  out_callback:
+@@ -615,6 +628,7 @@ static int new_lockspace(const char *name, const char *cluster,
+ 	rhashtable_destroy(&ls->ls_rsbtbl);
+  out_lsfree:
+ 	kobject_put(&ls->ls_kobj);
++	wait_for_completion(&ls->ls_kobj_done);
+ 	kfree(ls);
+  out:
+ 	module_put(THIS_MODULE);
+@@ -740,6 +754,8 @@ static int release_lockspace(struct dlm_ls *ls, unsigned int release_option)
+ 	    dlm_user_daemon_available())
+ 		do_uevent(ls, 0, (release_option == DLM_RELEASE_RECOVER));
+ 
++	kobject_del(&ls->ls_kobj);
++
+ 	dlm_recoverd_stop(ls);
+ 
+ 	/* clear the LSFL_RUNNING flag to fast up
+@@ -759,8 +775,6 @@ static int release_lockspace(struct dlm_ls *ls, unsigned int release_option)
+ 
+ 	dlm_delete_debug_file(ls);
+ 
+-	kobject_put(&ls->ls_kobj);
+-
+ 	xa_destroy(&ls->ls_recover_xa);
+ 	kfree(ls->ls_recover_buf);
+ 
 -- 
 2.56.0.455.g6c5a503b38-goog
 
