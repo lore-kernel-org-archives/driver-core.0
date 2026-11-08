@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794177587;
-	b=Xyf4MQo0f5zj/AcxQBhUUuxXAyyMqUEJDO6j3ZReEhhzsvKsn9lFxWpqRYjwICF4oUzX
-	 0GNG4KlK8Idcmsng6sPJ1cYecIxQazMyHD5mDxYexomdIkrn7nisNEFYXDNak52NoKZZt
-	 GpXJMn1sm2733NqFnoRuOxa+fhYo/OASeYoLDw/9xsp3TBQo5Nz5B4s4kuDRW8Rzda3b7
-	 mdKUJQbJKkUs+UKxh6cBWHVnaP5nzr0CzQFNL0C82QSafoRLsBhnK4YNh0CHmqdF1z6T0
-	 Ka187EQ8jKd+IUzt2HrRpqjm5gEwMwMIFXG9lcts3qo+a2bVE+R3K2MGeyddEJE6ClQ==
+	t=1794177584;
+	b=A8nFs62wT4V6ilrnHHlyGYLt3HFzkFuXrtfwBRKEtv94pFA3OVzJFozjRxg86z9B5mhP
+	 EBEaMnV0gcn3lvlXfcztE0EwRjYgl3+hTEDLyCsBXRE6wBDo0Jkk7HQABOykgkUnjB5Oy
+	 JFqXWY4NBr214ZdaHWYAM8xUpDU6ZCjeCbgpV6ynHgCBWwBUbmiD4d0/Dbh8TLSHtCwjp
+	 MsVyX8+v6K0YzM0eFaj3tIy37YL3xJLYXloDfSdN+7iWAu/Z/WaYO8DmLhg3SAv4vi0NV
+	 4Jike3CIO518o4ZfBPel1zYu2avRwooJXMVWcc1VzxfYM0ar7Zr19xwejKfZLUll4zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794177587;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794177584;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=xwXDua19Tz/IicJklctcGTeEqQvEHLiE8QZruqc+WN4=;
-	b=Ac+BpgoaSN7Kul5q+7h4Xf7UQLX1J5+t8e8vvGhHQIwe/+UmiDk06ClqWDQHKh54Kfw2
-	 nPeZTaq3liw3x8hYEp3vydStX58w56lZvSqIJeXc4GOfPEk1GXavPgJr6MijV83rxCX4R
-	 DWcEhr1oI2bFR0MVOsuEx6CedL4w8SmlfiK9NQX/4NzD44nqEBM6UYLUdqvREHsda/DZr
-	 c3ppJO3iGp5YqqSRudVkRHcO4Mwm8Nf+GPyCvTq2/qcxZWSkSwQLH5wdVC7pyCOd42Ksi
-	 fRhzH/lU09NXUKQO/73vBUdCbAPeFXgA+qkNq/PxljPd0E0f5iXjLuam3yzsUgZRV8Q==
+	bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
+	b=r/5PCXHaBpfO9xgLVI9TCFQM6MLU+o2JYqPcv7L52Ibr+yFaw6RgFQNHFGvnf/CAJ1gE
+	 /ORahwdkt2zUB0LtEmkipIu8iTVdr+pY24ZNmMQ4mA3F+OY+lz3DoW/gqlLGbuWqYCrN+
+	 KX61oGqYDuGQK5JE4ZcfSGN/2SnMY6jxzwWEe2nvx73wXCNQbjdOvso/hK1KVbSrFCndP
+	 DtRaqchEavBtENy57S18sofFKf9uR8tpy4/WnmY15NrFIEa7EEnS9ceUhMIvWSA+OOO2c
+	 Zd1W+vowR7q/+aYha2yqFW3XFst8x2tw+QtFgYuO/VobRCELWudmrx2JlNdpsUbz1LQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cvv5QKOW;
-	arc=none smtp.remote-ip=74.125.82.198
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Tdcnz24P;
+	arc=none smtp.remote-ip=74.125.82.199
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDF2606EE84
-	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 22:39:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECDF2606EE84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53878606D808
+	for <driver-core@lists.linux.dev>; Sun,  8 Nov 2026 22:39:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53878606D808
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=cvv5QKOW
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-36cec75d8caso401594eec.0
-        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 14:39:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Tdcnz24P
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36d1353fdcdso767807eec.0
+        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 14:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794177586; x=1794782386; darn=lists.linux.dev;
+        d=google.com; s=20260707; t=1794177582; x=1794782382; darn=lists.linux.dev;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xwXDua19Tz/IicJklctcGTeEqQvEHLiE8QZruqc+WN4=;
-        b=cvv5QKOWsf4hEQ9G/q4ttZFG9cRIh2GFz946k74cojNAKh3tqac98gkZyIbMw6YQU1
-         7RBsNVsqgaBYsZF9gr7GyWnWVJMrKQxqvFGFa6Jpm6XjO2+WKxRovh+b3embsqgW8mnO
-         +hJ97L4FDmcb06RYhhx5nEOkBGsZomUdE61CUr6s4l26vdrBaW6jwD9uQbggvby+NDNj
-         kCf17zh90asA3Dt4pX6cNhXgegMdqTv0+cFlOyD+JQ8HWIpxBQPzXsq3d7R8IoHAtug1
-         mbymw4nsq3ozYjrWEDRurBC5t0wWpvJm6SSNbDQg/K5CVnTOmssdfj9wjgbKihdS81ry
-         bTkA==
+        bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
+        b=Tdcnz24PHztVxw12Leq6QUZSi5dimpv9JTLJwf4OoLKLBLpLPEyHDimHRJin0jVCm4
+         RyzqY6ZPEVs203WojVG0ADzdtaHyhkkaOISm6qPt2xaKyNd3DQWr9E4XLctvMrVb/TAl
+         qyhgBSDXHRRDXvuiLw1Nym2Dk7zkWbt6GWc7J86SMsK845r9cDbJQofOgoNcFSQF8zWc
+         Y36fWGcHeMW2UJCRUqNNmZ5zhIjWq4ltFuU7grtUq8rvmmzoLa41s8GDawM87AhoOPCI
+         BokjO2GMuV8BeS+hZuSETfvodGbe1J26kOiFhZ6CtrxvuWuSaSLE+M8BVgyZVkIGCqPO
+         nbgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794177586; x=1794782386;
+        d=1e100.net; s=20260707; t=1794177582; x=1794782382;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xwXDua19Tz/IicJklctcGTeEqQvEHLiE8QZruqc+WN4=;
-        b=TUWk8rDn7zlGnD4BcuxCfmcO4zl8gSjE068no/KI0sVHQfeKL39MXPZCnGBV4kFhEM
-         s2/+4AySvi/aGo4aFWfQEe4+Cuk2NGTIKPBpREW3/8VdNiPG7RUJuIvIpdERe0KZ2De6
-         M1El/PD36IrqWfPVAKsv+mK2Yy4OapYPvLNsifa29OoKM+S+/0f29BAZekAHd68smZa0
-         baNiboQc5be/zum6OePc55a+zgACCPENGE68o/7ideu8gwsuc1UZuWZOdiYSZl4U9S9f
-         bCtM+Hnz5KpgWvbX/P5Bvf2/2Byd6dfyjQl5YDd11DyjFbnTZ9lYW5UbbDG6Ke5eHTUo
-         K5wg==
-X-Forwarded-Encrypted: i=1; AL+hErHkeITBAuBQz5VH3xAAzyDImFHlGL8eJCcJos9Gyi8cB/dqSArDijM4mXcckTZI5voYvmAFbVoknaBJpg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9OIAayS+IiK2oRvLD2NvkQfO75b4DmHyp5I1oqzTUmdiLKVef9
-	yuI0OsYuwyqgJXDoU/jRtukany1931yxztSHA2ThyeWX5Sk7Nz3LiT1ewXISZjBnVqTxxPFpKkR
-	JY5msaHHEOA==
-X-Received: from dyx10.prod.google.com ([2002:a05:693c:820a:b0:36a:eec:f68c])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:c00c:10b0:36d:dcdb:70c5
- with SMTP id 5a478bee46e88-370f7b8f918mr9710009eec.20.1794177585797; Sun, 08
- Nov 2026 14:39:45 -0800 (PST)
-Date: Sun,  8 Nov 2026 14:39:07 -0800
+        bh=AHLMqwM6/67Zcd/LOxQ2+hhUbtfPU/BOw3z2THUGUxg=;
+        b=iTZsxEqSfZDQlqWW9rBir5CUjB2VNfjwD9rR0Trp5q9SMUm9qHtrAwEmXE2Q2cJ8vV
+         elr5VCVeqc/FhvoIcwKN5eyDVP4lUpFAVseuukexofjIC9o/122yU0QlUTcn1lMgZmRF
+         3u2yI3u0AMTDnBUmfs3jy/OLAuSJYjSus5ozw6/E2K6o+dhhuBoucrDcTEQWkC8l5oqG
+         CO8fBfswyQP7qgSKzXNb2LbbYqnZTjAKyqXAzR5UvYzxobAyQ7MYTEXEDisB7fUiqzDF
+         So7KeJwwoPAQlzCvojjJygO6OZU6XjCPYtCobo8ilSoqngDKR6zjYdo+mynlWwhdY6qw
+         zrnQ==
+X-Forwarded-Encrypted: i=1; AL+hErELq2g2bJFZXdOx1nuPB3E6Am9uFkdejfCH36By0ZnU4G/GNuncQiHSIdKyMZhdxlweF7z2YIwCXBrwag==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+0vvXNEw5mn3YimI4nonnpZYlvaNbCkM6thXsVX9xR5GZGVlEl
+	GcKlZrKbmB6fxN7UziDdgqSbC+y7cq03HT7VvCIe7wuI+gvbZunDDUEG3IeKM8ZIvFmiOflg6gJ
+	BNcxulSkAZQ==
+X-Received: from dlbox21.prod.google.com ([2002:a05:7022:1215:b0:1ab:fb55:f657])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:b884:b0:1b2:695b:79f0
+ with SMTP id a92af1059eb24-1b39fef03f3mr3576923c88.32.1794177581955; Sun, 08
+ Nov 2026 14:39:41 -0800 (PST)
+Date: Sun,  8 Nov 2026 14:39:05 -0800
 In-Reply-To: <20261108223913.3624571-1-irogers@google.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261108223913.3624571-1-irogers@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108223913.3624571-4-irogers@google.com>
-Subject: [PATCH v3 3/9] sh: sq: Add missing kobject release callback to ktype_percpu_entry
+Message-ID: <20261108223913.3624571-2-irogers@google.com>
+Subject: [PATCH v3 1/9] Compiler Attributes: Add __must_init macro
 From: Ian Rogers <irogers@google.com>
 To: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -109,37 +109,104 @@ Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id
 	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-In sq_dev_add(), sq_kobject[cpu] is dynamically allocated with
-kzalloc_obj() and initialized with ktype_percpu_entry. When
-sq_dev_remove() calls kobject_put(kobj), the kobject is never freed
-because ktype_percpu_entry lacks a .release callback.
+Clang supports the 'require_explicit_initialization' attribute on struct
+fields to indicate that a field must be initialized explicitly by the
+user when the object is constructed. When an aggregate initializer or
+uninitialized variable omits an annotated field, Clang emits a
+-Wuninitialized-explicit-init warning (enabled by default).
 
-Provide a sq_kobj_release() callback that calls kfree(kobj).
+Add the __must_init macro to include/linux/compiler_attributes.h (which
+is included by include/linux/compiler_types.h and
+include/linux/compiler.h) so kernel structs with error-prone
+initialization (such as mandatory callbacks or cleanup handlers) can
+enforce explicit initialization at compile time, as discussed at the
+Linux Plumbers Conference. The shorter __must_init spelling, rather than
+the attribute's full name, keeps annotated struct members readable and
+was suggested by Greg Kroah-Hartman.
 
-Fixes: d7c30c682a27 ("sh: Store Queue API rework.")
+Note that Clang versions prior to the fix for
+https://github.com/llvm/llvm-project/issues/232483 do not diagnose
+file-scope objects declared without any initializer (initializers at
+file scope that omit the field are diagnosed).
+
+Also teach Sphinx (Documentation/conf.py), kernel-doc
+(tools/lib/python/kdoc/xforms_lists.py), and checkpatch.pl about the new
+attribute macro.
+
+Link: https://lpc.events/event/20/contributions/2392/
+Link: https://lore.kernel.org/lkml/2026101532-fantastic-deafness-e04c@gregkh/
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Kees Cook <kees@kernel.org>
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- arch/sh/kernel/cpu/sh4/sq.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/conf.py                 |  1 +
+ include/linux/compiler_attributes.h   | 12 ++++++++++++
+ scripts/checkpatch.pl                 |  1 +
+ tools/lib/python/kdoc/xforms_lists.py |  1 +
+ 4 files changed, 15 insertions(+)
 
-diff --git a/arch/sh/kernel/cpu/sh4/sq.c b/arch/sh/kernel/cpu/sh4/sq.c
-index 908a8e09113b..f33864958487 100644
---- a/arch/sh/kernel/cpu/sh4/sq.c
-+++ b/arch/sh/kernel/cpu/sh4/sq.c
-@@ -331,7 +331,13 @@ static const struct sysfs_ops sq_sysfs_ops = {
- 	.store	= sq_sysfs_store,
- };
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 5ab26ce89daf..baaa4035258c 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -203,6 +203,7 @@ c_id_attributes = [
+     "__noreturn",
+     "__packed",
+     "__pure",
++    "__must_init",
+     "__section",
+     "__always_unused",
+     "__maybe_unused",
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 476c4c560d17..b9c0b56dd22e 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -322,6 +322,18 @@
+  */
+ #define __pure                          __attribute__((__pure__))
  
-+static void sq_kobj_release(struct kobject *kobj)
-+{
-+	kfree(kobj);
-+}
++/*
++ * Optional: not supported by gcc
++ * Optional: only supported since clang >= 20.0
++ *
++ * clang: https://clang.llvm.org/docs/AttributeReference.html#require-explicit-initialization
++ */
++#if __has_attribute(__require_explicit_initialization__)
++# define __must_init __attribute__((__require_explicit_initialization__))
++#else
++# define __must_init
++#endif
 +
- static struct kobj_type ktype_percpu_entry = {
-+	.release	= sq_kobj_release,
- 	.sysfs_ops	= &sq_sysfs_ops,
- 	.default_groups	= sq_sysfs_groups,
- };
+ /*
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-section-function-attribute
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-section-variable-attribute
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index b8b64f720191..6a091c45b1a1 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6888,6 +6888,7 @@ sub process {
+ 				"noreturn"			=> "__noreturn",
+ 				"packed"			=> "__packed",
+ 				"pure"				=> "__pure",
++				"require_explicit_initialization" => "__must_init",
+ 				"section"			=> "__section",
+ 				"used"				=> "__used",
+ 				"weak"				=> "__weak"
+diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+index db23fb650ea8..42956b98aae3 100644
+--- a/tools/lib/python/kdoc/xforms_lists.py
++++ b/tools/lib/python/kdoc/xforms_lists.py
+@@ -36,6 +36,7 @@ class CTransforms:
+         (CMatch("CRYPTO_MINALIGN_ATTR"), ""),
+         (CMatch("__private"), ""),
+         (CMatch("__rcu"), ""),
++        (CMatch("__must_init"), ""),
+         (CMatch("____cacheline_aligned_in_smp"), ""),
+         (CMatch("____cacheline_aligned"), ""),
+         (CMatch("__cacheline_group_(?:begin|end)"), ""),
 -- 
 2.56.0.455.g6c5a503b38-goog
 
