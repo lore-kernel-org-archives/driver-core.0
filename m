@@ -1,79 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794240071;
-	b=MLr1IsHTuWdC4bf85Od+2Nanlz3VKRDyrBQoLYW0A2T1km01RG/m4hnFr5Rl00GW2oBR
-	 JnbQ8BMTFXfddIfFYITjlm21PT/hTEYRoymvOWQisGmm5DfVIVbX/8eEmkePb6cpDQGfz
-	 9LwXj5O8e5pB4eEb6hDOtzFzYqoSsH3iMJplDn0qTtJTW9zEMJngrP8sETBLI6oYcsbWT
-	 BoFn8OBYsYvmZMHgVlRJQewsqgiLe4+1a8G0ovk6mdUJ9T85g2AwQWqC+x7AkAmh8MdBA
-	 ZlNK8MFTV94MZX6dBjXUDt/48JQvlu0USsK3ir1tzYhUK8UAfDeOHJi5+xkiLrq7iJA==
+	t=1794240537;
+	b=v6r1h2by8dbeQiH/klwJ0qrE9wU49UuHVAHlVh96XXGFgnulnsHnB9iAgSp+y7Fzu4OM
+	 mJnkQOhUakV7N64QUcW5Y19Vo5YfB+XWTdq4ScDVGz5iHq9+AMhwEGvjMRkOn0lDMvAcr
+	 OXd7Xv7mV2sjOoNlf16NDVOJm0XWd2kr9kVazl7//xPxZRvnykqpBbCEJ18whiOcQ+dHw
+	 nd0dTR6oIeQmXhCURicAi/C9AWTx3WtIVSKKWRz4QQDetaYca2aPBDMBxHHn5r+1ylqDz
+	 2cQ+if4Be/OL14zB1iSuSIMZGaueaqS0WZ5gJPnYVf6BQhbR/YgCt1UWuaFZNzahwqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794240071;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:
-	 Reply-To:To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version:X-MBO-RS-META:
-	 X-MBO-RS-ID;
-	bh=VGqvIZTeVHHkea6oie5gbk4KQiLXb7VXMyLBK0xLLI4=;
-	b=VmXOIVoml6ex10PC0FASCiM3VhwBetDK9BXFtjesTQry/p/nLhCianN2vbA88Mk/DiQO
-	 endAWlqWpxEHlMV1i+Xf1q/XXEACuzkjAIsVBstderxJ6uOMrCcc2dpfiBUNLDjEWFEff
-	 nGuAyQ8bjHzjxfebnY45oul7zQAogxmPqeBZsR+4hev2+h/vzZruMMc7JIsmeZ3s2DzQF
-	 cWbXO30KdOtnBkj6RJfE26T0yPeNDzZ+YQcDR8N0n3dwbZhq8FFXdCl3bexKpWUWCaGpY
-	 1ttBp0/U/HT35lN6SEZOtMUmXwSXpLsY1UxLvgpdenIEZ0U7HAxfZNaNBQUyDe22wJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794240537;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Us1acSGCownt1gWounrmyheHNyrWFqrZMDVsMoIDEO8=;
+	b=rj3Nthyhz8rh/qzYRh/veQZRkRMBgXyS0RX4r19PPYMilQB1xbSx005q0cPpCrf6rLTn
+	 ETszKTmYFZsxGXj65FzHtAavlJYZ7qzqZYqtKKEpM7k+E8TSvF7GlDELobWjgF7Mfbfci
+	 Y3caTWrkvmjcg9mW1zmdnGMSnxRr2vmK2MFSZNkvaJJci7Hbvcm8t4NdhagIA0SgON69Y
+	 wlIvPnnu/aKsztawMwehdDtda+lB2lDjMJ07CZl+adOir5zUQ6MLb2w2OhYDZOrDaFQLZ
+	 9TwNUlWgLlDt89iaH18aXQlGgjB1KjY6G5pyc2jWvLMZdPY9yuk1rD02h3yWkPzR/Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=PzG31H0N;
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BfayhrsD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FEC60A3835
-	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 16:01:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10FEC60A3835
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0509A606A31C;
+	Mon,  9 Nov 2026 16:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=PzG31H0N
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jNZJf4DBlzMlJx;
-	Mon, 09 Nov 2026 17:01:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794240066; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VGqvIZTeVHHkea6oie5gbk4KQiLXb7VXMyLBK0xLLI4=;
-	b=PzG31H0NZ8MVBErZ7/kMvgJropYLGKQt9w/FEl40CC21vwMf8ubo26W/r/QafG8Tlr69mw
-	jj+YgAgrMoBzO7/83ZsXjCjDZtWMK40iUz/LRaQFBZNW+oiS9pZT1V9qXh8wxA5OindNtH
-	TpHRgx4BjlZ3NtNP4XjEG5gU88N1H8Sd/90bi/XGuY55k7xjiOJgprxYt+ItRQ1MtFCA6e
-	u1sZAPmRooJSW9BRuYI5IDkPck/TGfwT+r3PuYmIjDWsi8YdYFSqU7be12jphkraicF6dz
-	LAOybYpCHpdpS+6gsB9g9f5xqdIW1JAgHT6tSCfPVvC9v0VuCFp7hl/n/4LHnA==
-Message-ID: <ea9f1aff9671e3d959141bc9aef2b23ebb2e1ecf.camel@mailbox.org>
-Subject: Re: [PATCH v3 2/4] rust: workqueue: create workqueue subdirectory
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Alice Ryhl <aliceryhl@google.com>, Tejun Heo <tj@kernel.org>, Lai
- Jiangshan	 <jiangshanlai@gmail.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
-	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg	 <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Daniel
- Almeida	 <daniel.almeida@collabora.com>, Tamir Duberstein
- <tamird@kernel.org>,  Alexandre Courbot <acourbot@nvidia.com>, Onur
- =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, John Hubbard	
- <jhubbard@nvidia.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Mon, 09 Nov 2026 17:01:01 +0100
-In-Reply-To: <20261020-rust-workqueue-v3-2-ea7c74d02068@google.com>
-References: <20261020-rust-workqueue-v3-0-ea7c74d02068@google.com>
-	 <20261020-rust-workqueue-v3-2-ea7c74d02068@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BfayhrsD
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C7F4D1F0089F;
+	Mon,  9 Nov 2026 16:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794240536;
+	bh=Us1acSGCownt1gWounrmyheHNyrWFqrZMDVsMoIDEO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BfayhrsDX/QcKNzceAymK2HMOGU+c5tB2/FuH6l5e1/0WCmyf0sGnK3gnIslVL14G
+	 DrEXh5qUmPPET6mY8+4RZVIu2bzsa5nxMyBvpeGVemi3b5N82aBlmTP+5I3sj0r7/e
+	 WBb+nvGRkXWnX6vAqRCGkNpzfOlRWcdmZ6c0xRU09wy1iOS15Ua40BjyZtrTC6Hk/S
+	 MM/n2HCGdz3Bxmm23t1Tn96o9+lnXQlIPZuLLK+WvCOdXwd0cCKfsM+txpmsktTAny
+	 vWuCO73/JGOuBreGI7rgCHle0jifhnYfPweNNgOn/mOZJ7DCruwfjoCG6YLGDkcx5P
+	 svOmxspRhZKaw==
+Date: Mon, 9 Nov 2026 17:08:50 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [PATCH] software node: only let the owner release a managed node
+Message-ID: <lhljpce4lyhuggmfyaq4c4g2mxqe5z3gwmqyrnxptlub3bahff@vdyh47ms5ua3>
+References: <20261102-swnode-only-owner-release-v1-1-ee4c9022a629@oss.qualcomm.com>
+ <avHMhh8ChrFE_b_e@hovoldconsulting.com>
+ <DMQQO3DTZE66.1Q2XGGDGN3WUP@kernel.org>
+ <avHZ5U_YR9QSqd0G@hovoldconsulting.com>
+ <DMQREV9DFQST.1Z4ZFOFTS0Z7W@kernel.org>
+ <avHfx80pHRPwtqRt@hovoldconsulting.com>
+ <DMQS3EURP5MB.2DY989AOI0CSD@kernel.org>
+ <avHs9hKOc3QVLM4x@hovoldconsulting.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -83,15 +68,38 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MBO-RS-META: m8ssoa15w3cpmbc413ypfmysjd9yk9nq
-X-MBO-RS-ID: 6027c2dbc27f1abfb0f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avHs9hKOc3QVLM4x@hovoldconsulting.com>
 
-On Tue, 2026-10-20 at 12:52 +0000, Alice Ryhl wrote:
-> The following patch will implement a workqueue builder in a separate
-> file. To prepare for that, create a rust/kernel/workqueue subdirectory
-> and move the existing file.
->=20
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+On Mon, Nov 09, 2026 at 04:55:34PM +0100, Johan Hovold wrote:
+> On Mon, Nov 09, 2026 at 04:17:33PM +0100, Danilo Krummrich wrote:
+> > On Mon Nov 9, 2026 at 3:59 PM CET, Johan Hovold wrote:
+> 
+> > > So I think we can just go ahead and fix this in driver core directly.
+> > 
+> > Ok, then I agree it is fine as is. :)
+> 
+> Good. :)
+> 
+> I've updated the commit with the missing Reviewed-by and Fixes tag. I
+> also decided to drop the reordering of releasing the swnode references
+> as that is arguable an unrelated change and the current code expects
+> users to hold a reference unless it's a managed node.
+>
 
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
+Ok, I won't be sending a v2 then.
+
+I'm not sure what the workflow is exactly among the driver core maintainers
+but the commit that ended up in tree looks quite different from what
+I submitted and what Link: references.
+
+Such in-tree modifications from maintainers have caused problems in the
+past[1]. I would have preferred to apply changes myself based on reviews
+and send a v2 which could then be queued as it appears on the list. Just
+my 2 cents.
+
+Thanks,
+Bartosz
+
+[1] https://lore.kernel.org/all/CACMJSesVR_3-PBt1ScricSKNMRzH5gesqtTVW3mqN=gg0-O-7w@mail.gmail.com/
