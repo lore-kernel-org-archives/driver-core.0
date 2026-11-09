@@ -1,78 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794184627;
-	b=hprAYPKCtM/1EeKXSKAZ0h4b8jqHjW4kriAeDMIbzr3PvIVT1J+IuKWlV43TbJCLnPgU
-	 MjQGSfHhGcXwWGT+TB9Dl9asYsb5ht2vsjn+3gAQAfJ4MAq+IF/z4w8rwI6ZJzEfqHwn+
-	 XsrSPWAHqh0Qs2eFl6eIfvCqY4kT2vvVVZ+D43JZlKnqBC737UJICjsnLgXZCTe/hebkQ
-	 FkXMC88OsFmAhrK3+jKeuwAUekXLvU5ZOsklev6X39Cus4TX+vDfgdg6Nmps4FKj1NdBd
-	 YOcZjFA630H19FfZQIxKgKxnFuBhXFpZw887gGbkiI/vU63x+b30IyiqIEgAc4CQVlA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794184627;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=eOWqZN2vW2kC8QQcwq92WRb+QnG24MxoJUzMmXz3TKY=;
-	b=rwuT+9ujH3lii3LAZO7vOR9hQZI2Pi9w/hXhw/GetKrGF2dB7YhboAYeD5vX5kGatwTY
-	 XoR5gkcj7uGRw26EEmcj2duB0QpoQmmH3WHhmXYU8qQezzOHcgcHDQpeYgFjcvL4DiwPa
-	 u1MWGKVzCRlgp4lDXiDX3tN27aas6/ZGomnUaZ3CPxsI3VxEAU5J4fSsD7kk3e4dA4UHJ
-	 +dek4/CuaNAWndB4bY/SaV7+jUotNaT/wCwACI+lv9OtBMbYS7hIPUlBbh3loH7xoK+bd
-	 GmcliS6HITckIBJKyj5KloOX1Fe3lQ9GJjljarpgW9LxJOnEqW1ITzaVjvvZJdkdPQw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HO4ZEgKo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64211606D832;
-	Mon,  9 Nov 2026 00:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HO4ZEgKo
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794184627;
-	b=QDCKBZLo3kU1Yak3rtIENf305VSWXAK57ZUAe6BiZUDQwl043oRB9i4jIjn16gppaF9O
-	 DkwU7ZEUupXflDcGOdcZD8eqMCiD/AZtVCoEPxHlBNqDe1BvTxpnepBUXezFvU4dfVOuS
-	 E2cHGBsX+e0tAo0xMkoAjJrwpzjD62Et88P0e+1BdGYv+yHw2Q9y1PpmOH1DiRcgHrGmw
-	 f4Ee48sK0yyzUXhyUJOJRpYUzwjS5zo7t+JozDCOIz0XzYsuaZyQ0UOpPstxpHxMVICLX
-	 gmz+SXzu0vJce+7sXIugmgiK1ppdlaC1AYg2sG3ENx+mYyOpmwhrvi72CD5vJPw2Fqw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794184627;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=eOWqZN2vW2kC8QQcwq92WRb+QnG24MxoJUzMmXz3TKY=;
-	b=bMZ7lRk+Xnx3P7KFHH8aWuOZdNP0S+Cbx4t0EFNjU2kT2llkDIGwDbsdEx1yGRTVs5W9
-	 Q/Gyk3861LzhrMrpTHEMZQaCziHLmjZcJFOW4AaxVZ6AClKC+VFnZoNqTiqxeMbJWjjCI
-	 9zCZeJWtiEMVzuyWumnfAuN5sPDmdpzCh1nFFlVedJDzFa/nlsovKKqSMYSFFao012W9Y
-	 om/KXimPjCihTkJPuqlQaVbme9EWMKppmBmt1S1HsrvH4v35S3166s5vY2B/0vLzCksHt
-	 MNAT1WpH9gyN1VPy/f2sQfboUlp+Dg2e8MOOYVNj/XNNmIsldOOCTpPvNbf9ntrTs0A==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794190122;
+	b=yyk5Xe2fL7hfcAr0F/Pdn8i9NhC0F29yaEH1mXLAnbgA6T4qggoWkhKD0C1fsOn9z3HX
+	 TLMGnvwrQs5FQMmuxkn6Sr2yGWapr9emRy0cXavYXTo4peDpRZSpqyKlzC1xFC4j8RyyA
+	 /IJaX6UW3WmjGUfAiS0RghIbHEl3v4tN8IWQwaAMZ1zjPOdmCAcG4u56puFk3MoAqmhXr
+	 42SXkWPSoLGEKaYOAwp7cb1umAnR2VX6byNvcT9km4bAQ3wK098kIE3NJulNgiSBiNIHl
+	 YSQX8nESsDDLwnq9V69R+1gFi9NQoBDRtkM1jww/N255WRBBjsS99XE2XuekzepZs9w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794190122;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=gIsILu38RSpIB/VQtAXT+jlGCK+QgBbfByzV7rqh7Do=;
+	b=bVculhyZT2K+zkHiuWDB8hC/cNcwJLylqOS+ULeJqFJMw7NslLet/FgnHY0Gz9ESVz2L
+	 dCsBaiGUXaLLrk9vllofKhtYN/fNpD9Oo38YpRpO1+LNKSXuPGh44NQ07S/tVrf3dC8va
+	 sx5kp431b3AIMjwu5+UK1QPAxTNgoLzZiwqvQ++9eIcG9Dov6G/BRruN/qcJhVIfMMTnE
+	 KtuzEX3nnoZNj9V8IdW4BySd4asWsl6+SOYETa9phxafC+EZL32p6FJXc9BTawypHfO8+
+	 /RCqq8q5SJzGTWAW0t/uiCghbWY22SBkJ/4s7LGhRy1MwfejRx3ja4nnW5fwUv/JLug==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PV4VxcvZ;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MeLMjhgl;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8510F1F0089F;
-	Mon,  9 Nov 2026 00:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794184626;
-	bh=eOWqZN2vW2kC8QQcwq92WRb+QnG24MxoJUzMmXz3TKY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=HO4ZEgKoyUxhMQmw/r6qWBDWBs9UuHq6TJwX/dugMKswBS3g9N6sGVLHZrYh4lqfN
-	 wgWxgOw7m9bz1jGRIvnHJeg0txQRpluQL/QDmczNhKt9gddNfmI48Af9/tjvci6i17
-	 50XIYSdrISzWz/78zdAAF/wKq1WTCqAZcbEixpMrkc+2Jo2DwfFvFvR1IVERSyV8U2
-	 02ua8daMbjGsd3f90Q9WB8VFXSim/t9L3hGp/FqXPTzfjA1G7UExVaOnigRgGxHfhH
-	 3jspGeU6wZpUqweOwkfLdamU2di98vtO/3yxWrSgH+Pha5tkOErcHRXXYBKXSpKOyK
-	 REqdZGx6XWK+Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9C33E481C4;
-	Mon,  9 Nov 2026 00:37:02 +0000 (UTC)
-From: Ke Sun via B4 Relay <devnull+sunke.kylinos.cn@kernel.org>
-Date: Mon, 09 Nov 2026 08:36:52 +0800
-Subject: [PATCH v6 09/10] drm/tyr: support write-combine BO mappings
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39E5606A31C
+	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 02:08:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E39E5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PV4VxcvZ;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MeLMjhgl
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A90HJdg3850580
+	for <driver-core@lists.linux.dev>; Mon, 9 Nov 2026 02:08:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	gIsILu38RSpIB/VQtAXT+jlGCK+QgBbfByzV7rqh7Do=; b=PV4VxcvZEc/NHdbF
+	Oe6LhKn5icnqW5+Pd29eXIRMoHDKJgo7vqPhqzCjBKoamE1IyHesxWtw8WJUy4A7
+	nZj0prCqfgPFPYjAqVJ6n+xedd9+mcLSUMNV4r3kBHJB6X4d62lKmLufjT/yU5X4
+	E9ITpZu7Cbrle+Cb4OQ79RGZWppKr3/1mEu1YTjiXNhAaqSyReX+uvnbyrhXyNxZ
+	XO965UFxP+TVR1AuYo/LaWFzh70zJxUDmEXSYJhD1uX4xfEcSPgGnPcNOMSa66To
+	M1R1ED9Eo5NJjhQ1hu8aZHYF3/5+Ghw4ERO4WDr4nTxUHFLdQt3352KUDeT2+Njc
+	/KuFVw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hsspf4kg7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Mon, 09 Nov 2026 02:08:41 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3abb4c24125so331149a91.3
+        for <driver-core@lists.linux.dev>; Sun, 08 Nov 2026 18:08:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794190120; x=1794794920; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gIsILu38RSpIB/VQtAXT+jlGCK+QgBbfByzV7rqh7Do=;
+        b=MeLMjhglmOK0ew+KsLkmNiJ0mJA7cLYdCgNJACD8k16sdjtrNj/df+JWRLm8OgR0t6
+         VIPeIgC+9yH/LJEUP8KseUm+v2rEerlzrewccq4uzenxN+SrF1uyVGZP2jRawDEY1XKm
+         KB848WDEV/3nP0FXheVZEEfhw3znxK3zTIEkBwR7haSeRj/i/hngynPLk+I4arj8X27l
+         NWNlnYO31m+2gRudk20yigiN0y/0mj4Cw3Vimd8KQ6W62MmUXhPsdn20E9ZMmTmbh2J4
+         4aT4YJYs79FNEAVo2I+eU3nksmNDvp64QvzKSWOfPm62wEsCabaNYjBM2B8w+/DEMkxz
+         shKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794190120; x=1794794920;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gIsILu38RSpIB/VQtAXT+jlGCK+QgBbfByzV7rqh7Do=;
+        b=EgLi48z0n/SVuYO2OPDp29Ptio3IO9Uk2RqlxuoyeuSjnKK30+EFpqc2isDpdoL5fB
+         Q4StQ/gvuuxy0LhNxf29KXl2AprETBll73DA6dLOgGRi5cROYkSkfxsnKuXWeA+V3/5g
+         LvBS4EDtNyanNgWgSad+6RxsxZYvyydVWremj+eg1daFnNu7y17od3fUHmHUt7lwcja6
+         w6sSeFVIlO/DEXOECOxrTptMY2qm1KVdNtfU5Vg1p6xUSSmM2jbnWVuqaqrExW8WLrjb
+         v43cDsgYjL+qfYGjk4V1DNVd9nxFm9oTsIY7TEcIIKohsxvQnBUTn+KENpFfhDQoDCXp
+         r+YQ==
+X-Forwarded-Encrypted: i=1; AL+hErE9Z+KTvmcapbqVkPVLkITVK8RybLMs9NwkwiyA7B6hwA+jFN0mnM00N2F0ljAwxl5EEJ5kYNGem1jfnA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+0Ow2qAivuQehBJI0N5TS16rheaTaECzcIh4TsRlwCjdJpzVUx
+	ZnEVTw+jdPBRxD2TaJLssemJjRwe1+gB9e7hBz7AnaVlDe+IgjkpKIJA7SR0FfZ8zHt1nGqp/89
+	erj72LR/aGmM5QHuUrPhLug6jsgt9ghudEHwKYYcqRZEJZ+K6WPBRYruqPv0inkdruA==
+X-Gm-Gg: AYBFou1tdZFcFdKbEbKIS4TC6CmufhP2e0hE7mS6aS84pd98lAAsHKuxgmapusBq3XQ
+	gqoabfC3CF3amjYSGVeooAun9Qk4bZh60HF9LNtI3Wok/U6EySC2SDVZOJHBYJx0zAERmbkpxZN
+	Qhbu/L+uwgyPTdlNuWoq0m7W6d7KR6wFJSj/ewOcgNcgD/2HEeigth9L3txQOHTDZg3w2d9qpo9
+	0/OBoI3xsrr7UCQuvLljaBerxfAZ51/Cx7iHWPRgViNLAR3ZIdn7lj7aJC5PPoVIVPaQcWHOPTK
+	Nq9joXNt71IswksFTkHbsuvp5sqjkD6JBdUdCVsCwpcfdVEXNZPPeiqlLjk/fxjPSfCueO7Zan+
+	+qIhVnaUWkGytl1RrGGBnCHZuoJj3U5buLBkVpU5JioqkDhAJZj+XGrGPOs+RQV3nBKrjiP2StO
+	MF/5Vl6e7/d+yuNA+WZUSwcvNxmG3IiqD4g4waYVT7HveO
+X-Received: by 2002:a17:90b:4c84:b0:3ac:9599:a689 with SMTP id 98e67ed59e1d1-3b12d373624mr2158721a91.34.1794190120345;
+        Sun, 08 Nov 2026 18:08:40 -0800 (PST)
+X-Received: by 2002:a17:90b:4c84:b0:3ac:9599:a689 with SMTP id 98e67ed59e1d1-3b12d373624mr2158678a91.34.1794190119715;
+        Sun, 08 Nov 2026 18:08:39 -0800 (PST)
+Received: from [10.133.33.170] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1278918f4sm4779025a91.6.2026.11.08.18.08.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Nov 2026 18:08:38 -0800 (PST)
+Message-ID: <5df6771c-a440-45cb-bdb9-ca25b42287fa@oss.qualcomm.com>
+Date: Mon, 9 Nov 2026 10:08:35 +0800
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -82,344 +116,85 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-tyr-ioctls-v6-9-b2896bf2b3c9@kylinos.cn>
-References: <20261109-tyr-ioctls-v6-0-b2896bf2b3c9@kylinos.cn>
-In-Reply-To: <20261109-tyr-ioctls-v6-0-b2896bf2b3c9@kylinos.cn>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, rust-for-linux@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
- Ke Sun <sunke@kylinos.cn>, Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794184620; l=10160;
- i=sunke@kylinos.cn; s=20260317; h=from:subject:message-id;
- bh=5wWt26iAyWLWMAGjPpMaEoEP5nCYGY3PH94v69tzFyw=;
- b=KgWsx8S2vfcef68MJkD6Y98zUIZcMp7F7tSkCs5dTKXrCwYzMYyTOlCGAoUVTYAGmm2Pp/rLy
- JCHo1z57PIPC0pnnL1p4fyLmEsH2s3veUKjRQwH2g7ouze0YrbgaaYt
-X-Developer-Key: i=sunke@kylinos.cn; a=ed25519;
- pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
-X-Endpoint-Received: by B4 Relay for sunke@kylinos.cn/20260317 with
- auth_id=950
-X-Original-From: Ke Sun <sunke@kylinos.cn>
-Reply-To: sunke@kylinos.cn
-
-From: Sami Tolvanen <samitolvanen@google.com>
-
-Tyr maps shmem-backed buffers write-combine, but on a coherent device
-they are mapped write-back. Cache the coherence at probe and thread it
-through to every shmem::ObjectConfig::map_wc site.
-
-Userspace can opt out with DRM_PANTHOR_BO_WB_MMAP, which maps the
-buffer cached instead.
-
-The shmem layer zero-inits pages through a cached mapping, and those
-stale lines can land over later uncached writes, so fetch the sg_table
-at creation to flush them via dma_map_sgtable() before anyone accesses
-them uncached. Taking the bound device keeps the unsafe
-as_bound() call out of BO creation.
-
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Co-developed-by: Alvin Sun <alvin.sun@linux.dev>
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
----
- drivers/gpu/drm/tyr/driver.rs | 13 ++++++++-
- drivers/gpu/drm/tyr/file.rs   |  1 +
- drivers/gpu/drm/tyr/fw.rs     |  4 ++-
- drivers/gpu/drm/tyr/gem.rs    | 61 ++++++++++++++++++++++++++++++++++---------
- drivers/gpu/drm/tyr/vm.rs     |  9 ++++---
- 5 files changed, 71 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index ba03cc4c52539..6869ab345d8fd 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -9,7 +9,8 @@
-         Bound,
-         Core,
-         Device,
--        DeviceContext, //
-+        DeviceContext,
-+        DmaAttr, //
-     },
-     dma::{
-         Device as DmaDevice,
-@@ -87,6 +88,12 @@ pub(crate) struct TyrDrmRegistrationData<'drm> {
- 
-     /// GPU information read from hardware during probe.
-     pub(crate) gpu_info: GpuInfo,
-+
-+    /// Whether the device is reported as DMA-coherent by firmware.
-+    ///
-+    /// Cached at probe via `device_get_dma_attr()`. Drives the BO
-+    /// cacheability policy in `crate::gem::should_map_wc`.
-+    pub(crate) coherent: bool,
- }
- 
- fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
-@@ -151,6 +158,8 @@ fn probe<'bound>(
-             // other threads of execution.
-             unsafe { pdev.dma_set_mask_and_coherent(DmaMask::try_new(pa_bits)?)? };
- 
-+            let coherent = pdev.as_ref().dma_attr() == DmaAttr::COHERENT;
-+
-             let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, Ok(()))?;
- 
-             let mmu = Mmu::new(pdev.as_ref(), iomem.as_arc_borrow(), &gpu_info)?;
-@@ -161,6 +170,7 @@ fn probe<'bound>(
-                 &unreg_dev,
-                 mmu.as_arc_borrow(),
-                 &gpu_info,
-+                coherent,
-             )?;
- 
-             firmware.boot()?;
-@@ -186,6 +196,7 @@ fn probe<'bound>(
-                         }),
-                         iomem,
-                         gpu_info,
-+                        coherent,
-                     }),
-                 )},
-                 _: { dev_dbg!(pdev, "Tyr initialized correctly.") },
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 49b22e7ee4179..b982e8db2c4c1 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -109,6 +109,7 @@ pub(crate) fn vm_create(
-                 pfile.reg.mmu.as_arc_borrow(),
-                 &pfile.reg.gpu_info,
-                 UserVaRequest::from_uapi(vmcreate.user_va_range),
-+                pfile.reg.coherent,
-             )?;
-             let user_va_range = vm.layout.user.end;
-             let id = pfile.vm_pool.add(vm).map_err(|e| {
-diff --git a/drivers/gpu/drm/tyr/fw.rs b/drivers/gpu/drm/tyr/fw.rs
-index 196ffc96d9d99..1c77bf109a9be 100644
---- a/drivers/gpu/drm/tyr/fw.rs
-+++ b/drivers/gpu/drm/tyr/fw.rs
-@@ -217,8 +217,9 @@ pub(crate) fn new(
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-+        coherent: bool,
-     ) -> Result<Firmware<'drm>> {
--        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info)?;
-+        let vm = Vm::new_for_fw(dev, ddev, mmu, gpu_info, coherent)?;
-         vm.activate()?;
- 
-         let result = (|| {
-@@ -235,6 +236,7 @@ pub(crate) fn new(
-                     size,
-                     KernelBoVaAlloc::Explicit(va),
-                     parsed.vm_map_flags,
-+                    coherent,
-                 )?;
- 
-                 let section_start = parsed.data_range.start as usize;
-diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-index 60f6363995a5a..55e2d67b96d98 100644
---- a/drivers/gpu/drm/tyr/gem.rs
-+++ b/drivers/gpu/drm/tyr/gem.rs
-@@ -7,6 +7,10 @@
- use core::ops::Range;
- 
- use kernel::{
-+    device::{
-+        Bound,
-+        Device, //
-+    },
-     drm::gem::{
-         self,
-         shmem,
-@@ -17,7 +21,8 @@
-     sync::{
-         aref::ARef,
-         Arc, //
--    }, //
-+    },
-+    uapi, //
- };
- 
- use crate::{
-@@ -38,6 +43,14 @@ pub(crate) struct BoData {
-     flags: u32,
- }
- 
-+impl BoData {
-+    /// Returns the flags the BO was created with.
-+    #[expect(dead_code)]
-+    pub(crate) fn flags(&self) -> u32 {
-+        self.flags
-+    }
-+}
-+
- /// Provides a way to pass arguments when creating BoData
- /// as required by the gem::DriverObject trait.
- pub(crate) struct BoCreateArgs {
-@@ -56,24 +69,48 @@ fn new(_dev: &TyrDrmDevice, _size: usize, args: BoCreateArgs) -> impl PinInit<Se
- /// Type alias for Tyr GEM buffer objects.
- pub(crate) type Bo = gem::shmem::Object<BoData>;
- 
-+/// Returns whether a BO should be mapped write-combine.
-+pub(crate) fn should_map_wc(coherent: bool, flags: u32) -> bool {
-+    if coherent {
-+        return false;
-+    }
-+
-+    if flags & uapi::drm_panthor_bo_flags_DRM_PANTHOR_BO_WB_MMAP != 0 {
-+        return false;
-+    }
-+
-+    true
-+}
-+
- /// Create a new GEM buffer object.
- #[expect(dead_code)]
--pub(crate) fn new_object(ddev: &TyrDrmDevice, size: usize, flags: u32) -> Result<ARef<Bo>> {
-+pub(crate) fn new_object(
-+    ddev: &TyrDrmDevice,
-+    pdev: &Device<Bound>,
-+    size: usize,
-+    flags: u32,
-+    coherent: bool,
-+) -> Result<ARef<Bo>> {
-     if size == 0 {
-         return Err(EINVAL);
-     }
- 
-     let aligned_size = size.checked_next_multiple_of(PAGE_SIZE).ok_or(EINVAL)?;
- 
--    Bo::new(
-+    let map_wc = should_map_wc(coherent, flags);
-+    let bo = Bo::new(
-         ddev,
-         aligned_size,
-         shmem::ObjectConfig {
--            map_wc: true,
-+            map_wc,
-             parent_resv_obj: None,
-         },
-         BoCreateArgs { flags },
--    )
-+    )?;
-+
-+    bo.sg_table(pdev)?;
-+
-+    Ok(bo)
- }
- 
- /// Look up a GEM object by handle for a DRM file.
-@@ -82,18 +119,17 @@ pub(crate) fn lookup_handle(file: &TyrDrmFile, handle: u32) -> Result<ARef<Bo>>
- }
- 
- /// Creates a dummy GEM object to serve as the root of a GPUVM.
--pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice) -> Result<ARef<Bo>> {
--    let bo = Bo::new(
-+pub(crate) fn new_dummy_object(ddev: &TyrDrmDevice, coherent: bool) -> Result<ARef<Bo>> {
-+    // FIXME: use a Rust resv-object abstraction once available, rather than a real BO.
-+    Bo::new(
-         ddev,
-         4096,
-         shmem::ObjectConfig {
--            map_wc: true,
-+            map_wc: should_map_wc(coherent, 0),
-             parent_resv_obj: None,
-         },
-         BoCreateArgs { flags: 0 },
--    )?;
--
--    Ok(bo)
-+    )
- }
- 
- /// Specifies how to choose a GPU virtual address for a [`KernelBo`].
-@@ -131,6 +167,7 @@ pub(crate) fn new(
-         size: u64,
-         va_alloc: KernelBoVaAlloc,
-         flags: VmMapFlags,
-+        coherent: bool,
-     ) -> Result<Self> {
-         if size == 0 {
-             dev_err!(vm.dev(), "Cannot create KernelBo with size 0");
-@@ -146,7 +183,7 @@ pub(crate) fn new(
-             ddev,
-             bo_size,
-             shmem::ObjectConfig {
--                map_wc: true,
-+                map_wc: should_map_wc(coherent, 0),
-                 parent_resv_obj: None,
-             },
-             BoCreateArgs { flags: 0 },
-diff --git a/drivers/gpu/drm/tyr/vm.rs b/drivers/gpu/drm/tyr/vm.rs
-index 11bc8e2c9d0be..6d312c3b2ccd1 100644
---- a/drivers/gpu/drm/tyr/vm.rs
-+++ b/drivers/gpu/drm/tyr/vm.rs
-@@ -473,13 +473,14 @@ pub(crate) fn new_for_fw(
-         ddev: &TyrDrmDevice,
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         // As in panthor: the CSF MCU is a Cortex-M7 and can only address 4G.
-         let layout = VmLayout {
-             full: 0..u64::SZ_4G,
-             user: 0..0u64,
-         };
--        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
-     }
- 
-     /// Creates a user VM, splitting the GPU VA range per `user_va`.
-@@ -489,6 +490,7 @@ pub(crate) fn new_for_user(
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-         user_va: UserVaRequest,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-         let va_bits = mmu_features.va_bits().get();
-@@ -502,7 +504,7 @@ pub(crate) fn new_for_user(
-                 range.end
-             );
-         })?;
--        Self::new_internal(dev, ddev, mmu, gpu_info, layout)
-+        Self::new_internal(dev, ddev, mmu, gpu_info, layout, coherent)
-     }
- 
-     /// Initializes a VM with the given layout.
-@@ -512,6 +514,7 @@ fn new_internal(
-         mmu: ArcBorrow<'_, Mmu<'drm>>,
-         gpu_info: &GpuInfo,
-         layout: VmLayout,
-+        coherent: bool,
-     ) -> Result<Arc<Vm<'drm>>> {
-         let mmu_features = MMU_FEATURES::from_raw(gpu_info.mmu_features);
-         let va_bits = mmu_features.va_bits().get();
-@@ -520,7 +523,7 @@ fn new_internal(
-         let reserve_range = 0..0u64;
- 
-         // dummy_obj is used to initialize the GPUVM tree.
--        let dummy_obj = gem::new_dummy_object(ddev).inspect_err(|e| {
-+        let dummy_obj = gem::new_dummy_object(ddev, coherent).inspect_err(|e| {
-             dev_err!(dev, "Failed to create dummy GEM object: {:?}", e);
-         })?;
- 
-
--- 
-2.43.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] driver core: Demote "Fixed dependency cycle(s)"
+ message to debug level
+To: Johan Hovold <johan@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+        driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        songchai@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, coresight@lists.linaro.org,
+        devicetree@vger.kernel.org, Saravana Kannan <saravanak@kernel.org>
+References: <20261106084034.1579494-1-songwei.chai@oss.qualcomm.com>
+ <au2UzljzfMaiL7F6@hovoldconsulting.com>
+Content-Language: en-US
+From: "Songwei.Chai" <songwei.chai@oss.qualcomm.com>
+In-Reply-To: <au2UzljzfMaiL7F6@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDAwOCBTYWx0ZWRfXywponG3jCNNs
+ dW3cCa2SJF/Z7pmmY21pIdNJZopYGOPjirSzW8jaBS3jZkuszD7O2ir9IgKNCSUe9UnnIgIvBXc
+ AJK+5gAn4Liqx41ASpZ204N4QbVL5Go=
+X-Authority-Analysis: v=2.4 cv=LJzz05W9 c=1 sm=1 tr=0 ts=6af12b29 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=zitRP-D0AAAA:8 a=wpr1R3xn-rj-rwNLJSoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=xwnAI6pc5liRhupp6brZ:22
+X-Proofpoint-GUID: tAT92DCLd4XyGaZVPa-Nb7FAljW0MiG3
+X-Proofpoint-ORIG-GUID: tAT92DCLd4XyGaZVPa-Nb7FAljW0MiG3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDAwOCBTYWx0ZWRfX1fSOzVwNrA3z
+ a1kGyY7zJ2xOSOHtd5cbOPVmfmqKgUyBnHRTMYRQZEZNqmbyl/EMHP+DF4lrzQdQmSCG3S9esLC
+ az6UjrjOR7H7BRY9hZTfFvtN45lB667oKc9oAWGWw9cKZ5oXgeIvh8jmEn/0sWSB9uxDoDvXdzv
+ Yz/wYCI6WSh5tsiEJMed65lcpb/r8dw8wy4s4bcsdaQN5gjLMTx6b6cLKY9rWxvwfl6MAweLlSg
+ pzrs3em8f3DdLpqTBz/OOeEDvxrJvOlpDklq2NLMTb7I8gSNZGL8qV17FdzvSVGj6VUZWQrAeob
+ KyKsVGQHXnGvpPYPr1ragcL3ZLfqkR/N2vxQvQzAXjyrhgw61v3PtLY9IKQfGbJRMs/OLyD3RG2
+ K/gyYvrXyz3bNlnwL4ETiM8uDSF1wuPazQdmM5qjuBbqNbhg4Zf3aY00B9Ok3lpeLc973UzYDMN
+ pfXw+M2l7n2/Kez9L7g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-09_01,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611090008
 
 
+On 11/6/2026 4:50 PM, Johan Hovold wrote:
+> [ +CC: Saravana ]
+>
+> On Fri, Nov 06, 2026 at 04:40:34PM +0800, Songwei Chai wrote:
+>> fw_devlink detects and relaxes dependency cycles automatically, so this
+>> is not an error condition requiring user action. On complex DT
+>> topologies (e.g. CoreSight), this message can fire for many node
+>> pairs and adds noise to the boot log, even though it's primarily
+>> useful for debugging. Switch pr_info() to pr_debug() so it stays
+>> available via dynamic debug when actually needed, without cluttering
+>> default boot logs.
+>>
+>> For example, on sm8750 this produces 125 such lines in the boot log in
+>> total, 80 of which are CoreSight-related, e.g.:
+>>
+>> [    0.057190] /soc@0/funnel@10041000: Fixed dependency cycle(s) with /soc@0/stm@10002000
+>> [    0.057211] /soc@0/stm@10002000: Fixed dependency cycle(s) with /soc@0/funnel@10041000
+>> [    0.057229] /soc@0/funnel@10041000: Fixed dependency cycle(s) with /soc@0/tpda@10004000
+>> [    0.057249] /soc@0/tpda@10004000: Fixed dependency cycle(s) with /soc@0/funnel@10041000
+>> [    0.057254] /soc@0/tpdm@1000f000: Fixed dependency cycle(s) with /soc@0/tpda@10004000
+>> [    0.057260] /soc@0/tpda@10004000: Fixed dependency cycle(s) with /soc@0/tpdm@1000f000
+> I reported this elsewhere a while back:
+>
+> 	https://lore.kernel.org/all/Z6t45aOGDkotqM4Z@hovoldconsulting.com/
+>
+> Are you sure it's not the coresight bindings that should be fixed?
+
+No, Johan, I don't think this is a Coresight bindings issue.
+
+This is the mechanical result of the standard bidirectional graph 
+binding + fw_devlink's direction-agnostic phandle scan — it will appear 
+on any SoC/CoreSight topology using the standard binding, and there's no 
+alternative binding syntax that avoids it.
+
+>
+> Johan
