@@ -1,53 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239018;
-	b=dyTTCa1m/hPNDk+Z7JkKADW/ks6hLGKXv6LIEYU6w2p4F1ws4x+S1teSXTfh9B19i92w
-	 h/jYgrXnR/8B2Ub18gJKldZEvnNu/B3r6TlbyfYtnaq4rM2YBqbkBIgD6pe9R3ilQpB4Z
-	 6/l2UdFeSrQX8zlG5J9tnMJP2uV/Z1lEKoqiDg9FxnMLd8j4mylMyEZi7+Q3Ls4uLx1tv
-	 kX5Ji7E5bu6MZu+kB9JPM7APe6OvnBfVOzTpCx+YyDGUtl6htQglWFA/jN45raquW2f+x
-	 bG6frH4NBi5YBCUHpmklX5aq/j149oo7t0xeKxW9fj4HGWMsW1prANwhtyzoxkqM1Ng==
+	t=1794239738;
+	b=hU/YZEs+9S7oEaM3adTCu7QH4h7wXVAEekX3BSvt6m7Ekq2WTnYdCo36QG6qv8ajaQqy
+	 39j9u69nF80c77AXrGNjPw8C3AJBW+38zSr7emJs/Pij51bMmQ8+gDNnzUY9dnL4U5BCE
+	 1yBaX0DIjJx0MxwOW29XENxCW8N8LBHAc7o1ogGmeWmGf5wGkCvpmUfM742iGnl+y9VPl
+	 giTK8E5H7DWKloxdCpTZRl/bKlhnZQ0YKxV1X5agoVwgkLyvJ55xBdtEElSqlpbQPivkO
+	 gblXyuehE2pj/mQgluBvxb9Gu4tD8DmiiPvQt4LTU4G22eVG7w5xNWsYJTybqagj+DQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239018;
-	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=wU1ifyjtBHXzPL8O1JAUpouGxPg8mwJS5MT55/0wkts=;
-	b=2ofN3rypyqt5t8mqg0Z6ynHvrH0iJT0GMLZHJxgUcF+P/ZMilqQJ/2RisqPG8u3zeKx/
-	 rFyvoPrqcu8Pq35oL9kW3/AS0ArQedIG1jiDLSGZ/Erv76YUwf7ND0XN1uJpzCVSdnbVC
-	 tzi2tTuknA8+kTlDGbGyvhTUGBjvn/5wpXIDz/iBjGGIha6DpJbYvYF8wjmI79feE72cE
-	 C7lYaa7a3xITQKZTvCLqchVX1peQPoMr82nh86aS/wmBj89q+0/ND8ABukMVAfaEqMAQu
-	 FGg/HpyzNOIt4SMgxa8PpvXJ+t7S2O0/n41hHoFiTi3qB28hXNJ65GFBtkToC9bcZPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239738;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=/2hDZvu5IDKTr5dLPiIf2Oa0od0qY863w2cYiK9JPBE=;
+	b=pMm1KcY8kNbZRJ62bvPslnlKoTMgFDjgM5xvD/VGc4GS5OXaH1rsv+VXrQdijLEm3HqO
+	 Dn9ChDJ4D9P87QVqCG16e2z8SLDKKy7DjBDwm9DagsqfSLpKad+51SpoxaXIQV9dppi7z
+	 44Pp94d/CZ8lwl/Y5rvWtF+cqCA8t3139c0r+noX1NXpG2QMGym1fsZkie3M1L68MPvp3
+	 sd7c/CTaHUfU8KHSE2zefqrmP9NST0NyRs5lgbz1cDAOKZ82AX0YCCE3IdvqPZ/SlNxMB
+	 gPm2REEYRnLqBPDFNF1k/ZgNVtbDoDeFWubUoj8wyOVJJnufkIFAJSQYuA0iMo9/wFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyxFsy5j;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZU1k5P5r;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2A0606A31C;
-	Mon,  9 Nov 2026 15:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C359C606A31C;
+	Mon,  9 Nov 2026 15:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyxFsy5j
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AAAD1F0089F;
-	Mon,  9 Nov 2026 15:43:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZU1k5P5r
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDF71F008A1;
+	Mon,  9 Nov 2026 15:55:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794239017;
-	bh=wU1ifyjtBHXzPL8O1JAUpouGxPg8mwJS5MT55/0wkts=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UyxFsy5j1uexnMSXrnWEqLslhhH0CGTrpUNXtaJTFYNOhnN/7dWCA3huzZo/1zWgw
-	 o8ymlQoJFHCJloqJEPTKAyabLAwSbDevxBPr/35tfSMrGJNSoWqmvsli4ng6t1Z7Rc
-	 YksbunXIId3fAAGQvqiZoyzVkQ5NYXr5xodbdmfnUoafUMgB6+vDkQUtWGoYf3iyv9
-	 +vyZoBlMeSYqFB2G5fhXw22XGNnOF9zy6u4rctcmy+1lnJpB8U+YIoYAKCUg8ZnkAF
-	 Mhmhbn/eWpog5qz9Pb0/+iMkdkIiEn+d/r2Wn5nRbWbzOwrX7S8p+H8VWhRpTU/5GC
-	 YTAQcn+/ugMew==
-Date: Mon, 09 Nov 2026 05:43:36 -1000
-Message-ID: <91fa9a5de005245ed3c1bde305fc6778@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Chris Down <chris@chrisdown.name>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, Serge Hallyn <serge.hallyn@ubuntu.com>, driver-core@lists.linux.dev, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH] kernfs: Build paths in linear time with respect to depth
-In-Reply-To: <au_pnu4s141ylqHD@chrisdown.name>
-References: <au_pnu4s141ylqHD@chrisdown.name>
+	s=k20260515; t=1794239737;
+	bh=/2hDZvu5IDKTr5dLPiIf2Oa0od0qY863w2cYiK9JPBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZU1k5P5rFOrwyhMK6/lmpmmiLCcf0AIa74/fZns7V5SeIhdN7EreZ6Z4dxyOPCGZU
+	 KXqociUOfKJdxYOLzOHPn/Py4Zh0dwUKCCF3VolpA66bcrZANrgwFGnCmtECHKeTy3
+	 AyfQakXBn0N7/sIR+DwAyJr/VdcmDh0t4yujO35Wn/YSKonkEPGAG17igeOxa9I4ul
+	 C+H90bJ5k08l5YYXUMO7rURDZ5BEr602IBYoofQodDgbV/018iQYfu9B+DY17zTyKj
+	 pjeWuacr+M7i/bUlBfmijMdT0vUXb8767lK23Q0ieCMs3kPVW5hE5IUEr9JZkwu1Hd
+	 6i8nmtvODhOHw==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xQRiY-0000000AHHl-2f2c;
+	Mon, 09 Nov 2026 16:55:34 +0100
+Date: Mon, 9 Nov 2026 16:55:34 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: Re: [PATCH] software node: only let the owner release a managed node
+Message-ID: <avHs9hKOc3QVLM4x@hovoldconsulting.com>
+References: <20261102-swnode-only-owner-release-v1-1-ee4c9022a629@oss.qualcomm.com>
+ <avHMhh8ChrFE_b_e@hovoldconsulting.com>
+ <DMQQO3DTZE66.1Q2XGGDGN3WUP@kernel.org>
+ <avHZ5U_YR9QSqd0G@hovoldconsulting.com>
+ <DMQREV9DFQST.1Z4ZFOFTS0Z7W@kernel.org>
+ <avHfx80pHRPwtqRt@hovoldconsulting.com>
+ <DMQS3EURP5MB.2DY989AOI0CSD@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -58,45 +77,25 @@ List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <DMQS3EURP5MB.2DY989AOI0CSD@kernel.org>
 
-Hello, Chris.
+On Mon, Nov 09, 2026 at 04:17:33PM +0100, Danilo Krummrich wrote:
+> On Mon Nov 9, 2026 at 3:59 PM CET, Johan Hovold wrote:
 
-On Sat, Nov 07, 2026 at 07:16:46PM -0800, Chris Down wrote:
-> kernfs nodes only point to their parent. To build a path top-down,
-> kernfs_path_from_node_locked() walks back up from the leaf for each
-> name, so the work grows with the square of the depth. Reading
-> /proc/<pid>/cgroup does this with IRQs off and css_set_lock held, so a
-> read from a deep delegated subtree can hold up fork and exit elsewhere
-> on the machine, which is certainly suboptimal.
-...
-> In terms of operations, with a 15,000 deep path chain and a 4 KiB
-> buffer:
->
-> 1. Parent and name pointer reads go from 112.6 million to 75,003 with
->    this change
-> 2. On my machine the second read of /proc/self/cgroup takes 99.86% less
->    time.
+> > So I think we can just go ahead and fix this in driver core directly.
+> 
+> Ok, then I agree it is fine as is. :)
 
-I don't think a 15,000 deep cgroup chain makes much sense as a use case.
-A lot of other stuff in the controllers will break down at five-digit
-depths, and quadratic isn't that expensive when the base number is
-small. Did you see this overhead in more realistic scenarios?
+Good. :)
 
-> +	/*
-> +	 * We can only walk towards the root. Fill from the end and wrap
-> +	 * so that if the path is too long we keep its first bytes.
-> +	 */
+I've updated the commit with the missing Reviewed-by and Fixes tag. I
+also decided to drop the reordering of releasing the swnode references
+as that is arguable an unrelated change and the current code expects
+users to hold a reference unless it's a managed node.
 
-Even if it is worth doing, the implementation looks too convoluted. Most
-of the complication seems to come from supporting wrapping to keep the
-head of an overlong path. The only callers that care about what the
-buffer holds on overflow are debug outputs. How about changing the
-contract so that on overflow the buffer keeps the tail end of the path
-instead of the head, which is more useful anyway, and the function
-returns -E2BIG rather than the length?
+End-result is here:
 
-Thanks.
+	https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git/commit/?h=driver-core-linus&id=f8623ce596492d2e96ca57eeec992938d3d79f00
 
---
-tejun
+Johan
