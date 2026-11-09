@@ -1,74 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794241241;
-	b=nqhXW0plQtxJ7XhI1djcLuLl73bfP1J5XremKp8LIRqVhWBzMe8nixecrBUITIitg+Hz
-	 e00yaPLAW1t9ZQyoW1EXQN08ddoR23rZYbdijsAQYyMcuZhMvm4V3KMVkotpiJAr3DLrG
-	 kmxwK0WTB1wVpNCAYfc1Y3RHUtgOx41kkl4TjyDnq9PaMbsYzbXeFFkwwNXHhu9Uc69L/
-	 giacZQzT5iTIbOgcQWZxYtWAPtnx0SfpDAcpIBYYWvMr2LjbzenYWKktJ0fDD3QAnOJ6c
-	 pQNraXPoLIpk6hcwfmDs8vYIX661D000d2G03uHKEmn4chQJ8dzSSoQsSCVhqz76+fA==
+	t=1794245322;
+	b=X2556MV0KI+4jec9JRTWohFEYcnodWjLKmOaUpOa6KezfCA5jZTQ/CUqBlrXJycWzVT8
+	 F9knZuV6xHTZqfs1z3dgp+0wOYUwPpnW3GdyhoNa2RzYMTcx4Kb4014Pl7HnuvzZRX3oX
+	 jmozEwRHOteKY7fwfl1ugUx0LD+KeJxPyfNZoBH8d+8K5+7qO8zIB/SPhHi4hq0x55wzE
+	 DnK9m1cDY99BINyY7xpuQ/U3BXGZmAD1poJp6uxVev9MUnJRGOrZxRi0m7BVO17WSdFaP
+	 hkJfhha57CgD2qUk9EkgqlFuXjJceyiaMmt7/YurQCfNtSLzS88HNQFQIhpjy1y/+RQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794241241;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/0Dk0uPlaTG6qaR2nzgxnAMSKVBZP51BhonP6B1XqbE=;
-	b=PYOvJbmmuz/oyxhspAoTXnaFa4y+aIqBuw2jtAGqM7GO0x0NcD1BMe9ZuslOyU8N/lCK
-	 qWY09+Gv08fcKPeQad+z2m2I7SItw42Tt6qK7n9DQ8qpLx+HH1VuWHk4xA23Rr7H8e88G
-	 4cdymxgBqAA0w+TOqFJA3vtqJxz0O1NL2yJfyZSBtunuV1UDqmSjzNGNVo6u9PhfZt8B0
-	 wjYqCkDQZnf85WG2gFwNZKTLMzlfPJG/3Eyc0dsuQbBOGJNfBcglqvnBObF2c3WBlwHTJ
-	 10ToFCGBOtBpO979u/bfzegd85JwROaJjOladmEsXb7GcKw8j9ksu0EVnw4NQNfLlEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794245322;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=qRjzt/bH5jDngzJr4W8d1d/oZfLkUy/oU6+unqf5Pk4=;
+	b=d0eALujngVibw+oz08MEayJgsy6rAD4R5S0ewFso20EyjBiNPAT6UmMgJagqN1MrDZEx
+	 6eO8ChQH0EafezdeSQpj6OTduZBI+VdiPokonTrbwzWPE7xcEkb1ynXfBxr2mIaaehoXD
+	 CKLckYw7cNuXJcCwaq4tAzJxXTgVDCMnrJeQ1bNK/R79SOKzzUOFug0qcjg3t1ReEfiX8
+	 OxLsXAIlt0ocq0I1O3wYKbReuYhwcgW5lS9nnQBXUiwjZEoSCdA+KP8em5ENYInXqPsre
+	 5B9RXqnIJK5doMJMObDqcJUpO+MVQmeuwi0nd51iY81I8mL74h3kUY6YriEzScoPo8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J3gPrwc2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PjfNukQx;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81014606A32A;
-	Mon,  9 Nov 2026 16:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADCA606A32A
+	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 17:28:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BADCA606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J3gPrwc2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6221F008A1;
-	Mon,  9 Nov 2026 16:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794241241;
-	bh=/0Dk0uPlaTG6qaR2nzgxnAMSKVBZP51BhonP6B1XqbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J3gPrwc2WmZto8H3leOdSAf9aaa7knSkZ51KnpOtMRNDpWI4sa+BSXjQe8vo+yFmx
-	 hAVE6gMXu08EgqAj3+/Wwgng/DVvmYXGrQ5JSA9LzOEMCHAhDVxn9SPTfokOhN0oA4
-	 LjaYI1E+pE7elf+ZABfzGIoeNavYDk7itmkBs3ourYwPEjEJU+SqsMJjaqpzI7Gn0m
-	 cYkw7wZpukvfygJleF8B3jU1Ih0YDEGiNqX7WauppcyKRXqSs1xsdUzLwhghruBXZZ
-	 rs+iNShfkvubFMqO3sIJo0dbZVbGwPo1y0g+cTsyufxObEe9gFMxV73yt2lUh832jo
-	 XodiEzsVS/mVA==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xQS6o-0000000AXLe-2q7n;
-	Mon, 09 Nov 2026 17:20:38 +0100
-Date: Mon, 9 Nov 2026 17:20:38 +0100
-From: Johan Hovold <johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PjfNukQx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794245322; x=1825781322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ar1TVtAm+rvGquAEzkco4mRBe7I0DyfasS/JM+grgNc=;
+  b=PjfNukQxbqA3dtIT/h64Gv6izhyVEfhLKz5J/Ei27qEpKK2pZAvOXFkj
+   ww4tdn163l0DtTeOISBiLN7V22nQfl8juvb1ek5ONlbxXqUyaY9div7bJ
+   V5I4V7KUDjqieU+480r67PGPsIChzxbl6bsOdUshye9VtfWpyhqtnZ1Fi
+   Sr2HuJwHB5M52RE+Rb19+X3AckITUDAeOlu+fdZ1P8Gb6Q0SGCSwe/n1x
+   dS1hkFBY9Ent+sHM68syZ546qLLMRZ/4xLgFdz0RaiiTih7O5mEUlpWpq
+   HB0jUZeTUT5Mx2ij6/NbFvqzTdRSNvk9OBuTQjoPueUnZE+bE5+AY6RD5
+   w==;
+X-CSE-ConnectionGUID: mP+KG/vpTqiQb/CXCpZVuw==
+X-CSE-MsgGUID: bAz4VYG2RviG/zr3MQZd1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2970922"
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="2970922"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 09:28:41 -0800
+X-CSE-ConnectionGUID: VdCIUz+9TlyfdNc/xxFYmA==
+X-CSE-MsgGUID: ucYIODM9ShSeTtbSAloFqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="8069574"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 09:28:36 -0800
+Date: Mon, 9 Nov 2026 19:28:33 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	Daniel Scally <djrscally@gmail.com>,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Subject: Re: [PATCH] software node: only let the owner release a managed node
-Message-ID: <avHy1rt0Qb_IgpSs@hovoldconsulting.com>
-References: <20261102-swnode-only-owner-release-v1-1-ee4c9022a629@oss.qualcomm.com>
- <avHMhh8ChrFE_b_e@hovoldconsulting.com>
- <DMQQO3DTZE66.1Q2XGGDGN3WUP@kernel.org>
- <avHZ5U_YR9QSqd0G@hovoldconsulting.com>
- <DMQREV9DFQST.1Z4ZFOFTS0Z7W@kernel.org>
- <avHfx80pHRPwtqRt@hovoldconsulting.com>
- <DMQS3EURP5MB.2DY989AOI0CSD@kernel.org>
- <avHs9hKOc3QVLM4x@hovoldconsulting.com>
- <lhljpce4lyhuggmfyaq4c4g2mxqe5z3gwmqyrnxptlub3bahff@vdyh47ms5ua3>
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
+ fwnode operation
+Message-ID: <avICwdxyi-W1Y3PD@ashevche-desk.local>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
+ <auuhy40x1BMoW96-@ashevche-desk.local>
+ <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -80,35 +98,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <lhljpce4lyhuggmfyaq4c4g2mxqe5z3gwmqyrnxptlub3bahff@vdyh47ms5ua3>
+In-Reply-To: <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Nov 09, 2026 at 05:08:50PM +0100, Bartosz Golaszewski wrote:
-> On Mon, Nov 09, 2026 at 04:55:34PM +0100, Johan Hovold wrote:
+On Mon, Nov 09, 2026 at 02:07:46PM +0100, Bartosz Golaszewski wrote:
+> On Wed, Nov 04, 2026 at 11:21:15PM +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 04, 2026 at 03:03:47PM +0100, Bartosz Golaszewski wrote:
 
-> > I've updated the commit with the missing Reviewed-by and Fixes tag. I
-> > also decided to drop the reordering of releasing the swnode references
-> > as that is arguable an unrelated change and the current code expects
-> > users to hold a reference unless it's a managed node.
-> >
+...
+
+> > > +	for_each_property_of_node(node, prop)
+> > > +		count++;
+> > 
+> > Hmm... Don't we have a helper for that already?
 > 
-> Ok, I won't be sending a v2 then.
+> I haven't found one. Though I'm thinking that maybe
+> fwnode_property_get_names() with props == NULL could serve that purpose?
+> Possibly wrapped in a static inline fwnode_property_count()? Would
+> anyone use it though?
+
+I haven't found any users for this. Most of the current ones of
+for_each_property_of_node() are filtering by property name.
+
+...
+
+> > > +		names[i] = kstrdup(prop->name, GFP_KERNEL);
+> > 
+> > Can property be statically defined somewhere? We might want to also optimize
+> > these duplications with const variant (here or elsewhere, for fwnode generic
+> > path, I believe).
 > 
-> I'm not sure what the workflow is exactly among the driver core maintainers
-> but the commit that ended up in tree looks quite different from what
-> I submitted and what Link: references.
+> Please rephrase because I'm not quite following what you're saying.
 
-Right, and the three changes are recorded in the commit trailers (and
-the rationale is documented in the Link thread).
+Can prop->name come from something that is declared as
 
-> Such in-tree modifications from maintainers have caused problems in the
-> past[1]. I would have preferred to apply changes myself based on reviews
-> and send a v2 which could then be queued as it appears on the list. Just
-> my 2 cents.
+static const ... foo = {
+	... .name = "bar";
+};
 
-Since I've already done the work, and have the context fresh in mind,
-another round-trip would just mean even more work.
+?
 
-If you think it differs too much or you don't agree with the end-result,
-I can update the authorship.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Johan
+
