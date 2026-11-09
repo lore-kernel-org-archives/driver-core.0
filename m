@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794245493;
-	b=fpbyagW6GGcTgaT1SvtkaxIrM0XNkau7Aw4kKfxusRBHFZ7Y7f4FYOx1sBTxYaBtXTMB
-	 sp9XYH93Y0r2QLoWXGk+yhpY5DehIBQr//WRXgicftSybysoeE6r12HPY+Xnm1/NwMXm4
-	 NGA0ffWBOVMANkHmko8QcX/ie+/okFVrrONd68O5I7fqk+1R5IlfYZhZ3C0OKgpvbPywf
-	 fsEvx9DrjO8kemSMDoLFCWTIF99cFlZ9JTxYUB7Mxx20aFFuXo3VG7Kuvgm8kbsQmnVck
-	 RM7JnjHwskm4AOyvze+n9BtWyhRbdDtKKVpYlZK0Dh/X41ZF167TE44YdWSODysCXKA==
+	t=1794245494;
+	b=CjAbdmnaE33WmBk8kcqoVIwZKCDw+oT5d6X7VgLISFDwVtXuBY/uI2/8PrU2yoaUhyW9
+	 JKn7fGtdYLnB2TolvcRBYBS4AD1GvmhZaLXrv+GNVrRv7FCwP7sgNsMn1i6moDLzEjTL4
+	 ze8yvE+mVqaEo74C/665kkX0fc1dz/FLoaKBOjr0rttXKZVxqzQBUjyePQcyjCAxUZT0D
+	 ahhrb+9JFJ/UneK1aemjTv+xYX6nETj+LxjTJJlgDnRp1KZuNLxp8dd7nVE3RcDrYbaDi
+	 df+b2InKumzOocNw3fR+zIBEz1vyhpFV+zjuqXu6z/UhmVLwW0tf84lq6yENxqluOuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794245493;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794245494;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=ed/IHz3PxJm5ZNWBaZpu1Eskyyp5O6m7B7gIGFQDSLo=;
-	b=3BGx7UjoE5fb204yW10KPZSC1MAkNoqLmVjLHgATXeFnNwJCrOcvygc022DELJ6x8e+v
-	 cNg7SZk63RMJjwBiUEVcIeDhEvNe+4eFVxsh9EDNbMv2o19V+uv8w0dDCS2Ej/3pNV8Jw
-	 t9klv3yY21eItodqAnOMMdHCE5sncTLxLft4jb0vB2efwlLxRyENYlaC+SeH5sqfCTVHZ
-	 GNG4+VV9NcLnKz8CqN2B1GrzHsO2pf3ORr/vsAGWytVDz1OWVVAqtZqyQQ+xU3jaP/OY8
-	 9swBwO1tYsK8FS203DwXx5jIIQdr98Nw3aptJB1UWjp7PupfOhRYUFHRKOmyerAzuSg==
+	bh=/KAXzr2vGrhgAQNtgcIB9Qw2SIQizx1/dUNxASXVx+s=;
+	b=Ui2ib67rNj5J4pfObUTC/RwMIhkx54fJh6HrZJcRDu3pxfMpVTNv8wNWNiPn+Mq85oYh
+	 JLZleQRBxlolT1tZ+nAPx2WaXxNePcHYkaHC6SgH3xzXjh1nYDc6Qll+/dpAfWl0AwtPP
+	 nN3NnVNV4O0XD5Hkj4AMkjS/2GEnqvL//7+m+vKYu9tjaSNBKgqvBxSw0wGLWePZY7S0G
+	 1Lnhi3KeQmh2mMxlKArvjtf+pd2+nDh++6pGdpzmOI6quIE6U/8/wfRUMzdAJ905fJxo/
+	 pm77dfEcch0aUpeJ4uUBLrffrS5JyXCmnIgYgyRaYB0/VDUw3y5v1/826SzJ6eiezog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T5F6wgcl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P3XWwRqn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF045606A330
-	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 17:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25A5606A33B
+	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 17:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T5F6wgcl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952D21F0089F;
-	Mon,  9 Nov 2026 17:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P3XWwRqn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C69221F008A6;
+	Mon,  9 Nov 2026 17:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794245492;
-	bh=ed/IHz3PxJm5ZNWBaZpu1Eskyyp5O6m7B7gIGFQDSLo=;
+	s=k20260515; t=1794245493;
+	bh=/KAXzr2vGrhgAQNtgcIB9Qw2SIQizx1/dUNxASXVx+s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=T5F6wgclxB5afeJRV8YfvcWhnn9ZruTPWuCVPoXSrAk5J0GRB1JmqhpVlxgAfEpF5
-	 m5YNC47UWcmrLbFBdhQF+TNI02wbhmPVz3yoSwg+YJ0f7G8ziFpQROEvuadewivLHd
-	 UCiAkPTQYXYhXWSL1UH1wLvufvA1Oj9+m0dEiI+LO+7/IgqLw5ndqC0P9zhUos7Oy9
-	 NmidetAIjSesjjgFSh8AJqiFKZRHi/DRRYd1NavE+jcUmrzHo+Aqc30RyV7TK4Ar4d
-	 mZi/6K3EXzht8Ji9eRi0/5jomMnJujsnhT/IOhESWfF7x6H9ZThgOFBhzFoareQO72
-	 xl7Tn1IFhgvTg==
+	b=P3XWwRqnVjIEuZaAtfKos4QhGrTwuRK2L11dEwL0rhZ5dC/TE7+zmugDfjL4M5nt1
+	 07qJ8Fy1tPgbpYbcJiQyxGUvBydMEqVrGyXVzAucU4nEYU5aJ7Pz+cYwvdmm6scB9r
+	 beybTmNwRU594NYOAVvpHXX40u4+0fH76F+tN3504Ivp6xDXyPeDR33HjokOMF0Ykq
+	 1D/k9Y3yPsDeW5MVMXf3F9XX6bc+hs6FMvipmWiPSdEIrVRFJanqptCxlal03zcBOb
+	 bEddpZZWZEaDjQqBMHCgbXrk8KO0/z5koe94CuxXYe8QiDW7A8E/9Qc0oJqYPKn7By
+	 ZgsnCSVHiyAWQ==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: driver-core@lists.linux.dev
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v3 3/4] arch_topology: Reset SMT state when topology is unavailable
-Date: Mon,  9 Nov 2026 17:31:24 +0000
-Message-ID: <20261109173125.1734847-4-sudeep.holla@kernel.org>
+Subject: [PATCH v3 4/4] arch_topology: Free raw_capacity when topology parsing fails
+Date: Mon,  9 Nov 2026 17:31:25 +0000
+Message-ID: <20261109173125.1734847-5-sudeep.holla@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261109173125.1734847-1-sudeep.holla@kernel.org>
 References: <20261109173125.1734847-1-sudeep.holla@kernel.org>
@@ -61,54 +61,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If DT has no CPU information or cpu-map, parsing succeeds without
-notifying the SMT framework. A later topology validation failure can
-discard parsed data while leaving the SMT thread count set by
-parse_socket().
+When parsing /cpus/cpu-map fails in parse_dt_topology(),
+init_cpu_topology() calls reset_cpu_topology() without calling
+free_raw_capacity().
 
-Reset the count to one on these paths so the SMT framework matches
-the topology that remains available.
+topology_parse_cpu_capacity() allocates raw_capacity on the first CPU
+node with a capacity-dmips-mhz property. If a subsequent core, cluster
+or socket fails to parse in parse_socket(), or if a possible CPU is
+missing from cpu-map, raw_capacity is left allocated and partially
+populated.
+
+With CONFIG_CPU_FREQ=y, free_raw_capacity() is not registered as an
+initcall. If cpufreq policies are registered for all possible CPUs,
+init_cpu_capacity_callback() sees the non-NULL raw_capacity pointer and
+runs topology_normalize_cpu_scale() on the incomplete array, leaving
+unparsed CPUs with a capacity scale of 0; otherwise, raw_capacity is
+leaked.
+
+Free raw_capacity when init_cpu_topology() resets the topology on
+parsing failure to discard the partial capacity data and avoid leaking
+memory or setting unparsed CPUs to capacity 0.
 
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-486a8656-d962-4966-8d90-bbb2ce276147
-Fixes: 5deb9c789ae4 ("arch_topology: Support SMT control for OF based system")
+Closes: https://sashiko.dev/#/bug/linux-1a2a8094-971d-40cb-b0cf-2e6d9f26c549
+Fixes: 60c1b220d8bc ("cpu-topology: Move cpu topology code to common code.")
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/base/arch_topology.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/base/arch_topology.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-index eea4c4257d08..c439fc91270d 100644
+index c439fc91270d..7783c0c517eb 100644
 --- a/drivers/base/arch_topology.c
 +++ b/drivers/base/arch_topology.c
-@@ -662,6 +662,7 @@ static int __init parse_dt_topology(void)
- 
- 	if (!cn) {
- 		pr_err("No CPU information found in DT\n");
-+		cpu_smt_set_num_threads(1, 1);
- 		return 0;
- 	}
- 
-@@ -672,8 +673,10 @@ static int __init parse_dt_topology(void)
- 	struct device_node *map __free(device_node) =
- 		of_get_child_by_name(cn, "cpu-map");
- 
--	if (!map)
-+	if (!map) {
-+		cpu_smt_set_num_threads(1, 1);
- 		return ret;
-+	}
- 
- 	ret = parse_socket(map);
- 	if (ret != 0)
-@@ -951,6 +954,7 @@ void __init init_cpu_topology(void)
+@@ -954,6 +954,7 @@ void __init init_cpu_topology(void)
  		 * arch-specific early cache level detection a chance to run.
  		 */
  		reset_cpu_topology();
-+		cpu_smt_set_num_threads(1, 1);
++		free_raw_capacity();
+ 		cpu_smt_set_num_threads(1, 1);
  	}
  
- 	for_each_possible_cpu(cpu) {
 -- 
 2.43.0
 
