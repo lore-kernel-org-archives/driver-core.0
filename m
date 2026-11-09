@@ -1,45 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794233436;
-	b=oM0doRjbOAZLAKHbwKDKnlZgeF2NgX2pY2Fw5q7AQO9J2RyiJKg9XIF3GZvT16hZtR+U
-	 ICJHpM14bC84pCMQde8O9cGLB92LQz1GPg15NKx4e+r7s5kZpfChJrF5sLDB0I26Pthd3
-	 N8MFQPWAfb8y3jjyxKcNaPWkdeUiQxT4+wmKKrYq1oH0ATmsRCOrmH/QGsQH7QxUS5rUn
-	 Q3LM+Aq3o2XN9GTjd0Qm6Kw9EAXzfszpL0c2kO96K/NASLSpZ0B0g7D7kfZfI/ZgS2ORl
-	 CKB+e++C0RqXtMGkHsrGU54v7ga4BcxK10X5eRE2u/aCxPrh7zO9SJexrQeEaRpdGZQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794233436;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To;
-	bh=F/QzRy765sCyCLARXzdq/sxZhb3CwVx21qcDlEi/Kfk=;
-	b=XiHqCgpWv/ANqDewcNVMICL9ZL25jWJfcdPncOttGGduhGZ057fr2ohcioL2c+/9nv8Z
-	 Ll9D2isytw5JiJt2m2OiidYf0aSyZIu3orJs/4kW/M566SUouqkwocjh7l+Bp9R38YLwK
-	 MU7WosWmNdWoPCaIM2KO7GlC+GpJn96CMKIEWTwtFpCxw+QDXkgwPpZF4dHqV8Z4KJEoL
-	 J6M05w5sEJPmbhCTvjIEpcGSN3pd6ySp/w0msv6KWmGpGX8la655Y3GFONEHDkWbckIKP
-	 FdmUMW05+He+7fTKlvRVSlPkSZql0TbvMeHKVWHk7NC2ZzvHHO/1HfXRvMZD7N/8uqQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xq0UbzpK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794234603;
+	b=OM46f6zhwYzmAVRXqL8t/0U2wQg+ZaYTjmnHiOAq/Ny0egTYC3n8LY5bkIH2+zfHtDGC
+	 k8pIMiXOTWyH90VE91g2lHVGOy6akZ6ZTtEQa8QEhiNsdW/wVcPadZrSc2nO2QouI3XeH
+	 MF9cphfT5nMgOFiaua5expsVo3/mlIFuL9VcIy9biTaay/WdccST3IYXJpYwYeNaUIvYK
+	 o1rIWA+yXwpeWsguGoUUIt2/PXSkElmmMkQ5DvJH8/dVaXzSrmpPBTZMtrdNCbDtoFszY
+	 B3eHEs2ELFMwakEyRgve3EcJiHxHMFPGjZj+lO6YsgVSN8OHgjg8vgCH37GYynwBsTQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794234603;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
+	b=ayqDiR2kQ8QSmY5KoZnVW3TpMyXKIWCSQSIf2wWOp2jMu7IB2jdpGEVnxzxZ2GIyCEyt
+	 lI+EIVAtud1KC434/ltzQoAfASGNesBnAVDhXwzxzkK5hm4N528+g7BO8z1RWlpa14fqd
+	 go5AiOpmLgai436X3bbcMPrhe2vCI6Y6cbrA4Jcg4OQAr9PZzUmY8dW/niRs9kjMlSF2o
+	 /SLSpxjO6wUn21P2QeCg1x3inryVmzoM56TSJwxmrdi9VCF02udoOfziopte5ulyeMvnM
+	 Dlp79Xh+1ypgsj9FK+4BSQ/cYuQ16O2MCziSUqP/zQrTc8vcee2a8whu90W8jxJEF3A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outer-limits.org;
+	spf=pass smtp.mailfrom=outer-limits.org;
+	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lk0NjN7H;
+	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=iCZOqIGw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F86082BC9;
-	Mon,  9 Nov 2026 14:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8031B606A323
+	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 14:30:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8031B606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=outer-limits.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outer-limits.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xq0UbzpK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62771F008A2;
-	Mon,  9 Nov 2026 14:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794233435;
-	bh=F/QzRy765sCyCLARXzdq/sxZhb3CwVx21qcDlEi/Kfk=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=Xq0UbzpKvt8DSfLRC7AJymY5SAKIBitX+v9SlRhwkVc5DNmgWEW668SPZExywv55e
-	 k9ZpJk+JdlsGvycDsZ+L8FfurKTWRFqAuttcC7pC8BzKcuKD1pJZWii+q7AJ99yJ2k
-	 CWcJLEE8UuCjmqd0Cs6rtP9MHfpP5ZpEaaNVtLGXfQUan2yFVore427ZdmD4VGzROy
-	 00jxELXhxnZVD/lCtrGcjzC0vDPQTqITGjoKUHPrG57Z8W/j8NfJeH1EinaFUMfFl8
-	 Egly4JVSUfVkTgmuIKL/V26Ty8Sa08lZz9xT66ZTTAZIGxSNAOHxI+WxNXcaAQvFol
-	 fIfMcFeoHvzng==
+	dkim=pass (2048-bit key, unprotected) header.d=outer-limits.org header.i=@outer-limits.org header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lk0NjN7H;
+	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=iCZOqIGw
+ARC-Seal: i=1; a=rsa-sha256; t=1794234590; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Z9INr75GkDeSq3HwFpO/yirX6fuxNLHAqiRuj05jGCO9YSrd1CasgUAXGLHI59CW7D
+    ghln5jXkT/V6uMeNVzqvrlj+MJr2MhTdVmskwpxsuUlfNFa0UMoRJem5dR0X2ZWAbc2u
+    r7CwyTsZPbWEj4za8cT4Gv490WY+Lc2IBwsVzq4MQFCluB9QXNM6dO0vQXgts773F6UT
+    sDukfgxj0o6iM8T+BzDlupIZWr2q4UNF6Y4QKrBqgIQbd8ob4rXJjtJCpHxboeVVnnEy
+    vNVwuB9YXqWOIe5NtQmoRZXOmY9+nOsivALNnH3AtaEmuIxKgWZhA+/muCje2ZeE9i9M
+    iAUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1794234590;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
+    b=O22EbDoxqG9yX7AurB1FwUDJKOuw1LocmMfTgvP28Uj0qGAEPPWto0n8of12Q0MVla
+    1sRXclyzmGGU1gYeDWSUUedwsfJb6xJMsLmvxFnnW+Tk4HFaVuyOwKjBAGgHAj2jbT9m
+    tt5VmxvA7JkxizBFkUKPpHDOQQJLIHBIwMHzRE2FTyfI2FFF5Hz9G4A+BFKGrtYPAwh3
+    D+rnM9x5eay/iFKURxrDn2TVw0UP4WTRrpOzIsIexJROG/xfQ375Ie9rNQ1rZFVXMhzw
+    3Sh0HUsShGDXpex/eI8+WGaOrIZEM5D5/Xtug6TuCs048NAJ0CjZs2htiNUyvZRaRYhI
+    55XQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1794234590;
+    s=strato-dkim-0002; d=outer-limits.org;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
+    b=lk0NjN7HDjSoWExkDonAsB75kBu/iJvoZJ+4z5YvKXGUg1uQ0Vr3f0fCDWenrYD61X
+    ceRq5BsPMi685YXVdMYi0zQgvy8KCf7jyLzgRDkgHu2lJNc44uLhmdUGcLr8SvsHhP9G
+    cjckct2LmgkyTYLJjn8VauDwSo1UvpQ2306a2xpbY+7lXghqtbxvp+CMVH/2dq5tzp1r
+    WJenrW4d2H6rwPGp/fSZY3LiYcaXcaDjBpJn8r5svAcbSzkM8cNLIHNb9cmX5OFYiLJT
+    nrW2kF4CU/13IEHIO4mmvwNFhg9n/8QJobNQN8vmbTIXQ/2yYup4KT6BV7es5zGOVt7T
+    pWMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1794234590;
+    s=strato-dkim-0003; d=outer-limits.org;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
+    b=iCZOqIGw9SLc/UbmFWdWVNDa5Xu7IOH+2paJz4mFxFjDnCODFcOuAzaQR4dzHQ0GHn
+    hec2m2ds27X4F7L/fRBA==
+X-RZG-AUTH: ":JnkIfEGmW/AMJS6HttH4FbRVwc4dHlPLCp4e/IoHo8zEMMHAgwTfqBFXdk1Z5IDmIqDY7xpnOs6mGD64frXxHtrE3e66udIGwZnWwLgga9o="
+Received: from [IPV6:2a01:cb15:80c6:e800:a9dd:2b53:f1aa:d3fa]
+    by smtp.strato.de (RZmta 55.6.3 AUTH)
+    with ESMTPSA id J82cde2A9ETn2f5
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Mon, 9 Nov 2026 15:29:49 +0100 (CET)
+Message-ID: <c479d14a-aedf-4815-b191-a5ebf41c1844@outer-limits.org>
+Date: Mon, 9 Nov 2026 15:29:48 +0100
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -48,136 +94,134 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 15:10:31 +0100
-Message-Id: <DMQQO3DTZE66.1Q2XGGDGN3WUP@kernel.org>
-Subject: Re: [PATCH] software node: only let the owner release a managed
- node
-Cc: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>, "Andy
- Shevchenko" <andriy.shevchenko@linux.intel.com>, "Daniel Scally"
- <djrscally@gmail.com>, "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
- "Sakari Ailus" <sakari.ailus@linux.intel.com>, "Bartosz Golaszewski"
- <brgl@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, <linux-acpi@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- "Balasubramani Vivekanandan" <balasubramani.vivekanandan@intel.com>
-To: "Johan Hovold" <johan@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261102-swnode-only-owner-release-v1-1-ee4c9022a629@oss.qualcomm.com> <avHMhh8ChrFE_b_e@hovoldconsulting.com>
-In-Reply-To: <avHMhh8ChrFE_b_e@hovoldconsulting.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] irq_work: Re-raise pending irq_work after system
+ resume
+To: Adrian Hunter <adrian.hunter@intel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ James Clark <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jiayuan Chen <jiayuan.chen@linux.dev>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ "Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
+ Frederic Weisbecker <frederic@kernel.org>, Andi Kleen <ak@linux.intel.com>,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+References: <20261102074039.26983-1-adrian.hunter@intel.com>
+ <20261102074039.26983-2-adrian.hunter@intel.com>
+ <20261102090604.GR1779021@noisy.programming.kicks-ass.net>
+ <74511f6b-f5ff-498f-bf97-ebdc86c43d24@intel.com>
+ <20261102163937.KwllF-Pg@linutronix.de>
+ <2d6105b4-bd75-41b5-a7b2-da91bda31350@intel.com>
+ <20261104073220.Hgq4chT1@linutronix.de>
+ <56198a93-670e-4187-86a3-99ae54295998@intel.com>
+Content-Language: en-US
+From: Julian Vetter <julian@outer-limits.org>
+In-Reply-To: <56198a93-670e-4187-86a3-99ae54295998@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon Nov 9, 2026 at 2:37 PM CET, Johan Hovold wrote:
-> On Mon, Nov 02, 2026 at 04:25:16PM +0100, Bartosz Golaszewski wrote:
->> device_create_managed_software_node() creates a node whose lifetime is
->> tied to the device it was created for. software_node_notify_remove() is
->> called for every device that has the node as its fwnode (primary OR
->> secondary) and, if the node is managed, unconditionally detaches it from
->> that device and drops the creation reference.
->>=20
->> This breaks when the node is shared with another device. Example: the
->> i2c-designware copies the parent's fwnode to the adapter's struct device=
-.
->> When the adapter is deleted, it releases the reference that belongs to
->> the owner and the latter ends up with a dangling pointer.
->>=20
->> Record the device's "manager" and only perform the actual release when
->> notify is called for that "owner" device.
->>=20
->> Reported-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@inte=
-l.com>
->> Closes: https://lore.kernel.org/all/20261009164241.923756-2-balasubraman=
-i.vivekanandan@intel.com/
->> Fixes: 151f6ff78cdf ("software node: Provide replacement for device_add_=
-properties()")
+On 11/4/26 8:48 AM, Adrian Hunter wrote:
+> On 04/11/2026 09:32, Sebastian Andrzej Siewior wrote:
+>> On 2026-11-03 17:46:32 [+0200], Adrian Hunter wrote:
+>>> On 02/11/2026 18:39, Sebastian Andrzej Siewior wrote:
+>>>> On 2026-11-02 12:54:22 [+0200], Adrian Hunter wrote:
+>>>>>
+>>>>> Yes CPUs remain online for suspend2idle, but currently the choice between
+>>>>> suspend2idle and "deep" (S3) suspend is a user space choice,
+>>>>> refer /sys/power/mem_sleep.  Many modern systems do not support S3
+>>>>> anymore, but it has not gone away.
+>>>>>
+>>>>>>
+>>>>>> Anyway, I'm torn; I would much rather make this trigger a WARN and have
+>>>>>
+>>>>> AI now also identifies ftrace, BPF, GHES NMI, and #MC as possible causes,
+>>>>> not just perf.  I haven't tried to confirm any of those.
+>>>>>
+>>>>> And, belatedly, AI is now saying an irq_work raised before lapic_resume()
+>>>>> might result in #GP if the APIC is left in xAPIC mode at resume.  Also
+>>>>> not confirmed.
+>>>>
+>>>> Could we flush this before similarly to what happens during CPU-hotplug.
+>>>> The question is if this event can stay enqueued during suspend (and
+>>>> handled on resume) or should be taken care before entering suspend.
+>>>
+>>> WRT "might result in #GP if the APIC is left in xAPIC mode at resume",
+>>> the systems I have checked restore the APIC in x2APIC mode, so the
+>>> issue is theoretical at this point, although I can get "unchecked MSR
+>>> access error: WRMSR to 0x83f" if I deliberately add code to change
+>>> x2APIC to xAPIC early in S3 wake (in x86_acpi_suspend_lowlevel()),
+>>> and then do:
+>>>
+>>>    perf record -e power:suspend_resume --filter 'action == "machine_suspend" && start == 0' --no-buffering -C 0 -o /tmp/x.data &
+>>>    rtcwake -m mem -s 10
+>>>
+>>> The error can be avoided with:
+>>
+>> I meant flush it via irq_work_run_cpu() like in smpcfd_dead_cpu() (the
+>> CPU-hotplug path) and not go via APIC. You should do it late once the
+>> interrupts are disabled so no new irq-work can be enqueued.
+> Disabling IRQs doesn't stop NMI or syscore enqueues, and the resume-side
+> raise still goes through the APIC
 
-Hm...the documentation of device_create_managed_software_node() does point =
-out
-the limitation that it shouldn't be shared with other devices.
+Hello Adrian,
+I ran into the same lost irq_work self-IPI independently, in a different
+context. I triggered that same issue with a live migration of Xen HVM 
+guests. I sent a fix for it, but the posting only reached xen-devel and 
+the maintainers, and not the Linux mailinglist (because my company email 
+has some issues), so here is a short summary for everyone on this thread:
 
-Now, that's rather fragile and the reason I pointed out [1] it should be
-changed, but it's technically not a fix?
+My Setup: XCP-ng 8.3 (Xen 4.17), Ubuntu 26.04 cloud image (kernel 
+7.0.0-38), 4 vCPUs, "console=tty1 console=ttyS0". After a live migration 
+the guest hangs, e.g. "systemctl restart systemd-resolved" never 
+returns, and fsnotify/SRCU users block.
 
-[1] https://lore.kernel.org/all/DM1FMM3KEYU9.1D26IINII93FO@kernel.org/
+Mechanism: On Xen, live migration suspends the guest through 
+xen_suspend() (drivers/xen/manage.c), which runs inside stop_machine():
 
->> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com=
->
->> ---
->> Hi!
->>=20
->> This is my approach at addressing the bug reported by Vivekanandan
->> directly in driver core. Please test it if you can.
->
-> This looks good to me, but I think the patch should be simplified somewha=
-t.
->
->> @@ -1190,6 +1191,7 @@ void software_node_notify(struct device *dev)
->>  void software_node_notify_remove(struct device *dev)
->>  {
->>  	struct swnode *swnode;
->> +	bool is_owner;
->> =20
->>  	swnode =3D dev_to_swnode(dev);
->>  	if (!swnode)
->> @@ -1206,9 +1208,13 @@ void software_node_notify_remove(struct device *d=
-ev)
->>  	if (!device_match_fwnode(dev, &swnode->fwnode) && swnode->fwnode.dev =
-=3D=3D dev)
->>  		swnode->fwnode.dev =3D NULL;
->> =20
->> +	is_owner =3D swnode->owner && swnode->owner =3D=3D dev;
->
-> The NULL check here is redundant.
->
->> +	if (is_owner)
->> +		swnode->owner =3D NULL;
->
-> There is no need to clear the owner field as devices are not allowed to b=
-e
-> re-registered.
+syscore_suspend()        -> lapic_suspend() disables the local APIC
+HYPERVISOR_suspend()
+gnttab_resume(), xen_irq_resume(), ...   -> printk()
+syscore_resume()
 
-I guess that's true, but maybe leaving in a defined state is a bit more rob=
-ust?
+With the 8250 console being nbcon, the printk() in that window queues
+nbcon_irq_work to the raised_list on CPU0 and then sends the self-IPI. 
+But, the APIC is disabled at that point, so it's dropped. Afterwards, 
+the raised_list stays non-empty, so irq_work_queue() never raises the 
+IPI again and we are in that same situation.
 
->> +
->>  	swnode_put(swnode);
->> =20
->> -	if (swnode->managed) {
->> +	if (is_owner) {
->>  		set_secondary_fwnode(dev, NULL);
->>  		swnode_put(swnode);
->>  	}
->
-> And if we drop the managed reference before the notify one, we can drop
-> the temporary as well and this chunk just becomes:
->
-> @@ -1206,12 +1207,12 @@ void software_node_notify_remove(struct device *d=
-ev)
->         if (!device_match_fwnode(dev, &swnode->fwnode) && swnode->fwnode.=
-dev =3D=3D dev)
->                 swnode->fwnode.dev =3D NULL;
-> =20
-> -       swnode_put(swnode);
-> -
-> -       if (swnode->managed) {
-> +       if (swnode->owner =3D=3D dev) {
->                 set_secondary_fwnode(dev, NULL);
->                 swnode_put(swnode);
->         }
-> +
-> +       swnode_put(swnode);
->  }
->
-> The end-result applied for 7.4 (to fix the 7.3 regression) is here:
+In mainline the nbcon trigger is hidden by 560f4deda327 ("printk/nbcon: 
+Change nbcon_irq_work to IRQ_WORK_LAZY"), but the underlying problem is 
+still there for any non-lazy irq_work queued in that window. To 
+reproduce it on mainline I reverted 560f4deda327 on top of v7.4-rc1:
 
-A previous reply from Balasubramani suggested to adjust the doc-comment of
-device_create_managed_software_node(), so I thought Bartosz will send a new
-version.
+v7.4-rc1 + revert of 560f4deda327 -> hangs after the first migration
 
-Also, are we sure this is -rc material? I think the original commit wasn't
-technically broken and the bug in Xe was fixed otherwise.
+v7.4-rc1 + revert of 560f4deda327 + this patch (1/6 only) -> 6 live 
+migrations between two hosts, no hang, no SRCU or hung-task warnings, 
+systemctl returns immediately
 
-Thanks,
-Danilo
+Since xen_suspend() calls syscore_resume() after the window above, this 
+fix with the new irq_work_resend() functions covers the Xen case as 
+well, without any Xen-specific changes.
+
+Regarding the flush-before-suspend: In the Xen case that would not help. 
+The lost irq_work is queued by printk() after syscore_suspend() has 
+already disabled the local APIC, with interrupts off, so there is 
+nothing to flush yet when suspend starts.
+
+Tested-by: Julian Vetter <julian.vetter@vates.tech>
+
+Thank you,
+Julian
