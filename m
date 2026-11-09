@@ -1,91 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794234603;
-	b=OM46f6zhwYzmAVRXqL8t/0U2wQg+ZaYTjmnHiOAq/Ny0egTYC3n8LY5bkIH2+zfHtDGC
-	 k8pIMiXOTWyH90VE91g2lHVGOy6akZ6ZTtEQa8QEhiNsdW/wVcPadZrSc2nO2QouI3XeH
-	 MF9cphfT5nMgOFiaua5expsVo3/mlIFuL9VcIy9biTaay/WdccST3IYXJpYwYeNaUIvYK
-	 o1rIWA+yXwpeWsguGoUUIt2/PXSkElmmMkQ5DvJH8/dVaXzSrmpPBTZMtrdNCbDtoFszY
-	 B3eHEs2ELFMwakEyRgve3EcJiHxHMFPGjZj+lO6YsgVSN8OHgjg8vgCH37GYynwBsTQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794234603;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
-	b=ayqDiR2kQ8QSmY5KoZnVW3TpMyXKIWCSQSIf2wWOp2jMu7IB2jdpGEVnxzxZ2GIyCEyt
-	 lI+EIVAtud1KC434/ltzQoAfASGNesBnAVDhXwzxzkK5hm4N528+g7BO8z1RWlpa14fqd
-	 go5AiOpmLgai436X3bbcMPrhe2vCI6Y6cbrA4Jcg4OQAr9PZzUmY8dW/niRs9kjMlSF2o
-	 /SLSpxjO6wUn21P2QeCg1x3inryVmzoM56TSJwxmrdi9VCF02udoOfziopte5ulyeMvnM
-	 Dlp79Xh+1ypgsj9FK+4BSQ/cYuQ16O2MCziSUqP/zQrTc8vcee2a8whu90W8jxJEF3A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outer-limits.org;
-	spf=pass smtp.mailfrom=outer-limits.org;
-	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lk0NjN7H;
-	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=iCZOqIGw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.169])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794234617;
+	b=BMdH02GdenKh+231GB9RO8iUnYljA7J50OlUXq5KCCC+PmWPZJocbwH5I0tpNYq2JGPK
+	 b5pku9xoDhCebl6AJjp6zZdx2Iy8QtsxTpuZZQV/IyYC6DC7Q3dZZ1SsgoyQl//Z+lCT8
+	 bg8m41NWmS5rwGCgtfqPnTDfhslXZO6ScdICtPlEd5a5LBd8IG9GXfHkFzP0WRMS3uwGa
+	 pcWvxiXSHjKrRUncHGd62n6cca2d7N4q59TGhhMryQSXmGUk/dDA+C8fbQG5sicA2+Rku
+	 UNBz0AycFunkrJyxvdtUB/DmV//j7MC3EQ+iIkMfyC6AuyoB61Yj91fWEO1LMbTFJOA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794234617;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BEl+L8NJ9Qmwwtf8B/hCyQX7FAPLXL9PcfseCEpgh+g=;
+	b=waktSlhNTfZEJTfjtePCRbs1yzLSASzAnMocysiBT5Jgnm83HwVYRLGgtgPVEEV3JS93
+	 +V0dNoJJejnWHvzaRDWKarIMUp0TBTLgZvdhqFMMw65W0n+6jyWnfn8RRBjaIPR7mzHj7
+	 EsZkrixhivrioz0IN73BixejRJz2xfwZW+GjW7shr4T/KXcSwjOAHzIp1u/4gtfKtqtDM
+	 SD/AJEVzfMtscp874fziAlplFRLKCe7MlvLvaniF/CecxjPgPukDsc5oGXPxgo6D26RMb
+	 4gvr0iuMhXTbq7OdEn7W1FhWFqtmdUVbV9psqWBuhRV3CnC6GZpp4BYQdHgGHHtp/4Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QG6kwPnH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8031B606A323
-	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 14:30:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8031B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=outer-limits.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outer-limits.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9D4606A339;
+	Mon,  9 Nov 2026 14:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outer-limits.org header.i=@outer-limits.org header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=lk0NjN7H;
-	dkim=pass header.d=outer-limits.org header.i=@outer-limits.org header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=iCZOqIGw
-ARC-Seal: i=1; a=rsa-sha256; t=1794234590; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Z9INr75GkDeSq3HwFpO/yirX6fuxNLHAqiRuj05jGCO9YSrd1CasgUAXGLHI59CW7D
-    ghln5jXkT/V6uMeNVzqvrlj+MJr2MhTdVmskwpxsuUlfNFa0UMoRJem5dR0X2ZWAbc2u
-    r7CwyTsZPbWEj4za8cT4Gv490WY+Lc2IBwsVzq4MQFCluB9QXNM6dO0vQXgts773F6UT
-    sDukfgxj0o6iM8T+BzDlupIZWr2q4UNF6Y4QKrBqgIQbd8ob4rXJjtJCpHxboeVVnnEy
-    vNVwuB9YXqWOIe5NtQmoRZXOmY9+nOsivALNnH3AtaEmuIxKgWZhA+/muCje2ZeE9i9M
-    iAUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1794234590;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
-    b=O22EbDoxqG9yX7AurB1FwUDJKOuw1LocmMfTgvP28Uj0qGAEPPWto0n8of12Q0MVla
-    1sRXclyzmGGU1gYeDWSUUedwsfJb6xJMsLmvxFnnW+Tk4HFaVuyOwKjBAGgHAj2jbT9m
-    tt5VmxvA7JkxizBFkUKPpHDOQQJLIHBIwMHzRE2FTyfI2FFF5Hz9G4A+BFKGrtYPAwh3
-    D+rnM9x5eay/iFKURxrDn2TVw0UP4WTRrpOzIsIexJROG/xfQ375Ie9rNQ1rZFVXMhzw
-    3Sh0HUsShGDXpex/eI8+WGaOrIZEM5D5/Xtug6TuCs048NAJ0CjZs2htiNUyvZRaRYhI
-    55XQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1794234590;
-    s=strato-dkim-0002; d=outer-limits.org;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
-    b=lk0NjN7HDjSoWExkDonAsB75kBu/iJvoZJ+4z5YvKXGUg1uQ0Vr3f0fCDWenrYD61X
-    ceRq5BsPMi685YXVdMYi0zQgvy8KCf7jyLzgRDkgHu2lJNc44uLhmdUGcLr8SvsHhP9G
-    cjckct2LmgkyTYLJjn8VauDwSo1UvpQ2306a2xpbY+7lXghqtbxvp+CMVH/2dq5tzp1r
-    WJenrW4d2H6rwPGp/fSZY3LiYcaXcaDjBpJn8r5svAcbSzkM8cNLIHNb9cmX5OFYiLJT
-    nrW2kF4CU/13IEHIO4mmvwNFhg9n/8QJobNQN8vmbTIXQ/2yYup4KT6BV7es5zGOVt7T
-    pWMA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1794234590;
-    s=strato-dkim-0003; d=outer-limits.org;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=8KiPHgaI34vv0/q5DZBdlVQ5Ql56ikXsCwH4QLHKU2g=;
-    b=iCZOqIGw9SLc/UbmFWdWVNDa5Xu7IOH+2paJz4mFxFjDnCODFcOuAzaQR4dzHQ0GHn
-    hec2m2ds27X4F7L/fRBA==
-X-RZG-AUTH: ":JnkIfEGmW/AMJS6HttH4FbRVwc4dHlPLCp4e/IoHo8zEMMHAgwTfqBFXdk1Z5IDmIqDY7xpnOs6mGD64frXxHtrE3e66udIGwZnWwLgga9o="
-Received: from [IPV6:2a01:cb15:80c6:e800:a9dd:2b53:f1aa:d3fa]
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id J82cde2A9ETn2f5
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Mon, 9 Nov 2026 15:29:49 +0100 (CET)
-Message-ID: <c479d14a-aedf-4815-b191-a5ebf41c1844@outer-limits.org>
-Date: Mon, 9 Nov 2026 15:29:48 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QG6kwPnH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5074C1F008A1;
+	Mon,  9 Nov 2026 14:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794234616;
+	bh=BEl+L8NJ9Qmwwtf8B/hCyQX7FAPLXL9PcfseCEpgh+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QG6kwPnHCV1z2vqbHuc2U+61eVdTqvDY8AXDs96jZUvvDvUF/tygYDemhRQWgZGPm
+	 4RgjsPVWczQp5Yd8/dHb4xW4s31q2SuYI2pquhTSyr5wpCkpaBOs7vdS/oQ95Dypkg
+	 WhoA53HH+BwFHv/QwJ1c3xJssvZeEeWtHXr43uFAxEOXtSPJ86JYbLVr2fLpcdE97j
+	 3Ai8EJjqYW5VJg/37mOQUsLYEmqEDNrKLeDIp6SE7sE3sDYuOp3mQ9M5JUKVYRzOMm
+	 Wzfuk9/cpo1gTHRTxkLgp1dFiggSIFtZfERr/4bN3IRSEn+kNR7bIxv0QdmCVksmhm
+	 4zLDvoqgUK7lQ==
+Date: Mon, 9 Nov 2026 15:30:08 +0100
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 4/9] device property: provide fwnode_property_get_names()
+Message-ID: <avHXwL53ClRQptIh@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-4-6e28fe1c72c4@oss.qualcomm.com>
+ <auug8QoQ62ETGg1D@ashevche-desk.local>
+ <lmib6742yptkwh7mzduw5xqid6h6rsqchs6aot3usjkcocmxqs@cvcpkwqag6nz>
+ <avG8MITPLRuFcZdO@devuan>
+ <6b7uxzbhrce55f5bgkvmg2r2h4ax4xg7le6vxkhzezbsef23gq@ojm3wm33v3xn>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -95,133 +70,97 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] irq_work: Re-raise pending irq_work after system
- resume
-To: Adrian Hunter <adrian.hunter@intel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- James Clark <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jiayuan Chen <jiayuan.chen@linux.dev>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- "Vineeth Pillai (Google)" <vineeth@bitbyteword.org>,
- Frederic Weisbecker <frederic@kernel.org>, Andi Kleen <ak@linux.intel.com>,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, driver-core@lists.linux.dev
-References: <20261102074039.26983-1-adrian.hunter@intel.com>
- <20261102074039.26983-2-adrian.hunter@intel.com>
- <20261102090604.GR1779021@noisy.programming.kicks-ass.net>
- <74511f6b-f5ff-498f-bf97-ebdc86c43d24@intel.com>
- <20261102163937.KwllF-Pg@linutronix.de>
- <2d6105b4-bd75-41b5-a7b2-da91bda31350@intel.com>
- <20261104073220.Hgq4chT1@linutronix.de>
- <56198a93-670e-4187-86a3-99ae54295998@intel.com>
-Content-Language: en-US
-From: Julian Vetter <julian@outer-limits.org>
-In-Reply-To: <56198a93-670e-4187-86a3-99ae54295998@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="em4352y5go3jlcfe"
+Content-Disposition: inline
+In-Reply-To: <6b7uxzbhrce55f5bgkvmg2r2h4ax4xg7le6vxkhzezbsef23gq@ojm3wm33v3xn>
 
-On 11/4/26 8:48 AM, Adrian Hunter wrote:
-> On 04/11/2026 09:32, Sebastian Andrzej Siewior wrote:
->> On 2026-11-03 17:46:32 [+0200], Adrian Hunter wrote:
->>> On 02/11/2026 18:39, Sebastian Andrzej Siewior wrote:
->>>> On 2026-11-02 12:54:22 [+0200], Adrian Hunter wrote:
->>>>>
->>>>> Yes CPUs remain online for suspend2idle, but currently the choice between
->>>>> suspend2idle and "deep" (S3) suspend is a user space choice,
->>>>> refer /sys/power/mem_sleep.  Many modern systems do not support S3
->>>>> anymore, but it has not gone away.
->>>>>
->>>>>>
->>>>>> Anyway, I'm torn; I would much rather make this trigger a WARN and have
->>>>>
->>>>> AI now also identifies ftrace, BPF, GHES NMI, and #MC as possible causes,
->>>>> not just perf.  I haven't tried to confirm any of those.
->>>>>
->>>>> And, belatedly, AI is now saying an irq_work raised before lapic_resume()
->>>>> might result in #GP if the APIC is left in xAPIC mode at resume.  Also
->>>>> not confirmed.
->>>>
->>>> Could we flush this before similarly to what happens during CPU-hotplug.
->>>> The question is if this event can stay enqueued during suspend (and
->>>> handled on resume) or should be taken care before entering suspend.
->>>
->>> WRT "might result in #GP if the APIC is left in xAPIC mode at resume",
->>> the systems I have checked restore the APIC in x2APIC mode, so the
->>> issue is theoretical at this point, although I can get "unchecked MSR
->>> access error: WRMSR to 0x83f" if I deliberately add code to change
->>> x2APIC to xAPIC early in S3 wake (in x86_acpi_suspend_lowlevel()),
->>> and then do:
->>>
->>>    perf record -e power:suspend_resume --filter 'action == "machine_suspend" && start == 0' --no-buffering -C 0 -o /tmp/x.data &
->>>    rtcwake -m mem -s 10
->>>
->>> The error can be avoided with:
->>
->> I meant flush it via irq_work_run_cpu() like in smpcfd_dead_cpu() (the
->> CPU-hotplug path) and not go via APIC. You should do it late once the
->> interrupts are disabled so no new irq-work can be enqueued.
-> Disabling IRQs doesn't stop NMI or syscore enqueues, and the resume-side
-> raise still goes through the APIC
 
-Hello Adrian,
-I ran into the same lost irq_work self-IPI independently, in a different
-context. I triggered that same issue with a live migration of Xen HVM 
-guests. I sent a fix for it, but the posting only reached xen-devel and 
-the maintainers, and not the Linux mailinglist (because my company email 
-has some issues), so here is a short summary for everyone on this thread:
+--em4352y5go3jlcfe
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 4/9] device property: provide fwnode_property_get_names()
+Message-ID: <avHXwL53ClRQptIh@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-4-6e28fe1c72c4@oss.qualcomm.com>
+ <auug8QoQ62ETGg1D@ashevche-desk.local>
+ <lmib6742yptkwh7mzduw5xqid6h6rsqchs6aot3usjkcocmxqs@cvcpkwqag6nz>
+ <avG8MITPLRuFcZdO@devuan>
+ <6b7uxzbhrce55f5bgkvmg2r2h4ax4xg7le6vxkhzezbsef23gq@ojm3wm33v3xn>
+MIME-Version: 1.0
+In-Reply-To: <6b7uxzbhrce55f5bgkvmg2r2h4ax4xg7le6vxkhzezbsef23gq@ojm3wm33v3xn>
 
-My Setup: XCP-ng 8.3 (Xen 4.17), Ubuntu 26.04 cloud image (kernel 
-7.0.0-38), 4 vCPUs, "console=tty1 console=ttyS0". After a live migration 
-the guest hangs, e.g. "systemctl restart systemd-resolved" never 
-returns, and fsnotify/SRCU users block.
+Hi Bartosz,
 
-Mechanism: On Xen, live migration suspends the guest through 
-xen_suspend() (drivers/xen/manage.c), which runs inside stop_machine():
+> Date: 2026-11-09 13:59:05+0100
+> From: Bartosz Golaszewski <brgl@kernel.org>
+>
+[...]
+> > > > > +int fwnode_property_get_names(const struct fwnode_handle *fwnode=
+, char ***props)
+> > > >=20
+> > > > Triple indirection is rare. Do we really need it?
+> > > >=20
+> > >=20
+> > > I don't have a better alternative. Having two functions: one for
+> > > counting the names and another for retrieving them into a
+> > > caller-provided array is IMO the worse alternative, so I'd keep it.
+> >=20
+> > Would it be possible to return the pointer, and then pass the count as
+> > a parameter?
+> >=20
+>=20
+> Is this really better? I think it's less intuitive than just passing a
+> pointer to an array of strings.
 
-syscore_suspend()        -> lapic_suspend() disables the local APIC
-HYPERVISOR_suspend()
-gnttab_resume(), xen_irq_resume(), ...   -> printk()
-syscore_resume()
+Returning allocated pointers has a benefit for static analysis: the
+function could be marked with __attribute__((__malloc__(deallocator))).
 
-With the 8250 console being nbcon, the printk() in that window queues
-nbcon_irq_work to the raised_list on CPU0 and then sends the self-IPI. 
-But, the APIC is disabled at that point, so it's dropped. Afterwards, 
-the raised_list stays non-empty, so irq_work_queue() never raises the 
-IPI again and we are in that same situation.
 
-In mainline the nbcon trigger is hidden by 560f4deda327 ("printk/nbcon: 
-Change nbcon_irq_work to IRQ_WORK_LAZY"), but the underlying problem is 
-still there for any non-lazy irq_work queued in that window. To 
-reproduce it on mainline I reverted 560f4deda327 on top of v7.4-rc1:
+Cheers,
+Alex
 
-v7.4-rc1 + revert of 560f4deda327 -> hangs after the first migration
+>=20
+> My personal preference is what I did in v1. Unless there are strong
+> objections, I'd prefer to keep it this way.
+>=20
+> Bart
 
-v7.4-rc1 + revert of 560f4deda327 + this patch (1/6 only) -> 6 live 
-migrations between two hosts, no hang, no SRCU or hung-task warnings, 
-systemctl returns immediately
+--=20
+<https://www.alejandro-colomar.es>
 
-Since xen_suspend() calls syscore_resume() after the window above, this 
-fix with the new irq_work_resend() functions covers the Xen case as 
-well, without any Xen-specific changes.
+--em4352y5go3jlcfe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regarding the flush-before-suspend: In the Xen case that would not help. 
-The lost irq_work is queued by printk() after syscore_suspend() has 
-already disabled the local APIC, with interrupts off, so there is 
-nothing to flush yet when suspend starts.
+-----BEGIN PGP SIGNATURE-----
 
-Tested-by: Julian Vetter <julian.vetter@vates.tech>
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrx2OoACgkQ64mZXMKQ
+wqnTHhAAq9lr9inrO5+sbViAOboiBTG49DapuOkHoOD6fa3GmZzqB6t050vFMegQ
+ip6ErIBH1WtYWiuJbOWJ2x3oThL37chjBeuAFBqVQz+74+YmDCdL/bTgS6akJGuz
+mUtyEyT9FEFl1/vL6Fwh1FTl0rkwQyKth5yDY9AYltGEIk0/qeWxwcI45UZaCj9X
+08g6t9oMseT06Z5AvYrYvm541WFNMqU+VMGKdjePlMvzl9thd61OCqLAjxUaCfBy
+a8H+5468dmxXYLIgOodscuPVfEBV5+3EJlsUsPWMkOxXnuJmM7OOwaJWNcJbKLSW
+stG5oG9x6No9YXTiu6Wnk06lzxHVunq42vMcMysrmHti43+ANa/5I5bHuo/k+m6i
+/h+6U0tz6ovdlD4P3T8K8OrgAlKYdfdM4Hw1FGC5OiGmH/WwtTw8IWw0jKk1QG1q
+fXFBQlX3PKLpohfC1n9kC82USb4VoDsyL7XRQExyufCcEFf4UQvKj91hwaj7hLK5
+JE3OkG2r8ieMvAOGQJy/oLZAVzirk0afGqca/wQhKIbxM/84+Sk4lBx6tU0vI0+G
+DqCoqWzete1HHh4djkwghdvr8dS2S+YZCmNRWnaSZtFz6qS7ue5Uq/lEWmLGCnmq
+xoLhW7oizyJZ4TFC52wBvtvxIQ8zP4RpHbCLBQp2K6kVsZqrQ9E=
+=HZPM
+-----END PGP SIGNATURE-----
 
-Thank you,
-Julian
+--em4352y5go3jlcfe--
