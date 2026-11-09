@@ -1,83 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239877;
-	b=LiPAMc079Nt0qP03bLxJr4vAw6Q2T14NraGzGLLU3KEnHuLQrlbqgwIDQ9AbdPa/BUwh
-	 KX3X9XVypv9IIOm+5uWPyLOUfottSn6BMQgLhIomLESvVyB1qnpNBIwLGwOgtotdtkbKD
-	 tXF9IaGWIt5UC6DB16xMaEuvYhir6S56ON7AG82e13msV0spJTeqL7y6obYjP4AqCJIKB
-	 /qOMO8LbB6N/7GQP54XsL4NVW9pIKiVNbzOJhy5pFKh0ZbGggass+g0zxTgNTmP8vlWxo
-	 DMv8t7ILbTohuf35Q1B2/3sqtuLaATkU84dXBmFaKyYkOaHUG5EzK6D2p85364mJpjw==
+	t=1794239881;
+	b=rSzKQTlsCxvzY1ncKvNIdd4ITMAu/cfY8rCoqBZG0zk3+hT4eiYpAjglQrWVD4HdmxM9
+	 JkF84Wyd7OD54Oj/8RefkVpx9uFxxD+TjRZ04Gv94wBKOGeO5i1FwyVqEqmWsPE3dIp75
+	 eBfVle/w1lXYPPPCU039SpGqbljLkx20bbzccW9FMcx6+CetdLMi65Niq7w8p5w25odsd
+	 ZV89lVkfmQbQ0zyJVWlqZqn+w1SFRKlCMi2jIvmu/CIOofu5VzUVDBNi7K9jZx7kqPe8F
+	 n6kWwUX3gls9EcFdSokWGzlLBqJCNb0egqUV7O15Pp8cZs4FzuD6vJVLvyUXgymABfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239877;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239881;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ZbCaAvhWgcepykM7cYCVdmIyX9bkP8mLlamURxwhqqk=;
-	b=sAowYfC+9JRml23xnH/YyiCcKhE/B2O2yxwhPMHk40xFXcTSPB1RXpHXzCNqWKOIDV/x
-	 /VdteOO4g0+9YbFaGdmXjIRjjsu8fEaEvsMznfFiZqaOuWfcwQofRzS5eXSthJUBU8tNr
-	 pEFT4zJv3zGFD9CfjGUPMai+YVRGbeSI/sqcZw856aNuXODkmTkcDv+KplbhGHcI5P21Q
-	 lLi+OBfxXuETyE7SeI8DvRj20//KpkY9c1+brMvvWK5/UP1GZQCCViBhkEM7cvBA/hQA3
-	 0koaky2CGL4B8g9mlldCNlBuzYinI6RoNfrstnBbyvQJ8WzuwZ1qXxZO3rEQroM8XaA==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=YcUWxm4+i8v6MB/f3qiLFhXyjp5WzDz6iCDXkVjGzug=;
+	b=m4CxnjwFiuwbEIjpvPE9HxkqPDZSaHxc9BVF6WptVdiwtpSmJC8ha8Qog3W+AXh1p94T
+	 va4XE95n8l562ciTPgTQd9OcPLHPNl0iWyiT77Dri1MW/7OeII+FSsdMr8VM3//gGGVTF
+	 q83j4H17wTWOdo7ixWXfRMnHxp2lfYZOUUCo6kILqRgeyW4seWR/I8BGHEKynwf1Ipw0n
+	 gFzw3RDq+Y1jN/tIFzrJflK15pGVn6JbtBe1XB7r+DGQbZaDDqo48W6UphCBusda8sE3Z
+	 e39KYqqbWUg6XvTWA3zqhV1b84WlyQpGVhU8Zx8UodecdtksydKg0GFSw/9p6btjjSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BdmjrluH;
-	arc=none smtp.remote-ip=74.125.82.50
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T18YkIJ8;
+	arc=none smtp.remote-ip=74.125.82.46
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264F9606A33E
-	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 15:57:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 264F9606A33E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0914C606EE8D
+	for <driver-core@lists.linux.dev>; Mon,  9 Nov 2026 15:58:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0914C606EE8D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BdmjrluH
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-15dd124bbe7so721336c88.1
-        for <driver-core@lists.linux.dev>; Mon, 09 Nov 2026 07:57:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T18YkIJ8
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1b3b4bcbfc9so328376c88.1
+        for <driver-core@lists.linux.dev>; Mon, 09 Nov 2026 07:58:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794239875; x=1794844675; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZbCaAvhWgcepykM7cYCVdmIyX9bkP8mLlamURxwhqqk=;
-        b=BdmjrluHYu0qxEaF2qrwrUou4yC5zNvBAONpks6Xer1nlC+3cmk/xPM8bkzx/yQTmF
-         bVY8+Soav+njpj92+0m4T/tm0rmPRBOFXO0svxre5VbDXFrI27g6emeicjcQ3JQMwdMT
-         WoG0dTNbEWmfpCGoSHc0bVkDhv1eppaFJJvtyCaT8oV88W5OfVG9IM8+z8/AxtMJDdyh
-         hTzRaOrOyU74xP6BnmymbayHPVxalKFEt0lo+ulEzUQ0BdjPs9N8rCvgqHsiHf2ObnA/
-         ofUVm1Y2uWmP3EAFEIgBNcEuxjeZNor02l6HB4dQjTRHMFkNxNu81ffFLHDygT5M9k8B
-         MEZQ==
+        d=gmail.com; s=20260707; t=1794239880; x=1794844680; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YcUWxm4+i8v6MB/f3qiLFhXyjp5WzDz6iCDXkVjGzug=;
+        b=T18YkIJ8odjBYNSTxDPfLFqfwx+GOv3kb+QM3LPB86WhC0jnBni5jHzmJSgYxSK0yT
+         gy5HFmArOSlclypNyEajJ1vOMfdVSwUpMXL1RN0VOjssO6AL4rzxAMgHTIWDDNpkIOa4
+         8p7+TGjCDkPgL2tKU59A4bs7B8LFzCsXdRGUmzqYM8b1T0VX5lSrZhzf7gAUA7jxuXew
+         SK7MuftzyQ3G7Y35eInRFu+xL8kV7JTSaoF/hsCVb/MeDy4P9/lhqAOsNdpjT0RVlL+B
+         e2C5LpRxY2kYMdH63S3Z5elTwZ0WU6OJoxkhYFcZ0kFf58r+K4NhHVuoCyhYJu12F5ix
+         mCGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794239875; x=1794844675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZbCaAvhWgcepykM7cYCVdmIyX9bkP8mLlamURxwhqqk=;
-        b=mw05cq+hsEOrlYfeeF7FJHg5AsQ1PdZ34hSkC4x3Ep0u+yKkr6TaiaH1qx4huQ52Zf
-         hW3LV2UeJzn0RigMbZ3XTG/ZkWDt0wzS14PE5bHnq2L7Eb7qHHQNQMl/VtM/FDsi+OR/
-         DcJYlQjrsReuabkNwPk98SBE3Iw1L22m+vqTfDG8KU5udiBTS+exYE6cJ8cMAvKUC9zi
-         qW4fosX3oecrbU3SPYkSL+hBu+5ecWKnkk3ZrGe07+yshIZ/d0uPoIIf9IG59BCWlUwY
-         2mR5ewg89AXx68JGuA32MBupsu8a4tiidFPGxp1Buez6oca/QrUSEGKR82R0RTqGaEqo
-         DA/Q==
-X-Forwarded-Encrypted: i=1; AL+hErH+PjhEi/5G8BXJ5DCsrjYtyyu5EgpU6JhJMYs0i0qL1347z4/X84M2lkLh+61E8/PEDy90WwKhlLnZwQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8rQj5cROw6bvIc8Gqenb99iCnsXI+d69TWVp2QSRdHzc5d7eDO
-	tjkVy2P0t4USTqu61b7R0S/dL3vFxFOk0TSWyYeuUMYzOtrS0r2bmdwN
-X-Gm-Gg: AYBFou2/+8r6UYEs6+2pvhAPwK4rU/oqRMC6U3kvubjOOx5O2WAwSSOyFFUC/2kCAh8
-	puKTVu7L2t/YT2OthbyKQwyCWS/1dQwj/rhyiFHVJvPk9UpkbWt5s4sez/co1RwsdumT4YfoarB
-	Vs9NO0Lk5qrPz8H4mLDl2V1nkn8Am2zxteZBVVOgmfwH6Oi6okqFIx040HvTpZzN9qrmA3Ve9C8
-	GreJYVS1VVH2ZC5+blGOBihtb3htPyDqzNPLK+rlBi23MM5N5T++A6gKdM+KXHHZ1hR65nPPCSm
-	9TTcZAXQVoHmgAoSKBSrNJN3NshbQhsUdvIghomNWcAsu4SsEOqGkJ46YVb9onnVC6le5EUYBah
-	Ef6lFFQc67ciyWSmmK9IWAXhpgkqECtu8+vXN3dJct6nGrYeeZxThHNeAS6TmuUYtJfPIjahTlo
-	awZAhlsnxGyoBa1zDYutE7ZOGkRU4sgb/woSsS3dWPTanCHNBOl1Rt3fA3sW03octtdWaprULQt
-	ap6cIi8PRhxEcRos3y8eRoUSLK+yBA2mShESrodeIQQd/CAG6oBg7Md7kMC8UYVyLzovsEXUwT4
-	2C96MRXmqx8Yj3OmCXLCP2BEeo9F3nEz6YGHaX1+3LVs0UQKOQyt85AITwbHrosZU5kNyyY=
-X-Received: by 2002:a05:701b:455a:10b0:177:9a5b:a89 with SMTP id a92af1059eb24-1b3ac6c5edemr3932498c88.29.1794239875103;
-        Mon, 09 Nov 2026 07:57:55 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794239880; x=1794844680;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YcUWxm4+i8v6MB/f3qiLFhXyjp5WzDz6iCDXkVjGzug=;
+        b=rA9tvPPQdhIf+BOsymRM8QFiL7/clq+JJ+loUAxIowx1JsMmDwGUKK57guyBJ9o2qX
+         vvDXhOXaYDyGkIKYZ3SH6z3IKf9B3g5LT1Lzi/Oj1bple9TAkg3bBI4CvTZ/BdTxtysF
+         vGxxldHY85QwxSvO4t107NCTrWh7Fi7mbqPcVZE4s2kLcnzVH9g8cXZfhiAzx9Pm6Zac
+         orDcDeBS4OdiCNeFBuZqKqbVPGjcMrl8fGHSOGYG1cRUtyisky4rk4vV7iTgdgErRPHy
+         FUD/mSUxtxES4uFQJrt7Qmw1lWQiW5wICrbwtP1RrgCugEbhG1kP115sXwY9UZpC+2rV
+         uDjg==
+X-Forwarded-Encrypted: i=1; AL+hErFjkDhu22cr2dr4rDjAZIrO44e1tICHVYsJ+FS9YSWhk4HAaqpMZAtcPhIirysCrKMu1WGyVccnCnK/xA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8DKDNHGN2G1+0sIeDIAgGdAhdfhoLiCKs+nngjqxDuBw8KeaoT
+	P5aFeIeapePtNYt6H42sZ6YF1TmpcuIAgCYuLC/GEdLsuTABtdJdGRA+
+X-Gm-Gg: AYBFou0QeKNz726VYPA2lzE+vbhqDatz5Fd0HrHCq5m4sUP5SjtVj15h5pynSWlLJId
+	fhxDTpC5NsnAXf3SbzH2fcAEGBt9fHR4JqG/voiXlZC4cKWyHGhv3XO4cUI1/ob6vb8+vBdfbTz
+	kQHyO6p2cQ3k8ZrP+osLIP6FuApw0apUgyzNhxY17Se7eLHyL4vQOwr7TWN3I0l8nIr2cw/qMKa
+	t3asBPzy6OwGi+BmO5a/V1/q2rJc/QVmNMMVh/twp+uRpOcew+o7KbqT3kczA5y1/1uKVKBQ7mD
+	Zq4nQuSMfOdlblu844lzz19Vvb2X+qqsVLHNQB4MitQzlUNe8HOYCo9AAWyO7yBgeYH8PVxzTIC
+	Codr0UESKXelPXJmsJNksM/K3KoSWub34vDsnM0ZmzMiV7MfQyZvt+4QV+ITmGhQziUXP/GHZND
+	aVGolBoG67fes+NykZggNF7JCeiGpi66sluwHv/r+UoE5rneJ+ZbOjSVmvapLiiZIm4/W+su+mw
+	tc7XnpxR7BM65PGHpoac62XpHDxIn+jwhlGXkMcYv0WYICDJiW5epWQVfafExOYW6k4V5H749lu
+	r6huilHYTxxvpSQ7s1dnnFfZfYOty8/znAJZQupXCSW6e1YMzBahAfeZG9k9nCcYft+HTFxsPxp
+	IzHXBxanbscoeiUX+
+X-Received: by 2002:a05:701b:2611:b0:19b:39f4:88c9 with SMTP id a92af1059eb24-1b39fec9030mr6035678c88.10.1794239879928;
+        Mon, 09 Nov 2026 07:57:59 -0800 (PST)
 Received: from localhost.localdomain ([125.166.179.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3757214cbsm13020828c88.13.2026.11.09.07.57.50
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3757214cbsm13020828c88.13.2026.11.09.07.57.55
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 07:57:54 -0800 (PST)
+        Mon, 09 Nov 2026 07:57:59 -0800 (PST)
 From: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -94,9 +96,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	rust-for-linux@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v7 1/4] rust: io: add FallibleIoCapable
-Date: Mon,  9 Nov 2026 22:57:40 +0700
-Message-ID: <20261109155743.83740-2-muchamadcoirulanwar@gmail.com>
+Subject: [RFC PATCH v7 2/4] i2c: rust: implement SMBus access via IoBackend
+Date: Mon,  9 Nov 2026 22:57:41 +0700
+Message-ID: <20261109155743.83740-3-muchamadcoirulanwar@gmail.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20261109155743.83740-1-muchamadcoirulanwar@gmail.com>
 References: <20261109155743.83740-1-muchamadcoirulanwar@gmail.com>
@@ -109,184 +111,283 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add a fallible I/O capability for backends whose accesses may fail
-independently of address validation.
+Implement fallible SMBus byte and word access for bound I2C clients
+using the generic I/O backend infrastructure.
 
-Route try_read, try_write, try_write_reg, and try_update through the
-fallible capability. Provide a blanket implementation for infallible
-IoCapable backends so existing users retain their current behavior.
+I2C transactions may fail due to NACK, arbitration loss, or timeout, so
+use FallibleIoCapable rather than the infallible IoCapable interface.
+Propagate errors returned by the I2C core to callers.
 
-This allows transport-backed implementations such as I2C to expose only
-fallible access while keeping infallible operations unavailable.
+Provide smbus_io() for byte-addressed register access and standalone
+word helpers for layouts not represented by the Region-based view.
+Also provide smbus_read_word_swapped() for devices that transmit the
+high byte of a multi-byte value first.
 
-Link: https://lore.kernel.org/all/DJVQ852J7SOH.26YBIJTQ9B66G@kernel.org/
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Restrict these operations to I2cClient<Bound> so bus I/O is only available
+while the client remains bound.
+
+Keep the raw SMBus FFI calls and errno conversion in safe bound-client
+methods. Include a generic no_run example for the word-read helper.
+
+Suggested-by: Shuai Liu <847807867@qq.com>
+Link: https://lore.kernel.org/all/tencent_173B7731E90B9624F9F82613DC3031B70907@qq.com/
 Signed-off-by: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>
 ---
- rust/kernel/io.rs | 62 ++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 45 insertions(+), 17 deletions(-)
+ rust/kernel/i2c.rs | 235 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 235 insertions(+)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index a877df11a03e..b93a540c28da 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -356,6 +356,31 @@ pub trait IoCapable<T>: IoBackend {
-     fn io_write<'a>(view: Self::View<'a, T>, value: T);
- }
- 
-+/// I/O backend capability for operations that may fail independently of address validation.
+diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+index 0487bae811fb..6f63bb8c6f93 100644
+--- a/rust/kernel/i2c.rs
++++ b/rust/kernel/i2c.rs
+@@ -14,8 +14,15 @@
+     devres::Devres,
+     driver,
+     error::*,
++    io::{
++        FallibleIoCapable,
++        IoBackend,
++        IoBase,
++        Region, //
++    },
+     of,
+     prelude::*,
++    ptr::KnownSize,
+     sync::aref::{
+         ARef,
+         AlwaysRefCounted, //
+@@ -594,3 +601,231 @@ unsafe impl Send for Registration {}
+ // SAFETY: `Registration` offers no interior mutability (no mutation through &self
+ // and no mutable access is exposed)
+ unsafe impl Sync for Registration {}
++
++/// I/O backend for SMBus register access via I2C.
 +///
-+/// Infallible backends implementing [`IoCapable`] also support fallible operations. Backends
-+/// implementing only this trait cannot use the infallible [`Io`] accessors.
-+pub trait FallibleIoCapable<T>: IoBackend {
-+    /// Read from `view`, returning a transport error if the operation fails.
-+    fn io_try_read<'a>(view: Self::View<'a, T>) -> Result<T>;
++/// This backend implements only [`FallibleIoCapable`] and not
++/// [`crate::io::IoCapable`], because I2C/SMBus transactions can fail
++/// regardless of address validity. The infallible [`crate::io::Io::read`],
++/// [`crate::io::Io::write`], and [`crate::io::Io::update`] methods are
++/// therefore unavailable for this backend.
++pub struct I2cBackend;
 +
-+    /// Write `value` to `view`, returning a transport error if the operation fails.
-+    fn io_try_write<'a>(view: Self::View<'a, T>, value: T) -> Result;
++/// An SMBus view associated with a bound I2C client.
++///
++/// The pointer encodes a command offset and is never dereferenced as
++/// memory. Its type and, for dynamically sized targets, metadata describe
++/// the extent of the view.
++///
++/// # Invariants
++///
++/// The view is derived from the client's SMBus command region.
++/// Projections preserve the bounds of the source view.
++/// `client` remains valid and bound for the lifetime of the view.
++pub struct I2cView<'a, T: ?Sized> {
++    client: &'a I2cClient<device::Bound>,
++    ptr: *mut T,
 +}
 +
-+impl<B: IoCapable<T>, T> FallibleIoCapable<T> for B {
-+    #[inline(always)]
-+    fn io_try_read<'a>(view: Self::View<'a, T>) -> Result<T> {
-+        Ok(Self::io_read(view))
-+    }
++impl<T: ?Sized> Copy for I2cView<'_, T> {}
 +
-+    #[inline(always)]
-+    fn io_try_write<'a>(view: Self::View<'a, T>, value: T) -> Result {
-+        Self::io_write(view, value);
-+        Ok(())
++impl<T: ?Sized> Clone for I2cView<'_, T> {
++    #[inline]
++    fn clone(&self) -> Self {
++        *self
 +    }
 +}
 +
- /// Trait indicating that an I/O backend supports memory copy operations.
- pub trait IoCopyable: IoBackend {
-     /// Copy contents of `view` to `buffer`.
-@@ -759,7 +784,7 @@ fn copy_to_slice(self, data: &mut [u8])
-     fn try_read8(self, offset: usize) -> Result<u8>
-     where
-         usize: IoLoc<Self::Target, u8>,
--        Self::Backend: IoCapable<u8>,
-+        Self::Backend: FallibleIoCapable<u8>,
-     {
-         self.try_read(offset)
-     }
-@@ -769,7 +794,7 @@ fn try_read8(self, offset: usize) -> Result<u8>
-     fn try_read16(self, offset: usize) -> Result<u16>
-     where
-         usize: IoLoc<Self::Target, u16>,
--        Self::Backend: IoCapable<u16>,
-+        Self::Backend: FallibleIoCapable<u16>,
-     {
-         self.try_read(offset)
-     }
-@@ -779,7 +804,7 @@ fn try_read16(self, offset: usize) -> Result<u16>
-     fn try_read32(self, offset: usize) -> Result<u32>
-     where
-         usize: IoLoc<Self::Target, u32>,
--        Self::Backend: IoCapable<u32>,
-+        Self::Backend: FallibleIoCapable<u32>,
-     {
-         self.try_read(offset)
-     }
-@@ -789,7 +814,7 @@ fn try_read32(self, offset: usize) -> Result<u32>
-     fn try_read64(self, offset: usize) -> Result<u64>
-     where
-         usize: IoLoc<Self::Target, u64>,
--        Self::Backend: IoCapable<u64>,
-+        Self::Backend: FallibleIoCapable<u64>,
-     {
-         self.try_read(offset)
-     }
-@@ -799,7 +824,7 @@ fn try_read64(self, offset: usize) -> Result<u64>
-     fn try_write8(self, value: u8, offset: usize) -> Result
-     where
-         usize: IoLoc<Self::Target, u8>,
--        Self::Backend: IoCapable<u8>,
-+        Self::Backend: FallibleIoCapable<u8>,
-     {
-         self.try_write(offset, value)
-     }
-@@ -809,7 +834,7 @@ fn try_write8(self, value: u8, offset: usize) -> Result
-     fn try_write16(self, value: u16, offset: usize) -> Result
-     where
-         usize: IoLoc<Self::Target, u16>,
--        Self::Backend: IoCapable<u16>,
-+        Self::Backend: FallibleIoCapable<u16>,
-     {
-         self.try_write(offset, value)
-     }
-@@ -819,7 +844,7 @@ fn try_write16(self, value: u16, offset: usize) -> Result
-     fn try_write32(self, value: u32, offset: usize) -> Result
-     where
-         usize: IoLoc<Self::Target, u32>,
--        Self::Backend: IoCapable<u32>,
-+        Self::Backend: FallibleIoCapable<u32>,
-     {
-         self.try_write(offset, value)
-     }
-@@ -829,7 +854,7 @@ fn try_write32(self, value: u32, offset: usize) -> Result
-     fn try_write64(self, value: u64, offset: usize) -> Result
-     where
-         usize: IoLoc<Self::Target, u64>,
--        Self::Backend: IoCapable<u64>,
-+        Self::Backend: FallibleIoCapable<u64>,
-     {
-         self.try_write(offset, value)
-     }
-@@ -958,9 +983,12 @@ fn try_read<T, L>(self, location: L) -> Result<T>
-     where
-         T: AsReprMut,
-         L: IoLoc<Self::Target, T>,
--        Self::Backend: IoCapable<<T as AsRepr>::Repr>,
-+        Self::Backend: FallibleIoCapable<<T as AsRepr>::Repr>,
-     {
--        Ok(io_read!(self, try: location))
-+        let view = io_project!(self, try: location);
-+        Ok(T::from_repr(Self::Backend::io_try_read(io_view_as_repr(
-+            view,
-+        ))?))
-     }
- 
-     /// Generic fallible write with runtime bounds check.
-@@ -991,10 +1019,10 @@ fn try_write<T, L>(self, location: L, value: T) -> Result
-     where
-         T: AsRepr,
-         L: IoLoc<Self::Target, T>,
--        Self::Backend: IoCapable<<T as AsRepr>::Repr>,
-+        Self::Backend: FallibleIoCapable<<T as AsRepr>::Repr>,
-     {
--        io_write!(self, try: location, value);
--        Ok(())
-+        let view = io_project!(self, try: location);
-+        Self::Backend::io_try_write(io_view_as_repr(view), T::into_repr(value))
-     }
- 
-     /// Generic fallible write of a fully-located register value.
-@@ -1037,7 +1065,7 @@ fn try_write_reg<T, L, V>(self, value: V) -> Result
-         T: AsRepr,
-         L: IoLoc<Self::Target, T>,
-         V: LocatedRegister<Self::Target, Location = L, Value = T>,
--        Self::Backend: IoCapable<<T as AsRepr>::Repr>,
-+        Self::Backend: FallibleIoCapable<<T as AsRepr>::Repr>,
-     {
-         let (location, value) = value.into_io_op();
- 
-@@ -1071,12 +1099,12 @@ fn try_update<T, L, F>(self, location: L, f: F) -> Result
-     where
-         T: AsReprMut,
-         L: IoLoc<Self::Target, T>,
--        Self::Backend: IoCapable<<T as AsRepr>::Repr>,
-+        Self::Backend: FallibleIoCapable<<T as AsRepr>::Repr>,
-         F: FnOnce(T) -> T,
-     {
-         let view = io_project!(self, try: location);
--        view.write_val(f(view.read_val()));
--        Ok(())
-+        let value = T::from_repr(Self::Backend::io_try_read(io_view_as_repr(view))?);
-+        Self::Backend::io_try_write(io_view_as_repr(view), T::into_repr(f(value)))
-     }
- 
-     /// Generic infallible read with compile-time bounds check.
++impl IoBackend for I2cBackend {
++    type View<'a, T: ?Sized + KnownSize> = I2cView<'a, T>;
++
++    #[inline]
++    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> *mut T {
++        view.ptr
++    }
++
++    #[inline]
++    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownSize>(
++        view: Self::View<'a, T>,
++        ptr: *mut U,
++    ) -> Self::View<'a, U> {
++        // INVARIANT: Per safety requirement.
++        I2cView {
++            client: view.client,
++            ptr,
++        }
++    }
++}
++
++impl FallibleIoCapable<u8> for I2cBackend {
++    #[inline]
++    fn io_try_read<'a>(view: I2cView<'a, u8>) -> Result<u8> {
++        // `io_view()` ensures `offset + 1 <= 256`, so `addr()` is at most 255;
++        // the `as u8` cast below is therefore lossless.
++        let reg = Self::as_ptr(view).addr() as u8;
++        view.client.smbus_read_byte(reg)
++    }
++
++    #[inline]
++    fn io_try_write<'a>(view: I2cView<'a, u8>, value: u8) -> Result {
++        // `io_view()` ensures `offset + 1 <= 256`, so `addr()` is at most 255;
++        // the `as u8` cast below is therefore lossless.
++        let reg = Self::as_ptr(view).addr() as u8;
++        view.client.smbus_write_byte(reg, value)
++    }
++}
++
++/// The `Region<256>` view is byte-addressed. Consequently, its generic
++/// 16-bit operations reject odd command bytes and command byte `0xFF`.
++/// Devices whose command bytes each select an independent 16-bit register
++/// should use [`I2cClient::smbus_read_word`] or
++/// [`I2cClient::smbus_read_word_swapped`] directly.
++impl FallibleIoCapable<u16> for I2cBackend {
++    #[inline]
++    fn io_try_read<'a>(view: I2cView<'a, u16>) -> Result<u16> {
++        // `io_view()` ensures `offset + 2 <= 256`, so `addr()` is at most 254;
++        // the `as u8` cast below is therefore lossless.
++        let reg = Self::as_ptr(view).addr() as u8;
++        view.client.smbus_read_word(reg)
++    }
++
++    #[inline]
++    fn io_try_write<'a>(view: I2cView<'a, u16>, value: u16) -> Result {
++        // `io_view()` ensures `offset + 2 <= 256`, so `addr()` is at most 254;
++        // the `as u8` cast below is therefore lossless.
++        let reg = Self::as_ptr(view).addr() as u8;
++        view.client.smbus_write_word(reg, value)
++    }
++}
++
++impl<'a, T: ?Sized + KnownSize> IoBase<'a> for I2cView<'a, T> {
++    type Backend = I2cBackend;
++    type Target = T;
++
++    #[inline]
++    fn as_view(self) -> I2cView<'a, T> {
++        self
++    }
++}
++
++// SAFETY: The bound client borrow remains valid when the view is moved
++// between threads. The view exposes only SMBus transactions, which use
++// the I2C core's bus locking, and pointer projections that never
++// dereference the encoded address as memory. `T: Sync` preserves the
++// shared-view restriction.
++unsafe impl<T: ?Sized + Sync> Send for I2cView<'_, T> {}
++
++// SAFETY: Sharing a view permits concurrent SMBus transactions, which
++// use the I2C core's bus locking. The bound client remains valid for
++// the view's lifetime, and the encoded pointer is never dereferenced
++// as memory. `T: Sync` preserves the shared-view restriction.
++unsafe impl<T: ?Sized + Sync> Sync for I2cView<'_, T> {}
++
++impl I2cClient<device::Bound> {
++    /// Returns an I/O handle for SMBus register access on this I2C client.
++    ///
++    /// The returned handle provides fallible read and write methods for the
++    /// SMBus command byte range (0x00–0xFF). A command byte is a data byte which
++    /// often selects a register on the device. The 7-bit device address is handled
++    /// separately by the I2C core.
++    ///
++    /// [`crate::io::Io::try_read16`] and
++    /// [`crate::io::Io::try_write16`] on the returned handle reject
++    /// odd offsets because the [`Region`]-based bounds check requires
++    /// `offset % 2 == 0`. This model does not cover every SMBus register layout,
++    /// including layouts where auto-increment or auto-decrement results in command
++    /// bytes that appear unaligned. Use [`Self::smbus_read_word`] or
++    /// [`Self::smbus_read_word_swapped`] for word access at an odd command byte.
++    #[inline]
++    pub fn smbus_io(&self) -> I2cView<'_, Region<256>> {
++        // INVARIANT: The view borrows this bound client and covers the 256-byte
++        // SMBus command region.
++        //
++        // The provenance-free pointer encodes a command offset rather than a
++        // memory address. Its initial address is zero, and the region metadata
++        // supplies the length used for bounds checks. Projections select command
++        // offsets; SMBus accessors extract those offsets without dereferencing
++        // the pointer.
++        I2cView {
++            client: self,
++            ptr: Region::<256>::ptr_from_raw_parts_mut(core::ptr::without_provenance_mut(0), 256),
++        }
++    }
++
++    #[inline]
++    fn smbus_read_byte(&self, reg: u8) -> Result<u8> {
++        // SAFETY: `self.as_raw()` returns a valid `*mut struct i2c_client`
++        // pointer as guaranteed by the type invariant of `I2cClient`.
++        // `i2c_smbus_read_byte_data` accepts any u8 command byte.
++        let ret = unsafe { bindings::i2c_smbus_read_byte_data(self.as_raw(), reg) };
++        to_result(ret)?;
++        Ok(ret as u8)
++    }
++
++    #[inline]
++    fn smbus_write_byte(&self, reg: u8, value: u8) -> Result {
++        // SAFETY: `self.as_raw()` returns a valid `*mut struct i2c_client`
++        // pointer as guaranteed by the type invariant of `I2cClient`.
++        // `i2c_smbus_write_byte_data` accepts any u8 command byte and value.
++        let ret = unsafe { bindings::i2c_smbus_write_byte_data(self.as_raw(), reg, value) };
++        to_result(ret)
++    }
++
++    /// Reads the 16-bit SMBus word value returned for a command.
++    ///
++    /// Wraps `i2c_smbus_read_word_data`. The `reg` parameter is the SMBus
++    /// command byte (0x00–0xFF), a data byte which often selects a register on
++    /// the device. SMBus transmits the low byte first.
++    ///
++    /// Use [`Self::smbus_read_word_swapped`] for devices that transmit the
++    /// high byte of a multi-byte value first.
++    ///
++    /// Returns `Err` if the bus transaction fails, for example because of a
++    /// NACK, arbitration loss, or timeout.
++    #[inline]
++    pub fn smbus_read_word(&self, reg: u8) -> Result<u16> {
++        // SAFETY: `self.as_raw()` returns a valid `*mut struct i2c_client`
++        // pointer as guaranteed by the type invariant of `I2cClient`.
++        // `i2c_smbus_read_word_data` is safe to call with any valid client
++        // pointer and any u8 command byte.
++        let ret = unsafe { bindings::i2c_smbus_read_word_data(self.as_raw(), reg) };
++        to_result(ret)?;
++        Ok(ret as u16)
++    }
++
++    #[inline]
++    fn smbus_write_word(&self, reg: u8, value: u16) -> Result {
++        // SAFETY: `self.as_raw()` returns a valid `*mut struct i2c_client`
++        // pointer as guaranteed by the type invariant of `I2cClient`.
++        // `i2c_smbus_write_word_data` accepts any u8 command byte and u16 value.
++        let ret = unsafe { bindings::i2c_smbus_write_word_data(self.as_raw(), reg, value) };
++        to_result(ret)
++    }
++
++    /// Reads a 16-bit word from an SMBus command and swaps its two bytes.
++    ///
++    /// Wraps `i2c_smbus_read_word_data` and applies [`u16::swap_bytes`] to the
++    /// result. The `reg` parameter is the SMBus command byte (0x00–0xFF), a data
++    /// byte which often selects a register on the device.
++    ///
++    /// SMBus transmits the low byte first. This method swaps the returned bytes
++    /// for devices that transmit the high byte of a multi-byte value first.
++    ///
++    /// Returns `Err` if the bus transaction fails, for example because of a
++    /// NACK, arbitration loss, or timeout.
++    ///
++    /// # Examples
++    ///
++    /// ```no_run
++    /// use kernel::{device::Bound, i2c::I2cClient, prelude::*};
++    ///
++    /// # fn test(client: &I2cClient<Bound>) -> Result<u16> {
++    /// // Read a word from a device that transmits its high byte first.
++    /// client.smbus_read_word_swapped(0x0c)
++    /// # }
++    /// ```
++    #[inline]
++    pub fn smbus_read_word_swapped(&self, reg: u8) -> Result<u16> {
++        self.smbus_read_word(reg).map(u16::swap_bytes)
++    }
++}
