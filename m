@@ -1,82 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302194;
-	b=4M4CLjkYCBza5tbgcIxEMoXioVPGfRzDupUnF+jlbKvoIYfIs470Q6pjYfRWwDkXRg46
-	 dV4qrz4OhWbuNkhUuuWRjOnUxiqvo51VFReFmLxVW6nxT8+OYpO8sUFy8EbsVebub92hx
-	 NKe3SQn9Bme/VYDAbqCY+OE8Rfm3kqhR5MSkY7YkKuBBfezErPq1AWC98kBn3EQzhNW7x
-	 6xO8pXmYHb6nWsmGp64P+kLxzUwP9LMXT5gCU6sV6rvRF93h86GUIy5uMGQoaINa7VgQx
-	 Xhd5nhN56svOU6RSn+rgKo/ZASLwVPNjFrqUG6jpNkI9VJ2hPC/xYwML3fHmS2PfqVw==
+	t=1794302192;
+	b=O5v5l9fiYYSAahvVTriZnovUEhbQwZuB1YcO3fh2EUMombrZsgDNatH+8q7btV6RSZCQ
+	 kMs5n87G4/X1hCGpggKBmE2Ely7sR6dKnzOdtFdkm9Jb2lNlx7Ez+fS8YWRF7C5QN/vNk
+	 mSAz6X0yJ173vBkvx8wgyBrwOEZkryisdfZV+HM+kU9KOH6fnDbZXjx/qKk8tDO4F6z2k
+	 KpoF2xdO6RepSwq1v+mRnyPFsKDv6kwDMkreGkM4BtpMpXIPonWDPA3qmDuL8n+q0J0YH
+	 OqJHCtrZaWX2SPTziQtEREPOrDQurs04+rmEDrqsHGJx0LtIIxqsnHlxZ8gJZR2E+IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302194;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=HcBmS5+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=;
-	b=IlgbWRuxBjNgcvJQ51Ata6zqtO7lfJ1uxUrbcBJxNqu7XNz8s1oILsArRMMb6Uax1ExM
-	 MTRkEB31UFX7lwa1BZjkkKnd+P+Ywi3V+0kl5YOYnE0GTmv7cjaQbCUOh/i341vSpPEwY
-	 IyTNs7eSWhHhX0cCvDJZ4olK11BNSDfdO93S9OgxbkOMvS3MtiMFGh0D5zXgoaZc3OSvR
-	 2o2gjmCT6zRN2MzIeLL6NxJITmKeBtpfiI+80LVSalfrx5eZ+e4TV9Y2b8KyjQOU4AURF
-	 QySnwCrQKcQ5GQvQdCkM6z808+os4NiSKjKWAoY24shjuvTyzD3ANNQz4+PXfqIf46A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302192;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=eGG9W0yWfKzRivIQZoE53ERZFH3qHATHiSAlm/rfViI=;
+	b=NMbOlSXECiHXQDZsfb4n+hLapM2xhdpHv6upVwy4xzPpZrwFsPSkbq7yRlxBw1X6K/lv
+	 77RF/qFd18L5il/8akaswLoBccbKjBBIqRDl4kEx78BuGXN/qTzBK0ESznT3RADK2PHht
+	 KJlS020feEOMckJkS2r2W1w8ErGRKphq1kKIJhw6PO3DZfG2vligZ+oVj2LEduGM/ybLt
+	 wuL542qUbh7KTSfgQDmZjqupG9y4LwTpIjsJT6Xu8uyy+GBLKLzetOYfGReonXN074mNE
+	 BcEaitVoScli4C+DvaHwCkbcmFu0+a3CKLLZs7YxbTvEzwVmj86x2a8Feiz/0+3hSaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjYzYxSG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15E1606A32E
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 09:16:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D15E1606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCA9606A334;
+	Tue, 10 Nov 2026 09:16:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA8EQfQ1812456;
-	Tue, 10 Nov 2026 09:16:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=HcBmS5
-	+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=; b=Euvb0XBsl3EzzvP1u1sip/
-	x3IUuRd/ucv8cad57wR0FpCnl6ItPfW4TGhQ7cRRO53dxl1uVqTyo5mQwl9+i4Ba
-	EsUnWqmLLMz3fJ25pv5PMz0mGIYNtzazLArSzKbBkGEClRO1VFQ3pcV6Op7pvTRJ
-	XAXVFG60+9EVDgZ3bvl2daydJvuDCXCHfc7HlmaWlfVT24yFR3/a9td/nRXKzjs8
-	05703+ov/L4aF6mcaD01Gg6i7JJD53pLfbaqNGRayraJqFpHru4FRmCRDQsiyImm
-	X3AtdP4jzebIk2pq+OHQqzp1q4RlqjAYQisVA94wdNzCJQxHdsn2T5NT8O/U+i3g
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuq6v2hc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 10 Nov 2026 09:16:11 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA851do1498149;
-	Tue, 10 Nov 2026 09:16:10 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4htepvx2cf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Nov 2026 09:16:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AA9G6ss56164728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Nov 2026 09:16:06 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8768D20043;
-	Tue, 10 Nov 2026 09:16:06 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C22E20040;
-	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
-Received: from [9.39.31.79] (unknown [9.39.31.79])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
-Message-ID: <1d1b22ce-fdf1-47ad-99ec-8c9925ea7275@linux.ibm.com>
-Date: Tue, 10 Nov 2026 14:45:58 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CjYzYxSG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8126C1F00902;
+	Tue, 10 Nov 2026 09:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794302191;
+	bh=eGG9W0yWfKzRivIQZoE53ERZFH3qHATHiSAlm/rfViI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=CjYzYxSG4MF/PYOuhfPotw8YsrgHpqEMmvVsealc1nZYA5sYB8ePEA/BT0law6L4c
+	 H4DwOy7PJ6PWOuylSpgYpzMq2zQGYiIT8+FEalpf9CzWwtAbdti5C3COkrTAoZVyOC
+	 98zYnncAcJul/uKitX7mc2xPlqIIYPds4N05d66Wgi6oSv9azb1TV2yyF+MJgyG+uT
+	 +q4Aq0251HvqT0ZVS0wHPkEhV8CPEhOZQuBNIukUVbH00aNshGt3HqKek36mnvJebH
+	 4omkN8WkJOC0ohRp48kohw45G0TEI0wyMWnb2yC/I1jgI5cFhMlDgFavrTXU4YWzSj
+	 7d78+YdkJ4mOA==
+From: Christian Brauner <brauner@kernel.org>
+Date: Tue, 10 Nov 2026 10:14:21 +0100
+Subject: [PATCH RFC 05/41] kernfs: use fc_init_pseudo()
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -86,113 +52,78 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-To: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi
- <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
-        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org, Yury Norov <ynorov@nvidia.com>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX5pCaNYyeS0GK
- /qoKN2A6JamDgryJ+BemvZnw4QGpf+1XjEjgUG26sziaCDm4OHmG0ASXzl4FJdoOB+vr8TLa+Dy
- dwoirZ0OEIYOZAC4O2tEq+j8pC7vmuA=
-X-Authority-Analysis: v=2.4 cv=HbCB3SE8 c=1 sm=1 tr=0 ts=6af2e0dc cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=Ikd4Dj_1AAAA:8
- a=S2HyHEYmQh1kXY00aCwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: V0Qpv5g5dMd40m2X4caVWzhKaZKP2Zbn
-X-Proofpoint-GUID: R0Mklm7znZwmumFMQXCwYU792AB9pLQO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX0P2aS5Fa+IjE
- mHvDmDdBXSkhujTEso78l7iZZnVhWCSaLmH1Ds1/nVG3OGRd/1ItjrGH9YblNZ2usmsDUKhMbr6
- ETpmBzrql1By6360fUq2AKCeiK1VWwur8GbZ2tgegDqcNKFpF7+LkUKjCmPNocXZ/p8G9YnS8Iq
- 8Z/uRmeVSEwiLM/eO+a1OVE6z+UcwoAq2jdrvL7iGuzuhkRu2n+s5lWdfzKhGSntm+4MwU0ZiOp
- Hlae7G3URIEak5gaQvA6CtZGdfWkfL+M4EfZE1I5yOf6d2bovikSW0xX21nN8b8x1qenDf4Etof
- slwHP2ByJHiTcptVrjFg4Fe9EcNld/VgjHkyITUpqZOUCHLLw7nRKMsZbhjTBQsH9XLKFuV6Npo
- 8Qtb2ldPGC2sazaM0hR+IYAEDisGI0WyokszlznYVpGj2sp43amYRM3Jw6cyxcTjXSGWKHhPWVU
- GxDfYJOEu23bI9c4IYw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_03,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 clxscore=1011 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611100036
+Message-Id: <20261110-work-loop-pseudo-v1-5-4c998976c6c7@kernel.org>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
+ Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
+ target-devel@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+ apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, 
+ netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+ ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+ Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
+ linux-kselftest@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1308; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=oxvnYqP+iDvCdTKHYHpfovNIFRCjsigYBDc/6gG4KoE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejDzzd/Z9nGXbsVbBqjycnSqNVW8nKT5dary583xR
+ 9dNDt3g2VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRjaGMDOv3/hK7rKMoLKFw
+ cJvq3Wdf7eI+x+zYPCvtnPsBx+pD2VMYGd6l2F1wrJl6IHntnnLtfb/v/1wpEWL5tkZ74nuPD8z
+ fDFkB
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hi,
+Initialize all kernfs based filesystems as pseudo filesystems in
+kernfs_get_tree() instead of raising SB_I_NOEXEC and SB_I_NODEV by hand
+in kernfs_fill_super(). This adds SB_I_PSEUDO for sysfs, cgroupfs and
+resctrl.
 
-On 11/10/26 8:45 AM, Maxim Kuvyrkov wrote:
->> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
->>
->> The preferred CPU mask currently lets the steal governor reduce vCPU
->> demand when physical CPUs are contended. This series adds manual control,
->> opening more use cases.
->>
->> For example, setting CPUs aside for selected fair tasks at runtime while
->> steering other fair tasks toward the remaining CPUs.
-> 
-> Hi Yury,
-> 
-> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
-> 
->>
->> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
->> whose affinity includes preferred CPUs are steered away, while tasks
->> whose allowed CPUs contain no preferred CPU can still run there. The CPU
->> stays online, task affinity is preserved, and the selection can be
->> reversed without rebooting:
->>
->>     # rmmod steal_governor
->>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
->>     # taskset -c 3 ./my_workload
->>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
-> 
-> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
-> 
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/kernfs/mount.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Do you change it when running workload based on any signal/event? or you set it before starting it?
+diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+index a0be784bfb06..6b60d212b003 100644
+--- a/fs/kernfs/mount.c
++++ b/fs/kernfs/mount.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/fs.h>
++#include <linux/pseudo_fs.h>
+ #include <linux/mount.h>
+ #include <linux/init.h>
+ #include <linux/magic.h>
+@@ -298,8 +299,6 @@ static int kernfs_fill_super(struct super_block *sb, struct kernfs_fs_context *k
+ 	struct dentry *root;
+ 
+ 	info->sb = sb;
+-	/* Userspace would break if executables or devices appear on sysfs */
+-	sb->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+ 	sb->s_blocksize = PAGE_SIZE;
+ 	sb->s_blocksize_bits = PAGE_SHIFT;
+ 	sb->s_magic = kfc->magic;
+@@ -388,6 +387,7 @@ int kernfs_get_tree(struct fs_context *fc)
+ 	info->ns = kfc->ns_tag;
+ 	INIT_LIST_HEAD(&info->node);
+ 
++	fc_init_pseudo(fc);
+ 	fc->s_fs_info = info;
+ 	sb = sget_fc(fc, kernfs_test_super, kernfs_set_super);
+ 	if (IS_ERR(sb))
 
-If it is set before starting, you might as well offline the CPUs to achieve the same. I assume you are
-managing the preferred CPUs manually with write interface. You can do the same for online state.
-(Though it takes a longer)
-
-> Thanks!
-> 
-> --
-> Maxim Kuvyrkov
-> Garden City Compilers
-> 
+-- 
+2.53.0
 
