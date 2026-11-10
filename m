@@ -1,102 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794301961;
-	b=N6tgTybab7fVuKS9Eh0CljQk9Mo60nFjN+MN5usKfsss4mm3pPMx3UNvEJ7Q5Y2XB3Tc
-	 QM4W8Un5nj5D8v5Rlj5nrKCDJ+P/Elx5ms1KshwYMe4UfmAf7CjvK8VICyLbvRFLspCHS
-	 NPmdHb5b5Nds11izTT9XI3kuamLcBAhobwlBFh9MRkajeSbIXXZ11CJRRR4zVWHIJcFd/
-	 q4ExRkRL2AZwtjBLT8TkSLwPr48JW9gPFykUup5z40u0GLjQp8zVJ2NjlBZSeFzkrDirV
-	 hftzCiOEjNkDILWCCYVVSMNNtFwxDzQ6YKBLlPULORTitVbjjFtFQNfEeJJmQDdGJzw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794301961;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=CL+mYaY3tGDnGHrtpelaQSBbIHf49nURgXV9HJQUfY0=;
-	b=ohC++vW5UpDEGTozjgCrootVgqBkZ5+cWJMT++bM23PP29W5B4uJ5Dd7nyS1xGxaYaia
-	 NuhXIcQPDQWYulH4nElR7C42X5Y7tmZqPrjI2O73ABfS3hr1Xkt1JSY3edP3triVfCHEh
-	 E+aejPTruOBjqUsplLNn4O1ClPsftZmcDDhYgbyzvGPI+WqTVcwT1HvucY8QSQRNwNirx
-	 VHnPorzG8Tvr+eb2w2BUl9yiWiCHyUEnX7CgsyHPswGGurS0GeX43ZtMpPCfkDpL2O86O
-	 NG6UsRyJvE0o8n3RSpGUPbCrbVsH1QiyRZf7QgrJkZ5bn6fsDETIRvN6BULDEjvLuuQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KSlRZ6RD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.170
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794302158;
+	b=0zv7/Dgh8pSlneqhC72WhVX24TtxuBgXn3ZzNiG+vqilvBaQedHthC+PQHsqham3x9iz
+	 BJZGgXBymJ/Fj7D3K2BzH/Pi03hcN5DFGqy5120TwJ6beShyNA6YmtPZ5X4tbUk8V+Q2o
+	 iHoPtb74a1nvY5136NDlyiLE794xynvupG52j+VjVgRqK2Z0iuZPteDIBsPVsq8qF8VRP
+	 bnYjFNGUQNyfZRJL2Im2xqvV0iJiA3OWmzYNl2plB3YTkfH0Gv3Ujh7D/rE5JRMmQB/UL
+	 R4AEm4Frmlw+X/AWm3n6UfXWsZ6+4wO2fCxXJa01aT0/j6rqJbfGDz5ftOLNkQubL2w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302158;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=PuZuHEnsND00fHRoxO3q8GjJUd6kGJ0dXTi/U306um4=;
+	b=Rf1yyJVwBdY9vkQoPfbJy7zET1ym1qPFDbc//9rofl1EDV0A/VmK0XhbDph9GIDBqfH6
+	 5lMq2wIzgC4wRPgZQz4B21xjaH2MnQthAMVBQfw/dWlbf4bpCtAiriSiVQ9eQzl2cD5cl
+	 WY+Qu3Ld2XLlPxEymSj0+Y1IP7aeyGGxtU9OXuoeyGs0tHedTR3Pz2hus7w5Gj0qc5iDx
+	 E9ErdbBqIPO/9zy46XsNb8/pCOlTUPLpNRRcgAGYoc95uY30iIMweHZdj79jQG7jEkrRH
+	 M8/qKVnmvddbKYBX2999KR5YKr8lWt3/lp5GbOyFgUOUc7cj4gkVtHjo5Q5o0cVMgxg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJREp1Nw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6717606A325
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 09:12:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6717606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BC9606A31C;
+	Tue, 10 Nov 2026 09:15:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KSlRZ6RD
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b335ef6441so14912747b3.3
-        for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 01:12:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794301960; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TmL6EVOd4xKLVHLF26gY3sRe1tSYSAE87OkP7jPDS5dJkXjG9mC5z4fxPpXLhS8cv7
-         sPoBKYZgiqJop1cIiCgbYeiGntmkEqwdc5dCnGJp7F0X37VHFviPoveAQkjkIAKj9LZM
-         AGRWoFF0n4a3ghFhzralb6lR7yZ/WlrDLaQulBTkLb0FRd1fnm7NOeyOwD+t3z6TOKLT
-         nQgKUw9UE2xU2rvNlwmgtEaqCnCSbHClb+QMhuG86ory/KRDAsKM/gEaLh2UYct8Ot7g
-         rPbEtfhriWKN0lUGebApgY8I1wH8xH+qUF3sj3IJ4mMAG3hBl2fwZzhWbup3qSinNlGj
-         qzww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CL+mYaY3tGDnGHrtpelaQSBbIHf49nURgXV9HJQUfY0=;
-        fh=ajkZpLTfQO9f8PmGDExuRoG8T55w0POMh+kLF9yUArY=;
-        b=GfRrLJqJHJssBknmwr9Zsj0EOquySe1fga1P00Ff0hNQcMSsbUj5LEsC1Yxr428JdP
-         Nh+dA+7X2DxpQPEjnK54lmeLKrE3B5JKaSwlqFZi8qRziexwDPEMi8XpbjQha9zIijSx
-         U5NoW7BhptBRYTXTh6IYnDCuqqDkE8HDWc42fZDTQ9OGyq99MXyj80MzHv3LZfFMClxn
-         W5ryoh5H3l95hgpIBMLimyA63l//yW022iatDyLEOsYqjlYXJ/c3wGN860YatUIbkSH2
-         hicJ3af9JLPdMhqcR5XV5cHjKTaUrHOVThA6HAIlI3uPx1eNNWs4ZsSP+WcNR+aFYdfe
-         4cRw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794301960; x=1794906760; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CL+mYaY3tGDnGHrtpelaQSBbIHf49nURgXV9HJQUfY0=;
-        b=KSlRZ6RDEXQ3s9JJc8nzpU61OkGqpbobMlH0NI1wJWdK0RAayS+sgeGgOaR8DzJiVV
-         f6ZSezpJe2QxaXrytmJTxMc01Ghdh3YIe8qk0azqvEHnitgQiTue62gxUFiJnF+OKMrP
-         XTx/W/BFKxVrBxCLHsCw+1KH7m5V2FfGu1gMW8SH3mXYfXd4ysc5De10UM1RLe2uMJ2v
-         DyeYIiS4BLBBiPGfayUqWyp/tiL8yCMIBPsCV3tY059L1FglqTIP00vpWtG49JquRAji
-         TCwPkKNsy/B77IovKX+PFd3+UVu9GXMKJu2tz4fKNOY17busu8vPBMjNR3aTHotR5KjK
-         JUBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794301960; x=1794906760;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CL+mYaY3tGDnGHrtpelaQSBbIHf49nURgXV9HJQUfY0=;
-        b=zg8IUQejl7yv/mBwKtvsXcSHKTbZo4stK5MdSorFAM7Cf+DYLcBDU5YpzrdhbPcJpa
-         gY2T68o7PFgx1ocntoS+iujG+o5MZ4sSmxvagD/v8Fgzcq0OxDjc2ZG6335yGb9fHKKD
-         lcX30feDtCVQcQdB2wH1TkeYuiH4qAJeGpeMAEjIDA7HAQr1Qa2AE9CSlx21ioCCfIM/
-         jwl11BBsuGSme26JsQ6Gm/LdbZtK+u0SYfogmuh6VF2BM2Y53eVHTRhEDmIK2lKetvHc
-         0EIeQBNJsnHTkSYVc4fsgYe9G/cDm8T0ugS9VUAY6lSWHYWbyM/aN13e4jPzgbcaTZYQ
-         B/8Q==
-X-Forwarded-Encrypted: i=1; AL+hErGChX28atQD+SOD5kgKiF0oQPgewTU/8ghd2gFJt8VRyKmtPuJ0zAibOLLijJna2IrYLMUeIz5NBIM12A==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/DJhunzUMf/jyMses3ZSmxVUdzJ7kAo/DCgXoSMSKEwS1Pamr5
-	eopLGJmi2ngQFhqdL0bSaQ6LMbaSrs3AsYAr2lQ1KtGtLDqwrrxq4rN5RuEXTSsI06NH0rSclJA
-	17LtvE/Q+nWkaN8DgVw0bQbzWj848cS8=
-X-Gm-Gg: AYBFou0UnmzuZpTHXdqq0w5A6T6nFwwDCe2dDp9Z5uVVFJNwZElREXruwjPBcxWAsIs
-	XfcUCph9h45zcbePwAI6GqEhd/zA8OvfNQ3QQzADbdWJEiuV2YL0dtjr4HSGDk6SSiGeuPlhOJH
-	CCoAqiAkXysq3zSs5jQxclDD8t4mf2O3LzC1TaragL+RUxK4KmIYhMaJ+ezYkCLSM9GMVkG7V/H
-	AOkm4FHp800ryzU18z36nL/Lf6lbN4Awproidjez3x+CRlC72Z9PxUqtvjS8ADiGs6tOVA7YFzm
-	Z4i5nmdFTas9vAi8truH4z+Wa2Wx8KZGIk77wo0wXmQEzTrgJZIngZcDKxvVH9VKs1SHzn7C55N
-	ZuHfNgCnv8/bOxvONoAjBHg110zbpkL76Zhhwwtd/MLBHUyIYTmsl0lN5d1CU/E6f0HFN1g3Kg8
-	JfPUrWgQUIo0YQNfENr2cErG7NaJxKTAPsPp2MutPOdC5F4Wa/IgfnyH95ocxZbveZn6EMkFu2r
-	PztxWAvgD+o5cCgY6oqec23h1UVnI5yskZTGXZpdclEYsd5v6HQjMg8efBsKkw=
-X-Received: by 2002:a05:690c:1c:b0:8b0:a01e:2cc1 with SMTP id
- 00721157ae682-8b392bd3a6bmr12222497b3.53.1794301959730; Tue, 10 Nov 2026
- 01:12:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJREp1Nw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCE11F008A1;
+	Tue, 10 Nov 2026 09:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794302157;
+	bh=PuZuHEnsND00fHRoxO3q8GjJUd6kGJ0dXTi/U306um4=;
+	h=From:Subject:Date:To:Cc;
+	b=iJREp1NwHp3BdNh6YhirQMz3aLkdMJad9SaoqicwlHouUofyAaOyHUxlQAMyZlF7r
+	 dxoDogK7Z/SmQMPjvGb107aIw98Hug2c7nyD4DMV9g1SOQKjCPLz3oKAbIbpZoqTaD
+	 pZrbqTndD5C37PARA3QH+ymdbAjgpqhVM8lgzWc8vdrxfAWdPiJr4Zuz7epLK6TvTH
+	 K8+0uuv2p91CoV2BZDxur21nCPhrfDd3bYEfgv9CR8OaiC0kdRmQmvH415KgWFHkQX
+	 DEVbxCY/pgx0ga6OIRh+WS9KothVO+G1SwN3cmU1cAxe1h0Acn2ceEg6DAhgL9k4pG
+	 roZHSfl8QE69g==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH RFC 00/41] fs: don't use pseudo filesystem files as storage
+Date: Tue, 10 Nov 2026 10:14:16 +0100
+Message-Id: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -106,74 +53,250 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
- <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
- <auuhy40x1BMoW96-@ashevche-desk.local> <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
- <avICwdxyi-W1Y3PD@ashevche-desk.local> <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
-In-Reply-To: <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 10 Nov 2026 11:12:02 +0200
-X-Gm-Features: AclHuK-j7UjC7_2X91Fl0h3tqgy10rRsGsXGtMX-1tGj0PKndsOn6ITWu7Xe30s
-Message-ID: <CAHp75VcwiGHB73ny8iSvXeFdjbTKUpnXZPS5iD7NwaMcJ6q-7A@mail.gmail.com>
-Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
- fwnode operation
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBAF0KuQWTtNSwgpbk08AFvjoi2DVE3bd
+ ERNCHeXyvL/+fMWYMqeGI7VApnenn0MW1CHCtxkwo3QD1uGWtatUrLDT8wPfMaYMDHNQ0TdSd0
+ 0qtU0KtjeUqbRf//kBfrzCa57ybO9k3sVrMysYUKbTXBTqQorCit2VpQ7rOsPZFHYQaEAAAA=
+X-Change-ID: 20261109-work-loop-pseudo-890844168ef1
+To: linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
+ Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
+ target-devel@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+ apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, 
+ netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
+ ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+ Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
+ linux-kselftest@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10223; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WAx5V1LxGhR1UvA5SWC4CADg+JxO9oBzu81M/1sMo5Y=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejD52Vp9Rt+JU9PPyLRYcDzr9thcK9op63nkT0XG0
+ 9tVb6tZO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiG8XI8J1572stqcqPZ3dm
+ znK65z3nlUlHTqE/T8hKpkDxSwpWsgz/FKwaX6+8IPBNt3Ftpf31vw35c90UOxbdS3Dp+3xJ6N0
+ RDgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Nov 10, 2026 at 11:00=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
-rg> wrote:
-> On Mon, Nov 09, 2026 at 07:28:33PM +0200, Andy Shevchenko wrote:
-> > On Mon, Nov 09, 2026 at 02:07:46PM +0100, Bartosz Golaszewski wrote:
-> > > On Wed, Nov 04, 2026 at 11:21:15PM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Nov 04, 2026 at 03:03:47PM +0100, Bartosz Golaszewski wrote=
-:
+Loop happily takes any regular file with ->read_iter() as a backing
+file and any file that also has ->write_iter() as a writable one. A few
+examples:
 
-...
+* /proc/kcore attaches read-only as a loop device the size of the
+  kernel's virtual address space (64 PiB with 5-level paging)
+* sysfs attributes attach read-write as 4096 byte loop devices
+* using /sys/kernel/mm/transparent_hugepage/enabled for the loop device
+  and writing a block to the loop device changes the THP setting
 
-> > > > > +               names[i] =3D kstrdup(prop->name, GFP_KERNEL);
-> > > >
-> > > > Can property be statically defined somewhere? We might want to also=
- optimize
-> > > > these duplications with const variant (here or elsewhere, for fwnod=
-e generic
-> > > > path, I believe).
-> > >
-> > > Please rephrase because I'm not quite following what you're saying.
-> >
-> > Can prop->name come from something that is declared as
-> >
-> > static const ... foo =3D {
-> >       ... .name =3D "bar";
-> > };
->
-> You can't know it for every instance of struct fwnode_handle, so the
-> answer is: no.
+It's not just silly. It's abusable (is that a word?). Loop calls
+->read_iter() and ->write_iter() of the backing file directly from its
+kworker which runs with kernel credentials.
 
-I believe I misput my question. If there is any potential that *some*
-of fwnodes use statically defined string literals for the property
-name? If so, kstrdup_const() and friends may be a better choice here
-to save some memory (which is getting more and more expensive these
-days :-).
+But pseudo files enforce part of their access rules at read and write
+against the caller. So dozens of sysfs ->show() and ->store() methods
+call capable().
 
-> PS: is there a way of using match_string() with non-const data?
+But setting up a loop device requires no capabilities. It only requires
+access to the device nodes. So whoever has a loop device skips all of
+the capable() checks.
 
-Why? It's an input parameter, it returns an index. Whatever you
-provide will be not modified.
+A couple of fun examples:
 
+On v7.4-rc1 uid 0 without any capabilities can't kill a process of uid
+1000 and can't poison its memory either:
 
---=20
-With Best Regards,
-Andy Shevchenko
+    $ grep CapEff /proc/self/status
+    CapEff: 0000000000000000
+    $ kill -9 327
+    bash: kill: (327) - Operation not permitted
+    $ echo 0x220689000 > /sys/devices/system/memory/hard_offline_page
+    bash: echo: write error: Operation not permitted
+
+But put hard_offline_page behind a loop device, write a block
+containing 0x220689000 to the loop device and the loop worker happily
+does it:
+
+    Memory failure: 0x220689: recovery action for dirty LRU page: Recovered
+    MCE: Killing victim:327 due to hardware memory corruption fault at 7f468e972000
+
+That hard_offline_page is a write-only file doesn't stop loop from
+using it as a writable backing file either.
+
+Other fun examples:
+
+(1) soft-block radios via /sys/class/rfkill/rfkill*/soft
+    (CAP_NET_ADMIN)
+
+(2) change the reboot mode via /sys/kernel/reboot/mode (CAP_SYS_BOOT)
+
+(3) reconfigure md arrays via /sys/block/md*/md/. md_attr_store()
+    requires CAP_SYS_ADMIN for every md attribute.
+
+(4) reconfigure scsi disks via /sys/class/scsi_disk/*/allow_restart and
+    friends (CAP_SYS_ADMIN)
+
+(5) read dmi-sysfs attributes (CAP_SYS_ADMIN)
+
+And an unprivileged container that was handed a loop device can change
+gro_flush_timeout of its own network devices. That usually requires
+CAP_NET_ADMIN in the initial user namespace (via sysfs and via netlink).
+
+I've reproduced that all on v7.4-rc1.
+
+Aaaand zloop, the nvme target's file backend, the scsi target's fileio
+backend, fuse passthrough and the usb mass storage gadget have the same
+problem. erofs takes pseudo files as images for file-backed mounts as
+well. It reads them with the mounter's credentials though so that's just
+silly and not abusable.
+
+Fwiw, device mapper doesn't need anything. It only takes block devices.
+md's deprecated bitmap file is fine as well. It maps the file with
+bmap() which no pseudo filesystem implements.
+
+So this series adds SB_I_PSEUDO to state that the regular files of a
+filesystem are kernel interfaces and not storage and makes all seven
+refuse such files.
+
+I didn't want to sprinkle SB_I_PSEUDO over all pseudo filesystems one by
+one. Instead there's now a common initialization point for all of them
+via fc_init_pseudo().
+
+init_pseudo() uses it for the internal pseudo filesystems and all
+mountable pseudo filesystems call it from their ->init_fs_context().
+
+kernfs does it once in kernfs_get_tree(). It raises SB_I_PSEUDO,
+SB_I_NOEXEC and SB_I_NODEV. Pseudo filesystems never hold executables or
+device nodes. Some of them raised SB_I_NOEXEC and SB_I_NODEV already,
+most didn't.
+
+I went through every single one of them. None of them needs to execute
+anything. The files that can be mmap()ed map data and the tracing ring
+buffer refuses VM_EXEC anyway.
+
+SB_I_NODEV is cleared again by devpts, binderfs and selinuxfs. The first
+two did that already. selinuxfs needs it because Android init opens
+/sys/fs/selinux/null by path as /dev/null doesn't exist yet at that
+point. Note that systemd mounts most of these filesystems with noexec
+and nodev already.
+
+file_is_pseudo() looks at d_real_inode(). overlayfs happily stacks on
+top of sysfs, cgroup2, debugfs, tracefs, configfs and securityfs and
+reads of such overlayfs files are served by the pseudo file. Only procfs
+and binfmt_misc are refused as they set s_stack_depth to
+FILESYSTEM_MAX_STACK_DEPTH.
+
+Whether all pseudo filesystems should refuse stacking is a separate
+discussion. overlayfs reads the lower file with the mounter's
+credentials so a root-mounted overlayfs on top of a sysfs directory
+hands capability gated reads to every reader. With SB_I_PSEUDO overlayfs
+could easily refuse them.
+
+The first three patches are independent fixes. Loop never checked
+whether its backing file is open for reading. It relied on
+vfs_iter_read() refusing such files. Direct I/O never went through
+vfs_iter_read() and since v6.15 buffered I/O doesn't either. So whoever
+has a loop device can read files they could only open for writing. And
+the nvme target's file backend and the scsi target's fileio backend call
+->read_iter() and ->write_iter() without checking that they exist.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (41):
+      loop: refuse backing files that aren't open for reading
+      nvmet: check that the file backend supports ->{read,write}_iter
+      target: fileio: check that the backing file supports ->{read,write}_iter
+      fs: add SB_I_PSEUDO
+      kernfs: use fc_init_pseudo()
+      proc: use fc_init_pseudo()
+      binfmt_misc: use fc_init_pseudo()
+      mqueue: use fc_init_pseudo()
+      bpf: use fc_init_pseudo() for bpffs
+      nullfs: use fc_init_pseudo()
+      failfs: use fc_init_pseudo()
+      rust_binderfs: use fc_init_pseudo()
+      devpts: use fc_init_pseudo()
+      debugfs: use fc_init_pseudo()
+      tracefs: use fc_init_pseudo()
+      configfs: use fc_init_pseudo()
+      securityfs: use fc_init_pseudo()
+      selinux: use fc_init_pseudo() for selinuxfs
+      smack: use fc_init_pseudo() for smackfs
+      apparmor: use fc_init_pseudo() for apparmorfs
+      nfsd: use fc_init_pseudo()
+      sunrpc: use fc_init_pseudo() for rpc_pipefs
+      fuse: use fc_init_pseudo() for fusectl
+      efivarfs: use fc_init_pseudo()
+      pstore: use fc_init_pseudo()
+      xenfs: use fc_init_pseudo()
+      openpromfs: use fc_init_pseudo()
+      ocfs2: use fc_init_pseudo() for dlmfs
+      s390/hypfs: use fc_init_pseudo()
+      powerpc/spufs: use fc_init_pseudo()
+      usb: gadget: f_fs: use fc_init_pseudo()
+      usb: gadget: gadgetfs: use fc_init_pseudo()
+      fs: add file_is_pseudo()
+      loop: refuse files on pseudo filesystems as backing files
+      zloop: refuse zone files on pseudo filesystems
+      nvmet: refuse files on pseudo filesystems as namespace backing files
+      target: fileio: refuse files on pseudo filesystems as backing files
+      fuse: refuse files on pseudo filesystems as passthrough backing files
+      usb: gadget: f_mass_storage: refuse files on pseudo filesystems
+      erofs: refuse files on pseudo filesystems as backing files
+      selftests/filesystems: add backing file tests for pseudo files
+
+ arch/powerpc/platforms/cell/spufs/inode.c          |   2 +
+ arch/s390/hypfs/inode.c                            |   2 +
+ drivers/android/binder/rust_binderfs.c             |   3 +-
+ drivers/block/loop.c                               |   6 +
+ drivers/block/zloop.c                              |   5 +
+ drivers/nvme/target/io-cmd-file.c                  |  10 +
+ drivers/target/target_core_file.c                  |  15 ++
+ drivers/usb/gadget/function/f_fs.c                 |   2 +
+ drivers/usb/gadget/function/storage_common.c       |   5 +
+ drivers/usb/gadget/legacy/inode.c                  |   2 +
+ drivers/xen/xenfs/super.c                          |   2 +
+ fs/binfmt_misc.c                                   |   5 +-
+ fs/configfs/mount.c                                |   2 +
+ fs/debugfs/inode.c                                 |   2 +
+ fs/devpts/inode.c                                  |   2 +
+ fs/efivarfs/super.c                                |   2 +
+ fs/erofs/super.c                                   |   6 +-
+ fs/failfs.c                                        |   3 +-
+ fs/fuse/backing.c                                  |   3 +
+ fs/fuse/control.c                                  |   2 +
+ fs/kernfs/mount.c                                  |   4 +-
+ fs/libfs.c                                         |   2 +-
+ fs/nfsd/nfsctl.c                                   |   2 +
+ fs/nullfs.c                                        |   3 +-
+ fs/ocfs2/dlmfs/dlmfs.c                             |   2 +
+ fs/openpromfs/inode.c                              |   2 +
+ fs/proc/root.c                                     |   4 +-
+ fs/pstore/inode.c                                  |   2 +
+ fs/tracefs/inode.c                                 |   2 +
+ include/linux/fs.h                                 |  12 +
+ include/linux/fs/super_types.h                     |   1 +
+ include/linux/pseudo_fs.h                          |  11 +
+ ipc/mqueue.c                                       |   3 +-
+ kernel/bpf/inode.c                                 |   4 +-
+ net/sunrpc/rpc_pipe.c                              |   2 +
+ security/apparmor/apparmorfs.c                     |   2 +
+ security/inode.c                                   |   2 +
+ security/selinux/selinuxfs.c                       |   5 +
+ security/smack/smackfs.c                           |   2 +
+ tools/testing/selftests/filesystems/.gitignore     |   1 +
+ tools/testing/selftests/filesystems/Makefile       |   2 +-
+ tools/testing/selftests/filesystems/config         |   9 +
+ .../selftests/filesystems/pseudo_backing_test.c    | 274 +++++++++++++++++++++
+ 43 files changed, 419 insertions(+), 15 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261109-work-loop-pseudo-890844168ef1
+
