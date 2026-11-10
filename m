@@ -1,48 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302185;
-	b=ySWRpzU/tofj4cHKvPG9+x9cqgHZTu2rEbBw9N21Ih8qVdDC8G2dl/qGYOQ1kZVfBoJJ
-	 izBuMW+ebQwktowcYesoH4Ygj/d6Chb2ZhgOvZI6VS2Psjy9ifUtksEfGGk6YCTWFWKQx
-	 Atq0PVeQ34Ha0Q3d/Q+XIzAaz9LwhzVdOAmMbu79cLInl4obvDb0+Ictfw4RutBoaB1DE
-	 OeY7QOY+/5t2Km1Rl9fu/vXK5y2CsQKQHrKOFGTEQR6nIwqNKkX01Z/UBAdME3B5SG5zb
-	 C7r0nMul38SA2R9HcWHkbPnXdn+VZC9n7YOZnacA8w2UNjOzfdiY4Ay9EsTlonXqySA==
+	t=1794302194;
+	b=4M4CLjkYCBza5tbgcIxEMoXioVPGfRzDupUnF+jlbKvoIYfIs470Q6pjYfRWwDkXRg46
+	 dV4qrz4OhWbuNkhUuuWRjOnUxiqvo51VFReFmLxVW6nxT8+OYpO8sUFy8EbsVebub92hx
+	 NKe3SQn9Bme/VYDAbqCY+OE8Rfm3kqhR5MSkY7YkKuBBfezErPq1AWC98kBn3EQzhNW7x
+	 6xO8pXmYHb6nWsmGp64P+kLxzUwP9LMXT5gCU6sV6rvRF93h86GUIy5uMGQoaINa7VgQx
+	 Xhd5nhN56svOU6RSn+rgKo/ZASLwVPNjFrqUG6jpNkI9VJ2hPC/xYwML3fHmS2PfqVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302185;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=+PlyOtqsg4uvOLuXQ3/FL9HLYIT+WYfLjjBDzOseC4E=;
-	b=cq55pJQ5Kx5ORL2uE0aY9VU51AsIxonCDqQ0YSzGFWivBtRx4eqiw5s6QbBLRZ5Duu4Y
-	 AweuQpScQpAjOQAA3fGSSTSKovW0MawdhIIG/4+DjBnkMmu1AB+0Xgy8BSSZ5nuWzEnIm
-	 aoZNP8De/pP+N8nj5UBBWhOvoy4sFuny3hxoEQf7YtO7IosN7JK+0ovInu2c2LrCkzDGf
-	 NoF6m/On6XelYma8E7heap97URWIi72hXxCDoiQMTb6Zt03eUjo5ivATBw0R58LYuIeTw
-	 WG7GlVNI3zsWOTOrtIYIFxlvptVNe+zom7vKsGibKCNafGwuSIyaNo+Tv/6q4tAJPLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302194;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=HcBmS5+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=;
+	b=IlgbWRuxBjNgcvJQ51Ata6zqtO7lfJ1uxUrbcBJxNqu7XNz8s1oILsArRMMb6Uax1ExM
+	 MTRkEB31UFX7lwa1BZjkkKnd+P+Ywi3V+0kl5YOYnE0GTmv7cjaQbCUOh/i341vSpPEwY
+	 IyTNs7eSWhHhX0cCvDJZ4olK11BNSDfdO93S9OgxbkOMvS3MtiMFGh0D5zXgoaZc3OSvR
+	 2o2gjmCT6zRN2MzIeLL6NxJITmKeBtpfiI+80LVSalfrx5eZ+e4TV9Y2b8KyjQOU4AURF
+	 QySnwCrQKcQ5GQvQdCkM6z808+os4NiSKjKWAoY24shjuvTyzD3ANNQz4+PXfqIf46A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JDSV52m4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B574606A33C;
-	Tue, 10 Nov 2026 09:16:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15E1606A32E
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 09:16:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D15E1606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JDSV52m4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C370A1F008BE;
-	Tue, 10 Nov 2026 09:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794302185;
-	bh=+PlyOtqsg4uvOLuXQ3/FL9HLYIT+WYfLjjBDzOseC4E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=JDSV52m4OfCcyst3hFku2YCPCNxNeOvikciB89hDYJCR1LbwEEt/lYeTuQQD7/iUW
-	 H5tRIQ9v6jXMgiZgkJiF4GqOivkKtZZw7NCQaQ+f1NR7twZvTqcjqI+/c/IH9v/Jxy
-	 EoKQxUfmWpqjCJS9oAmdJNyKK7FKdWto+bebjhA+fYE+FkEqbaHlH+Oa9uQsiCi9GB
-	 3VXoXUr7iZu5zDIGq4U4YgT3MCBnLcxw8LrsjsTPugWIr6zcD/ibPJDTK7P1rf/Nm/
-	 FeXmWLksNQuP1ST2JEb6k4O48XmygmJ7cLGcrIfDn6Eu2LG0Vr4DLcJUZZqj6ewXS2
-	 2mhb3DLeE7TVQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Tue, 10 Nov 2026 10:14:20 +0100
-Subject: [PATCH RFC 04/41] fs: add SB_I_PSEUDO
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA8EQfQ1812456;
+	Tue, 10 Nov 2026 09:16:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=HcBmS5
+	+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=; b=Euvb0XBsl3EzzvP1u1sip/
+	x3IUuRd/ucv8cad57wR0FpCnl6ItPfW4TGhQ7cRRO53dxl1uVqTyo5mQwl9+i4Ba
+	EsUnWqmLLMz3fJ25pv5PMz0mGIYNtzazLArSzKbBkGEClRO1VFQ3pcV6Op7pvTRJ
+	XAXVFG60+9EVDgZ3bvl2daydJvuDCXCHfc7HlmaWlfVT24yFR3/a9td/nRXKzjs8
+	05703+ov/L4aF6mcaD01Gg6i7JJD53pLfbaqNGRayraJqFpHru4FRmCRDQsiyImm
+	X3AtdP4jzebIk2pq+OHQqzp1q4RlqjAYQisVA94wdNzCJQxHdsn2T5NT8O/U+i3g
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuq6v2hc-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 10 Nov 2026 09:16:11 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA851do1498149;
+	Tue, 10 Nov 2026 09:16:10 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4htepvx2cf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Nov 2026 09:16:10 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AA9G6ss56164728
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 10 Nov 2026 09:16:06 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8768D20043;
+	Tue, 10 Nov 2026 09:16:06 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5C22E20040;
+	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
+Received: from [9.39.31.79] (unknown [9.39.31.79])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
+Message-ID: <1d1b22ce-fdf1-47ad-99ec-8c9925ea7275@linux.ibm.com>
+Date: Tue, 10 Nov 2026 14:45:58 +0530
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -52,121 +86,113 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+To: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andrea Righi
+ <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
+        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-s390@vger.kernel.org, Yury Norov <ynorov@nvidia.com>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-work-loop-pseudo-v1-4-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-In-Reply-To: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
- Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
- target-devel@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-mm@kvack.org, bpf@vger.kernel.org, 
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
- apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, 
- netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
- linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
- ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
- Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, 
- linux-kselftest@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3427; i=brauner@kernel.org;
- h=from:subject:message-id; bh=k3b1S5Aks24kDoWnRvLqsdiiPcKIlG2bf4Gt1cYJbvU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9ejDjkUK2x5tSpSe3sln+v7tvX2kk8yFWmKv/wMXyl
- fsivk7i6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIgXSGn4zTcuXEC9Zcm34h
- e6vptpmiC3asPh6Q0BteemFfbSaHeDDDP+uZ7aUJ00OdGBbc/56893hNWHZRbjDHr99CTduPlCV
- M4wIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX5pCaNYyeS0GK
+ /qoKN2A6JamDgryJ+BemvZnw4QGpf+1XjEjgUG26sziaCDm4OHmG0ASXzl4FJdoOB+vr8TLa+Dy
+ dwoirZ0OEIYOZAC4O2tEq+j8pC7vmuA=
+X-Authority-Analysis: v=2.4 cv=HbCB3SE8 c=1 sm=1 tr=0 ts=6af2e0dc cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=Ikd4Dj_1AAAA:8
+ a=S2HyHEYmQh1kXY00aCwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: V0Qpv5g5dMd40m2X4caVWzhKaZKP2Zbn
+X-Proofpoint-GUID: R0Mklm7znZwmumFMQXCwYU792AB9pLQO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX0P2aS5Fa+IjE
+ mHvDmDdBXSkhujTEso78l7iZZnVhWCSaLmH1Ds1/nVG3OGRd/1ItjrGH9YblNZ2usmsDUKhMbr6
+ ETpmBzrql1By6360fUq2AKCeiK1VWwur8GbZ2tgegDqcNKFpF7+LkUKjCmPNocXZ/p8G9YnS8Iq
+ 8Z/uRmeVSEwiLM/eO+a1OVE6z+UcwoAq2jdrvL7iGuzuhkRu2n+s5lWdfzKhGSntm+4MwU0ZiOp
+ Hlae7G3URIEak5gaQvA6CtZGdfWkfL+M4EfZE1I5yOf6d2bovikSW0xX21nN8b8x1qenDf4Etof
+ slwHP2ByJHiTcptVrjFg4Fe9EcNld/VgjHkyITUpqZOUCHLLw7nRKMsZbhjTBQsH9XLKFuV6Npo
+ 8Qtb2ldPGC2sazaM0hR+IYAEDisGI0WyokszlznYVpGj2sp43amYRM3Jw6cyxcTjXSGWKHhPWVU
+ GxDfYJOEu23bI9c4IYw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_03,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1011 lowpriorityscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611100036
 
-Currently, there's no way to tell whether the files of a filesystem
-store data or whether they are kernel interfaces. Files on pseudo
-filesystems such as procfs or sysfs generate their contents when they're
-read and writes to them are commands to the kernel.
+Hi,
 
-But a few places in the kernel take an arbitrary file and use it as
-storage: loop, zloop, the nvme target's file backend, the scsi target's
-fileio backend, fuse passthrough, the usb mass storage gadget and erofs
-file-backed mounts. At most they check the file type and whether the
-file implements ->read_iter() and ->write_iter(). That's not enough.
-kernfs provides both for every sysfs attribute for example.
+On 11/10/26 8:45 AM, Maxim Kuvyrkov wrote:
+>> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
+>>
+>> The preferred CPU mask currently lets the steal governor reduce vCPU
+>> demand when physical CPUs are contended. This series adds manual control,
+>> opening more use cases.
+>>
+>> For example, setting CPUs aside for selected fair tasks at runtime while
+>> steering other fair tasks toward the remaining CPUs.
+> 
+> Hi Yury,
+> 
+> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
+> 
+>>
+>> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
+>> whose affinity includes preferred CPUs are steered away, while tasks
+>> whose allowed CPUs contain no preferred CPU can still run there. The CPU
+>> stays online, task affinity is preserved, and the selection can be
+>> reversed without rebooting:
+>>
+>>     # rmmod steal_governor
+>>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
+>>     # taskset -c 3 ./my_workload
+>>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
+> 
+> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
+> 
 
-Add SB_I_PSEUDO so a filesystem can state that its regular files are
-kernel interfaces and must not be used as storage.
+Do you change it when running workload based on any signal/event? or you set it before starting it?
 
-Pseudo filesystems also never hold executables or device nodes. But
-currently each of them decides on its own whether to raise SB_I_NOEXEC
-and SB_I_NODEV. Some do, most don't. Add fc_init_pseudo() as the common
-initialization point for all pseudo filesystems that raises all three
-flags and switch init_pseudo() over to it. The following patches
-convert the mountable pseudo filesystems.
+If it is set before starting, you might as well offline the CPUs to achieve the same. I assume you are
+managing the preferred CPUs manually with write interface. You can do the same for online state.
+(Though it takes a longer)
 
-Nothing checks SB_I_PSEUDO yet so no functional changes.
-
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/libfs.c                     |  2 +-
- include/linux/fs/super_types.h |  1 +
- include/linux/pseudo_fs.h      | 11 +++++++++++
- 3 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 96a6e9b1535f..8c8789489fdf 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -735,7 +735,7 @@ struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
- 		fc->fs_private = ctx;
- 		fc->ops = &pseudo_fs_context_ops;
- 		fc->sb_flags |= SB_NOUSER;
--		fc->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
-+		fc_init_pseudo(fc);
- 		fc->global = true;
- 	}
- 	return ctx;
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index 72f4288e16c5..472200bdf081 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -359,5 +359,6 @@ struct super_block {
- #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
- #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
- #define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
-+#define SB_I_PSEUDO	0x00010000	/* regular files are kernel interfaces, not storage */
- 
- #endif /* _LINUX_FS_SUPER_TYPES_H */
-diff --git a/include/linux/pseudo_fs.h b/include/linux/pseudo_fs.h
-index a651e60d9410..0ca408aa60af 100644
---- a/include/linux/pseudo_fs.h
-+++ b/include/linux/pseudo_fs.h
-@@ -2,6 +2,7 @@
- #define __LINUX_PSEUDO_FS__
- 
- #include <linux/fs_context.h>
-+#include <linux/fs/super_types.h>
- 
- struct pseudo_fs_context {
- 	const struct super_operations *ops;
-@@ -15,4 +16,14 @@ struct pseudo_fs_context {
- struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
- 				      unsigned long magic);
- 
-+/*
-+ * Common initialization for all pseudo filesystems, mountable or not. Their
-+ * regular files are kernel interfaces. They don't store data and pseudo
-+ * filesystems never hold executables or device nodes.
-+ */
-+static inline void fc_init_pseudo(struct fs_context *fc)
-+{
-+	fc->s_iflags |= SB_I_PSEUDO | SB_I_NOEXEC | SB_I_NODEV;
-+}
-+
- #endif
-
--- 
-2.53.0
+> Thanks!
+> 
+> --
+> Maxim Kuvyrkov
+> Garden City Compilers
+> 
 
