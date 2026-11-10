@@ -1,102 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794307951;
-	b=TgFhjX+tkHOZTfYYYxN7RHYRbKB58ZVFD24QBysejaSfh8dsoC4TZDyBh6hAgjamiMCD
-	 gmnLvO5qvBfxLrFgNUSjlkHoTQGhbXLxLZHjlUTZKDGCV4YTEj+a839YQk6sbJXstbx7M
-	 7SUmZv0MfHXZVogeuAijxNOZuAPOTKvJmvFApoNNEOgUGO8+UAXcPNy4w70sQWp3FHXb6
-	 pwW/B8Y6HX8y7twcHTPsyD3dw5fxpATlKaPJl0C3rSPN4Nm5P52VYpcNdEqyz3k8v3r9a
-	 RMu9JmEQJL8zRkj+rWOTgftLRkz1V4CB9Q+hRlBdpMh1onA6RQBmNPEscGEXpcB+gdg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307951;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=hz1/GqxJfr5fovZK3WCpsTphS4Ees9ZlA9FefTtrxKA=;
-	b=rFdAnxq8Lv2I2NIRL1nUWbCCZHT5dPT0RizMIEzhjBaNa4etm3mwJIRn4gFfXNHA03BN
-	 GHD/RcMAj0OhS0FdPkCVbhxFwwvmqMCeDQxZaQIG306LDzFpE8sctkfy7QG1TCr5AuGdJ
-	 TfcflwcXuaQy2lVbREw1T4qVZi+fHtpilu8QWf5ZqzyCNohHqAFsyaeajRNPobR79w/IW
-	 gVrX9hEnUyAVm3/ggAtUkK1NBjI/uh3pnae2fzSXBqYhvW4Zm9GjzFW6uCrAPC0+YKcIv
-	 Y8Vf9x9FctN1ZRrwsobHc8rEGwJUCrBhQekPKHQdrNeAeyiFM+cQ6TWj0Chd8xLxH9w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPXWC2Tt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794308302;
+	b=fWUGrsJexKF9Xpw72W5qrhRTSR6Yt7e5/zWIyRlq1JtWLKjSLRH8fKEkVwZFRFpQeMUH
+	 c3mPwDaJ49oDqdXrLBT4as33Lgva6hi4a46VG/mlI5UtjY3zPcAXHc3fuU8jCiQ9eX7JN
+	 vZXf1SqQ8EveZ1DYKlVqLHZQfcQZ8T5qfOiY3bnpwU9ZzadCpKgm6D8yjElKH0IS+vTOz
+	 I+ectPnKPWyS1D9V0TsLvcqwFaCEJs7hTJBk6M3vzaQUFl6wNLRXBUQDwP8ZriyGdGWqK
+	 hFaFZ2GEGtxMWTMsEboean5GRz07CqDorhN871J7BHZN2t9ju+29tSglU94MERamwIw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794308302;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=6KUDHj9lnMhAg+nHCDiWshEywbgwlvmxhCYqrSNjsow=;
+	b=17fnyghNiXhlUpVHYCAVjPZw8HJL1jWb346kuYjBT55RoG9W/rZfdzzB4wEQ+D6V1rVJ
+	 67jPWVUwUViDppdz/Uc1WPtvbfHRK2WdSd15/pYStfHdgt9ahy4qWx27WaBtkuhffgU9s
+	 dVBOYMrbyX43A6GYy96IxzjFlfFxUlz4nkKXMfZO8rQ2TTnJj+DjEyIG9DS7alA499xQc
+	 CvJyVSpEAr6ab/0LLWrRqNKvsiES72tAw2zYzTstslCYjs/EOewrdOGkO3hyt1ePtFW/M
+	 C894wHpiiLbrwbom2eQ55J02Kvr1J9yCh7tR3llLBY13OJtLjPAJYyOb27MeUFPWOCw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="SDKOEak/";
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE13606A330
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 10:52:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FE13606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3091D606A326
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 10:58:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3091D606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPXWC2Tt
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b354d27917so15364547b3.0
-        for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 02:52:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794307950; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mVGCC/9lJKVopDwu3QUMxlNhjS9rhgJNgWSLcjVdqgBYXHqKx1QDBgXz+UX/UgsTRe
-         vXf10NAZKl2hrpsv0Y7AkXZAG4JOLCcShxPhXLK+TfCJ7j7wqdky7wzD2bYfwiGsHbgj
-         7j1iMOSddbAEH/DejBlY/sBe4pzfaX/8e/2scG54uPWPD26L7XDx1BvJH2AGsd2PmJDk
-         5ysoRss26zLRrsvdwgvCLlbGuJF7aOIjsPlH05C2RcqWWQhb9d0ynBNeSfMWT3TFhyeE
-         DJ5vXakgTRoMHsLS5O2kxP3sxnNFkqWEzF3PdmIOVFZMf4RzLnKqvGPxrLjOdsS860e3
-         dOpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hz1/GqxJfr5fovZK3WCpsTphS4Ees9ZlA9FefTtrxKA=;
-        fh=WFaS8WPUSS/Gpd+aB1ICAq6Lo8NIincQbmLcPdWeC0o=;
-        b=DxEqhvRzMpptMH/+VfumNOXyYRAqogTBnB6rkxppT0tV4i3QZy0bA+wrHMQCNHf5+9
-         Rugy7gD4NCunRUUjIoHmRdCkomT8lMp1DErZtznPi2+P8lGpyAKuReFvr0fdOlVQc2PM
-         0GccQ0bnbng4fkfoW35fgOuiJdgM6max/tEd2KiRbNvNli5tfPDa0pYkak8w7RYyc6L9
-         Ei8fO3QTdTHJn25YG4kmVD86Ip+5URUOHuqAU2aiAL9H0KzPXuA9boDwXbIy2fYGJiL4
-         iAoKwu53vLvpIcT/eIIM87h0W7CiWMVyZz0tOU+3EzsbrPjAZ3E3FJPCqVwSNQty851j
-         EP/w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794307950; x=1794912750; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hz1/GqxJfr5fovZK3WCpsTphS4Ees9ZlA9FefTtrxKA=;
-        b=KPXWC2TthQhDe8XAXGrzcXb78rq3PnnDkK5pfcngTpgy/Bm8VvVOifE79bNhXuLW35
-         pkZzfctMTkkAMDndKNBQO1aURn+Yfl+Nc9Ba7kBHI6I2xyNNodHdMadRFCVc0OQR8vuT
-         YvVQw3EuEiy6EHHOlMtNfiA58vzvrCAkvpXO1PvUqJ2KaPjqIesMzf4oiISBbuoeLR4e
-         B3zcU/DW/j/wnhUxXprwNYgdfQwKp1d0zvoas0Cbajk+S29//wnPt9NZlWjW6db51K9Q
-         6BSRMCaoZmGzAt3edbQUnAE8MciINdpu+jrru+hpLKKsGDbvAJw4UwxPzCFVAhMxWpu8
-         wXYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794307950; x=1794912750;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hz1/GqxJfr5fovZK3WCpsTphS4Ees9ZlA9FefTtrxKA=;
-        b=dFmNm9j7nd/sn75ecHJK6+KII+6aOj//NyLL6XdYbSWK2Z7389aewKELlUIzC6pyd1
-         ioBJEMY7hp8wfRVfEPymGRkS4tXnsRVsgAaJ66msObCXAWrXjw4rqMdpZvwDnk+s2Mcr
-         T7jRul85nRmzWgx2paW+oW12qr2lyzX+W3AOB6IDQcw7hwGuVssCeRH7j1QZJp2yevdP
-         Z+AOffM2l5RZnDfqc//YVolxswYJg+qSxw0oc5pwpR21hCTY26XQODk661wEu5Lx3bQ7
-         +ZqxCOxL6xIZ4wr6M2Xk9aa5TCYCZYJuZXdTABeo+GDV63gEh0hiDpIgyzHqJkNKGAkz
-         Co7A==
-X-Forwarded-Encrypted: i=1; AL+hErEoLfr6CQTeuajvgjJ6Bjpp8jU8PgxxmbB5VVwxPya4A0SQDX9wznRELogv45C+WbJGzHkcqyUMNQwEBw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+ZxrMbHSwCOfprmHA1q/Iz8rHGtAmjD67Ws3xsh/EFbY4nJQMk
-	x96+c19aA6ZatRyuy2kc6hBtFgrv6VLRJLOVu1M2Qoe7jD4umdbZgkPV9EOhajuM46GVECABI7b
-	8qY51VkFqU4pemwXJTkE1WRNpLlhg+4Y=
-X-Gm-Gg: AYBFou2ZWqqnPsgBxUIODtsfdhzZATgkdORqCewKJglSZ5FfEZwiucIlnicsiLYN/Qr
-	b6UrI2rmqDJHoCCzs9OVMh0KUYZLgIBtOhXPR2jNvHwyRme0Abs08i+TkI/MG8MI/1LwjiN9O/B
-	/hkfD1KBVlpaZghnUdwV0dnmN2VkrStjXfh+4ydhYxHjbqvmNV8gKe25SzIbaYbZ8Ouo53tPz5x
-	7EeAY7Ktz4XpviB3KycL0W2faG5qtP2OfrI5KJb5nX8Gi6vHQEGVWDlTrnlQJuapixIzyIPrBBz
-	NVG6qNxnl+1B03WFGlmpZr8y0OxQEYgNPuJJs1gvu/Ft4ajZN18zFSuRcabqrmH0sgBnz0jK64T
-	P2z/fkW6LHjACICvGN4vEZzINLP+kfVmO+XC4w55hnIiZ1BREwTDw2UEI4LRMPOVuE3sAwccsGc
-	qAwkwVCABNstJiVTRlHl7VPWB1cuXo6h/81+auxoTAMVgHjUBKJVh9ZUgrNMQLIirzF1SNMJiw2
-	bV6cf3WMW0w5wOnpDw7eZwdOqEJ7gjGvCjl9AgkimGNNpw7unoZTpUS0hS3NA==
-X-Received: by 2002:a05:690c:4804:b0:8b3:4022:d81b with SMTP id
- 00721157ae682-8b39281e93amr14763687b3.4.1794307950215; Tue, 10 Nov 2026
- 02:52:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SDKOEak/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794308302; x=1825844302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rzWOvcnMo7ieIYwX8DGNSb4d4JD47sR79PHePk6OGc4=;
+  b=SDKOEak/K+/eE2mERxsjjHJ/iP5wKsI3ETPMdgU48lw1pqVd1F2Mh3HJ
+   MfSDGWQvyFuHTg95V18aa0CfgPy05Ne6JCxzRHBsTFc5L5oQpa/nLU3cd
+   2QKBpiDIZ8OXQfrJwIiI0YL6Ut1WKAcMwyfU8Y6vLATATG0+bmgxXNP2a
+   8wqjPYgujaJnkeFwbkkxcRak9U5Ud16o62K2v3eVmiea04vXe9k8jcrhP
+   +0BzCKdkukr2W6wJQ8WjYNj/rRNf/jfdfswalwWmEr7ihUVINQyTC+Lka
+   XJuBavTZtiMP1qUsA80Ar/qta4MLjZLFGO7QvvBS6ohyb1CTTFMWe88UX
+   w==;
+X-CSE-ConnectionGUID: bSddq0UvQM2FNzuml0odTA==
+X-CSE-MsgGUID: Cy+iWDvlR1eoIq2hUHWReg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2955689"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="2955689"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 02:58:21 -0800
+X-CSE-ConnectionGUID: svM277OqS7Givrs42fzSFg==
+X-CSE-MsgGUID: niEuaG0QT1+pIEt/DikLVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="7993273"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.244])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 02:58:17 -0800
+Date: Tue, 10 Nov 2026 12:58:15 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Hans de Goede <hansg@kernel.org>
+Subject: Re: [PATCH v2 2/8] i2c: core: fix swnode use-after-free on client
+ deregistration
+Message-ID: <avL4x_clSegBu-Qi@ashevche-desk.local>
+References: <20261110085125.2535508-1-johan@kernel.org>
+ <20261110085125.2535508-3-johan@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -106,79 +89,65 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
- <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
- <auuhy40x1BMoW96-@ashevche-desk.local> <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
- <avICwdxyi-W1Y3PD@ashevche-desk.local> <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
- <CAHp75VcwiGHB73ny8iSvXeFdjbTKUpnXZPS5iD7NwaMcJ6q-7A@mail.gmail.com> <l7ppjeoqvc6hblk52a6upei4ee2caahe2ltiur4gwig3ez7d3c@dmzzy22ixvlc>
-In-Reply-To: <l7ppjeoqvc6hblk52a6upei4ee2caahe2ltiur4gwig3ez7d3c@dmzzy22ixvlc>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 10 Nov 2026 12:51:53 +0200
-X-Gm-Features: AclHuK_OONOCVTyFsjjRyXe2igkmpzvumbiGAvSGjLyAIyl_gOSbE4gZk1U_Cc4
-Message-ID: <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
-Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
- fwnode operation
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110085125.2535508-3-johan@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Nov 10, 2026 at 11:50=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
-rg> wrote:
-> On Tue, Nov 10, 2026 at 11:12:02AM +0200, Andy Shevchenko wrote:
-> > On Tue, Nov 10, 2026 at 11:00=E2=80=AFAM Bartosz Golaszewski <brgl@kern=
-el.org> wrote:
-> > > On Mon, Nov 09, 2026 at 07:28:33PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Nov 09, 2026 at 02:07:46PM +0100, Bartosz Golaszewski wrote=
-:
-> > > > > On Wed, Nov 04, 2026 at 11:21:15PM +0200, Andy Shevchenko wrote:
-> > > > > > On Wed, Nov 04, 2026 at 03:03:47PM +0100, Bartosz Golaszewski w=
-rote:
+On Tue, Nov 10, 2026 at 09:51:18AM +0100, Johan Hovold wrote:
+> If a client has both a primary and a secondary firmware node, the
+> secondary node is accessed via the ->secondary pointer of the primary
+> node.
+> 
+> Use a temporary variable to track whether the firmware node is a
+> software node and remove any software node before dropping its reference
+> to avoid a use-after-free in device_remove_software_node() when
+> accessing the secondary firmware node.
 
 ...
 
-> > > PS: is there a way of using match_string() with non-const data?
-> >
-> > Why? It's an input parameter, it returns an index. Whatever you
-> > provide will be not modified.
+> Fixes: df6d7277e552 ("i2c: core: Do not dereference fwnode in struct device")
+> Fixes: 1c24e5fc0c70 ("i2c: core: Fix double-free of fwnode in i2c_unregister_device()")
+> Cc: stable@vger.kernel.org	# 6.16
 
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Hans de Goede <hansg@kernel.org>
 
-> What I mean is that the following change
+Can we keep these two Cc out of the commit message?
 
-> +               ret =3D match_string(merged, n1, sec_props.array[i]);
-> +               if (ret >=3D n1) {
->                         merged[count++] =3D sec_props.array[i];
->                         sec_props.array[i] =3D NULL;
->                 }
->
-> Results in:
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
 
-> drivers/base/property.c: In function =E2=80=98fwnode_property_get_names=
-=E2=80=99:
-> drivers/base/property.c:607:36: error: passing argument 1 of =E2=80=98mat=
-ch_string=E2=80=99 from incompatible pointer type [-Wincompatible-pointer-t=
-ypes]
+...
 
-> And I don't see a good way of working around it without doing:
->
->         match_string((const char *const)merged, n1, sec_props.array[i]));
->
-> which is ugly.
+>  	struct fwnode_handle *fwnode;
+> +	bool fwnode_is_software_node;
+>  
+>  	if (IS_ERR_OR_NULL(client))
+>  		return;
+> @@ -1066,14 +1067,14 @@ void i2c_unregister_device(struct i2c_client *client)
+>  	else if (is_acpi_device_node(fwnode))
+>  		acpi_device_clear_enumerated(to_acpi_device_node(fwnode));
+>  
+> +	fwnode_is_software_node = is_software_node(fwnode);
+> +	device_remove_software_node(&client->dev);
+>  	/*
+> -	 * If the primary fwnode is a software node it is free-ed by
+> -	 * device_remove_software_node() below, avoid double-free.
+> +	 * If the firmware node is a software node, its reference count
+> +	 * was decremented by device_remove_software_node().
+>  	 */
+> -	if (!is_software_node(fwnode))
+> +	if (!fwnode_is_software_node)
+>  		fwnode_handle_put(fwnode);
 
-Ah, got it! But why is the "merges" char ** and not char * const *? I
-believe that will fix the issue.
+Do I understand correctly that this is a dup with the platform device case? Can
+we make a helper (on swnode API level) to cover any other existing or potential
+case to avoid similar issues in the future?
 
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
+
+
