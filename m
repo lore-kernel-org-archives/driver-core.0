@@ -1,48 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307432;
-	b=HJvDF6EEnQC3hipnMLXw1b5X38qGT9AGbcZ3rF4Y0EEGNdHPLCKw2Sw+3J2XoP8hoZzH
-	 ARVh+KUD3iGS23Zi9LUFzl2dh3Avzt1e/aSfrBhfIPXih253yNEs8km88rhGoJxS8+VYN
-	 k48nENOTJw8eubWNqcsmaQ0/l/mZOavHb7Z+gnvslDUBFTiF7KYFfuXd9/hfABBTGo7zT
-	 97EO8zcv+Q+EkanE0HRE4PpkEhJmfwB62ebqX+E9inf0svuhonambDcBbimGDCV8j9GDG
-	 FDwm8SGl+vF58b6qNWL3x3uUyh5DB+4K/PulkHc91Rp0f6DthYMC14Zb9w5l2wiAW+g==
+	t=1794307674;
+	b=Mms9nhuyyz+yog4L9eLj4BCljzQtWzlYp/BQIO9dBf5Nk5Ofk9WxBSYFAJ2inZJ2ixLc
+	 Ba+1ScTMDiJO9oWIxjdt/uhvEuMNyJd3MTMG9Ia39iqoy3aJREESNgvQQF+2GQqCmqIv/
+	 B+Zo85/mpW8v40aqGN25Zz8WLrssOHxaSVKZXQkumBjlJFgJ2aTcMgzYnORhSdZQIv/2d
+	 cSx26YWhs05JyjLYZYHhwn/DMGrBZFlBl2CIjIJAUwoq0UWQE3qS9QqVI0QBbyDxJaN94
+	 uINr7Au8fLJgCK9m28D1HQgu8buGA5LHj00UGPV/dehZIp7s5WYrJVDZZ0GGmkmN8RQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307432;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Hf6AsW+SSV1TWSy6GE47UPvce7GxZ72+c8kesuE2YI4=;
-	b=1PmaUPTYgFZwKRlImpBp+5e7No0KVnpXGaEbFltO7aWCsKgh3IEfnfD50t6W6eea7Qbm
-	 pJlX/ZFxQzvZw0xXt0hqUAhedos6LVew+MAAw1prFHwtAnm3w5FTzqnka5u2aJ1rK6/Wr
-	 AexILUYgnP5I3Vn2u7vxxfNcYmt2c2Hj0jLU9wMJr8lUm32bN1kHt1tbH/Ue7Qww2LXmu
-	 MwLC6OkXmk0x6uGTi9wAQ78nEGPHrdqsJKgh6bY9uo0y1RVPfYWD/MGFaukS8TFOVmZzw
-	 Zz1RivPkQeZipn75vdB5Qf6l61UXfCmuqoKIdUjWG9mORWxpgIrknRfDzU2VexAkoCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794307674;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZWIVM6tG5A2WF1SayFxe4exG8xdz+gKhA6LhjdeSoRs=;
+	b=U898BVd8K+bh8xRXs3ujq3nJZA77WmTMesN4XYSubeDGFzdblZ5LrGT411WxPTw9wXlR
+	 DhtkuqlIL+bsJ1/BO0dMqrSNduUA4DyhGDIoIppdPmKXWkbo4SHEiFpq8kZ0swDE42Zm2
+	 6VEhgTbBgin1fJgK4EB45TJNp7zXYbPyUaXOl/+D46fHo0rT47bRkKRDtcFgi0C0ZEHDx
+	 vlwA1RzeoJCgP0yTbe7jz8Iuky6oDvgh4OLXlu5z9rnHIcJMHst4s9cwl2gxUFiTRMq7g
+	 84T9YlSVXxoQ8zVv66A+eWlW47nsUbPGU3IN8YMB+U7X+6VuAJ8DKoLQojzoWpqQkJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=otha8aMJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoA6wm8G;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED202606A333;
-	Tue, 10 Nov 2026 10:43:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183A7606A333;
+	Tue, 10 Nov 2026 10:47:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=otha8aMJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9C581F008A1;
-	Tue, 10 Nov 2026 10:43:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LoA6wm8G
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FFA51F0089F;
+	Tue, 10 Nov 2026 10:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794307431;
-	bh=Hf6AsW+SSV1TWSy6GE47UPvce7GxZ72+c8kesuE2YI4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=otha8aMJ1b0Mq+/LpcIcAybXSKUVAzjtgyelSvFIyNHJXWBrtAd1xMLkZJ4kJEgQy
-	 Tg3EZDvo1Ykei0/sTJapc9mdaoh5iahKJpTLazwl9UZZjImck4SPlbtleTJjfZwgVl
-	 Q0Ymq7fxRirvW+sBL1K2RNJR6/9QnCmkAmfVSbVFomnhotrnFew16+Mdb5Ta6cHajn
-	 XcQECqtcVHkdq0KyHu5iA2eOcSvEU63QD5W94upLk8gc1+iIsdOsMu2j6TpFaJFaO3
-	 Klslrqh+Qv9td9ibKx6giYW4VhCfAUkq59ClgicZUv4ZuWq6j8yuiCXFYRv+QA178f
-	 yeWbwG+6xJs7A==
-From: Joshua Crofts <crofts@kernel.org>
-Date: Tue, 10 Nov 2026 11:43:22 +0100
-Subject: [PATCH 3/3] PM: runtime: add debugfs entry for pm_runtime_summary
+	s=k20260515; t=1794307673;
+	bh=ZWIVM6tG5A2WF1SayFxe4exG8xdz+gKhA6LhjdeSoRs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LoA6wm8GUyWUL3HEjZWsX3/jKbn25d+HXkJZVESkJ0+AIHov+TIc12Rw4I3CwtfFi
+	 cWXpC5xrjAP8JjV5HfehbYSXFkoIlnyzwzQgcMkGP/72BOHlJyXspzTzZJz1INEmVg
+	 1MjtvDfDFrPDdLRw9WXDVx+CrjRLGeYV0X1Z00+k43MC/7dSns7J9NKa3l8e+tghi6
+	 6++3BXO05Ja/hP3nDFDOaqP1HOkapUuv2pp4myjbNaAuZLafpAtX/SHlUzyA6XN92O
+	 kBtp/f20AJOuJhn3QidohgrcKcRCUcaNSZJTfCustsoPVJVuRaDtymTP3KAxSBD1rQ
+	 JjmHWlQKpt2fQ==
+Received: from johan by xi.lan with local (Exim 4.100.1)
+	(envelope-from <johan@kernel.org>)
+	id 1xQjOJ-0000000AmhB-0u4b;
+	Tue, 10 Nov 2026 11:47:51 +0100
+Date: Tue, 10 Nov 2026 11:47:51 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v2 5/8] driver core: platform: warn on bad fwnode
+ assignment
+Message-ID: <avL2Vxi7PADCNio2@hovoldconsulting.com>
+References: <20261110085125.2535508-1-johan@kernel.org>
+ <20261110085125.2535508-6-johan@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -52,136 +71,56 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-pm-runtime-summary-v1-3-12ebf283db78@kernel.org>
-References: <20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org>
-In-Reply-To: <20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Joshua Crofts <crofts@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794307420; l=3443;
- i=crofts@kernel.org; s=20260422; h=from:subject:message-id;
- bh=hPNHg+sTsUBVYzN5VrY9xEFxP16H6UCtaFGzZnBY4U8=;
- b=KW02XaxfwKKGJZfR+y6MXPLDaBxcf6x5yXum5PaNOVg2jpdlhEWIN6+Y768lv0f3p/x9jx7Nx
- NVGS0EaTrDXD2OHBaxrU0XNfkghImnGOkSAKA+VjKOb+GlWAZ6EVPDA
-X-Developer-Key: i=crofts@kernel.org; a=ed25519;
- pk=Xd+UVoRPiiI0K3LHQ2XIcXmO0jvVuFTv9eTx3lgBphI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110085125.2535508-6-johan@kernel.org>
 
-Add a debugfs entry for showing the runtime statistics for devices with
-PM runtime enabled.
+On Tue, Nov 10, 2026 at 09:51:21AM +0100, Johan Hovold wrote:
+> Commit e6054f410c97 ("driver core: platform: amend the API contract for
+> fwnode setters") added a warning to platform_device_set_fwnode() in case
+> the current firmware node pointer points to a software node as that may
+> prevent software_node_notify_remove() from being called.
+> 
+> This is only an issue if the platform device has been registered however
+> as software_node_notify() is only called for registered devices. A
+> bigger issue is that a secondary firmware node assigned before the call
+> may be silently lost (and leaked in case of software nodes) as these
+> helpers do not use set_primary_fwnode().
+> 
+> Replace the current software node check with a warning in case the
+> device already has a primary or secondary firmware node assigned to
+> catch any (hard-to-debug) issues due to a secondary node being assigned
+> before the call.
+> 
+> Note that this also avoids making claims about the device firmware node
+> pointing to the primary firmware node, which is not the case when the
+> device only has a secondary node.
+> 
+> Fixes: e6054f410c97 ("driver core: platform: amend the API contract for fwnode setters")
+> Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/base/platform.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
 
-Signed-off-by: Joshua Crofts <crofts@kernel.org>
----
- drivers/base/power/runtime.c | 86 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+>  void platform_device_set_fwnode(struct platform_device *pdev,
+>  				struct fwnode_handle *fwnode)
+>  {
+>  	/*
+> -	 * If we call this function for a platform device whose primary
+> -	 * firmware node is a software node, we'll never end up calling the
+> -	 * symmetric software_node_notify_remove(). There are no users for this
+> -	 * right now in the tree so just disallow it.
+> +	 * A secondary firmware node may be lost as set_primary_fwnode() is
+> +	 * not used here, warn for now if a node has already been set.
+>  	 */
+> -	WARN_ON(is_software_node(dev_fwnode(&pdev->dev)));
+> +	WARN_ON(dev_fwnode(&pdev->dev));
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 5087a52f1784f7b4493896bce147ebcb0424d17c..f5ea6ba6d20fc4a9a3088e1fcb20b70cd5ebe476 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -14,6 +14,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/pm_wakeirq.h>
- #include <linux/rculist.h>
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
- #include <trace/events/rpm.h>
- 
- #include "../base.h"
-@@ -2193,3 +2195,87 @@ bool pm_runtime_need_not_resume(struct device *dev)
- }
- 
- #endif /* CONFIG_PM_SLEEP */
-+
-+#if defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP)
-+static void rpm_summary_show_dev(struct device *dev, void *data)
-+{
-+	struct seq_file *s = data;
-+	unsigned long flags;
-+	u64 active_time, suspended_time;
-+	u64 last_sleep, min_sleep, max_sleep;
-+	u64 resumes, suspends;
-+	const char *status_str;
-+	bool enabled;
-+
-+	spin_lock_irqsave(&dev->power.lock, flags);
-+
-+	enabled = pm_runtime_enabled(dev);
-+	if (!enabled && !dev->power.resume_count && !dev->power.suspend_count) {
-+		spin_unlock_irqrestore(&dev->power.lock, flags);
-+		return;
-+	}
-+
-+	update_pm_runtime_accounting(dev);
-+
-+	switch (dev->power.runtime_status) {
-+	case RPM_ACTIVE:
-+		status_str = "active";
-+		break;
-+	case RPM_SUSPENDED:
-+		status_str = "suspended";
-+		break;
-+	case RPM_SUSPENDING:
-+		status_str = "suspending";
-+		break;
-+	case RPM_RESUMING:
-+		status_str = "resuming";
-+		break;
-+	default:
-+		status_str = "unknown";
-+		break;
-+	}
-+
-+	active_time = dev->power.active_time;
-+	suspended_time = dev->power.suspended_time;
-+	resumes = dev->power.resume_count;
-+	suspends = dev->power.suspend_count;
-+	last_sleep = dev->power.last_suspended_time;
-+	min_sleep = dev->power.min_suspended_time;
-+	max_sleep = dev->power.max_suspended_time;
-+
-+	spin_unlock_irqrestore(&dev->power.lock, flags);
-+
-+	do_div(active_time, NSEC_PER_MSEC);
-+	do_div(suspended_time, NSEC_PER_MSEC);
-+	do_div(last_sleep, NSEC_PER_MSEC);
-+	do_div(min_sleep, NSEC_PER_MSEC);
-+	do_div(max_sleep, NSEC_PER_MSEC);
-+
-+	seq_printf(s, "%-32s %-12s %8llu %8llu %12llu %12llu %10llu %10llu %10llu\n",
-+		   dev_name(dev), enabled ? status_str : "disabled",
-+		   resumes, suspends, active_time, suspended_time,
-+		   last_sleep, min_sleep, max_sleep);
-+}
-+
-+static int pm_runtime_summary_show(struct seq_file *s, void *unused)
-+{
-+	seq_printf(s, "%-32s %-12s %8s %8s %12s %12s %10s %10s %10s\n",
-+		   "Device", "Status", "Resumes", "Suspends",
-+		   "Active(ms)", "Suspend(ms)", "Last(ms)", "Min(ms)", "Max(ms)");
-+	seq_puts(s, "--------------------------------------------------------------------------------------------------------------------------\n");
-+
-+	dpm_for_each_dev(s, rpm_summary_show_dev);
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(pm_runtime_summary);
-+
-+static int __init pm_runtime_debugfs_init(void)
-+{
-+	debugfs_create_file("pm_runtime_summary", 0444, NULL, NULL,
-+			    &pm_runtime_summary_fops);
-+
-+	return 0;
-+}
-+late_initcall(pm_runtime_debugfs_init);
-+#endif /* defined(CONFIG_DEBUG_FS) && defined(CONFIG_PM_SLEEP) */
+Sashiko points out that this may trigger a warning on probe deferral in
+an ASoC driver due to a new user of platform_device_set_of_node()
+currently in linux-next.
 
--- 
-2.47.3
+Will revisit.
 
+Johan
