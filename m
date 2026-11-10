@@ -1,77 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794329543;
-	b=MqUrDRKNkm5LTuWw/p72EmWMN8y5gRS7IKO9coqAv0GrbEWIJsBAT987R4Icfg+VWKI2
-	 uo4ni/3H9tbkzcfyK89ILbPx2po3H4aJt8bADreecaLh6FLcAahbfvoewTUJCStR54Bk0
-	 JkbQES+PqiCgbMDyF1EAIJilLbna8+LZHRvL2MPVmcTpyKzzbXa2rQF+IWXQEj0blP8ym
-	 WgivW55NuDvwXCrregevCDHueABXJ1HvJA+1Z++6bstcMbA/95HTL3+D31s3o6SMuwFgR
-	 VlIH7aw/1GBxOdCm8o9fF+QmMVKT9YNCFkJQeswK5esi27KX1ayMXXTXdDTj4VVAQYA==
+	t=1794331753;
+	b=I7NRaRWD+zeLrUjKnuagwPWr5lCUM3OV1BeeaLjB8pVpusZIHbkrhQczXVoLBhDxQykM
+	 cNPzcm50j9qfoGtvdSt00IO2SWlMA4FtlSzzXgw/WEJV/gt1/9/9s71c634PlxoCpnloi
+	 Sjs9vYNyl0cuLkxnjzPddF9VUuBveKmB5a07PZG8a8MvV8lpRvOoG1/PCCvjldjctqCqC
+	 CLipOHeVvPKTmuz8++EPgVy8jqd1T//A5HFgHjGqpvNfRRd94l43zSKizT0XL5t1Tauln
+	 MwhZn06tiKQNEUv+DXc7Z2LhhrUgggzplcjmWyzIBv7NZInTLqZA6FsvkljpMl/dxBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794329543;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794331753;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KyDcpTwF2G84cUTe+PVKDz9G3rULU78GRC2w0kOsrLc=;
-	b=l4aw2tre8GbBz5g9LuX5bM4yQTz96CFbLG8LsM7VKIXayuVmXV30ZQ32DPTyLKLklvnF
-	 fYFQ3zY+xdGIl+RC9ylnA/C7J49VUkApYGigBDyRkZo5czIM8Cqw8hUKbFZyn1/IgtQ3m
-	 Z/RGVRymJUJsoZqE4xFLoNPCFQbl09Pa3uiRQy/26ID/0+MFb3/zKlbTzp+JvVrStnzwK
-	 eWITQsh2iQT/0NCBfg5oKIZVh3Q6CWsgmG0dT0HwHYfcy3NvJnhpa5fox9BM20Ijf/wdi
-	 YYcsCHji+6Oik6v5hEeEl7hh1kCC4piXf0Q3DTWANagDf07zGSFRMlxB9cJ+9m6KinQ==
+	bh=c0IxWeg69L18hS0lsnM67W5uLT9pSaPfwx5NH8G9rgk=;
+	b=TnOEWvJOMmvSkpdEtAB/rOEK9P/i8LRiW8qKdfBIooEO89HzGefawWk2MtS41iwHpz99
+	 D8YECLw0uSuTofj5CVEd2APksmYsFJCFmMsbxKRNnSUEbxuakR1OTTg3naj2FKc9LHf2e
+	 gRsa4OgXvBOKzvQfuKVxWVPMF9V5A102g/gOJmE1AJM3aSh57GhU3Ygn2sP0vzfEos/7A
+	 QS5PfbbWPfOd5ntGn+DshH2ObGjxiWkcf196G1cyeLIewW/tqDd8qWN0kI/06SZ9+qu8P
+	 SNLhoRDxinF6TxzOGXTkRz2+8D96f/z1LWZlTdQ5PfIroQUNKWNl1uL9BmG3DSpZ04w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WSR4/meg";
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kYJqn36t;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DB6606A330;
-	Tue, 10 Nov 2026 16:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3773E606A321;
+	Tue, 10 Nov 2026 17:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSR4/meg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C6B21F0089F;
-	Tue, 10 Nov 2026 16:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794329543;
-	bh=KyDcpTwF2G84cUTe+PVKDz9G3rULU78GRC2w0kOsrLc=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kYJqn36t
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9AD1F008A2;
+	Tue, 10 Nov 2026 17:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1794331753;
+	bh=c0IxWeg69L18hS0lsnM67W5uLT9pSaPfwx5NH8G9rgk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WSR4/megdggMO9wsDWOY+uoQSmNtO3j2yfbZkG8wNi5rB7hE651wqOzDxlgDXK7Ew
-	 RmAWiz2VBpllg4ynVFTcPIjgzyk7nAxhySjvb+byysmSgsCnpkfEzxkJqRWKHq9/mc
-	 YNAQhE0ikpxZ0sqlywqGqK0vnkiWmSjRjigl1fL7x76Q0lUOnOc+fEhl7WUDNrnt2X
-	 Hda+VOxkwzLr8arHFGMZFn9v/vCdMOGy5b+eY24hGBQ3e42uhb8xHhCF/aPlSMJPft
-	 3tCywwxXOQqTXxdhv8EqxUpg5QCSLRW2i8oyD+4B0ftty6ddfdgKmdarmtnmAcuyq1
-	 heVa4ehNncfYw==
-Date: Tue, 10 Nov 2026 17:52:03 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	utilityemal77@gmail.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, 
-	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
-	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
-	chenxiaosong@chenxiaosong.com, dsterba@suse.com, mason@kernel.org, kpsingh@kernel.org, 
-	matt@bobrowski.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, john.johansen@canonical.com, georgia.garcia@canonical.com, 
-	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
-	xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, lujialin4@huawei.com, 
-	bpf@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
-	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 -next 00/18] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20261110-rekonstruieren-erbfolge-vollversammlung-26be74966211@brauner>
-References: <20261027121151.1887650-1-caixinchen1@huawei.com>
+	b=kYJqn36thE+ClLNX7zWnjsf3M2Yyw6QJy9ksv2t+lUa5TLX9ve5NZRQ1ab6/qLV6l
+	 QCQtxooamb7EaD5+WvNF1SaTyXK9wW+lNbg4cFN3VttaRYUA089iTNSpGCCHQ2EwC7
+	 JDccXdfi+KPrRapLrMOMfaglvrD4QjXPaPJEwSNs=
+Date: Tue, 10 Nov 2026 12:29:11 -0500
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joshua Crofts <crofts@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dominik Brodowski <linux@dominikbrodowski.net>
+Subject: Re: [PATCH 2/3] PM: add sysfs attributes for additional
+ suspend/resume metrics
+Message-ID: <2026111023-padlock-deluge-4173@gregkh>
+References: <20261110-pm-runtime-summary-v1-0-12ebf283db78@kernel.org>
+ <20261110-pm-runtime-summary-v1-2-12ebf283db78@kernel.org>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -81,27 +58,110 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261027121151.1887650-1-caixinchen1@huawei.com>
+In-Reply-To: <20261110-pm-runtime-summary-v1-2-12ebf283db78@kernel.org>
 
-On Tue, Oct 27, 2026 at 08:11:33PM +0800, Cai Xinchen wrote:
-> - The idmap is passed separately from the struct path again, instead
->   of being derived from path->mnt inside the helpers and the hooks.
->   As Christian explains in his review of patch 1, the idmap must be
->   taken of the mount at the time it was checked and passed down to
->   the filesystem so that the VFS and the filesystem are guaranteed
->   to see the same idmap.
+On Tue, Nov 10, 2026 at 11:43:21AM +0100, Joshua Crofts wrote:
+> Add sysfs entries for additional suspend/resume statistics. These are
+> useful for investigating the behaviour of devices with PM runtime
+> enabled.
+> 
+> Signed-off-by: Joshua Crofts <crofts@kernel.org>
+> ---
+>  Documentation/ABI/testing/sysfs-devices-power | 36 ++++++++++++
+>  drivers/base/power/sysfs.c                    | 81 +++++++++++++++++++++++++++
+>  2 files changed, 117 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentation/ABI/testing/sysfs-devices-power
+> index 9bf7c8a267c58703a8a097ada1f12271271dbe98..03e5783d737120f98a1c88e5e53f56fe176484e5 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-power
+> +++ b/Documentation/ABI/testing/sysfs-devices-power
+> @@ -284,6 +284,42 @@ Description:
+>  		Reports total time that the device has been suspended, in
+>  		milliseconds. Used for runtime PM statistics.
+>  
+> +What:           /sys/devices/.../power/runtime_resume_count
+> +Date:           Nov 2026
+> +Contact:        Joshua Crofts <crofts@kernel.org>
+> +Description:
+> +                Reports the total number of times the device entered a resume
+> +                state.
+> +
+> +What:           /sys/devices/.../power/runtime_suspend_count
+> +Date:           Nov 2026
+> +Contact:        Joshua Crofts <crofts@kernel.org>
+> +Description:
+> +                Reports the total number of times the device entered a suspended
+> +                state.
+> +
+> +What:           /sys/devices/.../power/runtime_last_suspended_time
+> +Date:           Nov 2026
+> +Contact:        Joshua Crofts <crofts@kernel.org>
+> +Description:
+> +                Reports the residency duration of the most recent suspended
+> +                state, in milliseconds.
+> +
+> +What:           /sys/devices/.../power/runtime_min_suspended_time
+> +Date:           Nov 2026
+> +Contact:        Joshua Crofts <crofts@kernel.org>
+> +Description:
+> +                Reports the shortest measured duration the device spent in
+> +                suspended mode, in milliseconds.
+> +
+> +What:           /sys/devices/.../power/runtime_max_suspended_time
+> +Date:           Nov 2026
+> +Contact:        Joshua Crofts <crofts@kernel.org>
+> +Description:
+> +                Reports the longest measured duration the device spent in
+> +                suspended mode, in milliseconds.
+> +
+> +
+>  What:		/sys/devices/.../power/runtime_usage
+>  Date:		Apr 2010
+>  Contact:	Dominik Brodowski <linux@dominikbrodowski.net>
+> diff --git a/drivers/base/power/sysfs.c b/drivers/base/power/sysfs.c
+> index 13b31a3adc77c0fe0a5c42fcf9b863dd5bc43088..7e5a186b33222d448b5caacaddbaf9913fe41a98 100644
+> --- a/drivers/base/power/sysfs.c
+> +++ b/drivers/base/power/sysfs.c
+> @@ -178,6 +178,82 @@ static ssize_t runtime_status_show(struct device *dev,
+>  
+>  static DEVICE_ATTR_RO(runtime_status);
+>  
+> +static ssize_t runtime_resume_count_show(struct device *dev,
+> +					 struct device_attribute *attr,
+> +					 char *buf)
+> +{
+> +	u64 count;
+> +
+> +	spin_lock_irq(&dev->power.lock);
+> +	count = dev->power.resume_count;
+> +	spin_unlock_irq(&dev->power.lock);
 
-This regresses AT_EMPTY_PATH. fchmodat2(), fchownat() and utimensat()
-with an empty path now go through CLASS(fd) which is fdget() and that 
-refuses O_PATH file descriptors. IOW, this is very very broken.
+Why is a lock needed at all?  The value isn't going to "smear", it will
+change right after the lock anyway.
 
-Please also go through Sashiko's review of v3 (cf. [1]). The new struct
-file arguments need __nullable or bpf programs can dereference NULL,
-and the ntfs3 stream setattr and overlayfs fileattr paths that bypass
-the hooks need treatment.
+> +
+> +	return sysfs_emit(buf, "%llu\n", count);
+> +}
+> +static DEVICE_ATTR_RO(runtime_resume_count);
+> +
+> +static ssize_t runtime_suspend_count_show(struct device *dev,
+> +					  struct device_attribute *attr,
+> +					  char *buf)
+> +{
+> +	u64 count;
+> +
+> +	spin_lock_irq(&dev->power.lock);
+> +	count = dev->power.suspend_count;
+> +	spin_unlock_irq(&dev->power.lock);
 
-[1]: https://sashiko.dev/#/patchset/20261027121151.1887650-1-caixinchen1%40huawei.com
+Same here, why a lock?
 
--- 
+And if you need one, why not a guard()?
+
+Same for rest of this patch.
+
+thanks,
+
+greg k-h
