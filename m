@@ -1,68 +1,70 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794309311;
-	b=5LkZ3RctDaOQqsNL5Km+dOLoao7luC6OM7S1H6Z9gkTz6hkSpIqokJK9/4RETFwdymGc
-	 oBsrRvqXqc6nsDtp5H2ER3ON23YmunD2cs4NPnfn10dg6Rgm2400gMG78g5jgE26WTREE
-	 oG8OFlJPO8FZxcKwH0I68RVxNYLf4QUf3/vngc92aFCAq1Al9VoAcDfFgBCB78bCzzVt0
-	 hd71AKztnx83yiDNvaZq/77UWgYe6Ny0iiEnHeDnt6cA8nNulOGwP9XyUJocLOYyKGgWm
-	 HJksl/uVhohXLVpiY+3/l70+vtp4v0qN74vJTSCdx75wWpN1uaRB+hDCsG34Lx9eBIA==
+	t=1794310426;
+	b=XdYv1eI3/EI9fC2ZWSNQ9ryzaRmo3rMV3dxr9Bs5CRP4yWrcDMsyJvWzwKV28C3Ik1VC
+	 E1Rm+w/37qSCh75MlhUt9PK+sd1BRktiABOEs7YKvL0z+udHOYlOz81XKNDpMXCrOImeX
+	 t67ksVPXvL6ink5/eSiJ8rFFFAHziNDNcKi6fFKv0QCInBG8ck7ncCa8bIcQTJUC0EYxj
+	 7oywxRU/D/j9XtK2DrZCOjB7/qbms7NgvkHdgedfMh1jSLJM5LawH9sjhQjlZCIpsWIeD
+	 Ijh60GboGETiaTiH0DXT5ages7Fm/2anHT1Lxf5xlEurtW0ziuRtPfcBkBwiVr1R/8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794309311;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794310426;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=FdOVbvcKdFgkXdU4BMS1bRcFn7D8v8NDtVISXLeDPZI=;
-	b=VIjon5Z8SQE37wNkpiNx9HzSyL9UI6yeFCS0GMCAu5lRHtRswibJNLG1NmfEP4TQRmQq
-	 jll3ypextmErZ9w1kCWrmQ+hitsL/MFoAvAcehXdQYds3T2qsFrja1ly306bZUBPgBW8P
-	 Vk93dIv4fZMyaPJJ5Ur4ojtztcCw3RRclKyThzzaij+aak37v9LMnkpvo6h8m56AMpWfi
-	 CHW5ZI+XynNZHw1DxUr54P+lekS4zokNQ2YfGqGBdhoG8g7XbwjbVNmO7MGos/33j8FQt
-	 IJm0lIXW6+0qJw1CBaauKN+PLHuQa7h8fyiKwTzL5eTKIy8AlWIkjyPFJzcfEU3yZqg==
+	bh=qSyfjuA959utatcArln6EmhrXSRtAzPm1CEV93pQekE=;
+	b=gX4URF6JTJXYS4NlK75BZ+/eazS9/N9aY/QtC02DdeSVBGY5nzypDg9fmeBr5HrPDtFN
+	 AELSM4YVLxF3eH2aPu0/YnJj9QAM7B4KENzUQ5DV8g3V4RL4IXL8JIJDpdazNvoAfM3CW
+	 XC8qZCyGK6SuSDmiY+8mbBWZxRek1VXDBBlZmFoc6o7Ko3GbVWK/p+kwBewuddM06M1yA
+	 p0VYRzTL8ENi9x4TqfGI9nQaRVQn44nIqEgtXxd2wAx3HJsyIjluCbKypj9lk2ouXaSuH
+	 y0JfgIPDDcTmgS6dA3stL1ynfmASS3wXn2EGStHFk/gWPvPA0gAcvK2E6G5C/63uKhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DmSzA/cc";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=du52QDeR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC45606A325;
-	Tue, 10 Nov 2026 11:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0495606A31C;
+	Tue, 10 Nov 2026 11:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DmSzA/cc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D131F0089F;
-	Tue, 10 Nov 2026 11:15:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=du52QDeR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB3E01F008A4;
+	Tue, 10 Nov 2026 11:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794309311;
-	bh=FdOVbvcKdFgkXdU4BMS1bRcFn7D8v8NDtVISXLeDPZI=;
+	s=k20260515; t=1794310425;
+	bh=qSyfjuA959utatcArln6EmhrXSRtAzPm1CEV93pQekE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DmSzA/cccKoAot6OoPurM2eGxFwrqjl3PNn6sOlcK4MuqbckjFlQ+1BWNuMwZ18uV
-	 8DxrZdxy3xkHKQtR+GuKDIG6/gqLfvYi/nbSqPKwnoa2J6XxxZFPKHoZ2a4z148+Lw
-	 d3AQuWQeisrRNd5ySpoaq5vg/sMal+rztXbpjzUb861zOUxtMiXQNXFG+JdEV7Y69V
-	 zeisfrr1LV3CrtP5aRnQKZmY0Dy6fnp+A/R20vGrLJHgd3zlz065lQCiucM10Ut0ML
-	 EBvsuSkeX/ZGI/JJhQFqLr/Vah+kHGVoai9NPIqWgzpAZQsw1OG6uJVtXtZgDJ3P/b
-	 g7/meQIMiZCzg==
-Received: from johan by xi.lan with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xQjoi-0000000AuCa-2Gte;
-	Tue, 10 Nov 2026 12:15:08 +0100
-Date: Tue, 10 Nov 2026 12:15:08 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, driver-core@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v2 2/8] i2c: core: fix swnode use-after-free on client
- deregistration
-Message-ID: <avL8vNRJdZric-mu@hovoldconsulting.com>
-References: <20261110085125.2535508-1-johan@kernel.org>
- <20261110085125.2535508-3-johan@kernel.org>
- <avL4x_clSegBu-Qi@ashevche-desk.local>
+	b=du52QDeRIFHy8bI+5Q47+XWXw3u31Siid62br2VzIibxPeafdZB4547fFTYXzom6t
+	 +i+mAfRclnzFMs2I8AZd+5Qe4UrUoQIIreBpF998NZabjErKGR8hrtb0MSlkadz9HF
+	 WKsWu149MlfAhiQIcAapwS2F6s1mVisJaZWq2rGtRDhVkua+nAVAy7fFiSGFbbiIDz
+	 nsPmvzUjvISL6AfrCPHZlENNHZHwPRlAG+9cS/0NgUsa4qgor51DuOJ0ROzHisEMQ+
+	 Mop4sm7tBX2U1FRMamPUTXNDBDizLC5TvhfjyLRXzqShXN9VohX4P5T+wyIcovUG2N
+	 lSTpgju/Oxnzw==
+Date: Tue, 10 Nov 2026 12:33:38 +0100
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
+ fwnode operation
+Message-ID: <avMAsybq-5Fhj_7Q@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
+ <auuhy40x1BMoW96-@ashevche-desk.local>
+ <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
+ <avICwdxyi-W1Y3PD@ashevche-desk.local>
+ <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
+ <CAHp75VcwiGHB73ny8iSvXeFdjbTKUpnXZPS5iD7NwaMcJ6q-7A@mail.gmail.com>
+ <l7ppjeoqvc6hblk52a6upei4ee2caahe2ltiur4gwig3ez7d3c@dmzzy22ixvlc>
+ <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -72,59 +74,95 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vumu5els7olatlj5"
 Content-Disposition: inline
-In-Reply-To: <avL4x_clSegBu-Qi@ashevche-desk.local>
+In-Reply-To: <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
 
-On Tue, Nov 10, 2026 at 12:58:15PM +0200, Andy Shevchenko wrote:
-> On Tue, Nov 10, 2026 at 09:51:18AM +0100, Johan Hovold wrote:
-> > If a client has both a primary and a secondary firmware node, the
-> > secondary node is accessed via the ->secondary pointer of the primary
-> > node.
-> > 
-> > Use a temporary variable to track whether the firmware node is a
-> > software node and remove any software node before dropping its reference
-> > to avoid a use-after-free in device_remove_software_node() when
-> > accessing the secondary firmware node.
-> 
-> ...
-> 
-> > Fixes: df6d7277e552 ("i2c: core: Do not dereference fwnode in struct device")
-> > Fixes: 1c24e5fc0c70 ("i2c: core: Fix double-free of fwnode in i2c_unregister_device()")
-> > Cc: stable@vger.kernel.org	# 6.16
-> 
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: Hans de Goede <hansg@kernel.org>
-> 
-> Can we keep these two Cc out of the commit message?
 
-I prefer to highlight the authors of the commits mentioned in the Fixes
-tag this way.
+--vumu5els7olatlj5
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx+linux-hardening@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
+ fwnode operation
+Message-ID: <avMAsybq-5Fhj_7Q@devuan>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
+ <auuhy40x1BMoW96-@ashevche-desk.local>
+ <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
+ <avICwdxyi-W1Y3PD@ashevche-desk.local>
+ <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
+ <CAHp75VcwiGHB73ny8iSvXeFdjbTKUpnXZPS5iD7NwaMcJ6q-7A@mail.gmail.com>
+ <l7ppjeoqvc6hblk52a6upei4ee2caahe2ltiur4gwig3ez7d3c@dmzzy22ixvlc>
+ <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
 
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > ---
+Hi Andy,
 
-> > @@ -1066,14 +1067,14 @@ void i2c_unregister_device(struct i2c_client *client)
-> >  	else if (is_acpi_device_node(fwnode))
-> >  		acpi_device_clear_enumerated(to_acpi_device_node(fwnode));
-> >  
-> > +	fwnode_is_software_node = is_software_node(fwnode);
-> > +	device_remove_software_node(&client->dev);
-> >  	/*
-> > -	 * If the primary fwnode is a software node it is free-ed by
-> > -	 * device_remove_software_node() below, avoid double-free.
-> > +	 * If the firmware node is a software node, its reference count
-> > +	 * was decremented by device_remove_software_node().
-> >  	 */
-> > -	if (!is_software_node(fwnode))
-> > +	if (!fwnode_is_software_node)
-> >  		fwnode_handle_put(fwnode);
-> 
-> Do I understand correctly that this is a dup with the platform device case? Can
-> we make a helper (on swnode API level) to cover any other existing or potential
-> case to avoid similar issues in the future?
+> Date: 2026-11-10 12:51:53+0200
+> From: Andy Shevchenko <andy.shevchenko@gmail.com>
+>
+[...]
+> > drivers/base/property.c: In function =E2=80=98fwnode_property_get_names=
+=E2=80=99:
+> > drivers/base/property.c:607:36: error: passing argument 1 of =E2=80=98m=
+atch_string=E2=80=99 from incompatible pointer type [-Wincompatible-pointer=
+-types]
+>=20
+> > And I don't see a good way of working around it without doing:
+> >
+> >         match_string((const char *const)merged, n1, sec_props.array[i])=
+);
+> >
+> > which is ugly.
+>=20
+> Ah, got it! But why is the "merges" char ** and not char * const *? I
+> believe that will fix the issue.
 
-The bug is different, but the fix is the same. This all gets cleaned up
-in patch 4/8.
+It solves it in C++, and will solve it in C2y, but doesn't solve it in
+current C.
+<https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3987.htm>
 
-Johan
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--vumu5els7olatlj5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrzAQwACgkQ64mZXMKQ
+wqkezA/+L6gjJppvEkdo0JnNVWFScVnzLzYUTt8uoJ6DFOq7S4Sa/cHtaEXzSpRr
+TsGxxYQndLkF/NFIWEE+l2H7Rj8U+FHZEx6fjzTxzHq0seSmOVhPJaANO+3kMugA
+7BNl42BS2X7/azpOzXMDI0ywnHyKUEM1Dt5YbSIRK+2/g7C8lNrvXpKqExemyMkc
+SW3Ba1UtCi2Rj7a430er2XFqRrcsskH1+2TeiCV0l0FfoQ8Utww3mJ8cGWpypbTF
+zFakPJOMiqH3DPVjVs5WjBx7VfaN3z6pswjmXUQK6vBeDFD938257ccbkUsDbg1U
+YlLW8XVT5I6natBYOdxRuzVAodkNbFkg/yJt3fY/uHJa9wHvzEDVcTbFTDgbvQn2
+37Qcu6vFGkss6VcsOJ7rwaNQEbML8k5VcyqDMfkkvVCee0c8qN18ZjGIBCHMaQ9s
+JAGTSWawBlejU9LzSZoSQdmVOvLzEuVIAa72v815O7t4jsfI6Xd3Z4ki73cjHj4Y
+J+nCDawxOMtLKrsoYNpnaVn4Yt1d4EjZ2iYPhoB5leVpYudmdp1OjGxPNE2JE1Sy
+UFzniOSlSmkJ/0K5dq87uqENRG8hHQu+voOojytCh7kDK/mHb8SM6zklruHEI57H
+OgvtItfxA9+9fp1cg+lWaEwnGqXelC2WNTG1fzqKhy57fVU961A=
+=RuHO
+-----END PGP SIGNATURE-----
+
+--vumu5els7olatlj5--
