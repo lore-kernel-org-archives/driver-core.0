@@ -1,50 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794319124;
-	b=vKbIfokWZTPQ3gJcPvzKABXoxkiI8VyOEgweBuw4hWmfgnh/TE4lhQ3WJmP7VURnJbyY
-	 /LcuPEupBy1oSWAshd6r0DyW1GZ7On9pjCgYbVKuS1I8m42dpvLWgMjZpokWfizA7aDE4
-	 UW32qnHhaEoNLxskFCN6oF0owVIx3Th04ncbeS4tMLzGzKCJ92T8zLxbMjFyDd8Q2DOVb
-	 b2tdQis6bKlkxI/hz8ML3D7a5OMMo1oZgzEBvynsNbQYYE133ZwuJZthSzzyg0w8F9LTt
-	 xAw92ZhQzxUojo83rCQ/jvxPHkdXryr5k2bRPSR/dmQof+EDYD8AqL5yBxAL3prbw9g==
+	t=1794319614;
+	b=DwsuItT1Idy3mX21AWswMeJVmbz882QHMXjx/U4ASZAdjORTiUMXXCwLwR57ah85s6cm
+	 P65np333zKqMBNryl/YxfK9AW5/Dm6SgjYJ26+B7Bn5A7upt3krQB4KdJz2wiep6285Rt
+	 LeWvIWhYwx1sNAsMni1QkANsuF66OzejwWk7fchIBtHow1CyEx6QhpCCyovfXtTbzxvE9
+	 imHc+0IlK6lKBfHP7bfECXC+7OygCPErlM2jxZUe9Xr1GjDef2lWfvI29s2FDDisTYMaE
+	 2CH/v2elOwNfsEVvT4xnrcLsySAjHvJmCW9yEX5RgUV1bgItKHXv1MWdIgZVcecPK2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794319124;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=uHow6QOszXOkN5yF2veB3FufvRHTvXRueei1d1KGbKE=;
-	b=h9iiL30vIKiH5ajrGyLIqoz15DjGBB7ehyKrtEy9Dm9dJdUrgE5MgRIn/xWVFpqqpgyZ
-	 z9IaousvfqPFQmbEBAWWv5aJYwYlgyFjuuXz2nxGazY3dre6VBQokGG9tk/zTMinulweh
-	 /WOE+3FFsUPP3hLUAI8I6R6x1UhlA2RoCBLOLBto+d/0p/B5AiWqU0Y90n1O3fQCZDq5f
-	 9hu1AKIFmXUGddiBQlHyAcSv/1RZSUD9IqqFut3L5WWLzH8gV+F39lJTHkpPlieKRtaIG
-	 rAGfCMR+QrgdY979opi/eO5ghTjPsGjWJl3+a0AX3rW71stPA1sVEgrmqxo1o5KEKmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794319614;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=6mdx737bcxeVcciGfuHgnMznol7+4MpQaOj9g4XVWL0=;
+	b=WcBNa7O1XUUxt5lLStrrp8jaQ7efVi5lQQGJIJeuzQSrtmSo2MhKWc9v+sN4/X3QNnEB
+	 J6x6R0kZzCXiA1JM6tNp+KnOOfWh/V2qsh6OwpTZO6Roc8e0uDdMBif4+/dj4ClMtfgMg
+	 FK+vQrVaFWl0kWXVT+vT5iiaOAM06N+24aCc6syASX2w2jspIJxDXFYAbFJcANLHa4/Lz
+	 n4jGrRpj/t4yYNo40ISnDextn8bcdF0oyUFsxchLeDcN9Q/ST6mx0ZQ8XpqXjKBusvGbE
+	 1b6ZolRfsAFswY5Ypg1SNr/SIwj+B4aeOaxEeNYmMscTin1yliH3+gyHH9qEuCL4cZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=nc0YgS1c;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPYmvbsb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15A6606A32E
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 13:58:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C15A6606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id B8F2D606A321;
+	Tue, 10 Nov 2026 14:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=nc0YgS1c
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07183C14;
-	Tue, 10 Nov 2026 14:56:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1794318979;
-	bh=05nYYjfAerXmMV8VYG5FAo9qX9ncuzGlXQsA8W6/cVA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nc0YgS1cBbQ7BEkBdsPxjjSpZNoTpaU+LTTRrA01ep/HVF0W23Qp6D2jUt4GlDtFe
-	 QSTUAqTMOc+/x7frGMvxC7+s3AgEDmr+9mmsQ5Qh0vbB2Z5nNsMLwtVmmPJVv4nMsg
-	 HX/LpyTCmGUouWIKVqar88lTLX07RK3n05x96k2A=
-Message-ID: <af65c273-70c5-4926-96e7-ab1089503286@ideasonboard.com>
-Date: Tue, 10 Nov 2026 15:58:37 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OPYmvbsb
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CAD501F0089F;
+	Tue, 10 Nov 2026 14:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794319613;
+	bh=6mdx737bcxeVcciGfuHgnMznol7+4MpQaOj9g4XVWL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OPYmvbsbYEIAyqQ66foGVr6ozvMzlKC/en38xqcdxVQU0194eo5B5cptbbZlk3FLj
+	 qjGNveKQdTK1fN7MKM+xFNGe9chMw0b0WEdx25m3+F3JSvLh1z0L9Ka8ZEIeUEbU9G
+	 C/dLvCsb8iG/f4N1k9xrHxvLk10X3p/cafIzVXoTCFJK62SV4Ky8ze+UI7VYWtxxxH
+	 CxS+KsSNb+UMi/8hIiodrdCDFOEwdfXqd0F3TH0ysqUr6TBjfzgPVAPaSLxhrx49d9
+	 TgKEVCV1O4elPHxm6ocTfStWrv/pZtE+FKVIIWtx41H5VYYtZrx84xPDQwLNgJAHcV
+	 p6vTXvGrT2tbw==
+Date: Tue, 10 Nov 2026 15:06:50 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 5/9] of: property: implement the .property_get_names()
+ fwnode operation
+Message-ID: <42haexjuvyhxznlre4wtwb6ent3epgnqn6mvj2pjxrbryvy7yt@2p7odc4trzo7>
+References: <20261104-fwnode-for-each-prop-v1-0-6e28fe1c72c4@oss.qualcomm.com>
+ <20261104-fwnode-for-each-prop-v1-5-6e28fe1c72c4@oss.qualcomm.com>
+ <auuhy40x1BMoW96-@ashevche-desk.local>
+ <7sfr4ljlwbehal3or4dmy5jxbjz6ya2lf3dq3yptr54wym5tea@eqaexflmocih>
+ <avICwdxyi-W1Y3PD@ashevche-desk.local>
+ <ab73ez55exen3ew52svsxfinwsuatppdodu2e2zp6izjwwqwwu@2imxzxwclgtl>
+ <CAHp75VcwiGHB73ny8iSvXeFdjbTKUpnXZPS5iD7NwaMcJ6q-7A@mail.gmail.com>
+ <l7ppjeoqvc6hblk52a6upei4ee2caahe2ltiur4gwig3ez7d3c@dmzzy22ixvlc>
+ <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -54,320 +75,74 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pmdomain: core: Add genpd_dev_pm_attach_by_node()
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
- Ulf Hansson <ulfh@kernel.org>
-Cc: Devarsh Thakkar <devarsht@ti.com>, linux-pm@vger.kernel.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261023-pm_attach_by_node-v1-1-4dbaccdf8b0e@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20261023-pm_attach_by_node-v1-1-4dbaccdf8b0e@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VdZpqt8PzVypQ85U1OjxszXOmCP9MKv3ozQOh-UVFnR-w@mail.gmail.com>
 
-Hi,
+On Tue, Nov 10, 2026 at 12:51:53PM +0200, Andy Shevchenko wrote:
+> On Tue, Nov 10, 2026 at 11:50 AM Bartosz Golaszewski <brgl@kernel.org> wrote:
+> > On Tue, Nov 10, 2026 at 11:12:02AM +0200, Andy Shevchenko wrote:
+> > > On Tue, Nov 10, 2026 at 11:00 AM Bartosz Golaszewski <brgl@kernel.org> wrote:
+> > > > On Mon, Nov 09, 2026 at 07:28:33PM +0200, Andy Shevchenko wrote:
+> > > > > On Mon, Nov 09, 2026 at 02:07:46PM +0100, Bartosz Golaszewski wrote:
+> > > > > > On Wed, Nov 04, 2026 at 11:21:15PM +0200, Andy Shevchenko wrote:
+> > > > > > > On Wed, Nov 04, 2026 at 03:03:47PM +0100, Bartosz Golaszewski wrote:
+> 
+> ...
+> 
+> > > > PS: is there a way of using match_string() with non-const data?
+> > >
+> > > Why? It's an input parameter, it returns an index. Whatever you
+> > > provide will be not modified.
+> 
+> 
+> > What I mean is that the following change
+> 
+> > +               ret = match_string(merged, n1, sec_props.array[i]);
+> > +               if (ret >= n1) {
+> >                         merged[count++] = sec_props.array[i];
+> >                         sec_props.array[i] = NULL;
+> >                 }
+> >
+> > Results in:
+> 
+> > drivers/base/property.c: In function ‘fwnode_property_get_names’:
+> > drivers/base/property.c:607:36: error: passing argument 1 of ‘match_string’ from incompatible pointer type [-Wincompatible-pointer-types]
+> 
+> > And I don't see a good way of working around it without doing:
+> >
+> >         match_string((const char *const)merged, n1, sec_props.array[i]));
+> >
+> > which is ugly.
+> 
+> Ah, got it! But why is the "merges" char ** and not char * const *? I
+> believe that will fix the issue.
 
-On 23/10/2026 21:16, Tomi Valkeinen wrote:
-> genpd_dev_pm_attach_by_id() and genpd_dev_pm_attach_by_name() attach a
-> virtual device to a PM domain listed in the OF node of the passed
-> device.
-> 
-> Some hardware blocks are described in a child node of a main device.
-> They have no device of their own, but they do have a PM domain of their
-> own. Neither function can attach that domain, as both parse only the OF
-> node of the device.
-> 
-> An example case is TI's display subsystem and its OLDI (LVDS)
-> transmitters:
-> 
-> dss@30200000 {
->      power-domains = <...>;
-> 
->      oldi-transmitters {
->          oldi@0 {
->              power-domains = <...>;
->          };
-> 
->          oldi@1 {
->              power-domains = <...>;
->          };
->      };
-> };
-> 
-> The OLDI TX blocks are not part of the DSS IP, but they are not quite
-> real devices either as they don't have registers of their own, and are
-> instead controlled via DSS registers.
-> 
-> Add genpd_dev_pm_attach_by_node(), which is similar to
-> genpd_dev_pm_attach_by_id() but instead of looking for the power-domains
-> from the passed device's DT node, the DT node is passed explicitly. Also
-> add a matching wrapper function dev_pm_domain_attach_by_node().
+Then you won't be able to assign dynamically allocated strings from
+prim_props and sec_props to members of "merged".
 
-Ping, any thoughts on this?
+  CC      drivers/base/property.o
+drivers/base/property.c: In function ‘fwnode_property_get_names’:
+drivers/base/property.c:601:27: error: assignment of read-only location ‘*(merged + (sizetype)((long unsigned int)i * 8))’
+  601 |                 merged[i] = prim_props.array[i];
+      |                           ^
+drivers/base/property.c:614:41: error: assignment of read-only location ‘*(merged + (sizetype)((long unsigned int)count++ * 8))’
+  614 |                         merged[count++] = sec_props.array[i];
+      |                                         ^
+drivers/base/property.c:619:16: warning: assignment discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+  619 |         *props = merged;
+      |                ^
+make[4]: *** [scripts/Makefile.build:321: drivers/base/property.o] Error 1
+make[3]: *** [scripts/Makefile.build:603: drivers/base] Error 2
+make[2]: *** [scripts/Makefile.build:603: drivers] Error 2
 
-  Tomi
+This is where we could use kstrdup_const() but we'd have to keep track
+of these strings now in error paths and that complicated things. I'll
+just keep the existing loop I have.
 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> This is a new try for managing the OLDI power domains. Previously I
-> tried using auxiliary device/driver for OLDIs, and handling the PDs the
-> normal way:
-> 
-> https://lore.kernel.org/all/20260529-beagley-ai-display-v3-12-7fefdc5d1adf%40ideasonboard.com/
-> 
-> Then I realized an issue, mentioned in
-> Documentation/driver-api/driver-model/driver.rst: "-EPROBE_DEFER must
-> not be returned if probe() has already created child devices".
-> 
-> The PD virtual devices used in this patch's approach do not hit the
-> issue as they don't get a driver, so they are not probed. The tidss
-> driver's OLDI part can then use normal pm_runtime_get/put functions to
-> manage the OLDI PDs.
-> ---
->   drivers/base/power/common.c | 27 +++++++++++++
->   drivers/pmdomain/core.c     | 97 +++++++++++++++++++++++++++++++++------------
->   include/linux/pm_domain.h   | 19 +++++++++
->   3 files changed, 117 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
-> index 9bef9248a705..a873541f9350 100644
-> --- a/drivers/base/power/common.c
-> +++ b/drivers/base/power/common.c
-> @@ -171,6 +171,33 @@ struct device *dev_pm_domain_attach_by_name(struct device *dev,
->   }
->   EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
->   
-> +/**
-> + * dev_pm_domain_attach_by_node - Associate a device with a PM domain of a DT
-> + *				  node.
-> + * @dev: The device that uses the PM domain.
-> + * @np: The DT node with the PM domain.
-> + * @index: The index of the PM domain in @np.
-> + *
-> + * Like dev_pm_domain_attach_by_id(), but the PM domain is looked up
-> + * in @np instead of the OF node of @dev.
-> + *
-> + * Unlike dev_pm_domain_attach_by_id(), @dev may already be attached to a PM
-> + * domain of its own. The driver controls the power to the PM domain through
-> + * runtime PM of the returned virtual device, or through a device link to it.
-> + *
-> + * Returns the virtual created device when successfully attached to its PM
-> + * domain, NULL in case @np has no PM domain at @index, else an ERR_PTR().
-> + * Note that, to detach the returned virtual device, the driver shall call
-> + * dev_pm_domain_detach() on it, typically during the remove phase.
-> + */
-> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
-> +					    struct device_node *np,
-> +					    unsigned int index)
-> +{
-> +	return genpd_dev_pm_attach_by_node(dev, np, index);
-> +}
-> +EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_node);
-> +
->   /**
->    * dev_pm_domain_attach_list - Associate a device with its PM domains.
->    * @dev: The device used to lookup the PM domains for.
-> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> index 052ec478dfcc..327fbd40c854 100644
-> --- a/drivers/pmdomain/core.c
-> +++ b/drivers/pmdomain/core.c
-> @@ -3462,34 +3462,16 @@ int genpd_dev_pm_attach(struct device *dev)
->   }
->   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach);
->   
-> -/**
-> - * genpd_dev_pm_attach_by_id - Associate a device with one of its PM domains.
-> - * @dev: The device used to lookup the PM domain.
-> - * @index: The index of the PM domain.
-> - *
-> - * Parse device's OF node to find a PM domain specifier at the provided @index.
-> - * If such is found, creates a virtual device and attaches it to the retrieved
-> - * pm_domain ops. To deal with detaching of the virtual device, the ->detach()
-> - * callback in the struct dev_pm_domain are assigned to genpd_dev_pm_detach().
-> - *
-> - * Returns the created virtual device if successfully attached PM domain, NULL
-> - * when the device don't need a PM domain, else an ERR_PTR() in case of
-> - * failures. If a power-domain exists for the device, but cannot be found or
-> - * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that the device
-> - * is not probed and to re-try again later.
-> - */
-> -struct device *genpd_dev_pm_attach_by_id(struct device *dev,
-> -					 unsigned int index)
-> +static struct device *genpd_dev_pm_attach_virt(struct device *dev,
-> +					       struct device_node *np,
-> +					       unsigned int index)
->   {
->   	struct device *virt_dev;
->   	int num_domains;
->   	int ret;
->   
-> -	if (!dev->of_node)
-> -		return NULL;
-> -
->   	/* Verify that the index is within a valid range. */
-> -	num_domains = of_count_phandle_with_args(dev->of_node, "power-domains",
-> +	num_domains = of_count_phandle_with_args(np, "power-domains",
->   						 "#power-domain-cells");
->   	if (num_domains < 0 || index >= num_domains)
->   		return NULL;
-> @@ -3502,10 +3484,14 @@ struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->   	if (!virt_dev)
->   		return ERR_PTR(-ENOMEM);
->   
-> -	dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
-> +	if (np == dev->of_node)
-> +		dev_set_name(virt_dev, "genpd:%u:%s", index, dev_name(dev));
-> +	else
-> +		dev_set_name(virt_dev, "genpd:%u:%s:%pOFP", index,
-> +			     dev_name(dev), np);
->   	virt_dev->bus = &genpd_bus_type;
->   	virt_dev->release = genpd_release_dev;
-> -	virt_dev->of_node = of_node_get(dev->of_node);
-> +	virt_dev->of_node = of_node_get(np);
->   
->   	ret = device_register(virt_dev);
->   	if (ret) {
-> @@ -3513,8 +3499,13 @@ struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->   		return ERR_PTR(ret);
->   	}
->   
-> -	/* Try to attach the device to the PM domain at the specified index. */
-> -	ret = __genpd_dev_pm_attach(virt_dev, dev, index, num_domains, false);
-> +	/*
-> +	 * Try to attach the device to the PM domain at the specified index.
-> +	 * Pass 0 as the num_domains when np != dev->of_node, so that the dev's
-> +	 * required OPPs are not used for the PD.
-> +	 */
-> +	ret = __genpd_dev_pm_attach(virt_dev, dev, index,
-> +				    np == dev->of_node ? num_domains : 0, false);
->   	if (ret < 1) {
->   		device_unregister(virt_dev);
->   		return ret ? ERR_PTR(ret) : NULL;
-> @@ -3525,8 +3516,62 @@ struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->   
->   	return virt_dev;
->   }
-> +
-> +/**
-> + * genpd_dev_pm_attach_by_id - Associate a device with one of its PM domains.
-> + * @dev: The device used to lookup the PM domain.
-> + * @index: The index of the PM domain.
-> + *
-> + * Parse device's OF node to find a PM domain specifier at the provided @index.
-> + * If such is found, creates a virtual device and attaches it to the retrieved
-> + * pm_domain ops. To deal with detaching of the virtual device, the ->detach()
-> + * callback in the struct dev_pm_domain are assigned to genpd_dev_pm_detach().
-> + *
-> + * Returns the created virtual device if successfully attached PM domain, NULL
-> + * when the device don't need a PM domain, else an ERR_PTR() in case of
-> + * failures. If a power-domain exists for the device, but cannot be found or
-> + * turned on, then ERR_PTR(-EPROBE_DEFER) is returned to ensure that the device
-> + * is not probed and to re-try again later.
-> + */
-> +struct device *genpd_dev_pm_attach_by_id(struct device *dev,
-> +					 unsigned int index)
-> +{
-> +	if (!dev->of_node)
-> +		return NULL;
-> +
-> +	return genpd_dev_pm_attach_virt(dev, dev->of_node, index);
-> +}
->   EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_id);
->   
-> +/**
-> + * genpd_dev_pm_attach_by_node - Associate a device with a PM domain of a DT
-> + *				 node.
-> + * @dev: The device that uses the PM domain.
-> + * @np: The DT node with the PM domain.
-> + * @index: The index of the PM domain in @np.
-> + *
-> + * Like genpd_dev_pm_attach_by_id(), but the PM domain is looked up in
-> + * @np instead of the OF node of @dev.
-> + *
-> + * The virtual device is named after @dev and @np. The required OPPs of @dev are
-> + * not linked to the PM domain.
-> + *
-> + * Returns the created virtual device if successfully attached PM domain, NULL
-> + * when @np has no PM domain at @index, else an ERR_PTR() in case of failures.
-> + * If the PM domain exists, but cannot be found or turned on, then
-> + * ERR_PTR(-EPROBE_DEFER) is returned.
-> + */
-> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
-> +					   struct device_node *np,
-> +					   unsigned int index)
-> +{
-> +	if (!np)
-> +		return NULL;
-> +
-> +	return genpd_dev_pm_attach_virt(dev, np, index);
-> +}
-> +EXPORT_SYMBOL_GPL(genpd_dev_pm_attach_by_node);
-> +
->   /**
->    * genpd_dev_pm_attach_by_name - Associate a device with one of its PM domains.
->    * @dev: The device used to lookup the PM domain.
-> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
-> index f925614aebdb..c38c90d63c02 100644
-> --- a/include/linux/pm_domain.h
-> +++ b/include/linux/pm_domain.h
-> @@ -477,6 +477,9 @@ struct device *genpd_dev_pm_attach_by_id(struct device *dev,
->   					 unsigned int index);
->   struct device *genpd_dev_pm_attach_by_name(struct device *dev,
->   					   const char *name);
-> +struct device *genpd_dev_pm_attach_by_node(struct device *dev,
-> +					   struct device_node *np,
-> +					   unsigned int index);
->   #else /* !CONFIG_PM_GENERIC_DOMAINS_OF */
->   static inline int of_genpd_add_provider_simple(struct device_node *np,
->   					struct generic_pm_domain *genpd)
-> @@ -535,6 +538,13 @@ static inline struct device *genpd_dev_pm_attach_by_name(struct device *dev,
->   	return NULL;
->   }
->   
-> +static inline struct device *genpd_dev_pm_attach_by_node(struct device *dev,
-> +							 struct device_node *np,
-> +							 unsigned int index)
-> +{
-> +	return NULL;
-> +}
-> +
->   static inline
->   struct generic_pm_domain *of_genpd_remove_last(struct device_node *np)
->   {
-> @@ -560,6 +570,9 @@ struct device *dev_pm_domain_attach_by_id(struct device *dev,
->   					  unsigned int index);
->   struct device *dev_pm_domain_attach_by_name(struct device *dev,
->   					    const char *name);
-> +struct device *dev_pm_domain_attach_by_node(struct device *dev,
-> +					    struct device_node *np,
-> +					    unsigned int index);
->   int dev_pm_domain_attach_list(struct device *dev,
->   			      const struct dev_pm_domain_attach_data *data,
->   			      struct dev_pm_domain_list **list);
-> @@ -586,6 +599,12 @@ static inline struct device *dev_pm_domain_attach_by_name(struct device *dev,
->   {
->   	return NULL;
->   }
-> +static inline struct device *dev_pm_domain_attach_by_node(struct device *dev,
-> +							  struct device_node *np,
-> +							  unsigned int index)
-> +{
-> +	return NULL;
-> +}
->   static inline int dev_pm_domain_attach_list(struct device *dev,
->   				const struct dev_pm_domain_attach_data *data,
->   				struct dev_pm_domain_list **list)
-> 
-> ---
-> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-> change-id: 20261023-pm_attach_by_node-13788662f3a1
-> 
-> Best regards,
-> --
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
+The alternative is of course relaxing match_string() or introducing a
+non-const variant or even hiding the variant behind a macro using
+_Generic(). But that's work for another series I think.
 
+Bart
