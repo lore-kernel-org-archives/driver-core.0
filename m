@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.44
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.28
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794299376;
-	b=SmwlzU57ZK+SDGaG4swRPr36/yqMPuicw160O7NCth7Zprf/Z/fIVUHFbmc6P3ljRSr1
-	 oJfCNnrY1VQ2daiSfRvyLxGzdKUXS+8id6U+VX+H3zUjcTAXg+wJg2IaPOTy4Iul5lgTU
-	 0YWUuxuJjDl0ybZlFL7me5kBq6IWd8IHJLi/jdRQAL7sUxvu35JDrEYNJ6hqhpHmrQqZl
-	 9jceVNp+fpOsgJ4RFBxrsinrR2OJfEIY/lSjqFwT+vrt6MhX1atweGIRmUnH84XKB+M+Y
-	 6oyaxUPsGhjkiIDOZPgG2at7+K1jvnkRXC8zorZ/0t3bfyRth2NKvWKEvsQFtC0fiHA==
+	t=1794299384;
+	b=dlbfykLzD+v2gtoJpz3Tp9Cv6E3NDDaT6Fscj86UoWsZT/gqnzXGclJGIyDu3gtXj59Q
+	 yw36oty0NqEi+XXYzG7VIlpItLVLWRgrphHZrayeudq/0twwkwlYN3y1RCT/2tNtJeQXL
+	 SG930DXWG2n0l2+encOg3T7lVbUAwMAJn672dEUIOpzIN/7wVz/kz6Bqg7JkhMDYN1PMZ
+	 gRWVlQ71NQFwkdktwEj6VcMwbIpf0RjeJGNqHuo5e3MbVDRvFCPPHDfACe3wbl1fRPtCZ
+	 A/4mvAw0kHEw3gegkhjQLLkvDUan8A1D+BG0rM/6KJUXbTq2aV+mZbpR99h4Uv/pNrA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794299376;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299384;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-ClientProxiedBy:MIME-Version:
@@ -24,60 +24,60 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=sMM+T5GEhu9fkfAwXt62zQyOIJEcXYyVkwTeWLursjY=;
-	b=A4zD0cOi9RMiDfEBD4DwLrhuSoXlwsAMyJMkJccBhtK9AWF1J1aRNRJkbT6Xf3MaLFZ3
-	 aVkI4FhZaJCIerY8RXRTgwWsrjFQvT1yeTiaimfJF7NAB7F0EJRkLMt2MRE2dti6mckKO
-	 2ZxhD1iDyiisFAW/7NTeiYlB9leFenk92o38jijwAHGIP7M3348011HtnHPuLWd/Qf0a7
-	 /ggyEE2zvIcaMNeerw0RDn+7ggM4gLMGxgba34tAOgQ+Zn89Y+83QHya00DqHaJMtPgYk
-	 ESigopK0W6KCM1fAr5gysSm4ODC/kN9W2UrcOx4kU0qTW7yKtYVH1foUniz2fEyt4/A==
+	bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
+	b=QLQSQOyMnxrmZZ+/KEKF1tWE/KWdz7IYnPABmoBEtmD9NoH7Aq8WwONhl+Qvo1GpBXLw
+	 Zoi5EzzJ71rZ60R/5GgCaOpd+d5YQSVsBQL/CEQa/JwPl/J6PxoqXR3ZEvylOg1IwZeJN
+	 A019CnJTaW9IF5VdTK6xbNYKAbiUOp5Yg6Ko+XafX3/a13v0/Ke8ytW1QUwJpOeOzb/Bf
+	 kUHNxZvSYr4fQomlSrSfQN2e9fZA+yNULrWpuL+5a88PfWW9qn0isI2s3ME4mrJneW/b5
+	 fEyXKIvFztOUoRYeOtXMcG+t1uGmQJzsds3yVeXwBv0/xbzzWL8G6NektZYzPslhpEQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.nxp.com;
 	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=nYroIqpW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.44
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013044.outbound.protection.outlook.com [52.101.83.44])
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=GqITv5PV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.28
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013028.outbound.protection.outlook.com [52.101.83.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9D660A262A
-	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:29:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A9D660A262A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA9660A2630
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 08:29:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADA9660A2630
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=nYroIqpW
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=GqITv5PV
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r/FJGPpC4JO7aTUvKwDlBnv5qj8dbHAw8xmJb2HKuSmVYrKcK7uM6/w7lEj20c2+T/PuVnDGgleVpUcx30DnhgLrnX5ACicvb2iWSclJKSvBZ2TuxQLaZiB0+elRuU1WWCpJhART36bew38rO3qeKBn9+E+vDg9UH5t6mn2R/k80N8YBP714smo6oxewgHclLrPhqSMgK3SWRZXFEkjzP85nMwcgBZ7F8cpvDikWRQRgQht8+guVwEYHOMqsUXim5j4b2YJOb2XTl/xqOg/lmov1Eem6LZ9gm6fvv2JJoJ9y99khFtJuUmJ4d1FBSRGmrBAiq8otrMonGC6dU8utkg==
+ b=vbK/1NKFg83IcNj4nlUVkdQycHcaU45os0hVt2GsDJhRj6CPTJSHPTwH2N0PS6ZBmObFqoFPuLCPMWoHu0Qur8MctcvyI5EKS056NKOqpjXTAiVtsEZE+KefdoHTglYXgOCR8g73t8Xh7bdWbV/gM22bfUX2haNCy8TCp5tRKccsy5XuFOYc3TSTwvRJ1SGe8um06lGtzDOneX8nHehylMphqBskt9QhYqkQp5lJ3GMZt+8jwKqFv/teseO0kr35R36xEfw0E73UfIEJFd4+kpqy9VmBZsIueAsUvN5apj6QcG0yuCGZqSNw2DBIipQrJD72Q5xvmEKB/gVbUySmFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sMM+T5GEhu9fkfAwXt62zQyOIJEcXYyVkwTeWLursjY=;
- b=zQOZwRnyC0BwzjhWQOdqxRVxkFImjvgnu5eudWtDOecSdB/463tkcCjAGZYbY+7+1FWj+fseYmy3vlmXK0IwdjLeJo+JnScXTDKtCo02MhKjeLgtJCNQsKPlXq7j67Ar7F7QvgXNactyiCNixhb/5jP9N6aocDJ7RNLDE+ITvl4l2trmIRd75YuJ7lqJPoR69JhOKx0NwyuqJ4H7CISADfZ2ccurk8iUvljojYLz8pFh2zCgw2o864jdjjSVj4wBdOGsZdR4J37tnrpJIEZAZmt7MTVxV8FbE0Sg0tZMj6q9do9uJD4lNn7b0zV6QZdK1Tyb+N0iCrV7xBpKt5LKlA==
+ bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
+ b=eqI3wRYwoY7a2AgY9ZbvQA4Ye1Jro5duRBBiBn5e6JvY7kMfyDI9yeiIq5bSz78SDbuxVI6ls7ZMIxEP6W2UJ2J/3xyfS5Qj8MWf1aH8kfj80z82OL97WGzj5hD8+nA/20PPMa8DyLLqskSUbmHyyzVumbcYX75A31L86ueT0tcwjndDHbvfWk8jg2K6P5NF8xXrOHpb21yCvuPIx/K5uZhrDQ4+/Wp6RZZtvN4K/GnsrXY42l63cicuTgDXOBEFsej+ObP05WLlenb47HOv2flJOFcLczkr+/DpYmOtbd5KYlKdEpRhb0xRd1+lC7/kByYDHkzA/wFSklDUzC+8ig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sMM+T5GEhu9fkfAwXt62zQyOIJEcXYyVkwTeWLursjY=;
- b=nYroIqpWTvhnnOK91+DNKreUyfeFPu3Aeth4fUea/lQPQ9+CioB0uLJ2GIjxf1f98n8U+P+VZKF9koiRcnvXL+34egWYWMOLUQKmIHogwr6l/yBI973HZM4ZXN6FhwLZnqhzvAPhfkYNu+Fv3hJyxQSS056VJZZmnHyk5lFKPG+1e71VNFMo25CcIfCj2yTQVtR70g6JqS13LL1++m74JKNZauj8v7mD5fJfEVwTRiVQSf5xjrsyMB3hYw04pYGLoZ/ZOfuQwapE59gZzpRIxkDC1sUYmltIkGW1z/RvbGLRc8AaSqPuQ/3rdN3i8ULNG0n5tcePFgOe8IbFf3M/hQ==
+ bh=c7hX6NPgiMXkbw4vHpOvki9EzCcN+XMYXKmh6avnXro=;
+ b=GqITv5PVzoY0JUq8T7Baxaj88DNoVHGTtISeK8uHQTI9E2oc7F71OdAJ0iS+xD3gj2qYsNrfm/tVLF4ERpb4SY2C6HluODEm/HQBjiWOvKTHffcqObt6/Hlvrdl9lS1AenxQ3cVZoJXWdYZcwMVnBQStpBamDv2SUv5ui2LlavWpsVGsTTiovnwJ9eYMGXdN5bNUAjWRo3ebDZ1Z4AQBz+8912QpSkTj6FyIwus0lEDsNDwh1Ccqo8b7cUfA2Jp7MwWrhogNNls+ZJFk8dmiUeP5U6O6hs+DjnWJVa3KQ9uLEb4+Nl4oY5h/63tewrN8yQ2ylAUoNfp73L1ZGDvIrw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com (2603:10a6:10:1e9::23)
  by FRZPR04MB12430.eurprd04.prod.outlook.com (2603:10a6:d10:1cc::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
- 2026 08:29:32 +0000
+ 2026 08:29:41 +0000
 Received: from DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb]) by DBBPR04MB7883.eurprd04.prod.outlook.com
  ([fe80::3a91:cf25:36c9:c3bb%7]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
- 08:29:32 +0000
+ 08:29:41 +0000
 From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Tue, 10 Nov 2026 16:25:28 +0800
-Subject: [PATCH 4/9] regmap: factor out regmap_set_lock()
+Date: Tue, 10 Nov 2026 16:25:29 +0800
+Subject: [PATCH 5/9] regmap: factor out regmap_init_ranges()
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-regmap-improve-v1-4-3a76b6c10ec6@nxp.com>
+Message-Id: <20261110-regmap-improve-v1-5-3a76b6c10ec6@nxp.com>
 References: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 In-Reply-To: <20261110-regmap-improve-v1-0-3a76b6c10ec6@nxp.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -88,8 +88,8 @@ To: Mark Brown <broonie@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  Peng Fan <peng.fan@nxp.com>
 X-Mailer: b4 0.16.0
-X-ClientProxiedBy: MA5PR01CA0151.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1ac::11) To DBBPR04MB7883.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI1PR02CA0023.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::19) To DBBPR04MB7883.eurprd04.prod.outlook.com
  (2603:10a6:10:1e9::23)
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -102,256 +102,299 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBPR04MB7883:EE_|FRZPR04MB12430:EE_
-X-MS-Office365-Filtering-Correlation-Id: afe7f740-994b-48c1-1b5f-08df3f04bec9
+X-MS-Office365-Filtering-Correlation-Id: dce18149-244d-41e0-633a-08df3f04c3d0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|261009223027099003|10067099003|261028144727099003|261009221727099003|11063799006|56012099006|261022075727099003|261021121427099003|261021123027099003|261022105027099003|261026140227099003|261009220027099003|261026121527099003|261009223327099003|261009221227099003|261102130727099003|261102123227099003|261102124527099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|19092799006|261009223027099003|10067099003|261028144727099003|11063799006|261021135927099003|56012099006|261021121427099003|261021123027099003|261022105027099003|261026140227099003|261026121527099003|261102123227099003|22082099003|18002099003|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	5VGOHVe8Jj40hVVfuPg3VtdBP6Ug/IewJ0UGT6cWtrarQoso1jpXjGTCYxxYFPQuXqTKmraCDkEnyy6GCG4hACs9wx0b+iXAV9iox2covohzxLsWHP5VA9D8Qa7EcKnYg97/I2SkVNaIPwto1Vv5NMj/vJS1z6iX9fxCdsW5Pu2yqwrAS1Buty3HhFxt35BWUqJ3CR8NLPSNltZhazP/VgGO4A81fF439Ku7M80uiKHmlqMJos1mhy412bVuz7L4wzqn8joJVT64NEu9/lgQb9BvjunpJc0+30psYBARIAAUiMKuGul+KvZ1HsLgJR5lCoHEPsiAG3PvmuEXOLnPc2ehvgcXBLkvRlAUq/PYjq4gHcCIyWSNrMghXgJdqrE98C/yF0eeWprhIHYE0YH1vE6HkC6TGsGSKpRkAJHnUgNDWfNV/LoHf0WOJJi5kjplL2sVrAZWAZOKU0PsAYJipMGcQOvqKWluM1Jcgx5zuK6h3mxKCM9eUqXK/3PtnDqkvoByTPIsrAAew7OEBN3kcscMIUnRzy3ntf3dUiR+keb/SsrQ9w2oxB7N/JJBykWLjtOi3Nt6uUQ+gvfssmKM9xMApVLS2zFR/MRIuN41RYsoQysWe4cNbQaUZImyJLIgU9qdCPNDQ88eGyVAuUUN70AHVLjAwtt6nr2WUmiCkPM=
+	ug7+ZLJep+zA+IgP6zk86todTVbSCpXvHSogDm2d1ZGGAh50yHKVKihuN2c0AihlH1fXZBRWwIycFaMplXxPxvHweAzARWj0BxDJ6TkbmWQRgay2kfb9xb/UX8mQoYa4Bq6mDdTPrXP50BklaekfXWpbuRKKK3H3ABd5uGKAsDv8UbAEV0PsG3fdPGbh+8XcQhsGA625NDroamMQeRC1pOrwJhIjGEfMRxIVJo7VqZl64u/foE4eXll1hcQWPiHNZoLoQcqiy+AJf30ixcmIjHW9UW0CBLc5Eng2v60ql/DHSDlsuqEBUyA9qdAOnOFD9TzP1He61MD6nTlrVK3D0NeQsU+iIC6jGDUjhzRfSmvgdDWrnt/uDHJl7bVWkqD61GyER2Mig6jukSuxaaTnflZT6v9Xyp5IdGt92CRe9ihWRSIT7CBtEtUZzHDCvPiGd8hRNcDLIfxVue0QssAxyjatNYJ1glZj0t+iej5w1b5cKCpbRrM41PhH7OxjmmWLzPWj3vJtbWyd8EJqXev8nW5Y18mTxcBQRjOQn/BgoO4RYQ8FbGFtQyTQ0ttURgLiLpN89DpT08nLk1eCvEjt+8ZEuLZXnrC+JVE/Ju3mL+31XOcsXWqzLfJbj6BGkQqRdQiL3L/7WfRsXVpfEJxayN/td2KUBG23AM7I/F55nA4=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(261009223027099003)(10067099003)(261028144727099003)(261009221727099003)(11063799006)(56012099006)(261022075727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261026140227099003)(261009220027099003)(261026121527099003)(261009223327099003)(261009221227099003)(261102130727099003)(261102123227099003)(261102124527099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7883.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(19092799006)(261009223027099003)(10067099003)(261028144727099003)(11063799006)(261021135927099003)(56012099006)(261021121427099003)(261021123027099003)(261022105027099003)(261026140227099003)(261026121527099003)(261102123227099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aC8yVWg4VklyTk00eTFsbU5vODdCUk12d1hIcWlNaFU4NVNIeGJjQWNWOWZO?=
- =?utf-8?B?OXZ1Ri9RUWEzM2VzVGNvMnhhUFBEMVZEVllyZEp5ZFl4U3RQNFE1UjZJc1k0?=
- =?utf-8?B?TC9BZ2lKMDY0aEhsdDZrcm9nd2ZzcXdLQWpaOXF6NE9BYkwvSWpsamlTWEpL?=
- =?utf-8?B?d3BMWjRqWG9PcmZIVjJWZ0JKQit3RDkxeDhCd29lcWNDQWxOTmt6NUp5MEFU?=
- =?utf-8?B?Ky9KdGRRaEZGVnlUQWFvY2FuT3kzT01rSWhxMi9LOWM1SUN5RmJ4d1JXbzIr?=
- =?utf-8?B?RkRtbmtITW0zQXNKS0NObFoxR1pPNXBKNlprb0hIRUI3VzVSK3laSWJzZFVB?=
- =?utf-8?B?WHJFSTNSb1FlOU9vUUlMT1NvUHZPcUVsYWg3VHlvMWllZFpxaUdvUThTV3Nv?=
- =?utf-8?B?MEJqVVdNOE92QkZNTlBvdHh2b1Nqci9Nbm4rTWpwd1hxNzE5VmRiZ2F3cUNZ?=
- =?utf-8?B?dzBSMk9QMElqc2x1d0hoL1FWOWY3bUVGc1ZEcStWWmdDRUk5bFM1U1lnR2ll?=
- =?utf-8?B?S3dCd3pSOGhzV2lMcGhWNzBCTk8zVDV3VlV0VjBZZFY4ZlNOcm90YnZ6ckIr?=
- =?utf-8?B?VVp0QU1LV3NPNExVdGh2bURxcWJNdWQyeC8zQ1FWamYwU0hiR1ZvV0dCYWR6?=
- =?utf-8?B?VlBtU1EzWjF3dmxGa3F3aGw4NXhVd295VXIySFZqQ1QvM1BEdkpva3FQSjBB?=
- =?utf-8?B?WGtuY3JKMkNxTGdGbDd6VlVPeW5lL2lKaUQ0YnI1eG55WjRqcmhHK1NWaDVu?=
- =?utf-8?B?UW0ra1dzQnl2c2tiWWprNHNwRHVTSjB2bFhMUGpuY2lvOVg1cStFMXA2QzZn?=
- =?utf-8?B?blpLdjVwYUlaNmF5QkhjZnVqT1FXWWdCTjlYbW1mNXRiRmQwNmIrL0VxY2tV?=
- =?utf-8?B?NlVON01qaGR3d2ozcU15a1o3c0hLbGZYN09vcGpsdnFHQ1A0NXVrWVRGejhQ?=
- =?utf-8?B?dklRQjR5TjBSVll4c3pRSkt2MGR3UVF1VDM5cm9GR0RlQzFhNG1NQXNmS09Z?=
- =?utf-8?B?c01sWldyRFJTWTkrZkVZSmpML2ZtZ2lrQWFZM3JjNHdXanpYUFhFbTEzeWdy?=
- =?utf-8?B?MFpxNVlvRHlqUHJuUG54bVgvT2xDNi9QNFUzTWI4cS93WU13YVZTMkFRT2Uv?=
- =?utf-8?B?dERyR0Y1RXVCNm8zL3ZIMWN1RnRvL0ZHT0tnWU9GNWpHRjNsTmcvdFFPVGxt?=
- =?utf-8?B?UDdwWEtFRUYxMjg5TkxqNG95bE1PMjNNdnQxc2c0UFhGNnV6N1MrbXJ5bDFv?=
- =?utf-8?B?T1kvNXh3cm9sbG1jZ0s4RHhxeTBzakNjUVJDVVFaQ3lVWFpWWFpHcTF1bTVH?=
- =?utf-8?B?MjA1UHBNNTBlbjEzMEx2SXRuY2doZytqSk9Wc0o3QjBmTHBMNzAxQ2p5a0pG?=
- =?utf-8?B?ZEE4Mm5TakJ1ZkNHbHpuL01vWU5iSkg2L0xSY3VvTS81blhZcml4eTRZODFC?=
- =?utf-8?B?Y1RJamo4K1VDeVloVy9GeHMzdTdJR2pPV2VvbzV1WStFeHVtTE9ld0d1Z21y?=
- =?utf-8?B?K05HcEJsemJDckx2UFBKTkR3REhwZUdMc2t3NFc3UFFGNHo5Z0lRbGdPU1NT?=
- =?utf-8?B?QlBhdzlXR05sTHZoNE02ZkF2ZVl3aXZJcHBTa2lmVVVnTk5KTVpFMTJYSW5E?=
- =?utf-8?B?YVVwazNmSDdyOWk3NGFFZjczYUFudkRKS29iNXAveU1NOFVEL3VwTERDQkMz?=
- =?utf-8?B?OTlVOGRjamRtTkQrcDZUZmhLbHpFOXF3ZS9EbllnNmt5UVdDQkthNU43S09a?=
- =?utf-8?B?WkY4MFVpYW96eHFkczQydkRKcFVTMndTR2s5M0ExcVJBTjhvU1Q5bW1MUVE0?=
- =?utf-8?B?VXcySldqd0VPUGVINk82dUdzSHhOalI3eWI2S3ZTNG1ZQXdkUFR2NEdBTnFE?=
- =?utf-8?B?TGhuUkljY0VISUE2aUZvcjNNNEVvQVpVMUp1aG4zNy9xWVpJKzVZY3ArWkJS?=
- =?utf-8?B?WFU3OThnd3h4ZHRyQ0VDek91dFVjR2tIZ1Jlcm1nWldVVnd6KzRqWkFMcENF?=
- =?utf-8?B?R3UxVUp0WW5DZW11VmdXbHBsVFJ4U1FWV0tJUTBBNDFpQkh3aFRMQUlKZnE5?=
- =?utf-8?B?TGFDa05lMmo4OFVzb3FvVkVSRmZsVWFaZjJkdG1ZR2lnMi9Xb3Z2MWw3ajRy?=
- =?utf-8?B?MG9YQm9XcUNhUC9GdWVVWjFqZFBwNmo0WDRlYXBCMmJCWGN0NldMRkxHblAv?=
- =?utf-8?B?MHRHbFYxL2cvSnh3enVEOHBvamJMbWorWDJKZkxDZG0vZUtiRU9oT0VjTHJn?=
- =?utf-8?B?OWV3S25nbmpwdHM3SWZlUlRITGhHTGpHR2FlVldSZllybzlPdk1WSk83WDE5?=
- =?utf-8?B?Z2NybzYyU3JTYW4wbnlWR0w0bGN2K2t0MGhTZElCOGFCNmZpbkxlUGwyTjA4?=
- =?utf-8?Q?pvOX9+zRWOFnzNnvXfxGmEzcP47FHhtmbr+S0?=
+	=?utf-8?B?R0lKN3ZFMDhuRGhielFieUlxKzJvSXNiR25UdjZWN1RJSyt5V1FONC9xYzd0?=
+ =?utf-8?B?aW1tZ0NiVWZ0dGh1anpqdUQySjdwYlhKcy9JMGNPcXhvWU0zMU5NdkNvU3E1?=
+ =?utf-8?B?QW5lM0VDNGVuVGhtNmtHNDhxTlhGRVd2dU51WGh0WWFzUUF3Umlud3BrT2hs?=
+ =?utf-8?B?TE9lR1U4KzA0YldWbFp5OGJtb0hKdXlBVGl6bnZJNWNjcXdxM3FGa2xjM2dt?=
+ =?utf-8?B?YUpWVUNyYk4zZnRCRWxEMUU5TzJ6SnRrdGc1MGtNY25iUFAycVJ4SER6QVE2?=
+ =?utf-8?B?dmxKb2taVzk2WHVuTHN4aDRqMWIvMUdOZTZBRVprRnhJVVpIWDV3UjFLQnVR?=
+ =?utf-8?B?NXFFeFV3ZHNZVHpmV2U1WGlJdXdZOXEycFZtdmRISElXb0hUd1drMUtmbGJx?=
+ =?utf-8?B?alArR0ExVzlIYi9jaDdsRVNkSmtGM2xHVDBNc01meTFWMUdWbzNkZkV5SHZC?=
+ =?utf-8?B?RnAyWVhIdEFaZHlYTHgzb1NPVU1QYndENW9KRTY5N3d6a2dGYXpHbU1kZ3Ru?=
+ =?utf-8?B?VHVVQkptcUlnWHZYTmlKaUdycTN0Ky9aUjRxb09xVExxRDMyd05GSmprbm1N?=
+ =?utf-8?B?OThnVkxkL2ZoUTMxQVhNdE1zN1VJRm9tOU5mMXhwRWMyYXpVNlE5Si9YS3ph?=
+ =?utf-8?B?TWFvQW9WRUd5ZVJpQ1JFRytVRm8zc0MvYkhhVTN6elVSMUlqQkY2bU9yeUFJ?=
+ =?utf-8?B?a0wwamxscTZYajMvMXVKVXd6WjZwcC9XeXA5VU1MYmZ0elEwUGxVajl3YzRl?=
+ =?utf-8?B?bFIzQUZKTWUxRzhPTTJHUGNsYjNVUHVSNlJkdTQxUnRocGtWQXJjM0g3dmQ4?=
+ =?utf-8?B?VXc3QklxY0trcW5DSkRXZFQxMTNlQlE2NWRCRmRvWGJ3SmZkZG02SFN0dXR0?=
+ =?utf-8?B?K3Bid2dkbnh6dThoZjk2bGlZSGo5NmtGQ0E3b1IvYnZ2OGpUTlZ0TnJoVkpH?=
+ =?utf-8?B?UmFoVm9JaDNBME15YmZrOVdmZnFQVUovbXR3YVQvR0tnSTA3NjRlVVdhUW9j?=
+ =?utf-8?B?NGJqRStlM3dIay9LMEc2MzBYdExWYURWci9rQXpic1cvSnRxR1RLaFU0VXd5?=
+ =?utf-8?B?Um5sNDlYSXc1MXNNR2lER1lGNUxHbXhSdDd6eUxaL3AyRWU4Nkxrd1dUalQ0?=
+ =?utf-8?B?RlVaMTQ2UEQ0TVJvbmhQNThpL1dwbmsyaVMycWw2ci9YUTdkckkvNnMyU2cw?=
+ =?utf-8?B?ZUtkbExZSzZBcU01ZzVZN0RjME91L0FCZVdrd1k2eVdzYW1VS2dtYm1pdFNJ?=
+ =?utf-8?B?ZVA0NUVsNzJBSWZaQm0xWTZtakhpUFpOa3ZWS0FLVFc0QWdjUG5qYmFLSFBr?=
+ =?utf-8?B?bFdMK0hkdm9OZVVGUm1BT2o1NkJ0NmFkK1dLZ1NCYkhncjRUU0FyNXpnVm5W?=
+ =?utf-8?B?VmFETytSVUpvQVR4L3E4eHpMRHBPL2Q1RWh1cFFzVDI4T0hTcytSRWVWbHVG?=
+ =?utf-8?B?VWFuLzQvS0w0MjVYRHkwNW53MHBrREI1ZDdFVXFZdXhBblJXUDRmcVR6VVpC?=
+ =?utf-8?B?bFBuYWJjS1JDM0V1ZzZIbWFGS3ArL1N1SE5YUWhrWnNIL2hIbjdvM2d2NWtP?=
+ =?utf-8?B?MFU0azFscHJMVUYxT05yS1l5Z3RhM2xpdWh5dTMzNS9IYStiTGhmUWVsTlBl?=
+ =?utf-8?B?dE54M0ErNE5TN2wxc2lFOE9BRkJTRFZibFlFVEhWdzI1anh0eHhPMjdvNkk5?=
+ =?utf-8?B?QzNPbnRIcGhIbDVsbmhtRVNwcHZ1WmhMUVY1UUJXZUxXR1hzZk8vUVJLMEtU?=
+ =?utf-8?B?OXBLbEYydEQ2V3UrZWxBZGUvQmNvUkY4anNXYXBkUnBCM1diNm9CTHkyS3U1?=
+ =?utf-8?B?TnFQWnNOVWI0TnlrNSttMGh1THNFZ2YvRW90VW53WXF1OVlibmJrQ2VMcjB6?=
+ =?utf-8?B?U1l6cFhUd096WlU4N2p1cEF4a1dyMytaRDBZRU5WVGs2UjRpeXZZcUM5RFdQ?=
+ =?utf-8?B?TjkyNUxMcFhCMzhobGpyWmF1VGcwQVp6THVCcVA5OTlTY0NWSWxXbVd6MmEr?=
+ =?utf-8?B?VUVBNFdiM1Q0Z25DWHU3VndLbFlBTmhlL25SYWtTVHVheE5yK2ErN0s2NnN0?=
+ =?utf-8?B?ZGprdjlxNzBpSW0yVWZIekU1bXVvcGNKTzNZQkNON2lBN25zWTFQUzZOU0lI?=
+ =?utf-8?B?QXh2WnVjTFViVlNpUjNock5tbUtvUFc3eTRsVVZzdC91NEt6WnZTT0lHL1Jj?=
+ =?utf-8?B?WmlIdG5NRUUvK2ozeERkNFd0WElTQjV1ZEFVaGxuQklYcm5KS1lWcW9iOTBZ?=
+ =?utf-8?B?UXJSSXJMWUQvUlQ5Z3VxdWRWZzJsQ3lmZ1JIZ2dna1htcUV2QUlTNnhRTnkx?=
+ =?utf-8?B?NHBYQXVZanFHenVMYlNyT1dBOSsyNXBmTmg0MlhIV0ZaQloydFV6RXRsaUZt?=
+ =?utf-8?Q?LfJNPNX2CleL5tuRng0e8V37f1nUTcjNUq/eu?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afe7f740-994b-48c1-1b5f-08df3f04bec9
+X-MS-Exchange-CrossTenant-Network-Message-Id: dce18149-244d-41e0-633a-08df3f04c3d0
 X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7883.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:32.6674
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 08:29:41.1638
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vVMF7cc3WjHVJ49FaFQkUdPhrw60d8uEnaZBGnk0IfrLSNZR+jvaAIH6heRntkyamUJA/uU6fu8sBARNAlDltGNwUvp220Ex5HBJUCgPq801sMfYrg/OQ88f2lSPcX/O
+X-MS-Exchange-CrossTenant-UserPrincipalName: LZmIKy2kYjQq4L9Iovpk5mjtjUAdYwVYsDJdEFfFaVJlkdUcz90nSMCu3JzSPPS+mnmwdaVo2OjEJvTEzoJ6IGLT3/Ytn5Eu14NW6reMP/wHED9r3wAxULVGoG//vQTp
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR04MB12430
 
 From: Peng Fan <peng.fan@nxp.com>
 
-The locking scheme selection in __regmap_init() is a self contained
-~60 line if/else ladder covering six cases: locking disabled, caller
-supplied callbacks, hardware spinlock, raw spinlock, spinlock and
-mutex. It has no interaction with the rest of the initialisation
-sequence beyond the map and config pointers.
-
-Move it into regmap_set_lock(). The only error case, a failed
-hwspin_lock_request_specific(), now returns -ENXIO to the caller
-instead of jumping to err_name directly, and each branch returns
-early rather than falling through the ladder.
-
-No functional change.
+Move the register range validation and rbtree construction loop out of
+__regmap_init() into a dedicated regmap_init_ranges() helper. This is a
+mechanical code movement with no functional change apart from fixing the
+block comment style of an existing comment that checkpatch flags when it
+appears in the diff context.
 
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/base/regmap/regmap.c | 134 +++++++++++++++++++++++++------------------
- 1 file changed, 77 insertions(+), 57 deletions(-)
+ drivers/base/regmap/regmap.c | 192 +++++++++++++++++++++++--------------------
+ 1 file changed, 101 insertions(+), 91 deletions(-)
 
 diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index dff6511ab50e..b079921287c2 100644
+index b079921287c2..c554079835f5 100644
 --- a/drivers/base/regmap/regmap.c
 +++ b/drivers/base/regmap/regmap.c
-@@ -673,51 +673,33 @@ enum regmap_endian regmap_get_val_endian(struct device *dev,
+@@ -748,6 +748,104 @@ static int regmap_set_lock(struct regmap *map, const struct regmap_config *confi
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(regmap_get_val_endian);
  
--struct regmap *__regmap_init(struct device *dev,
--			     const struct regmap_bus *bus,
--			     void *bus_context,
--			     const struct regmap_config *config,
--			     struct lock_class_key *lock_key,
--			     const char *lock_name)
-+/*
-+ * Select the locking scheme for the map. The fast_io argument tells whether
-+ * the map has to be usable from atomic context.
-+ */
-+static int regmap_set_lock(struct regmap *map, const struct regmap_config *config,
-+			   bool fast_io, struct lock_class_key *lock_key,
-+			   const char *lock_name)
- {
--	struct regmap *map;
--	bool fast_io;
--	int ret = -EINVAL;
--	enum regmap_endian reg_endian, val_endian;
--	int i, j;
--
--	if (!config)
--		goto err;
--
--	map = kzalloc_obj(*map);
--	if (map == NULL) {
--		ret = -ENOMEM;
--		goto err;
--	}
--
--	ret = regmap_set_name(map, config);
--	if (ret)
--		goto err_map;
--
--	ret = -EINVAL; /* Later error paths rely on this */
--
--	fast_io = (bus && bus->fast_io) || config->fast_io;
--
- 	if (config->disable_locking) {
- 		map->lock = map->unlock = regmap_lock_unlock_none;
- 		map->can_sleep = config->can_sleep;
- 		regmap_debugfs_disable(map);
--	} else if (config->lock && config->unlock) {
-+		return 0;
-+	}
++/* Validate config->ranges and build the range rbtree. */
++static int regmap_init_ranges(struct regmap *map, const struct regmap_config *config)
++{
++	int i, j;
 +
-+	if (config->lock && config->unlock) {
- 		map->lock = config->lock;
- 		map->unlock = config->unlock;
- 		map->lock_arg = config->lock_arg;
- 		map->can_sleep = config->can_sleep;
--	} else if (config->use_hwlock) {
-+		return 0;
-+	}
++	map->range_tree = RB_ROOT;
 +
-+	if (config->use_hwlock) {
- 		map->hwlock = hwspin_lock_request_specific(config->hwlock_id);
--		if (!map->hwlock) {
--			ret = -ENXIO;
--			goto err_name;
--		}
-+		if (!map->hwlock)
-+			return -ENXIO;
- 
- 		switch (config->hwlock_mode) {
- 		case HWLOCK_IRQSTATE:
-@@ -735,33 +717,71 @@ struct regmap *__regmap_init(struct device *dev,
- 		}
- 
- 		map->lock_arg = map;
--	} else {
--		if (fast_io) {
--			if (config->use_raw_spinlock) {
--				raw_spin_lock_init(&map->raw_spinlock);
--				map->lock = regmap_lock_raw_spinlock;
--				map->unlock = regmap_unlock_raw_spinlock;
--				lockdep_set_class_and_name(&map->raw_spinlock,
--							   lock_key, lock_name);
--			} else {
--				spin_lock_init(&map->spinlock);
--				map->lock = regmap_lock_spinlock;
--				map->unlock = regmap_unlock_spinlock;
--				lockdep_set_class_and_name(&map->spinlock,
--							   lock_key, lock_name);
--			}
-+		return 0;
-+	}
++	for (i = 0; i < config->num_ranges; i++) {
++		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
++		struct regmap_range_node *new;
 +
-+	if (fast_io) {
-+		if (config->use_raw_spinlock) {
-+			raw_spin_lock_init(&map->raw_spinlock);
-+			map->lock = regmap_lock_raw_spinlock;
-+			map->unlock = regmap_unlock_raw_spinlock;
-+			lockdep_set_class_and_name(&map->raw_spinlock,
-+						   lock_key, lock_name);
- 		} else {
--			mutex_init(&map->mutex);
--			map->lock = regmap_lock_mutex;
--			map->unlock = regmap_unlock_mutex;
--			map->can_sleep = true;
--			lockdep_set_class_and_name(&map->mutex,
-+			spin_lock_init(&map->spinlock);
-+			map->lock = regmap_lock_spinlock;
-+			map->unlock = regmap_unlock_spinlock;
-+			lockdep_set_class_and_name(&map->spinlock,
- 						   lock_key, lock_name);
- 		}
--		map->lock_arg = map;
--		map->lock_key = lock_key;
-+	} else {
-+		mutex_init(&map->mutex);
-+		map->lock = regmap_lock_mutex;
-+		map->unlock = regmap_unlock_mutex;
-+		map->can_sleep = true;
-+		lockdep_set_class_and_name(&map->mutex, lock_key, lock_name);
- 	}
- 
-+	map->lock_arg = map;
-+	map->lock_key = lock_key;
++		/* Sanity check */
++		if (range_cfg->range_max < range_cfg->range_min) {
++			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
++				range_cfg->range_max, range_cfg->range_min);
++			return -EINVAL;
++		}
++
++		if (range_cfg->range_max > map->max_register) {
++			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
++				range_cfg->range_max, map->max_register);
++			return -EINVAL;
++		}
++
++		if (range_cfg->selector_reg > map->max_register) {
++			dev_err(map->dev,
++				"Invalid range %d: selector out of map\n", i);
++			return -EINVAL;
++		}
++
++		if (range_cfg->window_len == 0) {
++			dev_err(map->dev, "Invalid range %d: window_len 0\n",
++				i);
++			return -EINVAL;
++		}
++
++		/*
++		 * Make sure that this register range has no selector
++		 * or data window within its boundary.
++		 */
++		for (j = 0; j < config->num_ranges; j++) {
++			unsigned int sel_reg = config->ranges[j].selector_reg;
++			unsigned int win_min = config->ranges[j].window_start;
++			unsigned int win_max = win_min +
++					       config->ranges[j].window_len - 1;
++
++			/* Allow data window inside its own virtual range */
++			if (j == i)
++				continue;
++
++			if (range_cfg->range_min <= sel_reg &&
++			    sel_reg <= range_cfg->range_max) {
++				dev_err(map->dev,
++					"Range %d: selector for %d in window\n",
++					i, j);
++				return -EINVAL;
++			}
++
++			if (!(win_max < range_cfg->range_min ||
++			      win_min > range_cfg->range_max)) {
++				dev_err(map->dev,
++					"Range %d: window for %d in window\n",
++					i, j);
++				return -EINVAL;
++			}
++		}
++
++		new = kzalloc_obj(*new);
++		if (new == NULL)
++			return -ENOMEM;
++
++		new->map = map;
++		new->name = range_cfg->name;
++		new->range_min = range_cfg->range_min;
++		new->range_max = range_cfg->range_max;
++		new->selector_reg = range_cfg->selector_reg;
++		new->selector_mask = range_cfg->selector_mask;
++		new->selector_shift = range_cfg->selector_shift;
++		new->window_start = range_cfg->window_start;
++		new->window_len = range_cfg->window_len;
++
++		if (!_regmap_range_add(map, new)) {
++			dev_err(map->dev, "Failed to add range %d\n", i);
++			kfree(new);
++			return -EINVAL;
++		}
++
++		if (map->selector_work_buf == NULL) {
++			map->selector_work_buf =
++				kzalloc(map->format.buf_size, GFP_KERNEL);
++			if (map->selector_work_buf == NULL)
++				return -ENOMEM;
++		}
++	}
 +
 +	return 0;
 +}
 +
-+struct regmap *__regmap_init(struct device *dev,
-+			     const struct regmap_bus *bus,
-+			     void *bus_context,
-+			     const struct regmap_config *config,
-+			     struct lock_class_key *lock_key,
-+			     const char *lock_name)
-+{
-+	struct regmap *map;
-+	bool fast_io;
-+	int ret = -EINVAL;
-+	enum regmap_endian reg_endian, val_endian;
-+	int i, j;
-+
-+	if (!config)
-+		goto err;
-+
-+	map = kzalloc_obj(*map);
-+	if (map == NULL) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
-+
-+	ret = regmap_set_name(map, config);
+ struct regmap *__regmap_init(struct device *dev,
+ 			     const struct regmap_bus *bus,
+ 			     void *bus_context,
+@@ -759,7 +857,6 @@ struct regmap *__regmap_init(struct device *dev,
+ 	bool fast_io;
+ 	int ret = -EINVAL;
+ 	enum regmap_endian reg_endian, val_endian;
+-	int i, j;
+ 
+ 	if (!config)
+ 		goto err;
+@@ -1076,96 +1173,9 @@ struct regmap *__regmap_init(struct device *dev,
+ 
+ skip_format_initialization:
+ 
+-	map->range_tree = RB_ROOT;
+-	for (i = 0; i < config->num_ranges; i++) {
+-		const struct regmap_range_cfg *range_cfg = &config->ranges[i];
+-		struct regmap_range_node *new;
+-
+-		/* Sanity check */
+-		if (range_cfg->range_max < range_cfg->range_min) {
+-			dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
+-				range_cfg->range_max, range_cfg->range_min);
+-			goto err_range;
+-		}
+-
+-		if (range_cfg->range_max > map->max_register) {
+-			dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
+-				range_cfg->range_max, map->max_register);
+-			goto err_range;
+-		}
+-
+-		if (range_cfg->selector_reg > map->max_register) {
+-			dev_err(map->dev,
+-				"Invalid range %d: selector out of map\n", i);
+-			goto err_range;
+-		}
+-
+-		if (range_cfg->window_len == 0) {
+-			dev_err(map->dev, "Invalid range %d: window_len 0\n",
+-				i);
+-			goto err_range;
+-		}
+-
+-		/* Make sure, that this register range has no selector
+-		   or data window within its boundary */
+-		for (j = 0; j < config->num_ranges; j++) {
+-			unsigned int sel_reg = config->ranges[j].selector_reg;
+-			unsigned int win_min = config->ranges[j].window_start;
+-			unsigned int win_max = win_min +
+-					       config->ranges[j].window_len - 1;
+-
+-			/* Allow data window inside its own virtual range */
+-			if (j == i)
+-				continue;
+-
+-			if (range_cfg->range_min <= sel_reg &&
+-			    sel_reg <= range_cfg->range_max) {
+-				dev_err(map->dev,
+-					"Range %d: selector for %d in window\n",
+-					i, j);
+-				goto err_range;
+-			}
+-
+-			if (!(win_max < range_cfg->range_min ||
+-			      win_min > range_cfg->range_max)) {
+-				dev_err(map->dev,
+-					"Range %d: window for %d in window\n",
+-					i, j);
+-				goto err_range;
+-			}
+-		}
+-
+-		new = kzalloc_obj(*new);
+-		if (new == NULL) {
+-			ret = -ENOMEM;
+-			goto err_range;
+-		}
+-
+-		new->map = map;
+-		new->name = range_cfg->name;
+-		new->range_min = range_cfg->range_min;
+-		new->range_max = range_cfg->range_max;
+-		new->selector_reg = range_cfg->selector_reg;
+-		new->selector_mask = range_cfg->selector_mask;
+-		new->selector_shift = range_cfg->selector_shift;
+-		new->window_start = range_cfg->window_start;
+-		new->window_len = range_cfg->window_len;
+-
+-		if (!_regmap_range_add(map, new)) {
+-			dev_err(map->dev, "Failed to add range %d\n", i);
+-			kfree(new);
+-			goto err_range;
+-		}
+-
+-		if (map->selector_work_buf == NULL) {
+-			map->selector_work_buf =
+-				kzalloc(map->format.buf_size, GFP_KERNEL);
+-			if (map->selector_work_buf == NULL) {
+-				ret = -ENOMEM;
+-				goto err_range;
+-			}
+-		}
+-	}
++	ret = regmap_init_ranges(map, config);
 +	if (ret)
-+		goto err_map;
-+
-+	ret = -EINVAL; /* Later error paths rely on this */
-+
-+	fast_io = (bus && bus->fast_io) || config->fast_io;
-+
-+	ret = regmap_set_lock(map, config, fast_io, lock_key, lock_name);
-+	if (ret)
-+		goto err_name;
-+
- 	/*
- 	 * When we write in fast-paths with regmap_bulk_write() don't allocate
- 	 * scratch buffers with sleeping allocations.
++		goto err_range;
+ 
+ 	ret = regcache_init(map, config);
+ 	if (ret != 0)
 
 -- 
 2.51.0
