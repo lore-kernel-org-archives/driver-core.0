@@ -1,66 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794324844;
-	b=WjRQLWeMwP+rngnD4A4rR4GBQuwNgn1PpXRelE6u3lLniyPdY+/R2bZUNCupJOosaNNe
-	 HI8WWQ1FC8iDEGWQnJKYRsWTwQfz7C1vMMqyd+ZmzNx7aHnNz08UsgKcJ5e/hSBqpo92i
-	 To4bk8/YXiLrOUj+H+Kn5ZWVZkRjTlxlU2vLU0B0jvVgD9AemWkoebe55uKgC7vZpVC8K
-	 ndCGvMnNV2ekQQHK+6e+bhZi4cxkZE0abg0y9TZ7VYZ3sWk9Dvxmefw/uXOXjMekksgDF
-	 gre+Y3I4+GEHdHbKLYQ59hSW230ltXgKgPqdqf+feQGeU3yzbRW//ABN4mJfvEWf1rA==
+	t=1794325695;
+	b=eGrW6eap4Crsii1i1ZS0GYQYWyG2YPt2VIMmDFXFJrtknikktiFsGDzApCgSdTLo1ETg
+	 lTpy9ygf6+VsS9FulB/lBdfHIPRGf6pU5y2eY7M74cDGVBiimNFvKSL+SK0Fo1W3lQGKo
+	 y1jGQvKFgISwMAehRsQ/U8HbjqmlWM0gvWoG2PI8P+nDH/Y6gY0sIY0mXWmbnv0MnsYWk
+	 S/CeNq6V/Flw7qk49uhcSlqfxFwbp/iC341Df4VAQjmlAP104dKroOk3CPdhCPSbZ/JIM
+	 xLL5agnepa3xmsk0jKpb/VvcsUWIyJEJZgT0bIG2Q/Tqfq9/c/x2k3r7ZBLgxUekBDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794324844;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=suPwDnEQ4Nuqw9vmAHzmrX5geUBzqPwGK0H7vf0Futs=;
-	b=xcrL5gJWeY/qodJPLAkgKQc9duuWEEN0f/c/nzGgTq2LdLPU9K7f8o1+raYlWJb7l2sN
-	 P/n6n//e5niKMeNqzcf8De8ngdOehLs8HVEA+y3zZ9nZrboNH4dTBE7DKcuFaYN88/FM9
-	 QSr9r+3wTzcxCi8HqH3Yg8vAQsK/W6MPfx0iiKlwpaUT3MMS6P/j6qvEadl6jK7hK/Rix
-	 MKdWsALgPZK+aKfBpmxJCNZLFgTC8Knsshm/1UrWpKMTmHuDacl8EhWsy6NhT8E5O7FeS
-	 5gN56otuO/nDnHl8NQzqetqLs9Inicbr0IhazHW2pJGBAqMrEztzGyiHBaVtlPuPTMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794325695;
+	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:X-HE-Tag:
+	 X-HE-Meta;
+	bh=UAwyQ/bEfICw1lHx5rCY/pV9EvLuRsJGgBLXgqR0Hi0=;
+	b=GHPinI7e0bw5bSObUUcFmn/13zF4Ps+CpqeuyjHKtPCuvi7Nd+JvJuAeSV3q7nuEgOq0
+	 AxnhwBNYWxvDFfW9RM7r63K6CK2UBJvz7xL2DEHoDxpKQPIVfxA+84aG6s+hz5sh3No6x
+	 E5CmpowwMsMiZZ5uUO8YXK/PPtFEMPlFhS+C5PDGjstv1kHxybgMdJwTUyNwHQZh1HlBi
+	 whJqkEdvisTBvfwlxZzWrpo6MWN+kjX1N9/7iRYixJNoUIgH8r1R8+mJVB7DoMlDoIf2I
+	 NhOUSQ7662jFGLPFzkELCT/c8StYKxmV9FxM5pFcds/JtcjDYqeV6an0y10nUOoWFYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GMMDR55l;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=perches.com;
+	spf=pass smtp.mailfrom=perches.com;
+	arc=none smtp.remote-ip=216.40.44.17
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F70606A33B;
-	Tue, 10 Nov 2026 15:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GMMDR55l
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BC81F008A6;
-	Tue, 10 Nov 2026 15:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794324844;
-	bh=suPwDnEQ4Nuqw9vmAHzmrX5geUBzqPwGK0H7vf0Futs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GMMDR55lRHfWeXagXOdigkIRL7+nf5KxAXntF9PRcNLgt0f9VlLELaK20V8rAMfA3
-	 m+8Ky4bX+D0FZT4IM9fPzhXUbSccvjptmMwKMj5IxWVR+2J3QHegPebmaTpTI/nKlS
-	 o4fPFBwlKnofG07NUcr0jHr1aQnYRvWf+tiaXrBSxdyUlLVcbVKuhXqLH2XKvU6+rk
-	 c8hYb2y8o6zBBzqqTruuosv1Er8tEpz37somlOdHWzjzGgI/m7p07WLyKbE15q+tsE
-	 Qpa6EK/uyVWnr5xLptw9qYHvmUyDoaam2T/4/RYImfDBEvRO+mmcqwKJE6/Y90Idip
-	 Sgo9lpr/XkkKA==
-Date: Tue, 10 Nov 2026 16:33:56 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-hardening@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Alejandro Colomar <alx@kernel.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: [PATCH v3 5/5] string: Make strprefix() const-qualifier-generic
-Message-ID: <35bf6672f84f07de3f40e8db9e7fcfd643894fec.1794323750.git.alx@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA329606A31C
+	for <driver-core@lists.linux.dev>; Tue, 10 Nov 2026 15:48:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA329606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id C9921A85BC;
+	Tue, 10 Nov 2026 15:48:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 679516000A;
+	Tue, 10 Nov 2026 15:47:56 +0000 (UTC)
+Message-ID: <e7b48186a65a759935fdfdc2003b266d05ee2d4c.camel@perches.com>
+Subject: Re: [PATCH v3 1/5] string: Add strprefix(), and deprecate
+ str_has_prefix()
+From: Joe Perches <joe@perches.com>
+To: Alejandro Colomar <alx@kernel.org>, linux-hardening@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, "Maciej W. Rozycki"	
+ <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, Andreas
+ Schwab	 <schwab@linux-m68k.org>, Andy Shevchenko <andy@kernel.org>, Bartosz
+ Golaszewski	 <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, Danilo
+ Krummrich	 <dakr@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Johan Hovold
+ <johan@kernel.org>, Kees Cook <kees@kernel.org>, Laurent Pinchart	
+ <laurent.pinchart@ideasonboard.com>, Len Brown <lenb@kernel.org>, Linus
+ Torvalds <torvalds@linux-foundation.org>, Linus Walleij
+ <linusw@kernel.org>, Namhyung Kim	 <namhyung@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Rob Herring	 <robh@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Saravana Kannan	 <saravanak@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi	 <zanussi@kernel.org>,
+ linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Bartosz Golaszewski	
+ <bartosz.golaszewski@oss.qualcomm.com>
+Date: Tue, 10 Nov 2026 07:47:55 -0800
+In-Reply-To: <556766412884389a7cecfe6affcc9fa3a78f9807.1794323750.git.alx@kernel.org>
 References: <cover.1794323750.git.alx@kernel.org>
+	 <556766412884389a7cecfe6affcc9fa3a78f9807.1794323750.git.alx@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Post: <mailto:driver-core@lists.linux.dev>
@@ -70,83 +76,28 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:driver-core+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2akalsv6evdjykkq"
-Content-Disposition: inline
-In-Reply-To: <cover.1794323750.git.alx@kernel.org>
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 679516000A
+X-Stat-Signature: jfwhutdpd88zfz37tr54rxpcmsbdz7uh
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+itX/azYWscfSefJ1cEeZtVDBix6JdnqE=
+X-HE-Tag: 1794325676-569192
+X-HE-Meta: U2FsdGVkX185pC9GD+XhwDY8fHTdpb4bEWMa7jC2vmoDxUm1jtR0t65c4Gtf7cyCvm9M4TppdazpgmUQRhwjk/CxFnV/hUKlqniGchOmsyNAb16mfHvFATFnXjIooXXdQQXJSnIIkhegnkJAYKeuTiaN4ixgIMtRnua1HUa4VNEpVGqk/i1+umqDu0u8ZEWjUZgW4IlcCejQBkAdglRIFYA2fLf73M2AoS28U821DoGSjmwiZ4FLuuVwkNB16ewyGLJT0BKECphGhHwwugANfTpnxmrvKOdIzCMJ8eS+rI0QIx/MTX0a6tNRWuLtWQfa
 
+On Tue, 2026-11-10 at 16:33 +0100, Alejandro Colomar wrote:
+> As Bartosz reported, str_has_prefix() has a bug: it can't differentiate
+> between an empty prefix matching an empty string from a non-matching
+> prefix.  This is a fundamental design flaw in this API, and not
+> something that can be fixed.
+>=20
+> As always, this is a consequence of choosing sizes instead of pointers.
+> Sizes are often the wrong choice.  In this specific case, pointers are
+> more capable of differentiating these cases, as NULL is a special
+> sentinel value that doesn't need to overload a valid value.
+>=20
+> Let's implement strprefix(), a function that returns a pointer
+> right after the prefix if found, and a null pointer if not found.
+>=20
+> We'll slowly migrate existing code from str_has_prefix() to strprefix().
 
---2akalsv6evdjykkq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: linux-hardening@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Alejandro Colomar <alx@kernel.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Joe Perches <joe@perches.com>, Johan Hovold <johan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Len Brown <lenb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linus Walleij <linusw@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tom Zanussi <zanussi@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: [PATCH v3 5/5] string: Make strprefix() const-qualifier-generic
-Message-ID: <35bf6672f84f07de3f40e8db9e7fcfd643894fec.1794323750.git.alx@kernel.org>
-References: <cover.1794323750.git.alx@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <cover.1794323750.git.alx@kernel.org>
-
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
----
- include/linux/string.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/include/linux/string.h b/include/linux/string.h
-index 9e59f9697c9e..55ca4cb5122c 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -590,7 +590,9 @@ void memcpy_and_pad(void *dest, size_t dest_len, const =
-void *src, size_t count,
-  * *  @s+strlen(@prefix) if @s starts with @prefix
-  * *  NULL if @s does not start with @prefix
-  */
--static inline char *strprefix(const char *s, const char *prefix)
-+#define strprefix(s, pfx)  const_cast(CQChar_of(s) *, strprefix(s, pfx))
-+
-+static inline char *(strprefix)(const char *s, const char *prefix)
- {
- 	size_t len =3D strlen(prefix);
- 	return strncmp(s, prefix, len) =3D=3D 0 ? (char *) s + len : NULL;
---=20
-2.55.0
-
-
---2akalsv6evdjykkq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrzOWQACgkQ64mZXMKQ
-wqlcyA//QPet05X7Vq71O9QY6rC2CAd9KE+ARESBD95/8CRIJyyKSmnZbemnUMk7
-Q8st9ldGgylY8jP1iGRSP8dM8TwSLt/AqMQSU6PlbCqWqTXwNOSQeqP1pD836p+m
-sT/uMUwL8M9MTZJGOAprbpToUg+zg3QcNQ3RfbHkLSQM80FoZi/GAp0YsVBx21h2
-mhMQoZ2l1k2GAZ1Y9H1btEa9s8hMiwDrKO/Jgf1OuKmb3p1ctfTaZcd+rnVcH80M
-0uLiL/0fMqWJAgiNfVLJRsKDl77unPN8kdBiLmakm4OTk+kKaooIo2J5dpHLQIj4
-iC64N0eTQN2gjw3N2ZfmKcYnYvg6peoZs26ElWUfV7/6fOhDjc8ZWLtHJyD4m3Jg
-BDq3a4ngDplvCJiRuvI0z67/EwF3uspXE6DUJwfQrndBVD5AMmNhjq4gU+zzTrqb
-eeQOfOslcFSX8Q0as5cKK88sQrhdMfvMVoyLNSaH33li/xPI4brt5bbAUyHZY86m
-wgqRQP7iUb7YYr+MA5prX8rdl892kolIgAiqiIsvpaXNW8UoUBdDE5dTm6WiBIPy
-EFO8EyqL6yuiB7a4f1hgIIvarlgV+TRnc8paZRZj53EBlDXizX9yz5OBnTEG/Tek
-yjwMRNfd643ozhEQJLPhy7feOnXgbTMMWiSBVUbmajUfY8v5EOA=
-=s6WA
------END PGP SIGNATURE-----
-
---2akalsv6evdjykkq--
+Most uses of str_has_prefix could use the existing strstarts.
